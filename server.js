@@ -42,9 +42,35 @@ app.get('/get/public/noun', function(req, res){
   res.status(200).json({'results': [prefix]});
 })
 
-app.get('/get/unit/:unitName', function(req, res){
-  console.log('get unit request: '+ req.params.unitName);
-  const reqUnit = req.params.unitName;
+app.get('/get/unit/ltd', function(req, res){
+  console.log('get unit request: user');
+  new Promise((resolve, reject)=>{
+    jsonfile.readFile('./statics_shared/sharedDetails.json', function(err, data){
+      if(err) {console.log('err in Read_sharedData');reject(err);}
+      let sendingData = new Object();
+      let unitsList = Object.keys(data);
+      Object.assign(sendingData, {unitsList: unitsList});
+      Object.assign(sendingData, {unitsDataSet: data});
+      resolve(sendingData)
+    });
+  }).then((sendingData)=>{
+    res.status(200).json(sendingData);
+  }).catch(
+    (err)=>{
+      console.log('err during promise of get unit data: '+err);
+      res.status(500).json({
+        success: false,
+        err: err
+      });
+    }
+  );
+})
+
+app.get('/get/unit/single', function(req, res){
+  console.log('get unit request: '+ req.query.unitName);
+  const reqUnit = req.query.unitName;
+  const reqUser = req.query.id; //should come from token verified in the future.
+
   new Promise((resolve, reject)=>{
     console.log('get old one: details.');
     jsonfile.readFile('./statics_shared/sharedDetails.json', function(err, data){
@@ -76,6 +102,25 @@ app.get('/get/unit/:unitName', function(req, res){
           resolve(sendingData)
         }
       });
+    })
+  }).then(function(sendingData){
+    return new Promise((resolve, reject)=>{
+      console.log('get old one: check permission.');
+      sendingData['action'] = 'both';
+      if(sendingData.arthur == reqUser){
+        sendingData['action'] = 'edit';
+        resolve(sendingData);
+      }else{
+        jsonfile.readFile('./statics_users/user/collectionList.json', function(err, data){
+          if(err) {console.log('err in Read_collectionList');reject(err);};
+          data["listArr"].forEach(function(name, index){
+            if(reqUnit == name){
+              sendingData['action'] = 'collected';
+            }
+          })
+          resolve(sendingData);
+        })
+      }
     })
   }).then(function(sendingData){
     return new Promise((resolve, reject)=>{
@@ -134,6 +179,70 @@ app.get('/get/user/shared', function(req, res){
     }
   );
 })
+
+app.get('/get/user/collection', function(req, res){
+  console.log('get collection request: '+ req.query.purpose);
+  new Promise((resolve, reject)=>{
+    jsonfile.readFile('./statics_users/user/collectionList.json', function(err, data){
+      if(err) {console.log('err in Read_collectionList');reject(err);}
+      let sendingData = new Object();
+      Object.assign(sendingData, {unitsList: data.listArr});
+      resolve(sendingData)
+    })
+  }).then(function(sendingData){
+    return new Promise((resolve, reject)=>{
+      jsonfile.readFile('./statics_shared/sharedDetails.json', function(err, data){
+        if(err) {console.log('err in Read_sharedData');reject(err);}
+        let dataSet = new Object();
+        sendingData.unitsList.forEach((name, index) => {
+          dataSet[name] = data[name]; //could damage the origin?
+        });
+        Object.assign(sendingData, {unitsDataSet: dataSet});
+        resolve(sendingData)
+      });
+    })
+  }).then((sendingData)=>{
+    res.status(200).json(sendingData);
+  }).catch(
+    (err)=>{
+      console.log('err during promise of get unit data: '+err);
+      res.status(500).json({
+        success: false,
+        err: err
+      });
+    }
+  );
+})
+
+app.patch('/patch/user/collection', function(req, res){
+  console.log('patch collection to user');
+  new Promise((resolve, reject)=>{
+    jsonfile.readFile("./statics_users/user/collectionList.json", function(err, lists){
+      if(err) {console.log('err in add new one into the list.');reject(err);}
+      let updatedData = update(lists, {
+        ['listArr']: {
+          $unshift: [req.body.unitName]
+        }
+      })
+      jsonfile.writeFile("./statics_users/user/collectionList.json", updatedData, {spaces: 2}, function(err){
+        if(err) {console.log('err in add new one into the list.');reject(err);}
+      });
+      resolve();
+    })
+  }).then(()=>{
+    res.status(200).json({
+      success: true
+    });
+  }).catch(
+    (err)=>{
+      console.log('err during promise of patching collection: '+err);
+      res.status(500).json({
+        success: false,
+        err: err
+      });
+    }
+  );
+});
 
 app.post('/post/user/shared/:purpose', function(req, res){
   console.log('post of share for '+req.params.purpose);
@@ -225,7 +334,7 @@ app.post('/post/user/shared/:purpose', function(req, res){
         })
       })
     }).then(()=>{
-      res.status(200).json({
+      res.status(201).json({
         success: true
       });
     }).catch(
@@ -246,7 +355,7 @@ app.use('/user', function(req, res){
   //const element = React.createElement(require('./initHTML.jsx'));
   //ReactDOMServer.renderToNodeStream(element).pipe(res);
 
-  res.sendFile(path.join(__dirname+'/Pages/html_Self.html'), {headers: {'Content-Type': 'text/html'}}, function (err) {
+  res.sendFile(path.join(__dirname+'/Pages/html_SelfUnitBase.html'), {headers: {'Content-Type': 'text/html'}}, function (err) {
     if (err) {
       throw err
     }

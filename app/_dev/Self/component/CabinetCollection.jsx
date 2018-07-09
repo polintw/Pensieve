@@ -1,10 +1,9 @@
 import React from 'react';
-import CreateShare from '../../Component/CreateShare.jsx';
 import UnitModal from '../../Component/UnitModal.jsx';
 import ModalBox from '../../Component/ModalBox.jsx';
 import ModalBackground from '../../Component/ModalBackground.jsx';
 
-export default class CabinetShared extends React.Component {
+export default class CabinetCollection extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -15,28 +14,27 @@ export default class CabinetShared extends React.Component {
     };
     this._handleClick_Share = this._handleClick_Share.bind(this);
     this._handleClick_nav_span = this._handleClick_nav_span.bind(this);
-    this._submit_Share_New = this._submit_Share_New.bind(this);
     this._close_modal_Unit = this._close_modal_Unit.bind(this);
     this.style={
-      selfCom_CabinetShared_: {
+      selfCom_CabinetCollection_: {
         width: '100%',
         position: 'absolute',
         top: '0',
         left: '0'
       },
-      selfCom_CabinetShared_first_: {
+      selfCom_CabinetCollection_first_: {
         width: '100%',
         height: '37vh',
         position: 'relative'
       },
-      selfCom_CabinetShared_first_div: {
+      selfCom_CabinetCollection_first_div: {
         width: '100%',
         height: '100%',
         position: 'absolute',
         overflow: 'hidden',
         cursor: 'pointer'
       },
-      selfCom_CabinetShared_first_div_img: {
+      selfCom_CabinetCollection_first_div_img: {
         width: '100%',
         height: 'auto',
         position: 'absolute',
@@ -44,7 +42,7 @@ export default class CabinetShared extends React.Component {
         left: '50%',
         transform: 'translate(-50%, -50%)'
       },
-      selfCom_CabinetShared_nav_: {
+      selfCom_CabinetCollection_nav_: {
         width: '100%',
         height: '8vh',
         position: 'relative',
@@ -53,13 +51,7 @@ export default class CabinetShared extends React.Component {
         padding: '0.5vh 0',
         borderTop: 'solid #222222 1px'
       },
-      selfCom_CabinetShared_nav_CreateShare: {
-        width: '36%',
-        height: '96%',
-        position: 'relative',
-        float: 'right'
-      },
-      selfCom_CabinetShared_nav_span: {
+      selfCom_CabinetCollection_nav_span: {
         display: 'inilne-block',
         width: '18%',
         position: 'relative',
@@ -74,11 +66,11 @@ export default class CabinetShared extends React.Component {
         color: '#A99056',
         cursor: 'pointer'
       },
-      selfCom_CabinetShared_second_: {
+      selfCom_CabinetCollection_second_: {
         width: '101%',
         position: "relative"
       },
-      selfCom_CabinetShared_second_div_: {
+      selfCom_CabinetCollection_second_div_: {
         display: 'inline-block',
         width: '32%',
         height: '32vh',
@@ -88,7 +80,7 @@ export default class CabinetShared extends React.Component {
         overflow: 'hidden',
         cursor: 'pointer'
       },
-      selfCom_CabinetShared_second_div_img: {
+      selfCom_CabinetCollection_second_div_img: {
         maxWidth: '150%',
         maxHeight: '150%',
         position: 'absolute',
@@ -114,18 +106,6 @@ export default class CabinetShared extends React.Component {
     })
   }
 
-  _submit_Share_New(dataObj){
-    const self = this;
-    axios.get('/get/user/shared?purpose=cabinet', {
-      headers: {'charset': 'utf-8'}
-    }).then(function(res){
-      self.setState({
-        unitsList: res.data.unitsList,
-        unitsDataSet: res.data.unitsDataSet
-      })
-    })
-  }
-
   _close_modal_Unit(){
     this.setState({
       unitModalify: false,
@@ -135,7 +115,7 @@ export default class CabinetShared extends React.Component {
 
   componentDidMount(){
     const self = this;
-    axios.get('/get/user/shared?purpose=cabinet', {
+    axios.get('/get/user/collection?purpose=cabinet', {
       headers: {'charset': 'utf-8'}
     }).then(function(res){
       self.setState({
@@ -152,13 +132,13 @@ export default class CabinetShared extends React.Component {
       let dataValue = self.state.unitsDataSet[dataKey];
       return(
         <div
-          key={'key_Shared_Shares_share_'+index}
+          key={'key_cabinet_Collection_'+index}
           unitname={dataKey}
-          style={self.style.selfCom_CabinetShared_second_div_}
+          style={self.style.selfCom_CabinetCollection_second_div_}
           onClick={self._handleClick_Share}>
           <img
             src={dataValue.img_cover}
-            style={self.style.selfCom_CabinetShared_second_div_img}/>
+            style={self.style.selfCom_CabinetCollection_second_div_img}/>
         </div>
       )
     })
@@ -166,45 +146,39 @@ export default class CabinetShared extends React.Component {
 
     return(
       <div
-        style={this.style.selfCom_CabinetShared_}>
+        style={this.style.selfCom_CabinetCollection_}>
         <div
-          style={this.style.selfCom_CabinetShared_first_}>
+          style={this.style.selfCom_CabinetCollection_first_}>
           {
             this.state.unitsList.length &&
             <div
               unitname={this.state.unitsList[0]}
-              style={self.style.selfCom_CabinetShared_first_div}
+              style={self.style.selfCom_CabinetCollection_first_div}
               onClick={self._handleClick_Share}>
               <img
                 src={this.state.unitsDataSet[this.state.unitsList[0]].img_cover}
-                style={self.style.selfCom_CabinetShared_first_div_img}/>
+                style={self.style.selfCom_CabinetCollection_first_div_img}/>
             </div>
           }
         </div>
         <nav
-          style={this.style.selfCom_CabinetShared_nav_}>
+          style={this.style.selfCom_CabinetCollection_nav_}>
           <span
             tab={"collection"}
-            style={this.style.selfCom_CabinetShared_nav_span}
+            style={this.style.selfCom_CabinetCollection_nav_span}
             onClick={this._handleClick_nav_span}>
             {"COLLECTION"}
           </span>
-          <span style={this.style.selfCom_CabinetShared_nav_span}>{"BROADCAST"}</span>
+          <span style={this.style.selfCom_CabinetCollection_nav_span}>{"BROADCAST"}</span>
           <span
             tab={"shared"}
-            style={this.style.selfCom_CabinetShared_nav_span}
+            style={this.style.selfCom_CabinetCollection_nav_span}
             onClick={this._handleClick_nav_span}>
             {"SHARED"}
           </span>
-          <div
-            style={this.style.selfCom_CabinetShared_nav_CreateShare}>
-            <img src="/vacancy.png" style={{width: '100%', height: '100%'}}/>
-            <CreateShare
-              _submit_Share_New={this._submit_Share_New}/>
-          </div>
         </nav>
         <div
-          style={this.style.selfCom_CabinetShared_second_}>
+          style={this.style.selfCom_CabinetCollection_second_}>
           {shares}
         </div>
         {

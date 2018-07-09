@@ -20,11 +20,11 @@ export default class UnitLayer extends React.Component {
       },
       Com_UnitLayer_img: {
         maxWidth: '100%',
-        height: '100%',
+        maxHeight: '100%',
         position: 'absolute',
         top: '50%',
         left: '50%',
-        transform: 'translate(-50%,-50%)'
+        transform: 'translate(-50%,-50%)',
       },
       Com_UnitLayer_div: {
         position: 'absolute',

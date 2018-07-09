@@ -23,14 +23,16 @@ export default class UnitLayerFrame extends React.Component {
         position: 'absolute',
         top: '0',
         left: '0',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        backgroundColor: 'black'
       },
       Com_UnitLayerFrame_div_beneath: {
         height: '100%',
         position: 'absolute',
         top: '0',
         left: '0',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        backgroundColor: 'black'
       }
     };
   }

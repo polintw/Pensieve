@@ -21,7 +21,7 @@ export default class LtdNav extends React.Component {
         height: '100%',
         position: 'absolute',
         top:'0%',
-        left: '16%',
+        left: '18%',
         boxSizing: 'border-box',
         fontSize: '4vh',
         letterSpacing: '0.5vh',
@@ -32,7 +32,7 @@ export default class LtdNav extends React.Component {
         height: '100%',
         position: 'absolute',
         top: '0',
-        right: '16%',
+        right: '18%',
         boxSizing: 'border-box',
         color: '#FAFAFA'
       },
@@ -64,7 +64,7 @@ export default class LtdNav extends React.Component {
   }
 
   _submit_Share_New(dataObj){
-    window.location.assign('/user');    
+    window.location.assign('/user');
   }
 
   render(){
@@ -81,7 +81,7 @@ export default class LtdNav extends React.Component {
           <span style={{display: 'inline-block', width: '20%', height: '100%', position: 'relative', float: 'right'}}>{"。。"}</span>
           <div
             style={this.style.withinCom_LtdNav_div_CreateShare_}>
-            <img src="/vacancyWhite.png" style={{width: '100%', height: 'auto'}}/>
+            <img src="/vacancyWhite.png" style={{width: '100%', height: '100%'}}/>
             <CreateShare
               _submit_Share_New={this._submit_Share_New}/>
           </div>

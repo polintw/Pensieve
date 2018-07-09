@@ -66,7 +66,7 @@ export default class CreateShare extends React.Component {
       beneathMarksObj: newObj.beneathMarks,
       refsArr: newObj.refsArr,
       nounsArr: newObj.nounsArr,
-      arthur: 'b82',
+      arthur: 'Berlin',
       submitTime: submitTime
     };
     //don't set any parameter in the callback,
@@ -81,7 +81,7 @@ export default class CreateShare extends React.Component {
     axios.post('/post/user/shared/new', newObj, {
       headers: {'Content-Type': 'application/json', 'charset': 'utf-8'}
     }).then(function (res) {
-        if(res.status = 200){
+        if(res.status = 201){
           console.log("success");
           self.setState({editingModal: false, axios: false});
           self.props._submit_Share_New(newObj);

@@ -2,6 +2,7 @@ import React from 'react';
 import cxBind from 'classnames/bind';
 import LtdNav from './component/LtdNav.jsx';
 import LtdUnits from './component/LtdUnits.jsx';
+import EntryCall from './component/EntryCall.jsx';
 
 export default class WithinLtd extends React.Component {
   constructor(props){
@@ -17,12 +18,13 @@ export default class WithinLtd extends React.Component {
         overflow: 'auto'
       },
       Within_Ltd_LtdUnits: {
-        width: '68%',
-        minHeight: '155%',
+        width: '64%',
+        minHeight: '110%',
         position: 'absolute',
-        top: '0',
+        top: '46%',
         left: '50%',
-        transform: 'translate(-50%,0)'
+        transform: 'translate(-50%,0)',
+        boxSizing: 'border-box'
       },
       Within_Ltd_LtdNav_: {
         width: '100%',
@@ -47,6 +49,27 @@ export default class WithinLtd extends React.Component {
         position: 'fixed',
         top: '0',
         left: '0'
+      },
+      Within_Ltd_top_: {
+        width: '100%',
+        height: '92%',
+        position: 'absolute',
+        top: '0'
+      },
+      Within_Ltd_top_solid_: {
+        width: '100%',
+        height: '50%',
+        position: 'absolute',
+        top: '0',
+        backgroundColor: '#FAFAFA'
+      },
+      Within_Ltd_top_solid_EntryCall: {
+        width: '64%',
+        height: '100%',
+        position: 'absolute',
+        top: '0',
+        left: '50%',
+        transform: 'translate(-50%, 0)'
       }
     }
   }
@@ -62,12 +85,17 @@ export default class WithinLtd extends React.Component {
           <div style={{width: '100%', height: '62%', position: 'relative', backgroundColor: '#FAFAFA'}}></div>
         </div>
         <div
-          style={{width: '100%', height: '92%', position: 'absolute', top: '0'}}>
-          <div style={{width: '100%', height: '46%', position: 'absolute', top: '0', backgroundColor: '#FAFAFA'}}></div>
-          <div style={{width: '100%', height: '46%', position: 'absolute', top: '46%', backgroundColor: '#FAFAFA'}}></div>
+          style={this.style.Within_Ltd_top_}>
+          <div style={this.style.Within_Ltd_top_solid_}>
+            <div
+              style={this.style.Within_Ltd_top_solid_EntryCall}>
+              <EntryCall/>
+            </div>
+          </div>
+          <div style={{width: '100%', height: '50%', position: 'absolute', top: '50%', backgroundColor: '#FAFAFA'}}></div>
           <div
             ref={(element) => {this.mask = element}}
-            style={{width: '100%', height: '46%', position: 'absolute', top: '46%', backgroundColor: 'rgba(70,70,70,0.5)'}}>
+            style={{width: '100%', height: '50%', position: 'absolute', top: '50%', backgroundColor: 'rgba(70,70,70,0.5)'}}>
           </div>
         </div>
         <div
