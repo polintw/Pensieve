@@ -8,7 +8,7 @@ const jsonfile = require('jsonfile');
 const mkdirp = require('mkdirp');
 const update = require('immutability-helper');
 const cheerio = require('cheerio');
-//new branch
+
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
 
@@ -146,11 +146,24 @@ app.get('/get/unit/single', function(req, res){
   );
 })
 
-app.get('/get/user/shared', function(req, res){
-  console.log('get shared request: '+ req.query.purpose);
+const _promise_readCabinet = function(req, res, focus){
+  let listToRead;
+  switch(focus){
+    case 'all':
+      listToRead = "timeList.json";
+      break;
+    case 'shared':
+      listToRead = "sharedList.json";
+      break;
+    case 'collection':
+      listToRead = "collectionList.json";
+      break;
+    default:
+      listToRead = "timeList";
+  }
   new Promise((resolve, reject)=>{
-    jsonfile.readFile('./statics_users/user/sharedList.json', function(err, data){
-      if(err) {console.log('err in Read_sharedList');reject(err);}
+    jsonfile.readFile('./statics_users/user/'+listToRead, function(err, data){
+      if(err) {console.log('err in Read_timeList');reject(err);}
       let sendingData = new Object();
       Object.assign(sendingData, {unitsList: data.listArr});
       resolve(sendingData)
@@ -178,40 +191,12 @@ app.get('/get/user/shared', function(req, res){
       });
     }
   );
-})
+}
 
-app.get('/get/user/collection', function(req, res){
-  console.log('get collection request: '+ req.query.purpose);
-  new Promise((resolve, reject)=>{
-    jsonfile.readFile('./statics_users/user/collectionList.json', function(err, data){
-      if(err) {console.log('err in Read_collectionList');reject(err);}
-      let sendingData = new Object();
-      Object.assign(sendingData, {unitsList: data.listArr});
-      resolve(sendingData)
-    })
-  }).then(function(sendingData){
-    return new Promise((resolve, reject)=>{
-      jsonfile.readFile('./statics_shared/sharedDetails.json', function(err, data){
-        if(err) {console.log('err in Read_sharedData');reject(err);}
-        let dataSet = new Object();
-        sendingData.unitsList.forEach((name, index) => {
-          dataSet[name] = data[name]; //could damage the origin?
-        });
-        Object.assign(sendingData, {unitsDataSet: dataSet});
-        resolve(sendingData)
-      });
-    })
-  }).then((sendingData)=>{
-    res.status(200).json(sendingData);
-  }).catch(
-    (err)=>{
-      console.log('err during promise of get unit data: '+err);
-      res.status(500).json({
-        success: false,
-        err: err
-      });
-    }
-  );
+app.get('/user/cabinet', function(req, res){
+  console.log('get data request for Cabinet: '+ req.query.focus);
+  let focus = req.query.focus;
+  _promise_readCabinet(req, res, focus);
 })
 
 app.patch('/patch/user/collection', function(req, res){
@@ -228,6 +213,23 @@ app.patch('/patch/user/collection', function(req, res){
         if(err) {console.log('err in add new one into the list.');reject(err);}
       });
       resolve();
+    })
+  }).then(function(){
+    //add it into time list
+    console.log('add new one: write into the time list.');
+    return new Promise((resolve, reject)=>{
+      jsonfile.readFile("./statics_users/user/timeList.json", function(err, lists){
+        if(err) {console.log('err in add new one into the time list.');reject(err);}
+        let updatedData = update(lists, {
+          ['listArr']: {
+            $unshift: [fileName]
+          }
+        })
+        jsonfile.writeFile("./statics_users/user/timeList.json", updatedData, {spaces: 2}, function(err){
+          if(err) {console.log('err in add new one into the time list.');reject(err);}
+        });
+        resolve();
+      })
     })
   }).then(()=>{
     res.status(200).json({
@@ -318,10 +320,10 @@ app.post('/post/user/shared/:purpose', function(req, res){
       })
     }).then(function(){
       //add it into overview list
-      console.log('add new one: write into the list.');
+      console.log('add new one: write into the shared list.');
       return new Promise((resolve, reject)=>{
         jsonfile.readFile("./statics_users/user/sharedList.json", function(err, lists){
-          if(err) {console.log('err in add new one into the list.');reject(err);}
+          if(err) {console.log('err in add new one into the shared list.');reject(err);}
           let updatedData = update(lists, {
             ['listArr']: {
               $unshift: [fileName]
@@ -329,6 +331,23 @@ app.post('/post/user/shared/:purpose', function(req, res){
           })
           jsonfile.writeFile("./statics_users/user/sharedList.json", updatedData, {spaces: 2}, function(err){
             if(err) {console.log('err in add new one into the list.');reject(err);}
+          });
+          resolve();
+        })
+      })
+    }).then(function(){
+      //add it into time list
+      console.log('add new one: write into the time list.');
+      return new Promise((resolve, reject)=>{
+        jsonfile.readFile("./statics_users/user/timeList.json", function(err, lists){
+          if(err) {console.log('err in add new one into the time list.');reject(err);}
+          let updatedData = update(lists, {
+            ['listArr']: {
+              $unshift: [fileName]
+            }
+          })
+          jsonfile.writeFile("./statics_users/user/timeList.json", updatedData, {spaces: 2}, function(err){
+            if(err) {console.log('err in add new one into the time list.');reject(err);}
           });
           resolve();
         })
@@ -349,13 +368,26 @@ app.post('/post/user/shared/:purpose', function(req, res){
   }
 })
 
-app.use('/user', function(req, res){
+app.use('/self/units', function(req, res){
   console.log("requesting for page: "+req.url);
   //fail to use serverrender aafter update to react v16.2.0 due to: "<>" not support in nodejs
   //const element = React.createElement(require('./initHTML.jsx'));
   //ReactDOMServer.renderToNodeStream(element).pipe(res);
 
   res.sendFile(path.join(__dirname+'/Pages/html_SelfUnitBase.html'), {headers: {'Content-Type': 'text/html'}}, function (err) {
+    if (err) {
+      throw err
+    }
+  });
+})
+
+app.use('/self', function(req, res){
+  console.log("requesting for page: "+req.url);
+  //fail to use serverrender aafter update to react v16.2.0 due to: "<>" not support in nodejs
+  //const element = React.createElement(require('./initHTML.jsx'));
+  //ReactDOMServer.renderToNodeStream(element).pipe(res);
+
+  res.sendFile(path.join(__dirname+'/Pages/html_SelfCover.html'), {headers: {'Content-Type': 'text/html'}}, function (err) {
     if (err) {
       throw err
     }
