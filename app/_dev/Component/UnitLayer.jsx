@@ -5,8 +5,8 @@ export default class UnitLayer extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      circleRender: false,
-      circleNr: 'all'
+      circleNr: 'all',
+      circles: []
     };
     this._render_makrCircles = this._render_makrCircles.bind(this);
     this._handleClick_UnitLayer_circle = this._handleClick_UnitLayer_circle.bind(this)
@@ -58,13 +58,15 @@ export default class UnitLayer extends React.Component {
           </svg>
         )
       });
-      return (
-        <div
-          style={Object.assign(
-            {width: self.Com_UnitLayer_img.clientWidth, height: self.Com_UnitLayer_img.clientHeight}, self.style.Com_UnitLayer_div)}>
-          {markCircles}
-        </div>
-      );
+      this.setState({
+        circles: (
+          <div
+            style={Object.assign(
+              {width: self.Com_UnitLayer_img.clientWidth, height: self.Com_UnitLayer_img.clientHeight}, self.style.Com_UnitLayer_div)}>
+            {markCircles}
+          </div>
+        )
+      });
     }else{
       let coordinate = self.props.marksData.markCircles[self.state.circleNr];
       markCircles.push(
@@ -83,7 +85,7 @@ export default class UnitLayer extends React.Component {
             editorState={self.props.marksData.markEditorContent[self.state.circleNr]}/>
         </div>
       )
-      return markCircles;
+      this.setState({circles: markCircles});
     }
   }
 
@@ -92,17 +94,14 @@ export default class UnitLayer extends React.Component {
     event.stopPropagation();
     let currentNr = event.currentTarget.getAttribute('index');
     if(currentNr == this.state.circleNr){
-      this.setState({circleNr: 'all'});
+      this.setState((prevState, props)=>{return {circleNr: 'all'};}, this._render_makrCircles);
     }else{
-      this.setState({circleNr: currentNr});
+      this.setState((prevState, props)=>{return {circleNr: currentNr};}, this._render_makrCircles);
     }
   }
 
   componentDidMount(){
-    //use this because we need width and height of mounted <img> element,
-    if(this.props.marks){
-      this.setState({circleRender: true});
-    }
+
   }
 
   render(){
@@ -112,12 +111,12 @@ export default class UnitLayer extends React.Component {
         <img
           style={this.style.Com_UnitLayer_img}
           ref={(element) => {this.Com_UnitLayer_img = element;}}
-          src={this.props.imgSrc}/>
-          {
-            this.props.marks &&
-            this.state.circleRender &&
-            this._render_makrCircles()
-          }
+          src={this.props.imgSrc}
+          onLoad={this._render_makrCircles}/>
+        {
+          this.props.marks &&
+          this.state.circles
+        }
       </div>
     )
   }

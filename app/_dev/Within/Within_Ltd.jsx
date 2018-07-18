@@ -8,8 +8,10 @@ export default class WithinLtd extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      NavMaskOpa: 0,
+      scrollYLast: 0
     };
+    this._check_Position = this._check_Position.bind(this);
     this.style={
       Within_Ltd_: {
         width: '100%',
@@ -74,10 +76,36 @@ export default class WithinLtd extends React.Component {
     }
   }
 
+  _check_Position(){
+    let ltdUnitsTop = this.ltdUnits.getBoundingClientRect().top;
+    if(ltdUnitsTop < this.scrollOrigin && ltdUnitsTop > this.scrollLine){
+      let opa = (this.scrollOrigin-ltdUnitsTop)*0.48/this.scrollRange;
+      this.setState((prevState, props) => {
+        return ({
+          NavMaskOpa: opa,
+          scrollYLast: ltdUnitsTop
+        })
+      })
+    }
+  }
+
+  componentDidMount() {
+    this.scrollOrigin = this.ltdUnits.getBoundingClientRect().top;
+    this.scrollRange = this.scrollOrigin*7/5;
+    this.scrollLine = this.scrollOrigin-this.scrollRange;
+    this.setState({scrollYLast: this.ltdUnits.getBoundingClientRect().top})
+    document.getElementById('view_WithinLtd').addEventListener("scroll", this._check_Position);
+  }
+
+  componentWillUnmount() {
+    document.getElementById('view_WithinLtd').removeEventListener("scroll", this._check_Position);
+  }
+
   render(){
     //let cx = cxBind.bind(styles);
     return(
       <div
+        id='view_WithinLtd'
         style={this.style.Within_Ltd_}>
         <div
           style={this.style.Within_Ltd_Background_}>
@@ -99,17 +127,17 @@ export default class WithinLtd extends React.Component {
           </div>
         </div>
         <div
+          ref = {(element)=>{this.ltdUnits = element}}
           style={this.style.Within_Ltd_LtdUnits}>
           <LtdUnits/>
         </div>
         <div style={Object.assign({backgroundColor: '#FAFAFA'}, this.style.Within_Ltd_LtdNav_)}>
-          <div style={Object.assign({backgroundColor: 'rgba(70,70,70,0.5)'}, this.style.Within_Ltd_LtdNav_)}></div>
-        </div>
-        <div style={this.style.Within_Ltd_LtdNav_paint}></div>
-        <div
-          ref={(element)=>{this.Within_Ltd_LtdNav = element}}
-          style={Object.assign({backgroundColor: 'transparent'}, this.style.Within_Ltd_LtdNav_)}>
-          <LtdNav/>
+          <div style={Object.assign({backgroundColor: 'rgba(70,70,70,'+this.state.NavMaskOpa+')'}, this.style.Within_Ltd_LtdNav_)}></div>
+          <div
+            ref={(element)=>{this.Within_Ltd_LtdNav = element}}
+            style={Object.assign({backgroundColor: 'transparent'}, this.style.Within_Ltd_LtdNav_)}>
+            <LtdNav/>
+          </div>
         </div>
       </div>
     )

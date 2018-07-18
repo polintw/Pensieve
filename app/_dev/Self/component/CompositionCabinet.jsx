@@ -1,4 +1,5 @@
 import React from 'react';
+import Cabinet from './Cabinet.jsx';
 import CabinetShared from './CabinetShared.jsx';
 import CabinetCollection from './CabinetCollection.jsx';
 
@@ -6,7 +7,7 @@ export default class CompositionCabinet extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      cabinet: 'shared'
+      cabinet: 'overall'
     };
     this._render_Cabinet =this._render_Cabinet.bind(this);
     this._set_cabinet = this._set_cabinet.bind(this);
@@ -28,6 +29,11 @@ export default class CompositionCabinet extends React.Component {
 
   _render_Cabinet(){
     switch (this.state.cabinet) {
+      case "overall":
+        return (
+          <Cabinet
+            _set_cabinet={this._set_cabinet}/>
+        )
       case "shared":
         return (
           <CabinetShared
@@ -42,7 +48,7 @@ export default class CompositionCabinet extends React.Component {
         break;
       default:
         return (
-          <CabinetShared
+          <Cabinet
             _set_cabinet={this._set_cabinet}/>
         )
     }

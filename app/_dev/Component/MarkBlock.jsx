@@ -10,12 +10,41 @@ export default class MarkBlock extends React.Component {
     this.changeEditorState = (editorState) => {this.setState({editorState: editorState})};
     this._css_calculate_MarkBlockPosition = this._css_calculate_MarkBlockPosition.bind(this);
     this.style = {
-      Com_MarkBlock_thank_div: {
-        width: '31%',
+      Com_MarkBlock_content_editor_: {
+        display: 'inline-block',
+        width: '17vw',
         height: '100%',
+        position: 'relative',
+        boxSizing: 'border-box',
+        margin: '0',
+        padding: '2% 3%',
+        color: '#FAFAFA',
+        overflow: 'auto'
+      },
+      Com_MarkBlock_side_: {
+        display: 'inline-block',
+        width: '12vw',
+        height: '100%',
+        position: 'relative',
+        boxSizing: 'border-box'
+      },
+      Com_MarkBlock_side_panel_: {
+        width: '100%',
+        height: '10%',
+        position: 'absolute',
+        bottom: '0',
+        left: '0',
+        boxSizing: 'border-box',
+        color: '#FAFAFA'
+      },
+      Com_MarkBlock_side_thanks_: {
+        display: 'inline-block',
+        width: '100%',
+        height: '90%',
         position: 'absolute',
         top: '0',
-        left: '0'
+        left: '0',
+        boxSizing: 'border-box'
       },
       Com_MarkBlock_thank_div_div_helper: {
         width: '100%',
@@ -38,53 +67,22 @@ export default class MarkBlock extends React.Component {
         fontSize: '1.2vw',
         letterSpacing: '0.4vw',
         color: '#FAFAFA'
-      },
-      Com_MarkBlock_Main_div: {
-        width: '36%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '30%'
-      },
-      Com_MarkBlock_Main_div_editor_div: {
-        width: '90%',
-        height: '70%',
-        position: 'absolute',
-        top: '5%',
-        left: '50%',
-        transform: 'translate(-50%, 0)',
-        boxSizing: 'border-box',
-        borderBottom: "1px solid white",
-        color: '#FAFAFA',
-        overflow: 'auto'
-      },
-      Com_MarkBlock_Main_div_panel: {
-        width: '90%',
-        height: '25%',
-        position: 'absolute',
-        bottom: '0%',
-        left: '50%',
-        transform: 'translate(-50%, 0)',
-        boxSizing: 'border-box',
-        color: '#FAFAFA'
       }
     };
   }
 
   _css_calculate_MarkBlockPosition(){
-    let [left, top, bottom, right] = [0,0,0,0];
-    this.props.coordinate.left>50 ? right = (100-this.props.coordinate.left) : left = this.props.coordinate.left;
-    this.props.coordinate.top>50 ? bottom = (100-this.props.coordinate.top-5) : top = this.props.coordinate.top;
+    let [left, top, right] = [null,null,null];
+    this.props.coordinate.left>50 ? right = (100-this.props.coordinate.left)+'%' : left = this.props.coordinate.left+'%';
+    top = (this.props.coordinate.top) * (30) / (100) + '%';
 
     return(
       {
-        width: "36vw",
-        height: '64vh',
+        height: '61vh',
         position: 'absolute',
-        top: top+"%",
-        bottom: bottom+'%',
-        left: left+'%',
-        right: right+'%',
+        top: top,
+        left: left,
+        right: right,
         boxSizing: 'border-box',
         backgroundColor: 'rgba(25,25,25,0.6)',
         boxShadow: '0 0 4vw rgba(25,25,25,0.6)'
@@ -97,38 +95,34 @@ export default class MarkBlock extends React.Component {
       <div
         style={this._css_calculate_MarkBlockPosition()}>
         <div
-          style={this.style.Com_MarkBlock_thank_div}>
-          <div
-            style={this.style.Com_MarkBlock_thank_div_div_helper}>
-            <img
-              style={this.style.Com_MarkBlock_thank_div_div_helper_img}
-              src={"/大頭貼.png"}/>
-            <p style={{display: 'inline-block', color: '#FAFAFA'}}>{'元元張'}</p>
-          </div>
-          <div
-            style={this.style.Com_MarkBlock_thank_div_div_helper}>
-            <img
-              style={this.style.Com_MarkBlock_thank_div_div_helper_img}
-              src={"/大頭貼.png"}/>
-            <p style={{display: 'inline-block', color: '#FAFAFA'}}>{'方方土'}</p>
-          </div>
-          <p style={this.style.Com_MarkBlock_thank_div_p_banner}>{'感謝襄助'}</p>
+          style={this.style.Com_MarkBlock_content_editor_}>
+          <Editor
+            ref={(element)=>{this.contentEditor = element;}}
+            editorState={this.state.editorState}
+            onChange={this.changeEditorState}
+            readOnly/>
         </div>
+        {
+          <div></div>
+        }
         <div
-          style={this.style.Com_MarkBlock_Main_div}>
+          style={this.style.Com_MarkBlock_side_}>
           <div
-            style={this.style.Com_MarkBlock_Main_div_editor_div}>
-            <Editor
-              ref={(element)=>{this.contentEditor = element;}}
-              editorState={this.state.editorState}
-              onChange={this.changeEditorState}
-              readOnly/>
-          </div>
-          <div
-            style={this.style.Com_MarkBlock_Main_div_panel}>
+            style={this.style.Com_MarkBlock_side_panel_}>
             <span>{'編輯紀錄'}</span>
             <span>{'提問'}</span>
             <span>{'啟發'}</span>
+          </div>
+          <div
+            style={this.style.Com_MarkBlock_side_thanks_}>
+            <div
+              style={this.style.Com_MarkBlock_thank_div_div_helper}>
+
+            </div>
+            <div
+              style={this.style.Com_MarkBlock_thank_div_div_helper}>
+
+            </div>
           </div>
         </div>
       </div>
