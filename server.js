@@ -28,7 +28,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.raw({limit: "20mb"}))
 
 app.use(express.static(path.join(__dirname+'/statics_public')));
-app.use(express.static(path.join(__dirname+'/statics_shared')));
+app.use(express.static(path.join(__dirname+'/statics_units')));
 app.use(express.static(path.join(__dirname+'/Pages')));
 app.use(express.static(path.join(__dirname+'/Styles')));
 app.use('/favicon.ico', function(req, res){
@@ -45,13 +45,33 @@ app.get('/get/public/noun', function(req, res){
 app.get('/get/unit/ltd', function(req, res){
   console.log('get unit request: user');
   new Promise((resolve, reject)=>{
-    jsonfile.readFile('./statics_shared/sharedDetails.json', function(err, data){
-      if(err) {console.log('err in Read_sharedData');reject(err);}
-      let sendingData = new Object();
-      let unitsList = Object.keys(data);
-      Object.assign(sendingData, {unitsList: unitsList});
-      Object.assign(sendingData, {unitsDataSet: data});
-      resolve(sendingData)
+    jsonfile.readFile('./statics_units/idList.json', function(err, data){
+      if(err) {console.log('err in Read_units_idList');reject(err);}
+      //abstract the arr first, preventing damage the original data.
+      let idArr = data['idArr'].slice();
+      let readerPromise = [];
+      idArr.forEach(function(key, index){
+        //for "promise.all()" in next resolve: 陣列中的值如果不是Promise物件，會自動使用Promise.resolve方法來轉換
+        readerPromise.push(fs.readFile('./statics_units/'+key+'/details.json'));
+      })
+      resolve(readerPromise);
+    });
+  }).then((readerPromise)=>{
+    return new Promise((resolve, reject)=>{
+      Promise.all(readerPromise).then(function(resultsArr){
+        let sendingData = new Object();
+        let unitsDataSet = new Object();
+        let unitsList = [];
+        resultsArr.forEach(function(detailObj, index){
+          unitsList.push(unitsDataSet.submitTime);
+          unitsDataSet[unitsDataSet.submitTime] = detailObj;
+        })
+        Object.assign(sendingData, {unitsList: unitsList});
+        Object.assign(sendingData, {unitsDataSet: unitsDataSet});
+        resolve(sendingData)
+      }).catch((err) => {
+        console.log(err.message)
+      })
     });
   }).then((sendingData)=>{
     res.status(200).json(sendingData);
@@ -73,24 +93,23 @@ app.get('/get/unit/single', function(req, res){
 
   new Promise((resolve, reject)=>{
     console.log('get old one: details.');
-    jsonfile.readFile('./statics_shared/sharedDetails.json', function(err, data){
+    jsonfile.readFile('./statics_units/'+reqUnit+'/details.json', function(err, data){
       if(err) {console.log('err in Read_sharedData');reject(err);}
-      let focusUnit = data[reqUnit];
       let sendingData = new Object();
-      Object.assign(sendingData, focusUnit);
+      Object.assign(sendingData, data);
       resolve(sendingData)
     })
   }).then(function(sendingData){
     return new Promise((resolve, reject)=>{
       console.log('get old one: imgs.');
-      fs.readFile('./statics_shared'+sendingData['img_cover'], function(err, coverImg){
+      fs.readFile('./statics_units'+sendingData['img_cover'], function(err, coverImg){
         if(err) {console.log('err in Read_coverImg');reject(err);};
         let coverBase64 = new Buffer(coverImg, 'binary').toString('base64');
         coverBase64 = 'data:image/jpeg;base64,' + coverBase64;
         sendingData['coverBase64'] = coverBase64;
         delete sendingData.img_cover;
         if(sendingData['img_beneath']){
-          fs.readFile('./statics_shared'+sendingData['img_beneath'], function(err, beneathImg){
+          fs.readFile('./statics_units'+sendingData['img_beneath'], function(err, beneathImg){
             if(err) {console.log('err in Read_beneathImg');reject(err);};
             let beneathBase64 = new Buffer(beneathImg, 'binary').toString('base64');
             beneathBase64 = 'data:image/jpeg;base64,' + beneathBase64;
@@ -111,8 +130,8 @@ app.get('/get/unit/single', function(req, res){
         sendingData['action'] = 'edit';
         resolve(sendingData);
       }else{
-        jsonfile.readFile('./statics_users/user/collectionList.json', function(err, data){
-          if(err) {console.log('err in Read_collectionList');reject(err);};
+        jsonfile.readFile('./statics_users/user/listCollection.json', function(err, data){
+          if(err) {console.log('err in Read_listCollection');reject(err);};
           data["listArr"].forEach(function(name, index){
             if(reqUnit == name){
               sendingData['action'] = 'collected';
@@ -125,11 +144,10 @@ app.get('/get/unit/single', function(req, res){
   }).then(function(sendingData){
     return new Promise((resolve, reject)=>{
       console.log('get old one: marks.');
-      jsonfile.readFile('./statics_shared/sharedMarks.json', function(err, data){
+      jsonfile.readFile('./statics_units/'+reqUnit+'/marks.json', function(err, data){
         if(err) {console.log('err in Read_marksData');reject(err);}
-        let marksData = data[reqUnit];
-        sendingData['coverMarksObj'] = marksData.coverMarksObj;
-        sendingData['beneathMarksObj'] = marksData.beneathMarksObj;
+        sendingData['coverMarksObj'] = data.coverMarksObj;
+        sendingData['beneathMarksObj'] = data.beneathMarksObj;
         resolve(sendingData);
       });
     })
@@ -150,37 +168,47 @@ const _promise_readCabinet = function(req, res, focus){
   let listToRead;
   switch(focus){
     case 'all':
-      listToRead = "timeList.json";
+      listToRead = "listTime.json";
       break;
     case 'shared':
-      listToRead = "sharedList.json";
+      listToRead = "listShared.json";
       break;
     case 'collection':
-      listToRead = "collectionList.json";
+      listToRead = "listCollection.json";
       break;
     default:
-      listToRead = "timeList";
+      listToRead = "listTime";
   }
   new Promise((resolve, reject)=>{
     jsonfile.readFile('./statics_users/user/'+listToRead, function(err, data){
-      if(err) {console.log('err in Read_timeList');reject(err);}
+      if(err) {console.log('err in Read_listTime');reject(err);}
       let sendingData = new Object();
-      Object.assign(sendingData, {unitsList: data.listArr});
+      //abstract the arr first, preventing damage the original data.
+      let listArr = data['listArr'].slice();
+      let readerPromise = [];
+      listArr.forEach(function(key, index){
+        //for "promise.all()" in next resolve: 陣列中的值如果不是Promise物件，會自動使用Promise.resolve方法來轉換
+        readerPromise.push(fs.readFile('./statics_units/'+key+'/details.json'));
+      })
+      Object.assign(sendingData, {unitsList: listArr});
+      Object.assign(sendingData, {unitsDataReader: readerPromise});
       resolve(sendingData)
     })
-  }).then(function(sendingData){
-    return new Promise((resolve, reject)=>{
-      jsonfile.readFile('./statics_shared/sharedDetails.json', function(err, data){
-        if(err) {console.log('err in Read_sharedData');reject(err);}
-        let dataSet = new Object();
-        sendingData.unitsList.forEach((name, index) => {
-          dataSet[name] = data[name]; //could damage the origin?
-        });
-        Object.assign(sendingData, {unitsDataSet: dataSet});
-        resolve(sendingData)
-      });
-    })
   }).then((sendingData)=>{
+    return new Promise((resolve, reject)=>{
+      Promise.all(sendingData.unitsDataReader).then(function(resultsArr){
+        let unitsDataSet = new Object();
+        resultsArr.forEach(function(detailObj, index){
+          unitsDataSet[sendingData.unitsList[index]] = detailObj;
+        })
+        delete sendingData.unitsDataReader;
+        Object.assign(sendingData, {unitsDataSet: unitsDataSet});
+        resolve(sendingData)
+      }).catch((err) => {
+        console.log(err.message)
+      })
+    });
+  }).then(function(sendingData){
     res.status(200).json(sendingData);
   }).catch(
     (err)=>{
@@ -202,14 +230,14 @@ app.get('/user/cabinet', function(req, res){
 app.patch('/patch/user/collection', function(req, res){
   console.log('patch collection to user');
   new Promise((resolve, reject)=>{
-    jsonfile.readFile("./statics_users/user/collectionList.json", function(err, lists){
+    jsonfile.readFile("./statics_users/user/listCollection.json", function(err, lists){
       if(err) {console.log('err in add new one into the list.');reject(err);}
       let updatedData = update(lists, {
         ['listArr']: {
           $unshift: [req.body.unitName]
         }
       })
-      jsonfile.writeFile("./statics_users/user/collectionList.json", updatedData, {spaces: 2}, function(err){
+      jsonfile.writeFile("./statics_users/user/listCollection.json", updatedData, {spaces: 2}, function(err){
         if(err) {console.log('err in add new one into the list.');reject(err);}
       });
       resolve();
@@ -218,14 +246,14 @@ app.patch('/patch/user/collection', function(req, res){
     //add it into time list
     console.log('add new one: write into the time list.');
     return new Promise((resolve, reject)=>{
-      jsonfile.readFile("./statics_users/user/timeList.json", function(err, lists){
+      jsonfile.readFile("./statics_users/user/listTime.json", function(err, lists){
         if(err) {console.log('err in add new one into the time list.');reject(err);}
         let updatedData = update(lists, {
           ['listArr']: {
             $unshift: [fileName]
           }
         })
-        jsonfile.writeFile("./statics_users/user/timeList.json", updatedData, {spaces: 2}, function(err){
+        jsonfile.writeFile("./statics_users/user/listTime.json", updatedData, {spaces: 2}, function(err){
           if(err) {console.log('err in add new one into the time list.');reject(err);}
         });
         resolve();
@@ -257,7 +285,7 @@ app.post('/post/user/shared/:purpose', function(req, res){
       //deal with cover img first.
       let coverBase64Splice = req.body.coverBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
       let coverBase64Buffer = new Buffer(coverBase64Splice[2], 'base64');
-      fs.writeFile('./statics_shared/images/'+fileName+"_cover.jpg", coverBase64Buffer, function(err){
+      fs.writeFile('./statics_units/images/'+fileName+"_cover.jpg", coverBase64Buffer, function(err){
         if(err) {console.log('err in adding new img from new share');reject(err);}
       });
       modifiedBody['img_cover'] = '/images/'+fileName+'_cover.jpg';
@@ -266,7 +294,7 @@ app.post('/post/user/shared/:purpose', function(req, res){
         let beneathBase64Splice = req.body.beneathBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
         let beneathBase64Buffer = new Buffer(beneathBase64Splice[2], 'base64');
         modifiedBody['img_beneath'] = '/images/'+fileName+'_beneath.jpg';
-        fs.writeFile('./statics_shared/images/'+fileName+"_beneath.jpg", beneathBase64Buffer, function(err){
+        fs.writeFile('./statics_units/images/'+fileName+"_beneath.jpg", beneathBase64Buffer, function(err){
           if(err) {console.log('err in adding new img from new share');reject(err);}
         });
       }
@@ -277,24 +305,23 @@ app.post('/post/user/shared/:purpose', function(req, res){
 
       resolve(modifiedBody)
     }).then(function(modifiedBody){
+      console.log('add new one: establish folder.');
+      return new Promise((resolve, reject)=>{
+        fs.mkdir('./statics_units/'+fileName, function(err){
+          if(err) {console.log('err in add new one: establish folder');reject(err);}
+          resolve(modifiedBody);
+        })
+      })
+    }).then(function(modifiedBody){
       console.log('add new one: abstract marksObj.');
       return new Promise((resolve, reject)=>{
         //final data object writed into a new file
-        jsonfile.readFile('./statics_shared/sharedMarks.json', function(err, data){
-          if(err) {console.log('err in Read_marksData');reject(err);}
-          let newMakrsObj = {
-            coverMarksObj: modifiedBody.coverMarksObj,
-            beneathMarksObj: modifiedBody.beneathMarksObj,
-          }
-          let updatedData = update(data, {
-            [fileName]: {
-              $set: newMakrsObj
-            }
-          })
-          jsonfile.writeFile("./statics_shared/sharedMarks.json", updatedData, {spaces: 2}, function(err){
-            if(err) {console.log('err in writing new share to sharedMarks.');reject(err);}
-          });
-
+        let newMakrsObj = {
+          coverMarksObj: modifiedBody.coverMarksObj,
+          beneathMarksObj: modifiedBody.beneathMarksObj,
+        }
+        fs.writeFile('./statics_units/'+fileName+"/marks.json", newMakrsObj, function(err){
+          if(err) {console.log('err in add new one: abstract marksObj');reject(err);}
           delete modifiedBody.coverMarksObj;
           delete modifiedBody.beneathMarksObj;
 
@@ -304,32 +331,52 @@ app.post('/post/user/shared/:purpose', function(req, res){
     }).then(function(modifiedBody){
       console.log('add new one: write into the details.');
       return new Promise((resolve, reject)=>{
-        //final data object writed into a new file
-        jsonfile.readFile('./statics_shared/sharedDetails.json', function(err, data){
-          if(err) {console.log('err in Read_Displaydata');reject(err);}
-          let updatedData = update(data, {
-            [fileName]: {
-              $set: modifiedBody
-            }
-          })
-          jsonfile.writeFile("./statics_shared/sharedDetails.json", updatedData, {spaces: 2}, function(err){
-            if(err) {console.log('err in writing new share to sharedDetails.');reject(err);}
-          });
+        //data object writed into a new file
+        fs.writeFile('./statics_units/'+fileName+"/details.json", modifiedBody, function(err){
+          if(err) {console.log('err in add new one: write into the details.');reject(err);}
           resolve()
         });
+      })
+    }).then(function(){
+      console.log('add new one: create the conversation.');
+      return new Promise((resolve, reject)=>{
+        fs.writeFile('./statics_units/'+fileName+"/conversations.json", {}, function(err){
+          if(err) {console.log('err in add new one: write into the conversations.');reject(err);}
+          fs.writeFile('./statics_units/'+fileName+"/listBounding.json", {collection: []}, function(err){
+            if(err) {console.log('err in add new one: write into the conversations.');reject(err);}
+            resolve()
+          });
+        });
+      })
+    }).then(function(){
+      //add it into overview list
+      console.log('add new one: write into the units "idList".');
+      return new Promise((resolve, reject)=>{
+        jsonfile.readFile("./statics_units/idList.json", function(err, lists){
+          if(err) {console.log('err in add new one into the units "idList".');reject(err);}
+          let updatedData = update(lists, {
+            ['idArr']: {
+              $unshift: [fileName]
+            }
+          })
+          jsonfile.writeFile("./statics_units/idList.json", updatedData, {spaces: 2}, function(err){
+            if(err) {console.log('err in add new one into the units "idList".');reject(err);}
+          });
+          resolve();
+        })
       })
     }).then(function(){
       //add it into overview list
       console.log('add new one: write into the shared list.');
       return new Promise((resolve, reject)=>{
-        jsonfile.readFile("./statics_users/user/sharedList.json", function(err, lists){
+        jsonfile.readFile("./statics_users/user/listShared.json", function(err, lists){
           if(err) {console.log('err in add new one into the shared list.');reject(err);}
           let updatedData = update(lists, {
             ['listArr']: {
               $unshift: [fileName]
             }
           })
-          jsonfile.writeFile("./statics_users/user/sharedList.json", updatedData, {spaces: 2}, function(err){
+          jsonfile.writeFile("./statics_users/user/listShared.json", updatedData, {spaces: 2}, function(err){
             if(err) {console.log('err in add new one into the list.');reject(err);}
           });
           resolve();
@@ -339,14 +386,14 @@ app.post('/post/user/shared/:purpose', function(req, res){
       //add it into time list
       console.log('add new one: write into the time list.');
       return new Promise((resolve, reject)=>{
-        jsonfile.readFile("./statics_users/user/timeList.json", function(err, lists){
+        jsonfile.readFile("./statics_users/user/listTime.json", function(err, lists){
           if(err) {console.log('err in add new one into the time list.');reject(err);}
           let updatedData = update(lists, {
             ['listArr']: {
               $unshift: [fileName]
             }
           })
-          jsonfile.writeFile("./statics_users/user/timeList.json", updatedData, {spaces: 2}, function(err){
+          jsonfile.writeFile("./statics_users/user/listTime.json", updatedData, {spaces: 2}, function(err){
             if(err) {console.log('err in add new one into the time list.');reject(err);}
           });
           resolve();
