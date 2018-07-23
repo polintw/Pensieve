@@ -7,10 +7,15 @@ const path = require("path");
 const jsonfile = require('jsonfile');
 const mkdirp = require('mkdirp');
 const update = require('immutability-helper');
-const cheerio = require('cheerio');
 
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
+
+const {
+  _promise_unitLtd,
+  _promise_unitSingle,
+  _promise_readCabinet
+} = require('./Manage/getManage.js');
 
 //Important!! babel-polyfill is here for the whole code after it!
 require('babel-polyfill');
@@ -44,182 +49,13 @@ app.get('/get/public/noun', function(req, res){
 
 app.get('/get/unit/ltd', function(req, res){
   console.log('get unit request: user');
-  new Promise((resolve, reject)=>{
-    jsonfile.readFile('./statics_units/idList.json', function(err, data){
-      if(err) {console.log('err in Read_units_idList');reject(err);}
-      //abstract the arr first, preventing damage the original data.
-      let idArr = data['idArr'].slice();
-      let readerPromise = [];
-      idArr.forEach(function(key, index){
-        //for "promise.all()" in next resolve: 陣列中的值如果不是Promise物件，會自動使用Promise.resolve方法來轉換
-        readerPromise.push(fs.readFile('./statics_units/'+key+'/details.json'));
-      })
-      resolve(readerPromise);
-    });
-  }).then((readerPromise)=>{
-    return new Promise((resolve, reject)=>{
-      Promise.all(readerPromise).then(function(resultsArr){
-        let sendingData = new Object();
-        let unitsDataSet = new Object();
-        let unitsList = [];
-        resultsArr.forEach(function(detailObj, index){
-          unitsList.push(unitsDataSet.submitTime);
-          unitsDataSet[unitsDataSet.submitTime] = detailObj;
-        })
-        Object.assign(sendingData, {unitsList: unitsList});
-        Object.assign(sendingData, {unitsDataSet: unitsDataSet});
-        resolve(sendingData)
-      }).catch((err) => {
-        console.log(err.message)
-      })
-    });
-  }).then((sendingData)=>{
-    res.status(200).json(sendingData);
-  }).catch(
-    (err)=>{
-      console.log('err during promise of get unit data: '+err);
-      res.status(500).json({
-        success: false,
-        err: err
-      });
-    }
-  );
+  _promise_unitLtd(req, res);
 })
 
-app.get('/get/unit/single', function(req, res){
+app.get('/unit/single/:purpose', function(req, res){
   console.log('get unit request: '+ req.query.unitName);
-  const reqUnit = req.query.unitName;
-  const reqUser = req.query.id; //should come from token verified in the future.
-
-  new Promise((resolve, reject)=>{
-    console.log('get old one: details.');
-    jsonfile.readFile('./statics_units/'+reqUnit+'/details.json', function(err, data){
-      if(err) {console.log('err in Read_sharedData');reject(err);}
-      let sendingData = new Object();
-      Object.assign(sendingData, data);
-      resolve(sendingData)
-    })
-  }).then(function(sendingData){
-    return new Promise((resolve, reject)=>{
-      console.log('get old one: imgs.');
-      fs.readFile('./statics_units'+sendingData['img_cover'], function(err, coverImg){
-        if(err) {console.log('err in Read_coverImg');reject(err);};
-        let coverBase64 = new Buffer(coverImg, 'binary').toString('base64');
-        coverBase64 = 'data:image/jpeg;base64,' + coverBase64;
-        sendingData['coverBase64'] = coverBase64;
-        delete sendingData.img_cover;
-        if(sendingData['img_beneath']){
-          fs.readFile('./statics_units'+sendingData['img_beneath'], function(err, beneathImg){
-            if(err) {console.log('err in Read_beneathImg');reject(err);};
-            let beneathBase64 = new Buffer(beneathImg, 'binary').toString('base64');
-            beneathBase64 = 'data:image/jpeg;base64,' + beneathBase64;
-            sendingData['beneathBase64'] = beneathBase64;
-            delete sendingData.img_beneath;
-            resolve(sendingData)
-          });
-        }else{
-          resolve(sendingData)
-        }
-      });
-    })
-  }).then(function(sendingData){
-    return new Promise((resolve, reject)=>{
-      console.log('get old one: check permission.');
-      sendingData['action'] = 'both';
-      if(sendingData.arthur == reqUser){
-        sendingData['action'] = 'edit';
-        resolve(sendingData);
-      }else{
-        jsonfile.readFile('./statics_users/user/listCollection.json', function(err, data){
-          if(err) {console.log('err in Read_listCollection');reject(err);};
-          data["listArr"].forEach(function(name, index){
-            if(reqUnit == name){
-              sendingData['action'] = 'collected';
-            }
-          })
-          resolve(sendingData);
-        })
-      }
-    })
-  }).then(function(sendingData){
-    return new Promise((resolve, reject)=>{
-      console.log('get old one: marks.');
-      jsonfile.readFile('./statics_units/'+reqUnit+'/marks.json', function(err, data){
-        if(err) {console.log('err in Read_marksData');reject(err);}
-        sendingData['coverMarksObj'] = data.coverMarksObj;
-        sendingData['beneathMarksObj'] = data.beneathMarksObj;
-        resolve(sendingData);
-      });
-    })
-  }).then((sendingData)=>{
-    res.status(200).json(sendingData);
-  }).catch(
-    (err)=>{
-      console.log('err during promise of get unit data: '+err);
-      res.status(500).json({
-        success: false,
-        err: err
-      });
-    }
-  );
+  _promise_unitSingle(req, res);
 })
-
-const _promise_readCabinet = function(req, res, focus){
-  let listToRead;
-  switch(focus){
-    case 'all':
-      listToRead = "listTime.json";
-      break;
-    case 'shared':
-      listToRead = "listShared.json";
-      break;
-    case 'collection':
-      listToRead = "listCollection.json";
-      break;
-    default:
-      listToRead = "listTime";
-  }
-  new Promise((resolve, reject)=>{
-    jsonfile.readFile('./statics_users/user/'+listToRead, function(err, data){
-      if(err) {console.log('err in Read_listTime');reject(err);}
-      let sendingData = new Object();
-      //abstract the arr first, preventing damage the original data.
-      let listArr = data['listArr'].slice();
-      let readerPromise = [];
-      listArr.forEach(function(key, index){
-        //for "promise.all()" in next resolve: 陣列中的值如果不是Promise物件，會自動使用Promise.resolve方法來轉換
-        readerPromise.push(fs.readFile('./statics_units/'+key+'/details.json'));
-      })
-      Object.assign(sendingData, {unitsList: listArr});
-      Object.assign(sendingData, {unitsDataReader: readerPromise});
-      resolve(sendingData)
-    })
-  }).then((sendingData)=>{
-    return new Promise((resolve, reject)=>{
-      Promise.all(sendingData.unitsDataReader).then(function(resultsArr){
-        let unitsDataSet = new Object();
-        resultsArr.forEach(function(detailObj, index){
-          unitsDataSet[sendingData.unitsList[index]] = detailObj;
-        })
-        delete sendingData.unitsDataReader;
-        Object.assign(sendingData, {unitsDataSet: unitsDataSet});
-        resolve(sendingData)
-      }).catch((err) => {
-        console.log(err.message)
-      })
-    });
-  }).then(function(sendingData){
-    res.status(200).json(sendingData);
-  }).catch(
-    (err)=>{
-      console.log('err during promise of get unit data: '+err);
-      res.status(500).json({
-        success: false,
-        err: err
-      });
-    }
-  );
-}
 
 app.get('/user/cabinet', function(req, res){
   console.log('get data request for Cabinet: '+ req.query.focus);
@@ -320,8 +156,21 @@ app.post('/post/user/shared/:purpose', function(req, res){
           coverMarksObj: modifiedBody.coverMarksObj,
           beneathMarksObj: modifiedBody.beneathMarksObj,
         }
-        fs.writeFile('./statics_units/'+fileName+"/marks.json", newMakrsObj, function(err){
+        jsonfile.writeFile('./statics_units/'+fileName+"/marks.json", newMakrsObj, {spaces: 2}, function(err){
           if(err) {console.log('err in add new one: abstract marksObj');reject(err);}
+          resolve(modifiedBody)
+        });
+      })
+    }).then(function(modifiedBody){
+      console.log('add new one: create conversation file.');
+      return new Promise((resolve, reject)=>{
+        let coverMarksKey = Object.keys(modifiedBody.coverMarksObj);
+        let beneathMarksKey = Object.keys(modifiedBody.beneathMarksObj);
+        let conversationsObj = new Object();
+        coverMarksKey.forEach((key, index)=>{conversationsObj[key] = {}});
+        beneathMarksKey.forEach((key, index)=>{conversationsObj[key] = {}});
+        jsonfile.writeFile('./statics_units/'+fileName+"/conversations.json", conversationsObj, {spaces: 2}, function(err){
+          if(err) {console.log('err in add new one: write into the conversations.');reject(err);}
           delete modifiedBody.coverMarksObj;
           delete modifiedBody.beneathMarksObj;
 
@@ -332,20 +181,17 @@ app.post('/post/user/shared/:purpose', function(req, res){
       console.log('add new one: write into the details.');
       return new Promise((resolve, reject)=>{
         //data object writed into a new file
-        fs.writeFile('./statics_units/'+fileName+"/details.json", modifiedBody, function(err){
+        jsonfile.writeFile('./statics_units/'+fileName+"/details.json", modifiedBody, {spaces: 2}, function(err){
           if(err) {console.log('err in add new one: write into the details.');reject(err);}
           resolve()
         });
       })
     }).then(function(){
-      console.log('add new one: create the conversation.');
+      console.log('add new one: create the bounding list.');
       return new Promise((resolve, reject)=>{
-        fs.writeFile('./statics_units/'+fileName+"/conversations.json", {}, function(err){
-          if(err) {console.log('err in add new one: write into the conversations.');reject(err);}
-          fs.writeFile('./statics_units/'+fileName+"/listBounding.json", {collection: []}, function(err){
-            if(err) {console.log('err in add new one: write into the conversations.');reject(err);}
-            resolve()
-          });
+        jsonfile.writeFile('./statics_units/'+fileName+"/listBounding.json", {collection: []}, {spaces: 2}, function(err){
+          if(err) {console.log('err in add new one: write into the bounding list.');reject(err);}
+          resolve()
         });
       })
     }).then(function(){

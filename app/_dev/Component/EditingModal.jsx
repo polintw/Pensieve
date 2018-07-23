@@ -12,18 +12,14 @@ export default class EditingModal extends React.Component {
       contentModalify: false,
       coverSrc: null,
       beneathSrc: null,
-      coverMarks: {markCircles:[], markEditorContent: []},
-      beneathMarks: {markCircles:[], markEditorContent: []},
+      coverMarks: {},
+      beneathMarks: {},
       refsArr: [],
       nounsArr: []
     };
     this._reset_modalState = () => {this.setState({focusBlock: null, contentModalify: false});};
     this._set_focusBlock = (block) => {this.setState({focusBlock: block})};
     this._set_contentModalify = (bool) => {this.setState({contentModalify: bool})};
-    this._set_coverSrc = (dataURL) => {this.setState({coverSrc: dataURL})};
-    this._set_beneathSrc = (dataURL) => {this.setState({beneathSrc: dataURL})};
-    this._set_coverMarks = (marksObj) => {this.setState({coverMarks: marksObj})};
-    this._set_beneathMarks = (marksObj) => {this.setState({beneathMarks: marksObj})};
     this._set_refsArr = (refObj) => {this.state.refsArr.push(refObj);this.setState({refsArr: this.state.refsArr})};
     this._set_nounsArr = (noun) => {this.setState((prevState, props) => {prevState.nounsArr.push(noun); return {nounsArr: prevState.nounsArr}})};
     this._set_newImgSrc = this._set_newImgSrc.bind(this);
@@ -148,9 +144,9 @@ export default class EditingModal extends React.Component {
   _close_img_Cancell(){
     let focusBlock = this.state.focusBlock;
     if(focusBlock=='cover'){
-      this.setState({coverSrc: null, coverMarks: {markCircles:[], markEditorContent: []}, focusBlock: null, contentModalify: false})
+      this.setState({coverSrc: null, coverMarks: {}, focusBlock: null, contentModalify: false})
     }else if(focusBlock=='beneath'){
-      this.setState({beneathSrc: null, beneathMarks: {markCircles:[], markEditorContent: []}, focusBlock: null, contentModalify: false})
+      this.setState({beneathSrc: null, beneathMarks: {}, focusBlock: null, contentModalify: false})
     };
   }
 
@@ -226,8 +222,7 @@ export default class EditingModal extends React.Component {
             focusBlock={this.state.focusBlock}
             coverSrc={this.state.coverSrc}
             beneathSrc={this.state.beneathSrc}
-            coverMarks={this.state.coverMarks}
-            beneathMarks={this.state.beneathMarks}
+            marksObj={this.state.focusBlock=='cover'?this.state.coverMarks:this.state.beneathMarks}
             refsArr={this.state.refsArr}
             _set_refsArr={this._set_refsArr}
             _close_Mark_Complete={this._close_Mark_Complete}

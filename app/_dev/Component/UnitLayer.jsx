@@ -6,9 +6,11 @@ export default class UnitLayer extends React.Component {
     super(props);
     this.state = {
       circleNr: 'all',
-      circles: []
+      marksId: [],
+      marksDOM: []
     };
-    this._render_makrCircles = this._render_makrCircles.bind(this);
+    this._set_makrsDOM = this._set_makrsDOM.bind(this);
+    this._handleLoaded_Img = this._handleLoaded_Img.bind(this);
     this._handleClick_UnitLayer_circle = this._handleClick_UnitLayer_circle.bind(this)
     this.style = {
       Com_UnitLayer: {
@@ -43,14 +45,23 @@ export default class UnitLayer extends React.Component {
     };
   }
 
-  _render_makrCircles(){
+  _handleLoaded_Img(){
+    this.setState((prevState, props)=>{
+      let marksKey = Object.keys(this.props.marksData);
+      return {marksId: marksKey};
+    }, this._set_makrsDOM)
+  }
+
+  _set_makrsDOM(){
     const self = this;
-    let markCircles = [];
+    let marksArr = [];
     if(this.state.circleNr == 'all'){
-      markCircles = this.props.marksData.markCircles.map(function(coordinate, index){
+      marksArr = self.state.marksId.map(function(id, index){
+        const coordinate = self.props.marksData[id].markCoordinate;
         return(
           <svg
             key={'key_UnitLayer_div_circle_svg_all_'+index}
+            id={id}
             index={index}
             style={Object.assign({top: coordinate.top+"%", left: coordinate.left+'%'}, self.style.Com_UnitLayer_div_circle_svg)}
             onClick={self._handleClick_UnitLayer_circle}>
@@ -59,49 +70,45 @@ export default class UnitLayer extends React.Component {
         )
       });
       this.setState({
-        circles: (
+        marksDOM: (
           <div
             style={Object.assign(
               {width: self.Com_UnitLayer_img.clientWidth, height: self.Com_UnitLayer_img.clientHeight}, self.style.Com_UnitLayer_div)}>
-            {markCircles}
+            {marksArr}
           </div>
         )
       });
     }else{
-      let coordinate = self.props.marksData.markCircles[self.state.circleNr];
-      markCircles.push(
+      const coordinate = this.props.marksData[this.state.circleNr].markCoordinate;
+      marksArr.push(
         <div
           key={'key_UnitLayer_div_circle_svg_markBlock_'+self.state.circleNr}
           style={Object.assign(
             {width: self.Com_UnitLayer_img.clientWidth, height: self.Com_UnitLayer_img.clientHeight}, self.style.Com_UnitLayer_div)}>
           <svg
-            index={self.state.circleNr}
+            id={self.state.circleNr}
             style={Object.assign({top: coordinate.top+"%", left: coordinate.left+'%'}, self.style.Com_UnitLayer_div_circle_svg)}
             onClick={self._handleClick_UnitLayer_circle}>
             <circle r="20" cx="50%" cy="50%" stroke='white' fill="none"/>
           </svg>
           <MarkBlock
             coordinate={coordinate}
-            editorState={self.props.marksData.markEditorContent[self.state.circleNr]}/>
+            editorState={self.props.marksData[self.state.circleNr].markEditorContent}/>
         </div>
       )
-      this.setState({circles: markCircles});
+      this.setState({marksDOM: marksArr});
     }
   }
 
   _handleClick_UnitLayer_circle(event){
     event.preventDefault();
     event.stopPropagation();
-    let currentNr = event.currentTarget.getAttribute('index');
-    if(currentNr == this.state.circleNr){
-      this.setState((prevState, props)=>{return {circleNr: 'all'};}, this._render_makrCircles);
+    let currentId = event.currentTarget.getAttribute('id');
+    if(currentId == this.state.circleNr){
+      this.setState((prevState, props)=>{return {circleNr: 'all'};}, this._set_makrsDOM);
     }else{
-      this.setState((prevState, props)=>{return {circleNr: currentNr};}, this._render_makrCircles);
+      this.setState((prevState, props)=>{return {circleNr: currentId};}, this._set_makrsDOM);
     }
-  }
-
-  componentDidMount(){
-
   }
 
   render(){
@@ -112,10 +119,10 @@ export default class UnitLayer extends React.Component {
           style={this.style.Com_UnitLayer_img}
           ref={(element) => {this.Com_UnitLayer_img = element;}}
           src={this.props.imgSrc}
-          onLoad={this._render_makrCircles}/>
+          onLoad={this._handleLoaded_Img}/>
         {
           this.props.marks &&
-          this.state.circles
+          this.state.marksDOM
         }
       </div>
     )

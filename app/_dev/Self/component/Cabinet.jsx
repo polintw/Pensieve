@@ -156,7 +156,7 @@ export default class Cabinet extends React.Component {
     //let cx = cxBind.bind(styles);
     const self = this;
     let shares = self.state.unitsList.map(function(dataKey, index){
-      let dataValue = self.state.unitsDataSet[dataKey];
+      let srcURL = self.state.unitsDataSet[dataKey]['img_cover']; 
       return(
         <div
           key={'key_Shared_Shares_share_'+index}
@@ -164,7 +164,7 @@ export default class Cabinet extends React.Component {
           style={self.style.selfCom_Cabinet_second_div_}
           onClick={self._handleClick_Share}>
           <img
-            src={dataValue.img_cover}
+            src={srcURL}
             style={self.style.selfCom_Cabinet_second_div_img}/>
         </div>
       )
