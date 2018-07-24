@@ -16,6 +16,7 @@ const {
   _promise_unitSingle,
   _promise_readCabinet
 } = require('./Manage/getManage.js');
+const authorization = require('./Manage/authorization.js');
 
 //Important!! babel-polyfill is here for the whole code after it!
 require('babel-polyfill');
@@ -40,6 +41,9 @@ app.use('/favicon.ico', function(req, res){
   console.log('requesting for favicon');
   res.end();
 })
+
+//either authorization or login
+//app.use('/', authorization)
 
 app.get('/get/public/noun', function(req, res){
   console.log('get public: noun search');
