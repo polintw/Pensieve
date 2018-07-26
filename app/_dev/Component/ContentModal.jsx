@@ -28,7 +28,7 @@ export default class ContentModal extends React.Component {
           <ContentModalMark
             blockName={'cover'}
             imgSrc={this.props.coverSrc}
-            marksData={this.props.coverMarks}
+            marksObj={this.props.marksObj}
             _set_refsArr={this.props._set_refsArr}
             _close_Mark_Complete={this.props._close_Mark_Complete}
             _close_img_Cancell={this.props._close_img_Cancell}/>
@@ -39,7 +39,7 @@ export default class ContentModal extends React.Component {
           <ContentModalMark
             blockName={'beneath'}
             imgSrc={this.props.beneathSrc}
-            marksData={this.props.beneathMarks}
+            marksObj={this.props.marksObj}
             _set_refsArr={this.props._set_refsArr}
             _close_Mark_Complete={this.props._close_Mark_Complete}
             _close_img_Cancell={this.props._close_img_Cancell}/>

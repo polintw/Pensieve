@@ -50,8 +50,7 @@ export default class CabinetShared extends React.Component {
         position: 'relative',
         boxSizing: 'border-box',
         margin: ' 1vh 0',
-        padding: '0.5vh 0',
-        borderTop: 'solid #222222 1px'
+        padding: '0.5vh 0'
       },
       selfCom_CabinetShared_nav_CreateShare: {
         width: '36%',
@@ -135,7 +134,7 @@ export default class CabinetShared extends React.Component {
 
   componentDidMount(){
     const self = this;
-    axios.get('/get/user/shared?purpose=cabinet', {
+    axios.get('/user/cabinet?focus=shared', {
       headers: {'charset': 'utf-8'}
     }).then(function(res){
       self.setState({

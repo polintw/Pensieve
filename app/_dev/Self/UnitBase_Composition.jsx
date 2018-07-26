@@ -8,6 +8,7 @@ export default class SelfComposition extends React.Component {
 
     };
     this._handleClick_selfClose = this._handleClick_selfClose.bind(this);
+    this._handleClick_selfCover = this._handleClick_selfCover.bind(this);
     this.style={
       UnitBase_Composition_: {
         width: '100%',
@@ -46,12 +47,13 @@ export default class SelfComposition extends React.Component {
       },
       UnitBase_Composition_side_logo_: {
         width: '100%',
-        height: '10%',
+        height: '8%',
         position: 'absolute',
-        top:'90%',
+        bottom:'0%',
         left: '0',
         boxSizing: 'border-box',
-        fontSize: '5vh',
+        textAlign: 'right',
+        fontSize: '4vh',
         letterSpacing: '0.6vh',
         color: '#222222'
       },
@@ -75,22 +77,8 @@ export default class SelfComposition extends React.Component {
         fontSize: '3.6vh',
         color: '#222222'
       },
-      UnitBase_Composition_lid_span_Option: {
-        display: 'inline-block',
-        width: '8%',
-        position: 'relative',
-        top: '45%',
-        transform: 'translate(0,-50%)',
-        float: 'right',
-        boxSizing: 'border-box',
-        fontSize: '2.6vh',
-        letterSpacing: '0.6vh',
-        textAlign: 'center',
-        color: 'rgb(153, 153, 153)',
-        cursor: 'pointer'
-      },
       UnitBase_Composition_scroll_: {
-        width: '56%',
+        width: '58%',
         position: 'absolute',
         top: '12vh',
         left: '16%'
@@ -104,6 +92,11 @@ export default class SelfComposition extends React.Component {
     window.location.assign('/');
   }
 
+  _handleClick_selfCover(event){
+    event.preventDefault();
+    event.stopPropagation();
+    window.location.assign('/self?id=userid');
+  }
   render(){
     //let cx = cxBind.bind(styles);
     return(
@@ -129,15 +122,15 @@ export default class SelfComposition extends React.Component {
               style={this.style.UnitBase_Composition_side_top_div_}>
               <svg
                 style={this.style.UnitBase_Composition_side_top_div_svg}>
-                <text x="50%" y="50%" textAnchor="middle" stroke="#999999" strokeWidth="0.8px" fontSize='3vh'>{"搜"}</text>
-                <circle r="2vh" cx="50%" cy="50%" stroke='#999999' fill="transparent" style={{curcor: 'pointer'}}/>
+                <text x="50%" y="50%" textAnchor="middle" stroke="#999999" strokeWidth="0.8px" fontSize='3vh'>{"<-"}</text>
+                <circle r="2vh" cx="50%" cy="50%" stroke='#999999' fill="transparent" style={{cursor: 'pointer'}} onClick={this._handleClick_selfCover}/>
               </svg>
             </div>
             <div
               style={this.style.UnitBase_Composition_side_top_div_}>
               <svg
                 style={this.style.UnitBase_Composition_side_top_div_svg}>
-                <text x="50%" y="50%" textAnchor="middle" stroke="#999999" strokeWidth="0.8px" fontSize='3vh'>{"螺"}</text>
+                <text x="50%" y="50%" textAnchor="middle" stroke="#999999" strokeWidth="0.8px" fontSize='3vh'>{""}</text>
                 <circle r="2vh" cx="50%" cy="50%" stroke='#999999' fill="transparent" style={{curcor: 'pointer'}}/>
               </svg>
             </div>
@@ -150,8 +143,6 @@ export default class SelfComposition extends React.Component {
         <div
           style={this.style.UnitBase_Composition_lid_}>
           <span style={this.style.UnitBase_Composition_lid_span_User}>{"Berlin Chou"}</span>
-          <span style={this.style.UnitBase_Composition_lid_span_Option}>{"下拉"}</span>
-          <span style={this.style.UnitBase_Composition_lid_span_Option}>{"封面"}</span>
         </div>
       </div>
     )

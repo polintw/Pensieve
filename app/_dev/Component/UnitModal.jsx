@@ -143,7 +143,7 @@ export default class UnitModal extends React.Component {
 
   componentDidMount(){
     const self = this;
-    axios.get('/get/unit/single?unitName='+self.state.unitName+'&id=Berlin', {
+    axios.get('/unit/single/mount?unitName='+self.state.unitName+'&id=Berlin', {
       headers: {'charset': 'utf-8'}
     }).then(function(res){
       self.setState({
@@ -172,16 +172,6 @@ export default class UnitModal extends React.Component {
               {this.state.nounsArr[0]}
             </div>
           }
-        </div>
-        <div
-          style={this.style.Com_UnitModal_ImgSection_div}>
-          <UnitLayerFrame
-            layer={this.state.layer}
-            marks = {this.state.marks}
-            coverSrc={this.state.coverSrc}
-            beneathSrc={this.state.beneathSrc}
-            coverMarksObj={this.state.coverMarksObj}
-            beneathMarksObj={this.state.beneathMarksObj}/>
         </div>
         <div
           style={this.style.Com_UnitModal_BottomSection_}>
@@ -219,6 +209,16 @@ export default class UnitModal extends React.Component {
               _set_makrsVisible={this._set_makrsVisible}
               _set_layer={this._set_layer}/>
           </div>
+        </div>
+        <div
+          style={this.style.Com_UnitModal_ImgSection_div}>
+          <UnitLayerFrame
+            layer={this.state.layer}
+            marks = {this.state.marks}
+            coverSrc={this.state.coverSrc}
+            beneathSrc={this.state.beneathSrc}
+            coverMarksObj={this.state.coverMarksObj}
+            beneathMarksObj={this.state.beneathMarksObj}/>
         </div>
       </div>
     )

@@ -115,7 +115,7 @@ export default class CabinetCollection extends React.Component {
 
   componentDidMount(){
     const self = this;
-    axios.get('/get/user/collection?purpose=cabinet', {
+    axios.get('/user/cabinet?focus=collection', {
       headers: {'charset': 'utf-8'}
     }).then(function(res){
       self.setState({

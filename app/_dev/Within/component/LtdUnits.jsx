@@ -1,5 +1,6 @@
 import React from 'react';
 import cxBind from 'classnames/bind';
+import LtdUnitsRaws from './LtdUnitsRaws.jsx';
 import UnitModal from '../../Component/UnitModal.jsx';
 import ModalBox from '../../Component/ModalBox.jsx';
 import ModalBackground from '../../Component/ModalBackground.jsx';
@@ -11,9 +12,11 @@ export default class LtdUnits extends React.Component {
       unitModalify: false,
       focusUnitName: null,
       unitsList: [],
-      unitsDataSet: {}
+      unitsDataSet: {},
+      rawsArr: []
     };
     this._handleClick_Share = this._handleClick_Share.bind(this);
+    this._render_LtdUnitsRaws = this._render_LtdUnitsRaws.bind(this);
     this._close_modal_Unit = this._close_modal_Unit.bind(this);
     this.style={
       withinCom_LtdUnits_: {
@@ -27,24 +30,6 @@ export default class LtdUnits extends React.Component {
       withinCom_LtdUnits_div_: {
         width: '101%',
         position: "relative"
-      },
-      withinCom_LtdUnits_div_unit_: {
-        display: 'inline-block',
-        width: '32%',
-        height: '32vh',
-        position: 'relative',
-        boxSizing: 'border-box',
-        margin: '0 1% 2vh 0',
-        overflow: 'hidden',
-        cursor: 'pointer'
-      },
-      withinCom_LtdUnits_div_unit_img: {
-        maxWidth: '150%',
-        maxHeight: '150%',
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%,-50%)'
       }
     }
   }
@@ -65,42 +50,44 @@ export default class LtdUnits extends React.Component {
     })
   }
 
+  _render_LtdUnitsRaws(){
+    let point = 0;
+    let raws = [];
+    while (point< this.state.unitsList.length) {
+      let number = Math.floor(Math.random()*3)+1;
+      raws.push(
+        <LtdUnitsRaws
+          key={'key_LtdUnits_raw_'+point+'_'+number}
+          point={point}
+          number={number}
+          unitsList={this.state.unitsList}
+          unitsDataSet={this.state.unitsDataSet}
+          _handleClick_Share={this._handleClick_Share}/>
+      )
+      point +=  number;
+    };
+    this.setState({rawsArr: raws});
+  }
+
   componentDidMount(){
     const self = this;
     axios.get('/get/unit/ltd?id=userid', {
       headers: {'charset': 'utf-8'}
     }).then(function(res){
-      self.setState({
-        unitsList: res.data.unitsList,
-        unitsDataSet: res.data.unitsDataSet
-      })
+      self.setState((prevState, props) => {
+        return({unitsList: res.data.unitsList, unitsDataSet: res.data.unitsDataSet});
+      }, self._render_LtdUnitsRaws);
     })
   }
 
   render(){
     //let cx = cxBind.bind(styles);
-    const self = this;
-    let units = self.state.unitsList.map(function(dataKey, index){
-      let dataValue = self.state.unitsDataSet[dataKey];
-      return(
-        <div
-          key={'key_Shared_Shares_share_'+index}
-          unitname={dataKey}
-          style={self.style.withinCom_LtdUnits_div_unit_}
-          onClick={self._handleClick_Share}>
-          <img
-            src={dataValue.img_cover}
-            style={self.style.withinCom_LtdUnits_div_unit_img}/>
-        </div>
-      )
-    })
-
     return(
       <div
         style={this.style.withinCom_LtdUnits_}>
         <div
           style={this.style.withinCom_LtdUnits_div_}>
-          {units}
+          {this.state.rawsArr}
         </div>
         {
           this.state.unitModalify &&

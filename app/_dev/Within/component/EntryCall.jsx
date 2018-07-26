@@ -19,41 +19,6 @@ export default class EntryCall extends React.Component {
         top: '0',
         left: '0'
       },
-      withinCom_EntryCall_nameBar: {
-        width: '100%',
-        height: '18%',
-        position: 'absolute',
-        top: '0',
-        left: '0%',
-        boxSizing: 'border-box'
-      },
-      withinCom_EntryCall_nameBar_Logo: {
-        display: 'inilne-block',
-        width: '30%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box',
-        padding: '1% 0',
-        fontSize: '3.2vh',
-        letterSpacing: '0.4vh',
-        fontWeight: '400',
-        color: '#222222'
-      },
-      withinCom_EntryCall_nameBar_User: {
-        display: 'inilne-block',
-        width: '40%',
-        height: '100%',
-        float: 'right',
-        boxSizing: 'border-box',
-        padding: '1% 0',
-        fontSize: '3.2vh',
-        letterSpacing: '0.4vh',
-        fontWeight: '400',
-        textAlign: 'right',
-        color: '#222222'
-      },
       withinCom_EntryCall_welcome_: {
         width: '68%',
         height: '40%',
@@ -124,8 +89,8 @@ export default class EntryCall extends React.Component {
         right: '0%',
         boxSizing: 'border-box',
         padding: '1% 0',
-        fontSize: '3.2vh',
-        letterSpacing: '0.4vh',
+        fontSize: '3vh',
+        letterSpacing: '0.3vh',
         textAlign: 'right',
         color: '#222222'
       }
@@ -161,7 +126,7 @@ export default class EntryCall extends React.Component {
   }
 
   _submit_Share_New(dataObj){
-    window.location.assign('/user');
+    window.location.assign('/self/units?id=userid');
   }
 
   render(){
@@ -169,11 +134,6 @@ export default class EntryCall extends React.Component {
     return(
       <div
         style={this.style.withinCom_EntryCall_}>
-        <div
-          style={this.style.withinCom_EntryCall_nameBar}>
-          <div style={this.style.withinCom_EntryCall_nameBar_Logo}>{"CORNER"}</div>
-          <div style={this.style.withinCom_EntryCall_nameBar_User}>{"Berlin Chou"}</div>
-        </div>
         <div
           style={this.style.withinCom_EntryCall_welcome_}>
           <span style={{display: "block", position: 'absolute', bottom:'0'}}>{"Welcome Back"}</span>

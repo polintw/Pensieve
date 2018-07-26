@@ -8,7 +8,6 @@ export default class LtdNav extends React.Component {
     this.state = {
 
     };
-    this._submit_Share_New = this._submit_Share_New.bind(this);
     this._handleClick_selfEntrance = this._handleClick_selfEntrance.bind(this);
     this.style={
       withinCom_LtdNav_: {
@@ -45,14 +44,6 @@ export default class LtdNav extends React.Component {
         boxSizing: 'border-box',
         fontSize: '3.6vh',
         textAlign: 'center'
-      },
-      withinCom_LtdNav_div_CreateShare_: {
-        display: 'inline-block',
-        width: '30%',
-        height: '100%',
-        position: 'relative',
-        float: 'right',
-        boxSizing: 'border-box'
       }
     }
   }
@@ -60,11 +51,7 @@ export default class LtdNav extends React.Component {
   _handleClick_selfEntrance(event){
     event.stopPropagation();
     event.preventDefault();
-    window.location.assign('/user');
-  }
-
-  _submit_Share_New(dataObj){
-    window.location.assign('/user');
+    window.location.assign('/self?id=userid');
   }
 
   render(){
@@ -79,12 +66,6 @@ export default class LtdNav extends React.Component {
         <div
           style={this.style.withinCom_LtdNav_div_}>
           <span style={{display: 'inline-block', width: '20%', height: '100%', position: 'relative', float: 'right'}}>{"。。"}</span>
-          <div
-            style={this.style.withinCom_LtdNav_div_CreateShare_}>
-            <img src="/vacancyWhite.png" style={{width: '100%', height: '100%'}}/>
-            <CreateShare
-              _submit_Share_New={this._submit_Share_New}/>
-          </div>
           <div
             style={this.style.withinCom_LtdNav_div_User_}>
             <div
