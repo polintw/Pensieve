@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const fs = require('fs');
-const request = require('request');
 const bodyParser = require('body-parser');
 const path = require("path");
 const jsonfile = require('jsonfile');
@@ -11,73 +10,41 @@ const update = require('immutability-helper');
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
 
-const {
-  _promise_unitLtd,
-  _promise_unitSingle,
-  _promise_readCabinet
-} = require('./Manage/getManage.js');
-const authorization = require('./Manage/authorization.js');
+const router = require('./src/router.js');
 
-//Important!! babel-polyfill is here for the whole code after it!
+//babel-polyfill is here for the whole code after it!
 require('babel-polyfill');
 
 app.set('view engine', 'jsx');
-app.set('app', __dirname + '/app');
 app.engine('jsx', require('express-react-views').createEngine({transformViews: false }));
-//parse .json came into this server
-//parse Content-Type: /json
-app.use(bodyParser.json({limit: '20mb'}));
-//parse Content-Type: /text
-//app.use(bodyParser.text({limit: '20mb'})); //not in use in this project
+app.use(bodyParser.json({limit: '20mb'}));//parse Content-Type: /json
+app.use(bodyParser.raw({limit: "20mb"}));//parse Content-Type: /application/octet-stream
+//app.use(bodyParser.text({limit: '20mb'})); //parse Content-Type: /text //not in use in this project
 app.use(bodyParser.urlencoded({extended: true}));
-//parse Content-Type: /application/octet-stream
-app.use(bodyParser.raw({limit: "20mb"}))
 
-app.use(express.static(path.join(__dirname+'/statics_public')));
-app.use(express.static(path.join(__dirname+'/statics_units')));
-app.use(express.static(path.join(__dirname+'/Pages')));
-app.use(express.static(path.join(__dirname+'/Styles')));
-app.use('/favicon.ico', function(req, res){
+//establish the statics resources
+app.use(express.static(path.join(__dirname+'/public')));
+app.use(express.static(path.join(__dirname+'/pages')));
+
+//begining managing the specific request
+app.get('/favicon.ico', function(req, res){
   console.log('requesting for favicon');
   res.end();
 })
 
-//either authorization or login
-//app.use('/', authorization)
-
-app.get('/get/public/noun', function(req, res){
-  console.log('get public: noun search');
-  let prefix = req.query.prefix;
-  res.status(200).json({'results': [prefix]});
-})
-
-app.get('/get/unit/ltd', function(req, res){
-  console.log('get unit request: user');
-  _promise_unitLtd(req, res);
-})
-
-app.get('/unit/single/:purpose', function(req, res){
-  console.log('get unit request: '+ req.query.unitName);
-  _promise_unitSingle(req, res);
-})
-
-app.get('/user/cabinet', function(req, res){
-  console.log('get data request for Cabinet: '+ req.query.focus);
-  let focus = req.query.focus;
-  _promise_readCabinet(req, res, focus);
-})
+app.use('/router', router)
 
 app.patch('/patch/user/collection', function(req, res){
   console.log('patch collection to user');
   new Promise((resolve, reject)=>{
-    jsonfile.readFile("./statics_users/user/listCollection.json", function(err, lists){
+    jsonfile.readFile("./dev/Statics_users/user/listCollection.json", function(err, lists){
       if(err) {console.log('err in add new one into the list.');reject(err);}
       let updatedData = update(lists, {
         ['listArr']: {
           $unshift: [req.body.unitName]
         }
       })
-      jsonfile.writeFile("./statics_users/user/listCollection.json", updatedData, {spaces: 2}, function(err){
+      jsonfile.writeFile("./dev/Statics_users/user/listCollection.json", updatedData, {spaces: 2}, function(err){
         if(err) {console.log('err in add new one into the list.');reject(err);}
       });
       resolve();
@@ -86,14 +53,14 @@ app.patch('/patch/user/collection', function(req, res){
     //add it into time list
     console.log('add new one: write into the time list.');
     return new Promise((resolve, reject)=>{
-      jsonfile.readFile("./statics_users/user/listTime.json", function(err, lists){
+      jsonfile.readFile("./dev/Statics_users/user/listTime.json", function(err, lists){
         if(err) {console.log('err in add new one into the time list.');reject(err);}
         let updatedData = update(lists, {
           ['listArr']: {
             $unshift: [fileName]
           }
         })
-        jsonfile.writeFile("./statics_users/user/listTime.json", updatedData, {spaces: 2}, function(err){
+        jsonfile.writeFile("./dev/Statics_users/user/listTime.json", updatedData, {spaces: 2}, function(err){
           if(err) {console.log('err in add new one into the time list.');reject(err);}
         });
         resolve();
@@ -125,16 +92,16 @@ app.post('/post/user/shared/:purpose', function(req, res){
       //deal with cover img first.
       let coverBase64Splice = req.body.coverBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
       let coverBase64Buffer = new Buffer(coverBase64Splice[2], 'base64');
-      fs.writeFile('./statics_units/images/'+fileName+"_cover.jpg", coverBase64Buffer, function(err){
+      fs.writeFile('./dev/Statics_units/images/'+fileName+"_cover.jpg", coverBase64Buffer, function(err){
         if(err) {console.log('err in adding new img from new share');reject(err);}
       });
-      modifiedBody['img_cover'] = '/images/'+fileName+'_cover.jpg';
+      modifiedBody['img_cover'] = fileName+'_cover.jpg';
       //then deal with beneath img if any.
       if(req.body.beneathBase64){
         let beneathBase64Splice = req.body.beneathBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
         let beneathBase64Buffer = new Buffer(beneathBase64Splice[2], 'base64');
-        modifiedBody['img_beneath'] = '/images/'+fileName+'_beneath.jpg';
-        fs.writeFile('./statics_units/images/'+fileName+"_beneath.jpg", beneathBase64Buffer, function(err){
+        modifiedBody['img_beneath'] = fileName+'_beneath.jpg';
+        fs.writeFile('./dev/Statics_units/images/'+fileName+"_beneath.jpg", beneathBase64Buffer, function(err){
           if(err) {console.log('err in adding new img from new share');reject(err);}
         });
       }
@@ -147,7 +114,7 @@ app.post('/post/user/shared/:purpose', function(req, res){
     }).then(function(modifiedBody){
       console.log('add new one: establish folder.');
       return new Promise((resolve, reject)=>{
-        fs.mkdir('./statics_units/'+fileName, function(err){
+        fs.mkdir('./dev/Statics_units/'+fileName, function(err){
           if(err) {console.log('err in add new one: establish folder');reject(err);}
           resolve(modifiedBody);
         })
@@ -160,7 +127,7 @@ app.post('/post/user/shared/:purpose', function(req, res){
           coverMarksObj: modifiedBody.coverMarksObj,
           beneathMarksObj: modifiedBody.beneathMarksObj,
         }
-        jsonfile.writeFile('./statics_units/'+fileName+"/marks.json", newMakrsObj, {spaces: 2}, function(err){
+        jsonfile.writeFile('./dev/Statics_units/'+fileName+"/marks.json", newMakrsObj, {spaces: 2}, function(err){
           if(err) {console.log('err in add new one: abstract marksObj');reject(err);}
           resolve(modifiedBody)
         });
@@ -173,7 +140,7 @@ app.post('/post/user/shared/:purpose', function(req, res){
         let conversationsObj = new Object();
         coverMarksKey.forEach((key, index)=>{conversationsObj[key] = {}});
         beneathMarksKey.forEach((key, index)=>{conversationsObj[key] = {}});
-        jsonfile.writeFile('./statics_units/'+fileName+"/conversations.json", conversationsObj, {spaces: 2}, function(err){
+        jsonfile.writeFile('./dev/Statics_units/'+fileName+"/conversations.json", conversationsObj, {spaces: 2}, function(err){
           if(err) {console.log('err in add new one: write into the conversations.');reject(err);}
           delete modifiedBody.coverMarksObj;
           delete modifiedBody.beneathMarksObj;
@@ -185,7 +152,7 @@ app.post('/post/user/shared/:purpose', function(req, res){
       console.log('add new one: write into the details.');
       return new Promise((resolve, reject)=>{
         //data object writed into a new file
-        jsonfile.writeFile('./statics_units/'+fileName+"/details.json", modifiedBody, {spaces: 2}, function(err){
+        jsonfile.writeFile('./dev/Statics_units/'+fileName+"/details.json", modifiedBody, {spaces: 2}, function(err){
           if(err) {console.log('err in add new one: write into the details.');reject(err);}
           resolve()
         });
@@ -193,7 +160,7 @@ app.post('/post/user/shared/:purpose', function(req, res){
     }).then(function(){
       console.log('add new one: create the bounding list.');
       return new Promise((resolve, reject)=>{
-        jsonfile.writeFile('./statics_units/'+fileName+"/listBounding.json", {collection: []}, {spaces: 2}, function(err){
+        jsonfile.writeFile('./dev/Statics_units/'+fileName+"/listBounding.json", {collection: []}, {spaces: 2}, function(err){
           if(err) {console.log('err in add new one: write into the bounding list.');reject(err);}
           resolve()
         });
@@ -202,14 +169,14 @@ app.post('/post/user/shared/:purpose', function(req, res){
       //add it into overview list
       console.log('add new one: write into the units "idList".');
       return new Promise((resolve, reject)=>{
-        jsonfile.readFile("./statics_units/idList.json", function(err, lists){
+        jsonfile.readFile("./dev/Statics_units/idList.json", function(err, lists){
           if(err) {console.log('err in add new one into the units "idList".');reject(err);}
           let updatedData = update(lists, {
             ['idArr']: {
               $unshift: [fileName]
             }
           })
-          jsonfile.writeFile("./statics_units/idList.json", updatedData, {spaces: 2}, function(err){
+          jsonfile.writeFile("./dev/Statics_units/idList.json", updatedData, {spaces: 2}, function(err){
             if(err) {console.log('err in add new one into the units "idList".');reject(err);}
           });
           resolve();
@@ -219,14 +186,14 @@ app.post('/post/user/shared/:purpose', function(req, res){
       //add it into overview list
       console.log('add new one: write into the shared list.');
       return new Promise((resolve, reject)=>{
-        jsonfile.readFile("./statics_users/user/listShared.json", function(err, lists){
+        jsonfile.readFile("./dev/Statics_users/user/listShared.json", function(err, lists){
           if(err) {console.log('err in add new one into the shared list.');reject(err);}
           let updatedData = update(lists, {
             ['listArr']: {
               $unshift: [fileName]
             }
           })
-          jsonfile.writeFile("./statics_users/user/listShared.json", updatedData, {spaces: 2}, function(err){
+          jsonfile.writeFile("./dev/Statics_users/user/listShared.json", updatedData, {spaces: 2}, function(err){
             if(err) {console.log('err in add new one into the list.');reject(err);}
           });
           resolve();
@@ -236,15 +203,15 @@ app.post('/post/user/shared/:purpose', function(req, res){
       //add it into time list
       console.log('add new one: write into the time list.');
       return new Promise((resolve, reject)=>{
-        jsonfile.readFile("./statics_users/user/listTime.json", function(err, lists){
-          if(err) {console.log('err in add new one into the time list.');reject(err);}
+        jsonfile.readFile("./dev/Statics_users/user/listTime.json", function(err, lists){
+          if(err) {console.log('err during reading a jsonfile: listTime.');reject(err);}
           let updatedData = update(lists, {
             ['listArr']: {
               $unshift: [fileName]
             }
           })
-          jsonfile.writeFile("./statics_users/user/listTime.json", updatedData, {spaces: 2}, function(err){
-            if(err) {console.log('err in add new one into the time list.');reject(err);}
+          jsonfile.writeFile("./dev/Statics_users/user/listTime.json", updatedData, {spaces: 2}, function(err){
+            if(err) {console.log('err during writing into: listTime.');reject(err);}
           });
           resolve();
         })
