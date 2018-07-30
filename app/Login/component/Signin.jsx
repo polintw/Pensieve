@@ -5,15 +5,26 @@ export default class Signin extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      response: null
     };
-    this._handleClick_Signin = this._handleClick_Signin.bind(this);
+    this._handle_Signin = this._handle_Signin.bind(this);
+    this._render_failedMessage = this._render_failedMessage.bind(this);
     this.style={
       Signin_: {
-
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        top: '0',
+        left: '0',
+        boxSizing: 'border-box'
       },
       Signin_member_: {
-
+        width: '36%',
+        height: '70%',
+        position: 'absolute',
+        top: '30%',
+        left: '20%',
+        boxSizing:'border-box'
       },
       Signin_register_: {
 
@@ -21,26 +32,39 @@ export default class Signin extends React.Component {
     }
   }
 
-  _handleClick_Signin(event){
+  _handle_Signin(event){
     event.preventDefault();
-    event.stopPropagation();
     let reqBody = {};
-    reqBody['account'] = this.accountInput.value;
+    reqBody['email'] = this.emailInput.value;
     reqBody['password'] = this.passwordInput.value;
-    axios.post('/login', reqBody, {
+    axios.post('/router/login', reqBody, {
       headers: {'charset': 'utf-8'}
     }).then(function (res) {
-        if(res.status = 200){
+        if(res.data.error == 0){
           console.log("Log in!");
-          window.location.reload(true);
+          window.localStorage['token'] = res.data.token;
+          window.location.assign('/');
         }else{
           console.log("Failed: "+ res.data.error);
-          alert("Failed, due to:"+res.data.error);
+          this.setState({response: res.data.error});
         }
     }).catch(function (error) {
       console.log(error);
       alert("Failed, please try again later");
     });
+  }
+
+  _render_failedMessage(){
+    if(this.state.response==1){
+      return(
+        <span>{'密碼或帳號輸入錯誤'}</span>
+      )
+    }else if(this.state.response==2){
+      return(
+        <span>{'此帳號不存在'}</span>
+      )
+    }
+    return null
   }
 
   componentDidMount() {
@@ -58,15 +82,16 @@ export default class Signin extends React.Component {
         style={this.style.Signin_}>
         <div
           style={this.style.Signin_member_}>
-          <form>
-            {'帳 號:'}<br/>
+          <form onSubmit={this._handle_Signin}>
+            {'電子郵件:'}<br/>
             <input
               type="text"
-              ref={(element)=>{this.accountInput = element}}/><br/>
+              ref={(element)=>{this.emailInput = element}}/><br/>
             {'密 碼:'}<br/>
             <input
               type="password"
               ref={(element)=>{this.passwordInput = element}}/><br/><br/>
+            {this._render_failedMessage()}
             <input
               type='submit'
               value='登 入'/>

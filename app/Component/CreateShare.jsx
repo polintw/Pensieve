@@ -78,8 +78,12 @@ export default class CreateShare extends React.Component {
 
   _axios_post_Share_new(newObj){
     const self = this;
-    axios.post('/post/user/shared/new?id=user', newObj, {
-      headers: {'Content-Type': 'application/json', 'charset': 'utf-8'}
+    axios.post('/router/user/share/new', newObj, {
+      headers: {
+        'Content-Type': 'application/json',
+        'charset': 'utf-8',
+        'token': window.localStorage['token']
+      }
     }).then(function (res) {
         if(res.status = 201){
           console.log("success");

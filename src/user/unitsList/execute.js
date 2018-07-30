@@ -5,10 +5,8 @@ const path = require("path");
 const jsonfile = require('jsonfile');
 const update = require('immutability-helper');
 
-const {
-  _promise_unitLtd,
-  _promise_readCabinet
-} = require('./getManage.js');
+const _promise_unitLtd = require('./ltd.js');
+const _promise_readCabinet = require('./cabinet.js');
 
 execute.get('/ltd', function(req, res){
   console.log('get units list request for ltd');

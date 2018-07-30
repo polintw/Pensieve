@@ -37,6 +37,10 @@ export default class RefEditing extends React.Component {
     axios.get("/get/transfer/web",{
       params: {
         transferUrl: link
+      },
+      headers: {
+        'charset': 'utf-8',
+        'token': window.localStorage['token']
       }
     }).then(function(res){
       if(res.status == 200){

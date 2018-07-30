@@ -73,7 +73,10 @@ export default class LtdUnits extends React.Component {
   componentDidMount(){
     const self = this;
     axios.get('/router/user/unitsList/ltd', {
-      headers: {'charset': 'utf-8'}
+      headers: {
+        'charset': 'utf-8',
+        'token': window.localStorage['token']
+      }
     }).then(function(res){
       self.setState((prevState, props) => {
         return({unitsList: res.data.unitsList, unitsBasicSet: res.data.unitsBasicSet});

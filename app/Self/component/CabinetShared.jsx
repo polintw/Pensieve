@@ -116,7 +116,10 @@ export default class CabinetShared extends React.Component {
   _submit_Share_New(dataObj){
     const self = this;
     axios.get('/router/user/unitsList/cabinet?focus=shared', {
-      headers: {'charset': 'utf-8'}
+      headers: {
+        'charset': 'utf-8',
+        'token': window.localStorage['token']
+      }
     }).then(function(res){
       self.setState({
         unitsList: res.data.unitsList,
@@ -135,7 +138,10 @@ export default class CabinetShared extends React.Component {
   componentDidMount(){
     const self = this;
     axios.get('/router/user/unitsList/cabinet?focus=shared', {
-      headers: {'charset': 'utf-8'}
+      headers: {
+        'charset': 'utf-8',
+        'token': window.localStorage['token']
+      }
     }).then(function(res){
       self.setState({
         unitsList: res.data.unitsList,
@@ -175,7 +181,7 @@ export default class CabinetShared extends React.Component {
               style={self.style.selfCom_CabinetShared_first_div}
               onClick={self._handleClick_Share}>
               <img
-                src={this.state.unitsBasicSet[this.state.unitsList[0]].img_cover}
+                src={"/router/img/thumb?name="+this.state.unitsBasicSet[this.state.unitsList[0]].img_cover}
                 style={self.style.selfCom_CabinetShared_first_div_img}/>
             </div>
           }

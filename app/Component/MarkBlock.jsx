@@ -101,14 +101,8 @@ export default class MarkBlock extends React.Component {
     )
   }
 
-  componentDidMount(){/*
-    axios.get('/unit/single/dialogue?unitName='+self.state.unitName+'&id=Berlin&markId='+, {
-      headers: {'charset': 'utf-8'}
-    }).then(function(res){
-      self.props.setState({
-        dialogueArr:
-      })
-    })*/
+  componentDidMount(){
+
   }
 
   render(){

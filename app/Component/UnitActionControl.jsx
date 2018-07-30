@@ -41,8 +41,11 @@ export default class UnitActionControl extends React.Component {
     const self = this;
     self.props._set_axios(true);
 
-    axios.patch('/patch/user/collection', {"unitName": this.props.unitName}, {
-      headers: {'charset': 'utf-8'}
+    axios.patch('/router/user/newCollect', {"unitName": this.props.unitName}, {
+      headers: {
+        'charset': 'utf-8',
+        'token': window.localStorage['token']
+      }
     }).then(function (res) {
         if(res.status = 200){
           console.log("success");
@@ -78,7 +81,7 @@ export default class UnitActionControl extends React.Component {
                 style={this.style.Com_UnitActionControl_span}
                 onClick={this._handleClick_unit_collect}>
                 {'收藏'}
-              </span>   
+              </span>
             </div>
             )
         }

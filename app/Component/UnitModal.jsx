@@ -24,10 +24,17 @@ export default class UnitModal extends React.Component {
     this._set_axios = (bool) => {this.setState({axios: bool})};
     this._set_makrsVisible = (bool) => {this.setState({marks: bool});};
     this._set_layer = (index) => {this.setState({layer: index});};
-    this._axios_getUnitData = () => {return axios.get('/router/unit/single/mount?unitName='+this.state.unitName, {
-      headers: {'charset': 'utf-8'}
+    this._axios_getUnitData = () => {return axios.get('/router/unit/general/mount?unitName='+this.state.unitName, {
+      headers: {
+        'charset': 'utf-8',
+        'token': window.localStorage['token']
+      }
     });};
-    this._axios_getUnitImg = (layer)=>{return axios.get('/router/img/unitSingle?name='+this.state.unitOverview[layer])};
+    this._axios_getUnitImg = (layer)=>{return axios.get('/router/img/unitSingle?name='+this.state.unitOverview[layer], {
+      headers: {
+        'token': window.localStorage['token']
+      }
+    })};
     this._handleClick_unitBack = this._handleClick_unitBack.bind(this);
     this.style={
       Com_Modal_UnitModal: {

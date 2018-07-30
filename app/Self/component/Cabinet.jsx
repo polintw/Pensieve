@@ -125,7 +125,7 @@ export default class Cabinet extends React.Component {
   }
 
   _submit_Share_New(dataObj){
-    self.props._set_cabinet('shared')
+    this.props._set_cabinet('shared')
   }
 
   _close_modal_Unit(){
@@ -138,7 +138,10 @@ export default class Cabinet extends React.Component {
   componentDidMount(){
     const self = this;
     axios.get('/router/user/unitsList/cabinet?focus=all', {
-      headers: {'charset': 'utf-8'}
+      headers: {
+        'charset': 'utf-8',
+        'token': window.localStorage['token']
+      }
     }).then(function(res){
       self.setState({
         unitsList: res.data.unitsList,

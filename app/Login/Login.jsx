@@ -20,7 +20,12 @@ export default class Login extends React.Component {
         left: '0'
       },
       Login_pages_Signin: {
-
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        top: '0',
+        left: '0',
+        boxSizing: 'border-box'
       },
       Login_pages_Signup: {
 
