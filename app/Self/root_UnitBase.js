@@ -11,7 +11,7 @@ if(loggedin){
   }).then(function(res){
     let resStatus = res.status;
     if(resStatus == 200 && !res.data.error){
-      ReactDOM.hydrate(<UnitBase/>, document.getElementById("root"));
+      ReactDOM.hydrate(<UnitBase userBasic={res.data.userBasic}/>, document.getElementById("root"));
     }else{
         window.location.assign('/login')
     }

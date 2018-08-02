@@ -142,7 +142,7 @@ export default class SelfComposition extends React.Component {
         </div>
         <div
           style={this.style.UnitBase_Composition_lid_}>
-          <span style={this.style.UnitBase_Composition_lid_span_User}>{"Berlin Chou"}</span>
+          <span style={this.style.UnitBase_Composition_lid_span_User}>{this.props.userBasic.account}</span>
         </div>
       </div>
     )

@@ -5,7 +5,7 @@ export default class SelfCover extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      userBasic: this.props.userBasic
     };
     this._handleClick_entry_UnitBase = this._handleClick_entry_UnitBase.bind(this);
     this._handleClick_selfClose = this._handleClick_selfClose.bind(this);
@@ -101,7 +101,7 @@ export default class SelfCover extends React.Component {
         style={this.style.Self_pages_SelfCover_}>
         <div
           style={this.style.Self_pages_SelfCover_side_}>
-          <div style={this.style.Self_pages_SelfCover_side_userName}>{"周 柏 霖"}</div>
+          <div style={this.style.Self_pages_SelfCover_side_userName}>{this.state.userBasic.account}</div>
           <div
             style={this.style.Self_pages_SelfCover_side_entry_UnitBase}
             onClick={this._handleClick_entry_UnitBase}>{'Expand'}</div>

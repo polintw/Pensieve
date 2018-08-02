@@ -35,7 +35,8 @@ export default class UnitBase extends React.Component {
         style={this.style.Self_pages_UnitBase_}>
         <div
           style={this.style.Self_pages_UnitBase_Composition}>
-          <UnitBaseComposition/>
+          <UnitBaseComposition
+            userBasic={this.props.userBasic}/>
         </div>
       </div>
     )

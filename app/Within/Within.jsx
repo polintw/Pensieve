@@ -6,7 +6,7 @@ export default class Within extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      userBasic: this.props.userBasic
     };
     this.style={
       div_Base: {
@@ -24,7 +24,7 @@ export default class Within extends React.Component {
         top: '0',
         left: '0'
       }
-    }
+    };
   }
 
   render(){
@@ -34,7 +34,8 @@ export default class Within extends React.Component {
         style={this.style.div_Base}>
         <div
           style={this.style.Within_pages_WithinLtd}>
-          <WithinLtd/>
+          <WithinLtd
+            userBasic={this.state.userBasic}/>
         </div>
       </div>
     )

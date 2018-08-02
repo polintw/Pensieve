@@ -18,7 +18,6 @@ export default class LtdUnitsRaws extends React.Component {
         display: 'inline-block',
         width: '100%',
         height: 'auto',
-        position: 'relative',
         boxSizing: 'border-box',
         margin: '0 1% 2vh 0',
         overflow: 'hidden',
@@ -45,12 +44,8 @@ export default class LtdUnitsRaws extends React.Component {
         cursor: 'pointer'
       },
       withinCom_LtdUnitsRawsRaws_unit_div_img: {
-        width: '150%',
-        height: 'auto',
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%,-50%)'
+        width: '120%',
+        height: 'auto'
       }
     }
   }

@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import SelfCover from './SelfCover.jsx'
 
-ReactDOM.hydrate(<SelfCover/>, document.getElementById("root"));
 let loggedin = !!window.localStorage['token'];
 if(loggedin){
   axios.get('/router/status', {
@@ -12,7 +11,7 @@ if(loggedin){
   }).then(function(res){
     let resStatus = res.status;
     if(resStatus == 200 && !res.data.error){
-      ReactDOM.hydrate(<SelfCover/>, document.getElementById("root"));
+      ReactDOM.hydrate(<SelfCover userBasic={res.data.userBasic}/>, document.getElementById("root"));
     }else{
         window.location.assign('/login')
     }

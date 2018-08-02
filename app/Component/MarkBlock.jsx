@@ -1,5 +1,6 @@
 import React from 'react';
 import MarkDialogue from './MarkDialogue.jsx';
+import SvgBulb from './SvgBulb.jsx';
 import {Editor, EditorState,convertToRaw, convertFromRaw} from 'draft-js';
 
 export default class MarkBlock extends React.Component {
@@ -13,38 +14,32 @@ export default class MarkBlock extends React.Component {
     this._css_calculate_MarkBlockPosition = this._css_calculate_MarkBlockPosition.bind(this);
     this._handleClick_openDialogue = this._handleClick_openDialogue.bind(this),
     this.style = {
-      Com_MarkBlock_content_editor_: {
+      Com_MarkBlock_content_: {
         display: 'inline-block',
+        width: '21vw',
         height: '100%',
         position: 'absolute',
         top: '0',
         left: '0',
         boxSizing: 'border-box',
+        margin: '0'
+      },
+      Com_MarkBlock_content_editor_: {
+        width: '100%',
+        height: '90%',
+        position: 'absolute',
+        top: '0',
+        left: '0',
+        boxSizing: 'border-box',
         margin: '0',
-        padding: '2% 3%',
+        padding: '2% 2% 2% 3%',
+        fontSize: '1.2rem',
+        letterSpacing: '0.15rem',
+        fontWeight: '400',
         color: '#FAFAFA',
         overflow: 'auto'
       },
-      Com_MarkBlock_dialogue_: {
-        display: 'inline-block',
-        width: '26.5%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '47%',
-        boxSizing: 'border-box',
-        padding: '2% 3%',
-        color: '#FAFAFA',
-      },
-      Com_MarkBlock_side_: {
-        display: 'inline-block',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        right: '0',
-        boxSizing: 'border-box'
-      },
-      Com_MarkBlock_side_panel_: {
+      Com_MarkBlock_content_panel_: {
         width: '100%',
         height: '10%',
         position: 'absolute',
@@ -53,24 +48,48 @@ export default class MarkBlock extends React.Component {
         boxSizing: 'border-box',
         color: '#FAFAFA'
       },
-      Com_MarkBlock_side_panel_span_dialogue:{
+      Com_MarkBlock_content_panel_raise:{
+        width: '35%',
+        height: '100%',
+        float: 'right',
         cursor: 'pointer'
+      },
+      Com_MarkBlock_dialogue_: {
+        display: 'inline-block',
+        width: '13vw',
+        height: '100%',
+        position: 'absolute',
+        top: '0',
+        left: '21vw',
+        boxSizing: 'border-box',
+        padding: '2% 3%',
+        borderLeft: 'solid 1px white',
+        color: '#FAFAFA',
+      },
+      Com_MarkBlock_side_: {
+        display: 'inline-block',
+        height: '100%',
+        position: 'absolute',
+        top: '0',
+        right: '0',
+        boxSizing: 'border-box',
+        backgroundColor: 'white'
       },
       Com_MarkBlock_side_thanks_: {
         display: 'inline-block',
-        width: '94%',
-        height: '86%',
+        width: '100%',
+        height: '90%',
         position: 'absolute',
-        top: '2%',
-        left: '3%',
+        top: '0%',
+        left: '0%',
         boxSizing: 'border-box'
       },
-      Com_MarkBlock_side_thanks_helper_: {
-        width: '100%',
-        height: '20%',
-        position: 'relative',
-        boxSizing: 'border-box',
-        padding: '5% 1%'
+      Com_MarkBlock_side_bottom_bulb: {
+        width: '30%',
+        height: '10%',
+        position: 'absolute',
+        bottom: '0',
+        right: '2%'
       }
     };
   }
@@ -88,8 +107,8 @@ export default class MarkBlock extends React.Component {
 
     return(
       {
-        width: this.state.dialogue?'36vw':'27vw',
-        height: '50vh',
+        width: this.state.dialogue?'36vw':'34vw',
+        height: '52vh',
         position: 'absolute',
         top: top,
         left: left,
@@ -110,14 +129,22 @@ export default class MarkBlock extends React.Component {
       <div
         style={this._css_calculate_MarkBlockPosition()}>
         <div
-          style={
-            this.state.dialogue?Object.assign({width: '47%'}, this.style.Com_MarkBlock_content_editor_):
-            Object.assign({width: '63%'}, this.style.Com_MarkBlock_content_editor_)}>
-          <Editor
-            ref={(element)=>{this.contentEditor = element;}}
-            editorState={this.state.editorState}
-            onChange={this.changeEditorState}
+          style={this.style.Com_MarkBlock_content_}>
+          <div
+            style={this.style.Com_MarkBlock_content_editor_}>
+            <Editor
+              ref={(element)=>{this.contentEditor = element;}}
+              editorState={this.state.editorState}
+              onChange={this.changeEditorState}
             readOnly/>
+          </div>
+          <div
+            style={this.style.Com_MarkBlock_content_panel_}>
+            <span>{'編輯紀錄'}</span>
+            <span
+              style={this.style.Com_MarkBlock_content_panel_raise}
+              onClick={this._handleClick_openDialogue}>{'舉手'}</span>
+          </div>
         </div>
         {
           this.state.dialogue &&
@@ -129,26 +156,15 @@ export default class MarkBlock extends React.Component {
         }
         <div
           style={
-            this.state.dialogue?Object.assign({width: '26.5%'}, this.style.Com_MarkBlock_side_):
-            Object.assign({width: '37%'}, this.style.Com_MarkBlock_side_)}>
-          <div
-            style={this.style.Com_MarkBlock_side_panel_}>
-            <span>{'編輯紀錄'}</span>
-            <span
-              style={this.style.Com_MarkBlock_side_panel_span_dialogue}
-              onClick={this._handleClick_openDialogue}>{'提問'}</span>
-            <span>{'啟發'}</span>
-          </div>
+            this.state.dialogue?Object.assign({width: '2vw'}, this.style.Com_MarkBlock_side_):
+            Object.assign({width: '12vw'}, this.style.Com_MarkBlock_side_)}>
           <div
             style={this.style.Com_MarkBlock_side_thanks_}>
-            <div
-              style={this.style.Com_MarkBlock_side_thanks_helper_}>
 
-            </div>
-            <div
-              style={this.style.Com_MarkBlock_side_thanks_helper_}>
-
-            </div>
+          </div>
+          <div
+            style={this.style.Com_MarkBlock_side_bottom_bulb}>
+            <SvgBulb/>
           </div>
         </div>
       </div>

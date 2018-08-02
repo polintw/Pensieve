@@ -148,7 +148,8 @@ export default class WithinLtd extends React.Component {
             <div
               ref={(element)=>{this.Within_Ltd_LtdNav = element}}
               style={Object.assign({backgroundColor: 'transparent',width: this.state.fixedEleWidth}, this.style.Within_Ltd_LtdNav_)}>
-              <LtdNav/>
+              <LtdNav
+                userBasic={this.props.userBasic}/>
             </div>
           </div>
         </div>

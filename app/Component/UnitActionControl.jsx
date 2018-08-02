@@ -75,7 +75,6 @@ export default class UnitActionControl extends React.Component {
             </span>
           ) : (
             <div>
-              <span style={this.style.Com_UnitActionControl_span}>{'推廣'}</span>
               <span style={{display: 'inline-block', width: '2%', height: '85%', position: 'relative', boxSizing: 'border-box', verticalAlign: 'middle', borderRight: 'solid 2px #FAFAFA'}}></span>
               <span
                 style={this.style.Com_UnitActionControl_span}
