@@ -140,7 +140,7 @@ export default class CabinetCollection extends React.Component {
           style={self.style.selfCom_CabinetCollection_second_div_}
           onClick={self._handleClick_Share}>
           <img
-            src={"/router/img/thumb?name="+dataValue.img_cover}
+            src={"/router/img/"+dataValue.img_cover+"?type=thumb"}
             style={self.style.selfCom_CabinetCollection_second_div_img}/>
         </div>
       )

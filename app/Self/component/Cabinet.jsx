@@ -162,7 +162,7 @@ export default class Cabinet extends React.Component {
           style={self.style.selfCom_Cabinet_second_div_}
           onClick={self._handleClick_Share}>
           <img
-            src={"/router/img/thumb?name="+imgName}
+            src={"/router/img/"+imgName+"?type=thumb"}
             style={self.style.selfCom_Cabinet_second_div_img}/>
         </div>
       )

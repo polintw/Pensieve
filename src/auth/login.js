@@ -26,10 +26,10 @@ login.use(function(req, res) {
             res.status(400).json(resData);
           } else {
             if (rows.length > 0) {
-              console.log(rows[0])
               let userInfo = rows[0];
               if (userInfo.password == password) {
-                token = jwt.sign(JSON.parse(JSON.stringify(userInfo)), verify_key, {
+                let tokenInfo = {user_Id: userInfo['id'], user_Role: 'public'};
+                token = jwt.sign(JSON.parse(JSON.stringify(tokenInfo)), verify_key, {
                   expiresIn: '1d'
                 });
                 resData.error = 0;

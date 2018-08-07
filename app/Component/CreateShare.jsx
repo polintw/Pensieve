@@ -59,14 +59,13 @@ export default class CreateShare extends React.Component {
     //prevent data lost during unmount.
     let newObj = {};
     Object.assign(newObj, stateObj);
+    let joinedMarks = newObj.coverMarks.concat(newObj.beneathMarks);
     const newShareObj = {
       coverBase64: newObj.coverSrc,
       beneathBase64: newObj.beneathSrc,
-      coverMarksObj: newObj.coverMarks,
-      beneathMarksObj: newObj.beneathMarks,
+      joinedMarks: joinedMarks,
       refsArr: newObj.refsArr,
       nounsArr: newObj.nounsArr,
-      arthur: 'Berlin',
       submitTime: submitTime
     };
     //don't set any parameter in the callback,
@@ -86,9 +85,9 @@ export default class CreateShare extends React.Component {
       }
     }).then(function (res) {
         if(res.status = 201){
-          console.log("success");
+          console.log("share created successfully!");
           self.setState({editingModal: false, axios: false});
-          self.props._submit_Share_New(newObj);
+          self.props._submit_Share_New();
         }else{
           console.log("Failed: "+ res.data.err);
           self.setState({axios: false});

@@ -82,7 +82,7 @@ export default class LtdUnitsRaws extends React.Component {
           style={divStyle}
           onClick={self.props._handleClick_Share}>
           <img
-            src={'/router/img/thumb?name='+dataValue.img_cover}
+            src={'/router/img/'+dataValue.img_cover+'?type=thumb'}
             style={self.style.withinCom_LtdUnitsRawsRaws_unit_div_img}/>
         </div>
       );

@@ -13,7 +13,7 @@ verify.use(function(req, res, next) {
       if (err) {
         resData['error'] = 1;
         resData['data'] = "Token is invalid";
-        res.status(500).json(resData);
+        res.status(401).json(resData);
       } else {
         next();
       }

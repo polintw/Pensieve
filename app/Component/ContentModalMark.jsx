@@ -8,7 +8,6 @@ export default class ContentModalMark extends React.Component {
     this.state = {
       markCircles: [],
       markEditorContent: [],
-      markId: [],
       markExpand: null,
       markExpandify: false
     };
@@ -102,15 +101,13 @@ export default class ContentModalMark extends React.Component {
     this.setState((prevState, props)=>{
       prevState.markCircles.push(portionCoordinate);
       prevState.markEditorContent.push(null);
-      prevState.markId.push('mark_'+this.props.focusBlock+'_'+this.state.markId.length);
-      return {markCircles: prevState.markCircles, markEditorContent: prevState.markEditorContent, markId: prevState.markId, markExpand: (prevState.markCircles.length-1), markExpandify: true}
+      return {markCircles: prevState.markCircles, markEditorContent: prevState.markEditorContent, markExpand: (prevState.markCircles.length-1), markExpandify: true}
     });
   }
 
   _set_markDelete(){
     this.state.markCircles.splice(this.state.markExpand, 1);
     this.state.markEditorContent.splice(this.state.markExpand, 1);
-    this.state.markId.splice(this.state.markExpand, 1);
     this._reset_expandState();
   }
 
@@ -148,11 +145,16 @@ export default class ContentModalMark extends React.Component {
   _handleClick_editingComplete(event){
     event.stopPropagation();
     event.preventDefault();
-    let marksData = new Object();
-    this.state.markId.forEach((id, index)=>{
-      marksData[id] = {markCoordinate: this.state.markCircles[index], markEditorContent: this.state.markEditorContent[index], markId: id};
+    let marksData = this.state.markCircles.map((portionCoordinate, index)=>{
+      return {
+        top: portionCoordinate.top,
+        left: portionCoordinate.left,
+        editorContent: this.state.markEditorContent[index],
+        layer: this.props.layer,
+        serial: index
+      };
     })
-    this.props._close_Mark_Complete(marksData, this.props.blockName);
+    this.props._close_Mark_Complete(marksData, this.props.layer);
   }
 
   _handleClick_editingCancell(event){
@@ -162,18 +164,14 @@ export default class ContentModalMark extends React.Component {
   }
 
   componentDidMount(){
-    let keys = Object.keys(this.props.marksObj);
-    if(keys.length>0){
-      let circles = keys.map(function(key, index){
-        return this.props.marksObj[key].markCoordinate
+    if(this.props.marksArr.length>0){
+      let circles = this.props.marksArr.map(function(obj, index){
+        return {top: obj.top, left: obj.left}
       });
-      let editorContent = keys.map((key, index)=>{
-        return this.props.marksObj[key].markEditorContent
+      let editorContent = this.props.marksArr.map(function(obj, index){
+        return obj.editorContent
       })
-      let ids = keys.map((key, index)=>{
-        return this.props.marksObj[key].markId
-      });
-      this.setState((prevState, props)=>{return {markCircles: circles, markEditorContent: editorContent, markId: ids};})
+      this.setState((prevState, props)=>{return {markCircles: circles, markEditorContent: editorContent};})
     }
   }
 

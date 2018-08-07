@@ -162,7 +162,7 @@ export default class CabinetShared extends React.Component {
           style={self.style.selfCom_CabinetShared_second_div_}
           onClick={self._handleClick_Share}>
           <img
-            src={"/router/img/thumb?name="+dataValue.img_cover}
+            src={"/router/img/"+dataValue.img_cover+"?type=thumb"}
             style={self.style.selfCom_CabinetShared_second_div_img}/>
         </div>
       )
@@ -181,7 +181,7 @@ export default class CabinetShared extends React.Component {
               style={self.style.selfCom_CabinetShared_first_div}
               onClick={self._handleClick_Share}>
               <img
-                src={"/router/img/thumb?name="+this.state.unitsBasicSet[this.state.unitsList[0]].img_cover}
+                src={"/router/img/"+this.state.unitsBasicSet[this.state.unitsList[0]].img_cover+"?type=thumb"}
                 style={self.style.selfCom_CabinetShared_first_div_img}/>
             </div>
           }

@@ -30,6 +30,7 @@ register.use(function(req, res) {
           resData['data'] = 'User registered successfully!';
           res.status(201).json(resData);
         } else {
+          resData['error'] = 1;
           resData['data'] = "Error Occured";
           res.status(400).json(resData);
         }

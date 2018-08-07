@@ -30,7 +30,7 @@ export default class UnitModal extends React.Component {
       })
     };
     this._axios_getUnitImg = (layer)=>{
-      return axios.get('/router/img/unitSingle?name='+this.state.unitOverview[layer], {
+      return axios.get('/router/img/'+this.state.unitOverview[layer]+'?type=unitSingle', {
         headers: {
           'token': window.localStorage['token']
         }
