@@ -76,7 +76,7 @@ export default class LtdNav extends React.Component {
   _handleClick_selfEntrance(event){
     event.stopPropagation();
     event.preventDefault();
-    window.location.assign('/self?id=userid');
+    window.location.assign('/self');
   }
 
   _handleClick_navToolBox(event){

@@ -85,7 +85,7 @@ export default class SelfCover extends React.Component {
   _handleClick_entry_UnitBase(event){
     event.stopPropagation();
     event.preventDefault();
-    window.location.assign('/self/units?id=userid');
+    window.location.assign('/self/front');
   }
 
   _handleClick_selfClose(event){

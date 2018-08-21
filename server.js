@@ -29,13 +29,13 @@ app.get('/favicon.ico', function(req, res){
 
 app.use('/router', router)
 
-app.use('/self/units', function(req, res){
+app.use('/self/front', function(req, res){
   console.log("requesting for page: "+req.url);
   //fail to use serverrender aafter update to react v16.2.0 due to: "<>" not support in nodejs
   //const element = React.createElement(require('./initHTML.jsx'));
   //ReactDOMServer.renderToNodeStream(element).pipe(res);
 
-  res.sendFile(path.join(__dirname+'/public/html/html_SelfUnitBase.html'), {headers: {'Content-Type': 'text/html'}}, function (err) {
+  res.sendFile(path.join(__dirname+'/public/html/html_SelfFront.html'), {headers: {'Content-Type': 'text/html'}}, function (err) {
     if (err) {
       throw err
     }

@@ -16,13 +16,14 @@ login.use(function(req, res) {
     database.getConnection(function(err, connection){
       if (err) {
         resData['error'] = 1;
-        resData['data'] = 'Internal Server Error';
+        resData['message'] = 'Internal Server Error';
         res.status(500).json(resData);
+        console.log("error occured during login process: step getConnection"+err)
       } else {
         connection.query('SELECT * FROM users WHERE email = ?', [email], function(err, rows, fields) {
           if (err) {
             resData['error'] = 1;
-            resData['data'] = 'Error Occured!';
+            resData['message'] = 'Error Occured!';
             res.status(400).json(resData);
           } else {
             if (rows.length > 0) {
@@ -38,13 +39,13 @@ login.use(function(req, res) {
                 res.status(200).json(resData);
               } else {
                 resData['error'] = 1;
-                resData['data'] = 'account and Password does not match';
-                res.status(204).json(resData);
+                resData['message'] = 'account and Password does not match';
+                res.status(401).json(resData);
               }
             } else {
               resData.error = 2;
-              resData['data'] = 'account does not exist!';
-              res.status(204).json(resData);
+              resData['message'] = 'account does not exist!';
+              res.status(401).json(resData);
             }
           }
         });

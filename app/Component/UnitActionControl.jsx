@@ -69,7 +69,7 @@ export default class UnitActionControl extends React.Component {
       <div
         style={this.style.Com_UnitActionControl_}>
         {
-          this.props.action == 'edit' ?　(
+          this.props.identity == 'author' ?　(
             <span style={this.style.Com_UnitActionControl_span}>
               {'編輯'}
             </span>

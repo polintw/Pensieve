@@ -9,6 +9,7 @@ export default class LtdUnits extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      axios: false,
       unitModalify: false,
       focusUnitName: null,
       unitsList: [],
@@ -72,16 +73,19 @@ export default class LtdUnits extends React.Component {
 
   componentDidMount(){
     const self = this;
-    axios.get('/router/user/unitsList/ltd', {
+    axios.get('/router/user/cognition/lookout', {
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']
       }
     }).then(function(res){
       self.setState((prevState, props) => {
-        return({unitsList: res.data.unitsList, unitsBasicSet: res.data.unitsBasicSet});
+        return({unitsList: res.data.main.unitsList, unitsBasicSet: res.data.main.unitsBasicSet});
       }, self._render_LtdUnitsRaws);
-    })
+    }).catch(function (error) {
+      console.log(error);
+      alert("Failed, please try again later");
+    });
   }
 
   render(){

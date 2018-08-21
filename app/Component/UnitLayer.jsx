@@ -6,7 +6,7 @@ export default class UnitLayer extends React.Component {
     super(props);
     this.state = {
       circleNr: 'all',
-      marksId: [],
+      marksKey: [],
       marksDOM: []
     };
     this._set_makrsDOM = this._set_makrsDOM.bind(this);
@@ -48,7 +48,7 @@ export default class UnitLayer extends React.Component {
   _handleLoaded_Img(){
     this.setState((prevState, props)=>{
       let marksKey = Object.keys(this.props.marksData);
-      return {marksId: marksKey};
+      return {marksKey: marksKey};
     }, this._set_makrsDOM)
   }
 
@@ -56,7 +56,7 @@ export default class UnitLayer extends React.Component {
     const self = this;
     let marksArr = [];
     if(this.state.circleNr == 'all'){
-      marksArr = self.state.marksId.map(function(id, index){
+      marksArr = self.state.marksKey.map(function(id, index){
         const coordinate = self.props.marksData[id].markCoordinate;
         return(
           <svg
@@ -79,21 +79,23 @@ export default class UnitLayer extends React.Component {
         )
       });
     }else{
-      const coordinate = this.props.marksData[this.state.circleNr].markCoordinate;
+      let markId = self.state.circleNr;
+      const coordinate = this.props.marksData[markId].markCoordinate;
       marksArr.push(
         <div
-          key={'key_UnitLayer_div_circle_svg_markBlock_'+self.state.circleNr}
+          key={'key_UnitLayer_div_circle_svg_markBlock_'+markId}
           style={Object.assign(
             {width: self.Com_UnitLayer_img.clientWidth, height: self.Com_UnitLayer_img.clientHeight}, self.style.Com_UnitLayer_div)}>
           <svg
-            id={self.state.circleNr}
+            id={markId}
             style={Object.assign({top: coordinate.top+"%", left: coordinate.left+'%'}, self.style.Com_UnitLayer_div_circle_svg)}
             onClick={self._handleClick_UnitLayer_circle}>
             <circle r="20" cx="50%" cy="50%" stroke='white' fill="none"/>
           </svg>
           <MarkBlock
-            coordinate={coordinate}
-            editorState={self.props.marksData[self.state.circleNr].markEditorContent}/>
+            markKey={markId}
+            identity={self.props.identity}
+            markData={self.props.marksData[markId]}/>
         </div>
       )
       this.setState({marksDOM: marksArr});

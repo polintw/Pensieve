@@ -12,7 +12,7 @@ verify.use(function(req, res, next) {
     jwt.verify(token, verify_key, function(err) {
       if (err) {
         resData['error'] = 1;
-        resData['data'] = "Token is invalid";
+        resData['message'] = "Token is invalid";
         res.status(401).json(resData);
       } else {
         next();
@@ -20,7 +20,7 @@ verify.use(function(req, res, next) {
     });
   } else {
     resData['error'] = 1;
-    resData['data'] = 'Please send a token';
+    resData['message'] = 'Please send a token';
     res.status(403).json(resData);
   }
 });

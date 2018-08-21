@@ -146,10 +146,11 @@ export default class ContentModalMark extends React.Component {
     event.stopPropagation();
     event.preventDefault();
     let marksData = this.state.markCircles.map((portionCoordinate, index)=>{
+      let jsonContentState = JSON.stringify(this.state.markEditorContent[index]);
       return {
         top: portionCoordinate.top,
         left: portionCoordinate.left,
-        editorContent: this.state.markEditorContent[index],
+        editorContent: jsonContentState,
         layer: this.props.layer,
         serial: index
       };
