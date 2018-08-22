@@ -26,9 +26,9 @@ export default class ContentModal extends React.Component {
       case 'cover':
         return(
           <ContentModalMark
-            blockName={'cover'}
+            layer={0}
             imgSrc={this.props.coverSrc}
-            marksObj={this.props.marksObj}
+            marksArr={this.props.marksArr}
             _set_refsArr={this.props._set_refsArr}
             _close_Mark_Complete={this.props._close_Mark_Complete}
             _close_img_Cancell={this.props._close_img_Cancell}/>
@@ -37,9 +37,9 @@ export default class ContentModal extends React.Component {
       case 'beneath':
         return(
           <ContentModalMark
-            blockName={'beneath'}
+            layer={1}
             imgSrc={this.props.beneathSrc}
-            marksObj={this.props.marksObj}
+            marksArr={this.props.marksArr}
             _set_refsArr={this.props._set_refsArr}
             _close_Mark_Complete={this.props._close_Mark_Complete}
             _close_img_Cancell={this.props._close_img_Cancell}/>
@@ -48,7 +48,7 @@ export default class ContentModal extends React.Component {
       case 'ref':
         return(
           <ContentModalRef
-            blockName={'ref'}
+            layer={2}
             refsArr = {this.props.refsArr}
             _set_refsArr={this.props._set_refsArr}/>
         )

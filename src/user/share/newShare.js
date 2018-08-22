@@ -1,155 +1,152 @@
 const fs = require('fs');
 const path = require("path");
-const jsonfile = require('jsonfile');
-const mkdirp = require('mkdirp');
-const update = require('immutability-helper');
+const mysql = require('mysql');
+const jwt = require('jsonwebtoken');
+const {verify_key} = require('../../../config/jwt.js');
+const {connection_key} = require('../../../config/database.js');
+
+const database = mysql.createPool(connection_key);
+
+
+function _handler_err_BadReq(err, res){
+  let resData = {};
+  resData['error'] = 1;
+  resData['message'] = 'Error Occured: bad database query';
+  res.status(400).json(resData);
+ }
+
+function _handler_err_Unauthorized(err, res){
+  let resData = {};
+  resData['error'] = 1;
+  resData['message'] = "Token is invalid";
+  res.status(401).json(resData);
+}
+
+function _handler_err_Internal(err, res){
+  let resData = {};
+  resData['error'] = 1;
+  resData['message'] = 'Error Occured: Internal Server Error';
+  res.status(500).json(resData);
+}
 
 function _handle_NewShare(req, res){
-  let fileName = req.body.submitTime;
-  new Promise((resolve, reject)=>{
-    //add it into shares as a obj value
-    console.log('add new one: deal img.');
-    let modifiedBody = new Object();
-    //deal with cover img first.
-    let coverBase64Splice = req.body.coverBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
-    let coverBase64Buffer = new Buffer(coverBase64Splice[2], 'base64');
-    fs.writeFile(path.join(__dirname, '/../../..', '/dev/Statics_units/images/'+fileName+"_cover.jpg"), coverBase64Buffer, function(err){
-      if(err) {console.log('err in adding new img from new share');reject(err);}
-    });
-    modifiedBody['img_cover'] = fileName+'_cover.jpg';
-    //then deal with beneath img if any.
-    if(req.body.beneathBase64){
-      let beneathBase64Splice = req.body.beneathBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
-      let beneathBase64Buffer = new Buffer(beneathBase64Splice[2], 'base64');
-      modifiedBody['img_beneath'] = fileName+'_beneath.jpg';
-      fs.writeFile(path.join(__dirname, '/../../..', '/dev/Statics_units/images/'+fileName+"_beneath.jpg"), beneathBase64Buffer, function(err){
-        if(err) {console.log('err in adding new img from new share');reject(err);}
-      });
+  jwt.verify(req.headers['token'], verify_key, function(err, payload) {
+    if (err) {
+      _handler_err_Unauthorized(err, res)
+    } else {
+      let userId = payload.user_Id;
+      database.getConnection(function(err, connection){
+        if (err) {
+          _handler_err_Internal(err, res);
+          console.log("error occured when getConnection in newShare handle.")
+        }else{
+          new Promise((resolve, reject)=>{
+            //temp method, waiting for a real Pics server
+            let imgFolderPath = path.join(__dirname, '/../../..', '/dev/faked_Pics/'+userId);
+            fs.access(imgFolderPath, (err)=>{
+              if(err){
+                //which mean the folder doesn't exist
+                fs.mkdir(imgFolderPath, function(err){
+                  if(err) {_handler_err_Internal(err, res);reject(err);}
+                  resolve();
+                })
+              }
+              //or without err
+              resolve();
+            })
+          }).then(function() {
+            return new Promise((resolve, reject)=>{
+              //add it into shares as a obj value
+              console.log('add new one: deal img.');
+              let modifiedBody = new Object();
+              //deal with cover img first.
+              let coverBase64Splice = req.body.coverBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
+              let coverBase64Buffer = new Buffer(coverBase64Splice[2], 'base64');
+              fs.writeFile(path.join(__dirname, '/../../..', '/dev/faked_Pics/'+userId+'/'+req.body.submitTime+"_layer_0.jpg"), coverBase64Buffer, function(err){
+                if(err) {_handler_err_Internal(err, res);reject(err);}
+              });
+              modifiedBody['url_pic_layer0'] = userId+'/'+req.body.submitTime+'_layer_0.jpg';
+              //then deal with beneath img if any.
+              if(req.body.beneathBase64){
+                let beneathBase64Splice = req.body.beneathBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
+                let beneathBase64Buffer = new Buffer(beneathBase64Splice[2], 'base64');
+                modifiedBody['url_pic_layer1'] = userId+'/'+req.body.submitTime+'_layer_1.jpg';
+                fs.writeFile(path.join(__dirname, '/../../..', '/dev/faked_Pics/'+userId+'/'+req.body.submitTime+"_layer_1.jpg"), beneathBase64Buffer, function(err){
+                  if(err) {_handler_err_Internal(err, res);reject(err);}
+                });
+              }
+
+              Object.assign(modifiedBody, req.body);
+              delete modifiedBody.coverBase64;
+              delete modifiedBody.beneathBase64;
+
+              resolve(modifiedBody)
+            })
+          }).then(function(modifiedBody){
+            console.log('add new one, write into the table: units.');
+            return new Promise((resolve, reject)=>{
+              let unitProfile = {
+                'id_author': userId,
+                'url_pic_layer0': modifiedBody.url_pic_layer0,
+                'url_pic_layer1': modifiedBody.url_pic_layer1
+              }
+              connection.query('INSERT INTO units SET ?', unitProfile, function(err, result, fields) {
+                if (err) {_handler_err_Internal(err, res);reject(err);}
+                console.log('database connection: success.')
+                console.log(result)
+                modifiedBody['id_unit'] = result.insertId;
+                resolve(modifiedBody)
+              })
+            })
+          }).then(function(modifiedBody){
+            console.log('add new one, write into the table: marks.');
+            return new Promise((resolve, reject)=>{
+              let valuesArr = modifiedBody.joinedMarks.map(function(markObj, index){
+                return [
+                  modifiedBody.id_unit,
+                  markObj.layer,
+                  markObj.top,
+                  markObj.left,
+                  markObj.serial,
+                  markObj.editorContent
+                ]
+              })
+              connection.query('INSERT INTO marks (id_unit,layer,portion_top,portion_left,serial,editor_content) VALUES ?; SHOW WARNINGS;', [valuesArr], function(err, result, fields) {
+                if (err) {_handler_err_Internal(err, res);reject(err);}
+                console.log('database connection: success.')
+                resolve(modifiedBody)
+              })
+            })
+          }).then(function(modifiedBody){
+            console.log('add new one, write into the table: nouns.');
+            return new Promise((resolve, reject)=>{
+              let valuesArr = modifiedBody.nounsArr.map(function(noun, index){
+                return [
+                  noun,
+                  modifiedBody.id_unit,
+                  userId
+                ]
+              })
+              connection.query('INSERT INTO nouns (name_noun, id_unit, id_user) VALUES ?', [valuesArr], function(err, rows, fields) {
+                if (err) {_handler_err_Internal(err, res);reject(err);}
+                console.log('database connection: success.')
+                resolve(modifiedBody)
+              })
+            })
+          }).then(()=>{
+            let resData = {};
+            resData['error'] = 0;
+            resData['message'] = 'post req completed!';
+            res.status(201).json(resData);
+            connection.release();
+          }).catch((err)=>{
+            console.log("error occured during newShare promise: "+err)
+            connection.release();
+          });
+        }
+      })
     }
-
-    Object.assign(modifiedBody, req.body);
-    delete modifiedBody.coverBase64;
-    delete modifiedBody.beneathBase64;
-
-    resolve(modifiedBody)
-  }).then(function(modifiedBody){
-    console.log('add new one: establish folder.');
-    return new Promise((resolve, reject)=>{
-      fs.mkdir(path.join(__dirname, '/../../..', '/dev/Statics_units/'+fileName), function(err){
-        if(err) {console.log('err in add new one: establish folder');reject(err);}
-        resolve(modifiedBody);
-      })
-    })
-  }).then(function(modifiedBody){
-    console.log('add new one: abstract marksObj.');
-    return new Promise((resolve, reject)=>{
-      //final data object writed into a new file
-      let newMakrsObj = {
-        coverMarksObj: modifiedBody.coverMarksObj,
-        beneathMarksObj: modifiedBody.beneathMarksObj,
-      }
-      jsonfile.writeFile(path.join(__dirname, '/../../..', '/dev/Statics_units/'+fileName+"/marks.json"), newMakrsObj, {spaces: 2}, function(err){
-        if(err) {console.log('err in add new one: abstract marksObj');reject(err);}
-        resolve(modifiedBody)
-      });
-    })
-  }).then(function(modifiedBody){
-    console.log('add new one: create conversation file.');
-    return new Promise((resolve, reject)=>{
-      let coverMarksKey = Object.keys(modifiedBody.coverMarksObj);
-      let beneathMarksKey = Object.keys(modifiedBody.beneathMarksObj);
-      let conversationsObj = new Object();
-      coverMarksKey.forEach((key, index)=>{conversationsObj[key] = {}});
-      beneathMarksKey.forEach((key, index)=>{conversationsObj[key] = {}});
-      jsonfile.writeFile(path.join(__dirname, '/../../..', '/dev/Statics_units/'+fileName+"/conversations.json"), conversationsObj, {spaces: 2}, function(err){
-        if(err) {console.log('err in add new one: write into the conversations.');reject(err);}
-        delete modifiedBody.coverMarksObj;
-        delete modifiedBody.beneathMarksObj;
-
-        resolve(modifiedBody)
-      });
-    })
-  }).then(function(modifiedBody){
-    console.log('add new one: write into the details.');
-    return new Promise((resolve, reject)=>{
-      //data object writed into a new file
-      jsonfile.writeFile(path.join(__dirname, '/../../..', '/dev/Statics_units/'+fileName+"/details.json"), modifiedBody, {spaces: 2}, function(err){
-        if(err) {console.log('err in add new one: write into the details.');reject(err);}
-        resolve()
-      });
-    })
-  }).then(function(){
-    console.log('add new one: create the bounding list.');
-    return new Promise((resolve, reject)=>{
-      jsonfile.writeFile(path.join(__dirname, '/../../..', '/dev/Statics_units/'+fileName+"/listBounding.json"), {collection: []}, {spaces: 2}, function(err){
-        if(err) {console.log('err in add new one: write into the bounding list.');reject(err);}
-        resolve()
-      });
-    })
-  }).then(function(){
-    //add it into overview list
-    console.log('add new one: write into the units "idList".');
-    return new Promise((resolve, reject)=>{
-      jsonfile.readFile(path.join(__dirname, '/../../..', '/dev/Statics_units/idList.json'), function(err, lists){
-        if(err) {console.log('err in add new one into the units "idList".');reject(err);}
-        let updatedData = update(lists, {
-          ['idArr']: {
-            $unshift: [fileName]
-          }
-        })
-        jsonfile.writeFile(path.join(__dirname, '/../../..', "/dev/Statics_units/idList.json"), updatedData, {spaces: 2}, function(err){
-          if(err) {console.log('err in add new one into the units "idList".');reject(err);}
-        });
-        resolve();
-      })
-    })
-  }).then(function(){
-    //add it into overview list
-    console.log('add new one: write into the shared list.');
-    return new Promise((resolve, reject)=>{
-      jsonfile.readFile(path.join(__dirname, '/../../..', "/dev/Statics_users/user/listShared.json"), function(err, lists){
-        if(err) {console.log('err in add new one into the shared list.');reject(err);}
-        let updatedData = update(lists, {
-          ['listArr']: {
-            $unshift: [fileName]
-          }
-        })
-        jsonfile.writeFile(path.join(__dirname, '/../../..', "/dev/Statics_users/user/listShared.json"), updatedData, {spaces: 2}, function(err){
-          if(err) {console.log('err in add new one into the list.');reject(err);}
-        });
-        resolve();
-      })
-    })
-  }).then(function(){
-    //add it into time list
-    console.log('add new one: write into the time list.');
-    return new Promise((resolve, reject)=>{
-      jsonfile.readFile(path.join(__dirname, '/../../..', "/dev/Statics_users/user/listTime.json"), function(err, lists){
-        if(err) {console.log('err during reading a jsonfile: listTime.');reject(err);}
-        let updatedData = update(lists, {
-          ['listArr']: {
-            $unshift: [fileName]
-          }
-        })
-        jsonfile.writeFile(path.join(__dirname, '/../../..', "/dev/Statics_users/user/listTime.json"), updatedData, {spaces: 2}, function(err){
-          if(err) {console.log('err during writing into: listTime.');reject(err);}
-        });
-        resolve();
-      })
-    })
-  }).then(()=>{
-    res.status(201).json({
-      success: true
-    });
-  }).catch(
-    (err)=>{
-      console.log('err during promise of posting new share: '+err);
-      res.status(500).json({
-        success: false,
-        err: err
-      });
-    }
-  );
+  })
 }
 
 module.exports = _handle_NewShare

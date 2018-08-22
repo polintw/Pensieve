@@ -2,6 +2,7 @@ import React from 'react';
 import UnitLayerFrame from './UnitLayerFrame.jsx';
 import UnitLayerControl from './UnitLayerControl.jsx';
 import UnitActionControl from './UnitActionControl.jsx';
+import SvgPropic from './SvgPropic.jsx';
 
 export default class UnitModal extends React.Component {
   constructor(props){
@@ -16,8 +17,8 @@ export default class UnitModal extends React.Component {
       beneathMarksObj: null,
       refsArr: null,
       nounsArr: null,
-      arthur: null,
-      action: null,
+      author: null,
+      identity: null,
       layer: 0,
       marks: true
     };
@@ -30,7 +31,7 @@ export default class UnitModal extends React.Component {
       })
     };
     this._axios_getUnitImg = (layer)=>{
-      return axios.get('/router/img/unitSingle?name='+this.state.unitOverview[layer], {
+      return axios.get('/router/img/'+this.state.unitOverview[layer]+'?type=unitSingle', {
         headers: {
           'token': window.localStorage['token']
         }
@@ -96,17 +97,35 @@ export default class UnitModal extends React.Component {
         bottom: '0',
         left: '0'
       },
-      Com_UnitModal_BottomSection_arthur_: {
+      Com_UnitModal_BottomSection_author_: {
         width: '70%',
         height: '100%',
         position: 'absolute',
         top: '0',
         left: '1%',
+        boxSizing: 'border-box'
+      },
+      Com_UnitModal_BottomSection_author_text: {
+        display: 'inline-block',
+        width: '90%',
+        height: '100%',
+        position: 'absolute',
+        top: '0',
+        left: '10%',
         boxSizing: 'border-box',
         fontSize: '1.8rem',
         letterSpacing: '0.2vh',
         fontWeight: '400',
         color: '#FAFAFA'
+      },
+      Com_UnitModal_BottomSection_author_propic_: {
+        display: 'inline-block',
+        width: '8%',
+        height: '100%',
+        position: 'absolute',
+        top: '0',
+        left: '0',
+        boxSizing: 'border-box'
       },
       Com_UnitModal_BottomSection_div_: {
         height: '100%',
@@ -152,20 +171,31 @@ export default class UnitModal extends React.Component {
 
   componentDidMount(){
     const self = this;
-    let beneathify = !!this.state.unitOverview['img_beneath'];
-    let axiosArr = [this._axios_getUnitData(),this._axios_getUnitImg('img_cover')];
-    if(beneathify){axiosArr.push(this._axios_getUnitImg('img_beneath'))};
+    let beneathify = !!this.state.unitOverview['pic_layer1'];
+    let axiosArr = [this._axios_getUnitData(),this._axios_getUnitImg('pic_layer0')];
+    if(beneathify){axiosArr.push(this._axios_getUnitImg('pic_layer1'))};
     axios.all(axiosArr).then(
       axios.spread(function(resData, resImgCover, resImgBeneath){
+        let resObj = JSON.parse(resData.data);
+        let keysArr = Object.keys(resObj.main.marksObj);
+        let [coverMarksObj, beneathMarksObj] = [{}, {}];
+        keysArr.forEach(function(key, index){
+          if(resObj.main.marksObj[key].layer==0){
+            coverMarksObj[key]=resObj.main.marksObj[key]
+          }else{
+            beneathMarksObj[key]=resObj.main.marksObj[key]
+          }
+        })
+
         self.setState({
           coverSrc: resImgCover.data,
           beneathSrc: beneathify?resImgBeneath.data:null,
-          coverMarksObj: resData.data.coverMarksObj,
-          beneathMarksObj: resData.data.beneathMarksObj,
-          refsArr: resData.data.refsArr,
-          nounsArr: resData.data.nounsArr,
-          arthur: resData.data.arthur,
-          action: resData.data.action
+          coverMarksObj: coverMarksObj,
+          beneathMarksObj: beneathMarksObj,
+          refsArr: resObj.main.refsArr,
+          nounsArr: resObj.main.nounsArr,
+          author: resObj.main.author,
+          identity: resObj.main.identity
         });
       })
     )
@@ -178,11 +208,16 @@ export default class UnitModal extends React.Component {
         <div
           style={this.style.Com_UnitModal_BottomSection_}>
           {
-            this.state.arthur &&
-            <span
-              style={this.style.Com_UnitModal_BottomSection_arthur_}>
-              {this.state.arthur}
-            </span>
+            this.state.author &&
+            <div
+              style={this.style.Com_UnitModal_BottomSection_author_}>
+              <div style={this.style.Com_UnitModal_BottomSection_author_propic_}>
+                <SvgPropic/>
+              </div>
+              <span style={this.style.Com_UnitModal_BottomSection_author_text}>
+                {this.state.author}
+              </span>
+            </div>
           }
           {
             this.state.nounsArr &&
@@ -197,7 +232,7 @@ export default class UnitModal extends React.Component {
           style={this.style.Com_UnitModal_CornerSection_}>
           <UnitActionControl
             unitName={this.state.unitName}
-            action={this.state.action}
+            identity={this.state.identity}
             _set_axios={this._set_axios}/>
         </div>
         <div
@@ -224,6 +259,7 @@ export default class UnitModal extends React.Component {
           <UnitLayerFrame
             layer={this.state.layer}
             marks = {this.state.marks}
+            identity={this.state.identity}
             coverSrc={this.state.coverSrc}
             beneathSrc={this.state.beneathSrc}
             coverMarksObj={this.state.coverMarksObj}

@@ -113,6 +113,9 @@ export default class MarkEditingBlock extends React.Component {
         top: '0',
         right: '0',
         boxSizing: 'border-box',
+        fontSize: '1.2rem',
+        letterSpacing: '0.15rem',
+        fontWeight: '400',
         color: '#FAFAFA',
         overflow: 'auto',
         cursor: 'text'

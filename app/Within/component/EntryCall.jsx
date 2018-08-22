@@ -126,7 +126,7 @@ export default class EntryCall extends React.Component {
   }
 
   _submit_Share_New(dataObj){
-    window.location.assign('/self/units?id=userid');
+    window.location.assign('/self/front');
   }
 
   render(){

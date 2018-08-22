@@ -5,12 +5,15 @@ const path = require("path");
 const jsonfile = require('jsonfile');
 const update = require('immutability-helper');
 
-const unitsListExecutive = require('./unitsList/execute.js');
+const cognitionExecutive = require('./cognition/execute.js');
 const shareExecutive = require('./share/execute.js');
+const actionExecutive = require('./action/execute.js');
 
-main.use('/unitsList', unitsListExecutive)
+main.use('/cognition', cognitionExecutive)
 
 main.use('/share', shareExecutive)
+
+main.use('/action', actionExecutive)
 
 main.patch('/newCollect', function(req, res){
   console.log('patch collection to user');

@@ -21,16 +21,17 @@ register.use(function(req, res) {
   database.getConnection(function(err, connection) {
     if (err) {
       resData['error'] = 1;
-      resData['data'] = "Internal Server Error";
+      resData['message'] = "Internal Server Error";
       res.status(500).json(resData);
     } else {
       connection.query('INSERT INTO users SET ?', userData, function(err, rows, fields) {
         if (!err) {
           resData.error = 0;
-          resData['data'] = 'User registered successfully!';
+          resData['message'] = 'User registered successfully!';
           res.status(201).json(resData);
         } else {
-          resData['data'] = "Error Occured";
+          resData['error'] = 1;
+          resData['message'] = "Error Occured";
           res.status(400).json(resData);
         }
       });

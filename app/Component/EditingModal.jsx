@@ -12,8 +12,8 @@ export default class EditingModal extends React.Component {
       contentModalify: false,
       coverSrc: null,
       beneathSrc: null,
-      coverMarks: {},
-      beneathMarks: {},
+      coverMarks: [],
+      beneathMarks: [],
       refsArr: [],
       nounsArr: []
     };
@@ -128,12 +128,12 @@ export default class EditingModal extends React.Component {
     };
   }
 
-  _close_Mark_Complete(markData, focusBlock){
-    switch (focusBlock) {
-      case 'cover':
+  _close_Mark_Complete(markData, layer){
+    switch (layer) {
+      case 0:
         this.setState((prevState, props) => {return {coverMarks: markData}}, this._reset_modalState());
         break;
-      case 'beneath':
+      case 1:
         this.setState((prevState, props) => {return {beneathMarks: markData}}, this._reset_modalState());
         break;
       default:
@@ -222,7 +222,7 @@ export default class EditingModal extends React.Component {
             focusBlock={this.state.focusBlock}
             coverSrc={this.state.coverSrc}
             beneathSrc={this.state.beneathSrc}
-            marksObj={this.state.focusBlock=='cover'?this.state.coverMarks:this.state.beneathMarks}
+            marksArr={this.state.focusBlock=='cover'?this.state.coverMarks:this.state.beneathMarks}
             refsArr={this.state.refsArr}
             _set_refsArr={this._set_refsArr}
             _close_Mark_Complete={this._close_Mark_Complete}
