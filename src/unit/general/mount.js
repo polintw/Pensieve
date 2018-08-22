@@ -113,7 +113,7 @@ exports._promise_unitMount = function(req, res){
                     };
                     let markKey = row.id;
                     sendingData['marksObj'][markKey]=obj;
-                    sendingData['temp']['marksKey'].push([row.id, userId]);
+                    sendingData['temp']['marksKey'].push([row.id]);
                   })
                   resolve(sendingData)
                 } else {
@@ -124,7 +124,8 @@ exports._promise_unitMount = function(req, res){
           }).then(function(sendingData){
             console.log('unit mount req: marksObj append.');
             return new Promise((resolve, reject)=>{
-              connection.query('SELECT * FROM inspired WHERE (id_mark, id_user) IN (?)', [sendingData['temp']['marksKey']], function(err, result, fields) {
+              let sqlQuery = "SELECT * FROM inspired WHERE (id_mark) IN (?) AND id_user = "+userId;
+              connection.query(sqlQuery, [sendingData['temp']['marksKey']], function(err, result, fields) {
                 if (err) {_handler_err_Internal(err, res);reject(err);}
                 console.log('database connection: success.')
                 if (result.length > 0) {
