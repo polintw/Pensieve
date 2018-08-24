@@ -9,8 +9,7 @@ export default class UnitModal extends React.Component {
     super(props);
     this.state = {
       axios: false,
-      unitName: this.props.unitName,
-      unitOverview: this.props.unitOverview,
+      unitName: "unitName_"+this.props.unitId,
       coverSrc: null,
       beneathSrc: null,
       coverMarksObj: null,
@@ -19,8 +18,8 @@ export default class UnitModal extends React.Component {
       nounsArr: null,
       author: null,
       identity: null,
-      layer: 0,
-      marks: true
+      layer: this.props.unitInit.layer,
+      marksify: this.props.unitInit.marksify
     };
     this._axios_getUnitData = () => {
       return axios.get('/router/unit/general/mount?unitName='+this.state.unitName, {
@@ -31,14 +30,14 @@ export default class UnitModal extends React.Component {
       })
     };
     this._axios_getUnitImg = (layer)=>{
-      return axios.get('/router/img/'+this.state.unitOverview[layer]+'?type=unitSingle', {
+      return axios.get('/router/img/'+this.props.unitInit[layer]+'?type=unitSingle', {
         headers: {
           'token': window.localStorage['token']
         }
       })
     };
     this._set_axios = (bool) => {this.setState({axios: bool})};
-    this._set_makrsVisible = (bool) => {this.setState({marks: bool});};
+    this._set_makrsVisible = (bool) => {this.setState({marksify: bool});};
     this._set_layer = (index) => {this.setState({layer: index});};
     this._handleClick_unitBack = this._handleClick_unitBack.bind(this);
     this.style={
@@ -171,7 +170,7 @@ export default class UnitModal extends React.Component {
 
   componentDidMount(){
     const self = this;
-    let beneathify = !!this.state.unitOverview['pic_layer1'];
+    let beneathify = !!this.props.unitInit['pic_layer1'];
     let axiosArr = [this._axios_getUnitData(),this._axios_getUnitImg('pic_layer0')];
     if(beneathify){axiosArr.push(this._axios_getUnitImg('pic_layer1'))};
     axios.all(axiosArr).then(
@@ -249,7 +248,7 @@ export default class UnitModal extends React.Component {
             style={this.style.Com_UnitModal_ControlSection_div_layerControl}>
             <UnitLayerControl
               layer={this.state.layer}
-              marks = {this.state.marks}
+              marks = {this.state.marksify}
               _set_makrsVisible={this._set_makrsVisible}
               _set_layer={this._set_layer}/>
           </div>
@@ -258,7 +257,8 @@ export default class UnitModal extends React.Component {
           style={this.style.Com_UnitModal_ImgSection_div}>
           <UnitLayerFrame
             layer={this.state.layer}
-            marks = {this.state.marks}
+            marksify={this.state.marksify}
+            initMark={this.props.unitInit.initMark}
             identity={this.state.identity}
             coverSrc={this.state.coverSrc}
             beneathSrc={this.state.beneathSrc}

@@ -29,7 +29,7 @@ export default class Front extends React.Component {
         width: '6%',
         height: '24%',
         position: 'fixed',
-        top: '61%',
+        top: '63%',
         right: '2%'
       }
     }

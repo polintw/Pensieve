@@ -1,16 +1,14 @@
 import React from 'react';
 import MarkDialogue from './MarkDialogue.jsx';
-import {Editor, EditorState,convertToRaw, convertFromRaw} from 'draft-js';
+import DraftDisplay from './DraftDisplay.jsx';
 
 export default class MarkBlockAuthor extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       axios: false,
-      editorState: this.props.markData.markEditorContent?EditorState.createWithContent(convertFromRaw(this.props.markData.markEditorContent)):EditorState.createEmpty(),
       dialogue: false
     };
-    this.changeEditorState = (editorState) => {this.setState({editorState: editorState})};
     this._handleClick_openDialogue = this._handleClick_openDialogue.bind(this);
     this.style = {
       Com_MarkBlockAuthor_: {
@@ -112,11 +110,8 @@ export default class MarkBlockAuthor extends React.Component {
           style={this.style.Com_MarkBlockAuthor_content_}>
           <div
             style={this.style.Com_MarkBlockAuthor_content_editor_}>
-            <Editor
-              ref={(element)=>{this.contentEditor = element;}}
-              editorState={this.state.editorState}
-              onChange={this.changeEditorState}
-            readOnly/>
+            <DraftDisplay
+              editorState={this.props.markData.markEditorContent}/>
           </div>
           <div
             style={this.style.Com_MarkBlockAuthor_content_panel_}>

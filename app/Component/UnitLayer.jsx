@@ -5,7 +5,7 @@ export default class UnitLayer extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      circleNr: 'all',
+      circleNr: this.props.initMark,
       marksKey: [],
       marksDOM: []
     };
@@ -123,7 +123,7 @@ export default class UnitLayer extends React.Component {
           src={this.props.imgSrc}
           onLoad={this._handleLoaded_Img}/>
         {
-          this.props.marks &&
+          this.props.marksify &&
           this.state.marksDOM
         }
       </div>

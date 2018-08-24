@@ -95,8 +95,9 @@ export default class UnitLayerFrame extends React.Component {
           {
             this.props.beneathSrc &&
             <UnitLayer
-              marks={this.props.marks}
               imgSrc={this.props.beneathSrc}
+              marksify={this.props.marksify}
+              initMark={this.props.initMark}
               identity={this.props.identity}
               marksData={this.props.beneathMarksObj}/>
           }
@@ -106,8 +107,9 @@ export default class UnitLayerFrame extends React.Component {
           {
             this.props.coverSrc &&
             <UnitLayer
-              marks={this.props.marks}
               imgSrc={this.props.coverSrc}
+              marksify={this.props.marksify}
+              initMark={this.props.initMark}
               identity={this.props.identity}
               marksData={this.props.coverMarksObj}/>
           }

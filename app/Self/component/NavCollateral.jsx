@@ -8,7 +8,20 @@ export default class NavCollateral extends React.Component {
 
     };
     this.style={
-
+      selfCom_NavCollateral_: {
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        left: '0',
+        top: '0',
+        boxSizing: 'border-box'
+      },
+      selfCom_NavCollateral_button_: {
+        fontSize: '1.1rem',
+        fontWeight: '300',
+        letterSpacing: '0.2rem',
+        cursor: 'pointer'
+      }
     }
   }
 
@@ -17,8 +30,12 @@ export default class NavCollateral extends React.Component {
     return(
       <div
         style={this.style.selfCom_NavCollateral_}>
-        {'系列'}
-        {'通知'}
+        <span
+          style={this.style.selfCom_NavCollateral_button_}>
+          {'系列'}</span>
+        <span
+          style={this.style.selfCom_NavCollateral_button_}>
+          {'通知'}</span>
       </div>
     )
   }

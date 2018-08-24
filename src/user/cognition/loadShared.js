@@ -52,9 +52,8 @@ function _promise_loadShared(req, res){
               if (rows.length > 0) {
                 rows.forEach(function(row, index){
                   let unitId = row.id.toString();
-                  let unitName = 'unitName_'+unitId;
-                  sendingData.unitsList.push(unitName);
-                  sendingData.unitsBasicSet[unitName] = {pic_layer0: row.url_pic_layer0, pic_layer1: row.url_pic_layer1}
+                  sendingData.unitsList.push(unitId);
+                  sendingData.unitsBasicSet[unitId] = {pic_layer0: row.url_pic_layer0, pic_layer1: row.url_pic_layer1}
                 })
                 resolve(sendingData)
               } else {
