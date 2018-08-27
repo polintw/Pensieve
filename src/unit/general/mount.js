@@ -1,5 +1,3 @@
-const fs = require('fs');
-const path = require("path");
 const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 const {verify_key} = require('../../../config/jwt.js');
@@ -148,7 +146,7 @@ exports._promise_unitMount = function(req, res){
             res.status(200).json(resData);
             connection.release();
           }).catch((err)=>{
-            console.log("error occured during lookoutlist req promise: "+err)
+            console.log("error occured during unit mounting promise: "+err)
             connection.release();
           });
         }

@@ -29,6 +29,17 @@ function _handler_err_Internal(err, res){
   res.status(500).json(resData);
 }
 
+function _res_success(res, sendingData){
+  console.log("loading req: Inspired, complete.")
+  delete sendingData.temp;
+  let resData = {};
+  resData['error'] = 0;
+  resData['message'] = 'req success!';
+  resData['main'] = sendingData;
+  resData = JSON.stringify(resData); //could assure we send the data in json format
+  res.status(200).json(resData);
+}
+
 function _promise_loadInspired(req, res){
   jwt.verify(req.headers['token'], verify_key, function(err, payload) {
     if (err) {
@@ -40,16 +51,6 @@ function _promise_loadInspired(req, res){
           _handler_err_Internal(err, res);
           console.log("error occured when getConnection for loading user Inspired list.")
         }else{
-          function _res_success(sendingData){
-            console.log("loading req: Inspired, complete.")
-            delete sendingData.temp;
-            let resData = {};
-            resData['error'] = 0;
-            resData['message'] = 'req success!';
-            resData['main'] = sendingData;
-            res.status(200).json(resData);
-          }
-
           new Promise((resolve, reject)=>{
             console.log('loading req: Inspired, approach list.');
             connection.query('SELECT * FROM inspired WHERE id_user = ?', [userId], function(err, rows, fields) {
@@ -67,22 +68,20 @@ function _promise_loadInspired(req, res){
                 })
                 resolve(sendingData)
               } else {
-                _res_success(sendingData);
+                _res_success(res, sendingData);
                 connection.release();
               }
             })
           }).then(function(sendingData){
             console.log('loading req: Inspired, get marks.');
             return new Promise((resolve, reject)=>{
-              console.log(sendingData.inspiredList)
               connection.query('SELECT * FROM marks WHERE id IN (?)', [sendingData.inspiredList], function(err, rows, fields) {
                 if (err) {_handler_err_Internal(err, res);reject(err);}
                 console.log('database connection: success.')
-                console.log(rows)
                 if (rows.length > 0) {
                   rows.forEach(function(row, index){
                     let dataSet = {
-                      markEditorContent: row.editor_content,
+                      markEditorContent: JSON.parse(row.editor_content), //because the data would transfer to string by db when saved
                       layer: row.layer,
                       unitId:row.id_unit
                     }
@@ -111,7 +110,7 @@ function _promise_loadInspired(req, res){
                     sendingData.unitBasicSet[row.id] = dataSet;
                   })
                 }
-                _res_success(sendingData);
+                _res_success(res, sendingData);
                 connection.release();
               })
             })

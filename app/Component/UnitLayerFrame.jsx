@@ -87,6 +87,10 @@ export default class UnitLayerFrame extends React.Component {
       this.style.Com_UnitLayerFrame_div_beneath
     );
 
+    let initMark = this.props.initMark;
+    let beneathMarksObj = this.props.beneathMarksObj;
+    let coverMarksObj = this.props.coverMarksObj;
+
     return(
       <div
         style={this.style.Com_UnitLayerFrame}>
@@ -97,9 +101,9 @@ export default class UnitLayerFrame extends React.Component {
             <UnitLayer
               imgSrc={this.props.beneathSrc}
               marksify={this.props.marksify}
-              initMark={this.props.initMark}
+              initMark={initMark in beneathMarksObj? initMark : "all"}
               identity={this.props.identity}
-              marksData={this.props.beneathMarksObj}/>
+              marksData={beneathMarksObj}/>
           }
         </div>
         <div
@@ -109,9 +113,9 @@ export default class UnitLayerFrame extends React.Component {
             <UnitLayer
               imgSrc={this.props.coverSrc}
               marksify={this.props.marksify}
-              initMark={this.props.initMark}
+              initMark={initMark in coverMarksObj? initMark : "all"}
               identity={this.props.identity}
-              marksData={this.props.coverMarksObj}/>
+              marksData={coverMarksObj}/>
           }
         </div>
       </div>

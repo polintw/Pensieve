@@ -1,6 +1,9 @@
 import React from 'react';
 import DraftDisplay from '../../Component/DraftDisplay.jsx';
 import SvgPropic from '../../Component/SvgPropic.jsx';
+import UnitModal from '../../Component/UnitModal.jsx';
+import ModalBox from '../../Component/ModalBox.jsx';
+import ModalBackground from '../../Component/ModalBackground.jsx';
 
 export default class Inspired extends React.Component {
   constructor(props){
@@ -85,7 +88,7 @@ export default class Inspired extends React.Component {
     event.preventDefault();
     this.setState({
       unitModalify: true,
-      focusMarkName: event.currentTarget.getAttribute('markId')
+      focusMarkName: event.currentTarget.getAttribute('markid')
     })
   }
 
@@ -104,10 +107,11 @@ export default class Inspired extends React.Component {
         'token': window.localStorage['token']
       }
     }).then(function(res){
+      let resObj = JSON.parse(res.data);
       self.setState({
-        inspiredList: res.data.main.inspiredList,
-        inspiredMarksSet:res.data.main.inspiredMarksSet,
-        unitBasicSet:res.data.main.unitBasicSet
+        inspiredList: resObj.main.inspiredList,
+        inspiredMarksSet:resObj.main.inspiredMarksSet,
+        unitBasicSet:resObj.main.unitBasicSet
       })
     })
   }
@@ -120,7 +124,7 @@ export default class Inspired extends React.Component {
       return(
         <div
           key={'key_Inspired_nails_'+index}
-          markId={dataKey}
+          markid={dataKey}
           style={self.style.selfCom_Inspired_nails_div_}
           onClick={self._handleClick_markNail}>
           <div>
@@ -134,11 +138,11 @@ export default class Inspired extends React.Component {
                 <SvgPropic/>
               </div>
               <span style={self.style.Com_UnitModal_BottomSection_author_text}>
-                {unitBasicSet[dataValue.unitId].author}
+                {self.state.unitBasicSet[dataValue.unitId].author}
               </span>
             </div>
             <img
-              src={'/router/img/'+unitBasicSet[dataValue.unitId].pic_layer0+'?type=thumb'}
+              src={'/router/img/'+self.state.unitBasicSet[dataValue.unitId].pic_layer0+'?type=thumb'}
               style={self.style.selfCom_Inspired_nails_div_img}/>
           </div>
         </div>

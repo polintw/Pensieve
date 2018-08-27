@@ -1,14 +1,21 @@
 import React from 'react';
 import {Editor, EditorState,convertToRaw, convertFromRaw} from 'draft-js';
+import DraftEditor from './DraftEditor.jsx';
+import DraftDisplay from './DraftDisplay.jsx';
 
 export default class MarkDialogue extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      editorState: EditorState.createEmpty(),
+      axios: false,
+      threadId: null,
+      dialogueOrderList: [],
+      dialoguesData: {},
+      talkerAccount: {},
+      newStatementEditor: null
     };
-    this.changeEditorState = (editorState) => {this.setState({editorState: editorState})};
     this._handleClick_sendDialogue = this._handleClick_sendDialogue.bind(this);
+    this._axios_post_Dialogue_new = this._axios_post_Dialogue_new.bind(this);
     this.style = {
         Com_MarkDialogue_: {
             width: '100%',
@@ -24,20 +31,99 @@ export default class MarkDialogue extends React.Component {
     };
   }
 
+  _axios_post_Dialogue_new(submitObj){
+    const self = this;
+    axios.post('/router/user/action/dialogue?aim=new', submitObj, {
+      headers: {
+        'Content-Type': 'application/json',
+        'charset': 'utf-8',
+        'token': window.localStorage['token']
+      }
+    }).then(function (res) {
+        if(res.status = 200){
+          console.log("dialogue post successfully!");
+          self.setState((prevState, props)=>{
+            let localUseId = "local_"+prevState.dialogueOrderList.length;
+            prevState.dialogueOrderList.push(localUseId);
+            prevState.dialoguesData[localUseId] = {editorContent: JSON.parse(submitObj.editorContent), talker: "(nobody)"}; //wait for reducer usage
+            return {
+              axios: false,
+              threadId: res.data.main.threadId,
+              dialogueOrderList: prevState.dialogueOrderList,
+              dialoguesData: prevState.dialoguesData,
+              newStatementEditor: null
+            };
+          });
+        }else{
+          console.log("Failed: "+ res.data.err);
+          self.setState({axios: false});
+          alert("Failed, please try again later");
+        }
+    }).catch(function (error) {
+      console.log(error);
+      self.setState({axios: false});
+      alert("Failed, please try again later");
+    });
+  }
+
   _handleClick_sendDialogue(event){
     event.preventDefault();
     event.stopPropagation();
-
+    let submitObj = {
+      markId: this.props.markKey,
+      threadId: this.state.threadId,
+      editorContent: JSON.stringify(convertToRaw(this.newStatement.state.editorState.getCurrentContent()))
+    };
+    //don't set any parameter in the callback,
+    //would take the variable above directly
+    this.setState((prevState, props) => {return {axios: true};}, ()=>{
+      this._axios_post_Dialogue_new(submitObj)
+    })
   }
 
   componentDidMount(){
-      this.dialogueEditor.focus();
+    const self = this;
+    this.setState((prevState, props)=>{return {axios: true};}, ()=>{
+      let url = '/router/unit/general/dialogue?markId='+self.props.markKey;
+      axios.get(url, {
+        headers: {
+          'charset': 'utf-8',
+          'token': window.localStorage['token']
+        }
+      }).then(function (res) {
+          self.setState((prevState, props)=>{
+            let resObj = JSON.parse(res.data);
+            return {
+              threadId: resObj.main.threadId,
+              dialogueOrderList: resObj.main.orderList,
+              dialoguesData: resObj.main.dialoguesData,
+              talkerAccount: resObj.main.talkerAccount,
+              newStatementEditor: null
+            }
+          });
+      }).catch(function (error) {
+        console.log(error);
+        self.setState({axios: false});
+        alert("Failed, please try again later");
+      });
+    })
   }
 
   render(){
     const self = this;
-    let path = this.props.dialogueArr.map(function(rawContent, index){
-        
+    let path = this.state.dialogueOrderList.map(function(dataKey, index){
+        return (
+          <div
+            key={"key_dialogues_"+self.state.threadId+"_"+dataKey}>
+            <div>
+              <DraftDisplay
+                editorState={self.state.dialoguesData[dataKey].editorContent}/>
+            </div>
+            <div>
+              {self.state.dialoguesData[dataKey].talker}
+            </div>
+          </div>
+        )
     })
     return(
       <div
@@ -48,10 +134,9 @@ export default class MarkDialogue extends React.Component {
         <div
           style={this.style.Com_MarkDialogue_new_}>
           <div>
-            <Editor
-                ref={(element)=>{this.dialogueEditor = element;}}
-                editorState={this.state.editorState}
-                onChange={this.changeEditorState}/>
+            <DraftEditor
+              ref={(element)=>{this.newStatement = element;}}
+              editorState={this.state.newStatementEditor}/>
           </div>
           <span
             onClick={this._handleClick_sendDialogue}>{"send"}</span>

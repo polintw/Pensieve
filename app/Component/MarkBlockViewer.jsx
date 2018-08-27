@@ -175,7 +175,7 @@ export default class MarkBlockViewer extends React.Component {
           <div
             style={this.style.Com_MarkBlockViewer_dialogue_}>
             <MarkDialogue
-              dialogueArr={[]}/>
+              markKey={this.props.markKey}/>
           </div>
         }
         <div
