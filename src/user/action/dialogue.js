@@ -2,30 +2,9 @@ const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 const {verify_key} = require('../../../config/jwt.js');
 const {connection_key} = require('../../../config/database.js');
+const {_handler_err_BadReq, _handler_err_Unauthorized, _handler_err_Internal} = require('../../handlers/reserrHandler.js');
 
 const database = mysql.createPool(connection_key);
-
-
-function _handler_err_BadReq(err, res){
-  let resData = {};
-  resData['error'] = 1;
-  resData['message'] = 'Error Occured: bad database query';
-  res.status(400).json(resData);
- }
-
-function _handler_err_Unauthorized(err, res){
-  let resData = {};
-  resData['error'] = 1;
-  resData['message'] = "Token is invalid";
-  res.status(401).json(resData);
-}
-
-function _handler_err_Internal(err, res){
-  let resData = {};
-  resData['error'] = 1;
-  resData['message'] = 'Error Occured: Internal Server Error';
-  res.status(500).json(resData);
-}
 
 function _handle_action_newDialogue(req, res){
   jwt.verify(req.headers['token'], verify_key, function(err, payload) {
@@ -39,17 +18,37 @@ function _handle_action_newDialogue(req, res){
           console.log("error occured when getConnection in actionDialogue handler.")
         }else{
           new Promise((resolve, reject)=>{
-            console.log('action post: Dialogue aim to new');
-            connection.query('SELECT * FROM threads WHERE id = ?', [req.body.threadId], function(err, rows, fields) {
+            console.log('action post: Dialogue aim to new, check identity.');
+            connection.query('SELECT id_unit FROM marks WHERE id = ?', [req.body.markId], function(err, rows, fields) {
               if (err) {_handler_err_Internal(err, res);reject(err);}
-              console.log('database connection: success.')
-              resolve(rows)
+              if(rows.length > 0){
+                connection.query('SLECT id_author FROM units WHERE id = ? ', [rows[0].id_unit], function(err, rows, fields){
+                  if (err) {_handler_err_Internal(err, res);reject(err);}
+                  resolve(rows[0].id_author);
+                })
+              }else{
+                _handler_err_BadReq(err, res);reject(err);
+              }
+            })
+          }).then((authorId)=>{
+            return new Promise((resolve, reject)=>{
+              if(authorId == userId){
+                connection.query('SELECT * FROM threads WHERE id = ?', [req.body.threadId], function(err, rows, fields) {
+                  if (err) {_handler_err_Internal(err, res);reject(err);}
+                  resolve(rows)
+                })
+              }else{
+                connection.query('SELECT * FROM threads WHERE (id_participant, id_mark) IN (?)', [[[userId, req.body.markId]]], function(err, rows, fields) {
+                  if (err) {_handler_err_Internal(err, res);reject(err);}
+                  resolve(rows)
+                })
+              }
             })
           }).then((rows)=>{
             return new Promise((resolve, reject)=>{
               console.log('action post: Dialogue aim to new, manage threadify.');
               if(rows.length>0){
-                resolve(req.body.threadId)
+                resolve(rows[0].id)
               }else{
                 connection.query('INSERT INTO threads (id_mark, id_participant) VALUES ?', [[[req.body.markId, userId]]], function(err, result, fields){
                   if (err) {_handler_err_Internal(err, res);reject(err);}

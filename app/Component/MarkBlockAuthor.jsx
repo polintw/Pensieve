@@ -1,5 +1,6 @@
 import React from 'react';
 import MarkDialogue from './MarkDialogue.jsx';
+import MarkAuthorThreads from './MarkAuthorThreads.jsx';
 import DraftDisplay from './DraftDisplay.jsx';
 
 export default class MarkBlockAuthor extends React.Component {
@@ -7,9 +8,10 @@ export default class MarkBlockAuthor extends React.Component {
     super(props);
     this.state = {
       axios: false,
-      dialogue: false
+      dialogue: false,
+      threadFocus: null
     };
-    this._handleClick_openDialogue = this._handleClick_openDialogue.bind(this);
+    this._set_openDialogue = this._set_openDialogue.bind(this);
     this.style = {
       Com_MarkBlockAuthor_: {
         width: '100%',
@@ -53,12 +55,6 @@ export default class MarkBlockAuthor extends React.Component {
         boxSizing: 'border-box',
         color: '#FAFAFA'
       },
-      Com_MarkBlockAuthor_content_panel_raise:{
-        width: '35%',
-        height: '100%',
-        float: 'right',
-        cursor: 'pointer'
-      },
       Com_MarkBlockAuthor_dialogue_: {
         display: 'inline-block',
         width: '13vw',
@@ -92,10 +88,8 @@ export default class MarkBlockAuthor extends React.Component {
     };
   }
 
-  _handleClick_openDialogue(event){
-    event.preventDefault();
-    event.stopPropagation();
-    this.setState((prevState, props)=>{return this.state.dialogue?{dialogue: false}: {dialogue: true}})
+  _set_openDialogue(threadId){
+    this.setState((prevState, props)=>{return {threadFocus: threadId, dialogue: this.state.dialogue ? false : true};})
   }
 
   componentDidMount(){
@@ -116,24 +110,26 @@ export default class MarkBlockAuthor extends React.Component {
           <div
             style={this.style.Com_MarkBlockAuthor_content_panel_}>
             <span>{'編輯紀錄'}</span>
-            <span
-              style={this.style.Com_MarkBlockAuthor_content_panel_raise}
-              onClick={this._handleClick_openDialogue}>
 
-            </span>
           </div>
+        </div>
+        <div>
+          <MarkAuthorThreads
+              markKey={this.props.markKey}
+              _set_openDialogue={this._set_openDialogue}/>
         </div>
         {
           this.state.dialogue &&
           <div
             style={this.style.Com_MarkBlockAuthor_dialogue_}>
-
+            <MarkDialogue
+              markKey={this.props.markKey}
+              threadId={this.state.threadFocus}/>
           </div>
         }
         <div
           style={
-            this.state.dialogue?Object.assign({width: '2vw'}, this.style.Com_MarkBlockAuthor_side_):
-            Object.assign({width: '12vw'}, this.style.Com_MarkBlockAuthor_side_)}>
+            Object.assign({width: '2vw'}, this.style.Com_MarkBlockAuthor_side_)}>
           <div
             style={this.style.Com_MarkBlockAuthor_side_thanks_}>
 
