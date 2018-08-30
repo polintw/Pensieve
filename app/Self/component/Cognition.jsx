@@ -26,13 +26,15 @@ export default class Cognition extends React.Component {
       case "storage":
         return (
           <CogStorage
-            range={this.props.range}/>
+            range={this.props.range}
+            _set_Range={this.props._set_Range}/>
         )
         break;
       case "mutual":
         return (
           <CogMutual
-            range={this.props.range}/>
+            range={this.props.range}
+            _set_Range={this.props._set_Range}/>
         )
         break;
       case "today":

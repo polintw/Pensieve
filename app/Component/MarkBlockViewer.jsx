@@ -1,18 +1,16 @@
 import React from 'react';
 import MarkDialogue from './MarkDialogue.jsx';
 import SvgBulb from './SvgBulb.jsx';
-import {Editor, EditorState,convertToRaw, convertFromRaw} from 'draft-js';
+import DraftDisplay from './DraftDisplay.jsx';
 
 export default class MarkBlockViewer extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       axios: false,
-      editorState: this.props.markData.markEditorContent?EditorState.createWithContent(convertFromRaw(this.props.markData.markEditorContent)):EditorState.createEmpty(),
       dialogue: false,
       inspired: this.props.markData.inspired
     };
-    this.changeEditorState = (editorState) => {this.setState({editorState: editorState})};
     this._axios_postInspired = this._axios_postInspired.bind(this);
     this._handleClick_openDialogue = this._handleClick_openDialogue.bind(this);
     this._handleClick_Inspired = this._handleClick_Inspired.bind(this);
@@ -159,11 +157,8 @@ export default class MarkBlockViewer extends React.Component {
           style={this.style.Com_MarkBlockViewer_content_}>
           <div
             style={this.style.Com_MarkBlockViewer_content_editor_}>
-            <Editor
-              ref={(element)=>{this.contentEditor = element;}}
-              editorState={this.state.editorState}
-              onChange={this.changeEditorState}
-            readOnly/>
+            <DraftDisplay
+              editorState={this.props.markData.markEditorContent}/>
           </div>
           <div
             style={this.style.Com_MarkBlockViewer_content_panel_}>
@@ -180,7 +175,7 @@ export default class MarkBlockViewer extends React.Component {
           <div
             style={this.style.Com_MarkBlockViewer_dialogue_}>
             <MarkDialogue
-              dialogueArr={[]}/>
+              markKey={this.props.markKey}/>
           </div>
         }
         <div

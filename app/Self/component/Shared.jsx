@@ -152,8 +152,8 @@ export default class Shared extends React.Component {
           <ModalBox containerId="root">
             <ModalBackground onClose={this._close_modal_Unit}>
               <UnitModal
-                unitName={this.state.focusUnitName}
-                unitOverview={this.state.unitsBasicSet[this.state.focusUnitName]}
+                unitId={this.state.focusUnitName}
+                unitInit={Object.assign(this.state.unitsBasicSet[this.state.focusUnitName], {marksify: true, initMark: "all", layer: 0})}
                 _close_modal_Unit={this._close_modal_Unit}/>
             </ModalBackground>
           </ModalBox>
