@@ -34,11 +34,21 @@ export default class NavCognition extends React.Component {
     event.stopPropagation();
     event.preventDefault();
     let focusNext = event.currentTarget.getAttribute('tab');
-    if(focusNext=='storage'){
-      this.props._set_Focus('storage', 'shared');
-    }else{
-      this.props._set_Focus(focusNext, null);
+    let cognitionTo = [];
+    switch (focusNext) {
+      case 'storage':
+        cognitionTo.push('storage', 'inspired')
+        break;
+      case 'move':
+        cognitionTo.push('move', 'shared')
+        break;
+      case 'mutual':
+        cognitionTo.push('mutual', '')
+        break;
+      default:
+
     }
+    this.props._set_Focus(cognitionTo[0], cognitionTo[1]);
   }
 
   render(){
@@ -47,22 +57,22 @@ export default class NavCognition extends React.Component {
       <div
         style={this.style.selfCom_NavCognition_}>
         <span
+          tab={"move"}
+          style={this.style.selfCom_NavCognition_nav_span}
+          onClick={this._handleClick_nav_focus}>
+          {"行動"}
+        </span>
+        <span
           tab={"storage"}
           style={this.style.selfCom_NavCognition_nav_span}
           onClick={this._handleClick_nav_focus}>
-          {"收納"}
-        </span>
-        <span
-          tab={"today"}
-          style={this.style.selfCom_NavCognition_nav_span}
-          onClick={this._handleClick_nav_focus}>
-          {"Today"}
+          {"見聞"}
         </span>
         <span
           tab={"mutual"}
           style={this.style.selfCom_NavCognition_nav_span}
           onClick={this._handleClick_nav_focus}>
-          {"往來"}
+          {"來往"}
         </span>
       </div>
     )

@@ -1,7 +1,7 @@
 import React from 'react';
 import CogStorage from './CogStorage.jsx';
 import CogMutual from './CogMutual.jsx';
-import CogToday from './CogToday.jsx';
+import CogMove from './CogMove.jsx';
 
 export default class Cognition extends React.Component {
   constructor(props){
@@ -13,7 +13,6 @@ export default class Cognition extends React.Component {
     this.style={
       selfCom_Cognition_: {
         width: '100%',
-        minHeight: '100vh',
         position: 'absolute',
         top: '0',
         left: '0'
@@ -37,14 +36,18 @@ export default class Cognition extends React.Component {
             _set_Range={this.props._set_Range}/>
         )
         break;
-      case "today":
+      case "move":
         return (
-          <CogToday/>
+          <CogMove
+            range={this.props.range}
+            _set_Range={this.props._set_Range}/>
         )
         break;
       default:
         return (
-          <CogToday/>
+          <CogMove
+            range={this.props.range}
+            _set_Range={this.props._set_Range}/>
         )
     }
   }

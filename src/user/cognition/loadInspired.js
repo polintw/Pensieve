@@ -4,30 +4,9 @@ const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 const {verify_key} = require('../../../config/jwt.js');
 const {connection_key} = require('../../../config/database.js');
+const {_handler_err_BadReq, _handler_err_Unauthorized, _handler_err_Internal} = require('../../handlers/reserrHandler.js');
 
 const database = mysql.createPool(connection_key);
-
-
-function _handler_err_BadReq(err, res){
-  let resData = {};
-  resData['error'] = 1;
-  resData['message'] = 'Error Occured: bad database query';
-  res.status(400).json(resData);
- }
-
-function _handler_err_Unauthorized(err, res){
-  let resData = {};
-  resData['error'] = 1;
-  resData['message'] = "Token is invalid";
-  res.status(401).json(resData);
-}
-
-function _handler_err_Internal(err, res){
-  let resData = {};
-  resData['error'] = 1;
-  resData['message'] = 'Error Occured: Internal Server Error';
-  res.status(500).json(resData);
-}
 
 function _res_success(res, sendingData){
   console.log("loading req: Inspired, complete.")
@@ -40,7 +19,7 @@ function _res_success(res, sendingData){
   res.status(200).json(resData);
 }
 
-function _promise_loadInspired(req, res){
+function _handle_cognition_loading_Inspired(req, res){
   jwt.verify(req.headers['token'], verify_key, function(err, payload) {
     if (err) {
       _handler_err_Unauthorized(err, res)
@@ -60,7 +39,8 @@ function _promise_loadInspired(req, res){
                 inspiredList:[],
                 inspiredMarksSet: {},
                 unitBasicSet: {},
-                temp: {unitsList:[]}
+                userBasic: {},
+                temp: {unitsList:[], authorsList:[]}
               }
               if (rows.length > 0) {
                 rows.forEach(function(row, index){
@@ -76,44 +56,68 @@ function _promise_loadInspired(req, res){
             console.log('loading req: Inspired, get marks.');
             return new Promise((resolve, reject)=>{
               connection.query('SELECT * FROM marks WHERE id IN (?)', [sendingData.inspiredList], function(err, rows, fields) {
-                if (err) {_handler_err_Internal(err, res);reject(err);}
+                if (err) {_handler_err_Internal(err, res);reject(err);return}
                 console.log('database connection: success.')
                 if (rows.length > 0) {
                   rows.forEach(function(row, index){
                     let dataSet = {
                       markEditorContent: JSON.parse(row.editor_content), //because the data would transfer to string by db when saved
                       layer: row.layer,
-                      unitId:row.id_unit
+                      unitId:row.id_unit,
+                      authorId: row.id_author
                     }
                     sendingData.inspiredMarksSet[row.id] = dataSet;
                     sendingData.temp.unitsList.push([row.id_unit]);
+                    sendingData.temp.authorsList.push([row.id_author]);
                   })
                   resolve(sendingData)
                 } else {
-                  resolve(sendingData)
+                  _handler_err_Internal(err, res);reject(err);
                 }
               })
             })
-          }).then(function(sendingData){
-            console.log('loading req: Inspired, get unitsBasic.');
-            return new Promise((resolve, reject)=>{
-              connection.query('SELECT * FROM units WHERE id IN (?)', [sendingData.temp.unitsList], function(err, rows, fields) {
-                if (err) {_handler_err_Internal(err, res);reject(err);}
-                console.log('database connection: success.')
-                if (rows.length > 0) {
-                  rows.forEach(function(row, index){
-                    let dataSet = {
+          }).then((sendingData)=>{
+            let _db_selectFromUnits = new Promise((resolve, reject)=>{
+              console.log('loading req: Inspired, get unit data.');
+              let selectQuery = "SELECT id, id_author, url_pic_layer0, url_pic_layer1 FROM units WHERE id IN (?)";
+              connection.query(selectQuery, [sendingData.temp.unitsList], function(err, rows, fields){
+                if (err) {_handler_err_Internal(err, res);reject(err);return} //only with "return" could assure the promise end immediately if there is any error.
+                resolve(rows);
+              })
+            });
+            let _db_selectFromUsers = new Promise((resolve, reject)=>{
+              console.log('loading req: Inspired, get author basic.');
+              let selectQuery = "SELECT id, account FROM users WHERE id IN (?)";
+              connection.query(selectQuery, [sendingData.temp.authorsList], function(err, rows, fields){
+                if (err) {_handler_err_Internal(err, res);reject(err);return} //only with "return" could assure the promise end immediately if there is any error.
+                resolve(rows);
+              })
+            });
+            return Promise.all([_db_selectFromUnits, _db_selectFromUsers]).then(
+              (results)=>{
+                return new Promise((resolve, reject)=>{
+                  let unitsRows = results[0];
+                  let usersRows = results[1];
+                  unitsRows.forEach((row, index)=>{
+                    sendingData.unitBasicSet[row.id]={
+                      unitId: row.id,
                       authorId: row.id_author,
-                      pic_layer0:row.url_pic_layer0,
-                      pic_layer1:row.url_pic_layer1
+                      pic_layer0: row.url_pic_layer0,
+                      pic_layer1: row.url_pic_layer1
                     }
-                    sendingData.unitBasicSet[row.id] = dataSet;
                   })
-                }
-                _res_success(res, sendingData);
-                connection.release();
-              })
-            })
+                  usersRows.forEach((row, index)=>{
+                    sendingData.userBasic[row.id] = {
+                      authorAccount: row.account
+                    }
+                  })
+                  resolve(sendingData);
+                })
+              }
+            )
+          }).then(function(sendingData){
+            _res_success(res, sendingData);
+            connection.release();
           }).catch((err)=>{
             console.log("error occured during Inspired list req promise: "+err)
             connection.release();
@@ -124,4 +128,4 @@ function _promise_loadInspired(req, res){
   })
 }
 
-module.exports = _promise_loadInspired
+module.exports = _handle_cognition_loading_Inspired

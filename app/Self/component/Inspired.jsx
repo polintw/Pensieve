@@ -13,7 +13,8 @@ export default class Inspired extends React.Component {
       focusMarkName: null,
       inspiredList: [],
       inspiredMarksSet:{},
-      unitBasicSet: {}
+      unitBasicSet: {},
+      userBasic: {}
     };
     this._handleClick_markNail = this._handleClick_markNail.bind(this);
     this._close_modal_Unit = this._close_modal_Unit.bind(this);
@@ -27,7 +28,7 @@ export default class Inspired extends React.Component {
       selfCom_Inspired_nails_: {
         width: '100%',
         position: "absolute",
-        top: '16vh',
+        top: '0',
         left: '0',
         boxSizing: 'border-box',
         padding: '2vh 0 0 0'
@@ -42,16 +43,33 @@ export default class Inspired extends React.Component {
         overflow: 'hidden',
         cursor: 'pointer'
       },
-      selfCom_Inspired_nails_div_img: {
-        maxWidth: '150%',
-        maxHeight: '150%',
+      selfCom_Inspired_nails_div_mark_: {
+        width: '100%',
+        height: '85%',
         position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%,-50%)'
+        top: '0',
+        left: '0',
+        boxSizing: 'border-box',
+        backgroundColor: '#FFFFFF'
       },
-      Com_UnitModal_BottomSection_author_: {
-        width: '70%',
+      selfCom_Inspired_nails_div_basic_: {
+        width: '100%',
+        height: '15%',
+        position: 'absolute',
+        top: '85%',
+        left: '0',
+        boxSizing: 'border-box'
+      },
+      selfCom_Inspired_nails_div_basic_img: {
+        maxWidth: '30%',
+        height: '100%',
+        position: 'absolute',
+        top: '0%',
+        left: '70%',
+        transform: 'translate(-50%,0%)'
+      },
+      selfCom_Inspired_nails_div_basic_author_: {
+        width: '60%',
         height: '100%',
         position: 'absolute',
         top: '0',
@@ -60,20 +78,20 @@ export default class Inspired extends React.Component {
       },
       Com_UnitModal_BottomSection_author_text: {
         display: 'inline-block',
-        width: '90%',
+        width: '76%',
         height: '100%',
         position: 'absolute',
         top: '0',
-        left: '10%',
+        left: '24%',
         boxSizing: 'border-box',
         fontSize: '1.8rem',
         letterSpacing: '0.2vh',
         fontWeight: '400',
-        color: '#FAFAFA'
+        color: '#000000'
       },
       Com_UnitModal_BottomSection_author_propic_: {
         display: 'inline-block',
-        width: '8%',
+        width: '20%',
         height: '100%',
         position: 'absolute',
         top: '0',
@@ -111,7 +129,8 @@ export default class Inspired extends React.Component {
       self.setState({
         inspiredList: resObj.main.inspiredList,
         inspiredMarksSet:resObj.main.inspiredMarksSet,
-        unitBasicSet:resObj.main.unitBasicSet
+        unitBasicSet:resObj.main.unitBasicSet,
+        userBasic: resObj.main.userBasic
       })
     })
   }
@@ -127,23 +146,25 @@ export default class Inspired extends React.Component {
           markid={dataKey}
           style={self.style.selfCom_Inspired_nails_div_}
           onClick={self._handleClick_markNail}>
-          <div>
+          <div
+            style={self.style.selfCom_Inspired_nails_div_mark_}>
             <DraftDisplay
               editorState={dataValue.markEditorContent}/>
           </div>
-          <div>
+          <div
+            style={self.style.selfCom_Inspired_nails_div_basic_}>
             <div
-              style={self.style.Com_UnitModal_BottomSection_author_}>
+              style={self.style.selfCom_Inspired_nails_div_basic_author_}>
               <div style={self.style.Com_UnitModal_BottomSection_author_propic_}>
                 <SvgPropic/>
               </div>
               <span style={self.style.Com_UnitModal_BottomSection_author_text}>
-                {self.state.unitBasicSet[dataValue.unitId].author}
+                {self.state.userBasic[dataValue.authorId].authorAccount}
               </span>
             </div>
             <img
               src={'/router/img/'+self.state.unitBasicSet[dataValue.unitId].pic_layer0+'?type=thumb'}
-              style={self.style.selfCom_Inspired_nails_div_img}/>
+              style={self.style.selfCom_Inspired_nails_div_basic_img}/>
           </div>
         </div>
       )

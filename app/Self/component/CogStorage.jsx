@@ -1,6 +1,4 @@
 import React from 'react';
-import Shared from './Shared.jsx';
-import Collection from './Collection.jsx';
 import Inspired from './Inspired.jsx';
 
 export default class CogStorage extends React.Component {
@@ -20,7 +18,7 @@ export default class CogStorage extends React.Component {
       },
       selfCom_CogStorage_nav_: {
         width: '64%',
-        height: '16vh',
+        height: '12vh',
         position: 'absolute',
         top: '0',
         right: '10%',
@@ -49,7 +47,7 @@ export default class CogStorage extends React.Component {
       selfCom_CogStorage_main_: {
         width: '100%',
         position: 'absolute',
-        top: '16vh',
+        top: '12vh',
         left: '0'
       }
     }
@@ -64,15 +62,8 @@ export default class CogStorage extends React.Component {
 
   _render_CogStorage(){
     switch (this.props.range) {
-      case "shared":
-        return (
-          <Shared/>
-        )
-        break;
       case "broad":
-        return (
-          <Collection/>
-        )
+        return
         break;
       case "inspired":
         return (
@@ -91,11 +82,6 @@ export default class CogStorage extends React.Component {
         style={this.style.selfCom_CogStorage_}>
         <nav
           style={this.style.selfCom_CogStorage_nav_}>
-          <span
-            tab={"shared"}
-            style={this.style.selfCom_CogStorage_nav_span_shared}
-            onClick={this._handleClick_nav_range}>
-            {"shared"}</span>
           <span
             tab={"inspired"}
             style={this.style.selfCom_CogStorage_nav_span_inspired}
