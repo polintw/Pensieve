@@ -93,7 +93,6 @@ function _handle_NewShare(req, res){
               connection.query('INSERT INTO units SET ?', unitProfile, function(err, result, fields) {
                 if (err) {_handler_err_Internal(err, res);reject(err);}
                 console.log('database connection: success.')
-                console.log(result)
                 modifiedBody['id_unit'] = result.insertId;
                 resolve(modifiedBody)
               })
@@ -104,6 +103,7 @@ function _handle_NewShare(req, res){
               let valuesArr = modifiedBody.joinedMarks.map(function(markObj, index){
                 return [
                   modifiedBody.id_unit,
+                  userId,
                   markObj.layer,
                   markObj.top,
                   markObj.left,
@@ -111,7 +111,7 @@ function _handle_NewShare(req, res){
                   markObj.editorContent
                 ]
               })
-              connection.query('INSERT INTO marks (id_unit,layer,portion_top,portion_left,serial,editor_content) VALUES ?; SHOW WARNINGS;', [valuesArr], function(err, result, fields) {
+              connection.query('INSERT INTO marks (id_unit, id_author, layer,portion_top,portion_left,serial,editor_content) VALUES ?; SHOW WARNINGS;', [valuesArr], function(err, result, fields) {
                 if (err) {_handler_err_Internal(err, res);reject(err);}
                 console.log('database connection: success.')
                 resolve(modifiedBody)

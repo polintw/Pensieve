@@ -6,13 +6,16 @@ export default class ModalBackground extends React.Component {
   }
 
   render(){
-    const style = this.props.className ?　null : {
+    let style = {
       width: "100%",
       height: "100%",
       position: "absolute",
       top: "0%",
       left: 0,
       backgroundColor: "rgba(196, 180, 180, 0.9)"
+    };
+    if(this.props.style){
+      Object.assign(style, this.props.style)
     }
 
     return(

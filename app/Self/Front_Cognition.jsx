@@ -170,7 +170,8 @@ export default class FrontCognition extends React.Component {
           <div
             style={this.style.Front_Cognition_Navs_Front_}>
             <NavFront
-              userBasic={this.props.userBasic}/>
+              userBasic={this.props.userBasic}
+              _set_frontPage={this.props._set_frontPage}/>
           </div>
         </div>
       </div>

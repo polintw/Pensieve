@@ -1,13 +1,19 @@
 import React from 'react';
 import cxBind from 'classnames/bind';
+import Appearance from './component/Appearance.jsx';
+import CreateShare from '../Component/CreateShare.jsx';
 
 export default class SelfCover extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      userBasic: this.props.userBasic
+      userBasic: this.props.userBasic,
+      origin: '',
+      scroll: false
     };
-    this._handleClick_entry_UnitBase = this._handleClick_entry_UnitBase.bind(this);
+    this._submit_Share_New = this._submit_Share_New.bind(this);
+    this._handleMouse_selfCoverFrame = this._handleMouse_selfCoverFrame.bind(this);
+    this._handleClick_nav_expand = this._handleClick_nav_expand.bind(this);
     this._handleClick_selfClose = this._handleClick_selfClose.bind(this);
     this.style={
       Self_pages_SelfCover_: {
@@ -16,38 +22,76 @@ export default class SelfCover extends React.Component {
         height: '100%',
         position: 'absolute',
         top: '0',
-        left: '0'
+        left: '0',
+        overflowY: 'scroll'
       },
-      Self_pages_SelfCover_side_: {
-        width: '68%',
-        height: '20%',
+      Self_pages_SelfCover_mainNav_: {
+        width: '100%',
         position: 'absolute',
-        top: '40%',
-        left: '18%',
-        boxSizing: 'border-box',
-        boxShadow: 'inset 0px -2px 2px -2px, inset 0px 2px 2px -2px'
+        top: '50%',
+        left: '0',
+        transform: 'translate(0, -50%)',
+        boxSizing: 'border-box'
       },
-      Self_pages_SelfCover_side_userName: {
-        width: '36%',
-        height: '100%',
+      Self_pages_SelfCover_mainNav_userName: {
+        display: 'inline-block',
+        width: '27%',
         position: 'absolute',
         top: '0%',
-        left: '5%',
+        left: '20%',
         fontSize: "5.6vh",
         letterSpacing: '0.6vh',
         fontWeight: '300',
         color: '#222222'
       },
-      Self_pages_SelfCover_side_entry_: {
-        width: '30%',
-        height: '100%',
+      Self_pages_SelfCover_mainNav_options_: {
+        display: 'inline-block',
+        width: '27%',
+        height: '20vh',
         position: 'absolute',
+        bottom: '0%',
+        right: '20%',
+        boxSizing: 'border-box'
+      },
+      Self_pages_SelfCover_mainNav_options_expand: {
+        display: 'inline-block',
+        width: '100%',
+        height: '40%',
+        position: 'relative',
         top: '0%',
-        left: '70%',
+        left: '0%',
         fontSize: "3.6vh",
         letterSpacing: '0.4vh',
         color: '#222222',
         cursor: 'pointer'
+      },
+      Self_pages_SelfCover_mainNav_options_create: {
+        display: 'inline-block',
+        width: '55%',
+        height: '40%',
+        position: 'relative',
+        boxSizing: 'border-box',
+        padding: '2% 0'
+      },
+      Self_pages_SelfCover_mainNav_options_recent: {
+        display: 'inline-block',
+        width: '40%',
+        height: '40%',
+        position: 'relative',
+        boxSizing: 'border-box',
+        fontSize: '1.6rem',
+        fontWeight: '400',
+        letterSpacing: '0.15rem',
+        color: '#222222',
+        cursor: 'pointer'
+      },
+      Self_pages_SelfCover_hidden_appearance: {
+        width: '60%',
+        minHeight: '64%',
+        position: 'absolute',
+        top: '64%',
+        left: '20%',
+        boxSizing: 'border-box'
       },
       Self_pages_SelfCover_close_: {
         width: '6%',
@@ -69,7 +113,7 @@ export default class SelfCover extends React.Component {
       Self_pages_SelfCover_Logo: {
         width: '16%',
         height: '10%',
-        position: 'absolute',
+        position: 'fixed',
         bottom:'0%',
         left: '6%',
         boxSizing: 'border-box',
@@ -80,7 +124,7 @@ export default class SelfCover extends React.Component {
     }
   }
 
-  _handleClick_entry_UnitBase(event){
+  _handleClick_nav_expand(event){
     event.stopPropagation();
     event.preventDefault();
     window.location.assign('/self/front');
@@ -92,20 +136,72 @@ export default class SelfCover extends React.Component {
     window.location.assign('/');
   }
 
+  _handleMouse_selfCoverFrame(event){
+    if(this.selfCover_.scrollTop==0){
+      if(!this.state.scroll && event.deltaY>0){
+        this.setState((prevState, props)=>{
+          return {scroll: true}
+        }, ()=>{
+          if(this.state.scroll) this.selfCover_.scrollTo({top: 1, behavior: "smooth"});
+        });
+      }else if(this.state.scroll && event.deltaY<0){
+        this.setState((prevState, props)=>{
+          return {scroll: false}
+        });
+      }
+    }
+  }
+
+  _submit_Share_New(dataObj){
+    window.location.assign('/self/front');
+  }
+
+  componentDidMount() {
+    this.setState({origin: this.selfCover_pagenav.getBoundingClientRect().top});
+  }
+
+  componentWillUnmount() {
+
+  }
+
   render(){
     //let cx = cxBind.bind(styles);
     return(
       <div
-        style={this.style.Self_pages_SelfCover_}>
+        ref={(element)=>{this.selfCover_=element;}}
+        style={this.style.Self_pages_SelfCover_}
+        onWheel={this._handleMouse_selfCoverFrame}>
+        <div style={this.style.Self_pages_SelfCover_Logo}>{'CORNER'}</div>
         <div
-          style={this.style.Self_pages_SelfCover_side_}>
-          <div style={this.style.Self_pages_SelfCover_side_userName}>{this.state.userBasic.account}</div>
+          ref={(element)=>{this.selfCover_pagenav=element;}}
+          style={Object.assign({height: this.state.scroll? '20vh': '45vh'}, this.style.Self_pages_SelfCover_mainNav_)}>
+          <div style={this.style.Self_pages_SelfCover_mainNav_userName}>{this.state.userBasic.account}</div>
           <div
-            style={this.style.Self_pages_SelfCover_side_entry_}
-            onClick={this._handleClick_entry_UnitBase}>
-            {'Expand'}
+            style={this.style.Self_pages_SelfCover_mainNav_options_}>
+            <div
+              style={this.style.Self_pages_SelfCover_mainNav_options_expand}
+              onClick={this._handleClick_nav_expand}>
+              {'Expand'}
+            </div>
+            <div
+              style={this.style.Self_pages_SelfCover_mainNav_options_create}>
+              <img src="/images/vacancy.png" style={{width: '100%', maxHeight: '100%'}}/>
+              <CreateShare
+                _submit_Share_New={this._submit_Share_New}/>
+            </div>
+            <div
+              style={this.style.Self_pages_SelfCover_mainNav_options_recent}>
+              {"recent"}
+            </div>
           </div>
         </div>
+        {
+          this.state.scroll &&
+          <div
+            style={this.style.Self_pages_SelfCover_hidden_appearance}>
+            <Appearance/>
+          </div>
+        }
         <div
           style={this.style.Self_pages_SelfCover_close_}>
           <svg
@@ -117,7 +213,6 @@ export default class SelfCover extends React.Component {
             </text>
           </svg>
         </div>
-        <div style={this.style.Self_pages_SelfCover_Logo}>{'CORNER'}</div>
       </div>
     )
   }
