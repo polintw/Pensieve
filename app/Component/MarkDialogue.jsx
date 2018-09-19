@@ -8,12 +8,13 @@ export default class MarkDialogue extends React.Component {
     super(props);
     this.state = {
       axios: false,
-      threadId: null,
+      threadId: this.props.threadId,
       dialogueOrderList: [],
       dialoguesData: {},
       talkerAccount: {},
       newStatementEditor: null
     };
+    this.axiosSource = axios.CancelToken.source();
     this._handleClick_sendDialogue = this._handleClick_sendDialogue.bind(this);
     this._axios_post_Dialogue_new = this._axios_post_Dialogue_new.bind(this);
     this.style = {
@@ -38,14 +39,15 @@ export default class MarkDialogue extends React.Component {
         'Content-Type': 'application/json',
         'charset': 'utf-8',
         'token': window.localStorage['token']
-      }
+      },
+      cancelToken: self.axiosSource.token
     }).then(function (res) {
         if(res.status = 200){
           console.log("dialogue post successfully!");
           self.setState((prevState, props)=>{
             let localUseId = "local_"+prevState.dialogueOrderList.length;
             prevState.dialogueOrderList.push(localUseId);
-            prevState.dialoguesData[localUseId] = {editorContent: JSON.parse(submitObj.editorContent), talker: "(nobody)"}; //wait for reducer usage
+            prevState.dialoguesData[localUseId] = {editorContent: JSON.parse(submitObj.editorContent), talker: "(authorId)"}; //wait for reducer usage
             return {
               axios: false,
               threadId: res.data.main.threadId,
@@ -59,10 +61,14 @@ export default class MarkDialogue extends React.Component {
           self.setState({axios: false});
           alert("Failed, please try again later");
         }
-    }).catch(function (error) {
-      console.log(error);
-      self.setState({axios: false});
-      alert("Failed, please try again later");
+      }).catch(function (thrown) {
+        if (axios.isCancel(thrown)) {
+          console.log('Request canceled: ', thrown.message);
+        } else {
+          console.log(thrown);
+          self.setState({axios: false});
+          alert("Failed, please try again later");
+        }
     });
   }
 
@@ -84,16 +90,18 @@ export default class MarkDialogue extends React.Component {
   componentDidMount(){
     const self = this;
     this.setState((prevState, props)=>{return {axios: true};}, ()=>{
-      let url = '/router/unit/general/dialogue?markId='+self.props.markKey;
+      let url = '/router/unit/general/dialogue?markId='+self.props.markKey+'&threadId='+self.props.threadId;
       axios.get(url, {
         headers: {
           'charset': 'utf-8',
           'token': window.localStorage['token']
-        }
+        },
+        cancelToken: self.axiosSource.token
       }).then(function (res) {
           self.setState((prevState, props)=>{
             let resObj = JSON.parse(res.data);
             return {
+              axios: false,
               threadId: resObj.main.threadId,
               dialogueOrderList: resObj.main.orderList,
               dialoguesData: resObj.main.dialoguesData,
@@ -101,12 +109,22 @@ export default class MarkDialogue extends React.Component {
               newStatementEditor: null
             }
           });
-      }).catch(function (error) {
-        console.log(error);
-        self.setState({axios: false});
-        alert("Failed, please try again later");
+      }).catch(function (thrown) {
+        if (axios.isCancel(thrown)) {
+          console.log('Request canceled: ', thrown.message);
+        } else {
+          console.log(thrown);
+          self.setState({axios: false});
+          alert("Failed, please try again later");
+        }
       });
     })
+  }
+
+  componentWillUnmount(){
+    if(this.state.axios){
+      this.axiosSource.cancel("component will unmount.")
+    }
   }
 
   render(){

@@ -2,7 +2,6 @@ import React from 'react';
 import cxBind from 'classnames/bind';
 import CreateShare from '../../Component/CreateShare.jsx';
 import ModalBox from '../../Component/ModalBox.jsx';
-import ModalBackground from '../../Component/ModalBackground.jsx';
 
 export default class LtdNav extends React.Component {
   constructor(props){
@@ -17,7 +16,8 @@ export default class LtdNav extends React.Component {
       withinCom_LtdNav_: {
         width: '100%',
         height: '100%',
-        position: 'absolute'
+        position: 'absolute',
+        color: '#020202'
       },
       withinCom_LtdNav_logo_: {
         width: '16%',
@@ -27,8 +27,7 @@ export default class LtdNav extends React.Component {
         left: '18%',
         boxSizing: 'border-box',
         fontSize: '4vh',
-        letterSpacing: '0.5vh',
-        color: '#FAFAFA'
+        letterSpacing: '0.5vh'
       },
       withinCom_LtdNav_div_: {
         width: '25%',
@@ -36,8 +35,7 @@ export default class LtdNav extends React.Component {
         position: 'absolute',
         top: '0',
         right: '18%',
-        boxSizing: 'border-box',
-        color: '#FAFAFA'
+        boxSizing: 'border-box'
       },
       withinCom_LtdNav_div_User_: {
         display: 'inline-block',
@@ -82,8 +80,8 @@ export default class LtdNav extends React.Component {
   _handleClick_navToolBox(event){
     event.stopPropagation();
     event.preventDefault();
-    this.setState({
-      toolBoxify: true
+    this.setState((prevState, props)=>{
+      return {toolBoxify: prevState.toolBoxify?false:true}
     })
   }
 

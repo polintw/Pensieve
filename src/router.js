@@ -3,6 +3,7 @@ const router = express.Router();
 const path = require("path");
 
 const auth = require('./auth/main.js');
+const cosmicRouter = require('./cosmic/main.js');
 const userRouter = require('./user/main.js');
 const unitRouter = require('./unit/main.js');
 const imgRouter = require('./img/main.js');
@@ -19,6 +20,8 @@ router.use('/img', imgRouter)
 
 //veirfy user status
 router.use('/', auth)
+
+router.use('/cosmic', cosmicRouter)
 
 router.use('/user', userRouter)
 

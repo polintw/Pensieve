@@ -8,105 +8,122 @@ export default class WithinLtd extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      NavMaskOpa: 0,
-      scrollYLast: 0,
-      fixedEleWidth: 0
+      cssPara: 0
     };
     this._check_Position = this._check_Position.bind(this);
+    this._handleClick_LtdFly = this._handleClick_LtdFly.bind(this);
     this.style={
       Within_Ltd_: {
         width: '100%',
         height: '100%',
-        position: 'fixed'
+        position: 'absolute'
       },
       Within_Ltd_Background_: {
         width: '100%',
         height: '100%',
-        position: 'absolute',
+        position: 'fixed',
         top: '0',
-        left: '0'
+        left: '0',
+        backgroundColor: 'rgba(205, 198,198,0.66)'
       },
       Within_Ltd_scroll_: {
         width: '100%',
-        height: '100%',
-        position: 'absolute',
+        position: 'static',
+        overflow: 'auto'
+      },
+      Within_Ltd_scroll_night: {
+        width: '100%',
+        height: '93%',
+        position: 'fixed',
         top: '0',
         left: '0',
         boxSizing: 'border-box',
-        overflow: 'auto'
+        backgroundColor: "rgba(2,2,2,0.64)"
       },
-      Within_Ltd_LtdUnits: {
+      Within_Ltd_scroll_dawn_: {
+        width: '100%',
+        position: 'fixed',
+        left: '0',
+        boxSizing: 'border-box',
+        backgroundColor: "#e0dcdc"
+      },
+      Within_Ltd_scroll_dawn_fly_: {
+        width: '10%',
+        position: 'absolute',
+        top: '50%',
+        left: '88%',
+        transform: 'translate(0, -50%)'
+      },
+      Within_Ltd_scroll_dawn_fly_svg: {
+        width: '100%',
+        boxSizing: 'border-box'
+      },
+      Within_Ltd_scroll_EntryCall: {
         width: '64%',
+        height: '21%',
+        position: 'fixed',
+        top: '5%',
+        left: '50%',
+        transform: 'translate(-50%, 0)'
+      },
+      Within_Ltd_scroll_LtdUnits: {
+        width: '60%',
         minHeight: '110%',
         position: 'absolute',
-        top: '46%',
+        top: '28%',
         left: '50%',
         transform: 'translate(-50%,0)',
         boxSizing: 'border-box'
       },
-      Within_Ltd_LtdNav_: {
-        height: '8%',
+      Within_Ltd_scroll_LtdNav_: {
+        width: '100%',
+        height: '7%',
         position: 'fixed',
         bottom: '0',
         left: '0',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        backgroundColor: "rgba(2,2,2,0.64)"
       },
-      Within_Ltd_LtdNav_paint: {
-        height: '8%',
+      Within_Ltd_scroll_LtdNav_light: {
+        width: '100%',
+        height: '100%',
         position: 'absolute',
-        top: '92%',
+        top: '0%',
         left: '0',
         boxSizing: 'border-box',
         backgroundColor: '#FAFAFA'
-      },
-      Within_Ltd_top_: {
-        width: '100%',
-        height: '92%',
-        position: 'absolute',
-        top: '0'
-      },
-      Within_Ltd_top_solid_: {
-        width: '100%',
-        height: '50%',
-        position: 'absolute',
-        top: '0',
-        backgroundColor: '#FAFAFA'
-      },
-      Within_Ltd_top_solid_EntryCall: {
-        width: '64%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '50%',
-        transform: 'translate(-50%, 0)'
       }
     }
+  }
+
+  _handleClick_LtdFly(event){
+    event.stopPropagation();
+    event.preventDefault();
+    this.props._set_Pages("cosmic");
   }
 
   _check_Position(){
     let ltdUnitsTop = this.ltdUnits.getBoundingClientRect().top;
     if(ltdUnitsTop < this.scrollOrigin && ltdUnitsTop > this.scrollLine){
-      let opa = (this.scrollOrigin-ltdUnitsTop)*0.48/this.scrollRange;
+      //it's not good enough, due to the "leap" happened at the threshould
+      let para = (this.scrollOrigin-ltdUnitsTop)/this.scrollRange;
       this.setState((prevState, props) => {
         return ({
-          NavMaskOpa: opa,
-          scrollYLast: ltdUnitsTop
+          cssPara: para,
         })
       })
     }
   }
 
   componentDidMount() {
-    let fixedEleWidth = this.ltdTop.clientWidth;
     this.scrollOrigin = this.ltdUnits.getBoundingClientRect().top;
-    this.scrollRange = this.scrollOrigin*7/5;
+    this.scrollRange = this.scrollOrigin*4.5;
     this.scrollLine = this.scrollOrigin-this.scrollRange;
-    this.setState({scrollYLast: this.ltdUnits.getBoundingClientRect().top, fixedEleWidth: fixedEleWidth})
-    document.getElementById('view_WithinLtd_scroll').addEventListener("scroll", this._check_Position);
+    window.addEventListener("scroll", this._check_Position); //becuase we using "position: static", listener could not add on element directlly.
   }
 
   componentWillUnmount() {
-    document.getElementById('view_WithinLtd_scroll').removeEventListener("scroll", this._check_Position);
+    window.removeEventListener("scroll", this._check_Position);
   }
 
   render(){
@@ -115,39 +132,38 @@ export default class WithinLtd extends React.Component {
       <div
         style={this.style.Within_Ltd_}>
         <div
-          style={this.style.Within_Ltd_Background_}>
-          <div style={{width: '100%', height: '38%', position: 'relative', backgroundColor: 'rgba(70, 70, 70, 0.5)'}}></div>
-          <div style={{width: '100%', height: '62%', position: 'relative', backgroundColor: '#FAFAFA'}}></div>
-        </div>
-        <div
-          id='view_WithinLtd_scroll'
-          ref={(element)=>{this.withinLtd_scroll}}
+          ref={(element)=>{this.withinLtd_scroll=element;}}
           style={this.style.Within_Ltd_scroll_}>
           <div
+            style={this.style.Within_Ltd_Background_}/>
+          <div
+            style={this.style.Within_Ltd_scroll_night}/>
+          <div
             ref={(element)=>{this.ltdTop = element}}
-            style={this.style.Within_Ltd_top_}>
-            <div style={this.style.Within_Ltd_top_solid_}>
-              <div
-                style={this.style.Within_Ltd_top_solid_EntryCall}>
-                <EntryCall/>
-              </div>
-            </div>
-            <div style={{width: '100%', height: '50%', position: 'absolute', top: '50%', backgroundColor: '#FAFAFA'}}></div>
+            style={Object.assign({height: (33-(this.state.cssPara*28))+"%", top: (this.state.cssPara*18)+'%'},this.style.Within_Ltd_scroll_dawn_)}>
             <div
-              ref={(element) => {this.mask = element}}
-              style={{width: '100%', height: '50%', position: 'absolute', top: '50%', backgroundColor: 'rgba(70,70,70,0.5)'}}>
+              style={this.style.Within_Ltd_scroll_dawn_fly_}>
+              <svg
+                style={this.style.Within_Ltd_scroll_dawn_fly_svg}>
+                <circle r="2vh" cx="50%" cy="50%" stroke='#999999' fill="transparent" style={{cursor: 'pointer'}} onClick={this._handleClick_LtdFly}/>
+              </svg>
             </div>
+          </div>
+          <div
+            style={Object.assign({opacity: 1-this.state.cssPara}, this.style.Within_Ltd_scroll_EntryCall)}>
+            <EntryCall
+              userBasic={this.props.userBasic}/>
           </div>
           <div
             ref = {(element)=>{this.ltdUnits = element}}
-            style={this.style.Within_Ltd_LtdUnits}>
+            style={this.style.Within_Ltd_scroll_LtdUnits}>
             <LtdUnits/>
           </div>
-          <div style={Object.assign({backgroundColor: '#FAFAFA', width: this.state.fixedEleWidth}, this.style.Within_Ltd_LtdNav_)}>
-            <div style={Object.assign({backgroundColor: 'rgba(70,70,70,'+this.state.NavMaskOpa+')', width: this.state.fixedEleWidth}, this.style.Within_Ltd_LtdNav_)}></div>
+          <div style={this.style.Within_Ltd_scroll_LtdNav_}>
+            <div style={Object.assign({opacity: this.state.cssPara}, this.style.Within_Ltd_scroll_LtdNav_light)}></div>
             <div
               ref={(element)=>{this.Within_Ltd_LtdNav = element}}
-              style={Object.assign({backgroundColor: 'transparent',width: this.state.fixedEleWidth}, this.style.Within_Ltd_LtdNav_)}>
+              style={{opacity: this.state.cssPara}}>
               <LtdNav
                 userBasic={this.props.userBasic}/>
             </div>

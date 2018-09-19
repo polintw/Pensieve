@@ -85,8 +85,8 @@ export default class Shared extends React.Component {
       }
     }).then(function(res){
       self.setState({
-        unitsList: res.data.unitsList,
-        unitsBasicSet: res.data.unitsBasicSet
+        unitsList: res.data.main.unitsList,
+        unitsBasicSet: res.data.main.unitsBasicSet
       })
     })
   }

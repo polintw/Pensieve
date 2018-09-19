@@ -9,120 +9,76 @@ export default class EntryCall extends React.Component {
 
     };
     this.dateObj = new Date();
-    this._render_getDay = this._render_getDay.bind(this);
+    this._handleClick_selfEntrance = this._handleClick_selfEntrance.bind(this);
     this._submit_Share_New = this._submit_Share_New.bind(this);
     this.style={
       withinCom_EntryCall_: {
         width: '100%',
-        height: '100%',
+        height: '80%',
         position: 'absolute',
-        top: '0',
-        left: '0'
-      },
-      withinCom_EntryCall_welcome_: {
-        width: '68%',
-        height: '40%',
-        position: 'absolute',
-        top: '35%',
+        top: '50%',
         left: '0',
-        boxSizing: 'border-box',
-        fontSize: '11.5vh',
-        letterSpacing: '0.8vh',
-        fontWeight: '700',
-        color: '#222222'
+        transform: 'translate(0, -50%)'
       },
-      withinCom_EntryCall_rectangle_: {
-        width: '25%',
-        height: '50%',
+      withinCom_EntryCall_CreateShare_: {
+        width: '30%',
+        height: '36%',
         position: 'absolute',
-        bottom: '10%',
+        bottom: '0',
         right: '0',
         boxSizing: 'border-box'
       },
-      withinCom_EntryCall_rectangle_CreateShare_: {
-        width: '100%',
-        height: '40%',
+      withinCom_EntryCall_Info_: {
+        width: '40%',
+        height: '30%',
         position: 'absolute',
         bottom: '0',
         left: '0',
         boxSizing: 'border-box',
-        padding: '2% 0'
       },
-      withinCom_EntryCall_rectangle_Info_: {
+      withinCom_EntryCall_Info_Date_: {
         width: '100%',
-        height: '56%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box',
-      },
-      withinCom_EntryCall_rectangle_Info_Day: {
-        width: '30%',
         height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box',
-        fontSize: '5vh',
-        letterSpacing: '0.6vh',
-        fontWeight: '700',
-        writingMode: 'vertical-lr',
-        color: '#222222'
-      },
-      withinCom_EntryCall_rectangle_Info_Place: {
-        width: '70%',
-        height: '54%',
-        position: 'absolute',
-        top: '0',
-        right: '0',
-        boxSizing: 'border-box',
-        fontSize: '3.2vh',
-        letterSpacing: '0.4vh',
-        textAlign: "right",
-        color: '#222222'
-      },
-      withinCom_EntryCall_rectangle_Info_Date_: {
-        width: '70%',
-        height: '40%',
-        position: 'absolute',
-        bottom: '6%',
-        right: '0%',
         boxSizing: 'border-box',
         padding: '1% 0',
-        fontSize: '3vh',
-        letterSpacing: '0.3vh',
-        textAlign: 'right',
+        fontSize: '2.2rem',
+        letterSpacing: '0.2rem',
+        fontWeight: '400',
+        textAlign: 'left',
         color: '#222222'
+      },
+      withinCom_EntryCall_logo_: {
+        display: 'inline-block',
+        position: 'absolute',
+        top:'40%',
+        left: '0%',
+        transform: 'translate(0, -50%)',
+        boxSizing: 'border-box',
+        fontSize: '3rem',
+        fontWeight: '700',
+        letterSpacing: '0.5rem'
+      },
+      withinCom_EntryCall_div_User_: {
+        display: 'inline-block',
+        width: '40%',
+        height: '40%',
+        position: 'absolute',
+        top:'40%',
+        left: '60%',
+        transform: 'translate(0, -50%)',
+        boxSizing: 'border-box',
+        fontSize: '2.2rem',
+        fontWeight: '400',
+        letterSpacing: '0.2rem',
+        textAlign: 'center'
       }
     }
   }
 
-  _render_getDay(dateObj){
-    switch (dateObj.getDay()) {
-      case 0:
-        return "SUN"
-        break;
-      case 1:
-        return "MON"
-        break;
-      case 2:
-        return "TUE"
-        break;
-      case 3:
-        return "WED"
-        break;
-      case 4:
-        return "THU"
-        break;
-      case 5:
-        return "FRI"
-        break;
-      case 6:
-        return "SAT"
-        break;
-      default:
-        return "SUN"
-    }
+  _handleClick_selfEntrance(event){
+    event.stopPropagation();
+    event.preventDefault();
+    window.location.assign('/self');
   }
 
   _submit_Share_New(dataObj){
@@ -135,28 +91,31 @@ export default class EntryCall extends React.Component {
       <div
         style={this.style.withinCom_EntryCall_}>
         <div
-          style={this.style.withinCom_EntryCall_welcome_}>
-          <span style={{display: "block", position: 'absolute', bottom:'0'}}>{"Welcome Back"}</span>
+          style={this.style.withinCom_EntryCall_logo_}>
+          {"CORNER"}
         </div>
         <div
-          style={this.style.withinCom_EntryCall_rectangle_}>
+          style={this.style.withinCom_EntryCall_div_User_}>
           <div
-            style={this.style.withinCom_EntryCall_rectangle_Info_}>
-            <span style={this.style.withinCom_EntryCall_rectangle_Info_Day}>{this._render_getDay(this.dateObj)}</span>
-            <span style={this.style.withinCom_EntryCall_rectangle_Info_Place}>{"Taipei City"}</span>
-            <div
-              style={this.style.withinCom_EntryCall_rectangle_Info_Date_}>
-              <span>{(this.dateObj.getMonth()+1)+' ﹒'}</span>
-              <span>{this.dateObj.getDate()+' ﹒'}</span>
-              <span>{this.dateObj.getFullYear()}</span>
-            </div>
+            style={{width: '100%', position: 'absolute', top: '50%', transform: 'translate(0, -50%)', cursor: 'pointer'}}
+            onClick={this._handleClick_selfEntrance}>
+            {this.props.userBasic.account}
           </div>
+        </div>
+        <div
+          style={this.style.withinCom_EntryCall_Info_}>
           <div
-            style={this.style.withinCom_EntryCall_rectangle_CreateShare_}>
-            <img src="/images/vacancy.png" style={{width: '100%', maxHeight: '100%'}}/>
-            <CreateShare
-              _submit_Share_New={this._submit_Share_New}/>
+            style={this.style.withinCom_EntryCall_Info_Date_}>
+            <span>{(this.dateObj.getMonth()+1)+' ﹒'}</span>
+            <span>{this.dateObj.getDate()+' ﹒'}</span>
+            <span>{this.dateObj.getFullYear()}</span>
           </div>
+        </div>
+        <div
+          style={this.style.withinCom_EntryCall_CreateShare_}>
+          <img src="/images/vacancy.png" style={{width: '100%', maxHeight: '100%'}}/>
+          <CreateShare
+            _submit_Share_New={this._submit_Share_New}/>
         </div>
       </div>
     )
