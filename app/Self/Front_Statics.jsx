@@ -14,12 +14,13 @@ export default class FrontStatics extends React.Component {
         height: '100%',
         position: 'absolute',
         top: '0%',
-        left: '0%'
+        left: '0%',
+        overflowY: "scroll"
       },
       Front_Statics_return_: {
         width: '6%',
         height: '6%',
-        position: 'absolute',
+        position: 'fixed',
         top: '80%',
         right: '9%',
         boxSizing: 'border-box',

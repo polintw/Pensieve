@@ -83,7 +83,9 @@ export default class NavFront extends React.Component {
               <span
                 page={"statics"}
                 style={{cursor: 'pointer'}}
-                onClick={this._handleClick_NavFront_switch}>{'資料'}</span>
+                onClick={this._handleClick_NavFront_switch}>{'靜態'}</span>
+              <span
+                style={{cursor: 'pointer'}}>{'接觸'}</span>
               <span
                 style={{cursor: 'pointer'}}>{'收件'}</span>
             </div>

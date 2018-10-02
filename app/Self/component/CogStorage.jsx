@@ -67,7 +67,8 @@ export default class CogStorage extends React.Component {
         break;
       case "inspired":
         return (
-          <Inspired/>
+          <Inspired
+            _refer_leaveSelf={this.props._refer_leaveSelf}/>
         )
         break;
       default:

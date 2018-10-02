@@ -81,9 +81,8 @@ export default class FrontStatics extends React.Component {
               <span style={this.style.selfCom_Statics_navStatics_UserName_span_}>{this.props.userBasic.account}</span>
             </div>
             {"基本 "}
-            {"關注 "}
-            {"連結 "}
-            {"外部社群 "}
+            {"統計 "}
+            {"歷程 "}
           </div>
           <div
             style={this.style.selfCom_Statics_display_}>
@@ -94,6 +93,7 @@ export default class FrontStatics extends React.Component {
                 <div>{"性別"}</div>
                 <div>{"出生地"}</div>
                 <div>{"居住地"}</div>
+                <div>{"語言"}</div>                
                 <div>{"興趣"}</div>
               </section>
             </div>

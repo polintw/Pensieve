@@ -21,14 +21,17 @@ export default class CogMove extends React.Component {
         position: 'absolute',
         top: '0',
         right: '10%',
+        boxSizing: 'border-box',
+        padding: '1vh 2%',
         fontSize: '1.3rem',
         fontWeight: '300',
         letterSpacing: '0.1rem'
       },
-      selfCom_CogMove_nav_span_shared: {
-        position: 'absolute',
-        top: '0',
-        left: '0',
+      selfCom_CogMove_nav_span_: {
+        display: 'inline-block',
+        position: 'relative',
+        boxSizing: 'border-box',
+        margin: '0 3%',
         cursor: 'pointer'
       },
       selfCom_CogMove_nav_span_inspired: {
@@ -67,14 +70,23 @@ export default class CogMove extends React.Component {
         <nav
           style={this.style.selfCom_CogMove_nav_}>
           <span
-            tab={"shared"}
-            style={this.style.selfCom_CogMove_nav_span_shared}
+            tab={"shared．response"}
+            style={this.style.selfCom_CogMove_nav_span_}
             onClick={this._handleClick_nav_range}>
-            {"shared"}</span>
+            {"shared．response"}</span>
+          <span
+            tab={"activities"}
+            style={this.style.selfCom_CogMove_nav_span_}>
+            {"activities"}<br></br>{"launched"}</span> 
+          <span
+            tab={"temp．workspace"}
+            style={this.style.selfCom_CogMove_nav_span_}>
+            {"temp．workspace"}</span>
         </nav>
         <div
           style={this.style.selfCom_CogMove_main_}>
-          <Shared/>
+          <Shared
+            _refer_leaveSelf={this.props._refer_leaveSelf}/>
         </div>
       </div>
     )

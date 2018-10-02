@@ -1,7 +1,15 @@
 import React from 'react';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Link
+} from 'react-router-dom';
 import cxBind from 'classnames/bind';
 import CosmicCorner from './component/CosmicCorner.jsx';
 import CosmicMain from './component/CosmicMain.jsx';
+import CosmicUser from './component/CosmicUser.jsx';
+import CosmicNoun from './component/CosmicNoun.jsx';
 
 export default class WithinCosmic extends React.Component {
   constructor(props){
@@ -23,15 +31,6 @@ export default class WithinCosmic extends React.Component {
         top: '92%',
         right: '6%',
         boxSizing: 'border-box'
-      },
-      Within_Cosmic_Main_: {
-        width: '75%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '10%',
-        boxSizing: 'border-box',
-        overflow: 'visible'
       }
     }
   }
@@ -49,13 +48,13 @@ export default class WithinCosmic extends React.Component {
     return(
       <div
         style={this.style.Within_Cosmic_}>
-        <div
-          style={this.style.Within_Cosmic_Main_}>
-          <CosmicMain/>
-        </div>
+        <Route path={this.props.match.path+"/user"} render={(props)=> <CosmicUser {...props} userBasic={this.props.userBasic}/>}/>
+        <Route path={this.props.match.path+"/pick/noun"} render={(props)=> <CosmicNoun {...props} userBasic={this.props.userBasic}/>}/>
+        <Route exact path={this.props.match.path} component={CosmicMain}/>
         <div
           style={this.style.Within_Cosmic_corner_}>
           <CosmicCorner
+            match={this.props.match}
             _set_Pages={this.props._set_Pages}/>
         </div>
       </div>

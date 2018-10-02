@@ -186,7 +186,8 @@ export default class Inspired extends React.Component {
                 unitInit={
                   Object.assign(this.state.unitBasicSet[this.state.inspiredMarksSet[this.state.focusMarkName].unitId], {marksify: true, initMark: this.state.focusMarkName, layer: this.state.inspiredMarksSet[this.state.focusMarkName].layer})
                 }
-                _close_modal_Unit={this._close_modal_Unit}/>
+                _close_modal_Unit={this._close_modal_Unit}
+                _refer_von_unit={this.props._refer_leaveSelf}/>
             </ModalBackground>
           </ModalBox>
         }

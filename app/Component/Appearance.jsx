@@ -1,5 +1,5 @@
 import React from 'react';
-import AppearMain from './AppearMain.jsx';
+import AppearPath from './AppearPath.jsx';
 
 export default class Appearance extends React.Component {
   constructor(props){
@@ -8,19 +8,19 @@ export default class Appearance extends React.Component {
 
     };
     this.style={
-      selfCoverCom_appear_: {
+      Com_Appearance_: {
         width: '100%',
         position: 'absolute',
         top: '0',
         left: '0'
       },
-      selfCoverCom_appear_main_: {
+      Com_Appearance_main_: {
         width: '100%',
         minHeight: '24vh',
         boxSizing: 'border-box',
         padding: '2vh 0 0 0'
       },
-      selfCoverCom_appear_nav_: {
+      Com_Appearance_nav_: {
           width: '100%',
           height: '6vh',
           boxSizing: 'border-box',
@@ -37,16 +37,19 @@ export default class Appearance extends React.Component {
     //let cx = cxBind.bind(styles);
     return(
       <div
-        style={this.style.selfCoverCom_appear_}>
+        style={this.style.Com_Appearance_}>
         <div
-            style={this.style.selfCoverCom_appear_nav_}>
+            style={this.style.Com_Appearance_nav_}>
             <div style={{display: 'inline-block'}}>{"Path"}</div>
             <div style={{display: 'inline-block'}}>{"Series"}</div>
             <div style={{display: 'inline-block'}}>{"Info"}</div>
         </div>
         <div
-          style={this.style.selfCoverCom_appear_main_}>
-          <AppearMain/>
+          style={this.style.Com_Appearance_main_}>
+          <AppearPath
+            userBasic={this.props.userBasic}
+            urlParam={this.props.urlParam}
+            urlQuery={this.props.urlQuery}/>
         </div>
       </div>
     )

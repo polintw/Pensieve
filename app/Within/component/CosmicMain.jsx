@@ -10,10 +10,10 @@ export default class CosmicMain extends React.Component {
     };
     this.style={
       withinCom_CosmicMain_: {
-        width: '100%',
+        width: '75%',
         position: 'absolute',
         top: '0',
-        left: '0',
+        left: '10%',
         boxSizing: 'border-box'
       },
       withinCom_CosmicMain_picking_: {
