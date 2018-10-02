@@ -1,4 +1,8 @@
 import React from 'react';
+import {
+  Link,
+  Redirect
+} from 'react-router-dom';
 import cxBind from 'classnames/bind';
 import LtdUnitsRaws from './LtdUnitsRaws.jsx';
 import UnitModal from '../../Component/UnitModal.jsx';
@@ -10,6 +14,7 @@ export default class LtdUnits extends React.Component {
     super(props);
     this.state = {
       axios: false,
+      unitTo: null,
       unitModalify: false,
       focusUnitName: null,
       unitsList: [],
@@ -22,6 +27,7 @@ export default class LtdUnits extends React.Component {
     this._handleClick_Share = this._handleClick_Share.bind(this);
     this._axios_list_lookout = this._axios_list_lookout.bind(this);
     this._render_LtdUnitsRaws = this._render_LtdUnitsRaws.bind(this);
+    this._refer_von_unit = this._refer_von_unit.bind(this);
     this._close_modal_Unit = this._close_modal_Unit.bind(this);
     this.style={
       withinCom_LtdUnits_: {
@@ -53,6 +59,35 @@ export default class LtdUnits extends React.Component {
     })
   }
 
+  _refer_von_unit(identifier, route){
+    switch (route) {
+      case 'user':
+        if(identifier == this.props.userBasic.id){
+          window.location.assign('/self');
+        }else{
+          this.setState((prevState, props)=>{
+            let unitTo = {
+              params: '/cosmic/user',
+              query: '?id='+identifier
+            };
+            return {unitTo: unitTo}
+          })
+        }
+        break;
+      case 'noun':
+        this.setState((prevState, props)=>{
+          let unitTo = {
+            params: '/cosmic/pick/noun',
+            query: '?id='+identifier
+          };
+          return {unitTo: unitTo}
+        })
+        break;
+      default:
+        return
+    }
+  }
+
   _close_modal_Unit(){
     this.setState({
       unitModalify: false,
@@ -76,7 +111,7 @@ export default class LtdUnits extends React.Component {
             unitsList: resObj.main.unitsList,
             unitsBasicSet: resObj.main.unitsBasicSet,
             markBasic: resObj.main.markBasic,
-            userBasic: resObj.main.userBasic,
+            userBasic: resObj.main.userBasic
           });
         }, self._render_LtdUnitsRaws);
     }).catch(function (thrown) {
@@ -126,6 +161,8 @@ export default class LtdUnits extends React.Component {
 
   render(){
     //let cx = cxBind.bind(styles);
+    if(this.state.unitTo){return <Redirect to={this.state.unitTo.params+this.state.unitTo.query}/>}
+
     return(
       <div
         style={this.style.withinCom_LtdUnits_}>
@@ -141,7 +178,8 @@ export default class LtdUnits extends React.Component {
               <UnitModal
                 unitId={this.state.focusUnitName}
                 unitInit={Object.assign(this.state.unitsBasicSet[this.state.focusUnitName], {marksify: true, initMark: "all", layer: 0})}
-                _close_modal_Unit={this._close_modal_Unit}/>
+                _close_modal_Unit={this._close_modal_Unit}
+                _refer_von_unit={this._refer_von_unit}/>
             </ModalBackground>
           </ModalBox>
         }

@@ -154,7 +154,8 @@ export default class Shared extends React.Component {
               <UnitModal
                 unitId={this.state.focusUnitName}
                 unitInit={Object.assign(this.state.unitsBasicSet[this.state.focusUnitName], {marksify: true, initMark: "all", layer: 0})}
-                _close_modal_Unit={this._close_modal_Unit}/>
+                _close_modal_Unit={this._close_modal_Unit}
+                _refer_von_unit={this.props._refer_leaveSelf}/>
             </ModalBackground>
           </ModalBox>
         }

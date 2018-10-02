@@ -1,7 +1,7 @@
 import React from 'react';
-import UnitLayerFrame from './UnitLayerFrame.jsx';
-import UnitLayerControl from './UnitLayerControl.jsx';
-import UnitActionControl from './UnitActionControl.jsx';
+import UnitLayerFrame from './Unit/UnitLayerFrame.jsx';
+import UnitLayerControl from './Unit/UnitLayerControl.jsx';
+import UnitActionControl from './Unit/UnitActionControl.jsx';
 import SvgPropic from './SvgPropic.jsx';
 
 export default class UnitModal extends React.Component {
@@ -15,8 +15,8 @@ export default class UnitModal extends React.Component {
       coverMarksObj: null,
       beneathMarksObj: null,
       refsArr: null,
-      nounsArr: null,
-      author: null,
+      nouns: null,
+      authorBasic: null,
       identity: null,
       layer: this.props.unitInit.layer,
       marksify: this.props.unitInit.marksify
@@ -40,6 +40,8 @@ export default class UnitModal extends React.Component {
     this._set_makrsVisible = (bool) => {this.setState({marksify: bool});};
     this._set_layer = (index) => {this.setState({layer: index});};
     this._handleClick_unitBack = this._handleClick_unitBack.bind(this);
+    this._handleClick_unitNoun = this._handleClick_unitNoun.bind(this);
+    this._handleClick_unitAuthor = this._handleClick_unitAuthor.bind(this);
     this.style={
       Com_Modal_UnitModal: {
         width: '86%',
@@ -102,7 +104,8 @@ export default class UnitModal extends React.Component {
         position: 'absolute',
         top: '0',
         left: '1%',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        cursor:'pointer'
       },
       Com_UnitModal_BottomSection_author_text: {
         display: 'inline-block',
@@ -132,7 +135,11 @@ export default class UnitModal extends React.Component {
         top: '0',
         right: '10%',
         boxSizing: 'border-box',
-        padding: '1vh 0',
+        padding: '1vh 0'
+      },
+      Com_UnitModal_BottomSection_div_noun: {
+        display: 'inline-block',
+        boxSizing: 'border-box',
         fontSize: '2rem',
         letterSpacing: '0.6vh',
         textAlign: 'center',
@@ -160,6 +167,20 @@ export default class UnitModal extends React.Component {
         bottom: '0'
       }
     }
+  }
+
+  _handleClick_unitAuthor(event){
+    event.preventDefault();
+    event.stopPropagation();
+    this.props._close_modal_Unit();
+    this.props._refer_von_unit(this.state.authorBasic.authorId, 'user');
+  }
+
+  _handleClick_unitNoun(event){
+    event.preventDefault();
+    event.stopPropagation();
+    this.props._close_modal_Unit();
+    this.props._refer_von_unit(event.currentTarget.getAttribute('nounid'), 'noun');
   }
 
   _handleClick_unitBack(event){
@@ -192,8 +213,8 @@ export default class UnitModal extends React.Component {
           coverMarksObj: coverMarksObj,
           beneathMarksObj: beneathMarksObj,
           refsArr: resObj.main.refsArr,
-          nounsArr: resObj.main.nounsArr,
-          author: resObj.main.author,
+          nouns: resObj.main.nouns,
+          authorBasic: resObj.main.authorBasic,
           identity: resObj.main.identity
         });
       })
@@ -207,22 +228,28 @@ export default class UnitModal extends React.Component {
         <div
           style={this.style.Com_UnitModal_BottomSection_}>
           {
-            this.state.author &&
+            this.state.authorBasic &&
             <div
-              style={this.style.Com_UnitModal_BottomSection_author_}>
+              style={this.style.Com_UnitModal_BottomSection_author_}
+              onClick={this._handleClick_unitAuthor}>
               <div style={this.style.Com_UnitModal_BottomSection_author_propic_}>
                 <SvgPropic/>
               </div>
               <span style={this.style.Com_UnitModal_BottomSection_author_text}>
-                {this.state.author}
+                {this.state.authorBasic.account}
               </span>
             </div>
           }
           {
-            this.state.nounsArr &&
+            this.state.nouns &&
             <div
               style={this.style.Com_UnitModal_BottomSection_div_}>
-              {this.state.nounsArr[0]}
+              <span
+                nounid={this.state.nouns.basic[this.state.nouns.list[0]].id}
+                style={this.style.Com_UnitModal_BottomSection_div_noun}
+                onClick={this._handleClick_unitNoun}>
+                {this.state.nouns.basic[this.state.nouns.list[0]].name}
+              </span>
             </div>
           }
           <span style={this.style.Com_UnitModal_BottomSection_info_}>{" i "}</span>

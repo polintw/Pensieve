@@ -1,7 +1,6 @@
 import React from 'react';
 import cxBind from 'classnames/bind';
-import Appearance from './component/Appearance.jsx';
-import CreateShare from '../Component/CreateShare.jsx';
+import Appearance from '../Component/Appearance.jsx';
 
 export default class SelfCover extends React.Component {
   constructor(props){
@@ -11,7 +10,6 @@ export default class SelfCover extends React.Component {
       origin: '',
       scroll: false
     };
-    this._submit_Share_New = this._submit_Share_New.bind(this);
     this._handleMouse_selfCoverFrame = this._handleMouse_selfCoverFrame.bind(this);
     this._handleClick_nav_expand = this._handleClick_nav_expand.bind(this);
     this._handleClick_selfClose = this._handleClick_selfClose.bind(this);
@@ -65,13 +63,21 @@ export default class SelfCover extends React.Component {
         color: '#222222',
         cursor: 'pointer'
       },
-      Self_pages_SelfCover_mainNav_options_create: {
+      Self_pages_SelfCover_mainNav_options_expand_inform_: {
         display: 'inline-block',
-        width: '55%',
-        height: '40%',
+        width: '20%',
+        height: '100%',
         position: 'relative',
-        boxSizing: 'border-box',
-        padding: '2% 0'
+        boxSizing: 'border-box'
+      },
+      Self_pages_SelfCover_mainNav_options_expand_inform_svg: {
+        width: '100%',
+        height: '90%',
+        position: 'absolute',
+        top: '50%',
+        left: '0',
+        transform: 'translate(0, -50%)',
+        boxSizing: 'border-box'
       },
       Self_pages_SelfCover_mainNav_options_recent: {
         display: 'inline-block',
@@ -138,22 +144,18 @@ export default class SelfCover extends React.Component {
 
   _handleMouse_selfCoverFrame(event){
     if(this.selfCover_.scrollTop==0){
-      if(!this.state.scroll && event.deltaY>0){
+      if(!this.state.scroll && event.deltaY > 0){
         this.setState((prevState, props)=>{
           return {scroll: true}
         }, ()=>{
           if(this.state.scroll) this.selfCover_.scrollTo({top: 1, behavior: "smooth"});
         });
-      }else if(this.state.scroll && event.deltaY<0){
+      }else if(this.state.scroll && event.deltaY < 0){
         this.setState((prevState, props)=>{
           return {scroll: false}
         });
       }
     }
-  }
-
-  _submit_Share_New(dataObj){
-    window.location.assign('/self/front');
   }
 
   componentDidMount() {
@@ -182,16 +184,24 @@ export default class SelfCover extends React.Component {
               style={this.style.Self_pages_SelfCover_mainNav_options_expand}
               onClick={this._handleClick_nav_expand}>
               {'Expand'}
-            </div>
-            <div
-              style={this.style.Self_pages_SelfCover_mainNav_options_create}>
-              <img src="/images/vacancy.png" style={{width: '100%', maxHeight: '100%'}}/>
-              <CreateShare
-                _submit_Share_New={this._submit_Share_New}/>
+              <div
+                style={this.style.Self_pages_SelfCover_mainNav_options_expand_inform_}>
+                <svg
+                  style={this.style.Self_pages_SelfCover_mainNav_options_expand_inform_svg}>
+                  <circle r="2vh" cx="50%" cy="50%" stroke='#999999' fill="transparent" style={{cursor: 'pointer'}}/>
+                </svg>
+              </div>
+              <div
+                style={this.style.Self_pages_SelfCover_mainNav_options_expand_inform_}>
+                <svg
+                  style={this.style.Self_pages_SelfCover_mainNav_options_expand_inform_svg}>
+                  <circle r="2vh" cx="50%" cy="50%" stroke='#999999' fill="transparent" style={{cursor: 'pointer'}}/>
+                </svg>
+              </div>
             </div>
             <div
               style={this.style.Self_pages_SelfCover_mainNav_options_recent}>
-              {"recent"}
+              {"Growth"}
             </div>
           </div>
         </div>
@@ -199,7 +209,10 @@ export default class SelfCover extends React.Component {
           this.state.scroll &&
           <div
             style={this.style.Self_pages_SelfCover_hidden_appearance}>
-            <Appearance/>
+            <Appearance
+              userBasic={this.state.userBasic}
+              urlParam={"/router/user/cover"}
+              urlQuery={"?id="+this.state.userBasic.id}/>
           </div>
         }
         <div

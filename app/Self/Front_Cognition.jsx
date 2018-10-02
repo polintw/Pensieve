@@ -8,18 +8,20 @@ export default class FrontCognition extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      focus: 'move',
-      range: 'shared'
+      focus: 'storage',
+      range: 'inspired'
     };
     this._set_Focus = this._set_Focus.bind(this);
     this._set_Range = this._set_Range.bind(this);
+    this._refer_leaveSelf = this._refer_leaveSelf.bind(this);
     this.style={
       Front_Cognition_: {
         width: '100%',
         height: '100%',
         position: 'absolute',
         top: '0%',
-        left: '0%'
+        left: '0%',
+        overflowY: "scroll"
       },
       Front_Cognition_scroll_: {
         width: '76%',
@@ -120,6 +122,14 @@ export default class FrontCognition extends React.Component {
     this.setState({range: range});
   }
 
+  _refer_leaveSelf(identifier, route){
+    if(identifier == this.props.userBasic.id){
+      window.location.assign('/self');
+    }else{
+      window.location.assign('/cosmic/user?id='+identifier);
+    }
+  }
+
   render(){
     //let cx = cxBind.bind(styles);
     return(
@@ -128,9 +138,11 @@ export default class FrontCognition extends React.Component {
         <div
           style={this.style.Front_Cognition_scroll_}>
           <Cognition
+            userBasic={this.props.userBasic}
             range={this.state.range}
             focus={this.state.focus}
-            _set_Range={this._set_Range}/>
+            _set_Range={this._set_Range}
+            _refer_leaveSelf={this._refer_leaveSelf}/>
         </div>
         <div
           style={this.style.Front_Cognition_backPlane_top}>

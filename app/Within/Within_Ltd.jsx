@@ -1,4 +1,9 @@
 import React from 'react';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom';
 import cxBind from 'classnames/bind';
 import LtdNav from './component/LtdNav.jsx';
 import LtdUnits from './component/LtdUnits.jsx';
@@ -11,7 +16,6 @@ export default class WithinLtd extends React.Component {
       cssPara: 0
     };
     this._check_Position = this._check_Position.bind(this);
-    this._handleClick_LtdFly = this._handleClick_LtdFly.bind(this);
     this.style={
       Within_Ltd_: {
         width: '100%',
@@ -96,12 +100,6 @@ export default class WithinLtd extends React.Component {
     }
   }
 
-  _handleClick_LtdFly(event){
-    event.stopPropagation();
-    event.preventDefault();
-    this.props._set_Pages("cosmic");
-  }
-
   _check_Position(){
     let ltdUnitsTop = this.ltdUnits.getBoundingClientRect().top;
     if(ltdUnitsTop < this.scrollOrigin && ltdUnitsTop > this.scrollLine){
@@ -145,7 +143,9 @@ export default class WithinLtd extends React.Component {
               style={this.style.Within_Ltd_scroll_dawn_fly_}>
               <svg
                 style={this.style.Within_Ltd_scroll_dawn_fly_svg}>
-                <circle r="2vh" cx="50%" cy="50%" stroke='#999999' fill="transparent" style={{cursor: 'pointer'}} onClick={this._handleClick_LtdFly}/>
+                <Link to="/cosmic">
+                  <circle r="2vh" cx="50%" cy="50%" stroke='#999999' fill="transparent" style={{cursor: 'pointer'}}/>
+                </Link>
               </svg>
             </div>
           </div>
@@ -157,7 +157,7 @@ export default class WithinLtd extends React.Component {
           <div
             ref = {(element)=>{this.ltdUnits = element}}
             style={this.style.Within_Ltd_scroll_LtdUnits}>
-            <LtdUnits/>
+            <LtdUnits {...this.props}/>
           </div>
           <div style={this.style.Within_Ltd_scroll_LtdNav_}>
             <div style={Object.assign({opacity: this.state.cssPara}, this.style.Within_Ltd_scroll_LtdNav_light)}></div>

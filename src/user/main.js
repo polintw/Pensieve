@@ -7,11 +7,14 @@ const update = require('immutability-helper');
 
 const cognitionExecutive = require('./cognition/execute.js');
 const shareExecutive = require('./share/execute.js');
+const coverExecutive = require('./cover/execute.js');
 const actionExecutive = require('./action/execute.js');
 
 main.use('/cognition', cognitionExecutive)
 
 main.use('/share', shareExecutive)
+
+main.use('/cover', coverExecutive)
 
 main.use('/action', actionExecutive)
 

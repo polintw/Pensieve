@@ -1,5 +1,4 @@
-# dev_Pensieve-
-v2.0
+# CORNER (project Pensieve)
+> __自由的思考、無限制得知道__
 
-## About
-this is a v2.0 of the previous project, "dev_Corner".
+this is a web application project initiated & own by Chou Po Lin since May. 2018, modified and rewrote from an earlier version, dev_Corner, which was also owned by the same owner since Dec. 2017.

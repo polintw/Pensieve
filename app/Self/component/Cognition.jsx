@@ -25,8 +25,10 @@ export default class Cognition extends React.Component {
       case "storage":
         return (
           <CogStorage
+            userBasic={this.props.userBasic}
             range={this.props.range}
-            _set_Range={this.props._set_Range}/>
+            _set_Range={this.props._set_Range}
+            _refer_leaveSelf={this.props._refer_leaveSelf}/>
         )
         break;
       case "mutual":
@@ -39,15 +41,19 @@ export default class Cognition extends React.Component {
       case "move":
         return (
           <CogMove
+            userBasic={this.props.userBasic}
             range={this.props.range}
-            _set_Range={this.props._set_Range}/>
+            _set_Range={this.props._set_Range}
+            _refer_leaveSelf={this.props._refer_leaveSelf}/>
         )
         break;
       default:
         return (
           <CogMove
+            userBasic={this.props.userBasic}
             range={this.props.range}
-            _set_Range={this.props._set_Range}/>
+            _set_Range={this.props._set_Range}
+            _refer_leaveSelf={this.props._refer_leaveSelf}/>
         )
     }
   }
