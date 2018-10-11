@@ -1,4 +1,8 @@
 import React from 'react';
+import {
+  Route,
+  Link
+} from 'react-router-dom';
 import Shared from './Shared.jsx';
 
 export default class CogMove extends React.Component {
@@ -7,7 +11,6 @@ export default class CogMove extends React.Component {
     this.state = {
 
     };
-    this._handleClick_nav_range = this._handleClick_nav_range.bind(this);
     this.style={
       selfCom_CogMove_: {
         width: '100%',
@@ -55,13 +58,6 @@ export default class CogMove extends React.Component {
     }
   }
 
-  _handleClick_nav_range(event){
-    event.stopPropagation();
-    event.preventDefault();
-    let rangeNext = event.currentTarget.getAttribute('tab');
-    this.props._set_Range(rangeNext);
-  }
-
   render(){
     //let cx = cxBind.bind(styles);
     return(
@@ -69,24 +65,21 @@ export default class CogMove extends React.Component {
         style={this.style.selfCom_CogMove_}>
         <nav
           style={this.style.selfCom_CogMove_nav_}>
+          <Link to={this.props.match.url+"/shareds"}>
+            <span
+              style={this.style.selfCom_CogMove_nav_span_}>
+              {"shared．response"}</span>
+          </Link>
           <span
-            tab={"shared．response"}
-            style={this.style.selfCom_CogMove_nav_span_}
-            onClick={this._handleClick_nav_range}>
-            {"shared．response"}</span>
-          <span
-            tab={"activities"}
             style={this.style.selfCom_CogMove_nav_span_}>
-            {"activities"}<br></br>{"launched"}</span> 
+            {"activities"}<br></br>{"launched"}</span>
           <span
-            tab={"temp．workspace"}
             style={this.style.selfCom_CogMove_nav_span_}>
             {"temp．workspace"}</span>
         </nav>
         <div
           style={this.style.selfCom_CogMove_main_}>
-          <Shared
-            _refer_leaveSelf={this.props._refer_leaveSelf}/>
+          <Route path={this.props.match.path+"/shareds"} render={(props)=> <Shared {...props} userBasic={this.props.userBasic} _refer_leaveSelf={this.props._refer_leaveSelf}/>}/>
         </div>
       </div>
     )

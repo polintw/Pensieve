@@ -1,13 +1,12 @@
 import React from 'react';
 import {
   Link,
-  Redirect
+  Redirect,
+  Route
 } from 'react-router-dom';
 import cxBind from 'classnames/bind';
 import LtdUnitsRaws from './LtdUnitsRaws.jsx';
-import UnitModal from '../../Component/UnitModal.jsx';
-import ModalBox from '../../Component/ModalBox.jsx';
-import ModalBackground from '../../Component/ModalBackground.jsx';
+import Unit from '../../Component/Unit.jsx';
 
 export default class LtdUnits extends React.Component {
   constructor(props){
@@ -15,8 +14,6 @@ export default class LtdUnits extends React.Component {
     this.state = {
       axios: false,
       unitTo: null,
-      unitModalify: false,
-      focusUnitName: null,
       unitsList: [],
       unitsBasicSet: {},
       markBasic: {},
@@ -24,11 +21,10 @@ export default class LtdUnits extends React.Component {
       rawsArr: []
     };
     this.axiosSource = axios.CancelToken.source();
-    this._handleClick_Share = this._handleClick_Share.bind(this);
+    this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._axios_list_lookout = this._axios_list_lookout.bind(this);
     this._render_LtdUnitsRaws = this._render_LtdUnitsRaws.bind(this);
     this._refer_von_unit = this._refer_von_unit.bind(this);
-    this._close_modal_Unit = this._close_modal_Unit.bind(this);
     this.style={
       withinCom_LtdUnits_: {
         width: '100%',
@@ -50,13 +46,9 @@ export default class LtdUnits extends React.Component {
     }
   }
 
-  _handleClick_Share(event){
-    event.stopPropagation();
-    event.preventDefault();
-    this.setState({
-      unitModalify: true,
-      focusUnitName: event.currentTarget.getAttribute('unitname')
-    })
+  _construct_UnitInit(match, location){
+    let unitInit=Object.assign(this.state.unitsBasicSet[match.params.id], {marksify: true, initMark: "all", layer: 0});
+    return unitInit;
   }
 
   _refer_von_unit(identifier, route){
@@ -86,13 +78,6 @@ export default class LtdUnits extends React.Component {
       default:
         return
     }
-  }
-
-  _close_modal_Unit(){
-    this.setState({
-      unitModalify: false,
-      focusUnitName: null
-    })
   }
 
   _axios_list_lookout(url){
@@ -129,12 +114,13 @@ export default class LtdUnits extends React.Component {
     let point = 0;
     let raws = [];
     while (point< this.state.unitsList.length) {
-      if(raws.length==1){raws.push(<div style={{width: '100%', height: '28vh'}}></div>);continue;};
+      if(raws.length==1){raws.push(<div key={'key_LtdUnits_raw_pad_'+point} style={{width: '100%', height: '28vh'}}></div>);continue;};
       let number = Math.floor(Math.random()*3)+1;
       if(this.state.unitsList.length-point < number){number = this.state.unitsList.length-point;};
       raws.push(
         <LtdUnitsRaws
           key={'key_LtdUnits_raw_'+point+'_'+number}
+          {...this.props}
           point={point}
           number={number}
           unitsList={this.state.unitsList}
@@ -171,18 +157,9 @@ export default class LtdUnits extends React.Component {
           {this.state.rawsArr}
         </div>
         <div style={this.style.withinCom_LtdUnits_footer}></div>
-        {
-          this.state.unitModalify &&
-          <ModalBox containerId="root">
-            <ModalBackground onClose={this._close_modal_Unit} style={{position: "fixed"}}>
-              <UnitModal
-                unitId={this.state.focusUnitName}
-                unitInit={Object.assign(this.state.unitsBasicSet[this.state.focusUnitName], {marksify: true, initMark: "all", layer: 0})}
-                _close_modal_Unit={this._close_modal_Unit}
-                _refer_von_unit={this._refer_von_unit}/>
-            </ModalBackground>
-          </ModalBox>
-        }
+        <Route
+          path="/units/:id"
+          render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this._refer_von_unit}/>}/>
       </div>
     )
   }

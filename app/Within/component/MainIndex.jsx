@@ -1,25 +1,25 @@
 import React from 'react';
+import {
+  Link,
+  Redirect,
+  Route
+} from 'react-router-dom';
 import cxBind from 'classnames/bind';
-import LtdUnitsRaws from './LtdUnitsRaws.jsx';
-import UnitModal from '../../Component/UnitModal.jsx';
-import ModalBox from '../../Component/ModalBox.jsx';
-import ModalBackground from '../../Component/ModalBackground.jsx';
+import MainIndexRaws from './MainIndexRaws.jsx';
+import Unit from '../../Component/Unit.jsx';
 
 export default class MainIndex extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       axios: false,
-      unitModalify: false,
-      focusUnitName: null,
       unitsList: [],
       unitsBasicSet: {},
       rawsArr: []
     };
     this.axiosSource = axios.CancelToken.source();
-    this._handleClick_Share = this._handleClick_Share.bind(this);
+    this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._render_LtdUnitsRaws = this._render_LtdUnitsRaws.bind(this);
-    this._close_modal_Unit = this._close_modal_Unit.bind(this);
     this.style={
       withinCom_MainIndex_: {
         width: '100%',
@@ -36,20 +36,9 @@ export default class MainIndex extends React.Component {
     }
   }
 
-  _handleClick_Share(event){
-    event.stopPropagation();
-    event.preventDefault();
-    this.setState({
-      unitModalify: true,
-      focusUnitName: event.currentTarget.getAttribute('unitname')
-    })
-  }
-
-  _close_modal_Unit(){
-    this.setState({
-      unitModalify: false,
-      focusUnitName: null
-    })
+  _construct_UnitInit(match, location){
+    let unitInit=Object.assign(this.state.unitsBasicSet[match.params.id], {marksify: true, initMark: "all", layer: 0});
+    return unitInit;
   }
 
   _render_LtdUnitsRaws(){
@@ -59,8 +48,9 @@ export default class MainIndex extends React.Component {
       let number = Math.floor(Math.random()*3)+1;
       if(this.state.unitsList.length-point < number){number = this.state.unitsList.length-point;};
       raws.push(
-        <LtdUnitsRaws
+        <MainIndexRaws
           key={'key_LtdUnits_raw_'+point+'_'+number}
+          {...this.props}
           point={point}
           number={number}
           unitsList={this.state.unitsList}
@@ -118,17 +108,9 @@ export default class MainIndex extends React.Component {
           style={this.style.withinCom_MainIndex_scroll_}>
           {this.state.rawsArr}
         </div>
-        {
-          this.state.unitModalify &&
-          <ModalBox containerId="root">
-            <ModalBackground onClose={this._close_modal_Unit} style={{position: "fixed"}}>
-              <UnitModal
-                unitId={this.state.focusUnitName}
-                unitInit={Object.assign(this.state.unitsBasicSet[this.state.focusUnitName], {marksify: true, initMark: "all", layer: 0})}
-                _close_modal_Unit={this._close_modal_Unit}/>
-            </ModalBackground>
-          </ModalBox>
-        }
+        <Route
+          path={this.props.match.path+"/units/:id"}
+          render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this._refer_von_unit}/>}/>
       </div>
     )
   }

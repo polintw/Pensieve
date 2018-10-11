@@ -1,5 +1,5 @@
 exports._res_success = function(res, sendingData, message){
-  console.log(message);
+  if(message){console.log(message);};
   delete sendingData.temp;
   let resData = {};
   resData['error'] = 0;

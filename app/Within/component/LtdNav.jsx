@@ -9,6 +9,7 @@ export default class LtdNav extends React.Component {
     this.state = {
       toolBoxify: false
     };
+    this._submit_Share_New = this._submit_Share_New.bind(this);
     this._handleClick_selfEntrance = this._handleClick_selfEntrance.bind(this);
     this._handleClick_navToolBox = this._handleClick_navToolBox.bind(this);
     this._handleClick_LtdToolBox_logout = this._handleClick_LtdToolBox_logout.bind(this);
@@ -25,9 +26,7 @@ export default class LtdNav extends React.Component {
         position: 'absolute',
         top:'0%',
         left: '18%',
-        boxSizing: 'border-box',
-        fontSize: '4vh',
-        letterSpacing: '0.5vh'
+        boxSizing: 'border-box'
       },
       withinCom_LtdNav_div_: {
         width: '25%',
@@ -71,6 +70,10 @@ export default class LtdNav extends React.Component {
     }
   }
 
+  _submit_Share_New(dataObj){
+    window.location.assign('/self/front');
+  }
+
   _handleClick_selfEntrance(event){
     event.stopPropagation();
     event.preventDefault();
@@ -101,7 +104,10 @@ export default class LtdNav extends React.Component {
         style={this.style.withinCom_LtdNav_}>
         <div
           style={this.style.withinCom_LtdNav_logo_}>
-          {"CORNER"}
+          <img src="/images/vacancy.png" style={{width: '100%', maxHeight: '100%'}}/>
+          <CreateShare
+            userBasic={this.props.userBasic}
+            _submit_Share_New={this._submit_Share_New}/>
         </div>
         <div
           style={this.style.withinCom_LtdNav_div_}>

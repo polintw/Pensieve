@@ -1,4 +1,8 @@
 import React from 'react';
+import {
+  Route,
+  Link
+} from 'react-router-dom';
 import cxBind from 'classnames/bind';
 
 export default class NavFront extends React.Component {
@@ -8,7 +12,6 @@ export default class NavFront extends React.Component {
       expandify: false
     };
     this._handleClick_NavFront = this._handleClick_NavFront.bind(this);
-    this._handleClick_NavFront_switch = this._handleClick_NavFront_switch.bind(this);
     this.style={
       selfCom_NavFront_: {
         width: '100%',
@@ -50,13 +53,6 @@ export default class NavFront extends React.Component {
     })
   }
 
-  _handleClick_NavFront_switch(event){
-    event.preventDefault();
-    event.stopPropagation();
-    let pageTo = event.currentTarget.getAttribute('page');
-    this.props._set_frontPage(pageTo);
-  }
-
   render(){
     //let cx = cxBind.bind(styles);
     return(
@@ -80,10 +76,14 @@ export default class NavFront extends React.Component {
             style={this.style.selfCom_NavFront_box_}>
             <div
               style={this.style.selfCom_NavFront_box_div_}>
-              <span
-                page={"statics"}
-                style={{cursor: 'pointer'}}
-                onClick={this._handleClick_NavFront_switch}>{'靜態'}</span>
+              <Link
+                to={{
+                  pathname: "/collateral",
+                  state: {from: this.props.location}
+                }}>
+                <span
+                  style={{cursor: 'pointer'}}>{'靜態'}</span>
+              </Link>
               <span
                 style={{cursor: 'pointer'}}>{'接觸'}</span>
               <span

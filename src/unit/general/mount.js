@@ -2,19 +2,10 @@ const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 const {verify_key} = require('../../../config/jwt.js');
 const {connection_key} = require('../../../config/database.js');
+const {_res_success} = require('../../utils/resHandler.js');
 const {_handler_err_BadReq, _handler_err_Unauthorized, _handler_err_Internal} = require('../../utils/reserrHandler.js');
 
 const database = mysql.createPool(connection_key);
-
-function _res_success(res, sendingData){
-  delete sendingData.temp;
-  let resData = {};
-  resData['error'] = 0;
-  resData['message'] = 'req success!';
-  resData['main'] = sendingData;
-  resData = JSON.stringify(resData);
-  res.status(200).json(resData);
-}
 
 function _handle_unit_Mount(req, res){
   const reqUnit = req.query.unitName.split("_")[1];
@@ -163,7 +154,7 @@ function _handle_unit_Mount(req, res){
               })
             })
           }).then((sendingData)=>{
-            _res_success(res, sendingData)
+            _res_success(res, sendingData);
             connection.release();
           }).catch((err)=>{
             console.log("error occured during unit mounting promise: "+err)

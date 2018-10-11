@@ -68,22 +68,16 @@ export default class UnitActionControl extends React.Component {
     return(
       <div
         style={this.style.Com_UnitActionControl_}>
-        {
-          this.props.identity == 'author' ?　(
-            <span style={this.style.Com_UnitActionControl_span}>
-              {'編輯'}
-            </span>
-          ) : (
-            <div>
-              <span style={{display: 'inline-block', width: '2%', height: '85%', position: 'relative', boxSizing: 'border-box', verticalAlign: 'middle', borderRight: 'solid 2px #FAFAFA'}}></span>
-              <span
-                style={this.style.Com_UnitActionControl_span}
-                onClick={this._handleClick_unit_collect}>
-                {'收藏'}
-              </span>
-            </div>
-            )
-        }
+        <div>
+          <span>
+            {"回應"}
+          </span>
+          <span
+            style={this.style.Com_UnitActionControl_span}
+            onClick={this._handleClick_unit_collect}>
+            {'推廣'}
+          </span>
+        </div>
       </div>
     )
   }

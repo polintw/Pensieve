@@ -4,20 +4,10 @@ const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 const {verify_key} = require('../../../config/jwt.js');
 const {connection_key} = require('../../../config/database.js');
+const {_res_success} = require('../../utils/resHandler.js');
 const {_handler_err_BadReq, _handler_err_Unauthorized, _handler_err_Internal} = require('../../utils/reserrHandler.js');
 
 const database = mysql.createPool(connection_key);
-
-function _res_success(res, sendingData){
-  console.log("loading req: overview in Cosmic user, complete.")
-  delete sendingData.temp;
-  let resData = {};
-  resData['error'] = 0;
-  resData['message'] = 'req success!';
-  resData['main'] = sendingData;
-  resData = JSON.stringify(resData);
-  res.status(200).json(resData);
-}
 
 function _handle_cosmic_userOverview(req, res){
   jwt.verify(req.headers['token'], verify_key, function(err, payload) {
@@ -71,7 +61,7 @@ function _handle_cosmic_userOverview(req, res){
               resolve(sendingData);
             })
           }).then((sendingData)=>{
-            _res_success(res, sendingData);
+            _res_success(res, sendingData, "loading req: overview in Cosmic user, complete.");
             connection.release();
           }).catch((err)=>{
             console.log("error occured during overview in Cosmic user req promise: "+err)

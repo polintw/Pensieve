@@ -1,4 +1,8 @@
 import React from 'react';
+import {
+  Route,
+  Link
+} from 'react-router-dom';
 import CogStorage from './CogStorage.jsx';
 import CogMutual from './CogMutual.jsx';
 import CogMove from './CogMove.jsx';
@@ -9,7 +13,6 @@ export default class Cognition extends React.Component {
     this.state = {
 
     };
-    this._render_Cognition =this._render_Cognition.bind(this);
     this.style={
       selfCom_Cognition_: {
         width: '100%',
@@ -20,50 +23,14 @@ export default class Cognition extends React.Component {
     }
   }
 
-  _render_Cognition(){
-    switch (this.props.focus) {
-      case "storage":
-        return (
-          <CogStorage
-            userBasic={this.props.userBasic}
-            range={this.props.range}
-            _set_Range={this.props._set_Range}
-            _refer_leaveSelf={this.props._refer_leaveSelf}/>
-        )
-        break;
-      case "mutual":
-        return (
-          <CogMutual
-            range={this.props.range}
-            _set_Range={this.props._set_Range}/>
-        )
-        break;
-      case "move":
-        return (
-          <CogMove
-            userBasic={this.props.userBasic}
-            range={this.props.range}
-            _set_Range={this.props._set_Range}
-            _refer_leaveSelf={this.props._refer_leaveSelf}/>
-        )
-        break;
-      default:
-        return (
-          <CogMove
-            userBasic={this.props.userBasic}
-            range={this.props.range}
-            _set_Range={this.props._set_Range}
-            _refer_leaveSelf={this.props._refer_leaveSelf}/>
-        )
-    }
-  }
-
   render(){
     //let cx = cxBind.bind(styles);
     return(
       <div
         style={this.style.selfCom_Cognition_}>
-        {this._render_Cognition()}
+        <Route path={this.props.match.path+"/wall"} render={(props)=> <CogStorage {...props} _refer_leaveSelf={this.props._refer_leaveSelf}/>}/>
+        <Route path={this.props.match.path+"/moves"} render={(props)=> <CogMove {...props} userBasic={this.props.userBasic} _refer_leaveSelf={this.props._refer_leaveSelf}/>}/>
+        <Route path={this.props.match.path+"/mutuals"} render={(props)=> <CogMutual {...props} _refer_leaveSelf={this.props._refer_leaveSelf}/>}/>
       </div>
     )
   }

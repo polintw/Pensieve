@@ -1,4 +1,8 @@
 import React from 'react';
+import {
+  Route,
+  Link
+} from 'react-router-dom';
 import Inspired from './Inspired.jsx';
 
 export default class CogStorage extends React.Component {
@@ -7,8 +11,6 @@ export default class CogStorage extends React.Component {
     this.state = {
 
     };
-    this._render_CogStorage =this._render_CogStorage.bind(this);
-    this._handleClick_nav_range = this._handleClick_nav_range.bind(this);
     this.style={
       selfCom_CogStorage_: {
         width: '100%',
@@ -25,12 +27,6 @@ export default class CogStorage extends React.Component {
         fontSize: '1.3rem',
         fontWeight: '300',
         letterSpacing: '0.1rem'
-      },
-      selfCom_CogStorage_nav_span_shared: {
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        cursor: 'pointer'
       },
       selfCom_CogStorage_nav_span_inspired: {
         position: 'absolute',
@@ -53,29 +49,6 @@ export default class CogStorage extends React.Component {
     }
   }
 
-  _handleClick_nav_range(event){
-    event.stopPropagation();
-    event.preventDefault();
-    let rangeNext = event.currentTarget.getAttribute('tab');
-    this.props._set_Range(rangeNext);
-  }
-
-  _render_CogStorage(){
-    switch (this.props.range) {
-      case "broad":
-        return
-        break;
-      case "inspired":
-        return (
-          <Inspired
-            _refer_leaveSelf={this.props._refer_leaveSelf}/>
-        )
-        break;
-      default:
-        return
-    }
-  }
-
   render(){
     //let cx = cxBind.bind(styles);
     return(
@@ -83,20 +56,20 @@ export default class CogStorage extends React.Component {
         style={this.style.selfCom_CogStorage_}>
         <nav
           style={this.style.selfCom_CogStorage_nav_}>
-          <span
-            tab={"inspired"}
-            style={this.style.selfCom_CogStorage_nav_span_inspired}
-            onClick={this._handleClick_nav_range}>
-            {"inpired"}</span>
-          <span
-            tab={"broad"}
-            style={this.style.selfCom_CogStorage_nav_span_broad}
-            onClick={this._handleClick_nav_range}>
-            {"Broad"}</span>
+          <Link to={this.props.match.url+"/inspireds"}>
+            <span
+              style={this.style.selfCom_CogStorage_nav_span_inspired}>
+              {"inpired"}</span>
+          </Link>
+          <Link to={this.props.match.url+"/inspireds"}>
+            <span
+              style={this.style.selfCom_CogStorage_nav_span_broad}>
+              {"Broad"}</span>
+          </Link>
         </nav>
         <div
           style={this.style.selfCom_CogStorage_main_}>
-          {this._render_CogStorage()}
+          <Route path={this.props.match.path+"/inspireds"} render={(props)=> <Inspired {...props} _refer_leaveSelf={this.props._refer_leaveSelf}/>}/>
         </div>
       </div>
     )

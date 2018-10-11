@@ -7,13 +7,7 @@ const cosmicRouter = require('./cosmic/main.js');
 const userRouter = require('./user/main.js');
 const unitRouter = require('./unit/main.js');
 const imgRouter = require('./img/main.js');
-
-//here but concerned
-router.get('/public/noun', function(req, res){
-  console.log('get public: noun search');
-  let prefix = req.query.prefix;
-  res.status(200).json({'results': [prefix]});
-})
+const listsRouter = require('./lists/main.js');
 
 //routes do not require token
 router.use('/img', imgRouter)
@@ -21,12 +15,13 @@ router.use('/img', imgRouter)
 //veirfy user status
 router.use('/', auth)
 
+//only approach after verified
 router.use('/cosmic', cosmicRouter)
 
 router.use('/user', userRouter)
 
 router.use('/unit', unitRouter)
 
-
+router.use('/lists', listsRouter)
 
 module.exports = router;

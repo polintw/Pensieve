@@ -1,9 +1,11 @@
 import React from 'react';
+import {
+  Route,
+  Link
+} from 'react-router-dom';
 import DraftDisplay from '../../Component/DraftDisplay.jsx';
 import SvgPropic from '../../Component/SvgPropic.jsx';
-import UnitModal from '../../Component/UnitModal.jsx';
-import ModalBox from '../../Component/ModalBox.jsx';
-import ModalBackground from '../../Component/ModalBackground.jsx';
+import Unit from '../../Component/Unit.jsx';
 
 export default class Dialogues extends React.Component {
   constructor(props){
@@ -14,13 +16,10 @@ export default class Dialogues extends React.Component {
       dialoguesSet: {},
       markBasic: {},
       unitBasic: {},
-      userBasic: {},
-      unitModalify: false,
-      focusThreadsId: null
+      userBasic: {}
     };
     this.axiosSource = axios.CancelToken.source();
-    this._handleClick_dialogue = this._handleClick_dialogue.bind(this);
-    this._close_modal_Unit = this._close_modal_Unit.bind(this);
+    this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this.style={
       selfCom_Dialogues_: {
         width: '100%',
@@ -107,20 +106,10 @@ export default class Dialogues extends React.Component {
     }
   }
 
-  _handleClick_dialogue(event){
-    event.stopPropagation();
-    event.preventDefault();
-    this.setState({
-      unitModalify: true,
-      focusThreadsId: event.currentTarget.getAttribute('threadid')
-    })
-  }
-
-  _close_modal_Unit(){
-    this.setState({
-      unitModalify: false,
-      focusThreadsId: null
-    })
+  _construct_UnitInit(match, location){
+    let urlQuery = querystring.parse(location.search);
+    let unitInit = Object.assign(this.state.unitBasic[this.state.markBasic[urlQuery.thread].unitId] , {marksify: true, initMark: this.state.markBasic[urlQuery.thread].markId, layer: this.state.markBasic[urlQuery.thread].layer})
+    return unitInit;
   }
 
   componentDidMount(){
@@ -173,38 +162,43 @@ export default class Dialogues extends React.Component {
         <div
           key={'key_Dialogues_block_'+index}
           style={self.style.selfCom_Dialogues_nails_div_}>
-          <div
-            threadid={dataKey}
-            style={self.style.selfCom_Dialogues_nails_div_recent_}
-            onClick={self._handleClick_dialogue}>
+          <Link
+            to={{
+              pathname: self.props.match.url+"/units/"+markBasicData.unitId,
+              search: "?thread="+dataKey,
+              state: {from: self.props.location}
+            }}>
             <div
-              style={self.style.selfCom_Dialogues_nails_div_recent_user}>
-              <DraftDisplay
-                editorState={dialogueData.editorContent}/>
-            </div>
-            {
-              "editorContentBynot" in dialogueData &&
-              <div>
+              style={self.style.selfCom_Dialogues_nails_div_recent_}>
+              <div
+                style={self.style.selfCom_Dialogues_nails_div_recent_user}>
                 <DraftDisplay
-                  editorState={dialogueData.editorContentBynot}/>
+                  editorState={dialogueData.editorContent}/>
               </div>
-            }
-            <div
-              style={self.style.selfCom_Dialogues_nails_div_recent_time}>
-              {dialogueData.created}
+              {
+                "editorContentBynot" in dialogueData &&
+                <div>
+                  <DraftDisplay
+                    editorState={dialogueData.editorContentBynot}/>
+                </div>
+              }
+              <div
+                style={self.style.selfCom_Dialogues_nails_div_recent_time}>
+                {dialogueData.created}
+              </div>
             </div>
-          </div>
-          <div
-            style={self.style.selfCom_Dialogues_nails_div_origin_}>
             <div
-              style={self.style.selfCom_Dialogues_nails_div_origin_mark}>
-              <DraftDisplay
-                editorState={markBasicData.editorContent}/>
+              style={self.style.selfCom_Dialogues_nails_div_origin_}>
+              <div
+                style={self.style.selfCom_Dialogues_nails_div_origin_mark}>
+                <DraftDisplay
+                  editorState={markBasicData.editorContent}/>
+              </div>
+              <img
+                src={'/router/img/'+self.state.unitBasic[markBasicData.unitId][markBasicData.layer==0?"pic_layer0":"pic_layer1"]+'?type=thumb'}
+                style={self.style.selfCom_Dialogues_nails_div_origin_img_}/>
             </div>
-            <img
-              src={'/router/img/'+self.state.unitBasic[markBasicData.unitId][markBasicData.layer==0?"pic_layer0":"pic_layer1"]+'?type=thumb'}
-              style={self.style.selfCom_Dialogues_nails_div_origin_img_}/>
-          </div>
+          </Link>
         </div>
       )
     })
@@ -216,19 +210,7 @@ export default class Dialogues extends React.Component {
           style={this.style.selfCom_Dialogues_nails_}>
           {dialogues}
         </div>
-        {
-          this.state.unitModalify &&
-          <ModalBox containerId="root">
-            <ModalBackground onClose={this._close_modal_Unit}>
-              <UnitModal
-                unitId={this.state.markBasic[this.state.focusThreadsId].unitId}
-                unitInit={
-                  Object.assign(this.state.unitBasic[this.state.markBasic[this.state.focusThreadsId].unitId] , {marksify: true, initMark: this.state.markBasic[this.state.focusThreadsId].markId, layer: this.state.markBasic[this.state.focusThreadsId].layer})
-                }
-                _close_modal_Unit={this._close_modal_Unit}/>
-            </ModalBackground>
-          </ModalBox>
-        }
+        <Route path={this.props.match.path+"/units/:id"} render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_leaveSelf}/>}/>
       </div>
     )
   }

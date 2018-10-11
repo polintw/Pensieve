@@ -2,7 +2,7 @@ import React from 'react';
 import UnitLayerFrame from './Unit/UnitLayerFrame.jsx';
 import UnitLayerControl from './Unit/UnitLayerControl.jsx';
 import UnitActionControl from './Unit/UnitActionControl.jsx';
-import SvgPropic from './SvgPropic.jsx';
+import {AuthorFull, NounsExtensible} from './Unit/UnitComponent.jsx';
 
 export default class UnitModal extends React.Component {
   constructor(props){
@@ -39,12 +39,11 @@ export default class UnitModal extends React.Component {
     this._set_axios = (bool) => {this.setState({axios: bool})};
     this._set_makrsVisible = (bool) => {this.setState({marksify: bool});};
     this._set_layer = (index) => {this.setState({layer: index});};
+    this._refer_toandclose = this._refer_toandclose.bind(this);
     this._handleClick_unitBack = this._handleClick_unitBack.bind(this);
-    this._handleClick_unitNoun = this._handleClick_unitNoun.bind(this);
-    this._handleClick_unitAuthor = this._handleClick_unitAuthor.bind(this);
     this.style={
       Com_Modal_UnitModal: {
-        width: '86%',
+        width: '89%',
         height: '100%',
         position: 'absolute',
         top: '0',
@@ -55,19 +54,54 @@ export default class UnitModal extends React.Component {
         boxShadow: '0px 1.2vh 2.4vw 0vw'
       },
       Com_UnitModal_ImgSection_div: {
-        width: '85%',
-        height: '93%',
+        width: '84%',
+        height: '100%',
         position: 'absolute',
         top: '0%',
         left: '0%',
         boxSizing: 'border-box'
       },
+      Com_UnitModal_layerControl: {
+        width: '3%',
+        height: '100%',
+        position: 'absolute',
+        top: '0%',
+        right: '13%',
+        boxSizing: 'border-box',
+        backgroundColor: '#989898'
+      },
       Com_UnitModal_ControlSection_: {
-        width: '14%',
-        height: '93%',
+        width: '13%',
+        height: '100%',
         position: 'absolute',
         top: '0',
-        right: '0'
+        right: '0',
+        boxSizing: 'border-box'
+      },
+      Com_UnitModal_ControlSection_actionControl_: {
+        width: '100%',
+        height: '12%',
+        position: 'absolute',
+        bottom: '0',
+        left: '0',
+        boxSizing: 'border-box'
+      },
+      Com_UnitModal_ControlSection_Author_: {
+        width: '100%',
+        height: '12%',
+        position: 'absolute',
+        top: '75%',
+        left: '0%',
+        boxSizing: 'border-box',
+        cursor:'pointer'
+      },
+      Com_UnitModal_ControlSection_nouns_: {
+        width: '100%',
+        height: '50%',
+        position: 'absolute',
+        top: '20%',
+        left: '0',
+        boxSizing: 'border-box'
       },
       Com_UnitModal_ControlSection_back_: {
         width: '50%',
@@ -83,104 +117,13 @@ export default class UnitModal extends React.Component {
         margin: '2% 5%',
         color: '#FAFAFA',
         cursor: 'pointer'
-      },
-      Com_UnitModal_ControlSection_div_layerControl: {
-        width: '50%',
-        height: '40%',
-        position: 'absolute',
-        top: '24%',
-        left: '20%'
-      },
-      Com_UnitModal_BottomSection_: {
-        width: '85%',
-        height: '7%',
-        position: 'absolute',
-        bottom: '0',
-        left: '0'
-      },
-      Com_UnitModal_BottomSection_author_: {
-        width: '70%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '1%',
-        boxSizing: 'border-box',
-        cursor:'pointer'
-      },
-      Com_UnitModal_BottomSection_author_text: {
-        display: 'inline-block',
-        width: '90%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '10%',
-        boxSizing: 'border-box',
-        fontSize: '1.8rem',
-        letterSpacing: '0.2vh',
-        fontWeight: '400',
-        color: '#FAFAFA'
-      },
-      Com_UnitModal_BottomSection_author_propic_: {
-        display: 'inline-block',
-        width: '8%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box'
-      },
-      Com_UnitModal_BottomSection_div_: {
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        right: '10%',
-        boxSizing: 'border-box',
-        padding: '1vh 0'
-      },
-      Com_UnitModal_BottomSection_div_noun: {
-        display: 'inline-block',
-        boxSizing: 'border-box',
-        fontSize: '2rem',
-        letterSpacing: '0.6vh',
-        textAlign: 'center',
-        fontWeight: '400',
-        fontFamily: 'cwTeXMing',
-        color: '#FAFAFA',
-        cursor: 'pointer'
-      },
-      Com_UnitModal_BottomSection_info_: {
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        right: '2%',
-        boxSizing: 'border-box',
-        fontSize: '2rem',
-        textAlign: 'center',
-        color: '#FAFAFA',
-        cursor: 'pointer'
-      },
-      Com_UnitModal_CornerSection_: {
-        width: '15%',
-        height: '7%',
-        position: 'absolute',
-        right: '0',
-        bottom: '0'
       }
     }
   }
 
-  _handleClick_unitAuthor(event){
-    event.preventDefault();
-    event.stopPropagation();
+  _refer_toandclose(source, identity){
+    this.props._refer_von_unit(identity, source);
     this.props._close_modal_Unit();
-    this.props._refer_von_unit(this.state.authorBasic.authorId, 'user');
-  }
-
-  _handleClick_unitNoun(event){
-    event.preventDefault();
-    event.stopPropagation();
-    this.props._close_modal_Unit();
-    this.props._refer_von_unit(event.currentTarget.getAttribute('nounid'), 'noun');
   }
 
   _handleClick_unitBack(event){
@@ -226,42 +169,6 @@ export default class UnitModal extends React.Component {
       <div
         style={this.style.Com_Modal_UnitModal}>
         <div
-          style={this.style.Com_UnitModal_BottomSection_}>
-          {
-            this.state.authorBasic &&
-            <div
-              style={this.style.Com_UnitModal_BottomSection_author_}
-              onClick={this._handleClick_unitAuthor}>
-              <div style={this.style.Com_UnitModal_BottomSection_author_propic_}>
-                <SvgPropic/>
-              </div>
-              <span style={this.style.Com_UnitModal_BottomSection_author_text}>
-                {this.state.authorBasic.account}
-              </span>
-            </div>
-          }
-          {
-            this.state.nouns &&
-            <div
-              style={this.style.Com_UnitModal_BottomSection_div_}>
-              <span
-                nounid={this.state.nouns.basic[this.state.nouns.list[0]].id}
-                style={this.style.Com_UnitModal_BottomSection_div_noun}
-                onClick={this._handleClick_unitNoun}>
-                {this.state.nouns.basic[this.state.nouns.list[0]].name}
-              </span>
-            </div>
-          }
-          <span style={this.style.Com_UnitModal_BottomSection_info_}>{" i "}</span>
-        </div>
-        <div
-          style={this.style.Com_UnitModal_CornerSection_}>
-          <UnitActionControl
-            unitName={this.state.unitName}
-            identity={this.state.identity}
-            _set_axios={this._set_axios}/>
-        </div>
-        <div
           style={this.style.Com_UnitModal_ControlSection_}>
           <div
             style={this.style.Com_UnitModal_ControlSection_back_}>
@@ -271,14 +178,39 @@ export default class UnitModal extends React.Component {
               {" X "}
             </span>
           </div>
+          {
+            this.state.nouns &&
+            <div
+              style={this.style.Com_UnitModal_ControlSection_nouns_}>
+              <NounsExtensible
+                nouns={this.state.nouns}
+                _handleClick_listNoun={this._refer_toandclose}/>
+            </div>
+          }
+          {
+            this.state.authorBasic &&
+            <div
+              style={this.style.Com_UnitModal_ControlSection_Author_}>
+              <AuthorFull
+                authorBasic={this.state.authorBasic}
+                _handleClick_Author={this._refer_toandclose}/>
+            </div>
+          }
           <div
-            style={this.style.Com_UnitModal_ControlSection_div_layerControl}>
-            <UnitLayerControl
-              layer={this.state.layer}
-              marks = {this.state.marksify}
-              _set_makrsVisible={this._set_makrsVisible}
-              _set_layer={this._set_layer}/>
+            style={this.style.Com_UnitModal_ControlSection_actionControl_}>
+            <UnitActionControl
+              unitName={this.state.unitName}
+              identity={this.state.identity}
+              _set_axios={this._set_axios}/>
           </div>
+        </div>
+        <div
+          style={this.style.Com_UnitModal_layerControl}>
+          <UnitLayerControl
+            layer={this.state.layer}
+            marks = {this.state.marksify}
+            _set_makrsVisible={this._set_makrsVisible}
+            _set_layer={this._set_layer}/>
         </div>
         <div
           style={this.style.Com_UnitModal_ImgSection_div}>

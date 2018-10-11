@@ -1,5 +1,5 @@
 import React from 'React';
-import EditingModal from './EditingModal.jsx';
+import EditingModal from './Share/EditingModal.jsx';
 import ModalBox from './ModalBox.jsx';
 import ModalBackground from './ModalBackground.jsx';
 
@@ -77,7 +77,7 @@ export default class CreateShare extends React.Component {
 
   _axios_post_Share_new(newObj){
     const self = this;
-    axios.post('/router/user/share/new', newObj, {
+    axios.post('/router/user/'+self.props.userBasic.id+'/shareds', newObj, {
       headers: {
         'Content-Type': 'application/json',
         'charset': 'utf-8',
@@ -108,7 +108,7 @@ export default class CreateShare extends React.Component {
         {
           this.state.editingModal &&
           <ModalBox containerId="root">
-            <ModalBackground onClose={this._handleClick_CreateShare_clear}>
+            <ModalBackground onClose={this._handleClick_CreateShare_clear} style={{position: "fixed"}}>
               <EditingModal
                 _set_Submit={this._handleClick_CreateShare_SubmitFile}
                 _set_Clear={this._handleClick_CreateShare_clear}/>

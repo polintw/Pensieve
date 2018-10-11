@@ -1,23 +1,23 @@
 import React from 'react';
+import {
+  Route,
+  Link
+} from 'react-router-dom';
+import querystring from 'query-string';
 import DraftDisplay from '../../Component/DraftDisplay.jsx';
 import SvgPropic from '../../Component/SvgPropic.jsx';
-import UnitModal from '../../Component/UnitModal.jsx';
-import ModalBox from '../../Component/ModalBox.jsx';
-import ModalBackground from '../../Component/ModalBackground.jsx';
+import Unit from '../../Component/Unit.jsx';
 
 export default class Inspired extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      unitModalify: false,
-      focusMarkName: null,
       inspiredList: [],
       inspiredMarksSet:{},
       unitBasicSet: {},
       userBasic: {}
     };
-    this._handleClick_markNail = this._handleClick_markNail.bind(this);
-    this._close_modal_Unit = this._close_modal_Unit.bind(this);
+    this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this.style={
       selfCom_Inspired_: {
         width: '100%',
@@ -101,20 +101,10 @@ export default class Inspired extends React.Component {
     }
   }
 
-  _handleClick_markNail(event){
-    event.stopPropagation();
-    event.preventDefault();
-    this.setState({
-      unitModalify: true,
-      focusMarkName: event.currentTarget.getAttribute('markid')
-    })
-  }
-
-  _close_modal_Unit(){
-    this.setState({
-      unitModalify: false,
-      focusMarkName: null
-    })
+  _construct_UnitInit(match, location){
+    let urlQuery = querystring.parse(location.search);
+    let unitInit= Object.assign(this.state.unitBasicSet[this.state.inspiredMarksSet[urlQuery.mark].unitId], {marksify: true, initMark: urlQuery.mark, layer: this.state.inspiredMarksSet[urlQuery.mark].layer});
+    return unitInit;
   }
 
   componentDidMount(){
@@ -141,32 +131,38 @@ export default class Inspired extends React.Component {
     let inspireds = self.state.inspiredList.map(function(dataKey, index){
       let dataValue = self.state.inspiredMarksSet[dataKey];
       return(
-        <div
+        <Link
           key={'key_Inspired_nails_'+index}
-          markid={dataKey}
-          style={self.style.selfCom_Inspired_nails_div_}
-          onClick={self._handleClick_markNail}>
+          to={{
+            pathname: self.props.match.url+"/units/"+dataValue.unitId,
+            search: "?mark="+dataKey,
+            state: {from: self.props.location}
+          }}>
           <div
-            style={self.style.selfCom_Inspired_nails_div_mark_}>
-            <DraftDisplay
-              editorState={dataValue.markEditorContent}/>
-          </div>
-          <div
-            style={self.style.selfCom_Inspired_nails_div_basic_}>
+            markid={dataKey}
+            style={self.style.selfCom_Inspired_nails_div_}>
             <div
-              style={self.style.selfCom_Inspired_nails_div_basic_author_}>
-              <div style={self.style.Com_UnitModal_BottomSection_author_propic_}>
-                <SvgPropic/>
-              </div>
-              <span style={self.style.Com_UnitModal_BottomSection_author_text}>
-                {self.state.userBasic[dataValue.authorId].authorAccount}
-              </span>
+              style={self.style.selfCom_Inspired_nails_div_mark_}>
+              <DraftDisplay
+                editorState={dataValue.markEditorContent}/>
             </div>
-            <img
-              src={'/router/img/'+self.state.unitBasicSet[dataValue.unitId].pic_layer0+'?type=thumb'}
-              style={self.style.selfCom_Inspired_nails_div_basic_img}/>
+            <div
+              style={self.style.selfCom_Inspired_nails_div_basic_}>
+              <div
+                style={self.style.selfCom_Inspired_nails_div_basic_author_}>
+                <div style={self.style.Com_UnitModal_BottomSection_author_propic_}>
+                  <SvgPropic/>
+                </div>
+                <span style={self.style.Com_UnitModal_BottomSection_author_text}>
+                  {self.state.userBasic[dataValue.authorId].authorAccount}
+                </span>
+              </div>
+              <img
+                src={'/router/img/'+self.state.unitBasicSet[dataValue.unitId].pic_layer0+'?type=thumb'}
+                style={self.style.selfCom_Inspired_nails_div_basic_img}/>
+            </div>
           </div>
-        </div>
+        </Link>
       )
     })
 
@@ -177,20 +173,7 @@ export default class Inspired extends React.Component {
           style={this.style.selfCom_Inspired_nails_}>
           {inspireds}
         </div>
-        {
-          this.state.unitModalify &&
-          <ModalBox containerId="root">
-            <ModalBackground onClose={this._close_modal_Unit}>
-              <UnitModal
-                unitId={this.state.inspiredMarksSet[this.state.focusMarkName].unitId}
-                unitInit={
-                  Object.assign(this.state.unitBasicSet[this.state.inspiredMarksSet[this.state.focusMarkName].unitId], {marksify: true, initMark: this.state.focusMarkName, layer: this.state.inspiredMarksSet[this.state.focusMarkName].layer})
-                }
-                _close_modal_Unit={this._close_modal_Unit}
-                _refer_von_unit={this.props._refer_leaveSelf}/>
-            </ModalBackground>
-          </ModalBox>
-        }
+        <Route path={this.props.match.path+"/units/:id"} render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_leaveSelf}/>}/>
       </div>
     )
   }

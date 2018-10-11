@@ -1,21 +1,20 @@
 import React from 'react';
+import {
+  Route,
+  Link
+} from 'react-router-dom';
 import CreateShare from '../../Component/CreateShare.jsx';
-import UnitModal from '../../Component/UnitModal.jsx';
-import ModalBox from '../../Component/ModalBox.jsx';
-import ModalBackground from '../../Component/ModalBackground.jsx';
+import Unit from '../../Component/Unit.jsx';
 
 export default class Shared extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      unitModalify: false,
-      focusUnitName: null,
       unitsList: [],
       unitsBasicSet: {}
     };
-    this._handleClick_Share = this._handleClick_Share.bind(this);
+    this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._submit_Share_New = this._submit_Share_New.bind(this);
-    this._close_modal_Unit = this._close_modal_Unit.bind(this);
     this.style={
       selfCom_Shared_: {
         width: '100%',
@@ -67,13 +66,9 @@ export default class Shared extends React.Component {
     }
   }
 
-  _handleClick_Share(event){
-    event.stopPropagation();
-    event.preventDefault();
-    this.setState({
-      unitModalify: true,
-      focusUnitName: event.currentTarget.getAttribute('unitname')
-    })
+  _construct_UnitInit(match, location){
+    let unitInit= Object.assign(this.state.unitsBasicSet[match.params.id], {marksify: true, initMark: "all", layer: 0});
+    return unitInit;
   }
 
   _submit_Share_New(dataObj){
@@ -88,13 +83,6 @@ export default class Shared extends React.Component {
         unitsList: res.data.main.unitsList,
         unitsBasicSet: res.data.main.unitsBasicSet
       })
-    })
-  }
-
-  _close_modal_Unit(){
-    this.setState({
-      unitModalify: false,
-      focusUnitName: null
     })
   }
 
@@ -119,15 +107,21 @@ export default class Shared extends React.Component {
     let shares = self.state.unitsList.map(function(dataKey, index){
       let dataValue = self.state.unitsBasicSet[dataKey];
       return(
-        <div
+        <Link
           key={'key_Shared_nails_'+index}
-          unitname={dataKey}
-          style={self.style.selfCom_Shared_nails_div_}
-          onClick={self._handleClick_Share}>
-          <img
-            src={'/router/img/'+dataValue.pic_layer0+'?type=thumb'}
-            style={self.style.selfCom_Shared_nails_div_img}/>
-        </div>
+          to={{
+            pathname: self.props.match.url+"/units/"+dataKey,
+            state: {from: self.props.location}
+          }}>
+
+          <div
+            unitname={dataKey}
+            style={self.style.selfCom_Shared_nails_div_}>
+            <img
+              src={'/router/img/'+dataValue.pic_layer0+'?type=thumb'}
+              style={self.style.selfCom_Shared_nails_div_img}/>
+          </div>
+        </Link>
       )
     })
 
@@ -140,6 +134,7 @@ export default class Shared extends React.Component {
             style={this.style.selfCom_Shared_top_CreateShare_}>
             <img src="/images/vacancy.png" style={{width: '100%', height: '100%'}}/>
             <CreateShare
+              userBasic={this.props.userBasic}
               _submit_Share_New={this._submit_Share_New}/>
           </div>
         </div>
@@ -147,18 +142,7 @@ export default class Shared extends React.Component {
           style={this.style.selfCom_Shared_nails_}>
           {shares}
         </div>
-        {
-          this.state.unitModalify &&
-          <ModalBox containerId="root">
-            <ModalBackground onClose={this._close_modal_Unit}>
-              <UnitModal
-                unitId={this.state.focusUnitName}
-                unitInit={Object.assign(this.state.unitsBasicSet[this.state.focusUnitName], {marksify: true, initMark: "all", layer: 0})}
-                _close_modal_Unit={this._close_modal_Unit}
-                _refer_von_unit={this.props._refer_leaveSelf}/>
-            </ModalBackground>
-          </ModalBox>
-        }
+        <Route path={this.props.match.path+"/units/:id"} render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_leaveSelf}/>}/>
       </div>
     )
   }

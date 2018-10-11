@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const {verify_key} = require('../../../config/jwt.js');
 const {connection_key} = require('../../../config/database.js');
 const {_res_success} = require('../../utils/resHandler.js');
-const {_promise_composeUnitsBasic, _promise_composeUsersBasic, _promise_composeMarksBasic} = require('../../utils/dbObjectHandler.js');
+const {_promise_composeUnitsBasic, _promise_composeUsersBasic, _promise_composeMarksBasic} = require('../../utils/dbComposeHandler.js');
 const {_handler_err_BadReq, _handler_err_Unauthorized, _handler_err_Internal} = require('../../utils/reserrHandler.js');
 
 const database = mysql.createPool(connection_key);

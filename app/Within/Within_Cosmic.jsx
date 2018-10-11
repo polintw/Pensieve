@@ -48,9 +48,11 @@ export default class WithinCosmic extends React.Component {
     return(
       <div
         style={this.style.Within_Cosmic_}>
-        <Route path={this.props.match.path+"/user"} render={(props)=> <CosmicUser {...props} userBasic={this.props.userBasic}/>}/>
-        <Route path={this.props.match.path+"/pick/noun"} render={(props)=> <CosmicNoun {...props} userBasic={this.props.userBasic}/>}/>
-        <Route exact path={this.props.match.path} component={CosmicMain}/>
+        <Switch>
+          <Route path={this.props.match.path+"/user"} render={(props)=> <CosmicUser {...props} userBasic={this.props.userBasic}/>}/>
+          <Route path={this.props.match.path+"/pick/noun"} render={(props)=> <CosmicNoun {...props} userBasic={this.props.userBasic}/>}/>
+          <Route path={this.props.match.path} render={(props)=> <CosmicMain {...props}/>}/>
+        </Switch>
         <div
           style={this.style.Within_Cosmic_corner_}>
           <CosmicCorner

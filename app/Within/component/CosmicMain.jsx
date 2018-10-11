@@ -60,7 +60,7 @@ export default class CosmicMain extends React.Component {
         style={this.style.withinCom_CosmicMain_}>
         <div
           style={this.style.withinCom_CosmicMain_index_}>
-          <MainIndex/>
+          <MainIndex {...this.props}/>
         </div>
         <div
           style={this.style.withinCom_CosmicMain_picking_}>
