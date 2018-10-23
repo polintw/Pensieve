@@ -1,4 +1,8 @@
 import React from 'react';
+import {
+  Route,
+  Link
+} from 'react-router-dom';
 import cxBind from 'classnames/bind';
 
 export default class NavCognition extends React.Component {
@@ -7,7 +11,6 @@ export default class NavCognition extends React.Component {
     this.state = {
 
     };
-    this._handleClick_nav_focus = this._handleClick_nav_focus.bind(this);
     this.style={
       selfCom_NavCognition_: {
         width: '100%',
@@ -30,50 +33,29 @@ export default class NavCognition extends React.Component {
     }
   }
 
-  _handleClick_nav_focus(event){
-    event.stopPropagation();
-    event.preventDefault();
-    let focusNext = event.currentTarget.getAttribute('tab');
-    let cognitionTo = [];
-    switch (focusNext) {
-      case 'storage':
-        cognitionTo.push('storage', 'inspired')
-        break;
-      case 'move':
-        cognitionTo.push('move', 'shared')
-        break;
-      case 'mutual':
-        cognitionTo.push('mutual', '')
-        break;
-      default:
-
-    }
-    this.props._set_Focus(cognitionTo[0], cognitionTo[1]);
-  }
-
   render(){
     //let cx = cxBind.bind(styles);
     return(
       <div
         style={this.style.selfCom_NavCognition_}>
-        <span
-          tab={"move"}
-          style={this.style.selfCom_NavCognition_nav_span}
-          onClick={this._handleClick_nav_focus}>
-          {"行動"}
-        </span>
-        <span
-          tab={"storage"}
-          style={this.style.selfCom_NavCognition_nav_span}
-          onClick={this._handleClick_nav_focus}>
-          {"見聞"}
-        </span>
-        <span
-          tab={"mutual"}
-          style={this.style.selfCom_NavCognition_nav_span}
-          onClick={this._handleClick_nav_focus}>
-          {"來往"}
-        </span>
+        <Link to={this.props.match.url+"/moves/shareds"}>
+          <span
+            style={this.style.selfCom_NavCognition_nav_span}>
+            {"行動"}
+          </span>
+        </Link>
+        <Link to={this.props.match.url+"/wall/inspireds"}>
+          <span
+            style={this.style.selfCom_NavCognition_nav_span}>
+            {"見聞"}
+          </span>
+        </Link>
+        <Link to={this.props.match.url+"/mutuals/dialogues"}>
+          <span
+            style={this.style.selfCom_NavCognition_nav_span}>
+            {"來往"}
+          </span>
+        </Link>
       </div>
     )
   }

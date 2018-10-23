@@ -1,4 +1,8 @@
 import React from 'react';
+import {
+  Route,
+  Link
+} from 'react-router-dom';
 import Dialogues from './Dialogues.jsx';
 
 export default class CogMutual extends React.Component {
@@ -7,7 +11,6 @@ export default class CogMutual extends React.Component {
     this.state = {
 
     };
-    this._handleClick_nav_range = this._handleClick_nav_range.bind(this);
     this.style={
       selfCom_CogMutual_: {
         width: '100%',
@@ -52,13 +55,6 @@ export default class CogMutual extends React.Component {
     }
   }
 
-  _handleClick_nav_range(event){
-    event.stopPropagation();
-    event.preventDefault();
-    let rangeNext = event.currentTarget.getAttribute('tab');
-    this.props._set_Range(rangeNext);
-  }
-
   render(){
     //let cx = cxBind.bind(styles);
     return(
@@ -66,7 +62,7 @@ export default class CogMutual extends React.Component {
         style={this.style.selfCom_CogMutual_}>
         <div
           style={this.style.selfCom_CogMutual_main_}>
-          <Dialogues/>
+          <Route path={this.props.match.path+"/dialogues"} render={(props)=> <Dialogues {...props}/>}/>
         </div>
       </div>
     )

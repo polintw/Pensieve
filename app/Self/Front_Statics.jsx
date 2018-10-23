@@ -1,4 +1,8 @@
 import React from 'react';
+import {
+  Route,
+  Link
+} from 'react-router-dom';
 import Statics from './component/Statics.jsx';
 
 export default class FrontStatics extends React.Component {
@@ -7,7 +11,6 @@ export default class FrontStatics extends React.Component {
     this.state = {
 
     };
-    this._handleClick_statics_return = this._handleClick_statics_return.bind(this);
     this.style={
       Front_Statics_: {
         width: '100%',
@@ -42,22 +45,17 @@ export default class FrontStatics extends React.Component {
     }
   }
 
-  _handleClick_statics_return(event){
-    event.preventDefault();
-    event.stopPropagation();
-    this.props._set_frontPage("Statics");
-  }
-
   render(){
     //let cx = cxBind.bind(styles);
     return(
       <div
         style={this.style.Front_Statics_}>
-        <div
-          style={this.style.Front_Statics_return_}
-          onClick={this._handleClick_statics_return}>
-          {"return"}
-        </div>
+        <Link to={this.props.location.state.from}>
+          <div
+            style={this.style.Front_Statics_return_}>
+            {"return"}
+          </div>
+        </Link>
         <div
           style={this.style.Front_Statics_scroll_}>
           <Statics

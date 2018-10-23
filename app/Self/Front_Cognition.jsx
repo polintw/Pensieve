@@ -3,16 +3,14 @@ import Cognition from './component/Cognition.jsx';
 import NavFront from './component/NavFront.jsx';
 import NavCognition from './component/NavCognition.jsx';
 import NavCollateral from './component/NavCollateral.jsx';
+import SvgPropic from '../Component/SvgPropic.jsx';
 
 export default class FrontCognition extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      focus: 'storage',
-      range: 'inspired'
+
     };
-    this._set_Focus = this._set_Focus.bind(this);
-    this._set_Range = this._set_Range.bind(this);
     this._refer_leaveSelf = this._refer_leaveSelf.bind(this);
     this.style={
       Front_Cognition_: {
@@ -114,19 +112,20 @@ export default class FrontCognition extends React.Component {
     }
   }
 
-  _set_Focus(focusTo, rangeTo){
-    this.setState({focus: focusTo, range: rangeTo});
-  }
-
-  _set_Range(range){
-    this.setState({range: range});
-  }
-
   _refer_leaveSelf(identifier, route){
-    if(identifier == this.props.userBasic.id){
-      window.location.assign('/self');
-    }else{
-      window.location.assign('/cosmic/user?id='+identifier);
+    switch (route) {
+      case 'user':
+        if(identifier == this.props.userBasic.id){
+          window.location.assign('/self');
+        }else{
+          window.location.assign('/cosmic/user?id='+identifier);
+        }
+        break;
+      case 'noun':
+        window.location.assign('/cosmic/pick/noun?id='+identifier);
+        break;
+      default:
+        return
     }
   }
 
@@ -138,10 +137,7 @@ export default class FrontCognition extends React.Component {
         <div
           style={this.style.Front_Cognition_scroll_}>
           <Cognition
-            userBasic={this.props.userBasic}
-            range={this.state.range}
-            focus={this.state.focus}
-            _set_Range={this._set_Range}
+            {...this.props}
             _refer_leaveSelf={this._refer_leaveSelf}/>
         </div>
         <div
@@ -152,38 +148,27 @@ export default class FrontCognition extends React.Component {
         </div>
         <div
           style={this.style.Front_Cognition_UserName_}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 182 182"
+          <div
             style={this.style.Front_Cognition_UserName_svg_}>
-            <defs><style>{".cls-1{fill:none;stroke:#000;stroke-miterlimit:10;}"}</style></defs>
-            <g id="圖層_2" data-name="圖層 2">
-              <g id="圖層_1-2" data-name="圖層 1">
-                <path d="M91,2A89,89,0,1,1,2,91,89.11,89.11,0,0,1,91,2m0-2a91,91,0,1,0,91,91A91,91,0,0,0,91,0Z"/>
-                <path className="cls-1" d="M113.14,109.53c15.47,5.49,40,14.62,47.36,20l2,6a58.09,58.09,0,0,1,1,10"/>
-                <path className="cls-1" d="M16.5,142.5s0-8,2-12c.08-.16,1.89-3.86,2-4,2.05-2.73,30.84-11.74,49-17.19"/>
-                <path d="M91.5,25A44.51,44.51,0,1,1,47,69.5,44.55,44.55,0,0,1,91.5,25m0-1A45.5,45.5,0,1,0,137,69.5,45.5,45.5,0,0,0,91.5,24Z"/>
-              </g>
-            </g>
-          </svg>
+            <SvgPropic/>
+          </div>
           <span style={this.style.Front_Cognition_UserName_span_}>{this.props.userBasic.account}</span>
         </div>
         <div
           style={this.style.Front_Cognition_Navs_}>
           <div
             style={this.style.Front_Cognition_Navs_Collateral_}>
-            <NavCollateral
-              _set_Focus={this._set_Focus}/>
+            <NavCollateral/>
           </div>
           <div
             style={this.style.Front_Cognition_Navs_Cognition_}>
             <NavCognition
-              focus={this.state.focus}
-              _set_Focus={this._set_Focus}/>
+              {...this.props}/>
           </div>
           <div
             style={this.style.Front_Cognition_Navs_Front_}>
             <NavFront
-              userBasic={this.props.userBasic}
-              _set_frontPage={this.props._set_frontPage}/>
+              {...this.props}/>
           </div>
         </div>
       </div>

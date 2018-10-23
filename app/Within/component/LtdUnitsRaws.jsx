@@ -1,4 +1,8 @@
 import React from 'react';
+import {
+  Link,
+  Redirect
+} from 'react-router-dom';
 import cxBind from 'classnames/bind';
 import SvgPropic from '../../Component/SvgPropic.jsx';
 
@@ -94,19 +98,23 @@ export default class LtdUnitsRaws extends React.Component {
       units.push(
         <div
           key={'key_LtdUnits_unit_'+point}
-          unitname={unitName}
-          style={divStyle}
-          onClick={self.props._handleClick_Share}>
-          <img
-            src={'/router/img/'+dataValue.pic_layer0+'?type=thumb'}
-            style={self.style.withinCom_LtdUnitsRaws_unit_div_img}/>
-          <div
-            style={this.style.withinCom_LtdUnitsRaws_unit_div_content_}>
+          style={divStyle}>
+          <Link
+            to={{
+              pathname: "/units/"+unitName,
+              state: {from: self.props.location}
+            }}>
+            <img
+              src={'/router/img/'+dataValue.pic_layer0+'?type=thumb'}
+              style={self.style.withinCom_LtdUnitsRaws_unit_div_img}/>
             <div
-              style={this.style.withinCom_LtdUnitsRaws_unit_div_content_author_}>
-              <SvgPropic/>
+              style={this.style.withinCom_LtdUnitsRaws_unit_div_content_}>
+              <div
+                style={this.style.withinCom_LtdUnitsRaws_unit_div_content_author_}>
+                <SvgPropic/>
+              </div>
             </div>
-          </div>
+          </Link>
         </div>
       );
       point += 1;

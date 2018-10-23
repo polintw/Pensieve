@@ -133,7 +133,7 @@ export default class SelfCover extends React.Component {
   _handleClick_nav_expand(event){
     event.stopPropagation();
     event.preventDefault();
-    window.location.assign('/self/front');
+    window.location.assign('/user/front/wall/inspireds');
   }
 
   _handleClick_selfClose(event){
