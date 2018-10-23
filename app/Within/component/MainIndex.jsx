@@ -2,17 +2,20 @@ import React from 'react';
 import {
   Link,
   Redirect,
-  Route
+  Route,
+  withRouter
 } from 'react-router-dom';
+import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import MainIndexRaws from './MainIndexRaws.jsx';
 import Unit from '../../Component/Unit.jsx';
 
-export default class MainIndex extends React.Component {
+class MainIndex extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       axios: false,
+      unitTo: null,
       unitsList: [],
       unitsBasicSet: {},
       rawsArr: []
@@ -20,6 +23,7 @@ export default class MainIndex extends React.Component {
     this.axiosSource = axios.CancelToken.source();
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._render_LtdUnitsRaws = this._render_LtdUnitsRaws.bind(this);
+    this._refer_von_unit = this._refer_von_unit.bind(this);
     this.style={
       withinCom_MainIndex_: {
         width: '100%',
@@ -39,6 +43,35 @@ export default class MainIndex extends React.Component {
   _construct_UnitInit(match, location){
     let unitInit=Object.assign(this.state.unitsBasicSet[match.params.id], {marksify: true, initMark: "all", layer: 0});
     return unitInit;
+  }
+
+  _refer_von_unit(identifier, route){
+    switch (route) {
+      case 'user':
+        if(identifier == this.props.userInfo.id){
+          window.location.assign('/user/overview');
+        }else{
+          this.setState((prevState, props)=>{
+            let unitTo = {
+              params: '/cosmic/people/'+identifier,
+              query: ''
+            };
+            return {unitTo: unitTo}
+          })
+        }
+        break;
+      case 'noun':
+        this.setState((prevState, props)=>{
+          let unitTo = {
+            params: '/cosmic/nouns/'+identifier,
+            query: ''
+          };
+          return {unitTo: unitTo}
+        })
+        break;
+      default:
+        return
+    }
   }
 
   _render_LtdUnitsRaws(){
@@ -100,6 +133,7 @@ export default class MainIndex extends React.Component {
   }
 
   render(){
+    if(this.state.unitTo){return <Redirect to={this.state.unitTo.params+this.state.unitTo.query}/>}
     //let cx = cxBind.bind(styles);
     return(
       <div
@@ -115,3 +149,14 @@ export default class MainIndex extends React.Component {
     )
   }
 }
+
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo
+  }
+}
+
+export default withRouter(connect(
+  mapStateToProps,
+  null
+)(MainIndex));

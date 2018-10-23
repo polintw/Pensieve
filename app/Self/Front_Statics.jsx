@@ -1,11 +1,13 @@
 import React from 'react';
 import {
   Route,
-  Link
+  Link,
+  withRouter
 } from 'react-router-dom';
+import {connect} from "react-redux";
 import Statics from './component/Statics.jsx';
 
-export default class FrontStatics extends React.Component {
+class FrontStatics extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -58,10 +60,11 @@ export default class FrontStatics extends React.Component {
         </Link>
         <div
           style={this.style.Front_Statics_scroll_}>
-          <Statics
-            userBasic={this.props.userBasic}/>
+          <Statics/>
         </div>
       </div>
     )
   }
 }
+
+export default withRouter(connect()(FrontStatics));

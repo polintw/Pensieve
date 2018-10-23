@@ -54,7 +54,7 @@ export default class CosmicCorner extends React.Component {
   _handleClick_cosmic_Self(event){
     event.stopPropagation();
     event.preventDefault();
-    window.location.assign('/self');
+    window.location.assign('/user/overview');
   }
 
   componentDidMount() {

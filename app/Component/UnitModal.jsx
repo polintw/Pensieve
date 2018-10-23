@@ -8,35 +8,9 @@ export default class UnitModal extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      axios: false,
-      unitName: "unitName_"+this.props.unitId,
-      coverSrc: null,
-      beneathSrc: null,
-      coverMarksObj: null,
-      beneathMarksObj: null,
-      refsArr: null,
-      nouns: null,
-      authorBasic: null,
-      identity: null,
       layer: this.props.unitInit.layer,
       marksify: this.props.unitInit.marksify
     };
-    this._axios_getUnitData = () => {
-      return axios.get('/router/unit/general/mount?unitName='+this.state.unitName, {
-        headers: {
-          'charset': 'utf-8',
-          'token': window.localStorage['token']
-        }
-      })
-    };
-    this._axios_getUnitImg = (layer)=>{
-      return axios.get('/router/img/'+this.props.unitInit[layer]+'?type=unitSingle', {
-        headers: {
-          'token': window.localStorage['token']
-        }
-      })
-    };
-    this._set_axios = (bool) => {this.setState({axios: bool})};
     this._set_makrsVisible = (bool) => {this.setState({marksify: bool});};
     this._set_layer = (index) => {this.setState({layer: index});};
     this._refer_toandclose = this._refer_toandclose.bind(this);
@@ -52,6 +26,24 @@ export default class UnitModal extends React.Component {
         boxSizing: 'border-box',
         backgroundColor: '#313130',
         boxShadow: '0px 1.2vh 2.4vw 0vw'
+      },
+      Com_Modal_UnitModal_atRes_:{
+        width: '13%',
+        height: '20%',
+        position: 'absolute',
+        top: '60%',
+        left: '1%',
+        boxSizing: 'border-box',
+        boxShadow: '0px 1.2vh 2.4vw 0vw',
+        overflow: 'hidden'
+      },
+      Com_Modal_UnitModal_atRes_img: {
+        maxWidth: '100%',
+        maxHeight: '100%',
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%,-50%)',
       },
       Com_UnitModal_ImgSection_div: {
         width: '84%',
@@ -132,40 +124,16 @@ export default class UnitModal extends React.Component {
     this.props._close_modal_Unit();
   }
 
-  componentDidMount(){
-    const self = this;
-    let beneathify = !!this.props.unitInit['pic_layer1'];
-    let axiosArr = [this._axios_getUnitData(),this._axios_getUnitImg('pic_layer0')];
-    if(beneathify){axiosArr.push(this._axios_getUnitImg('pic_layer1'))};
-    axios.all(axiosArr).then(
-      axios.spread(function(resData, resImgCover, resImgBeneath){
-        let resObj = JSON.parse(resData.data);
-        let keysArr = Object.keys(resObj.main.marksObj);
-        let [coverMarksObj, beneathMarksObj] = [{}, {}];
-        keysArr.forEach(function(key, index){
-          if(resObj.main.marksObj[key].layer==0){
-            coverMarksObj[key]=resObj.main.marksObj[key]
-          }else{
-            beneathMarksObj[key]=resObj.main.marksObj[key]
-          }
-        })
-
-        self.setState({
-          coverSrc: resImgCover.data,
-          beneathSrc: beneathify?resImgBeneath.data:null,
-          coverMarksObj: coverMarksObj,
-          beneathMarksObj: beneathMarksObj,
-          refsArr: resObj.main.refsArr,
-          nouns: resObj.main.nouns,
-          authorBasic: resObj.main.authorBasic,
-          identity: resObj.main.identity
-        });
-      })
-    )
-  }
 
   render(){
-    return(
+    return this.props.mode?(
+      <div
+        style={this.style.Com_Modal_UnitModal_atRes_}>
+        <img
+          style={this.style.Com_Modal_UnitModal_atRes_img}
+          src={this.props.unitSet.coverSrc}/>
+      </div>
+    ):(
       <div
         style={this.style.Com_Modal_UnitModal}>
         <div
@@ -179,34 +147,34 @@ export default class UnitModal extends React.Component {
             </span>
           </div>
           {
-            this.state.nouns &&
+            this.props.unitSet.nouns &&
             <div
               style={this.style.Com_UnitModal_ControlSection_nouns_}>
               <NounsExtensible
-                nouns={this.state.nouns}
+                nouns={this.props.unitSet.nouns}
                 _handleClick_listNoun={this._refer_toandclose}/>
             </div>
           }
           {
-            this.state.authorBasic &&
+            this.props.unitSet.authorBasic &&
             <div
               style={this.style.Com_UnitModal_ControlSection_Author_}>
               <AuthorFull
-                authorBasic={this.state.authorBasic}
+                authorBasic={this.props.unitSet.authorBasic}
                 _handleClick_Author={this._refer_toandclose}/>
             </div>
           }
           <div
             style={this.style.Com_UnitModal_ControlSection_actionControl_}>
             <UnitActionControl
-              unitName={this.state.unitName}
-              identity={this.state.identity}
-              _set_axios={this._set_axios}/>
+              identity={this.props.unitSet.identity}
+              _set_Modalmode={this.props._set_Modalmode}/>
           </div>
         </div>
         <div
           style={this.style.Com_UnitModal_layerControl}>
           <UnitLayerControl
+            unitId={this.props.unitId}
             layer={this.state.layer}
             marks = {this.state.marksify}
             _set_makrsVisible={this._set_makrsVisible}
@@ -218,11 +186,11 @@ export default class UnitModal extends React.Component {
             layer={this.state.layer}
             marksify={this.state.marksify}
             initMark={this.props.unitInit.initMark}
-            identity={this.state.identity}
-            coverSrc={this.state.coverSrc}
-            beneathSrc={this.state.beneathSrc}
-            coverMarksObj={this.state.coverMarksObj}
-            beneathMarksObj={this.state.beneathMarksObj}/>
+            identity={this.props.unitSet.identity}
+            coverSrc={this.props.unitSet.coverSrc}
+            beneathSrc={this.props.unitSet.beneathSrc}
+            coverMarksObj={this.props.unitSet.coverMarksObj}
+            beneathMarksObj={this.props.unitSet.beneathMarksObj}/>
         </div>
       </div>
     )

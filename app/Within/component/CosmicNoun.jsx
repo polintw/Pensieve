@@ -1,4 +1,9 @@
 import React from 'react';
+import {
+  Link,
+  Route,
+  withRouter
+} from 'react-router-dom';
 import querystring from 'query-string';
 import cxBind from 'classnames/bind';
 import CosmicSelected from './CosmicSelected.jsx';
@@ -8,7 +13,7 @@ export default class CosmicNoun extends React.Component {
     super(props);
     this.state = {
       axios: false,
-      userQueried: null
+      userQueried: this.props.match.params.id
     };
     this.axiosSource = axios.CancelToken.source();
     this.style={
@@ -39,11 +44,7 @@ export default class CosmicNoun extends React.Component {
   }
 
   componentDidMount() {
-    let urlQuery = querystring.parse(this.props.location.search); //should be contain in redux
-    const self = this;
-    this.setState((prevState, props)=>{
-      return {userQueried: urlQuery.id}
-    })
+
   }
 
   componentWillUnmount(){
@@ -63,12 +64,7 @@ export default class CosmicNoun extends React.Component {
         </div>
         <div
           style={this.style.withinCom_CosmicNoun_selected_}>
-          {
-            this.state.userQueried &&
-            <CosmicSelected
-              urlParam={"/router/cosmic/pick/noun/regular"}
-              urlQuery={"?id="+this.state.userQueried}/>
-          }
+          <Route path={this.props.match.path} render={(props)=> <CosmicSelected {...props} urlParam={"/router/cosmic/pick/noun/regular"} urlQuery={"?id="+this.state.userQueried}/>}/>
         </div>
       </div>
     )

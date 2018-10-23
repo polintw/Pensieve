@@ -1,9 +1,10 @@
 import React from 'react';
+import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import CreateShare from '../../Component/CreateShare.jsx';
 import ModalBox from '../../Component/ModalBox.jsx';
 
-export default class LtdNav extends React.Component {
+class LtdNav extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -71,13 +72,13 @@ export default class LtdNav extends React.Component {
   }
 
   _submit_Share_New(dataObj){
-    window.location.assign('/self/front');
+    window.location.assign('/user/front');
   }
 
   _handleClick_selfEntrance(event){
     event.stopPropagation();
     event.preventDefault();
-    window.location.assign('/self');
+    window.location.assign('/user/overview');
   }
 
   _handleClick_navToolBox(event){
@@ -106,7 +107,6 @@ export default class LtdNav extends React.Component {
           style={this.style.withinCom_LtdNav_logo_}>
           <img src="/images/vacancy.png" style={{width: '100%', maxHeight: '100%'}}/>
           <CreateShare
-            userBasic={this.props.userBasic}
             _submit_Share_New={this._submit_Share_New}/>
         </div>
         <div
@@ -121,7 +121,7 @@ export default class LtdNav extends React.Component {
             <div
               style={{width: '100%', position: 'absolute', top: '50%', transform: 'translate(0, -50%)', cursor: 'pointer'}}
               onClick={this._handleClick_selfEntrance}>
-              {this.props.userBasic.account}
+              {this.props.userInfo.account}
             </div>
           </div>
         </div>
@@ -145,3 +145,14 @@ export default class LtdNav extends React.Component {
     )
   }
 }
+
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  null
+)(LtdNav);

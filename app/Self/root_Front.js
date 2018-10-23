@@ -1,6 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {createStore} from "redux";
+import {Provider} from "react-redux";
 import Front from './Front.jsx'
+import storeSelfFront from "../redux/reducers/selfFront.js";
+import {mountUserInfo} from "../redux/actions/general.js";
 
 let loggedin = !!window.localStorage['token'];
 if(loggedin){
@@ -9,7 +13,9 @@ if(loggedin){
         'token': window.localStorage['token']
     }
   }).then(function(res){
-    ReactDOM.hydrate(<Front userBasic={res.data.userBasic}/>, document.getElementById("root"));
+    const store = createStore(storeSelfFront);
+    store.dispatch(mountUserInfo(res.data.userInfo));
+    ReactDOM.hydrate(<Provider store={store}><Front/></Provider>, document.getElementById("root"));
   }).catch((err)=>{
     if (err.response) {
       // The request was made and the server responded with a status code that falls out of the range of 2xx

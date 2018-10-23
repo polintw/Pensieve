@@ -65,7 +65,7 @@ export default class ExternalPanel extends React.Component {
   _handleClick_selfCover(event){
     event.preventDefault();
     event.stopPropagation();
-    window.location.assign('/self?id=userid');
+    window.location.assign('/user/overview');
   }
 
   _handleClick_navToolBox(event){

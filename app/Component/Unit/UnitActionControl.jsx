@@ -7,7 +7,7 @@ export default class UnitActionControl extends React.Component {
     this.state = {
 
     };
-    this._handleClick_unit_collect =this._handleClick_unit_collect.bind(this);
+    this._handleClick_UnitAction_Response = this._handleClick_UnitAction_Response.bind(this);
     this.style={
       Com_UnitActionControl_: {
         width: '100%',
@@ -35,32 +35,10 @@ export default class UnitActionControl extends React.Component {
     }
   }
 
-  _handleClick_unit_collect(event){
+  _handleClick_UnitAction_Response(event){
     event.preventDefault();
     event.stopPropagation();
-    const self = this;
-    self.props._set_axios(true);
-
-    axios.patch('/router/user/newCollect', {"unitName": this.props.unitName}, {
-      headers: {
-        'charset': 'utf-8',
-        'token': window.localStorage['token']
-      }
-    }).then(function (res) {
-        if(res.status = 200){
-          console.log("success");
-          self.props._set_axios(false);
-          alert("成功將本篇加入到您的收藏!");
-        }else{
-          console.log("Failed: "+ res.data.err);
-          self.props._set_axios(false);
-          alert("Failed, please try again later");
-        }
-    }).catch(function (error) {
-      console.log(error);
-      self.props._set_axios(false);
-      alert("Failed, please try again later");
-    });
+    this.props._set_Modalmode(true);
   }
 
   render(){
@@ -69,12 +47,13 @@ export default class UnitActionControl extends React.Component {
       <div
         style={this.style.Com_UnitActionControl_}>
         <div>
-          <span>
+          <span
+            style={this.style.Com_UnitActionControl_span}
+            onClick={this._handleClick_UnitAction_Response}>
             {"回應"}
           </span>
           <span
-            style={this.style.Com_UnitActionControl_span}
-            onClick={this._handleClick_unit_collect}>
+            style={this.style.Com_UnitActionControl_span}>
             {'推廣'}
           </span>
         </div>

@@ -1,5 +1,3 @@
-const fs = require('fs');
-const path = require("path");
 const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 const {verify_key} = require('../../../config/jwt.js');

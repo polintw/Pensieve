@@ -2,41 +2,64 @@ import React from 'react';
 import {
   Link,
   Route,
-  withRouter,
-  Redirect
+  withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import cxBind from 'classnames/bind';
 import Unit from '../../Component/Unit.jsx';
 import SvgPropic from '../../Component/SvgPropic.jsx';
 import DraftDisplay from '../../Component/DraftDisplay.jsx';
 
-class CosmicSelected extends React.Component {
+class RelationRes extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       axios: false,
-      unitTo: null,
       unitsList: [],
       unitsBasic: {},
       marksBasic: {},
-      usersBasic: {}
+      authorsBasic: {}
     };
     this.axiosSource = axios.CancelToken.source();
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
-    this._close_modal_Unit = this._close_modal_Unit.bind(this);
-    this._refer_von_unit = this._refer_von_unit.bind(this);
     this.style={
-      withinCom_Cosmic_Selected_: {
+      withinCom_RelationRes_: {
         width: '100%',
         position: 'absolute',
         top: '0',
         left: '0'
       },
-      withinCom_Cosmic_Selected_list_: {
-
+      withinCom_RelationRes_block_: {
+        width: '100%',
+        height: '15vh',
+        position: 'relative',
+        boxSizing: 'border-box',
+        margin: '0 0 1vh 0',
+        border: '0.75px solid black'
       },
-      withinCom_Cosmic_Selected_list_nail_: {
-
+      withinCom_RelationRes_block_img: {
+        width: '45%',
+        maxHeight: '100%',
+        position: 'absolute',
+        top: '50%',
+        left: '55%',
+        transform: 'translate(0, -50%)',
+        boxSizing: 'border-box'
+      },
+      withinCom_RelationRes_block_rough_: {
+        width: '55%',
+        height: '100%',
+        position: 'absolute',
+        top: '0',
+        left:'0',
+        boxSizing: 'border-box'
+      },
+      withinCom_RelationRes_block_rough_Propic: {
+        width: '24%',
+        height: '30%',
+        position: 'absolute',
+        top: '50%',
+        left: '0'
       }
     }
   }
@@ -46,46 +69,10 @@ class CosmicSelected extends React.Component {
     return unitInit;
   }
 
-  _close_modal_Unit(){
-    this.setState({
-      unitModalify: false,
-      focusUnitId: null
-    })
-  }
-
-  _refer_von_unit(identifier, route){
-    switch (route) {
-      case 'user':
-        if(identifier == this.props.userInfo.id){
-          window.location.assign('/user/overview');
-        }else{
-          this.setState((prevState, props)=>{
-            let unitTo = {
-              params: '/cosmic/people/'+identifier,
-              query: ''
-            };
-            return {unitTo: unitTo}
-          })
-        }
-        break;
-      case 'noun':
-        this.setState((prevState, props)=>{
-          let unitTo = {
-            params: '/cosmic/nouns/'+identifier,
-            query: ''
-          };
-          return {unitTo: unitTo}
-        })
-        break;
-      default:
-        return
-    }
-  }
-
-  componentDidMount(){
+  componentDidMount() {
     const self = this;
     this.setState((prevState, props)=>{return {axios: true};}, ()=>{
-      let url = this.props.urlParam+this.props.urlQuery;
+      let url = "/router/units/"+self.props.match.params.id+"/responses";
       axios.get(url, {
         headers: {
           'charset': 'utf-8',
@@ -98,9 +85,9 @@ class CosmicSelected extends React.Component {
             return {
               axios: false,
               unitsList: resObj.main.unitsList,
-              marksBasic: resObj.main.marksBasic,
               unitsBasic: resObj.main.unitsBasic,
-              usersBasic: resObj.main.usersBasic
+              marksBasic: resObj.main.marksBasic,
+              authorsBasic: resObj.main.authorsBasic
             }
           });
       }).catch(function (thrown) {
@@ -122,46 +109,55 @@ class CosmicSelected extends React.Component {
   }
 
   render(){
-    if(this.state.unitTo){return <Redirect to={this.state.unitTo.params+this.state.unitTo.query}/>}
     //let cx = cxBind.bind(styles);
-
     const self = this;
-    let nails = this.state.unitsList.map((key, index)=>{
+    let responses = this.state.unitsList.map((key, index)=>{
       let unitBasic = this.state.unitsBasic[key];
       return (
         <div
-          key={'key_selected_'+index}
-          style={this.style.withinCom_Cosmic_Selected_list_nail_}>
+          key={'key_unit_res_'+index}
+          style={this.style.withinCom_RelationRes_block_}>
           <Link
             to={{
-              pathname: self.props.match.url+"/units/"+key,
+              pathname: self.props.match.url+"/"+key,
               state: {from: self.props.location}
             }}>
-            <img
-              src={'/router/img/'+unitBasic.pic_layer0+'?type=thumb'}
-              style={{}}/>
             <div
-              style={{}}>
+              style={this.style.withinCom_RelationRes_block_rough_}>
+              <div>
+                <DraftDisplay
+                  editorState={this.state.marksBasic[unitBasic.marksList[0]].editorContent}/>
+              </div>
               <div
-                style={{}}>
+                style={this.style.withinCom_RelationRes_block_rough_Propic}>
                 <SvgPropic/>
               </div>
             </div>
+            <img
+              src={'/router/img/'+unitBasic.pic_layer0+'?type=thumb'}
+              style={this.style.withinCom_RelationRes_block_img}/>
           </Link>
         </div>
       );
     })
 
-    return(
+    return (
       <div
-        style={this.style.withinCom_Cosmic_Selected_}>
-        <div
-          style={this.style.withinCom_Cosmic_Selected_list_}>
-          {nails}
-        </div>
+        style={this.style.withinCom_RelationRes_}>
+        {
+          this.state.unitsList.length > 0 ? (
+            <div>
+              {responses}
+            </div>
+          ):(
+            <div>
+              {"尚未有針對此單元的回應"}
+            </div>
+          )
+        }
         <Route
-          path={this.props.match.path+"/units/:id"}
-          render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this._refer_von_unit}/>}/>
+          path={this.props.match.path+"/:id"}
+          render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_von_unit}/>}/>
       </div>
     )
   }
@@ -176,4 +172,4 @@ const mapStateToProps = (state)=>{
 export default withRouter(connect(
   mapStateToProps,
   null
-)(CosmicSelected));
+)(RelationRes));

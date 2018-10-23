@@ -54,7 +54,7 @@ export class NounsExtensible extends React.Component {
           <li
             nounid={this.props.nouns.basic[this.props.nouns.list[0]].id}
             style={this.style.Com_Nouns_Extensible_list_item_}
-            onClick={this.props._handleClick_listNoun}>
+            onClick={this._handleClick_listNoun}>
             {this.props.nouns.basic[this.props.nouns.list[0]].name}
           </li>
         </ul>

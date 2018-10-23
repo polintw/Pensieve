@@ -4,12 +4,13 @@ import {
   Route,
   Link
 } from 'react-router-dom';
+import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import FrontCognition from './Front_Cognition.jsx';
 import FrontStatics from './Front_Statics.jsx';
 import ExternalPanel from './../Component/ExternalPanel.jsx';
 
-export default class Front extends React.Component {
+class Front extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -41,8 +42,8 @@ export default class Front extends React.Component {
         basename={"/user"}>
         <div
           style={this.style.Self_pages_Front_}>
-          <Route path="/front" render={(props)=> <FrontCognition {...props} userBasic={this.props.userBasic}/>}/>
-          <Route path="/collateral" render={(props)=> <FrontStatics {...props} userBasic={this.props.userBasic}/>}/>
+          <Route path="/front" render={(props)=> <FrontCognition {...props}/>}/>
+          <Route path="/collateral" render={(props)=> <FrontStatics {...props}/>}/>
           <div
             style={this.style.Self_pages_Front_External_}>
             <ExternalPanel/>
@@ -52,3 +53,5 @@ export default class Front extends React.Component {
     )
   }
 }
+
+export default connect()(Front);

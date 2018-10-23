@@ -1,11 +1,12 @@
 import React from 'react';
+import {connect} from "react-redux";
 import Cognition from './component/Cognition.jsx';
 import NavFront from './component/NavFront.jsx';
 import NavCognition from './component/NavCognition.jsx';
 import NavCollateral from './component/NavCollateral.jsx';
 import SvgPropic from '../Component/SvgPropic.jsx';
 
-export default class FrontCognition extends React.Component {
+class FrontCognition extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -115,14 +116,14 @@ export default class FrontCognition extends React.Component {
   _refer_leaveSelf(identifier, route){
     switch (route) {
       case 'user':
-        if(identifier == this.props.userBasic.id){
-          window.location.assign('/self');
+        if(identifier == this.props.userInfo.id){
+          window.location.assign('/user/overview');
         }else{
-          window.location.assign('/cosmic/user?id='+identifier);
+          window.location.assign('/cosmic/people/'+identifier);
         }
         break;
       case 'noun':
-        window.location.assign('/cosmic/pick/noun?id='+identifier);
+        window.location.assign('/cosmic/nouns/'+identifier);
         break;
       default:
         return
@@ -152,7 +153,7 @@ export default class FrontCognition extends React.Component {
             style={this.style.Front_Cognition_UserName_svg_}>
             <SvgPropic/>
           </div>
-          <span style={this.style.Front_Cognition_UserName_span_}>{this.props.userBasic.account}</span>
+          <span style={this.style.Front_Cognition_UserName_span_}>{this.props.userInfo.account}</span>
         </div>
         <div
           style={this.style.Front_Cognition_Navs_}>
@@ -175,3 +176,14 @@ export default class FrontCognition extends React.Component {
     )
   }
 }
+
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  null
+)(FrontCognition);
