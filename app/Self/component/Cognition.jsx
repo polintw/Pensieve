@@ -29,7 +29,7 @@ export default class Cognition extends React.Component {
       <div
         style={this.style.selfCom_Cognition_}>
         <Route path={this.props.match.path+"/wall"} render={(props)=> <CogStorage {...props} _refer_leaveSelf={this.props._refer_leaveSelf}/>}/>
-        <Route path={this.props.match.path+"/moves"} render={(props)=> <CogMove {...props} userBasic={this.props.userBasic} _refer_leaveSelf={this.props._refer_leaveSelf}/>}/>
+        <Route path={this.props.match.path+"/actions"} render={(props)=> <CogMove {...props} userBasic={this.props.userBasic} _refer_leaveSelf={this.props._refer_leaveSelf}/>}/>
         <Route path={this.props.match.path+"/mutuals"} render={(props)=> <CogMutual {...props} _refer_leaveSelf={this.props._refer_leaveSelf}/>}/>
       </div>
     )

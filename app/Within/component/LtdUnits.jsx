@@ -105,9 +105,23 @@ class LtdUnits extends React.Component {
       if (axios.isCancel(thrown)) {
         console.log('Request canceled: ', thrown.message);
       } else {
-        console.log(thrown);
         self.setState({axios: false});
-        alert("Failed, please try again later");
+        if (thrown.response) {
+          // The request was made and the server responded with a status code that falls out of the range of 2xx
+          alert('Something went wrong: '+thrown.response.data.message)
+          if(thrown.response.status == 403){
+            window.location.assign('/login');
+          }
+        } else if (thrown.request) {
+            // The request was made but no response was received
+            // `err.request` is an instance of XMLHttpRequest in the browser and an instance of
+            // http.ClientRequest in node.js
+            console.log(thrown.request);
+        } else {
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error: ', thrown.message);
+        }
+        console.log("Error config: "+thrown.config);
       }
     });
   }

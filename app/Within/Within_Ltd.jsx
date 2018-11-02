@@ -14,6 +14,7 @@ import EntryCall from './component/EntryCall.jsx';
 class WithinLtd extends React.Component {
   constructor(props){
     super(props);
+    window.scrollTo(0, 0); // special for this page, if the scroll animation is still there.
     this.state = {
       cssPara: 0
     };

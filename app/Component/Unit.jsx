@@ -1,15 +1,18 @@
 import React from 'react';
 import {
   Link,
+  withRouter,
   Redirect
 } from 'react-router-dom';
+import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
-import UnitModal from './UnitModal.jsx';
-import ResModal from './ResModal.jsx';
+import UnitModal from './Unit/UnitModal.jsx';
+import ResModal from './Unit/ResModal.jsx';
 import ModalBox from './ModalBox.jsx';
 import ModalBackground from './ModalBackground.jsx';
+import {mountUnitCurrent} from "../redux/actions/general.js";
 
-export default class Unit extends React.Component {
+class Unit extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -24,7 +27,7 @@ export default class Unit extends React.Component {
         refsArr: null,
         nouns: null,
         authorBasic: null,
-        identity: null
+        created: null
       }
     };
     this._close_modal_Unit = this._close_modal_Unit.bind(this);
@@ -34,7 +37,7 @@ export default class Unit extends React.Component {
     this._set_axios = (bool) => {this.setState((prevState, props)=>{return {axios: bool};})};
     this._set_Modalmode = (mode)=>{this.setState((prevState, props)=>{return {mode: mode}})};
     this._axios_getUnitData = () => {
-      return axios.get('/router/unit/general/mount?unitName=unitName_'+this.unitId, {
+      return axios.get('/router/units/'+this.unitId, {
         headers: {
           'charset': 'utf-8',
           'token': window.localStorage['token']
@@ -78,7 +81,8 @@ export default class Unit extends React.Component {
             beneathMarksObj[key]=resObj.main.marksObj[key]
           }
         })
-
+        //actually, beneath part might need to be rewritten to asure the state could stay consistency
+        self.props._set_store_UnitCurrent({unitId:self.unitId, identity: resObj.main.identity});
         self.setState({
           axios: false,
           unitSet: {
@@ -89,7 +93,7 @@ export default class Unit extends React.Component {
             refsArr: resObj.main.refsArr,
             nouns: resObj.main.nouns,
             authorBasic: resObj.main.authorBasic,
-            identity: resObj.main.identity
+            created: resObj.main.created
           }
         });
       })
@@ -135,3 +139,14 @@ export default class Unit extends React.Component {
     )
   }
 }
+
+const mapDispatchToProps = (dispatch)=>{
+  return {
+    _set_store_UnitCurrent: (obj)=>{dispatch(mountUnitCurrent(obj));}
+  }
+}
+
+export default withRouter(connect(
+  null,
+  mapDispatchToProps
+)(Unit));

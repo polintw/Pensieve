@@ -38,7 +38,7 @@ export default class NavCognition extends React.Component {
     return(
       <div
         style={this.style.selfCom_NavCognition_}>
-        <Link to={this.props.match.url+"/moves/shareds"}>
+        <Link to={this.props.match.url+"/actions/shareds"}>
           <span
             style={this.style.selfCom_NavCognition_nav_span}>
             {"行動"}

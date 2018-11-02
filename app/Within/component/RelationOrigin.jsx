@@ -28,6 +28,13 @@ class RelationOrigin extends React.Component {
         left: '0',
         boxSizing: 'border-box',
         border: '0.75px solid grey',
+      },
+      withinCom_RelationOrigin_Link: {
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        top: '0',
+        left: '0',
         cursor: 'pointer'
       },
       withinCom_RelationOrigin_propic: {
@@ -54,7 +61,7 @@ class RelationOrigin extends React.Component {
   }
 
   _construct_UnitInit(match, location){
-    let unitInit=Object.assign({}, this.state.unitsBasic, {marksify: true, initMark: "all", layer: 0});
+    let unitInit=Object.assign({}, this.state.unitBasic, {marksify: true, initMark: "all", layer: 0});
     return unitInit;
   }
 
@@ -103,9 +110,10 @@ class RelationOrigin extends React.Component {
         style={this.style.withinCom_RelationOrigin_}>
         <Link
           to={{
-            pathname: this.props.match.url+"/"+this.state.unitBasic.unitId,
+            pathname: this.props.match.url+"/"+this.state.unitBasic.unitId+"/origin",
             state: {from: this.props.location}
-          }}>
+          }}
+          style={this.style.withinCom_RelationOrigin_Link}>
           <div
             style={this.style.withinCom_RelationOrigin_propic}>
             <SvgPropic/>
@@ -116,7 +124,7 @@ class RelationOrigin extends React.Component {
           </div>
         </Link>
         <Route
-          path={this.props.match.path+"/:id"}
+          path={this.props.match.path+"/:id/origin"}
           render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_von_unit}/>}/>
       </div>
     )

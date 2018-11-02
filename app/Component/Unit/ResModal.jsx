@@ -1,6 +1,6 @@
 import React from 'React';
 import {connect} from "react-redux";
-import EditingModal from './Share/EditingModal.jsx';
+import EditingModal from '../Share/EditingModal.jsx';
 
 class ResModal extends React.Component {
   constructor(props){

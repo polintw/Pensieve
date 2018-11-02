@@ -5,6 +5,7 @@ const path = require("path");
 const auth = require('./auth/main.js');
 const cosmicRouter = require('./cosmic/main.js');
 const userRouter = require('./user/main.js');
+const actionsRouter = require('./user/actions/main.js');
 const unitRouter = require('./unit/main.js');// shift to "units"
 const unitsRouter = require('./units/main.js');
 const imgRouter = require('./img/main.js');
@@ -20,6 +21,7 @@ router.use('/', auth)
 router.use('/cosmic', cosmicRouter)
 
 router.use('/user', userRouter)
+router.use('/actions', actionsRouter) //prepare to replace part of the "/user"
 
 router.use('/unit', unitRouter)
 // shift to "units"

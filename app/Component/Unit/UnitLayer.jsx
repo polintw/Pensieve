@@ -1,5 +1,5 @@
 import React from 'react';
-import MarkBlock from '../MarkBlock.jsx';
+import MarkBlock from '../Mark/MarkBlock.jsx';
 
 export default class UnitLayer extends React.Component {
   constructor(props){
@@ -94,7 +94,6 @@ export default class UnitLayer extends React.Component {
           </svg>
           <MarkBlock
             markKey={markId}
-            identity={self.props.identity}
             markData={self.props.marksData[markId]}/>
         </div>
       )

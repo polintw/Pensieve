@@ -83,7 +83,7 @@ class EntryCall extends React.Component {
   }
 
   _submit_Share_New(dataObj){
-    window.location.assign('/user/front');
+    window.location.assign('/user/front/actions/shareds');
   }
 
   render(){

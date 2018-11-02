@@ -33,9 +33,6 @@ export default class NavCollateral extends React.Component {
         <span
           style={this.style.selfCom_NavCollateral_button_}>
           {'系列'}</span>
-        <span
-          style={this.style.selfCom_NavCollateral_button_}>
-          {'通知'}</span>
       </div>
     )
   }

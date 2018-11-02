@@ -17,10 +17,9 @@ class FrontCognition extends React.Component {
       Front_Cognition_: {
         width: '100%',
         height: '100%',
-        position: 'absolute',
+        position: 'static',
         top: '0%',
-        left: '0%',
-        overflowY: "scroll"
+        left: '0%'
       },
       Front_Cognition_scroll_: {
         width: '76%',

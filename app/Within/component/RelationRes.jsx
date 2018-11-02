@@ -119,7 +119,7 @@ class RelationRes extends React.Component {
           style={this.style.withinCom_RelationRes_block_}>
           <Link
             to={{
-              pathname: self.props.match.url+"/"+key,
+              pathname: self.props.match.url+"/"+key+"/responses",
               state: {from: self.props.location}
             }}>
             <div
@@ -156,7 +156,7 @@ class RelationRes extends React.Component {
           )
         }
         <Route
-          path={this.props.match.path+"/:id"}
+          path={this.props.match.path+"/:id/responses"}
           render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_von_unit}/>}/>
       </div>
     )

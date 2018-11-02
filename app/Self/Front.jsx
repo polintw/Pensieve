@@ -8,7 +8,7 @@ import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import FrontCognition from './Front_Cognition.jsx';
 import FrontStatics from './Front_Statics.jsx';
-import ExternalPanel from './../Component/ExternalPanel.jsx';
+import ExternalPanel from './component/ExternalPanel.jsx';
 
 class Front extends React.Component {
   constructor(props){
