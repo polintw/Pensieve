@@ -78,7 +78,7 @@ export default class NavFront extends React.Component {
               style={this.style.selfCom_NavFront_box_div_}>
               <Link
                 to={{
-                  pathname: "/collateral",
+                  pathname: "/profile",
                   state: {from: this.props.location}
                 }}>
                 <span

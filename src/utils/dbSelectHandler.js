@@ -1,5 +1,9 @@
 const {
-  DIALOGUES_LATEST
+  UNITS_GENERAL,
+  USERS_GENERAL,
+  MARKS_IDLIST_UNITS,
+  DIALOGUES_LATEST,
+  TRACKS_USERS
 } = require('./queryIndicators.js');
 const mysql = require('mysql');
 const {connection_key} = require('../../config/database.js');
@@ -187,14 +191,52 @@ exports._select_withPromise_Basic = (queryIndicator, condition)=>{
   })
 }
 
+exports._select_withPromise_BasicNoLength = (queryIndicator, condition)=>{
+  let queryObj = queryGenerator(queryIndicator);
+  let selection = queryObj.table,
+      selectQuery = queryObj.query;
+  return new Promise((resolve, reject)=>{
+    database.getConnection(function(err, connection){
+      if (err) {
+        console.log("error occured when getConnection to select from "+selection);
+        reject({status: 500, err: err});
+      }else{
+        connection.query(selectQuery, [condition], function(err, results, fields){
+          if (err) {reject({err: err});connection.release(); return} //only with "return" could assure the promise end immediately if there is any error.
+          console.log('database connection success: '+selection);
+          let rowsArr = results.slice();
+          resolve(rowsArr);
+          connection.release();
+        })
+      }
+    })
+  })
+}
+
+const selectQuery_UNITS_GENERAL = "SELECT * FROM units WHERE (id) IN (?)";
+const selectQuery_USERS_GENERAL = "SELECT id, account FROM users WHERE (id) IN (?)";
+const selectQuery_MARKS_IDLIST_UNITS = "SELECT id, id_unit FROM marks WHERE (id_unit) IN (?)";
 const selectQuery_DIALOGUES_LATEST = "SELECT id_thread, id_talker, editor_content, MAX(created) AS max_date FROM dialogues WHERE id_thread = ? ORDER BY max_date";
+const selectQuery_TRACKS_USERS = "SELECT * FROM tracks WHERE (id_user) IN (?)";
 
 function queryGenerator(queryIndicator){
   switch (queryIndicator) {
+    case UNITS_GENERAL:
+      return {query: selectQuery_UNITS_GENERAL, table: "units"}
+      break;
+    case USERS_GENERAL:
+      return {query: selectQuery_USERS_GENERAL, table: "users"}
+      break;
+    case MARKS_IDLIST_UNITS:
+      return {query: selectQuery_MARKS_IDLIST_UNITS, table: "marks"}
+      break;
     case DIALOGUES_LATEST:
       return {query: selectQuery_DIALOGUES_LATEST, table: "dialogues"}
       break;
+    case TRACKS_USERS:
+      return {query: selectQuery_TRACKS_USERS, table: "tracks"}
+      break;
     default:
-      return {query: selectQuery_DIALOGUES_LATEST, table: "dialogues"}
+      return {query: '', table: ""}
   }
 }

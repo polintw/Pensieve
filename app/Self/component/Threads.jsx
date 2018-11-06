@@ -98,8 +98,6 @@ class Threads extends React.Component {
       }
     }).then((res)=>{
       let resObj = JSON.parse(res.data);
-      console.log(resObj.main)
-
       self.setState({
         axios: false,
         marksSet: resObj.main.marksSet,

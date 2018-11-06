@@ -141,7 +141,7 @@ class SelfCover extends React.Component {
   _handleClick_nav_expand(event){
     event.stopPropagation();
     event.preventDefault();
-    window.location.assign('/user/front/wall/inspireds');
+    window.location.assign('/user/cognition/wall/inspireds');
   }
 
   _handleClick_selfClose(event){

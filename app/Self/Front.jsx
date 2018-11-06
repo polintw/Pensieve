@@ -42,8 +42,8 @@ class Front extends React.Component {
         basename={"/user"}>
         <div
           style={this.style.Self_pages_Front_}>
-          <Route path="/front" render={(props)=> <FrontCognition {...props}/>}/>
-          <Route path="/collateral" render={(props)=> <FrontStatics {...props}/>}/>
+          <Route path="/cognition" render={(props)=> <FrontCognition {...props}/>}/>
+          <Route path="/profile" render={(props)=> <FrontStatics {...props}/>}/>
           <div
             style={this.style.Self_pages_Front_External_}>
             <ExternalPanel/>

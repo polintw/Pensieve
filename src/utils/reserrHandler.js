@@ -1,7 +1,7 @@
 exports._handler_err_BadReq = function(err, res){
   let resData = {};
   resData['error'] = 1;
-  resData['message'] = 'Error Occured: bad database query';
+  resData['message'] = 'Error Occured: '+err;
   console.log('BadReq Error: '+err);
   res.status(400).json(resData);
  }
