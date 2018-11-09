@@ -1,18 +1,26 @@
 import React from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from 'react-router-dom';
+import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import Appearance from '../Component/Appearance.jsx';
 
-export default class SelfCover extends React.Component {
+class SelfCover extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      userBasic: this.props.userBasic,
+      userInfo: this.props.userInfo,
       origin: '',
       scroll: false
     };
     this._handleMouse_selfCoverFrame = this._handleMouse_selfCoverFrame.bind(this);
     this._handleClick_nav_expand = this._handleClick_nav_expand.bind(this);
     this._handleClick_selfClose = this._handleClick_selfClose.bind(this);
+    this._refer_leaveSelf = this._refer_leaveSelf.bind(this);
     this.style={
       Self_pages_SelfCover_: {
         width: "100%",
@@ -133,7 +141,7 @@ export default class SelfCover extends React.Component {
   _handleClick_nav_expand(event){
     event.stopPropagation();
     event.preventDefault();
-    window.location.assign('/user/front/wall/inspireds');
+    window.location.assign('/user/cognition/wall/inspireds');
   }
 
   _handleClick_selfClose(event){
@@ -158,6 +166,23 @@ export default class SelfCover extends React.Component {
     }
   }
 
+  _refer_leaveSelf(identifier, route){
+    switch (route) {
+      case 'user':
+        if(identifier == this.props.userInfo.id){
+          window.location.assign('/user/overview');
+        }else{
+          window.location.assign('/cosmic/people/'+identifier);
+        }
+        break;
+      case 'noun':
+        window.location.assign('/cosmic/nouns/'+identifier);
+        break;
+      default:
+        return
+    }
+  }
+
   componentDidMount() {
     this.setState({origin: this.selfCover_pagenav.getBoundingClientRect().top});
   }
@@ -168,6 +193,7 @@ export default class SelfCover extends React.Component {
 
   render(){
     //let cx = cxBind.bind(styles);
+
     return(
       <div
         ref={(element)=>{this.selfCover_=element;}}
@@ -177,7 +203,7 @@ export default class SelfCover extends React.Component {
         <div
           ref={(element)=>{this.selfCover_pagenav=element;}}
           style={Object.assign({height: this.state.scroll? '20vh': '45vh'}, this.style.Self_pages_SelfCover_mainNav_)}>
-          <div style={this.style.Self_pages_SelfCover_mainNav_userName}>{this.state.userBasic.account}</div>
+          <div style={this.style.Self_pages_SelfCover_mainNav_userName}>{this.state.userInfo.account}</div>
           <div
             style={this.style.Self_pages_SelfCover_mainNav_options_}>
             <div
@@ -207,13 +233,13 @@ export default class SelfCover extends React.Component {
         </div>
         {
           this.state.scroll &&
-          <div
-            style={this.style.Self_pages_SelfCover_hidden_appearance}>
-            <Appearance
-              userBasic={this.state.userBasic}
-              urlParam={"/router/user/cover"}
-              urlQuery={"?id="+this.state.userBasic.id}/>
-          </div>
+          <Router
+            basename={"/self"}>
+            <div
+              style={this.style.Self_pages_SelfCover_hidden_appearance}>
+              <Route path="/" render={(props)=> <Appearance {...props} urlParam={"/router/user/cover"} urlQuery={"?id="+this.state.userInfo.id} _refer_von_unit={this._refer_leaveSelf}/>}/>
+            </div>
+          </Router>
         }
         <div
           style={this.style.Self_pages_SelfCover_close_}>
@@ -230,3 +256,14 @@ export default class SelfCover extends React.Component {
     )
   }
 }
+
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  null
+)(SelfCover);

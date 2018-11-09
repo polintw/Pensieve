@@ -42,7 +42,7 @@ app.use('/user/front', function(req, res){
   });
 })
 
-app.use('/self', function(req, res){
+app.use('/user/overview', function(req, res){
   console.log("requesting for page: "+req.url);
   //fail to use serverrender aafter update to react v16.2.0 due to: "<>" not support in nodejs
   //const element = React.createElement(require('./initHTML.jsx'));

@@ -5,11 +5,12 @@ import {
   Route,
   Link
 } from 'react-router-dom';
+import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import WithinLtd from './Within_Ltd.jsx';
 import WithinCosmic from './Within_Cosmic.jsx';
 
-export default class Within extends React.Component {
+class Within extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -34,11 +35,13 @@ export default class Within extends React.Component {
         <div
           style={this.style.div_Base}>
           <Switch>
-            <Route path="/cosmic" render={(props)=> <WithinCosmic {...props} userBasic={this.state.userBasic}/>}/>
-            <Route path="/" render={(props)=> <WithinLtd {...props} userBasic={this.state.userBasic}/>}/>
+            <Route path="/cosmic" render={(props)=> <WithinCosmic {...props}/>}/>
+            <Route path="/" render={(props)=> <WithinLtd {...props}/>}/>
           </Switch>
         </div>
       </Router>
     )
   }
 }
+
+export default connect()(Within);

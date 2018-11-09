@@ -1,19 +1,27 @@
 import React from 'react';
-import querystring from 'query-string';
+import {
+  Route,
+  Switch,
+  Link,
+  withRouter,
+  Redirect
+} from 'react-router-dom';
+import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import Appearance from '../../Component/Appearance.jsx';
 import SvgPropic from '../../Component/SvgPropic.jsx';
 
-export default class CosmicUser extends React.Component {
+class CosmicUser extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       axios: false,
-      userQueried: null,
-      userBasic: null,
-      tab: false
+      unitTo: null,
+      userQueried: this.props.match.params.id,
+      userBasic: null
     };
     this.axiosSource = axios.CancelToken.source();
+    this._refer_von_unit = this._refer_von_unit.bind(this);
     this.style={
       withinCom_CosmicUser_: {
         width: '75%',
@@ -50,37 +58,61 @@ export default class CosmicUser extends React.Component {
     }
   }
 
-  componentDidMount() {
-    let urlQuery = querystring.parse(this.props.location.search); //should be contain in redux
-    const self = this;
-    this.setState((prevState, props)=>{
-      return {userQueried: urlQuery.id, tab: 'path'}
-    }, ()=>{
-      let url = "/router/cosmic/pick/user/overview?id="+this.state.userQueried;
-      axios.get(url, {
-        headers: {
-          'charset': 'utf-8',
-          'token': window.localStorage['token']
-        },
-        cancelToken: self.axiosSource.token
-      }).then(function (res) {
-          self.setState((prevState, props)=>{
-            let resObj = JSON.parse(res.data);
-            return {
-              axios: false,
-              userBasic: resObj.main.userBasic
-            }
-          });
-      }).catch(function (thrown) {
-        if (axios.isCancel(thrown)) {
-          console.log('Request canceled: ', thrown.message);
-        } else {
-          console.log(thrown);
-          self.setState({axios: false});
-          alert("Failed, please try again later");
+  _refer_von_unit(identifier, route){
+    switch (route) {
+      case 'user':
+        if(identifier == this.props.userInfo.id){
+          window.location.assign('/user/overview');
+        }else{
+          this.setState((prevState, props)=>{
+            let unitTo = {
+              params: '/cosmic/people/'+identifier,
+              query: ''
+            };
+            return {unitTo: unitTo}
+          })
         }
-      });
-    })
+        break;
+      case 'noun':
+        this.setState((prevState, props)=>{
+          let unitTo = {
+            params: '/cosmic/nouns/'+identifier,
+            query: ''
+          };
+          return {unitTo: unitTo}
+        })
+        break;
+      default:
+        return
+    }
+  }
+
+  componentDidMount() {
+    const self = this;
+    let url = "/router/cosmic/pick/user/overview?id="+this.state.userQueried;
+    axios.get(url, {
+      headers: {
+        'charset': 'utf-8',
+        'token': window.localStorage['token']
+      },
+      cancelToken: self.axiosSource.token
+    }).then(function (res) {
+        self.setState((prevState, props)=>{
+          let resObj = JSON.parse(res.data);
+          return {
+            axios: false,
+            userBasic: resObj.main.userBasic
+          }
+        });
+    }).catch(function (thrown) {
+      if (axios.isCancel(thrown)) {
+        console.log('Request canceled: ', thrown.message);
+      } else {
+        console.log(thrown);
+        self.setState({axios: false});
+        alert("Failed, please try again later");
+      }
+    });
   }
 
   componentWillUnmount(){
@@ -91,6 +123,8 @@ export default class CosmicUser extends React.Component {
 
   render(){
     //let cx = cxBind.bind(styles);
+    if(this.state.unitTo){return <Redirect to={this.state.unitTo.params+this.state.unitTo.query}/>}
+
     return(
       <div
         style={this.style.withinCom_CosmicUser_}>
@@ -106,17 +140,26 @@ export default class CosmicUser extends React.Component {
             </div>
           </div>
         </div>
-        {
-          this.state.tab=="path" &&
-          <div
-            style={this.style.withinCom_CosmicUser_appear_}>
-            <Appearance
-              userBasic={this.props.userBasic}
-              urlParam={"/router/cosmic/pick/user"}
-              urlQuery={"?id="+this.state.userQueried}/>
-          </div>
-        }
+        <div
+          style={this.style.withinCom_CosmicUser_appear_}>
+          <Appearance
+            {...this.props}
+            urlParam={"/router/cosmic/pick/user"}
+            urlQuery={"?id="+this.state.userQueried}
+            _refer_von_unit={this._refer_von_unit}/>
+        </div>
       </div>
     )
   }
 }
+
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo
+  }
+}
+
+export default withRouter(connect(
+  mapStateToProps,
+  null
+)(CosmicUser));

@@ -1,7 +1,8 @@
 import React from 'react';
+import {connect} from "react-redux";
 import SvgPropic from '../../Component/SvgPropic.jsx';
 
-export default class FrontStatics extends React.Component {
+class FrontStatics extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -78,7 +79,7 @@ export default class FrontStatics extends React.Component {
               <div style={this.style.selfCom_Statics_navStatics_UserName_svg_}>
                 <SvgPropic/>
               </div>
-              <span style={this.style.selfCom_Statics_navStatics_UserName_span_}>{this.props.userBasic.account}</span>
+              <span style={this.style.selfCom_Statics_navStatics_UserName_span_}>{this.props.userInfo.account}</span>
             </div>
             {"基本 "}
             {"統計 "}
@@ -93,7 +94,7 @@ export default class FrontStatics extends React.Component {
                 <div>{"性別"}</div>
                 <div>{"出生地"}</div>
                 <div>{"居住地"}</div>
-                <div>{"語言"}</div>                
+                <div>{"語言"}</div>
                 <div>{"興趣"}</div>
               </section>
             </div>
@@ -102,3 +103,14 @@ export default class FrontStatics extends React.Component {
     )
   }
 }
+
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  null
+)(FrontStatics);

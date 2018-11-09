@@ -1,25 +1,30 @@
 import React from 'react';
+import {
+  Link,
+  Route,
+  withRouter,
+  Redirect
+} from 'react-router-dom';
+import {connect} from "react-redux";
+import Unit from '../../Component/Unit.jsx';
 import SvgPropic from '../../Component/SvgPropic.jsx';
 import DraftDisplay from '../../Component/DraftDisplay.jsx';
-import UnitModal from '../../Component/UnitModal.jsx';
-import ModalBox from '../../Component/ModalBox.jsx';
-import ModalBackground from '../../Component/ModalBackground.jsx';
 
-export default class CosmicSelected extends React.Component {
+class CosmicSelected extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       axios: false,
-      unitModalify: false,
-      focusUnitId: null,
+      unitTo: null,
       unitsList: [],
       unitsBasic: {},
       marksBasic: {},
       usersBasic: {}
     };
     this.axiosSource = axios.CancelToken.source();
-    this._handleClick_Unit = this._handleClick_Unit.bind(this);
+    this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._close_modal_Unit = this._close_modal_Unit.bind(this);
+    this._refer_von_unit = this._refer_von_unit.bind(this);
     this.style={
       withinCom_Cosmic_Selected_: {
         width: '100%',
@@ -36,13 +41,9 @@ export default class CosmicSelected extends React.Component {
     }
   }
 
-  _handleClick_Unit(event){
-    event.stopPropagation();
-    event.preventDefault();
-    this.setState({
-      unitModalify: true,
-      focusUnitId: event.currentTarget.getAttribute('unitid')
-    })
+  _construct_UnitInit(match, location){
+    let unitInit=Object.assign({}, this.state.unitsBasic[match.params.id], {marksify: true, initMark: "all", layer: 0});
+    return unitInit;
   }
 
   _close_modal_Unit(){
@@ -50,6 +51,35 @@ export default class CosmicSelected extends React.Component {
       unitModalify: false,
       focusUnitId: null
     })
+  }
+
+  _refer_von_unit(identifier, route){
+    switch (route) {
+      case 'user':
+        if(identifier == this.props.userInfo.id){
+          window.location.assign('/user/overview');
+        }else{
+          this.setState((prevState, props)=>{
+            let unitTo = {
+              params: '/cosmic/people/'+identifier,
+              query: ''
+            };
+            return {unitTo: unitTo}
+          })
+        }
+        break;
+      case 'noun':
+        this.setState((prevState, props)=>{
+          let unitTo = {
+            params: '/cosmic/nouns/'+identifier,
+            query: ''
+          };
+          return {unitTo: unitTo}
+        })
+        break;
+      default:
+        return
+    }
   }
 
   componentDidMount(){
@@ -92,26 +122,32 @@ export default class CosmicSelected extends React.Component {
   }
 
   render(){
+    if(this.state.unitTo){return <Redirect to={this.state.unitTo.params+this.state.unitTo.query}/>}
     //let cx = cxBind.bind(styles);
+
     const self = this;
     let nails = this.state.unitsList.map((key, index)=>{
       let unitBasic = this.state.unitsBasic[key];
       return (
         <div
           key={'key_selected_'+index}
-          unitid={key}
-          style={this.style.withinCom_Cosmic_Selected_list_nail_}
-          onClick={self._handleClick_Unit}>
-          <img
-            src={'/router/img/'+unitBasic.pic_layer0+'?type=thumb'}
-            style={{}}/>
-          <div
-            style={{}}>
+          style={this.style.withinCom_Cosmic_Selected_list_nail_}>
+          <Link
+            to={{
+              pathname: self.props.match.url+"/units/"+key,
+              state: {from: self.props.location}
+            }}>
+            <img
+              src={'/router/img/'+unitBasic.pic_layer0+'?type=thumb'}
+              style={{}}/>
             <div
               style={{}}>
-              <SvgPropic/>
+              <div
+                style={{}}>
+                <SvgPropic/>
+              </div>
             </div>
-          </div>
+          </Link>
         </div>
       );
     })
@@ -123,18 +159,21 @@ export default class CosmicSelected extends React.Component {
           style={this.style.withinCom_Cosmic_Selected_list_}>
           {nails}
         </div>
-        {
-          this.state.unitModalify &&
-          <ModalBox containerId="root">
-            <ModalBackground onClose={this._close_modal_Unit}>
-              <UnitModal
-                unitId={this.state.focusUnitId}
-                unitInit={Object.assign(this.state.unitsBasicSet[this.state.focusUnitId], {marksify: true, initMark: "all", layer: 0})}
-                _close_modal_Unit={this._close_modal_Unit}/>
-            </ModalBackground>
-          </ModalBox>
-        }
+        <Route
+          path={this.props.match.path+"/units/:id"}
+          render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this._refer_von_unit}/>}/>
       </div>
     )
   }
 }
+
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo
+  }
+}
+
+export default withRouter(connect(
+  mapStateToProps,
+  null
+)(CosmicSelected));

@@ -2,13 +2,15 @@ import React from 'react';
 import {
   Link,
   Redirect,
-  Route
+  Route,
+  withRouter
 } from 'react-router-dom';
+import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import LtdUnitsRaws from './LtdUnitsRaws.jsx';
 import Unit from '../../Component/Unit.jsx';
 
-export default class LtdUnits extends React.Component {
+class LtdUnits extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -54,13 +56,13 @@ export default class LtdUnits extends React.Component {
   _refer_von_unit(identifier, route){
     switch (route) {
       case 'user':
-        if(identifier == this.props.userBasic.id){
-          window.location.assign('/self');
+        if(identifier == this.props.userInfo.id){
+          window.location.assign('/user/overview');
         }else{
           this.setState((prevState, props)=>{
             let unitTo = {
-              params: '/cosmic/user',
-              query: '?id='+identifier
+              params: '/cosmic/people/'+identifier,
+              query: ''
             };
             return {unitTo: unitTo}
           })
@@ -69,8 +71,8 @@ export default class LtdUnits extends React.Component {
       case 'noun':
         this.setState((prevState, props)=>{
           let unitTo = {
-            params: '/cosmic/pick/noun',
-            query: '?id='+identifier
+            params: '/cosmic/nouns/'+identifier,
+            query: ''
           };
           return {unitTo: unitTo}
         })
@@ -103,9 +105,23 @@ export default class LtdUnits extends React.Component {
       if (axios.isCancel(thrown)) {
         console.log('Request canceled: ', thrown.message);
       } else {
-        console.log(thrown);
         self.setState({axios: false});
-        alert("Failed, please try again later");
+        if (thrown.response) {
+          // The request was made and the server responded with a status code that falls out of the range of 2xx
+          alert('Something went wrong: '+thrown.response.data.message)
+          if(thrown.response.status == 403){
+            window.location.assign('/login');
+          }
+        } else if (thrown.request) {
+            // The request was made but no response was received
+            // `err.request` is an instance of XMLHttpRequest in the browser and an instance of
+            // http.ClientRequest in node.js
+            console.log(thrown.request);
+        } else {
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error: ', thrown.message);
+        }
+        console.log("Error config: "+thrown.config);
       }
     });
   }
@@ -164,3 +180,14 @@ export default class LtdUnits extends React.Component {
     )
   }
 }
+
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo
+  }
+}
+
+export default withRouter(connect(
+  mapStateToProps,
+  null
+)(LtdUnits));

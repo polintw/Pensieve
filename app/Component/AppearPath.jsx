@@ -1,24 +1,27 @@
 import React from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  withRouter
+} from 'react-router-dom';
+import {connect} from "react-redux";
 import DraftDisplay from './DraftDisplay.jsx';
 import SvgBulb from './SvgBulb.jsx';
-import UnitModal from './UnitModal.jsx';
-import ModalBox from './ModalBox.jsx';
-import ModalBackground from './ModalBackground.jsx';
+import Unit from './Unit.jsx';
 
-export default class AppearPath extends React.Component {
+class AppearPath extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       axios: false,
-      unitModalify: false,
-      focusUnitId: null,
       unitsList: [],
       unitsBasic: {},
       marksBasic: {}
     };
     this.axiosSource = axios.CancelToken.source();
-    this._handleClick_Unit = this._handleClick_Unit.bind(this);
-    this._close_modal_Unit = this._close_modal_Unit.bind(this);
+    this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._render_appearPath_nails = this._render_appearPath_nails.bind(this);
     this.style={
       Com_AppearPath_: {
@@ -46,20 +49,9 @@ export default class AppearPath extends React.Component {
     }
   }
 
-  _handleClick_Unit(event){
-    event.stopPropagation();
-    event.preventDefault();
-    this.setState({
-      unitModalify: true,
-      focusUnitId: event.currentTarget.getAttribute('unitid')
-    })
-  }
-
-  _close_modal_Unit(){
-    this.setState({
-      unitModalify: false,
-      focusUnitId: null
-    })
+  _construct_UnitInit(match, location){
+    let unitInit=Object.assign(this.state.unitsBasic[match.params.id], {marksify: true, initMark: "all", layer: 0});
+    return unitInit;
   }
 
   _render_appearPath_nails(){
@@ -76,11 +68,16 @@ export default class AppearPath extends React.Component {
             <div
               key={'key_Nail_Inspired_'+index}
               style={self.style.Com_AppearPath_nails_nail_}>
+              <Link
+                to={{
+                  pathname: self.props.match.url+"/units/"+unitId,
+                  state: {from: self.props.location}
+                }}>
               <NailIspired
                 unitId={unitId}
                 unitBasic={unitBasic}
-                marksArr = {unitMarks}
-                _handleClick_Unit={self._handleClick_Unit}/>
+                marksArr = {unitMarks}/>
+              </Link>
             </div>
           )
           break;
@@ -89,11 +86,16 @@ export default class AppearPath extends React.Component {
             <div
               key={'key_Nail_Shared_'+index}
               style={self.style.Com_AppearPath_nails_nail_}>
+               <Link
+                to={{
+                  pathname: self.props.match.url+"/units/"+unitId,
+                  state: {from: self.props.location}
+                }}>
               <NailShared
                 unitId={unitId}
                 unitBasic={unitBasic}
-                marksArr = {unitMarks}
-                _handleClick_Unit={self._handleClick_Unit}/>
+                marksArr = {unitMarks}/>
+              </Link>
             </div>
           )
           break;
@@ -102,11 +104,16 @@ export default class AppearPath extends React.Component {
             <div
               key={'key_Nail_Shared_'+index}
               style={self.style.Com_AppearPath_nails_nail_}>
+               <Link
+                to={{
+                  pathname: self.props.match.url+"/units/"+unitId,
+                  state: {from: self.props.location}
+                }}>
               <NailShared
                 unitId={unitId}
                 unitBasic={unitBasic}
-                marksArr = {unitMarks}
-                _handleClick_Unit={self._handleClick_Unit}/>
+                marksArr = {unitMarks}/>
+              </Link>
             </div>
           )
       }
@@ -162,17 +169,9 @@ export default class AppearPath extends React.Component {
           style={this.style.Com_AppearPath_nails_}>
           {this._render_appearPath_nails()}
         </div>
-        {
-          this.state.unitModalify &&
-          <ModalBox containerId="root">
-            <ModalBackground onClose={this._close_modal_Unit}>
-              <UnitModal
-                unitId={this.state.focusUnitId}
-                unitInit={Object.assign(this.state.unitsBasicSet[this.state.focusUnitId], {marksify: true, initMark: "all", layer: 0})}
-                _close_modal_Unit={this._close_modal_Unit}/>
-            </ModalBackground>
-          </ModalBox>
-        }
+        <Route
+          path={this.props.match.path+"/units/:id"}
+          render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_von_unit}/>}/>
       </div>
     )
   }
@@ -221,8 +220,7 @@ class NailIspired extends React.Component {
     return(
       <div
         unitid={this.props.unitId}
-        style={this.style.Com_Nail_Inspired_}
-        onClick={this.props._handleClick_Unit}>
+        style={this.style.Com_Nail_Inspired_}>
         <img
           src={'/router/img/'+this.props.unitBasic.pic_layer0+'?type=thumb'}
           style={this.style.Com_Nail_Inspired_img}/>
@@ -276,8 +274,7 @@ class NailShared extends React.Component {
     return(
       <div
         unitid={this.props.unitId}
-        style={this.style.Com_Nail_Shared_}
-        onClick={this.props._handleClick_Unit}>
+        style={this.style.Com_Nail_Shared_}>
         <img
           src={'/router/img/'+this.props.unitBasic.pic_layer0+'?type=thumb'}
           style={this.style.Com_Nail_Shared_img}/>
@@ -290,3 +287,14 @@ class NailShared extends React.Component {
     )
   }
 }
+
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo
+  }
+}
+
+export default withRouter(connect(
+  mapStateToProps,
+  null
+)(AppearPath));

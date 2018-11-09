@@ -38,7 +38,7 @@ status.use(function(req, res) {
                   let userInfo = rows[0];
                   resData.error = 0;
                   resData['message'] = "this is a valid token";
-                  resData['userBasic'] = {account: userInfo.account, id: userInfo.id};
+                  resData['userInfo'] = {account: userInfo.account, id: userInfo.id};
                   res.status(200).json(resData);
                 } else {
                   resData.error = 2;

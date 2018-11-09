@@ -6,6 +6,7 @@ export default class UnitLayerFrame extends React.Component {
     this.state = {
 
     };
+    this._handleClick_related = this._handleClick_related.bind(this);
     this._handleClick_set_layer = this._handleClick_set_layer.bind(this);
     this.style={
       Com_UnitLayerControl: {
@@ -42,9 +43,15 @@ export default class UnitLayerFrame extends React.Component {
     }
   }
 
+  _handleClick_related(event){
+    event.preventDefault();
+    event.stopPropagation();
+    window.location.assign("/cosmic/units/"+this.props.unitId+"/related");
+  }
+
   render(){
     const self = this;
-    let status = [0, 1, 0, 1, 0];
+    let status = [0, 1, 0, 1];
     let circles = status.map(function(binary, index){
       if(self.props.layer == index){
         return( self.props.marks? (
@@ -89,6 +96,11 @@ export default class UnitLayerFrame extends React.Component {
       <div
         style={this.style.Com_UnitLayerControl}>
         {circles}
+        <svg
+          style={self.style.Com_UnitLayerControl_svg_button}
+          onClick={self._handleClick_related}>
+          <circle r="28%" cx="50%" cy="50%" stroke={'white'} fill="none"/>
+        </svg>
       </div>
     )
   }

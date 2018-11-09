@@ -79,7 +79,7 @@ export default class CogMove extends React.Component {
         </nav>
         <div
           style={this.style.selfCom_CogMove_main_}>
-          <Route path={this.props.match.path+"/shareds"} render={(props)=> <Shared {...props} userBasic={this.props.userBasic} _refer_leaveSelf={this.props._refer_leaveSelf}/>}/>
+          <Route path={this.props.match.path+"/shareds"} render={(props)=> <Shared {...props} _refer_leaveSelf={this.props._refer_leaveSelf}/>}/>
         </div>
       </div>
     )

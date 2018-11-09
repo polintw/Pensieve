@@ -1,11 +1,19 @@
 import React from 'react';
-import Cognition from './component/Cognition.jsx';
-import NavFront from './component/NavFront.jsx';
-import NavCognition from './component/NavCognition.jsx';
-import NavCollateral from './component/NavCollateral.jsx';
+import {
+  Route,
+  Link,
+  withRouter,
+  Switch
+} from 'react-router-dom';
+import {connect} from "react-redux";
+import CogStorage from './component/CogStorage.jsx';
+import CogMutual from './component/CogMutual.jsx';
+import CogMove from './component/CogMove.jsx';
+import Collaterals from './component/Collaterals.jsx';
+import NavsCognition from './component/NavsCognition.jsx';
 import SvgPropic from '../Component/SvgPropic.jsx';
 
-export default class FrontCognition extends React.Component {
+class FrontCognition extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -16,14 +24,22 @@ export default class FrontCognition extends React.Component {
       Front_Cognition_: {
         width: '100%',
         height: '100%',
-        position: 'absolute',
+        position: 'static',
         top: '0%',
-        left: '0%',
-        overflowY: "scroll"
+        left: '0%'
       },
       Front_Cognition_scroll_: {
         width: '76%',
-        minHeight: '100%',
+        minHeight: '80%',
+        position: 'absolute',
+        top: '9%',
+        left: '12%',
+        boxSizing: 'border-box',
+        padding: '2vh 0'
+      },
+      Front_Cognition_Collateral: {
+        width: '76%',
+        minHeight: '80%',
         position: 'absolute',
         top: '9%',
         left: '12%',
@@ -41,45 +57,20 @@ export default class FrontCognition extends React.Component {
       },
       Front_Cognition_backPlane_bottom: {
         width: '100%',
-        height: '10%',
+        height: '8%',
         position: 'fixed',
         bottom: '0',
         left: '0',
         boxSizing: 'border-box',
         backgroundColor: '#FFFFFF'
       },
-      Front_Cognition_Navs_:{
+      Front_Cognition_NavsCognition_:{
         width: '78%',
-        height: '9%',
+        height: '7%',
         position: 'fixed',
         bottom: '0',
         left: '15%',
         boxSizing: 'border-box',
-        backgroundColor: '#FFFFFF'
-      },
-      Front_Cognition_Navs_Cognition_: {
-        width: '40%',
-        height: '100%',
-        position: 'absolute',
-        bottom: '0%',
-        right: '2%',
-        boxSizing: 'border-box'
-      },
-      Front_Cognition_Navs_Collateral_: {
-        width: '12%',
-        height: '100%',
-        position: 'absolute',
-        bottom: '0%',
-        left: '2%',
-        boxSizing: 'border-box'
-      },
-      Front_Cognition_Navs_Front_: {
-        width: '12%',
-        height: '48%',
-        position: 'absolute',
-        top: '0%',
-        left: '18%',
-        boxSizing: 'border-box'
       },
       Front_Cognition_UserName_: {
         width: '24%',
@@ -115,14 +106,14 @@ export default class FrontCognition extends React.Component {
   _refer_leaveSelf(identifier, route){
     switch (route) {
       case 'user':
-        if(identifier == this.props.userBasic.id){
-          window.location.assign('/self');
+        if(identifier == this.props.userInfo.id){
+          window.location.assign('/user/overview');
         }else{
-          window.location.assign('/cosmic/user?id='+identifier);
+          window.location.assign('/cosmic/people/'+identifier);
         }
         break;
       case 'noun':
-        window.location.assign('/cosmic/pick/noun?id='+identifier);
+        window.location.assign('/cosmic/nouns/'+identifier);
         break;
       default:
         return
@@ -136,42 +127,40 @@ export default class FrontCognition extends React.Component {
         style={this.style.Front_Cognition_}>
         <div
           style={this.style.Front_Cognition_scroll_}>
-          <Cognition
-            {...this.props}
-            _refer_leaveSelf={this._refer_leaveSelf}/>
+          <Route path={this.props.match.path+"/wall"} render={(props)=> <CogStorage {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>
+          <Route path={this.props.match.path+"/actions"} render={(props)=> <CogMove {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>
+          <Route path={this.props.match.path+"/mutuals"} render={(props)=> <CogMutual {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>
         </div>
+        <div style={this.style.Front_Cognition_backPlane_top}/>
         <div
-          style={this.style.Front_Cognition_backPlane_top}>
+          style={this.style.Front_Cognition_Collateral}>
+          <Route path={this.props.match.path+"/collaterals"} render={(props)=> <Collaterals {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>
         </div>
-        <div
-          style={this.style.Front_Cognition_backPlane_bottom}>
-        </div>
+        <div style={this.style.Front_Cognition_backPlane_bottom}/>
         <div
           style={this.style.Front_Cognition_UserName_}>
           <div
             style={this.style.Front_Cognition_UserName_svg_}>
             <SvgPropic/>
           </div>
-          <span style={this.style.Front_Cognition_UserName_span_}>{this.props.userBasic.account}</span>
+          <span style={this.style.Front_Cognition_UserName_span_}>{this.props.userInfo.account}</span>
         </div>
         <div
-          style={this.style.Front_Cognition_Navs_}>
-          <div
-            style={this.style.Front_Cognition_Navs_Collateral_}>
-            <NavCollateral/>
-          </div>
-          <div
-            style={this.style.Front_Cognition_Navs_Cognition_}>
-            <NavCognition
-              {...this.props}/>
-          </div>
-          <div
-            style={this.style.Front_Cognition_Navs_Front_}>
-            <NavFront
-              {...this.props}/>
-          </div>
+          style={this.style.Front_Cognition_NavsCognition_}>
+          <NavsCognition {...this.props}/>
         </div>
       </div>
     )
   }
 }
+
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo
+  }
+}
+
+export default withRouter(connect(
+  mapStateToProps,
+  null
+)(FrontCognition));

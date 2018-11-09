@@ -1,7 +1,8 @@
 import React from 'React';
+import {connect} from "react-redux";
 import InfoNoun from './InfoNoun.jsx';
 
-export default class EditingInfoSide extends React.Component {
+class EditingInfoSide extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -106,7 +107,7 @@ export default class EditingInfoSide extends React.Component {
             </svg>
             <span
               style={{display: 'inline-block', width: '70%', position: 'absolute', left: '30%', top: '50%', transform: 'translate(0,-50%)',fontSize: '3.6vh'}}>
-              {"Berlin"}
+              {this.props.userInfo.account}
             </span>
           </div>
         </div>
@@ -122,3 +123,14 @@ export default class EditingInfoSide extends React.Component {
     )
   }
 }
+
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  null
+)(EditingInfoSide);

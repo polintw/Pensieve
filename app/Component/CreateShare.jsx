@@ -1,9 +1,10 @@
 import React from 'React';
+import {connect} from "react-redux";
 import EditingModal from './Share/EditingModal.jsx';
 import ModalBox from './ModalBox.jsx';
 import ModalBackground from './ModalBackground.jsx';
 
-export default class CreateShare extends React.Component {
+class CreateShare extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -77,7 +78,7 @@ export default class CreateShare extends React.Component {
 
   _axios_post_Share_new(newObj){
     const self = this;
-    axios.post('/router/user/'+self.props.userBasic.id+'/shareds', newObj, {
+    axios.post('/router/user/'+self.props.userInfo.id+'/shareds', newObj, {
       headers: {
         'Content-Type': 'application/json',
         'charset': 'utf-8',
@@ -119,3 +120,14 @@ export default class CreateShare extends React.Component {
     )
   }
 }
+
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  null
+)(CreateShare);

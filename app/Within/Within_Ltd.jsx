@@ -2,16 +2,19 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Route,
-  Link
+  Link,
+  withRouter
 } from 'react-router-dom';
+import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import LtdNav from './component/LtdNav.jsx';
 import LtdUnits from './component/LtdUnits.jsx';
 import EntryCall from './component/EntryCall.jsx';
 
-export default class WithinLtd extends React.Component {
+class WithinLtd extends React.Component {
   constructor(props){
     super(props);
+    window.scrollTo(0, 0); // special for this page, if the scroll animation is still there.
     this.state = {
       cssPara: 0
     };
@@ -151,8 +154,7 @@ export default class WithinLtd extends React.Component {
           </div>
           <div
             style={Object.assign({opacity: 1-this.state.cssPara}, this.style.Within_Ltd_scroll_EntryCall)}>
-            <EntryCall
-              userBasic={this.props.userBasic}/>
+            <EntryCall/>
           </div>
           <div
             ref = {(element)=>{this.ltdUnits = element}}
@@ -164,8 +166,7 @@ export default class WithinLtd extends React.Component {
             <div
               ref={(element)=>{this.Within_Ltd_LtdNav = element}}
               style={{opacity: this.state.cssPara}}>
-              <LtdNav
-                userBasic={this.props.userBasic}/>
+              <LtdNav/>
             </div>
           </div>
         </div>
@@ -173,3 +174,5 @@ export default class WithinLtd extends React.Component {
     )
   }
 }
+
+export default withRouter(connect()(WithinLtd));

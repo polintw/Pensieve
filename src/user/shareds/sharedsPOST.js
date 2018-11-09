@@ -68,7 +68,8 @@ function shareHandler_POST(req, res){
               let unitProfile = {
                 'id_author': userId,
                 'url_pic_layer0': modifiedBody.url_pic_layer0,
-                'url_pic_layer1': modifiedBody.url_pic_layer1
+                'url_pic_layer1': modifiedBody.url_pic_layer1,
+                'id_primer': req.query.primer?req.query.primer:null
               }
               connection.query('INSERT INTO units SET ?', unitProfile, function(err, result, fields) {
                 if (err) {reject(err);}

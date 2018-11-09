@@ -1,6 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Within from './Within.jsx'
+import {createStore} from "redux";
+import {Provider} from "react-redux";
+import Within from './Within.jsx';
+import storeWithin from "../redux/reducers/within.js";
+import {mountUserInfo} from "../redux/actions/general.js";
 
 let loggedin = !!window.localStorage['token'];
 if(loggedin){
@@ -9,7 +13,9 @@ if(loggedin){
         'token': window.localStorage['token']
     }
   }).then(function(res){
-    ReactDOM.hydrate(<Within userBasic={res.data.userBasic}/>, document.getElementById("root"));
+    const store = createStore(storeWithin);
+    store.dispatch(mountUserInfo(res.data.userInfo));
+    ReactDOM.hydrate(<Provider store={store}><Within/></Provider>, document.getElementById("root"));
   }).catch((err)=>{
     if (err.response) {
       // The request was made and the server responded with a status code that falls out of the range of 2xx

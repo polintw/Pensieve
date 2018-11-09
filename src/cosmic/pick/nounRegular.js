@@ -5,7 +5,11 @@ const jwt = require('jsonwebtoken');
 const {verify_key} = require('../../../config/jwt.js');
 const {connection_key} = require('../../../config/database.js');
 const {_res_success} = require('../../utils/resHandler.js');
-const {_promise_composeUnitsBasic, _promise_composeUsersBasic, _promise_composeMarksBasic} = require('../../utils/dbComposeHandler.js');
+const {
+  _promise_composeUnitsBasic_old,
+  _promise_composeUsersBasic_old,
+  _promise_composeMarksBasic_old
+} = require('../../utils/dbComposeHandler.js');
 const {_handler_err_BadReq, _handler_err_Unauthorized, _handler_err_Internal} = require('../../utils/reserrHandler.js');
 
 const database = mysql.createPool(connection_key);
@@ -52,9 +56,9 @@ function _handle_cosmic_pickNounRegular(req, res){
               }
             })
           }).then((sendingData)=>{
-            let _dbSelection_UsersBasic = _promise_composeUsersBasic(connection, {usersBasic:{}, temp: {usersList: sendingData.temp.usersList}});
-            let _dbSelection_UnitsBasic = _promise_composeUnitsBasic(connection, {unitsBasic: {}, temp: {unitsList: sendingData.temp.unitsList}}, "id");
-            let _dbSelection_MarksBasic = _promise_composeMarksBasic(connection, {marksBasic: {}, unitsBasic: {}, temp: {marksList: sendingData.temp.marksList}}, "id_unit");
+            let _dbSelection_UsersBasic = _promise_composeUsersBasic_old(connection, {usersBasic:{}, temp: {usersList: sendingData.temp.usersList}});
+            let _dbSelection_UnitsBasic = _promise_composeUnitsBasic_old(connection, {unitsBasic: {}, temp: {unitsList: sendingData.temp.unitsList}}, "id");
+            let _dbSelection_MarksBasic = _promise_composeMarksBasic_old(connection, {marksBasic: {}, unitsBasic: {}, temp: {marksList: sendingData.temp.marksList}}, "id_unit");
             return Promise.all([_dbSelection_UnitsBasic, _dbSelection_MarksBasic, _dbSelection_UsersBasic]).then((results)=>{
               return new Promise((resolve, reject)=>{
                 let composedUnitsBasic = results[0];

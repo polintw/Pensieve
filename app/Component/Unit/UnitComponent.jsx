@@ -6,9 +6,11 @@ export class NounsExtensible extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      expandify: false
     };
     this._handleClick_listNoun = this._handleClick_listNoun.bind(this);
+    this._handleClick_listExpand = this._handleClick_listExpand.bind(this);
+    this._render_unitModal_Nouns =this._render_unitModal_Nouns.bind(this);
     this.style={
       Com_Nouns_Extensible_: {
         width: '100%',
@@ -25,9 +27,27 @@ export class NounsExtensible extends React.Component {
         listStyle: 'none'
       },
       Com_Nouns_Extensible_list_item_: {
+        display: 'inline-block',
+        width: '100%',
+        height: '2.2rem',
+        position: 'relative',
         boxSizing: 'border-box',
         fontSize: '2rem',
         letterSpacing: '0.6vh',
+        textAlign: 'center',
+        fontWeight: '400',
+        fontFamily: 'cwTeXMing',
+        color: '#FAFAFA',
+        cursor: 'pointer'
+      },
+      Com_Nouns_Extensible_switch_: {
+        display: 'inline-block',
+        width: '100%',
+        height: '2rem',
+        position: 'relative',
+        boxSizing: 'border-box',
+        fontSize: '1.2rem',
+        letterSpacing: '0.4vh',
         textAlign: 'center',
         fontWeight: '400',
         fontFamily: 'cwTeXMing',
@@ -37,11 +57,42 @@ export class NounsExtensible extends React.Component {
     }
   }
 
+  _render_unitModal_Nouns(){
+    const self = this;
+    let nounsArr = [];
+    let expandLeng = this.state.expandify?this.props.nouns.list.length:3
+    for(let i = 0; i < expandLeng ; i++){
+      if(i >= this.props.nouns.list.length) break;
+      let nounId = self.props.nouns.list[i];
+      nounsArr.push(
+        <li
+          key={"key_unitModal_Nouns_"+i}
+          nounid={nounId}
+          style={self.style.Com_Nouns_Extensible_list_item_}
+          onClick={self._handleClick_listNoun}>
+          <span>
+            {self.props.nouns.basic[nounId].name}
+          </span>
+        </li>
+      )
+    }
+
+    return nounsArr;
+  }
+
   _handleClick_listNoun(event){
     event.preventDefault();
     event.stopPropagation();
     let id = event.currentTarget.getAttribute('nounid');
     this.props._handleClick_listNoun('noun', id);
+  }
+
+  _handleClick_listExpand(event){
+    event.preventDefault();
+    event.stopPropagation();
+    this.setState((prevState, props)=>{
+      return {expandify: prevState.expandify ? false : true}
+    })
   }
 
   render(){
@@ -51,13 +102,43 @@ export class NounsExtensible extends React.Component {
         style={this.style.Com_Nouns_Extensible_}>
         <ul
           style={this.style.Com_Nouns_Extensible_list_}>
-          <li
-            nounid={this.props.nouns.basic[this.props.nouns.list[0]].id}
-            style={this.style.Com_Nouns_Extensible_list_item_}
-            onClick={this.props._handleClick_listNoun}>
-            {this.props.nouns.basic[this.props.nouns.list[0]].name}
-          </li>
+          {this._render_unitModal_Nouns()}
         </ul>
+        <div
+          style={this.style.Com_Nouns_Extensible_switch_}
+          onClick={this._handleClick_listExpand}>
+          {
+            this.props.nouns.length>2 ? '展開全部 >' : null
+          }
+        </div>
+      </div>
+    )
+  }
+}
+
+
+export class DateConverter extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+
+    };
+    this.style={
+
+    }
+  }
+
+  render(){
+    //let cx = cxBind.bind(styles);
+    let d = new Date(this.props.datetime)
+
+    return(
+      <div
+        style={this.style.Com_DateConverter_}>
+        <span>{d.getMonth()}</span>
+        <span> 月</span>
+        <span>{d.getDate()}</span>
+        <span>{" 日"}</span>
       </div>
     )
   }
