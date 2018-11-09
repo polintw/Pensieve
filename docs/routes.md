@@ -21,19 +21,22 @@
   * /appear
   * /period
 
-#### /front
+#### /cognition
   * /actions
     * /shareds
       * /:sharedId/threads
     * /events
   * /mutuals
-    * /dialogues
-  * /wall
+    * 
+  * /embedded
     * /inspireds
     * /broads
+    * /dialogues
+  * /collaterals
+    * /tracks
   * /series
 
-#### /collateral
+#### /profile
   * /statics
 
 #### /...

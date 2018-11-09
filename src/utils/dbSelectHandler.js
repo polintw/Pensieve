@@ -1,9 +1,11 @@
 const {
   UNITS_GENERAL,
   USERS_GENERAL,
+  MARKS_UNITS,
   MARKS_IDLIST_UNITS,
   DIALOGUES_LATEST,
-  TRACKS_USERS
+  TRACKS_USERS,
+  BROADS_USERS_UNITS
 } = require('./queryIndicators.js');
 const mysql = require('mysql');
 const {connection_key} = require('../../config/database.js');
@@ -165,7 +167,7 @@ exports._select_Threads_withPromise = (condition, basis)=>{
 }
 
 exports._select_withPromise_Basic = (queryIndicator, condition)=>{
-  let queryObj = queryGenerator(queryIndicator);
+  let queryObj = querySwitcher(queryIndicator);
   let selection = queryObj.table,
       selectQuery = queryObj.query;
   return new Promise((resolve, reject)=>{
@@ -192,7 +194,7 @@ exports._select_withPromise_Basic = (queryIndicator, condition)=>{
 }
 
 exports._select_withPromise_BasicNoLength = (queryIndicator, condition)=>{
-  let queryObj = queryGenerator(queryIndicator);
+  let queryObj = querySwitcher(queryIndicator);
   let selection = queryObj.table,
       selectQuery = queryObj.query;
   return new Promise((resolve, reject)=>{
@@ -215,17 +217,22 @@ exports._select_withPromise_BasicNoLength = (queryIndicator, condition)=>{
 
 const selectQuery_UNITS_GENERAL = "SELECT * FROM units WHERE (id) IN (?)";
 const selectQuery_USERS_GENERAL = "SELECT id, account FROM users WHERE (id) IN (?)";
+const selectQuery_MARKS_UNITS = "SELECT * FROM marks WHERE (id_unit) IN (?)";
 const selectQuery_MARKS_IDLIST_UNITS = "SELECT id, id_unit FROM marks WHERE (id_unit) IN (?)";
 const selectQuery_DIALOGUES_LATEST = "SELECT id_thread, id_talker, editor_content, MAX(created) AS max_date FROM dialogues WHERE id_thread = ? ORDER BY max_date";
 const selectQuery_TRACKS_USERS = "SELECT * FROM tracks WHERE (id_user) IN (?)";
+const selectQuery_BROADS_USERS_UNITS = "SELECT id_unit FROM broads WHERE (id_user) IN (?)";
 
-function queryGenerator(queryIndicator){
+function querySwitcher(queryIndicator){
   switch (queryIndicator) {
     case UNITS_GENERAL:
       return {query: selectQuery_UNITS_GENERAL, table: "units"}
       break;
     case USERS_GENERAL:
       return {query: selectQuery_USERS_GENERAL, table: "users"}
+      break;
+    case MARKS_UNITS:
+      return {query: selectQuery_MARKS_UNITS, table: "marks"}
       break;
     case MARKS_IDLIST_UNITS:
       return {query: selectQuery_MARKS_IDLIST_UNITS, table: "marks"}
@@ -235,6 +242,9 @@ function queryGenerator(queryIndicator){
       break;
     case TRACKS_USERS:
       return {query: selectQuery_TRACKS_USERS, table: "tracks"}
+      break;
+    case BROADS_USERS_UNITS:
+      return {query: selectQuery_BROADS_USERS_UNITS, table: "broads"}
       break;
     default:
       return {query: '', table: ""}

@@ -6,9 +6,9 @@ import {
   Switch
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import CogStorage from './component/CogStorage.jsx';
+import CogEmbed from './component/CogEmbed.jsx';
 import CogMutual from './component/CogMutual.jsx';
-import CogMove from './component/CogMove.jsx';
+import CogActions from './component/CogActions.jsx';
 import Collaterals from './component/Collaterals.jsx';
 import NavsCognition from './component/NavsCognition.jsx';
 import SvgPropic from '../Component/SvgPropic.jsx';
@@ -39,12 +39,10 @@ class FrontCognition extends React.Component {
       },
       Front_Cognition_Collateral: {
         width: '76%',
-        minHeight: '80%',
         position: 'absolute',
         top: '9%',
         left: '12%',
-        boxSizing: 'border-box',
-        padding: '2vh 0'
+        boxSizing: 'border-box'
       },
       Front_Cognition_backPlane_top: {
         width: '100%',
@@ -127,8 +125,8 @@ class FrontCognition extends React.Component {
         style={this.style.Front_Cognition_}>
         <div
           style={this.style.Front_Cognition_scroll_}>
-          <Route path={this.props.match.path+"/wall"} render={(props)=> <CogStorage {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>
-          <Route path={this.props.match.path+"/actions"} render={(props)=> <CogMove {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>
+          <Route path={this.props.match.path+"/embedded"} render={(props)=> <CogEmbed {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>
+          <Route path={this.props.match.path+"/actions"} render={(props)=> <CogActions {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>
           <Route path={this.props.match.path+"/mutuals"} render={(props)=> <CogMutual {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>
         </div>
         <div style={this.style.Front_Cognition_backPlane_top}/>

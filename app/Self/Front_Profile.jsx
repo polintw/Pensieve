@@ -7,14 +7,14 @@ import {
 import {connect} from "react-redux";
 import Statics from './component/Statics.jsx';
 
-class FrontStatics extends React.Component {
+class FrontProfile extends React.Component {
   constructor(props){
     super(props);
     this.state = {
 
     };
     this.style={
-      Front_Statics_: {
+      Front_Profile_: {
         width: '100%',
         height: '100%',
         position: 'absolute',
@@ -22,7 +22,7 @@ class FrontStatics extends React.Component {
         left: '0%',
         overflowY: "scroll"
       },
-      Front_Statics_return_: {
+      Front_Profile_return_: {
         width: '6%',
         height: '6%',
         position: 'fixed',
@@ -37,7 +37,7 @@ class FrontStatics extends React.Component {
         color: '#222222',
         cursor: 'pointer'
       },
-      Front_Statics_scroll_: {
+      Front_Profile_scroll_: {
         width: '68%',
         position: 'absolute',
         top: '0',
@@ -51,15 +51,15 @@ class FrontStatics extends React.Component {
     //let cx = cxBind.bind(styles);
     return(
       <div
-        style={this.style.Front_Statics_}>
+        style={this.style.Front_Profile_}>
         <Link to={this.props.location.state.from}>
           <div
-            style={this.style.Front_Statics_return_}>
+            style={this.style.Front_Profile_return_}>
             {"return"}
           </div>
         </Link>
         <div
-          style={this.style.Front_Statics_scroll_}>
+          style={this.style.Front_Profile_scroll_}>
           <Statics/>
         </div>
       </div>
@@ -67,4 +67,4 @@ class FrontStatics extends React.Component {
   }
 }
 
-export default withRouter(connect()(FrontStatics));
+export default withRouter(connect()(FrontProfile));

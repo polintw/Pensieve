@@ -75,12 +75,15 @@ export default class NavsCognition extends React.Component {
             {'系列'}</span>
         </div>
         {
-          
+          this.props.location.pathname !== "/cognition/collaterals/tracks" &&
           <div
             style={this.style.selfCom_NavsCognition_collaterals_}>
             <Link
               key={"key_Link_nav_Collaterals"}
-              to={this.props.match.url+"/collaterals/tracks"}>
+              to={{
+                pathname: this.props.match.url+"/collaterals/tracks",
+                state: {from: this.props.location}
+              }}>
               <span
                 style={this.style.selfCom_NavsCognition_button_}>
                 {'collaterals'}</span>

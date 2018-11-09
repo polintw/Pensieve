@@ -7,7 +7,7 @@ import {
 import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import FrontCognition from './Front_Cognition.jsx';
-import FrontStatics from './Front_Statics.jsx';
+import FrontProfile from './Front_Profile.jsx';
 import ExternalPanel from './component/ExternalPanel.jsx';
 
 class Front extends React.Component {
@@ -43,7 +43,7 @@ class Front extends React.Component {
         <div
           style={this.style.Self_pages_Front_}>
           <Route path="/cognition" render={(props)=> <FrontCognition {...props}/>}/>
-          <Route path="/profile" render={(props)=> <FrontStatics {...props}/>}/>
+          <Route path="/profile" render={(props)=> <FrontProfile {...props}/>}/>
           <div
             style={this.style.Self_pages_Front_External_}>
             <ExternalPanel/>

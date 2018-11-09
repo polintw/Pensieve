@@ -23,21 +23,26 @@
 |---|---|---|
 |actions|/shareds|||GET<br>POST|| *<-*  `/cognition/shared`<br> *<-* `/:id/shareds?primer=:id`
 |actions|/threads/:sharedId|||GET|<ul><li>        marksSet</li><li>threadsBasic</li><li>threadsLists</li><li>authorsBasic</li></ul>|
-|actions|/threads/:sharedId/dialogue||markId participantId|GET<br>POST||
+|actions|/threads/:sharedId|/dialogue|:threadId|GET<br>POST||different from dialogue from viewer|
+|embedded|/inspireds|||GET<br>DELETE||*<-*  `/cognition/inspired`
+|embedded|/broads|||GET<br>PATCH|<ul><li>              unitsList</li><li>unitsBasic</li><li>marksBasic</li><li>authorsBasic</li></ul>|
+|collaterals|/tracks|||GET|<ul><li>              unitsList</li><li>unitsBasic</li><li>authorsBasic</li></ul>|
 
- `/unit/general/dialogue`
+
+
 
   * /user
     * /cognition/lookout
-    * /cognition/inspired
     * /cognition/dialogues
     * /cover/appearpath
       * ? id
-    * /action/inspired
-    * /action/dialogue
 
-|router|main|minor|method|resJSON|
+|router|main|minor|query|method|resJSON|
 |-----|-----|
-|units/:id|/||GET||
-|units/:id|/basic||GET|<ul><li>unitBasic</li><li>authorBasic</li>|
-|units/:id|/responses||GET|<ul><li>unitsList</li><li>unitsBasic</li><li>marksBasic</li><li>authorsBasic</li>|
+|units/:id|/|||GET<br>PATCH||
+|units/:id|/basic|||GET|<ul><li>unitBasic</li><li>authorBasic</li>|
+|`units/:id`<br>should belong to "/cosmic"|`/responses`|||GET|<ul><li>unitsList</li><li>unitsBasic</li><li>marksBasic</li><li>authorsBasic</li>|
+|units/:id|/track|||GET<br>POST<br>PATCH||
+|units/:id|/broad|||GET<br>POST||
+|units/:id|/marks/:markId|/dialogues||GET<br>POST||*<-*`/unit/general/dialogue`<br> *<-* `/action/dialogue`|
+|units/:id|/marks/:markId|/inspired||POST<br>DELETE||<br>*<-*`/action/inspired`|

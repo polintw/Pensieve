@@ -9,19 +9,20 @@ import {connect} from "react-redux";
 import NailShared from './NailShared.jsx';
 import Unit from '../../Component/Unit.jsx';
 
-class Tracks extends React.Component {
+class Broads extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       axios: false,
       unitsList: [],
       unitsBasic: {},
+      marksBasic: {},
       authorsBasic: {}
     };
     this.axiosSource = axios.CancelToken.source();
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this.style={
-      selfCom_Tracks_: {
+      selfCom_Broads_: {
         width: '100%',
         position: 'absolute',
         top: '0',
@@ -37,7 +38,7 @@ class Tracks extends React.Component {
 
   componentDidMount(){
     const self = this;
-    axios.get('/router/collaterals/tracks', {
+    axios.get('/router/embedded/broads', {
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']
@@ -48,6 +49,7 @@ class Tracks extends React.Component {
         axios: false,
         unitsList: resObj.main.unitsList,
         unitsBasic: resObj.main.unitsBasic,
+        marksBasic: resObj.main.marksBasic,
         authorsBasic: resObj.main.authorsBasic
       });
     }).catch(function (thrown) {
@@ -97,84 +99,12 @@ class Tracks extends React.Component {
 
     return(
       <div
-        style={this.style.selfCom_Tracks_}>
+        style={this.style.selfCom_Broads_}>
         <div
-          style={this.style.selfCom_Tracks_nails_}>
+          style={this.style.selfCom_Broads_nails_}>
           {nails}
         </div>
         <Route path={this.props.match.path+"/units/:id"} render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_leaveSelf}/>}/>
-      </div>
-    )
-  }
-}
-
-class Collaterals extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      close: false
-    };
-    this._handleClick_Reidrect_back= this._handleClick_Reidrect_back.bind(this);
-    this.style={
-      selfCom_Collaterals_: {
-        width: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box',
-        padding: '2vh 0'
-      },
-      selfCom_Collaterals_Navs_: {
-        width: '64%',
-        height: '6vh',
-        position: 'fixed',
-        top: '2vh',
-        right: '4%',
-        boxSizing: 'border-box',
-        padding: '1vh 2%'
-      },
-      selfCom_Collaterals_Navs_button_: {
-        fontSize: '1.1rem',
-        fontWeight: '300',
-        letterSpacing: '0.2rem',
-        cursor: 'pointer'
-      },
-      selfCom_Collaterals_main_: {
-        width: '100%',
-        position: 'absolute',
-        top: '16vh',
-        left: '0'
-      }
-    }
-  }
-
-  _handleClick_Reidrect_back(event){
-    event.preventDefault();
-    event.stopPropagation();
-    this.setState({close: true})
-  }
-
-  render(){
-    //let cx = cxBind.bind(styles);
-    return this.state.close?(
-      <Redirect to={this.props.location.state.from}/>
-    ):(
-      <div
-        style={this.style.selfCom_Collaterals_}>
-        <div
-          key={"key_Link_nav_Collaterals"}
-          style={this.style.selfCom_Collaterals_Navs_}>
-          <span
-            style={this.style.selfCom_Collaterals_Navs_button_}
-            onClick={this._handleClick_Reidrect_back}>
-            {'collaterals'}</span>
-        </div>
-        <nav>
-        </nav>
-        <div
-          style={this.style.selfCom_Collaterals_main_}>
-          <Route path={this.props.match.path+"/tracks"} render={(props)=> <Tracks {...props} _refer_leaveSelf={this.props._refer_leaveSelf}/>}/>
-        </div>
       </div>
     )
   }
@@ -190,4 +120,4 @@ const mapStateToProps = (state)=>{
 export default withRouter(connect(
   mapStateToProps,
   null
-)(Collaterals));
+)(Broads));
