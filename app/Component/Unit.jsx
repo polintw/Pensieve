@@ -7,6 +7,7 @@ import {
 import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import UnitModal from './Unit/UnitModal.jsx';
+import AuthorModal from './Unit/AuthorModal.jsx';
 import ResModal from './Unit/ResModal.jsx';
 import ModalBox from './ModalBox.jsx';
 import ModalBackground from './ModalBackground.jsx';
@@ -121,22 +122,41 @@ class Unit extends React.Component {
     return(
       <ModalBox containerId="root">
         <ModalBackground onClose={this._close_modal_Unit} style={{position: "fixed"}}>
-          <ResModal
-            unitId={this.unitId}
-            mode={this.state.mode}
-            _set_axios={this._set_axios}
-            _set_Modalmode={this._set_Modalmode}/>
-          <UnitModal
-            unitId={this.unitId}
-            mode={this.state.mode}
-            unitInit={this.unitInit}
-            unitSet= {this.state.unitSet}
-            _set_Modalmode={this._set_Modalmode}
-            _close_modal_Unit={this._close_modal_Unit}
-            _refer_von_unit={this.props._refer_von_unit}/>
+          {
+            this.state.mode=="editing"&&this.props.unitCurrent.identity=="author"?(
+              <AuthorModal
+                mode={this.state.mode}
+                unitSet= {this.state.unitSet}
+                _set_axios={this._set_axios}
+                _set_Modalmode={this._set_Modalmode}/>
+            ):(
+              <div>
+                <ResModal
+                  unitId={this.unitId}
+                  mode={this.state.mode}
+                  _set_axios={this._set_axios}
+                  _set_Modalmode={this._set_Modalmode}/>
+                <UnitModal
+                  unitId={this.unitId}
+                  mode={this.state.mode}
+                  unitInit={this.unitInit}
+                  unitSet= {this.state.unitSet}
+                  _set_Modalmode={this._set_Modalmode}
+                  _close_modal_Unit={this._close_modal_Unit}
+                  _refer_von_unit={this.props._refer_von_unit}/>
+              </div>
+            )
+          }
         </ModalBackground>
       </ModalBox>
     )
+  }
+}
+
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo,
+    unitCurrent: state.unitCurrent
   }
 }
 
@@ -147,6 +167,6 @@ const mapDispatchToProps = (dispatch)=>{
 }
 
 export default withRouter(connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Unit));

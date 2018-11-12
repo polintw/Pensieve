@@ -6,9 +6,6 @@
 #### /
 
 #### /cosmic
-* /units/:id/related
-  * /:id/origin
-  * /:id/responses
 * /people/:id
 * /nouns/:id
 * /series
@@ -39,9 +36,13 @@
 #### /profile
   * /statics
 
-#### /...
-* /units/:id
-* /:unitId
+<table>
+<tr><td>root<td>main<td>minus<td>query<td></td></tr>
+<tr><td rowspan="2">/...<td>/units/:id<td><td><td rowspan="2"> <- /cosmic/units/:id/related<br>
+  * /:id/origin<br>
+  * /:id/responses
+<tr><td>/:unitId
+</table>
 
 /login
 

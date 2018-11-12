@@ -1,6 +1,6 @@
 import React from 'React';
 import {connect} from "react-redux";
-import EditingModal from './Share/EditingModal.jsx';
+import EditingModal from './EditingModal.jsx';
 import ModalBox from './ModalBox.jsx';
 import ModalBackground from './ModalBackground.jsx';
 

@@ -20,22 +20,22 @@ login.use(function(req, res) {
         res.status(500).json(resData);
         console.log("error occured during login process: step getConnection"+err)
       } else {
-        connection.query('SELECT * FROM users WHERE email = ?', [email], function(err, rows, fields) {
+        connection.query('SELECT id_user, email, password FROM verifications WHERE email = ?', [email], function(err, rows, fields) {
           if (err) {
             resData['error'] = 1;
             resData['message'] = 'Error Occured!';
             res.status(400).json(resData);
           } else {
             if (rows.length > 0) {
-              let userInfo = rows[0];
-              if (userInfo.password == password) {
-                let tokenInfo = {user_Id: userInfo['id'], user_Role: 'public'};
+              let verified = rows[0];
+              if (verified.password == password) {
+                let tokenInfo = {user_Id: verified['id_user'], user_Role: 'public'};
                 token = jwt.sign(JSON.parse(JSON.stringify(tokenInfo)), verify_key, {
                   expiresIn: '1d'
                 });
-                resData.error = 0;
                 resData['token'] = token;
-                resData['userBasic'] = {account: userInfo.account};
+                resData['error'] = 0;
+                resData['message'] = 'login success!';
                 res.status(200).json(resData);
               } else {
                 resData['error'] = 1;
@@ -43,7 +43,7 @@ login.use(function(req, res) {
                 res.status(401).json(resData);
               }
             } else {
-              resData.error = 2;
+              resData['error'] = 2;
               resData['message'] = 'account does not exist!';
               res.status(401).json(resData);
             }

@@ -39,9 +39,9 @@
 
 |router|main|minor|query|method|resJSON|
 |-----|-----|
-|units/:id|/|||GET<br>PATCH||
+|units/:id|/|||GET<br>PATCH||PATCH: check 原作者 ify|
 |units/:id|/basic|||GET|<ul><li>unitBasic</li><li>authorBasic</li>|
-|`units/:id`<br>should belong to "/cosmic"|`/responses`|||GET|<ul><li>unitsList</li><li>unitsBasic</li><li>marksBasic</li><li>authorsBasic</li>|
+|units/:id|/responses|||GET|<ul><li>unitsList</li><li>unitsBasic</li><li>marksBasic</li><li>authorsBasic</li>|
 |units/:id|/track|||GET<br>POST<br>PATCH||
 |units/:id|/broad|||GET<br>POST||
 |units/:id|/marks/:markId|/dialogues||GET<br>POST||*<-*`/unit/general/dialogue`<br> *<-* `/action/dialogue`|

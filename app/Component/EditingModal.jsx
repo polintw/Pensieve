@@ -1,8 +1,8 @@
 import React from 'React';
-import EditingInfoSide from './EditingInfoSide.jsx';
-import ImgBlock from './ImgBlock.jsx';
-import RefBlock from './RefBlock.jsx';
-import ContentModal from './ContentModal.jsx';
+import EditingInfoSide from './Share/EditingInfoSide.jsx';
+import ImgBlock from './Share/ImgBlock.jsx';
+import RefBlock from './Share/RefBlock.jsx';
+import ContentModal from './Share/ContentModal.jsx';
 
 export default class EditingModal extends React.Component {
   constructor(props){
@@ -10,17 +10,17 @@ export default class EditingModal extends React.Component {
     this.state = {
       focusBlock: null,
       contentModalify: false,
-      coverSrc: null,
-      beneathSrc: null,
-      coverMarks: [],
-      beneathMarks: [],
-      refsArr: [],
-      nounsArr: []
+      coverSrc: this.props.unitSet?this.props.unitSet.coverSrc:null,
+      beneathSrc: this.props.unitSet?this.props.unitSet.beneathSrc:null,
+      coverMarks: this.props.unitSet?this.props.unitSet.coverMarksObj:[],
+      beneathMarks: this.props.unitSet?this.props.unitSet.beneathMarksObj:[],
+      refsArr: this.props.unitSet?this.props.unitSet.refsArr:[],
+      nounsArr: this.props.unitSet?this.props.unitSet.nouns:[]
     };
     this._reset_modalState = () => {this.setState({focusBlock: null, contentModalify: false});};
     this._set_focusBlock = (block) => {this.setState({focusBlock: block})};
     this._set_contentModalify = (bool) => {this.setState({contentModalify: bool})};
-    this._set_refsArr = (refObj) => {this.state.refsArr.push(refObj);this.setState({refsArr: this.state.refsArr})};
+    this._set_refsArr = (refObj) => {this.setState((prevState,props)=>{return {refsArr: prevState.refsArr.push(refObj)};});};
     this._set_nounsArr = (nounBasic) => {this.setState((prevState, props) => {prevState.nounsArr.push(nounBasic); return {nounsArr: prevState.nounsArr}})};
     this._set_newImgSrc = this._set_newImgSrc.bind(this);
     this._close_Mark_Complete = this._close_Mark_Complete.bind(this);

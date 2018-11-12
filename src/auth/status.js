@@ -9,7 +9,6 @@ const database = mysql.createPool(connection_key);
 
 //verify token here, for any not login or register request
 status.use(function(req, res) {
-  console.log('check auth status')
   let token = req.body.token || req.headers['token'] || req.query.token;
   let resData = {};
   if (token) {
@@ -27,7 +26,7 @@ status.use(function(req, res) {
             res.status(500).json(resData);
             console.log("error occured during status confirm: step getConnection"+err)
           } else {
-            connection.query('SELECT * FROM users WHERE id = ?', [payload.user_Id], function(err, rows, fields) {
+            connection.query('SELECT id, account FROM users WHERE id = ?', [payload.user_Id], function(err, rows, fields) {
               if (err) {
                 resData['error'] = 1;
                 resData['message'] = 'Error Occured!';

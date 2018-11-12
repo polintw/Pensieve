@@ -99,7 +99,9 @@ export default class Signin extends React.Component {
         </div>
         <div
           style={this.style.Signin_register_}>
-
+          <input
+            type='button'
+            value='建立新帳號'/>
         </div>
       </div>
     )
