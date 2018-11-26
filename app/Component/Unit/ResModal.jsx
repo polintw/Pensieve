@@ -1,6 +1,6 @@
 import React from 'React';
 import {connect} from "react-redux";
-import EditingModal from '../EditingModal.jsx';
+import EditingModal from '../Editing/EditingModal.jsx';
 
 class ResModal extends React.Component {
   constructor(props){
@@ -8,7 +8,8 @@ class ResModal extends React.Component {
     this.state = {
 
     };
-    this._handleClick_CreateShare_SubmitFile = this._handleClick_CreateShare_SubmitFile.bind(this);
+    this._refer_toandclose = this._refer_toandclose.bind(this);
+    this._handleClick_resModal_SubmitFile = this._handleClick_resModal_SubmitFile.bind(this);
     this._axios_post_Share_new = this._axios_post_Share_new.bind(this);
     this._submit_Share_New = this._submit_Share_New.bind(this);
     this.style={
@@ -18,34 +19,29 @@ class ResModal extends React.Component {
     }
   }
 
-  _handleClick_CreateShare_SubmitFile(stateObj){
-    //check form filled
-    let pause = false;
-    let required = [
-      "coverSrc",
-      "nounsArr"
-    ];
-    required.forEach(function(key, index){
-      if(!stateObj[key] || stateObj[key].length < 1) {pause = true;};
-    })
-    if(pause){alert("fill the required area");return;};
+  _refer_toandclose(source, identity){
+    this.props._refer_von_unit(identity, source);
+    this.props._set_Modalmode(false);
+  }
 
-    let self = this;
+  _handleClick_resModal_SubmitFile(stateObj){
+    //check form filled
+    if(!stateObj["coverSrc"] || stateObj["nouns"]["list"].length < 1) {alert("fill the required area");return;};
+    //Then if everything is fine
     let d = new Date();
     let submitTime = d.getTime();
     //prevent data lost during unmount.
     let newObj = {};
     Object.assign(newObj, stateObj);
-    let joinedMarks = newObj.coverMarks.concat(newObj.beneathMarks);
+    let joinedMarks = Object.assign({}, newObj.coverMarks.data, newObj.beneathMarks.data);
     const newShareObj = {
       coverBase64: newObj.coverSrc,
       beneathBase64: newObj.beneathSrc,
       joinedMarks: joinedMarks,
       refsArr: newObj.refsArr,
-      nounsArr: newObj.nounsArr,
+      nouns: newObj.nouns,
       submitTime: submitTime
     };
-    this.props._set_axios(true);
     //don't set any parameter in the callback,
     //would take the variable above directly
     this._axios_post_Share_new(newShareObj);
@@ -53,6 +49,7 @@ class ResModal extends React.Component {
 
   _axios_post_Share_new(newObj){
     const self = this;
+    self.props._set_axios(true);
     axios.post('/router/user/'+self.props.userInfo.id+'/shareds?primer='+this.props.unitId, newObj, {
       headers: {
         'Content-Type': 'application/json',
@@ -69,10 +66,27 @@ class ResModal extends React.Component {
           self.props._set_axios(false);
           alert("Failed, please try again later");
         }
-    }).catch(function (error) {
-      console.log(error);
-      self.props._set_axios(false);
-      alert("Failed, please try again later");
+    }).catch(function (thrown) {
+      if (axios.isCancel(thrown)) {
+        console.log('Request canceled: ', thrown.message);
+      } else {
+        self.setState({axios: false});
+        if (thrown.response) {
+          // The request was made and the server responded with a status code that falls out of the range of 2xx
+          alert('Something went wrong: '+thrown.response.data.message)
+          if(thrown.response.status == 403){
+            window.location.assign('/login');
+          }
+        } else if (thrown.request) {
+            // The request was made but no response was received
+            // `err.request` is an instance of XMLHttpRequest in the browser and an instance of http.ClientRequest in node.js
+            console.log(thrown.request);
+        } else {
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error: ', thrown.message);
+        }
+        console.log("Error config: "+thrown.config);
+      }
     });
   }
 
@@ -85,7 +99,8 @@ class ResModal extends React.Component {
       <div
         style={this.props.mode?this.style.Com_Modal_ResModal:{display:"none"}}>
         <EditingModal
-          _set_Submit={this._handleClick_CreateShare_SubmitFile}
+          _refer_toandclose={this._refer_toandclose}
+          _set_Submit={this._handleClick_resModal_SubmitFile}
           _set_Clear={this.props._set_Modalmode}/>
       </div>
     )

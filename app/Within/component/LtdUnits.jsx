@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Link,
-  Redirect,
   Route,
   withRouter
 } from 'react-router-dom';
@@ -15,7 +14,6 @@ class LtdUnits extends React.Component {
     super(props);
     this.state = {
       axios: false,
-      unitTo: null,
       unitsList: [],
       unitsBasicSet: {},
       markBasic: {},
@@ -26,7 +24,6 @@ class LtdUnits extends React.Component {
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._axios_list_lookout = this._axios_list_lookout.bind(this);
     this._render_LtdUnitsRaws = this._render_LtdUnitsRaws.bind(this);
-    this._refer_von_unit = this._refer_von_unit.bind(this);
     this.style={
       withinCom_LtdUnits_: {
         width: '100%',
@@ -51,35 +48,6 @@ class LtdUnits extends React.Component {
   _construct_UnitInit(match, location){
     let unitInit=Object.assign(this.state.unitsBasicSet[match.params.id], {marksify: true, initMark: "all", layer: 0});
     return unitInit;
-  }
-
-  _refer_von_unit(identifier, route){
-    switch (route) {
-      case 'user':
-        if(identifier == this.props.userInfo.id){
-          window.location.assign('/user/overview');
-        }else{
-          this.setState((prevState, props)=>{
-            let unitTo = {
-              params: '/cosmic/people/'+identifier,
-              query: ''
-            };
-            return {unitTo: unitTo}
-          })
-        }
-        break;
-      case 'noun':
-        this.setState((prevState, props)=>{
-          let unitTo = {
-            params: '/cosmic/nouns/'+identifier,
-            query: ''
-          };
-          return {unitTo: unitTo}
-        })
-        break;
-      default:
-        return
-    }
   }
 
   _axios_list_lookout(url){
@@ -163,7 +131,6 @@ class LtdUnits extends React.Component {
 
   render(){
     //let cx = cxBind.bind(styles);
-    if(this.state.unitTo){return <Redirect to={this.state.unitTo.params+this.state.unitTo.query}/>}
 
     return(
       <div
@@ -175,7 +142,7 @@ class LtdUnits extends React.Component {
         <div style={this.style.withinCom_LtdUnits_footer}></div>
         <Route
           path="/units/:id"
-          render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this._refer_von_unit}/>}/>
+          render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_leavevonLtd}/>}/>
       </div>
     )
   }

@@ -15,7 +15,7 @@ export default class MarkBlock extends React.Component {
 
   _css_calculate_MarkBlockPosition(){
     let [left, top, right] = [null,null,null];
-    let coordinate = this.props.markData.markCoordinate;
+    let coordinate = {top: this.props.markData.top, left: this.props.markData.left};
     coordinate.left>50 ? right = (100-coordinate.left)+'%' : left = coordinate.left+'%';
     top = (coordinate.top) * (30) / (100) + '%';
 

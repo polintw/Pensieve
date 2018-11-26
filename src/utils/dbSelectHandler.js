@@ -5,7 +5,9 @@ const {
   MARKS_IDLIST_UNITS,
   DIALOGUES_LATEST,
   TRACKS_USERS,
-  BROADS_USERS_UNITS
+  BROADS_USERS_UNITS,
+  ATTRIBUTION_UNIT,
+  NOUNS_NAME
 } = require('./queryIndicators.js');
 const mysql = require('mysql');
 const {connection_key} = require('../../config/database.js');
@@ -171,25 +173,30 @@ exports._select_withPromise_Basic = (queryIndicator, condition)=>{
   let selection = queryObj.table,
       selectQuery = queryObj.query;
   return new Promise((resolve, reject)=>{
-    database.getConnection(function(err, connection){
-      if (err) {
-        console.log("error occured when getConnection to select from "+selection);
-        reject({status: 500, err: err});
-      }else{
-        connection.query(selectQuery, [condition], function(err, results, fields){
-          if (err) {reject({err: err});connection.release(); return} //only with "return" could assure the promise end immediately if there is any error.
-          console.log('database connection success: '+selection);
-          if(results.length> 0){
-            let rowsArr = results.slice();
-            resolve(rowsArr);
-            connection.release();
-          }else{
-            reject({status: 500, err: 'data mismatch in '+selection});
-            connection.release();
-          }
-        })
-      }
-    })
+    //confirm the condition is valid, and not empty
+    condition.length>0 ? (
+      database.getConnection(function(err, connection){
+        if (err) {
+          console.log("error occured when getConnection to select from "+selection);
+          reject({status: 500, err: err});
+        }else{
+          connection.query(selectQuery, [condition], function(err, results, fields){
+            if (err) {reject({err: err});connection.release(); return} //only with "return" could assure the promise end immediately if there is any error.
+            console.log('database connection success: '+selection);
+            if(results.length> 0){
+              let rowsArr = results.slice();
+              resolve(rowsArr);
+              connection.release();
+            }else{
+              reject({status: 500, err: 'data mismatch in '+selection});
+              connection.release();
+            }
+          })
+        }
+      })
+    ):(
+      resolve([])
+    )
   })
 }
 
@@ -222,6 +229,8 @@ const selectQuery_MARKS_IDLIST_UNITS = "SELECT id, id_unit FROM marks WHERE (id_
 const selectQuery_DIALOGUES_LATEST = "SELECT id_thread, id_talker, editor_content, MAX(created) AS max_date FROM dialogues WHERE id_thread = ? ORDER BY max_date";
 const selectQuery_TRACKS_USERS = "SELECT * FROM tracks WHERE (id_user) IN (?)";
 const selectQuery_BROADS_USERS_UNITS = "SELECT id_unit FROM broads WHERE (id_user) IN (?)";
+const selectQuery_ATTRIBUTION_UNIT = "SELECT id_noun FROM attribution WHERE (id_unit) IN (?)";
+const selectQuery_NOUNS_NAME = "SELECT id, name FROM nouns WHERE (name) IN (?)";
 
 function querySwitcher(queryIndicator){
   switch (queryIndicator) {
@@ -245,6 +254,12 @@ function querySwitcher(queryIndicator){
       break;
     case BROADS_USERS_UNITS:
       return {query: selectQuery_BROADS_USERS_UNITS, table: "broads"}
+      break;
+    case ATTRIBUTION_UNIT:
+      return {query: selectQuery_ATTRIBUTION_UNIT, table: "attribution"}
+      break;
+    case NOUNS_NAME:
+      return {query: selectQuery_NOUNS_NAME, table: "nouns"}
       break;
     default:
       return {query: '', table: ""}

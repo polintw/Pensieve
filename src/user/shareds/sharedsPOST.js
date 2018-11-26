@@ -100,22 +100,24 @@ function shareHandler_POST(req, res){
             })
           }).then(function(modifiedBody){
             console.log('add new one, write into the table: attribution.');
-            let _db_createNoun = (resolve, reject, newNounIndex)=>{
-              let valuesArr = newNounIndex.map((listNr, index)=>{
-                return [modifiedBody.nounsArr[listNr].name]
+            let _db_createNoun = (resolve, reject, newNounskey)=>{
+              let valuesArr = newNounskey.map((nounKey, index)=>{
+                return [modifiedBody.nouns.basic[nounKey].name]
               })
               connection.query('INSERT INTO nouns (name) VALUES ?', [valuesArr], function(err, results, fields) {
                 if (err) {reject(err);}
                 console.log('database connection: success.')
                 for(let i=0; i< results.affectedRows ; i++){
                   // ! should have extra confirmation for continuity!
-                  modifiedBody.nounsArr[newNounIndex[i]]["id"] = results.insertId+i;
+                  modifiedBody.nouns.basic[newNounskey[i]]["id"] = results.insertId+i;
                 }
                 resolve(modifiedBody)
               })
-            };
+            };// Should consider isolate this part, create a new noun, to a independent api!!
+
             let _db_addAttribution = (resolve, reject)=>{
-              let valuesArr = modifiedBody.nounsArr.map(function(nounBasic, index){
+              let valuesArr = modifiedBody.nouns.list.map(function(nounKey, index){
+                let nounBasic = modifiedBody.nouns.basic[nounKey];
                 return [
                   nounBasic.id,
                   modifiedBody.id_unit,
@@ -127,16 +129,16 @@ function shareHandler_POST(req, res){
                 console.log('database connection: success.')
                 resolve(modifiedBody)
               })
-            }
+            };
             return new Promise((resolve, reject)=>{
-              let newNounIndex = [];
-              modifiedBody.nounsArr.forEach((nounBasic, index)=>{
-                if(!nounBasic.ify){
-                  newNounIndex.push(index);
+              let newNounskey = [];
+              modifiedBody.nouns.list.forEach((nounId, index)=>{
+                if(!modifiedBody.nouns.basic[nounId].ify){
+                  newNounskey.push(nounId);
                 }
               });
-              if(newNounIndex.length>0){
-                _db_createNoun(resolve, reject, newNounIndex, modifiedBody);
+              if(newNounskey.length>0){
+                _db_createNoun(resolve, reject, newNounskey, modifiedBody);
               }else{
                 resolve(modifiedBody);
               }

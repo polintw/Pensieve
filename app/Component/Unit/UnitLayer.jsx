@@ -1,16 +1,14 @@
 import React from 'react';
-import MarkBlock from '../Mark/MarkBlock.jsx';
+import MarkBlock from './Mark/MarkBlock.jsx';
 
 export default class UnitLayer extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       circleNr: this.props.initMark,
-      marksKey: [],
       marksDOM: []
     };
     this._set_makrsDOM = this._set_makrsDOM.bind(this);
-    this._handleLoaded_Img = this._handleLoaded_Img.bind(this);
     this._handleClick_UnitLayer_circle = this._handleClick_UnitLayer_circle.bind(this)
     this.style = {
       Com_UnitLayer: {
@@ -45,19 +43,12 @@ export default class UnitLayer extends React.Component {
     };
   }
 
-  _handleLoaded_Img(){
-    this.setState((prevState, props)=>{
-      let marksKey = Object.keys(this.props.marksData);
-      return {marksKey: marksKey};
-    }, this._set_makrsDOM)
-  }
-
   _set_makrsDOM(){
     const self = this;
     let marksArr = [];
     if(this.state.circleNr == 'all'){
-      marksArr = self.state.marksKey.map(function(id, index){
-        const coordinate = self.props.marksData[id].markCoordinate;
+      marksArr = self.props.marksData.list.map(function(id, index){
+        const coordinate = {top: self.props.marksData.data[id].top, left: self.props.marksData.data[id].left};
         return(
           <svg
             key={'key_UnitLayer_div_circle_svg_all_'+index}
@@ -80,7 +71,7 @@ export default class UnitLayer extends React.Component {
       });
     }else{
       let markId = self.state.circleNr;
-      const coordinate = this.props.marksData[markId].markCoordinate;
+      const coordinate = {top: this.props.marksData.data[markId].top, left: this.props.marksData.data[markId].left};
       marksArr.push(
         <div
           key={'key_UnitLayer_div_circle_svg_markBlock_'+markId}
@@ -94,7 +85,7 @@ export default class UnitLayer extends React.Component {
           </svg>
           <MarkBlock
             markKey={markId}
-            markData={self.props.marksData[markId]}/>
+            markData={self.props.marksData.data[markId]}/>
         </div>
       )
       this.setState({marksDOM: marksArr});
@@ -120,7 +111,7 @@ export default class UnitLayer extends React.Component {
           style={this.style.Com_UnitLayer_img}
           ref={(element) => {this.Com_UnitLayer_img = element;}}
           src={this.props.imgSrc}
-          onLoad={this._handleLoaded_Img}/>
+          onLoad={this._set_makrsDOM}/>
         {
           this.props.marksify &&
           this.state.marksDOM

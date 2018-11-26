@@ -1,6 +1,6 @@
 import React from 'React';
 import {connect} from "react-redux";
-import EditingModal from './EditingModal.jsx';
+import EditingModal from './Editing/EditingModal.jsx';
 import ModalBox from './ModalBox.jsx';
 import ModalBackground from './ModalBackground.jsx';
 
@@ -13,6 +13,7 @@ class CreateShare extends React.Component {
     };
     this._open_editingModal = () => {this.setState({editingModal: true})};
     this._close_editingModal = () => {this.setState({editingModal: false})};
+    this._refer_toandclose = this._refer_toandclose.bind(this);
     this._handleClick_CreateShare_init = this._handleClick_CreateShare_init.bind(this);
     this._handleClick_CreateShare_clear = this._handleClick_CreateShare_clear.bind(this);
     this._handleClick_CreateShare_SubmitFile = this._handleClick_CreateShare_SubmitFile.bind(this);
@@ -30,13 +31,18 @@ class CreateShare extends React.Component {
     }
   }
 
+  _refer_toandclose(source, identity){
+    this.setState({editingModal: false});
+    this.props._refer_von_Create(identity, source);
+  }
+
   _handleClick_CreateShare_init(event){
     event.stopPropagation();
     event.preventDefault();
     this._open_editingModal();
   }
 
-  _handleClick_CreateShare_clear(event){
+  _handleClick_CreateShare_clear(){
     this.setState({
       editingModal: false
     })
@@ -44,29 +50,20 @@ class CreateShare extends React.Component {
 
   _handleClick_CreateShare_SubmitFile(stateObj){
     //check form filled
-    let pause = false;
-    let required = [
-      "coverSrc",
-      "nounsArr"
-    ];
-    required.forEach(function(key, index){
-      if(!stateObj[key] || stateObj[key].length < 1) {pause = true;};
-    })
-    if(pause){alert("fill the required area");return;};
-
-    let self = this;
+    if(!stateObj["coverSrc"] || stateObj["nouns"]["list"].length < 1) {alert("fill the required area");return;};
+    //Then if everything is fine
     let d = new Date();
     let submitTime = d.getTime();
-    //prevent data lost during unmount.
     let newObj = {};
-    Object.assign(newObj, stateObj);
-    let joinedMarks = newObj.coverMarks.concat(newObj.beneathMarks);
+    Object.assign(newObj, stateObj);//prevent data lost during unmount.
+
+    let joinedMarks = Object.assign({}, newObj.coverMarks.data, newObj.beneathMarks.data);
     const newShareObj = {
       coverBase64: newObj.coverSrc,
       beneathBase64: newObj.beneathSrc,
       joinedMarks: joinedMarks,
       refsArr: newObj.refsArr,
-      nounsArr: newObj.nounsArr,
+      nouns: newObj.nouns,
       submitTime: submitTime
     };
     //don't set any parameter in the callback,
@@ -111,6 +108,7 @@ class CreateShare extends React.Component {
           <ModalBox containerId="root">
             <ModalBackground onClose={this._handleClick_CreateShare_clear} style={{position: "fixed"}}>
               <EditingModal
+                _refer_toandclose={this._refer_toandclose}
                 _set_Submit={this._handleClick_CreateShare_SubmitFile}
                 _set_Clear={this._handleClick_CreateShare_clear}/>
             </ModalBackground>

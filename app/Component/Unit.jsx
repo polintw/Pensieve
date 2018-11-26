@@ -23,8 +23,8 @@ class Unit extends React.Component {
       unitSet: {
         coverSrc: null,
         beneathSrc: null,
-        coverMarksObj: null,
-        beneathMarksObj: null,
+        coverMarks: {list:[], data:{}},
+        beneathMarks: {list:[], data:{}},
         refsArr: null,
         nouns: null,
         authorBasic: null,
@@ -73,13 +73,16 @@ class Unit extends React.Component {
     axios.all(axiosArr).then(
       axios.spread(function(resData, resImgCover, resImgBeneath){
         let resObj = JSON.parse(resData.data);
+        //we compose the marksset here, but sould consider done @ server
         let keysArr = Object.keys(resObj.main.marksObj);
-        let [coverMarksObj, beneathMarksObj] = [{}, {}];
+        let [coverMarks, beneathMarks] = [{list:[],data:{}}, {list:[],data:{}}];
         keysArr.forEach(function(key, index){
           if(resObj.main.marksObj[key].layer==0){
-            coverMarksObj[key]=resObj.main.marksObj[key]
+            coverMarks.data[key]=resObj.main.marksObj[key];
+            coverMarks.list.push(key);
           }else{
-            beneathMarksObj[key]=resObj.main.marksObj[key]
+            beneathMarks.data[key]=resObj.main.marksObj[key]
+            beneathMarks.list.push(key);
           }
         })
         //actually, beneath part might need to be rewritten to asure the state could stay consistency
@@ -89,8 +92,8 @@ class Unit extends React.Component {
           unitSet: {
             coverSrc: resImgCover.data,
             beneathSrc: beneathify?resImgBeneath.data:null,
-            coverMarksObj: coverMarksObj,
-            beneathMarksObj: beneathMarksObj,
+            coverMarks: coverMarks,
+            beneathMarks: beneathMarks,
             refsArr: resObj.main.refsArr,
             nouns: resObj.main.nouns,
             authorBasic: resObj.main.authorBasic,
@@ -128,14 +131,16 @@ class Unit extends React.Component {
                 mode={this.state.mode}
                 unitSet= {this.state.unitSet}
                 _set_axios={this._set_axios}
-                _set_Modalmode={this._set_Modalmode}/>
-            ):(
+                _set_Modalmode={this._set_Modalmode}
+                _refer_von_unit={this.props._refer_von_unit}/>
+          ):(
               <div>
                 <ResModal
                   unitId={this.unitId}
                   mode={this.state.mode}
                   _set_axios={this._set_axios}
-                  _set_Modalmode={this._set_Modalmode}/>
+                  _set_Modalmode={this._set_Modalmode}
+                  _refer_von_unit={this.props._refer_von_unit}/>
                 <UnitModal
                   unitId={this.unitId}
                   mode={this.state.mode}
