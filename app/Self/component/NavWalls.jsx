@@ -44,16 +44,16 @@ export default class NavWalls extends React.Component {
             {"行動"}
           </span>
         </Link>
-        <Link to={this.props.match.url+"/wall/inspireds"}>
+        <Link to={this.props.match.url+"/embedded/inspireds"}>
           <span
             style={this.style.selfCom_NavWalls_nav_span}>
-            {"見聞"}
+            {"吸收"}
           </span>
         </Link>
         <Link to={this.props.match.url+"/mutuals/dialogues"}>
           <span
             style={this.style.selfCom_NavWalls_nav_span}>
-            {"來往"}
+            {"互往"}
           </span>
         </Link>
       </div>

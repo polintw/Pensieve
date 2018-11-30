@@ -10,7 +10,7 @@ export default class MarkEditingBlock extends React.Component {
       editorState: this.props.editorState?EditorState.createWithContent(convertFromRaw(this.props.editorState)):EditorState.createEmpty(),
       refQuote: false
     }
-    this.changeEditorState = (editorState) => {this.setState({editorState: editorState});this.props._set_markUpdate_editor(convertToRaw(editorState.getCurrentContent()), this.props.markNr)};
+    this.changeEditorState = (editorState) => {this.setState({editorState: editorState});this.props._set_markUpdate_editor(convertToRaw(editorState.getCurrentContent()), this.props.markKey)};
     this._set_refArr_new = this._set_refArr_new.bind(this);
     this._css_calculate_contentPosition = this._css_calculate_contentPosition.bind(this);
     this._handleClick_blockPanel_complete = this._handleClick_blockPanel_complete.bind(this);
@@ -169,7 +169,7 @@ export default class MarkEditingBlock extends React.Component {
   _handleClick_blockPanel_delete(event){
     event.stopPropagation();
     event.preventDefault();
-    this.props._set_markDelete();
+    this.props._set_markDelete(this.props.markKey);
   }
 
   _handleClick_blockPanel_complete(event){
@@ -251,7 +251,7 @@ export default class MarkEditingBlock extends React.Component {
           </div>
           {
             this.state.refQuote &&
-            <ModalBox containerId={"mark_"+this.props.markNr}>
+            <ModalBox containerId={"mark_"+this.props.markKey}>
               <RefEditing
                 componentStyleGroup={this.style.component_refEditing}
                 _set_refArr_new={this._set_refArr_new}/>

@@ -112,7 +112,8 @@ class Shared extends React.Component {
             style={this.style.selfCom_Shared_top_CreateShare_}>
             <img src="/images/vacancy.png" style={{width: '100%', height: '100%'}}/>
             <CreateShare
-              _submit_Share_New={this._submit_Share_New}/>
+              _submit_Share_New={this._submit_Share_New}
+              _refer_von_Create={this.props._refer_leaveSelf}/>
           </div>
         </div>
         <div

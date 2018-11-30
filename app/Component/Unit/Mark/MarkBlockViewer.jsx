@@ -1,7 +1,7 @@
 import React from 'react';
 import MarkDialogue from './MarkDialogue.jsx';
-import SvgBulb from '../SvgBulb.jsx';
-import DraftDisplay from '../DraftDisplay.jsx';
+import SvgBulb from '../../SvgBulb.jsx';
+import DraftDisplay from '../../DraftDisplay.jsx';
 
 export default class MarkBlockViewer extends React.Component {
   constructor(props){
@@ -169,7 +169,7 @@ export default class MarkBlockViewer extends React.Component {
           <div
             style={this.style.Com_MarkBlockViewer_content_editor_}>
             <DraftDisplay
-              editorState={this.props.markData.markEditorContent}/>
+              editorState={this.props.markData.editorContent}/>
           </div>
           <div
             style={this.style.Com_MarkBlockViewer_content_panel_}>

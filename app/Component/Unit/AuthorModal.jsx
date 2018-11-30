@@ -2,21 +2,25 @@ import React from 'React';
 import {connect} from "react-redux";
 import EditingModal from '../Editing/EditingModal.jsx';
 
-class ResModal extends React.Component {
+class AuthorModal extends React.Component {
   constructor(props){
     super(props);
     this.state = {
 
     };
     this._refer_toandclose = this._refer_toandclose.bind(this);
-    this._handleClick_resModal_SubmitFile = this._handleClick_resModal_SubmitFile.bind(this);
-    this._axios_post_Share_new = this._axios_post_Share_new.bind(this);
-    this._submit_Share_New = this._submit_Share_New.bind(this);
+    this._handleClick_authorModal_SubmitFile = this._handleClick_authorModal_SubmitFile.bind(this);
+    this._axios_patch_Share = this._axios_patch_Share.bind(this);
+    this._submit_Share_modified = this._submit_Share_modified.bind(this);
     this.style={
-      Com_Modal_ResModal: {
+      Com_Modal_AuthorModal: {
 
       }
     }
+  }
+
+  _submit_Share_modified(){
+    window.location.reload();
   }
 
   _refer_toandclose(source, identity){
@@ -24,33 +28,32 @@ class ResModal extends React.Component {
     this.props._set_Modalmode(false);
   }
 
-  _handleClick_resModal_SubmitFile(stateObj){
+  _handleClick_authorModal_SubmitFile(stateObj){
     //check form filled
-    if(!stateObj["coverSrc"] || stateObj["nouns"]["list"].length < 1) {alert("fill the required area");return;};
+    if(stateObj["nouns"]["list"].length < 1) {alert("fill the required area");return;};
     //Then if everything is fine
+    let modifiedObj = {};
+    Object.assign(modifiedObj, stateObj); //prevent data lost during unmount.
+    let joinedMarksList = modifiedObj.coverMarks.list.concat(modifiedObj.beneathMarks.list);
+    let joinedMarks = Object.assign({}, modifiedObj.coverMarks.data, modifiedObj.beneathMarks.data);
     let d = new Date();
     let submitTime = d.getTime();
-    //prevent data lost during unmount.
-    let newObj = {};
-    Object.assign(newObj, stateObj);
-    let joinedMarks = Object.assign({}, newObj.coverMarks.data, newObj.beneathMarks.data);
-    const newShareObj = {
-      coverBase64: newObj.coverSrc,
-      beneathBase64: newObj.beneathSrc,
+    const modifiedShareObj = {
+      joinedMarksList: joinedMarksList,
       joinedMarks: joinedMarks,
-      refsArr: newObj.refsArr,
-      nouns: newObj.nouns,
+      refsArr: modifiedObj.refsArr,
+      nouns: modifiedObj.nouns,
       submitTime: submitTime
     };
     //don't set any parameter in the callback,
     //would take the variable above directly
-    this._axios_post_Share_new(newShareObj);
+    this._axios_patch_Share(modifiedShareObj);
   }
 
-  _axios_post_Share_new(newObj){
+  _axios_patch_Share(modifiedObj){
     const self = this;
     self.props._set_axios(true);
-    axios.post('/router/user/'+self.props.userInfo.id+'/shareds?primer='+this.props.unitId, newObj, {
+    axios.patch('/router/units/'+this.props.unitCurrent.unitId, modifiedObj, {
       headers: {
         'Content-Type': 'application/json',
         'charset': 'utf-8',
@@ -58,9 +61,9 @@ class ResModal extends React.Component {
       }
     }).then(function (res) {
         if(res.status = 201){
-          console.log("share created successfully!");
+          console.log("successfully modified!");
           self.props._set_axios(false);
-          self._submit_Share_New();
+          self._submit_Share_modified();
         }else{
           console.log("Failed: "+ res.data.err);
           self.props._set_axios(false);
@@ -90,17 +93,14 @@ class ResModal extends React.Component {
     });
   }
 
-  _submit_Share_New(){
-    window.location.assign("/cosmic/units/"+this.props.unitId+"/related");
-  }
-
   render(){
     return(
       <div
-        style={this.props.mode?this.style.Com_Modal_ResModal:{display:"none"}}>
+        style={this.style.Com_Modal_AuthorModal}>
         <EditingModal
+          unitSet={this.props.unitSet}
           _refer_toandclose={this._refer_toandclose}
-          _set_Submit={this._handleClick_resModal_SubmitFile}
+          _set_Submit={this._handleClick_authorModal_SubmitFile}
           _set_Clear={this.props._set_Modalmode}/>
       </div>
     )
@@ -109,11 +109,12 @@ class ResModal extends React.Component {
 
 const mapStateToProps = (state)=>{
   return {
-    userInfo: state.userInfo
+    userInfo: state.userInfo,
+    unitCurrent: state.unitCurrent
   }
 }
 
 export default connect(
   mapStateToProps,
   null
-)(ResModal);
+)(AuthorModal);

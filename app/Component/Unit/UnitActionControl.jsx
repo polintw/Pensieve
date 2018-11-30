@@ -11,13 +11,18 @@ class UnitActionControl extends React.Component {
     super(props);
     this.state = {
       axios: true,
+      broaded: false,
       tracked: false
     };
+    this._handler_eventGeneral = (event)=>{event.preventDefault();event.stopPropagation();};
     this.axiosSource = axios.CancelToken.source();
     this._axios_ErrHandler = this._axios_ErrHandler.bind(this);
+    this._axios_broadHandler = this._axios_broadHandler.bind(this);
     this._axios_trackHandler = this._axios_trackHandler.bind(this);
     this._render_ActionControl_authorify = this._render_ActionControl_authorify.bind(this);
+    this._handleClick_UnitAction_Author = this._handleClick_UnitAction_Author.bind(this);
     this._handleClick_UnitAction_Response = this._handleClick_UnitAction_Response.bind(this);
+    this._handleClick_UnitAction_Broad = this._handleClick_UnitAction_Broad.bind(this);
     this._handleClick_UnitTrack = this._handleClick_UnitTrack.bind(this);
     this.style={
       Com_UnitActionControl_: {
@@ -68,6 +73,24 @@ class UnitActionControl extends React.Component {
     }
   }
 
+  _axios_broadHandler(){
+    const self = this;
+    let headers = {
+      'Content-Type': 'application/json',
+      'charset': 'utf-8',
+      'token': window.localStorage['token']
+    };
+    axios.post('/router/units/'+this.props.unitCurrent.unitId+'/broad', {}, {headers: headers}).then((res)=>{
+      let resObj = JSON.parse(res.data);
+      self.setState({
+        axios: false
+      });
+    }).catch(function (thrown) {
+      self.setState({axios: false});
+      this._axios_ErrHandler(thrown);
+    })
+  }
+
   _axios_trackHandler(){
     const self = this;
     let headers = {
@@ -95,14 +118,27 @@ class UnitActionControl extends React.Component {
   }
 
   _handleClick_UnitAction_Response(event){
-    event.preventDefault();
-    event.stopPropagation();
+    this._handler_eventGeneral(event);
     this.props._set_Modalmode(true);
   }
 
+  _handleClick_UnitAction_Broad(event){
+    this._handler_eventGeneral(event);
+    this.setState((prevState,props)=>{
+      return {
+        axios: true,
+        broaded: prevState.broaded?false:true
+      }
+    }, this._axios_broadHandler);
+  }
+
+  _handleClick_UnitAction_Author(event){
+    this._handler_eventGeneral(event);
+    this.props._set_Modalmode("editing");
+  }
+
   _handleClick_UnitTrack(event){
-    event.preventDefault();
-    event.stopPropagation();
+    this._handler_eventGeneral(event);
     this.setState((prevState,props)=>{
       return {
         axios: true,
@@ -121,13 +157,16 @@ class UnitActionControl extends React.Component {
         </span>
         <span
           style={this.style.Com_UnitActionControl_span}
-          onClick={this._handleClick_UnitAction_Response}>
+          onClick={this._handleClick_UnitAction_Author}>
           {"編輯"}
         </span>
         <span
-          style={this.style.Com_UnitActionControl_span}
-          onClick={this._handleClick_UnitAction_Response}>
+          style={this.style.Com_UnitActionControl_span}>
           {"統計"}
+        </span>
+        <span
+          style={this.style.Com_UnitActionControl_span}>
+          {"刪除"}
         </span>
       </div>
     ):(
@@ -137,10 +176,21 @@ class UnitActionControl extends React.Component {
           onClick={this._handleClick_UnitAction_Response}>
           {"回應"}
         </span>
-        <span
-          style={this.style.Com_UnitActionControl_span}>
-          {'推廣'}
-        </span>
+        {
+          this.state.broaded?(
+            <span
+              style={this.style.Com_UnitActionControl_span}
+              style={{cursor: "auto"}}>
+              {"已推廣"}
+            </span>
+          ):(
+            <span
+              style={this.style.Com_UnitActionControl_span}
+              onClick={this._handleClick_UnitAction_Broad}>
+              {'推廣'}
+            </span>
+          )
+        }
         <span
           style={this.style.Com_UnitActionControl_span}
           onClick={this._handleClick_UnitTrack}>

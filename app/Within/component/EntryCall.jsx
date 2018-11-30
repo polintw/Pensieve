@@ -116,7 +116,8 @@ class EntryCall extends React.Component {
           style={this.style.withinCom_EntryCall_CreateShare_}>
           <img src="/images/vacancy.png" style={{width: '100%', maxHeight: '100%'}}/>
           <CreateShare
-            _submit_Share_New={this._submit_Share_New}/>
+            _submit_Share_New={this._submit_Share_New}
+            _refer_von_Create={this.props._refer_leavevonLtd}/>
         </div>
       </div>
     )

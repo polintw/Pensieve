@@ -2,7 +2,8 @@ import React from 'react';
 import UnitLayerFrame from './UnitLayerFrame.jsx';
 import UnitLayerControl from './UnitLayerControl.jsx';
 import UnitActionControl from './UnitActionControl.jsx';
-import {AuthorFull, DateConverter, NounsExtensible} from './UnitComponent.jsx';
+import {DateConverter, NounsExtensible} from './UnitComponent.jsx';
+import {AuthorPlate} from '../AccountPlate.jsx';
 
 export default class UnitModal extends React.Component {
   constructor(props){
@@ -172,9 +173,9 @@ export default class UnitModal extends React.Component {
             this.props.unitSet.authorBasic &&
             <div
               style={this.style.Com_UnitModal_ControlSection_Author_}>
-              <AuthorFull
+              <AuthorPlate
                 authorBasic={this.props.unitSet.authorBasic}
-                _handleClick_Author={this._refer_toandclose}/>
+                _handleClick_Account={this._refer_toandclose}/>
             </div>
           }
           <div
@@ -206,8 +207,8 @@ export default class UnitModal extends React.Component {
             identity={this.props.unitSet.identity}
             coverSrc={this.props.unitSet.coverSrc}
             beneathSrc={this.props.unitSet.beneathSrc}
-            coverMarksObj={this.props.unitSet.coverMarksObj}
-            beneathMarksObj={this.props.unitSet.beneathMarksObj}/>
+            coverMarks={this.props.unitSet.coverMarks}
+            beneathMarks={this.props.unitSet.beneathMarks}/>
         </div>
       </div>
     )

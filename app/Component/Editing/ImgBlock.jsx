@@ -10,7 +10,7 @@ export default class ImgBlock extends React.Component {
     this._handleClick_ImgBlock_preview = this._handleClick_ImgBlock_preview.bind(this);
     this.style={
       Com_ImgBlock_img_: {
-        width: '62%',
+        width: '100%',
         height: '100%',
         position: 'absolute',
         top: '0',
@@ -77,16 +77,13 @@ export default class ImgBlock extends React.Component {
   _handleClick_ImgBlock_preview(event){
     event.preventDefault();
     event.stopPropagation();
-    this.props._set_focusBlock(this.props.blockName);
-    this.props._set_contentModalify(true);
+    this.props._open_ContentModal(this.props.blockName);
   }
 
   render(){
     return(
       <div
-        style={this.props.componentStyle}>
-        <div
-          style={this.style.Com_ImgBlock_img_}>
+        style={this.style.Com_ImgBlock_img_}>
         {
           this.props.previewSrc ?
           <div
@@ -122,11 +119,6 @@ export default class ImgBlock extends React.Component {
             </div>
           </div>
         }
-        </div>
-        <div
-          style={this.style.Com_ImgBlock_MarksPreview_}>
-
-        </div>
       </div>
     )
   }

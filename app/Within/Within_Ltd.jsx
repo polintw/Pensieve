@@ -3,6 +3,7 @@ import {
   BrowserRouter as Router,
   Route,
   Link,
+  Redirect,
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
@@ -16,9 +17,11 @@ class WithinLtd extends React.Component {
     super(props);
     window.scrollTo(0, 0); // special for this page, if the scroll animation is still there.
     this.state = {
-      cssPara: 0
+      cssPara: 0,
+      unitTo: null
     };
     this._check_Position = this._check_Position.bind(this);
+    this._refer_leavevonLtd = this._refer_leavevonLtd.bind(this);
     this.style={
       Within_Ltd_: {
         width: '100%',
@@ -116,6 +119,35 @@ class WithinLtd extends React.Component {
     }
   }
 
+  _refer_leavevonLtd(identifier, route){
+    switch (route) {
+      case 'user':
+        if(identifier == this.props.userInfo.id){
+          window.location.assign('/user/overview');
+        }else{
+          this.setState((prevState, props)=>{
+            let unitTo = {
+              params: '/cosmic/people/'+identifier,
+              query: ''
+            };
+            return {unitTo: unitTo}
+          })
+        }
+        break;
+      case 'noun':
+        this.setState((prevState, props)=>{
+          let unitTo = {
+            params: '/cosmic/nouns/'+identifier,
+            query: ''
+          };
+          return {unitTo: unitTo}
+        })
+        break;
+      default:
+        return
+    }
+  }
+
   componentDidMount() {
     this.scrollOrigin = this.ltdUnits.getBoundingClientRect().top;
     this.scrollRange = this.scrollOrigin*4.5;
@@ -129,6 +161,7 @@ class WithinLtd extends React.Component {
 
   render(){
     //let cx = cxBind.bind(styles);
+    if(this.state.unitTo){return <Redirect to={this.state.unitTo.params+this.state.unitTo.query}/>}
     return(
       <div
         style={this.style.Within_Ltd_}>
@@ -154,19 +187,21 @@ class WithinLtd extends React.Component {
           </div>
           <div
             style={Object.assign({opacity: 1-this.state.cssPara}, this.style.Within_Ltd_scroll_EntryCall)}>
-            <EntryCall/>
+            <EntryCall
+              _refer_leavevonLtd={this._refer_leavevonLtd}/>
           </div>
           <div
             ref = {(element)=>{this.ltdUnits = element}}
             style={this.style.Within_Ltd_scroll_LtdUnits}>
-            <LtdUnits {...this.props}/>
+            <LtdUnits {...this.props} _refer_leavevonLtd={this._refer_leavevonLtd}/>
           </div>
           <div style={this.style.Within_Ltd_scroll_LtdNav_}>
             <div style={Object.assign({opacity: this.state.cssPara}, this.style.Within_Ltd_scroll_LtdNav_light)}></div>
             <div
               ref={(element)=>{this.Within_Ltd_LtdNav = element}}
               style={{opacity: this.state.cssPara}}>
-              <LtdNav/>
+              <LtdNav
+                _refer_leavevonLtd={this._refer_leavevonLtd}/>
             </div>
           </div>
         </div>
@@ -175,4 +210,14 @@ class WithinLtd extends React.Component {
   }
 }
 
-export default withRouter(connect()(WithinLtd));
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo,
+    unitCurrent: state.unitCurrent
+  }
+}
+
+export default withRouter(connect(
+  mapStateToProps,
+  null
+)(WithinLtd));
