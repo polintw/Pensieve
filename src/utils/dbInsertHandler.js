@@ -39,7 +39,7 @@ exports._insert_basic = (condition, valuesArr)=>{
     ):(
       resolve([])
     )
-  })
+  }).catch((errObj)=>{return errObj})
 }
 
 exports._insert_basic_Ignore = (condition, valuesArr)=>{
@@ -61,7 +61,7 @@ exports._insert_basic_Ignore = (condition, valuesArr)=>{
     ):(
       resolve([])
     )
-  })
+  }).catch((errObj)=>{return errObj})
 }
 
 exports._insert_raw = (query, values)=>{
@@ -84,5 +84,5 @@ exports._insert_raw = (query, values)=>{
     ):(
       resolve([])
     )
-  })
+  }).catch((errObj)=>{return errObj})
 }

@@ -5,7 +5,7 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import Statics from './component/Statics.jsx';
+import Sheet from './component/Sheet.jsx';
 
 class FrontProfile extends React.Component {
   constructor(props){
@@ -26,11 +26,10 @@ class FrontProfile extends React.Component {
         width: '6%',
         height: '6%',
         position: 'fixed',
-        top: '80%',
-        right: '9%',
+        top: '90%',
+        right: '2%',
         boxSizing: 'border-box',
-        border: '1px solid black',
-        borderRadius: '1rem',
+        borderBottom: '1px solid black',
         fontSize: '1.6rem',
         fontWeight: '400',
         letterSpacing: '0.15rem',
@@ -52,7 +51,7 @@ class FrontProfile extends React.Component {
     return(
       <div
         style={this.style.Front_Profile_}>
-        <Link to={this.props.location.state.from}>
+        <Link to={this.props.location.state.from?this.props.location.state.from:'/cognition/embedded/inspired'}>
           <div
             style={this.style.Front_Profile_return_}>
             {"return"}
@@ -60,11 +59,19 @@ class FrontProfile extends React.Component {
         </Link>
         <div
           style={this.style.Front_Profile_scroll_}>
-          <Statics/>
+          <Route path={this.props.match.path+"/sheet"} render={(props)=> <Sheet {...props}/>}/>
         </div>
       </div>
     )
   }
 }
 
-export default withRouter(connect()(FrontProfile));
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo
+  }
+}
+export default withRouter(connect(
+  mapStateToProps,
+  null
+)(FrontProfile));

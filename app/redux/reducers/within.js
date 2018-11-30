@@ -1,14 +1,13 @@
+import { combineReducers } from 'redux';
 import {
   MOUNT_USERINFO,
   UNIT_MOUNT_UNITCURRENT
-} from '../constants/general.js';
+} from '../constants/typesGeneral.js';
+import {
+  initGlobal
+} from '../constants/states.js';
 
-const initialGeneral = {
-  userInfo: {},
-  unitCurrent: {unitId:"", identity: ""}
-}
-
-function pageWithin(state = initialGeneral, action){
+function pageWithin(state = initGlobal, action){
   switch (action.type) {
     case MOUNT_USERINFO:
       return Object.assign({}, state, {

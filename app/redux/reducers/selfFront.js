@@ -1,12 +1,20 @@
+import { combineReducers } from 'redux';
 import {
   MOUNT_USERINFO,
-  UNIT_MOUNT_UNITCURRENT
-} from '../constants/general.js';
+  UNIT_MOUNT_UNITCURRENT,
+} from '../constants/typesGeneral.js';
+import {
+  UPDATE_USERSHEET,
+  UPDATE_ACCOUNTSET
+} from '../constants/typesSelfFront.js';
+import {
+  initGlobal,
+  initSetting,
+  initSelfFrontGeneral
+} from '../constants/states.js';
 
-const initialGeneral = {
-  userInfo: {},
-  unitCurrent: {unitId:"", identity: ""}
-}
+//this is a temp management, in case one day we will seperate the reducer like the initstate
+const initialGeneral = Object.assign({}, initGlobal, initSetting, initSelfFrontGeneral);
 
 function pageSelfFront(state = initialGeneral, action){
   switch (action.type) {
@@ -18,6 +26,17 @@ function pageSelfFront(state = initialGeneral, action){
     case UNIT_MOUNT_UNITCURRENT:
       return Object.assign({}, state, {
         unitCurrent: action.unitCurrent
+      })
+      break;
+    case UPDATE_USERSHEET:
+      return Object.assign({}, state, {
+        userSheet: action.userSheet,
+        accountSet: action.accountSet
+      })
+      break;
+    case UPDATE_ACCOUNTSET:
+      return Object.assign({}, state, {
+        accountSet: action.accountSet
       })
       break;
     default:

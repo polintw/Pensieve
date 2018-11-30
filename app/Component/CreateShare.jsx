@@ -54,16 +54,13 @@ class CreateShare extends React.Component {
     //Then if everything is fine
     let d = new Date();
     let submitTime = d.getTime();
-    let newObj = {};
-    Object.assign(newObj, stateObj);//prevent data lost during unmount.
 
-    let joinedMarks = Object.assign({}, newObj.coverMarks.data, newObj.beneathMarks.data);
     const newShareObj = {
-      coverBase64: newObj.coverSrc,
-      beneathBase64: newObj.beneathSrc,
-      joinedMarks: joinedMarks,
-      refsArr: newObj.refsArr,
-      nouns: newObj.nouns,
+      coverBase64: stateObj.coverSrc,
+      beneathBase64: stateObj.beneathSrc,
+      joinedMarks: stateObj.joinedMarks,
+      refsArr: stateObj.refsArr,
+      nouns: stateObj.nouns,
       submitTime: submitTime
     };
     //don't set any parameter in the callback,
