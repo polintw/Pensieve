@@ -8,7 +8,6 @@ import {connect} from "react-redux";
 import ImgBlock from './ImgBlock.jsx';
 import EditingInfoSide from './EditingInfoSide.jsx';
 import ContentModal from './ContentModal.jsx';
-import MarksArticle from './MarksArticle.jsx';
 
 class EditingModal extends React.Component {
   constructor(props){
@@ -163,12 +162,8 @@ class EditingModal extends React.Component {
         </div>
         <article
           style={this.style.Com_Modal_Editing_article_}>
-          <div>
 
-          </div>
-        </article>
-
-
+		</article>
         <div
           style={this.style.Com_Modal_Editing_InfoSide}>
           <EditingInfoSide
@@ -207,9 +202,3 @@ export default withRouter(connect(
   null
 )(EditingModal));
 
-/*
-//here, waiting for updating to marks"Obj" system
-<MarksArticle
-  coverMarks = {this.state.coverMarks}
-  beneathMarks={this.state.beneathMarks}/>
-*/

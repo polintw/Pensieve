@@ -1,5 +1,5 @@
 {
-  "name": "corner",
+  "name": "corner Lite",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -25,22 +25,16 @@
     "react-router-dom": "^4.3.1",
     "redux": "^4.0.1",
     "request": "^2.88.0",
-    "sequelize": "^4.41.2",
-    "sharp": "^0.21.0"
+    "sequelize": "^4.41.2"
   },
   "devDependencies": {
-    "cheerio": "^1.0.0-rc.2",
-    "create-react-class": "^15.6.3",
-    "css-modulesify": "^0.28.0",
-    "immutability-helper": "^2.8.1",
-    "jsonfile": "^4.0.0",
-    "linkify-it": "^2.0.3"
+    "css-modulesify": "^0.28.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "author": "Berlin Chou",
+  "author": "Chou Po Lin",
   "license": "",
   "keywords": []
 }

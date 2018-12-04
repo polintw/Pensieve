@@ -63,20 +63,6 @@ export default class CogActions extends React.Component {
     return(
       <div
         style={this.style.selfCom_CogActions_}>
-        <nav
-          style={this.style.selfCom_CogActions_nav_}>
-          <Link to={this.props.match.url+"/shareds"}>
-            <span
-              style={this.style.selfCom_CogActions_nav_span_}>
-              {"shared．response"}</span>
-          </Link>
-          <span
-            style={this.style.selfCom_CogActions_nav_span_}>
-            {"activities"}<br></br>{"launched"}</span>
-          <span
-            style={this.style.selfCom_CogActions_nav_span_}>
-            {"temp．workspace"}</span>
-        </nav>
         <div
           style={this.style.selfCom_CogActions_main_}>
           <Route path={this.props.match.path+"/shareds"} render={(props)=> <Shared {...props} _refer_leaveSelf={this.props._refer_leaveSelf}/>}/>

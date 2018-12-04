@@ -10,9 +10,6 @@ import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import CosmicCorner from './component/CosmicCorner.jsx';
 import CosmicMain from './component/CosmicMain.jsx';
-import CosmicUser from './component/CosmicUser.jsx';
-import CosmicNoun from './component/CosmicNoun.jsx';
-import CosmicRelated from './component/CosmicRelated.jsx';
 
 class WithinCosmic extends React.Component {
   constructor(props){
@@ -20,6 +17,7 @@ class WithinCosmic extends React.Component {
     this.state = {
 
     };
+    this._refer_leavevonIndex = this._refer_leavevonIndex.bind(this);
     this.style={
       Within_Cosmic_: {
         width: '100%',
@@ -38,6 +36,16 @@ class WithinCosmic extends React.Component {
     }
   }
 
+  _refer_leavevonIndex(identifier, route){
+    switch (route) {
+      case 'user':
+        window.location.assign('/user/overview');
+        break;
+      default:
+        window.location.reload();
+    }
+  }
+
   componentDidMount() {
 
   }
@@ -52,15 +60,13 @@ class WithinCosmic extends React.Component {
       <div
         style={this.style.Within_Cosmic_}>
         <Switch>
-          <Route path={this.props.match.path+"/people/:id"} render={(props)=> <CosmicUser {...props}/>}/>
-          <Route path={this.props.match.path+"/nouns/:id"} render={(props)=> <CosmicNoun {...props}/>}/>
-          <Route path={this.props.match.path+"/units/:id/related"} render={(props)=> <CosmicRelated {...props}/>}/>
-          <Route path={this.props.match.path} render={(props)=> <CosmicMain {...props}/>}/>
+          <Route path={this.props.match.path} render={(props)=> <CosmicMain {...props} _refer_leavevonIndex={this._refer_leavevonIndex}/>}/>
         </Switch>
         <div
           style={this.style.Within_Cosmic_corner_}>
           <CosmicCorner
-            match={this.props.match}/>
+            match={this.props.match}
+            _refer_leavevonIndex={this._refer_leavevonIndex}/>
         </div>
       </div>
     )

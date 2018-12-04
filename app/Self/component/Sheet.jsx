@@ -1,15 +1,9 @@
 import React from 'react';
-import {
-  Route,
-  Link,
-  withRouter
-} from 'react-router-dom';
 import {connect} from "react-redux";
 import {
   SheetGender,
   SettingTemp
 } from './SheetCom.jsx';
-import SvgPropic from '../../Component/SvgPropic.jsx';
 import {mountUserSheet} from "../../redux/actions/general.js";
 
 class Sheet extends React.Component {
@@ -41,15 +35,6 @@ class Sheet extends React.Component {
         top: '3vh',
         right: '0',
         boxSizing: 'border-box'
-      },
-      selfCom_Sheet_navStatics_UserName_svg_: {
-        display: 'inline-block',
-        width: '25%',
-        height: '50%',
-        position: 'relative',
-        boxSizing: 'border-box',
-        margin: '0 3%',
-        padding: '1rem 0 0 0'
       },
       selfCom_Sheet_navStatics_UserName_span_: {
         display: 'inline-block',
@@ -165,15 +150,7 @@ class Sheet extends React.Component {
         style={this.style.selfCom_Sheet_}>
         <div
           style={this.style.selfCom_Sheet_navStatics_UserName_}>
-          <div style={this.style.selfCom_Sheet_navStatics_UserName_svg_}>
-            <SvgPropic/>
-          </div>
           <span style={this.style.selfCom_Sheet_navStatics_UserName_span_}>{this.props.userInfo.account}</span>
-        </div>
-        <div
-          style={this.style.selfCom_Sheet_navStatics}>
-          {"基本 "}
-          {"檔案庫 "}
         </div>
         <div
           style={this.style.selfCom_Sheet_display_}>

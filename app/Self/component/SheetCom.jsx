@@ -1,9 +1,4 @@
 import React from 'react';
-import {
-  Route,
-  Link,
-  withRouter
-} from 'react-router-dom';
 import {connect} from "react-redux";
 
 //we put these const here are because the setting page is temporary stay in this file

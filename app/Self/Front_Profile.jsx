@@ -51,7 +51,7 @@ class FrontProfile extends React.Component {
     return(
       <div
         style={this.style.Front_Profile_}>
-        <Link to={this.props.location.state.from?this.props.location.state.from:'/cognition/embedded/inspired'}>
+        <Link to={this.props.location.state.from?this.props.location.state.from:'/cognition/actions/shareds'}>
           <div
             style={this.style.Front_Profile_return_}>
             {"return"}

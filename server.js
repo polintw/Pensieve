@@ -78,5 +78,5 @@ app.use('/', function(req, res){
   });
 })
 
-app.listen(process.env.port || 8081);
-console.log("Running at Port 8081");
+app.listen(process.env.port || 80);
+console.log("Running at Port 80");

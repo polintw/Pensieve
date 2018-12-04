@@ -6,12 +6,8 @@ import {
   Switch
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import CogEmbed from './component/CogEmbed.jsx';
-import CogMutual from './component/CogMutual.jsx';
 import CogActions from './component/CogActions.jsx';
-import Collaterals from './component/Collaterals.jsx';
 import NavsCognition from './component/NavsCognition.jsx';
-import SvgPropic from '../Component/SvgPropic.jsx';
 
 class FrontCognition extends React.Component {
   constructor(props){
@@ -78,15 +74,6 @@ class FrontCognition extends React.Component {
         left: '13%',
         boxSizing: 'border-box'
       },
-      Front_Cognition_UserName_svg_: {
-        display: 'inline-block',
-        width: '10%',
-        height: '100%',
-        position: 'relative',
-        boxSizing: 'border-box',
-        margin: '0 3%',
-        padding: '1rem 0 0 0'
-      },
       Front_Cognition_UserName_span_: {
         display: 'inline-block',
         position: 'absolute',
@@ -125,22 +112,12 @@ class FrontCognition extends React.Component {
         style={this.style.Front_Cognition_}>
         <div
           style={this.style.Front_Cognition_scroll_}>
-          <Route path={this.props.match.path+"/embedded"} render={(props)=> <CogEmbed {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>
           <Route path={this.props.match.path+"/actions"} render={(props)=> <CogActions {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>
-          <Route path={this.props.match.path+"/mutuals"} render={(props)=> <CogMutual {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>
         </div>
         <div style={this.style.Front_Cognition_backPlane_top}/>
-        <div
-          style={this.style.Front_Cognition_Collateral}>
-          <Route path={this.props.match.path+"/collaterals"} render={(props)=> <Collaterals {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>
-        </div>
         <div style={this.style.Front_Cognition_backPlane_bottom}/>
         <div
           style={this.style.Front_Cognition_UserName_}>
-          <div
-            style={this.style.Front_Cognition_UserName_svg_}>
-            <SvgPropic/>
-          </div>
           <span style={this.style.Front_Cognition_UserName_span_}>{this.props.userInfo.account}</span>
         </div>
         <div

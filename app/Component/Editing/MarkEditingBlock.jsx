@@ -1,21 +1,17 @@
 import React from 'React';
 import ModalBox from '../ModalBox.jsx';
-import RefEditing from './RefEditing.jsx';
 import {Editor, EditorState,convertToRaw, convertFromRaw} from 'draft-js';
 
 export default class MarkEditingBlock extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      editorState: this.props.editorState?EditorState.createWithContent(convertFromRaw(this.props.editorState)):EditorState.createEmpty(),
-      refQuote: false
+      editorState: this.props.editorState?EditorState.createWithContent(convertFromRaw(this.props.editorState)):EditorState.createEmpty()
     }
     this.changeEditorState = (editorState) => {this.setState({editorState: editorState});this.props._set_markUpdate_editor(convertToRaw(editorState.getCurrentContent()), this.props.markKey)};
-    this._set_refArr_new = this._set_refArr_new.bind(this);
     this._css_calculate_contentPosition = this._css_calculate_contentPosition.bind(this);
     this._handleClick_blockPanel_complete = this._handleClick_blockPanel_complete.bind(this);
     this._handleClick_blockPanel_delete = this._handleClick_blockPanel_delete.bind(this);
-    this._handleClick_markContent_Ref = this._handleClick_markContent_Ref.bind(this);
     this._handleClick_markComponentEditor = this._handleClick_markComponentEditor.bind(this);
     this.style={
       Com_div_MarkEditingBlock: {
@@ -154,12 +150,6 @@ export default class MarkEditingBlock extends React.Component {
     }
   };
 
-  _handleClick_markContent_Ref(event){
-    event.stopPropagation();
-    event.preventDefault();
-    this.setState({refQuote: true});
-  }
-
   _handleClick_markComponentEditor(event){
     event.stopPropagation();
     event.preventDefault();
@@ -176,11 +166,6 @@ export default class MarkEditingBlock extends React.Component {
     event.stopPropagation();
     event.preventDefault();
     this.props._reset_expandState();
-  }
-
-  _set_refArr_new(refObj){
-    this.setState({refQuote: false});
-    this.props._set_refsArr(refObj);
   }
 
   _css_calculate_contentPosition(){
@@ -226,14 +211,6 @@ export default class MarkEditingBlock extends React.Component {
                   editorState={this.state.editorState}
                   onChange={this.changeEditorState}/>
               </div>
-              <div
-                style={this.style.Com_MarkEditingBlock_Content_Main_div_edit_Panel_}>
-                <div
-                  style={this.style.Com_MarkEditingBlock_Content_Main_div_edit_Panel_ref}
-                  onClick={this._handleClick_markContent_Ref}>
-                  {"[ ]"}
-                </div>
-              </div>
             </div>
             <div
               style={this.style.Com_MarkEditingBlock_Content_Main_div_blockPanel_}>
@@ -249,14 +226,6 @@ export default class MarkEditingBlock extends React.Component {
               </span>
             </div>
           </div>
-          {
-            this.state.refQuote &&
-            <ModalBox containerId={"mark_"+this.props.markKey}>
-              <RefEditing
-                componentStyleGroup={this.style.component_refEditing}
-                _set_refArr_new={this._set_refArr_new}/>
-            </ModalBox>
-          }
         </div>
         <svg
           style={this.style.Com_MarkEditingBlock_Circle_svg}>

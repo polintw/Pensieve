@@ -1,6 +1,7 @@
 import React from 'react';
 import cxBind from 'classnames/bind';
 import MainIndex from './MainIndex.jsx';
+import EntryCall from './EntryCall.jsx';
 
 export default class CosmicMain extends React.Component {
   constructor(props){
@@ -41,6 +42,14 @@ export default class CosmicMain extends React.Component {
         top: '8vh',
         left: '0',
         boxSizing: 'border-box'
+      },
+      Within_Ltd_scroll_EntryCall: {
+        width: '64%',
+        height: '21%',
+        position: 'fixed',
+        top: '5%',
+        left: '50%',
+        transform: 'translate(-50%, 0)'
       }
     }
   }
@@ -59,18 +68,13 @@ export default class CosmicMain extends React.Component {
       <div
         style={this.style.withinCom_CosmicMain_}>
         <div
-          style={this.style.withinCom_CosmicMain_index_}>
-          <MainIndex {...this.props}/>
+          style={this.style.Within_Ltd_scroll_EntryCall}>
+            <EntryCall
+              _refer_leavevonIndex={this.props._refer_leavevonIndex}/>
         </div>
         <div
-          style={this.style.withinCom_CosmicMain_picking_}>
-          <div
-            style={this.style.withinCom_CosmicMain_picking_nouns_}>
-            <svg
-              style={this.style.withinCom_CosmicMain_picking_nouns_svg}>
-              <circle r="2vh" cx="50%" cy="50%" stroke='#999999' fill="transparent" style={{cursor: 'pointer'}}/>
-            </svg>
-          </div>
+          style={this.style.withinCom_CosmicMain_index_}>
+          <MainIndex {...this.props}/>
         </div>
       </div>
     )

@@ -1,9 +1,4 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Link
-} from 'react-router-dom';
 import cxBind from 'classnames/bind';
 import SvgPropic from '../../Component/SvgPropic.jsx';
 
@@ -14,6 +9,7 @@ export default class CosmicCorner extends React.Component {
 
     };
     this._handleClick_cosmic_Self = this._handleClick_cosmic_Self.bind(this);
+    this._handleClick_cosmic_index = this._handleClick_cosmic_index.bind(this);
     this.style={
       withinCom_CosmicCorner_: {
         width: '100%',
@@ -51,12 +47,18 @@ export default class CosmicCorner extends React.Component {
     }
   }
 
-  _handleClick_cosmic_Self(event){
-    event.stopPropagation();
+  _handleClick_cosmic_index(event){
     event.preventDefault();
-    window.location.assign('/user/overview');
+    event.stopPropagation();
+    this.props._refer_leavevonIndex('','')
   }
 
+  _handleClick_cosmic_Self(event){
+    event.preventDefault();
+    event.stopPropagation();
+    this.props._refer_leavevonIndex('','user')
+  }
+  
   componentDidMount() {
 
   }
@@ -71,10 +73,9 @@ export default class CosmicCorner extends React.Component {
       <div
         style={this.style.withinCom_CosmicCorner_}>
         <div
-          style={this.style.withinCom_CosmicCorner_Ltd}>
-          <Link to="/">
-            {"CORNER"}
-          </Link>
+          style={this.style.withinCom_CosmicCorner_Ltd}
+          onClick={this._handleClick_cosmic_index}>
+          {"CORNER"}
         </div>
         <div
           style={this.style.withinCom_CosmicCorner_Self_}

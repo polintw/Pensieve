@@ -128,8 +128,7 @@ export default class UnitModal extends React.Component {
   }
 
   _refer_toandclose(source, identity){
-    this.props._refer_von_unit(identity, source);
-    this.props._close_modal_Unit();
+
   }
 
   _handleClick_unitBack(event){
