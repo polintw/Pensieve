@@ -1,9 +1,7 @@
 const express = require('express');
 const app = express();
-const fs = require('fs');
 const bodyParser = require('body-parser');
 const path = require("path");
-const mkdirp = require('mkdirp');
 
 const router = require('./src/router.js');
 
@@ -14,12 +12,11 @@ app.set('view engine', 'jsx');
 app.engine('jsx', require('express-react-views').createEngine({transformViews: false }));
 app.use(bodyParser.json({limit: '20mb'}));//parse Content-Type: /json
 app.use(bodyParser.raw({limit: "20mb"}));//parse Content-Type: /application/octet-stream
-//app.use(bodyParser.text({limit: '20mb'})); //parse Content-Type: /text //not in use in this project
+app.use(bodyParser.text({limit: '20mb'})); //parse Content-Type: /text, like pure base64 string in this project
 app.use(bodyParser.urlencoded({extended: true}));
 
 //establish the statics resources
 app.use(express.static(path.join(__dirname+'/public')));
-app.use(express.static(path.join(__dirname+'/pages')));
 
 //begining managing the specific request
 app.get('/favicon.ico', function(req, res){

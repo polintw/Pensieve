@@ -81,7 +81,8 @@ function shareHandler_POST(req, res){
           }).then(function(modifiedBody){
             console.log('add new one, write into the table: marks.');
             return new Promise((resolve, reject)=>{
-              let valuesArr = modifiedBody.joinedMarks.map(function(markObj, index){
+              let valuesArr = modifiedBody.joinedMarksList.map(function(markKey, index){
+                let markObj = modifiedBody.joinedMarks[markKey];
                 return [
                   modifiedBody.id_unit,
                   userId,

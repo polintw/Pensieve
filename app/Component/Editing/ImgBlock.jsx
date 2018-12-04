@@ -5,8 +5,10 @@ export default class ImgBlock extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      axios: false
     };
+    this.axiosSource = axios.CancelToken.source();
+    this._handle_newImgSrc = this._handle_newImgSrc.bind(this);
     this._handleClick_ImgBlock_preview = this._handleClick_ImgBlock_preview.bind(this);
     this.style={
       Com_ImgBlock_img_: {
@@ -80,6 +82,38 @@ export default class ImgBlock extends React.Component {
     this.props._open_ContentModal(this.props.blockName);
   }
 
+  _handle_newImgSrc(base64URL){
+    const self = this;
+    this.setState({axios: true});
+    axios.post('/router/img/resize', base64URL, {
+      headers: {
+        'Content-Type': 'text/plain',
+        'charset': 'utf-8',
+        'token': window.localStorage['token']
+      },
+      cancelToken: self.axiosSource.token
+    }).then((res)=>{
+      self.setState({axios: false});
+      let resObj = JSON.parse(res.data);
+      let resizedURL = resObj.main.resizedURL;
+      self.props._set_newImgSrc(resizedURL, self.props.blockName);
+    }).catch(function (thrown) {
+      if (axios.isCancel(thrown)) {
+        console.log('Request canceled: ', thrown.message);
+      } else {
+        console.log(thrown);
+        self.setState({axios: false});
+        alert("Failed, please try again later");
+      }
+    });
+  }
+
+  componentWillUnmount(){
+    if(this.state.axios){
+      this.axiosSource.cancel("component will unmount.")
+    }
+  }
+
   render(){
     return(
       <div
@@ -114,8 +148,7 @@ export default class ImgBlock extends React.Component {
             <div
               style={this.style.Com_div_ImgBlock_ImgEmpty_Choose}>
               <ImgChoose
-                 chooseFor={this.props.blockName}
-                 _set_newImgSrc={this.props._set_newImgSrc}/>
+                 _handle_newImgSrc={this._handle_newImgSrc}/>
             </div>
           </div>
         }

@@ -59,6 +59,7 @@ class CreateShare extends React.Component {
       coverBase64: stateObj.coverSrc,
       beneathBase64: stateObj.beneathSrc,
       joinedMarks: stateObj.joinedMarks,
+      joinedMarksList: stateObj.joinedMarksList,
       refsArr: stateObj.refsArr,
       nouns: stateObj.nouns,
       submitTime: submitTime

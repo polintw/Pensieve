@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const path = require("path");
 
 const auth = require('./auth/main.js');
 const accountRouter = require('./account/main.js');
@@ -15,7 +14,7 @@ const unitsRouter = require('./units/main.js');
 const imgRouter = require('./img/main.js');
 const listsRouter = require('./lists/main.js');
 
-//routes do not require token
+//routes do not protect by token, to fix this, we would have to tranmit img totally by axios api
 router.use('/img', imgRouter)
 
 //veirfy user status
