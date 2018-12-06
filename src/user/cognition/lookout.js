@@ -88,7 +88,7 @@ function _promise_unitLtd(req, res){
                     sendingData.markBasic[row.id] = {
                       markId: row.id,
                       layer: row.layer,
-                      editorContent: JSON.parse(row.editor_content),
+                      editorContent: row.editor_content?JSON.parse(row.editor_content):null,
                       unitId: row.id_unit
                     }
                     sendingData.unitsBasicSet[row.id_unit].marks.push(row.id);

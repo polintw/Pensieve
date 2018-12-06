@@ -52,6 +52,10 @@ const _DB_marks = sequelize.define('marks', {
     serial:  Sequelize.INTEGER,
     editor_content: Sequelize.STRING(1023),
     created: Sequelize.DATE
+},{
+  createdAt: false,
+  updatedAt: false,
+  paranoid: true
 })
 const _DB_nouns = sequelize.define('nouns', {
     id: {type: Sequelize.INTEGER, primaryKey: true},

@@ -71,10 +71,10 @@ class Unit extends React.Component {
     let axiosArr = [this._axios_getUnitData(),this._axios_getUnitImg('pic_layer0')];
     if(beneathify){axiosArr.push(this._axios_getUnitImg('pic_layer1'))};
     axios.all(axiosArr).then(
-      axios.spread(function(resData, resImgCover, resImgBeneath){
-        let resObj = JSON.parse(resData.data);
+      axios.spread(function(unitRes, resImgCover, resImgBeneath){
+        let resObj = JSON.parse(unitRes.data);
         //we compose the marksset here, but sould consider done @ server
-        let keysArr = Object.keys(resObj.main.marksObj);
+        let keysArr = Object.keys(resObj.main.marksObj);//if any modified or update, keep the "key" as string
         let [coverMarks, beneathMarks] = [{list:[],data:{}}, {list:[],data:{}}];
         keysArr.forEach(function(key, index){
           if(resObj.main.marksObj[key].layer==0){

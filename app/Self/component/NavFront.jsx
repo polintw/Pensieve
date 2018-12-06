@@ -78,16 +78,14 @@ export default class NavFront extends React.Component {
               style={this.style.selfCom_NavFront_box_div_}>
               <Link
                 to={{
-                  pathname: "/profile",
+                  pathname: "/profile/sheet",
                   state: {from: this.props.location}
                 }}>
                 <span
-                  style={{cursor: 'pointer'}}>{'靜態'}</span>
+                  style={{cursor: 'pointer'}}>{'基礎'}</span>
               </Link>
               <span
-                style={{cursor: 'pointer'}}>{'接觸'}</span>
-              <span
-                style={{cursor: 'pointer'}}>{'收件'}</span>
+                style={{cursor: 'pointer'}}>{'檔案庫'}</span>
             </div>
           </div>
         }

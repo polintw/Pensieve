@@ -60,8 +60,7 @@ class WithinCosmic extends React.Component {
         <div
           style={this.style.Within_Cosmic_corner_}>
           <CosmicCorner
-            match={this.props.match}
-            _set_Pages={this.props._set_Pages}/>
+            match={this.props.match}/>
         </div>
       </div>
     )

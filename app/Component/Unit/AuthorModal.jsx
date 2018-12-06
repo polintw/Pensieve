@@ -32,17 +32,13 @@ class AuthorModal extends React.Component {
     //check form filled
     if(stateObj["nouns"]["list"].length < 1) {alert("fill the required area");return;};
     //Then if everything is fine
-    let modifiedObj = {};
-    Object.assign(modifiedObj, stateObj); //prevent data lost during unmount.
-    let joinedMarksList = modifiedObj.coverMarks.list.concat(modifiedObj.beneathMarks.list);
-    let joinedMarks = Object.assign({}, modifiedObj.coverMarks.data, modifiedObj.beneathMarks.data);
     let d = new Date();
     let submitTime = d.getTime();
     const modifiedShareObj = {
-      joinedMarksList: joinedMarksList,
-      joinedMarks: joinedMarks,
-      refsArr: modifiedObj.refsArr,
-      nouns: modifiedObj.nouns,
+      joinedMarksList: stateObj.joinedMarksList,
+      joinedMarks: stateObj.joinedMarks,
+      refsArr: stateObj.refsArr,
+      nouns: stateObj.nouns,
       submitTime: submitTime
     };
     //don't set any parameter in the callback,

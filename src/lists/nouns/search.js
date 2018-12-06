@@ -1,11 +1,14 @@
-const fs = require('fs');
-const path = require("path");
 const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 const {verify_key} = require('../../../config/jwt.js');
 const {connection_key} = require('../../../config/database.js');
 const {_res_success} = require('../../utils/resHandler.js');
-const {_handler_err_BadReq, _handler_err_Unauthorized, _handler_err_Internal} = require('../../utils/reserrHandler.js');
+const {
+  _handler_err_NotFound,
+  _handler_err_BadReq,
+  _handler_err_Unauthorized,
+  _handler_err_Internal
+} = require('../../utils/reserrHandler.js');
 
 const database = mysql.createPool(connection_key);
 
@@ -46,8 +49,21 @@ function _handle_nouns_search(req, res){
           }).then((sendingData)=>{
             _res_success(res, sendingData, "searching, nouns list, complete");
             connection.release();
-          }).catch((err)=>{
-            console.log("error occured during searching promise, nouns list: "+err)
+          }).catch((errObj)=>{
+            console.log("error occured during: nouns search promise: "+errObj)
+            switch (errObj.status) {
+              case 400:
+                _handler_err_BadReq(errObj.err, res);
+                break;
+              case 404:
+                _handler_err_NotFound(errObj.err, res);
+                break;
+              case 500:
+                _handler_err_Internal(errObj.err, res);
+                break;
+              default:
+                _handler_err_Internal(errObj.err?errObj.err:errObj, res);
+            }
             connection.release();
           });
         }

@@ -35,7 +35,7 @@ export default class ImgChoose extends React.Component {
       var reader = new FileReader();
 
       reader.onload = function(event){
-        self.props._set_newImgSrc(reader.result, self.props.chooseFor);
+        self.props._handle_newImgSrc(reader.result);
       }
       reader.readAsDataURL(imgChosen[0]);
     }

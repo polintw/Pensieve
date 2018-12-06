@@ -151,7 +151,7 @@ function _handle_unit_Mount(req, res){
                     let obj = {
                       top: row.portion_top,
                       left: row.portion_left,
-                      editorContent: JSON.parse(row.editor_content), //because the data would transfer to string by db when saved
+                      editorContent:  row.editor_content?JSON.parse(row.editor_content):null,
                       serial: row.serial,
                       layer: row.layer,
                       inspired: false
@@ -204,13 +204,13 @@ function _handle_unit_AuthorEditing(req, res){
     } else {
       const userId = payload.user_Id;
       const reqUnit = req.reqUnitId;
-      //check user and unit combination first!
       let mysqlForm = {
         accordancesList: [[reqUnit]],
         marksSet: {insertion:[], update:[]},
         marksList: {update:[], deletion:[]}
       };
 
+      //check user and unit combination!
       _select_withPromise_Basic(UNITS_GENERAL, mysqlForm.accordancesList).then((resultsUnit)=>{
         if(resultsUnit[0].id_author != userId){throw {err: "", status:400};}
         return;
@@ -222,17 +222,15 @@ function _handle_unit_AuthorEditing(req, res){
       }).then(([resultsAttribution, resultsMarks])=>{
         let sendingData={};
         let reqMarksList = Array.from(req.body.joinedMarksList),
-            reqMarksSet = Object.assign({}, req.body.joinedMarks),
             nounsDeletionList = [],
             reqNounsNewList = Array.from(req.body.nouns.list),
-            reqNewNames = [];//this is a temp variant included in the solution before a seperate api
-        //for safety, all above variants use raw data from req and reault
-console.log("results turn into variant")
+            reqNewNames = [];
+        //for safety, all above variants use raw data from req and result
 
         //distinguish new, deleted, and modified marks
         resultsMarks.forEach((row, index)=>{
-          if(row.id in reqMarksSet){
-            let markObj = reqMarksSet[row.id];
+          if(row.id in req.body.joinedMarks){
+            let markObj = req.body.joinedMarks[row.id];
             mysqlForm.marksSet.update.push([
               row.id,
               reqUnit,
@@ -245,7 +243,7 @@ console.log("results turn into variant")
             ]);
             mysqlForm.marksList.update.push(row.id);
             //then, erase this one in the id list
-            let position = reqMarksList.indexOf(row.id) ;
+            let position = reqMarksList.indexOf(row.id.toString()) ;
             reqMarksList.splice(position, 1);
           }else{
             mysqlForm.marksList.deletion.push(row.id);
@@ -253,7 +251,7 @@ console.log("results turn into variant")
         });
         //the rest in the list should be the new
         reqMarksList.forEach((newMarkKey, index)=>{
-          let markObj = reqMarksSet[newMarkKey];
+          let markObj = req.body.joinedMarks[newMarkKey];
           mysqlForm.marksSet.insertion.push({
             id_unit: reqUnit,
             id_author:  userId,
@@ -265,7 +263,6 @@ console.log("results turn into variant")
           });
         });
         //distinguish new, and deleted from attribution
-console.log(resultsAttribution)
         resultsAttribution.forEach((row, index)=>{
           if(row.id_noun in req.body.nouns.basic){
             let position = reqNounsNewList.indexOf(row.id_noun) ;
@@ -275,69 +272,56 @@ console.log(resultsAttribution)
           }
         })
 
-        //middle step, dealing with the new one
-        //Notice!! this should be a temp solution in the case we haven't seperate the api
-        //between the nouns attribution insertion and the new noun creation.
+        //middle step, dealing with the new nouns
         reqNounsNewList.forEach((key,index)=>{
           reqNewNames.push([req.body.nouns.basic[key].name]);
         });
- console.log("before the insrt_ignore")
+
         return _insert_basic_Ignore({table: "nouns", col: "(name)"}, reqNewNames).then(()=>{
-          //in the future, we should trust the id list pass from the client after we completed the api seperation
-          //so would not need to select again.
+          //in the future, could consider a sepearate nouns creation process
+          //it could made a trusted id list pass from the client after we completed the seperation
+          //then free with the selection here
           return _select_withPromise_Basic(NOUNS_NAME, reqNewNames)
         }).then((resultsNouns)=>{
-          //update reqNounsNewList, assure all of them are correct "id", also a temp solution.
-          reqNounsNewList = resultsNouns.map((row, index)=>{return row.id;});
-          //insert and delete, neccessary part begin again from here.
-          let nounsNewSet = reqNounsNewList.map((nounKey, index)=>{
-            let nounBasic = req.body.nouns.basic[nounKey];
+          let nounsNewSet = resultsNouns.map((row, index)=>{
             return [
-              nounBasic.id,
+              row.id,
               reqUnit,
               userId
             ]
           })
-console.log(mysqlForm.marksList.deletion)
           //check the necessity of each action
+          let pinsertNewAttribution = Promise.resolve(_insert_basic({table: 'attribution', col: '(id_noun, id_unit, id_author)'}, nounsNewSet)),
+              //sequelize could not accept empty values (2018.11.26)
+              pdeleteAttribution = nounsDeletionList.length>0?Promise.resolve(_DB_attribution.destroy({where: {id_noun: nounsDeletionList}})):null,
+              pinsertNewMarks = mysqlForm.marksSet.insertion.length>0?Promise.resolve(_DB_marks.bulkCreate(mysqlForm.marksSet.insertion, {fields: ['id_unit', 'id_author', 'layer','portion_top','portion_left','serial','editor_content']})):null,
+              pdeleteMarks = mysqlForm.marksList.deletion.length>0?Promise.resolve(_DB_marks.destroy({where: {id: mysqlForm.marksList.deletion}})):null;
+          //due to the query of mark update required the id, which could be modified from client
+          //this kind of 'INSERT' could not use for the new marks insertion!
           let queryUpdate =('INSERT INTO '+
                   "marks (id, id_unit, id_author, layer,portion_top,portion_left,serial,editor_content) "+
                   'VALUES ? ON DUPLICATE KEY UPDATE '+
                   'layer=VALUES(layer),portion_top=VALUES(portion_top),portion_left=VALUES(portion_left),serial=VALUES(serial),editor_content=VALUES(editor_content)');
-console.log(queryUpdate);
-          let pinsertNewNouns = nounsNewSet.length>0?Promise.resolve(_insert_basic({table: 'attribution', col: '(id_noun, id_unit, id_author)'}, nounsNewSet)):null,
-              pdeleteNouns = nounsDeletionList.length>0?Promise.resolve(_DB_attribution.destroy({where: {id_noun: nounsDeletionList}})):null,
-              pinsertNewMarks = mysqlForm.marksSet.insertion.length>0?Promise.resolve(_DB_marks.bulkCreate(mysqlForm.marksSet.insertion, {fields: ['id_unit', 'id_author', 'layer','portion_top','portion_left','serial','editor_content']})):null,
-              pdeleteMarks = mysqlForm.marksList.deletion.length>0?Promise.resolve(_DB_marks.destroy({where: {id: mysqlForm.marksList.deletion}})):null;
-console.log(mysqlForm.marksSet.update)
-          //use pupdateMarks as a standard, like the error catch for .all() to use, or still use .resolve()
-          //check the effect of ON DUPLICATE KEY UPDATE
-          //especially the possibility of updating and inserting by the same query
-          //then consider the issue about the data set did not include the marks from the 2nd img.
-          let pupdateMarks = Promise.resolve(_insert_raw(queryUpdate, mysqlForm.marksSet.update).catch((err)=>{return {status: 500, err: err}}));
-console.log("before the 2nd promis.all")
-          return Promise.all([pinsertNewNouns, pdeleteNouns, pinsertNewMarks, pdeleteMarks, pupdateMarks]).then(()=>{return sendingData;});
+          let pupdateMarks = Promise.resolve(_insert_raw(queryUpdate, mysqlForm.marksSet.update));
+          return Promise.all([pinsertNewAttribution, pdeleteAttribution, pinsertNewMarks, pdeleteMarks, pupdateMarks]).then(()=>{return sendingData;});
         })
       }).then((sendingData)=>{
         _res_success_201(res, sendingData, "data patch req: unit author editing, complete.");
       }).catch((errObj)=>{
         console.log("error occured during patching unit author editing promise: "+errObj.err)
-        if("status" in errObj){ //temporary method, due to there are still some function didn't have "status" argument.
-          switch (errObj.status) {
-            case 400:
-              _handler_err_BadReq(errObj.err, res)
-            case 404:
-              _handler_err_NotFound(errObj.err, res);
-              break;
-            case 500:
-              _handler_err_Internal(errObj.err, res);
-              break;
-            default:
-              _handler_err_Internal(errObj.err, res);
-          }
-          return;
+        switch (errObj.status) {
+          case 400:
+            _handler_err_BadReq(errObj.err, res);
+            break;
+          case 404:
+            _handler_err_NotFound(errObj.err, res);
+            break;
+          case 500:
+            _handler_err_Internal(errObj.err, res);
+            break;
+          default:
+            _handler_err_Internal(errObj.err?errObj.err:errObj, res);
         }
-        _handler_err_Internal(errObj.err, res);
       });
     }
   })

@@ -121,7 +121,8 @@ export default class ContentModal extends React.Component {
       const currentNr = this.props.layer+"_"+prevState.marksList.length; //keep it "const" to assure the var would not change after push()
       prevState.markCircles[currentNr] = portionCoordinate;
       prevState.markEditorContent[currentNr] = null;
-      return {marksList: prevState.marksList.push(currentNr), markCircles: prevState.markCircles, markEditorContent: prevState.markEditorContent, markExpand: (currentNr), markExpandify: true}
+      prevState.marksList.push(currentNr); // for unknown reason, we could only finish these steps outside the "return" obj
+      return {marksList: prevState.marksList, markCircles: prevState.markCircles, markEditorContent: prevState.markEditorContent, markExpand: (currentNr), markExpandify: true}
     });
   }
 
@@ -142,11 +143,10 @@ export default class ContentModal extends React.Component {
     event.preventDefault();
     let marksData = {list:[], data:{}};
     this.state.marksList.forEach((markKey, index)=>{
-      let jsonContentState = JSON.stringify(this.state.markEditorContent[markKey]);
       marksData["data"][markKey] = {
         top: this.state.markCircles[markKey].top,
         left: this.state.markCircles[markKey].left,
-        editorContent: jsonContentState,
+        editorContent: this.state.markEditorContent[markKey],
         layer: this.props.layer,
         serial: index
       };
