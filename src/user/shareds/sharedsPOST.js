@@ -22,7 +22,7 @@ function shareHandler_POST(req, res){
         }else{
           new Promise((resolve, reject)=>{
             //temp method, waiting for a real Pics server
-            let imgFolderPath = path.join(__dirname, '/../../..', '/dev/faked_Pics/'+userId);
+            let imgFolderPath = path.join('/corner_imgsbyusers/'+userId);
             fs.access(imgFolderPath, (err)=>{
               if(err){
                 //which mean the folder doesn't exist
@@ -42,7 +42,7 @@ function shareHandler_POST(req, res){
               //deal with cover img first.
               let coverBase64Splice = req.body.coverBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
               let coverBase64Buffer = new Buffer(coverBase64Splice[2], 'base64');
-              fs.writeFile(path.join(__dirname, '/../../..', '/dev/faked_Pics/'+userId+'/'+req.body.submitTime+"_layer_0.jpg"), coverBase64Buffer, function(err){
+              fs.writeFile(path.join('/corner_imgsbyusers/'+userId+'/'+req.body.submitTime+"_layer_0.jpg"), coverBase64Buffer, function(err){
                 if(err) {reject(err);}
               });
               modifiedBody['url_pic_layer0'] = userId+'/'+req.body.submitTime+'_layer_0.jpg';
@@ -51,7 +51,7 @@ function shareHandler_POST(req, res){
                 let beneathBase64Splice = req.body.beneathBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
                 let beneathBase64Buffer = new Buffer(beneathBase64Splice[2], 'base64');
                 modifiedBody['url_pic_layer1'] = userId+'/'+req.body.submitTime+'_layer_1.jpg';
-                fs.writeFile(path.join(__dirname, '/../../..', '/dev/faked_Pics/'+userId+'/'+req.body.submitTime+"_layer_1.jpg"), beneathBase64Buffer, function(err){
+                fs.writeFile(path.join('/corner_imgsbyusers/'+userId+'/'+req.body.submitTime+"_layer_1.jpg"), beneathBase64Buffer, function(err){
                   if(err) {reject(err);}
                 });
               }
