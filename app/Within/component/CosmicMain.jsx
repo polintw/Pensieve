@@ -14,7 +14,7 @@ export default class CosmicMain extends React.Component {
         width: '75%',
         position: 'absolute',
         top: '0',
-        left: '10%',
+        left: '11.5%',
         boxSizing: 'border-box'
       },
       withinCom_CosmicMain_picking_: {
@@ -44,10 +44,10 @@ export default class CosmicMain extends React.Component {
         boxSizing: 'border-box'
       },
       Within_Ltd_scroll_EntryCall: {
-        width: '64%',
-        height: '21%',
-        position: 'fixed',
-        top: '5%',
+        width: '85%',
+        height: '22vh',
+        position: 'absolute',
+        top: '5vh',
         left: '50%',
         transform: 'translate(-50%, 0)'
       }

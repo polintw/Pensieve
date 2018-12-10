@@ -17,9 +17,8 @@ class EntryCall extends React.Component {
         width: '100%',
         height: '80%',
         position: 'absolute',
-        top: '50%',
-        left: '0',
-        transform: 'translate(0, -50%)'
+        top: '0%',
+        left: '0'
       },
       withinCom_EntryCall_CreateShare_: {
         width: '30%',
