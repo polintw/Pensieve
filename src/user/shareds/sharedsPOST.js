@@ -21,46 +21,50 @@ function shareHandler_POST(req, res){
           console.log("error occured when getConnection in newShare handle.")
         }else{
           new Promise((resolve, reject)=>{
-            //temp method, waiting for a real Pics server
-            let imgFolderPath = path.join('/corner_imgsbyusers/'+userId);
+            let imgFolderPath = path.join(__dirname, '/../../..', '/faked_Pics/'+userId);
             fs.access(imgFolderPath, (err)=>{
               if(err){
                 //which mean the folder doesn't exist
                 fs.mkdir(imgFolderPath, function(err){
-                  if(err) {reject(err);}
+                  if(err) {reject(err);return;}
                   resolve();
                 })
+              }else{
+                //or without err
+                resolve();                
               }
-              //or without err
-              resolve();
             })
           }).then(function() {
-            return new Promise((resolve, reject)=>{
               //add it into shares as a obj value
               console.log('add new one: deal img.');
               let modifiedBody = new Object();
               //deal with cover img first.
               let coverBase64Splice = req.body.coverBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
               let coverBase64Buffer = new Buffer(coverBase64Splice[2], 'base64');
-              fs.writeFile(path.join('/corner_imgsbyusers/'+userId+'/'+req.body.submitTime+"_layer_0.jpg"), coverBase64Buffer, function(err){
-                if(err) {reject(err);}
-              });
-              modifiedBody['url_pic_layer0'] = userId+'/'+req.body.submitTime+'_layer_0.jpg';
               //then deal with beneath img if any.
               if(req.body.beneathBase64){
                 let beneathBase64Splice = req.body.beneathBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
                 let beneathBase64Buffer = new Buffer(beneathBase64Splice[2], 'base64');
-                modifiedBody['url_pic_layer1'] = userId+'/'+req.body.submitTime+'_layer_1.jpg';
-                fs.writeFile(path.join('/corner_imgsbyusers/'+userId+'/'+req.body.submitTime+"_layer_1.jpg"), beneathBase64Buffer, function(err){
-                  if(err) {reject(err);}
-                });
               }
-
+            return new Promise((resolve, reject)=>{
+              fs.writeFile(path.join(__dirname, '/../../..', '/faked_Pics/'+userId+'/'+req.body.submitTime+"_layer_0.jpg"), coverBase64Buffer, function(err){
+                if(err) {reject(err);return;}
+                modifiedBody['url_pic_layer0'] = userId+'/'+req.body.submitTime+'_layer_0.jpg';
+                if(req.body.beneathBase64){
+                  fs.writeFile(path.join(__dirname, '/../../..', '/faked_Pics/'+userId+'/'+req.body.submitTime+"_layer_1.jpg"), beneathBase64Buffer, function(err){
+                    if(err) {reject(err);return;}
+                    modifiedBody['url_pic_layer1'] = userId+'/'+req.body.submitTime+'_layer_1.jpg';
+                    resolve();
+                  });
+                }else{
+                  resolve();
+                }
+              });
+            }).then(()=>{
               Object.assign(modifiedBody, req.body);
               delete modifiedBody.coverBase64;
               delete modifiedBody.beneathBase64;
-
-              resolve(modifiedBody)
+              return(modifiedBody);
             })
           }).then(function(modifiedBody){
             console.log('add new one, write into the table: units.');
@@ -72,7 +76,7 @@ function shareHandler_POST(req, res){
                 'id_primer': req.query.primer?req.query.primer:null
               }
               connection.query('INSERT INTO units SET ?', unitProfile, function(err, result, fields) {
-                if (err) {reject(err);}
+                if (err) {reject(err);return;}
                 console.log('database connection: success.')
                 modifiedBody['id_unit'] = result.insertId;
                 resolve(modifiedBody)
@@ -94,7 +98,7 @@ function shareHandler_POST(req, res){
                 ]
               })
               connection.query('INSERT INTO marks (id_unit, id_author, layer,portion_top,portion_left,serial,editor_content) VALUES ?; SHOW WARNINGS;', [valuesArr], function(err, result, fields) {
-                if (err) {reject(err);}
+                if (err) {reject(err);return;}
                 console.log('database connection: success.')
                 resolve(modifiedBody)
               })
@@ -106,7 +110,7 @@ function shareHandler_POST(req, res){
                 return [modifiedBody.nouns.basic[nounKey].name]
               })
               connection.query('INSERT INTO nouns (name) VALUES ?', [valuesArr], function(err, results, fields) {
-                if (err) {reject(err);}
+                if (err) {reject(err);return;}
                 console.log('database connection: success.')
                 for(let i=0; i< results.affectedRows ; i++){
                   // ! should have extra confirmation for continuity!
@@ -126,7 +130,7 @@ function shareHandler_POST(req, res){
                 ]
               })
               connection.query('INSERT INTO attribution (id_noun, id_unit, id_author) VALUES ?', [valuesArr], function(err, rows, fields) {
-                if (err) {reject(err);}
+                if (err) {reject(err);return;}
                 console.log('database connection: success.')
                 resolve(modifiedBody)
               })
