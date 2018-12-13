@@ -143,7 +143,7 @@ class MainIndex extends React.Component {
           {this.state.rawsArr}
         </div>
         <Route
-          path={this.props.match.path+"/units/:id"}
+          path="/units/:id"
           render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this._refer_von_unit}/>}/>
       </div>
     )

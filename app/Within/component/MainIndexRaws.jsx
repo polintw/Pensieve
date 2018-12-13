@@ -101,7 +101,7 @@ export default class MainIndexRaws extends React.Component {
           style={divStyle}>
           <Link
             to={{
-              pathname: this.props.match.url+"/units/"+unitName,
+              pathname: "/units/"+unitName,
               state: {from: self.props.location}
             }}>
             <img

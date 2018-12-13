@@ -15,4 +15,5 @@ Prepare
   - 現有資料庫table以及col項目
 
 Modified
-- units/vanilla.js 刪除"inspired"相關
+- src/units/vanilla.js 刪除"inspired"相關
+- app/Within 修剪Cosmic component使用的 path

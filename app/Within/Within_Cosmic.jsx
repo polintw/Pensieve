@@ -59,9 +59,7 @@ class WithinCosmic extends React.Component {
     return(
       <div
         style={this.style.Within_Cosmic_}>
-        <Switch>
-          <Route path={this.props.match.path} render={(props)=> <CosmicMain {...props} _refer_leavevonIndex={this._refer_leavevonIndex}/>}/>
-        </Switch>
+         <CosmicMain {...this.props} _refer_leavevonIndex={this._refer_leavevonIndex}/>
         <div
           style={this.style.Within_Cosmic_corner_}>
           <CosmicCorner

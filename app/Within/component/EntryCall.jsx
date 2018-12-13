@@ -15,7 +15,7 @@ class EntryCall extends React.Component {
     this.style={
       withinCom_EntryCall_: {
         width: '100%',
-        height: '80%',
+        height: '100%',
         position: 'absolute',
         top: '0%',
         left: '0'

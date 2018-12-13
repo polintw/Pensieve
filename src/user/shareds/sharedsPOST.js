@@ -31,21 +31,22 @@ function shareHandler_POST(req, res){
                 })
               }else{
                 //or without err
-                resolve();                
+                resolve();
               }
             })
           }).then(function() {
-              //add it into shares as a obj value
-              console.log('add new one: deal img.');
-              let modifiedBody = new Object();
-              //deal with cover img first.
-              let coverBase64Splice = req.body.coverBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
-              let coverBase64Buffer = new Buffer(coverBase64Splice[2], 'base64');
-              //then deal with beneath img if any.
-              if(req.body.beneathBase64){
-                let beneathBase64Splice = req.body.beneathBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
-                let beneathBase64Buffer = new Buffer(beneathBase64Splice[2], 'base64');
-              }
+            //add it into shares as a obj value
+            console.log('add new one: deal img.');
+            let modifiedBody = new Object();
+            let coverBase64Buffer ,beneathBase64Buffer;
+            //deal with cover img first.
+            let coverBase64Splice = req.body.coverBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
+            coverBase64Buffer = new Buffer(coverBase64Splice[2], 'base64');
+            //then deal with beneath img if any.
+            if(req.body.beneathBase64){
+              let beneathBase64Splice = req.body.beneathBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
+              beneathBase64Buffer = new Buffer(beneathBase64Splice[2], 'base64');
+            }
             return new Promise((resolve, reject)=>{
               fs.writeFile(path.join(__dirname, '/../../..', '/faked_Pics/'+userId+'/'+req.body.submitTime+"_layer_0.jpg"), coverBase64Buffer, function(err){
                 if(err) {reject(err);return;}
