@@ -51,7 +51,7 @@ function _handle_unit_Mount(req, res){
             return new Promise((resolve, reject)=>{
               let selectQuery = 'SELECT id_noun FROM attribution WHERE id_unit=?';
               connection.query(selectQuery, [reqUnit], function(err, results, fields) {
-                if (err) {_handler_err_Internal(err, res);reject(err);}
+                if (err) {_handler_err_Internal(err, res);reject(err);return;}
                 console.log('database connection: success.')
                 if (results.length > 0) {
                   results.forEach(function(result, index){
@@ -67,7 +67,7 @@ function _handle_unit_Mount(req, res){
               return new Promise((resolve, reject)=>{
                 let selectQuery = 'SELECT id, name FROM nouns WHERE (id) IN (?)';
                 connection.query(selectQuery, [tempData['temp'].nounsKey], function(err, results, fields) {
-                  if (err) {_handler_err_Internal(err, res);reject(err);}
+                  if (err) {_handler_err_Internal(err, res);reject(err);return;}
                   console.log('database connection: success, query to nouns.')
                   if (results.length > 0) {
                     results.forEach(function(result, index){
@@ -88,7 +88,7 @@ function _handle_unit_Mount(req, res){
           new Promise((resolve, reject)=>{
             console.log('unit mount req: check author.');
             connection.query('SELECT * FROM units WHERE id = ?', [reqUnit], function(err, result, fields) {
-              if (err) {_handler_err_Internal(err, res);reject(err);}
+              if (err) {_handler_err_Internal(err, res);reject(err);return;}
               console.log('database connection: success.')
               let sendingData = {
                 temp: {marksKey: []},
@@ -119,7 +119,7 @@ function _handle_unit_Mount(req, res){
             console.log('unit mount req: call author name.');
             return new Promise((resolve, reject)=>{
               connection.query('SELECT account FROM users WHERE id = ?', [sendingData['authorBasic']['authorId']], function(err, result, fields) {
-                if (err) {_handler_err_Internal(err, res);reject(err);}
+                if (err) {_handler_err_Internal(err, res);reject(err);return;}
                 console.log('database connection: success.')
                 if (result.length > 0) {
                   sendingData['authorBasic']['account'] = result[0].account;
@@ -144,7 +144,7 @@ function _handle_unit_Mount(req, res){
             console.log('unit mount req: assemble marksObj.');
             return new Promise((resolve, reject)=>{
               connection.query('SELECT * FROM marks WHERE id_unit=?', [reqUnit], function(err, result, fields) {
-                if (err) {_handler_err_Internal(err, res);reject(err);}
+                if (err) {_handler_err_Internal(err, res);reject(err);return;}
                 console.log('database connection: success.')
                 if (result.length > 0) {
                   result.forEach(function(row, index){
@@ -171,7 +171,7 @@ function _handle_unit_Mount(req, res){
             return new Promise((resolve, reject)=>{
               let sqlQuery = "SELECT * FROM inspired WHERE (id_mark) IN (?) AND id_user = "+userId;
               connection.query(sqlQuery, [sendingData['temp']['marksKey']], function(err, result, fields) {
-                if (err) {_handler_err_Internal(err, res);reject(err);}
+                if (err) {_handler_err_Internal(err, res);reject(err);return;}
                 console.log('database connection: success.')
                 if (result.length > 0) {
                   result.forEach(function(row, index){
