@@ -38,6 +38,7 @@ export default class Signin extends React.Component {
   _handle_Signin(event){
     event.preventDefault();
     let reqBody = {};
+    const self = this;
     reqBody['email'] = this.emailInput.value;
     reqBody['password'] = this.passwordInput.value;
     this.setState({axios: true});
@@ -51,7 +52,7 @@ export default class Signin extends React.Component {
         window.location.assign('/');
       }else{
         console.log("Failed: "+ res.data.error);
-        this.setState({response: res.data.error});
+        self.setState({response: res.data.error});
       }
     }).catch(function (thrown) {
       if (axios.isCancel(thrown)) {
