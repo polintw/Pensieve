@@ -1,6 +1,6 @@
 import React from 'react';
 import cxBind from 'classnames/bind';
-import errHandler_axiosCatch from '../../utils/errHandlers.js';
+import {errHandler_axiosCatch} from '../../utils/errHandlers.js';
 
 export default class Signin extends React.Component {
   constructor(props){
