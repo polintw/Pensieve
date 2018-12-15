@@ -1,12 +1,15 @@
 import React from 'react';
 import cxBind from 'classnames/bind';
+import errHandler_axiosCatch from '../../utils/errHandlers.js';
 
 export default class Signin extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      axios: false,
       response: null
     };
+    this.axiosSource = axios.CancelToken.source();
     this._handle_Signin = this._handle_Signin.bind(this);
     this._render_failedMessage = this._render_failedMessage.bind(this);
     this.style={
@@ -37,42 +40,70 @@ export default class Signin extends React.Component {
     let reqBody = {};
     reqBody['email'] = this.emailInput.value;
     reqBody['password'] = this.passwordInput.value;
+    this.setState({axios: true});
     axios.post('/router/login', reqBody, {
       headers: {'charset': 'utf-8'}
     }).then(function (res) {
-        if(res.data.error == 0){
-          console.log("Log in!");
-          window.localStorage['token'] = res.data.token;
-          window.location.assign('/');
-        }else{
-          console.log("Failed: "+ res.data.error);
-          this.setState({response: res.data.error});
-        }
-    }).catch(function (error) {
-      console.log(error);
-      alert("Failed, please try again later");
+      self.setState({axios: false});
+      if(res.data.error == 0){
+        console.log("Log in!");
+        window.localStorage['token'] = res.data.token;
+        window.location.assign('/');
+      }else{
+        console.log("Failed: "+ res.data.error);
+        this.setState({response: res.data.error});
+      }
+    }).catch(function (thrown) {
+      if (axios.isCancel(thrown)) {
+        console.log('Request canceled: ', thrown.message);
+      } else {
+        self.setState({axios: false});
+        let customSwitch = (status)=>{
+          switch (status) {
+            case 429:
+              self.setState({response: 3});
+              return true
+              break;
+            default:
+              return false
+          }
+        };
+        errHandler_axiosCatch(thrown, customSwitch);        
+      }
     });
   }
 
+
   _render_failedMessage(){
-    if(this.state.response==1){
-      return(
-        <span>{'密碼或帳號輸入錯誤'}</span>
-      )
-    }else if(this.state.response==2){
-      return(
-        <span>{'此帳號不存在'}</span>
-      )
+    switch (this.state.response) {
+      case 1:
+        return(
+          <span>{'密碼或帳號輸入錯誤'}</span>
+        )    
+        break;
+      case 2:
+        return(
+          <span>{'此帳號不存在'}</span>
+        )    
+        break; 
+      case 3:
+        return(
+          <span>{'輸入錯誤達5次以上，再次嘗試請稍待'}</span>
+        )    
+        break;
+      default:
+        return null
     }
-    return null
   }
 
   componentDidMount() {
 
   }
 
-  componentWillUnmount() {
-
+  componentWillUnmount(){
+    if(this.state.axios){
+      this.axiosSource.cancel("component will unmount.")
+    }
   }
 
   render(){
