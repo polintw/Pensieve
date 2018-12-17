@@ -136,13 +136,14 @@ class FrontCognition extends React.Component {
         </div>
         <div style={this.style.Front_Cognition_backPlane_bottom}/>
         <div
-          style={this.style.Front_Cognition_UserName_}>
+          style={this.style.Front_Cognition_UserName_}> //move to the right side of the viewport, above external panel
           <div
             style={this.style.Front_Cognition_UserName_svg_}>
             <SvgPropic/>
           </div>
           <span style={this.style.Front_Cognition_UserName_span_}>{this.props.userInfo.account}</span>
         </div>
+        //move NavFront here
         <div
           style={this.style.Front_Cognition_NavsCognition_}>
           <NavsCognition {...this.props}/>

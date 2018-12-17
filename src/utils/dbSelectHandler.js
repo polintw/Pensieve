@@ -281,14 +281,14 @@ exports._select_Basic = (condition, accordance)=>{
               where = where + index>0?", ":"" + col;
             });
             resolveWhereCol(where);
-          }),
+          }).catch((err)=>{throw {err: err}}),
           pConditioncol = new Promise((resolveConditionCol, reject)=>{
             let cols = '';
             condition.cols.forEach((col, index)=>{
               cols = cols + index>0?", ":"" + col;
             });
             resolveConditionCol(cols);
-          });
+          }).catch((err)=>{throw {err: err}});
           Promise.all([pConditioncol, pWhereCol]).then((strings)=>{
             let selectQuery = "SELECT "+strings[0]+" FROM "+condition.table+" WHERE ("+strings[1]+") IN (?)";
             connection.query(selectQuery, [accordance], function(err, results, fields){
@@ -303,11 +303,11 @@ exports._select_Basic = (condition, accordance)=>{
                 connection.release();
               }
             })
-          })
+          }).catch((errObj)=>{throw errObj})
         }
       })
     ):(
       resolve([])
     )
-  }).catch((errObj)=>{return errObj})
+  }).catch((errObj)=>{throw errObj})
 }

@@ -18,13 +18,19 @@ const limiter = rateLimit({
   windowMs: 10 * 60 * 1000, // 10 minutes
   max: 200, // limit each IP to 100 requests per windowMs
   message:
-    "Too many request from this IP, please try again later"
+    "Too many request from this IP, please try again later",
+  onLimitReached: function(req, res){
+    console.log('WARN: too many request '+req.ip)
+  }
 });
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 5,
   message:
-    "Login failed too many time or wierd behavior from this IP, please try again after 15 min."
+    "Login failed too many time or wierd behavior from this IP, please try again after 15 min.",
+  onLimitReached: function(req, res){
+    console.log('WARN: login exceeded from '+req.ip)
+  }
 });
 app.use(limiter); //rate limiter apply to all requests
 app.use("/router/login", loginLimiter); // restrict specially for login behavior, but should use username one day

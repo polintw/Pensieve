@@ -109,9 +109,9 @@ class EditingModal extends React.Component {
   _close_img_Cancell(){
     let focusBlock = this.state.focusBlock;
     if(focusBlock=='cover'){
-      this.setState({coverSrc: null, coverMarks: {}, focusBlock: null, contentModalify: false})
+      this.setState({coverSrc: null, coverMarks:{list:[], data:{}}, focusBlock: null, contentModalify: false})
     }else if(focusBlock=='beneath'){
-      this.setState({beneathSrc: null, beneathMarks: {}, focusBlock: null, contentModalify: false})
+      this.setState({beneathSrc: null, beneathMarks:{list:[], data:{}}, focusBlock: null, contentModalify: false})
     };
   }
 
