@@ -1,5 +1,6 @@
 import React from 'React';
 import ModalBox from '../ModalBox.jsx';
+import {errHandler_axiosCatch} from '../../utils/errHandlers.js';
 
 export class NounsList extends React.Component {
   constructor(props){
@@ -49,14 +50,18 @@ export class SearchModalNouns extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      axios: false,
       query: null,
+      optional: false,
       options: []
     };
+    this.axiosSource = axios.CancelToken.source();
+    this._axios_get_NounSet = this._axios_get_NounSet.bind(this);
+    this._render_SearchResults = this._render_SearchResults.bind(this);
     this._handleClick_SearchModal_switch = this._handleClick_SearchModal_switch.bind(this);
     this._handleClick_nounChoose = this._handleClick_nounChoose.bind(this);
     this._handleClick_nounCreate = this._handleClick_nounCreate.bind(this);
     this._handleChange_SearchInput = this._handleChange_SearchInput.bind(this);
-    this._axios_get_NounSet = this._axios_get_NounSet.bind(this);
     this.style={
       Com_NounsEditor_SearchModal_: {
         width: '100%',
@@ -84,20 +89,6 @@ export class SearchModalNouns extends React.Component {
         boxSizing: 'border-box',
         backgroundColor: 'rgba(180,180,180,0.6)'
       },
-      Com_NounsEditor_SearchModal_Modal_input: {
-        width: '90%',
-        height: '4vh',
-        position: 'relative',
-        left: '50%',
-        transform: 'translate(-50%, 0)',
-        boxSizing: 'border-box',
-        padding: '1.2% 0',
-        border: 'none',
-        borderBottom: '2px inset #FAFAFA',
-        backgroundColor: 'transparent',
-        fontSize: '2.4vh',
-        color: '#FAFAFA'
-      },
       Com_NounsEditor_SearchModal_Modal_:{
         width: '120%',
         minHeight: '200%',
@@ -110,6 +101,28 @@ export class SearchModalNouns extends React.Component {
         padding: '2%',
         boxShadow: '0px 5px 1.8vh -0.5vh #010101',
         backgroundColor: '#51514A',
+        color: '#FAFAFA'
+      },
+      Com_NounsEditor_SearchModal_Modal_panel: {
+        width: '80%',
+        height: '4vh',
+        position: 'relative',
+        left: '50%',
+        transform: 'translate(-50%, 0)',
+        boxSizing: 'border-box'
+      },
+      Com_NounsEditor_SearchModal_Modal_input: {
+        width: '90%',
+        height: '4vh',
+        position: 'relative',
+        left: '50%',
+        transform: 'translate(-50%, 0)',
+        boxSizing: 'border-box',
+        padding: '1.2% 0',
+        border: 'none',
+        borderBottom: '2px inset #FAFAFA',
+        backgroundColor: 'transparent',
+        fontSize: '2.4vh',
         color: '#FAFAFA'
       },
       Com_InfoNoun_modal_ul_: {
@@ -130,24 +143,57 @@ export class SearchModalNouns extends React.Component {
   }
 
   _axios_get_NounSet(){
+    const self = this;
+    this.setState({axios: true});
     axios.get(`/router/lists/nouns/search?prefix=${this.state.query}&limit=5`, {
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']
       }
     }).then((res) => {
-      if(res.status = 200){
-        console.log("success");
-        let resObj = JSON.parse(res.data);
+      self.setState({axios: false});
+      let resObj = JSON.parse(res.data);
+      if(resObj.main.nounsList.length > 0){
         this.setState({
+          optional: true,
           options: resObj.main.nounsList
         });
-      }else{
-        console.log(res.data.message)
       }
-    }).catch(function (error) {
-      console.log(error);
+    }).catch(function (thrown) {
+      if (axios.isCancel(thrown)) {
+        console.log('Request canceled: ', thrown.message);
+      } else {
+        self.setState({axios: false});
+        let customSwitch = (status)=>{
+          return null;
+        };
+        errHandler_axiosCatch(thrown, customSwitch);
+      }
     });
+  }
+
+  _render_SearchResults(){
+    let options = [];
+    if(this.state.query){
+      this.state.optional?(
+        options = this.state.options.map((nounBasic, index) => {
+          return(
+            <li
+              key={'_key_nounOption_'+index}
+              index={index}
+              style={this.style.Com_InfoNoun_modal_ul_li}
+              onClick={this._handleClick_nounChoose}>
+              {nounBasic.name}
+            </li>
+          )
+        })
+      ):(
+        options = [<span key='_key_nounOption_none'>{'...尚無相關詞彙...'}</span>]
+      )
+    }else{
+      options = [<span>{'請輸入欲查詢關聯詞...'}</span>]
+    }
+    return options;
   }
 
   _handleChange_SearchInput(){
@@ -184,18 +230,14 @@ export class SearchModalNouns extends React.Component {
     this.setState((prevState, index)=>{return {query: prevState.query?null:true}});
   }
 
+  componentWillUnmount(){
+    if(this.state.axios){
+      this.axiosSource.cancel("component will unmount.")
+    }
+  }
+
   render() {
-    const options = this.state.options.map((nounBasic, index) => {
-      return(
-        <li
-          key={'_key_nounOption_'+index}
-          index={index}
-          style={this.style.Com_InfoNoun_modal_ul_li}
-          onClick={this._handleClick_nounChoose}>
-          {nounBasic.name}
-        </li>
-      )
-    })
+    const options = this._render_SearchResults();
 
     return (
       <div
@@ -218,16 +260,25 @@ export class SearchModalNouns extends React.Component {
               <ul
                 style={this.style.Com_InfoNoun_modal_ul_}>
                 {options}
-                <li
-                  style={this.style.Com_InfoNoun_modal_ul_li}>
-                  <span
-                    onClick={this._handleClick_nounCreate}>
-                    {" 新增 +"}</span>
-                  <span
-                    onClick={this._handleClick_SearchModal_switch}>
-                    {"結束 "}</span>
-                </li>
               </ul>
+              <div
+                style={this.style.Com_NounsEditor_SearchModal_Modal_panel}>
+                {
+                  this.state.query &&
+                  <div>
+                    <span>{'或'}</span>
+                    <span
+                      style={{backgroundColor: 'reba(230, 210, 210, 0.8)', cursor: 'pointer'}}
+                      onClick={this._handleClick_nounCreate}>
+                      {" 新增 "}</span>
+                    <span>{this.state.query}</span>
+                  </div>
+                }
+                <span
+                  style={{cursor: 'pointer'}}
+                  onClick={this._handleClick_SearchModal_switch}>
+                  {" 完成"}</span>
+              </div>
             </div>
           </ModalBox>
         }

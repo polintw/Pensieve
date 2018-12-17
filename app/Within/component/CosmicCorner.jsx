@@ -1,8 +1,11 @@
 import React from 'react';
+import {
+  withRouter
+} from 'react-router-dom';
+import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
-import SvgPropic from '../../Component/SvgPropic.jsx';
 
-export default class CosmicCorner extends React.Component {
+class CosmicCorner extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -20,28 +23,26 @@ export default class CosmicCorner extends React.Component {
         boxSizing: 'border-box'
       },
       withinCom_CosmicCorner_Ltd: {
-        width: '40%',
-        height: '100%',
         position: 'absolute',
-        top:'0%',
-        left: '5%',
+        top:'40%',
+        left: '3%',
+        transform: 'translate(0, -50%)',
         boxSizing: 'border-box',
-        fontSize: '1.8rem',
+        fontSize: '2rem',
         letterSpacing: '0.3rem',
+        color: 'rgba(62, 61, 61, 0.92)',
         cursor: 'pointer'
       },
       withinCom_CosmicCorner_Self_: {
-        width: '24%',
+        width: '7%',
         height: '100%',
         position: 'absolute',
         top:'0%',
-        left: '48%',
+        right: '2%',
         boxSizing: 'border-box',
-      },
-      withinCom_CosmicCorner_Self_svg: {
-        width: '100%',
-        height: '100%',
-        boxSizing: 'border-box',
+        fontSize: '1.8rem',
+        letterSpacing: '0.24rem',
+        textAlign: 'center',
         cursor: 'pointer'
       }
     }
@@ -58,7 +59,7 @@ export default class CosmicCorner extends React.Component {
     event.stopPropagation();
     this.props._refer_leavevonIndex('','user')
   }
-  
+
   componentDidMount() {
 
   }
@@ -80,9 +81,20 @@ export default class CosmicCorner extends React.Component {
         <div
           style={this.style.withinCom_CosmicCorner_Self_}
           onClick={this._handleClick_cosmic_Self}>
-          <SvgPropic/>
+          {this.props.userInfo.account}
         </div>
       </div>
     )
   }
 }
+
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo
+  }
+}
+
+export default withRouter(connect(
+  mapStateToProps,
+  null
+)(CosmicCorner));

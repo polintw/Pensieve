@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import CogActions from './component/CogActions.jsx';
-import NavsCognition from './component/NavsCognition.jsx';
+import NavFront from './component/NavFront.jsx';
 
 class FrontCognition extends React.Component {
   constructor(props){
@@ -58,32 +58,13 @@ class FrontCognition extends React.Component {
         boxSizing: 'border-box',
         backgroundColor: '#FFFFFF'
       },
-      Front_Cognition_NavsCognition_:{
-        width: '78%',
+      Front_Cognition_NavFront_:{
+        width: '7%',
         height: '7%',
         position: 'fixed',
-        bottom: '0',
-        left: '15%',
+        bottom: '15%',
+        left: '3%',
         boxSizing: 'border-box',
-      },
-      Front_Cognition_UserName_: {
-        width: '24%',
-        height: '7%',
-        position: 'fixed',
-        top: '0',
-        left: '13%',
-        boxSizing: 'border-box'
-      },
-      Front_Cognition_UserName_span_: {
-        display: 'inline-block',
-        position: 'absolute',
-        bottom: '18%',
-        left: '0',
-        boxSizing: 'border-box',
-        padding: '1% 0',
-        fontSize: '1.6rem',
-        letterSpacing: '0.12rem',
-        color: '#222222'
       }
     }
   }
@@ -117,12 +98,8 @@ class FrontCognition extends React.Component {
         <div style={this.style.Front_Cognition_backPlane_top}/>
         <div style={this.style.Front_Cognition_backPlane_bottom}/>
         <div
-          style={this.style.Front_Cognition_UserName_}>
-          <span style={this.style.Front_Cognition_UserName_span_}>{this.props.userInfo.account}</span>
-        </div>
-        <div
-          style={this.style.Front_Cognition_NavsCognition_}>
-          <NavsCognition {...this.props}/>
+          style={this.style.Front_Cognition_NavFront_}>
+          <NavFront {...this.props}/>
         </div>
       </div>
     )

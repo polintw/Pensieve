@@ -19,6 +19,11 @@ export default class NavFront extends React.Component {
         left: '0',
         top: '0',
         boxSizing: 'border-box'
+      },
+      selfCom_NavFront_link: {
+        textDecoration: 'none',
+        fontSize: '1.6rem',
+        letterSpacing: '0.15rem'
       }
     }
   }
@@ -33,9 +38,10 @@ export default class NavFront extends React.Component {
           to={{
             pathname: "/profile/sheet",
             state: {from: this.props.location}
-          }}>
+          }}
+          style={this.style.selfCom_NavFront_link}>
           <span
-            style={{cursor: 'pointer'}}>{'基礎'}</span>
+            style={{cursor: 'pointer'}}>{'登錄'}</span>
         </Link>
       </div>
     )
