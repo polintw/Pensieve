@@ -3,6 +3,8 @@ const app = express();
 const bodyParser = require('body-parser');
 const path = require("path");
 
+const rateLimit = require("express-rate-limit");
+
 const router = require('./src/router.js');
 
 //babel-polyfill is here for the whole code after it!
@@ -10,6 +12,29 @@ require('babel-polyfill');
 
 app.set('view engine', 'jsx');
 app.engine('jsx', require('express-react-views').createEngine({transformViews: false }));
+
+app.enable("trust proxy"); //for rateLimit, due to behind a reverse proxy(nginx)
+const limiter = rateLimit({
+  windowMs: 10 * 60 * 1000, // 10 minutes
+  max: 200, // limit each IP to 100 requests per windowMs
+  message:
+    "Too many request from this IP, please try again later",
+  onLimitReached: function(req, res){
+    console.log('WARN: too many request '+req.ip)
+  }
+});
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  message:
+    "Login failed too many time or wierd behavior from this IP, please try again after 15 min.",
+  onLimitReached: function(req, res){
+    console.log('WARN: login exceeded from '+req.ip)
+  }
+});
+app.use(limiter); //rate limiter apply to all requests
+app.use("/router/login", loginLimiter); // restrict specially for login behavior, but should use username one day
+
 app.use(bodyParser.json({limit: '20mb'}));//parse Content-Type: /json
 app.use(bodyParser.raw({limit: "20mb"}));//parse Content-Type: /application/octet-stream
 app.use(bodyParser.text({limit: '20mb'})); //parse Content-Type: /text, like pure base64 string in this project
@@ -78,5 +103,5 @@ app.use('/', function(req, res){
   });
 })
 
-app.listen(process.env.port || 8081);
-console.log("Running at Port 8081");
+app.listen(process.env.port || 8080);
+console.log("Running at Port 8080");
