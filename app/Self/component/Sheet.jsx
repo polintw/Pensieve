@@ -6,8 +6,9 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import {
-  SheetGender,
-  SettingTemp
+  SheetAccount,
+  SheetSetting,
+  SheetBasic
 } from './SheetCom.jsx';
 import SvgPropic from '../../Component/SvgPropic.jsx';
 import {mountUserSheet} from "../../redux/actions/general.js";
@@ -26,26 +27,21 @@ class Sheet extends React.Component {
         top: '0%',
         left: '0%'
       },
-      selfCom_Sheet_navStatics: {
-        width: '64%',
-        height: '16vh',
-        position: 'absolute',
-        top: '6vh',
-        left: '0',
-        boxSizing: 'border-box'
-      },
       selfCom_Sheet_navStatics_UserName_: {
-        width: '32%',
-        height: '16vh',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: '100%',
+        height: '20vh',
         position: 'absolute',
-        top: '3vh',
+        top: '2vh',
         right: '0',
         boxSizing: 'border-box'
       },
       selfCom_Sheet_navStatics_UserName_svg_: {
         display: 'inline-block',
-        width: '25%',
-        height: '50%',
+        width: '21%',
+        height: '98%',
         position: 'relative',
         boxSizing: 'border-box',
         margin: '0 3%',
@@ -53,22 +49,22 @@ class Sheet extends React.Component {
       },
       selfCom_Sheet_navStatics_UserName_span_: {
         display: 'inline-block',
-        position: 'absolute',
-        bottom: '18%',
-        left: '0',
+        position: 'relative',
         boxSizing: 'border-box',
         padding: '1% 0',
-        fontSize: '1.6rem',
-        letterSpacing: '0.12rem',
+        marginRight: '14vw',
+        fontWeight: '600',
+        fontSize: '2.8rem',
+        letterSpacing: '0.28rem',
         color: '#222222'
       },
       selfCom_Sheet_display_: {
           width: '100%',
           position: 'absolute',
-          top: '27vh',
+          top: '28vh',
           left: '0',
           boxSizing: 'border-box',
-          padding: '3vh 4%'
+          padding: '3vh 2.5vw'
       },
       selfCom_Sheet_display_basic_: {
         width: '100%',
@@ -77,7 +73,7 @@ class Sheet extends React.Component {
       },
       selfCom_Sheet_display_basic_tempSetting: {
         width: '90%',
-        height: '30vh',
+        height: '25vh',
         position: 'relative',
         boxSizing: 'border-box',
         padding: '2vh 5%',
@@ -160,6 +156,10 @@ class Sheet extends React.Component {
 
   render(){
     //let cx = cxBind.bind(styles);
+    let params = new URLSearchParams(this.props.location.search); //we need value in URL query
+    let paramsStatus = params.get('status'), statusSetting;
+    if(paramsStatus == 'setting')statusSetting = true;
+
     return(
       <div
         style={this.style.selfCom_Sheet_}>
@@ -171,22 +171,28 @@ class Sheet extends React.Component {
           <span style={this.style.selfCom_Sheet_navStatics_UserName_span_}>{this.props.userInfo.account}</span>
         </div>
         <div
-          style={this.style.selfCom_Sheet_navStatics}>
-          {"基本 "}
-          {"檔案庫 "}
-        </div>
-        <div
           style={this.style.selfCom_Sheet_display_}>
-          <section
-            style={this.style.selfCom_Sheet_display_basic_}>
-            <div
-              style={this.style.selfCom_Sheet_display_basic_tempSetting}>
-              <SettingTemp/>
-            </div>
-            <div
-              style={this.style.selfCom_Sheet_display_basic_blockGender}>
-              <SheetGender/>
-            </div>
+          <section>
+          {
+            statusSetting?(
+              <div
+                style={this.style.selfCom_Sheet_display_basic_}>
+                <SheetSetting {...this.props}/>
+              </div>
+            ):(
+              <div
+                style={this.style.selfCom_Sheet_display_basic_}>
+                <div
+                  style={this.style.selfCom_Sheet_display_basic_tempSetting}>
+                  <SheetAccount {...this.props}/>
+                </div>
+                <div
+                  style={this.style.selfCom_Sheet_display_basic_blockGender}>
+                  <SheetBasic {...this.props}/>
+                </div>
+              </div>
+            )
+          }
           </section>
         </div>
       </div>

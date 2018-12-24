@@ -6,7 +6,7 @@ import {
   Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import NailShared from './NailShared.jsx';
+import NailShared from '../../Component/Nails/NailShared.jsx';
 import Unit from '../../Component/Unit.jsx';
 
 class Broads extends React.Component {

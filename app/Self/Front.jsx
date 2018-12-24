@@ -26,11 +26,13 @@ class Front extends React.Component {
         left: '0'
       },
       Self_pages_Front_External_: {
-        width: '6%',
+        width: '8%',
         height: '24%',
         position: 'fixed',
         top: '63%',
-        right: '2%'
+        right: '2%',
+        boxSizing: 'border-box',
+        overflow: "visible"
       }
     }
   }

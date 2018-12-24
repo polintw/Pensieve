@@ -4,7 +4,6 @@ import {
   withRouter
 } from 'react-router-dom';
 import cxBind from 'classnames/bind';
-import NavFront from './NavFront.jsx';
 import NavWalls from './NavWalls.jsx';
 
 export default class NavsCognition extends React.Component {
@@ -30,19 +29,11 @@ export default class NavsCognition extends React.Component {
         right: '2%',
         boxSizing: 'border-box'
       },
-      selfCom_NavsCognition_Front_: {
-        width: '12%',
-        height: '48%',
-        position: 'absolute',
-        top: '0%',
-        left: '24%',
-        boxSizing: 'border-box'
-      },
       selfCom_NavsCognition_series_: {
         width: '10%',
         height: '88%',
         position: 'absolute',
-        left: '0',
+        left: '11%',
         bottom: '0',
         boxSizing: 'border-box'
       },
@@ -50,7 +41,7 @@ export default class NavsCognition extends React.Component {
         width: '10%',
         height: '88%',
         position: 'absolute',
-        left: '11%',
+        left: '0%',
         bottom: '0',
         boxSizing: 'border-box'
       },
@@ -93,10 +84,6 @@ export default class NavsCognition extends React.Component {
         <div
           style={this.style.selfCom_NavsCognition_Walls_}>
           <NavWalls {...this.props}/>
-        </div>
-        <div
-          style={this.style.selfCom_NavsCognition_Front_}>
-          <NavFront {...this.props}/>
         </div>
       </div>
     )

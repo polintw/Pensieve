@@ -19,13 +19,14 @@ export default class CogActions extends React.Component {
         left: '0'
       },
       selfCom_CogActions_nav_: {
+        display: 'inline-block',
         width: '64%',
-        height: '16vh',
-        position: 'absolute',
+        position: 'relative',
         top: '0',
-        right: '10%',
+        left: '40%',
         boxSizing: 'border-box',
         padding: '1vh 2%',
+        margin: '0 0 2vh',
         fontSize: '1.3rem',
         fontWeight: '300',
         letterSpacing: '0.1rem'
@@ -51,8 +52,8 @@ export default class CogActions extends React.Component {
       },
       selfCom_CogActions_main_: {
         width: '100%',
-        position: 'absolute',
-        top: '16vh',
+        position: 'relative',
+        top: '0',
         left: '0'
       }
     }

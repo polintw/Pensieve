@@ -1,8 +1,15 @@
 import React from 'react';
+import {
+  Route,
+  Link,
+  withRouter
+} from 'react-router-dom';
+import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
+import SvgPropic from '../../Component/SvgPropic.jsx';
 import ModalBox from '../../Component/ModalBox.jsx';
 
-export default class ExternalPanel extends React.Component {
+class ExternalPanel extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -23,18 +30,59 @@ export default class ExternalPanel extends React.Component {
       },
       Com_ExternalPanal_div_: {
         width: '100%',
-        height: '33%',
+        height: '32%',
         position: 'relative',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        margin: '1% 0'
       },
-      Com_ExternalPanal_div_svg: {
-        width: '100%',
+      Com_ExternalPanal_div_circle: {
+        width: '48%',
         height: '90%',
         position: 'absolute',
         top: '50%',
-        left: '0',
+        right: '0',
         transform: 'translate(0, -50%)',
         boxSizing: 'border-box'
+      },
+      Com_ExternalPanal_AccountBack_: {
+        width: '136%',
+        height: '35%',
+        position: 'relative',
+        boxSizing: 'border-box',
+        float: 'right'
+      },
+      Com_ExternalPanal_AccountBack_span_: {
+        display: 'inline-block',
+        width: '100%',
+        position: 'absolute',
+        top: '50%',
+        transform: 'translate(0, -50%)',
+        boxSizing: 'border-box',
+        padding: '1% 0',
+        textAlign: 'right',
+        fontSize: '1.5rem',
+        letterSpacing: '0.2rem',
+        color: '#222222',
+        cursor: 'pointer'
+      },
+      Com_ExternalPanal_options_:{
+        width: '100%',
+        height: '32%',
+        position: 'relative',
+        boxSizing: 'border-box',
+        margin: '1% 0',
+        float: 'right',
+        textAlign: 'right'
+      },
+      Com_ExternalPanal_options_span: {
+        display: 'inline-block',
+        width: '48%',
+        boxSizing: 'border-box',
+        borderTop: 'solid 1px #909090',
+        fontSize: '1.5rem',
+        letterSpacing: '0.2rem',
+        color: '#909090',
+        cursor: 'pointer'
       },
       Com_ExternalPanal_modal_ToolBox_: {
         boxSizing: 'border-box',
@@ -92,28 +140,23 @@ export default class ExternalPanel extends React.Component {
         <div
           style={this.style.Com_ExternalPanal_div_}>
           <svg
-            style={this.style.Com_ExternalPanal_div_svg}>
+            style={this.style.Com_ExternalPanal_div_circle}>
             <text x="50%" y="50%" textAnchor="middle" stroke="#999999" strokeWidth="1.2px" fontSize='3vh'>{" x "}</text>
             <circle r="2vh" cx="50%" cy="50%" stroke='#999999' fill="transparent" style={{cursor: 'pointer'}} onClick={this._handleClick_selfClose}/>
           </svg>
         </div>
         <div
-          style={this.style.Com_ExternalPanal_div_}>
-          <svg
-            style={this.style.Com_ExternalPanal_div_svg}>
-            <text x="50%" y="50%" textAnchor="middle" stroke="#999999" strokeWidth="0.8px" fontSize='3vh'>{"<-"}</text>
-            <circle r="2vh" cx="50%" cy="50%" stroke='#999999' fill="transparent" style={{cursor: 'pointer'}} onClick={this._handleClick_selfCover}/>
-          </svg>
+          style={this.style.Com_ExternalPanal_AccountBack_}>
+          <span
+            style={this.style.Com_ExternalPanal_AccountBack_span_}
+            onClick={this._handleClick_selfCover}>
+            {this.props.userInfo.account}</span>
         </div>
         <div
-          style={this.style.Com_ExternalPanal_div_}>
-          <svg
-            style={this.style.Com_ExternalPanal_div_svg}>
-            <text x="50%" y="50%" textAnchor="middle" stroke="#999999" strokeWidth="0.8px" fontSize='3vh'>{""}</text>
-            <circle r="2vh" cx="50%" cy="50%" stroke='#999999' fill="transparent" style={{cursor: 'pointer'}} onClick={this._handleClick_navToolBox} />
-          </svg>
+          style={this.style.Com_ExternalPanal_options_}>
           <span
-            style={{display: 'inline-block', width: '60%', height: '30%', position: 'absolute', top: "50%", left: "50%", transform: "translate(-50%,-50%)"}}>
+            style={this.style.Com_ExternalPanal_options_span}
+            onClick={this._handleClick_navToolBox}>
             {"。。"}
           </span>
         </div>
@@ -137,3 +180,15 @@ export default class ExternalPanel extends React.Component {
     )
   }
 }
+
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo,
+    unitCurrent: state.unitCurrent
+  }
+}
+
+export default withRouter(connect(
+  mapStateToProps,
+  null
+)(ExternalPanel));

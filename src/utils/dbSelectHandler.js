@@ -278,14 +278,14 @@ exports._select_Basic = (condition, accordance)=>{
           let pWhereCol = new Promise((resolveWhereCol, reject)=>{
             let where = '';
             condition.where.forEach((col, index)=>{
-              where = where + index>0?", ":"" + col;
+              where = where + (index>0?", ":"") + col;
             });
             resolveWhereCol(where);
           }).catch((err)=>{throw {err: err}}),
           pConditioncol = new Promise((resolveConditionCol, reject)=>{
             let cols = '';
             condition.cols.forEach((col, index)=>{
-              cols = cols + index>0?", ":"" + col;
+              cols = cols + (index>0?", ":"") + col;
             });
             resolveConditionCol(cols);
           }).catch((err)=>{throw {err: err}});
@@ -309,5 +309,5 @@ exports._select_Basic = (condition, accordance)=>{
     ):(
       resolve([])
     )
-  }).catch((errObj)=>{throw errObj})
+  })
 }

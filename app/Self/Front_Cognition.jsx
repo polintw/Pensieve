@@ -10,8 +10,8 @@ import CogEmbed from './component/CogEmbed.jsx';
 import CogMutual from './component/CogMutual.jsx';
 import CogActions from './component/CogActions.jsx';
 import Collaterals from './component/Collaterals.jsx';
+import NavFront from './component/NavFront.jsx';
 import NavsCognition from './component/NavsCognition.jsx';
-import SvgPropic from '../Component/SvgPropic.jsx';
 
 class FrontCognition extends React.Component {
   constructor(props){
@@ -29,13 +29,12 @@ class FrontCognition extends React.Component {
         left: '0%'
       },
       Front_Cognition_scroll_: {
-        width: '76%',
+        width: '72%',
         minHeight: '80%',
         position: 'absolute',
-        top: '9%',
-        left: '12%',
-        boxSizing: 'border-box',
-        padding: '2vh 0'
+        top: '7%',
+        left: '14%',
+        boxSizing: 'border-box'
       },
       Front_Cognition_Collateral: {
         width: '76%',
@@ -46,7 +45,7 @@ class FrontCognition extends React.Component {
       },
       Front_Cognition_backPlane_top: {
         width: '100%',
-        height: '7%',
+        height: '6.5%',
         position: 'fixed',
         top: '0',
         left: '0',
@@ -62,41 +61,21 @@ class FrontCognition extends React.Component {
         boxSizing: 'border-box',
         backgroundColor: '#FFFFFF'
       },
+      Front_Cognition_NavFront_: {
+        width: '7%',
+        height: '7%',
+        position: 'fixed',
+        bottom: '15%',
+        left: '3%',
+        boxSizing: 'border-box',
+      },
       Front_Cognition_NavsCognition_:{
-        width: '78%',
+        width: '85%',
         height: '7%',
         position: 'fixed',
         bottom: '0',
-        left: '15%',
+        left: '11%',
         boxSizing: 'border-box',
-      },
-      Front_Cognition_UserName_: {
-        width: '24%',
-        height: '7%',
-        position: 'fixed',
-        top: '0',
-        left: '13%',
-        boxSizing: 'border-box'
-      },
-      Front_Cognition_UserName_svg_: {
-        display: 'inline-block',
-        width: '10%',
-        height: '100%',
-        position: 'relative',
-        boxSizing: 'border-box',
-        margin: '0 3%',
-        padding: '1rem 0 0 0'
-      },
-      Front_Cognition_UserName_span_: {
-        display: 'inline-block',
-        position: 'absolute',
-        bottom: '18%',
-        left: '0',
-        boxSizing: 'border-box',
-        padding: '1% 0',
-        fontSize: '1.6rem',
-        letterSpacing: '0.12rem',
-        color: '#222222'
       }
     }
   }
@@ -136,14 +115,9 @@ class FrontCognition extends React.Component {
         </div>
         <div style={this.style.Front_Cognition_backPlane_bottom}/>
         <div
-          style={this.style.Front_Cognition_UserName_}> //move to the right side of the viewport, above external panel
-          <div
-            style={this.style.Front_Cognition_UserName_svg_}>
-            <SvgPropic/>
-          </div>
-          <span style={this.style.Front_Cognition_UserName_span_}>{this.props.userInfo.account}</span>
+          style={this.style.Front_Cognition_NavFront_}>
+          <NavFront {...this.props}/>
         </div>
-        //move NavFront here
         <div
           style={this.style.Front_Cognition_NavsCognition_}>
           <NavsCognition {...this.props}/>
