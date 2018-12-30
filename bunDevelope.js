@@ -13,20 +13,29 @@ let rootWithin = browserify({debug: true}).transform(babelify.configure({
   presets: [
       "react",
       "env"
-  ]})).require("./app/Within/root.js", {entry: true})/*.plugin(require('css-modulesify'), {
+    ],
+    plugins: [
+    "transform-object-rest-spread"
+]})).require("./app/Within/root.js", {entry: true})/*.plugin(require('css-modulesify'), {
     rootDir: __dirname
   });*/
 let rootSelfFront = browserify({debug: true}).transform(babelify.configure({
   presets: [
       "react",
       "env"
-  ]})).require("./app/Self/root_Front.js", {entry: true})/*.plugin(require('css-modulesify'), {
+    ],
+    plugins: [
+  	"transform-object-rest-spread"
+    ]})).require("./app/Self/root_Front.js", {entry: true})/*.plugin(require('css-modulesify'), {
     rootDir: __dirname
   });*/
 let rootSelfCover = browserify({debug: true}).transform(babelify.configure({
   presets: [
       "react",
       "env"
+    ],
+    plugins: [
+  	"transform-object-rest-spread"
   ]})).require("./app/SelfCover/root_SelfCover.js", {entry: true})/*.plugin(require('css-modulesify'), {
     rootDir: __dirname
   });*/

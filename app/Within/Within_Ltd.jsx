@@ -77,7 +77,7 @@ class WithinLtd extends React.Component {
         transform: 'translate(-50%, 0)'
       },
       Within_Ltd_scroll_LtdUnits: {
-        width: '60%',
+        width: '66%',
         minHeight: '110%',
         position: 'absolute',
         top: '28%',

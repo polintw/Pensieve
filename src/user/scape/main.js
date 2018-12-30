@@ -1,8 +1,9 @@
 const express = require('express');
 const main = express.Router();
 
-const nounsExecutive = require('./nouns/execute.js');
+const vanilla = require('./vanilla.js');
 
-main.use('/nouns', nounsExecutive)
+main.use('/', vanilla)
+
 
 module.exports = main;

@@ -44,28 +44,28 @@ class SelfCover extends React.Component {
         width: '27%',
         position: 'absolute',
         top: '0%',
-        left: '20%',
-        fontSize: "5.6vh",
-        letterSpacing: '0.6vh',
+        right: '20%',
+        fontSize: "4.2vh",
+        letterSpacing: '0.49vh',
         fontWeight: '300',
         color: '#222222'
       },
       Self_pages_SelfCover_mainNav_options_: {
         display: 'inline-block',
-        width: '27%',
-        height: '20vh',
+        width: '50%',
+        height: '56%',
         position: 'absolute',
-        bottom: '0%',
-        right: '20%',
+        top: '0%',
+        left: '24%',
         boxSizing: 'border-box'
       },
       Self_pages_SelfCover_mainNav_options_expand: {
         display: 'inline-block',
-        width: '100%',
-        height: '40%',
         position: 'relative',
-        top: '0%',
+        top: '50%',
         left: '0%',
+        boxSizing: 'border-box',
+        transform: 'translate(0, -50%)',
         fontSize: "3.6vh",
         letterSpacing: '0.4vh',
         color: '#222222',
@@ -73,8 +73,8 @@ class SelfCover extends React.Component {
       },
       Self_pages_SelfCover_mainNav_options_expand_inform_: {
         display: 'inline-block',
-        width: '20%',
-        height: '100%',
+        width: '24%',
+        height: '40%',
         position: 'relative',
         boxSizing: 'border-box'
       },
@@ -108,11 +108,11 @@ class SelfCover extends React.Component {
         boxSizing: 'border-box'
       },
       Self_pages_SelfCover_close_: {
-        width: '6%',
-        height: '8%',
-        position: 'fixed',
-        top: '64%',
-        right: '2%',
+        width: '5%',
+        height: '18%',
+        position: 'absolute',
+        bottom: '5%',
+        left: '28%',
         boxSizing: 'border-box'
       },
       Self_pages_SelfCover_close_svg: {
@@ -125,14 +125,12 @@ class SelfCover extends React.Component {
         boxSizing: 'border-box'
       },
       Self_pages_SelfCover_Logo: {
-        width: '16%',
-        height: '10%',
-        position: 'fixed',
-        bottom:'0%',
-        left: '6%',
+        position: 'absolute',
+        bottom:'7%',
+        right: '10%',
         boxSizing: 'border-box',
-        fontSize: '3.2vh',
-        letterSpacing: '0.4vh',
+        fontSize: '1.6vh',
+        letterSpacing: '0.2vh',
         color: '#222222'
       }
     }
@@ -199,11 +197,10 @@ class SelfCover extends React.Component {
         ref={(element)=>{this.selfCover_=element;}}
         style={this.style.Self_pages_SelfCover_}
         onWheel={this._handleMouse_selfCoverFrame}>
-        <div style={this.style.Self_pages_SelfCover_Logo}>{'CORNER'}</div>
+        <div style={{width: '100%', height: '81%', position: 'fixed', backgroundColor: 'rgba(181, 181, 181, 0.8)'}}></div>
         <div
           ref={(element)=>{this.selfCover_pagenav=element;}}
           style={Object.assign({height: this.state.scroll? '20vh': '45vh'}, this.style.Self_pages_SelfCover_mainNav_)}>
-          <div style={this.style.Self_pages_SelfCover_mainNav_userName}>{this.state.userInfo.account}</div>
           <div
             style={this.style.Self_pages_SelfCover_mainNav_options_}>
             <div
@@ -214,6 +211,7 @@ class SelfCover extends React.Component {
                 style={this.style.Self_pages_SelfCover_mainNav_options_expand_inform_}>
                 <svg
                   style={this.style.Self_pages_SelfCover_mainNav_options_expand_inform_svg}>
+                  <text x="50%" y="50%" textAnchor="middle" stroke="#999999" strokeWidth="1.2px" fontSize='3vh'>{" switch "}</text>
                   <circle r="2vh" cx="50%" cy="50%" stroke='#999999' fill="transparent" style={{cursor: 'pointer'}}/>
                 </svg>
               </div>
@@ -221,14 +219,25 @@ class SelfCover extends React.Component {
                 style={this.style.Self_pages_SelfCover_mainNav_options_expand_inform_}>
                 <svg
                   style={this.style.Self_pages_SelfCover_mainNav_options_expand_inform_svg}>
+                  <text x="50%" y="50%" textAnchor="middle" stroke="#999999" strokeWidth="1.2px" fontSize='3vh'>{" Growth "}</text>
                   <circle r="2vh" cx="50%" cy="50%" stroke='#999999' fill="transparent" style={{cursor: 'pointer'}}/>
                 </svg>
               </div>
             </div>
-            <div
-              style={this.style.Self_pages_SelfCover_mainNav_options_recent}>
-              {"Growth"}
-            </div>
+          </div>
+          <div style={this.style.Self_pages_SelfCover_mainNav_userName}>
+            {this.state.userInfo.account}
+          </div>
+          <div style={this.style.Self_pages_SelfCover_Logo}>
+            {'CORNER'}
+          </div>
+          <div
+            style={this.style.Self_pages_SelfCover_close_}>
+            <svg
+              style={this.style.Self_pages_Front_Scape_circle}>
+              <text x="50%" y="50%" textAnchor="middle" stroke="#999999" strokeWidth="1.2px" fontSize='3vh'>{" x "}</text>
+              <circle r="2vh" cx="50%" cy="50%" stroke='#999999' fill="transparent" style={{cursor: 'pointer'}} onClick={this._handleClick_selfClose}/>
+            </svg>
           </div>
         </div>
         {
@@ -241,17 +250,6 @@ class SelfCover extends React.Component {
             </div>
           </Router>
         }
-        <div
-          style={this.style.Self_pages_SelfCover_close_}>
-          <svg
-            style={this.style.Self_pages_SelfCover_close_svg}>
-            <text x="50%" y="50%" textAnchor="middle" stroke="#999999" strokeWidth="1.2px" fontSize='3vh'
-              style={{cursor: 'pointer'}}
-              onClick={this._handleClick_selfClose}>
-              {" x "}
-            </text>
-          </svg>
-        </div>
       </div>
     )
   }

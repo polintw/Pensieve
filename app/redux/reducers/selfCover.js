@@ -1,13 +1,18 @@
 import { combineReducers } from 'redux';
 import {
   MOUNT_USERINFO,
-  UNIT_MOUNT_UNITCURRENT
+  UNIT_MOUNT_UNITCURRENT,
+  UPDATE_NOUNSBASIC
 } from '../constants/typesGeneral.js';
 import {
-  initGlobal
+  initGlobal,
+  initNouns
 } from '../constants/states.js';
 
-function pageSelfCover(state = initGlobal, action){
+//this is a temp management, in case one day we will seperate the reducer like the initstate
+const initialGeneral = Object.assign({}, initGlobal, initNouns);
+
+function pageSelfCover(state = initialGeneral, action){
   switch (action.type) {
     case MOUNT_USERINFO:
       return Object.assign({}, state, {
@@ -17,6 +22,11 @@ function pageSelfCover(state = initGlobal, action){
     case UNIT_MOUNT_UNITCURRENT:
       return Object.assign({}, state, {
         unitCurrent: action.unitCurrent
+      })
+      break;
+    case UPDATE_NOUNSBASIC:
+      return Object.assign({}, state, {
+        nounsBasic: {...state.nousBasic, ...action.newFetch}
       })
       break;
     default:

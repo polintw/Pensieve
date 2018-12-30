@@ -12,6 +12,8 @@ import SvgCreate from '../../Component/SvgCreate.jsx';
 import NailShared from '../../Component/Nails/NailShared.jsx';
 //ModalBox used some unstable method, considering updating some day.
 import ModalBox from '../../Component/ModalBox.jsx';
+import {handleNounsList} from "../../redux/actions/general.js";
+import {errHandler_axiosCatch} from "../../utils/errHandlers.js";
 
 class Shared extends React.Component {
   constructor(props){
@@ -70,7 +72,8 @@ class Shared extends React.Component {
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']
-      }
+      },
+      cancelToken: self.axiosSource.token
     }).then(function(res){
       let resObj = JSON.parse(res.data);
       self.setState({
@@ -79,6 +82,8 @@ class Shared extends React.Component {
         unitsBasic: resObj.main.unitsBasic,
         marksBasic: resObj.main.marksBasic
       })
+
+      self.props._submit_NounsList_new(resObj.main.nounsListMix);
     }).catch(function (thrown) {
       if (axios.isCancel(thrown)) {
         console.log('Request canceled: ', thrown.message);
@@ -132,7 +137,8 @@ class Shared extends React.Component {
           {...self.props}
           key={'key_Shared_nails_'+index}
           sharedId={dataKey}
-          unitBasic={dataValue}/>
+          unitBasic={dataValue}
+          marksBasic={self.state.marksBasic}/>
       )
     })
     if(this.state.unitsList.length< 3){
@@ -166,7 +172,13 @@ const mapStateToProps = (state)=>{
   }
 }
 
+const mapDispatchToProps = (dispatch)=>{
+  return {
+    _submit_NounsList_new: (arr)=>{dispatch(handleNounsList(arr));}
+  }
+}
+
 export default withRouter(connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(Shared));

@@ -1,6 +1,7 @@
 import React from 'react';
 import MarkDialogue from './MarkDialogue.jsx';
 import SvgBulb from '../../SvgBulb.jsx';
+import SvgPropic from '../../SvgPropic.jsx';
 import DraftDisplay from '../../DraftDisplay.jsx';
 
 export default class MarkBlockViewer extends React.Component {
@@ -18,88 +19,65 @@ export default class MarkBlockViewer extends React.Component {
     this.style = {
       Com_MarkBlockViewer_: {
         width: '100%',
-        height: '100%',
         position: 'absolute',
         top: '0',
         left: '0',
         boxSizing: 'border-box'
       },
       Com_MarkBlockViewer_content_: {
-        display: 'inline-block',
-        width: '21vw',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box',
-        margin: '0'
-      },
-      Com_MarkBlockViewer_content_editor_: {
         width: '100%',
-        height: '90%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
+        minHeight: '22vh',
+        maxHeight: '60vh',
+        position: 'relative',
         boxSizing: 'border-box',
         margin: '0',
-        padding: '2% 2% 2% 3%',
         fontSize: '1.2rem',
         letterSpacing: '0.15rem',
         fontWeight: '400',
         color: '#FAFAFA',
         overflow: 'auto'
       },
-      Com_MarkBlockViewer_content_panel_: {
+      Com_MarkBlockViewer_panel_: {
         width: '100%',
-        height: '10%',
-        position: 'absolute',
-        bottom: '0',
-        left: '0',
+        minHeight: '22vh',
+        position: 'relative',
+        boxSizing: 'border-box'
+      },
+      Com_MarkBlockViewer_panel_interaction_: {
+        width: '100%',
+        height: '5vh',
+        position: 'relative',
         boxSizing: 'border-box',
         color: '#FAFAFA'
       },
-      Com_MarkBlockViewer_content_panel_raise:{
-        width: '35%',
+      Com_MarkBlockViewer_panel_interaction_bulb:{
+        width: '15%',
         height: '100%',
+        position: 'relative',
         float: 'right',
         cursor: 'pointer'
       },
-      Com_MarkBlockViewer_dialogue_: {
-        display: 'inline-block',
-        width: '13vw',
+      Com_MarkBlockViewer_panel_interaction_raise: {
+        width: '18%',
+        height: '100%',
+        position: 'relative',
+        float: 'right'
+      },
+      Com_MarkBlockViewer_panel_dialogue: {
+        width: '100%',
         height: '100%',
         position: 'absolute',
         top: '0',
-        left: '21vw',
+        left: '0',
         boxSizing: 'border-box',
         padding: '2% 3%',
-        borderLeft: 'solid 1px white',
         color: '#FAFAFA',
       },
-      Com_MarkBlockViewer_side_: {
-        display: 'inline-block',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        right: '0',
-        boxSizing: 'border-box',
-        backgroundColor: 'white'
-      },
-      Com_MarkBlockViewer_side_thanks_: {
-        display: 'inline-block',
+      Com_MarkBlockViewer_panel_credits_: {
         width: '100%',
-        height: '10%',
-        position: 'absolute',
-        top: '0%',
-        left: '0%',
+        height: '8vh',
+        position: 'relative',
         boxSizing: 'border-box'
-      },
-      Com_MarkBlockViewer_side_bottom_bulb: {
-        width: '30%',
-        height: '10%',
-        position: 'absolute',
-        bottom: '0',
-        right: '2%'
       }
     };
   }
@@ -166,41 +144,40 @@ export default class MarkBlockViewer extends React.Component {
         style={this.style.Com_MarkBlockViewer_}>
         <div
           style={this.style.Com_MarkBlockViewer_content_}>
+          <DraftDisplay
+            editorState={this.props.markData.editorContent}/>
+        </div>
+        <div
+          style={this.style.Com_MarkBlockViewer_panel_}>
+          {
+            this.state.dialogue &&
+            <div
+              style={this.style.Com_MarkBlockViewer_panel_dialogue}>
+              <MarkDialogue
+                markKey={this.props.markKey}/>
+            </div>
+          }
           <div
-            style={this.style.Com_MarkBlockViewer_content_editor_}>
-            <DraftDisplay
-              editorState={this.props.markData.editorContent}/>
-          </div>
-          <div
-            style={this.style.Com_MarkBlockViewer_content_panel_}>
+            style={this.style.Com_MarkBlockViewer_panel_interaction_}>
+            <div
+              style={this.style.Com_MarkBlockViewer_panel_interaction_bulb}
+              onClick={this._handleClick_Inspired}>
+              <SvgBulb
+                light={this.state.inspired ? true : false}/>
+            </div>
             <span
-              style={this.style.Com_MarkBlockViewer_content_panel_raise}
+              style={this.style.Com_MarkBlockViewer_panel_interaction_raise}
               onClick={this._handleClick_openDialogue}>
               {'舉手'}
             </span>
           </div>
-        </div>
-        {
-          this.state.dialogue &&
           <div
-            style={this.style.Com_MarkBlockViewer_dialogue_}>
-            <MarkDialogue
-              markKey={this.props.markKey}/>
+            style={this.style.Com_MarkBlockViewer_panel_credits_}>
+            <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
+            <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
           </div>
-        }
-        <div
-          style={
-            this.state.dialogue?Object.assign({width: '2vw'}, this.style.Com_MarkBlockViewer_side_):
-            Object.assign({width: '12vw'}, this.style.Com_MarkBlockViewer_side_)}>
-          <div
-            style={this.style.Com_MarkBlockViewer_side_thanks_}>
-            <span>{'編輯紀錄'}</span>
-          </div>
-          <div
-            style={this.style.Com_MarkBlockViewer_side_bottom_bulb}
-            onClick={this._handleClick_Inspired}>
-            <SvgBulb
-              light={this.state.inspired ? true : false}/>
+          <div>
+            {"多行參考資料連結"}
           </div>
         </div>
       </div>

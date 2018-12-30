@@ -145,7 +145,7 @@ export class SearchModalNouns extends React.Component {
   _axios_get_NounSet(){
     const self = this;
     this.setState({axios: true});
-    axios.get(`/router/lists/nouns/search?prefix=${this.state.query}&limit=5`, {
+    axios.get(`/router/nouns/search/simple?prefix=${this.state.query}&limit=5`, {
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']

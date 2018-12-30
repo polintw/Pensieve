@@ -7,31 +7,18 @@ export default class MarkBlock extends React.Component {
     this.state = {
 
     };
-    this._css_calculate_MarkBlockPosition = this._css_calculate_MarkBlockPosition.bind(this);
     this.style = {
-
-    };
-  }
-
-  _css_calculate_MarkBlockPosition(){
-    let [left, top, right] = [null,null,null];
-    let coordinate = {top: this.props.markData.top, left: this.props.markData.left};
-    coordinate.left>50 ? right = (100-coordinate.left)+'%' : left = coordinate.left+'%';
-    top = (coordinate.top) * (30) / (100) + '%';
-
-    return(
-      {
-        width: this.state.dialogue?'36vw':'34vw',
-        height: '52vh',
+      Com_MarkBlock_: {
+        width: '100%',
+        minHeight: '44vh',
         position: 'absolute',
-        top: top,
-        left: left,
-        right: right,
+        top: '0',
+        left: '0',
         boxSizing: 'border-box',
         backgroundColor: 'rgba(25,25,25,0.6)',
         boxShadow: '0 0 4vw rgba(25,25,25,0.6)'
       }
-    )
+    };
   }
 
   componentDidMount(){
@@ -41,7 +28,7 @@ export default class MarkBlock extends React.Component {
   render(){
     return(
       <div
-        style={this._css_calculate_MarkBlockPosition()}>
+        style={this.style.Com_MarkBlock_}>
         <MarkBlockViewer
           markKey={this.props.markKey}
           markData={this.props.markData}/>

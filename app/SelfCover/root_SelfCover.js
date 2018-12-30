@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {createStore} from "redux";
+import {createStore, applyMiddleware} from "redux";
+import thunk from 'redux-thunk';
 import {Provider} from "react-redux";
 import SelfCover from './SelfCover.jsx'
 import storeSelfCover from "../redux/reducers/selfCover.js";
@@ -13,7 +14,7 @@ if(loggedin){
         'token': window.localStorage['token']
     }
   }).then(function(res){
-    const store = createStore(storeSelfCover);
+    const store = createStore(storeSelfCover, applyMiddleware(thunk));
     store.dispatch(mountUserInfo(res.data.userInfo));
     ReactDOM.hydrate(<Provider store={store}><SelfCover/></Provider>, document.getElementById("root"));
   }).catch((err)=>{

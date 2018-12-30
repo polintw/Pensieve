@@ -15,7 +15,6 @@ class ExternalPanel extends React.Component {
     this.state = {
       toolBoxify: false
     };
-    this._handleClick_selfClose = this._handleClick_selfClose.bind(this);
     this._handleClick_selfCover = this._handleClick_selfCover.bind(this);
     this._handleClick_navToolBox = this._handleClick_navToolBox.bind(this);
     this._handleClick_ToolBox_logout = this._handleClick_ToolBox_logout.bind(this);
@@ -26,22 +25,6 @@ class ExternalPanel extends React.Component {
         position: 'absolute',
         top: '0',
         left: '0',
-        boxSizing: 'border-box'
-      },
-      Com_ExternalPanal_div_: {
-        width: '100%',
-        height: '32%',
-        position: 'relative',
-        boxSizing: 'border-box',
-        margin: '1% 0'
-      },
-      Com_ExternalPanal_div_circle: {
-        width: '48%',
-        height: '90%',
-        position: 'absolute',
-        top: '50%',
-        right: '0',
-        transform: 'translate(0, -50%)',
         boxSizing: 'border-box'
       },
       Com_ExternalPanal_AccountBack_: {
@@ -104,12 +87,6 @@ class ExternalPanel extends React.Component {
     }
   }
 
-  _handleClick_selfClose(event){
-    event.preventDefault();
-    event.stopPropagation();
-    window.location.assign('/');
-  }
-
   _handleClick_selfCover(event){
     event.preventDefault();
     event.stopPropagation();
@@ -137,14 +114,6 @@ class ExternalPanel extends React.Component {
       <div
         id="Com_ExternalPanal_"
         style={this.style.Com_ExternalPanal_}>
-        <div
-          style={this.style.Com_ExternalPanal_div_}>
-          <svg
-            style={this.style.Com_ExternalPanal_div_circle}>
-            <text x="50%" y="50%" textAnchor="middle" stroke="#999999" strokeWidth="1.2px" fontSize='3vh'>{" x "}</text>
-            <circle r="2vh" cx="50%" cy="50%" stroke='#999999' fill="transparent" style={{cursor: 'pointer'}} onClick={this._handleClick_selfClose}/>
-          </svg>
-        </div>
         <div
           style={this.style.Com_ExternalPanal_AccountBack_}>
           <span

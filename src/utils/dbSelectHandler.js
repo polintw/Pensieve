@@ -268,46 +268,42 @@ function querySwitcher(queryIndicator){
 
 exports._select_Basic = (condition, accordance)=>{
   return new Promise((resolve, reject)=>{
-    //confirm the condition is valid, and not empty
-    accordance.length>0 ? (
-      database.getConnection(function(err, connection){
-        if (err) {
-          console.log("error occured when getConnection to select from "+condition.table);
-          reject({status: 500, err: err});
-        }else{
-          let pWhereCol = new Promise((resolveWhereCol, reject)=>{
-            let where = '';
-            condition.where.forEach((col, index)=>{
-              where = where + (index>0?", ":"") + col;
-            });
-            resolveWhereCol(where);
-          }).catch((err)=>{throw {err: err}}),
-          pConditioncol = new Promise((resolveConditionCol, reject)=>{
-            let cols = '';
-            condition.cols.forEach((col, index)=>{
-              cols = cols + (index>0?", ":"") + col;
-            });
-            resolveConditionCol(cols);
-          }).catch((err)=>{throw {err: err}});
-          Promise.all([pConditioncol, pWhereCol]).then((strings)=>{
-            let selectQuery = "SELECT "+strings[0]+" FROM "+condition.table+" WHERE ("+strings[1]+") IN (?)";
-            connection.query(selectQuery, [accordance], function(err, results, fields){
-              if (err) {reject({err: err});connection.release(); return} //only with "return" could assure the promise end immediately if there is any error.
-              console.log('database connection success: '+condition.table);
-              if(results.length> 0){
-                let rowsArr = results.slice();
-                resolve(rowsArr);
-                connection.release();
-              }else{
-                reject({status: 500, err: 'data mismatch in '+condition.table});
-                connection.release();
-              }
-            })
-          }).catch((errObj)=>{throw errObj})
-        }
-      })
-    ):(
-      resolve([])
-    )
+    database.getConnection(function(err, connection){
+      if (err) {
+        console.log("error occured when getConnection to select from "+condition.table);
+        reject({status: 500, err: err});
+      }else{
+        let pWhereCol = new Promise((resolveWhereCol)=>{
+          let where = '';
+          condition.where.forEach((col, index)=>{
+            where = where + (index>0?", ":"") + col;
+          });
+          resolveWhereCol(where);
+        }).catch((err)=>{reject({err: err})}),
+        pConditioncol = new Promise((resolveConditionCol)=>{
+          let cols = '';
+          condition.cols.forEach((col, index)=>{
+            cols = cols + (index>0?", ":"") + col;
+          });
+          resolveConditionCol(cols);
+        }).catch((err)=>{reject({err: err})});
+        Promise.all([pConditioncol, pWhereCol]).then((strings)=>{
+          let comparison = "comparison" in condition ? condition.comparison[0].operator+" "+condition.comparison[0].qmark:" IN (?)";
+          let selectQuery = "SELECT "+strings[0]+" FROM "+condition.table+" WHERE ("+strings[1]+") "+comparison;
+          connection.query(selectQuery, [accordance], function(err, results, fields){
+            if (err) {reject({err: err});connection.release(); return} //only with "return" could assure the promise end immediately if there is any error.
+            console.log('database connection success: '+condition.table);
+            if(results.length> 0){
+              let rowsArr = results.slice();
+              resolve(rowsArr);
+              connection.release();
+            }else{
+              reject({status: 500, err: 'data mismatch in '+condition.table});
+              connection.release();
+            }
+          })
+        }).catch((errObj)=>{reject(errObj)})
+      }
+    })
   })
 }

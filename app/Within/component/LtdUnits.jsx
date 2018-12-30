@@ -6,18 +6,22 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
-import LtdUnitsRaws from './LtdUnitsRaws.jsx';
 import Unit from '../../Component/Unit.jsx';
+import NailScape from '../../Component/Nails/NailScape.jsx';
+import {
+  handleNounsList,
+  handleUsersList
+} from "../../redux/actions/general.js";
+import {errHandler_axiosCatch} from "../../utils/errHandlers.js";
 
 class LtdUnits extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       axios: false,
-      unitsList: [],
-      unitsBasicSet: {},
-      markBasic: {},
-      userBasic: {},
+      ltdList: [],
+      unitsBasic: {},
+      marksBasic: {},
       rawsArr: []
     };
     this.axiosSource = axios.CancelToken.source();
@@ -46,80 +50,69 @@ class LtdUnits extends React.Component {
   }
 
   _construct_UnitInit(match, location){
-    let unitInit=Object.assign(this.state.unitsBasicSet[match.params.id], {marksify: true, initMark: "all", layer: 0});
+    let unitInit=Object.assign(this.state.unitsBasic[match.params.id], {marksify: true, initMark: "all", layer: 0});
     return unitInit;
   }
 
-  _axios_list_lookout(url){
+  _axios_list_lookout(url, params){
     const self = this;
+    this.setState({axios: true});
     axios.get(url, {
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']
       },
+      params: params,
       cancelToken: self.axiosSource.token
     }).then(function (res) {
-        self.setState((prevState, props)=>{
-          let resObj = JSON.parse(res.data);
-          return({
-            axios: false,
-            unitsList: resObj.main.unitsList,
-            unitsBasicSet: resObj.main.unitsBasicSet,
-            markBasic: resObj.main.markBasic,
-            userBasic: resObj.main.userBasic
-          });
-        }, self._render_LtdUnitsRaws);
+      let resObj = JSON.parse(res.data);
+      self.setState((prevState, props)=>{
+        prevState.ltdList.unshift(resObj.main.unitsList);
+        return({
+          axios: false,
+          ltdList: prevState.ltdList,
+          unitsBasic: resObj.main.unitsBasic,
+          marksBasic: resObj.main.marksBasic
+        });
+      }, self._render_LtdUnitsRaws);
+      self.props._submit_NounsList_new(resObj.main.nounsListMix);
+      self.props._submit_UsersList_new(resObj.main.usersList);
     }).catch(function (thrown) {
       if (axios.isCancel(thrown)) {
         console.log('Request canceled: ', thrown.message);
       } else {
         self.setState({axios: false});
-        if (thrown.response) {
-          // The request was made and the server responded with a status code that falls out of the range of 2xx
-          alert('Something went wrong: '+thrown.response.data.message)
-          if(thrown.response.status == 403){
-            window.location.assign('/login');
-          }
-        } else if (thrown.request) {
-            // The request was made but no response was received
-            // `err.request` is an instance of XMLHttpRequest in the browser and an instance of
-            // http.ClientRequest in node.js
-            console.log(thrown.request);
-        } else {
-            // Something happened in setting up the request that triggered an Error
-            console.log('Error: ', thrown.message);
-        }
-        console.log("Error config: "+thrown.config);
+        let customSwitch = (status)=>{
+          return null
+        };
+        errHandler_axiosCatch(thrown, customSwitch);
       }
     });
   }
 
   _render_LtdUnitsRaws(){
-    let point = 0;
-    let raws = [];
-    while (point< this.state.unitsList.length) {
-      if(raws.length==1){raws.push(<div key={'key_LtdUnits_raw_pad_'+point} style={{width: '100%', height: '28vh'}}></div>);continue;};
-      let number = Math.floor(Math.random()*3)+1;
-      if(this.state.unitsList.length-point < number){number = this.state.unitsList.length-point;};
-      raws.push(
-        <LtdUnitsRaws
-          key={'key_LtdUnits_raw_'+point+'_'+number}
+    let row = this.state.ltdList[0] ? this.state.ltdList[0]:[];
+    let nailsArr = row.map((unitId, index)=>{
+      return (
+        <NailScape
           {...this.props}
-          point={point}
-          number={number}
-          unitsList={this.state.unitsList}
-          unitsBasicSet={this.state.unitsBasicSet}
-          _handleClick_Share={this._handleClick_Share}/>
+          key={'key_ScapeNails_'+this.state.ltdList.length+'_'+index}
+          unitId={unitId}
+          unitBasic={this.state.unitsBasic[unitId]}
+          marksBasic={this.state.marksBasic}/>
       )
-      point +=  number;
-    };
-    this.setState({rawsArr: raws});
+    })
+
+    this.setState((prevState, props)=>{
+      return {rawsArr: prevState.rawsArr.concat(nailsArr)}
+    });
   }
 
   componentDidMount(){
     this.setState((prevState, props)=>{return {axios: true};}, ()=>{
-      let url = '/router/user/cognition/lookout';
-      this._axios_list_lookout(url);
+      let url = '/router/scape',
+      params = {'ordinal': 'first'};
+      this._axios_list_lookout(url, params);
     })
   }
 
@@ -154,7 +147,14 @@ const mapStateToProps = (state)=>{
   }
 }
 
+const mapDispatchToProps = (dispatch)=>{
+  return {
+    _submit_NounsList_new: (arr)=>{dispatch(handleNounsList(arr));},
+    _submit_UsersList_new: (arr)=>{dispatch(handleUsersList(arr));}
+  }
+}
+
 export default withRouter(connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(LtdUnits));

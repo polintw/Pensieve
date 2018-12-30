@@ -1,55 +1,60 @@
+const express = require('express');
+const execute = express.Router();
 const jwt = require('jsonwebtoken');
-const {verify_key} = require('../../../../config/jwt.js');
-const {_res_success} = require('../../../utils/resHandler.js');
+const {verify_key} = require('../../../config/jwt.js');
+const {_res_success} = require('../../utils/resHandler.js');
 const {
   _select_Basic
-} = require('../../../utils/dbSelectHandler.js');
+} = require('../../utils/dbSelectHandler.js');
 const {
   _handler_err_NotFound,
   _handler_err_BadReq,
   _handler_err_Unauthorized,
   _handler_err_Internal
-} = require('../../../utils/reserrHandler.js');
+} = require('../../utils/reserrHandler.js');
 
-function _handle_user_actionsShareds_GET(req, res){
+function _handle_scape_GET(req, res){
   jwt.verify(req.headers['token'], verify_key, function(err, payload) {
     if (err) {
       _handler_err_Unauthorized(err, res)
     } else {
       let userId = payload.user_Id;
+      let ordinal = req.query.ordinal; // prepare for one day, the algorithm need to know which time is it now
+
       let mysqlForm = {
-        accordancesList: [[userId]],
+        accordancesList: userId, //operator is not "IN"
         unitsList: []
       },
       selectCondition = {
         table: "units",
         cols: ["*"],
-        where: ["id_author"]
+        where: ["id_author"],
+        comparison: [{operator: '<>', qmark: '?'}]
       };
       //first, selecting by accordancelist
-      _select_Basic(selectCondition, mysqlForm.accordancesList).then((resultShareds)=>{
+      _select_Basic(selectCondition, mysqlForm.accordancesList).then((resultsUnit)=>{
         let sendingData={
           unitsList: [],
           unitsBasic: {},
           marksBasic: {},
+          usersList: [],
           nounsListMix: [],
           temp: {}
         }
-        if(resultShareds.length < 1){return sendingData}; // if there is not any shareds record at all
+        if(resultsUnit.length < 1){return sendingData}; // if there is not any shareds record at all
         //if needed, selecting again by the result
-        resultShareds.forEach((row, index)=>{
+        resultsUnit.forEach((row, index)=>{
           mysqlForm.unitsList.push([row.id]);
-        });
-        resultShareds.forEach((row, index)=>{
           sendingData.unitsList.push(row.id);
+          sendingData.usersList.push(row.id_author);
           sendingData.unitsBasic[row.id] = {
             unitsId: row.id,
-            authorId: userId,
+            authorId: row.id_author,
             pic_layer0: row.url_pic_layer0,
             created: row.established,
             marksList: [],
             nounsList: []
-          }
+          };
         });
 
         return sendingData;
@@ -86,12 +91,12 @@ function _handle_user_actionsShareds_GET(req, res){
           sendingData.nounsListMix = sendingData.nounsListMix.filter((id, index, list)=>{
             return index == list.indexOf(id);
           }); //remove duplicate from the array
-          return (sendingData); //return to the 'parent' promise of current one
+          return (sendingData);
         })
       }).then((sendingData)=>{
-        _res_success(res, sendingData, "Complete, GET: user actions/shareds.");
-      }).catch((errObj)=>{
-        console.log("error occured during GET: user actions/shareds promise: "+(errObj.err?errObj.err:errObj));
+        _res_success(res, sendingData, "Complete, GET: scape/vanilla.");
+      }).catch((err)=>{
+        console.log("error occured during GET: scape/vanilla promise: "+(errObj.err?errObj.err:errObj))
         switch (errObj.status) {
           case 400:
             _handler_err_BadReq(errObj.err, res);
@@ -108,6 +113,11 @@ function _handle_user_actionsShareds_GET(req, res){
       });
     }
   })
-}
+};
 
-module.exports = _handle_user_actionsShareds_GET
+execute.get('/', function(req, res){
+  console.log('GET: scape/vanilla');
+  _handle_scape_GET(req, res);
+})
+
+module.exports = execute;

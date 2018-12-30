@@ -20,3 +20,15 @@ export const initSetting = {
     mail: ''
   }
 }
+
+export const initNouns = {
+  nounsBasic: {
+
+  }
+}
+
+export const initUsers = {
+  usersBasic: {
+
+  }
+}

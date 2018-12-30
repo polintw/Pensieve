@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {createStore} from "redux";
+import {createStore, applyMiddleware} from "redux";
+import thunk from 'redux-thunk';
 import {Provider} from "react-redux";
 import Front from './Front.jsx'
 import storeSelfFront from "../redux/reducers/selfFront.js";
@@ -13,7 +14,7 @@ if(loggedin){
         'token': window.localStorage['token']
     }
   }).then(function(res){
-    const store = createStore(storeSelfFront);
+    const store = createStore(storeSelfFront, applyMiddleware(thunk));
     store.dispatch(mountUserInfo(res.data.userInfo));
     ReactDOM.hydrate(<Provider store={store}><Front/></Provider>, document.getElementById("root"));
   }).catch((err)=>{
