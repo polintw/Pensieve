@@ -8,13 +8,13 @@ import {connect} from "react-redux";
 import ImgBlock from './ImgBlock.jsx';
 import EditingInfoSide from './EditingInfoSide.jsx';
 import ContentModal from './ContentModal.jsx';
-import MarksArticle from './MarksArticle.jsx';
+import MarksArticle from '../MarksArticle.jsx';
 
 class EditingModal extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      focusBlock: null,
+      contentInit: {focusBlock: null, markExpand: null},
       contentModalify: false,
       coverSrc: this.props.unitSet?this.props.unitSet.coverSrc:null,
       beneathSrc: this.props.unitSet?this.props.unitSet.beneathSrc:null,
@@ -23,12 +23,11 @@ class EditingModal extends React.Component {
       refsArr: this.props.unitSet?this.props.unitSet.refsArr:[],
       nouns: this.props.unitSet?this.props.unitSet.nouns:{list:[],basic:{}}
     };
-    this._reset_modalState = () => {this.setState({focusBlock: null, contentModalify: false});};
-    this._set_contentModalify = (bool) => {this.setState({contentModalify: bool})};
+    this._reset_modalState = () => {this.setState({contentInit: {focusBlock: null, markExpand: null}, contentModalify: false});};
     this._set_nouns = (nounSet) => {this.setState((prevState, props) => {return {nouns: nounSet}})};
     this._set_refsArr = ()=>{};
-    this._set_newImgSrc = this._set_newImgSrc.bind(this);
     this._open_ContentModal = this._open_ContentModal.bind(this);
+    this._set_newImgSrc = this._set_newImgSrc.bind(this);
     this._close_Mark_Complete = this._close_Mark_Complete.bind(this);
     this._close_img_Cancell = this._close_img_Cancell.bind(this);
     this._handleClick_Editing_Cancell = this._handleClick_Editing_Cancell.bind(this);
@@ -65,7 +64,8 @@ class EditingModal extends React.Component {
         height: '100%',
         position: 'relative',
         boxSizing: 'border-box',
-        backgroundColor: '#f8f8f8'
+        backgroundColor: '#f8f8f8',
+        verticalAlign: 'top'
       },
       Com_Modal_Editing_InfoSide: {
         display: 'inline-block',
@@ -79,18 +79,19 @@ class EditingModal extends React.Component {
 
   _set_newImgSrc(dataURL, forBlock){
     if(forBlock=='cover'){
-      this.setState({coverSrc: dataURL, focusBlock: forBlock, contentModalify: true})
+      this.setState({coverSrc: dataURL, contentInit: {focusBlock: forBlock, markExpand: null}, contentModalify: true})
     }else if(forBlock=='beneath'){
-      this.setState({beneathSrc: dataURL, focusBlock: forBlock, contentModalify: true})
+      this.setState({beneathSrc: dataURL, contentInit: {focusBlock: forBlock, markExpand: null}, contentModalify: true})
     };
   }
 
-  _open_ContentModal(layer){
+  _open_ContentModal(focusBlock, markKey){
     this.setState((prevState, props)=>{
-      return {focusBlock: layer};}, ()=>{
-        this._set_contentModalify(true);
-      }
-    );
+      return {
+        contentInit: {focusBlock: focusBlock, markExpand: markKey?markKey:null},
+        contentModalify: true
+      };
+    });
   }
 
   _close_Mark_Complete(markData, layer){
@@ -107,11 +108,11 @@ class EditingModal extends React.Component {
   }
 
   _close_img_Cancell(){
-    let focusBlock = this.state.focusBlock;
+    let focusBlock = this.state.contentInit.focusBlock;
     if(focusBlock=='cover'){
-      this.setState({coverSrc: null, coverMarks:{list:[], data:{}}, focusBlock: null, contentModalify: false})
+      this.setState({coverSrc: null, coverMarks:{list:[], data:{}},contentInit: {focusBlock: null, markExpand: null}, contentModalify: false})
     }else if(focusBlock=='beneath'){
-      this.setState({beneathSrc: null, beneathMarks:{list:[], data:{}}, focusBlock: null, contentModalify: false})
+      this.setState({beneathSrc: null, beneathMarks:{list:[], data:{}}, contentInit: {focusBlock: null, markExpand: null}, contentModalify: false})
     };
   }
 
@@ -153,22 +154,30 @@ class EditingModal extends React.Component {
               _open_ContentModal={this._open_ContentModal}/>
           </div>
           <div
-            style={Object.assign({top: '51%'}, this.style.Com_Modal_Editing_imgBlocks_block_)}>
+            style={Object.assign({top: '51%', opacity: this.state.coverSrc?1:0.5}, this.style.Com_Modal_Editing_imgBlocks_block_)}>
             <ImgBlock
               blockName={'beneath'}
               previewSrc={this.state.beneathSrc}
               _set_newImgSrc={this._set_newImgSrc}
               _open_ContentModal={this._open_ContentModal}/>
+            {!this.state.coverSrc && <div style={{width: '100%',height: '100%',position:'absolute'}}></div>}
           </div>
         </div>
         <article
           style={this.style.Com_Modal_Editing_article_}>
-          <div>
-
+          <MarksArticle
+            layer={'cover'}
+            marksObj={this.state.coverMarks}
+            _set_MarkInspect={this._open_ContentModal}/>
+          <div
+            style={{width: '90%', height: '0', position: 'relative', marginLeft: '5%', borderTop: 'solid 1px #ABABAB', color: '#ABABAB'}}>
+            {!this.state.coverSrc && "請按左側 新增圖片"}
           </div>
+          <MarksArticle
+            layer={'beneath'}
+            marksObj={this.state.beneathMarks}
+            _set_MarkInspect={this._open_ContentModal}/>
         </article>
-
-
         <div
           style={this.style.Com_Modal_Editing_InfoSide}>
           <EditingInfoSide
@@ -183,9 +192,10 @@ class EditingModal extends React.Component {
           this.state.contentModalify &&
           <ContentModal
             creating={this.props.unitSet?false:true}
-            layer={this.state.focusBlock=='cover'?0:1}
-            imgSrc={this.state.focusBlock=='cover'?this.state.coverSrc:this.state.beneathSrc}
-            marks={this.state.focusBlock=='cover'?this.state.coverMarks:this.state.beneathMarks}
+            layer={this.state.contentInit.focusBlock=='cover'?0:1}
+            imgSrc={this.state.contentInit.focusBlock=='cover'?this.state.coverSrc:this.state.beneathSrc}
+            marks={this.state.contentInit.focusBlock=='cover'?this.state.coverMarks:this.state.beneathMarks}
+            markExpand={this.state.contentInit.markExpand}
             _set_refsArr={this.props._set_refsArr}
             _close_Mark_Complete={this._close_Mark_Complete}
             _close_img_Cancell={this._close_img_Cancell}/>
@@ -206,10 +216,3 @@ export default withRouter(connect(
   mapStateToProps,
   null
 )(EditingModal));
-
-/*
-//here, waiting for updating to marks"Obj" system
-<MarksArticle
-  coverMarks = {this.state.coverMarks}
-  beneathMarks={this.state.beneathMarks}/>
-*/

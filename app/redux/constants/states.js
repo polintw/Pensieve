@@ -1,6 +1,8 @@
 export const initGlobal = {
   userInfo: {
     account: "",
+    firstName: '',
+    lastName: '',
     id: null
   },
   unitCurrent: {unitId:"", identity: ""}
@@ -18,5 +20,17 @@ export const initSetting = {
     firstName: "",
     lastName: "",
     mail: ''
+  }
+}
+
+export const initNouns = {
+  nounsBasic: {
+
+  }
+}
+
+export const initUsers = {
+  usersBasic: {
+
   }
 }

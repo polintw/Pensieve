@@ -77,11 +77,11 @@ class WithinLtd extends React.Component {
         transform: 'translate(-50%, 0)'
       },
       Within_Ltd_scroll_LtdUnits: {
-        width: '60%',
+        width: '74%',
         minHeight: '110%',
         position: 'absolute',
         top: '28%',
-        left: '50%',
+        left: '51%',
         transform: 'translate(-50%,0)',
         boxSizing: 'border-box'
       },

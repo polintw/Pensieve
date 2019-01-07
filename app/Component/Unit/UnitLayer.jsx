@@ -6,17 +6,19 @@ export default class UnitLayer extends React.Component {
     super(props);
     this.state = {
       circleNr: this.props.initMark,
-      marksDOM: []
+      circlesDOM: []
     };
-    this._set_makrsDOM = this._set_makrsDOM.bind(this);
-    this._handleClick_UnitLayer_circle = this._handleClick_UnitLayer_circle.bind(this)
+    this._set_circles = this._set_circles.bind(this);
+    this._handleClick_UnitLayer_circle = this._handleClick_UnitLayer_circle.bind(this);
+    this._handleClick_SpotsLayer = this._handleClick_SpotsLayer.bind(this);
     this.style = {
-      Com_UnitLayer: {
+      absolute_FullVersion: {
         width: '100%',
         height: '100%',
         position: 'absolute',
         top: '0',
-        left:'0'
+        left:'0',
+        boxSizing: 'border-box'
       },
       Com_UnitLayer_img: {
         maxWidth: '100%',
@@ -25,6 +27,12 @@ export default class UnitLayer extends React.Component {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%,-50%)',
+      },
+      Com_UnitLayer_MarkBlock_: {
+        width: '42%',
+        maxHeight: '88%',
+        position: 'absolute',
+        transform: 'translate(0,-50%)'
       },
       Com_UnitLayer_div: {
         position: 'absolute',
@@ -43,11 +51,13 @@ export default class UnitLayer extends React.Component {
     };
   }
 
-  _set_makrsDOM(){
-    const self = this;
-    let marksArr = [];
+  _set_circles(){
+    const self = this,
+    imgWidth = self.Com_UnitLayer_img.clientWidth,
+    imgHeight = self.Com_UnitLayer_img.clientHeight;
+    let circlesArr = [];
     if(this.state.circleNr == 'all'){
-      marksArr = self.props.marksData.list.map(function(id, index){
+      circlesArr = self.props.marksData.list.map(function(id, index){
         const coordinate = {top: self.props.marksData.data[id].top, left: self.props.marksData.data[id].left};
         return(
           <svg
@@ -61,34 +71,48 @@ export default class UnitLayer extends React.Component {
         )
       });
       this.setState({
-        marksDOM: (
+        circlesDOM: (
           <div
             style={Object.assign(
-              {width: self.Com_UnitLayer_img.clientWidth, height: self.Com_UnitLayer_img.clientHeight}, self.style.Com_UnitLayer_div)}>
-            {marksArr}
+              {width: imgWidth, height: imgHeight}, self.style.Com_UnitLayer_div)}>
+            {circlesArr}
           </div>
         )
       });
     }else{
-      let markId = self.state.circleNr;
+      const markId = self.state.circleNr;
       const coordinate = {top: this.props.marksData.data[markId].top, left: this.props.marksData.data[markId].left};
-      marksArr.push(
+      let [left, top, right] = [null,null,null];
+
+      let axisPx = ((coordinate.left/100)*imgWidth)-(imgWidth/2);
+      coordinate.left>50 ? right = (this.Com_UnitLayer.clientWidth/2)-axisPx+15 : left = (this.Com_UnitLayer.clientWidth/2)+axisPx+15;
+      top = (22 + (coordinate.top) * (34) / (100)) + '%';
+
+      circlesArr.push(
         <div
-          key={'key_UnitLayer_div_circle_svg_markBlock_'+markId}
-          style={Object.assign(
-            {width: self.Com_UnitLayer_img.clientWidth, height: self.Com_UnitLayer_img.clientHeight}, self.style.Com_UnitLayer_div)}>
-          <svg
-            id={markId}
-            style={Object.assign({top: coordinate.top+"%", left: coordinate.left+'%'}, self.style.Com_UnitLayer_div_circle_svg)}
-            onClick={self._handleClick_UnitLayer_circle}>
-            <circle r="20" cx="50%" cy="50%" stroke='white' fill="none"/>
-          </svg>
-          <MarkBlock
-            markKey={markId}
-            markData={self.props.marksData.data[markId]}/>
+          key={'key_UnitLayer_div_circle_svg_markBlock_'+markId}>
+          <div
+            style={Object.assign(
+              {width: imgWidth, height: imgHeight}, self.style.Com_UnitLayer_div)}>
+            <svg
+              id={markId}
+              style={Object.assign({top: coordinate.top+"%", left: coordinate.left+'%'}, self.style.Com_UnitLayer_div_circle_svg)}
+              onClick={self._handleClick_UnitLayer_circle}>
+              <circle r="20" cx="50%" cy="50%" stroke='white' fill="none"/>
+            </svg>
+          </div>
+          <div
+            style={Object.assign({backgroundColor: 'rgba(30,30,30,0.2)'}, self.style.absolute_FullVersion)}
+            onClick={self._handleClick_SpotsLayer}></div>
+          <div
+            style={Object.assign({top: top, left: left, right: right}, self.style.Com_UnitLayer_MarkBlock_)}>
+            <MarkBlock
+              markKey={markId}
+              markData={self.props.marksData.data[markId]}/>
+          </div>
         </div>
       )
-      this.setState({marksDOM: marksArr});
+      this.setState({circlesDOM: circlesArr});
     }
   }
 
@@ -97,24 +121,31 @@ export default class UnitLayer extends React.Component {
     event.stopPropagation();
     let currentId = event.currentTarget.getAttribute('id');
     if(currentId == this.state.circleNr){
-      this.setState((prevState, props)=>{return {circleNr: 'all'};}, this._set_makrsDOM);
+      this.setState((prevState, props)=>{return {circleNr: 'all'};}, this._set_circles);
     }else{
-      this.setState((prevState, props)=>{return {circleNr: currentId};}, this._set_makrsDOM);
+      this.setState((prevState, props)=>{return {circleNr: currentId};}, this._set_circles);
     }
+  }
+
+  _handleClick_SpotsLayer(event){
+    event.preventDefault();
+    event.stopPropagation();
+    this.setState((prevState, props)=>{return {circleNr: 'all'};}, this._set_circles);
   }
 
   render(){
     return(
       <div
-        style={this.style.Com_UnitLayer}>
+        style={this.style.absolute_FullVersion}
+        ref={(element) => {this.Com_UnitLayer = element;}}>
         <img
           style={this.style.Com_UnitLayer_img}
           ref={(element) => {this.Com_UnitLayer_img = element;}}
           src={this.props.imgSrc}
-          onLoad={this._set_makrsDOM}/>
+          onLoad={this._set_circles}/>
         {
           this.props.marksify &&
-          this.state.marksDOM
+          this.state.circlesDOM
         }
       </div>
     )

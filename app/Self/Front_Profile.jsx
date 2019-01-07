@@ -17,31 +17,69 @@ class FrontProfile extends React.Component {
       Front_Profile_: {
         width: '100%',
         height: '100%',
-        position: 'absolute',
+        position: 'static',
         top: '0%',
-        left: '0%',
-        overflowY: "scroll"
+        left: '0%'
       },
       Front_Profile_return_: {
         width: '6%',
         height: '6%',
         position: 'fixed',
-        top: '90%',
+        top: '45%',
         right: '2%',
         boxSizing: 'border-box',
-        borderBottom: '1px solid black',
+        textAlign: 'right',
         fontSize: '1.6rem',
-        fontWeight: '400',
+        fontWeight: '700',
         letterSpacing: '0.15rem',
-        color: '#222222',
+        color: '#909090',
         cursor: 'pointer'
       },
       Front_Profile_scroll_: {
-        width: '68%',
+        width: '72%',
         position: 'absolute',
-        top: '0',
-        left: '15%',
+        top: '2%',
+        left: '18%',
         boxSizing: 'border-box'
+      },
+      Front_Profile_nav_: {
+        width: '9%',
+        height: '30%',
+        position: 'absolute',
+        top: '32%',
+        left: '5%',
+        boxSizing: 'border-box',
+        padding: '0 0.5vw',
+        borderRight: 'solid 1px #909090',
+        textAlign: 'right',
+        fontSize: '1.4rem',
+        letterSpacing: '0.15rem'
+      },
+      Front_Profile_nav_span: {
+        display: 'inline-block',
+        width: '100%',
+        position: 'relative',
+        float: 'right',
+        boxSizing: 'border-box',
+        padding: '0 0.2vw',
+        margin: '0.2vh 0',
+        cursor: 'pointer'
+      },
+      Front_Profile_backPlane_top: {
+        width: '100%',
+        height: '1%',
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        backgroundColor: '#FFFFFF'
+      },
+      Front_Profile_backPlane_bottom: {
+        width: '100%',
+        height: '7%',
+        position: 'fixed',
+        bottom: '0',
+        left: '0',
+        backgroundColor: '#FFFFFF'
       }
     }
   }
@@ -51,16 +89,23 @@ class FrontProfile extends React.Component {
     return(
       <div
         style={this.style.Front_Profile_}>
-        <Link to={this.props.location.state.from?this.props.location.state.from:'/cognition/embedded/inspired'}>
+        <Link to={'/cognition/embedded/inspireds'}>
           <div
             style={this.style.Front_Profile_return_}>
             {"return"}
           </div>
         </Link>
         <div
+          style={this.style.Front_Profile_nav_}>
+          <span style={this.style.Front_Profile_nav_span}>{"基本 "}</span>
+          <span style={this.style.Front_Profile_nav_span}>{"檔案庫 "}</span>
+        </div>
+        <div
           style={this.style.Front_Profile_scroll_}>
           <Route path={this.props.match.path+"/sheet"} render={(props)=> <Sheet {...props}/>}/>
         </div>
+        <div style={this.style.Front_Profile_backPlane_top}></div>
+        <div style={this.style.Front_Profile_backPlane_bottom}></div>
       </div>
     )
   }

@@ -18,8 +18,7 @@ export default class SvgPropic extends React.Component {
         viewBox="0 0 123.01 202.15"
         style={{
           maxWidth: '100%',
-          maxHeight: '100%',
-          cursor: 'pointer'
+          maxHeight: '100%'
         }}>
                 <defs><style>{".cls-1{fill:none;stroke:#000;stroke-miterlimit:10;}"}</style></defs>
                 <g id="圖層_2" data-name="圖層 2">

@@ -7,6 +7,7 @@ export default class ContentModal extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      frameWidth: '',
       imgWidth: "",
       imgHeight: "",
       marksList: [],
@@ -15,6 +16,7 @@ export default class ContentModal extends React.Component {
       markExpand: null,
       markExpandify: false
     };
+    this.Com_ContentModal_ImgSection_div = React.createRef();
     this.Com_ContentModal_ImgSection_div_img = React.createRef();
     this._reset_expandState = ()=>{this.setState({markExpand: null, markExpandify: false});};
     this._set_markExpand = this._set_markExpand.bind(this);
@@ -163,6 +165,7 @@ export default class ContentModal extends React.Component {
 
   _handleLoaded_img_ContentModal(event){
     this.setState({
+      frameWidth: this.Com_ContentModal_ImgSection_div.current.clientWidth,
       imgWidth: this.Com_ContentModal_ImgSection_div_img.current.clientWidth,
       imgHeight: this.Com_ContentModal_ImgSection_div_img.current.clientHeight
     });
@@ -180,9 +183,12 @@ export default class ContentModal extends React.Component {
       return {
         marksList: props.marks.list,
         markCircles: circles,
-        markEditorContent: editorContent
+        markEditorContent: editorContent,
+        markExpand: props.markExpand,
+        markExpandify: props.markExpand?true : false
       };
     })
+    //Be awared ! the mounted component only means ModalBox itself here, it would render the children "leter"
   }
 
   render(){
@@ -193,6 +199,7 @@ export default class ContentModal extends React.Component {
           <div
             style={this.style.Com_Modal_ContentModal_Mark}>
             <div
+              ref={this.Com_ContentModal_ImgSection_div}
               style={this.style.Com_ContentModal_ImgSection_div}>
               <img
                 style={this.style.Com_ContentModal_ImgSection_div_img}
@@ -212,7 +219,8 @@ export default class ContentModal extends React.Component {
                   markKey = {this.state.markExpand}
                   coordinate={this.state.markCircles[this.state.markExpand]}
                   editorState={this.state.markEditorContent[this.state.markExpand]}
-                  frame={{width: this.state.imgWidth, height: this.state.imgHeight}}
+                  frameSpec={{width: this.state.frameWidth}}
+                  imgSpec= {{width: this.state.imgWidth, height: this.state.imgHeight}}
                   _set_refsArr={this.props._set_refsArr}
                   _set_markUpdate_editor={this._set_markUpdate_editor}
                   _set_markDelete={this._set_markDelete}
