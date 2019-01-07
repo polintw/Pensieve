@@ -2,40 +2,31 @@ const fs = require("fs");
 const browserify = require('browserify');
 const babelify = require("babelify");
 
-let rootLogin = browserify({debug: true}).transform(babelify.configure({
+let rootLogin = browserify({debug: false}).transform(babelify.configure({
   presets: [
       "react",
       "env"
   ]})).require("./app/Login/root.js", {entry: true})/*.plugin(require('css-modulesify'), {
     rootDir: __dirname
   });*/
-let rootWithin = browserify({debug: true}).transform(babelify.configure({
+let rootWithin = browserify({debug: false}).transform(babelify.configure({
   presets: [
       "react",
       "env"
-    ],
-    plugins: [
-    "transform-object-rest-spread"
-]})).require("./app/Within/root.js", {entry: true})/*.plugin(require('css-modulesify'), {
+  ]})).require("./app/Within/root.js", {entry: true})/*.plugin(require('css-modulesify'), {
     rootDir: __dirname
   });*/
-let rootSelfFront = browserify({debug: true}).transform(babelify.configure({
+let rootSelfFront = browserify({debug: false}).transform(babelify.configure({
   presets: [
       "react",
       "env"
-    ],
-    plugins: [
-  	"transform-object-rest-spread"
-    ]})).require("./app/Self/root_Front.js", {entry: true})/*.plugin(require('css-modulesify'), {
+  ]})).require("./app/Self/root_Front.js", {entry: true})/*.plugin(require('css-modulesify'), {
     rootDir: __dirname
   });*/
-let rootTerrace = browserify({debug: true}).transform(babelify.configure({
+let rootTerrace = browserify({debug: false}).transform(babelify.configure({
   presets: [
       "react",
       "env"
-    ],
-    plugins: [
-  	"transform-object-rest-spread"
   ]})).require("./app/Terrace/root_Terrace.js", {entry: true})/*.plugin(require('css-modulesify'), {
     rootDir: __dirname
   });*/

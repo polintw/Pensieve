@@ -1,30 +1,117 @@
 import React from 'React';
-import ModalBox from '../ModalBox.jsx';
+import {
+  EditorState,
+  convertToRaw,
+  convertFromRaw
+} from 'draft-js';
 import RefEditing from './RefEditing.jsx';
-import {Editor, EditorState,convertToRaw, convertFromRaw} from 'draft-js';
+import DraftEditor from '../DraftEditor.jsx';
+import ModalBox from '../ModalBox.jsx';
 
 export default class MarkEditingBlock extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      editorState: this.props.editorState?EditorState.createWithContent(convertFromRaw(this.props.editorState)):EditorState.createEmpty(),
       refQuote: false
     }
-    this.changeEditorState = (editorState) => {this.setState({editorState: editorState});this.props._set_markUpdate_editor(convertToRaw(editorState.getCurrentContent()), this.props.markKey)};
+    this.contentEditor = React.createRef();
+    this._set_EditorUpdate = this._set_EditorUpdate.bind(this);
     this._set_refArr_new = this._set_refArr_new.bind(this);
-    this._css_calculate_contentPosition = this._css_calculate_contentPosition.bind(this);
     this._handleClick_blockPanel_complete = this._handleClick_blockPanel_complete.bind(this);
     this._handleClick_blockPanel_delete = this._handleClick_blockPanel_delete.bind(this);
     this._handleClick_markContent_Ref = this._handleClick_markContent_Ref.bind(this);
     this._handleClick_markComponentEditor = this._handleClick_markComponentEditor.bind(this);
     this.style={
-      Com_div_MarkEditingBlock: {
-        width: this.props.frame.width,
-        height: this.props.frame.height,
+      Com_MarkEditingBlock_frame_: {
         position: 'absolute',
         top: '50%',
         left: '50%',
         transform: 'translate(-50%,-50%)'
+      },
+      Com_MarkEditingBlock_frame_svg: {
+        width: '3vw',
+        height: '3vw',
+        position: 'absolute',
+        transform: 'translate(-50%, -50%)',
+        overflow: 'visible',
+        cursor: 'pointer'
+      },
+      Com_MarkEditingBlock_Body_: {
+        width: '42%',
+        minHeight: '44vh',
+        maxHeight: '88%',
+        position: 'absolute',
+        transform: 'translate(0,-50%)',
+        boxSizing: 'border-box',
+        backgroundColor: 'rgba(25,25,25,0.6)',
+        boxShadow: '0 0 4vw rgba(25,25,25,0.6)'
+      },
+      Com_MarkEditingBlock_Body_credits: {
+        width: '100%',
+        maxHeight: '8vh',
+        position: 'relative',
+        boxSizing: 'border-box'
+      },
+      Com_MarkEditingBlock_Content_Main_div: {
+        width: '39%',
+        height: '100%',
+        position: 'absolute',
+        top: '0',
+        left: '30%'
+      },
+      Com_MarkEditingBlock_Content_Main_div_edit_: {
+        width: '90%',
+        height: '83%',
+        position: 'absolute',
+        top: '5%',
+        left: '50%',
+        transform: 'translate(-50%, 0)',
+        boxSizing: 'border-box',
+        borderLeft: "1px solid white"
+      },
+      Com_MarkEditingBlock_Content_Main_div_edit_Editor: {
+        width: '100%',
+        minHeight: '22vh',
+        maxHeight: '60vh',
+        position: 'relative',
+        boxSizing: 'border-box',
+        margin: '0',
+        fontSize: '1.2rem',
+        letterSpacing: '0.15rem',
+        fontWeight: '400',
+        color: '#FAFAFA',
+        overflow: 'auto',
+        cursor: 'text'
+      },
+      Com_MarkEditingBlock_Content_Main_div_edit_Panel_: {
+        width: '100%',
+        height: '5vh',
+        position: 'relative',
+        boxSizing: 'border-box',
+        color: '#FAFAFA'
+      },
+      Com_MarkEditingBlock_Content_Main_div_edit_Panel_ref: {
+        float: 'right',
+        fontSize: '2.8vh',
+        cursor: 'pointer'
+      },
+      Com_MarkEditingBlock_Content_Main_div_blockPanel_: {
+        width: '90%',
+        height: '10%',
+        position: 'absolute',
+        top: '90%',
+        left: '50%',
+        transform: 'translate(-50%, 0)',
+        color: '#FAFAFA'
+      },
+      Com_MarkEditingBlock_Content_Main_div_blockPanel_span: {
+        display: 'inline-block',
+        boxSizing: 'border-box',
+        margin: '0 0 0 5%',
+        float: 'right',
+        fontSize: '2.8vh',
+        letterSpacing: '0.1vh',
+        cursor: 'pointer'
       },
       component_refEditing: {
         outline: {
@@ -78,78 +165,6 @@ export default class MarkEditingBlock extends React.Component {
           transform: 'translate(-50%, 0)',
           boxSizing: 'border-box'
         }
-      },
-      Com_MarkEditingBlock_Circle_svg: {
-        width: '3vw',
-        height: '3vw',
-        position: 'absolute',
-        top: this.props.coordinate.top+"%",
-        left: this.props.coordinate.left+'%',
-        transform: 'translate(-50%, -50%)',
-        overflow: 'visible',
-        cursor: 'pointer'
-      },
-      Com_MarkEditingBlock_Content_Main_div: {
-        width: '39%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '30%'
-      },
-      Com_MarkEditingBlock_Content_Main_div_edit_: {
-        width: '90%',
-        height: '83%',
-        position: 'absolute',
-        top: '5%',
-        left: '50%',
-        transform: 'translate(-50%, 0)',
-        boxSizing: 'border-box',
-        borderLeft: "1px solid white"
-      },
-      Com_MarkEditingBlock_Content_Main_div_edit_Editor: {
-        width: "95%",
-        height: '90%',
-        position: 'absolute',
-        top: '0',
-        right: '0',
-        boxSizing: 'border-box',
-        fontSize: '1.2rem',
-        letterSpacing: '0.15rem',
-        fontWeight: '400',
-        color: '#FAFAFA',
-        overflow: 'auto',
-        cursor: 'text'
-      },
-      Com_MarkEditingBlock_Content_Main_div_edit_Panel_: {
-        width: '90%',
-        height: '9%',
-        position: 'absolute',
-        top: '91%',
-        right: '0%',
-        color: '#FAFAFA'
-      },
-      Com_MarkEditingBlock_Content_Main_div_edit_Panel_ref: {
-        float: 'right',
-        fontSize: '2.8vh',
-        cursor: 'pointer'
-      },
-      Com_MarkEditingBlock_Content_Main_div_blockPanel_: {
-        width: '90%',
-        height: '10%',
-        position: 'absolute',
-        top: '90%',
-        left: '50%',
-        transform: 'translate(-50%, 0)',
-        color: '#FAFAFA'
-      },
-      Com_MarkEditingBlock_Content_Main_div_blockPanel_span: {
-        display: 'inline-block',
-        boxSizing: 'border-box',
-        margin: '0 0 0 5%',
-        float: 'right',
-        fontSize: '2.8vh',
-        letterSpacing: '0.1vh',
-        cursor: 'pointer'
       }
     }
   };
@@ -163,7 +178,7 @@ export default class MarkEditingBlock extends React.Component {
   _handleClick_markComponentEditor(event){
     event.stopPropagation();
     event.preventDefault();
-    this.markEditor.focus();
+    this.contentEditor.current.focus();
   }
 
   _handleClick_blockPanel_delete(event){
@@ -183,71 +198,70 @@ export default class MarkEditingBlock extends React.Component {
     this.props._set_refsArr(refObj);
   }
 
-  _css_calculate_contentPosition(){
-    let [left, top, right] = [null,null,null];
-    this.props.coordinate.left>50 ? right = (100-this.props.coordinate.left)+'%' : left = this.props.coordinate.left+'%';
-    top = (this.props.coordinate.top) * (30) / (100) + '%';
-
-    return(
-      {
-        width: "36vw",
-        height: '61vh',
-        position: 'absolute',
-        top: top,
-        left: left,
-        right: right,
-        boxSizing: 'border-box',
-        backgroundColor: 'rgba(25,25,25,0.6)',
-        boxShadow: '0 0 4vw rgba(25,25,25,0.6)'
-      }
-    )
+  _set_EditorUpdate(editorState){
+    this.props._set_markUpdate_editor(convertToRaw(editorState.getCurrentContent()), this.props.markKey);
   }
 
   componentDidMount(){
-    this.markEditor.focus();
+    this.contentEditor.current.focus();
   }
 
   render(){
+    let [left, top, right] = [null,null,null],
+    spotLeft = this.props.coordinate.left,
+    spotTop = this.props.coordinate.top;
+    //then count the desired position of the markblock
+    let axisPx = ((spotLeft/100)*this.props.imgSpec.width)-(this.props.imgSpec.width/2);
+    spotLeft>50 ? right = (this.props.frameSpec.width/2)-axisPx+15 : left = (this.props.frameSpec.width/2)+axisPx+15;
+    top = (22 + (spotTop) * (34) / (100)) + '%';
+
     return(
-      <div
-        style={this.style.Com_div_MarkEditingBlock}
-        onClick={(event)=>{event.stopPropagation();event.preventDefault();}}>
+      <div>
         <div
-          style={this._css_calculate_contentPosition()}>
+          style={Object.assign({width: this.props.imgSpec.width,height: this.props.imgSpec.height}, this.style.Com_MarkEditingBlock_frame_)}
+          onClick={(event)=>{event.stopPropagation();event.preventDefault();}}>
+          <svg
+            style={Object.assign({top: spotTop+"%", left: spotLeft+'%'}, this.style.Com_MarkEditingBlock_frame_svg)}>
+            <circle r="20" cx="50%" cy="50%" stroke='white' fill="none"/>
+          </svg>
+        </div>
+        <div
+          style={Object.assign({top: top, left: left, right: right},this.style.Com_MarkEditingBlock_Body_)}>
           <div
-            style={this.style.Com_MarkEditingBlock_Content_Main_div}>
+            style={this.style.Com_MarkEditingBlock_Content_Main_div_edit_Editor}
+            onClick={this._handleClick_markComponentEditor}>
+            <DraftEditor
+              ref={this.contentEditor}
+              editorState={this.props.editorState}
+              _on_EditorChange={this._set_EditorUpdate}/>
+          </div>
+          <div
+            style={this.style.Com_MarkEditingBlock_Content_Main_div_edit_Panel_}>
             <div
-              style={this.style.Com_MarkEditingBlock_Content_Main_div_edit_}>
-              <div
-                style={this.style.Com_MarkEditingBlock_Content_Main_div_edit_Editor}
-                onClick={this._handleClick_markComponentEditor}>
-                <Editor
-                  ref={(element)=>{this.markEditor = element;}}
-                  editorState={this.state.editorState}
-                  onChange={this.changeEditorState}/>
-              </div>
-              <div
-                style={this.style.Com_MarkEditingBlock_Content_Main_div_edit_Panel_}>
-                <div
-                  style={this.style.Com_MarkEditingBlock_Content_Main_div_edit_Panel_ref}
-                  onClick={this._handleClick_markContent_Ref}>
-                  {"[ ]"}
-                </div>
-              </div>
+              style={this.style.Com_MarkEditingBlock_Content_Main_div_edit_Panel_ref}
+              onClick={this._handleClick_markContent_Ref}>
+              {"[ ]"}
             </div>
-            <div
-              style={this.style.Com_MarkEditingBlock_Content_Main_div_blockPanel_}>
-              <span
-                style={this.style.Com_MarkEditingBlock_Content_Main_div_blockPanel_span}
-                onClick={this._handleClick_blockPanel_complete}>
-                {'Complete'}
-              </span>
-              <span
-                style={this.style.Com_MarkEditingBlock_Content_Main_div_blockPanel_span}
-                onClick={this._handleClick_blockPanel_delete}>
-                {'Delete'}
-              </span>
-            </div>
+          </div>
+          <div
+            style={this.style.Com_MarkEditingBlock_Body_credits}>
+
+          </div>
+          <div>
+            {"多行參考資料連結"}
+          </div>
+          <div
+            style={this.style.Com_MarkEditingBlock_Content_Main_div_blockPanel_}>
+            <span
+              style={this.style.Com_MarkEditingBlock_Content_Main_div_blockPanel_span}
+              onClick={this._handleClick_blockPanel_complete}>
+              {'Complete'}
+            </span>
+            <span
+              style={this.style.Com_MarkEditingBlock_Content_Main_div_blockPanel_span}
+              onClick={this._handleClick_blockPanel_delete}>
+              {'Delete'}
+            </span>
           </div>
           {
             this.state.refQuote &&
@@ -258,10 +272,6 @@ export default class MarkEditingBlock extends React.Component {
             </ModalBox>
           }
         </div>
-        <svg
-          style={this.style.Com_MarkEditingBlock_Circle_svg}>
-          <circle r="20" cx="50%" cy="50%" stroke='white' fill="none"/>
-        </svg>
       </div>
     )
   }

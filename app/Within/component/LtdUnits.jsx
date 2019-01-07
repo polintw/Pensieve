@@ -29,13 +29,12 @@ class LtdUnits extends React.Component {
     this._axios_list_lookout = this._axios_list_lookout.bind(this);
     this._render_LtdUnitsRaws = this._render_LtdUnitsRaws.bind(this);
     this.style={
-      withinCom_LtdUnits_: {
+      absolute_FullVersion: {
         width: '100%',
         position: 'absolute',
         top: '0',
         left: '0',
-        boxSizing: 'border-box',
-        padding: '1vh 0 0 0'
+        boxSizing: 'border-box'
       },
       withinCom_LtdUnits_div_: {
         width: '101%',
@@ -127,7 +126,7 @@ class LtdUnits extends React.Component {
 
     return(
       <div
-        style={this.style.withinCom_LtdUnits_}>
+        style={Object.assign({padding: '1vh 0 0 0'}, this.style.absolute_FullVersion)}>
         <div
           style={this.style.withinCom_LtdUnits_div_}>
           {this.state.rawsArr}

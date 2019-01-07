@@ -1,9 +1,4 @@
 import React from 'react';
-import {
-  Route,
-  Link,
-  withRouter
-} from 'react-router-dom';
 import {connect} from "react-redux";
 import {
   SheetAccount,

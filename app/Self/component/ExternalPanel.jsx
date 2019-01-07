@@ -28,44 +28,46 @@ class ExternalPanel extends React.Component {
         boxSizing: 'border-box'
       },
       Com_ExternalPanal_AccountBack_: {
-        width: '136%',
-        height: '35%',
-        position: 'relative',
+        display:'inline-block',
+        height: '92%',
+        position: 'absolute',
+        top: '8%',
+        right: '36%',
         boxSizing: 'border-box',
-        float: 'right'
+        padding: '0.5vh 0',
+        borderTop: '1px solid #909090',
+        textAlign: 'center',
+        cursor: 'pointer'
       },
       Com_ExternalPanal_AccountBack_span_: {
-        display: 'inline-block',
-        width: '100%',
-        position: 'absolute',
-        top: '50%',
-        transform: 'translate(0, -50%)',
-        boxSizing: 'border-box',
-        padding: '1% 0',
-        textAlign: 'right',
-        fontSize: '1.5rem',
-        letterSpacing: '0.2rem',
-        color: '#222222',
-        cursor: 'pointer'
-      },
-      Com_ExternalPanal_options_:{
-        width: '100%',
-        height: '32%',
+        display: 'block',
         position: 'relative',
         boxSizing: 'border-box',
-        margin: '1% 0',
-        float: 'right',
-        textAlign: 'right'
-      },
-      Com_ExternalPanal_options_span: {
-        display: 'inline-block',
-        width: '48%',
-        boxSizing: 'border-box',
-        borderTop: 'solid 1px #909090',
+        padding: '0.5vh 0',
         fontSize: '1.5rem',
         letterSpacing: '0.2rem',
-        color: '#909090',
+        color: '#222222'
+      },
+      Com_ExternalPanal_options_:{
+        width: '20%',
+        height: '100%',
+        position: 'absolute',
+        top: '0',
+        right: '0',
+        boxSizing: 'border-box',
+        padding: '2vh 5%',
         cursor: 'pointer'
+      },
+      Com_ExternalPanal_options_span: {
+        display: 'block',
+        width: '100%',
+        height: '42%',
+        position: 'relative',
+        boxSizing: 'border-box',
+        textAlign: 'center',
+        fontSize: '1.5rem',
+        letterSpacing: '0.2rem',
+        color: '#909090'
       },
       Com_ExternalPanal_modal_ToolBox_: {
         boxSizing: 'border-box',
@@ -90,7 +92,7 @@ class ExternalPanel extends React.Component {
   _handleClick_selfCover(event){
     event.preventDefault();
     event.stopPropagation();
-    window.location.assign('/user/overview');
+    window.location.assign('/user/screen');
   }
 
   _handleClick_navToolBox(event){
@@ -115,19 +117,22 @@ class ExternalPanel extends React.Component {
         id="Com_ExternalPanal_"
         style={this.style.Com_ExternalPanal_}>
         <div
-          style={this.style.Com_ExternalPanal_AccountBack_}>
-          <span
-            style={this.style.Com_ExternalPanal_AccountBack_span_}
-            onClick={this._handleClick_selfCover}>
-            {this.props.userInfo.account}</span>
+          style={this.style.Com_ExternalPanal_AccountBack_}
+          onClick={this._handleClick_selfCover}>
+          <span style={this.style.Com_ExternalPanal_AccountBack_span_}>
+            {this.props.userInfo.firstName}</span>
+          <span style={this.style.Com_ExternalPanal_AccountBack_span_}>
+            {this.props.userInfo.lastName}</span>
         </div>
         <div
-          style={this.style.Com_ExternalPanal_options_}>
+          style={this.style.Com_ExternalPanal_options_}
+          onClick={this._handleClick_navToolBox}>
           <span
-            style={this.style.Com_ExternalPanal_options_span}
-            onClick={this._handleClick_navToolBox}>
-            {"。。"}
-          </span>
+            style={this.style.Com_ExternalPanal_options_span}>
+            {"。"}</span>
+          <span
+            style={this.style.Com_ExternalPanal_options_span}>
+            {"。"}</span>
         </div>
         {
           this.state.toolBoxify &&

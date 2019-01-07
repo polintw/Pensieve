@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import CreateShare from '../../Component/CreateShare.jsx';
+import SvgCreate from '../../Component/SvgCreate.jsx';
 
 class EntryCall extends React.Component {
   constructor(props){
@@ -79,7 +80,7 @@ class EntryCall extends React.Component {
   _handleClick_selfEntrance(event){
     event.stopPropagation();
     event.preventDefault();
-    window.location.assign('/user/overview');
+    window.location.assign('/user/screen');
   }
 
   _submit_Share_New(dataObj){
@@ -114,7 +115,7 @@ class EntryCall extends React.Component {
         </div>
         <div
           style={this.style.withinCom_EntryCall_CreateShare_}>
-          <img src="/images/vacancy.png" style={{width: '100%', maxHeight: '100%'}}/>
+          <SvgCreate/>
           <CreateShare
             _submit_Share_New={this._submit_Share_New}
             _refer_von_Create={this.props._refer_leavevonLtd}/>

@@ -29,11 +29,11 @@ class FrontCognition extends React.Component {
         left: '0%'
       },
       Front_Cognition_scroll_: {
-        width: '72%',
+        width: '68%',
         minHeight: '80%',
         position: 'absolute',
-        top: '7%',
-        left: '14%',
+        top: '5%',
+        left: '17%',
         boxSizing: 'border-box'
       },
       Front_Cognition_Collateral: {
@@ -45,7 +45,7 @@ class FrontCognition extends React.Component {
       },
       Front_Cognition_backPlane_top: {
         width: '100%',
-        height: '6.5%',
+        height: '4.5%',
         position: 'fixed',
         top: '0',
         left: '0',
@@ -54,7 +54,7 @@ class FrontCognition extends React.Component {
       },
       Front_Cognition_backPlane_bottom: {
         width: '100%',
-        height: '8%',
+        height: '11%',
         position: 'fixed',
         bottom: '0',
         left: '0',
@@ -74,7 +74,7 @@ class FrontCognition extends React.Component {
         height: '7%',
         position: 'fixed',
         bottom: '0',
-        left: '11%',
+        left: '9%',
         boxSizing: 'border-box',
       }
     }

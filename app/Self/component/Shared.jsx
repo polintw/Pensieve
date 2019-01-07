@@ -35,25 +35,26 @@ class Shared extends React.Component {
         top: '0',
         left: '0'
       },
-      selfCom_Shared_rowCreate_: {
+      selfCom_Shared_top_: {
         width: '100%',
-        height: '15vh',
+        height: '11vh',
         position: 'relative',
         boxSizing: 'border-box',
         padding: '2vh 0',
+        margin: '2vh 0'
       },
       selfCom_Shared_top_CreateShare_: {
         display: 'inline-block',
         width: '18%',
         height: '100%',
-        position: 'absolute',
-        right: '5%'
+        position: 'relative',
+        boxSizing: 'border-box',
+        margin: '0 4%',
+        float: 'right'
       },
       selfCom_Shared_nails_: {
         width: '100%',
-        position: "absolute",
-        top: '0',
-        left: '0',
+        position: "relative",
         boxSizing: 'border-box',
         padding: '2vh 0 0 0'
       }
@@ -114,22 +115,6 @@ class Shared extends React.Component {
   render(){
     //let cx = cxBind.bind(styles);
     const self = this;
-    const rowCreate = (
-      <div
-        key={'key_Shared_nails_rowCreate'}
-        style={Object.assign({margin: this.state.unitsList.length< 1?'2vh 0 2vh 0' : '0 0 2vh 0'},this.style.selfCom_Shared_rowCreate_)}>
-        <div style={{display: 'inline-block', position: 'absolute', left: '9%'}}>
-          <p style={{fontStyle: 'italic',fontSize: '1.4rem', letterSpacing: '0.15rem'}}>{"share your own, release your power"}</p>
-        </div>
-        <div
-          style={this.style.selfCom_Shared_top_CreateShare_}>
-          <SvgCreate/>
-          <CreateShare
-            _submit_Share_New={this._submit_Share_New}
-            _refer_von_Create={this.props._refer_leaveSelf}/>
-        </div>
-      </div>
-    );
     let shares = self.state.unitsList.map(function(dataKey, index){
       let dataValue = self.state.unitsBasic[dataKey];
       return(
@@ -141,17 +126,21 @@ class Shared extends React.Component {
           marksBasic={self.state.marksBasic}/>
       )
     })
-    if(this.state.unitsList.length< 3){
-      shares.push(
-        rowCreate
-      )
-    }else{
-      shares.splice(2, 0, rowCreate)
-    }
 
+    // temp layout, waterfall style someday by setting transform value, following the blueprint
     return(
       <div
         style={this.style.selfCom_Shared_}>
+        <div
+          style={this.style.selfCom_Shared_top_}>
+          <div
+            style={this.style.selfCom_Shared_top_CreateShare_}>
+            <SvgCreate/>
+            <CreateShare
+              _submit_Share_New={this._submit_Share_New}
+              _refer_von_Create={this.props._refer_leaveSelf}/>
+          </div>
+        </div>
         <div
           style={this.style.selfCom_Shared_nails_}>
           {shares}

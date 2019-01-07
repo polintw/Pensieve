@@ -12,7 +12,7 @@ import {
 //this is a temp management, in case one day we will seperate the reducer like the initstate
 const initialGeneral = Object.assign({}, initGlobal, initNouns);
 
-function pageSelfCover(state = initialGeneral, action){
+function pageTerrace(state = initialGeneral, action){
   switch (action.type) {
     case MOUNT_USERINFO:
       return Object.assign({}, state, {
@@ -34,4 +34,4 @@ function pageSelfCover(state = initialGeneral, action){
   }
 }
 
-export default pageSelfCover
+export default pageTerrace

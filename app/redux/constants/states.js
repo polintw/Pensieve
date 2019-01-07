@@ -1,6 +1,8 @@
 export const initGlobal = {
   userInfo: {
     account: "",
+    firstName: '',
+    lastName: '',
     id: null
   },
   unitCurrent: {unitId:"", identity: ""}

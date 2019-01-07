@@ -33,11 +33,11 @@ class NailShared extends React.Component {
       },
       Com_Nails_Shared_: {
         display: 'inline-block',
-        width: '42%',
+        width: '44%',
         height: '32vh',
         position: 'relative',
         boxSizing: 'border-box',
-        margin: '0 1% 2vh 0'
+        margin: '0 5% 2vh 0'
       },
       Com_Nails_Shared_nouns_: {
         width: '72%',
