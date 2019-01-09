@@ -2,7 +2,6 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Route,
-  Switch,
   Link,
   withRouter
 } from 'react-router-dom';
@@ -86,7 +85,7 @@ class WithinCosmic extends React.Component {
       <div
         style={this.style.Within_Cosmic_}>
         <CosmicMain {...this.props} _refer_leavevonIndex={this._refer_leavevonIndex}/>
-        <div style={this.style.Within_Cosmic_bottom)}></div>
+        <div style={this.style.Within_Cosmic_bottom}></div>
         <div
           style={Object.assign({opacity: this.state.cssPara}, this.style.Within_Cosmic_corner_)}
           ref = {(element)=>{this.Within_Cosmic_corner_ = element}}>

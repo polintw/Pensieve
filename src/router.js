@@ -12,6 +12,8 @@ const imgRouter = require('./img/main.js');
 const nounsRouter = require('./nouns/main.js');
 const generalRouter = require('./general/main.js');
 
+const cosmicRouter = require('./cosmic/main.js');
+
 //routes do not protect by token, to fix this, we would have to tranmit img totally by axios api
 router.use('/img', imgRouter)
 
@@ -19,6 +21,7 @@ router.use('/img', imgRouter)
 router.use('/', auth)
 
 //only approach after verified
+router.use('/cosmic', cosmicRouter)
 
 router.use('/user', userRouter)
 router.use('/actions', actionsRouter) //prepare to replace part of the "/user"
