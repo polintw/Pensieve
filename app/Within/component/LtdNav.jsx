@@ -30,6 +30,17 @@ class LtdNav extends React.Component {
         left: '18%',
         boxSizing: 'border-box'
       },
+      withinCom_EntryCall_logo_: {
+        display: 'inline-block',
+        position: 'absolute',
+        top:'40%',
+        left: '0%',
+        transform: 'translate(0, -50%)',
+        boxSizing: 'border-box',
+        fontSize: '1.5rem',
+        fontWeight: '400',
+        letterSpacing: '0.225rem'
+      },
       withinCom_LtdNav_div_: {
         width: '25%',
         height: '100%',
@@ -104,6 +115,10 @@ class LtdNav extends React.Component {
         id="withinCom_LtdNav_"
         ref={(element)=>{this.withinCom_LtdNav_ = element;}}
         style={this.style.withinCom_LtdNav_}>
+        <div
+          style={this.style.withinCom_EntryCall_logo_}>
+          {"CORNER"}
+        </div>
         <div
           style={this.style.withinCom_LtdNav_logo_}>
           <SvgCreate/>
