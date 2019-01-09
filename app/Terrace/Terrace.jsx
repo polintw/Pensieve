@@ -48,7 +48,7 @@ class Terrace extends React.Component {
     switch (route) {
       case 'user':
         if(identifier == this.props.userInfo.id){
-          window.location.assign('/user/terrace');
+          window.location.assign('/user/screen');
         }else{
           window.location.assign('/cosmic/people/'+identifier);
         }

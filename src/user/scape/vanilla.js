@@ -95,7 +95,7 @@ function _handle_scape_GET(req, res){
         })
       }).then((sendingData)=>{
         _res_success(res, sendingData, "Complete, GET: scape/vanilla.");
-      }).catch((err)=>{
+      }).catch((errObj)=>{
         console.log("error occured during GET: scape/vanilla promise: "+(errObj.err?errObj.err:errObj))
         switch (errObj.status) {
           case 400:

@@ -6,7 +6,11 @@ let rootLogin = browserify({debug: true}).transform(babelify.configure({
   presets: [
       "react",
       "env"
-  ]})).require("./app/Login/root.js", {entry: true})/*.plugin(require('css-modulesify'), {
+    ],
+  plugins: [
+    "transform-object-rest-spread"
+  ]})
+).require("./app/Login/root.js", {entry: true})/*.plugin(require('css-modulesify'), {
     rootDir: __dirname
   });*/
 let rootWithin = browserify({debug: true}).transform(babelify.configure({
@@ -14,9 +18,10 @@ let rootWithin = browserify({debug: true}).transform(babelify.configure({
       "react",
       "env"
     ],
-    plugins: [
+  plugins: [
     "transform-object-rest-spread"
-]})).require("./app/Within/root.js", {entry: true})/*.plugin(require('css-modulesify'), {
+  ]})
+).require("./app/Within/root.js", {entry: true})/*.plugin(require('css-modulesify'), {
     rootDir: __dirname
   });*/
 let rootSelfFront = browserify({debug: true}).transform(babelify.configure({
@@ -24,9 +29,10 @@ let rootSelfFront = browserify({debug: true}).transform(babelify.configure({
       "react",
       "env"
     ],
-    plugins: [
+  plugins: [
   	"transform-object-rest-spread"
-    ]})).require("./app/Self/root_Front.js", {entry: true})/*.plugin(require('css-modulesify'), {
+  ]})
+).require("./app/Self/root_Front.js", {entry: true})/*.plugin(require('css-modulesify'), {
     rootDir: __dirname
   });*/
 let rootTerrace = browserify({debug: true}).transform(babelify.configure({
@@ -34,9 +40,10 @@ let rootTerrace = browserify({debug: true}).transform(babelify.configure({
       "react",
       "env"
     ],
-    plugins: [
+  plugins: [
   	"transform-object-rest-spread"
-  ]})).require("./app/Terrace/root_Terrace.js", {entry: true})/*.plugin(require('css-modulesify'), {
+  ]})
+).require("./app/Terrace/root_Terrace.js", {entry: true})/*.plugin(require('css-modulesify'), {
     rootDir: __dirname
   });*/
 
@@ -48,7 +55,9 @@ let appTerrace = rootTerrace.bundle().on("error", function (err) { console.log("
     css.pipe(fs.createWriteStream('../server_statics/public/styles.css')); //rewrite the file with the new "abstract name"
 });*/
 
-appLogin.pipe(fs.createWriteStream('./public/react/appLogin.js'));
-appWithin.pipe(fs.createWriteStream('./public/react/appWithin.js'));
-appSelfFront.pipe(fs.createWriteStream('./public/react/appSelfFront.js'));
-appTerrace.pipe(fs.createWriteStream('./public/react/appTerrace.js'));
+exports.bundler = ()=>{
+  appLogin.pipe(fs.createWriteStream('./public/react/appLogin.js'));
+  appWithin.pipe(fs.createWriteStream('./public/react/appWithin.js'));
+  appSelfFront.pipe(fs.createWriteStream('./public/react/appSelfFront.js'));
+  appTerrace.pipe(fs.createWriteStream('./public/react/appTerrace.js'));
+}

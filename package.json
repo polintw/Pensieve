@@ -1,6 +1,6 @@
 {
   "name": "corner",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
   "main": "server.js",
   "dependencies": {
@@ -41,9 +41,10 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "bundle": "node bundle.js",
     "start": "node server.js"
   },
-  "author": "Berlin Chou",
+  "author": "Polin Chou",
   "license": "",
   "keywords": []
 }
