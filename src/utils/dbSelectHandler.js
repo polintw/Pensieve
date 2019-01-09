@@ -293,14 +293,9 @@ exports._select_Basic = (condition, accordance)=>{
           connection.query(selectQuery, [accordance], function(err, results, fields){
             if (err) {reject({err: err});connection.release(); return} //only with "return" could assure the promise end immediately if there is any error.
             console.log('database connection success: '+condition.table);
-            if(results.length> 0){
-              let rowsArr = results.slice();
-              resolve(rowsArr);
-              connection.release();
-            }else{
-              reject({status: 500, err: 'data mismatch in '+condition.table});
-              connection.release();
-            }
+            let rowsArr = results.slice();
+            resolve(rowsArr);
+            connection.release();
           })
         }).catch((errObj)=>{reject(errObj)})
       }
