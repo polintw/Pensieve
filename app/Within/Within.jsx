@@ -1,12 +1,13 @@
 import React from 'react';
 import {
   BrowserRouter as Router,
+  Switch,
   Route,
   Link
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
-import WithinLtd from './Within_Ltd.jsx';
+import WithinCosmic from './Within_Cosmic.jsx';
 
 class Within extends React.Component {
   constructor(props){
@@ -32,7 +33,7 @@ class Within extends React.Component {
       <Router>
         <div
           style={this.style.div_Base}>
-          <Route path="/" render={(props)=> <WithinLtd {...props}/>}/>
+          <Route path="/" render={(props)=> <WithinCosmic {...props}/>}/>
         </div>
       </Router>
     )

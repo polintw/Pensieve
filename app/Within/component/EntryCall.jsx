@@ -16,11 +16,10 @@ class EntryCall extends React.Component {
     this.style={
       withinCom_EntryCall_: {
         width: '100%',
-        height: '80%',
+        height: '100%',
         position: 'absolute',
-        top: '50%',
-        left: '0',
-        transform: 'translate(0, -50%)'
+        top: '0%',
+        left: '0'
       },
       withinCom_EntryCall_CreateShare_: {
         width: '30%',
@@ -56,9 +55,9 @@ class EntryCall extends React.Component {
         left: '0%',
         transform: 'translate(0, -50%)',
         boxSizing: 'border-box',
-        fontSize: '3rem',
+        fontSize: '3.2rem',
         fontWeight: '700',
-        letterSpacing: '0.5rem'
+        letterSpacing: '0.64rem'
       },
       withinCom_EntryCall_div_User_: {
         display: 'inline-block',
@@ -118,7 +117,7 @@ class EntryCall extends React.Component {
           <SvgCreate/>
           <CreateShare
             _submit_Share_New={this._submit_Share_New}
-            _refer_von_Create={this.props._refer_leavevonLtd}/>
+            _refer_von_Create={this.props._refer_leavevonIndex}/>
         </div>
       </div>
     )
