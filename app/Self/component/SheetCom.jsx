@@ -11,7 +11,6 @@ class Basic extends React.Component {
     this.state = {
       axios: false
     };
-    this._handle_sheetBasic = this._handle_sheetBasic.bind(this);
     this._render_Gender = this._render_Gender.bind(this);
     this.style={
       selfCom_Sheet_Basic_: {
@@ -22,33 +21,6 @@ class Basic extends React.Component {
       }
     }
   }
-
-  _handle_sheetBasic(event){
-    event.preventDefault();
-    const self = this;
-    let reqBody = {};
-    reqBody["gender"] = this.genderSelect.value;
-    this.setState({axios: true});
-    axios.patch('/router/profile/sheet', reqBody, {
-      headers: {'charset': 'utf-8'}
-    }).then(function (res) {
-      self.setState({
-        axios: false
-      });
-      window.location.assign('/user/profile/sheet');
-    }).catch(function (thrown) {
-      if (axios.isCancel(thrown)) {
-        console.log('Request canceled: ', thrown.message);
-      } else {
-        self.setState({axios: false});
-        let customSwitch = (status)=>{
-          return null;
-        };
-        errHandler_axiosCatch(thrown, customSwitch);
-      }
-    });
-  }
-
 
   _render_Gender(dbRecords){
     switch (dbRecords) {
@@ -72,39 +44,12 @@ class Basic extends React.Component {
     return(
       <div
         style={this.style.selfCom_Sheet_Basic_}>
-          {
-            statusEditting?(
-              <form onSubmit={this._handle_sheetBasic}>
-                <div>
-                  <span>{"性別 : "}</span>
-                  <select
-                    name="gender"
-                    ref={(element)=>{this.genderSelect = element}}>
-                    <option value={0}>{"生理女"}</option>
-                    <option value={1}>{"生理男"}</option>
-                  </select>
-                </div>
-                <input
-                  type="submit"
-                  value="save"/>
-                <Link
-                  to="/profile/sheet" replace>
-                {"cancel"}</Link>
-              </form>
-            ):(
               <div>
                 <div>
                   <span>{"性別 : "}</span>
                   {this._render_Gender(this.props.userSheet.gender)}
                 </div>
-                <div>
-                  <Link
-                    to="/profile/sheet?status=editting">
-                    {" edit "}</Link>
-                </div>
               </div>
-            )
-          }
       </div>
     )
   }
@@ -147,15 +92,6 @@ class AccountatSheet extends React.Component {
         fontSize: '1.2rem',
         letterSpacing: '0.12rem',
         fontWeight: '400'
-      },
-      selfCom_Setting_link: {
-        width: '25%',
-        position: 'absolute',
-        top: '50%',
-        right: '5%',
-        fontSize: '1.2rem',
-        letterSpacing: '0.15rem',
-        fontWeight: '400'
       }
     }
   }
@@ -177,10 +113,6 @@ class AccountatSheet extends React.Component {
           <span>{"email: "}</span>
           <span>{this.props.accountSet.mail}</span>
         </div>
-        <Link
-          to="/profile/sheet?status=setting"
-          style={this.style.selfCom_Setting_link}>
-          {" reset "}</Link>
       </div>
     )
   }
