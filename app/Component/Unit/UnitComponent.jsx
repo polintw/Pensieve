@@ -36,8 +36,7 @@ export class NounsExtensible extends React.Component {
         textAlign: 'center',
         fontWeight: '400',
         fontFamily: 'cwTeXMing',
-        color: '#FAFAFA',
-        cursor: 'pointer'
+        color: '#FAFAFA'
       },
       Com_Nouns_Extensible_switch_: {
         display: 'inline-block',

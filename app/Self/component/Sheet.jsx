@@ -2,7 +2,6 @@ import React from 'react';
 import {connect} from "react-redux";
 import {
   SheetAccount,
-  SheetSetting,
   SheetBasic
 } from './SheetCom.jsx';
 import {mountUserSheet} from "../../redux/actions/general.js";
@@ -141,10 +140,6 @@ class Sheet extends React.Component {
 
   render(){
     //let cx = cxBind.bind(styles);
-    let params = new URLSearchParams(this.props.location.search); //we need value in URL query
-    let paramsStatus = params.get('status'), statusSetting;
-    if(paramsStatus == 'setting')statusSetting = true;
-
     return(
       <div
         style={this.style.selfCom_Sheet_}>
@@ -155,13 +150,6 @@ class Sheet extends React.Component {
         <div
           style={this.style.selfCom_Sheet_display_}>
           <section>
-          {
-            statusSetting?(
-              <div
-                style={this.style.selfCom_Sheet_display_basic_}>
-                <SheetSetting {...this.props}/>
-              </div>
-            ):(
               <div
                 style={this.style.selfCom_Sheet_display_basic_}>
                 <div
@@ -173,8 +161,6 @@ class Sheet extends React.Component {
                   <SheetBasic {...this.props}/>
                 </div>
               </div>
-            )
-          }
           </section>
         </div>
       </div>
