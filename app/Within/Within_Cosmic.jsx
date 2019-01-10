@@ -17,6 +17,7 @@ class WithinCosmic extends React.Component {
     this.state = {
       cssPara: 0
     };
+    this.withinCom_CosmicMain_index_ = React.createRef();
     this._check_Position = this._check_Position.bind(this);
     this._refer_leavevonIndex = this._refer_leavevonIndex.bind(this);
     this.style={
@@ -57,7 +58,7 @@ class WithinCosmic extends React.Component {
   }
 
   _check_Position(){
-    let Within_Cosmic_corner_Top = this.Within_Cosmic_corner_.getBoundingClientRect().top;
+    let Within_Cosmic_corner_Top = this.withinCom_CosmicMain_index_.current.getBoundingClientRect().top;
     if(Within_Cosmic_corner_Top < this.scrollOrigin && Within_Cosmic_corner_Top > this.scrollLine){
       //it's not good enough, due to the "leap" happened at the threshould
       let para = (this.scrollOrigin-Within_Cosmic_corner_Top)/this.scrollRange;
@@ -69,8 +70,8 @@ class WithinCosmic extends React.Component {
     }
   }
   componentDidMount() {
-    this.scrollOrigin = this.Within_Cosmic_corner_.getBoundingClientRect().top;
-    this.scrollRange = this.scrollOrigin*4.5;
+    this.scrollOrigin = this.withinCom_CosmicMain_index_.current.getBoundingClientRect().top;
+    this.scrollRange = this.scrollOrigin*2.5;
     this.scrollLine = this.scrollOrigin-this.scrollRange;
     window.addEventListener("scroll", this._check_Position); //becuase we using "position: static", listener could not add on element directlly.
   }
@@ -84,11 +85,10 @@ class WithinCosmic extends React.Component {
     return(
       <div
         style={this.style.Within_Cosmic_}>
-        <CosmicMain {...this.props} _refer_leavevonIndex={this._refer_leavevonIndex}/>
+        <CosmicMain {...this.props} ref={this.withinCom_CosmicMain_index_} _refer_leavevonIndex={this._refer_leavevonIndex}/>
         <div style={this.style.Within_Cosmic_bottom}></div>
         <div
-          style={Object.assign({opacity: this.state.cssPara}, this.style.Within_Cosmic_corner_)}
-          ref = {(element)=>{this.Within_Cosmic_corner_ = element}}>
+          style={Object.assign({opacity: this.state.cssPara}, this.style.Within_Cosmic_corner_)}>
           <CosmicCorner
             match={this.props.match}
             _refer_leavevonIndex={this._refer_leavevonIndex}/>

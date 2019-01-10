@@ -59,7 +59,8 @@ class EntryCall extends React.Component {
         fontWeight: '400',
         fontSize: '1vh',
         letterSpacing: '0.12vh',
-        textAlign: 'center'
+        textAlign: 'center',
+        cursor: 'pointer'
       },
       withinCom_EntryCall_logo_: {
         position: 'absolute',
@@ -70,7 +71,8 @@ class EntryCall extends React.Component {
         padding: '0 2%',
         fontWeight: '700',
         fontSize: '2rem',
-        letterSpacing: '0.4rem'
+        letterSpacing: '0.4rem',
+        cursor: 'pointer'
       }
     }
   }

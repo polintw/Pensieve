@@ -3,7 +3,7 @@ import cxBind from 'classnames/bind';
 import MainIndex from './MainIndex.jsx';
 import EntryCall from './EntryCall.jsx';
 
-export default class CosmicMain extends React.Component {
+class CosmicMain extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -54,6 +54,7 @@ export default class CosmicMain extends React.Component {
               _refer_leavevonIndex={this.props._refer_leavevonIndex}/>
         </div>
         <div
+          ref={this.props.innerRef}
           style={this.style.withinCom_CosmicMain_index_}>
           <MainIndex {...this.props}/>
         </div>
@@ -61,3 +62,5 @@ export default class CosmicMain extends React.Component {
     )
   }
 }
+
+export default React.forwardRef((props, ref) => <CosmicMain innerRef={ref} {...props}/>);
