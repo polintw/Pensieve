@@ -8,6 +8,7 @@ import {
 import {connect} from "react-redux";
 import CogActions from './component/CogActions.jsx';
 import NavFront from './component/NavFront.jsx';
+import NavsCognition from './component/NavsCognition.jsx';
 
 class FrontCognition extends React.Component {
   constructor(props){
@@ -57,6 +58,14 @@ class FrontCognition extends React.Component {
         bottom: '15%',
         left: '3%',
         boxSizing: 'border-box',
+      },
+      Front_Cognition_NavsCognition_:{
+        width: '85%',
+        height: '7%',
+        position: 'fixed',
+        bottom: '0',
+        left: '9%',
+        boxSizing: 'border-box',
       }
     }
   }
@@ -79,6 +88,10 @@ class FrontCognition extends React.Component {
         <div
           style={this.style.Front_Cognition_NavFront_}>
           <NavFront {...this.props}/>
+        </div>
+        <div
+          style={this.style.Front_Cognition_NavsCognition_}>
+          <NavsCognition {...this.props}/>
         </div>
       </div>
     )
