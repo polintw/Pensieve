@@ -39,7 +39,7 @@ export default class UnitLayerFrame extends React.Component {
 
   render(){
     const self = this;
-    let status = [0, 0];
+    let status = this.props.beneathSrc? [0, 1] : [0];
     let circles = status.map(function(binary, index){
       if(self.props.layer == index){
         return( self.props.marks? (
