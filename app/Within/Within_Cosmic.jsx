@@ -31,7 +31,7 @@ class WithinCosmic extends React.Component {
         minHeight: '20%',
         position: 'fixed',
         bottom: '5%',
-        right: '0',
+        left: '0',
         boxSizing: 'border-box'
       },
       Within_Cosmic_bottom: {

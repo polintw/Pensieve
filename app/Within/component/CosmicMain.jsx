@@ -12,6 +12,7 @@ export default class CosmicMain extends React.Component {
     this.style={
       withinCom_CosmicMain_: {
         width: '77%',
+        minHeight: '110%',
         position: 'absolute',
         top: '0',
         left: '14%',

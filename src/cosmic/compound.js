@@ -1,4 +1,5 @@
-const mysql = require('mysql');
+const express = require('express');
+const execute = express.Router();
 const jwt = require('jsonwebtoken');
 const {verify_key} = require('../../config/jwt.js');
 const {_res_success} = require('../utils/resHandler.js');

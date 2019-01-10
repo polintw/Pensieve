@@ -34,7 +34,6 @@ class MainIndex extends React.Component {
     this.style={
       withinCom_MainIndex_: {
         width: '100%',
-        minHeight: '110%',
         position: 'relative',
         boxSizing: 'border-box'
       },
