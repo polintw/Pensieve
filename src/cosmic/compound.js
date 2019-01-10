@@ -1,19 +1,19 @@
-const express = require('express');
-const execute = express.Router();
+const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
-const {verify_key} = require('../../../config/jwt.js');
-const {_res_success} = require('../../utils/resHandler.js');
+const {verify_key} = require('../../config/jwt.js');
+const {_res_success} = require('../utils/resHandler.js');
 const {
   _select_Basic
-} = require('../../utils/dbSelectHandler.js');
+} = require('../utils/dbSelectHandler.js');
 const {
   _handler_err_NotFound,
   _handler_err_BadReq,
   _handler_err_Unauthorized,
   _handler_err_Internal
-} = require('../../utils/reserrHandler.js');
+} = require('../utils/reserrHandler.js');
 
-function _handle_scape_GET(req, res){
+
+function _handle_cosmicCompound_GET(req, res){
   jwt.verify(req.headers['token'], verify_key, function(err, payload) {
     if (err) {
       _handler_err_Unauthorized(err, res)
@@ -28,10 +28,10 @@ function _handle_scape_GET(req, res){
       selectCondition = {
         table: "units",
         cols: ["*"],
-        where: ["id_author"],
-        comparison: [{operator: '<>', qmark: '?'}]
+        where: ["id_author"]
       };
       //first, selecting by accordancelist
+
       _select_Basic(selectCondition, mysqlForm.accordancesList).then((resultsUnit)=>{
         let sendingData={
           unitsList: [],
@@ -94,9 +94,9 @@ function _handle_scape_GET(req, res){
           return (sendingData);
         })
       }).then((sendingData)=>{
-        _res_success(res, sendingData, "Complete, GET: scape/vanilla.");
+        _res_success(res, sendingData, "Complete, GET: cosmic/compound.");
       }).catch((errObj)=>{
-        console.log("error occured during GET: scape/vanilla promise: "+(errObj.err?errObj.err:errObj))
+        console.log("error occured during GET: cosmic/compound promise: "+(errObj.err?errObj.err:errObj))
         switch (errObj.status) {
           case 400:
             _handler_err_BadReq(errObj.err, res);
@@ -115,9 +115,10 @@ function _handle_scape_GET(req, res){
   })
 };
 
+
 execute.get('/', function(req, res){
-  console.log('GET: scape/vanilla');
-  _handle_scape_GET(req, res);
+  console.log('GET: cosmic/compound');
+  _handle_cosmicCompound_GET(req, res);
 })
 
 module.exports = execute;
