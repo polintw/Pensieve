@@ -23,55 +23,54 @@ class EntryCall extends React.Component {
       },
       withinCom_EntryCall_CreateShare_: {
         width: '30%',
-        height: '36%',
+        height: '50%',
         position: 'absolute',
-        bottom: '0',
-        right: '0',
+        top: '50%',
+        left: '40%',
+        transform: 'translate(0,-50%)',
         boxSizing: 'border-box'
       },
       withinCom_EntryCall_Info_: {
-        width: '40%',
-        height: '30%',
+        width: '30%',
+        height: '100%',
         position: 'absolute',
         bottom: '0',
-        left: '0',
+        right: '0',
         boxSizing: 'border-box',
       },
       withinCom_EntryCall_Info_Date_: {
-        width: '100%',
-        height: '100%',
+        position: 'absolute',
+        bottom: '0%',
+        left: '50%',
+        transform: 'translate(-50%,0%)',
         boxSizing: 'border-box',
-        padding: '1% 0',
-        fontSize: '2.2rem',
-        letterSpacing: '0.2rem',
-        fontWeight: '400',
+        fontSize: '0.8vh',
+        letterSpacing: '0.1vh',
+        fontWeight: '300',
         textAlign: 'left',
         color: '#222222'
       },
-      withinCom_EntryCall_logo_: {
-        display: 'inline-block',
+      withinCom_EntryCall_Info_User_: {
         position: 'absolute',
-        top:'40%',
+        top:'0%',
+        left: '50%',
+        transform: 'translate(-50%, 0%)',
+        boxSizing: 'border-box',
+        fontWeight: '400',
+        fontSize: '1vh',
+        letterSpacing: '0.12vh',
+        textAlign: 'center'
+      },
+      withinCom_EntryCall_logo_: {
+        position: 'absolute',
+        top:'50%',
         left: '0%',
         transform: 'translate(0, -50%)',
         boxSizing: 'border-box',
-        fontSize: '3.2rem',
+        padding: '0 2%',
         fontWeight: '700',
-        letterSpacing: '0.64rem'
-      },
-      withinCom_EntryCall_div_User_: {
-        display: 'inline-block',
-        width: '40%',
-        height: '40%',
-        position: 'absolute',
-        top:'40%',
-        left: '60%',
-        transform: 'translate(0, -50%)',
-        boxSizing: 'border-box',
-        fontSize: '2.2rem',
-        fontWeight: '400',
-        letterSpacing: '0.2rem',
-        textAlign: 'center'
+        fontSize: '2rem',
+        letterSpacing: '0.4rem'
       }
     }
   }
@@ -96,20 +95,17 @@ class EntryCall extends React.Component {
           {"CORNER"}
         </div>
         <div
-          style={this.style.withinCom_EntryCall_div_User_}>
-          <div
-            style={{width: '100%', position: 'absolute', top: '50%', transform: 'translate(0, -50%)', cursor: 'pointer'}}
-            onClick={this._handleClick_selfEntrance}>
-            {this.props.userInfo.account}
-          </div>
-        </div>
-        <div
           style={this.style.withinCom_EntryCall_Info_}>
           <div
             style={this.style.withinCom_EntryCall_Info_Date_}>
             <span>{(this.dateObj.getMonth()+1)+' ﹒'}</span>
             <span>{this.dateObj.getDate()+' ﹒'}</span>
             <span>{this.dateObj.getFullYear()}</span>
+          </div>
+          <div
+            style={this.style.withinCom_EntryCall_Info_User_}
+            onClick={this._handleClick_selfEntrance}>
+            {this.props.userInfo.account}
           </div>
         </div>
         <div

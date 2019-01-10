@@ -11,26 +11,25 @@ export default class CosmicMain extends React.Component {
     };
     this.style={
       withinCom_CosmicMain_: {
-        width: '75%',
+        width: '77%',
         position: 'absolute',
         top: '0',
-        left: '13.5%',
+        left: '14%',
         boxSizing: 'border-box'
       },
       withinCom_CosmicMain_index_: {
         width: '100%',
         position: 'absolute',
-        top: '30vh',
+        top: '20vh',
         left: '0',
         boxSizing: 'border-box'
       },
       Within_Ltd_scroll_EntryCall: {
-        width: '85%',
-        height: '22vh',
+        width: '90%',
+        height: '18vh',
         position: 'absolute',
         top: '3vh',
-        left: '50%',
-        transform: 'translate(-50%, 0)'
+        left: '5%'
       }
     }
   }

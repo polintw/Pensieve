@@ -34,10 +34,17 @@ class CosmicCorner extends React.Component {
         minHeight: '50%',
         position: 'relative',
         boxSizing: 'border-box',
-        fontSize: '1.8rem',
-        letterSpacing: '0.24rem',
         textAlign: 'center',
         cursor: 'pointer'
+      },
+      withinCom_CosmicCorner_Self_span: {
+        display: 'block',
+        position: 'relative',
+        boxSizing: 'border-box',
+        padding: '0.5vh 0',
+        fontSize: '1.5rem',
+        letterSpacing: '0.2rem',
+        color: '#222222'
       }
     }
   }
@@ -75,7 +82,10 @@ class CosmicCorner extends React.Component {
         <div
           style={this.style.withinCom_CosmicCorner_Self_}
           onClick={this._handleClick_cosmic_Self}>
-          {this.props.userInfo.account}
+          <span style={this.style.withinCom_CosmicCorner_Self_span}>
+            {this.props.userInfo.firstName}</span>
+          <span style={this.style.withinCom_CosmicCorner_Self_span}>
+            {this.props.userInfo.lastName}</span>
         </div>
       </div>
     )
