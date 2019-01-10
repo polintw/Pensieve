@@ -11,8 +11,8 @@ class CosmicMain extends React.Component {
     };
     this.style={
       withinCom_CosmicMain_: {
-        width: '77%',
-        minHeight: '110%',
+        width: '75%',
+        minHeight: '135%',
         position: 'absolute',
         top: '0',
         left: '14%',
@@ -21,13 +21,13 @@ class CosmicMain extends React.Component {
       withinCom_CosmicMain_index_: {
         width: '100%',
         position: 'absolute',
-        top: '20vh',
+        top: '23vh',
         left: '0',
         boxSizing: 'border-box'
       },
       Within_Ltd_scroll_EntryCall: {
-        width: '90%',
-        height: '18vh',
+        width: '97%',
+        height: '15vh',
         position: 'absolute',
         top: '3vh',
         left: '5%'

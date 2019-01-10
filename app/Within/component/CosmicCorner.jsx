@@ -16,25 +16,29 @@ class CosmicCorner extends React.Component {
     this.style={
       withinCom_CosmicCorner_: {
         width: '100%',
+        height: '100%',
         position: 'absolute',
         top: '0',
         left: '0',
-        boxSizing: 'border-box',
-        padding: '1vh 2%'
+        boxSizing: 'border-box'
       },
       withinCom_CosmicCorner_logo: {
-        position: 'relative',
+        position: 'absolute',
+        top: '0',
+        left: '1%',
         boxSizing: 'border-box',
-        fontSize: '2rem',
-        letterSpacing: '0.3rem',
+        fontWeight: '300',
+        fontSize: '2.7vh',
+        letterSpacing: '0.3vh',
         color: 'rgba(62, 61, 61, 0.92)',
         cursor: 'pointer'
       },
       withinCom_CosmicCorner_Self_: {
-        minHeight: '50%',
-        position: 'relative',
+        position: 'absolute',
+        bottom: '0',
+        right: '2%',
         boxSizing: 'border-box',
-        textAlign: 'center',
+        textAlign: 'right',
         cursor: 'pointer'
       },
       withinCom_CosmicCorner_Self_span: {

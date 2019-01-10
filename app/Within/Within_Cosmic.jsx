@@ -28,16 +28,16 @@ class WithinCosmic extends React.Component {
         overflow: 'auto'
       },
       Within_Cosmic_corner_: {
-        width: '18%',
-        minHeight: '20%',
+        width: '100%',
+        height: '21%',
         position: 'fixed',
-        bottom: '5%',
+        bottom: '9%',
         left: '0',
         boxSizing: 'border-box'
       },
       Within_Cosmic_bottom: {
         width: '100%',
-        height: '4%',
+        height: '3%',
         position: 'fixed',
         bottom: '0',
         left: '0',
@@ -71,7 +71,7 @@ class WithinCosmic extends React.Component {
   }
   componentDidMount() {
     this.scrollOrigin = this.withinCom_CosmicMain_index_.current.getBoundingClientRect().top;
-    this.scrollRange = this.scrollOrigin*2.5;
+    this.scrollRange = this.scrollOrigin*2;
     this.scrollLine = this.scrollOrigin-this.scrollRange;
     window.addEventListener("scroll", this._check_Position); //becuase we using "position: static", listener could not add on element directlly.
   }
@@ -85,14 +85,14 @@ class WithinCosmic extends React.Component {
     return(
       <div
         style={this.style.Within_Cosmic_}>
-        <CosmicMain {...this.props} ref={this.withinCom_CosmicMain_index_} _refer_leavevonIndex={this._refer_leavevonIndex}/>
-        <div style={this.style.Within_Cosmic_bottom}></div>
         <div
           style={Object.assign({opacity: this.state.cssPara}, this.style.Within_Cosmic_corner_)}>
           <CosmicCorner
             match={this.props.match}
             _refer_leavevonIndex={this._refer_leavevonIndex}/>
         </div>
+        <CosmicMain {...this.props} ref={this.withinCom_CosmicMain_index_} _refer_leavevonIndex={this._refer_leavevonIndex}/>
+        <div style={this.style.Within_Cosmic_bottom}></div>
       </div>
     )
   }
