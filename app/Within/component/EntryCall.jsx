@@ -22,10 +22,10 @@ class EntryCall extends React.Component {
       },
       withinCom_EntryCall_CreateShare_: {
         width: '30%',
-        height: '50%',
+        height: '48%',
         position: 'absolute',
         top: '50%',
-        left: '40%',
+        left: '42%',
         transform: 'translate(0,-50%)',
         boxSizing: 'border-box'
       },
@@ -117,11 +117,10 @@ class EntryCall extends React.Component {
               maxHeight: '100%'
             }}
             preserveAspectRatio="none">
-            <defs><style>{".cls-1{fill:#fff;}.cls-2{fill:#494949;}.cls-3{fill:none;stroke:#000;stroke-miterlimit:10;}"}</style></defs>
+            <defs><style>{".cls-1{fill:#ff9a5e;}.cls-2{fill:none;stroke:#dedede;stroke-miterlimit:10;stroke-width:7px;}"}</style></defs>
             <g id="圖層_2" data-name="圖層 2"><g id="圖層_1-2" data-name="圖層 1">
-              <rect className="cls-1" x="0.25" y="0.25" width="1241.5" height="174.5" rx="58.75" ry="58.75"/>
-              <path className="cls-2" d="M1183,.5A58.56,58.56,0,0,1,1241.5,59v57a58.56,58.56,0,0,1-58.5,58.5H59A58.56,58.56,0,0,1,.5,116V59A58.56,58.56,0,0,1,59,.5H1183m0-.5H59A59.17,59.17,0,0,0,0,59v57a59.17,59.17,0,0,0,59,59H1183a59.17,59.17,0,0,0,59-59V59a59.17,59.17,0,0,0-59-59Z"/>
-              <line className="cls-3" x1="97" y1="132.5" x2="968.5" y2="132.5"/>
+              <rect className="cls-1" width="1242" height="175" rx="69.54" ry="69.54"/>
+              <line className="cls-2" x1="97" y1="128.5" x2="968.5" y2="128.5"/>
             </g></g>
           </svg>
           <CreateShare

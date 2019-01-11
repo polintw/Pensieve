@@ -41,8 +41,7 @@ class WithinCosmic extends React.Component {
         position: 'fixed',
         bottom: '0',
         left: '0',
-        boxSizing: 'border-box',
-        backgroundColor: '#FAFAFA'
+        boxSizing: 'border-box'
       }
     }
   }
