@@ -48,28 +48,8 @@ export default class UnitLayerFrame extends React.Component {
         break;
       case "1":
         return {
-          coverOpa: '0.5'
-        }
-        break;
-      case "2":
-        return {
           coverWidth: '0',
           coverOpa: '0'
-        }
-        break;
-      case "3":
-        return {
-          coverWidth: '0',
-          coverOpa: '0',
-          beneathOpa: '0.5'
-        }
-        break;
-      case "4":
-        return {
-          coverWidth: '0',
-          coverOpa: '0',
-          beneathOpa: '0',
-          beneathWidth: '0'
         }
         break;
       default:

@@ -11,8 +11,8 @@ export default class MarkBlock extends React.Component {
     this.style = {
       Com_MarkBlock_: {
         width: '100%',
-        minHeight: '44vh',
-        position: 'absolute',
+        minHeight: '45vh',
+        position: 'relative',
         top: '0',
         left: '0',
         boxSizing: 'border-box',
@@ -26,8 +26,9 @@ export default class MarkBlock extends React.Component {
         position: 'relative',
         boxSizing: 'border-box',
         margin: '0',
-        fontSize: '1.2rem',
-        letterSpacing: '0.15rem',
+        padding: '1vh 5%',
+        fontSize: '1.4rem',
+        letterSpacing: '0.16rem',
         fontWeight: '400',
         color: '#FAFAFA',
         overflow: 'auto'

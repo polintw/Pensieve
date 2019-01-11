@@ -7,6 +7,7 @@ export default class UnitLayerFrame extends React.Component {
 
     };
     this._handleClick_set_layer = this._handleClick_set_layer.bind(this);
+    this._handleClick_set_marksVisible = this._handleClick_set_marksVisible.bind(this);
     this.style={
       Com_UnitLayerControl: {
         width: '100%',
@@ -15,7 +16,18 @@ export default class UnitLayerFrame extends React.Component {
         top: '0',
         left: '0',
         boxSizing: 'border-box',
-        padding: '5%'
+        paddingTop: "1vh"
+      },
+      Com_UnitLayerControl_bar: {
+        width: '96%',
+        height: '100%',
+        position: 'absolute',
+        top: '0',
+        left: '5%',
+        boxSizing: 'border-box',
+        boxShadow: '-2px 1px 5px',
+        backgroundColor: '#AAAAAA',
+        cursor: 'pointer'
       },
       Com_UnitLayerControl_svg_button: {
         width: '90%',
@@ -30,51 +42,40 @@ export default class UnitLayerFrame extends React.Component {
     event.preventDefault();
     event.stopPropagation();
     let eventIndex =event.currentTarget.getAttribute('index');
-    if(this.props.layer == eventIndex){
-      this.props.marks ? this.props._set_makrsVisible(false) : this.props._set_makrsVisible(true);
-    }else{
-      this.props._set_layer(eventIndex);
-    }
+    this.props._set_layer(eventIndex);
+  }
+
+  _handleClick_set_marksVisible(event){
+    event.preventDefault();
+    event.stopPropagation();
+    this.props.marks ? this.props._set_makrsVisible(false) : this.props._set_makrsVisible(true);
   }
 
   render(){
-    const self = this;
-    let status = this.props.beneathSrc? [0, 1] : [0];
-    let circles = status.map(function(binary, index){
-      if(self.props.layer == index){
-        return( self.props.marks? (
-          <svg
-            key={'key_Com_UnitLayerControl_svg_'+index}
-            index={index}
-            style={self.style.Com_UnitLayerControl_svg_button}
-            onClick={self._handleClick_set_layer}>
-            <circle r="28%" cx="50%" cy="50%" stroke={'#EEDDCC'} fill="none"/>
-            <circle r="20%" cx="50%" cy="50%" stroke='#EEDDCC' fill="#EEDDCC"/>
-          </svg>
-        ) : (
-          <svg
-            key={'key_Com_UnitLayerControl_svg_'+index}
-            index={index}
-            style={self.style.Com_UnitLayerControl_svg_button}
-            onClick={self._handleClick_set_layer}>
-            <circle r="28%" cx="50%" cy="50%" stroke={'#EEDDCC'} fill="none"/>
-          </svg>
-        ))
-      }else{
-        <svg
-          key={'key_Com_UnitLayerControl_svg_'+index}
-          index={index}
-          style={self.style.Com_UnitLayerControl_svg_button}
-          onClick={self._handleClick_set_layer}>
-          <circle r="28%" cx="50%" cy="50%" stroke={'white'} fill="none"/>
-        </svg>
-      }
-    })
+    let layerCover = this.props.layer == 0? true : false;
 
     return(
       <div
         style={this.style.Com_UnitLayerControl}>
-        {circles}
+        <div
+          index={0}
+          style={{width: '100%', height: this.props.beneathSrc? '40%':'80%', position: "relative", cursor:"pointer"}}
+          onClick={this._handleClick_set_layer}>
+          <div
+            style={Object.assign({display: layerCover? 'block': 'none'}, this.style.Com_UnitLayerControl_bar)}
+            onClick={this._handleClick_set_marksVisible}></div>
+        </div>
+        {
+          this.props.beneathSrc &&
+          <div
+          index={1}
+          style={{width: '100%', height: '40%', position: "relative", cursor:"pointer"}}
+          onClick={this._handleClick_set_layer}>
+          <div
+            style={Object.assign({display: layerCover? 'none': 'block'}, this.style.Com_UnitLayerControl_bar)}
+            onClick={this._handleClick_set_marksVisible}></div>
+          </div>
+        }
       </div>
     )
   }
