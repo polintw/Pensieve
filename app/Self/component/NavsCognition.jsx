@@ -18,11 +18,11 @@ export default class NavsCognition extends React.Component {
         boxSizing: 'border-box'
       },
       Self_pages_Front_Scape: {
-        width: '5%',
+        width: '3%',
         height: '88%',
         position: 'absolute',
-        bottom: '2%',
-        left: '3%',
+        bottom: '8%',
+        left: '14%',
         boxSizing: 'border-box'
       },
       Self_pages_Front_Scape_circle: {

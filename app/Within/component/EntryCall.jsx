@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import CreateShare from '../../Component/CreateShare.jsx';
+import SvgCreateCoral from '../../Component/SvgCreateCoral.jsx';
 
 class EntryCall extends React.Component {
   constructor(props){
@@ -21,8 +22,8 @@ class EntryCall extends React.Component {
         left: '0'
       },
       withinCom_EntryCall_CreateShare_: {
-        width: '30%',
-        height: '48%',
+        width: '28%',
+        height: '47%',
         position: 'absolute',
         top: '50%',
         left: '42%',
@@ -30,35 +31,30 @@ class EntryCall extends React.Component {
         boxSizing: 'border-box'
       },
       withinCom_EntryCall_Info_: {
-        width: '30%',
-        height: '100%',
+        width: '28%',
         position: 'absolute',
-        bottom: '0',
+        top: '50%',
         right: '0',
         boxSizing: 'border-box',
       },
       withinCom_EntryCall_Info_Date_: {
         position: 'absolute',
-        bottom: '0%',
-        left: '50%',
-        transform: 'translate(-50%,0%)',
+        top: '0%',
+        left: '15%',
         boxSizing: 'border-box',
-        fontSize: '0.8vh',
-        letterSpacing: '0.1vh',
+        fontSize: '1vh',
+        letterSpacing: '0.125vh',
         fontWeight: '300',
-        textAlign: 'left',
         color: '#222222'
       },
       withinCom_EntryCall_Info_User_: {
         position: 'absolute',
-        top:'0%',
-        left: '50%',
-        transform: 'translate(-50%, 0%)',
+        bottom:'0%',
+        left: '12%',
         boxSizing: 'border-box',
-        fontWeight: '400',
-        fontSize: '1vh',
-        letterSpacing: '0.12vh',
-        textAlign: 'center',
+        fontWeight: '300',
+        fontSize: '2.8vh',
+        letterSpacing: '0.24vh',
         cursor: 'pointer'
       },
       withinCom_EntryCall_logo_: {
@@ -111,18 +107,7 @@ class EntryCall extends React.Component {
         </div>
         <div
           style={this.style.withinCom_EntryCall_CreateShare_}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1242 175"
-            style={{
-              maxWidth: '100%',
-              maxHeight: '100%'
-            }}
-            preserveAspectRatio="none">
-            <defs><style>{".cls-1{fill:#ff9a5e;}.cls-2{fill:none;stroke:#dedede;stroke-miterlimit:10;stroke-width:7px;}"}</style></defs>
-            <g id="圖層_2" data-name="圖層 2"><g id="圖層_1-2" data-name="圖層 1">
-              <rect className="cls-1" width="1242" height="175" rx="69.54" ry="69.54"/>
-              <line className="cls-2" x1="97" y1="128.5" x2="968.5" y2="128.5"/>
-            </g></g>
-          </svg>
+          <SvgCreateCoral/>
           <CreateShare
             _submit_Share_New={this._submit_Share_New}
             _refer_von_Create={this.props._refer_leavevonIndex}/>

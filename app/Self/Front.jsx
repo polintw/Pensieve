@@ -29,8 +29,8 @@ class Front extends React.Component {
         width: '9%',
         height: '12%',
         position: 'fixed',
-        bottom: '7%',
-        right: '2.5%',
+        bottom: '9%',
+        right: '2%',
         boxSizing: 'border-box',
         overflow: "visible"
       }

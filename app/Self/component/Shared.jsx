@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import CreateShare from '../../Component/CreateShare.jsx';
+import SvgCreateCoral from '../../Component/SvgCreateCoral.jsx';
 import Unit from '../../Component/Unit.jsx';
 import NailShared from '../../Component/Nails/NailShared.jsx';
 //ModalBox used some unstable method, considering updating some day.
@@ -38,16 +39,15 @@ class Shared extends React.Component {
         height: '11vh',
         position: 'relative',
         boxSizing: 'border-box',
-        padding: '2vh 0',
-        margin: '2vh 0'
+        marginBottom: '4vh'
       },
       selfCom_Shared_top_CreateShare_: {
         display: 'inline-block',
-        width: '18%',
+        width: '27%',
         height: '100%',
         position: 'relative',
         boxSizing: 'border-box',
-        margin: '0 4%',
+        marginRight: '4%',
         float: 'right'
       },
       selfCom_Shared_nails_: {
@@ -133,19 +133,7 @@ class Shared extends React.Component {
           style={this.style.selfCom_Shared_top_}>
           <div
             style={this.style.selfCom_Shared_top_CreateShare_}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1242 175"
-            style={{
-              maxWidth: '100%',
-              maxHeight: '100%'
-            }}
-            preserveAspectRatio="none">
-            <defs><style>{".cls-1{fill:#fff;}.cls-2{fill:#494949;}.cls-3{fill:none;stroke:#000;stroke-miterlimit:10;}"}</style></defs>
-            <g id="圖層_2" data-name="圖層 2"><g id="圖層_1-2" data-name="圖層 1">
-              <rect className="cls-1" x="0.25" y="0.25" width="1241.5" height="174.5" rx="58.75" ry="58.75"/>
-              <path className="cls-2" d="M1183,.5A58.56,58.56,0,0,1,1241.5,59v57a58.56,58.56,0,0,1-58.5,58.5H59A58.56,58.56,0,0,1,.5,116V59A58.56,58.56,0,0,1,59,.5H1183m0-.5H59A59.17,59.17,0,0,0,0,59v57a59.17,59.17,0,0,0,59,59H1183a59.17,59.17,0,0,0,59-59V59a59.17,59.17,0,0,0-59-59Z"/>
-              <line className="cls-3" x1="97" y1="132.5" x2="968.5" y2="132.5"/>
-            </g></g>
-          </svg>
+            <SvgCreateCoral/>
             <CreateShare
               _submit_Share_New={this._submit_Share_New}
               _refer_von_Create={this.props._refer_leaveSelf}/>

@@ -34,7 +34,7 @@ class ExternalPanel extends React.Component {
         right: '36%',
         boxSizing: 'border-box',
         padding: '0.5vh 0',
-        borderTop: '1px solid #909090',
+        borderTop: '0.2rem solid #d3deda',
         textAlign: 'center',
         cursor: 'pointer'
       },
