@@ -10,9 +10,10 @@
     "babel-preset-react": "^6.24.1",
     "babelify": "^7.3.0",
     "body-parser": "^1.18.3",
-    "browserify": "^14.4.0",
+    "browserify": "^14.5.0",
     "classnames": "^2.2.6",
     "draft-js": "^0.10.5",
+    "envify": "^4.1.0",
     "express": "^4.16.4",
     "express-rate-limit": "^3.3.2",
     "express-react-views": "^0.10.5",
@@ -29,7 +30,8 @@
     "redux-thunk": "^2.3.0",
     "request": "^2.88.0",
     "sequelize": "^4.41.2",
-    "sharp": "^0.21.0"
+    "sharp": "^0.21.0",
+    "uglifyify": "^5.0.1"
   },
   "devDependencies": {
     "cheerio": "^1.0.0-rc.2",
