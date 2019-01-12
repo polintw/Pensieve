@@ -5,9 +5,8 @@ export default class UnitLayerFrame extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      coverWidth: '100%',
+      coverDisplay: 'block',
       coverOpa: '1',
-      beneathWidth: '100%',
       beneathOpa: '1'
     };
     this.style={
@@ -20,6 +19,7 @@ export default class UnitLayerFrame extends React.Component {
         backgroundColor: 'black'
       },
       Com_UnitLayerFrame_div_cover: {
+        width: '100%',
         height: '99%',
         position: 'absolute',
         top: '1%',
@@ -28,6 +28,7 @@ export default class UnitLayerFrame extends React.Component {
         backgroundColor: 'black'
       },
       Com_UnitLayerFrame_div_beneath: {
+        width: '100%',
         height: '99%',
         position: 'absolute',
         top: '1%',
@@ -42,13 +43,13 @@ export default class UnitLayerFrame extends React.Component {
     switch (props.layer) {
       case "0":
         return {
-          coverWidth: '100%',
+          coverDisplay: 'block',
           coverOpa: '1'
         }
         break;
       case "1":
         return {
-          coverWidth: '0',
+          coverDisplay: 'none',
           coverOpa: '0'
         }
         break;
@@ -59,11 +60,11 @@ export default class UnitLayerFrame extends React.Component {
 
   render(){
     let Com_UnitLayerFrame_div_cover = Object.assign(
-      {width: this.state.coverWidth, opacity: this.state.coverOpa},
+      {display: this.state.coverDisplay, opacity: this.state.coverOpa},
       this.style.Com_UnitLayerFrame_div_cover
     );
     let Com_UnitLayerFrame_div_beneath = Object.assign(
-      {width: this.state.beneathWidth, opacity: this.state.beneathOpa},
+      {opacity: this.state.beneathOpa},
       this.style.Com_UnitLayerFrame_div_beneath
     );
 

@@ -29,7 +29,7 @@ function _handle_cosmicCompound_GET(req, res){
       selectCondition = {
         table: "units",
         cols: ["*"],
-        where: ["id_author"]
+        where: []
       };
       //first, selecting by accordancelist
 
