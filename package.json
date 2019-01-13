@@ -35,9 +35,11 @@
     "cheerio": "^1.0.0-rc.2",
     "create-react-class": "^15.6.3",
     "css-modulesify": "^0.28.0",
+    "envify": "^4.1.0",
     "immutability-helper": "^2.8.1",
     "jsonfile": "^4.0.0",
-    "linkify-it": "^2.0.3"
+    "linkify-it": "^2.0.3",
+    "uglifyify": "^5.0.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
