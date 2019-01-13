@@ -29,9 +29,10 @@ export default class UnitLayer extends React.Component {
         transform: 'translate(-50%,-50%)',
       },
       Com_UnitLayer_MarkBlock_: {
-        width: '39%',
-        maxHeight: '66%',
-        position: 'absolute'
+        width: '42%',
+        maxHeight: '88%',
+        position: 'absolute',
+        transform: 'translate(0,-50%)'
       },
       Com_UnitLayer_div: {
         position: 'absolute',
@@ -81,11 +82,11 @@ export default class UnitLayer extends React.Component {
     }else{
       const markId = self.state.circleNr;
       const coordinate = {top: this.props.marksData.data[markId].top, left: this.props.marksData.data[markId].left};
-      let [left, top, bottom, right] = [null,null,null,null];
+      let [left, top, right] = [null,null,null];
 
       let axisPx = ((coordinate.left/100)*imgWidth)-(imgWidth/2);
-      coordinate.left>50 ? right = (this.Com_UnitLayer.clientWidth/2)-axisPx+25 : left = (this.Com_UnitLayer.clientWidth/2)+axisPx+25;
-      coordinate.top>50 ? bottom = (34 - ((coordinate.top)*34/100))+'%': top = ((coordinate.top) * (34) / (100))+'%';
+      coordinate.left>50 ? right = (this.Com_UnitLayer.clientWidth/2)-axisPx+15 : left = (this.Com_UnitLayer.clientWidth/2)+axisPx+15;
+      top = (22 + (coordinate.top) * (34) / (100)) + '%';
 
       circlesArr.push(
         <div
@@ -104,7 +105,7 @@ export default class UnitLayer extends React.Component {
             style={Object.assign({backgroundColor: 'rgba(30,30,30,0.2)'}, self.style.absolute_FullVersion)}
             onClick={self._handleClick_SpotsLayer}></div>
           <div
-            style={Object.assign({top: top, left: left, right: right, bottom: bottom}, self.style.Com_UnitLayer_MarkBlock_)}>
+            style={Object.assign({top: top, left: left, right: right}, self.style.Com_UnitLayer_MarkBlock_)}>
             <MarkBlock
               markKey={markId}
               markData={self.props.marksData.data[markId]}/>

@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
+import SvgPropic from '../../Component/SvgPropic.jsx';
 import ModalBox from '../../Component/ModalBox.jsx';
 
 class ExternalPanel extends React.Component {
@@ -34,7 +35,7 @@ class ExternalPanel extends React.Component {
         right: '36%',
         boxSizing: 'border-box',
         padding: '0.5vh 0',
-        borderTop: '0.2rem solid #d3deda',
+        borderTop: '1px solid #909090',
         textAlign: 'center',
         cursor: 'pointer'
       },

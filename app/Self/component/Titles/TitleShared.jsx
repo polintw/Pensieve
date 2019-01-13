@@ -15,17 +15,14 @@ export default class TitleShared extends React.Component {
         width: '100%',
         position: 'absolute',
         top: '0',
-        left: '0',
-        boxSizing: 'border-box',
-        paddingBottom: '2vh',
-        borderBottom: '0.1rem solid #ff9a5e'
+        left: '0'
       },
       selfCom_CogActions_main_: {
         display: 'inline-block',
         width: '36%',
         float: 'left',
         boxSizing: 'border-box',
-        margin: '0 3%',
+        margin: '0 5%',
         fontWeight: '700',
         fontSize: '3rem',
         letterSpacing: '0.6rem'
@@ -41,6 +38,9 @@ export default class TitleShared extends React.Component {
         <div
           style={this.style.selfCom_CogActions_main_}>
           {"Shared"}
+        </div>
+        <div style={{display: 'inline-block', float: 'right', boxSizing: 'border-box', margin: '0 5%'}}>
+          <p style={{fontStyle: 'italic',fontSize: '1.4rem', letterSpacing: '0.15rem'}}>{"share your own, release your power"}</p>
         </div>
       </div>
     )

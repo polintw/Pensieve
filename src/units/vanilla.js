@@ -153,11 +153,29 @@ function _handle_unit_Mount(req, res){
                       left: row.portion_left,
                       editorContent:  row.editor_content?JSON.parse(row.editor_content):null,
                       serial: row.serial,
-                      layer: row.layer
+                      layer: row.layer,
+                      inspired: false
                     };
                     let markKey = row.id;
                     sendingData['marksObj'][markKey]=obj;
                     sendingData['temp']['marksKey'].push([row.id]);
+                  })
+                  resolve(sendingData)
+                } else {
+                  resolve(sendingData)
+                }
+              })
+            })
+          }).then(function(sendingData){
+            console.log('unit mount req: marksObj append.');
+            return new Promise((resolve, reject)=>{
+              let sqlQuery = "SELECT * FROM inspired WHERE (id_mark) IN (?) AND id_user = "+userId;
+              connection.query(sqlQuery, [sendingData['temp']['marksKey']], function(err, result, fields) {
+                if (err) {_handler_err_Internal(err, res);reject(err);return;}
+                console.log('database connection: success.')
+                if (result.length > 0) {
+                  result.forEach(function(row, index){
+                    sendingData['marksObj'][row.id_mark]['inspired'] = true;
                   })
                   resolve(sendingData)
                 } else {

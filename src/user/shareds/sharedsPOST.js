@@ -21,7 +21,7 @@ function shareHandler_POST(req, res){
           console.log("error occured when getConnection in newShare handle.")
         }else{
           new Promise((resolve, reject)=>{
-            let imgFolderPath = path.join(__dirname, '/../../../..', '/corner_imgsbyusers/'+userId);
+            let imgFolderPath = path.join(__dirname, '/../../..', '/faked_Pics/'+userId);
             fs.access(imgFolderPath, (err)=>{
               if(err){
                 //which mean the folder doesn't exist
@@ -48,11 +48,11 @@ function shareHandler_POST(req, res){
                 beneathBase64Buffer = new Buffer(beneathBase64Splice[2], 'base64');
               }
             return new Promise((resolve, reject)=>{
-              fs.writeFile(path.join(__dirname, '/../../../..', '/corner_imgsbyusers/'+userId+'/'+req.body.submitTime+"_layer_0.jpg"), coverBase64Buffer, function(err){
+              fs.writeFile(path.join(__dirname, '/../../..', '/faked_Pics/'+userId+'/'+req.body.submitTime+"_layer_0.jpg"), coverBase64Buffer, function(err){
                 if(err) {reject(err);return;}
                 modifiedBody['url_pic_layer0'] = userId+'/'+req.body.submitTime+'_layer_0.jpg';
                 if(req.body.beneathBase64){
-                  fs.writeFile(path.join(__dirname, '/../../../..', '/corner_imgsbyusers/'+userId+'/'+req.body.submitTime+"_layer_1.jpg"), beneathBase64Buffer, function(err){
+                  fs.writeFile(path.join(__dirname, '/../../..', '/faked_Pics/'+userId+'/'+req.body.submitTime+"_layer_1.jpg"), beneathBase64Buffer, function(err){
                     if(err) {reject(err);return;}
                     modifiedBody['url_pic_layer1'] = userId+'/'+req.body.submitTime+'_layer_1.jpg';
                     resolve();

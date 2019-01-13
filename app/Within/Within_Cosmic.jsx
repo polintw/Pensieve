@@ -2,6 +2,7 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Route,
+  Switch,
   Link,
   withRouter
 } from 'react-router-dom';
@@ -9,17 +10,16 @@ import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import CosmicCorner from './component/CosmicCorner.jsx';
 import CosmicMain from './component/CosmicMain.jsx';
+import CosmicUser from './component/CosmicUser.jsx';
+import CosmicNoun from './component/CosmicNoun.jsx';
+import CosmicRelated from './component/CosmicRelated.jsx';
 
 class WithinCosmic extends React.Component {
   constructor(props){
     super(props);
-    window.scrollTo(0, 0); // special for this page, if the scroll animation is still there.
     this.state = {
-      cssPara: 0
+
     };
-    this.withinCom_CosmicMain_index_ = React.createRef();
-    this._check_Position = this._check_Position.bind(this);
-    this._refer_leavevonIndex = this._refer_leavevonIndex.bind(this);
     this.style={
       Within_Cosmic_: {
         width: '100%',
@@ -28,55 +28,22 @@ class WithinCosmic extends React.Component {
         overflow: 'auto'
       },
       Within_Cosmic_corner_: {
-        width: '100%',
-        height: '21%',
+        width: '17%',
+        height: '5%',
         position: 'fixed',
-        bottom: '9%',
-        left: '0',
-        boxSizing: 'border-box'
-      },
-      Within_Cosmic_bottom: {
-        width: '100%',
-        height: '3%',
-        position: 'fixed',
-        bottom: '0',
-        left: '0',
+        top: '92%',
+        right: '6%',
         boxSizing: 'border-box'
       }
     }
   }
 
-  _refer_leavevonIndex(identifier, route){
-    switch (route) {
-      case 'user':
-        window.location.assign('/user/screen');
-        break;
-      default:
-        window.location.reload();
-    }
-  }
-
-  _check_Position(){
-    let Within_Cosmic_corner_Top = this.withinCom_CosmicMain_index_.current.getBoundingClientRect().top;
-    if(Within_Cosmic_corner_Top < this.scrollOrigin && Within_Cosmic_corner_Top > this.scrollLine){
-      //it's not good enough, due to the "leap" happened at the threshould
-      let para = (this.scrollOrigin-Within_Cosmic_corner_Top)/this.scrollRange;
-      this.setState((prevState, props) => {
-        return ({
-          cssPara: para
-        })
-      })
-    }
-  }
   componentDidMount() {
-    this.scrollOrigin = this.withinCom_CosmicMain_index_.current.getBoundingClientRect().top;
-    this.scrollRange = this.scrollOrigin*2;
-    this.scrollLine = this.scrollOrigin-this.scrollRange;
-    window.addEventListener("scroll", this._check_Position); //becuase we using "position: static", listener could not add on element directlly.
+
   }
 
   componentWillUnmount() {
-    window.removeEventListener("scroll", this._check_Position);
+
   }
 
   render(){
@@ -84,14 +51,17 @@ class WithinCosmic extends React.Component {
     return(
       <div
         style={this.style.Within_Cosmic_}>
+        <Switch>
+          <Route path={this.props.match.path+"/people/:id"} render={(props)=> <CosmicUser {...props}/>}/>
+          <Route path={this.props.match.path+"/nouns/:id"} render={(props)=> <CosmicNoun {...props}/>}/>
+          <Route path={this.props.match.path+"/units/:id/related"} render={(props)=> <CosmicRelated {...props}/>}/>
+          <Route path={this.props.match.path} render={(props)=> <CosmicMain {...props}/>}/>
+        </Switch>
         <div
-          style={Object.assign({opacity: this.state.cssPara}, this.style.Within_Cosmic_corner_)}>
+          style={this.style.Within_Cosmic_corner_}>
           <CosmicCorner
-            match={this.props.match}
-            _refer_leavevonIndex={this._refer_leavevonIndex}/>
+            match={this.props.match}/>
         </div>
-        <CosmicMain {...this.props} ref={this.withinCom_CosmicMain_index_} _refer_leavevonIndex={this._refer_leavevonIndex}/>
-        <div style={this.style.Within_Cosmic_bottom}></div>
       </div>
     )
   }

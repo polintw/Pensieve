@@ -74,6 +74,30 @@ class NailShared extends React.Component {
         top: '0%',
         left: '50%',
         transform: 'translate(-50%,0%)'
+      },
+      Com_Nails_Shared_breach_: {
+        width: '25%',
+        height: '15%',
+        position: 'absolute',
+        bottom: '0',
+        right: '0',
+        boxSizing: 'border-box'
+      },
+      Com_Nails_Shared_breach_button_: {
+        display: 'inline-block',
+        height: '48%',
+        position: 'relative',
+        boxSizing: 'border-box',
+        margin: '0 2%',
+        padding: '1%',
+        verticalAlign: 'middle',
+        fontSize: '1.1rem',
+        letterSpacing: '0.14rem',
+        textAlign: 'center',
+        fontWeight: '400',
+        color: '#000000',
+        cursor: 'pointer',
+        textDecoration: 'none'
       }
     }
   }
@@ -146,6 +170,19 @@ class NailShared extends React.Component {
         <div
           style={this.style.Com_Nails_Shared_nouns_}>
           {this._render_nails_nouns()}
+        </div>
+        <div
+          style={this.style.Com_Nails_Shared_breach_}>
+          <div
+            style={this.style.Com_Nails_Shared_breach_button_}
+            onClick={this._handleClick_Nail_breachto_res}>
+            <span>{"Res"}</span>
+          </div>
+          <Link
+            to={this.props.match.url+"/"+this.props.sharedId+'/threads'}
+            style={this.style.Com_Nails_Shared_breach_button_}>
+            <span>{"Thr"}</span>
+          </Link>
         </div>
       </div>
     )

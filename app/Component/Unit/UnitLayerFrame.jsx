@@ -5,8 +5,9 @@ export default class UnitLayerFrame extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      coverDisplay: 'block',
+      coverWidth: '100%',
       coverOpa: '1',
+      beneathWidth: '100%',
       beneathOpa: '1'
     };
     this.style={
@@ -19,7 +20,6 @@ export default class UnitLayerFrame extends React.Component {
         backgroundColor: 'black'
       },
       Com_UnitLayerFrame_div_cover: {
-        width: '100%',
         height: '99%',
         position: 'absolute',
         top: '1%',
@@ -28,7 +28,6 @@ export default class UnitLayerFrame extends React.Component {
         backgroundColor: 'black'
       },
       Com_UnitLayerFrame_div_beneath: {
-        width: '100%',
         height: '99%',
         position: 'absolute',
         top: '1%',
@@ -43,14 +42,34 @@ export default class UnitLayerFrame extends React.Component {
     switch (props.layer) {
       case "0":
         return {
-          coverDisplay: 'block',
+          coverWidth: '100%',
           coverOpa: '1'
         }
         break;
       case "1":
         return {
-          coverDisplay: 'none',
+          coverOpa: '0.5'
+        }
+        break;
+      case "2":
+        return {
+          coverWidth: '0',
           coverOpa: '0'
+        }
+        break;
+      case "3":
+        return {
+          coverWidth: '0',
+          coverOpa: '0',
+          beneathOpa: '0.5'
+        }
+        break;
+      case "4":
+        return {
+          coverWidth: '0',
+          coverOpa: '0',
+          beneathOpa: '0',
+          beneathWidth: '0'
         }
         break;
       default:
@@ -60,11 +79,11 @@ export default class UnitLayerFrame extends React.Component {
 
   render(){
     let Com_UnitLayerFrame_div_cover = Object.assign(
-      {display: this.state.coverDisplay, opacity: this.state.coverOpa},
+      {width: this.state.coverWidth, opacity: this.state.coverOpa},
       this.style.Com_UnitLayerFrame_div_cover
     );
     let Com_UnitLayerFrame_div_beneath = Object.assign(
-      {opacity: this.state.beneathOpa},
+      {width: this.state.beneathWidth, opacity: this.state.beneathOpa},
       this.style.Com_UnitLayerFrame_div_beneath
     );
 

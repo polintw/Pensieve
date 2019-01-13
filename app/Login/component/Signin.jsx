@@ -28,6 +28,9 @@ export default class Signin extends React.Component {
         top: '30%',
         left: '20%',
         boxSizing:'border-box'
+      },
+      Signin_register_: {
+
       }
     }
   }
@@ -66,7 +69,7 @@ export default class Signin extends React.Component {
               return false
           }
         };
-        errHandler_axiosCatch(thrown, customSwitch);
+        errHandler_axiosCatch(thrown, customSwitch);        
       }
     });
   }
@@ -77,17 +80,17 @@ export default class Signin extends React.Component {
       case 1:
         return(
           <span>{'密碼或帳號輸入錯誤'}</span>
-        )
+        )    
         break;
       case 2:
         return(
           <span>{'此帳號不存在'}</span>
-        )
-        break;
+        )    
+        break; 
       case 3:
         return(
           <span>{'輸入錯誤達5次以上，再次嘗試請稍待'}</span>
-        )
+        )    
         break;
       default:
         return null
@@ -125,6 +128,12 @@ export default class Signin extends React.Component {
               type='submit'
               value='登 入'/>
           </form>
+        </div>
+        <div
+          style={this.style.Signin_register_}>
+          <input
+            type='button'
+            value='建立新帳號'/>
         </div>
       </div>
     )

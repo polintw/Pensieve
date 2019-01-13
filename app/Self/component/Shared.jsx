@@ -5,9 +5,10 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import Threads from './Threads.jsx';
 import CreateShare from '../../Component/CreateShare.jsx';
-import SvgCreateCoral from '../../Component/SvgCreateCoral.jsx';
 import Unit from '../../Component/Unit.jsx';
+import SvgCreate from '../../Component/SvgCreate.jsx';
 import NailShared from '../../Component/Nails/NailShared.jsx';
 //ModalBox used some unstable method, considering updating some day.
 import ModalBox from '../../Component/ModalBox.jsx';
@@ -39,15 +40,16 @@ class Shared extends React.Component {
         height: '11vh',
         position: 'relative',
         boxSizing: 'border-box',
-        marginBottom: '4vh'
+        padding: '2vh 0',
+        margin: '2vh 0'
       },
       selfCom_Shared_top_CreateShare_: {
         display: 'inline-block',
-        width: '27%',
+        width: '18%',
         height: '100%',
         position: 'relative',
         boxSizing: 'border-box',
-        marginRight: '4%',
+        margin: '0 4%',
         float: 'right'
       },
       selfCom_Shared_nails_: {
@@ -133,7 +135,7 @@ class Shared extends React.Component {
           style={this.style.selfCom_Shared_top_}>
           <div
             style={this.style.selfCom_Shared_top_CreateShare_}>
-            <SvgCreateCoral/>
+            <SvgCreate/>
             <CreateShare
               _submit_Share_New={this._submit_Share_New}
               _refer_von_Create={this.props._refer_leaveSelf}/>
@@ -143,6 +145,9 @@ class Shared extends React.Component {
           style={this.style.selfCom_Shared_nails_}>
           {shares}
         </div>
+        <ModalBox containerId="root">
+          <Route path={this.props.match.path+"/:sharedId/threads"} render={(props)=> <Threads {...props} unitBasic={this.state.unitsBasic[props.match.params.sharedId]} _refer_leaveSelf={this.props._refer_leaveSelf}/>}/>
+        </ModalBox>
         <Route path={this.props.match.path+"/units/:id"} render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_leaveSelf}/>}/>
       </div>
     )

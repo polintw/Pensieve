@@ -42,6 +42,29 @@ class FrontProfile extends React.Component {
         left: '18%',
         boxSizing: 'border-box'
       },
+      Front_Profile_nav_: {
+        width: '9%',
+        height: '30%',
+        position: 'absolute',
+        top: '32%',
+        left: '5%',
+        boxSizing: 'border-box',
+        padding: '0 0.5vw',
+        borderRight: 'solid 1px #909090',
+        textAlign: 'right',
+        fontSize: '1.4rem',
+        letterSpacing: '0.15rem'
+      },
+      Front_Profile_nav_span: {
+        display: 'inline-block',
+        width: '100%',
+        position: 'relative',
+        float: 'right',
+        boxSizing: 'border-box',
+        padding: '0 0.2vw',
+        margin: '0.2vh 0',
+        cursor: 'pointer'
+      },
       Front_Profile_backPlane_top: {
         width: '100%',
         height: '1%',
@@ -66,20 +89,23 @@ class FrontProfile extends React.Component {
     return(
       <div
         style={this.style.Front_Profile_}>
-        <Link to={'/cognition/actions/shareds'}>
+        <Link to={'/cognition/embedded/inspireds'}>
           <div
             style={this.style.Front_Profile_return_}>
             {"return"}
           </div>
         </Link>
         <div
+          style={this.style.Front_Profile_nav_}>
+          <span style={this.style.Front_Profile_nav_span}>{"基本 "}</span>
+          <span style={this.style.Front_Profile_nav_span}>{"檔案庫 "}</span>
+        </div>
+        <div
           style={this.style.Front_Profile_scroll_}>
           <Route path={this.props.match.path+"/sheet"} render={(props)=> <Sheet {...props}/>}/>
         </div>
         <div style={this.style.Front_Profile_backPlane_top}></div>
-        <div style={this.style.Front_Profile_backPlane_bottom}>
-          <div style={{width: '12%', height: '100%', position: 'absolute', bottom: '0', right: '0', boxSizing: 'border-box', backgroundColor: '#d3deda'}}></div>
-        </div>
+        <div style={this.style.Front_Profile_backPlane_bottom}></div>
       </div>
     )
   }

@@ -195,7 +195,6 @@ export default class UnitModal extends React.Component {
             unitId={this.props.unitId}
             layer={this.state.layer}
             marks = {this.state.marksify}
-            beneathSrc={this.props.unitSet.beneathSrc}
             _set_makrsVisible={this._set_makrsVisible}
             _set_layer={this._set_layer}/>
         </div>

@@ -19,8 +19,7 @@ export default class SvgCreate extends React.Component {
         style={{
           maxWidth: '100%',
           maxHeight: '100%'
-        }}
-        preserveAspectRatio="none">
+        }}>
             <defs><style>{".cls-1,.cls-2,.cls-3{fill:none;stroke-miterlimit:10;}.cls-1,.cls-2{stroke:#000;}.cls-2{stroke-dasharray:8 4;}.cls-3{stroke:#6d6d6d;opacity:0.61;}"}</style></defs>
             <g id="圖層_2" data-name="圖層 2">
                 <g id="圖層_1-2" data-name="圖層 1">

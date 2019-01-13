@@ -2,8 +2,10 @@ import React from 'react';
 import {connect} from "react-redux";
 import {
   SheetAccount,
+  SheetSetting,
   SheetBasic
 } from './SheetCom.jsx';
+import SvgPropic from '../../Component/SvgPropic.jsx';
 import {mountUserSheet} from "../../redux/actions/general.js";
 
 class Sheet extends React.Component {
@@ -30,6 +32,15 @@ class Sheet extends React.Component {
         top: '2vh',
         right: '0',
         boxSizing: 'border-box'
+      },
+      selfCom_Sheet_navStatics_UserName_svg_: {
+        display: 'inline-block',
+        width: '21%',
+        height: '98%',
+        position: 'relative',
+        boxSizing: 'border-box',
+        margin: '0 3%',
+        padding: '1rem 0 0 0'
       },
       selfCom_Sheet_navStatics_UserName_span_: {
         display: 'inline-block',
@@ -140,16 +151,30 @@ class Sheet extends React.Component {
 
   render(){
     //let cx = cxBind.bind(styles);
+    let params = new URLSearchParams(this.props.location.search); //we need value in URL query
+    let paramsStatus = params.get('status'), statusSetting;
+    if(paramsStatus == 'setting')statusSetting = true;
+
     return(
       <div
         style={this.style.selfCom_Sheet_}>
         <div
           style={this.style.selfCom_Sheet_navStatics_UserName_}>
+          <div style={this.style.selfCom_Sheet_navStatics_UserName_svg_}>
+            <SvgPropic/>
+          </div>
           <span style={this.style.selfCom_Sheet_navStatics_UserName_span_}>{this.props.userInfo.account}</span>
         </div>
         <div
           style={this.style.selfCom_Sheet_display_}>
           <section>
+          {
+            statusSetting?(
+              <div
+                style={this.style.selfCom_Sheet_display_basic_}>
+                <SheetSetting {...this.props}/>
+              </div>
+            ):(
               <div
                 style={this.style.selfCom_Sheet_display_basic_}>
                 <div
@@ -161,6 +186,8 @@ class Sheet extends React.Component {
                   <SheetBasic {...this.props}/>
                 </div>
               </div>
+            )
+          }
           </section>
         </div>
       </div>
