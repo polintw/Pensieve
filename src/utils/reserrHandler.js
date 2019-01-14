@@ -17,7 +17,7 @@ exports._handler_err_NotFound = function(err, res){
   console.log("resHandler: not found, "+ err)
   let resData = {};
   resData['error'] = 1;
-  resData['message'] = 'Page not found!';
+  resData['message'] = err.length>0? err : 'Page not found!';
   res.status(404).json(resData);
 }
 
