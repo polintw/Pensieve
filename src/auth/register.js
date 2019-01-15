@@ -1,6 +1,6 @@
 const express = require('express');
-const login = express.Router();
-const bcrypt = require('bcryptjs');
+const register = express.Router();
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const mysql = require('mysql');
 const {verify_key} = require('../../config/jwt.js');
@@ -33,13 +33,13 @@ register.use(function(req, res) {
       throw {
         status: 400,
         err: 'Email already exists'
-      });
+      };
     }else{
       const newUser = {
         email: req.body.email,
         password: req.body.password,
-        first_name: req.body.first_name,
-        last_name: req.body.last_name
+        first_name: req.body.firstName,
+        last_name: req.body.lastName
       };
       return newUser;
     }

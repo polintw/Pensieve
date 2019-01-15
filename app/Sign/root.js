@@ -1,11 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {createStore, applyMiddleware} from "redux";
-import thunk from 'redux-thunk';
-import {Provider} from "react-redux";
-import Terrace from './Terrace.jsx'
-import storeTerrace from "../redux/reducers/Terrace.js";
-import {mountUserInfo} from "../redux/actions/general.js";
+import Sign from './Sign.jsx'
 
 let loggedin = !!window.localStorage['token'];
 if(loggedin){
@@ -14,15 +9,13 @@ if(loggedin){
         'token': window.localStorage['token']
     }
   }).then(function(res){
-    const store = createStore(storeTerrace, applyMiddleware(thunk));
-    store.dispatch(mountUserInfo(res.data.userInfo));
-    ReactDOM.hydrate(<Provider store={store}><Terrace/></Provider>, document.getElementById("root"));
+    window.location.assign('/')
   }).catch((err)=>{
     if (err.response) {
       // The request was made and the server responded with a status code that falls out of the range of 2xx
       console.log("response status: "+ err.response.status);
       if(err.response.status < 500){
-        window.location.assign('/s/signin');
+        ReactDOM.hydrate(<Sign/>, document.getElementById("root"));
       }else{
         alert('Failed: '+err.response.data.message)
       }
@@ -35,8 +28,7 @@ if(loggedin){
         // Something happened in setting up the request that triggered an Error
         console.log('Error', err.message);
     }
-    console.log("error config: "+err.config);
   })
 }else{
-  window.location.assign('/login')
+  ReactDOM.hydrate(<Sign/>, document.getElementById("root"));
 }

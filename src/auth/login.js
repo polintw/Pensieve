@@ -1,6 +1,6 @@
 const express = require('express');
 const login = express.Router();
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const mysql = require('mysql');
 const {verify_key} = require('../../config/jwt.js');

@@ -22,7 +22,7 @@ if(loggedin){
       // The request was made and the server responded with a status code that falls out of the range of 2xx
       console.log("response status: "+ err.response.status);
       if(err.response.status < 500){
-        window.location.assign('/login');
+        window.location.assign('/s/signin');
       }else{
         alert('Failed: '+err.response.data.message)
       }
