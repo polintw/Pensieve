@@ -6,10 +6,7 @@ const mysql = require('mysql');
 const {verify_key} = require('../../config/jwt.js');
 const validateLoginInput = require('./validation/login');
 const {
-  _handler_err_NotFound,
-  _handler_err_BadReq,
-  _handler_err_Unauthorized,
-  _handler_err_Internal
+  _handler_ErrorRes
 } = require('../utils/reserrHandler.js');
 
 
@@ -21,7 +18,12 @@ login.use(function(req, res) {
     const { errors, isValid } = validateLoginInput(req.body);
 
     if(!isValid) {
-        return _handler_err_BadReq(errors, res);
+      let errSet = {
+        "status": 400,
+        "message": errors,
+        "console": ''
+      };
+      return _handler_ErrorRes(errSet, res);
     }
 
     let mysqlForm = {
@@ -58,29 +60,30 @@ login.use(function(req, res) {
               });
           }
           else {
-            resData['error'] = 1;
-            resData['message'] = 'account and Password does not match';
-            res.status(401).json(resData);
+            let errSet = {
+              "status": 401,
+              "message": {'password': 'account and Password does not match'},
+              "console": ''
+            };
+            return _handler_ErrorRes(errSet, res);
           }
         });
       } else {
-        throw {status: 404, err: 'account does not exist!'};
+        let errSet = {
+          "status": 404,
+          "message": {'email': 'account does not exist!'},
+          "console": ''
+        };
+        return _handler_ErrorRes(errSet, res);
       }
     }).catch((errObj)=>{
-      console.log("error occured during: auth/login promise: "+errObj.err)
-      switch (errObj.status) {
-        case 400:
-          _handler_err_BadReq(errObj.err, res);
-          break;
-        case 404:
-          _handler_err_NotFound(errObj.err, res);
-          break;
-        case 500:
-          _handler_err_Internal(errObj.err, res);
-          break;
-        default:
-          _handler_err_Internal(errObj.err?errObj.err:errObj, res);
-      }
+      console.log("Error occured during: auth/login promise: "+errObj.err)
+      let errSet = {
+        "status": errObj.status,
+        "message": {},
+        "console": 'Error Occured: Internal Server Error'
+      };
+      _handler_ErrorRes(errSet, res);
     });
   });
 

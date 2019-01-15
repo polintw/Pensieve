@@ -86,6 +86,10 @@ class Signin extends React.Component {
                 <div>{errors.password}</div>
               }
             <br/>
+            {
+                errors.warning &&
+                <div>{errors.warning}</div>
+              }
             <input
               type='submit'
               value='Log in'/>

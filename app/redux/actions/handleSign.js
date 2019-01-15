@@ -28,6 +28,8 @@ export function handleSignUser(submitObj){
       if (axios.isCancel(thrown)) {
         console.log('Request canceled: ', thrown.message);
       } else {
+        if('console' in thrown.response.data) console.log(thrown.response.data.console);
+        if(thrown.status == 429) thrown.response.data.message = {'warning': thrown.response.data.message};
         dispatch({
             type:   AXIOS_GET_RES,
             status: false,
