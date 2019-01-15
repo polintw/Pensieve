@@ -1,21 +1,21 @@
 import React from 'react';
-import cxBind from 'classnames/bind';
 import {
-  Link
+  Link,
+  withRouter
 } from 'react-router-dom';
-import {errHandler_axiosCatch} from '../../utils/errHandlers.js';
+import {connect} from "react-redux";
+import cxBind from 'classnames/bind';
+import {handleSignUser} from "../../redux/actions/handleSign.js";
 
-export default class Signin extends React.Component {
+class Signin extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      axios: false,
       response: null,
       errors: {}
     };
     this.axiosSource = axios.CancelToken.source();
     this._handle_Signin = this._handle_Signin.bind(this);
-    this._render_failedMessage = this._render_failedMessage.bind(this);
     this.style={
       Signin_: {
         width: '100%',
@@ -39,72 +39,20 @@ export default class Signin extends React.Component {
 
   _handle_Signin(event){
     event.preventDefault();
-    let reqBody = {};
-    const self = this;
-    reqBody['email'] = this.emailInput.value;
-    reqBody['password'] = this.passwordInput.value;
-    this.setState({axios: true});
-    axios.post('/router/login', reqBody, {
-      headers: {'charset': 'utf-8'}
-    }).then(function (res) {
-      self.setState({axios: false});
-      if(res.data.error == 0){
-        console.log("Log in!");
-        window.localStorage['token'] = res.data.token;
-        window.location.assign('/');
-      }else{
-        console.log("Failed: "+ res.data.error);
-        self.setState({response: res.data.error});
-      }
-    }).catch(function (thrown) {
-      if (axios.isCancel(thrown)) {
-        console.log('Request canceled: ', thrown.message);
-      } else {
-        self.setState({axios: false});
-        let customSwitch = (status)=>{
-          switch (status) {
-            case 429:
-              self.setState({response: 3});
-              return true
-              break;
-            default:
-              return false
-          }
-        };
-        errHandler_axiosCatch(thrown, customSwitch);
-      }
-    });
+    let submitObj = {
+      email: this.emailInput.value,
+      password: this.passwordInput.value
+    };
+    this.props._submit_Signin(submitObj);
   }
 
-
-  _render_failedMessage(){
-    switch (this.state.response) {
-      case 1:
-        return(
-          <span>{'密碼或帳號輸入錯誤'}</span>
-        )
-        break;
-      case 2:
-        return(
-          <span>{'此帳號不存在'}</span>
-        )
-        break;
-      case 3:
-        return(
-          <span>{'輸入錯誤達5次以上，再次嘗試請稍待'}</span>
-        )
-        break;
-      default:
-        return null
-    }
-  }
 
   componentDidMount() {
 
   }
 
   componentWillUnmount(){
-    if(this.state.axios){
+    if(this.props.axios){
       this.axiosSource.cancel("component will unmount.")
     }
   }
@@ -128,7 +76,6 @@ export default class Signin extends React.Component {
               type="password"
               placeholder="Password"
               ref={(element)=>{this.passwordInput = element}}/><br/><br/>
-            {this._render_failedMessage()}
             <input
               type='submit'
               value='Log in'/>
@@ -141,3 +88,21 @@ export default class Signin extends React.Component {
     )
   }
 }
+
+const mapStateToProps = (state)=>{
+  return {
+    axios: state.axios,
+    message: state.message
+  }
+}
+
+const mapDispatchToProps = (dispatch)=>{
+  return {
+    _submit_Signin: (submitObj)=>{dispatch(handleSignUser(submitObj));}
+  }
+}
+
+export default withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Signin));

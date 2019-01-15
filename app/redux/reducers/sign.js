@@ -7,7 +7,7 @@ import {
   AXIOS_GET_RES
 } from '../constants/typesGeneral.js';
 
-const initialGeneral = Object.assign({}, axiosModule);
+const initialGeneral = Object.assign({}, initSign);
 
 //actually, there is not too much reason to use redux at this page
 function pageSign(state = initialGeneral, action){

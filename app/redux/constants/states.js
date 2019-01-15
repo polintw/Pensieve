@@ -1,4 +1,4 @@
-export const axiosModule = {
+export const initSign = {
   axios: false,
   message:''
 }

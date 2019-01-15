@@ -1,7 +1,17 @@
 import React from 'react';
+import {
+  Link,
+  withRouter
+} from 'react-router-dom';
+import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
+import {
+  axiosSwitch,
+  axiosGetRes,
+  handleSignUser
+} from "../../redux/actions/handleSign.js";
 
-export default class Signup extends React.Component {
+class Signup extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -12,6 +22,7 @@ export default class Signup extends React.Component {
       password_confirm: '',
       errors: {}
     };
+    this.axiosSource = axios.CancelToken.source();
     this._handle_Signup = this._handle_Signup.bind(this);
     this._handleChange_Input = this._handleChange_Input.bind(htis);
     this.style={
@@ -45,18 +56,21 @@ export default class Signup extends React.Component {
       'password': this.state.password,
       'password_confirm': this.state.password_confirm,
     };
-    this.setState({axios: true});
+    this.props._set_axiosStatus(true);
     axios.post('/router/register', reqBody, {
       headers: {'charset': 'utf-8'}
     }).then(function (res) {
-      self.setState({axios: false});
-
+      this.props._set_axiosRes({axiosStatus: false, message: res.data.message});
+      let submitObj ={
+        email: this.state.email,
+        password: this.state.password
+      };
+      this.props._submit_Signin(submitObj);
     }).catch(function (thrown) {
       if (axios.isCancel(thrown)) {
         console.log('Request canceled: ', thrown.message);
       } else {
-        self.setState({axios: false});
-
+        this.props._set_axiosRes({axiosStatus: false, message: res.data.message});
       }
     });
   }
@@ -143,3 +157,23 @@ export default class Signup extends React.Component {
     )
   }
 }
+
+const mapStateToProps = (state)=>{
+  return {
+    axios: state.axios,
+    message: state.message
+  }
+}
+
+const mapDispatchToProps = (dispatch)=>{
+  return {
+    _submit_Signin: (submitObj)=>{dispatch(handleSignUser(submitObj));},
+    _set_axiosStatus: (bool)=>{dispatch(axiosSwitch(bool));},
+    _set_axiosRes: (resObj)=>{dispatch(axiosGetRes(resObj));}
+  }
+}
+
+export default withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Signup));

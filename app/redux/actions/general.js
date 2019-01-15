@@ -1,6 +1,4 @@
 import {
-  AXIOS_SWITCH,
-  AXIOS_GET_RES,
   MOUNT_USERINFO,
   UNIT_MOUNT_UNITCURRENT,
   UPDATE_NOUNSBASIC,
@@ -10,14 +8,6 @@ import {
   UPDATE_USERSHEET
 } from '../constants/typesSelfFront.js';
 import {errHandler_axiosCatch} from "../../utils/errHandlers.js";
-
-export function axiosSwitch(bool) {
-  return { type: AXIOS_SWITCH, status: bool }
-};
-
-export function axiosGetRes(obj) {
-  return {type: AXIOS_GET_RES, status: obj.bool, message: obj.message}
-};
 
 export function mountUserInfo(obj) {
   return { type: MOUNT_USERINFO, userInfo: obj }
