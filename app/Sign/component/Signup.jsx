@@ -91,6 +91,7 @@ class Signup extends React.Component {
 
   render(){
     //let cx = cxBind.bind(styles);
+    const errors = this.props.message;
     return(
       <div
         style={this.style.Signup_}>
@@ -113,12 +114,16 @@ class Signup extends React.Component {
               <div>
                   <input
                   type="text"
-                  placeholder="First Name"
+                  placeholder="last Name"
                   name="lastName"
                   onChange={ this.handleInputChange }
                   value={ this.state.lastName}
                   />
               </div>
+              {
+                errors.account &&
+                <div>{errors.account}</div>
+              }
               <div>
                   <input
                   type="email"
@@ -128,6 +133,10 @@ class Signup extends React.Component {
                   value={ this.state.email }
                   />
               </div>
+              {
+                errors.email &&
+                <div>{errors.email}</div>
+              }
               <div>
                   <input
                   type="password"
@@ -137,6 +146,10 @@ class Signup extends React.Component {
                   value={ this.state.password }
                   />
               </div>
+              {
+                errors.password &&
+                <div>{errors.password}</div>
+              }
               <div>
                   <input
                   type="password"
@@ -146,6 +159,10 @@ class Signup extends React.Component {
                   value={ this.state.password_confirm }
                   />
               </div>
+              {
+                errors.password_confirm &&
+                <div>{errors.password_confirm}</div>
+              }
               <div>
                 <input
                   type='submit'

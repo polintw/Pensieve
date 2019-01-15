@@ -59,23 +59,33 @@ class Signin extends React.Component {
 
   render(){
     //let cx = cxBind.bind(styles);
+    const errors = this.props.message;
     return(
       <div
         style={this.style.Signin_}>
         <div
           style={this.style.Signin_member_}>
           <form onSubmit={this._handle_Signin}>
-            {'電子郵件:'}<br/>
+            {'email:'}<br/>
             <input
               type="email"
               placeholder="Email"
               name="email"
               ref={(element)=>{this.emailInput = element}}/><br/>
-            {'密 碼:'}<br/>
+              {
+                errors.email &&
+                <div>{errors.email}</div>
+              }
+            {'password:'}<br/>
             <input
               type="password"
               placeholder="Password"
-              ref={(element)=>{this.passwordInput = element}}/><br/><br/>
+              ref={(element)=>{this.passwordInput = element}}/><br/>
+              {
+                errors.password &&
+                <div>{errors.password}</div>
+              }
+            <br/>
             <input
               type='submit'
               value='Log in'/>
