@@ -12,7 +12,7 @@ export function axiosGetRes(obj) {
   return {type: AXIOS_GET_RES, status: obj.axiosStatus, message: obj.message}
 };
 
-export function handleSignUser(submitObj) =>{
+export function handleSignUser(submitObj){
   //this actoin creator, could do function return is because we use 'thunk' middleware when create store
   return (dispatch) => {
     axios.post('/router/login', submitObj, {
@@ -31,7 +31,7 @@ export function handleSignUser(submitObj) =>{
         dispatch({
             type:   AXIOS_GET_RES,
             status: false,
-            message: thrown.response.data
+            message: thrown.response.data.message
         });
       }
     });

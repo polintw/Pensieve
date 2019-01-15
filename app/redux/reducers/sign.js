@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import {
-  axiosModule
+  initSign
 } from '../constants/states.js';
 import {
   AXIOS_SWITCH,

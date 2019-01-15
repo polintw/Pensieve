@@ -24,7 +24,7 @@ class Signup extends React.Component {
     };
     this.axiosSource = axios.CancelToken.source();
     this._handle_Signup = this._handle_Signup.bind(this);
-    this._handleChange_Input = this._handleChange_Input.bind(htis);
+    this._handleChange_Input = this._handleChange_Input.bind(this);
     this.style={
       Signup_: {
         width: '100%',
