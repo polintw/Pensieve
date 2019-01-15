@@ -10,7 +10,8 @@ export default class Signin extends React.Component {
     super(props);
     this.state = {
       axios: false,
-      response: null
+      response: null,
+      errors: {}
     };
     this.axiosSource = axios.CancelToken.source();
     this._handle_Signin = this._handle_Signin.bind(this);

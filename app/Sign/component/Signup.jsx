@@ -36,7 +36,29 @@ export default class Signup extends React.Component {
   }
 
   _handle_Signup(event){
+    event.preventDefault();
+    const self = this;
+    let reqBody = {
+      'email': this.state.email,
+      'firstName': this.state.firstName,
+      'lastName': this.state.lastName,
+      'password': this.state.password,
+      'password_confirm': this.state.password_confirm,
+    };
+    this.setState({axios: true});
+    axios.post('/router/register', reqBody, {
+      headers: {'charset': 'utf-8'}
+    }).then(function (res) {
+      self.setState({axios: false});
 
+    }).catch(function (thrown) {
+      if (axios.isCancel(thrown)) {
+        console.log('Request canceled: ', thrown.message);
+      } else {
+        self.setState({axios: false});
+
+      }
+    });
   }
 
   _handleChange_Input(event) {

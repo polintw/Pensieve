@@ -1,3 +1,8 @@
+export const axiosModule = {
+  axios: false,
+  message:''
+}
+
 export const initGlobal = {
   userInfo: {
     account: "",

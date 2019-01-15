@@ -1,6 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {createStore, applyMiddleware} from "redux";
+import thunk from 'redux-thunk';
+import {Provider} from "react-redux";
 import Sign from './Sign.jsx'
+import storeSign from "../redux/reducers/sign.js";
 
 let loggedin = !!window.localStorage['token'];
 if(loggedin){
@@ -15,7 +19,8 @@ if(loggedin){
       // The request was made and the server responded with a status code that falls out of the range of 2xx
       console.log("response status: "+ err.response.status);
       if(err.response.status < 500){
-        ReactDOM.hydrate(<Sign/>, document.getElementById("root"));
+        const store = createStore(storeSign, applyMiddleware(thunk));
+        ReactDOM.hydrate(<Provider store={store}><Sign/></Provider>, document.getElementById("root"));
       }else{
         alert('Failed: '+err.response.data.message)
       }
