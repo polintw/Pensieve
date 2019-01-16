@@ -6,6 +6,12 @@ const mysql = require('mysql');
 const {verify_key} = require('../../config/jwt.js');
 const validateRegisterInput = require('./validation/register');
 const {
+  _select_Basic
+} = require('../utils/dbSelectHandler.js');
+const {
+  _insert_basic
+} = require('../utils/dbInsertHandler.js');
+const {
   _handler_err_NotFound,
   _handler_err_BadReq,
   _handler_err_Unauthorized,

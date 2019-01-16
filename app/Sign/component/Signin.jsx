@@ -11,8 +11,7 @@ class Signin extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      response: null,
-      errors: {}
+      response: null
     };
     this.axiosSource = axios.CancelToken.source();
     this._handle_Signin = this._handle_Signin.bind(this);
@@ -59,7 +58,7 @@ class Signin extends React.Component {
 
   render(){
     //let cx = cxBind.bind(styles);
-    const errors = this.props.message;
+    const message = this.props.message;
     return(
       <div
         style={this.style.Signin_}>
@@ -73,8 +72,8 @@ class Signin extends React.Component {
               name="email"
               ref={(element)=>{this.emailInput = element}}/><br/>
               {
-                errors.email &&
-                <div>{errors.email}</div>
+                message.password &&
+                <div>{message.email}</div>
               }
             {'password:'}<br/>
             <input
@@ -82,13 +81,13 @@ class Signin extends React.Component {
               placeholder="Password"
               ref={(element)=>{this.passwordInput = element}}/><br/>
               {
-                errors.password &&
-                <div>{errors.password}</div>
+                message.password &&
+                <div>{message.password}</div>
               }
             <br/>
             {
-                errors.warning &&
-                <div>{errors.warning}</div>
+                message.warning &&
+                <div>{message.warning}</div>
               }
             <input
               type='submit'

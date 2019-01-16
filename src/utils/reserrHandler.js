@@ -28,7 +28,7 @@ exports._handler_err_Internal = function(err, res){
   res.status(500).json(resData);
 }
 
-exports._handler_ErrorRes = function(errSet){
+exports._handler_ErrorRes = function(errSet, res){
   let resData = {
     "message": errSet.message,
     "console": errSet.console

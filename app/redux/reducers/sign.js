@@ -5,7 +5,7 @@ import {
 import {
   AXIOS_SWITCH,
   AXIOS_GET_RES
-} from '../constants/typesGeneral.js';
+} from '../constants/typesSign.js';
 
 const initialGeneral = Object.assign({}, initSign);
 

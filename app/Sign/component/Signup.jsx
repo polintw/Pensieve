@@ -20,7 +20,6 @@ class Signup extends React.Component {
       email: '',
       password: '',
       password_confirm: '',
-      errors: {}
     };
     this.axiosSource = axios.CancelToken.source();
     this._handle_Signup = this._handle_Signup.bind(this);
@@ -60,17 +59,17 @@ class Signup extends React.Component {
     axios.post('/router/register', reqBody, {
       headers: {'charset': 'utf-8'}
     }).then(function (res) {
-      this.props._set_axiosRes({axiosStatus: false, message: res.data.message});
+      self.props._set_axiosRes({axiosStatus: false, message: res.data.message});
       let submitObj ={
-        email: this.state.email,
-        password: this.state.password
+        email: self.state.email,
+        password: self.state.password
       };
-      this.props._submit_Signin(submitObj);
+      self.props._submit_Signin(submitObj);
     }).catch(function (thrown) {
       if (axios.isCancel(thrown)) {
         console.log('Request canceled: ', thrown.message);
       } else {
-        this.props._set_axiosRes({axiosStatus: false, message: res.data.message});
+        self.props._set_axiosRes({axiosStatus: false, message: res.data.message});
       }
     });
   }
@@ -91,7 +90,7 @@ class Signup extends React.Component {
 
   render(){
     //let cx = cxBind.bind(styles);
-    const errors = this.props.message;
+    const message = this.props.message;
     return(
       <div
         style={this.style.Signup_}>
@@ -107,7 +106,7 @@ class Signup extends React.Component {
                   type="text"
                   placeholder="First Name"
                   name="firstName"
-                  onChange={ this.handleInputChange }
+                  onChange={ this._handleChange_Input }
                   value={ this.state.firstName }
                   />
               </div>
@@ -116,52 +115,52 @@ class Signup extends React.Component {
                   type="text"
                   placeholder="last Name"
                   name="lastName"
-                  onChange={ this.handleInputChange }
+                  onChange={ this._handleChange_Input }
                   value={ this.state.lastName}
                   />
               </div>
               {
-                errors.account &&
-                <div>{errors.account}</div>
+                message.account &&
+                <div>{message.account}</div>
               }
               <div>
                   <input
                   type="email"
                   placeholder="Email"
                   name="email"
-                  onChange={ this.handleInputChange }
+                  onChange={ this._handleChange_Input }
                   value={ this.state.email }
                   />
               </div>
               {
-                errors.email &&
-                <div>{errors.email}</div>
+                message.email &&
+                <div>{message.email}</div>
               }
               <div>
                   <input
                   type="password"
                   placeholder="Password"
                   name="password"
-                  onChange={ this.handleInputChange }
+                  onChange={ this._handleChange_Input }
                   value={ this.state.password }
                   />
               </div>
               {
-                errors.password &&
-                <div>{errors.password}</div>
+                message.password &&
+                <div>{message.password}</div>
               }
               <div>
                   <input
                   type="password"
                   placeholder="Confirm Password"
                   name="password_confirm"
-                  onChange={ this.handleInputChange }
+                  onChange={ this._handleChange_Input }
                   value={ this.state.password_confirm }
                   />
               </div>
               {
-                errors.password_confirm &&
-                <div>{errors.password_confirm}</div>
+                message.password_confirm &&
+                <div>{message.password_confirm}</div>
               }
               <div>
                 <input

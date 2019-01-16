@@ -6,6 +6,9 @@ const mysql = require('mysql');
 const {verify_key} = require('../../config/jwt.js');
 const validateLoginInput = require('./validation/login');
 const {
+  _select_Basic
+} = require('../utils/dbSelectHandler.js');
+const {
   _handler_ErrorRes
 } = require('../utils/reserrHandler.js');
 
@@ -38,6 +41,8 @@ login.use(function(req, res) {
       let resData = {};
       if (rows.length > 0) {
         let verified = rows[0];
+        console.log(password);
+        console.log(verified.password)
         bcrypt.compare(password, verified.password).then(isMatch => {
           if(isMatch) {
               const payload = {
@@ -80,7 +85,7 @@ login.use(function(req, res) {
       console.log("Error occured during: auth/login promise: "+errObj.err)
       let errSet = {
         "status": errObj.status,
-        "message": {},
+        "message": {'warning': 'Internal Server Error, please try again later'},
         "console": 'Error Occured: Internal Server Error'
       };
       _handler_ErrorRes(errSet, res);

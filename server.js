@@ -17,8 +17,10 @@ app.enable("trust proxy"); //for rateLimit, due to behind a reverse proxy(nginx)
 const limiter = rateLimit({
   windowMs: 10 * 60 * 1000, // 10 minutes
   max: 600, // limit each IP to 100 requests per windowMs
-  message:
-    "Too many request from this IP, please try again later",
+  message:{
+    'message': {'warning': "Too many request from this IP, please try again later"},
+    'console': ''
+  },
   onLimitReached: function(req, res){
     console.log('WARN: too many request '+req.ip)
   }
@@ -26,8 +28,10 @@ const limiter = rateLimit({
 const loginLimiter = rateLimit({
   windowMs: 10 * 60 * 1000,
   max: 5,
-  message:
-    "Login failed too many time or wierd behavior from this IP, please try again after 15 min.",
+  message:{
+    'message': {'warning': "Login failed too many time or wierd behavior from this IP, please try again after 15 min."},
+    'console': ''
+  },
   onLimitReached: function(req, res){
     console.log('WARN: login exceeded from '+req.ip)
   }
