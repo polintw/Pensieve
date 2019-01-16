@@ -34,7 +34,7 @@ login.use(function(req, res) {
     },
     conditionUser = {
       table: "verifications",
-      cols: ["email", "password"],
+      cols: ["email", "password", "id_user"],
       where: ["email"]
     };
     _select_Basic(conditionUser, mysqlForm.accordancesList).then((rows)=>{

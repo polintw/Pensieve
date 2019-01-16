@@ -38,5 +38,5 @@ if(loggedin){
     console.log("error config: "+err.config);
   })
 }else{
-  window.location.assign('/login')
+  window.location.assign('/s/signin')
 }

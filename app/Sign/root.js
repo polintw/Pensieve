@@ -35,5 +35,6 @@ if(loggedin){
     }
   })
 }else{
-  ReactDOM.hydrate(<Sign/>, document.getElementById("root"));
+  const store = createStore(storeSign, applyMiddleware(thunk));
+  ReactDOM.hydrate(<Provider store={store}><Sign/></Provider>, document.getElementById("root"));
 }
