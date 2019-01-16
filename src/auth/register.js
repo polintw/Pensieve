@@ -79,9 +79,9 @@ register.use(function(req, res) {
                 return _insert_basic({table: 'users', col: '(first_name, last_name, account)'},
                   [[newUser.first_name, newUser.last_name, newUser.first_name+" "+newUser.last_name]]).then((resultObj)=>{
                     const userId = resultObj.insertId;
-                    let pinsertNewVerifi = Promise.resolve(_insert_basic({table: 'verifications', col: '(id_user, email, password)'}, [[userId, newUser.email, hash]])),
-                        pinsertNewSheet = Promise.resolve(_insert_basic({table: 'sheets', col: '(id_user)'}, [[userId]])),
-                        pcreateImgFolder = Promise.resolve(_create_new_ImgFolder(userId));
+                    let pinsertNewVerifi = Promise.resolve(_insert_basic({table: 'verifications', col: '(id_user, email, password)'}, [[userId, newUser.email, hash]]).catch((errObj)=>{throw errObj})),
+                        pinsertNewSheet = Promise.resolve(_insert_basic({table: 'sheets', col: '(id_user)'}, [[userId]]).catch((errObj)=>{throw errObj})),
+                        pcreateImgFolder = Promise.resolve(_create_new_ImgFolder(userId).catch((errObj)=>{throw errObj}));
                     return Promise.all([pinsertNewVerifi, pinsertNewSheet, pcreateImgFolder]);
                   }).then(()=>{
                     let resData = {};
