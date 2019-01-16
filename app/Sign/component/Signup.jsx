@@ -69,7 +69,7 @@ class Signup extends React.Component {
       if (axios.isCancel(thrown)) {
         console.log('Request canceled: ', thrown.message);
       } else {
-        self.props._set_axiosRes({axiosStatus: false, message: res.data.message});
+        self.props._set_axiosRes({axiosStatus: false, message: thrown.response.data.message});
       }
     });
   }
