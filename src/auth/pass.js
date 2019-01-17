@@ -1,0 +1,28 @@
+const express = require('express');
+const pass = express.Router();
+const jwt = require('jsonwebtoken');
+const {verify_key} = require('../../config/jwt.js');
+
+//verify token here, for any not login or register request
+pass.use(function(req, res, next) {
+  console.log('verify token')
+  let token = req.body.token || req.headers['token'] || req.query.token;
+  let resData = {};
+  if (token) {
+    jwt.verify(token, verify_key, function(err) {
+      if (err) {
+        resData['error'] = 1;
+        resData['message'] = "Token is invalid";
+        res.status(401).json(resData);
+      } else {
+        next();
+      }
+    });
+  } else {
+    resData['error'] = 1;
+    resData['message'] = 'Please send a token';
+    res.status(403).json(resData);
+  }
+});
+
+module.exports = pass;

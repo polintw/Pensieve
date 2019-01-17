@@ -1,5 +1,5 @@
 const express = require('express');
-const register = express.Router();
+const execute = express.Router();
 const fs = require('fs');
 const path = require("path");
 const bcrypt = require('bcrypt');
@@ -36,7 +36,7 @@ const _promise_customBreak_res = (errSet)=>{
 }
 
 //handle register request
-register.use(function(req, res) {
+_handle_auth_register_POST function(req, res) {
   const { errors, isValid } = validateRegisterInput(req.body);
 
   if(!isValid) {
@@ -141,6 +141,11 @@ register.use(function(req, res) {
       _handler_ErrorRes(errSet, res);
     }
   });
-});
+};
 
-module.exports = register;
+execute.post('/', function(req, res){
+  console.log('POST: auth/register');
+  _handle_auth_register_POST(req, res);
+})
+
+module.exports = execute;

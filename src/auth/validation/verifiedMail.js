@@ -3,8 +3,27 @@ const {deliverAccount} = require('../../config/services.js');
 
 const _render_HtmlBody = (token)=>{
   return (
-    // to string
-
+    '<!DOCTYPE html>'+
+    '<html>'+
+      '<head>'+
+        '<meta charSet="utf-8"/>'+
+        '<style>'+
+          'html {font-size: 10px;}'+
+          'body {font-family: "Noto Sans TC", "Noto Sans TC", "微軟正黑體", "Helvetica Neue", Helvetica, Futura, sans-serif, Arial;}'+
+        '</style>'+
+      '</head>'+
+      '<body>'+
+        '<main id="root">'+
+          '<div>'+
+            '<p>"Welcome to Corner as your new horizon."</p>'+
+            '<p>"Please click "</p>'+
+            '<a href="http://teamcorner.nctu.me/router/register/confirm?token="'+token'>"here"</a>'+
+            '<p>" to complete email verification!"</p>'+
+            '<p>"then, enjoy your adventure."</p>'+
+          '</div>'+
+        '</main>'+
+      '</body>'+
+    '</html>'
   )
 }
 

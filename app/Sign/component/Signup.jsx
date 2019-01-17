@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Link,
+  Redirect,
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
@@ -64,7 +65,7 @@ class Signup extends React.Component {
         email: self.state.email,
         password: self.state.password
       };
-      self.props._submit_Signin(submitObj);
+
     }).catch(function (thrown) {
       if (axios.isCancel(thrown)) {
         console.log('Request canceled: ', thrown.message);
