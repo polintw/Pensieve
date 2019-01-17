@@ -4,8 +4,7 @@ const fs = require('fs');
 const path = require("path");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const mysql = require('mysql');
-const {verify_key} = require('../../config/jwt.js');
+const {verify_email} = require('../../config/jwt.js');
 const validateRegisterInput = require('./validation/register');
 const {
   _select_Basic
@@ -15,10 +14,6 @@ const {
 } = require('../utils/dbInsertHandler.js');
 const {
   _handler_ErrorRes,
-  _handler_err_NotFound,
-  _handler_err_BadReq,
-  _handler_err_Unauthorized,
-  _handler_err_Internal
 } = require('../utils/reserrHandler.js');
 
 const _create_new_ImgFolder = (userId)=>{
@@ -79,6 +74,25 @@ register.use(function(req, res) {
                 return _insert_basic({table: 'users', col: '(first_name, last_name, account)'},
                   [[newUser.first_name, newUser.last_name, newUser.first_name+" "+newUser.last_name]]).then((resultObj)=>{
                     const userId = resultObj.insertId;
+                    const payload = {
+                      user_Id: userId,
+                      token_property: 'emailVerified'
+                    };
+                    jwt.sign(JSON.parse(JSON.stringify(payload)), verify_email, {
+                      expiresIn: '1d'
+                    }, (err, token) => {
+                        if(err){
+                          err = ('There is some error in token' + err);
+                          throw {status: 500, err: err};
+                        }
+                        else {
+                          resData['token'] = token;
+                          resData['error'] = 0;
+                          resData['message'] = 'login success!';
+                          res.status(200).json(resData);
+                        }
+                    });
+      
                     let pinsertNewVerifi = Promise.resolve(_insert_basic({table: 'verifications', col: '(id_user, email, password)'}, [[userId, newUser.email, hash]]).catch((errObj)=>{throw errObj})),
                         pinsertNewSheet = Promise.resolve(_insert_basic({table: 'sheets', col: '(id_user)'}, [[userId]]).catch((errObj)=>{throw errObj})),
                         pcreateImgFolder = Promise.resolve(_create_new_ImgFolder(userId).catch((errObj)=>{throw errObj}));
