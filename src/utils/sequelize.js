@@ -7,7 +7,7 @@ const sequelize = new Sequelize(connection_key.database, connection_key.user, co
   dialect: 'mysql',
   operatorsAliases: false,
   pool: {
-    max: 10,
+    max: 20,
     min: 0,
     acquire: 30000,
     idle: 10000
@@ -30,10 +30,26 @@ sequelize
 const _DB_users = sequelize.define('users', {
     id: {type: Sequelize.INTEGER, primaryKey: true},
     created: Sequelize.DATE,
+    status: Sequelize.TEXT('tiny'),
     first_name: Sequelize.STRING(127),
     last_name: Sequelize.STRING(127),
     account: Sequelize.STRING(255)
 })
+
+const _DB_users_apply = sequelize.define('users_apply', {
+  id_user: Sequelize.INTEGER,
+  status: Sequelize.TEXT('tiny'),
+  created: Sequelize.DATE,
+  token_email: Sequelize.STRING(1023)
+})
+
+const _DB_verifications = sequelize.define('verifications', {
+  id_user: Sequelize.INTEGER,
+  updatedAt: Sequelize.DATE,
+  email: Sequelize.STRING(127),
+  password: Sequelize.STRING(63)
+})
+
 const _DB_units = sequelize.define('units', {
     id: {type: Sequelize.INTEGER, primaryKey: true},
     id_author:  Sequelize.INTEGER,
@@ -71,6 +87,8 @@ const _DB_attribution = sequelize.define('attribution', {
 
 module.exports = {
     _DB_users: _DB_users,
+    _DB_users_apply: _DB_users_apply,
+    _DB_verifications: _DB_verifications,
     _DB_units: _DB_units,
     _DB_marks: _DB_marks,
     _DB_nouns: _DB_nouns,

@@ -4,7 +4,9 @@ const fs = require('fs');
 const path = require("path");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const {verify_email} = require('../../config/jwt.js');
+const {
+  verify_email
+} = require('../../config/jwt.js');
 const validateRegisterInput = require('./validation/register');
 const deliverVerifiedMail = require('./validation/verifiedMail');
 const {
@@ -13,6 +15,10 @@ const {
 const {
   _insert_basic
 } = require('../utils/dbInsertHandler.js');
+const {
+  _DB_users,
+  _DB_users_apply
+} = require('../utils/sequelize');
 const {
   _handler_ErrorRes,
 } = require('../utils/reserrHandler.js');
@@ -144,12 +150,51 @@ function _handle_auth_register_POST(req, res) {
 };
 
 function _handle_auth_registerConfirm_GET(req, res){
-  //jwt verify
-  //compare with token in users_apply
-  //update status in both users and users_aply
-  //res success, and a location to the confirm/success page
-  //catch: 
-  //invalid token or not consist with DB -> res location to confirm/error
+  const reqToken = req.headers['token'];
+  jwt.verify(reqToken, verify_email, function(err, payload) {
+    if (err) {
+      res.status(401).redirect('/s/confirm/fail');
+    } else {
+      let userId = payload.user_Id;
+      let mysqlForm = {
+        accordancesList: [[userId]]
+      },
+      conditionUser = {
+        table: "users_aply",
+        cols: ["id_user, token_email,status"],
+        where: ["id_user"]
+      };
+      _select_Basic(conditionUser, mysqlForm.accordancesList).then((rows)=>{
+        if(rows.length<0){
+          throw {custom: true, status: 404, path: '/s/confirm/fail'};
+        }else{
+          let applyData = rows[0];
+          if(applyData.status == 'active') throw {custom: true, status: 302, path: '/s/confirm/success'};
+          else{
+            if(reqToken == applyData.token_email){
+              let pupdateUsers = Promise.resolve(_DB_users.update({ status: 'active'}).catch((errObj)=>{throw errObj}));
+              let pupdateUsersApply = Promise.resolve(_DB_users_apply.update({ status: 'active'}).catch((errObj)=>{throw errObj}));
+              Promise.all([pupdateUsers, pupdateUsersApply]).then((results)=>{
+                res.status(200).redirect('/s/confirm/success');
+              });
+            }else{throw {custom: true, status: 401, path: '/s/confirm/fail'}};
+          }
+        }
+      }).catch((errObj)=>{
+        //catch errors, both custom and internal
+        if(errObj.custom) res.status(errObj.status).redirect(errObj.path);
+        else{
+          console.log("error occured during: auth/confirm register promise: "+errObj.err)
+          let errSet = {
+            "status": errObj.status,
+            "message": {'warning': 'Internal Server Error, please try again later'},
+            "console": 'Error Occured: Internal Server Error'
+          };
+          _handler_ErrorRes(errSet, res);
+        }
+      });
+    }
+  })
 }
 
 execute.post('/', function(req, res){
