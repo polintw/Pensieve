@@ -36,7 +36,7 @@ const _promise_customBreak_res = (errSet)=>{
 }
 
 //handle register request
-_handle_auth_register_POST function(req, res) {
+function _handle_auth_register_POST(req, res) {
   const { errors, isValid } = validateRegisterInput(req.body);
 
   if(!isValid) {
@@ -143,9 +143,23 @@ _handle_auth_register_POST function(req, res) {
   });
 };
 
+function _handle_auth_registerConfirm_GET(req, res){
+  //jwt verify
+  //compare with token in users_apply
+  //update status in both users and users_aply
+  //res success, and a location to the confirm/success page
+  //catch: 
+  //invalid token or not consist with DB -> res location to confirm/error
+}
+
 execute.post('/', function(req, res){
   console.log('POST: auth/register');
   _handle_auth_register_POST(req, res);
+})
+
+execute.GET('/confirm', function(req, res){
+  console.log('GET: auth/confirm register');
+  _handle_auth_registerConfirm_GET(req, res);
 })
 
 module.exports = execute;
