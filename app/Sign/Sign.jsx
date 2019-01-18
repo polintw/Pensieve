@@ -9,6 +9,7 @@ import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import Signin from './component/Signin.jsx';
 import Signup from './component/Signup.jsx';
+import Confirmation from './component/Confirmation.jsx';
 
 class Sign extends React.Component {
   constructor(props){
@@ -40,6 +41,7 @@ class Sign extends React.Component {
           <Switch>
             <Route path="/signup" render={(props)=> <Signup {...props}/>}/>
             <Route path="/signin" render={(props)=> <Signin {...props}/>}/>
+            <Route path="/confirm" render={(props)=> <Confirmation {...props}/>}/>
           </Switch>
         </div>
       </Router>
