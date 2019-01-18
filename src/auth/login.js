@@ -38,41 +38,67 @@ login.use(function(req, res) {
       where: ["email"]
     };
     _select_Basic(conditionUser, mysqlForm.accordancesList).then((rows)=>{
-      let resData = {};
       if (rows.length > 0) {
         let verified = rows[0];
-        console.log(password);
-        console.log(verified.password)
-        bcrypt.compare(password, verified.password).then(isMatch => {
-          if(isMatch) {
-              const payload = {
-                user_Id: verified['id_user'],
-                user_Role: 'public'
-              }
-              jwt.sign(JSON.parse(JSON.stringify(payload)), verify_key, {
-                expiresIn: '1d'
-              }, (err, token) => {
-                  if(err){
-                    err = ('There is some error in token' + err);
-                    throw {status: 500, err: err};
-                  }
-                  else {
-                    resData['token'] = token;
-                    resData['error'] = 0;
-                    resData['message'] = 'login success!';
-                    res.status(200).json(resData);
-                  }
-              });
+        let userId = verified['id_user'];
+        let mysqlForm = {
+          accordancesList: [[userId]]
+        },
+        conditionUser = {
+          table: "users",
+          cols: ["status"],
+          where: ["id"]
+        };
+        return _select_Basic(conditionUser, mysqlForm.accordancesList).then((rowsUsers)=>{
+          if(rowsUsers.length = 0){
+            throw {errSet: errSet, err: "existed email in verications couldn't be found in users"};
           }
-          else {
-            let errSet = {
-              "status": 401,
-              "message": {'password': 'account and Password does not match'},
-              "console": ''
-            };
-            return _handler_ErrorRes(errSet, res);
+          else{
+            if(rowsUsers[0].status == 'active') Promise.resolve();
+            else {
+              let errSet = {
+                "status": 401,
+                "message": {'warning': "You haven't verified your email address yet!"},
+                "console": ''
+              };
+              throw {custom: true, errSet: errSet};
+            }
           }
-        });
+        }).then(()=>{
+          let resData = {};
+          console.log(password);
+          console.log(verified.password)
+          bcrypt.compare(password, verified.password).then(isMatch => {
+            if(isMatch) {
+                const payload = {
+                  user_Id: userId,
+                  user_Role: 'public'
+                }
+                jwt.sign(JSON.parse(JSON.stringify(payload)), verify_key, {
+                  expiresIn: '1d'
+                }, (err, token) => {
+                    if(err){
+                      err = ('There is some error in token' + err);
+                      throw {status: 500, err: err};
+                    }
+                    else {
+                      resData['token'] = token;
+                      resData['error'] = 0;
+                      resData['message'] = 'login success!';
+                      res.status(200).json(resData);
+                    }
+                });
+            }
+            else {
+              let errSet = {
+                "status": 401,
+                "message": {'password': 'account and Password does not match'},
+                "console": ''
+              };
+              return _handler_ErrorRes(errSet, res);
+            }
+          });
+        })
       } else {
         let errSet = {
           "status": 404,
@@ -82,12 +108,14 @@ login.use(function(req, res) {
         return _handler_ErrorRes(errSet, res);
       }
     }).catch((errObj)=>{
-      console.log("Error occured during: auth/login promise: "+errObj.err)
-      let errSet = {
-        "status": errObj.status,
-        "message": {'warning': 'Internal Server Error, please try again later'},
-        "console": 'Error Occured: Internal Server Error'
-      };
+      if(errObj.custom) _handler_ErrorRes(errObj.errSet, res);
+      else{
+        console.log("error occured during: auth/login promise: "+errObj.err)
+        let errSet = {
+          "status": errObj.status,
+          "message": {'warning': 'Internal Server Error, please try again later'},
+          "console": 'Error Occured: Internal Server Error'
+        };
       _handler_ErrorRes(errSet, res);
     });
   });

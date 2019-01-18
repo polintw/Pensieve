@@ -165,9 +165,7 @@ function _handle_auth_registerConfirm_GET(req, res){
         where: ["id_user"]
       };
       _select_Basic(conditionUser, mysqlForm.accordancesList).then((rows)=>{
-        if(rows.length<0){
-          throw {custom: true, status: 404, path: '/s/confirm/fail'};
-        }else{
+        if(rows.length>0){
           let applyData = rows[0];
           if(applyData.status == 'active') throw {custom: true, status: 302, path: '/s/confirm/success'};
           else{
@@ -179,6 +177,8 @@ function _handle_auth_registerConfirm_GET(req, res){
               });
             }else{throw {custom: true, status: 401, path: '/s/confirm/fail'}};
           }
+        }else{
+          throw {custom: true, status: 404, path: '/s/confirm/fail'};
         }
       }).catch((errObj)=>{
         //catch errors, both custom and internal
