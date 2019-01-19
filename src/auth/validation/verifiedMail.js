@@ -1,5 +1,5 @@
 const nodemailer = require("nodemailer");
-const {deliverAccount} = require('../../../config/services.js');
+const {smtpAccount} = require('../../../config/services.js');
 
 const _render_HtmlBody = (token)=>{
   return (
@@ -18,12 +18,12 @@ const _render_HtmlBody = (token)=>{
 }
 
 function deliverVerifiedMail(userInfo, token){
-  return new Promise((resolve, rejec)=>{
+  return new Promise((resolve, reject)=>{
     let transporter = nodemailer.createTransport({
       service: "Mailjet",
       auth: {
-        user: deliverAccount.user,
-        pass: deliverAccount.password
+        user: smtpAccount.user,
+        pass: smtpAccount.password
       }
     });
 
@@ -36,9 +36,11 @@ function deliverVerifiedMail(userInfo, token){
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {throw {status: 500, err: 'There was an error'+error};}
-      console.log('Message %s sent: %s', info.messageId, info.response);
-      resolve();
+      if (error) reject({status: 500, err: 'There was an error '+error});
+      else{
+        console.log('Address verification %s sent: %s', info.messageId, info.response);
+        resolve();
+      }
     });
   })
 }

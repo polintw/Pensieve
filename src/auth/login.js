@@ -50,8 +50,8 @@ login.use(function(req, res) {
           where: ["id"]
         };
         return _select_Basic(conditionUser, mysqlForm.accordancesList).then((rowsUsers)=>{
-          if(rowsUsers.length = 0){
-            throw {errSet: errSet, err: "existed email in verications couldn't be found in users"};
+          if(rowsUsers.length == 0){
+            throw {custom: false, status: 500, err: "existed email in verications couldn't be found in users"};
           }
           else{
             if(rowsUsers[0].status == 'active') Promise.resolve();
@@ -66,8 +66,7 @@ login.use(function(req, res) {
           }
         }).then(()=>{
           let resData = {};
-          console.log(password);
-          console.log(verified.password)
+console.log(verified.password)
           bcrypt.compare(password, verified.password).then(isMatch => {
             if(isMatch) {
                 const payload = {
@@ -110,9 +109,9 @@ login.use(function(req, res) {
     }).catch((errObj)=>{
       if(errObj.custom) _handler_ErrorRes(errObj.errSet, res);
       else{
-        console.log("error occured during: auth/login promise: "+errObj.err)
+        console.log("error occured during: auth/login promise: "+errObj.err);
         let errSet = {
-          "status": errObj.status,
+          "status": errObj.status?errObj.status:500,
           "message": {'warning': 'Internal Server Error, please try again later'},
           "console": 'Error Occured: Internal Server Error'
         };

@@ -16,10 +16,9 @@ version "Lite" is the version released to the public of this project.
 
 
 Prepare
-- 更改圖片儲存位置
-    - auth/register.js
-    - shareds/sharedsPOST.js
-    - img/requisition.js
+- 更改位置: 從config/path
+    - FirsttoSrc: auth/register.js、img/requisition.js
+    - SecondtoSrc: shareds/sharedsPOST.js
 - 更改資料庫連線資訊
 - 檢查現存資料庫相容性
   - 現有資料庫table以及col項目

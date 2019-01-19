@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
+import SignupForm from './SignupForm.jsx';
 import {
   axiosSwitch,
   axiosGetRes,

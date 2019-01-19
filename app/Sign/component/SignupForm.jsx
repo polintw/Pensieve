@@ -63,6 +63,7 @@ class SignupForm extends React.Component {
       if (axios.isCancel(thrown)) {
         console.log('Request canceled: ', thrown.message);
       } else {
+        if(thrown.response.data.console.length>0) console.log(thrown.response.data.console);
         self.props._set_axiosRes({axiosStatus: false, message: thrown.response.data.message});
       }
     });
@@ -156,6 +157,10 @@ class SignupForm extends React.Component {
               message.password_confirm &&
               <div>{message.password_confirm}</div>
             }
+            {
+                message.warning &&
+                <div>{message.warning}</div>
+              }
             <div>
               <input
                 type='submit'

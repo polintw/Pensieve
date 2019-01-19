@@ -4,11 +4,14 @@ const fs = require('fs');
 const path = require("path");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const validateRegisterInput = require('./validation/register');
+const deliverVerifiedMail = require('./validation/verifiedMail');
 const {
   verify_email
 } = require('../../config/jwt.js');
-const validateRegisterInput = require('./validation/register');
-const deliverVerifiedMail = require('./validation/verifiedMail');
+const {
+  userImg_FirsttoSrc
+} = require('../../config/path.js');
 const {
   _select_Basic
 } = require('../utils/dbSelectHandler.js');
@@ -25,9 +28,9 @@ const {
 
 const _create_new_ImgFolder = (userId)=>{
   return new Promise((resolve,reject)=>{
-    let imgFolderPath = path.join(__dirname, '/../..', '/faked_Pics/'+userId);
+    let imgFolderPath = path.join(__dirname, userImg_FirsttoSrc+userId);
     fs.mkdir(imgFolderPath, function(err){
-      if(err) {reject(err);return;}
+      if(err) {reject({err: err});return;}
       resolve();
     })
   });
@@ -82,6 +85,7 @@ function _handle_auth_register_POST(req, res) {
     }
   }).then((newUser)=>{
     //after confimation, create new user account officially.
+    //first create user in users and get the user Id
     return _insert_basic({
       table: 'users',
       col: '(first_name, last_name, account, status)'},
@@ -93,43 +97,49 @@ function _handle_auth_register_POST(req, res) {
       ]]
     ).then((resultObj)=>{
       const userId = resultObj.insertId;
-      const payload = {
-        user_Id: userId,
-        token_property: 'emailVerified'
-      };
-      let tokenEmail = '';
-      jwt.sign(JSON.parse(JSON.stringify(payload)), verify_email, {
-        expiresIn: '1d'
-      }, (err, token) => {
-          if(err){
-            err = ('There is some error in token' + err);
-            throw {status: 500, err: err};
-          }
-          else {
-            tokenEmail = token;
-          }
-      });
-      return bcrypt.genSalt(10).then((err, salt) => {
-        if(err) throw {status: 500, err: 'There was an error'+err};
-        Promise.resolve(salt);
-      }).then((salt)=>{
-        return bcrypt.hash(newUser.password, salt).then((err, hash) => {
-          if(err) throw {status: 500, err: 'There was an error'+err};
-          Promise.resolve(hash);
-        })
-      }).then((hash)=>{
-        let pinsertNewVerifi = Promise.resolve(_insert_basic({table: 'verifications', col: '(id_user, email, password)'}, [[userId, newUser.email, hash]]).catch((errObj)=>{throw errObj})),
-            pinsertNewSheet = Promise.resolve(_insert_basic({table: 'sheets', col: '(id_user)'}, [[userId]]).catch((errObj)=>{throw errObj})),
-            pinsertEmailToken = Promise.resolve(_insert_basic({table: 'users_apply', col: '(id_user, token_email, status)'}, [[userId, tokenEmail, 'unverified']]).catch((errObj)=>{throw errObj})),
-            pcreateImgFolder = Promise.resolve(_create_new_ImgFolder(userId).catch((errObj)=>{throw errObj}));
-
-        return Promise.all([pinsertNewVerifi, pinsertNewSheet, pinsertEmailToken, pcreateImgFolder]).then((results)=>{
-          deliverVerifiedMail(newUser, tokenEmail);
+      return new Promise((resolve, reject)=>{
+        //sign a token for email verification
+        const payload = {
+          user_Id: userId,
+          token_property: 'emailVerified'
+        };
+        jwt.sign(JSON.parse(JSON.stringify(payload)), verify_email, {
+          expiresIn: '1d'
+        }, (err, token) => {
+            if(err){
+              reject({status: 500, err: 'There is some error in token ' + err});
+            }
+            else {
+              resolve(token);
+            }
         });
-      });
+      }).then((tokenEmail)=>{
+        //genSalt and hash user's password
+        //use a new promise again is because, we don't want to append a new catch here
+        return new Promise((resolve, reject)=>{
+          bcrypt.genSalt(10, (err, salt) => {
+            if(err) reject({status: 500, err: 'There was an error'+err});
+            bcrypt.hash(newUser.password, salt, (err, hash) => {
+              if(err) reject({status: 500, err: 'There was an error'+err});
+              resolve(hash);
+            })
+          });
+        }).then((hash)=>{
+          let pinsertNewVerifi = Promise.resolve(_insert_basic({table: 'verifications', col: '(id_user, email, password)'}, [[userId, newUser.email, hash]]).catch((errObj)=>{throw errObj})),
+              pinsertNewSheet = Promise.resolve(_insert_basic({table: 'sheets', col: '(id_user)'}, [[userId]]).catch((errObj)=>{throw errObj})),
+              pinsertEmailToken = Promise.resolve(_insert_basic({table: 'users_apply', col: '(id_user, token_email, status)'}, [[userId, tokenEmail, 'unverified']]).catch((errObj)=>{throw errObj})),
+              pcreateImgFolder = Promise.resolve(_create_new_ImgFolder(userId).catch((errObj)=>{throw errObj}));
+
+          return Promise.all([pinsertNewVerifi, pinsertNewSheet, pinsertEmailToken, pcreateImgFolder]).then((results)=>{
+console.log("promise all complete")
+            return deliverVerifiedMail(newUser, tokenEmail);
+          });
+        });
+      })
     });
   }).then(()=>{
     //complete the process, and response to client
+console.log("POST: auth/register req: complete.")
     let resData = {};
     resData.error = 0;
     resData['message'] = 'Registered successfully! Please verify your email address';
@@ -140,7 +150,7 @@ function _handle_auth_register_POST(req, res) {
     else{
       console.log("error occured during: auth/register promise: "+errObj.err)
       let errSet = {
-        "status": errObj.status,
+        "status": errObj.status?errObj.status:500,
         "message": {'warning': 'Internal Server Error, please try again later'},
         "console": 'Error Occured: Internal Server Error'
       };
