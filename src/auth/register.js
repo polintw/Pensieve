@@ -202,7 +202,7 @@ execute.post('/', function(req, res){
   _handle_auth_register_POST(req, res);
 })
 
-execute.GET('/confirm', function(req, res){
+execute.get('/confirm', function(req, res){
   console.log('GET: auth/confirm register');
   _handle_auth_registerConfirm_GET(req, res);
 })

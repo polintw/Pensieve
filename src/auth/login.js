@@ -116,7 +116,8 @@ login.use(function(req, res) {
           "message": {'warning': 'Internal Server Error, please try again later'},
           "console": 'Error Occured: Internal Server Error'
         };
-      _handler_ErrorRes(errSet, res);
+        _handler_ErrorRes(errSet, res);
+      }
     });
   });
 
