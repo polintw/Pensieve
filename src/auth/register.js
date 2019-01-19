@@ -142,7 +142,7 @@ console.log("promise all complete")
 console.log("POST: auth/register req: complete.")
     let resData = {};
     resData.error = 0;
-    resData['message'] = 'Registered successfully! Please verify your email address';
+    resData['message'] = {'status': 'Registered successfully! Please verify your email address'};
     res.status(201).json(resData);
   }).catch((errObj)=>{
     //catch errors, both custom and internal

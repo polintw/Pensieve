@@ -1,8 +1,7 @@
 import React from 'react';
 import {
   Link,
-  Switch,
-  Route,
+  Redirect,
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
@@ -22,6 +21,7 @@ class SignupForm extends React.Component {
       email: '',
       password: '',
       password_confirm: '',
+      success: false
     };
     this.axiosSource = axios.CancelToken.source();
     this._handle_Signup = this._handle_Signup.bind(this);
@@ -54,11 +54,7 @@ class SignupForm extends React.Component {
       headers: {'charset': 'utf-8'}
     }).then(function (res) {
       self.props._set_axiosRes({axiosStatus: false, message: res.data.message});
-      let submitObj ={
-        email: self.state.email,
-        password: self.state.password
-      };
-
+      this.set.state({success: true});
     }).catch(function (thrown) {
       if (axios.isCancel(thrown)) {
         console.log('Request canceled: ', thrown.message);
@@ -87,6 +83,8 @@ class SignupForm extends React.Component {
 
   render(){
     //let cx = cxBind.bind(styles);
+    if(this.state.succes) return <Redirect to="/signup/success"/>
+    
     const message = this.props.message;
     return(
       <div
