@@ -131,7 +131,6 @@ function _handle_auth_register_POST(req, res) {
               pcreateImgFolder = Promise.resolve(_create_new_ImgFolder(userId).catch((errObj)=>{throw errObj}));
 
           return Promise.all([pinsertNewVerifi, pinsertNewSheet, pinsertEmailToken, pcreateImgFolder]).then((results)=>{
-console.log("promise all complete")
             return deliverVerifiedMail(newUser, tokenEmail);
           });
         });
@@ -139,7 +138,7 @@ console.log("promise all complete")
     });
   }).then(()=>{
     //complete the process, and response to client
-console.log("POST: auth/register req: complete.")
+    console.log("POST: auth/register req: complete.")
     let resData = {};
     resData.error = 0;
     resData['message'] = {'status': 'Registered successfully! Please verify your email address'};
@@ -148,7 +147,7 @@ console.log("POST: auth/register req: complete.")
     //catch errors, both custom and internal
     if(errObj.custom) _handler_ErrorRes(errObj.errSet, res);
     else{
-      console.log("error occured during: auth/register promise: "+errObj.err)
+      console.log("Error: during auth/register promise: "+errObj.err)
       let errSet = {
         "status": errObj.status?errObj.status:500,
         "message": {'warning': 'Internal Server Error, please try again later'},
@@ -160,7 +159,7 @@ console.log("POST: auth/register req: complete.")
 };
 
 function _handle_auth_registerConfirm_GET(req, res){
-  const reqToken = req.headers['token'];
+  const reqToken = req.body.token || req.headers['token'] || req.query.token;
   jwt.verify(reqToken, verify_email, function(err, payload) {
     if (err) {
       res.status(401).redirect('/s/confirm/fail');
@@ -170,7 +169,7 @@ function _handle_auth_registerConfirm_GET(req, res){
         accordancesList: [[userId]]
       },
       conditionUser = {
-        table: "users_aply",
+        table: "users_apply",
         cols: ["id_user, token_email,status"],
         where: ["id_user"]
       };
@@ -180,28 +179,21 @@ function _handle_auth_registerConfirm_GET(req, res){
           if(applyData.status == 'active') throw {custom: true, status: 302, path: '/s/confirm/success'};
           else{
             if(reqToken == applyData.token_email){
-              let pupdateUsers = Promise.resolve(_DB_users.update({ status: 'active'}).catch((errObj)=>{throw errObj}));
-              let pupdateUsersApply = Promise.resolve(_DB_users_apply.update({ status: 'active'}).catch((errObj)=>{throw errObj}));
+              let pupdateUsers = Promise.resolve(_DB_users.update({ status: 'active'}).catch((err)=>{throw {err: err}}));
+              let pupdateUsersApply = Promise.resolve(_DB_users_apply.update({ status: 'active'}).catch((err)=>{throw {err: err}}));
               Promise.all([pupdateUsers, pupdateUsersApply]).then((results)=>{
                 res.status(200).redirect('/s/confirm/success');
               });
-            }else{throw {custom: true, status: 401, path: '/s/confirm/fail'}};
+            }else{throw {custom: true, status: 401, path: '/s/confirm/fail', err: 'token_email inconsistent for user sended'}};
           }
         }else{
-          throw {custom: true, status: 404, path: '/s/confirm/fail'};
+          throw {custom: true, status: 404, path: '/s/confirm/fail', err: 'no such user found '+userId};
         }
       }).catch((errObj)=>{
         //catch errors, both custom and internal
-        if(errObj.custom) res.status(errObj.status).redirect(errObj.path);
-        else{
-          console.log("error occured during: auth/confirm register promise: "+errObj.err)
-          let errSet = {
-            "status": errObj.status,
-            "message": {'warning': 'Internal Server Error, please try again later'},
-            "console": 'Error Occured: Internal Server Error'
-          };
-          _handler_ErrorRes(errSet, res);
-        }
+        if('err' in errObj) console.log("error catched during: auth/confirm register promise: "+errObj.err);
+        errObj = Object.assign({status: 500, path: '/s/confirm/fail'}, errObj);
+        res.status(errObj.status).redirect(errObj.path);
       });
     }
   })

@@ -1,12 +1,14 @@
 import React from 'react';
 import {
   Link,
-  Redirect,
+  Switch,
+  Route,
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import {
+  setSignInit,
   axiosSwitch,
   axiosGetRes,
   handleSignUser
@@ -21,7 +23,6 @@ class SignupForm extends React.Component {
       email: '',
       password: '',
       password_confirm: '',
-      success: false
     };
     this.axiosSource = axios.CancelToken.source();
     this._handle_Signup = this._handle_Signup.bind(this);
@@ -54,7 +55,7 @@ class SignupForm extends React.Component {
       headers: {'charset': 'utf-8'}
     }).then(function (res) {
       self.props._set_axiosRes({axiosStatus: false, message: res.data.message});
-      this.set.state({success: true});
+      self.set.state({success: true});
     }).catch(function (thrown) {
       if (axios.isCancel(thrown)) {
         console.log('Request canceled: ', thrown.message);
@@ -78,13 +79,12 @@ class SignupForm extends React.Component {
   componentWillUnmount(){
     if(this.props.axios){
       this.axiosSource.cancel("component will unmount.")
-    }
+    };
+    this.props._set_StateInit()
   }
 
   render(){
     //let cx = cxBind.bind(styles);
-    if(this.state.succes) return <Redirect to="/signup/success"/>
-    
     const message = this.props.message;
     return(
       <div
@@ -181,7 +181,8 @@ const mapDispatchToProps = (dispatch)=>{
   return {
     _submit_Signin: (submitObj)=>{dispatch(handleSignUser(submitObj));},
     _set_axiosStatus: (bool)=>{dispatch(axiosSwitch(bool));},
-    _set_axiosRes: (resObj)=>{dispatch(axiosGetRes(resObj));}
+    _set_axiosRes: (resObj)=>{dispatch(axiosGetRes(resObj));},
+    _set_StateInit: ()=>{dispatch(setSignInit());}
   }
 }
 

@@ -134,8 +134,8 @@ class Confirmation extends React.Component {
     return(
       <div
         style={this.style.Confirmation_}>
-        <Route path="/success" render={(props)=> <ConfirmSuccess {...props}/>}/>
-        <Route path="/fail" render={(props)=> <ConfirmFail {...props}/>}/>
+        <Route path={this.props.match.path+"/success"} render={(props)=> <ConfirmSuccess {...props}/>}/>
+        <Route path={this.props.match.path+"/fail"} render={(props)=> <ConfirmFail {...props}/>}/>
       </div>
     )
   }

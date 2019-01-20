@@ -1,8 +1,16 @@
 import {
+  SET_SIGNINIT,
   AXIOS_SWITCH,
   AXIOS_GET_RES
 } from '../constants/typesSign.js';
+import {
+  initSign
+} from '../constants/states.js';
 import {errHandler_axiosCatch} from "../../utils/errHandlers.js";
+
+export function setSignInit(){
+  return {type: SET_SIGNINIT, initState: initSign}
+}
 
 export function axiosSwitch(bool) {
   return { type: AXIOS_SWITCH, status: bool }

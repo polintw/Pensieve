@@ -5,7 +5,10 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
-import {handleSignUser} from "../../redux/actions/handleSign.js";
+import {
+  setSignInit,
+  handleSignUser
+} from "../../redux/actions/handleSign.js";
 
 class Signin extends React.Component {
   constructor(props){
@@ -54,6 +57,7 @@ class Signin extends React.Component {
     if(this.props.axios){
       this.axiosSource.cancel("component will unmount.")
     }
+    this.props._set_StateInit()
   }
 
   render(){
@@ -111,6 +115,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch)=>{
   return {
+    _set_StateInit: ()=>{dispatch(setSignInit());},
     _submit_Signin: (submitObj)=>{dispatch(handleSignUser(submitObj));}
   }
 }
