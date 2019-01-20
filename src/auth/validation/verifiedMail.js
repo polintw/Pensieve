@@ -6,11 +6,11 @@ const _render_HtmlBody = (token)=>{
     '<html>'+
       '<body>'+
       '<div>'+
-        '<p>"Welcome to Corner as your new horizon."</p>'+
-        '<p>"Please click "</p>'+
-        '<a href="http://teamcorner.nctu.me/router/register/confirm?token="'+token+'>"here"</a>'+
-        '<p>" to complete email verification!"</p>'+
-        '<p>"then, enjoy your adventure."</p>'+
+        '<p>Welcome to Corner as your new horizon.</p>'+
+        '<p>Please click </p>'+
+        '<a href="http://localhost:8080/router/register/confirm?token='+token+'">Verify!</a>'+
+        '<p> to complete email verification!</p>'+
+        '<p>then, enjoy your adventure.</p>'+
       '</div>'+
       '</body>'+
     '</html>'
