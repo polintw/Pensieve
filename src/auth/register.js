@@ -179,11 +179,29 @@ function _handle_auth_registerConfirm_GET(req, res){
           if(applyData.status == 'active') throw {custom: true, status: 302, path: '/s/confirm/success'};
           else{
             if(reqToken == applyData.token_email){
-              let pupdateUsers = Promise.resolve(_DB_users.update({ status: 'active'}).catch((err)=>{throw {err: err}}));
-              let pupdateUsersApply = Promise.resolve(_DB_users_apply.update({ status: 'active'}).catch((err)=>{throw {err: err}}));
+              let pupdateUsers = Promise.resolve(
+                _DB_users.findOne({
+                  where: {id: userId},
+                  attributes: ['status']
+                }).then(users => {
+                  return users.update({ status: 'active'});
+                }).then(()=>{
+                  console.log("Sequelize: update an user's activity status at users.");
+                }).catch((err)=>{throw {err: err}})  
+              );
+              let pupdateUsersApply = Promise.resolve(
+                _DB_users_apply.findOne({
+                  where: {user_Id: userId},
+                  attributes: ['status']
+                }).then(users => {
+                  return users.update({ status: 'active'});
+                }).then(()=>{
+                  console.log("Sequelize: update an user's activity status at users_apply.");
+                }).catch((err)=>{throw {err: err}})  
+              );
               Promise.all([pupdateUsers, pupdateUsersApply]).then((results)=>{
                 res.status(200).redirect('/s/confirm/success');
-              });
+              }).catch((errObj)=> {throw errObj});
             }else{throw {custom: true, status: 401, path: '/s/confirm/fail', err: 'token_email inconsistent for user sended'}};
           }
         }else{

@@ -21,7 +21,7 @@ const sequelize = new Sequelize(connection_key.database, connection_key.user, co
 sequelize
   .authenticate()
   .then(() => {
-    console.log('Connection has been established successfully.');
+    console.log('Connection from Sequelize has been established successfully.');
   })
   .catch(err => {
     console.error('Unable to connect to the database:', err);
@@ -83,6 +83,13 @@ const _DB_attribution = sequelize.define('attribution', {
   id_unit: Sequelize.INTEGER,
   id_author: Sequelize.INTEGER,
   established: Sequelize.DATE
+})
+
+
+sequelize.sync({force: false}).then(()=> { //force true would drop the existed table
+  console.log('Sync to databse has completed from Sequelize.');
+}).catch(error=>{
+  console.error('Somthing wrong when sync to database from Sequelize.');
 })
 
 module.exports = {
