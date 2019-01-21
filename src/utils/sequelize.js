@@ -14,9 +14,11 @@ const sequelize = new Sequelize(connection_key.database, connection_key.user, co
   },
   define: {
     charset: 'utf8',
-    timestamps: true
+    timestamps: true,
+    freezeTableName: true
   }
-});
+})
+
 //test, could be removed in the future if stable
 sequelize
   .authenticate()
@@ -85,11 +87,17 @@ const _DB_attribution = sequelize.define('attribution', {
   established: Sequelize.DATE
 })
 
-
-sequelize.sync({force: false}).then(()=> { //force true would drop the existed table
-  console.log('Sync to databse has completed from Sequelize.');
+sequelize.sync({
+  force: false //force true would drop the existed table
+}).then(()=>{
+  //Sequelize will add 'id' automatically(and as a primaryKey),
+  //so we need to remove it if we don't like
+  _DB_users_apply.removeAttribute('id');
+  _DB_verifications.removeAttribute('id');
+  _DB_attribution.removeAttribute('id');
+  console.log('Sequelize: complete sync to database');
 }).catch(error=>{
-  console.error('Somthing wrong when sync to database from Sequelize.');
+  console.error('Sequelize: error when initation: '+ error);
 })
 
 module.exports = {

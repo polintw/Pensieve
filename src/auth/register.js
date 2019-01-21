@@ -182,26 +182,22 @@ function _handle_auth_registerConfirm_GET(req, res){
               let pupdateUsers = Promise.resolve(
                 _DB_users.findOne({
                   where: {id: userId},
-                  attributes: ['status']
+                  attributes: ['id', 'status']
                 }).then(users => {
                   return users.update({ status: 'active'});
-                }).then(()=>{
-                  console.log("Sequelize: update an user's activity status at users.");
-                }).catch((err)=>{throw {err: err}})  
+                }).catch((err)=>{throw {err: err}})
               );
               let pupdateUsersApply = Promise.resolve(
                 _DB_users_apply.findOne({
-                  where: {user_Id: userId},
+                  where: {id_user: userId},
                   attributes: ['status']
-                }).then(users => {
-                  return users.update({ status: 'active'});
-                }).then(()=>{
-                  console.log("Sequelize: update an user's activity status at users_apply.");
-                }).catch((err)=>{throw {err: err}})  
+                }).then(usersApply => {
+                  return usersApply.update({ status: 'active'});
+                }).catch((err)=>{throw {err: err}})
               );
-              Promise.all([pupdateUsers, pupdateUsersApply]).then((results)=>{
+              return Promise.all([pupdateUsers, pupdateUsersApply]).then((results)=>{
                 res.status(200).redirect('/s/confirm/success');
-              }).catch((errObj)=> {throw errObj});
+              });
             }else{throw {custom: true, status: 401, path: '/s/confirm/fail', err: 'token_email inconsistent for user sended'}};
           }
         }else{
@@ -209,7 +205,7 @@ function _handle_auth_registerConfirm_GET(req, res){
         }
       }).catch((errObj)=>{
         //catch errors, both custom and internal
-        if('err' in errObj) console.log("error catched during: auth/confirm register promise: "+errObj.err);
+        if('err' in errObj) console.log("Error catched during: auth/confirm register promise: "+errObj.err);
         errObj = Object.assign({status: 500, path: '/s/confirm/fail'}, errObj);
         res.status(errObj.status).redirect(errObj.path);
       });
