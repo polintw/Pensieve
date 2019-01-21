@@ -4,6 +4,9 @@ const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 const {verify_key} = require('../../../config/jwt.js');
 const {connection_key} = require('../../../config/database.js');
+const {
+  userImg_SecondtoSrc
+} = require('../../../config/path.js');
 const {_handler_err_BadReq, _handler_err_Unauthorized, _handler_err_Internal} = require('../../utils/reserrHandler.js');
 
 const database = mysql.createPool(connection_key);
@@ -21,52 +24,36 @@ function shareHandler_POST(req, res){
           console.log("error occured when getConnection in newShare handle.")
         }else{
           new Promise((resolve, reject)=>{
-            let imgFolderPath = path.join(__dirname, '/../../..', '/faked_Pics/'+userId);
-            fs.access(imgFolderPath, (err)=>{
-              if(err){
-                //which mean the folder doesn't exist
-                fs.mkdir(imgFolderPath, function(err){
-                  if(err) {reject(err);return;}
-                  resolve();
-                })
-              }else{
-                //or without err
-                resolve();
-              }
-            })
-          }).then(function() {
-              //add it into shares as a obj value
-              console.log('add new one: deal img.');
-              let modifiedBody = new Object();
-              let coverBase64Buffer ,beneathBase64Buffer;
-              //deal with cover img first.
-              let coverBase64Splice = req.body.coverBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
-              coverBase64Buffer = new Buffer(coverBase64Splice[2], 'base64');
-              //then deal with beneath img if any.
+            //add it into shares as a obj value
+            console.log('add new one: deal img.');
+            let modifiedBody = new Object();
+            let coverBase64Buffer ,beneathBase64Buffer;
+            //deal with cover img first.
+            let coverBase64Splice = req.body.coverBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
+            coverBase64Buffer = new Buffer(coverBase64Splice[2], 'base64');
+            //then deal with beneath img if any.
+            if(req.body.beneathBase64){
+              let beneathBase64Splice = req.body.beneathBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
+              beneathBase64Buffer = new Buffer(beneathBase64Splice[2], 'base64');
+            }
+            fs.writeFile(path.join(__dirname, userImg_SecondtoSrc+userId+'/'+req.body.submitTime+"_layer_0.jpg"), coverBase64Buffer, function(err){
+              if(err) {reject(err);return;}
+              modifiedBody['url_pic_layer0'] = userId+'/'+req.body.submitTime+'_layer_0.jpg';
               if(req.body.beneathBase64){
-                let beneathBase64Splice = req.body.beneathBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
-                beneathBase64Buffer = new Buffer(beneathBase64Splice[2], 'base64');
+                fs.writeFile(path.join(__dirname, userImg_SecondtoSrc+userId+'/'+req.body.submitTime+"_layer_1.jpg"), beneathBase64Buffer, function(err){
+                  if(err) {reject(err);return;}
+                  modifiedBody['url_pic_layer1'] = userId+'/'+req.body.submitTime+'_layer_1.jpg';
+                  resolve(modifiedBody);
+                });
+              }else{
+                resolve(modifiedBody);
               }
-            return new Promise((resolve, reject)=>{
-              fs.writeFile(path.join(__dirname, '/../../..', '/faked_Pics/'+userId+'/'+req.body.submitTime+"_layer_0.jpg"), coverBase64Buffer, function(err){
-                if(err) {reject(err);return;}
-                modifiedBody['url_pic_layer0'] = userId+'/'+req.body.submitTime+'_layer_0.jpg';
-                if(req.body.beneathBase64){
-                  fs.writeFile(path.join(__dirname, '/../../..', '/faked_Pics/'+userId+'/'+req.body.submitTime+"_layer_1.jpg"), beneathBase64Buffer, function(err){
-                    if(err) {reject(err);return;}
-                    modifiedBody['url_pic_layer1'] = userId+'/'+req.body.submitTime+'_layer_1.jpg';
-                    resolve();
-                  });
-                }else{
-                  resolve();
-                }
-              });
-            }).then(()=>{
-              Object.assign(modifiedBody, req.body);
-              delete modifiedBody.coverBase64;
-              delete modifiedBody.beneathBase64;
-              return(modifiedBody);
-            })
+            });
+          }).then(()=>{
+            Object.assign(modifiedBody, req.body);
+            delete modifiedBody.coverBase64;
+            delete modifiedBody.beneathBase64;
+            return(modifiedBody);
           }).then(function(modifiedBody){
             console.log('add new one, write into the table: units.');
             return new Promise((resolve, reject)=>{

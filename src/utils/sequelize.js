@@ -7,21 +7,23 @@ const sequelize = new Sequelize(connection_key.database, connection_key.user, co
   dialect: 'mysql',
   operatorsAliases: false,
   pool: {
-    max: 10,
+    max: 20,
     min: 0,
     acquire: 30000,
     idle: 10000
   },
   define: {
     charset: 'utf8',
-    timestamps: true
+    timestamps: true,
+    freezeTableName: true
   }
-});
+})
+
 //test, could be removed in the future if stable
 sequelize
   .authenticate()
   .then(() => {
-    console.log('Connection has been established successfully.');
+    console.log('Connection from Sequelize has been established successfully.');
   })
   .catch(err => {
     console.error('Unable to connect to the database:', err);
@@ -30,10 +32,26 @@ sequelize
 const _DB_users = sequelize.define('users', {
     id: {type: Sequelize.INTEGER, primaryKey: true},
     created: Sequelize.DATE,
+    status: Sequelize.TEXT('tiny'),
     first_name: Sequelize.STRING(127),
     last_name: Sequelize.STRING(127),
     account: Sequelize.STRING(255)
 })
+
+const _DB_users_apply = sequelize.define('users_apply', {
+  id_user: {type: Sequelize.INTEGER, unique: true},
+  status: Sequelize.TEXT('tiny'),
+  created: Sequelize.DATE,
+  token_email: Sequelize.STRING(1023)
+})
+
+const _DB_verifications = sequelize.define('verifications', {
+  id_user: Sequelize.INTEGER,
+  updatedAt: Sequelize.DATE,
+  email: Sequelize.STRING(127),
+  password: Sequelize.STRING(63)
+})
+
 const _DB_units = sequelize.define('units', {
     id: {type: Sequelize.INTEGER, primaryKey: true},
     id_author:  Sequelize.INTEGER,
@@ -69,8 +87,23 @@ const _DB_attribution = sequelize.define('attribution', {
   established: Sequelize.DATE
 })
 
+sequelize.sync({
+  force: false //force true would drop the existed table
+}).then(()=>{
+  //Sequelize will add 'id' automatically(and as a primaryKey),
+  //so we need to remove it if we don't like
+  _DB_users_apply.removeAttribute('id');
+  _DB_verifications.removeAttribute('id');
+  _DB_attribution.removeAttribute('id');
+  console.log('Sequelize: complete sync to database');
+}).catch(error=>{
+  console.error('Sequelize: error when initation: '+ error);
+})
+
 module.exports = {
     _DB_users: _DB_users,
+    _DB_users_apply: _DB_users_apply,
+    _DB_verifications: _DB_verifications,
     _DB_units: _DB_units,
     _DB_marks: _DB_marks,
     _DB_nouns: _DB_nouns,

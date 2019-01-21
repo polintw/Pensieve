@@ -1,3 +1,8 @@
+export const initSign = {
+  axios: false,
+  message:''
+}
+
 export const initGlobal = {
   userInfo: {
     account: "",

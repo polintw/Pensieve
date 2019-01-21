@@ -1,7 +1,7 @@
 exports._handler_err_BadReq = function(err, res){
   let resData = {};
   resData['error'] = 1;
-  resData['message'] = 'Error Occured: '+err;
+  resData['message'] = 'Unvalid request!';
   console.log('BadReq Error: '+err);
   res.status(400).json(resData);
  }
@@ -17,7 +17,7 @@ exports._handler_err_NotFound = function(err, res){
   console.log("resHandler: not found, "+ err)
   let resData = {};
   resData['error'] = 1;
-  resData['message'] = 'Page not found!';
+  resData['message'] = err.length>0? err : 'Page not found!';
   res.status(404).json(resData);
 }
 
@@ -26,4 +26,12 @@ exports._handler_err_Internal = function(err, res){
   resData['error'] = 1;
   resData['message'] = 'Error Occured: Internal Server Error';
   res.status(500).json(resData);
+}
+
+exports._handler_ErrorRes = function(errSet, res){
+  let resData = {
+    "message": errSet.message,
+    "console": errSet.console
+  };
+  res.status(errSet.status).json(resData);
 }

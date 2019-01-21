@@ -16,18 +16,22 @@ app.engine('jsx', require('express-react-views').createEngine({transformViews: f
 app.enable("trust proxy"); //for rateLimit, due to behind a reverse proxy(nginx)
 const limiter = rateLimit({
   windowMs: 10 * 60 * 1000, // 10 minutes
-  max: 200, // limit each IP to 100 requests per windowMs
-  message:
-    "Too many request from this IP, please try again later",
+  max: 600, // limit each IP to 100 requests per windowMs
+  message:{
+    'message': {'warning': "Too many request from this IP, please try again later"},
+    'console': ''
+  },
   onLimitReached: function(req, res){
     console.log('WARN: too many request '+req.ip)
   }
 });
 const loginLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
+  windowMs: 10 * 60 * 1000,
   max: 5,
-  message:
-    "Login failed too many time or wierd behavior from this IP, please try again after 15 min.",
+  message:{
+    'message': {'warning': "Login failed too many time or wierd behavior from this IP, please try again after 15 min."},
+    'console': ''
+  },
   onLimitReached: function(req, res){
     console.log('WARN: login exceeded from '+req.ip)
   }
@@ -77,13 +81,13 @@ app.use('/user', function(req, res){
   });
 })
 
-app.use('/login', function(req, res){
+app.use('/s', function(req, res){
   console.log("requesting for page: "+req.url);
   //fail to use serverrender aafter update to react v16.2.0 due to: "<>" not support in nodejs
   //const element = React.createElement(require('./initHTML.jsx'));
   //ReactDOMServer.renderToNodeStream(element).pipe(res);
 
-  res.sendFile(path.join(__dirname+'/public/html/html_Login.html'), {headers: {'Content-Type': 'text/html'}}, function (err) {
+  res.sendFile(path.join(__dirname+'/public/html/html_Sign.html'), {headers: {'Content-Type': 'text/html'}}, function (err) {
     if (err) {
       throw err
     }

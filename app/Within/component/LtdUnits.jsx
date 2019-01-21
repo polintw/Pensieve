@@ -82,7 +82,10 @@ class LtdUnits extends React.Component {
       } else {
         self.setState({axios: false});
         let customSwitch = (status)=>{
-          return null
+          if(status == 401){
+            window.location.assign('/s/signin');
+          }
+          return null;
         };
         errHandler_axiosCatch(thrown, customSwitch);
       }
