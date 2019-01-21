@@ -39,7 +39,7 @@ const _DB_users = sequelize.define('users', {
 })
 
 const _DB_users_apply = sequelize.define('users_apply', {
-  id_user: Sequelize.INTEGER,
+  id_user: {type: Sequelize.INTEGER, unique: true},
   status: Sequelize.TEXT('tiny'),
   created: Sequelize.DATE,
   token_email: Sequelize.STRING(1023)

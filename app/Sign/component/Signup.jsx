@@ -91,8 +91,8 @@ class Signup extends React.Component {
       <div
         style={this.style.Signup_}>
         <Switch>
-          <Route path="/success" render={(props)=> <SignupSuccess {...props}/>}/>
-          <Route path="/" render={(props)=> <SignupForm {...props}/>}/>
+          <Route path={this.props.match.path+"/success"} render={(props)=> <SignupSuccess {...props}/>}/>
+          <Route path={this.props.match.path+"/"} render={(props)=> <SignupForm {...props}/>}/>
         </Switch>
       </div>
     )

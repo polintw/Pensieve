@@ -8,25 +8,29 @@ this is a web application project initiated & own by Chou Po Lin since May. 2018
 - master: the current Lite version(stable) running on the server
 - develope: the main trunk of the whole project(ahead to master quite long)
 - release: a 'temp' branch emerge when we need to 'cut' and 'deploy' a new version. Merge to the master in the end, not to the develope.
-- feature: a 'temp' branch emerge during development. Merge to the develope in the end, not to the master.
+- [feature]: a 'temp' branch emerge during development. Merge to the develope in the end, not to the master.
 
 ## Initiation: Lite
 
 version "Lite" is the version released to the public of this project.
 
 
-Prepare
-- 更改位置: 從config/path
+#### Prepare
+config:
+- production databse connection_key
+- production jwt verification
+- production img server path
     - FirsttoSrc: auth/register.js、img/requisition.js
     - SecondtoSrc: shareds/sharedsPOST.js
-- 更改資料庫連線資訊
-- 檢查現存資料庫相容性
-  - 現有資料庫table以及col項目
+- production services key
+- others:
+    - email verification api
 
-Production
+
+#### Production
 - [React for production](https://reactjs.org/docs/optimizing-performance.html#use-the-production-build)環境建議標準
 
-Modified Records
+#### Modified Records
 - src/units/vanilla.js 刪除"inspired"相關
 
 - app/               modified f()"refer"
