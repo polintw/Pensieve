@@ -23,16 +23,26 @@ class Screen extends React.Component {
         position: 'absolute',
         top: '0',
         left: '0',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        backgroundColor: 'rgb(211, 222, 218)'
+      },
+      terraceCom_Screen_plane_: {
+        width: '74%',
+        height: '58%',
+        position: 'absolute',
+        top: '0',
+        right: '0',
+        boxSizing: 'border-box',
+        backgroundColor: '#FAFAFA'
       },
       terraceCom_Screen_account_: {
-        maxWidth: '27%',
+        maxWidth: '40%',
         position: 'absolute',
-        top: '26%',
-        left: '42%',
+        top: '27%',
+        left: '22%',
         transform: 'translate(-50%,0)',
-        fontSize: "3.6rem",
-        letterSpacing: '0.48rem',
+        fontSize: "3.5rem",
+        letterSpacing: '0.5rem',
         fontWeight: '400',
         color: '#222222'
       },
@@ -43,10 +53,10 @@ class Screen extends React.Component {
         marginBottom: '1.5rem'
       },
       terraceCom_Screen_options_: {
-        height: '56%',
+        height: '70%',
         position: 'absolute',
-        top: '32%',
-        right: '24%',
+        top: '38%',
+        right: '34%',
         boxSizing: 'border-box'
       },
       terraceCom_Screen_options_expand: {
@@ -55,9 +65,10 @@ class Screen extends React.Component {
         top: '0%',
         right: '5%',
         boxSizing: 'border-box',
+        fontWeight: '300',
         fontSize: "2.4rem",
-        letterSpacing: '0.15rem',
-        color: '#222222',
+        letterSpacing: '0.1rem',
+        color: 'rgb(56, 56, 56, 0.8)',
         cursor: 'pointer'
       },
       terraceCom_Screen_options_information_: {
@@ -82,8 +93,8 @@ class Screen extends React.Component {
         height: '9%',
         minHeight: '56px',
         position: 'absolute',
-        bottom: '9%',
-        left: '28%',
+        bottom: '10%',
+        left: '20%',
         boxSizing: 'border-box'
       },
       terraceCom_Screen_return_svg: {
@@ -134,43 +145,47 @@ class Screen extends React.Component {
           ref={(element)=>{this.terrace_pagenav=element;}}
           style={this.style.terraceCom_Screen_}
           onWheel={this._handleMouse_terraceFrame}>
-          <div style={this.style.terraceCom_Screen_account_}>
-            <span style={this.style.terraceCom_Screen_account_name}>{this.props.userInfo.firstName}</span>
-            <span style={this.style.terraceCom_Screen_account_name}>{this.props.userInfo.lastName}</span>
+          <div
+            style={this.style.terraceCom_Screen_plane_}>
+            <div style={this.style.terraceCom_Screen_account_}>
+              <span style={this.style.terraceCom_Screen_account_name}>{this.props.userInfo.firstName}</span>
+              <span style={this.style.terraceCom_Screen_account_name}>{this.props.userInfo.lastName}</span>
+            </div>
+            <div
+              style={this.style.terraceCom_Screen_options_}>
+              <div
+                style={this.style.terraceCom_Screen_options_expand}
+                onClick={this._handleClick_nav_expand}>
+                {'Expand'}
+              </div>
+              <div
+                style={this.style.terraceCom_Screen_options_information_}>
+                <svg
+                  style={this.style.terraceCom_Screen_options_information_svg}>
+                  <text x="50%" y="50%" textAnchor="middle" stroke="#999999" strokeWidth="1.2px" fontSize='3vh'>{" switch "}</text>
+                  <circle r="2vh" cx="50%" cy="50%" stroke='#999999' fill="transparent" style={{cursor: 'pointer'}}/>
+                </svg>
+              </div>
+              <div
+                style={this.style.terraceCom_Screen_options_information_}>
+                <svg
+                  style={this.style.terraceCom_Screen_options_information_svg}>
+                  <text x="50%" y="50%" textAnchor="middle" stroke="#999999" strokeWidth="1.2px" fontSize='3vh'>{" growth "}</text>
+                  <circle r="2vh" cx="50%" cy="50%" stroke='#999999' fill="transparent" style={{cursor: 'pointer'}}/>
+                </svg>
+              </div>
+            </div>
           </div>
           <div
-            style={this.style.terraceCom_Screen_options_}>
-            <div
-              style={this.style.terraceCom_Screen_options_expand}
-              onClick={this._handleClick_nav_expand}>
-              {'Expand'}
-            </div>
-            <div
-              style={this.style.terraceCom_Screen_options_information_}>
-              <svg
-                style={this.style.terraceCom_Screen_options_information_svg}>
-                <text x="50%" y="50%" textAnchor="middle" stroke="#999999" strokeWidth="1.2px" fontSize='3vh'>{" switch "}</text>
-                <circle r="2vh" cx="50%" cy="50%" stroke='#999999' fill="transparent" style={{cursor: 'pointer'}}/>
-              </svg>
-            </div>
-            <div
-              style={this.style.terraceCom_Screen_options_information_}>
-              <svg
-                style={this.style.terraceCom_Screen_options_information_svg}>
-                <text x="50%" y="50%" textAnchor="middle" stroke="#999999" strokeWidth="1.2px" fontSize='3vh'>{" growth "}</text>
-                <circle r="2vh" cx="50%" cy="50%" stroke='#999999' fill="transparent" style={{cursor: 'pointer'}}/>
-              </svg>
-            </div>
-          </div>
-          <div
-            style={this.style.terraceCom_Screen_return_}>
+            style={this.style.terraceCom_Screen_return_}
+            onClick={this._handleClick_selfClose}>
             <div style={this.style.terraceCom_Screen_return_logo}>
               {'CORNER'}
             </div>
             <svg
               style={this.style.terraceCom_Screen_return_svg}>
               <text x="50%" y="50%" textAnchor="middle" stroke="#999999" strokeWidth="1.2px" fontSize='3vh'>{" x "}</text>
-              <circle r="2vh" cx="50%" cy="50%" stroke='#999999' fill="transparent" style={{cursor: 'pointer'}} onClick={this._handleClick_selfClose}/>
+              <circle r="2vh" cx="50%" cy="50%" stroke='#999999' fill="transparent" style={{cursor: 'pointer'}}/>
             </svg>
           </div>
         </div>
