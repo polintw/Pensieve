@@ -1,5 +1,8 @@
 const nodemailer = require("nodemailer");
-const {smtpAccount} = require('../../../config/services.js');
+const {
+  smtpAccount,
+  domain
+} = require('../../../config/services.js');
 
 const _render_HtmlBody = (token)=>{
   return (
@@ -8,7 +11,7 @@ const _render_HtmlBody = (token)=>{
       '<div>'+
         '<p>Welcome to Corner as your new horizon.</p>'+
         '<p>Please click </p>'+
-        '<a href="http://localhost:8080/router/register/confirm?token='+token+'">Verify!</a>'+
+        '<a href="http://'+domain.name+'/router/register/confirm?token='+token+'">Verify!</a>'+
         '<p> to complete email verification!</p>'+
         '<p>then, enjoy your adventure.</p>'+
       '</div>'+

@@ -66,7 +66,6 @@ login.use(function(req, res) {
           }
         }).then(()=>{
           let resData = {};
-console.log(verified.password)
           bcrypt.compare(password, verified.password).then(isMatch => {
             if(isMatch) {
                 const payload = {

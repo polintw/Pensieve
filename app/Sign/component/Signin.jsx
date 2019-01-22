@@ -76,7 +76,7 @@ class Signin extends React.Component {
               name="email"
               ref={(element)=>{this.emailInput = element}}/><br/>
               {
-                message.password &&
+                message.email &&
                 <div>{message.email}</div>
               }
             {'password:'}<br/>

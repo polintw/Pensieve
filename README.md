@@ -24,7 +24,7 @@ config:
     - SecondtoSrc: shareds/sharedsPOST.js
 - production services key
 - others:
-    - email verification api
+    - domain name
 
 
 #### Production
