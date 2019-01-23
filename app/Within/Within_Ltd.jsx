@@ -69,12 +69,11 @@ class WithinLtd extends React.Component {
         boxSizing: 'border-box'
       },
       Within_Ltd_scroll_EntryCall: {
-        width: '64%',
-        height: '21%',
+        width: '76%',
+        height: '15vh',
         position: 'fixed',
-        top: '5%',
-        left: '50%',
-        transform: 'translate(-50%, 0)'
+        top: '9%',
+        left: '15%'
       },
       Within_Ltd_scroll_LtdUnits: {
         width: '74%',

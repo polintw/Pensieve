@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import CreateShare from '../../Component/CreateShare.jsx';
-import SvgCreate from '../../Component/SvgCreate.jsx';
+import SvgCreateCoral from '../../Component/SvgCreateCoral.jsx';
 
 class EntryCall extends React.Component {
   constructor(props){
@@ -16,63 +16,58 @@ class EntryCall extends React.Component {
     this.style={
       withinCom_EntryCall_: {
         width: '100%',
-        height: '80%',
+        height: '100%',
         position: 'absolute',
-        top: '50%',
-        left: '0',
-        transform: 'translate(0, -50%)'
+        top: '0%',
+        left: '0'
       },
       withinCom_EntryCall_CreateShare_: {
-        width: '30%',
-        height: '36%',
+        width: '28%',
+        height: '47%',
         position: 'absolute',
-        bottom: '0',
-        right: '0',
+        top: '50%',
+        left: '42%',
+        transform: 'translate(0,-50%)',
         boxSizing: 'border-box'
       },
       withinCom_EntryCall_Info_: {
-        width: '40%',
-        height: '30%',
+        width: '28%',
         position: 'absolute',
-        bottom: '0',
-        left: '0',
+        top: '50%',
+        right: '0',
         boxSizing: 'border-box',
       },
       withinCom_EntryCall_Info_Date_: {
-        width: '100%',
-        height: '100%',
+        position: 'absolute',
+        top: '0%',
+        left: '15%',
         boxSizing: 'border-box',
-        padding: '1% 0',
-        fontSize: '2.2rem',
-        letterSpacing: '0.2rem',
-        fontWeight: '400',
-        textAlign: 'left',
+        fontSize: '1vh',
+        letterSpacing: '0.125vh',
+        fontWeight: '300',
         color: '#222222'
       },
-      withinCom_EntryCall_logo_: {
-        display: 'inline-block',
+      withinCom_EntryCall_Info_User_: {
         position: 'absolute',
-        top:'40%',
+        bottom:'0%',
+        left: '12%',
+        boxSizing: 'border-box',
+        fontWeight: '300',
+        fontSize: '2.8vh',
+        letterSpacing: '0.24vh',
+        cursor: 'pointer'
+      },
+      withinCom_EntryCall_logo_: {
+        position: 'absolute',
+        top:'46%',
         left: '0%',
         transform: 'translate(0, -50%)',
         boxSizing: 'border-box',
-        fontSize: '3rem',
+        padding: '0 2%',
         fontWeight: '700',
-        letterSpacing: '0.5rem'
-      },
-      withinCom_EntryCall_div_User_: {
-        display: 'inline-block',
-        width: '40%',
-        height: '40%',
-        position: 'absolute',
-        top:'40%',
-        left: '60%',
-        transform: 'translate(0, -50%)',
-        boxSizing: 'border-box',
-        fontSize: '2.2rem',
-        fontWeight: '400',
-        letterSpacing: '0.2rem',
-        textAlign: 'center'
+        fontSize: '9vh',
+        letterSpacing: '1vh',
+        cursor: 'pointer'
       }
     }
   }
@@ -97,14 +92,6 @@ class EntryCall extends React.Component {
           {"CORNER"}
         </div>
         <div
-          style={this.style.withinCom_EntryCall_div_User_}>
-          <div
-            style={{width: '100%', position: 'absolute', top: '50%', transform: 'translate(0, -50%)', cursor: 'pointer'}}
-            onClick={this._handleClick_selfEntrance}>
-            {this.props.userInfo.account}
-          </div>
-        </div>
-        <div
           style={this.style.withinCom_EntryCall_Info_}>
           <div
             style={this.style.withinCom_EntryCall_Info_Date_}>
@@ -112,10 +99,15 @@ class EntryCall extends React.Component {
             <span>{this.dateObj.getDate()+' ﹒'}</span>
             <span>{this.dateObj.getFullYear()}</span>
           </div>
+          <div
+            style={this.style.withinCom_EntryCall_Info_User_}
+            onClick={this._handleClick_selfEntrance}>
+            {this.props.userInfo.account}
+          </div>
         </div>
         <div
           style={this.style.withinCom_EntryCall_CreateShare_}>
-          <SvgCreate/>
+          <SvgCreateCoral/>
           <CreateShare
             _submit_Share_New={this._submit_Share_New}
             _refer_von_Create={this.props._refer_leavevonLtd}/>
