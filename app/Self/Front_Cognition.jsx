@@ -63,19 +63,19 @@ class FrontCognition extends React.Component {
       },
       Front_Cognition_NavFront_: {
         width: '7%',
-        height: '7%',
         position: 'fixed',
-        bottom: '15%',
+        bottom: '32%',
         left: '3%',
         boxSizing: 'border-box',
       },
       Front_Cognition_NavsCognition_:{
-        width: '85%',
-        height: '7%',
+        width: '100%',
+        height: '5%',
         position: 'fixed',
         bottom: '0',
-        left: '9%',
+        left: '0%',
         boxSizing: 'border-box',
+        backgroundColor: '#d3deda'
       }
     }
   }

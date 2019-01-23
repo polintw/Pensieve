@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import CreateShare from '../../Component/CreateShare.jsx';
-import SvgCreate from '../../Component/SvgCreate.jsx';
+import SvgCreateCoral from '../../Component/SvgCreateCoral.jsx';
 import ModalBox from '../../Component/ModalBox.jsx';
 
 class LtdNav extends React.Component {
@@ -106,7 +106,7 @@ class LtdNav extends React.Component {
         style={this.style.withinCom_LtdNav_}>
         <div
           style={this.style.withinCom_LtdNav_logo_}>
-          <SvgCreate/>
+          <SvgCreateCoral/>
           <CreateShare
             _submit_Share_New={this._submit_Share_New}
             _refer_von_Create={this.props._refer_leavevonLtd}/>

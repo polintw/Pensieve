@@ -105,7 +105,9 @@ class FrontProfile extends React.Component {
           <Route path={this.props.match.path+"/sheet"} render={(props)=> <Sheet {...props}/>}/>
         </div>
         <div style={this.style.Front_Profile_backPlane_top}></div>
-        <div style={this.style.Front_Profile_backPlane_bottom}></div>
+        <div style={this.style.Front_Profile_backPlane_bottom}>
+          <div style={{width: '12%', height: '100%', position: 'absolute', bottom: '0', right: '0', boxSizing: 'border-box', backgroundColor: '#d3deda'}}></div>
+        </div>
       </div>
     )
   }

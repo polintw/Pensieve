@@ -8,7 +8,7 @@ import {connect} from "react-redux";
 import Threads from './Threads.jsx';
 import CreateShare from '../../Component/CreateShare.jsx';
 import Unit from '../../Component/Unit.jsx';
-import SvgCreate from '../../Component/SvgCreate.jsx';
+import SvgCreateCoral from '../../Component/SvgCreateCoral.jsx';
 import NailShared from '../../Component/Nails/NailShared.jsx';
 //ModalBox used some unstable method, considering updating some day.
 import ModalBox from '../../Component/ModalBox.jsx';
@@ -40,16 +40,15 @@ class Shared extends React.Component {
         height: '11vh',
         position: 'relative',
         boxSizing: 'border-box',
-        padding: '2vh 0',
-        margin: '2vh 0'
+        marginBottom: '4vh'
       },
       selfCom_Shared_top_CreateShare_: {
         display: 'inline-block',
-        width: '18%',
+        width: '27%',
         height: '100%',
         position: 'relative',
         boxSizing: 'border-box',
-        margin: '0 4%',
+        marginRight: '4%',
         float: 'right'
       },
       selfCom_Shared_nails_: {
@@ -135,7 +134,7 @@ class Shared extends React.Component {
           style={this.style.selfCom_Shared_top_}>
           <div
             style={this.style.selfCom_Shared_top_CreateShare_}>
-            <SvgCreate/>
+            <SvgCreateCoral/>
             <CreateShare
               _submit_Share_New={this._submit_Share_New}
               _refer_von_Create={this.props._refer_leaveSelf}/>

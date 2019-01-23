@@ -21,7 +21,7 @@ export default class CogActions extends React.Component {
       },
       selfCom_CogActions_title_: {
         display: 'inline-block',
-        width: '72%',
+        width: '97%',
         position: 'relative',
         float: 'left'
       },
