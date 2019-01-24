@@ -79,7 +79,11 @@ function _handle_auth_register_POST(req, res) {
         email: req.body.email,
         password: req.body.password,
         first_name: req.body.firstName,
-        last_name: req.body.lastName
+        last_name: req.body.lastName,
+        gender: req.body.gender,
+        birthYear: req.body.birthYear,
+        birthMonth: req.body.birthMonth,
+        birthDate: req.body.birthDate
       };
       return newUser;
     }
@@ -126,7 +130,7 @@ function _handle_auth_register_POST(req, res) {
           });
         }).then((hash)=>{
           let pinsertNewVerifi = Promise.resolve(_insert_basic({table: 'verifications', col: '(id_user, email, password)'}, [[userId, newUser.email, hash]]).catch((errObj)=>{throw errObj})),
-              pinsertNewSheet = Promise.resolve(_insert_basic({table: 'sheets', col: '(id_user)'}, [[userId]]).catch((errObj)=>{throw errObj})),
+              pinsertNewSheet = Promise.resolve(_insert_basic({table: 'sheets', col: '(id_user, gender, birthYear, birthMonth, birthDate)'}, [[userId, newUser.gender, newUser.birthYear, newUser.birthMonth, newUser.birthDate]]).catch((errObj)=>{throw errObj})),
               pinsertEmailToken = Promise.resolve(_insert_basic({table: 'users_apply', col: '(id_user, token_email, status)'}, [[userId, tokenEmail, 'unverified']]).catch((errObj)=>{throw errObj})),
               pcreateImgFolder = Promise.resolve(_create_new_ImgFolder(userId).catch((errObj)=>{throw errObj}));
 

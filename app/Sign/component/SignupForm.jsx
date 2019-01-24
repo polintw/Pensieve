@@ -23,9 +23,14 @@ class SignupForm extends React.Component {
       email: '',
       password: '',
       password_confirm: '',
+      gender: null,
+      birthYear: '2019',
+      birthMonth: '1',
+      birthDate: '24',
       success: false
     };
     this.axiosSource = axios.CancelToken.source();
+    this._render_BirthOptions = this._render_BirthOptions.bind(this);
     this._handle_Signup = this._handle_Signup.bind(this);
     this._handleChange_Input = this._handleChange_Input.bind(this);
     this.style={
@@ -50,6 +55,10 @@ class SignupForm extends React.Component {
       'lastName': this.state.lastName,
       'password': this.state.password,
       'password_confirm': this.state.password_confirm,
+      'gender': this.state.gender,
+      'birthYear': this.state.birthYear,
+      'birthMonth': this.state.birthMonth,
+      'birthDate': this.state.birthDate
     };
     this.props._set_axiosStatus(true);
     axios.post('/router/register', reqBody, {
@@ -65,6 +74,18 @@ class SignupForm extends React.Component {
         self.props._set_axiosRes({axiosStatus: false, message: thrown.response.data.message});
       }
     });
+  }
+
+  _render_BirthOptions(max, min){
+    let options = [];
+    for( let i = min?min:1 ; i < max+1 ; i++){
+      options.push(
+        <option
+          key={"key_signup_birthoptions_"+max+"_"+i}
+          value={i}>{i}</option>
+        );
+    }
+    return options;
   }
 
   _handleChange_Input(event) {
@@ -87,6 +108,8 @@ class SignupForm extends React.Component {
   render(){
     //let cx = cxBind.bind(styles);
     if(this.state.success){return <Redirect to={'/signup/success'}/>}
+    let d = new Date();
+    let currY = d.getFullYear();
 
     const message = this.props.message;
     return(
@@ -158,6 +181,32 @@ class SignupForm extends React.Component {
               message.password_confirm &&
               <div>{message.password_confirm}</div>
             }
+            <div>
+              <input
+                type="radio"
+                name="gender"
+                value= {"1"}
+                checked={this.state.gender === "1"}
+                onChange={this._handleChange_Input}/> Male
+              <input
+                type="radio"
+                name="gender"
+                value= {"0"}
+                checked={this.state.gender === "0"}
+                onChange={this._handleChange_Input}/> Female
+            </div>
+            <div>
+              <p>{"生日"}</p>
+              <select name="birthYear" onChange={this._handleChange_Input} value={this.state.birthYear}>
+                {this._render_BirthOptions(currY, currY-90)}
+              </select>
+              <select name="birthMonth" onChange={this._handleChange_Input} value={this.state.birthMonth}>
+                {this._render_BirthOptions(12)}
+              </select>
+              <select name="birthDate" onChange={this._handleChange_Input} value={this.state.birthDate}>
+                {this._render_BirthOptions(31)}
+              </select>
+            </div>
             {
                 message.warning &&
                 <div>{message.warning}</div>

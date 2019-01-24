@@ -87,6 +87,15 @@ const _DB_attribution = sequelize.define('attribution', {
   established: Sequelize.DATE
 })
 
+const _DB_sheets = sequelize.define('sheets', {
+  id_user: {type: Sequelize.INTEGER, unique: true},
+  gender: Sequelize.INTEGER,
+  birthYear: Sequelize.STRING(7),
+  birthMonth: Sequelize.STRING(7),
+  birthDate: Sequelize.STRING(7),
+  residence: Sequelize.STRING(127)
+})
+
 sequelize.sync({
   force: false //force true would drop the existed table
 }).then(()=>{
@@ -95,6 +104,7 @@ sequelize.sync({
   _DB_users_apply.removeAttribute('id');
   _DB_verifications.removeAttribute('id');
   _DB_attribution.removeAttribute('id');
+  _DB_sheets.removeAttribute('id');
   console.log('Sequelize: complete sync to database');
 }).catch(error=>{
   console.error('Sequelize: error when initation: '+ error);
@@ -107,5 +117,6 @@ module.exports = {
     _DB_units: _DB_units,
     _DB_marks: _DB_marks,
     _DB_nouns: _DB_nouns,
+    _DB_sheets: _DB_sheets,
     _DB_attribution: _DB_attribution
 }
