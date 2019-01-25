@@ -16,7 +16,10 @@ export const initGlobal = {
 export const initSelfFrontGeneral = {
   userSheet: {
     ify: false,
-    gender: ""
+    gender: "",
+    birthYear: "",
+    birthMonth:"",
+    birthDate: ""
   }
 }
 

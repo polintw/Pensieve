@@ -24,7 +24,7 @@ class SignupForm extends React.Component {
       password: '',
       password_confirm: '',
       gender: null,
-      birthYear: '2019',
+      birthYear: '1999',
       birthMonth: '1',
       birthDate: '24',
       success: false
@@ -89,6 +89,7 @@ class SignupForm extends React.Component {
   }
 
   _handleChange_Input(event) {
+    //the value of event target would convert into String, no matter what type in original options/inputs
     this.setState({
         [event.target.name]: event.target.value
     })
@@ -127,16 +128,16 @@ class SignupForm extends React.Component {
                 name="firstName"
                 onChange={ this._handleChange_Input }
                 value={ this.state.firstName }
-                />
+                required/>
             </div>
             <div>
                 <input
                 type="text"
-                placeholder="last Name"
+                placeholder="Family Name"
                 name="lastName"
                 onChange={ this._handleChange_Input }
                 value={ this.state.lastName}
-                />
+                required/>
             </div>
             {
               message.account &&
@@ -149,7 +150,7 @@ class SignupForm extends React.Component {
                 name="email"
                 onChange={ this._handleChange_Input }
                 value={ this.state.email }
-                />
+                required/>
             </div>
             {
               message.email &&
@@ -162,7 +163,7 @@ class SignupForm extends React.Component {
                 name="password"
                 onChange={ this._handleChange_Input }
                 value={ this.state.password }
-                />
+                required/>
             </div>
             {
               message.password &&
@@ -175,7 +176,7 @@ class SignupForm extends React.Component {
                 name="password_confirm"
                 onChange={ this._handleChange_Input }
                 value={ this.state.password_confirm }
-                />
+                required/>
             </div>
             {
               message.password_confirm &&
@@ -187,7 +188,8 @@ class SignupForm extends React.Component {
                 name="gender"
                 value= {"1"}
                 checked={this.state.gender === "1"}
-                onChange={this._handleChange_Input}/> Male
+                onChange={this._handleChange_Input}
+                required/> Male
               <input
                 type="radio"
                 name="gender"

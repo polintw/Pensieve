@@ -55,64 +55,173 @@ class Basic extends React.Component {
 
   _render_Gender(dbRecords){
     switch (dbRecords) {
-      case 0:
-        return (<span>{"生理女"}</span>)
+      case "0":
+        return (<span>{"Female"}</span>)
         break;
-      case 1:
-        return (<span>{"生理男"}</span>)
+      case "1":
+        return (<span>{"Male"}</span>)
         break;
       default:
-        return (<Link to="/profile/sheet?status=editting">{"+ 新增性別資訊"}</Link>)
+        return (<span>{"no gender record"}</span>)
     }
   }
 
   render(){
     //let cx = cxBind.bind(styles);
-    let params = new URLSearchParams(this.props.location.search); //we need value in URL query
-    let queryStatus = params.get('status'), statusEditting;
-    if(queryStatus == 'editting')statusEditting = true;
+    const sheetRec = this.props.userSheet;
 
     return(
       <div
         style={this.style.selfCom_Sheet_Basic_}>
-          {
-            statusEditting?(
-              <form onSubmit={this._handle_sheetBasic}>
-                <div>
-                  <span>{"性別 : "}</span>
-                  <select
-                    name="gender"
-                    ref={(element)=>{this.genderSelect = element}}>
-                    <option value={0}>{"生理女"}</option>
-                    <option value={1}>{"生理男"}</option>
-                  </select>
-                </div>
-                <input
-                  type="submit"
-                  value="save"/>
-                <Link
-                  to="/profile/sheet" replace>
-                {"cancel"}</Link>
-              </form>
-            ):(
-              <div>
-                <div>
-                  <span>{"性別 : "}</span>
-                  {this._render_Gender(this.props.userSheet.gender)}
-                </div>
-                <div>
-                  <Link
-                    to="/profile/sheet?status=editting">
-                    {" edit "}</Link>
-                </div>
-              </div>
-            )
-          }
+        <div>
+          <div>
+            <span>{"gender : "}</span>
+            {this._render_Gender(sheetRec.gender)}
+          </div>
+          <div>
+            <span>{"birthday : "}</span>
+            {
+              (sheetRec.birthDate && sheetRec.birthYear && sheetRec.birthMonth)?(
+                <p>
+                  <span>{this.props.userSheet.birthDate + ". "}</span>
+                  <span>{this.props.userSheet.birthMonth + ". "}</span>
+                  <span>{this.props.userSheet.birthYear}</span>
+                </p>
+              ):(
+                <span>{"no birthday record"}</span>
+              )
+            }
+          </div>
+        </div>
       </div>
     )
   }
 }
 
+class SettingPassword extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      greenlight: false,
+      warning: false,
+      passNew: '',
+      passConfirm: ''
+    };
+    this._handle_settingPassword = this._handle_settingPassword.bind(this);
+    this._handleChange_passCheck = this._handleChange_passCheck.bind(this);
+    this.style={
+      selfCom_Setting_: {
+        width: '42%',
+        height: '80%',
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        boxSizing: 'border-box',
+        borderRadius: '0.5rem',
+        backgroundColor: '#FAFAFA'
+      }
+    }
+  }
+
+  _handle_settingPassword(event){
+    event.preventDefault();
+    const self = this;
+    if(this.state.greenlight){
+      let reqBody = {};
+      reqBody["passOld"] = this.passOld.value;
+      reqBody["passNew"] = this.state.passNew;
+      this.setState({axios: true});
+      axios.patch('/router/account/password', reqBody, {
+        headers: {'charset': 'utf-8'}
+      }).then(function (res) {
+        self.setState({
+          axios: false
+        });
+        window.location.assign('/user/profile/sheet');
+      }).catch(function (thrown) {
+        if (axios.isCancel(thrown)) {
+          console.log('Request canceled: ', thrown.message);
+        } else {
+          self.setState({axios: false});
+          let customSwitch = (status)=>{
+            return null;
+          };
+          errHandler_axiosCatch(thrown, customSwitch);
+        }
+      });
+    }else{
+      this.setState({warning: true});
+    }
+  }
+
+  _handleChange_passCheck(){
+    let signal;
+    this.setState({
+      passNew: this.passNew.value,
+      passConfirm: this.passConfirm.value
+    },()=>{
+      if (this.state.passConfirm.length > 0) {
+        signal = this.state.passNew == this.state.passConfirm ? true : false;
+        this.setState({
+          greenlight: signal? true : false,
+          warning: signal? false : true
+        })
+      }
+    })
+  }
+
+  render(){
+    //let cx = cxBind.bind(styles);
+    return(
+      <div
+        style={this.style.selfCom_Setting_}>
+        <form onSubmit={this._handle_settingPassword}>
+          <span>{'change password'}</span><br/>
+          <span>{"current password: "}</span><br/>
+            <input
+              type="password"
+              ref={(element)=>{this.passOld = element}}
+              required/><br/>
+            <span>{"new password: "}</span><br/>
+            <input
+              type="password"
+              ref={(element)=>{this.passNew = element}}
+              onChange={this._handleChange_passCheck}
+              required/><br/>
+            {
+              this.state.greenlight &&
+              <span>{" 密碼已確認"}</span>
+            }
+            <span>{"confirm new password"}</span><br/>
+            <input
+              type="password"
+              ref={(element)=>{this.passConfirm = element}}
+              onChange={this._handleChange_passCheck}
+              required/><br/>
+            {
+              this.state.greenlight &&
+              <span>{" 密碼已確認"}</span>
+            }
+            {
+              this.state.warning &&
+              <span>{" 請輸入相同密碼"}</span>
+            }
+            <input
+              type='submit'
+              value='submit'/>
+            <Link
+              to="/profile/sheet"
+              style={this.style.selfCom_Setting_pass}>
+              <input
+                type='button'
+                value='cancel'/>
+            </Link>
+        </form>
+      </div>
+    )
+  }
+}
 
 class AccountatSheet extends React.Component {
 //this part is more like a temporary stay in this file, would moving to a independent 'setting page' someday.
@@ -159,6 +268,15 @@ class AccountatSheet extends React.Component {
         fontSize: '1.2rem',
         letterSpacing: '0.15rem',
         fontWeight: '400'
+      },
+      selfCom_Setting_pass: {
+        width: '100%',
+        height: '12%',
+        position: 'relative',
+        boxSizing: 'border-box',
+        fontSize: '1.5rem',
+        letterSpacing: '0.15rem',
+        fontWeight: '400'
       }
     }
   }
@@ -181,156 +299,16 @@ class AccountatSheet extends React.Component {
           <span>{this.props.accountSet.mail}</span>
         </div>
         <Link
+          to="/profile/sheet?status=password"
+          style={this.style.selfCom_Setting_pass}>
+          <input
+            type="button"
+            value=" change password "/>
+        </Link>
+        <Link
           to="/profile/sheet?status=setting"
           style={this.style.selfCom_Setting_link}>
           {" reset "}</Link>
-      </div>
-    )
-  }
-}
-
-class SettingPassword extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      expandify: false,
-      greenlight: false,
-      warning: false,
-      passNew: '',
-      passConfirm: ''
-    };
-    this._handle_settingPassword = this._handle_settingPassword.bind(this);
-    this._handleClick_passwordChange = this._handleClick_passwordChange.bind(this);
-    this._handleChange_passCheck = this._handleChange_passCheck.bind(this);
-    this.style={
-      selfCom_Setting_: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0%',
-        left: '0%'
-      },
-      selfCom_Setting_password_modal: {
-        width: '42%',
-        height: '80%',
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        boxSizing: 'border-box',
-        borderRadius: '0.5rem',
-        backgroundColor: '#FAFAFA'
-      }
-    }
-  }
-
-  _handle_settingPassword(event){
-    event.preventDefault();
-    const self = this;
-    if(this.state.greenlight){
-      let reqBody = {};
-      reqBody["passOld"] = this.passOld.value;
-      reqBody["passNew"] = this.state.passNew;
-      this.setState({axios: true});
-      axios.patch('/router/account/setting', reqBody, {
-        headers: {'charset': 'utf-8'}
-      }).then(function (res) {
-        self.setState({
-          axios: false
-        });
-        window.location.assign('/user/profile/sheet');
-      }).catch(function (thrown) {
-        if (axios.isCancel(thrown)) {
-          console.log('Request canceled: ', thrown.message);
-        } else {
-          self.setState({axios: false});
-          let customSwitch = (status)=>{
-            return null;
-          };
-          errHandler_axiosCatch(thrown, customSwitch);
-        }
-      });
-    }else{
-      this.setState({warning: true});
-    }
-  }
-
-  _handleChange_passCheck(){
-    let signal;
-    this.setState({
-      passNew: this.passNew.value,
-      passConfirm: this.passConfirm.value
-    },()=>{
-      if (this.state.passConfirm.length > 0) {
-        signal = this.state.passNew == this.state.passConfirm ? true : false;
-        this.setState({
-          greenlight: signal? true : false,
-          warning: signal? false : true
-        })
-      }
-    })
-  }
-
-  _handleClick_passwordChange(event){
-    event.preventDefault();
-    event.stopPropagation();
-    this.setState({expandify: true});
-  }
-
-  render(){
-    //let cx = cxBind.bind(styles);
-    return(
-      <div
-        style={this.style.selfCom_Setting_}>
-        <input
-          type="button"
-          value=" change password "
-          onClick={this._handleClick_passwordChange}/>
-        {
-          this.state.expandify &&
-          <ModalBox containerId="root">
-            <ModalBackground onClose={()=>{}} style={{position: "fixed"}}>
-              <div
-                style={this.style.selfCom_Setting_password_modal}>
-                <form onSubmit={this._handle_settingPassword}>
-                  <span>{'請輸入'}</span><br/>
-                  <span>{"舊密碼: "}</span><br/>
-                    <input
-                      type="password"
-                      ref={(element)=>{this.passOld = element}}/><br/>
-                    <span>{"新密碼: "}</span><br/>
-                    <input
-                      type="password"
-                      ref={(element)=>{this.passNew = element}}
-                      onChange={this._handleChange_passCheck}/><br/>
-                    {
-                      this.state.greenlight &&
-                      <span>{" 密碼已確認"}</span>
-                    }
-                    <span>{"新密碼  再輸入一次: "}</span><br/>
-                    <input
-                      type="password"
-                      ref={(element)=>{this.passConfirm = element}}
-                      onChange={this._handleChange_passCheck}/><br/>
-                    {
-                      this.state.greenlight &&
-                      <span>{" 密碼已確認"}</span>
-                    }
-                    {
-                      this.state.warning &&
-                      <span>{" 請輸入相同密碼"}</span>
-                    }
-                    <input
-                      type='submit'
-                      value='確認更改'/>
-                    <input
-                      type='button'
-                      value='取 消'/>
-                </form>
-              </div>
-            </ModalBackground>
-          </ModalBox>
-        }
       </div>
     )
   }
@@ -360,15 +338,6 @@ class SettingAccount extends React.Component {
         selfCom_Setting_email_: {
           width: '100%',
           height: '24%',
-          position: 'relative',
-          boxSizing: 'border-box',
-          fontSize: '1.5rem',
-          letterSpacing: '0.15rem',
-          fontWeight: '400'
-        },
-        selfCom_Setting_pass: {
-          width: '100%',
-          height: '12%',
           position: 'relative',
           boxSizing: 'border-box',
           fontSize: '1.5rem',
@@ -426,26 +395,21 @@ class SettingAccount extends React.Component {
             <span>{this.props.accountSet.mail}</span>
             <span>{"a valid email adress could not be changed"}</span>
           </div>
-          <div
-            style={this.style.selfCom_Setting_pass}>
-            <span>{"password: "}</span>
-            <SettingPassword/>
-          </div>
           <form
             style={this.style.selfCom_Setting_accountForm}
             onSubmit={this._handle_settingAccount}>
             <div
               style={this.style.selfCom_Setting_nameBar_}>
-              <span>{"姓 : "}</span>
-              <input
-                type="text"
-                ref={(element)=>{this.accountLast = element}}
-                defaultValue={this.props.accountSet.lastName}/>
-              <span>{"名 : "}</span>
+              <span>{"last name : "}</span>
               <input
                 type="text"
                 ref={(element)=>{this.accountFirst = element}}
                 defaultValue={this.props.accountSet.firstName}/>
+              <span>{"Family name : "}</span>
+              <input
+                type="text"
+                ref={(element)=>{this.accountLast = element}}
+                defaultValue={this.props.accountSet.lastName}/>
             </div>
             <input
               type="submit"
@@ -478,5 +442,6 @@ const reduxConnection = connect(
 );
 
 export const SheetSetting = reduxConnection(SettingAccount);
+export const SheetPassword = reduxConnection(SettingPassword);
 export const SheetAccount = reduxConnection(AccountatSheet);
 export const SheetBasic = reduxConnection(Basic);

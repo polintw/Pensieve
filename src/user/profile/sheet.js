@@ -30,19 +30,22 @@ function _handle_user_profileSheet_GET(req, res){
       },
       selectCondition = {
         table: "sheets",
-        cols: ["gender"],
+        cols: ["gender", "birthYear", "birthMonth", "birthDate"],
         where: ["id_user"]
       };
       //first, selecting by accordancelist
       _select_Basic(selectCondition, mysqlForm.accordancesList).then((resultSheet)=>{
         if(resultSheet.length < 1){throw {status: 500, err: 'no this user in DB'}};
+        let sheetRec = resultSheet[0];
         let sendingData={
             sheetSet:{
-              gender: ''
+              gender: sheetRec.gender,
+              birthYear: sheetRec.birthYear,
+              birthMonth:sheetRec.birthMonth,
+              birthDate: sheetRec.birthDate
             },
           temp: {}
         };
-        sendingData.sheetSet.gender = resultSheet[0].gender;
         return sendingData;
       }).then((sendingData)=>{
         _res_success(res, sendingData, "Complete, GET: user profile/sheet.");

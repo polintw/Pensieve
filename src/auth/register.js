@@ -174,7 +174,7 @@ function _handle_auth_registerConfirm_GET(req, res){
       },
       conditionUser = {
         table: "users_apply",
-        cols: ["id_user, token_email,status"],
+        cols: ["id_user", "token_email","status"],
         where: ["id_user"]
       };
       _select_Basic(conditionUser, mysqlForm.accordancesList).then((rows)=>{
