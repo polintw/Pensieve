@@ -105,7 +105,8 @@ class SettingPassword extends React.Component {
       greenlight: false,
       warning: false,
       passNew: '',
-      passConfirm: ''
+      passConfirm: '',
+      message: {}
     };
     this._handle_settingPassword = this._handle_settingPassword.bind(this);
     this._handleChange_passCheck = this._handleChange_passCheck.bind(this);
@@ -129,8 +130,8 @@ class SettingPassword extends React.Component {
     const self = this;
     if(this.state.greenlight){
       let reqBody = {};
-      reqBody["passOld"] = this.passOld.value;
-      reqBody["passNew"] = this.state.passNew;
+      reqBody["password_old"] = this.passOld.value;
+      reqBody["password"] = this.state.passNew;
       this.setState({axios: true});
       axios.patch('/router/account/password', reqBody, {
         headers: {'charset': 'utf-8'}
@@ -143,11 +144,7 @@ class SettingPassword extends React.Component {
         if (axios.isCancel(thrown)) {
           console.log('Request canceled: ', thrown.message);
         } else {
-          self.setState({axios: false});
-          let customSwitch = (status)=>{
-            return null;
-          };
-          errHandler_axiosCatch(thrown, customSwitch);
+          self.setState({axios: false, message: thrown.response.data.message});
         }
       });
     }else{
@@ -183,6 +180,10 @@ class SettingPassword extends React.Component {
               type="password"
               ref={(element)=>{this.passOld = element}}
               required/><br/>
+              {
+                this.state.message.password_old &&
+                <div>{message.password_old}</div>
+              }
             <span>{"new password: "}</span><br/>
             <input
               type="password"
@@ -192,6 +193,10 @@ class SettingPassword extends React.Component {
             {
               this.state.greenlight &&
               <span>{" 密碼已確認"}</span>
+            }
+            {
+              this.state.message.password &&
+              <div>{message.password}</div>
             }
             <span>{"confirm new password"}</span><br/>
             <input
