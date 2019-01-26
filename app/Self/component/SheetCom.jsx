@@ -7,6 +7,7 @@ import {
 import {connect} from "react-redux";
 import ModalBox from '../../Component/ModalBox.jsx';
 import ModalBackground from '../../Component/ModalBackground.jsx';
+import {axiosSwitch} from "../../redux/actions/general.js";
 
 class Basic extends React.Component {
   constructor(props){
@@ -132,19 +133,19 @@ class SettingPassword extends React.Component {
       let reqBody = {};
       reqBody["password_old"] = this.passOld.value;
       reqBody["password"] = this.state.passNew;
-      this.setState({axios: true});
+      this.props._set_store_axiosStatus(true);
       axios.patch('/router/account/password', reqBody, {
         headers: {'charset': 'utf-8'}
       }).then(function (res) {
-        self.setState({
-          axios: false
-        });
+        self.props._set_store_axiosStatus(false);
+        alert(res.data.message.warning);
         window.location.assign('/user/profile/sheet');
       }).catch(function (thrown) {
         if (axios.isCancel(thrown)) {
           console.log('Request canceled: ', thrown.message);
         } else {
-          self.setState({axios: false, message: thrown.response.data.message});
+          if(thrown.response.data.console.length>0) console.log(thrown.response.data.console);
+          self.setState({message: thrown.response.data.message});
         }
       });
     }else{
@@ -182,7 +183,7 @@ class SettingPassword extends React.Component {
               required/><br/>
               {
                 this.state.message.password_old &&
-                <div>{message.password_old}</div>
+                <div>{this.state.message.password_old}</div>
               }
             <span>{"new password: "}</span><br/>
             <input
@@ -196,7 +197,7 @@ class SettingPassword extends React.Component {
             }
             {
               this.state.message.password &&
-              <div>{message.password}</div>
+              <div>{this.state.message.password}</div>
             }
             <span>{"confirm new password"}</span><br/>
             <input
@@ -211,6 +212,10 @@ class SettingPassword extends React.Component {
             {
               this.state.warning &&
               <span>{" 請輸入相同密碼"}</span>
+            }
+            {
+              this.state.message.warning &&
+              <div>{this.state.message.warning}</div>
             }
             <input
               type='submit'
@@ -441,9 +446,15 @@ class SettingAccount extends React.Component {
   }
 }
 
+const mapDispatchToProps = (dispatch)=>{
+  return {
+    _set_store_axiosStatus: (sheetObj, accountSet)=>{dispatch(axiosSwitch(sheetObj, accountSet));}
+  }
+}
+
 const reduxConnection = connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 );
 
 export const SheetSetting = reduxConnection(SettingAccount);
