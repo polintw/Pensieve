@@ -62,7 +62,8 @@ class SignupForm extends React.Component {
     };
     this.props._set_axiosStatus(true);
     axios.post('/router/register', reqBody, {
-      headers: {'charset': 'utf-8'}
+      headers: {'charset': 'utf-8'},
+      cancelToken: this.axiosSource.token
     }).then(function (res) {
       self.props._set_axiosRes({axiosStatus: false, message: res.data.message});
       self.setState({success: true});

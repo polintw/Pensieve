@@ -130,14 +130,16 @@ class Sheet extends React.Component {
           headers: {
             'charset': 'utf-8',
             'token': window.localStorage['token']
-          }
+          },
+          cancelToken: this.axiosSource.token
         });
       }, _axios_getAccountSet = ()=>{
         return axios.get('/router/account/setting', {
           headers: {
             'charset': 'utf-8',
             'token': window.localStorage['token']
-          }
+          },
+          cancelToken: this.axiosSource.token
         });
       };
       let axiosArr = [_axios_getUserSheet(),_axios_getAccountSet()];

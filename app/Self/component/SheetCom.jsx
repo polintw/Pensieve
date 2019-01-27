@@ -109,6 +109,7 @@ class SettingPassword extends React.Component {
       passConfirm: '',
       message: {}
     };
+    this.axiosSource = axios.CancelToken.source();
     this._handle_settingPassword = this._handle_settingPassword.bind(this);
     this._handleChange_passCheck = this._handleChange_passCheck.bind(this);
     this.style={
@@ -135,7 +136,11 @@ class SettingPassword extends React.Component {
       reqBody["password"] = this.state.passNew;
       this.props._set_store_axiosStatus(true);
       axios.patch('/router/account/password', reqBody, {
-        headers: {'charset': 'utf-8'}
+        headers: {
+          'charset': 'utf-8',
+          'token': window.localStorage['token']
+        },
+        cancelToken: this.axiosSource.token
       }).then(function (res) {
         self.props._set_store_axiosStatus(false);
         alert(res.data.message.warning);
@@ -145,7 +150,8 @@ class SettingPassword extends React.Component {
           console.log('Request canceled: ', thrown.message);
         } else {
           self.props._set_store_axiosStatus(false);
-          if(thrown.response.data.console.length>0) console.log(thrown.response.data.console);
+          let resConsole = thrown.response.data.console; // to verify the string length, this is neccessary.
+          if(resConsole.length>0) console.log(thrown.response.data.console);
           self.setState({message: thrown.response.data.message});
         }
       });
@@ -168,6 +174,12 @@ class SettingPassword extends React.Component {
         })
       }
     })
+  }
+
+  componentWillUnmount(){
+    if(this.props.axios){
+      this.axiosSource.cancel("component will unmount.")
+    }
   }
 
   render(){
@@ -440,6 +452,7 @@ class SettingAccount extends React.Component {
 
   const mapStateToProps = (state)=>{
   return {
+    axios: state.axios,
     userInfo: state.userInfo,
     unitCurrent: state.unitCurrent,
     userSheet: state.userSheet,
