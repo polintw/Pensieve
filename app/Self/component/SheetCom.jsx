@@ -144,6 +144,7 @@ class SettingPassword extends React.Component {
         if (axios.isCancel(thrown)) {
           console.log('Request canceled: ', thrown.message);
         } else {
+          self.props._set_store_axiosStatus(false);
           if(thrown.response.data.console.length>0) console.log(thrown.response.data.console);
           self.setState({message: thrown.response.data.message});
         }

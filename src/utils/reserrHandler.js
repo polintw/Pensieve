@@ -61,6 +61,14 @@ export class forbbidenError extends Error {
   }
 }
 
+export class notFoundError extends Error {
+  constructor(message, code) {
+    super(message);
+    this.status = 404;
+    this.code = code;
+  }
+}
+
 export class tooManyReqError extends Error {
   constructor(message, code) {
     super(message);
@@ -79,24 +87,40 @@ export class internalError extends Error {
 
 exports._handle_ErrCatched = function(e){
   let clientSet = Object.assign({}, {
+    "code": "",
     "message": "",
     "console": ""
   });
 
   switch (e.code) {
+    case 32:
+      clientSet['code'] = 32;
+      clientSet['message'] = e.message;
+      clientSet['console'] = '';
+      return res.status(e.status).json(e.clientSet);
+      break;
+    case 50:
+      console.log("Error: code 50, "+e.message.log);
+      clientSet['code'] = 50;
+      clientSet['message'] ={"warning":"User not found."};
+      clientSet['console'] = '';
+      return res.status(e.status).json(e.clientSet);
+      break;
     case 131:
       console.log("Error: code 131, "+e.message)
-      clientSet['message'] = "Some error happened, please try again.";
+      clientSet['code'] = 131;
+      clientSet['message'] = {"warning":"Some error happened, please try again."};
       clientSet['console'] = '';
       return res.status(e.status).json(e.clientSet);
       break;
     case 186:
+      clientSet['code'] = 186;
       clientSet['message'] = e.message;
       clientSet['console'] = '';
       return res.status(e.status).json(e.clientSet);
       break;
     default:
       console.log(e);
-      return res.status(500).json({"message": "Some error happened, please try again."});
+      return res.status(500).json({"message": {"warning":"Some error happened, please try again."}});
   }
 }

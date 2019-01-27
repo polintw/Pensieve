@@ -13,7 +13,9 @@ const {
 const {
   _handle_ErrCatched,
   forbbidenError,
-  internalError
+  internalError,
+  authorizedError,
+  notFoundError
 } = require('../utils/reserrHandler.js');
 
 
@@ -44,9 +46,9 @@ function _handle_account_password_PATCH(req, res) {
         if(isMatch){
           return new Promise((resolve, reject)=>{
             bcrypt.genSalt(10, (err, salt) => {
-              if(err) reject();//500
+              if(err) reject(new internalError('bcrypt.genSalt error in account/password.js', 131));
               bcrypt.hash(req.body.password, salt, (err, hash) => {
-                if(err) reject();//500
+                if(err) reject(new internalError('bcrypt.hash error in account/password.js', 131));
                 resolve(hash);
               })
             });
@@ -62,12 +64,11 @@ function _handle_account_password_PATCH(req, res) {
           })
         }
         else{
-          //401, twitter code 32, current password is not correct
+          throw new authorizedError({"password_old": "inputed password was wrong."}, 32)
         }
       })
     }else{
-      //404, twitter code 17, no such user found
-
+      throw new notFoundError({"log": "no such user though with valid token in account/password.js"}, 50)
     }
   }).then(()=>{
     //complete the process, and response to client
