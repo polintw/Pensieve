@@ -18,6 +18,11 @@ const {
 } = require('../../utils/sequelize');
 const {
   _handler_ErrorRes,
+  _handle_ErrCatched,
+  forbbidenError,
+  internalError,
+  authorizedError,
+  notFoundError
 } = require('../../utils/reserrHandler.js');
 
 function _handle_auth_mailConfirm_GET(req, res){
@@ -76,66 +81,71 @@ function _handle_auth_mailConfirm_GET(req, res){
 }
 
 function _handle_auth_mailResend_GET(req, res){
+  new Promise((resolve, reject)=>{
+    const { errors, isValid } = validateRegisterInput(req.body);
 
-  const { errors, isValid } = validateRegisterInput(req.body);
+    if(!isValid) {
+      throw new forbbidenError(errors, 186)
+    }
 
-  if(!isValid) {
-    throw new forbbidenError(errors, 186)
-  }
-
-  _DB_users.findOne({
-    where: {email: req.body.email},
-    attributes: ['id', 'status']
-  }).then(user =>{
-    return _DB_users_apply.findOne({
-      where: {id_user: userId},
-      attributes: ['status']
-    });
-  })
-  _DB_users_apply.findOne({
-    where: {id_user: userId},
-    attributes: ['status']
-  }).then(usersApply => {
-    return usersApply.update({ status: 'active'});
-  }).catch((err)=>{throw {err: err}})
-
-    ).then((resultObj)=>{
-      const userId = resultObj.insertId;
-      return new Promise((resolve, reject)=>{
-        //sign a token for email verification
-        const payload = {
-          user_Id: userId,
-          token_property: 'emailVerified'
-        };
-        jwt.sign(JSON.parse(JSON.stringify(payload)), verify_email, {
-          expiresIn: '1d'
-        }, (err, token) => {
-            if(err){
-              reject({status: 500, err: 'There is some error in token ' + err});
+    _DB_users.findOne({
+      where: {email: req.body.email},
+      attributes: ['id', 'status', 'first_name']
+    }).then(user =>{
+      if(!user) throw new notFoundError({"email": "this email hasn't sign up yet!"}, 50);
+      switch (user.status) {
+        case 'unverified':
+          //start to send email verification again
+          return new Promise((resolveJWT, rejectJWT)=>{
+          //sign a token for email verification
+            const payload = {
+              user_Id: user.id,
+              token_property: 'emailVerified'
+            };
+            jwt.sign(JSON.parse(JSON.stringify(payload)), verify_email, {
+              expiresIn: '1d'
+            }, (err, token) => {
+              if(err){
+                rejectJWT(new internalError("jwt.sign error in register/mail.js", 131));
+              }
+              else {
+                resolveJWT(token);
+              }
+            });
+          }).then((tokenEmail)=>{
+            //update this token into users_apply
+            return _DB_users_apply.findOne({
+              where: {id_user: user.id},
+              attributes: ['token_email']
+            }).then(usersApply => {
+              return usersApply.update({ token_email: tokenEmail});
+            }).then(()=>{
+              return tokenEmail;
+            })
+          }).then((tokenEmail)=>{
+            //finally, sending the mail to the user
+            let userInfo = {
+              email: req.body.email,
+              first_name: user.first_name
             }
-            else {
-              resolve(token);
-            }
-        });
-      }).then((tokenEmail)=>{
-
-          return Promise.all([pinsertNewVerifi, pinsertNewSheet, pinsertEmailToken, pcreateImgFolder]).then((results)=>{
-            return deliverVerifiedMail(newUser, tokenEmail);
-          });
-        });
-      })
-    });
-  }).then(()=>{
-    //complete the process, and response to client
-    console.log("PATCH: account/password: complete.")
-    let resData = {};
-    resData.error = 0;
-    resData['message'] = {'warning': 'Your password has been changed successfully!'};
-    res.status(200).json(resData);
-    resolve();
-  }).catch((error)=>{reject(error);}); // this line is neccessary for promise in promise
-
-
+            return deliverVerifiedMail(userInfo, tokenEmail);
+          }).catch((error)=>{throw {error}}); // this line is neccessary for promise in promise
+          break;
+        default:
+          throw new forbbidenError({"warning:": "Your email had been verified, could just log in straightly."}, 87)
+      }
+    }).then(()=>{
+      //complete the process, and response to client
+      let resData = {
+        "code": "",
+        "message": "",
+        "console": ""
+      };
+      res.status(200).json(resData);
+    }).catch((error)=>{reject(error);}); // this line is neccessary for promise in promise
+  }).catch((error)=>{
+    _handle_ErrCatched(error, res);
+  });
 }
 
 module.exports = {

@@ -113,9 +113,14 @@ function _handle_ErrCatched(e, res){
       return res.status(e.status).json(clientSet);
       break;
     case 50:
-      console.log("Error: code 50, "+e.message["log"]);
-      clientSet['code'] = "50";
-      clientSet['message'] ={"warning":"User not found."};
+      clientSet['code'] = 50;
+      clientSet['message'] = e.message;
+      clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
+    case 87:
+      clientSet['code'] = 87;
+      clientSet['message'] = e.message;
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;
@@ -123,6 +128,13 @@ function _handle_ErrCatched(e, res){
       console.log("Error: code 131, "+e.message)
       clientSet['code'] = 131;
       clientSet['message'] = {"warning":"Some error happened, please try again."};
+      clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
+    case 144:
+      console.log("Error: code 144, "+e.message["log"]);
+      clientSet['code'] = "144";
+      clientSet['message'] ={"warning":"User not found, perhaps the account had been deleted."};
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;

@@ -69,7 +69,7 @@ function _handle_account_password_PATCH(req, res) {
           }
         })
       }else{
-        throw new notFoundError({"log": "no such user though with valid token in account/password.js"}, 50)
+        throw new notFoundError({"log": "no such user though with valid token in account/password.js"}, 144)
       }
     }).then(()=>{
       //complete the process, and response to client
