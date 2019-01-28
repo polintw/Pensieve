@@ -12,7 +12,7 @@ execute.get('/mail/confirm', function(req, res){
   _handle_auth_mailConfirm_GET(req, res);
 })
 
-execute.get('/mail/resend', function(req, res){
+execute.patch('/mail/resend', function(req, res){
   console.log('GET: register/resend mail');
   _handle_auth_mailResend_GET(req, res);
 })

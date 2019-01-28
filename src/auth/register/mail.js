@@ -147,7 +147,7 @@ function _handle_auth_mailResend_GET(req, res){
       //complete the process, and response to client
       let resData = {
         "code": "",
-        "message": "",
+        "message": {"warning": "Verification has been sended again to your email address."},
         "console": ""
       };
       res.status(200).json(resData);

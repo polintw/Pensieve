@@ -2,13 +2,14 @@ import React from 'react';
 import {
   Link,
   Switch,
-  Route
+  Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import {
   axiosSwitch,
-  axiosGetRes
+  axiosGetRes,
+  setSignInit
 } from "../../redux/actions/handleSign.js";
 
 class SignupSuccess extends React.Component {
@@ -60,7 +61,7 @@ class SignupMailresend extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      refer: false
+      email: ""
     };
     this.axiosSource = axios.CancelToken.source();
     this._handleChange_Input = this._handleChange_Input.bind(this);
@@ -100,7 +101,6 @@ class SignupMailresend extends React.Component {
       cancelToken: this.axiosSource.token
     }).then(function (res) {
       self.props._set_axiosRes({axiosStatus: false, message: res.data.message});
-      self.setState({refer: true});
     }).catch(function (thrown) {
       if (axios.isCancel(thrown)) {
         console.log('Request canceled: ', thrown.message);
@@ -145,7 +145,6 @@ class SignupMailresend extends React.Component {
 
   render(){
     //let cx = cxBind.bind(styles);
-    if(this.state.refer){return <Redirect to={'/signup/success'}/>}
 
     const message = this.props.message;
     return(
@@ -197,7 +196,8 @@ const mapStateToProps = (state)=>{
 const mapDispatchToProps = (dispatch)=>{
   return {
     _set_axiosStatus: (bool)=>{dispatch(axiosSwitch(bool));},
-    _set_axiosRes: (resObj)=>{dispatch(axiosGetRes(resObj));}
+    _set_axiosRes: (resObj)=>{dispatch(axiosGetRes(resObj));},
+    _set_StateInit: ()=>{dispatch(setSignInit());}
   }
 }
 

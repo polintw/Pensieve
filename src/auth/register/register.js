@@ -8,7 +8,7 @@ const {
   verify_email
 } = require('../../../config/jwt.js');
 const {
-  userImg_FirsttoSrc
+  userImg_SecondtoSrc
 } = require('../../../config/path.js');
 const {
   _select_Basic
@@ -26,7 +26,7 @@ const {
 
 const _create_new_ImgFolder = (userId)=>{
   return new Promise((resolve,reject)=>{
-    let imgFolderPath = path.join(__dirname, userImg_FirsttoSrc+userId);
+    let imgFolderPath = path.join(__dirname, userImg_SecondtoSrc+userId);
     fs.mkdir(imgFolderPath, function(err){
       if(err) {reject({err: err});return;}
       resolve();
@@ -144,7 +144,7 @@ function _handle_auth_register_POST(req, res) {
     console.log("POST: auth/register req: complete.")
     let resData = {};
     resData.error = 0;
-    resData['message'] = {'status': 'Registered successfully! Please verify your email address'};
+    resData['message'] = {'warning': 'Registered successfully! Please verify your email address'};
     res.status(201).json(resData);
   }).catch((errObj)=>{
     //catch errors, both custom and internal
