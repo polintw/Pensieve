@@ -1,6 +1,7 @@
 const path = require("path");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const Validator = require('validator');
 const deliverVerifiedMail = require('./verifiedMail');
 const validateRegisterInput = require('../validation/register');
 const {
@@ -24,6 +25,7 @@ const {
   authorizedError,
   notFoundError
 } = require('../../utils/reserrHandler.js');
+const isEmpty = require('../../utils/isEmpty');
 
 function _handle_auth_mailConfirm_GET(req, res){
   const reqToken = req.body.token || req.headers['token'] || req.query.token;
@@ -82,8 +84,15 @@ function _handle_auth_mailConfirm_GET(req, res){
 
 function _handle_auth_mailResend_GET(req, res){
   new Promise((resolve, reject)=>{
-    const { errors, isValid } = validateRegisterInput(req.body);
-
+    let errors = {};
+    req.body.email = !isEmpty(req.body.email) ? req.body.email : '';
+    if(!Validator.isEmail(req.body.email)) {
+        errors.email = 'Email is invalid';
+    }
+    if(Validator.isEmpty(req.body.email)) {
+        errors.email = 'Email is required';
+    }
+    let isValid = isEmpty(errors);
     if(!isValid) {
       throw new forbbidenError(errors, 186)
     }

@@ -147,6 +147,7 @@ class SignupMailresend extends React.Component {
     //let cx = cxBind.bind(styles);
     if(this.state.refer){return <Redirect to={'/signup/success'}/>}
 
+    const message = this.props.message;
     return(
       <div
         style={this.style.SignupMailresend_}>
@@ -205,5 +206,7 @@ const reduxConnection = connect(
   mapDispatchToProps
 );
 
-export const SheetSetting = reduxConnection(SignupSuccess);
-export const SheetPassword = reduxConnection(SignupMailresend);
+module.exports = {
+  SignupSuccess: reduxConnection(SignupSuccess),
+  SignupMailresend: reduxConnection(SignupMailresend)
+}
