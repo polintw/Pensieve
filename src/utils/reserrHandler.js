@@ -30,6 +30,7 @@ function _handler_err_Internal(err, res){
 
 function _handler_ErrorRes(errSet, res){
   let resData = {
+    "code": errSet.code?errSet.code:"",
     "message": errSet.message,
     "console": errSet.console
   };
@@ -101,6 +102,12 @@ function _handle_ErrCatched(e, res){
   switch (e.code) {
     case 32:
       clientSet['code'] = 32;
+      clientSet['message'] = e.message;
+      clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
+    case 33:
+      clientSet['code'] = 33;
       clientSet['message'] = e.message;
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);

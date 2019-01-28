@@ -4,6 +4,7 @@ import {
 } from '../constants/states.js';
 import {
   SET_SIGNINIT,
+  SET_RESCODE,
   AXIOS_SWITCH,
   AXIOS_GET_RES
 } from '../constants/typesSign.js';
@@ -15,6 +16,11 @@ function pageSign(state = initialGeneral, action){
   switch (action.type) {
     case SET_SIGNINIT:
       return Object.assign({}, state, action.initState)
+      break;
+    case SET_RESCODE:
+      return Object.assign({}, state, {
+        code: action.code
+      })
       break;
     case AXIOS_SWITCH:
       return Object.assign({}, state, {

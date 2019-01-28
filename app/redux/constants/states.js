@@ -1,6 +1,7 @@
 export const initSign = {
   axios: false,
-  message:''
+  message:'',
+  code: ''
 }
 
 export const initGlobal = {

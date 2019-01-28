@@ -99,6 +99,12 @@ class Signin extends React.Component {
             <Link to="/signup">
               <span>{"Sign up"}</span>
             </Link>
+            {
+              message.warning && this.props.code == "33" &&
+              <Link to="/signup/email">
+                <span>{"send the verified email again"}</span>
+              </Link>
+            }
           </form>
         </div>
       </div>
@@ -109,7 +115,8 @@ class Signin extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     axios: state.axios,
-    message: state.message
+    message: state.message,
+    code: state.code
   }
 }
 

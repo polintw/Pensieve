@@ -59,7 +59,8 @@ login.use(function(req, res) {
               let errSet = {
                 "status": 401,
                 "message": {'warning': "You haven't verified your email address yet!"},
-                "console": ''
+                "console": '',
+                "code": 33
               };
               throw {custom: true, errSet: errSet};
             }

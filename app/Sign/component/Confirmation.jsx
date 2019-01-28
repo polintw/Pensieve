@@ -150,7 +150,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch)=>{
   return {
-    _submit_Signin: (submitObj)=>{dispatch(handleSignUser(submitObj));}
+
   }
 }
 
