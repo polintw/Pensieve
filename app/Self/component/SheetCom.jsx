@@ -1,8 +1,7 @@
 import React from 'react';
 import {
   Route,
-  Link,
-  withRouter
+  Link
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import ModalBox from '../../Component/ModalBox.jsx';

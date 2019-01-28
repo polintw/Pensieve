@@ -93,6 +93,9 @@ class ConfirmFail extends React.Component {
           <div>
             <p>{"Haven't received the mail?"}</p>
             <div>{"Send the verification again!"}</div>
+            <Link to="/signup/email">
+              <span>{"send the verified email again"}</span>
+            </Link>
           </div>
         </div>
       </div>

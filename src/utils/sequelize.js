@@ -33,6 +33,7 @@ const _DB_users = sequelize.define('users', {
     id: {type: Sequelize.INTEGER, primaryKey: true},
     created: Sequelize.DATE,
     status: Sequelize.TEXT('tiny'),
+    email: Sequelize.STRING(127),
     first_name: Sequelize.STRING(127),
     last_name: Sequelize.STRING(127),
     account: Sequelize.STRING(255)
