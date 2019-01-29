@@ -30,20 +30,20 @@ sequelize
   });
 
 const _DB_users = sequelize.define('users', {
-    id: {type: Sequelize.INTEGER, primaryKey: true},
-    created: Sequelize.DATE,
-    status: Sequelize.TEXT('tiny'),
-    email: Sequelize.STRING(127),
-    first_name: Sequelize.STRING(127),
-    last_name: Sequelize.STRING(127),
-    account: Sequelize.STRING(255)
+  id: {type: Sequelize.INTEGER(10).UNSIGNED, allowNull: false, autoIncrement: true, primaryKey: true},
+  created: {type: Sequelize.DATE, allowNull: false, defaultValue: Sequelize.NOW},
+  status: Sequelize.TEXT('tiny'),
+  email: {type: Sequelize.STRING(127), allowNull: false},
+  first_name: {type: Sequelize.STRING(63), allowNull: false},
+  last_name: {type: Sequelize.STRING(63), allowNull: false},
+  account: {type: Sequelize.STRING(127), allowNull: false}
 })
 
 const _DB_users_apply = sequelize.define('users_apply', {
-  id_user: {type: Sequelize.INTEGER, unique: true},
+  id_user: {type: Sequelize.INTEGER(10).UNSIGNED, allowNull: false},
   status: Sequelize.TEXT('tiny'),
-  created: Sequelize.DATE,
-  token_email: Sequelize.STRING(1023)
+  created: {type: Sequelize.DATE, allowNull: false, defaultValue: Sequelize.NOW},
+  token_email: {type: Sequelize.STRING(1023), allowNull: false}
 })
 
 const _DB_verifications = sequelize.define('verifications', {
@@ -108,7 +108,7 @@ sequelize.sync({
   _DB_sheets.removeAttribute('id');
   console.log('Sequelize: complete sync to database');
 }).catch(error=>{
-  console.error('Sequelize: error when initation: '+ error);
+  console.error('Error in Sequelize: when initation: '+ error);
 })
 
 module.exports = {
