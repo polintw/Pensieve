@@ -1,9 +1,7 @@
 const path = require("path");
-const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Validator = require('validator');
 const deliverVerifiedMail = require('./verifiedMail');
-const validateRegisterInput = require('../validation/register');
 const {
   verify_email
 } = require('../../../config/jwt.js');
@@ -11,14 +9,10 @@ const {
   _select_Basic
 } = require('../../utils/dbSelectHandler.js');
 const {
-  _insert_basic
-} = require('../../utils/dbInsertHandler.js');
-const {
   _DB_users,
   _DB_users_apply
 } = require('../../utils/sequelize');
 const {
-  _handler_ErrorRes,
   _handle_ErrCatched,
   forbbidenError,
   internalError,
@@ -84,6 +78,7 @@ function _handle_auth_mailConfirm_GET(req, res){
 
 function _handle_auth_mailResend_GET(req, res){
   new Promise((resolve, reject)=>{
+    //input format validation first
     let errors = {};
     req.body.email = !isEmpty(req.body.email) ? req.body.email : '';
     if(!Validator.isEmail(req.body.email)) {
@@ -141,7 +136,7 @@ function _handle_auth_mailResend_GET(req, res){
           }).catch((error)=>{throw {error}}); // this line is neccessary for promise in promise
           break;
         default:
-          throw new forbbidenError({"warning:": "Your email had been verified, could just log in straightly."}, 87)
+          throw new forbbidenError({"warning:": "Your email had been verified, could sign in directly."}, 87)
       }
     }).then(()=>{
       //complete the process, and response to client

@@ -85,16 +85,17 @@ class ConfirmFail extends React.Component {
         <div>
           <div>
             <p>{"Email address verified failed."}</p>
-            <p>{"It's probablly due to the duration was over."}</p>
+            <p>{"It's probablly due to the valid time was over."}</p>
+            <p>{"Or, haven't received the verified mail?"}</p>
+            <Link to="/signup/email">
+              <span>{"send the verified email again"}</span>
+            </Link>
             <Link to="/signup">
               <span>{"Sign up"}</span>
             </Link>
-          </div>
-          <div>
-            <p>{"Haven't received the mail?"}</p>
-            <div>{"Send the verification again!"}</div>
-            <Link to="/signup/email">
-              <span>{"send the verified email again"}</span>
+            <Link
+              to="/signin">
+              <span>{"Sign in"}</span>
             </Link>
           </div>
         </div>
