@@ -32,7 +32,8 @@
     "request": "^2.88.0",
     "sequelize": "^4.41.2",
     "sequelize-cli": "^5.4.0",
-    "sharp": "^0.21.0"
+    "sharp": "^0.21.0",
+    "uglify-js": "^3.4.9"
   },
   "devDependencies": {
     "cheerio": "^1.0.0-rc.2",

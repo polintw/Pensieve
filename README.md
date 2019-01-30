@@ -17,11 +17,9 @@ version "Lite" is the version released to the public of this project.
 
 #### Prepare
 config:
+- production img serve
 - production databse connection
 - production jwt secret
-- production img path
-    - FirsttoSrc: img/requisition.js
-    - SecondtoSrc: register/register.js、shareds/sharedsPOST.js
 - production services require
 
 
