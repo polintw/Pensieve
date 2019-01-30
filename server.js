@@ -16,7 +16,7 @@ app.engine('jsx', require('express-react-views').createEngine({transformViews: f
 app.enable("trust proxy"); //for rateLimit, due to behind a reverse proxy(nginx)
 const limiter = rateLimit({
   windowMs: 10 * 60 * 1000, // 10 minutes
-  max: 600, // limit each IP to 100 requests per windowMs
+  max: 600, // limit each IP to 600 requests per windowMs
   message:{
     'message': {'warning': "Too many request from this IP, please try again later"},
     'console': ''

@@ -21,6 +21,10 @@ config:
 - production databse connection
 - production jwt secret
 - production services require
+env:
+- node 10.15.1
+- npm  6.4.1
+- /bcrypt: check doc, uninstall and install again if needed
 
 
 #### Production
