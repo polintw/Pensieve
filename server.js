@@ -6,6 +6,7 @@ const path = require("path");
 const rateLimit = require("express-rate-limit");
 
 const router = require('./src/router.js');
+const winston = require('./config/winston.js');
 
 //babel-polyfill is here for the whole code after it!
 require('babel-polyfill');
@@ -22,7 +23,7 @@ const limiter = rateLimit({
     'console': ''
   },
   onLimitReached: function(req, res){
-    console.log('WARN: too many request '+req.ip)
+    winston.warn(`${"WARN: too many request for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);
   }
 });
 const loginLimiter = rateLimit({
@@ -33,7 +34,7 @@ const loginLimiter = rateLimit({
     'console': ''
   },
   onLimitReached: function(req, res){
-    console.log('WARN: login exceeded from '+req.ip)
+    winston.warn(`${"WARN: login request exceeded from ip "} ${req.ip}`);
   }
 });
 app.use(limiter); //rate limiter apply to all requests
@@ -49,14 +50,14 @@ app.use(express.static(path.join(__dirname+'/public')));
 
 //begining managing the specific request
 app.get('/favicon.ico', function(req, res){
-  console.log('requesting for favicon');
   res.end();
 })
 
 app.use('/router', router)
 
 app.use('/user/screen', function(req, res){
-  console.log("requesting for page: "+req.url);
+  winston.info(`${"page: requesting for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);
+  //console.log("requesting for page: "+req.url);
   //fail to use serverrender aafter update to react v16.2.0 due to: "<>" not support in nodejs
   //const element = React.createElement(require('./initHTML.jsx'));
   //ReactDOMServer.renderToNodeStream(element).pipe(res);
@@ -82,7 +83,7 @@ app.use('/user', function(req, res){
 })
 
 app.use('/s', function(req, res){
-  console.log("requesting for page: "+req.url);
+  winston.info(`${"page: requesting for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);
   //fail to use serverrender aafter update to react v16.2.0 due to: "<>" not support in nodejs
   //const element = React.createElement(require('./initHTML.jsx'));
   //ReactDOMServer.renderToNodeStream(element).pipe(res);

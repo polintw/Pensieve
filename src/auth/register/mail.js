@@ -148,7 +148,7 @@ function _handle_auth_mailResend_GET(req, res){
       res.status(200).json(resData);
     }).catch((error)=>{reject(error);}); // this line is neccessary for promise in promise
   }).catch((error)=>{
-    _handle_ErrCatched(error, res);
+    _handle_ErrCatched(error, req, res);
   });
 }
 

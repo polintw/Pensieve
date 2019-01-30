@@ -81,7 +81,7 @@ function _handle_account_password_PATCH(req, res) {
       resolve();
     }).catch((error)=>{reject(error);}); // this line is neccessary for promise in promise
   }).catch((error)=>{
-    _handle_ErrCatched(error, res);
+    _handle_ErrCatched(error, req, res);
   });
 };
 

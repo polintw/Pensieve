@@ -20,6 +20,7 @@ config:
 - production img serve
 - production databse connection
 - production jwt secret
+- production log path
 - production services require
 env:
 - node 10.15.1

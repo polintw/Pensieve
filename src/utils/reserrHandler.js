@@ -1,3 +1,5 @@
+const winston = require('../../config/winston.js');
+
 function _handler_err_BadReq(err, res){
   let resData = {};
   resData['error'] = 1;
@@ -92,7 +94,7 @@ class internalError extends Error {
   }
 }
 
-function _handle_ErrCatched(e, res){
+function _handle_ErrCatched(e, req, res){
   let clientSet = Object.assign({}, {
     "code": "",
     "message": "",
@@ -125,14 +127,14 @@ function _handle_ErrCatched(e, res){
       return res.status(e.status).json(clientSet);
       break;
     case 131:
-      console.log("Error: code 131, "+e.message)
+      winston.error(`${e.status} - ${"Error: code 131, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
       clientSet['code'] = 131;
       clientSet['message'] = {"warning":"Some error happened, please try again."};
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;
     case 144:
-      console.log("Error: code 144, "+e.message["log"]);
+      winston.warn(`${e.status} - ${"Error: code 144, "+e.message["log"]} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
       clientSet['code'] = "144";
       clientSet['message'] ={"warning":"User not found, perhaps the account had been deleted."};
       clientSet['console'] = '';
@@ -145,7 +147,7 @@ function _handle_ErrCatched(e, res){
       return res.status(e.status).json(clientSet);
       break;
     default:
-      console.log(e);
+      winston.error(`${500} - ${e} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
       return res.status(500).json({"message": {"warning":"Some error happened, please try again."}});
   }
 }
