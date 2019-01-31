@@ -22,9 +22,11 @@ config:
 - production jwt secret
 - production log path
 - production services require
+
 env:
 - node 10.15.1
 - npm  6.4.1
+- sequelize set --env production
 - /bcrypt: check doc, uninstall and install again if needed
 
 
