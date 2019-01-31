@@ -1,24 +1,29 @@
-const winston = require('winston');
+const { createLogger, format, transports } = require('winston');
+const path = require("path");
+const {envLogPath} = require('./.env.json');
 
 const options = {
-  file: {
-    level: 'info',
-    filename: `${appRoot}/logs/app.log`,
-    handleExceptions: true,
-    json: true,
-    maxsize: 5242880, // 5MB
-    maxFiles: 5,
-    colorize: false,
+  fileErr: {
+    level: 'warn',
+    filename: path.join(__dirname, envLogPath.errorFile)
+  },
+  fileCombined: {
+    level: 'debug',
+    filename: path.join(__dirname, envLogPath.combinedFile)
+  },
+  fileException: {
+    filename: path.join(__dirname, envLogPath.exceptionFile)
   },
   console: {
-    level: 'debug',
-    handleExceptions: true,
-    json: false,
-    colorize: true,
+    level: 'warn',
+    format: format.combine(
+      format.colorize(),
+      format.simple()
+    )
   },
 };
 
-const logger = new winston.Logger({
+const logger = createLogger({
   format: format.combine(
     format.timestamp({
       format: 'YYYY-MM-DD HH:mm:ss'
@@ -29,12 +34,29 @@ const logger = new winston.Logger({
   ),
   defaultMeta: { service: 'corner' },
   transports: [
-    new winston.transports.File(options.file),
-    new winston.transports.Console(options.console)
+    new transports.File(options.fileErr),
+    new transports.File(options.fileCombined),
+    new transports.Console(options.console)
+  ],
+  exceptionHandlers: [
+    new transports.File(options.fileException)
   ],
   exitOnError: false, // do not exit on handled exceptions
 });
 
-logger.log('debug', 'test message %s, %s', 'first', 'second', { number: 123 });
+//
+// If we're not in production then log to the `console` with the format:
+// `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
+//
+if (process.env.NODE_ENV !== 'production') {
+  logger.add(new transports.Console({
+    format: format.combine(
+      format.colorize(),
+      format.simple()
+    )
+  }));
+}
+
+logger.log('warn', 'winston.js test message %s, %s', 'first', 'second', { number: 123 });
 
 module.exports = logger;
