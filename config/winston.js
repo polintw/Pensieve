@@ -1,18 +1,25 @@
 const { createLogger, format, transports } = require('winston');
+require('winston-daily-rotate-file');
 const path = require("path");
 const {envLogPath} = require('./.env.json');
 
 const options = {
   fileErr: {
     level: 'warn',
-    filename: path.join(__dirname, envLogPath.errorFile)
+    filename: path.join(__dirname, envLogPath.fromConfig, `error-%DATE%.log`),
+    datePattern: 'YYYY-MM-DD',
+    zippedArchive: true,
+    maxSize: '20m'
   },
   fileCombined: {
     level: 'debug',
-    filename: path.join(__dirname, envLogPath.combinedFile)
+    filename: path.join(__dirname, envLogPath.fromConfig, `combined-%DATE%.log`),
+    datePattern: 'YYYY-MM-DD',
+    zippedArchive: true,
+    maxSize: '20m'
   },
   fileException: {
-    filename: path.join(__dirname, envLogPath.exceptionFile)
+    filename: path.join(__dirname, envLogPath.fromConfig, "exception.log")
   },
   console: {
     level: 'warn',
@@ -34,8 +41,8 @@ const logger = createLogger({
   ),
   defaultMeta: { service: 'corner' },
   transports: [
-    new transports.File(options.fileErr),
-    new transports.File(options.fileCombined),
+    new transports.DailyRotateFile(options.fileErr),
+    new transports.DailyRotateFile(options.fileCombined),
     new transports.Console(options.console)
   ],
   exceptionHandlers: [

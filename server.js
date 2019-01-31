@@ -70,7 +70,7 @@ app.use('/user/screen', function(req, res){
 })
 
 app.use('/user', function(req, res){
-  console.log("requesting for page: "+req.url);
+  winston.info(`${"page: requesting for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);
   //fail to use serverrender aafter update to react v16.2.0 due to: "<>" not support in nodejs
   //const element = React.createElement(require('./initHTML.jsx'));
   //ReactDOMServer.renderToNodeStream(element).pipe(res);
@@ -96,7 +96,7 @@ app.use('/s', function(req, res){
 })
 
 app.use('/', function(req, res){
-  console.log("requesting for page: "+req.url);
+  winston.info(`${"page: requesting for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);
   //fail to use serverrender aafter update to react v16.2.0 due to: "<>" not support in nodejs
   //const element = React.createElement(require('./initHTML.jsx'));
   //ReactDOMServer.renderToNodeStream(element).pipe(res);
@@ -109,4 +109,4 @@ app.use('/', function(req, res){
 })
 
 app.listen(process.env.port || 8080);
-console.log("Running at Port 8080");
+winston.info("server initiating, running at Port 8080");
