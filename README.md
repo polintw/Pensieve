@@ -16,18 +16,21 @@ version "Lite" is the version released to the public of this project.
 
 
 #### Prepare
-config:
+env:
+- node 10.15.1
+- npm  6.4.1
+- /bcrypt: check doc, uninstall and install again if needed
+
+.env.json:
 - production img serve
 - production databse connection
 - production jwt secret
 - production log path
 - production services require
 
-env:
-- node 10.15.1
-- npm  6.4.1
+database
 - sequelize set --env production
-- /bcrypt: check doc, uninstall and install again if needed
+- run db:create at first time
 
 
 #### Production

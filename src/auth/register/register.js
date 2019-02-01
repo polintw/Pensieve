@@ -17,10 +17,6 @@ const {
   _insert_basic
 } = require('../../utils/dbInsertHandler.js');
 const {
-  _DB_users,
-  _DB_users_apply
-} = require('../../utils/sequelize');
-const {
   _handler_ErrorRes,
 } = require('../../utils/reserrHandler.js');
 

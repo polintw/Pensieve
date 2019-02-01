@@ -7,9 +7,7 @@ const {verify_key} = require('../../config/jwt.js');
 const {
   _select_Basic
 } = require('../utils/dbSelectHandler.js');
-const {
-  _DB_verifications
-} = require('../utils/sequelize');
+const _DB_verifications = require('../../db/models/verifications');
 const {
   _handle_ErrCatched,
   forbbidenError,

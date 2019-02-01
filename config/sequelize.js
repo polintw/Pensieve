@@ -3,7 +3,7 @@ const {envDbConnection} = require('./.env.json');
 module.exports = {
   "development": {
     host:envDbConnection.host,
-    user:envDbConnection.user,
+    username:envDbConnection.user,
     password:envDbConnection.password,
     database:envDbConnection.database,
     port: envDbConnection.port,
@@ -15,7 +15,7 @@ module.exports = {
   },
   "test": {
     host:envDbConnection.host,
-    user:envDbConnection.user,
+    username:envDbConnection.user,
     password:envDbConnection.password,
     database:envDbConnection.database,
     port: envDbConnection.port,
@@ -27,7 +27,7 @@ module.exports = {
   },
   "production": {
     host:envDbConnection.host,
-    user:envDbConnection.user,
+    username:envDbConnection.user,
     password:envDbConnection.password,
     database:envDbConnection.database,
     port: envDbConnection.port,
