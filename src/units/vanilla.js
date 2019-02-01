@@ -6,9 +6,10 @@ const jwt = require('jsonwebtoken');
 const {verify_key} = require('../../config/jwt.js');
 const {connection_key} = require('../../config/database.js');
 const {_res_success,_res_success_201} = require('../utils/resHandler.js');
-const _DB_nouns = require('../../db/nouns.js');
-const _DB_marks = require('../../db/marks.js');
-const _DB_attribution = require('../../db/attribution.js');
+const _DB_ = require('../../db/index.js');
+const _DB_nouns = _DB_.nouns;
+const _DB_marks = _DB_.marks;
+const _DB_attribution =  _DB_.attribution
 const {
   UNITS_GENERAL,
   MARKS_UNITS,

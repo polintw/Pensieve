@@ -8,8 +8,8 @@ const {
 const {
   _select_Basic
 } = require('../../utils/dbSelectHandler.js');
-const _DB_users = require('../../../db/models/users');
-const _DB_users_apply = require('../../../db/models/users_apply');
+const _DB_users = require('../../../db/models/index').users;
+const _DB_users_apply = require('../../../db/models/index').users_apply;
 const {
   _handle_ErrCatched,
   forbbidenError,
