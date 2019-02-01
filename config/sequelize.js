@@ -7,7 +7,11 @@ module.exports = {
     password:envDbConnection.password,
     database:envDbConnection.database,
     port: envDbConnection.port,
-    dialect: "mysql"
+    dialect: "mysql",
+    operatorsAliases: false,
+    define: {
+      freezeTableName: true
+    }
   },
   "test": {
     host:envDbConnection.host,
@@ -15,7 +19,11 @@ module.exports = {
     password:envDbConnection.password,
     database:envDbConnection.database,
     port: envDbConnection.port,
-    dialect: "mysql"
+    dialect: "mysql",
+    operatorsAliases: false,
+    define: {
+      freezeTableName: true
+    }
   },
   "production": {
     host:envDbConnection.host,
@@ -25,7 +33,11 @@ module.exports = {
     port: envDbConnection.port,
     dialect: "mysql",
     dialectOptions: {
-      
+
+    },
+    operatorsAliases: false,
+    define: {
+      freezeTableName: true
     }
   }
 }

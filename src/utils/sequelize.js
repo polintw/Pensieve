@@ -42,15 +42,15 @@ const _DB_users = sequelize.define('users', {
 const _DB_users_apply = sequelize.define('users_apply', {
   id_user: {type: Sequelize.INTEGER(10).UNSIGNED, allowNull: false},
   status: Sequelize.TEXT('tiny'),
-  created: {type: Sequelize.DATE, allowNull: false, defaultValue: Sequelize.NOW},
+  createdAt: {type: Sequelize.DATE, allowNull: false, defaultValue: Sequelize.NOW},
   token_email: {type: Sequelize.STRING(1023), allowNull: false}
 })
 
 const _DB_verifications = sequelize.define('verifications', {
-  id_user: Sequelize.INTEGER,
+  id_user: {type: Sequelize.INTEGER(10).UNSIGNED, allowNull: false},
   updatedAt: Sequelize.DATE,
-  email: Sequelize.STRING(127),
-  password: Sequelize.STRING(63)
+  email: {type: Sequelize.STRING(127), allowNull: false},
+  password: {type: Sequelize.STRING(63), allowNull: false},
 })
 
 const _DB_units = sequelize.define('units', {
@@ -90,7 +90,7 @@ const _DB_attribution = sequelize.define('attribution', {
 
 const _DB_sheets = sequelize.define('sheets', {
   id_user: {type: Sequelize.INTEGER, unique: true},
-  gender: Sequelize.INTEGER,
+  gender: Sequelize.INTEGER.UNSIGNED,
   birthYear: Sequelize.STRING(7),
   birthMonth: Sequelize.STRING(7),
   birthDate: Sequelize.STRING(7),

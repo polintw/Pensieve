@@ -34,6 +34,39 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
+    }).then(()=>{
+      return queryInterface.addConstraint('users_apply', ['id_user'], {
+        type: 'foreign key',
+        name: 'constraint_fkey_usersapply_iduser',
+        references: { //Required field
+          table: 'users',
+          field: 'id'
+        },
+        onDelete: 'cascade',
+        onUpdate: 'cascade'
+      });
+    }).then(()=>{
+      return queryInterface.addConstraint('verifications', ['id_user'], {
+        type: 'foreign key',
+        name: 'constraint_fkey_verifications_iduser',
+        references: { //Required field
+          table: 'users',
+          field: 'id'
+        },
+        onDelete: 'cascade',
+        onUpdate: 'cascade'
+      });
+    }).then(()=>{
+      return queryInterface.addConstraint('sheets', ['id_user'], {
+        type: 'foreign key',
+        name: 'constraint_fkey_sheets_iduser',
+        references: { //Required field
+          table: 'users',
+          field: 'id'
+        },
+        onDelete: 'cascade',
+        onUpdate: 'cascade'
+      })
     });
   },
   down: (queryInterface, Sequelize) => {
