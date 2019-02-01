@@ -27,6 +27,17 @@ module.exports = {
         type: 'unique',
         name: 'constraint_unique_usersapply_iduser'
       });
+    }).then(()=>{
+      return queryInterface.addConstraint('users_apply', ['id_user'], {
+        type: 'foreign key',
+        name: 'constraint_fkey_usersapply_iduser',
+        references: { //Required field
+          table: 'users',
+          field: 'id'
+        },
+        onDelete: 'cascade',
+        onUpdate: 'cascade'
+      });
     });
   },
   down: (queryInterface, Sequelize) => {

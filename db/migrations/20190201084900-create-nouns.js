@@ -1,42 +1,38 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('users', {
+    return queryInterface.createTable('nouns', {
       id: {
         type: Sequelize.INTEGER(10).UNSIGNED,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true
       },
-      first_name: {
-        type: Sequelize.STRING(63),
-        allowNull: false
-      },
-      last_name: {
-        type: Sequelize.STRING(63),
-        allowNull: false
-      },
-      account: {
+      name: {
         type: Sequelize.STRING(127),
         allowNull: false
       },
-      email: {
-        type: Sequelize.STRING(127),
-        allowNull: false
-      },
-      status: Sequelize.TEXT('tiny'),
-      createdAt: {
+      established: {
         type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+        allowNull: false
+      },
+      createdAt: {
         allowNull: false,
-        defaultValue: Sequelize.NOW
+        type: Sequelize.DATE
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
       }
+    }).then(()=>{
+      return queryInterface.addConstraint('nouns', ['name'], {
+        type: 'unique',
+        name: 'constraint_unique_nouns_name'
+      });
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('users');
+    return queryInterface.dropTable('nouns');
   }
 };
