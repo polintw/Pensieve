@@ -31,7 +31,7 @@ sequelize
 
 const _DB_users = sequelize.define('users', {
   id: {type: Sequelize.INTEGER(10).UNSIGNED, allowNull: false, autoIncrement: true, primaryKey: true},
-  created: {type: Sequelize.DATE, allowNull: false, defaultValue: Sequelize.NOW},
+  createdAt: {type: Sequelize.DATE, allowNull: false, defaultValue: Sequelize.NOW},
   status: Sequelize.TEXT('tiny'),
   email: {type: Sequelize.STRING(127), allowNull: false},
   first_name: {type: Sequelize.STRING(63), allowNull: false},
