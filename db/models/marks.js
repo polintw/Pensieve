@@ -15,7 +15,18 @@ module.exports = (sequelize, DataTypes) => {
     paranoid: true
   });
   marks.associate = function(models) {
-    // associations can be defined here
+    users_apply.belongsTo(models.users, {
+      foreignKey:"id_author",
+      targetKey: "id",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
+    users_apply.belongsTo(models.units, {
+      foreignKey:"id_unit",
+      targetKey: "id",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
   };
   return marks;
 };

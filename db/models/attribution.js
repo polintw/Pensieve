@@ -9,7 +9,18 @@ module.exports = (sequelize, DataTypes) => {
     paranoid: true
   });
   attribution.associate = function(models) {
-    // associations can be defined here
+    users_apply.belongsTo(models.units, {
+      foreignKey:"id_unit",
+      targetKey: "id",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
+    users_apply.belongsTo(models.nouns, {
+      foreignKey:"id_noun",
+      targetKey: "id",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
   };
   return attribution;
 };

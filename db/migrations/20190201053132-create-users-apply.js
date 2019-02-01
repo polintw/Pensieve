@@ -7,7 +7,8 @@ module.exports = {
         allowNull: false
       },
       status: {
-        type: Sequelize.TEXT('tiny')
+        type: Sequelize.TEXT('tiny'),
+        allowNull: false
       },
       token_email: {
         type: Sequelize.STRING(1023),

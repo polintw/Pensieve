@@ -30,7 +30,7 @@ env:
 
 database
 - sequelize set --env production
-- run db:create at first time
+- db:create to recreate a new database before db:migrate at first time
 
 
 #### Production

@@ -11,7 +11,12 @@ module.exports = (sequelize, DataTypes) => {
     charset: 'utf8mb4' //for Mandarin, or emoji if you don't speak in mandarin
   });
   sheets.associate = function(models) {
-    // associations can be defined here
+    users_apply.belongsTo(models.users, {
+      foreignKey:"id_user",
+      targetKey: "id",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    })
   };
   return sheets;
 };

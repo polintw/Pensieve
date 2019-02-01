@@ -9,7 +9,24 @@ module.exports = (sequelize, DataTypes) => {
     established: DataTypes.DATE
   }, {});
   units.associate = function(models) {
-    // associations can be defined here
+    users_apply.belongsTo(models.users, {
+      foreignKey:"id_author",
+      targetKey: "id",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
+    users.hasMany(models.marks, {
+      foreignKey:"id_unit",
+      sourceKey: "id",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
+    users.hasMany(models.attribution, {
+      foreignKey:"id_unit",
+      sourceKey: "id",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
   };
   return units;
 };

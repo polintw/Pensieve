@@ -24,7 +24,10 @@ module.exports = {
         type: Sequelize.STRING(127),
         allowNull: false
       },
-      status: Sequelize.TEXT('tiny'),
+      status: {
+        type: Sequelize.TEXT('tiny'),
+        allowNull: false
+      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
