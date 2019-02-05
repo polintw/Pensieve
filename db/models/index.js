@@ -8,6 +8,7 @@ const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../../config/sequelize.js')[env];
 const db = {};
 
+console.log('here, in models/index')
 let sequelize;
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);
@@ -33,5 +34,7 @@ Object.keys(db).forEach(modelName => {
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+
+winston.warn("Sequelize: instance has prepared, required as '_DB_'.");
 
 module.exports = db;

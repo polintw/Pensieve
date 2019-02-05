@@ -7,7 +7,6 @@ const rateLimit = require("express-rate-limit");
 
 const router = require('./src/router.js');
 const winston = require('./config/winston.js');
-const _DB_ = require('./db/models'); //import sequelize obj from models/index.js
 
 //babel-polyfill is here for the whole code after it!
 require('babel-polyfill');
@@ -109,12 +108,5 @@ app.use('/', function(req, res){
   });
 })
 
-_DB_.sequelize.sync({ //init and connect to database by sequelize
-  force: false // could NOT CHANGE!! force true would drop the existed table, and probably interrupt db migration
-}).then(()=>{
-  winston.info('Sequelize: connection has been established, sync completed.');
-  app.listen(process.env.port || 8080);
-  winston.info("server initiating, running at Port 8080");
-}).catch(error=>{
-  winston.error('Error in Sequelize: when initation: '+ error);
-})
+app.listen(process.env.port || 8080);
+winston.warn("server initiating, running at Port 8080");

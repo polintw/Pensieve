@@ -1,5 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
+console.log('here, in models/sheets')
+
   const sheets = sequelize.define('sheets', {
     id_user: DataTypes.INTEGER,
     gender: DataTypes.INTEGER,
@@ -11,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     charset: 'utf8mb4' //for Mandarin, or emoji if you don't speak in mandarin
   });
   sheets.associate = function(models) {
-    users_apply.belongsTo(models.users, {
+    sheets.belongsTo(models.users, {
       foreignKey:"id_user",
       targetKey: "id",
       onDelete: 'cascade',

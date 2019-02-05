@@ -1,5 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
+console.log('here, in models/marks')
+
   const marks = sequelize.define('marks', {
     id: DataTypes.INTEGER,
     id_author: DataTypes.INTEGER,
@@ -11,22 +13,25 @@ module.exports = (sequelize, DataTypes) => {
     serial: DataTypes.INTEGER,
     created: DataTypes.DATE
   }, {
-    charset: 'utf8mb4', //for Mandarin, or emoji if you don't speak in mandarin
+    charset: 'utf8mb4', //it's probably could NOT be set here. //for Mandarin, or emoji if you don't speak in mandarin
     paranoid: true
   });
+console.log('here, in models/marks, after const mark')
+
   marks.associate = function(models) {
-    users_apply.belongsTo(models.users, {
+    marks.belongsTo(models.users, {
       foreignKey:"id_author",
       targetKey: "id",
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
-    users_apply.belongsTo(models.units, {
+    marks.belongsTo(models.units, {
       foreignKey:"id_unit",
       targetKey: "id",
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
   };
+console.log('here, in models/marks, before return')
   return marks;
 };

@@ -1,5 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
+console.log('here, in models/attribution')
+
   const attribution = sequelize.define('attribution', {
     id_noun: DataTypes.INTEGER,
     id_unit: DataTypes.INTEGER,
@@ -8,19 +10,21 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     paranoid: true
   });
+console.log('here, in models/attribution, after const')
   attribution.associate = function(models) {
-    users_apply.belongsTo(models.units, {
+    attribution.belongsTo(models.units, {
       foreignKey:"id_unit",
       targetKey: "id",
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
-    users_apply.belongsTo(models.nouns, {
+    attribution.belongsTo(models.nouns, {
       foreignKey:"id_noun",
       targetKey: "id",
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
   };
+console.log('here, in models/attribution, before return')
   return attribution;
 };

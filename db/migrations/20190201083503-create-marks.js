@@ -51,6 +51,8 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
+    },{
+      charset: 'utf8mb4', //for Mandarin, or emoji if you don't speak in mandarin
     }).then(()=>{
       return queryInterface.addConstraint('marks', ['id_author'], {
         type: 'foreign key',

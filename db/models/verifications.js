@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING
   }, {});
   verifications.associate = function(models) {
-    users_apply.belongsTo(models.users, {
+    verifications.belongsTo(models.users, {
       foreignKey:"id_user",
       targetKey: "id",
       onDelete: 'cascade',
