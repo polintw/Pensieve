@@ -1,6 +1,5 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  console.log('here, in models/units')
 
   const units = sequelize.define('units', {
     id_author: DataTypes.INTEGER,

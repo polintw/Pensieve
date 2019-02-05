@@ -1,9 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-console.log('here, in models/marks')
-
   const marks = sequelize.define('marks', {
-    id: DataTypes.INTEGER,
     id_author: DataTypes.INTEGER,
     id_unit: DataTypes.INTEGER,
     layer: DataTypes.INTEGER,
@@ -15,8 +12,7 @@ console.log('here, in models/marks')
   }, {
     charset: 'utf8mb4', //for Mandarin, or emoji if you don't speak in mandarin
     paranoid: true
-  }).catch((err)=> console.log(err));
-console.log('here, in models/marks, after const mark')
+  });
 
   marks.associate = function(models) {
     marks.belongsTo(models.users, {
@@ -32,6 +28,5 @@ console.log('here, in models/marks, after const mark')
       onUpdate: 'cascade'
     });
   };
-console.log('here, in models/marks, before return')
   return marks;
 };

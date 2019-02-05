@@ -28,7 +28,14 @@ module.exports = {
     port: envDbConnection.port,
     dialect: "mysql",
     operatorsAliases: false,
+    pool: {
+      max: 20,
+      min: 0,
+      acquire: 30000,
+      idle: 10000
+    },
     define: {
+      timestamps: true,
       freezeTableName: true
     }
   },
@@ -43,7 +50,14 @@ module.exports = {
 
     },
     operatorsAliases: false,
+    pool: {
+      max: 20,
+      min: 0,
+      acquire: 30000,
+      idle: 10000
+    },
     define: {
+      timestamps: true,
       freezeTableName: true
     }
   }

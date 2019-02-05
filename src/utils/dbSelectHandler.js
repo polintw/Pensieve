@@ -10,6 +10,7 @@ const {
   NOUNS_NAME
 } = require('./queryIndicators.js');
 const mysql = require('mysql');
+const winston = require('../../config/winston.js');
 const {connection_key} = require('../../config/database.js');
 
 const database = mysql.createPool(connection_key);
@@ -270,7 +271,7 @@ exports._select_Basic = (condition, accordance)=>{
   return new Promise((resolve, reject)=>{
     database.getConnection(function(err, connection){
       if (err) {
-        console.log("error occured when getConnection to select from "+condition.table);
+        winston.error("occured when getConnection to db from SelectHandler: "+condition.table);
         reject({status: 500, err: err});
       }else{
         let pWhereCol = new Promise((resolveWhereCol)=>{
@@ -292,7 +293,6 @@ exports._select_Basic = (condition, accordance)=>{
           let selectQuery = "SELECT "+strings[0]+" FROM "+condition.table+" WHERE ("+strings[1]+") "+comparison;
           connection.query(selectQuery, [accordance], function(err, results, fields){
             if (err) {reject({err: err});connection.release(); return} //only with "return" could assure the promise end immediately if there is any error.
-            console.log('database connection success: '+condition.table);
             let rowsArr = results.slice();
             resolve(rowsArr);
             connection.release();

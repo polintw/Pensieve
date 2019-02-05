@@ -1,7 +1,5 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-console.log('here, in models/sheets')
-
   const sheets = sequelize.define('sheets', {
     id_user: DataTypes.INTEGER,
     gender: DataTypes.INTEGER,
