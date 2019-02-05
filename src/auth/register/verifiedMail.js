@@ -1,4 +1,5 @@
 const nodemailer = require("nodemailer");
+const winston = require('../../../config/winston.js');
 const {
   smtpAccount,
   domain
@@ -41,7 +42,7 @@ function deliverVerifiedMail(userInfo, token){
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) reject({status: 500, err: 'There was an error '+error});
       else{
-        console.log('Address verification %s sent: %s', info.messageId, info.response);
+        winston.info('Address verification %s sent: %s', info.messageId, info.response);
         resolve();
       }
     });
