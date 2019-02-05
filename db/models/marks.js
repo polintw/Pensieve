@@ -13,9 +13,9 @@ console.log('here, in models/marks')
     serial: DataTypes.INTEGER,
     created: DataTypes.DATE
   }, {
-    charset: 'utf8mb4', //it's probably could NOT be set here. //for Mandarin, or emoji if you don't speak in mandarin
+    charset: 'utf8mb4', //for Mandarin, or emoji if you don't speak in mandarin
     paranoid: true
-  });
+  }).catch((err)=> console.log(err));
 console.log('here, in models/marks, after const mark')
 
   marks.associate = function(models) {

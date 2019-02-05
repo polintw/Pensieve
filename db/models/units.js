@@ -3,7 +3,6 @@ module.exports = (sequelize, DataTypes) => {
   console.log('here, in models/units')
 
   const units = sequelize.define('units', {
-    id: DataTypes.INTEGER,
     id_author: DataTypes.INTEGER,
     url_pic_layer0: DataTypes.STRING,
     url_pic_layer1: DataTypes.STRING,

@@ -3,7 +3,6 @@ module.exports = (sequelize, DataTypes) => {
   console.log('here, in models/users')
 
   const users = sequelize.define('users', {
-    id: DataTypes.INTEGER(10).UNSIGNED,
     first_name: DataTypes.STRING,
     last_name: DataTypes.STRING,
     account: DataTypes.STRING,
