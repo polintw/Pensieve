@@ -45,16 +45,18 @@ function _handle_auth_mailConfirm_GET(req, res){
                   where: {id: userId},
                   attributes: ['id', 'status']
                 }).then(users => {
-                  return users.update({ status: 'active'});
-                }).catch((err)=>{throw {err: err}})
+                  return users.update(
+                    { status: 'active'},
+                    {where: {id: userId}}
+                  );
+                }).catch((err)=>{console.log('error from pupdateUsers');throw {err: err}})
               );
               let pupdateUsersApply = Promise.resolve(
-                _DB_users_apply.findOne({
-                  where: {id_user: userId},
-                  attributes: ['status']
-                }).then(usersApply => {
-                  return usersApply.update({ status: 'active'});
-                }).catch((err)=>{throw {err: err}})
+                //it's bad to use 'findOne' before update, the result instance is not proper here
+                _DB_users_apply.update(
+                  {status:'active'},
+                  {where:{id_user: userId}}
+                ).catch((err)=>{console.log('error from pupdateUsersApply');throw {err: err}})
               );
               return Promise.all([pupdateUsers, pupdateUsersApply]).then((results)=>{
                 res.status(200).redirect('/s/confirm/success');

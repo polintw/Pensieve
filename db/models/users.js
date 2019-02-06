@@ -1,5 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
+  //don't define 'id', or others(ex. createdAt) would used by sequelize here
+  // would produce error
   const users = sequelize.define('users', {
     first_name: DataTypes.STRING,
     last_name: DataTypes.STRING,
