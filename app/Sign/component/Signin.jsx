@@ -45,7 +45,7 @@ class Signin extends React.Component {
       email: this.emailInput.value,
       password: this.passwordInput.value
     };
-    this.props._submit_Signin(submitObj);
+    this.props._submit_Signin(submitObj, this.axiosSource.token);
   }
 
 
@@ -99,6 +99,12 @@ class Signin extends React.Component {
             <Link to="/signup">
               <span>{"Sign up"}</span>
             </Link>
+            {
+              message.warning && this.props.code == "33" &&
+              <Link to="/signup/email">
+                <span>{"send the verified email again"}</span>
+              </Link>
+            }
           </form>
         </div>
       </div>
@@ -109,14 +115,15 @@ class Signin extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     axios: state.axios,
-    message: state.message
+    message: state.message,
+    code: state.code
   }
 }
 
 const mapDispatchToProps = (dispatch)=>{
   return {
     _set_StateInit: ()=>{dispatch(setSignInit());},
-    _submit_Signin: (submitObj)=>{dispatch(handleSignUser(submitObj));}
+    _submit_Signin: (submitObj, cancelToken)=>{dispatch(handleSignUser(submitObj, cancelToken));}
   }
 }
 

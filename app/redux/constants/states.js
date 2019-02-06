@@ -1,6 +1,7 @@
 export const initSign = {
   axios: false,
-  message:''
+  message:'',
+  code: ''
 }
 
 export const initGlobal = {
@@ -14,9 +15,13 @@ export const initGlobal = {
 } //should change the key:'userInfo' to other else
 
 export const initSelfFrontGeneral = {
+  axios: false,
   userSheet: {
     ify: false,
-    gender: ""
+    gender: "",
+    birthYear: "",
+    birthMonth:"",
+    birthDate: ""
   }
 }
 

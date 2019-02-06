@@ -9,55 +9,13 @@ import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import SignupForm from './SignupForm.jsx';
 import {
+  SignupMailresend,
+  SignupSuccess
+} from './SignupCom.jsx';
+import {
   axiosSwitch,
-  axiosGetRes,
-  handleSignUser
+  axiosGetRes
 } from "../../redux/actions/handleSign.js";
-
-class SignupSuccess extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-
-    };
-    this.style={
-      SignupSuccess_: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box'
-      }
-    }
-  }
-
-  componentDidMount() {
-
-  }
-
-  componentWillUnmount() {
-
-  }
-
-  render(){
-    //let cx = cxBind.bind(styles);
-    return(
-      <div
-        style={this.style.SignupSuccess_}>
-        <div>
-          <p>{"You've already sign up."}</p>
-          <p>{"The World has been there, but"}</p>
-          <p>{"completing the process by verifing your Email Adress!"}</p>
-          <Link
-            to="/signin">
-            <span>{"Sign in"}</span>
-          </Link>
-        </div>
-      </div>
-    )
-  }
-}
 
 class Signup extends React.Component {
   constructor(props){
@@ -91,6 +49,7 @@ class Signup extends React.Component {
       <div
         style={this.style.Signup_}>
         <Switch>
+          <Route path={this.props.match.path+"/email"} render={(props)=> <SignupMailresend {...props}/>}/>
           <Route path={this.props.match.path+"/success"} render={(props)=> <SignupSuccess {...props}/>}/>
           <Route path={this.props.match.path+"/"} render={(props)=> <SignupForm {...props}/>}/>
         </Switch>
@@ -108,7 +67,6 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch)=>{
   return {
-    _submit_Signin: (submitObj)=>{dispatch(handleSignUser(submitObj));},
     _set_axiosStatus: (bool)=>{dispatch(axiosSwitch(bool));},
     _set_axiosRes: (resObj)=>{dispatch(axiosGetRes(resObj));}
   }

@@ -2,7 +2,8 @@ import {
   MOUNT_USERINFO,
   UNIT_MOUNT_UNITCURRENT,
   UPDATE_NOUNSBASIC,
-  UPDATE_USERSBASIC
+  UPDATE_USERSBASIC,
+  AXIOS_SWITCH
 } from '../constants/typesGeneral.js';
 import {
   UPDATE_USERSHEET
@@ -19,6 +20,10 @@ export function mountUnitCurrent(obj) {
 
 export function mountUserSheet(sheetObj, accountSet) {
   return { type: UPDATE_USERSHEET, userSheet: sheetObj, accountSet: accountSet}
+};
+
+export function axiosSwitch(bool) {
+  return { type: AXIOS_SWITCH, status: bool }
 };
 
 export function handleNounsList(nounsArr) {

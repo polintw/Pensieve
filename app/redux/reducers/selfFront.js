@@ -2,7 +2,8 @@ import { combineReducers } from 'redux';
 import {
   MOUNT_USERINFO,
   UNIT_MOUNT_UNITCURRENT,
-  UPDATE_NOUNSBASIC
+  UPDATE_NOUNSBASIC,
+  AXIOS_SWITCH
 } from '../constants/typesGeneral.js';
 import {
   UPDATE_USERSHEET,
@@ -44,6 +45,11 @@ function pageSelfFront(state = initialGeneral, action){
     case UPDATE_NOUNSBASIC:
       return Object.assign({}, state, {
         nounsBasic: {...state.nousBasic, ...action.newFetch}
+      })
+      break;
+    case AXIOS_SWITCH:
+      return Object.assign({}, state, {
+        axios: action.status
       })
       break;
     default:

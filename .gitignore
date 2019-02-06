@@ -1,7 +1,6 @@
 README.txt
 
 node_modules/
-faked_Pics/
-config/
-dev/
+faked/
+config/.env.json
 public/react/

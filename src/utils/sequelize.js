@@ -30,26 +30,27 @@ sequelize
   });
 
 const _DB_users = sequelize.define('users', {
-    id: {type: Sequelize.INTEGER, primaryKey: true},
-    created: Sequelize.DATE,
-    status: Sequelize.TEXT('tiny'),
-    first_name: Sequelize.STRING(127),
-    last_name: Sequelize.STRING(127),
-    account: Sequelize.STRING(255)
+  id: {type: Sequelize.INTEGER(10).UNSIGNED, allowNull: false, autoIncrement: true, primaryKey: true},
+  createdAt: {type: Sequelize.DATE, allowNull: false, defaultValue: Sequelize.NOW},
+  status: Sequelize.TEXT('tiny'),
+  email: {type: Sequelize.STRING(127), allowNull: false},
+  first_name: {type: Sequelize.STRING(63), allowNull: false},
+  last_name: {type: Sequelize.STRING(63), allowNull: false},
+  account: {type: Sequelize.STRING(127), allowNull: false}
 })
 
 const _DB_users_apply = sequelize.define('users_apply', {
-  id_user: {type: Sequelize.INTEGER, unique: true},
+  id_user: {type: Sequelize.INTEGER(10).UNSIGNED, allowNull: false},
   status: Sequelize.TEXT('tiny'),
-  created: Sequelize.DATE,
-  token_email: Sequelize.STRING(1023)
+  createdAt: {type: Sequelize.DATE, allowNull: false, defaultValue: Sequelize.NOW},
+  token_email: {type: Sequelize.STRING(1023), allowNull: false}
 })
 
 const _DB_verifications = sequelize.define('verifications', {
-  id_user: Sequelize.INTEGER,
+  id_user: {type: Sequelize.INTEGER(10).UNSIGNED, allowNull: false},
   updatedAt: Sequelize.DATE,
-  email: Sequelize.STRING(127),
-  password: Sequelize.STRING(63)
+  email: {type: Sequelize.STRING(127), allowNull: false},
+  password: {type: Sequelize.STRING(63), allowNull: false},
 })
 
 const _DB_units = sequelize.define('units', {
@@ -87,6 +88,15 @@ const _DB_attribution = sequelize.define('attribution', {
   established: Sequelize.DATE
 })
 
+const _DB_sheets = sequelize.define('sheets', {
+  id_user: {type: Sequelize.INTEGER, unique: true},
+  gender: Sequelize.INTEGER.UNSIGNED,
+  birthYear: Sequelize.STRING(7),
+  birthMonth: Sequelize.STRING(7),
+  birthDate: Sequelize.STRING(7),
+  residence: Sequelize.STRING(127)
+})
+
 sequelize.sync({
   force: false //force true would drop the existed table
 }).then(()=>{
@@ -95,9 +105,10 @@ sequelize.sync({
   _DB_users_apply.removeAttribute('id');
   _DB_verifications.removeAttribute('id');
   _DB_attribution.removeAttribute('id');
+  _DB_sheets.removeAttribute('id');
   console.log('Sequelize: complete sync to database');
 }).catch(error=>{
-  console.error('Sequelize: error when initation: '+ error);
+  console.error('Error in Sequelize: when initation: '+ error);
 })
 
 module.exports = {
@@ -107,5 +118,6 @@ module.exports = {
     _DB_units: _DB_units,
     _DB_marks: _DB_marks,
     _DB_nouns: _DB_nouns,
+    _DB_sheets: _DB_sheets,
     _DB_attribution: _DB_attribution
 }

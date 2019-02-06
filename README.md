@@ -16,15 +16,22 @@ version "Lite" is the version released to the public of this project.
 
 
 #### Prepare
-config:
-- production databse connection_key
-- production jwt verification
-- production img server path
-    - FirsttoSrc: auth/register.js、img/requisition.js
-    - SecondtoSrc: shareds/sharedsPOST.js
-- production services key
-- others:
-    - domain name
+env:
+- node 10.15.1
+- npm  6.4.1
+- /bcrypt: check doc, uninstall and install again if needed
+
+.env.json:
+- production img serve
+- production databse connection
+- production jwt secret
+- production log path
+- production services require
+
+database
+- sequelize set --env production
+- db: migrate if needed
+- db:create to recreate a new database before db:migrate at first time
 
 
 #### Production

@@ -1,4 +1,5 @@
 const nodemailer = require("nodemailer");
+const winston = require('../../../config/winston.js');
 const {
   smtpAccount,
   domain
@@ -11,7 +12,7 @@ const _render_HtmlBody = (token)=>{
       '<div>'+
         '<p>Welcome to Corner as your new horizon.</p>'+
         '<p>Please click </p>'+
-        '<a href="http://'+domain.name+'/router/register/confirm?token='+token+'">Verify!</a>'+
+        '<a href="http://'+domain.name+'/router/register/mail/confirm?token='+token+'">Verify!</a>'+
         '<p> to complete email verification!</p>'+
         '<p>then, enjoy your adventure.</p>'+
       '</div>'+
@@ -41,7 +42,7 @@ function deliverVerifiedMail(userInfo, token){
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) reject({status: 500, err: 'There was an error '+error});
       else{
-        console.log('Address verification %s sent: %s', info.messageId, info.response);
+        winston.info('Address verification %s sent: %s', info.messageId, info.response);
         resolve();
       }
     });

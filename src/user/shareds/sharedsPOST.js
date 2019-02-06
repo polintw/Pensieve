@@ -49,7 +49,7 @@ function shareHandler_POST(req, res){
                 resolve(modifiedBody);
               }
             });
-          }).then(()=>{
+          }).then((modifiedBody)=>{
             Object.assign(modifiedBody, req.body);
             delete modifiedBody.coverBase64;
             delete modifiedBody.beneathBase64;
