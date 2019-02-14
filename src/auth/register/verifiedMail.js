@@ -33,7 +33,7 @@ function deliverVerifiedMail(userInfo, token){
 
     // setup email data with unicode symbols
     let mailOptions = {
-      from: '"Coner team" <noreply@teamcorner.nctu.me>', // sender address
+      from: '"Coner team" <noreply@cornerth.com>', // sender address
       to: userInfo.email, // list of receivers
       subject: userInfo.first_name+", please confirm your account", // Subject line
       html: _render_HtmlBody(token)

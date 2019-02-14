@@ -12,10 +12,8 @@ module.exports = {
         type: Sequelize.STRING(127),
         allowNull: false
       },
-      established: {
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
-        allowNull: false
+      prefix: {
+        type: Sequelize.STRING(127)
       },
       createdAt: {
         type: Sequelize.DATE,
@@ -27,11 +25,6 @@ module.exports = {
       }
     },{
       charset: 'utf8mb4' //for Mandarin, or emoji if you don't speak in mandarin
-    }).then(()=>{
-      return queryInterface.addConstraint('nouns', ['name'], {
-        type: 'unique',
-        name: 'constraint_unique_nouns_name'
-      });
     });
   },
   down: (queryInterface, Sequelize) => {
