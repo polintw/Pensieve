@@ -132,24 +132,23 @@ class EditingInfoSide extends React.Component {
             style={this.style.Com_Modal_Editing_ControlSide_Desitny_submit_}
             onClick={this.props._handleClick_Editing_Submit}>
             <span style={this.style.Com_Modal_Editing_ControlSide_Desitny_div_span}>
-              {"發 布"}
+              {"Submit"}
             </span>
           </div>
           <div
             style={this.style.Com_Modal_Editing_ControlSide_Desitny_cancell_}
             onClick={this.props._handleClick_Editing_Cancell}>
             <span style={this.style.Com_Modal_Editing_ControlSide_Desitny_div_span}>
-              {"取 消"}
+              {"Cancel"}
             </span>
           </div>
         </div>
         <div
           style={this.style.Com_EInfoSide_Date_}>
           <span>{this._render_getDay(editDate)}</span>
-          <span>{editDate.getMonth()+1}</span>
-          <span>{' 月'}</span>
           <span>{editDate.getDate()}</span>
-          <span>{' 日'}</span>
+          <span>{' .'}</span>
+          <span>{editDate.getMonth()+1}</span>
         </div>
         <div
           style={this.style.Com_EInfoSide_AccountPlate_}>

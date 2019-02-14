@@ -16,6 +16,17 @@ export default class NounsEditor extends React.Component {
         position: 'absolute',
         top: '0%',
         left: '0%'
+      },
+      Com_Editing_NounsEditor_List: {
+        width: '100%',
+        position: 'relative',
+        backgroundColor: 'rgba(180,180,180,0.6)'
+      },
+      Com_Editing_NounsEditor_SearchModel: {
+        width: '100%',
+        height: '5vh',
+        position: 'relative',
+        backgroundColor: 'rgba(180,180,180,0.6)'
       }
     }
   }
@@ -44,13 +55,18 @@ export default class NounsEditor extends React.Component {
   render() {
     return (
       <div
-        id='id_Com_Editing_NounsEditor__'
         style={this.style.Com_Editing_NounsEditor__}>
-        <NounsList
-          nounsList={this.state.nounsList}
-          nounsBasic={this.state.nounsBasic}/>
-        <SearchModalNouns
-          _set_nounChoose={this._set_nounChoose}/>
+        <div
+          style={this.style.Com_Editing_NounsEditor_List}>
+          <NounsList
+            nounsList={this.state.nounsList}
+            nounsBasic={this.state.nounsBasic}/>
+        </div>
+        <div
+          style={this.style.Com_Editing_NounsEditor_SearchModel}>
+          <SearchModalNouns
+            _set_nounChoose={this._set_nounChoose}/>
+        </div>
       </div>
     )
   }

@@ -65,37 +65,25 @@ export class SearchModalNouns extends React.Component {
     this.style={
       Com_NounsEditor_SearchModal_: {
         width: '100%',
-        height: '5vh',
-        position: 'relative'
+        height: '100%',
+        position: 'absolute'
       },
-      Com_NounsEditor_SearchModal_anchor_still: {
-        width: "80%",
-        height: '70%',
-        position: 'absolute',
-        top: '0',
-        left: '50%',
-        transform: '(-50%, 0)',
-        boxSizing: 'border-box',
-        border: '1px solid black',
-        cursor: 'text'
-      },
-      Com_NounsEditor_SearchModal_anchor_active: {
+      Com_NounsEditor_SearchModal_anchor: {
         width: "80%",
         height: '80%',
         position: 'absolute',
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        boxSizing: 'border-box',
-        backgroundColor: 'rgba(180,180,180,0.6)'
+        boxSizing: 'border-box'
+        cursor: 'text'
       },
       Com_NounsEditor_SearchModal_Modal_:{
-        width: '120%',
+        width: '100%',
         minHeight: '200%',
         position: 'absolute',
-        top: '50%',
-        left: '-50%',
-        transform: 'translate(-50%, -50%)',
+        top: '100%',
+        left: '0%',
         boxSizing: 'border-box',
         margin: '0',
         padding: '2%',
@@ -241,46 +229,43 @@ export class SearchModalNouns extends React.Component {
 
     return (
       <div
-        id='id_Com_NounsEditor_SearchModal_'
         style={this.style.Com_NounsEditor_SearchModal_}>
         <div
-          style={this.state.query?this.style.Com_NounsEditor_SearchModal_anchor_still:this.style.Com_NounsEditor_SearchModal_anchor_active}
+          style={this.style.Com_NounsEditor_SearchModal_anchor}
           onClick={this._handleClick_SearchModal_switch}>
-          {!this.state.query && "add some nouns......"}
+          {!this.state.query && "Find a place related......"}
         </div>
         {
           this.state.query &&
-          <ModalBox containerId="id_Com_NounsEditor_SearchModal_">
+          <div
+            style={this.style.Com_NounsEditor_SearchModal_Modal_}>
+            <input
+              ref={input => this.search = input}
+              style={this.style.Com_NounsEditor_SearchModal_Modal_input}
+              onChange={this._handleChange_SearchInput}/>
+            <ul
+              style={this.style.Com_InfoNoun_modal_ul_}>
+              {options}
+            </ul>
             <div
-              style={this.style.Com_NounsEditor_SearchModal_Modal_}>
-              <input
-                ref={input => this.search = input}
-                style={this.style.Com_NounsEditor_SearchModal_Modal_input}
-                onChange={this._handleChange_SearchInput}/>
-              <ul
-                style={this.style.Com_InfoNoun_modal_ul_}>
-                {options}
-              </ul>
-              <div
-                style={this.style.Com_NounsEditor_SearchModal_Modal_panel}>
-                {
-                  this.state.query &&
-                  <div>
-                    <span>{'或'}</span>
-                    <span
-                      style={{backgroundColor: 'reba(230, 210, 210, 0.8)', cursor: 'pointer'}}
-                      onClick={this._handleClick_nounCreate}>
-                      {" 新增 "}</span>
-                    <span>{this.state.query}</span>
-                  </div>
-                }
-                <span
-                  style={{cursor: 'pointer'}}
-                  onClick={this._handleClick_SearchModal_switch}>
-                  {" 完成"}</span>
-              </div>
+              style={this.style.Com_NounsEditor_SearchModal_Modal_panel}>
+              {
+                this.state.query &&
+                <div>
+                  <span>{'或'}</span>
+                  <span
+                    style={{backgroundColor: 'reba(230, 210, 210, 0.8)', cursor: 'pointer'}}
+                    onClick={this._handleClick_nounCreate}>
+                    {" 新增 "}</span>
+                  <span>{this.state.query}</span>
+                </div>
+              }
+              <span
+                style={{cursor: 'pointer'}}
+                onClick={this._handleClick_SearchModal_switch}>
+                {" 完成"}</span>
             </div>
-          </ModalBox>
+          </div>
         }
       </div>
     )
