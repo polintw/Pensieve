@@ -27,11 +27,13 @@ export class NounsList extends React.Component {
 
   render() {
     const nouns = this.props.nounsList.map((nounId, index) => {
+      let thisNoun = this.props.nounsBasic[nounId];
       return(
         <li
           key={'_key_nounList_item_'+index}
           style={this.style.Com_NounsEditor_List_item}>
-          {this.props.nounsBasic[nounId].name}
+          <span>{thisNoun.name}</span>
+          <span style={{fontStyle: 'italic', color:'#F1F1F1'}}>{thisNoun.prefix ? ", "+thisNoun.prefix :""}</span>
         </li>
       )
     })
@@ -175,7 +177,8 @@ class NounsSearchModal extends React.Component {
         position: 'relative',
         boxSizing: 'border-box',
         margin: '12px 0',
-        fontSize: '2.4vh'
+        fontSize: '2.4vh',
+        cursor: 'pointer'
       }
     }
   }
@@ -183,7 +186,7 @@ class NounsSearchModal extends React.Component {
   _axios_get_NounSet(){
     const self = this;
     this.setState({axios: true});
-    axios.get(`/router/nouns/search/simple?prefix=${this.state.query}&limit=5`, {
+    axios.get(`/router/nouns/search/simple?aquired=${this.state.query}&limit=5`, {
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']
@@ -221,7 +224,8 @@ class NounsSearchModal extends React.Component {
               index={index}
               style={this.style.Com_InfoNoun_modal_ul_li}
               onClick={this._handleClick_nounChoose}>
-              {nounBasic.name}
+              <span>{nounBasic.name}</span>
+              <span>{nounBasic.prefix? (", "+nounBasic.prefix):("")}</span>
             </li>
           )
         })

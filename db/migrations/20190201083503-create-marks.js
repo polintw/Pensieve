@@ -29,7 +29,7 @@ module.exports = {
         allowNull: false
       },
       editor_content: {
-        type: Sequelize.STRING(1023)
+        type: Sequelize.STRING(2047)
       },
       serial: {
         type: Sequelize.INTEGER(3).UNSIGNED,

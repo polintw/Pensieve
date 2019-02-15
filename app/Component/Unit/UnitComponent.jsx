@@ -64,14 +64,16 @@ export class NounsExtensible extends React.Component {
     for(let i = 0; i < expandLeng ; i++){
       if(i >= this.props.nouns.list.length) break;
       let nounId = self.props.nouns.list[i];
+      let iNoun = self.props.nouns.basic[nounId];
       nounsArr.push(
         <li
           key={"key_unitModal_Nouns_"+i}
           nounid={nounId}
           style={self.style.Com_Nouns_Extensible_list_item_}
           onClick={self._handleClick_listNoun}>
-          <span>
-            {self.props.nouns.basic[nounId].name}
+          <span
+            title={iNoun.ame+", "+iNoun.prefix}>
+            {iNoun.name}
           </span>
         </li>
       )

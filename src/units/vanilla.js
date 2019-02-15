@@ -63,13 +63,13 @@ function _handle_unit_Mount(req, res){
               })
             }).then((tempData)=>{
               return new Promise((resolve, reject)=>{
-                let selectQuery = 'SELECT id, name FROM nouns WHERE (id) IN (?)';
+                let selectQuery = 'SELECT id, name, prefix FROM nouns WHERE (id) IN (?)';
                 connection.query(selectQuery, [tempData['temp'].nounsKey], function(err, results, fields) {
                   if (err) {_handler_err_Internal(err, res);reject(err);return;}
                   console.log('database connection: success, query to nouns.')
                   if (results.length > 0) {
                     results.forEach(function(result, index){
-                      tempData['nouns']['basic'][result.id] = {id:result.id, name: result.name};
+                      tempData['nouns']['basic'][result.id] = {id:result.id, name: result.name, prefix: result.prefix};
                     })
                     //this part is a temp method before a whole update of this file.
                     tempData.sendingData.nouns = tempData.nouns;

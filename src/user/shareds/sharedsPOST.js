@@ -135,23 +135,29 @@ function shareHandler_POST(req, res){
               return new Promise((resolve, reject)=>{
                 _db_addAttribution(resolve, reject);
               })*/
-              let valuesArr = [];
+              let valuesArr = [],
+                  promiseArr= [];
               modifiedBody.nouns.list.forEach(function(nounKey, index){
-                _DB_nouns.findById(nounKey).then(noun=>{ //check if the noun exist!
-                  if(!noun) return;
-                  let nounBasic = modifiedBody.nouns.basic[nounKey];
-                  valuesArr.push([
-                    nounBasic.id,
-                    modifiedBody.id_unit,
-                    userId
-                  ]);
+                let checkReq = Promise.resolve(
+                  _DB_nouns.findByPk(nounKey).then(noun=>{ //check if the noun exist!
+                    if(!noun) return;
+                    let nounBasic = modifiedBody.nouns.basic[nounKey];
+                    valuesArr.push([
+                      nounBasic.id,
+                      modifiedBody.id_unit,
+                      userId
+                    ]);
+                  })
+                )
+                promiseArr.push(checkReq);
+              });
+              Promise.all(promiseArr).then(()=>{
+                if(valuesArr.length<1) throw new forbbidenError({"warning": "you've passed an invalid nouns key"}, 120);
+                connection.query('INSERT INTO attribution (id_noun, id_unit, id_author) VALUES ?', [valuesArr], function(err, rows, fields) {
+                  if (err) {reject(err);return;}
+                  console.log('database connection: success.')
+                  resolve(modifiedBody)
                 })
-              })
-              if(valuesArr.length<1) throw new forbbidenError({"warning": "you've passed an invalid nouns key"}, 120);
-              connection.query('INSERT INTO attribution (id_noun, id_unit, id_author) VALUES ?', [valuesArr], function(err, rows, fields) {
-                if (err) {reject(err);return;}
-                console.log('database connection: success.')
-                resolve(modifiedBody)
               })
             })
           }).then(()=>{

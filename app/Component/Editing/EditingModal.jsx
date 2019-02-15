@@ -132,7 +132,8 @@ class EditingModal extends React.Component {
     delete newObj.coverMarks;
     delete newObj.beneathMarks;
     newObj.joinedMarksList.forEach((key, index)=>{
-      newObj.joinedMarks[key].editorContent = JSON.stringify(newObj.joinedMarks[key].editorContent);
+      let editorString = JSON.stringify(newObj.joinedMarks[key].editorContent);
+      newObj.joinedMarks[key].editorContent = editorString;
     })
 
     this.props._set_Submit(newObj);

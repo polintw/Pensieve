@@ -179,5 +179,6 @@ module.exports= {
   _handler_ErrorRes,
   _handler_err_BadReq,
   _handler_err_NotFound,
-  _handler_err_Unauthorized
+  _handler_err_Unauthorized,
+  _handler_err_Internal
 }

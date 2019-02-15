@@ -14,11 +14,6 @@ module.exports = {
         type: Sequelize.INTEGER(10).UNSIGNED,
         allowNull: false
       },
-      established: {
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
-        allowNull: false
-      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
