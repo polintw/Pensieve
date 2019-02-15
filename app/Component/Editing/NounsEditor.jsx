@@ -1,5 +1,5 @@
 import React from 'React';
-import {NounsList, SearchModalNouns} from './NounsEditorCom.jsx';
+import {NounsList, SearchModule} from './NounsEditorCom.jsx';
 
 export default class NounsEditor extends React.Component {
   constructor(props){
@@ -22,34 +22,23 @@ export default class NounsEditor extends React.Component {
         position: 'relative',
         backgroundColor: 'rgba(180,180,180,0.6)'
       },
-      Com_Editing_NounsEditor_SearchModel: {
+      Com_Editing_NounsEditor_SearchModule: {
         width: '100%',
         height: '5vh',
-        position: 'relative',
-        backgroundColor: 'rgba(180,180,180,0.6)'
+        position: 'relative'
       }
     }
   }
 
-  _set_nounChoose(nounBasic, ify){
-    if(ify){
-      let nounObj = Object.assign({ify: true}, nounBasic);
-      this.setState((prevState, props)=>{
-        prevState.nounsList.push(nounObj.id);
-        prevState.nounsBasic[nounObj.id] = nounObj;
-        this.props._set_nouns({list: prevState.nounsList, basic: prevState.nounsBasic});
-        return prevState;
-      })
-    }else{
-      let nounObj = Object.assign({ify: false}, nounBasic);
-      this.setState((prevState, props)=>{
-        const tempId = "nounsEditor_tempNouns_"+prevState.nounsList.length;
-        prevState.nounsList.push(tempId);
-        prevState.nounsBasic[tempId] = Object.assign({id:tempId}, nounObj);
-        this.props._set_nouns({list: prevState.nounsList, basic: prevState.nounsBasic});
-        return prevState;
-      })
-    }
+  _set_nounChoose(nounBasic){
+    let nounObj = Object.assign({}, nounBasic);
+    this.setState((prevState, props)=>{
+      prevState.nounsList.push(nounObj.id);
+      prevState.nounsBasic[nounObj.id] = nounObj;
+      return prevState;
+    }, ()=>{
+      this.props._set_nouns({list: this.state.nounsList, basic: this.state.nounsBasic});
+    })
   }
 
   render() {
@@ -63,8 +52,8 @@ export default class NounsEditor extends React.Component {
             nounsBasic={this.state.nounsBasic}/>
         </div>
         <div
-          style={this.style.Com_Editing_NounsEditor_SearchModel}>
-          <SearchModalNouns
+          style={this.style.Com_Editing_NounsEditor_SearchModule}>
+          <SearchModule
             _set_nounChoose={this._set_nounChoose}/>
         </div>
       </div>

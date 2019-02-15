@@ -76,6 +76,15 @@ class notFoundError extends Error {
   }
 }
 
+class notAcceptable extends Error {
+  constructor(message, code) {
+    super(message);
+    this.status = 406;
+    this.code = code;
+    this.message = message;
+  }
+}
+
 class tooManyReqError extends Error {
   constructor(message, code) {
     super(message);
@@ -122,6 +131,13 @@ function _handle_ErrCatched(e, req, res){
       break;
     case 87:
       clientSet['code'] = 87;
+      clientSet['message'] = e.message;
+      clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
+    case 120:
+      //currently used by sharedsPOST, when there is no noun accompany
+      clientSet['code'] = 120;
       clientSet['message'] = e.message;
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);

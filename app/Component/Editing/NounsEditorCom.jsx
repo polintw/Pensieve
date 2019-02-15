@@ -11,7 +11,6 @@ export class NounsList extends React.Component {
     this.style={
       Com_NounsEditor_List_: {
         width: '100%',
-        position: 'absolute',
         top: '0%',
         left: '0',
         boxSizing: 'border-box',
@@ -46,22 +45,14 @@ export class NounsList extends React.Component {
   }
 }
 
-export class SearchModalNouns extends React.Component {
+export class SearchModule extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      axios: false,
-      query: null,
-      optional: false,
-      options: []
+      expandify: false
     };
-    this.axiosSource = axios.CancelToken.source();
-    this._axios_get_NounSet = this._axios_get_NounSet.bind(this);
-    this._render_SearchResults = this._render_SearchResults.bind(this);
+    this._set_SearchModal_switch = this._set_SearchModal_switch.bind(this);
     this._handleClick_SearchModal_switch = this._handleClick_SearchModal_switch.bind(this);
-    this._handleClick_nounChoose = this._handleClick_nounChoose.bind(this);
-    this._handleClick_nounCreate = this._handleClick_nounCreate.bind(this);
-    this._handleChange_SearchInput = this._handleChange_SearchInput.bind(this);
     this.style={
       Com_NounsEditor_SearchModal_: {
         width: '100%',
@@ -76,8 +67,62 @@ export class SearchModalNouns extends React.Component {
         left: '50%',
         transform: 'translate(-50%, -50%)',
         boxSizing: 'border-box',
+        backgroundColor: 'rgba(180,180,180,0.6)',
         cursor: 'text'
       },
+    }
+  }
+
+  _set_SearchModal_switch(){
+    this.setState((prevState, index)=>{
+      return {expandify: prevState.expandify?false:true}
+    });
+  }
+  _handleClick_SearchModal_switch(event){
+    event.stopPropagation();
+    event.preventDefault();
+    this._set_SearchModal_switch();
+  }
+
+  render() {
+    return (
+      <div
+        style={this.style.Com_NounsEditor_SearchModal_}>
+        {
+          this.state.expandify ?(
+            <NounsSearchModal
+              _set_nounChoose={this.props._set_nounChoose}
+              _set_SearchModal_switch={this._set_SearchModal_switch}
+              _handleClick_SearchModal_switch={this._handleClick_SearchModal_switch}/>
+          ):(
+            <div
+              style={this.style.Com_NounsEditor_SearchModal_anchor}
+              onClick={this._handleClick_SearchModal_switch}>
+              {"Find a place related......"}
+            </div>
+          )
+        }
+      </div>
+    )
+  }
+}
+
+class NounsSearchModal extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      axios: false,
+      query: "",
+      optional: false,
+      options: []
+    };
+    this.search = React.createRef();
+    this.axiosSource = axios.CancelToken.source();
+    this._axios_get_NounSet = this._axios_get_NounSet.bind(this);
+    this._render_SearchResults = this._render_SearchResults.bind(this);
+    this._handleChange_SearchInput = this._handleChange_SearchInput.bind(this);
+    this._handleClick_nounChoose = this._handleClick_nounChoose.bind(this);
+    this.style={
       Com_NounsEditor_SearchModal_Modal_:{
         width: '100%',
         minHeight: '200%',
@@ -88,7 +133,7 @@ export class SearchModalNouns extends React.Component {
         margin: '0',
         padding: '2%',
         boxShadow: '0px 5px 1.8vh -0.5vh #010101',
-        backgroundColor: '#51514A',
+        backgroundColor: 'rgba(180,180,180,0.6)',
         color: '#FAFAFA'
       },
       Com_NounsEditor_SearchModal_Modal_panel: {
@@ -191,7 +236,7 @@ export class SearchModalNouns extends React.Component {
 
   _handleChange_SearchInput(){
     this.setState({
-      query: this.search.value
+      query: this.search.current.value
     }, () => {
       if (this.state.query && this.state.query.length > 0) {
         this._axios_get_NounSet()
@@ -203,24 +248,12 @@ export class SearchModalNouns extends React.Component {
     event.stopPropagation();
     event.preventDefault();
     let nounBasic = Object.assign({}, this.state.options[event.currentTarget.getAttribute('index')]);
-    this.props._set_nounChoose(nounBasic, true);
-    this.search.value = ''
-    this.setState({query: '', options:[]});
+    this.props._set_nounChoose(nounBasic);
+    this.props._set_SearchModal_switch();
   }
 
-  _handleClick_nounCreate(event){
-    event.stopPropagation();
-    event.preventDefault();
-    let newName = ''+this.state.query;
-    this.props._set_nounChoose({name: newName}, false);
-    this.setState({query: '', options:[]});
-    this.search.value = '';
-  }
-
-  _handleClick_SearchModal_switch(event){
-    event.stopPropagation();
-    event.preventDefault();
-    this.setState((prevState, index)=>{return {query: prevState.query?null:true}});
+  componentDidMount(){
+    this.search.current.focus();
   }
 
   componentWillUnmount(){
@@ -229,54 +262,29 @@ export class SearchModalNouns extends React.Component {
     }
   }
 
-  render() {
+  render(){
     const options = this._render_SearchResults();
 
-    return (
+    return(
       <div
-        style={this.style.Com_NounsEditor_SearchModal_}>
-        {
-          this.state.query ?(
-            <div
-              style={this.style.Com_NounsEditor_SearchModal_Modal_}>
-              <div
-                style={this.style.Com_NounsEditor_SearchModal_Modal_panel_}>
-                <input
-                  ref={input => this.search = input}
-                  style={this.style.Com_NounsEditor_SearchModal_Modal_panel_input}
-                  onChange={this._handleChange_SearchInput} />
-                <div>
-                  {"cancel"}
-                </div>
-              </div>
-              <ul
-                style={this.style.Com_InfoNoun_modal_ul_}>
-                {options}
-              </ul>
-
-              
-              <div
-                style={this.style.Com_NounsEditor_SearchModal_Modal_panel}>
-                <span>{'或'}</span>
-                <span
-                  style={{ backgroundColor: 'reba(230, 210, 210, 0.8)', cursor: 'pointer' }}
-                  onClick={this._handleClick_nounCreate}>
-                  {" 新增 "}</span>
-                <span>{this.state.query}</span>
-                <span
-                  style={{ cursor: 'pointer' }}
-                  onClick={this._handleClick_SearchModal_switch}>
-                  {" 完成"}</span>
-              </div>
-            </div>
-          ):(
-              <div
-                style={this.style.Com_NounsEditor_SearchModal_anchor}
-                onClick={this._handleClick_SearchModal_switch}>
-                {"Find a place related......"}
-              </div>
-          )
-        }
+        style={this.style.Com_NounsEditor_SearchModal_Modal_}>
+        <div
+          style={this.style.Com_NounsEditor_SearchModal_Modal_panel_}>
+          <input
+            ref={this.search}
+            value={this.state.query}
+            style={this.style.Com_NounsEditor_SearchModal_Modal_panel_input}
+            onChange={this._handleChange_SearchInput} />
+          <div
+            style={{ cursor: 'pointer' }}
+            onClick={this.props._handleClick_SearchModal_switch}>
+            {"cancel"}
+          </div>
+        </div>
+        <ul
+          style={this.style.Com_InfoNoun_modal_ul_}>
+          {options}
+        </ul>
       </div>
     )
   }

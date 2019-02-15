@@ -7,7 +7,16 @@ const {connection_key} = require('../../../config/database.js');
 const {
   userImg_SecondtoSrc
 } = require('../../../config/path.js');
-const {_handler_err_BadReq, _handler_err_Unauthorized, _handler_err_Internal} = require('../../utils/reserrHandler.js');
+
+const _DB_nouns = require('../../../db/models/index').nouns;
+const {
+  _handler_err_BadReq,
+  _handler_err_Unauthorized,
+  _handler_err_Internal,
+  _handle_ErrCatched,
+  forbbidenError,
+  notAcceptable
+} = require('../../utils/reserrHandler.js');
 
 const database = mysql.createPool(connection_key);
 
@@ -93,6 +102,7 @@ function shareHandler_POST(req, res){
             })
           }).then(function(modifiedBody){
             console.log('add new one, write into the table: attribution.');
+            /* Below, is the part to create a new noun by user, concept not use for now
             let _db_createNoun = (resolve, reject, newNounskey)=>{
               let valuesArr = newNounskey.map((nounKey, index)=>{
                 return [modifiedBody.nouns.basic[nounKey].name]
@@ -107,23 +117,9 @@ function shareHandler_POST(req, res){
                 resolve(modifiedBody)
               })
             };// Should consider isolate this part, create a new noun, to a independent api!!
-
-            let _db_addAttribution = (resolve, reject)=>{
-              let valuesArr = modifiedBody.nouns.list.map(function(nounKey, index){
-                let nounBasic = modifiedBody.nouns.basic[nounKey];
-                return [
-                  nounBasic.id,
-                  modifiedBody.id_unit,
-                  userId
-                ]
-              })
-              connection.query('INSERT INTO attribution (id_noun, id_unit, id_author) VALUES ?', [valuesArr], function(err, rows, fields) {
-                if (err) {reject(err);return;}
-                console.log('database connection: success.')
-                resolve(modifiedBody)
-              })
-            };
+            */
             return new Promise((resolve, reject)=>{
+              /*also in the concept of new noun create by user
               let newNounskey = [];
               modifiedBody.nouns.list.forEach((nounId, index)=>{
                 if(!modifiedBody.nouns.basic[nounId].ify){
@@ -138,6 +134,24 @@ function shareHandler_POST(req, res){
             }).then((modifiedBody)=>{
               return new Promise((resolve, reject)=>{
                 _db_addAttribution(resolve, reject);
+              })*/
+              let valuesArr = [];
+              modifiedBody.nouns.list.forEach(function(nounKey, index){
+                _DB_nouns.findById(nounKey).then(noun=>{ //check if the noun exist!
+                  if(!noun) return;
+                  let nounBasic = modifiedBody.nouns.basic[nounKey];
+                  valuesArr.push([
+                    nounBasic.id,
+                    modifiedBody.id_unit,
+                    userId
+                  ]);
+                })
+              })
+              if(valuesArr.length<1) throw new forbbidenError({"warning": "you've passed an invalid nouns key"}, 120);
+              connection.query('INSERT INTO attribution (id_noun, id_unit, id_author) VALUES ?', [valuesArr], function(err, rows, fields) {
+                if (err) {reject(err);return;}
+                console.log('database connection: success.')
+                resolve(modifiedBody)
               })
             })
           }).then(()=>{
