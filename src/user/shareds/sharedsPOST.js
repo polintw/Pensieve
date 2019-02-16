@@ -139,7 +139,9 @@ function shareHandler_POST(req, res){
                   promiseArr= [];
               modifiedBody.nouns.list.forEach(function(nounKey, index){
                 let checkReq = Promise.resolve(
-                  _DB_nouns.findByPk(nounKey).then(noun=>{ //check if the noun exist!
+                  //check if the noun exist! But!
+                  // actually, we should use findall.() to reduce processing time
+                  _DB_nouns.findByPk(nounKey).then(noun=>{
                     if(!noun) return;
                     let nounBasic = modifiedBody.nouns.basic[nounKey];
                     valuesArr.push([
@@ -151,6 +153,7 @@ function shareHandler_POST(req, res){
                 )
                 promiseArr.push(checkReq);
               });
+              //if we use findall(), we don't need to use Promise.all
               Promise.all(promiseArr).then(()=>{
                 if(valuesArr.length<1) throw new forbbidenError({"warning": "you've passed an invalid nouns key"}, 120);
                 connection.query('INSERT INTO attribution (id_noun, id_unit, id_author) VALUES ?', [valuesArr], function(err, rows, fields) {

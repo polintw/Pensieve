@@ -113,7 +113,7 @@ export default class UnitModal extends React.Component {
       },
       Com_UnitModal_ControlSection_DateConverter: {
         width: '80%',
-        height: '20%',
+        height: '12%',
         position: 'absolute',
         top: '2%',
         left: '0',

@@ -72,7 +72,7 @@ export class NounsExtensible extends React.Component {
           style={self.style.Com_Nouns_Extensible_list_item_}
           onClick={self._handleClick_listNoun}>
           <span
-            title={iNoun.ame+", "+iNoun.prefix}>
+            title={iNoun.name+ (iNoun.prefix ? ", "+iNoun.prefix:"")}>
             {iNoun.name}
           </span>
         </li>
