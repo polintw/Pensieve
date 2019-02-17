@@ -3,16 +3,20 @@ import {connect} from "react-redux";
 import EditingModal from './Editing/EditingModal.jsx';
 import ModalBox from './ModalBox.jsx';
 import ModalBackground from './ModalBackground.jsx';
+import {
+  switchUnitSubmitting
+} from "../redux/actions/general.js";
 
 class CreateShare extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       editingModal: false,
-      axios: false
+      warningModel: false
     };
     this._open_editingModal = () => {this.setState({editingModal: true})};
     this._close_editingModal = () => {this.setState({editingModal: false})};
+    this.axiosSource = axios.CancelToken.source();
     this._refer_toandclose = this._refer_toandclose.bind(this);
     this._handleClick_CreateShare_init = this._handleClick_CreateShare_init.bind(this);
     this._handleClick_CreateShare_clear = this._handleClick_CreateShare_clear.bind(this);
@@ -43,8 +47,10 @@ class CreateShare extends React.Component {
   }
 
   _handleClick_CreateShare_clear(){
+    if(this.props.unitSubmitting) this.setState({warningModel: true});
     this.setState({
-      editingModal: false
+      editingModal: false,
+      warningModel: false
     })
   }
 
@@ -66,33 +72,38 @@ class CreateShare extends React.Component {
     };
     //don't set any parameter in the callback,
     //would take the variable above directly
-    this.setState((pveState, props) => {return {axios: true};}, () => {
-      this._axios_post_Share_new(newShareObj);
-    })
+    this._axios_post_Share_new(newShareObj);
   }
 
   _axios_post_Share_new(newObj){
     const self = this;
+    self.props._set_unitSubmitting(false);
     axios.post('/router/user/'+self.props.userInfo.id+'/shareds', newObj, {
       headers: {
         'Content-Type': 'application/json',
         'charset': 'utf-8',
         'token': window.localStorage['token']
-      }
+      },
+      cancelToken: this.axiosSource.token
     }).then(function (res) {
         if(res.status = 201){
           console.log("share created successfully!");
-          self.setState({editingModal: false, axios: false});
+          self.props._set_unitSubmitting(false);
           self.props._submit_Share_New();
         }else{
           console.log("Failed: "+ res.data.err);
-          self.setState({axios: false});
+          self.props._set_unitSubmitting(false);
           alert("Failed, please try again later");
         }
     }).catch(function (error) {
-      console.log(error);
-      self.setState({axios: false});
-      alert("Failed, please try again later");
+      if (axios.isCancel(error)) {
+        self.props._set_unitSubmitting(false);
+        console.log('Request canceled: ', error.message);
+      } else {
+        self.props._set_unitSubmitting(false);
+        console.log(error);
+        alert("Failed, please try again later");
+      }
     });
   }
 
@@ -112,6 +123,25 @@ class CreateShare extends React.Component {
             </ModalBackground>
           </ModalBox>
         }
+        {
+          this.state.warningModel &&
+          <ModalBox containerId="root">
+            <ModalBackground onClose={()=>{}} style={{backgroundColor: "transparent", position: "fixed"}}>
+              <div
+                style={{
+                  width: '30%',
+                  height: '20vh',
+                  position: 'absolute',
+                  top: '20vh',
+                  left: '50%',
+                  transform: 'translate(-50%,0)',
+                  backgroundColor: 'white'
+                }}>
+                {"data is submitting, please hold on..."}
+              </div>
+            </ModalBackground>
+          </ModalBox>
+        }
       </div>
     )
   }
@@ -119,11 +149,18 @@ class CreateShare extends React.Component {
 
 const mapStateToProps = (state)=>{
   return {
-    userInfo: state.userInfo
+    userInfo: state.userInfo,
+    unitCurrent: state.unitCurrent,
+    unitSubmitting: state.unitSubmitting
+  }
+}
+const mapDispatchToProps = (dispatch)=>{
+  return {
+    _set_unitSubmitting: (bool)=>{dispatch(switchUnitSubmitting(bool));},
   }
 }
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(CreateShare);

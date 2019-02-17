@@ -1,6 +1,9 @@
 import React from 'React';
 import {connect} from "react-redux";
 import EditingModal from '../Editing/EditingModal.jsx';
+import {
+  switchUnitSubmitting
+} from "../../redux/actions/general.js";
 
 class ResModal extends React.Component {
   constructor(props){
@@ -8,6 +11,7 @@ class ResModal extends React.Component {
     this.state = {
 
     };
+    this.axiosSource = axios.CancelToken.source();
     this._refer_toandclose = this._refer_toandclose.bind(this);
     this._handleClick_resModal_SubmitFile = this._handleClick_resModal_SubmitFile.bind(this);
     this._axios_post_Share_new = this._axios_post_Share_new.bind(this);
@@ -46,28 +50,30 @@ class ResModal extends React.Component {
 
   _axios_post_Share_new(newObj){
     const self = this;
-    self.props._set_axios(true);
+    self.props._set_unitSubmitting(true);
     axios.post('/router/user/'+self.props.userInfo.id+'/shareds?primer='+this.props.unitId, newObj, {
       headers: {
         'Content-Type': 'application/json',
         'charset': 'utf-8',
         'token': window.localStorage['token']
-      }
+      },
+      cancelToken: this.axiosSource.token
     }).then(function (res) {
         if(res.status = 201){
           console.log("share created successfully!");
-          self.props._set_axios(false);
+          self.props._set_unitSubmitting(false);
           self._submit_Share_New();
         }else{
           console.log("Failed: "+ res.data.err);
-          self.props._set_axios(false);
+          self.props._set_unitSubmitting(false);
           alert("Failed, please try again later");
         }
     }).catch(function (thrown) {
       if (axios.isCancel(thrown)) {
+        self.props._set_unitSubmitting(false);
         console.log('Request canceled: ', thrown.message);
       } else {
-        self.setState({axios: false});
+        self.props._set_unitSubmitting(false);
         if (thrown.response) {
           // The request was made and the server responded with a status code that falls out of the range of 2xx
           alert('Something went wrong: '+thrown.response.data.message)
@@ -106,11 +112,18 @@ class ResModal extends React.Component {
 
 const mapStateToProps = (state)=>{
   return {
-    userInfo: state.userInfo
+    userInfo: state.userInfo,
+    unitCurrent: state.unitCurrent,
+    unitSubmitting: state.unitSubmitting
+  }
+}
+const mapDispatchToProps = (dispatch)=>{
+  return {
+    _set_unitSubmitting: (bool)=>{dispatch(switchUnitSubmitting(bool));},
   }
 }
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(ResModal);

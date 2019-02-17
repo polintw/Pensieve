@@ -29,7 +29,8 @@ class Unit extends React.Component {
         nouns: null,
         authorBasic: null,
         createdAt: null
-      }
+      },
+      warningModel: false
     };
     this._close_modal_Unit = this._close_modal_Unit.bind(this);
     this.unitId = this.props.match.params.id;
@@ -58,6 +59,7 @@ class Unit extends React.Component {
   }
 
   _close_modal_Unit(){
+    if(this.props.unitSubmitting) this.setState({warningModel: true});
     this.setState((prevState, props)=>{
       return {
         close: true
@@ -70,6 +72,7 @@ class Unit extends React.Component {
     let beneathify = !!this.unitInit['pic_layer1'];
     let axiosArr = [this._axios_getUnitData(),this._axios_getUnitImg('pic_layer0')];
     if(beneathify){axiosArr.push(this._axios_getUnitImg('pic_layer1'))};
+    self.setState({axios: true});
     axios.all(axiosArr).then(
       axios.spread(function(unitRes, resImgCover, resImgBeneath){
         let resObj = JSON.parse(unitRes.data);
@@ -123,37 +126,56 @@ class Unit extends React.Component {
     if(this.state.close){return <Redirect to={this.props.location.state.from}/>}
 
     return(
-      <ModalBox containerId="root">
-        <ModalBackground onClose={this._close_modal_Unit} style={{position: "fixed"}}>
-          {
-            this.state.mode=="editing"&&this.props.unitCurrent.identity=="author"?(
-              <AuthorModal
-                mode={this.state.mode}
-                unitSet= {this.state.unitSet}
-                _set_axios={this._set_axios}
-                _set_Modalmode={this._set_Modalmode}
-                _refer_von_unit={this.props._refer_von_unit}/>
-          ):(
-              <div>
-                <ResModal
-                  unitId={this.unitId}
+      <div>
+        <ModalBox containerId="root">
+          <ModalBackground onClose={this._close_modal_Unit} style={{position: "fixed"}}>
+            {
+              this.state.mode=="editing"&&this.props.unitCurrent.identity=="author"?(
+                <AuthorModal
                   mode={this.state.mode}
-                  _set_axios={this._set_axios}
-                  _set_Modalmode={this._set_Modalmode}
-                  _refer_von_unit={this.props._refer_von_unit}/>
-                <UnitModal
-                  unitId={this.unitId}
-                  mode={this.state.mode}
-                  unitInit={this.unitInit}
                   unitSet= {this.state.unitSet}
                   _set_Modalmode={this._set_Modalmode}
-                  _close_modal_Unit={this._close_modal_Unit}
                   _refer_von_unit={this.props._refer_von_unit}/>
+            ):(
+                <div>
+                  <ResModal
+                    unitId={this.unitId}
+                    mode={this.state.mode}
+                    _set_Modalmode={this._set_Modalmode}
+                    _refer_von_unit={this.props._refer_von_unit}/>
+                  <UnitModal
+                    unitId={this.unitId}
+                    mode={this.state.mode}
+                    unitInit={this.unitInit}
+                    unitSet= {this.state.unitSet}
+                    _set_Modalmode={this._set_Modalmode}
+                    _close_modal_Unit={this._close_modal_Unit}
+                    _refer_von_unit={this.props._refer_von_unit}/>
+                </div>
+              )
+            }
+          </ModalBackground>
+        </ModalBox>
+        {
+          this.state.warningModel &&
+          <ModalBox containerId="root">
+            <ModalBackground onClose={()=>{}} style={{backgroundColor: "transparent", position: "fixed"}}>
+              <div
+                style={{
+                  width: '30%',
+                  height: '20vh',
+                  position: 'absolute',
+                  top: '20vh',
+                  left: '50%',
+                  transform: 'translate(-50%,0)',
+                  backgroundColor: 'white'
+                }}>
+                {"data is submitting, please hold on..."}
               </div>
-            )
-          }
-        </ModalBackground>
-      </ModalBox>
+            </ModalBackground>
+          </ModalBox>
+        }
+      </div>
     )
   }
 }
@@ -161,7 +183,8 @@ class Unit extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
-    unitCurrent: state.unitCurrent
+    unitCurrent: state.unitCurrent,
+    unitSubmitting: state.unitSubmitting
   }
 }
 

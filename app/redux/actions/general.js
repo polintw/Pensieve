@@ -1,6 +1,7 @@
 import {
   MOUNT_USERINFO,
   UNIT_MOUNT_UNITCURRENT,
+  UNIT_SUBMITTING_SWITCH,
   UPDATE_NOUNSBASIC,
   UPDATE_USERSBASIC,
   AXIOS_SWITCH
@@ -20,6 +21,10 @@ export function mountUnitCurrent(obj) {
 
 export function mountUserSheet(sheetObj, accountSet) {
   return { type: UPDATE_USERSHEET, userSheet: sheetObj, accountSet: accountSet}
+};
+
+export function switchUnitSubmitting(bool) {
+  return { type: UNIT_SUBMITTING_SWITCH, unitSubmitting: bool}
 };
 
 export function axiosSwitch(bool) {

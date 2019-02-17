@@ -202,7 +202,8 @@ class NounsSearchModal extends React.Component {
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']
-      }
+      },
+      cancelToken: this.axiosSource.token
     }).then((res) => {
       self.setState({axios: false});
       let resObj = JSON.parse(res.data);

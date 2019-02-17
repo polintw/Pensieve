@@ -11,7 +11,8 @@ export const initGlobal = {
     lastName: '',
     id: null
   },
-  unitCurrent: {unitId:"", identity: ""}
+  unitCurrent: {unitId:"", identity: ""},
+  unitSubmitting: false
 } //should change the key:'userInfo' to other else
 
 export const initSelfFrontGeneral = {

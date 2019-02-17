@@ -125,6 +125,7 @@ class EditingModal extends React.Component {
   _handleClick_Editing_Submit(event){
     event.stopPropagation();
     event.preventDefault();
+    if(this.props.unitSubmitting) return;
     //「send to Unit as string, Unit use them as obj, create and edit as obj, but submit as string」
     let newObj = Object.assign({}, this.state); //prevent data lost during unmount.
     newObj["joinedMarksList"] = newObj.coverMarks.list.concat(newObj.beneathMarks.list);
@@ -201,6 +202,20 @@ class EditingModal extends React.Component {
             _close_Mark_Complete={this._close_Mark_Complete}
             _close_img_Cancell={this._close_img_Cancell}/>
         }
+        {
+          this.props.unitSubmitting &&
+          <div
+            style={{
+              width: '100%',
+              height: '100%',
+              position: 'absolute',
+              top: '0',
+              left:'0',
+              backgroundColor: 'rgba(230,230,230,0.5)'
+            }}
+            onClick={(e)=>{e.preventDefault(); e.stopPropagation();}}>
+          </div>
+        }
       </div>
     )
   }
@@ -209,7 +224,8 @@ class EditingModal extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
-    unitCurrent: state.unitCurrent
+    unitCurrent: state.unitCurrent,
+    unitSubmitting: state.unitSubmitting
   }
 }
 

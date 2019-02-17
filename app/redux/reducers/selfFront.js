@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import {
   MOUNT_USERINFO,
   UNIT_MOUNT_UNITCURRENT,
+  UNIT_SUBMITTING_SWITCH,
   UPDATE_NOUNSBASIC,
   AXIOS_SWITCH
 } from '../constants/typesGeneral.js';
@@ -29,6 +30,11 @@ function pageSelfFront(state = initialGeneral, action){
     case UNIT_MOUNT_UNITCURRENT:
       return Object.assign({}, state, {
         unitCurrent: action.unitCurrent
+      })
+      break;
+    case UNIT_SUBMITTING_SWITCH:
+      return Object.assign({}, state, {
+        unitSubmitting: action.unitSubmitting
       })
       break;
     case UPDATE_USERSHEET:
