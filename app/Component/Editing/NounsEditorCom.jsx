@@ -301,7 +301,7 @@ class NounsSearchModal extends React.Component {
           <div
             style={{ display:'inline-block',cursor: 'pointer' }}
             onClick={this.props._handleClick_SearchModal_switch}>
-            {"cancel"}
+            {"close"}
           </div>
         </div>
         <ul

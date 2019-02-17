@@ -12,7 +12,7 @@ class CreateShare extends React.Component {
     super(props);
     this.state = {
       editingModal: false,
-      warningModel: false
+      warningModal: false
     };
     this._open_editingModal = () => {this.setState({editingModal: true})};
     this._close_editingModal = () => {this.setState({editingModal: false})};
@@ -47,10 +47,10 @@ class CreateShare extends React.Component {
   }
 
   _handleClick_CreateShare_clear(){
-    if(this.props.unitSubmitting) this.setState({warningModel: true});
+    if(this.props.unitSubmitting) this.setState({warningModal: true});
     this.setState({
       editingModal: false,
-      warningModel: false
+      warningModal: false
     })
   }
 
@@ -77,7 +77,7 @@ class CreateShare extends React.Component {
 
   _axios_post_Share_new(newObj){
     const self = this;
-    self.props._set_unitSubmitting(false);
+    self.props._set_unitSubmitting(true);
     axios.post('/router/user/'+self.props.userInfo.id+'/shareds', newObj, {
       headers: {
         'Content-Type': 'application/json',
@@ -90,6 +90,7 @@ class CreateShare extends React.Component {
           console.log("share created successfully!");
           self.props._set_unitSubmitting(false);
           self.props._submit_Share_New();
+          self.setState({editingModal: false, warningModal: false});
         }else{
           console.log("Failed: "+ res.data.err);
           self.props._set_unitSubmitting(false);
@@ -124,7 +125,7 @@ class CreateShare extends React.Component {
           </ModalBox>
         }
         {
-          this.state.warningModel &&
+          this.state.warningModal &&
           <ModalBox containerId="root">
             <ModalBackground onClose={()=>{}} style={{backgroundColor: "transparent", position: "fixed"}}>
               <div
