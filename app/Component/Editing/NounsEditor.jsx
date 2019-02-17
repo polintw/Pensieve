@@ -9,6 +9,7 @@ export default class NounsEditor extends React.Component {
       nounsBasic: this.props.nouns.basic
     };
     this._set_nounChoose = this._set_nounChoose.bind(this);
+    this._set_nounDelete = this._set_nounDelete.bind(this);
     this.style={
       Com_Editing_NounsEditor__: {
         width: '100%',
@@ -41,6 +42,17 @@ export default class NounsEditor extends React.Component {
     })
   }
 
+  _set_nounDelete(nounIndex){
+    this.setState((prevState, props)=>{
+      const nounId = prevState.nounsList[nounIndex];
+      delete prevState.nounsBasic[nounId];
+      prevState.nounsList.splice(nounIndex, 1);
+      return prevState;
+    }, ()=>{
+      this.props._set_nouns({list: this.state.nounsList, basic: this.state.nounsBasic});
+    })
+  }
+
   render() {
     return (
       <div
@@ -49,7 +61,8 @@ export default class NounsEditor extends React.Component {
           style={this.style.Com_Editing_NounsEditor_List}>
           <NounsList
             nounsList={this.state.nounsList}
-            nounsBasic={this.state.nounsBasic}/>
+            nounsBasic={this.state.nounsBasic}
+            _set_nounDelete={this._set_nounDelete}/>
         </div>
         <div
           style={this.style.Com_Editing_NounsEditor_SearchModule}>

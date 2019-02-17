@@ -8,6 +8,7 @@ export class NounsList extends React.Component {
     this.state = {
 
     };
+    this._handleClick_nounDelete = this._handleClick_nounDelete.bind(this);
     this.style={
       Com_NounsEditor_List_: {
         width: '100%',
@@ -25,6 +26,12 @@ export class NounsList extends React.Component {
     }
   }
 
+  _handleClick_nounDelete(event){
+    event.stopPropagation();
+    event.preventDefault();
+    this.props._set_nounDelete(event.currentTarget.getAttribute('index'));
+  }
+
   render() {
     const nouns = this.props.nounsList.map((nounId, index) => {
       let thisNoun = this.props.nounsBasic[nounId];
@@ -34,6 +41,11 @@ export class NounsList extends React.Component {
           style={this.style.Com_NounsEditor_List_item}>
           <span>{thisNoun.name}</span>
           <span style={{fontStyle: 'italic', color:'#F1F1F1'}}>{thisNoun.prefix ? ", "+thisNoun.prefix :""}</span>
+          <span
+            index={index}
+            style={{float: 'right', color:'#F1F1F1', cursor: 'pointer'}}
+            onClick={this._handleClick_nounDelete}>
+            {"x"}</span>
         </li>
       )
     })
@@ -258,7 +270,7 @@ class NounsSearchModal extends React.Component {
       optional: false,
       options: []
     }, ()=>{
-      this.search.current.focus();      
+      this.search.current.focus();
     })
   }
 
