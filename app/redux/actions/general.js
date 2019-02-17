@@ -7,7 +7,8 @@ import {
   AXIOS_SWITCH
 } from '../constants/typesGeneral.js';
 import {
-  UPDATE_USERSHEET
+  UPDATE_USERSHEET,
+  SETTING_SUBMITTING_SWITCH
 } from '../constants/typesSelfFront.js';
 import {errHandler_axiosCatch} from "../../utils/errHandlers.js";
 
@@ -25,6 +26,10 @@ export function mountUserSheet(sheetObj, accountSet) {
 
 export function switchUnitSubmitting(bool) {
   return { type: UNIT_SUBMITTING_SWITCH, unitSubmitting: bool}
+};
+
+export function switchSettingSubmitting(bool) {
+  return { type: SETTING_SUBMITTING_SWITCH, settingSubmitting: bool}
 };
 
 export function axiosSwitch(bool) {

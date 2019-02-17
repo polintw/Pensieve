@@ -82,7 +82,7 @@ class Shared extends React.Component {
         unitsBasic: resObj.main.unitsBasic,
         marksBasic: resObj.main.marksBasic
       })
-
+      //send the nouns used by all shareds to the redux reducer
       self.props._submit_NounsList_new(resObj.main.nounsListMix);
     }).catch(function (thrown) {
       if (axios.isCancel(thrown)) {

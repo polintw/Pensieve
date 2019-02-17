@@ -108,6 +108,20 @@ class FrontProfile extends React.Component {
         <div style={this.style.Front_Profile_backPlane_bottom}>
           <div style={{width: '12%', height: '100%', position: 'absolute', bottom: '0', right: '0', boxSizing: 'border-box', backgroundColor: '#d3deda'}}></div>
         </div>
+        {
+          (this.props.settingSubmitting || this.props.axios) &&
+          <div
+            style={{
+              width: '100%',
+              height: '100%',
+              position: 'absolute',
+              top: '0',
+              left:'0',
+              backgroundColor: 'rgba(230,230,230,0.5)'
+            }}
+            onClick={(e)=>{e.preventDefault(); e.stopPropagation();}}>
+          </div>
+        }
       </div>
     )
   }
@@ -115,7 +129,9 @@ class FrontProfile extends React.Component {
 
 const mapStateToProps = (state)=>{
   return {
-    userInfo: state.userInfo
+    userInfo: state.userInfo,
+    settingSubmitting: state.settingSubmitting,
+    axios: state.axios
   }
 }
 export default withRouter(connect(

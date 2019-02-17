@@ -8,7 +8,8 @@ import {
 } from '../constants/typesGeneral.js';
 import {
   UPDATE_USERSHEET,
-  UPDATE_ACCOUNTSET
+  UPDATE_ACCOUNTSET,
+  SETTING_SUBMITTING_SWITCH
 } from '../constants/typesSelfFront.js';
 import {
   initGlobal,
@@ -46,6 +47,11 @@ function pageSelfFront(state = initialGeneral, action){
     case UPDATE_ACCOUNTSET:
       return Object.assign({}, state, {
         accountSet: action.accountSet
+      })
+      break;
+    case SETTING_SUBMITTING_SWITCH:
+        return Object.assign({}, state, {
+        settingSubmitting: action.settingSubmitting
       })
       break;
     case UPDATE_NOUNSBASIC:

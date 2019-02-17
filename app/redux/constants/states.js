@@ -26,14 +26,17 @@ export const initSelfFrontGeneral = {
   }
 }
 
+//state specific for the 'Setting' part of sheet, for tansfering to a unique page of setting in the future
 export const initSetting = {
   accountSet: {
     firstName: "",
     lastName: "",
     mail: ''
-  }
+  },
+  settingSubmitting: false
 }
 
+//cnetralize nouns used by the user
 export const initNouns = {
   nounsBasic: {
 

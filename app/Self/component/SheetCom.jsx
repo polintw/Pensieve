@@ -6,7 +6,7 @@ import {
 import {connect} from "react-redux";
 import ModalBox from '../../Component/ModalBox.jsx';
 import ModalBackground from '../../Component/ModalBackground.jsx';
-import {axiosSwitch} from "../../redux/actions/general.js";
+import {switchSettingSubmitting} from "../../redux/actions/general.js";
 
 class Basic extends React.Component {
   constructor(props){
@@ -129,11 +129,12 @@ class SettingPassword extends React.Component {
   _handle_settingPassword(event){
     event.preventDefault();
     const self = this;
+    if(this.props.settingSubmitting) return; //prevent any repeated call
     if(this.state.greenlight){
       let reqBody = {};
       reqBody["password_old"] = this.passOld.value;
       reqBody["password"] = this.state.passNew;
-      this.props._set_store_axiosStatus(true);
+      this.props._set_store_submittingStatus(true);
       axios.patch('/router/account/password', reqBody, {
         headers: {
           'charset': 'utf-8',
@@ -141,14 +142,14 @@ class SettingPassword extends React.Component {
         },
         cancelToken: this.axiosSource.token
       }).then(function (res) {
-        self.props._set_store_axiosStatus(false);
+        self.props._set_store_submittingStatus(false);
         alert(res.data.message.warning);
         window.location.assign('/user/profile/sheet');
       }).catch(function (thrown) {
         if (axios.isCancel(thrown)) {
           console.log('Request canceled: ', thrown.message);
         } else {
-          self.props._set_store_axiosStatus(false);
+          self.props._set_store_submittingStatus(false);
           let resConsole = thrown.response.data.console; // to verify the string length, this is neccessary.
           if(resConsole.length>0) console.log(thrown.response.data.console);
           self.setState({message: thrown.response.data.message});
@@ -455,13 +456,14 @@ class SettingAccount extends React.Component {
     userInfo: state.userInfo,
     unitCurrent: state.unitCurrent,
     userSheet: state.userSheet,
-    accountSet: state.accountSet
+    accountSet: state.accountSet,
+    settingSubmitting: state.settingSubmitting
   }
 }
 
 const mapDispatchToProps = (dispatch)=>{
   return {
-    _set_store_axiosStatus: (sheetObj, accountSet)=>{dispatch(axiosSwitch(sheetObj, accountSet));}
+    _set_store_submittingStatus: (bool)=>{dispatch(switchSettingSubmitting(bool));}
   }
 }
 
