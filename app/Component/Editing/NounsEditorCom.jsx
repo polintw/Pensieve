@@ -230,10 +230,10 @@ class NounsSearchModal extends React.Component {
           )
         })
       ):(
-        options = [<span key='_key_nounOption_none'>{'...尚無相關詞彙...'}</span>]
+        options = [<span key='_key_nounOption_none'>{'......'}</span>]
       )
     }else{
-      options = [<span>{'請輸入欲查詢關聯詞...'}</span>]
+      options = [<span>{'perhaps a name of a city or district...'}</span>]
     }
     return options;
   }
@@ -253,7 +253,13 @@ class NounsSearchModal extends React.Component {
     event.preventDefault();
     let nounBasic = Object.assign({}, this.state.options[event.currentTarget.getAttribute('index')]);
     this.props._set_nounChoose(nounBasic);
-    this.props._set_SearchModal_switch();
+    this.setState({
+      query: "",
+      optional: false,
+      options: []
+    }, ()=>{
+      this.search.current.focus();      
+    })
   }
 
   componentDidMount(){
@@ -280,7 +286,7 @@ class NounsSearchModal extends React.Component {
             style={this.style.Com_NounsEditor_SearchModal_Modal_panel_input}
             onChange={this._handleChange_SearchInput} />
           <div
-            style={{ cursor: 'pointer' }}
+            style={{ display:'inline-block',cursor: 'pointer' }}
             onClick={this.props._handleClick_SearchModal_switch}>
             {"cancel"}
           </div>

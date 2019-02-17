@@ -186,7 +186,7 @@ export default class UnitModal extends React.Component {
           <div
             style={this.style.Com_UnitModal_ControlSection_DateConverter}>
             <DateConverter
-              datetime={this.props.unitSet.created}/>
+              datetime={this.props.unitSet.createdAt}/>
           </div>
         </div>
         <div

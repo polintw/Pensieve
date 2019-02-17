@@ -28,7 +28,7 @@ class Unit extends React.Component {
         refsArr: null,
         nouns: null,
         authorBasic: null,
-        created: null
+        createdAt: null
       }
     };
     this._close_modal_Unit = this._close_modal_Unit.bind(this);
@@ -97,7 +97,7 @@ class Unit extends React.Component {
             refsArr: resObj.main.refsArr,
             nouns: resObj.main.nouns,
             authorBasic: resObj.main.authorBasic,
-            created: resObj.main.created
+            createdAt: resObj.main.createdAt
           }
         });
       })

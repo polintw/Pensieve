@@ -47,7 +47,7 @@ function _handle_user_actionsShareds_GET(req, res){
             authorId: userId,
             pic_layer0: row.url_pic_layer0,
             pic_layer1: row.url_pic_layer1,
-            created: row.established,
+            createdAt: row.createdAt,
             marksList: [],
             nounsList: []
           }

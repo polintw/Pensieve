@@ -137,7 +137,7 @@ export class DateConverter extends React.Component {
     return(
       <div
         style={this.style.Com_DateConverter_}>
-        <span>{d.getMonth()}</span>
+        <span>{d.getMonth()+1}</span>
         <span> 月</span>
         <span>{d.getDate()}</span>
         <span>{" 日"}</span>
