@@ -232,7 +232,8 @@ class SettingPassword extends React.Component {
             }
             <input
               type='submit'
-              value='submit'/>
+              value='submit'
+              disabled={this.props.settingSubmitting? true:false}/>
             <Link
               to="/profile/sheet"
               style={this.style.selfCom_Setting_pass}>

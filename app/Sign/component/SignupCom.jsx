@@ -9,7 +9,7 @@ import cxBind from 'classnames/bind';
 import {
   cancelErr,
   uncertainErr
-} from '../utils/reserrHandler_axios.js';
+} from '../utils/errHandler_axios.js';
 import {
   axiosSwitch,
   axiosGetRes,
