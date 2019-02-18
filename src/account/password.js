@@ -55,7 +55,7 @@ function _handle_account_password_PATCH(req, res) {
               //it's bad to use 'findOne' before update, the result instance is not proper here
               return _DB_verifications.update(
                 { password: hash },
-                { where: { id_user: jwtVerified.userId } }
+                { where: { id_user: jwtVerified.user_Id } }
               )
             })
           }

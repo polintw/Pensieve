@@ -7,10 +7,8 @@ module.exports = {
 
   down: (queryInterface, Sequelize) => {
     return queryInterface.addColumn('units', 'established', {
-      established: {
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW
-      }
+      type: Sequelize.DATE,
+      defaultValue: Sequelize.NOW
     }, {});
   }
 };
