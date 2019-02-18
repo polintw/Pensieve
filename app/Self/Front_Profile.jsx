@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import Sheet from './component/Sheet.jsx';
+import MaskProcessing from '../Component/MaskProcessing.jsx';
 
 class FrontProfile extends React.Component {
   constructor(props){
@@ -110,17 +111,7 @@ class FrontProfile extends React.Component {
         </div>
         {
           (this.props.settingSubmitting || this.props.axios) &&
-          <div
-            style={{
-              width: '100%',
-              height: '100%',
-              position: 'absolute',
-              top: '0',
-              left:'0',
-              backgroundColor: 'rgba(230,230,230,0.5)'
-            }}
-            onClick={(e)=>{e.preventDefault(); e.stopPropagation();}}>
-          </div>
+          <MaskProcessing/>
         }
       </div>
     )

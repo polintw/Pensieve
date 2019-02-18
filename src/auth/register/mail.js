@@ -5,6 +5,7 @@ const deliverVerifiedMail = require('./verifiedMail');
 const {
   verify_email
 } = require('../../../config/jwt.js');
+const winston = require('../../../config/winston.js');
 const {
   _select_Basic
 } = require('../../utils/dbSelectHandler.js');
@@ -23,6 +24,7 @@ function _handle_auth_mailConfirm_GET(req, res){
   const reqToken = req.body.token || req.headers['token'] || req.query.token;
   jwt.verify(reqToken, verify_email, function(err, payload) {
     if (err) {
+      winston.error(`${"Error: JWT verify, "} - ${err} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
       res.status(401).redirect('/s/confirm/fail');
     } else {
       let userId = payload.user_Id;
@@ -118,12 +120,10 @@ function _handle_auth_mailResend_GET(req, res){
             });
           }).then((tokenEmail)=>{
             //update this token into users_apply
-            return _DB_users_apply.findOne({
-              where: {id_user: user.id},
-              attributes: ['token_email']
-            }).then(usersApply => {
-              return usersApply.update({ token_email: tokenEmail});
-            }).then(()=>{
+            return _DB_users_apply.update(
+              { token_email: tokenEmail},
+              { where: { id_user: user.id } }
+            ).then(()=>{
               return tokenEmail;
             })
           }).then((tokenEmail)=>{
@@ -133,7 +133,7 @@ function _handle_auth_mailResend_GET(req, res){
               first_name: user.first_name
             }
             return deliverVerifiedMail(userInfo, tokenEmail);
-          }).catch((error)=>{throw {error}}); // this line is neccessary for promise in promise
+          }).catch((error)=>{throw error}); // this line is neccessary for promise in promise
           break;
         default:
           throw new forbbidenError({"warning:": "Your email had been verified, could sign in directly."}, 87)

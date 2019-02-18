@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
+import MaskProcessing from '../../Component/MaskProcessing.jsx';
 import {
   setSignInit,
   axiosSwitch,
@@ -35,6 +36,14 @@ class SignupForm extends React.Component {
     this._handleChange_Input = this._handleChange_Input.bind(this);
     this.style={
       Signup_form_: {
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        top: '0',
+        left: '0',
+        boxSizing: 'border-box'
+      },
+      Signup_form_inputs_: {
         width: '40%',
         height: '70%',
         position: 'absolute',
@@ -48,6 +57,7 @@ class SignupForm extends React.Component {
 
   _handle_Signup(event){
     event.preventDefault();
+    if(this.props.axios) return;
     const self = this;
     let reqBody = {
       'email': this.state.email,
@@ -69,10 +79,9 @@ class SignupForm extends React.Component {
       self.setState({success: true});
     }).catch(function (thrown) {
       if (axios.isCancel(thrown)) {
-        console.log('Request canceled: ', thrown.message);
+        cancelErr(thrown, self.props);
       } else {
-        if(thrown.response.data.console.length>0) console.log(thrown.response.data.console);
-        self.props._set_axiosRes({axiosStatus: false, message: thrown.response.data.message});
+        uncertainErr(thrown, self.props);
       }
     });
   }
@@ -117,109 +126,117 @@ class SignupForm extends React.Component {
     return(
       <div
         style={this.style.Signup_form_}>
-        <h2 style={{marginBottom: '40px'}}>Registration</h2>
-        <Link to="/signin">
-          <span>{"Sign in"}</span>
-        </Link>
-        <form onSubmit={this._handle_Signup}>
-            <div>
-                <input
-                type="text"
-                placeholder="First Name"
-                name="firstName"
-                onChange={ this._handleChange_Input }
-                value={ this.state.firstName }
-                required/>
-            </div>
-            <div>
-                <input
-                type="text"
-                placeholder="Family Name"
-                name="lastName"
-                onChange={ this._handleChange_Input }
-                value={ this.state.lastName}
-                required/>
-            </div>
-            {
-              message.account &&
-              <div>{message.account}</div>
-            }
-            <div>
-                <input
-                type="email"
-                placeholder="Email"
-                name="email"
-                onChange={ this._handleChange_Input }
-                value={ this.state.email }
-                required/>
-            </div>
-            {
-              message.email &&
-              <div>{message.email}</div>
-            }
-            <div>
-                <input
-                type="password"
-                placeholder="Password"
-                name="password"
-                onChange={ this._handleChange_Input }
-                value={ this.state.password }
-                required/>
-            </div>
-            {
-              message.password &&
-              <div>{message.password}</div>
-            }
-            <div>
-                <input
-                type="password"
-                placeholder="Confirm Password"
-                name="password_confirm"
-                onChange={ this._handleChange_Input }
-                value={ this.state.password_confirm }
-                required/>
-            </div>
-            {
-              message.password_confirm &&
-              <div>{message.password_confirm}</div>
-            }
-            <div>
-              <input
-                type="radio"
-                name="gender"
-                value= {"1"}
-                checked={this.state.gender === "1"}
-                onChange={this._handleChange_Input}
-                required/> Male
-              <input
-                type="radio"
-                name="gender"
-                value= {"0"}
-                checked={this.state.gender === "0"}
-                onChange={this._handleChange_Input}/> Female
-            </div>
-            <div>
-              <p>{"生日"}</p>
-              <select name="birthYear" onChange={this._handleChange_Input} value={this.state.birthYear}>
-                {this._render_BirthOptions(currY, currY-90)}
-              </select>
-              <select name="birthMonth" onChange={this._handleChange_Input} value={this.state.birthMonth}>
-                {this._render_BirthOptions(12)}
-              </select>
-              <select name="birthDate" onChange={this._handleChange_Input} value={this.state.birthDate}>
-                {this._render_BirthOptions(31)}
-              </select>
-            </div>
-            {
-                message.warning &&
-                <div>{message.warning}</div>
+        <div
+          style={this.style.Signup_form_inputs_}>
+          <h2 style={{marginBottom: '40px'}}>Registration</h2>
+          <Link to="/signin">
+            <span>{"Sign in"}</span>
+          </Link>
+          <form onSubmit={this._handle_Signup}>
+              <div>
+                  <input
+                  type="text"
+                  placeholder="First Name"
+                  name="firstName"
+                  onChange={ this._handleChange_Input }
+                  value={ this.state.firstName }
+                  required/>
+              </div>
+              <div>
+                  <input
+                  type="text"
+                  placeholder="Family Name"
+                  name="lastName"
+                  onChange={ this._handleChange_Input }
+                  value={ this.state.lastName}
+                  required/>
+              </div>
+              {
+                message.account &&
+                <div>{message.account}</div>
               }
-            <div>
-              <input
-                type='submit'
-                value="Register User"/>
-            </div>
-        </form>
+              <div>
+                  <input
+                  type="email"
+                  placeholder="Email"
+                  name="email"
+                  onChange={ this._handleChange_Input }
+                  value={ this.state.email }
+                  required/>
+              </div>
+              {
+                message.email &&
+                <div>{message.email}</div>
+              }
+              <div>
+                  <input
+                  type="password"
+                  placeholder="Password"
+                  name="password"
+                  onChange={ this._handleChange_Input }
+                  value={ this.state.password }
+                  required/>
+              </div>
+              {
+                message.password &&
+                <div>{message.password}</div>
+              }
+              <div>
+                  <input
+                  type="password"
+                  placeholder="Confirm Password"
+                  name="password_confirm"
+                  onChange={ this._handleChange_Input }
+                  value={ this.state.password_confirm }
+                  required/>
+              </div>
+              {
+                message.password_confirm &&
+                <div>{message.password_confirm}</div>
+              }
+              <div>
+                <input
+                  type="radio"
+                  name="gender"
+                  value= {"1"}
+                  checked={this.state.gender === "1"}
+                  onChange={this._handleChange_Input}
+                  required/> Male
+                <input
+                  type="radio"
+                  name="gender"
+                  value= {"0"}
+                  checked={this.state.gender === "0"}
+                  onChange={this._handleChange_Input}/> Female
+              </div>
+              <div>
+                <p>{"生日"}</p>
+                <select name="birthYear" onChange={this._handleChange_Input} value={this.state.birthYear}>
+                  {this._render_BirthOptions(currY, currY-90)}
+                </select>
+                <select name="birthMonth" onChange={this._handleChange_Input} value={this.state.birthMonth}>
+                  {this._render_BirthOptions(12)}
+                </select>
+                <select name="birthDate" onChange={this._handleChange_Input} value={this.state.birthDate}>
+                  {this._render_BirthOptions(31)}
+                </select>
+              </div>
+              {
+                  message.warning &&
+                  <div>{message.warning}</div>
+                }
+              <div>
+                <input
+                  type='submit'
+                  value="Register User"
+                  disabled={this.props.axios? true:false}/>
+              </div>
+          </form>
+        </div>
+        {
+          this.props.axios &&
+          <MaskProcessing/>
+        }
       </div>
     )
   }

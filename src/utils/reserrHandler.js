@@ -164,7 +164,10 @@ function _handle_ErrCatched(e, req, res){
       break;
     default:
       winston.error(`${500} - ${e} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
-      return res.status(500).json({"message": {"warning":"Some error happened, please try again."}});
+      return res.status(500).json({
+        "message": {"warning":"Some error happened, please try again."},
+        'console': ''
+      });
   }
 }
 

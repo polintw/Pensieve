@@ -7,6 +7,10 @@ import {
 import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import {
+  cancelErr,
+  uncertainErr
+} from '../utils/reserrHandler_axios.js';
+import {
   axiosSwitch,
   axiosGetRes,
   setSignInit
@@ -89,6 +93,7 @@ class SignupMailresend extends React.Component {
 
   _handle_Mailresend(event){
     event.preventDefault();
+    if(this.props.axios) return; //prevent repeated request
     const self = this;
     let reqBody = {
       'email': this.state.email
@@ -103,24 +108,9 @@ class SignupMailresend extends React.Component {
       self.props._set_axiosRes({axiosStatus: false, message: res.data.message});
     }).catch(function (thrown) {
       if (axios.isCancel(thrown)) {
-        console.log('Request canceled: ', thrown.message);
+        cancelErr(thrown, self.props);
       } else {
-        if (thrown.response) {
-          // The request was made and the server responded with a status code that falls out of the range of 2xx
-          let resConsole = thrown.response.data.console; // to verify the string length, this is neccessary.
-          if(resConsole.length>0) console.log(thrown.response.data.console);
-
-          self.props._set_axiosRes({axiosStatus: false, message: thrown.response.data.message});
-        } else if (thrown.request) {
-            // The request was made but no response was received
-            // `err.request` is an instance of XMLHttpRequest in the browser and an instance of
-            // http.ClientRequest in node.js
-            self.props._set_axiosStatus(false);
-            console.log(thrown.request);
-        } else {
-            // Something happened in setting up the request that triggered an Error
-        }
-        console.log('Error: ', thrown.message);
+        uncertainErr(thrown, self.props);
       }
     });
   }
@@ -172,7 +162,8 @@ class SignupMailresend extends React.Component {
               }
               <input
                 type='submit'
-                value='confirm re-send'/>
+                value='confirm re-send'
+                disabled={this.props.axios? true:false}/>
             </form>
           </div>
           <Link to="/signin">

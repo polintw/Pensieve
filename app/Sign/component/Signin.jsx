@@ -95,7 +95,8 @@ class Signin extends React.Component {
               }
             <input
               type='submit'
-              value='Log in'/>
+              value='Log in'
+              disabled={this.props.axios? true:false}/>
             <Link to="/signup">
               <span>{"Sign up"}</span>
             </Link>

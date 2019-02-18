@@ -28,6 +28,10 @@ export function axiosGetRes(obj) {
 export function handleSignUser(submitObj, cancelToken){
   //this actoin creator, could do function return is because we use 'thunk' middleware when create store
   return (dispatch) => {
+    dispatch({
+      type: AXIOS_SWITCH,
+      status: true
+    })
     axios.post('/router/login', submitObj, {
       headers: {'charset': 'utf-8'},
       cancelToken: cancelToken
@@ -40,6 +44,10 @@ export function handleSignUser(submitObj, cancelToken){
       window.location.assign('/');
     }).catch(function (thrown) {
       if (axios.isCancel(thrown)) {
+        dispatch({
+          type: AXIOS_SWITCH,
+          status: false
+        })
         console.log('Request canceled: ', thrown.message);
       } else {
         if (thrown.response) {
@@ -69,6 +77,10 @@ export function handleSignUser(submitObj, cancelToken){
             console.log(thrown.request);
         } else {
             // Something happened in setting up the request that triggered an Error
+            dispatch({
+              type: AXIOS_SWITCH,
+              status: false
+            })
         }
         console.log('Error: ', thrown.message);
       }
