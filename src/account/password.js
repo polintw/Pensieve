@@ -52,14 +52,11 @@ function _handle_account_password_PATCH(req, res) {
                 })
               });
             }).then((hash)=>{
-              return _DB_verifications.findOne({
-                where: {id_user: jwtVerified.user_Id},
-                attributes: ['id_user', 'password']
-              }).then(verication => {
-                return verication.update({ password: hash});
-              }).then(()=>{
-                Promise.resolve();
-              })
+              //it's bad to use 'findOne' before update, the result instance is not proper here
+              return _DB_verifications.update(
+                { password: hash },
+                { where: { id_user: jwtVerified.userId } }
+              )
             })
           }
           else{
