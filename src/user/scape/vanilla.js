@@ -51,7 +51,8 @@ function _handle_scape_GET(req, res){
             unitsId: row.id,
             authorId: row.id_author,
             pic_layer0: row.url_pic_layer0,
-            created: row.established,
+            pic_layer1: row.url_pic_layer1,
+            createdAt: row.createdAt,
             marksList: [],
             nounsList: []
           };

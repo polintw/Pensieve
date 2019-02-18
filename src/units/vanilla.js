@@ -5,6 +5,7 @@ const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 const {verify_key} = require('../../config/jwt.js');
 const {connection_key} = require('../../config/database.js');
+const winston = require('../../config/winston.js');
 const {_res_success,_res_success_201} = require('../utils/resHandler.js');
 const _DB_nouns = require('../../db/models/index').nouns;
 const _DB_marks = require('../../db/models/index').marks;
@@ -58,7 +59,9 @@ function _handle_unit_Mount(req, res){
                   })
                   resolve(tempData)
                 } else {
-                  resolve(tempData)
+                  tempData.sendingData.nouns = tempData.nouns;
+                  let sendingData = Object.assign({}, tempData.sendingData);
+                  reject(sendingData)
                 }
               })
             }).then((tempData)=>{
@@ -67,19 +70,18 @@ function _handle_unit_Mount(req, res){
                 connection.query(selectQuery, [tempData['temp'].nounsKey], function(err, results, fields) {
                   if (err) {_handler_err_Internal(err, res);reject(err);return;}
                   console.log('database connection: success, query to nouns.')
-                  if (results.length > 0) {
-                    results.forEach(function(result, index){
-                      tempData['nouns']['basic'][result.id] = {id:result.id, name: result.name, prefix: result.prefix};
-                    })
-                    //this part is a temp method before a whole update of this file.
-                    tempData.sendingData.nouns = tempData.nouns;
-                    let sendingData = Object.assign({}, tempData.sendingData);
-                    resolve(sendingData)
-                  } else {
-                    resolve(sendingData)
-                  }
+                  results.forEach(function(result, index){
+                    tempData['nouns']['basic'][result.id] = {id:result.id, name: result.name, prefix: result.prefix};
+                  })
+                  //this part is a temp method before a whole update of this file.
+                  tempData.sendingData.nouns = tempData.nouns;
+                  let sendingData = Object.assign({}, tempData.sendingData);
+                  if (results.length < 1) {reject(sendingData);}else{resolve(sendingData)};
                 })
               })
+            }).catch((thrown)=>{
+              winston.error(`${"Error: empty selection from nouns or attribution."} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+              return thrown;
             })
           }
 

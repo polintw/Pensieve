@@ -7,6 +7,7 @@ export default class UnitLayerFrame extends React.Component {
     this.state = {
       coverWidth: '100%',
       coverOpa: '1',
+      coverTop: '1%',
       beneathWidth: '100%',
       beneathOpa: '1'
     };
@@ -22,7 +23,6 @@ export default class UnitLayerFrame extends React.Component {
       Com_UnitLayerFrame_div_cover: {
         height: '99%',
         position: 'absolute',
-        top: '1%',
         left: '0',
         boxSizing: 'border-box',
         backgroundColor: 'black'
@@ -43,7 +43,8 @@ export default class UnitLayerFrame extends React.Component {
       case "0":
         return {
           coverWidth: '100%',
-          coverOpa: '1'
+          coverOpa: '1',
+          coverTop: '1%'
         }
         break;
       case "1":
@@ -54,7 +55,8 @@ export default class UnitLayerFrame extends React.Component {
       case "2":
         return {
           coverWidth: '0',
-          coverOpa: '0'
+          coverOpa: '0',
+          coverTop: '100%'
         }
         break;
       case "3":
@@ -79,7 +81,7 @@ export default class UnitLayerFrame extends React.Component {
 
   render(){
     let Com_UnitLayerFrame_div_cover = Object.assign(
-      {width: this.state.coverWidth, opacity: this.state.coverOpa},
+      {width: this.state.coverWidth, opacity: this.state.coverOpa, top: this.state.coverTop},
       this.style.Com_UnitLayerFrame_div_cover
     );
     let Com_UnitLayerFrame_div_beneath = Object.assign(
