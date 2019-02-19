@@ -38,13 +38,17 @@ class AuthorModal extends React.Component {
     //Then if everything is fine
     let d = new Date();
     let submitTime = d.getTime();
+
     const modifiedShareObj = {
-      joinedMarksList: stateObj.joinedMarksList,
-      joinedMarks: stateObj.joinedMarks,
+      joinedMarks: Object.assign({}, stateObj.coverMarks.data, stateObj.beneathMarks.data),
+      joinedMarksList: stateObj.coverMarks.list.concat(stateObj.beneathMarks.list),
       refsArr: stateObj.refsArr,
       nouns: stateObj.nouns,
       submitTime: submitTime
     };
+    //all pure JS object or structure,
+    //we don't need to do any JSON.stringify() here, because the axios would serve automatical transformation
+
     //don't set any parameter in the callback,
     //would take the variable above directly
     this._axios_patch_Share(modifiedShareObj);

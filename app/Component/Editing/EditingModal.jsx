@@ -126,16 +126,10 @@ class EditingModal extends React.Component {
     event.stopPropagation();
     event.preventDefault();
     if(this.props.unitSubmitting) return;
-    //「send to Unit as string, Unit use them as obj, create and edit as obj, but submit as string」
-    let newObj = Object.assign({}, this.state); //prevent data lost during unmount.
-    newObj["joinedMarksList"] = newObj.coverMarks.list.concat(newObj.beneathMarks.list);
-    newObj["joinedMarks"] = Object.assign({}, newObj.coverMarks.data, newObj.beneathMarks.data);
-    delete newObj.coverMarks;
-    delete newObj.beneathMarks;
-    newObj.joinedMarksList.forEach((key, index)=>{
-      let editorString = JSON.stringify(newObj.joinedMarks[key].editorContent);
-      newObj.joinedMarks[key].editorContent = editorString;
-    })
+
+    //to prevent any main mutation during process
+    //notice this could not stop the change in the 'children' of each value
+    let newObj = Object.assign({}, this.state);
 
     this.props._set_Submit(newObj);
   }

@@ -84,6 +84,8 @@ function shareHandler_POST(req, res){
             return new Promise((resolve, reject)=>{
               let valuesArr = modifiedBody.joinedMarksList.map(function(markKey, index){
                 let markObj = modifiedBody.joinedMarks[markKey];
+                let editorString = JSON.stringify(markObj.editorContent); //notice, same part in the req.body would also be transformed
+
                 return [
                   modifiedBody.id_unit,
                   userId,
@@ -91,7 +93,7 @@ function shareHandler_POST(req, res){
                   markObj.top,
                   markObj.left,
                   markObj.serial,
-                  markObj.editorContent
+                  editorString
                 ]
               })
               connection.query('INSERT INTO marks (id_unit, id_author, layer,portion_top,portion_left,serial,editor_content) VALUES ?; SHOW WARNINGS;', [valuesArr], function(err, result, fields) {

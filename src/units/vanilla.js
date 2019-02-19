@@ -231,6 +231,7 @@ function _handle_unit_AuthorEditing(req, res){
         resultsMarks.forEach((row, index)=>{
           if(row.id in req.body.joinedMarks){
             let markObj = req.body.joinedMarks[row.id];
+            let editorString = JSON.stringify(markObj.editorContent); //notice, same part in the req.body would also be transformed
             mysqlForm.marksSet.update.push([
               row.id,
               reqUnit,
@@ -239,8 +240,9 @@ function _handle_unit_AuthorEditing(req, res){
               markObj.top,
               markObj.left,
               markObj.serial,
-              markObj.editorContent
+              editorString
             ]);
+
             mysqlForm.marksList.update.push(row.id);
             //then, erase this one in the id list
             let position = reqMarksList.indexOf(row.id.toString()) ;
@@ -252,6 +254,7 @@ function _handle_unit_AuthorEditing(req, res){
         //the rest in the list should be the new
         reqMarksList.forEach((newMarkKey, index)=>{
           let markObj = req.body.joinedMarks[newMarkKey];
+          let editorString = JSON.stringify(markObj.editorContent); //notice, same part in the req.body would also be transformed
           mysqlForm.marksSet.insertion.push({
             id_unit: reqUnit,
             id_author:  userId,
@@ -259,7 +262,7 @@ function _handle_unit_AuthorEditing(req, res){
             portion_top: markObj.top,
             portion_left: markObj.left,
             serial: markObj.serial,
-            editor_content:  markObj.editorContent
+            editor_content:  editorString
           });
         });
         //distinguish new, and deleted from attribution
