@@ -275,10 +275,15 @@ exports._select_Basic = (condition, accordance)=>{
         reject({status: 500, err: err});
       }else{
         let pWhereCol = new Promise((resolveWhereCol)=>{
-          let where = '';
-          condition.where.forEach((col, index)=>{
-            where = where + (index>0?", ":"") + col;
-          });
+          let where = "";
+          //in case there is not any 'where' need to take concern
+          if(condition.where.length>0){
+            where += ' WHERE (';
+            condition.where.forEach((col, index)=>{
+              where = where + (index>0?", ":"") + col;
+            });
+            where = where +") "+ ("comparison" in condition ? condition.comparison[0].operator+" "+condition.comparison[0].qmark:"IN (?)");
+          }
           resolveWhereCol(where);
         }).catch((err)=>{reject({err: err})}),
         pConditioncol = new Promise((resolveConditionCol)=>{
@@ -289,8 +294,7 @@ exports._select_Basic = (condition, accordance)=>{
           resolveConditionCol(cols);
         }).catch((err)=>{reject({err: err})});
         Promise.all([pConditioncol, pWhereCol]).then((strings)=>{
-          let comparison = "comparison" in condition ? condition.comparison[0].operator+" "+condition.comparison[0].qmark:" IN (?)";
-          let selectQuery = "SELECT "+strings[0]+" FROM "+condition.table+" WHERE ("+strings[1]+") "+comparison;
+          let selectQuery = "SELECT "+strings[0]+" FROM "+condition.table+strings[1];
           connection.query(selectQuery, [accordance], function(err, results, fields){
             if (err) {reject({err: err});connection.release(); return} //only with "return" could assure the promise end immediately if there is any error.
             let rowsArr = results.slice();
