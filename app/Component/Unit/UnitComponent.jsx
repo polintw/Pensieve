@@ -1,6 +1,5 @@
 import React from 'react';
 import cxBind from 'classnames/bind';
-import SvgPropic from '../SvgPropic.jsx';
 
 export class NounsExtensible extends React.Component {
   constructor(props){
@@ -174,15 +173,6 @@ export class AuthorFull extends React.Component {
         letterSpacing: '0.2vh',
         fontWeight: '400',
         color: '#FAFAFA'
-      },
-      Com_Author_full_propic_: {
-        display: 'inline-block',
-        width: '27%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box'
       }
     }
   }
@@ -199,9 +189,6 @@ export class AuthorFull extends React.Component {
       <div
         style={this.style.Com_Author_full_}
         onClick={this._handleClick_Author}>
-        <div style={this.style.Com_Author_full_propic_}>
-          <SvgPropic/>
-        </div>
         <span style={this.style.Com_Author_full_text_}>
           {this.props.authorBasic.account}
         </span>
@@ -209,26 +196,3 @@ export class AuthorFull extends React.Component {
     )
   }
 }
-/*
-export class  extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-
-    };
-    this.style={
-
-    }
-  }
-
-  render(){
-    //let cx = cxBind.bind(styles);
-    return(
-      <div
-        style={this.style.Com_UnitActionControl_}>
-
-      </div>
-    )
-  }
-}
-*/

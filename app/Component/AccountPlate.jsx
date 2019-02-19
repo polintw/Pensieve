@@ -1,6 +1,5 @@
 import React from 'react';
 import cxBind from 'classnames/bind';
-import SvgPropic from './SvgPropic.jsx';
 
 const generalStyle = {
   Com_AccountPlate_: {
@@ -59,9 +58,6 @@ export class UserPlate extends React.Component {
       <div
         style={this.style.Com_AccountPlate_}
         onClick={this._handleClick_Account}>
-        <div style={generalStyle.Com_AccountPlate_propic_}>
-          <SvgPropic/>
-        </div>
         <span style={generalStyle.Com_AccountPlate_text_}>
           {this.props.userInfo.account}
         </span>
@@ -94,9 +90,6 @@ export class AuthorPlate extends React.Component {
       <div
         style={generalStyle.Com_AccountPlate_}
         onClick={this._handleClick_Account}>
-        <div style={generalStyle.Com_AccountPlate_propic_}>
-          <SvgPropic/>
-        </div>
         <span style={generalStyle.Com_AccountPlate_text_}>
           {this.props.authorBasic.account}
         </span>

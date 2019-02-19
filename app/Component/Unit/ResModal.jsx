@@ -97,7 +97,7 @@ class ResModal extends React.Component {
   }
 
   _submit_Share_New(){
-    window.location.assign("/cosmic/units/"+this.props.unitId+"/related");
+    window.location.assign("/user/cognition/actions/shareds");
   }
 
   render(){
