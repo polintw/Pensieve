@@ -53,7 +53,7 @@ function _handle_cosmicCompound_GET(req, res){
             authorId: row.id_author,
             pic_layer0: row.url_pic_layer0,
             pic_layer1: row.url_pic_layer1? row.url_pic_layer1:false,
-            created: row.established,
+            createdAt: row.createdAt,
             marksList: [],
             nounsList: []
           };
