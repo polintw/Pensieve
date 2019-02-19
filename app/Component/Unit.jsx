@@ -59,7 +59,7 @@ class Unit extends React.Component {
   }
 
   _close_modal_Unit(){
-    if(this.props.unitSubmitting) this.setState({warningModel: true});
+    if(this.props.unitSubmitting){this.setState({warningModel: true});return;};
     this.setState((prevState, props)=>{
       return {
         close: true

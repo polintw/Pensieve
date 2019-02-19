@@ -110,7 +110,7 @@ class EntryCall extends React.Component {
           <SvgCreateCoral/>
           <CreateShare
             _submit_Share_New={this._submit_Share_New}
-            _refer_von_Create={this.props._refer_leavevonLtd}/>
+            _refer_von_Create={this.props._refer_leavevonIndex}/>
         </div>
       </div>
     )

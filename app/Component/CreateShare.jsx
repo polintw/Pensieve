@@ -47,7 +47,7 @@ class CreateShare extends React.Component {
   }
 
   _handleClick_CreateShare_clear(){
-    if(this.props.unitSubmitting) this.setState({warningModal: true});
+    if(this.props.unitSubmitting){this.setState({warningModal: true});return;};
     this.setState({
       editingModal: false,
       warningModal: false

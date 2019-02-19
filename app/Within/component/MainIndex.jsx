@@ -7,8 +7,13 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
-import MainIndexRaws from './MainIndexRaws.jsx';
 import Unit from '../../Component/Unit.jsx';
+import NailScape from '../../Component/Nails/NailScape.jsx';
+import {
+  handleNounsList,
+  handleUsersList
+} from "../../redux/actions/general.js";
+import {errHandler_axiosCatch} from "../../utils/errHandlers.js";
 
 class MainIndex extends React.Component {
   constructor(props){
@@ -17,112 +22,96 @@ class MainIndex extends React.Component {
       axios: false,
       unitTo: null,
       unitsList: [],
-      unitsBasicSet: {},
+      unitsBasic: {},
+      marksBasic: {},
       rawsArr: []
     };
     this.axiosSource = axios.CancelToken.source();
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._render_LtdUnitsRaws = this._render_LtdUnitsRaws.bind(this);
     this._refer_von_unit = this._refer_von_unit.bind(this);
+    this._axios_cosmic_mainCompound =this._axios_cosmic_mainCompound.bind(this);
     this.style={
       withinCom_MainIndex_: {
         width: '100%',
-        minHeight: '110%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
+        position: 'relative',
         boxSizing: 'border-box'
       },
       withinCom_MainIndex_scroll_: {
-        width: '101%',
+        width: '100%',
         position: "relative"
       }
     }
   }
 
+  _refer_von_unit(identifier, route){
+    window.location.assign('/user/screen');
+  }
+
   _construct_UnitInit(match, location){
-    let unitInit=Object.assign(this.state.unitsBasicSet[match.params.id], {marksify: true, initMark: "all", layer: 0});
+    let unitInit=Object.assign(this.state.unitsBasic[match.params.id], {marksify: true, initMark: "all", layer: 0});
     return unitInit;
   }
 
-  _refer_von_unit(identifier, route){
-    switch (route) {
-      case 'user':
-        if(identifier == this.props.userInfo.id){
-          window.location.assign('/user/overview');
-        }else{
-          this.setState((prevState, props)=>{
-            let unitTo = {
-              params: '/cosmic/people/'+identifier,
-              query: ''
-            };
-            return {unitTo: unitTo}
-          })
-        }
-        break;
-      case 'noun':
-        this.setState((prevState, props)=>{
-          let unitTo = {
-            params: '/cosmic/nouns/'+identifier,
-            query: ''
-          };
-          return {unitTo: unitTo}
-        })
-        break;
-      default:
-        return
-    }
+  _axios_cosmic_mainCompound(url, params){
+    const self = this;
+    this.setState({axios: true});
+    axios.get(url, {
+      headers: {
+        'charset': 'utf-8',
+        'token': window.localStorage['token']
+      },
+      params: params,
+      cancelToken: self.axiosSource.token
+    }).then(function (res) {
+      let resObj = JSON.parse(res.data);
+      self.setState((prevState, props)=>{
+        prevState.unitsList.unshift(resObj.main.unitsList);
+        return({
+          axios: false,
+          unitsList: prevState.unitsList,
+          unitsBasic: resObj.main.unitsBasic,
+          marksBasic: resObj.main.marksBasic
+        });
+      }, self._render_LtdUnitsRaws);
+      self.props._submit_NounsList_new(resObj.main.nounsListMix);
+      self.props._submit_UsersList_new(resObj.main.usersList);
+    }).catch(function (thrown) {
+      if (axios.isCancel(thrown)) {
+        console.log('Request canceled: ', thrown.message);
+      } else {
+        self.setState({axios: false});
+        let customSwitch = (status)=>{
+          return null
+        };
+        errHandler_axiosCatch(thrown, customSwitch);
+      }
+    });
   }
 
   _render_LtdUnitsRaws(){
-    let point = 0;
-    let raws = [];
-    while (point< this.state.unitsList.length) {
-      let number = Math.floor(Math.random()*3)+1;
-      if(this.state.unitsList.length-point < number){number = this.state.unitsList.length-point;};
-      raws.push(
-        <MainIndexRaws
-          key={'key_LtdUnits_raw_'+point+'_'+number}
+    let row = this.state.unitsList[0] ? this.state.unitsList[0]:[];
+    let nailsArr = row.map((unitId, index)=>{
+      return (
+        <NailScape
           {...this.props}
-          point={point}
-          number={number}
-          unitsList={this.state.unitsList}
-          unitsBasicSet={this.state.unitsBasicSet}
-          _handleClick_Share={this._handleClick_Share}/>
+          key={'key_ScapeNails_'+this.state.unitsList.length+'_'+index}
+          unitId={unitId}
+          unitBasic={this.state.unitsBasic[unitId]}
+          marksBasic={this.state.marksBasic}/>
       )
-      point +=  number;
-    };
-    this.setState({rawsArr: raws});
+    })
+
+    this.setState((prevState, props)=>{
+      return {rawsArr: prevState.rawsArr.concat(nailsArr)}
+    });
   }
 
   componentDidMount(){
-    const self = this;
     this.setState((prevState, props)=>{return {axios: true};}, ()=>{
-      let url = '/router/cosmic/compound/index';
-      axios.get(url, {
-        headers: {
-          'charset': 'utf-8',
-          'token': window.localStorage['token']
-        },
-        cancelToken: self.axiosSource.token
-      }).then(function (res) {
-          self.setState((prevState, props)=>{
-            let resObj = JSON.parse(res.data);
-            return({
-              axios: false,
-              unitsList: resObj.main.unitsList,
-              unitsBasicSet: resObj.main.unitsBasicSet
-            });
-          }, self._render_LtdUnitsRaws);
-      }).catch(function (thrown) {
-        if (axios.isCancel(thrown)) {
-          console.log('Request canceled: ', thrown.message);
-        } else {
-          console.log(thrown);
-          self.setState({axios: false});
-          alert("Failed, please try again later");
-        }
-      });
+      let url = '/router/cosmic/compound',
+      params = {'ordinal': 'first'};
+      this._axios_cosmic_mainCompound(url, params);
     })
   }
 
@@ -143,7 +132,7 @@ class MainIndex extends React.Component {
           {this.state.rawsArr}
         </div>
         <Route
-          path={this.props.match.path+"/units/:id"}
+          path="/units/:id"
           render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this._refer_von_unit}/>}/>
       </div>
     )
@@ -156,7 +145,14 @@ const mapStateToProps = (state)=>{
   }
 }
 
+const mapDispatchToProps = (dispatch)=>{
+  return {
+    _submit_NounsList_new: (arr)=>{dispatch(handleNounsList(arr));},
+    _submit_UsersList_new: (arr)=>{dispatch(handleUsersList(arr));}
+  }
+}
+
 export default withRouter(connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(MainIndex));
