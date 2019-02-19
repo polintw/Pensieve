@@ -5,13 +5,10 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import Threads from './Threads.jsx';
 import CreateShare from '../../Component/CreateShare.jsx';
 import Unit from '../../Component/Unit.jsx';
 import SvgCreateCoral from '../../Component/SvgCreateCoral.jsx';
 import NailShared from '../../Component/Nails/NailShared.jsx';
-//ModalBox used some unstable method, considering updating some day.
-import ModalBox from '../../Component/ModalBox.jsx';
 import {handleNounsList} from "../../redux/actions/general.js";
 import {errHandler_axiosCatch} from "../../utils/errHandlers.js";
 
@@ -144,9 +141,6 @@ class Shared extends React.Component {
           style={this.style.selfCom_Shared_nails_}>
           {shares}
         </div>
-        <ModalBox containerId="root">
-          <Route path={this.props.match.path+"/:sharedId/threads"} render={(props)=> <Threads {...props} unitBasic={this.state.unitsBasic[props.match.params.sharedId]} _refer_leaveSelf={this.props._refer_leaveSelf}/>}/>
-        </ModalBox>
         <Route path={this.props.match.path+"/units/:id"} render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_leaveSelf}/>}/>
       </div>
     )

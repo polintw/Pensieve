@@ -329,138 +329,11 @@ class AccountatSheet extends React.Component {
             type="button"
             value=" change password "/>
         </Link>
-        <Link
-          to="/profile/sheet?status=setting"
-          style={this.style.selfCom_Setting_link}>
-          {" reset "}</Link>
       </div>
     )
   }
 }
 
-
-class SettingAccount extends React.Component {
-  //this part is more like a temporary stay in this file, would moving to a independent 'setting page' someday.
-    constructor(props){
-      super(props);
-      this.state = {
-        axios: false
-      };
-      this._handle_settingAccount = this._handle_settingAccount.bind(this);
-      this.style={
-        selfCom_Setting_account: {
-          width: '100%',
-          height: '45vh',
-          position: 'relative'
-        },
-        selfCom_Setting_accountForm: {
-          width: '100%',
-          height: '56%',
-          position: 'relative',
-          boxSizing: 'border-box',
-        },
-        selfCom_Setting_email_: {
-          width: '100%',
-          height: '24%',
-          position: 'relative',
-          boxSizing: 'border-box',
-          fontSize: '1.5rem',
-          letterSpacing: '0.15rem',
-          fontWeight: '400'
-        },
-        selfCom_Setting_nameBar_: {
-          width: '100%',
-          height: '40%',
-          position: 'absolute',
-          top: '0',
-          left: '0',
-          boxSizing: 'border-box',
-          fontSize: '1.5rem',
-          letterSpacing: '0.15rem',
-          fontWeight: '400'
-        }
-      }
-    }
-
-    _handle_settingAccount(event){
-      event.preventDefault();
-      const self = this;
-      let reqBody = {};
-      reqBody["firstName"] = this.accountFirst.value;
-      reqBody["lastName"] = this.accountLast.value;
-      this.setState({axios: true});
-      axios.patch('/router/account/setting', reqBody, {
-        headers: {'charset': 'utf-8'}
-      }).then(function (res) {
-        self.setState({
-          axios: false
-        });
-        window.location.assign('/user/profile/sheet');
-      }).catch(function (thrown) {
-        if (axios.isCancel(thrown)) {
-          console.log('Request canceled: ', thrown.message);
-        } else {
-          self.setState({axios: false});
-          let customSwitch = (status)=>{
-            return null;
-          };
-          errHandler_axiosCatch(thrown, customSwitch);
-        }
-      });
-    }
-
-    render(){
-      //let cx = cxBind.bind(styles);
-      return(
-        <div
-          style={this.style.selfCom_Setting_account}>
-          <div
-            style={this.style.selfCom_Setting_email_}>
-            <span>{this.props.accountSet.mail}</span>
-            <span>{"a valid email adress could not be changed"}</span>
-          </div>
-          <form
-            style={this.style.selfCom_Setting_accountForm}
-            onSubmit={this._handle_settingAccount}>
-            <div
-              style={this.style.selfCom_Setting_nameBar_}>
-              <span>{"last name : "}</span>
-              <input
-                type="text"
-                ref={(element)=>{this.accountFirst = element}}
-                defaultValue={this.props.accountSet.firstName}/>
-              <span>{"Family name : "}</span>
-              <input
-                type="text"
-                ref={(element)=>{this.accountLast = element}}
-                defaultValue={this.props.accountSet.lastName}/>
-            </div>
-            <input
-              type="submit"
-              value="confirm"
-              style={{position: 'absolute', bottom: '5%', right: '5%'}}/>
-            <Link
-              to="/profile/sheet"
-              replace
-              style={{position: 'absolute', bottom: '5%', right: '15%'}}>
-            {"cancel"}</Link>
-          </form>
-        </div>
-      )
-    }
-  }
-
-
-  const mapStateToProps = (state)=>{
-  return {
-    axios: state.axios,
-    userInfo: state.userInfo,
-    unitCurrent: state.unitCurrent,
-    userSheet: state.userSheet,
-    accountSet: state.accountSet,
-    settingSubmitting: state.settingSubmitting
-  }
-}
 
 const mapDispatchToProps = (dispatch)=>{
   return {
@@ -473,7 +346,6 @@ const reduxConnection = connect(
   mapDispatchToProps
 );
 
-export const SheetSetting = reduxConnection(SettingAccount);
 export const SheetPassword = reduxConnection(SettingPassword);
 export const SheetAccount = reduxConnection(AccountatSheet);
 export const SheetBasic = reduxConnection(Basic);
