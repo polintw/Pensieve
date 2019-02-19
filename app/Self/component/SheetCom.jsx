@@ -334,6 +334,16 @@ class AccountatSheet extends React.Component {
   }
 }
 
+const mapStateToProps = (state)=>{
+  return {
+    axios: state.axios,
+    userInfo: state.userInfo,
+    unitCurrent: state.unitCurrent,
+    userSheet: state.userSheet,
+    accountSet: state.accountSet,
+    settingSubmitting: state.settingSubmitting
+  }
+}
 
 const mapDispatchToProps = (dispatch)=>{
   return {
