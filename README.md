@@ -1,5 +1,5 @@
-# CORNER (project Pensieve): Dev
-__自由的思考、無限制得知道__
+# project Pensieve *Dev*
+__自由的思考、無限制得探索__
 
 > _no Limitation by Any force_
 
@@ -10,16 +10,16 @@ this is a web application project initiated & own by Chou Po Lin since May. 2018
 - release: a 'temp' branch emerge when we need to 'cut' and 'deploy' a new version. Merge to the master in the end, not to the develope.
 - [feature]: a 'temp' branch emerge during development. Merge to the develope in the end, not to the master.
 
-## Initiation: Lite
+version __"Lite 2.0"__ : the version released to the public of this project.
 
-version "Lite" is the version released to the public of this project.
-
+version __"Lite 2.1"__ : the version released after backend refactor, and opening for register.
 
 #### Prepare
 env:
 - node 10.15.1
 - npm  6.4.1
 - /bcrypt: check doc, uninstall and install again if needed
+- /var/log: path establish
 
 .env.json:
 - production img serve
@@ -31,8 +31,13 @@ env:
 database
 - sequelize set --env production
 - db: migrate if needed
+- db: seed if needed
 - db:create to recreate a new database before db:migrate at first time
 
+
+## Initiation:
+1. bundle as production. if fail, bundle from master else where directly
+2. start as production.
 
 #### Production
 - [React for production](https://reactjs.org/docs/optimizing-performance.html#use-the-production-build)環境建議標準
