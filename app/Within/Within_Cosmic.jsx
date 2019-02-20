@@ -49,10 +49,12 @@ class WithinCosmic extends React.Component {
   _refer_leavevonIndex(identifier, route){
     switch (route) {
       case 'user':
-        window.location.assign('/user/screen');
+        if(identifier == this.props.userInfo.id){
+          window.location.assign('/user/screen');
+        }
         break;
       default:
-        window.location.reload();
+        return
     }
   }
 
@@ -97,4 +99,13 @@ class WithinCosmic extends React.Component {
   }
 }
 
-export default withRouter(connect()(WithinCosmic));
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo
+  }
+}
+
+export default withRouter(connect(
+  mapStateToProps,
+  null
+)(WithinCosmic));

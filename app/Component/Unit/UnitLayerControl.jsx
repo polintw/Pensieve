@@ -59,7 +59,7 @@ export default class UnitLayerControl extends React.Component {
         style={this.style.Com_UnitLayerControl}>
         <div
           index={0}
-          style={{width: '100%', height: layerCover? '40%':'80%', position: "relative", cursor:"pointer"}}
+          style={{width: '100%', height: thie.props.beneathSrc? '40%':'80%', position: "relative", cursor:"pointer"}}
           onClick={this._handleClick_set_layer}>
           <div
             style={Object.assign({display: layerCover? 'block': 'none'}, this.style.Com_UnitLayerControl_bar)}
@@ -68,7 +68,7 @@ export default class UnitLayerControl extends React.Component {
         {
           this.props.beneathSrc &&
           <div
-          index={1}
+          index={2}
           style={{width: '100%', height: '40%', position: "relative", cursor:"pointer"}}
           onClick={this._handleClick_set_layer}>
           <div
