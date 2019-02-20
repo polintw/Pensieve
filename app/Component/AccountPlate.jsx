@@ -1,4 +1,9 @@
 import React from 'react';
+import {
+  Route,
+  Link
+} from 'react-router-dom';
+import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 
 const generalStyle = {
@@ -66,7 +71,7 @@ export class UserPlate extends React.Component {
   }
 }
 
-export class AuthorPlate extends React.Component {
+class AuthorPlate_unexp extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -81,7 +86,7 @@ export class AuthorPlate extends React.Component {
   _handleClick_Account(event){
     event.preventDefault();
     event.stopPropagation();
-    this.props._handleClick_Account('user', this.props.authorBasic.authorId);
+    if(this.props.unitCurrent.identity=="author") this.props._handleClick_Account('user', this.props.authorBasic.authorId);
   }
 
   render(){
@@ -97,3 +102,15 @@ export class AuthorPlate extends React.Component {
     )
   }
 }
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo,
+    unitCurrent: state.unitCurrent
+  }
+}
+const reduxConnection = connect(
+  mapStateToProps,
+  null
+);
+
+export const AuthorPlate = reduxConnection(AuthorPlate_unexp);
