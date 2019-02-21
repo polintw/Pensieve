@@ -125,15 +125,11 @@ class EditingModal extends React.Component {
   _handleClick_Editing_Submit(event){
     event.stopPropagation();
     event.preventDefault();
-    //「send to Unit as string, Unit use them as obj, create and edit as obj, but submit as string」
-    let newObj = Object.assign({}, this.state); //prevent data lost during unmount.
-    newObj["joinedMarksList"] = newObj.coverMarks.list.concat(newObj.beneathMarks.list);
-    newObj["joinedMarks"] = Object.assign({}, newObj.coverMarks.data, newObj.beneathMarks.data);
-    delete newObj.coverMarks;
-    delete newObj.beneathMarks;
-    newObj.joinedMarksList.forEach((key, index)=>{
-      newObj.joinedMarks[key].editorContent = JSON.stringify(newObj.joinedMarks[key].editorContent);
-    })
+    if(this.props.unitSubmitting) return;
+
+    //to prevent any main mutation during process
+    //notice this could not stop the change in the 'children' of each value
+    let newObj = Object.assign({}, this.state);
 
     this.props._set_Submit(newObj);
   }
@@ -200,6 +196,20 @@ class EditingModal extends React.Component {
             _close_Mark_Complete={this._close_Mark_Complete}
             _close_img_Cancell={this._close_img_Cancell}/>
         }
+        {
+          this.props.unitSubmitting &&
+          <div
+            style={{
+              width: '100%',
+              height: '100%',
+              position: 'absolute',
+              top: '0',
+              left:'0',
+              backgroundColor: 'rgba(230,230,230,0.5)'
+            }}
+            onClick={(e)=>{e.preventDefault(); e.stopPropagation();}}>
+          </div>
+        }
       </div>
     )
   }
@@ -208,7 +218,8 @@ class EditingModal extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
-    unitCurrent: state.unitCurrent
+    unitCurrent: state.unitCurrent,
+    unitSubmitting: state.unitSubmitting
   }
 }
 

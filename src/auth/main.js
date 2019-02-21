@@ -1,14 +1,17 @@
 const express = require('express');
 const main = express.Router();
 
-const login = require('./login.js');
 const status = require('./status.js');
-const verify = require('./verify.js');
+const pass = require('./pass.js');
+const login = require('./login.js');
+const registerExecutive = require('./register/execute.js');
 
 main.use('/login', login)
 
 main.use('/status', status)
 
-main.use('/', verify)
+main.use('/register', registerExecutive)
+
+main.use('/', pass)
 
 module.exports = main;

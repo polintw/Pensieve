@@ -1,11 +1,16 @@
 import React from 'react';
+import {
+  Route,
+  withRouter
+} from 'react-router-dom';
+import {connect} from "react-redux";
 import UnitLayerFrame from './UnitLayerFrame.jsx';
 import UnitLayerControl from './UnitLayerControl.jsx';
 import UnitActionControl from './UnitActionControl.jsx';
 import {DateConverter, NounsExtensible} from './UnitComponent.jsx';
 import {AuthorPlate} from '../AccountPlate.jsx';
 
-export default class UnitModal extends React.Component {
+class UnitModal extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -73,7 +78,7 @@ export default class UnitModal extends React.Component {
       },
       Com_UnitModal_ControlSection_actionControl_: {
         width: '100%',
-        height: '12%',
+        height: '15%',
         position: 'absolute',
         bottom: '0',
         left: '0',
@@ -86,7 +91,6 @@ export default class UnitModal extends React.Component {
         top: '75%',
         left: '0%',
         boxSizing: 'border-box',
-        cursor:'pointer'
       },
       Com_UnitModal_ControlSection_nouns_: {
         width: '100%',
@@ -113,7 +117,7 @@ export default class UnitModal extends React.Component {
       },
       Com_UnitModal_ControlSection_DateConverter: {
         width: '80%',
-        height: '20%',
+        height: '12%',
         position: 'absolute',
         top: '2%',
         left: '0',
@@ -172,7 +176,7 @@ export default class UnitModal extends React.Component {
           {
             this.props.unitSet.authorBasic &&
             <div
-              style={this.style.Com_UnitModal_ControlSection_Author_}>
+              style={Object.assign({cursor: this.props.unitCurrent.identity=="author"?'pointer':''}, this.style.Com_UnitModal_ControlSection_Author_)}>
               <AuthorPlate
                 authorBasic={this.props.unitSet.authorBasic}
                 _handleClick_Account={this._refer_toandclose}/>
@@ -186,7 +190,7 @@ export default class UnitModal extends React.Component {
           <div
             style={this.style.Com_UnitModal_ControlSection_DateConverter}>
             <DateConverter
-              datetime={this.props.unitSet.created}/>
+              datetime={this.props.unitSet.createdAt}/>
           </div>
         </div>
         <div
@@ -215,3 +219,15 @@ export default class UnitModal extends React.Component {
     )
   }
 }
+
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo,
+    unitCurrent: state.unitCurrent
+  }
+}
+
+export default withRouter(connect(
+  mapStateToProps,
+  null
+)(UnitModal));

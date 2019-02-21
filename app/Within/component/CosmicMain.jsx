@@ -51,7 +51,8 @@ class CosmicMain extends React.Component {
         <div
           style={this.style.Within_Ltd_scroll_EntryCall}>
             <EntryCall
-              _refer_leavevonIndex={this.props._refer_leavevonIndex}/>
+              _refer_leavevonIndex={this.props._refer_leavevonIndex}
+              _handleClick_LtdToolBox_logout={this.props._handleClick_LtdToolBox_logout}/>
         </div>
         <div
           ref={this.props.innerRef}

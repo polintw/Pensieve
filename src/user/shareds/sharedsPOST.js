@@ -4,7 +4,19 @@ const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 const {verify_key} = require('../../../config/jwt.js');
 const {connection_key} = require('../../../config/database.js');
-const {_handler_err_BadReq, _handler_err_Unauthorized, _handler_err_Internal} = require('../../utils/reserrHandler.js');
+const {
+  userImg_SecondtoSrc
+} = require('../../../config/path.js');
+
+const _DB_nouns = require('../../../db/models/index').nouns;
+const {
+  _handler_err_BadReq,
+  _handler_err_Unauthorized,
+  _handler_err_Internal,
+  _handle_ErrCatched,
+  forbbidenError,
+  notAcceptable
+} = require('../../utils/reserrHandler.js');
 
 const database = mysql.createPool(connection_key);
 
@@ -21,52 +33,36 @@ function shareHandler_POST(req, res){
           console.log("error occured when getConnection in newShare handle.")
         }else{
           new Promise((resolve, reject)=>{
-            let imgFolderPath = path.join(__dirname, '/../../../..', '/corner_imgsbyusers/'+userId);
-            fs.access(imgFolderPath, (err)=>{
-              if(err){
-                //which mean the folder doesn't exist
-                fs.mkdir(imgFolderPath, function(err){
-                  if(err) {reject(err);return;}
-                  resolve();
-                })
-              }else{
-                //or without err
-                resolve();
-              }
-            })
-          }).then(function() {
-              //add it into shares as a obj value
-              console.log('add new one: deal img.');
-              let modifiedBody = new Object();
-              let coverBase64Buffer ,beneathBase64Buffer;
-              //deal with cover img first.
-              let coverBase64Splice = req.body.coverBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
-              coverBase64Buffer = new Buffer(coverBase64Splice[2], 'base64');
-              //then deal with beneath img if any.
+            //add it into shares as a obj value
+            console.log('add new one: deal img.');
+            let modifiedBody = new Object();
+            let coverBase64Buffer ,beneathBase64Buffer;
+            //deal with cover img first.
+            let coverBase64Splice = req.body.coverBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
+            coverBase64Buffer = new Buffer(coverBase64Splice[2], 'base64');
+            //then deal with beneath img if any.
+            if(req.body.beneathBase64){
+              let beneathBase64Splice = req.body.beneathBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
+              beneathBase64Buffer = new Buffer(beneathBase64Splice[2], 'base64');
+            }
+            fs.writeFile(path.join(__dirname, userImg_SecondtoSrc+userId+'/'+req.body.submitTime+"_layer_0.jpg"), coverBase64Buffer, function(err){
+              if(err) {reject(err);return;}
+              modifiedBody['url_pic_layer0'] = userId+'/'+req.body.submitTime+'_layer_0.jpg';
               if(req.body.beneathBase64){
-                let beneathBase64Splice = req.body.beneathBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
-                beneathBase64Buffer = new Buffer(beneathBase64Splice[2], 'base64');
+                fs.writeFile(path.join(__dirname, userImg_SecondtoSrc+userId+'/'+req.body.submitTime+"_layer_1.jpg"), beneathBase64Buffer, function(err){
+                  if(err) {reject(err);return;}
+                  modifiedBody['url_pic_layer1'] = userId+'/'+req.body.submitTime+'_layer_1.jpg';
+                  resolve(modifiedBody);
+                });
+              }else{
+                resolve(modifiedBody);
               }
-            return new Promise((resolve, reject)=>{
-              fs.writeFile(path.join(__dirname, '/../../../..', '/corner_imgsbyusers/'+userId+'/'+req.body.submitTime+"_layer_0.jpg"), coverBase64Buffer, function(err){
-                if(err) {reject(err);return;}
-                modifiedBody['url_pic_layer0'] = userId+'/'+req.body.submitTime+'_layer_0.jpg';
-                if(req.body.beneathBase64){
-                  fs.writeFile(path.join(__dirname, '/../../../..', '/corner_imgsbyusers/'+userId+'/'+req.body.submitTime+"_layer_1.jpg"), beneathBase64Buffer, function(err){
-                    if(err) {reject(err);return;}
-                    modifiedBody['url_pic_layer1'] = userId+'/'+req.body.submitTime+'_layer_1.jpg';
-                    resolve();
-                  });
-                }else{
-                  resolve();
-                }
-              });
-            }).then(()=>{
-              Object.assign(modifiedBody, req.body);
-              delete modifiedBody.coverBase64;
-              delete modifiedBody.beneathBase64;
-              return(modifiedBody);
-            })
+            });
+          }).then((modifiedBody)=>{
+            Object.assign(modifiedBody, req.body);
+            delete modifiedBody.coverBase64;
+            delete modifiedBody.beneathBase64;
+            return(modifiedBody);
           }).then(function(modifiedBody){
             console.log('add new one, write into the table: units.');
             return new Promise((resolve, reject)=>{
@@ -88,6 +84,8 @@ function shareHandler_POST(req, res){
             return new Promise((resolve, reject)=>{
               let valuesArr = modifiedBody.joinedMarksList.map(function(markKey, index){
                 let markObj = modifiedBody.joinedMarks[markKey];
+                let editorString = JSON.stringify(markObj.editorContent); //notice, same part in the req.body would also be transformed
+
                 return [
                   modifiedBody.id_unit,
                   userId,
@@ -95,7 +93,7 @@ function shareHandler_POST(req, res){
                   markObj.top,
                   markObj.left,
                   markObj.serial,
-                  markObj.editorContent
+                  editorString
                 ]
               })
               connection.query('INSERT INTO marks (id_unit, id_author, layer,portion_top,portion_left,serial,editor_content) VALUES ?; SHOW WARNINGS;', [valuesArr], function(err, result, fields) {
@@ -106,6 +104,7 @@ function shareHandler_POST(req, res){
             })
           }).then(function(modifiedBody){
             console.log('add new one, write into the table: attribution.');
+            /* Below, is the part to create a new noun by user, concept not use for now
             let _db_createNoun = (resolve, reject, newNounskey)=>{
               let valuesArr = newNounskey.map((nounKey, index)=>{
                 return [modifiedBody.nouns.basic[nounKey].name]
@@ -120,23 +119,9 @@ function shareHandler_POST(req, res){
                 resolve(modifiedBody)
               })
             };// Should consider isolate this part, create a new noun, to a independent api!!
-
-            let _db_addAttribution = (resolve, reject)=>{
-              let valuesArr = modifiedBody.nouns.list.map(function(nounKey, index){
-                let nounBasic = modifiedBody.nouns.basic[nounKey];
-                return [
-                  nounBasic.id,
-                  modifiedBody.id_unit,
-                  userId
-                ]
-              })
-              connection.query('INSERT INTO attribution (id_noun, id_unit, id_author) VALUES ?', [valuesArr], function(err, rows, fields) {
-                if (err) {reject(err);return;}
-                console.log('database connection: success.')
-                resolve(modifiedBody)
-              })
-            };
+            */
             return new Promise((resolve, reject)=>{
+              /*also in the concept of new noun create by user
               let newNounskey = [];
               modifiedBody.nouns.list.forEach((nounId, index)=>{
                 if(!modifiedBody.nouns.basic[nounId].ify){
@@ -151,6 +136,33 @@ function shareHandler_POST(req, res){
             }).then((modifiedBody)=>{
               return new Promise((resolve, reject)=>{
                 _db_addAttribution(resolve, reject);
+              })*/
+              let valuesArr = [],
+                  promiseArr= [];
+              modifiedBody.nouns.list.forEach(function(nounKey, index){
+                let checkReq = Promise.resolve(
+                  //check if the noun exist! But!
+                  // actually, we should use findall.() to reduce processing time
+                  _DB_nouns.findByPk(nounKey).then(noun=>{
+                    if(!noun) return;
+                    let nounBasic = modifiedBody.nouns.basic[nounKey];
+                    valuesArr.push([
+                      nounBasic.id,
+                      modifiedBody.id_unit,
+                      userId
+                    ]);
+                  })
+                )
+                promiseArr.push(checkReq);
+              });
+              //if we use findall(), we don't need to use Promise.all
+              Promise.all(promiseArr).then(()=>{
+                if(valuesArr.length<1) throw new forbbidenError({"warning": "you've passed an invalid nouns key"}, 120);
+                connection.query('INSERT INTO attribution (id_noun, id_unit, id_author) VALUES ?', [valuesArr], function(err, rows, fields) {
+                  if (err) {reject(err);return;}
+                  console.log('database connection: success.')
+                  resolve(modifiedBody)
+                })
               })
             })
           }).then(()=>{

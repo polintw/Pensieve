@@ -7,7 +7,6 @@ export class NounsExtensible extends React.Component {
     this.state = {
       expandify: false
     };
-    this._handleClick_listNoun = this._handleClick_listNoun.bind(this);
     this._handleClick_listExpand = this._handleClick_listExpand.bind(this);
     this._render_unitModal_Nouns =this._render_unitModal_Nouns.bind(this);
     this.style={
@@ -62,27 +61,21 @@ export class NounsExtensible extends React.Component {
     for(let i = 0; i < expandLeng ; i++){
       if(i >= this.props.nouns.list.length) break;
       let nounId = self.props.nouns.list[i];
+      let iNoun = self.props.nouns.basic[nounId];
       nounsArr.push(
         <li
           key={"key_unitModal_Nouns_"+i}
           nounid={nounId}
-          style={self.style.Com_Nouns_Extensible_list_item_}
-          onClick={self._handleClick_listNoun}>
-          <span>
-            {self.props.nouns.basic[nounId].name}
+          style={self.style.Com_Nouns_Extensible_list_item_}>
+          <span
+            title={iNoun.name+ (iNoun.prefix ? ", "+iNoun.prefix:"")}>
+            {iNoun.name}
           </span>
         </li>
       )
     }
 
     return nounsArr;
-  }
-
-  _handleClick_listNoun(event){
-    event.preventDefault();
-    event.stopPropagation();
-    let id = event.currentTarget.getAttribute('nounid');
-    this.props._handleClick_listNoun('noun', id);
   }
 
   _handleClick_listExpand(event){
@@ -121,8 +114,52 @@ export class DateConverter extends React.Component {
     this.state = {
 
     };
+    this._render_monthRome = this._render_monthRome.bind(this);
     this.style={
 
+    }
+  }
+
+  _render_monthRome(date){
+    switch (date.getMonth()) {
+      case 0:
+        return "Jan"
+        break;
+      case 1:
+        return "Feb"
+        break;
+      case 2:
+        return "Mar"
+        break;
+      case 3:
+        return "Apr"
+        break;
+      case 4:
+        return "May"
+        break;
+      case 5:
+        return "Jun"
+        break;
+      case 6:
+        return "Jul"
+        break;
+      case 7:
+        return "Aug"
+        break;
+      case 8:
+        return "Sep"
+        break;
+      case 9:
+        return "Oct"
+        break;
+      case 10:
+        return "Nov"
+        break;
+      case 11:
+        return "Dec"
+        break;
+      default:
+        return date.getMonth()
     }
   }
 
@@ -133,10 +170,9 @@ export class DateConverter extends React.Component {
     return(
       <div
         style={this.style.Com_DateConverter_}>
-        <span>{d.getMonth()}</span>
-        <span> 月</span>
         <span>{d.getDate()}</span>
-        <span>{" 日"}</span>
+        <span>{". "}</span>
+        <span>{this._render_monthRome(d)}</span>
       </div>
     )
   }
@@ -170,15 +206,6 @@ export class AuthorFull extends React.Component {
         letterSpacing: '0.2vh',
         fontWeight: '400',
         color: '#FAFAFA'
-      },
-      Com_Author_full_propic_: {
-        display: 'inline-block',
-        width: '27%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box'
       }
     }
   }

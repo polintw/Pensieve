@@ -1,11 +1,14 @@
 import {
   MOUNT_USERINFO,
   UNIT_MOUNT_UNITCURRENT,
+  UNIT_SUBMITTING_SWITCH,
   UPDATE_NOUNSBASIC,
-  UPDATE_USERSBASIC
+  UPDATE_USERSBASIC,
+  AXIOS_SWITCH
 } from '../constants/typesGeneral.js';
 import {
-  UPDATE_USERSHEET
+  UPDATE_USERSHEET,
+  SETTING_SUBMITTING_SWITCH
 } from '../constants/typesSelfFront.js';
 import {errHandler_axiosCatch} from "../../utils/errHandlers.js";
 
@@ -19,6 +22,18 @@ export function mountUnitCurrent(obj) {
 
 export function mountUserSheet(sheetObj, accountSet) {
   return { type: UPDATE_USERSHEET, userSheet: sheetObj, accountSet: accountSet}
+};
+
+export function switchUnitSubmitting(bool) {
+  return { type: UNIT_SUBMITTING_SWITCH, unitSubmitting: bool}
+};
+
+export function switchSettingSubmitting(bool) {
+  return { type: SETTING_SUBMITTING_SWITCH, settingSubmitting: bool}
+};
+
+export function axiosSwitch(bool) {
+  return { type: AXIOS_SWITCH, status: bool }
 };
 
 export function handleNounsList(nounsArr) {

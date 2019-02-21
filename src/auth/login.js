@@ -1,55 +1,121 @@
 const express = require('express');
 const login = express.Router();
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const mysql = require('mysql');
 const {verify_key} = require('../../config/jwt.js');
-const {connection_key} = require('../../config/database.js');
+const validateLoginInput = require('./validation/login');
+const {
+  _select_Basic
+} = require('../utils/dbSelectHandler.js');
+const {
+  _handler_ErrorRes
+} = require('../utils/reserrHandler.js');
 
-const database = mysql.createPool(connection_key);
 
 //handle log in request
 login.use(function(req, res) {
-    let resData = {};
-    let email = req.body.email;
-    let password = req.body.password;
+    const email = req.body.email;
+    const password = req.body.password;
 
-    database.getConnection(function(err, connection){
-      if (err) {
-        resData['error'] = 1;
-        resData['message'] = 'Internal Server Error';
-        res.status(500).json(resData);
-        console.log("error occured during login process: step getConnection"+err)
-      } else {
-        connection.query('SELECT id_user, email, password FROM verifications WHERE email = ?', [email], function(err, rows, fields) {
-          if (err) {
-            resData['error'] = 1;
-            resData['message'] = 'Error Occured!';
-            res.status(400).json(resData);
-          } else {
-            if (rows.length > 0) {
-              let verified = rows[0];
-              if (verified.password == password) {
-                let tokenInfo = {user_Id: verified['id_user'], user_Role: 'public'};
-                token = jwt.sign(JSON.parse(JSON.stringify(tokenInfo)), verify_key, {
-                  expiresIn: '1d'
-                });
-                resData['token'] = token;
-                resData['error'] = 0;
-                resData['message'] = 'login success!';
-                res.status(200).json(resData);
-              } else {
-                resData['error'] = 1;
-                resData['message'] = 'account and Password does not match';
-                res.status(401).json(resData);
-              }
-            } else {
-              resData['error'] = 2;
-              resData['message'] = 'account does not exist!';
-              res.status(401).json(resData);
+    const { errors, isValid } = validateLoginInput(req.body);
+
+    if(!isValid) {
+      let errSet = {
+        "status": 400,
+        "message": errors,
+        "console": ''
+      };
+      return _handler_ErrorRes(errSet, res);
+    }
+
+    let mysqlForm = {
+      accordancesList: [[email]]
+    },
+    conditionUser = {
+      table: "verifications",
+      cols: ["email", "password", "id_user"],
+      where: ["email"]
+    };
+    _select_Basic(conditionUser, mysqlForm.accordancesList).then((rows)=>{
+      if (rows.length > 0) {
+        let verified = rows[0];
+        let userId = verified['id_user'];
+        let mysqlForm = {
+          accordancesList: [[userId]]
+        },
+        conditionUser = {
+          table: "users",
+          cols: ["status"],
+          where: ["id"]
+        };
+        return _select_Basic(conditionUser, mysqlForm.accordancesList).then((rowsUsers)=>{
+          if(rowsUsers.length == 0){
+            throw {custom: false, status: 500, err: "existed email in verications couldn't be found in users"};
+          }
+          else{
+            if(rowsUsers[0].status == 'active') Promise.resolve();
+            else {
+              let errSet = {
+                "status": 401,
+                "message": {'warning': "You haven't verified your email address yet!"},
+                "console": '',
+                "code": 33
+              };
+              throw {custom: true, errSet: errSet};
             }
           }
-        });
-        connection.release();
+        }).then(()=>{
+          let resData = {};
+          bcrypt.compare(password, verified.password).then(isMatch => {
+            if(isMatch) {
+                const payload = {
+                  user_Id: userId,
+                  user_Role: 'public'
+                }
+                jwt.sign(JSON.parse(JSON.stringify(payload)), verify_key, {
+                  expiresIn: '1d'
+                }, (err, token) => {
+                    if(err){
+                      err = ('There is some error in token' + err);
+                      throw {status: 500, err: err};
+                    }
+                    else {
+                      resData['token'] = token;
+                      resData['error'] = 0;
+                      resData['message'] = 'login success!';
+                      res.status(200).json(resData);
+                    }
+                });
+            }
+            else {
+              let errSet = {
+                "status": 401,
+                "message": {'password': 'account and Password does not match'},
+                "console": ''
+              };
+              return _handler_ErrorRes(errSet, res);
+            }
+          });
+        })
+      } else {
+        let errSet = {
+          "status": 404,
+          "message": {'email': 'account does not exist!'},
+          "console": ''
+        };
+        return _handler_ErrorRes(errSet, res);
+      }
+    }).catch((errObj)=>{
+      if(errObj.custom) _handler_ErrorRes(errObj.errSet, res);
+      else{
+        console.log("error occured during: auth/login promise: "+errObj.err);
+        let errSet = {
+          "status": errObj.status?errObj.status:500,
+          "message": {'warning': 'Internal Server Error, please try again later'},
+          "console": 'Error Occured: Internal Server Error'
+        };
+        _handler_ErrorRes(errSet, res);
       }
     });
   });

@@ -3,7 +3,7 @@ const browserify = require('browserify');
 const babelify = require("babelify");
 const envify = require("envify/custom");
 
-let rootLogin = browserify({
+let rootSign = browserify({
   debug: false
 }).transform(envify({
   NODE_ENV: 'production'
@@ -16,7 +16,7 @@ let rootLogin = browserify({
   ]
 })).transform('uglifyify', {
   global: true
-}).require("./app/Login/root.js", {
+}).require("./app/Sign/root.js", {
   entry: true
 })/*.plugin(require('css-modulesify'), {
     rootDir: __dirname
@@ -76,7 +76,7 @@ let rootTerrace = browserify({
     rootDir: __dirname
   });*/
 
-let appLogin = rootLogin.bundle().on("error", function (err) { console.log("Error: " + err.message); });
+let appSign = rootSign.bundle().on("error", function (err) { console.log("Error: " + err.message); });
 let appWithin = rootWithin.bundle().on("error", function (err) { console.log("Error: " + err.message); });
 let appSelfFront = rootSelfFront.bundle().on("error", function (err) { console.log("Error: " + err.message); });
 let appTerrace = rootTerrace.bundle().on("error", function (err) { console.log("Error: " + err.message); });
@@ -85,7 +85,7 @@ let appTerrace = rootTerrace.bundle().on("error", function (err) { console.log("
 });*/
 
 exports.bundler = ()=>{
-  appLogin.pipe(fs.createWriteStream('./public/react/appLogin.js'));
+  appSign.pipe(fs.createWriteStream('./public/react/appSign.js'));
   appWithin.pipe(fs.createWriteStream('./public/react/appWithin.js'));
   appSelfFront.pipe(fs.createWriteStream('./public/react/appSelfFront.js'));
   appTerrace.pipe(fs.createWriteStream('./public/react/appTerrace.js'));

@@ -32,7 +32,7 @@ exports._insert_basic = (condition, valuesArr)=>{
           connection.query('INSERT INTO '+condition.table+" "+condition.col+' VALUES ?', [valuesArr], function(err, result, fields) {
             if (err) {reject({err: err});connection.release(); return} //only with "return" could assure the promise end immediately if there is any error.
             console.log('database connection success: '+condition.table);
-            resolve();
+            resolve(result);
           })
         }
       })

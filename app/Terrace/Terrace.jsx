@@ -30,7 +30,15 @@ class Terrace extends React.Component {
   }
 
   _refer_leaveSelf(identifier, route){
-    window.location.assign('/user/screen');
+    switch (route) {
+      case 'user':
+        if(identifier == this.props.userInfo.id){
+          window.location.assign('/user/screen');
+        }
+        break;
+      default:
+        return
+    }
   }
 
   componentDidMount() {

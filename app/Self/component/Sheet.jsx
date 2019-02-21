@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from "react-redux";
 import {
   SheetAccount,
+  SheetPassword,
   SheetBasic
 } from './SheetCom.jsx';
 import {mountUserSheet} from "../../redux/actions/general.js";
@@ -13,6 +14,7 @@ class Sheet extends React.Component {
       axios: false
     };
     this.axiosSource = axios.CancelToken.source();
+    this._render_SheetView = this._render_SheetView.bind(this);
     this.style={
       selfCom_Sheet_: {
         width: '100%',
@@ -43,12 +45,12 @@ class Sheet extends React.Component {
         color: '#222222'
       },
       selfCom_Sheet_display_: {
-          width: '100%',
-          position: 'absolute',
-          top: '28vh',
-          left: '0',
-          boxSizing: 'border-box',
-          padding: '3vh 2.5vw'
+        width: '100%',
+        position: 'absolute',
+        top: '28vh',
+        left: '0',
+        boxSizing: 'border-box',
+        padding: '3vh 2.5vw'
       },
       selfCom_Sheet_display_basic_: {
         width: '100%',
@@ -74,6 +76,30 @@ class Sheet extends React.Component {
     }
   }
 
+  _render_SheetView(paramsStatus){
+    switch (paramsStatus) {
+      case 'password':
+        return (
+          <SheetPassword/>
+        )
+        break;
+      default:
+        return (
+          <div
+            style={this.style.selfCom_Sheet_display_basic_}>
+            <div
+              style={this.style.selfCom_Sheet_display_basic_tempSetting}>
+              <SheetAccount {...this.props}/>
+            </div>
+            <div
+              style={this.style.selfCom_Sheet_display_basic_blockGender}>
+              <SheetBasic {...this.props}/>
+            </div>
+          </div>
+        )
+    };
+  }
+
   componentDidMount(){
     //save in the reducer, so check if there are data: this.props.userSheet: ify?
     if(!this.props.userSheet.ify){
@@ -85,14 +111,16 @@ class Sheet extends React.Component {
           headers: {
             'charset': 'utf-8',
             'token': window.localStorage['token']
-          }
+          },
+          cancelToken: this.axiosSource.token
         });
       }, _axios_getAccountSet = ()=>{
         return axios.get('/router/account/setting', {
           headers: {
             'charset': 'utf-8',
             'token': window.localStorage['token']
-          }
+          },
+          cancelToken: this.axiosSource.token
         });
       };
       let axiosArr = [_axios_getUserSheet(),_axios_getAccountSet()];
@@ -140,6 +168,9 @@ class Sheet extends React.Component {
 
   render(){
     //let cx = cxBind.bind(styles);
+    let params = new URLSearchParams(this.props.location.search); //we need value in URL query
+    let paramsStatus = params.get('status');
+
     return(
       <div
         style={this.style.selfCom_Sheet_}>
@@ -150,17 +181,7 @@ class Sheet extends React.Component {
         <div
           style={this.style.selfCom_Sheet_display_}>
           <section>
-              <div
-                style={this.style.selfCom_Sheet_display_basic_}>
-                <div
-                  style={this.style.selfCom_Sheet_display_basic_tempSetting}>
-                  <SheetAccount {...this.props}/>
-                </div>
-                <div
-                  style={this.style.selfCom_Sheet_display_basic_blockGender}>
-                  <SheetBasic {...this.props}/>
-                </div>
-              </div>
+            {this._render_SheetView(paramsStatus)}
           </section>
         </div>
       </div>

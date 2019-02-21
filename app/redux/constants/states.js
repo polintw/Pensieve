@@ -1,3 +1,9 @@
+export const initSign = {
+  axios: false,
+  message:'',
+  code: ''
+}
+
 export const initGlobal = {
   userInfo: {
     account: "",
@@ -5,24 +11,32 @@ export const initGlobal = {
     lastName: '',
     id: null
   },
-  unitCurrent: {unitId:"", identity: ""}
+  unitCurrent: {unitId:"", identity: ""},
+  unitSubmitting: false
 } //should change the key:'userInfo' to other else
 
 export const initSelfFrontGeneral = {
+  axios: false,
   userSheet: {
     ify: false,
-    gender: ""
+    gender: "",
+    birthYear: "",
+    birthMonth:"",
+    birthDate: ""
   }
 }
 
+//state specific for the 'Setting' part of sheet, for tansfering to a unique page of setting in the future
 export const initSetting = {
   accountSet: {
     firstName: "",
     lastName: "",
     mail: ''
-  }
+  },
+  settingSubmitting: false
 }
 
+//cnetralize nouns used by the user
 export const initNouns = {
   nounsBasic: {
 

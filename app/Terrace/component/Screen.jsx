@@ -108,7 +108,6 @@ class Screen extends React.Component {
     window.location.assign('/');
   }
 
-
   render(){
     //let cx = cxBind.bind(styles);
 

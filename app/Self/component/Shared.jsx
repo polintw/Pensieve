@@ -6,11 +6,9 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import CreateShare from '../../Component/CreateShare.jsx';
-import SvgCreateCoral from '../../Component/SvgCreateCoral.jsx';
 import Unit from '../../Component/Unit.jsx';
+import SvgCreateCoral from '../../Component/SvgCreateCoral.jsx';
 import NailShared from '../../Component/Nails/NailShared.jsx';
-//ModalBox used some unstable method, considering updating some day.
-import ModalBox from '../../Component/ModalBox.jsx';
 import {handleNounsList} from "../../redux/actions/general.js";
 import {errHandler_axiosCatch} from "../../utils/errHandlers.js";
 
@@ -81,7 +79,7 @@ class Shared extends React.Component {
         unitsBasic: resObj.main.unitsBasic,
         marksBasic: resObj.main.marksBasic
       })
-
+      //send the nouns used by all shareds to the redux reducer
       self.props._submit_NounsList_new(resObj.main.nounsListMix);
     }).catch(function (thrown) {
       if (axios.isCancel(thrown)) {

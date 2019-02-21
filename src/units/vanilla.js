@@ -5,12 +5,11 @@ const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 const {verify_key} = require('../../config/jwt.js');
 const {connection_key} = require('../../config/database.js');
+const winston = require('../../config/winston.js');
 const {_res_success,_res_success_201} = require('../utils/resHandler.js');
-const {
-  _DB_nouns,
-  _DB_marks,
-  _DB_attribution
-} = require('../utils/sequelize.js');
+const _DB_nouns = require('../../db/models/index').nouns;
+const _DB_marks = require('../../db/models/index').marks;
+const _DB_attribution =  require('../../db/models/index').attribution;
 const {
   UNITS_GENERAL,
   MARKS_UNITS,
@@ -60,28 +59,29 @@ function _handle_unit_Mount(req, res){
                   })
                   resolve(tempData)
                 } else {
-                  resolve(tempData)
+                  tempData.sendingData.nouns = tempData.nouns;
+                  let sendingData = Object.assign({}, tempData.sendingData);
+                  reject(sendingData)
                 }
               })
             }).then((tempData)=>{
               return new Promise((resolve, reject)=>{
-                let selectQuery = 'SELECT id, name FROM nouns WHERE (id) IN (?)';
+                let selectQuery = 'SELECT id, name, prefix FROM nouns WHERE (id) IN (?)';
                 connection.query(selectQuery, [tempData['temp'].nounsKey], function(err, results, fields) {
                   if (err) {_handler_err_Internal(err, res);reject(err);return;}
                   console.log('database connection: success, query to nouns.')
-                  if (results.length > 0) {
-                    results.forEach(function(result, index){
-                      tempData['nouns']['basic'][result.id] = {id:result.id, name: result.name};
-                    })
-                    //this part is a temp method before a whole update of this file.
-                    tempData.sendingData.nouns = tempData.nouns;
-                    let sendingData = Object.assign({}, tempData.sendingData);
-                    resolve(sendingData)
-                  } else {
-                    resolve(sendingData)
-                  }
+                  results.forEach(function(result, index){
+                    tempData['nouns']['basic'][result.id] = {id:result.id, name: result.name, prefix: result.prefix};
+                  })
+                  //this part is a temp method before a whole update of this file.
+                  tempData.sendingData.nouns = tempData.nouns;
+                  let sendingData = Object.assign({}, tempData.sendingData);
+                  if (results.length < 1) {reject(sendingData);}else{resolve(sendingData)};
                 })
               })
+            }).catch((thrown)=>{
+              winston.error(`${"Error: empty selection from nouns or attribution."} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+              return thrown;
             })
           }
 
@@ -99,12 +99,12 @@ function _handle_unit_Mount(req, res){
                   basic: {},
                 },
                 authorBasic: {},
-                created: "",
+                createdAt: "",
                 identity: ""
               }
               if (result.length > 0) {
                 sendingData['authorBasic']['authorId'] = result[0].id_author;
-                sendingData['created'] = result[0].established;
+                sendingData['createdAt'] = result[0].createdAt;
                 if(userId == result[0].id_author){
                   sendingData['identity'] = "author"
                 }else{
@@ -153,11 +153,29 @@ function _handle_unit_Mount(req, res){
                       left: row.portion_left,
                       editorContent:  row.editor_content?JSON.parse(row.editor_content):null,
                       serial: row.serial,
-                      layer: row.layer
+                      layer: row.layer,
+                      inspired: false
                     };
                     let markKey = row.id;
                     sendingData['marksObj'][markKey]=obj;
                     sendingData['temp']['marksKey'].push([row.id]);
+                  })
+                  resolve(sendingData)
+                } else {
+                  resolve(sendingData)
+                }
+              })
+            })
+          }).then(function(sendingData){
+            console.log('unit mount req: marksObj append.');
+            return new Promise((resolve, reject)=>{
+              let sqlQuery = "SELECT * FROM inspired WHERE (id_mark) IN (?) AND id_user = "+userId;
+              connection.query(sqlQuery, [sendingData['temp']['marksKey']], function(err, result, fields) {
+                if (err) {_handler_err_Internal(err, res);reject(err);return;}
+                console.log('database connection: success.')
+                if (result.length > 0) {
+                  result.forEach(function(row, index){
+                    sendingData['marksObj'][row.id_mark]['inspired'] = true;
                   })
                   resolve(sendingData)
                 } else {
@@ -213,6 +231,7 @@ function _handle_unit_AuthorEditing(req, res){
         resultsMarks.forEach((row, index)=>{
           if(row.id in req.body.joinedMarks){
             let markObj = req.body.joinedMarks[row.id];
+            let editorString = JSON.stringify(markObj.editorContent); //notice, same part in the req.body would also be transformed
             mysqlForm.marksSet.update.push([
               row.id,
               reqUnit,
@@ -221,8 +240,9 @@ function _handle_unit_AuthorEditing(req, res){
               markObj.top,
               markObj.left,
               markObj.serial,
-              markObj.editorContent
+              editorString
             ]);
+
             mysqlForm.marksList.update.push(row.id);
             //then, erase this one in the id list
             let position = reqMarksList.indexOf(row.id.toString()) ;
@@ -234,6 +254,7 @@ function _handle_unit_AuthorEditing(req, res){
         //the rest in the list should be the new
         reqMarksList.forEach((newMarkKey, index)=>{
           let markObj = req.body.joinedMarks[newMarkKey];
+          let editorString = JSON.stringify(markObj.editorContent); //notice, same part in the req.body would also be transformed
           mysqlForm.marksSet.insertion.push({
             id_unit: reqUnit,
             id_author:  userId,
@@ -241,7 +262,7 @@ function _handle_unit_AuthorEditing(req, res){
             portion_top: markObj.top,
             portion_left: markObj.left,
             serial: markObj.serial,
-            editor_content:  markObj.editorContent
+            editor_content:  editorString
           });
         });
         //distinguish new, and deleted from attribution

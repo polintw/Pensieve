@@ -1,4 +1,8 @@
 import React from 'react';
+import {
+  Link,
+  withRouter
+} from 'react-router-dom';
 import cxBind from 'classnames/bind';
 
 export default class NavsCognition extends React.Component {

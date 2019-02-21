@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class UnitLayerFrame extends React.Component {
+export default class UnitLayerControl extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -68,7 +68,7 @@ export default class UnitLayerFrame extends React.Component {
         {
           this.props.beneathSrc &&
           <div
-          index={1}
+          index={2}
           style={{width: '100%', height: '40%', position: "relative", cursor:"pointer"}}
           onClick={this._handleClick_set_layer}>
           <div

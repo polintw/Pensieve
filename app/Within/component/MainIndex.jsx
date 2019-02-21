@@ -45,7 +45,15 @@ class MainIndex extends React.Component {
   }
 
   _refer_von_unit(identifier, route){
-    window.location.assign('/user/screen');
+    switch (route) {
+      case 'user':
+        if(identifier == this.props.userInfo.id){
+          window.location.assign('/user/screen');
+        }
+        break;
+      default:
+        return
+    }
   }
 
   _construct_UnitInit(match, location){

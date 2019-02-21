@@ -42,7 +42,7 @@ export default class NavFront extends React.Component {
           }}
           style={this.style.selfCom_NavFront_link}>
           <span
-            style={{cursor: 'pointer'}}>{'登錄'}</span>
+            style={{cursor: 'pointer'}}>{'shelf'}</span>
         </Link>
       </div>
     )

@@ -2,11 +2,14 @@ import { combineReducers } from 'redux';
 import {
   MOUNT_USERINFO,
   UNIT_MOUNT_UNITCURRENT,
-  UPDATE_NOUNSBASIC
+  UNIT_SUBMITTING_SWITCH,
+  UPDATE_NOUNSBASIC,
+  AXIOS_SWITCH
 } from '../constants/typesGeneral.js';
 import {
   UPDATE_USERSHEET,
-  UPDATE_ACCOUNTSET
+  UPDATE_ACCOUNTSET,
+  SETTING_SUBMITTING_SWITCH
 } from '../constants/typesSelfFront.js';
 import {
   initGlobal,
@@ -30,6 +33,11 @@ function pageSelfFront(state = initialGeneral, action){
         unitCurrent: action.unitCurrent
       })
       break;
+    case UNIT_SUBMITTING_SWITCH:
+      return Object.assign({}, state, {
+        unitSubmitting: action.unitSubmitting
+      })
+      break;
     case UPDATE_USERSHEET:
       return Object.assign({}, state, {
         userSheet: action.userSheet,
@@ -41,9 +49,19 @@ function pageSelfFront(state = initialGeneral, action){
         accountSet: action.accountSet
       })
       break;
+    case SETTING_SUBMITTING_SWITCH:
+        return Object.assign({}, state, {
+        settingSubmitting: action.settingSubmitting
+      })
+      break;
     case UPDATE_NOUNSBASIC:
       return Object.assign({}, state, {
         nounsBasic: {...state.nousBasic, ...action.newFetch}
+      })
+      break;
+    case AXIOS_SWITCH:
+      return Object.assign({}, state, {
+        axios: action.status
       })
       break;
     default:

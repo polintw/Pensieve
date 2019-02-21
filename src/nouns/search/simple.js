@@ -18,8 +18,8 @@ function _handle_nouns_search(req, res){
       _handler_err_Unauthorized(err, res)
     } else {
       let userId = payload.user_Id;
-      let prefix = req.query.prefix;
-      if(!prefix){_handler_err_BadReq('invalid query.', res);return}//prevent the server crushing due to invalid query .
+      let aquired = req.query.aquired;
+      if(!aquired){_handler_err_BadReq('invalid query.', res);return}//prevent the server crushing due to invalid query .
       database.getConnection(function(err, connection){
         if (err) {
           _handler_err_Internal(err, res);
@@ -27,8 +27,8 @@ function _handle_nouns_search(req, res){
         }else{
           new Promise((resolve, reject)=>{
             console.log('searching, nouns list.');
-            let selectQuery = "SELECT id, name FROM nouns WHERE name = ?";
-            connection.query(selectQuery, [prefix], function(err, rows, fields){
+            let selectQuery = "SELECT id, name, prefix FROM nouns WHERE name = ?";
+            connection.query(selectQuery, [aquired], function(err, rows, fields){
               if (err) {_handler_err_Internal(err, res);reject(err);return} //only with "return" could assure the promise end immediately if there is any error.
               console.log('database connection: success.');
               let sendingData ={
@@ -37,7 +37,7 @@ function _handle_nouns_search(req, res){
               };
               if(rows.length> 0){
                 rows.forEach((row, index)=>{
-                  sendingData.nounsList.push({"name": row.name, "id": row.id})
+                  sendingData.nounsList.push({"name": row.name, "id": row.id, "prefix": row.prefix})
                 })
                 resolve(sendingData);
               }else{

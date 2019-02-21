@@ -20,6 +20,7 @@ class WithinCosmic extends React.Component {
     this.withinCom_CosmicMain_index_ = React.createRef();
     this._check_Position = this._check_Position.bind(this);
     this._refer_leavevonIndex = this._refer_leavevonIndex.bind(this);
+    this._handleClick_LtdToolBox_logout = this._handleClick_LtdToolBox_logout.bind(this);
     this.style={
       Within_Cosmic_: {
         width: '100%',
@@ -49,10 +50,15 @@ class WithinCosmic extends React.Component {
   _refer_leavevonIndex(identifier, route){
     switch (route) {
       case 'user':
-        window.location.assign('/user/screen');
+        if(identifier == this.props.userInfo.id){
+          window.location.assign('/user/screen');
+        }
+        break;
+      case 'reload':
+        window.location.reload(true);
         break;
       default:
-        window.location.reload();
+        return
     }
   }
 
@@ -68,6 +74,14 @@ class WithinCosmic extends React.Component {
       })
     }
   }
+
+  _handleClick_LtdToolBox_logout(event){
+    event.stopPropagation();
+    event.preventDefault();
+    localStorage.removeItem('token');
+    window.location.assign('/login');
+  }
+
   componentDidMount() {
     this.scrollOrigin = this.withinCom_CosmicMain_index_.current.getBoundingClientRect().top;
     this.scrollRange = this.scrollOrigin*2;
@@ -88,13 +102,27 @@ class WithinCosmic extends React.Component {
           style={Object.assign({opacity: this.state.cssPara}, this.style.Within_Cosmic_corner_)}>
           <CosmicCorner
             match={this.props.match}
-            _refer_leavevonIndex={this._refer_leavevonIndex}/>
+            _refer_leavevonIndex={this._refer_leavevonIndex}
+            _handleClick_LtdToolBox_logout={this._handleClick_LtdToolBox_logout}/>
         </div>
-        <CosmicMain {...this.props} ref={this.withinCom_CosmicMain_index_} _refer_leavevonIndex={this._refer_leavevonIndex}/>
+        <CosmicMain
+          {...this.props}
+          ref={this.withinCom_CosmicMain_index_}
+          _refer_leavevonIndex={this._refer_leavevonIndex}
+          _handleClick_LtdToolBox_logout={this._handleClick_LtdToolBox_logout}/>
         <div style={this.style.Within_Cosmic_bottom}></div>
       </div>
     )
   }
 }
 
-export default withRouter(connect()(WithinCosmic));
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo
+  }
+}
+
+export default withRouter(connect(
+  mapStateToProps,
+  null
+)(WithinCosmic));
