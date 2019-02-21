@@ -70,23 +70,6 @@ class Screen extends React.Component {
         color: 'rgb(56, 56, 56, 0.8)',
         cursor: 'pointer'
       },
-      terraceCom_Screen_options_information_: {
-        width: '5.6rem',
-        height: '29%',
-        position: 'absolute',
-        top: '36%',
-        right: '5%',
-        boxSizing: 'border-box'
-      },
-      terraceCom_Screen_options_information_svg: {
-        width: '100%',
-        height: '90%',
-        position: 'absolute',
-        top: '50%',
-        left: '0',
-        transform: 'translate(0, -50%)',
-        boxSizing: 'border-box'
-      },
       terraceCom_Screen_return_: {
         width: '9%',
         height: '9%',
