@@ -78,7 +78,7 @@ class UnitModal extends React.Component {
       },
       Com_UnitModal_ControlSection_actionControl_: {
         width: '100%',
-        height: '12%',
+        height: '15%',
         position: 'absolute',
         bottom: '0',
         left: '0',

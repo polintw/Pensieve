@@ -244,8 +244,6 @@ class AccountatSheet extends React.Component {
         top: '0',
         left: '0',
         boxSizing: 'border-box',
-        fontSize: '1.2rem',
-        letterSpacing: '0.12rem',
         fontWeight: '400'
       },
       selfCom_Setting_email_: {
@@ -289,10 +287,16 @@ class AccountatSheet extends React.Component {
         style={this.style.selfCom_Setting_}>
         <div
           style={this.style.selfCom_Setting_nameBar_}>
-          <span>{"姓 : "}</span>
-          <span>{this.props.accountSet.lastName}</span>
-          <span>{"名 : "}</span>
-          <span>{this.props.accountSet.firstName}</span>
+          <div>
+            <span>{"first name : "}</span>
+            <span
+              style={{fontSize: '1.4rem', letterSpacing: '0.12rem'}}>{this.props.accountSet.firstName}</span>
+          </div>
+          <div>
+            <span>{"family name : "}</span>
+            <span
+              style={{fontSize: '1.4rem', letterSpacing: '0.12rem'}}>{this.props.accountSet.lastName}</span>
+          </div>
         </div>
         <div
           style={this.style.selfCom_Setting_email_}>

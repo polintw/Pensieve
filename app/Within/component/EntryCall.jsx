@@ -50,10 +50,9 @@ class EntryCall extends React.Component {
         backgroundColor: '#FAFAFA'
       },
       withinCom_LtdToolBox_ol_: {
-        position: 'relative',
         top: '0',
         left: '0',
-        boxSizing: 'bodrer-box',
+        boxSizing: 'border-box',
         padding: '0 18% 0 10%',
         listStyle: 'none',
         fontSize: '1.2rem',
@@ -175,7 +174,7 @@ class EntryCall extends React.Component {
               <ol
                 style={this.style.withinCom_LtdToolBox_ol_}>
                 <li
-                  style={{whiteSpace: 'pre', cursor: 'pointer'}}
+                  style={{position: 'relative', whiteSpace: 'pre', cursor: 'pointer'}}
                   onClick={this.props._handleClick_LtdToolBox_logout}>
                   {"Log Out"}
                 </li>
