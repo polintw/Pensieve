@@ -53,6 +53,9 @@ class WithinCosmic extends React.Component {
           window.location.assign('/user/screen');
         }
         break;
+      case 'reload':
+        window.location.reload(true);
+        break;
       default:
         return
     }

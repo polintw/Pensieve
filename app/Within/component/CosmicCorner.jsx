@@ -12,7 +12,7 @@ class CosmicCorner extends React.Component {
 
     };
     this._handleClick_cosmic_Self = this._handleClick_cosmic_Self.bind(this);
-    this._handleClick_cosmic_index = this._handleClick_cosmic_index.bind(this);
+    this._handleClick_currentReload = this._handleClick_currentReload.bind(this);
     this.style={
       withinCom_CosmicCorner_: {
         width: '100%',
@@ -53,16 +53,16 @@ class CosmicCorner extends React.Component {
     }
   }
 
-  _handleClick_cosmic_index(event){
+  _handleClick_currentReload(event){
     event.preventDefault();
     event.stopPropagation();
-    this.props._refer_leavevonIndex('','')
+    this.props._refer_leavevonIndex('','reload')
   }
 
   _handleClick_cosmic_Self(event){
     event.preventDefault();
     event.stopPropagation();
-    this.props._refer_leavevonIndex('','user')
+    this.props._refer_leavevonIndex(this.props.userInfo.id,'user')
   }
 
   componentDidMount() {
@@ -80,7 +80,7 @@ class CosmicCorner extends React.Component {
         style={this.style.withinCom_CosmicCorner_}>
         <div
           style={this.style.withinCom_CosmicCorner_logo}
-          onClick={this._handleClick_cosmic_index}>
+          onClick={this._handleClick_currentReload}>
           {"CORNER"}
         </div>
         <div
