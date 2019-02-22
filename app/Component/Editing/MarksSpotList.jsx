@@ -1,4 +1,4 @@
-import React from 'React';
+import React from 'react';
 
 export default class MarksSpotList extends React.Component {
   constructor(props){

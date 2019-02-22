@@ -1,4 +1,4 @@
-import React from 'React';
+import React from 'react';
 import ImgChoose from './ImgChoose.jsx';
 
 export default class ImgBlock extends React.Component {

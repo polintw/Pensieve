@@ -1,4 +1,4 @@
-import React from 'React';
+import React from 'react';
 import Ref from './Ref.jsx';
 
 export default class RefList extends React.Component {

@@ -1,4 +1,4 @@
-import React from 'React';
+import React from 'react';
 import Ref from './Ref.jsx';
 import LinkifyIt from 'linkify-it';
 import {Editor, EditorState,convertToRaw, convertFromRaw} from 'draft-js';

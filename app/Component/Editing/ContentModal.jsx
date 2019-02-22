@@ -1,4 +1,4 @@
-import React from 'React';
+import React from 'react';
 import MarkEditingBlock from './MarkEditingBlock.jsx';
 import MarksSpotList from './MarksSpotList.jsx';
 import ModalBox from '../ModalBox.jsx';

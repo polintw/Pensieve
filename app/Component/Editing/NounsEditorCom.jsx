@@ -1,4 +1,4 @@
-import React from 'React';
+import React from 'react';
 import ModalBox from '../ModalBox.jsx';
 import {errHandler_axiosCatch} from '../../utils/errHandlers.js';
 
