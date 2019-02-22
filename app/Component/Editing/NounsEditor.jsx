@@ -1,4 +1,4 @@
-import React from 'React';
+import React from 'react';
 import {NounsList, SearchModule} from './NounsEditorCom.jsx';
 
 export default class NounsEditor extends React.Component {
