@@ -30,19 +30,19 @@ class UnitActionControl extends React.Component {
         height: '100%',
         position: 'absolute',
         top: '0',
-        left: '0'
+        left: '0',
+        boxSizing: 'border-box',
+        padding: '1%, 5%'
       },
       Com_UnitActionControl_span: {
-        display: 'inline-block',
-        width: '43%',
-        height: '49%',
+        display: 'block',
         position: 'relative',
         boxSizing: 'border-box',
         margin: '0 3% 0 3%',
         verticalAlign: 'middle',
-        fontSize: '2rem',
+        fontSize: '1.6rem',
         letterSpacing: '0.16rem',
-        textAlign: 'center',
+        textAlign: 'right',
         fontWeight: '400',
         color: '#FAFAFA',
         cursor: 'pointer'
@@ -153,20 +153,20 @@ class UnitActionControl extends React.Component {
         <span
           style={this.style.Com_UnitActionControl_span}
           onClick={this._handleClick_UnitAction_Response}>
-          {"回應"}
+          {"response"}
         </span>
         <span
           style={this.style.Com_UnitActionControl_span}
           onClick={this._handleClick_UnitAction_Author}>
-          {"編輯"}
+          {"edit"}
         </span>
         <span
           style={this.style.Com_UnitActionControl_span}>
-          {"統計"}
+          {"statics"}
         </span>
         <span
           style={this.style.Com_UnitActionControl_span}>
-          {"刪除"}
+          {"erase"}
         </span>
       </div>
     ):(
@@ -174,20 +174,20 @@ class UnitActionControl extends React.Component {
         <span
           style={this.style.Com_UnitActionControl_span}
           onClick={this._handleClick_UnitAction_Response}>
-          {"回應"}
+          {"response"}
         </span>
         {
           this.state.broaded?(
             <span
               style={this.style.Com_UnitActionControl_span}
               style={{cursor: "auto"}}>
-              {"已推廣"}
+              {"broaded"}
             </span>
           ):(
             <span
               style={this.style.Com_UnitActionControl_span}
               onClick={this._handleClick_UnitAction_Broad}>
-              {'推廣'}
+              {'broad'}
             </span>
           )
         }

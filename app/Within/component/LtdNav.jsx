@@ -79,7 +79,7 @@ class LtdNav extends React.Component {
   _handleClick_selfEntrance(event){
     event.stopPropagation();
     event.preventDefault();
-    window.location.assign('/user/screen');
+    this.props._refer_leavevonLtd(this.props.userInfo.id,'user')
   }
 
   _handleClick_navToolBox(event){

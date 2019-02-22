@@ -11,6 +11,7 @@ class EntryCall extends React.Component {
 
     };
     this.dateObj = new Date();
+    this._handleClick_currentReload = this._handleClick_currentReload.bind(this);
     this._handleClick_selfEntrance = this._handleClick_selfEntrance.bind(this);
     this._submit_Share_New = this._submit_Share_New.bind(this);
     this.style={
@@ -72,10 +73,16 @@ class EntryCall extends React.Component {
     }
   }
 
+  _handleClick_currentReload(event){
+    event.preventDefault();
+    event.stopPropagation();
+    this.props._refer_leavevonLtd('','reload')
+  }
+
   _handleClick_selfEntrance(event){
     event.stopPropagation();
     event.preventDefault();
-    window.location.assign('/user/screen');
+    this.props._refer_leavevonLtd(this.props.userInfo.id,'user')
   }
 
   _submit_Share_New(dataObj){
@@ -88,7 +95,8 @@ class EntryCall extends React.Component {
       <div
         style={this.style.withinCom_EntryCall_}>
         <div
-          style={this.style.withinCom_EntryCall_logo_}>
+          style={this.style.withinCom_EntryCall_logo_}
+          onClick={this._handleClick_currentReload}>
           {"CORNER"}
         </div>
         <div

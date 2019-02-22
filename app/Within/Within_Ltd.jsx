@@ -122,7 +122,7 @@ class WithinLtd extends React.Component {
     switch (route) {
       case 'user':
         if(identifier == this.props.userInfo.id){
-          window.location.assign('/user/overview');
+          window.location.assign('/user/screen');
         }else{
           this.setState((prevState, props)=>{
             let unitTo = {
@@ -141,6 +141,9 @@ class WithinLtd extends React.Component {
           };
           return {unitTo: unitTo}
         })
+        break;
+      case 'reload':
+        window.location.reload(true);
         break;
       default:
         return

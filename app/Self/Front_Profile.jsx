@@ -98,8 +98,8 @@ class FrontProfile extends React.Component {
         </Link>
         <div
           style={this.style.Front_Profile_nav_}>
-          <span style={this.style.Front_Profile_nav_span}>{"基本 "}</span>
-          <span style={this.style.Front_Profile_nav_span}>{"檔案庫 "}</span>
+          <span style={this.style.Front_Profile_nav_span}>{"about "}</span>
+          <span style={this.style.Front_Profile_nav_span}>{"binders "}</span>
         </div>
         <div
           style={this.style.Front_Profile_scroll_}>
