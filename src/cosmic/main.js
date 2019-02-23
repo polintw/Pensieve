@@ -1,7 +1,7 @@
 const express = require('express');
 const main = express.Router();
 
-const compoundExecutive = require('./compound/execute.js');
+const compoundExecutive = require('./compound.js');
 const userExecutive = require('./user/execute.js');
 const pickExecutive = require('./pick/execute.js');
 

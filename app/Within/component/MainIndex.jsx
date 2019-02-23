@@ -7,7 +7,6 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
-import MainIndexRaws from './MainIndexRaws.jsx';
 import Unit from '../../Component/Unit.jsx';
 
 class MainIndex extends React.Component {
@@ -15,15 +14,15 @@ class MainIndex extends React.Component {
     super(props);
     this.state = {
       axios: false,
-      unitTo: null,
       unitsList: [],
-      unitsBasicSet: {},
-      rawsArr: []
+      unitsBasic: {},
+      marksBasic: {},
+      colLeft: [],
+      colRight: []
     };
     this.axiosSource = axios.CancelToken.source();
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._render_LtdUnitsRaws = this._render_LtdUnitsRaws.bind(this);
-    this._refer_von_unit = this._refer_von_unit.bind(this);
     this.style={
       withinCom_MainIndex_: {
         width: '100%',
@@ -41,37 +40,8 @@ class MainIndex extends React.Component {
   }
 
   _construct_UnitInit(match, location){
-    let unitInit=Object.assign(this.state.unitsBasicSet[match.params.id], {marksify: true, initMark: "all", layer: 0});
+    let unitInit=Object.assign(this.state.unitsBasic[match.params.id], {marksify: true, initMark: "all", layer: 0});
     return unitInit;
-  }
-
-  _refer_von_unit(identifier, route){
-    switch (route) {
-      case 'user':
-        if(identifier == this.props.userInfo.id){
-          window.location.assign('/user/overview');
-        }else{
-          this.setState((prevState, props)=>{
-            let unitTo = {
-              params: '/cosmic/people/'+identifier,
-              query: ''
-            };
-            return {unitTo: unitTo}
-          })
-        }
-        break;
-      case 'noun':
-        this.setState((prevState, props)=>{
-          let unitTo = {
-            params: '/cosmic/nouns/'+identifier,
-            query: ''
-          };
-          return {unitTo: unitTo}
-        })
-        break;
-      default:
-        return
-    }
   }
 
   _render_LtdUnitsRaws(){
@@ -81,24 +51,17 @@ class MainIndex extends React.Component {
       let number = Math.floor(Math.random()*3)+1;
       if(this.state.unitsList.length-point < number){number = this.state.unitsList.length-point;};
       raws.push(
-        <MainIndexRaws
-          key={'key_LtdUnits_raw_'+point+'_'+number}
-          {...this.props}
-          point={point}
-          number={number}
-          unitsList={this.state.unitsList}
-          unitsBasicSet={this.state.unitsBasicSet}
-          _handleClick_Share={this._handleClick_Share}/>
+
       )
       point +=  number;
     };
-    this.setState({rawsArr: raws});
+    this.setState({colLeft: raws});
   }
 
   componentDidMount(){
     const self = this;
     this.setState((prevState, props)=>{return {axios: true};}, ()=>{
-      let url = '/router/cosmic/compound/index';
+      let url = '/router/cosmic/compound';
       axios.get(url, {
         headers: {
           'charset': 'utf-8',
@@ -111,7 +74,8 @@ class MainIndex extends React.Component {
             return({
               axios: false,
               unitsList: resObj.main.unitsList,
-              unitsBasicSet: resObj.main.unitsBasicSet
+              unitsBasic: resObj.main.unitsBasic,
+              marksBasic: resObj.main.marksBasic
             });
           }, self._render_LtdUnitsRaws);
       }).catch(function (thrown) {
@@ -133,18 +97,22 @@ class MainIndex extends React.Component {
   }
 
   render(){
-    if(this.state.unitTo){return <Redirect to={this.state.unitTo.params+this.state.unitTo.query}/>}
     //let cx = cxBind.bind(styles);
     return(
       <div
         style={this.style.withinCom_MainIndex_}>
         <div
           style={this.style.withinCom_MainIndex_scroll_}>
-          {this.state.rawsArr}
+          <div>
+            {this.state.colLeft}
+          </div>
+          <div>
+            {this.state.colRight}
+          </div>
         </div>
         <Route
           path={this.props.match.path+"/units/:id"}
-          render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this._refer_von_unit}/>}/>
+          render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_von_unit}/>}/>
       </div>
     )
   }

@@ -60,17 +60,7 @@ export default class CosmicMain extends React.Component {
         style={this.style.withinCom_CosmicMain_}>
         <div
           style={this.style.withinCom_CosmicMain_index_}>
-          <MainIndex {...this.props}/>
-        </div>
-        <div
-          style={this.style.withinCom_CosmicMain_picking_}>
-          <div
-            style={this.style.withinCom_CosmicMain_picking_nouns_}>
-            <svg
-              style={this.style.withinCom_CosmicMain_picking_nouns_svg}>
-              <circle r="2vh" cx="50%" cy="50%" stroke='#999999' fill="transparent" style={{cursor: 'pointer'}}/>
-            </svg>
-          </div>
+          <MainIndex {...this.props} _refer_von_cosmic={this.props._refer_von_cosmic}/>
         </div>
       </div>
     )
