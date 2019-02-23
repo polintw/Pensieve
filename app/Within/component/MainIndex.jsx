@@ -40,9 +40,22 @@ class MainIndex extends React.Component {
         width: '101%',
         position: "relative"
       },
+      withinCom_MainIndex_scroll_col_: {
+        width: '30%',
+        position: "absolute",
+        top: '5vh'
+      },
       withinCom_MainIndexRaws_unit_div_img: {
-        width: '120%',
+        width: '100%',
         height: 'auto'
+      },
+      withinCom_MainIndexRaws_unit_: {
+        display: 'inline-block',
+        width: '100%',
+        position: 'relative',
+        boxSizing: 'border-box',
+        overflow: 'hidden',
+        cursor: 'pointer'
       }
     }
   }
@@ -52,23 +65,23 @@ class MainIndex extends React.Component {
     return unitInit;
   }
 
-  _set_RenderbyCol(event){
+  _set_RenderbyCol(currentHight){
+    if(this.state.nextRender == this.state.unitsList.length) return;
     this.setState((prevState, props)=> {
-      if(event == undefined) let event= {};event["currentTarget"]["clientHeight"] = 0; // due to the first one was not called from a on-listener
+      //to keep state being immutable, we claim a new obj and return it in the end
       let nextState = new Object();
       let currentSide = (prevState.colLatest == "Left") ? "Left":"Right",
           opposite = (prevState.colLatest == "Left") ? "Right":"Left",
           unitKey = prevState.unitsList[prevState.nextRender];
       let unitData = prevState.unitsBasic[unitKey];
 
-      nextState["col"+currentSide+"Ht"] = prevState["col"+currentSide+"Ht"] + event.currentTarget.clientHeight;
+      nextState["col"+currentSide+"Ht"] = prevState["col"+currentSide+"Ht"] + currentHight;
       nextState.colLatest = (nextState["col"+currentSide+"Ht"] > this.state["col"+opposite+"Ht"] ) ? opposite : currentSide;
-      nextState.nextRender += 1;
-      nextState["col"+nextState.colLatest]
-        .push(
+      nextState.nextRender = prevState.nextRender + 1;
+      prevState["col"+nextState.colLatest].push(
           <div
-            key={'key_LtdUnits_unit_'+point}
-            style={divStyle}>
+            key={'key_CosmicCompound_'+prevState.nextRender}
+            style={this.style.withinCom_MainIndexRaws_unit_}>
             <Link
               to={{
                 pathname: this.props.match.url+"/units/"+unitKey,
@@ -77,10 +90,12 @@ class MainIndex extends React.Component {
               <img
                 src={'/router/img/'+unitData.pic_layer0+'?type=thumb'}
                 style={this.style.withinCom_MainIndexRaws_unit_div_img}
-                onLoad={this._set_RenderbyCol}/>
+                onLoad={({currentTarget: {clientHeight}})=>this._set_RenderbyCol(clientHeight)}/>
             </Link>
           </div>
-        );
+        );//notice the 'onLoad'! we use cache directly due to the SyntheticEvent property of react,
+        //it can't accept 'event' pass to a invoked callback, like th whole 'setState' we used here
+        nextState["col"+nextState.colLatest] = prevState["col"+nextState.colLatest];
 
       return nextState;
     })
@@ -106,7 +121,9 @@ class MainIndex extends React.Component {
               unitsBasic: resObj.main.unitsBasic,
               marksBasic: resObj.main.marksBasic
             });
-          }, self._set_RenderbyCol);
+          }, ()=>{
+            self._set_RenderbyCol(0);
+          });
       }).catch(function (thrown) {
         if (axios.isCancel(thrown)) {
           console.log('Request canceled: ', thrown.message);
@@ -132,10 +149,12 @@ class MainIndex extends React.Component {
         style={this.style.withinCom_MainIndex_}>
         <div
           style={this.style.withinCom_MainIndex_scroll_}>
-          <div>
+          <div
+            style={Object.assign({left: '18%'}, this.style.withinCom_MainIndex_scroll_col_)}>
             {this.state.colLeft}
           </div>
-          <div>
+          <div
+            style={Object.assign({left: '52%'}, this.style.withinCom_MainIndex_scroll_col_)}>
             {this.state.colRight}
           </div>
         </div>
