@@ -29,11 +29,9 @@ class WithinCosmic extends React.Component {
         overflow: 'auto'
       },
       Within_Cosmic_corner_: {
-        width: '17%',
-        height: '5%',
         position: 'fixed',
-        top: '92%',
-        right: '6%',
+        bottom: '3%',
+        right: '9%',
         boxSizing: 'border-box'
       }
     }
