@@ -1,10 +1,11 @@
 import React from 'react';
+import {connect} from "react-redux";
 import MarkDialogue from './MarkDialogue.jsx';
 import SvgBulb from '../../SvgBulb.jsx';
 import SvgPropic from '../../SvgPropic.jsx';
 import DraftDisplay from '../../DraftDisplay.jsx';
 
-export default class MarkBlock extends React.Component {
+class MarkBlock extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -87,18 +88,16 @@ export default class MarkBlock extends React.Component {
 
   _axios_postInspired(aim){
     const self = this;
-    axios.post('/router/user/action/inspired?aim='+aim, {
-      "markKey": self.props.markKey
-    }, {
+    axios({
+      method: aim,
+      url: '/router/inspire?unitId='+self.props.unitCurrent.unitId+'&markId='+self.props.markKey,
       headers: {
         'Content-Type': 'application/json',
         'charset': 'utf-8',
-        'token': window.localStorage['token']
-      }
+        'token': window.localStorage['token']}
     }).then(function (res) {
         if(res.status = 200){
-          console.log("inspired action post successfully!");
-          self.setState({inspired: aim=='new'?true:false, axios: false});
+          self.setState({inspired: aim=='post'?true:false, axios: false});
         }else{
           console.log("Failed: "+ res.data.err);
           self.setState({axios: false});
@@ -119,7 +118,7 @@ export default class MarkBlock extends React.Component {
     event.preventDefault();
     event.stopPropagation();
 
-    let aim = this.state.inspired ? 'delete': 'new';
+    let aim = this.state.inspired ? 'delete': 'post';
     this.setState((prevState, props)=>{
       return {axios: true}
     }, this._axios_postInspired(aim))
@@ -187,3 +186,16 @@ export default class MarkBlock extends React.Component {
     )
   }
 }
+
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo,
+    unitCurrent: state.unitCurrent,
+    unitSubmitting: state.unitSubmitting
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  null
+)(MarkBlock);

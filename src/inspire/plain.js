@@ -1,3 +1,5 @@
+const express = require('express');
+const execute = express.Router();
 const fs = require('fs');
 const path = require("path");
 const mysql = require('mysql');
@@ -72,4 +74,9 @@ function _handle_actionInspired(req, res){
   })
 }
 
-module.exports = _handle_actionInspired
+execute.post('/', function(req, res){
+  console.log('request: POST, units/broad');
+  _handle_actionInspired(req, res);
+})
+
+module.exports = execute;

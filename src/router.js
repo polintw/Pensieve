@@ -13,6 +13,8 @@ const profileRouter = require('./user/profile/main.js');
 const unitRouter = require('./unit/main.js');// shift to "units"
 const unitsRouter = require('./units/main.js');
 const imgRouter = require('./img/main.js');
+
+const inspireRouter = require('./inspire/main.js');
 const nounsRouter = require('./nouns/main.js');
 const generalRouter = require('./general/main.js');
 
@@ -39,6 +41,7 @@ router.use('/units', unitsRouter)
 
 router.use('/account', accountRouter)
 
+router.use('/inspire', inspireRouter)
 router.use('/nouns', nounsRouter)
 router.use('/general', generalRouter)
 
