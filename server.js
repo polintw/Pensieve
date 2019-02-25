@@ -7,6 +7,7 @@ const rateLimit = require("express-rate-limit");
 
 const router = require('./src/router.js');
 const winston = require('./config/winston.js');
+const {envBasic} = require('./config/.env.json');
 
 //babel-polyfill is here for the whole code after it!
 require('babel-polyfill');
@@ -14,7 +15,8 @@ require('babel-polyfill');
 app.set('view engine', 'jsx');
 app.engine('jsx', require('express-react-views').createEngine({transformViews: false }));
 
-app.enable("trust proxy"); //for rateLimit, due to behind a reverse proxy(nginx)
+app.enable("trust proxy"); //due to behind a reverse proxy(nginx)
+
 const limiter = rateLimit({
   windowMs: 10 * 60 * 1000, // 10 minutes
   max: 600, // limit each IP to 600 requests per windowMs
@@ -108,5 +110,5 @@ app.use('/', function(req, res){
   });
 })
 
-app.listen(process.env.port || 8080);
-winston.warn("server initiating, running at Port 8080");
+app.listen(process.env.port || envBasic.port);
+winston.warn("server initiating, running at Port "+envBasic.port);
