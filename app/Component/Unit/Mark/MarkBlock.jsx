@@ -14,7 +14,7 @@ class MarkBlock extends React.Component {
       inspired: this.props.markData.inspired
     };
     this.axiosSource = axios.CancelToken.source();
-    this._axios_postInspired = this._axios_postInspired.bind(this);
+    this._axios_inspire_plain = this._axios_inspire_plain.bind(this);
     this._handleClick_openDialogue = this._handleClick_openDialogue.bind(this);
     this._handleClick_Inspired = this._handleClick_Inspired.bind(this);
     this.style = {
@@ -86,7 +86,7 @@ class MarkBlock extends React.Component {
     };
   }
 
-  _axios_postInspired(aim){
+  _axios_inspire_plain(aim){
     const self = this;
     axios({
       method: aim,
@@ -121,7 +121,7 @@ class MarkBlock extends React.Component {
     let aim = this.state.inspired ? 'delete': 'post';
     this.setState((prevState, props)=>{
       return {axios: true}
-    }, this._axios_postInspired(aim))
+    }, this._axios_inspire_plain(aim))
   }
 
   _handleClick_openDialogue(event){
@@ -170,7 +170,7 @@ class MarkBlock extends React.Component {
             <span
               style={this.style.Com_MarkBlock_panel_interaction_raise}
               onClick={this._handleClick_openDialogue}>
-              {'舉手'}
+              {'raise hand'}
             </span>
           </div>
           <div
@@ -179,7 +179,7 @@ class MarkBlock extends React.Component {
             <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
           </div>
           <div>
-            {"多行參考資料連結"}
+            {"(多行參考資料連結)"}
           </div>
         </div>
       </div>
@@ -195,7 +195,13 @@ const mapStateToProps = (state)=>{
   }
 }
 
+const mapDispatchToProps = (dispatch)=>{
+  return {
+
+  }
+}
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(MarkBlock);

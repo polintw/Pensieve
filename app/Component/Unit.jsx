@@ -11,7 +11,8 @@ import AuthorModal from './Unit/AuthorModal.jsx';
 import ResModal from './Unit/ResModal.jsx';
 import ModalBox from './ModalBox.jsx';
 import ModalBackground from './ModalBackground.jsx';
-import {mountUnitCurrent} from "../redux/actions/general.js";
+import {setUnitCurrent} from "../redux/actions/general.js";
+import {unitCurrentInit} from "../redux/constants/globalStates.js";
 
 class Unit extends React.Component {
   constructor(props){
@@ -20,16 +21,6 @@ class Unit extends React.Component {
       axios: false,
       close: false,
       mode: this.props.unitMode?this.props.unitMode:false,
-      unitSet: {
-        coverSrc: null,
-        beneathSrc: null,
-        coverMarks: {list:[], data:{}},
-        beneathMarks: {list:[], data:{}},
-        refsArr: null,
-        nouns: null,
-        authorBasic: null,
-        createdAt: null
-      },
       warningModel: false
     };
     this._close_modal_Unit = this._close_modal_Unit.bind(this);
@@ -69,12 +60,15 @@ class Unit extends React.Component {
 
   componentDidMount(){
     const self = this;
+    self.props._set_store_UnitCurrent(unitCurrentInit); //could process in constructor()?
+
     let beneathify = !!this.unitInit['pic_layer1'];
     let axiosArr = [this._axios_getUnitData(),this._axios_getUnitImg('pic_layer0')];
     if(beneathify){axiosArr.push(this._axios_getUnitImg('pic_layer1'))};
     self.setState({axios: true});
     axios.all(axiosArr).then(
       axios.spread(function(unitRes, resImgCover, resImgBeneath){
+        self.setState({axios: false});
         let resObj = JSON.parse(unitRes.data);
         //we compose the marksset here, but sould consider done @ server
         let keysArr = Object.keys(resObj.main.marksObj);//if any modified or update, keep the "key" as string
@@ -89,19 +83,21 @@ class Unit extends React.Component {
           }
         })
         //actually, beneath part might need to be rewritten to asure the state could stay consistency
-        self.props._set_store_UnitCurrent({unitId:self.unitId, identity: resObj.main.identity});
-        self.setState({
-          axios: false,
-          unitSet: {
-            coverSrc: resImgCover.data,
-            beneathSrc: beneathify?resImgBeneath.data:null,
-            coverMarks: coverMarks,
-            beneathMarks: beneathMarks,
-            refsArr: resObj.main.refsArr,
-            nouns: resObj.main.nouns,
-            authorBasic: resObj.main.authorBasic,
-            createdAt: resObj.main.createdAt
-          }
+        self.props._set_store_UnitCurrent({
+          unitId:self.unitId,
+          identity: resObj.main.identity,
+          authorBasic: resObj.main.authorBasic,
+          coverSrc: resImgCover.data,
+          beneathSrc: beneathify?resImgBeneath.data:null,
+          coverMarkslist:coverMarks.list,
+          coverMarksData:coverMarks.marksData,
+          beneathMarkslist:beneathMarks.list,
+          beneathMarksData:beneathMarks.marksData,
+          nouns: null,
+          inspired: [],
+          broad: false,
+          refsArr: resObj.main.refsArr,
+          createdAt: resObj.main.createdAt
         });
       })
     ).catch(function (thrown) {
@@ -133,7 +129,6 @@ class Unit extends React.Component {
               this.state.mode=="editing"&&this.props.unitCurrent.identity=="author"?(
                 <AuthorModal
                   mode={this.state.mode}
-                  unitSet= {this.state.unitSet}
                   _set_Modalmode={this._set_Modalmode}
                   _refer_von_unit={this.props._refer_von_unit}/>
             ):(
@@ -147,7 +142,6 @@ class Unit extends React.Component {
                     unitId={this.unitId}
                     mode={this.state.mode}
                     unitInit={this.unitInit}
-                    unitSet= {this.state.unitSet}
                     _set_Modalmode={this._set_Modalmode}
                     _close_modal_Unit={this._close_modal_Unit}
                     _refer_von_unit={this.props._refer_von_unit}/>
@@ -190,7 +184,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch)=>{
   return {
-    _set_store_UnitCurrent: (obj)=>{dispatch(mountUnitCurrent(obj));}
+    _set_store_UnitCurrent: (obj)=>{dispatch(setUnitCurrent(obj));}
   }
 }
 

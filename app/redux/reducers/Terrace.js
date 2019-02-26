@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import {
   MOUNT_USERINFO,
-  UNIT_MOUNT_UNITCURRENT,
+  SET_UNITCURRENT,
   UPDATE_NOUNSBASIC
 } from '../constants/typesGeneral.js';
 import {
@@ -19,7 +19,7 @@ function pageTerrace(state = initialGeneral, action){
         userInfo: action.userInfo
       })
       break;
-    case UNIT_MOUNT_UNITCURRENT:
+    case SET_UNITCURRENT:
       return Object.assign({}, state, {
         unitCurrent: action.unitCurrent
       })

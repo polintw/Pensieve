@@ -5,7 +5,7 @@ import UnitActionControl from './UnitActionControl.jsx';
 import {DateConverter, NounsExtensible} from './UnitComponent.jsx';
 import {AuthorPlate} from '../AccountPlate.jsx';
 
-export default class UnitModal extends React.Component {
+class UnitModal extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -145,7 +145,7 @@ export default class UnitModal extends React.Component {
         style={this.style.Com_Modal_UnitModal_atRes_}>
         <img
           style={this.style.Com_Modal_UnitModal_atRes_img}
-          src={this.props.unitSet.coverSrc}/>
+          src={this.props.unitCurrent.coverSrc}/>
       </div>
     ):(
       <div
@@ -161,20 +161,20 @@ export default class UnitModal extends React.Component {
             </span>
           </div>
           {
-            this.props.unitSet.nouns &&
+            this.props.unitCurrent.nouns &&
             <div
               style={this.style.Com_UnitModal_ControlSection_nouns_}>
               <NounsExtensible
-                nouns={this.props.unitSet.nouns}
+                nouns={this.props.unitCurrent.nouns}
                 _handleClick_listNoun={this._refer_toandclose}/>
             </div>
           }
           {
-            this.props.unitSet.authorBasic &&
+            this.props.unitCurrent.authorBasic &&
             <div
               style={this.style.Com_UnitModal_ControlSection_Author_}>
               <AuthorPlate
-                authorBasic={this.props.unitSet.authorBasic}
+                authorBasic={this.props.unitCurrent.authorBasic}
                 _handleClick_Account={this._refer_toandclose}/>
             </div>
           }
@@ -186,7 +186,7 @@ export default class UnitModal extends React.Component {
           <div
             style={this.style.Com_UnitModal_ControlSection_DateConverter}>
             <DateConverter
-              datetime={this.props.unitSet.createdAt}/>
+              datetime={this.props.unitCurrent.createdAt}/>
           </div>
         </div>
         <div
@@ -203,14 +203,22 @@ export default class UnitModal extends React.Component {
           <UnitLayerFrame
             layer={this.state.layer}
             marksify={this.state.marksify}
-            initMark={this.props.unitInit.initMark}
-            identity={this.props.unitSet.identity}
-            coverSrc={this.props.unitSet.coverSrc}
-            beneathSrc={this.props.unitSet.beneathSrc}
-            coverMarks={this.props.unitSet.coverMarks}
-            beneathMarks={this.props.unitSet.beneathMarks}/>
+            initMark={this.props.unitInit.initMark}/>
         </div>
       </div>
     )
   }
 }
+
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo,
+    unitCurrent: state.unitCurrent,
+    unitSubmitting: state.unitSubmitting
+  }
+}
+
+export default withRouter(connect(
+  mapStateToProps,
+  null
+)(UnitModal));

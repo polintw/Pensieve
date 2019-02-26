@@ -16,13 +16,29 @@ const {
   notFoundError
 } = require('../utils/reserrHandler.js');
 
-/*
-connection.query('DELETE FROM inspired WHERE id_mark = ? AND id_user = ?', [markId, userId], function(err, result, fields) {
-  if (err) {_handler_err_Internal(err, res);reject(err);}
-  console.log('database connection: success.')
-  resolve()
-})
-*/
+function _handle_inspire_plain_DELETE(req, res){
+  new Promise((resolve, reject)=>{
+    const reqToken = req.body.token || req.headers['token'] || req.query.token;
+    const jwtVerified = jwt.verify(reqToken, verify_key);
+    if (!jwtVerified) throw new internalError(jwtVerified, 131)
+
+    const userId = jwtVerified.user_Id;
+    const markId = parseInt(req.query.markId);
+
+    _DB_inspired.destroy({
+      where: {id_mark: markId, id_user: userId}
+    }).then(function(createdInspire) {
+      resolve()
+    })
+  }).then(()=>{
+    let sendingData ={
+      temp:{}
+    }
+    _res_success(res, sendingData, "DELETE: inspire/ , complete.");
+  }).catch((error)=>{
+    _handle_ErrCatched(error, req, res);
+  });
+}
 
 function _handle_inspire_plain_POST(req, res){
   new Promise((resolve, reject)=>{
@@ -49,6 +65,11 @@ function _handle_inspire_plain_POST(req, res){
 execute.post('/', function(req, res){
   if(process.env.NODE_ENV == 'development') winston.verbose('POST: inspire/ ');
   _handle_inspire_plain_POST(req, res);
+})
+
+execute.delete('/', function(req, res){
+  if(process.env.NODE_ENV == 'development') winston.verbose('DELETE: inspire/ ');
+  _handle_inspire_plain_DELETE(req, res);
 })
 
 module.exports = execute;

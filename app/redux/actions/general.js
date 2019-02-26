@@ -1,6 +1,6 @@
 import {
+  SET_UNITCURRENT,
   MOUNT_USERINFO,
-  UNIT_MOUNT_UNITCURRENT,
   UNIT_SUBMITTING_SWITCH,
   UPDATE_NOUNSBASIC,
   UPDATE_USERSBASIC,
@@ -12,12 +12,12 @@ import {
 } from '../constants/typesSelfFront.js';
 import {errHandler_axiosCatch} from "../../utils/errHandlers.js";
 
-export function mountUserInfo(obj) {
-  return { type: MOUNT_USERINFO, userInfo: obj }
+export function setUnitCurrent(obj) {
+  return { type: SET_UNITCURRENT, unitCurrent: obj }
 };
 
-export function mountUnitCurrent(obj) {
-  return { type: UNIT_MOUNT_UNITCURRENT, unitCurrent: obj }
+export function mountUserInfo(obj) {
+  return { type: MOUNT_USERINFO, userInfo: obj }
 };
 
 export function mountUserSheet(sheetObj, accountSet) {

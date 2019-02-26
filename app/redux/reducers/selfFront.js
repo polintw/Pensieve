@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import {
   MOUNT_USERINFO,
-  UNIT_MOUNT_UNITCURRENT,
+  SET_UNITCURRENT,
   UNIT_SUBMITTING_SWITCH,
   UPDATE_NOUNSBASIC,
   AXIOS_SWITCH
@@ -28,7 +28,7 @@ function pageSelfFront(state = initialGeneral, action){
         userInfo: action.userInfo
       })
       break;
-    case UNIT_MOUNT_UNITCURRENT:
+    case SET_UNITCURRENT:
       return Object.assign({}, state, {
         unitCurrent: action.unitCurrent
       })

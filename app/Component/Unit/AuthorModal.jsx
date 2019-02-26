@@ -100,11 +100,22 @@ class AuthorModal extends React.Component {
   }
 
   render(){
+    const unitCurrent = this.props.unitCurrent;
+    let unitSet={
+      authorBasic: unitCurrent.authorBasic,
+      coverSrc: unitCurrent.coverSrc,
+      beneathSrc: unitCurrent.beneathSrc,
+      coverMarks: {list: unitCurrent.coverMarkslist, data: unitCurrent.coverMarksData},
+      beneathMarks: {list: unitCurrent.beneathMarkslist, data: unitCurrent.beneathMarksData},
+      nouns: unitCurrent.nouns,
+      refsArr: unitCurrent.refsArr,
+      createdAt: unitCurrent.createdAt
+    };
     return(
       <div
         style={this.style.Com_Modal_AuthorModal}>
         <EditingModal
-          unitSet={this.props.unitSet}
+          unitSet={unitSet}
           _refer_toandclose={this._refer_toandclose}
           _set_Submit={this._handleClick_authorModal_SubmitFile}
           _set_Clear={this.props._set_Modalmode}/>

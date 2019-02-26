@@ -1,3 +1,5 @@
+const {unitCurrentInit, accountInfoInit} = require('./globalStates.js');
+
 export const initSign = {
   axios: false,
   message:'',
@@ -5,15 +7,10 @@ export const initSign = {
 }
 
 export const initGlobal = {
-  userInfo: {
-    account: "",
-    firstName: '',
-    lastName: '',
-    id: null
-  },
-  unitCurrent: {unitId:"", identity: ""},
+  userInfo: accountInfoInit, //should change the key:'userInfo' to other else
+  unitCurrent: unitCurrentInit,
   unitSubmitting: false
-} //should change the key:'userInfo' to other else
+}
 
 export const initSelfFrontGeneral = {
   axios: false,
