@@ -10,8 +10,7 @@ class MarkBlock extends React.Component {
     super(props);
     this.state = {
       axios: false,
-      dialogue: false,
-      inspired: this.props.markData.inspired
+      dialogue: false
     };
     this.axiosSource = axios.CancelToken.source();
     this._axios_inspire_plain = this._axios_inspire_plain.bind(this);
@@ -88,6 +87,7 @@ class MarkBlock extends React.Component {
 
   _axios_inspire_plain(aim){
     const self = this;
+    //'axios' in state has set to true in invoke instance
     axios({
       method: aim,
       url: '/router/inspire?unitId='+self.props.unitCurrent.unitId+'&markId='+self.props.markKey,
@@ -97,7 +97,7 @@ class MarkBlock extends React.Component {
         'token': window.localStorage['token']}
     }).then(function (res) {
         if(res.status = 200){
-          self.setState({inspired: aim=='post'?true:false, axios: false});
+//dispatch to redux action 
         }else{
           console.log("Failed: "+ res.data.err);
           self.setState({axios: false});
@@ -117,8 +117,7 @@ class MarkBlock extends React.Component {
   _handleClick_Inspired(event){
     event.preventDefault();
     event.stopPropagation();
-
-    let aim = this.state.inspired ? 'delete': 'post';
+    let aim = this.props.unitCurrent.inspired.includes(this.props.markKey) ? 'delete': 'post';
     this.setState((prevState, props)=>{
       return {axios: true}
     }, this._axios_inspire_plain(aim))
@@ -165,7 +164,7 @@ class MarkBlock extends React.Component {
               style={this.style.Com_MarkBlock_panel_interaction_bulb}
               onClick={this._handleClick_Inspired}>
               <SvgBulb
-                light={this.state.inspired ? true : false}/>
+                light={this.props.unitCurrent.inspired.includes(this.props.markKey) ? true : false}/>
             </div>
             <span
               style={this.style.Com_MarkBlock_panel_interaction_raise}

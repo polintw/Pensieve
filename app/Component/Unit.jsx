@@ -93,7 +93,7 @@ class Unit extends React.Component {
           coverMarksData:coverMarks.marksData,
           beneathMarkslist:beneathMarks.list,
           beneathMarksData:beneathMarks.marksData,
-          nouns: null,
+          nouns: resObj.main.nouns,
           inspired: [],
           broad: false,
           refsArr: resObj.main.refsArr,
