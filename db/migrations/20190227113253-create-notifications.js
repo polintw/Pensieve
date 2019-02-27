@@ -16,11 +16,14 @@ module.exports = {
         type: Sequelize.INTEGER(10).UNSIGNED,
         allowNull: false
       },
+      status: {
+        type: Sequelize.INTEGER(2).UNSIGNED,
+      },
       category: {
         type: Sequelize.TEXT('tiny')
       },
-      status: {
-        type: Sequelize.INTEGER(2).UNSIGNED,
+      type: {
+        type: Sequelize.TEXT('tiny')
       },
       createdAt: {
         type: Sequelize.DATE,

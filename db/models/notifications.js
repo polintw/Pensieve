@@ -3,6 +3,7 @@ module.exports = (sequelize, DataTypes) => {
   const notifications = sequelize.define('notifications', {
     id_user: DataTypes.INTEGER,
     category: DataTypes.STRING,
+    type: DataTypes.TEXT,
     status: DataTypes.INTEGER,
     id_forward: DataTypes.INTEGER
   }, {});

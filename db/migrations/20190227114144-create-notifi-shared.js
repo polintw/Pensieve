@@ -8,6 +8,10 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true
       },
+      id_user: {
+        type: Sequelize.INTEGER(10).UNSIGNED,
+        allowNull: false
+      },
       id_unit: {
         type: Sequelize.INTEGER(10).UNSIGNED
       },
@@ -43,6 +47,17 @@ module.exports = {
       return queryInterface.addConstraint('notifi_shared', ['id_user_related'], {
         type: 'foreign key',
         name: 'constraint_fkey_notifishared_iduserelated',
+        references: { //Required field
+          table: 'users',
+          field: 'id'
+        },
+        onDelete: 'cascade',
+        onUpdate: 'cascade'
+      })
+    }).then(() => {
+      return queryInterface.addConstraint('notifi_shared', ['id_user'], {
+        type: 'foreign key',
+        name: 'constraint_fkey_notifishared_iduser',
         references: { //Required field
           table: 'users',
           field: 'id'
