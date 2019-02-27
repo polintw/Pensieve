@@ -10,6 +10,7 @@ const {_res_success,_res_success_201} = require('../utils/resHandler.js');
 const _DB_nouns = require('../../db/models/index').nouns;
 const _DB_marks = require('../../db/models/index').marks;
 const _DB_attribution =  require('../../db/models/index').attribution;
+const _DB_inspired = require('../../db/models/index').inspired;
 const {
   UNITS_GENERAL,
   MARKS_UNITS,
@@ -25,6 +26,11 @@ const {
   _select_withPromise_Basic
 } = require('../utils/dbSelectHandler.js');
 const {
+  forbbidenError,
+  internalError,
+  authorizedError,
+  notFoundError,
+  _handle_ErrCatched,
   _handler_err_BadReq,
   _handler_err_NotFound,
   _handler_err_Unauthorized,
@@ -36,164 +42,167 @@ const database = mysql.createPool(connection_key);
 function _handle_unit_Mount(req, res){
   const reqUnit = req.reqUnitId;
 
-  jwt.verify(req.headers['token'], verify_key, function(err, payload) {
-    if (err) {
-      _handler_err_Unauthorized(err, res)
-    } else {
-      let userId = payload.user_Id;
-      database.getConnection(function(err, connection){
-        if (err) {
-          _handler_err_Internal(err, res);
-          console.log("error occured when getConnection for mounting unit.")
-        }else{
-          let _promise_unitToNouns = function(tempData){
-            return new Promise((resolve, reject)=>{
-              let selectQuery = 'SELECT id_noun FROM attribution WHERE id_unit=?';
-              connection.query(selectQuery, [reqUnit], function(err, results, fields) {
-                if (err) {_handler_err_Internal(err, res);reject(err);return;}
-                console.log('database connection: success.')
-                if (results.length > 0) {
-                  results.forEach(function(result, index){
-                    tempData['nouns'].list.push(result.id_noun);
-                    tempData['temp'].nounsKey.push([result.id_noun]);
-                  })
-                  resolve(tempData)
-                } else {
-                  tempData.sendingData.nouns = tempData.nouns;
-                  let sendingData = Object.assign({}, tempData.sendingData);
-                  reject(sendingData)
-                }
-              })
-            }).then((tempData)=>{
-              return new Promise((resolve, reject)=>{
-                let selectQuery = 'SELECT id, name, prefix FROM nouns WHERE (id) IN (?)';
-                connection.query(selectQuery, [tempData['temp'].nounsKey], function(err, results, fields) {
-                  if (err) {_handler_err_Internal(err, res);reject(err);return;}
-                  console.log('database connection: success, query to nouns.')
-                  results.forEach(function(result, index){
-                    tempData['nouns']['basic'][result.id] = {id:result.id, name: result.name, prefix: result.prefix};
-                  })
-                  //this part is a temp method before a whole update of this file.
-                  tempData.sendingData.nouns = tempData.nouns;
-                  let sendingData = Object.assign({}, tempData.sendingData);
-                  if (results.length < 1) {reject(sendingData);}else{resolve(sendingData)};
-                })
-              })
-            }).catch((thrown)=>{
-              winston.error(`${"Error: empty selection from nouns or attribution."} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
-              return thrown;
-            })
-          }
+  new Promise((resolve, reject)=>{
+    const reqToken = req.body.token || req.headers['token'] || req.query.token;
+    const jwtVerified = jwt.verify(reqToken, verify_key);
+    if (!jwtVerified) throw new internalError(jwtVerified, 131)
 
-          new Promise((resolve, reject)=>{
-            console.log('unit mount req: check author.');
-            connection.query('SELECT * FROM units WHERE id = ?', [reqUnit], function(err, result, fields) {
-              if (err) {_handler_err_Internal(err, res);reject(err);return;}
+    const userId = jwtVerified.user_Id;
+
+    database.getConnection(function(err, connection){
+      if (err) {
+        _handler_err_Internal(err, res);
+        console.log("error occured when getConnection for mounting unit.")
+      }else{
+        let _promise_unitToNouns = function(tempData){
+          return new Promise((resolveSub, rejectSub)=>{
+            let selectQuery = 'SELECT id_noun FROM attribution WHERE id_unit=?';
+            connection.query(selectQuery, [reqUnit], function(err, results, fields) {
+              if (err) {_handler_err_Internal(err, res);rejectSub(err);return;}
               console.log('database connection: success.')
-              let sendingData = {
-                temp: {marksKey: []},
-                marksObj: {},
-                refsArr: [],
-                nouns: {
-                  list: [],
-                  basic: {},
-                },
-                authorBasic: {},
-                createdAt: "",
-                identity: ""
-              }
-              if (result.length > 0) {
-                sendingData['authorBasic']['authorId'] = result[0].id_author;
-                sendingData['createdAt'] = result[0].createdAt;
-                if(userId == result[0].id_author){
-                  sendingData['identity'] = "author"
-                }else{
-                  sendingData['identity'] = "viewer"
-                }
-                resolve(sendingData)
+              if (results.length > 0) {
+                results.forEach(function(result, index){
+                  tempData['nouns'].list.push(result.id_noun);
+                  tempData['temp'].nounsKey.push([result.id_noun]);
+                })
+                resolveSub(tempData)
               } else {
-                resolve(sendingData)
+                tempData.sendingData.nouns = tempData.nouns;
+                let sendingData = Object.assign({}, tempData.sendingData);
+                resolveSub(sendingData)
               }
             })
-          }).then(function(sendingData){
-            console.log('unit mount req: call author name.');
-            return new Promise((resolve, reject)=>{
-              connection.query('SELECT account FROM users WHERE id = ?', [sendingData['authorBasic']['authorId']], function(err, result, fields) {
-                if (err) {_handler_err_Internal(err, res);reject(err);return;}
-                console.log('database connection: success.')
-                if (result.length > 0) {
-                  sendingData['authorBasic']['account'] = result[0].account;
-                  resolve(sendingData)
-                } else {
-                  resolve(sendingData)
-                }
+          }).then((tempData)=>{
+            return new Promise((resolveSub, rejectSub)=>{
+              let selectQuery = 'SELECT id, name, prefix FROM nouns WHERE (id) IN (?)';
+              connection.query(selectQuery, [tempData['temp'].nounsKey], function(err, results, fields) {
+                if (err) {_handler_err_Internal(err, res);rejectSub(err);return;}
+                console.log('database connection: success, query to nouns.')
+                results.forEach(function(result, index){
+                  tempData['nouns']['basic'][result.id] = {id:result.id, name: result.name, prefix: result.prefix};
+                })
+                //this part is a temp method before a whole update of this file.
+                tempData.sendingData.nouns = tempData.nouns;
+                let sendingData = Object.assign({}, tempData.sendingData);
+                if (results.length < 1) {rejectSub(sendingData);}else{resolveSub(sendingData)};
               })
             })
-          }).then((sendingData)=>{
-            //this part has been rewritten to a newer style, prepareing for future modified
-            let tempData = {
+          }).catch((thrown)=>{
+            winston.error(`${"Error: empty selection from nouns or attribution."} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+            return thrown;
+          })
+        }
+
+        new Promise((resolveSub, rejectSub)=>{
+          console.log('unit mount req: check author.');
+          connection.query('SELECT * FROM units WHERE id = ?', [reqUnit], function(err, result, fields) {
+            if (err) {_handler_err_Internal(err, res);rejectSub(err);return;}
+            console.log('database connection: success.')
+            let sendingData = {
+              temp: {marksKey: []},
+              marksObj: {},
+              refsArr: [],
               nouns: {
                 list: [],
-                basic: {}
+                basic: {},
               },
-              temp: {nounsKey: []},
-              sendingData: sendingData
+              authorBasic: {},
+              createdAt: "",
+              identity: "",
+              inpired: []
             }
-            return _promise_unitToNouns(tempData)
-          }).then(function(sendingData){
-            console.log('unit mount req: assemble marksObj.');
-            return new Promise((resolve, reject)=>{
-              connection.query('SELECT * FROM marks WHERE id_unit=?', [reqUnit], function(err, result, fields) {
-                if (err) {_handler_err_Internal(err, res);reject(err);return;}
-                console.log('database connection: success.')
-                if (result.length > 0) {
-                  result.forEach(function(row, index){
-                    let obj = {
-                      top: row.portion_top,
-                      left: row.portion_left,
-                      editorContent:  row.editor_content?JSON.parse(row.editor_content):null,
-                      serial: row.serial,
-                      layer: row.layer,
-                      inspired: false
-                    };
-                    let markKey = row.id;
-                    sendingData['marksObj'][markKey]=obj;
-                    sendingData['temp']['marksKey'].push([row.id]);
-                  })
-                  resolve(sendingData)
-                } else {
-                  resolve(sendingData)
-                }
-              })
+            if (result.length > 0) {
+              sendingData['authorBasic']['authorId'] = result[0].id_author;
+              sendingData['createdAt'] = result[0].createdAt;
+              if(userId == result[0].id_author){
+                sendingData['identity'] = "author"
+              }else{
+                sendingData['identity'] = "viewer"
+              }
+              resolveSub(sendingData)
+            } else {
+              resolveSub(sendingData)
+            }
+          })
+        }).then((sendingData)=>{
+          console.log('unit mount req: call author name.');
+          return new Promise((resolveSub, rejectSub)=>{
+            connection.query('SELECT account FROM users WHERE id = ?', [sendingData['authorBasic']['authorId']], function(err, result, fields) {
+              if (err) {_handler_err_Internal(err, res);rejectSub(err);return;}
+              console.log('database connection: success.')
+              if (result.length > 0) {
+                sendingData['authorBasic']['account'] = result[0].account;
+                resolveSub(sendingData)
+              } else {
+                resolveSub(sendingData)
+              }
             })
-          }).then(function(sendingData){
-            console.log('unit mount req: marksObj append.');
-            return new Promise((resolve, reject)=>{
-              let sqlQuery = "SELECT * FROM inspired WHERE (id_mark) IN (?) AND id_user = "+userId;
-              connection.query(sqlQuery, [sendingData['temp']['marksKey']], function(err, result, fields) {
-                if (err) {_handler_err_Internal(err, res);reject(err);return;}
-                console.log('database connection: success.')
-                if (result.length > 0) {
-                  result.forEach(function(row, index){
-                    sendingData['marksObj'][row.id_mark]['inspired'] = true;
-                  })
-                  resolve(sendingData)
-                } else {
-                  resolve(sendingData)
-                }
-              })
+          })
+        }).then((sendingData)=>{
+          //this part has been rewritten to a newer style, prepareing for future modified
+          let tempData = {
+            nouns: {
+              list: [],
+              basic: {}
+            },
+            temp: {nounsKey: []},
+            sendingData: sendingData
+          }
+          return _promise_unitToNouns(tempData)
+        }).then((sendingData)=>{
+          console.log('unit mount req: assemble marksObj.');
+          return new Promise((resolveSub, rejectSub)=>{
+            connection.query('SELECT * FROM marks WHERE id_unit=?', [reqUnit], function(err, result, fields) {
+              if (err) {_handler_err_Internal(err, res);rejectSub(err);return;}
+              console.log('database connection: success.')
+              if (result.length > 0) {
+                result.forEach(function(row, index){
+                  let obj = {
+                    top: row.portion_top,
+                    left: row.portion_left,
+                    editorContent:  row.editor_content?JSON.parse(row.editor_content):null,
+                    serial: row.serial,
+                    layer: row.layer
+                  };
+                  let markKey = row.id;
+                  sendingData['marksObj'][markKey]=obj;
+                  sendingData['temp']['marksKey'].push(row.id); //we use ORM now, no need to fullfill mysal module format
+                })
+                resolveSub(sendingData)
+              } else {
+                resolveSub(sendingData)
+              }
             })
-          }).then((sendingData)=>{
-            _res_success(res, sendingData);
-            connection.release();
-          }).catch((err)=>{
-            console.log("error occured during unit mounting promise: "+err)
-            connection.release();
-          });
-        }
-      })
-    }
-  })
+          })
+        }).then((sendingData)=>{
+          console.log('unit mount req: marksObj append.');
+          return new Promise((resolveSub, rejectSub)=>{
+            _DB_inspired.findAll({
+              where: {
+                id_mark: [sendingData['temp']['marksKey']],
+                id_user: userId
+              },
+              attributes: {'id_mark'}
+            }).then(function(inspired) {
+              inspired.map((row, index)=>{
+                sendingData['inspired'].push(row.id_mark)
+              });
+              resolveSub(sendingData);
+            })
+          })
+        }).then((sendingData)=>{
+          connection.release();
+          _res_success(res, sendingData);
+          resolve(); //just close the promise
+        }).catch((err)=>{
+          connection.release();
+          reject("occured during unit mounting promise, "+err);
+        });
+      }
+    })
+  }).catch((error)=>{
+    _handle_ErrCatched(error, req, res);
+  });
 };
 
 
