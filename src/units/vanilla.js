@@ -109,7 +109,7 @@ function _handle_unit_Mount(req, res){
               authorBasic: {},
               createdAt: "",
               identity: "",
-              inpired: []
+              inspired: []
             }
             if (result.length > 0) {
               sendingData['authorBasic']['authorId'] = result[0].id_author;
@@ -182,12 +182,14 @@ function _handle_unit_Mount(req, res){
                 id_mark: [sendingData['temp']['marksKey']],
                 id_user: userId
               },
-              attributes: {'id_mark'}
+              attributes: ['id_mark']
             }).then(function(inspired) {
               inspired.map((row, index)=>{
-                sendingData['inspired'].push(row.id_mark)
+                sendingData['inspired'].push(row.id_mark.toString())
               });
               resolveSub(sendingData);
+            }).catch((err)=>{
+              rejectSub(err);
             })
           })
         }).then((sendingData)=>{

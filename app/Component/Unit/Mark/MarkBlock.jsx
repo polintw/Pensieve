@@ -4,6 +4,9 @@ import MarkDialogue from './MarkDialogue.jsx';
 import SvgBulb from '../../SvgBulb.jsx';
 import SvgPropic from '../../SvgPropic.jsx';
 import DraftDisplay from '../../DraftDisplay.jsx';
+import {
+  setUnitInspired
+} from "../../../redux/actions/general.js";
 
 class MarkBlock extends React.Component {
   constructor(props){
@@ -96,22 +99,22 @@ class MarkBlock extends React.Component {
         'charset': 'utf-8',
         'token': window.localStorage['token']}
     }).then(function (res) {
-        if(res.status = 200){
-//dispatch to redux action 
-        }else{
-          console.log("Failed: "+ res.data.err);
-          self.setState({axios: false});
-          alert("Failed, please try again later");
-        }
-      }).catch(function (thrown) {
-        if (axios.isCancel(thrown)) {
-          console.log('Request canceled: ', thrown.message);
-        } else {
-          console.log(thrown);
-          self.setState({axios: false});
-          alert("Failed, please try again later");
-        }
-      });
+      if(res.status = 200){
+        self.props._set_inpiredMark(self.props.markKey, aim);
+      }else{
+        console.log("Failed: "+ res.data.err);
+        self.setState({axios: false});
+        alert("Failed, please try again later");
+      }
+    }).catch(function (thrown) {
+      if (axios.isCancel(thrown)) {
+        console.log('Request canceled: ', thrown.message);
+      } else {
+        console.log(thrown);
+        self.setState({axios: false});
+        alert("Failed, please try again later");
+      }
+    });
   }
 
   _handleClick_Inspired(event){
@@ -196,7 +199,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch)=>{
   return {
-
+    _set_inpiredMark: (markId, aim)=>{dispatch(setUnitInspired(markId, aim));},
   }
 }
 

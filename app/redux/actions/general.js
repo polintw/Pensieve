@@ -1,5 +1,6 @@
 import {
   SET_UNITCURRENT,
+  SET_UNITINSPIRED,
   MOUNT_USERINFO,
   UNIT_SUBMITTING_SWITCH,
   UPDATE_NOUNSBASIC,
@@ -14,6 +15,21 @@ import {errHandler_axiosCatch} from "../../utils/errHandlers.js";
 
 export function setUnitCurrent(obj) {
   return { type: SET_UNITCURRENT, unitCurrent: obj }
+};
+
+export function setUnitInspired(markId, aim) {
+  //this actoin creator, could do function return is because we use 'thunk' middleware when create store
+  return (dispatch, getState) => {
+    const currInspired =  getState().unitCurrent.inspired;
+    let nextArr = currInspired.slice();// shallow copy
+    let inspiredIndex = nextArr.indexOf(markId);
+    if(-1 < inspiredIndex){
+      nextArr.splice(inspiredIndex, 1);
+    }else{
+      nextArr.push(markId);
+    };
+    dispatch({ type: SET_UNITINSPIRED, nextInpired: {inspired: nextArr}});
+  }
 };
 
 export function mountUserInfo(obj) {

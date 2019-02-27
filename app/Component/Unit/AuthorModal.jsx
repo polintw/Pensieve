@@ -105,8 +105,8 @@ class AuthorModal extends React.Component {
       authorBasic: unitCurrent.authorBasic,
       coverSrc: unitCurrent.coverSrc,
       beneathSrc: unitCurrent.beneathSrc,
-      coverMarks: {list: unitCurrent.coverMarkslist, data: unitCurrent.coverMarksData},
-      beneathMarks: {list: unitCurrent.beneathMarkslist, data: unitCurrent.beneathMarksData},
+      coverMarks: {list: unitCurrent.coverMarksList, data: unitCurrent.coverMarksData},
+      beneathMarks: {list: unitCurrent.beneathMarksList, data: unitCurrent.beneathMarksData},
       nouns: unitCurrent.nouns,
       refsArr: unitCurrent.refsArr,
       createdAt: unitCurrent.createdAt

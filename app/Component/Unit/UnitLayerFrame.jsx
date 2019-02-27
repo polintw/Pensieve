@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from "react-redux";
 import UnitLayer from './UnitLayer.jsx';
 
-export default class UnitLayerFrame extends React.Component {
+class UnitLayerFrame extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -141,4 +141,4 @@ const mapStateToProps = (state) => {
 export default connect(
   mapStateToProps,
   null
-)(UnitModal);
+)(UnitLayerFrame);

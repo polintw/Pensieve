@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import {
   MOUNT_USERINFO,
   SET_UNITCURRENT,
+  SET_UNITINSPIRED,
   UNIT_SUBMITTING_SWITCH,
   UPDATE_NOUNSBASIC,
   UPDATE_USERSBASIC
@@ -25,6 +26,11 @@ function pageWithin(state = initialGeneral, action){
     case SET_UNITCURRENT:
       return Object.assign({}, state, {
         unitCurrent: action.unitCurrent
+      })
+      break;
+    case SET_UNITINSPIRED:
+      return Object.assign({}, state, {
+        unitCurrent: {...state.unitCurrent, ...action.nextInpired}
       })
       break;
     case UNIT_SUBMITTING_SWITCH:
