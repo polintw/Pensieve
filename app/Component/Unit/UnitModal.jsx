@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 import { connect } from "react-redux";
 import UnitLayerFrame from './UnitLayerFrame.jsx';
-import UnitLayerControl from './UnitLayerControl.jsx';
+import UnitLayerScroll from './UnitLayerScroll.jsx';
 import UnitActionControl from './UnitActionControl.jsx';
 import {DateConverter, NounsExtensible} from './UnitComponent.jsx';
 import {AuthorPlate} from '../AccountPlate.jsx';
@@ -58,15 +58,6 @@ class UnitModal extends React.Component {
         top: '0%',
         left: '0%',
         boxSizing: 'border-box'
-      },
-      Com_UnitModal_layerControl: {
-        width: '3%',
-        height: '100%',
-        position: 'absolute',
-        top: '0%',
-        right: '13%',
-        boxSizing: 'border-box',
-        backgroundColor: '#989898'
       },
       Com_UnitModal_ControlSection_: {
         width: '13%',
@@ -155,6 +146,7 @@ class UnitModal extends React.Component {
     ):(
       <div
         style={this.style.Com_Modal_UnitModal}>
+        <UnitLayerScroll/>
         <div
           style={this.style.Com_UnitModal_ControlSection_}>
           <div
@@ -193,15 +185,6 @@ class UnitModal extends React.Component {
             <DateConverter
               datetime={this.props.unitCurrent.createdAt}/>
           </div>
-        </div>
-        <div
-          style={this.style.Com_UnitModal_layerControl}>
-          <UnitLayerControl
-            unitId={this.props.unitId}
-            layer={this.state.layer}
-            marks = {this.state.marksify}
-            _set_makrsVisible={this._set_makrsVisible}
-            _set_layer={this._set_layer}/>
         </div>
         <div
           style={this.style.Com_UnitModal_ImgSection_div}>
