@@ -1,5 +1,7 @@
+const winston = require('../../config/winston.js');
+
 exports._res_success = function(res, sendingData, message){
-  if(message){console.log(message);};
+  if(process.env.NODE_ENV == 'development'){winston.verbose(message);};
   delete sendingData.temp;
   let resData = {};
   resData['error'] = 0;

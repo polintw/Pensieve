@@ -27,6 +27,18 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
+    users.hasOne(models.lastvisit_notify, {
+      foreignKey: "id_user",
+      sourceKey: "id",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
+    users.hasOne(models.lastvisit_shared, {
+      foreignKey: "id_user",
+      sourceKey: "id",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
     users.hasMany(models.units, {
       foreignKey:"id_author",
       sourceKey: "id",
@@ -35,6 +47,18 @@ module.exports = (sequelize, DataTypes) => {
     });
     users.hasMany(models.marks, {
       foreignKey:"id_author",
+      sourceKey: "id",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
+    users.hasMany(models.notifi_shared, {
+      foreignKey:"id_user_related",
+      sourceKey: "id",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
+    users.hasMany(models.notifi_shared, {
+      foreignKey: "id_user",
       sourceKey: "id",
       onDelete: 'cascade',
       onUpdate: 'cascade'

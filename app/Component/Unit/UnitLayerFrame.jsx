@@ -1,7 +1,8 @@
 import React from 'react';
+import { connect } from "react-redux";
 import UnitLayer from './UnitLayer.jsx';
 
-export default class UnitLayerFrame extends React.Component {
+class UnitLayerFrame extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -90,8 +91,14 @@ export default class UnitLayerFrame extends React.Component {
     );
 
     let initMark = this.props.initMark;
-    let beneathMarks = this.props.beneathMarks;
-    let coverMarks = this.props.coverMarks;
+    let beneathMarks = {
+      list: this.props.unitCurrent.beneathMarksList,
+      data: this.props.unitCurrent.beneathMarksData
+    };
+    let coverMarks = {
+      list: this.props.unitCurrent.coverMarksList,
+      data: this.props.unitCurrent.coverMarksData
+    };
 
     return(
       <div
@@ -99,24 +106,22 @@ export default class UnitLayerFrame extends React.Component {
         <div
           style={Com_UnitLayerFrame_div_beneath}>
           {
-            this.props.beneathSrc &&
+            this.props.unitCurrent.beneathSrc &&
             <UnitLayer
-              imgSrc={this.props.beneathSrc}
+              imgSrc={this.props.unitCurrent.beneathSrc}
               marksify={this.props.marksify}
               initMark={initMark in beneathMarks? initMark : "all"}
-              identity={this.props.identity}
               marksData={beneathMarks}/>
           }
         </div>
         <div
           style={Com_UnitLayerFrame_div_cover}>
           {
-            this.props.coverSrc &&
+            this.props.unitCurrent.coverSrc &&
             <UnitLayer
-              imgSrc={this.props.coverSrc}
+              imgSrc={this.props.unitCurrent.coverSrc}
               marksify={this.props.marksify}
               initMark={initMark in coverMarks? initMark : "all"}
-              identity={this.props.identity}
               marksData={coverMarks}/>
           }
         </div>
@@ -124,3 +129,16 @@ export default class UnitLayerFrame extends React.Component {
     )
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    userInfo: state.userInfo,
+    unitCurrent: state.unitCurrent,
+    unitSubmitting: state.unitSubmitting
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  null
+)(UnitLayerFrame);

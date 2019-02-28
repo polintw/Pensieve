@@ -1,6 +1,7 @@
 import {
+  SET_UNITCURRENT,
+  SET_UNITINSPIRED,
   MOUNT_USERINFO,
-  UNIT_MOUNT_UNITCURRENT,
   UNIT_SUBMITTING_SWITCH,
   UPDATE_NOUNSBASIC,
   UPDATE_USERSBASIC,
@@ -12,12 +13,27 @@ import {
 } from '../constants/typesSelfFront.js';
 import {errHandler_axiosCatch} from "../../utils/errHandlers.js";
 
-export function mountUserInfo(obj) {
-  return { type: MOUNT_USERINFO, userInfo: obj }
+export function setUnitCurrent(obj) {
+  return { type: SET_UNITCURRENT, unitCurrent: obj }
 };
 
-export function mountUnitCurrent(obj) {
-  return { type: UNIT_MOUNT_UNITCURRENT, unitCurrent: obj }
+export function setUnitInspired(markId, aim) {
+  //this actoin creator, could do function return is because we use 'thunk' middleware when create store
+  return (dispatch, getState) => {
+    const currInspired =  getState().unitCurrent.inspired;
+    let nextArr = currInspired.slice();// shallow copy
+    let inspiredIndex = nextArr.indexOf(markId);
+    if(-1 < inspiredIndex){
+      nextArr.splice(inspiredIndex, 1);
+    }else{
+      nextArr.push(markId);
+    };
+    dispatch({ type: SET_UNITINSPIRED, nextInpired: {inspired: nextArr}});
+  }
+};
+
+export function mountUserInfo(obj) {
+  return { type: MOUNT_USERINFO, userInfo: obj }
 };
 
 export function mountUserSheet(sheetObj, accountSet) {

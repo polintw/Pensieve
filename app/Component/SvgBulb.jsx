@@ -78,7 +78,7 @@ class LightedBulb extends React.Component {
   render(){
     return(
       <svg
-        xmlns="http://www.w3.org/2000/svg"
+        xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
         viewBox="0 0 123.01 202.15"
         style={{
           maxWidth: '100%',
@@ -86,8 +86,11 @@ class LightedBulb extends React.Component {
           cursor: 'pointer'
         }}>
         <defs>
-          <style>{".cls-1,.cls-2{stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;}.cls-1{fill:url(#未命名漸層_45);}.cls-2{fill:none;}"}</style>
-          <linearGradient id="未命名漸層_45" x1="61.51" y1="151.46" x2="61.51" y2="1" gradientUnits="userSpaceOnUse">
+          <style>
+            {".cls-1,.cls-2{stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;}.cls-1{fill:url(#未命名漸層_45);}.cls-2{fill:none;}"}
+          </style>
+          <linearGradient
+            id="未命名漸層_45" x1="61.51" y1="151.46" x2="61.51" y2="1" gradientUnits="userSpaceOnUse">
             <stop offset="0" stopColor="#ffd16d"/>
             <stop offset="0.1" stopColor="#ffd86f"/>
             <stop offset="0.26" stopColor="#ffed75"/>

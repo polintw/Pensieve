@@ -1,19 +1,22 @@
 import React from 'react';
+import {connect} from "react-redux";
 import MarkDialogue from './MarkDialogue.jsx';
 import SvgBulb from '../../SvgBulb.jsx';
 import SvgPropic from '../../SvgPropic.jsx';
 import DraftDisplay from '../../DraftDisplay.jsx';
+import {
+  setUnitInspired
+} from "../../../redux/actions/general.js";
 
-export default class MarkBlock extends React.Component {
+class MarkBlock extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       axios: false,
-      dialogue: false,
-      inspired: this.props.markData.inspired
+      dialogue: false
     };
     this.axiosSource = axios.CancelToken.source();
-    this._axios_postInspired = this._axios_postInspired.bind(this);
+    this._axios_inspire_plain = this._axios_inspire_plain.bind(this);
     this._handleClick_openDialogue = this._handleClick_openDialogue.bind(this);
     this._handleClick_Inspired = this._handleClick_Inspired.bind(this);
     this.style = {
@@ -85,44 +88,42 @@ export default class MarkBlock extends React.Component {
     };
   }
 
-  _axios_postInspired(aim){
+  _axios_inspire_plain(aim){
     const self = this;
-    axios.post('/router/user/action/inspired?aim='+aim, {
-      "markKey": self.props.markKey
-    }, {
+    //'axios' in state has set to true in invoke instance
+    axios({
+      method: aim,
+      url: '/router/inspire?unitId='+self.props.unitCurrent.unitId+'&markId='+self.props.markKey,
       headers: {
         'Content-Type': 'application/json',
         'charset': 'utf-8',
-        'token': window.localStorage['token']
-      }
+        'token': window.localStorage['token']}
     }).then(function (res) {
-        if(res.status = 200){
-          console.log("inspired action post successfully!");
-          self.setState({inspired: aim=='new'?true:false, axios: false});
-        }else{
-          console.log("Failed: "+ res.data.err);
-          self.setState({axios: false});
-          alert("Failed, please try again later");
-        }
-      }).catch(function (thrown) {
-        if (axios.isCancel(thrown)) {
-          console.log('Request canceled: ', thrown.message);
-        } else {
-          console.log(thrown);
-          self.setState({axios: false});
-          alert("Failed, please try again later");
-        }
-      });
+      if(res.status = 200){
+        self.props._set_inpiredMark(self.props.markKey, aim);
+      }else{
+        console.log("Failed: "+ res.data.err);
+        self.setState({axios: false});
+        alert("Failed, please try again later");
+      }
+    }).catch(function (thrown) {
+      if (axios.isCancel(thrown)) {
+        console.log('Request canceled: ', thrown.message);
+      } else {
+        console.log(thrown);
+        self.setState({axios: false});
+        alert("Failed, please try again later");
+      }
+    });
   }
 
   _handleClick_Inspired(event){
     event.preventDefault();
     event.stopPropagation();
-
-    let aim = this.state.inspired ? 'delete': 'new';
+    let aim = this.props.unitCurrent.inspired.includes(this.props.markKey) ? 'delete': 'post';
     this.setState((prevState, props)=>{
       return {axios: true}
-    }, this._axios_postInspired(aim))
+    }, this._axios_inspire_plain(aim))
   }
 
   _handleClick_openDialogue(event){
@@ -166,12 +167,12 @@ export default class MarkBlock extends React.Component {
               style={this.style.Com_MarkBlock_panel_interaction_bulb}
               onClick={this._handleClick_Inspired}>
               <SvgBulb
-                light={this.state.inspired ? true : false}/>
+                light={this.props.unitCurrent.inspired.includes(this.props.markKey) ? true : false}/>
             </div>
             <span
               style={this.style.Com_MarkBlock_panel_interaction_raise}
               onClick={this._handleClick_openDialogue}>
-              {'舉手'}
+              {'raise hand'}
             </span>
           </div>
           <div
@@ -180,10 +181,29 @@ export default class MarkBlock extends React.Component {
             <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
           </div>
           <div>
-            {"多行參考資料連結"}
+            {"(多行參考資料連結)"}
           </div>
         </div>
       </div>
     )
   }
 }
+
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo,
+    unitCurrent: state.unitCurrent,
+    unitSubmitting: state.unitSubmitting
+  }
+}
+
+const mapDispatchToProps = (dispatch)=>{
+  return {
+    _set_inpiredMark: (markId, aim)=>{dispatch(setUnitInspired(markId, aim));},
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MarkBlock);
