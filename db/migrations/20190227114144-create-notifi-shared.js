@@ -15,14 +15,14 @@ module.exports = {
       id_unit: {
         type: Sequelize.INTEGER(10).UNSIGNED
       },
+      id_user_related: {
+        type: Sequelize.INTEGER(10).UNSIGNED
+      },
       type: {
         type: Sequelize.TEXT('tiny')
       },
       status: {
         type: Sequelize.INTEGER(2).UNSIGNED,
-      },
-      id_user_related: {
-        type: Sequelize.INTEGER(10).UNSIGNED
       },
       createdAt: {
         type: Sequelize.DATE,

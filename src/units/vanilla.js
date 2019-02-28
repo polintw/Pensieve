@@ -69,7 +69,7 @@ function _handle_unit_Mount(req, res){
               } else {
                 tempData.sendingData.nouns = tempData.nouns;
                 let sendingData = Object.assign({}, tempData.sendingData);
-                resolveSub(sendingData)
+                rejectSub(sendingData);
               }
             })
           }).then((tempData)=>{

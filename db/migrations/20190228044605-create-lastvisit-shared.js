@@ -1,28 +1,12 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('notifications', {
-      id: {
-        type: Sequelize.INTEGER(10).UNSIGNED,
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true
-      },
+    return queryInterface.createTable('lastvisit_shared', {
       id_user: {
         type: Sequelize.INTEGER(10).UNSIGNED,
         allowNull: false
       },
-      id_forward: {
-        type: Sequelize.INTEGER(10).UNSIGNED,
-        allowNull: false
-      },
-      status: {
-        type: Sequelize.INTEGER(2).UNSIGNED,
-      },
-      category: {
-        type: Sequelize.TEXT('tiny')
-      },
-      type: {
+      ip: {
         type: Sequelize.TEXT('tiny')
       },
       createdAt: {
@@ -33,10 +17,10 @@ module.exports = {
       updatedAt: {
         type: Sequelize.DATE
       }
-    }).then(()=>{
-      return queryInterface.addConstraint('notifications', ['id_user'], {
+    }).then(() => {
+      return queryInterface.addConstraint('lastvisit_shared', ['id_user'], {
         type: 'foreign key',
-        name: 'constraint_fkey_notifications_iduser',
+        name: 'constraint_fkey_lastvisitshared_iduser',
         references: { //Required field
           table: 'users',
           field: 'id'
@@ -47,6 +31,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('notifications');
+    return queryInterface.dropTable('lastvisit_shared');
   }
 };
