@@ -15,6 +15,9 @@ module.exports = {
       id_unit: {
         type: Sequelize.INTEGER(10).UNSIGNED
       },
+      id_mark: {
+        type: Sequelize.INTEGER(10).UNSIGNED
+      },
       id_user_related: {
         type: Sequelize.INTEGER(10).UNSIGNED
       },
@@ -60,6 +63,17 @@ module.exports = {
         name: 'constraint_fkey_notifishared_iduser',
         references: { //Required field
           table: 'users',
+          field: 'id'
+        },
+        onDelete: 'cascade',
+        onUpdate: 'cascade'
+      })
+    }).then(()=>{
+      return queryInterface.addConstraint('notifi_shared', ['id_mark'], {
+        type: 'foreign key',
+        name: 'constraint_fkey_notifishared_idmark',
+        references: { //Required field
+          table: 'marks',
           field: 'id'
         },
         onDelete: 'cascade',

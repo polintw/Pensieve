@@ -17,7 +17,7 @@ class UnitModal extends React.Component {
       layer: this.props.unitInit.layer,
       marksify: this.props.unitInit.marksify
     };
-    this._set_makrsVisible = (bool) => {this.setState({marksify: bool});};
+    this._set_marksVisible = (bool) => {this.setState({marksify: bool});};
     this._set_layer = (index) => {this.setState({layer: index});};
     this._refer_toandclose = this._refer_toandclose.bind(this);
     this._handleClick_unitBack = this._handleClick_unitBack.bind(this);

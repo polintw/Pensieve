@@ -8,9 +8,9 @@ class UnitLayerScroll extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      stickTop: 95,
+      stickTop: "95%",
+      buffer: false
     };
-    this.scrollOrigin = 95;
     this.scrollStick = React.createRef();
     this.stickBase = React.createRef();
     this._check_Position = this._check_Position.bind(this);
@@ -36,21 +36,37 @@ class UnitLayerScroll extends React.Component {
   _check_Position(event){
     event.stopPropagation();
     event.preventDefault();
-    let cardinal = this.props.unitCurrent.beneathSrc ?
-      (this.scrollOrigin/(2.5*5)) : (this.scrollOrigin/(3.2*5));
+    if(this.props.lockify){ //in the locking region
+      if( !this.state.buffer) this.setState({buffer: true}) //give it a static chance
+      else{
+        this.setState((prevState, props)=>{
+          let nextTop = prevState.stickTop+(event.deltaY>0 ? this.scrollCardinal*(-1) : this.scrollCardinal)*2;
+          return { stickTop: nextTop};
+        }, ()=>{
 
-    let delta = (event.deltaY>0) ? (cardinal*(-1)) : cardinal;
-    this.setState((prevState, props)=>{
-      return {stickTop: prevState.stickTop+delta}
-    });
-    this.props._set_layerparam();
+          this.props._set_layerparam();
+          _set_marksVisible false
+        });
+      }
+      return;
+    }else{ //during the move
+      this.setState((prevState, props)=>{
+        //if the stick go into the locking region?
+      })
+    }
+
     //move whole unit became a child, to use onWheel event everywhere
     //pass wheel delta portion(1/5 each time) to UnitLayerFrame
     //switch 'lock' state when leave/enter 'zero position'
   }
 
   componentDidMount() {
-
+    let viewheight = this.stickBase.getBoundingClientRect().height;
+    this.coverLock = viewheight*95/100; //bottom-most place as cover's static place
+    this.secondLock = this.props.unitCurrent.beneathSrc ? this.coverLock*3/5 : this.coverLock*1/4;
+    this.scrollCardinal = (this.coverLock-this.secondLock)/
+      (this.props.unitCurrent.beneathSrc ? 8 : 10); // set the delta px /scroll
+    this.setState({stickTop: this.coverLock});
   }
 
   componentWillUnmount() {
@@ -66,7 +82,7 @@ class UnitLayerScroll extends React.Component {
         onWheel={this._check_Position}>
         <div
           ref={this.scrollStick}
-          style={Object.assign({top: (this.state.stickTop)+'%'},this.style.Com_Unit_LayerScroll_stick)}>
+          style={Object.assign({top: this.state.stickTop},this.style.Com_Unit_LayerScroll_stick)}>
         </div>
       </div>
     )
