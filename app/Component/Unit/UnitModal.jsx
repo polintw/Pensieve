@@ -14,7 +14,8 @@ class UnitModal extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      layer: this.props.unitInit.layer,
+      layerparam: this.props.unitInit.layer>0 ? 100 : 0,
+      lockify: true,
       marksify: this.props.unitInit.marksify
     };
     this._set_marksVisible = (bool) => {this.setState({marksify: bool});};
@@ -146,7 +147,9 @@ class UnitModal extends React.Component {
     ):(
       <div
         style={this.style.Com_Modal_UnitModal}>
-        <UnitLayerScroll/>
+        <UnitLayerScroll
+          lockify={this.state.lockify}
+          unitInit={this.props.unitInit}/>
         <div
           style={this.style.Com_UnitModal_ControlSection_}>
           <div
@@ -189,7 +192,8 @@ class UnitModal extends React.Component {
         <div
           style={this.style.Com_UnitModal_ImgSection_div}>
           <UnitLayerFrame
-            layer={this.state.layer}
+            layerparam={this.state.layerparam}
+            lockify={this.state.lockify}
             marksify={this.state.marksify}
             initMark={this.props.unitInit.initMark}/>
         </div>

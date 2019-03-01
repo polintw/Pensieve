@@ -144,7 +144,7 @@ export default class UnitLayer extends React.Component {
           src={this.props.imgSrc}
           onLoad={this._set_circles}/>
         {
-          this.props.marksify &&
+          this.props.marksify && this.props.lockify &&
           this.state.circlesDOM
         }
       </div>

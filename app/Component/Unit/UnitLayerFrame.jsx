@@ -6,11 +6,7 @@ class UnitLayerFrame extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      coverWidth: '100%',
-      coverOpa: '1',
-      coverTop: '1%',
-      beneathWidth: '100%',
-      beneathOpa: '1'
+
     };
     this.style={
       Com_UnitLayerFrame: {
@@ -39,54 +35,21 @@ class UnitLayerFrame extends React.Component {
     };
   }
 
-  static getDerivedStateFromProps(props, state){
-    switch (props.layer) {
-      case "0":
-        return {
-          coverWidth: '100%',
-          coverOpa: '1',
-          coverTop: '1%'
-        }
-        break;
-      case "1":
-        return {
-          coverOpa: '0.5'
-        }
-        break;
-      case "2":
-        return {
-          coverWidth: '0',
-          coverOpa: '0',
-          coverTop: '100%'
-        }
-        break;
-      case "3":
-        return {
-          coverWidth: '0',
-          coverOpa: '0',
-          beneathOpa: '0.5'
-        }
-        break;
-      case "4":
-        return {
-          coverWidth: '0',
-          coverOpa: '0',
-          beneathOpa: '0',
-          beneathWidth: '0'
-        }
-        break;
-      default:
-        return null
-    }
-  }
-
   render(){
+    let portion = Math.abs((this.props.layerparam-100)/100);
+    let controledCSS = {
+      coverWidth: this.props.layerparam < 100 ? '100%':'0',
+      coverOpa: this.props.layerparam > 0 ? portion : '1',
+      coverTop: this.props.layerparam < 100 ? '1%':'100%',
+      beneathWidth: this.props.layerparam < 200 ? '100%':'0',
+      beneathOpa: this.props.layerparam > 100 ? portion : '1'
+    }
     let Com_UnitLayerFrame_div_cover = Object.assign(
-      {width: this.state.coverWidth, opacity: this.state.coverOpa, top: this.state.coverTop},
+      {width: this.controledCSS.coverWidth, opacity: this.controledCSS.coverOpa, top: this.controledCSS.coverTop},
       this.style.Com_UnitLayerFrame_div_cover
-    );
-    let Com_UnitLayerFrame_div_beneath = Object.assign(
-      {width: this.state.beneathWidth, opacity: this.state.beneathOpa},
+    ),
+    Com_UnitLayerFrame_div_beneath = Object.assign(
+      {width: this.controledCSS.beneathWidth, opacity: this.controledCSS.beneathOpa},
       this.style.Com_UnitLayerFrame_div_beneath
     );
 
@@ -94,8 +57,8 @@ class UnitLayerFrame extends React.Component {
     let beneathMarks = {
       list: this.props.unitCurrent.beneathMarksList,
       data: this.props.unitCurrent.beneathMarksData
-    };
-    let coverMarks = {
+    },
+    coverMarks = {
       list: this.props.unitCurrent.coverMarksList,
       data: this.props.unitCurrent.coverMarksData
     };
@@ -109,6 +72,7 @@ class UnitLayerFrame extends React.Component {
             this.props.unitCurrent.beneathSrc &&
             <UnitLayer
               imgSrc={this.props.unitCurrent.beneathSrc}
+              lockify={this.props.lockify}
               marksify={this.props.marksify}
               initMark={initMark in beneathMarks? initMark : "all"}
               marksData={beneathMarks}/>
@@ -120,6 +84,7 @@ class UnitLayerFrame extends React.Component {
             this.props.unitCurrent.coverSrc &&
             <UnitLayer
               imgSrc={this.props.unitCurrent.coverSrc}
+              lockify={this.props.lockify}
               marksify={this.props.marksify}
               initMark={initMark in coverMarks? initMark : "all"}
               marksData={coverMarks}/>
