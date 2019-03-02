@@ -14,12 +14,10 @@ class UnitModal extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      layerparam: this.props.unitInit.layer>0 ? 100 : 0,
       lockify: true,
-      marksify: this.props.unitInit.marksify
+      moveCount: this.props.unitInit.layer>0 ? 100 : 0,
     };
-    this._set_marksVisible = (bool) => {this.setState({marksify: bool});};
-    this._set_layer = (index) => {this.setState({layer: index});};
+    this._set_layerstatus = (lockify, moveCount) => {this.setState({lockify: lockify, moveCount: moveCount});};
     this._refer_toandclose = this._refer_toandclose.bind(this);
     this._handleClick_unitBack = this._handleClick_unitBack.bind(this);
     this.style={
@@ -149,7 +147,8 @@ class UnitModal extends React.Component {
         style={this.style.Com_Modal_UnitModal}>
         <UnitLayerScroll
           lockify={this.state.lockify}
-          unitInit={this.props.unitInit}/>
+          moveCount={this.state.moveCount}
+          _set_layerstatus={this._set_layerstatus}/>
         <div
           style={this.style.Com_UnitModal_ControlSection_}>
           <div
@@ -192,10 +191,9 @@ class UnitModal extends React.Component {
         <div
           style={this.style.Com_UnitModal_ImgSection_div}>
           <UnitLayerFrame
-            layerparam={this.state.layerparam}
+            moveCount={this.state.moveCount}
             lockify={this.state.lockify}
-            marksify={this.state.marksify}
-            initMark={this.props.unitInit.initMark}/>
+            unitInit={this.props.unitInit}/>
         </div>
       </div>
     )

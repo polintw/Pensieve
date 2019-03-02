@@ -8,7 +8,7 @@ class UnitLayerScroll extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      stickPortion: null,
+      moveCount: null,
       stickTop: "95%",
       buffer: false
     };
@@ -41,42 +41,43 @@ class UnitLayerScroll extends React.Component {
     if(this.props.lockify){ //in the locking region
       if( !this.state.buffer) this.setState({buffer: true}) //give it a static chance
       else{
-        this.setState((prevState, props)=>{
-          let nextTop = prevState.stickTop+(upward ? this.scrollCardinal*(-1) : this.scrollCardinal)*3;
+        this.setState((prevState, props)=>{//there are some error if we move to 'relations' path
+          let nowCount = prevState.moveCount + (upward ? 10*3 : (-10)*3); 
+          let nextTop = prevState.stickTop + nowCount * this.basicMove;
+          
+          props._set_layerstatus(false, nowCount);
           return {
             stickTop: nextTop,
             buffer: false //leave locking region so does buffer
           };
         })
-        //unlock
-        this.props._set_layerparam();
-        _set_layerstatus false
       }
       return;
     }else{ //during the move
       this.setState((prevState, props)=>{
+        //main params needed to be submit to parent
+        let nowCount = prevState.moveCount+(upward ? 10 : -10),
+            layerlocking = false;
+        
         //if the stick go into the locking region?
-        let nextTop = prevState.stickTop+(upward ? this.scrollCardinal*(-1) : this.scrollCardinal);
-
+        let nextTop = prevState.stickTop+nowCount*this.basicMove;
         if(upward){ //if wheel up
           if(nextTop < this.upward.secondBottom){
-              if(nextTop < this.secondLock)
-                if(nextTop < this.upward.sumBottom){nextTop = this.sumLock; props._set_layerstatus(true, 200);} //lock
+              if(nextTop < this.secondLock) //there are some error if we move to 'relations' path
+                if(nextTop < this.upward.sumBottom){nextTop = this.sumLock; layerlocking=true; nowCount=this.props.unitCurrent.beneathSrc? 200:100;} //lock
               else{
-                nextTop = this.secondLock; props._set_layerstatus(true, this.props.beneathSrc ? 100:200);
+                  nextTop = this.secondLock; layerlocking = true; nowCount = this.props.unitCurrent.beneathSrc ? 100 : 200;
               };
           };
         }else{ // if wheel down
           if(nextTop > this.upwardLock.secondTop)
             if(nextTop > this.secondLock)
-              if(nextTop > this.upwardLock.coverTop){nextTop = this.coverLock; props._set_layerstatus(true);}
+              if (nextTop > this.upwardLock.coverTop) { nextTop = this.coverLock; layerlocking = true; nowCount = 0;}
             else{
-              nextTop = this.secondLock; props._set_layerstatus(true);
+                nextTop = this.secondLock; layerlocking = true; nowCount = this.props.unitCurrent.beneathSrc ? 100 : 200;
             }
         };
-0 this.coverLock
-100 this.secondLock
-200 this.sumLock
+        props._set_layerstatus(layerlocking, nowCount);
         return {
           stickTop: nextTop,
           buffer: false
@@ -88,23 +89,26 @@ class UnitLayerScroll extends React.Component {
   componentDidMount() {
     //we set these variable here because we need to use the component height
     let viewheight = this.stickBase.getBoundingClientRect().height;
+    
     this.coverLock = viewheight*95/100; //bottom-most place as cover's static place
+    this.basicMove = this.coverLock*4/5/(this.props.unitCurrent.beneathSrc ? 200 :100);    
     this.sumLock = this.coverLock/5;
     this.secondLock = this.props.unitCurrent.beneathSrc ? (this.coverLock*3/5) : this.sumLock;
-    this.scrollCardinal = this.coverLock/ (this.props.unitCurrent.beneathSrc ? 32 : 20) ; // set the delta px /scroll
-    this.portionNmr = this.props.unitCurrent.beneathSrc ? 200/(32*4/5) : (20*4/5)/200; //to LayerFrame, it need the portion base on range 0-200
+    
+    //define the locking range
+    let basicMove10 = this.basicMove*10;
     this.upwardLock = {
-      sumBottom: this.sumLock+this.scrollCardinal,
-      secondBottom: this.secondLock+this.scrollCardinal //same secondBottom value as sumBottom if the beneathSrc wasn't exist
+      sumBottom: this.sumLock+basicMove10,
+      secondBottom: this.secondLock + basicMove10 //same secondBottom value as sumBottom if the beneathSrc wasn't exist
     };
     this.dowardLock = {
-      secondTop: this.secondLock-this.scrollCardinal,
-      coverTop: this.coverLock-this.scrollCardinal //same secondBottom value as sumBottom if the beneathSrc wasn't exist
+      secondTop: this.secondLock - basicMove10,
+      coverTop: this.coverLock - basicMove10 //same secondBottom value as sumBottom if the beneathSrc wasn't exist
     };
 
     this.setState({
-      stickPortion: this.props.unitInit.layer>0 ?  : 0,
-      stickTop: this.props.unitInit.layer>0 ? this.secondLock : this.coverLock
+      moveCount: this.props.moveCount,
+      stickTop: this.props.moveCount>0 ? this.secondLock : this.coverLock
     });
   }
 

@@ -20,6 +20,7 @@ class UnitLayerFrame extends React.Component {
       Com_UnitLayerFrame_div_cover: {
         height: '99%',
         position: 'absolute',
+        top: '1%',
         left: '0',
         boxSizing: 'border-box',
         backgroundColor: 'black'
@@ -36,24 +37,25 @@ class UnitLayerFrame extends React.Component {
   }
 
   render(){
-    let portion = Math.abs((this.props.layerparam-100)/100);
+    let portion = Math.abs((this.props.moveCount-100)/100);
     let controledCSS = {
-      coverWidth: this.props.layerparam < 100 ? '100%':'0',
-      coverOpa: this.props.layerparam > 0 ? portion : '1',
-      coverTop: this.props.layerparam < 100 ? '1%':'100%',
-      beneathWidth: this.props.layerparam < 200 ? '100%':'0',
-      beneathOpa: this.props.layerparam > 100 ? portion : '1'
+      coverWidth: this.props.moveCount < 100 ? '100%':'0',
+      coverOpa: this.props.moveCount > 0 ? portion : '1',
+      coverDisplay: this.props.moveCount < 100 ? 'block':'none',
+      beneathWidth: this.props.moveCount < 200 ? '100%':'0',
+      beneathOpa: this.props.moveCount > 100 ? portion : '1',
+      beneathDisplay: this.props.moveCount < 200 ? 'block' : 'none'
     }
     let Com_UnitLayerFrame_div_cover = Object.assign(
-      {width: this.controledCSS.coverWidth, opacity: this.controledCSS.coverOpa, top: this.controledCSS.coverTop},
+      {width: controledCSS.coverWidth, opacity: controledCSS.coverOpa, display: controledCSS.coverDisplay},
       this.style.Com_UnitLayerFrame_div_cover
     ),
     Com_UnitLayerFrame_div_beneath = Object.assign(
-      {width: this.controledCSS.beneathWidth, opacity: this.controledCSS.beneathOpa},
+      {width: controledCSS.beneathWidth, opacity: controledCSS.beneathOpa, display: controledCSS.beneathDisplay},
       this.style.Com_UnitLayerFrame_div_beneath
     );
 
-    let initMark = this.props.initMark;
+    let initMark = this.props.unitInit.initMark;
     let beneathMarks = {
       list: this.props.unitCurrent.beneathMarksList,
       data: this.props.unitCurrent.beneathMarksData
@@ -73,7 +75,6 @@ class UnitLayerFrame extends React.Component {
             <UnitLayer
               imgSrc={this.props.unitCurrent.beneathSrc}
               lockify={this.props.lockify}
-              marksify={this.props.marksify}
               initMark={initMark in beneathMarks? initMark : "all"}
               marksData={beneathMarks}/>
           }
@@ -85,7 +86,6 @@ class UnitLayerFrame extends React.Component {
             <UnitLayer
               imgSrc={this.props.unitCurrent.coverSrc}
               lockify={this.props.lockify}
-              marksify={this.props.marksify}
               initMark={initMark in coverMarks? initMark : "all"}
               marksData={coverMarks}/>
           }
