@@ -42,9 +42,9 @@ class UnitLayerScroll extends React.Component {
       if( !this.state.buffer) this.setState({buffer: true}) //give it a static chance
       else{
         this.setState((prevState, props)=>{//there are some error if we move to 'relations' path
-          let nowCount = prevState.moveCount + (upward ? 10*3 : (-10)*3); 
-          let nextTop = prevState.stickTop + nowCount * this.basicMove;
-          
+          let nowCount = prevState.moveCount + (upward ? 10*3 : (-10)*3);
+          let nextTop = prevState.stickTop - nowCount * this.basicMove;
+
           props._set_layerstatus(false, nowCount);
           return {
             stickTop: nextTop,
@@ -58,27 +58,28 @@ class UnitLayerScroll extends React.Component {
         //main params needed to be submit to parent
         let nowCount = prevState.moveCount+(upward ? 10 : -10),
             layerlocking = false;
-        
+
         //if the stick go into the locking region?
-        let nextTop = prevState.stickTop+nowCount*this.basicMove;
+        let nextTop = prevState.stickTop-nowCount*this.basicMove;
         if(upward){ //if wheel up
-          if(nextTop < this.upward.secondBottom){
+          if(nextTop < this.upwardLock.secondBottom){
               if(nextTop < this.secondLock) //there are some error if we move to 'relations' path
-                if(nextTop < this.upward.sumBottom){nextTop = this.sumLock; layerlocking=true; nowCount=this.props.unitCurrent.beneathSrc? 200:100;} //lock
+                if(nextTop < this.upwardLock.sumBottom){nextTop = this.sumLock; layerlocking=true; nowCount=this.props.unitCurrent.beneathSrc? 200:100;} //lock
               else{
                   nextTop = this.secondLock; layerlocking = true; nowCount = this.props.unitCurrent.beneathSrc ? 100 : 200;
               };
           };
         }else{ // if wheel down
-          if(nextTop > this.upwardLock.secondTop)
+          if(nextTop > this.downwardLock.secondTop)
             if(nextTop > this.secondLock)
-              if (nextTop > this.upwardLock.coverTop) { nextTop = this.coverLock; layerlocking = true; nowCount = 0;}
+              if (nextTop > this.downwardLock.coverTop) { nextTop = this.coverLock; layerlocking = true; nowCount = 0;}
             else{
                 nextTop = this.secondLock; layerlocking = true; nowCount = this.props.unitCurrent.beneathSrc ? 100 : 200;
             }
         };
         props._set_layerstatus(layerlocking, nowCount);
         return {
+          moveCount: nowCount,
           stickTop: nextTop,
           buffer: false
         };
@@ -88,20 +89,20 @@ class UnitLayerScroll extends React.Component {
 
   componentDidMount() {
     //we set these variable here because we need to use the component height
-    let viewheight = this.stickBase.getBoundingClientRect().height;
-    
+    let viewheight = this.stickBase.current.getBoundingClientRect().height;
+
     this.coverLock = viewheight*95/100; //bottom-most place as cover's static place
-    this.basicMove = this.coverLock*4/5/(this.props.unitCurrent.beneathSrc ? 200 :100);    
+    this.basicMove = this.coverLock*4/5/(this.props.unitCurrent.beneathSrc ? 200 :100);
     this.sumLock = this.coverLock/5;
     this.secondLock = this.props.unitCurrent.beneathSrc ? (this.coverLock*3/5) : this.sumLock;
-    
+
     //define the locking range
     let basicMove10 = this.basicMove*10;
     this.upwardLock = {
       sumBottom: this.sumLock+basicMove10,
       secondBottom: this.secondLock + basicMove10 //same secondBottom value as sumBottom if the beneathSrc wasn't exist
     };
-    this.dowardLock = {
+    this.downwardLock = {
       secondTop: this.secondLock - basicMove10,
       coverTop: this.coverLock - basicMove10 //same secondBottom value as sumBottom if the beneathSrc wasn't exist
     };
