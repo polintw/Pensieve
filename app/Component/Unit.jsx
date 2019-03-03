@@ -23,10 +23,11 @@ class Unit extends React.Component {
       mode: this.props.unitMode?this.props.unitMode:false,
       warningModel: false
     };
-    this._close_modal_Unit = this._close_modal_Unit.bind(this);
     this.unitId = this.props.match.params.id;
     this.axiosSource = axios.CancelToken.source();
     this.unitInit = this.props._construct_UnitInit(this.props.match, this.props.location);
+    this.beneathify = !!this.unitInit['pic_layer1'];
+    this._close_modal_Unit = this._close_modal_Unit.bind(this);
     this._set_axios = (bool) => {this.setState((prevState, props)=>{return {axios: bool};})};
     this._set_Modalmode = (mode)=>{this.setState((prevState, props)=>{return {mode: mode}})};
     this._axios_getUnitData = () => {
@@ -44,6 +45,10 @@ class Unit extends React.Component {
         }
       })
     };
+    //we set UnitCurrent here to assure the 'beneathSrc' following the UnitInit and also uptodate for each children used as a criteria
+    let unitCurrentState = Object.assign({}, unitCurrentInit, {coverSrc: true, beneathSrc: this.beneathify ? true : false});
+    this.props._set_store_UnitCurrent(unitCurrentState); //could process in constructor()?
+
     this.style={
 
     };
@@ -60,11 +65,9 @@ class Unit extends React.Component {
 
   componentDidMount(){
     const self = this;
-    self.props._set_store_UnitCurrent(unitCurrentInit); //could process in constructor()?
 
-    let beneathify = !!this.unitInit['pic_layer1'];
     let axiosArr = [this._axios_getUnitData(),this._axios_getUnitImg('pic_layer0')];
-    if(beneathify){axiosArr.push(this._axios_getUnitImg('pic_layer1'))};
+    axiosArr.push(this.beneathify ?　this._axios_getUnitImg('pic_layer1'):Promise.resolve({data: null}));
     self.setState({axios: true});
     axios.all(axiosArr).then(
       axios.spread(function(unitRes, resImgCover, resImgBeneath){
@@ -88,7 +91,7 @@ class Unit extends React.Component {
           identity: resObj.main.identity,
           authorBasic: resObj.main.authorBasic,
           coverSrc: resImgCover.data,
-          beneathSrc: beneathify?resImgBeneath.data:null,
+          beneathSrc: resImgBeneath.data,
           coverMarksList:coverMarks.list,
           coverMarksData:coverMarks.data,
           beneathMarksList:beneathMarks.list,

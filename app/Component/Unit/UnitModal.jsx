@@ -149,52 +149,57 @@ class UnitModal extends React.Component {
           lockify={this.state.lockify}
           moveCount={this.state.moveCount}
           _set_layerstatus={this._set_layerstatus}/>
-        <div
-          style={this.style.Com_UnitModal_ControlSection_}>
-          <div
-            style={this.style.Com_UnitModal_ControlSection_back_}>
-            <span
-              style={this.style.Com_UnitModal_ControlSection_back_span}
-              onClick={this._handleClick_unitBack}>
-              {" X "}
-            </span>
-          </div>
-          {
-            this.props.unitCurrent.nouns &&
+        {
+          (this.state.moveCount< 200) &&
+          <div>
             <div
-              style={this.style.Com_UnitModal_ControlSection_nouns_}>
-              <NounsExtensible
-                nouns={this.props.unitCurrent.nouns}
-                _handleClick_listNoun={this._refer_toandclose}/>
+              style={this.style.Com_UnitModal_ControlSection_}>
+              <div
+                style={this.style.Com_UnitModal_ControlSection_back_}>
+                <span
+                  style={this.style.Com_UnitModal_ControlSection_back_span}
+                  onClick={this._handleClick_unitBack}>
+                  {" X "}
+                </span>
+              </div>
+              {
+                this.props.unitCurrent.nouns &&
+                <div
+                  style={this.style.Com_UnitModal_ControlSection_nouns_}>
+                  <NounsExtensible
+                    nouns={this.props.unitCurrent.nouns}
+                    _handleClick_listNoun={this._refer_toandclose}/>
+                </div>
+              }
+              {
+                this.props.unitCurrent.authorBasic &&
+                <div
+                  style={this.style.Com_UnitModal_ControlSection_Author_}>
+                  <AuthorPlate
+                    authorBasic={this.props.unitCurrent.authorBasic}
+                    _handleClick_Account={this._refer_toandclose}/>
+                </div>
+              }
+              <div
+                style={this.style.Com_UnitModal_ControlSection_actionControl_}>
+                <UnitActionControl
+                  _set_Modalmode={this.props._set_Modalmode}/>
+              </div>
+              <div
+                style={this.style.Com_UnitModal_ControlSection_DateConverter}>
+                <DateConverter
+                  datetime={this.props.unitCurrent.createdAt}/>
+              </div>
             </div>
-          }
-          {
-            this.props.unitCurrent.authorBasic &&
             <div
-              style={this.style.Com_UnitModal_ControlSection_Author_}>
-              <AuthorPlate
-                authorBasic={this.props.unitCurrent.authorBasic}
-                _handleClick_Account={this._refer_toandclose}/>
-            </div>
-          }
-          <div
-            style={this.style.Com_UnitModal_ControlSection_actionControl_}>
-            <UnitActionControl
-              _set_Modalmode={this.props._set_Modalmode}/>
+              style={this.style.Com_UnitModal_ImgSection_div}>
+              <UnitLayerFrame
+                moveCount={this.state.moveCount}
+                lockify={this.state.lockify}
+                unitInit={this.props.unitInit}/>
+            </div>          
           </div>
-          <div
-            style={this.style.Com_UnitModal_ControlSection_DateConverter}>
-            <DateConverter
-              datetime={this.props.unitCurrent.createdAt}/>
-          </div>
-        </div>
-        <div
-          style={this.style.Com_UnitModal_ImgSection_div}>
-          <UnitLayerFrame
-            moveCount={this.state.moveCount}
-            lockify={this.state.lockify}
-            unitInit={this.props.unitInit}/>
-        </div>
+        }
       </div>
     )
   }

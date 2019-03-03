@@ -43,7 +43,7 @@ class UnitLayerFrame extends React.Component {
       coverOpa: this.props.moveCount > 0 ? portion : '1',
       coverDisplay: this.props.moveCount < 100 ? 'block':'none',
       beneathWidth: this.props.moveCount < 200 ? '100%':'0',
-      beneathOpa: this.props.moveCount > 100 ? portion : '1',
+      beneathOpa: this.props.moveCount > 100 ? (1-portion) : '1',
       beneathDisplay: this.props.moveCount < 200 ? 'block' : 'none'
     }
     let Com_UnitLayerFrame_div_cover = Object.assign(

@@ -39,14 +39,16 @@ class UnitLayerScroll extends React.Component {
     event.preventDefault();
     let upward = event.deltaY>0 ? true : false;
     if(this.props.lockify){ //in the locking region
+      if(!upward && (this.state.moveCount==0)) return; // do nothing if we are wanting to go down but already at bottom
       if( !this.state.buffer) this.setState({buffer: true}) //give it a static chance
       else{
         this.setState((prevState, props)=>{//there are some error if we move to 'relations' path
           let nowCount = prevState.moveCount + (upward ? 10*3 : (-10)*3);
-          let nextTop = prevState.stickTop - nowCount * this.basicMove;
+          let nextTop = this.coverLock - nowCount * this.basicMove;
 
           props._set_layerstatus(false, nowCount);
           return {
+            moveCount: nowCount,
             stickTop: nextTop,
             buffer: false //leave locking region so does buffer
           };
@@ -56,25 +58,29 @@ class UnitLayerScroll extends React.Component {
     }else{ //during the move
       this.setState((prevState, props)=>{
         //main params needed to be submit to parent
-        let nowCount = prevState.moveCount+(upward ? 10 : -10),
+        let nowCount = prevState.moveCount + (upward ? 10 : (-10)),
             layerlocking = false;
 
+        if( upward && (nowCount > this.toppestCount)) return; // do nothing if we are going to go up but already at top-most
         //if the stick go into the locking region?
-        let nextTop = prevState.stickTop-nowCount*this.basicMove;
+        let nextTop = this.coverLock-nowCount*this.basicMove;
         if(upward){ //if wheel up
           if(nextTop < this.upwardLock.secondBottom){
-              if(nextTop < this.secondLock) //there are some error if we move to 'relations' path
-                if(nextTop < this.upwardLock.sumBottom){nextTop = this.sumLock; layerlocking=true; nowCount=this.props.unitCurrent.beneathSrc? 200:100;} //lock
-              else{
+              if(nextTop < this.secondLock){ //there are some error if we move to 'relations' path
+                if(nextTop < this.upwardLock.sumBottom){
+                  if(nextTop > this.sumLock)nextTop = this.sumLock; layerlocking=false; nowCount=this.props.unitCurrent.beneathSrc? 200:100;//lock
+                };
+              }else{
                   nextTop = this.secondLock; layerlocking = true; nowCount = this.props.unitCurrent.beneathSrc ? 100 : 200;
               };
           };
         }else{ // if wheel down
           if(nextTop > this.downwardLock.secondTop)
-            if(nextTop > this.secondLock)
-              if (nextTop > this.downwardLock.coverTop) { nextTop = this.coverLock; layerlocking = true; nowCount = 0;}
-            else{
-                nextTop = this.secondLock; layerlocking = true; nowCount = this.props.unitCurrent.beneathSrc ? 100 : 200;
+            if(nextTop > this.secondLock){
+              if (nextTop > this.downwardLock.coverTop) { nextTop = this.coverLock; layerlocking = true; nowCount = 0;};
+            }else{
+              //due to we want to set layer 'unlock' if we are at summary,
+                nextTop = this.secondLock; layerlocking = this.props.unitCurrent.beneathSrc? true : false; nowCount = this.props.unitCurrent.beneathSrc ? 100 : 200;
             }
         };
         props._set_layerstatus(layerlocking, nowCount);
@@ -93,18 +99,19 @@ class UnitLayerScroll extends React.Component {
 
     this.coverLock = viewheight*95/100; //bottom-most place as cover's static place
     this.basicMove = this.coverLock*4/5/(this.props.unitCurrent.beneathSrc ? 200 :100);
+    this.toppestCount = this.props.unitCurrent.beneathSrc ?　240 : 120;
     this.sumLock = this.coverLock/5;
     this.secondLock = this.props.unitCurrent.beneathSrc ? (this.coverLock*3/5) : this.sumLock;
 
     //define the locking range
-    let basicMove10 = this.basicMove*10;
+    let basicMove13 = this.basicMove*13;
     this.upwardLock = {
-      sumBottom: this.sumLock+basicMove10,
-      secondBottom: this.secondLock + basicMove10 //same secondBottom value as sumBottom if the beneathSrc wasn't exist
+      sumBottom: this.sumLock+basicMove13,
+      secondBottom: this.secondLock + basicMove13 //same secondBottom value as sumBottom if the beneathSrc wasn't exist
     };
     this.downwardLock = {
-      secondTop: this.secondLock - basicMove10,
-      coverTop: this.coverLock - basicMove10 //same secondBottom value as sumBottom if the beneathSrc wasn't exist
+      secondTop: this.secondLock - basicMove13,
+      coverTop: this.coverLock - basicMove13 //same secondBottom value as sumBottom if the beneathSrc wasn't exist
     };
 
     this.setState({
