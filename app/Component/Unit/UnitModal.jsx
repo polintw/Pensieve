@@ -6,6 +6,7 @@ import {
 import { connect } from "react-redux";
 import UnitImgLayers from './UnitImgLayers.jsx';
 import UnitLayerScroll from './UnitLayerScroll.jsx';
+import UnitViewSummary from './UnitViewSummary.jsx';
 
 class UnitModal extends React.Component {
   constructor(props){
@@ -41,9 +42,7 @@ class UnitModal extends React.Component {
         position: 'absolute',
         top: '0',
         left: '0%',
-        boxSizing: 'border-box',
-        backgroundColor: '#313130',
-        boxShadow: '0px 1.2vh 2.4vw 0vw'
+        boxSizing: 'border-box'
       },
       Com_UnitModal_straightBack_: {
         width: '12%',
@@ -88,6 +87,18 @@ class UnitModal extends React.Component {
             _set_layerstatus={this._set_layerstatus}>
             <div
               style={this.style.Com_UnitModal_blocks_layers_}>
+              {
+                this.props.unitCurrent.identity=="author" ? (
+                   //temp method, before a true AuthorSummary was created
+                  <UnitViewSummary
+                    moveCount={this.state.moveCount}
+                    _close_modal_Unit={this.props._close_modal_Unit}/>
+                ):(
+                  <UnitViewSummary
+                    moveCount={this.state.moveCount}
+                    _close_modal_Unit={this.props._close_modal_Unit}/>
+                )
+              }
               {
                 (this.state.moveCount< 200) &&
                 <UnitImgLayers

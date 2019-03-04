@@ -47,7 +47,7 @@ class Unit extends React.Component {
       })
     };
     //we set UnitCurrent here to assure the 'beneathSrc' following the UnitInit and also uptodate for each children used as a criteria
-    let unitCurrentState = Object.assign({}, unitCurrentInit, {coverSrc: true, beneathSrc: this.beneathify ? true : false});
+    let unitCurrentState = Object.assign({}, unitCurrentInit, {coverSrc: this.unitInit['pic_layer0'], beneathSrc: this.beneathify ? this.unitInit['pic_layer1'] : false});
     this.props._set_store_UnitCurrent(unitCurrentState); //could process in constructor()?
 
     this.style={

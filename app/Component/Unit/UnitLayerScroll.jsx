@@ -61,7 +61,7 @@ class UnitLayerScroll extends React.Component {
         let nowCount = prevState.moveCount + (upward ? 10 : (-10)),
             layerlocking = false;
 
-        if( upward && (nowCount > this.toppestCount)) return; // do nothing if we are going to go up but already at top-most
+        if( upward && (nowCount > 240)) return; // do nothing if we are going to go up but already at top-most
         //if the stick go into the locking region?
         let nextTop = this.coverLock-nowCount*this.basicMove;
         if(upward){ //if wheel up
@@ -101,7 +101,6 @@ class UnitLayerScroll extends React.Component {
 
     this.coverLock = viewheight*95/100; //bottom-most place as cover's static place
     this.basicMove = this.coverLock*4/5/(this.props.unitCurrent.beneathSrc ? 200 :100);
-    this.toppestCount = this.props.unitCurrent.beneathSrc ?　240 : 120;
     this.sumLock = this.coverLock/5;
     this.secondLock = this.props.unitCurrent.beneathSrc ? (this.coverLock*3/5) : this.sumLock;
 

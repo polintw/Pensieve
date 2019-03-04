@@ -36,12 +36,14 @@ class UnitActionPanel extends React.Component {
     return(
       <div
         style={this.style.Com_UnitActionPanel_}>
-         this.props.unitCurrent.identity=="author" ?(
-           <AuthorPanel
-             _set_Modalmode={this.props._set_Modalmode}/>
-         ):(
-           <ViewerPanel/>
-         )
+        {
+          this.props.unitCurrent.identity=="author" ?(
+            <AuthorPanel
+              _set_Modalmode={this.props._set_Modalmode}/>
+          ):(
+            <ViewerPanel/>
+          )
+        }
       </div>
     )
   }
