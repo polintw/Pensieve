@@ -1,15 +1,15 @@
 import React from 'react';
 import { connect } from "react-redux";
-import UnitLayer from './UnitLayer.jsx';
+import ImgLayer from './ImgLayer.jsx';
 
-class UnitLayerFrame extends React.Component {
+class ImgLayersFrame extends React.Component {
   constructor(props){
     super(props);
     this.state = {
 
     };
     this.style={
-      Com_UnitLayerFrame: {
+      Com_ImgLayersFrame: {
         width: '100%',
         height: '100%',
         position: 'absolute',
@@ -17,7 +17,7 @@ class UnitLayerFrame extends React.Component {
         left: '0',
         backgroundColor: 'black'
       },
-      Com_UnitLayerFrame_div_cover: {
+      Com_ImgLayersFrame_div_cover: {
         height: '99%',
         position: 'absolute',
         top: '1%',
@@ -25,7 +25,7 @@ class UnitLayerFrame extends React.Component {
         boxSizing: 'border-box',
         backgroundColor: 'black'
       },
-      Com_UnitLayerFrame_div_beneath: {
+      Com_ImgLayersFrame_div_beneath: {
         height: '99%',
         position: 'absolute',
         top: '1%',
@@ -46,13 +46,13 @@ class UnitLayerFrame extends React.Component {
       beneathOpa: this.props.moveCount > 100 ? (1-portion) : '1',
       beneathDisplay: this.props.moveCount < 200 ? 'block' : 'none'
     }
-    let Com_UnitLayerFrame_div_cover = Object.assign(
+    let Com_ImgLayersFrame_div_cover = Object.assign(
       {width: controledCSS.coverWidth, opacity: controledCSS.coverOpa, display: controledCSS.coverDisplay},
-      this.style.Com_UnitLayerFrame_div_cover
+      this.style.Com_ImgLayersFrame_div_cover
     ),
-    Com_UnitLayerFrame_div_beneath = Object.assign(
+    Com_ImgLayersFrame_div_beneath = Object.assign(
       {width: controledCSS.beneathWidth, opacity: controledCSS.beneathOpa, display: controledCSS.beneathDisplay},
-      this.style.Com_UnitLayerFrame_div_beneath
+      this.style.Com_ImgLayersFrame_div_beneath
     );
 
     let initMark = this.props.unitInit.initMark;
@@ -67,12 +67,12 @@ class UnitLayerFrame extends React.Component {
 
     return(
       <div
-        style={this.style.Com_UnitLayerFrame}>
+        style={this.style.Com_ImgLayersFrame}>
         <div
-          style={Com_UnitLayerFrame_div_beneath}>
+          style={Com_ImgLayersFrame_div_beneath}>
           {
             this.props.unitCurrent.beneathSrc &&
-            <UnitLayer
+            <ImgLayer
               imgSrc={this.props.unitCurrent.beneathSrc}
               lockify={this.props.lockify}
               initMark={initMark in beneathMarks? initMark : "all"}
@@ -80,10 +80,10 @@ class UnitLayerFrame extends React.Component {
           }
         </div>
         <div
-          style={Com_UnitLayerFrame_div_cover}>
+          style={Com_ImgLayersFrame_div_cover}>
           {
             this.props.unitCurrent.coverSrc &&
-            <UnitLayer
+            <ImgLayer
               imgSrc={this.props.unitCurrent.coverSrc}
               lockify={this.props.lockify}
               initMark={initMark in coverMarks? initMark : "all"}
@@ -106,4 +106,4 @@ const mapStateToProps = (state) => {
 export default connect(
   mapStateToProps,
   null
-)(UnitLayerFrame);
+)(ImgLayersFrame);

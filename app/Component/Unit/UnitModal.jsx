@@ -4,11 +4,8 @@ import {
   withRouter
 } from 'react-router-dom';
 import { connect } from "react-redux";
-import UnitLayerFrame from './UnitLayerFrame.jsx';
+import UnitImgLayers from './UnitImgLayers.jsx';
 import UnitLayerScroll from './UnitLayerScroll.jsx';
-import UnitActionControl from './UnitActionControl.jsx';
-import {DateConverter, NounsExtensible} from './UnitComponent.jsx';
-import {AuthorPlate} from '../AccountPlate.jsx';
 
 class UnitModal extends React.Component {
   constructor(props){
@@ -22,102 +19,27 @@ class UnitModal extends React.Component {
     this._handleClick_unitBack = this._handleClick_unitBack.bind(this);
     this.style={
       Com_Modal_UnitModal: {
-        width: '89%',
+        width: '100%',
         height: '100%',
         position: 'absolute',
         top: '0',
-        left: '50%',
-        transform: 'translate(-50%, 0)',
-        boxSizing: 'border-box',
-        backgroundColor: '#313130',
-        boxShadow: '0px 1.2vh 2.4vw 0vw'
-      },
-      Com_Modal_UnitModal_atRes_:{
-        width: '13%',
-        height: '20%',
-        position: 'absolute',
-        top: '60%',
-        left: '1%',
-        boxSizing: 'border-box',
-        boxShadow: '0px 1.2vh 2.4vw 0vw',
-        overflow: 'hidden'
-      },
-      Com_Modal_UnitModal_atRes_img: {
-        maxWidth: '100%',
-        maxHeight: '100%',
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%,-50%)',
-      },
-      Com_UnitModal_ImgSection_div: {
-        width: '84%',
-        height: '100%',
-        position: 'absolute',
-        top: '0%',
         left: '0%',
         boxSizing: 'border-box'
       },
-      Com_UnitModal_ControlSection_: {
-        width: '13%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        right: '0',
-        boxSizing: 'border-box'
-      },
-      Com_UnitModal_ControlSection_actionControl_: {
-        width: '100%',
-        height: '12%',
-        position: 'absolute',
-        bottom: '0',
-        left: '0',
-        boxSizing: 'border-box'
-      },
-      Com_UnitModal_ControlSection_Author_: {
-        width: '100%',
-        height: '12%',
-        position: 'absolute',
-        top: '75%',
-        left: '0%',
-        boxSizing: 'border-box',
-        cursor:'pointer'
-      },
-      Com_UnitModal_ControlSection_nouns_: {
-        width: '100%',
-        height: '50%',
-        position: 'absolute',
-        top: '20%',
-        left: '0',
-        boxSizing: 'border-box'
-      },
-      Com_UnitModal_ControlSection_back_: {
-        width: '20%',
+      Com_UnitModal_straightBack_: {
+        width: '12%',
         height: '10%',
         position: 'absolute',
-        top: '0%',
-        left: '80%'
+        top: '2%',
+        right: '5%'
       },
-      Com_UnitModal_ControlSection_back_span: {
+      Com_UnitModal_straightBack_span: {
         display: 'inline-block',
         float: 'right',
         boxSizing: 'border-box',
         margin: '2% 5%',
         color: '#FAFAFA',
         cursor: 'pointer'
-      },
-      Com_UnitModal_ControlSection_DateConverter: {
-        width: '80%',
-        height: '12%',
-        position: 'absolute',
-        top: '2%',
-        left: '0',
-        boxSizing: 'border-box',
-        fontSize: '1.4rem',
-        letterSpacing: '0.15rem',
-        textAlign: 'center',
-        fontWeight: '400',
-        color: '#FAFAFA',
       }
     }
   }
@@ -135,73 +57,26 @@ class UnitModal extends React.Component {
 
 
   render(){
-    return this.props.mode?(
+    <div
+      style={this.style.Com_Modal_UnitModal}
+      onClick={this._handleClick_unitBack}>
+      <UnitLayerScroll
+        lockify={this.state.lockify}
+        moveCount={this.state.moveCount}
+        _set_layerstatus={this._set_layerstatus}/>
+      {
+        (this.state.moveCount< 200) &&
+        <UnitImgLayers/>
+      }
       <div
-        style={this.style.Com_Modal_UnitModal_atRes_}>
-        <img
-          style={this.style.Com_Modal_UnitModal_atRes_img}
-          src={this.props.unitCurrent.coverSrc}/>
+        style={this.style.Com_UnitModal_straightBack_}>
+        <span
+          style={this.style.Com_UnitModal_straightBack_span}
+          onClick={this._handleClick_unitBack}>
+          {" X "}
+        </span>
       </div>
-    ):(
-      <div
-        style={this.style.Com_Modal_UnitModal}>
-        <UnitLayerScroll
-          lockify={this.state.lockify}
-          moveCount={this.state.moveCount}
-          _set_layerstatus={this._set_layerstatus}/>
-        {
-          (this.state.moveCount< 200) &&
-          <div>
-            <div
-              style={this.style.Com_UnitModal_ControlSection_}>
-              <div
-                style={this.style.Com_UnitModal_ControlSection_back_}>
-                <span
-                  style={this.style.Com_UnitModal_ControlSection_back_span}
-                  onClick={this._handleClick_unitBack}>
-                  {" X "}
-                </span>
-              </div>
-              {
-                this.props.unitCurrent.nouns &&
-                <div
-                  style={this.style.Com_UnitModal_ControlSection_nouns_}>
-                  <NounsExtensible
-                    nouns={this.props.unitCurrent.nouns}
-                    _handleClick_listNoun={this._refer_toandclose}/>
-                </div>
-              }
-              {
-                this.props.unitCurrent.authorBasic &&
-                <div
-                  style={this.style.Com_UnitModal_ControlSection_Author_}>
-                  <AuthorPlate
-                    authorBasic={this.props.unitCurrent.authorBasic}
-                    _handleClick_Account={this._refer_toandclose}/>
-                </div>
-              }
-              <div
-                style={this.style.Com_UnitModal_ControlSection_actionControl_}>
-                <UnitActionControl
-                  _set_Modalmode={this.props._set_Modalmode}/>
-              </div>
-              <div
-                style={this.style.Com_UnitModal_ControlSection_DateConverter}>
-                <DateConverter
-                  datetime={this.props.unitCurrent.createdAt}/>
-              </div>
-            </div>
-            <div
-              style={this.style.Com_UnitModal_ImgSection_div}>
-              <UnitLayerFrame
-                moveCount={this.state.moveCount}
-                lockify={this.state.lockify}
-                unitInit={this.props.unitInit}/>
-            </div>          
-          </div>
-        }
-      </div>
-    )
+    </div>
   }
 }
 

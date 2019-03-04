@@ -68,7 +68,9 @@ class UnitLayerScroll extends React.Component {
           if(nextTop < this.upwardLock.secondBottom){
               if(nextTop < this.secondLock){ //there are some error if we move to 'relations' path
                 if(nextTop < this.upwardLock.sumBottom){
-                  if(nextTop > this.sumLock)nextTop = this.sumLock; layerlocking=false; nowCount=this.props.unitCurrent.beneathSrc? 200:100;//lock
+                  if(nextTop > this.sumLock){
+                    nextTop = this.sumLock; layerlocking=false; nowCount= 200;//200 is good for all component to refer for summary state nomatter there is a beneathSrc or not
+                  };
                 };
               }else{
                   nextTop = this.secondLock; layerlocking = true; nowCount = this.props.unitCurrent.beneathSrc ? 100 : 200;
