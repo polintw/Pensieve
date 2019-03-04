@@ -26,6 +26,25 @@ class UnitModal extends React.Component {
         left: '0%',
         boxSizing: 'border-box'
       },
+      Com_UnitModal_blocks_Scroll: {
+        width: '90%',
+        height: '100%',
+        position: 'absolute',
+        top: '0',
+        left: '52%',
+        transform: 'translate(-50%, 0)',
+        boxSizing: 'border-box'
+      },
+      Com_UnitModal_blocks_layers_ : {
+        width: '95%',
+        height: '100%',
+        position: 'absolute',
+        top: '0',
+        left: '0%',
+        boxSizing: 'border-box',
+        backgroundColor: '#313130',
+        boxShadow: '0px 1.2vh 2.4vw 0vw'
+      },
       Com_UnitModal_straightBack_: {
         width: '12%',
         height: '10%',
@@ -57,26 +76,38 @@ class UnitModal extends React.Component {
 
 
   render(){
-    <div
-      style={this.style.Com_Modal_UnitModal}
-      onClick={this._handleClick_unitBack}>
-      <UnitLayerScroll
-        lockify={this.state.lockify}
-        moveCount={this.state.moveCount}
-        _set_layerstatus={this._set_layerstatus}/>
-      {
-        (this.state.moveCount< 200) &&
-        <UnitImgLayers/>
-      }
+    return(
       <div
-        style={this.style.Com_UnitModal_straightBack_}>
-        <span
-          style={this.style.Com_UnitModal_straightBack_span}
-          onClick={this._handleClick_unitBack}>
-          {" X "}
-        </span>
+        style={this.style.Com_Modal_UnitModal}
+        onClick={this._handleClick_unitBack}>
+        <div
+          style={this.style.Com_UnitModal_blocks_Scroll}>
+          <UnitLayerScroll
+            lockify={this.state.lockify}
+            moveCount={this.state.moveCount}
+            _set_layerstatus={this._set_layerstatus}>
+            <div
+              style={this.style.Com_UnitModal_blocks_layers_}>
+              {
+                (this.state.moveCount< 200) &&
+                <UnitImgLayers
+                  lockify={this.state.lockify}
+                  moveCount={this.state.moveCount}
+                  unitInit={this.props.unitInit}/>
+              }
+            </div>
+          </UnitLayerScroll>
+        </div>
+        <div
+          style={this.style.Com_UnitModal_straightBack_}>
+          <span
+            style={this.style.Com_UnitModal_straightBack_span}
+            onClick={this._handleClick_unitBack}>
+            {" X "}
+          </span>
+        </div>
       </div>
-    </div>
+    )
   }
 }
 

@@ -17,9 +17,9 @@ class UnitLayerScroll extends React.Component {
     this._check_Position = this._check_Position.bind(this);
     this.style={
       Com_Unit_LayerScroll_: {
-        width: '100vw',
-        height: '100vh',
-        position: 'fixed',
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
         top: '0',
         left: '0%',
         boxSizing: 'border-box'
@@ -137,6 +137,7 @@ class UnitLayerScroll extends React.Component {
           ref={this.scrollStick}
           style={Object.assign({top: this.state.stickTop},this.style.Com_Unit_LayerScroll_stick)}>
         </div>
+        {this.props.children}
       </div>
     )
   }

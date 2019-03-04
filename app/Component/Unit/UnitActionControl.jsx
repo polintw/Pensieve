@@ -21,7 +21,6 @@ class UnitActionControl extends React.Component {
     this._axios_trackHandler = this._axios_trackHandler.bind(this);
     this._render_ActionControl_authorify = this._render_ActionControl_authorify.bind(this);
     this._handleClick_UnitAction_Author = this._handleClick_UnitAction_Author.bind(this);
-    this._handleClick_UnitAction_Response = this._handleClick_UnitAction_Response.bind(this);
     this._handleClick_UnitAction_Broad = this._handleClick_UnitAction_Broad.bind(this);
     this._handleClick_UnitTrack = this._handleClick_UnitTrack.bind(this);
     this.style={
@@ -117,11 +116,6 @@ class UnitActionControl extends React.Component {
     })
   }
 
-  _handleClick_UnitAction_Response(event){
-    this._handler_eventGeneral(event);
-    this.props._set_Modalmode(true);
-  }
-
   _handleClick_UnitAction_Broad(event){
     this._handler_eventGeneral(event);
     this.setState((prevState,props)=>{
@@ -134,7 +128,7 @@ class UnitActionControl extends React.Component {
 
   _handleClick_UnitAction_Author(event){
     this._handler_eventGeneral(event);
-    this.props._set_Modalmode("editing");
+    //call the editing modal use current Unit data
   }
 
   _handleClick_UnitTrack(event){
@@ -152,11 +146,6 @@ class UnitActionControl extends React.Component {
       <div>
         <span
           style={this.style.Com_UnitActionControl_span}
-          onClick={this._handleClick_UnitAction_Response}>
-          {"response"}
-        </span>
-        <span
-          style={this.style.Com_UnitActionControl_span}
           onClick={this._handleClick_UnitAction_Author}>
           {"edit"}
         </span>
@@ -171,11 +160,6 @@ class UnitActionControl extends React.Component {
       </div>
     ):(
       <div>
-        <span
-          style={this.style.Com_UnitActionControl_span}
-          onClick={this._handleClick_UnitAction_Response}>
-          {"response"}
-        </span>
         {
           this.state.broaded?(
             <span
