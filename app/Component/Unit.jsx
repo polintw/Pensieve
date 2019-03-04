@@ -6,11 +6,11 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
-import UnitModal from './Unit/UnitModal.jsx';
-import AuthorModal from './Unit/AuthorModal.jsx';
-import ResModal from './Unit/ResModal.jsx';
+import CreateResponse from './CreateResponse.jsx';
 import ModalBox from './ModalBox.jsx';
 import ModalBackground from './ModalBackground.jsx';
+import UnitModal from './Unit/UnitModal.jsx';
+import UnitEditing from './Unit/UnitEditing.jsx';
 import {setUnitCurrent} from "../redux/actions/general.js";
 import {unitCurrentInit} from "../redux/constants/globalStates.js";
 
@@ -20,13 +20,14 @@ class Unit extends React.Component {
     this.state = {
       axios: false,
       close: false,
-      mode: this.props.unitMode?this.props.unitMode:false,
+      mode: this.props.unitMode?this.props.unitMode:"viewer",
       warningModel: false
     };
     this.unitId = this.props.match.params.id;
     this.axiosSource = axios.CancelToken.source();
     this.unitInit = this.props._construct_UnitInit(this.props.match, this.props.location);
     this.beneathify = !!this.unitInit['pic_layer1'];
+    this._render_UnitMode = this._render_UnitMode.bind(this);
     this._close_modal_Unit = this._close_modal_Unit.bind(this);
     this._set_axios = (bool) => {this.setState((prevState, props)=>{return {axios: bool};})};
     this._set_Modalmode = (mode)=>{this.setState((prevState, props)=>{return {mode: mode}})};
@@ -120,6 +121,45 @@ class Unit extends React.Component {
     }
   }
 
+  _render_UnitMode(){
+    switch (this.state.mode) {
+      case "author_editing":
+        return (
+          <UnitEditing
+            mode={this.state.mode}
+            _set_Modalmode={this._set_Modalmode}
+            _refer_von_unit={this.props._refer_von_unit}/>)
+        break;
+      case "response":
+        return (
+          <CreateResponse
+            unitId={this.unitId}
+            mode={this.state.mode}
+            _set_Modalmode={this._set_Modalmode}
+            _refer_von_unit={this.props._refer_von_unit}/>)
+        break;
+      case "viewer":
+        return (
+          <UnitModal
+            unitId={this.unitId}
+            mode={this.state.mode}
+            unitInit={this.unitInit}
+            _set_Modalmode={this._set_Modalmode}
+            _close_modal_Unit={this._close_modal_Unit}
+            _refer_von_unit={this.props._refer_von_unit}/>)
+        break;
+      default:
+        return (
+          <UnitModal
+            unitId={this.unitId}
+            mode={this.state.mode}
+            unitInit={this.unitInit}
+            _set_Modalmode={this._set_Modalmode}
+            _close_modal_Unit={this._close_modal_Unit}
+            _refer_von_unit={this.props._refer_von_unit}/>)
+    }
+  }
+
   render(){
     //let cx = cxBind.bind(styles);
     if(this.state.close){return <Redirect to={this.props.location.state.from}/>}
@@ -128,29 +168,7 @@ class Unit extends React.Component {
       <div>
         <ModalBox containerId="root">
           <ModalBackground onClose={this._close_modal_Unit} style={{position: "fixed"}}>
-            {
-              this.state.mode=="editing"&&this.props.unitCurrent.identity=="author"?(
-                <AuthorModal
-                  mode={this.state.mode}
-                  _set_Modalmode={this._set_Modalmode}
-                  _refer_von_unit={this.props._refer_von_unit}/>
-            ):(
-                <div>
-                  <ResModal
-                    unitId={this.unitId}
-                    mode={this.state.mode}
-                    _set_Modalmode={this._set_Modalmode}
-                    _refer_von_unit={this.props._refer_von_unit}/>
-                  <UnitModal
-                    unitId={this.unitId}
-                    mode={this.state.mode}
-                    unitInit={this.unitInit}
-                    _set_Modalmode={this._set_Modalmode}
-                    _close_modal_Unit={this._close_modal_Unit}
-                    _refer_von_unit={this.props._refer_von_unit}/>
-                </div>
-              )
-            }
+            {this._render_UnitMode()}
           </ModalBackground>
         </ModalBox>
         {

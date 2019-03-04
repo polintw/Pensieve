@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 import { connect } from "react-redux";
 import ImgLayersFrame from './ImgLayersFrame.jsx';
-import UnitActionControl from './UnitActionControl.jsx';
+import UnitActionPanel from './UnitActionPanel.jsx';
 import {DateConverter, NounsExtensible} from './UnitComponent.jsx';
 import {AuthorPlate} from '../AccountPlate.jsx';
 
@@ -101,7 +101,8 @@ class UnitImgLayers extends React.Component {
           }
           <div
             style={this.style.Com_Unit_UnitImgLayers_ControlSection_actionControl_}>
-            <UnitActionControl/>
+            <UnitActionPanel
+              _set_Modalmode={this.props._set_Modalmode}/>
           </div>
           <div
             style={this.style.Com_Unit_UnitImgLayers_ControlSection_DateConverter}>

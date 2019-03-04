@@ -93,7 +93,8 @@ class UnitModal extends React.Component {
                 <UnitImgLayers
                   lockify={this.state.lockify}
                   moveCount={this.state.moveCount}
-                  unitInit={this.props.unitInit}/>
+                  unitInit={this.props.unitInit}
+                  _set_Modalmode={this.props._set_Modalmode}/>
               }
             </div>
           </UnitLayerScroll>
