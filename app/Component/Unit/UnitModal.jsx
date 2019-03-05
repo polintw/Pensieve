@@ -92,10 +92,12 @@ class UnitModal extends React.Component {
                    //temp method, before a true AuthorSummary was created
                   <UnitViewSummary
                     moveCount={this.state.moveCount}
+                    _set_layerstatus={this._set_layerstatus}
                     _close_modal_Unit={this.props._close_modal_Unit}/>
                 ):(
                   <UnitViewSummary
                     moveCount={this.state.moveCount}
+                    _set_layerstatus={this._set_layerstatus}
                     _close_modal_Unit={this.props._close_modal_Unit}/>
                 )
               }

@@ -8,13 +8,12 @@ class UnitLayerScroll extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      moveCount: null,
-      stickTop: "95%",
       buffer: false
     };
     this.scrollStick = React.createRef();
     this.stickBase = React.createRef();
-    this._check_Position = this._check_Position.bind(this);
+    this._set_stickTop = this._set_stickTop.bind(this);
+    this._handleWheel_moveCount = this._handleWheel_moveCount.bind(this);
     this.style={
       Com_Unit_LayerScroll_: {
         width: '100%',
@@ -34,22 +33,18 @@ class UnitLayerScroll extends React.Component {
     }
   }
 
-  _check_Position(event){
+  _handleWheel_moveCount(event){
     event.stopPropagation();
     event.preventDefault();
     let upward = event.deltaY>0 ? true : false;
+    let localProps = Object.assign({}, this.props); //shallow copy, but it's enough for moveCount
     if(this.props.lockify){ //in the locking region
-      if(!upward && (this.state.moveCount==0)) return; // do nothing if we are wanting to go down but already at bottom
+      if(!upward && (this.props.moveCount==0)) return; // do nothing if we are wanting to go down but already at bottom
       if( !this.state.buffer) this.setState({buffer: true}) //give it a static chance
       else{
         this.setState((prevState, props)=>{//there are some error if we move to 'relations' path
-          let nowCount = prevState.moveCount + (upward ? 10*3 : (-10)*3);
-          let nextTop = this.coverLock - nowCount * this.basicMove;
-
-          props._set_layerstatus(false, nowCount);
+          props._set_layerstatus(false, localProps.moveCount + (upward ? 10*3 : (-10)*3));
           return {
-            moveCount: nowCount,
-            stickTop: nextTop,
             buffer: false //leave locking region so does buffer
           };
         })
@@ -58,7 +53,7 @@ class UnitLayerScroll extends React.Component {
     }else{ //during the move
       this.setState((prevState, props)=>{
         //main params needed to be submit to parent
-        let nowCount = prevState.moveCount + (upward ? 10 : (-10)),
+        let nowCount = localProps.moveCount + (upward ? 10 : (-10)),
             layerlocking = false;
 
         if( upward && (nowCount > 240)) return; // do nothing if we are going to go up but already at top-most
@@ -69,29 +64,44 @@ class UnitLayerScroll extends React.Component {
               if(nextTop < this.secondLock){ //there are some error if we move to 'relations' path
                 if(nextTop < this.upwardLock.sumBottom){
                   if(nextTop > this.sumLock){
-                    nextTop = this.sumLock; layerlocking=false; nowCount= 200;//200 is good for all component to refer for summary state nomatter there is a beneathSrc or not
+                    layerlocking=false; nowCount= 200;//200 is good for all component to refer for summary state nomatter there is a beneathSrc or not
                   };
                 };
               }else{
-                  nextTop = this.secondLock; layerlocking = true; nowCount = this.props.unitCurrent.beneathSrc ? 100 : 200;
+                  layerlocking = true; nowCount = this.props.unitCurrent.beneathSrc ? 100 : 200;
               };
           };
         }else{ // if wheel down
           if(nextTop > this.downwardLock.secondTop)
             if(nextTop > this.secondLock){
-              if (nextTop > this.downwardLock.coverTop) { nextTop = this.coverLock; layerlocking = true; nowCount = 0;};
+              if (nextTop > this.downwardLock.coverTop) { layerlocking = true; nowCount = 0;};
             }else{
               //due to we want to set layer 'unlock' if we are at summary,
-                nextTop = this.secondLock; layerlocking = this.props.unitCurrent.beneathSrc? true : false; nowCount = this.props.unitCurrent.beneathSrc ? 100 : 200;
+                layerlocking = this.props.unitCurrent.beneathSrc? true : false; nowCount = this.props.unitCurrent.beneathSrc ? 100 : 200;
             }
         };
         props._set_layerstatus(layerlocking, nowCount);
         return {
-          moveCount: nowCount,
-          stickTop: nextTop,
           buffer: false
         };
       })
+    }
+  }
+
+  _set_stickTop(){
+    if(this.coverLock == null) return "95%";
+    switch (this.props.moveCount) {
+      case 0:
+        return this.coverLock
+        break;
+      case 100:
+        return this.secondLock
+        break;
+      case 200:
+        return this.sumLock
+        break;
+      default:
+        return this.coverLock - this.props.moveCount*this.basicMove/(this.props.unitCurrent.beneathSrc? 1 : 2) // because the moveCount would jump to 200 at summary
     }
   }
 
@@ -114,11 +124,6 @@ class UnitLayerScroll extends React.Component {
       secondTop: this.secondLock - basicMove13,
       coverTop: this.coverLock - basicMove13 //same secondBottom value as sumBottom if the beneathSrc wasn't exist
     };
-
-    this.setState({
-      moveCount: this.props.moveCount,
-      stickTop: this.props.moveCount>0 ? this.secondLock : this.coverLock
-    });
   }
 
   componentWillUnmount() {
@@ -131,10 +136,10 @@ class UnitLayerScroll extends React.Component {
       <div
         ref={this.stickBase}
         style={this.style.Com_Unit_LayerScroll_}
-        onWheel={this._check_Position}>
+        onWheel={this._handleWheel_moveCount}>
         <div
           ref={this.scrollStick}
-          style={Object.assign({top: this.state.stickTop},this.style.Com_Unit_LayerScroll_stick)}>
+          style={Object.assign({top: this._set_stickTop()},this.style.Com_Unit_LayerScroll_stick)}>
         </div>
         {this.props.children}
       </div>
