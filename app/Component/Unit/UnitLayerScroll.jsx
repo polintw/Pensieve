@@ -43,7 +43,7 @@ class UnitLayerScroll extends React.Component {
       if( !this.state.buffer) this.setState({buffer: true}) //give it a static chance
       else{
         this.setState((prevState, props)=>{//there are some error if we move to 'relations' path
-          props._set_layerstatus(false, localProps.moveCount + (upward ? 10*3 : (-10)*3));
+          props._set_layerstatus(false, localProps.moveCount + (upward ? this.basicCount*3 : (-1)*this.basicCount*3));
           return {
             buffer: false //leave locking region so does buffer
           };
@@ -53,31 +53,32 @@ class UnitLayerScroll extends React.Component {
     }else{ //during the move
       this.setState((prevState, props)=>{
         //main params needed to be submit to parent
-        let nowCount = localProps.moveCount + (upward ? 10 : (-10)),
+        let nowCount = localProps.moveCount + (upward ? this.basicCount : (-1)*this.basicCount),
             layerlocking = false;
 
-        if( upward && (nowCount > 240)) return; // do nothing if we are going to go up but already at top-most
         //if the stick go into the locking region?
-        let nextTop = this.coverLock-nowCount*this.basicMove;
-        if(upward){ //if wheel up
-          if(nextTop < this.upwardLock.secondBottom){
-              if(nextTop < this.secondLock){ //there are some error if we move to 'relations' path
-                if (nextTop < this.upwardLock.sumBottom && nextTop > this.sumLock){
-                  layerlocking=false; nowCount= 200;//200 is good for all component to refer for summary state nomatter there is a beneathSrc or not
-                };
-              }else{
-                  layerlocking = true; nowCount = this.props.unitCurrent.beneathSrc ? 100 : 200;
-              };
-          };
-        }else{ // if wheel down
-          if(nextTop > this.downwardLock.secondTop)
-            if(nextTop > this.secondLock){
-              if (nextTop > this.downwardLock.coverTop) { layerlocking = true; nowCount = 0;};
-            }else{
-              //due to we want to set layer 'unlock' if we are at summary,
-                layerlocking = this.props.unitCurrent.beneathSrc? true : false; nowCount = this.props.unitCurrent.beneathSrc ? 100 : 200;
+        if(nowCount < 200){ //200 or >200, just pass the var
+          if(upward){ //if wheel up
+            if(nowCount> this.bounderTopBottom){
+              layerlocking=false; nowCount= 200;//200 is good for all component to refer for summary state nomatter there is a beneathSrc or not
+            }else{ //we donn't use 'else if' because the upMiddle was euqal to bounderTop when without beneath
+              if(nowCount < this.upMiddle && nowCount > (this.upMiddle-this.checkRange)){
+                layerlocking=true; nowCount= this.upMiddle;
+              }
             }
-        };
+          }else{ // if wheel down
+            if(nowCount > this.bounderTopBottom){
+              layerlocking=false; nowCount= this.bounderTop-this.basicCount;
+            }else{
+              if(nowCount < this.checkRange){
+                layerlocking=true; nowCount= 0;
+              }else{ //we donn't use 'else if' because the downMiddle was euqal to 0 when without beneath
+                if(nowCount > this.downMiddle && nowCount < this.downMiddle+this.checkRange){layerlocking=true; nowCount= this.downMiddle;}
+              }
+            }
+          };
+        }
+
         props._set_layerstatus(layerlocking, nowCount);
         return {
           buffer: false
@@ -93,13 +94,14 @@ class UnitLayerScroll extends React.Component {
         return this.coverLock
         break;
       case 100:
-        return this.secondLock
+        return this.coverLock-this.basicMove*100
         break;
       case 200:
         return this.sumLock
         break;
       default:
-        return this.coverLock - this.props.moveCount*this.basicMove/(this.props.unitCurrent.beneathSrc? 1 : 2) // because the moveCount would jump to 200 at summary
+        let delta = this.props.moveCount*this.basicMove/((this.props.moveCount>200 && !this.props.unitCurrent.beneathSrc)? 2:1);
+        return  (this.coverLock-delta);// because the moveCount would jump to 200 at summary
     }
   }
 
@@ -108,20 +110,17 @@ class UnitLayerScroll extends React.Component {
     let viewheight = this.stickBase.current.getBoundingClientRect().height;
 
     this.coverLock = viewheight*95/100; //bottom-most place as cover's static place
-    this.basicMove = this.coverLock*4/5/(this.props.unitCurrent.beneathSrc ? 200 :100);
     this.sumLock = this.coverLock/5;
-    this.secondLock = this.props.unitCurrent.beneathSrc ? (this.coverLock*3/5) : this.sumLock;
+    this.basicMove = this.coverLock*4/5/(this.props.unitCurrent.beneathSrc ? 200 :100);
 
-    //define the locking range
-    let basicMove13 = this.basicMove*13;
-    this.upwardLock = {
-      sumBottom: this.sumLock+basicMove13,
-      secondBottom: this.secondLock + basicMove13 //same secondBottom value as sumBottom if the beneathSrc wasn't exist
-    };
-    this.downwardLock = {
-      secondTop: this.secondLock - basicMove13,
-      coverTop: this.coverLock - basicMove13 //same secondBottom value as sumBottom if the beneathSrc wasn't exist
-    };
+    this.basicCount = 10; //now we use 10 as the 'step'
+    this.checkRange = this.basicCount+1; //11 if we set basicCount as 10
+    this.bounderTop = this.props.unitCurrent.beneathSrc? 200:100; //mark the toppest reachable count
+    this.bounderTopBottom = this.bounderTop-this.checkRange;
+    //only defin 'top' beacuse the 'lowest' is 0
+    //then definr the middle lines for multiple layers
+    this.downMiddle = this.props.unitCurrent.beneathSrc? 100:0;
+    this.upMiddle = this.props.unitCurrent.beneathSrc? 100:this.bounderTop;
   }
 
   componentWillUnmount() {
