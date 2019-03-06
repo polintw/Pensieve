@@ -93,11 +93,13 @@ class UnitModal extends React.Component {
                   <UnitViewSummary
                     moveCount={this.state.moveCount}
                     _set_layerstatus={this._set_layerstatus}
+                    _set_Modalmode={this.props._set_Modalmode}
                     _close_modal_Unit={this.props._close_modal_Unit}/>
                 ):(
                   <UnitViewSummary
                     moveCount={this.state.moveCount}
                     _set_layerstatus={this._set_layerstatus}
+                    _set_Modalmode={this.props._set_Modalmode}
                     _close_modal_Unit={this.props._close_modal_Unit}/>
                 )
               }
