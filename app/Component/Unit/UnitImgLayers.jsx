@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import ImgLayersFrame from './ImgLayersFrame.jsx';
 import UnitActionPanel from './UnitActionPanel.jsx';
 import {DateConverter, NounsExtensible} from './UnitComponent.jsx';
-import {AuthorPlate} from '../AccountPlate.jsx';
+import {NameLabelRe} from '../AccountPlate.jsx';
 
 class UnitImgLayers extends React.Component {
   constructor(props){
@@ -45,11 +45,11 @@ class UnitImgLayers extends React.Component {
       },
       Com_Unit_UnitImgLayers_ControlSection_Author_: {
         width: '100%',
-        height: '12%',
         position: 'absolute',
         top: '75%',
         left: '0%',
         boxSizing: 'border-box',
+        color: 'rgb(250, 250, 250)',
         cursor:'pointer'
       },
       Com_Unit_UnitImgLayers_ControlSection_nouns_: {
@@ -87,18 +87,18 @@ class UnitImgLayers extends React.Component {
               style={this.style.Com_Unit_UnitImgLayers_ControlSection_nouns_}>
               <NounsExtensible
                 nouns={this.props.unitCurrent.nouns}
-                _handleClick_listNoun={this._refer_toandclose}/>
+                _handleClick_listNoun={this.props._refer_toandclose}/>
             </div>
           }
-          {
-            this.props.unitCurrent.authorBasic &&
-            <div
-              style={this.style.Com_Unit_UnitImgLayers_ControlSection_Author_}>
-              <AuthorPlate
-                authorBasic={this.props.unitCurrent.authorBasic}
-                _handleClick_Account={this._refer_toandclose}/>
-            </div>
-          }
+          <div
+            style={this.style.Com_Unit_UnitImgLayers_ControlSection_Author_}>
+            <NameLabelRe
+              size={'small'}
+              accountId={this.props.unitCurrent.authorBasic.authorId}
+              accountFisrtName={this.props.unitCurrent.authorBasic.firstName}
+              accountLastName={this.props.unitCurrent.authorBasic.lastName}
+              _handleClick_Account={this.props._refer_toandclose}/>
+          </div>
           <div
             style={this.style.Com_Unit_UnitImgLayers_ControlSection_actionControl_}>
             <UnitActionPanel

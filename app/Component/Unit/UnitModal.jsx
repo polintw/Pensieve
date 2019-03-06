@@ -62,7 +62,7 @@ class UnitModal extends React.Component {
     }
   }
 
-  _refer_toandclose(source, identity){
+  _refer_toandclose(identity, source){
     this.props._refer_von_unit(identity, source);
     this.props._close_modal_Unit();
   }
@@ -94,13 +94,15 @@ class UnitModal extends React.Component {
                     moveCount={this.state.moveCount}
                     _set_layerstatus={this._set_layerstatus}
                     _set_Modalmode={this.props._set_Modalmode}
-                    _close_modal_Unit={this.props._close_modal_Unit}/>
+                    _close_modal_Unit={this.props._close_modal_Unit}
+                    _refer_toandclose={this._refer_toandclose}/>
                 ):(
                   <UnitViewSummary
                     moveCount={this.state.moveCount}
                     _set_layerstatus={this._set_layerstatus}
                     _set_Modalmode={this.props._set_Modalmode}
-                    _close_modal_Unit={this.props._close_modal_Unit}/>
+                    _close_modal_Unit={this.props._close_modal_Unit}
+                    _refer_toandclose={this._refer_toandclose}/>
                 )
               }
               {
@@ -109,7 +111,8 @@ class UnitModal extends React.Component {
                   lockify={this.state.lockify}
                   moveCount={this.state.moveCount}
                   unitInit={this.props.unitInit}
-                  _set_Modalmode={this.props._set_Modalmode}/>
+                  _set_Modalmode={this.props._set_Modalmode}
+                  _refer_toandclose={this._refer_toandclose}/>
               }
             </div>
           </UnitLayerScroll>

@@ -110,7 +110,7 @@ export class NounsExtensible extends React.Component {
           style={this.style.Com_Nouns_Extensible_switch_}
           onClick={this._handleClick_listExpand}>
           {
-            this.props.nouns.length>2 ? '展開全部 >' : null
+            this.props.nouns.length>2 ? 'show all >' : null
           }
         </div>
       </div>
