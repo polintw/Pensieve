@@ -14,10 +14,7 @@ export class NounsExtensible extends React.Component {
     this.style={
       Com_Nouns_Extensible_: {
         width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
+        position: 'relative',
         boxSizing: 'border-box'
       },
       Com_Nouns_Extensible_list_: {
@@ -32,9 +29,8 @@ export class NounsExtensible extends React.Component {
         height: '2.2rem',
         position: 'relative',
         boxSizing: 'border-box',
-        fontSize: '2rem',
+        fontSize: '1.6rem',
         letterSpacing: '0.6vh',
-        textAlign: 'center',
         fontWeight: '400',
         fontFamily: 'cwTeXMing',
         color: '#FAFAFA',
@@ -127,7 +123,12 @@ export class DateConverter extends React.Component {
     };
     this._render_monthRome = this._render_monthRome.bind(this);
     this.style={
-
+      Com_DateConverter_: {
+        fontSize: '1.4rem',
+        letterSpacing: '0.15rem',
+        textAlign: 'center',
+        fontWeight: '400'
+      }
     }
   }
 

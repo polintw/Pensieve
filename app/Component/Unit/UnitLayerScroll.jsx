@@ -24,7 +24,7 @@ class UnitLayerScroll extends React.Component {
         boxSizing: 'border-box'
       },
       Com_Unit_LayerScroll_stick: {
-        width: '93%',
+        width: '94%',
         height: '2.4%',
         position: 'absolute',
         left: '3%',

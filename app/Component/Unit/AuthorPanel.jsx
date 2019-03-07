@@ -18,14 +18,11 @@ class AuthorPanel extends React.Component {
       Com_AuthorPanel_: {
         width: '100%',
         height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box',
-        padding: '1%, 5%'
+        position: 'relative',
+        boxSizing: 'border-box'
       },
       Com_AuthorPanel_span: {
-        display: 'block',
+        display: 'inline-block',
         position: 'relative',
         boxSizing: 'border-box',
         margin: '0 3% 0 3%',

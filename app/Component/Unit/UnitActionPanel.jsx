@@ -22,7 +22,8 @@ class UnitActionPanel extends React.Component {
         top: '0',
         left: '0',
         boxSizing: 'border-box',
-        padding: '1%, 5%'
+        padding: '1%, 5%',
+        textAlign: 'center'
       }
     };
   }

@@ -52,10 +52,10 @@ class UnitModal extends React.Component {
         width: '100%',
         height: '100%',
         boxSizing: 'border-box',
-        backgroundColor: 'rgba(10,10,10,0.2)'
+        backgroundColor: 'rgba(196, 180, 180, 0.2)'
       },
       Com_UnitModal_blocks_SwitchBar_: {
-        width: '2.4%',
+        width: '2%',
         height: '90%',
         position: 'absolute',
         top: '0',

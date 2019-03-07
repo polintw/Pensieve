@@ -16,60 +16,71 @@ class UnitImgLayers extends React.Component {
 
     };
     this.style={
-      Com_Unit_UnitImgLayers_: {
-
-      },
-      Com_Unit_UnitImgLayers_Frame: {
-        width: '84%',
+      Com_Unit_UnitImgLayers_contentSection_: {
+        width: '96%',
         height: '96%',
         position: 'absolute',
         top: '0%',
         right: '4%',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        backgroundColor: '#101010'
       },
-      Com_Unit_UnitImgLayers_LinkssSection_: {
-
-      },
-      Com_Unit_UnitImgLayers_ControlSection_nouns_: {
-        width: '100%',
-        height: '50%',
+      Com_Unit_UnitImgLayers_contentSection_frame: {
+        width: '86%',
+        height: '100%',
         position: 'absolute',
-        top: '20%',
-        left: '0',
+        top: '0%',
+        right: '0%',
         boxSizing: 'border-box'
+      },
+      Com_Unit_UnitImgLayers_contentSection_links_: {
+        width: '14%',
+        height: '100%',
+        position: 'absolute',
+        top: '0%',
+        left: '0%',
+        boxSizing: 'border-box'
+      },
+      Com_Unit_UnitImgLayers_contentSection_links_nouns: {
+        width: '100%',
+        position: 'absolute',
+        bottom: '3%',
+        left: '0',
+        boxSizing: 'border-box',
+        padding: '4%',
+        textAlign: 'right'
       },
       Com_Unit_UnitImgLayers_commonSection_: {
-
-      },
-      Com_Unit_UnitImgLayers_ControlSection_actionControl_: {
         width: '100%',
-        height: '12%',
+        height: '4%',
+        position: 'absolute',
+        bottom: '0%',
+        left: '0%',
+        boxSizing: 'border-box',
+        boxShadow: '0px 2vh 1.8vh -2vh',
+        backgroundColor: '#313130'
+      },
+      Com_Unit_UnitImgLayers_commonSection_ActionPanel: {
+        width: '36%',
+        height: '100%',
         position: 'absolute',
         bottom: '0',
         left: '0',
         boxSizing: 'border-box'
       },
-      Com_Unit_UnitImgLayers_ControlSection_Author_: {
-        width: '100%',
+      Com_Unit_UnitImgLayers_commonSection_InfoPanel_: {
+        height: '100%',
         position: 'absolute',
-        top: '75%',
-        left: '0%',
+        top: '0%',
+        right: '5%',
         boxSizing: 'border-box',
-        color: 'rgb(250, 250, 250)',
-        cursor:'pointer'
       },
-      Com_Unit_UnitImgLayers_ControlSection_DateConverter: {
-        width: '80%',
-        height: '12%',
-        position: 'absolute',
-        top: '2%',
-        left: '0',
+      Com_Unit_UnitImgLayers_commonSection_InfoPanel_blocks_: {
+        height: '100%',
+        position: 'relative',
+        float: 'right',
         boxSizing: 'border-box',
-        fontSize: '1.4rem',
-        letterSpacing: '0.15rem',
-        textAlign: 'center',
-        fontWeight: '400',
-        color: '#FAFAFA',
+        marginLeft: '2vw'
       }
     }
   }
@@ -77,13 +88,14 @@ class UnitImgLayers extends React.Component {
   render(){
     return(
       <div>
-        <div>
+        <div
+          style={this.style.Com_Unit_UnitImgLayers_contentSection_}>
           <div
-            style={this.style.Com_Unit_UnitImgLayers_LinkssSection_}>
+            style={this.style.Com_Unit_UnitImgLayers_contentSection_links_}>
             {
               this.props.unitCurrent.nouns &&
               <div
-                style={this.style.Com_Unit_UnitImgLayers_ControlSection_nouns_}>
+                style={this.style.Com_Unit_UnitImgLayers_contentSection_links_nouns}>
                 <NounsExtensible
                   nouns={this.props.unitCurrent.nouns}
                   _handleClick_listNoun={this.props._refer_toandclose}/>
@@ -91,7 +103,7 @@ class UnitImgLayers extends React.Component {
             }
           </div>
           <div
-            style={this.style.Com_Unit_UnitImgLayers_Frame}>
+            style={this.style.Com_Unit_UnitImgLayers_contentSection_frame}>
             <ImgLayersFrame
               moveCount={this.props.moveCount}
               lockify={this.props.lockify}
@@ -101,23 +113,26 @@ class UnitImgLayers extends React.Component {
         <div
           style={this.style.Com_Unit_UnitImgLayers_commonSection_}>
           <div
-            style={this.style.Com_Unit_UnitImgLayers_ControlSection_Author_}>
-            <NameLabelRe
-              size={'small'}
-              accountId={this.props.unitCurrent.authorBasic.authorId}
-              accountFisrtName={this.props.unitCurrent.authorBasic.firstName}
-              accountLastName={this.props.unitCurrent.authorBasic.lastName}
-              _handleClick_Account={this.props._refer_toandclose}/>
-          </div>
-          <div
-            style={this.style.Com_Unit_UnitImgLayers_ControlSection_actionControl_}>
+            style={this.style.Com_Unit_UnitImgLayers_commonSection_ActionPanel}>
             <UnitActionPanel
               _set_Modalmode={this.props._set_Modalmode}/>
           </div>
           <div
-            style={this.style.Com_Unit_UnitImgLayers_ControlSection_DateConverter}>
-            <DateConverter
-              datetime={this.props.unitCurrent.createdAt}/>
+            style={this.style.Com_Unit_UnitImgLayers_commonSection_InfoPanel_}>
+            <div
+              style={Object.assign({color: 'rgb(250, 250, 250)', cursor:'pointer'},this.style.Com_Unit_UnitImgLayers_commonSection_InfoPanel_blocks_)}>
+              <NameLabelRe
+                size={'small'}
+                accountId={this.props.unitCurrent.authorBasic.authorId}
+                accountFisrtName={this.props.unitCurrent.authorBasic.firstName}
+                accountLastName={this.props.unitCurrent.authorBasic.lastName}
+                _handleClick_Account={this.props._refer_toandclose}/>
+            </div>
+            <div
+              style={Object.assign({color: '#FAFAFA'},this.style.Com_Unit_UnitImgLayers_commonSection_InfoPanel_blocks_)}>
+              <DateConverter
+                datetime={this.props.unitCurrent.createdAt}/>
+            </div>
           </div>
         </div>
       </div>

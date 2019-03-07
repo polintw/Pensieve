@@ -22,12 +22,11 @@ export default class ImgLayer extends React.Component {
         boxSizing: 'border-box'
       },
       Com_ImgLayer_img: {
-        maxWidth: '100%',
+        maxWidth: '99%',
         maxHeight: '100%',
         position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%,-50%)',
+        top: '0%',
+        right: '1%'
       },
       Com_ImgLayer_MarkBlock_: {
         width: '42%',
@@ -37,9 +36,8 @@ export default class ImgLayer extends React.Component {
       },
       Com_ImgLayer_div: {
         position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%,-50%)'
+        top: '0%',
+        right: '1%'
       },
       Com_ImgLayer_div_circle_svg: {
         width: '3vw',
