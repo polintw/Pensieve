@@ -6,6 +6,7 @@ import {
 import { connect } from "react-redux";
 import UnitImgLayers from './UnitImgLayers.jsx';
 import UnitLayerScroll from './UnitLayerScroll.jsx';
+import UnitLayerSwitch from './UnitLayerSwitch.jsx';
 import UnitViewSummary from './UnitViewSummary.jsx';
 
 class UnitModal extends React.Component {
@@ -32,17 +33,35 @@ class UnitModal extends React.Component {
         height: '100%',
         position: 'absolute',
         top: '0',
-        left: '52%',
+        left: '50%',
         transform: 'translate(-50%, 0)',
         boxSizing: 'border-box'
       },
-      Com_UnitModal_blocks_layers_ : {
-        width: '95%',
+      Com_UnitModal_blocks_SumLayer_ : {
+        width: '90%',
         height: '100%',
         position: 'absolute',
         top: '0',
-        left: '0%',
-        boxSizing: 'border-box'
+        left: '50%',
+        transform: 'translate(-50%, 0)',
+        boxSizing: 'border-box',
+        backgroundColor: '#101010',
+        boxShadow: '0px 1.2vh 2.4vw 0vw'
+      },
+      Com_UnitModal_blocks_ImgLayer_: {
+        width: '100%',
+        height: '100%',
+        boxSizing: 'border-box',
+        backgroundColor: 'rgba(10,10,10,0.2)'
+      },
+      Com_UnitModal_blocks_SwitchBar_: {
+        width: '2.4%',
+        height: '90%',
+        position: 'absolute',
+        top: '0',
+        right: '1%',
+        boxSizing: 'border-box',
+        backgroundColor: 'transparent'
       },
       Com_UnitModal_straightBack_: {
         width: '12%',
@@ -86,7 +105,7 @@ class UnitModal extends React.Component {
             moveCount={this.state.moveCount}
             _set_layerstatus={this._set_layerstatus}>
             <div
-              style={this.style.Com_UnitModal_blocks_layers_}>
+              style={this.style.Com_UnitModal_blocks_SumLayer_}>
               {
                 this.props.unitCurrent.identity=="author" ? (
                    //temp method, before a true AuthorSummary was created
@@ -105,6 +124,9 @@ class UnitModal extends React.Component {
                     _refer_toandclose={this._refer_toandclose}/>
                 )
               }
+            </div>
+            <div
+              style={this.style.Com_UnitModal_blocks_ImgLayer_}>
               {
                 (this.state.moveCount< 200) &&
                 <UnitImgLayers
@@ -114,6 +136,12 @@ class UnitModal extends React.Component {
                   _set_Modalmode={this.props._set_Modalmode}
                   _refer_toandclose={this._refer_toandclose}/>
               }
+            </div>
+            <div
+              style={this.style.Com_UnitModal_blocks_SwitchBar_}>
+              <UnitLayerSwitch
+                moveCount={this.state.moveCount}
+                _set_layerstatus={this._set_layerstatus}/>
             </div>
           </UnitLayerScroll>
         </div>

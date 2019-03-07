@@ -66,9 +66,7 @@ class UnitViewSummary extends React.Component {
         position: 'absolute',
         top: '0',
         left: '0',
-        boxSizing: 'border-box',
-        backgroundColor: '#313130',
-        boxShadow: '0px 1.2vh 2.4vw 0vw'
+        boxSizing: 'border-box'
       },
       Com_UnitViewSummary_Marksarticle: {
         width: "30%",

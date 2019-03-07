@@ -21,19 +21,25 @@ class UnitImgLayers extends React.Component {
       },
       Com_Unit_UnitImgLayers_Frame: {
         width: '84%',
-        height: '100%',
+        height: '96%',
         position: 'absolute',
         top: '0%',
-        left: '0%',
+        right: '4%',
         boxSizing: 'border-box'
       },
-      Com_Unit_UnitImgLayers_ControlSection_: {
-        width: '13%',
-        height: '100%',
+      Com_Unit_UnitImgLayers_LinkssSection_: {
+
+      },
+      Com_Unit_UnitImgLayers_ControlSection_nouns_: {
+        width: '100%',
+        height: '50%',
         position: 'absolute',
-        top: '0',
-        right: '0',
+        top: '20%',
+        left: '0',
         boxSizing: 'border-box'
+      },
+      Com_Unit_UnitImgLayers_commonSection_: {
+
       },
       Com_Unit_UnitImgLayers_ControlSection_actionControl_: {
         width: '100%',
@@ -51,14 +57,6 @@ class UnitImgLayers extends React.Component {
         boxSizing: 'border-box',
         color: 'rgb(250, 250, 250)',
         cursor:'pointer'
-      },
-      Com_Unit_UnitImgLayers_ControlSection_nouns_: {
-        width: '100%',
-        height: '50%',
-        position: 'absolute',
-        top: '20%',
-        left: '0',
-        boxSizing: 'border-box'
       },
       Com_Unit_UnitImgLayers_ControlSection_DateConverter: {
         width: '80%',
@@ -79,17 +77,29 @@ class UnitImgLayers extends React.Component {
   render(){
     return(
       <div>
+        <div>
+          <div
+            style={this.style.Com_Unit_UnitImgLayers_LinkssSection_}>
+            {
+              this.props.unitCurrent.nouns &&
+              <div
+                style={this.style.Com_Unit_UnitImgLayers_ControlSection_nouns_}>
+                <NounsExtensible
+                  nouns={this.props.unitCurrent.nouns}
+                  _handleClick_listNoun={this.props._refer_toandclose}/>
+              </div>
+            }
+          </div>
+          <div
+            style={this.style.Com_Unit_UnitImgLayers_Frame}>
+            <ImgLayersFrame
+              moveCount={this.props.moveCount}
+              lockify={this.props.lockify}
+              unitInit={this.props.unitInit}/>
+          </div>
+        </div>
         <div
-          style={this.style.Com_Unit_UnitImgLayers_ControlSection_}>
-          {
-            this.props.unitCurrent.nouns &&
-            <div
-              style={this.style.Com_Unit_UnitImgLayers_ControlSection_nouns_}>
-              <NounsExtensible
-                nouns={this.props.unitCurrent.nouns}
-                _handleClick_listNoun={this.props._refer_toandclose}/>
-            </div>
-          }
+          style={this.style.Com_Unit_UnitImgLayers_commonSection_}>
           <div
             style={this.style.Com_Unit_UnitImgLayers_ControlSection_Author_}>
             <NameLabelRe
@@ -109,13 +119,6 @@ class UnitImgLayers extends React.Component {
             <DateConverter
               datetime={this.props.unitCurrent.createdAt}/>
           </div>
-        </div>
-        <div
-          style={this.style.Com_Unit_UnitImgLayers_Frame}>
-          <ImgLayersFrame
-            moveCount={this.props.moveCount}
-            lockify={this.props.lockify}
-            unitInit={this.props.unitInit}/>
         </div>
       </div>
     )

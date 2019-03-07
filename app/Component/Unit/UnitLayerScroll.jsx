@@ -24,11 +24,12 @@ class UnitLayerScroll extends React.Component {
         boxSizing: 'border-box'
       },
       Com_Unit_LayerScroll_stick: {
-        width: '94%',
-        height: '3%',
+        width: '93%',
+        height: '2.4%',
         position: 'absolute',
         left: '3%',
-        backgroundColor: '#23352A'
+        borderRadius: '20px',
+        backgroundColor: '#cec9a6'
       }
     }
   }
