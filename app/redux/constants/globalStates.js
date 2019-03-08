@@ -11,7 +11,7 @@ export const accountInfoInit = {
 export const unitCurrentInit = {
   unitId:"",
   identity: "",
-  authorBasic: null,
+  authorBasic: {authorId: "", account: '', firstName: '', lastName: ''},
   coverSrc: null,
   beneathSrc: null,
   coverMarksList:[],

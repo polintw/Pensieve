@@ -1,11 +1,11 @@
 import React from 'react';
 import {connect} from "react-redux";
-import EditingModal from '../Editing/EditingModal.jsx';
+import EditingModal from './Editing/EditingModal.jsx';
 import {
   switchUnitSubmitting
-} from "../../redux/actions/general.js";
+} from "../redux/actions/general.js";
 
-class ResModal extends React.Component {
+class CreateResponse extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -13,11 +13,11 @@ class ResModal extends React.Component {
     };
     this.axiosSource = axios.CancelToken.source();
     this._refer_toandclose = this._refer_toandclose.bind(this);
-    this._handleClick_resModal_SubmitFile = this._handleClick_resModal_SubmitFile.bind(this);
+    this._handleClick_CreateResponse_SubmitFile = this._handleClick_CreateResponse_SubmitFile.bind(this);
     this._axios_post_Share_new = this._axios_post_Share_new.bind(this);
     this._submit_Share_New = this._submit_Share_New.bind(this);
     this.style={
-      Com_Modal_ResModal: {
+      Com_Modal_CreateResponse: {
 
       }
     }
@@ -28,7 +28,7 @@ class ResModal extends React.Component {
     this.props._set_Modalmode(false);
   }
 
-  _handleClick_resModal_SubmitFile(stateObj){
+  _handleClick_CreateResponse_SubmitFile(stateObj){
     //check form filled
     if(!stateObj["coverSrc"] || stateObj["nouns"]["list"].length < 1) {alert("fill the required area");return;};
     //Then if everything is fine
@@ -103,10 +103,10 @@ class ResModal extends React.Component {
   render(){
     return(
       <div
-        style={this.props.mode?this.style.Com_Modal_ResModal:{display:"none"}}>
+        style={this.props.mode?this.style.Com_Modal_CreateResponse:{display:"none"}}>
         <EditingModal
           _refer_toandclose={this._refer_toandclose}
-          _set_Submit={this._handleClick_resModal_SubmitFile}
+          _set_Submit={this._handleClick_CreateResponse_SubmitFile}
           _set_Clear={this.props._set_Modalmode}/>
       </div>
     )
@@ -129,4 +129,4 @@ const mapDispatchToProps = (dispatch)=>{
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ResModal);
+)(CreateResponse);

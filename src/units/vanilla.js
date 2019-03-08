@@ -127,11 +127,13 @@ function _handle_unit_Mount(req, res){
         }).then((sendingData)=>{
           console.log('unit mount req: call author name.');
           return new Promise((resolveSub, rejectSub)=>{
-            connection.query('SELECT account FROM users WHERE id = ?', [sendingData['authorBasic']['authorId']], function(err, result, fields) {
+            connection.query('SELECT account,first_name,last_name FROM users WHERE id = ?', [sendingData['authorBasic']['authorId']], function(err, result, fields) {
               if (err) {_handler_err_Internal(err, res);rejectSub(err);return;}
               console.log('database connection: success.')
               if (result.length > 0) {
                 sendingData['authorBasic']['account'] = result[0].account;
+                sendingData['authorBasic']['firstName'] = result[0].first_name;
+                sendingData['authorBasic']['lastName'] = result[0].last_name;
                 resolveSub(sendingData)
               } else {
                 resolveSub(sendingData)

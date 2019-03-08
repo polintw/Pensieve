@@ -5,7 +5,7 @@ import {
   switchUnitSubmitting
 } from "../../redux/actions/general.js";
 
-class AuthorModal extends React.Component {
+class UnitEditing extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -13,11 +13,11 @@ class AuthorModal extends React.Component {
     };
     this.axiosSource = axios.CancelToken.source();
     this._refer_toandclose = this._refer_toandclose.bind(this);
-    this._handleClick_authorModal_SubmitFile = this._handleClick_authorModal_SubmitFile.bind(this);
+    this._handleClick_UnitEditing_SubmitFile = this._handleClick_UnitEditing_SubmitFile.bind(this);
     this._axios_patch_Share = this._axios_patch_Share.bind(this);
     this._submit_Share_modified = this._submit_Share_modified.bind(this);
     this.style={
-      Com_Modal_AuthorModal: {
+      Com_Modal_UnitEditing: {
 
       }
     }
@@ -32,7 +32,7 @@ class AuthorModal extends React.Component {
     this.props._set_Modalmode(false);
   }
 
-  _handleClick_authorModal_SubmitFile(stateObj){
+  _handleClick_UnitEditing_SubmitFile(stateObj){
     //check form filled
     if(stateObj["nouns"]["list"].length < 1) {alert("fill the required area");return;};
     //Then if everything is fine
@@ -113,11 +113,11 @@ class AuthorModal extends React.Component {
     };
     return(
       <div
-        style={this.style.Com_Modal_AuthorModal}>
+        style={this.style.Com_Modal_UnitEditing}>
         <EditingModal
           unitSet={unitSet}
           _refer_toandclose={this._refer_toandclose}
-          _set_Submit={this._handleClick_authorModal_SubmitFile}
+          _set_Submit={this._handleClick_UnitEditing_SubmitFile}
           _set_Clear={this.props._set_Modalmode}/>
       </div>
     )
@@ -140,4 +140,4 @@ const mapDispatchToProps = (dispatch)=>{
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AuthorModal);
+)(UnitEditing);

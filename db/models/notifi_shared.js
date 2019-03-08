@@ -20,6 +20,12 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
+    notifi_shared.belongsTo(models.marks, {
+      foreignKey: "id_mark",
+      targetKey: "id",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
     notifi_shared.belongsTo(models.users, {
       foreignKey:"id_user_related",
       targetKey: "id",

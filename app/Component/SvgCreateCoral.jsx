@@ -15,8 +15,8 @@ export default class SvgCreateCoral extends React.Component {
     return(
     <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 1264 197"
       style={{
-        maxWidth: '100%',
-        maxHeight: '100%'
+        width: '100%',
+        height: '100%'
       }}
       preserveAspectRatio="none">
       <defs>

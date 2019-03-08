@@ -6,7 +6,7 @@ import {
 import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 
-class UnitActionControl extends React.Component {
+class ViewerPanel extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -19,23 +19,17 @@ class UnitActionControl extends React.Component {
     this._axios_ErrHandler = this._axios_ErrHandler.bind(this);
     this._axios_broadHandler = this._axios_broadHandler.bind(this);
     this._axios_trackHandler = this._axios_trackHandler.bind(this);
-    this._render_ActionControl_authorify = this._render_ActionControl_authorify.bind(this);
-    this._handleClick_UnitAction_Author = this._handleClick_UnitAction_Author.bind(this);
-    this._handleClick_UnitAction_Response = this._handleClick_UnitAction_Response.bind(this);
     this._handleClick_UnitAction_Broad = this._handleClick_UnitAction_Broad.bind(this);
     this._handleClick_UnitTrack = this._handleClick_UnitTrack.bind(this);
     this.style={
-      Com_UnitActionControl_: {
+      Com_ViewerPanel_: {
         width: '100%',
         height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box',
-        padding: '1%, 5%'
+        position: 'relative',
+        boxSizing: 'border-box'
       },
-      Com_UnitActionControl_span: {
-        display: 'block',
+      Com_ViewerPanel_span: {
+        display: 'inline-block',
         position: 'relative',
         boxSizing: 'border-box',
         margin: '0 3% 0 3%',
@@ -117,11 +111,6 @@ class UnitActionControl extends React.Component {
     })
   }
 
-  _handleClick_UnitAction_Response(event){
-    this._handler_eventGeneral(event);
-    this.props._set_Modalmode(true);
-  }
-
   _handleClick_UnitAction_Broad(event){
     this._handler_eventGeneral(event);
     this.setState((prevState,props)=>{
@@ -130,11 +119,6 @@ class UnitActionControl extends React.Component {
         broaded: prevState.broaded?false:true
       }
     }, this._axios_broadHandler);
-  }
-
-  _handleClick_UnitAction_Author(event){
-    this._handler_eventGeneral(event);
-    this.props._set_Modalmode("editing");
   }
 
   _handleClick_UnitTrack(event){
@@ -147,62 +131,6 @@ class UnitActionControl extends React.Component {
     }, this._axios_trackHandler);
   }
 
-  _render_ActionControl_authorify(){
-    let component =  this.props.unitCurrent.identity=="author" ?(
-      <div>
-        <span
-          style={this.style.Com_UnitActionControl_span}
-          onClick={this._handleClick_UnitAction_Response}>
-          {"response"}
-        </span>
-        <span
-          style={this.style.Com_UnitActionControl_span}
-          onClick={this._handleClick_UnitAction_Author}>
-          {"edit"}
-        </span>
-        <span
-          style={this.style.Com_UnitActionControl_span}>
-          {"statics"}
-        </span>
-        <span
-          style={this.style.Com_UnitActionControl_span}>
-          {"erase"}
-        </span>
-      </div>
-    ):(
-      <div>
-        <span
-          style={this.style.Com_UnitActionControl_span}
-          onClick={this._handleClick_UnitAction_Response}>
-          {"response"}
-        </span>
-        {
-          this.state.broaded?(
-            <span
-              style={this.style.Com_UnitActionControl_span}
-              style={{cursor: "auto"}}>
-              {"broaded"}
-            </span>
-          ):(
-            <span
-              style={this.style.Com_UnitActionControl_span}
-              onClick={this._handleClick_UnitAction_Broad}>
-              {'broad'}
-            </span>
-          )
-        }
-        <span
-          style={this.style.Com_UnitActionControl_span}
-          onClick={this._handleClick_UnitTrack}>
-          {
-            this.state.tracked?'追蹤取消':'追蹤'
-          }
-        </span>
-      </div>
-    );
-    return component;
-  }
-
   componentWillUnmount(){
     if(this.state.axios){
       this.axiosSource.cancel("component will unmount.")
@@ -213,8 +141,29 @@ class UnitActionControl extends React.Component {
     //let cx = cxBind.bind(styles);
     return(
       <div
-        style={this.style.Com_UnitActionControl_}>
-        {this._render_ActionControl_authorify()}
+        style={this.style.Com_ViewerPanel_}>
+        {
+          this.state.broaded?(
+            <span
+              style={this.style.Com_ViewerPanel_span}
+              style={{cursor: "auto"}}>
+              {"broaded"}
+            </span>
+          ):(
+            <span
+              style={this.style.Com_ViewerPanel_span}
+              onClick={this._handleClick_UnitAction_Broad}>
+              {'broad'}
+            </span>
+          )
+        }
+        <span
+          style={this.style.Com_ViewerPanel_span}
+          onClick={this._handleClick_UnitTrack}>
+          {
+            this.state.tracked?'追蹤取消':'追蹤'
+          }
+        </span>
       </div>
     )
   }
@@ -230,4 +179,4 @@ const mapStateToProps = (state)=>{
 export default withRouter(connect(
   mapStateToProps,
   null
-)(UnitActionControl));
+)(ViewerPanel));

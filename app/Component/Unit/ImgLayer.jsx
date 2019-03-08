@@ -1,15 +1,16 @@
 import React from 'react';
 import MarkBlock from './Mark/MarkBlock.jsx';
 
-export default class UnitLayer extends React.Component {
+export default class ImgLayer extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      marksify: true,
       circleNr: this.props.initMark,
       circlesDOM: []
     };
     this._set_circles = this._set_circles.bind(this);
-    this._handleClick_UnitLayer_circle = this._handleClick_UnitLayer_circle.bind(this);
+    this._handleClick_ImgLayer_circle = this._handleClick_ImgLayer_circle.bind(this);
     this._handleClick_SpotsLayer = this._handleClick_SpotsLayer.bind(this);
     this.style = {
       absolute_FullVersion: {
@@ -20,27 +21,25 @@ export default class UnitLayer extends React.Component {
         left:'0',
         boxSizing: 'border-box'
       },
-      Com_UnitLayer_img: {
-        maxWidth: '100%',
+      Com_ImgLayer_img: {
+        maxWidth: '99%',
         maxHeight: '100%',
         position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%,-50%)',
+        top: '0%',
+        right: '1%'
       },
-      Com_UnitLayer_MarkBlock_: {
+      Com_ImgLayer_MarkBlock_: {
         width: '42%',
         maxHeight: '88%',
         position: 'absolute',
         transform: 'translate(0,-50%)'
       },
-      Com_UnitLayer_div: {
+      Com_ImgLayer_div: {
         position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%,-50%)'
+        top: '0%',
+        right: '1%'
       },
-      Com_UnitLayer_div_circle_svg: {
+      Com_ImgLayer_div_circle_svg: {
         width: '3vw',
         height: '3vw',
         position: 'absolute',
@@ -53,19 +52,19 @@ export default class UnitLayer extends React.Component {
 
   _set_circles(){
     const self = this,
-    imgWidth = self.Com_UnitLayer_img.clientWidth,
-    imgHeight = self.Com_UnitLayer_img.clientHeight;
+    imgWidth = self.Com_ImgLayer_img.clientWidth,
+    imgHeight = self.Com_ImgLayer_img.clientHeight;
     let circlesArr = [];
     if(this.state.circleNr == 'all'){
       circlesArr = self.props.marksData.list.map(function(id, index){
         const coordinate = {top: self.props.marksData.data[id].top, left: self.props.marksData.data[id].left};
         return(
           <svg
-            key={'key_UnitLayer_div_circle_svg_all_'+index}
+            key={'key_ImgLayer_div_circle_svg_all_'+index}
             id={id}
             index={index}
-            style={Object.assign({top: coordinate.top+"%", left: coordinate.left+'%'}, self.style.Com_UnitLayer_div_circle_svg)}
-            onClick={self._handleClick_UnitLayer_circle}>
+            style={Object.assign({top: coordinate.top+"%", left: coordinate.left+'%'}, self.style.Com_ImgLayer_div_circle_svg)}
+            onClick={self._handleClick_ImgLayer_circle}>
             <circle r="20" cx="50%" cy="50%" stroke='white' fill="none"/>
           </svg>
         )
@@ -74,7 +73,7 @@ export default class UnitLayer extends React.Component {
         circlesDOM: (
           <div
             style={Object.assign(
-              {width: imgWidth, height: imgHeight}, self.style.Com_UnitLayer_div)}>
+              {width: imgWidth, height: imgHeight}, self.style.Com_ImgLayer_div)}>
             {circlesArr}
           </div>
         )
@@ -85,19 +84,19 @@ export default class UnitLayer extends React.Component {
       let [left, top, right] = [null,null,null];
 
       let axisPx = ((coordinate.left/100)*imgWidth)-(imgWidth/2);
-      coordinate.left>50 ? right = (this.Com_UnitLayer.clientWidth/2)-axisPx+15 : left = (this.Com_UnitLayer.clientWidth/2)+axisPx+15;
+      coordinate.left>50 ? right = (this.Com_ImgLayer.clientWidth/2)-axisPx+15 : left = (this.Com_ImgLayer.clientWidth/2)+axisPx+15;
       top = (22 + (coordinate.top) * (34) / (100)) + '%';
 
       circlesArr.push(
         <div
-          key={'key_UnitLayer_div_circle_svg_markBlock_'+markId}>
+          key={'key_ImgLayer_div_circle_svg_markBlock_'+markId}>
           <div
             style={Object.assign(
-              {width: imgWidth, height: imgHeight}, self.style.Com_UnitLayer_div)}>
+              {width: imgWidth, height: imgHeight}, self.style.Com_ImgLayer_div)}>
             <svg
               id={markId}
-              style={Object.assign({top: coordinate.top+"%", left: coordinate.left+'%'}, self.style.Com_UnitLayer_div_circle_svg)}
-              onClick={self._handleClick_UnitLayer_circle}>
+              style={Object.assign({top: coordinate.top+"%", left: coordinate.left+'%'}, self.style.Com_ImgLayer_div_circle_svg)}
+              onClick={self._handleClick_ImgLayer_circle}>
               <circle r="20" cx="50%" cy="50%" stroke='white' fill="none"/>
             </svg>
           </div>
@@ -105,7 +104,7 @@ export default class UnitLayer extends React.Component {
             style={Object.assign({backgroundColor: 'rgba(30,30,30,0.2)'}, self.style.absolute_FullVersion)}
             onClick={self._handleClick_SpotsLayer}></div>
           <div
-            style={Object.assign({top: top, left: left, right: right}, self.style.Com_UnitLayer_MarkBlock_)}>
+            style={Object.assign({top: top, left: left, right: right}, self.style.Com_ImgLayer_MarkBlock_)}>
             <MarkBlock
               markKey={markId}
               markData={self.props.marksData.data[markId]}/>
@@ -116,7 +115,7 @@ export default class UnitLayer extends React.Component {
     }
   }
 
-  _handleClick_UnitLayer_circle(event){
+  _handleClick_ImgLayer_circle(event){
     event.preventDefault();
     event.stopPropagation();
     let currentId = event.currentTarget.getAttribute('id');
@@ -137,14 +136,14 @@ export default class UnitLayer extends React.Component {
     return(
       <div
         style={this.style.absolute_FullVersion}
-        ref={(element) => {this.Com_UnitLayer = element;}}>
+        ref={(element) => {this.Com_ImgLayer = element;}}>
         <img
-          style={this.style.Com_UnitLayer_img}
-          ref={(element) => {this.Com_UnitLayer_img = element;}}
+          style={this.style.Com_ImgLayer_img}
+          ref={(element) => {this.Com_ImgLayer_img = element;}}
           src={this.props.imgSrc}
           onLoad={this._set_circles}/>
         {
-          this.props.marksify &&
+          this.state.marksify && this.props.lockify &&
           this.state.circlesDOM
         }
       </div>

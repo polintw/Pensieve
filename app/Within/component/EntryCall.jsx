@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import CreateShare from '../../Component/CreateShare.jsx';
 import SvgCreateCoral from '../../Component/SvgCreateCoral.jsx';
+import {NameLabelRe} from '../../Component/AccountPlate.jsx';
 
 class EntryCall extends React.Component {
   constructor(props){
@@ -12,7 +13,6 @@ class EntryCall extends React.Component {
     };
     this.dateObj = new Date();
     this._handleClick_currentReload = this._handleClick_currentReload.bind(this);
-    this._handleClick_selfEntrance = this._handleClick_selfEntrance.bind(this);
     this._submit_Share_New = this._submit_Share_New.bind(this);
     this.style={
       withinCom_EntryCall_: {
@@ -53,9 +53,7 @@ class EntryCall extends React.Component {
         bottom:'0%',
         left: '12%',
         boxSizing: 'border-box',
-        fontWeight: '300',
-        fontSize: '2.8vh',
-        letterSpacing: '0.24vh',
+        padding: '0 0 2% 0',
         cursor: 'pointer'
       },
       withinCom_EntryCall_logo_: {
@@ -77,12 +75,6 @@ class EntryCall extends React.Component {
     event.preventDefault();
     event.stopPropagation();
     this.props._refer_leavevonLtd('','reload')
-  }
-
-  _handleClick_selfEntrance(event){
-    event.stopPropagation();
-    event.preventDefault();
-    this.props._refer_leavevonLtd(this.props.userInfo.id,'user')
   }
 
   _submit_Share_New(dataObj){
@@ -108,9 +100,13 @@ class EntryCall extends React.Component {
             <span>{this.dateObj.getFullYear()}</span>
           </div>
           <div
-            style={this.style.withinCom_EntryCall_Info_User_}
-            onClick={this._handleClick_selfEntrance}>
-            {this.props.userInfo.account}
+            style={this.style.withinCom_EntryCall_Info_User_}>
+            <NameLabelRe
+              size={'small'}
+              accountId={this.props.userInfo.id}
+              accountFisrtName={this.props.userInfo.firstName}
+              accountLastName={this.props.userInfo.lastName}
+              _handleClick_Account={this.props._refer_leavevonLtd}/>
           </div>
         </div>
         <div
