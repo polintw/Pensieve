@@ -94,12 +94,14 @@ class UnitModal extends React.Component {
 
 
   render(){
+    //Notice! it's important to let the ImgLayers unmount if >200, due to we need the re-render, not just css change
     return(
       <div
         style={this.style.Com_Modal_UnitModal}
         onClick={this._handleClick_unitBack}>
         <div
-          style={this.style.Com_UnitModal_blocks_Scroll}>
+          style={this.style.Com_UnitModal_blocks_Scroll}
+          onClick={(event)=>{event.stopPropagation();}}>
           <UnitLayerScroll
             lockify={this.state.lockify}
             moveCount={this.state.moveCount}

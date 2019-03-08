@@ -18,6 +18,7 @@ class ImgLayersFrame extends React.Component {
         backgroundColor: 'rgb(16, 16, 16)'
       },
       Com_ImgLayersFrame_div_cover: {
+        width: '100%',
         height: '99%',
         position: 'absolute',
         top: '1%',
@@ -26,6 +27,7 @@ class ImgLayersFrame extends React.Component {
         backgroundColor: 'rgb(16, 16, 16)'
       },
       Com_ImgLayersFrame_div_beneath: {
+        width: '100%',
         height: '99%',
         position: 'absolute',
         top: '1%',
@@ -39,19 +41,19 @@ class ImgLayersFrame extends React.Component {
   render(){
     let portion = Math.abs((this.props.moveCount-100)/100);
     let controledCSS = {
-      coverWidth: this.props.moveCount < 100 ? '100%':'0',
-      coverOpa: this.props.moveCount > 0 ? portion : '1',
-      coverDisplay: this.props.moveCount < 100 ? 'block':'none',
-      beneathWidth: this.props.moveCount < 200 ? '100%':'0',
-      beneathOpa: this.props.moveCount > 100 ? (1-portion) : '1',
-      beneathDisplay: this.props.moveCount < 200 ? 'block' : 'none'
+      coverZIndex: this.props.moveCount< 100 ? '2':'1',
+      coverOpa: this.props.moveCount < 100 ? portion : '0',
+      //coverDisplay: this.props.moveCount < 100 ? 'block':'none',
+      beneathZIndex: this.props.moveCount< 100 ? '1':'2',
+      beneathOpa: this.props.moveCount < 100 ? '1':(1-portion)
+      //beneathDisplay: this.props.moveCount < 200 ? 'block' : 'none'
     }
     let Com_ImgLayersFrame_div_cover = Object.assign(
-      {width: controledCSS.coverWidth, opacity: controledCSS.coverOpa, display: controledCSS.coverDisplay},
+      {opacity: controledCSS.coverOpa, zIndex: controledCSS.coverZIndex},
       this.style.Com_ImgLayersFrame_div_cover
     ),
     Com_ImgLayersFrame_div_beneath = Object.assign(
-      {width: controledCSS.beneathWidth, opacity: controledCSS.beneathOpa, display: controledCSS.beneathDisplay},
+      {opacity: controledCSS.beneathOpa, zIndex: controledCSS.beneathZIndex},
       this.style.Com_ImgLayersFrame_div_beneath
     );
 
