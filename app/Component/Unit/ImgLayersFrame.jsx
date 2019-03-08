@@ -2,11 +2,14 @@ import React from 'react';
 import { connect } from "react-redux";
 import ImgLayer from './ImgLayer.jsx';
 
+const initMark = this.props.unitInit.initMark;
+
 class ImgLayersFrame extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      currentCoverMark: initMark in this.props.unitCurrent.coverMarksData? initMark : "all",
+      currentBeneathMark: initMark in this.props.unitCurrent.beneathMarksData? initMark : "all"
     };
     this.style={
       Com_ImgLayersFrame: {
@@ -57,7 +60,6 @@ class ImgLayersFrame extends React.Component {
       this.style.Com_ImgLayersFrame_div_beneath
     );
 
-    let initMark = this.props.unitInit.initMark;
     let beneathMarks = {
       list: this.props.unitCurrent.beneathMarksList,
       data: this.props.unitCurrent.beneathMarksData
@@ -77,7 +79,7 @@ class ImgLayersFrame extends React.Component {
             <ImgLayer
               imgSrc={this.props.unitCurrent.beneathSrc}
               lockify={this.props.lockify}
-              initMark={initMark in beneathMarks? initMark : "all"}
+              marksOpen={this.state.currentBeneathMark}
               marksData={beneathMarks}/>
           }
         </div>
@@ -88,7 +90,7 @@ class ImgLayersFrame extends React.Component {
             <ImgLayer
               imgSrc={this.props.unitCurrent.coverSrc}
               lockify={this.props.lockify}
-              initMark={initMark in coverMarks? initMark : "all"}
+              marksOpen={this.state.currentCoverMark}
               marksData={coverMarks}/>
           }
         </div>
