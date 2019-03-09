@@ -7,12 +7,19 @@ const rateLimit = require("express-rate-limit");
 
 const router = require('./src/router.js');
 const winston = require('./config/winston.js');
-
 //babel-polyfill is here for the whole code after it!
 require('babel-polyfill');
 
 app.set('view engine', 'jsx');
 app.engine('jsx', require('express-react-views').createEngine({transformViews: false }));
+
+//initiate redis as a session pool
+const redis = require("redis"),
+    client = redis.createClient();
+
+client.on("error", function (err) {
+  winston.error(`${"Error: from redis when initiation: "} ${err}`);
+});
 
 app.enable("trust proxy"); //for rateLimit, due to behind a reverse proxy(nginx)
 const limiter = rateLimit({
