@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from "react-redux";
 import MarkBlock from './Mark/MarkBlock.jsx';
 
-class ViewerMarks extends React.Component {
+class AuthorMarks extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -143,4 +143,4 @@ const mapStateToProps = (state) => {
 export default connect(
   mapStateToProps,
   null
-)(ViewerMarks);
+)(AuthorMarks);

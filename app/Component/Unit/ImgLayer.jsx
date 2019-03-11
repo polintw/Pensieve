@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from "react-redux";
+import AuthorMarks from './AuthorMarks.jsx';
 import ViewerMarks from './ViewerMarks.jsx';
 
 const commonStyle = {
@@ -17,8 +18,9 @@ class ImgLayer extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      imgWidthHeight: null
+      imgWidthHeight: false
     };
+    this.Com_ImgLayer_img = React.createRef();
     this._set_imgSize = this._set_imgSize.bind(this);
     this.style = {
       Com_ImgLayer_img: {
@@ -33,8 +35,8 @@ class ImgLayer extends React.Component {
   }
 
   _set_imgSize(){
-    let imgWidth = self.Com_ImgLayer_img.clientWidth,
-        imgHeight = self.Com_ImgLayer_img.clientHeight;
+    let imgWidth = this.Com_ImgLayer_img.current.clientWidth,
+        imgHeight = this.Com_ImgLayer_img.current.clientHeight;
 
     this.setState({
       imgWidthHeight: {
@@ -47,19 +49,32 @@ class ImgLayer extends React.Component {
   render(){
     return(
       <div
-        style={commonStyle.absolute_FullVersion}
-        ref={(element) => {this.Com_ImgLayer = element;}}>
+        style={commonStyle.absolute_FullVersion}>
         <img
           style={this.style.Com_ImgLayer_img}
-          ref={(element) => {this.Com_ImgLayer_img = element;}}
+          ref={this.Com_ImgLayer_img}
           src={this.props.imgSrc}
           onLoad={this._set_imgSize}/>
         {
           this.state.imgWidthHeight && this.props.lockify &&
           this.props.unitCurrent.identity=="author" ? (
-            <AuthorMarks/>
+            <AuthorMarks
+              imgWidthHeight={this.state.imgWidthHeight}
+              marksData={this.props.marksData}
+              spotsVisible={this.props.spotsVisible}
+              markOpened={this.props.markOpened}
+              currentMark={this.props.currentMark}
+              _set_Markvisible={this.props._set_Markvisible}
+              _set_spotsVisible={this.props._set_spotsVisible}/>
           ):(
-            <ViewerMarks/>
+            <ViewerMarks
+              imgWidthHeight={this.state.imgWidthHeight}
+              marksData={this.props.marksData}
+              spotsVisible={this.props.spotsVisible}
+              markOpened={this.props.markOpened}
+              currentMark={this.props.currentMark}
+              _set_Markvisible={this.props._set_Markvisible}
+              _set_spotsVisible={this.props._set_spotsVisible}/>
           )
         }
       </div>
