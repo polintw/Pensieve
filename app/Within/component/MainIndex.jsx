@@ -9,6 +9,14 @@ import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import Unit from '../../Component/Unit.jsx';
 
+const commonStyle = {
+  withinCom_MainIndex_scroll_col_: {
+    width: '32%',
+    position: "absolute",
+    top: '5vh'
+  }
+}
+
 class MainIndex extends React.Component {
   constructor(props){
     super(props);
@@ -40,13 +48,8 @@ class MainIndex extends React.Component {
         width: '101%',
         position: "relative"
       },
-      withinCom_MainIndex_scroll_col_: {
-        width: '30%',
-        position: "absolute",
-        top: '5vh'
-      },
       withinCom_MainIndexRaws_unit_div_img: {
-        width: '100%',
+        width: '90%',
         height: 'auto'
       },
       withinCom_MainIndexRaws_unit_: {
@@ -94,7 +97,7 @@ class MainIndex extends React.Component {
             </Link>
           </div>
         );//notice the 'onLoad'! we use cache directly due to the SyntheticEvent property of react,
-        //it can't accept 'event' pass to a invoked callback, like th whole 'setState' we used here
+        //it can't accept 'event' pass to a invoked callback, like the whole 'setState' we used here
         nextState["col"+nextState.colLatest] = prevState["col"+nextState.colLatest];
 
       return nextState;
@@ -150,11 +153,11 @@ class MainIndex extends React.Component {
         <div
           style={this.style.withinCom_MainIndex_scroll_}>
           <div
-            style={Object.assign({left: '18%'}, this.style.withinCom_MainIndex_scroll_col_)}>
+            style={Object.assign({left: '10%'}, commonStyle.withinCom_MainIndex_scroll_col_)}>
             {this.state.colLeft}
           </div>
           <div
-            style={Object.assign({left: '52%'}, this.style.withinCom_MainIndex_scroll_col_)}>
+            style={Object.assign({left: '62%', textAlign: 'right'}, commonStyle.withinCom_MainIndex_scroll_col_)}>
             {this.state.colRight}
           </div>
         </div>
