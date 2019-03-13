@@ -8,10 +8,14 @@ import {
 import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import Unit from '../../Component/Unit.jsx';
+import CreateShare from '../../Component/CreateShare.jsx';
+import SvgLogo from '../../Component/SvgLogo.jsx';
+import SvgCreateonDialog from '../../Component/SvgCreateonDialog.jsx';
+import NailCosmic from '../../Component/Nails/NailCosmic.jsx';
 
 const commonStyle = {
   withinCom_MainIndex_scroll_col_: {
-    width: '32%',
+    width: '31%',
     position: "absolute",
     top: '5vh'
   }
@@ -48,17 +52,20 @@ class MainIndex extends React.Component {
         width: '101%',
         position: "relative"
       },
-      withinCom_MainIndexRaws_unit_div_img: {
-        width: '90%',
-        height: 'auto'
-      },
-      withinCom_MainIndexRaws_unit_: {
+      withinCom_MainIndex_scroll_col_Create: {
         display: 'inline-block',
         width: '100%',
         position: 'relative',
         boxSizing: 'border-box',
-        overflow: 'hidden',
-        cursor: 'pointer'
+        marginBottom: '12%'
+      },
+      withinCom_MainIndex_scroll_col_logo: {
+        display: 'inline-block',
+        width: '100%',
+        position: 'relative',
+        boxSizing: 'border-box',
+        padding: '0 3%',
+        marginBottom: '18%'
       }
     }
   }
@@ -76,32 +83,26 @@ class MainIndex extends React.Component {
       let currentSide = (prevState.colLatest == "Left") ? "Left":"Right",
           opposite = (prevState.colLatest == "Left") ? "Right":"Left",
           unitKey = prevState.unitsList[prevState.nextRender];
-      let unitData = prevState.unitsBasic[unitKey];
 
       nextState["col"+currentSide+"Ht"] = prevState["col"+currentSide+"Ht"] + currentHight;
       nextState.colLatest = (nextState["col"+currentSide+"Ht"] > this.state["col"+opposite+"Ht"] ) ? opposite : currentSide;
       nextState.nextRender = prevState.nextRender + 1;
       prevState["col"+nextState.colLatest].push(
-          <div
-            key={'key_CosmicCompound_'+prevState.nextRender}
-            style={this.style.withinCom_MainIndexRaws_unit_}>
-            <Link
-              to={{
-                pathname: this.props.match.url+"/units/"+unitKey,
-                state: {from: this.props.location}
-              }}>
-              <img
-                src={'/router/img/'+unitData.pic_layer0+'?type=thumb'}
-                style={this.style.withinCom_MainIndexRaws_unit_div_img}
-                onLoad={({currentTarget: {clientHeight}})=>this._set_RenderbyCol(clientHeight)}/>
-            </Link>
-          </div>
-        );//notice the 'onLoad'! we use cache directly due to the SyntheticEvent property of react,
-        //it can't accept 'event' pass to a invoked callback, like the whole 'setState' we used here
-        nextState["col"+nextState.colLatest] = prevState["col"+nextState.colLatest];
+        <NailCosmic
+          {...this.props}
+          key={'key_CosmicCompound_'+prevState.nextRender}
+          unitId={unitKey}
+          unitBasic={prevState.unitsBasic[unitKey]}
+          _set_RenderbyCol={this._set_RenderbyCol}/>
+      );//notice the 'onLoad'! we use cache directly due to the SyntheticEvent property of react,
+      //it can't accept 'event' pass to a invoked callback, like the whole 'setState' we used here
+      nextState["col"+nextState.colLatest] = prevState["col"+nextState.colLatest];
 
       return nextState;
     })
+  }
+
+  _submit_Share_New(dataObj){
 
   }
 
@@ -154,16 +155,31 @@ class MainIndex extends React.Component {
           style={this.style.withinCom_MainIndex_scroll_}>
           <div
             style={Object.assign({left: '10%'}, commonStyle.withinCom_MainIndex_scroll_col_)}>
-            {this.state.colLeft}
+            <div
+              style={this.style.withinCom_MainIndex_scroll_col_logo}>
+              <SvgLogo/>
+            </div>
+            <div>
+              {this.state.colLeft}
+            </div>
           </div>
           <div
-            style={Object.assign({left: '62%', textAlign: 'right'}, commonStyle.withinCom_MainIndex_scroll_col_)}>
-            {this.state.colRight}
+            style={Object.assign({left: '65%', textAlign: 'right'}, commonStyle.withinCom_MainIndex_scroll_col_)}>
+            <div
+              style={this.style.withinCom_MainIndex_scroll_col_Create}>
+              <SvgCreateonDialog/>
+              <CreateShare
+                _submit_Share_New={this._submit_Share_New}
+                _refer_von_Create={this.props._refer_von_cosmic}/>
+            </div>
+            <div>
+              {this.state.colRight}
+            </div>
           </div>
         </div>
         <Route
           path={this.props.match.path+"/units/:id"}
-          render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_von_unit}/>}/>
+          render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_von_cosmic}/>}/>
       </div>
     )
   }
