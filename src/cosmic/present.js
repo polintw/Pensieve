@@ -8,21 +8,21 @@ const {
   _select_Basic
 } = require('../utils/dbSelectHandler.js');
 const {
-  _handler_err_NotFound,
-  _handler_err_BadReq,
-  _handler_err_Unauthorized,
-  _handler_err_Internal
+  _handle_ErrCatched,
+  forbbidenError,
+  internalError,
+  authorizedError,
+  notFoundError
 } = require('../utils/reserrHandler.js');
 
 
-function _handle_cosmicCompound_GET(req, res){
+function _handle_cosmicPresent_GET(req, res){
   new Promise((resolve, reject)=>{
     const reqToken = req.body.token || req.headers['token'] || req.query.token;
     const jwtVerified = jwt.verify(reqToken, verify_key);
-    if (!jwtVerified) throw {err: jwtVerified, status: 401}
+    if (!jwtVerified) throw new authorizedError({""}, );
 
     let userId = jwtVerified.user_Id;
-    let ordinal = req.query.ordinal; // prepare for one day, the algorithm need to know which time is it now
     let mysqlForm = {
       accordancesList: userId, //operator is not "IN"
       unitsList: []
@@ -53,7 +53,7 @@ function _handle_cosmicCompound_GET(req, res){
           unitsId: row.id,
           authorId: row.id_author,
           pic_layer0: row.url_pic_layer0,
-          pic_layer1: row.url_pic_layer1? row.url_pic_layer1:false,
+          pic_layer1: row.url_pic_layer1,
           createdAt: row.createdAt,
           marksList: [],
           nounsList: []
@@ -99,32 +99,17 @@ function _handle_cosmicCompound_GET(req, res){
       })
     })
   }).then((sendingData)=>{
-    _res_success(res, sendingData, "Complete, GET: cosmic/compound.");
+    _res_success(res, sendingData, "Complete, GET: cosmic/present.");
   }).catch((errObj)=>{
-    winston.error(`${"Error: during GET: cosmic/compound, "} - ${errObj.err} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
-    switch (errObj.status) {
-      case 400:
-        _handler_err_BadReq(errObj.err, res);
-        break;
-      case 401:
-        _handler_err_Unauthorized(errObj.err, res);
-        break;
-      case 404:
-        _handler_err_NotFound(errObj.err, res);
-        break;
-      case 500:
-        _handler_err_Internal(errObj.err, res);
-        break;
-      default:
-        _handler_err_Internal(errObj.err?errObj.err:errObj, res);
-    }
+    _handle_ErrCatched(error, req, res);
+    /*winston.error(`${"Error: during GET: cosmic/present, "} - ${errObj.err} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
   });
 };
 
 
 execute.get('/', function(req, res){
-  winston.info(`${"GET: cosmic/compound"} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
-  _handle_cosmicCompound_GET(req, res);
+  winston.info(`${"GET: cosmic/present"} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+  _handle_cosmicPresent_GET(req, res);
 })
 
 module.exports = execute;

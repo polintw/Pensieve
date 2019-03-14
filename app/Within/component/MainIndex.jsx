@@ -109,7 +109,7 @@ class MainIndex extends React.Component {
   componentDidMount(){
     const self = this;
     this.setState((prevState, props)=>{return {axios: true};}, ()=>{
-      let url = '/router/cosmic/compound';
+      let url = '/router/cosmic/present';
       axios.get(url, {
         headers: {
           'charset': 'utf-8',
