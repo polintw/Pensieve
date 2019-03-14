@@ -11,7 +11,7 @@ import Unit from '../../Component/Unit.jsx';
 import CreateShare from '../../Component/CreateShare.jsx';
 import SvgLogo from '../../Component/SvgLogo.jsx';
 import SvgCreateonDialog from '../../Component/SvgCreateonDialog.jsx';
-import NailCosmic from '../../Component/Nails/NailCosmic.jsx';
+import NailCosmic from '../../Component/Nails/NailCosmic/NailCosmic.jsx';
 import {
   handleNounsList,
   handleUsersList
@@ -46,7 +46,6 @@ class MainIndex extends React.Component {
     this.style={
       withinCom_MainIndex_: {
         width: '100%',
-        minHeight: '110%',
         position: 'absolute',
         top: '0',
         left: '0',

@@ -36,9 +36,9 @@ let rootWithin = browserify({
   global: true
 }).require("./app/Within/root.js", {
   entry: true
-})/*.plugin(require('css-modulesify'), {
+}).plugin(require('css-modulesify'), {
     rootDir: __dirname
-  });*/
+  });
 let rootSelfFront = browserify({
   debug: false
 }).transform(envify({
@@ -80,9 +80,9 @@ let appSign = rootSign.bundle().on("error", function (err) { console.log("Error:
 let appWithin = rootWithin.bundle().on("error", function (err) { console.log("Error: " + err.message); });
 let appSelfFront = rootSelfFront.bundle().on("error", function (err) { console.log("Error: " + err.message); });
 let appTerrace = rootTerrace.bundle().on("error", function (err) { console.log("Error: " + err.message); });
-/*rootSelf.on('css stream', function (css) {
-    css.pipe(fs.createWriteStream('../server_statics/public/styles.css')); //rewrite the file with the new "abstract name"
-});*/
+rootWithin.on('css stream', function (css) {
+    css.pipe(fs.createWriteStream('./public/css/stylesWithin.css')); //rewrite the file with the new "abstract name"
+});
 
 exports.bundler = ()=>{
   appSign.pipe(fs.createWriteStream('./public/react/appSign.js'));

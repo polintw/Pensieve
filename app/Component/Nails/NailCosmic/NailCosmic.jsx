@@ -1,11 +1,10 @@
 import React from 'react';
-import cxBind from 'classnames/bind';
 import {
   Link,
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import DraftDisplay from '../DraftDisplay.jsx';
+import DraftDisplayforNailMark from './DraftDisplayforNailMark.jsx';
 
 const commonStyle = {
   Com_Nails_Cosmic_pic_: {
@@ -18,17 +17,19 @@ const commonStyle = {
     minHeight: '5vh',
     position: 'relative',
     boxSizing: 'border-box',
+    padding: '2%',
     backgroudColor: '#FFFFFF'
   },
   Com_Nails_Cosmic_content_mark: {
-    width: '96%',
+    width: '112%',
     position: 'relative',
     boxSizing: 'border-box',
-    padding: '0.32rem 3%',
+    padding: '0.32rem 0 0.32rem 8%',
     marginBottom: '0.28rem',
-    fontSize: '1.56rem',
+    fontSize: '1.5rem',
     fontWeight: '400',
-    letterSpacing: '0.12rem',
+    letterSpacing: '0.17rem',
+    lineHeight: '2.4rem',
     textAlign: 'left', // prevent influence from parent
     color: 'black'
   },
@@ -92,10 +93,8 @@ class NailCosmic extends React.Component {
         width: '100%',
         position: 'relative',
         boxSizing: 'border-box',
-        padding: '1% 0.5%',
         borderRadius: '0.08vh',
         boxShadow: '0 0 0 0.02vh',
-        overflow: 'hidden',
         cursor: 'pointer'
       }
     }
@@ -106,18 +105,20 @@ class NailCosmic extends React.Component {
     let marksDOM = [];
     const self = this;
 
-    for(let i=0 ; i< list.length && i< 4; i++){
+    for(let i=0 ; i< list.length && i< 3; i++){
       let key = list[i]
       marksDOM.push(
         <div
           key={"key_nailcosmic_"+self.props.unitId+"_marks_"+i}
           style={commonStyle.Com_Nails_Cosmic_content_mark}>
-          <DraftDisplay
-            editorState={self.props.marksBasic[key].editorContent}/>
+          <DraftDisplayforNailMark
+            rawContent={self.props.marksBasic[key].editorContent}/>
         </div>
       )
     }
-    marksDOM.push(<div style={{width: '100%', height: '5vh', position: 'relative'}}></div>)
+    //for vision adoption, we 'fill' some blank to the Nails
+    marksDOM.push(<div style={{width: '100%', height: '7vh', position: 'relative'}}></div>)
+    marksDOM.unshift(<div style={{width: '100%', height: '2vh', position: 'relative'}}></div>)
     return marksDOM;
   }
 
@@ -149,10 +150,10 @@ class NailCosmic extends React.Component {
   }
 
   render(){
-    //let cx = cxBind.bind(styles);
     return(
       <div
         style={this.style.Com_Nails_Cosmic_}>
+        <div style={{width: '100%', height: '4vh', position: 'relative'}}></div>
         <Link
           to={{
             pathname: this.props.match.url+"/units/"+this.props.unitId,
