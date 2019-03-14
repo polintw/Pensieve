@@ -6,7 +6,7 @@ export default class DraftDisplayforNailMark extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      editorState: this.props.editorState ?
+      editorState: this.props.rawContent ?
         EditorState.createWithContent(
           ContentState.createFromBlockArray([convertFromRaw(this.props.rawContent).getFirstBlock()])
         ):EditorState.createEmpty()

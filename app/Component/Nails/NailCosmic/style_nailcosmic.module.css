@@ -1,4 +1,9 @@
 .markDraftDisplayEditor {
   white-space: nowrap;
+  overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.markDraftDisplayEditor div {
+  display: inline-block;
 }

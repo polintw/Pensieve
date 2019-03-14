@@ -24,12 +24,11 @@ const commonStyle = {
     width: '112%',
     position: 'relative',
     boxSizing: 'border-box',
-    padding: '0.32rem 0 0.32rem 8%',
+    padding: '0 0 0.32rem 8%',
     marginBottom: '0.28rem',
     fontSize: '1.5rem',
     fontWeight: '400',
     letterSpacing: '0.17rem',
-    lineHeight: '2.4rem',
     textAlign: 'left', // prevent influence from parent
     color: 'black'
   },
@@ -116,9 +115,6 @@ class NailCosmic extends React.Component {
         </div>
       )
     }
-    //for vision adoption, we 'fill' some blank to the Nails
-    marksDOM.push(<div style={{width: '100%', height: '7vh', position: 'relative'}}></div>)
-    marksDOM.unshift(<div style={{width: '100%', height: '2vh', position: 'relative'}}></div>)
     return marksDOM;
   }
 
@@ -177,7 +173,9 @@ class NailCosmic extends React.Component {
           </div>
           <div
             style={commonStyle.Com_Nails_Cosmic_content_}>
+            <div style={{width: '100%', height: '2vh', position: 'relative'}}></div>
             {this._render_nails_Marks()}
+            <div style={{width: '100%', height: '7vh', position: 'relative'}}></div>
           </div>
         </Link>
       </div>
