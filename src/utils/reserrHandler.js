@@ -159,6 +159,7 @@ function _handle_ErrCatched(e, req, res){
       return res.status(e.status).json(clientSet);
       break;
     case 186:
+      //invalid format from register or mail resend
       clientSet['code'] = 186;
       clientSet['message'] = e.message;
       clientSet['console'] = '';

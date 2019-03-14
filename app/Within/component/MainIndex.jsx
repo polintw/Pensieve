@@ -19,7 +19,7 @@ import {
 
 const commonStyle = {
   withinCom_MainIndex_scroll_col_: {
-    width: '31%',
+    width: '32%',
     position: "absolute",
     top: '5vh'
   }
@@ -51,6 +51,11 @@ class MainIndex extends React.Component {
         top: '0',
         left: '0',
         boxSizing: 'border-box'
+      },
+      withinCom_MainIndex_footer: {
+        width: '100%',
+        height: '10vh',
+        position: 'relative'
       },
       withinCom_MainIndex_scroll_: {
         width: '101%',
@@ -97,6 +102,7 @@ class MainIndex extends React.Component {
           key={'key_CosmicCompound_'+prevState.nextRender}
           unitId={unitKey}
           unitBasic={prevState.unitsBasic[unitKey]}
+          marksBasic={prevState.marksBasic}
           _set_RenderbyCol={this._set_RenderbyCol}/>
       );//notice the 'onLoad'! we use cache directly due to the SyntheticEvent property of react,
       //it can't accept 'event' pass to a invoked callback, like the whole 'setState' we used here
@@ -160,7 +166,7 @@ class MainIndex extends React.Component {
         <div
           style={this.style.withinCom_MainIndex_scroll_}>
           <div
-            style={Object.assign({left: '10%'}, commonStyle.withinCom_MainIndex_scroll_col_)}>
+            style={Object.assign({left: '9%'}, commonStyle.withinCom_MainIndex_scroll_col_)}>
             <div
               style={this.style.withinCom_MainIndex_scroll_col_logo}>
               <SvgLogo/>
@@ -183,6 +189,7 @@ class MainIndex extends React.Component {
             </div>
           </div>
         </div>
+        <div style={this.style.withinCom_MainIndex_footer}></div>
         <Route
           path={this.props.match.path+"/units/:id"}
           render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_von_cosmic}/>}/>
