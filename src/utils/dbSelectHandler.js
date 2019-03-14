@@ -271,8 +271,8 @@ exports._select_Basic = (condition, accordance)=>{
   return new Promise((resolve, reject)=>{
     database.getConnection(function(err, connection){
       if (err) {
-        winston.error("occured when getConnection to db from SelectHandler: "+condition.table);
-        reject({status: 500, err: err});
+        //because there are multiple error handleing system connect to this function, we compromise the rejection for everyone.
+        reject({status: 500, err: err, code: 131, message: 'connection to db from SelectHandlert, target '+condition.table+': '+err});
       }else{
         let pWhereCol = new Promise((resolveWhereCol)=>{
           let where = "";
@@ -285,18 +285,18 @@ exports._select_Basic = (condition, accordance)=>{
             where = where +") "+ ("comparison" in condition ? condition.comparison[0].operator+" "+condition.comparison[0].qmark:"IN (?)");
           }
           resolveWhereCol(where);
-        }).catch((err)=>{reject({err: err})}),
+        }).catch((err)=>{reject({err: err, code: 131, message: 'unexpected from promise WhereCol in SlectHandler: '+err})}),
         pConditioncol = new Promise((resolveConditionCol)=>{
           let cols = '';
           condition.cols.forEach((col, index)=>{
             cols = cols + (index>0?", ":"") + col;
           });
           resolveConditionCol(cols);
-        }).catch((err)=>{reject({err: err})});
+        }).catch((err) => { reject({ err: err, code: 131, message: 'unexpected from promise ConditionCol in SlectHandler: '+ err }) });
         Promise.all([pConditioncol, pWhereCol]).then((strings)=>{
           let selectQuery = "SELECT "+strings[0]+" FROM "+condition.table+strings[1];
           connection.query(selectQuery, [accordance], function(err, results, fields){
-            if (err) {reject({err: err});connection.release(); return} //only with "return" could assure the promise end immediately if there is any error.
+            if (err) { reject({ err: err, code: 131, message: 'query to db from SelectHandler, `' + selectQuery+'`, '+err});connection.release(); return} //only with "return" could assure the promise end immediately if there is any error.
             let rowsArr = results.slice();
             resolve(rowsArr);
             connection.release();

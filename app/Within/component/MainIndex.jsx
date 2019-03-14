@@ -12,6 +12,10 @@ import CreateShare from '../../Component/CreateShare.jsx';
 import SvgLogo from '../../Component/SvgLogo.jsx';
 import SvgCreateonDialog from '../../Component/SvgCreateonDialog.jsx';
 import NailCosmic from '../../Component/Nails/NailCosmic.jsx';
+import {
+  handleNounsList,
+  handleUsersList
+} from "../../redux/actions/general.js";
 
 const commonStyle = {
   withinCom_MainIndex_scroll_col_: {
@@ -117,8 +121,10 @@ class MainIndex extends React.Component {
         },
         cancelToken: self.axiosSource.token
       }).then(function (res) {
+        let resObj = JSON.parse(res.data);
+        self.props._submit_NounsList_new(resObj.main.nounsListMix);
+        self.props._submit_UsersList_new(resObj.main.usersList);
           self.setState((prevState, props)=>{
-            let resObj = JSON.parse(res.data);
             return({
               axios: false,
               unitsList: resObj.main.unitsList,
@@ -191,7 +197,14 @@ const mapStateToProps = (state)=>{
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
+    _submit_UsersList_new: (arr) => { dispatch(handleUsersList(arr)); }
+  }
+}
+
 export default withRouter(connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(MainIndex));
