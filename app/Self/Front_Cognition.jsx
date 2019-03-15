@@ -10,8 +10,8 @@ import CogEmbed from './component/CogEmbed.jsx';
 import CogMutual from './component/CogMutual.jsx';
 import CogActions from './component/CogActions.jsx';
 import Collaterals from './component/Collaterals.jsx';
-import NavFront from './component/NavFront.jsx';
 import NavsCognition from './component/NavsCognition.jsx';
+import NavFrontShelf from './component/NavFront/NavFrontShelf.jsx';
 
 class FrontCognition extends React.Component {
   constructor(props){
@@ -61,11 +61,11 @@ class FrontCognition extends React.Component {
         boxSizing: 'border-box',
         backgroundColor: '#FFFFFF'
       },
-      Front_Cognition_NavFront_: {
-        width: '7%',
+      Front_Cognition_NavFrontShelf_: {
+        width: '3.6%',
         position: 'fixed',
-        bottom: '32%',
-        left: '3%',
+        top: '28%',
+        left: '4%',
         boxSizing: 'border-box',
       },
       Front_Cognition_NavsCognition_:{
@@ -115,8 +115,8 @@ class FrontCognition extends React.Component {
         </div>
         <div style={this.style.Front_Cognition_backPlane_bottom}/>
         <div
-          style={this.style.Front_Cognition_NavFront_}>
-          <NavFront {...this.props}/>
+          style={this.style.Front_Cognition_NavFrontShelf_}>
+          <NavFrontShelf {...this.props}/>
         </div>
         <div
           style={this.style.Front_Cognition_NavsCognition_}>

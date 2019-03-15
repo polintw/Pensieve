@@ -185,6 +185,8 @@ export class DateConverter extends React.Component {
         <span>{d.getDate()}</span>
         <span>{". "}</span>
         <span>{this._render_monthRome(d)}</span>
+        <span>{". "}</span>
+        <span>{d.getFullYear()}</span>
       </div>
     )
   }

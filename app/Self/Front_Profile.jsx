@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import Sheet from './component/Sheet.jsx';
+import NavFrontShelf from './component/NavFront/NavFrontShelf.jsx';
 import MaskProcessing from '../Component/MaskProcessing.jsx';
 
 class FrontProfile extends React.Component {
@@ -90,12 +91,10 @@ class FrontProfile extends React.Component {
     return(
       <div
         style={this.style.Front_Profile_}>
-        <Link to={'/cognition/embedded/inspireds'}>
-          <div
-            style={this.style.Front_Profile_return_}>
-            {"return"}
-          </div>
-        </Link>
+        <div
+          style={this.style.Front_Profile_return_}>
+          <NavFrontShelf {...this.props}/>
+        </div>
         <div
           style={this.style.Front_Profile_nav_}>
           <span style={this.style.Front_Profile_nav_span}>{"about "}</span>
