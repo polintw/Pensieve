@@ -4,3 +4,4 @@ node_modules/
 faked/
 config/.env.json
 public/react/
+public/css/

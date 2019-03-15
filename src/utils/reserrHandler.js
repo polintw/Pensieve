@@ -112,8 +112,9 @@ function _handle_ErrCatched(e, req, res){
 
   switch (e.code) {
     case 32:
+      //401, token invalid, authorized failed
       clientSet['code'] = 32;
-      clientSet['message'] = e.message;
+      clientSet['message'] = "error: could not authenticate you";
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;
@@ -143,6 +144,7 @@ function _handle_ErrCatched(e, req, res){
       return res.status(e.status).json(clientSet);
       break;
     case 131:
+      //500, unexpected internal error
       winston.error(`${e.status} - ${"Error: code 131, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
       clientSet['code'] = 131;
       clientSet['message'] = {"warning":"Some error happened, please try again."};
@@ -157,6 +159,7 @@ function _handle_ErrCatched(e, req, res){
       return res.status(e.status).json(clientSet);
       break;
     case 186:
+      //invalid format from register or mail resend
       clientSet['code'] = 186;
       clientSet['message'] = e.message;
       clientSet['console'] = '';

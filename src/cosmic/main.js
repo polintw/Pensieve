@@ -1,11 +1,11 @@
 const express = require('express');
 const main = express.Router();
 
-const compoundExecutive = require('./compound/execute.js');
+const presentExcutive = require('./present.js');
 const userExecutive = require('./user/execute.js');
 const pickExecutive = require('./pick/execute.js');
 
-main.use('/compound', compoundExecutive)
+main.use('/present', presentExcutive)
 
 main.use('/pick/user', userExecutive)
 

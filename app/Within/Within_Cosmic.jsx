@@ -18,8 +18,9 @@ class WithinCosmic extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      switchTo: null
     };
+    this._refer_von_cosmic = this._refer_von_cosmic.bind(this);
     this.style={
       Within_Cosmic_: {
         width: '100%',
@@ -28,13 +29,40 @@ class WithinCosmic extends React.Component {
         overflow: 'auto'
       },
       Within_Cosmic_corner_: {
-        width: '17%',
-        height: '5%',
         position: 'fixed',
-        top: '92%',
-        right: '6%',
+        bottom: '3%',
+        right: '11%',
         boxSizing: 'border-box'
       }
+    }
+  }
+
+  _refer_von_cosmic(identifier, route){
+    switch (route) {
+      case 'user':
+        if(identifier == this.props.userInfo.id){
+          window.location.assign('/user/screen');
+        }else{
+          this.setState((prevState, props)=>{
+            let switchTo = {
+              params: '/cosmic/people/'+identifier,
+              query: ''
+            };
+            return {switchTo: switchTo}
+          })
+        }
+        break;
+      case 'noun':
+        this.setState((prevState, props)=>{
+          let switchTo = {
+            params: '/cosmic/nouns/'+identifier,
+            query: ''
+          };
+          return {switchTo: switchTo}
+        })
+        break;
+      default:
+        return
     }
   }
 
@@ -47,6 +75,7 @@ class WithinCosmic extends React.Component {
   }
 
   render(){
+    if(this.state.switchTo){return <Redirect to={this.state.switchTo.params+this.state.switchTo.query}/>}
     //let cx = cxBind.bind(styles);
     return(
       <div
@@ -55,7 +84,7 @@ class WithinCosmic extends React.Component {
           <Route path={this.props.match.path+"/people/:id"} render={(props)=> <CosmicUser {...props}/>}/>
           <Route path={this.props.match.path+"/nouns/:id"} render={(props)=> <CosmicNoun {...props}/>}/>
           <Route path={this.props.match.path+"/units/:id/related"} render={(props)=> <CosmicRelated {...props}/>}/>
-          <Route path={this.props.match.path} render={(props)=> <CosmicMain {...props}/>}/>
+          <Route path={this.props.match.path} render={(props)=> <CosmicMain {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
         </Switch>
         <div
           style={this.style.Within_Cosmic_corner_}>

@@ -1,0 +1,18 @@
+.Nails_Cosmic {
+  display: inline-block;
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  border-radius: 0.08vh;
+  cursor: pointer;
+}
+
+.markDraftDisplayEditor {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.markDraftDisplayEditor div {
+  display: inline-block;
+}
