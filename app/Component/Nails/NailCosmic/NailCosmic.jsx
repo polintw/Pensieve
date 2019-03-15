@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import DraftDisplayforNailMark from './DraftDisplayforNailMark.jsx';
+import styles from "./styleNailCosmic.module.css";
 
 const commonStyle = {
   Com_Nails_Cosmic_pic_: {
@@ -12,23 +13,35 @@ const commonStyle = {
     position: 'relative',
     boxSizing: 'border-box'
   },
+  Com_Nails_Cosmic_banner_author: {
+    width: "100%",
+    position: 'relative',
+    boxSizing: 'border-box',
+    padding: '0.36rem 3%',
+    marginBottom: '1.16rem',
+    fontSize: '1.42rem',
+    fontWeight: '400',
+    letterSpacing: '0.14rem',
+    textAlign: 'right',
+    color: '#757575'
+  },
   Com_Nails_Cosmic_content_: {
     width: '100%',
-    minHeight: '5vh',
     position: 'relative',
     boxSizing: 'border-box',
-    padding: '2%',
-    backgroudColor: '#FFFFFF'
+    paddingLeft: '3.2%',
+    paddingRight: '6%',
+    backgroundColor: '#FFFFFF'
   },
   Com_Nails_Cosmic_content_mark: {
-    width: '112%',
+    width: '100%',
     position: 'relative',
     boxSizing: 'border-box',
-    padding: '0 0 0.32rem 8%',
+    paddingBottom: '0.32rem',
     marginBottom: '0.28rem',
-    fontSize: '1.5rem',
+    fontSize: '1.45rem',
     fontWeight: '400',
-    letterSpacing: '0.17rem',
+    letterSpacing: '0.18rem',
     textAlign: 'left', // prevent influence from parent
     color: 'black'
   },
@@ -44,36 +57,25 @@ const commonStyle = {
     top: '0',
     left: '0',
     backgroudColor: 'rgba(0,0,0,0.5)',
-    backgroundImage: "linear-gradient(75deg, transparent, rgba(0,0,0,0.03),rgba(0,0,0,0.12), rgba(0, 0, 0, 0.28), rgba(0,0,0,0.56),rgba(0,0,0,0.72))"
+    backgroundImage: "linear-gradient(259deg, transparent, rgba(0,0,0,0.03),rgba(0,0,0,0.12), rgba(0, 0, 0, 0.28), rgba(0,0,0,0.56),rgba(0,0,0,0.72))"
     //must beneath the 'backgroudColor', let browser choose if it do support gradient
-  },
-  Com_Nails_Cosmic_pic_author: {
-    display: 'inline-block',
-    position: 'absolute',
-    top: '0',
-    left: '0',
-    boxSizing: 'border-box',
-    padding: '1.5% 5%',
-    fontSize: '1.42rem',
-    fontWeight: '300',
-    letterSpacing: '0.12rem',
-    color: '#FAFAFA'
   },
   Com_Nails_Cosmic_pic_nouns_: {
     position: 'absolute',
-    bottom: '0',
-    right: '0',
+    bottom: '15%',
+    left: '0',
     boxSizing: 'border-box',
-    padding: '3% 5%'
+    padding: '0 3%'
   },
   Com_Nails_Cosmic_pic_nouns_div_: {
     position: 'relative',
     boxSizing: 'border-box',
+    margin: '0.32rem 0',
     textAlign: 'right',
-    fontSize: '1.6rem',
+    fontSize: '1.68rem',
     fontWeight: '300',
     fontFamily: 'cwTeXMing',
-    letterSpacing: '0.18rem',
+    letterSpacing: '0.2rem',
     color: '#FAFAFA'
   }
 }
@@ -87,14 +89,8 @@ class NailCosmic extends React.Component {
     this._render_nails_Marks = this._render_nails_Marks.bind(this);
     this._render_nails_nouns = this._render_nails_nouns.bind(this);
     this.style={
-      Com_Nails_Cosmic_: {
-        display: 'inline-block',
-        width: '100%',
-        position: 'relative',
-        boxSizing: 'border-box',
-        borderRadius: '0.08vh',
-        boxShadow: '0 0 0 0.02vh',
-        cursor: 'pointer'
+      Com_Nails_Cosmic_colDepend: {
+        boxShadow: (this.props.col=="Left") ? '-0.02vh 0px 0px 0.03vh':'0.02vh 0px 0px 0.03vh',
       }
     }
   }
@@ -148,7 +144,8 @@ class NailCosmic extends React.Component {
   render(){
     return(
       <div
-        style={this.style.Com_Nails_Cosmic_}>
+        className={styles.Nails_Cosmic}
+        style={this.style.Com_Nails_Cosmic_colDepend}>
         <div style={{width: '100%', height: '4vh', position: 'relative'}}></div>
         <Link
           to={{
@@ -163,17 +160,16 @@ class NailCosmic extends React.Component {
               style={commonStyle.Com_Nails_Cosmic_pic_img}
               onLoad={({currentTarget: {clientHeight}})=>this.props._set_RenderbyCol(clientHeight)}/>
             <div style={commonStyle.Com_Nails_Cosmic_pic_mask}/>
-            <div style={commonStyle.Com_Nails_Cosmic_pic_author}>
-              {this.props.unitBasic.authorId in this.props.usersBasic ? this.props.usersBasic[this.props.unitBasic.authorId].account:null}
-            </div>
             <div
               style={commonStyle.Com_Nails_Cosmic_pic_nouns_}>
               {this._render_nails_nouns()}
             </div>
           </div>
+          <div style={commonStyle.Com_Nails_Cosmic_banner_author}>
+            {this.props.unitBasic.authorId in this.props.usersBasic ? this.props.usersBasic[this.props.unitBasic.authorId].account:null}
+          </div>
           <div
             style={commonStyle.Com_Nails_Cosmic_content_}>
-            <div style={{width: '100%', height: '2vh', position: 'relative'}}></div>
             {this._render_nails_Marks()}
             <div style={{width: '100%', height: '7vh', position: 'relative'}}></div>
           </div>

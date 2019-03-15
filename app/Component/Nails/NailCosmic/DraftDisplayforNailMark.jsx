@@ -1,6 +1,6 @@
 import React from 'react';
 import {Editor, EditorState, ContentState, convertToRaw, convertFromRaw} from 'draft-js';
-import styles from "./style_nailcosmic.module.css";
+import styles from "./styleNailCosmic.module.css";
 
 export default class DraftDisplayforNailMark extends React.Component {
   constructor(props){

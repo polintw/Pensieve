@@ -51,14 +51,16 @@ class MainIndex extends React.Component {
         left: '0',
         boxSizing: 'border-box'
       },
-      withinCom_MainIndex_footer: {
-        width: '100%',
-        height: '10vh',
-        position: 'relative'
-      },
       withinCom_MainIndex_scroll_: {
         width: '101%',
         position: "relative"
+      },
+      withinCom_MainIndex_scroll_col_footer: {
+        display: 'inline-block',
+        width: '100%',
+        height: '18vh',
+        position: 'relative',
+        boxSizing: 'border-box'
       },
       withinCom_MainIndex_scroll_col_Create: {
         display: 'inline-block',
@@ -99,6 +101,7 @@ class MainIndex extends React.Component {
         <NailCosmic
           {...this.props}
           key={'key_CosmicCompound_'+prevState.nextRender}
+          col={nextState.colLatest}
           unitId={unitKey}
           unitBasic={prevState.unitsBasic[unitKey]}
           marksBasic={prevState.marksBasic}
@@ -173,9 +176,10 @@ class MainIndex extends React.Component {
             <div>
               {this.state.colLeft}
             </div>
+            <div style={this.style.withinCom_MainIndex_scroll_col_footer}></div>
           </div>
           <div
-            style={Object.assign({left: '65%', textAlign: 'right'}, commonStyle.withinCom_MainIndex_scroll_col_)}>
+            style={Object.assign({left: '65%'}, commonStyle.withinCom_MainIndex_scroll_col_)}>
             <div
               style={this.style.withinCom_MainIndex_scroll_col_Create}>
               <SvgCreateonDialog/>
@@ -186,9 +190,9 @@ class MainIndex extends React.Component {
             <div>
               {this.state.colRight}
             </div>
+            <div style={this.style.withinCom_MainIndex_scroll_col_footer}></div>
           </div>
         </div>
-        <div style={this.style.withinCom_MainIndex_footer}></div>
         <Route
           path={this.props.match.path+"/units/:id"}
           render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_von_cosmic}/>}/>
