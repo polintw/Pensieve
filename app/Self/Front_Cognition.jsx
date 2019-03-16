@@ -10,6 +10,7 @@ import CogEmbed from './component/CogEmbed.jsx';
 import CogMutual from './component/CogMutual.jsx';
 import CogActions from './component/CogActions.jsx';
 import Collaterals from './component/Collaterals.jsx';
+import NavOptions from './component/NavOptions.jsx';
 import NavsCognition from './component/NavsCognition.jsx';
 import NavFrontShelf from './component/NavFront/NavFrontShelf.jsx';
 
@@ -76,6 +77,14 @@ class FrontCognition extends React.Component {
         left: '0%',
         boxSizing: 'border-box',
         backgroundColor: '#d3deda'
+      },
+      Front_Cognition_NavOptions: {
+        width: '1.4%',
+        height: '4%',
+        position: 'fixed',
+        bottom: '21%',
+        right: '3%',
+        boxSizing: 'border-box'
       }
     }
   }
@@ -110,13 +119,17 @@ class FrontCognition extends React.Component {
         </div>
         <div style={this.style.Front_Cognition_backPlane_top}/>
         <div
+          style={this.style.Front_Cognition_NavFrontShelf_}>
+          <NavFrontShelf {...this.props}/>
+        </div>
+        <div
           style={this.style.Front_Cognition_Collateral}>
           <Route path={this.props.match.path+"/collaterals"} render={(props)=> <Collaterals {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>
         </div>
         <div style={this.style.Front_Cognition_backPlane_bottom}/>
         <div
-          style={this.style.Front_Cognition_NavFrontShelf_}>
-          <NavFrontShelf {...this.props}/>
+          style={this.style.Front_Cognition_NavOptions}>
+          <NavOptions {...this.props}/>
         </div>
         <div
           style={this.style.Front_Cognition_NavsCognition_}>

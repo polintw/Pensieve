@@ -8,7 +8,7 @@ import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import FrontCognition from './Front_Cognition.jsx';
 import FrontProfile from './Front_Profile.jsx';
-import ExternalPanel from './component/ExternalPanel.jsx';
+import NavSelf from './component/NavSelf.jsx';
 
 class Front extends React.Component {
   constructor(props){
@@ -25,7 +25,7 @@ class Front extends React.Component {
         top: '0',
         left: '0'
       },
-      Self_pages_Front_External_: {
+      Self_pages_Front_NavSelf: {
         width: '9%',
         height: '12%',
         position: 'fixed',
@@ -47,8 +47,8 @@ class Front extends React.Component {
           <Route path="/cognition" render={(props)=> <FrontCognition {...props}/>}/>
           <Route path="/profile" render={(props)=> <FrontProfile {...props}/>}/>
           <div
-            style={this.style.Self_pages_Front_External_}>
-            <ExternalPanel/>
+            style={this.style.Self_pages_Front_NavSelf}>
+            <NavSelf/>
           </div>
         </div>
       </Router>
