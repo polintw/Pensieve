@@ -118,32 +118,26 @@ class Collaterals extends React.Component {
     this.style={
       selfCom_Collaterals_: {
         width: '100%',
+        height: '100%',
         position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box',
-        padding: '2vh 0'
-      },
-      selfCom_Collaterals_Navs_: {
-        width: '64%',
-        height: '6vh',
-        position: 'fixed',
-        top: '2vh',
-        right: '4%',
-        boxSizing: 'border-box',
-        padding: '1vh 2%'
-      },
-      selfCom_Collaterals_Navs_button_: {
-        fontSize: '1.1rem',
-        fontWeight: '300',
-        letterSpacing: '0.2rem',
-        cursor: 'pointer'
+        top: '0%',
+        left: '0%'
       },
       selfCom_Collaterals_main_: {
-        width: '100%',
+        width: '76%',
         position: 'absolute',
-        top: '16vh',
-        left: '0'
+        top: '9%',
+        left: '12%',
+        boxSizing: 'border-box'
+      },
+      selfCom_Collaterals_backPlane_bottom: {
+        width: '100%',
+        height: '11%',
+        position: 'fixed',
+        bottom: '0',
+        left: '0',
+        boxSizing: 'border-box',
+        backgroundColor: '#FFFFFF'
       }
     }
   }
@@ -162,19 +156,12 @@ class Collaterals extends React.Component {
       <div
         style={this.style.selfCom_Collaterals_}>
         <div
-          key={"key_Link_nav_Collaterals"}
-          style={this.style.selfCom_Collaterals_Navs_}>
-          <span
-            style={this.style.selfCom_Collaterals_Navs_button_}
-            onClick={this._handleClick_Reidrect_back}>
-            {'collaterals'}</span>
-        </div>
-        <nav>
-        </nav>
-        <div
           style={this.style.selfCom_Collaterals_main_}>
           <Route path={this.props.match.path+"/tracks"} render={(props)=> <Tracks {...props} _refer_leaveSelf={this.props._refer_leaveSelf}/>}/>
         </div>
+        <nav>
+        </nav>
+        <div style={this.style.selfCom_Collaterals_backPlane_bottom}/>
       </div>
     )
   }
