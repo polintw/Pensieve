@@ -112,7 +112,7 @@ class Collaterals extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      close: false
+
     };
     this._handleClick_Reidrect_back= this._handleClick_Reidrect_back.bind(this);
     this.style={
@@ -142,17 +142,9 @@ class Collaterals extends React.Component {
     }
   }
 
-  _handleClick_Reidrect_back(event){
-    event.preventDefault();
-    event.stopPropagation();
-    this.setState({close: true})
-  }
-
   render(){
     //let cx = cxBind.bind(styles);
-    return this.state.close?(
-      <Redirect to={this.props.location.state.from}/>
-    ):(
+    return (
       <div
         style={this.style.selfCom_Collaterals_}>
         <div

@@ -36,15 +36,6 @@ class FrontCognition extends React.Component {
         boxSizing: 'border-box',
         backgroundColor: '#FFFFFF'
       },
-      Front_Cognition_NavsCognition_:{
-        width: '100%',
-        height: '5%',
-        position: 'fixed',
-        bottom: '0',
-        left: '0%',
-        boxSizing: 'border-box',
-        backgroundColor: '#d3deda'
-      },
       Front_Cognition_NavOptions: {
         width: '1.4%',
         height: '4%',
@@ -87,10 +78,7 @@ class FrontCognition extends React.Component {
           style={this.style.Front_Cognition_NavOptions}>
           <NavOptions {...this.props}/>
         </div>
-        <div
-          style={this.style.Front_Cognition_NavsCognition_}>
-          <NavsCognition {...this.props}/>
-        </div>
+        <NavsCognition {...this.props}/>
       </div>
     )
   }
