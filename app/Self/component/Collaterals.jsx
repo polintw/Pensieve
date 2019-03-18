@@ -114,7 +114,6 @@ class Collaterals extends React.Component {
     this.state = {
 
     };
-    this._handleClick_Reidrect_back= this._handleClick_Reidrect_back.bind(this);
     this.style={
       selfCom_Collaterals_: {
         width: '100%',

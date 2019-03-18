@@ -1,0 +1,18 @@
+._C_C_app_Component_Nails_NailCosmic_styleNailCosmic_module__Nails_Cosmic {
+  display: inline-block;
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  border-radius: 0.08vh;
+  cursor: pointer;
+}
+
+._C_C_app_Component_Nails_NailCosmic_styleNailCosmic_module__markDraftDisplayEditor {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+._C_C_app_Component_Nails_NailCosmic_styleNailCosmic_module__markDraftDisplayEditor div {
+  display: inline-block;
+}

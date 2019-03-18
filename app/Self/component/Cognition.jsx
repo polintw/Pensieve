@@ -32,6 +32,13 @@ class Cognition extends React.Component {
         left: '17%',
         boxSizing: 'border-box'
       },
+      Cognition_NavFrontShelf_: {
+        width: '3.6%',
+        position: 'fixed',
+        top: '28%',
+        left: '4%',
+        boxSizing: 'border-box',
+      },
       Cognition_backPlane_bottom: {
         width: '100%',
         height: '11%',
@@ -41,12 +48,12 @@ class Cognition extends React.Component {
         boxSizing: 'border-box',
         backgroundColor: '#FFFFFF'
       },
-      Cognition_NavFrontShelf_: {
-        width: '3.6%',
+      Cognition_backPlane_Nav: {
+        width: '100%',
         position: 'fixed',
-        top: '28%',
-        left: '4%',
-        boxSizing: 'border-box',
+        bottom: '0',
+        left: '0',
+        backgroundColor: '#d3deda'
       }
     }
   }
@@ -65,7 +72,10 @@ class Cognition extends React.Component {
           style={this.style.Cognition_NavFrontShelf_}>
           <NavFrontShelf {...this.props}/>
         </div>
-        <div style={this.style.Front_Cognition_backPlane_bottom}/>
+        <div style={this.style.Cognition_backPlane_bottom}/>
+        <div
+          className={'selfFrontCog-lowerBox-height'}
+          style={this.style.Cognition_backPlane_Nav}/>
       </div>
     )
   }

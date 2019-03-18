@@ -73,7 +73,7 @@ class FrontCognition extends React.Component {
           <Route path={this.props.match.path+"/collaterals"} render={(props)=> <Collaterals {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>
           <Route path={this.props.match.path} render={(props)=> <Cognition {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>
         </Switch>
-        <div style={this.style.Cognition_backPlane_top}/>
+        <div style={this.style.Front_Cognition_backPlane_top}/>
         <div
           style={this.style.Front_Cognition_NavOptions}>
           <NavOptions {...this.props}/>
