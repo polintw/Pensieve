@@ -21,18 +21,17 @@ class Front extends React.Component {
         width: "100%",
         minWidth: '720px',
         height: '100%',
+        minHeight: '360px',
         position: 'absolute',
         top: '0',
         left: '0'
       },
       Self_pages_Front_NavSelf: {
-        width: '9%',
-        height: '12%',
+        width: '18%',
         position: 'fixed',
-        bottom: '9%',
-        right: '2%',
-        boxSizing: 'border-box',
-        overflow: "visible"
+        bottom: '0%',
+        right: '13%',
+        boxSizing: 'border-box'
       }
     }
   }
@@ -47,6 +46,7 @@ class Front extends React.Component {
           <Route path="/cognition" render={(props)=> <FrontCognition {...props}/>}/>
           <Route path="/profile" render={(props)=> <FrontProfile {...props}/>}/>
           <div
+            className={"selfFront-fixedBottomBox-height"}
             style={this.style.Self_pages_Front_NavSelf}>
             <NavSelf/>
           </div>

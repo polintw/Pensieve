@@ -18,7 +18,7 @@ const commonStyle = {
     height: '100%',
     position: 'absolute',
     bottom: '0',
-    left: '0',
+    right: '0',
     boxSizing: 'border-box',
     color: "#757575"
   },
@@ -27,7 +27,7 @@ const commonStyle = {
     height: '100%',
     position: 'absolute',
     bottom: '0%',
-    right: '8%',
+    left: '8%',
     boxSizing: 'border-box',
     boxShadow: '0px 0.18vh 0.01vh -0.03vh',
     borderRadius: '0px 0px 0.6vh 0.6vh',
@@ -50,7 +50,7 @@ export default class NavsCognition extends React.Component {
         height: '10.5vh',
         position: 'fixed',
         bottom: '0',
-        left: '50%',
+        right: '50%',
         boxSizing: 'border-box'
       },
       selfCom_NavsCognition_inCollaterals_: {
@@ -63,7 +63,7 @@ export default class NavsCognition extends React.Component {
       },
       selfCom_NavsCognition_inCognition_series_: {
         position: 'absolute',
-        left: '2%',
+        right: '2%',
         top: '5%',
         boxSizing: 'border-box'
       },
@@ -128,7 +128,7 @@ export default class NavsCognition extends React.Component {
                     {'Series'}</span>
                 </div>
                 <div
-                  className={"selfFrontCog-lowerBox-height"}
+                  className={"selfFront-fixedBottomBox-height"}
                   style={commonStyle.boxonDark}>
                   <div
                     style={commonStyle.boxButtonCollateral}>

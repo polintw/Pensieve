@@ -74,7 +74,7 @@ class Cognition extends React.Component {
         </div>
         <div style={this.style.Cognition_backPlane_bottom}/>
         <div
-          className={'selfFrontCog-lowerBox-height'}
+          className={'selfFront-fixedBottomBox-height'}
           style={this.style.Cognition_backPlane_Nav}/>
       </div>
     )
