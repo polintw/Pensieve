@@ -24,7 +24,14 @@ const commonStyle = {
     marginLeft: "6%",
     borderRadius: '1.6vh',
     backgroundColor: '#e6e6e6',
-    color: 'black'
+    color: 'black',
+    cursor: 'pointer'
+  },
+  spanButtonNavWalls: {
+    fontSize: '1.4rem',
+    fontWeight: '400',
+    letterSpacing: '0.12rem',
+    lineHeight: '1rem'
   }
 }
 
@@ -42,13 +49,6 @@ export default class NavWalls extends React.Component {
         top: '0',
         left: '0',
         boxSizing: 'border-box'
-      },
-      selfCom_NavWalls_spanButton: {
-        fontSize: '1.4rem',
-        fontWeight: '400',
-        letterSpacing: '0.12rem',
-        lineHeight: '1rem',
-        cursor: 'pointer'
       }
     }
   }
@@ -66,7 +66,7 @@ export default class NavWalls extends React.Component {
               to={this.props.match.url+"/mutuals/dialogues"}
               className={'plainLinkButton centerAlignChild'}>
               <span
-                style={this.style.selfCom_NavWalls_spanButton}>
+                style={commonStyle.spanButtonNavWalls}>
                 {"mutual"}
               </span>
             </Link>
@@ -77,7 +77,7 @@ export default class NavWalls extends React.Component {
               to={this.props.match.url+"/embedded/inspireds"}
               className={'plainLinkButton centerAlignChild'}>
               <span
-                style={this.style.selfCom_NavWalls_spanButton}>
+                style={commonStyle.spanButtonNavWalls}>
                 {"embed"}
               </span>
             </Link>
@@ -88,7 +88,7 @@ export default class NavWalls extends React.Component {
               to={this.props.match.url+"/actions/shareds"}
               className={'plainLinkButton centerAlignChild'}>
               <span
-                style={this.style.selfCom_NavWalls_spanButton}>
+                style={commonStyle.spanButtonNavWalls}>
                 {"actions"}
               </span>
             </Link>

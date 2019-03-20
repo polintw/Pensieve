@@ -15,9 +15,11 @@ export default class SvgCreateonDialog extends React.Component {
     return(
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 424.38 195.38"
       style={{
-        width: '100%',
-        height: 'auto'
-      }}>
+        maxWidth: '100%',
+        height: 'auto',
+        maxHeight: '100%'
+      }}
+      preserveAspectRatio="none">
       <defs><style>
         {".cls-1-CreateonDialog,.cls-2-CreateonDialog{fill:#fff;stroke-miterlimit:10;}.cls-1-CreateonDialog{stroke:#ababab;stroke-width:0.75px;}.cls-2-CreateonDialog{stroke:#383838;}"}
       </style></defs>

@@ -19,26 +19,19 @@ export default class CogActions extends React.Component {
         top: '0',
         left: '0'
       },
-      selfCom_CogActions_nav_: {
-        display: 'inline-block',
-        width: '24%',
-        position: 'relative',
-        top: '0',
-        right: '-4%',
-        boxSizing: 'border-box',
-        padding: '1vh 2%',
-        margin: '0 0 2vh',
-        float: 'right',
-        fontSize: '1.4rem',
-        fontWeight: '300',
-        letterSpacing: '0.15rem'
-      },
       selfCom_CogActions_main_: {
         width: '100%',
-        position: 'relative',
+        position: 'absolute',
         top: '0',
-        left: '0',
-        float: 'left'
+        left: '0'
+      },
+      selfCom_CogActions_Nav_: {
+        width: '27%',
+        height: '12vh',
+        position: 'absolute',
+        right: '-2%',
+        top: '0',
+        boxSizing: 'border-box'
       }
     }
   }
@@ -48,7 +41,8 @@ export default class CogActions extends React.Component {
     return(
       <div
         style={this.style.selfCom_CogActions_}>
-        <div>
+        <div
+          style={this.style.selfCom_CogActions_Nav_}>
           <NavActions
             {...this.props}/>
         </div>

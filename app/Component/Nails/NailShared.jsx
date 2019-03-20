@@ -16,6 +16,14 @@ class NailShared extends React.Component {
     this._render_nails_nouns = this._render_nails_nouns.bind(this);
     this._handleClick_Nail_breachto_res = this._handleClick_Nail_breachto_res.bind(this);
     this.style = {
+      Com_Nails_Shared_: {
+        display: 'inline-block',
+        width: '31%',
+        height: '33vh',
+        position: 'relative',
+        boxSizing: 'border-box',
+        margin: '3vh 0.7% 0'
+      },
       Com_Nails_Shared_main_marks_: {
         width: '56%',
         height: '72%',
@@ -30,14 +38,6 @@ class NailShared extends React.Component {
         position: 'relative',
         boxSizing: 'border-box',
         padding: '2% 1%'
-      },
-      Com_Nails_Shared_: {
-        display: 'inline-block',
-        width: '44%',
-        height: '32vh',
-        position: 'relative',
-        boxSizing: 'border-box',
-        margin: '0 5% 2vh 0'
       },
       Com_Nails_Shared_nouns_: {
         width: '72%',

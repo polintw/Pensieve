@@ -4,7 +4,7 @@ import {
   Link
 } from 'react-router-dom';
 import CreateShare from '../../../Component/CreateShare.jsx';
-import SvgCreateCoral from '../../../Component/SvgCreateCoral.jsx';
+import SvgCreateonDialog from '../../../Component/SvgCreateonDialog.jsx';
 
 export default class TitleShared extends React.Component {
   constructor(props){
@@ -14,40 +14,31 @@ export default class TitleShared extends React.Component {
     };
     this._submit_Share_New = this._submit_Share_New.bind(this);
     this.style={
-      selfCom_CogActions_: {
+      selfCom_Title_Shared_: {
         width: '100%',
+        height: '100%',
         position: 'absolute',
         top: '0',
         left: '0',
-        boxSizing: 'border-box',
-        paddingBottom: '2vh',
-        borderBottom: '0.1rem solid #ff9a5e'
+        boxSizing: 'border-box'
       },
-      selfCom_CogActions_main_: {
+      selfCom_Title_Shared_main_: {
         display: 'inline-block',
         width: '36%',
         float: 'left',
         boxSizing: 'border-box',
         margin: '0 3%',
         fontWeight: '700',
-        fontSize: '3rem',
-        letterSpacing: '0.6rem'
+        fontSize: '2.8rem',
+        letterSpacing: '0.54rem'
       },
-      selfCom_Shared_top_: {
+      selfCom_Title_Shared_Create_: {
         width: '100%',
-        height: '11vh',
-        position: 'relative',
+        height: '18vh',
+        position: 'absolute',
+        bottom: '4vh',
         boxSizing: 'border-box',
-        marginBottom: '4vh'
-      },
-      selfCom_Shared_top_CreateShare_: {
-        display: 'inline-block',
-        width: '27%',
-        height: '100%',
-        position: 'relative',
-        boxSizing: 'border-box',
-        marginRight: '4%',
-        float: 'right'
+        padding: '1vh 3%'
       },
     }
   }
@@ -61,20 +52,17 @@ export default class TitleShared extends React.Component {
     //let cx = cxBind.bind(styles);
     return(
       <div
-        style={this.style.selfCom_CogActions_}>
+        style={this.style.selfCom_Title_Shared_}>
         <div
-          style={this.style.selfCom_CogActions_main_}>
+          style={this.style.selfCom_Title_Shared_main_}>
           {"Shared"}
         </div>
         <div
-          style={this.style.selfCom_Shared_top_}>
-          <div
-            style={this.style.selfCom_Shared_top_CreateShare_}>
-            <SvgCreateCoral/>
-            <CreateShare
-              _submit_Share_New={this._submit_Share_New}
-              _refer_von_Create={this.props._refer_leaveSelf}/>
-          </div>
+          style={this.style.selfCom_Title_Shared_Create_}>
+          <SvgCreateonDialog/>
+          <CreateShare
+            _submit_Share_New={this._submit_Share_New}
+            _refer_von_Create={this.props._refer_leaveSelf}/>
         </div>
       </div>
     )
