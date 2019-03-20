@@ -6,9 +6,8 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import Threads from './Threads.jsx';
-import CreateShare from '../../Component/CreateShare.jsx';
+import TitleShared from './Titles/TitleShared.jsx';
 import Unit from '../../Component/Unit.jsx';
-import SvgCreateCoral from '../../Component/SvgCreateCoral.jsx';
 import NailShared from '../../Component/Nails/NailShared.jsx';
 //ModalBox used some unstable method, considering updating some day.
 import ModalBox from '../../Component/ModalBox.jsx';
@@ -26,7 +25,6 @@ class Shared extends React.Component {
     };
     this.axiosSource = axios.CancelToken.source();
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
-    this._submit_Share_New = this._submit_Share_New.bind(this);
     this._axios_nails_shareds = this._axios_nails_shareds.bind(this);
     this.style={
       selfCom_Shared_: {
@@ -34,22 +32,6 @@ class Shared extends React.Component {
         position: 'absolute',
         top: '0',
         left: '0'
-      },
-      selfCom_Shared_top_: {
-        width: '100%',
-        height: '11vh',
-        position: 'relative',
-        boxSizing: 'border-box',
-        marginBottom: '4vh'
-      },
-      selfCom_Shared_top_CreateShare_: {
-        display: 'inline-block',
-        width: '27%',
-        height: '100%',
-        position: 'relative',
-        boxSizing: 'border-box',
-        marginRight: '4%',
-        float: 'right'
       },
       selfCom_Shared_nails_: {
         width: '100%',
@@ -97,10 +79,6 @@ class Shared extends React.Component {
     });
   }
 
-  _submit_Share_New(dataObj){
-    this._axios_nails_shareds();
-  }
-
   componentDidMount(){
     this._axios_nails_shareds();
   }
@@ -130,15 +108,11 @@ class Shared extends React.Component {
     return(
       <div
         style={this.style.selfCom_Shared_}>
-        <div
-          style={this.style.selfCom_Shared_top_}>
-          <div
-            style={this.style.selfCom_Shared_top_CreateShare_}>
-            <SvgCreateCoral/>
-            <CreateShare
-              _submit_Share_New={this._submit_Share_New}
-              _refer_von_Create={this.props._refer_leaveSelf}/>
-          </div>
+        <div>
+          <TitleShared
+            {...props}
+            _axios_nails_shareds={this._axios_nails_shareds}
+            _refer_von_Create={this.props._refer_leaveSelf}/>
         </div>
         <div
           style={this.style.selfCom_Shared_nails_}>

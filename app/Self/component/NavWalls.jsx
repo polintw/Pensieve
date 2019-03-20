@@ -63,11 +63,11 @@ export default class NavWalls extends React.Component {
           <div
             style={commonStyle.buttonRound}>
             <Link
-              to={this.props.match.url+"/actions/shareds"}
-              className={'selfLinkButton centerAlignChild'}>
+              to={this.props.match.url+"/mutuals/dialogues"}
+              className={'plainLinkButton centerAlignChild'}>
               <span
                 style={this.style.selfCom_NavWalls_spanButton}>
-                {"actions"}
+                {"mutual"}
               </span>
             </Link>
           </div>
@@ -75,7 +75,7 @@ export default class NavWalls extends React.Component {
             style={commonStyle.buttonRound}>
             <Link
               to={this.props.match.url+"/embedded/inspireds"}
-              className={'selfLinkButton centerAlignChild'}>
+              className={'plainLinkButton centerAlignChild'}>
               <span
                 style={this.style.selfCom_NavWalls_spanButton}>
                 {"embed"}
@@ -85,11 +85,11 @@ export default class NavWalls extends React.Component {
           <div
             style={commonStyle.buttonRound}>
             <Link
-              to={this.props.match.url+"/mutuals/dialogues"}
-              className={'selfLinkButton centerAlignChild'}>
+              to={this.props.match.url+"/actions/shareds"}
+              className={'plainLinkButton centerAlignChild'}>
               <span
                 style={this.style.selfCom_NavWalls_spanButton}>
-                {"mutual"}
+                {"actions"}
               </span>
             </Link>
           </div>

@@ -25,17 +25,17 @@ class Cognition extends React.Component {
         left: '0%'
       },
       Cognition_scroll_: {
-        width: '68%',
+        width: '72%',
         minHeight: '80%',
         position: 'absolute',
-        top: '5%',
-        left: '17%',
+        top: '4.5%',
+        left: '16%',
         boxSizing: 'border-box'
       },
       Cognition_NavFrontShelf_: {
         width: '3.6%',
         position: 'fixed',
-        top: '28%',
+        top: '30%',
         left: '4%',
         boxSizing: 'border-box',
       },

@@ -29,7 +29,7 @@ class FrontCognition extends React.Component {
       },
       Front_Cognition_backPlane_top: {
         width: '100%',
-        height: '4.5%',
+        height: '4%',
         position: 'fixed',
         top: '0',
         left: '0',

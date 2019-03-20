@@ -63,7 +63,7 @@ export default class NavsCognition extends React.Component {
       },
       selfCom_NavsCognition_inCognition_series_: {
         position: 'absolute',
-        right: '2%',
+        right: '3%',
         top: '5%',
         boxSizing: 'border-box'
       },
@@ -138,7 +138,8 @@ export default class NavsCognition extends React.Component {
                         pathname: this.props.match.url + "/collaterals/tracks",
                         state: { from: this.props.location }
                       }}
-                      className={'selfLinkButton verticalAlignChild'}>
+                      className={'plainLinkButton verticalAlignChild'}
+                      style={{right: '0'}}>
                       <span
                         style={this.style.selfCom_NavsCognition_inCognition_spanCollaterals}>
                         {'collaterals'}</span>
