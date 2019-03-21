@@ -179,11 +179,12 @@ export default class Inspired extends React.Component {
     const self = this;
     this.setState({axios: true});
 
-    axios.get('/router/user/cognition/inspired', {
+    axios.get('/router/inspire/embedded', {
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']
-      }
+      },
+      cancelToken: self.axiosSource.token
     }).then(function(res){
       let resObj = JSON.parse(res.data);
       self.setState({
