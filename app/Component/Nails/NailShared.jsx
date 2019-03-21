@@ -6,6 +6,47 @@ import {
 import {connect} from "react-redux";
 import DraftDisplay from '../DraftDisplay.jsx';
 
+const commonStyle = {
+  framePic: {
+    width: '100%',
+    height: '82%',
+    position: 'relative',
+    boxSizing: 'border-box',
+    backgroudColor: 'black'
+  },
+  maskPic: {
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    top: '0',
+    left: '0',
+    backgroudColor: 'rgba(0,0,0,0.5)',
+    backgroundImage: "linear-gradient(259deg, transparent, rgba(0,0,0,0.03),rgba(0,0,0,0.12), rgba(0, 0, 0, 0.28), rgba(0,0,0,0.56),rgba(0,0,0,0.72))",
+    //must beneath the 'backgroudColor', let browser choose if it do support gradient
+    cursor: 'pointer'
+  },
+  marksPicFrame: {
+    width: '100%',
+    position: 'absolute',
+    bottom: '15%',
+    right: '0%',
+    cursor: 'pointer'
+  },
+  markPreview: {
+    maxWidth: '72%',
+    maxHeight: '64%',
+    position: 'relative',
+    boxSizing: 'border-box',
+    padding: '0% 4%',
+    float: 'right',
+    textAlign: 'right',
+    fontSize: '1.45rem',
+    fontWeight: '400',
+    letterSpacing: '0.18rem',
+    color: '#FAFAFA'
+  }
+}
+
 class NailShared extends React.Component {
   constructor(props){
     super(props);
@@ -17,27 +58,18 @@ class NailShared extends React.Component {
     this._handleClick_Nail_breachto_res = this._handleClick_Nail_breachto_res.bind(this);
     this.style = {
       Com_Nails_Shared_: {
-        display: 'inline-block',
-        width: '31%',
-        height: '33vh',
-        position: 'relative',
-        boxSizing: 'border-box',
-        margin: '3vh 0.7% 0'
-      },
-      Com_Nails_Shared_main_marks_: {
-        width: '56%',
-        height: '72%',
-        position: 'absolute',
-        top: '0',
-        left: '2%',
-        cursor: 'pointer'
-      },
-      Com_Nails_Shared_main_mark: {
         width: '100%',
-        height: '30%',
+        height: '100%',
         position: 'relative',
-        boxSizing: 'border-box',
-        padding: '2% 1%'
+        boxSizing: 'border-box'
+      },
+      Com_Nails_Shared_pic_img_: {
+        maxWidth: '100%',
+        maxHeight: '100%',
+        position: 'absolute',
+        top: '0%',
+        left: '30%',
+        transform: 'translate(-30%,0%)'
       },
       Com_Nails_Shared_nouns_: {
         width: '72%',
@@ -56,24 +88,6 @@ class NailShared extends React.Component {
         display: 'inline-block',
         position: 'relative',
         margin: '0 5% 0 0'
-      },
-      Com_Nails_Shared_pic_: {
-        width: '42%',
-        height: '88%',
-        position: 'absolute',
-        top: '0',
-        right: '0',
-        boxSizing: 'border-box',
-        overflow: 'hidden',
-        cursor: 'pointer'
-      },
-      Com_Nails_Shared_pic_img_: {
-        maxWidth: '100%',
-        maxHeight: '100%',
-        position: 'absolute',
-        top: '0%',
-        left: '50%',
-        transform: 'translate(-50%,0%)'
       },
       Com_Nails_Shared_breach_: {
         width: '25%',
@@ -113,12 +127,15 @@ class NailShared extends React.Component {
     let marksDOM = [];
     const self = this;
 
+
+    //select a random one!
+
     for(let i=0 ; i< list.length && i< 3; i++){
       let key = list[i]
       marksDOM.push(
         <div
           key={"key_Shared_nails_"+self.props.sharedId+"_marks_"+i}
-          style={self.style.Com_Nails_Shared_main_mark}>
+          style={commonStyle.markPreview}>
           <DraftDisplay
             editorState={self.props.marksBasic[key].editorContent}/>
         </div>
@@ -154,17 +171,19 @@ class NailShared extends React.Component {
           to={{
             pathname: this.props.match.url+"/units/"+this.props.sharedId,
             state: {from: this.props.location}
-          }}>
-          <div
-            style={this.style.Com_Nails_Shared_main_marks_}>
-            {this._render_nails_Marks()}
-          </div>
+          }}
+          className={"plainLinkButton"}>
           <div
             unitname={this.props.sharedId}
-            style={this.style.Com_Nails_Shared_pic_}>
+            style={commonStyle.framePic}>
             <img
               src={'/router/img/'+this.props.unitBasic.pic_layer0+'?type=thumb'}
               style={this.style.Com_Nails_Shared_pic_img_}/>
+            <div style={commonStyle.maskPic} />
+            <div
+              style={commonStyle.marksPicFrame}>
+              {this._render_nails_Marks()}
+            </div>
           </div>
         </Link>
         <div
@@ -180,6 +199,7 @@ class NailShared extends React.Component {
           </div>
           <Link
             to={this.props.match.url+"/"+this.props.sharedId+'/threads'}
+            className={"plainLinkButton"}
             style={this.style.Com_Nails_Shared_breach_button_}>
             <span>{"Thr"}</span>
           </Link>

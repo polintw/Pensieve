@@ -15,9 +15,17 @@ import {handleNounsList} from "../../redux/actions/general.js";
 import {errHandler_axiosCatch} from "../../utils/errHandlers.js";
 
 const commonStyle = {
+  frameNail: {
+    display: 'inline-block',
+    width: '31%',
+    height: '33vh',
+    position: 'relative',
+    boxSizing: 'border-box',
+    margin: '3vh 0.7% 0'
+  },
   titleReserved: {
     display: 'inline-block',
-    width: '25vw',
+    width: '34.5%',
     height: '36vh',
     position: 'relative',
     float: 'right',
@@ -67,12 +75,15 @@ class Shared extends React.Component {
     let shareds = self.state.unitsList.map(function(dataKey, index){
       let dataValue = self.state.unitsBasic[dataKey];
       return(
-        <NailShared
-          {...self.props}
-          key={'key_Shared_nails_'+index}
-          sharedId={dataKey}
-          unitBasic={dataValue}
-          marksBasic={self.state.marksBasic}/>
+        <div
+          style={commonStyle.frameNail}>
+          <NailShared
+            {...self.props}
+            key={'key_Shared_nails_'+index}
+            sharedId={dataKey}
+            unitBasic={dataValue}
+            marksBasic={self.state.marksBasic}/>
+        </div>
       )
     }), reserved = (
       <div

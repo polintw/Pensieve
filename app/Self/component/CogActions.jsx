@@ -42,13 +42,13 @@ export default class CogActions extends React.Component {
       <div
         style={this.style.selfCom_CogActions_}>
         <div
-          style={this.style.selfCom_CogActions_Nav_}>
-          <NavActions
-            {...this.props}/>
-        </div>
-        <div
           style={this.style.selfCom_CogActions_main_}>
           <Route path={this.props.match.path+"/shareds"} render={(props)=> <Shared {...props} _refer_leaveSelf={this.props._refer_leaveSelf}/>}/>
+        </div>
+        <div
+          style={this.style.selfCom_CogActions_Nav_}>
+          <NavActions
+            {...this.props} />
         </div>
       </div>
     )
