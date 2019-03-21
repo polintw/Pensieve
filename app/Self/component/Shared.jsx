@@ -17,15 +17,14 @@ import {errHandler_axiosCatch} from "../../utils/errHandlers.js";
 const commonStyle = {
   frameNail: {
     display: 'inline-block',
-    width: '31%',
-    height: '33vh',
+    width: '32%',
+    height: '36vh',
     position: 'relative',
     boxSizing: 'border-box',
-    margin: '3vh 0.7% 0'
+    margin: '2vh 0.7% 0 0'
   },
   titleReserved: {
     display: 'inline-block',
-    width: '34.5%',
     height: '36vh',
     position: 'relative',
     float: 'right',
@@ -58,7 +57,7 @@ class Shared extends React.Component {
       selfCom_Shared_nails_: {
         width: '100%',
         position: 'absolute',
-        top: '0',
+        top: '2%',
         left: '0',
         boxSizing: 'border-box'
       }
@@ -88,7 +87,7 @@ class Shared extends React.Component {
     }), reserved = (
       <div
         key={'key_Shared_nails_titleReserved'}
-        style={commonStyle.titleReserved}>
+        style={Object.assign({}, {width: '34%'}, commonStyle.titleReserved)}>
       </div>
     );
     shareds.unshift(reserved);
@@ -147,7 +146,7 @@ class Shared extends React.Component {
           {this._render_Shareds()}
         </div>
         <div
-          style={commonStyle.titleReserved}>
+          style={Object.assign({}, {width: '35%',right: '-2%'}, commonStyle.titleReserved)}>
           <TitleShared
             {...this.props}
             _axios_nails_shareds={this._axios_nails_shareds}

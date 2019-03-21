@@ -34,9 +34,9 @@ export default class TitleShared extends React.Component {
       },
       selfCom_Title_Shared_Create_: {
         width: '100%',
-        height: '18vh',
+        height: '16vh',
         position: 'absolute',
-        bottom: '4vh',
+        bottom: '3vh',
         boxSizing: 'border-box',
         padding: '1vh 3%'
       },
