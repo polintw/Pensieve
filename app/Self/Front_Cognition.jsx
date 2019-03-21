@@ -6,11 +6,10 @@ import {
   Switch
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import Cognition from './component/Cognition.jsx';
-import Collaterals from './component/Collaterals.jsx';
 import NavOptions from './component/NavOptions.jsx';
-import NavsCognition from './component/NavsCognition.jsx';
-import NavFrontShelf from './component/NavFront/NavFrontShelf.jsx';
+import Cognition from './component/cognition/Cognition.jsx';
+import Collaterals from './component/cognition/Collaterals.jsx';
+import NavsCognition from './component/cognition/NavsCognition.jsx';
 
 class FrontCognition extends React.Component {
   constructor(props){

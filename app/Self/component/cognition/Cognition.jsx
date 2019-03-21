@@ -8,7 +8,7 @@ import {connect} from "react-redux";
 import CogEmbed from './CogEmbed.jsx';
 import CogMutual from './CogMutual.jsx';
 import CogActions from './CogActions.jsx';
-import NavFrontShelf from './NavFront/NavFrontShelf.jsx';
+import NavFrontShelf from '../NavFront/NavFrontShelf.jsx';
 
 class Cognition extends React.Component {
   constructor(props){

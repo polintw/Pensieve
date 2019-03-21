@@ -39,7 +39,7 @@ export default class NavFrontShelf extends React.Component {
         {
           (this.props.location.pathname=="/profile/sheet") ?(
             <Link
-              to={'/cognition/embedded/inspireds'}
+              to={this.props.location.state.from}
               style={commonStyle.selfCom_NavFrontShelf_link}>
               <div>
                 {"return"}
