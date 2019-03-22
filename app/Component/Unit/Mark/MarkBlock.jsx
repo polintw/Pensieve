@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import MarkDialogue from './MarkDialogue.jsx';
 import SvgBulb from '../../Svg/SvgBulb.jsx';
 import SvgPropic from '../../Svg/SvgPropic.jsx';
-import DraftDisplay from '../../DraftDisplay.jsx';
+import DraftDisplay from '../../Draft/DraftDisplay.jsx';
 import {
   setUnitInspired
 } from "../../../redux/actions/general.js";

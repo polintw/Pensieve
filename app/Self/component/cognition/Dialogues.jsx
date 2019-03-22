@@ -3,7 +3,7 @@ import {
   Route,
   Link
 } from 'react-router-dom';
-import DraftDisplay from '../../../Component/DraftDisplay.jsx';
+import DraftDisplay from '../../../Component/Draft/DraftDisplay.jsx';
 import SvgPropic from '../../../Component/Svg/SvgPropic.jsx';
 import Unit from '../../../Component/Unit.jsx';
 

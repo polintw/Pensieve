@@ -7,7 +7,7 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import DraftDisplay from './DraftDisplay.jsx';
+import DraftDisplay from './Draft/DraftDisplay.jsx';
 import SvgBulb from './Svg/SvgBulb.jsx';
 import Unit from './Unit.jsx';
 

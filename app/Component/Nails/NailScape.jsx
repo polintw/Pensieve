@@ -4,7 +4,7 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import DraftDisplay from '../DraftDisplay.jsx';
+import DraftDisplay from '../Draft/DraftDisplay.jsx';
 
 class NailScape extends React.Component {
   constructor(props){

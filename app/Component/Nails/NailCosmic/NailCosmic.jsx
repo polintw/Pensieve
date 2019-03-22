@@ -4,7 +4,7 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import DraftDisplayforNailMark from './DraftDisplayforNailMark.jsx';
+import DraftDisplayforNailMark from '../../Draft/DraftDisplayforNailMark.jsx';
 import styles from "./styleNailCosmic.module.css";
 
 const commonStyle = {

@@ -7,7 +7,7 @@ import {
 import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import Screen from './component/Screen.jsx';
-import Appearance from '../Component/Appearance.jsx';
+//import Appearance from '../Component/Appearance.jsx';
 
 
 class Terrace extends React.Component {
@@ -75,7 +75,7 @@ class Terrace extends React.Component {
           paramWatch== 'appearance'?(
             <div
               style={this.style.Self_pages_Terrace_hidden_appearance}>
-              <Appearance {...this.props} urlParam={"/router/user/cover"} urlQuery={"?id="+this.props.userInfo.id} _refer_von_unit={this._refer_leaveSelf}/>
+
             </div>
           ):(
             <Screen {...this.props}/>

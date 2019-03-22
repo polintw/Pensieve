@@ -8,7 +8,6 @@ import {connect} from "react-redux";
 import querystring from 'query-string';
 import TitleInspired from './Titles/TitleInspired.jsx';
 import Unit from '../../../Component/Unit.jsx';
-import DraftDisplay from '../../../Component/DraftDisplay.jsx';
 import NailInspired from '../../../Component/Nails/NailInspired.jsx';
 import {
   handleNounsList,

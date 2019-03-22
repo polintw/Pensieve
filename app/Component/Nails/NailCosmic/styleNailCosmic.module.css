@@ -6,13 +6,3 @@
   border-radius: 0.08vh;
   cursor: pointer;
 }
-
-.markDraftDisplayEditor {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.markDraftDisplayEditor div {
-  display: inline-block;
-}

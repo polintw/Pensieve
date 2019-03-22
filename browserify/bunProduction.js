@@ -54,9 +54,9 @@ let rootSelfFront = browserify({
   global: true
 }).require("./app/Self/root_Front.js", {
   entry: true
-})/*.plugin(require('css-modulesify'), {
+}).plugin(require('css-modulesify'), {
     rootDir: __dirname
-  });*/
+  });
 let rootTerrace = browserify({
   debug: false
 }).transform(envify({
@@ -82,6 +82,9 @@ let appSelfFront = rootSelfFront.bundle().on("error", function (err) { console.l
 let appTerrace = rootTerrace.bundle().on("error", function (err) { console.log("Error: " + err.message); });
 rootWithin.on('css stream', function (css) {
     css.pipe(fs.createWriteStream('./public/css/stylesWithin.css')); //rewrite the file with the new "abstract name"
+});
+rootSelfFront.on('css stream', function (css) {
+    css.pipe(fs.createWriteStream('./public/css/stylesSelfFront.css')); //rewrite the file with the new "abstract name"
 });
 
 exports.bundler = ()=>{

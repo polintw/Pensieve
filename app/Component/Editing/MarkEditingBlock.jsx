@@ -5,7 +5,7 @@ import {
   convertFromRaw
 } from 'draft-js';
 import RefEditing from './RefEditing.jsx';
-import DraftEditor from '../DraftEditor.jsx';
+import DraftEditor from '../Draft/DraftEditor.jsx';
 import ModalBox from '../ModalBox.jsx';
 
 export default class MarkEditingBlock extends React.Component {
