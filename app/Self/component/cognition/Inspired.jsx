@@ -1,12 +1,15 @@
 import React from 'react';
 import {
   Route,
-  Link
+  Link,
+  withRouter
 } from 'react-router-dom';
+import {connect} from "react-redux";
 import querystring from 'query-string';
 import TitleInspired from './Titles/TitleInspired.jsx';
-import DraftDisplay from '../../../Component/DraftDisplay.jsx';
 import Unit from '../../../Component/Unit.jsx';
+import DraftDisplay from '../../../Component/DraftDisplay.jsx';
+import NailInspired from '../../../Component/Nails/NailInspired.jsx';
 import {
   handleNounsList,
   handleUsersList
@@ -35,7 +38,7 @@ const commonStyle = {
   }
 }
 
-export default class Inspired extends React.Component {
+class Inspired extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -85,14 +88,14 @@ export default class Inspired extends React.Component {
 
     self.state.unitsList.forEach(function(unitKey, index){
       let unitBasic = self.state.unitsBasic[unitKey];
-      self.state.unitsBasic.marksList.forEach((markKey, index)=>{
+      unitBasic.marksList.forEach((markKey, index)=>{
         let markBasic = self.state.marksBasic[markKey];
         inspireds.push(
           <div
+            key={'key_Inspired_nails_'+index}
             style={commonStyle.frameNail}>
             <NailInspired
               {...self.props}
-              key={'key_Inspired_nails_'+index}
               markId={markKey}
               unitId={unitKey}
               unitBasic={unitBasic}
@@ -118,7 +121,6 @@ export default class Inspired extends React.Component {
       cancelToken: self.axiosSource.token
     }).then(function(res){
       let resObj = JSON.parse(res.data);
-      let resObj = JSON.parse(res.data);
       self.setState({
         axios: false,
         unitsList: resObj.main.unitsList,
@@ -133,7 +135,7 @@ export default class Inspired extends React.Component {
       if (axios.isCancel(thrown)) {
         cancelErr(thrown);
       } else {
-        this.setState((prevState, props)=>{
+        self.setState((prevState, props)=>{
           return {axios:false}
         }, ()=>{
           let message = uncertainErr(thrown);

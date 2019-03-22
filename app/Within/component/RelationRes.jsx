@@ -7,7 +7,7 @@ import {
 import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import Unit from '../../Component/Unit.jsx';
-import SvgPropic from '../../Component/SvgPropic.jsx';
+import SvgPropic from '../../Component/Svg/SvgPropic.jsx';
 import DraftDisplay from '../../Component/DraftDisplay.jsx';
 
 class RelationRes extends React.Component {

@@ -14,16 +14,16 @@ const commonStyle = {
     top: '0',
     left: '0',
     backgroudColor: 'rgba(0,0,0,0.5)',
-    backgroundImage: "linear-gradient(136deg, transparent, rgba(0, 0, 0, 0.03),rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6))",
+    backgroundImage: "linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.4))",
     //must beneath the 'backgroudColor', let browser choose if it do support gradient
   },
-  markPlate {
-    width '100%',
+  markPlate: {
+    width: '100%',
     height: '78%',
     position: 'relative',
     boxSizing: 'border-box',
     border: '1.2px solid black',
-    borderRadius: '0.2vh',
+    borderRadius: '1vh',
     backgroundColor: '#FAFAFA',
     cursor: 'pointer'
   },
@@ -88,7 +88,7 @@ const commonStyle = {
     fontSize: '1.28rem',
     fontWeight: '300',
     letterSpacing: '0.22rem',
-    color: 'grey'
+    color: '#ededed'
   }
 }
 
@@ -147,10 +147,9 @@ class NailInspired extends React.Component {
           style={this.style.Com_Nails_Inspired_pic_img_}/>
         <div style={commonStyle.maskPic} />
         <Link
-          key={'key_Inspired_nails_'+index}
           to={{
-            pathname: this.props.match.url+"/units/"+dataValue.unitId,
-            search: "?mark="+dataKey,
+            pathname: this.props.match.url+"/units/"+this.props.unitId,
+            search: "?mark="+this.props.markId,
             state: {from: this.props.location}
           }}
           className={"plainLinkButton"}>
@@ -161,7 +160,7 @@ class NailInspired extends React.Component {
               <div
                 style={commonStyle.markPreview}>
                 <DraftDisplay
-                  editorState={this.props.markBasic[this.props.markId].editorContent}/>
+                  editorState={this.props.markBasic.editorContent}/>
               </div>
             </div>
           </div>
@@ -196,4 +195,4 @@ const mapStateToProps = (state)=>{
 export default withRouter(connect(
   mapStateToProps,
   null
-)(NailShared));
+)(NailInspired));

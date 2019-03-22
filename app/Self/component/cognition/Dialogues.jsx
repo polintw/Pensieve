@@ -3,9 +3,9 @@ import {
   Route,
   Link
 } from 'react-router-dom';
-import DraftDisplay from '../../Component/DraftDisplay.jsx';
-import SvgPropic from '../../Component/SvgPropic.jsx';
-import Unit from '../../Component/Unit.jsx';
+import DraftDisplay from '../../../Component/DraftDisplay.jsx';
+import SvgPropic from '../../../Component/Svg/SvgPropic.jsx';
+import Unit from '../../../Component/Unit.jsx';
 
 export default class Dialogues extends React.Component {
   constructor(props){

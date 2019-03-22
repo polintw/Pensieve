@@ -140,7 +140,7 @@ function _handle_inspired_embedded(req, res){
   });
 }
 
-execute.get('/embedded', function(req, res){
+execute.get('/', function(req, res){
   if(process.env.NODE_ENV == 'development') winston.verbose('GET: /inspire/embedded ');
   _handle_inspired_embedded(req, res);
 })

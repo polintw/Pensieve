@@ -78,10 +78,10 @@ class Shared extends React.Component {
       let dataValue = self.state.unitsBasic[dataKey];
       return(
         <div
+          key={'key_Shared_nails_'+index}
           style={commonStyle.frameNail}>
           <NailShared
             {...self.props}
-            key={'key_Shared_nails_'+index}
             sharedId={dataKey}
             unitBasic={dataValue}
             marksBasic={self.state.marksBasic}/>

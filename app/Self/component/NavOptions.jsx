@@ -3,7 +3,7 @@ import {
   Route,
   Link
 } from 'react-router-dom';
-import SvgOptions from '../../Component/SvgOptions.jsx';
+import SvgOptions from '../../Component/Svg/SvgOptions.jsx';
 import ModalBox from '../../Component/ModalBox.jsx';
 
 const commonStyle = {
