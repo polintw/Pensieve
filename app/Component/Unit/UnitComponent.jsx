@@ -1,6 +1,6 @@
 import React from 'react';
 import cxBind from 'classnames/bind';
-import SvgPropic from '../SvgPropic.jsx';
+import SvgPropic from '../Svg/SvgPropic.jsx';
 
 export class NounsExtensible extends React.Component {
   constructor(props){

@@ -4,7 +4,7 @@ import {
   Link
 } from 'react-router-dom';
 import CreateShare from '../../../Component/CreateShare.jsx';
-import SvgCreateonDialog from '../../../Component/SvgCreateonDialog.jsx';
+import SvgCreateonDialog from '../../../Component/Svg/SvgCreateonDialog.jsx';
 
 export default class TitleShared extends React.Component {
   constructor(props){

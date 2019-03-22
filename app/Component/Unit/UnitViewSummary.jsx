@@ -9,7 +9,7 @@ import {
   DateConverter,
   NounsStatic} from './UnitComponent.jsx';
 import MarksArticle from '../MarksArticle.jsx';
-import SvgCreateCoral from '../SvgCreateCoral.jsx'
+import SvgCreateCoral from '../Svg/SvgCreateCoral.jsx'
 import {NameLabelRe} from '../AccountPlate.jsx';
 class UnitSummaryNail extends React.Component {
   constructor(props){

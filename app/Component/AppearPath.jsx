@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import DraftDisplay from './DraftDisplay.jsx';
-import SvgBulb from './SvgBulb.jsx';
+import SvgBulb from './Svg/SvgBulb.jsx';
 import Unit from './Unit.jsx';
 
 class AppearPath extends React.Component {

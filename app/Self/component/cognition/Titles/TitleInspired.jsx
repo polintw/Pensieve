@@ -11,7 +11,7 @@ export default class TitleInspired extends React.Component {
 
     };
     this.style={
-      selfCom_Title_Shared_: {
+      selfCom_Title_Inspired_: {
         width: '100%',
         height: '100%',
         position: 'absolute',
@@ -19,7 +19,7 @@ export default class TitleInspired extends React.Component {
         left: '0',
         boxSizing: 'border-box'
       },
-      selfCom_Title_Shared_main_: {
+      selfCom_Title_Inspired_main_: {
         display: 'inline-block',
         width: '36%',
         float: 'left',
@@ -36,9 +36,9 @@ export default class TitleInspired extends React.Component {
     //let cx = cxBind.bind(styles);
     return(
       <div
-        style={this.style.selfCom_Title_Shared_}>
+        style={this.style.selfCom_Title_Inspired_}>
         <div
-          style={this.style.selfCom_Title_Shared_main_}>
+          style={this.style.selfCom_Title_Inspired_main_}>
           {"Inspired"}
         </div>
       </div>

@@ -1,8 +1,8 @@
 import React from 'react';
 import {connect} from "react-redux";
 import MarkDialogue from './MarkDialogue.jsx';
-import SvgBulb from '../../SvgBulb.jsx';
-import SvgPropic from '../../SvgPropic.jsx';
+import SvgBulb from '../../Svg/SvgBulb.jsx';
+import SvgPropic from '../../Svg/SvgPropic.jsx';
 import DraftDisplay from '../../DraftDisplay.jsx';
 import {
   setUnitInspired

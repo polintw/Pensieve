@@ -7,19 +7,6 @@ import {connect} from "react-redux";
 import DraftDisplay from '../DraftDisplay.jsx';
 
 const commonStyle = {
-  framePic: {
-    width: '100%',
-    height: '78%',
-    position: 'relative',
-    boxSizing: 'border-box',
-    backgroundColor: 'black'
-  },
-  frameInfo: {
-    width: '100%',
-    height: '22%',
-    position: 'relative',
-    boxSizing: 'border-box'
-  },
   maskPic: {
     width: '100%',
     height: '100%',
@@ -29,11 +16,26 @@ const commonStyle = {
     backgroudColor: 'rgba(0,0,0,0.5)',
     backgroundImage: "linear-gradient(136deg, transparent, rgba(0, 0, 0, 0.03),rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6))",
     //must beneath the 'backgroudColor', let browser choose if it do support gradient
+  },
+  markPlate {
+    width '100%',
+    height: '78%',
+    position: 'relative',
+    boxSizing: 'border-box',
+    border: '1.2px solid black',
+    borderRadius: '0.2vh',
+    backgroundColor: '#FAFAFA',
     cursor: 'pointer'
   },
-  marksPicFrame: {
+  frameInfo: {
     width: '100%',
-    maxHeight: '65%',
+    height: '22%',
+    position: 'relative',
+    boxSizing: 'border-box'
+  },
+  markFrame: {
+    width: '100%',
+    maxHeight: '72%',
     position: 'absolute',
     bottom: '7%',
     right: '0%',
@@ -41,7 +43,6 @@ const commonStyle = {
   },
   markPreview: {
     maxWidth: '86%',
-    maxHeight: '64%',
     position: 'relative',
     boxSizing: 'border-box',
     padding: '0% 4%',
@@ -50,7 +51,7 @@ const commonStyle = {
     fontSize: '1.28rem',
     fontWeight: '400',
     letterSpacing: '0.22rem',
-    color: '#FAFAFA'
+    color: 'black'
   },
   rowNouns: {
     width: '72%',
@@ -60,6 +61,15 @@ const commonStyle = {
     boxSizing: 'border-box',
     padding: '1.2vh 4%'
   },
+  rowAuthor: {
+    width: '64%',
+    height: '64%',
+    position: 'absolute',
+    bottom: '0',
+    left: '0',
+    boxSizing: 'border-box',
+    padding: '0.2vh 3%'
+  },
   spanNoun: {
     display: 'inline-block',
     position: 'relative',
@@ -68,16 +78,17 @@ const commonStyle = {
     fontSize: '1.28rem',
     fontWeight: '300',
     letterSpacing: '0.22rem',
-    color: 'black'
+    color: '#cecece'
   },
-  rowBreach: {
-    width: '64%',
-    height: '64%',
-    position: 'absolute',
-    bottom: '0',
-    left: '0',
+  spanAuthor: {
+    display: 'inline-block',
+    position: 'relative',
     boxSizing: 'border-box',
-    padding: '0.2vh 3%'
+    margin: '0 2%',
+    fontSize: '1.28rem',
+    fontWeight: '300',
+    letterSpacing: '0.22rem',
+    color: 'grey'
   }
 }
 
@@ -87,50 +98,25 @@ class NailInspired extends React.Component {
     this.state = {
 
     };
-    this._render_nails_Marks = this._render_nails_Marks.bind(this);
     this._render_nails_nouns = this._render_nails_nouns.bind(this);
     this.style = {
-      Com_Nails_Shared_: {
+      Com_Nails_Inspired_: {
         width: '100%',
         height: '100%',
         position: 'relative',
         boxSizing: 'border-box',
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        overflow: 'hidden'
       },
-      Com_Nails_Shared_pic_img_: {
-        maxWidth: '100%',
-        maxHeight: '100%',
+      Com_Nails_Inspired_pic_img_: {
+        width: '100%',
+        height: 'auto',
         position: 'absolute',
-        top: '0%',
-        left: '30%',
-        transform: 'translate(-30%,0%)'
-      },
-      Com_Nails_Shared_breach_button_: {
-        display: 'inline-block',
-        position: 'relative',
-        boxSizing: 'border-box',
-        margin: '0 2%',
-        fontSize: '1.28rem',
-        fontWeight: '300',
-        letterSpacing: '0.22rem',
-        color: 'grey',
-        cursor: 'pointer'
+        top: '30%',
+        left: '0%',
+        transform: 'translate(0%,-30%)'
       }
     }
-  }
-
-  _render_nails_Marks(){
-    let list = this.props.unitBasic.marksList;
-    let randomNr = Math.floor((Math.random())*10);
-    let key = list[list.length > randomNr ? randomNr:0];
-
-    return (
-      <div
-        style={commonStyle.markPreview}>
-        <DraftDisplay
-          editorState={this.props.marksBasic[key].editorContent}/>
-      </div>
-    );
   }
 
   _render_nails_nouns(){
@@ -155,23 +141,28 @@ class NailInspired extends React.Component {
   render(){
     return(
       <div
-        style={this.style.Com_Nails_Shared_}>
+        style={this.style.Com_Nails_Inspired_}>
+        <img
+          src={'/router/img/'+this.props.unitBasic.pic_layer0+'?type=thumb'}
+          style={this.style.Com_Nails_Inspired_pic_img_}/>
+        <div style={commonStyle.maskPic} />
         <Link
+          key={'key_Inspired_nails_'+index}
           to={{
-            pathname: this.props.match.url+"/units/"+this.props.sharedId,
+            pathname: this.props.match.url+"/units/"+dataValue.unitId,
+            search: "?mark="+dataKey,
             state: {from: this.props.location}
           }}
           className={"plainLinkButton"}>
           <div
-            unitname={this.props.sharedId}
-            style={commonStyle.framePic}>
-            <img
-              src={'/router/img/'+this.props.unitBasic.pic_layer0+'?type=thumb'}
-              style={this.style.Com_Nails_Shared_pic_img_}/>
-            <div style={commonStyle.maskPic} />
+            style={commonStyle.markPlate}>
             <div
-              style={commonStyle.marksPicFrame}>
-              {this._render_nails_Marks()}
+              style={commonStyle.markFrame}>
+              <div
+                style={commonStyle.markPreview}>
+                <DraftDisplay
+                  editorState={this.props.markBasic[this.props.markId].editorContent}/>
+              </div>
             </div>
           </div>
         </Link>
@@ -182,18 +173,10 @@ class NailInspired extends React.Component {
             {this._render_nails_nouns()}
           </div>
           <div
-            style={commonStyle.rowBreach}>
-            <div
-              style={this.style.Com_Nails_Shared_breach_button_}>
-              <span>{"Res"}</span>
-            </div>
-            <Link
-              to={this.props.match.url+"/"+this.props.sharedId+'/threads'}
-              className={"plainLinkButton"}
-              style={this.style.Com_Nails_Shared_breach_button_}>
-              <span>{"Thr"}</span>
-            </Link>
-            <div style={this.style.Com_Nails_Shared_breach_button_}>{"N"}</div>
+            style={commonStyle.rowAuthor}>
+            <span style={commonStyle.spanAuthor}>
+              {this.props.unitBasic.authorId in this.props.usersBasic ? this.props.usersBasic[this.props.unitBasic.authorId].account:null}
+            </span>
           </div>
         </div>
       </div>
@@ -205,7 +188,8 @@ const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
     unitCurrent: state.unitCurrent,
-    nounsBasic: state.nounsBasic
+    nounsBasic: state.nounsBasic,
+    usersBasic: state.usersBasic
   }
 }
 

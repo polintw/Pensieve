@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import CreateShare from '../../Component/CreateShare.jsx';
-import SvgCreateCoral from '../../Component/SvgCreateCoral.jsx';
+import SvgCreateCoral from '../../Component/Svg/SvgCreateCoral.jsx';
 import ModalBox from '../../Component/ModalBox.jsx';
 
 class LtdNav extends React.Component {

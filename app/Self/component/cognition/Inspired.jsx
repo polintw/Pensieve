@@ -6,16 +6,24 @@ import {
 import querystring from 'query-string';
 import TitleInspired from './Titles/TitleInspired.jsx';
 import DraftDisplay from '../../../Component/DraftDisplay.jsx';
-import SvgPropic from '../../../Component/SvgPropic.jsx';
 import Unit from '../../../Component/Unit.jsx';
 import {
   handleNounsList,
   handleUsersList
 } from '../../../redux/actions/general.js';
+import {
+  cancelErr,
+  uncertainErr
+} from '../../../utils/errHandlers.js';
 
 const commonStyle = {
   frameNail: {
-
+    display: 'inline-block',
+    width: '32%',
+    height: '36vh',
+    position: 'relative',
+    boxSizing: 'border-box',
+    margin: '2vh 0.7% 0 0'
   },
   titleReserved: {
     display: 'inline-block',
@@ -33,13 +41,9 @@ export default class Inspired extends React.Component {
     this.state = {
       axios: false,
       unitsList: [],
+      marksList: [],
       unitsBasic: {},
       marksBasic: {}
-
-      inspiredList: [],
-      inspiredMarksSet:{},
-      unitBasicSet: {},
-      userBasic: {}
     };
     this.axiosSource = axios.CancelToken.source();
     this._render_Inspireds = this._render_Inspireds.bind(this);
@@ -60,119 +64,46 @@ export default class Inspired extends React.Component {
         boxSizing: 'border-box',
         padding: '2vh 0 0 0'
       },
-      selfCom_Inspired_nails_div_: {
-        display: 'inline-block',
-        width: '32%',
-        height: '32vh',
-        position: 'relative',
-        boxSizing: 'border-box',
-        margin: '0 1% 2vh 0',
-        overflow: 'hidden',
-        cursor: 'pointer'
-      },
-      selfCom_Inspired_nails_div_mark_: {
-        width: '100%',
-        height: '85%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box',
-        backgroundColor: '#FFFFFF'
-      },
-      selfCom_Inspired_nails_div_basic_: {
-        width: '100%',
-        height: '15%',
-        position: 'absolute',
-        top: '85%',
-        left: '0',
-        boxSizing: 'border-box'
-      },
-      selfCom_Inspired_nails_div_basic_img: {
-        maxWidth: '30%',
-        height: '100%',
-        position: 'absolute',
-        top: '0%',
-        left: '70%',
-        transform: 'translate(-50%,0%)'
-      },
-      selfCom_Inspired_nails_div_basic_author_: {
-        width: '60%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '1%',
-        boxSizing: 'border-box'
-      },
-      Com_UnitModal_BottomSection_author_text: {
-        display: 'inline-block',
-        width: '76%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '24%',
-        boxSizing: 'border-box',
-        fontSize: '1.8rem',
-        letterSpacing: '0.2vh',
-        fontWeight: '400',
-        color: '#000000'
-      },
-      Com_UnitModal_BottomSection_author_propic_: {
-        display: 'inline-block',
-        width: '20%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box'
-      }
     }
   }
 
   _construct_UnitInit(match, location){
     let urlQuery = querystring.parse(location.search);
-    let unitInit= Object.assign(this.state.unitBasicSet[this.state.inspiredMarksSet[urlQuery.mark].unitId], {marksify: true, initMark: urlQuery.mark, layer: this.state.inspiredMarksSet[urlQuery.mark].layer});
+    let unitInit= Object.assign(this.state.unitsBasic[match.params.id], {marksify: true, initMark: urlQuery.mark, layer: this.state.marksBasic[urlQuery.mark].layer});
     return unitInit;
   }
 
   _render_Inspireds(){
     const self = this;
-    let inspireds = self.state.inspiredList.map(function(dataKey, index){
-      let dataValue = self.state.inspiredMarksSet[dataKey];
-      return(
-        <Link
-          key={'key_Inspired_nails_'+index}
-          to={{
-            pathname: self.props.match.url+"/units/"+dataValue.unitId,
-            search: "?mark="+dataKey,
-            state: {from: self.props.location}
-          }}>
+    let inspireds=[],
+        reserved = (
           <div
-            markid={dataKey}
-            style={self.style.selfCom_Inspired_nails_div_}>
-            <div
-              style={self.style.selfCom_Inspired_nails_div_mark_}>
-              <DraftDisplay
-                editorState={dataValue.markEditorContent}/>
-            </div>
-            <div
-              style={self.style.selfCom_Inspired_nails_div_basic_}>
-              <div
-                style={self.style.selfCom_Inspired_nails_div_basic_author_}>
-                <div style={self.style.Com_UnitModal_BottomSection_author_propic_}>
-                  <SvgPropic/>
-                </div>
-                <span style={self.style.Com_UnitModal_BottomSection_author_text}>
-                  {self.state.userBasic[dataValue.authorId].authorAccount}
-                </span>
-              </div>
-              <img
-                src={'/router/img/'+self.state.unitBasicSet[dataValue.unitId].pic_layer0+'?type=thumb'}
-                style={self.style.selfCom_Inspired_nails_div_basic_img}/>
-            </div>
+            key={'key_Inspired_nails_titleReserved'}
+            style={Object.assign({}, {width: '34%'}, commonStyle.titleReserved)}>
           </div>
-        </Link>
-      )
+        );
+
+    self.state.unitsList.forEach(function(unitKey, index){
+      let unitBasic = self.state.unitsBasic[unitKey];
+      self.state.unitsBasic.marksList.forEach((markKey, index)=>{
+        let markBasic = self.state.marksBasic[markKey];
+        inspireds.push(
+          <div
+            style={commonStyle.frameNail}>
+            <NailInspired
+              {...self.props}
+              key={'key_Inspired_nails_'+index}
+              markId={markKey}
+              unitId={unitKey}
+              unitBasic={unitBasic}
+              markBasic={markBasic}/>
+          </div>
+        )
+      })
     })
+
+    inspireds.unshift(reserved);
+    return inspireds;
   }
 
   _axios_nails_Inspireds(){
@@ -187,13 +118,29 @@ export default class Inspired extends React.Component {
       cancelToken: self.axiosSource.token
     }).then(function(res){
       let resObj = JSON.parse(res.data);
+      let resObj = JSON.parse(res.data);
       self.setState({
-        inspiredList: resObj.main.inspiredList,
-        inspiredMarksSet:resObj.main.inspiredMarksSet,
-        unitBasicSet:resObj.main.unitBasicSet,
-        userBasic: resObj.main.userBasic
+        axios: false,
+        unitsList: resObj.main.unitsList,
+        marksList: resObj.main.marksList,
+        unitsBasic: resObj.main.unitsBasic,
+        marksBasic: resObj.main.marksBasic
       })
-    })
+      //send the nouns used by all shareds to the redux reducer
+      self.props._submit_NounsList_new(resObj.main.nounsListMix);
+      self.props._submit_UsersList_new(resObj.main.usersList);
+    }).catch(function (thrown) {
+      if (axios.isCancel(thrown)) {
+        cancelErr(thrown);
+      } else {
+        this.setState((prevState, props)=>{
+          return {axios:false}
+        }, ()=>{
+          let message = uncertainErr(thrown);
+          if(message) alert(message);
+        });
+      }
+    });
   }
 
   componentDidMount(){

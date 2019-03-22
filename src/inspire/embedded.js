@@ -28,9 +28,9 @@ function _handle_inspired_embedded(req, res){
         }
       })
       .then(function(inspiredResults) {
-        let marksList = inspiredResults.rows.map((row, index)=>{
+        let marksList = inspiredResults ? inspiredResults.rows.map((row, index)=>{
           return row.id_mark;
-        })
+        }):[]; //in case there is not any inspired records
         resolve(marksList);
       }).catch((err)=>{
         throw new internalError(err, 131);
@@ -54,7 +54,8 @@ function _handle_inspired_embedded(req, res){
           marksBasic: {},
           temp: {}
         };
-        marksResults.forEach((row, index)=>{
+        if(marksResults) marksResults.forEach((row, index)=>{
+          //in case there is not any inspired records
           //deal with unitsList, marksBasic, & part of unitsBasic before we get detailed units info
           sendingData.unitsList.push(row.id_unit);
           if(row.id_unit in sendingData.unitsBasic){
@@ -83,47 +84,55 @@ function _handle_inspired_embedded(req, res){
         throw new internalError(err, 131);
       });
   }).then((sendingData)=>{
-    return _DB_units
-      .findAll({
-        where: {
-          id: sendingData.unitsList
-        },
-        attributes: ['id', 'id_author', 'url_pic_layer0','url_pic_layer1','createdAt']
-      })
-      .then((unitsResults)=>{
-        unitsResults.forEach((row, index)=>{
-          sendingData.usersList.push(row.id_author);
-          Object.assign(sendingData.unitsBasic[row.id], {
-            pic_layer0: row.url_pic_layer0,
-            pic_layer1: row.url_pic_layer1,
-            createdAt: row.createdAt
-          });
+    //pass select if there is not any records
+    if(sendingData.unitsList.length< 1) return sendingData
+    else {
+      return _DB_units
+        .findAll({
+          where: {
+            id: sendingData.unitsList
+          },
+          attributes: ['id', 'id_author', 'url_pic_layer0','url_pic_layer1','createdAt']
         })
-        //similar, pass the sendingData
-        return sendingData;
-      })
-      .catch((err)=>{
-        throw new internalError(err, 131);
-      });
+        .then((unitsResults)=>{
+          unitsResults.forEach((row, index)=>{
+            sendingData.usersList.push(row.id_author);
+            Object.assign(sendingData.unitsBasic[row.id], {
+              pic_layer0: row.url_pic_layer0,
+              pic_layer1: row.url_pic_layer1,
+              createdAt: row.createdAt
+            });
+          })
+          //similar, pass the sendingData
+          return sendingData;
+        })
+        .catch((err)=>{
+          throw new internalError(err, 131);
+        });
+    }
   }).then((sendingData)=>{
-    return _DB_attribution
-      .findAll({
-        where:{
-          id_unit: sendingData.unitsList
-        },
-        attributes: ['id_unit', 'id_noun']
-      })
-      .then((attriResults)=> {
-        attriResults.forEach((row, index)=> {
-          sendingData.unitsBasic[row.id_unit]["nounsList"].push(row.id_noun);
-          sendingData.nounsListMix.push(row.id_noun);
+    //pass select if there is not any records
+    if(sendingData.unitsList.length< 1) return sendingData
+    else {
+      return _DB_attribution
+        .findAll({
+          where:{
+            id_unit: sendingData.unitsList
+          },
+          attributes: ['id_unit', 'id_noun']
         })
+        .then((attriResults)=> {
+          attriResults.forEach((row, index)=> {
+            sendingData.unitsBasic[row.id_unit]["nounsList"].push(row.id_noun);
+            sendingData.nounsListMix.push(row.id_noun);
+          })
 
-        return sendingData;
-      })
-      .catch((err)=>{
-        throw new internalError(err, 131);
-      });
+          return sendingData;
+        })
+        .catch((err)=>{
+          throw new internalError(err, 131);
+        });
+    }
   }).then((sendingData)=>{
     _res_success(res, sendingData, "GET: /inspire/embedded, complete.");
   }).catch((error)=>{

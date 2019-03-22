@@ -101,14 +101,6 @@ class NailScape extends React.Component {
         boxSizing: 'border-box',
         padding: '1% 0 0 3%'
       },
-      Com_Nails_Scape_banner_author: {
-        display: 'inline-block',
-        width: '40%',
-        height: '100%',
-        position: 'relative',
-        boxSizing: 'border-box',
-        margin: '0 0 0 0%'
-      },
       Com_Nails_Scape_beans_: {
         width: '14%',
         height: '48%',

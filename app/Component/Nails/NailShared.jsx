@@ -41,7 +41,6 @@ const commonStyle = {
   },
   markPreview: {
     maxWidth: '86%',
-    maxHeight: '64%',
     position: 'relative',
     boxSizing: 'border-box',
     padding: '0% 4%',

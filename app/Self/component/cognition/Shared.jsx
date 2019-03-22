@@ -12,7 +12,10 @@ import NailShared from '../../../Component/Nails/NailShared.jsx';
 //ModalBox used some unstable method, considering updating some day.
 import ModalBox from '../../../Component/ModalBox.jsx';
 import {handleNounsList} from '../../../redux/actions/general.js';
-import {errHandler_axiosCatch} from '../../../utils/errHandlers.js';
+import {
+  cancelErr,
+  uncertainErr
+} from '../../../utils/errHandlers.js';
 
 const commonStyle = {
   frameNail: {
@@ -115,13 +118,14 @@ class Shared extends React.Component {
       self.props._submit_NounsList_new(resObj.main.nounsListMix);
     }).catch(function (thrown) {
       if (axios.isCancel(thrown)) {
-        console.log('Request canceled: ', thrown.message);
+        cancelErr(thrown);
       } else {
-        self.setState({axios: false});
-        let customSwitch = (status)=>{
-          return null
-        };
-        errHandler_axiosCatch(thrown, customSwitch);
+        this.setState((prevState, props)=>{
+          return {axios:false}
+        }, ()=>{
+          let message = uncertainErr(thrown);
+          if(message) alert(message);
+        });
       }
     });
   }
