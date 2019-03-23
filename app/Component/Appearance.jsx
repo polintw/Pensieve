@@ -5,7 +5,6 @@ import {
   Link,
   withRouter
 } from 'react-router-dom';
-import AppearPath from './AppearPath.jsx';
 
 export default class Appearance extends React.Component {
   constructor(props){
@@ -52,7 +51,7 @@ export default class Appearance extends React.Component {
         </div>
         <div
           style={this.style.Com_Appearance_main_}>
-          <Route path={this.props.match.path} render={(props)=> <AppearPath {...props} urlParam={this.props.urlParam} urlQuery={this.props.urlQuery} _refer_von_unit={this.props._refer_von_unit}/>}/>
+
         </div>
       </div>
     )

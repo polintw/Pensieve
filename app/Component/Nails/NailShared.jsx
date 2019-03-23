@@ -66,7 +66,7 @@ const commonStyle = {
     marginLeft: '5%',
     fontSize: '1.28rem',
     fontWeight: '300',
-    letterSpacing: '0.22rem',
+    letterSpacing: '0.28rem',
     color: 'black'
   },
   rowBreach: {

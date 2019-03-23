@@ -60,39 +60,42 @@ export default class NavWalls extends React.Component {
         style={this.style.selfCom_NavWalls_}>
         <div
           style={commonStyle.align}>
-          <div
-            style={commonStyle.buttonRound}>
-            <Link
-              to={this.props.match.url+"/mutuals/dialogues"}
-              className={'plainLinkButton centerAlignChild'}>
+          <Link
+            to={this.props.match.url+"/mutuals/dialogues"}
+            className={'plainLinkButton'}>
+            <div
+              style={commonStyle.buttonRound}>
               <span
+                className={'centerAlignChild'}
                 style={commonStyle.spanButtonNavWalls}>
                 {"mutual"}
               </span>
-            </Link>
-          </div>
-          <div
-            style={commonStyle.buttonRound}>
-            <Link
-              to={this.props.match.url+"/embedded/inspireds"}
-              className={'plainLinkButton centerAlignChild'}>
+            </div>
+          </Link>
+          <Link
+            to={this.props.match.url+"/embedded/inspireds"}
+            className={'plainLinkButton'}>
+            <div
+              style={commonStyle.buttonRound}>
               <span
+                className={'centerAlignChild'}
                 style={commonStyle.spanButtonNavWalls}>
                 {"embed"}
               </span>
-            </Link>
-          </div>
-          <div
-            style={commonStyle.buttonRound}>
-            <Link
-              to={this.props.match.url+"/actions/shareds"}
-              className={'plainLinkButton centerAlignChild'}>
+            </div>
+          </Link>
+          <Link
+            to={this.props.match.url+"/actions/shareds"}
+            className={'plainLinkButton'}>
+            <div
+              style={commonStyle.buttonRound}>
               <span
+                className={'centerAlignChild'}
                 style={commonStyle.spanButtonNavWalls}>
                 {"actions"}
               </span>
-            </Link>
-          </div>
+            </div>
+          </Link>
         </div>
       </div>
     )

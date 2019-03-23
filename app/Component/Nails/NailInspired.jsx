@@ -19,17 +19,17 @@ const commonStyle = {
   },
   markPlate: {
     width: '100%',
-    height: '78%',
+    height: '76.5%',
     position: 'relative',
     boxSizing: 'border-box',
     border: '1.2px solid black',
     borderRadius: '1vh',
-    backgroundColor: '#FAFAFA',
+    backgroundColor: '#FFFFFF',
     cursor: 'pointer'
   },
   frameInfo: {
     width: '100%',
-    height: '22%',
+    height: '23.5%',
     position: 'relative',
     boxSizing: 'border-box'
   },
@@ -59,7 +59,7 @@ const commonStyle = {
     top: '0',
     right: '0%',
     boxSizing: 'border-box',
-    padding: '1.2vh 4%'
+    padding: '0.64vw 4%'
   },
   rowAuthor: {
     width: '64%',
@@ -68,7 +68,7 @@ const commonStyle = {
     bottom: '0',
     left: '0',
     boxSizing: 'border-box',
-    padding: '0.2vh 3%'
+    padding: '0.6vw 3%'
   },
   spanNoun: {
     display: 'inline-block',
@@ -77,18 +77,18 @@ const commonStyle = {
     marginLeft: '5%',
     fontSize: '1.28rem',
     fontWeight: '300',
-    letterSpacing: '0.22rem',
-    color: '#cecece'
+    letterSpacing: '0.28rem',
+    color: '#dbdbdb'
   },
   spanAuthor: {
     display: 'inline-block',
     position: 'relative',
     boxSizing: 'border-box',
     margin: '0 2%',
-    fontSize: '1.28rem',
-    fontWeight: '300',
-    letterSpacing: '0.22rem',
-    color: '#ededed'
+    fontSize: '1.36rem',
+    fontWeight: '400',
+    letterSpacing: '0.14rem',
+    color: '#f2f2f2'
   }
 }
 
@@ -112,9 +112,8 @@ class NailInspired extends React.Component {
         width: '100%',
         height: 'auto',
         position: 'absolute',
-        top: '30%',
+        bottom: '0%',
         left: '0%',
-        transform: 'translate(0%,-30%)'
       }
     }
   }

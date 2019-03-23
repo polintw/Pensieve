@@ -36,7 +36,7 @@ export default class TitleShared extends React.Component {
         width: '100%',
         height: '16vh',
         position: 'absolute',
-        bottom: '3vh',
+        bottom: '5vh',
         boxSizing: 'border-box',
         padding: '1vh 3%'
       },

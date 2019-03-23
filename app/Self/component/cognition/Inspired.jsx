@@ -29,7 +29,7 @@ const commonStyle = {
   },
   titleReserved: {
     display: 'inline-block',
-    height: '36vh',
+    height: '38vh',
     position: 'relative',
     float: 'right',
     boxSizing: 'border-box',
