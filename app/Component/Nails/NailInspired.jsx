@@ -22,7 +22,7 @@ const commonStyle = {
     height: '76.5%',
     position: 'relative',
     boxSizing: 'border-box',
-    border: '1.2px solid black',
+    border: '1.2px solid #9c9c9c',
     borderRadius: '1vh',
     backgroundColor: '#FFFFFF',
     cursor: 'pointer'
@@ -37,8 +37,9 @@ const commonStyle = {
     width: '100%',
     maxHeight: '72%',
     position: 'absolute',
-    bottom: '7%',
+    bottom: '36%',
     right: '0%',
+    transform: 'translate(0, 40%)',
     cursor: 'pointer'
   },
   markPreview: {
