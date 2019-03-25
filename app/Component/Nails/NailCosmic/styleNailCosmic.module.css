@@ -3,6 +3,8 @@
   width: 100%;
   position: relative;
   box-sizing: border-box;
+  margin: 0.5rem 0;
   border-radius: 0.08vh;
   cursor: pointer;
+  background-color: #FFFFFF;
 }

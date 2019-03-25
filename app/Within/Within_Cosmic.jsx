@@ -28,6 +28,12 @@ class WithinCosmic extends React.Component {
         position: 'static',
         overflow: 'auto'
       },
+      Within_Cosmic_backplane:{
+        width: '100%',
+        height: '100%',
+        position: 'fixed',
+        backgroundColor: '#FCFCFC'
+      },
       Within_Cosmic_corner_: {
         position: 'fixed',
         bottom: '3%',
@@ -80,6 +86,7 @@ class WithinCosmic extends React.Component {
     return(
       <div
         style={this.style.Within_Cosmic_}>
+        <div style={this.style.Within_Cosmic_backplane}></div>
         <Switch>
           <Route path={this.props.match.path+"/people/:id"} render={(props)=> <CosmicUser {...props}/>}/>
           <Route path={this.props.match.path+"/nouns/:id"} render={(props)=> <CosmicNoun {...props}/>}/>

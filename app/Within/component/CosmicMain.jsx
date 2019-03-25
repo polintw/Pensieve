@@ -17,10 +17,11 @@ export default class CosmicMain extends React.Component {
         boxSizing: 'border-box'
       },
       withinCom_CosmicMain_index_: {
-        width: '75%',
+        width: '932px',
         position: 'absolute',
         top: '4vh',
-        left: '10%',
+        left: '48%',
+        transform: 'translate(-50%,0)',
         boxSizing: 'border-box'
       }
     }
@@ -42,9 +43,9 @@ export default class CosmicMain extends React.Component {
         <div
           style={this.style.withinCom_CosmicMain_index_}>
           <MainIndex {...this.props} _refer_von_cosmic={this.props._refer_von_cosmic}/>
-          <div style={{width: '100%', height: '3vh', position: 'fixed', top: '0', backgroundColor: '#FFFFFF'}}></div>
-          <div style={{width: '100%', height: '6vh', position: 'fixed', bottom: '0', backgroundColor: '#FFFFFF'}}></div>
         </div>
+        <div style={{width: '100%', height: '3vh', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
+        <div style={{width: '100%', height: '6vh', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
       </div>
     )
   }

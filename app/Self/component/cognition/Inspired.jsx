@@ -91,7 +91,7 @@ class Inspired extends React.Component {
         let markBasic = self.state.marksBasic[markKey];
         inspireds.push(
           <div
-            key={'key_Inspired_nails_'+index}
+            key={'key_Inspired_nails_'+markKey}
             style={commonStyle.frameNail}>
             <NailInspired
               {...self.props}

@@ -21,7 +21,7 @@ export default class SvgCreateonDialog extends React.Component {
       }}
       preserveAspectRatio="none">
       <defs><style>
-        {".cls-1-CreateonDialog,.cls-2-CreateonDialog{fill:#fff;stroke-miterlimit:10;}.cls-1-CreateonDialog{stroke:#ababab;stroke-width:0.75px;}.cls-2-CreateonDialog{stroke:#383838;}"}
+        {".cls-1-CreateonDialog,.cls-2-CreateonDialog{stroke-miterlimit:10;}.cls-1-CreateonDialog{fill:transparent;stroke:#ababab;stroke-width:0.75px;}.cls-2-CreateonDialog{fill:#fff;stroke:#383838;}"}
       </style></defs>
       <g id="圖層_2" data-name="圖層 2">
         <g id="圖層_3" data-name="圖層 3">

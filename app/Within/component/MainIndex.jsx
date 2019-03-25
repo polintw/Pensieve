@@ -19,7 +19,7 @@ import {
 
 const commonStyle = {
   withinCom_MainIndex_scroll_col_: {
-    width: '32%',
+    width: '33%',
     position: "absolute",
     top: '5vh'
   }
@@ -64,18 +64,21 @@ class MainIndex extends React.Component {
       },
       withinCom_MainIndex_scroll_col_Create: {
         display: 'inline-block',
-        width: '100%',
+        width: '98%',
         position: 'relative',
         boxSizing: 'border-box',
-        marginBottom: '12%'
+        marginLeft: '1%',
+        marginBottom: '11.5%'
       },
       withinCom_MainIndex_scroll_col_logo: {
         display: 'inline-block',
-        width: '100%',
+        width: '145%',
         position: 'relative',
+        left: '-2%',
         boxSizing: 'border-box',
         padding: '0 3%',
-        marginBottom: '18%'
+        marginBottom: '19%',
+        marginTop: '3.2%'
       }
     }
   }
