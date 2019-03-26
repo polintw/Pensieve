@@ -47,7 +47,7 @@ export default class NavsCognition extends React.Component {
       },
       selfCom_NavsCognition_inCognition_: {
         minWidth: '448px',
-        height: '60px',
+        height: '60.5px',
         position: 'fixed',
         bottom: '0',
         right: '49%',
