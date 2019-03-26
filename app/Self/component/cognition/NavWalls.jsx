@@ -28,10 +28,10 @@ const commonStyle = {
     cursor: 'pointer'
   },
   spanButtonNavWalls: {
-    fontSize: '1.4rem',
+    top: '45%',
+    fontSize: '1.36rem',
     fontWeight: '400',
-    letterSpacing: '0.12rem',
-    lineHeight: '1rem'
+    letterSpacing: '0.15rem',
   }
 }
 

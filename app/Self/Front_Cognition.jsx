@@ -37,7 +37,7 @@ class FrontCognition extends React.Component {
       },
       Front_Cognition_NavOptions: {
         width: '1.4%',
-        height: '4%',
+        height: '4.2%',
         position: 'fixed',
         bottom: '21%',
         right: '3%',

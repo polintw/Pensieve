@@ -21,7 +21,7 @@ export default class SvgOptions extends React.Component {
           maxHeight: '100%'
         }}>
         <defs>
-          <style>{".cls-1-options{fill:#fff;stroke:#000;stroke-miterlimit:10;stroke-width:0.45px;}"}</style>
+          <style>{".cls-1-options{fill:#aaa;stroke:none;stroke-miterlimit:10;stroke-width:0.45px;}"}</style>
         </defs>
         <g id="圖層_2" data-name="圖層 2">
           <g id="圖層_5" data-name="圖層 5">

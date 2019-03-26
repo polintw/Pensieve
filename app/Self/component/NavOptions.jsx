@@ -38,22 +38,23 @@ export default class NavOptions extends React.Component {
         cursor: 'pointer'
       },
       selfCom_NavOptions_ToolBox_: {
-        width: '12vw',
+        minWidth: '132px',
         position: 'absolute',
-        top: '0',
-        right: '100%',
+        top: '-36%',
+        right: '-16%',
         boxSizing: 'border-box',
         boxShadow: '1px 1px 5px 0px',
-        backgroundColor: '#FAFAFA'
+        backgroundColor: '#FFFFFF'
       },
       selfCom_NavOptions_ToolBox_ol_: {
         boxSizing: 'border-box',
-        padding: '0 5%',
+        padding: '0 10%',
+        margin: '1.2rem 0',
         listStyle: 'none',
         fontSize: '1.3rem',
         letterSpacing: '0.15rem',
         fontWeight: '400',
-        color: '#222222'
+        color: '#000000'
       }
     }
   }
@@ -77,8 +78,10 @@ export default class NavOptions extends React.Component {
     //let cx = cxBind.bind(styles);
     return(
       <div
-        id={"NavOptions_Self"}
         style={this.style.selfCom_NavOptions_}>
+        <div
+          id={"NavOptions_Self"}
+          style={{width: "100%", height: '100%', position: 'absolute',boxSizing: 'border-box'}}></div>
         <div
           style={this.style.selfCom_NavOptions_svg_}
           onClick={this._handleClick_navToolBox}>

@@ -23,11 +23,11 @@ const commonStyle = {
     color: "#757575"
   },
   boxNavWalls: {
-    width: '70%',
+    width: '72%',
     height: '100%',
     position: 'absolute',
     bottom: '0%',
-    left: '8%',
+    left: '7%',
     boxSizing: 'border-box',
     boxShadow: '0px 0.18vh 0.01vh -0.03vh',
     borderRadius: '0px 0px 0.6vh 0.6vh',
@@ -46,11 +46,11 @@ export default class NavsCognition extends React.Component {
 
       },
       selfCom_NavsCognition_inCognition_: {
-        width: '36%',
-        height: '10.5vh',
+        minWidth: '448px',
+        height: '60px',
         position: 'fixed',
         bottom: '0',
-        right: '50%',
+        right: '49%',
         boxSizing: 'border-box'
       },
       selfCom_NavsCognition_inCollaterals_: {

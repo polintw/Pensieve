@@ -53,7 +53,7 @@ class Cognition extends React.Component {
         position: 'fixed',
         bottom: '0',
         left: '0',
-        backgroundColor: '#d3deda'
+        backgroundColor: '#d1d1d1'
       }
     }
   }
