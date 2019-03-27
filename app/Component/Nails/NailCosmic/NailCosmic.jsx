@@ -4,7 +4,7 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import DraftDisplayforNailMark from './DraftDisplayforNailMark.jsx';
+import DraftDisplayforNailMark from '../../Draft/DraftDisplayforNailMark.jsx';
 import styles from "./styleNailCosmic.module.css";
 
 const commonStyle = {
@@ -29,15 +29,13 @@ const commonStyle = {
     width: '100%',
     position: 'relative',
     boxSizing: 'border-box',
-    paddingLeft: '3.2%',
+    paddingLeft: '4.2%',
     paddingRight: '6%',
-    backgroundColor: '#FFFFFF'
   },
   Com_Nails_Cosmic_content_mark: {
     width: '100%',
     position: 'relative',
     boxSizing: 'border-box',
-    paddingBottom: '0.32rem',
     marginBottom: '0.28rem',
     fontSize: '1.45rem',
     fontWeight: '400',
@@ -57,7 +55,7 @@ const commonStyle = {
     top: '0',
     left: '0',
     backgroudColor: 'rgba(0,0,0,0.5)',
-    backgroundImage: "linear-gradient(259deg, transparent, rgba(0,0,0,0.03),rgba(0,0,0,0.12), rgba(0, 0, 0, 0.28), rgba(0,0,0,0.56),rgba(0,0,0,0.72))"
+    backgroundImage: "linear-gradient(220deg, transparent, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.72))"
     //must beneath the 'backgroudColor', let browser choose if it do support gradient
   },
   Com_Nails_Cosmic_pic_nouns_: {
@@ -90,7 +88,7 @@ class NailCosmic extends React.Component {
     this._render_nails_nouns = this._render_nails_nouns.bind(this);
     this.style={
       Com_Nails_Cosmic_colDepend: {
-        boxShadow: (this.props.col=="Left") ? '-0.02vh 0px 0px 0.03vh':'0.02vh 0px 0px 0.03vh',
+        boxShadow: (this.props.col=="Left") ? '0 1px 1px -0.1rem, 0.02rem -0.05rem 2px -0.2rem':'0 1px 1px -0.1rem, -0.02rem -0.05rem 2px -0.2rem',
       }
     }
   }
@@ -146,7 +144,7 @@ class NailCosmic extends React.Component {
       <div
         className={styles.Nails_Cosmic}
         style={this.style.Com_Nails_Cosmic_colDepend}>
-        <div style={{width: '100%', height: '4vh', position: 'relative'}}></div>
+        <div style={{width: '100%', height: '2rem', position: 'relative'}}></div>
         <Link
           to={{
             pathname: this.props.match.url+"/units/"+this.props.unitId,
@@ -171,7 +169,7 @@ class NailCosmic extends React.Component {
           <div
             style={commonStyle.Com_Nails_Cosmic_content_}>
             {this._render_nails_Marks()}
-            <div style={{width: '100%', height: '7vh', position: 'relative'}}></div>
+            <div style={{width: '100%', height: '3.5rem', position: 'relative'}}></div>
           </div>
         </Link>
       </div>

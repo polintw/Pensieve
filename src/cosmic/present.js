@@ -47,7 +47,7 @@ function _handle_cosmicPresent_GET(req, res){
       //if needed, selecting again by the result
       resultsUnit.forEach((row, index)=>{
         mysqlForm.unitsList.push([row.id]);
-        sendingData.unitsList.push(row.id);
+        sendingData.unitsList.unshift(row.id);
         sendingData.usersList.push(row.id_author);
         sendingData.unitsBasic[row.id] = {
           unitsId: row.id,

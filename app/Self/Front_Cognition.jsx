@@ -6,12 +6,10 @@ import {
   Switch
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import CogEmbed from './component/CogEmbed.jsx';
-import CogMutual from './component/CogMutual.jsx';
-import CogActions from './component/CogActions.jsx';
-import Collaterals from './component/Collaterals.jsx';
-import NavFront from './component/NavFront.jsx';
-import NavsCognition from './component/NavsCognition.jsx';
+import NavOptions from './component/NavOptions.jsx';
+import Cognition from './component/cognition/Cognition.jsx';
+import Collaterals from './component/cognition/Collaterals.jsx';
+import NavsCognition from './component/cognition/NavsCognition.jsx';
 
 class FrontCognition extends React.Component {
   constructor(props){
@@ -28,54 +26,22 @@ class FrontCognition extends React.Component {
         top: '0%',
         left: '0%'
       },
-      Front_Cognition_scroll_: {
-        width: '68%',
-        minHeight: '80%',
-        position: 'absolute',
-        top: '5%',
-        left: '17%',
-        boxSizing: 'border-box'
-      },
-      Front_Cognition_Collateral: {
-        width: '76%',
-        position: 'absolute',
-        top: '9%',
-        left: '12%',
-        boxSizing: 'border-box'
-      },
       Front_Cognition_backPlane_top: {
         width: '100%',
-        height: '4.5%',
+        height: '4%',
         position: 'fixed',
         top: '0',
         left: '0',
         boxSizing: 'border-box',
         backgroundColor: '#FFFFFF'
       },
-      Front_Cognition_backPlane_bottom: {
-        width: '100%',
-        height: '11%',
+      Front_Cognition_NavOptions: {
+        width: '1.4%',
+        height: '4.2%',
         position: 'fixed',
-        bottom: '0',
-        left: '0',
-        boxSizing: 'border-box',
-        backgroundColor: '#FFFFFF'
-      },
-      Front_Cognition_NavFront_: {
-        width: '7%',
-        position: 'fixed',
-        bottom: '32%',
-        left: '3%',
-        boxSizing: 'border-box',
-      },
-      Front_Cognition_NavsCognition_:{
-        width: '100%',
-        height: '5%',
-        position: 'fixed',
-        bottom: '0',
-        left: '0%',
-        boxSizing: 'border-box',
-        backgroundColor: '#d3deda'
+        bottom: '21%',
+        right: '3%',
+        boxSizing: 'border-box'
       }
     }
   }
@@ -102,26 +68,16 @@ class FrontCognition extends React.Component {
     return(
       <div
         style={this.style.Front_Cognition_}>
-        <div
-          style={this.style.Front_Cognition_scroll_}>
-          <Route path={this.props.match.path+"/embedded"} render={(props)=> <CogEmbed {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>
-          <Route path={this.props.match.path+"/actions"} render={(props)=> <CogActions {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>
-          <Route path={this.props.match.path+"/mutuals"} render={(props)=> <CogMutual {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>
-        </div>
+        <Switch>
+          <Route path={this.props.match.path+"/collaterals"} render={(props)=> <Collaterals {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>
+          <Route path={this.props.match.path} render={(props)=> <Cognition {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>
+        </Switch>
         <div style={this.style.Front_Cognition_backPlane_top}/>
         <div
-          style={this.style.Front_Cognition_Collateral}>
-          <Route path={this.props.match.path+"/collaterals"} render={(props)=> <Collaterals {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>
+          style={this.style.Front_Cognition_NavOptions}>
+          <NavOptions {...this.props}/>
         </div>
-        <div style={this.style.Front_Cognition_backPlane_bottom}/>
-        <div
-          style={this.style.Front_Cognition_NavFront_}>
-          <NavFront {...this.props}/>
-        </div>
-        <div
-          style={this.style.Front_Cognition_NavsCognition_}>
-          <NavsCognition {...this.props}/>
-        </div>
+        <NavsCognition {...this.props}/>
       </div>
     )
   }

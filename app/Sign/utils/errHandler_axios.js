@@ -1,3 +1,5 @@
+// !different from errHandlers from toppest /utils
+
 export function cancelErr(error, props){
   props._set_axiosStatus(false);
   console.log('Request canceled: ', error.message);

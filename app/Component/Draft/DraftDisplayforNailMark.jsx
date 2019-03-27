@@ -1,6 +1,6 @@
 import React from 'react';
 import {Editor, EditorState, ContentState, convertToRaw, convertFromRaw} from 'draft-js';
-import styles from "./styleNailCosmic.module.css";
+import styles from "./styleDisplay.module.css";
 
 export default class DraftDisplayforNailMark extends React.Component {
   constructor(props){
@@ -25,7 +25,7 @@ export default class DraftDisplayforNailMark extends React.Component {
   }
 
   _draft_blockClass(contentBlock){
-    return styles.markDraftDisplayEditor;
+    return styles.markDisplayBlockNowrap;
   }
 
   render(){

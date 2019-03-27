@@ -6,23 +6,22 @@ import {
   Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import NailShared from '../../Component/Nails/NailShared.jsx';
-import Unit from '../../Component/Unit.jsx';
+import NailShared from '../../../Component/Nails/NailShared.jsx';
+import Unit from '../../../Component/Unit.jsx';
 
-class Broads extends React.Component {
+class Tracks extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       axios: false,
       unitsList: [],
       unitsBasic: {},
-      marksBasic: {},
       authorsBasic: {}
     };
     this.axiosSource = axios.CancelToken.source();
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this.style={
-      selfCom_Broads_: {
+      selfCom_Tracks_: {
         width: '100%',
         position: 'absolute',
         top: '0',
@@ -38,7 +37,7 @@ class Broads extends React.Component {
 
   componentDidMount(){
     const self = this;
-    axios.get('/router/embedded/broads', {
+    axios.get('/router/collaterals/tracks', {
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']
@@ -49,7 +48,6 @@ class Broads extends React.Component {
         axios: false,
         unitsList: resObj.main.unitsList,
         unitsBasic: resObj.main.unitsBasic,
-        marksBasic: resObj.main.marksBasic,
         authorsBasic: resObj.main.authorsBasic
       });
     }).catch(function (thrown) {
@@ -99,12 +97,62 @@ class Broads extends React.Component {
 
     return(
       <div
-        style={this.style.selfCom_Broads_}>
+        style={this.style.selfCom_Tracks_}>
         <div
-          style={this.style.selfCom_Broads_nails_}>
+          style={this.style.selfCom_Tracks_nails_}>
           {nails}
         </div>
         <Route path={this.props.match.path+"/units/:id"} render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_leaveSelf}/>}/>
+      </div>
+    )
+  }
+}
+
+class Collaterals extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+
+    };
+    this.style={
+      selfCom_Collaterals_: {
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        top: '0%',
+        left: '0%'
+      },
+      selfCom_Collaterals_main_: {
+        width: '76%',
+        position: 'absolute',
+        top: '9%',
+        left: '12%',
+        boxSizing: 'border-box'
+      },
+      selfCom_Collaterals_backPlane_bottom: {
+        width: '100%',
+        height: '11%',
+        position: 'fixed',
+        bottom: '0',
+        left: '0',
+        boxSizing: 'border-box',
+        backgroundColor: '#FFFFFF'
+      }
+    }
+  }
+
+  render(){
+    //let cx = cxBind.bind(styles);
+    return (
+      <div
+        style={this.style.selfCom_Collaterals_}>
+        <div
+          style={this.style.selfCom_Collaterals_main_}>
+          <Route path={this.props.match.path+"/tracks"} render={(props)=> <Tracks {...props} _refer_leaveSelf={this.props._refer_leaveSelf}/>}/>
+        </div>
+        <nav>
+        </nav>
+        <div style={this.style.selfCom_Collaterals_backPlane_bottom}/>
       </div>
     )
   }
@@ -120,4 +168,4 @@ const mapStateToProps = (state)=>{
 export default withRouter(connect(
   mapStateToProps,
   null
-)(Broads));
+)(Collaterals));

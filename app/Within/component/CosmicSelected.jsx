@@ -7,8 +7,8 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import Unit from '../../Component/Unit.jsx';
-import SvgPropic from '../../Component/SvgPropic.jsx';
-import DraftDisplay from '../../Component/DraftDisplay.jsx';
+import SvgPropic from '../../Component/Svg/SvgPropic.jsx';
+import DraftDisplay from '../../Component/Draft/DraftDisplay.jsx';
 
 class CosmicSelected extends React.Component {
   constructor(props){
