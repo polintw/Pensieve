@@ -27,12 +27,6 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
-    marks.hasMany(models.notifi_shared, {
-      foreignKey:"id_mark",
-      sourceKey: "id",
-      onDelete: 'cascade',
-      onUpdate: 'cascade'
-    });
   };
   return marks;
 };
