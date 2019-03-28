@@ -19,6 +19,8 @@ const {
 const {
   _handler_ErrorRes,
 } = require('../../utils/reserrHandler.js');
+const _DB_lastvisitShared = require('../../../db/models/index').lastvisit_shared;
+const _DB_lastvisitNotify = require('../../../db/models/index').lastvisit_notify;
 
 const _create_new_ImgFolder = (userId)=>{
   return new Promise((resolve,reject)=>{
@@ -127,9 +129,11 @@ function _handle_auth_register_POST(req, res) {
           let pinsertNewVerifi = Promise.resolve(_insert_basic({table: 'verifications', col: '(id_user, email, password)'}, [[userId, newUser.email, hash]]).catch((errObj)=>{throw errObj})),
               pinsertNewSheet = Promise.resolve(_insert_basic({table: 'sheets', col: '(id_user, gender, birthYear, birthMonth, birthDate)'}, [[userId, newUser.gender, newUser.birthYear, newUser.birthMonth, newUser.birthDate]]).catch((errObj)=>{throw errObj})),
               pinsertEmailToken = Promise.resolve(_insert_basic({table: 'users_apply', col: '(id_user, token_email, status)'}, [[userId, tokenEmail, 'unverified']]).catch((errObj)=>{throw errObj})),
-              pcreateImgFolder = Promise.resolve(_create_new_ImgFolder(userId).catch((errObj)=>{throw errObj}));
+              pcreateImgFolder = Promise.resolve(_create_new_ImgFolder(userId).catch((errObj)=>{throw errObj})),
+              pinsertLastvisitShared = Promise.resolve(_DB_lastvisitShared.create({id_user: userId}).catch((err)=>{throw err})),
+              pinsertLastvisitNotify = Promise.resolve(_DB_lastvisitNotify.create({id_user: userId}).catch((err)=>{throw err}));
 
-          return Promise.all([pinsertNewVerifi, pinsertNewSheet, pinsertEmailToken, pcreateImgFolder]).then((results)=>{
+          return Promise.all([pinsertNewVerifi, pinsertNewSheet, pinsertEmailToken, pcreateImgFolder, pinsertLastvisitShared, pinsertLastvisitNotify]).then((results)=>{
             return deliverVerifiedMail(newUser, tokenEmail);
           });
         });
