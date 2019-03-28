@@ -1,11 +1,11 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const lastvisit_notify = sequelize.define('lastvisit_notify', {
+  const lastvisit_shared = sequelize.define('lastvisit_shared', {
     id_user: DataTypes.INTEGER(10),
     ip: DataTypes.TEXT('tiny')
   }, {});
-  lastvisit_notify.associate = function(models) {
-    lastvisit_notify.belongsTo(models.users, {
+  lastvisit_shared.associate = function(models) {
+    lastvisit_shared.belongsTo(models.users, {
       foreignKey:"id_user",
       targetKey: "id",
       onDelete: 'cascade',
@@ -14,5 +14,5 @@ module.exports = (sequelize, DataTypes) => {
   };
   inspired.removeAttribute('id'); //this model do not use 'id' nor any pk, so we need to tell it.
 
-  return lastvisit_notify;
+  return lastvisit_shared;
 };

@@ -27,6 +27,18 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
+    marks.hasMany(models.inspired, {
+      foreignKey:"id_mark",
+      sourceKey: "id",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
+    marks.hasMany(models.notifi_inspired, {
+      foreignKey:"id_mark",
+      sourceKey: "id",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
   };
   return marks;
 };
