@@ -1,4 +1,6 @@
 //initiate redis as a session pool
+const winston = require('../config/winston.js');
+
 const redis = require("redis"),
   client = redis.createClient();
 

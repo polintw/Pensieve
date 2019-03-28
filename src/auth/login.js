@@ -11,10 +11,10 @@ const {
 const {
   _handler_ErrorRes
 } = require('../utils/reserrHandler.js');
-const {
+/*const {
   client,
   getAsync
-} = require('../redis.js');
+} = require('../redis.js');*/
 
 
 //handle log in request
@@ -115,13 +115,6 @@ login.use(function(req, res) {
         return _handler_ErrorRes(errSet, res);
       }
     }).catch((errObj)=>{
-      /*let redisKey = "loginattemp_"+email;
-      getAsync(redisKey).then((cache)=>{
-        let nextNum = 1;
-        if(redisKey) nextNum = Number(cache)+1;
-        client.set(redisKey, nextNum.toString(), 'EX', 600)//set a redis key expired after 10min.
-      })*/
-
       if(errObj.custom) _handler_ErrorRes(errObj.errSet, res);
       else{
         console.log("error occured during: auth/login promise: "+errObj.err);

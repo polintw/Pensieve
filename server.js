@@ -7,21 +7,25 @@ const rateLimit = require("express-rate-limit");
 
 const router = require('./src/router.js');
 const winston = require('./config/winston.js');
+
 //babel-polyfill is here for the whole code after it!
 require('babel-polyfill');
 
 app.set('view engine', 'jsx');
 app.engine('jsx', require('express-react-views').createEngine({transformViews: false }));
+app.enable("trust proxy"); //for rateLimit, due to behind a reverse proxy(nginx)
 
-//initiate redis as a session pool
-const redis = require("redis"),
+
+//redis server as a session pool
+/*const redis = require("redis"),
     client = redis.createClient();
 
 client.on("error", function (err) {
   winston.error(`${"Error: from redis when initiation: "} ${err}`);
-});
+});*/
 
-app.enable("trust proxy"); //for rateLimit, due to behind a reverse proxy(nginx)
+
+//rate limit by ip
 const limiter = rateLimit({
   windowMs: 10 * 60 * 1000, // 10 minutes
   max: 600, // limit each IP to 600 requests per windowMs
@@ -47,15 +51,19 @@ const loginLimiter = rateLimit({
 app.use(limiter); //rate limiter apply to all requests
 app.use("/router/login", loginLimiter); // restrict specially for login behavior, but should use username one day
 
+
+//parse url comeing in
 app.use(bodyParser.json({limit: '20mb'}));//parse Content-Type: /json
 app.use(bodyParser.raw({limit: "20mb"}));//parse Content-Type: /application/octet-stream
 app.use(bodyParser.text({limit: '20mb'})); //parse Content-Type: /text, like pure base64 string in this project
 app.use(bodyParser.urlencoded({extended: true}));
 
+
 //establish the statics resources
 app.use(express.static(path.join(__dirname+'/public')));
 
-//begining managing the specific request
+
+//Fianl!! begining managing the specific request
 app.get('/favicon.ico', function(req, res){
   res.end();
 })
@@ -64,8 +72,6 @@ app.use('/router', router)
 
 app.use('/user/screen', function(req, res){
   winston.info(`${"page: requesting for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);
-  //console.log("requesting for page: "+req.url);
-  //fail to use serverrender aafter update to react v16.2.0 due to: "<>" not support in nodejs
   //const element = React.createElement(require('./initHTML.jsx'));
   //ReactDOMServer.renderToNodeStream(element).pipe(res);
 
@@ -78,7 +84,6 @@ app.use('/user/screen', function(req, res){
 
 app.use('/user', function(req, res){
   winston.info(`${"page: requesting for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);
-  //fail to use serverrender aafter update to react v16.2.0 due to: "<>" not support in nodejs
   //const element = React.createElement(require('./initHTML.jsx'));
   //ReactDOMServer.renderToNodeStream(element).pipe(res);
 
@@ -91,7 +96,6 @@ app.use('/user', function(req, res){
 
 app.use('/s', function(req, res){
   winston.info(`${"page: requesting for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);
-  //fail to use serverrender aafter update to react v16.2.0 due to: "<>" not support in nodejs
   //const element = React.createElement(require('./initHTML.jsx'));
   //ReactDOMServer.renderToNodeStream(element).pipe(res);
 
@@ -104,7 +108,6 @@ app.use('/s', function(req, res){
 
 app.use('/', function(req, res){
   winston.info(`${"page: requesting for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);
-  //fail to use serverrender aafter update to react v16.2.0 due to: "<>" not support in nodejs
   //const element = React.createElement(require('./initHTML.jsx'));
   //ReactDOMServer.renderToNodeStream(element).pipe(res);
 
@@ -116,4 +119,4 @@ app.use('/', function(req, res){
 })
 
 app.listen(process.env.port || 8080);
-winston.warn("server initiating, running at Port 8080");
+winston.warn("server initiating, running at Port "+(process.env.port || "8080"));

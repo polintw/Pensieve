@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       onUpdate: 'cascade'
     });
   };
-  inspired.removeAttribute('id'); //this model do not use 'id' nor any pk, so we need to tell it.
+  lastvisit_shared.removeAttribute('id'); //this model do not use 'id' nor any pk, so we need to tell it.
 
   return lastvisit_shared;
 };
