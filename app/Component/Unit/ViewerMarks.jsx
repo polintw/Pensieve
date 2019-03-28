@@ -8,6 +8,7 @@ class ViewerMarks extends React.Component {
     this.state = {
 
     };
+    this.Com_ImgLayer=React.createRef();
     this._render_SpotsorMark = this._render_SpotsorMark.bind(this);
     this._handleClick_ImgLayer_circle = this._handleClick_ImgLayer_circle.bind(this);
     this._handleClick_SpotsLayer = this._handleClick_SpotsLayer.bind(this);
@@ -51,10 +52,10 @@ class ViewerMarks extends React.Component {
     if(this.props.markOpened && (this.props.marksData.list.indexOf(this.props.currentMark) > (-1))){
       const markId = this.props.currentMark;
       const coordinate = {top: this.props.marksData.data[markId].top, left: this.props.marksData.data[markId].left};
-      let [left, top, right] = [null,null,null];
+      let [left, top, right] = ['','',''];
 
       let axisPx = ((coordinate.left/100)*imgWidth)-(imgWidth/2);
-      coordinate.left>50 ? right = (this.Com_ImgLayer.clientWidth/2)-axisPx+15 : left = (this.Com_ImgLayer.clientWidth/2)+axisPx+15;
+      coordinate.left>50 ? right = (self.Com_ImgLayer.current.clientWidth/2)-axisPx+15 : left = (self.Com_ImgLayer.current.clientWidth/2)+axisPx+15;
       top = (22 + (coordinate.top) * (34) / (100)) + '%';
 
       return (
@@ -121,7 +122,7 @@ class ViewerMarks extends React.Component {
     return(
       <div
         style={this.style.absolute_FullVersion}
-        ref={(element) => {this.Com_ImgLayer = element;}}
+        ref={this.Com_ImgLayer}
         onClick={this._handleClick_SpotsLayer}>
         {
           this.props.spotsVisible &&
