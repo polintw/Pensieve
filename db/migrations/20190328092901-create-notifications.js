@@ -2,6 +2,12 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('notifications', {
+      id: {
+        type: Sequelize.INTEGER(10).UNSIGNED,
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true
+      },
       id_reciever: {
         type: Sequelize.INTEGER(10).UNSIGNED,
         allowNull: false
@@ -13,7 +19,7 @@ module.exports = {
         type: Sequelize.INTEGER(10).UNSIGNED
       },
       type: {
-        type: Sequelize.TEXT('tiny'),
+        type: Sequelize.INTEGER(4).UNSIGNED,
         allowNull: false
       },
       status: {

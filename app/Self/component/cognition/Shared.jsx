@@ -100,7 +100,7 @@ class Shared extends React.Component {
   _axios_nails_shareds(){
     const self = this;
     this.setState({axios: true});
-    axios.get('/router/actions/shareds', {
+    axios.get('/router/share/accumulated', {
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']

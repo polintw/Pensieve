@@ -112,7 +112,7 @@ class Inspired extends React.Component {
     const self = this;
     this.setState({axios: true});
 
-    axios.get('/router/inspire/embedded', {
+    axios.get('/router/inspire/accumulated', {
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']

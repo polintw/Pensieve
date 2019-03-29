@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     id_reciever: DataTypes.INTEGER(10),
     id_user: DataTypes.INTEGER(10),
     id_unit: DataTypes.INTEGER(10),
-    type: DataTypes.TEXT('tiny'),
+    type: DataTypes.INTEGER(4),
     status: DataTypes.TEXT('tiny')
   }, {});
   notifications.associate = function(models) {
@@ -27,7 +27,6 @@ module.exports = (sequelize, DataTypes) => {
       onUpdate: 'cascade'
     });
   };
-  notifications.removeAttribute('id'); //this model do not use 'id' nor any pk, so we need to tell it.
 
   return notifications;
 };

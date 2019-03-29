@@ -13,7 +13,7 @@ const {
   internalError,
 } = require('../utils/reserrHandler.js');
 
-function _handle_inspired_embedded(req, res){
+function _handle_GET_accumulated_Inspire(req, res){
   new Promise((resolve, reject)=>{
     const reqToken = req.body.token || req.headers['token'] || req.query.token;
     const jwtVerified = jwt.verify(reqToken, verify_key);
@@ -134,15 +134,15 @@ function _handle_inspired_embedded(req, res){
         });
     }
   }).then((sendingData)=>{
-    _res_success(res, sendingData, "GET: /inspire/embedded, complete.");
+    _res_success(res, sendingData, "GET: /inspire/accumulated, complete.");
   }).catch((error)=>{
     _handle_ErrCatched(error, req, res);
   });
 }
 
 execute.get('/', function(req, res){
-  if(process.env.NODE_ENV == 'development') winston.verbose('GET: /inspire/embedded ');
-  _handle_inspired_embedded(req, res);
+  if(process.env.NODE_ENV == 'development') winston.verbose('GET: /inspire/accumulated ');
+  _handle_GET_accumulated_Inspire(req, res);
 })
 
 module.exports = execute;
