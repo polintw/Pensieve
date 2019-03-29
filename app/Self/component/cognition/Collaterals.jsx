@@ -31,7 +31,7 @@ class Tracks extends React.Component {
   }
 
   _construct_UnitInit(match, location){
-    let unitInit= Object.assign(this.state.unitsBasic[match.params.id], {marksify: true, initMark: "all", layer: 0});
+    let unitInit= Object.assign(this.state.unitsBasic[match.params.id], {marksify: false, initMark: "all", layer: 0});
     return unitInit;
   }
 

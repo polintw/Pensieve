@@ -28,7 +28,13 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
-    units.hasMany(models.notifi_shared, {
+    units.hasMany(models.notifications, {
+      foreignKey:"id_unit",
+      sourceKey: "id",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
+    units.hasMany(models.notifi_inspired, {
       foreignKey:"id_unit",
       sourceKey: "id",
       onDelete: 'cascade',

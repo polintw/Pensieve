@@ -3,7 +3,10 @@ const execute = express.Router();
 const jwt = require('jsonwebtoken');
 const {verify_key} = require('../../config/jwt.js');
 const winston = require('../../config/winston.js');
+const _DB_marks = require('../../db/models/index').marks;
 const _DB_inspired = require('../../db/models/index').inspired;
+const _DB_notifications = require('../../db/models/index').notifications;
+const _DB_notifiInspired = require('../../db/models/index').notifi_inspired;
 const {_res_success} = require('../utils/resHandler.js');
 const {
   _handle_ErrCatched,
@@ -46,8 +49,33 @@ function _handle_inspire_plain_POST(req, res){
     let userId = jwtVerified.user_Id;
     const markId = parseInt(req.query.markId);
 
-    _DB_inspired.create({id_mark: markId, id_user: userId}).then(function(createdInspire) {
-      resolve()
+    _DB_marks.findByPk(markId).then((mark)=>{
+      if(mark.id_author == userId) throw new forbbidenError("Fail attempt.",36);
+      return _DB_inspired.create({
+        id_mark: markId,
+        id_user: userId
+      })
+      .then(function(createdInspire) {
+        return _DB_notifications.create({
+          id_user:userId,
+          id_unit: mark.id_unit,
+          id_reciever:mark.id_author,
+          type:'0_0', //first 0 for 'author of Unit/mark', and second for 'inspired'
+          status: 'untouched'
+        })
+      })
+      .then(()=>{
+        return _DB_notifiInspired.create({
+          id_unit: mark.id_unit,
+          id_mark: markId,
+          status: 'untouched'
+        })
+      })
+      .then(()=>{
+        resolve()
+      })
+    }).catch((error)=>{
+      reject(error);
     })
   }).then(()=>{
     let sendingData ={

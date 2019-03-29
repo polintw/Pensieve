@@ -1,14 +1,12 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const lastvisit_notify = sequelize.define('lastvisit_notify', {
-    id_user: DataTypes.INTEGER,
-    ip: DataTypes.TEXT,
-    shared: DataTypes.DATE,
-    inspired: DataTypes.DATE
+    id_user: DataTypes.INTEGER(10),
+    ip: DataTypes.TEXT('tiny')
   }, {});
   lastvisit_notify.associate = function(models) {
     lastvisit_notify.belongsTo(models.users, {
-      foreignKey: "id_user",
+      foreignKey:"id_user",
       targetKey: "id",
       onDelete: 'cascade',
       onUpdate: 'cascade'

@@ -11,6 +11,10 @@ const {
 const {
   _handler_ErrorRes
 } = require('../utils/reserrHandler.js');
+/*const {
+  client,
+  getAsync
+} = require('../redis.js');*/
 
 
 //handle log in request
@@ -29,6 +33,10 @@ login.use(function(req, res) {
       return _handler_ErrorRes(errSet, res);
     }
 
+    /*redis, implement trial
+    getAsync("loginattemp_"+email).then((cache)=>{
+      if(cache >4)
+    })*/
     let mysqlForm = {
       accordancesList: [[email]]
     },

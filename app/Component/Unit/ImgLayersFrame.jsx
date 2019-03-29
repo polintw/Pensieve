@@ -6,8 +6,12 @@ class ImgLayersFrame extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      spotsVisible: true,
+      markOpened: this.props.unitInit.marksify,
+      currentMark: this.props.unitInit.initMark
     };
+    this._set_Markvisible = this._set_Markvisible.bind(this);
+    this._set_spotsVisible = ()=>{this.setState((prevState, props)=>{return {spotsVisible: prevState.spotsVisible? false : true};})};
     this.style={
       Com_ImgLayersFrame: {
         width: '100%',
@@ -38,6 +42,23 @@ class ImgLayersFrame extends React.Component {
     };
   }
 
+  _set_Markvisible(param){
+    this.setState((prevState, props)=>{
+      let nextState = param ? (
+        {
+          spotsVisible: true,
+          markOpened: true,
+          currentMark: param
+        }
+      ):(
+        {
+          markOpened: false
+        }
+      )
+      return nextState;
+    });
+  }
+
   render(){
     let portion = Math.abs((this.props.moveCount-100)/100);
     let controledCSS = {
@@ -57,7 +78,6 @@ class ImgLayersFrame extends React.Component {
       this.style.Com_ImgLayersFrame_div_beneath
     );
 
-    let initMark = this.props.unitInit.initMark;
     let beneathMarks = {
       list: this.props.unitCurrent.beneathMarksList,
       data: this.props.unitCurrent.beneathMarksData
@@ -77,8 +97,12 @@ class ImgLayersFrame extends React.Component {
             <ImgLayer
               imgSrc={this.props.unitCurrent.beneathSrc}
               lockify={this.props.lockify}
-              initMark={initMark in beneathMarks? initMark : "all"}
-              marksData={beneathMarks}/>
+              spotsVisible={this.state.spotsVisible}
+              currentMark={this.state.currentMark}
+              markOpened={this.state.markOpened}
+              marksData={beneathMarks}
+              _set_Markvisible={this._set_Markvisible}
+              _set_spotsVisible={this._set_spotsVisible}/>
           }
         </div>
         <div
@@ -88,8 +112,12 @@ class ImgLayersFrame extends React.Component {
             <ImgLayer
               imgSrc={this.props.unitCurrent.coverSrc}
               lockify={this.props.lockify}
-              initMark={initMark in coverMarks? initMark : "all"}
-              marksData={coverMarks}/>
+              spotsVisible={this.state.spotsVisible}
+              currentMark={this.state.currentMark}
+              markOpened={this.state.markOpened}
+              marksData={coverMarks}
+              _set_Markvisible={this._set_Markvisible}
+              _set_spotsVisible={this._set_spotsVisible}/>
           }
         </div>
       </div>

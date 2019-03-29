@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('lastvisit_shared', {
+    return queryInterface.createTable('lastvisit_notify', {
       id_user: {
         type: Sequelize.INTEGER(10).UNSIGNED,
         allowNull: false
@@ -10,17 +10,19 @@ module.exports = {
         type: Sequelize.TEXT('tiny')
       },
       createdAt: {
-        type: Sequelize.DATE,
         allowNull: false,
+        type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
       updatedAt: {
-        type: Sequelize.DATE
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
-    }).then(() => {
-      return queryInterface.addConstraint('lastvisit_shared', ['id_user'], {
+    }).then(()=>{
+      return queryInterface.addConstraint('lastvisit_notify', ['id_user'], {
         type: 'foreign key',
-        name: 'constraint_fkey_lastvisitshared_iduser',
+        name: 'constraint_fkey_lastvisitatnotify_iduser',
         references: { //Required field
           table: 'users',
           field: 'id'
@@ -31,6 +33,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('lastvisit_shared');
+    return queryInterface.dropTable('lastvisit_notify');
   }
 };
