@@ -1,6 +1,6 @@
 import React from 'react';
 import cxBind from 'classnames/bind';
-import SvgPropic from './SvgPropic.jsx';
+import SvgPropic from './Svg/SvgPropic.jsx';
 
 const generalStyle = {
   Com_AccountPlate_: {

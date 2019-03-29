@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
-import DraftDisplay from './DraftDisplay.jsx';
+import DraftDisplay from './Draft/DraftDisplay.jsx';
 
 class MarksArticle extends React.Component {
   constructor(props){

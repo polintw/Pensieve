@@ -22,12 +22,12 @@ class LtdUnits extends React.Component {
       ltdList: [],
       unitsBasic: {},
       marksBasic: {},
-      rawsArr: []
+      nailsArr: []
     };
     this.axiosSource = axios.CancelToken.source();
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
-    this._axios_list_lookout = this._axios_list_lookout.bind(this);
-    this._render_LtdUnitsRaws = this._render_LtdUnitsRaws.bind(this);
+    this._axios_list_scape = this._axios_list_scape.bind(this);
+    this._render_scape_nails = this._render_scape_nails.bind(this);
     this.style={
       absolute_FullVersion: {
         width: '100%',
@@ -53,7 +53,7 @@ class LtdUnits extends React.Component {
     return unitInit;
   }
 
-  _axios_list_lookout(url, params){
+  _axios_list_scape(url, params){
     const self = this;
     this.setState({axios: true});
     axios.get(url, {
@@ -73,7 +73,7 @@ class LtdUnits extends React.Component {
           unitsBasic: resObj.main.unitsBasic,
           marksBasic: resObj.main.marksBasic
         });
-      }, self._render_LtdUnitsRaws);
+      }, self._render_scape_nails);
       self.props._submit_NounsList_new(resObj.main.nounsListMix);
       self.props._submit_UsersList_new(resObj.main.usersList);
     }).catch(function (thrown) {
@@ -92,7 +92,7 @@ class LtdUnits extends React.Component {
     });
   }
 
-  _render_LtdUnitsRaws(){
+  _render_scape_nails(){
     let row = this.state.ltdList[0] ? this.state.ltdList[0]:[];
     let nailsArr = row.map((unitId, index)=>{
       return (
@@ -106,7 +106,7 @@ class LtdUnits extends React.Component {
     })
 
     this.setState((prevState, props)=>{
-      return {rawsArr: prevState.rawsArr.concat(nailsArr)}
+      return {nailsArr: prevState.nailsArr.concat(nailsArr)}
     });
   }
 
@@ -114,7 +114,7 @@ class LtdUnits extends React.Component {
     this.setState((prevState, props)=>{return {axios: true};}, ()=>{
       let url = '/router/scape',
       params = {'ordinal': 'first'};
-      this._axios_list_lookout(url, params);
+      this._axios_list_scape(url, params);
     })
   }
 
@@ -132,7 +132,7 @@ class LtdUnits extends React.Component {
         style={Object.assign({padding: '1vh 0 0 0'}, this.style.absolute_FullVersion)}>
         <div
           style={this.style.withinCom_LtdUnits_div_}>
-          {this.state.rawsArr}
+          {this.state.nailsArr}
         </div>
         <div style={this.style.withinCom_LtdUnits_footer}></div>
         <Route

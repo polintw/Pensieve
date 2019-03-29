@@ -20,11 +20,11 @@ class Terrace extends React.Component {
     this.style={
       Self_pages_Terrace_: {
         width: "100%",
-        minWidth: '720px',
         height: '100%',
         position: 'absolute',
         top: '0',
         left: '0',
+        boxSizing: 'border-box',
         overflowY: 'scroll'
       },
       Self_pages_Terrace_hidden_appearance: {

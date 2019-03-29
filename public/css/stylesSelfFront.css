@@ -1,0 +1,14 @@
+._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlock {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlockNowrap {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlock div, ._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlockNowrap div {
+  display: inline-block;
+}

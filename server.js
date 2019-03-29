@@ -7,6 +7,7 @@ const rateLimit = require("express-rate-limit");
 
 const router = require('./src/router.js');
 const winston = require('./config/winston.js');
+const {envBasic} = require('./config/.env.json');
 
 //babel-polyfill is here for the whole code after it!
 require('babel-polyfill');
@@ -118,5 +119,5 @@ app.use('/', function(req, res){
   });
 })
 
-app.listen(process.env.port || 8080);
-winston.warn("server initiating, running at Port "+(process.env.port || "8080"));
+app.listen(process.env.port || envBasic.port);
+winston.warn("server initiating, running at Port "+envBasic.port);

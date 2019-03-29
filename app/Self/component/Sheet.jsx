@@ -6,7 +6,7 @@ import {
   SheetPassword,
   SheetBasic
 } from './SheetCom.jsx';
-import SvgPropic from '../../Component/SvgPropic.jsx';
+import SvgPropic from '../../Component/Svg/SvgPropic.jsx';
 import {mountUserSheet} from "../../redux/actions/general.js";
 
 class Sheet extends React.Component {

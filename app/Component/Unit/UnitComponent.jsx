@@ -1,6 +1,6 @@
 import React from 'react';
 import cxBind from 'classnames/bind';
-import SvgPropic from '../SvgPropic.jsx';
+import SvgPropic from '../Svg/SvgPropic.jsx';
 
 export class NounsExtensible extends React.Component {
   constructor(props){
@@ -185,6 +185,8 @@ export class DateConverter extends React.Component {
         <span>{d.getDate()}</span>
         <span>{". "}</span>
         <span>{this._render_monthRome(d)}</span>
+        <span>{". "}</span>
+        <span>{d.getFullYear()}</span>
       </div>
     )
   }

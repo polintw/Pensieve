@@ -9,7 +9,7 @@ import {
 import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import Appearance from '../../Component/Appearance.jsx';
-import SvgPropic from '../../Component/SvgPropic.jsx';
+import SvgPropic from '../../Component/Svg/SvgPropic.jsx';
 
 class CosmicUser extends React.Component {
   constructor(props){
