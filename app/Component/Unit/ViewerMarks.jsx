@@ -30,8 +30,8 @@ class ViewerMarks extends React.Component {
       Com_ImgLayer_div: {
         position: 'absolute',
         top: '50%',
-        right: '40%',
-        transform: 'translate(40%,-50%)'
+        right: this.props.baseHorizonRatial+'%',
+        transform: 'translate('+this.props.baseHorizonRatial+'%,-50%)'
       },
       Com_ImgLayer_div_circle_svg: {
         width: '3vw',
@@ -47,16 +47,23 @@ class ViewerMarks extends React.Component {
   _render_SpotsorMark(){
     const self = this,
     imgWidth = this.props.imgWidthHeight.width,
-    imgHeight = this.props.imgWidthHeight.height;
+    imgHeight = this.props.imgWidthHeight.height,
+    imgLeft=this.props.imgPosition.left;
 
     if(this.props.markOpened && (this.props.marksData.list.indexOf(this.props.currentMark) > (-1))){
       const markId = this.props.currentMark;
       const coordinate = {top: this.props.marksData.data[markId].top, left: this.props.marksData.data[markId].left};
-      let [left, top, right] = ['','',''];
+      let [left, top, right] = ['','',''],
+          spotLeftPx = coordinate.left/100*imgWidth+imgLeft+imgWidth*(this.props.baseHorizonRatial/100);
+          //the position relative to img, position img original at, and transform we set
+          //--- due to offsetLeft wouldn't take the transform property
 
-      let axisPx = ((coordinate.left/100)*imgWidth)-(imgWidth/2);
-      coordinate.left>50 ? right = (self.Com_ImgLayer.current.clientWidth/2)-axisPx+15 : left = (self.Com_ImgLayer.current.clientWidth/2)+axisPx+15;
-      top = (22 + (coordinate.top) * (34) / (100)) + '%';
+      (spotLeftPx) > (this.props.boxWidth/2) ? ( //check which side of the box the circle at
+        right = this.props.boxWidth-(spotLeftPx)+this.props.boxWidth/20 //if circle st the right side, put the box 'left' to the circle
+      ): (
+        left = spotLeftPx+this.props.boxWidth/20
+      );
+        top = (22 + (coordinate.top) * (34) / (100)) + '%';
 
       return (
         <div>

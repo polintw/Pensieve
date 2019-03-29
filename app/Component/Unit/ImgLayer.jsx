@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import AuthorMarks from './AuthorMarks.jsx';
 import ViewerMarks from './ViewerMarks.jsx';
 
+const baseHorizonRatial = 40;
+
 const commonStyle = {
   absolute_FullVersion: {
     width: '100%',
@@ -20,8 +22,9 @@ class ImgLayer extends React.Component {
     this.state = {
       imgWidthHeight: false
     };
+    this.Com_ImgLayer_box = React.createRef();
     this.Com_ImgLayer_img = React.createRef();
-    this._set_imgSize = this._set_imgSize.bind(this);
+    this._set_imgSize = ()=>{this.setState({imgWidthHeight:true})};
     this._render_MarksLayer = this._render_MarksLayer.bind(this);
     this.style = {
       Com_ImgLayer_img: {
@@ -29,49 +32,45 @@ class ImgLayer extends React.Component {
         maxHeight: '100%',
         position: 'absolute',
         top: '50%',
-        right: '40%',
-        transform: 'translate(40%,-50%)'
+        right: baseHorizonRatial+'%',
+        transform: 'translate('+baseHorizonRatial+'%,-50%)'
       }
-    };
-  }
-
-  _set_imgSize(){
-    let imgWidth = this.Com_ImgLayer_img.current.clientWidth,
-        imgHeight = this.Com_ImgLayer_img.current.clientHeight;
-
-    this.setState({
-      imgWidthHeight: {
-        width: imgWidth,
-        height: imgHeight
-      }
-    });
+  };
   }
 
   _render_MarksLayer(){
+    let imgWidthHeight = {
+      width: this.Com_ImgLayer_img.current.clientWidth,
+      height: this.Com_ImgLayer_img.current.clientHeight
+    },
+      //create the 'relation between img and box', then pass to marklayer as a reference for counting
+      //don't use customized statics, raising the maintanance difficulty
+      imgPosition = {
+        left: this.Com_ImgLayer_img.current.offsetLeft
+      },
+      boxWidth=this.Com_ImgLayer_box.current.clientWidth;
+
     return this.props.unitCurrent.identity=="author" ? (
       <AuthorMarks
-        imgWidthHeight={this.state.imgWidthHeight}
-        marksData={this.props.marksData}
-        spotsVisible={this.props.spotsVisible}
-        markOpened={this.props.markOpened}
-        currentMark={this.props.currentMark}
-        _set_Markvisible={this.props._set_Markvisible}
-        _set_spotsVisible={this.props._set_spotsVisible}/>
+        {...this.props}
+        boxWidth={boxWidth}
+        imgPosition={imgPosition}
+        imgWidthHeight={imgWidthHeight}
+        baseHorizonRatial={baseHorizonRatial}/>
     ):(
       <ViewerMarks
-        imgWidthHeight={this.state.imgWidthHeight}
-        marksData={this.props.marksData}
-        spotsVisible={this.props.spotsVisible}
-        markOpened={this.props.markOpened}
-        currentMark={this.props.currentMark}
-        _set_Markvisible={this.props._set_Markvisible}
-        _set_spotsVisible={this.props._set_spotsVisible}/>
+        {...this.props}
+        boxWidth={boxWidth}
+        imgPosition={imgPosition}
+        imgWidthHeight={imgWidthHeight}
+        baseHorizonRatial={baseHorizonRatial}/>
     )
   }
 
   render(){
     return(
       <div
+        ref={this.Com_ImgLayer_box}
         style={commonStyle.absolute_FullVersion}>
         <img
           style={this.style.Com_ImgLayer_img}
