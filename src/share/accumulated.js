@@ -3,6 +3,8 @@ const execute = express.Router();
 const jwt = require('jsonwebtoken');
 const winston = require('../../config/winston.js');
 const {verify_key} = require('../../config/jwt.js');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 const _DB_notifications = require('../../db/models/index').notifications;
 const _DB_lastvisitShared = require('../../db/models/index').lastvisit_shared;
 const {_res_success} = require('../utils/resHandler.js');
@@ -93,45 +95,44 @@ function _handle_GET_accumulated_Share(req, res){
           else{
             sendingData.unitsList.push(row.id);
           };
-        });
+        });})
+      .then(()=>{
+        if(sendingData.unitsList.length < 1){return sendingData}; // as above, if there is not any shareds record at all
+        let conditionsMarks = {
+          table: 'marks',
+          cols: ['id','id_unit','layer','editor_content'],
+          where: ['id_unit']
+        },
+        conditionAttri = {
+          table: 'attribution',
+          cols: ['id_unit', 'id_noun'],
+          where: ['id_unit']
+        };
+        let pMarks = Promise.resolve(_select_Basic(conditionsMarks, mysqlForm.unitsList).catch((error)=>{throw error}));
+        let pAtrri = Promise.resolve(_select_Basic(conditionAttri, mysqlForm.unitsList).catch((error)=>{throw error}));
 
-        return sendingData;
-      });
-  }).then((sendingData)=>{
-    if(sendingData.unitsList.length < 1){return sendingData}; // as above, if there is not any shareds record at all
-    let conditionsMarks = {
-      table: 'marks',
-      cols: ['id','id_unit','layer','editor_content'],
-      where: ['id_unit']
-    },
-    conditionAttri = {
-      table: 'attribution',
-      cols: ['id_unit', 'id_noun'],
-      where: ['id_unit']
-    };
-    let pMarks = Promise.resolve(_select_Basic(conditionsMarks, mysqlForm.unitsList).catch((error)=>{throw error}));
-    let pAtrri = Promise.resolve(_select_Basic(conditionAttri, mysqlForm.unitsList).catch((error)=>{throw error}));
+        return Promise.all([pAtrri, pMarks]).then((resultsStep2)=>{
+          let resultsAttri = resultsStep2[0],
+          resultsMarks = resultsStep2[1];
 
-    return Promise.all([pAtrri, pMarks]).then((resultsStep2)=>{
-      let resultsAttri = resultsStep2[0],
-      resultsMarks = resultsStep2[1];
+          resultsAttri.forEach((row, index)=> {
+            sendingData.unitsBasic[row.id_unit]["nounsList"].push(row.id_noun);
+            sendingData.nounsListMix.push(row.id_noun);
+          });
+          resultsMarks.forEach((row, index)=> {
+            sendingData.unitsBasic[row.id_unit]["marksList"].push(row.id);
+            sendingData.marksBasic[row.id] = {
+              editorContent: JSON.parse(row.editor_content),
+              layer: row.layer
+            }
+          });
+          sendingData.nounsListMix = sendingData.nounsListMix.filter((id, index, list)=>{
+            return index == list.indexOf(id);
+          }); //remove duplicate from the array
 
-      resultsAttri.forEach((row, index)=> {
-        sendingData.unitsBasic[row.id_unit]["nounsList"].push(row.id_noun);
-        sendingData.nounsListMix.push(row.id_noun);
+          return (sendingData); //return to the 'parent' promise of current one
+        })
       });
-      resultsMarks.forEach((row, index)=> {
-        sendingData.unitsBasic[row.id_unit]["marksList"].push(row.id);
-        sendingData.marksBasic[row.id] = {
-          editorContent: JSON.parse(row.editor_content),
-          layer: row.layer
-        }
-      });
-      sendingData.nounsListMix = sendingData.nounsListMix.filter((id, index, list)=>{
-        return index == list.indexOf(id);
-      }); //remove duplicate from the array
-      return (sendingData); //return to the 'parent' promise of current one
-    })
   }).then((sendingData)=>{
     _res_success(res, sendingData, "Complete, GET: user actions/shareds.");
   }).catch((error)=>{

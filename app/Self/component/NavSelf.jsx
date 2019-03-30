@@ -5,7 +5,6 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import cxBind from 'classnames/bind';
 import SvgAroundLineBlank from '../../Component/Svg/SvgAroundLineBlank.jsx';
 
 const commonStyle={
@@ -101,8 +100,8 @@ class NavSelf extends React.Component {
             <defs><style>{".cls-1-aroundDual{fill:#4085a0;}.cls-2-aroundDual{fill:#e6e6e6;}"}</style></defs>
             <g id="圖層_2" data-name="圖層 2">
               <g id="圖層_2-2" data-name="圖層 2">
-                <circle class="cls-1-aroundDual" cx="2.46" cy="11.44" r="2.46"/>
-                <circle class="cls-2-aroundDual" cx="13.25" cy="4.3" r="4.3"/>
+                <circle className="cls-1-aroundDual" cx="2.46" cy="11.44" r="2.46"/>
+                <circle className="cls-2-aroundDual" cx="13.25" cy="4.3" r="4.3"/>
               </g>
             </g>
           </svg>

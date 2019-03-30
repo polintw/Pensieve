@@ -9,6 +9,7 @@ module.exports = {
     port: envDbConnection.port,
     dialect: "mysql",
     operatorsAliases: false,
+    timezone: '+08:00',
     pool: {
       max: 20,
       min: 0,
@@ -28,6 +29,7 @@ module.exports = {
     port: envDbConnection.port,
     dialect: "mysql",
     operatorsAliases: false,
+    timezone: '+08:00',
     pool: {
       max: 20,
       min: 0,
@@ -50,6 +52,7 @@ module.exports = {
 
     },
     operatorsAliases: false,
+    timezone: '+08:00',
     pool: {
       max: 20,
       min: 0,
