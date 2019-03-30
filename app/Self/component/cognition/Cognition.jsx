@@ -41,7 +41,6 @@ class Cognition extends React.Component {
       },
       Cognition_backPlane_bottom: {
         width: '100%',
-        height: '11%',
         position: 'fixed',
         bottom: '0',
         left: '0',
@@ -72,7 +71,7 @@ class Cognition extends React.Component {
           style={this.style.Cognition_NavFrontShelf_}>
           <NavFrontShelf {...this.props}/>
         </div>
-        <div style={this.style.Cognition_backPlane_bottom}/>
+        <div className={'selfFront-fixedBottomOverlay-height'} style={this.style.Cognition_backPlane_bottom}/>
         <div
           className={'selfFront-fixedBottomBox-height'}
           style={this.style.Cognition_backPlane_Nav}/>

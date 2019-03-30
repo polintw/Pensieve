@@ -17,7 +17,7 @@ import {
   uncertainErr
 } from '../../../utils/errHandlers.js';
 
-const commonStyle = {
+const styleMiddle = {
   frameNail: {
     display: 'inline-block',
     width: '32%',
@@ -33,6 +33,22 @@ const commonStyle = {
     float: 'right',
     boxSizing: 'border-box',
     backgroundColor: 'transparent'
+  },
+  scrollFooter: {
+    display: 'inline-block',
+    width: '99%',
+    position: 'relative',
+    boxSizing: 'border-box',
+    margin: '0 0.5%'
+  },
+  notifiedBlock: {
+    display:'inline-block',
+    width: '65%',
+    position:'relative',
+    boxSizing:'border-box',
+    margin: '2vh 0.4% 0 0',
+    textAlign:'center',
+    float:'left'
   }
 }
 
@@ -43,7 +59,9 @@ class Shared extends React.Component {
       axios: false,
       unitsList: [],
       unitsBasic: {},
-      marksBasic: {}
+      marksBasic: {},
+      notifiedList: [],
+      notifiedStatus: {}
     };
     this.axiosSource = axios.CancelToken.source();
     this._render_Shareds = this._render_Shareds.bind(this);
@@ -79,7 +97,7 @@ class Shared extends React.Component {
       return(
         <div
           key={'key_Shared_nails_'+index}
-          style={commonStyle.frameNail}>
+          style={styleMiddle.frameNail}>
           <NailShared
             {...self.props}
             sharedId={dataKey}
@@ -90,10 +108,44 @@ class Shared extends React.Component {
     }), reserved = (
       <div
         key={'key_Shared_nails_titleReserved'}
-        style={Object.assign({}, {width: '34%'}, commonStyle.titleReserved)}>
+        style={Object.assign({}, {width: '34%'}, styleMiddle.titleReserved)}>
       </div>
+    ), scrollFooter = (
+      <div
+        key={'key_Shared_nails_scrollFooter'}
+        className={'selfFront-fixedBottomOverlay-height'}
+        style={styleMiddle.scrollFooter}></div>
     );
     shareds.unshift(reserved);
+    shareds.push(scrollFooter);
+
+    if(this.state.notifiedList.length>0){
+      let notifieds = this.state.notifiedList.map((dataKey, index)=>{
+        let dataValue = self.state.unitsBasic[dataKey];
+        return(
+          <div
+            key={'key_Shared_nails_notified_'+index}
+            style={Object.assign({}, styleMiddle.frameNail, {width:'47%', boxShadow: '1px 0px 2px 0px', margin:'0 1%'})}>
+            <NailShared
+              {...self.props}
+              sharedId={dataKey}
+              unitBasic={dataValue}
+              marksBasic={self.state.marksBasic}
+              notifiedStatus={self.state.notifiedStatus[dataKey]}/>
+          </div>
+        )
+      });
+      let notifiedBlock = (
+        <div
+          key={'key_Shared_nails_notified_'}
+          style={styleMiddle.notifiedBlock}>
+          {notifieds}
+        </div>
+      );
+
+      shareds.length< 4 ? shareds.splice(1,0,notifiedBlock) : shareds.splice(3, 0, notifiedBlock);
+    }
+
     return shareds;
   }
 
@@ -112,7 +164,9 @@ class Shared extends React.Component {
         axios: false,
         unitsList: resObj.main.unitsList,
         unitsBasic: resObj.main.unitsBasic,
-        marksBasic: resObj.main.marksBasic
+        marksBasic: resObj.main.marksBasic,
+        notifiedList: resObj.main.notifiedList,
+        notifiedStatus: resObj.main.notifiedStatus
       })
       //send the nouns used by all shareds to the redux reducer
       self.props._submit_NounsList_new(resObj.main.nounsListMix);
@@ -150,7 +204,7 @@ class Shared extends React.Component {
           {this._render_Shareds()}
         </div>
         <div
-          style={Object.assign({}, {width: '35%',right: '-2%'}, commonStyle.titleReserved)}>
+          style={Object.assign({}, {width: '35%',right: '-2%'}, styleMiddle.titleReserved)}>
           <TitleShared
             {...this.props}
             _axios_nails_shareds={this._axios_nails_shareds}
