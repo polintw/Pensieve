@@ -102,7 +102,8 @@ class Shared extends React.Component {
             {...self.props}
             sharedId={dataKey}
             unitBasic={dataValue}
-            marksBasic={self.state.marksBasic}/>
+            marksBasic={self.state.marksBasic}
+            notifiedStatus={{inspired:false}}/>
         </div>
       )
     }), reserved = (

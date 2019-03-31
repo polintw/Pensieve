@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import DraftDisplay from '../Draft/DraftDisplay.jsx';
+import {SvgBulbPlain} from '../Svg/SvgBulb.jsx';
 
 const commonStyle = {
   framePic: {
@@ -59,6 +60,15 @@ const commonStyle = {
     boxSizing: 'border-box',
     padding: '1.2vh 4%'
   },
+  rowBreach: {
+    width: '64%',
+    height: '64%',
+    position: 'absolute',
+    bottom: '0',
+    left: '0',
+    boxSizing: 'border-box',
+    padding: '0.2vh 3%'
+  },
   spanNoun: {
     display: 'inline-block',
     position: 'relative',
@@ -69,15 +79,6 @@ const commonStyle = {
     letterSpacing: '0.28rem',
     color: 'black'
   },
-  rowBreach: {
-    width: '64%',
-    height: '64%',
-    position: 'absolute',
-    bottom: '0',
-    left: '0',
-    boxSizing: 'border-box',
-    padding: '0.2vh 3%'
-  }
 }
 
 class NailShared extends React.Component {
@@ -192,7 +193,15 @@ class NailShared extends React.Component {
               style={this.style.Com_Nails_Shared_breach_button_}>
               <span>{"Thr"}</span>
             </Link>
-            <div style={this.style.Com_Nails_Shared_breach_button_}>{"N"}</div>
+            <Link
+              to={{
+                pathname: this.props.match.url+"/units/"+this.props.sharedId,
+                state: {from: this.props.location}
+              }}
+              className={"plainLinkButton"}
+              style={Object.assign({}, this.style.Com_Nails_Shared_breach_button_, {stroke:'#'})}>
+              <SvgBulbPlain/>
+            </Link>
           </div>
         </div>
       </div>
