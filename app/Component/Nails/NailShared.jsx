@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import DraftDisplay from '../Draft/DraftDisplay.jsx';
-import {SvgBulbPlain} from '../Svg/SvgBulb.jsx';
+import {SvgBulbPlainHalf} from '../Svg/SvgBulb.jsx';
 
 const commonStyle = {
   framePic: {
@@ -199,8 +199,15 @@ class NailShared extends React.Component {
                 state: {from: this.props.location}
               }}
               className={"plainLinkButton"}
-              style={Object.assign({}, this.style.Com_Nails_Shared_breach_button_, {stroke:'#'})}>
-              <SvgBulbPlain/>
+              style={Object.assign({}, this.style.Com_Nails_Shared_breach_button_, {
+                width: '16%',
+                height: '83%',
+                stroke:this.props.notifiedStatus.inspired?'#ff7a5f':'#aaaaaa',
+                strokeWidth: '10px',
+                fill:'none',
+                cursor: this.props.notifiedStatus.inspired?'pointer':'auto'
+              })}>
+              <SvgBulbPlainHalf/>
             </Link>
           </div>
         </div>

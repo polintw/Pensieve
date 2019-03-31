@@ -5,7 +5,7 @@ const basicExecutive = require('./basic.js');
 const responsesExecutive = require('./responses.js');
 const tracksExecutive = require('./tracks.js');
 const broadsExecutive = require('./broads.js');
-const vanilla = require('./vanilla.js');
+const plainExecutive = require('./plain.js');
 
 main.param("id", (req, res, next, id)=>{
   req.reqUnitId = id;
@@ -17,6 +17,6 @@ main.use('/:id/responses', responsesExecutive)
 main.use('/:id/track', tracksExecutive)
 main.use('/:id/broad', broadsExecutive)
 
-main.use('/:id', vanilla)
+main.use('/:id', plainExecutive)
 
 module.exports = main;

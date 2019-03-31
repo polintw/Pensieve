@@ -4,13 +4,18 @@ const execute = express.Router();
 const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 const {verify_key} = require('../../config/jwt.js');
-const {connection_key} = require('../../config/database.js');
 const winston = require('../../config/winston.js');
 const {_res_success,_res_success_201} = require('../utils/resHandler.js');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
+const _DB_users = require('../../db/models/index').users;
+const _DB_units = require('../../db/models/index').units;
 const _DB_nouns = require('../../db/models/index').nouns;
 const _DB_marks = require('../../db/models/index').marks;
 const _DB_attribution =  require('../../db/models/index').attribution;
 const _DB_inspired = require('../../db/models/index').inspired;
+const _DB_notifications = require('../../db/models/index').notifications;
+const _DB_lastvisitShared = require('../../db/models/index').lastvisit_shared;
 const {
   UNITS_GENERAL,
   MARKS_UNITS,
@@ -37,171 +42,160 @@ const {
   _handler_err_Internal
 } = require('../utils/reserrHandler.js');
 
-const database = mysql.createPool(connection_key);
-
 function _handle_unit_Mount(req, res){
   const reqUnit = req.reqUnitId;
 
   new Promise((resolve, reject)=>{
     const reqToken = req.body.token || req.headers['token'] || req.query.token;
     const jwtVerified = jwt.verify(reqToken, verify_key);
-    if (!jwtVerified) throw new internalError(jwtVerified, 131)
+    if (!jwtVerified) throw new internalError(jwtVerified, 32)
 
     const userId = jwtVerified.user_Id;
 
-    database.getConnection(function(err, connection){
-      if (err) {
-        _handler_err_Internal(err, res);
-        console.log("error occured when getConnection for mounting unit.")
-      }else{
-        let _promise_unitToNouns = function(tempData){
-          return new Promise((resolveSub, rejectSub)=>{
-            let selectQuery = 'SELECT id_noun FROM attribution WHERE id_unit=?';
-            connection.query(selectQuery, [reqUnit], function(err, results, fields) {
-              if (err) {_handler_err_Internal(err, res);rejectSub(err);return;}
-              console.log('database connection: success.')
-              if (results.length > 0) {
-                results.forEach(function(result, index){
-                  tempData['nouns'].list.push(result.id_noun);
-                  tempData['temp'].nounsKey.push([result.id_noun]);
-                })
-                resolveSub(tempData)
-              } else {
-                tempData.sendingData.nouns = tempData.nouns;
-                let sendingData = Object.assign({}, tempData.sendingData);
-                rejectSub(sendingData);
-              }
+    let _promise_unitToNouns = function(tempData){
+      return new Promise((resolveSub, rejectSub)=>{
+        let selectQuery = 'SELECT id_noun FROM attribution WHERE id_unit=?';
+        _DB_attribution.findAll({
+          where: {id_unit: reqUnit},
+          attributes: ['id_noun']
+        }).then((results)=>{
+          if (results.length > 0) {
+            results.forEach(function(result, index){
+              tempData['nouns'].list.push(result.id_noun);
+              tempData['temp'].nounsKey.push([result.id_noun]);
             })
-          }).then((tempData)=>{
-            return new Promise((resolveSub, rejectSub)=>{
-              let selectQuery = 'SELECT id, name, prefix FROM nouns WHERE (id) IN (?)';
-              connection.query(selectQuery, [tempData['temp'].nounsKey], function(err, results, fields) {
-                if (err) {_handler_err_Internal(err, res);rejectSub(err);return;}
-                console.log('database connection: success, query to nouns.')
-                results.forEach(function(result, index){
-                  tempData['nouns']['basic'][result.id] = {id:result.id, name: result.name, prefix: result.prefix};
-                })
-                //this part is a temp method before a whole update of this file.
-                tempData.sendingData.nouns = tempData.nouns;
-                let sendingData = Object.assign({}, tempData.sendingData);
-                if (results.length < 1) {rejectSub(sendingData);}else{resolveSub(sendingData)};
-              })
-            })
-          }).catch((thrown)=>{
-            winston.error(`${"Error: empty selection from nouns or attribution."} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
-            return thrown;
-          })
-        }
-
-        new Promise((resolveSub, rejectSub)=>{
-          console.log('unit mount req: check author.');
-          connection.query('SELECT * FROM units WHERE id = ?', [reqUnit], function(err, result, fields) {
-            if (err) {_handler_err_Internal(err, res);rejectSub(err);return;}
-            console.log('database connection: success.')
-            let sendingData = {
-              temp: {marksKey: []},
-              marksObj: {},
-              refsArr: [],
-              nouns: {
-                list: [],
-                basic: {},
-              },
-              authorBasic: {},
-              createdAt: "",
-              identity: "",
-              inspired: []
-            }
-            if (result.length > 0) {
-              sendingData['authorBasic']['authorId'] = result[0].id_author;
-              sendingData['createdAt'] = result[0].createdAt;
-              if(userId == result[0].id_author){
-                sendingData['identity'] = "author"
-              }else{
-                sendingData['identity'] = "viewer"
-              }
-              resolveSub(sendingData)
-            } else {
-              resolveSub(sendingData)
-            }
-          })
-        }).then((sendingData)=>{
-          console.log('unit mount req: call author name.');
-          return new Promise((resolveSub, rejectSub)=>{
-            connection.query('SELECT account,first_name,last_name FROM users WHERE id = ?', [sendingData['authorBasic']['authorId']], function(err, result, fields) {
-              if (err) {_handler_err_Internal(err, res);rejectSub(err);return;}
-              console.log('database connection: success.')
-              if (result.length > 0) {
-                sendingData['authorBasic']['account'] = result[0].account;
-                sendingData['authorBasic']['firstName'] = result[0].first_name;
-                sendingData['authorBasic']['lastName'] = result[0].last_name;
-                resolveSub(sendingData)
-              } else {
-                resolveSub(sendingData)
-              }
-            })
-          })
-        }).then((sendingData)=>{
-          //this part has been rewritten to a newer style, prepareing for future modified
-          let tempData = {
-            nouns: {
-              list: [],
-              basic: {}
-            },
-            temp: {nounsKey: []},
-            sendingData: sendingData
+            resolveSub(tempData)
+          } else {
+            tempData.sendingData.nouns = tempData.nouns;
+            let sendingData = Object.assign({}, tempData.sendingData);
+            rejectSub(sendingData);
           }
-          return _promise_unitToNouns(tempData)
-        }).then((sendingData)=>{
-          console.log('unit mount req: assemble marksObj.');
-          return new Promise((resolveSub, rejectSub)=>{
-            connection.query('SELECT * FROM marks WHERE id_unit=?', [reqUnit], function(err, result, fields) {
-              if (err) {_handler_err_Internal(err, res);rejectSub(err);return;}
-              console.log('database connection: success.')
-              if (result.length > 0) {
-                result.forEach(function(row, index){
-                  let obj = {
-                    top: row.portion_top,
-                    left: row.portion_left,
-                    editorContent:  row.editor_content?JSON.parse(row.editor_content):null,
-                    serial: row.serial,
-                    layer: row.layer
-                  };
-                  let markKey = row.id;
-                  sendingData['marksObj'][markKey]=obj;
-                  sendingData['temp']['marksKey'].push(row.id); //we use ORM now, no need to fullfill mysal module format
-                })
-                resolveSub(sendingData)
-              } else {
-                resolveSub(sendingData)
-              }
+        })
+      }).then((tempData)=>{
+        return new Promise((resolveSub, rejectSub)=>{
+          _DB_nouns.findAll({
+            where: {id: tempData['temp'].nounsKey},
+            attributes: ['id', 'name', 'prefix']
+          }).then((results)=>{
+            results.forEach(function(result, index){
+              tempData['nouns']['basic'][result.id] = {id:result.id, name: result.name, prefix: result.prefix};
             })
+            //this part is a temp method before a whole update of this file.
+            tempData.sendingData.nouns = tempData.nouns;
+            let sendingData = Object.assign({}, tempData.sendingData);
+            if (results.length < 1) {rejectSub(sendingData);}else{resolveSub(sendingData)};
           })
-        }).then((sendingData)=>{
-          console.log('unit mount req: marksObj append.');
-          return new Promise((resolveSub, rejectSub)=>{
-            _DB_inspired.findAll({
-              where: {
-                id_mark: [sendingData['temp']['marksKey']],
-                id_user: userId
-              },
-              attributes: ['id_mark']
-            }).then(function(inspired) {
-              inspired.map((row, index)=>{
-                sendingData['inspired'].push(row.id_mark.toString())
-              });
-              resolveSub(sendingData);
-            }).catch((err)=>{
-              rejectSub(err);
-            })
+        })
+      }).catch((thrown)=>{
+        winston.error(`${"Error: empty selection from nouns or attribution."} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+        return thrown; //do not count for a 'true' error
+      })
+    }
+
+    return _DB_units.findOne({
+      where: {id: reqUnit}
+    }).then((result)=>{
+      let sendingData = {
+        temp: {marksKey: []},
+        marksObj: {},
+        refsArr: [],
+        nouns: {
+          list: [],
+          basic: {},
+        },
+        authorBasic: {},
+        createdAt: "",
+        identity: "",
+        inspired: []
+      }
+      if (result) {
+        sendingData['authorBasic']['authorId'] = result.id_author;
+        sendingData['createdAt'] = result.createdAt;
+        if(userId == result.id_author){
+          sendingData['identity'] = "author"
+        }else{
+          sendingData['identity'] = "viewer"
+        }
+        return (sendingData)
+      } else {
+        return (sendingData)
+      }
+    }).then((sendingData)=>{
+      return _DB_users.findOne({
+        where: {id: sendingData['authorBasic']['authorId']},
+        attributes: ['account','first_name','last_name']
+      }).then((result)=>{
+        if (result) {
+          sendingData['authorBasic']['account'] = result.account;
+          sendingData['authorBasic']['firstName'] = result.first_name;
+          sendingData['authorBasic']['lastName'] = result.last_name;
+          return(sendingData);
+        } else {
+          return(sendingData);
+        }
+      }).catch((error)=>{
+        throw new internalError(error ,131);//'throw' at this level, stop the process
+      })
+    }).then((sendingData)=>{
+      //this part has been rewritten to a newer style, prepareing for future modified
+      let tempData = {
+        nouns: {
+          list: [],
+          basic: {}
+        },
+        temp: {nounsKey: []},
+        sendingData: sendingData
+      }
+      return _promise_unitToNouns(tempData)
+    }).then((sendingData)=>{
+      console.log('unit mount req: assemble marksObj.');
+      return _DB_marks.findAll({
+        where: {id_unit:reqUnit}
+      }).then((results)=>{
+        if (results.length > 0) {
+          results.forEach(function(row, index){
+            let obj = {
+              top: row.portion_top,
+              left: row.portion_left,
+              editorContent:  row.editor_content?JSON.parse(row.editor_content):null,
+              serial: row.serial,
+              layer: row.layer
+            };
+            let markKey = row.id;
+            sendingData['marksObj'][markKey]=obj;
+            sendingData['temp']['marksKey'].push(row.id); //we use ORM now, no need to fullfill mysal module format
           })
-        }).then((sendingData)=>{
-          connection.release();
-          _res_success(res, sendingData);
-          resolve(); //just close the promise
-        }).catch((err)=>{
-          connection.release();
-          reject("occured during unit mounting promise, "+err);
+          return (sendingData);
+        } else {
+          return (sendingData);
+        }
+      }).catch((error)=>{
+        throw new internalError(error ,131);//'throw' at this level, stop the process
+      })
+    }).then((sendingData)=>{
+      console.log('unit mount req: marksObj append.');
+      return _DB_inspired.findAll({
+        where: {
+          id_mark: [sendingData['temp']['marksKey']],
+          id_user: userId
+        },
+        attributes: ['id_mark']
+      }).then(function(inspired) {
+        inspired.map((row, index)=>{
+          sendingData['inspired'].push(row.id_mark.toString())
         });
+        return (sendingData);
+      }).catch((error)=>{
+        throw new internalError(error ,131);//'throw' at this level, stop the process
+      })
+    }).then((sendingData)=>{
+      _res_success(res, sendingData);
+    }).catch((error)=>{
+      //and 'reject' at here return to the parent level handler
+      if(error.status){reject(error);return;}
+      else{
+        reject(new internalError(error, 131));
+        return;
       }
     })
   }).catch((error)=>{
