@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from "react-redux";
-import AuthorMarks from './AuthorMarks.jsx';
-import ViewerMarks from './ViewerMarks.jsx';
+import MarksAuthor from './Mark/MarksAuthor.jsx';
+import MarksViewer from './Mark/MarksViewer.jsx';
 
 const baseHorizonRatial = 40;
 
@@ -51,14 +51,14 @@ class ImgLayer extends React.Component {
       boxWidth=this.Com_ImgLayer_box.current.clientWidth;
 
     return this.props.unitCurrent.identity=="author" ? (
-      <AuthorMarks
+      <MarksAuthor
         {...this.props}
         boxWidth={boxWidth}
         imgPosition={imgPosition}
         imgWidthHeight={imgWidthHeight}
         baseHorizonRatial={baseHorizonRatial}/>
     ):(
-      <ViewerMarks
+      <MarksViewer
         {...this.props}
         boxWidth={boxWidth}
         imgPosition={imgPosition}

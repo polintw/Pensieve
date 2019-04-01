@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from "react-redux";
-import MarkBlock from './Mark/MarkBlock.jsx';
+import AuthorBlock from './AuthorBlock.jsx';
 
-class AuthorMarks extends React.Component {
+class MarksAuthor extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -83,7 +83,7 @@ class AuthorMarks extends React.Component {
           </div>
           <div
             style={Object.assign({top: top, left: left, right: right}, self.style.Com_ImgLayer_MarkBlock_)}>
-            <MarkBlock
+            <AuthorBlock
               markKey={markId}
               markData={self.props.marksData.data[markId]}/>
           </div>
@@ -151,4 +151,4 @@ const mapStateToProps = (state) => {
 export default connect(
   mapStateToProps,
   null
-)(AuthorMarks);
+)(MarksAuthor);

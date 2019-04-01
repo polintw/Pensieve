@@ -43,16 +43,15 @@ const {
 } = require('../utils/reserrHandler.js');
 
 function _handle_unit_Mount(req, res){
-  const reqUnit = req.reqUnitId;
-
   new Promise((resolve, reject)=>{
     const reqToken = req.body.token || req.headers['token'] || req.query.token;
     const jwtVerified = jwt.verify(reqToken, verify_key);
     if (!jwtVerified) throw new internalError(jwtVerified, 32)
 
     const userId = jwtVerified.user_Id;
+    const reqUnit = req.reqUnitId;
 
-    let _promise_unitToNouns = function(tempData){
+    const _promise_unitToNouns = function(tempData){
       return new Promise((resolveSub, rejectSub)=>{
         let selectQuery = 'SELECT id_noun FROM attribution WHERE id_unit=?';
         _DB_attribution.findAll({
@@ -90,7 +89,36 @@ function _handle_unit_Mount(req, res){
         winston.error(`${"Error: empty selection from nouns or attribution."} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
         return thrown; //do not count for a 'true' error
       })
-    }
+    };
+    const _limitFn_viewer = (sendingData)=>{
+      return _DB_inspired.findAll({
+        where: {
+          id_mark: [sendingData['temp']['marksKey']],
+          id_user: userId
+        },
+        attributes: ['id_mark']
+      }).then(function(inspired) {
+        inspired.forEach((row, index)=>{
+          sendingData['inspired'].push(row.id_mark.toString())
+        });
+        return (sendingData);
+      }).catch((error)=>{
+        throw new internalError(error ,131);//'throw' at this level, stop the process
+      })
+    };
+    const _limitFn_author = (sendingData)=>{
+      return _DB_notifiInspired.findAndCountAll({
+        where: {id_unit:reqUnit}
+      }).then((notifiedInspired)=>{
+        sendingData.inspired = notifiedInspired.rows.map((row, index)=>{
+          return row.id_mark.toString();
+        });
+        //destroy the records directly before pass sendingData
+        return notifiedInspired.destroy().then(()=>{sendingData});
+      }).catch((error)=>{
+        throw new internalError(error ,131);//'throw' at this level, stop the process
+      })
+    };
 
     return _DB_units.findOne({
       where: {id: reqUnit}
@@ -173,21 +201,10 @@ function _handle_unit_Mount(req, res){
         throw new internalError(error ,131);//'throw' at this level, stop the process
       })
     }).then((sendingData)=>{
-      console.log('unit mount req: marksObj append.');
-      return _DB_inspired.findAll({
-        where: {
-          id_mark: [sendingData['temp']['marksKey']],
-          id_user: userId
-        },
-        attributes: ['id_mark']
-      }).then(function(inspired) {
-        inspired.map((row, index)=>{
-          sendingData['inspired'].push(row.id_mark.toString())
-        });
-        return (sendingData);
-      }).catch((error)=>{
-        throw new internalError(error ,131);//'throw' at this level, stop the process
-      })
+      if(sendingData.identity == 'author') return _limitFn_author(sendingData)
+      else{
+        return _limitFn_viewer(sendingData)
+      }
     }).then((sendingData)=>{
       _res_success(res, sendingData);
     }).catch((error)=>{
