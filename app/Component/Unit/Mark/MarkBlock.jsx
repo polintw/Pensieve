@@ -120,7 +120,7 @@ class MarkBlock extends React.Component {
   _handleClick_Inspired(event){
     event.preventDefault();
     event.stopPropagation();
-    let aim = this.props.unitCurrent.inspired.includes(this.props.markKey) ? 'delete': 'post';
+    let aim = this.props.unitCurrent.marksInteraction[this.props.markKey]['inspired'] ? 'delete': 'post';
     this.setState((prevState, props)=>{
       return {axios: true}
     }, this._axios_inspire_plain(aim))
@@ -167,7 +167,7 @@ class MarkBlock extends React.Component {
               style={this.style.Com_MarkBlock_panel_interaction_bulb}
               onClick={this._handleClick_Inspired}>
               <SvgBulb
-                light={this.props.unitCurrent.inspired.includes(this.props.markKey) ? true : false}/>
+                light={this.props.unitCurrent.marksInteraction[this.props.markKey]['inspired'] ? true : false}/>
             </div>
             <span
               style={this.style.Com_MarkBlock_panel_interaction_raise}

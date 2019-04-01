@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from "react-redux";
 import MarkBlock from './MarkBlock.jsx';
+import SvgCircle from '../../Svg/SvgCircle.jsx';
+import SvgCircleSpot from '../../Svg/SvgCircleSpot.jsx';
 
 class MarksViewer extends React.Component {
   constructor(props){
@@ -74,12 +76,12 @@ class MarksViewer extends React.Component {
             style={Object.assign(
               {width: imgWidth, height: imgHeight}, self.style.Com_ImgLayer_div)}
               onClick={self._handleClick_ImgLayer_circle}>
-            <svg
-              id={markId}
-              style={Object.assign({top: coordinate.top+"%", left: coordinate.left+'%'}, self.style.Com_ImgLayer_div_circle_svg)}
-              onClick={self._handleClick_ImgLayer_circle}>
-              <circle r="20" cx="50%" cy="50%" stroke='white' fill="none"/>
-            </svg>
+              <div
+                id={markId}
+                style={Object.assign({top: coordinate.top+"%", left: coordinate.left+'%'}, self.style.Com_ImgLayer_div_circle_svg)}
+                onClick={self._handleClick_ImgLayer_circle}>
+                <SvgCircle/>
+              </div>
           </div>
           <div
             style={Object.assign({top: top, left: left, right: right}, self.style.Com_ImgLayer_MarkBlock_)}>
@@ -93,14 +95,13 @@ class MarksViewer extends React.Component {
       let circlesArr = self.props.marksData.list.map(function(id, index){
         const coordinate = {top: self.props.marksData.data[id].top, left: self.props.marksData.data[id].left};
         return(
-          <svg
-            key={'key_ImgLayer_div_circle_svg_all_'+index}
+          <div
             id={id}
-            index={index}
+            key={'key_ImgLayer_div_circle_svg_all_'+index}
             style={Object.assign({top: coordinate.top+"%", left: coordinate.left+'%'}, self.style.Com_ImgLayer_div_circle_svg)}
             onClick={self._handleClick_ImgLayer_circle}>
-            <circle r="20" cx="50%" cy="50%" stroke='white' fill="none"/>
-          </svg>
+            <SvgCircle/>
+          </div>
         )
       });
       return (

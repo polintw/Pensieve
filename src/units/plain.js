@@ -14,8 +14,7 @@ const _DB_nouns = require('../../db/models/index').nouns;
 const _DB_marks = require('../../db/models/index').marks;
 const _DB_attribution =  require('../../db/models/index').attribution;
 const _DB_inspired = require('../../db/models/index').inspired;
-const _DB_notifications = require('../../db/models/index').notifications;
-const _DB_lastvisitShared = require('../../db/models/index').lastvisit_shared;
+const _DB_notifiInspired = require('../../db/models/index').notifi_inspired;
 const {
   UNITS_GENERAL,
   MARKS_UNITS,
@@ -99,7 +98,7 @@ function _handle_unit_Mount(req, res){
         attributes: ['id_mark']
       }).then(function(inspired) {
         inspired.forEach((row, index)=>{
-          sendingData['inspired'].push(row.id_mark.toString())
+          sendingData['marksInteraction'][row.id_mark]['inspired']=true;
         });
         return (sendingData);
       }).catch((error)=>{
@@ -110,13 +109,25 @@ function _handle_unit_Mount(req, res){
       return _DB_notifiInspired.findAndCountAll({
         where: {id_unit:reqUnit}
       }).then((notifiedInspired)=>{
-        sendingData.inspired = notifiedInspired.rows.map((row, index)=>{
-          return row.id_mark.toString();
+         notifiedInspired.rows.map((row, index)=>{
+           sendingData['marksInteraction'][row.id_mark]['inspired'] += 1;
+           sendingData['marksInteraction'][row.id_mark]['notify'] = true;
         });
+        return sendingData;
+      }).then((sendingData)=>{
         //destroy the records directly before pass sendingData
-        return notifiedInspired.destroy().then(()=>{sendingData});
+        return _DB_notifiInspired.destroy({
+          where:{id_unit:reqUnit}
+        }).then(()=>{
+          return sendingData;
+        }).catch((error)=>{
+          throw new internalError(error ,131);//'throw' at this level, stop the process
+        })
       }).catch((error)=>{
-        throw new internalError(error ,131);//'throw' at this level, stop the process
+        if(error.status){throw (error);}
+        else{
+          throw new internalError(error, 131);
+        }
       })
     };
 
@@ -134,7 +145,7 @@ function _handle_unit_Mount(req, res){
         authorBasic: {},
         createdAt: "",
         identity: "",
-        inspired: []
+        marksInteraction: {}
       }
       if (result) {
         sendingData['authorBasic']['authorId'] = result.id_author;
@@ -192,6 +203,10 @@ function _handle_unit_Mount(req, res){
             let markKey = row.id;
             sendingData['marksObj'][markKey]=obj;
             sendingData['temp']['marksKey'].push(row.id); //we use ORM now, no need to fullfill mysal module format
+            sendingData['marksInteraction'][markKey]={
+              notify: false,
+              inspired:0
+            }; //set 0 instead of 'false' is because we need to 'plus' number if there are notifications for author
           })
           return (sendingData);
         } else {
@@ -356,12 +371,12 @@ function _handle_unit_AuthorEditing(req, res){
 
 
 execute.get('/', function(req, res){
-  console.log('get unit request: '+ req.reqUnitId);
+  if(process.env.NODE_ENV == 'development') winston.verbose('GET: /unit @ '+req.reqUnitId);
   _handle_unit_Mount(req, res);
 })
 
 execute.patch('/', function(req, res){
-  console.log('get patch request for unit: '+ req.reqUnitId);
+  if(process.env.NODE_ENV == 'development') winston.verbose('PATCH: /unit @ '+req.reqUnitId);
   _handle_unit_AuthorEditing(req, res);
 })
 

@@ -18,7 +18,6 @@ class AuthorBlock extends React.Component {
     this.axiosSource = axios.CancelToken.source();
     this._axios_inspire_plain = this._axios_inspire_plain.bind(this);
     this._handleClick_openDialogue = this._handleClick_openDialogue.bind(this);
-    this._handleClick_Inspired = this._handleClick_Inspired.bind(this);
     this.style = {
       Com_AuthorBlock_: {
         width: '100%',
@@ -117,15 +116,6 @@ class AuthorBlock extends React.Component {
     });
   }
 
-  _handleClick_Inspired(event){
-    event.preventDefault();
-    event.stopPropagation();
-    let aim = this.props.unitCurrent.inspired.includes(this.props.markKey) ? 'delete': 'post';
-    this.setState((prevState, props)=>{
-      return {axios: true}
-    }, this._axios_inspire_plain(aim))
-  }
-
   _handleClick_openDialogue(event){
     event.preventDefault();
     event.stopPropagation();
@@ -164,10 +154,8 @@ class AuthorBlock extends React.Component {
           <div
             style={this.style.Com_AuthorBlock_panel_interaction_}>
             <div
-              style={this.style.Com_AuthorBlock_panel_interaction_bulb}
-              onClick={this._handleClick_Inspired}>
-              <SvgBulb
-                light={this.props.unitCurrent.inspired.includes(this.props.markKey) ? true : false}/>
+              style={this.style.Com_AuthorBlock_panel_interaction_bulb}>
+              <SvgBulb light={false}/>
             </div>
             <span
               style={this.style.Com_AuthorBlock_panel_interaction_raise}
