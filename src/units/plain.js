@@ -115,12 +115,21 @@ function _handle_unit_Mount(req, res){
         });
         return sendingData;
       }).then((sendingData)=>{
-        //destroy the records directly before pass sendingData
-
-        /*
-        Now set checkpoint of notifiedInspired(conider move back to last then())
-        and, add _notifications.update(), update the 'status' to 'deliver'
-        */
+        //update the 'status' of notifications if we have open/read it
+        return _DB_notifications.update(
+          {status: 'delivered'},
+          {where: {
+            id_unit: reqUnit,
+            id_reciever: userId,
+            type: [10] //only choose type relate to a single Unit
+          }}
+        ).then(()=>{
+          return sendingData;
+        }).catch((error)=>{
+          throw new internalError(error ,131);//'throw' at this level, stop the process
+        })
+      }).then((sendingData)=>{
+        //destroy the records directly before pass sendingData through
         return _DB_notifiInspired.destroy({
           where:{id_unit:reqUnit}
         }).then(()=>{

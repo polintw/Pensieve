@@ -22,7 +22,6 @@ function _handle_GET_accumulated_Share(req, res){
     const jwtVerified = jwt.verify(reqToken, verify_key);
     if (!jwtVerified) throw new internalError(jwtVerified, 32);
 
-    let userId = jwtVerified.user_Id;
     let sendingData={
       notifiedList: [],
       notifiedStatus: {},
@@ -30,7 +29,7 @@ function _handle_GET_accumulated_Share(req, res){
       unitsBasic: {},
       marksBasic: {},
       nounsListMix: [],
-      temp: {userId: userId}
+      temp: {userId: jwtVerified.user_Id}
     };
 
     //check if any notifications first
@@ -57,7 +56,7 @@ function _handle_GET_accumulated_Share(req, res){
       //and don't forget to update visit time by update ip---Sequelize will do the rest
       return _DB_lastvisitShared.update(
         {ip: req.ip},
-        {where: {id_user: userId}}
+        {where: {id_user: sendingData.temp.userId}}
       );
     }).then(()=>{
       resolve(sendingData);
@@ -91,9 +90,10 @@ function _handle_GET_accumulated_Share(req, res){
             marksList: [],
             nounsList: []
           };
-          if(sendingData.notifiedList.indexOf(row.id) != (-1)) return
+          if(sendingData.notifiedList.indexOf(row.id) != (-1)) return //ignore any unit has included in notifiedList
           else{
             sendingData.unitsList.push(row.id);
+            sendingData.notifiedStatus[row.id]={inspired: false};
           };
         });})
       .then(()=>{
@@ -110,20 +110,22 @@ function _handle_GET_accumulated_Share(req, res){
         };
         let pMarks = Promise.resolve(_select_Basic(conditionsMarks, mysqlForm.unitsList).catch((error)=>{throw error}));
         let pAtrri = Promise.resolve(_select_Basic(conditionAttri, mysqlForm.unitsList).catch((error)=>{throw error}));
+        let pDBNotifiStatus = _DB_notifications
+          .findAll({
+            where: {
+              id_unit:sendingData.unitsList,
+              id_reciever: sendingData.temp.userId,
+              type: [10], //only choose type relate to a single Unit
+              status: 'untouched'
+            },
+            attributes: ['id_user','id_unit','type','status']
+          })
+          .catch((error)=>{throw error});
 
-        /* make the selection for notifiedStatus depending on 'status' column inside of table notifications
-        perhaps this is just a temp method, before the formal 'Notify' component builded
-        let pDBNotifiStatus = _DB_notifications.findAndCountAll({where: {
-        id_unit:sendingData.unitsList
-      }})}).then((notifications)=>{
-                (row.id_unit in sendingData.notifiedStatus) ? (
-                  sendingData.notifiedStatus[row.id_unit]['inspired']=true
-                ):(sendingData.notifiedStatus[row.id_unit]={inspired: true});
-              });*/
-
-        return Promise.all([pAtrri, pMarks]).then((resultsStep2)=>{
+        return Promise.all([pAtrri, pMarks, pDBNotifiStatus]).then((resultsStep2)=>{
           let resultsAttri = resultsStep2[0],
-          resultsMarks = resultsStep2[1];
+          resultsMarks = resultsStep2[1],
+          resultsNotifications = resultsStep2[2];
 
           resultsAttri.forEach((row, index)=> {
             sendingData.unitsBasic[row.id_unit]["nounsList"].push(row.id_noun);
@@ -139,9 +141,15 @@ function _handle_GET_accumulated_Share(req, res){
           sendingData.nounsListMix = sendingData.nounsListMix.filter((id, index, list)=>{
             return index == list.indexOf(id);
           }); //remove duplicate from the array
+          //finally, check notified status even they are not in a notifiedList
+          resultsNotifications.forEach((row, index)=>{
+            sendingData.notifiedStatus[row.id_unit]['inspired']=true;
+          })
 
           return (sendingData); //return to the 'parent' promise of current one
         })
+      }).catch((error)=>{
+        throw new internalError(error ,131);//'throw' at this level, stop the process
       });
   }).then((sendingData)=>{
     _res_success(res, sendingData, "Complete, GET: user actions/shareds.");

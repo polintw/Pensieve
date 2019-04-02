@@ -30,7 +30,7 @@ function pageWithin(state = initialGeneral, action){
       break;
     case SET_UNITINSPIRED:
       return Object.assign({}, state, {
-        unitCurrent: {...state.unitCurrent, ...action.nextInpired}
+        unitCurrent: {...state.unitCurrent, ...action.nextMarksInteraction}
       })
       break;
     case UNIT_SUBMITTING_SWITCH:

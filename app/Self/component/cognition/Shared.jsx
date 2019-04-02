@@ -103,7 +103,7 @@ class Shared extends React.Component {
             sharedId={dataKey}
             unitBasic={dataValue}
             marksBasic={self.state.marksBasic}
-            notifiedStatus={{inspired:false}}/>
+            notifiedStatus={self.state.notifiedStatus[dataKey]}/>
         </div>
       )
     }), reserved = (
@@ -175,7 +175,7 @@ class Shared extends React.Component {
       if (axios.isCancel(thrown)) {
         cancelErr(thrown);
       } else {
-        this.setState((prevState, props)=>{
+        self.setState((prevState, props)=>{
           return {axios:false}
         }, ()=>{
           let message = uncertainErr(thrown);

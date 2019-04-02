@@ -100,6 +100,7 @@ class MarkBlock extends React.Component {
         'token': window.localStorage['token']}
     }).then(function (res) {
       if(res.status = 200){
+        //!! Replace ! replace this part, especially the rdux design, because the state structure was changed
         self.props._set_inpiredMark(self.props.markKey, aim);
       }else{
         console.log("Failed: "+ res.data.err);
