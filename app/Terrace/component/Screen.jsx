@@ -31,13 +31,22 @@ class Screen extends React.Component {
     this.style={
       terraceCom_Screen_plane_: {
         width: '100%',
-        height: '53.5%',
+        height: '47%',
         position: 'absolute',
         top: '0',
         right: '0',
         boxSizing: 'border-box',
-        boxShadow: 'inset 0px -0.24rem 0.3rem -0.28rem',
-        backgroundColor: '#FAFAFA'
+        backgroundColor: '#FAFAFA',
+        overflow: 'visible'
+      },
+      terraceCom_Screen_depthShadow: {
+        width: '24%',
+        height: '20%',
+        position: 'absolute',
+        bottom: '1%',
+        left: '24%',
+        boxSizing: 'border-box',
+        boxShadow: '0px -0.44rem 0.87rem -1.1rem inset'
       },
       terraceCom_Screen_floor_: {
         width: '100%',
@@ -46,30 +55,28 @@ class Screen extends React.Component {
         bottom: '0',
         right: '0',
         boxSizing: 'border-box',
-        boxShadow: '0 0.24rem 0.5rem -0.28rem inset',
-        backgroundColor: '#FFFFFF'
       },
       terraceCom_Screen_account_: {
         maxWidth: '40%',
         position: 'absolute',
-        top: '51.5%',
-        left: '30%',
-        transform: 'translate(-36%,-50%)',
+        bottom: '-4%',
+        left: '73%',
+        transform: 'translate(-73%,0%)',
         boxSizing: 'border-box'
       },
       terraceCom_Screen_account_name: {
         display: 'inline-block',
         position: 'relative',
         boxSizing: 'border-box',
-        fontSize: "3.9rem",
-        letterSpacing: '0.3rem',
+        fontSize: "4.8rem",
+        letterSpacing: '0.33rem',
         fontWeight: '400',
         color: '#000000'
       },
       terraceCom_Screen_options_: {
         position: 'absolute',
-        top: '48%',
-        right: '24%',
+        top: '64%',
+        right: '23%',
         boxSizing: 'border-box'
       },
       terraceCom_Screen_options_expand: {
@@ -77,7 +84,7 @@ class Screen extends React.Component {
         position: 'relative',
         boxSizing: 'border-box',
         fontWeight: '400',
-        fontSize: "2.4rem",
+        fontSize: "2rem",
         letterSpacing: '0.15rem',
         color: '#ff7a5f',
         cursor: 'pointer'
@@ -86,8 +93,8 @@ class Screen extends React.Component {
         width: '6%',
         height: '11%',
         position: 'absolute',
-        top: '37%',
-        right: '29%',
+        top: '49%',
+        right: '35%',
         boxSizing: 'border-box',
       },
     }
@@ -122,10 +129,11 @@ class Screen extends React.Component {
       ):(
         <div
           ref={(element)=>{this.terrace_pagenav=element;}}
-          style={styleMiddle.styleMiddle}
+          style={styleMiddle.base}
           onWheel={this._handleMouse_terraceFrame}>
           <div
             style={this.style.terraceCom_Screen_plane_}>
+            <div style={this.style.terraceCom_Screen_depthShadow}></div>
             <div style={this.style.terraceCom_Screen_account_}>
               <span style={this.style.terraceCom_Screen_account_name}>{this.props.userInfo.firstName+" "+this.props.userInfo.lastName}</span>
             </div>

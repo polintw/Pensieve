@@ -116,6 +116,11 @@ function _handle_unit_Mount(req, res){
         return sendingData;
       }).then((sendingData)=>{
         //destroy the records directly before pass sendingData
+
+        /*
+        Now set checkpoint of notifiedInspired(conider move back to last then())
+        and, add _notifications.update(), update the 'status' to 'deliver'
+        */
         return _DB_notifiInspired.destroy({
           where:{id_unit:reqUnit}
         }).then(()=>{

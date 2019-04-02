@@ -42,7 +42,7 @@ function _handle_GET_accumulated_Share(req, res){
       return _DB_notifications.findAndCountAll({
         where: {
           id_reciever: sendingData.temp.userId,
-          type: [10],
+          type: [10], //only choose type relate to Shared
           createdAt: {[Op.gt]: lastVisit.updatedAt}
         },
         attributes: ['id','id_user', 'id_unit', 'type', 'status']
@@ -110,6 +110,16 @@ function _handle_GET_accumulated_Share(req, res){
         };
         let pMarks = Promise.resolve(_select_Basic(conditionsMarks, mysqlForm.unitsList).catch((error)=>{throw error}));
         let pAtrri = Promise.resolve(_select_Basic(conditionAttri, mysqlForm.unitsList).catch((error)=>{throw error}));
+
+        /* make the selection for notifiedStatus depending on 'status' column inside of table notifications
+        perhaps this is just a temp method, before the formal 'Notify' component builded
+        let pDBNotifiStatus = _DB_notifications.findAndCountAll({where: {
+        id_unit:sendingData.unitsList
+      }})}).then((notifications)=>{
+                (row.id_unit in sendingData.notifiedStatus) ? (
+                  sendingData.notifiedStatus[row.id_unit]['inspired']=true
+                ):(sendingData.notifiedStatus[row.id_unit]={inspired: true});
+              });*/
 
         return Promise.all([pAtrri, pMarks]).then((resultsStep2)=>{
           let resultsAttri = resultsStep2[0],
