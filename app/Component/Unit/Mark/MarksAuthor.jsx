@@ -1,10 +1,20 @@
 import React from 'react';
 import { connect } from "react-redux";
-import AuthorBlock from './AuthorBlock.jsx';
+import OpenedMark from './OpenedMark.jsx';
 import SvgCircle from '../../Svg/SvgCircle.jsx';
 import SvgCircleSpot from '../../Svg/SvgCircleSpot.jsx';
 
 const widthDivisionRatial = 20; //dividing markglayer width, used for determineing the position
+const commonStyle = { //could included in a global style sheet
+  absolute_FullVersion: {
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    top: '0',
+    left:'0',
+    boxSizing: 'border-box'
+  }
+}
 
 class MarksAuthor extends React.Component {
   constructor(props){
@@ -17,114 +27,8 @@ class MarksAuthor extends React.Component {
     this._handleClick_ImgLayer_circle = this._handleClick_ImgLayer_circle.bind(this);
     this._handleClick_SpotsLayer = this._handleClick_SpotsLayer.bind(this);
     this.style = {
-      absolute_FullVersion: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left:'0',
-        boxSizing: 'border-box'
-      },
-      Com_ImgLayer_MarkBlock_: {
-        maxHeight: '65%',
-        position: 'absolute',
-        transform: 'translate(0,-50%)'
-      },
-      Com_ImgLayer_div: {
-        position: 'absolute',
-        top: '50%',
-        right: this.props.baseHorizonRatial+'%',
-        transform: 'translate('+this.props.baseHorizonRatial+'%,-50%)'
-      },
-      Com_ImgLayer_div_circle_svg: {
-        width: '3vw',
-        height: '3vw',
-        position: 'absolute',
-        transform: 'translate(-50%, -50%)',
-        overflow: 'visible',
-        cursor: 'pointer'
-      },
+
     };
-  }
-
-  _render_SpotsorMark(){
-    const self = this,
-    imgWidth = this.props.imgWidthHeight.width,
-    imgHeight = this.props.imgWidthHeight.height,
-    imgLeft=this.props.imgPosition.left;
-
-    if(this.props.markOpened && (this.props.marksData.list.indexOf(this.props.currentMark) > (-1))){
-      const markId = this.props.currentMark;
-      const coordinate = {top: this.props.marksData.data[markId].top, left: this.props.marksData.data[markId].left};
-      let [left, top, right, width] = ['','','', ''],
-          spotLeftPx = coordinate.left/100*imgWidth+imgLeft+imgWidth*(this.props.baseHorizonRatial/100);
-          //the position of circle relative to img, position img original at in the frame, and transform/translate we set
-          //--- due to offsetLeft wouldn't take the transform property
-
-      (spotLeftPx) > (this.props.boxWidth/2) ? ( //check which side of the box the circle at
-        right = this.props.boxWidth-(spotLeftPx)+this.props.boxWidth/widthDivisionRatial //if circle st the right side, put the box 'left' to the circle
-      ): (
-        left = spotLeftPx+this.props.boxWidth/widthDivisionRatial
-      );
-        top = (3 + (coordinate.top) * (32) / (100)) + '%';
-        width = ((widthDivisionRatial/2)-1)/widthDivisionRatial*100;
-
-      return (
-        <div>
-          <div
-            style={Object.assign({backgroundColor: 'rgba(30,30,30,0.2)'}, self.style.absolute_FullVersion)}
-            onClick={self._handleClick_ImgLayer_circle}/>
-          <div
-            style={Object.assign(
-              {width: imgWidth, height: imgHeight}, self.style.Com_ImgLayer_div)}
-              onClick={self._handleClick_ImgLayer_circle}>
-              <div
-                id={markId}
-                style={Object.assign({top: coordinate.top+"%", left: coordinate.left+'%'}, self.style.Com_ImgLayer_div_circle_svg)}
-                onClick={self._handleClick_ImgLayer_circle}>
-                <SvgCircle/>
-              </div>
-          </div>
-          <div
-            style={Object.assign({
-              top: top,
-              left: left,
-              right: right,
-              width: width+"%"}, self.style.Com_ImgLayer_MarkBlock_)}>
-            <AuthorBlock
-              markKey={markId}
-              markData={self.props.marksData.data[markId]}/>
-          </div>
-        </div>
-      ) // order, is important
-    }else{
-      let circlesArr = self.props.marksData.list.map(function(id, index){
-        const coordinate = {top: self.props.marksData.data[id].top, left: self.props.marksData.data[id].left};
-        return self.props.unitCurrent.marksInteraction[id].notify ? (
-          <div
-            id={id}
-            key={"key_Mark_Circle_"+index}
-            style={Object.assign({top: coordinate.top+"%", left: coordinate.left+'%'}, self.style.Com_ImgLayer_div_circle_svg)}
-            onClick={self._handleClick_ImgLayer_circle}>
-            <SvgCircleSpot/>
-          </div>
-        ):(
-          <div
-            id={id}
-            key={"key_Mark_Circle_"+index}
-            style={Object.assign({top: coordinate.top+"%", left: coordinate.left+'%'}, self.style.Com_ImgLayer_div_circle_svg)}
-            onClick={self._handleClick_ImgLayer_circle}>
-            <SvgCircle/>
-          </div>
-        )
-      });
-      return (
-        <div
-          style={Object.assign({width: imgWidth, height: imgHeight}, self.style.Com_ImgLayer_div)}>
-            {circlesArr}
-        </div>
-      );
-    }
   }
 
   _handleClick_ImgLayer_circle(event){
@@ -140,10 +44,63 @@ class MarksAuthor extends React.Component {
     this.props._set_spotsVisible();
   }
 
+  _render_SpotsorMark(){
+    if(this.props.markOpened && (this.props.marksData.list.indexOf(this.props.currentMark) > (-1))){
+      return (
+        <OpenedMark
+          {...this.props}
+          widthDivisionRatial={widthDivisionRatial}
+          _handleClick_ImgLayer_circle={this._handleClick_ImgLayer_circle}>
+          <AuthorBlock
+            markKey={this.props.currentMark}
+            markData={this.props.marksData.data[this.props.currentMark]}/>
+        </OpenedMark>
+      );
+    }else{
+      const self = this,
+      imgWidth = this.props.imgWidthHeight.width,
+      imgHeight = this.props.imgWidthHeight.height;
+
+      let circlesArr = self.props.marksData.list.map(function(id, index){
+        const coordinate = {top: self.props.marksData.data[id].top, left: self.props.marksData.data[id].left};
+        return self.props.unitCurrent.marksInteraction[id].notify ? (
+          <div
+            id={id}
+            key={"key_Mark_Circle_"+index}
+            className={'circleMarkSpotSvg'}
+            style={{top: coordinate.top+"%", left: coordinate.left+'%'}}
+            onClick={self._handleClick_ImgLayer_circle}>
+            <SvgCircleSpot/>
+          </div>
+        ):(
+          <div
+            id={id}
+            key={"key_Mark_Circle_"+index}
+            className={'circleMarkSpotSvg'}
+            style={{top: coordinate.top+"%", left: coordinate.left+'%'}}
+            onClick={self._handleClick_ImgLayer_circle}>
+            <SvgCircle/>
+          </div>
+        )
+      });
+      return (
+        <div
+          className={'boxImgPosition'}
+          style={{
+            width: imgWidth,
+            height: imgHeight,
+            right: this.props.baseHorizonRatial+'%',
+            transform: 'translate('+this.props.baseHorizonRatial+'%,-50%)'}}>
+            {circlesArr}
+        </div>
+      );
+    }
+  }
+
   render(){
     return(
       <div
-        style={this.style.absolute_FullVersion}
+        style={commonStyle.absolute_FullVersion}
         ref={this.Com_ImgLayer}
         onClick={this._handleClick_SpotsLayer}>
         {

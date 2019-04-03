@@ -30,8 +30,6 @@ class ImgLayer extends React.Component {
       Com_ImgLayer_img: {
         maxWidth: '99%',
         maxHeight: '100%',
-        position: 'absolute',
-        top: '50%',
         right: baseHorizonRatial+'%',
         transform: 'translate('+baseHorizonRatial+'%,-50%)'
       }
@@ -73,6 +71,7 @@ class ImgLayer extends React.Component {
         ref={this.Com_ImgLayer_box}
         style={commonStyle.absolute_FullVersion}>
         <img
+          className={'boxImgPosition'}
           style={this.style.Com_ImgLayer_img}
           ref={this.Com_ImgLayer_img}
           src={this.props.imgSrc}
