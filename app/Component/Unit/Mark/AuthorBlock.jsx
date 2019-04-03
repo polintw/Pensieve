@@ -26,7 +26,6 @@ class AuthorBlock extends React.Component {
         top: '0',
         left: '0',
         boxSizing: 'border-box',
-        backgroundColor: 'rgba(25,25,25,0.6)',
         boxShadow: '0 0 4vw rgba(25,25,25,0.6)'
       },
       Com_AuthorBlock_content_: {

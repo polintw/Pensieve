@@ -4,6 +4,8 @@ import AuthorBlock from './AuthorBlock.jsx';
 import SvgCircle from '../../Svg/SvgCircle.jsx';
 import SvgCircleSpot from '../../Svg/SvgCircleSpot.jsx';
 
+const widthDivisionRatial = 20; //dividing markglayer width, used for determineing the position
+
 class MarksAuthor extends React.Component {
   constructor(props){
     super(props);
@@ -24,8 +26,7 @@ class MarksAuthor extends React.Component {
         boxSizing: 'border-box'
       },
       Com_ImgLayer_MarkBlock_: {
-        width: '42%',
-        maxHeight: '88%',
+        maxHeight: '65%',
         position: 'absolute',
         transform: 'translate(0,-50%)'
       },
@@ -55,17 +56,18 @@ class MarksAuthor extends React.Component {
     if(this.props.markOpened && (this.props.marksData.list.indexOf(this.props.currentMark) > (-1))){
       const markId = this.props.currentMark;
       const coordinate = {top: this.props.marksData.data[markId].top, left: this.props.marksData.data[markId].left};
-      let [left, top, right] = ['','',''],
+      let [left, top, right, width] = ['','','', ''],
           spotLeftPx = coordinate.left/100*imgWidth+imgLeft+imgWidth*(this.props.baseHorizonRatial/100);
-          //the position relative to img, position img original at, and transform we set
+          //the position of circle relative to img, position img original at in the frame, and transform/translate we set
           //--- due to offsetLeft wouldn't take the transform property
 
       (spotLeftPx) > (this.props.boxWidth/2) ? ( //check which side of the box the circle at
-        right = this.props.boxWidth-(spotLeftPx)+this.props.boxWidth/20 //if circle st the right side, put the box 'left' to the circle
+        right = this.props.boxWidth-(spotLeftPx)+this.props.boxWidth/widthDivisionRatial //if circle st the right side, put the box 'left' to the circle
       ): (
-        left = spotLeftPx+this.props.boxWidth/20
+        left = spotLeftPx+this.props.boxWidth/widthDivisionRatial
       );
-        top = (22 + (coordinate.top) * (34) / (100)) + '%';
+        top = (3 + (coordinate.top) * (32) / (100)) + '%';
+        width = ((widthDivisionRatial/2)-1)/widthDivisionRatial*100;
 
       return (
         <div>
@@ -84,7 +86,11 @@ class MarksAuthor extends React.Component {
               </div>
           </div>
           <div
-            style={Object.assign({top: top, left: left, right: right}, self.style.Com_ImgLayer_MarkBlock_)}>
+            style={Object.assign({
+              top: top,
+              left: left,
+              right: right,
+              width: width+"%"}, self.style.Com_ImgLayer_MarkBlock_)}>
             <AuthorBlock
               markKey={markId}
               markData={self.props.marksData.data[markId]}/>

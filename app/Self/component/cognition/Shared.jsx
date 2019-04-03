@@ -86,14 +86,14 @@ class Shared extends React.Component {
   }
 
   _construct_UnitInit(match, location){
-    let unitInit= Object.assign(this.state.unitsBasic[match.params.id], {marksify: true, initMark: "all", layer: 0});
+    let unitInit= Object.assign(this.state.unitsBasic[match.params.id], {marksify: false, initMark: "all", layer: 0});
     return unitInit;
   }
 
   _handleClick_notified_Nail(event){
     event.preventDefault();
     event.stopPropagation();
-    let unitId = event.currentTarget.getAttribute('sharedId');
+    let unitId = event.currentTarget.getAttribute('sharedid');
     this.setState((prevState,props)=>{
       prevState.notifiedStatus[unitId] = {inspired: false};
       return prevState;
@@ -106,7 +106,7 @@ class Shared extends React.Component {
       let dataValue = self.state.unitsBasic[dataKey];
       return(
         <div
-          sharedId={dataKey}
+          sharedid={dataKey}
           key={'key_Shared_nails_'+index}
           style={styleMiddle.frameNail}
           onClick={self._handleClick_notified_Nail}>
@@ -138,7 +138,7 @@ class Shared extends React.Component {
         let dataValue = self.state.unitsBasic[dataKey];
         return(
           <div
-            sharedId={dataKey}
+            sharedid={dataKey}
             key={'key_Shared_nails_notified_'+index}
             style={Object.assign({}, styleMiddle.frameNail, {width:'48.5%', boxShadow: '1px 0px 2px 0px', marginRight:'1.4%'})}
             onClick={self._handleClick_notified_Nail}>
