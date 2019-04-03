@@ -21,14 +21,14 @@ const styleMiddle = {
   frameNail: {
     display: 'inline-block',
     width: '32%',
-    height: '36vh',
+    height: '205px',
     position: 'relative',
     boxSizing: 'border-box',
-    margin: '2vh 0.7% 0 0'
+    margin: '11px 0.7% 0 0'
   },
   titleReserved: {
     display: 'inline-block',
-    height: '38vh',
+    height: '216px',
     position: 'relative',
     float: 'right',
     boxSizing: 'border-box',
@@ -43,11 +43,10 @@ const styleMiddle = {
   },
   notifiedBlock: {
     display:'inline-block',
-    width: '65%',
+    width: '65.3%',
     position:'relative',
     boxSizing:'border-box',
-    margin: '2vh 0.4% 0 0',
-    textAlign:'center',
+    textAlign:'left',
     float:'left'
   }
 }
@@ -121,12 +120,13 @@ class Shared extends React.Component {
     shareds.push(scrollFooter);
 
     if(this.state.notifiedList.length>0){
+      let rows = Math.ceil(this.state.notifiedList.length/2);
       let notifieds = this.state.notifiedList.map((dataKey, index)=>{
         let dataValue = self.state.unitsBasic[dataKey];
         return(
           <div
             key={'key_Shared_nails_notified_'+index}
-            style={Object.assign({}, styleMiddle.frameNail, {width:'47%', boxShadow: '1px 0px 2px 0px', margin:'0 1%'})}>
+            style={Object.assign({}, styleMiddle.frameNail, {width:'48.5%', boxShadow: '1px 0px 2px 0px', marginRight:'1.4%'})}>
             <NailShared
               {...self.props}
               sharedId={dataKey}
@@ -139,7 +139,7 @@ class Shared extends React.Component {
       let notifiedBlock = (
         <div
           key={'key_Shared_nails_notified_'}
-          style={styleMiddle.notifiedBlock}>
+          style={Object.assign({}, styleMiddle.notifiedBlock, {height: (rows*216)+"px"})}>
           {notifieds}
         </div>
       );

@@ -57,7 +57,7 @@ function _handle_GET_accumulated_Inspire(req, res){
         if(marksResults) marksResults.forEach((row, index)=>{
           //in case there is not any inspired records
           //deal with unitsList, marksBasic, & part of unitsBasic before we get detailed units info
-          sendingData.unitsList.push(row.id_unit);
+          if(!sendingData.unitsList.includes(row.id_unit))sendingData.unitsList.push(row.id_unit);
           if(row.id_unit in sendingData.unitsBasic){
             sendingData.unitsBasic[row.id_unit].marksList.push(row.id);
           }else{

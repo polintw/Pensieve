@@ -149,7 +149,7 @@ function _handle_GET_accumulated_Share(req, res){
           return (sendingData); //return to the 'parent' promise of current one
         })
       }).catch((error)=>{
-        throw new internalError(error ,131);//'throw' at this level, stop the process
+        throw new internalError("throw by /share/accumulated, "+error ,131);//'throw' at this level, stop the process
       });
   }).then((sendingData)=>{
     _res_success(res, sendingData, "Complete, GET: user actions/shareds.");

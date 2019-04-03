@@ -18,7 +18,7 @@ import {
   uncertainErr
 } from '../../../utils/errHandlers.js';
 
-const commonStyle = {
+const styleMiddle = {
   frameNail: {
     display: 'inline-block',
     width: '32%',
@@ -34,6 +34,13 @@ const commonStyle = {
     float: 'right',
     boxSizing: 'border-box',
     backgroundColor: 'transparent'
+  },
+  scrollFooter: {
+    display: 'inline-block',
+    width: '99%',
+    position: 'relative',
+    boxSizing: 'border-box',
+    margin: '0 0.5%'
   }
 }
 
@@ -81,8 +88,13 @@ class Inspired extends React.Component {
         reserved = (
           <div
             key={'key_Inspired_nails_titleReserved'}
-            style={Object.assign({}, {width: '34%'}, commonStyle.titleReserved)}>
+            style={Object.assign({}, {width: '34%'}, styleMiddle.titleReserved)}>
           </div>
+        ), scrollFooter = (
+          <div
+            key={'key_Inspired_nails_scrollFooter'}
+            className={'selfFront-fixedBottomOverlay-height'}
+            style={styleMiddle.scrollFooter}></div>
         );
 
     self.state.unitsList.forEach(function(unitKey, index){
@@ -92,7 +104,7 @@ class Inspired extends React.Component {
         inspireds.push(
           <div
             key={'key_Inspired_nails_'+markKey}
-            style={commonStyle.frameNail}>
+            style={styleMiddle.frameNail}>
             <NailInspired
               {...self.props}
               markId={markKey}
@@ -105,6 +117,7 @@ class Inspired extends React.Component {
     })
 
     inspireds.unshift(reserved);
+    inspireds.push(scrollFooter);
     return inspireds;
   }
 
@@ -164,7 +177,7 @@ class Inspired extends React.Component {
           {this._render_Inspireds()}
         </div>
         <div
-          style={Object.assign({}, {width: '35%',right: '-2%'}, commonStyle.titleReserved)}>
+          style={Object.assign({}, {width: '35%',right: '-2%'}, styleMiddle.titleReserved)}>
           <TitleInspired
             {...this.props}/>
         </div>
