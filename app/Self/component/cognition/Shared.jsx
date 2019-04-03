@@ -66,6 +66,7 @@ class Shared extends React.Component {
     this._render_Shareds = this._render_Shareds.bind(this);
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._axios_nails_shareds = this._axios_nails_shareds.bind(this);
+    this._handleClick_notified_Nail = this._handleClick_notified_Nail.bind(this);
     this.style={
       selfCom_Shared_: {
         width: '100%',
@@ -89,14 +90,26 @@ class Shared extends React.Component {
     return unitInit;
   }
 
+  _handleClick_notified_Nail(event){
+    event.preventDefault();
+    event.stopPropagation();
+    let unitId = event.currentTarget.getAttribute('sharedId');
+    this.setState((prevState,props)=>{
+      prevState.notifiedStatus[unitId] = {inspired: false};
+      return prevState;
+    })
+  }
+
   _render_Shareds(){
     const self = this;
     let shareds = self.state.unitsList.map(function(dataKey, index){
       let dataValue = self.state.unitsBasic[dataKey];
       return(
         <div
+          sharedId={dataKey}
           key={'key_Shared_nails_'+index}
-          style={styleMiddle.frameNail}>
+          style={styleMiddle.frameNail}
+          onClick={self._handleClick_notified_Nail}>
           <NailShared
             {...self.props}
             sharedId={dataKey}
@@ -125,8 +138,10 @@ class Shared extends React.Component {
         let dataValue = self.state.unitsBasic[dataKey];
         return(
           <div
+            sharedId={dataKey}
             key={'key_Shared_nails_notified_'+index}
-            style={Object.assign({}, styleMiddle.frameNail, {width:'48.5%', boxShadow: '1px 0px 2px 0px', marginRight:'1.4%'})}>
+            style={Object.assign({}, styleMiddle.frameNail, {width:'48.5%', boxShadow: '1px 0px 2px 0px', marginRight:'1.4%'})}
+            onClick={self._handleClick_notified_Nail}>
             <NailShared
               {...self.props}
               sharedId={dataKey}
