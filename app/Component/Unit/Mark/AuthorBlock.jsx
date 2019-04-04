@@ -21,17 +21,12 @@ class AuthorBlock extends React.Component {
     this.style = {
       Com_AuthorBlock_: {
         width: '100%',
-        minHeight: '44vh',
-        position: 'absolute',
-        top: '0',
-        left: '0',
+        position: 'relative',
         boxSizing: 'border-box',
-        boxShadow: '0 0 4vw rgba(25,25,25,0.6)'
       },
       Com_AuthorBlock_content_: {
         width: '100%',
         minHeight: '22vh',
-        maxHeight: '60vh',
         position: 'relative',
         boxSizing: 'border-box',
         margin: '0',
@@ -46,6 +41,19 @@ class AuthorBlock extends React.Component {
         minHeight: '22vh',
         position: 'relative',
         boxSizing: 'border-box'
+      },
+      Com_AuthorBlock_fold_:{
+        display: 'none'
+      },
+      Com_AuthorBlock_fold_dialogue: {
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        top: '0',
+        left: '0',
+        boxSizing: 'border-box',
+        padding: '2% 3%',
+        color: '#FAFAFA',
       },
       Com_AuthorBlock_panel_interaction_: {
         width: '100%',
@@ -66,16 +74,6 @@ class AuthorBlock extends React.Component {
         height: '100%',
         position: 'relative',
         float: 'right'
-      },
-      Com_AuthorBlock_panel_dialogue: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box',
-        padding: '2% 3%',
-        color: '#FAFAFA',
       },
       Com_AuthorBlock_panel_credits_: {
         width: '100%',
@@ -142,14 +140,6 @@ class AuthorBlock extends React.Component {
         </div>
         <div
           style={this.style.Com_AuthorBlock_panel_}>
-          {
-            this.state.dialogue &&
-            <div
-              style={this.style.Com_AuthorBlock_panel_dialogue}>
-              <MarkDialogue
-                markKey={this.props.markKey}/>
-            </div>
-          }
           <div
             style={this.style.Com_AuthorBlock_panel_interaction_}>
             <div
@@ -170,6 +160,17 @@ class AuthorBlock extends React.Component {
           <div>
             {"(多行參考資料連結)"}
           </div>
+        </div>
+        <div
+          style={this.style.Com_AuthorBlock_fold_}>
+          {
+            this.state.dialogue &&
+            <div
+              style={this.style.Com_AuthorBlock_fold_dialogue}>
+              <MarkDialogue
+                markKey={this.props.markKey}/>
+            </div>
+          }
         </div>
       </div>
     )

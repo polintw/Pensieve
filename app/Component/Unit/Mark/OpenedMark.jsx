@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from "react-redux";
-import AuthorBlock from './AuthorBlock.jsx';
 import SvgCircle from '../../Svg/SvgCircle.jsx';
 
 const commonStyle = {
@@ -40,22 +39,22 @@ class OpenedMark extends React.Component {
         //the position of circle relative to img, position img original at in the frame, and transform/translate we set
         //--- due to offsetLeft wouldn't take the transform property
 
-    width = ((this.props.widthDivisionRatial/2)-1)/this.props.widthDivisionRatial*100;
+    width = ((this.props.widthDivisionRatial/2)-2.4)/this.props.widthDivisionRatial*100;
     (spotLeftPx) > (this.props.boxWidth/2) ? ( //check which side of the box the circle at
       right = this.props.boxWidth-(spotLeftPx)+this.props.boxWidth/this.props.widthDivisionRatial //if circle st the right side, put the box 'left' to the circle
     ): (
-      left = spotLeftPx+this.props.boxWidth/widthDivisionRatial
+      left = spotLeftPx+this.props.boxWidth/this.props.widthDivisionRatial
     );
     coordinate.top > 50 ? ( //move between 0 - 28%, depend on location
-      bottom = (28 - ((coordinate.top-50)/50) * (28-3) / (100)) + '%'
+      bottom = (28 - ((coordinate.top-50)/50) * (28-3)) + '%'
     ):(
-      top = (3 + (coordinate.top/50) * (28-3) / (100)) + '%'
+      top = (3 + (coordinate.top/50) * (28-3)) + '%'
     );
 
     return (
       <div>
         <div
-          style={Object.assign({backgroundColor: 'rgba(30,30,30,0.2)'}, commonStyle.absolute_FullVersion)}
+          style={commonStyle.absolute_FullVersion}
           onClick={this.props._handleClick_ImgLayer_circle}/>
         <div
           className={'boxImgPosition'}
@@ -63,7 +62,9 @@ class OpenedMark extends React.Component {
             width: imgWidth,
             height: imgHeight,
             right: this.props.baseHorizonRatial+'%',
-            transform: 'translate('+this.props.baseHorizonRatial+'%,-50%)'}}
+            transform: 'translate('+this.props.baseHorizonRatial+'%,-50%)',
+            backgroundColor: 'rgba(30, 30, 30, 0.2)'
+          }}
           onClick={this.props._handleClick_ImgLayer_circle}>
             <div
               id={markId}
@@ -78,6 +79,7 @@ class OpenedMark extends React.Component {
             top: top,
             left: left,
             right: right,
+            bottom: bottom,
             width: width+"%"}, this.style.Com_ImgLayer_MarkBlock_)}>
             {this.props.children}
         </div>

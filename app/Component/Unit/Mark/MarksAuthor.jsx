@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from "react-redux";
 import OpenedMark from './OpenedMark.jsx';
+import AuthorBlock from './AuthorBlock.jsx';
 import SvgCircle from '../../Svg/SvgCircle.jsx';
 import SvgCircleSpot from '../../Svg/SvgCircleSpot.jsx';
 
