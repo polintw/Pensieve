@@ -21,8 +21,7 @@ class OpenedMark extends React.Component {
     };
     this.style = {
       Com_ImgLayer_MarkBlock_: {
-        maxHeight: '64%',
-        minHeight: '30%',
+        height: '32%', //the target MaxHeight is 64%
         position: 'absolute'
       }
     };
@@ -39,17 +38,21 @@ class OpenedMark extends React.Component {
         //the position of circle relative to img, position img original at in the frame, and transform/translate we set
         //--- due to offsetLeft wouldn't take the transform property
 
-    width = ((this.props.widthDivisionRatial/2)-2.4)/this.props.widthDivisionRatial*100;
+    width = ((this.props.widthDivisionRatial/2)-2.6)/this.props.widthDivisionRatial*100;
     (spotLeftPx) > (this.props.boxWidth/2) ? ( //check which side of the box the circle at
-      right = this.props.boxWidth-(spotLeftPx)+this.props.boxWidth/this.props.widthDivisionRatial //if circle st the right side, put the box 'left' to the circle
+      right = this.props.boxWidth-(spotLeftPx)+1.6*(this.props.boxWidth/this.props.widthDivisionRatial) //if circle st the right side, put the box 'left' to the circle
     ): (
-      left = spotLeftPx+this.props.boxWidth/this.props.widthDivisionRatial
+      left = spotLeftPx+1.6*(this.props.boxWidth/this.props.widthDivisionRatial)
     );
     coordinate.top > 50 ? ( //move between 0 - 28%, depend on location
       bottom = (28 - ((coordinate.top-50)/50) * (28-3)) + '%'
     ):(
       top = (3 + (coordinate.top/50) * (28-3)) + '%'
     );
+
+    const childrenWithProps = React.Children.map(this.props.children, (child) =>
+      React.cloneElement(child, { toCircleLeft: right > 0? true : false })
+    );// because we want to pass left/right status as props to Block, we need to add from here
 
     return (
       <div>
@@ -63,7 +66,11 @@ class OpenedMark extends React.Component {
             height: imgHeight,
             right: this.props.baseHorizonRatial+'%',
             transform: 'translate('+this.props.baseHorizonRatial+'%,-50%)',
-            backgroundColor: 'rgba(30, 30, 30, 0.2)'
+            backgroundImage: 'radial-gradient(ellipse at '+
+              (coordinate.left+ (right > 0?8:(-8)))+
+              '% '+
+              (coordinate.top+ (top > 0?6:(-6)))+
+              '% , rgba(30, 30, 30,0) 0, rgba(30, 30, 30,0.2) 11%, rgba(30, 30, 30,0.46) 20%, rgba(36, 36, 36,0.67) 27%, rgba(45, 45, 45,0.7) 32%, rgba(36, 36, 36,0.68) 40%,rgba(30, 30, 30,0.56) 51%,rgba(30, 30, 30,0.45) 64%, rgba(30, 30, 30,0.36) 76%, rgba(30, 30, 30,0.3) 87%, rgba(30, 30, 30,0.27) 100%)'
           }}
           onClick={this.props._handleClick_ImgLayer_circle}>
             <div
@@ -81,7 +88,7 @@ class OpenedMark extends React.Component {
             right: right,
             bottom: bottom,
             width: width+"%"}, this.style.Com_ImgLayer_MarkBlock_)}>
-            {this.props.children}
+            {childrenWithProps}
         </div>
       </div>
     )

@@ -20,27 +20,41 @@ class AuthorBlock extends React.Component {
     this._handleClick_openDialogue = this._handleClick_openDialogue.bind(this);
     this.style = {
       Com_AuthorBlock_: {
-        width: '100%',
+        display: 'inline-block',
+        maxWidth: '100%',
+        height: '100%',
         position: 'relative',
-        boxSizing: 'border-box',
+        overflowY: 'visible'
       },
       Com_AuthorBlock_content_: {
-        width: '100%',
-        minHeight: '22vh',
+        display: 'inline-block',
+        maxWidth: '100%',
+        minWidth: '36%',
+        minHeight: '68%',
+        maxHeight: '155%', //the target MaxHeight is 64%, limit by parent
         position: 'relative',
         boxSizing: 'border-box',
         margin: '0',
-        fontSize: '1.2rem',
-        letterSpacing: '0.15rem',
-        fontWeight: '400',
+        paddingBottom: '4%',
+        fontSize: '1.36rem',
+        letterSpacing: '0.18rem',
+        lineHeight: '1.9rem',
+        fontWeight: '300',
         color: '#FAFAFA',
-        overflow: 'auto'
+        overflowY: 'auto'
       },
       Com_AuthorBlock_panel_: {
         width: '100%',
-        minHeight: '22vh',
+        height: '16%',
         position: 'relative',
         boxSizing: 'border-box'
+      },
+      Com_AuthorBlock_credits_: {
+        width: '100%',
+        height: '16%',
+        position: 'relative',
+        boxSizing: 'border-box',
+        marginTop: '2%'
       },
       Com_AuthorBlock_fold_:{
         display: 'none'
@@ -57,29 +71,22 @@ class AuthorBlock extends React.Component {
       },
       Com_AuthorBlock_panel_interaction_: {
         width: '100%',
-        height: '5vh',
+        height: '100%',
         position: 'relative',
         boxSizing: 'border-box',
         color: '#FAFAFA'
       },
       Com_AuthorBlock_panel_interaction_bulb:{
+        display: 'inline-block',
         width: '15%',
         height: '100%',
         position: 'relative',
-        float: 'right',
         cursor: 'pointer'
       },
       Com_AuthorBlock_panel_interaction_raise: {
         width: '18%',
         height: '100%',
         position: 'relative',
-        float: 'right'
-      },
-      Com_AuthorBlock_panel_credits_: {
-        width: '100%',
-        height: '8vh',
-        position: 'relative',
-        boxSizing: 'border-box'
       }
     };
   }
@@ -132,7 +139,7 @@ class AuthorBlock extends React.Component {
   render(){
     return(
       <div
-        style={this.style.Com_AuthorBlock_}>
+        style={Object.assign({}, this.style.Com_AuthorBlock_, {float: this.props.toCircleLeft? 'right':'left'})}>
         <div
           style={this.style.Com_AuthorBlock_content_}>
           <DraftDisplay
@@ -152,14 +159,15 @@ class AuthorBlock extends React.Component {
               {'raise hand'}
             </span>
           </div>
-          <div
-            style={this.style.Com_AuthorBlock_panel_credits_}>
-            <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
-            <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
-          </div>
-          <div>
-            {"(多行參考資料連結)"}
-          </div>
+        </div>
+        <div
+          style={this.style.Com_AuthorBlock_credits_}>
+          <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
+          <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
+        </div>
+        <div
+          style={{display: 'inline-block'}}>
+          {"(多行參考資料連結)"}
         </div>
         <div
           style={this.style.Com_AuthorBlock_fold_}>
