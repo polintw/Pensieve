@@ -67,10 +67,10 @@ class OpenedMark extends React.Component {
             right: this.props.baseHorizonRatial+'%',
             transform: 'translate('+this.props.baseHorizonRatial+'%,-50%)',
             backgroundImage: 'radial-gradient(ellipse at '+
-              (coordinate.left+ (right > 0?8:(-8)))+
+              (coordinate.left+ (right > 0?5:(-5)))+
               '% '+
-              (coordinate.top+ (top > 0?6:(-6)))+
-              '% , rgba(30, 30, 30,0) 0, rgba(30, 30, 30,0.2) 11%, rgba(30, 30, 30,0.46) 20%, rgba(36, 36, 36,0.67) 27%, rgba(45, 45, 45,0.7) 32%, rgba(36, 36, 36,0.68) 40%,rgba(30, 30, 30,0.56) 51%,rgba(30, 30, 30,0.45) 64%, rgba(30, 30, 30,0.36) 76%, rgba(30, 30, 30,0.3) 87%, rgba(30, 30, 30,0.27) 100%)'
+              (coordinate.top+ (top > 0?3:(-3)))+
+              '% , rgba(30, 30, 30,0) 0, rgba(30, 30, 30,0.2) 11%, rgba(30, 30, 30,0.46) 20%, rgba(33, 33, 33,0.67) 27%, rgba(33, 33, 33,0.7) 32%, rgba(33, 33, 33,0.68) 40%,rgba(30, 30, 30,0.56) 51%,rgba(30, 30, 30,0.45) 64%, rgba(30, 30, 30,0.36) 76%, rgba(30, 30, 30,0.3) 87%, rgba(30, 30, 30,0.27) 100%)'
           }}
           onClick={this.props._handleClick_ImgLayer_circle}>
             <div

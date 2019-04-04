@@ -1,12 +1,22 @@
 import React from 'react';
 import {connect} from "react-redux";
 import MarkDialogue from './MarkDialogue.jsx';
-import {SvgBulb} from '../../Svg/SvgBulb.jsx';
+import {SvgBulbPlainHalf} from '../../Svg/SvgBulb.jsx';
 import SvgPropic from '../../Svg/SvgPropic.jsx';
 import DraftDisplay from '../../Draft/DraftDisplay.jsx';
 import {
   setUnitInspired
 } from "../../../redux/actions/general.js";
+
+const styleMiddle = {
+  spanInteractions: {
+    fontSize: '1.4rem',
+    letterSpacing: '0.12rem',
+    lineHeight: '1.9rem',
+    fontWeight: '400',
+    color: '#f7f4bc'
+  }
+}
 
 class AuthorBlock extends React.Component {
   constructor(props){
@@ -31,11 +41,11 @@ class AuthorBlock extends React.Component {
         maxWidth: '100%',
         minWidth: '36%',
         minHeight: '68%',
-        maxHeight: '155%', //the target MaxHeight is 64%, limit by parent
+        maxHeight: '156%', //the target MaxHeight is 64%, limit by parent
         position: 'relative',
         boxSizing: 'border-box',
         margin: '0',
-        paddingBottom: '4%',
+        paddingBottom: '5%',
         fontSize: '1.36rem',
         letterSpacing: '0.18rem',
         lineHeight: '1.9rem',
@@ -45,7 +55,7 @@ class AuthorBlock extends React.Component {
       },
       Com_AuthorBlock_panel_: {
         width: '100%',
-        height: '16%',
+        height: '14%',
         position: 'relative',
         boxSizing: 'border-box'
       },
@@ -74,19 +84,29 @@ class AuthorBlock extends React.Component {
         height: '100%',
         position: 'relative',
         boxSizing: 'border-box',
-        color: '#FAFAFA'
+      },
+      Com_AuthorBlock_panel_interaction_inspired_:{
+        display: 'inline-block',
+        minWidth: '70px',
+        height: '100%',
+        position: 'absolute',
+        left: '0',
       },
       Com_AuthorBlock_panel_interaction_bulb:{
-        display: 'inline-block',
-        width: '15%',
+        width: '36%',
         height: '100%',
-        position: 'relative',
-        cursor: 'pointer'
+        position: 'absolute',
+        left: '0',
+        top: '0',
+        boxSizing: 'border-box',
+        marginRight: '16%',
+        strokeWidth:'10px'
       },
-      Com_AuthorBlock_panel_interaction_raise: {
-        width: '18%',
-        height: '100%',
-        position: 'relative',
+      Com_AuthorBlock_panel_interaction_count: {
+        position: 'absolute',
+        top:"50%",
+        left:'50%',
+        transform: 'translate(0,-50%)'
       }
     };
   }
@@ -150,11 +170,17 @@ class AuthorBlock extends React.Component {
           <div
             style={this.style.Com_AuthorBlock_panel_interaction_}>
             <div
-              style={this.style.Com_AuthorBlock_panel_interaction_bulb}>
-              <SvgBulb light={false}/>
+              style={this.style.Com_AuthorBlock_panel_interaction_inspired_}>
+              <div
+                style={Object.assign({}, this.style.Com_AuthorBlock_panel_interaction_bulb, {stroke: '#f7f4bc', fill: 'transparent'})}>
+                <SvgBulbPlainHalf/>
+              </div>
+              <span
+                style={Object.assign({}, styleMiddle.spanInteractions, this.style.Com_AuthorBlock_panel_interaction_count)}>
+                {this.props.unitCurrent.marksInteraction[this.props.markKey].inspired}</span>
             </div>
             <span
-              style={this.style.Com_AuthorBlock_panel_interaction_raise}
+              style={styleMiddle.spanInteractions}
               onClick={this._handleClick_openDialogue}>
               {'raise hand'}
             </span>
