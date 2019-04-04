@@ -1,14 +1,24 @@
 import React from 'react';
 import {connect} from "react-redux";
 import MarkDialogue from './MarkDialogue.jsx';
-import {SvgBulb} from '../../Svg/SvgBulb.jsx';
+import {SvgBulbPlainHalf} from '../../Svg/SvgBulb.jsx';
 import SvgPropic from '../../Svg/SvgPropic.jsx';
 import DraftDisplay from '../../Draft/DraftDisplay.jsx';
 import {
   setUnitInspired
 } from "../../../redux/actions/general.js";
 
-class MarkBlock extends React.Component {
+const styleMiddle = {
+  spanInteractions: {
+    fontSize: '1.4rem',
+    letterSpacing: '0.12rem',
+    lineHeight: '1.9rem',
+    fontWeight: '400',
+    color: '#f7f4bc'
+  }
+}
+
+class ViewerBlock extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -17,59 +27,50 @@ class MarkBlock extends React.Component {
     };
     this.axiosSource = axios.CancelToken.source();
     this._axios_inspire_plain = this._axios_inspire_plain.bind(this);
-    this._handleClick_openDialogue = this._handleClick_openDialogue.bind(this);
     this._handleClick_Inspired = this._handleClick_Inspired.bind(this);
+    this._handleClick_openDialogue = this._handleClick_openDialogue.bind(this);
     this.style = {
-      Com_MarkBlock_: {
-        width: '100%',
-        minHeight: '44vh',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box',
-        backgroundColor: 'rgba(25,25,25,0.6)',
-        boxShadow: '0 0 4vw rgba(25,25,25,0.6)'
+      Com_ViewerBlock_: {
+        display: 'inline-block',
+        maxWidth: '100%',
+        height: '100%',
+        position: 'relative',
+        overflowY: 'visible'
       },
-      Com_MarkBlock_content_: {
-        width: '100%',
-        minHeight: '22vh',
-        maxHeight: '60vh',
+      Com_ViewerBlock_content_: {
+        display: 'inline-block',
+        maxWidth: '100%',
+        minWidth: '36%',
+        minHeight: '68%',
+        maxHeight: '156%', //the target MaxHeight is 64%, limit by parent
         position: 'relative',
         boxSizing: 'border-box',
         margin: '0',
-        fontSize: '1.2rem',
-        letterSpacing: '0.15rem',
-        fontWeight: '400',
+        paddingBottom: '5%',
+        fontSize: '1.36rem',
+        letterSpacing: '0.18rem',
+        lineHeight: '1.9rem',
+        fontWeight: '300',
         color: '#FAFAFA',
-        overflow: 'auto'
+        overflowY: 'auto'
       },
-      Com_MarkBlock_panel_: {
+      Com_ViewerBlock_panel_: {
         width: '100%',
-        minHeight: '22vh',
+        height: '14%',
         position: 'relative',
         boxSizing: 'border-box'
       },
-      Com_MarkBlock_panel_interaction_: {
+      Com_ViewerBlock_credits_: {
         width: '100%',
-        height: '5vh',
+        height: '16%',
         position: 'relative',
         boxSizing: 'border-box',
-        color: '#FAFAFA'
+        marginTop: '2%'
       },
-      Com_MarkBlock_panel_interaction_bulb:{
-        width: '15%',
-        height: '100%',
-        position: 'relative',
-        float: 'right',
-        cursor: 'pointer'
+      Com_ViewerBlock_fold_:{
+        display: 'none'
       },
-      Com_MarkBlock_panel_interaction_raise: {
-        width: '18%',
-        height: '100%',
-        position: 'relative',
-        float: 'right'
-      },
-      Com_MarkBlock_panel_dialogue: {
+      Com_ViewerBlock_fold_dialogue: {
         width: '100%',
         height: '100%',
         position: 'absolute',
@@ -79,13 +80,34 @@ class MarkBlock extends React.Component {
         padding: '2% 3%',
         color: '#FAFAFA',
       },
-      Com_MarkBlock_panel_credits_: {
+      Com_ViewerBlock_panel_interaction_: {
         width: '100%',
-        height: '8vh',
+        height: '100%',
         position: 'relative',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+      },
+      Com_ViewerBlock_panel_interaction_bulb:{
+        width: '24px',
+        height: '100%',
+        position: 'absolute',
+        right: '12%',
+        top: '0',
+        boxSizing: 'border-box',
+        cursor: 'pointer',
+        strokeWidth:'10px',
+        stroke: '#f7f4bc'
       }
     };
+  }
+
+  _handleClick_Inspired(event){
+    event.preventDefault();
+    event.stopPropagation();
+    let aim = this.props.unitCurrent.marksInteraction[this.props.markKey]['inspired'] ? 'delete': 'post';
+
+    this.setState((prevState, props)=>{
+      return {axios: true}
+    }, this._axios_inspire_plain(aim))
   }
 
   _axios_inspire_plain(aim){
@@ -100,7 +122,6 @@ class MarkBlock extends React.Component {
         'token': window.localStorage['token']}
     }).then(function (res) {
       if(res.status = 200){
-        //!! Replace ! replace this part, especially the rdux design, because the state structure was changed
         self.props._set_inpiredMark(self.props.markKey, aim);
       }else{
         console.log("Failed: "+ res.data.err);
@@ -116,15 +137,6 @@ class MarkBlock extends React.Component {
         alert("Failed, please try again later");
       }
     });
-  }
-
-  _handleClick_Inspired(event){
-    event.preventDefault();
-    event.stopPropagation();
-    let aim = this.props.unitCurrent.marksInteraction[this.props.markKey]['inspired'] ? 'delete': 'post';
-    this.setState((prevState, props)=>{
-      return {axios: true}
-    }, this._axios_inspire_plain(aim))
   }
 
   _handleClick_openDialogue(event){
@@ -146,44 +158,49 @@ class MarkBlock extends React.Component {
   render(){
     return(
       <div
-        style={this.style.Com_MarkBlock_}>
+        style={Object.assign({}, this.style.Com_ViewerBlock_, {float: this.props.toCircleLeft? 'right':'left'})}>
         <div
-          style={this.style.Com_MarkBlock_content_}>
+          style={this.style.Com_ViewerBlock_content_}>
           <DraftDisplay
             editorState={this.props.markData.editorContent}/>
         </div>
         <div
-          style={this.style.Com_MarkBlock_panel_}>
-          {
-            this.state.dialogue &&
-            <div
-              style={this.style.Com_MarkBlock_panel_dialogue}>
-              <MarkDialogue
-                markKey={this.props.markKey}/>
-            </div>
-          }
+          style={this.style.Com_ViewerBlock_panel_}>
           <div
-            style={this.style.Com_MarkBlock_panel_interaction_}>
+            style={this.style.Com_ViewerBlock_panel_interaction_}>
             <div
-              style={this.style.Com_MarkBlock_panel_interaction_bulb}
+              style={Object.assign({}, this.style.Com_ViewerBlock_panel_interaction_bulb, {
+                fill: this.props.unitCurrent.marksInteraction[this.props.markKey]['inspired'] ? '#ff7a5f':'transparent'
+              })}
               onClick={this._handleClick_Inspired}>
-              <SvgBulb
-                light={this.props.unitCurrent.marksInteraction[this.props.markKey]['inspired'] ? true : false}/>
+              <SvgBulbPlainHalf/>
             </div>
             <span
-              style={this.style.Com_MarkBlock_panel_interaction_raise}
+              style={styleMiddle.spanInteractions}
               onClick={this._handleClick_openDialogue}>
               {'raise hand'}
             </span>
           </div>
-          <div
-            style={this.style.Com_MarkBlock_panel_credits_}>
-            <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
-            <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
-          </div>
-          <div>
-            {"(多行參考資料連結)"}
-          </div>
+        </div>
+        <div
+          style={this.style.Com_ViewerBlock_credits_}>
+          <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
+          <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
+        </div>
+        <div
+          style={{display: 'inline-block'}}>
+          {"(多行參考資料連結)"}
+        </div>
+        <div
+          style={this.style.Com_ViewerBlock_fold_}>
+          {
+            this.state.dialogue &&
+            <div
+              style={this.style.Com_ViewerBlock_fold_dialogue}>
+              <MarkDialogue
+                markKey={this.props.markKey}/>
+            </div>
+          }
         </div>
       </div>
     )
@@ -207,4 +224,4 @@ const mapDispatchToProps = (dispatch)=>{
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(MarkBlock);
+)(ViewerBlock);

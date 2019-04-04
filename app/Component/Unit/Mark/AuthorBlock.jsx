@@ -26,7 +26,6 @@ class AuthorBlock extends React.Component {
       dialogue: false
     };
     this.axiosSource = axios.CancelToken.source();
-    this._axios_inspire_plain = this._axios_inspire_plain.bind(this);
     this._handleClick_openDialogue = this._handleClick_openDialogue.bind(this);
     this.style = {
       Com_AuthorBlock_: {
@@ -111,35 +110,6 @@ class AuthorBlock extends React.Component {
     };
   }
 
-  _axios_inspire_plain(aim){
-    const self = this;
-    //'axios' in state has set to true in invoke instance
-    axios({
-      method: aim,
-      url: '/router/inspire?unitId='+self.props.unitCurrent.unitId+'&markId='+self.props.markKey,
-      headers: {
-        'Content-Type': 'application/json',
-        'charset': 'utf-8',
-        'token': window.localStorage['token']}
-    }).then(function (res) {
-      if(res.status = 200){
-        self.props._set_inpiredMark(self.props.markKey, aim);
-      }else{
-        console.log("Failed: "+ res.data.err);
-        self.setState({axios: false});
-        alert("Failed, please try again later");
-      }
-    }).catch(function (thrown) {
-      if (axios.isCancel(thrown)) {
-        console.log('Request canceled: ', thrown.message);
-      } else {
-        console.log(thrown);
-        self.setState({axios: false});
-        alert("Failed, please try again later");
-      }
-    });
-  }
-
   _handleClick_openDialogue(event){
     event.preventDefault();
     event.stopPropagation();
@@ -221,7 +191,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch)=>{
   return {
-    _set_inpiredMark: (markId, aim)=>{dispatch(setUnitInspired(markId, aim));},
+
   }
 }
 
