@@ -31,6 +31,7 @@ class AuthorBlock extends React.Component {
       Com_AuthorBlock_: {
         display: 'inline-block',
         maxWidth: '100%',
+        minWidth: '39%',
         height: '100%',
         position: 'relative',
         overflowY: 'visible'
@@ -38,7 +39,6 @@ class AuthorBlock extends React.Component {
       Com_AuthorBlock_content_: {
         display: 'inline-block',
         maxWidth: '100%',
-        minWidth: '36%',
         minHeight: '68%',
         maxHeight: '156%', //the target MaxHeight is 64%, limit by parent
         position: 'relative',
@@ -147,7 +147,7 @@ class AuthorBlock extends React.Component {
               </div>
               <span
                 style={Object.assign({}, styleMiddle.spanInteractions, this.style.Com_AuthorBlock_panel_interaction_count)}>
-                {this.props.unitCurrent.marksInteraction[this.props.markKey].inspired}</span>
+                {this.props.unitCurrent.marksInteraction[this.props.markKey].inspired+"/"}</span>
             </div>
             <span
               style={styleMiddle.spanInteractions}

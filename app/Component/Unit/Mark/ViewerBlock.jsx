@@ -33,6 +33,7 @@ class ViewerBlock extends React.Component {
       Com_ViewerBlock_: {
         display: 'inline-block',
         maxWidth: '100%',
+        minWidth: '39%',
         height: '100%',
         position: 'relative',
         overflowY: 'visible'
@@ -40,7 +41,6 @@ class ViewerBlock extends React.Component {
       Com_ViewerBlock_content_: {
         display: 'inline-block',
         maxWidth: '100%',
-        minWidth: '36%',
         minHeight: '68%',
         maxHeight: '156%', //the target MaxHeight is 64%, limit by parent
         position: 'relative',
