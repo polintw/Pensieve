@@ -6,9 +6,22 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import ImgBlock from './ImgBlock.jsx';
-import EditingInfoSide from './EditingInfoSide.jsx';
+import EditingPanel from './EditingPanel.jsx';
 import ContentModal from './ContentModal.jsx';
+import NounsEditor from './NounsEditor.jsx';
 import MarksArticle from '../MarksArticle.jsx';
+
+const styleMiddle = {
+  imgBLockDecoBack:{
+    width: '24%',
+    height: '100%',
+    position: 'absolute',
+    left: '63%',
+    top: '0',
+    boxSizing: 'border-box',
+    backgroundColor: '#FAFAFA'
+  }
+}
 
 class EditingModal extends React.Component {
   constructor(props){
@@ -41,21 +54,37 @@ class EditingModal extends React.Component {
         left: '50%',
         transform: 'translate(-50%, 0)',
         boxSizing: 'border-box',
-        backgroundColor: '#51514A'
+        backgroundColor: '#101010'
       },
       Com_Modal_Editing_imgBlocks_: {
-        display: 'inline-block',
-        width: '16%',
-        height: '100%',
-        position: 'relative',
+        width: '27%',
+        height: '72%',
+        position: 'absolute',
+        top: '0',
+        right: '0',
         boxSizing: 'border-box',
-        backgroundColor: '#313130',
-        color: '#FFFFFC'
+        backgroundColor: 'transparent'
+      },
+      Com_Modal_Editing_Panel_: {
+        width: '100%',
+        height: '14%',
+        position: 'absolute',
+        top: '81%',
+        left:'0',
+        boxSizing: 'border-box'
+      },
+      Com_Modal_Editing_InfoSide: {
+        width: '85%',
+        height: '52%',
+        position: 'absolute',
+        top: '10%',
+        left: '5%'
       },
       Com_Modal_Editing_imgBlocks_block_: {
-        width: '100%',
-        height: '21%',
+        width: '82%',
+        height: '32%',
         position: 'absolute',
+        left: '0',
         boxSizing: 'border-box'
       },
       Com_Modal_Editing_article_: {
@@ -64,16 +93,9 @@ class EditingModal extends React.Component {
         height: '100%',
         position: 'relative',
         boxSizing: 'border-box',
-        backgroundColor: '#f8f8f8',
+        backgroundColor: 'transparent',
         verticalAlign: 'top'
       },
-      Com_Modal_Editing_InfoSide: {
-        display: 'inline-block',
-        width: '28%',
-        height: '100%',
-        position: 'relative',
-        boxSizing: 'border-box'
-      }
     }
   }
 
@@ -140,24 +162,10 @@ class EditingModal extends React.Component {
         id={'editingModal'}
         style={this.style.Com_Modal_Editing_}>
         <div
-          style={this.style.Com_Modal_Editing_imgBlocks_}>
-          <div
-            style={Object.assign({top: '28%'}, this.style.Com_Modal_Editing_imgBlocks_block_)}>
-            <ImgBlock
-              blockName={'cover'}
-              previewSrc={this.state.coverSrc}
-              _set_newImgSrc={this._set_newImgSrc}
-              _open_ContentModal={this._open_ContentModal}/>
-          </div>
-          <div
-            style={Object.assign({top: '51%', opacity: this.state.coverSrc?1:0.5}, this.style.Com_Modal_Editing_imgBlocks_block_)}>
-            <ImgBlock
-              blockName={'beneath'}
-              previewSrc={this.state.beneathSrc}
-              _set_newImgSrc={this._set_newImgSrc}
-              _open_ContentModal={this._open_ContentModal}/>
-            {!this.state.coverSrc && <div style={{width: '100%',height: '100%',position:'absolute'}}></div>}
-          </div>
+          style={this.style.Com_Modal_Editing_InfoSide}>
+          <NounsEditor
+            nouns={this.state.nouns}
+            _set_nouns={this._set_nouns}/>
         </div>
         <article
           style={this.style.Com_Modal_Editing_article_}>
@@ -175,11 +183,30 @@ class EditingModal extends React.Component {
             _set_MarkInspect={this._open_ContentModal}/>
         </article>
         <div
-          style={this.style.Com_Modal_Editing_InfoSide}>
-          <EditingInfoSide
+          style={this.style.Com_Modal_Editing_imgBlocks_}>
+          <div style={styleMiddle.imgBLockDecoBack}/>
+          <div
+            style={Object.assign({top: '12%'}, this.style.Com_Modal_Editing_imgBlocks_block_)}>
+            <ImgBlock
+              blockName={'cover'}
+              previewSrc={this.state.coverSrc}
+              _set_newImgSrc={this._set_newImgSrc}
+              _open_ContentModal={this._open_ContentModal}/>
+          </div>
+          <div
+            style={Object.assign({top: '54%'}, this.style.Com_Modal_Editing_imgBlocks_block_)}>
+            <ImgBlock
+              blockName={'beneath'}
+              previewSrc={this.state.beneathSrc}
+              _set_newImgSrc={this._set_newImgSrc}
+              _open_ContentModal={this._open_ContentModal}/>
+            {!this.state.coverSrc && <div style={{width: '100%',height: '100%',position:'absolute'}}></div>}
+          </div>
+        </div>
+        <div
+          style={this.style.Com_Modal_Editing_Panel_}>
+          <EditingPanel
             creating={this.props.unitSet?false:true}
-            nouns={this.state.nouns}
-            _set_nouns={this._set_nouns}
             _refer_toandclose={this.props._refer_toandclose}
             _handleClick_Editing_Submit={this._handleClick_Editing_Submit}
             _handleClick_Editing_Cancell={this._handleClick_Editing_Cancell}/>
