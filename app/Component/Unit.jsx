@@ -98,7 +98,7 @@ class Unit extends React.Component {
           beneathMarksList:beneathMarks.list,
           beneathMarksData:beneathMarks.data,
           nouns: resObj.main.nouns,
-          inspired: resObj.main.inspired,
+          marksInteraction: resObj.main.marksInteraction,
           broad: false,
           refsArr: resObj.main.refsArr,
           createdAt: resObj.main.createdAt

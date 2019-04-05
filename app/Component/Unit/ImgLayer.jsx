@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from "react-redux";
-import AuthorMarks from './AuthorMarks.jsx';
-import ViewerMarks from './ViewerMarks.jsx';
+import MarksAuthor from './Mark/MarksAuthor.jsx';
+import MarksViewer from './Mark/MarksViewer.jsx';
 
 const baseHorizonRatial = 40;
 
@@ -30,8 +30,6 @@ class ImgLayer extends React.Component {
       Com_ImgLayer_img: {
         maxWidth: '99%',
         maxHeight: '100%',
-        position: 'absolute',
-        top: '50%',
         right: baseHorizonRatial+'%',
         transform: 'translate('+baseHorizonRatial+'%,-50%)'
       }
@@ -51,14 +49,14 @@ class ImgLayer extends React.Component {
       boxWidth=this.Com_ImgLayer_box.current.clientWidth;
 
     return this.props.unitCurrent.identity=="author" ? (
-      <AuthorMarks
+      <MarksAuthor
         {...this.props}
         boxWidth={boxWidth}
         imgPosition={imgPosition}
         imgWidthHeight={imgWidthHeight}
         baseHorizonRatial={baseHorizonRatial}/>
     ):(
-      <ViewerMarks
+      <MarksViewer
         {...this.props}
         boxWidth={boxWidth}
         imgPosition={imgPosition}
@@ -73,6 +71,7 @@ class ImgLayer extends React.Component {
         ref={this.Com_ImgLayer_box}
         style={commonStyle.absolute_FullVersion}>
         <img
+          className={'boxImgPosition'}
           style={this.style.Com_ImgLayer_img}
           ref={this.Com_ImgLayer_img}
           src={this.props.imgSrc}

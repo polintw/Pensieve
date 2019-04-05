@@ -13,7 +13,7 @@ const {
   internalError,
 } = require('../utils/reserrHandler.js');
 
-function _handle_inspired_embedded(req, res){
+function _handle_GET_accumulated_Inspire(req, res){
   new Promise((resolve, reject)=>{
     const reqToken = req.body.token || req.headers['token'] || req.query.token;
     const jwtVerified = jwt.verify(reqToken, verify_key);
@@ -57,7 +57,7 @@ function _handle_inspired_embedded(req, res){
         if(marksResults) marksResults.forEach((row, index)=>{
           //in case there is not any inspired records
           //deal with unitsList, marksBasic, & part of unitsBasic before we get detailed units info
-          sendingData.unitsList.push(row.id_unit);
+          if(!sendingData.unitsList.includes(row.id_unit))sendingData.unitsList.push(row.id_unit);
           if(row.id_unit in sendingData.unitsBasic){
             sendingData.unitsBasic[row.id_unit].marksList.push(row.id);
           }else{
@@ -134,15 +134,15 @@ function _handle_inspired_embedded(req, res){
         });
     }
   }).then((sendingData)=>{
-    _res_success(res, sendingData, "GET: /inspire/embedded, complete.");
+    _res_success(res, sendingData, "GET: /inspire/accumulated, complete.");
   }).catch((error)=>{
     _handle_ErrCatched(error, req, res);
   });
 }
 
 execute.get('/', function(req, res){
-  if(process.env.NODE_ENV == 'development') winston.verbose('GET: /inspire/embedded ');
-  _handle_inspired_embedded(req, res);
+  if(process.env.NODE_ENV == 'development') winston.verbose('GET: /inspire/accumulated ');
+  _handle_GET_accumulated_Inspire(req, res);
 })
 
 module.exports = execute;

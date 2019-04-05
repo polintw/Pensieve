@@ -17,22 +17,37 @@ import {
   uncertainErr
 } from '../../../utils/errHandlers.js';
 
-const commonStyle = {
+const styleMiddle = {
   frameNail: {
     display: 'inline-block',
     width: '32%',
-    height: '36vh',
+    height: '205px',
     position: 'relative',
     boxSizing: 'border-box',
-    margin: '2vh 0.7% 0 0'
+    margin: '11px 0.7% 0 0'
   },
   titleReserved: {
     display: 'inline-block',
-    height: '38vh',
+    height: '216px',
     position: 'relative',
     float: 'right',
     boxSizing: 'border-box',
     backgroundColor: 'transparent'
+  },
+  scrollFooter: {
+    display: 'inline-block',
+    width: '99%',
+    position: 'relative',
+    boxSizing: 'border-box',
+    margin: '0 0.5%'
+  },
+  notifiedBlock: {
+    display:'inline-block',
+    width: '65.3%',
+    position:'relative',
+    boxSizing:'border-box',
+    textAlign:'left',
+    float:'left'
   }
 }
 
@@ -43,12 +58,15 @@ class Shared extends React.Component {
       axios: false,
       unitsList: [],
       unitsBasic: {},
-      marksBasic: {}
+      marksBasic: {},
+      notifiedList: [],
+      notifiedStatus: {}
     };
     this.axiosSource = axios.CancelToken.source();
     this._render_Shareds = this._render_Shareds.bind(this);
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._axios_nails_shareds = this._axios_nails_shareds.bind(this);
+    this._handleClick_notified_Nail = this._handleClick_notified_Nail.bind(this);
     this.style={
       selfCom_Shared_: {
         width: '100%',
@@ -68,8 +86,18 @@ class Shared extends React.Component {
   }
 
   _construct_UnitInit(match, location){
-    let unitInit= Object.assign(this.state.unitsBasic[match.params.id], {marksify: true, initMark: "all", layer: 0});
+    let unitInit= Object.assign(this.state.unitsBasic[match.params.id], {marksify: false, initMark: "all", layer: 0});
     return unitInit;
+  }
+
+  _handleClick_notified_Nail(event){
+    event.preventDefault();
+    event.stopPropagation();
+    let unitId = event.currentTarget.getAttribute('sharedid');
+    this.setState((prevState,props)=>{
+      prevState.notifiedStatus[unitId] = {inspired: false};
+      return prevState;
+    })
   }
 
   _render_Shareds(){
@@ -78,29 +106,69 @@ class Shared extends React.Component {
       let dataValue = self.state.unitsBasic[dataKey];
       return(
         <div
+          sharedid={dataKey}
           key={'key_Shared_nails_'+index}
-          style={commonStyle.frameNail}>
+          style={styleMiddle.frameNail}
+          onClick={self._handleClick_notified_Nail}>
           <NailShared
             {...self.props}
             sharedId={dataKey}
             unitBasic={dataValue}
-            marksBasic={self.state.marksBasic}/>
+            marksBasic={self.state.marksBasic}
+            notifiedStatus={self.state.notifiedStatus[dataKey]}/>
         </div>
       )
     }), reserved = (
       <div
         key={'key_Shared_nails_titleReserved'}
-        style={Object.assign({}, {width: '34%'}, commonStyle.titleReserved)}>
+        style={Object.assign({}, {width: '34%'}, styleMiddle.titleReserved)}>
       </div>
+    ), scrollFooter = (
+      <div
+        key={'key_Shared_nails_scrollFooter'}
+        className={'selfFront-fixedBottomOverlay-height'}
+        style={styleMiddle.scrollFooter}></div>
     );
     shareds.unshift(reserved);
+    shareds.push(scrollFooter);
+
+    if(this.state.notifiedList.length>0){
+      let rows = Math.ceil(this.state.notifiedList.length/2);
+      let notifieds = this.state.notifiedList.map((dataKey, index)=>{
+        let dataValue = self.state.unitsBasic[dataKey];
+        return(
+          <div
+            sharedid={dataKey}
+            key={'key_Shared_nails_notified_'+index}
+            style={Object.assign({}, styleMiddle.frameNail, {width:'48.5%', boxShadow: '1px 0px 2px 0px', marginRight:'1.4%'})}
+            onClick={self._handleClick_notified_Nail}>
+            <NailShared
+              {...self.props}
+              sharedId={dataKey}
+              unitBasic={dataValue}
+              marksBasic={self.state.marksBasic}
+              notifiedStatus={self.state.notifiedStatus[dataKey]}/>
+          </div>
+        )
+      });
+      let notifiedBlock = (
+        <div
+          key={'key_Shared_nails_notified_'}
+          style={Object.assign({}, styleMiddle.notifiedBlock, {height: (rows*216)+"px"})}>
+          {notifieds}
+        </div>
+      );
+
+      shareds.length< 4 ? shareds.splice(1,0,notifiedBlock) : shareds.splice(3, 0, notifiedBlock);
+    }
+
     return shareds;
   }
 
   _axios_nails_shareds(){
     const self = this;
     this.setState({axios: true});
-    axios.get('/router/actions/shareds', {
+    axios.get('/router/share/accumulated', {
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']
@@ -112,7 +180,9 @@ class Shared extends React.Component {
         axios: false,
         unitsList: resObj.main.unitsList,
         unitsBasic: resObj.main.unitsBasic,
-        marksBasic: resObj.main.marksBasic
+        marksBasic: resObj.main.marksBasic,
+        notifiedList: resObj.main.notifiedList,
+        notifiedStatus: resObj.main.notifiedStatus
       })
       //send the nouns used by all shareds to the redux reducer
       self.props._submit_NounsList_new(resObj.main.nounsListMix);
@@ -120,7 +190,7 @@ class Shared extends React.Component {
       if (axios.isCancel(thrown)) {
         cancelErr(thrown);
       } else {
-        this.setState((prevState, props)=>{
+        self.setState((prevState, props)=>{
           return {axios:false}
         }, ()=>{
           let message = uncertainErr(thrown);
@@ -150,7 +220,7 @@ class Shared extends React.Component {
           {this._render_Shareds()}
         </div>
         <div
-          style={Object.assign({}, {width: '35%',right: '-2%'}, commonStyle.titleReserved)}>
+          style={Object.assign({}, {width: '35%',right: '-2%'}, styleMiddle.titleReserved)}>
           <TitleShared
             {...this.props}
             _axios_nails_shareds={this._axios_nails_shareds}

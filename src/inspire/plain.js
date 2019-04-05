@@ -60,7 +60,7 @@ function _handle_inspire_plain_POST(req, res){
           id_user:userId,
           id_unit: mark.id_unit,
           id_reciever:mark.id_author,
-          type:'0_0', //first 0 for 'author of Unit/mark', and second for 'inspired'
+          type:10, //stand for 'inspired to author'
           status: 'untouched'
         })
       })

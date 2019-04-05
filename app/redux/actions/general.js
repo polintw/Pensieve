@@ -20,15 +20,13 @@ export function setUnitCurrent(obj) {
 export function setUnitInspired(markId, aim) {
   //this actoin creator, could do function return is because we use 'thunk' middleware when create store
   return (dispatch, getState) => {
-    const currInspired =  getState().unitCurrent.inspired;
-    let nextArr = currInspired.slice();// shallow copy
-    let inspiredIndex = nextArr.indexOf(markId);
-    if(-1 < inspiredIndex){
-      nextArr.splice(inspiredIndex, 1);
-    }else{
-      nextArr.push(markId);
-    };
-    dispatch({ type: SET_UNITINSPIRED, nextInpired: {inspired: nextArr}});
+    const currentMarksInteraction = getState().unitCurrent.marksInteraction;
+    const currentMark =  getState().unitCurrent.marksInteraction[markId];
+    let nextMark = Object.assign({}, currentMark); //shallow copy of the mark status
+    nextMark.inspired = true;
+    let nextMarksInteraction = Object.assign({}, currentMarksInteraction); //shallow copy for the whole marksInteraction
+    nextMarksInteraction[markId] = nextMark;
+    dispatch({ type: SET_UNITINSPIRED, nextMarksInteraction: {marksInteraction: nextMarksInteraction}});
   }
 };
 

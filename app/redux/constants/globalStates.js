@@ -19,7 +19,7 @@ export const unitCurrentInit = {
   beneathMarksList:[],
   beneathMarksData:{},
   nouns: null,
-  inspired: [],
+  marksInteraction: {},
   broad: false,
   refsArr: null,
   createdAt: null

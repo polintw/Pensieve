@@ -3,7 +3,7 @@ import {
   Link,
   withRouter
 } from 'react-router-dom';
-import NavWalls from './NavWalls.jsx';
+import NavWalls from './NavWalls/NavWalls.jsx';
 
 const commonStyle = {
   boxonDark: {
