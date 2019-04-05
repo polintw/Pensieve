@@ -1,30 +1,34 @@
 import React from 'react';
 import {connect} from "react-redux";
-import {UserPlate} from '../AccountPlate.jsx';
+import {NameMedium} from '../AccountPlate.jsx';
 import DateConverter from '../DateConverter.jsx';
 
 const styleMiddle = {
   boxNavButton:{
     display: 'inline-block',
-    width: '40%',
+    width: '33%',
     height: '100%',
     position: 'relative',
     boxSizing: 'border-box',
-    marginRight: "8%",
+    marginRight: "11%",
   },
-  boxStaticInfo: {
+  boxInfoRelative: {
     display: 'inline-block',
     height: '100%',
     position: 'relative',
     boxSizing:'border-box',
-    color: '#FAFAFA'
+  },
+  boxInfoAbsolute: {
+    display: 'inline-block',
+    position: 'absolute',
+    boxSizing:'border-box',
   },
   roundRecBox: {
     width: '100%',
     height: '100%',
     position: 'relative',
     boxSizing: 'border-box',
-    borderRadius: '1.6vh',
+    borderRadius: '2.6vh',
     backgroundColor: "#e6e6e6",
     cursor: 'pointer'
   },
@@ -55,12 +59,20 @@ class EditingPanel extends React.Component {
         color: '#FAFAFA'
       },
       Com_Modal_Editing_Panel_Destiny_: {
-        width: '36%',
+        width: '27%',
         height: '100%',
         position: 'absolute',
         top: '0%',
-        right: '11%',
+        right: '5%',
         boxSizing: 'border-box'
+      },
+      Com_Modal_Editing_Panel_Info_: {
+        height: '100%',
+        position: 'absolute',
+        top: '0%',
+        left: '13%',
+        boxSizing: 'border-box',
+        color: '#FAFAFA'
       }
     }
   }
@@ -99,15 +111,20 @@ class EditingPanel extends React.Component {
           </div>
         </div>
         <div
-          style={Object.assign({}, styleMiddle.boxStaticInfo, {marginLeft: '13%'})}>
-          <UserPlate
-            userInfo={this.props.userInfo}
-            _handleClick_Account={this.props._refer_toandclose}/>
-        </div>
-        <div
-          style={Object.assign({}, styleMiddle.boxStaticInfo, {marginLeft: '5%'})}>
-          <DateConverter
-            datetime={editDate}/>
+          style={this.style.Com_Modal_Editing_Panel_Info_}>
+          <div
+            style={Object.assign({}, styleMiddle.boxInfoRelative, {marginRight: '13%'})}>
+            <div>
+              <NameMedium/>
+            </div>
+          </div>
+          <div
+            style={Object.assign({}, styleMiddle.boxInfoAbsolute, {top:'0',right:'0'})}>
+            <div>
+              <DateConverter
+                datetime={editDate}/>
+            </div>
+          </div>
         </div>
       </div>
     )

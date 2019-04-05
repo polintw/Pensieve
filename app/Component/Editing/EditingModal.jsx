@@ -13,10 +13,10 @@ import MarksArticle from '../MarksArticle.jsx';
 
 const styleMiddle = {
   imgBLockDecoBack:{
-    width: '24%',
+    width: '21%',
     height: '100%',
     position: 'absolute',
-    left: '63%',
+    left: '65%',
     top: '0',
     boxSizing: 'border-box',
     backgroundColor: '#FAFAFA'
@@ -58,7 +58,7 @@ class EditingModal extends React.Component {
       },
       Com_Modal_Editing_imgBlocks_: {
         width: '27%',
-        height: '72%',
+        height: '78%',
         position: 'absolute',
         top: '0',
         right: '0',
@@ -67,9 +67,9 @@ class EditingModal extends React.Component {
       },
       Com_Modal_Editing_Panel_: {
         width: '100%',
-        height: '14%',
+        height: '6%',
         position: 'absolute',
-        top: '81%',
+        top: '88%',
         left:'0',
         boxSizing: 'border-box'
       },
@@ -81,8 +81,8 @@ class EditingModal extends React.Component {
         left: '5%'
       },
       Com_Modal_Editing_imgBlocks_block_: {
-        width: '82%',
-        height: '32%',
+        width: '80%',
+        height: '34%',
         position: 'absolute',
         left: '0',
         boxSizing: 'border-box'
@@ -186,7 +186,7 @@ class EditingModal extends React.Component {
           style={this.style.Com_Modal_Editing_imgBlocks_}>
           <div style={styleMiddle.imgBLockDecoBack}/>
           <div
-            style={Object.assign({top: '12%'}, this.style.Com_Modal_Editing_imgBlocks_block_)}>
+            style={Object.assign({top: '8%'}, this.style.Com_Modal_Editing_imgBlocks_block_)}>
             <ImgBlock
               blockName={'cover'}
               previewSrc={this.state.coverSrc}
