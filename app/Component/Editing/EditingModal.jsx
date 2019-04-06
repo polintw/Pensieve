@@ -74,11 +74,12 @@ class EditingModal extends React.Component {
         boxSizing: 'border-box'
       },
       Com_Modal_Editing_InfoSide: {
-        width: '85%',
-        height: '52%',
+        width: '28%',
+        height: '32%',
         position: 'absolute',
-        top: '10%',
-        left: '5%'
+        bottom: '22%',
+        left: '13%',
+        overflow: 'visible'
       },
       Com_Modal_Editing_imgBlocks_block_: {
         width: '80%',
@@ -89,12 +90,14 @@ class EditingModal extends React.Component {
       },
       Com_Modal_Editing_article_: {
         display: 'inline-block',
-        width: '56%',
-        height: '100%',
-        position: 'relative',
+        width: '48%',
+        height: '72%',
+        position: 'absolute',
+        top: '6%',
+        right: '4%',
         boxSizing: 'border-box',
         backgroundColor: 'transparent',
-        verticalAlign: 'top'
+        overflow: 'auto'
       },
     }
   }

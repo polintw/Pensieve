@@ -13,10 +13,9 @@ export default class NounsEditor extends React.Component {
     this.style={
       Com_Editing_NounsEditor__: {
         width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0%',
-        left: '0%'
+        minHeight: '100%',
+        position: 'relative',
+        boxSizing: 'border-box'
       },
       Com_Editing_NounsEditor_List: {
         width: '100%',
@@ -24,9 +23,11 @@ export default class NounsEditor extends React.Component {
         backgroundColor: 'rgba(180,180,180,0.6)'
       },
       Com_Editing_NounsEditor_SearchModule: {
-        width: '100%',
-        height: '5vh',
-        position: 'relative'
+        width: '80%',
+        height: '3rem',
+        position: 'absolute',
+        top: '0',
+        left: '0'
       }
     }
   }
