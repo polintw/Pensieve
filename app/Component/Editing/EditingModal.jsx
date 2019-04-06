@@ -5,21 +5,33 @@ import {
   Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import ImgBlock from './ImgBlock.jsx';
+import ImgImport from './ImgImport.jsx';
 import EditingPanel from './EditingPanel.jsx';
 import ContentModal from './ContentModal.jsx';
 import NounsEditor from './NounsEditor.jsx';
+import ImgPreview from '../ImgPreview.jsx';
 import MarksArticle from '../MarksArticle.jsx';
 
 const styleMiddle = {
   imgBLockDecoBack:{
-    width: '21%',
+    width: '18%',
     height: '100%',
     position: 'absolute',
-    left: '65%',
+    left: '0%',
     top: '0',
     boxSizing: 'border-box',
     backgroundColor: '#FAFAFA'
+  },
+  contentMarkInter: {
+    width: '90%',
+    height: '0',
+    position: 'relative',
+    marginLeft: '5%',
+    borderTop: 'solid 1px #ABABAB',
+    fontSize: '0.12rem',
+    letterSpacing: '0.08rem',
+    lineHeight: '1.7rem',
+    color: '#ABABAB'
   }
 }
 
@@ -39,10 +51,11 @@ class EditingModal extends React.Component {
     this._reset_modalState = () => {this.setState({contentInit: {focusBlock: null, markExpand: null}, contentModalify: false});};
     this._set_nouns = (nounSet) => {this.setState((prevState, props) => {return {nouns: nounSet}})};
     this._set_refsArr = ()=>{};
-    this._open_ContentModal = this._open_ContentModal.bind(this);
     this._set_newImgSrc = this._set_newImgSrc.bind(this);
-    this._close_Mark_Complete = this._close_Mark_Complete.bind(this);
+    this._open_ContentModal = this._open_ContentModal.bind(this);
     this._close_img_Cancell = this._close_img_Cancell.bind(this);
+    this._close_Mark_Complete = this._close_Mark_Complete.bind(this);
+    this._render_importOrPreview = this._render_importOrPreview.bind(this);
     this._handleClick_Editing_Cancell = this._handleClick_Editing_Cancell.bind(this);
     this._handleClick_Editing_Submit = this._handleClick_Editing_Submit.bind(this);
     this.style={
@@ -57,28 +70,28 @@ class EditingModal extends React.Component {
         backgroundColor: '#101010'
       },
       Com_Modal_Editing_imgBlocks_: {
-        width: '27%',
+        width: '25%',
         height: '78%',
         position: 'absolute',
         top: '0',
-        right: '0',
+        left: '35%',
         boxSizing: 'border-box',
         backgroundColor: 'transparent'
       },
       Com_Modal_Editing_Panel_: {
         width: '100%',
-        height: '6%',
+        height: '5%',
         position: 'absolute',
-        top: '88%',
+        top: '89%',
         left:'0',
         boxSizing: 'border-box'
       },
-      Com_Modal_Editing_InfoSide: {
-        width: '28%',
+      Com_Modal_Editing_Side_: {
+        width: '24%',
         height: '32%',
         position: 'absolute',
         bottom: '22%',
-        left: '13%',
+        left: '11%',
         overflow: 'visible'
       },
       Com_Modal_Editing_imgBlocks_block_: {
@@ -90,12 +103,13 @@ class EditingModal extends React.Component {
       },
       Com_Modal_Editing_article_: {
         display: 'inline-block',
-        width: '48%',
-        height: '72%',
+        width: '33%',
+        height: '73%',
         position: 'absolute',
-        top: '6%',
+        top: '5%',
         right: '4%',
         boxSizing: 'border-box',
+        borderRight: 'solid 2px', //then render in 'black' (initial one)
         backgroundColor: 'transparent',
         overflow: 'auto'
       },
@@ -159,13 +173,63 @@ class EditingModal extends React.Component {
     this.props._set_Submit(newObj);
   }
 
+  _render_importOrPreview(){
+    if(!this.state.coverSrc && !this.state.beneathSrc){
+      return(
+        <div
+          style={Object.assign({top: '8%'}, this.style.Com_Modal_Editing_imgBlocks_block_)}>
+          <ImgImport
+            blockName={'cover'}
+            _set_newImgSrc={this._set_newImgSrc}/>
+        </div>
+      )
+    }else if(this.state.coverSrc && !this.state.beneathSrc){
+      return(
+        <div>
+          <div
+            style={Object.assign({top: '8%'}, this.style.Com_Modal_Editing_imgBlocks_block_)}>
+            <ImgPreview
+              blockName={'cover'}
+              previewSrc={this.state.coverSrc}
+              _handleClick_ImgPreview_preview={this._open_ContentModal}/>
+          </div>
+          <div
+            style={Object.assign({top: '54%'}, this.style.Com_Modal_Editing_imgBlocks_block_)}>
+            <ImgImport
+              blockName={'beneath'}
+              _set_newImgSrc={this._set_newImgSrc}/>
+          </div>
+        </div>
+      )
+    }else{
+      return(
+        <div>
+          <div
+            style={Object.assign({top: '8%'}, this.style.Com_Modal_Editing_imgBlocks_block_)}>
+            <ImgPreview
+              blockName={'cover'}
+              previewSrc={this.state.coverSrc}
+              _handleClick_ImgPreview_preview={this._open_ContentModal}/>
+          </div>
+          <div
+            style={Object.assign({top: '54%'}, this.style.Com_Modal_Editing_imgBlocks_block_)}>
+            <ImgPreview
+              blockName={'beneath'}
+              previewSrc={this.state.beneathSrc}
+              _handleClick_ImgPreview_preview={this._open_ContentModal}/>
+          </div>
+        </div>
+      )
+    }
+  }
+
   render(){
     return(
       <div
         id={'editingModal'}
         style={this.style.Com_Modal_Editing_}>
         <div
-          style={this.style.Com_Modal_Editing_InfoSide}>
+          style={this.style.Com_Modal_Editing_Side_}>
           <NounsEditor
             nouns={this.state.nouns}
             _set_nouns={this._set_nouns}/>
@@ -177,8 +241,8 @@ class EditingModal extends React.Component {
             marksObj={this.state.coverMarks}
             _set_MarkInspect={this._open_ContentModal}/>
           <div
-            style={{width: '90%', height: '0', position: 'relative', marginLeft: '5%', borderTop: 'solid 1px #ABABAB', color: '#ABABAB'}}>
-            {!this.state.coverSrc && "請按左側 新增圖片"}
+            style={styleMiddle.contentMarkInter}>
+            {!this.state.coverSrc && "add a new picture to mark something!"}
           </div>
           <MarksArticle
             layer={'beneath'}
@@ -188,23 +252,7 @@ class EditingModal extends React.Component {
         <div
           style={this.style.Com_Modal_Editing_imgBlocks_}>
           <div style={styleMiddle.imgBLockDecoBack}/>
-          <div
-            style={Object.assign({top: '8%'}, this.style.Com_Modal_Editing_imgBlocks_block_)}>
-            <ImgBlock
-              blockName={'cover'}
-              previewSrc={this.state.coverSrc}
-              _set_newImgSrc={this._set_newImgSrc}
-              _open_ContentModal={this._open_ContentModal}/>
-          </div>
-          <div
-            style={Object.assign({top: '54%'}, this.style.Com_Modal_Editing_imgBlocks_block_)}>
-            <ImgBlock
-              blockName={'beneath'}
-              previewSrc={this.state.beneathSrc}
-              _set_newImgSrc={this._set_newImgSrc}
-              _open_ContentModal={this._open_ContentModal}/>
-            {!this.state.coverSrc && <div style={{width: '100%',height: '100%',position:'absolute'}}></div>}
-          </div>
+          {this._render_importOrPreview()}
         </div>
         <div
           style={this.style.Com_Modal_Editing_Panel_}>

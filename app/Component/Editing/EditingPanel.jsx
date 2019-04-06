@@ -3,24 +3,27 @@ import {connect} from "react-redux";
 import {NameMedium} from '../AccountPlate.jsx';
 import DateConverter from '../DateConverter.jsx';
 
+const generalStyle = { //could included in a global style sheet
+  absolute_FullVersion: {
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    top: '0',
+    left:'0',
+    boxSizing: 'border-box'
+  }
+}
+
 const styleMiddle = {
   boxNavButton:{
     display: 'inline-block',
-    width: '33%',
     height: '100%',
     position: 'relative',
     boxSizing: 'border-box',
-    marginRight: "11%",
   },
-  boxInfoRelative: {
+  boxInlineRelative: {
     display: 'inline-block',
-    height: '100%',
     position: 'relative',
-    boxSizing:'border-box',
-  },
-  boxInfoAbsolute: {
-    display: 'inline-block',
-    position: 'absolute',
     boxSizing:'border-box',
   },
   roundRecBox: {
@@ -28,15 +31,15 @@ const styleMiddle = {
     height: '100%',
     position: 'relative',
     boxSizing: 'border-box',
-    borderRadius: '2.6vh',
+    borderRadius: '2.4vh',
     backgroundColor: "#e6e6e6",
     cursor: 'pointer'
   },
   spanEditingDestiny: {
     width: '100%',
-    fontSize: '1.36rem',
+    fontSize: '1.3rem',
     fontWeight: '400',
-    letterSpacing: '0.15rem',
+    letterSpacing: '0.14rem',
     textAlign: 'center',
     color: 'black'
   }
@@ -50,29 +53,21 @@ class EditingPanel extends React.Component {
     };
     this.style={
       Com_EPanel_: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box',
-        color: '#FAFAFA'
+
       },
       Com_Modal_Editing_Panel_Destiny_: {
-        width: '27%',
+        width: '18%',
         height: '100%',
         position: 'absolute',
         top: '0%',
-        right: '5%',
+        right: '8%',
         boxSizing: 'border-box'
       },
       Com_Modal_Editing_Panel_Info_: {
-        height: '100%',
         position: 'absolute',
-        top: '0%',
-        left: '13%',
+        bottom: '0%',
+        left: '11%',
         boxSizing: 'border-box',
-        color: '#FAFAFA'
       }
     }
   }
@@ -82,23 +77,31 @@ class EditingPanel extends React.Component {
     let editDate = new Date();
     return(
       <div
-        style={this.style.Com_EPanel_}>
+        style={generalStyle.absolute_FullVersion}>
         <div
           style={this.style.Com_Modal_Editing_Panel_Destiny_}>
           <div
-            style={styleMiddle.boxNavButton}>
-            <div
-              style={styleMiddle.roundRecBox}
+            style={Object.assign({}, styleMiddle.boxNavButton, {width: '16%',marginRight: '20%',cursor: 'pointer'})}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 17.07 17.07"
+              className={'centerAlignChild'}
+              style={{
+                maxWidth: '100%',
+                maxHeight: '60%'
+              }}
               onClick={this.props._handleClick_Editing_Cancell}>
-              <span
-                className={'centerAlignChild'}
-                style={styleMiddle.spanEditingDestiny}>
-                {"Cancel"}
-              </span>
-            </div>
+              <defs><style>{".cls-1-UnitClose{opacity:0.57;}.cls-2-UnitClose{fill:none;stroke:#ededed;stroke-linecap:square;stroke-miterlimit:10;stroke-width:2px;}"}</style></defs>
+              <g id="圖層_2" data-name="圖層 2">
+                <g className="cls-1-UnitClose">
+                  <line className="cls-2-UnitClose" x1="1.41" y1="15.44" x2="15.44" y2="1.41"/>
+                  <line className="cls-2-UnitClose" x1="15.65" y1="15.65" x2="1.63" y2="1.63"/>
+                </g>
+              </g>
+            </svg>
           </div>
           <div
-            style={styleMiddle.boxNavButton}>
+            style={Object.assign({}, styleMiddle.boxNavButton, {width: '45%'})}>
             <div
               style={styleMiddle.roundRecBox}
               onClick={this.props._handleClick_Editing_Submit}>
@@ -113,17 +116,16 @@ class EditingPanel extends React.Component {
         <div
           style={this.style.Com_Modal_Editing_Panel_Info_}>
           <div
-            style={Object.assign({}, styleMiddle.boxInfoRelative, {marginRight: '13%'})}>
-            <div>
+            style={Object.assign({}, styleMiddle.boxInlineRelative, {color: '#FAFAFA'})}>
+            <div
+              style={{display: 'inline-block',paddingRight:'2vw'}}>
               <NameMedium/>
             </div>
           </div>
           <div
-            style={Object.assign({}, styleMiddle.boxInfoAbsolute, {top:'0',right:'0'})}>
-            <div>
-              <DateConverter
-                datetime={editDate}/>
-            </div>
+            style={Object.assign({}, styleMiddle.boxInlineRelative, {color: '#e6e6e6'})}>
+            <DateConverter
+              datetime={editDate}/>
           </div>
         </div>
       </div>

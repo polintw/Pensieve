@@ -5,7 +5,7 @@ import MarksViewer from './Mark/MarksViewer.jsx';
 
 const baseHorizonRatial = 40;
 
-const commonStyle = {
+const generalStyle = {
   absolute_FullVersion: {
     width: '100%',
     height: '100%',
@@ -69,7 +69,7 @@ class ImgLayer extends React.Component {
     return(
       <div
         ref={this.Com_ImgLayer_box}
-        style={commonStyle.absolute_FullVersion}>
+        style={generalStyle.absolute_FullVersion}>
         <img
           className={'boxImgPosition'}
           style={this.style.Com_ImgLayer_img}

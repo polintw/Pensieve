@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from "react-redux";
 import SvgCircle from '../../Svg/SvgCircle.jsx';
 
-const commonStyle = {
+const generalStyle = {
   absolute_FullVersion: {
     width: '100%',
     height: '100%',
@@ -57,7 +57,7 @@ class OpenedMark extends React.Component {
     return (
       <div>
         <div
-          style={commonStyle.absolute_FullVersion}
+          style={generalStyle.absolute_FullVersion}
           onClick={this.props._handleClick_ImgLayer_circle}/>
         <div
           className={'boxImgPosition'}
