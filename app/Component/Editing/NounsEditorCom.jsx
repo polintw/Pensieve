@@ -2,6 +2,25 @@ import React from 'react';
 import ModalBox from '../ModalBox.jsx';
 import {errHandler_axiosCatch} from '../../utils/errHandlers.js';
 
+const styleMiddle={
+  spanPlaceholder: {
+    fontSize: '1.2rem',
+    letterSpacing: '0.1rem',
+    fontWeight: '400',
+    color: '#ababab'
+  },
+  spanEditContent: {
+    fontSize: '1.36rem',
+    letterSpacing: '0.18rem',
+    fontWeight: '300',
+  },
+  spanSubmit: {
+    fontSize: '1.3rem',
+    fontWeight: '400',
+    letterSpacing: '0.14rem',
+  }
+}
+
 export class NounsList extends React.Component {
   constructor(props){
     super(props);
@@ -71,17 +90,15 @@ export class SearchModule extends React.Component {
       Com_NounsEditor_SearchModal_: {
         width: '100%',
         height: '100%',
-        position: 'absolute'
+        position: 'absolute',
+        paddingLeft: '1%'
       },
       Com_NounsEditor_SearchModal_anchor: {
-        width: "80%",
-        height: '80%',
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
+        width: "100%",
+        height: '100%',
+        position: 'relative',
         boxSizing: 'border-box',
-        backgroundColor: 'rgba(180,180,180,0.6)',
+        borderBottom: 'solid 0.2rem #e6e6e6',
         cursor: 'text'
       },
     }
@@ -110,9 +127,9 @@ export class SearchModule extends React.Component {
               _handleClick_SearchModal_switch={this._handleClick_SearchModal_switch}/>
           ):(
             <div
-              style={this.style.Com_NounsEditor_SearchModal_anchor}
+              style={Object.assign({}, this.style.Com_NounsEditor_SearchModal_anchor, styleMiddle.spanPlaceholder)}
               onClick={this._handleClick_SearchModal_switch}>
-              {"Find a place related......"}
+              {"Name it to a place......"}
             </div>
           )
         }
@@ -139,57 +156,64 @@ class NounsSearchModal extends React.Component {
     this.style={
       Com_NounsEditor_SearchModal_Modal_:{
         width: '100%',
-        minHeight: '200%',
+        minHeight: '212%',
         position: 'absolute',
         top: '0%',
         left: '0%',
         boxSizing: 'border-box',
         margin: '0',
-        padding: '2%',
+        padding: '2% 0 2% 4%',
         boxShadow: '0px 5px 1.8vh -0.5vh #010101',
-        backgroundColor: 'rgba(180,180,180,0.6)',
+        backgroundColor: '#474747',
         color: '#FAFAFA'
-      },
-      Com_NounsEditor_SearchModal_Modal_panel: {
-        width: '80%',
-        height: '4vh',
-        position: 'relative',
-        left: '50%',
-        transform: 'translate(-50%, 0)',
-        boxSizing: 'border-box'
       },
       Com_NounsEditor_SearchModal_Modal_panel_:{
         width: '100%',
-        height: '4vh',
+        height: '3.2rem',
         position: 'relative',
         left: '0%',
         boxSizing: 'border-box',
         padding: '1.2% 0'
       },
+      Com_NounsEditor_SearchModal_Modal_close_: {
+        width: '100%',
+        height: '2rem',
+        position: 'relative',
+        boxSizing: 'border-box',
+        padding: '0 10%',
+        margin: '1.6rem 0 0.5rem 0',
+        boxSizing: 'border-box',
+      },
       Com_NounsEditor_SearchModal_Modal_panel_input: {
-        width: '80%',
+        display: 'inline-block',
+        width: '92%',
         height: '90%',
         position: 'relative',
         boxSizing: 'border-box',
         border: 'none',
         borderBottom: '2px inset #FAFAFA',
         backgroundColor: 'transparent',
-        fontSize: '2.4vh',
-        color: '#FAFAFA'
+        color: '#FAFAFA',
       },
-      Com_InfoNoun_modal_ul_: {
-        width: '100%',
+      Com_NounsEditor_SearchModal_Modal_close_span: {
+        display: 'inline-block',
         position: 'relative',
         boxSizing: 'border-box',
-        margin: '1%, 0',
-        padding: '0 6%',
+        float: 'right',
+        cursor: 'pointer'
+      },
+      Com_InfoNoun_modal_ul_: {
+        width: '92%',
+        position: 'relative',
+        boxSizing: 'border-box',
+        margin: '4% 0',
+        padding: '0 0 0 3%',
         listStyle: 'none'
       },
       Com_InfoNoun_modal_ul_li: {
         position: 'relative',
         boxSizing: 'border-box',
         margin: '12px 0',
-        fontSize: '2.4vh',
         cursor: 'pointer'
       }
     }
@@ -246,7 +270,10 @@ class NounsSearchModal extends React.Component {
         options = [<span key='_key_nounOption_none'>{'......'}</span>]
       )
     }else{
-      options = [<span>{'perhaps a name of a city or district...'}</span>]
+      options = [(
+        <span
+          style={Object.assign({}, {}, styleMiddle.spanPlaceholder)}>{'perhaps a name of a city or district...'}</span>
+      )]
     }
     return options;
   }
@@ -296,18 +323,21 @@ class NounsSearchModal extends React.Component {
           <input
             ref={this.search}
             value={this.state.query}
-            style={this.style.Com_NounsEditor_SearchModal_Modal_panel_input}
+            style={Object.assign({}, this.style.Com_NounsEditor_SearchModal_Modal_panel_input, styleMiddle.spanEditContent)}
             onChange={this._handleChange_SearchInput} />
-          <div
-            style={{ display:'inline-block',cursor: 'pointer' }}
-            onClick={this.props._handleClick_SearchModal_switch}>
-            {"close"}
-          </div>
         </div>
         <ul
-          style={this.style.Com_InfoNoun_modal_ul_}>
+          style={Object.assign({}, this.style.Com_InfoNoun_modal_ul_, styleMiddle.spanEditContent)}>
           {options}
         </ul>
+        <div
+          style={this.style.Com_NounsEditor_SearchModal_Modal_close_}
+          onClick={this.props._handleClick_SearchModal_switch}>
+          <span
+            style={Object.assign({}, this.style.Com_NounsEditor_SearchModal_Modal_close_span, styleMiddle.spanSubmit)}>
+            {'close'}
+          </span>
+        </div>
       </div>
     )
   }

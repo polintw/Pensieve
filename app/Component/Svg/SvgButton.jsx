@@ -14,7 +14,6 @@ export default class SvgButton extends React.Component {
   render(){
     return(
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44"
-      viewBox="0 0 122 122"
       style={{
         maxWidth: '100%',
         maxHeight: '100%'

@@ -15,17 +15,18 @@ export default class ImgPreview extends React.Component {
         top: '0',
         left: '0',
         boxSizing: 'border-box',
-        padding: '1% 0'
+        boxShadow: '-0.1rem 0.1rem 0.4rem 0',
+        borderRadius: '0.5vw',
+        overflow: 'hidden'
       },
       Com_img_ImgPreview_ImgPreview: {
-        maxWidth: '100%',
-        maxHeight: '100%',
+        maxWidth: '120%',
+        maxHeight: '136%',
         position: 'relative',
         top: '50%',
         left: '50%',
         transform: 'translate(-50%,-50%)',
         boxSizing: 'border-box',
-        borderRadius: '0.5vw',
         cursor: 'pointer'
       }
     }

@@ -14,17 +14,17 @@ export default class NounsEditor extends React.Component {
       Com_Editing_NounsEditor__: {
         width: '100%',
         minHeight: '100%',
-        position: 'relative',
+        position: 'absolute',
+        bottom: '0',
         boxSizing: 'border-box'
       },
       Com_Editing_NounsEditor_List: {
         width: '100%',
         position: 'relative',
-        backgroundColor: 'rgba(180,180,180,0.6)'
       },
       Com_Editing_NounsEditor_SearchModule: {
-        width: '80%',
-        height: '3rem',
+        width: '92%',
+        height: '2rem',
         position: 'absolute',
         top: '0',
         left: '0'

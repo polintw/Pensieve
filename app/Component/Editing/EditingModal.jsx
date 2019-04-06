@@ -22,14 +22,28 @@ const styleMiddle = {
     boxSizing: 'border-box',
     backgroundColor: '#FAFAFA'
   },
+  imgBLockButton: {
+    width: '18%',
+    height: '11%',
+    position: 'absolute',
+    left: '46%',
+    boxSizing: 'border-box'
+  },
+  imgBLockPreview: {
+    width: '84%',
+    height: '39%',
+    position: 'absolute',
+    left: '12%',
+    boxSizing: 'border-box'
+  },
   contentMarkInter: {
     width: '90%',
     height: '0',
     position: 'relative',
     marginLeft: '5%',
     borderTop: 'solid 1px #ABABAB',
-    fontSize: '0.12rem',
-    letterSpacing: '0.08rem',
+    fontSize: '1.2rem',
+    letterSpacing: '0.1rem',
     lineHeight: '1.7rem',
     color: '#ABABAB'
   }
@@ -87,19 +101,12 @@ class EditingModal extends React.Component {
         boxSizing: 'border-box'
       },
       Com_Modal_Editing_Side_: {
-        width: '24%',
+        width: '23%',
         height: '32%',
         position: 'absolute',
         bottom: '22%',
         left: '11%',
         overflow: 'visible'
-      },
-      Com_Modal_Editing_imgBlocks_block_: {
-        width: '80%',
-        height: '34%',
-        position: 'absolute',
-        left: '0',
-        boxSizing: 'border-box'
       },
       Com_Modal_Editing_article_: {
         display: 'inline-block',
@@ -177,7 +184,7 @@ class EditingModal extends React.Component {
     if(!this.state.coverSrc && !this.state.beneathSrc){
       return(
         <div
-          style={Object.assign({top: '8%'}, this.style.Com_Modal_Editing_imgBlocks_block_)}>
+          style={Object.assign({top: '14%'}, styleMiddle.imgBLockButton)}>
           <ImgImport
             blockName={'cover'}
             _set_newImgSrc={this._set_newImgSrc}/>
@@ -187,14 +194,14 @@ class EditingModal extends React.Component {
       return(
         <div>
           <div
-            style={Object.assign({top: '8%'}, this.style.Com_Modal_Editing_imgBlocks_block_)}>
+            style={Object.assign({top: '7%'}, styleMiddle.imgBLockPreview)}>
             <ImgPreview
               blockName={'cover'}
               previewSrc={this.state.coverSrc}
               _handleClick_ImgPreview_preview={this._open_ContentModal}/>
           </div>
           <div
-            style={Object.assign({top: '54%'}, this.style.Com_Modal_Editing_imgBlocks_block_)}>
+            style={Object.assign({top: '70%'}, styleMiddle.imgBLockButton)}>
             <ImgImport
               blockName={'beneath'}
               _set_newImgSrc={this._set_newImgSrc}/>
@@ -205,14 +212,14 @@ class EditingModal extends React.Component {
       return(
         <div>
           <div
-            style={Object.assign({top: '8%'}, this.style.Com_Modal_Editing_imgBlocks_block_)}>
+            style={Object.assign({top: '8%'}, styleMiddle.imgBLockPreview)}>
             <ImgPreview
               blockName={'cover'}
               previewSrc={this.state.coverSrc}
               _handleClick_ImgPreview_preview={this._open_ContentModal}/>
           </div>
           <div
-            style={Object.assign({top: '54%'}, this.style.Com_Modal_Editing_imgBlocks_block_)}>
+            style={Object.assign({top: '54%'}, styleMiddle.imgBLockPreview)}>
             <ImgPreview
               blockName={'beneath'}
               previewSrc={this.state.beneathSrc}

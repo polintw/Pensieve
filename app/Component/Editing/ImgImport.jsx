@@ -20,12 +20,11 @@ export default class ImgImport extends React.Component {
         boxSizing: 'border-box'
       },
       Com_div_ImgImport_ImgEmpty_Choose: {
-        width: '96%',
-        height: '94%',
+        width: '100%',
+        height: '100%',
         position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)'
+        top: '0%',
+        left: '0%'
       },
       Com_ImgImport_MarksPreview_: {
         width: '36%',
