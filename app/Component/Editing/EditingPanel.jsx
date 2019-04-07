@@ -66,7 +66,7 @@ class EditingPanel extends React.Component {
       Com_Modal_Editing_Panel_Info_: {
         position: 'absolute',
         bottom: '0%',
-        left: '11%',
+        left: '10%',
         boxSizing: 'border-box',
       }
     }

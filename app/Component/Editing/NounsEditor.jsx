@@ -13,20 +13,24 @@ export default class NounsEditor extends React.Component {
     this.style={
       Com_Editing_NounsEditor__: {
         width: '100%',
-        minHeight: '100%',
+        height: '100%',
         position: 'absolute',
         bottom: '0',
         boxSizing: 'border-box'
       },
       Com_Editing_NounsEditor_List: {
         width: '100%',
-        position: 'relative',
+        maxHeight: '240%',
+        position: 'absolute',
+        bottom: '2.54rem',
+        left: '0',
+        overflow: 'auto'
       },
       Com_Editing_NounsEditor_SearchModule: {
-        width: '92%',
-        height: '2rem',
+        width: '100%',
+        height: '2.54rem',
         position: 'absolute',
-        top: '0',
+        bottom: '0',
         left: '0'
       }
     }

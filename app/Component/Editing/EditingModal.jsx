@@ -78,7 +78,7 @@ class EditingModal extends React.Component {
         height: '100%',
         position: 'absolute',
         top: '0',
-        left: '50%',
+        left: '51%',
         transform: 'translate(-50%, 0)',
         boxSizing: 'border-box',
         backgroundColor: '#101010'
@@ -88,7 +88,7 @@ class EditingModal extends React.Component {
         height: '78%',
         position: 'absolute',
         top: '0',
-        left: '35%',
+        left: '10%',
         boxSizing: 'border-box',
         backgroundColor: 'transparent'
       },
@@ -101,20 +101,20 @@ class EditingModal extends React.Component {
         boxSizing: 'border-box'
       },
       Com_Modal_Editing_Side_: {
-        width: '23%',
+        width: '22%',
         height: '32%',
         position: 'absolute',
         bottom: '22%',
-        left: '11%',
+        right: '5.5%',
         overflow: 'visible'
       },
       Com_Modal_Editing_article_: {
         display: 'inline-block',
-        width: '33%',
+        width: '32%',
         height: '73%',
         position: 'absolute',
         top: '5%',
-        right: '4%',
+        left: '37%',
         boxSizing: 'border-box',
         borderRight: 'solid 2px', //then render in 'black' (initial one)
         backgroundColor: 'transparent',
