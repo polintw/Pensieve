@@ -22,7 +22,7 @@ export default class NounsEditor extends React.Component {
         width: '100%',
         maxHeight: '240%',
         position: 'absolute',
-        bottom: '2.54rem',
+        bottom: '3rem',
         left: '0',
         overflow: 'auto'
       },
