@@ -3,6 +3,18 @@ import MarkEditingBlock from './MarkEditingBlock.jsx';
 import MarksSpotList from './MarksSpotList.jsx';
 import ModalBox from '../ModalBox.jsx';
 
+const styleMiddle = {
+  imgDecoBackContent:{
+    width: '4%',
+    height: '78%',
+    position: 'absolute',
+    left: '10%',
+    top: '0',
+    boxSizing: 'border-box',
+    backgroundColor: '#FAFAFA'
+  },
+}
+
 export default class ContentModal extends React.Component {
   constructor(props){
     super(props);
@@ -32,25 +44,23 @@ export default class ContentModal extends React.Component {
         height: "100%",
         position: "fixed",
         top: "0%",
-        left: '0'
+        left: '0',
+        backgroundColor: '#101010',
       },
       Com_Modal_ContentModal_Mark: {
-        width: '86%',
-        height: '100%',
+        width: '100%',
+        height: '96%',
         position: 'absolute',
         top: '0',
-        left: '50%',
-        transform: 'translate(-50%, 0)',
+        right: '0%',
         boxSizing: 'border-box',
-        backgroundColor: '#313130',
-        boxShadow: '0px 1.2vh 2.4vw 0vw'
       },
       Com_ContentModal_ImgSection_div: {
-        width: '85%',
-        height: '91%',
+        width: '86%',
+        height: '99%',
         position: 'absolute',
         top: '1%',
-        left: '0%',
+        right: '0%',
         boxSizing: 'border-box'
       },
       Com_ContentModal_ImgSection_div_img: {
@@ -72,7 +82,7 @@ export default class ContentModal extends React.Component {
       },
       Com_ContentModal_ControlSection_div: {
         width: '100%',
-        height: '8%',
+        height: '4%',
         position: 'absolute',
         bottom: '0',
         left: '0'
@@ -193,9 +203,10 @@ export default class ContentModal extends React.Component {
 
   render(){
     return(
-      <ModalBox containerId="root">
+      <ModalBox containerId="editingModal">
         <div
           style={this.style.Com_Modal_ContentModal}>
+          <div style={styleMiddle.imgDecoBackContent}/>
           <div
             style={this.style.Com_Modal_ContentModal_Mark}>
             <div
@@ -227,21 +238,21 @@ export default class ContentModal extends React.Component {
                   _reset_expandState={this._reset_expandState}/>
               }
             </div>
-            <div
-              style={this.style.Com_ContentModal_ControlSection_div}>
-              {
-                this.props.creating &&
-                <div
-                  style={this.style.Com_ContentModal_ControlSection_div_Cancel}
-                  onClick={this._handleClick_editingCancell}>
-                  {'刪除'}
-                </div>
-              }
+          </div>
+          <div
+            style={this.style.Com_ContentModal_ControlSection_div}>
+            {
+              this.props.creating &&
               <div
-                style={this.style.Com_ContentModal_ControlSection_div_Complete}
-                onClick={this._handleClick_editingComplete}>
-                {"完成"}
+                style={this.style.Com_ContentModal_ControlSection_div_Cancel}
+                onClick={this._handleClick_editingCancell}>
+                {'刪除'}
               </div>
+            }
+            <div
+              style={this.style.Com_ContentModal_ControlSection_div_Complete}
+              onClick={this._handleClick_editingComplete}>
+              {"完成"}
             </div>
           </div>
         </div>

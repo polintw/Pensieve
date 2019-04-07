@@ -250,12 +250,10 @@ class NounsSearchModal extends React.Component {
     }).then((res) => {
       self.setState({axios: false});
       let resObj = JSON.parse(res.data);
-      if(resObj.main.nounsList.length > 0){
-        this.setState({
-          optional: true,
-          options: resObj.main.nounsList
-        });
-      }
+      this.setState({
+        optional: resObj.main.nounsList.length > 0?true:false,
+        options: resObj.main.nounsList
+      });
     }).catch(function (thrown) {
       if (axios.isCancel(thrown)) {
         console.log('Request canceled: ', thrown.message);

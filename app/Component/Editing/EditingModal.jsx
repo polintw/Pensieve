@@ -81,7 +81,8 @@ class EditingModal extends React.Component {
         left: '51%',
         transform: 'translate(-50%, 0)',
         boxSizing: 'border-box',
-        backgroundColor: '#101010'
+        backgroundColor: '#101010',
+        boxShadow: '0px 0.2rem 0.3rem 0rem'
       },
       Com_Modal_Editing_imgBlocks_: {
         width: '25%',
