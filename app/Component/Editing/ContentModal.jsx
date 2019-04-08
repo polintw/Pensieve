@@ -1,4 +1,5 @@
 import React from 'react';
+import ImgLayerEditing from './ImgLayerEditing.jsx';
 import MarkEditingBlock from './MarkEditingBlock.jsx';
 import MarksSpotList from './MarksSpotList.jsx';
 import ModalBox from '../ModalBox.jsx';
@@ -13,6 +14,25 @@ const styleMiddle = {
     boxSizing: 'border-box',
     backgroundColor: '#FAFAFA'
   },
+  boxSubmitButton:{
+    width: '68%',
+    height: '31%',
+    position: 'absolute',
+    boxSizing: 'border-box',
+  },
+  roundRecBox: {
+    borderRadius: '2.4vh',
+    backgroundColor: "#e6e6e6",
+    cursor: 'pointer'
+  },
+  spanDestiny: {
+    width: '100%',
+    fontSize: '1.3rem',
+    fontWeight: '400',
+    letterSpacing: '0.1rem',
+    textAlign: 'center',
+    color: 'rgb(16, 16, 16)'
+  }
 }
 
 export default class ContentModal extends React.Component {
@@ -47,7 +67,7 @@ export default class ContentModal extends React.Component {
         left: '0',
         backgroundColor: '#101010',
       },
-      Com_Modal_ContentModal_Mark: {
+      Com_Modal_ContentModal_Mark: { //keep it & _imglayer is convenient for making img following the format of UnitImg
         width: '100%',
         height: '96%',
         position: 'absolute',
@@ -55,7 +75,7 @@ export default class ContentModal extends React.Component {
         right: '0%',
         boxSizing: 'border-box',
       },
-      Com_ContentModal_ImgSection_div: {
+      Com_Modal_ContentModal_Mark_imglayer: {
         width: '86%',
         height: '99%',
         position: 'absolute',
@@ -64,7 +84,7 @@ export default class ContentModal extends React.Component {
         boxSizing: 'border-box'
       },
       Com_ContentModal_ImgSection_div_img: {
-        maxWidth: '100%',
+        maxWidth: '99%',
         maxHeight: '100%',
         position: 'absolute',
         top: '50%',
@@ -81,41 +101,20 @@ export default class ContentModal extends React.Component {
         borderLeft: 'solid 2px #FAFAFA'
       },
       Com_ContentModal_ControlSection_div: {
-        width: '100%',
-        height: '4%',
+        width: '14%',
+        height: '15%',
         position: 'absolute',
-        bottom: '0',
-        left: '0'
+        bottom: '5%',
+        left: '0',
+        boxSizing: 'border-box'
       },
       Com_ContentModal_ControlSection_div_Cancel: {
-        width: '10%',
-        height: '72%',
-        position: 'absolute',
-        top: '50%',
+        bottom: '52%',
         right: '2%',
-        transform: 'translate(0, -50%)',
-        boxSizing: 'border-box',
-        border: '0.1vw solid #FAFAFA',
-        borderRadius: '10px',
-        fontSize: '3.2vh',
-        textAlign: 'center',
-        color: '#FAFAFA',
-        cursor: 'pointer'
       },
       Com_ContentModal_ControlSection_div_Complete: {
-        width: '10%',
-        height: '72%',
-        position: 'absolute',
-        top: '50%',
-        right: '15%',
-        transform: 'translate(0, -50%)',
-        boxSizing: 'border-box',
-        border: '0.1vw solid #FAFAFA',
-        borderRadius: '10px',
-        fontSize: '3.2vh',
-        textAlign: 'center',
-        color: '#FAFAFA',
-        cursor: 'pointer'
+        bottom: '0%',
+        right: '2%',
       }
     }
   }
@@ -210,33 +209,38 @@ export default class ContentModal extends React.Component {
           <div
             style={this.style.Com_Modal_ContentModal_Mark}>
             <div
-              ref={this.Com_ContentModal_ImgSection_div}
-              style={this.style.Com_ContentModal_ImgSection_div}>
-              <img
-                style={this.style.Com_ContentModal_ImgSection_div_img}
-                ref={this.Com_ContentModal_ImgSection_div_img}
-                src={this.props.imgSrc}
-                onLoad={this._handleLoaded_img_ContentModal}/>
-              <MarksSpotList
-                marksList={this.state.marksList}
-                markCircles={this.state.markCircles}
-                markExpand={this.state.markExpand}
-                frame={{width: this.state.imgWidth, height: this.state.imgHeight}}
-                _set_markExpand={this._set_markExpand}
-                _set_markNewSpot={this._set_markNewSpot}/>
-              {
-                this.state.markExpandify &&
-                <MarkEditingBlock
-                  markKey = {this.state.markExpand}
-                  coordinate={this.state.markCircles[this.state.markExpand]}
-                  editorState={this.state.markEditorContent[this.state.markExpand]}
-                  frameSpec={{width: this.state.frameWidth}}
-                  imgSpec= {{width: this.state.imgWidth, height: this.state.imgHeight}}
-                  _set_refsArr={this.props._set_refsArr}
-                  _set_markUpdate_editor={this._set_markUpdate_editor}
-                  _set_markDelete={this._set_markDelete}
-                  _reset_expandState={this._reset_expandState}/>
-              }
+              style={this.style.Com_Modal_ContentModal_Mark_imglayer}>
+              <ImgLayerEditing/>
+
+              <div
+                ref={this.Com_ContentModal_ImgSection_div}
+                style={this.style.Com_ContentModal_ImgSection_div}>
+                <img
+                  style={this.style.Com_ContentModal_ImgSection_div_img}
+                  ref={this.Com_ContentModal_ImgSection_div_img}
+                  src={this.props.imgSrc}
+                  onLoad={this._handleLoaded_img_ContentModal}/>
+                <MarksSpotList
+                  marksList={this.state.marksList}
+                  markCircles={this.state.markCircles}
+                  markExpand={this.state.markExpand}
+                  frame={{width: this.state.imgWidth, height: this.state.imgHeight}}
+                  _set_markExpand={this._set_markExpand}
+                  _set_markNewSpot={this._set_markNewSpot}/>
+                {
+                  this.state.markExpandify &&
+                  <MarkEditingBlock
+                    markKey = {this.state.markExpand}
+                    coordinate={this.state.markCircles[this.state.markExpand]}
+                    editorState={this.state.markEditorContent[this.state.markExpand]}
+                    frameSpec={{width: this.state.frameWidth}}
+                    imgSpec= {{width: this.state.imgWidth, height: this.state.imgHeight}}
+                    _set_refsArr={this.props._set_refsArr}
+                    _set_markUpdate_editor={this._set_markUpdate_editor}
+                    _set_markDelete={this._set_markDelete}
+                    _reset_expandState={this._reset_expandState}/>
+                }
+              </div>
             </div>
           </div>
           <div
@@ -244,15 +248,23 @@ export default class ContentModal extends React.Component {
             {
               this.props.creating &&
               <div
-                style={this.style.Com_ContentModal_ControlSection_div_Cancel}
+                style={
+                  Object.assign({}, this.style.Com_ContentModal_ControlSection_div_Cancel, styleMiddle.boxSubmitButton, styleMiddle.roundRecBox)}
                 onClick={this._handleClick_editingCancell}>
-                {'刪除'}
+                <span
+                  className={'centerAlignChild'}
+                  style={styleMiddle.spanDestiny}>
+                  {'cancel'}</span>
               </div>
             }
             <div
-              style={this.style.Com_ContentModal_ControlSection_div_Complete}
+              style={
+                Object.assign({}, this.style.Com_ContentModal_ControlSection_div_Complete, styleMiddle.boxSubmitButton, styleMiddle.roundRecBox, {backgroundColor:'#ff7a5f'})}
               onClick={this._handleClick_editingComplete}>
-              {"完成"}
+              <span
+                className={'centerAlignChild'}
+                style={styleMiddle.spanDestiny}>
+                {"complete"}</span>
             </div>
           </div>
         </div>

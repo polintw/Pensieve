@@ -15,7 +15,7 @@ const generalStyle = {
   }
 }
 
-class ImgLayer extends React.Component {
+class ImgLayerEditing extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -95,4 +95,4 @@ const mapStateToProps = (state) => {
 export default connect(
   mapStateToProps,
   null
-)(ImgLayer);
+)(ImgLayerEditing);
