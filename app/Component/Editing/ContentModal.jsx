@@ -2,6 +2,15 @@ import React from 'react';
 import ImgLayerEditing from './ImgLayerEditing.jsx';
 import ModalBox from '../ModalBox.jsx';
 
+const generalStyle={
+  submitInvalid: { //use a box to cover the valid submit button
+    backgroundColor: '#e6e6e6',
+    color: '#e6e6e6',
+    cursor: 'auto',
+    opacity: '0.6'
+  }
+}
+
 const styleMiddle = {
   imgDecoBackContent:{
     width: '4%',
@@ -17,6 +26,11 @@ const styleMiddle = {
     height: '31%',
     position: 'absolute',
     boxSizing: 'border-box',
+  },
+  boxSubmitInvalid: {
+    width: '100%',
+    height: '100%',
+    boxSizing: 'border-box'
   },
   roundRecBox: {
     borderRadius: '2.4vh',
@@ -119,7 +133,13 @@ export default class ContentModal extends React.Component {
       prevState.markCircles[currentNr] = portionCoordinate;
       prevState.markEditorContent[currentNr] = null;
       prevState.marksList.push(currentNr); // for unknown reason, we could only finish these steps outside the "return" obj
-      return {marksList: prevState.marksList, markCircles: prevState.markCircles, markEditorContent: prevState.markEditorContent, markExpand: (currentNr), markExpandify: true}
+      return ({
+        marksList: prevState.marksList,
+        markCircles: prevState.markCircles,
+        markEditorContent: prevState.markEditorContent,
+        markExpand: (currentNr),
+        markExpandify: true
+      })
     });
   }
 
@@ -138,6 +158,7 @@ export default class ContentModal extends React.Component {
   _handleClick_editingComplete(event){
     event.stopPropagation();
     event.preventDefault();
+    if(this.state.markExpandify) return;
     let marksData = {list:[], data:{}};
     this.state.marksList.forEach((markKey, index)=>{
       marksData["data"][markKey] = {
@@ -155,6 +176,7 @@ export default class ContentModal extends React.Component {
   _handleClick_editingCancell(event){
     event.stopPropagation();
     event.preventDefault();
+    if(this.state.markExpandify) return;
     this.props._close_img_Cancell();
   }
 
@@ -214,6 +236,7 @@ export default class ContentModal extends React.Component {
                   className={'centerAlignChild'}
                   style={styleMiddle.spanDestiny}>
                   {'cancel'}</span>
+                {this.state.markExpandify && <div style={Object.assign({}, styleMiddle.boxSubmitInvalid, styleMiddle.roundRecBox, generalStyle.submitInvalid)}/>}
               </div>
             }
             <div
@@ -224,6 +247,7 @@ export default class ContentModal extends React.Component {
                 className={'centerAlignChild'}
                 style={styleMiddle.spanDestiny}>
                 {"complete"}</span>
+              {this.state.markExpandify && <div style={Object.assign({}, styleMiddle.boxSubmitInvalid, styleMiddle.roundRecBox, generalStyle.submitInvalid)}/>}
             </div>
           </div>
         </div>

@@ -33,9 +33,10 @@ class ViewerBlock extends React.Component {
       Com_ViewerBlock_: {
         display: 'inline-block',
         maxWidth: '100%',
-        minWidth: '39%',
+        minWidth: '49%',
         height: '100%',
         position: 'relative',
+        padding: '3% 2% 2% 0',
         overflowY: 'visible'
       },
       Com_ViewerBlock_content_: {
@@ -46,7 +47,7 @@ class ViewerBlock extends React.Component {
         position: 'relative',
         boxSizing: 'border-box',
         margin: '0',
-        paddingBottom: '5%',
+        paddingBottom: '7%',
         fontSize: '1.36rem',
         letterSpacing: '0.18rem',
         lineHeight: '1.9rem',

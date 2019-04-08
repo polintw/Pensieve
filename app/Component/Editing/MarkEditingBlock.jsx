@@ -52,18 +52,20 @@ export default class MarkEditingBlock extends React.Component {
         width: '100%',
         height: '100%',
         position: 'relative',
+        boxSizing: 'border-box',
+        padding: '3% 2% 2% 0',
         overflowY: 'visible'
       },
       Com_MarkEditingBlock_Content_Main_div_edit_Editor: {
         display: 'inline-block',
         maxWidth: '100%',
-        minWidth: '39%',
+        minWidth: '49%',
         minHeight: '68%',
         maxHeight: '156%', //the target MaxHeight is 64%, limit by parent
         position: 'relative',
         boxSizing: 'border-box',
         margin: '0',
-        paddingBottom: '6%',
+        paddingBottom: '10%',
         fontSize: '1.36rem',
         letterSpacing: '0.18rem',
         lineHeight: '1.9rem',
@@ -77,7 +79,8 @@ export default class MarkEditingBlock extends React.Component {
         height: '16%',
         position: 'relative',
         boxSizing: 'border-box',
-        marginTop: '2%'
+        marginTop: '2%',
+        float: 'right'
       },
       Com_MarkEditingBlock_Content_Main_div: {
         width: '39%',
@@ -98,9 +101,10 @@ export default class MarkEditingBlock extends React.Component {
       },
       Com_MarkEditingBlock_Content_Main_div_edit_Panel_: {
         width: '100%',
-        height: '14%',
+        height: '15%',
         position: 'relative',
         boxSizing: 'border-box',
+        float: 'right'
       },
       Com_MarkEditingBlock_Content_Main_div_edit_Panel_ref: {
         float: 'right',
@@ -201,9 +205,11 @@ export default class MarkEditingBlock extends React.Component {
   render(){
     return(
       <div
-        style={Object.assign({}, this.style.Com_MarkEditingBlock_, {float: this.props.toCircleLeft? 'right':'left'})}>
+        style={this.style.Com_MarkEditingBlock_}>
         <div
-          style={this.style.Com_MarkEditingBlock_Content_Main_div_edit_Editor}
+          style={{width: '49%', height: '74%', position:'absolute', right: '0', top:'0',borderRight: 'solid 1px #ababab', borderTop: 'solid 1px #ababab'}}></div>
+        <div
+          style={Object.assign({}, this.style.Com_MarkEditingBlock_Content_Main_div_edit_Editor, {float: this.props.toCircleLeft? 'right':'left'})}
           onClick={this._handleClick_markComponentEditor}>
           <DraftEditor
             ref={this.contentEditor}
@@ -242,7 +248,7 @@ export default class MarkEditingBlock extends React.Component {
           <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
         </div>
         <div
-          style={{display: 'inline-block'}}>
+          style={{display: 'inline-block', float: 'right'}}>
           {"(多行參考資料連結)"}
         </div>
         {

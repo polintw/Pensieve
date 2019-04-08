@@ -15,8 +15,6 @@ export default class ImgPreview extends React.Component {
         top: '0',
         left: '0',
         boxSizing: 'border-box',
-        boxShadow: '-0.1rem 0.1rem 0.4rem 0',
-        borderRadius: '0.5vw',
         overflow: 'hidden'
       },
       Com_img_ImgPreview_ImgPreview: {

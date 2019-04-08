@@ -64,8 +64,7 @@ class ImgLayerEditing extends React.Component {
   _handleClick_ImgLayer_circle(event){
     event.preventDefault();
     event.stopPropagation();
-    let param = this.props.markOpened ? (false) : (event.currentTarget.getAttribute('id'));
-    this.props._set_Markvisible(param);
+    if(!this.props.markOpened) this.props._set_Markvisible(event.currentTarget.getAttribute('id'));
   }
 
   _render_MarksLayer(){
