@@ -39,7 +39,6 @@ export default class ContentModal extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      frameWidth: '',
       imgWidth: "",
       imgHeight: "",
       marksList: [],
@@ -48,14 +47,11 @@ export default class ContentModal extends React.Component {
       markExpand: null,
       markExpandify: false
     };
-    this.Com_ContentModal_ImgSection_div = React.createRef();
-    this.Com_ContentModal_ImgSection_div_img = React.createRef();
     this._reset_expandState = ()=>{this.setState({markExpand: null, markExpandify: false});};
     this._set_markExpand = this._set_markExpand.bind(this);
     this._set_markNewSpot = this._set_markNewSpot.bind(this);
     this._set_markDelete = this._set_markDelete.bind(this);
     this._set_markUpdate_editor = this._set_markUpdate_editor.bind(this);
-    this._handleLoaded_img_ContentModal = this._handleLoaded_img_ContentModal.bind(this);
     this._handleClick_editingComplete = this._handleClick_editingComplete.bind(this);
     this._handleClick_editingCancell =this._handleClick_editingCancell.bind(this);
     this.style={
@@ -82,14 +78,6 @@ export default class ContentModal extends React.Component {
         top: '1%',
         right: '0%',
         boxSizing: 'border-box'
-      },
-      Com_ContentModal_ImgSection_div_img: {
-        maxWidth: '99%',
-        maxHeight: '100%',
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%,-50%)',
       },
       Com_ContentModal_ListSection_div: {
         width: '14%',
@@ -172,14 +160,6 @@ export default class ContentModal extends React.Component {
     this.props._close_img_Cancell();
   }
 
-  _handleLoaded_img_ContentModal(event){
-    this.setState({
-      frameWidth: this.Com_ContentModal_ImgSection_div.current.clientWidth,
-      imgWidth: this.Com_ContentModal_ImgSection_div_img.current.clientWidth,
-      imgHeight: this.Com_ContentModal_ImgSection_div_img.current.clientHeight
-    });
-  }
-
   componentDidMount(){
     const self = this;
     let circles = {},
@@ -210,36 +190,18 @@ export default class ContentModal extends React.Component {
             style={this.style.Com_Modal_ContentModal_Mark}>
             <div
               style={this.style.Com_Modal_ContentModal_Mark_imglayer}>
-              <ImgLayerEditing/>
-
-              <div
-                ref={this.Com_ContentModal_ImgSection_div}
-                style={this.style.Com_ContentModal_ImgSection_div}>
-                <img
-                  style={this.style.Com_ContentModal_ImgSection_div_img}
-                  ref={this.Com_ContentModal_ImgSection_div_img}
-                  src={this.props.imgSrc}
-                  onLoad={this._handleLoaded_img_ContentModal}/>
-                <MarksSpotList
-                  marksList={this.state.marksList}
-                  markCircles={this.state.markCircles}
-                  markExpand={this.state.markExpand}
-                  frame={{width: this.state.imgWidth, height: this.state.imgHeight}}
-                  _set_markExpand={this._set_markExpand}
-                  _set_markNewSpot={this._set_markNewSpot}/>
-                {
-                  this.state.markExpandify &&
-                  <MarkEditingBlock
-                    markKey = {this.state.markExpand}
-                    coordinate={this.state.markCircles[this.state.markExpand]}
-                    editorState={this.state.markEditorContent[this.state.markExpand]}
-                    frameSpec={{width: this.state.frameWidth}}
-                    imgSpec= {{width: this.state.imgWidth, height: this.state.imgHeight}}
-                    _set_refsArr={this.props._set_refsArr}
-                    _set_markUpdate_editor={this._set_markUpdate_editor}
-                    _set_markDelete={this._set_markDelete}
-                    _reset_expandState={this._reset_expandState}/>
-                }
+              <ImgLayerEditing
+                imgSrc={this.props.unitCurrent[this.props.layer?'beneathSrc':'coverSrc']}
+                currentMark={this.state.markExpand}
+                markOpened={this.state.markExpandify}
+                marksList={this.state.marksList}
+                markCircles={this.state.markCircles}
+                markEditorContent={this.state.markEditorContent}
+                _set_Markvisible={this._set_markExpand}
+                _set_markNewSpot={this._set_markNewSpot}
+                _set_markUpdate_editor={this._set_markUpdate_editor}
+                _set_markDelete={this._set_markDelete}
+                _reset_expandState={this._reset_expandState}/>
               </div>
             </div>
           </div>

@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from "react-redux";
-import OpenedMark from './OpenedMark.jsx';
 import ViewerBlock from './ViewerBlock.jsx';
 import SvgCircle from '../../Svg/SvgCircle.jsx';
 import SvgCircleSpot from '../../Svg/SvgCircleSpot.jsx';
+import {widthDivisionRatial} from '../../config/styleParams.js'; //dividing markglayer width, used for determineing the position
+import OpenedMark from '../../../OpenedMark.jsx';
 
-const widthDivisionRatial = 20; //dividing markglayer width, used for determineing the position
 const generalStyle = { //could included in a global style sheet
   absolute_FullVersion: {
     width: '100%',

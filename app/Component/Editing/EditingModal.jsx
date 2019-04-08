@@ -275,7 +275,6 @@ class EditingModal extends React.Component {
           <ContentModal
             creating={this.props.unitSet?false:true}
             layer={this.state.contentInit.focusBlock=='cover'?0:1}
-            imgSrc={this.state.contentInit.focusBlock=='cover'?this.state.coverSrc:this.state.beneathSrc}
             marks={this.state.contentInit.focusBlock=='cover'?this.state.coverMarks:this.state.beneathMarks}
             markExpand={this.state.contentInit.markExpand}
             _set_refsArr={this.props._set_refsArr}

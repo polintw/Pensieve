@@ -8,6 +8,16 @@ import RefEditing from './RefEditing.jsx';
 import DraftEditor from '../Draft/DraftEditor.jsx';
 import ModalBox from '../ModalBox.jsx';
 
+const styleMiddle = {
+  spanInteractions: {
+    fontSize: '1.4rem',
+    letterSpacing: '0.12rem',
+    lineHeight: '1.9rem',
+    fontWeight: '400',
+    color: '#f7f4bc'
+  }
+}
+
 export default class MarkEditingBlock extends React.Component {
   constructor(props){
     super(props);
@@ -22,19 +32,30 @@ export default class MarkEditingBlock extends React.Component {
     this._handleClick_markContent_Ref = this._handleClick_markContent_Ref.bind(this);
     this._handleClick_markComponentEditor = this._handleClick_markComponentEditor.bind(this);
     this.style={
-      Com_MarkEditingBlock_frame_: {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%,-50%)'
+      Com_AuthorBlock_: {
+        display: 'inline-block',
+        maxWidth: '100%',
+        minWidth: '39%',
+        height: '100%',
+        position: 'relative',
+        overflowY: 'visible'
       },
-      Com_MarkEditingBlock_frame_svg: {
-        width: '3vw',
-        height: '3vw',
-        position: 'absolute',
-        transform: 'translate(-50%, -50%)',
-        overflow: 'visible',
-        cursor: 'pointer'
+      Com_MarkEditingBlock_Content_Main_div_edit_Editor: {
+        display: 'inline-block',
+        maxWidth: '100%',
+        minHeight: '68%',
+        maxHeight: '156%', //the target MaxHeight is 64%, limit by parent
+        position: 'relative',
+        boxSizing: 'border-box',
+        margin: '0',
+        paddingBottom: '5%',
+        fontSize: '1.36rem',
+        letterSpacing: '0.18rem',
+        lineHeight: '1.9rem',
+        fontWeight: '300',
+        color: '#FAFAFA',
+        overflow: 'auto',
+        cursor: 'text'
       },
       Com_MarkEditingBlock_Body_: {
         width: '42%',
@@ -48,9 +69,10 @@ export default class MarkEditingBlock extends React.Component {
       },
       Com_MarkEditingBlock_Body_credits: {
         width: '100%',
-        maxHeight: '8vh',
+        height: '16%',
         position: 'relative',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        marginTop: '2%'
       },
       Com_MarkEditingBlock_Content_Main_div: {
         width: '39%',
@@ -69,23 +91,9 @@ export default class MarkEditingBlock extends React.Component {
         boxSizing: 'border-box',
         borderLeft: "1px solid white"
       },
-      Com_MarkEditingBlock_Content_Main_div_edit_Editor: {
-        width: '100%',
-        minHeight: '22vh',
-        maxHeight: '60vh',
-        position: 'relative',
-        boxSizing: 'border-box',
-        margin: '0',
-        fontSize: '1.2rem',
-        letterSpacing: '0.15rem',
-        fontWeight: '400',
-        color: '#FAFAFA',
-        overflow: 'auto',
-        cursor: 'text'
-      },
       Com_MarkEditingBlock_Content_Main_div_edit_Panel_: {
         width: '100%',
-        height: '5vh',
+        height: '14%',
         position: 'relative',
         boxSizing: 'border-box',
         color: '#FAFAFA'
@@ -93,24 +101,6 @@ export default class MarkEditingBlock extends React.Component {
       Com_MarkEditingBlock_Content_Main_div_edit_Panel_ref: {
         float: 'right',
         fontSize: '2.8vh',
-        cursor: 'pointer'
-      },
-      Com_MarkEditingBlock_Content_Main_div_blockPanel_: {
-        width: '90%',
-        height: '10%',
-        position: 'absolute',
-        top: '90%',
-        left: '50%',
-        transform: 'translate(-50%, 0)',
-        color: '#FAFAFA'
-      },
-      Com_MarkEditingBlock_Content_Main_div_blockPanel_span: {
-        display: 'inline-block',
-        boxSizing: 'border-box',
-        margin: '0 0 0 5%',
-        float: 'right',
-        fontSize: '2.8vh',
-        letterSpacing: '0.1vh',
         cursor: 'pointer'
       },
       component_refEditing: {
@@ -207,71 +197,52 @@ export default class MarkEditingBlock extends React.Component {
   }
 
   render(){
-    let [left, top, right] = [null,null,null],
-    spotLeft = this.props.coordinate.left,
-    spotTop = this.props.coordinate.top;
-    //then count the desired position of the markblock
-    let axisPx = ((spotLeft/100)*this.props.imgSpec.width)-(this.props.imgSpec.width/2);
-    spotLeft>50 ? right = (this.props.frameSpec.width/2)-axisPx+15 : left = (this.props.frameSpec.width/2)+axisPx+15;
-    top = (22 + (spotTop) * (34) / (100)) + '%';
-
     return(
-      <div>
+      <div
+        style={Object.assign({}, this.style.Com_AuthorBlock_, {float: this.props.toCircleLeft? 'right':'left'})}>
         <div
-          style={Object.assign({width: this.props.imgSpec.width,height: this.props.imgSpec.height}, this.style.Com_MarkEditingBlock_frame_)}
-          onClick={(event)=>{event.stopPropagation();event.preventDefault();}}>
-          <svg
-            style={Object.assign({top: spotTop+"%", left: spotLeft+'%'}, this.style.Com_MarkEditingBlock_frame_svg)}>
-            <circle r="20" cx="50%" cy="50%" stroke='white' fill="none"/>
-          </svg>
+          style={this.style.Com_MarkEditingBlock_Content_Main_div_edit_Editor}
+          onClick={this._handleClick_markComponentEditor}>
+          <DraftEditor
+            ref={this.contentEditor}
+            editorState={this.props.editorState}
+            _on_EditorChange={this._set_EditorUpdate}/>
         </div>
         <div
-          style={Object.assign({top: top, left: left, right: right},this.style.Com_MarkEditingBlock_Body_)}>
+          style={this.style.Com_MarkEditingBlock_Content_Main_div_edit_Panel_}>
           <div
-            style={this.style.Com_MarkEditingBlock_Content_Main_div_edit_Editor}
-            onClick={this._handleClick_markComponentEditor}>
-            <DraftEditor
-              ref={this.contentEditor}
-              editorState={this.props.editorState}
-              _on_EditorChange={this._set_EditorUpdate}/>
+            style={this.style.Com_MarkEditingBlock_Content_Main_div_edit_Panel_ref}
+            onClick={this._handleClick_markContent_Ref}>
+            {"[ ]"}
           </div>
-          <div
-            style={this.style.Com_MarkEditingBlock_Content_Main_div_edit_Panel_}>
-            <div
-              style={this.style.Com_MarkEditingBlock_Content_Main_div_edit_Panel_ref}
-              onClick={this._handleClick_markContent_Ref}>
-              {"[ ]"}
-            </div>
-          </div>
-          <div
-            style={this.style.Com_MarkEditingBlock_Body_credits}>
-
-          </div>
-          <div>
-            {"多行參考資料連結"}
-          </div>
-          <div
-            style={this.style.Com_MarkEditingBlock_Content_Main_div_blockPanel_}>
-            <span
-              style={this.style.Com_MarkEditingBlock_Content_Main_div_blockPanel_span}
-              onClick={this._handleClick_blockPanel_complete}>
-              {'Complete'}
-            </span>
-            <span
-              style={this.style.Com_MarkEditingBlock_Content_Main_div_blockPanel_span}
-              onClick={this._handleClick_blockPanel_delete}>
-              {'Delete'}
-            </span>
-          </div>
-          {
-            this.state.refQuote &&
-            <ModalBox containerId={"mark_"+this.props.markKey}>
-              <RefEditing
-                componentStyleGroup={this.style.component_refEditing}
-                _set_refArr_new={this._set_refArr_new}/>
-            </ModalBox>
-          }
+          <span
+            style={styleMiddle.spanInteractions}
+            onClick={this._handleClick_blockPanel_complete}>
+            {'Complete'}
+          </span>
+          <span
+            style={styleMiddle.spanInteractions}
+            onClick={this._handleClick_blockPanel_delete}>
+            {'Delete'}
+          </span>
         </div>
+        <div
+          style={this.style.Com_AuthorBlock_credits_}>
+          <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
+          <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
+        </div>
+        <div
+          style={{display: 'inline-block'}}>
+          {"(多行參考資料連結)"}
+        </div>
+        {
+          this.state.refQuote &&
+          <ModalBox containerId={"mark_"+this.props.markKey}>
+            <RefEditing
+              componentStyleGroup={this.style.component_refEditing}
+              _set_refArr_new={this._set_refArr_new}/>
+          </ModalBox>
+        }
       </div>
     )
   }
