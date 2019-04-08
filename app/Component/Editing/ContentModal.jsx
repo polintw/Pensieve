@@ -1,7 +1,5 @@
 import React from 'react';
 import ImgLayerEditing from './ImgLayerEditing.jsx';
-import MarkEditingBlock from './MarkEditingBlock.jsx';
-import MarksSpotList from './MarksSpotList.jsx';
 import ModalBox from '../ModalBox.jsx';
 
 const styleMiddle = {
@@ -191,7 +189,7 @@ export default class ContentModal extends React.Component {
             <div
               style={this.style.Com_Modal_ContentModal_Mark_imglayer}>
               <ImgLayerEditing
-                imgSrc={this.props.unitCurrent[this.props.layer?'beneathSrc':'coverSrc']}
+                imgSrc={this.props.imgSrc}
                 currentMark={this.state.markExpand}
                 markOpened={this.state.markExpandify}
                 marksList={this.state.marksList}
@@ -202,7 +200,6 @@ export default class ContentModal extends React.Component {
                 _set_markUpdate_editor={this._set_markUpdate_editor}
                 _set_markDelete={this._set_markDelete}
                 _reset_expandState={this._reset_expandState}/>
-              </div>
             </div>
           </div>
           <div

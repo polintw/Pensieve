@@ -6,15 +6,30 @@ import {
 } from 'draft-js';
 import RefEditing from './RefEditing.jsx';
 import DraftEditor from '../Draft/DraftEditor.jsx';
+import SvgPropic from '../Svg/SvgPropic.jsx';
 import ModalBox from '../ModalBox.jsx';
 
 const styleMiddle = {
+  boxSubmitButton:{
+    display: 'inline-block',
+    width: '24%',
+    height: '100%',
+    position: 'relative',
+    boxSizing: 'border-box',
+    float: 'right',
+    margin: '0 2%'
+  },
+  roundRecBox: {
+    borderRadius: '2.4vh',
+    backgroundColor: "#e6e6e6",
+    cursor: 'pointer'
+  },
   spanInteractions: {
-    fontSize: '1.4rem',
-    letterSpacing: '0.12rem',
-    lineHeight: '1.9rem',
+    fontSize: '1.32rem',
     fontWeight: '400',
-    color: '#f7f4bc'
+    letterSpacing: '0.12rem',
+    textAlign: 'center',
+    color: 'rgb(16, 16, 16)'
   }
 }
 
@@ -25,17 +40,16 @@ export default class MarkEditingBlock extends React.Component {
       refQuote: false
     }
     this.contentEditor = React.createRef();
-    this._set_EditorUpdate = this._set_EditorUpdate.bind(this);
     this._set_refArr_new = this._set_refArr_new.bind(this);
-    this._handleClick_blockPanel_complete = this._handleClick_blockPanel_complete.bind(this);
-    this._handleClick_blockPanel_delete = this._handleClick_blockPanel_delete.bind(this);
+    this._set_EditorUpdate = this._set_EditorUpdate.bind(this);
     this._handleClick_markContent_Ref = this._handleClick_markContent_Ref.bind(this);
+    this._handleClick_blockPanel_delete = this._handleClick_blockPanel_delete.bind(this);
+    this._handleClick_blockPanel_complete = this._handleClick_blockPanel_complete.bind(this);
     this._handleClick_markComponentEditor = this._handleClick_markComponentEditor.bind(this);
     this.style={
-      Com_AuthorBlock_: {
+      Com_MarkEditingBlock_: {
         display: 'inline-block',
-        maxWidth: '100%',
-        minWidth: '39%',
+        width: '100%',
         height: '100%',
         position: 'relative',
         overflowY: 'visible'
@@ -43,12 +57,13 @@ export default class MarkEditingBlock extends React.Component {
       Com_MarkEditingBlock_Content_Main_div_edit_Editor: {
         display: 'inline-block',
         maxWidth: '100%',
+        minWidth: '39%',
         minHeight: '68%',
         maxHeight: '156%', //the target MaxHeight is 64%, limit by parent
         position: 'relative',
         boxSizing: 'border-box',
         margin: '0',
-        paddingBottom: '5%',
+        paddingBottom: '6%',
         fontSize: '1.36rem',
         letterSpacing: '0.18rem',
         lineHeight: '1.9rem',
@@ -57,17 +72,7 @@ export default class MarkEditingBlock extends React.Component {
         overflow: 'auto',
         cursor: 'text'
       },
-      Com_MarkEditingBlock_Body_: {
-        width: '42%',
-        minHeight: '44vh',
-        maxHeight: '88%',
-        position: 'absolute',
-        transform: 'translate(0,-50%)',
-        boxSizing: 'border-box',
-        backgroundColor: 'rgba(25,25,25,0.6)',
-        boxShadow: '0 0 4vw rgba(25,25,25,0.6)'
-      },
-      Com_MarkEditingBlock_Body_credits: {
+      Com_MarkEditingBlock_credits_: {
         width: '100%',
         height: '16%',
         position: 'relative',
@@ -96,7 +101,6 @@ export default class MarkEditingBlock extends React.Component {
         height: '14%',
         position: 'relative',
         boxSizing: 'border-box',
-        color: '#FAFAFA'
       },
       Com_MarkEditingBlock_Content_Main_div_edit_Panel_ref: {
         float: 'right',
@@ -108,8 +112,6 @@ export default class MarkEditingBlock extends React.Component {
           width: "22%",
           height: '45%',
           position: 'absolute',
-          top: this.props.coordinate.top-23+"%",
-          left: this.props.coordinate.left+28+'%',
           boxSizing: 'border-box',
           backgroundColor: 'rgba(25,25,25,0.6)',
           borderRadius: '2.5vw'
@@ -199,7 +201,7 @@ export default class MarkEditingBlock extends React.Component {
   render(){
     return(
       <div
-        style={Object.assign({}, this.style.Com_AuthorBlock_, {float: this.props.toCircleLeft? 'right':'left'})}>
+        style={Object.assign({}, this.style.Com_MarkEditingBlock_, {float: this.props.toCircleLeft? 'right':'left'})}>
         <div
           style={this.style.Com_MarkEditingBlock_Content_Main_div_edit_Editor}
           onClick={this._handleClick_markComponentEditor}>
@@ -211,23 +213,31 @@ export default class MarkEditingBlock extends React.Component {
         <div
           style={this.style.Com_MarkEditingBlock_Content_Main_div_edit_Panel_}>
           <div
+            style={Object.assign({}, styleMiddle.boxSubmitButton, styleMiddle.roundRecBox, {backgroundColor:'#ff7a5f'})}>
+            <span
+              className={'centerAlignChild'}
+              style={styleMiddle.spanInteractions}
+              onClick={this._handleClick_blockPanel_complete}>
+              {'save'}
+            </span>
+          </div>
+          <div
+            style={Object.assign({}, styleMiddle.boxSubmitButton, styleMiddle.roundRecBox)}>
+            <span
+              className={'centerAlignChild'}
+              style={styleMiddle.spanInteractions}
+              onClick={this._handleClick_blockPanel_delete}>
+              {'delete'}
+            </span>
+          </div>
+          <div
             style={this.style.Com_MarkEditingBlock_Content_Main_div_edit_Panel_ref}
             onClick={this._handleClick_markContent_Ref}>
             {"[ ]"}
           </div>
-          <span
-            style={styleMiddle.spanInteractions}
-            onClick={this._handleClick_blockPanel_complete}>
-            {'Complete'}
-          </span>
-          <span
-            style={styleMiddle.spanInteractions}
-            onClick={this._handleClick_blockPanel_delete}>
-            {'Delete'}
-          </span>
         </div>
         <div
-          style={this.style.Com_AuthorBlock_credits_}>
+          style={this.style.Com_MarkEditingBlock_credits_}>
           <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
           <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
         </div>

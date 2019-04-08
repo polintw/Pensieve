@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from "react-redux";
-import MarksAuthor from './Mark/MarksAuthor.jsx';
-import MarksViewer from './Mark/MarksViewer.jsx';
-import SvgCircle from '../../Svg/SvgCircle.jsx';
-import OpenedMark from '../../OpenedMark.jsx';
+import MarkEditingBlock from './MarkEditingBlock.jsx';
+import SvgCircle from '../Svg/SvgCircle.jsx';
+import OpenedMark from '../OpenedMark.jsx';
 import {
   baseHorizonRatial,
   widthDivisionRatial
@@ -28,7 +27,7 @@ class ImgLayerEditing extends React.Component {
     };
     this.Com_ImgLayer_box = React.createRef();
     this.Com_ImgLayer_img = React.createRef();
-    this.Com_MarksSpotList_div = React.createRef();
+    this.Com_MarksSpotLayer_div = React.createRef();
     this._set_imgSize = ()=>{this.setState({imgWidthHeight:true})};
     this._render_MarksLayer = this._render_MarksLayer.bind(this);
     this._handleClick_SpotsLayer = this._handleClick_SpotsLayer.bind(this);
@@ -49,10 +48,10 @@ class ImgLayerEditing extends React.Component {
     let originalCoordinate = {
       clickX : event.clientX,
       clickY : event.clientY,
-      holdingLeft: this.Com_MarksSpotList_div.current.getBoundingClientRect().left,
-      holdingTop: this.Com_MarksSpotList_div.current.getBoundingClientRect().top,
-      holdingWidth: this.Com_MarksSpotList_div.current.clientWidth,
-      holdingHeight: this.Com_MarksSpotList_div.current.clientHeight
+      holdingLeft: this.Com_MarksSpotLayer_div.current.getBoundingClientRect().left,
+      holdingTop: this.Com_MarksSpotLayer_div.current.getBoundingClientRect().top,
+      holdingWidth: this.Com_MarksSpotLayer_div.current.clientWidth,
+      holdingHeight: this.Com_MarksSpotLayer_div.current.clientHeight
     };
 
     let portionCoordinate = {
@@ -106,7 +105,7 @@ class ImgLayerEditing extends React.Component {
           </OpenedMark>
         );
       }else{
-        const self = this,
+        const self = this;
         let circlesArr = self.props.marksList.map(function(id, index){
           const coordinate = self.props.markCircles[id];
           return (
@@ -122,13 +121,14 @@ class ImgLayerEditing extends React.Component {
         });
         return (
           <div
-            ref={this.Com_MarksSpotList_div}
+            ref={this.Com_MarksSpotLayer_div}
             className={'boxImgPosition'}
             style={{
-              width: imgWidth,
-              height: imgHeight,
-              right: this.props.baseHorizonRatial+'%',
-              transform: 'translate('+this.props.baseHorizonRatial+'%,-50%)'}}
+              width: imgWidthHeight.width,
+              height: imgWidthHeight.height,
+              right: baseHorizonRatial+'%',
+              transform: 'translate('+baseHorizonRatial+'%,-50%)',
+              cursor: 'crosshair'}}
               onClick={this._handleClick_SpotsLayer}>
               {circlesArr}
           </div>
