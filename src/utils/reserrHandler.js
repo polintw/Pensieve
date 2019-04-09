@@ -111,6 +111,13 @@ function _handle_ErrCatched(e, req, res){
   });
 
   switch (e.code) {
+    case 3:
+      //400, validation, nouns search format invalid
+      clientSet['code'] = 3;
+      clientSet['message'] = e.message;
+      clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
     case 32:
       //401, token invalid, authorized failed
       clientSet['code'] = 32;

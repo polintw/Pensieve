@@ -15,16 +15,10 @@ export default class ImgPreview extends React.Component {
         top: '0',
         left: '0',
         boxSizing: 'border-box',
-        overflow: 'hidden'
-      },
-      Com_img_ImgPreview_ImgPreview: {
-        maxWidth: '120%',
-        maxHeight: '136%',
-        position: 'relative',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%,-50%)',
-        boxSizing: 'border-box',
+        backgroundSize: 'cover',
+        boxShadow: '-0.1rem 0.1rem 0.4rem 0',
+        borderRadius: '0.5vw',
+        overflow: 'hidden',
         cursor: 'pointer'
       }
     }
@@ -43,12 +37,8 @@ export default class ImgPreview extends React.Component {
   render(){
     return(
       <div
-        style={this.style.Com_div_ImgPreview_ImgPreview}
+        style={Object.assign({}, this.style.Com_div_ImgPreview_ImgPreview, {backgroundImage: 'url('+this.props.previewSrc+')'})}
         onClick={this._handleClick_ImgPreview_preview}>
-        <img
-          ref={(element)=>{this.imgBackground=element;}}
-          src={this.props.previewSrc}
-          style={this.style.Com_img_ImgPreview_ImgPreview}/>
       </div>
     )
   }

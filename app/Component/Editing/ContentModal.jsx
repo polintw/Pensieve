@@ -128,8 +128,10 @@ export default class ContentModal extends React.Component {
   }
 
   _set_markNewSpot(portionCoordinate){
+    let d = new Date(); //we need to create a specific id here, so we use time
+
     this.setState((prevState, props)=>{
-      const currentNr = this.props.layer+"_"+prevState.marksList.length; //keep it "const" to assure the var would not change after push()
+      const currentNr = prevState.marksList.length+"_"+d.getTime(); //keep it "const" to assure the var would not change after push()
       prevState.markCircles[currentNr] = portionCoordinate;
       prevState.markEditorContent[currentNr] = null;
       prevState.marksList.push(currentNr); // for unknown reason, we could only finish these steps outside the "return" obj

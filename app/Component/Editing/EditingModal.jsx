@@ -250,7 +250,7 @@ class EditingModal extends React.Component {
       return(
         <div>
           <div
-            style={Object.assign({top: '8%'}, styleMiddle.imgBLockPreview)}>
+            style={Object.assign({top: '7%'}, styleMiddle.imgBLockPreview)}>
             <ImgPreview
               blockName={'cover'}
               previewSrc={this.state.coverSrc}
