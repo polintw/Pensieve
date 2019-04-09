@@ -29,9 +29,6 @@ class CreateResponse extends React.Component {
   }
 
   _handleClick_CreateResponse_SubmitFile(stateObj){
-    //check form filled
-    if(!stateObj["coverSrc"] || stateObj["nouns"]["list"].length < 1) {alert("fill the required area");return;};
-    //Then if everything is fine
     let d = new Date();
     let submitTime = d.getTime();
     const newShareObj = {

@@ -33,9 +33,6 @@ class UnitEditing extends React.Component {
   }
 
   _handleClick_UnitEditing_SubmitFile(stateObj){
-    //check form filled
-    if(stateObj["nouns"]["list"].length < 1) {alert("fill the required area");return;};
-    //Then if everything is fine
     let d = new Date();
     let submitTime = d.getTime();
 

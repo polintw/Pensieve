@@ -11,6 +11,7 @@ import ContentModal from './ContentModal.jsx';
 import NounsEditor from './NounsEditor.jsx';
 import ImgPreview from '../ImgPreview.jsx';
 import MarksArticle from '../MarksArticle.jsx';
+import WarningModal from '../WarningModal.jsx';
 
 const styleMiddle = {
   imgBLockDecoBack:{
@@ -41,7 +42,6 @@ const styleMiddle = {
     height: '0',
     position: 'relative',
     marginLeft: '5%',
-    borderTop: 'solid 1px #ABABAB',
     fontSize: '1.2rem',
     letterSpacing: '0.1rem',
     lineHeight: '1.7rem',
@@ -55,6 +55,7 @@ class EditingModal extends React.Component {
     this.state = {
       contentInit: {focusBlock: null, markExpand: null},
       contentModalify: false,
+      warningModal: false,
       coverSrc: this.props.unitSet?this.props.unitSet.coverSrc:null,
       beneathSrc: this.props.unitSet?this.props.unitSet.beneathSrc:null,
       coverMarks: this.props.unitSet?this.props.unitSet.coverMarks:{list:[], data:{}},
@@ -66,10 +67,12 @@ class EditingModal extends React.Component {
     this._set_nouns = (nounSet) => {this.setState((prevState, props) => {return {nouns: nounSet}})};
     this._set_refsArr = ()=>{};
     this._set_newImgSrc = this._set_newImgSrc.bind(this);
+    this._set_WarningModal = this._set_WarningModal.bind(this);
     this._open_ContentModal = this._open_ContentModal.bind(this);
     this._close_img_Cancell = this._close_img_Cancell.bind(this);
     this._close_Mark_Complete = this._close_Mark_Complete.bind(this);
     this._render_importOrPreview = this._render_importOrPreview.bind(this);
+    this._handleClick_Img_Delete = this._handleClick_Img_Delete.bind(this);
     this._handleClick_Editing_Cancell = this._handleClick_Editing_Cancell.bind(this);
     this._handleClick_Editing_Submit = this._handleClick_Editing_Submit.bind(this);
     this.style={
@@ -124,6 +127,10 @@ class EditingModal extends React.Component {
     }
   }
 
+  _set_WarningModal(bool){
+    if(bool) this.setState({warningModal: false});
+  }
+
   _set_newImgSrc(dataURL, forBlock){
     if(forBlock=='cover'){
       this.setState({coverSrc: dataURL, contentInit: {focusBlock: forBlock, markExpand: null}, contentModalify: true})
@@ -133,6 +140,7 @@ class EditingModal extends React.Component {
   }
 
   _open_ContentModal(focusBlock, markKey){
+    if(this.props.unitSubmitting || this.state.warningModal) return;
     this.setState((prevState, props)=>{
       return {
         contentInit: {focusBlock: focusBlock, markExpand: markKey?markKey:null},
@@ -155,9 +163,34 @@ class EditingModal extends React.Component {
   }
 
   _close_img_Cancell(){
+    //only close the ContentModal only, do not save anything
+    this.setState({contentModalify: false});
+  }
+
+  _handleClick_Img_Delete(){
     let focusBlock = this.state.contentInit.focusBlock;
     if(focusBlock=='cover'){
-      this.setState({coverSrc: null, coverMarks:{list:[], data:{}},contentInit: {focusBlock: null, markExpand: null}, contentModalify: false})
+      this.setState((prevState, props)=>{
+        let modifiedState= prevState.beneathSrc?(
+          {
+            coverSrc: prevState.beneathSrc,
+            coverMarks:prevState.beneathMarks,
+            beneathSrc: null,
+            beneathMarks:{list:[], data:{}},
+            contentInit: {focusBlock: null, markExpand: null},
+            contentModalify: false
+          }
+        ):(
+          {
+            coverSrc: null,
+            coverMarks:{list:[], data:{}},
+            contentInit: {focusBlock: null, markExpand: null},
+            contentModalify: false
+          }
+        );
+
+        return modifiedState;
+      })
     }else if(focusBlock=='beneath'){
       this.setState({beneathSrc: null, beneathMarks:{list:[], data:{}}, contentInit: {focusBlock: null, markExpand: null}, contentModalify: false})
     };
@@ -166,17 +199,21 @@ class EditingModal extends React.Component {
   _handleClick_Editing_Cancell(event){
     event.stopPropagation();
     event.preventDefault();
+    if(this.props.unitSubmitting || this.state.warningModal) return;
     this.props._set_Clear();
   }
 
   _handleClick_Editing_Submit(event){
     event.stopPropagation();
     event.preventDefault();
-    if(this.props.unitSubmitting) return;
+    if(this.props.unitSubmitting || this.state.warningModal) return;
 
     //to prevent any main mutation during process
     //notice this could not stop the change in the 'children' of each value
     let newObj = Object.assign({}, this.state);
+    //check form filled
+    if(!newObj["coverSrc"] || newObj["nouns"]["list"].length < 1) {this.setState({warningModal: 'please upload at least one image, and name a place~'});return;};
+    //Then if everything is fine
 
     this.props._set_Submit(newObj);
   }
@@ -249,7 +286,7 @@ class EditingModal extends React.Component {
             marksObj={this.state.coverMarks}
             _set_MarkInspect={this._open_ContentModal}/>
           <div
-            style={styleMiddle.contentMarkInter}>
+            style={Object.assign({}, styleMiddle.contentMarkInter, {borderTop: this.state.coverSrc? 'solid 1px #ABABAB':''})}>
             {!this.state.coverSrc && "add a new picture to mark something!"}
           </div>
           <MarksArticle
@@ -280,7 +317,13 @@ class EditingModal extends React.Component {
             markExpand={this.state.contentInit.markExpand}
             _set_refsArr={this.props._set_refsArr}
             _close_Mark_Complete={this._close_Mark_Complete}
-            _close_img_Cancell={this._close_img_Cancell}/>
+            _close_img_Cancell={this._handleClick_Img_Delete}/>
+        }
+        {
+          this.state.warningModal &&
+          <WarningModal
+            message={this.state.warningModal}
+            _set_WarningModal={this._set_WarningModal}/>
         }
         {
           this.props.unitSubmitting &&

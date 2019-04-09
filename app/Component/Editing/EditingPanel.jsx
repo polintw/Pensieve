@@ -81,24 +81,13 @@ class EditingPanel extends React.Component {
         <div
           style={this.style.Com_Modal_Editing_Panel_Destiny_}>
           <div
-            style={Object.assign({}, styleMiddle.boxNavButton, {width: '16%',marginRight: '20%',cursor: 'pointer'})}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 17.07 17.07"
+            style={Object.assign({}, styleMiddle.boxNavButton, {width: '36%', marginRight: '16%',cursor: 'pointer'})}>
+            <span
               className={'centerAlignChild'}
-              style={{
-                maxWidth: '100%',
-                maxHeight: '60%'
-              }}
+              style={Object.assign({}, styleMiddle.spanEditingDestiny, {color: '#ababab'})}
               onClick={this.props._handleClick_Editing_Cancell}>
-              <defs><style>{".cls-1-UnitClose{opacity:0.57;}.cls-2-UnitClose{fill:none;stroke:#ededed;stroke-linecap:square;stroke-miterlimit:10;stroke-width:2px;}"}</style></defs>
-              <g id="圖層_2" data-name="圖層 2">
-                <g className="cls-1-UnitClose">
-                  <line className="cls-2-UnitClose" x1="1.41" y1="15.44" x2="15.44" y2="1.41"/>
-                  <line className="cls-2-UnitClose" x1="15.65" y1="15.65" x2="1.63" y2="1.63"/>
-                </g>
-              </g>
-            </svg>
+              {'cancel'}
+            </span>
           </div>
           <div
             style={Object.assign({}, styleMiddle.boxNavButton, {width: '45%'})}>
