@@ -235,7 +235,7 @@ export default class ContentModal extends React.Component {
                 <span
                   className={'centerAlignChild'}
                   style={styleMiddle.spanDestiny}>
-                  {'cancel'}</span>
+                  {'delete'}</span>
                 {this.state.markExpandify && <div style={Object.assign({}, styleMiddle.boxSubmitInvalid, styleMiddle.roundRecBox, generalStyle.submitInvalid)}/>}
               </div>
             }

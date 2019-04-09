@@ -53,19 +53,19 @@ export default class MarkEditingBlock extends React.Component {
         height: '100%',
         position: 'relative',
         boxSizing: 'border-box',
-        padding: '3% 2% 2% 0',
         overflowY: 'visible'
       },
       Com_MarkEditingBlock_Content_Main_div_edit_Editor: {
         display: 'inline-block',
         maxWidth: '100%',
         minWidth: '49%',
-        minHeight: '68%',
-        maxHeight: '156%', //the target MaxHeight is 64%, limit by parent
+        minHeight: '54%',
+        maxHeight: '152%', //the target MaxHeight is 64%, limit by parent
         position: 'relative',
         boxSizing: 'border-box',
         margin: '0',
-        paddingBottom: '10%',
+        paddingBottom: '8%',
+        paddingLeft: '6%',
         fontSize: '1.36rem',
         letterSpacing: '0.18rem',
         lineHeight: '1.9rem',
@@ -104,6 +104,7 @@ export default class MarkEditingBlock extends React.Component {
         height: '15%',
         position: 'relative',
         boxSizing: 'border-box',
+        marginTop: '6%',
         float: 'right'
       },
       Com_MarkEditingBlock_Content_Main_div_edit_Panel_ref: {
@@ -207,10 +208,17 @@ export default class MarkEditingBlock extends React.Component {
       <div
         style={this.style.Com_MarkEditingBlock_}>
         <div
-          style={{width: '49%', height: '74%', position:'absolute', right: '0', top:'0',borderRight: 'solid 1px #ababab', borderTop: 'solid 1px #ababab'}}></div>
-        <div
           style={Object.assign({}, this.style.Com_MarkEditingBlock_Content_Main_div_edit_Editor, {float: this.props.toCircleLeft? 'right':'left'})}
           onClick={this._handleClick_markComponentEditor}>
+          <div
+            style={{
+              width: '48%',
+              height: ' 42%',
+              position:'absolute',
+              left: '0',
+              bottom:'0%',
+              borderLeft: 'solid 1px #ababab',
+              borderBottom: 'solid 1px #ababab'}}></div>
           <DraftEditor
             ref={this.contentEditor}
             editorState={this.props.editorState}
@@ -219,20 +227,20 @@ export default class MarkEditingBlock extends React.Component {
         <div
           style={this.style.Com_MarkEditingBlock_Content_Main_div_edit_Panel_}>
           <div
-            style={Object.assign({}, styleMiddle.boxSubmitButton, styleMiddle.roundRecBox, {backgroundColor:'#ff7a5f'})}>
+            style={Object.assign({}, styleMiddle.boxSubmitButton, styleMiddle.roundRecBox, {backgroundColor:'#ff7a5f'})}
+            onClick={this._handleClick_blockPanel_complete}>
             <span
               className={'centerAlignChild'}
-              style={styleMiddle.spanInteractions}
-              onClick={this._handleClick_blockPanel_complete}>
+              style={styleMiddle.spanInteractions}>
               {'save'}
             </span>
           </div>
           <div
-            style={Object.assign({}, styleMiddle.boxSubmitButton, styleMiddle.roundRecBox)}>
+            style={Object.assign({}, styleMiddle.boxSubmitButton, styleMiddle.roundRecBox)}
+            onClick={this._handleClick_blockPanel_delete}>
             <span
               className={'centerAlignChild'}
-              style={styleMiddle.spanInteractions}
-              onClick={this._handleClick_blockPanel_delete}>
+              style={styleMiddle.spanInteractions}>
               {'delete'}
             </span>
           </div>

@@ -36,18 +36,18 @@ class ViewerBlock extends React.Component {
         minWidth: '49%',
         height: '100%',
         position: 'relative',
-        padding: '3% 2% 2% 0',
         overflowY: 'visible'
       },
       Com_ViewerBlock_content_: {
         display: 'inline-block',
-        maxWidth: '100%',
-        minHeight: '68%',
-        maxHeight: '156%', //the target MaxHeight is 64%, limit by parent
+        width: '100%',
+        minHeight: '54%',
+        maxHeight: '154%', //the target MaxHeight is 64%, limit by parent
         position: 'relative',
         boxSizing: 'border-box',
         margin: '0',
         paddingBottom: '7%',
+        paddingLeft: '6%',
         fontSize: '1.36rem',
         letterSpacing: '0.18rem',
         lineHeight: '1.9rem',
@@ -59,7 +59,8 @@ class ViewerBlock extends React.Component {
         width: '100%',
         height: '14%',
         position: 'relative',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        marginTop: '6%',
       },
       Com_ViewerBlock_credits_: {
         width: '100%',
@@ -162,6 +163,15 @@ class ViewerBlock extends React.Component {
         style={Object.assign({}, this.style.Com_ViewerBlock_, {float: this.props.toCircleLeft? 'right':'left'})}>
         <div
           style={this.style.Com_ViewerBlock_content_}>
+          <div
+            style={{
+              width: '48%',
+              height: ' 42%',
+              position:'absolute',
+              left: '0',
+              bottom:'0%',
+              borderLeft: 'solid 1px #ababab',
+              borderBottom: 'solid 1px #ababab'}}></div>
           <DraftDisplay
             editorState={this.props.markData.editorContent}/>
         </div>
