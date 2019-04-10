@@ -208,13 +208,18 @@ class EditingModal extends React.Component {
     event.preventDefault();
     if(this.props.unitSubmitting || this.state.warningModal) return;
 
-    //to prevent any main mutation during process
-    //notice this could not stop the change in the 'children' of each value
+    //shallow copy, prevent render init during the modifications
     let newObj = Object.assign({}, this.state);
     //check form filled
     if(!newObj["coverSrc"] || newObj["nouns"]["list"].length < 1) {this.setState({warningModal: 'please upload at least one image, and name a place~'});return;};
+    //seal the mark obj by fill in the lasr undetermined value, 'layer'
+    newObj.coverMarks.list.forEach((markKey, index)=>{
+      newObj.coverMarks.data[markKey].layer='0';
+    });
+    newObj.beneathMarks.list.forEach((markKey, index)=>{
+      newObj.beneathMarks.data[markKey].layer='1';
+    });
     //Then if everything is fine
-
     this.props._set_Submit(newObj);
   }
 

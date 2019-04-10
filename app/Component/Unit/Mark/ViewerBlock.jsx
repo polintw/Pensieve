@@ -32,15 +32,16 @@ class ViewerBlock extends React.Component {
     this.style = {
       Com_ViewerBlock_: {
         display: 'inline-block',
-        maxWidth: '100%',
-        minWidth: '49%',
+        width: '100%',
         height: '100%',
         position: 'relative',
+        boxSizing: 'border-box',
         overflowY: 'visible'
       },
       Com_ViewerBlock_content_: {
         display: 'inline-block',
-        width: '100%',
+        maxWidth: '100%',
+        minWidth: '49%',
         minHeight: '54%',
         maxHeight: '154%', //the target MaxHeight is 64%, limit by parent
         position: 'relative',
@@ -61,13 +62,15 @@ class ViewerBlock extends React.Component {
         position: 'relative',
         boxSizing: 'border-box',
         marginTop: '6%',
+        float: 'right'
       },
       Com_ViewerBlock_credits_: {
         width: '100%',
         height: '16%',
         position: 'relative',
         boxSizing: 'border-box',
-        marginTop: '2%'
+        marginTop: '2%',
+        float: 'right'
       },
       Com_ViewerBlock_fold_:{
         display: 'none'
@@ -92,7 +95,6 @@ class ViewerBlock extends React.Component {
         width: '24px',
         height: '100%',
         position: 'absolute',
-        right: '12%',
         top: '0',
         boxSizing: 'border-box',
         cursor: 'pointer',
@@ -158,11 +160,26 @@ class ViewerBlock extends React.Component {
   }
 
   render(){
+    const downToMdidline = this.props.downToMdidline;
+    const toCircleLeft = this.props.toCircleLeft;
+    let styleByMidline = {
+      editor: downToMdidline ? {bottom: '38%', position: 'absolute', right:toCircleLeft?'0':'',left:toCircleLeft?'':'0' }:{},
+      panel: downToMdidline ? {bottom: '18%', position: 'absolute'}:{},
+      credits: downToMdidline ? {bottom: '0', position: 'absolute'}:{},
+    },
+    styleByCircle = {
+      bulb: toCircleLeft?{right: '12%'}:{left: '6%'}
+    }
     return(
       <div
-        style={Object.assign({}, this.style.Com_ViewerBlock_, {float: this.props.toCircleLeft? 'right':'left'})}>
+        style={this.style.Com_ViewerBlock_}>
         <div
-          style={this.style.Com_ViewerBlock_content_}>
+          style={
+            Object.assign({},
+              this.style.Com_ViewerBlock_content_,
+              {float: toCircleLeft? 'right':'left'},
+              styleByMidline.editor
+            )}>
           <div
             style={{
               width: '48%',
@@ -176,13 +193,16 @@ class ViewerBlock extends React.Component {
             editorState={this.props.markData.editorContent}/>
         </div>
         <div
-          style={this.style.Com_ViewerBlock_panel_}>
+          style={Object.assign({},this.style.Com_ViewerBlock_panel_, styleByMidline.panel)}>
           <div
             style={this.style.Com_ViewerBlock_panel_interaction_}>
             <div
-              style={Object.assign({}, this.style.Com_ViewerBlock_panel_interaction_bulb, {
-                fill: this.props.unitCurrent.marksInteraction[this.props.markKey]['inspired'] ? '#ff7a5f':'transparent'
-              })}
+              style={
+                Object.assign({},
+                  this.style.Com_ViewerBlock_panel_interaction_bulb,
+                  {fill: this.props.unitCurrent.marksInteraction[this.props.markKey]['inspired'] ? '#ff7a5f':'transparent'},
+                  styleByCircle.bulb
+                )}
               onClick={this._handleClick_Inspired}>
               <SvgBulbPlainHalf/>
             </div>
@@ -194,7 +214,7 @@ class ViewerBlock extends React.Component {
           </div>
         </div>
         <div
-          style={this.style.Com_ViewerBlock_credits_}>
+          style={Object.assign({}, this.style.Com_ViewerBlock_credits_, styleByMidline.credits)}>
           <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
           <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
         </div>

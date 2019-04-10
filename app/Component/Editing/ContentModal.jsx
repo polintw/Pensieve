@@ -167,7 +167,7 @@ export default class ContentModal extends React.Component {
         top: this.state.markCircles[markKey].top,
         left: this.state.markCircles[markKey].left,
         editorContent: this.state.markEditorContent[markKey],
-        layer: this.props.layer,
+        layer: '',
         serial: index
       };
       marksData["list"].push(markKey)

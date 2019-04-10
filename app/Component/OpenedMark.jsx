@@ -55,7 +55,7 @@ class OpenedMark extends React.Component {
     );
 
     const childrenWithProps = React.Children.map(this.props.children, (child) =>
-      React.cloneElement(child, { toCircleLeft: right > 0? true : false })
+      React.cloneElement(child, { toCircleLeft: right > 0? true : false, downToMdidline: bottom.length>0 ? true:false })
     );// because we want to pass left/right status as props to Block, we need to add from here
 
     return (

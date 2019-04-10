@@ -82,23 +82,6 @@ export default class MarkEditingBlock extends React.Component {
         marginTop: '2%',
         float: 'right'
       },
-      Com_MarkEditingBlock_Content_Main_div: {
-        width: '39%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '30%'
-      },
-      Com_MarkEditingBlock_Content_Main_div_edit_: {
-        width: '90%',
-        height: '83%',
-        position: 'absolute',
-        top: '5%',
-        left: '50%',
-        transform: 'translate(-50%, 0)',
-        boxSizing: 'border-box',
-        borderLeft: "1px solid white"
-      },
       Com_MarkEditingBlock_Content_Main_div_edit_Panel_: {
         width: '100%',
         height: '15%',
@@ -204,11 +187,23 @@ export default class MarkEditingBlock extends React.Component {
   }
 
   render(){
+    const downToMdidline = this.props.downToMdidline;
+    const toCircleLeft = this.props.toCircleLeft;
+    let styleByMidline = {
+      editor: downToMdidline ? {bottom: '39%', position: 'absolute', right:toCircleLeft?'0':'',left:toCircleLeft?'':'0' }:{},
+      panel: downToMdidline ? {bottom: '18%', position: 'absolute'}:{},
+      credits: downToMdidline ? {bottom: '0', position: 'absolute'}:{},
+    }
     return(
       <div
         style={this.style.Com_MarkEditingBlock_}>
         <div
-          style={Object.assign({}, this.style.Com_MarkEditingBlock_Content_Main_div_edit_Editor, {float: this.props.toCircleLeft? 'right':'left'})}
+          style={
+            Object.assign({},
+              this.style.Com_MarkEditingBlock_Content_Main_div_edit_Editor,
+              {float: toCircleLeft? 'right':'left'},
+              styleByMidline.editor
+            )}
           onClick={this._handleClick_markComponentEditor}>
           <div
             style={{
@@ -225,7 +220,7 @@ export default class MarkEditingBlock extends React.Component {
             _on_EditorChange={this._set_EditorUpdate}/>
         </div>
         <div
-          style={this.style.Com_MarkEditingBlock_Content_Main_div_edit_Panel_}>
+          style={Object.assign({},this.style.Com_MarkEditingBlock_Content_Main_div_edit_Panel_, styleByMidline.panel)}>
           <div
             style={Object.assign({}, styleMiddle.boxSubmitButton, styleMiddle.roundRecBox, {backgroundColor:'#ff7a5f'})}
             onClick={this._handleClick_blockPanel_complete}>
@@ -251,7 +246,7 @@ export default class MarkEditingBlock extends React.Component {
           </div>
         </div>
         <div
-          style={this.style.Com_MarkEditingBlock_credits_}>
+          style={Object.assign({}, this.style.Com_MarkEditingBlock_credits_, styleByMidline.credits)}>
           <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
           <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
         </div>

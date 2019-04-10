@@ -44,7 +44,7 @@ class Screen extends React.Component {
         height: '20%',
         position: 'absolute',
         bottom: '1%',
-        left: '24%',
+        left: '22%',
         boxSizing: 'border-box',
         boxShadow: '0px -0.44rem 0.87rem -1.1rem inset'
       },
@@ -57,26 +57,28 @@ class Screen extends React.Component {
         boxSizing: 'border-box',
       },
       terraceCom_Screen_account_: {
-        maxWidth: '40%',
+        maxWidth: '38%', //here, this property won't influence the width of span, but would determine the most 'left' position
         position: 'absolute',
         bottom: '-4%',
-        left: '73%',
-        transform: 'translate(-73%,0%)',
-        boxSizing: 'border-box'
+        left: '70%',
+        transform: 'translate(-50%,0%)',
+        boxSizing: 'border-box',
+        overflow: 'visible'
       },
       terraceCom_Screen_account_name: {
         display: 'inline-block',
         position: 'relative',
         boxSizing: 'border-box',
         fontSize: "4.8rem",
-        letterSpacing: '0.33rem',
+        letterSpacing: '0.28rem',
         fontWeight: '400',
+        whiteSpace: 'nowrap',
         color: '#000000'
       },
       terraceCom_Screen_options_: {
         position: 'absolute',
-        top: '64%',
-        right: '23%',
+        top: '61%',
+        left: '73%',
         boxSizing: 'border-box'
       },
       terraceCom_Screen_options_expand: {
@@ -93,8 +95,8 @@ class Screen extends React.Component {
         width: '6%',
         height: '11%',
         position: 'absolute',
-        top: '49%',
-        right: '35%',
+        top: '50%',
+        right: '36%',
         boxSizing: 'border-box',
       },
     }
