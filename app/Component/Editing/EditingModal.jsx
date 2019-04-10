@@ -243,12 +243,15 @@ class EditingModal extends React.Component {
               previewSrc={this.state.coverSrc}
               _handleClick_ImgPreview_preview={this._open_ContentModal}/>
           </div>
-          <div
-            style={Object.assign({top: '70%'}, styleMiddle.imgBLockButton)}>
-            <ImgImport
-              blockName={'beneath'}
-              _set_newImgSrc={this._set_newImgSrc}/>
-          </div>
+          {
+            !this.props.unitSet &&
+            <div
+              style={Object.assign({top: '70%'}, styleMiddle.imgBLockButton)}>
+              <ImgImport
+                blockName={'beneath'}
+                _set_newImgSrc={this._set_newImgSrc}/>
+            </div>
+          }
         </div>
       )
     }else{

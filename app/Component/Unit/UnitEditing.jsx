@@ -24,7 +24,8 @@ class UnitEditing extends React.Component {
   }
 
   _submit_Share_modified(){
-    window.location.reload();
+    this.props._set_Modalmode('viewer');
+    this.props._reset_UnitMount();
   }
 
   _refer_toandclose(source, identity){
@@ -54,7 +55,7 @@ class UnitEditing extends React.Component {
   _axios_patch_Share(modifiedObj){
     const self = this;
     self.props._set_unitSubmitting(true);
-    axios.patch('/router/units/'+this.props.unitCurrent.unitId, modifiedObj, {
+    axios.patch('/router/share/'+this.props.unitCurrent.unitId+'/editing', modifiedObj, {
       headers: {
         'Content-Type': 'application/json',
         'charset': 'utf-8',

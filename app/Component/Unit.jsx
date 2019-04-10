@@ -29,8 +29,10 @@ class Unit extends React.Component {
     this.beneathify = !!this.unitInit['pic_layer1'];
     this._render_UnitMode = this._render_UnitMode.bind(this);
     this._close_modal_Unit = this._close_modal_Unit.bind(this);
+    this._axios_get_UnitMount = this._axios_get_UnitMount.bind(this);
     this._set_axios = (bool) => {this.setState((prevState, props)=>{return {axios: bool};})};
     this._set_Modalmode = (mode)=>{this.setState((prevState, props)=>{return {mode: mode}})};
+    this._reset_UnitMount = ()=>{this._axios_get_UnitMount();};
     this._axios_getUnitData = () => {
       return axios.get('/router/units/'+this.unitId, {
         headers: {
@@ -64,9 +66,8 @@ class Unit extends React.Component {
     })
   }
 
-  componentDidMount(){
+  _axios_get_UnitMount(){
     const self = this;
-
     let axiosArr = [this._axios_getUnitData(),this._axios_getUnitImg('pic_layer0')];
     axiosArr.push(this.beneathify ?　this._axios_getUnitImg('pic_layer1'):Promise.resolve({data: null}));
     self.setState({axios: true});
@@ -115,6 +116,10 @@ class Unit extends React.Component {
     });
   }
 
+  componentDidMount(){
+    this._axios_get_UnitMount();
+  }
+
   componentWillUnmount(){
     if(this.state.axios){
       this.axiosSource.cancel("component will unmount.")
@@ -128,7 +133,8 @@ class Unit extends React.Component {
           <UnitEditing
             mode={this.state.mode}
             _set_Modalmode={this._set_Modalmode}
-            _refer_von_unit={this.props._refer_von_unit}/>)
+            _refer_von_unit={this.props._refer_von_unit}
+            _reset_UnitMount={this._reset_UnitMount}/>)
         break;
       case "response":
         return (
