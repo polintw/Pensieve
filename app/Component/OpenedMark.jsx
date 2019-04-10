@@ -1,8 +1,12 @@
 import React from 'react';
 import { connect } from "react-redux";
-import SvgCircle from '../../Svg/SvgCircle.jsx';
+import SvgCircle from './Svg/SvgCircle.jsx';
+import {
+  baseHorizonRatial,
+  widthDivisionRatial
+} from './config/styleParams.js';
 
-const commonStyle = {
+const generalStyle = {
   absolute_FullVersion: {
     width: '100%',
     height: '100%',
@@ -34,15 +38,15 @@ class OpenedMark extends React.Component {
           imgLeft=this.props.imgPosition.left;
     const coordinate = {top: this.props.marksData.data[markId].top, left: this.props.marksData.data[markId].left};
     let [left, right, top, bottom, width] = ['','','','', ''],
-        spotLeftPx = coordinate.left/100*imgWidth+imgLeft+imgWidth*(this.props.baseHorizonRatial/100);
+        spotLeftPx = coordinate.left/100*imgWidth+imgLeft+imgWidth*(baseHorizonRatial/100);
         //the position of circle relative to img, position img original at in the frame, and transform/translate we set
         //--- due to offsetLeft wouldn't take the transform property
 
-    width = ((this.props.widthDivisionRatial/2)-2.6)/this.props.widthDivisionRatial*100;
+    width = ((widthDivisionRatial/2)-2.6)/widthDivisionRatial*100;
     (spotLeftPx) > (this.props.boxWidth/2) ? ( //check which side of the box the circle at
-      right = this.props.boxWidth-(spotLeftPx)+1.6*(this.props.boxWidth/this.props.widthDivisionRatial) //if circle st the right side, put the box 'left' to the circle
+      right = this.props.boxWidth-(spotLeftPx)+1.6*(this.props.boxWidth/widthDivisionRatial) //if circle st the right side, put the box 'left' to the circle
     ): (
-      left = spotLeftPx+1.6*(this.props.boxWidth/this.props.widthDivisionRatial)
+      left = spotLeftPx+1.6*(this.props.boxWidth/widthDivisionRatial)
     );
     coordinate.top > 50 ? ( //move between 0 - 28%, depend on location
       bottom = (28 - ((coordinate.top-50)/50) * (28-3)) + '%'
@@ -51,21 +55,21 @@ class OpenedMark extends React.Component {
     );
 
     const childrenWithProps = React.Children.map(this.props.children, (child) =>
-      React.cloneElement(child, { toCircleLeft: right > 0? true : false })
+      React.cloneElement(child, { toCircleLeft: right > 0? true : false, downToMdidline: bottom.length>0 ? true:false })
     );// because we want to pass left/right status as props to Block, we need to add from here
 
     return (
       <div>
         <div
-          style={commonStyle.absolute_FullVersion}
+          style={generalStyle.absolute_FullVersion}
           onClick={this.props._handleClick_ImgLayer_circle}/>
         <div
           className={'boxImgPosition'}
           style={{
             width: imgWidth,
             height: imgHeight,
-            right: this.props.baseHorizonRatial+'%',
-            transform: 'translate('+this.props.baseHorizonRatial+'%,-50%)',
+            right: baseHorizonRatial+'%',
+            transform: 'translate('+baseHorizonRatial+'%,-50%)',
             backgroundImage: 'radial-gradient(ellipse at '+
               (coordinate.left+ (right > 0?5:(-5)))+
               '% '+

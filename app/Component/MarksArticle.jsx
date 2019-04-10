@@ -21,7 +21,7 @@ class MarksArticle extends React.Component {
         minHeight: '48%',
         position: 'relative',
         boxSizing: 'border-box',
-        padding: '1rem 3%'
+        padding: '1rem 4%'
       },
       Com_MarksArticle_paragraph: {
         display: 'inline-block',
@@ -30,11 +30,13 @@ class MarksArticle extends React.Component {
         position: 'relative',
         boxSizing: 'border-box',
         padding: '0.5rem 0',
-        borderBottom: 'solid 1px #e1e193',
-        fontSize: '1.3rem',
-        fontWeight: '400',
-        letterSpacing: '0.12rem',
-        wordWrap: 'break-word'
+        borderBottom: 'solid 1px #000000',
+        fontSize: '1.36rem',
+        fontWeight: '300',
+        letterSpacing: '0.16rem',
+        lineHeight: '1.9rem',
+        wordWrap: 'break-word',
+        color: '#FAFAFA'
       }
     };
   }

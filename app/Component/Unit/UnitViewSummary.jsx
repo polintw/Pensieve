@@ -4,10 +4,8 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import cxBind from 'classnames/bind';
-import {
-  DateConverter,
-  NounsStatic} from './UnitComponent.jsx';
+import {NounsStatic} from './UnitComponent.jsx';
+import DateConverter from '../DateConverter.jsx';
 import MarksArticle from '../MarksArticle.jsx';
 import SvgCreateCoral from '../Svg/SvgCreateCoral.jsx'
 import {NameLabelRe} from '../AccountPlate.jsx';

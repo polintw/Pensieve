@@ -6,8 +6,9 @@ import {
 import { connect } from "react-redux";
 import ImgLayersFrame from './ImgLayersFrame.jsx';
 import UnitActionPanel from './UnitActionPanel.jsx';
-import {DateConverter, NounsExtensible} from './UnitComponent.jsx';
+import {NounsExtensible} from './UnitComponent.jsx';
 import {NameLabelRe} from '../AccountPlate.jsx';
+import DateConverter from '../DateConverter.jsx';
 
 class UnitImgLayers extends React.Component {
   constructor(props){

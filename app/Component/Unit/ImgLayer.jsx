@@ -2,10 +2,9 @@ import React from 'react';
 import { connect } from "react-redux";
 import MarksAuthor from './Mark/MarksAuthor.jsx';
 import MarksViewer from './Mark/MarksViewer.jsx';
+import {baseHorizonRatial} from '../config/styleParams.js';
 
-const baseHorizonRatial = 40;
-
-const commonStyle = {
+const generalStyle = {
   absolute_FullVersion: {
     width: '100%',
     height: '100%',
@@ -69,7 +68,7 @@ class ImgLayer extends React.Component {
     return(
       <div
         ref={this.Com_ImgLayer_box}
-        style={commonStyle.absolute_FullVersion}>
+        style={generalStyle.absolute_FullVersion}>
         <img
           className={'boxImgPosition'}
           style={this.style.Com_ImgLayer_img}

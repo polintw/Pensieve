@@ -30,21 +30,23 @@ class AuthorBlock extends React.Component {
     this.style = {
       Com_AuthorBlock_: {
         display: 'inline-block',
-        maxWidth: '100%',
-        minWidth: '39%',
+        width: '100%',
         height: '100%',
         position: 'relative',
+        boxSizing: 'border-box',
         overflowY: 'visible'
       },
       Com_AuthorBlock_content_: {
         display: 'inline-block',
         maxWidth: '100%',
-        minHeight: '68%',
-        maxHeight: '156%', //the target MaxHeight is 64%, limit by parent
+        minWidth: '49%',
+        minHeight: '54%',
+        maxHeight: '154%', //the target MaxHeight is 64%, limit by parent
         position: 'relative',
         boxSizing: 'border-box',
         margin: '0',
-        paddingBottom: '5%',
+        paddingBottom: '7%',
+        paddingLeft: '6%',
         fontSize: '1.36rem',
         letterSpacing: '0.18rem',
         lineHeight: '1.9rem',
@@ -56,14 +58,17 @@ class AuthorBlock extends React.Component {
         width: '100%',
         height: '14%',
         position: 'relative',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        marginTop: '6%',
+        float: 'right'
       },
       Com_AuthorBlock_credits_: {
         width: '100%',
         height: '16%',
         position: 'relative',
         boxSizing: 'border-box',
-        marginTop: '2%'
+        marginTop: '2%',
+        float: 'right'
       },
       Com_AuthorBlock_fold_:{
         display: 'none'
@@ -89,7 +94,6 @@ class AuthorBlock extends React.Component {
         minWidth: '70px',
         height: '100%',
         position: 'absolute',
-        left: '0',
       },
       Com_AuthorBlock_panel_interaction_bulb:{
         width: '36%',
@@ -127,20 +131,44 @@ class AuthorBlock extends React.Component {
   }
 
   render(){
+    const downToMdidline = this.props.downToMdidline;
+    const toCircleLeft = this.props.toCircleLeft;
+    let styleByMidline = {
+      editor: downToMdidline ? {bottom: '38%', position: 'absolute', right:toCircleLeft?'0':'',left:toCircleLeft?'':'0' }:{},
+      panel: downToMdidline ? {bottom: '18%', position: 'absolute'}:{},
+      credits: downToMdidline ? {bottom: '0', position: 'absolute'}:{},
+    },
+    styleByCircle = {
+      inspired: toCircleLeft?{right: '12%'}:{left: '6%'}
+    }
     return(
       <div
-        style={Object.assign({}, this.style.Com_AuthorBlock_, {float: this.props.toCircleLeft? 'right':'left'})}>
+        style={this.style.Com_AuthorBlock_}>
         <div
-          style={this.style.Com_AuthorBlock_content_}>
+          style={
+            Object.assign({},
+              this.style.Com_AuthorBlock_content_,
+              {float: toCircleLeft? 'right':'left'},
+              styleByMidline.editor
+            )}>
+          <div
+            style={{
+              width: '48%',
+              height: ' 42%',
+              position:'absolute',
+              left: '0',
+              bottom:'0%',
+              borderLeft: 'solid 1px #ababab',
+              borderBottom: 'solid 1px #ababab'}}></div>
           <DraftDisplay
             editorState={this.props.markData.editorContent}/>
         </div>
         <div
-          style={this.style.Com_AuthorBlock_panel_}>
+          style={Object.assign({},this.style.Com_AuthorBlock_panel_, styleByMidline.panel)}>
           <div
             style={this.style.Com_AuthorBlock_panel_interaction_}>
             <div
-              style={this.style.Com_AuthorBlock_panel_interaction_inspired_}>
+              style={Object.assign({}, this.style.Com_AuthorBlock_panel_interaction_inspired_, styleByCircle.inspired)}>
               <div
                 style={Object.assign({}, this.style.Com_AuthorBlock_panel_interaction_bulb, {stroke: '#f7f4bc', fill: 'transparent'})}>
                 <SvgBulbPlainHalf/>
@@ -157,7 +185,7 @@ class AuthorBlock extends React.Component {
           </div>
         </div>
         <div
-          style={this.style.Com_AuthorBlock_credits_}>
+          style={Object.assign({}, this.style.Com_AuthorBlock_credits_, styleByMidline.credits)}>
           <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
           <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
         </div>

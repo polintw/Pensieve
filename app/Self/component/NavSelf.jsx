@@ -5,6 +5,7 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import {NameRegular} from '../../Component/AccountPlate.jsx';
 import SvgAroundLineBlank from '../../Component/Svg/SvgAroundLineBlank.jsx';
 
 const commonStyle={
@@ -38,17 +39,6 @@ const commonStyle={
     left: '9%',
     boxSizing: 'border-box',
   },
-  spanAccountName: {
-    display: 'inline-block',
-    position: 'absolute',
-    bottom: '2%',
-    boxSizing: 'border-box',
-    whiteSpace: 'nowrap',
-    fontSize: '1.54rem',
-    fontWeight: '400',
-    letterSpacing: '0.18rem',
-    cursor: 'pointer'
-  }
 }
 
 class NavSelf extends React.Component {
@@ -67,7 +57,12 @@ class NavSelf extends React.Component {
         boxSizing: 'border-box'
       },
       Com_NavSelf_AccountName: {
+        display: 'inline-block',
+        position: 'absolute',
+        bottom: '2%',
+        boxSizing: 'border-box',
         color: '#757575',
+        cursor: 'pointer'
       }
     }
   }
@@ -109,9 +104,10 @@ class NavSelf extends React.Component {
         <div
           style={commonStyle.boxAccount}
           onClick={this._handleClick_selfCover}>
-          <span style={Object.assign({}, commonStyle.spanAccountName, this.style.Com_NavSelf_AccountName)}>
-            {this.props.userInfo.firstName + " " + this.props.userInfo.lastName}
-          </span>
+          <div
+            style={this.style.Com_NavSelf_AccountName}>
+            <NameRegular/>
+          </div>
         </div>
         <div
           style={commonStyle.boxAroundIconLine}>

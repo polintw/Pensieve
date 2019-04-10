@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from "react-redux";
-import OpenedMark from './OpenedMark.jsx';
 import AuthorBlock from './AuthorBlock.jsx';
 import SvgCircle from '../../Svg/SvgCircle.jsx';
 import SvgCircleSpot from '../../Svg/SvgCircleSpot.jsx';
+import {widthDivisionRatial} from '../../config/styleParams.js'; //dividing markglayer width, used for determineing the position
+import OpenedMark from '../../OpenedMark.jsx';
 
-const widthDivisionRatial = 20; //dividing markglayer width, used for determineing the position
-const commonStyle = { //could included in a global style sheet
+const generalStyle = { //could included in a global style sheet
   absolute_FullVersion: {
     width: '100%',
     height: '100%',
@@ -101,7 +101,7 @@ class MarksAuthor extends React.Component {
   render(){
     return(
       <div
-        style={commonStyle.absolute_FullVersion}
+        style={generalStyle.absolute_FullVersion}
         ref={this.Com_ImgLayer}
         onClick={this._handleClick_SpotsLayer}>
         {

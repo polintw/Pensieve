@@ -25,7 +25,8 @@ class Terrace extends React.Component {
         top: '0',
         left: '0',
         boxSizing: 'border-box',
-        overflowY: 'scroll'
+        overflowY: 'scroll',
+        overflowX: 'hidden'
       },
       Self_pages_Terrace_hidden_appearance: {
         width: '60%',
