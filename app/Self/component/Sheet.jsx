@@ -7,9 +7,14 @@ import {
   SheetBasic
 } from './SheetCom.jsx';
 import SvgPropic from '../../Component/Svg/SvgPropic.jsx';
+import { NameLarge } from '../../Component/AccountPlate.jsx';
 import {mountUserSheet} from "../../redux/actions/general.js";
 
-class Sheet extends React.Component {
+const styleMiddle = {
+
+}
+
+  class Sheet extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -24,36 +29,22 @@ class Sheet extends React.Component {
         top: '0%',
         left: '0%'
       },
-      selfCom_Sheet_navStatics_UserName_: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        width: '100%',
+      selfCom_Sheet_ProfileTitle_: {
+        width: '64%',
         height: '20vh',
         position: 'absolute',
         top: '2vh',
         right: '0',
         boxSizing: 'border-box'
       },
-      selfCom_Sheet_navStatics_UserName_svg_: {
+      selfCom_Sheet_ProfileTitle_name: {
         display: 'inline-block',
-        width: '21%',
-        height: '98%',
-        position: 'relative',
-        boxSizing: 'border-box',
-        margin: '0 3%',
-        padding: '1rem 0 0 0'
-      },
-      selfCom_Sheet_navStatics_UserName_span_: {
-        display: 'inline-block',
-        position: 'relative',
+        position: 'absolute',
+        bottom: '0',
+        left: '5%',
         boxSizing: 'border-box',
         padding: '1% 0',
-        marginRight: '14vw',
-        fontWeight: '600',
-        fontSize: '2.8rem',
-        letterSpacing: '0.28rem',
-        color: '#222222'
+        color: '#000000'
       },
       selfCom_Sheet_display_: {
         width: '100%',
@@ -194,11 +185,11 @@ class Sheet extends React.Component {
       <div
         style={this.style.selfCom_Sheet_}>
         <div
-          style={this.style.selfCom_Sheet_navStatics_UserName_}>
-          <div style={this.style.selfCom_Sheet_navStatics_UserName_svg_}>
-            <SvgPropic/>
+          style={this.style.selfCom_Sheet_ProfileTitle_}>
+          <div
+            style={this.style.selfCom_Sheet_ProfileTitle_name}>
+            <NameLarge />
           </div>
-          <span style={this.style.selfCom_Sheet_navStatics_UserName_span_}>{this.props.userInfo.account}</span>
         </div>
         <div
           style={this.style.selfCom_Sheet_display_}>

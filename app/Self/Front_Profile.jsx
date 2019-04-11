@@ -127,7 +127,7 @@ class FrontProfile extends React.Component {
             style={styleMiddle.linkPlain}>
             <div
               className={'verticalAlignChild'}
-              style={cursor: 'pointer'}>
+              style={{cursor: 'pointer'}}>
               {"back"}
             </div>
           </Link>
