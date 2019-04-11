@@ -91,10 +91,10 @@ class UnitViewSummary extends React.Component {
       },
       Com_UnitViewSummary_Marksarticle: {
         width: "41%",
-        height: '83%',
+        height: '77%',
         position: 'absolute',
         right: '3%',
-        bottom: '0',
+        bottom: '6%',
         boxSizing: 'border-box',
         paddingBottom: '3%',
         backgroundColor: 'transparent',

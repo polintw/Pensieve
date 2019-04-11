@@ -9,6 +9,21 @@ import Sheet from './component/Sheet.jsx';
 import NavFrontShelf from './component/NavFront/NavFrontShelf.jsx';
 import MaskProcessing from '../Component/MaskProcessing.jsx';
 
+const styleMiddle ={
+  spanReturn: {
+    display: 'inline-block',
+    whiteSpace: 'nowrap',
+    fontSize: '1.54rem',
+    fontWeight: '400',
+    letterSpacing: '0.18rem',
+    color: '#ff7a5f'
+  },
+  linkPlain: {
+    textDecoration: 'none',
+    cursor: 'pointer'
+  }
+}
+
 class FrontProfile extends React.Component {
   constructor(props){
     super(props);
@@ -24,17 +39,10 @@ class FrontProfile extends React.Component {
         left: '0%'
       },
       Front_Profile_return_: {
-        width: '6%',
-        height: '6%',
         position: 'fixed',
-        top: '45%',
-        right: '2%',
+        bottom: '0%',
+        left: '70%',
         boxSizing: 'border-box',
-        textAlign: 'right',
-        fontSize: '1.6rem',
-        fontWeight: '700',
-        letterSpacing: '0.15rem',
-        color: '#909090',
         cursor: 'pointer'
       },
       Front_Profile_scroll_: {
@@ -77,11 +85,19 @@ class FrontProfile extends React.Component {
       },
       Front_Profile_backPlane_bottom: {
         width: '100%',
-        height: '7%',
         position: 'fixed',
         bottom: '0',
         left: '0',
         backgroundColor: '#FFFFFF'
+      },
+      Front_Profile_backPlane_nav_Front: {
+        width: '32%',
+        height: '100%',
+        position: 'absolute',
+        bottom: '0',
+        right: '0',
+        boxSizing: 'border-box',
+        backgroundColor: '#d3deda'
       }
     }
   }
@@ -92,21 +108,34 @@ class FrontProfile extends React.Component {
       <div
         style={this.style.Front_Profile_}>
         <div
-          style={this.style.Front_Profile_return_}>
-          <NavFrontShelf {...this.props}/>
+          style={this.style.Front_Profile_scroll_}>
+          <Route path={this.props.match.path+"/sheet"} render={(props)=> <Sheet {...props}/>}/>
+        </div>
+        <div style={this.style.Front_Profile_backPlane_top}></div>
+        <div
+          className={'selfFront-fixedBottomBox-height'}
+          style={this.style.Front_Profile_backPlane_bottom}>
+          <div
+            style={this.style.Front_Profile_backPlane_nav_Front}>
+          </div>
+        </div>
+        <div
+          className={'selfFront-fixedBottomBox-height'}
+          style={Object.assign({},this.style.Front_Profile_return_, styleMiddle.spanReturn)}>
+          <Link
+            to={this.props.location.state.from}
+            style={styleMiddle.linkPlain}>
+            <div
+              className={'verticalAlignChild'}
+              style={cursor: 'pointer'}>
+              {"back"}
+            </div>
+          </Link>
         </div>
         <div
           style={this.style.Front_Profile_nav_}>
           <span style={this.style.Front_Profile_nav_span}>{"about "}</span>
           <span style={this.style.Front_Profile_nav_span}>{"binders "}</span>
-        </div>
-        <div
-          style={this.style.Front_Profile_scroll_}>
-          <Route path={this.props.match.path+"/sheet"} render={(props)=> <Sheet {...props}/>}/>
-        </div>
-        <div style={this.style.Front_Profile_backPlane_top}></div>
-        <div style={this.style.Front_Profile_backPlane_bottom}>
-          <div style={{width: '12%', height: '100%', position: 'absolute', bottom: '0', right: '0', boxSizing: 'border-box', backgroundColor: '#d3deda'}}></div>
         </div>
         {
           (this.props.settingSubmitting || this.props.axios) &&

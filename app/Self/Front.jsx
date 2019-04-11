@@ -49,7 +49,7 @@ class Front extends React.Component {
           <div
             className={"selfFront-fixedBottomBox-height"}
             style={this.style.Self_pages_Front_NavSelf}>
-            <NavSelf/>
+            <NavSelf {...this.props}/>
           </div>
         </div>
       </Router>

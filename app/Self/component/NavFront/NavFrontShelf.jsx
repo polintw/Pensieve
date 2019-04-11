@@ -6,7 +6,7 @@ import {
 import SvgDoortoShelf from './SvgDoortoShelf.jsx';
 
 const commonStyle = {
-  selfCom_NavFrontShelf_link: {
+  linkPlain: {
     textDecoration: 'none',
     cursor: 'pointer'
   }
@@ -36,28 +36,16 @@ export default class NavFrontShelf extends React.Component {
     return(
       <div
         style={this.style.selfCom_NavFrontShelf_}>
-        {
-          (this.props.location.pathname=="/profile/sheet") ?(
-            <Link
-              to={this.props.location.state.from}
-              style={commonStyle.selfCom_NavFrontShelf_link}>
-              <div>
-                {"return"}
-              </div>
-            </Link>
-          ):(
-            <Link
-              to={{
-                pathname: "/profile/sheet",
-                state: {from: this.props.location}
-              }}
-              style={commonStyle.selfCom_NavFrontShelf_link}>
-              <div>
-                <SvgDoortoShelf/>
-              </div>
-            </Link>
-          )
-        }
+        <Link
+          to={{
+            pathname: "/profile/sheet",
+            state: {from: this.props.location}
+          }}
+          style={commonStyle.linkPlain}>
+          <div>
+            <SvgDoortoShelf/>
+          </div>
+        </Link>
       </div>
     )
   }

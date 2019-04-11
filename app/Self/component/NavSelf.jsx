@@ -84,23 +84,33 @@ class NavSelf extends React.Component {
     return(
       <div
         style={this.style.Com_NavSelf_}>
-        <div
-          style={commonStyle.boxAroundIcon}
-          onClick={this._handleClick_selfClose}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.54 13.9"
-            style={{
-              maxWidth: '100%',
-              maxHeight: '100%'
-            }}>
-            <defs><style>{".cls-1-aroundDual{fill:#4085a0;}.cls-2-aroundDual{fill:#e6e6e6;}"}</style></defs>
-            <g id="圖層_2" data-name="圖層 2">
-              <g id="圖層_2-2" data-name="圖層 2">
-                <circle className="cls-1-aroundDual" cx="2.46" cy="11.44" r="2.46"/>
-                <circle className="cls-2-aroundDual" cx="13.25" cy="4.3" r="4.3"/>
-              </g>
-            </g>
-          </svg>
-        </div>
+        {
+          (this.props.location.pathname.substring(0,10)=='/cognition') &&
+          <div>
+            <div
+              style={commonStyle.boxAroundIcon}
+              onClick={this._handleClick_selfClose}>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.54 13.9"
+                style={{
+                  maxWidth: '100%',
+                  maxHeight: '100%'
+                }}>
+                <defs><style>{".cls-1-aroundDual{fill:#4085a0;}.cls-2-aroundDual{fill:#e6e6e6;}"}</style></defs>
+                <g id="圖層_2" data-name="圖層 2">
+                  <g id="圖層_2-2" data-name="圖層 2">
+                    <circle className="cls-1-aroundDual" cx="2.46" cy="11.44" r="2.46"/>
+                    <circle className="cls-2-aroundDual" cx="13.25" cy="4.3" r="4.3"/>
+                  </g>
+                </g>
+              </svg>
+            </div>
+            <div
+              style={commonStyle.boxAroundIconLine}>
+              <SvgAroundLineBlank
+                style={{fill: "#e6e6e6", position: 'absolute'}}/>
+            </div>
+          </div>
+        }
         <div
           style={commonStyle.boxAccount}
           onClick={this._handleClick_selfCover}>
@@ -108,11 +118,6 @@ class NavSelf extends React.Component {
             style={this.style.Com_NavSelf_AccountName}>
             <NameRegular/>
           </div>
-        </div>
-        <div
-          style={commonStyle.boxAroundIconLine}>
-          <SvgAroundLineBlank
-            style={{fill: "#e6e6e6", position: 'absolute'}}/>
         </div>
       </div>
     )
