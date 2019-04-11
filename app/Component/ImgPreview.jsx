@@ -16,10 +16,9 @@ export default class ImgPreview extends React.Component {
         left: '0',
         boxSizing: 'border-box',
         backgroundSize: 'cover',
-        boxShadow: '-0.1rem 0.1rem 0.4rem 0',
-        borderRadius: '0.5vw',
+        backgroundPosition: '50% 50%',
+        backgroundRepeat: 'no-repeat',
         overflow: 'hidden',
-        cursor: 'pointer'
       }
     }
   }

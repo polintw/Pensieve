@@ -35,7 +35,11 @@ const styleMiddle = {
     height: '39%',
     position: 'absolute',
     left: '12%',
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
+    boxShadow: '-0.1rem 0.1rem 0.4rem 0',
+    borderRadius: '0.5vw',
+    overflow: 'hidden',
+    cursor: 'pointer'
   },
   contentMarkInter: {
     width: '90%',
@@ -288,7 +292,8 @@ class EditingModal extends React.Component {
             _set_nouns={this._set_nouns}/>
         </div>
         <article
-          style={this.style.Com_Modal_Editing_article_}>
+          style={this.style.Com_Modal_Editing_article_}
+          onWheel={(event)=>{event.stopPropagation();}}>
           <MarksArticle
             layer={'cover'}
             marksObj={this.state.coverMarks}

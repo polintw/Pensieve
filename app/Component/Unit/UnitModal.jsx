@@ -39,7 +39,7 @@ class UnitModal extends React.Component {
       },
       Com_UnitModal_blocks_SumLayer_ : {
         width: '90%',
-        height: '100%',
+        height: '96%',
         position: 'absolute',
         top: '0',
         left: '50%',

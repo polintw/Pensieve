@@ -5,18 +5,41 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import {NounsStatic} from './UnitComponent.jsx';
+import ImgPreview from '../ImgPreview.jsx';
 import DateConverter from '../DateConverter.jsx';
 import MarksArticle from '../MarksArticle.jsx';
-import SvgCreateCoral from '../Svg/SvgCreateCoral.jsx'
-import {NameLabelRe} from '../AccountPlate.jsx';
+import SvgCreateonDialog from '../Svg/SvgCreateonDialog.jsx'
+import {NameLarge} from '../AccountPlate.jsx';
+
+const styleMiddle = {
+  boxInlineRelative: {
+    display: 'inline-block',
+    position: 'relative',
+    boxSizing:'border-box',
+  },
+  imgBLockPreview: {
+    display: 'inline-block',
+    width: '46%',
+    height: '100%',
+    position: 'relative',
+    boxSizing: 'border-box',
+    marginRight: '3%',
+    boxShadow: '0rem 0.1rem 0.5rem 0px',
+    borderRadius: '0.5vw',
+    overflow: 'hidden',
+    cursor: 'pointer'
+  },
+}
+
 class UnitSummaryNail extends React.Component {
+  //assume there is a future requirement for animating to /related
   constructor(props){
     super(props);
     this.state = {
 
     };
     this.style={
-      Com_UnitViewSummary_: {
+      Com_UnitViewSummaryNail_: {
         width: '100%',
         height: '20%',
         position: 'absolute',
@@ -42,7 +65,7 @@ class UnitSummaryNail extends React.Component {
     //let cx = cxBind.bind(styles);
     return(
       <div
-        style={this.style.Com_UnitViewSummary_}>
+        style={this.style.Com_UnitViewSummaryNail_}>
 
       </div>
     )
@@ -67,82 +90,58 @@ class UnitViewSummary extends React.Component {
         boxSizing: 'border-box'
       },
       Com_UnitViewSummary_Marksarticle: {
-        width: "30%",
-        height: '100%',
+        width: "41%",
+        height: '83%',
         position: 'absolute',
-        left: '0',
-        top: '0',
+        right: '3%',
+        bottom: '0',
         boxSizing: 'border-box',
-        backgroundColor: '#f8f8f8',
-        overflowY: 'scroll'
+        paddingBottom: '3%',
+        backgroundColor: 'transparent',
+        overflowY: 'auto'
       },
       Com_UnitViewSummary_thumbnails_: {
-        width: '30%',
-        height: '64%',
+        width: '51%',
+        height: '37%',
         position: 'absolute',
-        bottom: '0',
-        left: '31%',
+        top: '30%',
+        left: '4%',
         boxSizing: 'border-box'
       },
-      Com_UnitViewSummary_thumbnails_img: {
-        maxWidth: '100%',
-        maxHeight: '49%',
-        position: 'relative',
-        float: 'center'
-      },
       Com_UnitViewSummary_response_: {
-        width: '36%',
-        height: '30%',
+        width: '18%',
+        height: '16%',
         position: 'absolute',
-        bottom: '0',
-        left: '63%',
+        bottom: '4%',
+        left: '33%',
         boxSizing: 'border-box',
-        padding: '1vh',
         cursor: 'pointer'
       },
       Com_UnitViewSummary_author_: {
-        width: "37%",
-        height: '56%',
         position: 'absolute',
-        top: '0',
-        left: '62%',
+        top: '8%',
+        left: '6%',
         boxSizing: 'border-box'
       },
       Com_UnitViewSummary_author_name: {
-        position: 'absolute',
-        top: '11%',
-        right: '0',
+        display: 'inline-block',
         boxSizing: 'border-box',
-        padding: '0 2vh',
-        textAlign: 'right',
-        color: 'rgb(250, 250, 250)',
-        cursor: 'pointer'
+        color: '#FAFAFA',
       },
       Com_UnitViewSummary_unitinfo_simple_: {
-        width: "37%",
-        height: '10%',
         position: 'absolute',
-        top: '57%',
-        left: '62%',
+        top: '93%',
+        left: '6%',
         boxSizing: 'border-box'
       },
       Com_UnitViewSummary_unitinfo_simple_date: {
-        position: 'absolute',
-        top: '0%',
-        right: '5vh',
-        boxSizing: 'border-box',
-        fontSize: '1.2vh',
-        letterSpacing: '0.1vh',
-        fontWeight: '400',
-        color: '#FAFAFA',
+        color: '#e6e6e6',
       }
     };
   }
 
-  _handleClick_thumbnail(event){
-    event.stopPropagation();
-    event.preventDefault();
-    let moveCount = event.currentTarget.getAttribute('layer');
+  _handleClick_thumbnail(layer){
+    let moveCount = (layer=='cover')? 0 : 100;
     this.props._set_layerstatus(true, parseInt(moveCount));
   }
 
@@ -158,6 +157,8 @@ class UnitViewSummary extends React.Component {
 
   render(){
     //let cx = cxBind.bind(styles);
+
+    //prepare beneath line for future, connecting to /related
     if(this.props.moveCount == 240) return (<UnitSummaryNail  _close_modal_Unit={this.props._close_modal_Unit}/>);
     let marksObj = {
       list: this.props.unitCurrent.coverMarksList.concat(this.props.unitCurrent.beneathMarksList),
@@ -168,6 +169,13 @@ class UnitViewSummary extends React.Component {
       <div
         style={this.style.Com_UnitViewSummary_}>
         <div
+          style={this.style.Com_UnitViewSummary_author_}>
+          <div
+            style={this.style.Com_UnitViewSummary_author_name}>
+            <NameLarge/>
+          </div>
+        </div>
+        <div
           style={this.style.Com_UnitViewSummary_Marksarticle}
           onWheel={(event)=>{event.stopPropagation();}}>
           <MarksArticle
@@ -177,36 +185,28 @@ class UnitViewSummary extends React.Component {
         </div>
         <div
           style={this.style.Com_UnitViewSummary_thumbnails_}>
-          <img
-            style={this.style.Com_UnitViewSummary_thumbnails_img}
-            layer={0}
-            src={this.props.unitCurrent.coverSrc}
-            onClick={this._handleClick_thumbnail}/>
+          <div
+            style={Object.assign({}, styleMiddle.imgBLockPreview)}>
+            <ImgPreview
+              blockName={'cover'}
+              previewSrc={this.props.unitCurrent.coverSrc}
+              _handleClick_ImgPreview_preview={this._handleClick_thumbnail}/>
+          </div>
           {
             this.props.unitCurrent.beneathSrc &&
-            <img
-              style={this.style.Com_UnitViewSummary_thumbnails_img}
-              layer={100}
-              src={this.props.unitCurrent.beneathSrc}
-              onClick={this._handleClick_thumbnail}/>
+            <div
+              style={Object.assign({}, styleMiddle.imgBLockPreview)}>
+              <ImgPreview
+                blockName={'beneath'}
+                previewSrc={this.props.unitCurrent.beneathSrc}
+                _handleClick_ImgPreview_preview={this._handleClick_thumbnail}/>
+            </div>
           }
-        </div>
-        <div
-          style={this.style.Com_UnitViewSummary_author_}>
-          <div
-            style={this.style.Com_UnitViewSummary_author_name}>
-            <NameLabelRe
-              size={'large'}
-              accountId={this.props.unitCurrent.authorBasic.authorId}
-              accountFisrtName={this.props.unitCurrent.authorBasic.firstName}
-              accountLastName={this.props.unitCurrent.authorBasic.lastName}
-              _handleClick_Account={this.props._refer_toandclose}/>
-          </div>
         </div>
         <div
           style={this.style.Com_UnitViewSummary_unitinfo_simple_}>
           <div
-            style={this.style.Com_UnitViewSummary_unitinfo_simple_date}>
+            style={Object.assign({}, this.style.Com_UnitViewSummary_unitinfo_simple_date, styleMiddle.boxInlineRelative)}>
             <DateConverter
               datetime={this.props.unitCurrent.createdAt}/>
           </div>
@@ -214,7 +214,7 @@ class UnitViewSummary extends React.Component {
         <div
           style={this.style.Com_UnitViewSummary_response_}
           onClick={this._handleClick_UnitAction_response}>
-          <SvgCreateCoral />
+          <SvgCreateonDialog/>
         </div>
       </div>
     )
