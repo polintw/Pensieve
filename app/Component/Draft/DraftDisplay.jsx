@@ -6,9 +6,9 @@ export default class DraftDisplay extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      editorState: this.props.editorState?EditorState.createWithContent(convertFromRaw(this.props.editorState)):EditorState.createEmpty(),
+
     };
-    this.changeEditorState = (editorState) => {this.setState({editorState: editorState})};
+    this.changeEditorState = (editorState) => {}; //no use, just for component requirement. 
     this._draft_blockClass = this._draft_blockClass.bind(this);
     this.style={
       Com_DraftDisplay_: {
@@ -27,12 +27,16 @@ export default class DraftDisplay extends React.Component {
 
   render(){
     //let cx = cxBind.bind(styles);
+    let editorState= this.props.editorState?EditorState.createWithContent(convertFromRaw(this.props.editorState)):EditorState.createEmpty();
+    //we put the editorState here, because it's 'Display' and readOnly, we won't change any content
+    //second, the displaying content should update follow it's parent---like editing.
+
     return(
       <div
         style={this.style.Com_DraftDisplay_}>
         <Editor
           ref={(element)=>{this.contentEditor = element;}}
-          editorState={this.state.editorState}
+          editorState={editorState}
           onChange={this.changeEditorState}
           blockStyleFn={this._draft_blockClass}
           readOnly/>

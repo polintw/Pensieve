@@ -11,6 +11,18 @@ class UnitEditing extends React.Component {
     this.state = {
 
     };
+    this.unitSet={
+      authorBasic: this.props.unitCurrent.authorBasic,
+      coverSrc: this.props.unitCurrent.coverSrc,
+      beneathSrc: this.props.unitCurrent.beneathSrc,
+      coverMarks: {list: this.props.unitCurrent.coverMarksList.slice(), data: Object.assign({},this.props.unitCurrent.coverMarksData)},
+      beneathMarks: {list: this.props.unitCurrent.beneathMarksList.slice(), data: Object.assign({},this.props.unitCurrent.beneathMarksData)},
+      nouns: {list: this.props.unitCurrent.nouns.list.slice(), basic: Object.assign({},this.props.unitCurrent.nouns.basic)},
+      refsArr: this.props.unitCurrent.refsArr,
+      createdAt: this.props.unitCurrent.createdAt
+    };
+    //beacuse wwe are going to modify the 'content', we need to seperate them from current Unit state in reducer
+    //---then we could still keep chance to truly 'cancel' the editing
     this.axiosSource = axios.CancelToken.source();
     this._refer_toandclose = this._refer_toandclose.bind(this);
     this._handleClick_UnitEditing_SubmitFile = this._handleClick_UnitEditing_SubmitFile.bind(this);
@@ -98,22 +110,11 @@ class UnitEditing extends React.Component {
   }
 
   render(){
-    const unitCurrent = this.props.unitCurrent;
-    let unitSet={
-      authorBasic: unitCurrent.authorBasic,
-      coverSrc: unitCurrent.coverSrc,
-      beneathSrc: unitCurrent.beneathSrc,
-      coverMarks: {list: unitCurrent.coverMarksList, data: unitCurrent.coverMarksData},
-      beneathMarks: {list: unitCurrent.beneathMarksList, data: unitCurrent.beneathMarksData},
-      nouns: unitCurrent.nouns,
-      refsArr: unitCurrent.refsArr,
-      createdAt: unitCurrent.createdAt
-    };
     return(
       <div
         style={this.style.Com_Modal_UnitEditing}>
         <EditingModal
-          unitSet={unitSet}
+          unitSet={this.unitSet}
           _refer_toandclose={this._refer_toandclose}
           _set_Submit={this._handleClick_UnitEditing_SubmitFile}
           _set_Clear={this.props._set_Modalmode}/>
