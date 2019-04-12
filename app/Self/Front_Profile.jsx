@@ -10,16 +10,19 @@ import NavFrontShelf from './component/NavFront/NavFrontShelf.jsx';
 import MaskProcessing from '../Component/MaskProcessing.jsx';
 
 const styleMiddle ={
-  spanReturn: {
+  boxReturn: {
     display: 'inline-block',
-    whiteSpace: 'nowrap',
-    fontSize: '1.54rem',
-    fontWeight: '400',
-    letterSpacing: '0.18rem',
-    color: '#ff7a5f'
+    boxSizing: 'border-box',
+    cursor: 'pointer',
+    zIndex: '2' //a temp method, to avoid cover by NavSelf
   },
-  linkPlain: {
-    textDecoration: 'none',
+  spanReturn: {
+    top: '44%',
+    whiteSpace: 'nowrap',
+    fontSize: '1.6rem',
+    fontWeight: '700',
+    letterSpacing: '0.12rem',
+    color: '#ff7a5f',
     cursor: 'pointer'
   }
 }
@@ -36,14 +39,13 @@ class FrontProfile extends React.Component {
         height: '100%',
         position: 'static',
         top: '0%',
-        left: '0%'
+        left: '0%',
+        backgroundColor: '#aaaaaa'
       },
       Front_Profile_return_: {
         position: 'fixed',
         bottom: '0%',
-        left: '70%',
-        boxSizing: 'border-box',
-        cursor: 'pointer'
+        left: '71%',
       },
       Front_Profile_scroll_: {
         width: '72%',
@@ -81,14 +83,14 @@ class FrontProfile extends React.Component {
         position: 'fixed',
         top: '0',
         left: '0',
-        backgroundColor: '#FFFFFF'
+        backgroundColor: '#aaaaaa'
       },
       Front_Profile_backPlane_bottom: {
         width: '100%',
         position: 'fixed',
         bottom: '0',
         left: '0',
-        backgroundColor: '#FFFFFF'
+        backgroundColor: '#aaaaaa'
       },
       Front_Profile_backPlane_nav_Front: {
         width: '32%',
@@ -97,7 +99,7 @@ class FrontProfile extends React.Component {
         bottom: '0',
         right: '0',
         boxSizing: 'border-box',
-        backgroundColor: '#d3deda'
+        backgroundColor: '#FFFFFF'
       }
     }
   }
@@ -121,13 +123,13 @@ class FrontProfile extends React.Component {
         </div>
         <div
           className={'selfFront-fixedBottomBox-height'}
-          style={Object.assign({},this.style.Front_Profile_return_, styleMiddle.spanReturn)}>
+          style={Object.assign({},this.style.Front_Profile_return_, styleMiddle.boxReturn)}>
           <Link
             to={this.props.location.state.from}
-            style={styleMiddle.linkPlain}>
+            className={'plainLinkButton'}>
             <div
               className={'verticalAlignChild'}
-              style={{cursor: 'pointer'}}>
+              style={styleMiddle.spanReturn}>
               {"back"}
             </div>
           </Link>

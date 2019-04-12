@@ -18,7 +18,6 @@ const commonStyle={
     left: '27%',
     boxSizing: 'border-box',
     paddingLeft: '4%',
-    borderLeft: 'solid 0.16rem #e6e6e6'
   },
   boxAroundIcon: {
     display: 'inline-block',
@@ -81,11 +80,13 @@ class NavSelf extends React.Component {
 
   render(){
     //let cx = cxBind.bind(styles);
+    let pathCognition = this.props.location.pathname.substring(0,10)=='/cognition'? true : false;
+
     return(
       <div
         style={this.style.Com_NavSelf_}>
         {
-          (this.props.location.pathname.substring(0,10)=='/cognition') &&
+           pathCognition &&
           <div>
             <div
               style={commonStyle.boxAroundIcon}
@@ -112,7 +113,7 @@ class NavSelf extends React.Component {
           </div>
         }
         <div
-          style={commonStyle.boxAccount}
+          style={Object.assign({}, commonStyle.boxAccount,{borderLeft: pathCognition? 'solid 0.16rem #e6e6e6' : ''})}
           onClick={this._handleClick_selfCover}>
           <div
             style={this.style.Com_NavSelf_AccountName}>
