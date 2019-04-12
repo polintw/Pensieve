@@ -40,7 +40,7 @@ class FrontProfile extends React.Component {
         position: 'static',
         top: '0%',
         left: '0%',
-        backgroundColor: '#aaaaaa'
+        backgroundColor: '#d1d1d1'
       },
       Front_Profile_return_: {
         position: 'fixed',
@@ -48,7 +48,7 @@ class FrontProfile extends React.Component {
         left: '71%',
       },
       Front_Profile_scroll_: {
-        width: '72%',
+        width: '60%',
         position: 'absolute',
         top: '2%',
         left: '18%',
@@ -83,14 +83,14 @@ class FrontProfile extends React.Component {
         position: 'fixed',
         top: '0',
         left: '0',
-        backgroundColor: '#aaaaaa'
+        backgroundColor: '#d1d1d1'
       },
       Front_Profile_backPlane_bottom: {
         width: '100%',
         position: 'fixed',
         bottom: '0',
         left: '0',
-        backgroundColor: '#aaaaaa'
+        backgroundColor: '#d1d1d1'
       },
       Front_Profile_backPlane_nav_Front: {
         width: '32%',

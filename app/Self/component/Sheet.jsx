@@ -30,50 +30,56 @@ const styleMiddle = {
         left: '0%'
       },
       selfCom_Sheet_ProfileTitle_: {
-        width: '64%',
-        height: '20vh',
+        width: '100%',
+        height: '113px',
         position: 'absolute',
-        top: '2vh',
+        top: '11px',
         right: '0',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        backgroundColor: '#ffffff'
       },
       selfCom_Sheet_ProfileTitle_name: {
         display: 'inline-block',
         position: 'absolute',
-        bottom: '0',
-        left: '5%',
+        bottom: '18%',
+        left: '6%',
         boxSizing: 'border-box',
-        padding: '1% 0',
         color: '#000000'
       },
       selfCom_Sheet_display_: {
         width: '100%',
         position: 'absolute',
-        top: '28vh',
+        top: '148px',
         left: '0',
         boxSizing: 'border-box',
-        padding: '3vh 2.5vw'
       },
       selfCom_Sheet_display_basic_: {
+        display: 'inline-block',
         width: '100%',
         position: 'relative',
         boxSizing: 'border-box'
       },
       selfCom_Sheet_display_basic_tempSetting: {
-        width: '90%',
-        height: '25vh',
+        width: '100%',
+        height: '123px',
         position: 'relative',
         boxSizing: 'border-box',
-        padding: '2vh 5%',
-        margin: '0 5%'
+        marginBottom: '4%',
+        backgroundColor: '#FFFFFF'
       },
       selfCom_Sheet_display_basic_blockGender: {
-        width: '90%',
-        height: '7vh',
+        width: '100%',
+        height: '108px',
         position: 'relative',
         boxSizing: 'border-box',
-        padding: '2vh 5%',
-        margin: '0 5%'
+        backgroundColor: '#FFFFFF'
+      },
+      selfCom_Sheet_display_basic_settingform: {
+        width: '100%',
+        height: '270px',
+        position: 'relative',
+        boxSizing: 'border-box',
+        backgroundColor: '#FFFFFF'
       }
     }
   }
@@ -83,14 +89,17 @@ const styleMiddle = {
       case 'setting':
         return (
           <div
-            style={this.style.selfCom_Sheet_display_basic_}>
+            style={this.style.selfCom_Sheet_display_basic_settingform}>
             <SheetSetting {...this.props}/>
           </div>
         )
         break;
       case 'password':
         return (
-          <SheetPassword/>
+          <div
+            style={this.style.selfCom_Sheet_display_basic_settingform}>
+            <SheetPassword/>
+          </div>
         )
         break;
       default:
@@ -193,9 +202,7 @@ const styleMiddle = {
         </div>
         <div
           style={this.style.selfCom_Sheet_display_}>
-          <section>
-            {this._render_SheetView(paramsStatus)}
-          </section>
+          {this._render_SheetView(paramsStatus)}
         </div>
       </div>
     )

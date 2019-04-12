@@ -22,9 +22,9 @@ const generalStyle = {
   spanNameLarge: {
     display: 'inline-block',
     whiteSpace: 'nowrap',
-    fontSize: "3.6rem",
+    fontSize: "3.8rem",
     fontWeight: '400',
-    letterSpacing: '0.24rem',
+    letterSpacing: '0.21rem',
   },
   Com_AccountPlate_name_label_: {
     display: 'inline-block',
