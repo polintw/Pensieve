@@ -35,8 +35,8 @@ class MarksViewer extends React.Component {
   _handleClick_ImgLayer_circle(event){
     event.preventDefault();
     event.stopPropagation();
-    let param = this.props.markOpened ? (false) : (event.currentTarget.getAttribute('id'));
-    this.props._set_Markvisible(param);
+    let markKey = this.props.markOpened ? (false) : (event.currentTarget.getAttribute('id'));
+    this.props._set_Markvisible(markKey);
   }
 
   _handleClick_SpotsLayer(event){

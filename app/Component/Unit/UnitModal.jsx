@@ -15,8 +15,10 @@ class UnitModal extends React.Component {
     this.state = {
       lockify: true,
       moveCount: this.props.unitInit.layer>0 ? 100 : 0,
+      markOpenedParent: false
     };
     this._set_layerstatus = (lockify, moveCount) => {this.setState({lockify: lockify, moveCount: moveCount});};
+    this._set_markOpenedParent = ()=>{this.setState((prevState,props)=>{return {markOpenedParent: prevState.markOpenedParent?false:true};});};
     this._refer_toandclose = this._refer_toandclose.bind(this);
     this._handleClick_unitBack = this._handleClick_unitBack.bind(this);
     this.style={
@@ -105,6 +107,7 @@ class UnitModal extends React.Component {
           <UnitLayerScroll
             lockify={this.state.lockify}
             moveCount={this.state.moveCount}
+            markOpened={this.state.markOpenedParent}
             _set_layerstatus={this._set_layerstatus}>
             <div
               style={this.style.Com_UnitModal_blocks_SumLayer_}>
@@ -136,6 +139,7 @@ class UnitModal extends React.Component {
                   moveCount={this.state.moveCount}
                   unitInit={this.props.unitInit}
                   _set_Modalmode={this.props._set_Modalmode}
+                  _set_markOpenedParent={this._set_markOpenedParent}
                   _refer_toandclose={this._refer_toandclose}/>
               }
             </div>

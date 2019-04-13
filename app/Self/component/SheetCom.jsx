@@ -437,9 +437,9 @@ class SettingAccount extends React.Component {
           <div
             style={Object.assign({}, this.style.selfCom_Setting_email_, styleMiddle.fontContent)}>
             <span
-              style={display:'block', position: 'relative', margin: '11px 0px'}>{this.props.accountSet.mail}</span>
+              style={{display:'block', position: 'relative', margin: '11px 0px'}}>{this.props.accountSet.mail}</span>
             <span
-              style={display: 'block'}>{"a valid email adress could not be changed"}</span>
+              style={{display: 'block'}}>{"a valid email adress could not be changed"}</span>
           </div>
           <form
             style={this.style.selfCom_Setting_accountForm}

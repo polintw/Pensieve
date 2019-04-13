@@ -42,19 +42,20 @@ class ImgLayersFrame extends React.Component {
     };
   }
 
-  _set_Markvisible(param){
+  _set_Markvisible(markKey){
     this.setState((prevState, props)=>{
-      let nextState = param ? (
+      let nextState = markKey ? (
         {
           spotsVisible: true,
           markOpened: true,
-          currentMark: param
+          currentMark: markKey
         }
       ):(
         {
           markOpened: false
         }
-      )
+      );
+      props._set_markOpenedParent(); //this, should be a reason to put every interactions states to redux reucer manage
       return nextState;
     });
   }

@@ -3,12 +3,16 @@ import {
   withRouter
 } from 'react-router-dom';
 import { connect } from "react-redux";
+import {
+  unitLockBufferLimit,
+  unitBasicMoveCount
+} from '../config/interactionsParams.js';
 
 class UnitLayerScroll extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      buffer: false
+      buffer: 0
     };
     this.scrollStick = React.createRef();
     this.stickBase = React.createRef();
@@ -21,7 +25,8 @@ class UnitLayerScroll extends React.Component {
         position: 'absolute',
         top: '0',
         left: '0%',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        touchAction: 'pan-y'
       },
       Com_Unit_LayerScroll_stick: {
         width: '94%',
@@ -36,19 +41,19 @@ class UnitLayerScroll extends React.Component {
 
   _handleWheel_moveCount(event){
     event.stopPropagation();
-    event.preventDefault();
+    //event.preventDefault();
+    //due to a break through of Chrome new version, the Wheel(touch) event was handled differently forever
+    //still we can control the 'touch' part, like touch screen or touchpad by set a CSS property: 'touchAction'
+
+    if(this.props.markOpened) return;//stop process if the mark still open
+
     let upward = event.deltaY>0 ? true : false;
     let localProps = Object.assign({}, this.props); //shallow copy, but it's enough for moveCount
     if(this.props.lockify){ //in the locking region
       if(!upward && (this.props.moveCount==0)) return; // do nothing if we are wanting to go down but already at bottom
-      if( !this.state.buffer) this.setState({buffer: true}) //give it a static chance
+      if(this.state.buffer < unitLockBufferLimit) this.setState((prevState,props)=>{return {buffer: prevState.buffer+1};}) //give it a static chance
       else{
-        this.setState((prevState, props)=>{//there are some error if we move to 'relations' path
-          props._set_layerstatus(false, localProps.moveCount + (upward ? this.basicCount*3 : (-1)*this.basicCount*3));
-          return {
-            buffer: false //leave locking region so does buffer
-          };
-        })
+        this.props._set_layerstatus(false, localProps.moveCount + (upward ? this.basicCount*3 : (-1)*this.basicCount*3));
       }
       return;
     }else{ //during the move
@@ -82,7 +87,7 @@ class UnitLayerScroll extends React.Component {
 
         props._set_layerstatus(layerlocking, nowCount);
         return {
-          buffer: false
+          buffer: 0
         };
       })
     }
@@ -114,7 +119,7 @@ class UnitLayerScroll extends React.Component {
     this.sumLock = this.coverLock/5;
     this.basicMove = this.coverLock*4/5/(this.props.unitCurrent.beneathSrc ? 200 :100);
 
-    this.basicCount = 10; //now we use 10 as the 'step'
+    this.basicCount = unitBasicMoveCount; //set single 'step'
     this.checkRange = this.basicCount+1; //11 if we set basicCount as 10
     this.bounderTop = this.props.unitCurrent.beneathSrc? 200:100; //mark the toppest reachable count
     this.bounderTopBottom = this.bounderTop-this.checkRange;

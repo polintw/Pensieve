@@ -159,7 +159,7 @@ class UnitViewSummary extends React.Component {
     //let cx = cxBind.bind(styles);
 
     //prepare beneath line for future, connecting to /related
-    if(this.props.moveCount == 240) return (<UnitSummaryNail  _close_modal_Unit={this.props._close_modal_Unit}/>);
+    if(this.props.moveCount > 240) return (<UnitSummaryNail  _close_modal_Unit={this.props._close_modal_Unit}/>);
     let marksObj = {
       list: this.props.unitCurrent.coverMarksList.concat(this.props.unitCurrent.beneathMarksList),
       data: Object.assign({}, this.props.unitCurrent.coverMarksData, this.props.unitCurrent.beneathMarksData)
