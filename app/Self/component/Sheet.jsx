@@ -1,4 +1,7 @@
 import React from 'react';
+import {
+  withRouter
+} from 'react-router-dom';
 import {connect} from "react-redux";
 import {
   SheetAccount,
@@ -31,17 +34,18 @@ const styleMiddle = {
       },
       selfCom_Sheet_ProfileTitle_: {
         width: '100%',
-        height: '113px',
+        height: '115px',
         position: 'absolute',
         top: '11px',
         right: '0',
         boxSizing: 'border-box',
+        boxShadow: '1px 0px 3px -2px',
         backgroundColor: '#ffffff'
       },
       selfCom_Sheet_ProfileTitle_name: {
         display: 'inline-block',
         position: 'absolute',
-        bottom: '18%',
+        bottom: '22%',
         left: '6%',
         boxSizing: 'border-box',
         color: '#000000'
@@ -49,7 +53,7 @@ const styleMiddle = {
       selfCom_Sheet_display_: {
         width: '100%',
         position: 'absolute',
-        top: '148px',
+        top: '151px',
         left: '0',
         boxSizing: 'border-box',
       },
@@ -59,28 +63,30 @@ const styleMiddle = {
         position: 'relative',
         boxSizing: 'border-box'
       },
-      selfCom_Sheet_display_basic_tempSetting: {
+      selfCom_Sheet_display_settingform: {
         width: '100%',
-        height: '123px',
         position: 'relative',
         boxSizing: 'border-box',
-        marginBottom: '4%',
+        boxShadow: '0px 0px 3px -2px',
+        backgroundColor: '#FFFFFF'
+      },
+      selfCom_Sheet_display_basic_tempSetting: {
+        width: '100%',
+        height: '152px',
+        position: 'relative',
+        boxSizing: 'border-box',
+        marginBottom: '2.5%',
+        boxShadow: '0px 0px 3px -2px',
         backgroundColor: '#FFFFFF'
       },
       selfCom_Sheet_display_basic_blockGender: {
         width: '100%',
-        height: '108px',
+        height: '118px',
         position: 'relative',
         boxSizing: 'border-box',
+        boxShadow: '0px 0px 3px -2px',
         backgroundColor: '#FFFFFF'
       },
-      selfCom_Sheet_display_basic_settingform: {
-        width: '100%',
-        height: '270px',
-        position: 'relative',
-        boxSizing: 'border-box',
-        backgroundColor: '#FFFFFF'
-      }
     }
   }
 
@@ -89,7 +95,7 @@ const styleMiddle = {
       case 'setting':
         return (
           <div
-            style={this.style.selfCom_Sheet_display_basic_settingform}>
+            style={this.style.selfCom_Sheet_display_settingform}>
             <SheetSetting {...this.props}/>
           </div>
         )
@@ -97,8 +103,8 @@ const styleMiddle = {
       case 'password':
         return (
           <div
-            style={this.style.selfCom_Sheet_display_basic_settingform}>
-            <SheetPassword/>
+            style={this.style.selfCom_Sheet_display_settingform}>
+            <SheetPassword {...this.props}/>
           </div>
         )
         break;
@@ -224,7 +230,7 @@ const mapDispatchToProps = (dispatch)=>{
   }
 }
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(Sheet);
+)(Sheet));

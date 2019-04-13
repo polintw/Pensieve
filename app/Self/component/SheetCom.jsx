@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Route,
+  withRouter,
   Link
 } from 'react-router-dom';
 import {connect} from "react-redux";
@@ -21,7 +22,6 @@ const styleMiddle= {
   },
   basicList: {
     width: '70%',
-    height: '24%',
     position: 'absolute',
     left: '6%',
     boxSizing: 'border-box',
@@ -45,10 +45,10 @@ class Basic extends React.Component {
         left: '0%'
       },
       selfCom_Sheet_Basic_list_gender: {
-        top: '20%',
+        top: '25%',
       },
       selfCom_Sheet_Basic_list_birth: {
-        top: '50%',
+        top: '49%',
       },
     }
   }
@@ -111,7 +111,7 @@ class Basic extends React.Component {
           {
             (sheetRec.birthDate && sheetRec.birthYear && sheetRec.birthMonth)?(
               <p
-                style={{display: 'inline-block'}}>
+                style={{display: 'inline-block', margin: '0'}}>
                 <span>{this.props.userSheet.birthDate + ". "}</span>
                 <span>{this.props.userSheet.birthMonth + ". "}</span>
                 <span>{this.props.userSheet.birthYear}</span>
@@ -151,13 +151,13 @@ class AccountatSheet extends React.Component {
       },
       selfCom_Setting_reset: {
         position: 'absolute',
-        top: '65%',
+        top: '69%',
         left: '58%',
         boxSizing: 'border-box',
       },
       selfCom_Setting_pass: {
         position: 'absolute',
-        top: '65%',
+        top: '69%',
         left: '76%',
         boxSizing: 'border-box',
       }
@@ -176,7 +176,8 @@ class AccountatSheet extends React.Component {
         </div>
         <Link
           to={{
-            pathname: "/profile/sheet?status=password",
+            pathname: this.props.match.url ,
+            search: '?status=password',
             state: {from: this.props.location.state.from}
           }}
           style={Object.assign({},this.style.selfCom_Setting_pass,styleMiddle.submit)}>
@@ -186,7 +187,8 @@ class AccountatSheet extends React.Component {
         </Link>
         <Link
           to={{
-            pathname: "/profile/sheet?status=setting",
+            pathname: this.props.match.url ,
+            search: '?status=setting',
             state: {from: this.props.location.state.from}
           }}
           className={'plainLinkButton'}
@@ -224,7 +226,6 @@ class SettingPassword extends React.Component {
         transform: 'translate(-50%, -50%)',
         boxSizing: 'border-box',
         borderRadius: '0.5rem',
-        backgroundColor: '#FAFAFA'
       }
     }
   }
@@ -338,7 +339,11 @@ class SettingPassword extends React.Component {
               value='submit'
               disabled={this.props.settingSubmitting? true:false}/>
             <Link
-              to="/profile/sheet"
+              to={{
+                pathname: this.props.match.url ,
+                search: '',
+                state: {from: this.props.location.state.from}
+              }}
               style={this.style.selfCom_Setting_pass}>
               <input
                 type='button'
@@ -357,11 +362,12 @@ class SettingAccount extends React.Component {
       this.state = {
         axios: false
       };
+      this.axiosSource = axios.CancelToken.source();
       this._handle_settingAccount = this._handle_settingAccount.bind(this);
       this.style={
         selfCom_Setting_account: {
           width: '100%',
-          height: '45vh',
+          height: '270px',
           position: 'relative'
         },
         selfCom_Setting_accountForm: {
@@ -369,26 +375,19 @@ class SettingAccount extends React.Component {
           height: '56%',
           position: 'relative',
           boxSizing: 'border-box',
+          padding: '10px 6%'
         },
         selfCom_Setting_email_: {
           width: '100%',
-          height: '24%',
           position: 'relative',
           boxSizing: 'border-box',
-          fontSize: '1.5rem',
-          letterSpacing: '0.15rem',
-          fontWeight: '400'
+          marginBottom: '15px',
+          padding: '16px 6%'
         },
         selfCom_Setting_nameBar_: {
           width: '100%',
-          height: '40%',
-          position: 'absolute',
-          top: '0',
-          left: '0',
+          position: 'relative',
           boxSizing: 'border-box',
-          fontSize: '1.5rem',
-          letterSpacing: '0.15rem',
-          fontWeight: '400'
         }
       }
     }
@@ -401,7 +400,11 @@ class SettingAccount extends React.Component {
       reqBody["lastName"] = this.accountLast.value;
       this.setState({axios: true});
       axios.patch('/router/account/setting', reqBody, {
-        headers: {'charset': 'utf-8'}
+        headers: {
+          'charset': 'utf-8',
+          'token': window.localStorage['token']
+        },
+        cancelToken: this.axiosSource.token
       }).then(function (res) {
         self.setState({
           axios: false
@@ -420,26 +423,35 @@ class SettingAccount extends React.Component {
       });
     }
 
+    componentWillUnmount(){
+      if(this.props.axios){
+        this.axiosSource.cancel("component will unmount.")
+      }
+    }
+
     render(){
       //let cx = cxBind.bind(styles);
       return(
         <div
           style={this.style.selfCom_Setting_account}>
           <div
-            style={this.style.selfCom_Setting_email_}>
-            <span>{this.props.accountSet.mail}</span>
-            <span>{"a valid email adress could not be changed"}</span>
+            style={Object.assign({}, this.style.selfCom_Setting_email_, styleMiddle.fontContent)}>
+            <span
+              style={display:'block', position: 'relative', margin: '11px 0px'}>{this.props.accountSet.mail}</span>
+            <span
+              style={display: 'block'}>{"a valid email adress could not be changed"}</span>
           </div>
           <form
             style={this.style.selfCom_Setting_accountForm}
             onSubmit={this._handle_settingAccount}>
             <div
-              style={this.style.selfCom_Setting_nameBar_}>
+              style={Object.assign({}, this.style.selfCom_Setting_nameBar_, styleMiddle.fontContent)}>
               <span>{"last name : "}</span>
               <input
                 type="text"
                 ref={(element)=>{this.accountFirst = element}}
                 defaultValue={this.props.accountSet.firstName}/>
+              <br/>
               <span>{"Family name : "}</span>
               <input
                 type="text"
@@ -449,11 +461,16 @@ class SettingAccount extends React.Component {
             <input
               type="submit"
               value="confirm"
-              style={{position: 'absolute', bottom: '5%', right: '5%'}}/>
+              style={Object.assign({},{position: 'absolute', bottom: '5%', right: '5%'},styleMiddle.submit)}/>
             <Link
-              to="/profile/sheet"
+              to={{
+                pathname: this.props.match.url ,
+                search: '',
+                state: {from: this.props.location.state.from}
+              }}
               replace
-              style={{position: 'absolute', bottom: '5%', right: '15%'}}>
+              className={'plainLinkButton'}
+              style={Object.assign({}, {position: 'absolute', bottom: '5%', right: '15%'}, styleMiddle.submit)}>
             {"cancel"}</Link>
           </form>
         </div>
@@ -486,5 +503,5 @@ const reduxConnection = connect(
 
 export const SheetSetting = reduxConnection(SettingAccount);
 export const SheetPassword = reduxConnection(SettingPassword);
-export const SheetAccount = reduxConnection(AccountatSheet);
+export const SheetAccount = withRouter(reduxConnection(AccountatSheet));
 export const SheetBasic = reduxConnection(Basic);

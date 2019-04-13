@@ -22,7 +22,7 @@ const generalStyle = {
   spanNameLarge: {
     display: 'inline-block',
     whiteSpace: 'nowrap',
-    fontSize: "3.8rem",
+    fontSize: "3.6rem",
     fontWeight: '400',
     letterSpacing: '0.21rem',
   },

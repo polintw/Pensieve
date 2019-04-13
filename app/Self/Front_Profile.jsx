@@ -48,7 +48,7 @@ class FrontProfile extends React.Component {
         left: '71%',
       },
       Front_Profile_scroll_: {
-        width: '60%',
+        width: '61%',
         position: 'absolute',
         top: '2%',
         left: '18%',
@@ -99,6 +99,8 @@ class FrontProfile extends React.Component {
         bottom: '0',
         right: '0',
         boxSizing: 'border-box',
+        boxShadow: '2px 0px 4px -2px inset',
+        borderTopLeftRadius: '2vh',
         backgroundColor: '#FFFFFF'
       }
     }

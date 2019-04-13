@@ -87,7 +87,7 @@ class Screen extends React.Component {
         boxSizing: 'border-box',
         fontWeight: '400',
         fontSize: "2rem",
-        letterSpacing: '0.15rem',
+        letterSpacing: '0.14rem',
         color: '#ff7a5f',
         cursor: 'pointer'
       },
