@@ -41,9 +41,9 @@ class UnitLayerScroll extends React.Component {
 
   _handleWheel_moveCount(event){
     event.stopPropagation();
-    //event.preventDefault();
-    //due to a break through of Chrome new version, the Wheel(touch) event was handled differently forever
-    //still we can control the 'touch' part, like touch screen or touchpad by set a CSS property: 'touchAction'
+    event.preventDefault();
+    //due to a break through of Chrome new version, the Wheel(touch) event was handled differently forever(see below 'addEventListener')
+    //about the scroll from 'touch' part, like touch screen or touchpad should control by set a CSS property: 'touchAction'
 
     if(this.props.markOpened) return;//stop process if the mark still open
 
@@ -127,10 +127,16 @@ class UnitLayerScroll extends React.Component {
     //then definr the middle lines for multiple layers
     this.downMiddle = this.props.unitCurrent.beneathSrc? 100:0;
     this.upMiddle = this.props.unitCurrent.beneathSrc? 100:this.bounderTop;
+
+    this.stickBase.current.addEventListener('wheel', this._handleWheel_moveCount, {passive: false})
+    //because the modern browser set the 'passive' property of addEventListener default to true,
+    //it would block the e.preventDefault() useage
+    //so we could only add listener manually like this way
   }
 
   componentWillUnmount() {
-
+    //and don't forget to move any exist evetListener
+    this.stickBase.current.removeEventListener('wheel',this._handleWheel_moveCount);
   }
 
   render(){
@@ -138,8 +144,7 @@ class UnitLayerScroll extends React.Component {
     return(
       <div
         ref={this.stickBase}
-        style={this.style.Com_Unit_LayerScroll_}
-        onWheel={this._handleWheel_moveCount}>
+        style={this.style.Com_Unit_LayerScroll_}>
         <div
           ref={this.scrollStick}
           style={Object.assign({top: this._set_stickTop()},this.style.Com_Unit_LayerScroll_stick)}>
