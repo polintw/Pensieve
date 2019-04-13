@@ -11,6 +11,7 @@ import {
   cancelErr,
   uncertainErr
 } from '../utils/errHandler_axios.js';
+import SvgLogo from '../../Component/Svg/SvgLogo.jsx';
 import MaskProcessing from '../../Component/MaskProcessing.jsx';
 import {
   setSignInit,
@@ -18,6 +19,18 @@ import {
   axiosGetRes,
   handleSignUser
 } from "../../redux/actions/handleSign.js";
+
+const commonStyle= {
+  signLogo: {
+    display: 'inline-block',
+    width: '11%',
+    position: 'absolute',
+    left: '20%',
+    top: '27%',
+    boxSizing: 'border-box',
+    transform: 'rotate(270deg)'
+  }
+}
 
 class SignupForm extends React.Component {
   constructor(props){
@@ -130,6 +143,10 @@ class SignupForm extends React.Component {
     return(
       <div
         style={this.style.Signup_form_}>
+        <div
+          style={commonStyle.signLogo}>
+          <SvgLogo/>
+        </div>
         <div
           style={this.style.Signup_form_inputs_}>
           <h2 style={{marginBottom: '40px'}}>Registration</h2>

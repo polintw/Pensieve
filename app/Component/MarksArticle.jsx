@@ -26,7 +26,6 @@ class MarksArticle extends React.Component {
       Com_MarksArticle_paragraph: {
         display: 'inline-block',
         width: '100%',
-        maxWidth: '30rem',
         position: 'relative',
         boxSizing: 'border-box',
         padding: '0.5rem 0',

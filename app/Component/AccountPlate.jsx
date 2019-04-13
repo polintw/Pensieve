@@ -19,6 +19,13 @@ const generalStyle = {
     fontWeight: '400',
     letterSpacing: '0.18rem',
   },
+  spanNameLarge: {
+    display: 'inline-block',
+    whiteSpace: 'nowrap',
+    fontSize: "3.6rem",
+    fontWeight: '400',
+    letterSpacing: '0.21rem',
+  },
   Com_AccountPlate_name_label_: {
     display: 'inline-block',
     position: 'relative',
@@ -128,6 +135,27 @@ class Medium extends React.Component {
   }
 }
 
+class Large extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+
+    };
+    this.style={
+
+    }
+  }
+
+  render(){
+    //let cx = cxBind.bind(styles);
+    return(
+      <span style={generalStyle.spanNameLarge}>
+        {this.props.userInfo.firstName + " " + this.props.userInfo.lastName}
+      </span>
+    )
+  }
+}
+
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
@@ -142,3 +170,4 @@ const reduxConnection = connect(
 
 export const NameRegular = withRouter(reduxConnection(Regular));
 export const NameMedium = withRouter(reduxConnection(Medium));
+export const NameLarge = withRouter(reduxConnection(Large));
