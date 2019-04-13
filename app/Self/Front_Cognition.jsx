@@ -8,7 +8,6 @@ import {
 import {connect} from "react-redux";
 import NavOptions from './component/NavOptions.jsx';
 import Cognition from './component/cognition/Cognition.jsx';
-import Collaterals from './component/cognition/Collaterals.jsx';
 import NavsCognition from './component/cognition/NavsCognition.jsx';
 
 class FrontCognition extends React.Component {
@@ -52,11 +51,8 @@ class FrontCognition extends React.Component {
         if(identifier == this.props.userInfo.id){
           window.location.assign('/user/screen');
         }else{
-          window.location.assign('/cosmic/people/'+identifier);
+          window.location.assign('/');
         }
-        break;
-      case 'noun':
-        window.location.assign('/cosmic/nouns/'+identifier);
         break;
       default:
         return
@@ -69,7 +65,6 @@ class FrontCognition extends React.Component {
       <div
         style={this.style.Front_Cognition_}>
         <Switch>
-          <Route path={this.props.match.path+"/collaterals"} render={(props)=> <Collaterals {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>
           <Route path={this.props.match.path} render={(props)=> <Cognition {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>
         </Switch>
         <div style={this.style.Front_Cognition_backPlane_top}/>

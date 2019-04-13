@@ -6,7 +6,6 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import cxBind from 'classnames/bind';
 import Unit from '../../Component/Unit.jsx';
 import CreateShare from '../../Component/CreateShare.jsx';
 import SvgLogo from '../../Component/Svg/SvgLogo.jsx';

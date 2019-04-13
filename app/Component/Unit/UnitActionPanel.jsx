@@ -6,7 +6,6 @@ import {
 import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import AuthorPanel from './AuthorPanel.jsx';
-import ViewerPanel from './ViewerPanel.jsx';
 
 class UnitActionPanel extends React.Component {
   constructor(props){
@@ -38,12 +37,9 @@ class UnitActionPanel extends React.Component {
       <div
         style={this.style.Com_UnitActionPanel_}>
         {
-          this.props.unitCurrent.identity=="author" ?(
+          this.props.unitCurrent.identity=="author" &&
             <AuthorPanel
               _set_Modalmode={this.props._set_Modalmode}/>
-          ):(
-            <ViewerPanel/>
-          )
         }
       </div>
     )

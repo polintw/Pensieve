@@ -57,20 +57,6 @@ export default class NavWalls extends React.Component {
         <div
           style={commonStyle.align}>
           <Link
-            to={this.props.match.url+"/mutuals/dialogues"}
-            className={'plainLinkButton'}
-            style={commonStyle.boxNavButton}>
-            <div
-              className={styles.roundRecBox}
-              style={{backgroundColor: this.props.location.pathname.includes("/mutuals/")? "#e6e6e6":'transparent'}}>
-              <span
-                className={'centerAlignChild'}
-                style={Object.assign({}, commonStyle.spanButtonNavWalls, {color: this.props.location.pathname.includes("/mutuals/")? "black":'#757575'})}>
-                {"mutual"}
-              </span>
-            </div>
-          </Link>
-          <Link
             to={this.props.match.url+"/embedded/inspireds"}
             className={'plainLinkButton'}
             style={commonStyle.boxNavButton}>
@@ -80,7 +66,7 @@ export default class NavWalls extends React.Component {
               <span
                 className={'centerAlignChild'}
                 style={Object.assign({}, commonStyle.spanButtonNavWalls, {color: this.props.location.pathname.includes("/embedded/")? "black":'#757575'})}>
-                {"embed"}
+                {"inspired"}
               </span>
             </div>
           </Link>
@@ -94,7 +80,7 @@ export default class NavWalls extends React.Component {
               <span
                 className={'centerAlignChild'}
                 style={Object.assign({}, commonStyle.spanButtonNavWalls, {color: this.props.location.pathname.includes("/actions/")? "black":'#757575'})}>
-                {"actions"}
+                {"shareds"}
               </span>
             </div>
           </Link>

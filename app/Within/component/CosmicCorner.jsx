@@ -4,7 +4,6 @@ import {
   Link
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import cxBind from 'classnames/bind';
 
 const commonStyle = {
   withinCom_CosmicCorner_options_: {
@@ -56,20 +55,8 @@ class CosmicCorner extends React.Component {
       <div
         style={this.style.withinCom_CosmicCorner_}>
         <div
-          style={Object.assign({marginBottom: '2vh'}, commonStyle.withinCom_CosmicCorner_options_)}>
-          {"selector"}
-        </div>
-        <div
-          style={ commonStyle.withinCom_CosmicCorner_options_}>
-          {"focus"}
-        </div>
-        <div
-          style={ commonStyle.withinCom_CosmicCorner_options_}>
-          <Link
-            to="/"
-            style={{textDecoration: 'none', color: '#fc766a'}}>
-            {"around"}
-          </Link>
+          style={Object.assign({}, commonStyle.withinCom_CosmicCorner_options_, {color: '#fc766a'})}>
+          {"around"}
         </div>
         <div
           style={Object.assign({color: '#333333'}, commonStyle.withinCom_CosmicCorner_options_)}

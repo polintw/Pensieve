@@ -126,39 +126,35 @@ class Screen extends React.Component {
     //let cx = cxBind.bind(styles);
 
     return(
-      this.state.scroll?(
-        <Redirect to="?watch=appearance"/>
-      ):(
+      <div
+        ref={(element)=>{this.terrace_pagenav=element;}}
+        style={styleMiddle.base}
+        onWheel={this._handleMouse_terraceFrame}>
         <div
-          ref={(element)=>{this.terrace_pagenav=element;}}
-          style={styleMiddle.base}
-          onWheel={this._handleMouse_terraceFrame}>
-          <div
-            style={this.style.terraceCom_Screen_plane_}>
-            <div style={this.style.terraceCom_Screen_depthShadow}></div>
-            <div style={this.style.terraceCom_Screen_account_}>
-              <span style={this.style.terraceCom_Screen_account_name}>{this.props.userInfo.firstName+" "+this.props.userInfo.lastName}</span>
-            </div>
-            <div
-              style={this.style.terraceCom_Screen_options_}>
-              <div style={{display: 'inline',position: 'relative',top:'-0.24rem',marginRight:'8%',borderLeft: 'solid 0.2rem #e6e6e6'}}></div>
-              <div
-                style={this.style.terraceCom_Screen_options_expand}
-                onClick={this._handleClick_nav_expand}>
-                {'expand'}
-              </div>
-            </div>
+          style={this.style.terraceCom_Screen_plane_}>
+          <div style={this.style.terraceCom_Screen_depthShadow}></div>
+          <div style={this.style.terraceCom_Screen_account_}>
+            <span style={this.style.terraceCom_Screen_account_name}>{this.props.userInfo.firstName+" "+this.props.userInfo.lastName}</span>
           </div>
           <div
-            style={this.style.terraceCom_Screen_floor_}>
+            style={this.style.terraceCom_Screen_options_}>
+            <div style={{display: 'inline',position: 'relative',top:'-0.24rem',marginRight:'8%',borderLeft: 'solid 0.2rem #e6e6e6'}}></div>
             <div
-              style={this.style.terraceCom_Screen_return_}
-              onClick={this._handleClick_selfClose}>
-              <SvgAround/>
+              style={this.style.terraceCom_Screen_options_expand}
+              onClick={this._handleClick_nav_expand}>
+              {'expand'}
             </div>
           </div>
         </div>
-      )
+        <div
+          style={this.style.terraceCom_Screen_floor_}>
+          <div
+            style={this.style.terraceCom_Screen_return_}
+            onClick={this._handleClick_selfClose}>
+            <SvgAround/>
+          </div>
+        </div>
+      </div>
     )
   }
 }

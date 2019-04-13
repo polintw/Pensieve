@@ -1,5 +1,4 @@
 import React from 'react';
-import cxBind from 'classnames/bind';
 import MainIndex from './MainIndex.jsx';
 
 export default class CosmicMain extends React.Component {

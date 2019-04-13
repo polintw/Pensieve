@@ -5,8 +5,6 @@ import {
   Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import cxBind from 'classnames/bind';
-import CreateResponse from './CreateResponse.jsx';
 import ModalBox from './ModalBox.jsx';
 import ModalBackground from './ModalBackground.jsx';
 import UnitModal from './Unit/UnitModal.jsx';
@@ -135,14 +133,6 @@ class Unit extends React.Component {
             _set_Modalmode={this._set_Modalmode}
             _refer_von_unit={this.props._refer_von_unit}
             _reset_UnitMount={this._reset_UnitMount}/>)
-        break;
-      case "response":
-        return (
-          <CreateResponse
-            unitId={this.unitId}
-            mode={this.state.mode}
-            _set_Modalmode={this._set_Modalmode}
-            _refer_von_unit={this.props._refer_von_unit}/>)
         break;
       case "viewer":
         return (
