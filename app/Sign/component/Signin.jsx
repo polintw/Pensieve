@@ -4,11 +4,23 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import cxBind from 'classnames/bind';
+import SvgLogo from '../../Component/Svg/SvgLogo.jsx';
 import {
   setSignInit,
   handleSignUser
 } from "../../redux/actions/handleSign.js";
+
+const commonStyle= {
+  signLogo: {
+    display: 'inline-block',
+    width: '11%',
+    position: 'absolute',
+    left: '20%',
+    top: '27%',
+    boxSizing: 'border-box',
+    transform: 'rotate(270deg)'
+  }
+}
 
 class Signin extends React.Component {
   constructor(props){
@@ -35,7 +47,7 @@ class Signin extends React.Component {
         left: '50%',
         transform: 'translate(-50%, 0)',
         boxSizing:'border-box'
-      }
+      },
     }
   }
 
@@ -66,6 +78,10 @@ class Signin extends React.Component {
     return(
       <div
         style={this.style.Signin_}>
+        <div
+          style={commonStyle.signLogo}>
+          <SvgLogo/>
+        </div>
         <div
           style={this.style.Signin_member_}>
           <form onSubmit={this._handle_Signin}>

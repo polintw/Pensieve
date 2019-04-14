@@ -1,6 +1,7 @@
 import {
+  SET_UNITCURRENT,
+  SET_UNITINSPIRED,
   MOUNT_USERINFO,
-  UNIT_MOUNT_UNITCURRENT,
   UNIT_SUBMITTING_SWITCH,
   UPDATE_NOUNSBASIC,
   UPDATE_USERSBASIC,
@@ -12,12 +13,25 @@ import {
 } from '../constants/typesSelfFront.js';
 import {errHandler_axiosCatch} from "../../utils/errHandlers.js";
 
-export function mountUserInfo(obj) {
-  return { type: MOUNT_USERINFO, userInfo: obj }
+export function setUnitCurrent(obj) {
+  return { type: SET_UNITCURRENT, unitCurrent: obj }
 };
 
-export function mountUnitCurrent(obj) {
-  return { type: UNIT_MOUNT_UNITCURRENT, unitCurrent: obj }
+export function setUnitInspired(markId, aim) {
+  //this actoin creator, could do function return is because we use 'thunk' middleware when create store
+  return (dispatch, getState) => {
+    const currentMarksInteraction = getState().unitCurrent.marksInteraction;
+    const currentMark =  getState().unitCurrent.marksInteraction[markId];
+    let nextMark = Object.assign({}, currentMark); //shallow copy of the mark status
+    nextMark.inspired = true;
+    let nextMarksInteraction = Object.assign({}, currentMarksInteraction); //shallow copy for the whole marksInteraction
+    nextMarksInteraction[markId] = nextMark;
+    dispatch({ type: SET_UNITINSPIRED, nextMarksInteraction: {marksInteraction: nextMarksInteraction}});
+  }
+};
+
+export function mountUserInfo(obj) {
+  return { type: MOUNT_USERINFO, userInfo: obj }
 };
 
 export function mountUserSheet(sheetObj, accountSet) {

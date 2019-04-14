@@ -28,7 +28,7 @@ function _handle_account_password_PATCH(req, res) {
 
     const reqToken = req.body.token || req.headers['token'] || req.query.token;
     const jwtVerified = jwt.verify(reqToken, verify_key);
-    if (!jwtVerified) throw new internalError(jwtVerified, 131)
+    if (!jwtVerified) throw new authorizedError(jwtVerified, 32)
 
     let mysqlForm = {
       accordancesList: [[jwtVerified.user_Id]]

@@ -1,8 +1,8 @@
 const express = require('express');
 const main = express.Router();
 
-const compoundExecutive = require('./compound.js');
+const presentExcutive = require('./present.js');
 
-main.use('/compound', compoundExecutive)
+main.use('/present', presentExcutive)
 
 module.exports = main;

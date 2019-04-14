@@ -1,10 +1,22 @@
 import React from 'react';
 import {
-  withRouter
+  Route,
+  Link
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import cxBind from 'classnames/bind';
-import ModalBox from '../../Component/ModalBox.jsx';
+
+const commonStyle = {
+  withinCom_CosmicCorner_options_: {
+    position: 'relative',
+    boxSizing: 'border-box',
+    margin: '2vh 0 0 0',
+    fontSize: '1.4rem',
+    letterSpacing: '0.16rem',
+    whiteSpace: 'nowrap',
+    textAlign: 'center',
+    cursor: 'pointer'
+  }
+}
 
 class CosmicCorner extends React.Component {
   constructor(props){
@@ -17,66 +29,10 @@ class CosmicCorner extends React.Component {
     this._handleClick_currentReload = this._handleClick_currentReload.bind(this);
     this.style={
       withinCom_CosmicCorner_: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box'
-      },
-      withinCom_CosmicCorner_logo: {
-        position: 'absolute',
-        top: '0',
-        left: '1%',
-        boxSizing: 'border-box',
-        fontWeight: '300',
-        fontSize: '2.7vh',
-        letterSpacing: '0.3vh',
-        color: 'rgba(62, 61, 61, 0.92)',
-        cursor: 'pointer'
-      },
-      withinCom_CosmicCorner_Self_: {
         position: 'absolute',
         bottom: '0',
-        right: '2%',
-        boxSizing: 'border-box',
-        textAlign: 'right',
-        cursor: 'pointer'
-      },
-      withinCom_CosmicCorner_Self_span: {
-        display: 'block',
-        position: 'relative',
-        boxSizing: 'border-box',
-        padding: '0.5vh 0',
-        fontSize: '1.5rem',
-        letterSpacing: '0.2rem',
-        color: '#222222'
-      },
-      withinCom_CosmicCorner_options_: {
-        width: '3%',
-        position: 'absolute',
-        bottom: '46%',
-        right: '5%',
-        boxSizing: 'border-box',
-      },
-      withinCom_LtdToolBox_: {
-        position: 'absolute',
-        bottom: '136%',
-        left: '12%',
-        boxSizing: 'border-box',
-        boxShadow: '1px 1px 5px 0px',
-        backgroundColor: '#FAFAFA'
-      },
-      withinCom_LtdToolBox_ol_: {
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box',
-        padding: '0 18% 0 10%',
-        listStyle: 'none',
-        fontSize: '1.2rem',
-        letterSpacing: '0.15rem',
-        fontWeight: '300',
-        color: '#222222'
+        transform: 'translate(-50%, 0)',
+        boxSizing: 'border-box'
       }
     }
   }
@@ -96,9 +52,7 @@ class CosmicCorner extends React.Component {
   _handleClick_navToolBox(event){
     event.stopPropagation();
     event.preventDefault();
-    this.setState((prevState, props)=>{
-      return {toolBoxify: prevState.toolBoxify?false:true}
-    })
+    window.location.assign('/user/screen');
   }
 
   componentDidMount() {
@@ -115,26 +69,14 @@ class CosmicCorner extends React.Component {
       <div
         style={this.style.withinCom_CosmicCorner_}>
         <div
-          style={this.style.withinCom_CosmicCorner_logo}
-          onClick={this._handleClick_currentReload}>
-          {"CORNER"}
+          onClick={(event)=>{event.stopPropagation();event.preventDefault(); window.location.reload();}}
+          style={Object.assign({}, commonStyle.withinCom_CosmicCorner_options_, {color: '#fc766a'})}>
+          {"start"}
         </div>
         <div
-          style={this.style.withinCom_CosmicCorner_Self_}
+          style={Object.assign({color: '#333333'}, commonStyle.withinCom_CosmicCorner_options_)}
           onClick={this._handleClick_cosmic_Self}>
-          <span style={this.style.withinCom_CosmicCorner_Self_span}>
-            {this.props.userInfo.firstName}</span>
-          <span style={this.style.withinCom_CosmicCorner_Self_span}>
-            {this.props.userInfo.lastName}</span>
-        </div>
-        <div
-          id={"withinCom_CosmicCorner_options"}
-          style={this.style.withinCom_CosmicCorner_options_}>
-          <span
-            style={{display: 'inline-block', position: 'relative', fontSize: '1rem', cursor: 'pointer'}}
-            onClick={this._handleClick_navToolBox}>
-            {"。。"}
-          </span>
+          {this.props.userInfo.account}
         </div>
         {
           this.state.toolBoxify &&
@@ -163,7 +105,7 @@ const mapStateToProps = (state)=>{
   }
 }
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   null
-)(CosmicCorner));
+)(CosmicCorner);

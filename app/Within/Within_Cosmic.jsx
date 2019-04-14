@@ -6,9 +6,9 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import cxBind from 'classnames/bind';
 import CosmicCorner from './component/CosmicCorner.jsx';
 import CosmicMain from './component/CosmicMain.jsx';
+import NavOptions from './component/NavOptions.jsx';
 
 class WithinCosmic extends React.Component {
   constructor(props){
@@ -17,10 +17,7 @@ class WithinCosmic extends React.Component {
     this.state = {
       cssPara: 0
     };
-    this.withinCom_CosmicMain_index_ = React.createRef();
-    this._check_Position = this._check_Position.bind(this);
-    this._refer_leavevonIndex = this._refer_leavevonIndex.bind(this);
-    this._handleClick_LtdToolBox_logout = this._handleClick_LtdToolBox_logout.bind(this);
+    this._refer_von_cosmic = this._refer_von_cosmic.bind(this);
     this.style={
       Within_Cosmic_: {
         width: '100%',
@@ -28,39 +25,44 @@ class WithinCosmic extends React.Component {
         position: 'static',
         overflow: 'auto'
       },
-      Within_Cosmic_corner_: {
+      Within_Cosmic_backplane:{
         width: '100%',
-        height: '21%',
+        height: '100%',
         position: 'fixed',
-        bottom: '9%',
-        left: '0',
+        backgroundColor: '#FCFCFC'
+      },
+      Within_Cosmic_corner_: {
+        position: 'fixed',
+        bottom: '3%',
+        right: '11%',
         boxSizing: 'border-box'
       },
-      Within_Cosmic_bottom: {
-        width: '100%',
-        height: '3%',
+      Front_Cognition_NavOptions: {
+        width: '1.4%',
+        height: '4.2%',
         position: 'fixed',
-        bottom: '0',
-        left: '0',
+        bottom: '5.5%',
+        right: '5%',
         boxSizing: 'border-box'
       }
     }
   }
 
-  _refer_leavevonIndex(identifier, route){
+  _refer_von_cosmic(identifier, route){
     switch (route) {
       case 'user':
         if(identifier == this.props.userInfo.id){
           window.location.assign('/user/screen');
+        }else{
+          window.reload();
         }
-        break;
-      case 'reload':
-        window.location.reload(true);
         break;
       default:
         return
     }
   }
+
+  componentDidMount() {
 
   _check_Position(){
     let Within_Cosmic_corner_Top = this.withinCom_CosmicMain_index_.current.getBoundingClientRect().top;
@@ -94,16 +96,21 @@ class WithinCosmic extends React.Component {
   }
 
   render(){
-    //let cx = cxBind.bind(styles);
     return(
       <div
         style={this.style.Within_Cosmic_}>
+        <div style={this.style.Within_Cosmic_backplane}></div>
+        <Switch>
+          <Route path={this.props.match.path} render={(props)=> <CosmicMain {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
+        </Switch>
         <div
           style={Object.assign({opacity: this.state.cssPara}, this.style.Within_Cosmic_corner_)}>
           <CosmicCorner
-            match={this.props.match}
-            _refer_leavevonIndex={this._refer_leavevonIndex}
-            _handleClick_LtdToolBox_logout={this._handleClick_LtdToolBox_logout}/>
+            match={this.props.match}/>
+          <div
+            style={this.style.Front_Cognition_NavOptions}>
+            <NavOptions {...this.props}/>
+          </div>
         </div>
         <CosmicMain
           {...this.props}

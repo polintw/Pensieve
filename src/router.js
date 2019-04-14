@@ -5,10 +5,14 @@ const auth = require('./auth/main.js');
 const accountRouter = require('./account/main.js');
 const cosmicRouter = require('./cosmic/main.js');
 const userRouter = require('./user/main.js');
-const actionsRouter = require('./user/actions/main.js');
+
 const profileRouter = require('./user/profile/main.js');
+
 const unitsRouter = require('./units/main.js');
 const imgRouter = require('./img/main.js');
+
+const shareRouter = require('./share/main.js');
+const inspireRouter = require('./inspire/main.js');
 const nounsRouter = require('./nouns/main.js');
 const generalRouter = require('./general/main.js');
 
@@ -22,14 +26,16 @@ router.use('/', auth)
 router.use('/cosmic', cosmicRouter)
 
 router.use('/user', userRouter)
-router.use('/actions', actionsRouter) //prepare to replace part of the "/user"
 router.use('/profile', profileRouter) //prepare to replace part of the "/user"
 
 
+// shift to "units"
 router.use('/units', unitsRouter)
 
 router.use('/account', accountRouter)
 
+router.use('/share', shareRouter)
+router.use('/inspire', inspireRouter)
 router.use('/nouns', nounsRouter)
 router.use('/general', generalRouter)
 

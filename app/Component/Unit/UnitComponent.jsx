@@ -1,5 +1,4 @@
 import React from 'react';
-import cxBind from 'classnames/bind';
 
 export class NounsExtensible extends React.Component {
   constructor(props){
@@ -12,10 +11,7 @@ export class NounsExtensible extends React.Component {
     this.style={
       Com_Nouns_Extensible_: {
         width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
+        position: 'relative',
         boxSizing: 'border-box'
       },
       Com_Nouns_Extensible_list_: {
@@ -30,9 +26,8 @@ export class NounsExtensible extends React.Component {
         height: '2.2rem',
         position: 'relative',
         boxSizing: 'border-box',
-        fontSize: '2rem',
+        fontSize: '1.6rem',
         letterSpacing: '0.6vh',
-        textAlign: 'center',
         fontWeight: '400',
         fontFamily: 'cwTeXMing',
         color: '#FAFAFA'
@@ -99,132 +94,9 @@ export class NounsExtensible extends React.Component {
           style={this.style.Com_Nouns_Extensible_switch_}
           onClick={this._handleClick_listExpand}>
           {
-            this.props.nouns.length>2 ? '展開全部 >' : null
+            this.props.nouns.length>2 ? 'show all >' : null
           }
         </div>
-      </div>
-    )
-  }
-}
-
-
-export class DateConverter extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-
-    };
-    this._render_monthRome = this._render_monthRome.bind(this);
-    this.style={
-
-    }
-  }
-
-  _render_monthRome(date){
-    switch (date.getMonth()) {
-      case 0:
-        return "Jan"
-        break;
-      case 1:
-        return "Feb"
-        break;
-      case 2:
-        return "Mar"
-        break;
-      case 3:
-        return "Apr"
-        break;
-      case 4:
-        return "May"
-        break;
-      case 5:
-        return "Jun"
-        break;
-      case 6:
-        return "Jul"
-        break;
-      case 7:
-        return "Aug"
-        break;
-      case 8:
-        return "Sep"
-        break;
-      case 9:
-        return "Oct"
-        break;
-      case 10:
-        return "Nov"
-        break;
-      case 11:
-        return "Dec"
-        break;
-      default:
-        return date.getMonth()
-    }
-  }
-
-  render(){
-    //let cx = cxBind.bind(styles);
-    let d = new Date(this.props.datetime)
-
-    return(
-      <div
-        style={this.style.Com_DateConverter_}>
-        <span>{d.getDate()}</span>
-        <span>{". "}</span>
-        <span>{this._render_monthRome(d)}</span>
-      </div>
-    )
-  }
-}
-
-export class AuthorFull extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-
-    };
-    this._handleClick_Author = this._handleClick_Author.bind(this);
-    this.style={
-      Com_Author_full_: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box'
-      },
-      Com_Author_full_text_: {
-        display: 'inline-block',
-        width: '73%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '10%',
-        boxSizing: 'border-box',
-        fontSize: '1.8rem',
-        letterSpacing: '0.2vh',
-        fontWeight: '400',
-        color: '#FAFAFA'
-      }
-    }
-  }
-
-  _handleClick_Author(event){
-    event.preventDefault();
-    event.stopPropagation();
-    this.props._handleClick_Author('user', this.props.authorBasic.authorId);
-  }
-
-  render(){
-    //let cx = cxBind.bind(styles);
-    return(
-      <div
-        style={this.style.Com_Author_full_}
-        onClick={this._handleClick_Author}>
-        <span style={this.style.Com_Author_full_text_}>
-          {this.props.authorBasic.account}
-        </span>
       </div>
     )
   }

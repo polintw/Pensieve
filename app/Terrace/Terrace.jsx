@@ -5,7 +5,6 @@ import {
   Route
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import cxBind from 'classnames/bind';
 import Screen from './component/Screen.jsx';
 
 
@@ -19,12 +18,13 @@ class Terrace extends React.Component {
     this.style={
       Self_pages_Terrace_: {
         width: "100%",
-        minWidth: '720px',
         height: '100%',
         position: 'absolute',
         top: '0',
         left: '0',
-        overflowY: 'scroll'
+        boxSizing: 'border-box',
+        overflowY: 'scroll',
+        overflowX: 'hidden'
       }
     }
   }
@@ -34,6 +34,8 @@ class Terrace extends React.Component {
       case 'user':
         if(identifier == this.props.userInfo.id){
           window.location.assign('/user/screen');
+        }else{
+          window.location.assign('/');
         }
         break;
       default:

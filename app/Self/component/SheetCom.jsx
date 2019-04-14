@@ -1,12 +1,32 @@
 import React from 'react';
 import {
   Route,
+  withRouter,
   Link
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import ModalBox from '../../Component/ModalBox.jsx';
 import ModalBackground from '../../Component/ModalBackground.jsx';
 import {switchSettingSubmitting} from "../../redux/actions/general.js";
+
+const styleMiddle= {
+  fontContent: {
+    fontSize: '1.4rem',
+    letterSpacing: '0.12rem',
+    fontWeight: '400'
+  },
+  submit: {
+    fontSize: '1.3rem',
+    letterSpacing: '0.12rem',
+    fontWeight: '400'
+  },
+  basicList: {
+    width: '70%',
+    position: 'absolute',
+    left: '6%',
+    boxSizing: 'border-box',
+  }
+}
 
 class Basic extends React.Component {
   constructor(props){
@@ -18,10 +38,17 @@ class Basic extends React.Component {
     this.style={
       selfCom_Sheet_Basic_: {
         width: '100%',
+        height: '100%',
         position: 'absolute',
         top: '0%',
         left: '0%'
-      }
+      },
+      selfCom_Sheet_Basic_list_gender: {
+        top: '25%',
+      },
+      selfCom_Sheet_Basic_list_birth: {
+        top: '49%',
+      },
     }
   }
 
@@ -45,30 +72,90 @@ class Basic extends React.Component {
     return(
       <div
         style={this.style.selfCom_Sheet_Basic_}>
-        <div>
-          <div>
-            <span>{"gender : "}</span>
-            {this._render_Gender(sheetRec.gender)}
-          </div>
-          <div>
-            <span>{"birthday : "}</span>
-            {
-              (sheetRec.birthDate && sheetRec.birthYear && sheetRec.birthMonth)?(
-                <p>
-                  <span>{this.props.userSheet.birthDate + ". "}</span>
-                  <span>{this.props.userSheet.birthMonth + ". "}</span>
-                  <span>{this.props.userSheet.birthYear}</span>
-                </p>
-              ):(
-                <span>{"no birthday record"}</span>
-              )
-            }
-          </div>
+        <div
+          style={Object.assign({}, this.style.selfCom_Sheet_Basic_list_gender, styleMiddle.basicList, styleMiddle.fontContent)}>
+          <span>{"gender : "}</span>
+          {this._render_Gender(sheetRec.gender)}
+        </div>
+        <div
+          style={Object.assign({}, this.style.selfCom_Sheet_Basic_list_birth, styleMiddle.basicList, styleMiddle.fontContent)}>
+          <span>{"birthday : "}</span>
+          {
+            (sheetRec.birthDate && sheetRec.birthYear && sheetRec.birthMonth)?(
+              <p
+                style={{display: 'inline-block', margin: '0'}}>
+                <span>{this.props.userSheet.birthDate + ". "}</span>
+                <span>{this.props.userSheet.birthMonth + ". "}</span>
+                <span>{this.props.userSheet.birthYear}</span>
+              </p>
+            ):(
+              <span>{"no birthday record"}</span>
+            )
+          }
         </div>
       </div>
     )
   }
 }
+
+class AccountatSheet extends React.Component {
+//this part is more like a temporary stay in this file, would moving to a independent 'setting page' someday.
+  constructor(props){
+    super(props);
+    this.state = {
+
+    };
+    this.style={
+      selfCom_Setting_: {
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        top: '0%',
+        left: '0%'
+      },
+      selfCom_Setting_email_: {
+        width: '70%',
+        height: '24%',
+        position: 'absolute',
+        top: '25%',
+        left: '6%',
+        boxSizing: 'border-box',
+      },
+      selfCom_Setting_pass: {
+        position: 'absolute',
+        top: '69%',
+        left: '76%',
+        boxSizing: 'border-box',
+      }
+    }
+  }
+
+  render(){
+    //let cx = cxBind.bind(styles);
+    return(
+      <div
+        style={this.style.selfCom_Setting_}>
+        <div
+          style={Object.assign({}, this.style.selfCom_Setting_email_, styleMiddle.fontContent)}>
+          <span>{"email: "}</span>
+          <span>{this.props.accountSet.mail}</span>
+        </div>
+        <Link
+          to={{
+            pathname: this.props.match.url ,
+            search: '?status=password',
+            state: {from: this.props.location.state.from}
+          }}
+          style={Object.assign({},this.style.selfCom_Setting_pass,styleMiddle.submit)}>
+          <input
+            type="button"
+            value=" change password "/>
+        </Link>
+      </div>
+    )
+  }
+}
+
 
 class SettingPassword extends React.Component {
   constructor(props){
@@ -93,7 +180,6 @@ class SettingPassword extends React.Component {
         transform: 'translate(-50%, -50%)',
         boxSizing: 'border-box',
         borderRadius: '0.5rem',
-        backgroundColor: '#FAFAFA'
       }
     }
   }
@@ -210,106 +296,17 @@ class SettingPassword extends React.Component {
               value='submit'
               disabled={this.props.settingSubmitting? true:false}/>
             <Link
-              to="/profile/sheet"
+              to={{
+                pathname: this.props.match.url ,
+                search: '',
+                state: {from: this.props.location.state.from}
+              }}
               style={this.style.selfCom_Setting_pass}>
               <input
                 type='button'
                 value='cancel'/>
             </Link>
         </form>
-      </div>
-    )
-  }
-}
-
-class AccountatSheet extends React.Component {
-//this part is more like a temporary stay in this file, would moving to a independent 'setting page' someday.
-  constructor(props){
-    super(props);
-    this.state = {
-
-    };
-    this.style={
-      selfCom_Setting_: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0%',
-        left: '0%'
-      },
-      selfCom_Setting_nameBar_: {
-        width: '70%',
-        height: '40%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box',
-        fontWeight: '400'
-      },
-      selfCom_Setting_email_: {
-        width: '70%',
-        height: '24%',
-        position: 'absolute',
-        top: '50%',
-        left: '0',
-        boxSizing: 'border-box',
-        fontSize: '1.2rem',
-        letterSpacing: '0.12rem',
-        fontWeight: '400'
-      },
-      selfCom_Setting_link: {
-        width: '25%',
-        position: 'absolute',
-        top: '50%',
-        right: '5%',
-        fontSize: '1.2rem',
-        letterSpacing: '0.15rem',
-        fontWeight: '400'
-      },
-      selfCom_Setting_pass: {
-        width: '30%',
-        height: '12%',
-        position: 'absolute',
-        top: '25%',
-        right: '0',
-        boxSizing: 'border-box',
-        fontSize: '1.5rem',
-        letterSpacing: '0.15rem',
-        fontWeight: '400'
-      }
-    }
-  }
-
-  render(){
-    //let cx = cxBind.bind(styles);
-    return(
-      <div
-        style={this.style.selfCom_Setting_}>
-        <div
-          style={this.style.selfCom_Setting_nameBar_}>
-          <div>
-            <span>{"first name : "}</span>
-            <span
-              style={{fontSize: '1.4rem', letterSpacing: '0.12rem'}}>{this.props.accountSet.firstName}</span>
-          </div>
-          <div>
-            <span>{"family name : "}</span>
-            <span
-              style={{fontSize: '1.4rem', letterSpacing: '0.12rem'}}>{this.props.accountSet.lastName}</span>
-          </div>
-        </div>
-        <div
-          style={this.style.selfCom_Setting_email_}>
-          <span>{"email: "}</span>
-          <span>{this.props.accountSet.mail}</span>
-        </div>
-        <Link
-          to="/profile/sheet?status=password"
-          style={this.style.selfCom_Setting_pass}>
-          <input
-            type="button"
-            value=" change password "/>
-        </Link>
       </div>
     )
   }
@@ -338,5 +335,5 @@ const reduxConnection = connect(
 );
 
 export const SheetPassword = reduxConnection(SettingPassword);
-export const SheetAccount = reduxConnection(AccountatSheet);
+export const SheetAccount = withRouter(reduxConnection(AccountatSheet));
 export const SheetBasic = reduxConnection(Basic);

@@ -2,7 +2,7 @@ const express = require('express');
 const main = express.Router();
 
 const basicExecutive = require('./basic.js');
-const vanilla = require('./vanilla.js');
+const plainExecutive = require('./plain.js');
 
 main.param("id", (req, res, next, id)=>{
   req.reqUnitId = id;
@@ -11,6 +11,6 @@ main.param("id", (req, res, next, id)=>{
 
 main.use('/:id/basic', basicExecutive)
 
-main.use('/:id', vanilla)
+main.use('/:id', plainExecutive)
 
 module.exports = main;

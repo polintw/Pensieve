@@ -1,137 +1,89 @@
 import React from 'react';
 import {
-  Route,
+  Link,
   withRouter
 } from 'react-router-dom';
-import {connect} from "react-redux";
-import UnitLayerFrame from './UnitLayerFrame.jsx';
-import UnitLayerControl from './UnitLayerControl.jsx';
-import UnitActionControl from './UnitActionControl.jsx';
-import {DateConverter, NounsExtensible} from './UnitComponent.jsx';
-import {AuthorPlate} from '../AccountPlate.jsx';
+import { connect } from "react-redux";
+import UnitImgLayers from './UnitImgLayers.jsx';
+import UnitLayerScroll from './UnitLayerScroll.jsx';
+import UnitLayerSwitch from './UnitLayerSwitch.jsx';
+import UnitViewSummary from './UnitViewSummary.jsx';
 
 class UnitModal extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      layer: this.props.unitInit.layer,
-      marksify: this.props.unitInit.marksify
+      lockify: true,
+      moveCount: this.props.unitInit.layer>0 ? 100 : 0,
+      markOpenedParent: false
     };
-    this._set_makrsVisible = (bool) => {this.setState({marksify: bool});};
-    this._set_layer = (index) => {this.setState({layer: index});};
+    this._set_layerstatus = (lockify, moveCount) => {this.setState({lockify: lockify, moveCount: moveCount});};
+    this._set_markOpenedParent = ()=>{this.setState((prevState,props)=>{return {markOpenedParent: prevState.markOpenedParent?false:true};});};
     this._refer_toandclose = this._refer_toandclose.bind(this);
     this._handleClick_unitBack = this._handleClick_unitBack.bind(this);
     this.style={
       Com_Modal_UnitModal: {
-        width: '89%',
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        top: '0',
+        left: '0%',
+        boxSizing: 'border-box'
+      },
+      Com_UnitModal_blocks_Scroll: {
+        width: '90%',
         height: '100%',
         position: 'absolute',
         top: '0',
         left: '50%',
         transform: 'translate(-50%, 0)',
-        boxSizing: 'border-box',
-        backgroundColor: '#313130',
-        boxShadow: '0px 1.2vh 2.4vw 0vw'
-      },
-      Com_Modal_UnitModal_atRes_:{
-        width: '13%',
-        height: '20%',
-        position: 'absolute',
-        top: '60%',
-        left: '1%',
-        boxSizing: 'border-box',
-        boxShadow: '0px 1.2vh 2.4vw 0vw',
-        overflow: 'hidden'
-      },
-      Com_Modal_UnitModal_atRes_img: {
-        maxWidth: '100%',
-        maxHeight: '100%',
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%,-50%)',
-      },
-      Com_UnitModal_ImgSection_div: {
-        width: '84%',
-        height: '100%',
-        position: 'absolute',
-        top: '0%',
-        left: '0%',
         boxSizing: 'border-box'
       },
-      Com_UnitModal_layerControl: {
-        width: '3%',
-        height: '100%',
-        position: 'absolute',
-        top: '0%',
-        right: '13%',
-        boxSizing: 'border-box',
-        backgroundColor: '#989898'
-      },
-      Com_UnitModal_ControlSection_: {
-        width: '13%',
-        height: '100%',
+      Com_UnitModal_blocks_SumLayer_ : {
+        width: '90%',
+        height: '96%',
         position: 'absolute',
         top: '0',
-        right: '0',
-        boxSizing: 'border-box'
-      },
-      Com_UnitModal_ControlSection_actionControl_: {
-        width: '100%',
-        height: '15%',
-        position: 'absolute',
-        bottom: '0',
-        left: '0',
-        boxSizing: 'border-box'
-      },
-      Com_UnitModal_ControlSection_Author_: {
-        width: '100%',
-        height: '12%',
-        position: 'absolute',
-        top: '75%',
-        left: '0%',
+        left: '50%',
+        transform: 'translate(-50%, 0)',
         boxSizing: 'border-box',
+        backgroundColor: '#101010',
+        boxShadow: '0px 1.2vh 2.4vw 0vw'
       },
-      Com_UnitModal_ControlSection_nouns_: {
+      Com_UnitModal_blocks_ImgLayer_: {
         width: '100%',
-        height: '50%',
-        position: 'absolute',
-        top: '20%',
-        left: '0',
-        boxSizing: 'border-box'
+        height: '100%',
+        boxSizing: 'border-box',
+        backgroundColor: 'rgba(196, 180, 180, 0.2)'
       },
-      Com_UnitModal_ControlSection_back_: {
-        width: '20%',
+      Com_UnitModal_blocks_SwitchBar_: {
+        width: '2%',
+        height: '90%',
+        position: 'absolute',
+        top: '0',
+        right: '1%',
+        boxSizing: 'border-box',
+        backgroundColor: 'transparent'
+      },
+      Com_UnitModal_straightBack_: {
+        width: '12%',
         height: '10%',
         position: 'absolute',
-        top: '0%',
-        left: '80%'
+        top: '2%',
+        right: '5%'
       },
-      Com_UnitModal_ControlSection_back_span: {
+      Com_UnitModal_straightBack_span: {
         display: 'inline-block',
         float: 'right',
         boxSizing: 'border-box',
         margin: '2% 5%',
         color: '#FAFAFA',
         cursor: 'pointer'
-      },
-      Com_UnitModal_ControlSection_DateConverter: {
-        width: '80%',
-        height: '12%',
-        position: 'absolute',
-        top: '2%',
-        left: '0',
-        boxSizing: 'border-box',
-        fontSize: '1.4rem',
-        letterSpacing: '0.15rem',
-        textAlign: 'center',
-        fontWeight: '400',
-        color: '#FAFAFA',
       }
     }
   }
 
-  _refer_toandclose(source, identity){
+  _refer_toandclose(identity, source){
     this.props._refer_von_unit(identity, source);
     this.props._close_modal_Unit();
   }
@@ -144,76 +96,68 @@ class UnitModal extends React.Component {
 
 
   render(){
-    return this.props.mode?(
+    //Notice! it's important to let the ImgLayers unmount if >200, due to we need the re-render, not just css change
+    return(
       <div
-        style={this.style.Com_Modal_UnitModal_atRes_}>
-        <img
-          style={this.style.Com_Modal_UnitModal_atRes_img}
-          src={this.props.unitSet.coverSrc}/>
-      </div>
-    ):(
-      <div
-        style={this.style.Com_Modal_UnitModal}>
+        style={this.style.Com_Modal_UnitModal}
+        onClick={this._handleClick_unitBack}>
         <div
-          style={this.style.Com_UnitModal_ControlSection_}>
-          <div
-            style={this.style.Com_UnitModal_ControlSection_back_}>
-            <span
-              style={this.style.Com_UnitModal_ControlSection_back_span}
-              onClick={this._handleClick_unitBack}>
-              {" X "}
-            </span>
-          </div>
-          {
-            this.props.unitSet.nouns &&
+          style={this.style.Com_UnitModal_blocks_Scroll}
+          onClick={(event)=>{event.stopPropagation();}}>
+          <UnitLayerScroll
+            lockify={this.state.lockify}
+            moveCount={this.state.moveCount}
+            markOpened={this.state.markOpenedParent}
+            _set_layerstatus={this._set_layerstatus}>
             <div
-              style={this.style.Com_UnitModal_ControlSection_nouns_}>
-              <NounsExtensible
-                nouns={this.props.unitSet.nouns}
-                _handleClick_listNoun={this._refer_toandclose}/>
+              style={this.style.Com_UnitModal_blocks_SumLayer_}>
+              {
+                this.props.unitCurrent.identity=="author" ? (
+                   //temp method, before a true AuthorSummary was created
+                  <UnitViewSummary
+                    moveCount={this.state.moveCount}
+                    _set_layerstatus={this._set_layerstatus}
+                    _set_Modalmode={this.props._set_Modalmode}
+                    _close_modal_Unit={this.props._close_modal_Unit}
+                    _refer_toandclose={this._refer_toandclose}/>
+                ):(
+                  <UnitViewSummary
+                    moveCount={this.state.moveCount}
+                    _set_layerstatus={this._set_layerstatus}
+                    _set_Modalmode={this.props._set_Modalmode}
+                    _close_modal_Unit={this.props._close_modal_Unit}
+                    _refer_toandclose={this._refer_toandclose}/>
+                )
+              }
             </div>
-          }
-          {
-            this.props.unitSet.authorBasic &&
             <div
-              style={Object.assign({cursor: this.props.unitCurrent.identity=="author"?'pointer':''}, this.style.Com_UnitModal_ControlSection_Author_)}>
-              <AuthorPlate
-                authorBasic={this.props.unitSet.authorBasic}
-                _handleClick_Account={this._refer_toandclose}/>
+              style={this.style.Com_UnitModal_blocks_ImgLayer_}>
+              {
+                (this.state.moveCount< 200) &&
+                <UnitImgLayers
+                  lockify={this.state.lockify}
+                  moveCount={this.state.moveCount}
+                  unitInit={this.props.unitInit}
+                  _set_Modalmode={this.props._set_Modalmode}
+                  _set_markOpenedParent={this._set_markOpenedParent}
+                  _refer_toandclose={this._refer_toandclose}/>
+              }
             </div>
-          }
-          <div
-            style={this.style.Com_UnitModal_ControlSection_actionControl_}>
-            <UnitActionControl
-              _set_Modalmode={this.props._set_Modalmode}/>
-          </div>
-          <div
-            style={this.style.Com_UnitModal_ControlSection_DateConverter}>
-            <DateConverter
-              datetime={this.props.unitSet.createdAt}/>
-          </div>
+            <div
+              style={this.style.Com_UnitModal_blocks_SwitchBar_}>
+              <UnitLayerSwitch
+                moveCount={this.state.moveCount}
+                _set_layerstatus={this._set_layerstatus}/>
+            </div>
+          </UnitLayerScroll>
         </div>
         <div
-          style={this.style.Com_UnitModal_layerControl}>
-          <UnitLayerControl
-            unitId={this.props.unitId}
-            layer={this.state.layer}
-            marks = {this.state.marksify}
-            beneathSrc={this.props.unitSet.beneathSrc}
-            _set_makrsVisible={this._set_makrsVisible}
-            _set_layer={this._set_layer}/>
-        </div>
-        <div
-          style={this.style.Com_UnitModal_ImgSection_div}>
-          <UnitLayerFrame
-            layer={this.state.layer}
-            marksify={this.state.marksify}
-            initMark={this.props.unitInit.initMark}
-            identity={this.props.unitSet.identity}
-            coverSrc={this.props.unitSet.coverSrc}
-            beneathSrc={this.props.unitSet.beneathSrc}
-            coverMarks={this.props.unitSet.coverMarks}
-            beneathMarks={this.props.unitSet.beneathMarks}/>
+          style={this.style.Com_UnitModal_straightBack_}>
+          <span
+            style={this.style.Com_UnitModal_straightBack_span}
+            onClick={this._handleClick_unitBack}>
+            {" X "}
+          </span>
         </div>
       </div>
     )
@@ -223,7 +167,8 @@ class UnitModal extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
-    unitCurrent: state.unitCurrent
+    unitCurrent: state.unitCurrent,
+    unitSubmitting: state.unitSubmitting
   }
 }
 

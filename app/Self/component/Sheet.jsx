@@ -1,13 +1,21 @@
 import React from 'react';
+import {
+  withRouter
+} from 'react-router-dom';
 import {connect} from "react-redux";
 import {
   SheetAccount,
   SheetPassword,
   SheetBasic
 } from './SheetCom.jsx';
+import { NameLarge } from '../../Component/AccountPlate.jsx';
 import {mountUserSheet} from "../../redux/actions/general.js";
 
-class Sheet extends React.Component {
+const styleMiddle = {
+
+}
+
+  class Sheet extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -22,57 +30,61 @@ class Sheet extends React.Component {
         top: '0%',
         left: '0%'
       },
-      selfCom_Sheet_navStatics_UserName_: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
+      selfCom_Sheet_ProfileTitle_: {
         width: '100%',
-        height: '20vh',
+        height: '115px',
         position: 'absolute',
-        top: '2vh',
+        top: '11px',
         right: '0',
-        boxSizing: 'border-box'
-      },
-      selfCom_Sheet_navStatics_UserName_span_: {
-        display: 'inline-block',
-        position: 'relative',
         boxSizing: 'border-box',
-        padding: '1% 0',
-        marginRight: '14vw',
-        fontWeight: '600',
-        fontSize: '2.8rem',
-        letterSpacing: '0.28rem',
-        color: '#222222'
+        boxShadow: '1px 0px 3px -2px',
+        backgroundColor: '#ffffff'
+      },
+      selfCom_Sheet_ProfileTitle_name: {
+        display: 'inline-block',
+        position: 'absolute',
+        bottom: '22%',
+        left: '6%',
+        boxSizing: 'border-box',
+        color: '#000000'
       },
       selfCom_Sheet_display_: {
         width: '100%',
         position: 'absolute',
-        top: '28vh',
+        top: '151px',
         left: '0',
         boxSizing: 'border-box',
-        padding: '3vh 2.5vw'
       },
       selfCom_Sheet_display_basic_: {
+        display: 'inline-block',
         width: '100%',
         position: 'relative',
         boxSizing: 'border-box'
       },
-      selfCom_Sheet_display_basic_tempSetting: {
-        width: '90%',
-        height: '25vh',
+      selfCom_Sheet_display_settingform: {
+        width: '100%',
         position: 'relative',
         boxSizing: 'border-box',
-        padding: '2vh 5%',
-        margin: '0 5%'
+        boxShadow: '0px 0px 3px -2px',
+        backgroundColor: '#FFFFFF'
+      },
+      selfCom_Sheet_display_basic_tempSetting: {
+        width: '100%',
+        height: '152px',
+        position: 'relative',
+        boxSizing: 'border-box',
+        marginBottom: '2.5%',
+        boxShadow: '0px 0px 3px -2px',
+        backgroundColor: '#FFFFFF'
       },
       selfCom_Sheet_display_basic_blockGender: {
-        width: '90%',
-        height: '7vh',
+        width: '100%',
+        height: '118px',
         position: 'relative',
         boxSizing: 'border-box',
-        padding: '2vh 5%',
-        margin: '0 5%'
-      }
+        boxShadow: '0px 0px 3px -2px',
+        backgroundColor: '#FFFFFF'
+      },
     }
   }
 
@@ -80,7 +92,10 @@ class Sheet extends React.Component {
     switch (paramsStatus) {
       case 'password':
         return (
-          <SheetPassword/>
+          <div
+            style={this.style.selfCom_Sheet_display_settingform}>
+            <SheetPassword {...this.props}/>
+          </div>
         )
         break;
       default:
@@ -175,14 +190,15 @@ class Sheet extends React.Component {
       <div
         style={this.style.selfCom_Sheet_}>
         <div
-          style={this.style.selfCom_Sheet_navStatics_UserName_}>
-          <span style={this.style.selfCom_Sheet_navStatics_UserName_span_}>{this.props.userInfo.account}</span>
+          style={this.style.selfCom_Sheet_ProfileTitle_}>
+          <div
+            style={this.style.selfCom_Sheet_ProfileTitle_name}>
+            <NameLarge />
+          </div>
         </div>
         <div
           style={this.style.selfCom_Sheet_display_}>
-          <section>
-            {this._render_SheetView(paramsStatus)}
-          </section>
+          {this._render_SheetView(paramsStatus)}
         </div>
       </div>
     )
@@ -204,7 +220,7 @@ const mapDispatchToProps = (dispatch)=>{
   }
 }
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(Sheet);
+)(Sheet));

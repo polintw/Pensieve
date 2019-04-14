@@ -5,13 +5,12 @@ import {
   Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import cxBind from 'classnames/bind';
-import UnitModal from './Unit/UnitModal.jsx';
-import AuthorModal from './Unit/AuthorModal.jsx';
-import ResModal from './Unit/ResModal.jsx';
 import ModalBox from './ModalBox.jsx';
 import ModalBackground from './ModalBackground.jsx';
-import {mountUnitCurrent} from "../redux/actions/general.js";
+import UnitModal from './Unit/UnitModal.jsx';
+import UnitEditing from './Unit/UnitEditing.jsx';
+import {setUnitCurrent} from "../redux/actions/general.js";
+import {unitCurrentInit} from "../redux/constants/globalStates.js";
 
 class Unit extends React.Component {
   constructor(props){
@@ -19,25 +18,19 @@ class Unit extends React.Component {
     this.state = {
       axios: false,
       close: false,
-      mode: this.props.unitMode?this.props.unitMode:false,
-      unitSet: {
-        coverSrc: null,
-        beneathSrc: null,
-        coverMarks: {list:[], data:{}},
-        beneathMarks: {list:[], data:{}},
-        refsArr: null,
-        nouns: null,
-        authorBasic: null,
-        createdAt: null
-      },
+      mode: this.props.unitMode?this.props.unitMode:"viewer",
       warningModel: false
     };
-    this._close_modal_Unit = this._close_modal_Unit.bind(this);
     this.unitId = this.props.match.params.id;
     this.axiosSource = axios.CancelToken.source();
     this.unitInit = this.props._construct_UnitInit(this.props.match, this.props.location);
+    this.beneathify = !!this.unitInit['pic_layer1'];
+    this._render_UnitMode = this._render_UnitMode.bind(this);
+    this._close_modal_Unit = this._close_modal_Unit.bind(this);
+    this._axios_get_UnitMount = this._axios_get_UnitMount.bind(this);
     this._set_axios = (bool) => {this.setState((prevState, props)=>{return {axios: bool};})};
     this._set_Modalmode = (mode)=>{this.setState((prevState, props)=>{return {mode: mode}})};
+    this._reset_UnitMount = ()=>{this._axios_get_UnitMount();};
     this._axios_getUnitData = () => {
       return axios.get('/router/units/'+this.unitId, {
         headers: {
@@ -53,6 +46,10 @@ class Unit extends React.Component {
         }
       })
     };
+    //we set UnitCurrent here to assure the 'beneathSrc' following the UnitInit and also uptodate for each children used as a criteria
+    let unitCurrentState = Object.assign({}, unitCurrentInit, {coverSrc: this.unitInit['pic_layer0'], beneathSrc: this.beneathify ? this.unitInit['pic_layer1'] : false});
+    this.props._set_store_UnitCurrent(unitCurrentState); //could process in constructor()?
+
     this.style={
 
     };
@@ -67,14 +64,14 @@ class Unit extends React.Component {
     })
   }
 
-  componentDidMount(){
+  _axios_get_UnitMount(){
     const self = this;
-    let beneathify = !!this.unitInit['pic_layer1'];
     let axiosArr = [this._axios_getUnitData(),this._axios_getUnitImg('pic_layer0')];
-    if(beneathify){axiosArr.push(this._axios_getUnitImg('pic_layer1'))};
+    axiosArr.push(this.beneathify ?　this._axios_getUnitImg('pic_layer1'):Promise.resolve({data: null}));
     self.setState({axios: true});
     axios.all(axiosArr).then(
       axios.spread(function(unitRes, resImgCover, resImgBeneath){
+        self.setState({axios: false});
         let resObj = JSON.parse(unitRes.data);
         //we compose the marksset here, but sould consider done @ server
         let keysArr = Object.keys(resObj.main.marksObj);//if any modified or update, keep the "key" as string
@@ -89,19 +86,21 @@ class Unit extends React.Component {
           }
         })
         //actually, beneath part might need to be rewritten to asure the state could stay consistency
-        self.props._set_store_UnitCurrent({unitId:self.unitId, identity: resObj.main.identity});
-        self.setState({
-          axios: false,
-          unitSet: {
-            coverSrc: resImgCover.data,
-            beneathSrc: beneathify?resImgBeneath.data:null,
-            coverMarks: coverMarks,
-            beneathMarks: beneathMarks,
-            refsArr: resObj.main.refsArr,
-            nouns: resObj.main.nouns,
-            authorBasic: resObj.main.authorBasic,
-            createdAt: resObj.main.createdAt
-          }
+        self.props._set_store_UnitCurrent({
+          unitId:self.unitId,
+          identity: resObj.main.identity,
+          authorBasic: resObj.main.authorBasic,
+          coverSrc: resImgCover.data,
+          beneathSrc: resImgBeneath.data,
+          coverMarksList:coverMarks.list,
+          coverMarksData:coverMarks.data,
+          beneathMarksList:beneathMarks.list,
+          beneathMarksData:beneathMarks.data,
+          nouns: resObj.main.nouns,
+          marksInteraction: resObj.main.marksInteraction,
+          broad: false,
+          refsArr: resObj.main.refsArr,
+          createdAt: resObj.main.createdAt
         });
       })
     ).catch(function (thrown) {
@@ -115,9 +114,45 @@ class Unit extends React.Component {
     });
   }
 
+  componentDidMount(){
+    this._axios_get_UnitMount();
+  }
+
   componentWillUnmount(){
     if(this.state.axios){
       this.axiosSource.cancel("component will unmount.")
+    }
+  }
+
+  _render_UnitMode(){
+    switch (this.state.mode) {
+      case "author_editing":
+        return (
+          <UnitEditing
+            mode={this.state.mode}
+            _set_Modalmode={this._set_Modalmode}
+            _refer_von_unit={this.props._refer_von_unit}
+            _reset_UnitMount={this._reset_UnitMount}/>)
+        break;
+      case "viewer":
+        return (
+          <UnitModal
+            unitId={this.unitId}
+            mode={this.state.mode}
+            unitInit={this.unitInit}
+            _set_Modalmode={this._set_Modalmode}
+            _close_modal_Unit={this._close_modal_Unit}
+            _refer_von_unit={this.props._refer_von_unit}/>)
+        break;
+      default:
+        return (
+          <UnitModal
+            unitId={this.unitId}
+            mode={this.state.mode}
+            unitInit={this.unitInit}
+            _set_Modalmode={this._set_Modalmode}
+            _close_modal_Unit={this._close_modal_Unit}
+            _refer_von_unit={this.props._refer_von_unit}/>)
     }
   }
 
@@ -129,31 +164,7 @@ class Unit extends React.Component {
       <div>
         <ModalBox containerId="root">
           <ModalBackground onClose={this._close_modal_Unit} style={{position: "fixed"}}>
-            {
-              this.state.mode=="editing"&&this.props.unitCurrent.identity=="author"?(
-                <AuthorModal
-                  mode={this.state.mode}
-                  unitSet= {this.state.unitSet}
-                  _set_Modalmode={this._set_Modalmode}
-                  _refer_von_unit={this.props._refer_von_unit}/>
-            ):(
-                <div>
-                  <ResModal
-                    unitId={this.unitId}
-                    mode={this.state.mode}
-                    _set_Modalmode={this._set_Modalmode}
-                    _refer_von_unit={this.props._refer_von_unit}/>
-                  <UnitModal
-                    unitId={this.unitId}
-                    mode={this.state.mode}
-                    unitInit={this.unitInit}
-                    unitSet= {this.state.unitSet}
-                    _set_Modalmode={this._set_Modalmode}
-                    _close_modal_Unit={this._close_modal_Unit}
-                    _refer_von_unit={this.props._refer_von_unit}/>
-                </div>
-              )
-            }
+            {this._render_UnitMode()}
           </ModalBackground>
         </ModalBox>
         {
@@ -190,7 +201,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch)=>{
   return {
-    _set_store_UnitCurrent: (obj)=>{dispatch(mountUnitCurrent(obj));}
+    _set_store_UnitCurrent: (obj)=>{dispatch(setUnitCurrent(obj));}
   }
 }
 

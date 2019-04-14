@@ -55,9 +55,6 @@ class CreateShare extends React.Component {
   }
 
   _handleClick_CreateShare_SubmitFile(stateObj){
-    //check form filled
-    if(!stateObj["coverSrc"] || stateObj["nouns"]["list"].length < 1) {alert("fill the required area");return;};
-    //Then if everything is fine
     let d = new Date();
     let submitTime = d.getTime();
 

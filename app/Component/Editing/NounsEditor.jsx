@@ -15,18 +15,23 @@ export default class NounsEditor extends React.Component {
         width: '100%',
         height: '100%',
         position: 'absolute',
-        top: '0%',
-        left: '0%'
+        bottom: '0',
+        boxSizing: 'border-box'
       },
       Com_Editing_NounsEditor_List: {
         width: '100%',
-        position: 'relative',
-        backgroundColor: 'rgba(180,180,180,0.6)'
+        maxHeight: '240%',
+        position: 'absolute',
+        bottom: '3rem',
+        left: '0',
+        overflow: 'auto'
       },
       Com_Editing_NounsEditor_SearchModule: {
         width: '100%',
-        height: '5vh',
-        position: 'relative'
+        height: '2.54rem',
+        position: 'absolute',
+        bottom: '0',
+        left: '0'
       }
     }
   }

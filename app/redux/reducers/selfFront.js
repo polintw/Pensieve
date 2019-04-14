@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux';
 import {
   MOUNT_USERINFO,
-  UNIT_MOUNT_UNITCURRENT,
+  SET_UNITCURRENT,
+  SET_UNITINSPIRED,
   UNIT_SUBMITTING_SWITCH,
   UPDATE_NOUNSBASIC,
+  UPDATE_USERSBASIC,
   AXIOS_SWITCH
 } from '../constants/typesGeneral.js';
 import {
@@ -15,11 +17,12 @@ import {
   initGlobal,
   initSetting,
   initNouns,
+  initUsers,
   initSelfFrontGeneral
 } from '../constants/states.js';
 
 //this is a temp management, in case one day we will seperate the reducer like the initstate
-const initialGeneral = Object.assign({}, initGlobal, initSetting, initNouns, initSelfFrontGeneral);
+const initialGeneral = Object.assign({}, initGlobal, initSetting, initNouns, initUsers, initSelfFrontGeneral);
 
 function pageSelfFront(state = initialGeneral, action){
   switch (action.type) {
@@ -28,9 +31,14 @@ function pageSelfFront(state = initialGeneral, action){
         userInfo: action.userInfo
       })
       break;
-    case UNIT_MOUNT_UNITCURRENT:
+    case SET_UNITCURRENT:
       return Object.assign({}, state, {
         unitCurrent: action.unitCurrent
+      })
+      break;
+    case SET_UNITINSPIRED:
+      return Object.assign({}, state, {
+        unitCurrent: {...state.unitCurrent, ...action.nextMarksInteraction}
       })
       break;
     case UNIT_SUBMITTING_SWITCH:
@@ -57,6 +65,11 @@ function pageSelfFront(state = initialGeneral, action){
     case UPDATE_NOUNSBASIC:
       return Object.assign({}, state, {
         nounsBasic: {...state.nousBasic, ...action.newFetch}
+      })
+      break;
+    case UPDATE_USERSBASIC:
+      return Object.assign({}, state, {
+        usersBasic: {...state.usersBasic, ...action.newFetch}
       })
       break;
     case AXIOS_SWITCH:

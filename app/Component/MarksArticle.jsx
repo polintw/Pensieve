@@ -6,15 +6,14 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
-import DraftDisplay from './DraftDisplay.jsx';
+import DraftDisplay from './Draft/DraftDisplay.jsx';
 
 class MarksArticle extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      axios: false
+
     };
-    this.axiosSource = axios.CancelToken.source();
     this._handleClick_Article_openMark = this._handleClick_Article_openMark.bind(this);
     this.style={
       Com_MarksArticle_: {
@@ -22,17 +21,21 @@ class MarksArticle extends React.Component {
         minHeight: '48%',
         position: 'relative',
         boxSizing: 'border-box',
-        padding: '1rem 3%',
-        columnCount: '2',
-        WebkitColumnCount: '2'
+        padding: '1rem 4%'
       },
       Com_MarksArticle_paragraph: {
+        display: 'inline-block',
+        width: '100%',
+        position: 'relative',
         boxSizing: 'border-box',
         padding: '0.5rem 0',
-        borderBottom: 'solid 1px #e1e193',
-        fontSize: '1.3rem',
-        fontWeight: '400',
-        letterSpacing: '0.12rem'
+        borderBottom: 'solid 1px #000000',
+        fontSize: '1.36rem',
+        fontWeight: '300',
+        letterSpacing: '0.16rem',
+        lineHeight: '1.9rem',
+        wordWrap: 'break-word',
+        color: '#FAFAFA'
       }
     };
   }
@@ -49,9 +52,7 @@ class MarksArticle extends React.Component {
   }
 
   componentWillUnmount(){
-    if(this.state.axios){
-      this.axiosSource.cancel("component will unmount.")
-    }
+
   }
 
   render(){
@@ -60,6 +61,7 @@ class MarksArticle extends React.Component {
     let articleArr = this.props.marksObj.list.map((key, index)=>{
       return (
         <div
+          key={"key_MarksArticle_"+key}
           markkey={key}
           style={this.style.Com_MarksArticle_paragraph}
           onClick={this._handleClick_Article_openMark}>
