@@ -55,8 +55,9 @@ class CosmicCorner extends React.Component {
       <div
         style={this.style.withinCom_CosmicCorner_}>
         <div
+          onClick={(event)=>{event.stopPropagation();event.preventDefault(); window.location.reload();}}
           style={Object.assign({}, commonStyle.withinCom_CosmicCorner_options_, {color: '#fc766a'})}>
-          {"around"}
+          {"start"}
         </div>
         <div
           style={Object.assign({color: '#333333'}, commonStyle.withinCom_CosmicCorner_options_)}

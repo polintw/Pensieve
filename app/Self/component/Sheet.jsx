@@ -8,7 +8,6 @@ import {
   SheetPassword,
   SheetBasic
 } from './SheetCom.jsx';
-import SvgPropic from '../../Component/Svg/SvgPropic.jsx';
 import { NameLarge } from '../../Component/AccountPlate.jsx';
 import {mountUserSheet} from "../../redux/actions/general.js";
 

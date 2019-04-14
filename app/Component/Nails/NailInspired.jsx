@@ -40,7 +40,8 @@ const commonStyle = {
     bottom: '36%',
     right: '0%',
     transform: 'translate(0, 40%)',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    overflow: 'hidden'
   },
   markPreview: {
     maxWidth: '86%',

@@ -38,7 +38,8 @@ const commonStyle = {
     position: 'absolute',
     bottom: '7%',
     right: '0%',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    overflow: 'hidden'
   },
   markPreview: {
     maxWidth: '86%',

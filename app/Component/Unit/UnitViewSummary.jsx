@@ -8,7 +8,6 @@ import {NounsStatic} from './UnitComponent.jsx';
 import ImgPreview from '../ImgPreview.jsx';
 import DateConverter from '../DateConverter.jsx';
 import MarksArticle from '../MarksArticle.jsx';
-import SvgCreateonDialog from '../Svg/SvgCreateonDialog.jsx'
 import {NameLarge} from '../AccountPlate.jsx';
 
 const styleMiddle = {
@@ -79,7 +78,6 @@ class UnitViewSummary extends React.Component {
 
     };
     this._handleClick_thumbnail = this._handleClick_thumbnail.bind(this);
-    this._handleClick_UnitAction_response = this._handleClick_UnitAction_response.bind(this);
     this.style={
       Com_UnitViewSummary_: {
         width: '100%',
@@ -145,12 +143,6 @@ class UnitViewSummary extends React.Component {
     this.props._set_layerstatus(true, parseInt(moveCount));
   }
 
-  _handleClick_UnitAction_response(event){
-    event.stopPropagation();
-    event.preventDefault();
-    this.props._set_Modalmode("response");
-  }
-
   componentWillUnmount(){
 
   }
@@ -210,11 +202,6 @@ class UnitViewSummary extends React.Component {
             <DateConverter
               datetime={this.props.unitCurrent.createdAt}/>
           </div>
-        </div>
-        <div
-          style={this.style.Com_UnitViewSummary_response_}
-          onClick={this._handleClick_UnitAction_response}>
-          <SvgCreateonDialog/>
         </div>
       </div>
     )

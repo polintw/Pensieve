@@ -27,7 +27,7 @@ const commonStyle = {
     top: '45%',
     fontSize: '1.36rem',
     fontWeight: '400',
-    letterSpacing: '0.15rem',
+    letterSpacing: '0.12rem',
   }
 }
 
