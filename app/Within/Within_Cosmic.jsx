@@ -9,6 +9,7 @@ import {
 import {connect} from "react-redux";
 import CosmicCorner from './component/CosmicCorner.jsx';
 import CosmicMain from './component/CosmicMain.jsx';
+import NavOptions from './component/NavOptions.jsx';
 
 class WithinCosmic extends React.Component {
   constructor(props){
@@ -34,6 +35,14 @@ class WithinCosmic extends React.Component {
         position: 'fixed',
         bottom: '3%',
         right: '11%',
+        boxSizing: 'border-box'
+      },
+      Front_Cognition_NavOptions: {
+        width: '1.4%',
+        height: '4.2%',
+        position: 'fixed',
+        bottom: '5.5%',
+        right: '5%',
         boxSizing: 'border-box'
       }
     }
@@ -73,6 +82,10 @@ class WithinCosmic extends React.Component {
           style={this.style.Within_Cosmic_corner_}>
           <CosmicCorner
             match={this.props.match}/>
+          <div
+            style={this.style.Front_Cognition_NavOptions}>
+            <NavOptions {...this.props}/>
+          </div>
         </div>
       </div>
     )
