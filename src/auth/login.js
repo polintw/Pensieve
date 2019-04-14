@@ -82,7 +82,7 @@ login.use(function(req, res) {
                   user_Role: 'public'
                 }
                 jwt.sign(JSON.parse(JSON.stringify(payload)), verify_key, {
-                  expiresIn: '1d'
+                  expiresIn: '7d'
                 }, (err, token) => {
                     if(err){
                       err = ('There is some error in token' + err);
