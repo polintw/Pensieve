@@ -6,7 +6,6 @@ export class NounsExtensible extends React.Component {
     this.state = {
       expandify: false
     };
-    this._handleClick_listNoun = this._handleClick_listNoun.bind(this);
     this._handleClick_listExpand = this._handleClick_listExpand.bind(this);
     this._render_unitModal_Nouns =this._render_unitModal_Nouns.bind(this);
     this.style={
@@ -31,8 +30,7 @@ export class NounsExtensible extends React.Component {
         letterSpacing: '0.6vh',
         fontWeight: '400',
         fontFamily: 'cwTeXMing',
-        color: '#FAFAFA',
-        cursor: 'pointer'
+        color: '#FAFAFA'
       },
       Com_Nouns_Extensible_switch_: {
         display: 'inline-block',
@@ -63,8 +61,7 @@ export class NounsExtensible extends React.Component {
         <li
           key={"key_unitModal_Nouns_"+i}
           nounid={nounId}
-          style={self.style.Com_Nouns_Extensible_list_item_}
-          onClick={self._handleClick_listNoun}>
+          style={self.style.Com_Nouns_Extensible_list_item_}>
           <span
             title={iNoun.name+ (iNoun.prefix ? ", "+iNoun.prefix:"")}>
             {iNoun.name}
@@ -74,13 +71,6 @@ export class NounsExtensible extends React.Component {
     }
 
     return nounsArr;
-  }
-
-  _handleClick_listNoun(event){
-    event.preventDefault();
-    event.stopPropagation();
-    let id = event.currentTarget.getAttribute('nounid');
-    this.props._handleClick_listNoun('noun', id);
   }
 
   _handleClick_listExpand(event){

@@ -39,14 +39,14 @@ function _handle_account_setting_GET(req, res){
         where: ["id_user"]
       };
       //first, selecting by accordancelist
-      
+
       //select from 'users' & 'verification'
       //do selection twice! due to we are not going to join the table contain the 'password'
       let pUser = Promise.resolve(_select_Basic(conditionUser, mysqlForm.accordancesList)),
           pVerify = Promise.resolve(_select_Basic(conditionVerify, mysqlForm.accordancesList));
 
       Promise.all([pUser, pVerify]).then((resultsDouble)=>{
-        if(resultsDouble.length < 1){throw {status: 500, err: 'no this user in DB'}}; 
+        if(resultsDouble.length < 1){throw {status: 500, err: 'no this user in DB'}};
         let sendingData={
           accountSet:{
             firstName: '',

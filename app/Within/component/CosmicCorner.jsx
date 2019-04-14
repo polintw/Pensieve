@@ -22,9 +22,11 @@ class CosmicCorner extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      toolBoxify: false
     };
+    this._handleClick_navToolBox = this._handleClick_navToolBox.bind(this);
     this._handleClick_cosmic_Self = this._handleClick_cosmic_Self.bind(this);
+    this._handleClick_currentReload = this._handleClick_currentReload.bind(this);
     this.style={
       withinCom_CosmicCorner_: {
         position: 'absolute',
@@ -35,7 +37,19 @@ class CosmicCorner extends React.Component {
     }
   }
 
+  _handleClick_currentReload(event){
+    event.preventDefault();
+    event.stopPropagation();
+    this.props._refer_leavevonIndex('','reload')
+  }
+
   _handleClick_cosmic_Self(event){
+    event.preventDefault();
+    event.stopPropagation();
+    this.props._refer_leavevonIndex(this.props.userInfo.id,'user')
+  }
+
+  _handleClick_navToolBox(event){
     event.stopPropagation();
     event.preventDefault();
     window.location.assign('/user/screen');
@@ -64,6 +78,22 @@ class CosmicCorner extends React.Component {
           onClick={this._handleClick_cosmic_Self}>
           {this.props.userInfo.account}
         </div>
+        {
+          this.state.toolBoxify &&
+          <ModalBox containerId="withinCom_CosmicCorner_options">
+            <div
+              style={this.style.withinCom_LtdToolBox_}>
+              <ol
+                style={this.style.withinCom_LtdToolBox_ol_}>
+                <li
+                  style={{position: 'relative', whiteSpace: 'pre', cursor: 'pointer'}}
+                  onClick={this.props._handleClick_LtdToolBox_logout}>
+                  {"Log Out"}
+                </li>
+              </ol>
+            </div>
+          </ModalBox>
+        }
       </div>
     )
   }

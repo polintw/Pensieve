@@ -1,7 +1,8 @@
 import React from 'react';
 import MainIndex from './MainIndex.jsx';
+import EntryCall from './EntryCall.jsx';
 
-export default class CosmicMain extends React.Component {
+class CosmicMain extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -22,6 +23,13 @@ export default class CosmicMain extends React.Component {
         left: '48%',
         transform: 'translate(-50%,0)',
         boxSizing: 'border-box'
+      },
+      Within_Ltd_scroll_EntryCall: {
+        width: '97%',
+        height: '15vh',
+        position: 'absolute',
+        top: '3vh',
+        left: '5%'
       }
     }
   }
@@ -49,3 +57,5 @@ export default class CosmicMain extends React.Component {
     )
   }
 }
+
+export default React.forwardRef((props, ref) => <CosmicMain innerRef={ref} {...props}/>);

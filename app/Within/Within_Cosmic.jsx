@@ -2,7 +2,6 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Route,
-  Switch,
   Link,
   withRouter
 } from 'react-router-dom';
@@ -14,8 +13,9 @@ import NavOptions from './component/NavOptions.jsx';
 class WithinCosmic extends React.Component {
   constructor(props){
     super(props);
+    window.scrollTo(0, 0); // special for this page, if the scroll animation is still there.
     this.state = {
-
+      cssPara: 0
     };
     this._refer_von_cosmic = this._refer_von_cosmic.bind(this);
     this.style={
@@ -64,10 +64,35 @@ class WithinCosmic extends React.Component {
 
   componentDidMount() {
 
+  _check_Position(){
+    let Within_Cosmic_corner_Top = this.withinCom_CosmicMain_index_.current.getBoundingClientRect().top;
+    if(Within_Cosmic_corner_Top < this.scrollOrigin && Within_Cosmic_corner_Top > this.scrollLine){
+      //it's not good enough, due to the "leap" happened at the threshould
+      let para = (this.scrollOrigin-Within_Cosmic_corner_Top)/this.scrollRange;
+      this.setState((prevState, props) => {
+        return ({
+          cssPara: para
+        })
+      })
+    }
+  }
+
+  _handleClick_LtdToolBox_logout(event){
+    event.stopPropagation();
+    event.preventDefault();
+    localStorage.removeItem('token');
+    window.location.assign('/login');
+  }
+
+  componentDidMount() {
+    this.scrollOrigin = this.withinCom_CosmicMain_index_.current.getBoundingClientRect().top;
+    this.scrollRange = this.scrollOrigin*2;
+    this.scrollLine = this.scrollOrigin-this.scrollRange;
+    window.addEventListener("scroll", this._check_Position); //becuase we using "position: static", listener could not add on element directlly.
   }
 
   componentWillUnmount() {
-
+    window.removeEventListener("scroll", this._check_Position);
   }
 
   render(){
@@ -79,7 +104,7 @@ class WithinCosmic extends React.Component {
           <Route path={this.props.match.path} render={(props)=> <CosmicMain {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
         </Switch>
         <div
-          style={this.style.Within_Cosmic_corner_}>
+          style={Object.assign({opacity: this.state.cssPara}, this.style.Within_Cosmic_corner_)}>
           <CosmicCorner
             match={this.props.match}/>
           <div
@@ -87,9 +112,24 @@ class WithinCosmic extends React.Component {
             <NavOptions {...this.props}/>
           </div>
         </div>
+        <CosmicMain
+          {...this.props}
+          ref={this.withinCom_CosmicMain_index_}
+          _refer_leavevonIndex={this._refer_leavevonIndex}
+          _handleClick_LtdToolBox_logout={this._handleClick_LtdToolBox_logout}/>
+        <div style={this.style.Within_Cosmic_bottom}></div>
       </div>
     )
   }
 }
 
-export default withRouter(connect()(WithinCosmic));
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo
+  }
+}
+
+export default withRouter(connect(
+  mapStateToProps,
+  null
+)(WithinCosmic));

@@ -51,7 +51,7 @@ class MainIndex extends React.Component {
         boxSizing: 'border-box'
       },
       withinCom_MainIndex_scroll_: {
-        width: '101%',
+        width: '100%',
         position: "relative"
       },
       withinCom_MainIndex_scroll_col_footer: {
@@ -121,7 +121,6 @@ class MainIndex extends React.Component {
   }
 
   componentDidMount(){
-    const self = this;
     this.setState((prevState, props)=>{return {axios: true};}, ()=>{
       let url = '/router/cosmic/present';
       axios.get(url, {

@@ -53,9 +53,6 @@ class Terrace extends React.Component {
 
   render(){
     //let cx = cxBind.bind(styles);
-    const params = new URLSearchParams(this.props.location.search); //query value
-    let paramWatch = params.get('watch');
-
     return(
       <div
         ref={(element)=>{this.terrace_=element;}}

@@ -34,7 +34,6 @@ class Basic extends React.Component {
     this.state = {
       axios: false
     };
-    this._handle_sheetBasic = this._handle_sheetBasic.bind(this);
     this._render_Gender = this._render_Gender.bind(this);
     this.style={
       selfCom_Sheet_Basic_: {
@@ -52,33 +51,6 @@ class Basic extends React.Component {
       },
     }
   }
-
-  _handle_sheetBasic(event){
-    event.preventDefault();
-    const self = this;
-    let reqBody = {};
-    reqBody["gender"] = this.genderSelect.value;
-    this.setState({axios: true});
-    axios.patch('/router/profile/sheet', reqBody, {
-      headers: {'charset': 'utf-8'}
-    }).then(function (res) {
-      self.setState({
-        axios: false
-      });
-      window.location.assign('/user/profile/sheet');
-    }).catch(function (thrown) {
-      if (axios.isCancel(thrown)) {
-        console.log('Request canceled: ', thrown.message);
-      } else {
-        self.setState({axios: false});
-        let customSwitch = (status)=>{
-          return null;
-        };
-        errHandler_axiosCatch(thrown, customSwitch);
-      }
-    });
-  }
-
 
   _render_Gender(dbRecords){
     switch (dbRecords) {
@@ -279,6 +251,7 @@ class SettingPassword extends React.Component {
             <input
               type="password"
               ref={(element)=>{this.passOld = element}}
+              disabled={this.props.settingSubmitting? true : false}
               required/><br/>
               {
                 this.state.message.password_old &&
@@ -289,6 +262,7 @@ class SettingPassword extends React.Component {
               type="password"
               ref={(element)=>{this.passNew = element}}
               onChange={this._handleChange_passCheck}
+              disabled={this.props.settingSubmitting? true : false}
               required/><br/>
             {
               this.state.greenlight &&
@@ -303,6 +277,7 @@ class SettingPassword extends React.Component {
               type="password"
               ref={(element)=>{this.passConfirm = element}}
               onChange={this._handleChange_passCheck}
+              disabled={this.props.settingSubmitting? true : false}
               required/><br/>
             {
               this.state.greenlight &&

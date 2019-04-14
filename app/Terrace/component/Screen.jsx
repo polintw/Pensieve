@@ -23,9 +23,8 @@ class Screen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      scroll: false
+
     };
-    this._handleMouse_terraceFrame = this._handleMouse_terraceFrame.bind(this);
     this._handleClick_nav_expand = this._handleClick_nav_expand.bind(this);
     this._handleClick_selfClose = this._handleClick_selfClose.bind(this);
     this.style={
@@ -105,21 +104,13 @@ class Screen extends React.Component {
   _handleClick_nav_expand(event){
     event.stopPropagation();
     event.preventDefault();
-    window.location.assign('/user/cognition/embedded/inspireds');
+    window.location.assign('/user/cognition/actions/shareds');
   }
 
   _handleClick_selfClose(event){
     event.preventDefault();
     event.stopPropagation();
     window.location.assign('/');
-  }
-
-  _handleMouse_terraceFrame(event){
-    if(event.deltaY > 0){
-      this.setState((prevState, props)=>{
-        return {scroll: true}
-      })
-    };
   }
 
   render(){
@@ -153,6 +144,11 @@ class Screen extends React.Component {
             onClick={this._handleClick_selfClose}>
             <SvgAround/>
           </div>
+          <svg
+            style={this.style.terraceCom_Screen_return_svg}>
+            <text x="50%" y="50%" textAnchor="middle" stroke="#999999" strokeWidth="1.2px" fontSize='3vh'>{" x "}</text>
+            <circle r="2vh" cx="50%" cy="50%" stroke='#999999' fill="transparent" style={{cursor: 'pointer'}}/>
+          </svg>
         </div>
       </div>
     )
