@@ -32,7 +32,6 @@ export class NounsExtensible extends React.Component {
         fontWeight: '400',
         fontFamily: 'cwTeXMing',
         color: '#FAFAFA',
-        cursor: 'pointer'
       },
       Com_Nouns_Extensible_switch_: {
         display: 'inline-block',
@@ -100,13 +99,14 @@ export class NounsExtensible extends React.Component {
           style={this.style.Com_Nouns_Extensible_list_}>
           {this._render_unitModal_Nouns()}
         </ul>
-        <div
-          style={this.style.Com_Nouns_Extensible_switch_}
-          onClick={this._handleClick_listExpand}>
-          {
-            this.props.nouns.length>2 ? 'show all >' : null
-          }
-        </div>
+        {
+          (this.props.nouns.length>2) &&
+          <div
+            style={this.style.Com_Nouns_Extensible_switch_}
+            onClick={this._handleClick_listExpand}>
+            'show all >'
+          </div>
+        }
       </div>
     )
   }
