@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'React';
 
 export default class ImgChoose extends React.Component {
   constructor(props){

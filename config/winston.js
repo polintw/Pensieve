@@ -6,20 +6,20 @@ const {envLogPath} = require('./.env.json');
 const options = {
   fileErr: {
     level: 'warn',
-    filename: path.join(envLogPath.fromConfig, `error-%DATE%.log`),
+    filename: path.join(__dirname, envLogPath.fromConfig, `error-%DATE%.log`),
     datePattern: 'YYYY-MM-DD',
     zippedArchive: true,
     maxSize: '20m'
   },
   fileCombined: {
     level: 'debug',
-    filename: path.join(envLogPath.fromConfig, `combined-%DATE%.log`),
+    filename: path.join(__dirname, envLogPath.fromConfig, `combined-%DATE%.log`),
     datePattern: 'YYYY-MM-DD',
     zippedArchive: true,
     maxSize: '20m'
   },
   fileException: {
-    filename: path.join(envLogPath.fromConfig, "exception.log")
+    filename: path.join(__dirname, envLogPath.fromConfig, "exception.log")
   },
   console: {
     level: 'warn',

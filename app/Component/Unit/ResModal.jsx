@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'React';
 import {connect} from "react-redux";
 import EditingModal from '../Editing/EditingModal.jsx';
 import {

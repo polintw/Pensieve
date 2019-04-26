@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'React';
 import {connect} from "react-redux";
 import NounsEditor from './NounsEditor.jsx';
 import {UserPlate} from '../AccountPlate.jsx';
