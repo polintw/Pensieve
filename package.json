@@ -49,7 +49,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node bundle.js",
+    "install": "node -e \"require('./init/process.js').install()\"",
+    "migrate": "node -e \"require('./init/process.js').migrate()\"",
+    "build": "node -e \"require('./init/process.js').build()\"",
     "start": "node server.js"
   },
   "author": "Polin Chou",

@@ -20,48 +20,45 @@ ver __"Lite 2.0"__ : the version released to the public of this project.
 
 
 ## Initiation:
+Doc of [React for production](https://reactjs.org/docs/optimizing-performance.html#use-the-production-build)
+
 #### Env
 - node 10.15.1
 - npm  6.4.1
     - /bcrypt: check doc, uninstall and install again if needed
 - MySQL 14.14 Distrib 5.7.25
 
-#### Config:
-
-create */.env.json*, please use the file */.env.example.json*
-
-- *default* set databse connection info
-- *default* import your jwt secret
-- *test /faked* set log file path
-- *test /faked* set img store path
-- *no need* set services required info
-
 #### Install
+
+Establishing node modules and basic folders first
 
 npm run install
 
-database
+if on windows:
+npm run installWin
 
-- db: create a new database before db:migrate at first time
-- db: migrate: all
-- db: seed 20190214121202-init-nouns
-- db: seed test user account
+- config: modify neccessory info now:
+  - databse connection info: needed privilege to Create and Delete tables.
+  - jwt secret: use default one or import yours
+  - log file path to absolute path if needed (i.e on Windows)
 
-bundle
+Than using ORM migrate database at first installation
+
+npm run migrate
+
 
 #### Start
 
-npm run start
-
-using test user/helloworld to log in
-
->Doc of [React for production](https://reactjs.org/docs/optimizing-performance.html#use-the-production-build)
-
-## Developing
+bundle app by browserify
 
 npm run build
-for react bundle only
 
+final, start the server
+
+npm run start
+
+
+using test user/helloworld to log in
 
 ## Release
 
@@ -76,4 +73,3 @@ for react bundle only
 - app/Self/Shared    delete thread
 - app/Terrace        delete appearance f()"params"
 - app/Component/Edit delete "ref"、credits
-
