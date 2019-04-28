@@ -32,10 +32,10 @@ Doc of [React for production](https://reactjs.org/docs/optimizing-performance.ht
 
 Establishing node modules and basic folders first
 
-npm run install
+`npm run install`
 
 if on windows:
-npm run installWin
+`npm run installWin`
 
 - config: modify neccessory info now:
   - databse connection info: needed privilege to Create and Delete tables.
@@ -44,21 +44,21 @@ npm run installWin
 
 Than using ORM migrate database at first installation
 
-npm run migrate
+`npm run migrate`
 
 
 #### Start
 
 bundle app by browserify
 
-npm run build
+`npm run build`
 
 final, start the server
 
-npm run start
+`npm run start`
 
 
-using test user/helloworld to log in
+using usertest@mail.com/helloworld to log in
 
 ## Release
 
