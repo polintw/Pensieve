@@ -1,6 +1,6 @@
 {
-  "name": "corner",
-  "version": "2.0.0",
+  "name": "cornerth",
+  "version": "1.1.0",
   "description": "",
   "main": "server.js",
   "dependencies": {
@@ -50,6 +50,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "install": "node -e \"require('./init/process.js').install()\"",
+    "installWin": "node -e \"require('./init/process.js').installWin()\"",
     "migrate": "node -e \"require('./init/process.js').migrate()\"",
     "build": "node -e \"require('./init/process.js').build()\"",
     "start": "node server.js"

@@ -13,13 +13,8 @@ ver __"Lite 2.1"__ : the version released after backend refactor, and opening fo
 
 ver __"Lite 2.0"__ : the version released to the public of this project.
 
-- master: the current Lite version(stable) running on the server
-- develope: the main trunk of the whole project(ahead to master quite long)
-- release: a 'temp' branch emerge when we need to 'cut' and 'deploy' a new version. Merge to the master in the end, not to the develope.
-- [feature]: a 'temp' branch emerge during development. Merge to the develope in the end, not to the master.
 
-
-## Initiation:
+## Initiation
 Doc of [React for production](https://reactjs.org/docs/optimizing-performance.html#use-the-production-build)
 
 #### Env
@@ -32,33 +27,58 @@ Doc of [React for production](https://reactjs.org/docs/optimizing-performance.ht
 
 Establishing node modules and basic folders first
 
-`npm run install`
+```
+npm run install
+```
 
-if on windows:
-`npm run installWin`
+on windows:
+```
+npm run installWin
+```
 
-- config: modify neccessory info now:
+Before migration : modify neccessory info now
+
+  config
   - databse connection info: needed privilege to Create and Delete tables.
   - jwt secret: use default one or import yours
   - log file path to absolute path if needed (i.e on Windows)
 
-Than using ORM migrate database at first installation
+Then using ORM migrate database at first installation
 
-`npm run migrate`
+```
+npm run migrate
+```
 
 
 #### Start
 
 bundle app by browserify
 
-`npm run build`
+```
+NODE_ENV = development
+npm run build
+```
 
 final, start the server
 
-`npm run start`
+```
+NODE_ENV = development
+npm run start
+```
 
 
 using usertest@mail.com/helloworld to log in
+
+## Developing
+
+#### Branches
+- master: the current Lite version(stable) running on the server
+- develope: the main trunk of the whole project(ahead to master quite long)
+- release: a 'temp' branch emerge when we need to 'cut' and 'deploy' a new version. Merge to the master in the end, not to the develope.
+- [feature]: a 'temp' branch emerge during development. Merge to the develope in the end, not to the master.
+
+
+
 
 ## Release
 
