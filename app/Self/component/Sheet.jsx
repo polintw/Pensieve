@@ -203,7 +203,9 @@ const styleMiddle = {
           style={this.style.selfCom_Sheet_ProfileTitle_}>
           <div
             style={this.style.selfCom_Sheet_ProfileTitle_name}>
-            <NameLarge />
+            <NameLarge
+              firstName={this.props.userInfo.firstName}
+              lastName={this.props.userInfo.lastName}/>
           </div>
         </div>
         <div

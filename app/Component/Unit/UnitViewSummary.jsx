@@ -172,7 +172,9 @@ class UnitViewSummary extends React.Component {
           style={this.style.Com_UnitViewSummary_author_}>
           <div
             style={this.style.Com_UnitViewSummary_author_name}>
-            <NameLarge/>
+            <NameLarge
+              firstName={this.props.unitCurrent.authorBasic.firstName}
+              lastName={this.props.unitCurrent.authorBasic.lastName}/>
           </div>
         </div>
         <div

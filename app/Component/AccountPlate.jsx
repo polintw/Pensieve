@@ -150,7 +150,7 @@ class Large extends React.Component {
     //let cx = cxBind.bind(styles);
     return(
       <span style={generalStyle.spanNameLarge}>
-        {this.props.userInfo.firstName + " " + this.props.userInfo.lastName}
+        {this.props.firstName + " " + this.props.lastName}
       </span>
     )
   }
