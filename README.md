@@ -20,30 +20,31 @@ Doc of [React for production](https://reactjs.org/docs/optimizing-performance.ht
 #### Env
 - node 10.15.1
 - npm  6.4.1
-    - /bcrypt: check doc, uninstall and install again if needed
 - MySQL 14.14 Distrib 5.7.25
 
 #### Install
 
-Establishing node modules and basic folders first
+Establishing node modules and basic folders __at the first time__.
 
 ```
 npm run install
 ```
 
-on windows:
+or if on Windows:
 ```
 npm run installWin
+Rename-Item -Path .\\config\\.env.example.json -NewName .env.json
 ```
 
-Before migration : modify neccessory info now
+> /bcrypt: check [doc](https://www.npmjs.com/package/bcrypt) if face error come from this module, uninstall and install again if needed
 
-  config
-  - databse connection info: needed privilege to Create and Delete tables.
+
+Before migration : modify neccessory info now in `/config/.env.json`
+  - databse connection info: user with all privilege.
   - jwt secret: use default one or import yours
   - log file path to absolute path if needed (i.e on Windows)
 
-Then using ORM migrate database at first installation
+Then using ORM migrate database :
 
 ```
 npm run migrate
@@ -52,7 +53,7 @@ npm run migrate
 
 #### Start
 
-bundle app by browserify
+build app by browserify
 
 ```
 NODE_ENV = development
@@ -67,7 +68,13 @@ npm run start
 ```
 
 
-using usertest@mail.com/helloworld to log in
+using below to log in.
+```
+usertest@mail.com
+helloworld
+```
+
+Have a nice trip.
 
 ## Developing
 
