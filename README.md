@@ -15,6 +15,8 @@ ver __"Lite 2.0"__ : the version released to the public of this project.
 
 
 ## Initiation
+Only at branch other than master.
+
 Doc of [React for production](https://reactjs.org/docs/optimizing-performance.html#use-the-production-build)
 
 #### Env
@@ -24,7 +26,8 @@ Doc of [React for production](https://reactjs.org/docs/optimizing-performance.ht
 
 #### Install
 
-Establishing node modules and basic folders __at the first time__.
+Establishing node modules and basic folders __at the first time__:
+>please place it at a folder you have auth to write and edit
 
 ```
 npm run install
@@ -90,10 +93,16 @@ Have a nice trip.
 ## Release
 
 #### Steps
-1. db: migrate if needed, set env=production
-2. db: seed if needed
-3. bundle as production. if fail, bundle from master else where directly
-4. start as production.
+1. Cut and modify.
+2. merge to release with "strategy=ours"
+3. Upload seeds if any:
+  - from Windows:
+
+    Set-SCPFile -ComputerName /domainname -Credential $cred(username) -KeyFile .\.ssh\id_rsa -Port (port) -RemotePath '(path to dir)' -LocalFile '(path to local file)'
+4. db: migrate if needed, set env=production
+5. db: seed if needed
+6. run build as production.
+7. run start as production.
 
 #### Difference Records
 - app/               modified f()"refer"
