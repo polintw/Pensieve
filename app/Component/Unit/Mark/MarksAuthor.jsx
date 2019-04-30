@@ -47,13 +47,15 @@ class MarksAuthor extends React.Component {
 
   _render_SpotsorMark(){
     if(this.props.markOpened && (this.props.marksData.list.indexOf(this.props.currentMark) > (-1))){
+      let markKey = this.props.currentMark;
       return (
         <OpenedMark
           {...this.props}
           widthDivisionRatial={widthDivisionRatial}
+          circleComponent={this.props.unitCurrent.marksInteraction[markKey].notify?(<SvgCircleSpot/>):(<SvgCircle/>)}
           _handleClick_ImgLayer_circle={this._handleClick_ImgLayer_circle}>
           <AuthorBlock
-            markKey={this.props.currentMark}
+            markKey={markKey}
             markData={this.props.marksData.data[this.props.currentMark]}/>
         </OpenedMark>
       );

@@ -78,8 +78,10 @@ class UnitViewSummary extends React.Component {
     this.state = {
 
     };
+    this.marksArticle = React.createRef();
     this._handleClick_thumbnail = this._handleClick_thumbnail.bind(this);
     this._handleClick_UnitAction_response = this._handleClick_UnitAction_response.bind(this);
+    this._handleWheel_marksArticle = (event)=>{event.stopPropagation();};
     this.style={
       Com_UnitViewSummary_: {
         width: '100%',
@@ -151,8 +153,15 @@ class UnitViewSummary extends React.Component {
     this.props._set_Modalmode("response");
   }
 
-  componentWillUnmount(){
+  componentDidMount(){
+    this.marksArticle.current.addEventListener('wheel', this._handleWheel_marksArticle, {passive: false})
+    //because the modern browser set the 'passive' property of addEventListener default to true,
+    //they do it for 'efficiency', but it obstruct our desire to control this event
+    //so we could only add listener like this way to set the 'passive' manually.
+  }
 
+  componentWillUnmount(){
+    this.marksArticle.current.removeEventListener('wheel',this._handleWheel_marksArticle);
   }
 
   render(){
@@ -178,8 +187,8 @@ class UnitViewSummary extends React.Component {
           </div>
         </div>
         <div
-          style={this.style.Com_UnitViewSummary_Marksarticle}
-          onWheel={(event)=>{event.stopPropagation();}}>
+          ref={this.marksArticle}
+          style={this.style.Com_UnitViewSummary_Marksarticle}>
           <MarksArticle
             layer={''}
             marksObj={marksObj}
