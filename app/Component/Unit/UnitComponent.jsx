@@ -179,26 +179,3 @@ export class AuthorFull extends React.Component {
     )
   }
 }
-/*
-export class  extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-
-    };
-    this.style={
-
-    }
-  }
-
-  render(){
-    //let cx = cxBind.bind(styles);
-    return(
-      <div
-        style={this.style.Com_UnitActionControl_}>
-
-      </div>
-    )
-  }
-}
-*/

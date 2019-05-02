@@ -149,7 +149,7 @@ class Unit extends React.Component {
           <UnitModal
             unitId={this.unitId}
             mode={this.state.mode}
-            unitInit={this.unitInit}
+            initStatus={this.unitInit}
             _set_Modalmode={this._set_Modalmode}
             _close_modal_Unit={this._close_modal_Unit}
             _refer_von_unit={this.props._refer_von_unit}/>)
@@ -159,7 +159,7 @@ class Unit extends React.Component {
           <UnitModal
             unitId={this.unitId}
             mode={this.state.mode}
-            unitInit={this.unitInit}
+            initStatus={this.unitInit}
             _set_Modalmode={this._set_Modalmode}
             _close_modal_Unit={this._close_modal_Unit}
             _refer_von_unit={this.props._refer_von_unit}/>)

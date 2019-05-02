@@ -79,7 +79,7 @@ class UnitViewSummary extends React.Component {
 
     };
     this.marksArticle = React.createRef();
-    this._handleClick_thumbnail = this._handleClick_thumbnail.bind(this);
+    this._set_layerstatus = this._set_layerstatus.bind(this);
     this._handleClick_UnitAction_response = this._handleClick_UnitAction_response.bind(this);
     this._handleWheel_marksArticle = (event)=>{event.stopPropagation();};
     this.style={
@@ -142,9 +142,10 @@ class UnitViewSummary extends React.Component {
     };
   }
 
-  _handleClick_thumbnail(layer){
+  _set_layerstatus(layer, markKey){
     let moveCount = (layer=='cover')? 0 : 100;
-    this.props._set_layerstatus(true, parseInt(moveCount));
+    let marksStatus = markKey? {marksify: true, initMark: markKey}: {marksify: false, initMark: "all"};
+    this.props._set_layerstatus(true, parseInt(moveCount), marksStatus);
   }
 
   _handleClick_UnitAction_response(event){
@@ -165,14 +166,8 @@ class UnitViewSummary extends React.Component {
   }
 
   render(){
-    //let cx = cxBind.bind(styles);
-
     //prepare beneath line for future, connecting to /related
     if(this.props.moveCount > 240) return (<UnitSummaryNail  _close_modal_Unit={this.props._close_modal_Unit}/>);
-    let marksObj = {
-      list: this.props.unitCurrent.coverMarksList.concat(this.props.unitCurrent.beneathMarksList),
-      data: Object.assign({}, this.props.unitCurrent.coverMarksData, this.props.unitCurrent.beneathMarksData)
-    };
 
     return(
       <div
@@ -190,9 +185,13 @@ class UnitViewSummary extends React.Component {
           ref={this.marksArticle}
           style={this.style.Com_UnitViewSummary_Marksarticle}>
           <MarksArticle
-            layer={''}
-            marksObj={marksObj}
-            _set_MarkInspect={()=>{}}/>
+            layer={'cover'}
+            marksObj={{list: this.props.unitCurrent.coverMarksList, data: this.props.unitCurrent.coverMarksData}}
+            _set_MarkInspect={this._set_layerstatus}/>
+          <MarksArticle
+            layer={'beneath'}
+            marksObj={{list: this.props.unitCurrent.beneathMarksList, data: this.props.unitCurrent.beneathMarksData}}
+            _set_MarkInspect={this._set_layerstatus}/>
         </div>
         <div
           style={this.style.Com_UnitViewSummary_thumbnails_}>
@@ -201,7 +200,7 @@ class UnitViewSummary extends React.Component {
             <ImgPreview
               blockName={'cover'}
               previewSrc={this.props.unitCurrent.coverSrc}
-              _handleClick_ImgPreview_preview={this._handleClick_thumbnail}/>
+              _handleClick_ImgPreview_preview={this._set_layerstatus}/>
           </div>
           {
             this.props.unitCurrent.beneathSrc &&
@@ -210,7 +209,7 @@ class UnitViewSummary extends React.Component {
               <ImgPreview
                 blockName={'beneath'}
                 previewSrc={this.props.unitCurrent.beneathSrc}
-                _handleClick_ImgPreview_preview={this._handleClick_thumbnail}/>
+                _handleClick_ImgPreview_preview={this._set_layerstatus}/>
             </div>
           }
         </div>

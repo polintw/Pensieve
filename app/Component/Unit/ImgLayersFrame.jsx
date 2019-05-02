@@ -7,8 +7,8 @@ class ImgLayersFrame extends React.Component {
     super(props);
     this.state = {
       spotsVisible: true,
-      markOpened: this.props.unitInit.marksify,
-      currentMark: this.props.unitInit.initMark
+      markOpened: this.props.marksStatus.marksify, //watch out! props marksStatus would update follow the marksvisible,
+      currentMark: this.props.marksStatus.initMark //so, careful if need to change state by 'props'!
     };
     this._set_Markvisible = this._set_Markvisible.bind(this);
     this._set_spotsVisible = ()=>{this.setState((prevState, props)=>{return {spotsVisible: prevState.spotsVisible? false : true};})};
@@ -55,7 +55,7 @@ class ImgLayersFrame extends React.Component {
           markOpened: false
         }
       );
-      props._set_markOpenedParent(); //this, should be a reason to put every interactions states to redux reucer manage
+      props._set_markOpened(markKey? true:false, markKey); //this, should be a reason to put every interactions states to redux reucer manage
       return nextState;
     });
   }
