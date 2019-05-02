@@ -6,12 +6,12 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import ImgImport from './ImgImport.jsx';
+import NounsEditor from './NounsEditor.jsx';
 import EditingPanel from './EditingPanel.jsx';
 import ContentModal from './ContentModal.jsx';
-import NounsEditor from './NounsEditor.jsx';
 import ImgPreview from '../ImgPreview.jsx';
-import MarksArticle from '../MarksArticle.jsx';
 import WarningModal from '../WarningModal.jsx';
+import MarksArticleEdit from '../MarksArticleEdit.jsx';
 
 const styleMiddle = {
   imgBLockDecoBack:{
@@ -60,6 +60,7 @@ class EditingModal extends React.Component {
       contentInit: {focusBlock: null, markExpand: null},
       contentModalify: false,
       warningModal: false,
+      articleEditing: false,
       coverSrc: this.props.unitSet?this.props.unitSet.coverSrc:null,
       beneathSrc: this.props.unitSet?this.props.unitSet.beneathSrc:null,
       coverMarks: this.props.unitSet?this.props.unitSet.coverMarks:{list:[], data:{}},
@@ -71,6 +72,7 @@ class EditingModal extends React.Component {
     this._set_nouns = (nounSet) => {this.setState((prevState, props) => {return {nouns: nounSet}})};
     this._set_refsArr = ()=>{};
     this._set_newImgSrc = this._set_newImgSrc.bind(this);
+    this._set_ArticleEdit = this._set_ArticleEdit.bind(this);
     this._set_WarningModal = this._set_WarningModal.bind(this);
     this._open_ContentModal = this._open_ContentModal.bind(this);
     this._close_img_Cancell = this._close_img_Cancell.bind(this);
@@ -133,6 +135,10 @@ class EditingModal extends React.Component {
 
   _set_WarningModal(bool){
     if(bool) this.setState({warningModal: false});
+  }
+
+  _set_ArticleEdit(markKey){
+    this.setState({articleEditing: markKey});
   }
 
   _set_newImgSrc(dataURL, forBlock){
@@ -294,18 +300,22 @@ class EditingModal extends React.Component {
         <article
           style={this.style.Com_Modal_Editing_article_}
           onWheel={(event)=>{event.stopPropagation();}}>
-          <MarksArticle
+          <MarksArticleEdit
             layer={'cover'}
             marksObj={this.state.coverMarks}
-            _set_MarkInspect={this._open_ContentModal}/>
+            _set_ArticleEdit={this._set_ArticleEdit}
+            _set_MarkInspect={this._open_ContentModal}
+            _close_Mark_Complete={this._close_Mark_Complete}/>
           <div
             style={Object.assign({}, styleMiddle.contentMarkInter, {borderTop: this.state.coverSrc? 'solid 1px #ABABAB':''})}>
             {!this.state.coverSrc && "add a new picture to mark something!"}
           </div>
-          <MarksArticle
+          <MarksArticleEdit
             layer={'beneath'}
             marksObj={this.state.beneathMarks}
-            _set_MarkInspect={this._open_ContentModal}/>
+            _set_ArticleEdit={this._set_ArticleEdit}
+            _set_MarkInspect={this._open_ContentModal}
+            _close_Mark_Complete={this._close_Mark_Complete}/>
         </article>
         <div
           style={this.style.Com_Modal_Editing_imgBlocks_}>
