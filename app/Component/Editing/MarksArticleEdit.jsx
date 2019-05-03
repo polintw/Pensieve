@@ -4,35 +4,40 @@ import {
   withRouter,
   Redirect
 } from 'react-router-dom';
+import {
+  convertToRaw
+} from 'draft-js';
 import {connect} from "react-redux";
 import SvgEditingSerial from '../Svg/SvgEditingSerial.jsx';
-import DraftDisplay from './Draft/DraftDisplay.jsx';
+import DraftDisplay from '../Draft/DraftDisplay.jsx';
+import DraftEditor from '../Draft/DraftEditor.jsx';
 
 const styleMiddle = {
   boxSubmitButton: {
     display: 'inline-block',
     width: '24%',
-    height: '100%',
+    height: '97%',
     position: 'relative',
     boxSizing: 'border-box',
     float: 'right',
-    margin: '0 2%'
+    margin: '0 2%',
+    cursor: 'pointer'
   },
   boxEditor: {
     width: '100%',
     position: 'relative',
     boxSizing: 'border-box',
-    paddingBottom: '0.5rem',
+    padding: '0.5rem 0 1.3rem',
   },
   boxEditingPanel: {
     width: '100%',
-    height: '2rem',
+    height: '2.1rem',
     position: 'relative',
     boxSizing: 'border-box',
     padding: '0 1rem'
   },
   boxEditingPanelSvg: {
-    width: '12%',
+    width: '14%',
     height: '100%',
     position: 'relative',
     float: 'right',
@@ -40,13 +45,8 @@ const styleMiddle = {
     oveflow: 'visible',
     cursor: 'pointer'
   },
-  roundRecBox: {
-    borderRadius: '2.4vh',
-    backgroundColor: "#e6e6e6",
-    cursor: 'pointer'
-  },
   spanInteractions: {
-    fontSize: '1.32rem',
+    fontSize: '1.3rem',
     fontWeight: '400',
     letterSpacing: '0.12rem',
     textAlign: 'center',
@@ -108,7 +108,7 @@ class MarksArticleEdit extends React.Component {
     let markKey = event.currentTarget.getAttribute('markkey');
     this.setState({
       markEditing: markKey,
-      editingEditorContent: this.props.marksObj.data[key].editorContent
+      editingEditorContent: this.props.marksObj.data[markKey].editorContent
     });
     this.props._set_ArticleEdit(markKey);
   }
@@ -168,6 +168,7 @@ class MarksArticleEdit extends React.Component {
             (this.state.markEditing==key) ?(
               <div>
                 <div
+                  style={Object.assign({}, styleMiddle.boxEditor, styleMiddle.textEditor)}
                   onClick={this._handleClick_markComponentEditor}>
                   <DraftEditor
                     ref={this.contentEditor}
@@ -175,9 +176,9 @@ class MarksArticleEdit extends React.Component {
                     _on_EditorChange={this._set_EditorUpdate}/>
                 </div>
                 <div
-                  style={Object.assign({},this.style.Com_MarkEditingBlock_Content_Main_div_edit_Panel_, styleByMidline.panel)}>
+                  style={Object.assign({}, styleMiddle.boxEditingPanel)}>
                   <div
-                    style={Object.assign({}, styleMiddle.boxSubmitButton, styleMiddle.roundRecBox, {backgroundColor:'#ff7a5f'})}
+                    style={Object.assign({}, styleMiddle.boxSubmitButton, {borderRadius: '0.7rem', backgroundColor:'#ff7a5f'})}
                     onClick={this._handleClick_ArticleEdit_complete}>
                     <span
                       className={'centerAlignChild'}
@@ -186,11 +187,11 @@ class MarksArticleEdit extends React.Component {
                     </span>
                   </div>
                   <div
-                    style={Object.assign({}, styleMiddle.boxSubmitButton, styleMiddle.roundRecBox)}
+                    style={Object.assign({}, styleMiddle.boxSubmitButton)}
                     onClick={this._handleClick_ArticleEdit_cancel}>
                     <span
                       className={'centerAlignChild'}
-                      style={styleMiddle.spanInteractions}>
+                      style={Object.assign({}, styleMiddle.spanInteractions, {color: '#ababab'})}>
                       {'cancel'}
                     </span>
                   </div>
@@ -216,7 +217,7 @@ class MarksArticleEdit extends React.Component {
                     markkey={key}
                     onClick={this._handleClick_Article_openMark}>
                     <SvgEditingSerial
-                      serial={index} />
+                      serial={index+1} />
                   </div>
                 </div>
               </div>

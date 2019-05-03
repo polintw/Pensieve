@@ -9,9 +9,9 @@ import ImgImport from './ImgImport.jsx';
 import NounsEditor from './NounsEditor.jsx';
 import EditingPanel from './EditingPanel.jsx';
 import ContentModal from './ContentModal.jsx';
+import MarksArticleEdit from './MarksArticleEdit.jsx';
 import ImgPreview from '../ImgPreview.jsx';
 import WarningModal from '../WarningModal.jsx';
-import MarksArticleEdit from '../MarksArticleEdit.jsx';
 
 const styleMiddle = {
   imgBLockDecoBack:{
