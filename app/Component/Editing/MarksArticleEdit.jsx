@@ -8,6 +8,60 @@ import {connect} from "react-redux";
 import SvgEditingSerial from '../Svg/SvgEditingSerial.jsx';
 import DraftDisplay from './Draft/DraftDisplay.jsx';
 
+const styleMiddle = {
+  boxSubmitButton: {
+    display: 'inline-block',
+    width: '24%',
+    height: '100%',
+    position: 'relative',
+    boxSizing: 'border-box',
+    float: 'right',
+    margin: '0 2%'
+  },
+  boxEditor: {
+    width: '100%',
+    position: 'relative',
+    boxSizing: 'border-box',
+    paddingBottom: '0.5rem',
+  },
+  boxEditingPanel: {
+    width: '100%',
+    height: '2rem',
+    position: 'relative',
+    boxSizing: 'border-box',
+    padding: '0 1rem'
+  },
+  boxEditingPanelSvg: {
+    width: '12%',
+    height: '100%',
+    position: 'relative',
+    float: 'right',
+    boxSizing: 'border-box',
+    oveflow: 'visible',
+    cursor: 'pointer'
+  },
+  roundRecBox: {
+    borderRadius: '2.4vh',
+    backgroundColor: "#e6e6e6",
+    cursor: 'pointer'
+  },
+  spanInteractions: {
+    fontSize: '1.32rem',
+    fontWeight: '400',
+    letterSpacing: '0.12rem',
+    textAlign: 'center',
+    color: 'rgb(16, 16, 16)'
+  },
+  textEditor: {
+    fontSize: '1.36rem',
+    fontWeight: '300',
+    letterSpacing: '0.16rem',
+    lineHeight: '1.9rem',
+    wordWrap: 'break-word',
+    color: '#FAFAFA'
+  }
+}
+
 class MarksArticleEdit extends React.Component {
   constructor(props){
     super(props);
@@ -19,29 +73,24 @@ class MarksArticleEdit extends React.Component {
     this._set_EditorUpdate = this._set_EditorUpdate.bind(this);
     this._handleClick_Article_editing = this._handleClick_Article_editing.bind(this);
     this._handleClick_Article_openMark = this._handleClick_Article_openMark.bind(this);
+    this._handleClick_ArticleEdit_cancel = this._handleClick_ArticleEdit_cancel.bind(this);
     this._handleClick_markComponentEditor = this._handleClick_markComponentEditor.bind(this);
     this._handleClick_ArticleEdit_complete = this._handleClick_ArticleEdit_complete.bind(this);
     this.style={
-      Com_MarksArticle_: {
+      Com_MarksArticle_Edit_: {
         width: '100%',
         minHeight: '48%',
         position: 'relative',
         boxSizing: 'border-box',
         padding: '1rem 4%'
       },
-      Com_MarksArticle_paragraph: {
+      Com_MarksArticle_Edit_paragraph: {
         display: 'inline-block',
         width: '100%',
         position: 'relative',
         boxSizing: 'border-box',
         padding: '0.5rem 0',
         borderBottom: 'solid 1px #000000',
-        fontSize: '1.36rem',
-        fontWeight: '300',
-        letterSpacing: '0.16rem',
-        lineHeight: '1.9rem',
-        wordWrap: 'break-word',
-        color: '#FAFAFA'
       }
     };
   }
@@ -68,6 +117,16 @@ class MarksArticleEdit extends React.Component {
     event.stopPropagation();
     event.preventDefault();
     this.contentEditor.current.focus();
+  }
+
+  _handleClick_ArticleEdit_cancel(event){
+    event.stopPropagation();
+    event.preventDefault();
+    this.setState({
+      markEditing: false,
+      editingEditorContent: null
+    });
+    this.props._set_ArticleEdit(false);
   }
 
   _handleClick_ArticleEdit_complete(event){
@@ -104,7 +163,7 @@ class MarksArticleEdit extends React.Component {
       return (
         <div
           key={"key_MarksArticle_"+key}
-          style={this.style.Com_MarksArticle_paragraph}>
+          style={this.style.Com_MarksArticle_Edit_paragraph}>
           {
             (this.state.markEditing==key) ?(
               <div>
@@ -127,6 +186,15 @@ class MarksArticleEdit extends React.Component {
                     </span>
                   </div>
                   <div
+                    style={Object.assign({}, styleMiddle.boxSubmitButton, styleMiddle.roundRecBox)}
+                    onClick={this._handleClick_ArticleEdit_cancel}>
+                    <span
+                      className={'centerAlignChild'}
+                      style={styleMiddle.spanInteractions}>
+                      {'cancel'}
+                    </span>
+                  </div>
+                  <div
                     style={this.style.Com_MarkEditingBlock_Content_Main_div_edit_Panel_ref}>
                     {"[ ]"}
                   </div>
@@ -135,17 +203,21 @@ class MarksArticleEdit extends React.Component {
             ):(
               <div>
                 <div
+                  style={Object.assign({}, styleMiddle.boxEditor, styleMiddle.textEditor)}
                   markkey={key}
                   onClick={this._handleClick_Article_editing}>
                   <DraftDisplay
                     editorState={this.props.marksObj.data[key].editorContent}/>
                 </div>
                 <div
-                  style={}
-                  markkey={key}
-                  onClick={this._handleClick_Article_openMark}>
-                  <SvgEditingSerial
-                    serial={index}/>
+                  style={styleMiddle.boxEditingPanel}>
+                  <div
+                    style={styleMiddle.boxEditingPanelSvg}
+                    markkey={key}
+                    onClick={this._handleClick_Article_openMark}>
+                    <SvgEditingSerial
+                      serial={index} />
+                  </div>
                 </div>
               </div>
             )
@@ -156,7 +228,7 @@ class MarksArticleEdit extends React.Component {
 
     return(
       <div
-        style={this.style.Com_MarksArticle_}>
+        style={this.style.Com_MarksArticle_Edit_}>
         {articleArr}
       </div>
     )
@@ -173,4 +245,4 @@ const mapStateToProps = (state)=>{
 export default withRouter(connect(
   mapStateToProps,
   null
-)(MarksArticle));
+)(MarksArticleEdit));

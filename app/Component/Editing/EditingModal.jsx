@@ -298,8 +298,7 @@ class EditingModal extends React.Component {
             _set_nouns={this._set_nouns}/>
         </div>
         <article
-          style={this.style.Com_Modal_Editing_article_}
-          onWheel={(event)=>{event.stopPropagation();}}>
+          style={this.style.Com_Modal_Editing_article_}>
           <MarksArticleEdit
             layer={'cover'}
             marksObj={this.state.coverMarks}

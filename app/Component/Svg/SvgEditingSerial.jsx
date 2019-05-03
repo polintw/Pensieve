@@ -17,8 +17,8 @@ export default class SvgEditingSerial extends React.Component {
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 109.09 53.91"
         style={{
-          width: '100%',
-          height: 'auto'
+          maxWidth: '100%',
+          maxHeight: '100%'
         }}>
         <defs>
           <style>{".cls-1-editingSerial{fill:none;stroke:#fff;stroke-miterlimit:10;}.cls-2-editingSerial{font-size:28px;fill:#fff;font-family:Lato-Regular, Lato;}"}</style>
