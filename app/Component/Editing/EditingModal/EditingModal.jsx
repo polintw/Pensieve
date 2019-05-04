@@ -5,53 +5,14 @@ import {
   Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import ImgImport from './ImgImport.jsx';
-import NounsEditor from './NounsEditor.jsx';
-import EditingPanel from './EditingPanel.jsx';
-import ContentModal from './ContentModal.jsx';
-import MarksArticleEdit from './MarksArticleEdit.jsx';
-import ImgPreview from '../ImgPreview.jsx';
-import WarningModal from '../WarningModal.jsx';
-
-const styleMiddle = {
-  imgBLockDecoBack:{
-    width: '18%',
-    height: '100%',
-    position: 'absolute',
-    left: '0%',
-    top: '0',
-    boxSizing: 'border-box',
-    backgroundColor: '#FAFAFA'
-  },
-  imgBLockButton: {
-    width: '18%',
-    height: '11%',
-    position: 'absolute',
-    left: '46%',
-    boxSizing: 'border-box'
-  },
-  imgBLockPreview: {
-    width: '84%',
-    height: '39%',
-    position: 'absolute',
-    left: '12%',
-    boxSizing: 'border-box',
-    boxShadow: '-0.1rem 0.1rem 0.4rem 0',
-    borderRadius: '0.5vw',
-    overflow: 'hidden',
-    cursor: 'pointer'
-  },
-  contentMarkInter: {
-    width: '90%',
-    height: '0',
-    position: 'relative',
-    marginLeft: '5%',
-    fontSize: '1.2rem',
-    letterSpacing: '0.1rem',
-    lineHeight: '1.7rem',
-    color: '#ABABAB'
-  }
-}
+import styleMiddle from "./styleEditingModal.module.css";
+import ImgImport from '../ImgImport.jsx';
+import NounsEditor from '../NounsEditor.jsx';
+import EditingPanel from '../EditingPanel.jsx';
+import ContentModal from '../ContentModal.jsx';
+import MarksArticleEdit from '../MarksArticleEdit.jsx';
+import ImgPreview from '../../ImgPreview.jsx';
+import WarningModal from '../../WarningModal.jsx';
 
 class EditingModal extends React.Component {
   constructor(props){
@@ -73,14 +34,13 @@ class EditingModal extends React.Component {
     this._set_refsArr = ()=>{};
     this._set_newImgSrc = this._set_newImgSrc.bind(this);
     this._set_ArticleEdit = this._set_ArticleEdit.bind(this);
+    this._submit_newShare = this._submit_newShare.bind(this);
     this._set_WarningModal = this._set_WarningModal.bind(this);
     this._open_ContentModal = this._open_ContentModal.bind(this);
     this._close_img_Cancell = this._close_img_Cancell.bind(this);
     this._close_Mark_Complete = this._close_Mark_Complete.bind(this);
     this._render_importOrPreview = this._render_importOrPreview.bind(this);
     this._handleClick_Img_Delete = this._handleClick_Img_Delete.bind(this);
-    this._handleClick_Editing_Cancell = this._handleClick_Editing_Cancell.bind(this);
-    this._handleClick_Editing_Submit = this._handleClick_Editing_Submit.bind(this);
     this.style={
       Com_Modal_Editing_: {
         width: '86%',
@@ -137,8 +97,8 @@ class EditingModal extends React.Component {
     if(bool) this.setState({warningModal: false});
   }
 
-  _set_ArticleEdit(markKey){
-    this.setState({articleEditing: markKey});
+  _set_ArticleEdit(mark){
+    this.setState({articleEditing: mark});
   }
 
   _set_newImgSrc(dataURL, forBlock){
@@ -206,18 +166,7 @@ class EditingModal extends React.Component {
     };
   }
 
-  _handleClick_Editing_Cancell(event){
-    event.stopPropagation();
-    event.preventDefault();
-    if(this.props.unitSubmitting || this.state.warningModal) return;
-    this.props._set_Clear();
-  }
-
-  _handleClick_Editing_Submit(event){
-    event.stopPropagation();
-    event.preventDefault();
-    if(this.props.unitSubmitting || this.state.warningModal) return;
-
+  _submit_newShare(){
     //shallow copy, prevent render init during the modifications
     let newObj = Object.assign({}, this.state);
     //check form filled
@@ -237,7 +186,8 @@ class EditingModal extends React.Component {
     if(!this.state.coverSrc && !this.state.beneathSrc){
       return(
         <div
-          style={Object.assign({top: '14%'}, styleMiddle.imgBLockButton)}>
+          className={styleMiddle.imgBLockButton}
+          style={Object.assign({},{top: '14%'})}>
           <ImgImport
             blockName={'cover'}
             _set_newImgSrc={this._set_newImgSrc}/>
@@ -247,7 +197,8 @@ class EditingModal extends React.Component {
       return(
         <div>
           <div
-            style={Object.assign({top: '7%'}, styleMiddle.imgBLockPreview)}>
+            className={styleMiddle.imgBLockPreview}
+            style={Object.assign({},{top: '7%'})}>
             <ImgPreview
               blockName={'cover'}
               previewSrc={this.state.coverSrc}
@@ -256,7 +207,8 @@ class EditingModal extends React.Component {
           {
             !this.props.unitSet &&
             <div
-              style={Object.assign({top: '70%'}, styleMiddle.imgBLockButton)}>
+              className={styleMiddle.imgBLockButton}
+              style={Object.assign({},{top: '70%'})}>
               <ImgImport
                 blockName={'beneath'}
                 _set_newImgSrc={this._set_newImgSrc}/>
@@ -268,14 +220,16 @@ class EditingModal extends React.Component {
       return(
         <div>
           <div
-            style={Object.assign({top: '7%'}, styleMiddle.imgBLockPreview)}>
+            className={styleMiddle.imgBLockPreview}
+            style={Object.assign({},{top: '7%'})}>
             <ImgPreview
               blockName={'cover'}
               previewSrc={this.state.coverSrc}
               _handleClick_ImgPreview_preview={this._open_ContentModal}/>
           </div>
           <div
-            style={Object.assign({top: '54%'}, styleMiddle.imgBLockPreview)}>
+            className={styleMiddle.imgBLockPreview}
+            style={Object.assign({},{top: '54%'})}>
             <ImgPreview
               blockName={'beneath'}
               previewSrc={this.state.beneathSrc}
@@ -306,7 +260,8 @@ class EditingModal extends React.Component {
             _set_MarkInspect={this._open_ContentModal}
             _close_Mark_Complete={this._close_Mark_Complete}/>
           <div
-            style={Object.assign({}, styleMiddle.contentMarkInter, {borderTop: this.state.coverSrc? 'solid 1px #ABABAB':''})}>
+            className={styleMiddle.contentMarkInter}
+            style={Object.assign({}, {borderTop: this.state.coverSrc? 'solid 1px #ABABAB':''})}>
             {!this.state.coverSrc && "add a new picture to mark something!"}
           </div>
           <MarksArticleEdit
@@ -318,16 +273,26 @@ class EditingModal extends React.Component {
         </article>
         <div
           style={this.style.Com_Modal_Editing_imgBlocks_}>
-          <div style={styleMiddle.imgBLockDecoBack}/>
+          <div
+            className={styleMiddle.imgBLockDecoBack}/>
           {this._render_importOrPreview()}
+          {
+            this.state.articleEditing &&
+            <div
+              className={styleMiddle.imgBLockPreview}
+              style={Object.assign({top: this.state.articleEditing.layer=='cover'? '7%':'54%'}, {boxShadow: '-0.1rem 0.1rem 0.6rem 0 #c5c5c0',cursor: 'default'})}
+              onClick={(e)=>{e.stopPropagation()}}>
+            </div>
+          }
         </div>
         <div
           style={this.style.Com_Modal_Editing_Panel_}>
           <EditingPanel
-            creating={this.props.unitSet?false:true}
-            _refer_toandclose={this.props._refer_toandclose}
-            _handleClick_Editing_Submit={this._handleClick_Editing_Submit}
-            _handleClick_Editing_Cancell={this._handleClick_Editing_Cancell}/>
+            warningModal={this.state.warningModal}
+            articleEditing={this.state.articleEditing}
+            _set_Clear={this.props._set_Clear}
+            _submit_newShare={this._submit_newShare}
+            _refer_toandclose={this.props._refer_toandclose}/>
         </div>
         {
           this.state.contentModalify &&

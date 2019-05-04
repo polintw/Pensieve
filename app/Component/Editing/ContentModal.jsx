@@ -131,7 +131,7 @@ export default class ContentModal extends React.Component {
     let d = new Date(); //we need to create a specific id here, so we use time
 
     this.setState((prevState, props)=>{
-      const tempId = prevState.marksList.length+"_"+d.getTime(); //keep it "const" to assure the var would not change after push()
+      const tempId = this.props.layer+"_"+prevState.marksList.length+"_"+d.getTime(); //keep it "const" to assure the var would not change after push()
       prevState.markCircles[tempId] = portionCoordinate;
       prevState.markEditorContent[tempId] = null;
       prevState.marksList.push(tempId); // for unknown reason, we could only finish these steps outside the "return" obj

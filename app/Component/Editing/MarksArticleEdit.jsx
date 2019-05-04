@@ -110,7 +110,7 @@ class MarksArticleEdit extends React.Component {
       markEditing: markKey,
       editingEditorContent: this.props.marksObj.data[markKey].editorContent
     });
-    this.props._set_ArticleEdit(markKey);
+    this.props._set_ArticleEdit({key: markKey, layer: this.props.layer});
   }
 
   _handleClick_markComponentEditor(event){

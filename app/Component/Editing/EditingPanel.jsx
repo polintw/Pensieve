@@ -33,6 +33,7 @@ const styleMiddle = {
     boxSizing: 'border-box',
     borderRadius: '2.4vh',
     backgroundColor: "#e6e6e6",
+    overflow: 'hidden',
     cursor: 'pointer'
   },
   spanEditingDestiny: {
@@ -51,6 +52,8 @@ class EditingPanel extends React.Component {
     this.state = {
 
     };
+    this._handleClick_Editing_Submit = this._handleClick_Editing_Submit.bind(this);
+    this._handleClick_Editing_Cancell = this._handleClick_Editing_Cancell.bind(this);
     this.style={
       Com_EPanel_: {
 
@@ -72,6 +75,19 @@ class EditingPanel extends React.Component {
     }
   }
 
+  _handleClick_Editing_Cancell(event){
+    event.stopPropagation();
+    event.preventDefault();
+    if(this.props.unitSubmitting || this.props.warningModal || this.props.articleEditing) return;
+    this.props._set_Clear();
+  }
+
+  _handleClick_Editing_Submit(event){
+    event.stopPropagation();
+    event.preventDefault();
+    if(this.props.unitSubmitting || this.props.warningModal || this.props.articleEditing) return;
+    this.props._submit_newShare();
+  }
 
   render(){
     let editDate = new Date();
@@ -85,7 +101,7 @@ class EditingPanel extends React.Component {
             <span
               className={'centerAlignChild'}
               style={Object.assign({}, styleMiddle.spanEditingDestiny, {color: '#ababab'})}
-              onClick={this.props._handleClick_Editing_Cancell}>
+              onClick={this._handleClick_Editing_Cancell}>
               {'cancel'}
             </span>
           </div>
@@ -93,12 +109,25 @@ class EditingPanel extends React.Component {
             style={Object.assign({}, styleMiddle.boxNavButton, {width: '45%'})}>
             <div
               style={styleMiddle.roundRecBox}
-              onClick={this.props._handleClick_Editing_Submit}>
+              onClick={this._handleClick_Editing_Submit}>
               <span
                 className={'centerAlignChild'}
                 style={styleMiddle.spanEditingDestiny}>
                 {"Submit"}
               </span>
+              {
+                this.props.articleEditing &&
+                <div
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    position: 'absolute',
+                    top: '0',
+                    left:'0',
+                    backgroundColor: 'rgba(230,230,230,0.5)',
+                    cursor: 'default'
+                  }}></div>
+              }
             </div>
           </div>
         </div>
@@ -124,7 +153,9 @@ class EditingPanel extends React.Component {
 
 const mapStateToProps = (state)=>{
   return {
-    userInfo: state.userInfo
+    userInfo: state.userInfo,
+    unitCurrent: state.unitCurrent,
+    unitSubmitting: state.unitSubmitting
   }
 }
 

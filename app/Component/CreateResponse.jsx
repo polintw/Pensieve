@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from "react-redux";
-import EditingModal from './Editing/EditingModal.jsx';
+import EditingModal from './Editing/EditingModal/EditingModal.jsx';
 import {
   switchUnitSubmitting
 } from "../redux/actions/general.js";
