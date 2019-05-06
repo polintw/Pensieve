@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from "react-redux";
 import MarkEditingBlock from './MarkEditingBlock.jsx';
 import OpenedMark from '../OpenedMark.jsx';
-import SvgCircleSerial from '../Svg/SvgCircleSerial.jsx';
+import SvgCircle from '../Svg/SvgCircle.jsx';
 import {
   baseHorizonRatial,
   widthDivisionRatial
@@ -116,8 +116,10 @@ class ImgLayerEditing extends React.Component {
               className={'circleMarkSpotSvg'}
               style={{top: coordinate.top+"%", left: coordinate.left+'%'}}
               onClick={self._handleClick_ImgLayer_circle}>
-              <SvgCircleSerial
-                serial={index+1}/>
+              <SvgCircle
+                serial={index+1}
+                notify={false}
+                current={false}/>
             </div>
           )
         });

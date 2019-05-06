@@ -45,7 +45,10 @@ class MarksAuthor extends React.Component {
   }
 
   _render_SpotsorMark(){
-    if(this.props.markOpened && (this.props.marksData.list.indexOf(this.props.currentMark) > (-1))){
+    let currentSerial = this.props.marksData.list.indexOf(this.props.currentMark); //already order the list by serial records when mount at Unit
+    if(currentSerial< 0) currentSerial = 0; // if the props.currentMark="all"
+
+    if(this.props.markOpened){
       let markKey = this.props.currentMark;
       return (
         <OpenedMark
@@ -74,7 +77,7 @@ class MarksAuthor extends React.Component {
             onClick={self._handleClick_ImgLayer_circle}>
             <SvgCircle
               notify={self.props.unitCurrent.marksInteraction[id].notify ?true:false}
-              current={}/>
+              current={(currentSerial==self.props.marksData.data[id].serial)?true:false}/>
           </div>
         )
       });
