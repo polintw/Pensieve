@@ -90,10 +90,10 @@ class ImgLayerEditing extends React.Component {
           <OpenedMark
             {...this.props}
             boxWidth={boxWidth}
+            serial={markIndex+1}
             marksData={marksData}
             imgPosition={imgPosition}
             imgWidthHeight={imgWidthHeight}
-            circleComponent={(<SvgCircleSerial serial={markIndex+1}/>)}
             widthDivisionRatial={widthDivisionRatial}
             _handleClick_ImgLayer_circle={this._handleClick_ImgLayer_circle}>
             <MarkEditingBlock

@@ -81,10 +81,10 @@ class Unit extends React.Component {
         keysArr.forEach(function(key, index){
           if(resObj.main.marksObj[key].layer==0){
             coverMarks.data[key]=resObj.main.marksObj[key];
-            coverMarks.list.push(key);
+            coverMarks.list[resObj.main.marksObj[key].serial] = key; //let the list based on order of marks, same as beneath
           }else{
             beneathMarks.data[key]=resObj.main.marksObj[key]
-            beneathMarks.list.push(key);
+            beneathMarks.list[resObj.main.marksObj[key].serial] = key;
           }
         })
         //actually, beneath part might need to be rewritten to asure the state could stay consistency

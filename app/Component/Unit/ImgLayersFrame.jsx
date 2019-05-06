@@ -52,7 +52,7 @@ class ImgLayersFrame extends React.Component {
         }
       ):(
         {
-          markOpened: false
+          markOpened: false //have to keep the currentMark as previous for rendering the circle in different color
         }
       );
       props._set_markOpened(markKey? true:false, markKey); //this, should be a reason to put every interactions states to redux reucer manage

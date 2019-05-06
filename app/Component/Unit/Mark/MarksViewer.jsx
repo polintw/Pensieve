@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from "react-redux";
 import ViewerBlock from './ViewerBlock.jsx';
 import SvgCircle from '../../Svg/SvgCircle.jsx';
-import SvgCircleSpot from '../../Svg/SvgCircleSpot.jsx';
 import {widthDivisionRatial} from '../../config/styleParams.js'; //dividing markglayer width, used for determineing the position
 import OpenedMark from '../../OpenedMark.jsx';
 
@@ -39,6 +38,11 @@ class MarksViewer extends React.Component {
     this.props._set_Markvisible(markKey);
   }
 
+//new f() to handle click of 'next' & 'previous'
+//by using current serial to target markKey from the markData.list
+//using props._set_Markvisible to update as well
+//notice! compare the list.length, set 'false' if bigger
+
   _handleClick_SpotsLayer(event){
     event.preventDefault();
     event.stopPropagation();
@@ -46,13 +50,16 @@ class MarksViewer extends React.Component {
   }
 
   _render_SpotsorMark(){
-    if(this.props.markOpened && (this.props.marksData.list.indexOf(this.props.currentMark) > (-1))){
+    let currentSerial = this.props.marksData.list.indexOf(this.props.currentMark); //already order the list by serial records when mount at Unit
+    if(currentSerial< 0) currentSerial = 0; // if the props.currentMark="all"
+
+    if(this.props.markOpened){
       let markKey = this.props.currentMark;
       return (
         <OpenedMark
           {...this.props}
           widthDivisionRatial={widthDivisionRatial}
-          circleComponent={this.props.unitCurrent.marksInteraction[markKey].notify?(<SvgCircleSpot/>):(<SvgCircle/>)}
+          notify={this.props.unitCurrent.marksInteraction[markKey].notify?true:false}
           _handleClick_ImgLayer_circle={this._handleClick_ImgLayer_circle}>
           <ViewerBlock
             markKey={this.props.currentMark}
@@ -66,23 +73,16 @@ class MarksViewer extends React.Component {
 
       let circlesArr = self.props.marksData.list.map(function(id, index){
         const coordinate = {top: self.props.marksData.data[id].top, left: self.props.marksData.data[id].left};
-        return self.props.unitCurrent.marksInteraction[id].notify ? (
+        return (
           <div
             id={id}
             key={"key_Mark_Circle_"+index}
             className={'circleMarkSpotSvg'}
             style={{top: coordinate.top+"%", left: coordinate.left+'%'}}
             onClick={self._handleClick_ImgLayer_circle}>
-            <SvgCircleSpot/>
-          </div>
-        ):(
-          <div
-            id={id}
-            key={"key_Mark_Circle_"+index}
-            className={'circleMarkSpotSvg'}
-            style={{top: coordinate.top+"%", left: coordinate.left+'%'}}
-            onClick={self._handleClick_ImgLayer_circle}>
-            <SvgCircle/>
+            <SvgCircle
+              notify={self.props.unitCurrent.marksInteraction[id].notify ?true:false}
+              current={(currentSerial==self.props.marksData.data[id].serial)?true:false}/>
           </div>
         )
       });
