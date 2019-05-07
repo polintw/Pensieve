@@ -190,24 +190,24 @@ class ViewerBlock extends React.Component {
           <div
             style={Object.assign({},this.style.Com_ViewerBlock_panel_)}>
             <div
-              style={Object.assign({}, styleMiddle.boxPanelInteraction, {float: 'left'})}>
-              <span
-                style={styleMiddle.spanInteractions}
-                onClick={this._handleClick_openDialogue}>
-                {'raise hand'}
-              </span>
-            </div>
-            <div
               style={Object.assign({},
                   styleMiddle.boxPanelInteraction,
                   this.style.Com_ViewerBlock_panel_interaction_bulb,
                   {fill: this.props.unitCurrent.marksInteraction[this.props.markKey]['inspired'] ? '#ff7a5f':'transparent'},
-                  {float: toCircleLeft? 'right':'left'})}
+                  {float: 'right'})}
               onClick={this._handleClick_Inspired}>
               <SvgBulbPlainHalf/>
             </div>
             <div
-              style={Object.assign({}, styleMiddle.boxPanelInteraction, {margin: '0 3%', float: 'right'})}>
+              style={Object.assign({}, styleMiddle.boxPanelInteraction, {float: 'right'})}>
+              <span
+                style={styleMiddle.spanInteractions}
+                onClick={this._handleClick_openDialogue}>
+                {'raise'}
+              </span>
+            </div>
+            <div
+              style={Object.assign({}, styleMiddle.boxPanelInteraction, {margin: '0 3%', float: 'left'})}>
               <span style={styleMiddle.spanInteractions}>{' < '}</span>
               <span style={styleMiddle.spanInteractions}>{'next'}</span>
             </div>
