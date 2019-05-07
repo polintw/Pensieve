@@ -45,10 +45,13 @@ class MarksAuthor extends React.Component {
   }
 
   _render_SpotsorMark(){
-    let currentSerial = this.props.marksData.list.indexOf(this.props.currentMark); //already order the list by serial records when mount at Unit
-    if(currentSerial< 0) currentSerial = 0; // if the props.currentMark="all"
+    //already order the list by serial records when mount at Unit
+    let currentSerial = this.props.marksData.list.indexOf(this.props.currentMark);
 
-    if(this.props.markOpened){
+    //there are two possibility for currentSerial='-1': 'all' or not in this 'layer'
+    //So it's important to check currentSerial when markOpened,
+    //because we don't open anything if the id is not belong to this layer
+    if(this.props.markOpened && currentSerial>(-1)){
       let markKey = this.props.currentMark;
       return (
         <OpenedMark
@@ -65,6 +68,7 @@ class MarksAuthor extends React.Component {
       const self = this,
       imgWidth = this.props.imgWidthHeight.width,
       imgHeight = this.props.imgWidthHeight.height;
+      currentSerial = currentSerial< 0? 0 : currentSerial;
 
       let circlesArr = self.props.marksData.list.map(function(id, index){
         const coordinate = {top: self.props.marksData.data[id].top, left: self.props.marksData.data[id].left};

@@ -9,6 +9,12 @@ import {
 } from "../../../redux/actions/general.js";
 
 const styleMiddle = {
+  boxPanelInteraction: {
+    display: 'inline-block',
+    height: '100%',
+    position: 'relative',
+    boxSizing: 'border-box',
+  },
   spanInteractions: {
     fontSize: '1.4rem',
     letterSpacing: '0.12rem',
@@ -43,7 +49,7 @@ class ViewerBlock extends React.Component {
         maxWidth: '100%',
         minWidth: '49%',
         minHeight: '54%',
-        maxHeight: '154%', //the target MaxHeight is 64%, limit by parent
+        maxHeight: '154%', //the target MaxHeight is 64% to the entire img, limit by parent, combine the neighbors
         position: 'relative',
         boxSizing: 'border-box',
         margin: '0',
@@ -85,18 +91,9 @@ class ViewerBlock extends React.Component {
         padding: '2% 3%',
         color: '#FAFAFA',
       },
-      Com_ViewerBlock_panel_interaction_: {
-        width: '100%',
-        height: '100%',
-        position: 'relative',
-        boxSizing: 'border-box',
-      },
       Com_ViewerBlock_panel_interaction_bulb:{
         width: '24px',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        boxSizing: 'border-box',
+        margin: '0 4%',
         cursor: 'pointer',
         strokeWidth:'10px',
         stroke: '#f7f4bc'
@@ -161,14 +158,14 @@ class ViewerBlock extends React.Component {
 
   render(){
     const downToMdidline = this.props.downToMdidline;
-    const toCircleLeft = this.props.toCircleLeft;
+    const toCircleLeft = this.props.toCircleLeft;// both props come from OpenedMark
     let styleByMidline = {
       editor: downToMdidline ? {bottom: '38%', position: 'absolute', right:toCircleLeft?'0':'',left:toCircleLeft?'':'0' }:{},
       panel: downToMdidline ? {bottom: '18%', position: 'absolute'}:{},
       credits: downToMdidline ? {bottom: '0', position: 'absolute'}:{},
     },
     styleByCircle = {
-      bulb: toCircleLeft?{right: '12%'}:{left: '6%'}
+      bulb: {float: toCircleLeft? 'right':'left'}
     }
     return(
       <div
@@ -195,22 +192,26 @@ class ViewerBlock extends React.Component {
         <div
           style={Object.assign({},this.style.Com_ViewerBlock_panel_, styleByMidline.panel)}>
           <div
-            style={this.style.Com_ViewerBlock_panel_interaction_}>
-            <div
-              style={
-                Object.assign({},
-                  this.style.Com_ViewerBlock_panel_interaction_bulb,
-                  {fill: this.props.unitCurrent.marksInteraction[this.props.markKey]['inspired'] ? '#ff7a5f':'transparent'},
-                  styleByCircle.bulb
-                )}
-              onClick={this._handleClick_Inspired}>
-              <SvgBulbPlainHalf/>
-            </div>
+            style={Object.assign({}, styleMiddle.boxPanelInteraction, {float: 'left'})}>
             <span
               style={styleMiddle.spanInteractions}
               onClick={this._handleClick_openDialogue}>
               {'raise hand'}
             </span>
+          </div>
+          <div
+            style={Object.assign({},
+                styleMiddle.boxPanelInteraction,
+                this.style.Com_ViewerBlock_panel_interaction_bulb,
+                {fill: this.props.unitCurrent.marksInteraction[this.props.markKey]['inspired'] ? '#ff7a5f':'transparent'},
+                styleByCircle.bulb)}
+            onClick={this._handleClick_Inspired}>
+            <SvgBulbPlainHalf/>
+          </div>
+          <div
+            style={Object.assign({}, styleMiddle.boxPanelInteraction, {margin: '0 3%', float: 'right'})}>
+            <span style={styleMiddle.spanInteractions}>{' < '}</span>
+            <span style={styleMiddle.spanInteractions}>{'next'}</span>
           </div>
         </div>
         <div
