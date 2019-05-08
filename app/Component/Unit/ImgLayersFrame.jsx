@@ -7,8 +7,9 @@ class ImgLayersFrame extends React.Component {
     super(props);
     this.state = {
       spotsVisible: true,
-      markOpened: this.props.marksStatus.marksify, //watch out! props marksStatus would update follow the marksvisible,
-      currentMark: this.props.marksStatus.initMark //so, careful if need to change state by 'props'!
+      currentMark: this.props.marksStatus.initMark
+      //watch out! props marksStatus would update follow the marksvisible,
+      //so, careful if need to change state by 'props'!
     };
     this._set_Markvisible = this._set_Markvisible.bind(this);
     this._set_layerstatus = this._set_layerstatus.bind(this);
@@ -48,14 +49,9 @@ class ImgLayersFrame extends React.Component {
       let nextState = markKey ? (
         {
           spotsVisible: true,
-          markOpened: true,
           currentMark: markKey
         }
-      ):(
-        {
-          markOpened: false //have to keep the currentMark as previous for rendering the circle in different color
-        }
-      );
+      ):(prevState);
       props._set_markOpened(markKey? true:false, markKey); //this, should be a reason to put every interactions states to redux reucer manage
       return nextState;
     });
@@ -109,10 +105,10 @@ class ImgLayersFrame extends React.Component {
             this.props.unitCurrent.beneathSrc &&
             <ImgLayer
               imgSrc={this.props.unitCurrent.beneathSrc}
+              markOpened={this.props.marksStatus.marksify}
               lockify={this.props.lockify}
               spotsVisible={this.state.spotsVisible}
               currentMark={this.state.currentMark}
-              markOpened={this.state.markOpened}
               marksData={beneathMarks}
               _set_Markvisible={this._set_Markvisible}
               _set_layerstatus={this._set_layerstatus}
@@ -125,10 +121,10 @@ class ImgLayersFrame extends React.Component {
             this.props.unitCurrent.coverSrc &&
             <ImgLayer
               imgSrc={this.props.unitCurrent.coverSrc}
+              markOpened={this.props.marksStatus.marksify}
               lockify={this.props.lockify}
               spotsVisible={this.state.spotsVisible}
               currentMark={this.state.currentMark}
-              markOpened={this.state.markOpened}
               marksData={coverMarks}
               _set_Markvisible={this._set_Markvisible}
               _set_layerstatus={this._set_layerstatus}
