@@ -78,6 +78,50 @@ class CircleSpot extends React.Component {
   }
 }
 
+class CircleCurrent extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+
+    };
+    this.style={
+
+    }
+  }
+
+  render(){
+    return(
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        xmlnsXlink="http://www.w3.org/1999/xlink"
+        viewBox="0 0 126 126"
+        style={{
+          width: '100%',
+          height: 'auto'
+        }}>
+        <defs>
+          <style>{".cls-1-CircleCurrent{opacity:0.65;}.cls-2-CircleCurrent{fill:url(#未命名漸層_26);}.cls-3-CircleCurrent{fill:#ffb25f;}"}</style>
+          <radialGradient id="未命名漸層_26" cx="63" cy="63" r="71.17" gradientUnits="userSpaceOnUse">
+            <stop offset="0.72" stopColor="#fff" stopOpacity="0"/><stop offset="0.79" stopColor="#d9d9d0" stopOpacity="0.28"/>
+            <stop offset="0.93" stopColor="#93927b" stopOpacity="0.8"/><stop offset="1" stopColor="#787759"/>
+          </radialGradient>
+        </defs>
+        <g id="圖層_2" data-name="圖層 2">
+          <g id="圖層_3" data-name="圖層 3">
+            <g className="cls-1-CircleCurrent">
+              <path className="cls-2-CircleCurrent" d="M63,0a63,63,0,1,0,63,63A63,63,0,0,0,63,0Zm0,123.11A60.11,60.11,0,1,1,123.11,63,60.11,60.11,0,0,1,63,123.11Z"/>
+            </g>
+            <g className="cls-1-CircleCurrent">
+              <path d="M63,13a50,50,0,1,0,50,50A50,50,0,0,0,63,13Zm0,97.71A47.71,47.71,0,1,1,110.71,63,47.71,47.71,0,0,1,63,110.71Z"/>
+            </g>
+            <path className="cls-3-CircleCurrent" d="M63,2a61,61,0,1,0,61,61A61,61,0,0,0,63,2Zm0,111a50,50,0,1,1,50-50A50,50,0,0,1,63,113Z"/>
+          </g>
+        </g>
+      </svg>
+    )
+  }
+}
+
 class Circle extends React.Component {
   constructor(props){
     super(props);
@@ -110,7 +154,7 @@ class Circle extends React.Component {
         </defs>
         <g id="圖層_2" data-name="圖層 2">
           <g id="圖層_1-2" data-name="圖層 1">
-            <path className="cls-1-Circle" style={this.props.current?{fill: '#FFDE4D'}: {}} d="M61,0a61,61,0,1,0,61,61A61,61,0,0,0,61,0Zm0,115.5A54.5,54.5,0,1,1,115.5,61,54.5,54.5,0,0,1,61,115.5Z"/>
+            <path className="cls-1-Circle" d="M61,0a61,61,0,1,0,61,61A61,61,0,0,0,61,0Zm0,115.5A54.5,54.5,0,1,1,115.5,61,54.5,54.5,0,0,1,61,115.5Z"/>
             <g className="cls-2-Circle">
               <path className="cls-3-Circle" d="M61,6.5A54.5,54.5,0,1,0,115.5,61,54.5,54.5,0,0,0,61,6.5ZM61,113a52,52,0,1,1,52-52A52,52,0,0,1,61,113Z"/>
             </g>
@@ -127,8 +171,16 @@ export default class SvgCircle extends React.Component {
     this.state = {
 
     };
+    this._render_Circle = this._render_Circle.bind(this);
     this.style={
 
+    }
+  }
+
+  _render_Circle(){
+    if(this.props.serial) return (<CircleSerial serial={this.props.serial}/>)
+    else{
+      return this.props.current ? (<CircleCurrent/>) : (<Circle/>)
     }
   }
 
@@ -139,15 +191,7 @@ export default class SvgCircle extends React.Component {
           width: '100%',
           height: '100%'
         }}>
-        {
-          this.props.serial ? (
-            <CircleSerial
-              serial={this.props.serial}/>
-          ):(
-            <Circle
-              current={this.props.current}/>
-          )
-        }
+        {this._render_Circle()}
         {
           this.props.notify &&
           <CircleSpot/>

@@ -25,10 +25,11 @@ const styleMiddle = {
   },
   spanInteractions: {
     fontSize: '1.4rem',
-    letterSpacing: '0.12rem',
+    letterSpacing: '0.18rem',
     lineHeight: '1.9rem',
-    fontWeight: '400',
-    color: '#f7f4bc'
+    fontWeight: '300',
+    color: '#f0f0f0',
+    cursor: 'pointer'
   }
 }
 
@@ -48,7 +49,7 @@ class ViewerBlock extends React.Component {
       Com_ViewerBlock_: {
         display: 'inline-block',
         maxWidth: '100%',
-        minWidth: '54%',
+        minWidth: '56%',
         minHeight: '54%',
         maxHeight: '154%',//the target MaxHeight is 64% to the entire img
         position: 'relative',
@@ -178,7 +179,8 @@ class ViewerBlock extends React.Component {
       <div
         style={Object.assign({},
           this.style.Com_ViewerBlock_,
-          {bottom: downToMdidline ? '38%':'', float: toCircleLeft? 'right':'left'})}>
+          {bottom: downToMdidline ? '38%':'', float: toCircleLeft? 'right':'left'})}
+        onClick={(e)=>{e.stopPropagation();}}>
         <div
           style={Object.assign({}, this.style.Com_ViewerBlock_content_)}>
           <div
@@ -198,16 +200,7 @@ class ViewerBlock extends React.Component {
           <div
             style={Object.assign({},this.style.Com_ViewerBlock_panel_)}>
             <div
-              style={Object.assign({},
-                  styleMiddle.boxPanelInteraction,
-                  this.style.Com_ViewerBlock_panel_interaction_bulb,
-                  {fill: this.props.unitCurrent.marksInteraction[this.props.markKey]['inspired'] ? '#ff7a5f':'transparent'},
-                  {float: 'right'})}
-              onClick={this._handleClick_Inspired}>
-              <SvgBulbPlainHalf/>
-            </div>
-            <div
-              style={Object.assign({}, styleMiddle.boxPanelInteraction, {float: 'right'})}>
+              style={Object.assign({}, styleMiddle.boxPanelInteraction, {float: 'left'})}>
               <span
                 style={styleMiddle.spanInteractions}
                 onClick={this._handleClick_openDialogue}>
@@ -215,16 +208,27 @@ class ViewerBlock extends React.Component {
               </span>
             </div>
             <div
-              style={Object.assign({}, styleMiddle.boxPanelInteraction, {margin: '0 3%', float: 'left'})}>
+              style={Object.assign({},
+                  styleMiddle.boxPanelInteraction,
+                  this.style.Com_ViewerBlock_panel_interaction_bulb,
+                  {fill: this.props.unitCurrent.marksInteraction[this.props.markKey]['inspired'] ? '#ff7a5f':'transparent'},
+                  {float: 'left'})}
+              onClick={this._handleClick_Inspired}>
+              <SvgBulbPlainHalf/>
+            </div>
+            <div
+              style={Object.assign({}, styleMiddle.boxPanelInteraction, {margin: '0 3%', float: 'right'})}>
               {
                 (this.props.currentSerial> 0) &&
                 <span
-                  jump={'previous'} style={styleMiddle.spanInteractions} onClick={this._handleClick_jumpMark}>
-                  {' < '}</span>
+                  jump={'previous'}
+                  style={Object.assign({}, styleMiddle.spanInteractions, {paddingRight: '0.45rem', fontSize: '1.32rem', letterSpacing:'0.1rem', color: 'rgba(173, 173, 173, 0.8)'})}
+                  onClick={this._handleClick_jumpMark}>
+                  {'previous  |'}</span>
               }
               <span
                 jump={(this.props.currentSerial==(this.props.marksLength-1)) ? 'continue':'next'}
-                style={styleMiddle.spanInteractions}
+                style={Object.assign({}, styleMiddle.spanInteractions, {fontSize: '1.45rem', textShadow: '0px 0px 1px rgb(249, 253, 192)'})}
                 onClick={this._handleClick_jumpMark}>
                 {(this.props.currentSerial==(this.props.marksLength-1)) ? 'continue': 'next'}</span>
             </div>
