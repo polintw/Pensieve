@@ -45,6 +45,7 @@ class AuthorBlock extends React.Component {
       dialogue: false
     };
     this.axiosSource = axios.CancelToken.source();
+    this._handleClick_jumpMark = this._handleClick_jumpMark.bind(this);
     this._handleClick_openDialogue = this._handleClick_openDialogue.bind(this);
     this.style = {
       Com_AuthorBlock_: {
@@ -120,6 +121,13 @@ class AuthorBlock extends React.Component {
     this.setState((prevState, props)=>{return this.state.dialogue?{dialogue: false}: {dialogue: true}})
   }
 
+  _handleClick_jumpMark(event){
+    event.preventDefault();
+    event.stopPropagation();
+    let direction = event.currentTarget.getAttribute('jump');
+    this.props._set_markJump(direction, this.props.currentSerial);
+  }
+
   componentDidMount(){
 
   }
@@ -181,8 +189,17 @@ class AuthorBlock extends React.Component {
             </div>
             <div
               style={Object.assign({}, styleMiddle.boxPanelInteraction, {margin: '0 3%', float: 'left'})}>
-              <span style={styleMiddle.spanInteractions}>{' < '}</span>
-              <span style={styleMiddle.spanInteractions}>{'next'}</span>
+              {
+                (this.props.currentSerial> 0) &&
+                <span
+                  jump={'previous'} style={styleMiddle.spanInteractions} onClick={this._handleClick_jumpMark}>
+                  {' < '}</span>
+              }
+              <span
+                jump={(this.props.currentSerial==(this.props.marksLength-1)) ? 'continue':'next'}
+                style={styleMiddle.spanInteractions}
+                onClick={this._handleClick_jumpMark}>
+                {(this.props.currentSerial==(this.props.marksLength-1)) ? 'continue': 'next'}</span>
             </div>
           </div>
           <div

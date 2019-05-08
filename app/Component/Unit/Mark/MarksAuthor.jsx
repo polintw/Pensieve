@@ -23,6 +23,7 @@ class MarksAuthor extends React.Component {
 
     };
     this.Com_ImgLayer=React.createRef();
+    this._set_markJump = this._set_markJump.bind(this);
     this._render_SpotsorMark = this._render_SpotsorMark.bind(this);
     this._handleClick_ImgLayer_circle = this._handleClick_ImgLayer_circle.bind(this);
     this._handleClick_SpotsLayer = this._handleClick_SpotsLayer.bind(this);
@@ -44,6 +45,25 @@ class MarksAuthor extends React.Component {
     this.props._set_spotsVisible();
   }
 
+  _set_markJump(direction, currentSerial){
+    let markKey;
+    switch (direction) {
+      case 'next':
+        markKey = this.props.marksData.list[(currentSerial+1)];
+        this.props._set_Markvisible(markKey);
+        break;
+      case 'previous':
+        markKey = this.props.marksData.list[(currentSerial-1)];
+        this.props._set_Markvisible(markKey);
+        break;
+      case 'continue':
+        this.props._set_layerstatus();
+        break;
+      default:
+        return
+    }
+  }
+
   _render_SpotsorMark(){
     //already order the list by serial records when mount at Unit
     let currentSerial = this.props.marksData.list.indexOf(this.props.currentMark);
@@ -60,8 +80,11 @@ class MarksAuthor extends React.Component {
           notify={this.props.unitCurrent.marksInteraction[markKey].notify?true:false}
           _handleClick_ImgLayer_circle={this._handleClick_ImgLayer_circle}>
           <AuthorBlock
+            currentSerial={currentSerial}
             markKey={markKey}
-            markData={this.props.marksData.data[this.props.currentMark]}/>
+            marksLength={this.props.marksData.list.length}
+            markData={this.props.marksData.data[markKey]}
+            _set_markJump={this._set_markJump}/>
         </OpenedMark>
       );
     }else{

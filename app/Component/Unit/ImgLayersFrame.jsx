@@ -11,6 +11,7 @@ class ImgLayersFrame extends React.Component {
       currentMark: this.props.marksStatus.initMark //so, careful if need to change state by 'props'!
     };
     this._set_Markvisible = this._set_Markvisible.bind(this);
+    this._set_layerstatus = this._set_layerstatus.bind(this);
     this._set_spotsVisible = ()=>{this.setState((prevState, props)=>{return {spotsVisible: prevState.spotsVisible? false : true};})};
     this.style={
       Com_ImgLayersFrame: {
@@ -60,6 +61,17 @@ class ImgLayersFrame extends React.Component {
     });
   }
 
+  _set_layerstatus(){
+    let nextCount;
+    if(!this.props.unitCurrent.beneathSrc || this.props.moveCount > 99){ //to 200 situations
+      nextCount = 200;
+    }else{ //the rest, to 100 with beneathSrc
+      nextCount = 100;
+    }
+
+    this.props._set_layerstatus(true, nextCount, {marksify: false, initMark: "all"});
+  }
+
   render(){
     let portion = Math.abs((this.props.moveCount-100)/100);
     let controledCSS = {
@@ -103,6 +115,7 @@ class ImgLayersFrame extends React.Component {
               markOpened={this.state.markOpened}
               marksData={beneathMarks}
               _set_Markvisible={this._set_Markvisible}
+              _set_layerstatus={this._set_layerstatus}
               _set_spotsVisible={this._set_spotsVisible}/>
           }
         </div>
@@ -118,6 +131,7 @@ class ImgLayersFrame extends React.Component {
               markOpened={this.state.markOpened}
               marksData={coverMarks}
               _set_Markvisible={this._set_Markvisible}
+              _set_layerstatus={this._set_layerstatus}
               _set_spotsVisible={this._set_spotsVisible}/>
           }
         </div>

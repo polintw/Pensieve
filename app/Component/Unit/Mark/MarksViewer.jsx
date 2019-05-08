@@ -23,6 +23,7 @@ class MarksViewer extends React.Component {
 
     };
     this.Com_ImgLayer=React.createRef();
+    this._set_markJump = this._set_markJump.bind(this);
     this._render_SpotsorMark = this._render_SpotsorMark.bind(this);
     this._handleClick_ImgLayer_circle = this._handleClick_ImgLayer_circle.bind(this);
     this._handleClick_SpotsLayer = this._handleClick_SpotsLayer.bind(this);
@@ -38,15 +39,29 @@ class MarksViewer extends React.Component {
     this.props._set_Markvisible(markKey);
   }
 
-//new f() to handle click of 'next' & 'previous'
-//by using current serial to target markKey from the markData.list
-//using props._set_Markvisible to update as well
-//notice! compare the list.length, set 'false' if bigger
-
   _handleClick_SpotsLayer(event){
     event.preventDefault();
     event.stopPropagation();
     this.props._set_spotsVisible();
+  }
+
+  _set_markJump(direction, currentSerial){
+    let markKey;
+    switch (direction) {
+      case 'next':
+        markKey = this.props.marksData.list[(currentSerial+1)];
+        this.props._set_Markvisible(markKey);
+        break;
+      case 'previous':
+        markKey = this.props.marksData.list[(currentSerial-1)];
+        this.props._set_Markvisible(markKey);
+        break;
+      case 'continue':
+        this.props._set_layerstatus();
+        break;
+      default:
+        return
+    }
   }
 
   _render_SpotsorMark(){
@@ -65,8 +80,11 @@ class MarksViewer extends React.Component {
           notify={this.props.unitCurrent.marksInteraction[markKey].notify?true:false}
           _handleClick_ImgLayer_circle={this._handleClick_ImgLayer_circle}>
           <ViewerBlock
-            markKey={this.props.currentMark}
-            markData={this.props.marksData.data[this.props.currentMark]}/>
+            currentSerial={currentSerial}
+            markKey={markKey}
+            marksLength={this.props.marksData.list.length}
+            markData={this.props.marksData.data[markKey]}
+            _set_markJump={this._set_markJump}/>
         </OpenedMark>
       );
     }else{
