@@ -1,5 +1,11 @@
 import React from 'react';
-import {Editor, EditorState,convertToRaw, convertFromRaw} from 'draft-js';
+import {
+  Editor,
+  EditorState,
+  convertToRaw,
+  convertFromRaw,
+  SelectionState
+} from 'draft-js';
 
 class DraftEditor extends React.Component {
   constructor(props){
@@ -23,6 +29,24 @@ class DraftEditor extends React.Component {
   changeEditorState(editorState){
     this.setState({editorState: editorState});
     this.props._on_EditorChange(editorState);
+  }
+
+  componentDidMount(){
+    let currentContent = this.state.editorState.getCurrentContent();
+    let currentLastBlock = currentContent.getLastBlock();
+    let currentLastBlockKey= currentLastBlock.getKey();
+    let currentLastBlockLength = currentLastBlock.getLength();
+    let selectionState = new SelectionState({
+      anchorKey: currentLastBlockKey,
+      anchorOffset: currentLastBlockLength,
+      focusKey: currentLastBlockKey,
+      focusOffset: currentLastBlockLength
+    });
+
+
+    this.setState((prevState, props)=>{
+      return {editorState: EditorState.forceSelection(prevState.editorState, selectionState)};
+    });
   }
 
   render(){

@@ -9,12 +9,27 @@ import {
 } from "../../../redux/actions/general.js";
 
 const styleMiddle = {
+  boxInteraction: {
+    display: 'inline-block',
+    width: '100%',
+    position: 'absolute',
+    top: '100%',
+    right: '0',
+    boxSizing: 'border-box',
+  },
+  boxPanelInteraction: {
+    display: 'inline-block',
+    height: '100%',
+    position: 'relative',
+    boxSizing: 'border-box',
+  },
   spanInteractions: {
     fontSize: '1.4rem',
-    letterSpacing: '0.12rem',
+    letterSpacing: '0.18rem',
     lineHeight: '1.9rem',
-    fontWeight: '400',
-    color: '#f7f4bc'
+    fontWeight: '300',
+    color: '#f0f0f0',
+    cursor: 'pointer'
   }
 }
 
@@ -28,22 +43,21 @@ class ViewerBlock extends React.Component {
     this.axiosSource = axios.CancelToken.source();
     this._axios_inspire_plain = this._axios_inspire_plain.bind(this);
     this._handleClick_Inspired = this._handleClick_Inspired.bind(this);
+    this._handleClick_jumpMark = this._handleClick_jumpMark.bind(this);
     this._handleClick_openDialogue = this._handleClick_openDialogue.bind(this);
     this.style = {
       Com_ViewerBlock_: {
         display: 'inline-block',
-        width: '100%',
-        height: '100%',
+        maxWidth: '100%',
+        minWidth: '56%',
+        minHeight: '54%',
+        maxHeight: '154%',//the target MaxHeight is 64% to the entire img
         position: 'relative',
         boxSizing: 'border-box',
         overflowY: 'visible'
       },
       Com_ViewerBlock_content_: {
         display: 'inline-block',
-        maxWidth: '100%',
-        minWidth: '49%',
-        minHeight: '54%',
-        maxHeight: '154%', //the target MaxHeight is 64%, limit by parent
         position: 'relative',
         boxSizing: 'border-box',
         margin: '0',
@@ -57,20 +71,19 @@ class ViewerBlock extends React.Component {
         overflowY: 'auto'
       },
       Com_ViewerBlock_panel_: {
+        display: 'inline-block',
         width: '100%',
-        height: '14%',
         position: 'relative',
         boxSizing: 'border-box',
-        marginTop: '6%',
-        float: 'right'
+        marginTop: '6%'
       },
       Com_ViewerBlock_credits_: {
+        display: 'inline-block',
         width: '100%',
-        height: '16%',
+        height: '2.6rem',
         position: 'relative',
         boxSizing: 'border-box',
         marginTop: '2%',
-        float: 'right'
       },
       Com_ViewerBlock_fold_:{
         display: 'none'
@@ -85,18 +98,9 @@ class ViewerBlock extends React.Component {
         padding: '2% 3%',
         color: '#FAFAFA',
       },
-      Com_ViewerBlock_panel_interaction_: {
-        width: '100%',
-        height: '100%',
-        position: 'relative',
-        boxSizing: 'border-box',
-      },
       Com_ViewerBlock_panel_interaction_bulb:{
-        width: '24px',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        boxSizing: 'border-box',
+        width: '17px',
+        margin: '0 4%',
         cursor: 'pointer',
         strokeWidth:'10px',
         stroke: '#f7f4bc'
@@ -149,6 +153,13 @@ class ViewerBlock extends React.Component {
     this.setState((prevState, props)=>{return this.state.dialogue?{dialogue: false}: {dialogue: true}})
   }
 
+  _handleClick_jumpMark(event){
+    event.preventDefault();
+    event.stopPropagation();
+    let direction = event.currentTarget.getAttribute('jump');
+    this.props._set_markJump(direction, this.props.currentSerial);
+  }
+
   componentDidMount(){
 
   }
@@ -161,25 +172,17 @@ class ViewerBlock extends React.Component {
 
   render(){
     const downToMdidline = this.props.downToMdidline;
-    const toCircleLeft = this.props.toCircleLeft;
-    let styleByMidline = {
-      editor: downToMdidline ? {bottom: '38%', position: 'absolute', right:toCircleLeft?'0':'',left:toCircleLeft?'':'0' }:{},
-      panel: downToMdidline ? {bottom: '18%', position: 'absolute'}:{},
-      credits: downToMdidline ? {bottom: '0', position: 'absolute'}:{},
-    },
-    styleByCircle = {
-      bulb: toCircleLeft?{right: '12%'}:{left: '6%'}
-    }
+    const toCircleLeft = this.props.toCircleLeft;// both props come from OpenedMark
+    //we use these two cosnt to tune the position of whole <div> for not protruding out the view
+
     return(
       <div
-        style={this.style.Com_ViewerBlock_}>
+        style={Object.assign({},
+          this.style.Com_ViewerBlock_,
+          {bottom: downToMdidline ? '38%':'', float: toCircleLeft? 'right':'left'})}
+        onClick={(e)=>{e.stopPropagation();}}>
         <div
-          style={
-            Object.assign({},
-              this.style.Com_ViewerBlock_content_,
-              {float: toCircleLeft? 'right':'left'},
-              styleByMidline.editor
-            )}>
+          style={Object.assign({}, this.style.Com_ViewerBlock_content_)}>
           <div
             style={{
               width: '48%',
@@ -193,34 +196,52 @@ class ViewerBlock extends React.Component {
             editorState={this.props.markData.editorContent}/>
         </div>
         <div
-          style={Object.assign({},this.style.Com_ViewerBlock_panel_, styleByMidline.panel)}>
+          style={styleMiddle.boxInteraction}>
           <div
-            style={this.style.Com_ViewerBlock_panel_interaction_}>
+            style={Object.assign({},this.style.Com_ViewerBlock_panel_)}>
             <div
-              style={
-                Object.assign({},
+              style={Object.assign({}, styleMiddle.boxPanelInteraction, {float: 'left'})}>
+              <span
+                style={styleMiddle.spanInteractions}
+                onClick={this._handleClick_openDialogue}>
+                {'raise'}
+              </span>
+            </div>
+            <div
+              style={Object.assign({},
+                  styleMiddle.boxPanelInteraction,
                   this.style.Com_ViewerBlock_panel_interaction_bulb,
                   {fill: this.props.unitCurrent.marksInteraction[this.props.markKey]['inspired'] ? '#ff7a5f':'transparent'},
-                  styleByCircle.bulb
-                )}
+                  {float: 'left'})}
               onClick={this._handleClick_Inspired}>
               <SvgBulbPlainHalf/>
             </div>
-            <span
-              style={styleMiddle.spanInteractions}
-              onClick={this._handleClick_openDialogue}>
-              {'raise hand'}
-            </span>
+            <div
+              style={Object.assign({}, styleMiddle.boxPanelInteraction, {margin: '0 3%', float: 'right'})}>
+              {
+                (this.props.currentSerial> 0) &&
+                <span
+                  jump={'previous'}
+                  style={Object.assign({}, styleMiddle.spanInteractions, {paddingRight: '0.45rem', fontSize: '1.32rem', letterSpacing:'0.1rem', color: 'rgba(173, 173, 173, 0.8)'})}
+                  onClick={this._handleClick_jumpMark}>
+                  {'previous  |'}</span>
+              }
+              <span
+                jump={(this.props.currentSerial==(this.props.marksLength-1)) ? 'continue':'next'}
+                style={Object.assign({}, styleMiddle.spanInteractions, {fontSize: '1.45rem', textShadow: '0px 0px 1px rgb(249, 253, 192)'})}
+                onClick={this._handleClick_jumpMark}>
+                {(this.props.currentSerial==(this.props.marksLength-1)) ? 'continue': 'next'}</span>
+            </div>
           </div>
-        </div>
-        <div
-          style={Object.assign({}, this.style.Com_ViewerBlock_credits_, styleByMidline.credits)}>
-          <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
-          <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
-        </div>
-        <div
-          style={{display: 'inline-block'}}>
-          {"(多行參考資料連結)"}
+          <div
+            style={Object.assign({}, this.style.Com_ViewerBlock_credits_)}>
+            <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
+            <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
+          </div>
+          <div
+            style={{display: 'inline-block', position: 'relative'}}>
+            {"(多行參考資料連結)"}
+          </div>
         </div>
         <div
           style={this.style.Com_ViewerBlock_fold_}>

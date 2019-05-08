@@ -183,7 +183,7 @@ export default class MarkEditingBlock extends React.Component {
   }
 
   componentDidMount(){
-    this.contentEditor.current.focus();
+
   }
 
   render(){

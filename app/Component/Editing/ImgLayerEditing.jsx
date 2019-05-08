@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from "react-redux";
 import MarkEditingBlock from './MarkEditingBlock.jsx';
-import SvgCircle from '../Svg/SvgCircle.jsx';
 import OpenedMark from '../OpenedMark.jsx';
+import SvgCircle from '../Svg/SvgCircle.jsx';
 import {
   baseHorizonRatial,
   widthDivisionRatial
@@ -78,8 +78,9 @@ class ImgLayerEditing extends React.Component {
         left: this.Com_ImgLayer_img.current.offsetLeft
       },
       boxWidth=this.Com_ImgLayer_box.current.clientWidth;
+      let markIndex = this.props.marksList.indexOf(this.props.currentMark);
 
-      if(this.props.markOpened && (this.props.marksList.indexOf(this.props.currentMark) > (-1))){
+      if(this.props.markOpened && ( markIndex > (-1))){
         let marksData = {data:{}};
         marksData['data'][this.props.currentMark]={
           top: this.props.markCircles[this.props.currentMark].top,
@@ -89,6 +90,7 @@ class ImgLayerEditing extends React.Component {
           <OpenedMark
             {...this.props}
             boxWidth={boxWidth}
+            serial={markIndex+1}
             marksData={marksData}
             imgPosition={imgPosition}
             imgWidthHeight={imgWidthHeight}
@@ -114,7 +116,10 @@ class ImgLayerEditing extends React.Component {
               className={'circleMarkSpotSvg'}
               style={{top: coordinate.top+"%", left: coordinate.left+'%'}}
               onClick={self._handleClick_ImgLayer_circle}>
-              <SvgCircle/>
+              <SvgCircle
+                serial={index+1}
+                notify={false}
+                current={false}/>
             </div>
           )
         });

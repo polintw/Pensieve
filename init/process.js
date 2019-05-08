@@ -11,6 +11,7 @@ function runCommands(array, callback) {
            console.log(array[index])
            exec(array[index], function(err, stdout, stderr) {
                if (err) return callback(err);
+               if (stderr) return callback(err);
                // do the next iteration
                results.push(stdout);
                index++;

@@ -14,11 +14,11 @@ class UnitModal extends React.Component {
     super(props);
     this.state = {
       lockify: true,
-      moveCount: this.props.unitInit.layer>0 ? 100 : 0,
-      markOpenedParent: false
+      marksStatus: {marksify: this.props.initStatus.marksify, initMark: this.props.initStatus.initMark},
+      moveCount: this.props.initStatus.layer>0 ? 100 : 0
     };
-    this._set_layerstatus = (lockify, moveCount) => {this.setState({lockify: lockify, moveCount: moveCount});};
-    this._set_markOpenedParent = ()=>{this.setState((prevState,props)=>{return {markOpenedParent: prevState.markOpenedParent?false:true};});};
+    this._set_markOpened = (bool, markKey)=>{this.setState((prevState,props)=>{return {marksStatus: {marksify: bool, initMark: markKey?markKey: "all"}};});};
+    this._set_layerstatus = this._set_layerstatus.bind(this);
     this._refer_toandclose = this._refer_toandclose.bind(this);
     this._handleClick_unitBack = this._handleClick_unitBack.bind(this);
     this.style={
@@ -94,6 +94,16 @@ class UnitModal extends React.Component {
     this.props._close_modal_Unit();
   }
 
+  _set_layerstatus(lockify, moveCount, marksStatus){
+    this.setState((prevState, props)=>{
+      return {
+        lockify: lockify,
+        moveCount: moveCount,
+        marksStatus: marksStatus ? marksStatus: prevState.marksStatus
+      }
+    });
+  }
+
 
   render(){
     //Notice! it's important to let the ImgLayers unmount if >200, due to we need the re-render, not just css change
@@ -107,7 +117,7 @@ class UnitModal extends React.Component {
           <UnitLayerScroll
             lockify={this.state.lockify}
             moveCount={this.state.moveCount}
-            markOpened={this.state.markOpenedParent}
+            markOpened={this.state.marksStatus.marksify}
             _set_layerstatus={this._set_layerstatus}>
             <div
               style={this.style.Com_UnitModal_blocks_SumLayer_}>
@@ -137,9 +147,10 @@ class UnitModal extends React.Component {
                 <UnitImgLayers
                   lockify={this.state.lockify}
                   moveCount={this.state.moveCount}
-                  unitInit={this.props.unitInit}
+                  marksStatus={this.state.marksStatus}
+                  _set_markOpened={this._set_markOpened}
+                  _set_layerstatus={this._set_layerstatus}
                   _set_Modalmode={this.props._set_Modalmode}
-                  _set_markOpenedParent={this._set_markOpenedParent}
                   _refer_toandclose={this._refer_toandclose}/>
               }
             </div>

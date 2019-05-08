@@ -42,10 +42,22 @@ Rename-Item -Path .\\config\\.env.example.json -NewName .env.json
 > /bcrypt: check [doc](https://www.npmjs.com/package/bcrypt) if face error come from this module, uninstall and install again if needed
 
 
-Before migration : modify neccessory info now in `/config/.env.json`
-  - databse connection info: user with all privilege.
-  - jwt secret: use default one or import yours
-  - log file path to absolute path if needed (i.e on Windows)
+`/config/.env.json` : modify neccessory info now
+  - databse connection:
+
+    modify beneath item to fit your database
+
+    "host"<br>
+    "user" *with all privilege*<br>
+    "password"<br>
+
+  - jwt secret:
+
+    use default one or import yours
+
+  - on Windows
+
+    log file path to absolute path if needed
 
 Then using ORM migrate database :
 
@@ -59,23 +71,24 @@ npm run migrate
 build app by browserify
 
 ```
-NODE_ENV = development
+NODE_ENV="development"
 npm run build
 ```
 
 final, start the server
 
 ```
-NODE_ENV = development
+NODE_ENV="development"
 npm run start
 ```
 
 
-using below to log in.
+please, only using account below:
 ```
 usertest@mail.com
 helloworld
 ```
+otherwise, you have to add account to dabase manully.
 
 Have a nice trip.
 

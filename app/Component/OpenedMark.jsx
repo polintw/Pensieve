@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from "react-redux";
-import SvgCircle from './Svg/SvgCircle.jsx';
 import {
   baseHorizonRatial,
   widthDivisionRatial
 } from './config/styleParams.js';
+import SvgCircle from './Svg/SvgCircle.jsx';
 
 const generalStyle = {
   absolute_FullVersion: {
@@ -82,7 +82,10 @@ class OpenedMark extends React.Component {
               className={'circleMarkSpotSvg'}
               style={{top: coordinate.top+"%", left: coordinate.left+'%'}}
               onClick={this.props._handleClick_ImgLayer_circle}>
-              <SvgCircle/>
+              <SvgCircle
+                current={false}
+                notify={this.props.notify}
+                serial={this.props.serial}/>
             </div>
         </div>
         <div

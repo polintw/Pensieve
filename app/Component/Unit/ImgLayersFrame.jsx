@@ -7,10 +7,12 @@ class ImgLayersFrame extends React.Component {
     super(props);
     this.state = {
       spotsVisible: true,
-      markOpened: this.props.unitInit.marksify,
-      currentMark: this.props.unitInit.initMark
+      currentMark: this.props.marksStatus.initMark
+      //watch out! props marksStatus would update follow the marksvisible,
+      //so, careful if need to change state by 'props'!
     };
     this._set_Markvisible = this._set_Markvisible.bind(this);
+    this._set_layerstatus = this._set_layerstatus.bind(this);
     this._set_spotsVisible = ()=>{this.setState((prevState, props)=>{return {spotsVisible: prevState.spotsVisible? false : true};})};
     this.style={
       Com_ImgLayersFrame: {
@@ -47,17 +49,23 @@ class ImgLayersFrame extends React.Component {
       let nextState = markKey ? (
         {
           spotsVisible: true,
-          markOpened: true,
           currentMark: markKey
         }
-      ):(
-        {
-          markOpened: false
-        }
-      );
-      props._set_markOpenedParent(); //this, should be a reason to put every interactions states to redux reucer manage
+      ):(prevState);
+      props._set_markOpened(markKey? true:false, markKey); //this, should be a reason to put every interactions states to redux reucer manage
       return nextState;
     });
+  }
+
+  _set_layerstatus(){
+    let nextCount;
+    if(!this.props.unitCurrent.beneathSrc || this.props.moveCount > 99){ //to 200 situations
+      nextCount = 200;
+    }else{ //the rest, to 100 with beneathSrc
+      nextCount = 100;
+    }
+
+    this.props._set_layerstatus(true, nextCount, {marksify: false, initMark: "all"});
   }
 
   render(){
@@ -97,12 +105,13 @@ class ImgLayersFrame extends React.Component {
             this.props.unitCurrent.beneathSrc &&
             <ImgLayer
               imgSrc={this.props.unitCurrent.beneathSrc}
+              markOpened={this.props.marksStatus.marksify}
               lockify={this.props.lockify}
               spotsVisible={this.state.spotsVisible}
               currentMark={this.state.currentMark}
-              markOpened={this.state.markOpened}
               marksData={beneathMarks}
               _set_Markvisible={this._set_Markvisible}
+              _set_layerstatus={this._set_layerstatus}
               _set_spotsVisible={this._set_spotsVisible}/>
           }
         </div>
@@ -112,12 +121,13 @@ class ImgLayersFrame extends React.Component {
             this.props.unitCurrent.coverSrc &&
             <ImgLayer
               imgSrc={this.props.unitCurrent.coverSrc}
+              markOpened={this.props.marksStatus.marksify}
               lockify={this.props.lockify}
               spotsVisible={this.state.spotsVisible}
               currentMark={this.state.currentMark}
-              markOpened={this.state.markOpened}
               marksData={coverMarks}
               _set_Markvisible={this._set_Markvisible}
+              _set_layerstatus={this._set_layerstatus}
               _set_spotsVisible={this._set_spotsVisible}/>
           }
         </div>
