@@ -4,6 +4,7 @@ import {
   SET_UNITCURRENT,
   SET_UNITINSPIRED,
   UNIT_SUBMITTING_SWITCH,
+  UNIT_AXIOSGENERAL_SWITCH,
   UPDATE_NOUNSBASIC,
   UPDATE_USERSBASIC
 } from '../constants/typesGeneral.js';
@@ -14,7 +15,7 @@ import {
 } from '../constants/states.js';
 
 //this is a temp management, in case one day we will seperate the reducer like the initstate
-const initialGeneral = Object.assign({}, initGlobal, initNouns, initUsers);
+const initialGeneral = Object.assign({}, initGlobal, initUnit, initNouns, initUsers);
 
 function pageWithin(state = initialGeneral, action){
   switch (action.type) {
@@ -36,6 +37,11 @@ function pageWithin(state = initialGeneral, action){
     case UNIT_SUBMITTING_SWITCH:
       return Object.assign({}, state, {
         unitSubmitting: action.unitSubmitting
+      })
+      break;
+    case UNIT_AXIOSGENERAL_SWITCH:
+      return Object.assign({}, state, {
+        unitAxiosGeneral: action.unitAxiosGeneral
       })
       break;
     case UPDATE_NOUNSBASIC:

@@ -3,6 +3,7 @@ import {
   MOUNT_USERINFO,
   SET_UNITCURRENT,
   SET_UNITINSPIRED,
+  UNIT_AXIOSGENERAL_SWITCH,
   UPDATE_NOUNSBASIC
 } from '../constants/typesGeneral.js';
 import {
@@ -11,7 +12,7 @@ import {
 } from '../constants/states.js';
 
 //this is a temp management, in case one day we will seperate the reducer like the initstate
-const initialGeneral = Object.assign({}, initGlobal, initNouns);
+const initialGeneral = Object.assign({}, initGlobal, initUnit, initNouns);
 
 function pageTerrace(state = initialGeneral, action){
   switch (action.type) {
@@ -28,6 +29,11 @@ function pageTerrace(state = initialGeneral, action){
     case SET_UNITINSPIRED:
       return Object.assign({}, state, {
         unitCurrent: {...state.unitCurrent, ...action.nextInpired}
+      })
+      break;
+    case UNIT_AXIOSGENERAL_SWITCH:
+      return Object.assign({}, state, {
+        unitAxiosGeneral: action.unitAxiosGeneral
       })
       break;
     case UPDATE_NOUNSBASIC:

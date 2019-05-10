@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from "react-redux";
 import MarkDialogue from './MarkDialogue.jsx';
+import PanelJump from './PanelJump.jsx';
 import {SvgBulbPlainHalf} from '../../Svg/SvgBulb.jsx';
 import SvgPropic from '../../Svg/SvgPropic.jsx';
 import DraftDisplay from '../../Draft/DraftDisplay.jsx';
@@ -46,7 +47,6 @@ class AuthorBlock extends React.Component {
       dialogue: false
     };
     this.axiosSource = axios.CancelToken.source();
-    this._handleClick_jumpMark = this._handleClick_jumpMark.bind(this);
     this._handleClick_openDialogue = this._handleClick_openDialogue.bind(this);
     this.style = {
       Com_AuthorBlock_: {
@@ -122,13 +122,6 @@ class AuthorBlock extends React.Component {
     this.setState((prevState, props)=>{return this.state.dialogue?{dialogue: false}: {dialogue: true}})
   }
 
-  _handleClick_jumpMark(event){
-    event.preventDefault();
-    event.stopPropagation();
-    let direction = event.currentTarget.getAttribute('jump');
-    this.props._set_markJump(direction, this.props.currentSerial);
-  }
-
   componentDidMount(){
 
   }
@@ -191,19 +184,10 @@ class AuthorBlock extends React.Component {
             </div>
             <div
               style={Object.assign({}, styleMiddle.boxPanelInteraction, {margin: '0 3%', float: 'right'})}>
-              {
-                (this.props.currentSerial> 0) &&
-                <span
-                  jump={'previous'}
-                  style={Object.assign({}, styleMiddle.spanInteractions, {paddingRight: '0.45rem', fontSize: '1.32rem', letterSpacing:'0.1rem', color: 'rgba(173, 173, 173, 0.8)'})}
-                  onClick={this._handleClick_jumpMark}>
-                  {'previous  |'}</span>
-              }
-              <span
-                jump={(this.props.currentSerial==(this.props.marksLength-1)) ? 'continue':'next'}
-                style={Object.assign({}, styleMiddle.spanInteractions, {fontSize: '1.45rem', textShadow: '0px 0px 1px rgb(249, 253, 192)'})}
-                onClick={this._handleClick_jumpMark}>
-                {(this.props.currentSerial==(this.props.marksLength-1)) ? 'continue': 'next'}</span>
+              <PanelJump
+                marksLength={this.props.marksLength}
+                currentSerial={this.props.currentSerial}
+                _set_markJump={this.props._set_markJump}/>
             </div>
           </div>
           <div

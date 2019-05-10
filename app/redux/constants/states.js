@@ -1,19 +1,23 @@
 const {unitCurrentInit, accountInfoInit} = require('./globalStates.js');
 
+export const initGlobal = {
+  userInfo: accountInfoInit, //should change the key:'userInfo' to other else
+}
+
 export const initSign = {
   axios: false,
   message:'',
   code: ''
 }
 
-export const initGlobal = {
-  userInfo: accountInfoInit, //should change the key:'userInfo' to other else
+export const initUnit = {
   unitCurrent: unitCurrentInit,
-  unitSubmitting: false
+  unitSubmitting: false,
+  unitAxiosGeneral: false
 }
 
 export const initSelfFrontGeneral = {
-  axios: false,
+  axios: false, //not a good name, easily confused with other using Axios, like Unit
   userSheet: {
     ify: false,
     gender: "",

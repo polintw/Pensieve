@@ -1,12 +1,10 @@
 import React from 'react';
 import {connect} from "react-redux";
+import PanelJump from './PanelJump.jsx';
+import ViewerBulb from './ViewerBulb.jsx';
 import MarkDialogue from './MarkDialogue.jsx';
-import {SvgBulbPlainHalf} from '../../Svg/SvgBulb.jsx';
 import SvgPropic from '../../Svg/SvgPropic.jsx';
 import DraftDisplay from '../../Draft/DraftDisplay.jsx';
-import {
-  setUnitInspired
-} from "../../../redux/actions/general.js";
 
 const styleMiddle = {
   boxInteraction: {
@@ -37,13 +35,10 @@ class ViewerBlock extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      axios: false,
-      dialogue: false
+      dialogue: false,
+      message: false
     };
-    this.axiosSource = axios.CancelToken.source();
-    this._axios_inspire_plain = this._axios_inspire_plain.bind(this);
-    this._handleClick_Inspired = this._handleClick_Inspired.bind(this);
-    this._handleClick_jumpMark = this._handleClick_jumpMark.bind(this);
+    this._set_BlockMessage = this._set_BlockMessage.bind(this);
     this._handleClick_openDialogue = this._handleClick_openDialogue.bind(this);
     this.style = {
       Com_ViewerBlock_: {
@@ -98,53 +93,7 @@ class ViewerBlock extends React.Component {
         padding: '2% 3%',
         color: '#FAFAFA',
       },
-      Com_ViewerBlock_panel_interaction_bulb:{
-        width: '17px',
-        margin: '0 4%',
-        cursor: 'pointer',
-        strokeWidth:'10px',
-        stroke: '#f7f4bc'
-      }
     };
-  }
-
-  _handleClick_Inspired(event){
-    event.preventDefault();
-    event.stopPropagation();
-    let aim = this.props.unitCurrent.marksInteraction[this.props.markKey]['inspired'] ? 'delete': 'post';
-
-    this.setState((prevState, props)=>{
-      return {axios: true}
-    }, this._axios_inspire_plain(aim))
-  }
-
-  _axios_inspire_plain(aim){
-    const self = this;
-    //'axios' in state has set to true in invoke instance
-    axios({
-      method: aim,
-      url: '/router/inspire?unitId='+self.props.unitCurrent.unitId+'&markId='+self.props.markKey,
-      headers: {
-        'Content-Type': 'application/json',
-        'charset': 'utf-8',
-        'token': window.localStorage['token']}
-    }).then(function (res) {
-      if(res.status = 200){
-        self.props._set_inpiredMark(self.props.markKey, aim);
-      }else{
-        console.log("Failed: "+ res.data.err);
-        self.setState({axios: false});
-        alert("Failed, please try again later");
-      }
-    }).catch(function (thrown) {
-      if (axios.isCancel(thrown)) {
-        console.log('Request canceled: ', thrown.message);
-      } else {
-        console.log(thrown);
-        self.setState({axios: false});
-        alert("Failed, please try again later");
-      }
-    });
   }
 
   _handleClick_openDialogue(event){
@@ -153,11 +102,8 @@ class ViewerBlock extends React.Component {
     this.setState((prevState, props)=>{return this.state.dialogue?{dialogue: false}: {dialogue: true}})
   }
 
-  _handleClick_jumpMark(event){
-    event.preventDefault();
-    event.stopPropagation();
-    let direction = event.currentTarget.getAttribute('jump');
-    this.props._set_markJump(direction, this.props.currentSerial);
+  _set_BlockMessage(message){
+    this.setState({message: message});
   }
 
   componentDidMount(){
@@ -165,9 +111,7 @@ class ViewerBlock extends React.Component {
   }
 
   componentWillUnmount(){
-    if(this.state.axios){
-      this.axiosSource.cancel("component will unmount.")
-    }
+
   }
 
   render(){
@@ -208,30 +152,24 @@ class ViewerBlock extends React.Component {
               </span>
             </div>
             <div
-              style={Object.assign({},
-                  styleMiddle.boxPanelInteraction,
-                  this.style.Com_ViewerBlock_panel_interaction_bulb,
-                  {fill: this.props.unitCurrent.marksInteraction[this.props.markKey]['inspired'] ? '#ff7a5f':'transparent'},
-                  {float: 'left'})}
-              onClick={this._handleClick_Inspired}>
-              <SvgBulbPlainHalf/>
+              style={Object.assign({}, styleMiddle.boxPanelInteraction, {float: 'left'})}>
+              <ViewerBulb
+                markKey={this.props.markKey}
+                _set_BlockMessage={this._set_BlockMessage}/>
             </div>
             <div
               style={Object.assign({}, styleMiddle.boxPanelInteraction, {margin: '0 3%', float: 'right'})}>
-              {
-                (this.props.currentSerial> 0) &&
-                <span
-                  jump={'previous'}
-                  style={Object.assign({}, styleMiddle.spanInteractions, {paddingRight: '0.45rem', fontSize: '1.32rem', letterSpacing:'0.1rem', color: 'rgba(173, 173, 173, 0.8)'})}
-                  onClick={this._handleClick_jumpMark}>
-                  {'previous  |'}</span>
-              }
-              <span
-                jump={(this.props.currentSerial==(this.props.marksLength-1)) ? 'continue':'next'}
-                style={Object.assign({}, styleMiddle.spanInteractions, {fontSize: '1.45rem', textShadow: '0px 0px 1px rgb(249, 253, 192)'})}
-                onClick={this._handleClick_jumpMark}>
-                {(this.props.currentSerial==(this.props.marksLength-1)) ? 'continue': 'next'}</span>
+              <PanelJump
+                marksLength={this.props.marksLength}
+                currentSerial={this.props.currentSerial}
+                _set_markJump={this.props._set_markJump}/>
             </div>
+          </div>
+          <div>
+            {
+              this.state.message &&
+              <span>this.state.message</span>
+            }
           </div>
           <div
             style={Object.assign({}, this.style.Com_ViewerBlock_credits_)}>
@@ -269,7 +207,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch)=>{
   return {
-    _set_inpiredMark: (markId, aim)=>{dispatch(setUnitInspired(markId, aim));},
+
   }
 }
 

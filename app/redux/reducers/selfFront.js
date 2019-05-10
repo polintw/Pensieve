@@ -4,6 +4,7 @@ import {
   SET_UNITCURRENT,
   SET_UNITINSPIRED,
   UNIT_SUBMITTING_SWITCH,
+  UNIT_AXIOSGENERAL_SWITCH,
   UPDATE_NOUNSBASIC,
   UPDATE_USERSBASIC,
   AXIOS_SWITCH
@@ -22,7 +23,7 @@ import {
 } from '../constants/states.js';
 
 //this is a temp management, in case one day we will seperate the reducer like the initstate
-const initialGeneral = Object.assign({}, initGlobal, initSetting, initNouns, initUsers, initSelfFrontGeneral);
+const initialGeneral = Object.assign({}, initGlobal, initUnit, initSetting, initNouns, initUsers, initSelfFrontGeneral);
 
 function pageSelfFront(state = initialGeneral, action){
   switch (action.type) {
@@ -44,6 +45,11 @@ function pageSelfFront(state = initialGeneral, action){
     case UNIT_SUBMITTING_SWITCH:
       return Object.assign({}, state, {
         unitSubmitting: action.unitSubmitting
+      })
+      break;
+    case UNIT_AXIOSGENERAL_SWITCH:
+      return Object.assign({}, state, {
+        unitAxiosGeneral: action.unitAxiosGeneral
       })
       break;
     case UPDATE_USERSHEET:
