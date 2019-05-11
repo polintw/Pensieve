@@ -43,11 +43,10 @@ class AuthorBlock extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      axios: false,
       dialogue: false
     };
-    this.axiosSource = axios.CancelToken.source();
     this._handleClick_openDialogue = this._handleClick_openDialogue.bind(this);
+    this._set_stateDefault = ()=>{this.setState({dialogue: false})};
     this.style = {
       Com_AuthorBlock_: {
         display: 'inline-block',
@@ -127,9 +126,7 @@ class AuthorBlock extends React.Component {
   }
 
   componentWillUnmount(){
-    if(this.state.axios){
-      this.axiosSource.cancel("component will unmount.")
-    }
+
   }
 
   render(){
@@ -187,7 +184,8 @@ class AuthorBlock extends React.Component {
               <PanelJump
                 marksLength={this.props.marksLength}
                 currentSerial={this.props.currentSerial}
-                _set_markJump={this.props._set_markJump}/>
+                _set_markJump={this.props._set_markJump}
+                _set_stateDefault={this._set_stateDefault}/>
             </div>
           </div>
           <div

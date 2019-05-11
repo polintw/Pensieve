@@ -4,12 +4,13 @@ import {
   SET_UNITCURRENT,
   SET_UNITINSPIRED,
   UNIT_SUBMITTING_SWITCH,
-  UNIT_AXIOSGENERAL_SWITCH,
+  UNIT_AXIOSINSPIRE_SWITCH,
   UPDATE_NOUNSBASIC,
   UPDATE_USERSBASIC
 } from '../constants/typesGeneral.js';
 import {
   initGlobal,
+  initUnit,
   initNouns,
   initUsers
 } from '../constants/states.js';
@@ -39,9 +40,9 @@ function pageWithin(state = initialGeneral, action){
         unitSubmitting: action.unitSubmitting
       })
       break;
-    case UNIT_AXIOSGENERAL_SWITCH:
+    case UNIT_AXIOSINSPIRE_SWITCH:
       return Object.assign({}, state, {
-        unitAxiosGeneral: action.unitAxiosGeneral
+        unitAxiosInspire: action.unitAxiosInspire
       })
       break;
     case UPDATE_NOUNSBASIC:

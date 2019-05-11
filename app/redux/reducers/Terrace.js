@@ -3,11 +3,12 @@ import {
   MOUNT_USERINFO,
   SET_UNITCURRENT,
   SET_UNITINSPIRED,
-  UNIT_AXIOSGENERAL_SWITCH,
+  UNIT_AXIOSINSPIRE_SWITCH,
   UPDATE_NOUNSBASIC
 } from '../constants/typesGeneral.js';
 import {
   initGlobal,
+  initUnit,
   initNouns
 } from '../constants/states.js';
 
@@ -31,9 +32,9 @@ function pageTerrace(state = initialGeneral, action){
         unitCurrent: {...state.unitCurrent, ...action.nextInpired}
       })
       break;
-    case UNIT_AXIOSGENERAL_SWITCH:
+    case UNIT_AXIOSINSPIRE_SWITCH:
       return Object.assign({}, state, {
-        unitAxiosGeneral: action.unitAxiosGeneral
+        unitAxiosInspire: action.unitAxiosInspire
       })
       break;
     case UPDATE_NOUNSBASIC:

@@ -21,6 +21,10 @@ const styleMiddle = {
     position: 'relative',
     boxSizing: 'border-box',
   },
+  boxMessage: {
+    boxSizing: 'border-box',
+    padding: '1rem 0.7rem 0'
+  },
   spanInteractions: {
     fontSize: '1.4rem',
     letterSpacing: '0.18rem',
@@ -28,6 +32,13 @@ const styleMiddle = {
     fontWeight: '300',
     color: '#f0f0f0',
     cursor: 'pointer'
+  },
+  textMessage: {
+    fontSize: '1.2rem',
+    letterSpacing: '0.1rem',
+    fontStyle: 'italic',
+    color: '#adadad',
+    cursor: 'default'
   }
 }
 
@@ -38,6 +49,7 @@ class ViewerBlock extends React.Component {
       dialogue: false,
       message: false
     };
+    this._set_stateDefault = ()=>{this.setState({dialogue: false, message: false})};
     this._set_BlockMessage = this._set_BlockMessage.bind(this);
     this._handleClick_openDialogue = this._handleClick_openDialogue.bind(this);
     this.style = {
@@ -162,13 +174,15 @@ class ViewerBlock extends React.Component {
               <PanelJump
                 marksLength={this.props.marksLength}
                 currentSerial={this.props.currentSerial}
-                _set_markJump={this.props._set_markJump}/>
+                _set_markJump={this.props._set_markJump}
+                _set_stateDefault={this._set_stateDefault}/>
             </div>
           </div>
-          <div>
+          <div
+            style={styleMiddle.boxMessage}>
             {
               this.state.message &&
-              <span>this.state.message</span>
+              <span style={styleMiddle.textMessage}>{this.state.message}</span>
             }
           </div>
           <div

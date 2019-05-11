@@ -13,7 +13,7 @@ export const initSign = {
 export const initUnit = {
   unitCurrent: unitCurrentInit,
   unitSubmitting: false,
-  unitAxiosGeneral: false
+  unitAxiosInspire: false
 }
 
 export const initSelfFrontGeneral = {

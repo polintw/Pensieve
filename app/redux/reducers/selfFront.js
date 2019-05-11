@@ -4,7 +4,7 @@ import {
   SET_UNITCURRENT,
   SET_UNITINSPIRED,
   UNIT_SUBMITTING_SWITCH,
-  UNIT_AXIOSGENERAL_SWITCH,
+  UNIT_AXIOSINSPIRE_SWITCH,
   UPDATE_NOUNSBASIC,
   UPDATE_USERSBASIC,
   AXIOS_SWITCH
@@ -16,6 +16,7 @@ import {
 } from '../constants/typesSelfFront.js';
 import {
   initGlobal,
+  initUnit,
   initSetting,
   initNouns,
   initUsers,
@@ -47,9 +48,9 @@ function pageSelfFront(state = initialGeneral, action){
         unitSubmitting: action.unitSubmitting
       })
       break;
-    case UNIT_AXIOSGENERAL_SWITCH:
+    case UNIT_AXIOSINSPIRE_SWITCH:
       return Object.assign({}, state, {
-        unitAxiosGeneral: action.unitAxiosGeneral
+        unitAxiosInspire: action.unitAxiosInspire
       })
       break;
     case UPDATE_USERSHEET:

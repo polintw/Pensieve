@@ -4,7 +4,7 @@ import {SvgBulbPlainHalf} from '../../Svg/SvgBulb.jsx';
 import {
   setUnitInspired
 } from "../../../redux/actions/general.js";
-import {setUnitAxiosGeneral} from "../../../redux/actions/handleUnit.js";
+import {switchUnitAxiosInspire} from "../../../redux/actions/handleUnit.js";
 
 const styleMiddle = {
 
@@ -19,7 +19,6 @@ class ViewerBulb extends React.Component {
     this.axiosSource = axios.CancelToken.source();
     this._axios_inspire_plain = this._axios_inspire_plain.bind(this);
     this._handleClick_Inspired = this._handleClick_Inspired.bind(this);
-    this._handleClick_jumpMark = this._handleClick_jumpMark.bind(this);
     this.style = {
       Com_ViewerBlock_panel_interaction_bulb:{
         width: '17px',
@@ -36,7 +35,7 @@ class ViewerBulb extends React.Component {
     event.stopPropagation();
     let aim = this.props.unitCurrent.marksInteraction[this.props.markKey]['inspired'] ? 'delete': 'post';
 
-    this.props._set_unitAxiosGeneral(this._axios_inspire_plain(aim));
+    this.props._switch_unitAxiosInspire(this._axios_inspire_plain(aim));
   }
 
   _axios_inspire_plain(aim){
@@ -51,10 +50,10 @@ class ViewerBulb extends React.Component {
         'charset': 'utf-8',
         'token': window.localStorage['token']}
     }).then(function (res) {
-      self.props._set_unitAxiosGeneral();
+      self.props._switch_unitAxiosInspire();
       if(res.status = 200){
         self.props._set_inpiredMark(self.props.markKey, aim);
-        bulbMessage = self.props.userInfo.firstName + " is happy to know! "
+        bulbMessage = (aim=="post")?(self.props.userInfo.firstName + "   is happy to know ! "):("You have withdrawn the light.")
       }else{
         console.log("Failed: "+ res.data.err);
         bulbMessage = "Failed, please try again later";
@@ -65,7 +64,7 @@ class ViewerBulb extends React.Component {
         console.log('Request canceled: ', thrown.message);
       } else {
         console.log(thrown);
-        self.props._set_unitAxiosGeneral();
+        self.props._switch_unitAxiosInspire();
         bulbMessage = "Failed, please try again later";
         self.props._set_BlockMessage(bulbMessage);
       }
@@ -73,7 +72,7 @@ class ViewerBulb extends React.Component {
   }
 
   componentWillUnmount(){
-    if(this.props.unitAxiosGeneral){
+    if(this.props.unitAxiosInspire){
       this.axiosSource.cancel("component will unmount.")
     }
   }
@@ -95,14 +94,14 @@ const mapStateToProps = (state) => {
     userInfo: state.userInfo,
     unitCurrent: state.unitCurrent,
     unitSubmitting: state.unitSubmitting,
-    unitAxiosGeneral: state.unitAxiosGeneral
+    unitAxiosInspire: state.unitAxiosInspire
   }
 }
 
 const mapDispatchToProps = (dispatch)=>{
   return {
     _set_inpiredMark: (markId, aim)=>{dispatch(setUnitInspired(markId, aim));},
-    _set_unitAxiosGeneral: (callBack)=>{dispatch(setUnitAxiosGeneral()).then(callBack());},
+    _switch_unitAxiosInspire: (callBack)=>{dispatch(switchUnitAxiosInspire()).then(()=>{if(callBack) callBack();});},
   }
 }
 
