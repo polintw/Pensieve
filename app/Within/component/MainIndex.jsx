@@ -16,6 +16,10 @@ import {
   handleNounsList,
   handleUsersList
 } from "../../redux/actions/general.js";
+import {
+  cancelErr,
+  uncertainErr
+} from '../../utils/errHandlers.js';
 
 const styleMiddle = {
   boxNailsCol: {
@@ -176,11 +180,14 @@ class MainIndex extends React.Component {
           });
       }).catch(function (thrown) {
         if (axios.isCancel(thrown)) {
-          console.log('Request canceled: ', thrown.message);
+          cancelErr(thrown);
         } else {
-          console.log(thrown);
-          self.setState({axios: false});
-          alert("Failed, please try again later");
+          self.setState((prevState, props)=>{
+            return {axios:false}
+          }, ()=>{
+            let message = uncertainErr(thrown);
+            if(message) alert(message);
+          });
         }
       });
     })

@@ -121,7 +121,7 @@ function _handle_ErrCatched(e, req, res){
     case 32:
       //401, token invalid, authorized failed
       clientSet['code'] = 32;
-      clientSet['message'] = "error: could not authenticate you";
+      clientSet['message'] = "invalid authority. perhaps log in again or sign up for more function!";
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;

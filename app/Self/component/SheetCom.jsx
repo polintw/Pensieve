@@ -8,6 +8,10 @@ import {connect} from "react-redux";
 import ModalBox from '../../Component/ModalBox.jsx';
 import ModalBackground from '../../Component/ModalBackground.jsx';
 import {switchSettingSubmitting} from "../../redux/actions/general.js";
+import {
+  cancelErr,
+  uncertainErr
+} from '../../utils/errHandlers.js';
 
 const styleMiddle= {
   fontContent: {
@@ -251,12 +255,11 @@ class SettingPassword extends React.Component {
         window.location.assign('/user/profile/sheet');
       }).catch(function (thrown) {
         if (axios.isCancel(thrown)) {
-          console.log('Request canceled: ', thrown.message);
+          cancelErr(thrown);
         } else {
           self.props._set_store_submittingStatus(false);
-          let resConsole = thrown.response.data.console; // to verify the string length, this is neccessary.
-          if(resConsole.length>0) console.log(thrown.response.data.console);
-          self.setState({message: thrown.response.data.message});
+          let message = uncertainErr(thrown);
+          if(message) self.setState({message: message});
         }
       });
     }else{

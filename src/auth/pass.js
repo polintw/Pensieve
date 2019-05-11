@@ -2,6 +2,10 @@ const express = require('express');
 const pass = express.Router();
 const jwt = require('jsonwebtoken');
 const {verify_key} = require('../../config/jwt.js');
+const {
+  _handle_ErrCatched,
+  authorizedError,
+} = require('../utils/reserrHandler.js');
 
 //verify token here, for any not login or register request
 pass.use(function(req, res, next) {
@@ -11,9 +15,7 @@ pass.use(function(req, res, next) {
   if (token) {
     jwt.verify(token, verify_key, function(err) {
       if (err) {
-        resData['error'] = 1;
-        resData['message'] = "Token is invalid";
-        res.status(401).json(resData);
+        _handle_ErrCatched(new authorizedError("unauthorize throw by pass.js, "+err, 32), req, res);
       } else {
         next();
       }
