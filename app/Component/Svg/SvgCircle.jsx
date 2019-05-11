@@ -58,7 +58,7 @@ class CircleSpot extends React.Component {
     return(
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60"
         style={{
-          width: '30%',
+          width: '49%',
           height: 'auto',
           position: 'absolute',
           top: '0',

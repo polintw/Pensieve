@@ -13,6 +13,7 @@ import CosmicMain from './component/CosmicMain.jsx';
 import CosmicUser from './component/CosmicUser.jsx';
 import CosmicNoun from './component/CosmicNoun.jsx';
 import CosmicRelated from './component/CosmicRelated.jsx';
+import NavOptions from '../Component/NavOptions.jsx';
 
 class WithinCosmic extends React.Component {
   constructor(props){
@@ -38,6 +39,14 @@ class WithinCosmic extends React.Component {
         position: 'fixed',
         bottom: '3%',
         right: '11%',
+        boxSizing: 'border-box'
+      },
+      Within_Cosmic_NavOptions: {
+        width: '1.4%',
+        height: '4.2%',
+        position: 'fixed',
+        bottom: '5.5%',
+        right: '5%',
         boxSizing: 'border-box'
       }
     }
@@ -97,6 +106,9 @@ class WithinCosmic extends React.Component {
           style={this.style.Within_Cosmic_corner_}>
           <CosmicCorner
             match={this.props.match}/>
+          <div style={this.style.Within_Cosmic_NavOptions}>
+            <NavOptions {...this.props}/>
+          </div>
         </div>
       </div>
     )

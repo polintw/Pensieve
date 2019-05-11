@@ -157,8 +157,9 @@ class UnitViewSummary extends React.Component {
   componentDidMount(){
     this.marksArticle.current.addEventListener('wheel', this._handleWheel_marksArticle, {passive: false})
     //because the modern browser set the 'passive' property of addEventListener default to true,
-    //they do it for 'efficiency', but it obstruct our desire to control this event
     //so we could only add listener like this way to set the 'passive' manually.
+    //and becuase we preventDefault in LayerScroll, the scroll will totally be ignore
+    //so we need to stopPropagation if there is a scroll box in any child of LayerScroll
   }
 
   componentWillUnmount(){

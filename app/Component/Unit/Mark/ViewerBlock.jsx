@@ -10,7 +10,7 @@ const styleMiddle = {
   boxInteraction: {
     display: 'inline-block',
     width: '100%',
-    position: 'absolute',
+    position: 'static',
     top: '100%',
     right: '0',
     boxSizing: 'border-box',
@@ -49,27 +49,29 @@ class ViewerBlock extends React.Component {
       dialogue: false,
       message: false
     };
+    this.boxContent = React.createRef();
     this._set_stateDefault = ()=>{this.setState({dialogue: false, message: false})};
     this._set_BlockMessage = this._set_BlockMessage.bind(this);
+    this._handleWheel_boxContent = (event)=>{event.stopPropagation();};
     this._handleClick_openDialogue = this._handleClick_openDialogue.bind(this);
     this.style = {
       Com_ViewerBlock_: {
         display: 'inline-block',
         maxWidth: '100%',
         minWidth: '56%',
-        minHeight: '54%',
-        maxHeight: '154%',//the target MaxHeight is 64% to the entire img
-        position: 'relative',
+        height: '100%',
+        position: 'absolute',
         boxSizing: 'border-box',
         overflowY: 'visible'
       },
       Com_ViewerBlock_content_: {
         display: 'inline-block',
+        minHeight: '49%',
+        maxHeight: '147%',//the target MaxHeight is 64% to the entire img
         position: 'relative',
         boxSizing: 'border-box',
-        margin: '0',
-        paddingBottom: '7%',
         paddingLeft: '6%',
+        marginBottom: '7%',
         fontSize: '1.36rem',
         letterSpacing: '0.18rem',
         lineHeight: '1.9rem',
@@ -119,11 +121,15 @@ class ViewerBlock extends React.Component {
   }
 
   componentDidMount(){
-
+    this.boxContent.current.addEventListener('wheel', this._handleWheel_boxContent, {passive: false})
+    //because the modern browser set the 'passive' property of addEventListener default to true,
+    //so we could only add listener like this way to set the 'passive' manually.
+    //and becuase we preventDefault in LayerScroll, the scroll will totally be ignore
+    //so we need to stopPropagation if there is a scroll box in any child of LayerScroll
   }
 
   componentWillUnmount(){
-
+    this.boxContent.current.removeEventListener('wheel',this._handleWheel_boxContent);
   }
 
   render(){
@@ -135,21 +141,20 @@ class ViewerBlock extends React.Component {
       <div
         style={Object.assign({},
           this.style.Com_ViewerBlock_,
-          {bottom: downToMdidline ? '38%':'', float: toCircleLeft? 'right':'left'})}
+          {bottom: downToMdidline ? '44%':'', right: toCircleLeft? '0':'', left: toCircleLeft? '':'0'})}
         onClick={(e)=>{e.stopPropagation();}}>
         <div
+          ref={this.boxContent}
           style={Object.assign({}, this.style.Com_ViewerBlock_content_)}>
+          <DraftDisplay
+            editorState={this.props.markData.editorContent}/>
+        </div>
+        <div
+          style={{position: 'relative'}}>
           <div
             style={{
               width: '48%',
-              height: ' 42%',
-              position:'absolute',
-              left: '0',
-              bottom:'0%',
-              borderLeft: 'solid 1px #ababab',
               borderBottom: 'solid 1px #ababab'}}></div>
-          <DraftDisplay
-            editorState={this.props.markData.editorContent}/>
         </div>
         <div
           style={styleMiddle.boxInteraction}>
