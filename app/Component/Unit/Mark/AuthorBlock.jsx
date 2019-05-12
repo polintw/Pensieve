@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from "react-redux";
+import PanelJump from './PanelJump.jsx';
 import {SvgBulbPlainHalf} from '../../Svg/SvgBulb.jsx';
 import DraftDisplay from '../../Draft/DraftDisplay.jsx';
 import {
@@ -7,12 +8,32 @@ import {
 } from "../../../redux/actions/general.js";
 
 const styleMiddle = {
+  boxInteraction: {
+    display: 'inline-block',
+    width: '100%',
+    position: 'static',
+    top: '100%',
+    right: '0',
+    boxSizing: 'border-box',
+  },
+  boxPanelInteraction: {
+    display: 'inline-block',
+    height: '100%',
+    position: 'relative',
+    boxSizing: 'border-box',
+  },
+  svgBulbPlain: {
+    strokeWidth:'10px',
+    stroke: '#f7f4bc',
+    fill: 'transparent'
+  },
   spanInteractions: {
     fontSize: '1.4rem',
-    letterSpacing: '0.12rem',
+    letterSpacing: '0.18rem',
     lineHeight: '1.9rem',
-    fontWeight: '400',
-    color: '#f7f4bc'
+    fontWeight: '300',
+    color: '#f0f0f0',
+    cursor: 'pointer'
   }
 }
 
@@ -20,29 +41,29 @@ class AuthorBlock extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      axios: false,
+
     };
-    this.axiosSource = axios.CancelToken.source();
+    this.boxContent = React.createRef();
+    this._set_stateDefault = ()=>{};
+    this._handleWheel_boxContent = (event)=>{event.stopPropagation();};
     this.style = {
       Com_AuthorBlock_: {
         display: 'inline-block',
-        width: '100%',
+        maxWidth: '100%',
+        minWidth: '54%',
         height: '100%',
-        position: 'relative',
+        position: 'absolute',
         boxSizing: 'border-box',
         overflowY: 'visible'
       },
       Com_AuthorBlock_content_: {
         display: 'inline-block',
-        maxWidth: '100%',
-        minWidth: '49%',
-        minHeight: '54%',
-        maxHeight: '154%', //the target MaxHeight is 64%, limit by parent
+        minHeight: '49%',
+        maxHeight: '147%',//the target MaxHeight is 64% to the entire img
         position: 'relative',
         boxSizing: 'border-box',
-        margin: '0',
-        paddingBottom: '7%',
         paddingLeft: '6%',
+        marginBottom: '7%',
         fontSize: '1.36rem',
         letterSpacing: '0.18rem',
         lineHeight: '1.9rem',
@@ -51,12 +72,11 @@ class AuthorBlock extends React.Component {
         overflowY: 'auto'
       },
       Com_AuthorBlock_panel_: {
+        display: 'inline-block',
         width: '100%',
-        height: '14%',
         position: 'relative',
         boxSizing: 'border-box',
-        marginTop: '6%',
-        float: 'right'
+        marginTop: '6%'
       },
       Com_AuthorBlock_panel_interaction_: {
         width: '100%',
@@ -64,87 +84,75 @@ class AuthorBlock extends React.Component {
         position: 'relative',
         boxSizing: 'border-box',
       },
-      Com_AuthorBlock_panel_interaction_inspired_:{
-        display: 'inline-block',
-        minWidth: '70px',
-        height: '100%',
-        position: 'absolute',
-      },
       Com_AuthorBlock_panel_interaction_bulb:{
-        width: '36%',
-        height: '100%',
-        position: 'absolute',
-        left: '0',
-        top: '0',
-        boxSizing: 'border-box',
-        marginRight: '16%',
-        strokeWidth:'10px'
-      },
-      Com_AuthorBlock_panel_interaction_count: {
-        position: 'absolute',
-        top:"50%",
-        left:'50%',
-        transform: 'translate(0,-50%)'
+        display: 'inline-block',
+        width: '17px',
+        position: 'relative',
+        margin: '0 4%',
       }
     };
   }
 
   componentDidMount(){
-
+    this.boxContent.current.addEventListener('wheel', this._handleWheel_boxContent, {passive: false})
+    //because the modern browser set the 'passive' property of addEventListener default to true,
+    //so we could only add listener like this way to set the 'passive' manually.
+    //and becuase we preventDefault in LayerScroll, the scroll will totally be ignore
+    //so we need to stopPropagation if there is a scroll box in any child of LayerScroll
   }
 
   componentWillUnmount(){
-    if(this.state.axios){
-      this.axiosSource.cancel("component will unmount.")
-    }
+    this.boxContent.current.removeEventListener('wheel',this._handleWheel_boxContent);
   }
 
   render(){
     const downToMdidline = this.props.downToMdidline;
-    const toCircleLeft = this.props.toCircleLeft;
-    let styleByMidline = {
-      editor: downToMdidline ? {bottom: '38%', position: 'absolute', right:toCircleLeft?'0':'',left:toCircleLeft?'':'0' }:{},
-      panel: downToMdidline ? {bottom: '18%', position: 'absolute'}:{},
-      credits: downToMdidline ? {bottom: '0', position: 'absolute'}:{},
-    },
-    styleByCircle = {
-      inspired: toCircleLeft?{right: '12%'}:{left: '6%'}
-    }
+    const toCircleLeft = this.props.toCircleLeft;// both props come from OpenedMark
+    //we use these two cosnt to tune the position of whole <div> for not protruding out the view
     return(
       <div
-        style={this.style.Com_AuthorBlock_}>
+        style={Object.assign({},
+          this.style.Com_AuthorBlock_,
+          {bottom: downToMdidline ? '44%':'', right: toCircleLeft? '0':'', left: toCircleLeft? '':'0'})}
+        onClick={(e)=>{e.stopPropagation();}}>
         <div
-          style={
-            Object.assign({},
-              this.style.Com_AuthorBlock_content_,
-              {float: toCircleLeft? 'right':'left'},
-              styleByMidline.editor
-            )}>
-          <div
-            style={{
-              width: '48%',
-              height: ' 42%',
-              position:'absolute',
-              left: '0',
-              bottom:'0%',
-              borderLeft: 'solid 1px #ababab',
-              borderBottom: 'solid 1px #ababab'}}></div>
+          ref={this.boxContent}
+          style={Object.assign({}, this.style.Com_AuthorBlock_content_)}>
           <DraftDisplay
             editorState={this.props.markData.editorContent}/>
         </div>
         <div
-          style={Object.assign({},this.style.Com_AuthorBlock_panel_, styleByMidline.panel)}>
+          style={{position: 'relative'}}>
           <div
-            style={this.style.Com_AuthorBlock_panel_interaction_}>
+            style={{
+              width: '48%',
+              borderBottom: 'solid 1px #ababab'}}></div>
+        </div>
+        <div
+          style={styleMiddle.boxInteraction}>
+          <div
+            style={Object.assign({},this.style.Com_AuthorBlock_panel_)}>
             <div
-              style={Object.assign({}, this.style.Com_AuthorBlock_panel_interaction_inspired_, styleByCircle.inspired)}>
-              <div
-                style={Object.assign({}, this.style.Com_AuthorBlock_panel_interaction_bulb, {stroke: '#f7f4bc', fill: 'transparent'})}>
-                <SvgBulbPlainHalf/>
-              </div>
+              style={Object.assign({},
+                this.style.Com_AuthorBlock_panel_interaction_bulb,
+                styleMiddle.svgBulbPlain,
+                styleMiddle.boxPanelInteraction, {float: 'left'})}>
+              <SvgBulbPlainHalf/>
+            </div>
+            <div
+              style={Object.assign({},
+                styleMiddle.boxPanelInteraction, {float: 'left'})}>
               <span
-                style={Object.assign({}, styleMiddle.spanInteractions, this.style.Com_AuthorBlock_panel_interaction_count)}>
+                style={Object.assign({}, styleMiddle.spanInteractions)}>
                 {this.props.unitCurrent.marksInteraction[this.props.markKey].inspired+"/"}</span>
+            </div>
+            <div
+              style={Object.assign({}, styleMiddle.boxPanelInteraction, {margin: '0 3%', float: 'right'})}>
+              <PanelJump
+                marksLength={this.props.marksLength}
+                currentSerial={this.props.currentSerial}
+                _set_markJump={this.props._set_markJump}
+                _set_stateDefault={this._set_stateDefault}/>
             </div>
           </div>
         </div>

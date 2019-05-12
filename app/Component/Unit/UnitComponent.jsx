@@ -104,7 +104,7 @@ export class NounsExtensible extends React.Component {
           <div
             style={this.style.Com_Nouns_Extensible_switch_}
             onClick={this._handleClick_listExpand}>
-            'show all >'
+             'show all >'
           </div>
         }
       </div>

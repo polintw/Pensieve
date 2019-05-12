@@ -55,11 +55,10 @@ export default class MarkEditingBlock extends React.Component {
         maxWidth: '100%',
         minWidth: '49%',
         minHeight: '54%',
-        maxHeight: '152%', //the target MaxHeight is 64%, limit by parent
+        maxHeight: '145%', //the target MaxHeight is 64%, limit by parent
         position: 'relative',
         boxSizing: 'border-box',
-        margin: '0',
-        paddingBottom: '8%',
+        marginBottom: '7%',
         paddingLeft: '6%',
         fontSize: '1.36rem',
         letterSpacing: '0.18rem',
@@ -103,7 +102,7 @@ export default class MarkEditingBlock extends React.Component {
   }
 
   componentDidMount(){
-    this.contentEditor.current.focus();
+
   }
 
   render(){
@@ -125,19 +124,17 @@ export default class MarkEditingBlock extends React.Component {
               styleByMidline.editor
             )}
           onClick={this._handleClick_markComponentEditor}>
-          <div
-            style={{
-              width: '48%',
-              height: ' 42%',
-              position:'absolute',
-              left: '0',
-              bottom:'0%',
-              borderLeft: 'solid 1px #ababab',
-              borderBottom: 'solid 1px #ababab'}}></div>
           <DraftEditor
             ref={this.contentEditor}
             editorState={this.props.editorState}
             _on_EditorChange={this._set_EditorUpdate}/>
+        </div>
+        <div
+          style={{width: '100%', position: 'relative', float: 'left'}}>
+          <div
+            style={{
+              width: '48%',
+              borderBottom: 'solid 1px #ababab'}}></div>
         </div>
         <div
           style={Object.assign({},this.style.Com_MarkEditingBlock_Content_Main_div_edit_Panel_, styleByMidline.panel)}>

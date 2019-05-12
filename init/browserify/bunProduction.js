@@ -3,6 +3,8 @@ const browserify = require('browserify');
 const babelify = require("babelify");
 const envify = require("envify/custom");
 
+let dir = './public/react';
+
 let rootSign = browserify({
   debug: false
 }).transform(envify({
@@ -88,6 +90,7 @@ rootSelfFront.on('css stream', function (css) {
 });
 
 exports.bundler = ()=>{
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir);
   appSign.pipe(fs.createWriteStream('./public/react/appSign.js'));
   appWithin.pipe(fs.createWriteStream('./public/react/appWithin.js'));
   appSelfFront.pipe(fs.createWriteStream('./public/react/appSelfFront.js'));

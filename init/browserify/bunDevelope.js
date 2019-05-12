@@ -2,6 +2,8 @@ const fs = require("fs");
 const browserify = require('browserify');
 const babelify = require("babelify");
 
+let dir = './public/react';
+
 let rootSign = browserify({debug: true}).transform(babelify.configure({
   presets: [
       "react",
@@ -59,6 +61,7 @@ rootSelfFront.on('css stream', function (css) {
 });
 
 exports.bundler = ()=>{
+  if(!fs.existsSync(dir)) fs.mkdirSync(dir);
   appSign.pipe(fs.createWriteStream('./public/react/appSign.js'));
   appWithin.pipe(fs.createWriteStream('./public/react/appWithin.js'));
   appSelfFront.pipe(fs.createWriteStream('./public/react/appSelfFront.js'));

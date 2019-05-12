@@ -15,12 +15,31 @@ import {
   handleNounsList,
   handleUsersList
 } from "../../redux/actions/general.js";
+import {
+  cancelErr,
+  uncertainErr
+} from '../../utils/errHandlers.js';
 
-const commonStyle = {
-  withinCom_MainIndex_scroll_col_: {
+const styleMiddle = {
+  boxNailsCol: {
     width: '33%',
     position: "absolute",
     top: '5vh'
+  },
+  boxFooterInfo: {
+    boxSizing: 'border-block',
+    margin: '4.2rem 0 1.6rem',
+    padding: '2rem 1.2rem 0',
+    color: '#ababab'
+  },
+  spanFooterInfo: {
+    display: 'inline-block',
+    boxSizing: 'border-block',
+    marginRight: '0.42rem'
+  },
+  textFooterInfo: {
+    fontSize: '1.21rem',
+    letterSpacing: '0.1rem',
   }
 }
 
@@ -57,7 +76,7 @@ class MainIndex extends React.Component {
       withinCom_MainIndex_scroll_col_footer: {
         display: 'inline-block',
         width: '100%',
-        height: '18vh',
+        height: '14vh',
         position: 'relative',
         boxSizing: 'border-box'
       },
@@ -88,7 +107,6 @@ class MainIndex extends React.Component {
   }
 
   _set_RenderbyCol(currentHight){
-    if(this.state.nextRender == this.state.unitsList.length) return;
     this.setState((prevState, props)=> {
       //to keep state being immutable, we claim a new obj and return it in the end
       let nextState = new Object();
@@ -100,9 +118,24 @@ class MainIndex extends React.Component {
       nextState.colLatest = (nextState["col"+currentSide+"Ht"] > this.state["col"+opposite+"Ht"] ) ? opposite : currentSide;
       nextState.nextRender = prevState.nextRender + 1;
       prevState["col"+nextState.colLatest].push(
+        (prevState.nextRender == prevState.unitsList.length) ?
+        //which means we've rendered all the nails, now let's add the info of Cornerth to it
+        <div
+          key={'key_CosmicMain_footerInfo'}
+          style={styleMiddle.boxFooterInfo}>
+          <span style={Object.assign({}, styleMiddle.spanFooterInfo, styleMiddle.textFooterInfo)}>{"Cornerth."}</span>
+          <br></br>
+          <br></br>
+          <span style={Object.assign({}, styleMiddle.spanFooterInfo, styleMiddle.textFooterInfo)}>{"about"}</span>
+          <span style={Object.assign({}, styleMiddle.spanFooterInfo, styleMiddle.textFooterInfo)}>{"．"}</span>
+          <span style={Object.assign({}, styleMiddle.spanFooterInfo, styleMiddle.textFooterInfo)}>{"contact"}</span>
+          <span style={Object.assign({}, styleMiddle.spanFooterInfo, styleMiddle.textFooterInfo)}>{"．"}</span>
+          <span style={Object.assign({}, styleMiddle.spanFooterInfo, styleMiddle.textFooterInfo)}>{"join"}</span>
+        </div>
+        :
         <NailCosmic
           {...this.props}
-          key={'key_CosmicCompound_'+prevState.nextRender}
+          key={'key_CosmicMain_'+prevState.nextRender}
           col={nextState.colLatest}
           unitId={unitKey}
           unitBasic={prevState.unitsBasic[unitKey]}
@@ -113,7 +146,7 @@ class MainIndex extends React.Component {
       nextState["col"+nextState.colLatest] = prevState["col"+nextState.colLatest];
 
       return nextState;
-    })
+    });
   }
 
   _submit_Share_New(dataObj){
@@ -146,11 +179,14 @@ class MainIndex extends React.Component {
           });
       }).catch(function (thrown) {
         if (axios.isCancel(thrown)) {
-          console.log('Request canceled: ', thrown.message);
+          cancelErr(thrown);
         } else {
-          console.log(thrown);
-          self.setState({axios: false});
-          alert("Failed, please try again later");
+          self.setState((prevState, props)=>{
+            return {axios:false}
+          }, ()=>{
+            let message = uncertainErr(thrown);
+            if(message) alert(message);
+          });
         }
       });
     })
@@ -170,7 +206,7 @@ class MainIndex extends React.Component {
         <div
           style={this.style.withinCom_MainIndex_scroll_}>
           <div
-            style={Object.assign({left: '9%'}, commonStyle.withinCom_MainIndex_scroll_col_)}>
+            style={Object.assign({left: '9%'}, styleMiddle.boxNailsCol)}>
             <div
               style={this.style.withinCom_MainIndex_scroll_col_logo}>
               <SvgLogo/>
@@ -181,7 +217,7 @@ class MainIndex extends React.Component {
             <div style={this.style.withinCom_MainIndex_scroll_col_footer}></div>
           </div>
           <div
-            style={Object.assign({left: '65%'}, commonStyle.withinCom_MainIndex_scroll_col_)}>
+            style={Object.assign({left: '65%'}, styleMiddle.boxNailsCol)}>
             <div
               style={this.style.withinCom_MainIndex_scroll_col_Create}>
               <SvgCreateonDialog/>

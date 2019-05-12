@@ -23,7 +23,7 @@ export function setUnitInspired(markId, aim) {
     const currentMarksInteraction = getState().unitCurrent.marksInteraction;
     const currentMark =  getState().unitCurrent.marksInteraction[markId];
     let nextMark = Object.assign({}, currentMark); //shallow copy of the mark status
-    nextMark.inspired = true;
+    nextMark.inspired = (aim=="delete") ? 0: true;
     let nextMarksInteraction = Object.assign({}, currentMarksInteraction); //shallow copy for the whole marksInteraction
     nextMarksInteraction[markId] = nextMark;
     dispatch({ type: SET_UNITINSPIRED, nextMarksInteraction: {marksInteraction: nextMarksInteraction}});

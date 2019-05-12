@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from "react-redux";
-import SvgCircle from './Svg/SvgCircle.jsx';
 import {
   baseHorizonRatial,
   widthDivisionRatial
 } from './config/styleParams.js';
+import SvgCircle from './Svg/SvgCircle.jsx';
 
 const generalStyle = {
   absolute_FullVersion: {
@@ -49,6 +49,7 @@ class OpenedMark extends React.Component {
       left = spotLeftPx+1.6*(this.props.boxWidth/widthDivisionRatial)
     );
     coordinate.top > 50 ? ( //move between 0 - 28%, depend on location
+      //28% above bottom if .top just at 50%, then lower follow the portion change
       bottom = (28 - ((coordinate.top-50)/50) * (28-3)) + '%'
     ):(
       top = (3 + (coordinate.top/50) * (28-3)) + '%'
@@ -82,7 +83,10 @@ class OpenedMark extends React.Component {
               className={'circleMarkSpotSvg'}
               style={{top: coordinate.top+"%", left: coordinate.left+'%'}}
               onClick={this.props._handleClick_ImgLayer_circle}>
-              <SvgCircle/>
+              <SvgCircle
+                current={false}
+                notify={this.props.notify}
+                serial={this.props.serial}/>
             </div>
         </div>
         <div

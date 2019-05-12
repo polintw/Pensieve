@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from "react-redux";
 import AuthorBlock from './AuthorBlock.jsx';
 import SvgCircle from '../../Svg/SvgCircle.jsx';
-import SvgCircleSpot from '../../Svg/SvgCircleSpot.jsx';
 import {widthDivisionRatial} from '../../config/styleParams.js'; //dividing markglayer width, used for determineing the position
 import OpenedMark from '../../OpenedMark.jsx';
 
@@ -24,6 +23,7 @@ class MarksAuthor extends React.Component {
 
     };
     this.Com_ImgLayer=React.createRef();
+    this._set_markJump = this._set_markJump.bind(this);
     this._render_SpotsorMark = this._render_SpotsorMark.bind(this);
     this._handleClick_ImgLayer_circle = this._handleClick_ImgLayer_circle.bind(this);
     this._handleClick_SpotsLayer = this._handleClick_SpotsLayer.bind(this);
@@ -45,42 +45,66 @@ class MarksAuthor extends React.Component {
     this.props._set_spotsVisible();
   }
 
+  _set_markJump(direction, currentSerial){
+    let markKey;
+    switch (direction) {
+      case 'next':
+        markKey = this.props.marksData.list[(currentSerial+1)];
+        this.props._set_Markvisible(markKey);
+        break;
+      case 'previous':
+        markKey = this.props.marksData.list[(currentSerial-1)];
+        this.props._set_Markvisible(markKey);
+        break;
+      case 'continue':
+        this.props._set_layerstatus();
+        break;
+      default:
+        return
+    }
+  }
+
   _render_SpotsorMark(){
-    if(this.props.markOpened && (this.props.marksData.list.indexOf(this.props.currentMark) > (-1))){
+    //already order the list by serial records when mount at Unit
+    let currentSerial = this.props.marksData.list.indexOf(this.props.currentMark);
+
+    //there are two possibility for currentSerial='-1': 'all' or not in this 'layer'
+    //So it's important to check currentSerial when markOpened,
+    //because we don't open anything if the id is not belong to this layer
+    if(this.props.markOpened && currentSerial>(-1)){
+      let markKey = this.props.currentMark;
       return (
         <OpenedMark
           {...this.props}
           widthDivisionRatial={widthDivisionRatial}
+          notify={this.props.unitCurrent.marksInteraction[markKey].notify?true:false}
           _handleClick_ImgLayer_circle={this._handleClick_ImgLayer_circle}>
           <AuthorBlock
-            markKey={this.props.currentMark}
-            markData={this.props.marksData.data[this.props.currentMark]}/>
+            currentSerial={currentSerial}
+            markKey={markKey}
+            marksLength={this.props.marksData.list.length}
+            markData={this.props.marksData.data[markKey]}
+            _set_markJump={this._set_markJump}/>
         </OpenedMark>
       );
     }else{
       const self = this,
       imgWidth = this.props.imgWidthHeight.width,
       imgHeight = this.props.imgWidthHeight.height;
+      currentSerial = currentSerial< 0? 0 : currentSerial;
 
       let circlesArr = self.props.marksData.list.map(function(id, index){
         const coordinate = {top: self.props.marksData.data[id].top, left: self.props.marksData.data[id].left};
-        return self.props.unitCurrent.marksInteraction[id].notify ? (
+        return (
           <div
             id={id}
             key={"key_Mark_Circle_"+index}
             className={'circleMarkSpotSvg'}
             style={{top: coordinate.top+"%", left: coordinate.left+'%'}}
             onClick={self._handleClick_ImgLayer_circle}>
-            <SvgCircleSpot/>
-          </div>
-        ):(
-          <div
-            id={id}
-            key={"key_Mark_Circle_"+index}
-            className={'circleMarkSpotSvg'}
-            style={{top: coordinate.top+"%", left: coordinate.left+'%'}}
-            onClick={self._handleClick_ImgLayer_circle}>
-            <SvgCircle/>
+            <SvgCircle
+              notify={self.props.unitCurrent.marksInteraction[id].notify ?true:false}
+              current={(currentSerial==self.props.marksData.data[id].serial)?true:false}/>
           </div>
         )
       });

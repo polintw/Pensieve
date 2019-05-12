@@ -108,8 +108,9 @@ class UnitImgLayers extends React.Component {
             <ImgLayersFrame
               moveCount={this.props.moveCount}
               lockify={this.props.lockify}
-              unitInit={this.props.unitInit}
-              _set_markOpenedParent={this.props._set_markOpenedParent}/>
+              marksStatus={this.props.marksStatus}
+              _set_markOpened={this.props._set_markOpened}
+              _set_layerstatus={this.props._set_layerstatus}/>
           </div>
         </div>
         <div

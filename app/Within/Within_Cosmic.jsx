@@ -37,7 +37,7 @@ class WithinCosmic extends React.Component {
         right: '11%',
         boxSizing: 'border-box'
       },
-      Front_Cognition_NavOptions: {
+      Within_Cosmic_NavOptions: {
         width: '1.4%',
         height: '4.2%',
         position: 'fixed',
@@ -82,8 +82,7 @@ class WithinCosmic extends React.Component {
           style={this.style.Within_Cosmic_corner_}>
           <CosmicCorner
             match={this.props.match}/>
-          <div
-            style={this.style.Front_Cognition_NavOptions}>
+          <div style={this.style.Within_Cosmic_NavOptions}>
             <NavOptions {...this.props}/>
           </div>
         </div>

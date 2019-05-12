@@ -22,3 +22,53 @@
 ._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlock div, ._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlockNowrap div {
   display: inline-block;
 }
+._C_C_app_Component_Editing_EditingModal_styleEditingModal_module__imgBLockDecoBack {
+  width: 18%;
+  height: 100%;
+  position: absolute;
+  left: 0%;
+  top: 0;
+  box-sizing: border-box;
+  background-color: #FAFAFA;
+}
+
+._C_C_app_Component_Editing_EditingModal_styleEditingModal_module__imgBLockButton {
+  width: 18%;
+  height: 11%;
+  position: absolute;
+  left: 46%;
+  box-sizing: border-box;
+}
+
+._C_C_app_Component_Editing_EditingModal_styleEditingModal_module__imgBLockPreview {
+  width: 84%;
+  height: 39%;
+  position: absolute;
+  left: 12%;
+  box-sizing: border-box;
+  box-shadow: -0.1rem 0.1rem 0.4rem 0;
+  border-radius: 0.5vw;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+._C_C_app_Component_Editing_EditingModal_styleEditingModal_module__contentMarkInter {
+  width: 90%;
+  height: 0;
+  position: relative;
+  margin-left: 5%;
+  font-size: 1.2rem;
+  letter-spacing: 0.1rem;
+  line-height: 1.7rem;
+  color: #ABABAB;
+}
+._C_C_app_Component_Nails_NailCosmic_styleNailCosmic_module__Nails_Cosmic {
+  display: inline-block;
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0.5rem 0;
+  border-radius: 0.08vh;
+  cursor: pointer;
+  background-color: #FFFFFF;
+}
