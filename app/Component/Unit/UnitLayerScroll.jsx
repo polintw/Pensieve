@@ -41,11 +41,11 @@ class UnitLayerScroll extends React.Component {
 
   _handleWheel_moveCount(event){
     event.stopPropagation();
-    if(this.props.markOpened) return;//stop process if the mark still open
-    //event.preventDefault();
+    event.preventDefault();
     //due to a break through of Chrome new version, the Wheel(touch) event was handled differently forever(see below 'addEventListener')
     //about the scroll from 'touch' part, like touch screen or touchpad should control by set a CSS property: 'touchAction'
 
+    if(this.props.markOpened) return;//stop process if the mark still open
 
     let upward = event.deltaY>0 ? true : false;
     let localProps = Object.assign({}, this.props); //shallow copy, but it's enough for moveCount
