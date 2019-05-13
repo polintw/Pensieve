@@ -53,7 +53,7 @@ class ViewerBulb extends React.Component {
       self.props._switch_unitAxiosInspire();
       if(res.status = 200){
         self.props._set_inpiredMark(self.props.markKey, aim);
-        bulbMessage = (aim=="post")?(self.props.userInfo.firstName + "   is happy to know ! "):("You have withdrawn the light.")
+        bulbMessage = (aim=="post")?(self.props.unitCurrent.authorBasic.firstName + "   is happy to know ! "):("You have withdrawn the light.")
       }else{
         console.log("Failed: "+ res.data.err);
         bulbMessage = "Failed, please try again later";

@@ -106,19 +106,13 @@ Have a nice trip.
 ## Release
 
 #### Steps
-1. Cut and modify.
-2. merge to release with "strategy=ours"
+1. merge branch release to master directly.
+2. Cut and modify for conflict.
 3. Upload seeds if any:
   - from Windows:
 
-    Set-SCPFile -ComputerName /domainname -Credential $cred(username) -KeyFile .\.ssh\id_rsa -Port (port) -RemotePath '(path to dir)' -LocalFile '(path to local file)'
+    Set-SCPFile -ComputerName '(domainName in string)'  -Credential $ (username as declaim var) -KeyFile .ssh\id_rsa -Port (port used) -RemotePath '(path to save at remote in string)' -LocalFile '(file path at local in string)'
 4. db: migrate if needed, set env=production
 5. db: seed if needed
 6. run build as production.
 7. run start as production.
-
-#### Difference Records
-- app/               modified f()"refer"
-- app/Self/Shared    delete thread
-- app/Terrace        delete appearance f()"params"
-- app/Component/Edit delete "ref"、credits
