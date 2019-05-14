@@ -6,33 +6,29 @@ import {
 import NavWalls from './NavWalls/NavWalls.jsx';
 
 const commonStyle = {
-  boxonDark: {
-    width: '100%',
+  boxButtonCollateral: {
     position: 'absolute',
     bottom: '0',
     left: '0',
     boxSizing: 'border-box'
-  },
-  boxButtonCollateral:{
-    width: '20%',
-    height: '100%',
-    position: 'absolute',
-    bottom: '0',
-    right: '0',
-    boxSizing: 'border-box',
-    color: "#757575"
   },
   boxNavWalls: {
     width: '72%',
     height: '100%',
     position: 'absolute',
     bottom: '0%',
-    left: '7%',
+    right: '7%',
     boxSizing: 'border-box',
     boxShadow: '0px 0.18vh 0.01vh -0.03vh',
     borderRadius: '0px 0px 0.6vh 0.6vh',
     backgroundColor: 'white'
-  }
+  },
+  boxButtonSeries: {
+    position: 'absolute',
+    left: '3%',
+    top: '5%',
+    boxSizing: 'border-box'
+  },
 }
 
 export default class NavsCognition extends React.Component {
@@ -47,10 +43,10 @@ export default class NavsCognition extends React.Component {
       },
       selfCom_NavsCognition_inCognition_: {
         minWidth: '448px',
-        height: '60.5px',
+        height: '64px',
         position: 'fixed',
         bottom: '0',
-        right: '49%',
+        left: '54%',
         boxSizing: 'border-box'
       },
       selfCom_NavsCognition_inCollaterals_: {
@@ -59,12 +55,6 @@ export default class NavsCognition extends React.Component {
         position: 'absolute',
         top: '0',
         left: '50%',
-        boxSizing: 'border-box'
-      },
-      selfCom_NavsCognition_inCognition_series_: {
-        position: 'absolute',
-        right: '3%',
-        top: '5%',
         boxSizing: 'border-box'
       },
       selfCom_NavsCognition_inCollaterals_title: {
@@ -106,7 +96,7 @@ export default class NavsCognition extends React.Component {
                 style={this.style.selfCom_NavsCognition_inCollaterals_title}>
                 <span
                   style={commonStyle.spanCollateral}>
-                  {'collaterals'}</span>
+                  {'track'}</span>
               </div>
               <div>
                 <Link
@@ -121,35 +111,32 @@ export default class NavsCognition extends React.Component {
           ):(
             <div
               style={this.style.selfCom_NavsCognition_inCognition_}>
-                <div
-                  style={this.style.selfCom_NavsCognition_inCognition_series_}>
+              <div
+                style={commonStyle.boxButtonSeries}>
+                <span
+                  style={this.style.selfCom_NavsCognition_inCognition_spanSeries}>
+                  {'Series'}</span>
+              </div>
+              <div
+                className={"selfFront-fixedBottomBox-height"}
+                style={commonStyle.boxButtonCollateral}>
+                <Link
+                  key={"key_Link_nav_Collaterals"}
+                  to={{
+                    pathname: this.props.match.url + "/collaterals/tracks",
+                    state: { from: this.props.location }
+                  }}
+                  className={'plainLinkButton verticalAlignChild'}
+                  style={{left: '0'}}>
                   <span
-                    style={this.style.selfCom_NavsCognition_inCognition_spanSeries}>
-                    {'Series'}</span>
-                </div>
-                <div
-                  className={"selfFront-fixedBottomBox-height"}
-                  style={commonStyle.boxonDark}>
-                  <div
-                    style={commonStyle.boxButtonCollateral}>
-                    <Link
-                      key={"key_Link_nav_Collaterals"}
-                      to={{
-                        pathname: this.props.match.url + "/collaterals/tracks",
-                        state: { from: this.props.location }
-                      }}
-                      className={'plainLinkButton verticalAlignChild'}
-                      style={{right: '0'}}>
-                      <span
-                        style={this.style.selfCom_NavsCognition_inCognition_spanCollaterals}>
-                        {'collaterals'}</span>
-                    </Link>
-                  </div>
-                  <div
-                    style={commonStyle.boxNavWalls}>
-                    <NavWalls {...this.props} />
-                  </div>
-                </div>
+                    style={this.style.selfCom_NavsCognition_inCognition_spanCollaterals}>
+                    {'track'}</span>
+                </Link>
+              </div>
+              <div
+                style={commonStyle.boxNavWalls}>
+                <NavWalls {...this.props} />
+              </div>
             </div>
           )
         }

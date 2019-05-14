@@ -11,31 +11,38 @@ import SvgAroundLineBlank from '../../Component/Svg/SvgAroundLineBlank.jsx';
 const commonStyle={
   boxAccount: {
     display:'inline-block',
-    width: '70%',
-    height: '42%',
-    position: 'absolute',
-    top: '27%',
-    left: '27%',
+    position: 'relative',
     boxSizing: 'border-box',
-    paddingLeft: '4%',
+    margin: '8px 12% 0% 0',
+    float: 'left'
   },
   boxAroundIcon: {
     display: 'inline-block',
-    width: '20%',
-    height: '78%',
-    position: 'absolute',
-    left: '5%',
+    width: '57px',
+    height: '100%',
+    position: 'relative',
     boxSizing: 'border-box',
-    padding: '2.4% 0 1%',
-    cursor: 'pointer'
+    paddingBottom: '2px',
+    paddingTop: '4px',
+    float: 'right',
+  },
+  boxAroundIconFoot: {
+    display: 'inline-block',
+    width: '100%',
+    height: '78%',
+    position: 'relative',
+    boxSizing: 'border-box',
+    paddingBottom: '1%',
+    cursor: 'pointer',
+    overflow: 'visible'
   },
   boxAroundIconLine: {
     display: 'inline-block',
-    width: '46%',
-    height: '21%',
+    width: '87%',
+    height: '20.5%',
     position: 'absolute',
-    bottom: '1%',
-    left: '9%',
+    bottom: '0%',
+    left: '0%',
     boxSizing: 'border-box',
   },
 }
@@ -50,15 +57,13 @@ class NavSelf extends React.Component {
     this._handleClick_selfCover = this._handleClick_selfCover.bind(this);
     this.style={
       Com_NavSelf_: {
-        width: '100%',
         height: '100%',
         position: 'relative',
         boxSizing: 'border-box'
       },
       Com_NavSelf_AccountName: {
         display: 'inline-block',
-        position: 'absolute',
-        bottom: '2%',
+        position: 'relative',
         boxSizing: 'border-box',
         color: '#757575',
         cursor: 'pointer'
@@ -85,11 +90,20 @@ class NavSelf extends React.Component {
     return(
       <div
         style={this.style.Com_NavSelf_}>
+        <div
+          style={Object.assign({}, commonStyle.boxAccount)}
+          onClick={this._handleClick_selfCover}>
+          <div
+            style={this.style.Com_NavSelf_AccountName}>
+            <NameRegular/>
+          </div>
+        </div>
         {
            pathCognition &&
-          <div>
+          <div
+            style={commonStyle.boxAroundIcon}>
             <div
-              style={commonStyle.boxAroundIcon}
+              style={commonStyle.boxAroundIconFoot}
               onClick={this._handleClick_selfClose}>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.54 13.9"
                 style={{
@@ -108,18 +122,10 @@ class NavSelf extends React.Component {
             <div
               style={commonStyle.boxAroundIconLine}>
               <SvgAroundLineBlank
-                style={{fill: "#e6e6e6", position: 'absolute'}}/>
+                style={{fill: "#f7f7f7", position: 'absolute'}}/>
             </div>
           </div>
         }
-        <div
-          style={Object.assign({}, commonStyle.boxAccount,{borderLeft: pathCognition? 'solid 0.16rem #e6e6e6' : ''})}
-          onClick={this._handleClick_selfCover}>
-          <div
-            style={this.style.Com_NavSelf_AccountName}>
-            <NameRegular/>
-          </div>
-        </div>
       </div>
     )
   }
