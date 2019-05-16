@@ -23,7 +23,7 @@ const commonStyle={
     position: 'relative',
     boxSizing: 'border-box',
     paddingBottom: '2px',
-    paddingTop: '4px',
+    paddingTop: '5px',
     float: 'right',
   },
   boxAroundIconFoot: {

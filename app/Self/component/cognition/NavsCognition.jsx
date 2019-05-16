@@ -7,26 +7,43 @@ import NavWalls from './NavWalls/NavWalls.jsx';
 
 const commonStyle = {
   boxButtonCollateral: {
-    position: 'absolute',
-    bottom: '0',
-    left: '0',
-    boxSizing: 'border-box'
-  },
-  boxNavWalls: {
-    width: '72%',
-    height: '100%',
-    position: 'absolute',
-    bottom: '0%',
-    right: '7%',
+    display: 'inline-block',
+    position: 'relative',
     boxSizing: 'border-box',
-    boxShadow: '0px 0.18vh 0.01vh -0.03vh',
+    float: 'left'
+  },
+  boxOnDark: {
+    display: 'inline-block',
+    width: '382px',
+    position: 'relative',
+    boxSizing: 'border-box',
+    top: '-21%',
+    float: 'right',
+    boxShadow: '0px 0.14rem 0.1rem -0.07rem',
     borderRadius: '0px 0px 0.6vh 0.6vh',
     backgroundColor: 'white'
   },
+  boxNavWalls: {
+    display: 'inline-block',
+    height: '86%',
+    position: 'relative',
+    left: '2%',
+    transform: 'translate(0, -16%)',
+    boxSizing: 'border-box'
+  },
+  boxBell: {
+    display: 'inline-block',
+    width: '9%',
+    height: '86%',
+    position: "relative",
+    transform: 'translate(0px, -16%)',
+    boxSizing: 'border-box',
+    margin: '0 3%',
+    float: 'right'
+  },
   boxButtonSeries: {
     position: 'absolute',
-    left: '3%',
-    top: '5%',
+    bottom: '124%',
     boxSizing: 'border-box'
   },
 }
@@ -43,10 +60,9 @@ export default class NavsCognition extends React.Component {
       },
       selfCom_NavsCognition_inCognition_: {
         minWidth: '448px',
-        height: '64px',
         position: 'fixed',
         bottom: '0',
-        left: '54%',
+        right: '11%',
         boxSizing: 'border-box'
       },
       selfCom_NavsCognition_inCollaterals_: {
@@ -110,12 +126,25 @@ export default class NavsCognition extends React.Component {
             </div>
           ):(
             <div
+              className={"selfFront-fixedBottomBox-height"}
               style={this.style.selfCom_NavsCognition_inCognition_}>
               <div
                 style={commonStyle.boxButtonSeries}>
                 <span
                   style={this.style.selfCom_NavsCognition_inCognition_spanSeries}>
                   {'Series'}</span>
+              </div>
+              <div
+                className={"selfFront-fixedBottomBox-height"}
+                style={commonStyle.boxOnDark}>
+                <div
+                  style={commonStyle.boxNavWalls}>
+                  <NavWalls {...this.props} />
+                </div>
+                <div
+                  style={commonStyle.boxBell}>
+
+                </div>
               </div>
               <div
                 className={"selfFront-fixedBottomBox-height"}
@@ -127,15 +156,11 @@ export default class NavsCognition extends React.Component {
                     state: { from: this.props.location }
                   }}
                   className={'plainLinkButton verticalAlignChild'}
-                  style={{left: '0'}}>
+                  style={{position: 'relative', left: '0'}}>
                   <span
                     style={this.style.selfCom_NavsCognition_inCognition_spanCollaterals}>
                     {'track'}</span>
                 </Link>
-              </div>
-              <div
-                style={commonStyle.boxNavWalls}>
-                <NavWalls {...this.props} />
               </div>
             </div>
           )
