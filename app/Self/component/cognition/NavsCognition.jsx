@@ -3,6 +3,7 @@ import {
   Link,
   withRouter
 } from 'react-router-dom';
+import NotifyBell from './NotifyBell.jsx';
 import NavWalls from './NavWalls/NavWalls.jsx';
 
 const commonStyle = {
@@ -26,20 +27,18 @@ const commonStyle = {
   boxNavWalls: {
     display: 'inline-block',
     height: '86%',
-    position: 'relative',
+    position: 'absolute',
     left: '2%',
     transform: 'translate(0, -16%)',
     boxSizing: 'border-box'
   },
-  boxBell: {
-    display: 'inline-block',
-    width: '9%',
+  boxNotifyBell: {
+    width: '100%',
     height: '86%',
-    position: "relative",
+    position: "absolute",
     transform: 'translate(0px, -16%)',
     boxSizing: 'border-box',
-    margin: '0 3%',
-    float: 'right'
+    right: '0'
   },
   boxButtonSeries: {
     position: 'absolute',
@@ -138,12 +137,12 @@ export default class NavsCognition extends React.Component {
                 className={"selfFront-fixedBottomBox-height"}
                 style={commonStyle.boxOnDark}>
                 <div
-                  style={commonStyle.boxNavWalls}>
-                  <NavWalls {...this.props} />
+                  style={commonStyle.boxNotifyBell}>
+                  <NotifyBell/>
                 </div>
                 <div
-                  style={commonStyle.boxBell}>
-
+                  style={commonStyle.boxNavWalls}>
+                  <NavWalls {...this.props} />
                 </div>
               </div>
               <div
