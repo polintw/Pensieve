@@ -1,8 +1,12 @@
 import React from 'react';
+import {connect} from "react-redux";
 import NotifyBox from './NotifyBox.jsx';
 import SvgBell from '../../../Component/Svg/SvgBell.jsx';
 import SvgBellSpot from '../../../Component/Svg/SvgBellSpot.jsx';
-import {handleBellNotify} from '../../../redux/actions/cognition.js';
+import {
+  handleBellNotify,
+  setCognitionBellnotify
+} from '../../../redux/actions/cognition.js';
 
 const generalStyle = { //could included in a global style sheet
   boxRelativeFull: {
@@ -41,9 +45,10 @@ class NotifyBell extends React.Component {
   _handleClick_bell(event){
     event.stopPropagation();
     event.preventDefault();
-    //open Notify box: swith bellnotify state in redux
+    //open Notify box
+    this.setState((prevState, props)=> {return {notifyBox: prevState.notifyBox? false : true};});
     //delete notify count : switch bellNotify to default
-
+    this.props._set_BellNotify(0);
   }
 
   componentDidMount(){
@@ -58,6 +63,10 @@ class NotifyBell extends React.Component {
     return(
       <div
         style={generalStyle.boxRelativeFull}>
+        {
+          this.state.notifyBox &&
+          <NotifyBox/>
+        }
         <div
           style={styleMiddle.boxBell}
           onClick={this._handleClick_bell}>
@@ -70,10 +79,6 @@ class NotifyBell extends React.Component {
             </div>
           }
         </div>
-        {
-          this.state.notifyBox &&
-          <NotifyBox/>
-        }
       </div>
     )
   }
@@ -89,11 +94,12 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch)=>{
   return {
-    _get_NotifyCount: (cancelToken)=>{dispatch(handleBellNotify(cancelToken));}
+    _get_NotifyCount: (cancelToken)=>{dispatch(handleBellNotify(cancelToken));},
+    _set_BellNotify: (count)=>{dispatch(setCognitionBellnotify(count));}
   }
 }
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(NotifyBell));
+)(NotifyBell);

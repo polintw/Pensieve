@@ -67,7 +67,7 @@ function pageSelfFront(state = initialGeneral, action){
       break;
     case SET_COGNITION_BELLNOTIFY:
       return Object.assign({}, state, {
-        cognition: {...state.cognition, {bellNotify: action.bellNotify}}
+        cognition: {...state.cognition, bellNotify: action.bellNotify}
       })
       break;
     case SETTING_SUBMITTING_SWITCH:

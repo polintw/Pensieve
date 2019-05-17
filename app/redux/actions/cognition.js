@@ -9,6 +9,10 @@ import {
   uncertainErr
 } from "../../utils/errHandlers.js";
 
+export function setCognitionBellnotify(count) {
+  return { type: SET_COGNITION_BELLNOTIFY, bellNotify: count >0 ? count : false}
+};
+
 export function handleBellNotify(cancelToken) {
   //this actoin creator, could do function return is because we use 'thunk' middleware when create store
   return (dispatch, getState) => {
@@ -21,7 +25,7 @@ export function handleBellNotify(cancelToken) {
       cancelToken: cancelToken
     }).then((res)=>{
       let resObj = JSON.parse(res.data);
-      dispatch({type: SET_COGNITION_BELLNOTIFY, bellNotify: resObj.main.notifyCount});
+      dispatch({type: SET_COGNITION_BELLNOTIFY, bellNotify: resObj.main.notifyCount >0 ?resObj.main.notifyCount: false});
     }).catch(function (thrown) {
       if (axios.isCancel(thrown)) {
         cancelErr(thrown);

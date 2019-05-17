@@ -71,8 +71,7 @@ export default class NotifyBox extends React.Component {
 
   render(){
     return(
-      <div
-        style={}>
+      <div>
         //surely with the items displaying notifications previews
         //(only 'inspired' template now)
         //limit amount each time, and have 'status'
