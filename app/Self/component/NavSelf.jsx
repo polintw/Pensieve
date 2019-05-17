@@ -66,9 +66,10 @@ class NavSelf extends React.Component {
         position: 'relative',
         boxSizing: 'border-box',
         color: '#757575',
-        cursor: 'pointer'
       }
-    }
+    };
+
+    const pathCognition = this.props.location.pathname.substring(0,10)=='/cognition'? true : false;
   }
 
   _handleClick_selfClose(event){
@@ -80,13 +81,10 @@ class NavSelf extends React.Component {
   _handleClick_selfCover(event){
     event.preventDefault();
     event.stopPropagation();
-    window.location.assign('/user/screen');
+    if(!pathCognition) window.location.assign('/user/screen');
   }
 
   render(){
-    //let cx = cxBind.bind(styles);
-    let pathCognition = this.props.location.pathname.substring(0,10)=='/cognition'? true : false;
-
     return(
       <div
         style={this.style.Com_NavSelf_}>
@@ -94,7 +92,7 @@ class NavSelf extends React.Component {
           style={Object.assign({}, commonStyle.boxAccount)}
           onClick={this._handleClick_selfCover}>
           <div
-            style={this.style.Com_NavSelf_AccountName}>
+            style={Object.assign({}, this.style.Com_NavSelf_AccountName, {cursor: pathCognition? "pointer": "default"})}>
             <NameRegular/>
           </div>
         </div>
