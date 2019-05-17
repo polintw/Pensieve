@@ -15,6 +15,11 @@ const styleMiddle = {
     left: '0',
     boxSizing: 'border-box',
   },
+  boxOption: {
+    position: 'absolute',
+    right: '27%',
+    boxSizing: 'border-box'
+  },
   fontOption: {
     fontWeight: '400',
     fontSize: "2rem",
@@ -34,12 +39,11 @@ class Screen extends React.Component {
     this.style={
       terraceCom_Screen_plane_: {
         width: '100%',
-        height: '47%',
+        height: '45%',
         position: 'absolute',
         top: '0',
         right: '0',
         boxSizing: 'border-box',
-        backgroundColor: '#FAFAFA',
         overflow: 'visible'
       },
       terraceCom_Screen_depthShadow: {
@@ -53,17 +57,18 @@ class Screen extends React.Component {
       },
       terraceCom_Screen_floor_: {
         width: '100%',
-        height: '46.5%',
+        height: '55%',
         position: 'absolute',
         bottom: '0',
         right: '0',
         boxSizing: 'border-box',
+        backgroundColor: '#FAFAFA',
       },
       terraceCom_Screen_account_: {
-        maxWidth: '38%', //here, this property won't influence the width of span, but would determine the most 'left' position
+        maxWidth: '38%',
         position: 'absolute',
-        bottom: '-4%',
-        left: '70%',
+        top: '38%',
+        left: '32%',
         transform: 'translate(-50%,0%)',
         boxSizing: 'border-box',
         overflow: 'visible'
@@ -79,10 +84,10 @@ class Screen extends React.Component {
         color: '#000000'
       },
       terraceCom_Screen_options_: {
-        position: 'absolute',
-        top: '61%',
-        left: '73%',
-        boxSizing: 'border-box'
+        bottom: '10%',
+      },
+      terraceCom_Screen_floorOptions_: {
+        top: '10%'
       },
       terraceCom_Screen_options_expand: {
         display: 'inline',
@@ -121,12 +126,8 @@ class Screen extends React.Component {
         <div
           style={this.style.terraceCom_Screen_plane_}>
           <div style={this.style.terraceCom_Screen_depthShadow}></div>
-          <div style={this.style.terraceCom_Screen_account_}>
-            <span style={this.style.terraceCom_Screen_account_name}>{this.props.userInfo.firstName+" "+this.props.userInfo.lastName}</span>
-          </div>
           <div
-            style={this.style.terraceCom_Screen_options_}>
-            <div style={{display: 'inline',position: 'relative',top:'-0.24rem',marginRight:'8%',borderLeft: 'solid 0.2rem #e6e6e6'}}></div>
+            style={Object.assign({}, this.style.terraceCom_Screen_options_, styleMiddle.boxOption)}>
             <div
               style={Object.assign({}, this.style.terraceCom_Screen_options_expand, styleMiddle.fontOption)}
               onClick={this._handleClick_nav_expand}>
@@ -136,23 +137,29 @@ class Screen extends React.Component {
         </div>
         <div
           style={this.style.terraceCom_Screen_floor_}>
-          <Link
-            to={{
-              pathname: "/screen",
-              search: "?watch=window",
-              hash: "",
-              state: {}
-            }}
-            className={'plainLinkButton'}>
-            <span style={Object.assign({}, styleMiddle.fontOption, {color: 'black', cursor: 'pointer'})}>
-              {"window"}
-            </span>
-          </Link>
+          <div
+            style={Object.assign({}, this.style.terraceCom_Screen_floorOptions_, styleMiddle.boxOption)}>
+            <Link
+              to={{
+                pathname: "/screen",
+                search: "?watch=window",
+                hash: "",
+                state: {}
+              }}
+              className={'plainLinkButton'}>
+              <span style={Object.assign({}, styleMiddle.fontOption, {color: 'black', cursor: 'pointer'})}>
+                {"window"}
+              </span>
+            </Link>
+          </div>
           <div
             style={this.style.terraceCom_Screen_return_}
             onClick={this._handleClick_selfClose}>
             <SvgAround/>
           </div>
+        </div>
+        <div style={this.style.terraceCom_Screen_account_}>
+          <span style={this.style.terraceCom_Screen_account_name}>{this.props.userInfo.firstName+" "+this.props.userInfo.lastName}</span>
         </div>
       </div>
     )
