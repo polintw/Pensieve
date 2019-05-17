@@ -76,6 +76,7 @@ export default class NotifyBox extends React.Component {
         //surely with the items displaying notifications previews
         //(only 'inspired' template now)
         //limit amount each time, and have 'status'
+        //with, the whole "NavWall" to easily close the box
 
       </div>
     )

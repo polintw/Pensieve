@@ -12,6 +12,7 @@ import {
 import {
   UPDATE_USERSHEET,
   UPDATE_ACCOUNTSET,
+  SET_COGNITION_BELLNOTIFY,
   SETTING_SUBMITTING_SWITCH
 } from '../constants/typesSelfFront.js';
 import {
@@ -62,6 +63,11 @@ function pageSelfFront(state = initialGeneral, action){
     case UPDATE_ACCOUNTSET:
       return Object.assign({}, state, {
         accountSet: action.accountSet
+      })
+      break;
+    case SET_COGNITION_BELLNOTIFY:
+      return Object.assign({}, state, {
+        cognition: {...state.cognition, {bellNotify: action.bellNotify}}
       })
       break;
     case SETTING_SUBMITTING_SWITCH:

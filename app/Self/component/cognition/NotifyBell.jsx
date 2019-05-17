@@ -2,6 +2,7 @@ import React from 'react';
 import NotifyBox from './NotifyBox.jsx';
 import SvgBell from '../../../Component/Svg/SvgBell.jsx';
 import SvgBellSpot from '../../../Component/Svg/SvgBellSpot.jsx';
+import {handleBellNotify} from '../../../redux/actions/cognition.js';
 
 const generalStyle = { //could included in a global style sheet
   boxRelativeFull: {
@@ -24,71 +25,33 @@ const styleMiddle = {
   }
 };
 
-export default class NotifyBell extends React.Component {
+class NotifyBell extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      bellNotify: false,
       notifyBox: false
     };
     this.axiosSource = axios.CancelToken.source();
-    this._axios_bell_Count = this._axios_bell_Count.bind(this);
     this._handleClick_bell = this._handleClick_bell.bind(this);
     this.style={
 
     }
   }
 
-  _axios_bell_Count(){
-    const self = this;
-    this.setState({axios: true});
-
-    //collect from notifications which createdAt is later than lastvisit and status = "untouched"
-    axios.get('', {
-      headers: {
-        'charset': 'utf-8',
-        'token': window.localStorage['token']
-      },
-      cancelToken: self.axiosSource.token
-    }).then(function(res){
-      let resObj = JSON.parse(res.data);
-      self.setState({
-        axios: false,
-      })
-
-      //send the nouns used by all shareds to the redux reducer
-      self.props._submit_NounsList_new(resObj.main.nounsListMix);
-
-    }).catch(function (thrown) {
-      if (axios.isCancel(thrown)) {
-        cancelErr(thrown);
-      } else {
-        self.setState((prevState, props)=>{
-          return {axios:false}
-        }, ()=>{
-          let message = uncertainErr(thrown);
-          if(message) alert(message);
-        });
-      }
-    });
-  }
-
   _handleClick_bell(event){
     event.stopPropagation();
     event.preventDefault();
-    //open Notify box: swith bellnotify state
+    //open Notify box: swith bellnotify state in redux
     //delete notify count : switch bellNotify to default
 
   }
 
   componentDidMount(){
-    this._axios_bell_Count();
+    this.props._get_NotifyCount(this.axiosSource.token);
   }
 
   componentWillUnmount(){
-    if(this.state.axios){
-      this.axiosSource.cancel("component will unmount.")
-    }
+
   }
 
   render(){
@@ -100,15 +63,14 @@ export default class NotifyBell extends React.Component {
           onClick={this._handleClick_bell}>
           <SvgBell/>
           {
-            this.state.bellNotify &&
+            this.props.cognition.bellNotify &&
             <div>
               <SvgBellSpot/>
-              <span>{this.state.bellNotify}</span>
+              <span>{this.props.cognition.bellNotify}</span>
             </div>
           }
         </div>
         {
-          //the Notifications box if click
           this.state.notifyBox &&
           <NotifyBox/>
         }
@@ -116,3 +78,22 @@ export default class NotifyBell extends React.Component {
     )
   }
 }
+
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo,
+    unitCurrent: state.unitCurrent,
+    cognition: state.cognition
+  }
+}
+
+const mapDispatchToProps = (dispatch)=>{
+  return {
+    _get_NotifyCount: (cancelToken)=>{dispatch(handleBellNotify(cancelToken));}
+  }
+}
+
+export default withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NotifyBell));
