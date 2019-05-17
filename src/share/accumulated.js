@@ -42,17 +42,24 @@ function _handle_GET_accumulated_Share(req, res){
         where: {
           id_reciever: sendingData.temp.userId,
           type: [10], //only choose type relate to Shared
+          status: "untouched",
           createdAt: {[Op.gt]: lastVisit.updatedAt}
         },
         attributes: ['id','id_user', 'id_unit', 'type', 'status']
       })
     }).then((notifications)=>{
+      //set notifications Unit into sendingData
       notifications.rows.forEach((row, index)=>{
         sendingData.notifiedList.unshift(row.id_unit);
         (row.id_unit in sendingData.notifiedStatus) ? (
           sendingData.notifiedStatus[row.id_unit]['inspired']=true
         ):(sendingData.notifiedStatus[row.id_unit]={inspired: true});
       });
+      // modify status to assure the notify box know the seen notifications
+      return notificaions.update(
+        {status: 'delivered'}
+      )
+    }).then(()=>{
       //and don't forget to update visit time by update ip---Sequelize will do the rest
       return _DB_lastvisitShared.update(
         {ip: req.ip},

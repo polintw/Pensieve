@@ -1,7 +1,4 @@
 import React from 'react';
-import NotifyBox from './NotifyBox.jsx';
-import SvgBell from '../../../Component/Svg/SvgBell.jsx';
-import SvgBellSpot from '../../../Component/Svg/SvgBellSpot.jsx';
 
 const generalStyle = { //could included in a global style sheet
   boxRelativeFull: {
@@ -13,27 +10,17 @@ const generalStyle = { //could included in a global style sheet
 };
 
 const styleMiddle = {
-  boxBell: {
-    width: '6%',
-    position: "absolute",
-    boxSizing: 'border-box',
-    right: '6.4%',
-    top:'50%',
-    transform: 'translate(0,-39%)',
-    cursor: 'pointer'
-  }
+
 };
 
-export default class NotifyBell extends React.Component {
+export default class NotifyBox extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      bellNotify: false,
-      notifyBox: false
+
     };
     this.axiosSource = axios.CancelToken.source();
-    this._axios_bell_Count = this._axios_bell_Count.bind(this);
-    this._handleClick_bell = this._handleClick_bell.bind(this);
+
     this.style={
 
     }
@@ -43,7 +30,6 @@ export default class NotifyBell extends React.Component {
     const self = this;
     this.setState({axios: true});
 
-    //collect from notifications which createdAt is later than lastvisit and status = "untouched"
     axios.get('', {
       headers: {
         'charset': 'utf-8',
@@ -73,16 +59,8 @@ export default class NotifyBell extends React.Component {
     });
   }
 
-  _handleClick_bell(event){
-    event.stopPropagation();
-    event.preventDefault();
-    //open Notify box: swith bellnotify state
-    //delete notify count : switch bellNotify to default
-
-  }
-
   componentDidMount(){
-    this._axios_bell_Count();
+
   }
 
   componentWillUnmount(){
@@ -94,24 +72,11 @@ export default class NotifyBell extends React.Component {
   render(){
     return(
       <div
-        style={generalStyle.boxRelativeFull}>
-        <div
-          style={styleMiddle.boxBell}
-          onClick={this._handleClick_bell}>
-          <SvgBell/>
-          {
-            this.state.bellNotify &&
-            <div>
-              <SvgBellSpot/>
-              <span>{this.state.bellNotify}</span>
-            </div>
-          }
-        </div>
-        {
-          //the Notifications box if click
-          this.state.notifyBox &&
-          <NotifyBox/>
-        }
+        style={}>
+        //surely with the items displaying notifications previews
+        //(only 'inspired' template now)
+        //limit amount each time, and have 'status'
+
       </div>
     )
   }
