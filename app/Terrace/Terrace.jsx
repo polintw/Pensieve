@@ -73,7 +73,7 @@ class Terrace extends React.Component {
         ref={(element)=>{this.terrace_=element;}}
         style={this.style.Self_pages_Terrace_}>
         {
-          paramWatch== 'appearance'?(
+          paramWatch== 'window'?(
             <div
               style={this.style.Self_pages_Terrace_hidden_appearance}>
               <Appearance {...this.props} urlParam={"/router/user/cover"} urlQuery={"?id="+this.props.userInfo.id} _refer_von_unit={this._refer_leaveSelf}/>

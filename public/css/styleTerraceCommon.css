@@ -1,0 +1,19 @@
+.verticalAlignChild {
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
+.centerAlignChild {
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.plainLinkButton {
+  text-decoration: none;
+  color: inherit;
+}
