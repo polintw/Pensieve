@@ -26,7 +26,8 @@ export const initSelfFrontGeneral = {
     birthDate: ""
   },
   cognition: {
-    bellNotify: false
+    bellNotify: false,
+    listNotify: []
   }
 }
 

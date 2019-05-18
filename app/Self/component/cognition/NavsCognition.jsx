@@ -3,8 +3,8 @@ import {
   Link,
   withRouter
 } from 'react-router-dom';
-import NotifyBell from './NotifyBell.jsx';
 import NavWalls from './NavWalls/NavWalls.jsx';
+import NotifyBell from './Notify/NotifyBell.jsx';
 
 const commonStyle = {
   boxButtonCollateral: {

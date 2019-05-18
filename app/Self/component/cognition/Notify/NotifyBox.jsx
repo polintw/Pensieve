@@ -1,5 +1,8 @@
 import React from 'react';
 import {connect} from "react-redux";
+import {
+  handleNotifyBox
+} from '../../../../redux/actions/cognition.js';
 
 const styleMiddle = {
   boxNotifyBox: {
@@ -30,7 +33,7 @@ class NotifyBox extends React.Component {
 
   _render_NotifyList(){
     this.props.cognition.
-    
+
   }
 
   componentDidMount(){

@@ -1,12 +1,12 @@
 import React from 'react';
 import {connect} from "react-redux";
 import NotifyBox from './NotifyBox.jsx';
-import SvgBell from '../../../Component/Svg/SvgBell.jsx';
-import SvgBellSpot from '../../../Component/Svg/SvgBellSpot.jsx';
+import SvgBell from '../../../../Component/Svg/SvgBell.jsx';
+import SvgBellSpot from '../../../../Component/Svg/SvgBellSpot.jsx';
 import {
   handleBellNotify,
   setCognitionBellnotify
-} from '../../../redux/actions/cognition.js';
+} from '../../../../redux/actions/cognition.js';
 
 const styleMiddle = {
   boxBell: {
