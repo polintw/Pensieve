@@ -1,83 +1,77 @@
 import React from 'react';
+import {connect} from "react-redux";
 
-const generalStyle = { //could included in a global style sheet
-  boxRelativeFull: {
+const styleMiddle = {
+  boxNotifyBox: {
     width: '100%',
-    height: '100%',
-    position: 'relative',
-    boxSizing: 'border-box'
+    maxHeight: '600%',
+    minHeight: '180%',
+    position: 'absolute',
+    bottom: '100%',
+    left: '0',
+    boxSizing: 'border-box',
+    boxShadow: '0.1rem -0.1rem 0.1rem -0.07rem',
+    overflow: 'auto'
   }
 };
 
-const styleMiddle = {
-
-};
-
-export default class NotifyBox extends React.Component {
+class NotifyBox extends React.Component {
   constructor(props){
     super(props);
     this.state = {
 
     };
     this.axiosSource = axios.CancelToken.source();
-
+    this._render_NotifyList = this._render_NotifyList.bind(this);
     this.style={
 
     }
   }
 
-  _axios_bell_Count(){
-    const self = this;
-    this.setState({axios: true});
-
-    axios.get('', {
-      headers: {
-        'charset': 'utf-8',
-        'token': window.localStorage['token']
-      },
-      cancelToken: self.axiosSource.token
-    }).then(function(res){
-      let resObj = JSON.parse(res.data);
-      self.setState({
-        axios: false,
-      })
-
-      //send the nouns used by all shareds to the redux reducer
-      self.props._submit_NounsList_new(resObj.main.nounsListMix);
-
-    }).catch(function (thrown) {
-      if (axios.isCancel(thrown)) {
-        cancelErr(thrown);
-      } else {
-        self.setState((prevState, props)=>{
-          return {axios:false}
-        }, ()=>{
-          let message = uncertainErr(thrown);
-          if(message) alert(message);
-        });
-      }
-    });
+  _render_NotifyList(){
+    this.props.cognition.
+    
   }
 
   componentDidMount(){
-
+    this.props._get_NotifyList(this.axiosSource.token);
   }
 
   componentWillUnmount(){
-    if(this.state.axios){
-      this.axiosSource.cancel("component will unmount.")
-    }
+
   }
 
   render(){
     return(
-      <div>
+      <div className={'boxRelativeFull'}>
         //surely with the items displaying notifications previews
         //(only 'inspired' template now)
         //limit amount each time, and have 'status'
-        //with, the whole "NavWall" to easily close the box
-
+        //
+        <div
+          style={styleMiddle.boxNotifyBox}>
+          {this._render_NotifyList()}
+        </div>
       </div>
     )
   }
 }
+
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo,
+    unitCurrent: state.unitCurrent,
+    cognition: state.cognition
+  }
+}
+
+const mapDispatchToProps = (dispatch)=>{
+  return {
+    _get_NotifyList: (cancelToken)=>{dispatch(handleNotifyBox(cancelToken));}
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NotifyBox);

@@ -8,15 +8,6 @@ import {
   setCognitionBellnotify
 } from '../../../redux/actions/cognition.js';
 
-const generalStyle = { //could included in a global style sheet
-  boxRelativeFull: {
-    width: '100%',
-    height: '100%',
-    position: 'relative',
-    boxSizing: 'border-box'
-  }
-};
-
 const styleMiddle = {
   boxBell: {
     width: '6%',
@@ -26,6 +17,14 @@ const styleMiddle = {
     top:'50%',
     transform: 'translate(0,-39%)',
     cursor: 'pointer'
+  },
+  rootNotifyBox: {
+    width: '91%', //let the box bottom a bit wider than the distance between bell and most right button
+    height: '100%',
+    position: 'absolute',
+    right: '6%',
+    bottom: '0%'
+    boxSizing: 'border-box',
   }
 };
 
@@ -62,10 +61,13 @@ class NotifyBell extends React.Component {
   render(){
     return(
       <div
-        style={generalStyle.boxRelativeFull}>
+        className={'boxRelativeFull'}>
         {
           this.state.notifyBox &&
-          <NotifyBox/>
+          <div
+            style={styleMiddle.rootNotifyBox}>
+            <NotifyBox/>
+          </div>
         }
         <div
           style={styleMiddle.boxBell}

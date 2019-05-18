@@ -56,7 +56,7 @@ function _handle_GET_accumulated_Share(req, res){
         ):(sendingData.notifiedStatus[row.id_unit]={inspired: true});
       });
       // modify status to assure the notify box know the seen notifications
-      return notificaions.update(
+      return notifications.update(
         {status: 'delivered'}
       )
     }).then(()=>{

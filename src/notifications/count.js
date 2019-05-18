@@ -35,18 +35,10 @@ function _handle_GET_notifications_count(req, res){
       });
     }).then((notifications)=>{
       let sendingData={
-        notifyCount: notificaions.count,
+        notifyCount: notifications.count,
         temp: {}
       };
-      return sendingData;
 
-    }).then((sendingData)=>{
-      //and don't forget to update visit time by update ip---Sequelize will do the rest
-      return _DB_lastvisitNotify.update(
-        {ip: req.ip},
-        {where: {id_user: userId}}
-      );
-    }).then((sendingData)=>{
       resolve(sendingData);
     }).catch((err)=>{
       reject(new internalError(err, 131));

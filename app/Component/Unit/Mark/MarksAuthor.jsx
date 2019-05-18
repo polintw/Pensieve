@@ -5,17 +5,6 @@ import SvgCircle from '../../Svg/SvgCircle.jsx';
 import {widthDivisionRatial} from '../../config/styleParams.js'; //dividing markglayer width, used for determineing the position
 import OpenedMark from '../../OpenedMark.jsx';
 
-const generalStyle = { //could included in a global style sheet
-  absolute_FullVersion: {
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
-    top: '0',
-    left:'0',
-    boxSizing: 'border-box'
-  }
-}
-
 class MarksAuthor extends React.Component {
   constructor(props){
     super(props);
@@ -125,7 +114,7 @@ class MarksAuthor extends React.Component {
   render(){
     return(
       <div
-        style={generalStyle.absolute_FullVersion}
+        className={'boxAbsoluteFull'}
         ref={this.Com_ImgLayer}
         onClick={this._handleClick_SpotsLayer}>
         {

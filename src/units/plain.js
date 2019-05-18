@@ -120,7 +120,7 @@ function _handle_unit_Mount(req, res){
       })
     };
     const _unit_identity_Author = (sendingData)=>{
-      //deal with notificaions to mark first, and count inspired.
+      //deal with notifications to mark first, and count inspired.
       //But! Notications check should have it's own api to deal, seperated from here.
 
       return _DB_notifiInspired.findAndCountAll({
@@ -131,7 +131,7 @@ function _handle_unit_Mount(req, res){
         });
         return sendingData;
       }).then((sendingData)=>{
-        //notificaions to mark, update the 'status' of notifications if we have open/read it
+        //notifications to mark, update the 'status' of notifications if we have open/read it
         return _DB_notifications.update(
           {status: 'delivered'},
           {where: {
@@ -145,7 +145,7 @@ function _handle_unit_Mount(req, res){
           throw new internalError("throw by /units/plain/_unit_mount, "+error ,131);//'throw' at this level, stop the process
         })
       }).then((sendingData)=>{
-        //notificaions to mark, destroy the records directly before pass sendingData through
+        //notifications to mark, destroy the records directly before pass sendingData through
         return _DB_notifiInspired.destroy({
           where:{id_unit:reqUnit}
         }).then(()=>{
