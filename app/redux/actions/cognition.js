@@ -1,5 +1,5 @@
 import {
-
+  UPDATE_USERSBASIC
 } from '../constants/typesGeneral.js';
 import {
   SET_COGNITION_BELLNOTIFY,
@@ -51,6 +51,7 @@ export function handleNotifyBox(cancelToken) {
     }).then((res)=>{
       let resObj = JSON.parse(res.data);
       dispatch({type: SET_COGNITION_LISTNOTIFY, listNotify: resObj.main.notifyList});
+      dispatch({type: UPDATE_USERSBASIC, newFetch: resObj.main.usersBasic});
     }).catch(function (thrown) {
       if (axios.isCancel(thrown)) {
         cancelErr(thrown);

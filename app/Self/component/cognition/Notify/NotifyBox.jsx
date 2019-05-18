@@ -1,6 +1,9 @@
 import React from 'react';
 import {connect} from "react-redux";
 import {
+  Link,
+} from 'react-router-dom';
+import {
   handleNotifyBox
 } from '../../../../redux/actions/cognition.js';
 
@@ -32,8 +35,24 @@ class NotifyBox extends React.Component {
   }
 
   _render_NotifyList(){
-    this.props.cognition.
-
+    //surely with the items displaying notifications previews
+    //(only 'inspired' template now)
+    //limit amount each time, and have 'status'
+    //
+    return this.props.cognition.listNotify.map((item, index)=>{
+      //should check item type here to determine which template should be used
+      //but for now we only have the notifications for inspired, so, no need
+      return (
+        <div>
+          <Link>
+            <div>
+              <span>{this.props.usersBasic[item.userId].account}</span>
+            </div>
+            <span>{" was inspired by one of your paragraph."}</span>
+          </Link>
+        </div>
+      )
+    })
   }
 
   componentDidMount(){
@@ -47,10 +66,6 @@ class NotifyBox extends React.Component {
   render(){
     return(
       <div className={'boxRelativeFull'}>
-        //surely with the items displaying notifications previews
-        //(only 'inspired' template now)
-        //limit amount each time, and have 'status'
-        //
         <div
           style={styleMiddle.boxNotifyBox}>
           {this._render_NotifyList()}
@@ -63,6 +78,7 @@ class NotifyBox extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
+    usersBasic: state.usersBasic,
     unitCurrent: state.unitCurrent,
     cognition: state.cognition
   }
