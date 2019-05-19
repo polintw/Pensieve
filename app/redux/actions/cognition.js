@@ -50,8 +50,10 @@ export function handleNotifyBox(cancelToken) {
       cancelToken: cancelToken
     }).then((res)=>{
       let resObj = JSON.parse(res.data);
-      dispatch({type: SET_COGNITION_LISTNOTIFY, listNotify: resObj.main.notifyList});
+      //Actions are dispatched synchronously so Redux guarantees the store has received the next state before accepting the next action.
+      //so, we need to update usersBasic first to make sure the notify list could find the account when rendering
       dispatch({type: UPDATE_USERSBASIC, newFetch: resObj.main.usersBasic});
+      dispatch({type: SET_COGNITION_LISTNOTIFY, listNotify: resObj.main.notifyList});
     }).catch(function (thrown) {
       if (axios.isCancel(thrown)) {
         cancelErr(thrown);

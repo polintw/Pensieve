@@ -23,10 +23,11 @@ const styleMiddle = {
     overflow: 'auto'
   },
   boxNotifyItem:{
-    hight: '64px',
+    hight: '54px',
     boxSizing: 'border-box',
-    margin: '1% 0',
+    margin: '2% 0',
     borderBottom: '1px solid black',
+    padding: '2% 3%',
     cursor: 'pointer'
   }
 };
@@ -56,7 +57,10 @@ class NotifyBox extends React.Component {
           className={'boxRelativeFull'}
           style={Object.assign({}, styleMiddle.boxNotifyItem, {backgroundColor: (item.status=="untouched")? '#f1f1f1': 'white'})}>
           <Link
-            to={"/cognition/actions/shareds/units/"+item.unitId}
+            to={{
+              pathname: "/cognition/actions/shareds/units/"+item.unitId,
+              state: {from: "/cognition/actions/shareds"}
+            }}
             className={'plainLinkButton'}>
             <div>
               <span>{self.props.usersBasic[item.userId].account}</span>
