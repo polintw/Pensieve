@@ -54,11 +54,11 @@ function _handle_GET_accumulated_Share(req, res){
         (row.id_unit in sendingData.notifiedStatus) ? (
           sendingData.notifiedStatus[row.id_unit]['inspired']=true
         ):(sendingData.notifiedStatus[row.id_unit]={inspired: true});
+        // modify status to assure the notify box know the seen notifications
+        row.update(
+          {status: 'delivered'}
+        )
       });
-      // modify status to assure the notify box know the seen notifications
-      return notifications.update(
-        {status: 'delivered'}
-      )
     }).then(()=>{
       //and don't forget to update visit time by update ip---Sequelize will do the rest
       return _DB_lastvisitShared.update(

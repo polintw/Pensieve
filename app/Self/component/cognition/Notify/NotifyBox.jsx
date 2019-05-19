@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from "react-redux";
 import {
   Link,
+  withRouter,
 } from 'react-router-dom';
 import {
   handleNotifyBox
@@ -10,14 +11,23 @@ import {
 const styleMiddle = {
   boxNotifyBox: {
     width: '100%',
-    maxHeight: '600%',
-    minHeight: '180%',
+    maxHeight: '640%',
+    minHeight: '270%',
     position: 'absolute',
-    bottom: '100%',
+    bottom: '102%',
     left: '0',
     boxSizing: 'border-box',
-    boxShadow: '0.1rem -0.1rem 0.1rem -0.07rem',
+    boxShadow: '0.056rem -0.16rem 0.21rem -0.06rem',
+    borderRadius: '0.21rem',
+    backgroundColor: 'white',
     overflow: 'auto'
+  },
+  boxNotifyItem:{
+    hight: '64px',
+    boxSizing: 'border-box',
+    margin: '1% 0',
+    borderBottom: '1px solid black',
+    cursor: 'pointer'
   }
 };
 
@@ -35,18 +45,21 @@ class NotifyBox extends React.Component {
   }
 
   _render_NotifyList(){
-    //surely with the items displaying notifications previews
-    //(only 'inspired' template now)
-    //limit amount each time, and have 'status'
-    //
+    const self = this;
     return this.props.cognition.listNotify.map((item, index)=>{
       //should check item type here to determine which template should be used
       //but for now we only have the notifications for inspired, so, no need
+      //(only 'inspired' template now)
       return (
-        <div>
-          <Link>
+        <div
+          key={'key_Notify_item_'+index}
+          className={'boxRelativeFull'}
+          style={Object.assign({}, styleMiddle.boxNotifyItem, {backgroundColor: (item.status=="untouched")? '#f1f1f1': 'white'})}>
+          <Link
+            to={"/cognition/actions/shareds/units/"+item.unitId}
+            className={'plainLinkButton'}>
             <div>
-              <span>{this.props.usersBasic[item.userId].account}</span>
+              <span>{self.props.usersBasic[item.userId].account}</span>
             </div>
             <span>{" was inspired by one of your paragraph."}</span>
           </Link>
@@ -90,7 +103,7 @@ const mapDispatchToProps = (dispatch)=>{
   }
 }
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(NotifyBox);
+)(NotifyBox));

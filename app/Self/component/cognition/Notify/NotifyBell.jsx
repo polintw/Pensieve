@@ -9,21 +9,50 @@ import {
 } from '../../../../redux/actions/cognition.js';
 
 const styleMiddle = {
-  boxBell: {
-    width: '6%',
+  boxIcon: {
+    width: '7%',
+    height: '100%',
     position: "absolute",
     boxSizing: 'border-box',
     right: '6.4%',
-    top:'50%',
-    transform: 'translate(0,-39%)',
     cursor: 'pointer'
   },
+  boxBell: {
+    width: '100%',
+    position: 'absolute',
+    top:'50%',
+    transform: 'translate(0,-43%)',
+    boxSizing: 'border-box',
+    overflow: 'visible'
+  },
+  boxSpot: {
+    width: '66%',
+    position: 'absolute',
+    top: '-15%',
+    left: '-33%',
+    boxSizing: 'border-box',
+    overflow: 'visible'
+  },
+  fontBellCount: {
+    fontFamily: 'myriad-pro-semiextended',
+    fontSize: '1.24rem',
+    fontWeight: '300',
+    letterSpacing: '-1px',
+    color: 'white'
+  },
+  spanCount: {
+    display: 'inline-block',
+    position: 'absolute',
+    top: '-2%',
+    left: '42%',
+    transform: 'translate(-50%,0)'
+  },
   rootNotifyBox: {
-    width: '91%', //let the box bottom a bit wider than the distance between bell and most right button
+    width: '89%', //let the box bottom a bit wider than the distance between bell and most right button
     height: '100%',
     position: 'absolute',
-    right: '6%',
-    bottom: '0%'
+    right: '5%',
+    bottom: '0%',
     boxSizing: 'border-box',
   }
 };
@@ -70,14 +99,18 @@ class NotifyBell extends React.Component {
           </div>
         }
         <div
-          style={styleMiddle.boxBell}
+          style={styleMiddle.boxIcon}
           onClick={this._handleClick_bell}>
-          <SvgBell/>
+          <div style={styleMiddle.boxBell}>
+            <SvgBell/>
+          </div>
           {
             this.props.cognition.bellNotify &&
-            <div>
+            <div style={styleMiddle.boxSpot}>
               <SvgBellSpot/>
-              <span>{this.props.cognition.bellNotify}</span>
+              <span
+                style={Object.assign({}, styleMiddle.fontBellCount, styleMiddle.spanCount)}>
+                {this.props.cognition.bellNotify}</span>
             </div>
           }
         </div>

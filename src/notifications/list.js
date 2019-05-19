@@ -27,7 +27,7 @@ function _handle_GET_notifications_list(req, res){
         id_reciever: userId
       },
       attributes: ['id_user','id_unit','type','status', 'createdAt'],
-      offset: 7, //step over the first 7 elements
+      limit: 7, //limit the results of the query
       order: [['createdAt', 'DESC']] //make sure the order of arr are from latest
     }).then((notifications)=>{
       // 2 things need to be sent
@@ -74,14 +74,16 @@ function _handle_GET_notifications_list(req, res){
       }).catch((err)=>{
         throw err;
       });
-    }).then(()=>{
+    }).then((sendingData)=>{
       //and don't forget to update visit time by update ip---Sequelize will do the rest
       return _DB_lastvisitNotify.update(
         {ip: req.ip},
         {where: {id_user: userId}}
-      );
-    }).then((sendingData)=>{
-      resolve(sendingData);
+      ).then(()=>{
+        resolve(sendingData);
+      }).catch((err)=>{
+        throw err;
+      });
     }).catch((err)=>{
       reject(new internalError(err, 131));
     });
