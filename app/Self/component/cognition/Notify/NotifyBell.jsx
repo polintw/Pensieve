@@ -102,7 +102,8 @@ class NotifyBell extends React.Component {
           style={styleMiddle.boxIcon}
           onClick={this._handleClick_bell}>
           <div style={styleMiddle.boxBell}>
-            <SvgBell/>
+            <SvgBell
+              colorSwitch={this.props.cognition.bellNotify}/>
           </div>
           {
             this.props.cognition.bellNotify &&

@@ -12,6 +12,8 @@ export default class SvgBell extends React.Component {
   }
 
   render(){
+    let bellColor = this.props.colorSwitch? "#757575": "#e6e6e6";
+
     return(
       <svg xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 103.69 110.32"
@@ -20,7 +22,9 @@ export default class SvgBell extends React.Component {
           maxHeight: '100%'
         }}>
         <defs>
-          <style>{".cls-1-bell,.cls-2-bell,.cls-3-bell,.cls-4-bell{fill:none;stroke:#757575;}.cls-1-bell,.cls-2-bell{stroke-linejoin:round;}.cls-1-bell{stroke-width:4px;}.cls-2-bell,.cls-3-bell{stroke-linecap:round;}.cls-2-bell{stroke-width:7px;}.cls-3-bell,.cls-4-bell{stroke-miterlimit:10;stroke-width:6px;}.cls-5-bell{fill:#636363;}"}</style>
+          <style>{".cls-1-bell,.cls-2-bell,.cls-3-bell,.cls-4-bell{fill:none;stroke:"+
+            bellColor+";}.cls-1-bell,.cls-2-bell{stroke-linejoin:round;}.cls-1-bell{stroke-width:4px;}.cls-2-bell,.cls-3-bell{stroke-linecap:round;}.cls-2-bell{stroke-width:7px;}.cls-3-bell,.cls-4-bell{stroke-miterlimit:10;stroke-width:6px;}.cls-5-bell{fill:"+
+            (this.props.colorSwitch? "#636363": "#e6e6e6")+";}"}</style>
         </defs>
         <g id="圖層_2" data-name="圖層 2">
           <g id="圖層_3" data-name="圖層 3">

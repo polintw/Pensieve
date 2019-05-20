@@ -11,8 +11,8 @@ import {
 const styleMiddle = {
   boxNotifyBox: {
     width: '100%',
-    maxHeight: '640%',
-    minHeight: '270%',
+    maxHeight: '900%',
+    minHeight: '320%',
     position: 'absolute',
     bottom: '102%',
     left: '0',
@@ -23,12 +23,16 @@ const styleMiddle = {
     overflow: 'auto'
   },
   boxNotifyItem:{
-    hight: '54px',
+    display: 'inline-block',
+    height: '54px',
     boxSizing: 'border-box',
     margin: '2% 0',
     borderBottom: '1px solid black',
     padding: '2% 3%',
     cursor: 'pointer'
+  },
+  fontNotifyItem: {
+    fontSize: '1.28rem'
   }
 };
 
@@ -47,7 +51,7 @@ class NotifyBox extends React.Component {
 
   _render_NotifyList(){
     const self = this;
-    return this.props.cognition.listNotify.map((item, index)=>{
+    let list = this.props.cognition.listNotify.map((item, index)=>{
       //should check item type here to determine which template should be used
       //but for now we only have the notifications for inspired, so, no need
       //(only 'inspired' template now)
@@ -55,21 +59,36 @@ class NotifyBox extends React.Component {
         <div
           key={'key_Notify_item_'+index}
           className={'boxRelativeFull'}
-          style={Object.assign({}, styleMiddle.boxNotifyItem, {backgroundColor: (item.status=="untouched")? '#f1f1f1': 'white'})}>
+          style={Object.assign({}, styleMiddle.boxNotifyItem, {backgroundColor: (item.status=="untouched")? '#edeed3': 'white'})}>
           <Link
             to={{
               pathname: "/cognition/actions/shareds/units/"+item.unitId,
               state: {from: "/cognition/actions/shareds"}
             }}
             className={'plainLinkButton'}>
-            <div>
-              <span>{self.props.usersBasic[item.userId].account}</span>
+            <div
+              style={{
+                display: 'inline-block',
+                width: '27%',
+                height: '100%'
+              }}>
+              <span
+                style={styleMiddle.fontNotifyItem}>{self.props.usersBasic[item.userId].account}</span>
             </div>
-            <span>{" was inspired by one of your paragraph."}</span>
+            <span
+              style={styleMiddle.fontNotifyItem}>{" was inspired by one of your paragraph."}</span>
           </Link>
         </div>
       )
     })
+    //and add a footer in the box
+    list.push(
+      <div
+        key={"key_Notify_item_footer"}
+        style={{display: 'inline-block', width: '100%', height: '24px', margin:'2% 0px'}}></div>
+    );
+
+    return list;
   }
 
   componentDidMount(){
