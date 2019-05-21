@@ -38,11 +38,6 @@ class Unit extends React.Component {
     this.style={
 
     };
-
-    //we set UnitCurrent here to assure the 'beneathSrc' following the UnitInit and also uptodate for each children used as a criteria
-    //let unitCurrentState = Object.assign({}, unitCurrentInit, {coverSrc: this.unitInit['pic_layer0'], beneathSrc: this.beneathify ? this.unitInit['pic_layer1'] : false});
-    //this.props._set_store_UnitCurrent(unitCurrentState); //could process in constructor()?
-
   }
 
   _close_modal_Unit(){
@@ -65,8 +60,8 @@ class Unit extends React.Component {
 
   _axios_getUnitImg(){
     const self = this,
-          _axios_getUnitImg_base64 = (layer)=>{
-            return axios.get('/router/img/'+layer+'?type=unitSingle', {
+          _axios_getUnitImg_base64 = (src)=>{
+            return axios.get('/router/img/'+src+'?type=unitSingle', {
               headers: {
                 'token': window.localStorage['token']
               }
@@ -84,8 +79,8 @@ class Unit extends React.Component {
           srcBeneath = resObj.main['pic_layer1'];
 
       return axios.all([
-        _axios_getUnitImg_base64('pic_layer0'),
-        srcBeneath? _axios_getUnitImg_base64('pic_layer1') : Promise.resolve({data: null})
+        _axios_getUnitImg_base64(srcCover),
+        srcBeneath? _axios_getUnitImg_base64(srcBeneath) : Promise.resolve({data: null})
       ]).then(
         axios.spread((resImgCover, resImgBeneath)=>{
           let imgsBase64 = {
@@ -158,7 +153,12 @@ class Unit extends React.Component {
   componentWillUnmount(){
     if(this.state.axios){
       this.axiosSource.cancel("component will unmount.")
-    }
+    };
+
+    //reset UnitCurrent before leaving
+    // It's Important !! next Unit should not have a 'coverSrc' to prevent children component render in UnitModal before Unit data response!
+    let unitCurrentState = Object.assign({}, unitCurrentInit);
+    this.props._set_store_UnitCurrent(unitCurrentState);
   }
 
   _render_UnitMode(){

@@ -1,12 +1,8 @@
 const express = require('express');
 const execute = express.Router();
-const jwt = require('jsonwebtoken');
-const {verify_key} = require('../../config/jwt.js');
+
 const winston = require('../../config/winston.js');
-const Sequelize = require('sequelize');
-const Op = Sequelize.Op;
-const _DB_notifications = require('../../db/models/index').notifications;
-const _DB_lastvisitNotify = require('../../db/models/index').lastvisit_notify;
+const _DB_units = require('../../db/models/index').units;
 const {_res_success} = require('../utils/resHandler.js');
 const {
   _handle_ErrCatched,
@@ -14,30 +10,20 @@ const {
 } = require('../utils/reserrHandler.js');
 
 function _handle_GET_units_src(req, res){
-
   new Promise((resolve, reject)=>{
-    const reqToken = req.body.token || req.headers['token'] || req.query.token;
-    const jwtVerified = jwt.verify(reqToken, verify_key);
-    if (!jwtVerified) throw new internalError(jwtVerified, 32);
+    //becuase we have verify the token at upper level,
+    //and there is no need to use 'userId' in this function
+    // so we don't verify jwt token here
+    const reqUnit = req.reqUnitId;
 
-    let userId = jwtVerified.user_Id;
-
-    return _DB_lastvisitNotify.findOne({
-      where:{id_user: userId},
-      attributes: ['updatedAt']
-    }).then((lastVisit)=>{
-      return _DB_notifications.findAndCountAll({
-        where: {
-          id_reciever: userId,
-          createdAt: {[Op.gt]: lastVisit.updatedAt}
-        }
-      }).catch((err)=>{
-        throw err;
-      });
-    }).then((notifications)=>{
-      let sendingData={
-        notifyCount: notifications.count,
-        temp: {}
+    return _DB_units.findOne({
+      where: {id: reqUnit},
+      attributes: ['url_pic_layer0', 'url_pic_layer1']
+    }).then((result)=>{
+      let sendingData = {
+        temp: {},
+        pic_layer0:result.url_pic_layer0,
+        pic_layer1: result.url_pic_layer1 ? result.url_pic_layer1: false
       };
 
       resolve(sendingData);
@@ -46,7 +32,7 @@ function _handle_GET_units_src(req, res){
     });
 
   }).then((sendingData)=>{
-    _res_success(res, sendingData, "GET: /notifications/count, complete.");
+    _res_success(res, sendingData, "GET: /units/:id/src, complete.");
   }).catch((error)=>{
     _handle_ErrCatched(error, req, res);
   });
