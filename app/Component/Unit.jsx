@@ -26,35 +26,23 @@ class Unit extends React.Component {
     this.unitId = this.props.match.params.id;
     this.axiosSource = axios.CancelToken.source();
     this.unitInit = this.props._construct_UnitInit(this.props.match, this.props.location);
-    this.beneathify = !!this.unitInit['pic_layer1'];
     this._render_UnitMode = this._render_UnitMode.bind(this);
     this._close_modal_Unit = this._close_modal_Unit.bind(this);
+    this._axios_getUnitImg = this._axios_getUnitImg.bind(this);
+    this._axios_getUnitData = this._axios_getUnitData.bind(this);
     this._axios_get_UnitMount = this._axios_get_UnitMount.bind(this);
     this._set_axios = (bool) => {this.setState((prevState, props)=>{return {axios: bool};})};
     this._set_Modalmode = (mode)=>{this.setState((prevState, props)=>{return {mode: mode}})};
     this._reset_UnitMount = ()=>{this._axios_get_UnitMount();};
-    this._axios_getUnitData = () => {
-      return axios.get('/router/units/'+this.unitId, {
-        headers: {
-          'charset': 'utf-8',
-          'token': window.localStorage['token']
-        }
-      })
-    };
-    this._axios_getUnitImg = (layer)=>{
-      return axios.get('/router/img/'+this.unitInit[layer]+'?type=unitSingle', {
-        headers: {
-          'token': window.localStorage['token']
-        }
-      })
-    };
-    //we set UnitCurrent here to assure the 'beneathSrc' following the UnitInit and also uptodate for each children used as a criteria
-    let unitCurrentState = Object.assign({}, unitCurrentInit, {coverSrc: this.unitInit['pic_layer0'], beneathSrc: this.beneathify ? this.unitInit['pic_layer1'] : false});
-    this.props._set_store_UnitCurrent(unitCurrentState); //could process in constructor()?
 
     this.style={
 
     };
+
+    //we set UnitCurrent here to assure the 'beneathSrc' following the UnitInit and also uptodate for each children used as a criteria
+    //let unitCurrentState = Object.assign({}, unitCurrentInit, {coverSrc: this.unitInit['pic_layer0'], beneathSrc: this.beneathify ? this.unitInit['pic_layer1'] : false});
+    //this.props._set_store_UnitCurrent(unitCurrentState); //could process in constructor()?
+
   }
 
   _close_modal_Unit(){
@@ -66,13 +54,60 @@ class Unit extends React.Component {
     })
   }
 
+  _axios_getUnitData(){
+    return axios.get('/router/units/'+this.unitId, {
+      headers: {
+        'charset': 'utf-8',
+        'token': window.localStorage['token']
+      }
+    })
+  };
+
+  _axios_getUnitImg(){
+    const self = this,
+          _axios_getUnitImg_base64 = (layer)=>{
+            return axios.get('/router/img/'+layer+'?type=unitSingle', {
+              headers: {
+                'token': window.localStorage['token']
+              }
+            });
+          };
+
+    return axios.get('/router/units/'+this.unitId+'/src', {
+      headers: {
+        'token': window.localStorage['token']
+      },
+      cancelToken: self.axiosSource.token
+    }).then((res)=>{
+      let resObj = JSON.parse(res.data);
+      let srcCover = resObj.main['pic_layer0'],
+          srcBeneath = resObj.main['pic_layer1'];
+
+      return axios.all([
+        _axios_getUnitImg_base64('pic_layer0'),
+        srcBeneath? _axios_getUnitImg_base64('pic_layer1') : Promise.resolve({data: null})
+      ]).then(
+        axios.spread((resImgCover, resImgBeneath)=>{
+          let imgsBase64 = {
+            cover: resImgCover.data,
+            beneath: resImgBeneath.data
+          }
+          return imgsBase64;
+        })
+      )
+    }).catch(function (thrown) {
+      throw thrown;
+    });
+  };
+
+
   _axios_get_UnitMount(){
     const self = this;
-    let axiosArr = [this._axios_getUnitData(),this._axios_getUnitImg('pic_layer0')];
-    axiosArr.push(this.beneathify ?　this._axios_getUnitImg('pic_layer1'):Promise.resolve({data: null}));
-    self.setState({axios: true});
+    let axiosArr = [this._axios_getUnitData(),this._axios_getUnitImg()];
+    this.setState({axios: true});
+
     axios.all(axiosArr).then(
-      axios.spread(function(unitRes, resImgCover, resImgBeneath){
+      axios.spread(function(unitRes, imgsBase64){
         self.setState({axios: false});
         let resObj = JSON.parse(unitRes.data);
         //we compose the marksset here, but sould consider done @ server
@@ -92,8 +127,8 @@ class Unit extends React.Component {
           unitId:self.unitId,
           identity: resObj.main.identity,
           authorBasic: resObj.main.authorBasic,
-          coverSrc: resImgCover.data,
-          beneathSrc: resImgBeneath.data,
+          coverSrc: imgsBase64.cover,
+          beneathSrc: imgsBase64.beneath,
           coverMarksList:coverMarks.list,
           coverMarksData:coverMarks.data,
           beneathMarksList:beneathMarks.list,
