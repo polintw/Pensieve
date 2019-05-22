@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from "react-redux";
 import {SvgBulbPlainHalf} from '../../Svg/SvgBulb.jsx';
+import {updateUsersBasic} from "../../../redux/actions/general.js";
 import {
   cancelErr,
   uncertainErr
@@ -55,19 +56,17 @@ class AuthorInspired extends React.Component {
       method: 'get',
       url: '/router/units/'+self.props.unitCurrent.unitId+'/author/inspired?markId='+self.props.markKey,
       headers: {
-        'Content-Type': 'application/json',
         'charset': 'utf-8',
         'token': window.localStorage['token']
       },
       cancelToken: self.axiosSource.cancelToken
     }).then(function (res) {
       let resObj = JSON.parse(res.data);
+      self.props._update_UsersBasic(resObj.main.usersBasic);
       self.setState({
         axios: false,
         listInspired: resObj.main.usersList
       });
-      self.props. //set usersbasic to reducer
-      
     }).catch(function (thrown) {
       if (axios.isCancel(thrown)) {
         cancelErr(thrown);
@@ -79,8 +78,16 @@ class AuthorInspired extends React.Component {
   }
 
   _render_inspiredList(){
-    return this.state.listInspired.map()
+    let listDOM = this.state.listInspired.map((id, index)=>{
+      return (
+        <div
+          key={'key_authorBlock_inspiredList_'+index}>
+          <span>{this.props.usersBasic[id].account}</span>
+        </div>
+      )
+    })
     //user id from list, get account, firstName, or lastName from userBasic in reducer
+    return listDOM;
   }
 
   componentWillUnmount(){
@@ -116,13 +123,20 @@ class AuthorInspired extends React.Component {
 const mapStateToProps = (state) => {
   return {
     userInfo: state.userInfo,
+    usersBasic: state.usersBasic,
     unitCurrent: state.unitCurrent,
     unitSubmitting: state.unitSubmitting,
     unitAxiosInspire: state.unitAxiosInspire
   }
 }
 
+const mapDispatchToProps = (dispatch)=>{
+  return {
+    _update_UsersBasic: (obj)=>{dispatch(updateUsersBasic(obj));}
+  }
+}
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(AuthorInspired);

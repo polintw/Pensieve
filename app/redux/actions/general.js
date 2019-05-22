@@ -13,6 +13,10 @@ import {
 } from '../constants/typesSelfFront.js';
 import {errHandler_axiosCatch} from "../../utils/errHandlers.js";
 
+export function updateUsersBasic(obj) {
+  return { type: UPDATE_USERSBASIC, newFetch: obj }
+};
+
 export function setUnitCurrent(obj) {
   return { type: SET_UNITCURRENT, unitCurrent: obj }
 };
