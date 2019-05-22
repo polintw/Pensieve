@@ -71,6 +71,7 @@ class AuthorBlock extends React.Component {
       Com_AuthorBlock_panel_: {
         display: 'inline-block',
         width: '100%',
+        height: '24px',
         position: 'relative',
         boxSizing: 'border-box',
         marginTop: '6%'

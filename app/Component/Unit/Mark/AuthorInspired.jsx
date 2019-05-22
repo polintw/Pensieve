@@ -9,12 +9,47 @@ import {
 
 const styleMiddle = {
   boxInspired: {
-    position: 'relative'
+
+  },
+  boxInspiredList:{
+    width: '144px',
+    maxHeight: '810%',
+    minHeight: '360%',
+    position: 'absolute',
+    bottom: '102%',
+    boxSizing: 'border-box',
+    backgroundColor: 'white',
+    borderRadius: '0.5rem',
+    boxShadow: '0.056rem -0.16rem 0.21rem -0.06rem',
+    overflow: 'auto'
+  },
+  boxListItem: {
+    display: 'inline-block',
+    width: '95%',
+    height: '36px',
+    boxSizing: 'border-box',
+    margin: '2% 2%',
+    borderBottom: '1px solid grey',
+    padding: '2% 3%',
   },
   svgBulbPlain: {
     strokeWidth:'10px',
     stroke: '#f7f4bc',
     fill: 'transparent'
+  },
+  spanCount: {
+    position: 'absolute',
+    top: '42%',
+    left: '38px',
+    transform: 'translate(0,-50%)',
+    whiteSpace: 'nowrap',
+    cursor: 'pointer'
+  },
+  fontListItem: {
+    fontSize: '1.28rem',
+    fontWeight: '400',
+    letterSpacing: '0',
+    color: 'black'
   }
 }
 
@@ -32,10 +67,10 @@ class AuthorInspired extends React.Component {
     this._handleClick_authorInspired = this._handleClick_authorInspired.bind(this);
     this.style = {
       Com_AuthorInspired_bulb:{
-        display: 'inline-block',
         width: '17px',
-        position: 'relative',
-        margin: '0 4%',
+        maxHeight: '100%',
+        position: 'absolute',
+        left: '9px'
       }
     };
   }
@@ -81,8 +116,11 @@ class AuthorInspired extends React.Component {
     let listDOM = this.state.listInspired.map((id, index)=>{
       return (
         <div
-          key={'key_authorBlock_inspiredList_'+index}>
-          <span>{this.props.usersBasic[id].account}</span>
+          key={'key_authorBlock_inspiredList_'+index}
+          style={styleMiddle.boxListItem}>
+          <span
+            style={styleMiddle.fontListItem}>
+            {this.props.usersBasic[id].account}</span>
         </div>
       )
     })
@@ -94,9 +132,19 @@ class AuthorInspired extends React.Component {
     if(this.state.axios){
       this.axiosSource.cancel("component will unmount.")
     }
+
+    //becuase the whole Unit use the same component
+    //we need to reset state for next open
+    this.setState({
+      axios: false,
+      listify: false,
+      listInspired: []
+    })
   }
 
   render(){
+    let notify= this.props.unitCurrent.marksInteraction[this.props.markKey].notify? true:false;
+
     return(
       <div style={styleMiddle.boxInspired}>
         <div
@@ -107,11 +155,12 @@ class AuthorInspired extends React.Component {
         </div>
         <span
           onClick={this._handleClick_authorInspired}
-          style={{cursor: 'pointer'}}>
-          {this.props.unitCurrent.marksInteraction[this.props.markKey].inspired+"/"}</span>
+          style={Object.assign({}, styleMiddle.spanCount, notify? {color: '#ff9a5e'}: {})}>
+          {this.props.unitCurrent.marksInteraction[this.props.markKey].inspired+" /"}</span>
         {
           this.state.listify &&
-          <div>
+          <div
+            style={styleMiddle.boxInspiredList}>
             {this._render_inspiredList()}
           </div>
         }
