@@ -28,10 +28,11 @@ class Front extends React.Component {
       },
       Self_pages_Front_NavSelf: {
         display:'inline-block',
-        width: '243px',
+        minWidth: '285px',
+        maxWidth: '360px',
         position: 'fixed',
         bottom: '0%',
-        left: '70%',
+        left: '19%',
         boxSizing: 'border-box'
       }
     }

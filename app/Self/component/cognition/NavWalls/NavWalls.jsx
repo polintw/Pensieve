@@ -6,28 +6,24 @@ import {
 import styles from "./styleNavWalls.module.css";
 
 const commonStyle = {
-  align: {
-    display: 'inline-block',
-    width: '100%',
-    height: '72%',
-    position: 'absolute',
-    top: '50%',
-    transform: 'translate(0, -50%)',
+  align: { //make a frame first, decoupling from parent
+    height: '100%',
+    position: 'relative',
     boxSizing: 'border-box'
   },
   boxNavButton:{
     display: 'inline-block',
-    width: '26%',
+    width: '91.5px',
     height: '100%',
     position: 'relative',
     boxSizing: 'border-box',
-    marginLeft: "6%",
+    margin: "0px 8px 0px 6px",
   },
   spanButtonNavWalls: {
-    top: '45%',
-    fontSize: '1.36rem',
-    fontWeight: '400',
-    letterSpacing: '0.15rem',
+    top: '48%',
+    fontSize: '1.42rem',
+    fontWeight: '700',
+    letterSpacing: '0.06rem',
   }
 }
 
@@ -38,14 +34,7 @@ export default class NavWalls extends React.Component {
 
     };
     this.style={
-      selfCom_NavWalls_: { //make a frame first, decoupling from parent
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box'
-      }
+
     }
   }
 
@@ -53,52 +42,49 @@ export default class NavWalls extends React.Component {
     //let cx = cxBind.bind(styles);
     return(
       <div
-        style={this.style.selfCom_NavWalls_}>
-        <div
-          style={commonStyle.align}>
-          <Link
-            to={this.props.match.url+"/mutuals/dialogues"}
-            className={'plainLinkButton'}
-            style={commonStyle.boxNavButton}>
-            <div
-              className={styles.roundRecBox}
-              style={{backgroundColor: this.props.location.pathname.includes("/mutuals/")? "#e6e6e6":'transparent'}}>
-              <span
-                className={'centerAlignChild'}
-                style={Object.assign({}, commonStyle.spanButtonNavWalls, {color: this.props.location.pathname.includes("/mutuals/")? "black":'#757575'})}>
-                {"mutual"}
-              </span>
-            </div>
-          </Link>
-          <Link
-            to={this.props.match.url+"/embedded/inspireds"}
-            className={'plainLinkButton'}
-            style={commonStyle.boxNavButton}>
-            <div
-              className={styles.roundRecBox}
-              style={{backgroundColor: this.props.location.pathname.includes("/embedded/") ? "#e6e6e6":'transparent'}}>
-              <span
-                className={'centerAlignChild'}
-                style={Object.assign({}, commonStyle.spanButtonNavWalls, {color: this.props.location.pathname.includes("/embedded/")? "black":'#757575'})}>
-                {"embed"}
-              </span>
-            </div>
-          </Link>
-          <Link
-            to={this.props.match.url+"/actions/shareds"}
-            className={'plainLinkButton'}
-            style={commonStyle.boxNavButton}>
-            <div
-              className={styles.roundRecBox}
-              style={{backgroundColor: this.props.location.pathname.includes("/actions/")? "#e6e6e6":'transparent'}}>
-              <span
-                className={'centerAlignChild'}
-                style={Object.assign({}, commonStyle.spanButtonNavWalls, {color: this.props.location.pathname.includes("/actions/")? "black":'#757575'})}>
-                {"actions"}
-              </span>
-            </div>
-          </Link>
-        </div>
+        style={commonStyle.align}>
+        <Link
+          to={this.props.match.url+"/mutuals/dialogues"}
+          className={'plainLinkButton'}
+          style={commonStyle.boxNavButton}>
+          <div
+            className={styles.roundRecBox}
+            style={{backgroundColor: this.props.location.pathname.includes("/mutuals/")? "#e6e6e6":'transparent'}}>
+            <span
+              className={'centerAlignChild'}
+              style={Object.assign({}, commonStyle.spanButtonNavWalls, {color: this.props.location.pathname.includes("/mutuals/")? "#1a1a1a":'#757575'})}>
+              {"mutual"}
+            </span>
+          </div>
+        </Link>
+        <Link
+          to={this.props.match.url+"/embedded/inspireds"}
+          className={'plainLinkButton'}
+          style={commonStyle.boxNavButton}>
+          <div
+            className={styles.roundRecBox}
+            style={{backgroundColor: this.props.location.pathname.includes("/embedded/") ? "#e6e6e6":'transparent'}}>
+            <span
+              className={'centerAlignChild'}
+              style={Object.assign({}, commonStyle.spanButtonNavWalls, {color: this.props.location.pathname.includes("/embedded/")? "#1a1a1a":'#757575'})}>
+              {"embed"}
+            </span>
+          </div>
+        </Link>
+        <Link
+          to={this.props.match.url+"/actions/shareds"}
+          className={'plainLinkButton'}
+          style={commonStyle.boxNavButton}>
+          <div
+            className={styles.roundRecBox}
+            style={{backgroundColor: this.props.location.pathname.includes("/actions/")? "#e6e6e6":'transparent'}}>
+            <span
+              className={'centerAlignChild'}
+              style={Object.assign({}, commonStyle.spanButtonNavWalls, {color: this.props.location.pathname.includes("/actions/")? "#1a1a1a":'#757575'})}>
+              {"actions"}
+            </span>
+          </div>
+        </Link>
       </div>
     )
   }

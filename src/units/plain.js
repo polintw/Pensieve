@@ -35,7 +35,7 @@ function _handle_unit_Mount(req, res){
     const userId = jwtVerified.user_Id;
     const reqUnit = req.reqUnitId;
 
-    const _promise_unitToNouns = function(tempData){
+    const _unit_Nouns = function(tempData){
       return new Promise((resolveSub, rejectSub)=>{
         let selectQuery = 'SELECT id_noun FROM attribution WHERE id_unit=?';
         _DB_attribution.findAll({
@@ -74,7 +74,36 @@ function _handle_unit_Mount(req, res){
         return thrown; //do not count for a 'true' error
       })
     };
-    const _limitFn_viewer = (sendingData)=>{
+    const _unit_Marks = (sendingData)=>{
+      return _DB_marks.findAll({
+        where: {id_unit:reqUnit}
+      }).then((results)=>{
+        if (results.length > 0) {
+          results.forEach(function(row, index){
+            let obj = {
+              top: row.portion_top,
+              left: row.portion_left,
+              editorContent:  row.editor_content?JSON.parse(row.editor_content):null,
+              serial: row.serial,
+              layer: row.layer
+            };
+            let markKey = row.id;
+            sendingData['marksObj'][markKey]=obj;
+            sendingData['temp']['marksKey'].push(row.id); //we use ORM now, no need to fullfill mysal module format
+            sendingData['marksInteraction'][markKey]={
+              notify: false,
+              inspired:0
+            }; //set 0 instead of 'false' is because we need to 'plus' number if there are notifications for author
+          })
+          return (sendingData);
+        } else {
+          return (sendingData);
+        }
+      }).catch((error)=>{
+        throw new internalError("throw by /units/plain/_unit_mount, "+error ,131);//'throw' at this level, stop the process
+      })
+    };
+    const _unit_identity_Viewer = (sendingData)=>{
       return _DB_inspired.findAll({
         where: {
           id_mark: [sendingData['temp']['marksKey']],
@@ -90,17 +119,19 @@ function _handle_unit_Mount(req, res){
         throw new internalError("throw by /units/plain/_unit_mount, "+error ,131);//'throw' at this level, stop the process
       })
     };
-    const _limitFn_author = (sendingData)=>{
+    const _unit_identity_Author = (sendingData)=>{
+      //deal with notifications to mark first, and count inspired.
+      //But! Notications check should have it's own api to deal, seperated from here.
+
       return _DB_notifiInspired.findAndCountAll({
         where: {id_unit:reqUnit}
       }).then((notifiedInspired)=>{
          notifiedInspired.rows.map((row, index)=>{
-           sendingData['marksInteraction'][row.id_mark]['inspired'] += 1;
            sendingData['marksInteraction'][row.id_mark]['notify'] = true;
         });
         return sendingData;
       }).then((sendingData)=>{
-        //update the 'status' of notifications if we have open/read it
+        //notifications to mark, update the 'status' of notifications if we have open/read it
         return _DB_notifications.update(
           {status: 'delivered'},
           {where: {
@@ -114,11 +145,26 @@ function _handle_unit_Mount(req, res){
           throw new internalError("throw by /units/plain/_unit_mount, "+error ,131);//'throw' at this level, stop the process
         })
       }).then((sendingData)=>{
-        //destroy the records directly before pass sendingData through
+        //notifications to mark, destroy the records directly before pass sendingData through
         return _DB_notifiInspired.destroy({
           where:{id_unit:reqUnit}
         }).then(()=>{
           return sendingData;
+        }).catch((error)=>{
+          throw new internalError("throw by /units/plain/_unit_mount, "+error ,131);//'throw' at this level, stop the process
+        })
+      }).then((sendingData)=>{
+        //inspired count, select directly from inspired table
+        return _DB_inspired.findAll({
+          where: {
+            id_mark: [sendingData['temp']['marksKey']] //here is the difference from _Viewer
+          },
+          attributes: ['id_mark']
+        }).then(function(inspired) {
+          inspired.forEach((row, index)=>{
+            sendingData['marksInteraction'][row.id_mark]['inspired'] += 1;
+          });
+          return (sendingData);
         }).catch((error)=>{
           throw new internalError("throw by /units/plain/_unit_mount, "+error ,131);//'throw' at this level, stop the process
         })
@@ -175,7 +221,6 @@ function _handle_unit_Mount(req, res){
         throw new internalError("throw by /units/plain/_unit_mount, "+error ,131);//'throw' at this level, stop the process
       })
     }).then((sendingData)=>{
-      //this part has been rewritten to a newer style, prepareing for future modified
       let tempData = {
         nouns: {
           list: [],
@@ -184,40 +229,13 @@ function _handle_unit_Mount(req, res){
         temp: {nounsKey: []},
         sendingData: sendingData
       }
-      return _promise_unitToNouns(tempData)
+      return _unit_Nouns(tempData);
     }).then((sendingData)=>{
-      console.log('unit mount req: assemble marksObj.');
-      return _DB_marks.findAll({
-        where: {id_unit:reqUnit}
-      }).then((results)=>{
-        if (results.length > 0) {
-          results.forEach(function(row, index){
-            let obj = {
-              top: row.portion_top,
-              left: row.portion_left,
-              editorContent:  row.editor_content?JSON.parse(row.editor_content):null,
-              serial: row.serial,
-              layer: row.layer
-            };
-            let markKey = row.id;
-            sendingData['marksObj'][markKey]=obj;
-            sendingData['temp']['marksKey'].push(row.id); //we use ORM now, no need to fullfill mysal module format
-            sendingData['marksInteraction'][markKey]={
-              notify: false,
-              inspired:0
-            }; //set 0 instead of 'false' is because we need to 'plus' number if there are notifications for author
-          })
-          return (sendingData);
-        } else {
-          return (sendingData);
-        }
-      }).catch((error)=>{
-        throw new internalError("throw by /units/plain/_unit_mount, "+error ,131);//'throw' at this level, stop the process
-      })
+      return _unit_Marks(sendingData);
     }).then((sendingData)=>{
-      if(sendingData.identity == 'author') return _limitFn_author(sendingData)
+      if(sendingData.identity == 'author') return _unit_identity_Author(sendingData)
       else{
-        return _limitFn_viewer(sendingData)
+        return _unit_identity_Viewer(sendingData);
       }
     }).then((sendingData)=>{
       _res_success(res, sendingData);

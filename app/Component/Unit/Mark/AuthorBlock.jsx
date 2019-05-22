@@ -1,8 +1,8 @@
 import React from 'react';
 import {connect} from "react-redux";
+import AuthorInspired from './AuthorInspired.jsx';
 import MarkDialogue from './MarkDialogue.jsx';
 import PanelJump from './PanelJump.jsx';
-import {SvgBulbPlainHalf} from '../../Svg/SvgBulb.jsx';
 import SvgPropic from '../../Svg/SvgPropic.jsx';
 import DraftDisplay from '../../Draft/DraftDisplay.jsx';
 import {
@@ -24,18 +24,12 @@ const styleMiddle = {
     position: 'relative',
     boxSizing: 'border-box',
   },
-  svgBulbPlain: {
-    strokeWidth:'10px',
-    stroke: '#f7f4bc',
-    fill: 'transparent'
-  },
-  spanInteractions: {
+  fontInteractions: {
     fontSize: '1.4rem',
     letterSpacing: '0.18rem',
     lineHeight: '1.9rem',
     fontWeight: '300',
     color: '#f0f0f0',
-    cursor: 'pointer'
   }
 }
 
@@ -77,6 +71,7 @@ class AuthorBlock extends React.Component {
       Com_AuthorBlock_panel_: {
         display: 'inline-block',
         width: '100%',
+        height: '24px',
         position: 'relative',
         boxSizing: 'border-box',
         marginTop: '6%'
@@ -108,12 +103,6 @@ class AuthorBlock extends React.Component {
         position: 'relative',
         boxSizing: 'border-box',
       },
-      Com_AuthorBlock_panel_interaction_bulb:{
-        display: 'inline-block',
-        width: '17px',
-        position: 'relative',
-        margin: '0 4%',
-      }
     };
   }
 
@@ -165,24 +154,15 @@ class AuthorBlock extends React.Component {
             <div
               style={Object.assign({}, styleMiddle.boxPanelInteraction, {float: 'left'})}>
               <span
-                style={styleMiddle.spanInteractions}
+                style={Object.assign({}, styleMiddle.fontInteractions, {cursor: 'pointer'})}
                 onClick={this._handleClick_openDialogue}>
                 {'raise'}
               </span>
             </div>
             <div
-              style={Object.assign({},
-                this.style.Com_AuthorBlock_panel_interaction_bulb,
-                styleMiddle.svgBulbPlain,
-                styleMiddle.boxPanelInteraction, {float: 'left'})}>
-              <SvgBulbPlainHalf/>
-            </div>
-            <div
-              style={Object.assign({},
-                styleMiddle.boxPanelInteraction, {float: 'left'})}>
-              <span
-                style={Object.assign({}, styleMiddle.spanInteractions)}>
-                {this.props.unitCurrent.marksInteraction[this.props.markKey].inspired+"/"}</span>
+              style={Object.assign({}, styleMiddle.boxPanelInteraction, styleMiddle.fontInteractions, {float: 'left'})}>
+              <AuthorInspired
+                markKey={this.props.markKey}/>
             </div>
             <div
               style={Object.assign({}, styleMiddle.boxPanelInteraction, {margin: '0 3%', float: 'right'})}>

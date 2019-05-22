@@ -108,7 +108,7 @@ export default class Dialogues extends React.Component {
 
   _construct_UnitInit(match, location){
     let urlQuery = querystring.parse(location.search);
-    let unitInit = Object.assign(this.state.unitBasic[this.state.markBasic[urlQuery.thread].unitId] , {marksify: true, initMark: this.state.markBasic[urlQuery.thread].markId, layer: this.state.markBasic[urlQuery.thread].layer})
+    let unitInit = {marksify: true, initMark: this.state.markBasic[urlQuery.thread].markId, layer: this.state.markBasic[urlQuery.thread].layer};
     return unitInit;
   }
 

@@ -78,7 +78,7 @@ class Inspired extends React.Component {
 
   _construct_UnitInit(match, location){
     let urlQuery = querystring.parse(location.search);
-    let unitInit= Object.assign(this.state.unitsBasic[match.params.id], {marksify: true, initMark: urlQuery.mark, layer: this.state.marksBasic[urlQuery.mark].layer});
+    let unitInit= {marksify: true, initMark: urlQuery.mark, layer: this.state.marksBasic[urlQuery.mark].layer};
     return unitInit;
   }
 
