@@ -7,12 +7,12 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import cxBind from 'classnames/bind';
 import CosmicCorner from './component/CosmicCorner.jsx';
 import CosmicMain from './component/CosmicMain.jsx';
 import CosmicUser from './component/CosmicUser.jsx';
 import CosmicNoun from './component/CosmicNoun.jsx';
 import CosmicRelated from './component/CosmicRelated.jsx';
+import Explore from './component/Explore.jsx';
 import NavOptions from '../Component/NavOptions.jsx';
 
 class WithinCosmic extends React.Component {
@@ -91,7 +91,7 @@ class WithinCosmic extends React.Component {
 
   render(){
     if(this.state.switchTo){return <Redirect to={this.state.switchTo.params+this.state.switchTo.query}/>}
-    //let cx = cxBind.bind(styles);
+
     return(
       <div
         style={this.style.Within_Cosmic_}>
@@ -100,6 +100,7 @@ class WithinCosmic extends React.Component {
           <Route path={this.props.match.path+"/people/:id"} render={(props)=> <CosmicUser {...props}/>}/>
           <Route path={this.props.match.path+"/nouns/:id"} render={(props)=> <CosmicNoun {...props}/>}/>
           <Route path={this.props.match.path+"/units/:id/related"} render={(props)=> <CosmicRelated {...props}/>}/>
+          <Route path={this.props.match.path+"/explore"} render={(props)=> <Explore {...props}/>}/>
           <Route path={this.props.match.path} render={(props)=> <CosmicMain {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
         </Switch>
         <div
