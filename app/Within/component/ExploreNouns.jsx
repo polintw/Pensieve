@@ -13,10 +13,52 @@ import {
 } from "../../utils/errHandlers.js";
 
 const styleMiddle = {
-  comExplore: {
-    width: '100%',
+  comExploreNouns: {
+    height: ''
+  },
+  boxUsedList: {
+    height: '',
+    minHeight: '36vh',
+    padding: '5%',
+    margin: '0 0 3%'
+  },
+  boxRandomList: {
+    height: '',
+    textAlign: 'center'
+  },
+  boxSubtitle: {
+    height: '',
+    padding: '3%',
+    textAlign: 'center'
+  },
+  boxUsedItem: {
+    display: 'inline-block',
+    width: '24%',
     position: 'relative',
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
+    padding: '0 5%',
+    margin: '3% 0',
+    cursor: 'pointer'
+  },
+  boxRendomItem: {
+    display: 'inline-block',
+    position: 'relative',
+    boxSizing: 'border-box',
+    padding: '0 5%',
+    margin: '3% 2%',
+    whiteSpace: 'nowrap',
+    cursor: 'pointer'
+  },
+  fontSubtitle: {
+    fontSize: '1.45rem',
+    fontWeight: '700',
+    letterSpacing: '0.1rem',
+    whiteSpace: 'nowrap',
+    textAlign: 'center',
+  },
+  fontListItem: {
+    fontSize: '1.32rem',
+    letterSpacing: '0.12rem',
   }
 }
 
@@ -35,28 +77,6 @@ class ExploreNouns extends React.Component {
     this.style={
 
     }
-  }
-
-  _render_nouns_usedList(){
-    let list = this.state.listUsed.map((nounId, index)=>{
-      return (
-        <div>
-          {this.props.nounsBasic[nounId].name}
-        </div>
-      )
-    });
-    return list;
-  }
-
-  _render_nouns_randomList(){
-    let list = this.state.listRandom.map((nounId, index)=>{
-      return (
-        <div>
-          {this.props.nounsBasic[nounId].name}
-        </div>
-      )
-    });
-    return list;
   }
 
   _axios_nouns_explore(){
@@ -97,6 +117,46 @@ class ExploreNouns extends React.Component {
 
   }
 
+  _render_nouns_usedList(){
+    let list = this.state.listUsed.map((nounId, index)=>{
+      return (
+        <div
+          key={"key_Explore_usedNouns_"+index}
+          style={styleMiddle.boxUsedItem}>
+          <Link
+            to={"/cosmic/nouns/"+nounId}
+            className={'plainLinkButton'}>
+            <span
+              style={styleMiddle.fontListItem}>
+              {this.props.nounsBasic[nounId].name}</span>
+          </Link>
+        </div>
+      )
+    });
+    return list;
+  }
+
+  _render_nouns_randomList(){
+    let list = this.state.listRandom.map((nounId, index)=>{
+      return (
+        <div
+          key={"key_Explore_randomNouns_"+index}
+          style={styleMiddle.boxRendomItem}>
+          <span
+            style={styleMiddle.fontListItem}>
+            {this.props.nounsBasic[nounId].name}
+          </span>
+        </div>
+      )
+    });
+    //add a footer at the bottom
+    list.push(
+      <div
+        key={"key_Explore_randomNouns_footer"}
+        style={{height: '54px', position: 'relative'}}></div>)
+    return list;
+  }
+
   componentDidMount() {
     //load nouns from attribution
     //and random nouns as recommandation
@@ -112,12 +172,20 @@ class ExploreNouns extends React.Component {
   render(){
     return(
       <div
-        style={styleMiddle.comExplore}>
-        <div>
+        className={'boxRelativeFull'}
+        style={styleMiddle.comExploreNouns}>
+        <div
+          className={'boxRelativeFull'}
+          style={styleMiddle.boxUsedList}>
           {this._render_nouns_usedList()}
         </div>
-        <div>{"or be the First revealing these place! "}</div>
-        <div>
+        <div
+          className={'boxRelativeFull'}
+          style={Object.assign({}, styleMiddle.boxSubtitle, styleMiddle.fontSubtitle)}>
+          {"or be the First revealing these place! "}</div>
+        <div
+          className={'boxRelativeFull'}
+          style={(styleMiddle.boxRandomList)}>
           {this._render_nouns_randomList()}
         </div>
       </div>
