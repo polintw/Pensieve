@@ -47,7 +47,7 @@ function pageWithin(state = initialGeneral, action){
       break;
     case UPDATE_NOUNSBASIC:
       return Object.assign({}, state, {
-        nounsBasic: {...state.nousBasic, ...action.newFetch}
+        nounsBasic: {...state.nounsBasic, ...action.newFetch}
       })
       break;
     case UPDATE_USERSBASIC:

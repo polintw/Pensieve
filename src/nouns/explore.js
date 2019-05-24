@@ -62,6 +62,46 @@ function _handle_GET_nouns_explore(req, res){
   });
 }
 
+
+function _handle_GET_nouns_exploreMore(req, res){
+  new Promise((resolve, reject)=>{
+    const reqToken = req.body.token || req.headers['token'] || req.query.token;
+    const jwtVerified = jwt.verify(reqToken, verify_key);
+    if (!jwtVerified) throw new internalError(jwtVerified, 32);
+
+    return _DB_nouns.findAndCountAll({
+      order: [
+        [Sequelize.fn('RAND')] //"RAND" is order for 'random' selection specific for mySQL
+      ],
+      attributes: ['id'],
+      limit: 24
+    }).then((nouns)=>{
+      let sendingData = {
+        temp: {},
+        nounsListRandom: []
+      };
+
+      nouns.rows.forEach((row, index)=>{
+        sendingData.nounsListRandom.push(row.id);
+      })
+
+      resolve(sendingData);
+    }).catch((err)=>{
+      reject(new internalError(err, 131));
+    });
+  }).then((sendingData)=>{
+    _res_success(res, sendingData, "GET: /nouns/explore/more, complete.");
+  }).catch((error)=>{
+    _handle_ErrCatched(error, req, res);
+  });
+}
+
+execute.get('/more', function(req, res){
+  // this is a api for temp use, just a way before the main '/' method matured.
+  if(process.env.NODE_ENV == 'development') winston.verbose('GET: /nouns/explore/more ');
+  _handle_GET_nouns_exploreMore(req, res);
+})
+
 execute.get('/', function(req, res){
   if(process.env.NODE_ENV == 'development') winston.verbose('GET: /nouns/explore ');
   _handle_GET_nouns_explore(req, res);

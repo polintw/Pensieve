@@ -15,10 +15,10 @@ const styleMiddle = {
     boxSizing: 'border-box'
   },
   boxMain: {
-    width: '932px',
+    width: '936px',
     position: 'absolute',
     top: '4vh',
-    left: '48%',
+    left: '50%',
     transform: 'translate(-50%,0)',
     boxSizing: 'border-box'
   }
@@ -53,8 +53,8 @@ class Explore extends React.Component {
             <ExploreNouns/>
           </div>
         </div>
-        <div style={{width: '100%', height: '3vh', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
-        <div style={{width: '100%', height: '35px', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
+        <div style={{width: '100%', height: '4vh', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
+        <div style={{width: '100%', height: '57px', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
       </div>
     )
   }
