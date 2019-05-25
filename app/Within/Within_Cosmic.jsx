@@ -7,13 +7,13 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import CosmicCorner from './component/CosmicCorner.jsx';
 import CosmicMain from './component/CosmicMain.jsx';
 import CosmicUser from './component/CosmicUser.jsx';
 import CosmicNoun from './component/CosmicNoun.jsx';
 import CosmicRelated from './component/CosmicRelated.jsx';
 import Explore from './component/Explore.jsx';
 import NavOptions from '../Component/NavOptions.jsx';
+import CosmicCorner from './component/CosmicCorner/CosmicCorner.jsx';
 
 class WithinCosmic extends React.Component {
   constructor(props){
@@ -105,11 +105,10 @@ class WithinCosmic extends React.Component {
         </Switch>
         <div
           style={this.style.Within_Cosmic_corner_}>
-          <CosmicCorner
-            match={this.props.match}/>
-          <div style={this.style.Within_Cosmic_NavOptions}>
-            <NavOptions {...this.props}/>
-          </div>
+          <CosmicCorner {...this.props}/>
+        </div>
+        <div style={this.style.Within_Cosmic_NavOptions}>
+          <NavOptions {...this.props}/>
         </div>
       </div>
     )

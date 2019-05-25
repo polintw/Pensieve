@@ -1,0 +1,31 @@
+.boxOptions {
+  position: absolute;
+  box-sizing: border-box;
+  text-align: center;
+  cursor: pointer;
+}
+
+.boxExplore {
+  bottom: 2.4rem;
+  transform: translate(-50%, -50%);
+  color: #fc766a;
+}
+
+.boxAccount {
+
+}
+
+.boxFocus {
+  right: 0;
+}
+
+.boxFocusExplore {
+  right: 2.4rem;
+}
+
+.fontCosmicCorner {
+  font-size: 1.4rem;
+  letter-spacing: 0.16rem;
+  white-space: nowrap;
+  color: #333333;
+}

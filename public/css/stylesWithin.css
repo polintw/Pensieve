@@ -1,3 +1,34 @@
+._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxOptions {
+  position: absolute;
+  box-sizing: border-box;
+  text-align: center;
+  cursor: pointer;
+}
+
+._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxExplore {
+  bottom: 2.4rem;
+  transform: translate(-50%, -50%);
+  color: #fc766a;
+}
+
+._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxAccount {
+
+}
+
+._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxFocus {
+  right: 0;
+}
+
+._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxFocusExplore {
+  right: 2.4rem;
+}
+
+._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__fontCosmicCorner {
+  font-size: 1.4rem;
+  letter-spacing: 0.16rem;
+  white-space: nowrap;
+  color: #333333;
+}
 ._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlock {
   overflow: hidden;
   text-overflow: ellipsis;
