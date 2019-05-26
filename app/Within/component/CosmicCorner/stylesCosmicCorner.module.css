@@ -5,27 +5,32 @@
   cursor: pointer;
 }
 
+.fontCosmicCorner {
+  font-size: 1.4rem;
+  letter-spacing: 0.11rem;
+  white-space: nowrap;
+  color: #333333;
+}
+/*
+mind the order here
+because the css would overlap one by one,
+start the fundemental first, and then the specific condition
+*/
+
 .boxExplore {
-  bottom: 2.4rem;
-  transform: translate(-50%, -50%);
-  color: #fc766a;
+  bottom: 1.72rem;
+  transform: translate(-50%, 0%);
 }
 
 .boxAccount {
-
+  left: -27.2px;
 }
 
 .boxFocus {
-  right: 0;
+  right: 38px;
 }
 
 .boxFocusExplore {
-  right: 2.4rem;
-}
-
-.fontCosmicCorner {
-  font-size: 1.4rem;
-  letter-spacing: 0.16rem;
-  white-space: nowrap;
-  color: #333333;
+  right: 12rem;
+  color: black;
 }

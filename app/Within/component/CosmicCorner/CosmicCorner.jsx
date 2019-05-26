@@ -41,8 +41,7 @@ class CosmicCorner extends React.Component {
     return(
       <div>
         <div
-          className={classnames(styles.boxOptions, styles.fontCosmicCorner, styles.boxExplore)}
-          style={(pathExplore || pathMain)? {color: '#333333'}: {}}>
+          className={classnames(styles.boxOptions, styles.fontCosmicCorner, styles.boxExplore)}>
           <Link
             to="/cosmic/explore"
             className={'plainLinkButton'}>
@@ -50,7 +49,8 @@ class CosmicCorner extends React.Component {
           </Link>
         </div>
         <div
-          className={classnames(styles.boxOptions, styles.fontCosmicCorner)}>
+          className={classnames(styles.boxOptions, styles.fontCosmicCorner)}
+          style={{display: 'none'}}>
           <Link
             to="/"
             className={'plainLinkButton'}>
@@ -65,7 +65,7 @@ class CosmicCorner extends React.Component {
               styles.boxAccount
             )
           }
-          style={(pathExplore || pathMain)? {color: '#fc766a',   transform: 'translate(-50%, -50%)'}: {}}
+          style={(pathExplore || pathMain)? {color: '#fc766a', left: '0', transform: 'translate(-50%, 0%)'}: {}}
           onClick={this._handleClick_cosmic_Self}>
           {this.props.userInfo.account}
         </div>
@@ -78,7 +78,8 @@ class CosmicCorner extends React.Component {
           )}
           style={pathMain? {display: 'none'}: {}}>
           <Link
-            to="/cosmic">
+            to="/cosmic"
+            className={'plainLinkButton'}>
             {"focus"}
           </Link>
         </div>
