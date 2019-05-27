@@ -4,13 +4,10 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import DraftDisplayforNailMark from '../../Draft/DraftDisplayforNailMark.jsx';
 import styles from "./styleNailBasic.module.css";
+import DraftDisplayforNailMark from '../../Draft/DraftDisplayforNailMark.jsx';
 
 const commonStyle = {
-  boxNail: {
-    boxShadow: '0 1px 1px -0.1rem, 0rem -0.05rem 2px -0.2rem',
-  },
   Com_Nails_Cosmic_pic_: {
     width: '100%',
     position: 'relative',
@@ -143,8 +140,7 @@ class NailBasic extends React.Component {
   render(){
     return(
       <div
-        className={styles.Nails_Cosmic}
-        style={commonStyle.boxNail}>
+        className={styles.Nails_Cosmic}>
         <div style={{width: '100%', height: '2rem', position: 'relative'}}></div>
         <Link
           to={{

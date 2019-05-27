@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import SimpleBlock from './SimpleBlock.jsx';
+import Unit from '../../Component/Unit.jsx';
 import {
   handleNounsList,
   handleUsersList
@@ -22,24 +23,51 @@ const styleMiddle = {
   boxScroll: {
     width: '932px',
     position: 'absolute',
-    top: '4.8vh',
+    top: '5.8vh',
     left: '50%',
     transform: 'translate(-50%,0)',
     boxSizing: 'border-box'
   },
   boxTitle: {
-
+    width: '100%',
+    minHeight: '5rem',
+    position: 'relative',
+    boxSizing: 'border-box',
+    padding: '0 0 2rem 0'
+  },
+  boxName: {
+    display: 'inline-block',
+    boxSizing: 'border-box',
+    padding: '1rem',
+    transform: 'translate(50%,0)'
   },
   boxBlocks: {
     width: '100%',
+    minHeight: '5rem',
     position: 'relative',
     boxSizing: 'border-box',
+    margin: '2rem 0px 0px'
   },
   footer: {
     width: '100%',
     height: '5rem',
     position: 'relative',
     boxSizing: 'border-box'
+  },
+  fontName: {
+    fontSize: '2.7rem',
+    fontWeight: '700',
+    letterSpacing: '0.12rem',
+    whiteSpace: 'nowrap',
+    color: 'black'
+  },
+  fontPlaceholder: {
+    fontSize: '1.45rem',
+    fontWeight: '700',
+    letterSpacing: '0.1rem',
+    whiteSpace: 'nowrap',
+    textAlign: 'center',
+    color: '#AAAAAA'
   }
 }
 
@@ -87,7 +115,9 @@ class CosmicNoun extends React.Component {
       self.props._submit_NounsList_new(resObj.main.nounsListMix);
       self.props._submit_UsersList_new(resObj.main.usersList);
       self.setState((prevState, props)=>{
-        prevState.unitsBlock.push(resObj.main.unitsList);
+        //we don't push anything and keep it as previous,
+        //bexuase we need to let the render check if there is any id for this noun or not.
+        if(resObj.main.unitsList.length>0) prevState.unitsBlock.push(resObj.main.unitsList);
         return({
           axios: false,
           unitsBlock: prevState.unitsBlock, //maybe this is not a good way, modifying the prevState directy
@@ -108,6 +138,13 @@ class CosmicNoun extends React.Component {
   }
 
   _render_nouns_Block(){
+    if(!this.state.unitsBlock[0]) return(
+      <div
+        style={Object.assign({}, styleMiddle.fontPlaceholder, {boxSizing: 'border-box',margin: '13% 0'})}>
+        {"revealing the unknown to the curious people! "}
+      </div>
+    );
+
     let list = this.state.unitsBlock.map((unitBlock, index)=>{
       return (
         <SimpleBlock
@@ -141,8 +178,13 @@ class CosmicNoun extends React.Component {
           style={styleMiddle.boxScroll}>
           <div
             style={styleMiddle.boxTitle}>
-            <div>
-              {}
+            <div
+              style={Object.assign({}, styleMiddle.boxName, styleMiddle.fontName)}>
+              {this.nounId in this.props.nounsBasic? (
+                this.props.nounsBasic[this.nounId].name
+              ): (
+                null
+              )}
             </div>
           </div>
           <div
