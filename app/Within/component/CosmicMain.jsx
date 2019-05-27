@@ -1,5 +1,4 @@
 import React from 'react';
-import cxBind from 'classnames/bind';
 import MainIndex from './MainIndex.jsx';
 
 export default class CosmicMain extends React.Component {
@@ -36,13 +35,12 @@ export default class CosmicMain extends React.Component {
   }
 
   render(){
-    //let cx = cxBind.bind(styles);
     return(
       <div
         style={this.style.withinCom_CosmicMain_}>
         <div
           style={this.style.withinCom_CosmicMain_index_}>
-          <MainIndex {...this.props} _refer_von_cosmic={this.props._refer_von_cosmic}/>
+          <MainIndex {...this.props}/>
         </div>
         <div style={{width: '100%', height: '3vh', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
         <div style={{width: '100%', height: '2.4rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
