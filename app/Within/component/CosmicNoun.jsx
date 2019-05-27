@@ -4,10 +4,42 @@ import {
   Route,
   withRouter
 } from 'react-router-dom';
+import {connect} from "react-redux";
+import SimpleBlock from './SimpleBlock.jsx';
+import {
+  handleNounsList,
+  handleUsersList
+} from "../../redux/actions/general.js";
+import {
+  cancelErr,
+  uncertainErr
+} from "../../utils/errHandlers.js";
 
 const styleMiddle = {
-  comExplore: {
+  comNounSingular: {
+    height: '',
+  },
+  boxScroll: {
+    width: '932px',
+    position: 'absolute',
+    top: '4.8vh',
+    left: '50%',
+    transform: 'translate(-50%,0)',
+    boxSizing: 'border-box'
+  },
+  boxTitle: {
 
+  },
+  boxBlocks: {
+    width: '100%',
+    position: 'relative',
+    boxSizing: 'border-box',
+  },
+  footer: {
+    width: '100%',
+    height: '5rem',
+    position: 'relative',
+    boxSizing: 'border-box'
   }
 }
 
@@ -16,8 +48,12 @@ class CosmicNoun extends React.Component {
     super(props);
     this.state = {
       axios: false,
-
+      unitsBlock: [],
+      //unitsBlock is a arr composed of multiple unitsList(also an arr)
+      unitsBasic: {},
+      marksBasic: {},
     };
+    this.nounId = this.props.match.params.nounId;
     this.axiosSource = axios.CancelToken.source();
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._render_nouns_Block = this._render_nouns_Block.bind(this);
@@ -36,31 +72,29 @@ class CosmicNoun extends React.Component {
     const self = this;
     this.setState({axios: true});
 
+    //now get the Units of this noun from the attribution in database
     axios({
       method: 'get',
-      url: '/router/nouns/explore',
+      url: '/router/nouns/'+this.nounId,
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']
       },
       cancelToken: self.axiosSource.cancelToken
     }).then(function (res) {
-      self.setState({axios: false});
 
       let resObj = JSON.parse(res.data);
-      let nounsArr = resObj.main.nounsListUsed.concat(resObj.main.nounsListRandom),
-          callBack = ()=>{
-            self.setState((prevState, props)=>{
-              prevState.listRandom.push(resObj.main.nounsListRandom);
-              return {
-                listUsed: resObj.main.nounsListUsed,
-                listRandom: prevState.listRandom
-              }
-            });
-          };
-
-      self.props._submit_NounsList_new(nounsArr, callBack);
-
+      self.props._submit_NounsList_new(resObj.main.nounsListMix);
+      self.props._submit_UsersList_new(resObj.main.usersList);
+      self.setState((prevState, props)=>{
+        prevState.unitsBlock.push(resObj.main.unitsList);
+        return({
+          axios: false,
+          unitsBlock: prevState.unitsBlock, //maybe this is not a good way, modifying the prevState directy
+          unitsBasic: resObj.main.unitsBasic,
+          marksBasic: resObj.main.marksBasic
+        });
+      });
     }).catch(function (thrown) {
       self.setState({axios: false});
       if (axios.isCancel(thrown)) {
@@ -74,14 +108,14 @@ class CosmicNoun extends React.Component {
   }
 
   _render_nouns_Block(){
-    let list = this.state.listRandom.map((nounsBlock, index)=>{
+    let list = this.state.unitsBlock.map((unitBlock, index)=>{
       return (
-        <NounsBlock
-          key={"key_Explore_Block"+index}
-          nounsList={nounsBlock}
-          nounsBasic={this.props.nounsBasic}/>
-      ) // nounsBasic is saved in reducer,
-        // so should be called directly if the NounsBlock was imported from a independent file
+        <SimpleBlock
+          key={"key_Cosmicnoun_blocks_"+index}
+          unitsList={unitBlock}
+          unitsBasic={this.state.unitsBasic}
+          marksBasic={this.state.marksBasic}/>
+      )
     });
 
     return list;
@@ -99,20 +133,23 @@ class CosmicNoun extends React.Component {
   }
 
   render(){
-    //let cx = cxBind.bind(styles);
     return(
       <div
-        style={this.style.withinCom_CosmicNoun_}>
+        className={'boxAbsoluteFull'}
+        style={styleMiddle.comNounSingular}>
         <div
-          style={this.style.withinCom_MainIndex_scroll_}>
-          <div>
-            {"title"}
+          style={styleMiddle.boxScroll}>
+          <div
+            style={styleMiddle.boxTitle}>
+            <div>
+              {}
+            </div>
           </div>
           <div
-            style={Object.assign({left: '9%'}, styleMiddle.boxNailsCol)}>
+            style={styleMiddle.boxBlocks}>
             {this._render_nouns_Block()}
-            <div style={this.style.withinCom_MainIndex_scroll_col_footer}></div>
           </div>
+          <div style={styleMiddle.footer}></div>
         </div>
         <div style={{width: '100%', height: '3vh', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
         <div style={{width: '100%', height: '2.4rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
@@ -134,7 +171,8 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    _submit_NounsList_new: (arr, callBack) => { dispatch(handleNounsList(arr)).then(()=>{if(callBack) callBack();}); }
+    _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
+    _submit_UsersList_new: (arr) => { dispatch(handleUsersList(arr)); }
   }
 }
 

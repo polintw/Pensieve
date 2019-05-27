@@ -10,6 +10,7 @@ const {_res_success} = require('../utils/resHandler.js');
 const {
   _handle_ErrCatched,
   internalError,
+  authorizedError,
   forbbidenError
 } = require('../utils/reserrHandler.js');
 
@@ -17,7 +18,7 @@ function _handle_GET_nouns_explore(req, res){
   new Promise((resolve, reject)=>{
     const reqToken = req.body.token || req.headers['token'] || req.query.token;
     const jwtVerified = jwt.verify(reqToken, verify_key);
-    if (!jwtVerified) throw new internalError(jwtVerified, 32);
+    if (!jwtVerified) throw new authorizedError("during GET--nouns/singular, "+jwtVerified, 32);
 
     //first, select nouns from the rencent 70 of attribution
     return _DB_attribution.findAndCountAll({

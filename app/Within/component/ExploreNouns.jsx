@@ -47,7 +47,7 @@ const styleMiddle = {
     position: 'relative',
     boxSizing: 'border-box',
     padding: '0 5%',
-    margin: '3% 2%',
+    margin: '4% 2%',
     whiteSpace: 'nowrap',
     cursor: 'pointer'
   },

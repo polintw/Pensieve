@@ -99,7 +99,7 @@ class WithinCosmic extends React.Component {
         <Switch>
           <Route path={this.props.match.path+"/people/:id"} render={(props)=> <CosmicUser {...props}/>}/>
           <Route path={this.props.match.path+"/units/:id/related"} render={(props)=> <CosmicRelated {...props}/>}/>
-          <Route path={this.props.match.path+"/nouns/:id"} render={(props)=> <CosmicNoun {...props}/>}/>
+          <Route path={this.props.match.path+"/nouns/:nounId"} render={(props)=> <CosmicNoun {...props}/>}/>
           <Route path={this.props.match.path+"/explore"} render={(props)=> <Explore {...props}/>}/>
           <Route path={this.props.match.path} render={(props)=> <CosmicMain {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
         </Switch>
