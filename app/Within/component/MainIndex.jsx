@@ -6,7 +6,6 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import cxBind from 'classnames/bind';
 import Unit from '../../Component/Unit.jsx';
 import CreateShare from '../../Component/CreateShare.jsx';
 import SvgLogo from '../../Component/Svg/SvgLogo.jsx';
@@ -233,7 +232,7 @@ class MainIndex extends React.Component {
           </div>
         </div>
         <Route
-          path={this.props.match.path+"/units/:id"}
+          path={"/units/:id"}
           render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_von_cosmic}/>}/>
       </div>
     )

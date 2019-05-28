@@ -34,19 +34,26 @@ start the fundemental first, and then the specific condition
   right: 12rem;
   color: black;
 }
-._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlock {
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlockNowrap {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlock div, ._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlockNowrap div {
+._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__Nails_Cosmic {
   display: inline-block;
+  width: 21rem;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0 3.4rem 1.2rem 2.4rem;
+  box-shadow: 0 1px 1px -0.1rem, 0rem -0.05rem 2px -0.2rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  background-color: #FFFFFF;
+}
+._C_C_app_Component_Nails_NailCosmic_styleNailCosmic_module__Nails_Cosmic {
+  display: inline-block;
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0.5rem 0;
+  border-radius: 0.08vh;
+  cursor: pointer;
+  background-color: #FFFFFF;
 }
 ._C_C_app_Component_Editing_EditingModal_styleEditingModal_module__imgBLockDecoBack {
   width: 18%;
@@ -88,24 +95,17 @@ start the fundemental first, and then the specific condition
   line-height: 1.7rem;
   color: #ABABAB;
 }
-._C_C_app_Component_Nails_NailCosmic_styleNailCosmic_module__Nails_Cosmic {
-  display: inline-block;
-  width: 100%;
-  position: relative;
-  box-sizing: border-box;
-  margin: 0.5rem 0;
-  border-radius: 0.08vh;
-  cursor: pointer;
-  background-color: #FFFFFF;
+._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlock {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__Nails_Cosmic {
+
+._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlockNowrap {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlock div, ._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlockNowrap div {
   display: inline-block;
-  width: 21rem;
-  position: relative;
-  box-sizing: border-box;
-  margin: 0 3.4rem 1.2rem 2.4rem;
-  box-shadow: 0 1px 1px -0.1rem, 0rem -0.05rem 2px -0.2rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  background-color: #FFFFFF;
 }

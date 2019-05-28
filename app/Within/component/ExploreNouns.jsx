@@ -99,7 +99,7 @@ class NounsBlock extends React.Component {
           key={"key_Explore_randomNouns_"+index}
           style={styleMiddle.boxRendomItem}>
           <Link
-            to={"/cosmic/nouns/"+nounId}
+            to={"/nouns/"+nounId}
             className={'plainLinkButton'}>
             <span
               style={styleMiddle.fontListItem}>
@@ -240,7 +240,7 @@ class ExploreNouns extends React.Component {
           key={"key_Explore_usedNouns_"+index}
           style={Object.assign({}, styleMiddle.boxUsedItem, {padding: '1% 3%', margin: '2% 0px'})}>
           <Link
-            to={"/cosmic/nouns/"+nounId}
+            to={"/nouns/"+nounId}
             className={'plainLinkButton'}>
             <span
               style={styleMiddle.fontListItem}>

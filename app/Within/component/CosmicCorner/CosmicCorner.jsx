@@ -35,26 +35,17 @@ class CosmicCorner extends React.Component {
 
   render(){
     //detect where I am now, for styling
-    let pathExplore = this.props.location.pathname.includes("/cosmic/explore")? true: false;
-    let pathMain = (this.props.location.pathname == "/cosmic") ? true : false;
+    let pathExplore = this.props.location.pathname.includes("/explore")? true: false;
+    let pathMain = (this.props.location.pathname == "/") ? true : false;
 
     return(
       <div>
         <div
           className={classnames(styles.boxOptions, styles.fontCosmicCorner, styles.boxExplore)}>
           <Link
-            to="/cosmic/explore"
+            to="/explore"
             className={'plainLinkButton'}>
             {"explore"}
-          </Link>
-        </div>
-        <div
-          className={classnames(styles.boxOptions, styles.fontCosmicCorner)}
-          style={{display: 'none'}}>
-          <Link
-            to="/"
-            className={'plainLinkButton'}>
-            {"around"}
           </Link>
         </div>
         <div
@@ -78,7 +69,7 @@ class CosmicCorner extends React.Component {
           )}
           style={pathMain? {display: 'none'}: {}}>
           <Link
-            to="/cosmic"
+            to="/"
             className={'plainLinkButton'}>
             {"focus"}
           </Link>
