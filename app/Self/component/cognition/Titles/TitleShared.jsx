@@ -27,7 +27,7 @@ export default class TitleShared extends React.Component {
         width: '36%',
         float: 'left',
         boxSizing: 'border-box',
-        margin: '0 3%',
+        margin: '19px 5%',
         fontWeight: '700',
         fontSize: '2.8rem',
         letterSpacing: '0.54rem'
