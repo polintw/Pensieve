@@ -5,11 +5,9 @@ import {
 import {connect} from "react-redux";
 import {
   SheetAccount,
-  SheetSetting,
   SheetPassword,
   SheetBasic
 } from './SheetCom.jsx';
-import SvgPropic from '../../Component/Svg/SvgPropic.jsx';
 import { NameLarge } from '../../Component/AccountPlate.jsx';
 import {mountUserSheet} from "../../redux/actions/general.js";
 
@@ -92,14 +90,6 @@ const styleMiddle = {
 
   _render_SheetView(paramsStatus){
     switch (paramsStatus) {
-      case 'setting':
-        return (
-          <div
-            style={this.style.selfCom_Sheet_display_settingform}>
-            <SheetSetting {...this.props}/>
-          </div>
-        )
-        break;
       case 'password':
         return (
           <div

@@ -69,9 +69,6 @@ class Screen extends React.Component {
       terraceCom_Screen_options_: {
         bottom: '6%',
       },
-      terraceCom_Screen_floorOptions_: {
-        top: '7%'
-      },
       terraceCom_Screen_options_expand: {
         display: 'inline',
         position: 'relative',
@@ -119,21 +116,6 @@ class Screen extends React.Component {
         </div>
         <div
           style={this.style.terraceCom_Screen_floor_}>
-          <div
-            style={Object.assign({}, this.style.terraceCom_Screen_floorOptions_, styleMiddle.boxOption, {right: '25.6%'})}>
-            <Link
-              to={{
-                pathname: "/screen",
-                search: "?watch=window",
-                hash: "",
-                state: {}
-              }}
-              className={'plainLinkButton'}>
-              <span style={Object.assign({}, styleMiddle.fontOption, {color: 'black', cursor: 'pointer'})}>
-                {"window"}
-              </span>
-            </Link>
-          </div>
           <div
             style={this.style.terraceCom_Screen_return_}
             onClick={this._handleClick_selfClose}>

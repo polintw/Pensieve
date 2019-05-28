@@ -5,9 +5,7 @@ import {
   Route
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import cxBind from 'classnames/bind';
 import Screen from './component/Screen.jsx';
-import Appearance from '../Component/Appearance.jsx';
 
 
 class Terrace extends React.Component {
@@ -26,13 +24,6 @@ class Terrace extends React.Component {
         left: '0',
         boxSizing: 'border-box',
         overflowX: 'hidden'
-      },
-      Self_pages_Terrace_hidden_appearance: {
-        width: '60%',
-        position: 'absolute',
-        top: '10%',
-        left: '20%',
-        boxSizing: 'border-box'
       }
     }
   }
@@ -43,11 +34,11 @@ class Terrace extends React.Component {
         if(identifier == this.props.userInfo.id){
           window.location.assign('/user/screen');
         }else{
-          window.location.assign('/cosmic/people/'+identifier);
+          window.location.assign('/');
         }
         break;
       case 'noun':
-        window.location.assign('/cosmic/nouns/'+identifier);
+        window.location.assign('/nouns/'+identifier);
         break;
       default:
         return
@@ -63,24 +54,11 @@ class Terrace extends React.Component {
   }
 
   render(){
-    //let cx = cxBind.bind(styles);
-    const params = new URLSearchParams(this.props.location.search); //query value
-    let paramWatch = params.get('watch');
-
     return(
       <div
         ref={(element)=>{this.terrace_=element;}}
         style={this.style.Self_pages_Terrace_}>
-        {
-          paramWatch== 'window'?(
-            <div
-              style={this.style.Self_pages_Terrace_hidden_appearance}>
-              <Appearance {...this.props} urlParam={"/router/user/cover"} urlQuery={"?id="+this.props.userInfo.id} _refer_von_unit={this._refer_leaveSelf}/>
-            </div>
-          ):(
-            <Screen {...this.props}/>
-          )
-        }
+        <Screen {...this.props}/>
       </div>
     )
   }
