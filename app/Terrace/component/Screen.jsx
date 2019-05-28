@@ -7,17 +7,9 @@ import {connect} from "react-redux";
 import SvgAround from '../../Component/Svg/SvgAround.jsx';
 
 const styleMiddle = {
-  base: {
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
-    top: '0',
-    left: '0',
-    boxSizing: 'border-box',
-  },
   boxOption: {
     position: 'absolute',
-    right: '27%',
+    right: '26%',
     boxSizing: 'border-box'
   },
   fontOption: {
@@ -39,25 +31,16 @@ class Screen extends React.Component {
     this.style={
       terraceCom_Screen_plane_: {
         width: '100%',
-        height: '45%',
+        height: '40%',
         position: 'absolute',
         top: '0',
         right: '0',
         boxSizing: 'border-box',
         overflow: 'visible'
       },
-      terraceCom_Screen_depthShadow: {
-        width: '24%',
-        height: '20%',
-        position: 'absolute',
-        bottom: '1%',
-        left: '22%',
-        boxSizing: 'border-box',
-        boxShadow: '0px -0.44rem 0.87rem -1.1rem inset'
-      },
       terraceCom_Screen_floor_: {
         width: '100%',
-        height: '55%',
+        height: '59%',
         position: 'absolute',
         bottom: '0',
         right: '0',
@@ -67,7 +50,7 @@ class Screen extends React.Component {
       terraceCom_Screen_account_: {
         maxWidth: '38%',
         position: 'absolute',
-        top: '38%',
+        top: '34.8%',
         left: '32%',
         transform: 'translate(-50%,0%)',
         boxSizing: 'border-box',
@@ -84,10 +67,10 @@ class Screen extends React.Component {
         color: '#000000'
       },
       terraceCom_Screen_options_: {
-        bottom: '10%',
+        bottom: '6%',
       },
       terraceCom_Screen_floorOptions_: {
-        top: '10%'
+        top: '7%'
       },
       terraceCom_Screen_options_expand: {
         display: 'inline',
@@ -97,10 +80,10 @@ class Screen extends React.Component {
       },
       terraceCom_Screen_return_: {
         width: '6%',
-        height: '11%',
+        height: '10%',
         position: 'absolute',
-        top: '50%',
-        right: '36%',
+        top: '60%',
+        left: '37%',
         boxSizing: 'border-box',
       },
     }
@@ -121,11 +104,10 @@ class Screen extends React.Component {
   render(){
     return(
       <div
-        ref={(element)=>{this.terrace_pagenav=element;}}
-        style={styleMiddle.base}>
+        className={'boxAbsoluteFull'}
+        ref={(element)=>{this.terrace_pagenav=element;}}>
         <div
           style={this.style.terraceCom_Screen_plane_}>
-          <div style={this.style.terraceCom_Screen_depthShadow}></div>
           <div
             style={Object.assign({}, this.style.terraceCom_Screen_options_, styleMiddle.boxOption)}>
             <div
@@ -138,7 +120,7 @@ class Screen extends React.Component {
         <div
           style={this.style.terraceCom_Screen_floor_}>
           <div
-            style={Object.assign({}, this.style.terraceCom_Screen_floorOptions_, styleMiddle.boxOption)}>
+            style={Object.assign({}, this.style.terraceCom_Screen_floorOptions_, styleMiddle.boxOption, {right: '25.6%'})}>
             <Link
               to={{
                 pathname: "/screen",
