@@ -4,47 +4,173 @@ import {
   Route,
   withRouter
 } from 'react-router-dom';
-import querystring from 'query-string';
-import cxBind from 'classnames/bind';
-import CosmicSelected from './CosmicSelected.jsx';
+import {connect} from "react-redux";
+import SimpleBlock from './SimpleBlock.jsx';
+import Unit from '../../Component/Unit.jsx';
+import {
+  handleNounsList,
+  handleUsersList
+} from "../../redux/actions/general.js";
+import {
+  cancelErr,
+  uncertainErr
+} from "../../utils/errHandlers.js";
 
-export default class CosmicNoun extends React.Component {
+const styleMiddle = {
+  comNounSingular: {
+    height: '',
+  },
+  boxScroll: {
+    width: '932px',
+    position: 'absolute',
+    top: '5.8vh',
+    left: '50%',
+    transform: 'translate(-50%,0)',
+    boxSizing: 'border-box'
+  },
+  boxTitle: {
+    width: '100%',
+    minHeight: '5rem',
+    position: 'relative',
+    boxSizing: 'border-box',
+    padding: '0 0 2rem 0'
+  },
+  boxName: {
+    display: 'inline-block',
+    boxSizing: 'border-box',
+    padding: '1rem',
+    transform: 'translate(50%,0)'
+  },
+  boxBlocks: {
+    width: '100%',
+    minHeight: '5rem',
+    position: 'relative',
+    boxSizing: 'border-box',
+    margin: '2rem 0px 0px'
+  },
+  footer: {
+    width: '100%',
+    height: '5rem',
+    position: 'relative',
+    boxSizing: 'border-box'
+  },
+  fontName: {
+    fontSize: '2.7rem',
+    fontWeight: '700',
+    letterSpacing: '0.12rem',
+    whiteSpace: 'nowrap',
+    color: 'black'
+  },
+  fontPlaceholder: {
+    fontSize: '1.45rem',
+    fontWeight: '700',
+    letterSpacing: '0.1rem',
+    whiteSpace: 'nowrap',
+    textAlign: 'center',
+    color: '#AAAAAA'
+  }
+}
+
+class CosmicNoun extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       axios: false,
-      userQueried: this.props.match.params.id
+      unitsBlock: [],
+      //unitsBlock is a arr composed of multiple unitsList(also an arr)
+      unitsBasic: {},
+      marksBasic: {},
     };
     this.axiosSource = axios.CancelToken.source();
+    this._construct_UnitInit = this._construct_UnitInit.bind(this);
+    this._render_nouns_Block = this._render_nouns_Block.bind(this);
+    this._axios_nouns_singular = this._axios_nouns_singular.bind(this);
     this.style={
-      withinCom_CosmicNoun_: {
-        width: '75%',
-        position: 'absolute',
-        top: '2vh',
-        left: '12%',
-        boxSizing: 'border-box'
-      },
-      withinCom_CosmicNoun_selected_: {
-        width: '100%',
-        minHeight: '64vh',
-        position: 'absolute',
-        top: '44vh',
-        left: '0%',
-        boxSizing: 'border-box'
-      },
-      withinCom_CosmicNoun_cover_: {
-        width: '100%',
-        height: '48vh',
-        position: 'absolute',
-        top: '2vh',
-        left: '0',
-        boxSizing: 'border-box'
-      }
+
     }
   }
 
-  componentDidMount() {
+  _construct_UnitInit(match, location){
+    let unitInit= {marksify: false, initMark: "all", layer: 0};
+    return unitInit;
+  }
 
+  _axios_nouns_singular(){
+    const self = this;
+    this.setState({axios: true});
+
+    //now get the Units of this noun from the attribution in database
+    axios({
+      method: 'get',
+      url: '/router/nouns/'+this.nounId,
+      headers: {
+        'charset': 'utf-8',
+        'token': window.localStorage['token']
+      },
+      cancelToken: self.axiosSource.cancelToken
+    }).then(function (res) {
+
+      let resObj = JSON.parse(res.data);
+      self.props._submit_NounsList_new(resObj.main.nounsListMix);
+      self.props._submit_UsersList_new(resObj.main.usersList);
+      self.setState((prevState, props)=>{
+        //we don't push anything and keep it as previous,
+        //bexuase we need to let the render check if there is any id for this noun or not.
+        if(resObj.main.unitsList.length>0) prevState.unitsBlock.push(resObj.main.unitsList);
+        return({
+          axios: false,
+          unitsBlock: prevState.unitsBlock, //maybe this is not a good way, modifying the prevState directy
+          unitsBasic: resObj.main.unitsBasic,
+          marksBasic: resObj.main.marksBasic
+        });
+      });
+    }).catch(function (thrown) {
+      self.setState({axios: false});
+      if (axios.isCancel(thrown)) {
+        cancelErr(thrown);
+      } else {
+        let message = uncertainErr(thrown);
+        if(message) alert(message);
+      }
+    });
+
+  }
+
+  _render_nouns_Block(){
+    if(!this.state.unitsBlock[0]) return(
+      <div
+        style={Object.assign({}, styleMiddle.fontPlaceholder, {boxSizing: 'border-box',margin: '13% 0'})}>
+        {"revealing the unknown to the curious people! "}
+      </div>
+    );
+
+    let list = this.state.unitsBlock.map((unitBlock, index)=>{
+      return (
+        <SimpleBlock
+          key={"key_Cosmicnoun_blocks_"+index}
+          unitsList={unitBlock}
+          unitsBasic={this.state.unitsBasic}
+          marksBasic={this.state.marksBasic}/>
+      )
+    });
+
+    return list;
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot){
+    //becuase there is chance we jump from noun to noun, using the same component this one
+    //so we check if the nounId has changed
+    this.nounId = this.props.match.params.nounId;
+    if(this.nounId !== prevProps.match.params.nounId){
+      //load Units tagged to this noun
+      this._axios_nouns_singular();
+    };
+  }
+
+  componentDidMount() {
+    //load Units tagged to this noun
+    this.nounId = this.props.match.params.nounId;
+    this._axios_nouns_singular();
   }
 
   componentWillUnmount(){
@@ -54,19 +180,55 @@ export default class CosmicNoun extends React.Component {
   }
 
   render(){
-    //let cx = cxBind.bind(styles);
     return(
       <div
-        style={this.style.withinCom_CosmicNoun_}>
+        className={'boxAbsoluteFull'}
+        style={styleMiddle.comNounSingular}>
         <div
-          style={this.style.withinCom_CosmicNoun_cover_}>
-
+          style={styleMiddle.boxScroll}>
+          <div
+            style={styleMiddle.boxTitle}>
+            <div
+              style={Object.assign({}, styleMiddle.boxName, styleMiddle.fontName)}>
+              {this.nounId in this.props.nounsBasic? (
+                this.props.nounsBasic[this.nounId].name+(this.props.nounsBasic[this.nounId].prefix? (" ,  "+this.props.nounsBasic[this.nounId].prefix): "")
+              ): (
+                null
+              )}
+            </div>
+          </div>
+          <div
+            style={styleMiddle.boxBlocks}>
+            {this._render_nouns_Block()}
+          </div>
+          <div style={styleMiddle.footer}></div>
         </div>
-        <div
-          style={this.style.withinCom_CosmicNoun_selected_}>
-          <Route path={this.props.match.path} render={(props)=> <CosmicSelected {...props} urlParam={"/router/cosmic/pick/noun/regular"} urlQuery={"?id="+this.state.userQueried}/>}/>
-        </div>
+        <div style={{width: '100%', height: '3vh', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
+        <div style={{width: '100%', height: '2.4rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
+        <Route
+          path={this.props.match.path+"/units/:id"}
+          render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_von_cosmic}/>}/>
       </div>
     )
   }
 }
+
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo,
+    unitCurrent: state.unitCurrent,
+    nounsBasic: state.nounsBasic,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
+    _submit_UsersList_new: (arr) => { dispatch(handleUsersList(arr)); }
+  }
+}
+
+export default withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CosmicNoun));
