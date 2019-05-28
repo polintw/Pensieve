@@ -123,13 +123,13 @@ class UnitImgLayers extends React.Component {
           <div
             style={this.style.Com_Unit_UnitImgLayers_commonSection_InfoPanel_}>
             <div
-              style={Object.assign({color: 'rgb(250, 250, 250)', cursor:'pointer'},this.style.Com_Unit_UnitImgLayers_commonSection_InfoPanel_blocks_)}>
+              style={Object.assign({color: 'rgb(250, 250, 250)'},this.style.Com_Unit_UnitImgLayers_commonSection_InfoPanel_blocks_)}>
               <NameLabelRe
                 size={'small'}
                 accountId={this.props.unitCurrent.authorBasic.authorId}
                 accountFisrtName={this.props.unitCurrent.authorBasic.firstName}
                 accountLastName={this.props.unitCurrent.authorBasic.lastName}
-                _handleClick_Account={this.props._refer_toandclose}/>
+                _handleClick_Account={()=>{}}/>
             </div>
             <div
               style={Object.assign({color: '#FAFAFA'},this.style.Com_Unit_UnitImgLayers_commonSection_InfoPanel_blocks_)}>

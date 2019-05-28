@@ -8,7 +8,6 @@ import {NounsStatic} from './UnitComponent.jsx';
 import ImgPreview from '../ImgPreview.jsx';
 import DateConverter from '../DateConverter.jsx';
 import MarksArticle from '../MarksArticle.jsx';
-import SvgCreateonDialog from '../Svg/SvgCreateonDialog.jsx'
 import {NameLarge} from '../AccountPlate.jsx';
 
 const styleMiddle = {
@@ -80,7 +79,6 @@ class UnitViewSummary extends React.Component {
     };
     this.marksArticle = React.createRef();
     this._set_layerstatus = this._set_layerstatus.bind(this);
-    this._handleClick_UnitAction_response = this._handleClick_UnitAction_response.bind(this);
     this._handleWheel_marksArticle = (event)=>{event.stopPropagation();};
     this.style={
       Com_UnitViewSummary_: {
@@ -110,15 +108,6 @@ class UnitViewSummary extends React.Component {
         left: '4%',
         boxSizing: 'border-box'
       },
-      Com_UnitViewSummary_response_: {
-        width: '18%',
-        height: '16%',
-        position: 'absolute',
-        bottom: '4%',
-        left: '33%',
-        boxSizing: 'border-box',
-        cursor: 'pointer'
-      },
       Com_UnitViewSummary_author_: {
         position: 'absolute',
         top: '8%',
@@ -146,12 +135,6 @@ class UnitViewSummary extends React.Component {
     let moveCount = (layer=='cover')? 0 : 100;
     let marksStatus = markKey? {marksify: true, initMark: markKey}: {marksify: false, initMark: "all"};
     this.props._set_layerstatus(true, parseInt(moveCount), marksStatus);
-  }
-
-  _handleClick_UnitAction_response(event){
-    event.stopPropagation();
-    event.preventDefault();
-    this.props._set_Modalmode("response");
   }
 
   componentDidMount(){
@@ -221,11 +204,6 @@ class UnitViewSummary extends React.Component {
             <DateConverter
               datetime={this.props.unitCurrent.createdAt}/>
           </div>
-        </div>
-        <div
-          style={this.style.Com_UnitViewSummary_response_}
-          onClick={this._handleClick_UnitAction_response}>
-          <SvgCreateonDialog/>
         </div>
       </div>
     )
