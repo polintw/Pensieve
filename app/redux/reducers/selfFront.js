@@ -12,6 +12,8 @@ import {
 import {
   UPDATE_USERSHEET,
   UPDATE_ACCOUNTSET,
+  SET_COGNITION_BELLNOTIFY,
+  SET_COGNITION_LISTNOTIFY,
   SETTING_SUBMITTING_SWITCH
 } from '../constants/typesSelfFront.js';
 import {
@@ -64,6 +66,16 @@ function pageSelfFront(state = initialGeneral, action){
         accountSet: action.accountSet
       })
       break;
+    case SET_COGNITION_BELLNOTIFY:
+      return Object.assign({}, state, {
+        cognition: {...state.cognition, bellNotify: action.bellNotify}
+      })
+      break;
+    case SET_COGNITION_LISTNOTIFY:
+      return Object.assign({}, state, {
+        cognition: {...state.cognition, listNotify: action.listNotify}
+      })
+      break;
     case SETTING_SUBMITTING_SWITCH:
         return Object.assign({}, state, {
         settingSubmitting: action.settingSubmitting
@@ -71,7 +83,7 @@ function pageSelfFront(state = initialGeneral, action){
       break;
     case UPDATE_NOUNSBASIC:
       return Object.assign({}, state, {
-        nounsBasic: {...state.nousBasic, ...action.newFetch}
+        nounsBasic: {...state.nounsBasic, ...action.newFetch}
       })
       break;
     case UPDATE_USERSBASIC:

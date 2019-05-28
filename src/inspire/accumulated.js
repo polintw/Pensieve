@@ -17,7 +17,7 @@ function _handle_GET_accumulated_Inspire(req, res){
   new Promise((resolve, reject)=>{
     const reqToken = req.body.token || req.headers['token'] || req.query.token;
     const jwtVerified = jwt.verify(reqToken, verify_key);
-    if (!jwtVerified) throw new internalError(jwtVerified, 131)
+    if (!jwtVerified) throw new internalError(jwtVerified, 32);
 
     let userId = jwtVerified.user_Id;
     //select all inspired records of this user

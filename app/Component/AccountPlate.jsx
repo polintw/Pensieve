@@ -8,9 +8,9 @@ const generalStyle = {
   spanNameRegular: {
     display: 'inline-block',
     whiteSpace: 'nowrap',
-    fontSize: '1.54rem',
+    fontSize: '1.45rem',
     fontWeight: '400',
-    letterSpacing: '0.18rem',
+    letterSpacing: '0.1rem',
   },
   spanNameMedium: {
     display: 'inline-block',

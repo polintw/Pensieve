@@ -13,6 +13,10 @@ import {
 } from '../constants/typesSelfFront.js';
 import {errHandler_axiosCatch} from "../../utils/errHandlers.js";
 
+export function updateUsersBasic(obj) {
+  return { type: UPDATE_USERSBASIC, newFetch: obj }
+};
+
 export function setUnitCurrent(obj) {
   return { type: SET_UNITCURRENT, unitCurrent: obj }
 };
@@ -62,8 +66,12 @@ export function handleNounsList(nounsArr) {
       }
     });
     if(fetchList.length<1){dispatch({type: null}); return;};
+
     //corresponding to the local state 'axios', we should also insert 'isFetching' state in reducer
-    axios.get('/router/nouns/basic', {
+
+    //for callback calling in component
+    //https://redux.js.org/advanced/async-actions#async-action-creators
+    return axios.get('/router/nouns/basic', {
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']
@@ -73,12 +81,21 @@ export function handleNounsList(nounsArr) {
       }
     }).then((res)=>{
       let resObj = JSON.parse(res.data);
-      dispatch({type: UPDATE_NOUNSBASIC, newFetch: resObj.main.nounsBasic});
-    }).catch(function (thrown) {
+      dispatch({type: UPDATE_NOUNSBASIC, newFetch: resObj.main.nounsBasic})
+
+      return Promise.resolve(); //this, is for those have callback() behind
+
+    /*}).catch(function (thrown) {
       let customSwitch = (status)=>{
         return null
       };
-      errHandler_axiosCatch(thrown, customSwitch);
+      errHandler_axiosCatch(thrown, customSwitch);*/
+
+      // Do not use catch, because that will also catch
+      // any errors in the dispatch and resulting render,
+      // causing a loop of 'Unexpected batch number' errors.
+      // https://github.com/facebook/react/issues/6895
+
     });
   }
 }
@@ -106,7 +123,7 @@ export function handleUsersList(usersArr) {
       }
     }).then((res)=>{
       let resObj = JSON.parse(res.data);
-      dispatch({type: UPDATE_USERSBASIC, newFetch: resObj.main.usersBasic});
+      dispatch({type: UPDATE_USERSBASIC, newFetch: resObj.main.usersBasic})
     }).catch(function (thrown) {
       let customSwitch = (status)=>{
         return null

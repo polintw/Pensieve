@@ -4,16 +4,17 @@ import {
   Route,
   Switch,
   Link,
-  withRouter
+  withRouter,
+  Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import cxBind from 'classnames/bind';
-import CosmicCorner from './component/CosmicCorner.jsx';
 import CosmicMain from './component/CosmicMain.jsx';
 import CosmicUser from './component/CosmicUser.jsx';
 import CosmicNoun from './component/CosmicNoun.jsx';
 import CosmicRelated from './component/CosmicRelated.jsx';
+import Explore from './component/Explore.jsx';
 import NavOptions from '../Component/NavOptions.jsx';
+import CosmicCorner from './component/CosmicCorner/CosmicCorner.jsx';
 
 class WithinCosmic extends React.Component {
   constructor(props){
@@ -37,7 +38,7 @@ class WithinCosmic extends React.Component {
       },
       Within_Cosmic_corner_: {
         position: 'fixed',
-        bottom: '3%',
+        bottom: '5.8%',
         right: '11%',
         boxSizing: 'border-box'
       },
@@ -45,8 +46,8 @@ class WithinCosmic extends React.Component {
         width: '1.4%',
         height: '4.2%',
         position: 'fixed',
-        bottom: '5.5%',
-        right: '5%',
+        bottom: '8.1%',
+        right: '3.6%',
         boxSizing: 'border-box'
       }
     }
@@ -81,6 +82,21 @@ class WithinCosmic extends React.Component {
     }
   }
 
+  static getDerivedStateFromProps(props, state){
+    //It should return an object to update the state, or 'null' to update nothing.
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot){
+    //set the state back to default if the update came from Redirect
+    //preventing Redirect again which would cause error
+    if(this.state.switchTo){
+      this.setState({
+        switchTo: null
+      });
+    }
+  }
+
   componentDidMount() {
 
   }
@@ -91,24 +107,24 @@ class WithinCosmic extends React.Component {
 
   render(){
     if(this.state.switchTo){return <Redirect to={this.state.switchTo.params+this.state.switchTo.query}/>}
-    //let cx = cxBind.bind(styles);
+
     return(
       <div
         style={this.style.Within_Cosmic_}>
         <div style={this.style.Within_Cosmic_backplane}></div>
         <Switch>
           <Route path={this.props.match.path+"/people/:id"} render={(props)=> <CosmicUser {...props}/>}/>
-          <Route path={this.props.match.path+"/nouns/:id"} render={(props)=> <CosmicNoun {...props}/>}/>
           <Route path={this.props.match.path+"/units/:id/related"} render={(props)=> <CosmicRelated {...props}/>}/>
+          <Route path={this.props.match.path+"/nouns/:nounId"} render={(props)=> <CosmicNoun {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
+          <Route path={this.props.match.path+"/explore"} render={(props)=> <Explore {...props}/>}/>
           <Route path={this.props.match.path} render={(props)=> <CosmicMain {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
         </Switch>
         <div
           style={this.style.Within_Cosmic_corner_}>
-          <CosmicCorner
-            match={this.props.match}/>
-          <div style={this.style.Within_Cosmic_NavOptions}>
-            <NavOptions {...this.props}/>
-          </div>
+          <CosmicCorner {...this.props}/>
+        </div>
+        <div style={this.style.Within_Cosmic_NavOptions}>
+          <NavOptions {...this.props}/>
         </div>
       </div>
     )

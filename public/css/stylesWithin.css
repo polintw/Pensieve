@@ -1,3 +1,39 @@
+._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxOptions {
+  position: absolute;
+  box-sizing: border-box;
+  text-align: center;
+  cursor: pointer;
+}
+
+._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__fontCosmicCorner {
+  font-size: 1.4rem;
+  letter-spacing: 0.11rem;
+  white-space: nowrap;
+  color: #333333;
+}
+/*
+mind the order here
+because the css would overlap one by one,
+start the fundemental first, and then the specific condition
+*/
+
+._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxExplore {
+  bottom: 1.72rem;
+  transform: translate(-50%, 0%);
+}
+
+._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxAccount {
+  left: -27.2px;
+}
+
+._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxFocus {
+  right: 38px;
+}
+
+._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxFocusExplore {
+  right: 12rem;
+  color: black;
+}
 ._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlock {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -59,6 +95,17 @@
   box-sizing: border-box;
   margin: 0.5rem 0;
   border-radius: 0.08vh;
+  cursor: pointer;
+  background-color: #FFFFFF;
+}
+._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__Nails_Cosmic {
+  display: inline-block;
+  width: 21rem;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0 3.4rem 1.2rem 2.4rem;
+  box-shadow: 0 1px 1px -0.1rem, 0rem -0.05rem 2px -0.2rem;
+  border-radius: 0.5rem;
   cursor: pointer;
   background-color: #FFFFFF;
 }

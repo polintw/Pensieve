@@ -17,6 +17,7 @@ const imgRouter = require('./img/main.js');
 const shareRouter = require('./share/main.js');
 const inspireRouter = require('./inspire/main.js');
 const nounsRouter = require('./nouns/main.js');
+const notificationsRouter = require('./notifications/main.js');
 const generalRouter = require('./general/main.js');
 
 //routes do not protect by token, to fix this, we would have to tranmit img totally by axios api
@@ -42,9 +43,11 @@ router.use('/units', unitsRouter)
 
 router.use('/account', accountRouter)
 
+router.use('/nouns', nounsRouter)
 router.use('/share', shareRouter)
 router.use('/inspire', inspireRouter)
-router.use('/nouns', nounsRouter)
+router.use('/notifications', notificationsRouter)
+
 router.use('/general', generalRouter)
 
 module.exports = router;

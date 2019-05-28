@@ -83,7 +83,7 @@ class UnitModal extends React.Component {
     }
   }
 
-  _refer_toandclose(identity, source){
+  _refer_toandclose(source, identity){
     this.props._refer_von_unit(identity, source);
     this.props._close_modal_Unit();
   }
@@ -114,53 +114,60 @@ class UnitModal extends React.Component {
         <div
           style={this.style.Com_UnitModal_blocks_Scroll}
           onClick={(event)=>{event.stopPropagation();}}>
-          <UnitLayerScroll
-            lockify={this.state.lockify}
-            moveCount={this.state.moveCount}
-            markOpened={this.state.marksStatus.marksify}
-            _set_layerstatus={this._set_layerstatus}>
-            <div
-              style={this.style.Com_UnitModal_blocks_SumLayer_}>
-              {
-                this.props.unitCurrent.identity=="author" ? (
-                   //temp method, before a true AuthorSummary was created
-                  <UnitViewSummary
-                    moveCount={this.state.moveCount}
-                    _set_layerstatus={this._set_layerstatus}
-                    _set_Modalmode={this.props._set_Modalmode}
-                    _close_modal_Unit={this.props._close_modal_Unit}
-                    _refer_toandclose={this._refer_toandclose}/>
-                ):(
-                  <UnitViewSummary
-                    moveCount={this.state.moveCount}
-                    _set_layerstatus={this._set_layerstatus}
-                    _set_Modalmode={this.props._set_Modalmode}
-                    _close_modal_Unit={this.props._close_modal_Unit}
-                    _refer_toandclose={this._refer_toandclose}/>
-                )
-              }
-            </div>
-            <div
-              style={this.style.Com_UnitModal_blocks_ImgLayer_}>
-              {
-                (this.state.moveCount< 200) &&
-                <UnitImgLayers
-                  lockify={this.state.lockify}
-                  moveCount={this.state.moveCount}
-                  marksStatus={this.state.marksStatus}
-                  _set_markOpened={this._set_markOpened}
-                  _set_layerstatus={this._set_layerstatus}
-                  _set_Modalmode={this.props._set_Modalmode}
-                  _refer_toandclose={this._refer_toandclose}/>
-              }
-            </div>
-            <div
-              style={this.style.Com_UnitModal_blocks_SwitchBar_}>
-              <UnitLayerSwitch
+          {
+            (this.props.unitCurrent.coverSrc) ? (
+              <UnitLayerScroll
+                lockify={this.state.lockify}
                 moveCount={this.state.moveCount}
-                _set_layerstatus={this._set_layerstatus}/>
-            </div>
-          </UnitLayerScroll>
+                markOpened={this.state.marksStatus.marksify}
+                _set_layerstatus={this._set_layerstatus}>
+                <div
+                  style={this.style.Com_UnitModal_blocks_SumLayer_}>
+                  {
+                    this.props.unitCurrent.identity=="author" ? (
+                       //temp method, before a true AuthorSummary was created
+                      <UnitViewSummary
+                        moveCount={this.state.moveCount}
+                        _set_layerstatus={this._set_layerstatus}
+                        _set_Modalmode={this.props._set_Modalmode}
+                        _close_modal_Unit={this.props._close_modal_Unit}
+                        _refer_toandclose={this._refer_toandclose}/>
+                    ):(
+                      <UnitViewSummary
+                        moveCount={this.state.moveCount}
+                        _set_layerstatus={this._set_layerstatus}
+                        _set_Modalmode={this.props._set_Modalmode}
+                        _close_modal_Unit={this.props._close_modal_Unit}
+                        _refer_toandclose={this._refer_toandclose}/>
+                    )
+                  }
+                </div>
+                <div
+                  style={this.style.Com_UnitModal_blocks_ImgLayer_}>
+                  {
+                    (this.state.moveCount< 200) &&
+                    <UnitImgLayers
+                      lockify={this.state.lockify}
+                      moveCount={this.state.moveCount}
+                      marksStatus={this.state.marksStatus}
+                      _set_markOpened={this._set_markOpened}
+                      _set_layerstatus={this._set_layerstatus}
+                      _set_Modalmode={this.props._set_Modalmode}
+                      _refer_toandclose={this._refer_toandclose}/>
+                  }
+                </div>
+                <div
+                  style={this.style.Com_UnitModal_blocks_SwitchBar_}>
+                  <UnitLayerSwitch
+                    moveCount={this.state.moveCount}
+                    _set_layerstatus={this._set_layerstatus}/>
+                </div>
+              </UnitLayerScroll>
+            ): (
+              <div
+                style={this.style.Com_UnitModal_blocks_SumLayer_}></div>
+            )
+          }
         </div>
         <div
           style={this.style.Com_UnitModal_straightBack_}>

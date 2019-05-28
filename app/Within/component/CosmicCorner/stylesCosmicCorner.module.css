@@ -1,0 +1,36 @@
+.boxOptions {
+  position: absolute;
+  box-sizing: border-box;
+  text-align: center;
+  cursor: pointer;
+}
+
+.fontCosmicCorner {
+  font-size: 1.4rem;
+  letter-spacing: 0.11rem;
+  white-space: nowrap;
+  color: #333333;
+}
+/*
+mind the order here
+because the css would overlap one by one,
+start the fundemental first, and then the specific condition
+*/
+
+.boxExplore {
+  bottom: 1.72rem;
+  transform: translate(-50%, 0%);
+}
+
+.boxAccount {
+  left: -27.2px;
+}
+
+.boxFocus {
+  right: 38px;
+}
+
+.boxFocusExplore {
+  right: 12rem;
+  color: black;
+}
