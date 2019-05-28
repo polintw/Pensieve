@@ -81,7 +81,6 @@ class CosmicNoun extends React.Component {
       unitsBasic: {},
       marksBasic: {},
     };
-    this.nounId = this.props.match.params.nounId;
     this.axiosSource = axios.CancelToken.source();
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._render_nouns_Block = this._render_nouns_Block.bind(this);
@@ -158,8 +157,19 @@ class CosmicNoun extends React.Component {
     return list;
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot){
+    //becuase there is chance we jump from noun to noun, using the same component this one
+    //so we check if the nounId has changed
+    this.nounId = this.props.match.params.nounId;
+    if(this.nounId !== prevProps.match.params.nounId){
+      //load Units tagged to this noun
+      this._axios_nouns_singular();
+    };
+  }
+
   componentDidMount() {
     //load Units tagged to this noun
+    this.nounId = this.props.match.params.nounId;
     this._axios_nouns_singular();
   }
 
@@ -181,7 +191,7 @@ class CosmicNoun extends React.Component {
             <div
               style={Object.assign({}, styleMiddle.boxName, styleMiddle.fontName)}>
               {this.nounId in this.props.nounsBasic? (
-                this.props.nounsBasic[this.nounId].name
+                this.props.nounsBasic[this.nounId].name+(this.props.nounsBasic[this.nounId].prefix? (" ,  "+this.props.nounsBasic[this.nounId].prefix): "")
               ): (
                 null
               )}

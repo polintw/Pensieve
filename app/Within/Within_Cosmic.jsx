@@ -4,7 +4,8 @@ import {
   Route,
   Switch,
   Link,
-  withRouter
+  withRouter,
+  Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import CosmicMain from './component/CosmicMain.jsx';
@@ -81,6 +82,21 @@ class WithinCosmic extends React.Component {
     }
   }
 
+  static getDerivedStateFromProps(props, state){
+    //It should return an object to update the state, or 'null' to update nothing.
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot){
+    //set the state back to default if the update came from Redirect
+    //preventing Redirect again which would cause error
+    if(this.state.switchTo){
+      this.setState({
+        switchTo: null
+      });
+    }
+  }
+
   componentDidMount() {
 
   }
@@ -99,7 +115,7 @@ class WithinCosmic extends React.Component {
         <Switch>
           <Route path={this.props.match.path+"/people/:id"} render={(props)=> <CosmicUser {...props}/>}/>
           <Route path={this.props.match.path+"/units/:id/related"} render={(props)=> <CosmicRelated {...props}/>}/>
-          <Route path={this.props.match.path+"/nouns/:nounId"} render={(props)=> <CosmicNoun {...props}/>}/>
+          <Route path={this.props.match.path+"/nouns/:nounId"} render={(props)=> <CosmicNoun {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
           <Route path={this.props.match.path+"/explore"} render={(props)=> <Explore {...props}/>}/>
           <Route path={this.props.match.path} render={(props)=> <CosmicMain {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
         </Switch>

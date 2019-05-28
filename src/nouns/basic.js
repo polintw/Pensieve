@@ -27,7 +27,7 @@ function _handle_nouns_basic_GET(req, res){
       },
       condition = {
         table: "nouns",
-        cols: ["id", "name"],
+        cols: ["id", "name", "prefix"],
         where: ["id"]
       };
 
@@ -41,7 +41,8 @@ function _handle_nouns_basic_GET(req, res){
         result.forEach((row, index)=>{
           sendingData.nounsBasic[row.id] = {
             id: row.id,
-            name: row.name
+            name: row.name,
+            prefix: row.prefix
           };
         })
 
