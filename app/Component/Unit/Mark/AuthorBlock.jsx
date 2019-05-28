@@ -1,9 +1,7 @@
 import React from 'react';
 import {connect} from "react-redux";
 import AuthorInspired from './AuthorInspired.jsx';
-import MarkDialogue from './MarkDialogue.jsx';
 import PanelJump from './PanelJump.jsx';
-import SvgPropic from '../../Svg/SvgPropic.jsx';
 import DraftDisplay from '../../Draft/DraftDisplay.jsx';
 import {
   setUnitInspired
@@ -37,12 +35,11 @@ class AuthorBlock extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      dialogue: false
+
     };
     this.boxContent = React.createRef();
-    this._set_stateDefault = ()=>{this.setState({dialogue: false})};
+    this._set_stateDefault = ()=>{};
     this._handleWheel_boxContent = (event)=>{event.stopPropagation();};
-    this._handleClick_openDialogue = this._handleClick_openDialogue.bind(this);
     this.style = {
       Com_AuthorBlock_: {
         display: 'inline-block',
@@ -76,40 +73,7 @@ class AuthorBlock extends React.Component {
         boxSizing: 'border-box',
         marginTop: '6%'
       },
-      Com_AuthorBlock_credits_: {
-        display: 'inline-block',
-        width: '100%',
-        height: '2.6rem',
-        position: 'relative',
-        boxSizing: 'border-box',
-        marginTop: '2%',
-      },
-      Com_AuthorBlock_fold_:{
-        display: 'none'
-      },
-      Com_AuthorBlock_fold_dialogue: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box',
-        padding: '2% 3%',
-        color: '#FAFAFA',
-      },
-      Com_AuthorBlock_panel_interaction_: {
-        width: '100%',
-        height: '100%',
-        position: 'relative',
-        boxSizing: 'border-box',
-      },
     };
-  }
-
-  _handleClick_openDialogue(event){
-    event.preventDefault();
-    event.stopPropagation();
-    this.setState((prevState, props)=>{return this.state.dialogue?{dialogue: false}: {dialogue: true}})
   }
 
   componentDidMount(){
@@ -152,14 +116,6 @@ class AuthorBlock extends React.Component {
           <div
             style={Object.assign({},this.style.Com_AuthorBlock_panel_)}>
             <div
-              style={Object.assign({}, styleMiddle.boxPanelInteraction, {float: 'left'})}>
-              <span
-                style={Object.assign({}, styleMiddle.fontInteractions, {cursor: 'pointer'})}
-                onClick={this._handleClick_openDialogue}>
-                {'raise'}
-              </span>
-            </div>
-            <div
               style={Object.assign({}, styleMiddle.boxPanelInteraction, styleMiddle.fontInteractions, {float: 'left'})}>
               <AuthorInspired
                 markKey={this.props.markKey}/>
@@ -173,27 +129,6 @@ class AuthorBlock extends React.Component {
                 _set_stateDefault={this._set_stateDefault}/>
             </div>
           </div>
-          <div
-            style={Object.assign({}, this.style.Com_AuthorBlock_credits_)}>
-            <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
-            <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
-          </div>
-          <div
-            style={{display: 'inline-block', position: 'relative'}}>
-            {"(多行參考資料連結)"}
-          </div>
-        </div>
-        <div
-          style={this.style.Com_AuthorBlock_fold_}>
-          {
-            this.state.dialogue &&
-            <div
-              style={this.style.Com_AuthorBlock_fold_dialogue}>
-              <MarkDialogue
-                markKey={this.props.markKey}/>
-            </div>
-          }
-        </div>
       </div>
     )
   }
