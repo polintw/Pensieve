@@ -147,7 +147,7 @@ class NailCosmic extends React.Component {
         <div style={{width: '100%', height: '2rem', position: 'relative'}}></div>
         <Link
           to={{
-            pathname: this.props.match.url+"/units/"+this.props.unitId,
+            pathname: "/units/"+this.props.unitId,
             state: {from: this.props.location}
           }}
           style={{textDecoration: 'none'}}>

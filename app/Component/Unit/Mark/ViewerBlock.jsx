@@ -151,6 +151,7 @@ class ViewerBlock extends React.Component {
               <span style={styleMiddle.textMessage}>{this.state.message}</span>
             }
           </div>
+        </div>
       </div>
     )
   }

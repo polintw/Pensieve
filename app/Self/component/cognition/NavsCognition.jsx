@@ -51,6 +51,13 @@ export default class NavsCognition extends React.Component {
       selfCom_NavsCognition_: {
 
       },
+      selfCom_NavsCognition_inCognition_: {
+        minWidth: '448px',
+        position: 'fixed',
+        bottom: '0',
+        right: '11%',
+        boxSizing: 'border-box'
+      },
     }
   }
 
@@ -61,14 +68,18 @@ export default class NavsCognition extends React.Component {
         style={this.style.selfCom_NavsCognition_}>
         <div
           className={"selfFront-fixedBottomBox-height"}
-          style={commonStyle.boxOnDark}>
+          style={this.style.selfCom_NavsCognition_inCognition_}>
           <div
-            style={commonStyle.boxNotifyBell}>
-            <NotifyBell/>
-          </div>
-          <div
-            style={commonStyle.boxNavWalls}>
-            <NavWalls {...this.props} />
+            className={"selfFront-fixedBottomBox-height"}
+            style={commonStyle.boxOnDark}>
+            <div
+              style={commonStyle.boxNotifyBell}>
+              <NotifyBell/>
+            </div>
+            <div
+              style={commonStyle.boxNavWalls}>
+              <NavWalls {...this.props} />
+            </div>
           </div>
         </div>
       </div>

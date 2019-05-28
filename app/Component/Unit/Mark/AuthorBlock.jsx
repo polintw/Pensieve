@@ -129,6 +129,7 @@ class AuthorBlock extends React.Component {
                 _set_stateDefault={this._set_stateDefault}/>
             </div>
           </div>
+        </div>
       </div>
     )
   }
