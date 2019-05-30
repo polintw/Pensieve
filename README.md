@@ -112,7 +112,9 @@ Have a nice trip.
   - from Windows:
 
     Set-SCPFile -ComputerName '(domainName in string)'  -Credential $ (username as declaim var) -KeyFile .ssh\id_rsa -Port (port used) -RemotePath '(path to save at remote in string)' -LocalFile '(file path at local in string)'
-4. db: migrate if needed, set env=production
-5. db: seed if needed
-6. run build as production.
-7. run start as production.
+
+  - db: seed
+4. set 'export env=production'
+5. db: migrate if needed
+6. run build.
+7. run start.

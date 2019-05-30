@@ -47,6 +47,8 @@ const commonStyle={
   },
 }
 
+let pathCognition = true;
+
 class NavSelf extends React.Component {
   constructor(props){
     super(props);
@@ -68,8 +70,11 @@ class NavSelf extends React.Component {
         color: '#757575',
       }
     };
+  }
 
-    this.pathCognition = (props.location.pathname.substring(0,10)=='/cognition') ? true : false;
+  static getDerivedStateFromProps(props, state){
+    pathCognition = (props.location.pathname.substring(0,10)=='/cognition') ? true : false;
+    return null; //expect a state update, so return null to update nothing.
   }
 
   _handleClick_selfClose(event){
@@ -81,7 +86,7 @@ class NavSelf extends React.Component {
   _handleClick_selfCover(event){
     event.preventDefault();
     event.stopPropagation();
-    if(!this.pathCognition) window.location.assign('/user/screen');
+    if(pathCognition) window.location.assign('/user/screen');
   }
 
   render(){
@@ -92,12 +97,12 @@ class NavSelf extends React.Component {
           style={Object.assign({}, commonStyle.boxAccount)}
           onClick={this._handleClick_selfCover}>
           <div
-            style={Object.assign({}, this.style.Com_NavSelf_AccountName, {cursor: this.pathCognition? "pointer": "default"})}>
+            style={Object.assign({}, this.style.Com_NavSelf_AccountName, {cursor: pathCognition? "pointer": "default"})}>
             <NameRegular/>
           </div>
         </div>
         {
-           this.pathCognition &&
+           pathCognition &&
           <div
             style={commonStyle.boxAroundIcon}>
             <div

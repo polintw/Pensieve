@@ -170,7 +170,7 @@ class EditingModal extends React.Component {
     //shallow copy, prevent render init during the modifications
     let newObj = Object.assign({}, this.state);
     //check form filled
-    if(!newObj["coverSrc"] || newObj["nouns"]["list"].length < 1) {this.setState({warningModal: 'please upload at least one image, and name a place~'});return;};
+    if(!newObj["coverSrc"] || newObj["nouns"]["list"].length < 1) {this.setState({warningModal: 'please upload at least one image, and search an existing place to choose for~'});return;};
     //seal the mark obj by fill in the lasr undetermined value, 'layer'
     newObj.coverMarks.list.forEach((markKey, index)=>{
       newObj.coverMarks.data[markKey].layer='0';
