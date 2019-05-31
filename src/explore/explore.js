@@ -18,7 +18,7 @@ function _handle_GET_nouns_explore(req, res){
   new Promise((resolve, reject)=>{
     const reqToken = req.body.token || req.headers['token'] || req.query.token;
     const jwtVerified = jwt.verify(reqToken, verify_key);
-    if (!jwtVerified) throw new authorizedError("during GET--nouns/singular, "+jwtVerified, 32);
+    if (!jwtVerified) throw new authorizedError("during GET--/explore/nouns, "+jwtVerified, 32);
 
     //first, select nouns from the rencent 70 of attribution
     return _DB_attribution.findAndCountAll({
@@ -57,7 +57,7 @@ function _handle_GET_nouns_explore(req, res){
       reject(new internalError(err, 131));
     });
   }).then((sendingData)=>{
-    _res_success(res, sendingData, "GET: /nouns/explore, complete.");
+    _res_success(res, sendingData, "GET: /explore/nouns, complete.");
   }).catch((error)=>{
     _handle_ErrCatched(error, req, res);
   });
@@ -91,7 +91,7 @@ function _handle_GET_nouns_exploreMore(req, res){
       reject(new internalError(err, 131));
     });
   }).then((sendingData)=>{
-    _res_success(res, sendingData, "GET: /nouns/explore/more, complete.");
+    _res_success(res, sendingData, "GET: /explore/nouns/more, complete.");
   }).catch((error)=>{
     _handle_ErrCatched(error, req, res);
   });
@@ -99,12 +99,12 @@ function _handle_GET_nouns_exploreMore(req, res){
 
 execute.get('/more', function(req, res){
   // this is a api for temp use, just a way before the main '/' method matured.
-  if(process.env.NODE_ENV == 'development') winston.verbose('GET: /nouns/explore/more ');
+  if(process.env.NODE_ENV == 'development') winston.verbose('GET: /explore/nouns/more ');
   _handle_GET_nouns_exploreMore(req, res);
 })
 
 execute.get('/', function(req, res){
-  if(process.env.NODE_ENV == 'development') winston.verbose('GET: /nouns/explore ');
+  if(process.env.NODE_ENV == 'development') winston.verbose('GET: /explore/nouns ');
   _handle_GET_nouns_explore(req, res);
 })
 

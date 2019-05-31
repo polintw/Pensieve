@@ -5,11 +5,19 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import UserWindow from './Component/UserWindow.jsx';
+import UserWindow from './Component/Window/UserWindow.jsx';
 
 const styleMiddle = {
   comNounSingular: {
 
+  },
+  boxScroll: {
+    width: '932px',
+    position: 'absolute',
+    top: '5.8vh',
+    left: '50%',
+    transform: 'translate(-50%,0)',
+    boxSizing: 'border-box'
   },
 }
 
@@ -37,7 +45,10 @@ class CosmicUser extends React.Component {
     return(
       <div
         style={this.style.withinCom_CosmicMain_}>
-        <UserWindow/>
+        <div
+          style={styleMiddle.boxScroll}>
+          <UserWindow {...props}/>
+        </div>
         <div style={{width: '100%', height: '3vh', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
         <div style={{width: '100%', height: '2.4rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
       </div>

@@ -150,7 +150,7 @@ class ExploreNouns extends React.Component {
 
     axios({
       method: 'get',
-      url: '/router/nouns/explore',
+      url: '/router/explore/nouns',
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']
@@ -191,7 +191,7 @@ class ExploreNouns extends React.Component {
 
     axios({
       method: 'get',
-      url: '/router/nouns/explore/more',
+      url: '/router/explore/nouns/more',
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']
