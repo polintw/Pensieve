@@ -7,7 +7,7 @@ import {
   Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
-
+import MixBlock from './MixBlock.jsx';
 import Unit from '../../Component/Unit.jsx';
 import {
   handleNounsList,
@@ -27,6 +27,9 @@ const styleMiddle = {
   },
   footer: {
 
+  },
+  fontPlaceholder: {
+
   }
 }
 
@@ -35,14 +38,14 @@ class Accumulated extends React.Component {
     super(props);
     this.state = {
       axios: false,
-      unitsBlock: [],
-      //unitsBlock is a arr composed of multiple unitsList(also an arr)
+      nailsBlock: [],
+      //nailsBlock is a arr composed of multiple mixList(also an arr)
       unitsBasic: {},
       marksBasic: {},
     };
     this.axiosSource = axios.CancelToken.source();
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
-    this._axios_nouns_singular = this._axios_nouns_singular.bind(this);
+    this._axios_window_accumulated = this._axios_window_accumulated.bind(this);
     this._render_accumulated_Block = this._render_accumulated_Block.bind(this);
     this.style={
 
@@ -50,35 +53,40 @@ class Accumulated extends React.Component {
   }
 
   _construct_UnitInit(match, location){
-    let unitInit= {marksify: false, initMark: "all", layer: 0};
+    let urlQuery = querystring.parse(location.search),
+        unitInit;
+    if(urlQuery.mark){
+      unitInit = {marksify: true, initMark: urlQuery.mark, layer: this.state.marksBasic[urlQuery.mark].layer};
+    }else{
+      unitInit= {marksify: false, initMark: "all", layer: 0};
+    }
     return unitInit;
   }
 
-  _axios_nouns_singular(){
+  _axios_window_accumulated(){
     const self = this;
     this.setState({axios: true});
 
-    //now get the Units of this noun from the attribution in database
+    //now get the Units related to this user from database
     axios({
       method: 'get',
-      url: '/router/nouns/'+this.userId,
+      url: '/router/window/accumulated?userId='+this.userId,
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']
       },
       cancelToken: self.axiosSource.cancelToken
     }).then(function (res) {
-
       let resObj = JSON.parse(res.data);
       self.props._submit_NounsList_new(resObj.main.nounsListMix);
       self.props._submit_UsersList_new(resObj.main.usersList);
       self.setState((prevState, props)=>{
         //we don't push anything and keep it as previous,
-        //bexuase we need to let the render check if there is any id for this noun or not.
-        if(resObj.main.unitsList.length>0) prevState.unitsBlock.push(resObj.main.unitsList);
+        //bexuase we need to let the render check if there is any id accumulated.
+        if(resObj.main.mixList.length>0) prevState.nailsBlock.push(resObj.main.mixList);
         return({
           axios: false,
-          unitsBlock: prevState.unitsBlock, //maybe this is not a good way, modifying the prevState directy
+          nailsBlock: prevState.nailsBlock, //maybe this is not a good way, modifying the prevState directy
           unitsBasic: resObj.main.unitsBasic,
           marksBasic: resObj.main.marksBasic
         });
@@ -95,17 +103,21 @@ class Accumulated extends React.Component {
 
   }
 
-  _render_nouns_Block(){
-    if(!this.state.unitsBlock[0]) return(
+  _render_accumulated_Block(){
+    if(!this.state.nailsBlock[0]) return(
       <div
         style={Object.assign({}, styleMiddle.fontPlaceholder, {boxSizing: 'border-box',margin: '13% 0'})}>
-        {"revealing the unknown to the curious people! "}
+        {"Still working on it! "}
       </div>
     );
 
-    let list = this.state.unitsBlock.map((unitBlock, index)=>{
+    let list = this.state.nailsBlock.map((nailsList, index)=>{
       return (
-        <MixBlock/>
+        <MixBlock
+          key={"key_Window_accumulatedBlocks_"+index}
+          mixList={nailsList}
+          unitsBasic={this.state.unitsBasic}
+          marksBasic={this.state.marksBasic}/>
       )
     });
 
@@ -113,19 +125,17 @@ class Accumulated extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-    //becuase there is chance we jump from noun to noun, using the same component this one
+    //becuase there is chance we jump from user to user, using the same component this one
     //so we check if the userId has changed
     this.userId = this.props.match.params.userId;
     if(this.userId !== prevProps.match.params.userId){
-      //load Units tagged to this noun
-      this._axios_nouns_singular();
+      this._axios_window_accumulated();
     };
   }
 
   componentDidMount() {
-    //load Units tagged to this noun
     this.userId = this.props.match.params.userId;
-    this._axios_nouns_singular();
+    this._axios_window_accumulated();
   }
 
   componentWillUnmount(){
@@ -162,7 +172,8 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
+    _submit_UsersList_new: (arr) => { dispatch(handleUsersList(arr)); }
   }
 }
 
