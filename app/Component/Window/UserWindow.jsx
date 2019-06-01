@@ -60,10 +60,14 @@ class UserWindow extends React.Component {
           style={styleMiddle.boxTitle}>
           <div
             style={styleMiddle.boxNav}>
-            <Link>
+            <Link
+              to={this.props.match.url+"/accumulated"}
+              className={'plainLinkButton'}>
               {'accumulated'}
             </Link>
-            <Link>
+            <Link
+              to={this.props.match.url+"/sheet"}
+              className={'plainLinkButton'}>
               {'sheet'}
             </Link>
           </div>

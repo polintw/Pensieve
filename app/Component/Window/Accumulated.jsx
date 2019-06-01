@@ -127,14 +127,14 @@ class Accumulated extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot){
     //becuase there is chance we jump from user to user, using the same component this one
     //so we check if the userId has changed
-    this.userId = this.props.match.params.userId;
+    this.userId = this.props.match.params.userId || this.props.windowId; //consider both in cosmic and Terrace
     if(this.userId !== prevProps.match.params.userId){
       this._axios_window_accumulated();
     };
   }
 
   componentDidMount() {
-    this.userId = this.props.match.params.userId;
+    this.userId = this.props.match.params.userId || this.props.windowId; //consider both in cosmic and Terrace
     this._axios_window_accumulated();
   }
 

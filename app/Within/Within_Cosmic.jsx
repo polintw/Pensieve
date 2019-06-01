@@ -10,7 +10,6 @@ import {connect} from "react-redux";
 import CosmicMain from './component/CosmicMain.jsx';
 import CosmicUser from './component/CosmicUser.jsx';
 import CosmicNoun from './component/CosmicNoun.jsx';
-import CosmicUser from './component/CosmicUser.jsx';
 import CosmicRelated from './component/CosmicRelated.jsx';
 import Explore from './component/Explore.jsx';
 import NavOptions from '../Component/NavOptions.jsx';
@@ -113,7 +112,6 @@ class WithinCosmic extends React.Component {
         style={this.style.Within_Cosmic_}>
         <div style={this.style.Within_Cosmic_backplane}></div>
         <Switch>
-          <Route path={this.props.match.path+"/people/:id"} render={(props)=> <CosmicUser {...props}/>}/>
           <Route path={this.props.match.path+"/units/:id/related"} render={(props)=> <CosmicRelated {...props}/>}/>
           <Route path={this.props.match.path+"/nouns/:nounId"} render={(props)=> <CosmicNoun {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
           <Route path={this.props.match.path+"/users/:userId"} render={(props)=> <CosmicUser {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>

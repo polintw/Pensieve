@@ -5,7 +5,7 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import UserWindow from './Component/Window/UserWindow.jsx';
+import UserWindow from '../../Component/Window/UserWindow.jsx';
 
 const styleMiddle = {
   comNounSingular: {
@@ -47,7 +47,7 @@ class CosmicUser extends React.Component {
         style={this.style.withinCom_CosmicMain_}>
         <div
           style={styleMiddle.boxScroll}>
-          <UserWindow {...props}/>
+          <UserWindow {...this.props}/>
         </div>
         <div style={{width: '100%', height: '3vh', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
         <div style={{width: '100%', height: '2.4rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>

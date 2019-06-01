@@ -21,7 +21,7 @@ function _handle_GET_window_accumulated(req, res){
     const jwtVerified = jwt.verify(reqToken, verify_key);
     if (!jwtVerified) throw new internalError(jwtVerified, 32);
 
-    let userId = jwtVerified.user_Id;
+    let userId = (req.query.userId==jwtVerified.user_Id) ?jwtVerified.user_Id:req.query.userId;
     //select inspired and shared records of this user in the same time
     let conditionsInspired = {
       where: {id_user: userId},

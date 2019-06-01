@@ -7,14 +7,9 @@ import {
   Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import {
-  handleNounsList,
-  handleUsersList
-} from "../../redux/actions/general.js";
-import {
-  cancelErr,
-  uncertainErr
-} from "../../utils/errHandlers.js";
+import NailBasic from '../Nails/NailBasic/NailBasic.jsx';
+import NailShared from '../Nails/NailShared.jsx';
+import NailInspired from '../Nails/NailInspired.jsx';
 
 const styleMiddle = {
   comWindowAccu: {
@@ -22,7 +17,15 @@ const styleMiddle = {
   },
   boxBlocks: {
 
-  }
+  },
+  frameNail: {
+    display: 'inline-block',
+    width: '32%',
+    height: '205px',
+    position: 'relative',
+    boxSizing: 'border-box',
+    margin: '11px 0.7% 0 0'
+  },
 }
 
 class MixBlock extends React.Component {
@@ -32,9 +35,56 @@ class MixBlock extends React.Component {
       axios: false,
     };
     this.axiosSource = axios.CancelToken.source();
+    this._render_BlockByType = this._render_BlockByType.bind(this);
     this.style={
 
     }
+  }
+
+  _render_BlockByType(){
+    const self = this;
+    let list = this.props.mixList.map((item, index)=>{
+      let type = item[type],
+          itemId = item[id],
+          nail;
+
+      switch (type) {
+        case "shared":
+          nail = (
+            <NailShared
+              {...self.props}
+              sharedId={itemId}
+              unitBasic={self.props.unitsBasic[itemId]}
+              marksBasic={self.props.marksBasic}
+              notifiedStatus={{inspired:null}}/>
+          )
+          break;
+        case "inspired":
+          let markBasic = self.props.marksBasic[itemId];
+          nail = (
+            <NailInspired
+              {...self.props}
+              markId={itemId}
+              unitId={markBasic.unitId}
+              unitBasic={self.props.unitsBasic[markBasic.unitId]}
+              markBasic={markBasic}/>
+          )
+          break;
+        default:
+        return
+      }
+
+      return (
+        <div
+          key={'key_nails_mix_'+item[type]+"_"+itme[id]}
+          style={styleMiddle.frameNail}>
+          {nail}
+        </div>
+
+      )
+    })
+
+    return list;
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -53,10 +103,8 @@ class MixBlock extends React.Component {
 
   render(){
     return(
-      <div
-        className={'boxAbsoluteFull'}
-        style={styleMiddle.comWindowAccu}>
-
+      <div>
+        {this._render_BlockByType()}
       </div>
     )
   }
