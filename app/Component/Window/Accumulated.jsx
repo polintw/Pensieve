@@ -7,8 +7,8 @@ import {
   Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import MixBlock from './MixBlock.jsx';
 import Unit from '../../Component/Unit.jsx';
+import MixBlock from '../../Component/Blocks/MixBlock.jsx';
 import {
   handleNounsList,
   handleUsersList
@@ -82,13 +82,13 @@ class Accumulated extends React.Component {
       self.props._submit_UsersList_new(resObj.main.usersList);
       self.setState((prevState, props)=>{
         //we don't push anything and keep it as previous,
-        //bexuase we need to let the render check if there is any id accumulated.
+        //becuase we need to let the render check if there is any id accumulated.
         if(resObj.main.mixList.length>0) prevState.nailsBlock.push(resObj.main.mixList);
         return({
           axios: false,
           nailsBlock: prevState.nailsBlock, //maybe this is not a good way, modifying the prevState directy
-          unitsBasic: resObj.main.unitsBasic,
-          marksBasic: resObj.main.marksBasic
+          unitsBasic: Object.assign({}, prevState.unitsBasic, resObj.main.unitsBasic),
+          marksBasic: Object.assign({}, prevState.marksBasic, resObj.main.marksBasic)
         });
       });
     }).catch(function (thrown) {
@@ -107,7 +107,7 @@ class Accumulated extends React.Component {
     if(!this.state.nailsBlock[0]) return(
       <div
         style={Object.assign({}, styleMiddle.fontPlaceholder, {boxSizing: 'border-box',margin: '13% 0'})}>
-        {"Still working on it! "}
+        {"Still wondering and wandering~~ "}
       </div>
     );
 

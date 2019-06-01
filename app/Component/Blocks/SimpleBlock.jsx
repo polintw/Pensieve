@@ -4,7 +4,7 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import NailBasic from '../../Component/Nails/NailBasic/NailBasic.jsx';
+import NailBasic from '../Nails/NailBasic/NailBasic.jsx';
 
 const styleMiddle = {
 
