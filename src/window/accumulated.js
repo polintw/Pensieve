@@ -35,7 +35,7 @@ function _handle_GET_window_accumulated(req, res){
     let inspiredSelection = Promise.resolve(_DB_inspired.findAll(conditionsInspired).catch((err)=>{throw err}));
     let sharedSelection = Promise.resolve(_DB_units.findAll(conditionShared).catch((err)=>{throw err}));
 
-    return Promise.all([inspiredSelection, sharedSelection]).then((resultsSelect)=>{
+    Promise.all([inspiredSelection, sharedSelection]).then((resultsSelect)=>{
       let resultsInspired = resultsSelect[0],
       resultsShared = resultsSelect[1];
       let sendingData={
@@ -56,16 +56,24 @@ function _handle_GET_window_accumulated(req, res){
       resultsInspired.forEach((row, index)=>{
         //now we need to compare createdAt(datetime)
         //use createdAt as sort source
-        let timeKey = row.createdAt.replace(/(-:\s)/g, "");
+        let timeStr = row.createdAt.toString(); //createdAt is a timestamp, so transit to string first for replace()
+        let timeKey = timeStr.replace(/(:|\s)/g, ""); //actually this step is meaningless because,
+        //it doesn't solve the main probem for 'sorting' :
+        //the format for timeStr is like 'Sun Feb 17 2019 22:40:03 GMT+0800 (GMT+08:00)'
+        //the sort() would sort the 'Sun' first, 'Feb' has same problem, so 'JAN' would "behind" Feb
+
         sendingData.temp.datetimeSet[timeKey]={id: row.id_mark, type: "inspired"}; //record the real id for each 'createdAt'
         sendingData.temp.timeList.push(timeKey);
         sendingData.temp.marksList.push(row.id_mark);
-        //and complete the usersList here
-        sendingData.usersList.push(row.id_author);
       });
 
       resultsShared.forEach((row, index)=>{
-        let timeKey = row.createdAt.replace(/(-:\s)/g, "");
+        let timeStr = row.createdAt.toString(); //createdAt is a timestamp, so transit to string first for replace()
+        let timeKey = timeStr.replace(/(:|\s)/g, ""); //actually this step is meaningless because,
+        //it doesn't solve the main probem for 'sorting' :
+        //the format for timeStr is like 'Sun Feb 17 2019 22:40:03 GMT+0800 (GMT+08:00)'
+        //the sort() would sort the 'Sun' first, 'Feb' has same problem, so 'JAN' would "behind" Feb
+
         sendingData.temp.datetimeSet[timeKey]={id: row.id, type: "shared"}; //record the real id for each 'createdAt'
         sendingData.temp.timeList.push(timeKey);
         //keep id to a units list to select nouns and marks later
@@ -91,7 +99,7 @@ function _handle_GET_window_accumulated(req, res){
 
       resolve(sendingData);
     }).catch((err)=>{
-      throw new internalError(err, 131);
+      reject(new internalError(err, 131));
     });
 
   }).then((sendingData)=>{
@@ -150,6 +158,11 @@ function _handle_GET_window_accumulated(req, res){
       })
       .then((unitsResults)=>{
         unitsResults.forEach((row, index)=>{
+          //complete the usersList here
+          //still check if there is already exist
+          if(!sendingData.usersList.includes(row.id_unit))sendingData.usersList.push(row.id_author);
+          //BTW, no need to include id of req user self, cause the front would know getting it from 'userInfo'
+
           Object.assign(sendingData.unitsBasic[row.id], {
             pic_layer0: row.url_pic_layer0,
             pic_layer1: row.url_pic_layer1,

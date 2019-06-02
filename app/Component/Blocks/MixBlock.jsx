@@ -44,8 +44,8 @@ class MixBlock extends React.Component {
   _render_BlockByType(){
     const self = this;
     let list = this.props.mixList.map((item, index)=>{
-      let type = item[type],
-          itemId = item[id],
+      let type = item["type"],
+          itemId = item["id"],
           nail;
 
       switch (type) {
@@ -71,12 +71,12 @@ class MixBlock extends React.Component {
           )
           break;
         default:
-        return
+        
       }
 
       return (
         <div
-          key={'key_nails_mix_'+item[type]+"_"+itme[id]}
+          key={'key_nails_mix_'+type+"_"+itemId}
           style={styleMiddle.frameNail}>
           {nail}
         </div>
