@@ -21,6 +21,8 @@ const styleMiddle = {
   },
 }
 
+let windowId='';
+
 class CosmicUser extends React.Component {
   constructor(props){
     super(props);
@@ -31,6 +33,13 @@ class CosmicUser extends React.Component {
     this.style={
 
     }
+  }
+
+  static getDerivedStateFromProps(props, state){
+    windowId = props.match.params.userId;
+    //here, not in constructor because the component should update if the :userId changed
+    //not in componentDidMount because we need it right at the initial mount
+    return null; //expect a state update, so return null to update nothing.
   }
 
   componentDidMount() {
@@ -47,7 +56,9 @@ class CosmicUser extends React.Component {
         style={this.style.withinCom_CosmicMain_}>
         <div
           style={styleMiddle.boxScroll}>
-          <UserWindow {...this.props}/>
+          <UserWindow
+            {...this.props}
+            windowId={windowId}/>
         </div>
         <div style={{width: '100%', height: '3vh', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
         <div style={{width: '100%', height: '2.4rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>

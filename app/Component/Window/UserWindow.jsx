@@ -9,6 +9,10 @@ import {
 import {connect} from "react-redux";
 import Accumulated from './Accumulated.jsx';
 import Sheet from './Sheet.jsx';
+import {
+  handleUsersList
+} from "../../redux/actions/general.js";
+import {NameLarge} from '../AccountPlate.jsx';
 
 const styleMiddle = {
   comUserWindow: {
@@ -21,9 +25,6 @@ const styleMiddle = {
 
   },
   boxName: {
-
-  },
-  fontName: {
 
   }
 }
@@ -44,7 +45,7 @@ class UserWindow extends React.Component {
   }
 
   componentDidMount() {
-
+    this.props._submit_UsersList_new([this.props.windowId]);
   }
 
   componentWillUnmount(){
@@ -72,9 +73,11 @@ class UserWindow extends React.Component {
             </Link>
           </div>
           <div
-            style={Object.assign({}, styleMiddle.boxName, styleMiddle.fontName)}>
-            {this.userId in this.props.usersBasic? (
-              this.props.usersBasic[this.userId].name
+            style={Object.assign({}, styleMiddle.boxName)}>
+            {this.props.windowId in this.props.usersBasic? (
+              <NameLarge
+                firstName={this.props.usersBasic[this.props.windowId].firstName}
+                lastName={this.props.usersBasic[this.props.windowId].lastName}/>
             ): (
               null
             )}
@@ -97,7 +100,13 @@ const mapStateToProps = (state)=>{
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    _submit_UsersList_new: (arr) => { dispatch(handleUsersList(arr)); }
+  }
+}
+
 export default withRouter(connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(UserWindow));

@@ -27,7 +27,7 @@ function _handle_users_basic_GET(req, res){
       },
       condition = {
         table: "users",
-        cols: ["id", "account"],
+        cols: ["id", "account", "first_name","last_name"],
         where: ["id"]
       };
 
@@ -41,7 +41,9 @@ function _handle_users_basic_GET(req, res){
         result.forEach((row, index)=>{
           sendingData.usersBasic[row.id] = {
             id: row.id,
-            account: row.account
+            account: row.account,
+            firstName: row.first_name,
+            lastName: row.last_name
           };
         })
 
