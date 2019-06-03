@@ -20,13 +20,20 @@ import {
 
 const styleMiddle = {
   comWindowAccu: {
-
+    height: ''
   },
   boxBlocks: {
-
+    width: '100%',
+    minHeight: '5rem',
+    position: 'relative',
+    boxSizing: 'border-box',
+    margin: '2rem 0px 0px'
   },
   footer: {
-
+    width: '100%',
+    height: '6rem',
+    position: 'relative',
+    boxSizing: 'border-box'
   },
   fontPlaceholder: {
 

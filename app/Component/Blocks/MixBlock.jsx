@@ -20,11 +20,11 @@ const styleMiddle = {
   },
   frameNail: {
     display: 'inline-block',
-    width: '32%',
+    width: '31%',
     height: '205px',
     position: 'relative',
     boxSizing: 'border-box',
-    margin: '11px 0.7% 0 0'
+    margin: '0 1% 18px 1%'
   },
 }
 
@@ -71,7 +71,7 @@ class MixBlock extends React.Component {
           )
           break;
         default:
-        
+
       }
 
       return (

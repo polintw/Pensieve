@@ -8,14 +8,14 @@ import {connect} from "react-redux";
 import UserWindow from '../../Component/Window/UserWindow.jsx';
 
 const styleMiddle = {
-  comNounSingular: {
-
+  comCosmicUser: {
+    height: '', //keep the height depend on Scroll div
   },
   boxScroll: {
-    width: '932px',
+    width: '906px',
     position: 'absolute',
-    top: '5.8vh',
-    left: '50%',
+    top: '4vh',
+    left: '51.5%',
     transform: 'translate(-50%,0)',
     boxSizing: 'border-box'
   },
@@ -53,15 +53,16 @@ class CosmicUser extends React.Component {
   render(){
     return(
       <div
-        style={this.style.withinCom_CosmicMain_}>
+        className={'boxAbsoluteFull'}
+        style={styleMiddle.comCosmicUser}>
         <div
           style={styleMiddle.boxScroll}>
           <UserWindow
             {...this.props}
             windowId={windowId}/>
         </div>
-        <div style={{width: '100%', height: '3vh', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
-        <div style={{width: '100%', height: '2.4rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
+        <div style={{width: '100%', height: '2.3vh', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
+        <div style={{width: '100%', height: '3.4rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
       </div>
     )
   }
