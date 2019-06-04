@@ -8,7 +8,6 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import NailBasic from '../Nails/NailBasic/NailBasic.jsx';
-import NailShared from '../Nails/NailShared.jsx';
 import NailInspired from '../Nails/NailInspired.jsx';
 
 const styleMiddle = {
@@ -24,7 +23,8 @@ const styleMiddle = {
     height: '205px',
     position: 'relative',
     boxSizing: 'border-box',
-    margin: '0 1% 18px 1%'
+    margin: '0 1% 18px 1%',
+    boxShadow: '0 1px 1px -0.1rem, 0rem -0.05rem 2px -0.2rem'
   },
 }
 
@@ -51,12 +51,11 @@ class MixBlock extends React.Component {
       switch (type) {
         case "shared":
           nail = (
-            <NailShared
+            <NailBasic
               {...self.props}
-              sharedId={itemId}
+              unitId={itemId}
               unitBasic={self.props.unitsBasic[itemId]}
-              marksBasic={self.props.marksBasic}
-              notifiedStatus={{inspired:null}}/>
+              marksBasic={self.props.marksBasic}/>
           )
           break;
         case "inspired":

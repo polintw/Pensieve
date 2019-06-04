@@ -7,6 +7,7 @@ import {
   Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import querystring from 'query-string';
 import Unit from '../../Component/Unit.jsx';
 import MixBlock from '../../Component/Blocks/MixBlock.jsx';
 import {

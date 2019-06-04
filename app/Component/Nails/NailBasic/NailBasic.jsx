@@ -4,51 +4,48 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import classnames from 'classnames';
 import styles from "./styleNailBasic.module.css";
+import ImgPreview from '../../ImgPreview.jsx';
 import DraftDisplayforNailMark from '../../Draft/DraftDisplayforNailMark.jsx';
 
 const commonStyle = {
-  Com_Nails_Cosmic_pic_: {
+  Com_Nails_Basic_pic_: {
     width: '100%',
+    height: '70%',
     position: 'relative',
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
+    overflow: 'hidden',
   },
-  Com_Nails_Cosmic_banner_author: {
+  Com_Nails_Basic_banner_author: {
     width: "100%",
     position: 'relative',
     boxSizing: 'border-box',
     padding: '0.36rem 3%',
     marginBottom: '1.16rem',
-    fontSize: '1.42rem',
-    fontWeight: '400',
-    letterSpacing: '0.14rem',
     textAlign: 'right',
-    color: '#757575'
   },
-  Com_Nails_Cosmic_content_: {
-    width: '100%',
-    position: 'relative',
+  Com_Nails_Basic_content_: {
+    width: '80%',
+    position: 'absolute',
+    bottom: '15%',
+    right: '0',
     boxSizing: 'border-box',
-    paddingLeft: '4.2%',
-    paddingRight: '6%',
+    padding: '0 3%'
   },
-  Com_Nails_Cosmic_content_mark: {
+  Com_Nails_Basic_content_mark: {
     width: '100%',
     position: 'relative',
     boxSizing: 'border-box',
     marginBottom: '0.28rem',
-    fontSize: '1.45rem',
-    fontWeight: '400',
-    letterSpacing: '0.18rem',
     textAlign: 'left', // prevent influence from parent
-    color: 'black'
   },
-  Com_Nails_Cosmic_pic_img: {
+  Com_Nails_Basic_pic_img: {
     display: 'block', // default value was 'inline-block', but sometime it would let it leave some blank
     width: '100%',
     height: 'auto'
   },
-  Com_Nails_Cosmic_pic_mask: {
+  Com_Nails_Basic_pic_mask: {
     width: '100%',
     height: '100%',
     position: 'absolute',
@@ -58,23 +55,16 @@ const commonStyle = {
     backgroundImage: "linear-gradient(220deg, transparent, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.72))"
     //must beneath the 'backgroudColor', let browser choose if it do support gradient
   },
-  Com_Nails_Cosmic_pic_nouns_: {
-    position: 'absolute',
-    bottom: '15%',
-    left: '0',
+  Com_Nails_Basic_nouns_: {
+    position: 'relative',
     boxSizing: 'border-box',
-    padding: '0 3%'
+    padding: '1% 3%'
   },
-  Com_Nails_Cosmic_pic_nouns_div_: {
+  Com_Nails_Basic_pic_nouns_div_: {
     position: 'relative',
     boxSizing: 'border-box',
     margin: '0.32rem 0',
-    textAlign: 'right',
-    fontSize: '1.68rem',
-    fontWeight: '300',
-    fontFamily: 'cwTeXMing',
-    letterSpacing: '0.2rem',
-    color: '#FAFAFA'
+    textAlign: 'left',
   }
 }
 
@@ -101,7 +91,8 @@ class NailBasic extends React.Component {
       marksDOM.push(
         <div
           key={"key_nailcosmic_"+self.props.unitId+"_marks_"+i}
-          style={commonStyle.Com_Nails_Cosmic_content_mark}>
+          className={styles.fontNouns}
+          style={commonStyle.Com_Nails_Basic_content_mark}>
           <DraftDisplayforNailMark
             rawContent={self.props.marksBasic[key].editorContent}/>
         </div>
@@ -118,7 +109,8 @@ class NailBasic extends React.Component {
       nounsDOM.push(
         <div
           key={"key_nailcosmic_"+this.props.unitId+"_nouns_"+index}
-          style={commonStyle.Com_Nails_Cosmic_pic_nouns_div_}>
+          className={styles.fontNouns}
+          style={commonStyle.Com_Nails_Basic_pic_nouns_div_}>
           {id in this.props.nounsBasic ? (
             this.props.nounsBasic[id].name) : (
               null
@@ -140,32 +132,33 @@ class NailBasic extends React.Component {
   render(){
     return(
       <div
-        className={styles.Nails_Cosmic}>
-        <div style={{width: '100%', height: '2rem', position: 'relative'}}></div>
+        className={classnames(styles.Nails_Basic, 'boxRelativeFull')}>
         <Link
           to={{
             pathname: this.props.match.url+"/units/"+this.props.unitId,
             state: {from: this.props.location}
           }}
-          style={{textDecoration: 'none'}}>
+          className={'plainLinkButton'}>
           <div
-            style={commonStyle.Com_Nails_Cosmic_pic_}>
-            <img
-              src={'/router/img/'+this.props.unitBasic.pic_layer0+'?type=thumb'}
-              style={commonStyle.Com_Nails_Cosmic_pic_img}/>
-            <div style={commonStyle.Com_Nails_Cosmic_pic_mask}/>
+            style={commonStyle.Com_Nails_Basic_pic_}>
+            <ImgPreview
+              blockName={'cover'}
+              previewSrc={'/router/img/'+this.props.unitBasic.pic_layer0+'?type=thumb'}
+              _handleClick_ImgPreview_preview={()=>{}}/>
+            <div style={commonStyle.Com_Nails_Basic_pic_mask}/>
             <div
-              style={commonStyle.Com_Nails_Cosmic_pic_nouns_}>
-              {this._render_nails_nouns()}
+              style={commonStyle.Com_Nails_Basic_content_}>
+              {this._render_nails_Marks()}
             </div>
           </div>
-          <div style={commonStyle.Com_Nails_Cosmic_banner_author}>
-            {this.props.unitBasic.authorId in this.props.usersBasic ? this.props.usersBasic[this.props.unitBasic.authorId].account:null}
+          <div
+            style={commonStyle.Com_Nails_Basic_nouns_}>
+            {this._render_nails_nouns()}
           </div>
           <div
-            style={commonStyle.Com_Nails_Cosmic_content_}>
-            {this._render_nails_Marks()}
-            <div style={{width: '100%', height: '3.5rem', position: 'relative'}}></div>
+            className={styles.fontAccount}
+            style={commonStyle.Com_Nails_Basic_banner_author}>
+            {this.props.unitBasic.authorId in this.props.usersBasic ? this.props.usersBasic[this.props.unitBasic.authorId].account:null}
           </div>
         </Link>
       </div>
