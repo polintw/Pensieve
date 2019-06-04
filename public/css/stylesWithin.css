@@ -99,28 +99,28 @@ start the fundemental first, and then the specific condition
   background-color: #FFFFFF;
 }
 ._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__Nails_Basic {
-  border-radius: 0.5rem;
   background-color: #FFFFFF;
 }
 
-._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__fontContent: {
-  font-size: 1.45rem;
+._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__fontContent {
+  font-size: 1.34rem;
   font-weight: 400;
-  letter-spacing: 0.18rem;
-  color: black
+  letter-spacing: 0.16rem;
+  line-height: 1.8rem;
+  color: #FAFAFA;
 }
 
-._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__fontNouns: {
-  font-size: 1.68rem;
+._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__fontNouns {
+  font-size: 1.54rem;
   font-weight: 300;
-  letter-spacing: 0.2rem;
+  letter-spacing: 0.03rem;
   font-family: 'cwTeXMing';
-  color: #FAFAFA
+  color: black;
 }
 
-._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__fontAccount: {
-  font-size: 1.42rem;
+._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__fontAccount {
+  font-size: 1.2rem;
   font-weight: 400;
-  letter-spacing: 0.14rem;
+  letter-spacing: 0.1rem;
   color: #757575;
 }

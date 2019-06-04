@@ -18,17 +18,17 @@ const commonStyle = {
     overflow: 'hidden',
   },
   Com_Nails_Basic_banner_author: {
-    width: "100%",
     position: 'relative',
     boxSizing: 'border-box',
-    padding: '0.36rem 3%',
-    marginBottom: '1.16rem',
+    padding: '0 3%',
+    margin: '8px 0 0',
     textAlign: 'right',
   },
   Com_Nails_Basic_content_: {
-    width: '80%',
+    maxWidth: '80%',
+    maxHeight: '72%',
     position: 'absolute',
-    bottom: '15%',
+    bottom: '16%',
     right: '0',
     boxSizing: 'border-box',
     padding: '0 3%'
@@ -38,7 +38,7 @@ const commonStyle = {
     position: 'relative',
     boxSizing: 'border-box',
     marginBottom: '0.28rem',
-    textAlign: 'left', // prevent influence from parent
+    textAlign: 'right', // prevent influence from parent
   },
   Com_Nails_Basic_pic_img: {
     display: 'block', // default value was 'inline-block', but sometime it would let it leave some blank
@@ -52,18 +52,23 @@ const commonStyle = {
     top: '0',
     left: '0',
     backgroudColor: 'rgba(0,0,0,0.5)',
-    backgroundImage: "linear-gradient(220deg, transparent, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.56), rgba(0, 0, 0, 0.72))"
+    backgroundImage: 'linear-gradient(129deg, transparent, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.3),rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0.54), rgba(0, 0, 0, 0.64))'
     //must beneath the 'backgroudColor', let browser choose if it do support gradient
   },
   Com_Nails_Basic_nouns_: {
+    width: '100%',
+    height: '2.64rem', // match the font sizr of noun, let only show first line
     position: 'relative',
     boxSizing: 'border-box',
-    padding: '1% 3%'
+    padding: '1% 1%',
+    margin: '6px 0 4px',
+    overflow: 'hidden'
   },
-  Com_Nails_Basic_pic_nouns_div_: {
+  Com_Nails_Basic_nouns_div_: {
+    display: 'inline-block',
     position: 'relative',
     boxSizing: 'border-box',
-    margin: '0.32rem 0',
+    marginLeft: '0.56rem',
     textAlign: 'left',
   }
 }
@@ -91,7 +96,7 @@ class NailBasic extends React.Component {
       marksDOM.push(
         <div
           key={"key_nailcosmic_"+self.props.unitId+"_marks_"+i}
-          className={styles.fontNouns}
+          className={styles.fontContent}
           style={commonStyle.Com_Nails_Basic_content_mark}>
           <DraftDisplayforNailMark
             rawContent={self.props.marksBasic[key].editorContent}/>
@@ -110,9 +115,9 @@ class NailBasic extends React.Component {
         <div
           key={"key_nailcosmic_"+this.props.unitId+"_nouns_"+index}
           className={styles.fontNouns}
-          style={commonStyle.Com_Nails_Basic_pic_nouns_div_}>
+          style={commonStyle.Com_Nails_Basic_nouns_div_}>
           {id in this.props.nounsBasic ? (
-            this.props.nounsBasic[id].name) : (
+            this.props.nounsBasic[id].name+" .") : (
               null
             )}
         </div>
