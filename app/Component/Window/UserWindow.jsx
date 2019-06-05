@@ -30,7 +30,8 @@ const styleMiddle = {
     height: '', //keep the height depend on content
   },
   boxNav: {
-    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
     position: 'absolute',
     bottom: '0',
     right: '0',
@@ -39,7 +40,7 @@ const styleMiddle = {
   boxName: {
     position: 'absolute',
     left: '0',
-    bottom: '2rem',
+    bottom: '2.3rem',
     boxSizing: 'border-box'
   },
   fontNav: {
@@ -52,7 +53,7 @@ const styleMiddle = {
     position: 'relative',
     float: 'right',
     boxSizing: 'border-box',
-    margin: '1% 2%',
+    margin: '0.8rem 0.5rem',
     cursor: 'pointer'
   }
 }

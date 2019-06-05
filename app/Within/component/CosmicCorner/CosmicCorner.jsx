@@ -43,7 +43,7 @@ class CosmicCorner extends React.Component {
         <div
           className={classnames(styles.boxOptions, styles.fontCosmicCorner, styles.boxExplore)}>
           <Link
-            to="/cosmic/explore"
+            to="/cosmic/explore/nouns"
             className={'plainLinkButton'}>
             {"explore"}
           </Link>

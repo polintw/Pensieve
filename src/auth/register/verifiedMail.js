@@ -10,7 +10,7 @@ const _render_HtmlBody = (token)=>{
     '<html>'+
       '<body>'+
       '<div>'+
-        '<p>Welcome to Corner as your new horizon.</p>'+
+        '<p>Welcome to Cornerth. as your new horizon.</p>'+
         '<p>Please click </p>'+
         '<a href="http://'+domain.name+'/router/register/mail/confirm?token='+token+'">Verify!</a>'+
         '<p> to complete email verification!</p>'+
@@ -33,7 +33,7 @@ function deliverVerifiedMail(userInfo, token){
 
     // setup email data with unicode symbols
     let mailOptions = {
-      from: '"Coner team" <noreply@cornerth.com>', // sender address
+      from: '"Cornerth team" <noreply@cornerth.com>', // sender address
       to: userInfo.email, // list of receivers
       subject: userInfo.first_name+", please confirm your account", // Subject line
       html: _render_HtmlBody(token)

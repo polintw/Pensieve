@@ -48,9 +48,9 @@ class SignupSuccess extends React.Component {
       <div
         style={this.style.SignupSuccess_}>
         <div>
-          <p>{"You've already sign up."}</p>
+          <p>{"You've already signed up."}</p>
           <p>{"The World has been there, but"}</p>
-          <p>{"completing the process by verifing your Email Adress!"}</p>
+          <p>{"completing the process by verifing your Email Address!"}</p>
           <Link
             to="/signin">
             <span>{"Sign in"}</span>
