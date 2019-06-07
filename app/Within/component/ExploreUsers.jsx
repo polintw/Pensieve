@@ -69,20 +69,6 @@ const styleMiddle = {
   }
 }
 
-const mapStateToProps = (state)=>{
-  return {
-    userInfo: state.userInfo,
-    unitCurrent: state.unitCurrent,
-    nounsBasic: state.nounsBasic,
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    _submit_NounsList_new: (arr, callBack) => { dispatch(handleNounsList(arr)).then(()=>{if(callBack) callBack();}); }
-  }
-}
-
 class NounsBlock extends React.Component {
   constructor(props){
     super(props);
@@ -135,10 +121,7 @@ class ExploreUsers extends React.Component {
     };
     this.axiosSource = axios.CancelToken.source();
     this._axios_nouns_explore = this._axios_nouns_explore.bind(this);
-    this._axios_nouns_exploreMore = this._axios_nouns_exploreMore.bind(this);
     this._render_nouns_Block = this._render_nouns_Block.bind(this);
-    this._render_nouns_usedList = this._render_nouns_usedList.bind(this);
-    this._handleClick_Explore_more = this._handleClick_Explore_more.bind(this);
     this.style={
 
     }
@@ -151,47 +134,6 @@ class ExploreUsers extends React.Component {
     axios({
       method: 'get',
       url: '/router/explore/nouns',
-      headers: {
-        'charset': 'utf-8',
-        'token': window.localStorage['token']
-      },
-      cancelToken: self.axiosSource.cancelToken
-    }).then(function (res) {
-      self.setState({axios: false});
-
-      let resObj = JSON.parse(res.data);
-      let nounsArr = resObj.main.nounsListUsed.concat(resObj.main.nounsListRandom),
-          callBack = ()=>{
-            self.setState((prevState, props)=>{
-              prevState.listRandom.push(resObj.main.nounsListRandom);
-              return {
-                listUsed: resObj.main.nounsListUsed,
-                listRandom: prevState.listRandom
-              }
-            });
-          };
-
-      self.props._submit_NounsList_new(nounsArr, callBack);
-
-    }).catch(function (thrown) {
-      self.setState({axios: false});
-      if (axios.isCancel(thrown)) {
-        cancelErr(thrown);
-      } else {
-        let message = uncertainErr(thrown);
-        if(message) alert(message);
-      }
-    });
-
-  }
-
-  _axios_nouns_exploreMore(){
-    const self = this;
-    this.setState({axios: true});
-
-    axios({
-      method: 'get',
-      url: '/router/explore/nouns/more',
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']
@@ -223,37 +165,8 @@ class ExploreUsers extends React.Component {
 
   }
 
-  _handleClick_Explore_more(event){
-    event.stopPropagation();
-    event.preventDefault();
-    this.setState((prevState, props)=>{
-      prevState.listRandom.push([]);
-      return {listRandom: prevState.listRandom}
-    });
-    this._axios_nouns_exploreMore();
-  }
-
-  _render_nouns_usedList(){
-    let list = this.state.listUsed.map((nounId, index)=>{
-      return (
-        <div
-          key={"key_Explore_usedNouns_"+index}
-          style={Object.assign({}, styleMiddle.boxUsedItem, {padding: '1% 3%', margin: '2% 0px'})}>
-          <Link
-            to={"/cosmic/nouns/"+nounId}
-            className={'plainLinkButton'}>
-            <span
-              style={styleMiddle.fontListItem}>
-              {this.props.nounsBasic[nounId].name}</span>
-          </Link>
-        </div>
-      )
-    });
-    return list;
-  }
-
   _render_nouns_Block(){
-    let list = this.state.listRandom.map((nounsBlock, index)=>{
+    let list = this.state.listUsed.map((nounId, index)=>{
       return (
         <NounsBlock
           key={"key_Explore_Block"+index}
@@ -262,18 +175,6 @@ class ExploreUsers extends React.Component {
       ) // nounsBasic is saved in reducer,
         // so should be called directly if the NounsBlock was imported from a independent file
     });
-    //the 'more' button at the bottom
-    list.push(
-      <div
-        key={"key_Explore_randomNouns_more"}
-        style={{position: 'relative', boxSizing: 'border-box', padding: '3%', textAlign: 'center'}}>
-        <span
-          style={Object.assign({}, styleMiddle.fontListItem, styleMiddle.spanMore)}
-          onClick={this._handleClick_Explore_more}>
-          {" more "}
-        </span>
-      </div>
-    )
     //add a footer as ending
     list.push(
       <div
@@ -303,19 +204,32 @@ class ExploreUsers extends React.Component {
         <div
           className={'boxRelativeFull'}
           style={styleMiddle.boxUsedList}>
-          {this._render_nouns_usedList()}
-        </div>
-        <div
-          className={'boxRelativeFull'}
-          style={Object.assign({}, styleMiddle.boxSubtitle, styleMiddle.fontSubtitle)}>
-          {"or be the First revealing these place! "}</div>
-        <div
-          className={'boxRelativeFull'}
-          style={(styleMiddle.boxRandomList)}>
           {this._render_nouns_Block()}
         </div>
       </div>
     )
+  }
+}
+
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo,
+    unitCurrent: state.unitCurrent,
+    nounsBasic: state.nounsBasic,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    _submit_NounsList_new: (arr, callBack) => {
+      //for unknown reason, we can't use dispatch to invoke .then() directly at first mount
+      //so this is a working method, just wrap the dispatch with a new Promise locally again
+      //and add .then() to it
+      let dispatchFirst = Promise.resolve(dispatch(handleNounsList(arr)));
+      dispatchFirst.then(()=>{
+        if(callBack) callBack();
+      });
+    }
   }
 }
 

@@ -6,7 +6,6 @@ import {
   withRouter,
   Redirect
 } from 'react-router-dom';
-} from 'react-router-dom';
 import {connect} from "react-redux";
 import ExploreNouns from './ExploreNouns.jsx';
 import ExploreUsers from './ExploreUsers.jsx';
