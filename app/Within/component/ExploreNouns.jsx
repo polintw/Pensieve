@@ -18,7 +18,7 @@ const styleMiddle = {
   },
   boxUsedList: {
     height: '',
-    minHeight: '64vh',
+    minHeight: '49vh',
     padding: '3% 4%',
     margin: '0 0 2%',
     textAlign: 'center'
@@ -53,6 +53,8 @@ const styleMiddle = {
   },
   spanMore: {
     display: 'inline-block',
+    margin: '0 0.54rem',
+    lineHeight: '3rem',
     color: '#4085a0',
     cursor: 'pointer'
   },
@@ -148,8 +150,15 @@ class ExploreNouns extends React.Component {
       let resObj = JSON.parse(res.data);
       let nounsArr = resObj.main.nounsListUsed,
           callBack = ()=>{
+            //for convenience when rendering, limit first block to less than 8
+            let [firstEight, afterEight]=[[],[]];
+            if(resObj.main.nounsListUsed.length>8) {
+              firstEight = resObj.main.nounsListUsed.slice(0, 8);
+              afterEight = resObj.main.nounsListUsed.slice(8);
+            }else firstEight=resObj.main.nounsListUsed;
             self.setState((prevState, props)=>{
-              prevState.listUsed.push(resObj.main.nounsListUsed);
+              prevState.listUsed.push(firstEight);
+              prevState.listUsed.push(afterEight);
               return {listUsed: prevState.listUsed}
             });
           };
@@ -228,21 +237,10 @@ class ExploreNouns extends React.Component {
           nounsBasic={this.props.nounsBasic}/>
       ) // nounsBasic is saved in reducer,
         // so should be called directly if the NounsBlock was imported from a independent file
-
-/*      previous version, without blocks used
-        <div
-          key={"key_Explore_usedNouns_"+index}
-          style={Object.assign({}, styleMiddle.boxUsedItem, {padding: '1% 3%', margin: '2% 0px'})}>
-          <Link
-            to={"/cosmic/nouns/"+nounId}
-            className={'plainLinkButton'}>
-            <span
-              style={styleMiddle.fontListItem}>
-              {this.props.nounsBasic[nounId].name}</span>
-          </Link>
-        </div>
-      )*/
     });
+    //then insert the reserved area for nav
+    list.splice(1,0, (<div style={{width: '100%', height: '7rem',position: 'relative'}}/>))
+
     return list;
   }
 
@@ -308,7 +306,8 @@ class ExploreNouns extends React.Component {
             onClick={this._handleClick_Explore_more}>
             {" more "}
           </span>
-          <span>{"waiting for you"}<br/>{"to be the First! "}</span>
+          <span>{"waiting for you"}</span><br/>
+          <span>{"to be the First! "}</span>
         </div>
         <div
           className={'boxRelativeFull'}

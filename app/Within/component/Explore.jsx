@@ -7,6 +7,7 @@ import {
   Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import ExploreNav from './ExploreNav.jsx';
 import ExploreNouns from './ExploreNouns.jsx';
 import ExploreUsers from './ExploreUsers.jsx';
 
@@ -27,17 +28,12 @@ const styleMiddle = {
     boxSizing: 'border-box'
   },
   boxNav: {
-
-  },
-  fontNav: {
-
-  },
-  spanNav: {
-    position: 'relative',
-    float: 'right',
+    width: '100%',
+    height: '5rem',
+    position: 'absolute',
+    top: '21rem',
     boxSizing: 'border-box',
-    margin: '0.8rem 0.5rem',
-    cursor: 'pointer'
+    textAlign: 'center'
   }
 }
 
@@ -71,19 +67,8 @@ class Explore extends React.Component {
             <Route path={this.props.match.path+"/nouns"} render={(props)=> <ExploreNouns {...props}/>}/>
           </Switch>
           <div
-            style={Object.assign({}, styleMiddle.boxNav, styleMiddle.fontNav)}>
-            <Link
-              to={this.props.match.url+"/nouns"}
-              className={'plainLinkButton'}>
-              <span
-                style={styleMiddle.spanNav}>{'node'}</span>
-            </Link>
-            <Link
-              to={this.props.match.url+"/users"}
-              className={'plainLinkButton'}>
-              <span
-                style={styleMiddle.spanNav}>{'user'}</span>
-            </Link>
+            style={styleMiddle.boxNav}>
+            <ExploreNav/>
           </div>
         </div>
         <div style={{width: '100%', height: '4vh', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
