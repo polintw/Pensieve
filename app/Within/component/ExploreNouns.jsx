@@ -239,7 +239,10 @@ class ExploreNouns extends React.Component {
         // so should be called directly if the NounsBlock was imported from a independent file
     });
     //then insert the reserved area for nav
-    list.splice(1,0, (<div style={{width: '100%', height: '7rem',position: 'relative'}}/>))
+    list.splice(1,0, (
+      <div
+        key={"key_Explore_users_navReserved"}
+        style={{width: '100%', height: '7rem',position: 'relative'}}/>))
 
     return list;
   }
@@ -248,7 +251,7 @@ class ExploreNouns extends React.Component {
     let list = this.state.listRandom.map((nounsBlock, index)=>{
       return (
         <NounsBlock
-          key={"key_Explore_Block"+index}
+          key={"key_Explore_Block_nouns_"+index}
           nounsList={nounsBlock}
           nounsBasic={this.props.nounsBasic}/>
       ) // nounsBasic is saved in reducer,

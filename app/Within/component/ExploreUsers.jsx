@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import {
-  handleNounsList
+  handleUsersList
 } from '../../redux/actions/general.js';
 import {
   cancelErr,
@@ -13,34 +13,15 @@ import {
 } from "../../utils/errHandlers.js";
 
 const styleMiddle = {
-  comExploreNouns: {
+  comExploreUsers: {
     height: ''
   },
-  boxUsedList: {
+  boxUserBlocks: {
     height: '',
     minHeight: '36vh',
     padding: '3% 4%',
     margin: '0 0 2%',
     textAlign: 'center'
-  },
-  boxRandomList: {
-    height: '',
-    textAlign: 'center',
-    margin: '3% 0 0'
-  },
-  boxSubtitle: {
-    height: '',
-    padding: '3%',
-    textAlign: 'center'
-  },
-  boxUsedItem: {
-    display: 'inline-block',
-    width: '24%',
-    position: 'relative',
-    boxSizing: 'border-box',
-    padding: '0 5%',
-    margin: '3% 0',
-    cursor: 'pointer'
   },
   boxRendomItem: {
     display: 'inline-block',
@@ -51,45 +32,36 @@ const styleMiddle = {
     whiteSpace: 'nowrap',
     cursor: 'pointer'
   },
-  spanMore: {
-    display: 'inline-block',
-    color: '#4085a0',
-    cursor: 'pointer'
-  },
-  fontSubtitle: {
-    fontSize: '1.45rem',
-    fontWeight: '700',
-    letterSpacing: '0.1rem',
-    whiteSpace: 'nowrap',
-    textAlign: 'center',
-  },
   fontListItem: {
     fontSize: '1.32rem',
     letterSpacing: '0.12rem',
   }
 }
 
-class NounsBlock extends React.Component {
+class UsersBlock extends React.Component {
   constructor(props){
     super(props);
     this.state = {
 
     }
-    this._render_nouns_randomList = this._render_nouns_randomList.bind(this);
+    this._render_exploreList_users = this._render_exploreList_users.bind(this);
   }
 
-  _render_nouns_randomList(){
-    let list = this.props.nounsList.map((nounId, index)=>{
+  _render_exploreList_users(){
+    let list = this.props.usersList.map((userId, index)=>{
+      //claim path as a independent var to check if it is the id of user self
+      let path = "/cosmic/users/"+userId+"/accumulated";
+      if(index < 1 && userId == this.props.userInfo.id) path = "/user/screen";
       return (
         <div
-          key={"key_Explore_randomNouns_"+index}
+          key={"key_Explore_List_user_"+index}
           style={styleMiddle.boxRendomItem}>
           <Link
-            to={"/cosmic/nouns/"+nounId}
+            to={path}
             className={'plainLinkButton'}>
             <span
               style={styleMiddle.fontListItem}>
-              {this.props.nounsBasic[nounId].name}
+              {userId in this.props.usersBasic ? this.props.usersBasic[userId].account:null}
             </span>
           </Link>
         </div>
@@ -102,7 +74,7 @@ class NounsBlock extends React.Component {
   render(){
     return (
       <div>
-        {this._render_nouns_randomList()}
+        {this._render_exploreList_users()}
       </div>
     )
   }
@@ -114,26 +86,23 @@ class ExploreUsers extends React.Component {
     super(props);
     this.state = {
       axios: false,
-      listUsed: [],
-      listRandom: []
-      //the random list was composed of many sub array
-      //each array represent a 'block' of nouns list
+      listUsers: [],
     };
     this.axiosSource = axios.CancelToken.source();
-    this._axios_nouns_explore = this._axios_nouns_explore.bind(this);
-    this._render_nouns_Block = this._render_nouns_Block.bind(this);
+    this._axios_users_explore = this._axios_users_explore.bind(this);
+    this._render_users_Block = this._render_users_Block.bind(this);
     this.style={
 
     }
   }
 
-  _axios_nouns_explore(){
+  _axios_users_explore(){
     const self = this;
     this.setState({axios: true});
 
     axios({
       method: 'get',
-      url: '/router/explore/nouns',
+      url: '/router/explore/users',
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']
@@ -143,15 +112,25 @@ class ExploreUsers extends React.Component {
       self.setState({axios: false});
 
       let resObj = JSON.parse(res.data);
-      let nounsArr = resObj.main.nounsListRandom,
-          callBack = ()=>{
-            self.setState((prevState, props)=>{
-              prevState.listRandom.push(resObj.main.nounsListRandom);
-              return {listRandom: prevState.listRandom}
-            });
-          };
-
-      self.props._submit_NounsList_new(nounsArr, callBack);
+      self.props._submit_UsersList_new(resObj.main.usersListPlain);
+      //now we remove user itself first, add back later to a specific place
+      let selfIndex = resObj.main.usersListPlain.indexOf(self.props.userInfo.id);
+      if(selfIndex > 0) resObj.main.usersListPlain.splice(selfIndex, 1);
+      //for convenience when rendering, limit first block to less than 8
+      let [firstEight, afterEight]=[[],[]];
+      if(resObj.main.usersListPlain.length>8) {
+        firstEight = resObj.main.usersListPlain.slice(0, 8);
+        afterEight = resObj.main.usersListPlain.slice(8);
+      }else firstEight=resObj.main.usersListPlain;
+      //add the useritself back
+      afterEight.unshift(self.props.userInfo.id);
+      self.setState((prevState, props)=>{
+        prevState.listUsers.push(firstEight);
+        prevState.listUsers.push(afterEight);
+        return {
+          listUsers: prevState.listUsers
+        }
+      });
 
     }).catch(function (thrown) {
       self.setState({axios: false});
@@ -165,29 +144,35 @@ class ExploreUsers extends React.Component {
 
   }
 
-  _render_nouns_Block(){
-    let list = this.state.listUsed.map((nounId, index)=>{
+  _render_users_Block(){
+    let list = this.state.listUsers.map((usersBlock, index)=>{
       return (
-        <NounsBlock
-          key={"key_Explore_Block"+index}
-          nounsList={nounsBlock}
-          nounsBasic={this.props.nounsBasic}/>
-      ) // nounsBasic is saved in reducer,
-        // so should be called directly if the NounsBlock was imported from a independent file
+        <UsersBlock
+          key={"key_Explore_Block_users_"+index}
+          usersList={usersBlock}
+          usersBasic={this.props.usersBasic}
+          userInfo={this.props.userInfo}/>
+      ) // both usersBasic and userInfo is saved in reducer,
+        // so should be called directly if the UsersBlock was imported from a independent file
     });
+
+    //then insert the reserved area for nav
+    list.splice(1,0, (
+      <div
+        key={"key_Explore_users_navReserved"}
+        style={{width: '100%', height: '7rem',position: 'relative'}}/>))
     //add a footer as ending
     list.push(
       <div
-        key={"key_Explore_randomNouns_footer"}
+        key={"key_Explore_users_footer"}
         style={{height: '81px', position: 'relative'}}></div>)
 
     return list;
   }
 
   componentDidMount() {
-    //load nouns from attribution
-    //and random nouns as recommandation
-    this._axios_nouns_explore();
+    //load current users list
+    this._axios_users_explore();
   }
 
   componentWillUnmount() {
@@ -200,11 +185,11 @@ class ExploreUsers extends React.Component {
     return(
       <div
         className={'boxRelativeFull'}
-        style={styleMiddle.comExploreNouns}>
+        style={styleMiddle.comExploreUsers}>
         <div
           className={'boxRelativeFull'}
-          style={styleMiddle.boxUsedList}>
-          {this._render_nouns_Block()}
+          style={styleMiddle.boxUserBlocks}>
+          {this._render_users_Block()}
         </div>
       </div>
     )
@@ -215,21 +200,13 @@ const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
     unitCurrent: state.unitCurrent,
-    nounsBasic: state.nounsBasic,
+    usersBasic: state.usersBasic,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    _submit_NounsList_new: (arr, callBack) => {
-      //for unknown reason, we can't use dispatch to invoke .then() directly at first mount
-      //so this is a working method, just wrap the dispatch with a new Promise locally again
-      //and add .then() to it
-      let dispatchFirst = Promise.resolve(dispatch(handleNounsList(arr)));
-      dispatchFirst.then(()=>{
-        if(callBack) callBack();
-      });
-    }
+    _submit_UsersList_new: (arr) => { dispatch(handleUsersList(arr)); }
   }
 }
 
