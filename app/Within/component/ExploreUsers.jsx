@@ -1,7 +1,8 @@
 import React from 'react';
 import {
   Link,
-  withRouter
+  withRouter,
+  Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import {
@@ -51,7 +52,6 @@ class UsersBlock extends React.Component {
     let list = this.props.usersList.map((userId, index)=>{
       //claim path as a independent var to check if it is the id of user self
       let path = "/cosmic/users/"+userId+"/accumulated";
-      if(index < 1 && userId == this.props.userInfo.id) path = "/user/screen";
       return (
         <div
           key={"key_Explore_List_user_"+index}
@@ -67,6 +67,21 @@ class UsersBlock extends React.Component {
         </div>
       )
     })
+    //for now, the author was fixed at the first of the second block
+    if(this.props.usersList[0] == this.props.userInfo.id) list[0] = (
+      <div
+        key={"key_Explore_List_user_"+"0"}
+        style={styleMiddle.boxRendomItem}>
+        <a
+          href={'/user/screen'}
+          className={'plainLinkButton'}>
+          <span
+            style={styleMiddle.fontListItem}>
+            {this.props.userInfo.account}
+          </span>
+        </a>
+      </div>
+    );
 
     return list;
   }
@@ -115,14 +130,16 @@ class ExploreUsers extends React.Component {
       self.props._submit_UsersList_new(resObj.main.usersListPlain);
       //now we remove user itself first, add back later to a specific place
       let selfIndex = resObj.main.usersListPlain.indexOf(self.props.userInfo.id);
-      if(selfIndex > 0) resObj.main.usersListPlain.splice(selfIndex, 1);
+      if(selfIndex > (-1)) resObj.main.usersListPlain.splice(selfIndex, 1);
       //for convenience when rendering, limit first block to less than 8
       let [firstEight, afterEight]=[[],[]];
       if(resObj.main.usersListPlain.length>8) {
         firstEight = resObj.main.usersListPlain.slice(0, 8);
         afterEight = resObj.main.usersListPlain.slice(8);
       }else firstEight=resObj.main.usersListPlain;
-      //add the useritself back
+      //add the user self back
+      //in the future, mind this process, for it's just a temp method
+      //would cause problem if there are more than one request for all
       afterEight.unshift(self.props.userInfo.id);
       self.setState((prevState, props)=>{
         prevState.listUsers.push(firstEight);
@@ -160,7 +177,7 @@ class ExploreUsers extends React.Component {
     list.splice(1,0, (
       <div
         key={"key_Explore_users_navReserved"}
-        style={{width: '100%', height: '7rem',position: 'relative'}}/>))
+        style={{width: '100%', height: '11rem',position: 'relative'}}/>))
     //add a footer as ending
     list.push(
       <div

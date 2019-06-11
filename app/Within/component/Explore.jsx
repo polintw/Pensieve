@@ -33,6 +33,7 @@ const styleMiddle = {
     position: 'absolute',
     top: '21rem',
     boxSizing: 'border-box',
+    boxShadow: '0 -4px 3px -5px, 0 4px 3px -5px',
     textAlign: 'center'
   }
 }
@@ -68,7 +69,7 @@ class Explore extends React.Component {
           </Switch>
           <div
             style={styleMiddle.boxNav}>
-            <ExploreNav/>
+            <ExploreNav {...this.props}/>
           </div>
         </div>
         <div style={{width: '100%', height: '4vh', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>

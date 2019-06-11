@@ -19,18 +19,16 @@ const styleMiddle = {
   boxUsedList: {
     height: '',
     minHeight: '49vh',
-    padding: '3% 4%',
-    margin: '0 0 2%',
+    padding: '3% 4% 0',
     textAlign: 'center'
   },
   boxRandomList: {
     height: '',
     textAlign: 'center',
-    margin: '3% 0 0'
+    margin: '5rem 0 0'
   },
   boxSubtitle: {
     height: '',
-    padding: '3%',
     textAlign: 'center'
   },
   boxUsedItem: {
@@ -242,7 +240,7 @@ class ExploreNouns extends React.Component {
     list.splice(1,0, (
       <div
         key={"key_Explore_users_navReserved"}
-        style={{width: '100%', height: '7rem',position: 'relative'}}/>))
+        style={{width: '100%', height: '11rem',position: 'relative'}}/>))
 
     return list;
   }

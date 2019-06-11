@@ -9,7 +9,7 @@
   font-size: 1.4rem;
   letter-spacing: 0.11rem;
   white-space: nowrap;
-  color: #333333;
+  color: #a8a8a8;
 }
 /*
 mind the order here
@@ -20,6 +20,7 @@ start the fundemental first, and then the specific condition
 ._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxExplore {
   bottom: 1.72rem;
   transform: translate(-50%, 0%);
+  color: #333333;
 }
 
 ._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxAccount {
@@ -32,7 +33,6 @@ start the fundemental first, and then the specific condition
 
 ._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxFocusExplore {
   right: 12rem;
-  color: black;
 }
 ._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlock {
   overflow: hidden;

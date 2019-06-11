@@ -9,7 +9,7 @@
   font-size: 1.4rem;
   letter-spacing: 0.11rem;
   white-space: nowrap;
-  color: #333333;
+  color: #a8a8a8;
 }
 /*
 mind the order here
@@ -20,6 +20,7 @@ start the fundemental first, and then the specific condition
 .boxExplore {
   bottom: 1.72rem;
   transform: translate(-50%, 0%);
+  color: #333333;
 }
 
 .boxAccount {
@@ -32,5 +33,4 @@ start the fundemental first, and then the specific condition
 
 .boxFocusExplore {
   right: 12rem;
-  color: black;
 }
