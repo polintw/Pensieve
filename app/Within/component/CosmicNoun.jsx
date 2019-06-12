@@ -5,8 +5,8 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import SimpleBlock from './SimpleBlock.jsx';
 import Unit from '../../Component/Unit.jsx';
+import SimpleBlock from '../../Component/Blocks/SimpleBlock.jsx';
 import {
   handleNounsList,
   handleUsersList
@@ -120,8 +120,8 @@ class CosmicNoun extends React.Component {
         return({
           axios: false,
           unitsBlock: prevState.unitsBlock, //maybe this is not a good way, modifying the prevState directy
-          unitsBasic: resObj.main.unitsBasic,
-          marksBasic: resObj.main.marksBasic
+          unitsBasic: Object.assign({}, prevState.unitsBasic, resObj.main.unitsBasic),
+          marksBasic: Object.assign({}, prevState.marksBasic, resObj.main.marksBasic)
         });
       });
     }).catch(function (thrown) {

@@ -18,19 +18,17 @@ const styleMiddle = {
   },
   boxUsedList: {
     height: '',
-    minHeight: '36vh',
-    padding: '3% 4%',
-    margin: '0 0 2%',
+    minHeight: '49vh',
+    padding: '3% 4% 0',
     textAlign: 'center'
   },
   boxRandomList: {
     height: '',
     textAlign: 'center',
-    margin: '3% 0 0'
+    margin: '5rem 0 0'
   },
   boxSubtitle: {
     height: '',
-    padding: '3%',
     textAlign: 'center'
   },
   boxUsedItem: {
@@ -53,6 +51,8 @@ const styleMiddle = {
   },
   spanMore: {
     display: 'inline-block',
+    margin: '0 0.54rem',
+    lineHeight: '3rem',
     color: '#4085a0',
     cursor: 'pointer'
   },
@@ -66,20 +66,6 @@ const styleMiddle = {
   fontListItem: {
     fontSize: '1.32rem',
     letterSpacing: '0.12rem',
-  }
-}
-
-const mapStateToProps = (state)=>{
-  return {
-    userInfo: state.userInfo,
-    unitCurrent: state.unitCurrent,
-    nounsBasic: state.nounsBasic,
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    _submit_NounsList_new: (arr, callBack) => { dispatch(handleNounsList(arr)).then(()=>{if(callBack) callBack();}); }
   }
 }
 
@@ -150,7 +136,7 @@ class ExploreNouns extends React.Component {
 
     axios({
       method: 'get',
-      url: '/router/nouns/explore',
+      url: '/router/explore/nouns',
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']
@@ -160,14 +146,18 @@ class ExploreNouns extends React.Component {
       self.setState({axios: false});
 
       let resObj = JSON.parse(res.data);
-      let nounsArr = resObj.main.nounsListUsed.concat(resObj.main.nounsListRandom),
+      let nounsArr = resObj.main.nounsListUsed,
           callBack = ()=>{
+            //for convenience when rendering, limit first block to less than 8
+            let [firstEight, afterEight]=[[],[]];
+            if(resObj.main.nounsListUsed.length>8) {
+              firstEight = resObj.main.nounsListUsed.slice(0, 8);
+              afterEight = resObj.main.nounsListUsed.slice(8);
+            }else firstEight=resObj.main.nounsListUsed;
             self.setState((prevState, props)=>{
-              prevState.listRandom.push(resObj.main.nounsListRandom);
-              return {
-                listUsed: resObj.main.nounsListUsed,
-                listRandom: prevState.listRandom
-              }
+              prevState.listUsed.push(firstEight);
+              prevState.listUsed.push(afterEight);
+              return {listUsed: prevState.listUsed}
             });
           };
 
@@ -191,7 +181,7 @@ class ExploreNouns extends React.Component {
 
     axios({
       method: 'get',
-      url: '/router/nouns/explore/more',
+      url: '/router/explore/nouns/more',
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']
@@ -234,21 +224,24 @@ class ExploreNouns extends React.Component {
   }
 
   _render_nouns_usedList(){
-    let list = this.state.listUsed.map((nounId, index)=>{
+    let list = this.state.listUsed.map((nounsBlock, index)=>{
+      //usedList also composed of blocks, so render by Blocks
+      //could consider use a different Blocks from rendom one
+      //or just set different layout style
       return (
-        <div
+        <NounsBlock
           key={"key_Explore_usedNouns_"+index}
-          style={Object.assign({}, styleMiddle.boxUsedItem, {padding: '1% 3%', margin: '2% 0px'})}>
-          <Link
-            to={"/cosmic/nouns/"+nounId}
-            className={'plainLinkButton'}>
-            <span
-              style={styleMiddle.fontListItem}>
-              {this.props.nounsBasic[nounId].name}</span>
-          </Link>
-        </div>
-      )
+          nounsList={nounsBlock}
+          nounsBasic={this.props.nounsBasic}/>
+      ) // nounsBasic is saved in reducer,
+        // so should be called directly if the NounsBlock was imported from a independent file
     });
+    //then insert the reserved area for nav
+    list.splice(1,0, (
+      <div
+        key={"key_Explore_users_navReserved"}
+        style={{width: '100%', height: '11rem',position: 'relative'}}/>))
+
     return list;
   }
 
@@ -256,7 +249,7 @@ class ExploreNouns extends React.Component {
     let list = this.state.listRandom.map((nounsBlock, index)=>{
       return (
         <NounsBlock
-          key={"key_Explore_Block"+index}
+          key={"key_Explore_Block_nouns_"+index}
           nounsList={nounsBlock}
           nounsBasic={this.props.nounsBasic}/>
       ) // nounsBasic is saved in reducer,
@@ -308,14 +301,47 @@ class ExploreNouns extends React.Component {
         <div
           className={'boxRelativeFull'}
           style={Object.assign({}, styleMiddle.boxSubtitle, styleMiddle.fontSubtitle)}>
-          {"or be the First revealing these place! "}</div>
+          <span>{"or, here are"}</span>
+          <span
+            style={Object.assign({}, styleMiddle.fontSubtitle, styleMiddle.spanMore)}
+            onClick={this._handleClick_Explore_more}>
+            {" more "}
+          </span>
+          <span>{"waiting for you"}</span><br/>
+          <span>{"to be the First! "}</span>
+        </div>
         <div
           className={'boxRelativeFull'}
           style={(styleMiddle.boxRandomList)}>
-          {this._render_nouns_Block()}
+          {
+            (this.state.listRandom.length>0) &&
+            this._render_nouns_Block()
+          }
         </div>
       </div>
     )
+  }
+}
+
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo,
+    unitCurrent: state.unitCurrent,
+    nounsBasic: state.nounsBasic,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    _submit_NounsList_new: (arr, callBack) => {
+      //for unknown reason, we can't use dispatch to invoke .then() directly at first mount
+      //so this is a working method, just wrap the dispatch with a new Promise locally again
+      //and add .then() to it
+      let dispatchFirst = Promise.resolve(dispatch(handleNounsList(arr)));
+      dispatchFirst.then(()=>{
+        if(callBack) callBack();
+      });
+    }
   }
 }
 

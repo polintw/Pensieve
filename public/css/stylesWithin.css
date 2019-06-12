@@ -9,7 +9,7 @@
   font-size: 1.4rem;
   letter-spacing: 0.11rem;
   white-space: nowrap;
-  color: #333333;
+  color: #a8a8a8;
 }
 /*
 mind the order here
@@ -20,6 +20,7 @@ start the fundemental first, and then the specific condition
 ._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxExplore {
   bottom: 1.72rem;
   transform: translate(-50%, 0%);
+  color: #333333;
 }
 
 ._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxAccount {
@@ -32,7 +33,6 @@ start the fundemental first, and then the specific condition
 
 ._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxFocusExplore {
   right: 12rem;
-  color: black;
 }
 ._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlock {
   overflow: hidden;
@@ -98,14 +98,29 @@ start the fundemental first, and then the specific condition
   cursor: pointer;
   background-color: #FFFFFF;
 }
-._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__Nails_Cosmic {
-  display: inline-block;
-  width: 21rem;
-  position: relative;
-  box-sizing: border-box;
-  margin: 0 3.4rem 1.2rem 2.4rem;
-  box-shadow: 0 1px 1px -0.1rem, 0rem -0.05rem 2px -0.2rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
+._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__Nails_Basic {
   background-color: #FFFFFF;
+}
+
+._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__fontContent {
+  font-size: 1.34rem;
+  font-weight: 400;
+  letter-spacing: 0.16rem;
+  line-height: 1.8rem;
+  color: #FAFAFA;
+}
+
+._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__fontNouns {
+  font-size: 1.54rem;
+  font-weight: 300;
+  letter-spacing: 0.03rem;
+  font-family: 'cwTeXMing';
+  color: black;
+}
+
+._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__fontAccount {
+  font-size: 1.2rem;
+  font-weight: 400;
+  letter-spacing: 0.1rem;
+  color: #757575;
 }

@@ -126,7 +126,7 @@ class WithinLtd extends React.Component {
         }else{
           this.setState((prevState, props)=>{
             let unitTo = {
-              params: '/cosmic/people/'+identifier,
+              params: '/cosmic/users/'+identifier+'/accumulated',
               query: ''
             };
             return {unitTo: unitTo}

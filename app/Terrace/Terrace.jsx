@@ -43,7 +43,7 @@ class Terrace extends React.Component {
         if(identifier == this.props.userInfo.id){
           window.location.assign('/user/screen');
         }else{
-          window.location.assign('/cosmic/people/'+identifier);
+          window.location.assign('/cosmic/users/'+identifier+'/accumulated');
         }
         break;
       case 'noun':

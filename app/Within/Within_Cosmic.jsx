@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  BrowserRouter as Router,
   Route,
   Switch,
   Link,
@@ -61,7 +60,7 @@ class WithinCosmic extends React.Component {
         }else{
           this.setState((prevState, props)=>{
             let switchTo = {
-              params: '/cosmic/people/'+identifier,
+              params: '/cosmic/users/'+identifier+'/accumulated',
               query: ''
             };
             return {switchTo: switchTo}
@@ -113,9 +112,9 @@ class WithinCosmic extends React.Component {
         style={this.style.Within_Cosmic_}>
         <div style={this.style.Within_Cosmic_backplane}></div>
         <Switch>
-          <Route path={this.props.match.path+"/people/:id"} render={(props)=> <CosmicUser {...props}/>}/>
           <Route path={this.props.match.path+"/units/:id/related"} render={(props)=> <CosmicRelated {...props}/>}/>
           <Route path={this.props.match.path+"/nouns/:nounId"} render={(props)=> <CosmicNoun {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
+          <Route path={this.props.match.path+"/users/:userId"} render={(props)=> <CosmicUser {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
           <Route path={this.props.match.path+"/explore"} render={(props)=> <Explore {...props}/>}/>
           <Route path={this.props.match.path} render={(props)=> <CosmicMain {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
         </Switch>
@@ -131,4 +130,14 @@ class WithinCosmic extends React.Component {
   }
 }
 
-export default withRouter(connect()(WithinCosmic));
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo,
+    unitCurrent: state.unitCurrent
+  }
+}
+
+export default withRouter(connect(
+  mapStateToProps,
+  null
+)(WithinCosmic));

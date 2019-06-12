@@ -2,7 +2,8 @@
 module.exports = (sequelize, DataTypes) => {
   const inspired = sequelize.define('inspired', {
     id_mark: DataTypes.INTEGER,
-    id_user: DataTypes.INTEGER
+    id_user: DataTypes.INTEGER,
+    createdAt: DataTypes.DATE //notice! this line is neccessary cuase we would select it as a params
   }, {});
   inspired.associate = function(models) {
     inspired.belongsTo(models.users, {
