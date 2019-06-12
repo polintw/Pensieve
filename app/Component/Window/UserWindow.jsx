@@ -118,8 +118,8 @@ class UserWindow extends React.Component {
           className={'boxRelativeFull'}
           style={styleMiddle.boxScroll}>
           <Switch>
-            <Route path={this.props.match.path+"/accumulated"} render={(props)=> <Accumulated {...props}/>}/>
-            <Route path={this.props.match.path+"/sheet"} render={(props)=> <Sheet {...props}/>}/>
+            <Route path={this.props.match.path+"/accumulated"} render={(props)=> <Accumulated {...props} {...this.props}/>}/>
+            <Route path={this.props.match.path+"/sheet"} render={(props)=> <Sheet {...props} {...this.props}/>}/>
           </Switch>
         </div>
       </div>

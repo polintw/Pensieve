@@ -164,7 +164,7 @@ class Accumulated extends React.Component {
         <div style={styleMiddle.footer}></div>
         <Route
           path={this.props.match.path+"/units/:id"}
-          render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_von_cosmic}/>}/>
+          render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_von_userWindow}/>}/>
       </div>
     )
   }

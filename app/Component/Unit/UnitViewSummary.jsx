@@ -4,7 +4,6 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import {NounsStatic} from './UnitComponent.jsx';
 import ImgPreview from '../ImgPreview.jsx';
 import DateConverter from '../DateConverter.jsx';
 import MarksArticle from '../MarksArticle.jsx';
@@ -80,6 +79,7 @@ class UnitViewSummary extends React.Component {
     };
     this.marksArticle = React.createRef();
     this._set_layerstatus = this._set_layerstatus.bind(this);
+    this._handleClick_Account = this._handleClick_Account.bind(this);
     this._handleClick_UnitAction_response = this._handleClick_UnitAction_response.bind(this);
     this._handleWheel_marksArticle = (event)=>{event.stopPropagation();};
     this.style={
@@ -129,6 +129,7 @@ class UnitViewSummary extends React.Component {
         display: 'inline-block',
         boxSizing: 'border-box',
         color: '#FAFAFA',
+        cursor: 'pointer'
       },
       Com_UnitViewSummary_unitinfo_simple_: {
         position: 'absolute',
@@ -154,6 +155,12 @@ class UnitViewSummary extends React.Component {
     this.props._set_Modalmode("response");
   }
 
+  _handleClick_Account(event){
+    event.preventDefault();
+    event.stopPropagation();
+    this.props._handleClick_Account('user', this.props.unitCurrent.authorBasic.authorId);
+  }
+
   componentDidMount(){
     this.marksArticle.current.addEventListener('wheel', this._handleWheel_marksArticle, {passive: false})
     //because the modern browser set the 'passive' property of addEventListener default to true,
@@ -176,6 +183,7 @@ class UnitViewSummary extends React.Component {
         <div
           style={this.style.Com_UnitViewSummary_author_}>
           <div
+            onClick={this._handleClick_Account}
             style={this.style.Com_UnitViewSummary_author_name}>
             <NameLarge
               firstName={this.props.unitCurrent.authorBasic.firstName}

@@ -60,7 +60,7 @@ class WithinCosmic extends React.Component {
         }else{
           this.setState((prevState, props)=>{
             let switchTo = {
-              params: '/cosmic/people/'+identifier,
+              params: '/cosmic/users/'+identifier+'/accumulated',
               query: ''
             };
             return {switchTo: switchTo}
@@ -130,4 +130,14 @@ class WithinCosmic extends React.Component {
   }
 }
 
-export default withRouter(connect()(WithinCosmic));
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo,
+    unitCurrent: state.unitCurrent
+  }
+}
+
+export default withRouter(connect(
+  mapStateToProps,
+  null
+)(WithinCosmic));

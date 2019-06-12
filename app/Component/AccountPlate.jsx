@@ -58,7 +58,7 @@ export class NameLabelRe extends React.Component {
   _handleClick_Account(event){
     event.preventDefault();
     event.stopPropagation();
-    this.props._handleClick_Account(this.props.accountId, 'user');
+    this.props._handleClick_Account('user', this.props.accountId);
   }
 
   _set_stylechoice(parm){
