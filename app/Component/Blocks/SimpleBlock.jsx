@@ -9,7 +9,7 @@ import NailBasic from '../Nails/NailBasic/NailBasic.jsx';
 const styleMiddle = {
   frameNail: {
     display: 'inline-block',
-    width: '284px',
+    width: '279px',
     height: '20.5rem',
     position: 'relative',
     boxSizing: 'border-box',

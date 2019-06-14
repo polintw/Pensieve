@@ -33,7 +33,7 @@ class CosmicCorner extends React.Component {
       case 'nou':
         return (
           <div
-            style={{cursor: 'none'}}>
+            style={{cursor: 'default'}}>
             <Link
               to="/cosmic/explore/nouns"
               className={'plainLinkButton'}>
@@ -51,7 +51,7 @@ class CosmicCorner extends React.Component {
       case 'use':
         return (
           <div
-            style={{cursor: 'none'}}>
+            style={{cursor: 'default'}}>
             <Link
               to="/cosmic/explore/nouns"
               className={'plainLinkButton'}>

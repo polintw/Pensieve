@@ -37,18 +37,19 @@ const styleMiddle = {
     textAlign: 'center',
     color: '#AAAAAA'
   },
-  boxRendomItem: {
+  boxBlockItem: {
     display: 'inline-block',
+    minWidth: '28%',
     position: 'relative',
     boxSizing: 'border-box',
-    padding: '0 5%',
-    margin: '4% 2%',
+    padding: '0 3%',
+    margin: '3% 2%',
     whiteSpace: 'nowrap',
     cursor: 'pointer'
   },
   fontListItem: {
-    fontSize: '1.32rem',
-    letterSpacing: '0.12rem',
+    fontSize: '1.54rem',
+    letterSpacing: '0.08rem',
   }
 }
 
@@ -67,7 +68,7 @@ class UsersBlock extends React.Component {
       if(userId == this.props.userInfo.id) return (
         <div
           key={"key_Explore_List_user_"+index}
-          style={styleMiddle.boxRendomItem}>
+          style={styleMiddle.boxBlockItem}>
           <a
             href={'/user/screen'}
             className={'plainLinkButton'}>
@@ -83,7 +84,7 @@ class UsersBlock extends React.Component {
       return (
         <div
           key={"key_Explore_List_user_"+index}
-          style={styleMiddle.boxRendomItem}>
+          style={styleMiddle.boxBlockItem}>
           <Link
             to={path}
             className={'plainLinkButton'}>
@@ -225,6 +226,7 @@ const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
     unitCurrent: state.unitCurrent,
+    usersBasic: state.usersBasic,
     nounsBasic: state.nounsBasic,
   }
 }

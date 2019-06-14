@@ -11,19 +11,20 @@ import Unit from '../../Component/Unit.jsx';
 
 const styleMiddle = {
   comNounSingular: {
-    height: '',
+
   },
   boxScroll: {
-    width: '932px',
+    display: 'flex',
+    flexWrap: 'wrap',
+    width: '990px',
     position: 'absolute',
     top: '5.8vh',
-    left: '50%',
+    left: '49%',
     transform: 'translate(-50%,0)',
     boxSizing: 'border-box'
   },
   boxTitle: {
     width: '100%',
-    minHeight: '5rem',
     position: 'relative',
     boxSizing: 'border-box',
     padding: '0 0 2rem 0'
@@ -35,18 +36,23 @@ const styleMiddle = {
     transform: 'translate(50%,0)'
   },
   boxNav: {
-    display: 'flex',
-    flexDirection: 'column',
-    position: 'absolute',
+    display: 'inline-block',
+    width: '11%',
+    position: 'relative',
     bottom: '0',
-    right: '0',
-    boxSizing: 'border-box'
+    left: '0',
+    boxSizing: 'border-box',
+    padding: '5rem 2% 0'
+  },
+  boxView: {
+    display: 'inline-block',
+    width: '89%',
   },
   fontNav: {
     fontSize: "1.4rem",
     letterSpacing: "0.11rem",
     whiteSpace: "nowrap",
-    color: "#333333"
+    color: "#a8a8a8"
   },
   spanNav: {
     position: 'relative',
@@ -98,11 +104,13 @@ class CosmicNoun extends React.Component {
 
 
   componentDidUpdate(prevProps, prevState, snapshot){
-
+    //becuase there is chance we jump from noun to noun, using the same component this one
+    //so we check if the nounId has changed
+    this.nounId = this.props.match.params.nounId;
   }
 
   componentDidMount() {
-
+    this.nounId = this.props.match.params.nounId;
   }
 
   componentWillUnmount(){
@@ -118,40 +126,43 @@ class CosmicNoun extends React.Component {
         className={'boxAbsoluteFull'}
         style={styleMiddle.comNounSingular}>
         <div
-          style={styleMiddle.boxTitle}>
-          <div
-            style={Object.assign({}, styleMiddle.boxName, styleMiddle.fontName)}>
-            {this.nounId in this.props.nounsBasic? (
-              this.props.nounsBasic[this.nounId].name+(this.props.nounsBasic[this.nounId].prefix? (" ,  "+this.props.nounsBasic[this.nounId].prefix): "")
-            ): (
-              null
-            )}
-          </div>
-        </div>
-        <div
-          style={Object.assign({}, styleMiddle.boxNav, styleMiddle.fontNav)}>
-          <Link
-            to={{
-              pathname: this.props.match.url,
-              search: ''
-            }}
-            className={'plainLinkButton'}>
-            <span
-              style={styleMiddle.spanNav}>{'links'}</span>
-          </Link>
-          <Link
-            to={{
-              pathname: this.props.match.url,
-              search: '?view=contribute'}}
-            className={'plainLinkButton'}>
-            <span
-              style={styleMiddle.spanNav}>{'contributors'}</span>
-          </Link>
-        </div>
-        <div
-          className={'boxRelativeFull'}
           style={styleMiddle.boxScroll}>
-          {this._render_CosmicNouns_byView(paramsStatus)}
+          <div
+            style={styleMiddle.boxTitle}>
+            <div
+              style={Object.assign({}, styleMiddle.boxName, styleMiddle.fontName)}>
+              {this.nounId in this.props.nounsBasic? (
+                this.props.nounsBasic[this.nounId].name+(this.props.nounsBasic[this.nounId].prefix? (" ,  "+this.props.nounsBasic[this.nounId].prefix): "")
+              ): (
+                null
+              )}
+            </div>
+          </div>
+          <div
+            style={Object.assign({}, styleMiddle.boxNav, styleMiddle.fontNav)}>
+            <Link
+              to={{
+                pathname: this.props.match.url,
+                search: ''
+              }}
+              className={'plainLinkButton'}>
+              <span
+                style={styleMiddle.spanNav}>{'links'}</span>
+            </Link>
+            <Link
+              to={{
+                pathname: this.props.match.url,
+                search: '?view=contribute'}}
+              className={'plainLinkButton'}>
+              <span
+                style={styleMiddle.spanNav}>{'contributors'}</span>
+            </Link>
+          </div>
+          <div
+            className={'boxRelativeFull'}
+            style={styleMiddle.boxView}>
+            {this._render_CosmicNouns_byView(paramsStatus)}
+          </div>
         </div>
         <div style={{width: '100%', height: '3vh', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
         <div style={{width: '100%', height: '2.4rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
