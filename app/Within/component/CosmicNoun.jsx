@@ -5,16 +5,9 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import NodeLinks from './NodeLinks.jsx';
+import NodeContributor from './NodeContributor.jsx';
 import Unit from '../../Component/Unit.jsx';
-import SimpleBlock from '../../Component/Blocks/SimpleBlock.jsx';
-import {
-  handleNounsList,
-  handleUsersList
-} from "../../redux/actions/general.js";
-import {
-  cancelErr,
-  uncertainErr
-} from "../../utils/errHandlers.js";
 
 const styleMiddle = {
   comNounSingular: {
@@ -41,18 +34,26 @@ const styleMiddle = {
     padding: '1rem',
     transform: 'translate(50%,0)'
   },
-  boxBlocks: {
-    width: '100%',
-    minHeight: '5rem',
-    position: 'relative',
-    boxSizing: 'border-box',
-    margin: '2rem 0px 0px'
-  },
-  footer: {
-    width: '100%',
-    height: '5rem',
-    position: 'relative',
+  boxNav: {
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'absolute',
+    bottom: '0',
+    right: '0',
     boxSizing: 'border-box'
+  },
+  fontNav: {
+    fontSize: "1.4rem",
+    letterSpacing: "0.11rem",
+    whiteSpace: "nowrap",
+    color: "#333333"
+  },
+  spanNav: {
+    position: 'relative',
+    float: 'right',
+    boxSizing: 'border-box',
+    margin: '0.8rem 0.5rem',
+    cursor: 'pointer'
   },
   fontName: {
     fontSize: '2.7rem',
@@ -61,30 +62,16 @@ const styleMiddle = {
     whiteSpace: 'nowrap',
     color: 'black'
   },
-  fontPlaceholder: {
-    fontSize: '1.45rem',
-    fontWeight: '700',
-    letterSpacing: '0.1rem',
-    whiteSpace: 'nowrap',
-    textAlign: 'center',
-    color: '#AAAAAA'
-  }
 }
 
 class CosmicNoun extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      axios: false,
-      unitsBlock: [],
-      //unitsBlock is a arr composed of multiple unitsList(also an arr)
-      unitsBasic: {},
-      marksBasic: {},
+
     };
-    this.axiosSource = axios.CancelToken.source();
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
-    this._render_nouns_Block = this._render_nouns_Block.bind(this);
-    this._axios_nouns_singular = this._axios_nouns_singular.bind(this);
+    this._render_CosmicNouns_byView = this._render_CosmicNouns_byView.bind(this);
     this.style={
 
     }
@@ -95,113 +82,76 @@ class CosmicNoun extends React.Component {
     return unitInit;
   }
 
-  _axios_nouns_singular(){
-    const self = this;
-    this.setState({axios: true});
-
-    //now get the Units of this noun from the attribution in database
-    axios({
-      method: 'get',
-      url: '/router/nouns/'+this.nounId,
-      headers: {
-        'charset': 'utf-8',
-        'token': window.localStorage['token']
-      },
-      cancelToken: self.axiosSource.cancelToken
-    }).then(function (res) {
-
-      let resObj = JSON.parse(res.data);
-      self.props._submit_NounsList_new(resObj.main.nounsListMix);
-      self.props._submit_UsersList_new(resObj.main.usersList);
-      self.setState((prevState, props)=>{
-        //we don't push anything and keep it as previous,
-        //bexuase we need to let the render check if there is any id for this noun or not.
-        if(resObj.main.unitsList.length>0) prevState.unitsBlock.push(resObj.main.unitsList);
-        return({
-          axios: false,
-          unitsBlock: prevState.unitsBlock, //maybe this is not a good way, modifying the prevState directy
-          unitsBasic: Object.assign({}, prevState.unitsBasic, resObj.main.unitsBasic),
-          marksBasic: Object.assign({}, prevState.marksBasic, resObj.main.marksBasic)
-        });
-      });
-    }).catch(function (thrown) {
-      self.setState({axios: false});
-      if (axios.isCancel(thrown)) {
-        cancelErr(thrown);
-      } else {
-        let message = uncertainErr(thrown);
-        if(message) alert(message);
-      }
-    });
-
-  }
-
-  _render_nouns_Block(){
-    if(!this.state.unitsBlock[0]) return(
-      <div
-        style={Object.assign({}, styleMiddle.fontPlaceholder, {boxSizing: 'border-box',margin: '13% 0'})}>
-        {"revealing the unknown to the curious people! "}
-      </div>
-    );
-
-    let list = this.state.unitsBlock.map((unitBlock, index)=>{
-      return (
-        <SimpleBlock
-          key={"key_Cosmicnoun_blocks_"+index}
-          unitsList={unitBlock}
-          unitsBasic={this.state.unitsBasic}
-          marksBasic={this.state.marksBasic}/>
-      )
-    });
-
-    return list;
-  }
-
-  componentDidUpdate(prevProps, prevState, snapshot){
-    //becuase there is chance we jump from noun to noun, using the same component this one
-    //so we check if the nounId has changed
-    this.nounId = this.props.match.params.nounId;
-    if(this.nounId !== prevProps.match.params.nounId){
-      //load Units tagged to this noun
-      this._axios_nouns_singular();
+  _render_CosmicNouns_byView(paramsStatus){
+    switch (paramsStatus) {
+      case 'contribute':
+        return (
+          <NodeContributor {...this.props}/>
+        )
+        break;
+      default:
+        return (
+          <NodeLinks {...this.props}/>
+        )
     };
   }
 
+
+  componentDidUpdate(prevProps, prevState, snapshot){
+
+  }
+
   componentDidMount() {
-    //load Units tagged to this noun
-    this.nounId = this.props.match.params.nounId;
-    this._axios_nouns_singular();
+
   }
 
   componentWillUnmount(){
-    if(this.state.axios){
-      this.axiosSource.cancel("component will unmount.")
-    }
+
   }
 
   render(){
+    let params = new URLSearchParams(this.props.location.search); //we need value in URL query
+    let paramsStatus = params.get('view');
+
     return(
       <div
         className={'boxAbsoluteFull'}
         style={styleMiddle.comNounSingular}>
         <div
+          style={styleMiddle.boxTitle}>
+          <div
+            style={Object.assign({}, styleMiddle.boxName, styleMiddle.fontName)}>
+            {this.nounId in this.props.nounsBasic? (
+              this.props.nounsBasic[this.nounId].name+(this.props.nounsBasic[this.nounId].prefix? (" ,  "+this.props.nounsBasic[this.nounId].prefix): "")
+            ): (
+              null
+            )}
+          </div>
+        </div>
+        <div
+          style={Object.assign({}, styleMiddle.boxNav, styleMiddle.fontNav)}>
+          <Link
+            to={{
+              pathname: this.props.match.url,
+              search: ''
+            }}
+            className={'plainLinkButton'}>
+            <span
+              style={styleMiddle.spanNav}>{'links'}</span>
+          </Link>
+          <Link
+            to={{
+              pathname: this.props.match.url,
+              search: '?view=contribute'}}
+            className={'plainLinkButton'}>
+            <span
+              style={styleMiddle.spanNav}>{'contributors'}</span>
+          </Link>
+        </div>
+        <div
+          className={'boxRelativeFull'}
           style={styleMiddle.boxScroll}>
-          <div
-            style={styleMiddle.boxTitle}>
-            <div
-              style={Object.assign({}, styleMiddle.boxName, styleMiddle.fontName)}>
-              {this.nounId in this.props.nounsBasic? (
-                this.props.nounsBasic[this.nounId].name+(this.props.nounsBasic[this.nounId].prefix? (" ,  "+this.props.nounsBasic[this.nounId].prefix): "")
-              ): (
-                null
-              )}
-            </div>
-          </div>
-          <div
-            style={styleMiddle.boxBlocks}>
-            {this._render_nouns_Block()}
-          </div>
-          <div style={styleMiddle.footer}></div>
+          {this._render_CosmicNouns_byView(paramsStatus)}
         </div>
         <div style={{width: '100%', height: '3vh', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
         <div style={{width: '100%', height: '2.4rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
@@ -221,14 +171,7 @@ const mapStateToProps = (state)=>{
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
-    _submit_UsersList_new: (arr) => { dispatch(handleUsersList(arr)); }
-  }
-}
-
 export default withRouter(connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(CosmicNoun));

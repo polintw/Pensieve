@@ -88,6 +88,16 @@ start the fundemental first, and then the specific condition
   line-height: 1.7rem;
   color: #ABABAB;
 }
+._C_C_app_Component_Nails_NailCosmic_styleNailCosmic_module__Nails_Cosmic {
+  display: inline-block;
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0.5rem 0;
+  border-radius: 0.08vh;
+  cursor: pointer;
+  background-color: #FFFFFF;
+}
 ._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__Nails_Basic {
   background-color: #FFFFFF;
 }
@@ -113,14 +123,4 @@ start the fundemental first, and then the specific condition
   font-weight: 400;
   letter-spacing: 0.1rem;
   color: #757575;
-}
-._C_C_app_Component_Nails_NailCosmic_styleNailCosmic_module__Nails_Cosmic {
-  display: inline-block;
-  width: 100%;
-  position: relative;
-  box-sizing: border-box;
-  margin: 0.5rem 0;
-  border-radius: 0.08vh;
-  cursor: pointer;
-  background-color: #FFFFFF;
 }
