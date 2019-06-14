@@ -21,6 +21,7 @@ class EditingModal extends React.Component {
       contentInit: {focusBlock: null, markExpand: null},
       contentModalify: false,
       warningModal: false,
+      warningType: null,
       articleEditing: false,
       coverSrc: this.props.unitSet?this.props.unitSet.coverSrc:null,
       beneathSrc: this.props.unitSet?this.props.unitSet.beneathSrc:null,
@@ -35,12 +36,12 @@ class EditingModal extends React.Component {
     this._set_newImgSrc = this._set_newImgSrc.bind(this);
     this._set_ArticleEdit = this._set_ArticleEdit.bind(this);
     this._submit_newShare = this._submit_newShare.bind(this);
-    this._set_WarningModal = this._set_WarningModal.bind(this);
     this._open_ContentModal = this._open_ContentModal.bind(this);
     this._close_img_Cancell = this._close_img_Cancell.bind(this);
     this._close_Mark_Complete = this._close_Mark_Complete.bind(this);
     this._render_importOrPreview = this._render_importOrPreview.bind(this);
     this._handleClick_Img_Delete = this._handleClick_Img_Delete.bind(this);
+    this._set_WarningModal_positive = this._set_WarningModal_positive.bind(this);
     this.style={
       Com_Modal_Editing_: {
         width: '86%',
@@ -93,8 +94,14 @@ class EditingModal extends React.Component {
     }
   }
 
-  _set_WarningModal(bool){
-    if(bool) this.setState({warningModal: false});
+  _set_WarningModal_positive(){
+    switch (this.state.warningType) {
+      case 'warning': //case only warn or remind by message
+        this.setState({warningModal: false, warningType: null})
+        break;
+      default:
+        this.setState({warningModal: false, warningType: null})
+    }
   }
 
   _set_ArticleEdit(mark){
@@ -170,7 +177,10 @@ class EditingModal extends React.Component {
     //shallow copy, prevent render init during the modifications
     let newObj = Object.assign({}, this.state);
     //check form filled
-    if(!newObj["coverSrc"] || newObj["nouns"]["list"].length < 1) {this.setState({warningModal: 'please upload at least one image, and search an existing place to choose for~'});return;};
+    if(!newObj["coverSrc"] || newObj["nouns"]["list"].length < 1) {
+      this.setState({warningModal: 'please upload at least one image, and search an existing place to choose for~', warningType: 'warning'});
+      return;
+    };
     //seal the mark obj by fill in the lasr undetermined value, 'layer'
     newObj.coverMarks.list.forEach((markKey, index)=>{
       newObj.coverMarks.data[markKey].layer='0';
@@ -309,8 +319,9 @@ class EditingModal extends React.Component {
         {
           this.state.warningModal &&
           <WarningModal
+            type={this.state.warningType}
             message={this.state.warningModal}
-            _set_WarningModal={this._set_WarningModal}/>
+            _set_WarningModal_positive={this._set_WarningModal_positive}/>
         }
         {
           this.props.unitSubmitting &&
