@@ -5,7 +5,8 @@ module.exports = (sequelize, DataTypes) => {
     id_author: DataTypes.INTEGER,
     url_pic_layer0: DataTypes.STRING,
     url_pic_layer1: DataTypes.STRING,
-    id_primer: DataTypes.INTEGER
+    id_primer: DataTypes.INTEGER,
+    createdAt: DataTypes.DATE //notice! this line is neccessary cuase we would select it as a params
   }, {
     paranoid: true
   });

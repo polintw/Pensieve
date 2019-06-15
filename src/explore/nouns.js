@@ -18,46 +18,30 @@ function _handle_GET_nouns_explore(req, res){
   new Promise((resolve, reject)=>{
     const reqToken = req.body.token || req.headers['token'] || req.query.token;
     const jwtVerified = jwt.verify(reqToken, verify_key);
-    if (!jwtVerified) throw new authorizedError("during GET--nouns/singular, "+jwtVerified, 32);
+    if (!jwtVerified) throw new authorizedError("during GET--/explore/nouns, "+jwtVerified, 32);
 
-    //first, select nouns from the rencent 70 of attribution
+    //first, select nouns
+    //for now we seperate the 'more', or RnadomList into another api
+    //so we just select the nouns which have been used here
     return _DB_attribution.findAndCountAll({
       attributes: ['id_noun'],
       limit: 42
     }).then((result)=>{
       let sendingData = {
         temp: {},
-        nounsListUsed: [],
-        nounsListRandom: []
+        nounsListUsed: []
       };
 
       result.rows.forEach((row, index)=>{
         if(!sendingData.nounsListUsed.includes(row.id_noun)) sendingData.nounsListUsed.push(row.id_noun);
       })
 
-      return sendingData;
-    }).then((sendingData)=>{
-      //then select those not in usedList from nouns
-      return _DB_nouns.findAndCountAll({
-        order: [
-          [Sequelize.fn('RAND')] //"RAND" is order for 'random' selection specific for mySQL
-        ],
-        attributes: ['id'],
-        limit: 64
-      }).then((nouns)=>{
-        nouns.rows.forEach((row, index)=>{
-          sendingData.nounsListRandom.push(row.id);
-        })
-
-        resolve(sendingData);
-      }).catch((err)=>{
-        throw err;
-      });
+      resolve(sendingData);
     }).catch((err)=>{
       reject(new internalError(err, 131));
     });
   }).then((sendingData)=>{
-    _res_success(res, sendingData, "GET: /nouns/explore, complete.");
+    _res_success(res, sendingData, "GET: /explore/nouns, complete.");
   }).catch((error)=>{
     _handle_ErrCatched(error, req, res);
   });
@@ -75,7 +59,7 @@ function _handle_GET_nouns_exploreMore(req, res){
         [Sequelize.fn('RAND')] //"RAND" is order for 'random' selection specific for mySQL
       ],
       attributes: ['id'],
-      limit: 24
+      limit: 32
     }).then((nouns)=>{
       let sendingData = {
         temp: {},
@@ -91,7 +75,7 @@ function _handle_GET_nouns_exploreMore(req, res){
       reject(new internalError(err, 131));
     });
   }).then((sendingData)=>{
-    _res_success(res, sendingData, "GET: /nouns/explore/more, complete.");
+    _res_success(res, sendingData, "GET: /explore/nouns/more, complete.");
   }).catch((error)=>{
     _handle_ErrCatched(error, req, res);
   });
@@ -99,12 +83,12 @@ function _handle_GET_nouns_exploreMore(req, res){
 
 execute.get('/more', function(req, res){
   // this is a api for temp use, just a way before the main '/' method matured.
-  if(process.env.NODE_ENV == 'development') winston.verbose('GET: /nouns/explore/more ');
+  if(process.env.NODE_ENV == 'development') winston.verbose('GET: /explore/nouns/more ');
   _handle_GET_nouns_exploreMore(req, res);
 })
 
 execute.get('/', function(req, res){
-  if(process.env.NODE_ENV == 'development') winston.verbose('GET: /nouns/explore ');
+  if(process.env.NODE_ENV == 'development') winston.verbose('GET: /explore/nouns ');
   _handle_GET_nouns_explore(req, res);
 })
 

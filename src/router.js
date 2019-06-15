@@ -12,6 +12,8 @@ const imgRouter = require('./img/main.js');
 const shareRouter = require('./share/main.js');
 const inspireRouter = require('./inspire/main.js');
 const nounsRouter = require('./nouns/main.js');
+const windowRouter = require('./window/main.js');
+const exploreRouter = require('./explore/main.js');
 const notificationsRouter = require('./notifications/main.js');
 const generalRouter = require('./general/main.js');
 
@@ -34,6 +36,8 @@ router.use('/account', accountRouter)
 
 router.use('/nouns', nounsRouter)
 router.use('/share', shareRouter)
+router.use('/window', windowRouter)
+router.use('/explore', exploreRouter)
 router.use('/inspire', inspireRouter)
 router.use('/notifications', notificationsRouter)
 

@@ -62,8 +62,8 @@ class Cognition extends React.Component {
         style={this.style.Cognition_}>
         <div
           style={this.style.Cognition_scroll_}>
-          <Route path={this.props.match.path+"/embedded"} render={(props)=> <CogEmbed {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>
-          <Route path={this.props.match.path+"/actions"} render={(props)=> <CogActions {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>
+          <Route path={this.props.match.path+"/embedded"} render={(props)=> <CogEmbed {...props} _refer_leaveSelf={this.props._refer_leaveSelf}/>}/>
+          <Route path={this.props.match.path+"/actions"} render={(props)=> <CogActions {...props} _refer_leaveSelf={this.props._refer_leaveSelf}/>}/>
         </div>
         <div
           style={this.style.Cognition_NavFrontShelf_}>

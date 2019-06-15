@@ -3,25 +3,34 @@ import {connect} from "react-redux";
 import EditingModal from './Editing/EditingModal/EditingModal.jsx';
 import ModalBox from './ModalBox.jsx';
 import ModalBackground from './ModalBackground.jsx';
+import WarningModal from './WarningModal.jsx';
 import {
   switchUnitSubmitting
 } from "../redux/actions/general.js";
+import {
+  cancelErr,
+  uncertainErr
+} from "../utils/errHandlers.js";
 
 class CreateShare extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       editingModal: false,
-      warningModal: false
+      warningModal: false,
+      warningType: null,
+      warningTemp: {}
     };
     this._open_editingModal = () => {this.setState({editingModal: true})};
     this._close_editingModal = () => {this.setState({editingModal: false})};
     this.axiosSource = axios.CancelToken.source();
     this._refer_toandclose = this._refer_toandclose.bind(this);
+    this._axios_post_Share_new = this._axios_post_Share_new.bind(this);
+    this._set_WarningModal_positive = this._set_WarningModal_positive.bind(this);
+    this._set_WarningModal_negative = this._set_WarningModal_negative.bind(this);
     this._handleClick_CreateShare_init = this._handleClick_CreateShare_init.bind(this);
     this._handleClick_CreateShare_clear = this._handleClick_CreateShare_clear.bind(this);
     this._handleClick_CreateShare_SubmitFile = this._handleClick_CreateShare_SubmitFile.bind(this);
-    this._axios_post_Share_new = this._axios_post_Share_new.bind(this);
     this.style={
       Com_CreateShare_: {
         width: '100%',
@@ -35,9 +44,30 @@ class CreateShare extends React.Component {
     }
   }
 
-  _refer_toandclose(source, identity){
-    this.setState({editingModal: false});
-    this.props._refer_von_Create(identity, source);
+  _set_WarningModal_positive(){
+    switch (this.state.warningType) {
+      case 'refer':
+        this.props._refer_von_Create(warningTemp.identity, warningTemp.source);
+        break;
+      case 'close': //confirm close the EditingModal
+        this.setState({editingModal: false, warningModal: false, warningType: null, warningTemp: {}})
+        break;
+      default://case include warning, and submitting
+        this.setState({warningModal: false, warningType: null, warningTemp: {}})
+    }
+  }
+
+  _set_WarningModal_negative(){
+    switch (this.state.warningType) {
+      case 'close':
+        this.setState({warningModal: false, warningType: null, warningTemp: {}})
+        break;
+      case 'refer':
+        this.setState({warningModal: false, warningType: null, warningTemp: {}})
+        break;
+      default:
+        this.setState({warningModal: false, warningType: null, warningTemp: {}})
+    }
   }
 
   _handleClick_CreateShare_init(event){
@@ -47,11 +77,19 @@ class CreateShare extends React.Component {
   }
 
   _handleClick_CreateShare_clear(){
-    if(this.props.unitSubmitting) this.setState({warningModal: true});
+    if(this.props.unitSubmitting) this.setState({warningModal: 'still submitting, please hold on.', warningType: 'submitting'});
     this.setState({
-      editingModal: false,
-      warningModal: false
-    })
+      warningModal: 'current input would not be saved after leaving, are you sure going to leave?',
+      warningType: 'close',
+    });
+  }
+
+  _refer_toandclose(source, identity){
+    this.setState({
+      warningModal: 'current input would not be saved after leaving, are you sure going to leave?',
+      warningType: 'refer',
+      warningTemp: {source: source, identity: identity}
+    });
   }
 
   _handleClick_CreateShare_SubmitFile(stateObj){
@@ -86,24 +124,16 @@ class CreateShare extends React.Component {
       },
       cancelToken: this.axiosSource.token
     }).then(function (res) {
-        if(res.status = 201){
-          console.log("share created successfully!");
-          self.props._set_unitSubmitting(false);
-          self.props._submit_Share_New();
-          self.setState({editingModal: false, warningModal: false});
-        }else{
-          console.log("Failed: "+ res.data.err);
-          self.props._set_unitSubmitting(false);
-          alert("Failed, please try again later");
-        }
-    }).catch(function (error) {
-      if (axios.isCancel(error)) {
-        self.props._set_unitSubmitting(false);
-        console.log('Request canceled: ', error.message);
+      self.props._set_unitSubmitting(false);
+      self.props._submit_Share_New();
+      self.setState({editingModal: false, warningModal: false, warningType: null});
+    }).catch(function (thrown) {
+      self.props._set_unitSubmitting(false);
+      if (axios.isCancel(thrown)) {
+        cancelErr(thrown);
       } else {
-        self.props._set_unitSubmitting(false);
-        console.log(error);
-        alert("Failed, please try again later");
+        let message = uncertainErr(thrown);
+        if(message) alert(message);
       }
     });
   }
@@ -126,22 +156,11 @@ class CreateShare extends React.Component {
         }
         {
           this.state.warningModal &&
-          <ModalBox containerId="root">
-            <ModalBackground onClose={()=>{}} style={{backgroundColor: "transparent", position: "fixed"}}>
-              <div
-                style={{
-                  width: '30%',
-                  height: '20vh',
-                  position: 'absolute',
-                  top: '20vh',
-                  left: '50%',
-                  transform: 'translate(-50%,0)',
-                  backgroundColor: 'white'
-                }}>
-                {"data is submitting, please hold on..."}
-              </div>
-            </ModalBackground>
-          </ModalBox>
+          <WarningModal
+            type={this.state.warningType}
+            message={this.state.warningModal}
+            _set_WarningModal_positive={this._set_WarningModal_positive}
+            _set_WarningModal_negative={this._set_WarningModal_negative}/>
         }
       </div>
     )

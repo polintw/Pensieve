@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  BrowserRouter as Router,
   Route,
   Switch,
   Link,
@@ -10,6 +9,7 @@ import {
 import {connect} from "react-redux";
 import CosmicMain from './component/CosmicMain.jsx';
 import CosmicNoun from './component/CosmicNoun.jsx';
+import CosmicUser from './component/CosmicUser.jsx';
 import Explore from './component/Explore.jsx';
 import NavOptions from '../Component/NavOptions.jsx';
 import CosmicCorner from './component/CosmicCorner/CosmicCorner.jsx';
@@ -56,6 +56,14 @@ class WithinCosmic extends React.Component {
       case 'user':
         if(identifier == this.props.userInfo.id){
           window.location.assign('/user/screen');
+        }else{
+          this.setState((prevState, props)=>{
+            let switchTo = {
+              params: '/users/'+identifier+'/accumulated',
+              query: ''
+            };
+            return {switchTo: switchTo}
+          })
         }
         break;
       case 'noun':
@@ -104,7 +112,8 @@ class WithinCosmic extends React.Component {
         <div style={this.style.Within_Cosmic_backplane}></div>
         <Switch>
           <Route path={"/nouns/:nounId"} render={(props)=> <CosmicNoun {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
-          <Route path={"/explore"} render={(props)=> <Explore {...props}/>}/>
+          <Route path={"/users/:userId"} render={(props)=> <CosmicUser {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
+        <Route path={"/explore"} render={(props)=> <Explore {...props}/>}/>
           <Route path={this.props.match.path} render={(props)=> <CosmicMain {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
         </Switch>
         <div
@@ -119,4 +128,14 @@ class WithinCosmic extends React.Component {
   }
 }
 
-export default withRouter(connect()(WithinCosmic));
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo,
+    unitCurrent: state.unitCurrent
+  }
+}
+
+export default withRouter(connect(
+  mapStateToProps,
+  null
+)(WithinCosmic));

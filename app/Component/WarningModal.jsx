@@ -8,11 +8,12 @@ import ModalBox from './ModalBox.jsx';
 import ModalBackground from './ModalBackground.jsx';
 
 const styleMiddle = {
-  boxNavButton:{
+  boxWarningButton:{
     display: 'inline-block',
     height: '100%',
     position: 'relative',
     boxSizing: 'border-box',
+    margin: '0 3%'
   },
   roundRecBox: {
     width: '100%',
@@ -45,11 +46,13 @@ class WarningModal extends React.Component {
     this.state = {
 
     };
+    this._render_button_byType = this._render_button_byType.bind(this);
     this._handleClick_warningModal_positive = this._handleClick_warningModal_positive.bind(this);
+    this._handleClick_warningModal_negative = this._handleClick_warningModal_negative.bind(this);
     this.style={
       Com_WarningModal_: {
-        width: '36%',
-        height: '35%',
+        width: '398px',
+        height: '176px',
         position: 'absolute',
         top: '24%',
         left: '50%',
@@ -78,7 +81,13 @@ class WarningModal extends React.Component {
   _handleClick_warningModal_positive(event){
     event.stopPropagation();
     event.preventDefault();
-    this.props._set_WarningModal(true);
+    this.props._set_WarningModal_positive();
+  }
+
+  _handleClick_warningModal_negative(event){
+    event.stopPropagation();
+    event.preventDefault();
+    this.props._set_WarningModal_negative();
   }
 
   componentDidMount(){
@@ -87,6 +96,57 @@ class WarningModal extends React.Component {
 
   componentWillUnmount(){
 
+  }
+
+  _render_button_byType(){
+    let [optionPositive, optionNegative]=[false,false];
+    switch (this.props.type) {
+      case 'submitting':
+        optionPositive = "understand";
+        break;
+      case 'warning':
+        optionPositive = "understand"
+        break;
+      case 'close':
+        optionPositive= "yes";
+        optionNegative= "return";
+        break;
+      default:
+        optionPositive= "yes";
+        optionNegative= "no";
+    }
+    return (
+      <div
+        style={this.style.Com_WarningModal_panel_}>
+        <div
+          style={Object.assign({}, styleMiddle.boxWarningButton, {width: '32%', float: 'right'})}>
+          <div
+            style={styleMiddle.roundRecBox}
+            onClick={this._handleClick_warningModal_positive}>
+            <span
+              className={'centerAlignChild'}
+              style={styleMiddle.spanDestiny}>
+              {optionPositive}
+            </span>
+          </div>
+        </div>
+        {
+          optionNegative &&
+          <div
+            style={Object.assign({}, styleMiddle.boxWarningButton, {width: '32%', float: 'right'})}>
+            <div
+              style={styleMiddle.roundRecBox}
+              onClick={this._handleClick_warningModal_negative}>
+              <span
+                className={'centerAlignChild'}
+                style={styleMiddle.spanDestiny}>
+                {optionNegative}
+              </span>
+            </div>
+          </div>
+        }
+      </div>
+    )
   }
 
   render(){
@@ -101,21 +161,7 @@ class WarningModal extends React.Component {
                 style={styleMiddle.contentInter}>
                 {this.props.message}</span>
             </div>
-            <div
-              style={this.style.Com_WarningModal_panel_}>
-              <div
-                style={Object.assign({}, styleMiddle.boxNavButton, {width: '32%'})}>
-                <div
-                  style={styleMiddle.roundRecBox}
-                  onClick={this._handleClick_warningModal_positive}>
-                  <span
-                    className={'centerAlignChild'}
-                    style={styleMiddle.spanDestiny}>
-                    {"understand"}
-                  </span>
-                </div>
-              </div>
-            </div>
+            {this._render_button_byType()}
           </div>
         </ModalBackground>
       </ModalBox>

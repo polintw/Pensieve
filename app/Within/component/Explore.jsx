@@ -1,10 +1,15 @@
 import React from 'react';
 import {
+  Route,
+  Switch,
   Link,
-  withRouter
+  withRouter,
+  Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import ExploreNav from './ExploreNav.jsx';
 import ExploreNouns from './ExploreNouns.jsx';
+import ExploreUsers from './ExploreUsers.jsx';
 
 const styleMiddle = {
   comExplore: {
@@ -21,6 +26,15 @@ const styleMiddle = {
     left: '50%',
     transform: 'translate(-50%,0)',
     boxSizing: 'border-box'
+  },
+  boxNav: {
+    width: '100%',
+    height: '5rem',
+    position: 'absolute',
+    top: '21rem',
+    boxSizing: 'border-box',
+    boxShadow: '0 -4px 3px -5px, 0 4px 3px -5px',
+    textAlign: 'center'
   }
 }
 
@@ -49,8 +63,13 @@ class Explore extends React.Component {
         style={styleMiddle.comExplore}>
         <div
           style={styleMiddle.boxMain}>
-          <div>
-            <ExploreNouns/>
+          <Switch>
+            <Route path={this.props.match.path+"/users"} render={(props)=> <ExploreUsers {...props}/>}/>
+            <Route path={this.props.match.path+"/nouns"} render={(props)=> <ExploreNouns {...props}/>}/>
+          </Switch>
+          <div
+            style={styleMiddle.boxNav}>
+            <ExploreNav {...this.props}/>
           </div>
         </div>
         <div style={{width: '100%', height: '4vh', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>

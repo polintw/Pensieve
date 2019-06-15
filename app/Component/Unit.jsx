@@ -8,6 +8,7 @@ import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import ModalBox from './ModalBox.jsx';
 import ModalBackground from './ModalBackground.jsx';
+import WarningModal from './WarningModal.jsx';
 import UnitModal from './Unit/UnitModal.jsx';
 import UnitEditing from './Unit/UnitEditing.jsx';
 import {setUnitCurrent} from "../redux/actions/general.js";
@@ -20,7 +21,8 @@ class Unit extends React.Component {
       axios: false,
       close: false,
       mode: this.props.unitMode?this.props.unitMode:"viewer",
-      warningModel: false
+      warningModal: false,
+      warningType: null
     };
     this.unitId = this.props.match.params.id;
     this.axiosSource = axios.CancelToken.source();
@@ -30,6 +32,8 @@ class Unit extends React.Component {
     this._axios_getUnitImg = this._axios_getUnitImg.bind(this);
     this._axios_getUnitData = this._axios_getUnitData.bind(this);
     this._axios_get_UnitMount = this._axios_get_UnitMount.bind(this);
+    this._set_WarningModal_positive = this._set_WarningModal_positive.bind(this);
+    this._set_WarningModal_negative = this._set_WarningModal_negative.bind(this);
     this._set_axios = (bool) => {this.setState((prevState, props)=>{return {axios: bool};})};
     this._set_Modalmode = (mode)=>{this.setState((prevState, props)=>{return {mode: mode}})};
     this._reset_UnitMount = ()=>{this._axios_get_UnitMount();};
@@ -39,8 +43,32 @@ class Unit extends React.Component {
     };
   }
 
+  _set_WarningModal_positive(){
+    switch (this.state.warningType) {
+      case 'submitting':
+        this.setState({warningModal: false, warningType: null})
+        break;
+      case 'close': //confirm close the modal
+        this.setState({close: true, warningModal: false, warningType: null})
+        break;
+      default:
+        this.setState({warningModal: false, warningType: null})
+    }
+  }
+
+  _set_WarningModal_negative(){
+    switch (this.state.warningType) {
+      case 'close':
+        this.setState({warningModal: false, warningType: null, warningTemp: {}})
+        break;
+      default:
+        this.setState({warningModal: false, warningType: null, warningTemp: {}})
+    }
+  }
+
   _close_modal_Unit(){
-    if(this.props.unitSubmitting){this.setState({warningModel: true});return;};
+    if(this.props.unitSubmitting){this.setState({warningModal: "data is submitting, please hold on...", warningType: 'submitting'});return;};
+    if(this.state.mode=='author_editing'){this.setState({warningModal: "modifications has not yet submitted, are you still going to close the it?", warningType: 'close'});return;};
     this.setState((prevState, props)=>{
       return {
         close: true
@@ -204,23 +232,12 @@ class Unit extends React.Component {
           </ModalBackground>
         </ModalBox>
         {
-          this.state.warningModel &&
-          <ModalBox containerId="root">
-            <ModalBackground onClose={()=>{}} style={{backgroundColor: "transparent", position: "fixed"}}>
-              <div
-                style={{
-                  width: '30%',
-                  height: '20vh',
-                  position: 'absolute',
-                  top: '20vh',
-                  left: '50%',
-                  transform: 'translate(-50%,0)',
-                  backgroundColor: 'white'
-                }}>
-                {"data is submitting, please hold on..."}
-              </div>
-            </ModalBackground>
-          </ModalBox>
+          this.state.warningModal &&
+          <WarningModal
+            type={this.state.warningType}
+            message={this.state.warningModal}
+            _set_WarningModal_positive={this._set_WarningModal_positive}
+            _set_WarningModal_negative={this._set_WarningModal_negative}/>
         }
       </div>
     )
