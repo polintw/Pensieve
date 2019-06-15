@@ -44,17 +44,6 @@ start the fundemental first, and then the specific condition
   cursor: pointer;
   background-color: #FFFFFF;
 }
-._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__Nails_Cosmic {
-  display: inline-block;
-  width: 21rem;
-  position: relative;
-  box-sizing: border-box;
-  margin: 0 3.4rem 1.2rem 2.4rem;
-  box-shadow: 0 1px 1px -0.1rem, 0rem -0.05rem 2px -0.2rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  background-color: #FFFFFF;
-}
 ._C_C_app_Component_Editing_EditingModal_styleEditingModal_module__imgBLockDecoBack {
   width: 18%;
   height: 100%;
@@ -108,6 +97,9 @@ start the fundemental first, and then the specific condition
 
 ._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlock div, ._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlockNowrap div {
   display: inline-block;
+}
+._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__Nails_Basic {
+  background-color: #FFFFFF;
 }
 
 ._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__fontContent {
