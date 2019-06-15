@@ -8,6 +8,10 @@ import {connect} from "react-redux";
 import NodeLinks from './NodeLinks.jsx';
 import NodeContributor from './NodeContributor.jsx';
 import Unit from '../../Component/Unit.jsx';
+import {
+  handleNounsList,
+  handleUsersList
+} from "../../redux/actions/general.js";
 
 const styleMiddle = {
   comNounSingular: {
@@ -105,12 +109,12 @@ class CosmicNoun extends React.Component {
 
   componentDidUpdate(prevProps, prevState, snapshot){
     //becuase there is chance we jump from noun to noun, using the same component this one
-    //so we check if the nounId has changed
-    this.nounId = this.props.match.params.nounId;
+    //so we check again
+    if(!(this.nounId in this.props.nounsBasic)) this.props._submit_NounsList_new([this.nounId]);
   }
 
   componentDidMount() {
-    this.nounId = this.props.match.params.nounId;
+    if(!(this.nounId in this.props.nounsBasic)) this.props._submit_NounsList_new([this.nounId]);
   }
 
   componentWillUnmount(){
@@ -120,6 +124,7 @@ class CosmicNoun extends React.Component {
   render(){
     let params = new URLSearchParams(this.props.location.search); //we need value in URL query
     let paramsStatus = params.get('view');
+    this.nounId = this.props.match.params.nounId;
 
     return(
       <div
@@ -182,7 +187,14 @@ const mapStateToProps = (state)=>{
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
+    _submit_UsersList_new: (arr) => { dispatch(handleUsersList(arr)); }
+  }
+}
+
 export default withRouter(connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(CosmicNoun));
