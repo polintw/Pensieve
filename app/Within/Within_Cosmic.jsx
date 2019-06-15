@@ -60,7 +60,7 @@ class WithinCosmic extends React.Component {
         }else{
           this.setState((prevState, props)=>{
             let switchTo = {
-              params: '/cosmic/users/'+identifier+'/accumulated',
+              params: '/users/'+identifier+'/accumulated',
               query: ''
             };
             return {switchTo: switchTo}
@@ -70,7 +70,7 @@ class WithinCosmic extends React.Component {
       case 'noun':
         this.setState((prevState, props)=>{
           let switchTo = {
-            params: '/cosmic/nouns/'+identifier,
+            params: '/nouns/'+identifier,
             query: ''
           };
           return {switchTo: switchTo}

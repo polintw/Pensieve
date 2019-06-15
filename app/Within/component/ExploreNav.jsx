@@ -54,13 +54,13 @@ class ExploreNav extends React.Component {
         className={"centerAlignChild"}
         style={Object.assign({}, styleMiddle.boxNav, styleMiddle.fontNav)}>
         <Link
-          to="/cosmic/explore/nouns"
+          to="/explore/nouns"
           className={'plainLinkButton'}>
           <span
             style={Object.assign({}, styleMiddle.spanNav, pathNounsify? {color: '#333333'}:{})}>{'node'}</span>
         </Link>
         <Link
-          to="/cosmic/explore/users"
+          to="/explore/users"
           className={'plainLinkButton'}>
           <span
             style={Object.assign({}, styleMiddle.spanNav, pathNounsify? {}:{color: '#333333'})}>{'user'}</span>

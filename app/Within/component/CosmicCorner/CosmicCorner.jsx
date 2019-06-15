@@ -35,13 +35,13 @@ class CosmicCorner extends React.Component {
           <div
             style={{cursor: 'default'}}>
             <Link
-              to="/cosmic/explore/nouns"
+              to="/explore/nouns"
               className={'plainLinkButton'}>
               <span style={{color: '#fc766a', cursor: 'pointer'}}>e</span>
               <span style={{color: '#a8a8a8'}}>{'．'}</span>
             </Link>
             <Link
-              to="/cosmic/explore/nouns"
+              to="/explore/nouns"
               className={'plainLinkButton'}>
               <span stye={{cursor: 'pointer'}}>node</span>
             </Link>
@@ -53,13 +53,13 @@ class CosmicCorner extends React.Component {
           <div
             style={{cursor: 'default'}}>
             <Link
-              to="/cosmic/explore/nouns"
+              to="/explore/nouns"
               className={'plainLinkButton'}>
               <span style={{color: '#fc766a', cursor: 'pointer'}}>e</span>
               <span style={{color: '#a8a8a8'}}>{'．'}</span>
             </Link>
             <Link
-              to="/cosmic/explore/users"
+              to="/explore/users"
               className={'plainLinkButton'}>
               <span stye={{cursor: 'pointer'}}>user</span>
             </Link>
@@ -69,7 +69,7 @@ class CosmicCorner extends React.Component {
       default:
         return (
           <Link
-            to="/cosmic/explore/nouns"
+            to="/explore/nouns"
             className={'plainLinkButton'}>
             {'explore'}
           </Link>
@@ -96,8 +96,8 @@ class CosmicCorner extends React.Component {
       if(subPath == this.abbrRoute[i]) pathNow = i;
     }
 
-    let pathExplore = this.props.location.pathname.includes("/cosmic/explore")? true: false;
-    let pathMain = (this.props.location.pathname == "/cosmic") ? true : false;
+    let pathExplore = this.props.location.pathname.includes("/explore")? true: false;
+    let pathMain = (this.props.location.pathname == "/") ? true : false;
 
     return(
       <div>
@@ -135,7 +135,7 @@ class CosmicCorner extends React.Component {
           )}
           style={(pathNow>2) ? {display: 'none'}: {}}>
           <Link
-            to="/cosmic"
+            to="/"
             className={'plainLinkButton'}>
             {"focus"}
           </Link>
