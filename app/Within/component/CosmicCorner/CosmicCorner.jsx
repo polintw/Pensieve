@@ -89,7 +89,7 @@ class CosmicCorner extends React.Component {
 
   render(){
     //detect where I am now, for styling
-    let subPath = this.props.location.pathname.substring(8, 11),
+    let subPath = this.props.location.pathname.substring(1, 4),
         pathNow = this.abbrRoute.length;
         //pathNow is a INT indicate the index refer to this.abbrRoute, default at page Main(not in abbrRoute)
     for(let i=0; i < this.abbrRoute.length; i++){
