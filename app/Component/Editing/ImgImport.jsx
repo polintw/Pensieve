@@ -1,8 +1,16 @@
 import React from 'react';
+import {connect} from "react-redux";
 import ImgChoose from './ImgChoose.jsx';
 import SvgButton from '../Svg/SvgButton.jsx';
+import {
+  switchUnitSubmitting
+} from "../../redux/actions/general.js";
+import {
+  cancelErr,
+  uncertainErr
+} from "../../utils/errHandlers.js";
 
-export default class ImgImport extends React.Component {
+class ImgImport extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -41,7 +49,9 @@ export default class ImgImport extends React.Component {
 
   _handle_newImgSrc(base64URL){
     const self = this;
-    this.setState({axios: true});
+    //situation similar to submitting, everything forbidden
+    //need cover mask, warning modal if disobey
+    self.props._set_unitSubmitting(true);
     axios.post('/router/img/resize', base64URL, {
       headers: {
         'Content-Type': 'text/plain',
@@ -50,17 +60,17 @@ export default class ImgImport extends React.Component {
       },
       cancelToken: self.axiosSource.token
     }).then((res)=>{
-      self.setState({axios: false});
       let resObj = JSON.parse(res.data);
       let resizedURL = resObj.main.resizedURL;
       self.props._set_newImgSrc(resizedURL, self.props.blockName);
+      self.props._set_unitSubmitting(false);
     }).catch(function (thrown) {
+      self.props._set_unitSubmitting(false);
       if (axios.isCancel(thrown)) {
-        console.log('Request canceled: ', thrown.message);
+        cancelErr(thrown);
       } else {
-        console.log(thrown);
-        self.setState({axios: false});
-        alert("Failed, please try again later");
+        let message = uncertainErr(thrown);
+        if(message) alert(message);
       }
     });
   }
@@ -85,3 +95,21 @@ export default class ImgImport extends React.Component {
     )
   }
 }
+
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo,
+    unitCurrent: state.unitCurrent,
+    unitSubmitting: state.unitSubmitting
+  }
+}
+const mapDispatchToProps = (dispatch)=>{
+  return {
+    _set_unitSubmitting: (bool)=>{dispatch(switchUnitSubmitting(bool));},
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ImgImport);
