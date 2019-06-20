@@ -72,7 +72,7 @@ function _handle_GET_author_inspired(req, res){
       reject(new internalError(err, 131));
     });
   }).then((sendingData)=>{
-    _res_success(res, sendingData, "GET: /units/:id/author/inspired, complete.");
+    _res_success(res, sendingData, "GET: /share/:id/inspired, complete.");
   }).catch((error)=>{
     _handle_ErrCatched(error, req, res);
   });

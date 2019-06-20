@@ -1,6 +1,7 @@
 const express = require('express');
 const main = express.Router();
 
+const inspiredExecutive = require('./inspired.js');
 const editExecutive = require('./editing.js');
 const accumulatedExecutive = require('./accumulated.js');
 
@@ -13,6 +14,6 @@ main.use('/accumulated', accumulatedExecutive)
 
 main.use('/:id/editing', editExecutive)
 
-//main.use('/', plainExecutive)
+main.use('/:id/inspired', inspiredExecutive)
 
 module.exports = main;
