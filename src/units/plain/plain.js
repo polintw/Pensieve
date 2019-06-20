@@ -2,29 +2,30 @@ const express = require('express');
 const execute = express.Router();
 
 const jwt = require('jsonwebtoken');
-const {verify_key} = require('../../config/jwt.js');
-const winston = require('../../config/winston.js');
-const {_res_success,_res_success_201} = require('../utils/resHandler.js');
+const {verify_key} = require('../../../config/jwt.js');
+const winston = require('../../../config/winston.js');
+const {_res_success,_res_success_201} = require('../../utils/resHandler.js');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
-const _DB_users = require('../../db/models/index').users;
-const _DB_units = require('../../db/models/index').units;
-const _DB_nouns = require('../../db/models/index').nouns;
-const _DB_marks = require('../../db/models/index').marks;
-const _DB_inspired = require('../../db/models/index').inspired;
-const _DB_attribution =  require('../../db/models/index').attribution;
-const _DB_notifications = require('../../db/models/index').notifications;
-const _DB_notifiInspired = require('../../db/models/index').notifi_inspired;
+const _DB_users = require('../../../db/models/index').users;
+const _DB_units = require('../../../db/models/index').units;
+const _DB_nouns = require('../../../db/models/index').nouns;
+const _DB_marks = require('../../../db/models/index').marks;
+const _DB_inspired = require('../../../db/models/index').inspired;
+const _DB_attribution =  require('../../../db/models/index').attribution;
+const _DB_notifications = require('../../../db/models/index').notifications;
+const _DB_notifiInspired = require('../../../db/models/index').notifi_inspired;
 const {
   _select_withPromise_Basic
-} = require('../utils/dbSelectHandler.js');
+} = require('../../utils/dbSelectHandler.js');
 const {
   forbbidenError,
   internalError,
   authorizedError,
   notFoundError,
   _handle_ErrCatched,
-} = require('../utils/reserrHandler.js');
+} = require('../../utils/reserrHandler.js');
+const _touchedStatus = require('./unitTouchedStatus.js');
 
 function _handle_unit_Mount(req, res){
   new Promise((resolve, reject)=>{
@@ -239,6 +240,9 @@ function _handle_unit_Mount(req, res){
       }
     }).then((sendingData)=>{
       _res_success(res, sendingData);
+      //after all the function res needed, processing the internal process
+      //unit touched status specific here
+      resolve({userId: userId, unitId: reqUnit});
     }).catch((error)=>{
       //and 'reject' at here return to the parent level handler
       if(error.status){reject(error);return;}
@@ -246,9 +250,15 @@ function _handle_unit_Mount(req, res){
         reject(new internalError("throw by /units/plain/_unit_mount, "+error, 131));
         return;
       }
-    })
+    });
   }).catch((error)=>{
     _handle_ErrCatched(error, req, res);
+  }).then((data)=>{
+    //start processing the internal process which are not related to res
+    _touchedStatus(data.reqUnit, data.userId);
+  }).catch((error)=>{
+    //currently, only touchedStatus are needed
+    winston.error(`${"Internal process at "} ; ${"'"+req.originalUrl} , ${req.method+"', "} , ${req.ip}, ${"for "+"touchedStatus"}`);
   });
 };
 
