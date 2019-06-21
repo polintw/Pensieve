@@ -29,6 +29,11 @@ function _touchedCreate(unitId, userId){
   }).catch((err)=>{
     throw new internalError("throw by /share plain POST, touchedCreate, "+err, 131);
   });
+  /*
+  actually, there is a serious issue may happen
+  if the units_touch.json file was edit by others in the same time.
+  would be dissapeare automatically after the file was divided depending on Unit
+  */
 }
 
 module.exports = {

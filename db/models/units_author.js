@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     id_author: DataTypes.INTEGER,
     touched: DataTypes.INTEGER
   }, {paranoid: true});
+
   units_author.associate = function(models) {
     units_author.belongsTo(models.users, {
       foreignKey:"id_author",
@@ -19,5 +20,8 @@ module.exports = (sequelize, DataTypes) => {
       onUpdate: 'cascade'
     });
   };
+
+  units_author.removeAttribute('id'); //this model do not use 'id' nor any pk, so we need to tell it.
+
   return units_author;
 };

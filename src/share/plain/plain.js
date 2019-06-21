@@ -7,6 +7,7 @@ const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
 const {verify_key} = require('../../../config/jwt.js');
 const {connection_key} = require('../../../config/database.js');
+const winston = require('../../../config/winston.js');
 const {
   userImg_SecondtoSrc
 } = require('../../../config/path.js');
@@ -145,8 +146,9 @@ function shareHandler_POST(req, res){
           })
         }).then((modifiedBody)=>{
           //this block, final, dealing with the rest
-          let prmoiseArr = [
-            Promis.resolve(_touchedCreate(modifiedBody.id_unit, userId).catch((err)=>{throw err}))
+          let promiseArr = [
+            Promise.resolve(_touchedCreate(modifiedBody.id_unit, userId)).catch((err)=>{throw err})
+            //currently, touchedCreate is 'not' a promise, so it is useless to wrap it in .resolve()
           ];
           return Promise.all(promiseArr);
         }).then(()=>{
