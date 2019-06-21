@@ -255,7 +255,7 @@ function _handle_unit_Mount(req, res){
     _handle_ErrCatched(error, req, res);
   }).then((data)=>{
     //start processing the internal process which are not related to res
-    _touchedStatus(data.reqUnit, data.userId);
+    _touchedStatus(data.unitId, data.userId);
   }).catch((error)=>{
     //currently, only touchedStatus are needed
     winston.error(`${"Internal process at "} ; ${"'"+req.originalUrl} , ${req.method+"', "} , ${req.ip}, ${"for "+"touchedStatus"}`);

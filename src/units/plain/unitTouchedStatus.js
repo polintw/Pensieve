@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const winston = require('../../../config/winston.js');
-const {envJSONUnitTouchPath} = require('../../../config/env.json');
+const {envJSONUnitTouchPath} = require('../../../config/.env.json');
 const _DB_unitsAuthor = require('../../../db/models/index').units_author;
 
 function _touchedStatus(unitId, userId){

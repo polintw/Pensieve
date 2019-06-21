@@ -1,16 +1,16 @@
 const express = require('express');
 const execute = express.Router();
 const jwt = require('jsonwebtoken');
-const {verify_key} = require('../../../config/jwt.js');
-const _DB_units = require('../../../db/models/index').units;
-const _DB_users = require('../../../db/models/index').users;
-const _DB_inspired = require('../../../db/models/index').inspired;
-const {_res_success} = require('../../utils/resHandler.js');
+const {verify_key} = require('../../config/jwt.js');
+const _DB_units = require('../../db/models/index').units;
+const _DB_users = require('../../db/models/index').users;
+const _DB_inspired = require('../../db/models/index').inspired;
+const {_res_success} = require('../utils/resHandler.js');
 const {
   _handle_ErrCatched,
   internalError,
   forbbidenError
-} = require('../../utils/reserrHandler.js');
+} = require('../utils/reserrHandler.js');
 
 function _handle_GET_author_inspired(req, res){
   new Promise((resolve, reject)=>{
