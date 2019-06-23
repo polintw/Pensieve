@@ -8,6 +8,7 @@ import UnitImgLayers from './UnitImgLayers.jsx';
 import UnitLayerScroll from './UnitLayerScroll.jsx';
 import UnitLayerSwitch from './UnitLayerSwitch.jsx';
 import UnitViewSummary from './UnitViewSummary.jsx';
+import UnitAuthorSummary from './UnitAuthorSummary.jsx';
 
 class UnitModal extends React.Component {
   constructor(props){
@@ -126,7 +127,7 @@ class UnitModal extends React.Component {
                   {
                     this.props.unitCurrent.identity=="author" ? (
                        //temp method, before a true AuthorSummary was created
-                      <UnitViewSummary
+                      <UnitAuthorSummary
                         moveCount={this.state.moveCount}
                         _set_layerstatus={this._set_layerstatus}
                         _set_Modalmode={this.props._set_Modalmode}

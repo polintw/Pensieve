@@ -4,6 +4,7 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import {NounsExtensible} from './UnitComponent.jsx';
 import ImgPreview from '../ImgPreview.jsx';
 import DateConverter from '../DateConverter.jsx';
 import MarksArticle from '../MarksArticle.jsx';
@@ -18,11 +19,11 @@ const styleMiddle = {
   },
   imgBLockPreview: {
     display: 'inline-block',
-    width: '46%',
-    height: '100%',
+    width: '100%',
+    height: '47%',
     position: 'relative',
     boxSizing: 'border-box',
-    marginRight: '3%',
+    marginBottom: '4%',
     boxShadow: '0rem 0.1rem 0.5rem 0px',
     borderRadius: '0.5vw',
     overflow: 'hidden',
@@ -92,25 +93,40 @@ class UnitViewSummary extends React.Component {
         boxSizing: 'border-box'
       },
       Com_UnitViewSummary_Marksarticle: {
-        width: "41%",
-        height: '77%',
+        width: "52%",
+        height: '70%',
         position: 'absolute',
         right: '3%',
-        bottom: '6%',
+        top: '9%',
         boxSizing: 'border-box',
         paddingBottom: '3%',
         backgroundColor: 'transparent',
         overflowY: 'auto'
       },
       Com_UnitViewSummary_thumbnails_: {
-        width: '51%',
-        height: '37%',
+        width: '14%',
+        height: '44%',
         position: 'absolute',
-        top: '30%',
-        left: '4%',
+        top: '49%',
+        left: '20%',
         boxSizing: 'border-box'
       },
-      Com_UnitViewSummary_response_: {
+      Com_UnitViewSummary_panel_: {
+
+      },
+      Com_UnitViewSummary_nodes_: {
+        position: 'absolute',
+        top: '53%',
+        left: '5%',
+        boxSizing: 'border-box'
+      },
+      Com_UnitViewSummary_author_: {
+        position: 'absolute',
+        top: '21%',
+        left: '6%',
+        boxSizing: 'border-box'
+      },
+      Com_UnitViewSummary_panel_response_: {
         width: '18%',
         height: '16%',
         position: 'absolute',
@@ -119,27 +135,15 @@ class UnitViewSummary extends React.Component {
         boxSizing: 'border-box',
         cursor: 'pointer'
       },
-      Com_UnitViewSummary_author_: {
-        position: 'absolute',
-        top: '8%',
-        left: '6%',
-        boxSizing: 'border-box'
-      },
       Com_UnitViewSummary_author_name: {
         display: 'inline-block',
         boxSizing: 'border-box',
         color: '#FAFAFA',
         cursor: 'pointer'
       },
-      Com_UnitViewSummary_unitinfo_simple_: {
-        position: 'absolute',
-        top: '93%',
-        left: '6%',
-        boxSizing: 'border-box'
-      },
-      Com_UnitViewSummary_unitinfo_simple_date: {
+      Com_UnitViewSummary_author_date: {
         color: '#e6e6e6',
-      }
+      },
     };
   }
 
@@ -158,7 +162,7 @@ class UnitViewSummary extends React.Component {
   _handleClick_Account(event){
     event.preventDefault();
     event.stopPropagation();
-    this.props._handleClick_Account('user', this.props.unitCurrent.authorBasic.authorId);
+    this.props._refer_toandclose('user', this.props.unitCurrent.authorBasic.authorId);
   }
 
   componentDidMount(){
@@ -182,6 +186,11 @@ class UnitViewSummary extends React.Component {
         style={this.style.Com_UnitViewSummary_}>
         <div
           style={this.style.Com_UnitViewSummary_author_}>
+          <div
+            style={Object.assign({}, this.style.Com_UnitViewSummary_author_date, styleMiddle.boxInlineRelative)}>
+            <DateConverter
+              datetime={this.props.unitCurrent.createdAt}/>
+          </div>
           <div
             onClick={this._handleClick_Account}
             style={this.style.Com_UnitViewSummary_author_name}>
@@ -223,17 +232,18 @@ class UnitViewSummary extends React.Component {
           }
         </div>
         <div
-          style={this.style.Com_UnitViewSummary_unitinfo_simple_}>
-          <div
-            style={Object.assign({}, this.style.Com_UnitViewSummary_unitinfo_simple_date, styleMiddle.boxInlineRelative)}>
-            <DateConverter
-              datetime={this.props.unitCurrent.createdAt}/>
-          </div>
+          style={this.style.Com_UnitViewSummary_nodes_}>
+          <NounsExtensible
+            nouns={this.props.unitCurrent.nouns}
+            _handleClick_listNoun={this.props._refer_toandclose}/>
         </div>
         <div
-          style={this.style.Com_UnitViewSummary_response_}
-          onClick={this._handleClick_UnitAction_response}>
-          <SvgCreateonDialog/>
+          style={this.style.Com_UnitViewSummary_panel_}>
+          <div
+            style={this.style.Com_UnitViewSummary_panel_response_}
+            onClick={this._handleClick_UnitAction_response}>
+            <SvgCreateonDialog/>
+          </div>
         </div>
       </div>
     )
