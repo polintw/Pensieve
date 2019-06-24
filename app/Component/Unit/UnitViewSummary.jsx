@@ -8,7 +8,7 @@ import {NounsExtensible} from './UnitComponent.jsx';
 import ImgPreview from '../ImgPreview.jsx';
 import DateConverter from '../DateConverter.jsx';
 import MarksArticle from '../MarksArticle.jsx';
-import SvgCreateonDialog from '../Svg/SvgCreateonDialog.jsx'
+import SvgCreate from '../Svg/SvgCreate.jsx'
 import {AccountPlate} from '../AccountPlate.jsx';
 
 const styleMiddle = {
@@ -88,13 +88,13 @@ class UnitViewSummary extends React.Component {
         boxSizing: 'border-box'
       },
       Com_UnitViewSummary_Marksarticle: {
-        width: "52%",
+        width: "57%",
         height: '70%',
         position: 'absolute',
-        right: '3%',
+        right: '0.5%',
         top: '9%',
         boxSizing: 'border-box',
-        paddingBottom: '3%',
+        padding: '0 1% 3% 0%',
         backgroundColor: 'transparent',
         overflowY: 'auto'
       },
@@ -102,12 +102,17 @@ class UnitViewSummary extends React.Component {
         width: '14%',
         height: '44%',
         position: 'absolute',
-        top: '49%',
-        left: '20%',
+        top: '51%',
+        left: '19%',
         boxSizing: 'border-box'
       },
       Com_UnitViewSummary_panel_: {
-
+        width: '48%',
+        height: '11%',
+        position: 'absolute',
+        bottom: '1%',
+        right: '3%',
+        boxSizing: 'border-box'
       },
       Com_UnitViewSummary_nodes_: {
         maxWidth: '13%',
@@ -119,21 +124,23 @@ class UnitViewSummary extends React.Component {
         overflow:'hidden'
       },
       Com_UnitViewSummary_author_: {
+        maxWidth: '16%',
         position: 'absolute',
-        top: '25%',
-        right: '66%',
+        bottom: '64%',
+        right: '68%',
         boxSizing: 'border-box'
       },
       Com_UnitViewSummary_panel_response_: {
-        width: '18%',
-        height: '16%',
-        position: 'absolute',
-        bottom: '4%',
-        left: '33%',
+        width: '17%',
+        height: '100%',
+        position: 'relative',
+        marginRight: '7%',
+        float: 'right',
         boxSizing: 'border-box',
         cursor: 'pointer'
       },
       Com_UnitViewSummary_author_name: {
+        marginBottom: '0.72rem',
         boxSizing: 'border-box',
         color: '#FAFAFA',
         cursor: 'pointer'
@@ -242,7 +249,8 @@ class UnitViewSummary extends React.Component {
           <div
             style={this.style.Com_UnitViewSummary_panel_response_}
             onClick={this._handleClick_UnitAction_response}>
-            <SvgCreateonDialog/>
+            <SvgCreate
+              place={true}/>
           </div>
         </div>
       </div>
