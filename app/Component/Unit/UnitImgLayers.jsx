@@ -96,6 +96,7 @@ class UnitImgLayers extends React.Component {
             {
               this.props.unitCurrent.nouns &&
               <div
+                className={'nodesListLayers'}
                 style={this.style.Com_Unit_UnitImgLayers_contentSection_links_nouns}>
                 <NounsExtensible
                   nouns={this.props.unitCurrent.nouns}

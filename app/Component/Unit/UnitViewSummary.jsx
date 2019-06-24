@@ -9,14 +9,9 @@ import ImgPreview from '../ImgPreview.jsx';
 import DateConverter from '../DateConverter.jsx';
 import MarksArticle from '../MarksArticle.jsx';
 import SvgCreateonDialog from '../Svg/SvgCreateonDialog.jsx'
-import {NameLarge} from '../AccountPlate.jsx';
+import {NameMedium} from '../AccountPlate.jsx';
 
 const styleMiddle = {
-  boxInlineRelative: {
-    display: 'inline-block',
-    position: 'relative',
-    boxSizing:'border-box',
-  },
   imgBLockPreview: {
     display: 'inline-block',
     width: '100%',
@@ -115,15 +110,18 @@ class UnitViewSummary extends React.Component {
 
       },
       Com_UnitViewSummary_nodes_: {
+        maxWidth: '13%',
+        maxHeight: '40%',
         position: 'absolute',
         top: '53%',
         left: '5%',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        overflow:'hidden'
       },
       Com_UnitViewSummary_author_: {
         position: 'absolute',
-        top: '21%',
-        left: '6%',
+        top: '25%',
+        right: '66%',
         boxSizing: 'border-box'
       },
       Com_UnitViewSummary_panel_response_: {
@@ -136,7 +134,6 @@ class UnitViewSummary extends React.Component {
         cursor: 'pointer'
       },
       Com_UnitViewSummary_author_name: {
-        display: 'inline-block',
         boxSizing: 'border-box',
         color: '#FAFAFA',
         cursor: 'pointer'
@@ -187,16 +184,17 @@ class UnitViewSummary extends React.Component {
         <div
           style={this.style.Com_UnitViewSummary_author_}>
           <div
-            style={Object.assign({}, this.style.Com_UnitViewSummary_author_date, styleMiddle.boxInlineRelative)}>
-            <DateConverter
-              datetime={this.props.unitCurrent.createdAt}/>
-          </div>
-          <div
             onClick={this._handleClick_Account}
             style={this.style.Com_UnitViewSummary_author_name}>
-            <NameLarge
+            <NameMedium
               firstName={this.props.unitCurrent.authorBasic.firstName}
               lastName={this.props.unitCurrent.authorBasic.lastName}/>
+          </div>
+          <div
+            className={'boxInlineRelative'}
+            style={Object.assign({}, this.style.Com_UnitViewSummary_author_date, {display: 'block'})}>
+            <DateConverter
+              datetime={this.props.unitCurrent.createdAt}/>
           </div>
         </div>
         <div
@@ -232,6 +230,7 @@ class UnitViewSummary extends React.Component {
           }
         </div>
         <div
+          className={'nodesListSum'}
           style={this.style.Com_UnitViewSummary_nodes_}>
           <NounsExtensible
             nouns={this.props.unitCurrent.nouns}

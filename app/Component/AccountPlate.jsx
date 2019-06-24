@@ -15,7 +15,7 @@ const generalStyle = {
   spanNameMedium: {
     display: 'inline-block',
     whiteSpace: 'nowrap',
-    fontSize: '2rem',
+    fontSize: '2.4rem',
     fontWeight: '400',
     letterSpacing: '0.18rem',
   },

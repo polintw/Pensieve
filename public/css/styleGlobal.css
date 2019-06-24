@@ -13,3 +13,9 @@
   position: relative;
   box-sizing: border-box;
 }
+
+.boxInlineRelative {
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+}

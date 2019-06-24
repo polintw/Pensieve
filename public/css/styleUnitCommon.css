@@ -1,3 +1,19 @@
+.nodesListLayers{
+  font-size: 1.6rem;
+  letter-spacing: 0.17rem;
+  font-weight: 400;
+  font-family: 'cwTeXMing';
+  color: #FAFAFA;
+}
+
+.nodesListSum{
+  font-size: 1.6rem;
+  letter-spacing: 0.17rem;
+  font-weight: 400;
+  font-family: 'cwTeXMing';
+  color: #FAFAFA;
+}
+
 .boxImgPosition {
   position: absolute;
   top: 50%;
