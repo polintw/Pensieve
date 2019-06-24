@@ -27,3 +27,14 @@
   overflow: visible;
   cursor: pointer;
 }
+
+.sumPanelOptions {
+  display: inline-block;
+  width: 17%;
+  height: 100%;
+  position: relative;
+  margin-right: 7%;
+  float: right;
+  box-sizing: border-box;
+  cursor: pointer;
+},

@@ -202,6 +202,7 @@ class UnitViewSummary extends React.Component {
             className={'boxInlineRelative'}
             style={Object.assign({}, this.style.Com_UnitViewSummary_author_date, {display: 'block'})}>
             <DateConverter
+              place={'summary'}
               datetime={this.props.unitCurrent.createdAt}/>
           </div>
         </div>
