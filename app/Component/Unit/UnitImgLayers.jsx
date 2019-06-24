@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import ImgLayersFrame from './ImgLayersFrame.jsx';
 import UnitActionPanel from './UnitActionPanel.jsx';
 import {NounsExtensible} from './UnitComponent.jsx';
-import {NameLabelRe} from '../AccountPlate.jsx';
+import {AccountPlate} from '../AccountPlate.jsx';
 import DateConverter from '../DateConverter.jsx';
 
 class UnitImgLayers extends React.Component {
@@ -16,6 +16,7 @@ class UnitImgLayers extends React.Component {
     this.state = {
 
     };
+    this._handleClick_Account = this._handleClick_Account.bind(this);
     this.style={
       Com_Unit_UnitImgLayers_contentSection_: {
         width: '96%',
@@ -86,6 +87,13 @@ class UnitImgLayers extends React.Component {
     }
   }
 
+  _handleClick_Account(event){
+    event.preventDefault();
+    event.stopPropagation();
+    this.props._refer_toandclose('user', this.props.unitCurrent.authorBasic.authorId);
+  }
+
+
   render(){
     return(
       <div>
@@ -124,13 +132,12 @@ class UnitImgLayers extends React.Component {
           <div
             style={this.style.Com_Unit_UnitImgLayers_commonSection_InfoPanel_}>
             <div
+              onClick={this._handleClick_Account}
               style={Object.assign({color: 'rgb(250, 250, 250)', cursor:'pointer'},this.style.Com_Unit_UnitImgLayers_commonSection_InfoPanel_blocks_)}>
-              <NameLabelRe
-                size={'small'}
-                accountId={this.props.unitCurrent.authorBasic.authorId}
+              <AccountPlate
+                size={'regular'}
                 accountFisrtName={this.props.unitCurrent.authorBasic.firstName}
-                accountLastName={this.props.unitCurrent.authorBasic.lastName}
-                _handleClick_Account={this.props._refer_toandclose}/>
+                accountLastName={this.props.unitCurrent.authorBasic.lastName}/>
             </div>
             <div
               style={Object.assign({color: '#FAFAFA'},this.style.Com_Unit_UnitImgLayers_commonSection_InfoPanel_blocks_)}>

@@ -9,7 +9,7 @@ import ImgPreview from '../ImgPreview.jsx';
 import DateConverter from '../DateConverter.jsx';
 import MarksArticle from '../MarksArticle.jsx';
 import SvgCreateonDialog from '../Svg/SvgCreateonDialog.jsx'
-import {NameMedium} from '../AccountPlate.jsx';
+import {AccountPlate} from '../AccountPlate.jsx';
 
 const styleMiddle = {
   imgBLockPreview: {
@@ -186,9 +186,10 @@ class UnitViewSummary extends React.Component {
           <div
             onClick={this._handleClick_Account}
             style={this.style.Com_UnitViewSummary_author_name}>
-            <NameMedium
-              firstName={this.props.unitCurrent.authorBasic.firstName}
-              lastName={this.props.unitCurrent.authorBasic.lastName}/>
+            <AccountPlate
+              size={'mediumI'}
+              accountFisrtName={this.props.unitCurrent.authorBasic.firstName}
+              accountLastName={this.props.unitCurrent.authorBasic.lastName}/>
           </div>
           <div
             className={'boxInlineRelative'}

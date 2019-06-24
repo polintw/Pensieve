@@ -10,7 +10,7 @@ import {
   SheetBasic
 } from './SheetCom.jsx';
 import SvgPropic from '../../Component/Svg/SvgPropic.jsx';
-import { NameLarge } from '../../Component/AccountPlate.jsx';
+import { AccountPlate } from '../../Component/AccountPlate.jsx';
 import {mountUserSheet} from "../../redux/actions/general.js";
 
 const styleMiddle = {
@@ -203,9 +203,10 @@ const styleMiddle = {
           style={this.style.selfCom_Sheet_ProfileTitle_}>
           <div
             style={this.style.selfCom_Sheet_ProfileTitle_name}>
-            <NameLarge
-              firstName={this.props.userInfo.firstName}
-              lastName={this.props.userInfo.lastName}/>
+            <AccountPlate
+              size={'large'}
+              accountFisrtName={this.props.userInfo.firstName}
+              accountLastName={this.props.userInfo.lastName}/>
           </div>
         </div>
         <div

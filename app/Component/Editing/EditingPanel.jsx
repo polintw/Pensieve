@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from "react-redux";
-import {NameMedium} from '../AccountPlate.jsx';
+import {AccountPlate} from '../AccountPlate.jsx';
 import DateConverter from '../DateConverter.jsx';
 
 const generalStyle = { //could included in a global style sheet
@@ -137,7 +137,10 @@ class EditingPanel extends React.Component {
             style={Object.assign({}, styleMiddle.boxInlineRelative, {color: '#FAFAFA'})}>
             <div
               style={{display: 'inline-block',paddingRight:'2vw'}}>
-              <NameMedium/>
+              <AccountPlate
+                size={'medium'}
+                accountFisrtName={this.props.userInfo.firstName}
+                accountLastName={this.props.userInfo.lastName}/>
             </div>
           </div>
           <div
