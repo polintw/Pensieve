@@ -4,10 +4,10 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import MarksArticle from './MarksArticle.jsx';
 import {NounsExtensible} from './UnitComponent.jsx';
 import ImgPreview from '../ImgPreview.jsx';
 import DateConverter from '../DateConverter.jsx';
-import MarksArticle from '../MarksArticle.jsx';
 import SvgCreate from '../Svg/SvgCreate.jsx'
 import {AccountPlate} from '../AccountPlate.jsx';
 
@@ -115,10 +115,10 @@ class UnitViewSummary extends React.Component {
         boxSizing: 'border-box'
       },
       Com_UnitViewSummary_nodes_: {
-        maxWidth: '13%',
+        maxWidth: '12%',
         maxHeight: '40%',
         position: 'absolute',
-        top: '53%',
+        top: '54%',
         left: '5%',
         boxSizing: 'border-box',
         overflow:'hidden'
@@ -126,7 +126,7 @@ class UnitViewSummary extends React.Component {
       Com_UnitViewSummary_author_: {
         maxWidth: '16%',
         position: 'absolute',
-        bottom: '64%',
+        bottom: '62%',
         right: '68%',
         boxSizing: 'border-box'
       },
@@ -140,7 +140,7 @@ class UnitViewSummary extends React.Component {
         cursor: 'pointer'
       },
       Com_UnitViewSummary_author_name: {
-        marginBottom: '0.72rem',
+        marginBottom: '0.86rem',
         boxSizing: 'border-box',
         color: '#FAFAFA',
         cursor: 'pointer'

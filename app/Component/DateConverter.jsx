@@ -9,8 +9,8 @@ export default class DateConverter extends React.Component {
     this._render_monthRome = this._render_monthRome.bind(this);
     this.style={
       Com_DateConverter_: {
-        fontSize: '1.3rem',
-        letterSpacing: '0.16rem',
+        fontSize: '1.2rem',
+        letterSpacing: '0.142rem',
         textAlign: 'center',
         fontWeight: '400'
       }

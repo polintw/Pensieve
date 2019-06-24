@@ -26,9 +26,9 @@ export class NounsExtensible extends React.Component {
       Com_Nouns_Extensible_list_item_: {
         display: 'inline-block',
         width: '100%',
-        height: '2.2rem',
         position: 'relative',
         boxSizing: 'border-box',
+        margin: '0 0 1.2rem',
         cursor: 'pointer'
       },
       Com_Nouns_Extensible_switch_: {
