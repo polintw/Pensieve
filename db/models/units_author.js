@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
   const units_author = sequelize.define('units_author', {
     id_unit: DataTypes.INTEGER,
     id_author: DataTypes.INTEGER,
-    touched: DataTypes.INTEGER
+    reach: DataTypes.INTEGER
   }, {paranoid: true});
 
   units_author.associate = function(models) {

@@ -20,7 +20,7 @@ const {
   notAcceptable
 } = require('../../utils/reserrHandler.js');
 const {
-  _touchedCreate
+  _reachCreate
 } = require('./src.js');
 
 const database = mysql.createPool(connection_key);
@@ -147,8 +147,8 @@ function shareHandler_POST(req, res){
         }).then((modifiedBody)=>{
           //this block, final, dealing with the rest
           let promiseArr = [
-            Promise.resolve(_touchedCreate(modifiedBody.id_unit, userId)).catch((err)=>{throw err})
-            //currently, touchedCreate is 'not' a promise, so it is useless to wrap it in .resolve()
+            Promise.resolve(_reachCreate(modifiedBody.id_unit, userId)).catch((err)=>{throw err})
+            //currently, reachCreate is 'not' a promise, so it is useless to wrap it in .resolve()
           ];
           return Promise.all(promiseArr);
         }).then(()=>{

@@ -14,7 +14,10 @@ import {AccountPlate} from '../AccountPlate.jsx';
 
 const styleMiddle = {
   boxStatics: {
-
+    position: 'absolute',
+    top: '29%',
+    left: '42%',
+    boxSizing: 'border-box'
   },
   fontPanelOptions: {
     fontSize: '1.6rem',
@@ -87,6 +90,7 @@ class UnitAuthorSummary extends React.Component {
     this.marksArticle = React.createRef();
     this._set_layerstatus = this._set_layerstatus.bind(this);
     this._handleClick_Account = this._handleClick_Account.bind(this);
+    this._handleClick_UnitAction_Author = this._handleClick_UnitAction_Author.bind(this);
     this._handleClick_UnitAction_response = this._handleClick_UnitAction_response.bind(this);
     this._handleWheel_marksArticle = (event)=>{event.stopPropagation();};
     this.style={
@@ -163,6 +167,12 @@ class UnitAuthorSummary extends React.Component {
     event.stopPropagation();
     event.preventDefault();
     this.props._set_Modalmode("response");
+  }
+
+  _handleClick_UnitAction_Author(event){
+    event.preventDefault();
+    event.stopPropagation();
+    this.props._set_Modalmode("author_editing");
   }
 
   _handleClick_Account(event){

@@ -10,7 +10,7 @@ module.exports = {
         type: Sequelize.INTEGER(10).UNSIGNED,
         allowNull: false
       },
-      touched: {
+      reach: {
         type: Sequelize.INTEGER(10).UNSIGNED,
         allowNull: false,
         defaultValue: Sequelize.literal(0)

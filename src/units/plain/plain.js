@@ -25,7 +25,7 @@ const {
   notFoundError,
   _handle_ErrCatched,
 } = require('../../utils/reserrHandler.js');
-const _touchedStatus = require('./unitTouchedStatus.js');
+const _reachStatus = require('./unitReachStatus.js');
 
 function _handle_unit_Mount(req, res){
   new Promise((resolve, reject)=>{
@@ -241,7 +241,7 @@ function _handle_unit_Mount(req, res){
     }).then((sendingData)=>{
       _res_success(res, sendingData);
       //after all the function res needed, processing the internal process
-      //unit touched status specific here
+      //unit reach status specific here
       resolve({userId: userId, unitId: reqUnit});
     }).catch((error)=>{
       //and 'reject' at here return to the parent level handler
@@ -255,10 +255,10 @@ function _handle_unit_Mount(req, res){
     _handle_ErrCatched(error, req, res);
   }).then((data)=>{
     //start processing the internal process which are not related to res
-    _touchedStatus(data.unitId, data.userId);
+    _reachStatus(data.unitId, data.userId);
   }).catch((error)=>{
-    //currently, only touchedStatus are needed
-    winston.error(`${"Internal process at "} ; ${"'"+req.originalUrl} , ${req.method+"', "} , ${req.ip}, ${"for "+"touchedStatus"}`);
+    //currently, only reachStatus are needed
+    winston.error(`${"Internal process at "} ; ${"'"+req.originalUrl} , ${req.method+"', "} , ${req.ip}, ${"for "+"reachStatus"}`);
   });
 };
 

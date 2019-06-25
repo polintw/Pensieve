@@ -3,39 +3,39 @@
 const fs = require('fs');
 const path = require('path');
 const winston = require('../../../config/winston.js');
-const {envJSONUnitTouchPath} = require('../../../config/.env.json');
+const {envJSONUnitReachPath} = require('../../../config/.env.json');
 const _DB_unitsAuthor = require('../../../db/models/index').units_author;
 const {
   internalError,
 } = require('../../utils/reserrHandler.js');
 
-function _touchedCreate(unitId, userId){
+function _reachCreate(unitId, userId){
   //actually, it is better write in a Promise
   //I just did it for convenience
 
-  let rawData = fs.readFileSync(path.join(envJSONUnitTouchPath, "units_touch.json"));
-  let objTouchedStatus = JSON.parse(rawData);
+  let rawData = fs.readFileSync(path.join(envJSONUnitReachPath, "units_reach.json"));
+  let objReachStatus = JSON.parse(rawData);
 
-  objTouchedStatus[unitId] = [];
+  objReachStatus[unitId] = [];
 
-  let modifiedData = JSON.stringify(objTouchedStatus, null, 2);
-  fs.writeFile(path.join(envJSONUnitTouchPath, "units_touch.json"), modifiedData, (err) => {
-    throw new internalError("throw by /share plain POST, touchedCreate, "+err, 131);
+  let modifiedData = JSON.stringify(objReachStatus, null, 2);
+  fs.writeFile(path.join(envJSONUnitReachPath, "units_reach.json"), modifiedData, (err) => {
+    throw new internalError("throw by /share plain POST, reachCreate, "+err, 131);
   });
 
   _DB_unitsAuthor.create({
     id_unit: unitId,
     id_author: userId
   }).catch((err)=>{
-    throw new internalError("throw by /share plain POST, touchedCreate, "+err, 131);
+    throw new internalError("throw by /share plain POST, reachCreate, "+err, 131);
   });
   /*
   actually, there is a serious issue may happen
-  if the units_touch.json file was edit by others in the same time.
+  if the units_reach.json file was edit by others in the same time.
   would be dissapeare automatically after the file was divided depending on Unit
   */
 }
 
 module.exports = {
-  _touchedCreate
+  _reachCreate
 }

@@ -4,13 +4,33 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import {
+  cancelErr,
+  uncertainErr
+} from "../../../utils/errHandlers.js";
 
 const styleMiddle = {
+  spanSubtitle: {
+    display: 'block',
+    boxSizing: 'border-box',
+    margin: '0 0 1rem',
+    textAlign: 'left',
+  },
+  spanNumDis: {
+    display: 'block',
+    boxSizing: 'border-box',
+    textAlign: 'right'
+  },
   fontSubtitle: {
-
+    fontSize: '1.2rem',
+    letterSpacing: '0.142rem',
+    fontWeight: '400',
+    color: '#FAFAFA',
   },
   fontNumDis: {
-
+    fontSize: '2.1rem',
+    letterSpacing: '0.2rem',
+    fontWeight: '400'
   }
 }
 
@@ -19,7 +39,7 @@ class AuthorStatics extends React.Component {
     super(props);
     this.state = {
       axios: false,
-      viewCount: null
+      countReach: null
     };
     this.axiosSource = axios.CancelToken.source();
     this._axios_get_AuthorStatics = this._axios_get_AuthorStatics.bind(this);
@@ -29,7 +49,29 @@ class AuthorStatics extends React.Component {
   }
 
   _axios_get_AuthorStatics(){
-    
+    const self = this;
+    this.setState({axios: true});
+
+    axios.get('/router/share/'+this.props.unitCurrent.unitId+"/statics?sr=summary", {
+      headers: {
+        'charset': 'utf-8',
+        'token': window.localStorage['token']
+      },
+      cancelToken: self.axiosSource.token
+    }).then((res)=>{
+      self.setState({axios: false});
+      let resObj = JSON.parse(res.data);
+
+      self.setState({countReach: resObj.countReach})
+    }).catch(function (thrown) {
+      self.setState({axios: false});
+      if (axios.isCancel(thrown)) {
+        cancelErr(thrown);
+      } else {
+        let message = uncertainErr(thrown);
+        if(message) alert(message);
+      }
+    });
   }
 
   componentDidMount(){
@@ -47,9 +89,9 @@ class AuthorStatics extends React.Component {
       <div>
         <div>
           <span
-            style={styleMiddle.fontSubtitle}>view</span>
+            style={Object.assign({}, styleMiddle.spanSubtitle, styleMiddle.fontSubtitle)}>reach</span>
           <span
-            style={styleMiddle.fontNumDis}>{this.state.viewCount}</span>
+            style={Object.assign({}, styleMiddle.spanNumDis,styleMiddle.fontNumDis)}>{this.state.countReach}</span>
         </div>
       </div>
     )
