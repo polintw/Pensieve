@@ -28,7 +28,7 @@ export class NounsExtensible extends React.Component {
         width: '100%',
         position: 'relative',
         boxSizing: 'border-box',
-        margin: '0 0 1.2rem',
+        margin: '0 0 1.42rem',
         cursor: 'pointer'
       },
       Com_Nouns_Extensible_switch_: {

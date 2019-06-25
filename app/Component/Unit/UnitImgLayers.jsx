@@ -37,10 +37,10 @@ const styleMiddle = {
     boxSizing: 'border-box'
   },
   boxAuthor: {
-    maxWidth: '10%',
+    maxWidth: '11%',
     position: 'absolute',
-    top: '64%',
-    right: '88%',
+    top: '66%',
+    right: '87.4%',
     boxSizing: 'border-box',
   },
   boxNodes: {
@@ -51,7 +51,8 @@ const styleMiddle = {
     top: '23%',
     left: '0%',
     boxSizing: 'border-box',
-    backgroundColor: '#4a4a4a'
+    backgroundColor: '#4a4a4a',
+    overflow: 'hidden' //just a temp method
   }
 }
 
@@ -72,9 +73,9 @@ class UnitImgLayers extends React.Component {
       Com_Unit_UnitImgLayers_commonSection_InfoPanel_blocks_: {
         height: '100%',
         position: 'relative',
-        float: 'right',
         boxSizing: 'border-box',
-        marginLeft: '2vw'
+        marginBottom: '0.6rem',
+        color: 'rgb(250, 250, 250)',
       }
     }
   }
@@ -95,15 +96,16 @@ class UnitImgLayers extends React.Component {
             style={styleMiddle.boxAuthor}>
             <div
               onClick={this._handleClick_Account}
-              style={Object.assign({color: 'rgb(250, 250, 250)', cursor:'pointer'},this.style.Com_Unit_UnitImgLayers_commonSection_InfoPanel_blocks_)}>
+              style={Object.assign({textAlign: 'center', cursor:'pointer'},this.style.Com_Unit_UnitImgLayers_commonSection_InfoPanel_blocks_)}>
               <AccountPlate
                 size={'regular'}
                 accountFisrtName={this.props.unitCurrent.authorBasic.firstName}
                 accountLastName={this.props.unitCurrent.authorBasic.lastName}/>
             </div>
             <div
-              style={Object.assign({color: '#FAFAFA'},this.style.Com_Unit_UnitImgLayers_commonSection_InfoPanel_blocks_)}>
+              style={this.style.Com_Unit_UnitImgLayers_commonSection_InfoPanel_blocks_}>
               <DateConverter
+                place={'layers'}
                 datetime={this.props.unitCurrent.createdAt}/>
             </div>
           </div>
