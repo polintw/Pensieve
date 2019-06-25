@@ -32,12 +32,12 @@ class UnitModal extends React.Component {
         boxSizing: 'border-box'
       },
       Com_UnitModal_blocks_Scroll: {
-        width: '90%',
-        height: '100%',
+        width: '90.6%',
+        height: '99.2%',
         position: 'absolute',
-        top: '0',
+        top: '0.7%',
         left: '50%',
-        transform: 'translate(-50%, 0)',
+        transform: 'translate(-48%, 0)',
         boxSizing: 'border-box'
       },
       Com_UnitModal_blocks_SumLayer_ : {
@@ -71,7 +71,7 @@ class UnitModal extends React.Component {
         height: '10%',
         position: 'absolute',
         top: '2%',
-        right: '5%'
+        right: '3%'
       },
       Com_UnitModal_straightBack_span: {
         display: 'inline-block',

@@ -10,6 +10,51 @@ import {NounsExtensible} from './UnitComponent.jsx';
 import {AccountPlate} from '../AccountPlate.jsx';
 import DateConverter from '../DateConverter.jsx';
 
+const styleMiddle = {
+  boxContent: {
+    width: '96%',
+    height: '100%',
+    position: 'absolute',
+    top: '0%',
+    right: '4%',
+    boxSizing: 'border-box',
+    backgroundColor: '#101010'
+  },
+  boxImgFrame: {
+    width: '81%',
+    height: '96%',
+    position: 'absolute',
+    top: '0%',
+    right: '0%',
+    boxSizing: 'border-box'
+  },
+  boxActionPanel: {
+    width: '36%',
+    height: '4%',
+    position: 'absolute',
+    bottom: '0',
+    right: '0',
+    boxSizing: 'border-box'
+  },
+  boxAuthor: {
+    maxWidth: '10%',
+    position: 'absolute',
+    top: '64%',
+    right: '88%',
+    boxSizing: 'border-box',
+  },
+  boxNodes: {
+    width: '14%',
+    minHeight: '29%',
+    maxHeight: '39%',
+    position: 'absolute',
+    top: '23%',
+    left: '0%',
+    boxSizing: 'border-box',
+    backgroundColor: '#4a4a4a'
+  }
+}
+
 class UnitImgLayers extends React.Component {
   constructor(props){
     super(props);
@@ -18,64 +63,11 @@ class UnitImgLayers extends React.Component {
     };
     this._handleClick_Account = this._handleClick_Account.bind(this);
     this.style={
-      Com_Unit_UnitImgLayers_contentSection_: {
-        width: '96%',
-        height: '96%',
-        position: 'absolute',
-        top: '0%',
-        right: '4%',
-        boxSizing: 'border-box',
-        backgroundColor: '#101010'
-      },
-      Com_Unit_UnitImgLayers_contentSection_frame: {
-        width: '86%',
-        height: '100%',
-        position: 'absolute',
-        top: '0%',
-        right: '0%',
-        boxSizing: 'border-box'
-      },
-      Com_Unit_UnitImgLayers_contentSection_links_: {
-        width: '14%',
-        height: '100%',
-        position: 'absolute',
-        top: '0%',
-        left: '0%',
-        boxSizing: 'border-box'
-      },
       Com_Unit_UnitImgLayers_contentSection_links_nouns: {
         width: '100%',
-        position: 'absolute',
-        bottom: '3%',
-        left: '0',
         boxSizing: 'border-box',
-        padding: '4%',
+        padding: '8% 7% 8% 4%',
         textAlign: 'right'
-      },
-      Com_Unit_UnitImgLayers_commonSection_: {
-        width: '100%',
-        height: '4%',
-        position: 'absolute',
-        bottom: '0%',
-        left: '0%',
-        boxSizing: 'border-box',
-        boxShadow: '0px 2vh 1.8vh -2vh',
-        backgroundColor: '#313130'
-      },
-      Com_Unit_UnitImgLayers_commonSection_ActionPanel: {
-        width: '36%',
-        height: '100%',
-        position: 'absolute',
-        bottom: '0',
-        left: '0',
-        boxSizing: 'border-box'
-      },
-      Com_Unit_UnitImgLayers_commonSection_InfoPanel_: {
-        height: '100%',
-        position: 'absolute',
-        top: '0%',
-        right: '5%',
-        boxSizing: 'border-box',
       },
       Com_Unit_UnitImgLayers_commonSection_InfoPanel_blocks_: {
         height: '100%',
@@ -98,39 +90,9 @@ class UnitImgLayers extends React.Component {
     return(
       <div>
         <div
-          style={this.style.Com_Unit_UnitImgLayers_contentSection_}>
+          style={styleMiddle.boxContent}>
           <div
-            style={this.style.Com_Unit_UnitImgLayers_contentSection_links_}>
-            {
-              this.props.unitCurrent.nouns &&
-              <div
-                className={'nodesListLayers'}
-                style={this.style.Com_Unit_UnitImgLayers_contentSection_links_nouns}>
-                <NounsExtensible
-                  nouns={this.props.unitCurrent.nouns}
-                  _handleClick_listNoun={this.props._refer_toandclose}/>
-              </div>
-            }
-          </div>
-          <div
-            style={this.style.Com_Unit_UnitImgLayers_contentSection_frame}>
-            <ImgLayersFrame
-              moveCount={this.props.moveCount}
-              lockify={this.props.lockify}
-              marksStatus={this.props.marksStatus}
-              _set_markOpened={this.props._set_markOpened}
-              _set_layerstatus={this.props._set_layerstatus}/>
-          </div>
-        </div>
-        <div
-          style={this.style.Com_Unit_UnitImgLayers_commonSection_}>
-          <div
-            style={this.style.Com_Unit_UnitImgLayers_commonSection_ActionPanel}>
-            <UnitActionPanel
-              _set_Modalmode={this.props._set_Modalmode}/>
-          </div>
-          <div
-            style={this.style.Com_Unit_UnitImgLayers_commonSection_InfoPanel_}>
+            style={styleMiddle.boxAuthor}>
             <div
               onClick={this._handleClick_Account}
               style={Object.assign({color: 'rgb(250, 250, 250)', cursor:'pointer'},this.style.Com_Unit_UnitImgLayers_commonSection_InfoPanel_blocks_)}>
@@ -145,6 +107,33 @@ class UnitImgLayers extends React.Component {
                 datetime={this.props.unitCurrent.createdAt}/>
             </div>
           </div>
+          <div
+            style={styleMiddle.boxNodes}>
+            {
+              this.props.unitCurrent.nouns &&
+              <div
+                className={'verticalAlignChild nodesListLayers'}
+                style={this.style.Com_Unit_UnitImgLayers_contentSection_links_nouns}>
+                <NounsExtensible
+                  nouns={this.props.unitCurrent.nouns}
+                  _handleClick_listNoun={this.props._refer_toandclose}/>
+              </div>
+            }
+          </div>
+          <div
+            style={styleMiddle.boxImgFrame}>
+            <ImgLayersFrame
+              moveCount={this.props.moveCount}
+              lockify={this.props.lockify}
+              marksStatus={this.props.marksStatus}
+              _set_markOpened={this.props._set_markOpened}
+              _set_layerstatus={this.props._set_layerstatus}/>
+          </div>
+        </div>
+        <div
+          style={styleMiddle.boxActionPanel}>
+          <UnitActionPanel
+            _set_Modalmode={this.props._set_Modalmode}/>
         </div>
       </div>
     )

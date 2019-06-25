@@ -15,8 +15,8 @@ import {AccountPlate} from '../AccountPlate.jsx';
 const styleMiddle = {
   boxStatics: {
     position: 'absolute',
-    top: '29%',
-    left: '42%',
+    top: '30%',
+    left: '46%',
     boxSizing: 'border-box'
   },
   fontPanelOptions: {

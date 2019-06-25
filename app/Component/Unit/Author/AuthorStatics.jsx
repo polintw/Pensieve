@@ -13,16 +13,19 @@ const styleMiddle = {
   spanSubtitle: {
     display: 'block',
     boxSizing: 'border-box',
-    margin: '0 0 1rem',
+    margin: '0 0 1.2rem',
     textAlign: 'left',
+    cursor: 'default'
   },
   spanNumDis: {
     display: 'block',
     boxSizing: 'border-box',
-    textAlign: 'right'
+    marginLeft: '1rem',
+    textAlign: 'right',
+    cursor: 'default'
   },
   fontSubtitle: {
-    fontSize: '1.2rem',
+    fontSize: '1.42rem',
     letterSpacing: '0.142rem',
     fontWeight: '400',
     color: '#FAFAFA',
@@ -30,7 +33,8 @@ const styleMiddle = {
   fontNumDis: {
     fontSize: '2.1rem',
     letterSpacing: '0.2rem',
-    fontWeight: '400'
+    fontWeight: '400',
+    color: '#FAFAFA',
   }
 }
 
@@ -62,7 +66,7 @@ class AuthorStatics extends React.Component {
       self.setState({axios: false});
       let resObj = JSON.parse(res.data);
 
-      self.setState({countReach: resObj.countReach})
+      self.setState({countReach: resObj.main.countReach})
     }).catch(function (thrown) {
       self.setState({axios: false});
       if (axios.isCancel(thrown)) {
@@ -89,7 +93,7 @@ class AuthorStatics extends React.Component {
       <div>
         <div>
           <span
-            style={Object.assign({}, styleMiddle.spanSubtitle, styleMiddle.fontSubtitle)}>reach</span>
+            style={Object.assign({}, styleMiddle.spanSubtitle, styleMiddle.fontSubtitle)}>read</span>
           <span
             style={Object.assign({}, styleMiddle.spanNumDis,styleMiddle.fontNumDis)}>{this.state.countReach}</span>
         </div>
