@@ -6,12 +6,26 @@ import {
 import {connect} from "react-redux";
 import MarksArticle from './MarksArticle.jsx';
 import {NounsExtensible} from './UnitComponent.jsx';
+import AuthorStatics from './Author/AuthorStatics.jsx';
 import ImgPreview from '../ImgPreview.jsx';
 import DateConverter from '../DateConverter.jsx';
 import SvgCreate from '../Svg/SvgCreate.jsx'
 import {AccountPlate} from '../AccountPlate.jsx';
 
 const styleMiddle = {
+  boxStatics: {
+    position: 'absolute',
+    top: '30%',
+    left: '46%',
+    boxSizing: 'border-box'
+  },
+  fontPanelOptions: {
+    fontSize: '1.6rem',
+    letterSpacing: '0.16rem',
+    textAlign: 'right',
+    fontWeight: '400',
+    color: '#FAFAFA',
+  },
   imgBLockPreview: {
     display: 'inline-block',
     width: '100%',
@@ -67,7 +81,7 @@ class UnitSummaryNail extends React.Component {
   }
 }
 
-class UnitViewSummary extends React.Component {
+class UnitAuthorSummary extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -76,6 +90,7 @@ class UnitViewSummary extends React.Component {
     this.marksArticle = React.createRef();
     this._set_layerstatus = this._set_layerstatus.bind(this);
     this._handleClick_Account = this._handleClick_Account.bind(this);
+    this._handleClick_UnitAction_Author = this._handleClick_UnitAction_Author.bind(this);
     this._handleClick_UnitAction_response = this._handleClick_UnitAction_response.bind(this);
     this._handleWheel_marksArticle = (event)=>{event.stopPropagation();};
     this.style={
@@ -88,7 +103,7 @@ class UnitViewSummary extends React.Component {
         boxSizing: 'border-box'
       },
       Com_UnitViewSummary_Marksarticle: {
-        width: "57%",
+        width: "42%",
         height: '70%',
         position: 'absolute',
         right: '0.5%',
@@ -130,15 +145,6 @@ class UnitViewSummary extends React.Component {
         right: '68%',
         boxSizing: 'border-box'
       },
-      Com_UnitViewSummary_panel_response_: {
-        width: '17%',
-        height: '100%',
-        position: 'relative',
-        marginRight: '7%',
-        float: 'right',
-        boxSizing: 'border-box',
-        cursor: 'pointer'
-      },
       Com_UnitViewSummary_author_name: {
         marginBottom: '0.86rem',
         boxSizing: 'border-box',
@@ -161,6 +167,12 @@ class UnitViewSummary extends React.Component {
     event.stopPropagation();
     event.preventDefault();
     this.props._set_Modalmode("response");
+  }
+
+  _handleClick_UnitAction_Author(event){
+    event.preventDefault();
+    event.stopPropagation();
+    this.props._set_Modalmode("author_editing");
   }
 
   _handleClick_Account(event){
@@ -246,12 +258,25 @@ class UnitViewSummary extends React.Component {
             _handleClick_listNoun={this.props._refer_toandclose}/>
         </div>
         <div
+          style={styleMiddle.boxStatics}>
+          <AuthorStatics/>
+        </div>
+        <div
           style={this.style.Com_UnitViewSummary_panel_}>
           <div
-            style={this.style.Com_UnitViewSummary_panel_response_}
+            className={'sumPanelOptions'}
             onClick={this._handleClick_UnitAction_response}>
             <SvgCreate
               place={true}/>
+          </div>
+          <div
+            className={'sumPanelOptions'}>
+            <span
+              className={'verticalAlignChild'}
+              style={styleMiddle.fontPanelOptions}
+              onClick={this._handleClick_UnitAction_Author}>
+              {"edit"}
+            </span>
           </div>
         </div>
       </div>
@@ -269,4 +294,4 @@ const mapStateToProps = (state)=>{
 export default withRouter(connect(
   mapStateToProps,
   null
-)(UnitViewSummary));
+)(UnitAuthorSummary));

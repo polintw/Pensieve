@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import CreateShare from '../../Component/CreateShare.jsx';
 import SvgCreateCoral from '../../Component/Svg/SvgCreateCoral.jsx';
-import {NameLabelRe} from '../../Component/AccountPlate.jsx';
+import {AccountPlate} from '../../Component/AccountPlate.jsx';
 
 class EntryCall extends React.Component {
   constructor(props){
@@ -101,12 +101,10 @@ class EntryCall extends React.Component {
           </div>
           <div
             style={this.style.withinCom_EntryCall_Info_User_}>
-            <NameLabelRe
-              size={'small'}
-              accountId={this.props.userInfo.id}
+            <AccountPlate
+              size={'medium'}
               accountFisrtName={this.props.userInfo.firstName}
-              accountLastName={this.props.userInfo.lastName}
-              _handleClick_Account={this.props._refer_leavevonLtd}/>
+              accountLastName={this.props.userInfo.lastName}/>
           </div>
         </div>
         <div

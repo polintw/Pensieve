@@ -13,3 +13,16 @@
   position: relative;
   box-sizing: border-box;
 }
+
+.boxInlineRelative {
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.verticalAlignChild {
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+}

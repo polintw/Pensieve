@@ -1,3 +1,19 @@
+.nodesListLayers{
+  font-size: 1.6rem;
+  letter-spacing: 0.167rem;
+  font-weight: 400;
+  font-family: 'cwTeXMing';
+  color: #FAFAFA;
+}
+
+.nodesListSum{
+  font-size: 1.54rem;
+  letter-spacing: 0.154rem;
+  font-weight: 400;
+  font-family: 'cwTeXMing';
+  color: #FAFAFA;
+}
+
 .boxImgPosition {
   position: absolute;
   top: 50%;
@@ -11,3 +27,14 @@
   overflow: visible;
   cursor: pointer;
 }
+
+.sumPanelOptions {
+  display: inline-block;
+  width: 17%;
+  height: 100%;
+  position: relative;
+  margin-right: 7%;
+  float: right;
+  box-sizing: border-box;
+  cursor: pointer;
+},

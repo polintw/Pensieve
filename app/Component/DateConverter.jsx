@@ -7,13 +7,40 @@ export default class DateConverter extends React.Component {
 
     };
     this._render_monthRome = this._render_monthRome.bind(this);
+    this._set_styleByProps = this._set_styleByProps.bind(this);
     this.style={
-      Com_DateConverter_: {
-        fontSize: '1.3rem',
-        letterSpacing: '0.16rem',
+      fontGeneral: {
+        fontSize: '1.2rem',
+        letterSpacing: '0.142rem',
+        textAlign: 'center',
+        fontWeight: '400'
+      },
+      fontLayers: {
+        fontSize: '1.1rem',
+        fontStyle: 'italic',
+        letterSpacing: '0.14rem',
+        textAlign: 'center',
+        fontWeight: '400'
+      },
+      fontSummary: {
+        fontSize: '1.2rem',
+        letterSpacing: '0.142rem',
         textAlign: 'center',
         fontWeight: '400'
       }
+    }
+  }
+
+  _set_styleByProps(){
+    switch (this.props.place) {
+      case 'summary':
+        return this.style.fontSummary
+        break;
+      case 'layers':
+        return this.style.fontLayers
+        break;
+      default:
+        return this.style.fontGeneral
     }
   }
 
@@ -66,7 +93,7 @@ export default class DateConverter extends React.Component {
 
     return(
       <div
-        style={this.style.Com_DateConverter_}>
+        style={this._set_styleByProps()}>
         <span>{this._render_monthRome(d)}</span>
         <span>{d.getDate()}</span>
         <span>{". "}</span>

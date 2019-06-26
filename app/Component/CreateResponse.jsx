@@ -51,7 +51,7 @@ class CreateResponse extends React.Component {
   _axios_post_Share_new(newObj){
     const self = this;
     self.props._set_unitSubmitting(true);
-    axios.post('/router/user/'+self.props.userInfo.id+'/shareds?primer='+this.props.unitId, newObj, {
+    axios.post('/router/share?primer='+this.props.unitId, newObj, {
       headers: {
         'Content-Type': 'application/json',
         'charset': 'utf-8',
