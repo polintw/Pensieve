@@ -1,0 +1,18 @@
+.boxNailWide {
+
+}
+
+.boxNailNarrow {
+
+}
+
+.boxNailFlat {
+
+}
+
+
+/*
+mind the order here
+because the css would overlap one by one,
+start the fundemental first, and then the specific condition
+*/

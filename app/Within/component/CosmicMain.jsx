@@ -1,5 +1,5 @@
 import React from 'react';
-import MainIndex from './MainIndex.jsx';
+import MainIndex from './MainIndex/MainIndex.jsx';
 
 export default class CosmicMain extends React.Component {
   constructor(props){
@@ -16,9 +16,9 @@ export default class CosmicMain extends React.Component {
         boxSizing: 'border-box'
       },
       withinCom_CosmicMain_index_: {
-        width: '932px',
+        width: '78%',
         position: 'absolute',
-        top: '4vh',
+        top: '1.2rem',
         left: '48%',
         transform: 'translate(-50%,0)',
         boxSizing: 'border-box'
@@ -42,7 +42,7 @@ export default class CosmicMain extends React.Component {
           style={this.style.withinCom_CosmicMain_index_}>
           <MainIndex {...this.props}/>
         </div>
-        <div style={{width: '100%', height: '3vh', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
+        <div style={{width: '100%', height: '1rem', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
         <div style={{width: '100%', height: '2.4rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
       </div>
     )
