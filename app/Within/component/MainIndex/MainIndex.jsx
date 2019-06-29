@@ -24,6 +24,8 @@ import {
 
 const styleMiddle = {
   boxNailsCol: {
+    //should be a 'flexbox'
+
     width: '33%',
     position: "absolute",
     top: '5vh'
@@ -158,7 +160,7 @@ class MainIndex extends React.Component {
           return (
             <div
               key={'key_CosmicMain_Nails_'+index}
-              className={classnames(styles.boxNailWide)}>
+              className={classnames(styles.heightNarrow, styles.boxWide)}>
 
             </div>
           )
@@ -167,7 +169,7 @@ class MainIndex extends React.Component {
           return (
             <div
               key={'key_CosmicMain_Nails_'+index}
-              className={classnames(styles.boxNailNarrow)}>
+              className={classnames(styles.heightNarrow, styles.boxNarrow)}>
               <NailNarrow
                 {...this.props}
                 col={nextState.colLatest}
@@ -182,7 +184,7 @@ class MainIndex extends React.Component {
           return (
             <div
               key={'key_CosmicMain_Nails_'+index}
-              className={classnames(styles.boxNailFlat)}>
+              className={classnames(styles.heightFlat, styles.boxFlat)}>
 
             </div>
           )
@@ -191,10 +193,43 @@ class MainIndex extends React.Component {
           return (
             <div
               key={'key_CosmicMain_Nails_'+index}
-              className={classnames(styles.boxNailNarrow)}>
+              className={classnames(styles.heightNarrow, styles.boxNarrow)}>
 
             </div>
           )
+      }
+    };
+    const separationLine = (remainder, index)=>{
+      switch (remainder) {
+        case 0:
+          return (
+            <div
+              key={'key_CosmicMain_NailsSparation_'+index}
+              className={classnames(styles.decoVertical, styles.heightNarrow)}>
+
+            </div>
+          )
+          break;
+        case 1:
+          return (
+            <div
+              key={'key_CosmicMain_NailsSparation_'+index}
+              className={classnames(styles.decoHorizon)}>
+
+            </div>
+          )
+          break;
+        case 2:
+          return (
+            <div
+              key={'key_CosmicMain_NailsSparation_'+index}
+              className={classnames(styles.decoVertical, styles.heightFlat)}>
+
+            </div>
+          )
+          break;
+        default:
+          return false
       }
     }
 
@@ -207,7 +242,8 @@ class MainIndex extends React.Component {
       let nail = nailChart(nailChoice, index);
       nailsIndex.push(nail);
       //diff remainder again for rendering 'separation line'
-
+      let optionalLine = separationLine(remainder, index);
+      if(optionalLine) nailsIndex.push(optionalLine);
     })
 
     return nailsIndex;
