@@ -69,6 +69,7 @@
   box-sizing: border-box;
   right: 5%;
   top: 16%;
+  overflow: hidden;
 }
 
 .boxMark {
@@ -76,7 +77,6 @@
   position: relative;
   box-sizing: border-box;
   margin-bottom: 1.8rem;
-  overflow: hidden;
 }
 
 .fontMark {

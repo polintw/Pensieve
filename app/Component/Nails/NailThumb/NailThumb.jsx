@@ -9,7 +9,7 @@ import ImgPreview from '../../ImgPreview.jsx';
 import DraftDisplayforNailMark from '../../Draft/DraftDisplayforNailMark.jsx';
 import styles from "./styles.module.css";
 
-class NailWideDisplay extends React.Component {
+class NailThumb extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -80,7 +80,6 @@ class NailWideDisplay extends React.Component {
             state: {from: this.props.location}
           }}
           className={classnames('plainLinkButton', styles.frame)}>
-          <div className={styles.boxMarkArea}></div>
           <div
             className={classnames(styles.boxMarkPreview)}>
             {this._render_nails_Marks()}
@@ -120,4 +119,4 @@ const mapStateToProps = (state)=>{
 export default withRouter(connect(
   mapStateToProps,
   null
-)(NailWideDisplay));
+)(NailThumb));

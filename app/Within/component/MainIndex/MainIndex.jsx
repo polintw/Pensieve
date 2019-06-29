@@ -12,6 +12,8 @@ import Unit from '../../../Component/Unit.jsx';
 import CreateShare from '.../../../Component/CreateShare.jsx';
 import SvgLogo from '../../../Component/Svg/SvgLogo.jsx';
 import SvgCreate from '../../../Component/Svg/SvgCreate.jsx';
+import NailThumb from '../../../Component/Nails/NailThumb/NailThumb.jsx';
+import NailFlatDisplay from '../../../Component/Nails/NailFlatDisplay/NailFlatDisplay.jsx';
 import NailWideDisplay from '../../../Component/Nails/NailWideDisplay/NailWideDisplay.jsx';
 import {
   handleNounsList,
@@ -23,13 +25,6 @@ import {
 } from '../../../utils/errHandlers.js';
 
 const styleMiddle = {
-  boxNailsCol: {
-    //should be a 'flexbox'
-
-    width: '33%',
-    position: "absolute",
-    top: '5vh'
-  },
   boxFooterInfo: {
     boxSizing: 'border-block',
     margin: '4.2rem 0 1.6rem',
@@ -106,6 +101,8 @@ class MainIndex extends React.Component {
   }
 
   _axios_cosmic_IndexList(){
+    const self = this;
+    
     this.setState((prevState, props)=>{return {axios: true};}, ()=>{
       let url = '/router/cosmic/present';
       axios.get(url, {
@@ -152,7 +149,7 @@ class MainIndex extends React.Component {
 
   _render_IndexNails(){
     this.patternRule = [[0,1],[1,0],2,2,1,1,1];
-    let cycleLength = patternRule.length;
+    let cycleLength = this.patternRule.length;
 
     const nailChart = (choice, unitId)=>{
       switch (choice) {
@@ -174,7 +171,11 @@ class MainIndex extends React.Component {
             <div
               key={'key_CosmicMain_Nails_'+unitId}
               className={classnames(styles.heightNarrow, styles.boxNarrow)}>
-
+              <NailThumb
+                {...this.props}
+                unitId={unitId}
+                unitBasic={this.state.unitsBasic[unitId]}
+                marksBasic={this.state.marksBasic}/>
             </div>
           )
           break;
@@ -183,7 +184,15 @@ class MainIndex extends React.Component {
             <div
               key={'key_CosmicMain_Nails_'+unitId}
               className={classnames(styles.heightFlat, styles.boxFlat)}>
-
+              <div
+                key={'key_CosmicMain_Nails_'+unitId}
+                className={classnames(styles.heightNarrow, styles.boxNarrow)}>
+                <NailFlatDisplay
+                  {...this.props}
+                  unitId={unitId}
+                  unitBasic={this.state.unitsBasic[unitId]}
+                  marksBasic={this.state.marksBasic}/>
+              </div>
             </div>
           )
           break;
@@ -192,7 +201,15 @@ class MainIndex extends React.Component {
             <div
               key={'key_CosmicMain_Nails_'+unitId}
               className={classnames(styles.heightNarrow, styles.boxNarrow)}>
-
+              <div
+                key={'key_CosmicMain_Nails_'+unitId}
+                className={classnames(styles.heightNarrow, styles.boxNarrow)}>
+                <NailThumb
+                  {...this.props}
+                  unitId={unitId}
+                  unitBasic={this.state.unitsBasic[unitId]}
+                  marksBasic={this.state.marksBasic}/>
+              </div>
             </div>
           )
       }
@@ -253,7 +270,7 @@ class MainIndex extends React.Component {
         <div
           style={this.style.withinCom_MainIndex_scroll_}>
           <div
-            style={styleMiddle.boxNailsCol}>
+            className={classnames(styles.boxTop, styles.heightFlat)}>
             <div
               style={this.style.withinCom_MainIndex_scroll_col_logo}>
               <SvgLogo/>
@@ -269,7 +286,7 @@ class MainIndex extends React.Component {
 
           </div>
           <div
-            style={styleMiddle.boxNailsCol}>
+            className={styles.boxNails}>
             {this._render_IndexNails()}
             <div
               style={styleMiddle.boxFooterInfo}>
