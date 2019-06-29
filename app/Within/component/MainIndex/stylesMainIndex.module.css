@@ -2,16 +2,19 @@
   width: 65%;
   /*boxNarrow is the standard, as about 1/3 width of parent,
   so wide is about 2/3 but modified a little for deco. line., which is 4% of parent*/
+  position: relative;
 }
 
 .boxNarrow {
   width: 31%;
+  position: relative;
 }
 
 .boxFlat {
   width: 48%;
   /*boxNarrow is the standard, as about 1/3 width of parent,
   so flat is about 1/2 but modified a little for deco. line., which is 4% of parent*/
+  position: relative;
 }
 
 .heightFlat {

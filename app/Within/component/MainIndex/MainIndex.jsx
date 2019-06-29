@@ -12,7 +12,7 @@ import Unit from '../../../Component/Unit.jsx';
 import CreateShare from '.../../../Component/CreateShare.jsx';
 import SvgLogo from '../../../Component/Svg/SvgLogo.jsx';
 import SvgCreate from '../../../Component/Svg/SvgCreate.jsx';
-import NailNarrow from '../../../Component/Nails/NailNarrow/NailNarrow.jsx';
+import NailWideDisplay from '../../../Component/Nails/NailWideDisplay/NailWideDisplay.jsx';
 import {
   handleNounsList,
   handleUsersList
@@ -154,36 +154,34 @@ class MainIndex extends React.Component {
     this.patternRule = [[0,1],[1,0],2,2,1,1,1];
     let cycleLength = patternRule.length;
 
-    const nailChart = (choice, index)=>{
+    const nailChart = (choice, unitId)=>{
       switch (choice) {
         case 0:
           return (
             <div
-              key={'key_CosmicMain_Nails_'+index}
+              key={'key_CosmicMain_Nails_'+unitId}
               className={classnames(styles.heightNarrow, styles.boxWide)}>
-
+              <NailWideDisplay
+                {...this.props}
+                unitId={unitId}
+                unitBasic={this.state.unitsBasic[unitId]}
+                marksBasic={this.state.marksBasic}/>
             </div>
           )
           break;
         case 1:
           return (
             <div
-              key={'key_CosmicMain_Nails_'+index}
+              key={'key_CosmicMain_Nails_'+unitId}
               className={classnames(styles.heightNarrow, styles.boxNarrow)}>
-              <NailNarrow
-                {...this.props}
-                col={nextState.colLatest}
-                unitId={unitKey}
-                unitBasic={prevState.unitsBasic[unitKey]}
-                marksBasic={prevState.marksBasic}
-                _set_RenderbyCol={this._set_RenderbyCol}/>
+
             </div>
           )
           break;
         case 2:
           return (
             <div
-              key={'key_CosmicMain_Nails_'+index}
+              key={'key_CosmicMain_Nails_'+unitId}
               className={classnames(styles.heightFlat, styles.boxFlat)}>
 
             </div>
@@ -192,7 +190,7 @@ class MainIndex extends React.Component {
         default:
           return (
             <div
-              key={'key_CosmicMain_Nails_'+index}
+              key={'key_CosmicMain_Nails_'+unitId}
               className={classnames(styles.heightNarrow, styles.boxNarrow)}>
 
             </div>
@@ -239,7 +237,7 @@ class MainIndex extends React.Component {
       let nailChoice = this.patternRule[remainder];
       if(remainder < 2) nailChoice = Number.isInteger(index/2) ? nailChoice[1] : nailChoice[0];
 
-      let nail = nailChart(nailChoice, index);
+      let nail = nailChart(nailChoice, unitId);
       nailsIndex.push(nail);
       //diff remainder again for rendering 'separation line'
       let optionalLine = separationLine(remainder, index);

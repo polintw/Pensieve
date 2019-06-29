@@ -1,0 +1,88 @@
+.frame {
+  width: 100%;
+  height: 100%;
+}
+
+.boxImg {
+  width: 73%;
+  height: 99%;
+  position: absolute;
+  box-sizing: border-box;
+}
+
+.boxNodes {
+  width: 87%;
+  height: 3.6rem;
+  position: absolute;
+  bottom: 15%;
+  right: 3%;
+  box-sizing: border-box;
+  padding: 2%;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+
+.boxNodesItem {
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0 2%;
+}
+
+.fontNode {
+  font-size: 2.1rem;
+  font-weight: 700;
+  letter-spacing: 0.12rem;
+  color: #000000;
+}
+
+.boxAuthor {
+  max-width: 20%;
+  position: absolute;
+  box-sizing: border-box;
+  right: 3%; /*follow boxNodes*/
+  bottom: 1%;
+}
+
+.fontAuthor {
+  font-size: 1.42rem;
+  font-weight: 400;
+  letter-spacing: 0.1rem;
+  text-align: right;
+  color: #6e6e6e;
+}
+
+.boxMarkArea {
+  width: 30%;
+  height: 89%;
+  position: absolute;
+  box-sizing: border-box;
+  right: 0;
+  top: 1%;
+  background-color: rgba(217,217,217,0.99);
+}
+
+.boxMarkPreview {
+  width: 21%;
+  max-height: 50%;
+  position: absolute;
+  box-sizing: border-box;
+  right: 5%;
+  top: 16%;
+}
+
+.boxMark {
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  margin-bottom: 1.8rem;
+  overflow: hidden;
+}
+
+.fontMark {
+  font-size: 1.4rem;
+  font-weight: 300;
+  letter-spacing: 0.1rem;
+  text-align: left;
+  color: #000000;
+}
