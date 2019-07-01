@@ -9,6 +9,8 @@
 
 .boxNails {
   display: flex;
+  align-content: center;
+  flex-wrap: wrap;
   width: 100%;
   position: relative;
   box-sizing: border-box;
@@ -33,6 +35,10 @@
   position: relative;
 }
 
+.boxTopDate {
+  margin: 13px 20% 0 19%;
+}
+
 .heightFlat {
   height: 168px;
 }
@@ -41,10 +47,21 @@
   height: 320px;
 }
 
-.decoVertical{
-
+.boxFillVertical {
+  width: 4%; /*follow the remain space between Wide & Narrow, or Flats*/
+  position: relative;
 }
 
-.decoHorizon {
+.boxFillHoriz {
+  width: 55%;
+  height: 20px;
+  position: relative;
+}
 
+.decoSeparationVerti {
+  height: 89%;
+}
+
+.decoSeparationHorz {
+  width: 100%
 }

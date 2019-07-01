@@ -8,14 +8,15 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./stylesMainIndex.module.css";
+import {
+  nailChart,
+  separationLine
+} from './utils.js';
 import Unit from '../../../Component/Unit.jsx';
 import CreateShare from '../../../Component/CreateShare.jsx';
 import DateConverter from '../../../Component/DateConverter.jsx';
 import SvgLogo from '../../../Component/Svg/SvgLogo.jsx';
 import SvgCreate from '../../../Component/Svg/SvgCreate.jsx';
-import NailThumb from '../../../Component/Nails/NailThumb/NailThumb.jsx';
-import NailFlatDisplay from '../../../Component/Nails/NailFlatDisplay/NailFlatDisplay.jsx';
-import NailWideDisplay from '../../../Component/Nails/NailWideDisplay/NailWideDisplay.jsx';
 import {
   handleNounsList,
   handleUsersList
@@ -148,113 +149,17 @@ class MainIndex extends React.Component {
   }
 
   _render_IndexNails(){
-    this.patternRule = [[0,1],[1,0],2,2,1,1,1];
+    this.patternRule = [[0,1],[0,1],2,2,1,1,1];
     let cycleLength = this.patternRule.length;
-
-    const nailChart = (choice, unitId)=>{
-      switch (choice) {
-        case 0:
-          return (
-            <div
-              key={'key_CosmicMain_Nails_'+unitId}
-              className={classnames(styles.heightNarrow, styles.boxWide)}>
-              <NailWideDisplay
-                {...this.props}
-                unitId={unitId}
-                unitBasic={this.state.unitsBasic[unitId]}
-                marksBasic={this.state.marksBasic}/>
-            </div>
-          )
-          break;
-        case 1:
-          return (
-            <div
-              key={'key_CosmicMain_Nails_'+unitId}
-              className={classnames(styles.heightNarrow, styles.boxNarrow)}>
-              <NailThumb
-                {...this.props}
-                unitId={unitId}
-                unitBasic={this.state.unitsBasic[unitId]}
-                marksBasic={this.state.marksBasic}/>
-            </div>
-          )
-          break;
-        case 2:
-          return (
-            <div
-              key={'key_CosmicMain_Nails_'+unitId}
-              className={classnames(styles.heightFlat, styles.boxFlat)}>
-              <div
-                key={'key_CosmicMain_Nails_'+unitId}
-                className={classnames(styles.heightNarrow, styles.boxNarrow)}>
-                <NailFlatDisplay
-                  {...this.props}
-                  unitId={unitId}
-                  unitBasic={this.state.unitsBasic[unitId]}
-                  marksBasic={this.state.marksBasic}/>
-              </div>
-            </div>
-          )
-          break;
-        default:
-          return (
-            <div
-              key={'key_CosmicMain_Nails_'+unitId}
-              className={classnames(styles.heightNarrow, styles.boxNarrow)}>
-              <div
-                key={'key_CosmicMain_Nails_'+unitId}
-                className={classnames(styles.heightNarrow, styles.boxNarrow)}>
-                <NailThumb
-                  {...this.props}
-                  unitId={unitId}
-                  unitBasic={this.state.unitsBasic[unitId]}
-                  marksBasic={this.state.marksBasic}/>
-              </div>
-            </div>
-          )
-      }
-    };
-    const separationLine = (remainder, index)=>{
-      switch (remainder) {
-        case 0:
-          return (
-            <div
-              key={'key_CosmicMain_NailsSparation_'+index}
-              className={classnames(styles.decoVertical, styles.heightNarrow)}>
-
-            </div>
-          )
-          break;
-        case 1:
-          return (
-            <div
-              key={'key_CosmicMain_NailsSparation_'+index}
-              className={classnames(styles.decoHorizon)}>
-
-            </div>
-          )
-          break;
-        case 2:
-          return (
-            <div
-              key={'key_CosmicMain_NailsSparation_'+index}
-              className={classnames(styles.decoVertical, styles.heightFlat)}>
-
-            </div>
-          )
-          break;
-        default:
-          return false
-      }
-    }
 
     let nailsIndex = []; //don't use .map() because we probably need to push twice in one round
     this.state.unitsList.forEach((unitId, index)=>{
       let remainder = index % cycleLength;
       let nailChoice = this.patternRule[remainder];
-      if(remainder < 2) nailChoice = Number.isInteger(index/2) ? nailChoice[1] : nailChoice[0];
+      if(remainder < 2) nailChoice = Number.isInteger((index+1)/2) ? nailChoice[1] : nailChoice[0];
+      //plus 1 t index in isInteger() is for the '0'---would get false for 0/2
 
-      let nail = nailChart(nailChoice, unitId);
+      let nail = nailChart(nailChoice, unitId, this);
       nailsIndex.push(nail);
       //diff remainder again for rendering 'separation line'
       let optionalLine = separationLine(remainder, index);
@@ -278,7 +183,7 @@ class MainIndex extends React.Component {
               <SvgLogo/>
             </div>
             <div
-              className={'boxInlineRelative fontGillSN boxTopDate'}>
+              className={classnames(styles.boxTopDate, 'boxInlineRelative fontGillSN')}>
               <DateConverter
                 place={'title'}
                 datetime={date.getTime()}/>
