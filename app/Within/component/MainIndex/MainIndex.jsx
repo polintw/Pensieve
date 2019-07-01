@@ -9,7 +9,8 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./stylesMainIndex.module.css";
 import Unit from '../../../Component/Unit.jsx';
-import CreateShare from '.../../../Component/CreateShare.jsx';
+import CreateShare from '../../../Component/CreateShare.jsx';
+import DateConverter from '../../../Component/DateConverter.jsx';
 import SvgLogo from '../../../Component/Svg/SvgLogo.jsx';
 import SvgCreate from '../../../Component/Svg/SvgCreate.jsx';
 import NailThumb from '../../../Component/Nails/NailThumb/NailThumb.jsx';
@@ -72,21 +73,20 @@ class MainIndex extends React.Component {
       },
       withinCom_MainIndex_scroll_col_Create: {
         display: 'inline-block',
-        width: '98%',
+        width: '99px',
+        height: '28%',
         position: 'relative',
         boxSizing: 'border-box',
-        marginLeft: '1%',
-        marginBottom: '11.5%'
+        margin: '0 3%',
+        float: 'right'
       },
       withinCom_MainIndex_scroll_col_logo: {
         display: 'inline-block',
-        width: '145%',
+        height: '28%',
         position: 'relative',
-        left: '-2%',
+        top: '3%',
         boxSizing: 'border-box',
-        padding: '0 3%',
-        marginBottom: '19%',
-        marginTop: '3.2%'
+        margin: '0px 50% 24px 19%'
       }
     }
   }
@@ -102,7 +102,7 @@ class MainIndex extends React.Component {
 
   _axios_cosmic_IndexList(){
     const self = this;
-    
+
     this.setState((prevState, props)=>{return {axios: true};}, ()=>{
       let url = '/router/cosmic/present';
       axios.get(url, {
@@ -265,15 +265,23 @@ class MainIndex extends React.Component {
   }
 
   render(){
+    let date = new Date();
+
     return(
       <div>
         <div
           style={this.style.withinCom_MainIndex_scroll_}>
           <div
-            className={classnames(styles.boxTop, styles.heightFlat)}>
+            className={classnames(styles.boxTop)}>
             <div
               style={this.style.withinCom_MainIndex_scroll_col_logo}>
               <SvgLogo/>
+            </div>
+            <div
+              className={'boxInlineRelative fontGillSN boxTopDate'}>
+              <DateConverter
+                place={'title'}
+                datetime={date.getTime()}/>
             </div>
             <div
               style={this.style.withinCom_MainIndex_scroll_col_Create}>
@@ -283,7 +291,6 @@ class MainIndex extends React.Component {
                 _submit_Share_New={this._submit_Share_New}
                 _refer_von_Create={this.props._refer_von_cosmic}/>
             </div>
-
           </div>
           <div
             className={styles.boxNails}>
