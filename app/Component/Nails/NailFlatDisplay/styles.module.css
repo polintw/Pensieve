@@ -4,7 +4,7 @@
 }
 
 .boxImg {
-  width: 35%;
+  width: 35.5%;
   height: 100%;
   position: absolute;
   right: 0;
@@ -13,7 +13,7 @@
 }
 
 .boxNodes {
-  width: 60%;
+  width: 62%;
   height: 38%;
   position: absolute;
   bottom: 0%;
@@ -26,11 +26,11 @@
   display: inline-block;
   position: relative;
   box-sizing: border-box;
-  margin: 0% 2% 1%;
+  margin: 0% 2% 1% 0;
 }
 
 .boxMarkPreview {
-  width: 60%;
+  width: 62%;
   max-height: 38%;
   position: absolute;
   box-sizing: border-box;
@@ -49,7 +49,7 @@
 .boxAuthor {
   position: absolute;
   box-sizing: border-box;
-  right: 40%;
+  right: 39%;
   bottom: 40%;
   white-space: nowrap;
 }

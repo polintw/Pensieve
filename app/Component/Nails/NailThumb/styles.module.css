@@ -24,7 +24,7 @@
   display: inline-block;
   position: relative;
   box-sizing: border-box;
-  margin: 0% 2% 1%;
+  margin: 0% 2% 1% 0;
 }
 
 .boxMarkPreview {
@@ -45,11 +45,16 @@
 }
 
 .boxAuthor {
+  width: 0;
   position: absolute;
   box-sizing: border-box;
-  right: 0%;
+  right: 10px;
   bottom: 10%;
-  transform: rotate(90deg);
+}
+
+.spanAuthor {
+  display: inline-block;
+  transform: translate(-50%,0) rotate(90deg);
   white-space: nowrap;
 }
 

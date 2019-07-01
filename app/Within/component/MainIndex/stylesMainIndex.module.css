@@ -9,6 +9,7 @@
 
 .boxNails {
   display: flex;
+  justify-content: space-between;
   align-content: center;
   flex-wrap: wrap;
   width: 100%;
@@ -53,8 +54,8 @@
 }
 
 .boxFillHoriz {
-  width: 55%;
-  height: 20px;
+  width: 99%;
+  height: 64px;
   position: relative;
 }
 

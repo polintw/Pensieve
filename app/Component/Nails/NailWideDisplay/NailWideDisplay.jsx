@@ -52,9 +52,12 @@ class NailWideDisplay extends React.Component {
           key={"key_nailcosmic_"+this.props.unitId+"_nouns_"+index}
           className={classnames(styles.boxNodesItem, styles.fontNode)}>
           {id in this.props.nounsBasic ? (
-            this.props.nounsBasic[id].name+<span>"．"</span>) : (
+            this.props.nounsBasic[id].name) : (
               null
             )}
+          {
+            (index==(list.length-1)) ? '': (<span>{"．"}</span>)
+          }
         </div>
       )
     })

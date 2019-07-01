@@ -38,15 +38,11 @@ export function nailChart(choice, unitId, pare){
         <div
           key={'key_CosmicMain_Nails_'+unitId}
           className={classnames(styles.heightFlat, styles.boxFlat)}>
-          <div
-            key={'key_CosmicMain_Nails_'+unitId}
-            className={classnames(styles.heightNarrow, styles.boxNarrow)}>
-            <NailFlatDisplay
-              {...pare.props}
-              unitId={unitId}
-              unitBasic={pare.state.unitsBasic[unitId]}
-              marksBasic={pare.state.marksBasic}/>
-          </div>
+          <NailFlatDisplay
+            {...pare.props}
+            unitId={unitId}
+            unitBasic={pare.state.unitsBasic[unitId]}
+            marksBasic={pare.state.marksBasic}/>
         </div>
       )
       break;
@@ -55,15 +51,11 @@ export function nailChart(choice, unitId, pare){
         <div
           key={'key_CosmicMain_Nails_'+unitId}
           className={classnames(styles.heightNarrow, styles.boxNarrow)}>
-          <div
-            key={'key_CosmicMain_Nails_'+unitId}
-            className={classnames(styles.heightNarrow, styles.boxNarrow)}>
-            <NailThumb
-              {...pare.props}
-              unitId={unitId}
-              unitBasic={pare.state.unitsBasic[unitId]}
-              marksBasic={pare.state.marksBasic}/>
-          </div>
+          <NailThumb
+            {...pare.props}
+            unitId={unitId}
+            unitBasic={pare.state.unitsBasic[unitId]}
+            marksBasic={pare.state.marksBasic}/>
         </div>
       )
   }
@@ -91,7 +83,7 @@ export function separationLine(remainder, index){
         <div
           key={'key_CosmicMain_NailsSparation_'+index}
           className={classnames(styles.boxFillHoriz)}
-          style={{marginLeft: Number.isInteger(index/2) ? '': '40%'}}>
+          style={{width: '55%', marginLeft: Number.isInteger(index/2) ? '': '41.9%'}}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 561 1"
             className={classnames('centerAlignChild', styles.decoSeparationHorz)}>
             <defs><style>{".cls-1-strokeSeparationHorz{fill:none;stroke:#c4c4c4;stroke-linecap:round;stroke-miterlimit:10;opacity:0.78;}"}</style></defs>
@@ -99,7 +91,7 @@ export function separationLine(remainder, index){
               <g id="圖層_1-2" data-name="圖層 1">
                 <line className="cls-1-strokeSeparationHorz" x1="0.5" y1="0.5" x2="560.5" y2="0.5"/></g></g></svg>
         </div>
-      )
+      )// width and marginLeft of div combined to be 96.9% to match the border of the img in NailThumb
       break;
     case 2:
       return (
@@ -113,6 +105,20 @@ export function separationLine(remainder, index){
               <g id="圖層_1-2" data-name="圖層 1">
                 <line className="cls-1-strokeSeparation" x1="0.5" y1="304.5" x2="0.5" y2="0.5"/></g></g></svg>
         </div>
+      )
+      break;
+    case 3:
+      return (
+        <div
+          key={'key_CosmicMain_NailsSparation_'+index}
+          className={classnames(styles.boxFillHoriz)}></div>
+      )
+      break;
+    case 6:
+      return (
+        <div
+          key={'key_CosmicMain_NailsSparation_'+index}
+          className={classnames(styles.boxFillHoriz)}></div>
       )
       break;
     default:
