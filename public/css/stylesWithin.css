@@ -36,7 +36,7 @@ start the fundemental first, and then the specific condition
 }
 ._C_C_app_Within_component_MainIndex_stylesMainIndex_module__boxTop {
   width: 100%;
-  height: 140px;
+  height: 98px;
   position: relative;
   top: 0;
   right: 0;
@@ -51,6 +51,7 @@ start the fundemental first, and then the specific condition
   width: 100%;
   position: relative;
   box-sizing: border-box;
+  margin: -7px 0 0;
 }
 
 ._C_C_app_Within_component_MainIndex_stylesMainIndex_module__boxWide {
@@ -66,14 +67,14 @@ start the fundemental first, and then the specific condition
 }
 
 ._C_C_app_Within_component_MainIndex_stylesMainIndex_module__boxFlat {
-  width: 46.4%;
+  width: 48%;
   /*boxNarrow is the standard, as about 1/3 width of parent,
   so flat is about 1/2 but modified a little for deco. line., which is 4% of parent*/
   position: relative;
 }
 
 ._C_C_app_Within_component_MainIndex_stylesMainIndex_module__boxTopDate {
-  margin: 13px 20% 0 19%;
+  margin: 13px 20% 0 11%;
 }
 
 ._C_C_app_Within_component_MainIndex_stylesMainIndex_module__heightFlat {
@@ -208,7 +209,7 @@ start the fundemental first, and then the specific condition
   display: inline-block;
   position: relative;
   box-sizing: border-box;
-  margin: 0% 2% 1%;
+  margin: 0% 2% 1% 0;
 }
 
 ._C_C_app_Component_Nails_NailThumb_styles_module__boxMarkPreview {
@@ -292,7 +293,7 @@ start the fundemental first, and then the specific condition
   display: inline-block;
   position: relative;
   box-sizing: border-box;
-  margin: 0% 2% 1%;
+  margin: 0% 2% 1% 0;
 }
 
 ._C_C_app_Component_Nails_NailFlatDisplay_styles_module__boxMarkPreview {
@@ -315,7 +316,7 @@ start the fundemental first, and then the specific condition
 ._C_C_app_Component_Nails_NailFlatDisplay_styles_module__boxAuthor {
   position: absolute;
   box-sizing: border-box;
-  right: 38%;
+  right: 39%;
   bottom: 40%;
   white-space: nowrap;
 }

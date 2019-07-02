@@ -75,19 +75,20 @@ class MainIndex extends React.Component {
       withinCom_MainIndex_scroll_col_Create: {
         display: 'inline-block',
         width: '99px',
-        height: '28%',
+        height: '47%',
         position: 'relative',
+        transform: "translate(0,-24%)",
         boxSizing: 'border-box',
-        margin: '0 3%',
-        float: 'right'
+        margin: '0 2%',
+        float: 'right',
       },
       withinCom_MainIndex_scroll_col_logo: {
         display: 'inline-block',
-        height: '28%',
+        height: '31%',
         position: 'relative',
-        top: '3%',
+        top: '1%',
         boxSizing: 'border-box',
-        margin: '0px 50% 24px 19%'
+        margin: '0px 50% 5px 10%'
       }
     }
   }

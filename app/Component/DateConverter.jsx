@@ -29,7 +29,7 @@ export default class DateConverter extends React.Component {
         fontWeight: '400'
       },
       fontTitle: {
-        fontSize: '1.42rem',
+        fontSize: '1.44rem',
         letterSpacing: '0.142rem',
         textAlign: 'center',
         fontWeight: '500', //there is 500 in Gill Sans Nova
