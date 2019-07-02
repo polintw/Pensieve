@@ -16,7 +16,7 @@ export default class CosmicMain extends React.Component {
         boxSizing: 'border-box'
       },
       withinCom_CosmicMain_index_: {
-        width: '80%',
+        width: '79%',
         position: 'absolute',
         top: '2rem',
         left: '49.5%',

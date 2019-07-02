@@ -12,32 +12,33 @@
 
 .boxNodes {
   width: 87%;
-  height: 3.6rem;
+  height: 3.9rem;
   position: absolute;
-  bottom: 15%;
-  right: 3%;
+  bottom: 16%;
+  right: 2%;
   box-sizing: border-box;
-  padding: 2%;
+  padding: 8px 1% 0 2%;
   background-color: #ffffff;
   overflow: hidden;
 }
 
 .boxNodesItem {
   display: inline-block;
+  height: 100%;
   position: relative;
   box-sizing: border-box;
-  margin: 0 2%;
+  margin-left: 1.2%;
 }
 
 .fontNode {
-  font-size: 2.1rem;
+  font-size: 1.9rem;
   font-weight: 700;
   letter-spacing: 0.12rem;
   color: #000000;
 }
 
 .boxAuthor {
-  max-width: 20%;
+  max-width: 24%;
   position: absolute;
   box-sizing: border-box;
   right: 3%; /*follow boxNodes*/
@@ -45,16 +46,16 @@
 }
 
 .fontAuthor {
-  font-size: 1.42rem;
+  font-size: 1.36rem;
   font-weight: 400;
-  letter-spacing: 0.1rem;
+  letter-spacing: 0.08rem;
   text-align: right;
   color: #6e6e6e;
 }
 
 .boxMarkArea {
   width: 30%;
-  height: 89%;
+  height: 89.5%;
   position: absolute;
   box-sizing: border-box;
   right: 0;

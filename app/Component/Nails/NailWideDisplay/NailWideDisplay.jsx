@@ -50,17 +50,29 @@ class NailWideDisplay extends React.Component {
       nounsDOM.push(
         <div
           key={"key_nailcosmic_"+this.props.unitId+"_nouns_"+index}
-          className={classnames(styles.boxNodesItem, styles.fontNode)}>
-          {id in this.props.nounsBasic ? (
-            this.props.nounsBasic[id].name) : (
-              null
-            )}
-          {
-            (index==(list.length-1)) ? '': (<span>{"．"}</span>)
-          }
+          className={classnames(styles.boxNodesItem)}>
+          <span
+            className={classnames(styles.fontNode)}
+            style={{position: 'relative'}}>
+            {id in this.props.nounsBasic ? (
+              this.props.nounsBasic[id].name) : (
+                null
+              )}
+          </span>
+        </div>
+      );
+
+      if(!index==(list.length-1)) nounsDOM.push(
+        <div
+          key={"key_nailcosmic_"+this.props.unitId+"_nouns_"+index}
+          className={classnames(styles.boxNodesItem)}>
+          <span
+            className={classnames(styles.fontNode)}
+            style={{position: 'relative'}}>{"．"}</span>
         </div>
       )
     })
+
     return nounsDOM;
   }
 
@@ -96,7 +108,7 @@ class NailWideDisplay extends React.Component {
               _handleClick_ImgPreview_preview={()=>{this.nailUnitLink.current.click()}}/>
           </div>
           <div
-            className={styles.boxNodes}>
+            className={classnames(styles.boxNodes)}>
             {this._render_nails_nouns()}
           </div>
           <div className={styles.boxAuthor}>
