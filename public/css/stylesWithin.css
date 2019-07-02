@@ -265,6 +265,93 @@ start the fundemental first, and then the specific condition
   text-align: left;
   color: #000000;
 }
+._C_C_app_Component_Nails_NailWideDisplay_styles_module__frame {
+  width: 100%;
+  height: 100%;
+}
+
+._C_C_app_Component_Nails_NailWideDisplay_styles_module__boxImg {
+  width: 73%;
+  height: 99%;
+  position: absolute;
+  box-sizing: border-box;
+}
+
+._C_C_app_Component_Nails_NailWideDisplay_styles_module__boxNodes {
+  width: 87%;
+  height: 3.6rem;
+  position: absolute;
+  bottom: 15%;
+  right: 3%;
+  box-sizing: border-box;
+  padding: 2%;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+
+._C_C_app_Component_Nails_NailWideDisplay_styles_module__boxNodesItem {
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0 2%;
+}
+
+._C_C_app_Component_Nails_NailWideDisplay_styles_module__fontNode {
+  font-size: 2.1rem;
+  font-weight: 700;
+  letter-spacing: 0.12rem;
+  color: #000000;
+}
+
+._C_C_app_Component_Nails_NailWideDisplay_styles_module__boxAuthor {
+  max-width: 20%;
+  position: absolute;
+  box-sizing: border-box;
+  right: 3%; /*follow boxNodes*/
+  bottom: 1%;
+}
+
+._C_C_app_Component_Nails_NailWideDisplay_styles_module__fontAuthor {
+  font-size: 1.42rem;
+  font-weight: 400;
+  letter-spacing: 0.1rem;
+  text-align: right;
+  color: #6e6e6e;
+}
+
+._C_C_app_Component_Nails_NailWideDisplay_styles_module__boxMarkArea {
+  width: 30%;
+  height: 89%;
+  position: absolute;
+  box-sizing: border-box;
+  right: 0;
+  top: 1%;
+  background-color: rgba(217,217,217,0.99);
+}
+
+._C_C_app_Component_Nails_NailWideDisplay_styles_module__boxMarkPreview {
+  width: 20.5%;
+  max-height: 59%;
+  position: absolute;
+  box-sizing: border-box;
+  right: 4%;
+  top: 8%;
+  overflow: hidden;
+}
+
+._C_C_app_Component_Nails_NailWideDisplay_styles_module__boxMark {
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  margin-bottom: 2.8rem;
+}
+
+._C_C_app_Component_Nails_NailWideDisplay_styles_module__fontMark {
+  font-size: 1.38rem;
+  font-weight: 400;
+  text-align: left;
+  color: #000000;
+}
 ._C_C_app_Component_Nails_NailFlatDisplay_styles_module__frame {
   width: 100%;
   height: 100%;
@@ -337,94 +424,6 @@ start the fundemental first, and then the specific condition
 }
 
 ._C_C_app_Component_Nails_NailFlatDisplay_styles_module__fontMark {
-  font-size: 1.4rem;
-  font-weight: 300;
-  letter-spacing: 0.1rem;
-  text-align: left;
-  color: #000000;
-}
-._C_C_app_Component_Nails_NailWideDisplay_styles_module__frame {
-  width: 100%;
-  height: 100%;
-}
-
-._C_C_app_Component_Nails_NailWideDisplay_styles_module__boxImg {
-  width: 73%;
-  height: 99%;
-  position: absolute;
-  box-sizing: border-box;
-}
-
-._C_C_app_Component_Nails_NailWideDisplay_styles_module__boxNodes {
-  width: 87%;
-  height: 3.6rem;
-  position: absolute;
-  bottom: 15%;
-  right: 3%;
-  box-sizing: border-box;
-  padding: 2%;
-  background-color: #ffffff;
-  overflow: hidden;
-}
-
-._C_C_app_Component_Nails_NailWideDisplay_styles_module__boxNodesItem {
-  display: inline-block;
-  position: relative;
-  box-sizing: border-box;
-  margin: 0 2%;
-}
-
-._C_C_app_Component_Nails_NailWideDisplay_styles_module__fontNode {
-  font-size: 2.1rem;
-  font-weight: 700;
-  letter-spacing: 0.12rem;
-  color: #000000;
-}
-
-._C_C_app_Component_Nails_NailWideDisplay_styles_module__boxAuthor {
-  max-width: 20%;
-  position: absolute;
-  box-sizing: border-box;
-  right: 3%; /*follow boxNodes*/
-  bottom: 1%;
-}
-
-._C_C_app_Component_Nails_NailWideDisplay_styles_module__fontAuthor {
-  font-size: 1.42rem;
-  font-weight: 400;
-  letter-spacing: 0.1rem;
-  text-align: right;
-  color: #6e6e6e;
-}
-
-._C_C_app_Component_Nails_NailWideDisplay_styles_module__boxMarkArea {
-  width: 30%;
-  height: 89%;
-  position: absolute;
-  box-sizing: border-box;
-  right: 0;
-  top: 1%;
-  background-color: rgba(217,217,217,0.99);
-}
-
-._C_C_app_Component_Nails_NailWideDisplay_styles_module__boxMarkPreview {
-  width: 21%;
-  max-height: 50%;
-  position: absolute;
-  box-sizing: border-box;
-  right: 5%;
-  top: 16%;
-  overflow: hidden;
-}
-
-._C_C_app_Component_Nails_NailWideDisplay_styles_module__boxMark {
-  width: 100%;
-  position: relative;
-  box-sizing: border-box;
-  margin-bottom: 1.8rem;
-}
-
-._C_C_app_Component_Nails_NailWideDisplay_styles_module__fontMark {
   font-size: 1.4rem;
   font-weight: 300;
   letter-spacing: 0.1rem;

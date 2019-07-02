@@ -6,7 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import ImgPreview from '../../ImgPreview.jsx';
-import DraftDisplayforNailMark from '../../Draft/DraftDisplayforNailMark.jsx';
+import DisplayMarkPreview from '../../Draft/DisplayMarkPreview.jsx';
 import styles from "./styles.module.css";
 
 class NailFlatDisplay extends React.Component {
@@ -34,7 +34,7 @@ class NailFlatDisplay extends React.Component {
         <div
           key={"key_nailcosmic_"+self.props.unitId+"_marks_"+i}
           className={classnames(styles.boxMark, styles.fontMark)}>
-          <DraftDisplayforNailMark
+          <DisplayMarkPreview
             rawContent={self.props.marksBasic[key].editorContent}/>
         </div>
       )
