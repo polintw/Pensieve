@@ -28,7 +28,7 @@ import {
 
 const styleMiddle = {
   boxFooterInfo: {
-    boxSizing: 'border-block',
+    alignSelf: 'flex-end',
     margin: '4.2rem 0 1.6rem',
     padding: '2rem 1.2rem 0',
     color: '#ababab'
@@ -68,7 +68,7 @@ class MainIndex extends React.Component {
       withinCom_MainIndex_scroll_col_footer: {
         display: 'inline-block',
         width: '100%',
-        height: '14vh',
+        height: '33vh',
         position: 'relative',
         boxSizing: 'border-box'
       },
@@ -199,7 +199,7 @@ class MainIndex extends React.Component {
             </div>
           </div>
           <div
-            className={styles.boxNails}>
+            className={styles.boxScroll}>
             {this._render_IndexNails()}
             <div
               style={styleMiddle.boxFooterInfo}>

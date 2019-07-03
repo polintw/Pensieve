@@ -11,7 +11,7 @@ export function nailChart(choice, unitId, pare){
       return (
         <div
           key={'key_CosmicMain_Nails_'+unitId}
-          className={classnames(styles.heightNarrow, styles.boxWide)}>
+          className={classnames(styles.boxNail, styles.heightNarrow, styles.boxWide)}>
           <NailWideDisplay
             {...pare.props}
             unitId={unitId}
@@ -24,7 +24,7 @@ export function nailChart(choice, unitId, pare){
       return (
         <div
           key={'key_CosmicMain_Nails_'+unitId}
-          className={classnames(styles.heightNarrow, styles.boxNarrow)}>
+          className={classnames(styles.boxNail, styles.heightNarrow, styles.boxNarrow)}>
           <NailThumb
             {...pare.props}
             unitId={unitId}
@@ -37,7 +37,7 @@ export function nailChart(choice, unitId, pare){
       return (
         <div
           key={'key_CosmicMain_Nails_'+unitId}
-          className={classnames(styles.heightFlat, styles.boxFlat)}>
+          className={classnames(styles.boxNail, styles.heightFlat, styles.boxFlat)}>
           <NailFlatDisplay
             {...pare.props}
             unitId={unitId}

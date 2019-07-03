@@ -18,6 +18,7 @@ class NailWideDisplay extends React.Component {
     this.state = {
 
     };
+    this.nailImgBox = React.createRef();
     this.nailUnitLink = React.createRef();
     this._render_nails_Marks = this._render_nails_Marks.bind(this);
     this._render_nails_nouns = this._render_nails_nouns.bind(this);
@@ -76,11 +77,12 @@ class NailWideDisplay extends React.Component {
             {this._render_nails_Marks()}
           </div>
           <div
+            ref={this.nailImgBox}
             className={styles.boxImg}>
             <ImgPreview
               blockName={''}
               previewSrc={'/router/img/'+this.props.unitBasic.pic_layer0+'?type=thumb'}
-              _handleClick_ImgPreview_preview={()=>{this.nailUnitLink.current.click()}}/>
+              _handleClick_ImgPreview_preview={()=>{this.nailImgBox.current.click()}}/>
           </div>
           <div
             className={classnames(styles.boxNodes)}>

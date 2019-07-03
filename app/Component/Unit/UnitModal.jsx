@@ -35,7 +35,7 @@ class UnitModal extends React.Component {
         width: '90.6%',
         height: '99.2%',
         position: 'absolute',
-        top: '0.7%',
+        top: '0',
         left: '50%',
         transform: 'translate(-48%, 0)',
         boxSizing: 'border-box'
