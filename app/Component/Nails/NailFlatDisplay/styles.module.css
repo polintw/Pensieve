@@ -4,7 +4,7 @@
 }
 
 .boxImg {
-  width: 35.5%;
+  width: 37.5%;
   height: 100%;
   position: absolute;
   right: 0;
@@ -13,11 +13,11 @@
 }
 
 .boxNodes {
-  width: 62%;
   display: flex;
   align-content: center;
   flex-wrap: wrap;
-  height: 38%;
+  width: 61%;
+  height: 39%;
   position: absolute;
   bottom: 0%;
   left: 0%;
@@ -34,8 +34,8 @@
 }
 
 .boxMarkPreview {
-  width: 62%;
-  max-height: 38%;
+  width: 61%;
+  max-height: 40%;
   position: absolute;
   box-sizing: border-box;
   top: 0;
@@ -53,8 +53,8 @@
 .boxAuthor {
   position: absolute;
   box-sizing: border-box;
-  right: 39%;
-  bottom: 40%;
+  left: 0%;
+  bottom: 42%;
   white-space: nowrap;
 }
 
@@ -66,11 +66,10 @@
 }
 
 .fontAuthor {
-  font-size: 1.36rem;
-  font-weight: 300;
-  letter-spacing: 0.08rem;
+  font-size: 1.32rem;
+  font-weight: 400;
   text-align: right;
-  color: #000000;
+  color: #6e6e6e;
 }
 
 .fontMark {

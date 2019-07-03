@@ -16,9 +16,9 @@ export default class CosmicMain extends React.Component {
         boxSizing: 'border-box'
       },
       withinCom_CosmicMain_index_: {
-        width: '79%',
+        width: '76%',
         position: 'absolute',
-        top: '3.1rem',
+        top: '3.6rem',
         left: '49.5%',
         transform: 'translate(-50%,0)',
         boxSizing: 'border-box'
@@ -42,8 +42,8 @@ export default class CosmicMain extends React.Component {
           style={this.style.withinCom_CosmicMain_index_}>
           <MainIndex {...this.props}/>
         </div>
-        <div style={{width: '100%', height: '2.1rem', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
-        <div style={{width: '100%', height: '3.1rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
+        <div style={{width: '100%', height: '3rem', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
+        <div style={{width: '100%', height: '2.7rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
       </div>
     )
   }

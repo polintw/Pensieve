@@ -4,8 +4,8 @@
 }
 
 .boxImg {
-  width: 90%;
-  height: 58%;
+  width: 100%;
+  height: 57%;
   position: absolute;
   box-sizing: border-box;
 }
@@ -14,10 +14,10 @@
   display: flex;
   align-content: center;
   flex-wrap: wrap;
-  width: 90%;
-  height: 21%;
+  width: 100%;
+  height: 20%;
   position: absolute;
-  top: 59%;
+  top: 61%;
   left: 0%;
   box-sizing: border-box;
   overflow: hidden;
@@ -32,8 +32,8 @@
 }
 
 .boxMarkPreview {
-  width: 90%;
-  max-height: 19%;
+  width: 96%;
+  max-height: 18.7%;
   position: absolute;
   box-sizing: border-box;
   bottom: 0;
@@ -49,16 +49,14 @@
 }
 
 .boxAuthor {
-  width: 0;
   position: absolute;
   box-sizing: border-box;
-  right: 10px;
-  bottom: 10%;
+  right: 1%;
+  top: 57.7%;
 }
 
 .spanAuthor {
   display: inline-block;
-  transform: translate(-50%,0) rotate(90deg);
   white-space: nowrap;
 }
 
@@ -70,11 +68,10 @@
 }
 
 .fontAuthor {
-  font-size: 1.36rem;
-  font-weight: 300;
-  letter-spacing: 0.08rem;
+  font-size: 1.32rem;
+  font-weight: 400;
   text-align: right;
-  color: #000000;
+  color: #6e6e6e;
 }
 
 .fontMark {

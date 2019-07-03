@@ -99,8 +99,7 @@ export function separationLine(remainder, index){
           key={'key_CosmicMain_NailsSparation_'+index}
           className={classnames(styles.boxFillVertical, styles.heightFlat)}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 305"
-            className={classnames('centerAlignChild', styles.decoSeparationVerti)}
-            style={{left: "49%"}}> //there is a weired bug here, svg stroke would dissapear at some point, perhaps is come from the browser
+            className={classnames('centerAlignChild', styles.decoSeparationVerti)}> //there is a weired bug here, svg stroke would dissapear at some point, perhaps is come from the browser
             <defs><style>{".cls-1-strokeSeparation-"+index+"{fill:none;stroke:#c4c4c4;stroke-linecap:round;stroke-miterlimit:10;opacity:0.78;}"}</style></defs>
             <g id="圖層_2" data-name="圖層 2">
               <g id="圖層_1-2" data-name="圖層 1">
@@ -113,7 +112,7 @@ export function separationLine(remainder, index){
         <div
           key={'key_CosmicMain_NailsSparation_'+index}
           className={classnames(styles.boxFillHoriz)}
-          style={{height: '60px'}}></div>
+          style={{height: '57px'}}></div>
       )
       break;
     case 6:
@@ -121,7 +120,7 @@ export function separationLine(remainder, index){
         <div
           key={'key_CosmicMain_NailsSparation_'+index}
           className={classnames(styles.boxFillHoriz)}
-          style={{height: '69px'}}></div>
+          style={{height: '63px'}}></div>
       )
       break;
     default:
