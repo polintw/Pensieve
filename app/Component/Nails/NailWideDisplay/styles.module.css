@@ -4,7 +4,7 @@
 }
 
 .boxImg {
-  width: 73%;
+  width: 71%;
   height: 99%;
   position: absolute;
   box-sizing: border-box;
@@ -47,10 +47,10 @@
 
 .fontAuthor {
   font-size: 1.36rem;
-  font-weight: 400;
+  font-weight: 300;
   letter-spacing: 0.08rem;
   text-align: right;
-  color: #6e6e6e;
+  color: #000000;
 }
 
 .boxMarkArea {
@@ -64,11 +64,11 @@
 }
 
 .boxMarkPreview {
-  width: 20.5%;
+  width: 23.5%;
   max-height: 59%;
   position: absolute;
   box-sizing: border-box;
-  right: 4%;
+  right: 3%;
   top: 8%;
   overflow: hidden;
 }
@@ -83,6 +83,7 @@
 .fontMark {
   font-size: 1.38rem;
   font-weight: 400;
+  letter-spacing: 0.04rem;
   text-align: left;
   color: #000000;
 }

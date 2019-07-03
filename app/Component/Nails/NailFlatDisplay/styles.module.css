@@ -14,6 +14,9 @@
 
 .boxNodes {
   width: 62%;
+  display: flex;
+  align-content: center;
+  flex-wrap: wrap;
   height: 38%;
   position: absolute;
   bottom: 0%;
@@ -23,10 +26,11 @@
 }
 
 .boxNodesItem {
+  align-self: center;
   display: inline-block;
   position: relative;
   box-sizing: border-box;
-  margin: 0% 2% 1% 0;
+  margin: 0% 2% 0% 0;
 }
 
 .boxMarkPreview {
@@ -55,24 +59,24 @@
 }
 
 .fontNode {
-  font-size: 2.1rem;
+  font-size: 1.9rem;
   font-weight: 700;
   letter-spacing: 0.12rem;
   color: #000000;
 }
 
 .fontAuthor {
-  font-size: 1.42rem;
-  font-weight: 400;
-  letter-spacing: 0.1rem;
+  font-size: 1.36rem;
+  font-weight: 300;
+  letter-spacing: 0.08rem;
   text-align: right;
-  color: #6e6e6e;
+  color: #000000;
 }
 
 .fontMark {
-  font-size: 1.4rem;
-  font-weight: 300;
-  letter-spacing: 0.1rem;
+  font-size: 1.38rem;
+  font-weight: 400;
+  letter-spacing: 0.04rem;
   text-align: left;
   color: #000000;
 }

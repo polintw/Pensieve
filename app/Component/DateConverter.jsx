@@ -29,10 +29,10 @@ export default class DateConverter extends React.Component {
         fontWeight: '400'
       },
       fontTitle: {
-        fontSize: '1.44rem',
-        letterSpacing: '0.142rem',
+        fontSize: '1.37rem',
+        letterSpacing: '0.07rem',
         textAlign: 'center',
-        fontWeight: '500', //there is 500 in Gill Sans Nova
+        fontWeight: '400', //there is 500 in Gill Sans Nova
         color:'#6e6e6e'
       }
     }

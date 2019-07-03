@@ -83,7 +83,7 @@ export function separationLine(remainder, index){
         <div
           key={'key_CosmicMain_NailsSparation_'+index}
           className={classnames(styles.boxFillHoriz)}
-          style={{width: '55%', marginLeft: Number.isInteger(index/2) ? '': '41.9%'}}>
+          style={{width: '55%', marginLeft: Number.isInteger(index/2) ? '3.1%': '41.9%'}}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 561 1"
             className={classnames('centerAlignChild', styles.decoSeparationHorz)}>
             <defs><style>{".cls-1-strokeSeparationHorz{fill:none;stroke:#c4c4c4;stroke-linecap:round;stroke-miterlimit:10;opacity:0.78;}"}</style></defs>
@@ -99,11 +99,12 @@ export function separationLine(remainder, index){
           key={'key_CosmicMain_NailsSparation_'+index}
           className={classnames(styles.boxFillVertical, styles.heightFlat)}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1 305"
-            className={classnames('centerAlignChild', styles.decoSeparationVerti)}>
-            <defs><style>{".cls-1-strokeSeparation{fill:none;stroke:#c4c4c4;stroke-linecap:round;stroke-miterlimit:10;opacity:0.78;}"}</style></defs>
+            className={classnames('centerAlignChild', styles.decoSeparationVerti)}
+            style={{left: "49%"}}> //there is a weired bug here, svg stroke would dissapear at some point, perhaps is come from the browser
+            <defs><style>{".cls-1-strokeSeparation-"+index+"{fill:none;stroke:#c4c4c4;stroke-linecap:round;stroke-miterlimit:10;opacity:0.78;}"}</style></defs>
             <g id="圖層_2" data-name="圖層 2">
               <g id="圖層_1-2" data-name="圖層 1">
-                <line className="cls-1-strokeSeparation" x1="0.5" y1="304.5" x2="0.5" y2="0.5"/></g></g></svg>
+                <line className={"cls-1-strokeSeparation-"+index} x1="0.5" y1="304.5" x2="0.5" y2="0.5"/></g></g></svg>
         </div>
       )
       break;
@@ -111,14 +112,16 @@ export function separationLine(remainder, index){
       return (
         <div
           key={'key_CosmicMain_NailsSparation_'+index}
-          className={classnames(styles.boxFillHoriz)}></div>
+          className={classnames(styles.boxFillHoriz)}
+          style={{height: '60px'}}></div>
       )
       break;
     case 6:
       return (
         <div
           key={'key_CosmicMain_NailsSparation_'+index}
-          className={classnames(styles.boxFillHoriz)}></div>
+          className={classnames(styles.boxFillHoriz)}
+          style={{height: '69px'}}></div>
       )
       break;
     default:

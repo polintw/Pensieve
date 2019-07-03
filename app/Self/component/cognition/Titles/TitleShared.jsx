@@ -4,7 +4,7 @@ import {
   Link
 } from 'react-router-dom';
 import CreateShare from '../../../../Component/CreateShare.jsx';
-import SvgCreateonDialog from '../../../../Component/Svg/SvgCreateonDialog.jsx';
+import SvgCreate from '../../../../Component/Svg/SvgCreate.jsx';
 
 export default class TitleShared extends React.Component {
   constructor(props){
@@ -59,7 +59,8 @@ export default class TitleShared extends React.Component {
         </div>
         <div
           style={this.style.selfCom_Title_Shared_Create_}>
-          <SvgCreateonDialog/>
+          <SvgCreate
+            place={false}/>
           <CreateShare
             _submit_Share_New={this._submit_Share_New}
             _refer_von_Create={this.props._refer_leaveSelf}/>

@@ -8,6 +8,9 @@ import classnames from 'classnames';
 import ImgPreview from '../../ImgPreview.jsx';
 import DisplayMarkPreview from '../../Draft/DisplayMarkPreview.jsx';
 import styles from "./styles.module.css";
+import {
+  renderNodesTitle
+} from '../utils.js';
 
 class NailWideDisplay extends React.Component {
   constructor(props){
@@ -43,37 +46,9 @@ class NailWideDisplay extends React.Component {
   }
 
   _render_nails_nouns(){
-    let list = this.props.unitBasic.nounsList;
-    let nounsDOM = [];
+    let nodesDOM = renderNodesTitle(this.props, styles);
 
-    list.forEach((id, index)=>{
-      nounsDOM.push(
-        <div
-          key={"key_nailcosmic_"+this.props.unitId+"_nouns_"+index}
-          className={classnames(styles.boxNodesItem)}>
-          <span
-            className={classnames(styles.fontNode)}
-            style={{position: 'relative'}}>
-            {id in this.props.nounsBasic ? (
-              this.props.nounsBasic[id].name) : (
-                null
-              )}
-          </span>
-        </div>
-      );
-
-      if(!index==(list.length-1)) nounsDOM.push(
-        <div
-          key={"key_nailcosmic_"+this.props.unitId+"_nouns_"+index}
-          className={classnames(styles.boxNodesItem)}>
-          <span
-            className={classnames(styles.fontNode)}
-            style={{position: 'relative'}}>{"．"}</span>
-        </div>
-      )
-    })
-
-    return nounsDOM;
+    return nodesDOM;
   }
 
   componentDidMount() {

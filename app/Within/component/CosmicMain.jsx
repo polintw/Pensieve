@@ -18,7 +18,7 @@ export default class CosmicMain extends React.Component {
       withinCom_CosmicMain_index_: {
         width: '79%',
         position: 'absolute',
-        top: '2rem',
+        top: '3.1rem',
         left: '49.5%',
         transform: 'translate(-50%,0)',
         boxSizing: 'border-box'
