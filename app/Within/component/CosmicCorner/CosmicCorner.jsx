@@ -44,9 +44,6 @@ class CosmicCorner extends React.Component {
       if(subPath == this.abbrRoute[i]) pathNow = i;
     }
 
-    let pathExplore = this.props.location.pathname.includes("/cosmic/explore")? true: false;
-    let pathMain = (this.props.location.pathname == "/cosmic") ? true : false;
-
     return(
       <div>
         <div
@@ -66,9 +63,9 @@ class CosmicCorner extends React.Component {
               styles.boxAccount
             )
           }
-          style={(pathNow> 1)? {color: '#fc766a', left: '0', transform: 'translate(-50%, 0%)'}: {}}
+          style={(pathNow> 2)? {transform: 'translate(-50%, 0%)'}: {}}
           onClick={this._handleClick_cosmic_Self}>
-          {this.props.userInfo.account}
+          <span>{this.props.userInfo.account}</span>
         </div>
         <div
           className={classnames(
@@ -76,8 +73,7 @@ class CosmicCorner extends React.Component {
             styles.fontCosmicCorner,
             styles.boxFocus,
             {[styles.boxFocusExplore]: (this.abbrRoute[pathNow]=='exp')}
-          )}
-          style={(pathNow>2) ? {display: 'none'}: {}}>
+          )}>
           <Link
             to="/cosmic"
             className={'plainLinkButton'}>

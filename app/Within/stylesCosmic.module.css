@@ -1,12 +1,12 @@
 .boxFixedExplore {
   position: fixed;
-  bottom: 16%;
-  right: 4.5%;
+  bottom: 14%;
+  right: 4%;
   box-sizing: border-box;
 }
 
 .fontExplore {
-  font-size: 1.4rem;
+  font-size: 1.38rem;
   letter-spacing: 0.11rem;
   white-space: nowrap;
   color: #333333;

@@ -1,7 +1,13 @@
 import React from 'react';
+import {
+  Link,
+  withRouter
+} from 'react-router-dom';
+import {connect} from "react-redux";
 import MainIndex from './MainIndex/MainIndex.jsx';
+import SvgLogo from '../../Component/Svg/SvgLogo.jsx';
 
-export default class CosmicMain extends React.Component {
+class CosmicMain extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -22,6 +28,15 @@ export default class CosmicMain extends React.Component {
         left: '49%',
         transform: 'translate(-50%,0)',
         boxSizing: 'border-box'
+      },
+      withinCom_CosmicMain_top_logo: {
+        display: 'inline-block',
+        height: '37%',
+        position: 'absolute',
+        top: '25%',
+        left: '25%',
+        boxSizing: 'border-box',
+        cursor: 'pointer'
       }
     }
   }
@@ -42,9 +57,27 @@ export default class CosmicMain extends React.Component {
           style={this.style.withinCom_CosmicMain_index_}>
           <MainIndex {...this.props}/>
         </div>
-        <div style={{width: '100%', height: '3.2rem', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
-        <div style={{width: '100%', height: '2.7rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
+        <div style={{width: '100%', height: '3.42rem', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}>
+          <div
+            style={Object.assign({}, this.style.withinCom_CosmicMain_top_logo, {opacity: this.props.mainTitle})}
+            onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_von_cosmic('', '/cosmic')}}>
+            <SvgLogo/>
+          </div>
+        </div>
+        <div style={{width: '100%', height: '3.4rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
       </div>
     )
   }
 }
+
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo,
+    mainTitle: state.mainTitle
+  }
+}
+
+export default withRouter(connect(
+  mapStateToProps,
+  null
+)(CosmicMain));
