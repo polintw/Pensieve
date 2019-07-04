@@ -17,12 +17,6 @@ because the css would overlap one by one,
 start the fundemental first, and then the specific condition
 */
 
-.boxExplore {
-  bottom: 1.72rem;
-  transform: translate(-50%, 0%);
-  color: #333333;
-}
-
 .boxAccount {
   left: -27.2px;
 }

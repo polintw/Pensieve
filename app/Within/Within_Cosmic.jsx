@@ -11,6 +11,7 @@ import CosmicMain from './component/CosmicMain.jsx';
 import CosmicUser from './component/CosmicUser.jsx';
 import CosmicNoun from './component/CosmicNoun.jsx';
 import CosmicRelated from './component/CosmicRelated.jsx';
+import LinkExplore from './component/LinkExplore.jsx';
 import Explore from './component/Explore.jsx';
 import NavOptions from '../Component/NavOptions.jsx';
 import CosmicCorner from './component/CosmicCorner/CosmicCorner.jsx';
@@ -39,6 +40,12 @@ class WithinCosmic extends React.Component {
         position: 'fixed',
         bottom: '5.8%',
         right: '11%',
+        boxSizing: 'border-box'
+      },
+      Within_LinkExplore: {
+        position: 'fixed',
+        bottom: '11%',
+        right: '4%',
         boxSizing: 'border-box'
       },
       Within_Cosmic_NavOptions: {
@@ -121,6 +128,10 @@ class WithinCosmic extends React.Component {
         <div
           style={this.style.Within_Cosmic_corner_}>
           <CosmicCorner {...this.props}/>
+        </div>
+        <div
+          style={this.style.Within_LinkExplore}>
+          <LinkExplore {...this.props}/>
         </div>
         <div style={this.style.Within_Cosmic_NavOptions}>
           <NavOptions {...this.props}/>

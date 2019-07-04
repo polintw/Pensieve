@@ -12,10 +12,9 @@ import {
   nailChart,
   separationLine
 } from './utils.js';
+import MainTitle from '../MainTitle.jsx';
 import Unit from '../../../Component/Unit.jsx';
 import CreateShare from '../../../Component/CreateShare.jsx';
-import DateConverter from '../../../Component/DateConverter.jsx';
-import SvgLogo from '../../../Component/Svg/SvgLogo.jsx';
 import SvgCreate from '../../../Component/Svg/SvgCreate.jsx';
 import {
   handleNounsList,
@@ -72,24 +71,6 @@ class MainIndex extends React.Component {
         position: 'relative',
         boxSizing: 'border-box'
       },
-      withinCom_MainIndex_scroll_col_Create: {
-        display: 'inline-block',
-        width: '99px',
-        height: '47%',
-        position: 'relative',
-        transform: "translate(0,-24%)",
-        boxSizing: 'border-box',
-        margin: '0 2%',
-        float: 'right',
-      },
-      withinCom_MainIndex_scroll_col_logo: {
-        display: 'inline-block',
-        height: '31%',
-        position: 'relative',
-        top: '1%',
-        boxSizing: 'border-box',
-        margin: '0px 50% 5px 10%'
-      }
     }
   }
 
@@ -171,32 +152,14 @@ class MainIndex extends React.Component {
   }
 
   render(){
-    let date = new Date();
-
     return(
       <div>
         <div
           style={this.style.withinCom_MainIndex_scroll_}>
+
           <div
             className={classnames(styles.boxTop)}>
-            <div
-              style={this.style.withinCom_MainIndex_scroll_col_logo}>
-              <SvgLogo/>
-            </div>
-            <div
-              className={classnames(styles.boxTopDate, 'boxInlineRelative fontGillSN')}>
-              <DateConverter
-                place={'title'}
-                datetime={date.getTime()}/>
-            </div>
-            <div
-              style={this.style.withinCom_MainIndex_scroll_col_Create}>
-              <SvgCreate
-                place={false}/>
-              <CreateShare
-                _submit_Share_New={this._submit_Share_New}
-                _refer_von_Create={this.props._refer_von_cosmic}/>
-            </div>
+            <MainTitle/>
           </div>
           <div
             className={styles.boxScroll}>
