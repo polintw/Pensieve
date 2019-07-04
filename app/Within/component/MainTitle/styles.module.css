@@ -1,3 +1,14 @@
 .boxDate {
   margin: 8px 20% 0 14%;
 }
+
+.boxExplore {
+
+}
+
+.fontExplore {
+  font-size: 1.32rem;
+  letter-spacing: 0.12rem;
+  white-space: nowrap;
+  color: #333333;
+}

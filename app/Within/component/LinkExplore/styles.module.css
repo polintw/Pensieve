@@ -1,17 +1,5 @@
-.boxOptions {
-  position: absolute;
-  box-sizing: border-box;
-  text-align: center;
-  cursor: pointer;
-}
-
 .boxExplore {
-
-}
-
-.fontExplore {
-  font-size: 1.4rem;
-  letter-spacing: 0.11rem;
-  white-space: nowrap;
-  color: #a8a8a8;
+  position: relative;
+  box-sizing: border-box;
+  cursor: pointer;
 }

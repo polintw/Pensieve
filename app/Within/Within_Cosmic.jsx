@@ -7,13 +7,15 @@ import {
   Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import classnames from 'classnames';
+import styles from "./stylesCosmic.module.css";
 import CosmicMain from './component/CosmicMain.jsx';
 import CosmicUser from './component/CosmicUser.jsx';
 import CosmicNoun from './component/CosmicNoun.jsx';
 import CosmicRelated from './component/CosmicRelated.jsx';
-import LinkExplore from './component/LinkExplore.jsx';
 import Explore from './component/Explore.jsx';
 import NavOptions from '../Component/NavOptions.jsx';
+import LinkExplore from './component/LinkExplore/LinkExplore.jsx';
 import CosmicCorner from './component/CosmicCorner/CosmicCorner.jsx';
 
 class WithinCosmic extends React.Component {
@@ -42,18 +44,12 @@ class WithinCosmic extends React.Component {
         right: '11%',
         boxSizing: 'border-box'
       },
-      Within_LinkExplore: {
-        position: 'fixed',
-        bottom: '11%',
-        right: '4%',
-        boxSizing: 'border-box'
-      },
       Within_Cosmic_NavOptions: {
         width: '1.4%',
-        height: '4.2%',
+        height: '3.2%',
         position: 'fixed',
-        bottom: '8.1%',
-        right: '3.6%',
+        bottom: '3%',
+        right: '1.36%',
         boxSizing: 'border-box'
       }
     }
@@ -130,7 +126,7 @@ class WithinCosmic extends React.Component {
           <CosmicCorner {...this.props}/>
         </div>
         <div
-          style={this.style.Within_LinkExplore}>
+          className={classnames(styles.fontExplore, styles.boxFixedExplore)}>
           <LinkExplore {...this.props}/>
         </div>
         <div style={this.style.Within_Cosmic_NavOptions}>

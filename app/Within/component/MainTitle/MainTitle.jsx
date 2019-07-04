@@ -9,18 +9,23 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import LinkExplore from '../LinkExplore/LinkExplore.jsx';
 import SvgLogo from '../../../Component/Svg/SvgLogo.jsx';
 import DateConverter from '../../../Component/DateConverter.jsx';
 import CreateShare from '../../../Component/CreateShare.jsx';
 import SvgCreate from '../../../Component/Svg/SvgCreate.jsx';
+import {
+  setCosmicTitle
+} from "../../../redux/actions/general.js";
 
 class MainTitle extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      switchTo: null
+
     };
-    this._refer_von_cosmic = this._refer_von_cosmic.bind(this);
+    this.boxTitle = React.createRef();
+    this._check_Position = this._check_Position.bind(this);
     this.style={
       withinCom_MainIndex_scroll_col_Create: {
         display: 'inline-block',
@@ -38,76 +43,65 @@ class MainTitle extends React.Component {
         position: 'relative',
         top: '1%',
         boxSizing: 'border-box',
-        margin: '0px 50% 5px 10%'
+        margin: '0px 46% 5px 10%'
       }
 
     }
   }
 
-  _refer_von_cosmic(identifier, route){
-    switch (route) {
-      case 'user':
-        if(identifier == this.props.userInfo.id){
-          window.location.assign('/user/screen');
-        }else{
-          this.setState((prevState, props)=>{
-            let switchTo = {
-              params: '/cosmic/users/'+identifier+'/accumulated',
-              query: ''
-            };
-            return {switchTo: switchTo}
-          })
-        }
-        break;
-      case 'noun':
-        this.setState((prevState, props)=>{
-          let switchTo = {
-            params: '/cosmic/nouns/'+identifier,
-            query: ''
-          };
-          return {switchTo: switchTo}
-        })
-        break;
-      default:
-        return
-    }
-  }
+  _check_Position(){
+    let titleTop = this.boxTitle.current.getBoundingClientRect().top;
+    //due to this answer[https://stackoverflow.com/questions/6665997/switch-statement-for-greater-than-less-than]
+    //if else should be the fastest way
 
-  static getDerivedStateFromProps(props, state){
-    //It should return an object to update the state, or 'null' to update nothing.
-    return null;
+    //1 after < scrollLine
+    if(this.props.mainTitle < 1 && titleTop < this.scrollLine){
+      this.props._set_title_topRatio(1);
+    }
+    else if(titleTop < this.scrollOrigin && titleTop > this.scrollLine){
+      let ratio = (this.scrollOrigin-titleTop)/this.scrollRange;
+      this.props._set_title_topRatio(ratio);
+    }
+    //always 0 if at the top view
+    else if(this.props.mainTitle > 0 && titleTop > this.scrollLine){
+      this.props._set_title_topRatio(0);
+    }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-    //set the state back to default if the update came from Redirect
-    //preventing Redirect again which would cause error
-    if(this.state.switchTo){
-      this.setState({
-        switchTo: null
-      });
-    }
+
   }
 
   componentDidMount() {
-
+    //beneath, base on the static of the height of the Tilte, now is 83px limited by MainIndex
+    this.scrollOrigin = (this.boxTitle.current.getBoundingClientRect().top-40);
+    this.scrollRange = 47;
+    this.scrollLine = this.scrollOrigin-this.scrollRange;
+    window.addEventListener("scroll", this._check_Position); //becuase we using "position: static", listener could not add on element directlly.
   }
 
   componentWillUnmount() {
-
+    window.removeEventListener("scroll", this._check_Position);
   }
 
   render(){
     let date = new Date();
 
-    if(this.state.switchTo){return <Redirect to={this.state.switchTo.params+this.state.switchTo.query}/>}
-
     return(
       <div
+        ref={this.boxTitle}
         className={'boxRelativeFull'}>
-        
         <div
           style={this.style.withinCom_MainIndex_scroll_col_logo}>
           <SvgLogo/>
+        </div>
+        <div
+          className={classnames('boxInlineRelative', styles.boxExplore, styles.fontExplore)}>
+          <Link
+            to="/cosmic/explore/nouns"
+            className={'plainLinkButton'}>
+            {'explore'}
+          </Link>
         </div>
         <div
           className={classnames(styles.boxDate, 'boxInlineRelative fontGillSN')}>
@@ -131,11 +125,18 @@ class MainTitle extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
-    unitCurrent: state.unitCurrent
+    unitCurrent: state.unitCurrent,
+    mainTitle: state.mainTitle
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    _set_title_topRatio: (int) => { dispatch(setCosmicTitle(int)); }
   }
 }
 
 export default withRouter(connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(MainTitle));

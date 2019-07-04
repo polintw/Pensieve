@@ -1,0 +1,1 @@
+export const SET_COSMIC_TITLE = 'SET_COSMIC_TITLE';

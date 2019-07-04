@@ -59,11 +59,20 @@ class LinkExplore extends React.Component {
           </div>
         )
         break;
-      default:
+      case 'exp':
         return (
           <Link
             to="/cosmic/explore/nouns"
             className={'plainLinkButton'}>
+            {'explore'}
+          </Link>
+        )
+      default:
+        return (
+          <Link
+            to="/cosmic/explore/nouns"
+            className={'plainLinkButton'}
+            style={{opacity: this.props.mainTitle}}>
             {'explore'}
           </Link>
         )
@@ -91,7 +100,7 @@ class LinkExplore extends React.Component {
 
     return(
       <div
-        className={classnames(styles.boxOptions, styles.fontExplore, styles.boxExplore)}>
+        className={classnames(styles.boxExplore)}>
         {this._render_option_Explore(pathNow)}
       </div>
     )
@@ -100,7 +109,8 @@ class LinkExplore extends React.Component {
 
 const mapStateToProps = (state)=>{
   return {
-    userInfo: state.userInfo
+    userInfo: state.userInfo,
+    mainTitle: state.mainTitle
   }
 }
 

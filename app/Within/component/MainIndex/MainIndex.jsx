@@ -12,7 +12,7 @@ import {
   nailChart,
   separationLine
 } from './utils.js';
-import MainTitle from '../MainTitle.jsx';
+import MainTitle from '../MainTitle/MainTitle.jsx';
 import Unit from '../../../Component/Unit.jsx';
 import CreateShare from '../../../Component/CreateShare.jsx';
 import SvgCreate from '../../../Component/Svg/SvgCreate.jsx';
@@ -156,10 +156,10 @@ class MainIndex extends React.Component {
       <div>
         <div
           style={this.style.withinCom_MainIndex_scroll_}>
-
           <div
             className={classnames(styles.boxTop)}>
-            <MainTitle/>
+            <MainTitle
+              _refer_von_cosmic={this.props._refer_von_cosmic}/>
           </div>
           <div
             className={styles.boxScroll}>
