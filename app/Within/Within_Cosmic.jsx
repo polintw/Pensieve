@@ -7,11 +7,14 @@ import {
   Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import classnames from 'classnames';
+import styles from "./stylesCosmic.module.css";
 import CosmicMain from './component/CosmicMain.jsx';
 import CosmicNoun from './component/CosmicNoun.jsx';
 import CosmicUser from './component/CosmicUser.jsx';
 import Explore from './component/Explore.jsx';
 import NavOptions from '../Component/NavOptions.jsx';
+import LinkExplore from './component/LinkExplore/LinkExplore.jsx';
 import CosmicCorner from './component/CosmicCorner/CosmicCorner.jsx';
 
 class WithinCosmic extends React.Component {
@@ -36,16 +39,16 @@ class WithinCosmic extends React.Component {
       },
       Within_Cosmic_corner_: {
         position: 'fixed',
-        bottom: '5.8%',
-        right: '11%',
+        bottom: '2%',
+        right: '4%',
         boxSizing: 'border-box'
       },
       Within_Cosmic_NavOptions: {
         width: '1.4%',
-        height: '4.2%',
+        height: '3.2%',
         position: 'fixed',
-        bottom: '8.1%',
-        right: '3.6%',
+        bottom: '1.76%',
+        right: '1.36%',
         boxSizing: 'border-box'
       }
     }
@@ -76,7 +79,13 @@ class WithinCosmic extends React.Component {
         })
         break;
       default:
-        return
+        this.setState((prevState, props)=>{
+          let switchTo = {
+            params: route,
+            query: ''
+          };
+          return {switchTo: switchTo}
+      })
     }
   }
 
@@ -113,12 +122,16 @@ class WithinCosmic extends React.Component {
         <Switch>
           <Route path={"/nouns/:nounId"} render={(props)=> <CosmicNoun {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
           <Route path={"/users/:userId"} render={(props)=> <CosmicUser {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
-        <Route path={"/explore"} render={(props)=> <Explore {...props}/>}/>
+          <Route path={"/explore"} render={(props)=> <Explore {...props}/>}/>
           <Route path={this.props.match.path} render={(props)=> <CosmicMain {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
         </Switch>
         <div
           style={this.style.Within_Cosmic_corner_}>
           <CosmicCorner {...this.props}/>
+        </div>
+        <div
+          className={classnames(styles.fontExplore, styles.boxFixedExplore)}>
+          <LinkExplore {...this.props}/>
         </div>
         <div style={this.style.Within_Cosmic_NavOptions}>
           <NavOptions {...this.props}/>

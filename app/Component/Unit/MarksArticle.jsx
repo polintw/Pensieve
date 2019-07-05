@@ -5,8 +5,7 @@ import {
   Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import cxBind from 'classnames/bind';
-import DraftDisplay from './Draft/DraftDisplay.jsx';
+import DraftDisplay from '../Draft/DraftDisplay.jsx';
 
 class MarksArticle extends React.Component {
   constructor(props){
@@ -28,14 +27,15 @@ class MarksArticle extends React.Component {
         width: '100%',
         position: 'relative',
         boxSizing: 'border-box',
-        padding: '0.5rem 0',
-        borderBottom: 'solid 1px #000000',
+        borderRight: '1px solid rgb(69, 69, 69)',
+        margin: '0.5rem 0px 4.8rem',
         fontSize: '1.36rem',
-        fontWeight: '300',
-        letterSpacing: '0.16rem',
-        lineHeight: '1.9rem',
+        fontWeight: '400',
+        letterSpacing: '0.072rem',
+        lineHeight: '1.7rem',
         wordWrap: 'break-word',
-        color: '#FAFAFA'
+        color: '#FAFAFA',
+        cursor: 'pointer'
       }
     };
   }

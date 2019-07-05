@@ -9,14 +9,18 @@ import {
   UPDATE_USERSBASIC
 } from '../constants/typesGeneral.js';
 import {
+  SET_COSMIC_TITLE,
+} from '../constants/typesCosmic.js';
+import {
   initGlobal,
+  initCosmicGeneral,
   initUnit,
   initNouns,
   initUsers
 } from '../constants/states.js';
 
 //this is a temp management, in case one day we will seperate the reducer like the initstate
-const initialGeneral = Object.assign({}, initGlobal, initUnit, initNouns, initUsers);
+const initialGeneral = Object.assign({}, initGlobal, initCosmicGeneral, initUnit, initNouns, initUsers);
 
 function pageWithin(state = initialGeneral, action){
   switch (action.type) {
@@ -33,6 +37,11 @@ function pageWithin(state = initialGeneral, action){
     case SET_UNITINSPIRED:
       return Object.assign({}, state, {
         unitCurrent: {...state.unitCurrent, ...action.nextMarksInteraction}
+      })
+      break;
+    case SET_COSMIC_TITLE:
+      return Object.assign({}, state, {
+        mainTitle: action.ratio
       })
       break;
     case UNIT_SUBMITTING_SWITCH:

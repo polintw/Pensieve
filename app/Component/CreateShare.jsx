@@ -116,7 +116,7 @@ class CreateShare extends React.Component {
   _axios_post_Share_new(newObj){
     const self = this;
     self.props._set_unitSubmitting(true);
-    axios.post('/router/user/'+self.props.userInfo.id+'/shareds', newObj, {
+    axios.post('/router/share', newObj, {
       headers: {
         'Content-Type': 'application/json',
         'charset': 'utf-8',

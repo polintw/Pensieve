@@ -4,24 +4,21 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import MarksArticle from './MarksArticle.jsx';
+import {NounsExtensible} from './UnitComponent.jsx';
 import ImgPreview from '../ImgPreview.jsx';
 import DateConverter from '../DateConverter.jsx';
-import MarksArticle from '../MarksArticle.jsx';
-import {NameLarge} from '../AccountPlate.jsx';
+import SvgCreate from '../Svg/SvgCreate.jsx'
+import {AccountPlate} from '../AccountPlate.jsx';
 
 const styleMiddle = {
-  boxInlineRelative: {
-    display: 'inline-block',
-    position: 'relative',
-    boxSizing:'border-box',
-  },
   imgBLockPreview: {
     display: 'inline-block',
-    width: '46%',
-    height: '100%',
+    width: '100%',
+    height: '47%',
     position: 'relative',
     boxSizing: 'border-box',
-    marginRight: '3%',
+    marginBottom: '4%',
     boxShadow: '0rem 0.1rem 0.5rem 0px',
     borderRadius: '0.5vw',
     overflow: 'hidden',
@@ -90,45 +87,49 @@ class UnitViewSummary extends React.Component {
         boxSizing: 'border-box'
       },
       Com_UnitViewSummary_Marksarticle: {
-        width: "41%",
-        height: '77%',
+        width: "57%",
+        height: '70%',
         position: 'absolute',
-        right: '3%',
-        bottom: '6%',
+        right: '0.5%',
+        top: '9%',
         boxSizing: 'border-box',
-        paddingBottom: '3%',
+        padding: '0 1% 3% 0%',
         backgroundColor: 'transparent',
         overflowY: 'auto'
       },
       Com_UnitViewSummary_thumbnails_: {
-        width: '51%',
-        height: '37%',
+        width: '14%',
+        height: '44%',
         position: 'absolute',
-        top: '30%',
-        left: '4%',
+        top: '51%',
+        left: '19%',
         boxSizing: 'border-box'
       },
-      Com_UnitViewSummary_author_: {
+      Com_UnitViewSummary_nodes_: {
+        maxWidth: '12%',
+        maxHeight: '40%',
         position: 'absolute',
-        top: '8%',
-        left: '6%',
+        top: '54%',
+        left: '5%',
+        boxSizing: 'border-box',
+        overflow:'hidden'
+      },
+      Com_UnitViewSummary_author_: {
+        maxWidth: '16%',
+        position: 'absolute',
+        bottom: '62%',
+        right: '68%',
         boxSizing: 'border-box'
       },
       Com_UnitViewSummary_author_name: {
-        display: 'inline-block',
+        marginBottom: '0.86rem',
         boxSizing: 'border-box',
         color: '#FAFAFA',
         cursor: 'pointer'
       },
-      Com_UnitViewSummary_unitinfo_simple_: {
-        position: 'absolute',
-        top: '93%',
-        left: '6%',
-        boxSizing: 'border-box'
-      },
-      Com_UnitViewSummary_unitinfo_simple_date: {
+      Com_UnitViewSummary_author_date: {
         color: '#e6e6e6',
-      }
+      },
     };
   }
 
@@ -141,7 +142,7 @@ class UnitViewSummary extends React.Component {
   _handleClick_Account(event){
     event.preventDefault();
     event.stopPropagation();
-    this.props._handleClick_Account('user', this.props.unitCurrent.authorBasic.authorId);
+    this.props._refer_toandclose('user', this.props.unitCurrent.authorBasic.authorId);
   }
 
   componentDidMount(){
@@ -168,9 +169,17 @@ class UnitViewSummary extends React.Component {
           <div
             onClick={this._handleClick_Account}
             style={this.style.Com_UnitViewSummary_author_name}>
-            <NameLarge
-              firstName={this.props.unitCurrent.authorBasic.firstName}
-              lastName={this.props.unitCurrent.authorBasic.lastName}/>
+            <AccountPlate
+              size={'mediumI'}
+              accountFisrtName={this.props.unitCurrent.authorBasic.firstName}
+              accountLastName={this.props.unitCurrent.authorBasic.lastName}/>
+          </div>
+          <div
+            className={'boxInlineRelative'}
+            style={Object.assign({}, this.style.Com_UnitViewSummary_author_date, {display: 'block'})}>
+            <DateConverter
+              place={'summary'}
+              datetime={this.props.unitCurrent.createdAt}/>
           </div>
         </div>
         <div
@@ -206,12 +215,11 @@ class UnitViewSummary extends React.Component {
           }
         </div>
         <div
-          style={this.style.Com_UnitViewSummary_unitinfo_simple_}>
-          <div
-            style={Object.assign({}, this.style.Com_UnitViewSummary_unitinfo_simple_date, styleMiddle.boxInlineRelative)}>
-            <DateConverter
-              datetime={this.props.unitCurrent.createdAt}/>
-          </div>
+          className={'nodesListSum'}
+          style={this.style.Com_UnitViewSummary_nodes_}>
+          <NounsExtensible
+            nouns={this.props.unitCurrent.nouns}
+            _handleClick_listNoun={this.props._refer_toandclose}/>
         </div>
       </div>
     )

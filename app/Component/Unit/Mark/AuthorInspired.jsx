@@ -89,7 +89,7 @@ class AuthorInspired extends React.Component {
 
     axios({
       method: 'get',
-      url: '/router/units/'+self.props.unitCurrent.unitId+'/author/inspired?markId='+self.props.markKey,
+      url: '/router/share/'+self.props.unitCurrent.unitId+'/inspired?markId='+self.props.markKey,
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']

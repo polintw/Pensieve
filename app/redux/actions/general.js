@@ -8,6 +8,9 @@ import {
   AXIOS_SWITCH
 } from '../constants/typesGeneral.js';
 import {
+  SET_COSMIC_TITLE,
+} from '../constants/typesCosmic.js';
+import {
   UPDATE_USERSHEET,
   SETTING_SUBMITTING_SWITCH
 } from '../constants/typesSelfFront.js';
@@ -15,6 +18,10 @@ import {errHandler_axiosCatch} from "../../utils/errHandlers.js";
 
 export function updateUsersBasic(obj) {
   return { type: UPDATE_USERSBASIC, newFetch: obj }
+};
+
+export function setCosmicTitle(int) {
+  return { type: SET_COSMIC_TITLE, ratio: int }
 };
 
 export function setUnitCurrent(obj) {

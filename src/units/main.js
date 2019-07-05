@@ -4,8 +4,7 @@ const main = express.Router();
 const basicExecutive = require('./basic.js');
 
 const srcExecutive = require('./src.js');
-const authorExecutive = require('./author/execute.js');
-const plainExecutive = require('./plain.js');
+const plainExecutive = require('./plain/plain.js');
 
 main.param("id", (req, res, next, id)=>{
   req.reqUnitId = id;
@@ -14,7 +13,6 @@ main.param("id", (req, res, next, id)=>{
 
 main.use('/:id/basic', basicExecutive)
 
-main.use('/:id/author', authorExecutive)
 main.use('/:id/src', srcExecutive)
 main.use('/:id', plainExecutive)
 

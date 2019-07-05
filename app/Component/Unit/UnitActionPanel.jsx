@@ -5,7 +5,8 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
-import AuthorPanel from './AuthorPanel.jsx';
+import ViewerPanel from './ViewerPanel.jsx';
+import AuthorPanel from './Author/AuthorPanel.jsx';
 
 class UnitActionPanel extends React.Component {
   constructor(props){

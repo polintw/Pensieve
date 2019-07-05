@@ -4,7 +4,6 @@ const router = express.Router();
 const auth = require('./auth/main.js');
 const accountRouter = require('./account/main.js');
 const cosmicRouter = require('./cosmic/main.js');
-const userRouter = require('./user/main.js');
 const profileRouter = require('./user/profile/main.js');
 const unitsRouter = require('./units/main.js');
 const imgRouter = require('./img/main.js');
@@ -26,7 +25,6 @@ router.use('/', auth)
 //only approach after verified
 router.use('/cosmic', cosmicRouter)
 
-router.use('/user', userRouter)
 router.use('/profile', profileRouter) //prepare to replace part of the "/user"
 
 

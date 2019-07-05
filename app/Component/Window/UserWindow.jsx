@@ -11,7 +11,7 @@ import Accumulated from './Accumulated.jsx';
 import {
   handleUsersList
 } from "../../redux/actions/general.js";
-import {NameLarge} from '../AccountPlate.jsx';
+import {AccountPlate} from '../AccountPlate.jsx';
 
 const styleMiddle = {
   comUserWindow: {
@@ -99,9 +99,10 @@ class UserWindow extends React.Component {
           <div
             style={Object.assign({}, styleMiddle.boxName)}>
             {this.props.windowId in this.props.usersBasic? (
-              <NameLarge
-                firstName={this.props.usersBasic[this.props.windowId].firstName}
-                lastName={this.props.usersBasic[this.props.windowId].lastName}/>
+              <AccountPlate
+                size={'large'}
+                accountFisrtName={this.props.usersBasic[this.props.windowId].firstName}
+                accountLastName={this.props.usersBasic[this.props.windowId].lastName}/>
             ): (
               null
             )}

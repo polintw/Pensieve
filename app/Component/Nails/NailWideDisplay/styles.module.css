@@ -1,0 +1,89 @@
+.frame {
+  width: 100%;
+  height: 100%;
+}
+
+.boxImg {
+  width: 71%;
+  height: 99%;
+  position: absolute;
+  box-sizing: border-box;
+}
+
+.boxNodes {
+  width: 87%;
+  height: 3.9rem;
+  position: absolute;
+  bottom: 16%;
+  right: 2%;
+  box-sizing: border-box;
+  padding: 8px 1% 0 2%;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+
+.boxNodesItem {
+  display: inline-block;
+  height: 100%;
+  position: relative;
+  box-sizing: border-box;
+  margin-left: 1.2%;
+}
+
+.fontNode {
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: 0.12rem;
+  color: #000000;
+}
+
+.boxAuthor {
+  max-width: 24%;
+  position: absolute;
+  box-sizing: border-box;
+  right: 3%; /*follow boxNodes*/
+  bottom: 1%;
+}
+
+.fontAuthor {
+  font-size: 1.32rem;
+  font-weight: 400;
+  letter-spacing: 0.08rem;
+  text-align: right;
+  color: #6e6e6e;
+}
+
+.boxMarkArea {
+  width: 30%;
+  height: 89.5%;
+  position: absolute;
+  box-sizing: border-box;
+  right: 0;
+  top: 1%;
+  background-color: rgba(217,217,217,0.99);
+}
+
+.boxMarkPreview {
+  width: 23.5%;
+  max-height: 59%;
+  position: absolute;
+  box-sizing: border-box;
+  right: 3%;
+  top: 8%;
+  overflow: hidden;
+}
+
+.boxMark {
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  margin-bottom: 2.8rem;
+}
+
+.fontMark {
+  font-size: 1.38rem;
+  font-weight: 400;
+  letter-spacing: 0.04rem;
+  text-align: left;
+  color: #000000;
+}

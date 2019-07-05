@@ -8,6 +8,7 @@ import UnitImgLayers from './UnitImgLayers.jsx';
 import UnitLayerScroll from './UnitLayerScroll.jsx';
 import UnitLayerSwitch from './UnitLayerSwitch.jsx';
 import UnitViewSummary from './UnitViewSummary.jsx';
+import UnitAuthorSummary from './UnitAuthorSummary.jsx';
 
 class UnitModal extends React.Component {
   constructor(props){
@@ -31,12 +32,12 @@ class UnitModal extends React.Component {
         boxSizing: 'border-box'
       },
       Com_UnitModal_blocks_Scroll: {
-        width: '90%',
-        height: '100%',
+        width: '90.6%',
+        height: '99.2%',
         position: 'absolute',
         top: '0',
         left: '50%',
-        transform: 'translate(-50%, 0)',
+        transform: 'translate(-48%, 0)',
         boxSizing: 'border-box'
       },
       Com_UnitModal_blocks_SumLayer_ : {
@@ -54,7 +55,6 @@ class UnitModal extends React.Component {
         width: '100%',
         height: '100%',
         boxSizing: 'border-box',
-        backgroundColor: 'rgba(196, 180, 180, 0.2)'
       },
       Com_UnitModal_blocks_SwitchBar_: {
         width: '2%',
@@ -70,7 +70,7 @@ class UnitModal extends React.Component {
         height: '10%',
         position: 'absolute',
         top: '2%',
-        right: '5%'
+        right: '3%'
       },
       Com_UnitModal_straightBack_span: {
         display: 'inline-block',
@@ -126,7 +126,7 @@ class UnitModal extends React.Component {
                   {
                     this.props.unitCurrent.identity=="author" ? (
                        //temp method, before a true AuthorSummary was created
-                      <UnitViewSummary
+                      <UnitAuthorSummary
                         moveCount={this.state.moveCount}
                         _set_layerstatus={this._set_layerstatus}
                         _set_Modalmode={this.props._set_Modalmode}

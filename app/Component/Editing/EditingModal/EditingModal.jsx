@@ -36,7 +36,7 @@ class EditingModal extends React.Component {
     this._set_newImgSrc = this._set_newImgSrc.bind(this);
     this._set_ArticleEdit = this._set_ArticleEdit.bind(this);
     this._submit_newShare = this._submit_newShare.bind(this);
-    this._open_ContentModal = this._open_ContentModal.bind(this);
+    this._open_CurrentContent = this._open_CurrentContent.bind(this);
     this._close_img_Cancell = this._close_img_Cancell.bind(this);
     this._close_Mark_Complete = this._close_Mark_Complete.bind(this);
     this._render_importOrPreview = this._render_importOrPreview.bind(this);
@@ -116,7 +116,7 @@ class EditingModal extends React.Component {
     };
   }
 
-  _open_ContentModal(focusBlock, markKey){
+  _open_CurrentContent(focusBlock, markKey){
     if(this.props.unitSubmitting || this.state.warningModal) return;
     this.setState((prevState, props)=>{
       return {
@@ -212,7 +212,7 @@ class EditingModal extends React.Component {
             <ImgPreview
               blockName={'cover'}
               previewSrc={this.state.coverSrc}
-              _handleClick_ImgPreview_preview={this._open_ContentModal}/>
+              _handleClick_ImgPreview_preview={this._open_CurrentContent}/>
           </div>
           {
             !this.props.unitSet &&
@@ -235,7 +235,7 @@ class EditingModal extends React.Component {
             <ImgPreview
               blockName={'cover'}
               previewSrc={this.state.coverSrc}
-              _handleClick_ImgPreview_preview={this._open_ContentModal}/>
+              _handleClick_ImgPreview_preview={this._open_CurrentContent}/>
           </div>
           <div
             className={styleMiddle.imgBLockPreview}
@@ -243,7 +243,7 @@ class EditingModal extends React.Component {
             <ImgPreview
               blockName={'beneath'}
               previewSrc={this.state.beneathSrc}
-              _handleClick_ImgPreview_preview={this._open_ContentModal}/>
+              _handleClick_ImgPreview_preview={this._open_CurrentContent}/>
           </div>
         </div>
       )
@@ -267,7 +267,7 @@ class EditingModal extends React.Component {
             layer={'cover'}
             marksObj={this.state.coverMarks}
             _set_ArticleEdit={this._set_ArticleEdit}
-            _set_MarkInspect={this._open_ContentModal}
+            _set_MarkInspect={this._open_CurrentContent}
             _close_Mark_Complete={this._close_Mark_Complete}/>
           <div
             className={styleMiddle.contentMarkInter}
@@ -278,7 +278,7 @@ class EditingModal extends React.Component {
             layer={'beneath'}
             marksObj={this.state.beneathMarks}
             _set_ArticleEdit={this._set_ArticleEdit}
-            _set_MarkInspect={this._open_ContentModal}
+            _set_MarkInspect={this._open_CurrentContent}
             _close_Mark_Complete={this._close_Mark_Complete}/>
         </article>
         <div
