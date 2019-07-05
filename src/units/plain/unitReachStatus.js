@@ -5,9 +5,6 @@ const path = require('path');
 const winston = require('../../../config/winston.js');
 const {envJSONUnitReachPath} = require('../../../config/.env.json');
 const _DB_unitsAuthor = require('../../../db/models/index').units_author;
-const {
-  internalError,
-} = require('../../utils/reserrHandler.js');
 
 function _reachStatus(unitId, userId){
   let rawData = fs.readFileSync(path.join(envJSONUnitReachPath, "units_reach.json"));
@@ -23,12 +20,14 @@ function _reachStatus(unitId, userId){
       {reach: length},
       {where: {id_unit: unitId}}
     ).catch((err)=>{
-      throw new internalError("throw by /units plain GET, reachStatus check, "+err, 131);
+      //handle err only locally, without relation to client side
+      throw ("throw by /units plain GET, reachStatus check, "+err);
     });
     //then write the new data back to json file
     let modifiedData = JSON.stringify(objReachStatus, null, 2);
     fs.writeFile(path.join(envJSONUnitReachPath, "units_reach.json"), modifiedData, (err) => {
-      if(err) throw new internalError("throw by /units plain GET, reachStatus check, "+err, 131);
+      //handle err only locally, without relation to client side
+      if(err) throw ("throw by /units plain GET, reachStatus check, "+err);
     });
   }
 }
