@@ -28,7 +28,7 @@ function _reachStatus(unitId, userId){
     //then write the new data back to json file
     let modifiedData = JSON.stringify(objReachStatus, null, 2);
     fs.writeFile(path.join(envJSONUnitReachPath, "units_reach.json"), modifiedData, (err) => {
-      throw new internalError("throw by /units plain GET, reachStatus check, "+err, 131);
+      if(err) throw new internalError("throw by /units plain GET, reachStatus check, "+err, 131);
     });
   }
 }

@@ -5,7 +5,14 @@ __自由的思考、無限制得探索__
 
 this is a web application project initiated & own by Chou Po Lin since May. 2018, modified and rewrote from an earlier version, dev_Corner, which was also owned by the same owner since Dec. 2017.
 
-LTS :  __1.0__ on 2019/04/27
+LTS : __2.0.0__ on 05/07/2019. Current version, major update focus on Nodes sys & User journey.
+
+
+ver __1.3.0__ : the version mainly on Explore structure expanding and improvement.
+
+ver __1.2.0__ : the version modified mainly on Noun page and Notifications sys.
+
+ver __1.1.0__ : the version release after modifications base on fast reward from last ver.
 
 ver __"1.0"__ : the version officially opening to public usage, with only basic but complete experience.
 
