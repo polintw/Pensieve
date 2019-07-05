@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
 import CreateShare from '../../Component/CreateShare.jsx';
-import SvgCreateCoral from '../../Component/Svg/SvgCreateCoral.jsx';
+import SvgCreate from '../../Component/Svg/SvgCreate.jsx';
 import {AccountPlate} from '../../Component/AccountPlate.jsx';
 
 class EntryCall extends React.Component {
@@ -109,7 +109,8 @@ class EntryCall extends React.Component {
         </div>
         <div
           style={this.style.withinCom_EntryCall_CreateShare_}>
-          <SvgCreateCoral/>
+          <SvgCreate
+            place={false}/>
           <CreateShare
             _submit_Share_New={this._submit_Share_New}
             _refer_von_Create={this.props._refer_leavevonLtd}/>

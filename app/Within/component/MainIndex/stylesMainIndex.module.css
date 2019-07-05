@@ -1,0 +1,66 @@
+.boxTop {
+  width: 100%;
+  height: 83px;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.boxScroll {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  margin: -1px 0 0;
+}
+
+.boxNail {
+  position: relative;
+  background-color: #FFFFFF;
+  cursor: pointer;
+}
+
+.boxWide {
+  width: 64.5%;
+  /*boxNarrow is the standard, as about 1/3 width of parent,
+  so wide is about 2/3 but modified a little for deco. line., which is 4% of parent*/
+}
+
+.boxNarrow {
+  width: 30%;
+}
+
+.boxFlat {
+  width: 48%;
+  /*boxNarrow is the standard, as about 1/3 width of parent,
+  so flat is about 1/2 but modified a little for deco. line., which is 4% of parent*/
+}
+
+.heightFlat {
+  height: 161px;
+}
+
+.heightNarrow {
+  height: 317px;
+}
+
+.boxFillVertical {
+  width: 4%; /*follow the remain space between Wide & Narrow, or Flats*/
+  position: relative;
+}
+
+.boxFillHoriz {
+  width: 99%;
+  height: 49px;
+  position: relative;
+}
+
+.decoSeparationVerti {
+  height: 89%;
+}
+
+.decoSeparationHorz {
+  width: 100%
+}

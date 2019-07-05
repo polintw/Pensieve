@@ -16,6 +16,10 @@ export const initUnit = {
   unitAxiosInspire: false
 }
 
+export const initCosmicGeneral = {
+  mainTitle: 0
+}
+
 export const initSelfFrontGeneral = {
   axios: false, //not a good name, easily confused with other using Axios, like Unit
   userSheet: {

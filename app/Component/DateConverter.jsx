@@ -27,6 +27,13 @@ export default class DateConverter extends React.Component {
         letterSpacing: '0.142rem',
         textAlign: 'center',
         fontWeight: '400'
+      },
+      fontTitle: {
+        fontSize: '1.37rem',
+        letterSpacing: '0.07rem',
+        textAlign: 'center',
+        fontWeight: '400', //there is 500 in Gill Sans Nova
+        color:'#6e6e6e'
       }
     }
   }
@@ -35,6 +42,9 @@ export default class DateConverter extends React.Component {
     switch (this.props.place) {
       case 'summary':
         return this.style.fontSummary
+        break;
+      case 'title':
+        return this.style.fontTitle
         break;
       case 'layers':
         return this.style.fontLayers

@@ -53,8 +53,7 @@ class Default extends React.Component {
         style={{
           maxWidth: '100%',
           maxHeight: '100%'
-        }}
-        preserveAspectRatio="none">
+        }}>
         <defs>
           <style>{".cls-1-create,.cls-4-create{fill:none;stroke-miterlimit:10;}.cls-1-create{stroke:#454545;stroke-width:2.25px;}.cls-2-create{fill:#8c8c8c;}.cls-3-create{fill:#fff;}.cls-4-create,.cls-5-create{stroke:#000;}.cls-4-create{stroke-linecap:round;stroke-width:1.75px;}.cls-5-create{stroke-linejoin:round;}"}</style>
         </defs>

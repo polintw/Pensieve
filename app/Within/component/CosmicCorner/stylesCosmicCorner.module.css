@@ -6,7 +6,7 @@
 }
 
 .fontCosmicCorner {
-  font-size: 1.4rem;
+  font-size: 1.38rem;
   letter-spacing: 0.11rem;
   white-space: nowrap;
   color: #a8a8a8;
@@ -17,20 +17,17 @@ because the css would overlap one by one,
 start the fundemental first, and then the specific condition
 */
 
-.boxExplore {
-  bottom: 1.72rem;
-  transform: translate(-50%, 0%);
-  color: #333333;
-}
-
 .boxAccount {
-  left: -27.2px;
+  bottom: 0;
+  right: 0;
 }
 
 .boxFocus {
-  right: 38px;
+  display: none;
 }
 
 .boxFocusExplore {
-  right: 12rem;
+  display: block;
+  right: 186px;
+  bottom: 0;
 }
