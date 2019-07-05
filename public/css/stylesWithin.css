@@ -1,29 +1,29 @@
-._C_C_app_Within_stylesCosmic_module__boxFixedExplore {
+._app_Within_stylesCosmic_module__boxFixedExplore {
   position: fixed;
   bottom: 14%;
   right: 4%;
   box-sizing: border-box;
 }
 
-._C_C_app_Within_stylesCosmic_module__fontExplore {
+._app_Within_stylesCosmic_module__fontExplore {
   font-size: 1.38rem;
   letter-spacing: 0.11rem;
   white-space: nowrap;
   color: #333333;
 }
-._C_C_app_Within_component_LinkExplore_styles_module__boxExplore {
+._app_Within_component_LinkExplore_styles_module__boxExplore {
   position: relative;
   box-sizing: border-box;
   cursor: pointer;
 }
-._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxOptions {
+._app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxOptions {
   position: absolute;
   box-sizing: border-box;
   text-align: center;
   cursor: pointer;
 }
 
-._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__fontCosmicCorner {
+._app_Within_component_CosmicCorner_stylesCosmicCorner_module__fontCosmicCorner {
   font-size: 1.38rem;
   letter-spacing: 0.11rem;
   white-space: nowrap;
@@ -35,28 +35,28 @@ because the css would overlap one by one,
 start the fundemental first, and then the specific condition
 */
 
-._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxAccount {
+._app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxAccount {
   bottom: 0;
   right: 0;
 }
 
-._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxFocus {
+._app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxFocus {
   display: none;
 }
 
-._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxFocusExplore {
+._app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxFocusExplore {
   display: block;
   right: 186px;
   bottom: 0;
 }
-._C_C_app_Within_component_MainIndex_stylesMainIndex_module__boxTop {
+._app_Within_component_MainIndex_stylesMainIndex_module__boxTop {
   width: 100%;
   height: 83px;
   position: relative;
   box-sizing: border-box;
 }
 
-._C_C_app_Within_component_MainIndex_stylesMainIndex_module__boxScroll {
+._app_Within_component_MainIndex_stylesMainIndex_module__boxScroll {
   display: flex;
   justify-content: space-between;
   align-content: center;
@@ -67,69 +67,69 @@ start the fundemental first, and then the specific condition
   margin: -1px 0 0;
 }
 
-._C_C_app_Within_component_MainIndex_stylesMainIndex_module__boxNail {
+._app_Within_component_MainIndex_stylesMainIndex_module__boxNail {
   position: relative;
   background-color: #FFFFFF;
   cursor: pointer;
 }
 
-._C_C_app_Within_component_MainIndex_stylesMainIndex_module__boxWide {
+._app_Within_component_MainIndex_stylesMainIndex_module__boxWide {
   width: 64.5%;
   /*boxNarrow is the standard, as about 1/3 width of parent,
   so wide is about 2/3 but modified a little for deco. line., which is 4% of parent*/
 }
 
-._C_C_app_Within_component_MainIndex_stylesMainIndex_module__boxNarrow {
+._app_Within_component_MainIndex_stylesMainIndex_module__boxNarrow {
   width: 30%;
 }
 
-._C_C_app_Within_component_MainIndex_stylesMainIndex_module__boxFlat {
+._app_Within_component_MainIndex_stylesMainIndex_module__boxFlat {
   width: 48%;
   /*boxNarrow is the standard, as about 1/3 width of parent,
   so flat is about 1/2 but modified a little for deco. line., which is 4% of parent*/
 }
 
-._C_C_app_Within_component_MainIndex_stylesMainIndex_module__heightFlat {
+._app_Within_component_MainIndex_stylesMainIndex_module__heightFlat {
   height: 161px;
 }
 
-._C_C_app_Within_component_MainIndex_stylesMainIndex_module__heightNarrow {
+._app_Within_component_MainIndex_stylesMainIndex_module__heightNarrow {
   height: 317px;
 }
 
-._C_C_app_Within_component_MainIndex_stylesMainIndex_module__boxFillVertical {
+._app_Within_component_MainIndex_stylesMainIndex_module__boxFillVertical {
   width: 4%; /*follow the remain space between Wide & Narrow, or Flats*/
   position: relative;
 }
 
-._C_C_app_Within_component_MainIndex_stylesMainIndex_module__boxFillHoriz {
+._app_Within_component_MainIndex_stylesMainIndex_module__boxFillHoriz {
   width: 99%;
   height: 49px;
   position: relative;
 }
 
-._C_C_app_Within_component_MainIndex_stylesMainIndex_module__decoSeparationVerti {
+._app_Within_component_MainIndex_stylesMainIndex_module__decoSeparationVerti {
   height: 89%;
 }
 
-._C_C_app_Within_component_MainIndex_stylesMainIndex_module__decoSeparationHorz {
+._app_Within_component_MainIndex_stylesMainIndex_module__decoSeparationHorz {
   width: 100%
 }
-._C_C_app_Within_component_MainTitle_styles_module__boxDate {
+._app_Within_component_MainTitle_styles_module__boxDate {
   margin: 8px 20% 0 14%;
 }
 
-._C_C_app_Within_component_MainTitle_styles_module__boxExplore {
+._app_Within_component_MainTitle_styles_module__boxExplore {
 
 }
 
-._C_C_app_Within_component_MainTitle_styles_module__fontExplore {
+._app_Within_component_MainTitle_styles_module__fontExplore {
   font-size: 1.32rem;
   letter-spacing: 0.12rem;
   white-space: nowrap;
   color: #333333;
 }
-._C_C_app_Component_Editing_EditingModal_styleEditingModal_module__imgBLockDecoBack {
+._app_Component_Editing_EditingModal_styleEditingModal_module__imgBLockDecoBack {
   width: 18%;
   height: 100%;
   position: absolute;
@@ -139,7 +139,7 @@ start the fundemental first, and then the specific condition
   background-color: #FAFAFA;
 }
 
-._C_C_app_Component_Editing_EditingModal_styleEditingModal_module__imgBLockButton {
+._app_Component_Editing_EditingModal_styleEditingModal_module__imgBLockButton {
   width: 18%;
   height: 11%;
   position: absolute;
@@ -147,7 +147,7 @@ start the fundemental first, and then the specific condition
   box-sizing: border-box;
 }
 
-._C_C_app_Component_Editing_EditingModal_styleEditingModal_module__imgBLockPreview {
+._app_Component_Editing_EditingModal_styleEditingModal_module__imgBLockPreview {
   width: 84%;
   height: 39%;
   position: absolute;
@@ -159,7 +159,7 @@ start the fundemental first, and then the specific condition
   cursor: pointer;
 }
 
-._C_C_app_Component_Editing_EditingModal_styleEditingModal_module__contentMarkInter {
+._app_Component_Editing_EditingModal_styleEditingModal_module__contentMarkInter {
   width: 90%;
   height: 0;
   position: relative;
@@ -169,11 +169,11 @@ start the fundemental first, and then the specific condition
   line-height: 1.7rem;
   color: #ABABAB;
 }
-._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__Nails_Basic {
+._app_Component_Nails_NailBasic_styleNailBasic_module__Nails_Basic {
   background-color: #FFFFFF;
 }
 
-._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__fontContent {
+._app_Component_Nails_NailBasic_styleNailBasic_module__fontContent {
   font-size: 1.34rem;
   font-weight: 400;
   letter-spacing: 0.16rem;
@@ -181,7 +181,7 @@ start the fundemental first, and then the specific condition
   color: #FAFAFA;
 }
 
-._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__fontNouns {
+._app_Component_Nails_NailBasic_styleNailBasic_module__fontNouns {
   font-size: 1.54rem;
   font-weight: 300;
   letter-spacing: 0.03rem;
@@ -189,25 +189,25 @@ start the fundemental first, and then the specific condition
   color: black;
 }
 
-._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__fontAccount {
+._app_Component_Nails_NailBasic_styleNailBasic_module__fontAccount {
   font-size: 1.2rem;
   font-weight: 400;
   letter-spacing: 0.1rem;
   color: #757575;
 }
-._C_C_app_Component_Nails_NailThumb_styles_module__frame {
+._app_Component_Nails_NailThumb_styles_module__frame {
   width: 100%;
   height: 100%;
 }
 
-._C_C_app_Component_Nails_NailThumb_styles_module__boxImg {
+._app_Component_Nails_NailThumb_styles_module__boxImg {
   width: 100%;
   height: 57%;
   position: absolute;
   box-sizing: border-box;
 }
 
-._C_C_app_Component_Nails_NailThumb_styles_module__boxNodes {
+._app_Component_Nails_NailThumb_styles_module__boxNodes {
   display: flex;
   align-content: center;
   flex-wrap: wrap;
@@ -220,7 +220,7 @@ start the fundemental first, and then the specific condition
   overflow: hidden;
 }
 
-._C_C_app_Component_Nails_NailThumb_styles_module__boxNodesItem {
+._app_Component_Nails_NailThumb_styles_module__boxNodesItem {
   align-self: center;
   display: inline-block;
   position: relative;
@@ -228,7 +228,7 @@ start the fundemental first, and then the specific condition
   margin: 0% 2% 0% 0;
 }
 
-._C_C_app_Component_Nails_NailThumb_styles_module__boxMarkPreview {
+._app_Component_Nails_NailThumb_styles_module__boxMarkPreview {
   width: 96%;
   max-height: 18.7%;
   position: absolute;
@@ -238,52 +238,52 @@ start the fundemental first, and then the specific condition
   overflow: hidden;
 }
 
-._C_C_app_Component_Nails_NailThumb_styles_module__boxMark {
+._app_Component_Nails_NailThumb_styles_module__boxMark {
   width: 100%;
   position: relative;
   box-sizing: border-box;
   overflow: hidden;
 }
 
-._C_C_app_Component_Nails_NailThumb_styles_module__boxAuthor {
+._app_Component_Nails_NailThumb_styles_module__boxAuthor {
   position: absolute;
   box-sizing: border-box;
   right: 1%;
   top: 57.7%;
 }
 
-._C_C_app_Component_Nails_NailThumb_styles_module__spanAuthor {
+._app_Component_Nails_NailThumb_styles_module__spanAuthor {
   display: inline-block;
   white-space: nowrap;
 }
 
-._C_C_app_Component_Nails_NailThumb_styles_module__fontNode {
+._app_Component_Nails_NailThumb_styles_module__fontNode {
   font-size: 1.9rem;
   font-weight: 700;
   letter-spacing: 0.12rem;
   color: #000000;
 }
 
-._C_C_app_Component_Nails_NailThumb_styles_module__fontAuthor {
+._app_Component_Nails_NailThumb_styles_module__fontAuthor {
   font-size: 1.32rem;
   font-weight: 400;
   text-align: right;
   color: #6e6e6e;
 }
 
-._C_C_app_Component_Nails_NailThumb_styles_module__fontMark {
+._app_Component_Nails_NailThumb_styles_module__fontMark {
   font-size: 1.38rem;
   font-weight: 400;
   letter-spacing: 0.04rem;
   text-align: left;
   color: #000000;
 }
-._C_C_app_Component_Nails_NailFlatDisplay_styles_module__frame {
+._app_Component_Nails_NailFlatDisplay_styles_module__frame {
   width: 100%;
   height: 100%;
 }
 
-._C_C_app_Component_Nails_NailFlatDisplay_styles_module__boxImg {
+._app_Component_Nails_NailFlatDisplay_styles_module__boxImg {
   width: 37.5%;
   height: 100%;
   position: absolute;
@@ -292,7 +292,7 @@ start the fundemental first, and then the specific condition
   box-sizing: border-box;
 }
 
-._C_C_app_Component_Nails_NailFlatDisplay_styles_module__boxNodes {
+._app_Component_Nails_NailFlatDisplay_styles_module__boxNodes {
   display: flex;
   align-content: center;
   flex-wrap: wrap;
@@ -305,7 +305,7 @@ start the fundemental first, and then the specific condition
   overflow: hidden;
 }
 
-._C_C_app_Component_Nails_NailFlatDisplay_styles_module__boxNodesItem {
+._app_Component_Nails_NailFlatDisplay_styles_module__boxNodesItem {
   align-self: center;
   display: inline-block;
   position: relative;
@@ -313,7 +313,7 @@ start the fundemental first, and then the specific condition
   margin: 0% 2% 0% 0;
 }
 
-._C_C_app_Component_Nails_NailFlatDisplay_styles_module__boxMarkPreview {
+._app_Component_Nails_NailFlatDisplay_styles_module__boxMarkPreview {
   width: 61%;
   max-height: 40%;
   position: absolute;
@@ -323,14 +323,14 @@ start the fundemental first, and then the specific condition
   overflow: hidden;
 }
 
-._C_C_app_Component_Nails_NailFlatDisplay_styles_module__boxMark {
+._app_Component_Nails_NailFlatDisplay_styles_module__boxMark {
   width: 100%;
   position: relative;
   box-sizing: border-box;
   overflow: hidden;
 }
 
-._C_C_app_Component_Nails_NailFlatDisplay_styles_module__boxAuthor {
+._app_Component_Nails_NailFlatDisplay_styles_module__boxAuthor {
   position: absolute;
   box-sizing: border-box;
   left: 0%;
@@ -338,40 +338,40 @@ start the fundemental first, and then the specific condition
   white-space: nowrap;
 }
 
-._C_C_app_Component_Nails_NailFlatDisplay_styles_module__fontNode {
+._app_Component_Nails_NailFlatDisplay_styles_module__fontNode {
   font-size: 1.9rem;
   font-weight: 700;
   letter-spacing: 0.12rem;
   color: #000000;
 }
 
-._C_C_app_Component_Nails_NailFlatDisplay_styles_module__fontAuthor {
+._app_Component_Nails_NailFlatDisplay_styles_module__fontAuthor {
   font-size: 1.32rem;
   font-weight: 400;
   text-align: right;
   color: #6e6e6e;
 }
 
-._C_C_app_Component_Nails_NailFlatDisplay_styles_module__fontMark {
+._app_Component_Nails_NailFlatDisplay_styles_module__fontMark {
   font-size: 1.38rem;
   font-weight: 400;
   letter-spacing: 0.04rem;
   text-align: left;
   color: #000000;
 }
-._C_C_app_Component_Nails_NailWideDisplay_styles_module__frame {
+._app_Component_Nails_NailWideDisplay_styles_module__frame {
   width: 100%;
   height: 100%;
 }
 
-._C_C_app_Component_Nails_NailWideDisplay_styles_module__boxImg {
+._app_Component_Nails_NailWideDisplay_styles_module__boxImg {
   width: 71%;
   height: 99%;
   position: absolute;
   box-sizing: border-box;
 }
 
-._C_C_app_Component_Nails_NailWideDisplay_styles_module__boxNodes {
+._app_Component_Nails_NailWideDisplay_styles_module__boxNodes {
   width: 87%;
   height: 3.9rem;
   position: absolute;
@@ -383,7 +383,7 @@ start the fundemental first, and then the specific condition
   overflow: hidden;
 }
 
-._C_C_app_Component_Nails_NailWideDisplay_styles_module__boxNodesItem {
+._app_Component_Nails_NailWideDisplay_styles_module__boxNodesItem {
   display: inline-block;
   height: 100%;
   position: relative;
@@ -391,14 +391,14 @@ start the fundemental first, and then the specific condition
   margin-left: 1.2%;
 }
 
-._C_C_app_Component_Nails_NailWideDisplay_styles_module__fontNode {
+._app_Component_Nails_NailWideDisplay_styles_module__fontNode {
   font-size: 1.9rem;
   font-weight: 700;
   letter-spacing: 0.12rem;
   color: #000000;
 }
 
-._C_C_app_Component_Nails_NailWideDisplay_styles_module__boxAuthor {
+._app_Component_Nails_NailWideDisplay_styles_module__boxAuthor {
   max-width: 24%;
   position: absolute;
   box-sizing: border-box;
@@ -406,7 +406,7 @@ start the fundemental first, and then the specific condition
   bottom: 1%;
 }
 
-._C_C_app_Component_Nails_NailWideDisplay_styles_module__fontAuthor {
+._app_Component_Nails_NailWideDisplay_styles_module__fontAuthor {
   font-size: 1.32rem;
   font-weight: 400;
   letter-spacing: 0.08rem;
@@ -414,7 +414,7 @@ start the fundemental first, and then the specific condition
   color: #6e6e6e;
 }
 
-._C_C_app_Component_Nails_NailWideDisplay_styles_module__boxMarkArea {
+._app_Component_Nails_NailWideDisplay_styles_module__boxMarkArea {
   width: 30%;
   height: 89.5%;
   position: absolute;
@@ -424,7 +424,7 @@ start the fundemental first, and then the specific condition
   background-color: rgba(217,217,217,0.99);
 }
 
-._C_C_app_Component_Nails_NailWideDisplay_styles_module__boxMarkPreview {
+._app_Component_Nails_NailWideDisplay_styles_module__boxMarkPreview {
   width: 23.5%;
   max-height: 59%;
   position: absolute;
@@ -434,31 +434,31 @@ start the fundemental first, and then the specific condition
   overflow: hidden;
 }
 
-._C_C_app_Component_Nails_NailWideDisplay_styles_module__boxMark {
+._app_Component_Nails_NailWideDisplay_styles_module__boxMark {
   width: 100%;
   position: relative;
   box-sizing: border-box;
   margin-bottom: 2.8rem;
 }
 
-._C_C_app_Component_Nails_NailWideDisplay_styles_module__fontMark {
+._app_Component_Nails_NailWideDisplay_styles_module__fontMark {
   font-size: 1.38rem;
   font-weight: 400;
   letter-spacing: 0.04rem;
   text-align: left;
   color: #000000;
 }
-._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlock {
+._app_Component_Draft_styleDisplay_module__markDisplayBlock {
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlockNowrap {
+._app_Component_Draft_styleDisplay_module__markDisplayBlockNowrap {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlock div, ._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlockNowrap div {
+._app_Component_Draft_styleDisplay_module__markDisplayBlock div, ._app_Component_Draft_styleDisplay_module__markDisplayBlockNowrap div {
   display: inline-block;
 }

@@ -20,7 +20,7 @@ function _reachCreate(unitId, userId){
 
   let modifiedData = JSON.stringify(objReachStatus, null, 2);
   fs.writeFile(path.join(envJSONUnitReachPath, "units_reach.json"), modifiedData, (err) => {
-    throw new internalError("throw by /share plain POST, reachCreate, "+err, 131);
+    if(err) throw new internalError("throw by /share plain POST, reachCreate, "+err, 131);
   });
 
   _DB_unitsAuthor.create({
