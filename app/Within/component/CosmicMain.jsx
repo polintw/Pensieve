@@ -6,6 +6,9 @@ import {
 import {connect} from "react-redux";
 import MainIndex from './MainIndex/MainIndex.jsx';
 import SvgLogo from '../../Component/Svg/SvgLogo.jsx';
+import {
+  setCosmicTitle
+} from "../../redux/actions/general.js";
 
 class CosmicMain extends React.Component {
   constructor(props){
@@ -46,7 +49,9 @@ class CosmicMain extends React.Component {
   }
 
   componentWillUnmount() {
-
+    //reset the mainTitle in reducer
+    //it's important! for the case returning from other view inner Within
+    this.props._set_title_topRatio(0);
   }
 
   render(){
@@ -77,7 +82,13 @@ const mapStateToProps = (state)=>{
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    _set_title_topRatio: (int) => { dispatch(setCosmicTitle(int)); }
+  }
+}
+
 export default withRouter(connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(CosmicMain));

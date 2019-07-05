@@ -25,36 +25,34 @@ class LinkExplore extends React.Component {
     switch (this.abbrRoute[pathNow]) {
       case 'nou':
         return (
-          <div
-            style={{cursor: 'default'}}>
+          <div>
             <Link
               to="/cosmic/explore/nouns"
               className={'plainLinkButton'}>
-              <span style={{color: '#fc766a', cursor: 'pointer'}}>e</span>
-              <span style={{color: '#a8a8a8'}}>{'．'}</span>
+              <span style={{color: '#fc766a'}}>n</span>
             </Link>
+            <span style={{cursor: 'default'}}>{'．'}</span>
             <Link
               to="/cosmic/explore/nouns"
               className={'plainLinkButton'}>
-              <span stye={{cursor: 'pointer'}}>node</span>
+              <span>explore</span>
             </Link>
           </div>
         )
         break;
       case 'use':
         return (
-          <div
-            style={{cursor: 'default'}}>
-            <Link
-              to="/cosmic/explore/nouns"
-              className={'plainLinkButton'}>
-              <span style={{color: '#fc766a', cursor: 'pointer'}}>e</span>
-              <span style={{color: '#a8a8a8'}}>{'．'}</span>
-            </Link>
+          <div>
             <Link
               to="/cosmic/explore/users"
               className={'plainLinkButton'}>
-              <span stye={{cursor: 'pointer'}}>user</span>
+              <span style={{color: '#fc766a'}}>u</span>
+            </Link>
+            <span style={{cursor: 'default'}}>{'．'}</span>
+            <Link
+              to="/cosmic/explore/nouns"
+              className={'plainLinkButton'}>
+              <span>explore</span>
             </Link>
           </div>
         )

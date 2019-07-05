@@ -18,6 +18,7 @@
 
 .boxNail {
   position: relative;
+  background-color: #FFFFFF;
   cursor: pointer;
 }
 
