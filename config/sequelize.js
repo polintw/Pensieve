@@ -8,7 +8,7 @@ module.exports = {
     database:envDbConnection.database,
     port: envDbConnection.port,
     dialect: "mysql",
-    operatorsAliases: false,
+    //operatorsAliases: false, (no onger need it after upgrade sequelize to >= v 5.0)
     timezone: '+08:00',
     pool: {
       max: 20,
@@ -28,7 +28,7 @@ module.exports = {
     database:envDbConnection.database,
     port: envDbConnection.port,
     dialect: "mysql",
-    operatorsAliases: false,
+    //operatorsAliases: false, (no onger need it after upgrade sequelize to >= v 5.0)
     timezone: '+08:00',
     pool: {
       max: 20,
@@ -51,7 +51,7 @@ module.exports = {
     dialectOptions: {
 
     },
-    operatorsAliases: false,
+    //operatorsAliases: false, (no onger need it after upgrade sequelize to >= v 5.0)
     timezone: '+08:00',
     pool: {
       max: 20,
