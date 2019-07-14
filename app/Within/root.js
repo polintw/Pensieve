@@ -8,6 +8,7 @@ import moment from 'moment';
 import Within from './Within.jsx';
 import storeWithin from "../redux/reducers/within.js";
 import {mountUserInfo} from "../redux/actions/general.js";
+import tokenRefreshed from '../utils/refreshToken.js';
 
 let loggedin = !!window.localStorage['token'];
 if(loggedin){
@@ -43,13 +44,17 @@ if(loggedin){
   };
 
   let decoded = jwtDecode(window.localStorage['token']);
-  let deadline = moment.unix(decoded.exp);
+  let deadline = moment.unix(decoded.exp).substract(12, 'h');//and refresh token earlier
   let expired = moment().isAfter(deadline);
 
   if(expired){
-     //send 'refresh' token, which get when last login
-     //return to original process after new token back
-     //and save into localStorage as usual
+     //send 'refresh' token, which get when last renew
+     //return to status check after new token back
+
+    tokenRefreshed().then(()=>{
+      statusVefified();
+    })
+
    }
   else{
     //still check status, get basic data
