@@ -52,7 +52,8 @@ if(loggedin){
      //and save into localStorage as usual
    }
   else{
-    //to the original process
+    //still check status, get basic data
+    //and then render view
     statusVefified();
   }
 
