@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const signAccess = require('./jwt/tokenAccess.js');
 const signRefresh = require('./jwt/tokenRefresh.js');
 const {verify_key_refresh} = require('../../config/jwt.js');
+const winston = require('../../config/winston.js');
 const {
   _handle_ErrCatched,
   authorizedError,
@@ -13,10 +14,13 @@ const {
 
 //verify token here, for any not login or register request
 refresh.use(function(req, res, next) {
-  let refreshToken = req.body.refreshToken || req.headers['refreshToken'] || req.query.refreshToken;
+  if(process.env.NODE_ENV == 'development') winston.verbose('GET: auth/refresh ');
+
+  let tokenRefresh = req.body.tokenRefresh || req.headers['tokenRefresh'] || req.query.tokenRefresh;
   let resData = {};
-  if (token) {
-    jwt.verify(refreshToken, verify_key_refresh, function(err, payload) {
+console.log(tokenRefresh)
+  if (tokenRefresh) {
+    jwt.verify(tokenRefresh, verify_key_refresh, function(err, payload) {
       if (err) {
         _handle_ErrCatched(new authorizedError("unauthorized refresh token, "+err, 32), req, res);
       } else {
@@ -36,7 +40,7 @@ refresh.use(function(req, res, next) {
       }
     });
   } else {
-    _handle_ErrCatched(new validationError('warning: no token was sent.', 215), req, res);
+    _handle_ErrCatched(new validationError('please sign in again.', 215), req, res);
   }
 });
 

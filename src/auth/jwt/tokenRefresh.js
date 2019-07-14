@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const {verify_key} = require('../../../config/jwt.js');
 
-function signRefresh = (payload)=>{
+function signRefresh (payload){
   return new Promise((resolve, reject)=>{
     jwt.sign(JSON.parse(JSON.stringify(payload)), verify_key, {
       expiresIn: '23d' //currently not safe enough so we set a not too long duration
@@ -14,7 +14,7 @@ function signRefresh = (payload)=>{
         resolve(token);
       }
     });
-  }).catch((err)=>{throw err}));
+  }).catch((err)=>{throw err});
 }
 
 module.exports = signRefresh;

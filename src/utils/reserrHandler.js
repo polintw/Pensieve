@@ -182,7 +182,7 @@ function _handle_ErrCatched(e, req, res){
     case 215:
       clientSet['code'] = 215;
       clientSet['message'] = e.message;
-      clientSet['console'] = '';
+      clientSet['console'] = 'warning: no token was sent.';
       return res.status(e.status).json(clientSet);
       break;
     default:
