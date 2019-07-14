@@ -179,6 +179,12 @@ function _handle_ErrCatched(e, req, res){
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;
+    case 215:
+      clientSet['code'] = 215;
+      clientSet['message'] = e.message;
+      clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
     default:
       winston.error(`${500} - ${e} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
       return res.status(500).json({

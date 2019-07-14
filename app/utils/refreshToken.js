@@ -15,11 +15,11 @@ const tokenRefreshed = ()=>{
     window.localStorage['tokenRefresh'] = res.data.tokenRefresh;
 
   }).catch(function (thrown) {
-    if(err.response.status < 500){
-      window.location.assign('/s/signin');
-    }else
-          let message = uncertainErr(thrown);
-          if(message) alert(message);
+    if(err.response.status < 500) window.location.assign('/s/signin')
+    else{
+      let message = uncertainErr(thrown);
+      if(message) alert(message);
+    }
   });
 }
 
