@@ -4,11 +4,14 @@ import {
 
 const tokenRefreshed = ()=>{
   //notice we use post here, more safe but need a blank obj for post body
-  return axios.post('/router/refresh', {}, {
-    headers: {
-      'charset': 'utf-8',
+  return axios.post('/router/refresh',
+    {
       'tokenRefresh': window.localStorage['tokenRefresh']
     },
+    {
+      headers: {
+        'charset': 'utf-8'
+    }
   }).then(function (res) {
     window.localStorage['token'] = res.data.token; //'access token', used in usual case
     //also renew tokenRefresh
@@ -17,8 +20,9 @@ const tokenRefreshed = ()=>{
     return Promise.resolve();
   }).catch(function (thrown) {
     //deal the axios error with standard axios err handler first
+    //to see if the error came from the axios
     let message = uncertainErr(thrown);
-    //than alert the user
+    //than throw back to upper call
     if(message){
       //pass the error back to stop the chain
       throw new Error(message);

@@ -209,6 +209,89 @@ start the fundemental first, and then the specific condition
   letter-spacing: 0.1rem;
   color: #757575;
 }
+._C_C_app_Component_Nails_NailThumb_styles_module__frame {
+  width: 100%;
+  height: 100%;
+}
+
+._C_C_app_Component_Nails_NailThumb_styles_module__boxImg {
+  width: 100%;
+  height: 57%;
+  position: absolute;
+  box-sizing: border-box;
+}
+
+._C_C_app_Component_Nails_NailThumb_styles_module__boxNodes {
+  display: flex;
+  align-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+  height: 20%;
+  position: absolute;
+  top: 61%;
+  left: 0%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+._C_C_app_Component_Nails_NailThumb_styles_module__boxNodesItem {
+  align-self: center;
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0% 2% 0% 0;
+}
+
+._C_C_app_Component_Nails_NailThumb_styles_module__boxMarkPreview {
+  width: 96%;
+  max-height: 18.7%;
+  position: absolute;
+  box-sizing: border-box;
+  bottom: 0;
+  left: 0%;
+  overflow: hidden;
+}
+
+._C_C_app_Component_Nails_NailThumb_styles_module__boxMark {
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+._C_C_app_Component_Nails_NailThumb_styles_module__boxAuthor {
+  position: absolute;
+  box-sizing: border-box;
+  right: 1%;
+  top: 57.7%;
+}
+
+._C_C_app_Component_Nails_NailThumb_styles_module__spanAuthor {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+._C_C_app_Component_Nails_NailThumb_styles_module__fontNode {
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: 0.12rem;
+  color: #000000;
+}
+
+._C_C_app_Component_Nails_NailThumb_styles_module__fontAuthor {
+  font-size: 1.32rem;
+  font-weight: 400;
+  text-align: right;
+  color: #6e6e6e;
+}
+
+._C_C_app_Component_Nails_NailThumb_styles_module__fontMark {
+  font-size: 1.38rem;
+  font-weight: 400;
+  letter-spacing: 0.04rem;
+  text-align: left;
+  color: #000000;
+}
 ._C_C_app_Component_Nails_NailFlatDisplay_styles_module__frame {
   width: 100%;
   height: 100%;
@@ -373,89 +456,6 @@ start the fundemental first, and then the specific condition
 }
 
 ._C_C_app_Component_Nails_NailWideDisplay_styles_module__fontMark {
-  font-size: 1.38rem;
-  font-weight: 400;
-  letter-spacing: 0.04rem;
-  text-align: left;
-  color: #000000;
-}
-._C_C_app_Component_Nails_NailThumb_styles_module__frame {
-  width: 100%;
-  height: 100%;
-}
-
-._C_C_app_Component_Nails_NailThumb_styles_module__boxImg {
-  width: 100%;
-  height: 57%;
-  position: absolute;
-  box-sizing: border-box;
-}
-
-._C_C_app_Component_Nails_NailThumb_styles_module__boxNodes {
-  display: flex;
-  align-content: center;
-  flex-wrap: wrap;
-  width: 100%;
-  height: 20%;
-  position: absolute;
-  top: 61%;
-  left: 0%;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-._C_C_app_Component_Nails_NailThumb_styles_module__boxNodesItem {
-  align-self: center;
-  display: inline-block;
-  position: relative;
-  box-sizing: border-box;
-  margin: 0% 2% 0% 0;
-}
-
-._C_C_app_Component_Nails_NailThumb_styles_module__boxMarkPreview {
-  width: 96%;
-  max-height: 18.7%;
-  position: absolute;
-  box-sizing: border-box;
-  bottom: 0;
-  left: 0%;
-  overflow: hidden;
-}
-
-._C_C_app_Component_Nails_NailThumb_styles_module__boxMark {
-  width: 100%;
-  position: relative;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-._C_C_app_Component_Nails_NailThumb_styles_module__boxAuthor {
-  position: absolute;
-  box-sizing: border-box;
-  right: 1%;
-  top: 57.7%;
-}
-
-._C_C_app_Component_Nails_NailThumb_styles_module__spanAuthor {
-  display: inline-block;
-  white-space: nowrap;
-}
-
-._C_C_app_Component_Nails_NailThumb_styles_module__fontNode {
-  font-size: 1.9rem;
-  font-weight: 700;
-  letter-spacing: 0.12rem;
-  color: #000000;
-}
-
-._C_C_app_Component_Nails_NailThumb_styles_module__fontAuthor {
-  font-size: 1.32rem;
-  font-weight: 400;
-  text-align: right;
-  color: #6e6e6e;
-}
-
-._C_C_app_Component_Nails_NailThumb_styles_module__fontMark {
   font-size: 1.38rem;
   font-weight: 400;
   letter-spacing: 0.04rem;
