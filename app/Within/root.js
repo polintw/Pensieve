@@ -37,7 +37,7 @@ if(loggedin){
   };
 
   let decoded = jwtDecode(window.localStorage['token']);
-  let deadline = moment.unix(decoded.exp).subtract(12, 's');//refresh token earlier in case the user log out during the surfing
+  let deadline = moment.unix(decoded.exp).subtract(12, 'h');//refresh token earlier in case the user log out during the surfing
   let expired = moment().isAfter(deadline);
 
   if(expired){
