@@ -27,11 +27,11 @@ export function uncertainErr(error){
     switch (error.response.data.code) {
       case 32:
         window.location.reload();//anauthorized with invalid token, reload to check the token
-        return;
+        return null;
         break;
       default:
     };
-    return error.message;
+    return error.response.data.message;
   } else if (error.request) {
       // The request was made but no response was received
       // `err.request` is an instance of XMLHttpRequest in the browser and an instance of

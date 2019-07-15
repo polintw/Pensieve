@@ -1,10 +1,10 @@
 const express = require('express');
 const login = express.Router();
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const mysql = require('mysql');
-const {verify_key} = require('../../config/jwt.js');
 const validateLoginInput = require('./validation/login');
+const signAccess = require('./jwt/tokenAccess.js');
+const signRefresh = require('./jwt/tokenRefresh.js');
 const {
   _select_Basic
 } = require('../utils/dbSelectHandler.js');
@@ -75,26 +75,24 @@ login.use(function(req, res) {
           }
         }).then(()=>{
           let resData = {};
-          bcrypt.compare(password, verified.password).then(isMatch => {
+          return bcrypt.compare(password, verified.password).then(isMatch => {
             if(isMatch) {
                 const payload = {
                   user_Id: userId,
                   user_Role: 'public'
                 }
-                jwt.sign(JSON.parse(JSON.stringify(payload)), verify_key, {
-                  expiresIn: '1d'
-                }, (err, token) => {
-                    if(err){
-                      err = ('There is some error in token' + err);
-                      throw {status: 500, err: err};
-                    }
-                    else {
-                      resData['token'] = token;
-                      resData['error'] = 0;
-                      resData['message'] = 'login success!';
-                      res.status(200).json(resData);
-                    }
-                });
+                //return to higher for unified error handling
+                return Promise.all([
+                  signAccess(Object.assign({}, {token_: 'access'}, payload)),
+                  signRefresh(Object.assign({}, {token_: 'refresh'}, payload))
+                ]).then((arrResults)=>{
+                  //res both access token & refresh token
+                  resData['token'] = arrResults[0];
+                  resData['tokenRefresh'] = arrResults[1];
+                  resData['error'] = 0;
+                  resData['message'] = 'login success!';
+                  res.status(200).json(resData);
+                })
             }
             else {
               let errSet = {

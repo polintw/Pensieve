@@ -1,6 +1,7 @@
 const express = require('express');
 const pass = express.Router();
 const jwt = require('jsonwebtoken');
+const winston = require('../../config/winston.js');
 const {verify_key} = require('../../config/jwt.js');
 const {
   _handle_ErrCatched,
@@ -9,7 +10,8 @@ const {
 
 //verify token here, for any not login or register request
 pass.use(function(req, res, next) {
-  console.log('verify token')
+  if(process.env.NODE_ENV == 'development') winston.verbose('GET: auth/pass check ');
+
   let token = req.body.token || req.headers['token'] || req.query.token;
   let resData = {};
   if (token) {

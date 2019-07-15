@@ -19,6 +19,8 @@
     "express-rate-limit": "^3.3.2",
     "express-react-views": "^0.10.5",
     "jsonwebtoken": "^8.4.0",
+    "jwt-decode": "^2.2.0",
+    "moment": "^2.24.0",
     "mysql": "^2.16.0",
     "mysql2": "^1.6.4",
     "nodemailer": "^5.1.1",

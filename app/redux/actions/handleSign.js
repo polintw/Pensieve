@@ -40,7 +40,8 @@ export function handleSignUser(submitObj, cancelToken){
         type: AXIOS_SWITCH,
         status: false
       })
-      window.localStorage['token'] = res.data.token;
+      window.localStorage['token'] = res.data.token; //'access token', used in usual case
+      window.localStorage['tokenRefresh'] = res.data.tokenRefresh; //'refresh token', used in case the access token expired
       window.location.assign('/');
     }).catch(function (thrown) {
       if (axios.isCancel(thrown)) {
