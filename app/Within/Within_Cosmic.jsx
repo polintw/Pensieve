@@ -9,14 +9,14 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./stylesCosmic.module.css";
+import Explore from './Explore/Explore.jsx';
 import CosmicMain from './component/CosmicMain.jsx';
 import CosmicUser from './component/CosmicUser.jsx';
 import CosmicNoun from './component/CosmicNoun.jsx';
 import CosmicRelated from './component/CosmicRelated.jsx';
-import Explore from './component/Explore.jsx';
-import NavOptions from '../Component/NavOptions.jsx';
 import LinkExplore from './component/LinkExplore/LinkExplore.jsx';
 import CosmicCorner from './component/CosmicCorner/CosmicCorner.jsx';
+import NavOptions from '../Component/NavOptions.jsx';
 
 class WithinCosmic extends React.Component {
   constructor(props){

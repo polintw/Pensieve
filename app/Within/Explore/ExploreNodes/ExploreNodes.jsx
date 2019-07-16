@@ -4,17 +4,23 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import classnames from 'classnames';
+import styles from "./styles.module.css";
 import {
   handleNounsList
-} from '../../redux/actions/general.js';
+} from '../../../redux/actions/general.js';
 import {
   cancelErr,
   uncertainErr
-} from "../../utils/errHandlers.js";
+} from "../../../utils/errHandlers.js";
 
 const styleMiddle = {
   comExploreNouns: {
-    height: ''
+    width: '936px',
+    position: 'absolute',
+    left: '50%',
+    transform: 'translate(-50%,0)',
+    boxSizing: 'border-box'
   },
   boxUsedList: {
     height: '',
@@ -25,7 +31,6 @@ const styleMiddle = {
   boxRandomList: {
     height: '',
     textAlign: 'center',
-    margin: '5rem 0 0'
   },
   boxSubtitle: {
     height: '',
@@ -108,26 +113,16 @@ class NounsBlock extends React.Component {
   }
 }
 
-
-class ExploreNouns extends React.Component {
+class NodesUsed extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       axios: false,
       listUsed: [],
-      listRandom: []
-      //the random list was composed of many sub array
-      //each array represent a 'block' of nouns list
     };
     this.axiosSource = axios.CancelToken.source();
     this._axios_nouns_explore = this._axios_nouns_explore.bind(this);
-    this._axios_nouns_exploreMore = this._axios_nouns_exploreMore.bind(this);
-    this._render_nouns_Block = this._render_nouns_Block.bind(this);
     this._render_nouns_usedList = this._render_nouns_usedList.bind(this);
-    this._handleClick_Explore_more = this._handleClick_Explore_more.bind(this);
-    this.style={
-
-    }
   }
 
   _axios_nouns_explore(){
@@ -173,6 +168,78 @@ class ExploreNouns extends React.Component {
       }
     });
 
+  }
+
+  _render_nouns_usedList(){
+    let list = this.state.listUsed.map((nounsBlock, index)=>{
+      //usedList also composed of blocks, so render by Blocks
+      //could consider use a different Blocks from rendom one
+      //or just set different layout style
+      return (
+        <NounsBlock
+          key={"key_Explore_usedNouns_"+index}
+          nounsList={nounsBlock}
+          nounsBasic={this.props.nounsBasic}/>
+      ) // nounsBasic is saved in reducer,
+        // so should be called directly if the NounsBlock was imported from a independent file
+    });
+
+    return list;
+  }
+
+  componentDidMount() {
+    //load nouns from attribution
+    //and random nouns as recommandation
+    this._axios_nouns_explore();
+  }
+
+  componentWillUnmount() {
+    if(this.state.axios){
+      this.axiosSource.cancel("component will unmount.")
+    }
+  }
+
+  render(){
+    return (
+      <div>
+        <div
+          className={'boxRelativeFull'}
+          style={styleMiddle.boxUsedList}>
+          {this._render_nouns_usedList()}
+        </div>
+        <div
+          className={'boxRelativeFull'}
+          style={Object.assign({}, styleMiddle.boxSubtitle, styleMiddle.fontSubtitle)}>
+          <span>{"or, here are"}</span>
+          <Link
+            to="/cosmic/explore/nodes?boundary=unlimit"
+            className={'plainLinkButton'}>
+            <span
+              style={Object.assign({}, styleMiddle.fontSubtitle, styleMiddle.spanMore)}>
+              {" more "}
+            </span>
+          </Link>
+          <span>{"waiting for you"}</span><br/>
+          <span>{"to be the First! "}</span>
+        </div>
+      </div>
+    )
+  }
+}
+
+class NodesUnlimit extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      axios: false,
+      listRandom: []
+      //the random list was composed of many sub array
+      //each array represent a 'block' of nouns list
+    };
+    this.axiosSource = axios.CancelToken.source();
+    this._render_nouns_Block = this._render_nouns_Block.bind(this);
+    this._axios_nouns_exploreMore = this._axios_nouns_exploreMore.bind(this);
+    this._handleClick_Explore_more = this._handleClick_Explore_more.bind(this);
   }
 
   _axios_nouns_exploreMore(){
@@ -223,23 +290,6 @@ class ExploreNouns extends React.Component {
     this._axios_nouns_exploreMore();
   }
 
-  _render_nouns_usedList(){
-    let list = this.state.listUsed.map((nounsBlock, index)=>{
-      //usedList also composed of blocks, so render by Blocks
-      //could consider use a different Blocks from rendom one
-      //or just set different layout style
-      return (
-        <NounsBlock
-          key={"key_Explore_usedNouns_"+index}
-          nounsList={nounsBlock}
-          nounsBasic={this.props.nounsBasic}/>
-      ) // nounsBasic is saved in reducer,
-        // so should be called directly if the NounsBlock was imported from a independent file
-    });
-
-    return list;
-  }
-
   _render_nouns_Block(){
     let list = this.state.listRandom.map((nounsBlock, index)=>{
       return (
@@ -274,7 +324,7 @@ class ExploreNouns extends React.Component {
   componentDidMount() {
     //load nouns from attribution
     //and random nouns as recommandation
-    this._axios_nouns_explore();
+    this._axios_nouns_exploreMore();
   }
 
   componentWillUnmount() {
@@ -284,51 +334,56 @@ class ExploreNouns extends React.Component {
   }
 
   render(){
+    return (
+      <div
+        className={'boxRelativeFull'}
+        style={(styleMiddle.boxRandomList)}>
+        {this._render_nouns_Block()}
+      </div>
+    )
+  }
+}
+
+class ExploreNouns extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+
+    };
+    this.style={
+
+    }
+  }
+
+  componentDidMount() {
+
+  }
+
+  componentWillUnmount() {
+
+  }
+
+  render(){
     let params = new URLSearchParams(this.props.location.search); //we need value in URL query
     let paramsBoundary = params.get('boundary');
 
     return(
       <div
-        className={'boxRelativeFull'}
         style={styleMiddle.comExploreNouns}>
         {
-          (paramsBoundary=='none')? (
-            <div
-              className={'boxRelativeFull'}
-              style={(styleMiddle.boxRandomList)}>
-              {
-                (this.state.listRandom.length>0) &&
-                this._render_nouns_Block()
-              }
-            </div>
+          (paramsBoundary=='unlimit')? (
+            <NodesUnlimit
+              nounsBasic={this.props.nounsBasic}
+              _submit_NounsList_new={this.props._submit_NounsList_new}/>
           ):(
-            <div>
-              <div
-                className={'boxRelativeFull'}
-                style={styleMiddle.boxUsedList}>
-                {this._render_nouns_usedList()}
-              </div>
-              <div
-                className={'boxRelativeFull'}
-                style={Object.assign({}, styleMiddle.boxSubtitle, styleMiddle.fontSubtitle)}>
-                <span>{"or, here are"}</span>
-                <Link
-                  to="/cosmic/explore/nodes?boundary=none"
-                  className={'plainLinkButton'}>
-                  <span
-                    style={Object.assign({}, styleMiddle.fontSubtitle, styleMiddle.spanMore)}>
-                    {" more "}
-                  </span>
-                </Link>
-                <span>{"waiting for you"}</span><br/>
-                <span>{"to be the First! "}</span>
-              </div>
-            </div>
+            <NodesUsed
+              nounsBasic={this.props.nounsBasic}
+              _submit_NounsList_new={this.props._submit_NounsList_new}/>
           )
         }
         <Link
           to="/cosmic/explore/nodes"
-          className={'plainLinkButton'}>
+          className={classnames('plainLinkButton', styles.boxSubtitle, styles.fontSubtitle)}>
           <span>
             {'Nodes'}
           </span>

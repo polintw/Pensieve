@@ -8,8 +8,8 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import ExpOverview from './ExpOverview.jsx';
-import ExploreNouns from './ExploreNouns.jsx';
 import ExploreUsers from './ExploreUsers.jsx';
+import ExploreNodes from './ExploreNodes/ExploreNodes.jsx';
 import SvgLogo from '../../Component/Svg/SvgLogo.jsx';
 
 const styleMiddle = {
@@ -21,11 +21,9 @@ const styleMiddle = {
     boxSizing: 'border-box'
   },
   boxMain: {
-    width: '936px',
+    width: '100%',
     position: 'absolute',
-    top: '4vh',
-    left: '50%',
-    transform: 'translate(-50%,0)',
+    top: '4vh', //depend on the top mask
     boxSizing: 'border-box'
   },
   boxNav: {
@@ -75,7 +73,7 @@ class Explore extends React.Component {
           style={styleMiddle.boxMain}>
           <Switch>
             <Route path={this.props.match.path+"/users"} render={(props)=> <ExploreUsers {...props}/>}/>
-            <Route path={this.props.match.path+"/nodes"} render={(props)=> <ExploreNouns {...props}/>}/>
+            <Route path={this.props.match.path+"/nodes"} render={(props)=> <ExploreNodes {...props}/>}/>
             <Route exact path={this.props.match.path+"/"} render={(props)=> <ExpOverview {...props}/>}/>
           </Switch>
         </div>

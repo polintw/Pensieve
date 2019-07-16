@@ -8,9 +8,11 @@ import classnames from 'classnames';
 
 const styleMiddle= {
   comExpOverview: {
-    width: '100%',
+    width: '936px',
     height: '80vh',
-    position: 'relative',
+    position: 'absolute',
+    left: '50%',
+    transform: 'translate(-50%,0)',
     boxSizing: 'border-box'
   },
   boxNav: {

@@ -15,7 +15,11 @@ import {
 
 const styleMiddle = {
   comExploreUsers: {
-    height: ''
+    width: '936px',
+    position: 'absolute',
+    left: '50%',
+    transform: 'translate(-50%,0)',
+    boxSizing: 'border-box'
   },
   boxUserBlocks: {
     height: '',
@@ -201,7 +205,6 @@ class ExploreUsers extends React.Component {
   render(){
     return(
       <div
-        className={'boxRelativeFull'}
         style={styleMiddle.comExploreUsers}>
         <div
           className={'boxRelativeFull'}
