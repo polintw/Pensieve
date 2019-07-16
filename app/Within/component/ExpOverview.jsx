@@ -7,6 +7,12 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 
 const styleMiddle= {
+  comExpOverview: {
+    width: '100%',
+    height: '80vh',
+    position: 'relative',
+    boxSizing: 'border-box'
+  },
   boxNav: {
 
   },
@@ -44,7 +50,7 @@ class ExpOverview extends React.Component {
     //because both the 'onMouseEnter' & 'onMouseLeave'
     //would not 'bubble'
     this.setState({
-      mouseOn: e.currentTarget.option
+      mouseOn: e.currentTarget.attributes.method.value
     })
   }
 
@@ -68,26 +74,29 @@ class ExpOverview extends React.Component {
   render(){
     return(
       <div
-        className={"centerAlignChild"}
-        style={Object.assign({}, styleMiddle.boxNav, styleMiddle.fontNav)}>
-        <Link
-          to="/cosmic/explore/nouns"
-          className={'plainLinkButton'}>
-          <span
-            option="node"
-            style={Object.assign({}, styleMiddle.spanNav, (this.state.mouseOn=='node')? {color: '#333333'}:{})}
-            onMouseEnter={this._handleEnter_ExpSpan}
-            onMouseLeave={this._handleLeave_ExpSpan}>{'node'}</span>
-        </Link>
-        <Link
-          to="/cosmic/explore/users"
-          className={'plainLinkButton'}>
-          <span
-            option="user"
-            style={Object.assign({}, styleMiddle.spanNav, (this.state.mouseOn=='user')? {color: '#333333'}:{})}
-            onMouseEnter={this._handleEnter_ExpSpan}
-            onMouseLeave={this._handleLeave_ExpSpan}>{'user'}</span>
-        </Link>
+        style={styleMiddle.comExpOverview}>
+        <div
+          className={'centerAlignChild'}
+          style={Object.assign({}, styleMiddle.boxNav, styleMiddle.fontNav)}>
+          <Link
+            to="/cosmic/explore/nodes"
+            className={'plainLinkButton'}>
+            <span
+              method="node"
+              style={Object.assign({}, styleMiddle.spanNav, (this.state.mouseOn=='node')? {color: '#333333'}:{})}
+              onMouseEnter={this._handleEnter_ExpSpan}
+              onMouseLeave={this._handleLeave_ExpSpan}>{'node'}</span>
+          </Link>
+          <Link
+            to="/cosmic/explore/users"
+            className={'plainLinkButton'}>
+            <span
+              method="user"
+              style={Object.assign({}, styleMiddle.spanNav, (this.state.mouseOn=='user')? {color: '#333333'}:{})}
+              onMouseEnter={this._handleEnter_ExpSpan}
+              onMouseLeave={this._handleLeave_ExpSpan}>{'user'}</span>
+          </Link>
+        </div>
       </div>
     )
   }

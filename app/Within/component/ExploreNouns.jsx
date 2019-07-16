@@ -217,7 +217,7 @@ class ExploreNouns extends React.Component {
     event.stopPropagation();
     event.preventDefault();
     this.setState((prevState, props)=>{
-      prevState.listRandom.push([]);
+      prevState.listRandom.push([]); //?
       return {listRandom: prevState.listRandom}
     });
     this._axios_nouns_exploreMore();
@@ -312,20 +312,27 @@ class ExploreNouns extends React.Component {
                 className={'boxRelativeFull'}
                 style={Object.assign({}, styleMiddle.boxSubtitle, styleMiddle.fontSubtitle)}>
                 <span>{"or, here are"}</span>
-                <span
-                  style={Object.assign({}, styleMiddle.fontSubtitle, styleMiddle.spanMore)}
-                  onClick={this._handleClick_Explore_more}>
-                  {" more "}
-                </span>
+                <Link
+                  to="/cosmic/explore/nodes?boundary=none"
+                  className={'plainLinkButton'}>
+                  <span
+                    style={Object.assign({}, styleMiddle.fontSubtitle, styleMiddle.spanMore)}>
+                    {" more "}
+                  </span>
+                </Link>
                 <span>{"waiting for you"}</span><br/>
                 <span>{"to be the First! "}</span>
               </div>
             </div>
           )
         }
-        <div>
-          {'Nodes'}
-        </div>
+        <Link
+          to="/cosmic/explore/nodes"
+          className={'plainLinkButton'}>
+          <span>
+            {'Nodes'}
+          </span>
+        </Link>
       </div>
     )
   }

@@ -98,7 +98,7 @@ class MainTitle extends React.Component {
         <div
           className={classnames('boxInlineRelative', styles.boxExplore, styles.fontExplore)}>
           <Link
-            to="/cosmic/explore/nouns"
+            to="/cosmic/explore"
             className={'plainLinkButton'}>
             {'explore'}
           </Link>

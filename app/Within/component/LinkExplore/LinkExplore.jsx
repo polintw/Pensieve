@@ -60,7 +60,7 @@ class LinkExplore extends React.Component {
       case 'exp':
         return (
           <Link
-            to="/cosmic/explore/nouns"
+            to="/cosmic/explore"
             className={'plainLinkButton'}>
             {'explore'}
           </Link>
@@ -68,7 +68,7 @@ class LinkExplore extends React.Component {
       default:
         return (
           <Link
-            to="/cosmic/explore/nouns"
+            to="/cosmic/explore"
             className={'plainLinkButton'}
             style={{opacity: this.props.mainTitle}}>
             {'explore'}

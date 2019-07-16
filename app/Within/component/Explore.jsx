@@ -10,6 +10,7 @@ import {connect} from "react-redux";
 import ExpOverview from './ExpOverview.jsx';
 import ExploreNouns from './ExploreNouns.jsx';
 import ExploreUsers from './ExploreUsers.jsx';
+import SvgLogo from '../../Component/Svg/SvgLogo.jsx';
 
 const styleMiddle = {
   comExplore: {
@@ -35,6 +36,15 @@ const styleMiddle = {
     boxSizing: 'border-box',
     boxShadow: '0 -4px 3px -5px, 0 4px 3px -5px',
     textAlign: 'center'
+  },
+  boxLogo: {
+    display: 'inline-block',
+    height: '12px',
+    position: 'fixed',
+    bottom: '2.7%',
+    left: '28%',
+    boxSizing: 'border-box',
+    cursor: 'pointer'
   }
 }
 
@@ -65,14 +75,17 @@ class Explore extends React.Component {
           style={styleMiddle.boxMain}>
           <Switch>
             <Route path={this.props.match.path+"/users"} render={(props)=> <ExploreUsers {...props}/>}/>
-            <Route path={this.props.match.path+"/nouns"} render={(props)=> <ExploreNouns {...props}/>}/>
+            <Route path={this.props.match.path+"/nodes"} render={(props)=> <ExploreNouns {...props}/>}/>
             <Route exact path={this.props.match.path+"/"} render={(props)=> <ExpOverview {...props}/>}/>
           </Switch>
-          //put the small Logo here
-
         </div>
         <div style={{width: '100%', height: '4vh', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
         <div style={{width: '100%', height: '57px', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
+        <div
+          style={Object.assign({}, styleMiddle.boxLogo)}
+          onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_von_cosmic('', '/cosmic')}}>
+          <SvgLogo/>
+        </div>
       </div>
     )
   }
