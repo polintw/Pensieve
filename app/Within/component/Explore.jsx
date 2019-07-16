@@ -7,7 +7,7 @@ import {
   Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import ExploreNav from './ExploreNav.jsx';
+import ExpOverview from './ExpOverview.jsx';
 import ExploreNouns from './ExploreNouns.jsx';
 import ExploreUsers from './ExploreUsers.jsx';
 
@@ -66,11 +66,10 @@ class Explore extends React.Component {
           <Switch>
             <Route path={this.props.match.path+"/users"} render={(props)=> <ExploreUsers {...props}/>}/>
             <Route path={this.props.match.path+"/nouns"} render={(props)=> <ExploreNouns {...props}/>}/>
+            <Route exact path={this.props.match.path+"/"} render={(props)=> <ExpOverview {...props}/>}/>
           </Switch>
-          <div
-            style={styleMiddle.boxNav}>
-            <ExploreNav {...this.props}/>
-          </div>
+          //put the small Logo here
+
         </div>
         <div style={{width: '100%', height: '4vh', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
         <div style={{width: '100%', height: '57px', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>

@@ -236,11 +236,6 @@ class ExploreNouns extends React.Component {
       ) // nounsBasic is saved in reducer,
         // so should be called directly if the NounsBlock was imported from a independent file
     });
-    //then insert the reserved area for nav
-    list.splice(1,0, (
-      <div
-        key={"key_Explore_users_navReserved"}
-        style={{width: '100%', height: '11rem',position: 'relative'}}/>))
 
     return list;
   }
@@ -289,34 +284,47 @@ class ExploreNouns extends React.Component {
   }
 
   render(){
+    let params = new URLSearchParams(this.props.location.search); //we need value in URL query
+    let paramsBoundary = params.get('boundary');
+
     return(
       <div
         className={'boxRelativeFull'}
         style={styleMiddle.comExploreNouns}>
-        <div
-          className={'boxRelativeFull'}
-          style={styleMiddle.boxUsedList}>
-          {this._render_nouns_usedList()}
-        </div>
-        <div
-          className={'boxRelativeFull'}
-          style={Object.assign({}, styleMiddle.boxSubtitle, styleMiddle.fontSubtitle)}>
-          <span>{"or, here are"}</span>
-          <span
-            style={Object.assign({}, styleMiddle.fontSubtitle, styleMiddle.spanMore)}
-            onClick={this._handleClick_Explore_more}>
-            {" more "}
-          </span>
-          <span>{"waiting for you"}</span><br/>
-          <span>{"to be the First! "}</span>
-        </div>
-        <div
-          className={'boxRelativeFull'}
-          style={(styleMiddle.boxRandomList)}>
-          {
-            (this.state.listRandom.length>0) &&
-            this._render_nouns_Block()
-          }
+        {
+          (paramsBoundary=='none')? (
+            <div
+              className={'boxRelativeFull'}
+              style={(styleMiddle.boxRandomList)}>
+              {
+                (this.state.listRandom.length>0) &&
+                this._render_nouns_Block()
+              }
+            </div>
+          ):(
+            <div>
+              <div
+                className={'boxRelativeFull'}
+                style={styleMiddle.boxUsedList}>
+                {this._render_nouns_usedList()}
+              </div>
+              <div
+                className={'boxRelativeFull'}
+                style={Object.assign({}, styleMiddle.boxSubtitle, styleMiddle.fontSubtitle)}>
+                <span>{"or, here are"}</span>
+                <span
+                  style={Object.assign({}, styleMiddle.fontSubtitle, styleMiddle.spanMore)}
+                  onClick={this._handleClick_Explore_more}>
+                  {" more "}
+                </span>
+                <span>{"waiting for you"}</span><br/>
+                <span>{"to be the First! "}</span>
+              </div>
+            </div>
+          )
+        }
+        <div>
+          {'Nodes'}
         </div>
       </div>
     )

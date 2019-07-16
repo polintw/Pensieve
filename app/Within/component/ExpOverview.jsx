@@ -26,15 +26,35 @@ const styleMiddle= {
   }
 }
 
-class ExploreNav extends React.Component {
+class ExpOverview extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      mouseOn: ''
     };
+    this._handleEnter_ExpSpan = this._handleEnter_ExpSpan.bind(this);
+    this._handleLeave_ExpSpan = this._handleLeave_ExpSpan.bind(this);
     this.style={
 
     }
+  }
+
+  _handleEnter_ExpSpan(e){
+    //don't need to stop proppagation,
+    //because both the 'onMouseEnter' & 'onMouseLeave'
+    //would not 'bubble'
+    this.setState({
+      mouseOn: e.currentTarget.option
+    })
+  }
+
+  _handleLeave_ExpSpan(e){
+    //don't need to stop proppagation,
+    //because both the 'onMouseEnter' & 'onMouseLeave'
+    //would not 'bubble'
+    this.setState({
+      mouseOn: ''
+    })
   }
 
   componentDidMount() {
@@ -46,9 +66,6 @@ class ExploreNav extends React.Component {
   }
 
   render(){
-    //detect where I am now, for styling
-    let pathNounsify = this.props.location.pathname.includes("/nouns")? true: false;
-
     return(
       <div
         className={"centerAlignChild"}
@@ -57,13 +74,19 @@ class ExploreNav extends React.Component {
           to="/cosmic/explore/nouns"
           className={'plainLinkButton'}>
           <span
-            style={Object.assign({}, styleMiddle.spanNav, pathNounsify? {color: '#333333'}:{})}>{'node'}</span>
+            option="node"
+            style={Object.assign({}, styleMiddle.spanNav, (this.state.mouseOn=='node')? {color: '#333333'}:{})}
+            onMouseEnter={this._handleEnter_ExpSpan}
+            onMouseLeave={this._handleLeave_ExpSpan}>{'node'}</span>
         </Link>
         <Link
           to="/cosmic/explore/users"
           className={'plainLinkButton'}>
           <span
-            style={Object.assign({}, styleMiddle.spanNav, pathNounsify? {}:{color: '#333333'})}>{'user'}</span>
+            option="user"
+            style={Object.assign({}, styleMiddle.spanNav, (this.state.mouseOn=='user')? {color: '#333333'}:{})}
+            onMouseEnter={this._handleEnter_ExpSpan}
+            onMouseLeave={this._handleLeave_ExpSpan}>{'user'}</span>
         </Link>
       </div>
     )
@@ -79,4 +102,4 @@ const mapStateToProps = (state)=>{
 export default connect(
   mapStateToProps,
   null
-)(ExploreNav);
+)(ExpOverview);
