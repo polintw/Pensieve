@@ -16,9 +16,9 @@ import {
 
 const styleMiddle = {
   comExploreNouns: {
-    width: '936px',
+    width: '907px',
     position: 'absolute',
-    left: '50%',
+    left: '51%',
     transform: 'translate(-50%,0)',
     boxSizing: 'border-box'
   },
@@ -381,13 +381,6 @@ class ExploreNouns extends React.Component {
               _submit_NounsList_new={this.props._submit_NounsList_new}/>
           )
         }
-        <Link
-          to="/cosmic/explore/nodes"
-          className={classnames('plainLinkButton', styles.boxSubtitle, styles.fontSubtitle)}>
-          <span>
-            {'Nodes'}
-          </span>
-        </Link>
       </div>
     )
   }

@@ -15,9 +15,9 @@ import {
 
 const styleMiddle = {
   comExploreUsers: {
-    width: '936px',
+    width: '907px',
     position: 'absolute',
-    left: '50%',
+    left: '51%',
     transform: 'translate(-50%,0)',
     boxSizing: 'border-box'
   },

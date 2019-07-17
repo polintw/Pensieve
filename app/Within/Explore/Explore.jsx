@@ -9,6 +9,7 @@ import {
 import {connect} from "react-redux";
 import ExpOverview from './ExpOverview.jsx';
 import ExploreUsers from './ExploreUsers.jsx';
+import ExpSubtitle from './ExpSubtitle/ExpSubtitle.jsx';
 import ExploreNodes from './ExploreNodes/ExploreNodes.jsx';
 import SvgLogo from '../../Component/Svg/SvgLogo.jsx';
 
@@ -26,21 +27,17 @@ const styleMiddle = {
     top: '4vh', //depend on the top mask
     boxSizing: 'border-box'
   },
-  boxNav: {
-    width: '100%',
-    height: '5rem',
-    position: 'absolute',
-    top: '21rem',
-    boxSizing: 'border-box',
-    boxShadow: '0 -4px 3px -5px, 0 4px 3px -5px',
-    textAlign: 'center'
+  boxSubtitle: {
+    position: 'fixed',
+    bottom: '54px',
+    right: '73%'
   },
   boxLogo: {
     display: 'inline-block',
     height: '12px',
     position: 'fixed',
     bottom: '2.7%',
-    left: '28%',
+    right: '73%',
     boxSizing: 'border-box',
     cursor: 'pointer'
   }
@@ -77,8 +74,12 @@ class Explore extends React.Component {
             <Route exact path={this.props.match.path+"/"} render={(props)=> <ExpOverview {...props}/>}/>
           </Switch>
         </div>
-        <div style={{width: '100%', height: '4vh', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
-        <div style={{width: '100%', height: '57px', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
+        <div style={{width: '100%', height: '5vh', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
+        <div style={{width: '100%', height: '79px', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
+        <div
+          style={styleMiddle.boxSubtitle}>
+          <ExpSubtitle {...this.props}/>
+        </div>
         <div
           style={Object.assign({}, styleMiddle.boxLogo)}
           onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_von_cosmic('', '/cosmic')}}>

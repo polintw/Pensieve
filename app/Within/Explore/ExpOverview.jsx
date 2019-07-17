@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 
 const styleMiddle= {
-  comExpOverview: {
+    comExpOverview: {
     width: '936px',
     height: '80vh',
     position: 'absolute',
@@ -16,7 +16,7 @@ const styleMiddle= {
     boxSizing: 'border-box'
   },
   boxNav: {
-
+    top: '55%'
   },
   fontNav: {
     fontSize: '1.45rem',
@@ -29,7 +29,7 @@ const styleMiddle= {
   spanNav: {
     position: 'relative',
     boxSizing: 'border-box',
-    margin: '0 3.5rem',
+    margin: '0 6.5rem',
     cursor: 'pointer'
   }
 }
