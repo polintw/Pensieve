@@ -33,7 +33,7 @@ class LinkExplore extends React.Component {
             </Link>
             <span style={{cursor: 'default'}}>{'．'}</span>
             <Link
-              to="/cosmic/explore/nouns"
+              to="/cosmic/explore"
               className={'plainLinkButton'}>
               <span>explore</span>
             </Link>
@@ -50,7 +50,7 @@ class LinkExplore extends React.Component {
             </Link>
             <span style={{cursor: 'default'}}>{'．'}</span>
             <Link
-              to="/cosmic/explore/nouns"
+              to="/cosmic/explore"
               className={'plainLinkButton'}>
               <span>explore</span>
             </Link>

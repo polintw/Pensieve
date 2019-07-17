@@ -6,6 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./stylesCosmicCorner.module.css";
+import SvgLogo from '../../../Component/Svg/SvgLogo.jsx';
 
 class CosmicCorner extends React.Component {
   constructor(props){
@@ -71,8 +72,8 @@ class CosmicCorner extends React.Component {
           className={classnames(
             styles.boxOptions,
             styles.fontCosmicCorner,
-            styles.boxFocus,
-            {[styles.boxFocusExplore]: (this.abbrRoute[pathNow]=='exp')}
+            styles.specificNoneDis,
+            {[styles.boxFocus]: (this.abbrRoute[pathNow]=='exp')}
           )}>
           <Link
             to="/cosmic"
@@ -80,6 +81,16 @@ class CosmicCorner extends React.Component {
             {"focus"}
           </Link>
         </div>
+        <Link
+          className={classnames(
+            'plainLinkButton',
+            styles.boxOptions,
+            styles.specificNoneDis,
+            {[styles.boxLogo]: (this.abbrRoute[pathNow]!=='exp')}
+          )}
+          to="/cosmic">
+          <SvgLogo/>
+        </Link>
       </div>
     )
   }

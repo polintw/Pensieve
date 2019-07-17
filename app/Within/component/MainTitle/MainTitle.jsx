@@ -96,14 +96,6 @@ class MainTitle extends React.Component {
           <SvgLogo/>
         </div>
         <div
-          className={classnames('boxInlineRelative', styles.boxExplore, styles.fontExplore)}>
-          <Link
-            to="/cosmic/explore"
-            className={'plainLinkButton'}>
-            {'explore'}
-          </Link>
-        </div>
-        <div
           className={classnames(styles.boxDate, 'boxInlineRelative fontGillSN')}>
           <DateConverter
             place={'title'}
@@ -116,6 +108,15 @@ class MainTitle extends React.Component {
           <CreateShare
             _submit_Share_New={this._submit_Share_New}
             _refer_von_Create={this.props._refer_von_cosmic}/>
+        </div>
+        <div
+          className={classnames('boxInlineRelative', styles.boxExplore, styles.fontExplore)}>
+          <span style={{width: '73%', position: 'absolute', bottom: '7%', right: '8%', borderBottom: 'solid 0.75px #a8a8a8'}}></span>
+          <Link
+            to="/cosmic/explore"
+            className={'plainLinkButton'}>
+            {'explore'}
+          </Link>
         </div>
       </div>
     )
