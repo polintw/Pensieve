@@ -29,15 +29,15 @@ const styleMiddle = {
   },
   boxSubtitle: {
     position: 'fixed',
-    bottom: '54px',
+    top: '22px',
     right: '73%'
   },
   boxLogo: {
     display: 'inline-block',
     height: '12px',
     position: 'fixed',
-    bottom: '2.7%',
-    right: '73%',
+    bottom: '2.3%',
+    left: '71.5%',
     boxSizing: 'border-box',
     cursor: 'pointer'
   }
@@ -74,7 +74,7 @@ class Explore extends React.Component {
             <Route exact path={this.props.match.path+"/"} render={(props)=> <ExpOverview {...props}/>}/>
           </Switch>
         </div>
-        <div style={{width: '100%', height: '5vh', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
+        <div style={{width: '100%', height: '43px', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
         <div style={{width: '100%', height: '79px', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
         <div
           style={styleMiddle.boxSubtitle}>

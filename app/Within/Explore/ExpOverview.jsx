@@ -16,10 +16,11 @@ const styleMiddle= {
     boxSizing: 'border-box'
   },
   boxNav: {
-    top: '53%'
+    top: '47%',
+    left: '49%'
   },
   fontNav: {
-    fontSize: '1.45rem',
+    fontSize: '1.5rem',
     fontWeight: '400',
     letterSpacing: '0.11rem',
     whiteSpace: 'nowrap',
@@ -29,7 +30,7 @@ const styleMiddle= {
   spanNav: {
     position: 'relative',
     boxSizing: 'border-box',
-    margin: '0 6.5rem',
+    margin: '0 7rem',
     cursor: 'pointer'
   }
 }
