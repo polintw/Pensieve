@@ -1,5 +1,4 @@
 .boxOptions {
-  position: absolute;
   box-sizing: border-box;
   text-align: center;
   cursor: pointer;
@@ -22,20 +21,36 @@ start the fundemental first, and then the specific condition
 }
 
 .boxAccount {
+  position: absolute;
   bottom: 0;
   right: 0;
 }
 
 .boxFocus {
   display: block;
+  position: absolute;
   right: 186px;
   bottom: 0;
 }
 
 
-.boxLogo {
-  display: inline-block;
-  height: 12px;
+.boxSwitch {
+  display: flex;
+  align-items: flex-end;
+  position: absolute;
   right: 186px;
   bottom: 0;
+}
+
+.boxLogo {
+  height: 12px;
+}
+
+.boxCategory {
+
+}
+
+.fontCategory {
+  font-size: 1.4rem;
+  color: #a8a8a8;
 }

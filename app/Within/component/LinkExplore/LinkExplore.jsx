@@ -13,70 +13,11 @@ class LinkExplore extends React.Component {
     this.state = {
 
     };
-    this._render_option_Explore = this._render_option_Explore.bind(this);
     this.style={
 
     }
 
-    this.abbrRoute = ['nou', 'use', 'exp']
-  }
-
-  _render_option_Explore(pathNow){
-    switch (this.abbrRoute[pathNow]) {
-      case 'nou':
-        return (
-          <div>
-            <Link
-              to="/cosmic/explore/nouns"
-              className={'plainLinkButton'}>
-              <span style={{color: '#fc766a'}}>n</span>
-            </Link>
-            <span style={{cursor: 'default'}}>{'．'}</span>
-            <Link
-              to="/cosmic/explore"
-              className={'plainLinkButton'}>
-              <span>explore</span>
-            </Link>
-          </div>
-        )
-        break;
-      case 'use':
-        return (
-          <div>
-            <Link
-              to="/cosmic/explore/users"
-              className={'plainLinkButton'}>
-              <span style={{color: '#fc766a'}}>u</span>
-            </Link>
-            <span style={{cursor: 'default'}}>{'．'}</span>
-            <Link
-              to="/cosmic/explore"
-              className={'plainLinkButton'}>
-              <span>explore</span>
-            </Link>
-          </div>
-        )
-        break;
-      case 'exp':
-        return (
-          <Link
-            to="/cosmic/explore"
-            className={'plainLinkButton'}>
-            {'explore'}
-          </Link>
-        )
-      default:
-        return (
-          <Link
-            to="/cosmic/explore"
-            className={'plainLinkButton'}
-            style={{opacity: this.props.mainTitle}}>
-            {'explore'}
-          </Link>
-        )
-    }
-
-
+    this.abbrRoute = ['nod', 'use', 'exp']
   }
 
   componentDidMount() {
@@ -89,17 +30,19 @@ class LinkExplore extends React.Component {
 
   render(){
     //detect where I am now, for styling
-    let subPath = this.props.location.pathname.substring(8, 11),
-        pathNow = this.abbrRoute.length;
-        //pathNow is a INT indicate the index refer to this.abbrRoute, default at page Main(not in abbrRoute)
-    for(let i=0; i < this.abbrRoute.length; i++){
-      if(subPath == this.abbrRoute[i]) pathNow = i;
-    }
+    let subPath = this.props.location.pathname.substring(8, 11);
+    //pathNow is a INT indicate the index refer to this.abbrRoute
+    //default should be -1, page Main(not in abbrRoute)
+    let pathNow = this.abbrRoute.indexOf(subPath);
 
     return(
       <div
         className={classnames(styles.boxExplore)}>
-        {this._render_option_Explore(pathNow)}
+        <Link
+          to="/cosmic/explore"
+          className={'plainLinkButton'}>
+          {'explore'}
+        </Link>
       </div>
     )
   }

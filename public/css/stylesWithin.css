@@ -11,13 +11,7 @@
   white-space: nowrap;
   color: #333333;
 }
-._C_C_app_Within_component_LinkExplore_styles_module__boxExplore {
-  position: relative;
-  box-sizing: border-box;
-  cursor: pointer;
-}
 ._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxOptions {
-  position: absolute;
   box-sizing: border-box;
   text-align: center;
   cursor: pointer;
@@ -40,22 +34,43 @@ start the fundemental first, and then the specific condition
 }
 
 ._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxAccount {
+  position: absolute;
   bottom: 0;
   right: 0;
 }
 
 ._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxFocus {
   display: block;
+  position: absolute;
   right: 186px;
   bottom: 0;
 }
 
 
-._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxLogo {
-  display: inline-block;
-  height: 12px;
+._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxSwitch {
+  display: flex;
+  align-items: flex-end;
+  position: absolute;
   right: 186px;
   bottom: 0;
+}
+
+._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxLogo {
+  height: 12px;
+}
+
+._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxCategory {
+
+}
+
+._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__fontCategory {
+  font-size: 1.4rem;
+  color: #a8a8a8;
+}
+._C_C_app_Within_component_LinkExplore_styles_module__boxExplore {
+  position: relative;
+  box-sizing: border-box;
+  cursor: pointer;
 }
 ._C_C_app_Within_Explore_ExpSubtitle_styles_module__boxSubtitle {
 

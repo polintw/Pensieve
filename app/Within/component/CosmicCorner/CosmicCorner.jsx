@@ -15,17 +15,55 @@ class CosmicCorner extends React.Component {
 
     };
     this._handleClick_cosmic_Self = this._handleClick_cosmic_Self.bind(this);
+    this._render_SwitchBox_category = this._render_SwitchBox_category.bind(this);
     this.style={
 
     }
 
-    this.abbrRoute = ['nou', 'use', 'exp']
+    this.abbrRoute = ['nod', 'use', 'exp']
   }
 
   _handleClick_cosmic_Self(event){
     event.stopPropagation();
     event.preventDefault();
     window.location.assign('/user/screen');
+  }
+
+  _render_SwitchBox_category(pathNow){
+    switch (this.abbrRoute[pathNow]) {
+      case 'nod':
+        return (
+          <div
+            className={classnames(styles.boxCategory, styles.fontCategory)}>
+            <Link
+              to="/cosmic/explore/nodes"
+              className={classnames('plainLinkButton')}>
+              <span>
+                {'Nodes '}
+              </span>
+            </Link>
+            <span style={{cursor: 'default'}}>{'．'}</span>
+          </div>
+        )
+        break;
+      case 'use':
+        return (
+          <div
+            className={classnames(styles.boxCategory, styles.fontCategory)}>
+            <Link
+              to="/cosmic/explore/users"
+              className={classnames('plainLinkButton')}>
+              <span>
+                {'Users '}
+              </span>
+            </Link>
+            <span style={{cursor: 'default'}}>{'．'}</span>
+          </div>
+        )
+        break;
+      default:
+        return null
+    }
   }
 
   componentDidMount() {
@@ -38,17 +76,16 @@ class CosmicCorner extends React.Component {
 
   render(){
     //detect where I am now, for styling
-    let subPath = this.props.location.pathname.substring(8, 11),
-        pathNow = this.abbrRoute.length;
-        //pathNow is a INT indicate the index refer to this.abbrRoute, default at page Main(not in abbrRoute)
-    for(let i=0; i < this.abbrRoute.length; i++){
-      if(subPath == this.abbrRoute[i]) pathNow = i;
-    }
+    let subPath = this.props.location.pathname.substring(8, 11);
+    //pathNow is a INT indicate the index refer to this.abbrRoute
+    //default should be -1, page Main(not in abbrRoute)
+    let pathNow = this.abbrRoute.indexOf(subPath);
+
 
     return(
       <div>
         <div
-          className={classnames(styles.boxOptions, styles.fontCosmicCorner)}
+          className={classnames(styles.fontCosmicCorner)}
           style={{display: 'none'}}>
           <Link
             to="/"
@@ -73,7 +110,7 @@ class CosmicCorner extends React.Component {
             styles.boxOptions,
             styles.fontCosmicCorner,
             styles.specificNoneDis,
-            {[styles.boxFocus]: (this.abbrRoute[pathNow]=='exp')}
+            {[styles.boxFocus]: (pathNow==this.abbrRoute.indexOf('exp'))}
           )}>
           <Link
             to="/cosmic"
@@ -81,16 +118,22 @@ class CosmicCorner extends React.Component {
             {"focus"}
           </Link>
         </div>
-        <Link
+        <div
           className={classnames(
-            'plainLinkButton',
-            styles.boxOptions,
             styles.specificNoneDis,
-            {[styles.boxLogo]: (this.abbrRoute[pathNow]!=='exp')}
-          )}
-          to="/cosmic">
-          <SvgLogo/>
-        </Link>
+            {[styles.boxSwitch]: (pathNow> -1 && pathNow!==this.abbrRoute.indexOf('exp'))}
+          )}>
+          {this._render_SwitchBox_category(pathNow)}
+          <Link
+            to="/cosmic"
+            className={classnames(
+              'plainLinkButton',
+              styles.boxOptions,
+              styles.boxLogo
+            )}>
+            <SvgLogo/>
+          </Link>
+        </div>
       </div>
     )
   }
