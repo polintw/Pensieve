@@ -34,23 +34,10 @@ start the fundemental first, and then the specific condition
 }
 
 
-.boxSwitch {
-  display: flex;
-  align-items: flex-end;
+.boxLogo {
+  display: block;
   position: absolute;
+  height: 12px;
   right: 186px;
   bottom: 0;
-}
-
-.boxLogo {
-  height: 12px;
-}
-
-.boxCategory {
-
-}
-
-.fontCategory {
-  font-size: 1.4rem;
-  color: #a8a8a8;
 }

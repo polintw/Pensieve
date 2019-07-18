@@ -16,7 +16,7 @@ const styleMiddle= {
     boxSizing: 'border-box'
   },
   boxNav: {
-    top: '55%'
+    top: '53%'
   },
   fontNav: {
     fontSize: '1.45rem',
@@ -84,19 +84,19 @@ class ExpOverview extends React.Component {
             to="/cosmic/explore/nodes"
             className={'plainLinkButton'}>
             <span
-              method="node"
-              style={Object.assign({}, styleMiddle.spanNav, (this.state.mouseOn=='node')? {color: '#333333'}:{})}
+              method="nodes"
+              style={Object.assign({}, styleMiddle.spanNav, (this.state.mouseOn=='nodes')? {color: '#333333'}:{})}
               onMouseEnter={this._handleEnter_ExpSpan}
-              onMouseLeave={this._handleLeave_ExpSpan}>{'node'}</span>
+              onMouseLeave={this._handleLeave_ExpSpan}>{'nodes'}</span>
           </Link>
           <Link
             to="/cosmic/explore/users"
             className={'plainLinkButton'}>
             <span
-              method="user"
-              style={Object.assign({}, styleMiddle.spanNav, (this.state.mouseOn=='user')? {color: '#333333'}:{})}
+              method="users"
+              style={Object.assign({}, styleMiddle.spanNav, (this.state.mouseOn=='users')? {color: '#333333'}:{})}
               onMouseEnter={this._handleEnter_ExpSpan}
-              onMouseLeave={this._handleLeave_ExpSpan}>{'user'}</span>
+              onMouseLeave={this._handleLeave_ExpSpan}>{'users'}</span>
           </Link>
         </div>
       </div>

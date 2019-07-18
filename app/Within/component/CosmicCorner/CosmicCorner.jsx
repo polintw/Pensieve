@@ -15,7 +15,6 @@ class CosmicCorner extends React.Component {
 
     };
     this._handleClick_cosmic_Self = this._handleClick_cosmic_Self.bind(this);
-    this._render_SwitchBox_category = this._render_SwitchBox_category.bind(this);
     this.style={
 
     }
@@ -29,42 +28,6 @@ class CosmicCorner extends React.Component {
     window.location.assign('/user/screen');
   }
 
-  _render_SwitchBox_category(pathNow){
-    switch (this.abbrRoute[pathNow]) {
-      case 'nod':
-        return (
-          <div
-            className={classnames(styles.boxCategory, styles.fontCategory)}>
-            <Link
-              to="/cosmic/explore/nodes"
-              className={classnames('plainLinkButton')}>
-              <span>
-                {'Nodes '}
-              </span>
-            </Link>
-            <span style={{cursor: 'default'}}>{'．'}</span>
-          </div>
-        )
-        break;
-      case 'use':
-        return (
-          <div
-            className={classnames(styles.boxCategory, styles.fontCategory)}>
-            <Link
-              to="/cosmic/explore/users"
-              className={classnames('plainLinkButton')}>
-              <span>
-                {'Users '}
-              </span>
-            </Link>
-            <span style={{cursor: 'default'}}>{'．'}</span>
-          </div>
-        )
-        break;
-      default:
-        return null
-    }
-  }
 
   componentDidMount() {
 
@@ -121,16 +84,12 @@ class CosmicCorner extends React.Component {
         <div
           className={classnames(
             styles.specificNoneDis,
-            {[styles.boxSwitch]: (pathNow> -1 && pathNow!==this.abbrRoute.indexOf('exp'))}
+            styles.boxOptions,
+            {[styles.boxLogo]: (pathNow> -1 && pathNow!==this.abbrRoute.indexOf('exp'))}
           )}>
-          {this._render_SwitchBox_category(pathNow)}
           <Link
             to="/cosmic"
-            className={classnames(
-              'plainLinkButton',
-              styles.boxOptions,
-              styles.boxLogo
-            )}>
+            className={classnames('plainLinkButton')}>
             <SvgLogo/>
           </Link>
         </div>

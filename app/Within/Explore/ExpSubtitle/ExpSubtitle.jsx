@@ -16,7 +16,7 @@ function SubNodes(props){
       className={classnames('plainLinkButton', styles.boxSubtitle)}>
       <span
         className={classnames(styles.fontSubtitle)}>
-        {'Nodes'}
+        {'nodes'}
       </span>
     </Link>
   )

@@ -1,5 +1,24 @@
+.comExplore {
+  display: flex;
+  position: relative;
+}
+
 .boxExplore {
   position: relative;
   box-sizing: border-box;
-  cursor: pointer;
+}
+
+.boxSwitch {
+  display: flex;
+  align-items: flex-end;
+}
+
+.boxCategory {
+  display: flex;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.fontCategory {
+  color: #a8a8a8;
 }

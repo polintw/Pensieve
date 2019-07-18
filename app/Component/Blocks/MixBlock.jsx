@@ -19,8 +19,8 @@ const styleMiddle = {
   },
   frameNail: {
     display: 'inline-block',
-    width: '284px',
-    height: '20.5rem',
+    width: '281px',
+    height: '19.5rem',
     position: 'relative',
     boxSizing: 'border-box',
     margin: '0 0.8% 18px',

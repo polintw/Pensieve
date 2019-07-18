@@ -80,11 +80,13 @@ class Explore extends React.Component {
           style={styleMiddle.boxSubtitle}>
           <ExpSubtitle {...this.props}/>
         </div>
-        <div
-          style={Object.assign({}, styleMiddle.boxLogo)}
-          onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_von_cosmic('', '/cosmic')}}>
-          <SvgLogo/>
-        </div>
+        <Route exact path={this.props.match.path+"/"} render={(props)=> (
+            <div
+              style={Object.assign({}, styleMiddle.boxLogo)}
+              onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_von_cosmic('', '/cosmic')}}>
+              <SvgLogo/>
+            </div>
+          )}/>
       </div>
     )
   }

@@ -90,7 +90,7 @@ class NounsBlock extends React.Component {
           key={"key_Explore_randomNouns_"+index}
           style={styleMiddle.boxRendomItem}>
           <Link
-            to={"/cosmic/nouns/"+nounId}
+            to={"/cosmic/nodes/"+nounId}
             className={'plainLinkButton'}>
             <span
               style={styleMiddle.fontListItem}>

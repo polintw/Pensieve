@@ -13,11 +13,49 @@ class LinkExplore extends React.Component {
     this.state = {
 
     };
+    this._render_Category = this._render_Category.bind(this);
     this.style={
 
     }
 
     this.abbrRoute = ['nod', 'use', 'exp']
+  }
+
+  _render_Category(pathNow){
+    switch (this.abbrRoute[pathNow]) {
+      case 'nod':
+        return (
+          <div
+            className={classnames(styles.boxCategory, styles.fontCategory)}>
+            <Link
+              to="/cosmic/explore/nodes"
+              className={classnames('plainLinkButton')}>
+              <span>
+                {'nodes '}
+              </span>
+            </Link>
+            <span style={{cursor: 'default'}}>{'．'}</span>
+          </div>
+        )
+        break;
+      case 'use':
+        return (
+          <div
+            className={classnames(styles.boxCategory, styles.fontCategory)}>
+            <Link
+              to="/cosmic/explore/users"
+              className={classnames('plainLinkButton')}>
+              <span>
+                {'users '}
+              </span>
+            </Link>
+            <span style={{cursor: 'default'}}>{'．'}</span>
+          </div>
+        )
+        break;
+      default:
+        return null
+    }
   }
 
   componentDidMount() {
@@ -37,10 +75,12 @@ class LinkExplore extends React.Component {
 
     return(
       <div
-        className={classnames(styles.boxExplore)}>
+        className={classnames(styles.comExplore)}>
+        {this._render_Category(pathNow)}
         <Link
           to="/cosmic/explore"
-          className={'plainLinkButton'}>
+          className={classnames('plainLinkButton', styles.boxExplore)}
+          style={(pathNow< 0)?{opacity: this.props.mainTitle}:{}}>
           {'explore'}
         </Link>
       </div>
