@@ -22,6 +22,18 @@ function SubNodes(props){
   )
 }
 
+function SubUsers(props){
+  return (
+    <Link
+      to="/cosmic/explore/users"
+      className={classnames('plainLinkButton', styles.boxSubtitle)}>
+      <span
+        className={classnames(styles.fontSubtitle)}>
+        {'users'}
+      </span>
+    </Link>
+  )
+}
 
 class ExpSubtitle extends React.Component {
   constructor(props){
@@ -47,6 +59,7 @@ class ExpSubtitle extends React.Component {
       <div>
         <Switch>
           <Route path={this.props.match.path+"/nodes"} component={SubNodes}/>
+          <Route path={this.props.match.path+"/users"} component={SubUsers}/>
         </Switch>
       </div>
     )

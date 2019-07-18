@@ -63,7 +63,7 @@ class CosmicUser extends React.Component {
             _refer_von_userWindow={this.props._refer_von_cosmic}/>
         </div>
         <div style={{width: '100%', height: '3.3vh', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
-        <div style={{width: '100%', height: '3.4rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
+        <div style={{width: '100%', height: '54px', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
       </div>
     )
   }

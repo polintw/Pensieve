@@ -61,7 +61,8 @@ class CosmicCorner extends React.Component {
             classnames(
               styles.boxOptions,
               styles.fontCosmicCorner,
-              styles.boxAccount
+              styles.specificNoneDis,
+              {[styles.boxAccount]: (pathNow==this.abbrRoute.indexOf('exp') || pathNow< 0)}
             )
           }
           style={(pathNow> 2)? {transform: 'translate(-50%, 0%)'}: {}}
@@ -73,24 +74,12 @@ class CosmicCorner extends React.Component {
             styles.boxOptions,
             styles.fontCosmicCorner,
             styles.specificNoneDis,
-            {[styles.boxFocus]: (pathNow==this.abbrRoute.indexOf('exp'))}
+            {[styles.boxFocus]: (pathNow> -1)}
           )}>
           <Link
             to="/cosmic"
             className={'plainLinkButton'}>
             {"focus"}
-          </Link>
-        </div>
-        <div
-          className={classnames(
-            styles.specificNoneDis,
-            styles.boxOptions,
-            {[styles.boxLogo]: (pathNow> -1 && pathNow!==this.abbrRoute.indexOf('exp'))}
-          )}>
-          <Link
-            to="/cosmic"
-            className={classnames('plainLinkButton')}>
-            <SvgLogo/>
           </Link>
         </div>
       </div>
