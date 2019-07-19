@@ -177,11 +177,6 @@ class ExploreUsers extends React.Component {
         // so should be called directly if the UsersBlock was imported from a independent file
     });
 
-    //then insert the reserved area for nav
-    list.splice(1,0, (
-      <div
-        key={"key_Explore_users_navReserved"}
-        style={{width: '100%', height: '11rem',position: 'relative'}}/>))
     //add a footer as ending
     list.push(
       <div

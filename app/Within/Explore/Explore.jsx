@@ -24,7 +24,7 @@ const styleMiddle = {
   boxMain: {
     width: '100%',
     position: 'absolute',
-    top: '4vh', //depend on the top mask
+    top: '47px', //depend on the top mask
     boxSizing: 'border-box'
   },
   boxSubtitle: {
@@ -74,7 +74,7 @@ class Explore extends React.Component {
             <Route exact path={this.props.match.path+"/"} render={(props)=> <ExpOverview {...props}/>}/>
           </Switch>
         </div>
-        <div style={{width: '100%', height: '43px', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
+        <div style={{width: '100%', height: '47px', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
         <div style={{width: '100%', height: '79px', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
         <div
           style={styleMiddle.boxSubtitle}>

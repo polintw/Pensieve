@@ -12,8 +12,10 @@ class CosmicCorner extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      mouseOn: ''
     };
+    this._handleEnter_CornerFocus = this._handleEnter_CornerFocus.bind(this);
+    this._handleLeave_CornerFocus = this._handleLeave_CornerFocus.bind(this);
     this._handleClick_cosmic_Self = this._handleClick_cosmic_Self.bind(this);
     this.style={
 
@@ -28,6 +30,23 @@ class CosmicCorner extends React.Component {
     window.location.assign('/user/screen');
   }
 
+  _handleEnter_CornerFocus(e){
+    //don't need to stop proppagation,
+    //because both the 'onMouseEnter' & 'onMouseLeave'
+    //would not 'bubble'
+    this.setState({
+      mouseOn: e.currentTarget.attributes.method.value
+    })
+  }
+
+  _handleLeave_CornerFocus(e){
+    //don't need to stop proppagation,
+    //because both the 'onMouseEnter' & 'onMouseLeave'
+    //would not 'bubble'
+    this.setState({
+      mouseOn: ''
+    })
+  }
 
   componentDidMount() {
 
@@ -78,7 +97,11 @@ class CosmicCorner extends React.Component {
           )}>
           <Link
             to="/cosmic"
-            className={'plainLinkButton'}>
+            method="focus"
+            className={'plainLinkButton'}
+            style={Object.assign({}, (this.state.mouseOn=='focus')? {color: '#333333'}:{})}
+            onMouseEnter={this._handleEnter_CornerFocus}
+            onMouseLeave={this._handleLeave_CornerFocus}>
             {"focus"}
           </Link>
         </div>

@@ -11,6 +11,30 @@
   white-space: nowrap;
   color: #353535;
 }
+._C_C_app_Within_component_LinkExplore_styles_module__comExplore {
+  display: flex;
+  position: relative;
+}
+
+._C_C_app_Within_component_LinkExplore_styles_module__boxExplore {
+  position: relative;
+  box-sizing: border-box;
+}
+
+._C_C_app_Within_component_LinkExplore_styles_module__boxSwitch {
+  display: flex;
+  align-items: flex-end;
+}
+
+._C_C_app_Within_component_LinkExplore_styles_module__boxCategory {
+  display: flex;
+  position: relative;
+  box-sizing: border-box;
+}
+
+._C_C_app_Within_component_LinkExplore_styles_module__fontCategory {
+  color: #a8a8a8;
+}
 ._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxOptions {
   box-sizing: border-box;
   text-align: center;
@@ -54,30 +78,6 @@ start the fundemental first, and then the specific condition
   height: 12px;
   right: 186px;
   bottom: 0;
-}
-._C_C_app_Within_component_LinkExplore_styles_module__comExplore {
-  display: flex;
-  position: relative;
-}
-
-._C_C_app_Within_component_LinkExplore_styles_module__boxExplore {
-  position: relative;
-  box-sizing: border-box;
-}
-
-._C_C_app_Within_component_LinkExplore_styles_module__boxSwitch {
-  display: flex;
-  align-items: flex-end;
-}
-
-._C_C_app_Within_component_LinkExplore_styles_module__boxCategory {
-  display: flex;
-  position: relative;
-  box-sizing: border-box;
-}
-
-._C_C_app_Within_component_LinkExplore_styles_module__fontCategory {
-  color: #a8a8a8;
 }
 ._C_C_app_Within_Explore_ExpSubtitle_styles_module__boxSubtitle {
 

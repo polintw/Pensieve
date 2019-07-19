@@ -34,6 +34,8 @@ const styleMiddle = {
   },
   boxSubtitle: {
     height: '',
+    boxSizing: 'border-box',
+    margin: '2rem 0',
     textAlign: 'center'
   },
   boxUsedItem: {
@@ -57,16 +59,21 @@ const styleMiddle = {
   spanMore: {
     display: 'inline-block',
     margin: '0 0.54rem',
+    fontSize: '1.32rem',
+    fontWeight: '700',
+    fontStyle: 'normal',
     lineHeight: '3rem',
     color: '#4085a0',
     cursor: 'pointer'
   },
   fontSubtitle: {
-    fontSize: '1.45rem',
-    fontWeight: '700',
+    fontSize: '1.2rem',
+    fontWeight: '500',
+    fontStyle: 'italic',
     letterSpacing: '0.1rem',
     whiteSpace: 'nowrap',
     textAlign: 'center',
+    lineHeight: '10px'
   },
   fontListItem: {
     fontSize: '1.32rem',
@@ -210,7 +217,7 @@ class NodesUsed extends React.Component {
         <div
           className={'boxRelativeFull'}
           style={Object.assign({}, styleMiddle.boxSubtitle, styleMiddle.fontSubtitle)}>
-          <span>{"or, here are"}</span>
+          <span>{"or, touch"}</span><br/>
           <Link
             to="/cosmic/explore/nodes?boundary=unlimit"
             className={'plainLinkButton'}>
@@ -218,9 +225,8 @@ class NodesUsed extends React.Component {
               style={Object.assign({}, styleMiddle.fontSubtitle, styleMiddle.spanMore)}>
               {" more "}
             </span>
-          </Link>
-          <span>{"waiting for you"}</span><br/>
-          <span>{"to be the First! "}</span>
+          </Link><br/>
+        <span>{"to find out where you can be the First! "}</span>
         </div>
       </div>
     )
