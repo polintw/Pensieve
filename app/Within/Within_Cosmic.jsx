@@ -9,14 +9,14 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./stylesCosmic.module.css";
+import Explore from './Explore/Explore.jsx';
 import CosmicMain from './component/CosmicMain.jsx';
 import CosmicUser from './component/CosmicUser.jsx';
 import CosmicNoun from './component/CosmicNoun.jsx';
 import CosmicRelated from './component/CosmicRelated.jsx';
-import Explore from './component/Explore.jsx';
-import NavOptions from '../Component/NavOptions.jsx';
 import LinkExplore from './component/LinkExplore/LinkExplore.jsx';
 import CosmicCorner from './component/CosmicCorner/CosmicCorner.jsx';
+import NavOptions from '../Component/NavOptions.jsx';
 
 class WithinCosmic extends React.Component {
   constructor(props){
@@ -122,9 +122,9 @@ class WithinCosmic extends React.Component {
         <div style={this.style.Within_Cosmic_backplane}></div>
         <Switch>
           <Route path={this.props.match.path+"/units/:id/related"} render={(props)=> <CosmicRelated {...props}/>}/>
-          <Route path={this.props.match.path+"/nouns/:nounId"} render={(props)=> <CosmicNoun {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
+          <Route path={this.props.match.path+"/nodes/:nounId"} render={(props)=> <CosmicNoun {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
           <Route path={this.props.match.path+"/users/:userId"} render={(props)=> <CosmicUser {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
-          <Route path={this.props.match.path+"/explore"} render={(props)=> <Explore {...props}/>}/>
+          <Route path={this.props.match.path+"/explore"} render={(props)=> <Explore {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
           <Route path={this.props.match.path} render={(props)=> <CosmicMain {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
         </Switch>
         <div
@@ -132,7 +132,8 @@ class WithinCosmic extends React.Component {
           <CosmicCorner {...this.props}/>
         </div>
         <div
-          className={classnames(styles.fontExplore, styles.boxFixedExplore)}>
+          className={classnames(styles.fontExplore, styles.boxFixedExplore)}
+          style={(this.props.location.pathname==this.props.match.path)?{top: '9%', right: '4%'}:{}}>
           <LinkExplore {...this.props}/>
         </div>
         <div style={this.style.Within_Cosmic_NavOptions}>

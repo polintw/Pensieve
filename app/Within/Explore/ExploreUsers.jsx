@@ -15,7 +15,11 @@ import {
 
 const styleMiddle = {
   comExploreUsers: {
-    height: ''
+    width: '907px',
+    position: 'absolute',
+    left: '51%',
+    transform: 'translate(-50%,0)',
+    boxSizing: 'border-box'
   },
   boxUserBlocks: {
     height: '',
@@ -173,11 +177,6 @@ class ExploreUsers extends React.Component {
         // so should be called directly if the UsersBlock was imported from a independent file
     });
 
-    //then insert the reserved area for nav
-    list.splice(1,0, (
-      <div
-        key={"key_Explore_users_navReserved"}
-        style={{width: '100%', height: '11rem',position: 'relative'}}/>))
     //add a footer as ending
     list.push(
       <div
@@ -201,7 +200,6 @@ class ExploreUsers extends React.Component {
   render(){
     return(
       <div
-        className={'boxRelativeFull'}
         style={styleMiddle.comExploreUsers}>
         <div
           className={'boxRelativeFull'}
