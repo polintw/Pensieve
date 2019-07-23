@@ -10,7 +10,8 @@ import classnames from 'classnames';
 import styles from "./stylesMainIndex.module.css";
 import {
   nailChart,
-  separationLine
+  separationLine,
+  axios_cosmic_IndexList
 } from './utils.js';
 import MainTitle from '../MainTitle/MainTitle.jsx';
 import Unit from '../../../Component/Unit.jsx';
@@ -53,7 +54,6 @@ class MainIndex extends React.Component {
       marksBasic: {},
     };
     this.axiosSource = axios.CancelToken.source();
-    this._axios_cosmic_IndexList = this._axios_cosmic_IndexList.bind(this);
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._render_IndexNails = this._render_IndexNails.bind(this);
     this.style={
@@ -83,32 +83,31 @@ class MainIndex extends React.Component {
     window.location.assign('/user/cognition/actions/shareds');
   }
 
-  _axios_cosmic_IndexList(){
+  componentDidMount(){
     const self = this;
 
-    this.setState((prevState, props)=>{return {axios: true};}, ()=>{
-      let url = '/router/cosmic/present';
-      axios.get(url, {
-        headers: {
-          'charset': 'utf-8',
-          'token': window.localStorage['token']
-        },
-        cancelToken: self.axiosSource.token
-      }).then(function (res) {
+    this.setState({axios: true});
 
-        let resObj = JSON.parse(res.data);
-        self.props._submit_NounsList_new(resObj.main.nounsListMix);
-        self.props._submit_UsersList_new(resObj.main.usersList);
+    axios.all([
+      axios_cosmic_IndexList,])
+      .then(axios.spread (function(idxList, ) {
+        self.setState({axios: false});
+
+        self.props._submit_NounsList_new(idxList.main.nounsListMix);
+        self.props._submit_UsersList_new(idxList.main.usersList);
+
+        //and now update the lastvisit time
 
         self.setState((prevState, props)=>{
           return({
             axios: false,
-            unitsList: resObj.main.unitsList,
-            unitsBasic: resObj.main.unitsBasic,
-            marksBasic: resObj.main.marksBasic
+            unitsList: idxList.main.unitsList,
+            unitsBasic: idxList.main.unitsBasic,
+            marksBasic: idxList.main.marksBasic
           });
         });
-      }).catch(function (thrown) {
+
+      })).catch(function (thrown) {
         self.setState({axios: false});
         if (axios.isCancel(thrown)) {
           cancelErr(thrown);
@@ -117,11 +116,7 @@ class MainIndex extends React.Component {
           if(message) alert(message);
         }
       });
-    })
-  }
 
-  componentDidMount(){
-    this._axios_cosmic_IndexList();
   }
 
   componentWillUnmount(){

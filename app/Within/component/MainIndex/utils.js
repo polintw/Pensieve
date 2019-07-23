@@ -127,3 +127,21 @@ export function separationLine(remainder, index){
       return false
   }
 }
+
+export function axios_cosmic_IndexList(cancelToken){
+  let url = '/router/cosmic/present';
+
+  return axios.get(url, {
+    headers: {
+      'charset': 'utf-8',
+      'token': window.localStorage['token']
+    },
+    cancelToken: cancelToken
+  }).then(function (res) {
+    let resObj = JSON.parse(res.data);
+
+    return resObj;
+  }).catch(function (thrown) {
+    throw thrown;
+  });
+}
