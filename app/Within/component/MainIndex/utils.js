@@ -129,7 +129,7 @@ export function separationLine(remainder, index){
 }
 
 export function axios_cosmic_IndexList(cancelToken){
-  let url = '/router/cosmic/present';
+  let url = '/router/feed/focus';
 
   return axios.get(url, {
     headers: {
@@ -141,6 +141,40 @@ export function axios_cosmic_IndexList(cancelToken){
     let resObj = JSON.parse(res.data);
 
     return resObj;
+  }).catch(function (thrown) {
+    throw thrown;
+  });
+}
+
+export function axios_Main_Banner(cancelToken){
+  let url = '/router/feed/banner';
+
+  return axios.get(url, {
+    headers: {
+      'charset': 'utf-8',
+      'token': window.localStorage['token']
+    },
+    cancelToken: cancelToken
+  }).then(function (res) {
+    let resObj = JSON.parse(res.data);
+
+    //data(perhaps nodes list) need to render after lastvisit check
+    return resObj;
+  }).catch(function (thrown) {
+    throw thrown;
+  });
+}
+
+export function axios_visit_Index(cancelToken){
+  let url = '/router/visit/index';
+
+  return axios.patch(url, {
+    headers: {
+      'charset': 'utf-8',
+      'token': window.localStorage['token']
+    },
+    cancelToken: cancelToken
+    //close if there is no error response
   }).catch(function (thrown) {
     throw thrown;
   });

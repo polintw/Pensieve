@@ -20,7 +20,7 @@ function _handle_cosmicPresent_GET(req, res){
   new Promise((resolve, reject)=>{
     const reqToken = req.body.token || req.headers['token'] || req.query.token;
     const jwtVerified = jwt.verify(reqToken, verify_key);
-    if (!jwtVerified) throw new authorizedError("during GET--cosmic/present, "+jwtVerified, 32);
+    if (!jwtVerified) throw new authorizedError("during GET--feed/focus, "+jwtVerified, 32);
 
     let userId = jwtVerified.user_Id;
     let mysqlForm = {
@@ -99,7 +99,7 @@ function _handle_cosmicPresent_GET(req, res){
       })
     })
   }).then((sendingData)=>{
-    _res_success(res, sendingData, "Complete, GET: cosmic/present.");
+    _res_success(res, sendingData, "Complete, GET: feed/focus.");
   }).catch((error)=>{
     _handle_ErrCatched(error, req, res);
   });
@@ -107,7 +107,7 @@ function _handle_cosmicPresent_GET(req, res){
 
 
 execute.get('/', function(req, res){
-  winston.verbose(`${"GET: cosmic/present"} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+  winston.verbose(`${"GET: feed/focus"} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
   _handle_cosmicPresent_GET(req, res);
 })
 
