@@ -168,7 +168,9 @@ export function axios_Main_Banner(cancelToken){
 export function axios_visit_Index(cancelToken){
   let url = '/router/visit/index';
 
-  return axios.patch(url, {
+  return axios({ //use confic directly to assure the patch was not influenced by empty .body obj
+    url:url,
+    method: "patch",
     headers: {
       'charset': 'utf-8',
       'token': window.localStorage['token']

@@ -91,14 +91,14 @@ class MainIndex extends React.Component {
     this.setState({axios: true});
 
     axios.all([
-      axios_cosmic_IndexList(self.axiosSource),
-      axios_Main_Banner(self.axiosSource)])
+      axios_cosmic_IndexList(self.axiosSource.token),
+      axios_Main_Banner(self.axiosSource.token)])
       .then(axios.spread (function(focusObj, bannerObj) {
         self.setState({axios: false});
 
         self.props._submit_NounsList_new(focusObj.main.nounsListMix);
         self.props._submit_UsersList_new(focusObj.main.usersList);
-        axios_visit_Index(self.axiosSource);//and now update the lastvisit time
+        axios_visit_Index(self.axiosSource.token);//and now update the lastvisit time
 
         self.setState((prevState, props)=>{
           return({

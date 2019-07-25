@@ -17,7 +17,7 @@ function _handle_PATCH_visit_Index(req, res){
     return _DB_lastvisitIndex.update(
       {ip: req.ip},
       {where: {id_user: userId}}
-    }).then(()=>{
+    ).then(()=>{
       //nothing need to return from this api
       let sendingData={
         temp: {}
@@ -35,7 +35,7 @@ function _handle_PATCH_visit_Index(req, res){
   });
 }
 
-execute.get('/', function(req, res){
+execute.patch('/', function(req, res){
   if(process.env.NODE_ENV == 'development') winston.verbose('lastvisit, PATCH: /index ');
   _handle_PATCH_visit_Index(req, res);
 })

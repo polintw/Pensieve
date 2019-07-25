@@ -20,7 +20,11 @@ pass.use(function(req, res, next) {
         _handle_ErrCatched(new authorizedError("unauthorize throw by pass.js, "+err, 32), req, res);
       } else {
         //set the decoded general info into req
-        req['extra']['tokenUserId'] = decoded.user_Id;
+        //in case there were not an established 'extra' obj in req
+        if(!!req['extra']) req['extra']['tokenUserId']= decoded.user_Id
+        else{
+          req['extra'] = {tokenUserId: decoded.user_Id};
+        };
 
         next();
       }
