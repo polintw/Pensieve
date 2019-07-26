@@ -1,0 +1,10 @@
+.comMainBanner {
+  width: 100%;
+  min-height: 56px;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.boxDate {
+  margin: 8px 20% 0 14%;
+}

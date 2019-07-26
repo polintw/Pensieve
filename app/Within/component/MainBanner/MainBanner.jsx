@@ -47,11 +47,9 @@ class MainBanner extends React.Component {
       const self = this;
       this.setState({axios: true});
 
-      axios_Main_Banner( , this.axiosSource.token)
-      //also send lastvisit time from props
-      //and do not check the lastVisit at the backend
-
+      axios_Main_Banner(this.axiosSource.token, this.props.lastVisit)
         .then((bannerObj)=>{
+
           self.setState({
             axios: false,
             greet: true //temp method, before the real customized data constructed
@@ -83,7 +81,7 @@ class MainBanner extends React.Component {
 
     return(
       <div
-        className={'boxRelativeFull'}>
+        className={classnames(styles.comMainBanner)}>
         <div
           className={classnames(styles.boxDate, 'boxInlineRelative fontGillSN')}>
           <DateConverter

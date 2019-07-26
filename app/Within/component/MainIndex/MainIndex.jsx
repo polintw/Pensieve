@@ -93,18 +93,22 @@ class MainIndex extends React.Component {
     axios_visit_GET_last(self.axiosSource.token) //in the future, method to get basic (user)sheet data would join here
       .then((lastVisitObj)=>{
         self.setState({axios: false});
-        //set into state
-        self.setState((state, props)=>{
-          return {
-            lastVisit: lastVisitObj.lastTime,
-            axios: true
-          }
-        }, ()=>{
-          return axios.all([
-            axios_cosmic_IndexList(self.axiosSource.token),
-            axios_visit_Index(self.axiosSource.token)
-          ]);
-        })
+
+        //use promise to let the axios.all could be pass to .then even inside a callback
+        return new Promise((resolve, reject)=>{
+          self.setState((state, props)=>{
+            return {
+              lastVisit: lastVisitObj.main.lastTime,
+              axios: true
+            }
+          }, ()=>{
+            resolve(axios.all([
+              axios_cosmic_IndexList(self.axiosSource.token),
+              axios_visit_Index(self.axiosSource.token)
+            ]));
+          })
+
+        });
       })
       .then(axios.spread (function(focusObj) {
         self.setState({axios: false});

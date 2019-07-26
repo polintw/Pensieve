@@ -10,6 +10,31 @@ const {
   internalError,
 } = require('../utils/reserrHandler.js');
 
+function _handle_GET_visit_Index(req, res){
+  new Promise((resolve, reject)=>{
+    let userId = req.extra.tokenUserId;
+
+    return _DB_lastvisitIndex.findOne({
+      where: {id_user: userId},
+      attributes: ['updatedAt']
+    }).then((lastVisit)=>{
+      let sendingData={
+        lastTime: lastVisit.updatedAt,
+        temp: {}
+      };
+
+      resolve(sendingData);
+    }).catch((err)=>{
+      reject(new internalError(err, 131));
+    });
+
+  }).then((sendingData)=>{
+    _res_success(res, sendingData, "lastvisit, GET: /index, complete.");
+  }).catch((error)=>{
+    _handle_ErrCatched(error, req, res);
+  });
+}
+
 function _handle_PATCH_visit_Index(req, res){
   new Promise((resolve, reject)=>{
     let userId = req.extra.tokenUserId;
@@ -35,9 +60,13 @@ function _handle_PATCH_visit_Index(req, res){
   });
 }
 
+execute.get('/', function(req, res){
+  if(process.env.NODE_ENV == 'development') winston.verbose('lastvisit, GET: /index ');
+  _handle_GET_visit_Index(req, res);
+});
 execute.patch('/', function(req, res){
   if(process.env.NODE_ENV == 'development') winston.verbose('lastvisit, PATCH: /index ');
   _handle_PATCH_visit_Index(req, res);
-})
+});
 
 module.exports = execute;

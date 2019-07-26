@@ -25,11 +25,11 @@ class MainTitle extends React.Component {
     this.style={
       withinCom_MainIndex_scroll_col_logo: {
         display: 'inline-block',
-        height: '31%',
+        height: '94%',
         position: 'relative',
         top: '1%',
         boxSizing: 'border-box',
-        margin: '0px 46% 5px 10%'
+        margin: '0px 46% 0 10%'
       }
 
     }
@@ -74,7 +74,7 @@ class MainTitle extends React.Component {
     return(
       <div
         ref={this.boxTitle}
-        className={'boxRelativeFull'}>
+        className={classnames(styles.comMainTitle)}>
         <div
           style={this.style.withinCom_MainIndex_scroll_col_logo}>
           <SvgLogo/>

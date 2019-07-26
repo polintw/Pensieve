@@ -17,18 +17,11 @@ function _handle_GET_feed_banner(req, res){
   new Promise((resolve, reject)=>{
     let userId = req.extra.tokenUserId;
 
-    return _DB_lastvisitIndex.findOne({
-      where:{id_user: userId},
-      attributes: ['updatedAt']
-    }).then((lastVisit)=>{
-      //check and select new ndes used after lastvisit
-      return _DB_nodesActivity.findAndCountAll({
-        where: {
-          createdAt: {[Op.gt]: lastVisit.updatedAt}
-        }
-      }).catch((err)=>{
-        throw err;
-      });
+    //check and select new ndes used after lastvisit
+    return _DB_nodesActivity.findAndCountAll({
+      where: {
+        createdAt: {[Op.gt]: req.query.lastVisit}
+      }
     }).then((nodesLis)=>{
 
       //temp, return nothing before the front design prepared
