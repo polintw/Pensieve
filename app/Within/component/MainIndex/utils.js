@@ -146,25 +146,6 @@ export function axios_cosmic_IndexList(cancelToken){
   });
 }
 
-export function axios_Main_Banner(cancelToken){
-  let url = '/router/feed/banner';
-
-  return axios.get(url, {
-    headers: {
-      'charset': 'utf-8',
-      'token': window.localStorage['token']
-    },
-    cancelToken: cancelToken
-  }).then(function (res) {
-    let resObj = JSON.parse(res.data);
-
-    //data(perhaps nodes list) need to render after lastvisit check
-    return resObj;
-  }).catch(function (thrown) {
-    throw thrown;
-  });
-}
-
 export function axios_visit_Index(cancelToken){
   let url = '/router/visit/index';
 
@@ -177,6 +158,26 @@ export function axios_visit_Index(cancelToken){
     },
     cancelToken: cancelToken
     //close if there is no error response
+  }).catch(function (thrown) {
+    throw thrown;
+  });
+}
+
+export function axios_visit_GET_last(cancelToken){
+  let url = '/router/visit/index';
+
+  return axios({ //use confic directly to assure the patch was not influenced by empty .body obj
+    url:url,
+    method: "get",
+    headers: {
+      'charset': 'utf-8',
+      'token': window.localStorage['token']
+    },
+    cancelToken: cancelToken
+  }).then(function (res) {
+    let resObj = JSON.parse(res.data);
+
+    return resObj;
   }).catch(function (thrown) {
     throw thrown;
   });

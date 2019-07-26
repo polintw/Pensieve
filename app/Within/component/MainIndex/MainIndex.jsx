@@ -12,13 +12,12 @@ import {
   nailChart,
   separationLine,
   axios_cosmic_IndexList,
-  axios_Main_Banner,
+  axios_visit_GET_last,
   axios_visit_Index
 } from './utils.js';
 import MainTitle from '../MainTitle/MainTitle.jsx';
+import MainBanner from '../MainBanner/MainBanner.jsx';
 import Unit from '../../../Component/Unit.jsx';
-import CreateShare from '../../../Component/CreateShare.jsx';
-import SvgCreate from '../../../Component/Svg/SvgCreate.jsx';
 import {
   handleNounsList,
   handleUsersList
@@ -51,6 +50,7 @@ class MainIndex extends React.Component {
     super(props);
     this.state = {
       axios: false,
+      lastVisit: false,
       unitsList: [],
       unitsBasic: {},
       marksBasic: {},
@@ -90,15 +90,27 @@ class MainIndex extends React.Component {
 
     this.setState({axios: true});
 
-    axios.all([
-      axios_cosmic_IndexList(self.axiosSource.token),
-      axios_Main_Banner(self.axiosSource.token)])
-      .then(axios.spread (function(focusObj, bannerObj) {
+    axios_visit_GET_last(self.axiosSource.token) //in the future, method to get basic (user)sheet data would join here
+      .then((lastVisitObj)=>{
+        self.setState({axios: false});
+        //set into state
+        self.setState((state, props)=>{
+          return {
+            lastVisit: lastVisitObj.lastTime,
+            axios: true
+          }
+        }, ()=>{
+          return axios.all([
+            axios_cosmic_IndexList(self.axiosSource.token),
+            axios_visit_Index(self.axiosSource.token)
+          ]);
+        })
+      })
+      .then(axios.spread (function(focusObj) {
         self.setState({axios: false});
 
         self.props._submit_NounsList_new(focusObj.main.nounsListMix);
         self.props._submit_UsersList_new(focusObj.main.usersList);
-        axios_visit_Index(self.axiosSource.token);//and now update the lastvisit time
 
         self.setState((prevState, props)=>{
           return({
@@ -156,6 +168,9 @@ class MainIndex extends React.Component {
           <div
             className={classnames(styles.boxTop)}>
             <MainTitle
+              _refer_von_cosmic={this.props._refer_von_cosmic}/>
+            <MainBanner
+              lastVisit={this.state.lastVisit}
               _refer_von_cosmic={this.props._refer_von_cosmic}/>
           </div>
           <div
