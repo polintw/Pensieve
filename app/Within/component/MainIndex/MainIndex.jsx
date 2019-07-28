@@ -173,9 +173,12 @@ class MainIndex extends React.Component {
             className={classnames(styles.boxTop)}>
             <MainTitle
               _refer_von_cosmic={this.props._refer_von_cosmic}/>
-            <MainBanner
-              lastVisit={this.state.lastVisit}
-              _refer_von_cosmic={this.props._refer_von_cosmic}/>
+            <div
+              className={classnames(styles.boxBanner)}>
+              <MainBanner
+                lastVisit={this.state.lastVisit}
+                _refer_von_cosmic={this.props._refer_von_cosmic}/>
+            </div>
           </div>
           <div
             className={styles.boxScroll}>

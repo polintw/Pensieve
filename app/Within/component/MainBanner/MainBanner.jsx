@@ -12,6 +12,7 @@ import styles from "./styles.module.css";
 import {
   axios_Main_Banner,
 } from './utils.js';
+import {AccountPlate} from '../../../Component/AccountPlate.jsx';
 import DateConverter from '../../../Component/DateConverter.jsx';
 import CreateShare from '../../../Component/CreateShare.jsx';
 import SvgCreate from '../../../Component/Svg/SvgCreate.jsx';
@@ -82,6 +83,16 @@ class MainBanner extends React.Component {
     return(
       <div
         className={classnames(styles.comMainBanner)}>
+        <div
+          className={classnames(styles.boxName)}>
+          <div>
+            <span>{"Hello, "}</span>
+          </div>
+          <AccountPlate
+            size={'title'}
+            accountFisrtName={this.props.userInfo.firstName}
+            accountLastName={this.props.userInfo.lastName}/>
+        </div>
         <div
           className={classnames(styles.boxDate, 'boxInlineRelative fontGillSN')}>
           <DateConverter

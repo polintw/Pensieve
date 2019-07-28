@@ -79,18 +79,11 @@ start the fundemental first, and then the specific condition
   right: 186px;
   bottom: 0;
 }
-._C_C_app_Within_Explore_ExpSubtitle_styles_module__boxSubtitle {
-
-}
-
-._C_C_app_Within_Explore_ExpSubtitle_styles_module__fontSubtitle {
-  font-size: 1.4rem;
-  color: #a8a8a8;
-}
 ._C_C_app_Within_component_MainIndex_stylesMainIndex_module__boxTop {
   width: 100%;
   position: relative;
   box-sizing: border-box;
+  margin: 0 0 19px;
 }
 
 ._C_C_app_Within_component_MainIndex_stylesMainIndex_module__boxScroll {
@@ -152,6 +145,14 @@ start the fundemental first, and then the specific condition
 ._C_C_app_Within_component_MainIndex_stylesMainIndex_module__decoSeparationHorz {
   width: 100%
 }
+._C_C_app_Within_Explore_ExpSubtitle_styles_module__boxSubtitle {
+
+}
+
+._C_C_app_Within_Explore_ExpSubtitle_styles_module__fontSubtitle {
+  font-size: 1.4rem;
+  color: #a8a8a8;
+}
 ._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlock {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -211,10 +212,11 @@ start the fundemental first, and then the specific condition
   height: 26px;
   position: relative;
   box-sizing: border-box;
+  margin: 0 0 9px;
 }
 
 ._C_C_app_Within_component_MainTitle_styles_module__boxExplore {
-  float: right;
+
 }
 
 ._C_C_app_Within_component_MainTitle_styles_module__fontExplore {
