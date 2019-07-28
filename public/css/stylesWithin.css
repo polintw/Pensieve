@@ -86,6 +86,13 @@ start the fundemental first, and then the specific condition
   margin: 0 0 19px;
 }
 
+._C_C_app_Within_component_MainIndex_stylesMainIndex_module__boxBanner {
+  width: 82%; /*follow design, border left need to be more right than Logo*/
+  position: relative;
+  box-sizing: border-box;
+  float: right;
+}
+
 ._C_C_app_Within_component_MainIndex_stylesMainIndex_module__boxScroll {
   display: flex;
   justify-content: space-between;
@@ -233,7 +240,40 @@ start the fundemental first, and then the specific condition
 }
 
 ._C_C_app_Within_component_MainBanner_styles_module__boxDate {
-  margin: 8px 20% 0 14%;
+  margin: 8px 0 0;
+}
+
+._C_C_app_Within_component_MainBanner_styles_module__boxName {
+
+}
+
+._C_C_app_Within_component_MainBanner_styles_module__boxCreate {
+  display: inline-block;
+  width: 99px;
+  height: auto;
+  position: relative;
+  transform: translate(0,-24%);
+  box-sizing: border-box;
+  margin: 0 2%;
+  float: right;
+}
+
+._C_C_app_Within_component_MainBanner_styles_module__boxFlex {
+  display: flex;
+  width: 70%;
+  min-width: 280px;
+  position: absolute;
+  bottom: 0;
+  right: 104px;
+}
+
+._C_C_app_Within_component_MainBanner_styles_module__boxUnderline {
+  flex: 1 99%;
+  border-bottom: 1px solid #c4c4c4;
+}
+
+._C_C_app_Within_component_MainBanner_styles_module__boxGreet {
+  flex: 1;
 }
 ._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__Nails_Basic {
   background-color: #FFFFFF;

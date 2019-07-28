@@ -6,9 +6,38 @@
 }
 
 .boxDate {
-  margin: 8px 20% 0 14%;
+  margin: 8px 0 0;
 }
 
 .boxName {
 
+}
+
+.boxCreate {
+  display: inline-block;
+  width: 99px;
+  height: auto;
+  position: relative;
+  transform: translate(0,-24%);
+  box-sizing: border-box;
+  margin: 0 2%;
+  float: right;
+}
+
+.boxFlex {
+  display: flex;
+  width: 70%;
+  min-width: 280px;
+  position: absolute;
+  bottom: 0;
+  right: 104px;
+}
+
+.boxUnderline {
+  flex: 1 99%;
+  border-bottom: 1px solid #c4c4c4;
+}
+
+.boxGreet {
+  flex: 1;
 }

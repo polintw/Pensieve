@@ -30,16 +30,7 @@ class MainBanner extends React.Component {
     };
     this.axiosSource = axios.CancelToken.source();
     this.style={
-      withinCom_MainIndex_scroll_col_Create: {
-        display: 'inline-block',
-        width: '99px',
-        height: '47%',
-        position: 'relative',
-        transform: "translate(0,-24%)",
-        boxSizing: 'border-box',
-        margin: '0 2%',
-        float: 'right',
-      },
+
     }
   }
 
@@ -84,34 +75,46 @@ class MainBanner extends React.Component {
       <div
         className={classnames(styles.comMainBanner)}>
         <div
-          className={classnames(styles.boxName)}>
-          <div>
-            <span>{"Hello, "}</span>
+          className={classnames('boxRelativeFull')}>
+          <div
+            className={classnames(styles.boxFlex)}>
+            <div
+              className={classnames(styles.boxUnderline)}></div>
+            {
+              this.state.greet &&
+              <div
+                className={styles.boxGreet}>
+                <span>{"Welcome back"}</span>
+              </div>
+            }
           </div>
-          <AccountPlate
-            size={'title'}
-            accountFisrtName={this.props.userInfo.firstName}
-            accountLastName={this.props.userInfo.lastName}/>
         </div>
         <div
-          className={classnames(styles.boxDate, 'boxInlineRelative fontGillSN')}>
-          <DateConverter
-            place={'title'}
-            datetime={date.getTime()}/>
-        </div>
-        {
-          this.state.greet &&
-          <div>
-            <span>{"Welcome back"}</span>
+          style={{position: 'absolute'}}>
+          <div
+            className={classnames(styles.boxName)}>
+            <div>
+              <span>{"Hello, "}</span>
+            </div>
+            <AccountPlate
+              size={'regular'}
+              accountFisrtName={this.props.userInfo.firstName}
+              accountLastName={this.props.userInfo.lastName}/>
           </div>
-        }
-        <div
-          style={this.style.withinCom_MainIndex_scroll_col_Create}>
-          <SvgCreate
-            place={false}/>
-          <CreateShare
-            _submit_Share_New={this._submit_Share_New}
-            _refer_von_Create={this.props._refer_von_cosmic}/>
+          <div
+            className={classnames(styles.boxDate, 'boxInlineRelative fontGillSN')}>
+            <DateConverter
+              place={'title'}
+              datetime={date.getTime()}/>
+          </div>
+          <div
+            className={classnames(styles.boxCreate)}>
+            <SvgCreate
+              place={false}/>
+            <CreateShare
+              _submit_Share_New={this._submit_Share_New}
+              _refer_von_Create={this.props._refer_von_cosmic}/>
+          </div>
         </div>
       </div>
     )
