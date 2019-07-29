@@ -20,29 +20,30 @@
 }
 
 .boxCreate {
-  width: 8.1rem;
+  width: 7.8rem;
   height: auto;
   position: absolute;
   right: 0;
+  top: 0.24rem;
   box-sizing: border-box;
 }
 
 .boxFlex {
   display: flex;
-  width: 70%;
+  width: 73%;
   min-width: 280px;
   position: absolute;
   bottom: 0;
-  right: 104px;
+  right: 10rem;
 }
 
 .boxUnderline {
-  flex: 1 99%;
-  border-bottom: 1px solid #c4c4c4;
+  flex: 1 62%;
 }
 
 .boxGreet {
   flex: 1;
+  padding-left: 4%;
 }
 
 .fontSubtitle {
@@ -51,4 +52,8 @@
 
 .fontHello {
   color: #6e6e6e;
+}
+
+.borderBanner {
+  border-bottom: 0.14rem solid #c4c4c4;
 }

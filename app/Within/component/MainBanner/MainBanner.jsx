@@ -79,12 +79,12 @@ class MainBanner extends React.Component {
           <div
             className={classnames(styles.boxFlex)}>
             <div
-              className={classnames(styles.boxUnderline)}></div>
+              className={classnames(styles.borderBanner, styles.boxUnderline)}></div>
             {
               this.state.greet &&
               <div
                 className={styles.boxGreet}>
-                <span>{"Welcome back"}</span>
+                <span style={{fontSize: '1.3rem'}}>{"Welcome back"}</span>
               </div>
             }
           </div>
@@ -100,6 +100,9 @@ class MainBanner extends React.Component {
               size={'regular'}
               accountFisrtName={this.props.userInfo.firstName}
               accountLastName={this.props.userInfo.lastName}/>
+
+            <div
+              className={classnames(styles.borderBanner)}></div>
           </div>
           <div
             className={classnames(styles.boxDate, 'fontGillSN')}>
