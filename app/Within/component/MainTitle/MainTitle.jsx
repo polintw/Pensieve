@@ -29,7 +29,7 @@ class MainTitle extends React.Component {
         position: 'relative',
         top: '1%',
         boxSizing: 'border-box',
-        margin: '0px 46% 0 10%'
+        margin: '0px 50% 0 9%'
       }
 
     }

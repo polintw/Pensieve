@@ -2,14 +2,14 @@
   width: 100%;
   position: relative;
   box-sizing: border-box;
-  margin: 0 0 19px;
+  margin: 0 0 2.5rem;
 }
 
 .boxBanner {
-  width: 82%; /*follow design, border left need to be more right than Logo*/
+  width: 83%; /*follow design, border left need to be more right than Logo*/
   position: relative;
   box-sizing: border-box;
-  float: right;
+  margin-left: 15%;
 }
 
 .boxScroll {

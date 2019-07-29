@@ -75,7 +75,7 @@ class MainBanner extends React.Component {
       <div
         className={classnames(styles.comMainBanner)}>
         <div
-          className={classnames('boxRelativeFull')}>
+          className={classnames(styles.boxContent)}>
           <div
             className={classnames(styles.boxFlex)}>
             <div
@@ -89,12 +89,12 @@ class MainBanner extends React.Component {
             }
           </div>
         </div>
-        <div
-          style={{position: 'absolute'}}>
+        <div>
           <div
             className={classnames(styles.boxName)}>
-            <div>
-              <span>{"Hello, "}</span>
+            <div style={{display: 'inline-block', marginRight: '1rem'}}>
+              <span className={classnames(styles.fontSubtitle, styles.fontHello)}>
+                {"Hello, "}</span>
             </div>
             <AccountPlate
               size={'regular'}
@@ -102,7 +102,7 @@ class MainBanner extends React.Component {
               accountLastName={this.props.userInfo.lastName}/>
           </div>
           <div
-            className={classnames(styles.boxDate, 'boxInlineRelative fontGillSN')}>
+            className={classnames(styles.boxDate, 'fontGillSN')}>
             <DateConverter
               place={'title'}
               datetime={date.getTime()}/>

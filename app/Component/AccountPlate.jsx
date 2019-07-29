@@ -85,7 +85,7 @@ class Palette extends React.Component {
 
     return(
       <div
-        style={{display: ''}}>
+        style={{display: 'inline-block'}}>
         <span
           className={classSpan}>
           {this.props.accountFisrtName+" "}

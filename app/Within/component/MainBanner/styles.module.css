@@ -1,27 +1,30 @@
 .comMainBanner {
   width: 100%;
-  min-height: 56px;
+  min-height: 5.6rem;
   position: relative;
   box-sizing: border-box;
+}
+
+.boxContent {
+  width: 100%;
 }
 
 .boxDate {
-  margin: 8px 0 0;
+  position: absolute;
+  top: 3.7rem;
+  box-sizing: border-box;
 }
 
 .boxName {
-
+  position: absolute;
 }
 
 .boxCreate {
-  display: inline-block;
-  width: 99px;
+  width: 8.1rem;
   height: auto;
-  position: relative;
-  transform: translate(0,-24%);
+  position: absolute;
+  right: 0;
   box-sizing: border-box;
-  margin: 0 2%;
-  float: right;
 }
 
 .boxFlex {
@@ -40,4 +43,12 @@
 
 .boxGreet {
   flex: 1;
+}
+
+.fontSubtitle {
+  font-size: 1.3rem;
+}
+
+.fontHello {
+  color: #6e6e6e;
 }

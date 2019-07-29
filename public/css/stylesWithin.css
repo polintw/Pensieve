@@ -79,18 +79,26 @@ start the fundemental first, and then the specific condition
   right: 186px;
   bottom: 0;
 }
+._C_C_app_Within_Explore_ExpSubtitle_styles_module__boxSubtitle {
+
+}
+
+._C_C_app_Within_Explore_ExpSubtitle_styles_module__fontSubtitle {
+  font-size: 1.4rem;
+  color: #a8a8a8;
+}
 ._C_C_app_Within_component_MainIndex_stylesMainIndex_module__boxTop {
   width: 100%;
   position: relative;
   box-sizing: border-box;
-  margin: 0 0 19px;
+  margin: 0 0 2.5rem;
 }
 
 ._C_C_app_Within_component_MainIndex_stylesMainIndex_module__boxBanner {
-  width: 82%; /*follow design, border left need to be more right than Logo*/
+  width: 83%; /*follow design, border left need to be more right than Logo*/
   position: relative;
   box-sizing: border-box;
-  float: right;
+  margin-left: 15%;
 }
 
 ._C_C_app_Within_component_MainIndex_stylesMainIndex_module__boxScroll {
@@ -152,14 +160,6 @@ start the fundemental first, and then the specific condition
 ._C_C_app_Within_component_MainIndex_stylesMainIndex_module__decoSeparationHorz {
   width: 100%
 }
-._C_C_app_Within_Explore_ExpSubtitle_styles_module__boxSubtitle {
-
-}
-
-._C_C_app_Within_Explore_ExpSubtitle_styles_module__fontSubtitle {
-  font-size: 1.4rem;
-  color: #a8a8a8;
-}
 ._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlock {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -214,48 +214,33 @@ start the fundemental first, and then the specific condition
   line-height: 1.7rem;
   color: #ABABAB;
 }
-._C_C_app_Within_component_MainTitle_styles_module__comMainTitle {
-  width: 100%;
-  height: 26px;
-  position: relative;
-  box-sizing: border-box;
-  margin: 0 0 9px;
-}
-
-._C_C_app_Within_component_MainTitle_styles_module__boxExplore {
-
-}
-
-._C_C_app_Within_component_MainTitle_styles_module__fontExplore {
-  font-size: 1.32rem;
-  letter-spacing: 0.12rem;
-  white-space: nowrap;
-  color: #333333;
-}
 ._C_C_app_Within_component_MainBanner_styles_module__comMainBanner {
   width: 100%;
-  min-height: 56px;
+  min-height: 5.6rem;
   position: relative;
   box-sizing: border-box;
+}
+
+._C_C_app_Within_component_MainBanner_styles_module__boxContent {
+  width: 100%;
 }
 
 ._C_C_app_Within_component_MainBanner_styles_module__boxDate {
-  margin: 8px 0 0;
+  position: absolute;
+  top: 3.7rem;
+  box-sizing: border-box;
 }
 
 ._C_C_app_Within_component_MainBanner_styles_module__boxName {
-
+  position: absolute;
 }
 
 ._C_C_app_Within_component_MainBanner_styles_module__boxCreate {
-  display: inline-block;
-  width: 99px;
+  width: 8.1rem;
   height: auto;
-  position: relative;
-  transform: translate(0,-24%);
+  position: absolute;
+  right: 0;
   box-sizing: border-box;
-  margin: 0 2%;
-  float: right;
 }
 
 ._C_C_app_Within_component_MainBanner_styles_module__boxFlex {
@@ -274,6 +259,32 @@ start the fundemental first, and then the specific condition
 
 ._C_C_app_Within_component_MainBanner_styles_module__boxGreet {
   flex: 1;
+}
+
+._C_C_app_Within_component_MainBanner_styles_module__fontSubtitle {
+  font-size: 1.3rem;
+}
+
+._C_C_app_Within_component_MainBanner_styles_module__fontHello {
+  color: #6e6e6e;
+}
+._C_C_app_Within_component_MainTitle_styles_module__comMainTitle {
+  width: 100%;
+  height: 26px;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0 0 3.6rem;
+}
+
+._C_C_app_Within_component_MainTitle_styles_module__boxExplore {
+
+}
+
+._C_C_app_Within_component_MainTitle_styles_module__fontExplore {
+  font-size: 1.32rem;
+  letter-spacing: 0.12rem;
+  white-space: nowrap;
+  color: #333333;
 }
 ._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__Nails_Basic {
   background-color: #FFFFFF;
