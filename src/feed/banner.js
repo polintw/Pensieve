@@ -18,16 +18,34 @@ function _handle_GET_feed_banner(req, res){
     let userId = req.extra.tokenUserId;
 
     //check and select new ndes used after lastvisit
-    return _DB_nodesActivity.findAndCountAll({
+    /*return _DB_nodesActivity.findAndCountAll({
       where: {
         createdAt: {[Op.gt]: req.query.lastVisit}
-      }
-    }).then((nodesLis)=>{
+      }*/
 
-      //temp, return nothing before the front design prepared
+    //check if this user is first visit after register
+    return _DB_lastvisitIndex.findOne({
+      where: {
+        id_user: userId
+      },
+      attributes: ['updatedAt', 'createdAt', 'id_user']
+    }).then((selected)=>{
       let sendingData={
+        greet: '',
         temp: {}
       };
+
+      if(selected.createdAt== req.query.lastVisit){
+        //only possible at first time after registration
+        sendingData.greet = 'welcomeNew'
+      }else{
+        let date = new Date();
+        let currentCourse = date.getHours();
+
+        if(currentCourse> 17) sendingData.greet = 'greetNight'
+        else if(currentCourse> 6 && currentCourse< 11) sendingData.greet = 'greetMorning'
+        else sendingData.greet = 'welcomeBack';
+      }
 
       resolve(sendingData);
     }).catch((err)=>{

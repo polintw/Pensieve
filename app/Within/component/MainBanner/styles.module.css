@@ -37,11 +37,11 @@
   width: 71%;
   position: absolute;
   bottom: 0;
-  right: 11rem;
+  right: 11.5rem;
 }
 
 .boxUnderline {
-  flex: 1 62%;
+  flex: 1;
 }
 
 .boxCape {
@@ -51,7 +51,6 @@
 }
 
 .boxGreet {
-  flex: 1;
   padding-left: 4%;
 }
 

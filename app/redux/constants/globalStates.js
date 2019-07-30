@@ -32,6 +32,9 @@ export const i18nUIStringInit = {
   "language":"en",
   "catalog":{
      "helloUser":"Hello, ",
-     "welcomeBack":"Welcome back"
+     "welcomeNew": "Congratulations! Discover everything and beyond!",
+     "welcomeBack":"Welcome back",
+     "greetNight": "Good evening~",
+     "greetMorning": "Good morning!"
    }
 }

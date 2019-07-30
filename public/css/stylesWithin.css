@@ -271,11 +271,11 @@ start the fundemental first, and then the specific condition
   width: 71%;
   position: absolute;
   bottom: 0;
-  right: 11rem;
+  right: 11.5rem;
 }
 
 ._C_C_app_Within_component_MainBanner_styles_module__boxUnderline {
-  flex: 1 62%;
+  flex: 1;
 }
 
 ._C_C_app_Within_component_MainBanner_styles_module__boxCape {
@@ -285,7 +285,6 @@ start the fundemental first, and then the specific condition
 }
 
 ._C_C_app_Within_component_MainBanner_styles_module__boxGreet {
-  flex: 1;
   padding-left: 4%;
 }
 

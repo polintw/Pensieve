@@ -41,10 +41,11 @@ class MainBanner extends React.Component {
 
       axios_Main_Banner(this.axiosSource.token, this.props.lastVisit)
         .then((bannerObj)=>{
-
+          //there is only 'greet' or not right now
+          //add more complicated check here when we increased more interact
           self.setState({
             axios: false,
-            greet: true //temp method, before the real customized data constructed
+            greet: bannerObj.main.greet
           });
         }).catch(function (thrown) {
           self.setState({axios: false});
@@ -85,7 +86,7 @@ class MainBanner extends React.Component {
               <div
                 className={styles.boxGreet}>
                 <span className={classnames(styles.fontSubtitle)}>
-                  {this.props.i18nUIString.catalog["welcomeBack"]}</span>
+                  {this.props.i18nUIString.catalog[this.state.greet]}</span>
               </div>
             }
           </div>
