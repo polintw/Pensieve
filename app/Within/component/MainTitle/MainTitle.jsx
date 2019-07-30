@@ -9,11 +9,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import LinkExplore from '../LinkExplore/LinkExplore.jsx';
 import SvgLogo from '../../../Component/Svg/SvgLogo.jsx';
-import DateConverter from '../../../Component/DateConverter.jsx';
-import CreateShare from '../../../Component/CreateShare.jsx';
-import SvgCreate from '../../../Component/Svg/SvgCreate.jsx';
 import {
   setCosmicTitle
 } from "../../../redux/actions/general.js";
@@ -27,23 +23,13 @@ class MainTitle extends React.Component {
     this.boxTitle = React.createRef();
     this._check_Position = this._check_Position.bind(this);
     this.style={
-      withinCom_MainIndex_scroll_col_Create: {
-        display: 'inline-block',
-        width: '99px',
-        height: '47%',
-        position: 'relative',
-        transform: "translate(0,-24%)",
-        boxSizing: 'border-box',
-        margin: '0 2%',
-        float: 'right',
-      },
       withinCom_MainIndex_scroll_col_logo: {
         display: 'inline-block',
-        height: '31%',
+        height: '94%',
         position: 'relative',
         top: '1%',
         boxSizing: 'border-box',
-        margin: '0px 46% 5px 10%'
+        margin: '0px 50% 0 9%'
       }
 
     }
@@ -85,29 +71,13 @@ class MainTitle extends React.Component {
   }
 
   render(){
-    let date = new Date();
-
     return(
       <div
         ref={this.boxTitle}
-        className={'boxRelativeFull'}>
+        className={classnames(styles.comMainTitle)}>
         <div
           style={this.style.withinCom_MainIndex_scroll_col_logo}>
           <SvgLogo/>
-        </div>
-        <div
-          className={classnames(styles.boxDate, 'boxInlineRelative fontGillSN')}>
-          <DateConverter
-            place={'title'}
-            datetime={date.getTime()}/>
-        </div>
-        <div
-          style={this.style.withinCom_MainIndex_scroll_col_Create}>
-          <SvgCreate
-            place={false}/>
-          <CreateShare
-            _submit_Share_New={this._submit_Share_New}
-            _refer_von_Create={this.props._refer_von_cosmic}/>
         </div>
         <div
           className={classnames('boxInlineRelative', styles.boxExplore, styles.fontExplore)}>

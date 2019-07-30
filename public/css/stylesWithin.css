@@ -89,9 +89,16 @@ start the fundemental first, and then the specific condition
 }
 ._C_C_app_Within_component_MainIndex_stylesMainIndex_module__boxTop {
   width: 100%;
-  height: 83px;
   position: relative;
   box-sizing: border-box;
+  margin: 0 0 3rem;
+}
+
+._C_C_app_Within_component_MainIndex_stylesMainIndex_module__boxBanner {
+  width: 83%; /*follow design, border left need to be more right than Logo*/
+  position: relative;
+  box-sizing: border-box;
+  margin-left: 15%;
 }
 
 ._C_C_app_Within_component_MainIndex_stylesMainIndex_module__boxScroll {
@@ -207,12 +214,16 @@ start the fundemental first, and then the specific condition
   line-height: 1.7rem;
   color: #ABABAB;
 }
-._C_C_app_Within_component_MainTitle_styles_module__boxDate {
-  margin: 8px 20% 0 14%;
+._C_C_app_Within_component_MainTitle_styles_module__comMainTitle {
+  width: 100%;
+  height: 26px;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0 0 4.2rem;
 }
 
 ._C_C_app_Within_component_MainTitle_styles_module__boxExplore {
-  float: right;
+
 }
 
 ._C_C_app_Within_component_MainTitle_styles_module__fontExplore {
@@ -220,6 +231,73 @@ start the fundemental first, and then the specific condition
   letter-spacing: 0.12rem;
   white-space: nowrap;
   color: #333333;
+}
+._C_C_app_Within_component_MainBanner_styles_module__comMainBanner {
+  width: 100%;
+  min-height: 5.6rem;
+  position: relative;
+  box-sizing: border-box;
+}
+
+._C_C_app_Within_component_MainBanner_styles_module__boxContent {
+  width: 100%;
+}
+
+._C_C_app_Within_component_MainBanner_styles_module__boxDate {
+  position: absolute;
+  top: 3.7rem;
+  box-sizing: border-box;
+}
+
+._C_C_app_Within_component_MainBanner_styles_module__boxName {
+  display: flex;
+  align-items: baseline;
+  width: 84.3%;
+  position: absolute;
+  right: 11.3rem;
+}
+
+._C_C_app_Within_component_MainBanner_styles_module__boxCreate {
+  width: 8.1rem;
+  height: auto;
+  position: absolute;
+  right: 0;
+  top: 0.1rem;
+  box-sizing: border-box;
+}
+
+._C_C_app_Within_component_MainBanner_styles_module__boxFlex {
+  display: flex;
+  width: 71%;
+  position: absolute;
+  bottom: 0;
+  right: 11.5rem;
+}
+
+._C_C_app_Within_component_MainBanner_styles_module__boxUnderline {
+  flex: 1;
+}
+
+._C_C_app_Within_component_MainBanner_styles_module__boxCape {
+  flex: 1;
+  align-self: flex-start;
+  padding: 1px;
+}
+
+._C_C_app_Within_component_MainBanner_styles_module__boxGreet {
+  padding-left: 4%;
+}
+
+._C_C_app_Within_component_MainBanner_styles_module__fontSubtitle {
+  font-size: 1.4rem;
+}
+
+._C_C_app_Within_component_MainBanner_styles_module__fontHello {
+  color: #6e6e6e;
+}
+
+._C_C_app_Within_component_MainBanner_styles_module__borderBanner {
+  border-bottom: 0.14rem solid #c4c4c4;
 }
 ._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__Nails_Basic {
   background-color: #FFFFFF;

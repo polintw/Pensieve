@@ -10,12 +10,14 @@ import classnames from 'classnames';
 import styles from "./stylesMainIndex.module.css";
 import {
   nailChart,
-  separationLine
+  separationLine,
+  axios_cosmic_IndexList,
+  axios_visit_GET_last,
+  axios_visit_Index
 } from './utils.js';
 import MainTitle from '../MainTitle/MainTitle.jsx';
+import MainBanner from '../MainBanner/MainBanner.jsx';
 import Unit from '../../../Component/Unit.jsx';
-import CreateShare from '../../../Component/CreateShare.jsx';
-import SvgCreate from '../../../Component/Svg/SvgCreate.jsx';
 import {
   handleNounsList,
   handleUsersList
@@ -48,12 +50,12 @@ class MainIndex extends React.Component {
     super(props);
     this.state = {
       axios: false,
+      lastVisit: false,
       unitsList: [],
       unitsBasic: {},
       marksBasic: {},
     };
     this.axiosSource = axios.CancelToken.source();
-    this._axios_cosmic_IndexList = this._axios_cosmic_IndexList.bind(this);
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._render_IndexNails = this._render_IndexNails.bind(this);
     this.style={
@@ -83,32 +85,47 @@ class MainIndex extends React.Component {
     window.location.assign('/user/cognition/actions/shareds');
   }
 
-  _axios_cosmic_IndexList(){
+  componentDidMount(){
     const self = this;
 
-    this.setState((prevState, props)=>{return {axios: true};}, ()=>{
-      let url = '/router/cosmic/present';
-      axios.get(url, {
-        headers: {
-          'charset': 'utf-8',
-          'token': window.localStorage['token']
-        },
-        cancelToken: self.axiosSource.token
-      }).then(function (res) {
+    this.setState({axios: true});
 
-        let resObj = JSON.parse(res.data);
-        self.props._submit_NounsList_new(resObj.main.nounsListMix);
-        self.props._submit_UsersList_new(resObj.main.usersList);
+    axios_visit_GET_last(self.axiosSource.token) //in the future, method to get basic (user)sheet data would join here
+      .then((lastVisitObj)=>{
+        self.setState({axios: false});
+
+        //use promise to let the axios.all could be pass to .then even inside a callback
+        return new Promise((resolve, reject)=>{
+          self.setState((state, props)=>{
+            return {
+              lastVisit: lastVisitObj.main.lastTime,
+              axios: true
+            }
+          }, ()=>{
+            resolve(axios.all([
+              axios_cosmic_IndexList(self.axiosSource.token),
+              axios_visit_Index(self.axiosSource.token)
+            ]));
+          })
+
+        });
+      })
+      .then(axios.spread (function(focusObj) {
+        self.setState({axios: false});
+
+        self.props._submit_NounsList_new(focusObj.main.nounsListMix);
+        self.props._submit_UsersList_new(focusObj.main.usersList);
 
         self.setState((prevState, props)=>{
           return({
             axios: false,
-            unitsList: resObj.main.unitsList,
-            unitsBasic: resObj.main.unitsBasic,
-            marksBasic: resObj.main.marksBasic
+            unitsList: focusObj.main.unitsList,
+            unitsBasic: focusObj.main.unitsBasic,
+            marksBasic: focusObj.main.marksBasic
           });
         });
-      }).catch(function (thrown) {
+
+      })).catch(function (thrown) {
         self.setState({axios: false});
         if (axios.isCancel(thrown)) {
           cancelErr(thrown);
@@ -117,11 +134,7 @@ class MainIndex extends React.Component {
           if(message) alert(message);
         }
       });
-    })
-  }
 
-  componentDidMount(){
-    this._axios_cosmic_IndexList();
   }
 
   componentWillUnmount(){
@@ -160,6 +173,12 @@ class MainIndex extends React.Component {
             className={classnames(styles.boxTop)}>
             <MainTitle
               _refer_von_cosmic={this.props._refer_von_cosmic}/>
+            <div
+              className={classnames(styles.boxBanner)}>
+              <MainBanner
+                lastVisit={this.state.lastVisit}
+                _refer_von_cosmic={this.props._refer_von_cosmic}/>
+            </div>
           </div>
           <div
             className={styles.boxScroll}>

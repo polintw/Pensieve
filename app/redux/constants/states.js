@@ -1,7 +1,12 @@
-const {unitCurrentInit, accountInfoInit} = require('./globalStates.js');
+const {
+  unitCurrentInit,
+  accountInfoInit,
+  i18nUIStringInit
+} = require('./globalStates.js');
 
 export const initGlobal = {
   userInfo: accountInfoInit, //should change the key:'userInfo' to other else
+  i18nUIString: i18nUIStringInit
 }
 
 export const initSign = {
