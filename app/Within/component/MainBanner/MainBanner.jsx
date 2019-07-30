@@ -85,7 +85,7 @@ class MainBanner extends React.Component {
               <div
                 className={styles.boxGreet}>
                 <span className={classnames(styles.fontSubtitle)}>
-                  {"Welcome back"}</span>
+                  {this.props.i18nUIString.catalog["welcomeBack"]}</span>
               </div>
             }
           </div>
@@ -95,7 +95,7 @@ class MainBanner extends React.Component {
             className={classnames(styles.boxName)}>
             <div style={{display: 'inline-block', marginRight: '1rem'}}>
               <span className={classnames(styles.fontSubtitle, styles.fontHello)}>
-                {"Hello, "}</span>
+                {this.props.i18nUIString.catalog['helloUser']}</span>
             </div>
             <div style={{display: 'inline-block', marginRight: '2.5rem'}}>
               <AccountPlate
@@ -129,6 +129,7 @@ class MainBanner extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
+    i18nUIString: state.i18nUIString,
     unitCurrent: state.unitCurrent,
     mainTitle: state.mainTitle
   }
