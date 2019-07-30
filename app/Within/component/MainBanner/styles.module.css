@@ -16,29 +16,38 @@
 }
 
 .boxName {
+  display: flex;
+  align-items: baseline;
+  width: 84.3%;
   position: absolute;
+  right: 11.3rem;
 }
 
 .boxCreate {
-  width: 7.8rem;
+  width: 8.1rem;
   height: auto;
   position: absolute;
   right: 0;
-  top: 0.24rem;
+  top: 0.1rem;
   box-sizing: border-box;
 }
 
 .boxFlex {
   display: flex;
-  width: 73%;
-  min-width: 280px;
+  width: 71%;
   position: absolute;
   bottom: 0;
-  right: 10rem;
+  right: 11rem;
 }
 
 .boxUnderline {
   flex: 1 62%;
+}
+
+.boxCape {
+  flex: 1;
+  align-self: flex-start;
+  padding: 1px;
 }
 
 .boxGreet {
@@ -47,7 +56,7 @@
 }
 
 .fontSubtitle {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
 }
 
 .fontHello {

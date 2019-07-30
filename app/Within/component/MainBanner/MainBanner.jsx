@@ -84,7 +84,8 @@ class MainBanner extends React.Component {
               this.state.greet &&
               <div
                 className={styles.boxGreet}>
-                <span style={{fontSize: '1.3rem'}}>{"Welcome back"}</span>
+                <span className={classnames(styles.fontSubtitle)}>
+                  {"Welcome back"}</span>
               </div>
             }
           </div>
@@ -96,13 +97,14 @@ class MainBanner extends React.Component {
               <span className={classnames(styles.fontSubtitle, styles.fontHello)}>
                 {"Hello, "}</span>
             </div>
-            <AccountPlate
-              size={'regular'}
-              accountFisrtName={this.props.userInfo.firstName}
-              accountLastName={this.props.userInfo.lastName}/>
-
+            <div style={{display: 'inline-block', marginRight: '2.5rem'}}>
+              <AccountPlate
+                size={'regular'}
+                accountFisrtName={this.props.userInfo.firstName}
+                accountLastName={this.props.userInfo.lastName}/>
+            </div>
             <div
-              className={classnames(styles.borderBanner)}></div>
+              className={classnames(styles.borderBanner, styles.boxCape)}></div>
           </div>
           <div
             className={classnames(styles.boxDate, 'fontGillSN')}>
