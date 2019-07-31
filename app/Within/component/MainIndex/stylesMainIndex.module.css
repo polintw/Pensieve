@@ -2,7 +2,7 @@
   width: 100%;
   position: relative;
   box-sizing: border-box;
-  margin: 0 0 3rem;
+  margin: 0 0 4rem;
 }
 
 .boxBanner {
@@ -36,7 +36,7 @@
 }
 
 .boxNarrow {
-  width: 30%;
+  width: 31%;
 }
 
 .boxFlat {
@@ -53,14 +53,9 @@
   height: 317px;
 }
 
-.boxFillVertical {
-  width: 4%; /*follow the remain space between Wide & Narrow, or Flats*/
-  position: relative;
-}
-
 .boxFillHoriz {
   width: 99%;
-  height: 49px;
+  height: 92px;
   position: relative;
 }
 
