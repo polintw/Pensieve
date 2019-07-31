@@ -29,8 +29,8 @@ const styleMiddle = {
   },
   boxSubtitle: {
     position: 'fixed',
-    top: '22px',
-    right: '73%'
+    bottom: '109px',
+    left: '7%'
   },
   boxLogo: {
     display: 'inline-block',

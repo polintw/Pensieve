@@ -133,7 +133,7 @@ class WithinCosmic extends React.Component {
         </div>
         <div
           className={classnames(styles.fontExplore, styles.boxFixedExplore)}
-          style={(this.props.location.pathname==this.props.match.path)?{top: '9%', right: '4%'}:{}}>
+          style={(this.props.location.pathname==this.props.match.path)?{top: '10%', right: '4.5%'}:{}}>
           <LinkExplore {...this.props}/>
         </div>
         <div style={this.style.Within_Cosmic_NavOptions}>
