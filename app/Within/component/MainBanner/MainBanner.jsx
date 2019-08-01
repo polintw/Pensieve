@@ -29,9 +29,14 @@ class MainBanner extends React.Component {
       greet: false //temp use, before the real customized render constructed
     };
     this.axiosSource = axios.CancelToken.source();
+    this._submit_Share_New = this._submit_Share_New.bind(this);
     this.style={
 
     }
+  }
+
+  _submit_Share_New(dataObj){
+    window.location.assign('/user/cognition/actions/shareds');
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
