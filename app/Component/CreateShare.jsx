@@ -124,8 +124,9 @@ class CreateShare extends React.Component {
       },
       cancelToken: this.axiosSource.token
     }).then(function (res) {
-      self.props._set_unitSubmitting(false);
       self.props._submit_Share_New();
+      //these two should laster than _submit_Share_New(), in case the small 'window' could click submit again happen
+      self.props._set_unitSubmitting(false);
       self.setState({editingModal: false, warningModal: false, warningType: null});
     }).catch(function (thrown) {
       self.props._set_unitSubmitting(false);
