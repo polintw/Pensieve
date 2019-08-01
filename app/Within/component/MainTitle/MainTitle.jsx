@@ -26,6 +26,7 @@ class MainTitle extends React.Component {
     };
     this.boxTitle = React.createRef();
     this._check_Position = this._check_Position.bind(this);
+    this._submit_Share_New = this._submit_Share_New.bind(this);
     this.style={
       withinCom_MainIndex_scroll_col_Create: {
         display: 'inline-block',
@@ -48,6 +49,11 @@ class MainTitle extends React.Component {
 
     }
   }
+
+  _submit_Share_New(dataObj){
+    window.location.assign('/user/cognition/actions/shareds');
+  }
+
 
   _check_Position(){
     let titleTop = this.boxTitle.current.getBoundingClientRect().top;
