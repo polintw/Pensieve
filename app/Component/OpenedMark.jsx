@@ -25,8 +25,10 @@ class OpenedMark extends React.Component {
     };
     this.style = {
       Com_ImgLayer_MarkBlock_: {
-        height: '32%', //the target MaxHeight is 64%
-        position: 'absolute'
+        position: 'absolute',
+        backgroundColor: '#fcfcfc',
+        borderBottomLeftRadius: '4%',
+        borderBottomRightRadius: '4%'
       }
     };
   }
@@ -42,11 +44,11 @@ class OpenedMark extends React.Component {
         //the position of circle relative to img, position img original at in the frame, and transform/translate we set
         //--- due to offsetLeft wouldn't take the transform property
 
-    width = ((widthDivisionRatial/2)-2.6)/widthDivisionRatial*100;
+    width = ((widthDivisionRatial/2)-(1.7+1.9))/widthDivisionRatial*100;
     (spotLeftPx) > (this.props.boxWidth/2) ? ( //check which side of the box the circle at
-      right = this.props.boxWidth-(spotLeftPx)+1.6*(this.props.boxWidth/widthDivisionRatial) //if circle st the right side, put the box 'left' to the circle
+      right = this.props.boxWidth-(spotLeftPx)+1.7*(this.props.boxWidth/widthDivisionRatial) //if circle st the right side, put the box 'left' to the circle
     ): (
-      left = spotLeftPx+1.6*(this.props.boxWidth/widthDivisionRatial)
+      left = spotLeftPx+1.7*(this.props.boxWidth/widthDivisionRatial)
     );
     coordinate.top > 50 ? ( //move between 0 - 28%, depend on location
       //28% above bottom if .top just at 50%, then lower follow the portion change

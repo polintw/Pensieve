@@ -124,9 +124,11 @@ class CreateShare extends React.Component {
       },
       cancelToken: this.axiosSource.token
     }).then(function (res) {
-      self.props._submit_Share_New();
-      //these two should laster than _submit_Share_New(), in case the small 'window' could click submit again happen
+      //first, let redux state back, because this would last if the window not reload
       self.props._set_unitSubmitting(false);
+      //then second call this, perhaps unmount the component so need to be called after redux state reset
+      self.props._submit_Share_New();
+      //local state was final, as a last defense in case the user click the submit during a very small 'window'
       self.setState({editingModal: false, warningModal: false, warningType: null});
     }).catch(function (thrown) {
       self.props._set_unitSubmitting(false);

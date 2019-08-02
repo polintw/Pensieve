@@ -12,8 +12,8 @@ const styleMiddle = {
     fontSize: '1.4rem',
     letterSpacing: '0.18rem',
     lineHeight: '1.9rem',
-    fontWeight: '300',
-    color: '#f0f0f0',
+    fontWeight: '400',
+    color: '#000000',
     cursor: 'pointer'
   }
 }

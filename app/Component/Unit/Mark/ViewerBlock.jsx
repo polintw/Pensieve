@@ -8,11 +8,10 @@ import DraftDisplay from '../../Draft/DraftDisplay.jsx';
 
 const styleMiddle = {
   boxInteraction: {
-    display: 'inline-block',
+    display: 'flex',
+    flexDirection: 'column',
+    flexWrap: 'nowrap',
     width: '100%',
-    position: 'static',
-    top: '100%',
-    right: '0',
     boxSizing: 'border-box',
   },
   boxPanelInteraction: {
@@ -29,8 +28,8 @@ const styleMiddle = {
     fontSize: '1.4rem',
     letterSpacing: '0.18rem',
     lineHeight: '1.9rem',
-    fontWeight: '300',
-    color: '#f0f0f0',
+    fontWeight: '400',
+    color: '#000000',
     cursor: 'pointer'
   },
   textMessage: {
@@ -56,41 +55,34 @@ class ViewerBlock extends React.Component {
     this._handleClick_openDialogue = this._handleClick_openDialogue.bind(this);
     this.style = {
       Com_ViewerBlock_: {
-        display: 'inline-block',
-        maxWidth: '100%',
-        minWidth: '56%',
-        height: '100%',
-        position: 'absolute',
+        display: 'flex',
+        flexDirection: 'column',
+        flexWrap: 'nowrap',
+        width: '100%',
+        position: 'static',
         boxSizing: 'border-box',
-        overflowY: 'visible'
       },
       Com_ViewerBlock_content_: {
-        display: 'inline-block',
-        minHeight: '49%',
-        maxHeight: '147%',//the target MaxHeight is 64% to the entire img
-        position: 'relative',
+        maxHeight: '46vh',
         boxSizing: 'border-box',
-        paddingLeft: '6%',
-        marginBottom: '7%',
+        padding: '9% 9% 6% 7%',
+        marginBottom: '6vh',
         fontSize: '1.36rem',
-        letterSpacing: '0.18rem',
-        lineHeight: '1.9rem',
-        fontWeight: '300',
-        color: '#FAFAFA',
+        letterSpacing: '0.1rem',
+        lineHeight: '1.7rem',
+        fontWeight: '400',
+        color: '#000000',
         overflowY: 'auto'
       },
       Com_ViewerBlock_panel_: {
-        display: 'inline-block',
         width: '100%',
-        position: 'relative',
+        height: '2.1rem',
         boxSizing: 'border-box',
-        marginTop: '6%'
+        margin: '5vh 0 2vh'
       },
       Com_ViewerBlock_credits_: {
-        display: 'inline-block',
         width: '100%',
         height: '2.6rem',
-        position: 'relative',
         boxSizing: 'border-box',
         marginTop: '2%',
       },
@@ -150,18 +142,18 @@ class ViewerBlock extends React.Component {
             editorState={this.props.markData.editorContent}/>
         </div>
         <div
-          style={{position: 'relative'}}>
+          style={{width: '80%',alignSelf:'flex-end'}}>
           <div
             style={{
-              width: '48%',
-              borderBottom: 'solid 1px #ababab'}}></div>
+              width: '89%',
+              borderBottom: 'solid 1px #b3b3b3'}}></div>
         </div>
         <div
           style={styleMiddle.boxInteraction}>
           <div
             style={Object.assign({},this.style.Com_ViewerBlock_panel_)}>
             <div
-              style={Object.assign({}, styleMiddle.boxPanelInteraction, {float: 'left'})}>
+              style={Object.assign({}, styleMiddle.boxPanelInteraction, {float: 'left', marginLeft: '8%'})}>
               <span
                 style={styleMiddle.spanInteractions}
                 onClick={this._handleClick_openDialogue}>
@@ -175,7 +167,7 @@ class ViewerBlock extends React.Component {
                 _set_BlockMessage={this._set_BlockMessage}/>
             </div>
             <div
-              style={Object.assign({}, styleMiddle.boxPanelInteraction, {margin: '0 3%', float: 'right'})}>
+              style={Object.assign({}, styleMiddle.boxPanelInteraction, {margin: '0px 7% 0 0', float: 'right'})}>
               <PanelJump
                 marksLength={this.props.marksLength}
                 currentSerial={this.props.currentSerial}
@@ -195,8 +187,7 @@ class ViewerBlock extends React.Component {
             <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
             <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
           </div>
-          <div
-            style={{display: 'inline-block', position: 'relative'}}>
+          <div>
             {"(多行參考資料連結)"}
           </div>
         </div>
