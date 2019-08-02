@@ -64,6 +64,7 @@ class ViewerBlock extends React.Component {
       },
       Com_ViewerBlock_content_: {
         maxHeight: '46vh',
+        minHeight: '30vh',
         boxSizing: 'border-box',
         padding: '9% 9% 6% 7%',
         marginBottom: '6vh',
@@ -175,13 +176,13 @@ class ViewerBlock extends React.Component {
                 _set_stateDefault={this._set_stateDefault}/>
             </div>
           </div>
-          <div
-            style={styleMiddle.boxMessage}>
-            {
-              this.state.message &&
+          {
+            this.state.message &&
+            <div
+              style={styleMiddle.boxMessage}>
               <span style={styleMiddle.textMessage}>{this.state.message}</span>
-            }
-          </div>
+            </div>
+          }
           <div
             style={Object.assign({}, this.style.Com_ViewerBlock_credits_)}>
             <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>

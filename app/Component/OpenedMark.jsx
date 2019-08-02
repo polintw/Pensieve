@@ -6,7 +6,7 @@ import {
 } from './config/styleParams.js';
 import SvgCircle from './Svg/SvgCircle.jsx';
 
-const generalStyle = {
+const styleMiddle = {
   absolute_FullVersion: {
     width: '100%',
     height: '100%',
@@ -14,6 +14,10 @@ const generalStyle = {
     top: '0',
     left:'0',
     boxSizing: 'border-box'
+  },
+  Com_ImgLayer_MarkBlock_: {
+    position: 'absolute',
+    backgroundColor: '#fcfcfc',
   }
 }
 
@@ -24,11 +28,13 @@ class OpenedMark extends React.Component {
 
     };
     this.style = {
-      Com_ImgLayer_MarkBlock_: {
-        position: 'absolute',
-        backgroundColor: '#fcfcfc',
-        borderBottomLeftRadius: '4%',
-        borderBottomRightRadius: '4%'
+      dependent_radius_Bottom: {
+        borderBottomLeftRadius: '2%',
+        borderBottomRightRadius: '2%'
+      },
+      dependent_radius_Top: {
+        borderTopLeftRadius: '2%',
+        borderTopRightRadius: '2%'
       }
     };
   }
@@ -39,7 +45,7 @@ class OpenedMark extends React.Component {
           imgHeight = this.props.imgWidthHeight.height,
           imgLeft=this.props.imgPosition.left;
     const coordinate = {top: this.props.marksData.data[markId].top, left: this.props.marksData.data[markId].left};
-    let [left, right, top, bottom, width] = ['','','','', ''],
+    let [left, right, top, bottom, width, radiusObj] = ['','','','', '', ''],
         spotLeftPx = coordinate.left/100*imgWidth+imgLeft+imgWidth*(baseHorizonRatial/100);
         //the position of circle relative to img, position img original at in the frame, and transform/translate we set
         //--- due to offsetLeft wouldn't take the transform property
@@ -50,12 +56,9 @@ class OpenedMark extends React.Component {
     ): (
       left = spotLeftPx+1.7*(this.props.boxWidth/widthDivisionRatial)
     );
-    coordinate.top > 50 ? ( //move between 0 - 28%, depend on location
-      //28% above bottom if .top just at 50%, then lower follow the portion change
-      bottom = (28 - ((coordinate.top-50)/50) * (28-3)) + '%'
-    ):(
-      top = (3 + (coordinate.top/50) * (28-3)) + '%'
-    );
+    if(coordinate.top > 50){
+      bottom = 0; radiusObj=this.style.dependent_radius_Top
+    }else{top = 0 ; radiusObj=this.style.dependent_radius_Bottom}
 
     const childrenWithProps = React.Children.map(this.props.children, (child) =>
       React.cloneElement(child, { toCircleLeft: right > 0? true : false, downToMdidline: bottom.length>0 ? true:false })
@@ -64,7 +67,7 @@ class OpenedMark extends React.Component {
     return (
       <div>
         <div
-          style={generalStyle.absolute_FullVersion}
+          style={styleMiddle.absolute_FullVersion}
           onClick={this.props._handleClick_ImgLayer_circle}/>
         <div
           className={'boxImgPosition'}
@@ -97,7 +100,9 @@ class OpenedMark extends React.Component {
             left: left,
             right: right,
             bottom: bottom,
-            width: width+"%"}, this.style.Com_ImgLayer_MarkBlock_)}>
+            width: width+"%"},
+            radiusObj,
+            styleMiddle.Com_ImgLayer_MarkBlock_)}>
             {childrenWithProps}
         </div>
       </div>
