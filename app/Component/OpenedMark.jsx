@@ -17,8 +17,24 @@ const styleMiddle = {
   },
   Com_ImgLayer_MarkBlock_: {
     position: 'absolute',
-    backgroundColor: '#fcfcfc',
+    boxShadow: '0 0 2px 0',
+    overflow: 'hidden'
   }
+}
+
+const _render_CircleGroup = (props, coordinate)=> {
+  return (
+    <div
+      id={props.currentMark}
+      className={'circleMarkSpotSvg'}
+      style={{top: coordinate.top+"%", left: coordinate.left+'%'}}
+      onClick={props._handleClick_ImgLayer_circle}>
+      <SvgCircle
+        current={false}
+        notify={props.notify}
+        serial={props.serial}/>
+    </div>
+  )
 }
 
 class OpenedMark extends React.Component {
@@ -29,12 +45,12 @@ class OpenedMark extends React.Component {
     };
     this.style = {
       dependent_radius_Bottom: {
-        borderBottomLeftRadius: '2%',
-        borderBottomRightRadius: '2%'
+        borderBottomLeftRadius: '3%',
+        borderBottomRightRadius: '3%'
       },
       dependent_radius_Top: {
-        borderTopLeftRadius: '2%',
-        borderTopRightRadius: '2%'
+        borderTopLeftRadius: '3%',
+        borderTopRightRadius: '3%'
       }
     };
   }
@@ -50,7 +66,7 @@ class OpenedMark extends React.Component {
         //the position of circle relative to img, position img original at in the frame, and transform/translate we set
         //--- due to offsetLeft wouldn't take the transform property
 
-    width = ((widthDivisionRatial/2)-(1.7+1.9))/widthDivisionRatial*100;
+    width = ((widthDivisionRatial/2)-(1.7+2.3))/widthDivisionRatial*100;
     (spotLeftPx) > (this.props.boxWidth/2) ? ( //check which side of the box the circle at
       right = this.props.boxWidth-(spotLeftPx)+1.7*(this.props.boxWidth/widthDivisionRatial) //if circle st the right side, put the box 'left' to the circle
     ): (
@@ -77,22 +93,13 @@ class OpenedMark extends React.Component {
             right: baseHorizonRatial+'%',
             transform: 'translate('+baseHorizonRatial+'%,-50%)',
             backgroundImage: 'radial-gradient(ellipse at '+
-              (coordinate.left+ (right > 0?5:(-5)))+
+              (coordinate.left+ (right > 0?6:(-6)))+
               '% '+
-              (coordinate.top+ (top > 0?3:(-3)))+
-              '% , rgba(30, 30, 30,0) 0, rgba(30, 30, 30,0.2) 11%, rgba(30, 30, 30,0.46) 20%, rgba(33, 33, 33,0.67) 27%, rgba(33, 33, 33,0.7) 32%, rgba(33, 33, 33,0.68) 40%,rgba(30, 30, 30,0.56) 51%,rgba(30, 30, 30,0.45) 64%, rgba(30, 30, 30,0.36) 76%, rgba(30, 30, 30,0.3) 87%, rgba(30, 30, 30,0.27) 100%)'
+              (coordinate.top+ (top > 0? 12: (-12)))+
+              '%, rgba(30, 30, 30, 0) 0px, rgba(30, 30, 30, 0.1) 16%, rgba(30, 30, 30, 0.2) 28%,rgba(30, 30, 30, 0.32) 37%, rgba(30, 30, 30, 0.39) 44%, rgba(33, 33, 33, 0.47) 50%, rgba(33, 33, 33, 0.56) 56% )'
           }}
           onClick={this.props._handleClick_ImgLayer_circle}>
-            <div
-              id={markId}
-              className={'circleMarkSpotSvg'}
-              style={{top: coordinate.top+"%", left: coordinate.left+'%'}}
-              onClick={this.props._handleClick_ImgLayer_circle}>
-              <SvgCircle
-                current={false}
-                notify={this.props.notify}
-                serial={this.props.serial}/>
-            </div>
+          {_render_CircleGroup(markId, coordinate)}
         </div>
         <div
           style={Object.assign({
