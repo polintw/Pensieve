@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from "react-redux";
-import ViewerBlock from './ViewerBlock.jsx';
+import ViewerBlock from './ViewerBlock/ViewerBlock.jsx';
 import SvgCircle from '../../Svg/SvgCircle.jsx';
+import SvgCurCir from '../../Svg/SvgCurCir.jsx';
 import {widthDivisionRatial} from '../../config/styleParams.js'; //dividing markglayer width, used for determineing the position
 import OpenedMark from '../../OpenedMark.jsx';
 
@@ -93,7 +94,21 @@ class MarksViewer extends React.Component {
             onClick={self._handleClick_ImgLayer_circle}>
             <SvgCircle
               notify={self.props.unitCurrent.marksInteraction[id].notify ?true:false}
-              current={(currentSerial==self.props.marksData.data[id].serial)?true:false}/>
+              current={(currentSerial==self.props.marksData.data[id].serial)?'pointer':false}/>
+            {
+              (currentSerial==self.props.marksData.data[id].serial) &&
+              <div
+                style={{
+                  position: 'absolute',
+                  width: '64%',
+                  height: 'auto',
+                  top: '2%',
+                  left: '-100%',
+                  cursor: 'pointer'
+                }}>
+                <SvgCurCir/>
+              </div>
+            }
           </div>
         )
       });

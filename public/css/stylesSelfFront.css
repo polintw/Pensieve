@@ -60,3 +60,25 @@
   line-height: 1.7rem;
   color: #ABABAB;
 }
+._C_C_app_Component_Unit_Mark_ViewerBlock_styles_module__boxPanelJump {
+  box-sizing: border-box;
+  padding: 0 8% 0 8%;
+  margin: 0 0 2vh 0;
+  text-align: right;
+}
+
+._C_C_app_Component_Unit_Mark_ViewerBlock_styles_module__boxContentDraft {
+  max-height: 42vh;
+  min-height: 35vh;
+  box-sizing: border-box;
+  padding: 5vh 10% 3vh 6%;
+  overflow-y: auto;
+}
+
+._C_C_app_Component_Unit_Mark_ViewerBlock_styles_module__fontContentDraft {
+  font-size: 1.36rem;
+  letter-spacing: 0.1rem;
+  line-height: 1.7rem;
+  font-weight: 400;
+  color: #000000;
+}

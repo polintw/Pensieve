@@ -5,6 +5,7 @@ import {
   widthDivisionRatial
 } from './config/styleParams.js';
 import SvgCircle from './Svg/SvgCircle.jsx';
+import SvgNextCir from './Svg/SvgNextCir.jsx';
 
 const styleMiddle = {
   absolute_FullVersion: {
@@ -30,9 +31,24 @@ const _render_CircleGroup = (props, coordinate)=> {
       style={{top: coordinate.top+"%", left: coordinate.left+'%'}}
       onClick={props._handleClick_ImgLayer_circle}>
       <SvgCircle
-        current={false}
+        current={'opened'}
         notify={props.notify}
         serial={props.serial}/>
+      <div
+        style={{
+          position: 'absolute',
+          width: '64%',
+          height: 'auto',
+          top: '124%',
+          left: '100%',
+          cursor: 'pointer'
+        }}>
+        <SvgNextCir
+          pathStyle={{
+            fill: '#fff',
+            stroke: '#fff'
+          }}/>
+      </div>
     </div>
   )
 }

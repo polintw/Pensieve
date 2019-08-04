@@ -20,8 +20,8 @@
 }
 
 .circleMarkSpotSvg {
-  width: 3vw;
-  height: 3vw;
+  width: 3.2vw;
+  height: 3.2vw;
   position: absolute;
   transform: translate(-50%, -50%);
   overflow: visible;

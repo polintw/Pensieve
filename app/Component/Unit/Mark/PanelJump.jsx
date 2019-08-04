@@ -1,19 +1,19 @@
 import React from 'react';
 import { connect } from "react-redux";
+import SvgNextCir from '../../Svg/SvgNextCir.jsx';
 
 const styleMiddle = {
-  boxPanelInteraction: {
+  boxSvgNextCir: {
     display: 'inline-block',
-    height: '100%',
-    position: 'relative',
-    boxSizing: 'border-box',
+    width: '8%',
+    height: 'auto',
+    cursor: 'pointer'
   },
   spanInteractions: {
     fontSize: '1.4rem',
-    letterSpacing: '0.18rem',
+    letterSpacing: '0.1rem',
     lineHeight: '1.9rem',
     fontWeight: '400',
-    color: 'rgb(247, 244, 188)',
     cursor: 'pointer'
   }
 }
@@ -45,15 +45,20 @@ class PanelJump extends React.Component {
           (this.props.currentSerial> 0) &&
           <span
             jump={'previous'}
-            style={Object.assign({}, styleMiddle.spanInteractions, {paddingRight: '0.45rem', fontSize: '1.32rem', letterSpacing:'0.1rem', color: 'rgba(173, 173, 173, 0.8)'})}
+            style={Object.assign({}, styleMiddle.spanInteractions, {paddingRight: '0.6rem', fontSize: '1.32rem', letterSpacing:'0.1rem', color: 'rgba(173, 173, 173, 0.8)'})}
             onClick={this._handleClick_jumpMark}>
             {'prev.  |'}</span>
         }
-        <span
+        <div
+          style={styleMiddle.boxSvgNextCir}
           jump={(this.props.currentSerial==(this.props.marksLength-1)) ? 'continue':'next'}
-          style={Object.assign({}, styleMiddle.spanInteractions, {fontSize: '1.43rem'})}
           onClick={this._handleClick_jumpMark}>
-          {(this.props.currentSerial==(this.props.marksLength-1)) ? 'continue': 'next'}</span>
+          <SvgNextCir
+            pathStyle={{
+              fill: '#d8a81e',
+              stroke: '#d8a81e'
+            }}/>
+        </div>
       </div>
     )
   }

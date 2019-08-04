@@ -1,10 +1,12 @@
 import React from 'react';
 import {connect} from "react-redux";
-import PanelJump from './PanelJump.jsx';
-import ViewerBulb from './ViewerBulb.jsx';
-import MarkDialogue from './MarkDialogue.jsx';
-import SvgPropic from '../../Svg/SvgPropic.jsx';
-import DraftDisplay from '../../Draft/DraftDisplay.jsx';
+import classnames from 'classnames';
+import styles from "./styles.module.css";
+import PanelJump from '../PanelJump.jsx';
+import ViewerBulb from '../ViewerBulb.jsx';
+import MarkDialogue from '../MarkDialogue.jsx';
+import SvgPropic from '../../../Svg/SvgPropic.jsx';
+import DraftDisplay from '../../../Draft/DraftDisplay.jsx';
 
 const styleMiddle = {
   boxInteraction: {
@@ -64,17 +66,10 @@ class ViewerBlock extends React.Component {
         boxSizing: 'border-box',
       },
       Com_ViewerBlock_content_: {
-        maxHeight: '46vh',
-        minHeight: '39vh',
-        boxSizing: 'border-box',
-        padding: '5vh 10% 7vh 6%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'spaceBetween',
         backgroundColor: '#fdfdfd',
-        fontSize: '1.36rem',
-        letterSpacing: '0.1rem',
-        lineHeight: '1.7rem',
-        fontWeight: '400',
-        color: '#000000',
-        overflowY: 'auto'
       },
       Com_ViewerBlock_panel_: {
         width: '100%',
@@ -140,15 +135,26 @@ class ViewerBlock extends React.Component {
         <div
           ref={this.boxContent}
           style={Object.assign({}, this.style.Com_ViewerBlock_content_)}>
-          <DraftDisplay
-            editorState={this.props.markData.editorContent}/>
+          <div
+            className={classnames(styles.boxContentDraft, styles.fontContentDraft)}>
+            <DraftDisplay
+              editorState={this.props.markData.editorContent}/>
+          </div>
+          <div
+            className={classnames(styles.boxPanelJump, styles.fontPanelJump)}>
+            <PanelJump
+              marksLength={this.props.marksLength}
+              currentSerial={this.props.currentSerial}
+              _set_markJump={this.props._set_markJump}
+              _set_stateDefault={this._set_stateDefault}/>
+          </div>
         </div>
         <div
           style={styleMiddle.boxInteraction}>
           <div
             style={Object.assign({},this.style.Com_ViewerBlock_panel_)}>
             <div
-              style={Object.assign({}, styleMiddle.boxPanelInteraction, {float: 'right', marginRight: '7%'})}>
+              style={Object.assign({}, styleMiddle.boxPanelInteraction, {marginLeft: '8%', float: 'left'})}>
               <span
                 style={styleMiddle.spanInteractions}
                 onClick={this._handleClick_openDialogue}>
@@ -156,18 +162,10 @@ class ViewerBlock extends React.Component {
               </span>
             </div>
             <div
-              style={Object.assign({}, styleMiddle.boxPanelInteraction, {float: 'right', marginRight: '7%'})}>
+              style={Object.assign({}, styleMiddle.boxPanelInteraction, {marginLeft: '8%', float: 'left'})}>
               <ViewerBulb
                 markKey={this.props.markKey}
                 _set_BlockMessage={this._set_BlockMessage}/>
-            </div>
-            <div
-              style={Object.assign({}, styleMiddle.boxPanelInteraction, {marginLeft: '8%', float: 'left'})}>
-              <PanelJump
-                marksLength={this.props.marksLength}
-                currentSerial={this.props.currentSerial}
-                _set_markJump={this.props._set_markJump}
-                _set_stateDefault={this._set_stateDefault}/>
             </div>
           </div>
           {
