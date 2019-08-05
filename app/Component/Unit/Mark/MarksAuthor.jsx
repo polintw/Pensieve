@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from "react-redux";
-import AuthorBlock from './AuthorBlock.jsx';
+import AuthorBlock from './AuthorBlock/AuthorBlock.jsx';
 import SvgCircle from '../../Svg/SvgCircle.jsx';
+import SvgCurCir from '../../Svg/SvgCurCir.jsx';
 import {widthDivisionRatial} from '../../config/styleParams.js'; //dividing markglayer width, used for determineing the position
 import OpenedMark from '../../OpenedMark.jsx';
 
@@ -65,9 +66,11 @@ class MarksAuthor extends React.Component {
       return (
         <OpenedMark
           {...this.props}
+          currentSerial={currentSerial}
           widthDivisionRatial={widthDivisionRatial}
           notify={this.props.unitCurrent.marksInteraction[markKey].notify?true:false}
-          _handleClick_ImgLayer_circle={this._handleClick_ImgLayer_circle}>
+          _handleClick_ImgLayer_circle={this._handleClick_ImgLayer_circle}
+          _set_markJump={this._set_markJump}>
           <AuthorBlock
             currentSerial={currentSerial}
             markKey={markKey}
@@ -83,7 +86,8 @@ class MarksAuthor extends React.Component {
       currentSerial = currentSerial< 0? 0 : currentSerial;
 
       let circlesArr = self.props.marksData.list.map(function(id, index){
-        const coordinate = {top: self.props.marksData.data[id].top, left: self.props.marksData.data[id].left};
+        const markData = self.props.marksData.data[id];
+        const coordinate = {top: markData.top, left: markData.left};
         return (
           <div
             id={id}
@@ -93,7 +97,20 @@ class MarksAuthor extends React.Component {
             onClick={self._handleClick_ImgLayer_circle}>
             <SvgCircle
               notify={self.props.unitCurrent.marksInteraction[id].notify ?true:false}
-              current={(currentSerial==self.props.marksData.data[id].serial)?true:false}/>
+              current={(currentSerial==markData.serial)? true :false}/>
+              {
+                (currentSerial==markData.serial) &&
+                <div
+                  className={'boxMarkCurCir'}
+                  style={ (coordinate.left < '15%') ? {
+                    left:'70%',
+                    transform: 'translate(0, -50%) scaleX(-1)'
+                  }: {
+                    left:'-70%'
+                  }}>
+                  <SvgCurCir/>
+                </div>
+              }
           </div>
         )
       });
