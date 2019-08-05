@@ -109,6 +109,12 @@ class ViewerBlock extends React.Component {
     this.setState({message: message});
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot){
+    if(prevProps.markKey !== this.props.markKey){
+      this._set_stateDefault();
+    }
+  }
+
   componentDidMount(){
     this.boxContent.current.addEventListener('wheel', this._handleWheel_boxContent, {passive: false})
     //because the modern browser set the 'passive' property of addEventListener default to true,
@@ -145,8 +151,7 @@ class ViewerBlock extends React.Component {
             <PanelJump
               marksLength={this.props.marksLength}
               currentSerial={this.props.currentSerial}
-              _set_markJump={this.props._set_markJump}
-              _set_stateDefault={this._set_stateDefault}/>
+              _set_markJump={this.props._set_markJump}/>
           </div>
         </div>
         <div

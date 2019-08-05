@@ -23,7 +23,7 @@ export default class SvgCurCir extends React.Component {
         }}>
         <defs>
           <style>
-            {".cls-1-CurCir,.cls-2-CurCir{fill:none;stroke-linecap:round;stroke-miterlimit:10;stroke-width:7px;}.cls-1-CurCir{stroke:url(#未命名漸層_26);}.cls-2{stroke:#fff;}"}
+            {".cls-1-CurCir,.cls-2-CurCir{fill:none;stroke-linecap:round;stroke-miterlimit:10;stroke-width:7px;}.cls-1-CurCir{stroke:url(#未命名漸層_26);}.cls-2-CurCir{stroke:#fff;}"}
           </style>
           <radialGradient id="未命名漸層_26" cx="30.17" cy="31.36" r="28.33" gradientUnits="userSpaceOnUse">
             <stop offset="0.72" stopColor="#fff" stopOpacity="0"/>

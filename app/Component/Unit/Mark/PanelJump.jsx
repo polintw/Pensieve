@@ -35,7 +35,6 @@ class PanelJump extends React.Component {
     event.stopPropagation();
     let direction = event.currentTarget.getAttribute('jump');
     this.props._set_markJump(direction, this.props.currentSerial);
-    this.props._set_stateDefault();
   }
 
   render(){

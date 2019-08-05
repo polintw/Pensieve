@@ -23,35 +23,6 @@ const styleMiddle = {
   }
 }
 
-const _render_CircleGroup = (props, coordinate)=> {
-  return (
-    <div
-      id={props.currentMark}
-      className={'circleMarkSpotSvg'}
-      style={{top: coordinate.top+"%", left: coordinate.left+'%'}}
-      onClick={props._handleClick_ImgLayer_circle}>
-      <SvgCircle
-        current={'opened'}
-        notify={props.notify}
-        serial={props.serial}/>
-      <div
-        style={{
-          position: 'absolute',
-          width: '64%',
-          height: 'auto',
-          top: '124%',
-          left: '100%',
-          cursor: 'pointer'
-        }}>
-        <SvgNextCir
-          pathStyle={{
-            fill: '#fff',
-            stroke: '#fff'
-          }}/>
-      </div>
-    </div>
-  )
-}
 
 class OpenedMark extends React.Component {
   constructor(props){
@@ -59,6 +30,8 @@ class OpenedMark extends React.Component {
     this.state = {
 
     };
+    this._render_CircleGroup = this._render_CircleGroup.bind(this);
+    this._handleClick_jumpMark = this._handleClick_jumpMark.bind(this);
     this.style = {
       dependent_radius_Bottom: {
         borderBottomLeftRadius: '3%',
@@ -69,6 +42,43 @@ class OpenedMark extends React.Component {
         borderTopRightRadius: '3%'
       }
     };
+  }
+
+  _handleClick_jumpMark (event){
+    event.preventDefault();
+    event.stopPropagation();
+    let direction = event.currentTarget.getAttribute('jump');
+    this.props._set_markJump(direction, this.props.currentSerial);
+  }
+
+  _render_CircleGroup (coordinate){
+    return (
+      <div
+        id={this.props.currentMark}
+        className={'circleMarkSpotSvg'}
+        style={{top: coordinate.top+"%", left: coordinate.left+'%'}}>
+        <div
+          onClick={this.props._handleClick_ImgLayer_circle}>
+          <SvgCircle
+            current={true}
+            notify={this.props.notify}
+            serial={this.props.serial}/>
+        </div>
+        <div
+          className={'boxMarkNextCir'}
+          style={{
+            top: coordinate.top > 90? '-72%': '124%',
+            left: coordinate.left > 90 ? '-56%': '100%'}}
+          jump={(this.props.currentSerial==(this.props.marksData.list.length-1)) ? 'continue':'next'}
+          onClick={this._handleClick_jumpMark}>
+          <SvgNextCir
+            pathStyle={{
+              fill: '#fff',
+              stroke: '#fff'
+            }}/>
+        </div>
+      </div>
+    )
   }
 
   render(){
@@ -115,7 +125,7 @@ class OpenedMark extends React.Component {
               '%, rgba(30, 30, 30, 0) 0px, rgba(30, 30, 30, 0.1) 16%, rgba(30, 30, 30, 0.2) 28%,rgba(30, 30, 30, 0.32) 37%, rgba(30, 30, 30, 0.39) 44%, rgba(33, 33, 33, 0.47) 50%, rgba(33, 33, 33, 0.56) 56% )'
           }}
           onClick={this.props._handleClick_ImgLayer_circle}>
-          {_render_CircleGroup(markId, coordinate)}
+          {this._render_CircleGroup(coordinate)}
         </div>
         <div
           style={Object.assign({

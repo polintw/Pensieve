@@ -188,7 +188,7 @@ export default class SvgCircle extends React.Component {
   _render_Circle(){
     if(this.props.serial) return (<CircleSerial serial={this.props.serial}/>)
     else if(this.props.current){
-      <CircleCurrent/>
+      return (<CircleCurrent/>)
     }else{
       return (<Circle/>)
     }

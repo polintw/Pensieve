@@ -66,9 +66,11 @@ class MarksViewer extends React.Component {
       return (
         <OpenedMark
           {...this.props}
+          currentSerial={currentSerial}
           widthDivisionRatial={widthDivisionRatial}
           notify={this.props.unitCurrent.marksInteraction[markKey].notify?true:false}
-          _handleClick_ImgLayer_circle={this._handleClick_ImgLayer_circle}>
+          _handleClick_ImgLayer_circle={this._handleClick_ImgLayer_circle}
+          _set_markJump={this._set_markJump}>
           <ViewerBlock
             currentSerial={currentSerial}
             markKey={markKey}
@@ -84,7 +86,8 @@ class MarksViewer extends React.Component {
       currentSerial = currentSerial< 0? 0 : currentSerial;
 
       let circlesArr = self.props.marksData.list.map(function(id, index){
-        const coordinate = {top: self.props.marksData.data[id].top, left: self.props.marksData.data[id].left};
+        const markData = self.props.marksData.data[id];
+        const coordinate = {top: markData.top, left: markData.left};
         return (
           <div
             id={id}
@@ -94,17 +97,16 @@ class MarksViewer extends React.Component {
             onClick={self._handleClick_ImgLayer_circle}>
             <SvgCircle
               notify={self.props.unitCurrent.marksInteraction[id].notify ?true:false}
-              current={(currentSerial==self.props.marksData.data[id].serial)?'pointer':false}/>
+              current={(currentSerial==markData.serial)? true :false}/>
             {
-              (currentSerial==self.props.marksData.data[id].serial) &&
+              (currentSerial==markData.serial) &&
               <div
-                style={{
-                  position: 'absolute',
-                  width: '64%',
-                  height: 'auto',
-                  top: '2%',
-                  left: '-100%',
-                  cursor: 'pointer'
+                className={'boxMarkCurCir'}
+                style={ (coordinate.left < '15%') ? {
+                  left:'70%',
+                  transform: 'translate(0, -50%) scaleX(-1)'
+                }: {
+                  left:'-70%'
                 }}>
                 <SvgCurCir/>
               </div>
