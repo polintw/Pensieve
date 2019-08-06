@@ -94,27 +94,35 @@ class CircleCurrent extends React.Component {
       <svg
         xmlns="http://www.w3.org/2000/svg"
         xmlnsXlink="http://www.w3.org/1999/xlink"
-        viewBox="0 0 126 126"
+        viewBox="0 0 122 123"
         style={{
           width: '100%',
           height: 'auto'
         }}>
         <defs>
-          <style>{".cls-1-CircleCurrent{opacity:0.65;}.cls-2-CircleCurrent{fill:url(#未命名漸層_26);}.cls-3-CircleCurrent{fill:#ffb25f;}"}</style>
-          <radialGradient id="未命名漸層_26" cx="63" cy="63" r="71.17" gradientUnits="userSpaceOnUse">
-            <stop offset="0.72" stopColor="#fff" stopOpacity="0"/><stop offset="0.79" stopColor="#d9d9d0" stopOpacity="0.28"/>
-            <stop offset="0.93" stopColor="#93927b" stopOpacity="0.8"/><stop offset="1" stopColor="#787759"/>
+          <style>{".cls-1-CircleCurr{opacity:0.65;}.cls-2-CircleCurr{fill:url(#未命名漸層_26);}.cls-3-CircleCurr{fill:url(#未命名漸層_57);}.cls-4-CircleCurr{fill:#d8a81e;}"}</style>
+          <radialGradient id="未命名漸層_26" cx="61" cy="62" r="68.91" gradientUnits="userSpaceOnUse">
+            <stop offset="0.72" stopColor="#fff" stopOpacity="0"/>
+            <stop offset="0.79" stopColor="#d9d9d0" stopOpacity="0.28"/>
+            <stop offset="0.93" stopColor="#93927b" stopOpacity="0.8"/>
+            <stop offset="1" stopColor="#787759"/>
+          </radialGradient>
+          <radialGradient id="未命名漸層_57" cx="61" cy="62" r="63.26" gradientUnits="userSpaceOnUse">
+            <stop offset="0.72" stopColor="#fff" stopOpacity="0"/>
+            <stop offset="0.79" stopColor="#d9d9d2" stopOpacity="0.28"/>
+            <stop offset="0.93" stopColor="#939281" stopOpacity="0.8"/>
+            <stop offset="1" stopColor="#787761"/>
           </radialGradient>
         </defs>
         <g id="圖層_2" data-name="圖層 2">
           <g id="圖層_3" data-name="圖層 3">
-            <g className="cls-1-CircleCurrent">
-              <path className="cls-2-CircleCurrent" d="M63,0a63,63,0,1,0,63,63A63,63,0,0,0,63,0Zm0,123.11A60.11,60.11,0,1,1,123.11,63,60.11,60.11,0,0,1,63,123.11Z"/>
+            <g className="cls-1-CircleCurr">
+              <path className="cls-2-CircleCurr" d="M61,1a61,61,0,1,0,61,61A61,61,0,0,0,61,1Zm0,119.2A58.2,58.2,0,1,1,119.2,62,58.2,58.2,0,0,1,61,120.2Z"/>
             </g>
-            <g className="cls-1-CircleCurrent">
-              <path d="M63,13a50,50,0,1,0,50,50A50,50,0,0,0,63,13Zm0,97.71A47.71,47.71,0,1,1,110.71,63,47.71,47.71,0,0,1,63,110.71Z"/>
+            <g className="cls-1-CircleCurr">
+              <path className="cls-3-CircleCurr" d="M61,6a56,56,0,1,0,56,56A56,56,0,0,0,61,6Zm0,109.43A53.43,53.43,0,1,1,114.43,62,53.43,53.43,0,0,1,61,115.43Z"/>
             </g>
-            <path className="cls-3-CircleCurrent" d="M63,2a61,61,0,1,0,61,61A61,61,0,0,0,63,2Zm0,111a50,50,0,1,1,50-50A50,50,0,0,1,63,113Z"/>
+            <path className="cls-4-CircleCurr" d="M61,0a61,61,0,1,0,61,61A61,61,0,0,0,61,0Zm0,115.5A54.5,54.5,0,1,1,115.5,61,54.5,54.5,0,0,1,61,115.5Z"/>
           </g>
         </g>
       </svg>
@@ -179,8 +187,10 @@ export default class SvgCircle extends React.Component {
 
   _render_Circle(){
     if(this.props.serial) return (<CircleSerial serial={this.props.serial}/>)
-    else{
-      return this.props.current ? (<CircleCurrent/>) : (<Circle/>)
+    else if(this.props.current){
+      return (<CircleCurrent/>)
+    }else{
+      return (<Circle/>)
     }
   }
 

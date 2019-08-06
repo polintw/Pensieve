@@ -81,10 +81,6 @@ class MainIndex extends React.Component {
     return unitInit;
   }
 
-  _submit_Share_New(dataObj){
-    window.location.assign('/user/cognition/actions/shareds');
-  }
-
   componentDidMount(){
     const self = this;
 

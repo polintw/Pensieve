@@ -178,7 +178,7 @@ class MarksArticleEdit extends React.Component {
                 <div
                   style={Object.assign({}, styleMiddle.boxEditingPanel)}>
                   <div
-                    style={Object.assign({}, styleMiddle.boxSubmitButton, {borderRadius: '0.7rem', backgroundColor:'#ff7a5f'})}
+                    style={Object.assign({}, styleMiddle.boxSubmitButton, {borderRadius: '0.7rem', backgroundColor:'rgb(233, 181, 90)'})}
                     onClick={this._handleClick_ArticleEdit_complete}>
                     <span
                       className={'centerAlignChild'}
@@ -194,10 +194,6 @@ class MarksArticleEdit extends React.Component {
                       style={Object.assign({}, styleMiddle.spanInteractions, {color: '#ababab'})}>
                       {'cancel'}
                     </span>
-                  </div>
-                  <div
-                    style={this.style.Com_MarkEditingBlock_Content_Main_div_edit_Panel_ref}>
-                    {"[ ]"}
                   </div>
                 </div>
               </div>

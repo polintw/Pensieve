@@ -29,9 +29,14 @@ class MainBanner extends React.Component {
       greet: false //temp use, before the real customized render constructed
     };
     this.axiosSource = axios.CancelToken.source();
+    this._submit_Share_New = this._submit_Share_New.bind(this);
     this.style={
 
     }
+  }
+
+  _submit_Share_New(dataObj){
+    window.location.assign('/user/cognition/actions/shareds');
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -98,11 +103,11 @@ class MainBanner extends React.Component {
               <span className={classnames(styles.fontSubtitle, styles.fontHello)}>
                 {this.props.i18nUIString.catalog['helloUser']}</span>
             </div>
-            <div style={{display: 'inline-block', marginRight: '2.5rem'}}>
+            <div style={{display: 'inline-block', marginRight: '2.7rem'}}>
               <AccountPlate
                 size={'regular'}
                 accountFisrtName={this.props.userInfo.firstName}
-                accountLastName={this.props.userInfo.lastName}/>
+                accountLastName={''}/>
             </div>
             <div
               className={classnames(styles.borderBanner, styles.boxCape)}></div>

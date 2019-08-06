@@ -20,11 +20,27 @@
 }
 
 .circleMarkSpotSvg {
-  width: 3vw;
-  height: 3vw;
+  width: 3.2vw;
+  height: 3.2vw;
   position: absolute;
   transform: translate(-50%, -50%);
   overflow: visible;
+  cursor: pointer;
+}
+
+.boxMarkCurCir {
+  position: absolute;
+  width: 57%;
+  height: auto;
+  top: 53%;
+  transform: translate(0, -50%);
+  cursor: pointer;
+}
+
+.boxMarkNextCir {
+  position: absolute;
+  width: 64%;
+  height: auto;
   cursor: pointer;
 }
 

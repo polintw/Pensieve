@@ -1,19 +1,21 @@
 import React from 'react';
 import {connect} from "react-redux";
-import PanelJump from './PanelJump.jsx';
-import ViewerBulb from './ViewerBulb.jsx';
-import MarkDialogue from './MarkDialogue.jsx';
-import SvgPropic from '../../Svg/SvgPropic.jsx';
-import DraftDisplay from '../../Draft/DraftDisplay.jsx';
+import classnames from 'classnames';
+import styles from "./styles.module.css";
+import PanelJump from '../PanelJump.jsx';
+import ViewerBulb from '../ViewerBulb.jsx';
+import MarkDialogue from '../MarkDialogue.jsx';
+import SvgPropic from '../../../Svg/SvgPropic.jsx';
+import DraftDisplay from '../../../Draft/DraftDisplay.jsx';
 
 const styleMiddle = {
   boxInteraction: {
-    display: 'inline-block',
+    display: 'flex',
+    flexDirection: 'column',
+    flexWrap: 'nowrap',
     width: '100%',
-    position: 'static',
-    top: '100%',
-    right: '0',
     boxSizing: 'border-box',
+    backgroundColor: 'rgba(5,5,5,0.72)'
   },
   boxPanelInteraction: {
     display: 'inline-block',
@@ -29,8 +31,8 @@ const styleMiddle = {
     fontSize: '1.4rem',
     letterSpacing: '0.18rem',
     lineHeight: '1.9rem',
-    fontWeight: '300',
-    color: '#f0f0f0',
+    fontWeight: '400',
+    color: 'rgb(247, 244, 188)',
     cursor: 'pointer'
   },
   textMessage: {
@@ -56,41 +58,28 @@ class ViewerBlock extends React.Component {
     this._handleClick_openDialogue = this._handleClick_openDialogue.bind(this);
     this.style = {
       Com_ViewerBlock_: {
-        display: 'inline-block',
-        maxWidth: '100%',
-        minWidth: '56%',
-        height: '100%',
-        position: 'absolute',
+        display: 'flex',
+        flexDirection: 'column',
+        flexWrap: 'nowrap',
+        width: '100%',
+        position: 'static',
         boxSizing: 'border-box',
-        overflowY: 'visible'
       },
       Com_ViewerBlock_content_: {
-        display: 'inline-block',
-        minHeight: '49%',
-        maxHeight: '147%',//the target MaxHeight is 64% to the entire img
-        position: 'relative',
-        boxSizing: 'border-box',
-        paddingLeft: '6%',
-        marginBottom: '7%',
-        fontSize: '1.36rem',
-        letterSpacing: '0.18rem',
-        lineHeight: '1.9rem',
-        fontWeight: '300',
-        color: '#FAFAFA',
-        overflowY: 'auto'
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'spaceBetween',
+        backgroundColor: '#fdfdfd',
       },
       Com_ViewerBlock_panel_: {
-        display: 'inline-block',
         width: '100%',
-        position: 'relative',
+        height: '2.1rem',
         boxSizing: 'border-box',
-        marginTop: '6%'
+        margin: '4vh 0 3vh'
       },
       Com_ViewerBlock_credits_: {
-        display: 'inline-block',
         width: '100%',
         height: '2.6rem',
-        position: 'relative',
         boxSizing: 'border-box',
         marginTop: '2%',
       },
@@ -120,6 +109,12 @@ class ViewerBlock extends React.Component {
     this.setState({message: message});
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot){
+    if(prevProps.markKey !== this.props.markKey){
+      this._set_stateDefault();
+    }
+  }
+
   componentDidMount(){
     this.boxContent.current.addEventListener('wheel', this._handleWheel_boxContent, {passive: false})
     //because the modern browser set the 'passive' property of addEventListener default to true,
@@ -146,22 +141,25 @@ class ViewerBlock extends React.Component {
         <div
           ref={this.boxContent}
           style={Object.assign({}, this.style.Com_ViewerBlock_content_)}>
-          <DraftDisplay
-            editorState={this.props.markData.editorContent}/>
-        </div>
-        <div
-          style={{position: 'relative'}}>
           <div
-            style={{
-              width: '48%',
-              borderBottom: 'solid 1px #ababab'}}></div>
+            className={classnames(styles.boxContentDraft, styles.fontContentDraft)}>
+            <DraftDisplay
+              editorState={this.props.markData.editorContent}/>
+          </div>
+          <div
+            className={classnames(styles.boxPanelJump, styles.fontPanelJump)}>
+            <PanelJump
+              marksLength={this.props.marksLength}
+              currentSerial={this.props.currentSerial}
+              _set_markJump={this.props._set_markJump}/>
+          </div>
         </div>
         <div
           style={styleMiddle.boxInteraction}>
           <div
             style={Object.assign({},this.style.Com_ViewerBlock_panel_)}>
             <div
-              style={Object.assign({}, styleMiddle.boxPanelInteraction, {float: 'left'})}>
+              style={Object.assign({}, styleMiddle.boxPanelInteraction, {marginLeft: '8%', float: 'left'})}>
               <span
                 style={styleMiddle.spanInteractions}
                 onClick={this._handleClick_openDialogue}>
@@ -169,34 +167,25 @@ class ViewerBlock extends React.Component {
               </span>
             </div>
             <div
-              style={Object.assign({}, styleMiddle.boxPanelInteraction, {float: 'left'})}>
+              style={Object.assign({}, styleMiddle.boxPanelInteraction, {marginLeft: '8%', float: 'left'})}>
               <ViewerBulb
                 markKey={this.props.markKey}
                 _set_BlockMessage={this._set_BlockMessage}/>
             </div>
+          </div>
+          {
+            this.state.message &&
             <div
-              style={Object.assign({}, styleMiddle.boxPanelInteraction, {margin: '0 3%', float: 'right'})}>
-              <PanelJump
-                marksLength={this.props.marksLength}
-                currentSerial={this.props.currentSerial}
-                _set_markJump={this.props._set_markJump}
-                _set_stateDefault={this._set_stateDefault}/>
-            </div>
-          </div>
-          <div
-            style={styleMiddle.boxMessage}>
-            {
-              this.state.message &&
+              style={styleMiddle.boxMessage}>
               <span style={styleMiddle.textMessage}>{this.state.message}</span>
-            }
-          </div>
+            </div>
+          }
           <div
             style={Object.assign({}, this.style.Com_ViewerBlock_credits_)}>
             <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
             <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
           </div>
-          <div
-            style={{display: 'inline-block', position: 'relative'}}>
+          <div>
             {"(多行參考資料連結)"}
           </div>
         </div>
