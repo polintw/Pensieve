@@ -29,6 +29,7 @@ class ImgLayerEditing extends React.Component {
     this.Com_ImgLayer_img = React.createRef();
     this.Com_MarksSpotLayer_div = React.createRef();
     this._set_imgSize = ()=>{this.setState({imgWidthHeight:true})};
+    this._set_markJump = this._set_markJump.bind(this);
     this._render_MarksLayer = this._render_MarksLayer.bind(this);
     this._handleClick_SpotsLayer = this._handleClick_SpotsLayer.bind(this);
     this._handleClick_ImgLayer_circle = this._handleClick_ImgLayer_circle.bind(this);
@@ -67,6 +68,25 @@ class ImgLayerEditing extends React.Component {
     if(!this.props.markOpened) this.props._set_Markvisible(event.currentTarget.getAttribute('id'));
   }
 
+  _set_markJump(direction, currentSerial){
+    let markKey;
+    switch (direction) {
+      case 'next':
+        markKey = this.props.marksList[(currentSerial+1)];
+        this.props._set_Markvisible(markKey);
+        break;
+      case 'previous':
+        markKey = this.props.marksList[(currentSerial-1)];
+        this.props._set_Markvisible(markKey);
+        break;
+      case 'continue':
+        this.props._set_Markvisible(this.props.currentMark);
+        break;
+      default:
+        return
+    }
+  }
+
   _render_MarksLayer(){
     let imgWidthHeight = {
       width: this.Com_ImgLayer_img.current.clientWidth,
@@ -81,7 +101,8 @@ class ImgLayerEditing extends React.Component {
       let markIndex = this.props.marksList.indexOf(this.props.currentMark);
 
       if(this.props.markOpened && ( markIndex > (-1))){
-        let marksData = {data:{}};
+        //to mimic the structure used by Unit when displaying
+        let marksData = {list: this.props.marksList,data:{}};
         marksData['data'][this.props.currentMark]={
           top: this.props.markCircles[this.props.currentMark].top,
           left: this.props.markCircles[this.props.currentMark].left
@@ -91,11 +112,13 @@ class ImgLayerEditing extends React.Component {
             {...this.props}
             boxWidth={boxWidth}
             serial={markIndex+1}
+            currentSerial={markIndex}
             marksData={marksData}
             imgPosition={imgPosition}
             imgWidthHeight={imgWidthHeight}
             widthDivisionRatial={widthDivisionRatial}
-            _handleClick_ImgLayer_circle={this._handleClick_ImgLayer_circle}>
+            _handleClick_ImgLayer_circle={this._handleClick_ImgLayer_circle}
+            _set_markJump={this._set_markJump}>
             <MarkEditingBlock
               markKey = {this.props.currentMark}
               editorState={this.props.markEditorContent[this.props.currentMark]}

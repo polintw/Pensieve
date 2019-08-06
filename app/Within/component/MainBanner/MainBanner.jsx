@@ -103,11 +103,11 @@ class MainBanner extends React.Component {
               <span className={classnames(styles.fontSubtitle, styles.fontHello)}>
                 {this.props.i18nUIString.catalog['helloUser']}</span>
             </div>
-            <div style={{display: 'inline-block', marginRight: '2.5rem'}}>
+            <div style={{display: 'inline-block', marginRight: '2.7rem'}}>
               <AccountPlate
                 size={'regular'}
                 accountFisrtName={this.props.userInfo.firstName}
-                accountLastName={this.props.userInfo.lastName}/>
+                accountLastName={''}/>
             </div>
             <div
               className={classnames(styles.borderBanner, styles.boxCape)}></div>
