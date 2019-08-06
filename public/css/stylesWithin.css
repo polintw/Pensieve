@@ -7,8 +7,8 @@
 }
 
 ._C_C_app_Within_stylesCosmic_module__fontExplore {
-  font-size: 1.24rem;
-  letter-spacing: 0.1rem;
+  font-size: 1.27rem;
+  letter-spacing: 0.12rem;
   white-space: nowrap;
   color: #353535;
 }
@@ -568,22 +568,27 @@ start the fundemental first, and then the specific condition
   text-align: left;
   color: #000000;
 }
-._C_C_app_Component_Unit_Mark_ViewerBlock_styles_module__boxPanelJump {
-  box-sizing: border-box;
-  padding: 0 10% 0 8%;
-  margin: 2.7vh 0 1.4vh 0;
-  text-align: right;
+._C_C_app_Component_Editing_MarkEditingBlock_styles_module__boxContent {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  background-color: #fdfdfd;
 }
 
-._C_C_app_Component_Unit_Mark_ViewerBlock_styles_module__boxContentDraft {
+._C_C_app_Component_Editing_MarkEditingBlock_styles_module__boxContentDraft {
   max-height: 44vh;
   min-height: 35vh;
   box-sizing: border-box;
   padding: 5vh 10% 0 6.5%;
   overflow-y: auto;
+  cursor: text;
 }
 
-._C_C_app_Component_Unit_Mark_ViewerBlock_styles_module__fontContentDraft {
+._C_C_app_Component_Editing_MarkEditingBlock_styles_module__boxDraftBottom{
+  margin: 2.7vh 0 1.4vh 0;
+}
+
+._C_C_app_Component_Editing_MarkEditingBlock_styles_module__fontContentDraft {
   font-size: 1.36rem;
   letter-spacing: 0.1rem;
   line-height: 1.7rem;
@@ -606,6 +611,28 @@ start the fundemental first, and then the specific condition
 }
 
 ._C_C_app_Component_Unit_Mark_AuthorBlock_styles_module__fontContentDraft {
+  font-size: 1.36rem;
+  letter-spacing: 0.1rem;
+  line-height: 1.7rem;
+  font-weight: 400;
+  color: #000000;
+}
+._C_C_app_Component_Unit_Mark_ViewerBlock_styles_module__boxPanelJump {
+  box-sizing: border-box;
+  padding: 0 10% 0 8%;
+  margin: 2.7vh 0 1.4vh 0;
+  text-align: right;
+}
+
+._C_C_app_Component_Unit_Mark_ViewerBlock_styles_module__boxContentDraft {
+  max-height: 44vh;
+  min-height: 35vh;
+  box-sizing: border-box;
+  padding: 5vh 10% 0 6.5%;
+  overflow-y: auto;
+}
+
+._C_C_app_Component_Unit_Mark_ViewerBlock_styles_module__fontContentDraft {
   font-size: 1.36rem;
   letter-spacing: 0.1rem;
   line-height: 1.7rem;

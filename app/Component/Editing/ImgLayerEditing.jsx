@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from "react-redux";
-import MarkEditingBlock from './MarkEditingBlock.jsx';
+import MarkEditingBlock from './MarkEditingBlock/MarkEditingBlock.jsx';
 import OpenedMark from '../OpenedMark.jsx';
 import SvgCircle from '../Svg/SvgCircle.jsx';
 import {
