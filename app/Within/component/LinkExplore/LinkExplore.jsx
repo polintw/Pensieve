@@ -13,70 +13,49 @@ class LinkExplore extends React.Component {
     this.state = {
 
     };
-    this._render_option_Explore = this._render_option_Explore.bind(this);
+    this._render_Category = this._render_Category.bind(this);
     this.style={
 
     }
 
-    this.abbrRoute = ['nou', 'use', 'exp']
+    this.abbrRoute = ['nod', 'use', 'exp']
   }
 
-  _render_option_Explore(pathNow){
+  _render_Category(pathNow){
     switch (this.abbrRoute[pathNow]) {
-      case 'nou':
+      case 'nod':
         return (
-          <div>
+          <div
+            className={classnames(styles.boxCategory, styles.fontCategory)}>
             <Link
-              to="/explore/nouns"
-              className={'plainLinkButton'}>
-              <span style={{color: '#fc766a'}}>n</span>
+              to="/explore/nodes"
+              className={classnames('plainLinkButton')}>
+              <span>
+                {'nodes '}
+              </span>
             </Link>
             <span style={{cursor: 'default'}}>{'．'}</span>
-            <Link
-              to="/explore/nouns"
-              className={'plainLinkButton'}>
-              <span>explore</span>
-            </Link>
           </div>
         )
         break;
       case 'use':
         return (
-          <div>
+          <div
+            className={classnames(styles.boxCategory, styles.fontCategory)}>
             <Link
               to="/explore/users"
-              className={'plainLinkButton'}>
-              <span style={{color: '#fc766a'}}>u</span>
+              className={classnames('plainLinkButton')}>
+              <span>
+                {'users '}
+              </span>
             </Link>
             <span style={{cursor: 'default'}}>{'．'}</span>
-            <Link
-              to="/explore/nouns"
-              className={'plainLinkButton'}>
-              <span>explore</span>
-            </Link>
           </div>
         )
         break;
-      case 'exp':
-        return (
-          <Link
-            to="/explore/nouns"
-            className={'plainLinkButton'}>
-            {'explore'}
-          </Link>
-        )
       default:
-        return (
-          <Link
-            to="/explore/nouns"
-            className={'plainLinkButton'}
-            style={{opacity: this.props.mainTitle}}>
-            {'explore'}
-          </Link>
-        )
+        return null
     }
-
-
   }
 
   componentDidMount() {
@@ -89,17 +68,21 @@ class LinkExplore extends React.Component {
 
   render(){
     //detect where I am now, for styling
-    let subPath = this.props.location.pathname.substring(1, 4),
-        pathNow = this.abbrRoute.length;
-        //pathNow is a INT indicate the index refer to this.abbrRoute, default at page Main(not in abbrRoute)
-    for(let i=0; i < this.abbrRoute.length; i++){
-      if(subPath == this.abbrRoute[i]) pathNow = i;
-    }
+    let subPath = this.props.location.pathname.substring(1, 4);
+    //pathNow is a INT indicate the index refer to this.abbrRoute
+    //default should be -1, page Main(not in abbrRoute)
+    let pathNow = this.abbrRoute.indexOf(subPath);
 
     return(
       <div
-        className={classnames(styles.boxExplore)}>
-        {this._render_option_Explore(pathNow)}
+        className={classnames(styles.comExplore)}>
+        {this._render_Category(pathNow)}
+        <Link
+          to="/explore"
+          className={classnames('plainLinkButton', styles.boxExplore)}
+          style={(pathNow< 0)?{opacity: this.props.mainTitle}:{}}>
+          {'explore'}
+        </Link>
       </div>
     )
   }

@@ -7,13 +7,19 @@ import {connect} from "react-redux";
 import NailBasic from '../Nails/NailBasic/NailBasic.jsx';
 
 const styleMiddle = {
+  comSimpleBlock: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignContent: 'space-between',
+    flexWrap: 'wrap'
+  },
   frameNail: {
     display: 'inline-block',
-    width: '279px',
-    height: '20.5rem',
+    width: '32.5%',
+    height: '19rem',
     position: 'relative',
     boxSizing: 'border-box',
-    margin: '0 0.8% 18px',
+    margin: '0 0 18px',
     boxShadow: '0 1px 1px -0.1rem, 0rem -0.05rem 2px -0.2rem',
     borderRadius: '0.7rem',
     overflow: 'hidden'
@@ -50,7 +56,8 @@ class SimpleBlock extends React.Component {
 
   render(){
     return (
-      <div>
+      <div
+        style={styleMiddle.comSimpleBlock}>
         {this._render_SimpleBlock()}
       </div>
     )

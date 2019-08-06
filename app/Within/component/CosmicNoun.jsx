@@ -20,11 +20,11 @@ const styleMiddle = {
   boxScroll: {
     display: 'flex',
     flexWrap: 'wrap',
-    width: '990px',
+    width: '934px',
     position: 'absolute',
     top: '5.8vh',
     left: '49%',
-    transform: 'translate(-50%,0)',
+    transform: 'translate(-53%,0)',
     boxSizing: 'border-box'
   },
   boxTitle: {
@@ -41,16 +41,16 @@ const styleMiddle = {
   },
   boxNav: {
     display: 'inline-block',
-    width: '11%',
+    width: '15%',
     position: 'relative',
     bottom: '0',
     left: '0',
     boxSizing: 'border-box',
-    padding: '5rem 2% 0'
+    padding: '5rem 3% 0'
   },
   boxView: {
     display: 'inline-block',
-    width: '89%',
+    width: '85%',
   },
   fontNav: {
     fontSize: "1.4rem",
@@ -169,8 +169,8 @@ class CosmicNoun extends React.Component {
             {this._render_CosmicNouns_byView(paramsStatus)}
           </div>
         </div>
-        <div style={{width: '100%', height: '3vh', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
-        <div style={{width: '100%', height: '2.4rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
+        <div style={{width: '100%', height: '3.3vh', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
+        <div style={{width: '100%', height: '54px', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
         <Route
           path={this.props.match.path+"/units/:id"}
           render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_von_cosmic}/>}/>

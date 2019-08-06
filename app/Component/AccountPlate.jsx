@@ -66,6 +66,9 @@ class Palette extends React.Component {
       case 'medium':
         return 'spanNameMedium'
         break;
+      case 'title':
+        return 'spanNameTitle'
+        break;
       case 'large':
         return 'spanNameLarge'
         break;
@@ -82,7 +85,7 @@ class Palette extends React.Component {
 
     return(
       <div
-        style={{display: ''}}>
+        style={{display: 'inline-block'}}>
         <span
           className={classSpan}>
           {this.props.accountFisrtName+" "}

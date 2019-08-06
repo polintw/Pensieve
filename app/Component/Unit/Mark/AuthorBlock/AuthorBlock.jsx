@@ -1,20 +1,22 @@
 import React from 'react';
 import {connect} from "react-redux";
-import AuthorInspired from './AuthorInspired.jsx';
-import PanelJump from './PanelJump.jsx';
-import DraftDisplay from '../../Draft/DraftDisplay.jsx';
+import classnames from 'classnames';
+import styles from "./styles.module.css";
+import PanelJump from '../PanelJump.jsx';
+import AuthorInspired from '../AuthorInspired.jsx';
+import DraftDisplay from '../../../Draft/DraftDisplay.jsx';
 import {
   setUnitInspired
-} from "../../../redux/actions/general.js";
+} from "../../../../redux/actions/general.js";
 
 const styleMiddle = {
   boxInteraction: {
-    display: 'inline-block',
+    display: 'flex',
+    flexDirection: 'column',
+    flexWrap: 'nowrap',
     width: '100%',
-    position: 'static',
-    top: '100%',
-    right: '0',
     boxSizing: 'border-box',
+    backgroundColor: 'rgba(5,5,5,0.72)'
   },
   boxPanelInteraction: {
     display: 'inline-block',
@@ -42,38 +44,32 @@ class AuthorBlock extends React.Component {
     this._handleWheel_boxContent = (event)=>{event.stopPropagation();};
     this.style = {
       Com_AuthorBlock_: {
-        display: 'inline-block',
-        maxWidth: '100%',
-        minWidth: '54%',
-        height: '100%',
-        position: 'absolute',
+        display: 'flex',
+        flexDirection: 'column',
+        flexWrap: 'nowrap',
+        width: '100%',
+        position: 'static',
         boxSizing: 'border-box',
-        overflowY: 'visible'
       },
       Com_AuthorBlock_content_: {
-        display: 'inline-block',
-        minHeight: '49%',
-        maxHeight: '147%',//the target MaxHeight is 64% to the entire img
-        position: 'relative',
-        boxSizing: 'border-box',
-        paddingLeft: '6%',
-        marginBottom: '7%',
-        fontSize: '1.36rem',
-        letterSpacing: '0.18rem',
-        lineHeight: '1.9rem',
-        fontWeight: '300',
-        color: '#FAFAFA',
-        overflowY: 'auto'
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'spaceBetween',
+        backgroundColor: '#fdfdfd',
       },
       Com_AuthorBlock_panel_: {
-        display: 'inline-block',
         width: '100%',
-        height: '24px',
-        position: 'relative',
+        height: '2.1rem',
         boxSizing: 'border-box',
-        marginTop: '6%'
+        margin: '4vh 0 3vh'
       },
     };
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot){
+    if(prevProps.markKey !== this.props.markKey){
+      this._set_stateDefault();
+    }
   }
 
   componentDidMount(){
@@ -101,32 +97,27 @@ class AuthorBlock extends React.Component {
         <div
           ref={this.boxContent}
           style={Object.assign({}, this.style.Com_AuthorBlock_content_)}>
-          <DraftDisplay
-            editorState={this.props.markData.editorContent}/>
-        </div>
-        <div
-          style={{position: 'relative'}}>
           <div
-            style={{
-              width: '48%',
-              borderBottom: 'solid 1px #ababab'}}></div>
+            className={classnames(styles.boxContentDraft, styles.fontContentDraft)}>
+            <DraftDisplay
+              editorState={this.props.markData.editorContent}/>
+          </div>
+          <div
+            className={classnames(styles.boxPanelJump, styles.fontPanelJump)}>
+            <PanelJump
+              marksLength={this.props.marksLength}
+              currentSerial={this.props.currentSerial}
+              _set_markJump={this.props._set_markJump}/>
+          </div>
         </div>
         <div
           style={styleMiddle.boxInteraction}>
           <div
             style={Object.assign({},this.style.Com_AuthorBlock_panel_)}>
             <div
-              style={Object.assign({}, styleMiddle.boxPanelInteraction, styleMiddle.fontInteractions, {float: 'left'})}>
+              style={Object.assign({}, styleMiddle.boxPanelInteraction,styleMiddle.fontInteractions, {marginLeft: '8%', float: 'left'})}>
               <AuthorInspired
                 markKey={this.props.markKey}/>
-            </div>
-            <div
-              style={Object.assign({}, styleMiddle.boxPanelInteraction, {margin: '0 3%', float: 'right'})}>
-              <PanelJump
-                marksLength={this.props.marksLength}
-                currentSerial={this.props.currentSerial}
-                _set_markJump={this.props._set_markJump}
-                _set_stateDefault={this._set_stateDefault}/>
             </div>
           </div>
         </div>

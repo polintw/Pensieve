@@ -19,11 +19,10 @@ const styleMiddle = {
   },
   boxTitle: {
     width: '100%',
-    height: '10rem',
+    height: '9rem',
     position: 'relative',
     boxSizing: 'border-box',
-    padding: '2rem 1rem',
-    margin: '0 0 4%',
+    margin: '0 0 3rem',
   },
   boxScroll: {
     height: '', //keep the height depend on content
@@ -39,12 +38,12 @@ const styleMiddle = {
   boxName: {
     position: 'absolute',
     left: '0',
-    bottom: '2.3rem',
+    top: '2.7rem',
     boxSizing: 'border-box'
   },
   fontNav: {
-    fontSize: "1.4rem",
-    letterSpacing: "0.11rem",
+    fontSize: "1.32rem",
+    letterSpacing: "0.1rem",
     whiteSpace: "nowrap",
     color: "#333333"
   },
@@ -52,7 +51,7 @@ const styleMiddle = {
     position: 'relative',
     float: 'right',
     boxSizing: 'border-box',
-    margin: '0.8rem 0.5rem',
+    margin: '0.5rem',
     cursor: 'pointer'
   }
 }
@@ -100,7 +99,7 @@ class UserWindow extends React.Component {
             style={Object.assign({}, styleMiddle.boxName)}>
             {this.props.windowId in this.props.usersBasic? (
               <AccountPlate
-                size={'large'}
+                size={'title'}
                 accountFisrtName={this.props.usersBasic[this.props.windowId].firstName}
                 accountLastName={this.props.usersBasic[this.props.windowId].lastName}/>
             ): (

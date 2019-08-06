@@ -1,8 +1,8 @@
 const express = require('express');
 const main = express.Router();
 
-const presentExcutive = require('./present.js');
+const indexExecutive = require('./index.js');
 
-main.use('/present', presentExcutive)
+main.use('/index', indexExecutive)
 
 module.exports = main;

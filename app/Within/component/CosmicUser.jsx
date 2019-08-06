@@ -12,11 +12,11 @@ const styleMiddle = {
     height: '', //keep the height depend on Scroll div
   },
   boxScroll: {
-    width: '906px',
+    width: '854px',
     position: 'absolute',
     top: '4vh',
-    left: '51.5%',
-    transform: 'translate(-50%,0)',
+    left: '50%',
+    transform: 'translate(-51%,0)',
     boxSizing: 'border-box'
   },
 }
@@ -62,8 +62,8 @@ class CosmicUser extends React.Component {
             windowId={windowId}
             _refer_von_userWindow={this.props._refer_von_cosmic}/>
         </div>
-        <div style={{width: '100%', height: '2.3vh', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
-        <div style={{width: '100%', height: '3.4rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
+        <div style={{width: '100%', height: '3.3vh', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
+        <div style={{width: '100%', height: '54px', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
       </div>
     )
   }

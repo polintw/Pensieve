@@ -25,18 +25,18 @@ class CosmicMain extends React.Component {
         boxSizing: 'border-box'
       },
       withinCom_CosmicMain_index_: {
-        width: '76%',
+        width: '78%',
         position: 'absolute',
         top: '3.6rem',
         left: '49%',
-        transform: 'translate(-50%,0)',
+        transform: 'translate(-49%,0)',
         boxSizing: 'border-box'
       },
       withinCom_CosmicMain_top_logo: {
         display: 'inline-block',
-        height: '37%',
+        height: '12px',
         position: 'absolute',
-        top: '25%',
+        top: '34%',
         left: '25%',
         boxSizing: 'border-box',
         cursor: 'pointer'
@@ -62,14 +62,14 @@ class CosmicMain extends React.Component {
           style={this.style.withinCom_CosmicMain_index_}>
           <MainIndex {...this.props}/>
         </div>
-        <div style={{width: '100%', height: '3.42rem', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}>
+        <div style={{width: '100%', height: '3rem', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
+        <div style={{width: '100%', height: '3.6rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}>
           <div
             style={Object.assign({}, this.style.withinCom_CosmicMain_top_logo, {opacity: this.props.mainTitle})}
             onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_von_cosmic('', '/')}}>
             <SvgLogo/>
           </div>
         </div>
-        <div style={{width: '100%', height: '3.4rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
       </div>
     )
   }

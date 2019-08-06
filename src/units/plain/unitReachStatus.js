@@ -20,11 +20,13 @@ function _reachStatus(unitId, userId){
       {reach: length},
       {where: {id_unit: unitId}}
     ).catch((err)=>{
+      //handle err only locally, without relation to client side
       throw ("throw by /units plain GET, reachStatus check, "+err);
     });
     //then write the new data back to json file
     let modifiedData = JSON.stringify(objReachStatus, null, 2);
     fs.writeFile(path.join(envJSONUnitReachPath, "units_reach.json"), modifiedData, (err) => {
+      //handle err only locally, without relation to client side
       if(err) throw ("throw by /units plain GET, reachStatus check, "+err);
     });
   }

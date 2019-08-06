@@ -5,8 +5,9 @@ import {
   widthDivisionRatial
 } from './config/styleParams.js';
 import SvgCircle from './Svg/SvgCircle.jsx';
+import SvgNextCir from './Svg/SvgNextCir.jsx';
 
-const generalStyle = {
+const styleMiddle = {
   absolute_FullVersion: {
     width: '100%',
     height: '100%',
@@ -14,8 +15,14 @@ const generalStyle = {
     top: '0',
     left:'0',
     boxSizing: 'border-box'
+  },
+  Com_ImgLayer_MarkBlock_: {
+    position: 'absolute',
+    boxShadow: '0 0 2px 0',
+    overflow: 'hidden'
   }
 }
+
 
 class OpenedMark extends React.Component {
   constructor(props){
@@ -23,12 +30,55 @@ class OpenedMark extends React.Component {
     this.state = {
 
     };
+    this._render_CircleGroup = this._render_CircleGroup.bind(this);
+    this._handleClick_jumpMark = this._handleClick_jumpMark.bind(this);
     this.style = {
-      Com_ImgLayer_MarkBlock_: {
-        height: '32%', //the target MaxHeight is 64%
-        position: 'absolute'
+      dependent_radius_Bottom: {
+        borderBottomLeftRadius: '3%',
+        borderBottomRightRadius: '3%'
+      },
+      dependent_radius_Top: {
+        borderTopLeftRadius: '3%',
+        borderTopRightRadius: '3%'
       }
     };
+  }
+
+  _handleClick_jumpMark (event){
+    event.preventDefault();
+    event.stopPropagation();
+    let direction = event.currentTarget.getAttribute('jump');
+    this.props._set_markJump(direction, this.props.currentSerial);
+  }
+
+  _render_CircleGroup (coordinate){
+    return (
+      <div
+        id={this.props.currentMark}
+        className={'circleMarkSpotSvg'}
+        style={{top: coordinate.top+"%", left: coordinate.left+'%'}}>
+        <div
+          onClick={this.props._handleClick_ImgLayer_circle}>
+          <SvgCircle
+            current={true}
+            notify={this.props.notify}
+            serial={this.props.serial}/>
+        </div>
+        <div
+          className={'boxMarkNextCir'}
+          style={{
+            top: coordinate.top > 90? '-72%': '124%',
+            left: coordinate.left > 90 ? '-56%': '100%'}}
+          jump={(this.props.currentSerial==(this.props.marksData.list.length-1)) ? 'continue':'next'}
+          onClick={this._handleClick_jumpMark}>
+          <SvgNextCir
+            pathStyle={{
+              fill: '#fff',
+              stroke: '#fff'
+            }}/>
+        </div>
+      </div>
+    )
   }
 
   render(){
@@ -37,23 +87,20 @@ class OpenedMark extends React.Component {
           imgHeight = this.props.imgWidthHeight.height,
           imgLeft=this.props.imgPosition.left;
     const coordinate = {top: this.props.marksData.data[markId].top, left: this.props.marksData.data[markId].left};
-    let [left, right, top, bottom, width] = ['','','','', ''],
+    let [left, right, top, bottom, width, radiusObj] = ['','','','', '', ''],
         spotLeftPx = coordinate.left/100*imgWidth+imgLeft+imgWidth*(baseHorizonRatial/100);
         //the position of circle relative to img, position img original at in the frame, and transform/translate we set
         //--- due to offsetLeft wouldn't take the transform property
 
-    width = ((widthDivisionRatial/2)-2.6)/widthDivisionRatial*100;
+    width = ((widthDivisionRatial/2)-(1.7+2.3))/widthDivisionRatial*100;
     (spotLeftPx) > (this.props.boxWidth/2) ? ( //check which side of the box the circle at
-      right = this.props.boxWidth-(spotLeftPx)+1.6*(this.props.boxWidth/widthDivisionRatial) //if circle st the right side, put the box 'left' to the circle
+      right = this.props.boxWidth-(spotLeftPx)+1.7*(this.props.boxWidth/widthDivisionRatial) //if circle st the right side, put the box 'left' to the circle
     ): (
-      left = spotLeftPx+1.6*(this.props.boxWidth/widthDivisionRatial)
+      left = spotLeftPx+1.7*(this.props.boxWidth/widthDivisionRatial)
     );
-    coordinate.top > 50 ? ( //move between 0 - 28%, depend on location
-      //28% above bottom if .top just at 50%, then lower follow the portion change
-      bottom = (28 - ((coordinate.top-50)/50) * (28-3)) + '%'
-    ):(
-      top = (3 + (coordinate.top/50) * (28-3)) + '%'
-    );
+    if(coordinate.top > 50){
+      bottom = 0; radiusObj=this.style.dependent_radius_Top
+    }else{top = 0 ; radiusObj=this.style.dependent_radius_Bottom}
 
     const childrenWithProps = React.Children.map(this.props.children, (child) =>
       React.cloneElement(child, { toCircleLeft: right > 0? true : false, downToMdidline: bottom.length>0 ? true:false })
@@ -62,7 +109,7 @@ class OpenedMark extends React.Component {
     return (
       <div>
         <div
-          style={generalStyle.absolute_FullVersion}
+          style={styleMiddle.absolute_FullVersion}
           onClick={this.props._handleClick_ImgLayer_circle}/>
         <div
           className={'boxImgPosition'}
@@ -72,22 +119,13 @@ class OpenedMark extends React.Component {
             right: baseHorizonRatial+'%',
             transform: 'translate('+baseHorizonRatial+'%,-50%)',
             backgroundImage: 'radial-gradient(ellipse at '+
-              (coordinate.left+ (right > 0?5:(-5)))+
+              (coordinate.left+ (right > 0?6:(-6)))+
               '% '+
-              (coordinate.top+ (top > 0?3:(-3)))+
-              '% , rgba(30, 30, 30,0) 0, rgba(30, 30, 30,0.2) 11%, rgba(30, 30, 30,0.46) 20%, rgba(33, 33, 33,0.67) 27%, rgba(33, 33, 33,0.7) 32%, rgba(33, 33, 33,0.68) 40%,rgba(30, 30, 30,0.56) 51%,rgba(30, 30, 30,0.45) 64%, rgba(30, 30, 30,0.36) 76%, rgba(30, 30, 30,0.3) 87%, rgba(30, 30, 30,0.27) 100%)'
+              (coordinate.top+ (top > 0? 12: (-12)))+
+              '%, rgba(30, 30, 30, 0) 0px, rgba(30, 30, 30, 0.1) 16%, rgba(30, 30, 30, 0.2) 28%,rgba(30, 30, 30, 0.32) 37%, rgba(30, 30, 30, 0.39) 44%, rgba(33, 33, 33, 0.47) 50%, rgba(33, 33, 33, 0.56) 56% )'
           }}
           onClick={this.props._handleClick_ImgLayer_circle}>
-            <div
-              id={markId}
-              className={'circleMarkSpotSvg'}
-              style={{top: coordinate.top+"%", left: coordinate.left+'%'}}
-              onClick={this.props._handleClick_ImgLayer_circle}>
-              <SvgCircle
-                current={false}
-                notify={this.props.notify}
-                serial={this.props.serial}/>
-            </div>
+          {this._render_CircleGroup(coordinate)}
         </div>
         <div
           style={Object.assign({
@@ -95,7 +133,9 @@ class OpenedMark extends React.Component {
             left: left,
             right: right,
             bottom: bottom,
-            width: width+"%"}, this.style.Com_ImgLayer_MarkBlock_)}>
+            width: width+"%"},
+            radiusObj,
+            styleMiddle.Com_ImgLayer_MarkBlock_)}>
             {childrenWithProps}
         </div>
       </div>

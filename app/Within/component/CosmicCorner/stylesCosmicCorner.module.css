@@ -1,5 +1,4 @@
 .boxOptions {
-  position: absolute;
   box-sizing: border-box;
   text-align: center;
   cursor: pointer;
@@ -17,17 +16,29 @@ because the css would overlap one by one,
 start the fundemental first, and then the specific condition
 */
 
+.specificNoneDis {
+  display: none;
+}
+
 .boxAccount {
+  display: block;
+  position: absolute;
   bottom: 0;
   right: 0;
 }
 
 .boxFocus {
-  display: none;
+  display: block;
+  position: absolute;
+  right: 186px;
+  bottom: 0;
 }
 
-.boxFocusExplore {
+
+.boxLogo {
   display: block;
+  position: absolute;
+  height: 12px;
   right: 186px;
   bottom: 0;
 }

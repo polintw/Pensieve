@@ -19,7 +19,7 @@
   width: 61%;
   height: 39%;
   position: absolute;
-  bottom: 0%;
+  top: 0%;
   left: 0%;
   box-sizing: border-box;
   overflow: hidden;
@@ -38,7 +38,7 @@
   max-height: 40%;
   position: absolute;
   box-sizing: border-box;
-  top: 0;
+  bottom: 0;
   left: 0%;
   overflow: hidden;
 }
@@ -54,19 +54,18 @@
   position: absolute;
   box-sizing: border-box;
   left: 0%;
-  bottom: 42%;
+  top: 40%;
   white-space: nowrap;
 }
 
 .fontNode {
-  font-size: 1.9rem;
-  font-weight: 700;
+  font-size: 1.7rem;
   letter-spacing: 0.12rem;
-  color: #000000;
+  color: rgb(76, 76, 78);
 }
 
 .fontAuthor {
-  font-size: 1.32rem;
+  font-size: 1.3rem;
   font-weight: 400;
   text-align: right;
   color: #6e6e6e;

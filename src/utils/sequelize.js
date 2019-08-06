@@ -5,7 +5,7 @@ const sequelize = new Sequelize(connection_key.database, connection_key.user, co
   host: connection_key.host,
   port: connection_key.port,
   dialect: 'mysql',
-  operatorsAliases: false,
+  //operatorsAliases: false, (no onger need it after upgrade sequelize to >= v 5.0)
   pool: {
     max: 20,
     min: 0,

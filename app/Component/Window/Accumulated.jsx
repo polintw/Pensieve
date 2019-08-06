@@ -28,7 +28,6 @@ const styleMiddle = {
     minHeight: '5rem',
     position: 'relative',
     boxSizing: 'border-box',
-    margin: '2rem 0px 0px'
   },
   footer: {
     width: '100%',
