@@ -107,7 +107,7 @@ function _handle_unit_Mount(req, res){
     const _unit_identity_Viewer = (sendingData)=>{
       return _DB_inspired.findAll({
         where: {
-          id_mark: [sendingData['temp']['marksKey']],
+          id_mark: sendingData['temp']['marksKey'],
           id_user: userId
         },
         attributes: ['id_mark']
@@ -158,7 +158,7 @@ function _handle_unit_Mount(req, res){
         //inspired count, select directly from inspired table
         return _DB_inspired.findAll({
           where: {
-            id_mark: [sendingData['temp']['marksKey']] //here is the difference from _Viewer
+            id_mark: sendingData['temp']['marksKey'] //here is the difference from _Viewer
           },
           attributes: ['id_mark']
         }).then(function(inspired) {
