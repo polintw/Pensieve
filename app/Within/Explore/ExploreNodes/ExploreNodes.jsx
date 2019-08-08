@@ -226,7 +226,10 @@ class NodesUsed extends React.Component {
               {" more "}
             </span>
           </Link><br/>
-        <span>{"to find out where you can be the First! "}</span>
+          <span>{"to find out where you can be the First! "}</span>
+          <div
+            className={'boxRelativeFull'}
+            style={{height: '156px'}}></div>
         </div>
       </div>
     )
