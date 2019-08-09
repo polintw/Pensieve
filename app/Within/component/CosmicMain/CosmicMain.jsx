@@ -4,11 +4,13 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import MainIndex from './MainIndex/MainIndex.jsx';
-import SvgLogo from '../../Component/Svg/SvgLogo.jsx';
+import classnames from 'classnames';
+import styles from "./styles.module.css";
+import MainIndex from '../MainIndex/MainIndex.jsx';
+import SvgLogo from '../../../Component/Svg/SvgLogo.jsx';
 import {
   setCosmicTitle
-} from "../../redux/actions/general.js";
+} from "../../../redux/actions/general.js";
 
 class CosmicMain extends React.Component {
   constructor(props){
@@ -57,13 +59,14 @@ class CosmicMain extends React.Component {
   render(){
     return(
       <div
-        style={this.style.withinCom_CosmicMain_}>
+          style={this.style.withinCom_CosmicMain_}>
+        <div className={classnames(styles.boxBackPlane, styles.bgBackPlane)}></div>
         <div
           style={this.style.withinCom_CosmicMain_index_}>
           <MainIndex {...this.props}/>
         </div>
-        <div style={{width: '100%', height: '3rem', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
-        <div style={{width: '100%', height: '3.6rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}>
+        <div className={styles.bgBackPlane} style={{width: '100%', height: '4vh', position: 'fixed', top: '0'}}></div>
+        <div className={styles.bgBackPlane} style={{width: '100%', height: '3.6rem', position: 'fixed', bottom: '0'}}>
           <div
             style={Object.assign({}, this.style.withinCom_CosmicMain_top_logo, {opacity: this.props.mainTitle})}
             onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_von_cosmic('', '/cosmic')}}>

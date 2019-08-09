@@ -169,8 +169,8 @@ class CosmicNoun extends React.Component {
             {this._render_CosmicNouns_byView(paramsStatus)}
           </div>
         </div>
-        <div style={{width: '100%', height: '3.3vh', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
-        <div style={{width: '100%', height: '54px', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
+        <div style={{width: '100%', height: '3.3vh', position: 'fixed', top: '0', backgroundColor: '#FAFAFA'}}></div>
+        <div style={{width: '100%', height: '54px', position: 'fixed', bottom: '0', backgroundColor: '#FAFAFA'}}></div>
         <Route
           path={this.props.match.path+"/units/:id"}
           render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_von_cosmic}/>}/>
