@@ -62,20 +62,15 @@ class NailWideDisplay extends React.Component {
 
   render(){
     return(
-      <div
-        className={styles.frame}>
-        <Link
-          ref={this.nailUnitLink}
-          to={{
-            pathname: this.props.match.url+"/units/"+this.props.unitId,
-            state: {from: this.props.location}
-          }}
-          className={classnames('plainLinkButton', styles.frame)}>
-          <div className={styles.boxMarkArea}></div>
-          <div
-            className={classnames(styles.boxMarkPreview)}>
-            {this._render_nails_Marks()}
-          </div>
+      <Link
+        ref={this.nailUnitLink}
+        to={{
+          pathname: this.props.match.url+"/units/"+this.props.unitId,
+          state: {from: this.props.location}
+        }}
+        className={classnames('plainLinkButton', styles.frame)}>
+        <div
+          className={styles.frame}>
           <div
             ref={this.nailImgBox}
             className={styles.boxImg}>
@@ -85,8 +80,19 @@ class NailWideDisplay extends React.Component {
               _handleClick_ImgPreview_preview={()=>{this.nailImgBox.current.click()}}/>
           </div>
           <div
-            className={classnames(styles.boxNodes)}>
-            {this._render_nails_nouns()}
+            className={styles.boxMarkArea}
+            style={{backgroundColor: '#FFFFFF'}}></div>
+          <div
+            className={styles.boxToggle}>
+            <div
+              className={classnames(styles.boxMarkPreview)}
+              style={{backgroundColor: '#FFFFFF'}}>
+              {this._render_nails_Marks()}
+            </div>
+            <div
+              className={classnames(styles.boxNodes)}>
+              {this._render_nails_nouns()}
+            </div>
           </div>
           <div className={styles.boxAuthor}>
             <span
@@ -94,8 +100,8 @@ class NailWideDisplay extends React.Component {
               {this.props.unitBasic.authorId in this.props.usersBasic ? this.props.usersBasic[this.props.unitBasic.authorId].account:null}
             </span>
           </div>
-        </Link>
-      </div>
+        </div>
+      </Link>
     )
   }
 }
