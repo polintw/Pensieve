@@ -74,8 +74,8 @@ class Explore extends React.Component {
             <Route exact path={this.props.match.path+"/"} render={(props)=> <ExpOverview {...props}/>}/>
           </Switch>
         </div>
-        <div style={{width: '100%', height: '47px', position: 'fixed', top: '0', backgroundColor: '#FAFAFA'}}></div>
-        <div style={{width: '100%', height: '79px', position: 'fixed', bottom: '0', backgroundColor: '#FAFAFA'}}></div>
+        <div style={{width: '100%', height: '47px', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
+        <div style={{width: '100%', height: '79px', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
         <div
           style={styleMiddle.boxSubtitle}>
           <ExpSubtitle {...this.props}/>

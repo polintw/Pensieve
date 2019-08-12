@@ -30,9 +30,9 @@
 }
 
 .boxWide {
-  width: 51%;
-  /*boxNarrow is the standard*/
-  box-shadow: 0 0.7px 1.2px -1px;
+  width: 64%;
+  /*boxNarrow is the standard, as about 1/3 width of parent,
+  so wide is about 2/3 but modified a little for deco. line., which is 4% of parent*/
 }
 
 .boxNarrow {
@@ -50,7 +50,7 @@
 }
 
 .heightNarrow {
-  height: 378px;
+  height: 317px;
 }
 
 .boxFillHoriz {

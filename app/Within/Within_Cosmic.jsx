@@ -10,10 +10,10 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./stylesCosmic.module.css";
 import Explore from './Explore/Explore.jsx';
+import CosmicMain from './component/CosmicMain.jsx';
 import CosmicUser from './component/CosmicUser.jsx';
 import CosmicNoun from './component/CosmicNoun.jsx';
 import CosmicRelated from './component/CosmicRelated.jsx';
-import CosmicMain from './component/CosmicMain/CosmicMain.jsx';
 import LinkExplore from './component/LinkExplore/LinkExplore.jsx';
 import CosmicCorner from './component/CosmicCorner/CosmicCorner.jsx';
 import NavOptions from '../Component/NavOptions.jsx';
@@ -36,7 +36,7 @@ class WithinCosmic extends React.Component {
         width: '100%',
         height: '100%',
         position: 'fixed',
-        backgroundColor: '#fafafa'
+        backgroundColor: '#FCFCFC'
       },
       Within_Cosmic_corner_: {
         position: 'fixed',
