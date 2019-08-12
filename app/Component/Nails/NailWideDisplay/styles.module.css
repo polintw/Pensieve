@@ -5,7 +5,7 @@
 
 .boxImg {
   width: 100%;
-  height: 100%;
+  height: 72%;
   position: absolute;
   top: 0;
   box-sizing: border-box;
@@ -24,15 +24,10 @@
 
 .boxNodesItem {
   display: inline-block;
-  max-width: 30%;
   height: 100%;
   position: relative;
   box-sizing: border-box;
-  margin: 0.5rem 2% 0 2%;
-}
-
-.spanNodesItem {
-  white-space: pre-wrap;
+  margin: 0.5rem 1% 0 3%;
 }
 
 .fontNode {
@@ -42,7 +37,7 @@
 }
 
 .boxAuthor {
-  max-width: 21%;
+  max-width: 13%;
   position: absolute;
   box-sizing: border-box;
   right: 2%;
@@ -56,17 +51,9 @@
   color: #6e6e6e;
 }
 
-.boxToggle {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  bottom: 0;
-  box-sizing: border-box;
-}
-
 .boxMarkArea {
   width: 100%;
-  height: 28.5%;
+  height: 30%;
   position: absolute;
   box-sizing: border-box;
   right: 0;
@@ -74,13 +61,12 @@
 }
 
 .boxMarkPreview {
-  width: 76%;
-  height: 22%;
+  width: 74%;
+  max-height: 22%;
   position: absolute;
-  left: 0%;
-  bottom: 3%;
   box-sizing: border-box;
-  padding: 2.1rem 3%;
+  left: 3%;
+  top: 76%;
   overflow: hidden;
 }
 
