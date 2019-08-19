@@ -21,7 +21,7 @@ const styleMiddle = {
   },
   boxImgFrame: {
     width: '81%',
-    height: '96%',
+    height: '100%',
     position: 'absolute',
     top: '0%',
     right: '0%',
@@ -45,12 +45,11 @@ const styleMiddle = {
   boxNodes: {
     width: '14%',
     minHeight: '29%',
-    maxHeight: '39%',
+    maxHeight: '42%',
     position: 'absolute',
-    top: '23%',
+    bottom: '5%',
     left: '0%',
     boxSizing: 'border-box',
-    backgroundColor: '#4a4a4a',
     overflow: 'hidden' //just a temp method
   }
 }

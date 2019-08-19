@@ -33,12 +33,12 @@ class UnitModal extends React.Component {
         boxSizing: 'border-box'
       },
       Com_UnitModal_blocks_Scroll: {
-        width: '90.6%',
+        width: '90%',
         height: '99.2%',
         position: 'absolute',
         top: '0',
         left: '50%',
-        transform: 'translate(-48%, 0)',
+        transform: 'translate(-47%, 0)',
         boxSizing: 'border-box'
       },
       Com_UnitModal_blocks_SumLayer_ : {
@@ -51,19 +51,23 @@ class UnitModal extends React.Component {
         boxSizing: 'border-box',
       },
       Com_UnitModal_blocks_ImgLayer_: {
-        width: '96%',
+        width: '96.5%',
         height: '100%',
+        position: 'absolute',
         boxSizing: 'border-box',
       },
       Com_UnitModal_blocks_SwitchBar_: {
-
+        width:'2%',
+        height:'100%',
+        position: 'absolute',
+        right: '0'
       },
       Com_UnitModal_straightBack_: {
-        width: '12%',
+        width: '2%',
         height: '10%',
         position: 'absolute',
-        top: '2%',
-        right: '3%'
+        top: '2.3%',
+        right: '2.4%'
       },
       Com_UnitModal_straightBack_span: {
         display: 'inline-block',

@@ -27,10 +27,11 @@ class ImgLayer extends React.Component {
     this._render_MarksLayer = this._render_MarksLayer.bind(this);
     this.style = {
       Com_ImgLayer_img: {
-        maxWidth: '99%',
+        maxWidth: '100%',
         maxHeight: '100%',
         right: baseHorizonRatial+'%',
-        transform: 'translate('+baseHorizonRatial+'%,-50%)'
+        top: '47%',
+        transform: 'translate('+baseHorizonRatial+'%,-47%)'
       }
   };
   }
