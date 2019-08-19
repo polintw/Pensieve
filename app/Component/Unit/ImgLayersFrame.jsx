@@ -21,25 +21,22 @@ class ImgLayersFrame extends React.Component {
         position: 'absolute',
         top: '0',
         left: '0',
-        backgroundColor: 'rgb(16, 16, 16)'
       },
       Com_ImgLayersFrame_div_cover: {
         width: '100%',
-        height: '99%',
+        height: '100%',
         position: 'absolute',
         top: '1%',
         left: '0',
         boxSizing: 'border-box',
-        backgroundColor: 'rgb(16, 16, 16)'
       },
       Com_ImgLayersFrame_div_beneath: {
         width: '100%',
-        height: '99%',
+        height: '100%',
         position: 'absolute',
         top: '1%',
         left: '0',
         boxSizing: 'border-box',
-        backgroundColor: 'rgb(16, 16, 16)'
       }
     };
   }

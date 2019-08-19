@@ -14,7 +14,6 @@ class UnitLayerScroll extends React.Component {
     this.state = {
       buffer: 0
     };
-    this.scrollStick = React.createRef();
     this.stickBase = React.createRef();
     this._set_stickTop = this._set_stickTop.bind(this);
     this._handleWheel_moveCount = this._handleWheel_moveCount.bind(this);
@@ -28,14 +27,6 @@ class UnitLayerScroll extends React.Component {
         boxSizing: 'border-box',
         touchAction: 'pan-y'
       },
-      Com_Unit_LayerScroll_stick: {
-        width: '94%',
-        height: '2.4%',
-        position: 'absolute',
-        left: '3%',
-        borderRadius: '20px',
-        backgroundColor: '#cec9a6'
-      }
     }
   }
 
@@ -145,9 +136,9 @@ class UnitLayerScroll extends React.Component {
       <div
         ref={this.stickBase}
         style={this.style.Com_Unit_LayerScroll_}>
+
         <div
-          ref={this.scrollStick}
-          style={Object.assign({top: this._set_stickTop()},this.style.Com_Unit_LayerScroll_stick)}>
+          style={Object.assign({top: this._set_stickTop()})}>
         </div>
         {this.props.children}
       </div>

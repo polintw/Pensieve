@@ -21,6 +21,7 @@ class UnitModal extends React.Component {
     this._set_markOpened = (bool, markKey)=>{this.setState((prevState,props)=>{return {marksStatus: {marksify: bool, initMark: markKey?markKey: "all"}};});};
     this._set_layerstatus = this._set_layerstatus.bind(this);
     this._refer_toandclose = this._refer_toandclose.bind(this);
+    this._render_ScrollLayers = this._render_ScrollLayers.bind(this);
     this._handleClick_unitBack = this._handleClick_unitBack.bind(this);
     this.style={
       Com_Modal_UnitModal: {
@@ -41,29 +42,21 @@ class UnitModal extends React.Component {
         boxSizing: 'border-box'
       },
       Com_UnitModal_blocks_SumLayer_ : {
-        width: '90%',
+        width: '80%',
         height: '96%',
         position: 'absolute',
         top: '0',
         left: '50%',
         transform: 'translate(-50%, 0)',
         boxSizing: 'border-box',
-        backgroundColor: '#101010',
-        boxShadow: '0px 1.2vh 2.4vw 0vw'
       },
       Com_UnitModal_blocks_ImgLayer_: {
-        width: '100%',
+        width: '96%',
         height: '100%',
         boxSizing: 'border-box',
       },
       Com_UnitModal_blocks_SwitchBar_: {
-        width: '2%',
-        height: '90%',
-        position: 'absolute',
-        top: '0',
-        right: '1%',
-        boxSizing: 'border-box',
-        backgroundColor: 'transparent'
+
       },
       Com_UnitModal_straightBack_: {
         width: '12%',
@@ -104,6 +97,45 @@ class UnitModal extends React.Component {
     });
   }
 
+  _render_ScrollLayers(){
+    return (this.state.moveCount< 200) ? (
+      <div
+        style={this.style.Com_UnitModal_blocks_ImgLayer_}>
+        <UnitImgLayers
+          lockify={this.state.lockify}
+          moveCount={this.state.moveCount}
+          marksStatus={this.state.marksStatus}
+          _set_markOpened={this._set_markOpened}
+          _set_layerstatus={this._set_layerstatus}
+          _set_Modalmode={this.props._set_Modalmode}
+          _refer_toandclose={this._refer_toandclose}/>
+      </div>
+    ): (
+      <div
+        style={this.style.Com_UnitModal_blocks_SumLayer_}>
+        {
+          this.props.unitCurrent.identity=="author" ? (
+             //temp method, before a true AuthorSummary was created
+            <UnitAuthorSummary
+              moveCount={this.state.moveCount}
+              _set_layerstatus={this._set_layerstatus}
+              _set_Modalmode={this.props._set_Modalmode}
+              _close_modal_Unit={this.props._close_modal_Unit}
+              _refer_toandclose={this._refer_toandclose}/>
+          ):(
+            <UnitViewSummary
+              moveCount={this.state.moveCount}
+              _set_layerstatus={this._set_layerstatus}
+              _set_Modalmode={this.props._set_Modalmode}
+              _close_modal_Unit={this.props._close_modal_Unit}
+              _refer_toandclose={this._refer_toandclose}/>
+          )
+        }
+      </div>
+    )
+
+  }
+
 
   render(){
     //Notice! it's important to let the ImgLayers unmount if >200, due to we need the re-render, not just css change
@@ -121,41 +153,9 @@ class UnitModal extends React.Component {
                 moveCount={this.state.moveCount}
                 markOpened={this.state.marksStatus.marksify}
                 _set_layerstatus={this._set_layerstatus}>
-                <div
-                  style={this.style.Com_UnitModal_blocks_SumLayer_}>
-                  {
-                    this.props.unitCurrent.identity=="author" ? (
-                       //temp method, before a true AuthorSummary was created
-                      <UnitAuthorSummary
-                        moveCount={this.state.moveCount}
-                        _set_layerstatus={this._set_layerstatus}
-                        _set_Modalmode={this.props._set_Modalmode}
-                        _close_modal_Unit={this.props._close_modal_Unit}
-                        _refer_toandclose={this._refer_toandclose}/>
-                    ):(
-                      <UnitViewSummary
-                        moveCount={this.state.moveCount}
-                        _set_layerstatus={this._set_layerstatus}
-                        _set_Modalmode={this.props._set_Modalmode}
-                        _close_modal_Unit={this.props._close_modal_Unit}
-                        _refer_toandclose={this._refer_toandclose}/>
-                    )
-                  }
-                </div>
-                <div
-                  style={this.style.Com_UnitModal_blocks_ImgLayer_}>
-                  {
-                    (this.state.moveCount< 200) &&
-                    <UnitImgLayers
-                      lockify={this.state.lockify}
-                      moveCount={this.state.moveCount}
-                      marksStatus={this.state.marksStatus}
-                      _set_markOpened={this._set_markOpened}
-                      _set_layerstatus={this._set_layerstatus}
-                      _set_Modalmode={this.props._set_Modalmode}
-                      _refer_toandclose={this._refer_toandclose}/>
-                  }
-                </div>
+                {
+                  this._render_ScrollLayers()
+                }
                 <div
                   style={this.style.Com_UnitModal_blocks_SwitchBar_}>
                   <UnitLayerSwitch
@@ -165,7 +165,10 @@ class UnitModal extends React.Component {
               </UnitLayerScroll>
             ): (
               <div
-                style={this.style.Com_UnitModal_blocks_SumLayer_}></div>
+                style={this.style.Com_UnitModal_blocks_SumLayer_}>
+                <div
+                  style={{backgroundColor:'#F0F0F0',width: '20%', height: '20%', position: 'absolute', top: '40%', left: '40%'}}/>
+              </div>
             )
           }
         </div>

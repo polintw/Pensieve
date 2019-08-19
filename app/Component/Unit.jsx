@@ -236,7 +236,7 @@ class Unit extends React.Component {
     return(
       <div>
         <ModalBox containerId="root">
-          <ModalBackground onClose={this._close_modal_Unit} style={{position: "fixed"}}>
+          <ModalBackground onClose={this._close_modal_Unit} style={{position: "fixed", backgroundColor: 'rgba(11,11,11,0.97)'}}>
             {this._render_UnitMode()}
           </ModalBackground>
         </ModalBox>
