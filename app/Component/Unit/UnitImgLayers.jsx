@@ -20,7 +20,7 @@ const styleMiddle = {
     boxSizing: 'border-box',
   },
   boxImgFrame: {
-    width: '81%',
+    width: '79%',
     height: '100%',
     position: 'absolute',
     top: '0%',
@@ -36,16 +36,18 @@ const styleMiddle = {
     boxSizing: 'border-box'
   },
   boxAuthor: {
-    maxWidth: '11%',
+    maxWidth: '15%',
     position: 'absolute',
-    top: '66%',
-    right: '87.4%',
+    bottom: '53.5%',
+    right: '84%',
     boxSizing: 'border-box',
   },
   boxNodes: {
-    width: '14%',
-    minHeight: '29%',
-    maxHeight: '42%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    width: '17%',
+    height: '273px',
     position: 'absolute',
     bottom: '5%',
     left: '0%',
@@ -65,7 +67,6 @@ class UnitImgLayers extends React.Component {
       Com_Unit_UnitImgLayers_contentSection_links_nouns: {
         width: '100%',
         boxSizing: 'border-box',
-        padding: '8% 7% 8% 4%',
         textAlign: 'right'
       },
       Com_Unit_UnitImgLayers_commonSection_InfoPanel_blocks_: {
@@ -93,9 +94,9 @@ class UnitImgLayers extends React.Component {
           style={styleMiddle.boxAuthor}>
           <div
             onClick={this._handleClick_Account}
-            style={Object.assign({textAlign: 'center', cursor:'pointer'},this.style.Com_Unit_UnitImgLayers_commonSection_InfoPanel_blocks_)}>
+            style={Object.assign({}, this.style.Com_Unit_UnitImgLayers_commonSection_InfoPanel_blocks_,{marginBottom:'0.7rem',textAlign: 'right', cursor:'pointer'})}>
             <AccountPlate
-              size={'regular'}
+              size={'layer'}
               accountFisrtName={this.props.unitCurrent.authorBasic.firstName}
               accountLastName={this.props.unitCurrent.authorBasic.lastName}/>
           </div>
@@ -111,7 +112,7 @@ class UnitImgLayers extends React.Component {
           {
             this.props.unitCurrent.nouns &&
             <div
-              className={'verticalAlignChild nodesListLayers'}
+              className={'nodesListLayers'}
               style={this.style.Com_Unit_UnitImgLayers_contentSection_links_nouns}>
               <NounsExtensible
                 nouns={this.props.unitCurrent.nouns}

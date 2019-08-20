@@ -15,7 +15,8 @@ export class NounsExtensible extends React.Component {
       Com_Nouns_Extensible_: {
         width: '100%',
         position: 'relative',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        borderRight:'0.75px solid #FAFAFA'
       },
       Com_Nouns_Extensible_list_: {
         width: '100%',
@@ -28,7 +29,8 @@ export class NounsExtensible extends React.Component {
         width: '100%',
         position: 'relative',
         boxSizing: 'border-box',
-        margin: '0 0 1.42rem',
+        margin: '0 0 2.54rem',
+        paddingRight: '8%',
         cursor: 'pointer'
       },
       Com_Nouns_Extensible_switch_: {
@@ -105,71 +107,6 @@ export class NounsExtensible extends React.Component {
              'show all >'
           </div>
         }
-      </div>
-    )
-  }
-}
-
-
-export class AuthorFull extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-
-    };
-    this._handleClick_Author = this._handleClick_Author.bind(this);
-    this.style={
-      Com_Author_full_: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box'
-      },
-      Com_Author_full_text_: {
-        display: 'inline-block',
-        width: '73%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '10%',
-        boxSizing: 'border-box',
-        fontSize: '1.8rem',
-        letterSpacing: '0.2vh',
-        fontWeight: '400',
-        color: '#FAFAFA'
-      },
-      Com_Author_full_propic_: {
-        display: 'inline-block',
-        width: '27%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box'
-      }
-    }
-  }
-
-  _handleClick_Author(event){
-    event.preventDefault();
-    event.stopPropagation();
-    this.props._handleClick_Author('user', this.props.authorBasic.authorId);
-  }
-
-  render(){
-    //let cx = cxBind.bind(styles);
-    return(
-      <div
-        style={this.style.Com_Author_full_}
-        onClick={this._handleClick_Author}>
-        <div style={this.style.Com_Author_full_propic_}>
-          <SvgPropic/>
-        </div>
-        <span style={this.style.Com_Author_full_text_}>
-          {this.props.authorBasic.account}
-        </span>
       </div>
     )
   }

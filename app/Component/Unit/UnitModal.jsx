@@ -33,12 +33,12 @@ class UnitModal extends React.Component {
         boxSizing: 'border-box'
       },
       Com_UnitModal_blocks_Scroll: {
-        width: '90%',
+        width: '92%',
         height: '99.2%',
         position: 'absolute',
         top: '0',
         left: '50%',
-        transform: 'translate(-47%, 0)',
+        transform: 'translate(-48%, 0)',
         boxSizing: 'border-box'
       },
       Com_UnitModal_blocks_SumLayer_ : {
@@ -51,7 +51,7 @@ class UnitModal extends React.Component {
         boxSizing: 'border-box',
       },
       Com_UnitModal_blocks_ImgLayer_: {
-        width: '96.5%',
+        width: '97%',
         height: '100%',
         position: 'absolute',
         boxSizing: 'border-box',

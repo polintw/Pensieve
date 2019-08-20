@@ -16,11 +16,10 @@ export default class DateConverter extends React.Component {
         fontWeight: '400'
       },
       fontLayers: {
-        fontSize: '1.1rem',
-        fontStyle: 'italic',
-        letterSpacing: '0.14rem',
-        textAlign: 'center',
-        fontWeight: '400'
+        fontSize: '1rem',
+        letterSpacing: '0.1rem',
+        textAlign: 'right',
+        fontWeight: '300'
       },
       fontSummary: {
         fontSize: '1.2rem',
