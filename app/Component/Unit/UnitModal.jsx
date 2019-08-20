@@ -30,7 +30,8 @@ class UnitModal extends React.Component {
         position: 'absolute',
         top: '0',
         left: '0%',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        overflowY: 'scroll'
       },
       Com_UnitModal_blocks_Scroll: {
         width: '93%',
@@ -63,19 +64,20 @@ class UnitModal extends React.Component {
         right: '0'
       },
       Com_UnitModal_straightBack_: {
-        width: '2%',
-        height: '10%',
+        display:'flex',
+        justifyContent:'space-around'
+        width: '2rem',
+        height: '5%',
         position: 'absolute',
-        top: '2.3%',
-        right: '2.4%'
+        top: '2%',
+        right: '1.4%',
+        fontSize:'1.23rem',
+        fontWeight: '500',
+        color: '#F0F0F0',
+        cursor:'pointer'
       },
       Com_UnitModal_straightBack_span: {
-        display: 'inline-block',
-        float: 'right',
         boxSizing: 'border-box',
-        margin: '2% 5%',
-        color: '#FAFAFA',
-        cursor: 'pointer'
       }
     }
   }

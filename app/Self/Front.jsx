@@ -17,15 +17,6 @@ class Front extends React.Component {
 
     };
     this.style={
-      Self_pages_Front_: {
-        width: "100%",
-        minWidth: '720px',
-        height: '100%',
-        minHeight: '360px',
-        position: 'absolute',
-        top: '0',
-        left: '0'
-      },
       Self_pages_Front_NavSelf: {
         display:'inline-block',
         minWidth: '285px',
@@ -43,8 +34,7 @@ class Front extends React.Component {
     return(
       <Router
         basename={"/user"}>
-        <div
-          style={this.style.Self_pages_Front_}>
+        <div>
           <Route path="/cognition" render={(props)=> <FrontCognition {...props}/>}/>
           <Route path="/profile" render={(props)=> <FrontProfile {...props}/>}/>
           <div

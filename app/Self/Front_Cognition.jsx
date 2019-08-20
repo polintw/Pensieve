@@ -19,13 +19,6 @@ class FrontCognition extends React.Component {
     };
     this._refer_leaveSelf = this._refer_leaveSelf.bind(this);
     this.style={
-      Front_Cognition_: {
-        width: '100%',
-        height: '100%',
-        position: 'static',
-        top: '0%',
-        left: '0%'
-      },
       Front_Cognition_backPlane_top: {
         width: '100%',
         height: '4%',
@@ -66,8 +59,7 @@ class FrontCognition extends React.Component {
   render(){
     //let cx = cxBind.bind(styles);
     return(
-      <div
-        style={this.style.Front_Cognition_}>
+      <div>
         <Switch>
           <Route path={this.props.match.path+"/collaterals"} render={(props)=> <Collaterals {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>
           <Route path={this.props.match.path} render={(props)=> <Cognition {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>
