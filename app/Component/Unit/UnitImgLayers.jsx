@@ -20,7 +20,7 @@ const styleMiddle = {
     boxSizing: 'border-box',
   },
   boxImgFrame: {
-    width: '79%',
+    width: '78%',
     height: '100%',
     position: 'absolute',
     top: '0%',
@@ -36,20 +36,20 @@ const styleMiddle = {
     boxSizing: 'border-box'
   },
   boxAuthor: {
-    maxWidth: '15%',
+    maxWidth: '14%',
     position: 'absolute',
     bottom: '53.5%',
-    right: '84%',
+    right: '85%',
     boxSizing: 'border-box',
   },
   boxNodes: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'flex-end',
-    width: '17%',
+    justifyContent: 'center',
+    width: '16%',
     height: '273px',
     position: 'absolute',
-    bottom: '5%',
+    bottom: '4%',
     left: '0%',
     boxSizing: 'border-box',
     overflow: 'hidden' //just a temp method

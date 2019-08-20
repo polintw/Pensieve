@@ -17,14 +17,7 @@ class Within extends React.Component {
       userBasic: this.props.userBasic
     };
     this.style={
-      div_Base: {
-        width: "100%",
-        minWidth: '720px',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0'
-      }
+
     };
   }
 
@@ -32,8 +25,7 @@ class Within extends React.Component {
     //let cx = cxBind.bind(styles);
     return(
       <Router>
-        <div
-          style={this.style.div_Base}>
+        <div>
           <Switch>
             <Route path="/cosmic" render={(props)=> <WithinCosmic {...props}/>}/>
             <Route path="/" render={(props)=> <WithinLtd {...props}/>}/>

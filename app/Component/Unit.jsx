@@ -42,6 +42,9 @@ class Unit extends React.Component {
     this.style={
 
     };
+    //And! we have to 'hide' the scroll bar and preventing the scroll behavior to the page one for all
+    //so dismiss the scroll ability for <body> here
+    document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:hidden;");
   }
 
   _set_WarningModal_positive(){
@@ -187,6 +190,8 @@ class Unit extends React.Component {
     // It's Important !! next Unit should not have a 'coverSrc' to prevent children component render in UnitModal before Unit data response!
     let unitCurrentState = Object.assign({}, unitCurrentInit);
     this.props._set_store_UnitCurrent(unitCurrentState);
+    //last, recruit the scroll ability back to <body>
+    document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:scroll;");
   }
 
   _render_UnitMode(){
@@ -236,7 +241,7 @@ class Unit extends React.Component {
     return(
       <div>
         <ModalBox containerId="root">
-          <ModalBackground onClose={this._close_modal_Unit} style={{position: "fixed", backgroundColor: 'rgba(11,11,11,0.98)'}}>
+          <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(11,11,11,0.98)'}}>
             {this._render_UnitMode()}
           </ModalBackground>
         </ModalBox>
