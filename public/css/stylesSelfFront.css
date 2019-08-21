@@ -60,6 +60,22 @@
   line-height: 1.7rem;
   color: #ABABAB;
 }
+._C_C_app_Component_Unit_UnitLayerSwitch_styles_module__boxSwitch {
+  width: 100%;
+  height: auto;
+  position: absolute;
+  top: 49%;
+  left: 50%;
+  transform: translate(-50%,0);
+}
+
+._C_C_app_Component_Unit_UnitLayerSwitch_styles_module__boxSwitchDN {
+  width: 100%;
+  height: 70%;
+  position: absolute;
+  bottom: 0;
+  cursor: pointer;
+}
 ._C_C_app_Component_Editing_MarkEditingBlock_styles_module__boxContent {
   display: flex;
   justify-content: space-between;

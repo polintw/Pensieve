@@ -3,6 +3,7 @@ import {
   withRouter
 } from 'react-router-dom';
 import { connect } from "react-redux";
+import UnitLayerSwitch from './UnitLayerSwitch/UnitLayerSwitch.jsx';
 import {
   unitLockBufferLimit,
   unitBasicMoveCount
@@ -15,7 +16,6 @@ class UnitLayerScroll extends React.Component {
       buffer: 0
     };
     this.stickBase = React.createRef();
-    this._set_stickTop = this._set_stickTop.bind(this);
     this._handleWheel_moveCount = this._handleWheel_moveCount.bind(this);
     this.style={
       Com_Unit_LayerScroll_: {
@@ -26,6 +26,12 @@ class UnitLayerScroll extends React.Component {
         left: '0%',
         boxSizing: 'border-box',
         touchAction: 'pan-y'
+      },
+      Com_UnitModal_blocks_SwitchBar_: {
+        width:'1.45%',
+        height:'100%',
+        position: 'absolute',
+        right: '0'
       },
     }
   }
@@ -84,24 +90,6 @@ class UnitLayerScroll extends React.Component {
     }
   }
 
-  _set_stickTop(){
-    if(this.coverLock == null) return "95%";
-    switch (this.props.moveCount) {
-      case 0:
-        return this.coverLock
-        break;
-      case 100:
-        return this.coverLock-this.basicMove*100
-        break;
-      case 200:
-        return this.sumLock
-        break;
-      default:
-        let delta = this.props.moveCount*this.basicMove/((this.props.moveCount>200 && !this.props.unitCurrent.beneathSrc)? 2:1);
-        return  (this.coverLock-delta);// because the moveCount would jump to 200 at summary
-    }
-  }
-
   componentDidMount() {
     //we set these variable here because we need to use the component height
     let viewheight = this.stickBase.current.getBoundingClientRect().height;
@@ -131,16 +119,17 @@ class UnitLayerScroll extends React.Component {
   }
 
   render(){
-    //let cx = cxBind.bind(styles);
     return(
       <div
         ref={this.stickBase}
         style={this.style.Com_Unit_LayerScroll_}>
-
-        <div
-          style={Object.assign({top: this._set_stickTop()})}>
-        </div>
         {this.props.children}
+        <div
+          style={this.style.Com_UnitModal_blocks_SwitchBar_}>
+          <UnitLayerSwitch
+            moveCount={this.props.moveCount}
+            _set_layerstatus={this.props._set_layerstatus}/>
+        </div>
       </div>
     )
   }

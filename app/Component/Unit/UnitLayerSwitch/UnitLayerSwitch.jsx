@@ -4,6 +4,13 @@ import {
   withRouter
 } from 'react-router-dom';
 import { connect } from "react-redux";
+import classnames from 'classnames';
+import styles from "./styles.module.css";
+import {
+  LayerSwitch,
+  LayerSpot,
+  LayerSwitUp
+} from '../../Svg/SvgUnitSwit.jsx';
 
 class UnitLayerSwitch extends React.Component {
   constructor(props){
@@ -11,6 +18,7 @@ class UnitLayerSwitch extends React.Component {
     this.state = {
 
     };
+    this._set_stickTop = this._set_stickTop.bind(this);
     this._handleClick_set_layerDown = this._handleClick_set_layerDown.bind(this);
     this._handleClick_set_layerUp = this._handleClick_set_layerUp.bind(this);
     this.style={
@@ -21,7 +29,6 @@ class UnitLayerSwitch extends React.Component {
         top: '0',
         left: '0',
         boxSizing: 'border-box',
-        padding: '5%'
       },
       Com_UnitLayerControl_svg_button: {
         width: '90%',
@@ -67,37 +74,45 @@ class UnitLayerSwitch extends React.Component {
     this.props._set_layerstatus(true, nowCount);
   }
 
+  _set_stickTop(){
+    if(this.coverLock == null) return "95%";
+    switch (this.props.moveCount) {
+      case 0:
+        return this.coverLock
+        break;
+      case 100:
+        return this.coverLock-this.basicMove*100
+        break;
+      case 200:
+        return this.sumLock
+        break;
+      default:
+        let delta = this.props.moveCount*this.basicMove/((this.props.moveCount>200 && !this.props.unitCurrent.beneathSrc)? 2:1);
+        return  (this.coverLock-delta);// because the moveCount would jump to 200 at summary
+    }
+  }
+
   render(){
-    const self = this;
-    //here SVG important! if there are two SVG tag, distinguish the "class" to prevent style overlay!!
     return(
       <div
         style={this.style.Com_UnitLayerControl}>
-        <svg
-          style={Object.assign({top: "50%"}, self.style.Com_UnitLayerControl_svg_button)}
-          onClick={self._handleClick_set_layerDown}
-          xmlns={"http://www.w3.org/2000/svg"} viewBox={"0 0 35 56"}>
-          <defs>
-            <style>{".cls-1-down{fill:#f7f4bc;stroke:#f7f4bc;stroke-miterlimit:10;}"}</style>
-          </defs>
-          <g id="圖層_2" data-name="圖層 2">
-            <g id="圖層_2-2" data-name="圖層 2">
-              <path className="cls-1-down" d="M.5.5v45c0,5.5,5.4,10,12,10h10c6.6,0,12-4.5,12-10V.5Z"/>
-            </g></g>
-        </svg>
-        <svg
-          style={Object.assign({top: "36%"}, self.style.Com_UnitLayerControl_svg_button)}
-          onClick={self._handleClick_set_layerUp}
-          xmlns={"http://www.w3.org/2000/svg"} viewBox={"0 0 35 56"}>
-          <defs>
-            <style>
-              {".cls-1-up{fill:none;stroke:#f7f4bc;stroke-miterlimit:10;}"}
-            </style>
-          </defs>
-          <g id="圖層_2" data-name="圖層 2">
-            <g id="圖層_2-2" data-name="圖層 2">
-              <path className="cls-1-up" d="M.5,55.5v-45C.5,5,5.9.5,12.5.5h10c6.6,0,12,4.5,12,10v45Z"/></g></g>
-        </svg>
+        <div
+          style={Object.assign({top: ""})}>
+          <LayerSpot/>
+        </div>
+        <div
+          className={classnames(styles.boxSwitch)}>
+          <LayerSwitch/>
+          <div
+            className={classnames(styles.boxSwitchDN)}
+            onClick={self._handleClick_set_layerDown}></div>
+        </div>
+        <div
+          style={Object.assign({})}
+          onClick={self._handleClick_set_layerDown}>
+          <LayerSwitUp/>
+        </div>
+
       </div>
     )
   }

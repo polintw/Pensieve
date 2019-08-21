@@ -1,0 +1,16 @@
+.boxSwitch {
+  width: 100%;
+  height: auto;
+  position: absolute;
+  top: 41%;
+  left: 50%;
+  transform: translate(-50%,0);
+}
+
+.boxSwitchDN {
+  width: 100%;
+  height: 70%;
+  position: absolute;
+  bottom: 0;
+  cursor: pointer;
+}

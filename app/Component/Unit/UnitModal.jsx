@@ -6,7 +6,6 @@ import {
 import { connect } from "react-redux";
 import UnitImgLayers from './UnitImgLayers.jsx';
 import UnitLayerScroll from './UnitLayerScroll.jsx';
-import UnitLayerSwitch from './UnitLayerSwitch.jsx';
 import UnitViewSummary from './UnitViewSummary.jsx';
 import UnitAuthorSummary from './UnitAuthorSummary.jsx';
 
@@ -34,12 +33,12 @@ class UnitModal extends React.Component {
         overflowY: 'scroll'
       },
       Com_UnitModal_blocks_Scroll: {
-        width: '93%',
+        width: '93.2%',
+        minWidth: '900px',
         height: '99.2%',
         position: 'absolute',
         top: '0',
-        left: '50%',
-        transform: 'translate(-48.5%, 0)',
+        left: '4.8%',
         boxSizing: 'border-box'
       },
       Com_UnitModal_blocks_SumLayer_ : {
@@ -52,20 +51,14 @@ class UnitModal extends React.Component {
         boxSizing: 'border-box',
       },
       Com_UnitModal_blocks_ImgLayer_: {
-        width: '97%',
+        width: '96.8%',
         height: '100%',
         position: 'absolute',
         boxSizing: 'border-box',
       },
-      Com_UnitModal_blocks_SwitchBar_: {
-        width:'2%',
-        height:'100%',
-        position: 'absolute',
-        right: '0'
-      },
       Com_UnitModal_straightBack_: {
         display:'flex',
-        justifyContent:'space-around'
+        justifyContent:'space-around',
         width: '2rem',
         height: '5%',
         position: 'absolute',
@@ -159,15 +152,7 @@ class UnitModal extends React.Component {
                 moveCount={this.state.moveCount}
                 markOpened={this.state.marksStatus.marksify}
                 _set_layerstatus={this._set_layerstatus}>
-                {
-                  this._render_ScrollLayers()
-                }
-                <div
-                  style={this.style.Com_UnitModal_blocks_SwitchBar_}>
-                  <UnitLayerSwitch
-                    moveCount={this.state.moveCount}
-                    _set_layerstatus={this._set_layerstatus}/>
-                </div>
+                {this._render_ScrollLayers()}
               </UnitLayerScroll>
             ): (
               <div

@@ -20,7 +20,7 @@ const styleMiddle = {
     boxSizing: 'border-box',
   },
   boxImgFrame: {
-    width: '78%',
+    width: '77%',
     height: '100%',
     position: 'absolute',
     top: '0%',
