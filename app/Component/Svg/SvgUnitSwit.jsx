@@ -16,7 +16,8 @@ export class LayerSwitch extends React.Component {
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51 130.5"
         style={{
           width: '100%',
-          height: 'auto'
+          height: 'auto',
+          overflow:'visible'
         }}>
         <defs>
           <style>{".cls-1-UnitSwitch{fill:#f0f0f0;}.cls-2-UnitSwitch{opacity:0.74;}.cls-3-UnitSwitch{opacity:0.56;}"}</style>
@@ -54,7 +55,8 @@ export class LayerSpot extends React.Component {
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9 9"
         style={{
           width: '100%',
-          height: 'auto'
+          height: 'auto',
+          overflow:'visible'
         }}>
         <defs>
           <style>{".cls-1-SwitSpot{fill:#f0f0f0;}"}</style>
@@ -85,7 +87,8 @@ export class LayerSwitUp extends React.Component {
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46.95 32.1"
         style={{
           width: '100%',
-          height: 'auto'
+          height: 'auto',
+          overflow:'visible'
         }}>
         <defs>
           <style>{".cls-1-SwitUp{opacity:0.74;}.cls-2-SwitUp{fill:#f0f0f0;}.cls-3-SwitUp{opacity:0.56;}"}</style>
