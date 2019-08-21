@@ -8,6 +8,7 @@ import UnitImgLayers from './UnitImgLayers.jsx';
 import UnitLayerScroll from './UnitLayerScroll.jsx';
 import UnitViewSummary from './UnitViewSummary.jsx';
 import UnitAuthorSummary from './UnitAuthorSummary.jsx';
+import UnitLayerSwitch from './UnitLayerSwitch/UnitLayerSwitch.jsx';
 
 class UnitModal extends React.Component {
   constructor(props){
@@ -55,6 +56,12 @@ class UnitModal extends React.Component {
         height: '100%',
         position: 'absolute',
         boxSizing: 'border-box',
+      },
+      Com_UnitModal_blocks_SwitchBar_: {
+        width:'1.45%',
+        height:'100%',
+        position: 'absolute',
+        right: '0'
       },
       Com_UnitModal_straightBack_: {
         display:'flex',
@@ -153,6 +160,12 @@ class UnitModal extends React.Component {
                 markOpened={this.state.marksStatus.marksify}
                 _set_layerstatus={this._set_layerstatus}>
                 {this._render_ScrollLayers()}
+                <div
+                  style={this.style.Com_UnitModal_blocks_SwitchBar_}>
+                  <UnitLayerSwitch
+                    moveCount={this.state.moveCount}
+                    _set_layerstatus={this._set_layerstatus}/>
+                </div>
               </UnitLayerScroll>
             ): (
               <div

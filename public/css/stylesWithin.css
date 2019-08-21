@@ -12,30 +12,6 @@
   white-space: nowrap;
   color: #353535;
 }
-._C_C_app_Within_component_LinkExplore_styles_module__comExplore {
-  display: flex;
-  position: relative;
-}
-
-._C_C_app_Within_component_LinkExplore_styles_module__boxExplore {
-  position: relative;
-  box-sizing: border-box;
-}
-
-._C_C_app_Within_component_LinkExplore_styles_module__boxSwitch {
-  display: flex;
-  align-items: flex-end;
-}
-
-._C_C_app_Within_component_LinkExplore_styles_module__boxCategory {
-  display: flex;
-  position: relative;
-  box-sizing: border-box;
-}
-
-._C_C_app_Within_component_LinkExplore_styles_module__fontCategory {
-  color: #a8a8a8;
-}
 ._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxOptions {
   box-sizing: border-box;
   text-align: center;
@@ -79,6 +55,30 @@ start the fundemental first, and then the specific condition
   height: 12px;
   right: 186px;
   bottom: 0;
+}
+._C_C_app_Within_component_LinkExplore_styles_module__comExplore {
+  display: flex;
+  position: relative;
+}
+
+._C_C_app_Within_component_LinkExplore_styles_module__boxExplore {
+  position: relative;
+  box-sizing: border-box;
+}
+
+._C_C_app_Within_component_LinkExplore_styles_module__boxSwitch {
+  display: flex;
+  align-items: flex-end;
+}
+
+._C_C_app_Within_component_LinkExplore_styles_module__boxCategory {
+  display: flex;
+  position: relative;
+  box-sizing: border-box;
+}
+
+._C_C_app_Within_component_LinkExplore_styles_module__fontCategory {
+  color: #a8a8a8;
 }
 ._C_C_app_Within_Explore_ExpSubtitle_styles_module__boxSubtitle {
 
@@ -294,6 +294,58 @@ start the fundemental first, and then the specific condition
 
 ._C_C_app_Within_component_MainBanner_styles_module__borderBanner {
   border-bottom: 0.14rem solid #c4c4c4;
+}
+._C_C_app_Component_Unit_UnitLayerSwitch_styles_module__boxUnitLayerSwitch {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+._C_C_app_Component_Unit_UnitLayerSwitch_styles_module__boxSwitch {
+  width: 100%;
+  height: auto;
+  position: absolute;
+  top: 41%;
+  left: 50%;
+  transform: translate(-50%,0);
+}
+
+._C_C_app_Component_Unit_UnitLayerSwitch_styles_module__boxSwitchSvg {
+  width: 100%;
+  height: auto;
+  position: relative;
+  z-index: 2;
+}
+
+._C_C_app_Component_Unit_UnitLayerSwitch_styles_module__boxSpots {
+  width: 100%;
+  height: 144%;
+  position: absolute;
+  box-sizing: border-box;
+  z-index: 0;
+}
+
+._C_C_app_Component_Unit_UnitLayerSwitch_styles_module__boxSpotBin {
+  width: 30%;
+  height: 87%;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%,0);
+  box-sizing: border-box;
+}
+
+._C_C_app_Component_Unit_UnitLayerSwitch_styles_module__boxSpotSing {
+  width: 100%;
+  height: auto;
+  position: absolute;
+}
+
+._C_C_app_Component_Unit_UnitLayerSwitch_styles_module__boxSwitDn {
+  width: 100%;
+  height: 70%;
+  position: absolute;
+  bottom: 0;
+  cursor: pointer;
 }
 ._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__Nails_Basic {
   background-color: #FFFFFF;
@@ -567,22 +619,6 @@ start the fundemental first, and then the specific condition
   font-weight: 400;
   text-align: left;
   color: #000000;
-}
-._C_C_app_Component_Unit_UnitLayerSwitch_styles_module__boxSwitch {
-  width: 100%;
-  height: auto;
-  position: absolute;
-  top: 49%;
-  left: 50%;
-  transform: translate(-50%,0);
-}
-
-._C_C_app_Component_Unit_UnitLayerSwitch_styles_module__boxSwitchDN {
-  width: 100%;
-  height: 70%;
-  position: absolute;
-  bottom: 0;
-  cursor: pointer;
 }
 ._C_C_app_Component_Editing_MarkEditingBlock_styles_module__boxContent {
   display: flex;

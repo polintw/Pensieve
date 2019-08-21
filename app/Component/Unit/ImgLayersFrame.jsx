@@ -58,7 +58,7 @@ class ImgLayersFrame extends React.Component {
   }
 
   render(){
-    let portion = Math.abs((this.props.moveCount-100)/100);
+    let portion = Math.abs((this.props.moveCount-100)/100); //we use '100' due to the system was base on the 0, 100, 200 range
     let controledCSS = {
       coverZIndex: this.props.moveCount< 100 ? '2':'1',
       coverOpa: this.props.moveCount < 100 ? portion : '0',

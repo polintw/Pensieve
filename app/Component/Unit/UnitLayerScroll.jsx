@@ -3,7 +3,6 @@ import {
   withRouter
 } from 'react-router-dom';
 import { connect } from "react-redux";
-import UnitLayerSwitch from './UnitLayerSwitch/UnitLayerSwitch.jsx';
 import {
   unitLockBufferLimit,
   unitBasicMoveCount
@@ -15,7 +14,7 @@ class UnitLayerScroll extends React.Component {
     this.state = {
       buffer: 0
     };
-    this.stickBase = React.createRef();
+    this.scrollBase = React.createRef();
     this._handleWheel_moveCount = this._handleWheel_moveCount.bind(this);
     this.style={
       Com_Unit_LayerScroll_: {
@@ -26,12 +25,6 @@ class UnitLayerScroll extends React.Component {
         left: '0%',
         boxSizing: 'border-box',
         touchAction: 'pan-y'
-      },
-      Com_UnitModal_blocks_SwitchBar_: {
-        width:'1.45%',
-        height:'100%',
-        position: 'absolute',
-        right: '0'
       },
     }
   }
@@ -91,12 +84,6 @@ class UnitLayerScroll extends React.Component {
   }
 
   componentDidMount() {
-    //we set these variable here because we need to use the component height
-    let viewheight = this.stickBase.current.getBoundingClientRect().height;
-
-    this.coverLock = viewheight*95/100; //bottom-most place as cover's static place
-    this.sumLock = this.coverLock/5;
-    this.basicMove = this.coverLock*4/5/(this.props.unitCurrent.beneathSrc ? 200 :100);
 
     this.basicCount = unitBasicMoveCount; //set single 'step'
     this.checkRange = this.basicCount+1; //11 if we set basicCount as 10
@@ -107,7 +94,7 @@ class UnitLayerScroll extends React.Component {
     this.downMiddle = this.props.unitCurrent.beneathSrc? 100:0;
     this.upMiddle = this.props.unitCurrent.beneathSrc? 100:this.bounderTop;
 
-    this.stickBase.current.addEventListener('wheel', this._handleWheel_moveCount, {passive: false})
+    this.scrollBase.current.addEventListener('wheel', this._handleWheel_moveCount, {passive: false})
     //because the modern browser set the 'passive' property of addEventListener default to true,
     //it would block the e.preventDefault() useage
     //so we could only add listener manually like this way
@@ -115,21 +102,15 @@ class UnitLayerScroll extends React.Component {
 
   componentWillUnmount() {
     //and don't forget to move any exist evetListener
-    this.stickBase.current.removeEventListener('wheel',this._handleWheel_moveCount);
+    this.scrollBase.current.removeEventListener('wheel',this._handleWheel_moveCount);
   }
 
   render(){
     return(
       <div
-        ref={this.stickBase}
+        ref={this.scrollBase}
         style={this.style.Com_Unit_LayerScroll_}>
         {this.props.children}
-        <div
-          style={this.style.Com_UnitModal_blocks_SwitchBar_}>
-          <UnitLayerSwitch
-            moveCount={this.props.moveCount}
-            _set_layerstatus={this.props._set_layerstatus}/>
-        </div>
       </div>
     )
   }

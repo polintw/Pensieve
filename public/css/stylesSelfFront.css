@@ -60,16 +60,52 @@
   line-height: 1.7rem;
   color: #ABABAB;
 }
+._C_C_app_Component_Unit_UnitLayerSwitch_styles_module__boxUnitLayerSwitch {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
 ._C_C_app_Component_Unit_UnitLayerSwitch_styles_module__boxSwitch {
   width: 100%;
   height: auto;
   position: absolute;
-  top: 49%;
+  top: 41%;
   left: 50%;
   transform: translate(-50%,0);
 }
 
-._C_C_app_Component_Unit_UnitLayerSwitch_styles_module__boxSwitchDN {
+._C_C_app_Component_Unit_UnitLayerSwitch_styles_module__boxSwitchSvg {
+  width: 100%;
+  height: auto;
+  position: relative;
+  z-index: 2;
+}
+
+._C_C_app_Component_Unit_UnitLayerSwitch_styles_module__boxSpots {
+  width: 100%;
+  height: 144%;
+  position: absolute;
+  box-sizing: border-box;
+  z-index: 0;
+}
+
+._C_C_app_Component_Unit_UnitLayerSwitch_styles_module__boxSpotBin {
+  width: 30%;
+  height: 87%;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%,0);
+  box-sizing: border-box;
+}
+
+._C_C_app_Component_Unit_UnitLayerSwitch_styles_module__boxSpotSing {
+  width: 100%;
+  height: auto;
+  position: absolute;
+}
+
+._C_C_app_Component_Unit_UnitLayerSwitch_styles_module__boxSwitDn {
   width: 100%;
   height: 70%;
   position: absolute;
@@ -103,28 +139,6 @@
   font-weight: 400;
   color: #000000;
 }
-._C_C_app_Component_Unit_Mark_ViewerBlock_styles_module__boxPanelJump {
-  box-sizing: border-box;
-  padding: 0 10% 0 8%;
-  margin: 2.7vh 0 1.4vh 0;
-  text-align: right;
-}
-
-._C_C_app_Component_Unit_Mark_ViewerBlock_styles_module__boxContentDraft {
-  max-height: 44vh;
-  min-height: 35vh;
-  box-sizing: border-box;
-  padding: 5vh 10% 0 6.5%;
-  overflow-y: auto;
-}
-
-._C_C_app_Component_Unit_Mark_ViewerBlock_styles_module__fontContentDraft {
-  font-size: 1.36rem;
-  letter-spacing: 0.1rem;
-  line-height: 1.7rem;
-  font-weight: 400;
-  color: #000000;
-}
 ._C_C_app_Component_Unit_Mark_AuthorBlock_styles_module__boxPanelJump {
   box-sizing: border-box;
   padding: 0 10% 0 8%;
@@ -141,6 +155,28 @@
 }
 
 ._C_C_app_Component_Unit_Mark_AuthorBlock_styles_module__fontContentDraft {
+  font-size: 1.36rem;
+  letter-spacing: 0.1rem;
+  line-height: 1.7rem;
+  font-weight: 400;
+  color: #000000;
+}
+._C_C_app_Component_Unit_Mark_ViewerBlock_styles_module__boxPanelJump {
+  box-sizing: border-box;
+  padding: 0 10% 0 8%;
+  margin: 2.7vh 0 1.4vh 0;
+  text-align: right;
+}
+
+._C_C_app_Component_Unit_Mark_ViewerBlock_styles_module__boxContentDraft {
+  max-height: 44vh;
+  min-height: 35vh;
+  box-sizing: border-box;
+  padding: 5vh 10% 0 6.5%;
+  overflow-y: auto;
+}
+
+._C_C_app_Component_Unit_Mark_ViewerBlock_styles_module__fontContentDraft {
   font-size: 1.36rem;
   letter-spacing: 0.1rem;
   line-height: 1.7rem;
