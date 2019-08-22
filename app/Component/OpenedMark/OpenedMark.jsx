@@ -85,14 +85,14 @@ class OpenedMark extends React.Component {
           imgHeight = this.props.imgWidthHeight.height,
           imgLeft=this.props.imgPosition.left;
     const coordinate = {top: this.props.marksData.data[markId].top, left: this.props.marksData.data[markId].left};
+    const downToMdidline = (coordinate.top > 50) ? true : false;
     //then cauculate position of opened mark here in render()
     //to make the mark would change the position when jumping between different spot
     let [
       blockLeft,
       blockRight,
-      inBlockTop,
-      inBlockBottom
-    ] = ['','','',''];
+      blockHeight,
+    ] = ['','',''];
     let spotLeftPx = coordinate.left/100*imgWidth+imgLeft+imgWidth*(baseHorizonRatial/100);
         //the position of circle relative to img, position img original at in the frame, and transform/translate we set
         //--- due to offsetLeft wouldn't take the transform property
@@ -103,15 +103,16 @@ class OpenedMark extends React.Component {
       blockLeft = spotLeftPx+1.7*(this.props.boxWidth/widthDivisionRatial)
     );
 
-    if(coordinate.top > 50){
-      //move between 0 - 28%, depend on location
-       //28% above bottom if .top just at 50%, then lower follow the portion change
-      inBlockBottom = (28 - ((coordinate.top-50)/50) * (28-3)) + '%';
-    }else{inBlockTop = (3 + (coordinate.top/50) * (28-3)) + '%';}
+    //set height of scroll area between 89vh ~ 74vh
+    if(downToMdidline){
+      blockHeight = (89 - ((coordinate.top-50)/50) * (89-74)); //keep it as a num first
+    }else{
+      blockHeight = (3 + ((coordinate.top)/50) * (89-74)); //keep it as a num first
+    }
 
     // because we want to pass left/right status as props to Block, we need to add from here
     const childrenWithProps = React.Children.map(this.props.children, (child) =>
-      React.cloneElement(child, { toCircleLeft: blockRight > 0? true : false, downToMdidline: inBlockBottom.length>0 ? true:false })
+      React.cloneElement(child, { toCircleLeft: blockRight > 0? true : false, downToMdidline: downToMdidline,  blockHeight: blockHeight})
     );
 
     return (
@@ -130,7 +131,7 @@ class OpenedMark extends React.Component {
             backgroundImage: 'radial-gradient(ellipse at '+
               (coordinate.left+ (blockRight > 0?6:(-6)))+
               '% '+
-              (coordinate.top+ (inBlockTop > 0? 12: (-12)))+
+              (coordinate.top+ (downToMdidline? (-12): 12))+
               '%, rgba(30, 30, 30, 0) 0px, rgba(30, 30, 30, 0.1) 16%, rgba(30, 30, 30, 0.2) 28%,rgba(30, 30, 30, 0.32) 37%, rgba(30, 30, 30, 0.39) 44%, rgba(33, 33, 33, 0.47) 50%, rgba(33, 33, 33, 0.56) 56% )'
           }}
           onClick={this.props._handleClick_ImgLayer_circle}>
@@ -145,13 +146,15 @@ class OpenedMark extends React.Component {
               left: blockLeft,
               right: blockRight
             }
-          )}>
+          )}
+          onClick={(e)=>{e.stopPropagation();}}>
           <div
             className={classnames(styles.boxMarkinBlock)}
-            style={Object.assign({
-              top: inBlockTop,
-              bottom: inBlockBottom})
-            }>
+            style={Object.assign(
+              {},
+              {height: blockHeight+"%"},
+              (coordinate.top > 50)? {bottom: '0'}:{top: '0'}
+            )}>
             {childrenWithProps}
           </div>
         </div>

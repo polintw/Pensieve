@@ -9,15 +9,6 @@ import SvgPropic from '../../../Svg/SvgPropic.jsx';
 import DraftDisplay from '../../../Draft/DraftDisplay.jsx';
 
 const styleMiddle = {
-  boxInteraction: {
-    display: 'flex',
-    flexDirection: 'column',
-    flexWrap: 'nowrap',
-    width: '100%',
-    position: 'absolute',
-    bottom: '0',
-    boxSizing: 'border-box',
-  },
   boxPanelInteraction: {
     display: 'inline-block',
     height: '100%',
@@ -68,6 +59,7 @@ class ViewerBlock extends React.Component {
       Com_ViewerBlock_content_: {
         display: 'flex',
         flexDirection: 'column',
+        width: '100%'
       },
       Com_ViewerBlock_panel_: {
         width: '100%',
@@ -133,12 +125,15 @@ class ViewerBlock extends React.Component {
 
     return(
       <div
-        style={Object.assign({},
-          this.style.Com_ViewerBlock_)}
-        onClick={(e)=>{e.stopPropagation();}}>
+        style={this.style.Com_ViewerBlock_}>
         <div
           ref={this.boxContent}
           style={Object.assign({}, this.style.Com_ViewerBlock_content_)}>
+          <div
+            style={{
+              width: '100%',
+              height: this.props.downToMdidline? '0': (this.props.blockHeight-73)+'%'
+            }}></div>
           <div
             className={classnames(styles.boxContentDraft, styles.fontContentDraft)}>
             <DraftDisplay
@@ -151,10 +146,17 @@ class ViewerBlock extends React.Component {
               currentSerial={this.props.currentSerial}
               _set_markJump={this.props._set_markJump}/>
           </div>
-        </div>
 
+
+        </div>
         <div
-          style={styleMiddle.boxInteraction}>
+          className={classnames(styles.boxInteraction)}
+          style={Object.assign(
+            {},
+            {
+              height: this.props.downToMdidline? (this.props.blockHeight- 63)+'%': '10vh'
+            }
+          )}>
           <div
             style={Object.assign({},this.style.Com_ViewerBlock_panel_)}>
             <div

@@ -134,9 +134,7 @@
 
 ._C_C_app_Component_OpenedMark_styles_module__boxMarkinBlock {
   width: 100%;
-  height: 75vh;
   position: absolute;
-  overflow: hidden;
 }
 ._C_C_app_Component_Editing_MarkEditingBlock_styles_module__boxContent {
   display: flex;
@@ -187,6 +185,17 @@
   font-weight: 400;
   color: #000000;
 }
+._C_C_app_Component_Unit_Mark_ViewerBlock_styles_module__boxInteraction {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  width: 100%;
+  position: sticky;
+  bottom: 0;
+  box-sizing: border-box;
+  background-color: #FDFDFD;
+}
+
 ._C_C_app_Component_Unit_Mark_ViewerBlock_styles_module__boxPanelJump {
   box-sizing: border-box;
   padding: 0 10% 0 8%;

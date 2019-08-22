@@ -1,3 +1,14 @@
+.boxInteraction {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  width: 100%;
+  position: sticky;
+  bottom: 0;
+  box-sizing: border-box;
+  background-color: #FDFDFD;
+}
+
 .boxPanelJump {
   box-sizing: border-box;
   padding: 0 10% 0 8%;
