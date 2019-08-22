@@ -2,7 +2,10 @@ import React from 'react';
 import { connect } from "react-redux";
 import MarksAuthor from './Mark/MarksAuthor.jsx';
 import MarksViewer from './Mark/MarksViewer.jsx';
-import {baseHorizonRatial} from '../config/styleParams.js';
+import {
+  baseHorizonRatial,
+  baseVertivalRatial
+} from '../config/styleParams.js';
 
 const generalStyle = {
   absolute_FullVersion: {
@@ -30,8 +33,9 @@ class ImgLayer extends React.Component {
         maxWidth: '100%',
         maxHeight: '100%',
         right: baseHorizonRatial+'%',
-        top: '47%',
-        transform: 'translate('+baseHorizonRatial+'%,-47%)'
+        top: baseVertivalRatial+ '%',
+        transform: 'translate('+baseHorizonRatial+'%, -'+ baseVertivalRatial+'%)'
+        //we use the params managed in a single file to assure the position always consistent across component
       }
   };
   }

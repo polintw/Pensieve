@@ -1,11 +1,14 @@
 import React from 'react';
 import { connect } from "react-redux";
+import classnames from 'classnames';
+import styles from "./styles.module.css";
 import {
   baseHorizonRatial,
+  baseVertivalRatial,
   widthDivisionRatial
-} from './config/styleParams.js';
-import SvgCircle from './Svg/SvgCircle.jsx';
-import SvgNextCir from './Svg/SvgNextCir.jsx';
+} from '../config/styleParams.js';
+import SvgCircle from '../Svg/SvgCircle.jsx';
+import SvgNextCir from '../Svg/SvgNextCir.jsx';
 
 const styleMiddle = {
   absolute_FullVersion: {
@@ -16,11 +19,6 @@ const styleMiddle = {
     left:'0',
     boxSizing: 'border-box'
   },
-  Com_ImgLayer_MarkBlock_: {
-    position: 'absolute',
-    boxShadow: '0 0 2px 0',
-    overflow: 'hidden'
-  }
 }
 
 
@@ -87,24 +85,34 @@ class OpenedMark extends React.Component {
           imgHeight = this.props.imgWidthHeight.height,
           imgLeft=this.props.imgPosition.left;
     const coordinate = {top: this.props.marksData.data[markId].top, left: this.props.marksData.data[markId].left};
-    let [left, right, top, bottom, width, radiusObj] = ['','','','', '', ''],
-        spotLeftPx = coordinate.left/100*imgWidth+imgLeft+imgWidth*(baseHorizonRatial/100);
+    //then cauculate position of opened mark here in render()
+    //to make the mark would change the position when jumping between different spot
+    let [
+      blockLeft,
+      blockRight,
+      inBlockTop,
+      inBlockBottom
+    ] = ['','','',''];
+    let spotLeftPx = coordinate.left/100*imgWidth+imgLeft+imgWidth*(baseHorizonRatial/100);
         //the position of circle relative to img, position img original at in the frame, and transform/translate we set
         //--- due to offsetLeft wouldn't take the transform property
 
-    width = ((widthDivisionRatial/2)-(1.7+2.3))/widthDivisionRatial*100;
     (spotLeftPx) > (this.props.boxWidth/2) ? ( //check which side of the box the circle at
-      right = this.props.boxWidth-(spotLeftPx)+1.7*(this.props.boxWidth/widthDivisionRatial) //if circle st the right side, put the box 'left' to the circle
+      blockRight = this.props.boxWidth-(spotLeftPx)+1.7*(this.props.boxWidth/widthDivisionRatial) //if circle st the right side, put the box 'left' to the circle
     ): (
-      left = spotLeftPx+1.7*(this.props.boxWidth/widthDivisionRatial)
+      blockLeft = spotLeftPx+1.7*(this.props.boxWidth/widthDivisionRatial)
     );
-    if(coordinate.top > 50){
-      bottom = 0; radiusObj=this.style.dependent_radius_Top
-    }else{top = 0 ; radiusObj=this.style.dependent_radius_Bottom}
 
+    if(coordinate.top > 50){
+      //move between 0 - 28%, depend on location
+       //28% above bottom if .top just at 50%, then lower follow the portion change
+      inBlockBottom = (28 - ((coordinate.top-50)/50) * (28-3)) + '%';
+    }else{inBlockTop = (3 + (coordinate.top/50) * (28-3)) + '%';}
+
+    // because we want to pass left/right status as props to Block, we need to add from here
     const childrenWithProps = React.Children.map(this.props.children, (child) =>
-      React.cloneElement(child, { toCircleLeft: right > 0? true : false, downToMdidline: bottom.length>0 ? true:false })
-    );// because we want to pass left/right status as props to Block, we need to add from here
+      React.cloneElement(child, { toCircleLeft: blockRight > 0? true : false, downToMdidline: inBlockBottom.length>0 ? true:false })
+    );
 
     return (
       <div>
@@ -116,27 +124,36 @@ class OpenedMark extends React.Component {
           style={{
             width: imgWidth,
             height: imgHeight,
+            top: baseVertivalRatial+'%',
             right: baseHorizonRatial+'%',
-            transform: 'translate('+baseHorizonRatial+'%,-50%)',
+            transform: 'translate('+baseHorizonRatial+'%, -'+ baseVertivalRatial+'%)',
             backgroundImage: 'radial-gradient(ellipse at '+
-              (coordinate.left+ (right > 0?6:(-6)))+
+              (coordinate.left+ (blockRight > 0?6:(-6)))+
               '% '+
-              (coordinate.top+ (top > 0? 12: (-12)))+
+              (coordinate.top+ (inBlockTop > 0? 12: (-12)))+
               '%, rgba(30, 30, 30, 0) 0px, rgba(30, 30, 30, 0.1) 16%, rgba(30, 30, 30, 0.2) 28%,rgba(30, 30, 30, 0.32) 37%, rgba(30, 30, 30, 0.39) 44%, rgba(33, 33, 33, 0.47) 50%, rgba(33, 33, 33, 0.56) 56% )'
           }}
           onClick={this.props._handleClick_ImgLayer_circle}>
           {this._render_CircleGroup(coordinate)}
         </div>
+
         <div
-          style={Object.assign({
-            top: top,
-            left: left,
-            right: right,
-            bottom: bottom,
-            width: width+"%"},
-            radiusObj,
-            styleMiddle.Com_ImgLayer_MarkBlock_)}>
+          className={classnames(styles.boxMarkBlock)}
+          style={Object.assign(
+            {},
+            {
+              left: blockLeft,
+              right: blockRight
+            }
+          )}>
+          <div
+            className={classnames(styles.boxMarkinBlock)}
+            style={Object.assign({
+              top: inBlockTop,
+              bottom: inBlockBottom})
+            }>
             {childrenWithProps}
+          </div>
         </div>
       </div>
     )

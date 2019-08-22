@@ -5,7 +5,6 @@ import {
   Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import cxBind from 'classnames/bind';
 import CreateResponse from './CreateResponse.jsx';
 import ModalBox from './ModalBox.jsx';
 import ModalBackground from './ModalBackground.jsx';

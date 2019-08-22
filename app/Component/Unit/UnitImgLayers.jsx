@@ -125,7 +125,6 @@ class UnitImgLayers extends React.Component {
           <UnitActionPanel
             _set_Modalmode={this.props._set_Modalmode}/>
         </div>
-
         <div
           style={styleMiddle.boxImgFrame}>
           <ImgLayersFrame

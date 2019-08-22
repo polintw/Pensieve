@@ -123,6 +123,19 @@
 ._C_C_app_Component_Unit_UnitLayerSwitch_styles_module__boxSwitDn {
   width: 100%;
 }
+._C_C_app_Component_OpenedMark_styles_module__boxMarkBlock {
+  width: 30%;
+  position: absolute;
+  top: 0;
+  box-shadow: 0 0 2px 0;
+  overflow: hidden;
+  background-color: #fdfdfd;
+}
+
+._C_C_app_Component_OpenedMark_styles_module__boxMarkinBlock {
+  width: 100%;
+  position: absolute;
+}
 ._C_C_app_Component_Editing_MarkEditingBlock_styles_module__boxContent {
   display: flex;
   justify-content: space-between;
