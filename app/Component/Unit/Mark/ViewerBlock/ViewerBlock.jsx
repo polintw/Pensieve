@@ -14,14 +14,17 @@ const styleMiddle = {
     flexDirection: 'column',
     flexWrap: 'nowrap',
     width: '100%',
+    position: 'absolute',
+    bottom: '0',
     boxSizing: 'border-box',
-    backgroundColor: 'rgba(5,5,5,0.72)'
   },
   boxPanelInteraction: {
     display: 'inline-block',
     height: '100%',
     position: 'relative',
     boxSizing: 'border-box',
+    marginRight: '8%',
+    float: 'right'
   },
   boxMessage: {
     boxSizing: 'border-box',
@@ -32,7 +35,6 @@ const styleMiddle = {
     letterSpacing: '0.18rem',
     lineHeight: '1.9rem',
     fontWeight: '400',
-    color: 'rgb(247, 244, 188)',
     cursor: 'pointer'
   },
   textMessage: {
@@ -58,24 +60,21 @@ class ViewerBlock extends React.Component {
     this._handleClick_openDialogue = this._handleClick_openDialogue.bind(this);
     this.style = {
       Com_ViewerBlock_: {
-        display: 'flex',
-        flexDirection: 'column',
-        flexWrap: 'nowrap',
         width: '100%',
-        position: 'static',
+        height: '100%',
         boxSizing: 'border-box',
+        overflowY: 'auto'
       },
       Com_ViewerBlock_content_: {
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'spaceBetween',
-        backgroundColor: '#fdfdfd',
       },
       Com_ViewerBlock_panel_: {
         width: '100%',
         height: '2.1rem',
         boxSizing: 'border-box',
-        margin: '4vh 0 3vh'
+        margin: '1.2rem 0px 1.8rem',
+        paddingRight: '1.5rem'
       },
       Com_ViewerBlock_credits_: {
         width: '100%',
@@ -135,8 +134,7 @@ class ViewerBlock extends React.Component {
     return(
       <div
         style={Object.assign({},
-          this.style.Com_ViewerBlock_,
-          {bottom: downToMdidline ? '44%':'', right: toCircleLeft? '0':'', left: toCircleLeft? '':'0'})}
+          this.style.Com_ViewerBlock_)}
         onClick={(e)=>{e.stopPropagation();}}>
         <div
           ref={this.boxContent}
@@ -154,12 +152,13 @@ class ViewerBlock extends React.Component {
               _set_markJump={this.props._set_markJump}/>
           </div>
         </div>
+
         <div
           style={styleMiddle.boxInteraction}>
           <div
             style={Object.assign({},this.style.Com_ViewerBlock_panel_)}>
             <div
-              style={Object.assign({}, styleMiddle.boxPanelInteraction, {marginLeft: '8%', float: 'left'})}>
+              style={Object.assign({}, styleMiddle.boxPanelInteraction)}>
               <span
                 style={styleMiddle.spanInteractions}
                 onClick={this._handleClick_openDialogue}>
@@ -167,7 +166,7 @@ class ViewerBlock extends React.Component {
               </span>
             </div>
             <div
-              style={Object.assign({}, styleMiddle.boxPanelInteraction, {marginLeft: '8%', float: 'left'})}>
+              style={Object.assign({}, styleMiddle.boxPanelInteraction)}>
               <ViewerBulb
                 markKey={this.props.markKey}
                 _set_BlockMessage={this._set_BlockMessage}/>
