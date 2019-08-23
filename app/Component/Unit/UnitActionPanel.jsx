@@ -16,14 +16,7 @@ class UnitActionPanel extends React.Component {
     };
     this.style={
       Com_UnitActionPanel_: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box',
-        padding: '1%, 5%',
-        textAlign: 'center'
+
       }
     };
   }

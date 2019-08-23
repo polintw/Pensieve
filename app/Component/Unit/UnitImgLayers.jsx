@@ -28,17 +28,15 @@ const styleMiddle = {
     boxSizing: 'border-box'
   },
   boxActionPanel: {
-    width: '16%',
-    height: '7%',
     position: 'absolute',
-    top: '0',
-    left: '0',
+    top: '30%',
+    right: '84%',
     boxSizing: 'border-box'
   },
   boxAuthor: {
     maxWidth: '14%',
     position: 'absolute',
-    bottom: '53.5%',
+    bottom: '55%',
     right: '85%',
     boxSizing: 'border-box',
   },
@@ -46,8 +44,9 @@ const styleMiddle = {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    width: '16%',
-    height: '273px',
+    width: '17.5%',
+    height: '44%',
+    minHeight: '242px',
     position: 'absolute',
     bottom: '4%',
     left: '0%',
@@ -94,7 +93,7 @@ class UnitImgLayers extends React.Component {
           style={styleMiddle.boxAuthor}>
           <div
             onClick={this._handleClick_Account}
-            style={Object.assign({}, this.style.Com_Unit_UnitImgLayers_commonSection_InfoPanel_blocks_,{marginBottom:'0.7rem',textAlign: 'right', cursor:'pointer'})}>
+            style={Object.assign({}, this.style.Com_Unit_UnitImgLayers_commonSection_InfoPanel_blocks_,{marginBottom:'0.5rem',textAlign: 'right', cursor:'pointer'})}>
             <AccountPlate
               size={'layer'}
               accountFisrtName={this.props.unitCurrent.authorBasic.firstName}

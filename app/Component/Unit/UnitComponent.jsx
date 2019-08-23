@@ -22,6 +22,8 @@ export class NounsExtensible extends React.Component {
         width: '100%',
         margin: '0',
         padding: '0',
+        paddingRight: '13%',
+        boxSizing: 'border-box',
         listStyle: 'none'
       },
       Com_Nouns_Extensible_list_item_: {
@@ -29,8 +31,7 @@ export class NounsExtensible extends React.Component {
         width: '100%',
         position: 'relative',
         boxSizing: 'border-box',
-        margin: '0 0 2.54rem',
-        paddingRight: '8%',
+        margin: '0 0 2.32rem',
         cursor: 'pointer'
       },
       Com_Nouns_Extensible_switch_: {

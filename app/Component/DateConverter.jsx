@@ -17,9 +17,10 @@ export default class DateConverter extends React.Component {
       },
       fontLayers: {
         fontSize: '1rem',
-        letterSpacing: '0.1rem',
+        letterSpacing: '0.05rem',
         textAlign: 'right',
-        fontWeight: '300'
+        fontWeight: '300',
+        color: 'rgba(250,250,250,0.7)'
       },
       fontSummary: {
         fontSize: '1.2rem',

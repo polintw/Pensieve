@@ -12,6 +12,30 @@
   white-space: nowrap;
   color: #353535;
 }
+._C_C_app_Within_component_LinkExplore_styles_module__comExplore {
+  display: flex;
+  position: relative;
+}
+
+._C_C_app_Within_component_LinkExplore_styles_module__boxExplore {
+  position: relative;
+  box-sizing: border-box;
+}
+
+._C_C_app_Within_component_LinkExplore_styles_module__boxSwitch {
+  display: flex;
+  align-items: flex-end;
+}
+
+._C_C_app_Within_component_LinkExplore_styles_module__boxCategory {
+  display: flex;
+  position: relative;
+  box-sizing: border-box;
+}
+
+._C_C_app_Within_component_LinkExplore_styles_module__fontCategory {
+  color: #a8a8a8;
+}
 ._C_C_app_Within_component_CosmicCorner_stylesCosmicCorner_module__boxOptions {
   box-sizing: border-box;
   text-align: center;
@@ -55,38 +79,6 @@ start the fundemental first, and then the specific condition
   height: 12px;
   right: 186px;
   bottom: 0;
-}
-._C_C_app_Within_component_LinkExplore_styles_module__comExplore {
-  display: flex;
-  position: relative;
-}
-
-._C_C_app_Within_component_LinkExplore_styles_module__boxExplore {
-  position: relative;
-  box-sizing: border-box;
-}
-
-._C_C_app_Within_component_LinkExplore_styles_module__boxSwitch {
-  display: flex;
-  align-items: flex-end;
-}
-
-._C_C_app_Within_component_LinkExplore_styles_module__boxCategory {
-  display: flex;
-  position: relative;
-  box-sizing: border-box;
-}
-
-._C_C_app_Within_component_LinkExplore_styles_module__fontCategory {
-  color: #a8a8a8;
-}
-._C_C_app_Within_Explore_ExpSubtitle_styles_module__boxSubtitle {
-
-}
-
-._C_C_app_Within_Explore_ExpSubtitle_styles_module__fontSubtitle {
-  font-size: 1.4rem;
-  color: #a8a8a8;
 }
 ._C_C_app_Within_component_MainIndex_stylesMainIndex_module__boxTop {
   width: 99%;
@@ -156,6 +148,14 @@ start the fundemental first, and then the specific condition
 ._C_C_app_Within_component_MainIndex_stylesMainIndex_module__decoSeparationHorz {
   width: 100%
 }
+._C_C_app_Within_Explore_ExpSubtitle_styles_module__boxSubtitle {
+
+}
+
+._C_C_app_Within_Explore_ExpSubtitle_styles_module__fontSubtitle {
+  font-size: 1.4rem;
+  color: #a8a8a8;
+}
 ._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlock {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -209,24 +209,6 @@ start the fundemental first, and then the specific condition
   letter-spacing: 0.1rem;
   line-height: 1.7rem;
   color: #ABABAB;
-}
-._C_C_app_Within_component_MainTitle_styles_module__comMainTitle {
-  width: 100%;
-  height: 26px;
-  position: relative;
-  box-sizing: border-box;
-  margin: 0 0 4.2rem;
-}
-
-._C_C_app_Within_component_MainTitle_styles_module__boxExplore {
-
-}
-
-._C_C_app_Within_component_MainTitle_styles_module__fontExplore {
-  font-size: 1.32rem;
-  letter-spacing: 0.12rem;
-  white-space: nowrap;
-  color: #333333;
 }
 ._C_C_app_Within_component_MainBanner_styles_module__comMainBanner {
   width: 100%;
@@ -294,6 +276,24 @@ start the fundemental first, and then the specific condition
 
 ._C_C_app_Within_component_MainBanner_styles_module__borderBanner {
   border-bottom: 0.14rem solid #c4c4c4;
+}
+._C_C_app_Within_component_MainTitle_styles_module__comMainTitle {
+  width: 100%;
+  height: 26px;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0 0 4.2rem;
+}
+
+._C_C_app_Within_component_MainTitle_styles_module__boxExplore {
+
+}
+
+._C_C_app_Within_component_MainTitle_styles_module__fontExplore {
+  font-size: 1.32rem;
+  letter-spacing: 0.12rem;
+  white-space: nowrap;
+  color: #333333;
 }
 ._C_C_app_Component_Unit_UnitLayerSwitch_styles_module__boxUnitLayerSwitch {
   width: 100%;
@@ -467,6 +467,86 @@ start the fundemental first, and then the specific condition
   text-align: left;
   color: #000000;
 }
+._C_C_app_Component_Nails_NailFlatDisplay_styles_module__frame {
+  width: 100%;
+  height: 100%;
+}
+
+._C_C_app_Component_Nails_NailFlatDisplay_styles_module__boxImg {
+  width: 37.5%;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  box-sizing: border-box;
+}
+
+._C_C_app_Component_Nails_NailFlatDisplay_styles_module__boxNodes {
+  display: flex;
+  align-content: center;
+  flex-wrap: wrap;
+  width: 61%;
+  height: 39%;
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+._C_C_app_Component_Nails_NailFlatDisplay_styles_module__boxNodesItem {
+  align-self: center;
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0% 2% 0% 0;
+}
+
+._C_C_app_Component_Nails_NailFlatDisplay_styles_module__boxMarkPreview {
+  width: 61%;
+  max-height: 40%;
+  position: absolute;
+  box-sizing: border-box;
+  bottom: 0;
+  left: 0%;
+  overflow: hidden;
+}
+
+._C_C_app_Component_Nails_NailFlatDisplay_styles_module__boxMark {
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+._C_C_app_Component_Nails_NailFlatDisplay_styles_module__boxAuthor {
+  position: absolute;
+  box-sizing: border-box;
+  left: 0%;
+  top: 40%;
+  white-space: nowrap;
+}
+
+._C_C_app_Component_Nails_NailFlatDisplay_styles_module__fontNode {
+  font-size: 1.7rem;
+  letter-spacing: 0.12rem;
+  color: rgb(76, 76, 78);
+}
+
+._C_C_app_Component_Nails_NailFlatDisplay_styles_module__fontAuthor {
+  font-size: 1.3rem;
+  font-weight: 400;
+  text-align: right;
+  color: #6e6e6e;
+}
+
+._C_C_app_Component_Nails_NailFlatDisplay_styles_module__fontMark {
+  font-size: 1.38rem;
+  font-weight: 400;
+  letter-spacing: 0.04rem;
+  text-align: left;
+  color: #000000;
+}
 ._C_C_app_Component_Nails_NailWideDisplay_styles_module__frame {
   width: 100%;
   height: 100%;
@@ -551,86 +631,6 @@ start the fundemental first, and then the specific condition
   text-align: left;
   color: #000000;
 }
-._C_C_app_Component_Nails_NailFlatDisplay_styles_module__frame {
-  width: 100%;
-  height: 100%;
-}
-
-._C_C_app_Component_Nails_NailFlatDisplay_styles_module__boxImg {
-  width: 37.5%;
-  height: 100%;
-  position: absolute;
-  right: 0;
-  top: 0;
-  box-sizing: border-box;
-}
-
-._C_C_app_Component_Nails_NailFlatDisplay_styles_module__boxNodes {
-  display: flex;
-  align-content: center;
-  flex-wrap: wrap;
-  width: 61%;
-  height: 39%;
-  position: absolute;
-  top: 0%;
-  left: 0%;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-._C_C_app_Component_Nails_NailFlatDisplay_styles_module__boxNodesItem {
-  align-self: center;
-  display: inline-block;
-  position: relative;
-  box-sizing: border-box;
-  margin: 0% 2% 0% 0;
-}
-
-._C_C_app_Component_Nails_NailFlatDisplay_styles_module__boxMarkPreview {
-  width: 61%;
-  max-height: 40%;
-  position: absolute;
-  box-sizing: border-box;
-  bottom: 0;
-  left: 0%;
-  overflow: hidden;
-}
-
-._C_C_app_Component_Nails_NailFlatDisplay_styles_module__boxMark {
-  width: 100%;
-  position: relative;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-._C_C_app_Component_Nails_NailFlatDisplay_styles_module__boxAuthor {
-  position: absolute;
-  box-sizing: border-box;
-  left: 0%;
-  top: 40%;
-  white-space: nowrap;
-}
-
-._C_C_app_Component_Nails_NailFlatDisplay_styles_module__fontNode {
-  font-size: 1.7rem;
-  letter-spacing: 0.12rem;
-  color: rgb(76, 76, 78);
-}
-
-._C_C_app_Component_Nails_NailFlatDisplay_styles_module__fontAuthor {
-  font-size: 1.3rem;
-  font-weight: 400;
-  text-align: right;
-  color: #6e6e6e;
-}
-
-._C_C_app_Component_Nails_NailFlatDisplay_styles_module__fontMark {
-  font-size: 1.38rem;
-  font-weight: 400;
-  letter-spacing: 0.04rem;
-  text-align: left;
-  color: #000000;
-}
 ._C_C_app_Component_OpenedMark_styles_module__boxMarkBlock {
   width: 29%;
   height: 100%;
@@ -673,28 +673,6 @@ start the fundemental first, and then the specific condition
   font-weight: 400;
   color: #000000;
 }
-._C_C_app_Component_Unit_Mark_AuthorBlock_styles_module__boxPanelJump {
-  box-sizing: border-box;
-  padding: 0 10% 0 8%;
-  margin: 2.7vh 0 1.4vh 0;
-  text-align: right;
-}
-
-._C_C_app_Component_Unit_Mark_AuthorBlock_styles_module__boxContentDraft {
-  max-height: 44vh;
-  min-height: 35vh;
-  box-sizing: border-box;
-  padding: 5vh 10% 0 6.5%;
-  overflow-y: auto;
-}
-
-._C_C_app_Component_Unit_Mark_AuthorBlock_styles_module__fontContentDraft {
-  font-size: 1.36rem;
-  letter-spacing: 0.1rem;
-  line-height: 1.7rem;
-  font-weight: 400;
-  color: #000000;
-}
 ._C_C_app_Component_Unit_Mark_ViewerBlock_styles_module__boxInteraction {
   display: flex;
   flex-direction: column;
@@ -727,5 +705,27 @@ start the fundemental first, and then the specific condition
   font-weight: 400;
   font-family: 'gill-sans-nova';
   word-break: break-all;
+  color: #000000;
+}
+._C_C_app_Component_Unit_Mark_AuthorBlock_styles_module__boxPanelJump {
+  box-sizing: border-box;
+  padding: 0 10% 0 8%;
+  margin: 2.7vh 0 1.4vh 0;
+  text-align: right;
+}
+
+._C_C_app_Component_Unit_Mark_AuthorBlock_styles_module__boxContentDraft {
+  max-height: 44vh;
+  min-height: 35vh;
+  box-sizing: border-box;
+  padding: 5vh 10% 0 6.5%;
+  overflow-y: auto;
+}
+
+._C_C_app_Component_Unit_Mark_AuthorBlock_styles_module__fontContentDraft {
+  font-size: 1.36rem;
+  letter-spacing: 0.1rem;
+  line-height: 1.7rem;
+  font-weight: 400;
   color: #000000;
 }

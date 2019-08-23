@@ -37,6 +37,7 @@ class UnitModal extends React.Component {
         width: '93.2%',
         minWidth: '900px',
         height: '99.2%',
+        minHeight: '320px',
         position: 'absolute',
         top: '0',
         left: '4.8%',
