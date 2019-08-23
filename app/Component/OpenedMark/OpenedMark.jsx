@@ -86,33 +86,40 @@ class OpenedMark extends React.Component {
           imgLeft=this.props.imgPosition.left;
     const coordinate = {top: this.props.marksData.data[markId].top, left: this.props.marksData.data[markId].left};
     const downToMdidline = (coordinate.top > 50) ? true : false;
+    const spotLeftPx = coordinate.left/100*imgWidth+imgLeft+imgWidth*(baseHorizonRatial/100);
+      //the position of circle relative to img, position img original at in the frame, and transform/translate we set
+      //--- due to offsetLeft wouldn't take the transform property
+
     //then cauculate position of opened mark here in render()
     //to make the mark would change the position when jumping between different spot
     let [
       blockLeft,
       blockRight,
-      blockHeight,
+      inBlockHeight,
     ] = ['','',''];
-    let spotLeftPx = coordinate.left/100*imgWidth+imgLeft+imgWidth*(baseHorizonRatial/100);
-        //the position of circle relative to img, position img original at in the frame, and transform/translate we set
-        //--- due to offsetLeft wouldn't take the transform property
 
     (spotLeftPx) > (this.props.boxWidth/2) ? ( //check which side of the box the circle at
-      blockRight = this.props.boxWidth-(spotLeftPx)+1.7*(this.props.boxWidth/widthDivisionRatial) //if circle st the right side, put the box 'left' to the circle
+      //if circle st the right side, put the box 'left' to the circle
+      blockRight = this.props.boxWidth-(spotLeftPx)+3*(this.props.boxWidth/widthDivisionRatial)
+      //which means, block would be 3/20 of boxWidth left to the spot (if the widthDivisionRatial='20')
+      //(about 15% when the widthDivisionRatial='20')
     ): (
-      blockLeft = spotLeftPx+1.7*(this.props.boxWidth/widthDivisionRatial)
+      blockLeft = spotLeftPx+3*(this.props.boxWidth/widthDivisionRatial)
     );
 
-    //set height of scroll area between 89vh ~ 74vh
-    if(downToMdidline){
-      blockHeight = (89 - ((coordinate.top-50)/50) * (89-74)); //keep it as a num first
-    }else{
-      blockHeight = (3 + ((coordinate.top)/50) * (89-74)); //keep it as a num first
-    }
+    //set height of scroll area between 81% ~ 69% depend on spot's top,
+    //use 50 as base to cauculate the portion
+    //basically it would equal to 'vh' as we set the block height 100% to vh
+    //and keep them as a num first
+    inBlockHeight = 81 - ((downToMdidline? (coordinate.top- 50): (50- coordinate.top))/50) * (81-69)
 
     // because we want to pass left/right status as props to Block, we need to add from here
     const childrenWithProps = React.Children.map(this.props.children, (child) =>
-      React.cloneElement(child, { toCircleLeft: blockRight > 0? true : false, downToMdidline: downToMdidline,  blockHeight: blockHeight})
+      React.cloneElement(child, {
+        toCircleLeft: blockRight > 0? true : false,
+        downToMdidline: downToMdidline,
+        inBlockHeight: inBlockHeight
+      })
     );
 
     return (
@@ -149,12 +156,7 @@ class OpenedMark extends React.Component {
           )}
           onClick={(e)=>{e.stopPropagation();}}>
           <div
-            className={classnames(styles.boxMarkinBlock)}
-            style={Object.assign(
-              {},
-              {height: blockHeight+"%"},
-              (coordinate.top > 50)? {bottom: '0'}:{top: '0'}
-            )}>
+            className={classnames(styles.boxMarkinBlock)}>
             {childrenWithProps}
           </div>
         </div>

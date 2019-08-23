@@ -124,17 +124,19 @@
   width: 100%;
 }
 ._C_C_app_Component_OpenedMark_styles_module__boxMarkBlock {
-  width: 30%;
+  width: 29%;
   height: 100%;
   position: absolute;
   top: 0;
   box-shadow: 0 0 2px 0;
-  background-color: #fdfdfd;
+  background-color: #FCFCFC;
 }
 
 ._C_C_app_Component_OpenedMark_styles_module__boxMarkinBlock {
   width: 100%;
+  height: 100%;
   position: absolute;
+  bottom: 0;
 }
 ._C_C_app_Component_Editing_MarkEditingBlock_styles_module__boxContent {
   display: flex;
@@ -190,29 +192,32 @@
   flex-direction: column;
   flex-wrap: nowrap;
   width: 100%;
+  min-height: 8.1rem;
   position: sticky;
   bottom: 0;
   box-sizing: border-box;
-  background-color: #FDFDFD;
+  background-color: #FCFCFC;
 }
 
 ._C_C_app_Component_Unit_Mark_ViewerBlock_styles_module__boxPanelJump {
   box-sizing: border-box;
   padding: 0 10% 0 8%;
-  margin: 3.7vh 0 0 0;
-  text-align: left;
+  margin: 2.7vh 0 0 0;
+  text-align: right;
 }
 
 ._C_C_app_Component_Unit_Mark_ViewerBlock_styles_module__boxContentDraft {
-  min-height: 41vh;
+  min-height: 37vh;
   box-sizing: border-box;
-  padding: 5vh 10% 0 6.5%;
+  padding: 1vh 9% 0 10.8%;
 }
 
 ._C_C_app_Component_Unit_Mark_ViewerBlock_styles_module__fontContentDraft {
-  font-size: 1.36rem;
-  letter-spacing: 0.1rem;
-  line-height: 1.7rem;
+  font-size: 1.52rem;
+  letter-spacing: 0.07rem;
+  line-height: 1.6rem;
   font-weight: 400;
+  font-family: 'gill-sans-nova';
+  word-break: break-all;
   color: #000000;
 }

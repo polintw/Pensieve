@@ -14,8 +14,6 @@ const styleMiddle = {
     height: '100%',
     position: 'relative',
     boxSizing: 'border-box',
-    marginRight: '8%',
-    float: 'right'
   },
   boxMessage: {
     boxSizing: 'border-box',
@@ -59,14 +57,14 @@ class ViewerBlock extends React.Component {
       Com_ViewerBlock_content_: {
         display: 'flex',
         flexDirection: 'column',
-        width: '100%'
+        width: '100%',
+        marginBottom:'27px'
       },
       Com_ViewerBlock_panel_: {
         width: '100%',
         height: '2.1rem',
         boxSizing: 'border-box',
         margin: '1.2rem 0px 1.8rem',
-        paddingRight: '1.5rem'
       },
       Com_ViewerBlock_credits_: {
         width: '100%',
@@ -132,7 +130,7 @@ class ViewerBlock extends React.Component {
           <div
             style={{
               width: '100%',
-              height: this.props.downToMdidline? '0': (this.props.blockHeight-73)+'%'
+              height: this.props.downToMdidline? (100 -this.props.inBlockHeight) +'vh': (this.props.inBlockHeight-69+4)+'vh'
             }}></div>
           <div
             className={classnames(styles.boxContentDraft, styles.fontContentDraft)}>
@@ -146,21 +144,23 @@ class ViewerBlock extends React.Component {
               currentSerial={this.props.currentSerial}
               _set_markJump={this.props._set_markJump}/>
           </div>
-
-
         </div>
         <div
           className={classnames(styles.boxInteraction)}
           style={Object.assign(
             {},
             {
-              height: this.props.downToMdidline? (this.props.blockHeight- 63)+'%': '10vh'
+              height: this.props.downToMdidline? (this.props.inBlockHeight- 57)+'vh': (100 -this.props.inBlockHeight+14-4)+'vh'
             }
           )}>
           <div
             style={Object.assign({},this.style.Com_ViewerBlock_panel_)}>
             <div
-              style={Object.assign({}, styleMiddle.boxPanelInteraction)}>
+              style={Object.assign(
+                {},
+                styleMiddle.boxPanelInteraction,
+                {marginRight: '8%',float: 'right'}
+              )}>
               <span
                 style={styleMiddle.spanInteractions}
                 onClick={this._handleClick_openDialogue}>
@@ -168,7 +168,11 @@ class ViewerBlock extends React.Component {
               </span>
             </div>
             <div
-              style={Object.assign({}, styleMiddle.boxPanelInteraction)}>
+              style={Object.assign(
+                {},
+                styleMiddle.boxPanelInteraction,
+                {marginLeft: '69%',float: 'left'}
+              )}>
               <ViewerBulb
                 markKey={this.props.markKey}
                 _set_BlockMessage={this._set_BlockMessage}/>
