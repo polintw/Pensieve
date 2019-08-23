@@ -2,7 +2,7 @@
   font-size: 2.68rem;
   letter-spacing: 0.13rem;
   font-weight: 400;
-  font-family: 'gill-sans-nova';
+  font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;
   line-height: 2.5rem;
   color: #FAFAFA;
 }
@@ -11,7 +11,17 @@
   font-size: 1.54rem;
   letter-spacing: 0.154rem;
   font-weight: 400;
-  font-family: 'cwTeXMing';
+  font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;
+  color: #FAFAFA;
+}
+
+.fontContentSum {
+  font-size: 1.56rem;
+  font-weight: 300;
+  font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;
+  letter-spacing: 0.087rem;
+  line-height: 1.77rem;
+  word-wrap: break-word;
   color: #FAFAFA;
 }
 

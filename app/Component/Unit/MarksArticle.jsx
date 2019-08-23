@@ -5,6 +5,7 @@ import {
   Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import classnames from 'classnames';
 import DraftDisplay from '../Draft/DraftDisplay.jsx';
 
 class MarksArticle extends React.Component {
@@ -20,7 +21,7 @@ class MarksArticle extends React.Component {
         minHeight: '48%',
         position: 'relative',
         boxSizing: 'border-box',
-        padding: '1rem 4%'
+        padding: '1rem 5% 1rem 0'
       },
       Com_MarksArticle_paragraph: {
         display: 'inline-block',
@@ -28,13 +29,8 @@ class MarksArticle extends React.Component {
         position: 'relative',
         boxSizing: 'border-box',
         borderRight: '1px solid rgb(69, 69, 69)',
-        margin: '0.5rem 0px 4.8rem',
-        fontSize: '1.36rem',
-        fontWeight: '400',
-        letterSpacing: '0.072rem',
-        lineHeight: '1.7rem',
-        wordWrap: 'break-word',
-        color: '#FAFAFA',
+        margin: '0.5rem 0px 3.6rem',
+        paddingRight: '4%',
         cursor: 'pointer'
       }
     };
@@ -63,6 +59,7 @@ class MarksArticle extends React.Component {
         <div
           key={"key_MarksArticle_"+key}
           markkey={key}
+          className={classnames('fontContentSum')}
           style={this.style.Com_MarksArticle_paragraph}
           onClick={this._handleClick_Article_openMark}>
           <DraftDisplay

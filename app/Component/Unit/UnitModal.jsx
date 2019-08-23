@@ -44,13 +44,15 @@ class UnitModal extends React.Component {
         boxSizing: 'border-box'
       },
       Com_UnitModal_blocks_SumLayer_ : {
-        width: '80%',
-        height: '96%',
+        width: '78%',
+        minWidth: '840px',
+        height: '95%',
+        minHeight: '300px',
         position: 'absolute',
         top: '0',
-        left: '50%',
+        left: '49%',
         transform: 'translate(-50%, 0)',
-        boxSizing: 'border-box',
+        boxSizing: 'border-box'
       },
       Com_UnitModal_blocks_ImgLayer_: {
         width: '96.8%',

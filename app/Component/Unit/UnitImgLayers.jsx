@@ -6,7 +6,7 @@ import {
 import { connect } from "react-redux";
 import ImgLayersFrame from './ImgLayersFrame.jsx';
 import UnitActionPanel from './UnitActionPanel.jsx';
-import {NounsExtensible} from './UnitComponent.jsx';
+import {NodesExtensible} from './NodesDisplay/NodesDisplay.jsx';
 import {AccountPlate} from '../AccountPlate.jsx';
 import DateConverter from '../DateConverter.jsx';
 
@@ -66,7 +66,9 @@ class UnitImgLayers extends React.Component {
       Com_Unit_UnitImgLayers_contentSection_links_nouns: {
         width: '100%',
         boxSizing: 'border-box',
-        textAlign: 'right'
+        textAlign: 'right',
+        paddingRight: '13%',
+        borderRight:'0.75px solid #FAFAFA'
       },
       Com_Unit_UnitImgLayers_commonSection_InfoPanel_blocks_: {
         height: '100%',
@@ -113,8 +115,9 @@ class UnitImgLayers extends React.Component {
             <div
               className={'nodesListLayers'}
               style={this.style.Com_Unit_UnitImgLayers_contentSection_links_nouns}>
-              <NounsExtensible
+              <NodesExtensible
                 nouns={this.props.unitCurrent.nouns}
+                styleItem= {{margin: '0 0 2.32rem'}}
                 _handleClick_listNoun={this.props._refer_toandclose}/>
             </div>
           }

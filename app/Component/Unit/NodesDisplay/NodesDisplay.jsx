@@ -1,8 +1,8 @@
 import React from 'react';
-import cxBind from 'classnames/bind';
-import SvgPropic from '../Svg/SvgPropic.jsx';
+import classnames from 'classnames';
+import styles from "./styles.module.css";
 
-export class NounsExtensible extends React.Component {
+export class NodesExtensible extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -12,29 +12,19 @@ export class NounsExtensible extends React.Component {
     this._handleClick_listExpand = this._handleClick_listExpand.bind(this);
     this._render_unitModal_Nouns =this._render_unitModal_Nouns.bind(this);
     this.style={
-      Com_Nouns_Extensible_: {
+      Com_Nodes_Extensible_: {
         width: '100%',
         position: 'relative',
         boxSizing: 'border-box',
-        borderRight:'0.75px solid #FAFAFA'
       },
-      Com_Nouns_Extensible_list_: {
+      Com_Nodes_Extensible_list_: {
         width: '100%',
         margin: '0',
         padding: '0',
-        paddingRight: '13%',
         boxSizing: 'border-box',
         listStyle: 'none'
       },
-      Com_Nouns_Extensible_list_item_: {
-        display: 'inline-block',
-        width: '100%',
-        position: 'relative',
-        boxSizing: 'border-box',
-        margin: '0 0 2.32rem',
-        cursor: 'pointer'
-      },
-      Com_Nouns_Extensible_switch_: {
+      Com_Nodes_Extensible_switch_: {
         display: 'inline-block',
         width: '100%',
         height: '2rem',
@@ -63,7 +53,8 @@ export class NounsExtensible extends React.Component {
         <li
           key={"key_unitModal_Nouns_"+i}
           nounid={nounId}
-          style={self.style.Com_Nouns_Extensible_list_item_}
+          className={classnames(styles.boxListItem)}
+          style={Object.assign({},this.props.styleItem)}
           onClick={self._handleClick_listNoun}>
           <span
             title={iNoun.name+ (iNoun.prefix ? ", "+iNoun.prefix:"")}>
@@ -95,15 +86,15 @@ export class NounsExtensible extends React.Component {
     //let cx = cxBind.bind(styles);
     return(
       <div
-        style={this.style.Com_Nouns_Extensible_}>
+        style={this.style.Com_Nodes_Extensible_}>
         <ul
-          style={this.style.Com_Nouns_Extensible_list_}>
+          style={this.style.Com_Nodes_Extensible_list_}>
           {this._render_unitModal_Nouns()}
         </ul>
         {
           (this.props.nouns.length>2) &&
           <div
-            style={this.style.Com_Nouns_Extensible_switch_}
+            style={this.style.Com_Nodes_Extensible_switch_}
             onClick={this._handleClick_listExpand}>
              'show all >'
           </div>

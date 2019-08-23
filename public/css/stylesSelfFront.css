@@ -123,6 +123,13 @@
 ._C_C_app_Component_Unit_UnitLayerSwitch_styles_module__boxSwitDn {
   width: 100%;
 }
+._C_C_app_Component_Unit_NodesDisplay_styles_module__boxListItem {
+  display: inline-block;
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  cursor: pointer;
+}
 ._C_C_app_Component_OpenedMark_styles_module__boxMarkBlock {
   width: 29%;
   height: 100%;
@@ -217,7 +224,7 @@
   letter-spacing: 0.07rem;
   line-height: 1.6rem;
   font-weight: 400;
-  font-family: 'gill-sans-nova';
+  font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;
   word-break: break-all;
   color: #000000;
 }

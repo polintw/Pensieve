@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import MarksArticle from './MarksArticle.jsx';
-import {NounsExtensible} from './UnitComponent.jsx';
+import {NodesExtensible} from './NodesDisplay/NodesDisplay.jsx';
 import AuthorStatics from './Author/AuthorStatics.jsx';
 import ImgPreview from '../ImgPreview.jsx';
 import DateConverter from '../DateConverter.jsx';
@@ -253,7 +253,7 @@ class UnitAuthorSummary extends React.Component {
         <div
           className={'nodesListSum'}
           style={this.style.Com_UnitViewSummary_nodes_}>
-          <NounsExtensible
+          <NodesExtensible
             nouns={this.props.unitCurrent.nouns}
             _handleClick_listNoun={this.props._refer_toandclose}/>
         </div>

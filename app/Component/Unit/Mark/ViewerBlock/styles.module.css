@@ -28,7 +28,7 @@
   letter-spacing: 0.07rem;
   line-height: 1.6rem;
   font-weight: 400;
-  font-family: 'gill-sans-nova';
+  font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;
   word-break: break-all;
   color: #000000;
 }
