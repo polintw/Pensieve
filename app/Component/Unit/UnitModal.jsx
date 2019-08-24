@@ -61,10 +61,11 @@ class UnitModal extends React.Component {
         boxSizing: 'border-box',
       },
       Com_UnitModal_blocks_SwitchBar_: {
-        width:'1.45%',
+        width:'1.6%',
         height:'100%',
         position: 'absolute',
-        right: '0'
+        right: '0',
+        overflow:'visible'
       },
       Com_UnitModal_straightBack_: {
         display:'flex',

@@ -54,6 +54,7 @@ export class LayerSpot extends React.Component {
     return(
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9 9"
         style={{
+          display: 'block',
           width: '100%',
           height: 'auto',
           overflow:'visible'

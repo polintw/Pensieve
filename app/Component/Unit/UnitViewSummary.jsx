@@ -78,36 +78,36 @@ class UnitViewSummary extends React.Component {
         boxSizing: 'border-box'
       },
       Com_UnitViewSummary_Marksarticle: {
-        width: "49%",
-        height: '73%',
+        width: "53%",
+        height: '72%',
         position: 'absolute',
-        right: '0%',
-        top: '6.5%',
+        right: '0.5%',
+        top: '5.5%',
         boxSizing: 'border-box',
         overflowY: 'auto'
       },
       Com_UnitViewSummary_panel_: {
         width: '48%',
-        height: '11%',
+        height: '9%',
         position: 'absolute',
-        bottom: '1%',
-        right: '3%',
+        bottom: '6%',
+        right: '3.5%',
         boxSizing: 'border-box'
       },
       Com_UnitViewSummary_nodes_: {
         maxWidth: '22%',
         maxHeight: '40%',
         position: 'absolute',
-        bottom: '52%',
-        left: '4%',
+        top: '33%',
+        left: '10.4%',
         boxSizing: 'border-box',
+        transform: 'translate(0,-50%)',
         overflow:'hidden'
       },
       Com_UnitViewSummary_author_: {
-        maxWidth: '16%',
         position: 'absolute',
-        bottom: '12%',
-        left: '12%',
+        bottom: '13%',
+        left: '7.5%',
         boxSizing: 'border-box'
       },
       Com_UnitViewSummary_panel_response_: {
@@ -120,6 +120,7 @@ class UnitViewSummary extends React.Component {
         cursor: 'pointer'
       },
       Com_UnitViewSummary_author_name: {
+        position: 'relative',
         boxSizing: 'border-box',
         color: '#FAFAFA',
         cursor: 'pointer'
