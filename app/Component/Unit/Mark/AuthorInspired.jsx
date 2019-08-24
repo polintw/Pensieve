@@ -9,7 +9,9 @@ import {
 
 const styleMiddle = {
   boxInspired: {
-
+    display: 'flex',
+    height: '100%',
+    cursor: 'pointer'
   },
   boxInspiredList:{
     width: '144px',
@@ -17,6 +19,7 @@ const styleMiddle = {
     minHeight: '360%',
     position: 'absolute',
     bottom: '102%',
+    right: '0',
     boxSizing: 'border-box',
     backgroundColor: 'white',
     borderRadius: '0.5rem',
@@ -34,16 +37,11 @@ const styleMiddle = {
   },
   svgBulbPlain: {
     strokeWidth:'10px',
-    stroke: '#f7f4bc',
+    stroke: '#d8c98c',
     fill: 'transparent'
   },
   spanCount: {
-    position: 'absolute',
-    top: '42%',
-    left: '38px',
-    transform: 'translate(0,-50%)',
     whiteSpace: 'nowrap',
-    cursor: 'pointer'
   },
   fontListItem: {
     fontSize: '1.28rem',
@@ -68,9 +66,7 @@ class AuthorInspired extends React.Component {
     this.style = {
       Com_AuthorInspired_bulb:{
         width: '17px',
-        maxHeight: '100%',
-        position: 'absolute',
-        left: '9px'
+        marginRight: '1rem'
       }
     };
   }

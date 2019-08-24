@@ -21,25 +21,14 @@ class ImgLayersFrame extends React.Component {
         position: 'absolute',
         top: '0',
         left: '0',
-        backgroundColor: 'rgb(16, 16, 16)'
       },
-      Com_ImgLayersFrame_div_cover: {
+      Com_ImgLayersFrame_div_: {
         width: '100%',
-        height: '99%',
+        height: '100%',
         position: 'absolute',
-        top: '1%',
+        top: '0%',
         left: '0',
         boxSizing: 'border-box',
-        backgroundColor: 'rgb(16, 16, 16)'
-      },
-      Com_ImgLayersFrame_div_beneath: {
-        width: '100%',
-        height: '99%',
-        position: 'absolute',
-        top: '1%',
-        left: '0',
-        boxSizing: 'border-box',
-        backgroundColor: 'rgb(16, 16, 16)'
       }
     };
   }
@@ -69,22 +58,20 @@ class ImgLayersFrame extends React.Component {
   }
 
   render(){
-    let portion = Math.abs((this.props.moveCount-100)/100);
+    let portion = Math.abs((this.props.moveCount-100)/100); //we use '100' due to the system was base on the 0, 100, 200 range
     let controledCSS = {
       coverZIndex: this.props.moveCount< 100 ? '2':'1',
       coverOpa: this.props.moveCount < 100 ? portion : '0',
-      //coverDisplay: this.props.moveCount < 100 ? 'block':'none',
       beneathZIndex: this.props.moveCount< 100 ? '1':'2',
-      beneathOpa: this.props.moveCount < 100 ? '1':(1-portion)
-      //beneathDisplay: this.props.moveCount < 200 ? 'block' : 'none'
+      beneathOpa: (1-portion)
     }
     let Com_ImgLayersFrame_div_cover = Object.assign(
       {opacity: controledCSS.coverOpa, zIndex: controledCSS.coverZIndex},
-      this.style.Com_ImgLayersFrame_div_cover
+      this.style.Com_ImgLayersFrame_div_
     ),
     Com_ImgLayersFrame_div_beneath = Object.assign(
       {opacity: controledCSS.beneathOpa, zIndex: controledCSS.beneathZIndex},
-      this.style.Com_ImgLayersFrame_div_beneath
+      this.style.Com_ImgLayersFrame_div_
     );
 
     let beneathMarks = {

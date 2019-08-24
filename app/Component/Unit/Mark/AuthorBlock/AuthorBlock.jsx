@@ -3,8 +3,8 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import PanelJump from '../PanelJump.jsx';
-import MarkDialogue from '../MarkDialogue.jsx';
 import AuthorInspired from '../AuthorInspired.jsx';
+import MarkDialogue from '../MarkDialogue.jsx';
 import SvgPropic from '../../../Svg/SvgPropic.jsx';
 import DraftDisplay from '../../../Draft/DraftDisplay.jsx';
 import {
@@ -12,26 +12,24 @@ import {
 } from "../../../../redux/actions/general.js";
 
 const styleMiddle = {
-  boxInteraction: {
-    display: 'flex',
-    flexDirection: 'column',
-    flexWrap: 'nowrap',
-    width: '100%',
-    boxSizing: 'border-box',
-    backgroundColor: 'rgba(5,5,5,0.72)'
-  },
   boxPanelInteraction: {
     display: 'inline-block',
     height: '100%',
     position: 'relative',
     boxSizing: 'border-box',
   },
+  spanInteractions: {
+    fontSize: '1.4rem',
+    letterSpacing: '0.18rem',
+    lineHeight: '1.9rem',
+    fontWeight: '400',
+    cursor: 'pointer'
+  },
   fontInteractions: {
     fontSize: '1.4rem',
     letterSpacing: '0.18rem',
     lineHeight: '1.9rem',
     fontWeight: '300',
-    color: '#f0f0f0',
   }
 }
 
@@ -47,24 +45,22 @@ class AuthorBlock extends React.Component {
     this._handleClick_openDialogue = this._handleClick_openDialogue.bind(this);
     this.style = {
       Com_AuthorBlock_: {
-        display: 'flex',
-        flexDirection: 'column',
-        flexWrap: 'nowrap',
         width: '100%',
-        position: 'static',
+        height: '100%',
         boxSizing: 'border-box',
+        overflowY: 'auto'
       },
       Com_AuthorBlock_content_: {
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'spaceBetween',
-        backgroundColor: '#fdfdfd',
+        width: '100%',
+        marginBottom:'27px'
       },
       Com_AuthorBlock_panel_: {
         width: '100%',
         height: '2.1rem',
         boxSizing: 'border-box',
-        margin: '4vh 0 3vh'
+        margin: '1.2rem 0px 1.8rem',
       },
       Com_AuthorBlock_credits_: {
         width: '100%',
@@ -84,12 +80,6 @@ class AuthorBlock extends React.Component {
         boxSizing: 'border-box',
         padding: '2% 3%',
         color: '#FAFAFA',
-      },
-      Com_AuthorBlock_panel_interaction_: {
-        width: '100%',
-        height: '100%',
-        position: 'relative',
-        boxSizing: 'border-box',
       },
     };
   }
@@ -122,15 +112,18 @@ class AuthorBlock extends React.Component {
     const downToMdidline = this.props.downToMdidline;
     const toCircleLeft = this.props.toCircleLeft;// both props come from OpenedMark
     //we use these two cosnt to tune the position of whole <div> for not protruding out the view
+
     return(
       <div
-        style={Object.assign({},
-          this.style.Com_AuthorBlock_,
-          {bottom: downToMdidline ? '44%':'', right: toCircleLeft? '0':'', left: toCircleLeft? '':'0'})}
-        onClick={(e)=>{e.stopPropagation();}}>
+        style={this.style.Com_AuthorBlock_}>
         <div
           ref={this.boxContent}
           style={Object.assign({}, this.style.Com_AuthorBlock_content_)}>
+          <div
+            style={{
+              width: '100%',
+              height: this.props.downToMdidline? (100 -this.props.inBlockHeight) +'vh': (this.props.inBlockHeight-69+4)+'vh'
+            }}></div>
           <div
             className={classnames(styles.boxContentDraft, styles.fontContentDraft)}>
             <DraftDisplay
@@ -145,19 +138,34 @@ class AuthorBlock extends React.Component {
           </div>
         </div>
         <div
-          style={styleMiddle.boxInteraction}>
+          className={classnames(styles.boxInteraction)}
+          style={Object.assign(
+            {},
+            {
+              height: this.props.downToMdidline? (this.props.inBlockHeight- 57)+'vh': (100 -this.props.inBlockHeight+14-4)+'vh'
+            }
+          )}>
           <div
             style={Object.assign({},this.style.Com_AuthorBlock_panel_)}>
             <div
-              style={Object.assign({}, styleMiddle.boxPanelInteraction, {marginLeft: '8%', float: 'left'})}>
+              style={Object.assign(
+                {},
+                styleMiddle.boxPanelInteraction,
+                {marginRight: '8%',float: 'right'}
+              )}>
               <span
-                style={Object.assign({}, styleMiddle.fontInteractions, {cursor: 'pointer'})}
+                style={styleMiddle.spanInteractions}
                 onClick={this._handleClick_openDialogue}>
                 {'raise'}
               </span>
             </div>
             <div
-              style={Object.assign({}, styleMiddle.boxPanelInteraction,styleMiddle.fontInteractions, {marginLeft: '8%', float: 'left'})}>
+              style={Object.assign(
+                {},
+                styleMiddle.boxPanelInteraction,
+                styleMiddle.fontInteractions,
+                {marginLeft: '58%',float: 'left'}
+              )}>
               <AuthorInspired
                 markKey={this.props.markKey}/>
             </div>

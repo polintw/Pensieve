@@ -1,27 +1,39 @@
+.boxInteraction {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  width: 100%;
+  min-height: 10.3rem;
+  position: sticky;
+  bottom: 0;
+  box-sizing: border-box;
+  background-color: #FCFCFC;
+}
+
 .boxContent {
   display: flex;
-  justify-content: space-between;
   flex-direction: column;
-  background-color: #fdfdfd;
+  width: 100%;
+  margin-bottom: 27px;
 }
 
 .boxContentDraft {
-  max-height: 44vh;
-  min-height: 35vh;
+  min-height: 37vh;
   box-sizing: border-box;
-  padding: 5vh 10% 0 6.5%;
-  overflow-y: auto;
-  cursor: text;
+  padding: 1vh 9% 0 10.8%;
 }
 
 .boxDraftBottom{
-  margin: 2.7vh 0 1.4vh 0;
+  height: 2rem;
+  margin: 2.7vh 0 0 0;
 }
 
 .fontContentDraft {
-  font-size: 1.36rem;
-  letter-spacing: 0.1rem;
-  line-height: 1.7rem;
+  font-size: 1.52rem;
+  letter-spacing: 0.07rem;
+  line-height: 1.6rem;
   font-weight: 400;
+  font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;
+  word-break: break-all;
   color: #000000;
 }

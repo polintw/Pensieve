@@ -12,22 +12,13 @@ import SvgPropic from '../../Svg/SvgPropic.jsx';
 import ModalBox from '../../ModalBox.jsx';
 
 const styleMiddle = {
-  boxInteraction: {
-    display: 'flex',
-    flexDirection: 'column',
-    flexWrap: 'nowrap',
-    width: '100%',
-    boxSizing: 'border-box',
-    backgroundColor: 'rgba(5,5,5,0.72)'
-  },
   boxSubmitButton:{
     display: 'inline-block',
-    width: '27%',
+    width: '28%',
     height: '100%',
     position: 'relative',
     boxSizing: 'border-box',
-    float: 'right',
-    margin: '0 3%'
+    margin: '0 4%'
   },
   roundRecBox: {
     borderRadius: '2.4vh',
@@ -35,9 +26,9 @@ const styleMiddle = {
     cursor: 'pointer'
   },
   fontInteractions: {
-    fontSize: '1.32rem',
+    fontSize: '1.42rem',
     fontWeight: '400',
-    letterSpacing: '0.1rem',
+    letterSpacing: '0.07rem',
     textAlign: 'center',
     color: 'rgb(16, 16, 16)'
   }
@@ -47,21 +38,21 @@ class MarkEditingBlock extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      onEnterSave: false
     }
     this.contentEditor = React.createRef();
     this._set_EditorUpdate = this._set_EditorUpdate.bind(this);
+    this._handleEnter_Save = this._handleEnter_Save.bind(this);
+    this._handleLeave_Save = this._handleLeave_Save.bind(this);
     this._handleClick_blockPanel_delete = this._handleClick_blockPanel_delete.bind(this);
     this._handleClick_blockPanel_complete = this._handleClick_blockPanel_complete.bind(this);
     this._handleClick_markComponentEditor = this._handleClick_markComponentEditor.bind(this);
     this.style={
       Com_MarkEditingBlock_: {
-        display: 'flex',
-        flexDirection: 'column',
-        flexWrap: 'nowrap',
         width: '100%',
-        position: 'static',
+        height: '100%',
         boxSizing: 'border-box',
+        overflowY: 'auto'
       },
       Com_MarkEditingBlock_credits_: {
         width: '100%',
@@ -70,10 +61,12 @@ class MarkEditingBlock extends React.Component {
         marginTop: '2%',
       },
       Com_MarkEditingBlock_Content_Main_div_edit_Panel_: {
+        display: 'flex',
+        justifyContent: 'flex-end',
         width: '100%',
-        height: '2.5rem',
+        height: '2.4rem',
         boxSizing: 'border-box',
-        margin: '3.2vh 0px 4.8vh',
+        margin: '2rem 0px 1rem',
         padding: '0 3%'
       }
     }
@@ -97,6 +90,24 @@ class MarkEditingBlock extends React.Component {
     this.props._reset_expandState();
   }
 
+  _handleEnter_Save(e){
+    //don't need to stop proppagation,
+    //because both the 'onMouseEnter' & 'onMouseLeave'
+    //would not 'bubble'
+    this.setState({
+      onEnterSave: true
+    })
+  }
+
+  _handleLeave_Save(e){
+    //don't need to stop proppagation,
+    //because both the 'onMouseEnter' & 'onMouseLeave'
+    //would not 'bubble'
+    this.setState({
+      onEnterSave: false
+    })
+  }
+
   _set_EditorUpdate(editorState){
     this.props._set_markUpdate_editor(convertToRaw(editorState.getCurrentContent()), this.props.markKey);
   }
@@ -111,12 +122,14 @@ class MarkEditingBlock extends React.Component {
 
     return(
       <div
-        style={
-          Object.assign({},
-            this.style.Com_MarkEditingBlock_,
-            {bottom: downToMdidline ? '44%':'', right: toCircleLeft? '0':'', left: toCircleLeft? '':'0'})}>
+        style={this.style.Com_MarkEditingBlock_}>
         <div
           className={classnames(styles.boxContent)}>
+          <div
+            style={{
+              width: '100%',
+              height: this.props.downToMdidline? (100 -this.props.inBlockHeight) +'vh': (this.props.inBlockHeight-69+4)+'vh'
+            }}></div>
           <div
             className={classnames(styles.boxContentDraft, styles.fontContentDraft)}
             onClick={this._handleClick_markComponentEditor}>
@@ -130,18 +143,15 @@ class MarkEditingBlock extends React.Component {
           </div>
         </div>
         <div
-          style={styleMiddle.boxInteraction}>
+          className={classnames(styles.boxInteraction)}
+          style={Object.assign(
+            {},
+            {
+              height: this.props.downToMdidline? (this.props.inBlockHeight- 57)+'vh': (100 -this.props.inBlockHeight+14-4)+'vh'
+            }
+          )}>
           <div
             style={Object.assign({},this.style.Com_MarkEditingBlock_Content_Main_div_edit_Panel_)}>
-            <div
-              style={Object.assign({}, styleMiddle.boxSubmitButton, styleMiddle.roundRecBox, {backgroundColor:'rgba(233, 181, 90, 1)'})}
-              onClick={this._handleClick_blockPanel_complete}>
-              <span
-                className={'centerAlignChild'}
-                style={styleMiddle.fontInteractions}>
-                {'save'}
-              </span>
-            </div>
             <div
               style={Object.assign({}, styleMiddle.boxSubmitButton, styleMiddle.roundRecBox)}
               onClick={this._handleClick_blockPanel_delete}>
@@ -149,6 +159,17 @@ class MarkEditingBlock extends React.Component {
                 className={'centerAlignChild'}
                 style={styleMiddle.fontInteractions}>
                 {'delete'}
+              </span>
+            </div>
+            <div
+              style={Object.assign({}, styleMiddle.boxSubmitButton, styleMiddle.roundRecBox, {backgroundColor: this.state.onEnterSave? "#ff7a5f": "#e6e6e6"})}
+              onClick={this._handleClick_blockPanel_complete}
+              onMouseEnter={this._handleEnter_Save}
+              onMouseLeave={this._handleLeave_Save}>
+              <span
+                className={'centerAlignChild'}
+                style={styleMiddle.fontInteractions}>
+                {'save'}
               </span>
             </div>
           </div>

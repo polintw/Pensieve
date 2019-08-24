@@ -25,7 +25,7 @@ class ViewerBulb extends React.Component {
         margin: '0 4%',
         cursor: 'pointer',
         strokeWidth:'10px',
-        stroke: '#f7f4bc'
+        stroke: '#d8c98c'
       }
     };
   }

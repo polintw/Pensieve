@@ -14,9 +14,7 @@ class UnitLayerScroll extends React.Component {
     this.state = {
       buffer: 0
     };
-    this.scrollStick = React.createRef();
-    this.stickBase = React.createRef();
-    this._set_stickTop = this._set_stickTop.bind(this);
+    this.scrollBase = React.createRef();
     this._handleWheel_moveCount = this._handleWheel_moveCount.bind(this);
     this.style={
       Com_Unit_LayerScroll_: {
@@ -28,14 +26,6 @@ class UnitLayerScroll extends React.Component {
         boxSizing: 'border-box',
         touchAction: 'pan-y'
       },
-      Com_Unit_LayerScroll_stick: {
-        width: '94%',
-        height: '2.4%',
-        position: 'absolute',
-        left: '3%',
-        borderRadius: '20px',
-        backgroundColor: '#cec9a6'
-      }
     }
   }
 
@@ -93,31 +83,7 @@ class UnitLayerScroll extends React.Component {
     }
   }
 
-  _set_stickTop(){
-    if(this.coverLock == null) return "95%";
-    switch (this.props.moveCount) {
-      case 0:
-        return this.coverLock
-        break;
-      case 100:
-        return this.coverLock-this.basicMove*100
-        break;
-      case 200:
-        return this.sumLock
-        break;
-      default:
-        let delta = this.props.moveCount*this.basicMove/((this.props.moveCount>200 && !this.props.unitCurrent.beneathSrc)? 2:1);
-        return  (this.coverLock-delta);// because the moveCount would jump to 200 at summary
-    }
-  }
-
   componentDidMount() {
-    //we set these variable here because we need to use the component height
-    let viewheight = this.stickBase.current.getBoundingClientRect().height;
-
-    this.coverLock = viewheight*95/100; //bottom-most place as cover's static place
-    this.sumLock = this.coverLock/5;
-    this.basicMove = this.coverLock*4/5/(this.props.unitCurrent.beneathSrc ? 200 :100);
 
     this.basicCount = unitBasicMoveCount; //set single 'step'
     this.checkRange = this.basicCount+1; //11 if we set basicCount as 10
@@ -128,7 +94,7 @@ class UnitLayerScroll extends React.Component {
     this.downMiddle = this.props.unitCurrent.beneathSrc? 100:0;
     this.upMiddle = this.props.unitCurrent.beneathSrc? 100:this.bounderTop;
 
-    this.stickBase.current.addEventListener('wheel', this._handleWheel_moveCount, {passive: false})
+    this.scrollBase.current.addEventListener('wheel', this._handleWheel_moveCount, {passive: false})
     //because the modern browser set the 'passive' property of addEventListener default to true,
     //it would block the e.preventDefault() useage
     //so we could only add listener manually like this way
@@ -136,19 +102,14 @@ class UnitLayerScroll extends React.Component {
 
   componentWillUnmount() {
     //and don't forget to move any exist evetListener
-    this.stickBase.current.removeEventListener('wheel',this._handleWheel_moveCount);
+    this.scrollBase.current.removeEventListener('wheel',this._handleWheel_moveCount);
   }
 
   render(){
-    //let cx = cxBind.bind(styles);
     return(
       <div
-        ref={this.stickBase}
+        ref={this.scrollBase}
         style={this.style.Com_Unit_LayerScroll_}>
-        <div
-          ref={this.scrollStick}
-          style={Object.assign({top: this._set_stickTop()},this.style.Com_Unit_LayerScroll_stick)}>
-        </div>
         {this.props.children}
       </div>
     )

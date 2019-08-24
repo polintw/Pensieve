@@ -25,8 +25,8 @@ const styleMiddle = {
     cursor: 'default'
   },
   fontSubtitle: {
-    fontSize: '1.42rem',
-    letterSpacing: '0.142rem',
+    fontSize: '1.44rem',
+    letterSpacing: '0.12rem',
     fontWeight: '400',
     color: '#FAFAFA',
   },

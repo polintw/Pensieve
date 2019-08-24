@@ -6,52 +6,51 @@ import {
 import { connect } from "react-redux";
 import ImgLayersFrame from './ImgLayersFrame.jsx';
 import UnitActionPanel from './UnitActionPanel.jsx';
-import {NounsExtensible} from './UnitComponent.jsx';
+import {NodesExtensible} from './NodesDisplay/NodesDisplay.jsx';
 import {AccountPlate} from '../AccountPlate.jsx';
 import DateConverter from '../DateConverter.jsx';
 
 const styleMiddle = {
   boxContent: {
-    width: '96%',
+    width: '100%',
     height: '100%',
     position: 'absolute',
     top: '0%',
-    right: '4%',
+    right: '0%',
     boxSizing: 'border-box',
-    backgroundColor: '#101010'
   },
   boxImgFrame: {
-    width: '81%',
-    height: '96%',
+    width: '77%',
+    height: '100%',
     position: 'absolute',
     top: '0%',
     right: '0%',
     boxSizing: 'border-box'
   },
   boxActionPanel: {
-    width: '36%',
-    height: '4%',
     position: 'absolute',
-    bottom: '0',
-    right: '0',
+    top: '29%',
+    right: '84%',
     boxSizing: 'border-box'
   },
   boxAuthor: {
-    maxWidth: '11%',
+    maxWidth: '14%',
     position: 'absolute',
-    top: '66%',
-    right: '87.4%',
+    bottom: '55%',
+    right: '85%',
     boxSizing: 'border-box',
   },
   boxNodes: {
-    width: '14%',
-    minHeight: '29%',
-    maxHeight: '39%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    width: '17.5%',
+    height: '44%',
+    minHeight: '242px',
     position: 'absolute',
-    top: '23%',
+    bottom: '4%',
     left: '0%',
     boxSizing: 'border-box',
-    backgroundColor: '#4a4a4a',
     overflow: 'hidden' //just a temp method
   }
 }
@@ -67,8 +66,9 @@ class UnitImgLayers extends React.Component {
       Com_Unit_UnitImgLayers_contentSection_links_nouns: {
         width: '100%',
         boxSizing: 'border-box',
-        padding: '8% 7% 8% 4%',
-        textAlign: 'right'
+        textAlign: 'right',
+        paddingRight: '13%',
+        borderRight:'0.75px solid #FAFAFA'
       },
       Com_Unit_UnitImgLayers_commonSection_InfoPanel_blocks_: {
         height: '100%',
@@ -89,53 +89,52 @@ class UnitImgLayers extends React.Component {
 
   render(){
     return(
-      <div>
+      <div
+        style={styleMiddle.boxContent}>
         <div
-          style={styleMiddle.boxContent}>
+          style={styleMiddle.boxAuthor}>
           <div
-            style={styleMiddle.boxAuthor}>
+            onClick={this._handleClick_Account}
+            style={Object.assign({}, this.style.Com_Unit_UnitImgLayers_commonSection_InfoPanel_blocks_,{marginBottom:'0.5rem',textAlign: 'right', cursor:'pointer'})}>
+            <AccountPlate
+              size={'layer'}
+              accountFisrtName={this.props.unitCurrent.authorBasic.firstName}
+              accountLastName={this.props.unitCurrent.authorBasic.lastName}/>
+          </div>
+          <div
+            style={this.style.Com_Unit_UnitImgLayers_commonSection_InfoPanel_blocks_}>
+            <DateConverter
+              place={'layers'}
+              datetime={this.props.unitCurrent.createdAt}/>
+          </div>
+        </div>
+        <div
+          style={styleMiddle.boxNodes}>
+          {
+            this.props.unitCurrent.nouns &&
             <div
-              onClick={this._handleClick_Account}
-              style={Object.assign({textAlign: 'center', cursor:'pointer'},this.style.Com_Unit_UnitImgLayers_commonSection_InfoPanel_blocks_)}>
-              <AccountPlate
-                size={'regular'}
-                accountFisrtName={this.props.unitCurrent.authorBasic.firstName}
-                accountLastName={this.props.unitCurrent.authorBasic.lastName}/>
+              className={'nodesListLayers'}
+              style={this.style.Com_Unit_UnitImgLayers_contentSection_links_nouns}>
+              <NodesExtensible
+                nouns={this.props.unitCurrent.nouns}
+                styleItem= {{margin: '0 0 2.32rem'}}
+                _handleClick_listNoun={this.props._refer_toandclose}/>
             </div>
-            <div
-              style={this.style.Com_Unit_UnitImgLayers_commonSection_InfoPanel_blocks_}>
-              <DateConverter
-                place={'layers'}
-                datetime={this.props.unitCurrent.createdAt}/>
-            </div>
-          </div>
-          <div
-            style={styleMiddle.boxNodes}>
-            {
-              this.props.unitCurrent.nouns &&
-              <div
-                className={'verticalAlignChild nodesListLayers'}
-                style={this.style.Com_Unit_UnitImgLayers_contentSection_links_nouns}>
-                <NounsExtensible
-                  nouns={this.props.unitCurrent.nouns}
-                  _handleClick_listNoun={this.props._refer_toandclose}/>
-              </div>
-            }
-          </div>
-          <div
-            style={styleMiddle.boxImgFrame}>
-            <ImgLayersFrame
-              moveCount={this.props.moveCount}
-              lockify={this.props.lockify}
-              marksStatus={this.props.marksStatus}
-              _set_markOpened={this.props._set_markOpened}
-              _set_layerstatus={this.props._set_layerstatus}/>
-          </div>
+          }
         </div>
         <div
           style={styleMiddle.boxActionPanel}>
           <UnitActionPanel
             _set_Modalmode={this.props._set_Modalmode}/>
+        </div>
+        <div
+          style={styleMiddle.boxImgFrame}>
+          <ImgLayersFrame
+            moveCount={this.props.moveCount}
+            lockify={this.props.lockify}
+            marksStatus={this.props.marksStatus}
+            _set_markOpened={this.props._set_markOpened}
+            _set_layerstatus={this.props._set_layerstatus}/>
         </div>
       </div>
     )

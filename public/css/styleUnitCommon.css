@@ -1,16 +1,27 @@
 .nodesListLayers{
-  font-size: 1.6rem;
-  letter-spacing: 0.167rem;
+  font-size: 2.68rem;
+  letter-spacing: 0.13rem;
   font-weight: 400;
-  font-family: 'cwTeXMing';
+  font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;
+  line-height: 2.5rem;
   color: #FAFAFA;
 }
 
 .nodesListSum{
   font-size: 1.54rem;
-  letter-spacing: 0.154rem;
+  letter-spacing: 0.14rem;
   font-weight: 400;
-  font-family: 'cwTeXMing';
+  font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;
+  color: #FAFAFA;
+}
+
+.fontContentSum {
+  font-size: 1.56rem;
+  font-weight: 300;
+  font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;
+  letter-spacing: 0.087rem;
+  line-height: 1.77rem;
+  word-wrap: break-word;
   color: #FAFAFA;
 }
 
@@ -52,5 +63,17 @@
   margin-right: 7%;
   float: right;
   box-sizing: border-box;
-  cursor: pointer;
-},
+}
+
+.boxSumOptEdit {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.fontSumOptEdit{
+  font-size: 1.64rem;
+  letter-spacing: 0.12rem;
+  text-align: right;
+  font-weight: 400;
+}

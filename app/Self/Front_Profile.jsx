@@ -37,7 +37,7 @@ class FrontProfile extends React.Component {
       Front_Profile_: {
         width: '100%',
         height: '100%',
-        position: 'static',
+        position: 'absolute',
         top: '0%',
         left: '0%',
         backgroundColor: '#d1d1d1'

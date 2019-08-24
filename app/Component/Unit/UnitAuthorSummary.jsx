@@ -4,10 +4,10 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import classnames from 'classnames';
 import MarksArticle from './MarksArticle.jsx';
-import {NounsExtensible} from './UnitComponent.jsx';
+import {NodesExtensible} from './NodesDisplay/NodesDisplay.jsx';
 import AuthorStatics from './Author/AuthorStatics.jsx';
-import ImgPreview from '../ImgPreview.jsx';
 import DateConverter from '../DateConverter.jsx';
 import SvgCreate from '../Svg/SvgCreate.jsx'
 import {AccountPlate} from '../AccountPlate.jsx';
@@ -15,28 +15,9 @@ import {AccountPlate} from '../AccountPlate.jsx';
 const styleMiddle = {
   boxStatics: {
     position: 'absolute',
-    top: '30%',
-    left: '46%',
+    top: '26%',
+    left: '40%',
     boxSizing: 'border-box'
-  },
-  fontPanelOptions: {
-    fontSize: '1.6rem',
-    letterSpacing: '0.16rem',
-    textAlign: 'right',
-    fontWeight: '400',
-    color: '#FAFAFA',
-  },
-  imgBLockPreview: {
-    display: 'inline-block',
-    width: '100%',
-    height: '47%',
-    position: 'relative',
-    boxSizing: 'border-box',
-    marginBottom: '4%',
-    boxShadow: '0rem 0.1rem 0.5rem 0px',
-    borderRadius: '0.5vw',
-    overflow: 'hidden',
-    cursor: 'pointer'
   },
 }
 
@@ -85,11 +66,13 @@ class UnitAuthorSummary extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      onActEdit: false
     };
     this.marksArticle = React.createRef();
     this._set_layerstatus = this._set_layerstatus.bind(this);
     this._handleClick_Account = this._handleClick_Account.bind(this);
+    this._handleEnter_actEdit = this._handleEnter_actEdit.bind(this);
+    this._handleLeave_actEdit = this._handleLeave_actEdit.bind(this);
     this._handleClick_UnitAction_Author = this._handleClick_UnitAction_Author.bind(this);
     this._handleClick_UnitAction_response = this._handleClick_UnitAction_response.bind(this);
     this._handleWheel_marksArticle = (event)=>{event.stopPropagation();};
@@ -103,56 +86,43 @@ class UnitAuthorSummary extends React.Component {
         boxSizing: 'border-box'
       },
       Com_UnitViewSummary_Marksarticle: {
-        width: "42%",
-        height: '70%',
+        width: "43%",
+        height: '72%',
         position: 'absolute',
         right: '0.5%',
-        top: '9%',
+        top: '5.5%',
         boxSizing: 'border-box',
-        padding: '0 1% 3% 0%',
-        backgroundColor: 'transparent',
         overflowY: 'auto'
-      },
-      Com_UnitViewSummary_thumbnails_: {
-        width: '14%',
-        height: '44%',
-        position: 'absolute',
-        top: '51%',
-        left: '19%',
-        boxSizing: 'border-box'
       },
       Com_UnitViewSummary_panel_: {
         width: '48%',
-        height: '11%',
+        height: '9%',
         position: 'absolute',
-        bottom: '1%',
-        right: '3%',
+        bottom: '6%',
+        right: '3.5%',
         boxSizing: 'border-box'
       },
       Com_UnitViewSummary_nodes_: {
-        maxWidth: '12%',
+        maxWidth: '22%',
         maxHeight: '40%',
         position: 'absolute',
-        top: '54%',
-        left: '5%',
+        top: '33%',
+        left: '10.4%',
         boxSizing: 'border-box',
+        transform: 'translate(0,-50%)',
         overflow:'hidden'
       },
       Com_UnitViewSummary_author_: {
-        maxWidth: '16%',
         position: 'absolute',
-        bottom: '62%',
-        right: '68%',
+        bottom: '13%',
+        left: '7.5%',
         boxSizing: 'border-box'
       },
       Com_UnitViewSummary_author_name: {
-        marginBottom: '0.86rem',
+        position: 'relative',
         boxSizing: 'border-box',
         color: '#FAFAFA',
         cursor: 'pointer'
-      },
-      Com_UnitViewSummary_author_date: {
-        color: '#e6e6e6',
       },
     };
   }
@@ -181,6 +151,24 @@ class UnitAuthorSummary extends React.Component {
     this.props._refer_toandclose('user', this.props.unitCurrent.authorBasic.authorId);
   }
 
+  _handleEnter_actEdit(e){
+    //don't need to stop proppagation,
+    //because both the 'onMouseEnter' & 'onMouseLeave'
+    //would not 'bubble'
+    this.setState({
+      onActEdit: true
+    })
+  }
+
+  _handleLeave_actEdit(e){
+    //don't need to stop proppagation,
+    //because both the 'onMouseEnter' & 'onMouseLeave'
+    //would not 'bubble'
+    this.setState({
+      onActEdit: false
+    })
+  }
+
   componentDidMount(){
     this.marksArticle.current.addEventListener('wheel', this._handleWheel_marksArticle, {passive: false})
     //because the modern browser set the 'passive' property of addEventListener default to true,
@@ -203,19 +191,19 @@ class UnitAuthorSummary extends React.Component {
         <div
           style={this.style.Com_UnitViewSummary_author_}>
           <div
+            className={'boxInlineRelative'}
+            style={Object.assign({}, {display: 'block', marginBottom: '2rem'})}>
+            <DateConverter
+              place={'layers'}
+              datetime={this.props.unitCurrent.createdAt}/>
+          </div>
+          <div
             onClick={this._handleClick_Account}
             style={this.style.Com_UnitViewSummary_author_name}>
             <AccountPlate
-              size={'mediumI'}
+              size={'title'}
               accountFisrtName={this.props.unitCurrent.authorBasic.firstName}
               accountLastName={this.props.unitCurrent.authorBasic.lastName}/>
-          </div>
-          <div
-            className={'boxInlineRelative'}
-            style={Object.assign({}, this.style.Com_UnitViewSummary_author_date, {display: 'block'})}>
-            <DateConverter
-              place={'summary'}
-              datetime={this.props.unitCurrent.createdAt}/>
           </div>
         </div>
         <div
@@ -231,30 +219,11 @@ class UnitAuthorSummary extends React.Component {
             _set_MarkInspect={this._set_layerstatus}/>
         </div>
         <div
-          style={this.style.Com_UnitViewSummary_thumbnails_}>
-          <div
-            style={Object.assign({}, styleMiddle.imgBLockPreview)}>
-            <ImgPreview
-              blockName={'cover'}
-              previewSrc={this.props.unitCurrent.coverSrc}
-              _handleClick_ImgPreview_preview={this._set_layerstatus}/>
-          </div>
-          {
-            this.props.unitCurrent.beneathSrc &&
-            <div
-              style={Object.assign({}, styleMiddle.imgBLockPreview)}>
-              <ImgPreview
-                blockName={'beneath'}
-                previewSrc={this.props.unitCurrent.beneathSrc}
-                _handleClick_ImgPreview_preview={this._set_layerstatus}/>
-            </div>
-          }
-        </div>
-        <div
           className={'nodesListSum'}
           style={this.style.Com_UnitViewSummary_nodes_}>
-          <NounsExtensible
+          <NodesExtensible
             nouns={this.props.unitCurrent.nouns}
+            styleItem={{margin: '0 0 1rem'}}
             _handleClick_listNoun={this.props._refer_toandclose}/>
         </div>
         <div
@@ -265,16 +234,23 @@ class UnitAuthorSummary extends React.Component {
           style={this.style.Com_UnitViewSummary_panel_}>
           <div
             className={'sumPanelOptions'}
+            style={{cursor: 'pointer'}}
             onClick={this._handleClick_UnitAction_response}>
             <SvgCreate
               place={true}/>
           </div>
           <div
-            className={'sumPanelOptions'}>
+            className={classnames('sumPanelOptions', 'boxSumOptEdit')}>
             <span
-              className={'verticalAlignChild'}
-              style={styleMiddle.fontPanelOptions}
-              onClick={this._handleClick_UnitAction_Author}>
+              className={classnames('fontSumOptEdit')}
+              style={Object.assign(
+                {},
+                {cursor: 'pointer'},
+                this.state.onActEdit? {color: '#FAFAFA'}:{color: 'rgba(250,250,250,0.5)'}
+              )}
+              onClick={this._handleClick_UnitAction_Author}
+              onMouseEnter={this._handleEnter_actEdit}
+              onMouseLeave={this._handleLeave_actEdit}>
               {"edit"}
             </span>
           </div>

@@ -4,7 +4,7 @@ import AuthorBlock from './AuthorBlock/AuthorBlock.jsx';
 import SvgCircle from '../../Svg/SvgCircle.jsx';
 import SvgCurCir from '../../Svg/SvgCurCir.jsx';
 import {widthDivisionRatial} from '../../config/styleParams.js'; //dividing markglayer width, used for determineing the position
-import OpenedMark from '../../OpenedMark.jsx';
+import OpenedMark from '../../OpenedMark/OpenedMark.jsx';
 
 class MarksAuthor extends React.Component {
   constructor(props){
