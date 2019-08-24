@@ -29,7 +29,7 @@ const styleMiddle = {
   },
   boxActionPanel: {
     position: 'absolute',
-    top: '30%',
+    top: '29%',
     right: '84%',
     boxSizing: 'border-box'
   },

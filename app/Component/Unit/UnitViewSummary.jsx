@@ -7,7 +7,6 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import MarksArticle from './MarksArticle.jsx';
 import {NodesExtensible} from './NodesDisplay/NodesDisplay.jsx';
-import ImgPreview from '../ImgPreview.jsx';
 import DateConverter from '../DateConverter.jsx';
 import SvgCreate from '../Svg/SvgCreate.jsx'
 import {AccountPlate} from '../AccountPlate.jsx';
@@ -110,15 +109,6 @@ class UnitViewSummary extends React.Component {
         left: '7.5%',
         boxSizing: 'border-box'
       },
-      Com_UnitViewSummary_panel_response_: {
-        width: '17%',
-        height: '100%',
-        position: 'relative',
-        marginRight: '7%',
-        float: 'right',
-        boxSizing: 'border-box',
-        cursor: 'pointer'
-      },
       Com_UnitViewSummary_author_name: {
         position: 'relative',
         boxSizing: 'border-box',
@@ -206,7 +196,8 @@ class UnitViewSummary extends React.Component {
         <div
           style={this.style.Com_UnitViewSummary_panel_}>
           <div
-            style={this.style.Com_UnitViewSummary_panel_response_}
+            className={'sumPanelOptions'}
+            style={{cursor: 'pointer'}}
             onClick={this._handleClick_UnitAction_response}>
             <SvgCreate
               place={true}/>

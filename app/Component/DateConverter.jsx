@@ -22,12 +22,6 @@ export default class DateConverter extends React.Component {
         fontWeight: '300',
         color: 'rgba(250,250,250,0.7)'
       },
-      fontSummary: {
-        fontSize: '1.2rem',
-        letterSpacing: '0.142rem',
-        textAlign: 'center',
-        fontWeight: '400'
-      },
       fontTitle: {
         fontSize: '1.37rem',
         letterSpacing: '0.07rem',
@@ -40,9 +34,6 @@ export default class DateConverter extends React.Component {
 
   _set_styleByProps(){
     switch (this.props.place) {
-      case 'summary':
-        return this.style.fontSummary
-        break;
       case 'title':
         return this.style.fontTitle
         break;

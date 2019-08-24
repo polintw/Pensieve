@@ -16,21 +16,18 @@ class AuthorPanel extends React.Component {
     this._handleClick_UnitAction_Author = this._handleClick_UnitAction_Author.bind(this);
     this.style={
       Com_AuthorPanel_: {
-        width: '100%',
-        height: '100%',
+        display: 'flex',
+        justifyContent: 'space-between',
+        width: '131%',
         position: 'relative',
+        transform:'translate(-34%,0)',
         boxSizing: 'border-box'
       },
       Com_AuthorPanel_span: {
-        display: 'inline-block',
-        position: 'relative',
         boxSizing: 'border-box',
-        margin: '0 3% 0 3%',
-        verticalAlign: 'middle',
         fontSize: '1.5rem',
         letterSpacing: '0.12rem',
-        textAlign: 'right',
-        fontWeight: '400',
+        fontWeight: '300',
         color: '#FAFAFA',
         cursor: 'pointer'
       }

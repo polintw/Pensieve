@@ -63,5 +63,17 @@
   margin-right: 7%;
   float: right;
   box-sizing: border-box;
-  cursor: pointer;
-},
+}
+
+.boxSumOptEdit {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.fontSumOptEdit{
+  font-size: 1.64rem;
+  letter-spacing: 0.12rem;
+  text-align: right;
+  font-weight: 400;
+}
