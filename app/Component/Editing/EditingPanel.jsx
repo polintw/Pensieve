@@ -32,7 +32,6 @@ const styleMiddle = {
     position: 'relative',
     boxSizing: 'border-box',
     borderRadius: '2.4vh',
-    backgroundColor: "#e6e6e6",
     overflow: 'hidden',
     cursor: 'pointer'
   },
@@ -50,8 +49,10 @@ class EditingPanel extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      onEnterSubmit: false
     };
+    this._handleEnter_Submit = this._handleEnter_Submit.bind(this);
+    this._handleLeave_Submit = this._handleLeave_Submit.bind(this);
     this._handleClick_Editing_Submit = this._handleClick_Editing_Submit.bind(this);
     this._handleClick_Editing_Cancell = this._handleClick_Editing_Cancell.bind(this);
     this.style={
@@ -89,6 +90,24 @@ class EditingPanel extends React.Component {
     this.props._submit_newShare();
   }
 
+  _handleEnter_Submit(e){
+    //don't need to stop proppagation,
+    //because both the 'onMouseEnter' & 'onMouseLeave'
+    //would not 'bubble'
+    this.setState({
+      onEnterSubmit: true
+    })
+  }
+
+  _handleLeave_Submit(e){
+    //don't need to stop proppagation,
+    //because both the 'onMouseEnter' & 'onMouseLeave'
+    //would not 'bubble'
+    this.setState({
+      onEnterSubmit: false
+    })
+  }
+
   render(){
     let editDate = new Date();
     return(
@@ -108,8 +127,10 @@ class EditingPanel extends React.Component {
           <div
             style={Object.assign({}, styleMiddle.boxNavButton, {width: '45%'})}>
             <div
-              style={styleMiddle.roundRecBox}
-              onClick={this._handleClick_Editing_Submit}>
+              style={Object.assign({}, styleMiddle.roundRecBox, {backgroundColor: this.state.onEnterSubmit? "#ff7a5f": "#e6e6e6"})}
+              onClick={this._handleClick_Editing_Submit}
+              onMouseEnter={this._handleEnter_Submit}
+              onMouseLeave={this._handleLeave_Submit}>
               <span
                 className={'centerAlignChild'}
                 style={styleMiddle.spanEditingDestiny}>
