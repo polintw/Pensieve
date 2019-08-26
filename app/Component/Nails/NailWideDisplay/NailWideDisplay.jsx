@@ -68,6 +68,7 @@ class NailWideDisplay extends React.Component {
           ref={this.nailUnitLink}
           to={{
             pathname: this.props.match.url+"/units/"+this.props.unitId,
+            search: '?theater',
             state: {from: this.props.location}
           }}
           className={classnames('plainLinkButton', styles.frame)}>
