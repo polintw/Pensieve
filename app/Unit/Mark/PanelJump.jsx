@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from "react-redux";
-import SvgNextCir from '../../Svg/SvgNextCir.jsx';
+import SvgNextCir from '../../Component/Svg/SvgNextCir.jsx';
 
 const styleMiddle = {
   boxSvgNextCir: {

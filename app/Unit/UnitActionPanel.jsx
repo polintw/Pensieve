@@ -4,7 +4,6 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import cxBind from 'classnames/bind';
 import ViewerPanel from './ViewerPanel.jsx';
 import AuthorPanel from './Author/AuthorPanel.jsx';
 

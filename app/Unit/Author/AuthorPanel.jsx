@@ -4,7 +4,6 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import cxBind from 'classnames/bind';
 
 class AuthorPanel extends React.Component {
   constructor(props){

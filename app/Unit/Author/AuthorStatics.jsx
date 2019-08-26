@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 import {
   cancelErr,
   uncertainErr
-} from "../../../utils/errHandlers.js";
+} from "../../utils/errHandlers.js";
 
 const styleMiddle = {
   spanSubtitle: {

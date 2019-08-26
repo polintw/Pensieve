@@ -6,7 +6,7 @@ import SvgCircle from '../Svg/SvgCircle.jsx';
 import {
   baseHorizonRatial,
   widthDivisionRatial
-} from '../config/styleParams.js';
+} from '../../config/styleParams.js';
 
 const generalStyle = {
   absolute_FullVersion: {

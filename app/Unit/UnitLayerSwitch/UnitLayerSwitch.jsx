@@ -10,7 +10,7 @@ import {
   LayerSwitch,
   LayerSpot,
   LayerSwitUp
-} from '../../Svg/SvgUnitSwit.jsx';
+} from '../../Component/Svg/SvgUnitSwit.jsx';
 
 class UnitLayerSwitch extends React.Component {
   constructor(props){

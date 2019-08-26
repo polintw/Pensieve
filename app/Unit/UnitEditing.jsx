@@ -1,9 +1,9 @@
 import React from 'react';
 import {connect} from "react-redux";
-import EditingModal from '../Editing/EditingModal/EditingModal.jsx';
 import {
   switchUnitSubmitting
-} from "../../redux/actions/general.js";
+} from "../redux/actions/general.js";
+import EditingModal from '../Component/Editing/EditingModal/EditingModal.jsx';
 
 class UnitEditing extends React.Component {
   constructor(props){

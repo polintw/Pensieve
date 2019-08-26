@@ -8,9 +8,9 @@ import classnames from 'classnames';
 import MarksArticle from './MarksArticle.jsx';
 import {NodesExtensible} from './NodesDisplay/NodesDisplay.jsx';
 import AuthorStatics from './Author/AuthorStatics.jsx';
-import DateConverter from '../DateConverter.jsx';
-import SvgCreate from '../Svg/SvgCreate.jsx'
-import {AccountPlate} from '../AccountPlate.jsx';
+import DateConverter from '../Component/DateConverter.jsx';
+import SvgCreate from '../Component/Svg/SvgCreate.jsx'
+import {AccountPlate} from '../Component/AccountPlate.jsx';
 
 const styleMiddle = {
   boxStatics: {

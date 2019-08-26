@@ -5,12 +5,12 @@ import {
   Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import CreateResponse from './CreateResponse.jsx';
-import ModalBox from './ModalBox.jsx';
-import ModalBackground from './ModalBackground.jsx';
-import WarningModal from './WarningModal.jsx';
-import UnitModal from './Unit/UnitModal.jsx';
-import UnitEditing from './Unit/UnitEditing.jsx';
+import UnitModal from './UnitModal.jsx';
+import UnitEditing from './UnitEditing.jsx';
+import CreateResponse from '../Component/CreateResponse.jsx';
+import ModalBox from '../Component/ModalBox.jsx';
+import ModalBackground from '../Component/ModalBackground.jsx';
+import WarningModal from '../Component/WarningModal.jsx';
 import {setUnitCurrent} from "../redux/actions/general.js";
 import {unitCurrentInit} from "../redux/constants/globalStates.js";
 

@@ -7,8 +7,8 @@ import { connect } from "react-redux";
 import ImgLayersFrame from './ImgLayersFrame.jsx';
 import UnitActionPanel from './UnitActionPanel.jsx';
 import {NodesExtensible} from './NodesDisplay/NodesDisplay.jsx';
-import {AccountPlate} from '../AccountPlate.jsx';
-import DateConverter from '../DateConverter.jsx';
+import {AccountPlate} from '../Component/AccountPlate.jsx';
+import DateConverter from '../Component/DateConverter.jsx';
 
 const styleMiddle = {
   boxContent: {

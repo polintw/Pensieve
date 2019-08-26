@@ -1,7 +1,7 @@
 import React from 'react';
 import {Editor, EditorState,convertToRaw, convertFromRaw} from 'draft-js';
-import DraftEditor from '../../Draft/DraftEditor.jsx';
-import DraftDisplay from '../../Draft/DraftDisplay.jsx';
+import DraftEditor from '../../Component/Draft/DraftEditor.jsx';
+import DraftDisplay from '../../Component/Draft/DraftDisplay.jsx';
 
 export default class MarkDialogue extends React.Component {
   constructor(props){

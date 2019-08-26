@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
-import DraftDisplay from '../Draft/DraftDisplay.jsx';
+import DraftDisplay from '../Component/Draft/DraftDisplay.jsx';
 
 class MarksArticle extends React.Component {
   constructor(props){

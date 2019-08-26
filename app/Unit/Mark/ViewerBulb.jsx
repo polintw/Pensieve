@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from "react-redux";
-import {SvgBulbPlainHalf} from '../../Svg/SvgBulb.jsx';
+import {SvgBulbPlainHalf} from '../../Component/Svg/SvgBulb.jsx';
 import {
   setUnitInspired
-} from "../../../redux/actions/general.js";
-import {switchUnitAxiosInspire} from "../../../redux/actions/handleUnit.js";
+} from "../../redux/actions/general.js";
+import {switchUnitAxiosInspire} from "../../redux/actions/handleUnit.js";
 
 const styleMiddle = {
 

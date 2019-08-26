@@ -2,13 +2,13 @@ import React from 'react';
 import { connect } from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import SvgCircle from '../Svg/SvgCircle.jsx';
+import SvgNextCir from '../Svg/SvgNextCir.jsx';
 import {
   baseHorizonRatial,
   baseVertivalRatial,
   widthDivisionRatial
-} from '../config/styleParams.js';
-import SvgCircle from '../Svg/SvgCircle.jsx';
-import SvgNextCir from '../Svg/SvgNextCir.jsx';
+} from '../../config/styleParams.js';
 
 const styleMiddle = {
   absolute_FullVersion: {

@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from "react-redux";
-import {SvgBulbPlainHalf} from '../../Svg/SvgBulb.jsx';
-import {updateUsersBasic} from "../../../redux/actions/general.js";
+import {SvgBulbPlainHalf} from '../../Component/Svg/SvgBulb.jsx';
+import {updateUsersBasic} from "../../redux/actions/general.js";
 import {
   cancelErr,
   uncertainErr
-} from "../../../utils/errHandlers.js";
+} from "../../utils/errHandlers.js";
 
 const styleMiddle = {
   boxInspired: {
