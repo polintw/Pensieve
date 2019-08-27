@@ -159,6 +159,7 @@ class NailShared extends React.Component {
         <Link
           to={{
             pathname: this.props.match.url+"/units/"+this.props.sharedId,
+            search: '?theater',
             state: {from: this.props.location}
           }}
           className={"plainLinkButton"}>

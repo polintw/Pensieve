@@ -162,6 +162,7 @@ class NailScape extends React.Component {
         <Link
           to={{
             pathname: "/units/"+this.props.unitId,
+            search: '?theater',
             state: {from: this.props.location}
           }}>
           <div

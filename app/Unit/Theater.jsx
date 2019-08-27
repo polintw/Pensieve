@@ -218,7 +218,8 @@ class Theater extends React.Component {
   render(){
     if(this.state.close){return <Redirect to={{
         pathname: this.props.location.pathname,
-        search: ''
+        search: '',
+        state: {from: this.props.location.state.from}
       }}/>}
 
     return(

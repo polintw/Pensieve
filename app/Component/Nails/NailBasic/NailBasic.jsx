@@ -141,6 +141,7 @@ class NailBasic extends React.Component {
         <Link
           to={{
             pathname: this.props.match.url+"/units/"+this.props.unitId,
+            search: '?theater',
             state: {from: this.props.location}
           }}
           className={'plainLinkButton'}>
