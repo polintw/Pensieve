@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
-import styles from "./stylesMainIndex.module.css";
+import styles from "./styles.module.css";
 import {
   nailChart,
   separationLine,
@@ -15,9 +15,6 @@ import {
   axios_visit_GET_last,
   axios_visit_Index
 } from './utils.js';
-import MainTitle from '../MainTitle/MainTitle.jsx';
-import MainBanner from '../MainBanner/MainBanner.jsx';
-import Unit from '../../../Unit/Unit.jsx';
 import {
   handleNounsList,
   handleUsersList

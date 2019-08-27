@@ -35,6 +35,22 @@ class Theater extends React.Component {
     this._reset_UnitMount = ()=>{this._axios_get_UnitMount();};
 
     this.style={
+      Com_UnitModal_straightBack_: {
+        display:'flex',
+        justifyContent:'space-around',
+        width: '2rem',
+        height: '5%',
+        position: 'absolute',
+        top: '2%',
+        right: '1.4%',
+        fontSize:'1.23rem',
+        fontWeight: '500',
+        color: '#F0F0F0',
+        cursor:'pointer'
+      },
+      Com_UnitModal_straightBack_span: {
+        boxSizing: 'border-box',
+      }
 
     };
   }
@@ -162,6 +178,7 @@ class Theater extends React.Component {
   _close_modal_Unit(){
     if(this.props.unitSubmitting){this.setState({warningModal: "data is submitting, please hold on...", warningType: 'submitting'});return;};
     if(this.state.mode=='author_editing'){this.setState({warningModal: "modifications has not yet submitted, are you still going to close the it?", warningType: 'close'});return;};
+    //only close if passed all above
     this.setState({close: true})
   }
 
@@ -225,6 +242,18 @@ class Theater extends React.Component {
     return(
       <div>
         {this._render_UnitMode()}
+        //est clicl event handler,
+        //pass the decision to the parent
+        //and! also check the submitting & editing like modal close before pass
+        //check warningModal reaction to fit the new structure
+        <div
+          style={this.style.Com_UnitModal_straightBack_}>
+          <span
+            style={this.style.Com_UnitModal_straightBack_span}
+            onClick={this._handleClick_unitBack}>
+            {" X "}
+          </span>
+        </div>
         {
           this.state.warningModal &&
           <WarningModal

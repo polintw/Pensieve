@@ -22,7 +22,7 @@ class UnitModal extends React.Component {
     this._set_layerstatus = this._set_layerstatus.bind(this);
     this._refer_toandclose = this._refer_toandclose.bind(this);
     this._render_ScrollLayers = this._render_ScrollLayers.bind(this);
-    this._handleClick_unitBack = this._handleClick_unitBack.bind(this);
+    this._handleClick_modalBack = this._handleClick_modalBack.bind(this);
     this.style={
       Com_Modal_UnitModal: {
         width: '100%',
@@ -67,22 +67,6 @@ class UnitModal extends React.Component {
         right: '0',
         overflow:'visible'
       },
-      Com_UnitModal_straightBack_: {
-        display:'flex',
-        justifyContent:'space-around',
-        width: '2rem',
-        height: '5%',
-        position: 'absolute',
-        top: '2%',
-        right: '1.4%',
-        fontSize:'1.23rem',
-        fontWeight: '500',
-        color: '#F0F0F0',
-        cursor:'pointer'
-      },
-      Com_UnitModal_straightBack_span: {
-        boxSizing: 'border-box',
-      }
     }
   }
 
@@ -91,7 +75,7 @@ class UnitModal extends React.Component {
     this.props._close_modal_Unit();
   }
 
-  _handleClick_unitBack(event){
+  _handleClick_modalBack(event){
     event.preventDefault();
     event.stopPropagation();
     this.props._close_modal_Unit();
@@ -108,42 +92,48 @@ class UnitModal extends React.Component {
   }
 
   _render_ScrollLayers(){
-    return (this.state.moveCount< 200) ? (
-      <div
-        style={this.style.Com_UnitModal_blocks_ImgLayer_}>
-        <UnitImgLayers
-          lockify={this.state.lockify}
-          moveCount={this.state.moveCount}
-          marksStatus={this.state.marksStatus}
-          _set_markOpened={this._set_markOpened}
-          _set_layerstatus={this._set_layerstatus}
-          _set_Modalmode={this.props._set_Modalmode}
-          _refer_toandclose={this._refer_toandclose}/>
-      </div>
-    ): (
-      <div
-        style={this.style.Com_UnitModal_blocks_SumLayer_}>
-        {
-          this.props.unitCurrent.identity=="author" ? (
-             //temp method, before a true AuthorSummary was created
-            <UnitAuthorSummary
-              moveCount={this.state.moveCount}
-              _set_layerstatus={this._set_layerstatus}
-              _set_Modalmode={this.props._set_Modalmode}
-              _close_modal_Unit={this.props._close_modal_Unit}
-              _refer_toandclose={this._refer_toandclose}/>
-          ):(
-            <UnitViewSummary
-              moveCount={this.state.moveCount}
-              _set_layerstatus={this._set_layerstatus}
-              _set_Modalmode={this.props._set_Modalmode}
-              _close_modal_Unit={this.props._close_modal_Unit}
-              _refer_toandclose={this._refer_toandclose}/>
-          )
-        }
-      </div>
-    )
+    if(this.state.moveCount< 200) {
+      return (
+        <div
+          style={this.style.Com_UnitModal_blocks_ImgLayer_}>
+          <UnitImgLayers
+            lockify={this.state.lockify}
+            moveCount={this.state.moveCount}
+            marksStatus={this.state.marksStatus}
+            _set_markOpened={this._set_markOpened}
+            _set_layerstatus={this._set_layerstatus}
+            _set_Modalmode={this.props._set_Modalmode}
+            _refer_toandclose={this._refer_toandclose}/>
+        </div>
+      )
+    }else{
+      return (
+        <div
+          style={this.style.Com_UnitModal_blocks_SumLayer_}>
+          {
+            this.props.unitCurrent.identity=="author" ? (
+               //temp method, before a true AuthorSummary was created
+              <UnitAuthorSummary
+                moveCount={this.state.moveCount}
+                _set_layerstatus={this._set_layerstatus}
+                _set_Modalmode={this.props._set_Modalmode}
+                _refer_toandclose={this._refer_toandclose}/>
+            ):(
+              <UnitViewSummary
+                moveCount={this.state.moveCount}
+                _set_layerstatus={this._set_layerstatus}
+                _set_Modalmode={this.props._set_Modalmode}
+                _refer_toandclose={this._refer_toandclose}/>
+            )
+          }
+        </div>
+      )
+    }
+  }
 
+  componentDidUpdate(prevProps, prevState, snapshot){
+    //check if the Modal should be cloed by Count
+    if(this.state.moveCount> 250) this.props._close_modal_Unit();
   }
 
 
@@ -152,7 +142,7 @@ class UnitModal extends React.Component {
     return(
       <div
         style={this.style.Com_Modal_UnitModal}
-        onClick={this._handleClick_unitBack}>
+        onClick={this._handleClick_modalBack}>
         <div
           style={this.style.Com_UnitModal_blocks_Scroll}
           onClick={(event)=>{event.stopPropagation();}}>
@@ -179,14 +169,6 @@ class UnitModal extends React.Component {
               </div>
             )
           }
-        </div>
-        <div
-          style={this.style.Com_UnitModal_straightBack_}>
-          <span
-            style={this.style.Com_UnitModal_straightBack_span}
-            onClick={this._handleClick_unitBack}>
-            {" X "}
-          </span>
         </div>
       </div>
     )

@@ -27,6 +27,8 @@ class Unit extends React.Component {
   }
 
   _close_modal_Unit(){
+    //close the whole Unit Modal
+    //different from the one in Theater, which used only for closing Theater
     this.setState((prevState, props)=>{
       return {
         close: true
@@ -64,11 +66,26 @@ class Unit extends React.Component {
       <ModalBox containerId="root">
         <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: (!!paramsTheater)? 'rgba(11,11,11,0.98)': 'rgba(240, 238,233, 0.98)'}}>
           {
-            paramsTheater &&
-            <Theater
-              {...this.props}/>
-          }
+            (paramsTheater) ? (
+              <Theater
+                {...this.props}/>
+            ): (
 
+              <Related
+                {...this.props}/>
+              //there is no 'close' in <Related>, so add it at this level
+              //and make the decision at this level as well, share the same handler with the Theater
+              <div
+                style={this.style.Com_UnitModal_straightBack_}>
+                <span
+                  style={this.style.Com_UnitModal_straightBack_span}
+                  onClick={this._handleClick_unitBack}>
+                  {" X "}
+                </span>
+              </div>
+
+            )
+          }
         </ModalBackground>
       </ModalBox>
     )
