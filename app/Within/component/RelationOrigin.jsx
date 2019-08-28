@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
-import Unit from '../../Unit/Unit.jsx';
+import Unit from '../../Unit/Unit/Unit.jsx';
 import SvgPropic from '../../Component/Svg/SvgPropic.jsx';
 
 class RelationOrigin extends React.Component {

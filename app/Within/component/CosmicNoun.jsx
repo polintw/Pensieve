@@ -7,7 +7,7 @@ import {
 import {connect} from "react-redux";
 import NodeLinks from './NodeLinks.jsx';
 import NodeContributor from './NodeContributor.jsx';
-import Unit from '../../Unit/Unit.jsx';
+import Unit from '../../Unit/Unit/Unit.jsx';
 import {
   handleNounsList,
   handleUsersList

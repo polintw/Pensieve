@@ -170,33 +170,10 @@ class Related extends React.Component {
             className={styles.boxScroll}>
             {this._render_IndexNails()}
           </div>
-          <div
-            className={'boxRelativeFull'}
-            style={Object.assign({}, styleMiddle.boxSubtitle, styleMiddle.fontSubtitle)}>
-            <span>{"or, touch"}</span><br/>
-            <Link
-              to="/cosmic/explore/nodes?boundary=unlimit"
-              className={'plainLinkButton'}>
-
-              <span
-                style={Object.assign({}, styleMiddle.fontSubtitle, styleMiddle.spanMore)}>
-                {" close "}
-              </span>
-            </Link><br/>
-          </div>
 
           <div
             className={'boxRelativeFull'}
             style={{height: '156px'}}></div>
-        </div>
-
-        <div
-          style={this.style.Com_UnitModal_straightBack_}>
-          <span
-            style={this.style.Com_UnitModal_straightBack_span}
-            onClick={this._handleClick_unitBack}>
-            {" X "}
-          </span>
         </div>
 
       </div>

@@ -17,7 +17,7 @@ import {
 } from './utils.js';
 import MainTitle from '../MainTitle/MainTitle.jsx';
 import MainBanner from '../MainBanner/MainBanner.jsx';
-import Unit from '../../../Unit/Unit.jsx';
+import Unit from '../../../Unit/Unit/Unit.jsx';
 import {
   handleNounsList,
   handleUsersList

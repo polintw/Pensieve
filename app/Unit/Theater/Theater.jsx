@@ -5,11 +5,13 @@ import {
   Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import UnitModal from './UnitModal.jsx';
-import UnitEditing from './UnitEditing.jsx';
-import CreateResponse from '../Component/CreateResponse.jsx';
-import WarningModal from '../Component/WarningModal.jsx';
-import {setUnitCurrent} from "../redux/actions/general.js";
+import classnames from 'classnames';
+import styles from './styles.module.css';
+import UnitModal from '../UnitModal.jsx';
+import UnitEditing from '../UnitEditing.jsx';
+import CreateResponse from '../../Component/CreateResponse.jsx';
+import WarningModal from '../../Component/WarningModal.jsx';
+import {setUnitCurrent} from "../../redux/actions/general.js";
 
 class Theater extends React.Component {
   constructor(props){
@@ -25,42 +27,32 @@ class Theater extends React.Component {
     this.axiosSource = axios.CancelToken.source();
     this.unitInit = this.props._construct_UnitInit(this.props.match, this.props.location);
     this._render_UnitMode = this._render_UnitMode.bind(this);
-    this._close_modal_Unit = this._close_modal_Unit.bind(this);
+    this._close_theater = this._close_theater.bind(this);
     this._axios_getUnitImg = this._axios_getUnitImg.bind(this);
     this._axios_getUnitData = this._axios_getUnitData.bind(this);
     this._axios_get_UnitMount = this._axios_get_UnitMount.bind(this);
+    this._handleClick_heigherBack = this._handleClick_heigherBack.bind(this);
     this._set_WarningModal_positive = this._set_WarningModal_positive.bind(this);
     this._set_WarningModal_negative = this._set_WarningModal_negative.bind(this);
     this._set_Modalmode = (mode)=>{this.setState((prevState, props)=>{return {mode: mode}})};
     this._reset_UnitMount = ()=>{this._axios_get_UnitMount();};
 
     this.style={
-      Com_UnitModal_straightBack_: {
-        display:'flex',
-        justifyContent:'space-around',
-        width: '2rem',
-        height: '5%',
-        position: 'absolute',
-        top: '2%',
-        right: '1.4%',
-        fontSize:'1.23rem',
-        fontWeight: '500',
-        color: '#F0F0F0',
-        cursor:'pointer'
-      },
-      Com_UnitModal_straightBack_span: {
-        boxSizing: 'border-box',
-      }
 
     };
   }
 
   _set_WarningModal_positive(){
     switch (this.state.warningType) {
-      case 'submitting':
+      case 'submitting': //just close the warning modal and stay at same place
         this.setState({warningModal: false, warningType: null})
         break;
-      case 'close': //confirm close the modal
+      case 'heigherTop': //confirm closing the modal
+        this.setState((prevState, props)=>{return {warningModal: false, warningType: null};}, ()=>{
+          this.props._close_theaterHeigher();
+        })
+        break;
+      case 'close': //confirm closing the modal
         this.setState({close: true, warningModal: false, warningType: null})
         break;
       default:
@@ -70,11 +62,14 @@ class Theater extends React.Component {
 
   _set_WarningModal_negative(){
     switch (this.state.warningType) {
+      case 'heigherTop':
+        this.setState({warningModal: false, warningType: null})
+        break;
       case 'close':
-        this.setState({warningModal: false, warningType: null, warningTemp: {}})
+        this.setState({warningModal: false, warningType: null})
         break;
       default:
-        this.setState({warningModal: false, warningType: null, warningTemp: {}})
+        this.setState({warningModal: false, warningType: null})
     }
   }
 
@@ -175,7 +170,17 @@ class Theater extends React.Component {
     });
   }
 
-  _close_modal_Unit(){
+  _handleClick_heigherBack(){
+    event.preventDefault();
+    event.stopPropagation();
+    if(this.props.unitSubmitting){this.setState({warningModal: "data is submitting, please hold on...", warningType: 'submitting'});return;};
+    if(this.state.mode=='author_editing'){this.setState({warningModal: "modifications has not yet submitted, are you still going to close the it?", warningType: 'heigherTop'});return;};
+    //only close if passed all above
+    this.props._close_theaterHeigher();
+  }
+
+  _close_theater(){
+    //handler deal with every intention to close(unmount) Theater
     if(this.props.unitSubmitting){this.setState({warningModal: "data is submitting, please hold on...", warningType: 'submitting'});return;};
     if(this.state.mode=='author_editing'){this.setState({warningModal: "modifications has not yet submitted, are you still going to close the it?", warningType: 'close'});return;};
     //only close if passed all above
@@ -217,7 +222,7 @@ class Theater extends React.Component {
             mode={this.state.mode}
             initStatus={this.unitInit}
             _set_Modalmode={this._set_Modalmode}
-            _close_modal_Unit={this._close_modal_Unit}
+            _close_theater={this._close_theater}
             _refer_von_unit={this.props._refer_von_unit}/>)
         break;
       default:
@@ -227,7 +232,7 @@ class Theater extends React.Component {
             mode={this.state.mode}
             initStatus={this.unitInit}
             _set_Modalmode={this._set_Modalmode}
-            _close_modal_Unit={this._close_modal_Unit}
+            _close_theater={this._close_theater}
             _refer_von_unit={this.props._refer_von_unit}/>)
     }
   }
@@ -242,18 +247,15 @@ class Theater extends React.Component {
     return(
       <div>
         {this._render_UnitMode()}
-        //est clicl event handler,
-        //pass the decision to the parent
-        //and! also check the submitting & editing like modal close before pass
-        //check warningModal reaction to fit the new structure
         <div
-          style={this.style.Com_UnitModal_straightBack_}>
+          className={classnames(styles.boxBackTop)}>
           <span
-            style={this.style.Com_UnitModal_straightBack_span}
-            onClick={this._handleClick_unitBack}>
+            className={classnames(styles.spanBackTop)}
+            onClick={this._handleClick_heigherBack}>
             {" X "}
           </span>
         </div>
+
         {
           this.state.warningModal &&
           <WarningModal

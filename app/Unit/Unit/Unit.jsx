@@ -5,11 +5,27 @@ import {
   Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import Theater from './Theater.jsx';
-import ModalBox from '../Component/ModalBox.jsx';
-import ModalBackground from '../Component/ModalBackground.jsx';
-import {setUnitCurrent} from "../redux/actions/general.js";
-import {unitCurrentInit} from "../redux/constants/globalStates.js";
+import classnames from 'classnames';
+import styles from './styles.module.css';
+import Theater from '../Theater/Theater.jsx';
+import Related from '../Related.jsx';
+import ModalBox from '../../Component/ModalBox.jsx';
+import ModalBackground from '../../Component/ModalBackground.jsx';
+import {setUnitCurrent} from "../../redux/actions/general.js";
+import {unitCurrentInit} from "../../redux/constants/globalStates.js";
+
+const styleMiddle = {
+  spanRelatedClose: {
+    display: 'inline-block',
+    margin: '0 0.54rem',
+    fontSize: '1.32rem',
+    fontWeight: '700',
+    fontStyle: 'normal',
+    lineHeight: '3rem',
+    color: '#4085a0',
+    cursor: 'pointer'
+  }
+}
 
 class Unit extends React.Component {
   constructor(props){
@@ -68,22 +84,32 @@ class Unit extends React.Component {
           {
             (paramsTheater) ? (
               <Theater
-                {...this.props}/>
+                {...this.props}
+                _close_theaterHeigher={this._close_modal_Unit}/>
             ): (
+              <div>
+                <div>
 
-              <Related
-                {...this.props}/>
-              //there is no 'close' in <Related>, so add it at this level
-              //and make the decision at this level as well, share the same handler with the Theater
-              <div
-                style={this.style.Com_UnitModal_straightBack_}>
-                <span
-                  style={this.style.Com_UnitModal_straightBack_span}
-                  onClick={this._handleClick_unitBack}>
-                  {" X "}
-                </span>
+                  <Related
+                    {...this.props}/>
+                  <div
+                    className={classnames(styles.boxSubtitle)}>
+                    <span
+                      style={Object.assign({}, styleMiddle.spanRelatedClose)}
+                      onClick={(e)=>{e.stopPropagation();e.preventDefault();this._close_modal_Unit()}}>
+                      {" close "}
+                    </span>
+                  </div>
+                </div>
+                <div
+                  className={classnames(styles.boxBack)}>
+                  <span
+                    className={classnames(styles.spanBack)}
+                    onClick={(e)=>{e.stopPropagation();e.preventDefault();this._close_modal_Unit()}}>
+                    {" X "}
+                  </span>
+                </div>
               </div>
-
             )
           }
         </ModalBackground>

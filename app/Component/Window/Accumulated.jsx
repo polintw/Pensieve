@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import querystring from 'query-string';
-import Unit from '../../Unit/Unit.jsx';
+import Unit from '../../Unit/Unit/Unit.jsx';
 import MixBlock from '../../Component/Blocks/MixBlock.jsx';
 import {
   handleNounsList,

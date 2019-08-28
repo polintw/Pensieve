@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 import DraftDisplay from '../../../Component/Draft/DraftDisplay.jsx';
 import SvgPropic from '../../../Component/Svg/SvgPropic.jsx';
-import Unit from '../../../Unit/Unit.jsx';
+import Unit from '../../../Unit/Unit/Unit.jsx';
 
 export default class Dialogues extends React.Component {
   constructor(props){

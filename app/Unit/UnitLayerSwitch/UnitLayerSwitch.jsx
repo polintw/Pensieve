@@ -59,7 +59,7 @@ class UnitLayerSwitch extends React.Component {
 
     let nowCount, lockify;
     if(this.props.moveCount > 199){ //200 or heigher
-      nowCount = 242; //bigger than 240
+      nowCount = 252; //bigger than 250
       lockify=false;
     }else{
       if(!this.props.unitCurrent.beneathSrc || this.props.moveCount > 99){ //to 200 situations

@@ -72,13 +72,13 @@ class UnitModal extends React.Component {
 
   _refer_toandclose(source, identity){
     this.props._refer_von_unit(identity, source);
-    this.props._close_modal_Unit();
+    this.props._close_theater();
   }
 
   _handleClick_modalBack(event){
     event.preventDefault();
     event.stopPropagation();
-    this.props._close_modal_Unit();
+    this.props._close_theater();
   }
 
   _set_layerstatus(lockify, moveCount, marksStatus){
@@ -133,7 +133,7 @@ class UnitModal extends React.Component {
 
   componentDidUpdate(prevProps, prevState, snapshot){
     //check if the Modal should be cloed by Count
-    if(this.state.moveCount> 250) this.props._close_modal_Unit();
+    if(this.state.moveCount> 250) this.props._close_theater();
   }
 
 
