@@ -188,7 +188,9 @@ class Theater extends React.Component {
   }
 
   componentDidMount(){
-    this._axios_get_UnitMount();
+    //because we fetch the data of Unit only from this file,
+    //now we need to check if it was necessary to fetch or not in case the props.unitCurrent has already saved the right data we want
+    if(!this.unitId==this.props.unitCurrent.unitId) this._axios_get_UnitMount();
   }
 
   componentWillUnmount(){

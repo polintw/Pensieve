@@ -31,15 +31,36 @@ class Unit extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      close: false
+      close: false,
+      onSpanBack: false
     };
     this._close_modal_Unit = this._close_modal_Unit.bind(this);
+    this._handleEnter_spanBack = this._handleEnter_spanBack.bind(this);
+    this._handleLeave_spanBack = this._handleLeave_spanBack.bind(this);
     this.style={
 
     };
     //And! we have to 'hide' the scroll bar and preventing the scroll behavior to the page one for all
     //so dismiss the scroll ability for <body> here
     document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:hidden;");
+  }
+
+  _handleEnter_spanBack(e){
+    //don't need to stop proppagation,
+    //because both the 'onMouseEnter' & 'onMouseLeave'
+    //would not 'bubble'
+    this.setState({
+      onSpanBack: true
+    })
+  }
+
+  _handleLeave_spanBack(e){
+    //don't need to stop proppagation,
+    //because both the 'onMouseEnter' & 'onMouseLeave'
+    //would not 'bubble'
+    this.setState({
+      onSpanBack: false
+    })
   }
 
   _close_modal_Unit(){
@@ -105,7 +126,10 @@ class Unit extends React.Component {
                   className={classnames(styles.boxBack)}>
                   <span
                     className={classnames(styles.spanBack)}
-                    onClick={(e)=>{e.stopPropagation();e.preventDefault();this._close_modal_Unit()}}>
+                    style={this.state.onSpanBack?{color: '#333333'}:{}}
+                    onClick={(e)=>{e.stopPropagation();e.preventDefault();this._close_modal_Unit()}}
+                    onMouseEnter={this._handleEnter_spanBack}
+                    onMouseLeave={this._handleLeave_spanBack}>
                     {" X "}
                   </span>
                 </div>

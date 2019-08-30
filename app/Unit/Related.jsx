@@ -9,13 +9,6 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import {
-  nailChart,
-  separationLine,
-  axios_cosmic_IndexList,
-  axios_visit_GET_last,
-  axios_visit_Index
-} from './utils.js';
-import {
   handleNounsList,
   handleUsersList
 } from "../../../redux/actions/general.js";
@@ -55,6 +48,7 @@ class Related extends React.Component {
     this.axiosSource = axios.CancelToken.source();
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._render_IndexNails = this._render_IndexNails.bind(this);
+    this._axios_nouns_singular = this._axios_nouns_singular.bind(this);
     this.style={
       withinCom_MainIndex_scroll_: {
         width: '100%',
@@ -71,83 +65,88 @@ class Related extends React.Component {
     return unitInit;
   }
 
-  componentDidMount(){
-    const self = this;
 
+  _axios_nouns_singular(){
+    const self = this;
     this.setState({axios: true});
 
-    axios_visit_GET_last(self.axiosSource.token) //in the future, method to get basic (user)sheet data would join here
-      .then((lastVisitObj)=>{
-        self.setState({axios: false});
+    //now get the Units of this noun from the attribution in database
+    axios({
+      method: 'get',
+      url: '/router/nouns/'+this.nounId,
+      headers: {
+        'charset': 'utf-8',
+        'token': window.localStorage['token']
+      },
+      cancelToken: self.axiosSource.cancelToken
+    }).then(function (res) {
 
-        //use promise to let the axios.all could be pass to .then even inside a callback
-        return new Promise((resolve, reject)=>{
-          self.setState((state, props)=>{
-            return {
-              lastVisit: lastVisitObj.main.lastTime,
-              axios: true
-            }
-          }, ()=>{
-            resolve(axios.all([
-              axios_cosmic_IndexList(self.axiosSource.token),
-              axios_visit_Index(self.axiosSource.token)
-            ]));
-          })
-
+      let resObj = JSON.parse(res.data);
+      self.props._submit_NounsList_new(resObj.main.nounsListMix);
+      self.props._submit_UsersList_new(resObj.main.usersList);
+      self.setState((prevState, props)=>{
+        //we don't push anything and keep it as previous,
+        //bexuase we need to let the render check if there is any id for this noun or not.
+        if(resObj.main.unitsList.length>0) prevState.unitsBlock.push(resObj.main.unitsList);
+        return({
+          axios: false,
+          unitsBlock: prevState.unitsBlock, //maybe this is not a good way, modifying the prevState directy
+          unitsBasic: Object.assign({}, prevState.unitsBasic, resObj.main.unitsBasic),
+          marksBasic: Object.assign({}, prevState.marksBasic, resObj.main.marksBasic)
         });
-      })
-      .then(axios.spread (function(focusObj) {
-        self.setState({axios: false});
-
-        self.props._submit_NounsList_new(focusObj.main.nounsListMix);
-        self.props._submit_UsersList_new(focusObj.main.usersList);
-
-        self.setState((prevState, props)=>{
-          return({
-            axios: false,
-            unitsList: focusObj.main.unitsList,
-            unitsBasic: focusObj.main.unitsBasic,
-            marksBasic: focusObj.main.marksBasic
-          });
-        });
-
-      })).catch(function (thrown) {
-        self.setState({axios: false});
-        if (axios.isCancel(thrown)) {
-          cancelErr(thrown);
-        } else {
-          let message = uncertainErr(thrown);
-          if(message) alert(message);
-        }
       });
+    }).catch(function (thrown) {
+      self.setState({axios: false});
+      if (axios.isCancel(thrown)) {
+        cancelErr(thrown);
+      } else {
+        let message = uncertainErr(thrown);
+        if(message) alert(message);
+      }
+    });
+  }
 
+  _render_nouns_Block(){
+    if(!this.state.unitsBlock[0]) return(
+      <div
+        style={Object.assign({}, styleMiddle.fontPlaceholder, {boxSizing: 'border-box',margin: '13% 0'})}>
+        {"revealing the unknown to the curious people! "}
+      </div>
+    );
+
+    let list = this.state.unitsBlock.map((unitBlock, index)=>{
+      return (
+        <SimpleBlock
+          key={"key_Cosmicnoun_blocks_"+index}
+          unitsList={unitBlock}
+          unitsBasic={this.state.unitsBasic}
+          marksBasic={this.state.marksBasic}/>
+      )
+    });
+
+    return list;
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot){
+    //becuase there is chance we jump from noun to noun, using the same component this one
+    //so we check if the nounId has changed
+    this.nounId = this.props.match.params.nounId;
+    if(this.nounId !== prevProps.match.params.nounId){
+      //load Units tagged to this noun
+      this._axios_nouns_singular();
+    };
+  }
+
+  componentDidMount(){
+    //load Units tagged to this noun
+    this.nounId = this.props.match.params.nounId;
+    this._axios_nouns_singular();
   }
 
   componentWillUnmount(){
     if(this.state.axios){
       this.axiosSource.cancel("component will unmount.")
     }
-  }
-
-  _render_IndexNails(){
-    this.patternRule = [[0,1],[0,1],2,2,1,1,1];
-    let cycleLength = this.patternRule.length;
-
-    let nailsIndex = []; //don't use .map() because we probably need to push twice in one round
-    this.state.unitsList.forEach((unitId, index)=>{
-      let remainder = index % cycleLength;
-      let nailChoice = this.patternRule[remainder];
-      if(remainder < 2) nailChoice = Number.isInteger((index+1)/2) ? nailChoice[1] : nailChoice[0];
-      //plus 1 t index in isInteger() is for the '0'---would get false for 0/2
-
-      let nail = nailChart(nailChoice, unitId, this);
-      nailsIndex.push(nail);
-      //diff remainder again for rendering 'separation line'
-      let optionalLine = separationLine(remainder, index);
-      if(optionalLine) nailsIndex.push(optionalLine);
-    })
-
-    return nailsIndex;
   }
 
   render(){
@@ -157,12 +156,10 @@ class Related extends React.Component {
           style={this.style.withinCom_MainIndex_scroll_}>
           <div
             className={classnames(styles.boxTop)}>
-
-            <div
-              className={classnames(styles.boxBanner)}>
-              <MainBanner
-                lastVisit={this.state.lastVisit}
-                _refer_von_cosmic={this.props._refer_von_cosmic}/>
+            <div>
+              <RelatedOrigin
+                {...this.props}
+                unitId={this.props.match.params.id}/>
             </div>
           </div>
 
