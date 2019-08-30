@@ -1,0 +1,15 @@
+.comRelated {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+
+}
+
+.boxTop {
+  width: 99%;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0 0 4rem;
+}

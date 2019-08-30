@@ -61,6 +61,54 @@
 ._C_C_app_Unit_Theater_styles_module__spanBackTop {
   box-sizing: border-box;
 }
+._C_C_app_Unit_Related_styles_module__comRelated {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+
+}
+
+._C_C_app_Unit_Related_styles_module__boxTop {
+  width: 99%;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0 0 4rem;
+}
+._C_C_app_Unit_RelatedOrigin_styles_module__boxNodes {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 17.5%;
+  height: 44%;
+  min-height: 242px;
+  position: absolute;
+  bottom: 4%;
+  left: 0%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+._C_C_app_Unit_RelatedOrigin_styles_module__boxAuthor {
+  color: rgb(250, 250, 250);
+  cursor:pointer;
+}
+
+._C_C_app_Unit_RelatedOrigin_styles_module__boxMark {
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  margin-bottom: 2.8rem;
+}
+
+._C_C_app_Unit_RelatedOrigin_styles_module__boxListRela {
+  width: 100%;
+  box-sizing: border-box;
+  text-align: right;
+  padding-right: 13%;
+  border-right: 0.75px solid #FAFAFA;
+}
 ._C_C_app_Unit_UnitLayerSwitch_styles_module__boxUnitLayerSwitch {
   width: 100%;
   height: 100%;
@@ -124,6 +172,13 @@
 ._C_C_app_Unit_UnitLayerSwitch_styles_module__boxSwitDn {
   width: 100%;
 }
+._C_C_app_Unit_NodesDisplay_styles_module__boxListItem {
+  display: inline-block;
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  cursor: pointer;
+}
 ._C_C_app_Component_Editing_EditingModal_styleEditingModal_module__imgBLockDecoBack {
   width: 18%;
   height: 100%;
@@ -164,12 +219,31 @@
   line-height: 1.7rem;
   color: #ABABAB;
 }
-._C_C_app_Unit_NodesDisplay_styles_module__boxListItem {
-  display: inline-block;
-  width: 100%;
-  position: relative;
-  box-sizing: border-box;
-  cursor: pointer;
+._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__Nails_Basic {
+  background-color: #FFFFFF;
+}
+
+._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__fontContent {
+  font-size: 1.34rem;
+  font-weight: 400;
+  letter-spacing: 0.16rem;
+  line-height: 1.8rem;
+  color: #FAFAFA;
+}
+
+._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__fontNouns {
+  font-size: 1.54rem;
+  font-weight: 300;
+  letter-spacing: 0.03rem;
+  font-family: 'cwTeXMing';
+  color: black;
+}
+
+._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__fontAccount {
+  font-size: 1.2rem;
+  font-weight: 400;
+  letter-spacing: 0.1rem;
+  color: #757575;
 }
 ._C_C_app_Component_OpenedMark_styles_module__boxMarkBlock {
   width: 29%;

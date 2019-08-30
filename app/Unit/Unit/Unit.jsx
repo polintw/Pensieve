@@ -8,7 +8,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
 import Theater from '../Theater/Theater.jsx';
-import Related from '../Related.jsx';
+import Related from '../Related/Related.jsx';
 import ModalBox from '../../Component/ModalBox.jsx';
 import ModalBackground from '../../Component/ModalBackground.jsx';
 import {setUnitCurrent} from "../../redux/actions/general.js";
