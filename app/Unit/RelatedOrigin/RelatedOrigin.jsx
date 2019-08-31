@@ -123,7 +123,7 @@ class RelatedOrigin extends React.Component {
               <div
                 className={styles.boxNodes}>
                 <div
-                  className={classnames('nodesListRela', style.boxListRela)}>
+                  className={classnames('nodesListRela', styles.boxListRela)}>
                   <NodesExtensible
                     nouns={this.props.unitCurrent.nouns}
                     styleItem= {{margin: '0 0 2.32rem'}}
