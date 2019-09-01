@@ -16,12 +16,12 @@
 }
 
 .nodesListRela{
-  font-size: 2.68rem;
-  letter-spacing: 0.13rem;
+  font-size: 2.4rem;
+  letter-spacing: 0.1rem;
   font-weight: 400;
   font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;
-  line-height: 2.5rem;
-  color: #FAFAFA;
+  line-height: 1.2rem;
+  color: #111111;
 }
 
 .fontContentSum {

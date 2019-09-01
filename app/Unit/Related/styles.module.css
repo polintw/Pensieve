@@ -1,15 +1,22 @@
 .comRelated {
   width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
   box-sizing: border-box;
-
 }
 
 .boxTop {
-  width: 99%;
-  position: relative;
+  width: 100%;
+  height: 48vh;
+  min-height: 231px;
   box-sizing: border-box;
-  margin: 0 0 4rem;
+  margin-top: 2vh;
+}
+
+.boxList {
+  width: 100%;
+  margin-top: 10vh;
+}
+
+.footer {
+  width: 100%;
+  height: 146px;
 }

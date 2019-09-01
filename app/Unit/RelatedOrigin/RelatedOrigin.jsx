@@ -15,21 +15,22 @@ import DisplayMarkPreview from '../../Component/Draft/DisplayMarkPreview.jsx';
 const styleMiddle = {
   Com_Nails_Basic_content_: {
     maxWidth: '80%',
-    maxHeight: '72%',
+    maxHeight: '30%',
     position: 'absolute',
-    bottom: '16%',
+    bottom: '10%',
     right: '0',
     boxSizing: 'border-box',
-    padding: '0 3%'
+    padding: '0 3%',
+    overflow: 'hidden'
   },
-  Com_Nails_Basic_pic_mask: {
+  pic_mask: {
     width: '100%',
     height: '100%',
     position: 'absolute',
     top: '0',
     left: '0',
     backgroudColor: 'rgba(0,0,0,0.5)',
-    backgroundImage: 'linear-gradient(129deg, transparent, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.3),rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0.54), rgba(0, 0, 0, 0.64))'
+    backgroundImage: 'linear-gradient(172deg, transparent, rgba(0, 0, 0, 0.07), rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.17), rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.54), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.66), rgba(0, 0, 0, 0.74))'
     //must beneath the 'backgroudColor', let browser choose if it do support gradient
   },
 }
@@ -89,7 +90,7 @@ class RelatedOrigin extends React.Component {
     //one is, there is case the unitCurrent would be empty, so render by coverSrc like UnitModal
     return(
       <div
-        className={classnames('boxRelativeFull')}>
+        className={classnames(styles.comRelatedOrig)}>
         {
           (this.props.unitCurrent.coverSrc) ? (
             <div>
@@ -101,40 +102,42 @@ class RelatedOrigin extends React.Component {
                 }}
                 className={'plainLinkButton'}>
                 <div
+                  className={classnames(styles.boxPreview)}
                   ref={this.originImgBox}>
                   <ImgPreview
                     blockName={''}
-                    previewSrc={'/router/img/'+this.props.unitCurrent.coverSrc+'?type=thumb'}
+                    previewSrc={this.props.unitCurrent.coverSrc}
                     _handleClick_ImgPreview_preview={()=>{this.originImgBox.current.click()}}/>
-                  <div style={styleMiddle.Com_Nails_Basic_pic_mask}/>
+                  <div style={styleMiddle.pic_mask}/>
                   <div
                     style={styleMiddle.Com_Nails_Basic_content_}>
                     {this._render_origin_Marks()}
                   </div>
-                  <div
-                    className={styles.boxAuthor}>
-                    <AccountPlate
-                      size={'layer'}
-                      accountFisrtName={this.props.unitCurrent.authorBasic.firstName}
-                      accountLastName={this.props.unitCurrent.authorBasic.lastName}/>
-                  </div>
                 </div>
               </Link>
+              <div
+                className={styles.boxAuthor}>
+                <AccountPlate
+                  size={'layer'}
+                  accountFisrtName={this.props.unitCurrent.authorBasic.firstName}
+                  accountLastName={this.props.unitCurrent.authorBasic.lastName}/>
+              </div>
               <div
                 className={styles.boxNodes}>
                 <div
                   className={classnames('nodesListRela', styles.boxListRela)}>
                   <NodesExtensible
                     nouns={this.props.unitCurrent.nouns}
-                    styleItem= {{margin: '0 0 2.32rem'}}
+                    styleItem= {{margin: '0 0 2rem'}}
                     _handleClick_listNoun={this._refer_toNodes}/>
                 </div>
               </div>
             </div>
           ):(
-            <div>
-
-
+            <div
+              className={'boxRelativeFull'}>
+              <div
+                style={{backgroundColor:'#F0F0F0',width: '20%', height: '20%', position: 'absolute', top: '40%', left: '40%'}}/>
             </div>
           )
         }

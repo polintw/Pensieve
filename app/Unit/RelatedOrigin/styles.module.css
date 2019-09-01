@@ -1,12 +1,26 @@
+.comRelatedOrig {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.boxPreview {
+  width: 63%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  box-sizing: border-box;
+}
+
 .boxNodes {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  width: 17.5%;
-  height: 44%;
-  min-height: 242px;
+  justify-content: flex-end;
+  width: 28%;
+  min-height: 173px;
   position: absolute;
-  bottom: 4%;
+  bottom: 3%;
   left: 0%;
   box-sizing: border-box;
   overflow: hidden;
@@ -29,5 +43,15 @@
   box-sizing: border-box;
   text-align: right;
   padding-right: 13%;
-  border-right: 0.75px solid #FAFAFA;
+  border-right: 0.75px solid #cccccc;
+}
+
+.fontContentSum {
+  font-size: 1.56rem;
+  font-weight: 300;
+  font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;
+  letter-spacing: 0.087rem;
+  line-height: 1.77rem;
+  word-wrap: break-word;
+  color: #FAFAFA;
 }

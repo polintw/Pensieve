@@ -14,19 +14,6 @@ import ModalBackground from '../../Component/ModalBackground.jsx';
 import {setUnitCurrent} from "../../redux/actions/general.js";
 import {unitCurrentInit} from "../../redux/constants/globalStates.js";
 
-const styleMiddle = {
-  spanRelatedClose: {
-    display: 'inline-block',
-    margin: '0 0.54rem',
-    fontSize: '1.32rem',
-    fontWeight: '700',
-    fontStyle: 'normal',
-    lineHeight: '3rem',
-    color: '#4085a0',
-    cursor: 'pointer'
-  }
-}
-
 class Unit extends React.Component {
   constructor(props){
     super(props);
@@ -108,15 +95,16 @@ class Unit extends React.Component {
                 {...this.props}
                 _close_theaterHeigher={this._close_modal_Unit}/>
             ): (
-              <div>
-                <div>
-
+              <div
+                className={styles.viewRelated}>
+                <div
+                  className={styles.boxRelated}>
                   <Related
                     {...this.props}/>
                   <div
                     className={classnames(styles.boxSubtitle)}>
                     <span
-                      style={Object.assign({}, styleMiddle.spanRelatedClose)}
+                      className={classnames(styles.spanRelatedClose)}
                       onClick={(e)=>{e.stopPropagation();e.preventDefault();this._close_modal_Unit()}}>
                       {" close "}
                     </span>

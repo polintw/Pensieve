@@ -47,15 +47,14 @@ class Related extends React.Component {
           <RelatedOrigin
             {...this.props}/>
         </div>
-        <div>
+        <div
+          className={classnames(styles.boxList)}>
           <RelatedList
             {...this.props}
             unitId={this.props.match.params.id}/>
         </div>
-
         <div
-          className={'boxRelativeFull'}
-          style={{height: '156px'}}>
+          className={styles.footer}>
         </div>
       </div>
     )

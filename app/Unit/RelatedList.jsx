@@ -123,6 +123,10 @@ class RelatedList extends React.Component {
   render(){
     return(
       <div>
+        <div
+          style={{textAlign: 'center'}}>
+          <span>{"connect to more from"}</span>
+        </div>
         {this._render_Block_relatedList()}
       </div>
     )
