@@ -28,27 +28,26 @@ function _handle_GET_feed_unitRelated(req, res){
     //and the Units shared the nodes the origin one has
     //we do at the same time use .all()
 
-    //use 'join select',
-    // But! perhaps this would be inappropriate after the attribution became too big
-    let conditionsAttri = {
-      include: [{
-        model: _DB_attribution,
-        required: true,
-        as: 'pairNouns'
-      }],
-      where: {
-        id_unit: req.query.unitId
-      }
-    };
+
     //would give us the 'id_unit' shared the nodes origin has from the attribution
-    let attriSelection = Promise.resolve(_DB_attribution.findAll(conditionsAttri).catch((err)=>{throw err}));
+    let attriSelection = Promise.resolve(
+      _DB_attribution.findAll({
+        where: {id_unit: req.query.unitId}
+      }).then((resultOriginNodes)=>{
+        let nodesIdList = resultOriginNodes.map((row,index)=>{return row.id_noun;});
+        return _DB_attribution.findAll({
+          where: {id_noun: nodesIdList},
+          attributes: ['id_noun', 'id_unit'],
+          limit: 13
+        });
+      }).catch((err)=>{throw err}));
     //would give us the whole info of the origin
     let originSelection = Promise.resolve(_DB_units.findByPk(req.query.unitId).catch((err)=>{throw err}));
 
     return Promise.all([attriSelection, originSelection])
     .then((resultsAll)=>{
       let originUnit = resultsAll[1],
-          nodesRelated = resultsAll[0]; //due to we use the findAndCountAll()
+          nodesRelated = resultsAll[0];
       let sendingData={
         unitsList: [],
         unitsBasic: {},
@@ -57,12 +56,10 @@ function _handle_GET_feed_unitRelated(req, res){
         nounsListMix: [],
         temp: {}
       }
-console.log(resultsAll[0].count)
-      nodesRelated.forEach((rowOrigin,index)=>{
-console.log(rowOrigin['pairNouns'].length)
-        rowOrigin['pairNouns'].forEach((rowJoin, index)=>{
-          if(!sendingData.unitsList.includes(rowJoin.id_unit)) sendingData.unitsList.push(rowJoin.id_unit);
-        })
+
+      nodesRelated.forEach((rowNodes,index)=>{
+        if(rowNodes.id_unit == req.query.unitId) return; //exclude the origin Unit, it's better using DB ORM to do the job
+        if(!sendingData.unitsList.includes(rowNodes.id_unit)) sendingData.unitsList.push(rowNodes.id_unit);
       });
 
       //now, we have the list of units shared the nodes as origin from attribution
@@ -72,8 +69,8 @@ console.log(rowOrigin['pairNouns'].length)
           [Op.or]: [{id: sendingData.unitsList},{id_author: originUnit.id_author}]
         }
       }).then((result)=>{
-console.log(result.length)
         result.forEach((row, index)=>{
+          if(row.id == req.query.unitId) return; //exclude the origin Unit, it's better using DB ORM to do the job
           sendingData.usersList.push(row.id_author);
           sendingData.unitsBasic[row.id] = {
             unitsId: row.id,
@@ -88,7 +85,6 @@ console.log(result.length)
           //did not on the list yet.
           if(!sendingData.unitsList.includes(row.id)) sendingData.unitsList.push(row.id);
         });
-console.log(sendingData.unitsList)
         return sendingData;
       });
     }).then((sendingData)=>{

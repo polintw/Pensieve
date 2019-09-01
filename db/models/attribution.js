@@ -20,14 +20,6 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
-    //from here, are Self Join setting for selction of Unit related
-    attribution.hasMany(models.attribution, {
-      as: 'pairNouns',
-      foreignKey:"id_noun",
-      sourceKey: "id_noun",
-      onDelete: 'cascade',
-      onUpdate: 'cascade'
-    });
   };
   attribution.removeAttribute('id'); //this model do not use 'id' nor any pk, so we need to tell it.
 

@@ -299,40 +299,6 @@
   word-break: break-all;
   color: #000000;
 }
-._C_C_app_Unit_Mark_ViewerBlock_styles_module__boxInteraction {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  width: 100%;
-  min-height: 8.1rem;
-  position: sticky;
-  bottom: 0;
-  box-sizing: border-box;
-  background-color: #FCFCFC;
-}
-
-._C_C_app_Unit_Mark_ViewerBlock_styles_module__boxPanelJump {
-  box-sizing: border-box;
-  padding: 0 10% 0 8%;
-  margin: 2.7vh 0 0 0;
-  text-align: right;
-}
-
-._C_C_app_Unit_Mark_ViewerBlock_styles_module__boxContentDraft {
-  min-height: 37vh;
-  box-sizing: border-box;
-  padding: 1vh 9% 0 10.8%;
-}
-
-._C_C_app_Unit_Mark_ViewerBlock_styles_module__fontContentDraft {
-  font-size: 1.52rem;
-  letter-spacing: 0.07rem;
-  line-height: 1.6rem;
-  font-weight: 400;
-  font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;
-  word-break: break-all;
-  color: #000000;
-}
 ._C_C_app_Unit_Mark_AuthorBlock_styles_module__boxInteraction {
   display: flex;
   flex-direction: column;
@@ -359,6 +325,40 @@
 }
 
 ._C_C_app_Unit_Mark_AuthorBlock_styles_module__fontContentDraft {
+  font-size: 1.52rem;
+  letter-spacing: 0.07rem;
+  line-height: 1.6rem;
+  font-weight: 400;
+  font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;
+  word-break: break-all;
+  color: #000000;
+}
+._C_C_app_Unit_Mark_ViewerBlock_styles_module__boxInteraction {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  width: 100%;
+  min-height: 8.1rem;
+  position: sticky;
+  bottom: 0;
+  box-sizing: border-box;
+  background-color: #FCFCFC;
+}
+
+._C_C_app_Unit_Mark_ViewerBlock_styles_module__boxPanelJump {
+  box-sizing: border-box;
+  padding: 0 10% 0 8%;
+  margin: 2.7vh 0 0 0;
+  text-align: right;
+}
+
+._C_C_app_Unit_Mark_ViewerBlock_styles_module__boxContentDraft {
+  min-height: 37vh;
+  box-sizing: border-box;
+  padding: 1vh 9% 0 10.8%;
+}
+
+._C_C_app_Unit_Mark_ViewerBlock_styles_module__fontContentDraft {
   font-size: 1.52rem;
   letter-spacing: 0.07rem;
   line-height: 1.6rem;
