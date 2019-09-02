@@ -68,8 +68,8 @@ class NailFlatDisplay extends React.Component {
         <Link
           ref={this.nailUnitLink}
           to={{
-            pathname: this.props.match.url+"/units/"+this.props.unitId,
-            search: '?theater',
+            pathname: this.props.match.url+"/unit",
+            search: '?theater&unitId='+this.props.unitId,
             state: {from: this.props.location}
           }}
           className={classnames('plainLinkButton', styles.frame)}>

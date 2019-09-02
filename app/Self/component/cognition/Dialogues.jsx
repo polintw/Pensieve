@@ -164,8 +164,8 @@ export default class Dialogues extends React.Component {
           style={self.style.selfCom_Dialogues_nails_div_}>
           <Link
             to={{
-              pathname: self.props.match.url+"/units/"+markBasicData.unitId,
-              search: "?thread="+dataKey,
+              pathname: self.props.match.url+"/unit",
+              search: '?theater&unitId='+self.props.unitId+"&thread="+dataKey,
               state: {from: self.props.location}
             }}>
             <div
@@ -210,7 +210,7 @@ export default class Dialogues extends React.Component {
           style={this.style.selfCom_Dialogues_nails_}>
           {dialogues}
         </div>
-        <Route path={this.props.match.path+"/units/:id"} render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_leaveSelf}/>}/>
+        <Route path={this.props.match.path+"/unit"} render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_leaveSelf}/>}/>
       </div>
     )
   }

@@ -78,7 +78,9 @@ class Inspired extends React.Component {
 
   _construct_UnitInit(match, location){
     let urlQuery = querystring.parse(location.search);
-    let unitInit= {marksify: true, initMark: urlQuery.mark, layer: this.state.marksBasic[urlQuery.mark].layer};
+    //init inthis file has 2 possibilities:
+    //inspired mark opened, or Unit opened from related(response)
+    let unitInit= urlQuery.mark? {marksify: true, initMark: urlQuery.mark, layer: this.state.marksBasic[urlQuery.mark].layer}: {marksify: false, initMark: "all", layer: 0};
     return unitInit;
   }
 
@@ -181,7 +183,7 @@ class Inspired extends React.Component {
           <TitleInspired
             {...this.props}/>
         </div>
-        <Route path={this.props.match.path+"/units/:id"} render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_leaveSelf}/>}/>
+        <Route path={this.props.match.path+"/unit"} render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_leaveSelf}/>}/>
       </div>
     )
   }

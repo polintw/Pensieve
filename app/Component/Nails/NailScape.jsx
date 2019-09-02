@@ -161,8 +161,8 @@ class NailScape extends React.Component {
         style={Object.assign({margin: '0px 3% 3vh 2%'}, this.style.Com_Nails_Scape_)}>
         <Link
           to={{
-            pathname: "/units/"+this.props.unitId,
-            search: '?theater',
+            pathname: "/unit",
+            search: '?theater&unitId='+this.props.unitId,
             state: {from: this.props.location}
           }}>
           <div

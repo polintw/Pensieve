@@ -136,7 +136,7 @@ class LtdUnits extends React.Component {
         </div>
         <div style={this.style.withinCom_LtdUnits_footer}></div>
         <Route
-          path="/units/:id"
+          path="/unit"
           render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_leavevonLtd}/>}/>
       </div>
     )

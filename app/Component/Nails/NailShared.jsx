@@ -158,8 +158,8 @@ class NailShared extends React.Component {
         style={this.style.Com_Nails_Shared_}>
         <Link
           to={{
-            pathname: this.props.match.url+"/units/"+this.props.sharedId,
-            search: '?theater',
+            pathname: this.props.match.url+"/unit",
+            search: '?theater&unitId='+this.props.sharedId,
             state: {from: this.props.location}
           }}
           className={"plainLinkButton"}>
@@ -196,7 +196,8 @@ class NailShared extends React.Component {
             </Link>
             <Link
               to={{
-                pathname: this.props.match.url+"/units/"+this.props.sharedId,
+                pathname: this.props.match.url+"/unit",
+                search: '?theater&unitId='+this.props.sharedId,
                 state: {from: this.props.location}
               }}
               className={"plainLinkButton"}

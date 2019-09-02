@@ -102,7 +102,7 @@ class Tracks extends React.Component {
           style={this.style.selfCom_Tracks_nails_}>
           {nails}
         </div>
-        <Route path={this.props.match.path+"/units/:id"} render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_leaveSelf}/>}/>
+        <Route path={this.props.match.path+"/unit"} render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_leaveSelf}/>}/>
       </div>
     )
   }
