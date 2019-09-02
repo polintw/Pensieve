@@ -115,7 +115,7 @@ class NodeLinks extends React.Component {
           unitsBasic={this.state.unitsBasic}>
           <NailBasic
             {...this.props}
-            linkPath={this.props.match.url+'/unit/'}
+            linkPath={this.props.match.url+'/unit'}
             marksBasic={this.state.marksBasic}/>
         </SimpleBlock>
       )

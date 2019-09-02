@@ -39,6 +39,9 @@ class Related extends React.Component {
   }
 
   render(){
+    let params = new URLSearchParams(this.props.location.search); //we need value in URL query
+    this.unitId = params.get('unitId');
+
     return(
       <div
         className={classnames(styles.comRelated)}>
@@ -51,7 +54,7 @@ class Related extends React.Component {
           className={classnames(styles.boxList)}>
           <RelatedList
             {...this.props}
-            unitId={this.props.match.params.id}/>
+            unitId={this.unitId}/>
         </div>
         <div
           className={styles.footer}>

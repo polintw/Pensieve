@@ -97,7 +97,7 @@ class RelatedOrigin extends React.Component {
               <Link
                 to={{
                   pathname: this.props.match.url,
-                  search: '?theater',
+                  search: '?theater&unitId='+this.props.unitCurrent.unitId,
                   state: {from: this.props.location.state.from}
                 }}
                 className={'plainLinkButton'}>
