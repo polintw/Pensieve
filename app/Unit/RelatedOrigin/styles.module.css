@@ -17,10 +17,10 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  width: 28%;
+  width: 27%;
   min-height: 173px;
   position: absolute;
-  bottom: 3%;
+  bottom: 4%;
   left: 0%;
   box-sizing: border-box;
   overflow: hidden;

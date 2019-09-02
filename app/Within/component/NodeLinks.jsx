@@ -7,7 +7,7 @@ import {
   Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import SimpleBlock from '../../Component/Blocks/SimpleBlock.jsx';
+import SimpleBlock from '../../Component/Blocks/SimpleBlock/SimpleBlock.jsx';
 import NailBasic from '../../Component/Nails/NailBasic/NailBasic.jsx';
 import {
   handleNounsList,
@@ -115,6 +115,7 @@ class NodeLinks extends React.Component {
           unitsBasic={this.state.unitsBasic}>
           <NailBasic
             {...this.props}
+            linkPath={this.props.match.url+'/unit/'}
             marksBasic={this.state.marksBasic}/>
         </SimpleBlock>
       )

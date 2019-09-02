@@ -140,8 +140,8 @@ class NailBasic extends React.Component {
         className={classnames(styles.Nails_Basic, 'boxRelativeFull')}>
         <Link
           to={{
-            pathname: this.props.match.url+"/units/"+this.props.unitId,
-            search: '?theater',
+            pathname: this.props.linkPath,
+            search: '?theater&unitId='+this.props.unitId,
             state: {from: this.props.location}
           }}
           className={'plainLinkButton'}>

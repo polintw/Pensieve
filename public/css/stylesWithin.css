@@ -104,7 +104,7 @@ start the fundemental first, and then the specific condition
 }
 
 ._C_C_app_Unit_Unit_styles_module__boxSubtitle {
-  height: 43vh;
+  height: 39vh;
   box-sizing: border-box;
   text-align: center;
 }
@@ -114,10 +114,10 @@ start the fundemental first, and then the specific condition
 }
 
 ._C_C_app_Unit_Unit_styles_module__boxRelated {
-  width: 63%;
+  width: 68%;
   min-width: 600px;
   position: absolute;
-  left: 50%;
+  left: 51%;
   transform: translate(-49%,0);
   box-sizing: border-box;
 }
@@ -232,20 +232,20 @@ start the fundemental first, and then the specific condition
 
 ._C_C_app_Unit_Related_styles_module__boxTop {
   width: 100%;
-  height: 48vh;
-  min-height: 231px;
+  height: 51vh;
+  min-height: 247px;
   box-sizing: border-box;
   margin-top: 2vh;
 }
 
 ._C_C_app_Unit_Related_styles_module__boxList {
   width: 100%;
-  margin-top: 10vh;
+  margin-top: 8vh;
 }
 
 ._C_C_app_Unit_Related_styles_module__footer {
   width: 100%;
-  height: 146px;
+  height: 91px;
 }
 ._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlock {
   overflow: hidden;
@@ -300,6 +300,25 @@ start the fundemental first, and then the specific condition
   letter-spacing: 0.1rem;
   line-height: 1.7rem;
   color: #ABABAB;
+}
+._C_C_app_Component_Blocks_SimpleBlock_styles_module__frameNail {
+  display: inline-block;
+  width: 32.5%;
+  min-width: 264px;
+  height: 19rem;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0 0 18px;
+  box-shadow: 0 1px 1px -0.1rem, 0rem -0.05rem 2px -0.2rem;
+  border-radius: 0.3rem;
+  overflow: hidden
+}
+
+/* beneath must after the main 'frameNail'*/
+
+._C_C_app_Component_Blocks_SimpleBlock_styles_module__frameTwo {
+  width: 49.2%;
+  height: 19.4rem;
 }
 ._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__Nails_Basic {
   background-color: #FFFFFF;
@@ -412,6 +431,24 @@ start the fundemental first, and then the specific condition
 ._C_C_app_Within_component_MainBanner_styles_module__borderBanner {
   border-bottom: 0.14rem solid #c4c4c4;
 }
+._C_C_app_Unit_RelatedList_styles_module__boxList {
+  display: inline-block;
+  width: 73%;
+}
+
+._C_C_app_Unit_RelatedList_styles_module__boxSubtitle {
+  display: inline-block;
+  width: 27%;
+  box-sizing: border-box;
+  padding: 2% 1%;
+}
+
+._C_C_app_Unit_RelatedList_styles_module__fontSubtitle {
+  font-size: 1.44rem;
+  letter-spacing: 0.12rem;
+  font-weight: 400;
+  color: #777777;
+}
 ._C_C_app_Unit_RelatedOrigin_styles_module__comRelatedOrig {
   width: 100%;
   height: 100%;
@@ -431,10 +468,10 @@ start the fundemental first, and then the specific condition
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  width: 28%;
+  width: 27%;
   min-height: 173px;
   position: absolute;
-  bottom: 3%;
+  bottom: 4%;
   left: 0%;
   box-sizing: border-box;
   overflow: hidden;
@@ -840,40 +877,6 @@ start the fundemental first, and then the specific condition
   word-break: break-all;
   color: #000000;
 }
-._C_C_app_Unit_Mark_AuthorBlock_styles_module__boxInteraction {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  width: 100%;
-  min-height: 8.1rem;
-  position: sticky;
-  bottom: 0;
-  box-sizing: border-box;
-  background-color: #FCFCFC;
-}
-
-._C_C_app_Unit_Mark_AuthorBlock_styles_module__boxPanelJump {
-  box-sizing: border-box;
-  padding: 0 10% 0 8%;
-  margin: 2.7vh 0 0 0;
-  text-align: right;
-}
-
-._C_C_app_Unit_Mark_AuthorBlock_styles_module__boxContentDraft {
-  min-height: 37vh;
-  box-sizing: border-box;
-  padding: 1vh 9% 0 10.8%;
-}
-
-._C_C_app_Unit_Mark_AuthorBlock_styles_module__fontContentDraft {
-  font-size: 1.52rem;
-  letter-spacing: 0.07rem;
-  line-height: 1.6rem;
-  font-weight: 400;
-  font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;
-  word-break: break-all;
-  color: #000000;
-}
 ._C_C_app_Unit_Mark_ViewerBlock_styles_module__boxInteraction {
   display: flex;
   flex-direction: column;
@@ -900,6 +903,40 @@ start the fundemental first, and then the specific condition
 }
 
 ._C_C_app_Unit_Mark_ViewerBlock_styles_module__fontContentDraft {
+  font-size: 1.52rem;
+  letter-spacing: 0.07rem;
+  line-height: 1.6rem;
+  font-weight: 400;
+  font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;
+  word-break: break-all;
+  color: #000000;
+}
+._C_C_app_Unit_Mark_AuthorBlock_styles_module__boxInteraction {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  width: 100%;
+  min-height: 8.1rem;
+  position: sticky;
+  bottom: 0;
+  box-sizing: border-box;
+  background-color: #FCFCFC;
+}
+
+._C_C_app_Unit_Mark_AuthorBlock_styles_module__boxPanelJump {
+  box-sizing: border-box;
+  padding: 0 10% 0 8%;
+  margin: 2.7vh 0 0 0;
+  text-align: right;
+}
+
+._C_C_app_Unit_Mark_AuthorBlock_styles_module__boxContentDraft {
+  min-height: 37vh;
+  box-sizing: border-box;
+  padding: 1vh 9% 0 10.8%;
+}
+
+._C_C_app_Unit_Mark_AuthorBlock_styles_module__fontContentDraft {
   font-size: 1.52rem;
   letter-spacing: 0.07rem;
   line-height: 1.6rem;

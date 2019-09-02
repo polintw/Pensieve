@@ -8,7 +8,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import SimpleBlock from '../../Component/Blocks/SimpleBlock.jsx';
+import SimpleBlock from '../../Component/Blocks/SimpleBlock/SimpleBlock.jsx';
 import NailBasic from '../../Component/Nails/NailBasic/NailBasic.jsx';
 import {
   handleNounsList,
@@ -91,14 +91,17 @@ class RelatedList extends React.Component {
       </div>
     );
 
+
     let list = this.state.unitsBlock.map((unitBlock, index)=>{
       return (
         <SimpleBlock
           key={"key_block_"+index+"_atRelatedList"}
+          divide-two
           unitsList={unitBlock}
           unitsBasic={this.state.unitsBasic}>
           <NailBasic
             {...this.props}
+            linkPath={this.props.match.url}
             marksBasic={this.state.marksBasic}/>
         </SimpleBlock>
       )
@@ -129,10 +132,13 @@ class RelatedList extends React.Component {
     return(
       <div>
         <div
-          style={{textAlign: 'center'}}>
+          className={classnames(styles.boxSubtitle, styles.fontSubtitle)}>
           <span>{"connect to more from"}</span>
         </div>
-        {this._render_Block_relatedList()}
+        <div
+          className={styles.boxList}>
+          {this._render_Block_relatedList()}
+        </div>
       </div>
     )
   }

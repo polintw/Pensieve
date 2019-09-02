@@ -22,7 +22,7 @@
 }
 
 .boxSubtitle {
-  height: 43vh;
+  height: 39vh;
   box-sizing: border-box;
   text-align: center;
 }
@@ -32,10 +32,10 @@
 }
 
 .boxRelated {
-  width: 63%;
+  width: 68%;
   min-width: 600px;
   position: absolute;
-  left: 50%;
+  left: 51%;
   transform: translate(-49%,0);
   box-sizing: border-box;
 }

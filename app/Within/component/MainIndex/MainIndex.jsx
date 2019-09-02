@@ -194,7 +194,7 @@ class MainIndex extends React.Component {
           </div>
         </div>
         <Route
-          path={this.props.match.path+"/units/:id"}
+          path={this.props.match.path+"/unit"}
           render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_von_cosmic}/>}/>
       </div>
     )
