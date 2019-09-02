@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import SimpleBlock from '../../Component/Blocks/SimpleBlock.jsx';
+import NailBasic from '../../Component/Nails/NailBasic/NailBasic.jsx';
 import {
   handleNounsList,
   handleUsersList
@@ -111,8 +112,11 @@ class NodeLinks extends React.Component {
         <SimpleBlock
           key={"key_Cosmicnoun_blocks_"+index}
           unitsList={unitBlock}
-          unitsBasic={this.state.unitsBasic}
-          marksBasic={this.state.marksBasic}/>
+          unitsBasic={this.state.unitsBasic}>
+          <NailBasic
+            {...this.props}
+            marksBasic={this.state.marksBasic}/>
+        </SimpleBlock>
       )
     });
 

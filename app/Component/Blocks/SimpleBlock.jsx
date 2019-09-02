@@ -4,7 +4,6 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import NailBasic from '../Nails/NailBasic/NailBasic.jsx';
 
 const styleMiddle = {
   comSimpleBlock: {
@@ -38,15 +37,20 @@ class SimpleBlock extends React.Component {
   _render_SimpleBlock(){
     let list = this.props.unitsList.map((unitId, index)=>{
 
+      // Block are builded to deal with the need of interrupted data fetching
+      //each kind of Block represent a kind of arrange style,
+      //only decide 'how many' & 'how to' in this component.
+      //so the style of each nail inside, should return to the upper level to decide
       return (
         <div
           key={"key_Block_simple"+index}
           style={styleMiddle.frameNail}>
-          <NailBasic
-            {...this.props}
-            unitId={unitId}
-            unitBasic={this.props.unitsBasic[unitId]}
-            marksBasic={this.props.marksBasic}/>
+          {
+            React.cloneElement(this.props.children, {
+              unitId: unitId,
+              unitBasic: this.props.unitsBasic[unitId]
+            })
+          }
         </div>
       )
     });

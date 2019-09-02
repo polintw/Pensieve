@@ -8,7 +8,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import RelatedList from '../RelatedList.jsx';
+import RelatedList from '../RelatedList/RelatedList.jsx';
 import RelatedOrigin from '../RelatedOrigin/RelatedOrigin.jsx';
 
 const styleMiddle = {

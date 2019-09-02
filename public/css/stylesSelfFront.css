@@ -58,6 +58,37 @@
   border-radius: 1.6vh;
   cursor: pointer;
 }
+._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlock {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlockNowrap {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlock div, ._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlockNowrap div {
+  display: inline-block;
+}
+._C_C_app_Unit_Theater_styles_module__boxBackTop {
+  display:flex;
+  justify-content: space-around;
+  width: 2rem;
+  height: 5%;
+  position: absolute;
+  top: 2%;
+  right: 1.4%;
+  font-size: 1.23rem;
+  font-weight: 500;
+  color: #F0F0F0;
+  cursor:pointer;
+}
+
+._C_C_app_Unit_Theater_styles_module__spanBackTop {
+  box-sizing: border-box;
+}
 ._C_C_app_Unit_Related_styles_module__comRelated {
   width: 100%;
   box-sizing: border-box;
@@ -79,37 +110,6 @@
 ._C_C_app_Unit_Related_styles_module__footer {
   width: 100%;
   height: 146px;
-}
-._C_C_app_Unit_Theater_styles_module__boxBackTop {
-  display:flex;
-  justify-content: space-around;
-  width: 2rem;
-  height: 5%;
-  position: absolute;
-  top: 2%;
-  right: 1.4%;
-  font-size: 1.23rem;
-  font-weight: 500;
-  color: #F0F0F0;
-  cursor:pointer;
-}
-
-._C_C_app_Unit_Theater_styles_module__spanBackTop {
-  box-sizing: border-box;
-}
-._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlock {
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlockNowrap {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlock div, ._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlockNowrap div {
-  display: inline-block;
 }
 ._C_C_app_Unit_RelatedOrigin_styles_module__comRelatedOrig {
   width: 100%;
@@ -277,6 +277,90 @@
   letter-spacing: 0.1rem;
   line-height: 1.7rem;
   color: #ABABAB;
+}
+._C_C_app_Component_Nails_NailWideDisplay_styles_module__frame {
+  width: 100%;
+  height: 100%;
+}
+
+._C_C_app_Component_Nails_NailWideDisplay_styles_module__boxImg {
+  width: 69%;
+  height: 84%;
+  position: absolute;
+  bottom: 0;
+  box-sizing: border-box;
+}
+
+._C_C_app_Component_Nails_NailWideDisplay_styles_module__boxNodes {
+  width: 81%;
+  position: absolute;
+  top: 0;
+  left: 1%;
+  box-sizing: border-box;
+  padding-top: 13px;
+  overflow: hidden;
+}
+
+._C_C_app_Component_Nails_NailWideDisplay_styles_module__boxNodesItem {
+  display: inline-block;
+  height: 100%;
+  position: relative;
+  box-sizing: border-box;
+  margin-left: 1.2%;
+}
+
+._C_C_app_Component_Nails_NailWideDisplay_styles_module__fontNode {
+  font-size: 1.7rem;
+  letter-spacing: 0.12rem;
+  color: rgb(76, 76, 78);
+}
+
+._C_C_app_Component_Nails_NailWideDisplay_styles_module__boxAuthor {
+  max-width: 13%;
+  position: absolute;
+  box-sizing: border-box;
+  right: 2%;
+  top: 7%;
+}
+
+._C_C_app_Component_Nails_NailWideDisplay_styles_module__fontAuthor {
+  font-size: 1.3rem;
+  font-weight: 400;
+  text-align: right;
+  color: #6e6e6e;
+}
+
+._C_C_app_Component_Nails_NailWideDisplay_styles_module__boxMarkArea {
+  width: 32%;
+  height: 84%;
+  position: absolute;
+  box-sizing: border-box;
+  right: 0;
+  bottom: 0;
+}
+
+._C_C_app_Component_Nails_NailWideDisplay_styles_module__boxMarkPreview {
+  width: 25%;
+  max-height: 66%;
+  position: absolute;
+  box-sizing: border-box;
+  right: 3%;
+  top: 20%;
+  overflow: hidden;
+}
+
+._C_C_app_Component_Nails_NailWideDisplay_styles_module__boxMark {
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  margin-bottom: 2.8rem;
+}
+
+._C_C_app_Component_Nails_NailWideDisplay_styles_module__fontMark {
+  font-size: 1.38rem;
+  font-weight: 400;
+  text-align: left;
+  color: #000000;
 }
 ._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__Nails_Basic {
   background-color: #FFFFFF;

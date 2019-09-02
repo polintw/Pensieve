@@ -7,15 +7,17 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
-import SimpleBlock from '../Component/Blocks/SimpleBlock.jsx';
+import styles from "./styles.module.css";
+import SimpleBlock from '../../Component/Blocks/SimpleBlock.jsx';
+import NailBasic from '../../Component/Nails/NailBasic/NailBasic.jsx';
 import {
   handleNounsList,
   handleUsersList
-} from "../redux/actions/general.js";
+} from "../../redux/actions/general.js";
 import {
   cancelErr,
   uncertainErr
-} from '../utils/errHandlers.js';
+} from '../../utils/errHandlers.js';
 
 const styleMiddle = {
 
@@ -94,8 +96,11 @@ class RelatedList extends React.Component {
         <SimpleBlock
           key={"key_block_"+index+"_atRelatedList"}
           unitsList={unitBlock}
-          unitsBasic={this.state.unitsBasic}
-          marksBasic={this.state.marksBasic}/>
+          unitsBasic={this.state.unitsBasic}>
+          <NailBasic
+            {...this.props}
+            marksBasic={this.state.marksBasic}/>
+        </SimpleBlock>
       )
     });
 
