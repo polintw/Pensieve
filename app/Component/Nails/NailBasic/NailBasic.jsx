@@ -80,13 +80,34 @@ class NailBasic extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      onFrame: false,
+      onImg: false
     };
     this._render_nails_Marks = this._render_nails_Marks.bind(this);
     this._render_nails_nouns = this._render_nails_nouns.bind(this);
+    this._handleEnter_nailFrame = this._handleEnter_nailFrame.bind(this);
+    this._handleLeave_nailFrame = this._handleLeave_nailFrame.bind(this);
+    this._handleEnter_nailImg = this._handleEnter_nailImg.bind(this);
+    this._handleLeave_nailImg = this._handleLeave_nailImg.bind(this);
     this.style={
 
     }
+  }
+
+  _handleEnter_nailFrame(e){
+    this.setState({onFrame: true})
+  }
+
+  _handleLeave_nailFrame(e){
+    this.setState({onFrame: false})
+  }
+
+  _handleEnter_nailImg(e){
+    this.setState({onImg: true})
+  }
+
+  _handleLeave_nailImg(e){
+    this.setState({onImg: false})
   }
 
   _render_nails_Marks(){
@@ -140,7 +161,12 @@ class NailBasic extends React.Component {
   render(){
     return(
       <div
-        className={classnames(styles.Nails_Basic)}>
+        className={classnames(
+          styles.Nails_Basic,
+          {[styles.frameOnMouse]: this.state.onFrame}
+        )}
+        onMouseEnter={this._handleEnter_nailFrame}
+        onMouseLeave={this._handleLeave_nailFrame}>
         <Link
           to={{
             pathname: this.props.linkPath,
@@ -149,12 +175,18 @@ class NailBasic extends React.Component {
           }}
           className={'plainLinkButton'}>
           <div
-            style={commonStyle.Com_Nails_Basic_pic_}>
+            style={commonStyle.Com_Nails_Basic_pic_}
+            onMouseEnter={this._handleEnter_nailImg}
+            onMouseLeave={this._handleLeave_nailImg}>
             <ImgPreview
               blockName={'cover'}
               previewSrc={'/router/img/'+this.props.unitBasic.pic_layer0+'?type=thumb'}
               _handleClick_ImgPreview_preview={()=>{}}/>
-            <div style={commonStyle.Com_Nails_Basic_pic_mask}/>
+            <div
+              style={Object.assign({},
+                commonStyle.Com_Nails_Basic_pic_mask,
+                this.state.onImg? {backgroundImage: 'linear-gradient(rgba(0,0,0,0.67), rgba(0,0,0,0.67))', backgroudColor: 'rgba(0,0,0,0.7)'}:{}
+              )}/>
             <div
               style={commonStyle.Com_Nails_Basic_content_}>
               {this._render_nails_Marks()}

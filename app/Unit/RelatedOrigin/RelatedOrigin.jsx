@@ -39,10 +39,12 @@ class RelatedOrigin extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      onMouseEnter:false
     };
     this.originImgBox = React.createRef();
     this._refer_toNodes = this._refer_toNodes.bind(this);
+    this._handleEnter_originBox = this._handleEnter_originBox.bind(this);
+    this._handleLeave_originBox = this._handleLeave_originBox.bind(this);
     this._render_origin_Marks = this._render_origin_Marks.bind(this);
     this.style={
 
@@ -51,6 +53,14 @@ class RelatedOrigin extends React.Component {
 
   _refer_toNodes(source, identity){
     this.props._refer_von_unit(identity, source);
+  }
+
+  _handleEnter_originBox(e){
+    this.setState({onMouseEnter: true})
+  }
+
+  _handleLeave_originBox(e){
+    this.setState({onMouseEnter: false})
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -102,13 +112,22 @@ class RelatedOrigin extends React.Component {
                 }}
                 className={'plainLinkButton'}>
                 <div
-                  className={classnames(styles.boxPreview)}
-                  ref={this.originImgBox}>
+                  className={classnames(
+                    styles.boxPreview,
+                    {[styles.mouseOnPreview]: this.state.onMouseEnter}
+                  )}
+                  ref={this.originImgBox}
+                  onMouseEnter={this._handleEnter_originBox}
+                  onMouseLeave={this._handleLeave_originBox}>
                   <ImgPreview
                     blockName={''}
                     previewSrc={this.props.unitCurrent.coverSrc}
                     _handleClick_ImgPreview_preview={()=>{this.originImgBox.current.click()}}/>
-                  <div style={styleMiddle.pic_mask}/>
+                  <div
+                    style={Object.assign({},
+                      styleMiddle.pic_mask,
+                      this.state.onMouseEnter? {backgroundImage: 'linear-gradient(rgba(0,0,0,0.67), rgba(0,0,0,0.67))', backgroudColor: 'rgba(0,0,0,0.7)'}:{}
+                    )}/>
                   <div
                     style={styleMiddle.Com_Nails_Basic_content_}>
                     {this._render_origin_Marks()}

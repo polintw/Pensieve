@@ -20,13 +20,16 @@ class Unit extends React.Component {
     this.state = {
       axios: false,
       close: false,
-      onSpanBack: false
+      onSpanBack: false,
+      onSpanClose: false
     };
     this.axiosSource = axios.CancelToken.source();
     this._close_modal_Unit = this._close_modal_Unit.bind(this);
     this._axios_getUnitImg = this._axios_getUnitImg.bind(this);
     this._axios_getUnitData = this._axios_getUnitData.bind(this);
     this._axios_get_UnitMount = this._axios_get_UnitMount.bind(this);
+    this._handleEnter_spanClose = this._handleEnter_spanClose.bind(this);
+    this._handleLeave_spanClose = this._handleLeave_spanClose.bind(this);
     this._handleEnter_spanBack = this._handleEnter_spanBack.bind(this);
     this._handleLeave_spanBack = this._handleLeave_spanBack.bind(this);
     this._reset_UnitMount = ()=>{this._axios_get_UnitMount();};
@@ -153,6 +156,14 @@ class Unit extends React.Component {
     })
   }
 
+  _handleEnter_spanClose(e){
+    this.setState({onSpanClose: true})
+  }
+
+  _handleLeave_spanClose(e){
+    this.setState({onSpanClose: false})
+  }
+
   _close_modal_Unit(){
     //close the whole Unit Modal
     //different from the one in Theater, which used only for closing Theater
@@ -224,7 +235,10 @@ class Unit extends React.Component {
                     className={classnames(styles.boxSubtitle)}>
                     <span
                       className={classnames(styles.spanRelatedClose)}
-                      onClick={(e)=>{e.stopPropagation();e.preventDefault();this._close_modal_Unit()}}>
+                      onClick={(e)=>{e.stopPropagation();e.preventDefault();this._close_modal_Unit()}}
+                      style={this.state.onSpanClose ? {color: "#4085a0"}:{}}
+                      onMouseEnter={this._handleEnter_spanClose}
+                      onMouseLeave={this._handleLeave_spanClose}>
                       {" close "}
                     </span>
                   </div>

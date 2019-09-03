@@ -13,6 +13,10 @@
   box-sizing: border-box;
 }
 
+.mouseOnPreview {
+  outline: double 1.5px #777777;
+}
+
 .boxNodes {
   display: flex;
   flex-direction: column;

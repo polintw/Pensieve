@@ -5,6 +5,10 @@
   box-sizing: border-box;
 }
 
+.frameOnMouse {
+  outline: double 1px #777777;
+}
+
 .fontContent {
   font-size: 1.45rem;
   font-weight: 400;
