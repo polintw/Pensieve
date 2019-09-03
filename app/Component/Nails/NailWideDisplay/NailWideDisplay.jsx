@@ -16,15 +16,36 @@ class NailWideDisplay extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      onFrame: false,
+      onImg: false
     };
     this.nailImgBox = React.createRef();
     this.nailUnitLink = React.createRef();
+    this._handleEnter_nailFrame = this._handleEnter_nailFrame.bind(this);
+    this._handleLeave_nailFrame = this._handleLeave_nailFrame.bind(this);
+    this._handleEnter_nailImg = this._handleEnter_nailImg.bind(this);
+    this._handleLeave_nailImg = this._handleLeave_nailImg.bind(this);
     this._render_nails_Marks = this._render_nails_Marks.bind(this);
     this._render_nails_nouns = this._render_nails_nouns.bind(this);
     this.style={
 
     }
+  }
+
+  _handleEnter_nailFrame(e){
+    this.setState({onFrame: true})
+  }
+
+  _handleLeave_nailFrame(e){
+    this.setState({onFrame: false})
+  }
+
+  _handleEnter_nailImg(e){
+    this.setState({onImg: true})
+  }
+
+  _handleLeave_nailImg(e){
+    this.setState({onImg: false})
   }
 
   _render_nails_Marks(){
@@ -63,7 +84,12 @@ class NailWideDisplay extends React.Component {
   render(){
     return(
       <div
-        className={styles.frame}>
+        className={classnames(
+          styles.frame,
+          {[styles.frameOnMouse]: this.state.onFrame}
+        )}
+        onMouseEnter={this._handleEnter_nailFrame}
+        onMouseLeave={this._handleLeave_nailFrame}>
         <Link
           ref={this.nailUnitLink}
           to={{
@@ -79,11 +105,14 @@ class NailWideDisplay extends React.Component {
           </div>
           <div
             ref={this.nailImgBox}
-            className={styles.boxImg}>
+            className={styles.boxImg}
+            onMouseEnter={this._handleEnter_nailImg}
+            onMouseLeave={this._handleLeave_nailImg}>
             <ImgPreview
               blockName={''}
               previewSrc={'/router/img/'+this.props.unitBasic.pic_layer0+'?type=thumb'}
               _handleClick_ImgPreview_preview={()=>{this.nailImgBox.current.click()}}/>
+            {this.state.onImg && <div className={styles.interMask}/>}
           </div>
           <div
             className={classnames(styles.boxNodes)}>
