@@ -12,12 +12,11 @@
   justify-content: space-around;
   width: 2rem;
   height: 5%;
-  position: absolute;
+  position: fixed;
   top: 2%;
-  right: 1.4%;
-  font-size: 1.23rem;
-  font-weight: 500;
-  color: #FFFFFF;
+  right: 2.1%;
+  font-size: 1rem;
+  color: #cccccc;
   cursor:pointer;
 }
 
@@ -33,7 +32,7 @@
 
 .boxRelated {
   width: 68%;
-  min-width: 600px;
+  min-width: 790px;
   position: absolute;
   left: 51%;
   transform: translate(-49%,0);

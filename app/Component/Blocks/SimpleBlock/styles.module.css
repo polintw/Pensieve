@@ -5,7 +5,7 @@
   height: 19rem;
   position: relative;
   box-sizing: border-box;
-  margin: 0 0 18px;
+  margin: 0 0 47px;
   box-shadow: 0 1px 1px -0.1rem, 0rem -0.05rem 2px -0.2rem;
   border-radius: 0.3rem;
   overflow: hidden
@@ -14,6 +14,6 @@
 /* beneath must after the main 'frameNail'*/
 
 .frameTwo {
-  width: 49.2%;
-  height: 19.4rem;
+  width: 49.42%;
+  height: 20.4rem;
 }

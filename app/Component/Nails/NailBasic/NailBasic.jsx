@@ -12,26 +12,30 @@ import DraftDisplayforNailMark from '../../Draft/DraftDisplayforNailMark.jsx';
 const commonStyle = {
   Com_Nails_Basic_pic_: {
     width: '100%',
-    height: '70%',
-    position: 'relative',
+    height: '100%',
+    position: 'absolute',
+    top: '0',
     boxSizing: 'border-box',
     overflow: 'hidden',
   },
   Com_Nails_Basic_banner_author: {
-    position: 'relative',
-    boxSizing: 'border-box',
-    padding: '0 3%',
-    margin: '8px 0 0',
-    textAlign: 'right',
-  },
-  Com_Nails_Basic_content_: {
-    maxWidth: '80%',
-    maxHeight: '72%',
+    maxWidth: '49%',
     position: 'absolute',
-    bottom: '16%',
+    bottom: '5%',
     right: '0',
     boxSizing: 'border-box',
-    padding: '0 3%'
+    padding: '0 5%',
+    textAlign: 'left',
+  },
+  Com_Nails_Basic_content_: {
+    maxWidth: '74%',
+    maxHeight: '34%',
+    position: 'absolute',
+    bottom: '15%',
+    right: '0',
+    boxSizing: 'border-box',
+    padding: '0px 4.6% 0 0',
+    overflow: 'hidden'
   },
   Com_Nails_Basic_content_mark: {
     width: '100%',
@@ -52,16 +56,15 @@ const commonStyle = {
     top: '0',
     left: '0',
     backgroudColor: 'rgba(0,0,0,0.5)',
-    backgroundImage: 'linear-gradient(129deg, transparent, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.3),rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0.54), rgba(0, 0, 0, 0.64))'
+    backgroundImage: 'linear-gradient(-5deg, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.64), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.34),rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.28),rgba(0, 0, 0, 0.23),rgba(0, 0, 0, 0.23), rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.36), rgba(0, 0, 0, 0.42),  rgba(0, 0, 0, 0.49), rgba(0, 0, 0, 0.54), rgba(0, 0, 0, 0.58),rgba(0, 0, 0, 0.64), rgba(0, 0, 0, 0.72))'
     //must beneath the 'backgroudColor', let browser choose if it do support gradient
   },
   Com_Nails_Basic_nouns_: {
-    width: '100%',
-    height: '2.64rem', // match the font sizr of noun, let only show first line
+    width: '87%',
+    maxHeight: '38%',
     position: 'relative',
     boxSizing: 'border-box',
-    padding: '1% 1%',
-    margin: '6px 0 4px',
+    padding: '3.5% 0 3% 3.2%',
     overflow: 'hidden'
   },
   Com_Nails_Basic_nouns_div_: {
@@ -137,7 +140,7 @@ class NailBasic extends React.Component {
   render(){
     return(
       <div
-        className={classnames(styles.Nails_Basic, 'boxRelativeFull')}>
+        className={classnames(styles.Nails_Basic)}>
         <Link
           to={{
             pathname: this.props.linkPath,

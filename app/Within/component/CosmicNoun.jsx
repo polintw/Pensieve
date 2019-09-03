@@ -20,9 +20,10 @@ const styleMiddle = {
   boxScroll: {
     display: 'flex',
     flexWrap: 'wrap',
-    width: '934px',
+    width: '73%',
+    minWidth: '954px',
     position: 'absolute',
-    top: '5.8vh',
+    top: '4vh',
     left: '49%',
     transform: 'translate(-53%,0)',
     boxSizing: 'border-box'
@@ -37,7 +38,8 @@ const styleMiddle = {
     display: 'inline-block',
     boxSizing: 'border-box',
     padding: '1rem',
-    transform: 'translate(50%,0)'
+    transform: 'translate(-50%,0)',
+    float: 'right'
   },
   boxNav: {
     display: 'inline-block',
@@ -46,7 +48,7 @@ const styleMiddle = {
     bottom: '0',
     left: '0',
     boxSizing: 'border-box',
-    padding: '5rem 3% 0'
+    padding: '5rem 4% 0'
   },
   boxView: {
     display: 'inline-block',

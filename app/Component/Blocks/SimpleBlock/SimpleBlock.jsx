@@ -10,7 +10,7 @@ import styles from "./styles.module.css";
 const styleMiddle = {
   comSimpleBlock: {
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     alignContent: 'space-between',
     flexWrap: 'wrap'
   },

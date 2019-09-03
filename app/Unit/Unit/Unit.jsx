@@ -230,14 +230,14 @@ class Unit extends React.Component {
                   </div>
                 </div>
                 <div
-                  className={classnames(styles.boxBack)}>
+                  className={classnames(styles.boxBack)}
+                  onMouseEnter={this._handleEnter_spanBack}
+                  onMouseLeave={this._handleLeave_spanBack}>
                   <span
                     className={classnames(styles.spanBack)}
                     style={this.state.onSpanBack?{color: '#333333'}:{}}
-                    onClick={(e)=>{e.stopPropagation();e.preventDefault();this._close_modal_Unit()}}
-                    onMouseEnter={this._handleEnter_spanBack}
-                    onMouseLeave={this._handleLeave_spanBack}>
-                    {" X "}
+                    onClick={(e)=>{e.stopPropagation();e.preventDefault();this._close_modal_Unit()}}>
+                    {" ╳ "}
                   </span>
                 </div>
               </div>

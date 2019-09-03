@@ -6,8 +6,11 @@ export class NodesExtensible extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      expandify: false
+      expandify: false,
+      onLiItem: ''
     };
+    this._handleEnter_node = this._handleEnter_node.bind(this);
+    this._handleLeave_node = this._handleLeave_node.bind(this);
     this._handleClick_listNoun = this._handleClick_listNoun.bind(this);
     this._handleClick_listExpand = this._handleClick_listExpand.bind(this);
     this._render_unitModal_Nouns =this._render_unitModal_Nouns.bind(this);
@@ -41,6 +44,15 @@ export class NodesExtensible extends React.Component {
     }
   }
 
+  _handleEnter_node(e){
+    let currentItem = e.currentTarget.attributes.nounid.value;
+    this.setState({onLiItem: currentItem})
+  }
+
+  _handleLeave_node(e){
+    this.setState({onLiItem: ''})
+  }
+
   _render_unitModal_Nouns(){
     const self = this;
     let nounsArr = [];
@@ -55,8 +67,13 @@ export class NodesExtensible extends React.Component {
           nounid={nounId}
           className={classnames(styles.boxListItem)}
           style={Object.assign({},this.props.styleItem)}
+          onMouseEnter={this._handleEnter_node}
+          onMouseLeave={this._handleLeave_node}
           onClick={self._handleClick_listNoun}>
           <span
+            className={classnames(
+              {[styles.interLiItem]: (this.state.onLiItem==nounId)}
+            )}
             title={iNoun.name+ (iNoun.prefix ? ", "+iNoun.prefix:"")}>
             {iNoun.name}
           </span>
@@ -83,7 +100,6 @@ export class NodesExtensible extends React.Component {
   }
 
   render(){
-    //let cx = cxBind.bind(styles);
     return(
       <div
         style={this.style.Com_Nodes_Extensible_}>

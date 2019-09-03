@@ -130,7 +130,8 @@ class RelatedList extends React.Component {
 
   render(){
     return(
-      <div>
+      <div
+        style={{display: 'flex'}}>
         <div
           className={classnames(styles.boxSubtitle, styles.fontSubtitle)}>
           <span>{"connect to more from"}</span>
