@@ -19,44 +19,42 @@ const styleMiddle = {
   },
   boxScroll: {
     display: 'flex',
+    justifyContent: 'flex-end',
     flexWrap: 'wrap',
-    width: '73%',
+    width: '73.5%',
     minWidth: '954px',
     position: 'absolute',
-    top: '4vh',
-    left: '49%',
-    transform: 'translate(-53%,0)',
+    top: '3.4vh',
+    right: '17.3%',
     boxSizing: 'border-box'
   },
   boxTitle: {
-    width: '100%',
+    display:'inline-block',
+    width: '83%',
     position: 'relative',
     boxSizing: 'border-box',
-    padding: '0 0 2rem 0'
+    padding: '0 0 3rem 0'
   },
   boxName: {
     display: 'inline-block',
     boxSizing: 'border-box',
-    padding: '1rem',
-    transform: 'translate(-50%,0)',
+    padding: '1rem 6.4% 1rem 0',
     float: 'right'
   },
   boxNav: {
-    display: 'inline-block',
-    width: '15%',
+    display: 'inline-flex',
+    width: '17%',
     position: 'relative',
-    bottom: '0',
-    left: '0',
     boxSizing: 'border-box',
-    padding: '5rem 4% 0'
+    padding: '1.7rem 0px 2rem 0%'
   },
   boxView: {
     display: 'inline-block',
-    width: '85%',
+    width: '93%',
   },
   fontNav: {
-    fontSize: "1.4rem",
-    letterSpacing: "0.11rem",
+    fontSize: "1.36rem",
+    letterSpacing: "0.08rem",
     whiteSpace: "nowrap",
     color: "#a8a8a8"
   },
@@ -64,13 +62,13 @@ const styleMiddle = {
     position: 'relative',
     float: 'right',
     boxSizing: 'border-box',
-    margin: '0.8rem 0.5rem',
+    margin: '0.8rem 2.5rem 0.8rem 0',
     cursor: 'pointer'
   },
   fontName: {
-    fontSize: '2.7rem',
-    fontWeight: '700',
-    letterSpacing: '0.12rem',
+    fontSize: '2.32rem',
+    fontWeight: '600',
+    letterSpacing: '0.13rem',
     whiteSpace: 'nowrap',
     color: 'black'
   },
@@ -135,17 +133,6 @@ class CosmicNoun extends React.Component {
         <div
           style={styleMiddle.boxScroll}>
           <div
-            style={styleMiddle.boxTitle}>
-            <div
-              style={Object.assign({}, styleMiddle.boxName, styleMiddle.fontName)}>
-              {this.nounId in this.props.nounsBasic? (
-                this.props.nounsBasic[this.nounId].name+(this.props.nounsBasic[this.nounId].prefix? (" ,  "+this.props.nounsBasic[this.nounId].prefix): "")
-              ): (
-                null
-              )}
-            </div>
-          </div>
-          <div
             style={Object.assign({}, styleMiddle.boxNav, styleMiddle.fontNav)}>
             <Link
               to={{
@@ -164,6 +151,17 @@ class CosmicNoun extends React.Component {
               <span
                 style={styleMiddle.spanNav}>{'contributors'}</span>
             </Link>
+          </div>
+          <div
+            style={styleMiddle.boxTitle}>
+            <div
+              style={Object.assign({}, styleMiddle.boxName, styleMiddle.fontName)}>
+              {this.nounId in this.props.nounsBasic? (
+                this.props.nounsBasic[this.nounId].name+(this.props.nounsBasic[this.nounId].prefix? (" ,  "+this.props.nounsBasic[this.nounId].prefix): "")
+              ): (
+                null
+              )}
+            </div>
           </div>
           <div
             className={'boxRelativeFull'}

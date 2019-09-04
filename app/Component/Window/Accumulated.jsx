@@ -9,7 +9,8 @@ import {
 import {connect} from "react-redux";
 import querystring from 'query-string';
 import Unit from '../../Unit/Unit/Unit.jsx';
-import MixBlock from '../../Component/Blocks/MixBlock.jsx';
+import SimpleBlock from '../../Component/Blocks/SimpleBlock/SimpleBlock.jsx';
+import NailBasic from '../../Component/Nails/NailBasic/NailBasic.jsx';
 import {
   handleNounsList,
   handleUsersList
@@ -119,12 +120,23 @@ class Accumulated extends React.Component {
     );
 
     let list = this.state.nailsBlock.map((nailsList, index)=>{
+      //just for temp, we need to make a simple unitsList here
+      //because previously, the nailsList was designed for MixBlock which need to distinguish 'type'
+      let unitsList = [];
+      nailsList.forEach((obj, indexEach)=>{
+        if(obj.type=='shared') unitsList.push(obj.id);
+      });
+
       return (
-        <MixBlock
+        <SimpleBlock
           key={"key_Window_accumulatedBlocks_"+index}
-          mixList={nailsList}
-          unitsBasic={this.state.unitsBasic}
-          marksBasic={this.state.marksBasic}/>
+          unitsList={unitsList}
+          unitsBasic={this.state.unitsBasic}>
+          <NailBasic
+            {...this.props}
+            linkPath={this.props.match.url+'/unit'}
+            marksBasic={this.state.marksBasic}/>
+        </SimpleBlock>
       )
     });
 
