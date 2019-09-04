@@ -26,6 +26,7 @@ class UnitIndepen extends React.Component {
     this._axios_getUnitImg = this._axios_getUnitImg.bind(this);
     this._axios_getUnitData = this._axios_getUnitData.bind(this);
     this._axios_get_UnitMount = this._axios_get_UnitMount.bind(this);
+    this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._reset_UnitMount = ()=>{this._axios_get_UnitMount();};
     this.style={
 
@@ -36,6 +37,11 @@ class UnitIndepen extends React.Component {
     let params = new URLSearchParams(this.props.location.search);
     let paramsTheater = params.has('theater'); //bool, true if there is 'theater'
     if(paramsTheater) document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:hidden;");
+  }
+
+  _construct_UnitInit(match, location){
+    let unitInit= {marksify: false, initMark: "all", layer: 0};
+    return unitInit;
   }
 
   _axios_getUnitData(){
@@ -143,12 +149,15 @@ class UnitIndepen extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-    //modify <body> first depend on current view status
-    if(this.paramsTheater) document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:hidden;")
+    //1) modify <body> first depend on current view status
+    if(this.paramsTheater) document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:hidden;");
     else{
       document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:scroll;")
+      //2) in state, if 'close' is true but the paramsTheater was false
+      //that's mean the Redirect happened, & should not redirect again
+      if(this.state.close) this.setState({close: false});
     };
-    //becuase there is chance we jump to another Unit from Related but using the same component
+    //3) becuase there is chance we jump to another Unit from Related but using the same component
     //so we check if the unit has changed
     //but Notice! always check the diff between the current & pre id from 'path search'
     //due to this is the only reliable and stable source (compare to the unitCurrent)
@@ -186,15 +195,10 @@ class UnitIndepen extends React.Component {
     this.paramsTheater = params.has('theater'); //declaim here and would be used throughout the life cycle
     this.unitId = params.get('unitId');
 
-
-    //for theater close
-
-    //would re render but still same state!!
-
     if(this.state.close){return <Redirect to={{
         pathname: this.props.location.pathname,
-        search: '?unitId='+unitId,
-        state: {from: this.props.location.state.from}
+        search: '?unitId='+this.unitId,
+        state: {from: this.props.location}
       }}/>};
 
     return(
@@ -209,6 +213,7 @@ class UnitIndepen extends React.Component {
             <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(11,11,11,0.98)'}}>
               <Theater
                 {...this.props}
+                _construct_UnitInit={this._construct_UnitInit}
                 _reset_UnitMount={this._reset_UnitMount}
                 _close_theaterHeigher={this._close_theater}/>
             </ModalBackground>

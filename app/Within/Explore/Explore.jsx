@@ -72,7 +72,7 @@ class Explore extends React.Component {
           <Switch>
             <Route path={this.props.match.path+"/users"} render={(props)=> <ExploreUsers {...props}/>}/>
             <Route path={this.props.match.path+"/nodes"} render={(props)=> <ExploreNodes {...props}/>}/>
-            <Route path={this.props.match.path+"/unit"} render={(props)=> <UnitIndepen {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_von_cosmic}/>}/>
+            <Route path={this.props.match.path+"/unit"} render={(props)=> <UnitIndepen {...props} _refer_von_unit={this.props._refer_von_cosmic}/>}/>
             <Route exact path={this.props.match.path+"/"} render={(props)=> <ExpOverview {...props}/>}/>
           </Switch>
         </div>
