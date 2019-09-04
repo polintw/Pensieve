@@ -207,23 +207,6 @@ start the fundemental first, and then the specific condition
 ._C_C_app_Within_component_MainIndex_stylesMainIndex_module__decoSeparationHorz {
   width: 100%
 }
-._C_C_app_Unit_Theater_styles_module__boxBackTop {
-  display:flex;
-  justify-content: space-around;
-  width: 2rem;
-  height: 5%;
-  position: absolute;
-  top: 2%;
-  right: 1.4%;
-  font-size: 1.23rem;
-  font-weight: 500;
-  color: #F0F0F0;
-  cursor:pointer;
-}
-
-._C_C_app_Unit_Theater_styles_module__spanBackTop {
-  box-sizing: border-box;
-}
 ._C_C_app_Unit_Related_styles_module__comRelated {
   width: 100%;
   box-sizing: border-box;
@@ -245,6 +228,23 @@ start the fundemental first, and then the specific condition
 ._C_C_app_Unit_Related_styles_module__footer {
   width: 100%;
   height: 91px;
+}
+._C_C_app_Unit_Theater_styles_module__boxBackTop {
+  display:flex;
+  justify-content: space-around;
+  width: 2rem;
+  height: 5%;
+  position: absolute;
+  top: 2%;
+  right: 1.4%;
+  font-size: 1.23rem;
+  font-weight: 500;
+  color: #F0F0F0;
+  cursor:pointer;
+}
+
+._C_C_app_Unit_Theater_styles_module__spanBackTop {
+  box-sizing: border-box;
 }
 ._C_C_app_Component_Draft_styleDisplay_module__markDisplayBlock {
   overflow: hidden;
@@ -300,25 +300,6 @@ start the fundemental first, and then the specific condition
   line-height: 1.7rem;
   color: #ABABAB;
 }
-._C_C_app_Component_Blocks_SimpleBlock_styles_module__frameNail {
-  display: inline-block;
-  width: 32.8%;
-  min-width: 264px;
-  height: 34vh;
-  min-height: 15.7rem;
-  position: relative;
-  box-sizing: border-box;
-  margin: 0 0 47px;
-  box-shadow: 0 1px 1px -0.1rem, 0rem -0.05rem 2px -0.2rem;
-  border-radius: 0.3rem;
-}
-
-/* beneath must after the main 'frameNail'*/
-
-._C_C_app_Component_Blocks_SimpleBlock_styles_module__frameTwo {
-  width: 49.42%;
-  height: 20.4rem;
-}
 ._C_C_app_Component_Nails_NailBasic_styleNailBasic_module__Nails_Basic {
   width: 100%;
   height: 100%;
@@ -353,6 +334,43 @@ start the fundemental first, and then the specific condition
   font-weight: 400;
   letter-spacing: 0.04rem;
   color: #F0F0F0;
+}
+._C_C_app_Component_Blocks_SimpleBlock_styles_module__frameNail {
+  display: inline-block;
+  width: 32.8%;
+  min-width: 264px;
+  height: 34vh;
+  min-height: 15.7rem;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0 0 47px;
+  box-shadow: 0 1px 1px -0.1rem, 0rem -0.05rem 2px -0.2rem;
+  border-radius: 0.3rem;
+}
+
+/* beneath must after the main 'frameNail'*/
+
+._C_C_app_Component_Blocks_SimpleBlock_styles_module__frameTwo {
+  width: 49.42%;
+  height: 20.4rem;
+}
+._C_C_app_Within_component_MainTitle_styles_module__comMainTitle {
+  width: 100%;
+  height: 26px;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0 0 4.2rem;
+}
+
+._C_C_app_Within_component_MainTitle_styles_module__boxExplore {
+
+}
+
+._C_C_app_Within_component_MainTitle_styles_module__fontExplore {
+  font-size: 1.32rem;
+  letter-spacing: 0.12rem;
+  white-space: nowrap;
+  color: #333333;
 }
 ._C_C_app_Within_component_MainBanner_styles_module__comMainBanner {
   width: 100%;
@@ -421,23 +439,23 @@ start the fundemental first, and then the specific condition
 ._C_C_app_Within_component_MainBanner_styles_module__borderBanner {
   border-bottom: 0.14rem solid #c4c4c4;
 }
-._C_C_app_Within_component_MainTitle_styles_module__comMainTitle {
-  width: 100%;
-  height: 26px;
-  position: relative;
+._C_C_app_Unit_RelatedList_styles_module__boxList {
+  display: inline-block;
+  width: 73%;
+}
+
+._C_C_app_Unit_RelatedList_styles_module__boxSubtitle {
+  display: inline-block;
+  width: 27%;
   box-sizing: border-box;
-  margin: 0 0 4.2rem;
+  padding: 12% 1%;
 }
 
-._C_C_app_Within_component_MainTitle_styles_module__boxExplore {
-
-}
-
-._C_C_app_Within_component_MainTitle_styles_module__fontExplore {
-  font-size: 1.32rem;
+._C_C_app_Unit_RelatedList_styles_module__fontSubtitle {
+  font-size: 1.44rem;
   letter-spacing: 0.12rem;
-  white-space: nowrap;
-  color: #333333;
+  font-weight: 400;
+  color: #777777;
 }
 ._C_C_app_Unit_RelatedOrigin_styles_module__comRelatedOrig {
   width: 100%;
@@ -503,24 +521,6 @@ start the fundemental first, and then the specific condition
   line-height: 1.77rem;
   word-wrap: break-word;
   color: #FAFAFA;
-}
-._C_C_app_Unit_RelatedList_styles_module__boxList {
-  display: inline-block;
-  width: 73%;
-}
-
-._C_C_app_Unit_RelatedList_styles_module__boxSubtitle {
-  display: inline-block;
-  width: 27%;
-  box-sizing: border-box;
-  padding: 12% 1%;
-}
-
-._C_C_app_Unit_RelatedList_styles_module__fontSubtitle {
-  font-size: 1.44rem;
-  letter-spacing: 0.12rem;
-  font-weight: 400;
-  color: #777777;
 }
 ._C_C_app_Component_Nails_NailThumb_styles_module__frame {
   width: 100%;

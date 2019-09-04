@@ -11,6 +11,7 @@ import ExpOverview from './ExpOverview.jsx';
 import ExploreUsers from './ExploreUsers.jsx';
 import ExpSubtitle from './ExpSubtitle/ExpSubtitle.jsx';
 import ExploreNodes from './ExploreNodes/ExploreNodes.jsx';
+import UnitIndepen from '../../Unit/UnitIndepen/UnitIndepen.jsx';
 import SvgLogo from '../../Component/Svg/SvgLogo.jsx';
 
 const styleMiddle = {
@@ -71,6 +72,7 @@ class Explore extends React.Component {
           <Switch>
             <Route path={this.props.match.path+"/users"} render={(props)=> <ExploreUsers {...props}/>}/>
             <Route path={this.props.match.path+"/nodes"} render={(props)=> <ExploreNodes {...props}/>}/>
+            <Route path={this.props.match.path+"/unit"} render={(props)=> <UnitIndepen {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_von_cosmic}/>}/>
             <Route exact path={this.props.match.path+"/"} render={(props)=> <ExpOverview {...props}/>}/>
           </Switch>
         </div>

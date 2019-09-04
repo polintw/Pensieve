@@ -1,0 +1,8 @@
+.boxRelated {
+  width: 68%;
+  min-width: 790px;
+  position: absolute;
+  left: 51%;
+  transform: translate(-49%,0);
+  box-sizing: border-box;
+}
