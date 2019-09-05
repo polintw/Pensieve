@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import NailShared from '../../../Component/Nails/NailShared.jsx';
-import Unit from '../../../Component/Unit.jsx';
+import Unit from '../../../Unit/Unit/Unit.jsx';
 
 class Broads extends React.Component {
   constructor(props){
@@ -104,7 +104,7 @@ class Broads extends React.Component {
           style={this.style.selfCom_Broads_nails_}>
           {nails}
         </div>
-        <Route path={this.props.match.path+"/units/:id"} render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_leaveSelf}/>}/>
+        <Route path={this.props.match.path+"/unit"} render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_leaveSelf}/>}/>
       </div>
     )
   }

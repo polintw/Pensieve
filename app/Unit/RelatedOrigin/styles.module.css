@@ -1,0 +1,65 @@
+.comRelatedOrig {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.boxPreview {
+  width: 63%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  box-sizing: border-box;
+}
+
+.mouseOnPreview {
+  outline: double 1.5px #777777;
+}
+
+.boxNodes {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 27%;
+  max-height: 64%;
+  position: absolute;
+  bottom: 4%;
+  left: 0%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.boxAuthor {
+  max-width: 16%;
+  position: absolute;
+  bottom: 66%;
+  left: 6%;
+  color: #323232;
+  cursor:pointer;
+}
+
+.boxMark {
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  margin-bottom: 2.8rem;
+}
+
+.boxListRela {
+  width: 100%;
+  box-sizing: border-box;
+  text-align: right;
+  padding-right: 13%;
+  border-right: 0.75px solid #cccccc;
+}
+
+.fontContentSum {
+  font-size: 1.56rem;
+  font-weight: 300;
+  font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;
+  letter-spacing: 0.087rem;
+  line-height: 1.77rem;
+  word-wrap: break-word;
+  color: #FAFAFA;
+}

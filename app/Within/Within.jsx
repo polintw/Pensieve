@@ -6,7 +6,6 @@ import {
   Link
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import cxBind from 'classnames/bind';
 import WithinLtd from './Within_Ltd.jsx';
 import WithinCosmic from './Within_Cosmic.jsx';
 
@@ -21,8 +20,15 @@ class Within extends React.Component {
     };
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot){
+
+  }
+
+  componentDidMount() {
+
+  }
+
   render(){
-    //let cx = cxBind.bind(styles);
     return(
       <Router>
         <div>

@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
-import Unit from '../../Component/Unit.jsx';
+import Unit from '../../Unit/Unit/Unit.jsx';
 import NailScape from '../../Component/Nails/NailScape.jsx';
 import {
   handleNounsList,
@@ -136,7 +136,7 @@ class LtdUnits extends React.Component {
         </div>
         <div style={this.style.withinCom_LtdUnits_footer}></div>
         <Route
-          path="/units/:id"
+          path="/unit"
           render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_leavevonLtd}/>}/>
       </div>
     )

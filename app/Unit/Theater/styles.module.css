@@ -1,0 +1,17 @@
+.boxBackTop {
+  display:flex;
+  justify-content: space-around;
+  width: 2rem;
+  height: 5%;
+  position: absolute;
+  top: 2%;
+  right: 1.4%;
+  font-size: 1.23rem;
+  font-weight: 500;
+  color: #F0F0F0;
+  cursor:pointer;
+}
+
+.spanBackTop {
+  box-sizing: border-box;
+}

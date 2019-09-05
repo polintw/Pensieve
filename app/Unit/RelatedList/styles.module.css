@@ -1,0 +1,18 @@
+.boxList {
+  display: inline-block;
+  width: 73%;
+}
+
+.boxSubtitle {
+  display: inline-block;
+  width: 27%;
+  box-sizing: border-box;
+  padding: 12% 1%;
+}
+
+.fontSubtitle {
+  font-size: 1.44rem;
+  letter-spacing: 0.12rem;
+  font-weight: 400;
+  color: #777777;
+}

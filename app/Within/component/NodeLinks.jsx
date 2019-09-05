@@ -7,7 +7,8 @@ import {
   Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import SimpleBlock from '../../Component/Blocks/SimpleBlock.jsx';
+import SimpleBlock from '../../Component/Blocks/SimpleBlock/SimpleBlock.jsx';
+import NailBasic from '../../Component/Nails/NailBasic/NailBasic.jsx';
 import {
   handleNounsList,
   handleUsersList
@@ -22,7 +23,6 @@ const styleMiddle = {
     minHeight: '5rem',
     position: 'relative',
     boxSizing: 'border-box',
-    margin: '2rem 0px 0px'
   },
   footer: {
     width: '100%',
@@ -111,8 +111,12 @@ class NodeLinks extends React.Component {
         <SimpleBlock
           key={"key_Cosmicnoun_blocks_"+index}
           unitsList={unitBlock}
-          unitsBasic={this.state.unitsBasic}
-          marksBasic={this.state.marksBasic}/>
+          unitsBasic={this.state.unitsBasic}>
+          <NailBasic
+            {...this.props}
+            linkPath={this.props.match.url+'/unit'}
+            marksBasic={this.state.marksBasic}/>
+        </SimpleBlock>
       )
     });
 

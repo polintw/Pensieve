@@ -1,0 +1,13 @@
+.boxRelated {
+  width: 67%;
+  min-width: 790px;
+  position: absolute;
+  left: 49%;
+  transform: translate(-51%,0);
+  box-sizing: border-box;
+}
+
+.footer {
+  height: 27vh;
+  min-height: 121px;
+}

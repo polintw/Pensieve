@@ -62,7 +62,8 @@ class NotifyBox extends React.Component {
           style={Object.assign({}, styleMiddle.boxNotifyItem, {backgroundColor: (item.status=="untouched")? '#edeed3': 'white'})}>
           <Link
             to={{
-              pathname: "/cognition/actions/shareds/units/"+item.unitId,
+              pathname: "/cognition/actions/shareds/unit",
+              search: '?theater&unitId='+item.unitId,
               state: {from: "/cognition/actions/shareds"}
             }}
             className={'plainLinkButton'}>
