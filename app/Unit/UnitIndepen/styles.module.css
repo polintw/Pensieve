@@ -8,5 +8,6 @@
 }
 
 .footer {
-  height: 83px;
+  height: 27vh;
+  min-height: 121px;
 }

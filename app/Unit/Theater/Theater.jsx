@@ -82,8 +82,15 @@ class Theater extends React.Component {
     this.setState({close: true})
   }
 
-  componentDidMount(){
+  componentDidUpdate(prevProps, prevState, snapshot){
+    //due to update to unitId only still Redirect to a new URL
+    //check again to re-define the URL
+    if(!this.props.location.pathname.includes('explore/unit')) window.history.replaceState({from: this.props.location}, '', '/cosmic/explore/unit?theater&unitId='+this.unitId);
+  }
 
+  componentDidMount(){
+    //replace the URL display in the browser bar if not from independt page
+    if(!this.props.location.pathname.includes('explore/unit')) window.history.replaceState({from: this.props.location}, '', '/cosmic/explore/unit?theater&unitId='+this.unitId);
   }
 
   componentWillUnmount(){
@@ -131,11 +138,11 @@ class Theater extends React.Component {
 
   render(){
     let params = new URLSearchParams(this.props.location.search); //we need value in URL query
-    let unitId = params.get('unitId');
+    this.unitId = params.get('unitId');
     //restract unitId here agian(not from unitCurrent) just in case the unitCurrent still empty
     if(this.state.close){return <Redirect to={{
         pathname: this.props.location.pathname,
-        search: '?unitId='+unitId,
+        search: '?unitId='+this.unitId,
         state: {from: (typeof this.props.location.state !== 'undefined')? this.props.location.state.from: '/'}
       }}/>};
 
