@@ -207,6 +207,7 @@ class UnitIndepen extends React.Component {
           className={styles.boxRelated}>
           <Related
             {...this.props}/>
+          <div className={styles.footer}/>
         </div>
         { this.paramsTheater &&
           <ModalBox containerId="root">

@@ -1,8 +1,12 @@
 .boxRelated {
-  width: 68%;
+  width: 67%;
   min-width: 790px;
   position: absolute;
-  left: 51%;
-  transform: translate(-49%,0);
+  left: 49%;
+  transform: translate(-51%,0);
   box-sizing: border-box;
+}
+
+.footer {
+  height: 83px;
 }

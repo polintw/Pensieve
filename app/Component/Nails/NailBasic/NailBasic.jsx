@@ -185,7 +185,7 @@ class NailBasic extends React.Component {
             <div
               style={Object.assign({},
                 commonStyle.Com_Nails_Basic_pic_mask,
-                this.state.onImg? {backgroundImage: 'linear-gradient(rgba(0,0,0,0.67), rgba(0,0,0,0.67))', backgroudColor: 'rgba(0,0,0,0.7)'}:{}
+                this.state.onImg? {backgroundImage: 'linear-gradient(rgba(0,0,0,0.56), rgba(0,0,0,0.56))', backgroudColor: 'rgba(0,0,0,0.7)'}:{}
               )}/>
             <div
               style={commonStyle.Com_Nails_Basic_content_}>
