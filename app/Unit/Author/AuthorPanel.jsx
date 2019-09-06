@@ -54,10 +54,6 @@ class AuthorPanel extends React.Component {
           onClick={this._handleClick_UnitAction_Author}>
           {"edit"}
         </span>
-        <span
-          style={this.style.Com_AuthorPanel_span}>
-          {"erase"}
-        </span>
       </div>
     )
   }

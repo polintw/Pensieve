@@ -8,7 +8,6 @@ import {
 } from 'draft-js';
 import styles from "./styles.module.css";
 import DraftEditor from '../../Draft/DraftEditor.jsx';
-import SvgPropic from '../../Svg/SvgPropic.jsx';
 import ModalBox from '../../ModalBox.jsx';
 
 const styleMiddle = {
@@ -172,14 +171,6 @@ class MarkEditingBlock extends React.Component {
                 {'save'}
               </span>
             </div>
-          </div>
-          <div
-            style={Object.assign({}, this.style.Com_MarkEditingBlock_credits_)}>
-            <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
-            <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
-          </div>
-          <div>
-            {"(多行參考資料連結)"}
           </div>
         </div>
       </div>

@@ -8,7 +8,6 @@ import classnames from 'classnames';
 import MarksArticle from './MarksArticle.jsx';
 import {NodesExtensible} from './NodesDisplay/NodesDisplay.jsx';
 import DateConverter from '../Component/DateConverter.jsx';
-import SvgCreate from '../Component/Svg/SvgCreate.jsx'
 import {AccountPlate} from '../Component/AccountPlate.jsx';
 
 const styleMiddle = {
@@ -24,7 +23,6 @@ class UnitViewSummary extends React.Component {
     this.marksArticle = React.createRef();
     this._set_layerstatus = this._set_layerstatus.bind(this);
     this._handleClick_Account = this._handleClick_Account.bind(this);
-    this._handleClick_UnitAction_response = this._handleClick_UnitAction_response.bind(this);
     this._handleWheel_marksArticle = (event)=>{event.stopPropagation();};
     this.style={
       Com_UnitViewSummary_: {
@@ -43,14 +41,6 @@ class UnitViewSummary extends React.Component {
         top: '5.5%',
         boxSizing: 'border-box',
         overflowY: 'auto'
-      },
-      Com_UnitViewSummary_panel_: {
-        width: '48%',
-        height: '9%',
-        position: 'absolute',
-        bottom: '6%',
-        right: '3.5%',
-        boxSizing: 'border-box'
       },
       Com_UnitViewSummary_nodes_: {
         maxWidth: '22%',
@@ -81,12 +71,6 @@ class UnitViewSummary extends React.Component {
     let moveCount = (layer=='cover')? 0 : 100;
     let marksStatus = markKey? {marksify: true, initMark: markKey}: {marksify: false, initMark: "all"};
     this.props._set_layerstatus(true, parseInt(moveCount), marksStatus);
-  }
-
-  _handleClick_UnitAction_response(event){
-    event.stopPropagation();
-    event.preventDefault();
-    this.props._set_Modalmode("response");
   }
 
   _handleClick_Account(event){
@@ -148,16 +132,6 @@ class UnitViewSummary extends React.Component {
             nouns={this.props.unitCurrent.nouns}
             styleItem={{margin: '0 0 1rem'}}
             _handleClick_listNoun={this.props._refer_toandclose}/>
-        </div>
-        <div
-          style={this.style.Com_UnitViewSummary_panel_}>
-          <div
-            className={'sumPanelOptions'}
-            style={{cursor: 'pointer'}}
-            onClick={this._handleClick_UnitAction_response}>
-            <SvgCreate
-              place={true}/>
-          </div>
         </div>
       </div>
     )

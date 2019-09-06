@@ -4,7 +4,6 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import ViewerPanel from './ViewerPanel.jsx';
 import AuthorPanel from './Author/AuthorPanel.jsx';
 
 class UnitActionPanel extends React.Component {
@@ -30,12 +29,9 @@ class UnitActionPanel extends React.Component {
       <div
         style={this.style.Com_UnitActionPanel_}>
         {
-          this.props.unitCurrent.identity=="author" ?(
+          this.props.unitCurrent.identity=="author" &&
             <AuthorPanel
               _set_Modalmode={this.props._set_Modalmode}/>
-          ):(
-            <ViewerPanel/>
-          )
         }
       </div>
     )
