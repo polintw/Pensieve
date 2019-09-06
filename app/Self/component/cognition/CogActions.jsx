@@ -3,7 +3,6 @@ import {
   Route,
   Link
 } from 'react-router-dom';
-import NavActions from './NavActions.jsx';
 import Shared from './Shared.jsx';
 
 export default class CogActions extends React.Component {
@@ -24,14 +23,6 @@ export default class CogActions extends React.Component {
         position: 'absolute',
         top: '0',
         left: '0'
-      },
-      selfCom_CogActions_Nav_: {
-        width: '27%',
-        height: '12vh',
-        position: 'absolute',
-        right: '-2%',
-        top: '0',
-        boxSizing: 'border-box'
       }
     }
   }
@@ -44,11 +35,6 @@ export default class CogActions extends React.Component {
         <div
           style={this.style.selfCom_CogActions_main_}>
           <Route path={this.props.match.path+"/shareds"} render={(props)=> <Shared {...props} _refer_leaveSelf={this.props._refer_leaveSelf}/>}/>
-        </div>
-        <div
-          style={this.style.selfCom_CogActions_Nav_}>
-          <NavActions
-            {...this.props} />
         </div>
       </div>
     )

@@ -6,7 +6,6 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import Sheet from './component/Sheet.jsx';
-import NavFrontShelf from './component/NavFront/NavFrontShelf.jsx';
 import MaskProcessing from '../Component/MaskProcessing.jsx';
 
 const styleMiddle ={
@@ -53,29 +52,6 @@ class FrontProfile extends React.Component {
         top: '2%',
         left: '18%',
         boxSizing: 'border-box'
-      },
-      Front_Profile_nav_: {
-        width: '9%',
-        height: '30%',
-        position: 'absolute',
-        top: '32%',
-        left: '5%',
-        boxSizing: 'border-box',
-        padding: '0 0.5vw',
-        borderRight: 'solid 1px #909090',
-        textAlign: 'right',
-        fontSize: '1.4rem',
-        letterSpacing: '0.15rem'
-      },
-      Front_Profile_nav_span: {
-        display: 'inline-block',
-        width: '100%',
-        position: 'relative',
-        float: 'right',
-        boxSizing: 'border-box',
-        padding: '0 0.2vw',
-        margin: '0.2vh 0',
-        cursor: 'pointer'
       },
       Front_Profile_backPlane_top: {
         width: '100%',
@@ -135,11 +111,6 @@ class FrontProfile extends React.Component {
               {"back"}
             </div>
           </Link>
-        </div>
-        <div
-          style={this.style.Front_Profile_nav_}>
-          <span style={this.style.Front_Profile_nav_span}>{"about "}</span>
-          <span style={this.style.Front_Profile_nav_span}>{"binders "}</span>
         </div>
         {
           (this.props.settingSubmitting || this.props.axios) &&

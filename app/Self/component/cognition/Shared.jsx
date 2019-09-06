@@ -5,7 +5,6 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import Threads from './Threads.jsx';
 import TitleShared from './Titles/TitleShared.jsx';
 import Unit from '../../../Unit/Unit/Unit.jsx';
 import NailShared from '../../../Component/Nails/NailShared.jsx';
