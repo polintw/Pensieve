@@ -6,8 +6,10 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import TitleShared from './Titles/TitleShared.jsx';
-import Unit from '../../../Component/Unit.jsx';
+import Unit from '../../../Unit/Unit/Unit.jsx';
 import NailShared from '../../../Component/Nails/NailShared.jsx';
+//ModalBox used some unstable method, considering updating some day.
+import ModalBox from '../../../Component/ModalBox.jsx';
 import {handleNounsList} from '../../../redux/actions/general.js';
 import {
   cancelErr,
@@ -223,7 +225,10 @@ class Shared extends React.Component {
             _axios_nails_shareds={this._axios_nails_shareds}
             _refer_von_Create={this.props._refer_leaveSelf}/>
         </div>
-        <Route path={this.props.match.path+"/units/:id"} render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_leaveSelf}/>}/>
+        <ModalBox containerId="root">
+          <Route path={this.props.match.path+"/:sharedId/threads"} render={(props)=> <Threads {...props} unitBasic={this.state.unitsBasic[props.match.params.sharedId]} _refer_leaveSelf={this.props._refer_leaveSelf}/>}/>
+        </ModalBox>
+        <Route path={this.props.match.path+"/unit"} render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_leaveSelf}/>}/>
       </div>
     )
   }

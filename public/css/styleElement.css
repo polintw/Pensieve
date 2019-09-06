@@ -2,6 +2,13 @@
   font-style: italic;
 }
 
+.spanNameLayer {
+  white-space: nowrap;
+  font-size: 1.36rem;
+  font-weight: 400;
+  letter-spacing: 0.07rem;
+}
+
 .spanNameRegular {
   white-space: nowrap;
   font-size: 1.5rem;
@@ -18,9 +25,9 @@
 
 .spanNameTitle {
   white-space: nowrap;
-  font-size: 2.7rem;
+  font-size: 3.2rem;
   font-weight: 400;
-  letter-spacing: 0.21rem;
+  letter-spacing: 0.12rem;
 }
 
 .spanNameLarge {

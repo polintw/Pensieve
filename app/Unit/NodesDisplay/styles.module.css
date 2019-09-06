@@ -1,0 +1,11 @@
+.boxListItem {
+  display: inline-block;
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.interLiItem {
+  text-shadow: 0px 1px 1px #bbbbbb;
+}

@@ -27,6 +27,7 @@ router.use('/', auth)
 router.use('/profile', profileRouter) //prepare to replace part of the "/user"
 
 
+// shift to "units"
 router.use('/units', unitsRouter)
 
 router.use('/account', accountRouter)

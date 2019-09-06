@@ -38,7 +38,7 @@ class Terrace extends React.Component {
         }
         break;
       case 'noun':
-        window.location.assign('/nouns/'+identifier);
+        window.location.assign('/nodes/'+identifier);
         break;
       default:
         return

@@ -72,8 +72,8 @@ class Palette extends React.Component {
       case 'large':
         return 'spanNameLarge'
         break;
-      case 'mediumI':
-        return 'spanNameMedium spanNameItalic'
+      case 'layer':
+        return 'spanNameLayer'
         break;
       default:
         return 'spanNameRegular'

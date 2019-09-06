@@ -148,8 +148,8 @@ class NailInspired extends React.Component {
         <div style={commonStyle.maskPic} />
         <Link
           to={{
-            pathname: this.props.match.url+"/units/"+this.props.unitId,
-            search: "?mark="+this.props.markId,
+            pathname: this.props.match.url+"/unit",
+            search: '?theater&unitId='+this.props.unitId+"&mark="+this.props.markId,
             state: {from: this.props.location}
           }}
           className={"plainLinkButton"}>

@@ -17,7 +17,7 @@ import {
 } from './utils.js';
 import MainTitle from '../MainTitle/MainTitle.jsx';
 import MainBanner from '../MainBanner/MainBanner.jsx';
-import Unit from '../../../Component/Unit.jsx';
+import Unit from '../../../Unit/Unit/Unit.jsx';
 import {
   handleNounsList,
   handleUsersList
@@ -194,7 +194,7 @@ class MainIndex extends React.Component {
           </div>
         </div>
         <Route
-          path={"/units/:id"}
+          path={"/unit"}
           render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_von_cosmic}/>}/>
       </div>
     )

@@ -9,10 +9,10 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./stylesCosmic.module.css";
-import Explore from './Explore/Explore.jsx';
+import Explore from './Explore/Explore/Explore.jsx';
 import CosmicMain from './component/CosmicMain.jsx';
-import CosmicNoun from './component/CosmicNoun.jsx';
 import CosmicUser from './component/CosmicUser.jsx';
+import CosmicNoun from './component/CosmicNoun.jsx';
 import LinkExplore from './component/LinkExplore/LinkExplore.jsx';
 import CosmicCorner from './component/CosmicCorner/CosmicCorner.jsx';
 import NavOptions from '../Component/NavOptions.jsx';
@@ -25,12 +25,6 @@ class WithinCosmic extends React.Component {
     };
     this._refer_von_cosmic = this._refer_von_cosmic.bind(this);
     this.style={
-      Within_Cosmic_: {
-        width: '100%',
-        height: '100%',
-        position: 'static',
-        overflow: 'auto'
-      },
       Within_Cosmic_backplane:{
         width: '100%',
         height: '100%',
@@ -72,7 +66,7 @@ class WithinCosmic extends React.Component {
       case 'noun':
         this.setState((prevState, props)=>{
           let switchTo = {
-            params: '/nouns/'+identifier,
+            params: '/nodes/'+identifier,
             query: ''
           };
           return {switchTo: switchTo}
@@ -116,8 +110,7 @@ class WithinCosmic extends React.Component {
     if(this.state.switchTo){return <Redirect to={this.state.switchTo.params+this.state.switchTo.query}/>}
 
     return(
-      <div
-        style={this.style.Within_Cosmic_}>
+      <div>
         <div style={this.style.Within_Cosmic_backplane}></div>
         <Switch>
           <Route path={"/nodes/:nounId"} render={(props)=> <CosmicNoun {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>

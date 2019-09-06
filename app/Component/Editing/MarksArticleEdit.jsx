@@ -53,10 +53,11 @@ const styleMiddle = {
     color: 'rgb(16, 16, 16)'
   },
   textEditor: {
-    fontSize: '1.36rem',
+    fontSize: '1.56rem',
     fontWeight: '300',
-    letterSpacing: '0.16rem',
-    lineHeight: '1.9rem',
+    fontFamily: "'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif",
+    letterSpacing: '0.087rem',
+    lineHeight: '1.77rem',
     wordWrap: 'break-word',
     color: '#FAFAFA'
   }
@@ -67,11 +68,14 @@ class MarksArticleEdit extends React.Component {
     super(props);
     this.state = {
       markEditing: false,
-      editingEditorContent: null
+      editingEditorContent: null,
+      onEnterSave: false
     };
     this.contentEditor = React.createRef();
     this._set_EditorUpdate = this._set_EditorUpdate.bind(this);
-    this._handleClick_Article_editing = this._handleClick_Article_editing.bind(this);
+    this._handleEnter_Save = this._handleEnter_Save.bind(this);
+    this._handleLeave_Save = this._handleLeave_Save.bind(this);
+  this._handleClick_Article_editing = this._handleClick_Article_editing.bind(this);
     this._handleClick_Article_openMark = this._handleClick_Article_openMark.bind(this);
     this._handleClick_ArticleEdit_cancel = this._handleClick_ArticleEdit_cancel.bind(this);
     this._handleClick_markComponentEditor = this._handleClick_markComponentEditor.bind(this);
@@ -144,6 +148,24 @@ class MarksArticleEdit extends React.Component {
     });
   }
 
+  _handleEnter_Save(e){
+    //don't need to stop proppagation,
+    //because both the 'onMouseEnter' & 'onMouseLeave'
+    //would not 'bubble'
+    this.setState({
+      onEnterSave: true
+    })
+  }
+
+  _handleLeave_Save(e){
+    //don't need to stop proppagation,
+    //because both the 'onMouseEnter' & 'onMouseLeave'
+    //would not 'bubble'
+    this.setState({
+      onEnterSave: false
+    })
+  }
+
   _set_EditorUpdate(editorState){
     this.setState({editingEditorContent: convertToRaw(editorState.getCurrentContent())});
   }
@@ -178,8 +200,10 @@ class MarksArticleEdit extends React.Component {
                 <div
                   style={Object.assign({}, styleMiddle.boxEditingPanel)}>
                   <div
-                    style={Object.assign({}, styleMiddle.boxSubmitButton, {borderRadius: '0.7rem', backgroundColor:'rgb(233, 181, 90)'})}
-                    onClick={this._handleClick_ArticleEdit_complete}>
+                    style={Object.assign({}, styleMiddle.boxSubmitButton, {borderRadius: '0.7rem'},  {backgroundColor: this.state.onEnterSave? "#ff7a5f": "#e6e6e6"})}
+                    onClick={this._handleClick_ArticleEdit_complete}
+                    onMouseEnter={this._handleEnter_Save}
+                    onMouseLeave={this._handleLeave_Save}>
                     <span
                       className={'centerAlignChild'}
                       style={styleMiddle.spanInteractions}>

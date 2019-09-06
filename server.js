@@ -66,7 +66,7 @@ const shareLimiter = rateLimit({
 app.use(limiter); //rate limiter apply to all requests
 app.use("/router/login", loginLimiter); // restrict specially for login behavior, but should use username one day
 app.use("/router/register", registerLimiter);
-app.use("/router/user/:id/shareds", shareLimiter); //it's just a temp method, its not good enough
+app.post("/router/share", shareLimiter); //it's just a temp method, its not good enough
 
 
 //parse url comeing in
