@@ -6,7 +6,6 @@ import {
   Link
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import WithinLtd from './Within_Ltd.jsx';
 import WithinCosmic from './Within_Cosmic.jsx';
 
 class Within extends React.Component {
@@ -33,8 +32,7 @@ class Within extends React.Component {
       <Router>
         <div>
           <Switch>
-            <Route path="/cosmic" render={(props)=> <WithinCosmic {...props}/>}/>
-            <Route path="/" render={(props)=> <WithinLtd {...props}/>}/>
+            <Route path="/" render={(props)=> <WithinCosmic {...props}/>}/>
           </Switch>
         </div>
       </Router>

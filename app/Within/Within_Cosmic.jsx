@@ -56,7 +56,7 @@ class WithinCosmic extends React.Component {
         }else{
           this.setState((prevState, props)=>{
             let switchTo = {
-              params: '/cosmic/users/'+identifier+'/accumulated',
+              params: '/users/'+identifier+'/accumulated',
               query: ''
             };
             return {switchTo: switchTo}
@@ -66,7 +66,7 @@ class WithinCosmic extends React.Component {
       case 'noun':
         this.setState((prevState, props)=>{
           let switchTo = {
-            params: '/cosmic/nodes/'+identifier,
+            params: '/nodes/'+identifier,
             query: ''
           };
           return {switchTo: switchTo}
@@ -113,9 +113,9 @@ class WithinCosmic extends React.Component {
       <div>
         <div style={this.style.Within_Cosmic_backplane}></div>
         <Switch>
-          <Route path={this.props.match.path+"/nodes/:nounId"} render={(props)=> <CosmicNoun {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
-          <Route path={this.props.match.path+"/users/:userId"} render={(props)=> <CosmicUser {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
-          <Route path={this.props.match.path+"/explore"} render={(props)=> <Explore {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
+          <Route path={"/nodes/:nounId"} render={(props)=> <CosmicNoun {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
+          <Route path={"/users/:userId"} render={(props)=> <CosmicUser {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
+          <Route path={"/explore"} render={(props)=> <Explore {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
           <Route path={this.props.match.path} render={(props)=> <CosmicMain {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
         </Switch>
         <div

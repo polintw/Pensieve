@@ -28,7 +28,7 @@ class LinkExplore extends React.Component {
           <div
             className={classnames(styles.boxCategory, styles.fontCategory)}>
             <Link
-              to="/cosmic/explore/nodes"
+              to="/explore/nodes"
               className={classnames('plainLinkButton')}>
               <span>
                 {'nodes '}
@@ -43,7 +43,7 @@ class LinkExplore extends React.Component {
           <div
             className={classnames(styles.boxCategory, styles.fontCategory)}>
             <Link
-              to="/cosmic/explore/users"
+              to="/explore/users"
               className={classnames('plainLinkButton')}>
               <span>
                 {'users '}
@@ -68,7 +68,7 @@ class LinkExplore extends React.Component {
 
   render(){
     //detect where I am now, for styling
-    let subPath = this.props.location.pathname.substring(8, 11);
+    let subPath = this.props.location.pathname.substring(1, 4);
     //pathNow is a INT indicate the index refer to this.abbrRoute
     //default should be -1, page Main(not in abbrRoute)
     let pathNow = this.abbrRoute.indexOf(subPath);
@@ -78,7 +78,7 @@ class LinkExplore extends React.Component {
         className={classnames(styles.comExplore)}>
         {this._render_Category(pathNow)}
         <Link
-          to="/cosmic/explore"
+          to="/explore"
           className={classnames('plainLinkButton', styles.boxExplore)}
           style={(pathNow< 0)?{opacity: this.props.mainTitle}:{}}>
           {'explore'}

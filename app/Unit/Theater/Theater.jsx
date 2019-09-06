@@ -84,12 +84,12 @@ class Theater extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot){
     //due to update to unitId only still Redirect to a new URL
     //check again to re-define the URL
-    if(!this.props.location.pathname.includes('explore/unit')) window.history.replaceState({from: this.props.location}, '', '/cosmic/explore/unit?theater&unitId='+this.unitId);
+    if(!this.props.location.pathname.includes('explore/unit')) window.history.replaceState({from: this.props.location}, '', '/explore/unit?theater&unitId='+this.unitId);
   }
 
   componentDidMount(){
     //replace the URL display in the browser bar if not from independt page
-    if(!this.props.location.pathname.includes('explore/unit')) window.history.replaceState({from: this.props.location}, '', '/cosmic/explore/unit?theater&unitId='+this.unitId);
+    if(!this.props.location.pathname.includes('explore/unit')) window.history.replaceState({from: this.props.location}, '', '/explore/unit?theater&unitId='+this.unitId);
   }
 
   componentWillUnmount(){

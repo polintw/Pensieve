@@ -83,7 +83,7 @@ class MainTitle extends React.Component {
           className={classnames('boxInlineRelative', styles.boxExplore, styles.fontExplore)}>
           <span style={{width: '73%', position: 'absolute', bottom: '7%', right: '8%', borderBottom: 'solid 0.75px #a8a8a8'}}></span>
           <Link
-            to="/cosmic/explore"
+            to="/explore"
             className={'plainLinkButton'}>
             {'explore'}
           </Link>

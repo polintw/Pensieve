@@ -82,7 +82,7 @@ class ExpOverview extends React.Component {
           className={'centerAlignChild'}
           style={Object.assign({}, styleMiddle.boxNav, styleMiddle.fontNav)}>
           <Link
-            to="/cosmic/explore/nodes"
+            to="/explore/nodes"
             className={'plainLinkButton'}>
             <span
               method="nodes"
@@ -91,7 +91,7 @@ class ExpOverview extends React.Component {
               onMouseLeave={this._handleLeave_ExpSpan}>{'nodes'}</span>
           </Link>
           <Link
-            to="/cosmic/explore/users"
+            to="/explore/users"
             className={'plainLinkButton'}>
             <span
               method="users"

@@ -66,7 +66,7 @@ class CosmicMain extends React.Component {
         <div style={{width: '100%', height: '3.6rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}>
           <div
             style={Object.assign({}, this.style.withinCom_CosmicMain_top_logo, {opacity: this.props.mainTitle})}
-            onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_von_cosmic('', '/cosmic')}}>
+            onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_von_cosmic('', '/')}}>
             <SvgLogo/>
           </div>
         </div>

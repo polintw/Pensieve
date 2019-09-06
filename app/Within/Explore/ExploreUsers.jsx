@@ -55,7 +55,7 @@ class UsersBlock extends React.Component {
   _render_exploreList_users(){
     let list = this.props.usersList.map((userId, index)=>{
       //claim path as a independent var to check if it is the id of user self
-      let path = "/cosmic/users/"+userId+"/accumulated";
+      let path = "/users/"+userId+"/accumulated";
       return (
         <div
           key={"key_Explore_List_user_"+index}
