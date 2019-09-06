@@ -17,15 +17,6 @@ app.engine('jsx', require('express-react-views').createEngine({transformViews: f
 app.enable("trust proxy"); //for rateLimit, due to behind a reverse proxy(nginx)
 
 
-//redis server as a session pool
-/*const redis = require("redis"),
-    client = redis.createClient();
-
-client.on("error", function (err) {
-  winston.error(`${"Error: from redis when initiation: "} ${err}`);
-});*/
-
-
 //rate limit by ip
 const limiter = rateLimit({
   windowMs: 10 * 60 * 1000, // 10 minutes
@@ -49,8 +40,33 @@ const loginLimiter = rateLimit({
     winston.warn(`${"WARN: login request exceeded from ip "} ${req.ip}`);
   }
 });
+const registerLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000, // 10 minutes
+  max: 12, // limit each IP to 600 requests per windowMs
+  message:{
+    'message': {'warning': "Trying completing registered process or verifying account too many times."},
+    'console': ''
+  },
+  onLimitReached: function(req, res){
+    winston.warn(`${"WARN: too many register request for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);
+  }
+});
+const shareLimiter = rateLimit({
+  windowMs: 12 * 60 * 1000, // 10 minutes
+  max: 3, // limit each IP to 600 requests per windowMs
+  message:{
+    'message': {'warning': "Trying sharing a new unit from yuor account too many times."},
+    'console': ''
+  },
+  onLimitReached: function(req, res){
+    winston.warn(`${"WARN: share post over the limit for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);
+  }
+});
+
 app.use(limiter); //rate limiter apply to all requests
 app.use("/router/login", loginLimiter); // restrict specially for login behavior, but should use username one day
+app.use("/router/register", registerLimiter);
+app.use("/router/share", shareLimiter); //it's just a temp method, its not good enough
 
 
 //parse url comeing in
