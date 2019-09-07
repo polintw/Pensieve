@@ -28,14 +28,13 @@ function runCommands(array, callback) {
 }
 
 
-module.exports.install = ()=>{
+module.exports.setUp = ()=>{
   //modify config if you change the path
   const commands = [
     'mkdir -p ./faked/pics/1',
     'mkdir -p ./faked/logs',
     'mkdir -p ./faked/dbSeeds',
     'cp ./config/.env.example.json ./config/.env.json',
-    'npm install'
   ]
   runCommands(commands, function(err, results) {
       // error or results here

@@ -37,8 +37,11 @@ Doc of [React for production](https://reactjs.org/docs/optimizing-performance.ht
 Establishing node modules and basic folders __at the first time__:
 >please place it at a folder you have auth to write and edit
 
-```
-npm run install
+```bash
+# only need to run at the first time
+npm run setup 
+
+npm install
 ```
 
 or if on Windows:

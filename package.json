@@ -37,7 +37,7 @@
     "sequelize": "^5.9.0",
     "sequelize-cli": "^5.5.0",
     "sharp": "^0.21.0",
-    "uglifyify": "^5.0.1",
+    "uglifyify": "^5.0.2",
     "winston": "^3.2.1",
     "winston-daily-rotate-file": "^3.6.0"
   },
@@ -51,7 +51,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "install": "node -e \"require('./init/process.js').install()\"",
+    "setup": "node -e \"require('./init/process.js').setUp()\"",
     "installWin": "node -e \"require('./init/process.js').installWin()\"",
     "migrate": "node -e \"require('./init/process.js').migrate()\"",
     "build": "node -e \"require('./init/process.js').build()\"",
