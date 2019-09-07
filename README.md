@@ -78,16 +78,14 @@ npm run migrate
 
 build app by browserify
 
-```
-NODE_ENV="development"
-npm run build
+``` 
+NODE_ENV="development" npm run build
 ```
 
 final, start the server
 
 ```
-NODE_ENV="development"
-npm run start
+NODE_ENV="development" npm start
 ```
 
 
@@ -96,7 +94,7 @@ please, only using account below:
 usertest@mail.com
 helloworld
 ```
-otherwise, you have to add account to dabase manully.
+otherwise, you have to add account to database manually.
 
 Have a nice trip.
 
