@@ -44,15 +44,18 @@
     "winston-daily-rotate-file": "^3.6.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "cheerio": "^1.0.0-rc.2",
     "create-react-class": "^15.6.3",
     "css-modulesify": "^0.28.0",
     "immutability-helper": "^2.8.1",
+    "jest": "^24.9.0",
     "jsonfile": "^4.0.0",
-    "linkify-it": "^2.0.3"
+    "linkify-it": "^2.0.3",
+    "supertest": "^4.0.2"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "setup": "node -e \"require('./init/process.js').setUp()\"",
     "installWin": "node -e \"require('./init/process.js').installWin()\"",
     "migrate": "node -e \"require('./init/process.js').migrate()\"",
