@@ -44,7 +44,9 @@
     "winston-daily-rotate-file": "^3.6.0"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.6.0",
     "babel-cli": "^6.26.0",
+    "babel-jest": "^24.9.0",
     "cheerio": "^1.0.0-rc.2",
     "create-react-class": "^15.6.3",
     "css-modulesify": "^0.28.0",
