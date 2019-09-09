@@ -40,7 +40,7 @@ Establishing node modules and basic folders __at the first time__:
 >please place it at a folder you have auth to write and edit
 
 ```
-npm run install
+npm install
 ```
 
 or if on Windows:
@@ -52,8 +52,8 @@ Rename-Item -Path .\\config\\.env.example.json -NewName .env.json
 > /bcrypt: check [doc](https://www.npmjs.com/package/bcrypt) if face error come from this module, uninstall and install again if needed
 
 
-`/config/.env.json` : modify neccessory info now
-  - databse connection:
+`/config/.env.json` : modify necessary info now
+  - database connection:
 
     modify beneath item to fit your database
 
@@ -80,16 +80,14 @@ npm run migrate
 
 build app by browserify
 
-```
-NODE_ENV="development"
-npm run build
+``` 
+NODE_ENV="development" npm run build
 ```
 
 final, start the server
 
 ```
-NODE_ENV="development"
-npm run start
+NODE_ENV="development" npm start
 ```
 
 
@@ -98,7 +96,7 @@ please, only using account below:
 usertest@mail.com
 helloworld
 ```
-otherwise, you have to add account to dabase manully.
+otherwise, you have to add account to database manually.
 
 Have a nice trip.
 
@@ -106,7 +104,7 @@ Have a nice trip.
 
 #### Branches
 - master: the current Lite version(stable) running on the server
-- develope: the main trunk of the whole project(ahead to master quite long)
+- develop: the main trunk of the whole project(ahead to master quite long)
 - release: a 'temp' branch emerge when we need to 'cut' and 'deploy' a new version. Merge to the master in the end, not to the develope.
 - [feature]: a 'temp' branch emerge during development. Merge to the develope in the end, not to the master.
 
