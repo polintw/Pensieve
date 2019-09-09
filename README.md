@@ -5,7 +5,9 @@ __自由的思考、無限制得探索__
 
 this is a web application project initiated & own by Chou Po Lin since May. 2018, modified and rewrote from an earlier version, dev_Corner, which was also owned by the same owner since Dec. 2017.
 
-LTS : __2.1.0__ on 07/08/2019. Current version, rearrange Explore and Unit reading experience, also begin basic customized recommand.
+LTS : __3.0.0__ on 06/09/2019. Current version, redesign the Unit interface & est. Relation view with independent Unit route.
+
+ver : __2.1.0__ on 07/08/2019. rearrange Explore and Unit reading experience, also begin basic customized recommand.
 
 ver : __2.0.0__ on 05/07/2019. the version focus on Nodes sys & User journey update.
 
@@ -122,7 +124,7 @@ Have a nice trip.
     Set-SCPFile -ComputerName '(domainName in string)'  -Credential $ (username as declaim var) -KeyFile .ssh\id_rsa -Port (port used) -RemotePath '(path to save at remote in string)' -LocalFile '(file path at local in string)'
 
   - db: seed
-4. set 'export env=production'
+4. set 'export NODE_ENV=produtction'
 5. db: migrate if needed
 6. run build.
 7. run start.
