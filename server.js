@@ -3,7 +3,8 @@ const app = express();
 const bodyParser = require('body-parser');
 const path = require("path");
 
-const rateLimit = require("express-rate-limit");
+const rateLimit = require('express-rate-limit');
+const crawlers = require('crawler-user-agents');
 
 const router = require('./src/router.js');
 const winston = require('./config/winston.js');
@@ -93,12 +94,12 @@ app.get('/favicon.ico', function(req, res){
   res.end();
 })
 
+//api
 app.use('/router', router)
 
+//req for page files
 app.use('/user/screen', function(req, res){
   winston.info(`${"page: requesting for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);
-  //const element = React.createElement(require('./initHTML.jsx'));
-  //ReactDOMServer.renderToNodeStream(element).pipe(res);
 
   res.sendFile(path.join(__dirname+'/public/html/html_Terrace.html'), {headers: {'Content-Type': 'text/html'}}, function (err) {
     if (err) {
@@ -109,8 +110,6 @@ app.use('/user/screen', function(req, res){
 
 app.use('/user', function(req, res){
   winston.info(`${"page: requesting for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);
-  //const element = React.createElement(require('./initHTML.jsx'));
-  //ReactDOMServer.renderToNodeStream(element).pipe(res);
 
   res.sendFile(path.join(__dirname+'/public/html/html_SelfFront.html'), {headers: {'Content-Type': 'text/html'}}, function (err) {
     if (err) {
@@ -121,8 +120,6 @@ app.use('/user', function(req, res){
 
 app.use('/s', function(req, res){
   winston.info(`${"page: requesting for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);
-  //const element = React.createElement(require('./initHTML.jsx'));
-  //ReactDOMServer.renderToNodeStream(element).pipe(res);
 
   res.sendFile(path.join(__dirname+'/public/html/html_Sign.html'), {headers: {'Content-Type': 'text/html'}}, function (err) {
     if (err) {
@@ -133,15 +130,37 @@ app.use('/s', function(req, res){
 
 app.use('/', function(req, res){
   winston.info(`${"page: requesting for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);
-  //const element = React.createElement(require('./initHTML.jsx'));
-  //ReactDOMServer.renderToNodeStream(element).pipe(res);
 
-  res.sendFile(path.join(__dirname+'/public/html/html_Within.html'), {headers: {'Content-Type': 'text/html'}}, function (err) {
-    if (err) {
-      throw err
-    }
-  });
+  //identifing is a crwlers (now only for path '/explore/unit')
+  //to determine which html should be used
+  const userAgent = req.headers['user-agent']||false;
+
+  if(userAgent && crawlersIdentify(userAgent)){
+    
+    res.sendFile(path.join(__dirname+'/public/html/html_crawler.html'), {headers: {'Content-Type': 'text/html'}}, function (err) {
+      if (err) {
+        throw err
+      }
+    });
+  }else{
+    res.sendFile(path.join(__dirname+'/public/html/html_Within.html'), {headers: {'Content-Type': 'text/html'}}, function (err) {
+      if (err) {
+        throw err
+      }
+    });
+  }
 })
 
+const crawlersIdentify = (userAgent) => { //using userAgents list to identifing crawler
+  crawlers.forEach((obj, index)=>{
+    if (RegExp(obj.pattern).test(userAgent)) {
+      //we send the same file to all crawler/robot for now
+      //so jut return the bool
+      return true;
+    }
+  })
+}
+
+//initiate
 app.listen(process.env.port || envBasic.port);
 winston.warn("server initiating, running at Port "+envBasic.port);
