@@ -26,6 +26,7 @@
     "mysql2": "^1.6.4",
     "nodemailer": "^5.1.1",
     "path": "^0.12.7",
+    "pug": "^2.0.4",
     "query-string": "^6.2.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",

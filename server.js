@@ -14,6 +14,7 @@ const {envBasic} = require('./config/.env.json');
 require('babel-polyfill');
 
 app.set('view engine', 'jsx');
+app.set('view engine', 'pug'); //we add second engine due to the requirement for rendering dynamic html
 app.engine('jsx', require('express-react-views').createEngine({transformViews: false }));
 app.enable("trust proxy"); //for rateLimit, due to behind a reverse proxy(nginx)
 
@@ -136,12 +137,16 @@ app.use('/', function(req, res){
   const userAgent = req.headers['user-agent']||false;
 
   if(userAgent && crawlersIdentify(userAgent)){
-    
-    res.sendFile(path.join(__dirname+'/public/html/html_crawler.html'), {headers: {'Content-Type': 'text/html'}}, function (err) {
-      if (err) {
-        throw err
-      }
-    });
+    //res dynamic html depend on req path rendered from .pug template
+    const variable= { //create local variable depend on rea path
+      title: ,
+      descrip: ,
+      ogurl: ,
+      ogimg:
+    }
+
+    res.render(path.join(__dirname+'/public/html/ren_crawler.pug', variable);
+
   }else{
     res.sendFile(path.join(__dirname+'/public/html/html_Within.html'), {headers: {'Content-Type': 'text/html'}}, function (err) {
       if (err) {
