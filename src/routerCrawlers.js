@@ -1,17 +1,16 @@
 const express = require('express');
 const router = express.Router();
 
-const winston = require('../../config/winston.js');
+const winston = require('../config/winston.js');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
-const _DB_nodesActivity = require('../../db/models/index').nodes_activity;
-const _DB_lastvisitIndex = require('../../db/models/index').lastvisit_index;
-const {_res_success} = require('../utils/resHandler.js');
+const _DB_units = require('../db/models/index').units;
+const {_res_success} = require('./utils/resHandler.js');
 const {
   _handle_ErrCatched,
   internalError,
   forbbidenError
-} = require('../utils/reserrHandler.js');
+} = require('./utils/reserrHandler.js');
 
 function _handle_crawler_GET_Unit(req, res){
   new Promise((resolve, reject)=>{
@@ -21,36 +20,21 @@ function _handle_crawler_GET_Unit(req, res){
     if(!Boolean(unitId)) reject(new forbbidenError("crawler req /unit without unitId.", 38));
 
     //if safe, then we select the requested Unit & res html with Unit info
-
-    return _DB_lastvisitIndex.findOne({
-      where: {
-        id_user: userId
-      },
-      attributes: ['updatedAt', 'createdAt', 'id_user']
-    }).then((selected)=>{
-      let sendingData={
-        greet: '',
-        temp: {}
-      };
-
-      if(selected.createdAt== req.query.lastVisit){
-        //only possible at first time after registration
-        sendingData.greet = 'welcomeNew'
-      }else{
-        let date = new Date();
-        let currentCourse = date.getHours();
-
-        if(currentCourse> 17) sendingData.greet = 'greetNight'
-        else if(currentCourse> 6 && currentCourse< 11) sendingData.greet = 'greetMorning'
-        else sendingData.greet = 'welcomeBack';
+    return _DB_units.findByPk(unitId).then((unit)=>{
+      let variables= { //create local variables as value used in template
+        title: "Cornerth.",
+        descrip: "this is descrip",
+        ogurl: req.originalUrl,
+        ogimg: 'router/img/'+unit.url_pic_layer0+'?type=thumb'
       }
 
-      resolve(sendingData);
+      resolve(variables);
     }).catch((err)=>{
       reject(new internalError(err, 131));
     });
-  }).then((sendingData)=>{
-    _res_success(res, sendingData, "from crawler, GET: "+req.originalUrl+", completed.");
+  }).then((variables)=>{
+    //res html directly from templte modified by variables
+    res.render(path.join(__dirname+'/public/html/ren_crawler.pug'), variables);
   }).catch((error)=>{
     _handle_ErrCatched(error, req, res);
   });
@@ -67,14 +51,14 @@ router.use('/cosmic/explore/unit', function(req, res){
 //must at the last to assure filtering by any specific path above
 router.use('/', function(req, res){
   if(process.env.NODE_ENV == 'development') winston.verbose(`${'from crawler, GET: '} ${req.originalUrl}`);
-  const variable= { //create local variable as value used in template
+  const variables= { //create local variable as value used in template
     title: "Cornerth.",
     descrip: "Uncover what behind.",
     ogurl: req.originalUrl,
     ogimg: "" //replace to page icon in the future
   }
 
-  res.render(path.join(__dirname+'/public/html/ren_crawler.pug', variable);
+  res.render(path.join(__dirname+'/public/html/ren_crawler.pug'), variables);
 })
 
 module.exports = router;
