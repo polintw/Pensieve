@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 const path = require("path");
+const crawlers = require('crawler-user-agents');
+
 const winston = require('../config/winston.js');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
@@ -12,6 +14,18 @@ const {
   internalError,
   forbbidenError
 } = require('./utils/reserrHandler.js');
+
+const crawlersIdentify = (userAgent) => { //using userAgents list to identifing crawler
+  let result = false;
+  crawlers.forEach((obj, index)=>{
+    if (RegExp(obj.pattern).test(userAgent)) {
+      //we send the same file to all crawler/robot for now
+      //so jut return the bool
+        result = true;
+    }
+  })
+  return result;
+}
 
 function _handle_crawler_GET_Unit(req, res){
   new Promise((resolve, reject)=>{
@@ -41,6 +55,29 @@ function _handle_crawler_GET_Unit(req, res){
   });
 }
 
+
+router.use(function(req, res, next){
+  winston.info(`${"page: requesting for Within under / "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}, ${" identify crawler first."}`);
+
+  //identifing is a crwlers (now only for path '/explore/unit')
+  //to determine which html should be used
+  const userAgent = req.headers['user-agent'] || false;
+
+  if(userAgent && crawlersIdentify(userAgent)){
+    //is crawler, then pass the control to the next middleware
+    next();
+  }else next('route'); //not from crawler, so res with a regular client html by going to the next route
+
+}, function(req, res){
+  //here serve the regular client html
+  res.sendFile(path.join(__dirname+'../public/html/html_Within.html'), {headers: {'Content-Type': 'text/html'}}, function (err) {
+    if (err) {
+      throw err
+    }
+  });
+})
+
+
 //res specific Unit info to crawler
 router.use('/cosmic/explore/unit', function(req, res){
   if(process.env.NODE_ENV == 'development') winston.verbose(`${'from crawler, GET: '} ${req.originalUrl}`);
@@ -59,7 +96,7 @@ router.use('/', function(req, res){
     ogimg: "" //replace to page icon in the future
   }
 
-  res.render(path.join(__dirname+'/public/html/ren_crawler.pug'), variables);
+  res.render(path.join(__dirname+'../public/html/ren_crawler.pug'), variables);
 })
 
 module.exports = router;

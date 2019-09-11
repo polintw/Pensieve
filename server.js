@@ -4,10 +4,9 @@ const bodyParser = require('body-parser');
 const path = require("path");
 
 const rateLimit = require('express-rate-limit');
-const crawlers = require('crawler-user-agents');
 
 const router = require('./src/router.js');
-const routerCrawlers = require('./src/routerCrawlers.js');
+const routerPathWithin = require('./src/routerPathWithin.js');
 const winston = require('./config/winston.js');
 const {envBasic} = require('./config/.env.json');
 
@@ -130,36 +129,7 @@ app.use('/s', function(req, res){
   });
 })
 
-app.use('/', function(req, res){
-  winston.info(`${"page: requesting for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);
-
-  //identifing is a crwlers (now only for path '/explore/unit')
-  //to determine which html should be used
-  const userAgent = req.headers['user-agent']||false;
-
-  if(userAgent && crawlersIdentify(userAgent)){
-    //res dynamic html depend on req path rendered from .pug template
-    routerCrawlers(req, res);
-  }else{
-    res.sendFile(path.join(__dirname+'/public/html/html_Within.html'), {headers: {'Content-Type': 'text/html'}}, function (err) {
-      if (err) {
-        throw err
-      }
-    });
-  }
-})
-
-const crawlersIdentify = (userAgent) => { //using userAgents list to identifing crawler
-  let result = false;
-  crawlers.forEach((obj, index)=>{
-    if (RegExp(obj.pattern).test(userAgent)) {
-      //we send the same file to all crawler/robot for now
-      //so jut return the bool
-        result = true;
-    }
-  })
-  return result;
-}
+app.use('/', routerPathWithin);
 
 //initiate
 app.listen(process.env.port || envBasic.port);
