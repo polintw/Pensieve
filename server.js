@@ -7,6 +7,7 @@ const rateLimit = require('express-rate-limit');
 const crawlers = require('crawler-user-agents');
 
 const router = require('./src/router.js');
+const routerCrawlers = require('./src/routerCrawlers.js');
 const winston = require('./config/winston.js');
 const {envBasic} = require('./config/.env.json');
 
@@ -138,15 +139,7 @@ app.use('/', function(req, res){
 
   if(userAgent && crawlersIdentify(userAgent)){
     //res dynamic html depend on req path rendered from .pug template
-    const variable= { //create local variable depend on rea path
-      title: ,
-      descrip: ,
-      ogurl: ,
-      ogimg:
-    }
-
-    res.render(path.join(__dirname+'/public/html/ren_crawler.pug', variable);
-
+    routerCrawlers(req, res);
   }else{
     res.sendFile(path.join(__dirname+'/public/html/html_Within.html'), {headers: {'Content-Type': 'text/html'}}, function (err) {
       if (err) {

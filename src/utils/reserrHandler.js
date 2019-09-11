@@ -138,6 +138,13 @@ function _handle_ErrCatched(e, req, res){
       clientSet['console'] = "Hey, don't do this, it would be more interesting inspired by others!";
       return res.status(e.status).json(clientSet);
       break;
+    case 38: //403, part of required parameter (such as id, media, text, etc.) is missing.
+      winston.warn(`${e.status} - ${"Error: code 38, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+      clientSet['code'] = 38;
+      clientSet['message'] = "";
+      clientSet['console'] = {"warning":"Some parameter missed, please use correct format."};
+      return res.status(e.status).json(clientSet);
+      break;
     case 50:
       clientSet['code'] = 50;
       clientSet['message'] = e.message;
@@ -173,7 +180,7 @@ function _handle_ErrCatched(e, req, res){
       return res.status(e.status).json(clientSet);
       break;
     case 186:
-      //invalid format from register or mail resend
+      //403, invalid format from register or mail resend
       clientSet['code'] = 186;
       clientSet['message'] = e.message;
       clientSet['console'] = '';
