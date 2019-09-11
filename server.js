@@ -139,10 +139,8 @@ app.use('/', function(req, res){
 
   if(userAgent && crawlersIdentify(userAgent)){
     //res dynamic html depend on req path rendered from .pug template
-console.log('to routerCrawlers')
     routerCrawlers(req, res);
   }else{
-console.log('res WIthin')
     res.sendFile(path.join(__dirname+'/public/html/html_Within.html'), {headers: {'Content-Type': 'text/html'}}, function (err) {
       if (err) {
         throw err
@@ -152,17 +150,17 @@ console.log('res WIthin')
 })
 
 const crawlersIdentify = (userAgent) => { //using userAgents list to identifing crawler
+  let result = false;
   crawlers.forEach((obj, index)=>{
     if (RegExp(obj.pattern).test(userAgent)) {
       //we send the same file to all crawler/robot for now
       //so jut return the bool
-      return true;
+        result = true;
     }
   })
+  return result;
 }
 
 //initiate
-//app.listen(process.env.port || envBasic.port);
-//winston.warn("server initiating, running at Port "+envBasic.port);
-app.listen(80);
-winston.warn("server initiating, running at Port "+80);
+app.listen(process.env.port || envBasic.port);
+winston.warn("server initiating, running at Port "+envBasic.port);
