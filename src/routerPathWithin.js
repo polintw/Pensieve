@@ -4,6 +4,7 @@ const router = express.Router();
 const path = require("path");
 const {convertToRaw, convertFromRaw} = require ('draft-js');
 
+const {envServiceGeneral} = require('../config/.env.json');
 const winston = require('../config/winston.js');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
@@ -39,7 +40,7 @@ function _handle_crawler_GET_Unit(req, res){
         title: [], //set array fisrt, will be mdified to string later before res
         descrip: "",
         ogurl: req.originalUrl,
-        ogimg: 'https://cornerth.com/router/img/'+resultsUnit.url_pic_layer0+'?type=thumb' //don't forget using absolute path for dear crawler
+        ogimg: 'https://'+envServiceGeneral.appDomain+'/router/img/'+resultsUnit.url_pic_layer0+'?type=thumb' //don't forget using absolute path for dear crawler
       };
       //put the nodes used list into title
       variables.title = resultsAttri.map((row, index)=>{
