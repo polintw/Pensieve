@@ -2,11 +2,13 @@ const express = require('express');
 const router = express.Router();
 
 const path = require("path");
+const {convertToRaw, convertFromRaw} = require ('draft-js');
 
 const winston = require('../config/winston.js');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const _DB_units = require('../db/models/index').units;
+const _DB_attribution = require('../db/models/index').attribution;
 const {_res_success} = require('./utils/resHandler.js');
 const {
   _handle_ErrCatched,
@@ -15,23 +17,67 @@ const {
 } = require('./utils/reserrHandler.js');
 
 function _handle_crawler_GET_Unit(req, res){
-  new Promise((resolve, reject)=>{
-    //select Unit by id in query
-    //already validate before pass to this handler
-    const unitId = req.query.unitId;
+  //select Unit by id in query
+  //already validate before pass to this handler
+  const unitId = req.query.unitId;
 
-    //if safe, then we select the requested Unit & res html with Unit info
-    return _DB_units.findByPk(unitId).then((unit)=>{
+  //the selection start from info about & nodes used by this Unit
+  new Promise((resolve, reject)=>{
+    let conditionsAttri = {
+      where: {id_unit: unitId},
+      attributes: ['id_noun']
+    };
+    let attriSelection = Promise.resolve(_DB_attribution.findAll(conditionsAttri).catch((err)=>{throw err}));
+    let unitsSelection = Promise.resolve(_DB_units.findByPk(unitId).catch((err)=>{throw err}));
+
+    Promise.all([attriSelection, unitsSelection]).then((resultsSelect)=>{
+      let resultsAttri = resultsSelect[0],
+      resultsUnit = resultsSelect[1];
       let variables= { //create local variables as value used in template
-        title: "Cornerth.",
-        descrip: "this is descrip",
+        title: [], //set array fisrt, will be mdified to string later before res
+        descrip: "",
         ogurl: req.originalUrl,
-        ogimg: 'router/img/'+unit.url_pic_layer0+'?type=thumb'
-      }
+        ogimg: '/router/img/'+resultsUnit.url_pic_layer0+'?type=thumb' //don't forget using absolute path
+      };
+      //put the nodes used list into title
+      variables.title = resultsAttri.map((row, index)=>{
+        return row.id_noun
+      })
 
       resolve(variables);
     }).catch((err)=>{
       reject(new internalError(err, 131));
+    });
+  }).then((variables)=>{
+    //then because we compose title from nodes, description from mark
+    //we select them by id we selected
+    let conditionsMarks = {
+      where: {id_unit: unitId},
+      attributes: ['id', 'layer', 'serial', 'editor_content', 'createdAt']
+    };
+    let nodesSelection = Promise.resolve(_DB_nouns.findAll({where: {id: variables.title}}).catch((err)=>{throw err}));
+    let marksSelection = Promise.resolve(_DB_marks.findAll(conditionsMarks).catch((err)=>{throw err}));
+
+    return Promise.all([nodesSelection, marksSelection]).then((resultsSelect)=>{
+      let resultsNodes = resultsSelect[0],
+      resultsMarks = resultsSelect[1],
+      titleStr, description;
+
+      //compose title from Nodes used
+      resultsNodes.forEach((row, index)=>{
+        if(index< 1){ titleStr += (row.name); return } //avoid ":" at the begining
+        titleStr += (": "+row.name);
+      });
+
+      //then retrieve the first block of the first Mark
+      description = convertFromRaw(resultsMarks[0].editor_content).getFirstBlock().getText();
+
+      variables.title = titleStr;
+      variables.descrip = description;
+
+      return variables;
+    }).catch((err)=>{
+      throw new internalError(err, 131);
     });
   }).then((variables)=>{
     //res html directly from templte modified by variables
@@ -51,6 +97,7 @@ router.use('/cosmic/explore/unit', function(req, res, next){
   //validate the query value trusted or not
   //pass to general middleware if the id was unclear
   if(!Boolean(req.query.unitId.toString()) ) { next();}
+  //if safe, then we select the requested Unit & res html with Unit info
   else _handle_crawler_GET_Unit(req, res);
 })
 
