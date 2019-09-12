@@ -8,6 +8,8 @@ const winston = require('../config/winston.js');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const _DB_units = require('../db/models/index').units;
+const _DB_nouns = require('../db/models/index').nouns;
+const _DB_marks = require('../db/models/index').marks;
 const _DB_attribution = require('../db/models/index').attribution;
 const {_res_success} = require('./utils/resHandler.js');
 const {
@@ -37,7 +39,7 @@ function _handle_crawler_GET_Unit(req, res){
         title: [], //set array fisrt, will be mdified to string later before res
         descrip: "",
         ogurl: req.originalUrl,
-        ogimg: '/router/img/'+resultsUnit.url_pic_layer0+'?type=thumb' //don't forget using absolute path
+        ogimg: 'https://cornerth.com/router/img/'+resultsUnit.url_pic_layer0+'?type=thumb' //don't forget using absolute path for dear crawler
       };
       //put the nodes used list into title
       variables.title = resultsAttri.map((row, index)=>{
@@ -61,7 +63,8 @@ function _handle_crawler_GET_Unit(req, res){
     return Promise.all([nodesSelection, marksSelection]).then((resultsSelect)=>{
       let resultsNodes = resultsSelect[0],
       resultsMarks = resultsSelect[1],
-      titleStr, description;
+      titleStr = "",
+      description= "";
 
       //compose title from Nodes used
       resultsNodes.forEach((row, index)=>{
@@ -70,10 +73,10 @@ function _handle_crawler_GET_Unit(req, res){
       });
 
       //then retrieve the first block of the first Mark
-      description = convertFromRaw(resultsMarks[0].editor_content).getFirstBlock().getText();
+      description = convertFromRaw(JSON.parse(resultsMarks[0].editor_content)).getFirstBlock().getText();
 
       variables.title = titleStr;
-      variables.descrip = description;
+      variables.descrip = description;  //for now, only use the first block of first mark as description
 
       return variables;
     }).catch((err)=>{
