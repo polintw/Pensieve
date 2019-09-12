@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 
 const path = require("path");
-const crawlers = require('crawler-user-agents');
 
 const winston = require('../config/winston.js');
 const Sequelize = require('sequelize');
@@ -15,24 +14,11 @@ const {
   forbbidenError
 } = require('./utils/reserrHandler.js');
 
-const crawlersIdentify = (userAgent) => { //using userAgents list to identifing crawler
-  let result = false;
-  crawlers.forEach((obj, index)=>{
-    if (RegExp(obj.pattern).test(userAgent)) {
-      //we send the same file to all crawler/robot for now
-      //so jut return the bool
-        result = true;
-    }
-  })
-  return result;
-}
-
 function _handle_crawler_GET_Unit(req, res){
   new Promise((resolve, reject)=>{
     //select Unit by id in query
-    const unitId = req.query.unitId.toString(); //validate the query value trusted or not
-    //remember using reject() to block the Promise immidiately.
-    if(!Boolean(unitId)) reject(new forbbidenError("crawler req /unit without unitId.", 38));
+    //already validate before pass to this handler
+    const unitId = req.query.unitId;
 
     //if safe, then we select the requested Unit & res html with Unit info
     return _DB_units.findByPk(unitId).then((unit)=>{
@@ -59,10 +45,13 @@ function _handle_crawler_GET_Unit(req, res){
 //route pass from parent start from here
 
 //res specific Unit info to crawler
-router.use('/cosmic/explore/unit', function(req, res){
+router.use('/cosmic/explore/unit', function(req, res, next){
   if(process.env.NODE_ENV == 'development') winston.verbose(`${'from crawler, GET: '} ${req.originalUrl}`);
   //to res dynamic html to crawler, we need to select Unit basic info from DB
-  _handle_crawler_GET_Unit(req, res);
+  //validate the query value trusted or not
+  //pass to general middleware if the id was unclear
+  if(!Boolean(req.query.unitId.toString()) ) { next();}
+  else _handle_crawler_GET_Unit(req, res);
 })
 
 //res common data to crawler if no specific destination,

@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const path = require("path");
 
 const rateLimit = require('express-rate-limit');
+const crawlers = require('crawler-user-agents');
 
 const router = require('./src/router.js');
 const routerPathWithin = require('./src/routerPathWithin.js');
@@ -137,22 +138,37 @@ app.use('/', function(req, res, next){
 
   const userAgent = req.headers['user-agent'] || false;
 
-  if(userAgent && crawlersIdentify(userAgent)){
-    //is crawler, then pass the control to the next middleware
-    next('router'); //which means this middleware could be skip(end of this app.use()), and going to the next app router
-  }else next(); //not from crawler, so res with a regular client html by going to the next stack
-
-}, function(req, res){
-  //here serve the regular client html
-  // this is important, the res & req cycle would complete by this way,
-  //WOULD NOT call the next middleware under this path('/')
-  res.sendFile(path.join(__dirname+'/../public/html/html_Within.html'), {headers: {'Content-Type': 'text/html'}}, function (err) {
-    if (err) {
-      throw err
-    }
-  });
+  if(userAgent && crawlersIdentify(userAgent)){ //is crawler, then pass the control to the next middleware
+    //but NOTICE, here inside a .use() handler, different from .METHOD()
+    //it just define the middleware, so
+    //we have to return the next as a callback
+    //ref:  https://github.com/expressjs/express/issues/2591
+    return next();
+  }else{ //not from crawler, so res with a regular client html
+    //here serve the regular client html
+    //the res & req cycle would complete by this way,
+    //WOULD NOT call the next middleware under this path('/')
+    res.sendFile(path.join(__dirname+'/public/html/html_Within.html'), {headers: {'Content-Type': 'text/html'}}, function (err) {
+      if (err) {
+        throw err
+      }
+    });
+  }
 });
 app.use('/', routerPathWithin);
+
+const crawlersIdentify = (userAgent) => { //using userAgents list to identifing crawler
+  let result = false;
+  crawlers.forEach((obj, index)=>{
+    if (RegExp(obj.pattern).test(userAgent)) {
+      //we send the same file to all crawler/robot for now
+      //so jut return the bool
+        result = true;
+    }
+  })
+  return result;
+}
+
 
 //initiate
 app.listen(process.env.port || envBasic.port);
