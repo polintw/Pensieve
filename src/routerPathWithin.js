@@ -49,34 +49,14 @@ function _handle_crawler_GET_Unit(req, res){
     });
   }).then((variables)=>{
     //res html directly from templte modified by variables
-    res.render(path.join(__dirname+'/public/html/ren_crawler.pug'), variables);
+    res.render(path.join(__dirname+'/../public/html/ren_crawler.pug'), variables);
   }).catch((error)=>{
     _handle_ErrCatched(error, req, res);
   });
 }
 
 
-router.use(function(req, res, next){
-  winston.info(`${"page: requesting for Within under / "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}, ${" identify crawler first."}`);
-
-  //identifing is a crwlers (now only for path '/explore/unit')
-  //to determine which html should be used
-  const userAgent = req.headers['user-agent'] || false;
-
-  if(userAgent && crawlersIdentify(userAgent)){
-    //is crawler, then pass the control to the next middleware
-    next();
-  }else next('route'); //not from crawler, so res with a regular client html by going to the next route
-
-}, function(req, res){
-  //here serve the regular client html
-  res.sendFile(path.join(__dirname+'../public/html/html_Within.html'), {headers: {'Content-Type': 'text/html'}}, function (err) {
-    if (err) {
-      throw err
-    }
-  });
-})
-
+//route pass from parent start from here
 
 //res specific Unit info to crawler
 router.use('/cosmic/explore/unit', function(req, res){
@@ -96,7 +76,7 @@ router.use('/', function(req, res){
     ogimg: "" //replace to page icon in the future
   }
 
-  res.render(path.join(__dirname+'../public/html/ren_crawler.pug'), variables);
+  res.render(path.join(__dirname+'/../public/html/ren_crawler.pug'), variables);
 })
 
 module.exports = router;

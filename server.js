@@ -129,6 +129,29 @@ app.use('/s', function(req, res){
   });
 })
 
+//then for the rest of path, including plain '/', we need to identify source and purpose
+app.use('/', function(req, res, next){
+  //identifing whether a crwlers or not (now only for path '/explore/unit')
+  //to determine which html should be used
+  winston.info(`${"page: requesting for Within under / "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}, ${" identify crawler first."}`);
+
+  const userAgent = req.headers['user-agent'] || false;
+
+  if(userAgent && crawlersIdentify(userAgent)){
+    //is crawler, then pass the control to the next middleware
+    next('router'); //which means this middleware could be skip(end of this app.use()), and going to the next app router
+  }else next(); //not from crawler, so res with a regular client html by going to the next stack
+
+}, function(req, res){
+  //here serve the regular client html
+  // this is important, the res & req cycle would complete by this way,
+  //WOULD NOT call the next middleware under this path('/')
+  res.sendFile(path.join(__dirname+'/../public/html/html_Within.html'), {headers: {'Content-Type': 'text/html'}}, function (err) {
+    if (err) {
+      throw err
+    }
+  });
+});
 app.use('/', routerPathWithin);
 
 //initiate
