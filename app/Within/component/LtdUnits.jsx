@@ -5,9 +5,8 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import cxBind from 'classnames/bind';
 import Unit from '../../Unit/Unit/Unit.jsx';
-import NailScape from '../../Component/Nails/NailScape.jsx';
+import NailBasic from '../../Component/Nails/NailBasic/NailBasic.jsx';
 import {
   handleNounsList,
   handleUsersList
@@ -38,13 +37,28 @@ class LtdUnits extends React.Component {
       },
       withinCom_LtdUnits_div_: {
         width: '101%',
-        position: "relative"
+        position: "relative",
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignContent: 'space-between',
+        flexWrap: 'wrap'
       },
       withinCom_LtdUnits_footer: {
         width: '100%',
         height: '10vh',
         position: 'relative'
-      }
+      },
+      frameNail: {
+        display: 'inline-block',
+        width: '32.5%',
+        height: '19rem',
+        position: 'relative',
+        boxSizing: 'border-box',
+        margin: '0 0 18px',
+        boxShadow: '0 1px 1px -0.1rem, 0rem -0.05rem 2px -0.2rem',
+        borderRadius: '0.7rem',
+        overflow: 'hidden'
+      },
     }
   }
 
@@ -96,12 +110,15 @@ class LtdUnits extends React.Component {
     let row = this.state.ltdList[0] ? this.state.ltdList[0]:[];
     let nailsArr = row.map((unitId, index)=>{
       return (
-        <NailScape
-          {...this.props}
+        <div
           key={'key_ScapeNails_'+this.state.ltdList.length+'_'+index}
-          unitId={unitId}
-          unitBasic={this.state.unitsBasic[unitId]}
-          marksBasic={this.state.marksBasic}/>
+          style={this.style.frameNail}>
+          <NailBasic
+            {...this.props}
+            unitId={unitId}
+            unitBasic={this.state.unitsBasic[unitId]}
+            marksBasic={this.state.marksBasic}/>
+        </div>
       )
     })
 
