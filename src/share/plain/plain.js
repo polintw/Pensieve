@@ -20,6 +20,9 @@ const {
   notAcceptable
 } = require('../../utils/reserrHandler.js');
 const {
+  _res_success_201
+} = require('../../utils/resHandler.js');
+const {
   _reachCreate
 } = require('./src.js');
 
@@ -150,14 +153,13 @@ function shareHandler_POST(req, res){
             Promise.resolve(_reachCreate(modifiedBody.id_unit, userId)).catch((err)=>{throw err})
             //currently, reachCreate is 'not' a promise, so it is useless to wrap it in .resolve()
           ];
-          return Promise.all(promiseArr);
-        }).then(()=>{
-          let resData = {};
-          resData['error'] = 0;
-          resData['message'] = 'post req completed!';
-          res.status(201).json(resData);
-          connection.release();
+          return Promise.all(promiseArr).then((results)=>{
+            return modifiedBody;
+          });
+        }).then((modifiedBody)=>{
+          _res_success_201(res, {unitId: modifiedBody.id_unit});
 
+          connection.release();
           resolveTop(); //should remove after the error could handle by top promise
         }).catch((err)=>{
           console.log("error occured during newShare promise: "+err)
