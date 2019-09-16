@@ -9,12 +9,13 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import DateConverter from '../../../Component/DateConverter.jsx';
 
 class MainTitle extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      greet: false //temp use, before the real customized render constructed
     };
     this.boxTitle = React.createRef();
     this.style={
@@ -23,7 +24,22 @@ class MainTitle extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
+    //render greeting words after checking the visit status
+    //mainlt to understand whether the user was new register or not
+    if(prevProps.lastVisit!==this.props.lastVisit && this.props.lastVisit){
+      let date = new Date(),
+          i18n = '';
+      let currentCourse = date.getHours();
 
+      if(this.props.lastVisit=='newly') i18n = 'welcomeNew'
+      else if(currentCourse> 17) i18n = 'greetNight'
+      else if(currentCourse> 6 && currentCourse< 11) i18n = 'greetMorning'
+      else i18n = 'welcomeBack';
+
+      this.setState({
+        greet: i18n
+      });
+    }
   }
 
   componentDidMount() {
@@ -35,10 +51,31 @@ class MainTitle extends React.Component {
   }
 
   render(){
+    let date = new Date(); //be used to display present time
+
     return(
       <div
         ref={this.boxTitle}
         className={classnames(styles.comMainTitle)}>
+        <div
+          className={classnames(styles.boxFlex)}>
+          <div
+            className={classnames(styles.borderBanner, styles.boxUnderline)}></div>
+          {
+            this.state.greet &&
+            <div
+              className={styles.boxGreet}>
+              <span className={classnames(styles.fontSubtitle)}>
+                {this.props.i18nUIString.catalog[this.state.greet]}</span>
+            </div>
+          }
+        </div>
+        <div
+          className={classnames(styles.boxDate, 'fontGillSN')}>
+          <DateConverter
+            place={'title'}
+            datetime={date.getTime()}/>
+        </div>
 
       </div>
     )
@@ -49,6 +86,7 @@ const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
     unitCurrent: state.unitCurrent,
+    i18nUIString: state.i18nUIString,
   }
 }
 

@@ -31,21 +31,11 @@ function _handle_GET_feed_banner(req, res){
       attributes: ['updatedAt', 'createdAt', 'id_user']
     }).then((selected)=>{
       let sendingData={
-        greet: '',
         temp: {}
       };
-
-      if(selected.createdAt== req.query.lastVisit){
-        //only possible at first time after registration
-        sendingData.greet = 'welcomeNew'
-      }else{
-        let date = new Date();
-        let currentCourse = date.getHours();
-
-        if(currentCourse> 17) sendingData.greet = 'greetNight'
-        else if(currentCourse> 6 && currentCourse< 11) sendingData.greet = 'greetMorning'
-        else sendingData.greet = 'welcomeBack';
-      }
+      //aithough has checked last visit time,
+      //we didn't reallt going to res any data for now
+      //waiting for further planing
 
       resolve(sendingData);
     }).catch((err)=>{

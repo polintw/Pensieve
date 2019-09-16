@@ -5,3 +5,33 @@
   box-sizing: border-box;
   margin: 0 0 4.2rem;
 }
+
+.boxGreet {
+  padding-left: 1.6rem;
+}
+
+.boxFlex {
+  display: flex;
+  width: 71%;
+  position: absolute;
+  bottom: 0;
+  right: 11.5rem;
+}
+
+.boxDate {
+  position: absolute;
+  top: 3.7rem;
+  box-sizing: border-box;
+}
+
+.boxUnderline {
+  flex: 1;
+}
+
+.fontSubtitle {
+  font-size: 1.4rem;
+}
+
+.borderBanner {
+  border-bottom: 0.14rem solid #c4c4c4;
+}

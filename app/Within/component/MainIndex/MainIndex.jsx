@@ -86,7 +86,9 @@ class MainIndex extends React.Component {
 
     this.setState({axios: true});
 
-    axios_visit_GET_last(self.axiosSource.token) //in the future, method to get basic (user)sheet data would join here
+    //get the last visit situation for child component
+    //in the future, method to get basic (user)sheet data would join here(use Promise.all())
+    axios_visit_GET_last(self.axiosSource.token)
       .then((lastVisitObj)=>{
         self.setState({axios: false});
 
@@ -168,11 +170,11 @@ class MainIndex extends React.Component {
           <div
             className={classnames(styles.boxTop)}>
             <MainTitle
+              lastVisit={this.state.lastVisit}
               _refer_von_cosmic={this.props._refer_von_cosmic}/>
             <div
               className={classnames(styles.boxBanner)}>
               <MainBanner
-                lastVisit={this.state.lastVisit}
                 _refer_von_cosmic={this.props._refer_von_cosmic}/>
             </div>
           </div>
