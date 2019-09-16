@@ -1,35 +1,15 @@
 .comMainBanner {
+  display: flex;
+  justify-content: center;
   width: 100%;
   min-height: 5.6rem;
   position: relative;
   box-sizing: border-box;
 }
 
-.boxContent {
-  width: 100%;
-}
-
-.boxName {
-  display: flex;
-  align-items: baseline;
-  width: 84.3%;
-  position: absolute;
-  right: 11.3rem;
-}
-
 .boxCreate {
-  width: 8.1rem;
-  height: auto;
-  position: absolute;
-  right: 0;
-  top: 0.1rem;
+  width: 32%;
+  height: 3.4rem;
+  position: relative;
   box-sizing: border-box;
-}
-
-.fontSubtitle {
-  font-size: 1.4rem;
-}
-
-.fontHello {
-  color: #6e6e6e;
 }

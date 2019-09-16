@@ -1,15 +1,14 @@
 .boxTop {
-  width: 99%;
+  width: 100%;
   position: relative;
   box-sizing: border-box;
   margin: 0 0 4rem;
 }
 
 .boxBanner {
-  width: 83%; /*follow design, border left need to be more right than Logo*/
+  width: 100%;
   position: relative;
   box-sizing: border-box;
-  margin-left: 15%;
 }
 
 .boxScroll {

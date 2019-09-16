@@ -58,9 +58,9 @@ class MainTitle extends React.Component {
         ref={this.boxTitle}
         className={classnames(styles.comMainTitle)}>
         <div
+          className={classnames(styles.borderBanner, styles.boxUnderline)}></div>
+        <div
           className={classnames(styles.boxFlex)}>
-          <div
-            className={classnames(styles.borderBanner, styles.boxUnderline)}></div>
           {
             this.state.greet &&
             <div
@@ -69,12 +69,12 @@ class MainTitle extends React.Component {
                 {this.props.i18nUIString.catalog[this.state.greet]}</span>
             </div>
           }
-        </div>
-        <div
-          className={classnames(styles.boxDate, 'fontGillSN')}>
-          <DateConverter
-            place={'title'}
-            datetime={date.getTime()}/>
+          <div
+            className={classnames(styles.boxDate, 'fontGillSN')}>
+            <DateConverter
+              place={'title'}
+              datetime={date.getTime()}/>
+          </div>
         </div>
 
       </div>

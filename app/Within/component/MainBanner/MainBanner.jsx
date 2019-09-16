@@ -12,7 +12,6 @@ import styles from "./styles.module.css";
 import {
   axios_Main_Banner,
 } from './utils.js';
-import {AccountPlate} from '../../../Component/AccountPlate.jsx';
 import CreateShare from '../../../Component/CreateShare.jsx';
 import SvgCreate from '../../../Component/Svg/SvgCreate.jsx';
 import {
@@ -74,31 +73,13 @@ class MainBanner extends React.Component {
       <div
         className={classnames(styles.comMainBanner)}>
         <div
-          className={classnames(styles.boxContent)}>
-
-        </div>
-        <div>
-          <div
-            className={classnames(styles.boxName)}>
-            <div style={{display: 'inline-block', marginRight: '1rem'}}>
-              <span className={classnames(styles.fontSubtitle, styles.fontHello)}>
-                {this.props.i18nUIString.catalog['helloUser']}</span>
-            </div>
-            <div style={{display: 'inline-block', marginRight: '2.7rem'}}>
-              <AccountPlate
-                size={'regular'}
-                accountFisrtName={this.props.userInfo.firstName}
-                accountLastName={''}/>
-            </div>
-          </div>
-          <div
-            className={classnames(styles.boxCreate)}>
-            <SvgCreate
-              place={false}/>
-            <CreateShare
-              _submit_Share_New={this._submit_Share_New}
-              _refer_von_Create={this.props._refer_von_cosmic}/>
-          </div>
+          className={classnames(styles.boxCreate)}>
+          <SvgCreate
+            place={false}
+            stretch={true}/>
+          <CreateShare
+            _submit_Share_New={this._submit_Share_New}
+            _refer_von_Create={this.props._refer_von_cosmic}/>
         </div>
       </div>
     )
