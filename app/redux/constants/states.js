@@ -22,7 +22,7 @@ export const initUnit = {
 }
 
 export const initCosmicGeneral = {
-  mainTitle: 0
+
 }
 
 export const initSelfFrontGeneral = {

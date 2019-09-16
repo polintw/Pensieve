@@ -79,9 +79,12 @@ class LinkExplore extends React.Component {
         {this._render_Category(pathNow)}
         <Link
           to="/cosmic/explore"
-          className={classnames('plainLinkButton', styles.boxExplore)}
-          style={(pathNow< 0)?{opacity: this.props.mainTitle}:{}}>
+          className={classnames('plainLinkButton', styles.boxExplore)}>
           {'explore'}
+          <span style={{
+              width: '73%', position: 'absolute', bottom: '7%', right: '8%', borderBottom: 'solid 0.75px #a8a8a8',
+              opacity: (pathNow< 0)? 1 : 0
+            }}/>
         </Link>
       </div>
     )
@@ -90,8 +93,7 @@ class LinkExplore extends React.Component {
 
 const mapStateToProps = (state)=>{
   return {
-    userInfo: state.userInfo,
-    mainTitle: state.mainTitle
+    userInfo: state.userInfo
   }
 }
 

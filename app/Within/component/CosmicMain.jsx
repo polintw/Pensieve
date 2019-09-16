@@ -6,9 +6,6 @@ import {
 import {connect} from "react-redux";
 import MainIndex from './MainIndex/MainIndex.jsx';
 import SvgLogo from '../../Component/Svg/SvgLogo.jsx';
-import {
-  setCosmicTitle
-} from "../../redux/actions/general.js";
 
 class CosmicMain extends React.Component {
   constructor(props){
@@ -49,9 +46,7 @@ class CosmicMain extends React.Component {
   }
 
   componentWillUnmount() {
-    //reset the mainTitle in reducer
-    //it's important! for the case returning from other view inner Within
-    this.props._set_title_topRatio(0);
+
   }
 
   render(){
@@ -65,7 +60,7 @@ class CosmicMain extends React.Component {
         <div style={{width: '100%', height: '3rem', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
         <div style={{width: '100%', height: '3.6rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}>
           <div
-            style={Object.assign({}, this.style.withinCom_CosmicMain_top_logo, {opacity: this.props.mainTitle})}
+            style={Object.assign({}, this.style.withinCom_CosmicMain_top_logo)}
             onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_von_cosmic('', '/cosmic')}}>
             <SvgLogo/>
           </div>
@@ -77,14 +72,13 @@ class CosmicMain extends React.Component {
 
 const mapStateToProps = (state)=>{
   return {
-    userInfo: state.userInfo,
-    mainTitle: state.mainTitle
+    userInfo: state.userInfo
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    _set_title_topRatio: (int) => { dispatch(setCosmicTitle(int)); }
+
   }
 }
 
