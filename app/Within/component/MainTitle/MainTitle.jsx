@@ -10,6 +10,8 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import DateConverter from '../../../Component/DateConverter.jsx';
+import CreateShare from '../../../Component/CreateShare.jsx';
+import SvgCreate from '../../../Component/Svg/SvgCreate.jsx';
 
 class MainTitle extends React.Component {
   constructor(props){
@@ -18,9 +20,14 @@ class MainTitle extends React.Component {
       greet: false //temp use, before the real customized render constructed
     };
     this.boxTitle = React.createRef();
+    this._submit_Share_New = this._submit_Share_New.bind(this);
     this.style={
 
     }
+  }
+
+  _submit_Share_New(dataObj){
+    window.location.assign('/user/cognition/actions/shareds/units?theater&unitId='+dataObj.unitId);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -74,6 +81,24 @@ class MainTitle extends React.Component {
             <DateConverter
               place={'title'}
               datetime={date.getTime()}/>
+          </div>
+        </div>
+        <div
+          className={classnames(styles.boxAction)}>
+          <div
+            className={classnames(styles.boxCreate)}>
+            <SvgCreate
+              place={false}
+              stretch={true}/>
+            <CreateShare
+              _submit_Share_New={this._submit_Share_New}
+              _refer_von_Create={this.props._refer_von_cosmic}/>
+            <div
+              style={{height: "100%", position: 'absolute', right: '-6%', top: '0',borderRight: 'solid 1px #6e6e6e'}}/>
+          </div>
+          <div
+            className={classnames(styles.boxCorners)}>
+
           </div>
         </div>
 

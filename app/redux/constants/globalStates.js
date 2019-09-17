@@ -34,7 +34,7 @@ export const i18nUIStringInit = {
      "helloUser":"Hello, ",
      "welcomeNew": "Congratulations! Discover everything and beyond!",
      "welcomeBack":"Welcome back",
-     "greetNight": "Good evening~",
+     "greetNight": "Good evening.",
      "greetMorning": "Good morning!"
    }
 }

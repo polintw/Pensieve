@@ -23,10 +23,11 @@ class CosmicMain extends React.Component {
       },
       withinCom_CosmicMain_index_: {
         width: '80%',
+        minWidth: '890px',
         position: 'absolute',
         top: '3.4rem',
-        left: '49%',
-        transform: 'translate(-51%,0)',
+        left: '48%',
+        transform: 'translate(-50%,0)',
         boxSizing: 'border-box'
       },
       withinCom_CosmicMain_top_logo: {

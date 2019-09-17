@@ -12,8 +12,6 @@ import styles from "./styles.module.css";
 import {
   axios_Main_Banner,
 } from './utils.js';
-import CreateShare from '../../../Component/CreateShare.jsx';
-import SvgCreate from '../../../Component/Svg/SvgCreate.jsx';
 import {
   cancelErr,
   uncertainErr
@@ -26,14 +24,9 @@ class MainBanner extends React.Component {
       axios: false,
     };
     this.axiosSource = axios.CancelToken.source();
-    this._submit_Share_New = this._submit_Share_New.bind(this);
     this.style={
 
     }
-  }
-
-  _submit_Share_New(dataObj){
-    window.location.assign('/user/cognition/actions/shareds/units?theater&unitId='+dataObj.unitId);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -72,15 +65,7 @@ class MainBanner extends React.Component {
     return(
       <div
         className={classnames(styles.comMainBanner)}>
-        <div
-          className={classnames(styles.boxCreate)}>
-          <SvgCreate
-            place={false}
-            stretch={true}/>
-          <CreateShare
-            _submit_Share_New={this._submit_Share_New}
-            _refer_von_Create={this.props._refer_von_cosmic}/>
-        </div>
+
       </div>
     )
   }

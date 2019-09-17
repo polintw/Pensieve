@@ -2,14 +2,6 @@
   display: flex;
   justify-content: center;
   width: 100%;
-  min-height: 5.6rem;
-  position: relative;
-  box-sizing: border-box;
-}
-
-.boxCreate {
-  width: 32%;
-  height: 3.4rem;
   position: relative;
   box-sizing: border-box;
 }
