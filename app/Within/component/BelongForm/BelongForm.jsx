@@ -44,7 +44,8 @@ class BelongForm extends React.Component {
   }
 
   componentDidMount() {
-    //_axios get records from db
+    //_axios get records from db,
+    //would get nodes list, and pass to redux
   }
 
   componentWillUnmount() {

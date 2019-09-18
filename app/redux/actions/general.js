@@ -17,6 +17,10 @@ export function updateUsersBasic(obj) {
   return { type: UPDATE_USERSBASIC, newFetch: obj }
 };
 
+export function updateNodesBasic(obj) {
+  return { type: UPDATE_NOUNSBASIC, newFetch: obj }
+};
+
 export function setUnitCurrent(obj) {
   return { type: SET_UNITCURRENT, unitCurrent: obj }
 };
