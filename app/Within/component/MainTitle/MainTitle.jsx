@@ -9,6 +9,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import BelongForm from '../BelongForm/BelongForm.jsx';
 import DateConverter from '../../../Component/DateConverter.jsx';
 import CreateShare from '../../../Component/CreateShare.jsx';
 import SvgCreate from '../../../Component/Svg/SvgCreate.jsx';
@@ -98,6 +99,7 @@ class MainTitle extends React.Component {
           </div>
           <div
             className={classnames(styles.boxCorners)}>
+            <BelongForm/>
 
           </div>
         </div>

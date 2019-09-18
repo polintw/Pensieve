@@ -35,6 +35,8 @@ export const i18nUIStringInit = {
      "welcomeNew": "Congratulations! Discover everything and beyond!",
      "welcomeBack":"Welcome back",
      "greetNight": "Good evening.",
-     "greetMorning": "Good morning!"
+     "greetMorning": "Good morning!",
+     "guidingNewBelong": "Which Corner do you Belong ",
+     "guidingEditBelong": "different corner for you."
    }
 }
