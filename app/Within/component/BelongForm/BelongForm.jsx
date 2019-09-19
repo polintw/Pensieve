@@ -14,15 +14,22 @@ import {
   cancelErr,
   uncertainErr
 } from "../../../utils/errHandlers.js";
+import {
+  handleNounsList
+} from "../../../redux/actions/general.js";
 
 const recordLink = (nodeId, self)=>{
+  //still check if the node has data in reducer
   return (
     <Link
       key={"key_Belong_records_"+index}
       to={"/cosmic/nodes/"+nodeId}
       className={'plainLinkButton'}>
       <span>
-        {self.props.nounsBasic[nodeId].name}
+        {nodeId in self.props.nounsBasic ? (
+          self.props.nounsBasic[nodeId].name) : (
+            null
+          )}
       </span>
     </Link>
   )
@@ -48,37 +55,29 @@ class BelongForm extends React.Component {
     const self = this;
     this.setState({axios: true});
 
-    //GET /router/profile/sheetsNodes, & query?
-
     axios({
       method: 'get',
-      url: '/router/explore/nouns',
+      url: '/router/profile/sheetsNodes?present&random&limit=5',
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']
       },
       cancelToken: self.axiosSource.cancelToken
     }).then(function (res) {
-      self.setState({axios: false});
-
       let resObj = JSON.parse(res.data);
-      let nounsArr = resObj.main.nounsListUsed,
-          callBack = ()=>{
-            //for convenience when rendering, limit first block to less than 8
-            let [firstEight, afterEight]=[[],[]];
-            if(resObj.main.nounsListUsed.length>8) {
-              firstEight = resObj.main.nounsListUsed.slice(0, 8);
-              afterEight = resObj.main.nounsListUsed.slice(8);
-            }else firstEight=resObj.main.nounsListUsed;
-            self.setState((prevState, props)=>{
-              prevState.listUsed.push(firstEight);
-              prevState.listUsed.push(afterEight);
-              return {listUsed: prevState.listUsed}
-            });
-          };
+      self.props._submit_NounsList_new(resObj.main.nodesList);
 
-      self.props._submit_NounsList_new(nounsArr, callBack);
-
+      self.setState((prevState, props)=>{
+        return({
+          axios: false,
+          records: resObj.main.nodesList.length> 0 ? resObj.main.nodesList : true,
+          //check if the nodesList has anything. if not, return true to let the com rendered(default 'false')
+          viewForm: resObj.main.nodesList.length> 0 ? prevState.viewForm : true
+          //if nothing, means need to show the ptions Form, set it to 'true'
+        });
+        //for now, we didn't update nodes connection to user to anywhere
+        //even it was already prepared by res data
+      });
     }).catch(function (thrown) {
       self.setState({axios: false});
       if (axios.isCancel(thrown)) {
@@ -88,7 +87,6 @@ class BelongForm extends React.Component {
         if(message) alert(message);
       }
     });
-
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -97,8 +95,6 @@ class BelongForm extends React.Component {
 
   componentDidMount() {
     this._axios_GET_belongRecords();
-    //would get nodes list, and pass to redux
-
   }
 
   componentWillUnmount() {
@@ -106,8 +102,19 @@ class BelongForm extends React.Component {
   }
 
   _render_actionDescrip(){
-    if(this.state.records< 0) return (<p>{this.props.i18nUIString.catalog['guidingNewBelong']}</p>)
-    else if(this.state.records< 2) return (<p>{this.props.i18nUIString.catalog['guidingEditBelong']}</p>);
+    //currently focus on 2 confitions: no records at all( <1), or less than 3
+    if(this.state.records.length< 3){ //has records, but not all set
+      return (
+
+        //click to set state:viewForm
+        <p>{this.props.i18nUIString.catalog['guidingEditBelong']}</p>
+      );}
+    else if(this.state.records.length> 2){ //records all set, display 'edit'  in the future
+      return (<p/>
+      );}
+    else{ //in case true/false, mainly meaning there is not any records
+      return (<p>{this.props.i18nUIString.catalog['guidingNewBelong']}</p>)
+    }
     //there is third kind of situation: "edit"  to just edit current list after all 3 are redorded
   }
 
@@ -155,7 +162,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
   }
 }
 

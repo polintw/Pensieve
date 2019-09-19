@@ -37,7 +37,7 @@ class BelongOptions extends React.Component {
       options: []
     };
     this._render_Options = this._render_Options.bind(this);
-    this._set_nounDelete = this._set_nounDelete.bind(this);
+    this._set_nodeChoice = this._set_nodeChoice.bind(this);
     this._set_choice = (choice)=> this.setState({choice: choice});
     //_axios post input to db
     //_axios get options from db
@@ -100,8 +100,7 @@ class BelongOptions extends React.Component {
               <div
                 className={styles.boxDialog}>
                 <ChoiceDialog
-                  message={}
-                  optionsList={}/>
+                  />
               </div>
             </ModalBackground>
           </ModalBox>
