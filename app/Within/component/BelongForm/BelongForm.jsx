@@ -10,6 +10,10 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import BelongOptions from '../BelongOptions/BelongOptions.jsx';
+import {
+  cancelErr,
+  uncertainErr
+} from "../../../utils/errHandlers.js";
 
 const recordLink = (nodeId, self)=>{
   return (
@@ -31,12 +35,60 @@ class BelongForm extends React.Component {
       records: false, //would be an array after the axios get the records from db
       viewForm: false //judge whether open the Options or not
     };
+    this.axiosSource = axios.CancelToken.source();
     this._render_BelongList = this._render_BelongList.bind(this);
     this._render_actionDescrip = this._render_actionDescrip.bind(this);
-    //_axios get records from db
+    this._axios_GET_belongRecords = this._axios_GET_belongRecords.bind(this);
     this.style={
 
     }
+  }
+
+  _axios_GET_belongRecords(){
+    const self = this;
+    this.setState({axios: true});
+
+    //GET /router/profile/sheetsNodes, & query?
+
+    axios({
+      method: 'get',
+      url: '/router/explore/nouns',
+      headers: {
+        'charset': 'utf-8',
+        'token': window.localStorage['token']
+      },
+      cancelToken: self.axiosSource.cancelToken
+    }).then(function (res) {
+      self.setState({axios: false});
+
+      let resObj = JSON.parse(res.data);
+      let nounsArr = resObj.main.nounsListUsed,
+          callBack = ()=>{
+            //for convenience when rendering, limit first block to less than 8
+            let [firstEight, afterEight]=[[],[]];
+            if(resObj.main.nounsListUsed.length>8) {
+              firstEight = resObj.main.nounsListUsed.slice(0, 8);
+              afterEight = resObj.main.nounsListUsed.slice(8);
+            }else firstEight=resObj.main.nounsListUsed;
+            self.setState((prevState, props)=>{
+              prevState.listUsed.push(firstEight);
+              prevState.listUsed.push(afterEight);
+              return {listUsed: prevState.listUsed}
+            });
+          };
+
+      self.props._submit_NounsList_new(nounsArr, callBack);
+
+    }).catch(function (thrown) {
+      self.setState({axios: false});
+      if (axios.isCancel(thrown)) {
+        cancelErr(thrown);
+      } else {
+        let message = uncertainErr(thrown);
+        if(message) alert(message);
+      }
+    });
+
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -44,8 +96,9 @@ class BelongForm extends React.Component {
   }
 
   componentDidMount() {
-    //_axios get records from db,
+    this._axios_GET_belongRecords();
     //would get nodes list, and pass to redux
+
   }
 
   componentWillUnmount() {

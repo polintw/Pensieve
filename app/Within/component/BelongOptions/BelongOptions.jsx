@@ -10,7 +10,10 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import {updateNodesBasic} from '../../../redux/actions/general.js'
+import ChoiceDialog from '../../../Component/ChoiceDialog.jsx';
 import {SearchModule} from '../../../Component/NodeComs.jsx';
+import ModalBox from '../../../Component/ModalBox.jsx';
+import ModalBackground from '../../../Component/ModalBackground.jsx';
 
 const optionItem = (nodeId, self)=>{
   return (
@@ -89,12 +92,19 @@ class BelongOptions extends React.Component {
             <SearchModule
               _set_nodeChoice={this._set_nodeChoice}/>
           </div>
-
         }
         {
           this.state.choice &&
-
-          //warning modal, on dark bg, asking type
+          <ModalBox containerId="root">
+            <ModalBackground onClose={()=>{}} style={{position: "fixed"}}>
+              <div
+                className={styles.boxDialog}>
+                <ChoiceDialog
+                  message={}
+                  optionsList={}/>
+              </div>
+            </ModalBackground>
+          </ModalBox>
         }
       </div>
     )
