@@ -46,6 +46,8 @@ class BelongForm extends React.Component {
     this._render_BelongList = this._render_BelongList.bind(this);
     this._render_actionDescrip = this._render_actionDescrip.bind(this);
     this._axios_GET_belongRecords = this._axios_GET_belongRecords.bind(this);
+    this._set_stateViewForm = ()=>{
+      this.setState((prevState, index)=>{return {viewForm: prevState.viewForm ? false: true};}); };
     this.style={
 
     }
@@ -89,6 +91,12 @@ class BelongForm extends React.Component {
     });
   }
 
+  _handleClick_editBelong(e){
+    e.preventDefault();
+    e.stopPropagation();
+    this._set_stateViewForm();
+  }
+
   componentDidUpdate(prevProps, prevState, snapshot){
 
   }
@@ -105,12 +113,11 @@ class BelongForm extends React.Component {
     //currently focus on 2 confitions: no records at all( <1), or less than 3
     if(this.state.records.length< 3){ //has records, but not all set
       return (
-
-        //click to set state:viewForm
-        <p>{this.props.i18nUIString.catalog['guidingEditBelong']}</p>
+        <p
+          onClick={this._handleClick_editBelong}>{this.props.i18nUIString.catalog['guidingEditBelong']}</p>
       );}
     else if(this.state.records.length> 2){ //records all set, display 'edit'  in the future
-      return (<p/>
+      return (<p/> //also use '_handleClick_editBelong' in the future
       );}
     else{ //in case true/false, mainly meaning there is not any records
       return (<p>{this.props.i18nUIString.catalog['guidingNewBelong']}</p>)

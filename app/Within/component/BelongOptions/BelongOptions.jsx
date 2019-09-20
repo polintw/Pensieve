@@ -14,6 +14,13 @@ import ChoiceDialog from '../../../Component/ChoiceDialog.jsx';
 import {SearchModule} from '../../../Component/NodeComs.jsx';
 import ModalBox from '../../../Component/ModalBox.jsx';
 import ModalBackground from '../../../Component/ModalBackground.jsx';
+import {
+  cancelErr,
+  uncertainErr
+} from "../../../utils/errHandlers.js";
+import {
+  handleNounsList
+} from "../../../redux/actions/general.js";
 
 const optionItem = (nodeId, self)=>{
   return (
@@ -36,11 +43,12 @@ class BelongOptions extends React.Component {
       choice: null, //record the chosen node
       options: []
     };
+    this.axiosSource = axios.CancelToken.source();
     this._render_Options = this._render_Options.bind(this);
     this._set_nodeChoice = this._set_nodeChoice.bind(this);
-    this._set_choice = (choice)=> this.setState({choice: choice});
+    this._axios_GET_belongOptions = this._axios_GET_belongOptions.bind(this);
     //_axios post input to db
-    //_axios get options from db
+    this._set_choice = (choice)=> this.setState({choice: choice});
     this.style={
 
     }
@@ -59,6 +67,40 @@ class BelongOptions extends React.Component {
     this._set_choice(nodeBasic.id);
   }
 
+  _axios_GET_belongOptions(){
+    const self = this;
+    this.setState({axios: true});
+
+    axios({
+      method: 'get',
+      url: '/router/feed/options/belong',
+      headers: {
+        'charset': 'utf-8',
+        'token': window.localStorage['token']
+      },
+      cancelToken: self.axiosSource.cancelToken
+    }).then(function (res) {
+      let resObj = JSON.parse(res.data);
+      self.props._submit_NounsList_new(resObj.main.nodesList);
+
+      self.setState((prevState, props)=>{
+        return({
+          axios: false,
+          options: resObj.main.nodesList.length> 0 ? resObj.main.nodesList : []
+          //check if the nodesList has anything just for res.data confirm.
+        });
+      });
+    }).catch(function (thrown) {
+      self.setState({axios: false});
+      if (axios.isCancel(thrown)) {
+        cancelErr(thrown);
+      } else {
+        let message = uncertainErr(thrown);
+        if(message) alert(message);
+      }
+    });
+  }
+
   //_axios post, announce success to parent if no error
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -66,8 +108,8 @@ class BelongOptions extends React.Component {
   }
 
   componentDidMount() {
-    //_axios get options from db
-    //pass list to redux in case any one of nodes had not est. basic info
+    this._axios_GET_belongOptions();
+
   }
 
   componentWillUnmount() {
@@ -100,7 +142,8 @@ class BelongOptions extends React.Component {
               <div
                 className={styles.boxDialog}>
                 <ChoiceDialog
-                  />
+                  optionsList={}
+                  message={}/>
               </div>
             </ModalBackground>
           </ModalBox>
@@ -122,6 +165,7 @@ const mapStateToProps = (state)=>{
 const mapDispatchToProps = (dispatch) => {
   return {
     _submit_Nodes_insert: (obj) => { dispatch(updateNodesBasic(obj)); },
+    _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
   }
 }
 
