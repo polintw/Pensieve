@@ -142,8 +142,7 @@ class BelongOptions extends React.Component {
               <div
                 className={styles.boxDialog}>
                 <ChoiceDialog
-                  optionsList={}
-                  message={}/>
+                  />
               </div>
             </ModalBackground>
           </ModalBox>

@@ -13,6 +13,7 @@ const {
 } = require('../../../config/path.js');
 
 const _DB_nouns = require('../../../db/models/index').nouns;
+const _DB_users_prefer_nodes = require('../../../db/models/index').users_prefer_nodes;
 const {
   _handler_err_Internal,
   _handle_ErrCatched,
@@ -121,12 +122,12 @@ function shareHandler_POST(req, res){
           return new Promise((resolve, reject)=>{
             let valuesArr = [],
                 promiseArr= [];
+            //check if the noun exist! in case some people use faked nound id,
+            //and prepared to insert into attribution
             modifiedBody.nouns.list.forEach(function(nounKey, index){
               let checkReq = Promise.resolve(
-                //check if the noun exist! But!
-                // actually, we should use findall.() to reduce processing time
-                _DB_nouns.findByPk(nounKey).then(noun=>{
-                  if(!noun) return;
+                _DB_nouns.findByPk(nounKey).then(noun=>{ // actually, we should use findall.() to reduce processing time
+                  if(!noun) return; //no this noun exist, it's a faked id, sojust go for next
                   let nounBasic = modifiedBody.nouns.basic[nounKey];
                   valuesArr.push([
                     nounBasic.id,
@@ -149,9 +150,29 @@ function shareHandler_POST(req, res){
           })
         }).then((modifiedBody)=>{
           //this block, final, dealing with the rest
+          const dbSelectUpdate_Preference = ()=> {
+            return _DB_users_prefer_nodes.findOne({
+              where:{id_user: userId}
+            }).then((preference)=>{
+              let prevList = JSON.parse(preference.list_shared);
+              let concatList = prevList.concat(modifiedBody.nouns.list);
+              //concatList should be a new est. array now, no connection to the original preference
+              const mergeList = concatList.filter((node, index)=>{
+                //use the property of indexOf: only return the index of first one
+                //to let every node iterate only once
+                return concatList.indexOf(node) == index;
+              });
+              //then insert the new records back to table
+              return _DB_users_prefer_nodes.update(
+                {list_shared: JSON.stringify(mergeList)},  //Important! and remember turn the array into string before update
+                {where: {id_user: userId}}
+              );
+            })
+          };
+
           let promiseArr = [
-            Promise.resolve(_reachCreate(modifiedBody.id_unit, userId)).catch((err)=>{throw err})
-            //currently, reachCreate is 'not' a promise, so it is useless to wrap it in .resolve()
+            Promise.resolve(_reachCreate(modifiedBody.id_unit, userId)).catch((err)=>{throw err}), //currently, reachCreate is 'not' a promise, so it is useless to wrap it in .resolve()
+            Promise.resolve(dbSelectUpdate_Preference()).catch((err)=>{throw err})
           ];
           return Promise.all(promiseArr).then((results)=>{
             return modifiedBody;
