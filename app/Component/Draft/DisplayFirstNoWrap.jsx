@@ -2,7 +2,7 @@ import React from 'react';
 import {Editor, EditorState, ContentState, convertToRaw, convertFromRaw} from 'draft-js';
 import styles from "./styleDisplay.module.css";
 
-export default class DraftDisplayforNailMark extends React.Component {
+export default class DisplayFirstNoWrap extends React.Component {
   constructor(props){
     super(props);
     this.state = {

@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styleNailBasic.module.css";
 import ImgPreview from '../../ImgPreview.jsx';
-import DraftDisplayforNailMark from '../../Draft/DraftDisplayforNailMark.jsx';
+import DisplayFirstNoWrap from '../../Draft/DisplayFirstNoWrap.jsx';
 
 const commonStyle = {
   Com_Nails_Basic_pic_: {
@@ -122,7 +122,7 @@ class NailBasic extends React.Component {
           key={"key_nailcosmic_"+self.props.unitId+"_marks_"+i}
           className={styles.fontContent}
           style={commonStyle.Com_Nails_Basic_content_mark}>
-          <DraftDisplayforNailMark
+          <DisplayFirstNoWrap
             rawContent={self.props.marksBasic[key].editorContent}/>
         </div>
       )
