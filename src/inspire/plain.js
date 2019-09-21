@@ -89,8 +89,11 @@ function _handle_inspire_plain_POST(req, res){
     _handle_ErrCatched(error, req, res);
   }).then((data)=>{
     //start processing the internal process which are not related to res
-    const dbSelectUpdate_Preference = (nodesbyUnit)=> {
-      return _DB_users_prefer_nodes.findOne({
+
+    //process for recording nodes preference
+    async function dbSelectUpdate_Preference(nodesbyUnit){
+      //select current records about nodes preference in DB
+      await _DB_users_prefer_nodes.findOne({
         where:{id_user: data.userId}
       }).then((preference)=>{
         let prevList = JSON.parse(preference.list_inspired);
@@ -102,16 +105,20 @@ function _handle_inspire_plain_POST(req, res){
           return concatList.indexOf(node) == index;
         });
         //then insert the new records back to table
-  console.log(mergeList)
         return _DB_users_prefer_nodes.update(
           {list_inspired: JSON.stringify(mergeList)},  //Important! and remember turn the array into string before update
           {where: {id_user: data.userId}}
         );
       })
     };
-
-    return _DB_attribution.findAll({
-      where: {id_unit: data.userId}
+    //start from here! from selecting mark the inspired belong
+    return _DB_marks.findOne({
+      where: {id: data.markId}
+    })
+    .then((markResult)=>{
+      return _DB_attribution.findAll({ //get nodes list by unit id
+        where: {id_unit: markResult.id_unit}
+      })
     })
     .then((attriResults)=>{
       let unitNodes = attriResults.map((attriRow, index)=>{
