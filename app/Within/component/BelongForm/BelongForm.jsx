@@ -22,7 +22,7 @@ const recordLink = (nodeId, self)=>{
   //still check if the node has data in reducer
   return (
     <Link
-      key={"key_Belong_records_"+index}
+      key={"key_Belong_records_"+nodeId}
       to={"/cosmic/nodes/"+nodeId}
       className={'plainLinkButton'}>
       <span>

@@ -25,11 +25,14 @@ import {
 const optionItem = (nodeId, self)=>{
   return (
     <div
-      key={"key_Belong_options_"+index}
+      key={"key_Belong_options_"+nodeId}
       nodeid={nodeId}
       onClick={(e)=>{e.stopPropagation();e.preventDefault(); self._set_choice(e.currentTarget.getAttribute('nodeid'));}}>
       <span>
-        {self.props.nounsBasic[nodeId].name}
+        {nodeId in self.props.nounsBasic ? (
+          self.props.nounsBasic[nodeId].name) : (
+            null
+          )}
       </span>
     </div>
   )
@@ -143,8 +146,7 @@ class BelongOptions extends React.Component {
               <div
                 className={styles.boxDialog}>
                 <ChoiceDialog
-                  optionsList={}
-                  message={}/>
+                  />
               </div>
             </ModalBackground>
           </ModalBox>
