@@ -27,7 +27,7 @@ const optionItem = (nodeId, self)=>{
     <div
       key={"key_Belong_options_"+nodeId}
       nodeid={nodeId}
-      onClick={(e)=>{e.stopPropagation();e.preventDefault(); self._set_choice(e.currentTarget.getAttribute('nodeid'));}}>
+      onClick={(e)=>{e.stopPropagation();e.preventDefault(); self._set_choice(e.currentTarget.getAttribute('nodeid'));self._set_Dialog();}}>
       <span>
         {nodeId in self.props.nounsBasic ? (
           self.props.nounsBasic[nodeId].name) : (
@@ -44,15 +44,18 @@ class BelongOptions extends React.Component {
     this.state = {
       axios: false,
       choice: null, //record the chosen node
-      search: false,
+      dialog: false, //whether dialog opened
+      search: false, //whether search modal opened
       options: []
     };
     this.axiosSource = axios.CancelToken.source();
     this._render_Options = this._render_Options.bind(this);
     this._set_choiceFromSearch = this._set_choiceFromSearch.bind(this);
+    this._handlesubmit_newBelong = this._handlesubmit_newBelong.bind(this);
     this._axios_GET_belongOptions = this._axios_GET_belongOptions.bind(this);
     //_axios post input to db
     this._set_choice = (choice)=> this.setState({choice: choice});
+    this._set_Dialog = ()=> this.setState((prevState,props)=>{ return {dialog: prevState.dialog? false:true};});
     this._set_searchModal = ()=> this.setState((prevState,props)=>{return {search: prevState.search? false:true};});
     this.style={
 
@@ -72,6 +75,7 @@ class BelongOptions extends React.Component {
     this.setState((prevState,props)=>{
       return {
         choice: nodeBasic.id,
+        dialog: true,
         search: false
       };
     });
@@ -111,7 +115,23 @@ class BelongOptions extends React.Component {
     });
   }
 
-  //_axios post, announce success to parent if no error
+
+  _axios_POST_belongRecords(){
+    this.setState({axios: true});
+
+    //post new submit to DB
+  }
+
+  _handlesubmit_newBelong(){
+
+    //close the Dialog, make sure the passed data(match type) would not dissapear
+    //post new submit passed from Dialog
+    //lock the options at the same time by detect axios state
+    //final inform parent refresh the com
+    this._set_Dialog
+    await this._axios_POST_belongRecords();
+    this.props._set_refresh();
+  }
 
   componentDidUpdate(prevProps, prevState, snapshot){
 
@@ -153,7 +173,7 @@ class BelongOptions extends React.Component {
           </div>
         }
         {
-          this.state.choice &&
+          this.state.dialog &&
           //should give it a 'dark' bg, position near the BelongOptions itself
           <ModalBox containerId="root">
             <ModalBackground onClose={()=>{}} style={{position: "fixed"}}>
@@ -162,7 +182,9 @@ class BelongOptions extends React.Component {
                 <ChoiceDialog
                   optionsList={[{name: "resicedence"}, {name: "hometown"}, {name: "stay"}]}
                   leavingChoice={'cancel'}
-                  message={this.props.i18nUIString.catalog['messageChoiceBelong'][0]+this.state.choice+this.props.i18nUIString.catalog['messageChoiceBelong'][1]}/>
+                  message={this.props.i18nUIString.catalog['messageChoiceBelong'][0]+this.props.nounsBasic[this.state.choice].name+this.props.i18nUIString.catalog['messageChoiceBelong'][1]}
+                  _leavingHandler={this.props._set_refresh}
+                  _submitHandler={this._handlesubmit_newBelong}/>
               </div>
             </ModalBackground>
           </ModalBox>

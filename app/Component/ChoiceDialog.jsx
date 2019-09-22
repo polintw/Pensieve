@@ -39,6 +39,7 @@ class ChoiceDialog extends React.Component {
     };
     this._render_options = this._render_options.bind(this);
     this._handleClick_ChoiceDialog_option = this._handleClick_ChoiceDialog_option.bind(this);
+    this._handleClick_ChoiceDialog_leaving = this._handleClick_ChoiceDialog_leaving.bind(this);
     this.style={
       Com_ChoiceDialog_: {
         width: '100%',
@@ -65,6 +66,13 @@ class ChoiceDialog extends React.Component {
     event.preventDefault();
 
     //pass the value click(e.currentTarget) to parent
+    this.props._submitHandler(e.currentTarget.getAttribute('value'));
+  }
+
+  _handleClick_ChoiceDialog_leaving(event){
+    event.stopPropagation();
+    event.preventDefault();
+    this.props._leavingHandler();
   }
 
   componentDidMount(){
@@ -112,7 +120,7 @@ class ChoiceDialog extends React.Component {
           >
           <div
             style={styleMiddle.roundRecBox}
-            onClick={()=>{}}>
+            onClick={this._handleClick_ChoiceDialog_leaving}>
             <span
               className={'centerAlignChild'}
               style={styleMiddle.spanDestiny}>

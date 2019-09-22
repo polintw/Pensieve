@@ -43,6 +43,7 @@ class BelongForm extends React.Component {
       viewForm: false //judge whether open the Options or not
     };
     this.axiosSource = axios.CancelToken.source();
+    this._set_refresh = this._set_refresh.bind(this);
     this._render_BelongList = this._render_BelongList.bind(this);
     this._render_actionDescrip = this._render_actionDescrip.bind(this);
     this._axios_GET_belongRecords = this._axios_GET_belongRecords.bind(this);
@@ -74,7 +75,7 @@ class BelongForm extends React.Component {
           axios: false,
           records: resObj.main.nodesList.length> 0 ? resObj.main.nodesList : true,
           //check if the nodesList has anything. if not, return true to let the com rendered(default 'false')
-          viewForm: resObj.main.nodesList.length> 0 ? prevState.viewForm : true
+          viewForm: resObj.main.nodesList.length> 0 ? false : true
           //if nothing, means need to show the ptions Form, set it to 'true'
         });
         //for now, we didn't update nodes connection to user to anywhere
@@ -97,6 +98,19 @@ class BelongForm extends React.Component {
     this._set_stateViewForm();
   }
 
+  _set_refresh(){
+    //called to refresh the whole data display
+    //used when submit new one, or cancel the edit
+    this.setState((prevState, props)=>{
+      return {
+        records: false,
+        viewForm: false
+      }
+    }, ()=>{
+      this._axios_GET_belongRecords();
+    })
+  }
+
   componentDidUpdate(prevProps, prevState, snapshot){
 
   }
@@ -111,13 +125,24 @@ class BelongForm extends React.Component {
 
   _render_actionDescrip(){
     //currently focus on 2 confitions: no records at all( <1), or less than 3
-    if(this.state.records.length< 3){ //has records, but not all set
+    if(this.state.viewForm){
+      return (
+        <div>
+          <p>{this.props.i18nUIString.catalog['guidingNewBelong']}</p>
+          {(this.state.records.length>0) &&
+            <span
+              >{"close"}</span>}
+        </div>
+      );}
+    else if(this.state.records.length< 3){ //has records, but not all set
       return (
         <p
           onClick={this._handleClick_editBelong}>{this.props.i18nUIString.catalog['guidingEditBelong']}</p>
       );}
     else if(this.state.records.length> 2){ //records all set, display 'edit'  in the future
-      return (<p/> //also use '_handleClick_editBelong' in the future
+      return (
+        <p
+          onClick={this._handleClick_editBelong}>{this.props.i18nUIString.catalog['']}</p> //also use '_handleClick_editBelong' in the future
       );}
     else{ //in case true/false, mainly meaning there is not any records
       return (<p>{this.props.i18nUIString.catalog['guidingNewBelong']}</p>)
@@ -149,7 +174,8 @@ class BelongForm extends React.Component {
             {this._render_actionDescrip()}
             {
               this.state.viewForm &&
-              <BelongOptions/>
+              <BelongOptions
+                _set_refresh={this._set_refresh}/>
             }
           </div>
         }
