@@ -87,7 +87,7 @@ class BelongOptions extends React.Component {
         return({
           axios: false,
           options: resObj.main.nodesList.length> 0 ? resObj.main.nodesList : []
-          //check if the nodesList has anything just for res.data confirm.
+          //check if the nodesList has anything, just for confirmation, no special purpose.
         });
       });
     }).catch(function (thrown) {
@@ -137,12 +137,14 @@ class BelongOptions extends React.Component {
         }
         {
           this.state.choice &&
+          //should give it a 'dark' bg, position near the BelongOptions itself
           <ModalBox containerId="root">
             <ModalBackground onClose={()=>{}} style={{position: "fixed"}}>
               <div
                 className={styles.boxDialog}>
                 <ChoiceDialog
-                  />
+                  optionsList={}
+                  message={}/>
               </div>
             </ModalBackground>
           </ModalBox>
