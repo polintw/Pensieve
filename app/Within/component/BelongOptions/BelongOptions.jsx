@@ -11,7 +11,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import {updateNodesBasic} from '../../../redux/actions/general.js'
 import ChoiceDialog from '../../../Component/ChoiceDialog.jsx';
-import {SearchModule} from '../../../Component/NodeComs.jsx';
+import {NounsSearchModal} from '../../../Component/NodeComs.jsx';
 import ModalBox from '../../../Component/ModalBox.jsx';
 import ModalBackground from '../../../Component/ModalBackground.jsx';
 import {
@@ -44,20 +44,22 @@ class BelongOptions extends React.Component {
     this.state = {
       axios: false,
       choice: null, //record the chosen node
+      search: false,
       options: []
     };
     this.axiosSource = axios.CancelToken.source();
     this._render_Options = this._render_Options.bind(this);
-    this._set_nodeChoice = this._set_nodeChoice.bind(this);
+    this._set_choiceFromSearch = this._set_choiceFromSearch.bind(this);
     this._axios_GET_belongOptions = this._axios_GET_belongOptions.bind(this);
     //_axios post input to db
     this._set_choice = (choice)=> this.setState({choice: choice});
+    this._set_searchModal = ()=> this.setState((prevState,props)=>{return {search: prevState.search? false:true};});
     this.style={
 
     }
   }
 
-  _set_nodeChoice(nodeBasic){
+  _set_choiceFromSearch(nodeBasic){
     //create obj to fit the format of state in redux
     let insertObj = {};
     insertObj[nodeBasic.id] = nodeBasic;
@@ -67,7 +69,12 @@ class BelongOptions extends React.Component {
     this.props._submit_Nodes_insert(insertObj);
     //no need to fetch node data from db again for any condition gave the choice a non-false value
     //has already save the data of node in reducer.
-    this._set_choice(nodeBasic.id);
+    this.setState((prevState,props)=>{
+      return {
+        choice: nodeBasic.id,
+        search: false
+      };
+    });
   }
 
   _axios_GET_belongOptions(){
@@ -132,10 +139,17 @@ class BelongOptions extends React.Component {
       <div
         className={classnames(styles.comBelongOptions)}>
         {this._render_Options()}
+        <div
+          onClick={(e)=>{e.stopPropagation();e.preventDefault(); this._set_searchModal()}}>
+          {"Search..."}
+        </div>
         {
+          this.state.search &&
           <div>
-            <SearchModule
-              _set_nodeChoice={this._set_nodeChoice}/>
+            <NounsSearchModal
+              _set_nodeChoice={this._set_choiceFromSearch}
+              _set_SearchModal_switch={this._set_searchModal}
+              _handleClick_SearchModal_switch={(e)=>{e.preventDefault();e.stopPropagation();this._set_searchModal();}}/>
           </div>
         }
         {
@@ -146,7 +160,9 @@ class BelongOptions extends React.Component {
               <div
                 className={styles.boxDialog}>
                 <ChoiceDialog
-                  />
+                  optionsList={[{name: "resicedence"}, {name: "hometown"}, {name: "stay"}]}
+                  leavingChoice={'cancel'}
+                  message={this.props.i18nUIString.catalog['messageChoiceBelong'][0]+this.state.choice+this.props.i18nUIString.catalog['messageChoiceBelong'][1]}/>
               </div>
             </ModalBackground>
           </ModalBox>

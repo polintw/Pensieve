@@ -108,6 +108,18 @@ class ChoiceDialog extends React.Component {
           style={this.style.Com_ChoiceDialog_panel_}>
           {this._render_options()}
         </div>
+        <div
+          >
+          <div
+            style={styleMiddle.roundRecBox}
+            onClick={()=>{}}>
+            <span
+              className={'centerAlignChild'}
+              style={styleMiddle.spanDestiny}>
+              {this.props.leavingChoice}
+            </span>
+          </div>
+        </div>
       </div>
     )
   }

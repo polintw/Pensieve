@@ -83,7 +83,7 @@ export class SearchModule extends React.Component {
   }
 }
 
-class NounsSearchModal extends React.Component {
+export class NounsSearchModal extends React.Component {
   constructor(props){
     super(props);
     this.state = {
