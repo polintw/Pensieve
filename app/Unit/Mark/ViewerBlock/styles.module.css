@@ -13,22 +13,21 @@
 .boxPanelJump {
   box-sizing: border-box;
   padding: 0 10% 0 8%;
-  margin: 2.7vh 0 0 0;
+  margin: 5.7vh 0 0 0;
   text-align: right;
 }
 
 .boxContentDraft {
   min-height: 37vh;
   box-sizing: border-box;
-  padding: 1vh 9% 0 10.8%;
+  padding: 0 10% 0 10%;
 }
 
 .fontContentDraft {
-  font-size: 1.52rem;
-  letter-spacing: 0.07rem;
-  line-height: 1.6rem;
+  font-size: 1.57rem;
+  letter-spacing: 0.06rem;
+  line-height: 1.76rem;
   font-weight: 400;
   font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;
-  word-break: break-all;
   color: #000000;
 }

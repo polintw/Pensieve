@@ -1,10 +1,13 @@
 .boxMarkBlock {
-  width: 29%;
+  width: 32.6%;
   height: 100%;
   position: absolute;
   top: 0;
+  box-sizing: border-box;
+  border-top: 3px solid #E0E0E0;
+  border-bottom: 3px solid #E0E0E0;
   box-shadow: 0 0 2px 0;
-  background-color: #FCFCFC;
+  background-color: rgba(252, 252, 252, 0.9);
 }
 
 .boxMarkinBlock {

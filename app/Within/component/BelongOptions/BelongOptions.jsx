@@ -128,9 +128,9 @@ class BelongOptions extends React.Component {
     //post new submit passed from Dialog
     //lock the options at the same time by detect axios state
     //final inform parent refresh the com
-    this._set_Dialog
+    /*this._set_Dialog
     await this._axios_POST_belongRecords();
-    this.props._set_refresh();
+    this.props._set_refresh();*/
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){

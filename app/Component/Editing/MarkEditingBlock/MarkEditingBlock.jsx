@@ -41,6 +41,7 @@ class MarkEditingBlock extends React.Component {
       onEnterSave: false
     }
     this.contentEditor = React.createRef();
+    this.comEditingBlock = React.createRef();
     this._set_EditorUpdate = this._set_EditorUpdate.bind(this);
     this._handleEnter_Save = this._handleEnter_Save.bind(this);
     this._handleLeave_Save = this._handleLeave_Save.bind(this);
@@ -66,7 +67,7 @@ class MarkEditingBlock extends React.Component {
         width: '100%',
         height: '2.4rem',
         boxSizing: 'border-box',
-        margin: '2rem 0px 1rem',
+        margin: '2.2rem 0px 1rem',
         padding: '0 3%'
       }
     }
@@ -122,13 +123,14 @@ class MarkEditingBlock extends React.Component {
 
     return(
       <div
+        ref={this.comEditingBlock}
         style={this.style.Com_MarkEditingBlock_}>
         <div
           className={classnames(styles.boxContent)}>
           <div
             style={{
               width: '100%',
-              height: this.props.downToMdidline? (100 -this.props.inBlockHeight) +'vh': (this.props.inBlockHeight-69+4)+'vh'
+              height: this.props.inBlockHeight+'vh'
             }}></div>
           <div
             className={classnames(styles.boxContentDraft, styles.fontContentDraft)}
@@ -147,7 +149,7 @@ class MarkEditingBlock extends React.Component {
           style={Object.assign(
             {},
             {
-              height: this.props.downToMdidline? (this.props.inBlockHeight- 57)+'vh': (100 -this.props.inBlockHeight+14-4)+'vh'
+              height: (100-52-this.props.inBlockHeight)+'vh'
             }
           )}>
           <div
