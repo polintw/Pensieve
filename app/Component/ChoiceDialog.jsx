@@ -87,6 +87,7 @@ class ChoiceDialog extends React.Component {
     let DOMarr = this.props.optionsList.map((item, index)=>{
       return (
         <div
+          key={"key_ChoiceDialog_option_"+index}
           value={item.name}
           style={styleMiddle.roundRecBox}
           onClick={this._handleClick_ChoiceDialog_option}>

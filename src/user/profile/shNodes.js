@@ -59,9 +59,74 @@ function _handle_GET_profile_sheetsNodes(req, res){
   });
 }
 
+function _handle_PATCH_profile_sheetsNodes(req, res){
+  const mutableCols =  ['residence', 'hometown', 'stay'];
+
+  new Promise((resolve, reject)=>{
+    let userId = req.extra.tokenUserId; //use userId passed from pass.js
+
+    //update the submit data directly into table sheets_node
+
+    //first, we don't know how many property were submitted,
+    //so loop them to est a bool list by mutable columns list
+    let colsList = mutableCols.map((col,index)=>{
+      return (col in req.body.belong) ? true: false;
+    })
+
+    //then find the current records
+    _DB_sheetsNode.findOne({
+      where:{id_user: userId}
+    }).then((preference)=>{
+      let newRow = {};
+      //check current data, if a new submit need to override the current, we move the current to history
+      if(colsList[0]){
+        let prevRecord = JSON.parse(preference.residence_history);
+        newRow['residence_history'] = prevRecord.push(preference.residence);
+      }
+      if(colsList[2]){
+        let prevRecord = JSON.parse(preference.stay_history);
+        newRow['residence_history'] = prevRecord.push(preference.stay);
+      }
+      //then insert new data into newRow depend on former est. bool list
+      colsList.forEach((bool,index)=>{
+        if(bool){
+          let col = mutableCols[index];
+          newRow[col] = req.body.belong[col];
+        }
+      });
+
+      resolve(newRow);
+    }).catch((error)=>{
+      reject(new internalError(error ,131));
+    })
+  }).then((newRow)=>{
+    //now update the newRow back to table
+    return _DB_sheetsNode.update(
+      newRow,
+      {
+        where: {id_user: userId},
+        fields: ['residence', 'hometown', 'stay'] //limit the mutable columns, in case the intentional error
+      }
+    ).then((result)=>{
+      return {temp: {}}; //return a plain obj to inform success
+    }).catch((error)=>{
+      throw new internalError(error ,131);
+    })
+
+  }).then((sendingData)=>{
+    _res_success(res, sendingData, "profile, PATCH: /sheetsNodes, complete.");
+  }).catch((error)=>{
+    _handle_ErrCatched(error, req, res);
+  });
+}
+
 execute.get('/', function(req, res){
   if(process.env.NODE_ENV == 'development') winston.verbose('profile, GET: /sheetsNodes ');
   _handle_GET_profile_sheetsNodes(req, res);
+});
+execute.patch('/', function(req, res){
+  if(process.env.NODE_ENV == 'development') winston.verbose('profile, PATCH: /sheetsNodes ');
+  _handle_PATCH_profile_sheetsNodes(req, res);
 });
 
 module.exports = execute;

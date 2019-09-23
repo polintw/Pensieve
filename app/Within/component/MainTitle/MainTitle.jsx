@@ -98,9 +98,8 @@ class MainTitle extends React.Component {
               style={{height: "100%", position: 'absolute', right: '-6%', top: '0',borderRight: 'solid 1px #6e6e6e'}}/>
           </div>
           <div
-            className={classnames(styles.boxCorners)}>
+            className={classnames(styles.boxBelong)}>
             <BelongForm/>
-
           </div>
         </div>
 

@@ -24,8 +24,9 @@ const recordLink = (nodeId, self)=>{
     <Link
       key={"key_Belong_records_"+nodeId}
       to={"/cosmic/nodes/"+nodeId}
-      className={'plainLinkButton'}>
-      <span>
+      className={classnames('plainLinkButton', styles.boxRecord)}>
+      <span
+        className={classnames(styles.spanRecord)}>
         {nodeId in self.props.nounsBasic ? (
           self.props.nounsBasic[nodeId].name) : (
             null
@@ -127,8 +128,11 @@ class BelongForm extends React.Component {
     //currently focus on 2 confitions: no records at all( <1), or less than 3
     if(this.state.viewForm){
       return (
-        <div>
-          <p>{this.props.i18nUIString.catalog['guidingNewBelong']}</p>
+        <div
+          className={classnames(styles.fontDescrip)}
+          style={{padding: '5px 2%'}}>
+          <p
+            className={classnames(styles.pDescrip)}>{this.props.i18nUIString.catalog['guidingNewBelong']}</p>
           {(this.state.records.length>0) &&
             <span
               >{"close"}</span>}
@@ -164,13 +168,15 @@ class BelongForm extends React.Component {
         className={classnames(styles.comBelongForm)}>
         {
           !this.state.viewForm && this.state.records &&
-          <div>
+          <div
+            className={classnames(styles.boxList, styles.fontList)}>
             {this._render_BelongList()}
           </div>
         }
         {
           this.state.records &&
-          <div>
+          <div
+            className={classnames(styles.boxPanel)}>
             {this._render_actionDescrip()}
             {
               this.state.viewForm &&

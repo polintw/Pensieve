@@ -1,5 +1,13 @@
 .comBelongOptions {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: baseline;
+  justify-content: space-between;
+}
 
+.boxOption {
+  display: inline-block;
+  margin: 0 2%;
 }
 
 .boxDialog {
@@ -12,4 +20,14 @@
   box-shadow: 1px 1px 0.8rem 0;
   border-radius: 1rem;
   background-color: white;
+}
+
+.spanOption {
+  cursor: pointer;
+}
+
+.fontOption {
+  font-size: 1.47rem;
+  font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;
+  letter-spacing: 0.05rem;
 }

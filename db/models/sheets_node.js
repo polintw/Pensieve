@@ -3,12 +3,12 @@ module.exports = (sequelize, DataTypes) => {
   const sheets_node = sequelize.define('sheets_node', {
     id_user: DataTypes.INTEGER,
     residence: DataTypes.INTEGER,
-    residence_history: DataTypes.INTEGER,
+    residence_history: DataTypes.STRING,
     hometown: DataTypes.INTEGER,
     stay: DataTypes.INTEGER,
-    stay_history: DataTypes.INTEGER
+    stay_history: DataTypes.STRING
   }, {
-    charset: 'utf8mb4', //for Mandarin, or emoji if you don't speak in mandarin
+
   });
   sheets_node.associate = function(models) {
     // associations can be defined here

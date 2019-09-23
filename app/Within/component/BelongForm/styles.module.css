@@ -1,3 +1,35 @@
 .comBelongForm {
-  
+  display: flex;
+  flex-direction: row;
+}
+
+.boxList {
+
+}
+
+.boxPanel {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.boxRecord {
+
+}
+
+.spanRecord {
+
+}
+
+.pDescrip {
+  margin: 0;
+}
+
+.fontList {
+
+}
+
+.fontDescrip {
+  font-size: 1.6rem;
+  font-weight: 700;
 }
