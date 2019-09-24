@@ -7,7 +7,8 @@
 
 .boxOption {
   display: inline-block;
-  margin: 0 2%;
+  box-sizing: border-box;
+  padding: 0 2%;
 }
 
 .boxDialog {
@@ -24,7 +25,7 @@
 
 .boxSearchModal {
   position: absolute;
-  
+
 }
 
 .spanOption {

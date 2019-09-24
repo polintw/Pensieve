@@ -18,10 +18,12 @@ class MainTitle extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      greet: false //temp use, before the real customized render constructed
+      greet: false, //temp use, before the real customized render constructed
+      onCreate: false
     };
     this.boxTitle = React.createRef();
     this._submit_Share_New = this._submit_Share_New.bind(this);
+    this._handleMouseOn_Create = ()=> this.setState((prevState,props)=>{return {onCreate: prevState.onCreate?false:true}});
     this.style={
 
     }
@@ -87,7 +89,10 @@ class MainTitle extends React.Component {
         <div
           className={classnames(styles.boxAction)}>
           <div
-            className={classnames(styles.boxCreate)}>
+            className={classnames(styles.boxCreate)}
+            style={this.state.onCreate ? {boxShadow: '0 0px 2px #aeaeae, 0 0 4px #fafafa inset',boxRadius: '3.5px'}:{}}
+            onMouseEnter={this._handleMouseOn_Create}
+            onMouseLeave={this._handleMouseOn_Create}>
             <SvgCreate
               place={false}
               stretch={true}/>

@@ -30,7 +30,12 @@ const optionItem = (nodeId, self)=>{
       key={"key_Belong_options_"+nodeId}
       nodeid={nodeId}
       className={classnames(styles.boxOption, styles.fontOption)}
-      onClick={(e)=>{e.stopPropagation();e.preventDefault(); self._set_choice(e.currentTarget.getAttribute('nodeid'));self._set_Dialog();}}>
+      style={(self.state.onOption== nodeId) ? {
+        backgroundColor:'rgb(255,255,255)',boxShadow: '0 0 1px rgb(255,122,95)'
+      }:{}}
+      onClick={(e)=>{e.stopPropagation();e.preventDefault(); self._set_choice(e.currentTarget.getAttribute('nodeid'));self._set_Dialog();}}
+      onMouseEnter={self._handleEnter_optionBelong}
+      onMouseLeave={self._handleLeave_optionBelong}>
       <span
         className={styles.spanOption}>
         {nodeId in self.props.nounsBasic ? (
@@ -47,6 +52,8 @@ class BelongOptions extends React.Component {
     super(props);
     this.state = {
       axios: false,
+      onOption: false, //for mouse enter interaction
+      onSearch: false,
       choice: null, //record the chosen node
       dialog: false, //whether dialog opened
       search: false, //whether search modal opened
@@ -54,16 +61,31 @@ class BelongOptions extends React.Component {
     };
     this.axiosSource = axios.CancelToken.source();
     this._render_Options = this._render_Options.bind(this);
-    this._set_choiceFromSearch = this._set_choiceFromSearch.bind(this);
     this._handlesubmit_newBelong = this._handlesubmit_newBelong.bind(this);
+    this._handleEnter_optionBelong = this._handleEnter_optionBelong.bind(this);
+    this._handleLeave_optionBelong = this._handleLeave_optionBelong.bind(this);
+    this._handleMouseOn_optionSearch = ()=> this.setState((prevState,props)=>{return {onSearch: prevState.onSearch?false:true}});
     this._axios_GET_belongOptions = this._axios_GET_belongOptions.bind(this);
     this._axios_PATCH_belongRecords = this._axios_PATCH_belongRecords.bind(this);
+    this._set_choiceFromSearch = this._set_choiceFromSearch.bind(this);
     this._set_choice = (choice)=> this.setState({choice: choice});
     this._set_Dialog = ()=> this.setState((prevState,props)=>{ return {dialog: prevState.dialog? false:true};});
     this._set_searchModal = ()=> this.setState((prevState,props)=>{return {search: prevState.search? false:true};});
     this.style={
 
     }
+  }
+
+  _handleEnter_optionBelong(e){
+    this.setState({
+      onOption: e.currentTarget.getAttribute('nodeid')
+    })
+  }
+
+  _handleLeave_optionBelong(e){
+    this.setState({
+      onOption: false
+    })
   }
 
   _set_choiceFromSearch(nodeBasic){
@@ -188,8 +210,11 @@ class BelongOptions extends React.Component {
         className={classnames(styles.comBelongOptions)}>
         {this._render_Options()}
         <div
-          style={{display:'inline-block', marginLeft: '3%', fontSize:'1.2rem',letterSpacing: '0.02rem',color: '#aeaeae'}}
-          onClick={(e)=>{e.stopPropagation();e.preventDefault(); this._set_searchModal()}}>
+          style={{display:'inline-block', marginLeft: '3%', fontSize:'1.2rem',letterSpacing: '0.02rem',
+            color: this.state.onSearch? '#a0a0a0':'#aeaeae'}}
+          onClick={(e)=>{e.stopPropagation();e.preventDefault(); this._set_searchModal()}}
+          onMouseEnter={this._handleMouseOn_optionSearch}
+          onMouseLeave={this._handleMouseOn_optionSearch}>
           {"Search..."}
         </div>
         {
