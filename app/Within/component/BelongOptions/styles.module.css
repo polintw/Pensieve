@@ -24,8 +24,11 @@
 }
 
 .boxSearchModal {
+  width: 53%;
+  height: 3rem;
   position: absolute;
-
+  right: 1%;
+  bottom: 0;
 }
 
 .spanOption {

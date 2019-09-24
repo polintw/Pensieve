@@ -10,9 +10,10 @@ const styleMiddle={
     color: '#ababab'
   },
   spanContent: {
-    fontSize: '1.36rem',
-    letterSpacing: '0.2rem',
+    fontSize: '1.47rem',
+    letterSpacing: '0.13rem',
     fontWeight: '300',
+    fontFamily: "'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif",
     color: '#FAFAFA'
   },
   spanSubmit: {
@@ -41,7 +42,7 @@ export class SearchModule extends React.Component {
         width: "92%",
         height: '81%',
         position: 'absolute',
-        bottom: '0',
+        bottom: '7px', //in order to let the border bottom at same level as input in NounsSearchModal
         boxSizing: 'border-box',
         borderBottom: 'solid 0.2rem #e6e6e6',
         cursor: 'text'
@@ -112,8 +113,8 @@ export class NounsSearchModal extends React.Component {
         width: '88%',
         height: '98%',
         position: 'absolute',
-        bottom: '0',
-        left: '4%',
+        bottom: '7px',
+        left: '6%',
         boxSizing: 'border-box',
         borderBottom: 'solid 0.2rem #e6e6e6',
       },
@@ -125,7 +126,7 @@ export class NounsSearchModal extends React.Component {
         right: '0%',
         boxSizing: 'border-box',
         padding: '0 4%',
-        boxShadow: 'rgb(1, 1, 1) 0px -5px 1.8vh -0.5vh',
+        boxShadow: 'rgb(1, 1, 1) 0px 2px 0.4rem 0',
         backgroundColor: '#000000',
       },
       Com_NounsEditor_SearchModal_Modal_panel_input: {
@@ -155,8 +156,10 @@ export class NounsSearchModal extends React.Component {
         boxSizing: 'border-box',
         padding: '4% 4% 5%',
         margin: '0',
-        boxShadow: 'rgb(1, 1, 1) 0px -0.5rem 1.4rem -0.25rem',
+        boxShadow: 'rgb(1, 1, 1) 0px 3px 0.4rem 0',
         backgroundColor: '#000000',
+        borderTopLeftRadius: '0.47vw',
+        borderTopRightRadius: '0.47vw',
         overflow: 'auto',
         listStyle: 'none'
       },
@@ -164,7 +167,7 @@ export class NounsSearchModal extends React.Component {
         position: 'relative',
         boxSizing: 'border-box',
         margin: '1.2rem 0',
-        padding: '2% 1%',
+        padding: '2% 2%',
         border: 'solid 1px #ededed',
         borderRadius: '0.6rem',
         cursor: 'pointer'
