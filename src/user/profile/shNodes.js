@@ -100,6 +100,9 @@ function _handle_PATCH_profile_sheetsNodes(req, res){
       reject(new internalError(error ,131));
     })
   }).then((newRow)=>{
+    //claim userId again because we have already left the last promise
+    let userId = req.extra.tokenUserId; //use userId passed from pass.js
+
     //now update the newRow back to table
     return _DB_sheetsNode.update(
       newRow,

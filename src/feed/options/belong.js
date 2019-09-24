@@ -64,7 +64,7 @@ function _handle_GET_feed_optionsBelong(req, res){
         }).then((results)=>{
           let concatList = [];
           results.forEach((row,index)=>{
-            concatList.concat(JSON.parse(row.list_shared));
+            concatList = concatList.concat(JSON.parse(row.list_shared));
           })
 
           for(let i=1; i >0 ; i++){ //Important!! this is a Infinite Loop, but we do it in purpose!

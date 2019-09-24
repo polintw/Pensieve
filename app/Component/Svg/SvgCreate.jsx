@@ -94,7 +94,9 @@ class Default extends React.Component {
         }}
         preserveAspectRatio= {this.props.stretch? "none": 'unset'}>
         <defs>
-          <style>{".cls-1-createD{fill:#777777;}.cls-2-createD{fill:#777777;}.cls-3-createD{fill:#4085a0;}"}</style>
+          <style>{
+              ".cls-1-createD{"+ (!!this.props.black? "fill:#111111;": "fill:#777777;") + "}.cls-2-createD{"+ (!!this.props.black? "fill:#111111;": "fill:#777777;") + "}.cls-3-createD{fill:#4085a0;}"
+            }</style>
         </defs>
         <g id="圖層_2" data-name="圖層 2">
           <g id="圖層_4" data-name="圖層 4">

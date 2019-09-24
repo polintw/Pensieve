@@ -90,10 +90,10 @@ class MainTitle extends React.Component {
           className={classnames(styles.boxAction)}>
           <div
             className={classnames(styles.boxCreate)}
-            style={this.state.onCreate ? {boxShadow: '0 0px 2px #aeaeae, 0 0 4px #fafafa inset',boxRadius: '3.5px'}:{}}
             onMouseEnter={this._handleMouseOn_Create}
             onMouseLeave={this._handleMouseOn_Create}>
             <SvgCreate
+              black={this.state.onCreate}
               place={false}
               stretch={true}/>
             <CreateShare

@@ -42,20 +42,20 @@ class ChoiceDialog extends React.Component {
     this._handleClick_ChoiceDialog_leaving = this._handleClick_ChoiceDialog_leaving.bind(this);
     this.style={
       Com_ChoiceDialog_: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-around',
         width: '100%',
+        minHeight: '10rem',
         boxSizing: 'border-box',
         padding: '1rem 1.8rem',
       },
       Com_ChoiceDialog_panel_: {
         width: '100%',
-        height: '17%',
-        position: 'relative',
         boxSizing: 'border-box'
       },
       Com_ChoiceDialog_message_: {
         width: '100%',
-        height: '76%',
-        position: 'relative',
         boxSizing: 'border-box'
       }
     };
@@ -66,7 +66,7 @@ class ChoiceDialog extends React.Component {
     event.preventDefault();
 
     //pass the value click(e.currentTarget) to parent
-    this.props._submitHandler(e.currentTarget.getAttribute('value'));
+    this.props._submitHandler(event.currentTarget.getAttribute('value'));
   }
 
   _handleClick_ChoiceDialog_leaving(event){
