@@ -22,6 +22,11 @@
   background-color: white;
 }
 
+.boxSearchModal {
+  position: absolute;
+  
+}
+
 .spanOption {
   cursor: pointer;
 }

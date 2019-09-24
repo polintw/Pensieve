@@ -194,7 +194,8 @@ class BelongOptions extends React.Component {
         </div>
         {
           this.state.search &&
-          <div>
+          <div
+            className={classnames(styles.boxSearchModal)}>
             <NounsSearchModal
               _set_nodeChoice={this._set_choiceFromSearch}
               _set_SearchModal_switch={this._set_searchModal}

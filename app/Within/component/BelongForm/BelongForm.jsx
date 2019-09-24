@@ -129,7 +129,7 @@ class BelongForm extends React.Component {
     if(this.state.viewForm){
       return (
         <div
-          className={classnames(styles.fontDescrip)}
+          className={classnames(styles.fontDescripTitle)}
           style={{padding: '5px 2%'}}>
           <p
             className={classnames(styles.pDescrip)}>{this.props.i18nUIString.catalog['guidingNewBelong']}</p>
