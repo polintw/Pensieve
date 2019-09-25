@@ -176,9 +176,14 @@ class BelongOptions extends React.Component {
 
     //lock the options at the same time by detect axios state
     //final inform parent refresh the com
-    let typeIndex = optionsType.indexOf(type); //assure the type won'y dissapear if the dialog unmount first
+
     let objBelong = {};
-    objBelong[optionsType[typeIndex]] = this.state.choice;
+    //we use the const 'optionsType' claim in this file
+    //to avoid type dissapear if the dialog unmount first
+    optionsType.forEach((obj,index)=>{
+      if(obj.name==type) objBelong[optionsType[index].name]= this.state.choice;
+    });
+
     this._set_Dialog();
     this._axios_PATCH_belongRecords({belong: objBelong}, this.props._set_refresh);
 

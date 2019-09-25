@@ -79,11 +79,11 @@ function _handle_PATCH_profile_sheetsNodes(req, res){
     }).then((preference)=>{
       let newRow = {};
       //check current data, if a new submit need to override the current, we move the current to history
-      if(colsList[0]){
+      if(colsList[0] && !!preference[colsList[0]]){ //if there is a records in 'residence' and not null
         let prevRecord = JSON.parse(preference.residence_history);
         newRow['residence_history'] = prevRecord.push(preference.residence);
       }
-      if(colsList[2]){
+      if(colsList[2] && !!preference[colsList[2]]){
         let prevRecord = JSON.parse(preference.stay_history);
         newRow['residence_history'] = prevRecord.push(preference.stay);
       }
