@@ -10,7 +10,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import {updateNodesBasic} from '../../../redux/actions/general.js'
-import ChoiceDialog from '../../../Component/ChoiceDialog.jsx';
+import ChoiceDialog from '../../../Component/Dialog/ChoiceDialog/ChoiceDialog.jsx';
 import {NounsSearchModal} from '../../../Component/NodeComs.jsx';
 import ModalBox from '../../../Component/ModalBox.jsx';
 import ModalBackground from '../../../Component/ModalBackground.jsx';

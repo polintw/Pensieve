@@ -4,30 +4,14 @@ import {
   Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import classnames from 'classnames';
+import styles from "./styles.module.css";
 
 const styleMiddle = {
-  roundRecBox: {
-    width: '100%',
-    height: '100%',
-    position: 'relative',
-    boxSizing: 'border-box',
-    borderRadius: '2.4vh',
-    backgroundColor: "#e6e6e6",
-    cursor: 'pointer'
-  },
   contentInter: {
-    fontSize: '1.2rem',
-    letterSpacing: '0.1rem',
-    lineHeight: '1.7rem',
+    fontSize: '2.2rem',
+    lineHeight: '2.7rem',
     color: 'black'
-  },
-  spanDestiny: {
-    width: '100%',
-    fontSize: '1.3rem',
-    fontWeight: '400',
-    letterSpacing: '0.1rem',
-    textAlign: 'center',
-    color: 'rgb(16, 16, 16)'
   }
 }
 
@@ -35,11 +19,13 @@ class ChoiceDialog extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      onButton: false
     };
     this._render_options = this._render_options.bind(this);
     this._handleClick_ChoiceDialog_option = this._handleClick_ChoiceDialog_option.bind(this);
     this._handleClick_ChoiceDialog_leaving = this._handleClick_ChoiceDialog_leaving.bind(this);
+    this._handleEnter_button = this._handleEnter_button.bind(this);
+    this._handleLeave_button = this._handleLeave_button.bind(this);
     this.style={
       Com_ChoiceDialog_: {
         display: 'flex',
@@ -48,17 +34,35 @@ class ChoiceDialog extends React.Component {
         width: '100%',
         minHeight: '10rem',
         boxSizing: 'border-box',
-        padding: '1rem 1.8rem',
+        padding: '2.4rem 3.7rem 3rem 3rem',
       },
       Com_ChoiceDialog_panel_: {
+        display: 'flex',
+        flexWrap: 'nowrap',
+        alignItems: 'baseline',
+        justifyContent: 'space-between',
         width: '100%',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        margin:'0 0 3rem'
       },
       Com_ChoiceDialog_message_: {
         width: '100%',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        margin: '1px 1% 3.4rem'
       }
     };
+  }
+
+  _handleEnter_button(e){
+    this.setState({
+      onButton: e.currentTarget.getAttribute('value')
+    })
+  }
+
+  _handleLeave_button(e){
+    this.setState({
+      onButton: false
+    })
   }
 
   _handleClick_ChoiceDialog_option(event){
@@ -89,11 +93,13 @@ class ChoiceDialog extends React.Component {
         <div
           key={"key_ChoiceDialog_option_"+index}
           value={item.name}
-          style={styleMiddle.roundRecBox}
-          onClick={this._handleClick_ChoiceDialog_option}>
+          className={classnames(styles.boxRoundButton)}
+          style={(this.state.onButton==item.name)? {backgroundColor: '#ff7a5f'}:{}}
+          onClick={this._handleClick_ChoiceDialog_option}
+          onMouseEnter={this._handleEnter_button}
+          onMouseLeave={this._handleLeave_button}>
           <span
-            className={'centerAlignChild'}
-            style={styleMiddle.spanDestiny}>
+            className={classnames(styles.spanButton, styles.fontButton)}>
             {item.name}
           </span>
         </div>
@@ -118,13 +124,12 @@ class ChoiceDialog extends React.Component {
           {this._render_options()}
         </div>
         <div
-          >
+          className={classnames(styles.boxfoot)}>
           <div
-            style={styleMiddle.roundRecBox}
+            className={classnames(styles.boxLeaving)}
             onClick={this._handleClick_ChoiceDialog_leaving}>
             <span
-              className={'centerAlignChild'}
-              style={styleMiddle.spanDestiny}>
+              className={classnames(styles.fontLeaving)}>
               {this.props.leavingChoice}
             </span>
           </div>
