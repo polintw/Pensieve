@@ -9,7 +9,7 @@ import ImgPreview from '../../ImgPreview.jsx';
 import DisplayMarkPreview from '../../Draft/DisplayMarkPreview.jsx';
 import styles from "./styles.module.css";
 import {
-  renderNodesTitle
+  renderNodesRows
 } from '../utils.js';
 
 
@@ -69,7 +69,7 @@ class NailThumb extends React.Component {
   }
 
   _render_nails_nouns(){
-    let nodesDOM = renderNodesTitle(this.props, styles);
+    let nodesDOM = renderNodesRows(this.props, styles);
 
     return nodesDOM;
   }
@@ -112,11 +112,15 @@ class NailThumb extends React.Component {
               blockName={''}
               previewSrc={'/router/img/'+this.props.unitBasic.pic_layer0+'?type=thumb'}
               _handleClick_ImgPreview_preview={()=>{this.nailImgBox.current.click()}}/>
-              {this.state.onImg && <div className={styles.interMask}/>}
-          </div>
-          <div
-            className={styles.boxNodes}>
-            {this._render_nails_nouns()}
+            <div
+              className={classnames(
+                styles.boxMask,
+                {[styles.interMask]: this.state.onImg}
+              )}/>
+            <div
+              className={styles.boxNodes}>
+              {this._render_nails_nouns()}
+            </div>
           </div>
           <div className={styles.boxAuthor}>
             <span
