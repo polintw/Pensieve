@@ -92,7 +92,7 @@ class Default extends React.Component {
           maxWidth: '100%',
           maxHeight: '100%'
         }}
-        preserveAspectRatio= {this.props.stretch? "none": 'unset'}>
+        preserveAspectRatio= {this.props.stretch? "none": 'xMidYMid'}>
         <defs>
           <style>{
               ".cls-1-createD{"+ (!!this.props.black? "fill:#111111;": "fill:#777777;") + "}.cls-2-createD{"+ (!!this.props.black? "fill:#111111;": "fill:#777777;") + "}.cls-3-createD{fill:#4085a0;}"

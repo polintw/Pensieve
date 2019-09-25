@@ -37,7 +37,7 @@ export const i18nUIStringInit = {
      "greetNight": "Good evening.",
      "greetMorning": "Good morning!",
      "guidingNewBelong": "Which Corner do you Belong ?",
-     "guidingEditBelong": "different corner for you.",
+     "guidingEditBelong": "missing another corner?",
      "messageChoiceBelong": ["Which one does the  ", "  match the most?"]
    }
 }
