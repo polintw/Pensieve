@@ -55,7 +55,7 @@ class AuthorBlock extends React.Component {
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
-        marginBottom:'32px'
+        marginBottom:'35px'
       },
       Com_AuthorBlock_panel_: {
         width: '100%',
