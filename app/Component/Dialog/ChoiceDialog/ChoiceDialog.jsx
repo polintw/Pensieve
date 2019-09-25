@@ -19,13 +19,16 @@ class ChoiceDialog extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      onButton: false
+      onButton: false,
+      onLeaving: false
     };
     this._render_options = this._render_options.bind(this);
+    this._render_Message = this._render_Message.bind(this);
     this._handleClick_ChoiceDialog_option = this._handleClick_ChoiceDialog_option.bind(this);
     this._handleClick_ChoiceDialog_leaving = this._handleClick_ChoiceDialog_leaving.bind(this);
     this._handleEnter_button = this._handleEnter_button.bind(this);
     this._handleLeave_button = this._handleLeave_button.bind(this);
+    this._handleMouseOn_leaving = ()=> this.setState((prevState,props)=>{return {onLeaving: prevState.onLeaving?false:true}});
     this.style={
       Com_ChoiceDialog_: {
         display: 'flex',
@@ -87,6 +90,19 @@ class ChoiceDialog extends React.Component {
 
   }
 
+  _render_Message(){
+    let messageSpan = this.props.message.map((obj, index)=>{
+      return (
+        <span
+          key={"key_ChoiceDialog_message_"+index}
+          style={Object.assign({}, styleMiddle.contentInter, (obj.style=='italic') ? {fontStyle: 'italic'}:{})}>
+          {obj.text}</span>
+      )
+    })
+
+    return messageSpan;
+  }
+
   _render_options(){
     let DOMarr = this.props.optionsList.map((item, index)=>{
       return (
@@ -115,9 +131,7 @@ class ChoiceDialog extends React.Component {
         style={this.style.Com_ChoiceDialog_}>
         <div
           style={this.style.Com_ChoiceDialog_message_}>
-          <span
-            style={styleMiddle.contentInter}>
-            {this.props.message}</span>
+          {this._render_Message()}
         </div>
         <div
           style={this.style.Com_ChoiceDialog_panel_}>
@@ -127,9 +141,12 @@ class ChoiceDialog extends React.Component {
           className={classnames(styles.boxfoot)}>
           <div
             className={classnames(styles.boxLeaving)}
-            onClick={this._handleClick_ChoiceDialog_leaving}>
+            onClick={this._handleClick_ChoiceDialog_leaving}
+            onMouseEnter={this._handleMouseOn_leaving}
+            onMouseLeave={this._handleMouseOn_leaving}>
             <span
-              className={classnames(styles.fontLeaving)}>
+              className={classnames(styles.fontLeaving)}
+              style={this.state.onLeaving? {color: 'rgb(16,16,16)'}:{}}>
               {this.props.leavingChoice}
             </span>
           </div>
