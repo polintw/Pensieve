@@ -19,12 +19,12 @@ const styleMiddle = {
   },
   boxScroll: {
     display: 'flex',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     flexWrap: 'wrap',
     width: '73.5%',
     minWidth: '954px',
     position: 'absolute',
-    top: '3.4vh',
+    top: '7vh',
     right: '17.3%',
     boxSizing: 'border-box'
   },
@@ -38,8 +38,8 @@ const styleMiddle = {
   boxName: {
     display: 'inline-block',
     boxSizing: 'border-box',
-    padding: '1rem 6.4% 1rem 0',
-    float: 'right'
+    padding: '1rem 0% 1rem 6.4%',
+    float: 'left'
   },
   boxNav: {
     display: 'inline-flex',
@@ -50,7 +50,8 @@ const styleMiddle = {
   },
   boxView: {
     display: 'inline-block',
-    width: '93%',
+    width: '91%',
+    marginTop: '3%'
   },
   fontNav: {
     fontSize: "1.36rem",
@@ -133,26 +134,6 @@ class CosmicNoun extends React.Component {
         <div
           style={styleMiddle.boxScroll}>
           <div
-            style={Object.assign({}, styleMiddle.boxNav, styleMiddle.fontNav)}>
-            <Link
-              to={{
-                pathname: this.props.match.url,
-                search: ''
-              }}
-              className={'plainLinkButton'}>
-              <span
-                style={styleMiddle.spanNav}>{'links'}</span>
-            </Link>
-            <Link
-              to={{
-                pathname: this.props.match.url,
-                search: '?view=contribute'}}
-              className={'plainLinkButton'}>
-              <span
-                style={styleMiddle.spanNav}>{'contributors'}</span>
-            </Link>
-          </div>
-          <div
             style={styleMiddle.boxTitle}>
             <div
               style={Object.assign({}, styleMiddle.boxName, styleMiddle.fontName)}>
@@ -162,6 +143,26 @@ class CosmicNoun extends React.Component {
                 null
               )}
             </div>
+          </div>
+          <div
+            style={Object.assign({}, styleMiddle.boxNav, styleMiddle.fontNav)}>
+            <Link
+              to={{
+                pathname: this.props.match.url,
+                search: ''
+              }}
+              className={'plainLinkButton'}>
+              <span
+                style={styleMiddle.spanNav}>{'shareds'}</span>
+            </Link>
+            <Link
+              to={{
+                pathname: this.props.match.url,
+                search: '?view=contribute'}}
+              className={'plainLinkButton'}>
+              <span
+                style={styleMiddle.spanNav}>{'contributors'}</span>
+            </Link>
           </div>
           <div
             className={'boxRelativeFull'}

@@ -55,7 +55,7 @@ class AuthorBlock extends React.Component {
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
-        marginBottom:'35px'
+        marginBottom:'54px'
       },
       Com_AuthorBlock_panel_: {
         width: '100%',
@@ -126,7 +126,7 @@ class AuthorBlock extends React.Component {
           <div
             style={{
               width: '100%',
-              height: this.props.inBlockHeight+'vh'
+              height: '14vh'
             }}></div>
           <div
             className={classnames(styles.boxContentDraft, styles.fontContentDraft)}>
@@ -146,7 +146,7 @@ class AuthorBlock extends React.Component {
           style={Object.assign(
             {},
             {
-              height: (100-52-this.props.inBlockHeight)+'vh'
+              height: '18vh'
             }
           )}>
           <div

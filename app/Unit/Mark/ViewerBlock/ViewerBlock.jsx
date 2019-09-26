@@ -59,7 +59,7 @@ class ViewerBlock extends React.Component {
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
-        marginBottom:'35px'
+        marginBottom:'54px'
       },
       Com_ViewerBlock_panel_: {
         width: '100%',
@@ -134,7 +134,7 @@ class ViewerBlock extends React.Component {
           <div
             style={{
               width: '100%',
-              height: this.props.inBlockHeight+'vh'
+              height: '14vh'
             }}></div>
           <div
             className={classnames(styles.boxContentDraft, styles.fontContentDraft)}>
@@ -154,7 +154,7 @@ class ViewerBlock extends React.Component {
           style={Object.assign(
             {},
             {
-              height: (100-52-this.props.inBlockHeight)+'vh'
+              height: '18vh'
             }
           )}>
           <div
