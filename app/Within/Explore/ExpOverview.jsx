@@ -16,7 +16,7 @@ const styleMiddle= {
     boxSizing: 'border-box'
   },
   boxNav: {
-    top: '47%',
+    top: '46%',
     left: '49%'
   },
   fontNav: {
@@ -25,7 +25,7 @@ const styleMiddle= {
     letterSpacing: '0.11rem',
     whiteSpace: 'nowrap',
     textAlign: 'center',
-    color: '#a8a8a8'
+    color: '#9F9F9F'
   },
   spanNav: {
     position: 'relative',
@@ -86,7 +86,7 @@ class ExpOverview extends React.Component {
             className={'plainLinkButton'}>
             <span
               method="nodes"
-              style={Object.assign({}, styleMiddle.spanNav, (this.state.mouseOn=='nodes')? {color: '#333333'}:{})}
+              style={Object.assign({}, styleMiddle.spanNav, (this.state.mouseOn=='nodes')? {color: '#333333', borderBottom: "solid 1.4px #333333"}:{})}
               onMouseEnter={this._handleEnter_ExpSpan}
               onMouseLeave={this._handleLeave_ExpSpan}>{'nodes'}</span>
           </Link>
@@ -95,7 +95,7 @@ class ExpOverview extends React.Component {
             className={'plainLinkButton'}>
             <span
               method="users"
-              style={Object.assign({}, styleMiddle.spanNav, (this.state.mouseOn=='users')? {color: '#333333'}:{})}
+              style={Object.assign({}, styleMiddle.spanNav, (this.state.mouseOn=='users')? {color: '#333333', borderBottom: "solid 1.4px #333333"}:{})}
               onMouseEnter={this._handleEnter_ExpSpan}
               onMouseLeave={this._handleLeave_ExpSpan}>{'users'}</span>
           </Link>

@@ -1,5 +1,6 @@
 import React from 'react';
-import {NounsList, SearchModule} from './NounsEditorCom.jsx';
+import {NounsList} from './NounsEditorCom.jsx';
+import {SearchModule} from '../NodeComs.jsx';
 
 export default class NounsEditor extends React.Component {
   constructor(props){
@@ -8,7 +9,7 @@ export default class NounsEditor extends React.Component {
       nounsList: this.props.nouns.list,
       nounsBasic: this.props.nouns.basic
     };
-    this._set_nounChoose = this._set_nounChoose.bind(this);
+    this._set_nodeChoice = this._set_nodeChoice.bind(this);
     this._set_nounDelete = this._set_nounDelete.bind(this);
     this.style={
       Com_Editing_NounsEditor__: {
@@ -36,7 +37,7 @@ export default class NounsEditor extends React.Component {
     }
   }
 
-  _set_nounChoose(nounBasic){
+  _set_nodeChoice(nounBasic){
     let nounObj = Object.assign({}, nounBasic);
     this.setState((prevState, props)=>{
       prevState.nounsList.push(nounObj.id);
@@ -72,7 +73,7 @@ export default class NounsEditor extends React.Component {
         <div
           style={this.style.Com_Editing_NounsEditor_SearchModule}>
           <SearchModule
-            _set_nounChoose={this._set_nounChoose}/>
+            _set_nodeChoice={this._set_nodeChoice}/>
         </div>
       </div>
     )

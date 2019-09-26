@@ -43,6 +43,7 @@ class ViewerBlock extends React.Component {
       message: false
     };
     this.boxContent = React.createRef();
+    this.comViewerBlock = React.createRef();
     this._set_stateDefault = ()=>{this.setState({dialogue: false, message: false})};
     this._set_BlockMessage = this._set_BlockMessage.bind(this);
     this._handleWheel_boxContent = (event)=>{event.stopPropagation();};
@@ -58,13 +59,13 @@ class ViewerBlock extends React.Component {
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
-        marginBottom:'27px'
+        marginBottom:'35px'
       },
       Com_ViewerBlock_panel_: {
         width: '100%',
         height: '2.1rem',
         boxSizing: 'border-box',
-        margin: '1.2rem 0px 1.8rem',
+        margin: '2.2rem 0px 1.8rem',
       },
       Com_ViewerBlock_credits_: {
         width: '100%',
@@ -99,8 +100,10 @@ class ViewerBlock extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-    if(prevProps.markKey !== this.props.markKey){
+    if(prevProps.markKey !== this.props.markKey){ //we use the same component rendering mark repeatly
+      //so we have to reset the state & scroll top each time jumpinig to a new mark
       this._set_stateDefault();
+      this.comViewerBlock.current.scrollTop = 0; //back to top
     }
   }
 
@@ -123,6 +126,7 @@ class ViewerBlock extends React.Component {
 
     return(
       <div
+        ref={this.comViewerBlock}
         style={this.style.Com_ViewerBlock_}>
         <div
           ref={this.boxContent}
@@ -130,7 +134,7 @@ class ViewerBlock extends React.Component {
           <div
             style={{
               width: '100%',
-              height: this.props.downToMdidline? (100 -this.props.inBlockHeight) +'vh': (this.props.inBlockHeight-69+4)+'vh'
+              height: this.props.inBlockHeight+'vh'
             }}></div>
           <div
             className={classnames(styles.boxContentDraft, styles.fontContentDraft)}>
@@ -150,7 +154,7 @@ class ViewerBlock extends React.Component {
           style={Object.assign(
             {},
             {
-              height: this.props.downToMdidline? (this.props.inBlockHeight- 57)+'vh': (100 -this.props.inBlockHeight+14-4)+'vh'
+              height: (100-52-this.props.inBlockHeight)+'vh'
             }
           )}>
           <div

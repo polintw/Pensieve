@@ -1,67 +1,7 @@
 .comMainBanner {
+  display: flex;
+  justify-content: center;
   width: 100%;
-  min-height: 5.6rem;
   position: relative;
   box-sizing: border-box;
-}
-
-.boxContent {
-  width: 100%;
-}
-
-.boxDate {
-  position: absolute;
-  top: 3.7rem;
-  box-sizing: border-box;
-}
-
-.boxName {
-  display: flex;
-  align-items: baseline;
-  width: 84.3%;
-  position: absolute;
-  right: 11.3rem;
-}
-
-.boxCreate {
-  width: 8.1rem;
-  height: auto;
-  position: absolute;
-  right: 0;
-  top: 0.1rem;
-  box-sizing: border-box;
-}
-
-.boxFlex {
-  display: flex;
-  width: 71%;
-  position: absolute;
-  bottom: 0;
-  right: 11.5rem;
-}
-
-.boxUnderline {
-  flex: 1;
-}
-
-.boxCape {
-  flex: 1;
-  align-self: flex-start;
-  padding: 1px;
-}
-
-.boxGreet {
-  padding-left: 1.6rem;
-}
-
-.fontSubtitle {
-  font-size: 1.4rem;
-}
-
-.fontHello {
-  color: #6e6e6e;
-}
-
-.borderBanner {
-  border-bottom: 0.14rem solid #c4c4c4;
 }

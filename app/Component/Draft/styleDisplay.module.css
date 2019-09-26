@@ -1,14 +1,17 @@
 .markDisplayBlock {
-  overflow: hidden;
-  text-overflow: ellipsis;
+
+}
+
+.markDisplayBlock div {
+
 }
 
 .markDisplayBlockNowrap {
+
+}
+
+.markDisplayBlockNowrap div {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.markDisplayBlock div, .markDisplayBlockNowrap div {
-  display: inline-block;
 }

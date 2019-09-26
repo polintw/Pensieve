@@ -11,14 +11,42 @@ class LinkExplore extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      onExplore: false
     };
     this._render_Category = this._render_Category.bind(this);
+    this._handleLeave_linkExplore = this._handleLeave_linkExplore.bind(this);
+    this._handleEnter_linkExplore = this._handleEnter_linkExplore.bind(this);
     this.style={
 
     }
 
     this.abbrRoute = ['nod', 'use', 'exp']
+  }
+
+  _handleEnter_linkExplore(e){
+    //don't need to stop proppagation,
+    //because both the 'onMouseEnter' & 'onMouseLeave'
+    //would not 'bubble'
+    this.setState({
+      onExplore: true
+    })
+  }
+
+  _handleLeave_linkExplore(e){
+    //don't need to stop proppagation,
+    //because both the 'onMouseEnter' & 'onMouseLeave'
+    //would not 'bubble'
+    this.setState({
+      onExplore: false
+    })
+  }
+
+  componentDidMount() {
+
+  }
+
+  componentWillUnmount() {
+
   }
 
   _render_Category(pathNow){
@@ -58,14 +86,6 @@ class LinkExplore extends React.Component {
     }
   }
 
-  componentDidMount() {
-
-  }
-
-  componentWillUnmount() {
-
-  }
-
   render(){
     //detect where I am now, for styling
     let subPath = this.props.location.pathname.substring(8, 11);
@@ -80,8 +100,15 @@ class LinkExplore extends React.Component {
         <Link
           to="/cosmic/explore"
           className={classnames('plainLinkButton', styles.boxExplore)}
-          style={(pathNow< 0)?{opacity: this.props.mainTitle}:{}}>
-          {'explore'}
+          onMouseEnter={this._handleEnter_linkExplore}
+          onMouseLeave={this._handleLeave_linkExplore}>
+          <span>
+            {'explore'}</span>
+          <span style={{
+              width: '54%', position: 'absolute', bottom: '-18%', right: '8%',
+              borderBottom: this.state.onExplore? 'solid 0.75px rgb(64, 133, 160)': 'solid 0.75px #a8a8a8',
+              opacity: (pathNow< 0)? 1 : 0
+            }}/>
         </Link>
       </div>
     )
@@ -90,8 +117,7 @@ class LinkExplore extends React.Component {
 
 const mapStateToProps = (state)=>{
   return {
-    userInfo: state.userInfo,
-    mainTitle: state.mainTitle
+    userInfo: state.userInfo
   }
 }
 
