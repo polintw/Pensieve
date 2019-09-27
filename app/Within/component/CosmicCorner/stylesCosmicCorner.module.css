@@ -5,8 +5,8 @@
 }
 
 .fontCosmicCorner {
-  font-size: 1.38rem;
-  letter-spacing: 0.11rem;
+  font-size: 1.37rem;
+  letter-spacing: 0.1rem;
   white-space: nowrap;
   color: #a8a8a8;
 }
@@ -22,6 +22,7 @@ start the fundemental first, and then the specific condition
 
 .boxAccount {
   display: block;
+  max-width: 150px;
   position: absolute;
   bottom: 0;
   right: 0;
@@ -30,7 +31,7 @@ start the fundemental first, and then the specific condition
 .boxFocus {
   display: block;
   position: absolute;
-  right: 186px;
+  right: 188px;
   bottom: 0;
 }
 
