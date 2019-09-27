@@ -61,7 +61,7 @@ class AuthorBlock extends React.Component {
         width: '100%',
         height: '2.1rem',
         boxSizing: 'border-box',
-        margin: '2.2rem 0px 1.8rem',
+        margin: '2.4rem 0px 1.8rem',
       },
       Com_AuthorBlock_credits_: {
         width: '100%',
@@ -126,7 +126,7 @@ class AuthorBlock extends React.Component {
           <div
             style={{
               width: '100%',
-              height: '14vh'
+              height: '13vh'
             }}></div>
           <div
             className={classnames(styles.boxContentDraft, styles.fontContentDraft)}>
@@ -149,6 +149,10 @@ class AuthorBlock extends React.Component {
               height: '18vh'
             }
           )}>
+          <div className={styles.boxInteractBack}>
+            <div className={styles.boxInteractBackGradiant}/>
+            <div className={styles.boxInteractBackSolid}/>
+          </div>
           <div
             style={Object.assign({},this.style.Com_AuthorBlock_panel_)}>
             <div
