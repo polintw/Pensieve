@@ -4,7 +4,7 @@ import {
   Link,
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import SvgAround from '../../Component/Svg/SvgAround.jsx';
+import SvgAround from '../../../Component/Svg/SvgAround.jsx';
 
 const styleMiddle = {
   boxOption: {

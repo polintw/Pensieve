@@ -1,0 +1,14 @@
+.boxReturn {
+  position: absolute;
+  top: 60%;
+  left: 37%;
+  box-sizing: border-box;
+  text-align: center;
+  cursor: pointer;
+}
+
+.fontReturn {
+  font-size: 1.4rem;
+  letter-spacing: 0.1rem;
+  color: #a8a8a8;
+}

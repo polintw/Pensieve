@@ -5,8 +5,7 @@ import {
   Route
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import cxBind from 'classnames/bind';
-import Screen from './component/Screen.jsx';
+import Screen from './component/Screen/Screen.jsx';
 import Appearance from '../Component/Appearance.jsx';
 
 
@@ -63,7 +62,6 @@ class Terrace extends React.Component {
   }
 
   render(){
-    //let cx = cxBind.bind(styles);
     const params = new URLSearchParams(this.props.location.search); //query value
     let paramWatch = params.get('watch');
 
