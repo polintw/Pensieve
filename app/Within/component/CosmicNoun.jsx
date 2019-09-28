@@ -53,6 +53,15 @@ const styleMiddle = {
     width: '91%',
     marginTop: '3%'
   },
+  boxLogo: {
+    display: 'inline-block',
+    height: '12px',
+    position: 'fixed',
+    bottom: '2.6%',
+    left: '68.5%',
+    boxSizing: 'border-box',
+    cursor: 'pointer'
+  },
   fontNav: {
     fontSize: "1.36rem",
     letterSpacing: "0.08rem",
@@ -172,6 +181,13 @@ class CosmicNoun extends React.Component {
         </div>
         <div style={{width: '100%', height: '3.3vh', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
         <div style={{width: '100%', height: '54px', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
+        <Route path={this.props.match.path+"/"} render={(props)=> (
+            <div
+              style={Object.assign({}, styleMiddle.boxLogo)}
+              onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_von_cosmic('', '/cosmic')}}>
+              <SvgLogo/>
+            </div>
+          )}/>
         <Route
           path={this.props.match.path+"/unit"}
           render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_von_cosmic}/>}/>

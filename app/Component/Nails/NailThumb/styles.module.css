@@ -21,8 +21,7 @@
   position:absolute;
   top:0;
   left: 0;
-  background-color: rgba(0,0,0,0.5);
-  background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.58), rgba(0, 0, 0, 0.45),rgba(0, 0, 0, 0.36), rgba(0, 0, 0, 0.2),rgba(0, 0, 0, 0.12),rgba(0, 0, 0, 0.05) ,rgba(0, 0, 0, 0.02), transparent);
+  background-image:linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.54),rgba(0, 0, 0, 0.47),rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.34), rgba(0, 0, 0, 0.25),rgba(0, 0, 0, 0.15),rgba(0, 0, 0, 0.05) ,rgba(0, 0, 0, 0.05) ,transparent);
 }
 
 .interMask { /*remember must after the boxMask*/
@@ -48,6 +47,7 @@
 }
 
 .boxNodesItem {
+  flex: 1;
   box-sizing: border-box;
   margin: 1% 0% 4%;
 }
