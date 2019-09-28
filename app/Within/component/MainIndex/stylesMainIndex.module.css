@@ -31,22 +31,19 @@
 .boxColumn {
   display: flex;
   flex-direction: column;
+  width: 47%;
 }
 
 .boxWide {
-  width: 48%;
-  /*boxNarrow is the standard, as about 1/3 width of parent,
-  so wide is about 2/3 but modified a little for deco. line., which is 4% of parent*/
+  width: 49%;
 }
 
 .boxNarrow {
-  width: 30%;
+  width: 31%;
 }
 
 .boxFlat {
-  width: 47%;
-  /*boxNarrow is the standard, as about 1/3 width of parent,
-  so flat is about 1/2 but modified a little for deco. line., which is 4% of parent*/
+
 }
 
 .heightFlat {
@@ -58,7 +55,7 @@
 }
 
 .heightNarrow {
-  height: 317px;
+  height: 334px;
 }
 
 .boxFillHoriz {

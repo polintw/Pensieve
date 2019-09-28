@@ -38,10 +38,11 @@ export default class NavOptions extends React.Component {
         cursor: 'pointer'
       },
       selfCom_NavOptions_ToolBox_: {
-        minWidth: '132px',
+        minWidth: '145px',
+        minHeight: '93px',
         position: 'absolute',
-        top: '-36%',
-        right: '-16%',
+        bottom: '-46%',
+        right: '-4%',
         boxSizing: 'border-box',
         boxShadow: '1px 1px 5px 0px',
         backgroundColor: '#FFFFFF'

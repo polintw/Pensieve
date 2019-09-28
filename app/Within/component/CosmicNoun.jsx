@@ -8,6 +8,7 @@ import {connect} from "react-redux";
 import NodeLinks from './NodeLinks.jsx';
 import NodeContributor from './NodeContributor.jsx';
 import Unit from '../../Unit/Unit/Unit.jsx';
+import SvgLogo from '../../Component/Svg/SvgLogo.jsx';
 import {
   handleNounsList,
   handleUsersList
@@ -58,7 +59,7 @@ const styleMiddle = {
     height: '12px',
     position: 'fixed',
     bottom: '2.6%',
-    left: '68.5%',
+    left: '68%',
     boxSizing: 'border-box',
     cursor: 'pointer'
   },

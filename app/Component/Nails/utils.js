@@ -43,9 +43,9 @@ export function renderNodesRows(props, styles){
     nounsDOM.push(
       <div
         key={"key_nailcosmic_"+props.unitId+"_nouns_"+index}
-        className={classnames(styles.boxNodesItem)}>
+        className={classnames('boxNailNodesItem', styles.boxNodesItem)}>
         <span
-          className={classnames(styles.fontNode)}
+          className={classnames('fontNailNode', styles.fontNode)}
           style={{position: 'relative'}}>
           {id in props.nounsBasic ? (
             props.nounsBasic[id].name) : (

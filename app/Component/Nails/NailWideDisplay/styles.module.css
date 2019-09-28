@@ -8,57 +8,74 @@
 }
 
 .boxImg {
-  width: 69%;
-  height: 84%;
+  width: 100%;
+  height: 100%;
   position: absolute;
   bottom: 0;
   box-sizing: border-box;
 }
 
-.interMask {
+.boxMask {
+  width: 100%;
+  height: 100%;
+  position:absolute;
+  top:0;
+  left: 0;
+  background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.67), rgba(0, 0, 0, 0.6),rgba(0, 0, 0, 0.57),rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.21),rgba(0, 0, 0, 0.15),rgba(0, 0, 0, 0.1) ,rgba(0, 0, 0, 0.05) ,transparent);
+}
+
+.interMask { /*remember must after the boxMask*/
   width: 100%;
   height: 100%;
   position: absolute;
-  background-color: rgba(255,255,255,0.09)
+  background-color: rgba(0,0,0,0.1)
 }
 
 .boxNodes {
-  width: 81%;
+  display: flex;
+  flex-direction: column;
+  max-width: 46%;
+  min-width: 30%;
+  max-height: 56%;
   position: absolute;
-  top: 0;
-  left: 1%;
+  bottom: 16%;
+  right: 0%;
   box-sizing: border-box;
-  padding-top: 13px;
+  padding: 0 6.5% 0 6%; /*right side align along with the right position of boxAuthor*/
+  border-left: 0.75px solid #FAFAFA; /*same as the border of NodesDisplay used by Unit*/
   overflow: hidden;
 }
 
 .boxNodesItem {
-  display: inline-block;
-  height: 100%;
-  position: relative;
-  box-sizing: border-box;
-  margin-left: 1.2%;
+  /*usually the font were controlled by class in common file of the belonged page.
+  this is for local modified*/
 }
 
 .fontNode {
-  font-size: 1.7rem;
-  letter-spacing: 0.12rem;
-  color: rgb(76, 76, 78);
+  /*usually the font were controlled by class in common file of the belonged page.
+  this is for local modified*/
 }
 
 .boxAuthor {
   max-width: 13%;
   position: absolute;
   box-sizing: border-box;
-  right: 2%;
-  top: 7%;
+  right: 8%;
+  bottom: 7%;
+}
+
+.spanAuthor {
+  display: inline-block;
+  white-space: nowrap;
+  position: absolute;
+  right: 0;
+  bottom: 0;
 }
 
 .fontAuthor {
   font-size: 1.3rem;
   font-weight: 400;
-  text-align: right;
-  color: #6e6e6e;
+  color: #e0e0e0;
 }
 
 .boxMarkArea {
@@ -71,12 +88,12 @@
 }
 
 .boxMarkPreview {
-  width: 25%;
-  max-height: 66%;
+  width: 49%;
+  max-height: 47%;
   position: absolute;
   box-sizing: border-box;
-  right: 3%;
-  top: 20%;
+  left: 4%;
+  bottom: 8%;
   overflow: hidden;
 }
 
@@ -84,12 +101,11 @@
   width: 100%;
   position: relative;
   box-sizing: border-box;
-  margin-bottom: 2.8rem;
+  margin-bottom: 2.1rem;
 }
 
 .fontMark {
-  font-size: 1.38rem;
-  font-weight: 400;
-  text-align: left;
-  color: #000000;
+  /*usually the font were controlled by class in common file of the belonged page.
+  this is for local modified*/
+  color: #F5F5F5;
 }

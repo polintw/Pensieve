@@ -34,7 +34,7 @@ const styleMiddle = {
     height: '12px',
     position: 'fixed',
     bottom: '2.6%',
-    left: '68.5%',
+    left: '68%',
     boxSizing: 'border-box',
     cursor: 'pointer'
   }

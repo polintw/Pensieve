@@ -9,7 +9,7 @@ import ImgPreview from '../../ImgPreview.jsx';
 import DisplayMarkPreview from '../../Draft/DisplayMarkPreview.jsx';
 import styles from "./styles.module.css";
 import {
-  renderNodesTitle
+  renderNodesRows
 } from '../utils.js';
 
 class NailWideDisplay extends React.Component {
@@ -58,7 +58,7 @@ class NailWideDisplay extends React.Component {
       marksDOM.push(
         <div
           key={"key_nailcosmic_"+self.props.unitId+"_marks_"+i}
-          className={classnames(styles.boxMark, styles.fontMark)}>
+          className={classnames(styles.boxMark, 'fontNailMark', styles.fontMark)}>
           <DisplayMarkPreview
             rawContent={self.props.marksBasic[key].editorContent}/>
         </div>
@@ -68,7 +68,7 @@ class NailWideDisplay extends React.Component {
   }
 
   _render_nails_nouns(){
-    let nodesDOM = renderNodesTitle(this.props, styles);
+    let nodesDOM = renderNodesRows(this.props, styles);
 
     return nodesDOM;
   }
@@ -98,11 +98,6 @@ class NailWideDisplay extends React.Component {
             state: {from: this.props.location}
           }}
           className={classnames('plainLinkButton', styles.frame)}>
-          <div className={styles.boxMarkArea}></div>
-          <div
-            className={classnames(styles.boxMarkPreview)}>
-            {this._render_nails_Marks()}
-          </div>
           <div
             ref={this.nailImgBox}
             className={styles.boxImg}
@@ -112,15 +107,23 @@ class NailWideDisplay extends React.Component {
               blockName={''}
               previewSrc={'/router/img/'+this.props.unitBasic.pic_layer0+'?type=thumb'}
               _handleClick_ImgPreview_preview={()=>{this.nailImgBox.current.click()}}/>
-            {this.state.onImg && <div className={styles.interMask}/>}
+            <div
+              className={classnames(
+                styles.boxMask,
+                {[styles.interMask]: this.state.onImg}
+              )}/>
+            <div
+              className={classnames(styles.boxNodes)}>
+              {this._render_nails_nouns()}
+            </div>
           </div>
           <div
-            className={classnames(styles.boxNodes)}>
-            {this._render_nails_nouns()}
+            className={classnames(styles.boxMarkPreview)}>
+            {this._render_nails_Marks()}
           </div>
           <div className={styles.boxAuthor}>
             <span
-              className={styles.fontAuthor}>
+              className={classnames(styles.spanAuthor, styles.fontAuthor)}>
               {this.props.unitBasic.authorId in this.props.usersBasic ? this.props.usersBasic[this.props.unitBasic.authorId].account:null}
             </span>
           </div>

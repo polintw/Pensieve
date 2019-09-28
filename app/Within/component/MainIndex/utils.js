@@ -84,7 +84,7 @@ export function separationLine(remainder, index){
         <div
           key={'key_CosmicMain_NailsSparation_'+index}
           className={classnames(styles.boxFillHoriz)}
-          style={{height: '47px'}}></div>
+          style={{height: '107px'}}></div>
       )
       break;
     case 4:
@@ -92,7 +92,7 @@ export function separationLine(remainder, index){
         <div
           key={'key_CosmicMain_NailsSparation_'+index}
           className={classnames(styles.boxFillHoriz)}
-          style={{height: '47px'}}></div>
+          style={{height: '107px'}}></div>
       )
       break;
     case 7:
@@ -115,7 +115,7 @@ export function separationLine(remainder, index){
         <div
           key={'key_CosmicMain_NailsSparation_'+index}
           className={classnames(styles.boxFillHoriz)}
-          style={{height: '47px'}}></div>
+          style={{height: '107px'}}></div>
       )
       break;
     default:
