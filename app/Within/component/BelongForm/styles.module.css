@@ -1,10 +1,15 @@
 .comBelongForm {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .boxList {
-
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  min-width: 62%;
+  margin: 0 3% 1.3rem 4%;
 }
 
 .boxPanel {
@@ -14,22 +19,45 @@
 }
 
 .boxRecord {
-
+  display: inline-block;
+  padding-right: 1.4rem;
 }
 
 .spanRecord {
-
+  display: inline-block;
+  position: relative;
 }
 
 .pDescrip {
+  display: inline-block;
   margin: 0;
 }
 
-.fontList {
+.spanReturn {
+  float: right;
+  cursor: pointer;
+}
 
+.fontReturn {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: rgb(174,174,174);
+}
+
+.fontList {
+  font-size: 1.6rem;
+  font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;
+  letter-spacing: 0.05rem;
 }
 
 .fontDescripTitle {
   font-size: 1.6rem;
   font-weight: 700;
+}
+
+.fontDescripSubTitle {
+  font-size: 1.4rem;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 2.05rem;
 }

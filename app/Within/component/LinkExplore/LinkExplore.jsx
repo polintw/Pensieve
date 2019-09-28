@@ -106,7 +106,7 @@ class LinkExplore extends React.Component {
             {'explore'}</span>
           <span style={{
               width: '54%', position: 'absolute', bottom: '-18%', right: '8%',
-              borderBottom: this.state.onExplore? 'solid 0.75px #ff7a5f': 'solid 0.75px #a8a8a8',
+              borderBottom: this.state.onExplore? 'solid 0.75px rgb(64, 133, 160)': 'solid 0.75px #a8a8a8',
               opacity: (pathNow< 0)? 1 : 0
             }}/>
         </Link>

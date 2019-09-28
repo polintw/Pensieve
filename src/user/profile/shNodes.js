@@ -79,13 +79,16 @@ function _handle_PATCH_profile_sheetsNodes(req, res){
     }).then((preference)=>{
       let newRow = {};
       //check current data, if a new submit need to override the current, we move the current to history
-      if(colsList[0]){
+      if(colsList[0] && !!preference[mutableCols[0]]){ //if there is a records in 'residence' in table and not null
         let prevRecord = JSON.parse(preference.residence_history);
-        newRow['residence_history'] = prevRecord.push(preference.residence);
+        prevRecord.push(preference.residence); //push first! insert the old record
+        //then put it into the new obj
+        newRow['residence_history'] = JSON.stringify(prevRecord);
       }
-      if(colsList[2]){
+      if(colsList[2] && !!preference[mutableCols[2]]){
         let prevRecord = JSON.parse(preference.stay_history);
-        newRow['residence_history'] = prevRecord.push(preference.stay);
+        prevRecord.push(preference.residence); //push first! insert the old record
+        newRow['stay_history'] = JSON.stringify(prevRecord);
       }
       //then insert new data into newRow depend on former est. bool list
       colsList.forEach((bool,index)=>{
@@ -94,7 +97,7 @@ function _handle_PATCH_profile_sheetsNodes(req, res){
           newRow[col] = req.body.belong[col];
         }
       });
-
+console.log(newRow)
       resolve(newRow);
     }).catch((error)=>{
       reject(new internalError(error ,131));
@@ -108,7 +111,7 @@ function _handle_PATCH_profile_sheetsNodes(req, res){
       newRow,
       {
         where: {id_user: userId},
-        fields: ['residence', 'hometown', 'stay'] //limit the mutable columns, in case the intentional error
+        fields: ['residence', 'hometown', 'stay', 'residence_history', 'stay_history'] //limit the mutable columns, in case the intentional error
       }
     ).then((result)=>{
       return {temp: {}}; //return a plain obj to inform success

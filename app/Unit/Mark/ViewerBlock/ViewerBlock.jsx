@@ -59,13 +59,13 @@ class ViewerBlock extends React.Component {
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
-        marginBottom:'35px'
+        marginBottom:'54px'
       },
       Com_ViewerBlock_panel_: {
         width: '100%',
         height: '2.1rem',
         boxSizing: 'border-box',
-        margin: '2.2rem 0px 1.8rem',
+        margin: '2.4rem 0px 1.8rem',
       },
       Com_ViewerBlock_credits_: {
         width: '100%',
@@ -134,7 +134,7 @@ class ViewerBlock extends React.Component {
           <div
             style={{
               width: '100%',
-              height: this.props.inBlockHeight+'vh'
+              height: '13vh'
             }}></div>
           <div
             className={classnames(styles.boxContentDraft, styles.fontContentDraft)}>
@@ -154,9 +154,13 @@ class ViewerBlock extends React.Component {
           style={Object.assign(
             {},
             {
-              height: (100-52-this.props.inBlockHeight)+'vh'
+              height: '18vh'
             }
           )}>
+          <div className={styles.boxInteractBack}>
+            <div className={styles.boxInteractBackGradiant}/>
+            <div className={styles.boxInteractBackSolid}/>
+          </div>
           <div
             style={Object.assign({},this.style.Com_ViewerBlock_panel_)}>
             <div

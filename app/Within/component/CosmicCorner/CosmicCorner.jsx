@@ -14,8 +14,8 @@ class CosmicCorner extends React.Component {
     this.state = {
       mouseOn: ''
     };
-    this._handleEnter_CornerFocus = this._handleEnter_CornerFocus.bind(this);
-    this._handleLeave_CornerFocus = this._handleLeave_CornerFocus.bind(this);
+    this._handleEnter_CornerOpt = this._handleEnter_CornerOpt.bind(this);
+    this._handleLeave_CornerOpt = this._handleLeave_CornerOpt.bind(this);
     this._handleClick_cosmic_Self = this._handleClick_cosmic_Self.bind(this);
     this.style={
 
@@ -30,7 +30,7 @@ class CosmicCorner extends React.Component {
     window.location.assign('/user/screen');
   }
 
-  _handleEnter_CornerFocus(e){
+  _handleEnter_CornerOpt(e){
     //don't need to stop proppagation,
     //because both the 'onMouseEnter' & 'onMouseLeave'
     //would not 'bubble'
@@ -39,7 +39,7 @@ class CosmicCorner extends React.Component {
     })
   }
 
-  _handleLeave_CornerFocus(e){
+  _handleLeave_CornerOpt(e){
     //don't need to stop proppagation,
     //because both the 'onMouseEnter' & 'onMouseLeave'
     //would not 'bubble'
@@ -76,6 +76,7 @@ class CosmicCorner extends React.Component {
           </Link>
         </div>
         <div
+          method="account"
           className={
             classnames(
               styles.boxOptions,
@@ -85,8 +86,18 @@ class CosmicCorner extends React.Component {
             )
           }
           style={(pathNow> 2)? {transform: 'translate(-50%, 0%)'}: {}}
-          onClick={this._handleClick_cosmic_Self}>
-          <span>{this.props.userInfo.account}</span>
+          onClick={this._handleClick_cosmic_Self}
+          onMouseEnter={this._handleEnter_CornerOpt}
+          onMouseLeave={this._handleLeave_CornerOpt}>
+          {
+            (this.state.mouseOn=='account') &&
+            <span style={{
+                width: '75%', position: 'absolute', top: '-11%', left: '-1%',
+                borderBottom: 'solid 1px #ff7a5f'
+              }}/>
+            }
+          <span
+            style={(this.state.mouseOn=='account')? {color: '#333333'}:{}}>{this.props.userInfo.account}</span>
         </div>
         <div
           className={classnames(
@@ -99,10 +110,17 @@ class CosmicCorner extends React.Component {
             to="/cosmic"
             method="focus"
             className={'plainLinkButton'}
-            style={Object.assign({}, (this.state.mouseOn=='focus')? {color: '#333333'}:{})}
-            onMouseEnter={this._handleEnter_CornerFocus}
-            onMouseLeave={this._handleLeave_CornerFocus}>
-            {"focus"}
+            onMouseEnter={this._handleEnter_CornerOpt}
+            onMouseLeave={this._handleLeave_CornerOpt}>
+            {
+              (this.state.mouseOn=='focus') &&
+              <span style={{
+                  width: '75%', position: 'absolute', top: '-11%', left: '-1%',
+                  borderBottom: 'solid 1px rgb(64, 133, 160)'
+                }}/>
+              }
+            <span
+              style={(this.state.mouseOn=='focus')? {color: '#333333'}:{}}>{"focus"}</span>
           </Link>
         </div>
       </div>

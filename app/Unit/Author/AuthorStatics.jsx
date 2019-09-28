@@ -4,6 +4,7 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import classnames from 'classnames';
 import {
   cancelErr,
   uncertainErr
@@ -13,8 +14,8 @@ const styleMiddle = {
   spanSubtitle: {
     display: 'block',
     boxSizing: 'border-box',
-    margin: '0 0 1.2rem',
-    textAlign: 'left',
+    margin: '0 0 0.87rem',
+    textAlign: 'right',
     cursor: 'default'
   },
   spanNumDis: {
@@ -25,14 +26,14 @@ const styleMiddle = {
     cursor: 'default'
   },
   fontSubtitle: {
-    fontSize: '1.44rem',
+    fontSize: '1.54rem',
     letterSpacing: '0.12rem',
     fontWeight: '400',
-    color: '#FAFAFA',
+
   },
   fontNumDis: {
-    fontSize: '2.1rem',
-    letterSpacing: '0.2rem',
+    fontSize: '3.2rem',
+    letterSpacing: '0.12rem',
     fontWeight: '400',
     color: '#FAFAFA',
   }
@@ -90,10 +91,12 @@ class AuthorStatics extends React.Component {
 
   render(){
     return(
-      <div>
+      <div
+        style={{minHeight: '42vh'}}>
         <div>
           <span
-            style={Object.assign({}, styleMiddle.spanSubtitle, styleMiddle.fontSubtitle)}>read</span>
+            className={classnames('fontSumOpt')}
+            style={Object.assign({}, styleMiddle.spanSubtitle, {color: '#FAFAFA'})}>read</span>
           <span
             style={Object.assign({}, styleMiddle.spanNumDis,styleMiddle.fontNumDis)}>{this.state.countReach}</span>
         </div>

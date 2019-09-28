@@ -102,7 +102,7 @@ class NodeLinks extends React.Component {
     if(!this.state.unitsBlock[0]) return(
       <div
         style={Object.assign({}, styleMiddle.fontPlaceholder, {boxSizing: 'border-box',margin: '13% 0'})}>
-        {"revealing the unknown to the curious people! "}
+        {this.props.i18nUIString.catalog["hintEmptyNode"]}
       </div>
     );
 
@@ -166,6 +166,7 @@ const mapStateToProps = (state)=>{
     userInfo: state.userInfo,
     unitCurrent: state.unitCurrent,
     nounsBasic: state.nounsBasic,
+    i18nUIString: state.i18nUIString,
   }
 }
 

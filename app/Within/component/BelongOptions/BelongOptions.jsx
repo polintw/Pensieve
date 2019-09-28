@@ -10,7 +10,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import {updateNodesBasic} from '../../../redux/actions/general.js'
-import ChoiceDialog from '../../../Component/ChoiceDialog.jsx';
+import ChoiceDialog from '../../../Component/Dialog/ChoiceDialog/ChoiceDialog.jsx';
 import {NounsSearchModal} from '../../../Component/NodeComs.jsx';
 import ModalBox from '../../../Component/ModalBox.jsx';
 import ModalBackground from '../../../Component/ModalBackground.jsx';
@@ -61,6 +61,7 @@ class BelongOptions extends React.Component {
     };
     this.axiosSource = axios.CancelToken.source();
     this._render_Options = this._render_Options.bind(this);
+    this._render_DialogMessage = this._render_DialogMessage.bind(this);
     this._handlesubmit_newBelong = this._handlesubmit_newBelong.bind(this);
     this._handleEnter_optionBelong = this._handleEnter_optionBelong.bind(this);
     this._handleLeave_optionBelong = this._handleLeave_optionBelong.bind(this);
@@ -175,9 +176,14 @@ class BelongOptions extends React.Component {
 
     //lock the options at the same time by detect axios state
     //final inform parent refresh the com
-    let typeIndex = optionsType.indexOf(type); //assure the type won'y dissapear if the dialog unmount first
+
     let objBelong = {};
-    objBelong[optionsType[typeIndex]] = this.state.choice;
+    //we use the const 'optionsType' claim in this file
+    //to avoid type dissapear if the dialog unmount first
+    optionsType.forEach((obj,index)=>{
+      if(obj.name==type) objBelong[optionsType[index].name]= this.state.choice;
+    });
+
     this._set_Dialog();
     this._axios_PATCH_belongRecords({belong: objBelong}, this.props._set_refresh);
 
@@ -194,6 +200,16 @@ class BelongOptions extends React.Component {
 
   componentWillUnmount() {
 
+  }
+
+  _render_DialogMessage(){
+    let messageList = [
+      {text: this.props.i18nUIString.catalog['messageChoiceBelong'][0], style: 'regular'},
+      {text: this.props.nounsBasic[this.state.choice].name, style: 'italic'},
+      {text: this.props.i18nUIString.catalog['messageChoiceBelong'][1], style:'regular'}
+    ];
+
+    return messageList;
   }
 
   _render_Options(){
@@ -237,7 +253,7 @@ class BelongOptions extends React.Component {
                 <ChoiceDialog
                   optionsList={optionsType}
                   leavingChoice={'cancel'}
-                  message={this.props.i18nUIString.catalog['messageChoiceBelong'][0]+this.props.nounsBasic[this.state.choice].name+this.props.i18nUIString.catalog['messageChoiceBelong'][1]}
+                  message={this._render_DialogMessage()}
                   _leavingHandler={this.props._set_refresh}
                   _submitHandler={this._handlesubmit_newBelong}/>
               </div>

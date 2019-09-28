@@ -1,8 +1,8 @@
 .frameNail {
   display: inline-block;
-  width: 32.8%;
+  width: 30.8%;
   min-width: 264px;
-  height: 34vh;
+  height: 32vh;
   min-height: 15.7rem;
   position: relative;
   box-sizing: border-box;
@@ -14,6 +14,6 @@
 /* beneath must after the main 'frameNail'*/
 
 .frameTwo {
-  width: 49.42%;
+  width: 48.2%;
   height: 20.4rem;
 }
