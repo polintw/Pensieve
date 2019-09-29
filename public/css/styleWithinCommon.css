@@ -32,3 +32,9 @@
   line-height: 17px;
   text-align: left;
 }
+
+.fontNailAuthor {
+  font-size: 1.27rem;
+  font-weight: 400;
+  letter-spacing: 0.04rem;
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import styles from "./stylesMainIndex.module.css";
+import NailSquare from '../../../Component/Nails/NailSquare/NailSquare.jsx';
 import NailRegular from '../../../Component/Nails/NailRegular/NailRegular.jsx';
 import NailWideDisplay from '../../../Component/Nails/NailWideDisplay/NailWideDisplay.jsx';
 
@@ -36,8 +37,12 @@ export function nailChart(choice, unitId, pare){
       return (
         <div
           key={'key_CosmicMain_Nails_'+ unitId}
-          className={classnames(styles.boxNail, styles.heightSix, styles.boxNarrow)}>
-
+          className={classnames(styles.boxNail, styles.heightNine, styles.boxNarrow)}>
+          <NailSquare
+            {...pare.props}
+            unitId={unitId}
+            unitBasic={pare.state.unitsBasic[unitId]}
+            marksBasic={pare.state.marksBasic}/>
         </div>
       )
       break;
@@ -64,6 +69,7 @@ export function separationLine(remainder, index){
         <div
           key={'key_CosmicMain_NailsSparation_'+index}
           className={classnames(styles.boxFillHoriz)}
+          style={{height: '5vw'}}
           ></div>
       )
       break;
@@ -72,6 +78,7 @@ export function separationLine(remainder, index){
         <div
           key={'key_CosmicMain_NailsSparation_'+index}
           className={classnames(styles.boxFillHoriz)}
+          style={{height: '15vw'}}
           ></div>
       )
       break;
@@ -95,6 +102,7 @@ export function separationLine(remainder, index){
         <div
           key={'key_CosmicMain_NailsSparation_'+index}
           className={classnames(styles.boxFillHoriz)}
+          style={{height: '5vw'}}
           ></div>
       )
       break;

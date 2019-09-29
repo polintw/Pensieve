@@ -119,7 +119,7 @@ class NailRegular extends React.Component {
               )}/>
             <div className={styles.boxAuthor}>
               <span
-                className={classnames(styles.spanAuthor, styles.fontAuthor)}>
+                className={classnames('fontNailAuthor', styles.spanAuthor, styles.fontAuthor)}>
                 {this.props.unitBasic.authorId in this.props.usersBasic ? this.props.usersBasic[this.props.unitBasic.authorId].account:null}
               </span>
             </div>

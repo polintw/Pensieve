@@ -89,9 +89,8 @@
 }
 
 .fontAuthor {
-  font-size: 1.27rem;
-  font-weight: 400;
-  letter-spacing: 0.04rem;
+  /*usually the font were controlled by class in common file of the belonged page.
+  this is for local modified*/
   text-align: right;
   color: #e0e0e0;
 }
