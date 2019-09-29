@@ -19,6 +19,7 @@
 
 .fontNailNode {
   font-size: 2.2rem;
+  font-weight: 500;
   letter-spacing: 0.1rem;
   line-height: 2.2rem;
   font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;

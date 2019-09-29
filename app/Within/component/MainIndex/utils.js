@@ -100,7 +100,7 @@ export function separationLine(remainder, index){
         <div
           key={'key_CosmicMain_NailsSparation_'+index}
           className={classnames(styles.boxFillHoriz)}
-          ></div>
+          style={{height: '10vw'}}/>
       )
       break;
     default:

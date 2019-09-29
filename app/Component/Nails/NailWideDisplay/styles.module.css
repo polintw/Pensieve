@@ -41,7 +41,7 @@
   right: 0%;
   box-sizing: border-box;
   padding: 0 4.5% 0 7%; /*right side align along with the right position of boxAuthor*/
-  border-left: 0.75px solid #FAFAFA; /*same as the border of NodesDisplay used by Unit*/
+  border-left: 1px solid #ff7a5f;
   overflow: hidden;
 }
 
@@ -53,7 +53,6 @@
 .fontNode {
   /*usually the font were controlled by class in common file of the belonged page.
   this is for local modified*/
-  font-weight: 500;
 }
 
 .boxContent {

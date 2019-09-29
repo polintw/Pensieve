@@ -15,9 +15,6 @@ import {
 } from "../../redux/actions/general.js";
 
 const styleMiddle = {
-  comNounSingular: {
-
-  },
   boxScroll: {
     display: 'flex',
     justifyContent: 'center',
@@ -139,8 +136,7 @@ class CosmicNoun extends React.Component {
 
     return(
       <div
-        className={'boxAbsoluteFull'}
-        style={styleMiddle.comNounSingular}>
+        className={'boxAbsoluteFull'}>
         <div
           style={styleMiddle.boxScroll}>
           <div

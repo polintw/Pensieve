@@ -1,9 +1,9 @@
 .boxTop {
   width: 100%;
   position: relative;
-  transform: translate(-10vw,0);
+  transform: translate(-12.5%,0);
   box-sizing: border-box;
-  margin: 0 0 5rem;
+  margin: 0 0 4.5rem;
 }
 
 .boxBanner {

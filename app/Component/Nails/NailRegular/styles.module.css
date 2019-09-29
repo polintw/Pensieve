@@ -42,7 +42,7 @@
   right: 0%;
   box-sizing: border-box;
   padding: 0 6.5% 0 6%; /*right side align along with the right position of boxAuthor*/
-  border-left: 1px solid #ff7a5f; /*same as the border of NodesDisplay used by Unit*/
+  border-left: 1px solid #ff7a5f;
   overflow: hidden;
 }
 
