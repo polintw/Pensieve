@@ -1,8 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import styles from "./stylesMainIndex.module.css";
-import NailThumb from '../../../Component/Nails/NailThumb/NailThumb.jsx';
-import NailFlatDisplay from '../../../Component/Nails/NailFlatDisplay/NailFlatDisplay.jsx';
+import NailRegular from '../../../Component/Nails/NailRegular/NailRegular.jsx';
 import NailWideDisplay from '../../../Component/Nails/NailWideDisplay/NailWideDisplay.jsx';
 
 export function nailChart(choice, unitId, pare){
@@ -25,7 +24,11 @@ export function nailChart(choice, unitId, pare){
         <div
           key={'key_CosmicMain_Nails_'+unitId}
           className={classnames(styles.boxNail, styles.heightNine, styles.boxNarrow)}>
-
+          <NailRegular
+            {...pare.props}
+            unitId={unitId}
+            unitBasic={pare.state.unitsBasic[unitId]}
+            marksBasic={pare.state.marksBasic}/>
         </div>
       )
       break;

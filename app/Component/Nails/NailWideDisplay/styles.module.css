@@ -35,7 +35,7 @@
   display: flex;
   flex-direction: column;
   width: 50%;
-  max-height: 69%; /* 75%(3/4) - 16%(bottom as below) */
+  max-height: 69%; /* 75%(3/4) - 6%(bottom as below) */
   position: absolute;
   bottom: 6%;
   right: 0%;
@@ -64,7 +64,7 @@
 }
 
 .boxAuthor {
-  max-width: 25%;
+  max-width: 12.5%;
   position: absolute;
   box-sizing: border-box;
   right: 12.5%;
@@ -75,7 +75,7 @@
 .spanAuthor {
   display: inline-block;
   white-space: nowrap;
-  position: absolute;
+  position: relative;
   right: 0;
   bottom: 0;
 }
@@ -83,16 +83,17 @@
 .fontAuthor {
   font-size: 1.3rem;
   font-weight: 400;
-  color: #e0e0e0;
+  color: #6e6e6e;
 }
 
 .boxMarkPreview {
   width: 75%;
-  height: 100%;
+  height: 50%;
   position: absolute;
   box-sizing: border-box;
   left: 0%;
-  bottom: 0%;
+  bottom: 25%;
+  padding: 0% 6.25%;
   overflow: hidden;
 }
 
@@ -106,5 +107,5 @@
 .fontMark {
   /*usually the font were controlled by class in common file of the belonged page.
   this is for local modified*/
-  color: #F5F5F5;
+  color: #000000;
 }

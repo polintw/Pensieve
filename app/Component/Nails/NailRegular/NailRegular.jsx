@@ -13,7 +13,7 @@ import {
 } from '../utils.js';
 
 
-class NailThumb extends React.Component {
+class NailRegular extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -117,16 +117,16 @@ class NailThumb extends React.Component {
                 styles.boxMask,
                 {[styles.interMask]: this.state.onImg}
               )}/>
-            <div
-              className={styles.boxNodes}>
-              {this._render_nails_nouns()}
+            <div className={styles.boxAuthor}>
+              <span
+                className={classnames(styles.spanAuthor, styles.fontAuthor)}>
+                {this.props.unitBasic.authorId in this.props.usersBasic ? this.props.usersBasic[this.props.unitBasic.authorId].account:null}
+              </span>
             </div>
           </div>
-          <div className={styles.boxAuthor}>
-            <span
-              className={classnames(styles.spanAuthor, styles.fontAuthor)}>
-              {this.props.unitBasic.authorId in this.props.usersBasic ? this.props.usersBasic[this.props.unitBasic.authorId].account:null}
-            </span>
+          <div
+            className={styles.boxNodes}>
+            {this._render_nails_nouns()}
           </div>
         </Link>
       </div>
@@ -146,4 +146,4 @@ const mapStateToProps = (state)=>{
 export default withRouter(connect(
   mapStateToProps,
   null
-)(NailThumb));
+)(NailRegular));
