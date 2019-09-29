@@ -1,6 +1,7 @@
 .boxTop {
   width: 100%;
   position: relative;
+  transform: translate(-10vw,0);
   box-sizing: border-box;
   margin: 0 0 5rem;
 }
@@ -14,60 +15,43 @@
 .boxScroll {
   display: flex;
   justify-content: space-between;
-  align-content: center;
   flex-wrap: wrap;
-  width: 100%;
+  width: 65vw;
   position: relative;
   box-sizing: border-box;
-  margin: -1px 0 0;
 }
 
 .boxNail {
-  position: relative;
   background-color: #FFFFFF;
+  box-sizing: content-box;
   cursor: pointer;
-}
-
-.boxColumn {
-  display: flex;
-  flex-direction: column;
-  width: 47%;
+  border: solid 1px;
 }
 
 .boxWide {
-  width: 49%;
+  width: 40vw;
 }
 
 .boxNarrow {
-  width: 31%;
+  width: 20vw;
 }
 
-.boxFlat {
-
+.heightNine {
+  height: 30vw;
 }
 
-.heightFlat {
-  height: 161px;
-}
-
-.heightWide {
-  height: 325px; /* a little larger than double of heightFlat*/
-}
-
-.heightNarrow {
-  height: 334px;
+.heightSix {
+  height: 20vw;
 }
 
 .boxFillHoriz {
   width: 99%;
-  height: 92px;
-  position: relative;
-}
-
-.decoSeparationVerti {
-  height: 89%;
+  height: 10vw;
 }
 
 .decoSeparationHorz {
-  width: 100%
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  display: inline-block;
 }

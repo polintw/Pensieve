@@ -142,37 +142,13 @@ class MainIndex extends React.Component {
   }
 
   _render_IndexNails(){
-    this.patternRule = [1,1,1,0,0,1,1,1,1,1,1,'pack','pack','pack']; //'pack' is just a label, meaning the additional render check
+    this.patternRule = [1,0,0,1,2,2,2,2,2,2];
     let cycleLength = this.patternRule.length;
 
     let nailsIndex = []; //don't use .map() because we probably need to push twice in one round
     this.state.unitsList.forEach((unitId, index)=>{
       let remainder = index % cycleLength;
       let nailChoice = this.patternRule[remainder];
-      if(remainder > 10){
-        let double = Number.isInteger((index+1)/2); //bool, return true if divide by 2
-        //plus 1 t index in isInteger() is for the '0'---would get false for 0/2
-
-        //then, 2 is a set, would render 2 NailFlat at once
-        //so if there is 2 condition when remainder==11: render 2 NailFlat || render NailWide
-        //remainder==12, NailWide in 11 then start NailFlat, else return from this iteration and go to next round
-        //similat to remainder==13
-        switch (remainder) {
-          case 11:
-            nailChoice = double? 2 : 0
-            break;
-          case 12:
-            if(double) nailChoice = 2
-            else{return;}
-            break;
-          case 13:
-            if(double) nailChoice = 0
-            else{return;}
-            break;
-          default:
-
-        }
-      }
 
       let nail = nailChart(nailChoice, unitId, this);
       nailsIndex.push(nail);

@@ -11,12 +11,8 @@ export function nailChart(choice, unitId, pare){
       return (
         <div
           key={'key_CosmicMain_Nails_'+unitId}
-          className={classnames(styles.boxNail, styles.heightNarrow, styles.boxWide)}>
-          <NailWideDisplay
-            {...pare.props}
-            unitId={unitId}
-            unitBasic={pare.state.unitsBasic[unitId]}
-            marksBasic={pare.state.marksBasic}/>
+          className={classnames(styles.boxNail, styles.heightNine, styles.boxWide)}>
+
         </div>
       )
       break;
@@ -24,40 +20,17 @@ export function nailChart(choice, unitId, pare){
       return (
         <div
           key={'key_CosmicMain_Nails_'+unitId}
-          className={classnames(styles.boxNail, styles.heightNarrow, styles.boxNarrow)}>
-          <NailThumb
-            {...pare.props}
-            unitId={unitId}
-            unitBasic={pare.state.unitsBasic[unitId]}
-            marksBasic={pare.state.marksBasic}/>
+          className={classnames(styles.boxNail, styles.heightNine, styles.boxNarrow)}>
+
         </div>
       )
       break;
     case 2:
-      let index = pare.state.unitsList.indexOf(unitId);
-      //we render 2 Flat at once,
-      //so the Id of second one, retrieve from original unitsList by current unitId's index
       return (
         <div
-          className={classnames(styles.boxColumn)}>
-          <div
-            key={'key_CosmicMain_Nails_'+ unitId}
-            className={classnames(styles.boxNail, styles.heightFlat, styles.boxFlat)}>
-            <NailFlatDisplay
-              {...pare.props}
-              unitId={unitId}
-              unitBasic={pare.state.unitsBasic[unitId]}
-              marksBasic={pare.state.marksBasic}/>
-          </div>
-          <div
-            key={'key_CosmicMain_Nails_'+pare.state.unitsList[(index+1)]}
-            className={classnames(styles.boxNail, styles.heightFlat, styles.boxFlat)}>
-            <NailFlatDisplay
-              {...pare.props}
-              unitId={pare.state.unitsList[(index+1)]}
-              unitBasic={pare.state.unitsBasic[pare.state.unitsList[(index+1)]]}
-              marksBasic={pare.state.marksBasic}/>
-          </div>
+          key={'key_CosmicMain_Nails_'+ unitId}
+          className={classnames(styles.boxNail, styles.heightSix, styles.boxNarrow)}>
+
         </div>
       )
       break;
@@ -79,30 +52,30 @@ export function nailChart(choice, unitId, pare){
 
 export function separationLine(remainder, index){
   switch (remainder) {
-    case 2:
+    case 1:
       return (
         <div
           key={'key_CosmicMain_NailsSparation_'+index}
           className={classnames(styles.boxFillHoriz)}
-          style={{height: '107px'}}></div>
+          ></div>
       )
       break;
-    case 4:
+    case 3:
       return (
         <div
           key={'key_CosmicMain_NailsSparation_'+index}
           className={classnames(styles.boxFillHoriz)}
-          style={{height: '107px'}}></div>
+          ></div>
       )
       break;
-    case 7:
+    case 6:
       return (
         <div
           key={'key_CosmicMain_NailsSparation_'+index}
           className={classnames(styles.boxFillHoriz)}
-          style={Number.isInteger(index/2) ? {width: '55%', marginLeft: '3.1%', marginRight: '40%'}:{width: '55%', marginLeft: '41.9%'}}>
+          style={Number.isInteger(index/2) ? {width: '55%', position: 'relative', marginLeft: '3.1%', marginRight: '40%'}:{width: '55%', position: 'relative', marginLeft: '41.9%'}}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 561 1"
-            className={classnames('centerAlignChild', styles.decoSeparationHorz)}>
+            className={classnames(styles.decoSeparationHorz)}>
             <defs><style>{".cls-1-strokeSeparationHorz{fill:none;stroke:#c4c4c4;stroke-linecap:round;stroke-miterlimit:10;opacity:0.78;}"}</style></defs>
             <g id="圖層_2" data-name="圖層 2">
               <g id="圖層_1-2" data-name="圖層 1">
@@ -110,12 +83,12 @@ export function separationLine(remainder, index){
         </div>
       )// width and marginLeft of div combined to be 96.9% to match the border of the img in NailThumb
       break;
-    case 10:
+    case 9:
       return (
         <div
           key={'key_CosmicMain_NailsSparation_'+index}
           className={classnames(styles.boxFillHoriz)}
-          style={{height: '107px'}}></div>
+          ></div>
       )
       break;
     default:
