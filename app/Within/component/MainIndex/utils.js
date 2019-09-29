@@ -69,7 +69,6 @@ export function separationLine(remainder, index){
         <div
           key={'key_CosmicMain_NailsSparation_'+index}
           className={classnames(styles.boxFillHoriz)}
-          style={{height: '5vw'}}
           ></div>
       )
       break;
@@ -78,7 +77,6 @@ export function separationLine(remainder, index){
         <div
           key={'key_CosmicMain_NailsSparation_'+index}
           className={classnames(styles.boxFillHoriz)}
-          style={{height: '15vw'}}
           ></div>
       )
       break;
@@ -87,7 +85,7 @@ export function separationLine(remainder, index){
         <div
           key={'key_CosmicMain_NailsSparation_'+index}
           className={classnames(styles.boxFillHoriz)}
-          style={Number.isInteger(index/2) ? {width: '55%', position: 'relative', marginLeft: '3.1%', marginRight: '40%'}:{width: '55%', position: 'relative', marginLeft: '41.9%'}}>
+          style={Number.isInteger(index/2) ? {width: '55%', height: '15vw', position: 'relative', marginLeft: '3.1%', marginRight: '40%'}:{width: '55%', height: '15vw',position: 'relative', marginLeft: '41.9%'}}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 561 1"
             className={classnames(styles.decoSeparationHorz)}>
             <defs><style>{".cls-1-strokeSeparationHorz{fill:none;stroke:#c4c4c4;stroke-linecap:round;stroke-miterlimit:10;opacity:0.78;}"}</style></defs>
@@ -102,7 +100,6 @@ export function separationLine(remainder, index){
         <div
           key={'key_CosmicMain_NailsSparation_'+index}
           className={classnames(styles.boxFillHoriz)}
-          style={{height: '5vw'}}
           ></div>
       )
       break;

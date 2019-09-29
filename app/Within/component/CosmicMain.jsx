@@ -33,7 +33,7 @@ class CosmicMain extends React.Component {
         display: 'inline-block',
         height: '12px',
         position: 'absolute',
-        top: '34%',
+        top: '41%',
         left: '25%',
         boxSizing: 'border-box',
         cursor: 'pointer'
@@ -58,7 +58,7 @@ class CosmicMain extends React.Component {
           <MainIndex {...this.props}/>
         </div>
         <div style={{width: '100%', height: '2.7rem', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
-        <div style={{width: '100%', height: '3.6rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}>
+        <div style={{width: '100%', height: '3.9rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}>
           <div
             style={Object.assign({}, this.style.withinCom_CosmicMain_top_logo)}
             onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_von_cosmic('', '/cosmic')}}>
