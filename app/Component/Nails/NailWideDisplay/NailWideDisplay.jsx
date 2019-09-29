@@ -118,14 +118,17 @@ class NailWideDisplay extends React.Component {
             </div>
           </div>
           <div
-            className={classnames(styles.boxMarkPreview)}>
-            {this._render_nails_Marks()}
-          </div>
-          <div className={styles.boxAuthor}>
-            <span
-              className={classnames(styles.spanAuthor, styles.fontAuthor)}>
-              {this.props.unitBasic.authorId in this.props.usersBasic ? this.props.usersBasic[this.props.unitBasic.authorId].account:null}
-            </span>
+            className={classnames(styles.boxContent)}>
+            <div
+              className={classnames(styles.boxMarkPreview)}>
+              {this._render_nails_Marks()}
+            </div>
+            <div className={styles.boxAuthor}>
+              <span
+                className={classnames(styles.spanAuthor, styles.fontAuthor)}>
+                {this.props.unitBasic.authorId in this.props.usersBasic ? this.props.usersBasic[this.props.unitBasic.authorId].account:null}
+              </span>
+            </div>
           </div>
         </Link>
       </div>
