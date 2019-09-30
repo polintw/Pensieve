@@ -17,13 +17,12 @@ import {
 const styleMiddle = {
   boxScroll: {
     display: 'flex',
-    justifyContent: 'center',
     flexWrap: 'wrap',
-    width: '73.5%',
-    minWidth: '954px',
+    justifyContent: 'space-between',
+    width: '65vw',
     position: 'absolute',
-    top: '7vh',
-    right: '17.3%',
+    top: '9vh',
+    left: '15%',
     boxSizing: 'border-box'
   },
   boxTitle: {
@@ -31,24 +30,23 @@ const styleMiddle = {
     width: '100%',
     position: 'relative',
     boxSizing: 'border-box',
-    padding: '0 0 3rem 0'
+    marginBottom: '7rem'
   },
   boxName: {
     display: 'inline-block',
     boxSizing: 'border-box',
-    padding: '1rem 0% 1rem 6.4%',
     float: 'left'
   },
   boxNav: {
     display: 'inline-flex',
-    width: '12%',
+    flexDirection: 'column',
+    width: '10vw',
     position: 'relative',
     boxSizing: 'border-box',
-    padding: '1.7rem 0px 2rem 0%'
+    textAlign: 'right'
   },
   boxView: {
-    display: 'inline-block',
-    width: '87%',
+    width: '45vw',
   },
   boxLogo: {
     display: 'inline-block',
@@ -66,14 +64,11 @@ const styleMiddle = {
     color: "#a8a8a8"
   },
   spanNav: {
-    position: 'relative',
-    float: 'right',
     boxSizing: 'border-box',
-    margin: '0.8rem 2.5rem 0.8rem 0',
     cursor: 'pointer'
   },
   fontName: {
-    fontSize: '2.32rem',
+    fontSize: '2.7rem',
     fontWeight: '600',
     letterSpacing: '0.13rem',
     whiteSpace: 'nowrap',
@@ -149,6 +144,7 @@ class CosmicNoun extends React.Component {
               )}
             </div>
           </div>
+          <div style= {{width: '5vw'}}/>
           <div
             style={styleMiddle.boxView}>
             {this._render_CosmicNouns_byView(paramsStatus)}
@@ -160,7 +156,8 @@ class CosmicNoun extends React.Component {
                 pathname: this.props.match.url,
                 search: ''
               }}
-              className={'plainLinkButton'}>
+              className={'plainLinkButton'}
+              style={{margin: '0px 0 2.7rem',cursor: 'default'}}>
               <span
                 style={styleMiddle.spanNav}>{'shareds'}</span>
             </Link>
@@ -168,7 +165,8 @@ class CosmicNoun extends React.Component {
               to={{
                 pathname: this.props.match.url,
                 search: '?view=contribute'}}
-              className={'plainLinkButton'}>
+              className={'plainLinkButton'}
+              style={{margin: '0px 0 2.7rem',cursor: 'default'}}>
               <span
                 style={styleMiddle.spanNav}>{'contributors'}</span>
             </Link>

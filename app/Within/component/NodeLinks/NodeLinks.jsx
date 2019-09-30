@@ -24,7 +24,7 @@ const styleMiddle = {
   },
   footer: {
     width: '100%',
-    height: '5rem',
+    height: '28vh',
     position: 'relative',
     boxSizing: 'border-box'
   },
@@ -106,10 +106,11 @@ class NodeLinks extends React.Component {
     );
     //use Block to render if not empty
     let units = [];
-    this.state.unitsBlock.forEach((block,index)=>{ //spread the list of blocks
-      block.forEach((unitId,index)=>{ //then sprean each block
+    this.state.unitsBlock.forEach((block,blockIndex)=>{ //spread the list of blocks
+      block.forEach((unitId,unitIndex)=>{ //then sprean each block
         units.push( //push each unit to return array directly
           <div
+            key={'key_Cosmic_NodeLink_'+unitIndex}
             className={classnames(
               styles.boxNail, styles.boxRegular)}>
               <NailRegular
@@ -119,6 +120,13 @@ class NodeLinks extends React.Component {
                 unitBasic={this.state.unitsBasic[unitId]}
                 marksBasic={this.state.marksBasic}/>
             </div>
+        );
+        let remainder = (unitIndex+1) % 2; //cauculate remainder to decide whether a interspace was needed or not
+        if(remainder==0) units.push(
+          <div
+            key={'key_Cosmic_NodeLink_interspace_'+unitIndex}
+            className={classnames(styles.boxFillHoriz)}
+            ></div>
         )
       })
     })

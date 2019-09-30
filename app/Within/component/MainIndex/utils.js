@@ -42,6 +42,7 @@ export function nailChart(choice, unitId, pare){
           <NailSquare
             {...pare.props}
             unitId={unitId}
+            linkPath={pare.props.match.url+'/unit'}
             unitBasic={pare.state.unitsBasic[unitId]}
             marksBasic={pare.state.marksBasic}/>
         </div>
@@ -50,11 +51,12 @@ export function nailChart(choice, unitId, pare){
     default:
       return (
         <div
-          key={'key_CosmicMain_Nails_'+unitId}
-          className={classnames(styles.heightNarrow, styles.boxNarrow)}>
-          <NailThumb
+          key={'key_CosmicMain_Nails_'+ unitId}
+          className={classnames(styles.boxNail, styles.heightNine, styles.boxNarrow)}>
+          <NailSquare
             {...pare.props}
             unitId={unitId}
+            linkPath={pare.props.match.url+'/unit'}
             unitBasic={pare.state.unitsBasic[unitId]}
             marksBasic={pare.state.marksBasic}/>
         </div>
