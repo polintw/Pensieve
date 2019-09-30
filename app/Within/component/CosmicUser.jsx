@@ -13,14 +13,9 @@ const styleMiddle = {
     height: '', //keep the height depend on Scroll div
   },
   boxScroll: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    width: '73.5%',
-    minWidth: '754px',
     position: 'absolute',
     top: '4vh',
-    left: '50%',
-    transform: 'translate(-51%,0)',
+    left: '15%',
     boxSizing: 'border-box'
   },
   boxLogo: {

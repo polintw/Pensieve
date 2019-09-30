@@ -24,7 +24,7 @@ const styleMiddle = {
   },
   footer: {
     width: '100%',
-    height: '28vh',
+    height: '44vh',
     position: 'relative',
     boxSizing: 'border-box'
   },

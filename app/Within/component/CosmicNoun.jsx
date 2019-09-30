@@ -21,7 +21,7 @@ const styleMiddle = {
     justifyContent: 'space-between',
     width: '65vw',
     position: 'absolute',
-    top: '9vh',
+    top: '9.6vh',
     left: '15%',
     boxSizing: 'border-box'
   },
@@ -30,7 +30,7 @@ const styleMiddle = {
     width: '100%',
     position: 'relative',
     boxSizing: 'border-box',
-    marginBottom: '7rem'
+    marginBottom: '5.5rem'
   },
   boxName: {
     display: 'inline-block',
@@ -40,7 +40,7 @@ const styleMiddle = {
   boxNav: {
     display: 'inline-flex',
     flexDirection: 'column',
-    width: '10vw',
+    width: '15vw',
     position: 'relative',
     boxSizing: 'border-box',
     textAlign: 'right'

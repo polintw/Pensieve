@@ -8,31 +8,36 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import querystring from 'query-string';
-import Unit from '../../Unit/Unit/Unit.jsx';
-import SimpleBlock from '../../Component/Blocks/SimpleBlock/SimpleBlock.jsx';
-import NailBasic from '../../Component/Nails/NailBasic/NailBasic.jsx';
+import classnames from 'classnames';
+import styles from "./styles.module.css";
+import Unit from '../../../Unit/Unit/Unit.jsx';
+import NailSquare from '../../../Component/Nails/NailSquare/NailSquare.jsx';
 import {
   handleNounsList,
   handleUsersList
-} from "../../redux/actions/general.js";
+} from "../../../redux/actions/general.js";
 import {
   cancelErr,
   uncertainErr
-} from "../../utils/errHandlers.js";
+} from "../../../utils/errHandlers.js";
 
 const styleMiddle = {
   comWindowAccu: {
-    height: ''
+    display: 'flex',
+    flexWrap: 'wrap',
+    flexDirection: 'column'
   },
   boxBlocks: {
+    display: 'flex',
+    justifyContent: "space-between",
+    flexWrap: 'wrap',
     width: '100%',
-    minHeight: '5rem',
     position: 'relative',
     boxSizing: 'border-box',
   },
   footer: {
     width: '100%',
-    height: '6rem',
+    height: '44vh',
     position: 'relative',
     boxSizing: 'border-box'
   },
@@ -118,29 +123,48 @@ class Accumulated extends React.Component {
         {"Still wondering and wandering~~ "}
       </div>
     );
+    //use Block to render if not empty
+    let units = [];
+    this.state.nailsBlock.forEach((block,blockIndex)=>{ //spread the list of blocks
+      block.forEach((unitObj,unitIndex)=>{ //then sprean each block
+        //just for temp, we need to make a simple unitsList here
+        //because previously, the nailsList was designed for MixBlock which need to distinguish 'type'
+        if(unitObj.type=='shared') {
+          units.push( //push each unit to return array directly
+            <div
+              key={'key_Window_Accumulated_'+unitIndex}
+              className={classnames(
+                styles.boxNail, styles.boxSquare)}>
+                <NailSquare
+                  {...this.props}
+                  unitId={unitObj.id}
+                  linkPath={this.props.match.url+'/unit'}
+                  unitBasic={this.state.unitsBasic[unitObj.id]}
+                  marksBasic={this.state.marksBasic}/>
+              </div>
+            );
+        }
+      })
+    })
 
-    let list = this.state.nailsBlock.map((nailsList, index)=>{
-      //just for temp, we need to make a simple unitsList here
-      //because previously, the nailsList was designed for MixBlock which need to distinguish 'type'
-      let unitsList = [];
-      nailsList.forEach((obj, indexEach)=>{
-        if(obj.type=='shared') unitsList.push(obj.id);
-      });
+    //insert interspace
+    //due to the temp method dealing with the old problem of MixBlock,
+    //using length of array 'units' here to loop for insertion
+    for(let i=Math.floor(units.length/3) ; i > 0 ; i--){
+      //Notice here! we set i from the 'largest' because the 'length' would change along with the process
+      //if we start from 0
+      let insertIndex = i*3,
+          DOM = (
+            <div
+              key={'key_Window_Accumulated_interspace_'+insertIndex}
+              className={classnames(styles.boxFillHoriz)}
+              ></div>
+          );
 
-      return (
-        <SimpleBlock
-          key={"key_Window_accumulatedBlocks_"+index}
-          unitsList={unitsList}
-          unitsBasic={this.state.unitsBasic}>
-          <NailBasic
-            {...this.props}
-            linkPath={this.props.match.url+'/unit'}
-            marksBasic={this.state.marksBasic}/>
-        </SimpleBlock>
-      )
-    });
+      units.splice(insertIndex, 0, DOM);
+    }
 
-    return list;
+    return units;
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -166,7 +190,6 @@ class Accumulated extends React.Component {
   render(){
     return(
       <div
-        className={'boxAbsoluteFull'}
         style={styleMiddle.comWindowAccu}>
         <div
           style={styleMiddle.boxBlocks}>

@@ -32,8 +32,9 @@ start the fundemental first, and then the specific condition
 .boxFocus {
   display: block;
   position: absolute;
-  right: 137px;
+  right: 10vw;
   bottom: 0;
+  transform: translate(50%,0);
 }
 
 
