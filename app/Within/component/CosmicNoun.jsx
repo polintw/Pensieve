@@ -5,7 +5,7 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import NodeLinks from './NodeLinks.jsx';
+import NodeLinks from './NodeLinks/NodeLinks.jsx';
 import NodeContributor from './NodeContributor.jsx';
 import Unit from '../../Unit/Unit/Unit.jsx';
 import SvgLogo from '../../Component/Svg/SvgLogo.jsx';
@@ -28,7 +28,7 @@ const styleMiddle = {
   },
   boxTitle: {
     display:'inline-block',
-    width: '83%',
+    width: '100%',
     position: 'relative',
     boxSizing: 'border-box',
     padding: '0 0 3rem 0'
@@ -41,22 +41,21 @@ const styleMiddle = {
   },
   boxNav: {
     display: 'inline-flex',
-    width: '17%',
+    width: '12%',
     position: 'relative',
     boxSizing: 'border-box',
     padding: '1.7rem 0px 2rem 0%'
   },
   boxView: {
     display: 'inline-block',
-    width: '91%',
-    marginTop: '3%'
+    width: '87%',
   },
   boxLogo: {
     display: 'inline-block',
     height: '12px',
     position: 'fixed',
-    bottom: '2.6%',
-    left: '68%',
+    bottom: '2.8%',
+    right: '30%',
     boxSizing: 'border-box',
     cursor: 'pointer'
   },
@@ -151,6 +150,10 @@ class CosmicNoun extends React.Component {
             </div>
           </div>
           <div
+            style={styleMiddle.boxView}>
+            {this._render_CosmicNouns_byView(paramsStatus)}
+          </div>
+          <div
             style={Object.assign({}, styleMiddle.boxNav, styleMiddle.fontNav)}>
             <Link
               to={{
@@ -169,11 +172,6 @@ class CosmicNoun extends React.Component {
               <span
                 style={styleMiddle.spanNav}>{'contributors'}</span>
             </Link>
-          </div>
-          <div
-            className={'boxRelativeFull'}
-            style={styleMiddle.boxView}>
-            {this._render_CosmicNouns_byView(paramsStatus)}
           </div>
         </div>
         <div style={{width: '100%', height: '3.3vh', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>

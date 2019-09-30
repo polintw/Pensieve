@@ -7,17 +7,15 @@ import {
   Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import SimpleBlock from '../../Component/Blocks/SimpleBlock/SimpleBlock.jsx';
-import NailBasic from '../../Component/Nails/NailBasic/NailBasic.jsx';
+import classnames from 'classnames';
+import styles from "./styles.module.css";
+import NailRegular from '../../../Component/Nails/NailRegular/NailRegular.jsx';
 import {
   handleNounsList,
   handleUsersList
-} from "../../redux/actions/general.js";
+} from "../../../redux/actions/general.js";
 
 const styleMiddle = {
-  comNodeLinks: {
-
-  },
   boxBlocks: {
     width: '100%',
     minHeight: '5rem',
@@ -99,28 +97,33 @@ class NodeLinks extends React.Component {
   }
 
   _render_nouns_Block(){
+    //check if the unitsBlock list still empty
     if(!this.state.unitsBlock[0]) return(
       <div
         style={Object.assign({}, styleMiddle.fontPlaceholder, {boxSizing: 'border-box',margin: '13% 0'})}>
         {this.props.i18nUIString.catalog["hintEmptyNode"]}
       </div>
     );
+    //use Block to render if not empty
+    let units = [];
+    this.state.unitsBlock.forEach((block,index)=>{ //spread the list of blocks
+      block.forEach((unitId,index)=>{ //then sprean each block
+        units.push( //push each unit to return array directly
+          <div
+            className={classnames(
+              styles.boxNail, styles.boxRegular)}>
+              <NailRegular
+                {...this.props}
+                unitId={unitId}
+                linkPath={this.props.match.url+'/unit'}
+                unitBasic={this.state.unitsBasic[unitId]}
+                marksBasic={this.state.marksBasic}/>
+            </div>
+        )
+      })
+    })
 
-    let list = this.state.unitsBlock.map((unitBlock, index)=>{
-      return (
-        <SimpleBlock
-          key={"key_Cosmicnoun_blocks_"+index}
-          unitsList={unitBlock}
-          unitsBasic={this.state.unitsBasic}>
-          <NailBasic
-            {...this.props}
-            linkPath={this.props.match.url+'/unit'}
-            marksBasic={this.state.marksBasic}/>
-        </SimpleBlock>
-      )
-    });
-
-    return list;
+    return units;
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -148,10 +151,9 @@ class NodeLinks extends React.Component {
   render(){
     return(
       <div
-        className={'boxRelativeFull'}
-        style={styleMiddle.comNodeLinks}>
+        className={classnames('boxRelativeFull', styles.comNodeLink)}>
         <div
-          style={styleMiddle.boxBlocks}>
+          className={classnames(styles.boxBlock)}>
           {this._render_nouns_Block()}
         </div>
         <div style={styleMiddle.footer}></div>

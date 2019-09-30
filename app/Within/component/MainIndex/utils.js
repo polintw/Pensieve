@@ -28,6 +28,7 @@ export function nailChart(choice, unitId, pare){
           <NailRegular
             {...pare.props}
             unitId={unitId}
+            linkPath={pare.props.match.url+'/unit'}
             unitBasic={pare.state.unitsBasic[unitId]}
             marksBasic={pare.state.marksBasic}/>
         </div>

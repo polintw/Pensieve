@@ -94,7 +94,7 @@ class NailRegular extends React.Component {
         <Link
           ref={this.nailUnitLink}
           to={{
-            pathname: this.props.match.url+"/unit",
+            pathname: this.props.linkPath,
             search: '?theater&unitId='+this.props.unitId,
             state: {from: this.props.location}
           }}
