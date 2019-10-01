@@ -75,25 +75,28 @@ class Related extends React.Component {
             <span
               style={{position: 'sticky',top: '27%'}}>
               {"connect to more"}<br/>{'from'}</span>
-            <div
-              className={classnames(styles.boxLeaveSet)}>
+            {
+              !this.props.location.pathname.includes('explore/unit') &&
               <div
-                className={classnames(styles.boxLogo)}
-                onClick={(e)=>{e.preventDefault(); e.stopPropagation(); window.location.assign('/cosmic')}}>
-                <SvgLogo/>
+                className={classnames(styles.boxLeaveSet)}>
+                <div
+                  className={classnames(styles.boxLogo)}
+                  onClick={(e)=>{e.preventDefault(); e.stopPropagation(); window.location.assign('/cosmic')}}>
+                  <SvgLogo/>
+                </div>
+                <div
+                  className={classnames(styles.boxBack)}
+                  onMouseEnter={this._handleEnter_spanBack}
+                  onMouseLeave={this._handleLeave_spanBack}>
+                  <span
+                    className={classnames(styles.spanBack)}
+                    style={this.state.onSpanBack?{color: '#111111'}:{}}
+                    onClick={(e)=>{e.stopPropagation();e.preventDefault();this.props._handleClick_leave();}}>
+                    {" ╳ "}
+                  </span>
+                </div>
               </div>
-              <div
-                className={classnames(styles.boxBack)}
-                onMouseEnter={this._handleEnter_spanBack}
-                onMouseLeave={this._handleLeave_spanBack}>
-                <span
-                  className={classnames(styles.spanBack)}
-                  style={this.state.onSpanBack?{color: '#111111'}:{}}
-                  onClick={(e)=>{e.stopPropagation();e.preventDefault();this.props._handleClick_leave();}}>
-                  {" ╳ "}
-                </span>
-              </div>
-            </div>
+            }
           </div>
           <div
             className={classnames(styles.boxList)}>
