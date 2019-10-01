@@ -6,8 +6,6 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import Screen from './component/Screen/Screen.jsx';
-import Appearance from '../Component/Appearance.jsx';
-
 
 class Terrace extends React.Component {
   constructor(props){
@@ -25,13 +23,6 @@ class Terrace extends React.Component {
         left: '0',
         boxSizing: 'border-box',
         overflowX: 'hidden'
-      },
-      Self_pages_Terrace_hidden_appearance: {
-        width: '60%',
-        position: 'absolute',
-        top: '10%',
-        left: '20%',
-        boxSizing: 'border-box'
       }
     }
   }
@@ -71,9 +62,8 @@ class Terrace extends React.Component {
         style={this.style.Self_pages_Terrace_}>
         {
           paramWatch== 'window'?(
-            <div
-              style={this.style.Self_pages_Terrace_hidden_appearance}>
-              <Appearance {...this.props} urlParam={"/router/user/cover"} urlQuery={"?id="+this.props.userInfo.id} _refer_von_unit={this._refer_leaveSelf}/>
+            <div>
+
             </div>
           ):(
             <Screen {...this.props}/>

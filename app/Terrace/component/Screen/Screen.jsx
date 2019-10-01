@@ -32,15 +32,6 @@ class Screen extends React.Component {
     this._handleClick_nav_expand = this._handleClick_nav_expand.bind(this);
     this._handleClick_selfClose = this._handleClick_selfClose.bind(this);
     this.style={
-      terraceCom_Screen_plane_: {
-        width: '100%',
-        height: '40%',
-        position: 'absolute',
-        top: '0',
-        right: '0',
-        boxSizing: 'border-box',
-        overflow: 'visible'
-      },
       terraceCom_Screen_floor_: {
         width: '100%',
         height: '59%',
@@ -49,15 +40,6 @@ class Screen extends React.Component {
         right: '0',
         boxSizing: 'border-box',
         backgroundColor: '#FAFAFA',
-      },
-      terraceCom_Screen_account_: {
-        maxWidth: '38%',
-        position: 'absolute',
-        top: '34.8%',
-        left: '32%',
-        transform: 'translate(-50%,0%)',
-        boxSizing: 'border-box',
-        overflow: 'visible'
       },
       terraceCom_Screen_account_name: {
         display: 'inline-block',
@@ -68,12 +50,6 @@ class Screen extends React.Component {
         fontWeight: '400',
         whiteSpace: 'nowrap',
         color: '#000000'
-      },
-      terraceCom_Screen_options_: {
-        bottom: '6%',
-      },
-      terraceCom_Screen_floorOptions_: {
-        top: '7%'
       },
       terraceCom_Screen_options_expand: {
         display: 'inline',
@@ -111,53 +87,46 @@ class Screen extends React.Component {
   render(){
     return(
       <div
-        className={'boxAbsoluteFull'}
-        ref={(element)=>{this.terrace_pagenav=element;}}>
+        className={'boxAbsoluteFull'}>
         <div
-          style={this.style.terraceCom_Screen_plane_}>
+          style={this.style.terraceCom_Screen_floor_}/>
+        <div
+          className={classnames(styles.boxOptions)}>
+          <Link
+            to={{
+              pathname: "/screen",
+              search: "?watch=window",
+              hash: "",
+              state: {}
+            }}
+            className={'plainLinkButton'}>
+            <span style={Object.assign({}, styleMiddle.fontOption, {color: 'black', cursor: 'pointer'})}>
+              {"window"}
+            </span>
+          </Link>
           <div
-            style={Object.assign({}, this.style.terraceCom_Screen_options_, styleMiddle.boxOption)}>
-            <div
-              style={Object.assign({}, this.style.terraceCom_Screen_options_expand, styleMiddle.fontOption)}
-              onClick={this._handleClick_nav_expand}>
-              {'expand'}
-            </div>
+            style={Object.assign({}, this.style.terraceCom_Screen_options_expand, styleMiddle.fontOption)}
+            onClick={this._handleClick_nav_expand}>
+            {'expand'}
           </div>
         </div>
         <div
-          style={this.style.terraceCom_Screen_floor_}>
-          <div
-            style={Object.assign({}, this.style.terraceCom_Screen_floorOptions_, styleMiddle.boxOption, {right: '25.6%'})}>
-            <Link
-              to={{
-                pathname: "/screen",
-                search: "?watch=window",
-                hash: "",
-                state: {}
-              }}
-              className={'plainLinkButton'}>
-              <span style={Object.assign({}, styleMiddle.fontOption, {color: 'black', cursor: 'pointer'})}>
-                {"window"}
-              </span>
-            </Link>
-          </div>
-          <div
-            className={classnames(styles.boxReturn, styles.fontReturn)}
-            onClick={this._handleClick_selfClose}
-            onMouseEnter={this._handleEnter_Focus}
-            onMouseLeave={this._handleLeave_Focus}>
-            {
-              this.state.onFocus &&
-              <span style={{
-                  width: '75%', position: 'absolute', bottom: '-11%', left: '-1%',
-                  borderBottom: 'solid 1px rgb(64, 133, 160)'
-                }}/>
-              }
-            <span
-              style={(this.state.onFocus)? {color: '#333333'}:{}}>{"focus"}</span>
-          </div>
+          className={classnames(styles.boxReturn, styles.fontReturn)}
+          onClick={this._handleClick_selfClose}
+          onMouseEnter={this._handleEnter_Focus}
+          onMouseLeave={this._handleLeave_Focus}>
+          {
+            this.state.onFocus &&
+            <span style={{
+                width: '75%', position: 'absolute', bottom: '-11%', left: '-1%',
+                borderBottom: 'solid 1px rgb(64, 133, 160)'
+              }}/>
+            }
+          <span
+            style={(this.state.onFocus)? {color: '#333333'}:{}}>{"focus"}</span>
         </div>
-        <div style={this.style.terraceCom_Screen_account_}>
+        <div
+          className={classnames(styles.boxAccount)}>
           <span style={this.style.terraceCom_Screen_account_name}>{this.props.userInfo.firstName+" "+this.props.userInfo.lastName}</span>
         </div>
       </div>
