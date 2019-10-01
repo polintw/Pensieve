@@ -7,36 +7,17 @@
   overflow-y: auto;
 }
 
-.boxBack {
-  display:flex;
-  justify-content: space-around;
-  width: 2rem;
-  height: 5%;
-  position: fixed;
-  top: 2%;
-  right: 2.1%;
-  font-size: 1rem;
-  color: #cccccc;
-  cursor:pointer;
-}
-
 .boxSubtitle {
   height: 39vh;
   box-sizing: border-box;
   text-align: center;
 }
 
-.spanBack {
-  box-sizing: border-box;
-}
-
 .boxRelated {
-  width: 68%;
-  min-width: 790px;
   position: absolute;
-  left: 51%;
-  transform: translate(-49%,0);
+  left: 20vw;
   box-sizing: border-box;
+  padding-top: 4vh;
 }
 
 .spanRelatedClose {
