@@ -4,7 +4,8 @@ import {
   Link,
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import SvgAround from '../../Component/Svg/SvgAround.jsx';
+import classnames from 'classnames';
+import styles from "./styles.module.css";
 
 const styleMiddle = {
   boxOption: {
@@ -24,8 +25,10 @@ class Screen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      onFocus: false
     };
+    this._handleEnter_Focus = this._handleEnter_Focus.bind(this);
+    this._handleLeave_Focus = this._handleLeave_Focus.bind(this);
     this._handleClick_nav_expand = this._handleClick_nav_expand.bind(this);
     this._handleClick_selfClose = this._handleClick_selfClose.bind(this);
     this.style={
@@ -78,27 +81,31 @@ class Screen extends React.Component {
         boxSizing: 'border-box',
         cursor: 'pointer'
       },
-      terraceCom_Screen_return_: {
-        width: '6%',
-        height: '10%',
-        position: 'absolute',
-        top: '60%',
-        left: '37%',
-        boxSizing: 'border-box',
-      },
     }
   }
 
   _handleClick_nav_expand(event){
     event.stopPropagation();
     event.preventDefault();
-    window.location.assign('/user/cognition/embedded/inspireds');
+    window.location.assign('/user/cognition/actions/shareds');
   }
 
   _handleClick_selfClose(event){
     event.preventDefault();
     event.stopPropagation();
     window.location.assign('/');
+  }
+
+  _handleEnter_Focus(e){
+    this.setState({
+      onFocus: true
+    })
+  }
+
+  _handleLeave_Focus(e){
+    this.setState({
+      onFocus: false
+    })
   }
 
   render(){
@@ -135,9 +142,19 @@ class Screen extends React.Component {
             </Link>
           </div>
           <div
-            style={this.style.terraceCom_Screen_return_}
-            onClick={this._handleClick_selfClose}>
-            <SvgAround/>
+            className={classnames(styles.boxReturn, styles.fontReturn)}
+            onClick={this._handleClick_selfClose}
+            onMouseEnter={this._handleEnter_Focus}
+            onMouseLeave={this._handleLeave_Focus}>
+            {
+              this.state.onFocus &&
+              <span style={{
+                  width: '75%', position: 'absolute', bottom: '-11%', left: '-1%',
+                  borderBottom: 'solid 1px rgb(64, 133, 160)'
+                }}/>
+              }
+            <span
+              style={(this.state.onFocus)? {color: '#333333'}:{}}>{"focus"}</span>
           </div>
         </div>
         <div style={this.style.terraceCom_Screen_account_}>
