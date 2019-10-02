@@ -1,0 +1,32 @@
+.comNavSelf {
+  display: flex;
+  align-items: baseline;
+  width: 15vw;
+  position: absolute;
+  left: 20vw;
+  bottom: 2.4%; /*follow the position of Cosmic Corner*/
+  box-sizing: border-box;
+}
+
+.boxAccount {
+  display: inline-block;
+  position: relative;
+  transform: translate(-50%,0);
+  cursor: pointer;
+}
+
+.boxReturn {
+  box-sizing: border-box;
+  position: relative;
+  cursor: pointer;
+}
+
+.fontReturn {
+  font-size: 1.37rem;
+  letter-spacing: 0.1rem;
+  color: #a8a8a8;
+}
+
+.fontAccount{
+  color: #333333;
+}

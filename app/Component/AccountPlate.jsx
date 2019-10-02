@@ -4,51 +4,6 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 
-const generalStyle = {
-  spanNameRegular: {
-    display: 'inline-block',
-    whiteSpace: 'nowrap',
-    fontSize: '1.45rem',
-    fontWeight: '400',
-    letterSpacing: '0.1rem',
-  },
-}
-
-class Regular extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-
-    };
-    this.style={
-
-    }
-  }
-
-  render(){
-    //let cx = cxBind.bind(styles);
-    return(
-      <span style={generalStyle.spanNameRegular}>
-        {this.props.userInfo.firstName + " " + this.props.userInfo.lastName}
-      </span>
-    )
-  }
-}
-
-const mapStateToProps = (state)=>{
-  return {
-    userInfo: state.userInfo,
-    unitCurrent: state.unitCurrent
-  }
-}
-
-const reduxConnection = connect(
-  mapStateToProps,
-  null
-);
-
-export const NameRegular = withRouter(reduxConnection(Regular));
-
 class Palette extends React.Component {
   constructor(props){
     super(props);
@@ -98,5 +53,17 @@ class Palette extends React.Component {
     )
   }
 }
+
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo,
+    unitCurrent: state.unitCurrent
+  }
+}
+
+const reduxConnection = connect(
+  mapStateToProps,
+  null
+);
 
 export const AccountPlate = withRouter(reduxConnection(Palette));

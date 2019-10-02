@@ -26,14 +26,14 @@ class FrontCognition extends React.Component {
         top: '0',
         left: '0',
         boxSizing: 'border-box',
-        backgroundColor: '#FFFFFF'
+        backgroundColor: 'rgb(252,252,252)'
       },
       Front_Cognition_NavOptions: {
         width: '1.4%',
-        height: '4.2%',
+        height: '3.2%',
         position: 'fixed',
-        bottom: '21%',
-        right: '3%',
+        bottom: '6.9%',
+        right: '1%',
         boxSizing: 'border-box'
       }
     }
@@ -57,7 +57,6 @@ class FrontCognition extends React.Component {
   }
 
   render(){
-    //let cx = cxBind.bind(styles);
     return(
       <div>
         <Switch>
@@ -65,11 +64,11 @@ class FrontCognition extends React.Component {
           <Route path={this.props.match.path} render={(props)=> <Cognition {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>
         </Switch>
         <div style={this.style.Front_Cognition_backPlane_top}/>
+        <NavsCognition {...this.props}/>
         <div
           style={this.style.Front_Cognition_NavOptions}>
           <NavOptions {...this.props}/>
         </div>
-        <NavsCognition {...this.props}/>
       </div>
     )
   }
