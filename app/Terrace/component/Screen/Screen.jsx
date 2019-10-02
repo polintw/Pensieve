@@ -6,6 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import SvgLogo from '../../../Component/Svg/SvgLogo.jsx';
 
 const styleMiddle = {
   boxOption: {
@@ -13,42 +14,39 @@ const styleMiddle = {
     right: '26%',
     boxSizing: 'border-box'
   },
-  fontOption: {
-    fontWeight: '400',
-    fontSize: "2rem",
-    letterSpacing: '0.14rem',
-    color: '#ff7a5f',
-  }
 }
 
 class Screen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      onFocus: false
+      onFocus: false,
+      onExpand: false
     };
     this._handleEnter_Focus = this._handleEnter_Focus.bind(this);
     this._handleLeave_Focus = this._handleLeave_Focus.bind(this);
+    this._handleEnter_Expand = this._handleEnter_Expand.bind(this);
+    this._handleLeave_Expand = this._handleLeave_Expand.bind(this);
     this._handleClick_nav_expand = this._handleClick_nav_expand.bind(this);
     this._handleClick_selfClose = this._handleClick_selfClose.bind(this);
     this.style={
       terraceCom_Screen_floor_: {
-        width: '100%',
-        height: '59%',
+        width: '90%',
+        height: '0',
         position: 'absolute',
         bottom: '0',
         right: '0',
         boxSizing: 'border-box',
-        backgroundColor: '#FAFAFA',
+        borderBottom: 'solid 45vh rgb(248,248,248)',
+        borderLeft: 'solid 15vw transparent'
       },
       terraceCom_Screen_account_name: {
         display: 'inline-block',
         position: 'relative',
         boxSizing: 'border-box',
-        fontSize: "4.8rem",
-        letterSpacing: '0.28rem',
+        fontSize: "4.3rem",
+        letterSpacing: '0.27rem',
         fontWeight: '400',
-        whiteSpace: 'nowrap',
         color: '#000000'
       },
       terraceCom_Screen_options_expand: {
@@ -72,6 +70,18 @@ class Screen extends React.Component {
     window.location.assign('/');
   }
 
+  _handleEnter_Expand(e){
+    this.setState({
+      onExpand: true
+    })
+  }
+
+  _handleLeave_Expand(e){
+    this.setState({
+      onExpand: false
+    })
+  }
+
   _handleEnter_Focus(e){
     this.setState({
       onFocus: true
@@ -87,9 +97,11 @@ class Screen extends React.Component {
   render(){
     return(
       <div
-        className={'boxAbsoluteFull'}>
+        className={classnames('boxAbsoluteFull', styles.comScreen)}>
         <div
           style={this.style.terraceCom_Screen_floor_}/>
+        <div
+          className={classnames(styles.planeCanvas)}/>
         <div
           className={classnames(styles.boxOptions)}>
           <Link
@@ -100,30 +112,51 @@ class Screen extends React.Component {
               state: {}
             }}
             className={'plainLinkButton'}>
-            <span style={Object.assign({}, styleMiddle.fontOption, {color: 'black', cursor: 'pointer'})}>
+            <span
+              className={styles.fontOption}
+              style={Object.assign({}, {color: 'black', cursor: 'pointer'})}>
               {"window"}
             </span>
           </Link>
           <div
-            style={Object.assign({}, this.style.terraceCom_Screen_options_expand, styleMiddle.fontOption)}
-            onClick={this._handleClick_nav_expand}>
-            {'expand'}
+            className={styles.fontOption}
+            style={Object.assign({}, this.style.terraceCom_Screen_options_expand)}
+            onClick={this._handleClick_nav_expand}
+            onMouseEnter={this._handleEnter_Expand}
+            onMouseLeave={this._handleLeave_Expand}>
+            {
+              this.state.onExpand &&
+              <span style={{
+                  width: '56%', position: 'absolute', bottom: '-20%', right: '8%',
+                  borderBottom: 'solid 1px rgb(64, 133, 160)'
+                }}/>
+              }
+            <span style={{color: this.state.onExpand? "rgb(0,0,0)": "#000000"}}>{"ex"}</span>
+            <span style={this.state.onExpand ? {color: 'rgb(0,0,0)'}: {}}>{"pand"}</span>
           </div>
         </div>
         <div
-          className={classnames(styles.boxReturn, styles.fontReturn)}
-          onClick={this._handleClick_selfClose}
-          onMouseEnter={this._handleEnter_Focus}
-          onMouseLeave={this._handleLeave_Focus}>
-          {
-            this.state.onFocus &&
-            <span style={{
-                width: '75%', position: 'absolute', bottom: '-11%', left: '-1%',
-                borderBottom: 'solid 1px rgb(64, 133, 160)'
-              }}/>
-            }
-          <span
-            style={(this.state.onFocus)? {color: '#333333'}:{}}>{"focus"}</span>
+          className={classnames(styles.boxReturnSet)}>
+          <div
+            className={classnames(styles.boxLogo)}
+            onClick={(e)=>{e.preventDefault(); e.stopPropagation(); window.location.assign('/cosmic')}}>
+            <SvgLogo/>
+          </div>
+          <div
+            className={classnames(styles.boxReturn, styles.fontReturn)}
+            onClick={this._handleClick_selfClose}
+            onMouseEnter={this._handleEnter_Focus}
+            onMouseLeave={this._handleLeave_Focus}>
+            {
+              this.state.onFocus &&
+              <span style={{
+                  width: '75%', position: 'absolute', bottom: '-16%', right: '2%',
+                  borderBottom: 'solid 1px rgb(64, 133, 160)'
+                }}/>
+              }
+            <span
+              style={(this.state.onFocus)? {color: '#333333'}:{}}>{"focus"}</span>
+          </div>
         </div>
         <div
           className={classnames(styles.boxAccount)}>

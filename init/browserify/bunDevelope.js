@@ -59,6 +59,9 @@ rootWithin.on('css stream', function (css) {
 rootSelfFront.on('css stream', function (css) {
     css.pipe(fs.createWriteStream('./public/css/stylesSelfFront.css')); //rewrite the file with the new "abstract name"
 });
+rootTerrace.on('css stream', function (css) {
+    css.pipe(fs.createWriteStream('./public/css/stylesTerrace.css')); //rewrite the file with the new "abstract name"
+});
 
 exports.bundler = ()=>{
   if(!fs.existsSync(dir)) fs.mkdirSync(dir);

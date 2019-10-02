@@ -1,9 +1,9 @@
-.comScreen {
+._C_C_app_Terrace_component_Screen_styles_module__comScreen {
   background-color: rgb(252,252,252);
   overflow-y: auto;
 }
 
-.boxReturnSet {
+._C_C_app_Terrace_component_Screen_styles_module__boxReturnSet {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
@@ -14,33 +14,33 @@
 
 }
 
-.boxReturn {
+._C_C_app_Terrace_component_Screen_styles_module__boxReturn {
   position: relative;
   margin-left: 1.6rem;
   text-align: center;
   cursor: pointer;
 }
 
-.boxLogo {
+._C_C_app_Terrace_component_Screen_styles_module__boxLogo {
   width: auto;
   height: 1rem;
 }
 
-.boxOptions {
+._C_C_app_Terrace_component_Screen_styles_module__boxOptions {
   position: absolute;
   bottom: 50vh;
   left: 75vw;
   transform: translate(-50%,0);
 }
 
-.boxAccount {
+._C_C_app_Terrace_component_Screen_styles_module__boxAccount {
   position: absolute;
   left: 30vw;
   top: 29vh;
   max-width: 25vw;
 }
 
-.planeCanvas {
+._C_C_app_Terrace_component_Screen_styles_module__planeCanvas {
   width: 45vw;
   height: 0;
   position: absolute;
@@ -50,13 +50,13 @@
   border-right: solid 15vw transparent;
 }
 
-.fontReturn {
+._C_C_app_Terrace_component_Screen_styles_module__fontReturn {
   font-size: 1.37rem;
   letter-spacing: 0.1rem;
   color: #a8a8a8;
 }
 
-.fontOption {
+._C_C_app_Terrace_component_Screen_styles_module__fontOption {
   font-weight: 400;
   font-size: 2rem;
   letter-spacing: 0.14rem;
