@@ -18,3 +18,32 @@
 .selfFront-fixedBottomOverlay-height {
   height: 72px;
 }
+
+.boxNailNodesItem {
+  flex: 1;
+  box-sizing: border-box;
+  margin: 1% 0% 4%;
+}
+
+.fontNailNode {
+  font-size: 2.2rem;
+  font-weight: 500;
+  letter-spacing: 0.1rem;
+  line-height: 2.2rem;
+  font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;
+  color: #FAFAFA;
+}
+
+.fontNailMark {
+  font-size: 1.44rem;
+  font-weight: 400;
+  letter-spacing: 0.064rem;
+  line-height: 17px;
+  text-align: left;
+}
+
+.fontNailAuthor {
+  font-size: 1.27rem;
+  font-weight: 400;
+  letter-spacing: 0.04rem;
+}

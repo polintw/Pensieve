@@ -3,8 +3,7 @@
   align-items: baseline;
   width: 20vw;
   position: absolute;
-  left: 20vw;
-  bottom: 2.4%; /*follow the position of Cosmic Corner*/
+  bottom: 0;
   box-sizing: border-box;
 }
 

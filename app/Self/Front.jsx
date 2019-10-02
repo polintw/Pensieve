@@ -28,7 +28,14 @@ class Front extends React.Component {
         <div>
           <Route path="/cognition" render={(props)=> <FrontCognition {...props}/>}/>
           <Route path="/profile" render={(props)=> <FrontProfile {...props}/>}/>
-          <NavSelf {...this.props}/>
+          <div
+            style={{
+              position: 'fixed',
+              left: "20vw",
+              bottom: "2.4%" /*follow the position of Cosmic Corner*/
+            }}>
+            <NavSelf {...this.props}/>
+          </div>
         </div>
       </Router>
     )

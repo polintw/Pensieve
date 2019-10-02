@@ -35,6 +35,12 @@ class FrontCognition extends React.Component {
         bottom: '6.9%',
         right: '1%',
         boxSizing: 'border-box'
+      },
+      Front_cognition_backplane: {
+        width: '100%',
+        height: '100%',
+        position: 'fixed',
+        backgroundColor: '#FCFCFC'
       }
     }
   }
@@ -59,6 +65,7 @@ class FrontCognition extends React.Component {
   render(){
     return(
       <div>
+        <div style={this.style.Front_cognition_backplane}></div>
         <Switch>
           <Route path={this.props.match.path+"/collaterals"} render={(props)=> <Collaterals {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>
           <Route path={this.props.match.path} render={(props)=> <Cognition {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>

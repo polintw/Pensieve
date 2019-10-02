@@ -19,16 +19,14 @@ class Cognition extends React.Component {
     this.style={
       Cognition_: {
         width: '100%',
-        height: '100%',
         position: 'absolute',
         top: '0%',
         left: '0%',
-        backgroundColor: 'rgb(252,252,252)'
       },
       Cognition_scroll_: {
         width: '65vw',
         position: 'absolute',
-        top: '4.5%',
+        top: '4.5vh',
         left: '17.5vw',
         boxSizing: 'border-box'
       },
