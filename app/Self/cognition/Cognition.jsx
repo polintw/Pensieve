@@ -8,7 +8,7 @@ import {connect} from "react-redux";
 import CogEmbed from './CogEmbed.jsx';
 import CogMutual from './CogMutual.jsx';
 import CogActions from './CogActions.jsx';
-import NavFrontShelf from '../NavFront/NavFrontShelf.jsx';
+import NavFrontShelf from '../component/NavFront/NavFrontShelf.jsx';
 
 class Cognition extends React.Component {
   constructor(props){
@@ -22,7 +22,8 @@ class Cognition extends React.Component {
         height: '100%',
         position: 'absolute',
         top: '0%',
-        left: '0%'
+        left: '0%',
+        backgroundColor: 'rgb(252,252,252)'
       },
       Cognition_scroll_: {
         width: '72%',
@@ -45,14 +46,14 @@ class Cognition extends React.Component {
         bottom: '0',
         left: '0',
         boxSizing: 'border-box',
-        backgroundColor: '#FFFFFF'
+        backgroundColor: 'rgb(252,252,252)'
       },
       Cognition_backPlane_Nav: {
         width: '100%',
         position: 'fixed',
         bottom: '0',
         left: '0',
-        backgroundColor: '#d1d1d1'
+        backgroundColor: 'rgb(246, 246, 246)'
       }
     }
   }

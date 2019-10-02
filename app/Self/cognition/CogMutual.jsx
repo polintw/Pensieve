@@ -3,7 +3,7 @@ import {
   Route,
   Link
 } from 'react-router-dom';
-import Dialogues from './Dialogues.jsx';
+import Dialogues from './component/Dialogues.jsx';
 
 export default class CogMutual extends React.Component {
   constructor(props){

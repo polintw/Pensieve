@@ -37,7 +37,7 @@ class Screen extends React.Component {
         bottom: '0',
         right: '0',
         boxSizing: 'border-box',
-        borderBottom: 'solid 45vh rgb(248,248,248)',
+        borderBottom: 'solid 45vh rgb(246,246,246)',
         borderLeft: 'solid 15vw transparent'
       },
       terraceCom_Screen_account_name: {

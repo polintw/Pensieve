@@ -6,7 +6,6 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import Sheet from './component/Sheet.jsx';
-import NavFrontShelf from './component/NavFront/NavFrontShelf.jsx';
 import MaskProcessing from '../Component/MaskProcessing.jsx';
 
 const styleMiddle ={

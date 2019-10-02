@@ -3,8 +3,8 @@ import {
   Route,
   Link
 } from 'react-router-dom';
-import NavActions from './NavActions.jsx';
-import Shared from './Shared.jsx';
+import Shared from './component/Shared.jsx';
+import NavActions from './Navs/NavActions.jsx';
 
 export default class CogActions extends React.Component {
   constructor(props){
