@@ -26,11 +26,10 @@ class Cognition extends React.Component {
         backgroundColor: 'rgb(252,252,252)'
       },
       Cognition_scroll_: {
-        width: '72%',
-        minHeight: '80%',
+        width: '65vw',
         position: 'absolute',
         top: '4.5%',
-        left: '16%',
+        left: '17.5vw',
         boxSizing: 'border-box'
       },
       Cognition_NavFrontShelf_: {

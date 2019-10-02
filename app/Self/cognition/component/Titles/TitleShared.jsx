@@ -33,12 +33,12 @@ export default class TitleShared extends React.Component {
         letterSpacing: '0.54rem'
       },
       selfCom_Title_Shared_Create_: {
-        width: '100%',
+        width: '20vw',
         height: '16vh',
         position: 'absolute',
-        bottom: '5vh',
+        bottom: '0',
+        right: '5vw',
         boxSizing: 'border-box',
-        padding: '1vh 3%'
       },
     }
   }
@@ -49,7 +49,6 @@ export default class TitleShared extends React.Component {
 
 
   render(){
-    //let cx = cxBind.bind(styles);
     return(
       <div
         style={this.style.selfCom_Title_Shared_}>

@@ -5,17 +5,19 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import Threads from './Threads.jsx';
-import TitleShared from './Titles/TitleShared.jsx';
-import Unit from '../../../Unit/Unit/Unit.jsx';
-import NailShared from '../../../Component/Nails/NailShared.jsx';
+import classnames from 'classnames';
+import styles from "./styles.module.css";
+import Threads from '../Threads.jsx';
+import TitleShared from '../Titles/TitleShared.jsx';
+import Unit from '../../../../Unit/Unit/Unit.jsx';
+import NailShared from '../../../../Component/Nails/NailShared/NailShared.jsx';
 //ModalBox used some unstable method, considering updating some day.
-import ModalBox from '../../../Component/ModalBox.jsx';
-import {handleNounsList} from '../../../redux/actions/general.js';
+import ModalBox from '../../../../Component/ModalBox.jsx';
+import {handleNounsList} from '../../../../redux/actions/general.js';
 import {
   cancelErr,
   uncertainErr
-} from '../../../utils/errHandlers.js';
+} from '../../../../utils/errHandlers.js';
 
 const styleMiddle = {
   frameNail: {
@@ -27,19 +29,18 @@ const styleMiddle = {
     margin: '11px 0.7% 0 0'
   },
   titleReserved: {
-    display: 'inline-block',
+    width: '100%',
     height: '216px',
     position: 'relative',
-    float: 'right',
     boxSizing: 'border-box',
     backgroundColor: 'transparent'
   },
   scrollFooter: {
     display: 'inline-block',
     width: '99%',
+    height: '40vh',
     position: 'relative',
     boxSizing: 'border-box',
-    margin: '0 0.5%'
   },
   notifiedBlock: {
     display:'inline-block',
@@ -75,13 +76,6 @@ class Shared extends React.Component {
         left: '0',
         boxSizing: 'border-box'
       },
-      selfCom_Shared_nails_: {
-        width: '100%',
-        position: 'absolute',
-        top: '2%',
-        left: '0',
-        boxSizing: 'border-box'
-      }
     }
   }
 
@@ -108,58 +102,46 @@ class Shared extends React.Component {
         <div
           sharedid={dataKey}
           key={'key_Shared_nails_'+index}
-          style={styleMiddle.frameNail}
+          className={classnames(styles.boxNail)}
           onClick={self._handleClick_notified_Nail}>
           <NailShared
             {...self.props}
-            sharedId={dataKey}
+            unitId={dataKey}
             unitBasic={dataValue}
+            linkPath={self.props.match.url+'/unit'}
             marksBasic={self.state.marksBasic}
             notifiedStatus={self.state.notifiedStatus[dataKey]}/>
         </div>
       )
-    }), reserved = (
-      <div
-        key={'key_Shared_nails_titleReserved'}
-        style={Object.assign({}, {width: '34%'}, styleMiddle.titleReserved)}>
-      </div>
-    ), scrollFooter = (
+    }), scrollFooter = (
       <div
         key={'key_Shared_nails_scrollFooter'}
-        className={'selfFront-fixedBottomOverlay-height'}
         style={styleMiddle.scrollFooter}></div>
     );
-    shareds.unshift(reserved);
     shareds.push(scrollFooter);
 
-    if(this.state.notifiedList.length>0){
-      let rows = Math.ceil(this.state.notifiedList.length/2);
+    if(this.state.notifiedList.length>0){ //units have notified need to be insert to the top
+      //also loop the notified list
       let notifieds = this.state.notifiedList.map((dataKey, index)=>{
         let dataValue = self.state.unitsBasic[dataKey];
         return(
           <div
             sharedid={dataKey}
-            key={'key_Shared_nails_notified_'+index}
-            style={Object.assign({}, styleMiddle.frameNail, {width:'48.5%', boxShadow: '1px 0px 2px 0px', marginRight:'1.4%'})}
+            key={'key_Shared_notifiedNails_'+index}
+            className={classnames(styles.boxNail)}
             onClick={self._handleClick_notified_Nail}>
             <NailShared
               {...self.props}
-              sharedId={dataKey}
+              unitId={dataKey}
               unitBasic={dataValue}
+              linkPath={self.props.match.url+'/unit'}
               marksBasic={self.state.marksBasic}
               notifiedStatus={self.state.notifiedStatus[dataKey]}/>
           </div>
         )
       });
-      let notifiedBlock = (
-        <div
-          key={'key_Shared_nails_notified_'}
-          style={Object.assign({}, styleMiddle.notifiedBlock, {height: (rows*216)+"px"})}>
-          {notifieds}
-        </div>
-      );
 
-      shareds.length< 4 ? shareds.splice(1,0,notifiedBlock) : shareds.splice(3, 0, notifiedBlock);
+      shareds.splice(0,0,notifiedBlock); //insert the notifiedList to the top
     }
 
     return shareds;
@@ -211,20 +193,19 @@ class Shared extends React.Component {
   }
 
   render(){
-    //let cx = cxBind.bind(styles);
     return(
       <div
         style={this.style.selfCom_Shared_}>
         <div
-          style={this.style.selfCom_Shared_nails_}>
-          {this._render_Shareds()}
-        </div>
-        <div
-          style={Object.assign({}, {width: '35%',right: '-2%'}, styleMiddle.titleReserved)}>
+          style={Object.assign({}, styleMiddle.titleReserved)}>
           <TitleShared
             {...this.props}
             _axios_nails_shareds={this._axios_nails_shareds}
             _refer_von_Create={this.props._refer_leaveSelf}/>
+        </div>
+        <div
+          className={classnames(styles.boxList)}>
+          {this._render_Shareds()}
         </div>
         <ModalBox containerId="root">
           <Route path={this.props.match.path+"/:sharedId/threads"} render={(props)=> <Threads {...props} unitBasic={this.state.unitsBasic[props.match.params.sharedId]} _refer_leaveSelf={this.props._refer_leaveSelf}/>}/>

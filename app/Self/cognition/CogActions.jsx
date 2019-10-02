@@ -3,7 +3,7 @@ import {
   Route,
   Link
 } from 'react-router-dom';
-import Shared from './component/Shared.jsx';
+import Shared from './component/Shared/Shared.jsx';
 import NavActions from './Navs/NavActions.jsx';
 
 export default class CogActions extends React.Component {
@@ -26,10 +26,9 @@ export default class CogActions extends React.Component {
         left: '0'
       },
       selfCom_CogActions_Nav_: {
-        width: '27%',
-        height: '12vh',
+        width: '25vw',
         position: 'absolute',
-        right: '-2%',
+        right: '0',
         top: '0',
         boxSizing: 'border-box'
       }
