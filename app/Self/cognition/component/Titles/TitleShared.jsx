@@ -10,9 +10,11 @@ export default class TitleShared extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      onCreate: false
     };
     this._submit_Share_New = this._submit_Share_New.bind(this);
+    this._handleLeave_Create = this._handleLeave_Create.bind(this);
+    this._handleEnter_Create = this._handleEnter_Create.bind(this);
     this.style={
       selfCom_Title_Shared_: {
         width: '100%',
@@ -40,6 +42,18 @@ export default class TitleShared extends React.Component {
     }
   }
 
+  _handleEnter_Create(e){
+    this.setState({
+      onCreate: true
+    })
+  }
+
+  _handleLeave_Create(e){
+    this.setState({
+      onCreate: false
+    })
+  }
+
   _submit_Share_New(dataObj){
     this.props._axios_nails_shareds();
   }
@@ -54,8 +68,11 @@ export default class TitleShared extends React.Component {
           {"Shared"}
         </div>
         <div
-          style={this.style.selfCom_Title_Shared_Create_}>
+          style={this.style.selfCom_Title_Shared_Create_}
+          onMouseEnter={this._handleEnter_Create}
+          onMouseLeave={this._handleLeave_Create}>
           <SvgCreate
+            black={this.state.onCreate}
             place={false}/>
           <CreateShare
             _submit_Share_New={this._submit_Share_New}

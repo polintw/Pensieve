@@ -160,7 +160,9 @@ class Screen extends React.Component {
         </div>
         <div
           className={classnames(styles.boxAccount)}>
-          <span style={this.style.terraceCom_Screen_account_name}>{this.props.userInfo.firstName+" "+this.props.userInfo.lastName}</span>
+          <span
+            style={Object.assign({}, this.style.terraceCom_Screen_account_name, {fontWeight: '600'})}>{this.props.userInfo.firstName}</span>
+          <span style={this.style.terraceCom_Screen_account_name}>{" "+ this.props.userInfo.lastName}</span>
         </div>
       </div>
     )

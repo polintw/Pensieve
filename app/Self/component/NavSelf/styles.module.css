@@ -11,7 +11,6 @@
   display: inline-block;
   position: relative;
   transform: translate(-50%,0);
-  cursor: pointer;
 }
 
 .boxReturn {

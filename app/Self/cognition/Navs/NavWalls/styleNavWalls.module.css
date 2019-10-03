@@ -18,11 +18,11 @@
   height: 100%;
   position: relative;
   box-sizing: border-box;
-  padding: 0 4%;
 }
 
 .spanButton {
   display: inline-block;
+  position: relative;
 }
 
 .fontButton {

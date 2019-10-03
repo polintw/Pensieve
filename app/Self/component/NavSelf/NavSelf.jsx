@@ -95,11 +95,12 @@ class NavSelf extends React.Component {
         }
         <div
           className={classnames(styles.boxAccount, styles.fontAccount)}
+          style={{cursor: pathCognition? 'pointer': 'default'}}
           onClick={this._handleClick_selfCover}
           onMouseEnter={this._handleEnter_Account}
           onMouseLeave={this._handleLeave_Account}>
           {
-            this.state.onAccount &&
+            pathCognition && this.state.onAccount &&
             <span style={{
                 width: '75%', position: 'absolute', top: '-11%', right: '2%',
                 borderBottom: 'solid 1px rgb(64, 133, 160)'
