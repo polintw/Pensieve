@@ -10,6 +10,9 @@ import NavWalls from '../NavWalls/NavWalls.jsx';
 import NotifyBell from '../../component/Notify/NotifyBell.jsx';
 
 const commonStyle = {
+  temp: {
+    display: 'none'
+  },
   boxButtonCollateral: {
     display: 'inline-block',
     position: 'relative',
@@ -96,17 +99,17 @@ class NavCognitions extends React.Component {
             </div>
           ):(
             <div
-              className={"selfFront-fixedBottomOverlay-height"}
+              className={"selfFront-fixedBottomBox-height"}
               style={this.style.selfCom_NavsCognition_inCognition_}>
               <div
-                style={commonStyle.boxButtonSeries}>
+                style={Object.assign({}, commonStyle.boxButtonSeries, commonStyle.temp)}>
                 <span
                   style={this.style.selfCom_NavsCognition_inCognition_spanSeries}>
                   {'Series'}</span>
               </div>
               <div
                 className={"selfFront-fixedBottomBox-height"}
-                style={commonStyle.boxButtonCollateral}>
+                style={Object.assign({}, commonStyle.boxButtonCollateral, commonStyle.temp)}>
                 <Link
                   key={"key_Link_nav_Collaterals"}
                   to={{

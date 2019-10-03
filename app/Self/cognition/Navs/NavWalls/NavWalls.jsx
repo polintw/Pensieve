@@ -23,31 +23,28 @@ export default class NavWalls extends React.Component {
         className={styles.comNavWalls}>
         <Link
           to={this.props.match.url+"/mutuals/dialogues"}
-          className={classnames('plainLinkButton', styles.roundRecBox, styles.boxButton)}
-          style={{backgroundColor: this.props.location.pathname.includes("/mutuals/")? "#e6e6e6":'transparent'}}>
+          className={classnames('plainLinkButton', styles.roundRecBox, styles.boxButton)}>
           <span
-            className={classnames(styles.fontButton)}
-            style={Object.assign({}, {color: this.props.location.pathname.includes("/mutuals/")? "#1a1a1a":'#757575'})}>
+            className={classnames(styles.spanButton, styles.fontButton)}
+            style={Object.assign({}, {color: this.props.location.pathname.includes("/mutuals/")? "#1a1a1a":'#a8a8a8'})}>
             {"mutual"}
           </span>
         </Link>
         <Link
           to={this.props.match.url+"/embedded/inspireds"}
-          className={classnames('plainLinkButton', styles.roundRecBox, styles.boxButton)}
-          style={{backgroundColor: this.props.location.pathname.includes("/embedded/") ? "#e6e6e6":'transparent'}}>
+          className={classnames('plainLinkButton', styles.roundRecBox, styles.boxButton)}>
           <span
-            className={classnames(styles.fontButton)}
-            style={Object.assign({}, {color: this.props.location.pathname.includes("/embedded/")? "#1a1a1a":'#757575'})}>
+            className={classnames(styles.spanButton, styles.fontButton)}
+            style={Object.assign({}, {color: this.props.location.pathname.includes("/embedded/")? "#1a1a1a":'#a8a8a8'})}>
             {"embed"}
           </span>
         </Link>
         <Link
           to={this.props.match.url+"/actions/shareds"}
-          className={classnames('plainLinkButton', styles.roundRecBox, styles.boxButton)}
-          style={{backgroundColor: this.props.location.pathname.includes("/actions/")? "#e6e6e6":'transparent'}}>
+          className={classnames('plainLinkButton', styles.roundRecBox, styles.boxButton)}>
           <span
-            className={classnames(styles.fontButton)}
-            style={Object.assign({}, {color: this.props.location.pathname.includes("/actions/")? "#1a1a1a":'#757575'})}>
+            className={classnames(styles.spanButton, styles.fontButton)}
+            style={Object.assign({}, {color: this.props.location.pathname.includes("/actions/")? "#1a1a1a":'#a8a8a8'})}>
             {"actions"}
           </span>
         </Link>

@@ -29,8 +29,9 @@ export default class CogActions extends React.Component {
         width: '25vw',
         position: 'absolute',
         right: '0',
-        top: '28px',
-        boxSizing: 'border-box'
+        top: '24px',
+        boxSizing: 'border-box',
+        borderBottom: 'solid 1px #a8a8a8'
       }
     }
   }
