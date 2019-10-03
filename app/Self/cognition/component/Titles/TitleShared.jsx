@@ -24,10 +24,8 @@ export default class TitleShared extends React.Component {
       },
       selfCom_Title_Shared_main_: {
         display: 'inline-block',
-        width: '36%',
         float: 'left',
         boxSizing: 'border-box',
-        margin: '19px 5%',
         fontWeight: '700',
         fontSize: '2.8rem',
         letterSpacing: '0.54rem'

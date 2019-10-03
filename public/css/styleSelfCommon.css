@@ -16,7 +16,8 @@
 }
 
 .selfFront-fixedBottomOverlay-height {
-  height: 72px;
+  height: 14vh;
+  min-height: 80px;
 }
 
 .boxNailNodesItem {

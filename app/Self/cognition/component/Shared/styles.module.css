@@ -1,4 +1,7 @@
 .boxList {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
   width: 100%;
   position: relative;
   box-sizing: border-box;

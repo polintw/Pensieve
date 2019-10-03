@@ -38,7 +38,8 @@ const styleMiddle = {
   scrollFooter: {
     display: 'inline-block',
     width: '99%',
-    height: '40vh',
+    height: '58vh',
+    minHeight: '111px',
     position: 'relative',
     boxSizing: 'border-box',
   },

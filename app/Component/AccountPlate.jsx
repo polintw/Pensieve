@@ -36,17 +36,23 @@ class Palette extends React.Component {
   }
 
   render(){
-    let classSpan = this._set_classByProps();
+    let classSpan = this._set_classByProps(),
+        propsStyle = [
+          this.props.styleFirst ?　this.props.styleFirst: {},
+          this.props.styleLast ? this.props.styleLast: {}
+        ];
 
     return(
       <div
         style={{display: 'inline-block'}}>
         <span
-          className={classSpan}>
+          className={classSpan}
+          style={propsStyle[0]}>
           {this.props.accountFisrtName+" "}
         </span>
         <span
-          className={classSpan}>
+          className={classSpan}
+          style={propsStyle[1]}>
           {this.props.accountLastName}
         </span>
       </div>

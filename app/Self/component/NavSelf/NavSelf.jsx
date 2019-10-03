@@ -108,7 +108,8 @@ class NavSelf extends React.Component {
           <AccountPlate
             size={'layer'}
             accountFisrtName={this.props.userInfo.firstName}
-            accountLastName={this.props.userInfo.lastName}/>
+            accountLastName={this.props.userInfo.lastName}
+            styleFirst={{fontWeight: '600'}}/>
         </div>
       </div>
     )
