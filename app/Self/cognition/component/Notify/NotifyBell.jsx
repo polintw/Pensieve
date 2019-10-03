@@ -1,5 +1,7 @@
 import React from 'react';
 import {connect} from "react-redux";
+import classnames from 'classnames';
+import styles from "./styles.module.css";
 import NotifyBox from './NotifyBox.jsx';
 import SvgBell from '../../../../Component/Svg/SvgBell.jsx';
 import SvgBellSpot from '../../../../Component/Svg/SvgBellSpot.jsx';
@@ -10,26 +12,25 @@ import {
 
 const styleMiddle = {
   boxIcon: {
-    width: '7%',
+    width: '100%',
     height: '100%',
     position: "absolute",
     boxSizing: 'border-box',
-    right: '6.4%',
     cursor: 'pointer'
   },
   boxBell: {
     width: '100%',
+    height: '100%',
     position: 'absolute',
-    top:'50%',
-    transform: 'translate(0,-43%)',
     boxSizing: 'border-box',
     overflow: 'visible'
   },
   boxSpot: {
-    width: '66%',
+    width: '67%',
+    height: '69%',
     position: 'absolute',
-    top: '-15%',
-    left: '-33%',
+    top: '-22%',
+    left: '-27%',
     boxSizing: 'border-box',
     overflow: 'visible'
   },
@@ -90,7 +91,7 @@ class NotifyBell extends React.Component {
   render(){
     return(
       <div
-        className={'boxRelativeFull'}>
+        className={styles.comBell}>
         {
           this.state.notifyBox &&
           <div

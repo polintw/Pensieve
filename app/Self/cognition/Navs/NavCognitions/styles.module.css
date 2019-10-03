@@ -1,0 +1,14 @@
+.boxOptions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 70%; /*which means 35vw wide to the page, as the parent box was 50vw wide*/
+  height: 5vh;
+  min-height: 27px;
+  position: absolute;
+  left: 10%; /*which means rendering at 5vw right to the middle line of the page*/
+}
+
+.boxTongue {
+
+}

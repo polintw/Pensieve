@@ -8,7 +8,7 @@ import {
 import {connect} from "react-redux";
 import Cognition from './cognition/Cognition.jsx';
 import Collaterals from './cognition/Collaterals.jsx';
-import NavsCognition from './cognition/Navs/NavsCognition.jsx';
+import NavCognitions from './cognition/Navs/NavCognitions/NavCognitions.jsx';
 import NavOptions from '../Component/NavOptions.jsx';
 
 class FrontCognition extends React.Component {
@@ -71,7 +71,7 @@ class FrontCognition extends React.Component {
           <Route path={this.props.match.path} render={(props)=> <Cognition {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>
         </Switch>
         <div style={this.style.Front_Cognition_backPlane_top}/>
-        <NavsCognition {...this.props}/>
+        <NavCognitions {...this.props}/>
         <div
           style={this.style.Front_Cognition_NavOptions}>
           <NavOptions {...this.props}/>

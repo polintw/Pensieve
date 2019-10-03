@@ -3,8 +3,11 @@ import {
   Link,
   withRouter
 } from 'react-router-dom';
-import NavWalls from './NavWalls/NavWalls.jsx';
-import NotifyBell from '../component/Notify/NotifyBell.jsx';
+import {connect} from "react-redux";
+import classnames from 'classnames';
+import styles from "./styles.module.css";
+import NavWalls from '../NavWalls/NavWalls.jsx';
+import NotifyBell from '../../component/Notify/NotifyBell.jsx';
 
 const commonStyle = {
   boxButtonCollateral: {
@@ -13,33 +16,6 @@ const commonStyle = {
     boxSizing: 'border-box',
     float: 'left'
   },
-  boxOnDark: {
-    display: 'inline-block',
-    width: '382px',
-    position: 'relative',
-    boxSizing: 'border-box',
-    top: '-21%',
-    float: 'right',
-    boxShadow: '0px 0.14rem 0.1rem -0.07rem',
-    borderRadius: '0px 0px 0.6vh 0.6vh',
-    backgroundColor: 'white'
-  },
-  boxNavWalls: {
-    display: 'inline-block',
-    height: '86%',
-    position: 'absolute',
-    left: '2%',
-    transform: 'translate(0, -16%)',
-    boxSizing: 'border-box'
-  },
-  boxNotifyBell: {
-    width: '100%',
-    height: '86%',
-    position: "absolute",
-    transform: 'translate(0px, -16%)',
-    boxSizing: 'border-box',
-    right: '0'
-  },
   boxButtonSeries: {
     position: 'absolute',
     bottom: '124%',
@@ -47,21 +23,18 @@ const commonStyle = {
   },
 }
 
-export default class NavsCognition extends React.Component {
+class NavCognitions extends React.Component {
   constructor(props){
     super(props);
     this.state = {
 
     };
     this.style={
-      selfCom_NavsCognition_: {
-
-      },
       selfCom_NavsCognition_inCognition_: {
-        minWidth: '448px',
+        width: '50vw',
         position: 'fixed',
         bottom: '0',
-        right: '11%',
+        right: '0',
         boxSizing: 'border-box'
       },
       selfCom_NavsCognition_inCollaterals_: {
@@ -99,10 +72,8 @@ export default class NavsCognition extends React.Component {
   }
 
   render(){
-    //let cx = cxBind.bind(styles);
     return(
-      <div
-        style={this.style.selfCom_NavsCognition_}>
+      <div>
         {
           (this.props.location.pathname=="/cognition/collaterals/tracks") ? (
             <div
@@ -125,25 +96,13 @@ export default class NavsCognition extends React.Component {
             </div>
           ):(
             <div
-              className={"selfFront-fixedBottomBox-height"}
+              className={"selfFront-fixedBottomOverlay-height"}
               style={this.style.selfCom_NavsCognition_inCognition_}>
               <div
                 style={commonStyle.boxButtonSeries}>
                 <span
                   style={this.style.selfCom_NavsCognition_inCognition_spanSeries}>
                   {'Series'}</span>
-              </div>
-              <div
-                className={"selfFront-fixedBottomBox-height"}
-                style={commonStyle.boxOnDark}>
-                <div
-                  style={commonStyle.boxNotifyBell}>
-                  <NotifyBell/>
-                </div>
-                <div
-                  style={commonStyle.boxNavWalls}>
-                  <NavWalls {...this.props} />
-                </div>
               </div>
               <div
                 className={"selfFront-fixedBottomBox-height"}
@@ -161,6 +120,12 @@ export default class NavsCognition extends React.Component {
                     {'track'}</span>
                 </Link>
               </div>
+              <div className={classnames(styles.boxTongue)}/>
+              <div
+                className={classnames(styles.boxOptions)}>
+                <NavWalls {...this.props} />
+                <NotifyBell/>
+              </div>
             </div>
           )
         }
@@ -168,3 +133,14 @@ export default class NavsCognition extends React.Component {
     )
   }
 }
+
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo
+  }
+}
+
+export default withRouter(connect(
+  mapStateToProps,
+  null
+)(NavCognitions));

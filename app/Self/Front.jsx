@@ -31,7 +31,7 @@ class Front extends React.Component {
           <div
             style={{
               position: 'fixed',
-              left: "20vw",
+              left: "10vw",
               bottom: "2.4%" /*follow the position of Cosmic Corner*/
             }}>
             <NavSelf {...this.props}/>

@@ -1,8 +1,28 @@
+.comNavWalls {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 30vw;
+  height: 100%;
+}
+
 .roundRecBox {
-  width: 100%;
+  border-radius: 1.6vh;
+  cursor: pointer;
+}
+
+.boxButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100%;
   position: relative;
   box-sizing: border-box;
-  border-radius: 1.6vh;
-  cursor: pointer;
+  padding: 0 4%;
+}
+
+.fontButton {
+  font-size: 1.42rem;
+  font-weight: 700;
+  letter-spacing: 0.06rem;
 }
