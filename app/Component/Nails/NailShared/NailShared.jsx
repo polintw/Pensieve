@@ -6,6 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import SharedStatics from './SharedStatics.jsx';
 import ImgPreview from '../../ImgPreview.jsx';
 import DisplayMarkPreview from '../../Draft/DisplayMarkPreview.jsx';
 import DraftDisplay from '../../Draft/DraftDisplay.jsx';
@@ -13,18 +14,6 @@ import {SvgBulbPlainHalf} from '../../Svg/SvgBulb.jsx';
 import {
   renderNodesRows
 } from '../utils.js';
-
-const commonStyle = {
-  rowBreach: {
-    width: '64%',
-    height: '64%',
-    position: 'absolute',
-    bottom: '0',
-    left: '0',
-    boxSizing: 'border-box',
-    padding: '0.2vh 3%'
-  },
-}
 
 class NailShared extends React.Component {
   constructor(props){
@@ -141,7 +130,7 @@ class NailShared extends React.Component {
                 {[styles.interMask]: this.state.onImg}
               )}/>
             <div
-              style={commonStyle.rowBreach}>
+              className={classnames(styles.boxBreach)}>
               <div
                 style={this.style.Com_Nails_Shared_breach_button_}>
                 <span>{"Res"}</span>
@@ -154,14 +143,12 @@ class NailShared extends React.Component {
               </Link>
               <Link
                 to={{
-                  pathname: this.props.match.url+"/unit",
+                  pathname: this.props.linkPath,
                   search: '?theater&unitId='+this.props.unitId,
                   state: {from: this.props.location}
                 }}
-                className={"plainLinkButton"}
+                className={classnames("plainLinkButton", styles.boxHalfBulb)}
                 style={Object.assign({}, this.style.Com_Nails_Shared_breach_button_, {
-                  width: '16%',
-                  height: '83%',
                   stroke:this.props.notifiedStatus.inspired?'#ff7a5f':'#aaaaaa',
                   strokeWidth: '10px',
                   fill:'none',
@@ -169,6 +156,8 @@ class NailShared extends React.Component {
                 })}>
                 <SvgBulbPlainHalf/>
               </Link>
+              <SharedStatics
+                unitId={this.props.unitId}/>
             </div>
 
           </div>

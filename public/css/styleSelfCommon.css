@@ -21,13 +21,12 @@
 }
 
 .boxNailNodesItem {
-  flex: 1;
   box-sizing: border-box;
-  margin: 1% 0% 4%;
+  margin: 1% 0% 5%;
 }
 
 .fontNailNode {
-  font-size: 2.2rem;
+  font-size: 2.1rem;
   font-weight: 500;
   letter-spacing: 0.1rem;
   line-height: 2.2rem;
@@ -36,10 +35,10 @@
 }
 
 .fontNailMark {
-  font-size: 1.44rem;
+  font-size: 1.4rem;
   font-weight: 400;
-  letter-spacing: 0.064rem;
-  line-height: 17px;
+  letter-spacing: 0;
+  line-height: 19px;
   text-align: left;
 }
 

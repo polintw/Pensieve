@@ -78,6 +78,34 @@
   transform: translate(0, 50%);
 }
 
+.boxBreach {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  height: 50%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  box-sizing: border-box;
+  padding: 0 10%;
+}
+
+.boxHalfBulb {
+  display: inline-block;
+  width: 16%;
+  height: 32%;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0 2%;
+}
+
+.boxStatics {
+  height: 32%;
+  box-sizing: border-box;
+  padding: 0 2%;
+}
+
 .spanAuthor {
   display: inline-block;
 }

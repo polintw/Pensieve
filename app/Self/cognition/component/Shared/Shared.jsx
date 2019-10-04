@@ -30,12 +30,12 @@ const styleMiddle = {
   },
   titleReserved: {
     width: '100%',
-    height: '16vh',
-    minHeight: '94px',
+    height: '15vh',
+    minHeight: '87px',
     position: 'relative',
     left: '-2.5vw',
     boxSizing: 'border-box',
-    marginBottom: '9vh',
+    marginBottom: '11vh',
     backgroundColor: 'transparent'
   },
   scrollFooter: {
