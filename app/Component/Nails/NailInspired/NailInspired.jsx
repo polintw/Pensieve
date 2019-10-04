@@ -103,9 +103,15 @@ class NailInspired extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      onFrame: false,
+      onImg: false
     };
+    this.nailImgBox = React.createRef();
     this._render_nails_nouns = this._render_nails_nouns.bind(this);
+    this._handleEnter_nailFrame = this._handleEnter_nailFrame.bind(this);
+    this._handleLeave_nailFrame = this._handleLeave_nailFrame.bind(this);
+    this._handleEnter_nailImg = this._handleEnter_nailImg.bind(this);
+    this._handleLeave_nailImg = this._handleLeave_nailImg.bind(this);
     this.style = {
       Com_Nails_Inspired_: {
         width: '100%',
@@ -125,23 +131,34 @@ class NailInspired extends React.Component {
     }
   }
 
-  _render_nails_nouns(){
-    let list = this.props.unitBasic.nounsList;
-    let nounsDOM = [];
+  _handleEnter_nailFrame(e){
+    this.setState({onFrame: true})
+  }
 
-    list.forEach((id, index)=>{
-      nounsDOM.push(
-        <span
-          key={"key_Shared_nails_"+this.props.sharedId+"_nouns_"+index}
-          style={commonStyle.spanNoun}>
-          {id in this.props.nounsBasic ? (
-            this.props.nounsBasic[id].name) : (
-              null
-            )}
-        </span>
-      )
-    })
-    return nounsDOM;
+  _handleLeave_nailFrame(e){
+    this.setState({onFrame: false})
+  }
+
+  _handleEnter_nailImg(e){
+    this.setState({onImg: true})
+  }
+
+  _handleLeave_nailImg(e){
+    this.setState({onImg: false})
+  }
+
+  _render_nails_nouns(){
+    let nodesDOM = renderNodesRows(this.props, styles);
+
+    return nodesDOM;
+  }
+
+  componentDidMount() {
+
+  }
+
+  componentWillUnmount() {
+
   }
 
   render(){

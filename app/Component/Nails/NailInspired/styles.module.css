@@ -60,8 +60,7 @@
 .boxMarkPreview {
   display: flex;
   justify-content: space-around;
-  flex-direction: column;
-  flex-wrap: wrap row-reverse;
+  flex-flow: column wrap-reverse;
   height: 100%;
   box-sizing: border-box;
   margin-right: 10vw; /*for now at the 50% to right border as the total width was 20vw */
@@ -73,6 +72,7 @@
   position: relative;
   box-sizing: border-box;
   padding: 0 5%;
+  margin: 7.67% 0;
   overflow: hidden;
 }
 

@@ -16,3 +16,8 @@
   background-color: #FFFFFF;
   cursor: pointer;
 }
+
+.boxFillHoriz {
+  width: 99%;
+  height: 5vw;
+}

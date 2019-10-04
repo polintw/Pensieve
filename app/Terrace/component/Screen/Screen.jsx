@@ -61,7 +61,7 @@ class Screen extends React.Component {
   _handleClick_nav_expand(event){
     event.stopPropagation();
     event.preventDefault();
-    window.location.assign('/user/cognition/actions/shareds');
+    window.location.assign('/user/cognition/embedded/inspireds');
   }
 
   _handleClick_selfClose(event){

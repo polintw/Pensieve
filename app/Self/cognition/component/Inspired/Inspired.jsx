@@ -88,21 +88,37 @@ class Inspired extends React.Component {
     //then we render Nail by Unit,
     //each Unit form only one Nail,
     //using the list in each unitBasic to accomplish this
+    let widthCount = 1; // a value used to accumulate the 'width'--- as the width of Nail was case by case,
+    //begin from '1' is due to the titleReserved would must occupy a place at first row
     self.state.unitsList.forEach(function(unitKey, index){
       let unitBasic = self.state.unitsBasic[unitKey];
+      let wideNail = !!(unitBasic.marksList.length > 1); //claim a var representing the width condition
+
       inspireds.push(
         <div
           key={'key_Inspired_nails_'+unitKey}
-          className={classnames(styles.boxNail)}>
+          className={classnames(styles.boxNail)}
+          style={{width: wideNail? "40vw": "20vw"}}>
           <NailInspired
             {...self.props}
             unitId={unitKey}
             unitBasic={unitBasic}
             marksBasic={self.state.marksBasic}/>
         </div>
-      )
-    })
+      );
+      widthCount += wideNail? 2: 1; //meaning the 'width'  of new nail just pushed
+      //cauculate remainder to decide whether a interspace was needed or not
+      let remainder = widthCount % 3; // no need to +1 as we alredy start from 1
+      if(remainder==0) inspireds.push(
+        <div
+          key={'key_Inspired_nails_interspace'+index}
+          className={classnames(styles.boxFillHoriz)}/>
+      );
 
+    });
+
+    //in the end, and only at the end!
+    //unshift and push the footer & reserved(for title)
     inspireds.unshift(reserved);
     inspireds.push(scrollFooter);
     return inspireds;

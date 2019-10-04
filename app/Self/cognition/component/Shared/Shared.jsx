@@ -92,9 +92,16 @@ class Shared extends React.Component {
 
   _render_Shareds(){
     const self = this;
-    let shareds = self.state.unitsList.map(function(dataKey, index){
+    let shareds = [],
+        scrollFooter = (
+          <div
+            key={'key_Shared_nails_scrollFooter'}
+            style={styleMiddle.scrollFooter}></div>
+        );
+
+    self.state.unitsList.forEach(function(dataKey, index){
       let dataValue = self.state.unitsBasic[dataKey];
-      return(
+      shareds.push(
         <div
           sharedid={dataKey}
           key={'key_Shared_nails_'+index}
@@ -108,19 +115,22 @@ class Shared extends React.Component {
             marksBasic={self.state.marksBasic}
             notifiedStatus={self.state.notifiedStatus[dataKey]}/>
         </div>
-      )
-    }), scrollFooter = (
-      <div
-        key={'key_Shared_nails_scrollFooter'}
-        style={styleMiddle.scrollFooter}></div>
-    );
-    shareds.push(scrollFooter);
+      );
+      //cauculate remainder to decide whether a interspace was needed or not
+      let remainder = (index+1) % 3; // +1 to avoid error when index==0
+      if(remainder==0) shareds.push(
+        <div
+          key={'key_Shared_nails_interspace'+index}
+          className={classnames(styles.boxFillHoriz)}/>
+      );
+
+    })
 
     if(this.state.notifiedList.length>0){ //units have notified need to be insert to the top
       //also loop the notified list
-      let notifieds = this.state.notifiedList.map((dataKey, index)=>{
+      this.state.notifiedList.forEach((dataKey, index)=>{
         let dataValue = self.state.unitsBasic[dataKey];
-        return(
+        shareds.unshift(
           <div
             sharedid={dataKey}
             key={'key_Shared_notifiedNails_'+index}
@@ -134,11 +144,20 @@ class Shared extends React.Component {
               marksBasic={self.state.marksBasic}
               notifiedStatus={self.state.notifiedStatus[dataKey]}/>
           </div>
-        )
-      });
+        );
+        //cauculate remainder to decide whether a interspace was needed or not
+        let remainder = (index+1) % 3; // +1 to avoid error when index==0
+        //add interspace every 3 nails, or at the bottom of the notified list
+        if(remainder==0 || index==(this.state.notifiedList.length-1)) shareds.push(
+          <div
+            key={'key_Shared_nails_interspace'+index}
+            className={classnames(styles.boxFillHoriz)}/>
+        );
 
-      shareds.splice(0,0,notifiedBlock); //insert the notifiedList to the top
+      });
     }
+    //in the end, push the footer
+    shareds.push(scrollFooter);
 
     return shareds;
   }

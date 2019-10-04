@@ -23,7 +23,6 @@ class NailShared extends React.Component {
       onImg: false
     };
     this.nailImgBox = React.createRef();
-    this.nailUnitLink = React.createRef();
     this._handleEnter_nailFrame = this._handleEnter_nailFrame.bind(this);
     this._handleLeave_nailFrame = this._handleLeave_nailFrame.bind(this);
     this._handleEnter_nailImg = this._handleEnter_nailImg.bind(this);
@@ -99,7 +98,6 @@ class NailShared extends React.Component {
         onMouseEnter={this._handleEnter_nailFrame}
         onMouseLeave={this._handleLeave_nailFrame}>
         <Link
-          ref={this.nailUnitLink}
           to={{
             pathname: this.props.linkPath,
             search: '?theater&unitId='+this.props.unitId,
