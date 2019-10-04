@@ -12,30 +12,16 @@ import {
 } from "../../../utils/errHandlers.js";
 
 const styleMiddle = {
-  spanSubtitle: {
+  spanCommon: {
     display: 'block',
     boxSizing: 'border-box',
-    margin: '0 0 0.87rem',
-    textAlign: 'right',
-    cursor: 'default'
-  },
-  spanNumDis: {
-    display: 'block',
-    boxSizing: 'border-box',
-    marginLeft: '1rem',
-    textAlign: 'right',
-    cursor: 'default'
-  },
-  fontSubtitle: {
-    fontSize: '1.54rem',
-    letterSpacing: '0.12rem',
-    fontWeight: '400',
-
+    textAlign: 'center',
   },
   fontNumDis: {
-    fontSize: '3.2rem',
-    letterSpacing: '0.12rem',
-    fontWeight: '400',
+    fontSize: '2.3rem',
+    letterSpacing: '0.1rem',
+    fontWeight: '600',
+    lineHeight: '2rem',
     color: '#FAFAFA',
   }
 }
@@ -92,14 +78,13 @@ class SharedStatics extends React.Component {
 
   render(){
     return(
-      <div
-        className={classnames(styles.boxStatics)}>
+      <div>
         <div>
           <span
-            style={Object.assign({}, styleMiddle.spanNumDis,styleMiddle.fontNumDis)}>{this.state.countReach}</span>
+            style={Object.assign({}, styleMiddle.spanCommon,styleMiddle.fontNumDis)}>{this.state.countReach}</span>
           <span
-            className={classnames('fontSumOpt')}
-            style={Object.assign({}, styleMiddle.spanSubtitle, {color: '#FAFAFA'})}>read</span>
+            className={classnames(styles.fontStaticTitle)}
+            style={Object.assign({}, styleMiddle.spanCommon)}>read</span>
         </div>
       </div>
     )

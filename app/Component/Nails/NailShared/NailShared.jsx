@@ -32,15 +32,10 @@ class NailShared extends React.Component {
     this._render_nails_nouns = this._render_nails_nouns.bind(this);
     this.style={
       Com_Nails_Shared_breach_button_: {
-        display: 'inline-block',
-        position: 'relative',
-        boxSizing: 'border-box',
-        margin: '0 2%',
         fontSize: '1.28rem',
         fontWeight: '300',
         letterSpacing: '0.22rem',
         color: 'grey',
-        cursor: 'pointer'
       }
     }
   }
@@ -132,12 +127,13 @@ class NailShared extends React.Component {
             <div
               className={classnames(styles.boxBreach)}>
               <div
+                className={classnames(styles.boxBreachItem)}
                 style={this.style.Com_Nails_Shared_breach_button_}>
                 <span>{"Res"}</span>
               </div>
               <Link
                 to={this.props.match.url+"/"+this.props.unitId+'/threads'}
-                className={"plainLinkButton"}
+                className={classnames("plainLinkButton", styles.boxBreachItem)}
                 style={this.style.Com_Nails_Shared_breach_button_}>
                 <span>{"Thr"}</span>
               </Link>
@@ -147,17 +143,19 @@ class NailShared extends React.Component {
                   search: '?theater&unitId='+this.props.unitId,
                   state: {from: this.props.location}
                 }}
-                className={classnames("plainLinkButton", styles.boxHalfBulb)}
+                className={classnames("plainLinkButton", styles.boxBreachItem, styles.boxHalfBulb)}
                 style={Object.assign({}, this.style.Com_Nails_Shared_breach_button_, {
                   stroke:this.props.notifiedStatus.inspired?'#ff7a5f':'#aaaaaa',
                   strokeWidth: '10px',
-                  fill:'none',
-                  cursor: this.props.notifiedStatus.inspired?'pointer':'auto'
+                  fill:'none'
                 })}>
                 <SvgBulbPlainHalf/>
               </Link>
-              <SharedStatics
-                unitId={this.props.unitId}/>
+              <div
+                className={classnames(styles.boxBreachItem, styles.boxStatics)}>
+                <SharedStatics
+                  unitId={this.props.unitId}/>
+              </div>
             </div>
 
           </div>

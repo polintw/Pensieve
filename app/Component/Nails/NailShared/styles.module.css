@@ -88,22 +88,24 @@
   bottom: 0;
   right: 0;
   box-sizing: border-box;
-  padding: 0 10%;
+  padding: 0 6%;
+}
+
+.boxBreachItem {
+  position: relative;
+  box-sizing: border-box;
+  margin-right: 6%;
+  cursor: pointer;
 }
 
 .boxHalfBulb {
-  display: inline-block;
   width: 16%;
-  height: 32%;
-  position: relative;
-  box-sizing: border-box;
-  margin: 0 2%;
+  height: 33%;
 }
 
 .boxStatics {
-  height: 32%;
-  box-sizing: border-box;
-  padding: 0 2%;
+  display: flex;
+  align-items: center;
 }
 
 .spanAuthor {
@@ -127,4 +129,11 @@
   /*usually the font were controlled by class in common file of the belonged page.
   this is for local modified*/
   color: #000000;
+}
+
+.fontStaticTitle {
+  font-size: 1.37rem;
+  letter-spacing: 0.05rem;
+  font-weight: 300;
+  color: #FAFAFA;
 }
