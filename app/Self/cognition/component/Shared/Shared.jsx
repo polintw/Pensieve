@@ -20,14 +20,6 @@ import {
 } from '../../../../utils/errHandlers.js';
 
 const styleMiddle = {
-  frameNail: {
-    display: 'inline-block',
-    width: '32%',
-    height: '205px',
-    position: 'relative',
-    boxSizing: 'border-box',
-    margin: '11px 0.7% 0 0'
-  },
   titleReserved: {
     width: '100%',
     height: '15vh',

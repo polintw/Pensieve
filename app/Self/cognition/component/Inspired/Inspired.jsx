@@ -6,30 +6,24 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import querystring from 'query-string';
-import TitleInspired from './Titles/TitleInspired.jsx';
-import Unit from '../../../Unit/Unit/Unit.jsx';
-import NailInspired from '../../../Component/Nails/NailInspired.jsx';
+import classnames from 'classnames';
+import styles from "./styles.module.css";
+import TitleInspired from '../Titles/TitleInspired.jsx';
+import Unit from '../../../../Unit/Unit/Unit.jsx';
+import NailInspired from '../../../../Component/Nails/NailInspired/NailInspired.jsx';
 import {
   handleNounsList,
   handleUsersList
-} from '../../../redux/actions/general.js';
+} from '../../../../redux/actions/general.js';
 import {
   cancelErr,
   uncertainErr
-} from '../../../utils/errHandlers.js';
+} from '../../../../utils/errHandlers.js';
 
 const styleMiddle = {
-  frameNail: {
-    display: 'inline-block',
-    width: '32%',
-    height: '36vh',
-    position: 'relative',
-    boxSizing: 'border-box',
-    margin: '2vh 0.7% 0 0'
-  },
   titleReserved: {
     display: 'inline-block',
-    height: '38vh',
+    height: '25vw',
     position: 'relative',
     float: 'right',
     boxSizing: 'border-box',
@@ -38,9 +32,10 @@ const styleMiddle = {
   scrollFooter: {
     display: 'inline-block',
     width: '99%',
+    height: '58vh',
+    minHeight: '111px',
     position: 'relative',
     boxSizing: 'border-box',
-    margin: '0 0.5%'
   }
 }
 
@@ -65,14 +60,6 @@ class Inspired extends React.Component {
         top: '0',
         left: '0'
       },
-      selfCom_Inspired_nails_: {
-        width: '100%',
-        position: "absolute",
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box',
-        padding: '2vh 0 0 0'
-      },
     }
   }
 
@@ -90,32 +77,30 @@ class Inspired extends React.Component {
         reserved = (
           <div
             key={'key_Inspired_nails_titleReserved'}
-            style={Object.assign({}, {width: '34%'}, styleMiddle.titleReserved)}>
+            style={Object.assign({}, {width: '20vw'}, styleMiddle.titleReserved)}>
           </div>
         ), scrollFooter = (
           <div
             key={'key_Inspired_nails_scrollFooter'}
-            className={'selfFront-fixedBottomOverlay-height'}
             style={styleMiddle.scrollFooter}></div>
         );
 
+    //then we render Nail by Unit,
+    //each Unit form only one Nail,
+    //using the list in each unitBasic to accomplish this
     self.state.unitsList.forEach(function(unitKey, index){
       let unitBasic = self.state.unitsBasic[unitKey];
-      unitBasic.marksList.forEach((markKey, index)=>{
-        let markBasic = self.state.marksBasic[markKey];
-        inspireds.push(
-          <div
-            key={'key_Inspired_nails_'+markKey}
-            style={styleMiddle.frameNail}>
-            <NailInspired
-              {...self.props}
-              markId={markKey}
-              unitId={unitKey}
-              unitBasic={unitBasic}
-              markBasic={markBasic}/>
-          </div>
-        )
-      })
+      inspireds.push(
+        <div
+          key={'key_Inspired_nails_'+unitKey}
+          className={classnames(styles.boxNail)}>
+          <NailInspired
+            {...self.props}
+            unitId={unitKey}
+            unitBasic={unitBasic}
+            marksBasic={self.state.marksBasic}/>
+        </div>
+      )
     })
 
     inspireds.unshift(reserved);
@@ -138,7 +123,7 @@ class Inspired extends React.Component {
       self.setState({
         axios: false,
         unitsList: resObj.main.unitsList,
-        marksList: resObj.main.marksList,
+        marksList: resObj.main.marksList, //in fact, this marksList would not be used during rendering because we render by Unit(fragment list in unitBasic)
         unitsBasic: resObj.main.unitsBasic,
         marksBasic: resObj.main.marksBasic
       })
@@ -170,18 +155,17 @@ class Inspired extends React.Component {
   }
 
   render(){
-    //let cx = cxBind.bind(styles);
     return(
       <div
         style={this.style.selfCom_Inspired_}>
         <div
-          style={this.style.selfCom_Inspired_nails_}>
-          {this._render_Inspireds()}
-        </div>
-        <div
-          style={Object.assign({}, {width: '35%',right: '-2%'}, styleMiddle.titleReserved)}>
+          style={Object.assign({}, {width: '20vw'}, styleMiddle.titleReserved)}>
           <TitleInspired
             {...this.props}/>
+        </div>
+        <div
+          className={classnames(styles.boxList)}>
+          {this._render_Inspireds()}
         </div>
         <Route path={this.props.match.path+"/unit"} render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_leaveSelf}/>}/>
       </div>

@@ -3,7 +3,7 @@ import {
   Route,
   Link
 } from 'react-router-dom';
-import Inspired from './component/Inspired.jsx';
+import Inspired from './component/Inspired/Inspired.jsx';
 import Broads from './component/Broads.jsx';
 import NavEmbed from './Navs/NavEmbed.jsx';
 
@@ -21,12 +21,12 @@ export default class CogEmbed extends React.Component {
         left: '0'
       },
       selfCom_CogEmbed_Nav_: {
-        width: '27%',
-        height: '12vh',
+        width: '25vw',
         position: 'absolute',
-        right: '-2%',
-        top: '0',
-        boxSizing: 'border-box'
+        right: '0',
+        top: '24px',
+        boxSizing: 'border-box',
+        borderBottom: 'solid 1px #a8a8a8'
       },
       selfCom_CogEmbed_main_: {
         width: '100%',
