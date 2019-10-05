@@ -127,6 +127,7 @@ class NavCognitions extends React.Component {
               <div
                 className={classnames(styles.boxOptions)}>
                 <NavWalls {...this.props} />
+                <div style={{height: '90%', borderRight: 'solid 1.5px #a0a0a0'}}/>
                 <NotifyBell/>
               </div>
             </div>

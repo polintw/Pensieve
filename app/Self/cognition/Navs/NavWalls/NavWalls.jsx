@@ -54,7 +54,7 @@ export default class NavWalls extends React.Component {
                 className={classnames(styles.spanButton, styles.fontButton)}
                 style={
                   Object.assign({}, {
-                    color: (this.state.mouseOn=='mutuals' || this.props.location.pathname.includes("/mutuals/"))? "#1a1a1a":'#a8a8a8'}
+                    color: (this.state.mouseOn=='mutuals' || this.props.location.pathname.includes("/mutuals/"))? "#1a1a1a":'#a0a0a0'}
                   )}>
                 {"mutual"}
               </span>
@@ -79,7 +79,7 @@ export default class NavWalls extends React.Component {
                 className={classnames(styles.spanButton, styles.fontButton)}
                 style={
                   Object.assign({}, {
-                    color: (this.state.mouseOn=='embedded' || this.props.location.pathname.includes("/embedded/"))? "#1a1a1a":'#a8a8a8'}
+                    color: (this.state.mouseOn=='embedded' || this.props.location.pathname.includes("/embedded/"))? "#1a1a1a":'#a0a0a0'}
                   )}>
                 {"embed"}
               </span>
@@ -104,7 +104,7 @@ export default class NavWalls extends React.Component {
                 className={classnames(styles.spanButton, styles.fontButton)}
                 style={
                   Object.assign({}, {
-                    color: (this.state.mouseOn=='actions' || this.props.location.pathname.includes("/actions/"))? "#1a1a1a":'#a8a8a8'}
+                    color: (this.state.mouseOn=='actions' || this.props.location.pathname.includes("/actions/"))? "#1a1a1a":'#a0a0a0'}
                   )}>
                 {"actions"}
               </span>

@@ -24,9 +24,8 @@ export default class CogEmbed extends React.Component {
         width: '20vw',
         position: 'absolute',
         right: '-5vw',
-        top: '12vh',
+        top: '10vh',
         boxSizing: 'border-box',
-        borderBottom: 'solid 1px #a8a8a8'
       },
       selfCom_CogEmbed_main_: {
         width: '100%',

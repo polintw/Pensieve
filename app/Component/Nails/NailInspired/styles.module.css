@@ -47,7 +47,6 @@
   right: 0%;
   box-sizing: border-box;
   padding: 0 6.5% 0 6%; /*right side align along with the right position of boxAuthor*/
-  border-left: 1px solid #ff7a5f;
   overflow: hidden;
 }
 
@@ -76,16 +75,18 @@
   height: 50%;
   position: relative;
   box-sizing: content-box;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .boxContent {
   /*position(top) & height was follow the setting of Nail Regular*/
+  width: 100%;
   height: 66.66%; /*would be 1/3 of Nail's height*/
   position: absolute;
   top: 18%;
   box-sizing: border-box;
   padding: 0 10%;
+  border-right: 1px solid #ff7a5f;
 }
 
 .boxAuthor {
@@ -95,6 +96,14 @@
   right: 5.5%; /*align along with the padding of boxNodes*/
   bottom: 22%;
   transform: translate(0, 50%);
+}
+
+.boxBulb {
+  width: 25%;
+  height: 25%;
+  position: absolute;
+  left: 6.5%; /*follow the content, but depend on the parent(boxImg)*/
+  bottom: 10%;
 }
 
 .spanAuthor {
