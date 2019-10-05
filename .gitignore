@@ -6,5 +6,6 @@ config/.env.json
 public/react/
 
 
-stylesSelfFront.css 
+stylesSelfFront.css
 stylesWithin.css
+stylesTerrace.css

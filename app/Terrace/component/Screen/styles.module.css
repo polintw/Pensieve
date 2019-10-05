@@ -1,0 +1,64 @@
+.comScreen {
+  background-color: rgb(252,252,252);
+  overflow-y: auto;
+}
+
+.boxReturnSet {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  position: absolute;
+  bottom: 18vh;
+  left: 25vw;
+  box-sizing: border-box;
+
+}
+
+.boxReturn {
+  position: relative;
+  margin-left: 1.6rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+.boxLogo {
+  width: auto;
+  height: 1rem;
+}
+
+.boxOptions {
+  position: absolute;
+  bottom: 50vh;
+  left: 75vw;
+  transform: translate(-50%,0);
+}
+
+.boxAccount {
+  position: absolute;
+  left: 30vw;
+  top: 29vh;
+  max-width: 25vw;
+}
+
+.planeCanvas {
+  width: 45vw;
+  height: 0;
+  position: absolute;
+  left: 25vw;
+  top: 17vh;
+  border-top: solid 45vh rgb(255,255,255);
+  border-right: solid 15vw transparent;
+}
+
+.fontReturn {
+  font-size: 1.37rem;
+  letter-spacing: 0.1rem;
+  color: #a8a8a8;
+}
+
+.fontOption {
+  font-weight: 400;
+  font-size: 2rem;
+  letter-spacing: 0.14rem;
+  color: #ff7a5f;
+}

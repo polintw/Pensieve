@@ -142,15 +142,13 @@ class MainIndex extends React.Component {
   }
 
   _render_IndexNails(){
-    this.patternRule = [[0,1],[0,1],2,2,1,1,1];
+    this.patternRule = [1,0,0,1,2,2,2,2,2,2];
     let cycleLength = this.patternRule.length;
 
     let nailsIndex = []; //don't use .map() because we probably need to push twice in one round
     this.state.unitsList.forEach((unitId, index)=>{
       let remainder = index % cycleLength;
       let nailChoice = this.patternRule[remainder];
-      if(remainder < 2) nailChoice = Number.isInteger((index+1)/2) ? nailChoice[1] : nailChoice[0];
-      //plus 1 t index in isInteger() is for the '0'---would get false for 0/2
 
       let nail = nailChart(nailChoice, unitId, this);
       nailsIndex.push(nail);

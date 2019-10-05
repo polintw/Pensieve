@@ -20,19 +20,14 @@ export default class NavFrontShelf extends React.Component {
     };
     this.style={
       selfCom_NavFrontShelf_: {
-        display: 'inline-block',
         width: '100%',
-        height: '100%',
         position: 'absolute',
-        left: '0',
-        top: '0',
-        boxSizing: 'border-box'
+        bottom: '0',
       }
     }
   }
 
   render(){
-    //let cx = cxBind.bind(styles);
     return(
       <div
         style={this.style.selfCom_NavFrontShelf_}>

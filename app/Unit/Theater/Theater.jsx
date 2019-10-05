@@ -19,11 +19,14 @@ class Theater extends React.Component {
       close: false,
       mode: this.props.unitMode?this.props.unitMode:"viewer",
       warningModal: false,
-      warningType: null
+      warningType: null,
+      onSpanBack: false,
     };
     this.unitInit = this.props._construct_UnitInit(this.props.match, this.props.location);
     this._render_UnitMode = this._render_UnitMode.bind(this);
     this._close_theater = this._close_theater.bind(this);
+    this._handleEnter_spanBack = this._handleEnter_spanBack.bind(this);
+    this._handleLeave_spanBack = this._handleLeave_spanBack.bind(this);
     this._handleClick_heigherBack = this._handleClick_heigherBack.bind(this);
     this._set_WarningModal_positive = this._set_WarningModal_positive.bind(this);
     this._set_WarningModal_negative = this._set_WarningModal_negative.bind(this);
@@ -32,6 +35,18 @@ class Theater extends React.Component {
     this.style={
 
     };
+  }
+
+  _handleEnter_spanBack(e){
+    this.setState({
+      onSpanBack: true
+    })
+  }
+
+  _handleLeave_spanBack(e){
+    this.setState({
+      onSpanBack: false
+    })
   }
 
   _set_WarningModal_positive(){
@@ -151,11 +166,14 @@ class Theater extends React.Component {
       <div>
         {this._render_UnitMode()}
         <div
-          className={classnames(styles.boxBackTop)}>
+          className={classnames(styles.boxBackTop)}
+          onMouseEnter={this._handleEnter_spanBack}
+          onMouseLeave={this._handleLeave_spanBack}>
           <span
             className={classnames(styles.spanBackTop)}
+            style={this.state.onSpanBack?{color: '#F0F0F0'}:{}}
             onClick={this._handleClick_heigherBack}>
-            {" X "}
+            {" ╳ "}
           </span>
         </div>
 

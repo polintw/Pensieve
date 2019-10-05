@@ -1,7 +1,7 @@
 .boxFixedExplore {
   position: fixed;
   top: 34%;
-  right: 5.4%;
+  right: 5vw;
   transform: translate(50%, 0);
   box-sizing: border-box;
 }

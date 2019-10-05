@@ -33,8 +33,8 @@ const styleMiddle = {
     display: 'inline-block',
     height: '12px',
     position: 'fixed',
-    bottom: '2.6%',
-    left: '68.5%',
+    bottom: '2.8%',
+    right: '30%',
     boxSizing: 'border-box',
     cursor: 'pointer'
   }

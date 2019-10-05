@@ -7,7 +7,7 @@ import {
   Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import Accumulated from './Accumulated.jsx';
+import Accumulated from './Accumulated/Accumulated.jsx';
 import Sheet from './Sheet.jsx';
 import {
   handleUsersList
@@ -16,17 +16,20 @@ import {AccountPlate} from '../AccountPlate.jsx';
 
 const styleMiddle = {
   comUserWindow: {
-    height: '' //keep the height depend on content
+    display: 'flex',
+    flexDirection: 'column',
+    width: '65vw'
   },
   boxTitle: {
     width: '100%',
-    height: '9rem',
+    height: '6rem',
     position: 'relative',
     boxSizing: 'border-box',
     margin: '0 0 3rem',
   },
   boxScroll: {
-    height: '', //keep the height depend on content
+    width: '100%',
+    position: 'relative'
   },
   boxNav: {
     display: 'flex',
@@ -39,7 +42,6 @@ const styleMiddle = {
   boxName: {
     position: 'absolute',
     left: '0',
-    top: '2.7rem',
     boxSizing: 'border-box'
   },
   fontNav: {
@@ -83,7 +85,6 @@ class UserWindow extends React.Component {
   render(){
     return(
       <div
-        className={'boxRelativeFull'}
         style={styleMiddle.comUserWindow}>
         <div
           style={styleMiddle.boxTitle}>
@@ -108,14 +109,14 @@ class UserWindow extends React.Component {
               <AccountPlate
                 size={'title'}
                 accountFisrtName={this.props.usersBasic[this.props.windowId].firstName}
-                accountLastName={this.props.usersBasic[this.props.windowId].lastName}/>
+                accountLastName={this.props.usersBasic[this.props.windowId].lastName}
+                styleFirst={{fontWeight: '600'}}/>
             ): (
               null
             )}
           </div>
         </div>
         <div
-          className={'boxRelativeFull'}
           style={styleMiddle.boxScroll}>
           <Switch>
             <Route path={this.props.match.path+"/accumulated"} render={(props)=> <Accumulated {...props} {...this.props}/>}/>

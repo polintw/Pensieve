@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import NailInspired from '../Nails/NailInspired.jsx';
-import NailThumb from '../Nails/NailThumb/NailThumb.jsx';
+import NailRegular from '../Nails/NailRegular/NailRegular.jsx';
 
 const styleMiddle = {
   comMixBlock: {
@@ -53,7 +53,7 @@ class MixBlock extends React.Component {
       switch (type) {
         case "shared":
           nail = (
-            <NailThumb
+            <NailRegular
               {...self.props}
               unitId={itemId}
               unitBasic={self.props.unitsBasic[itemId]}

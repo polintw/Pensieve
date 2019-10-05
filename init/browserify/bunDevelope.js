@@ -45,9 +45,9 @@ let rootTerrace = browserify({debug: true}).transform(babelify.configure({
   plugins: [
   	"transform-object-rest-spread"
   ]})
-).require("./app/Terrace/root_Terrace.js", {entry: true})/*.plugin(require('css-modulesify'), {
+).require("./app/Terrace/root_Terrace.js", {entry: true}).plugin(require('css-modulesify'), {
     rootDir: __dirname
-  });*/
+  });
 
 let appSign = rootSign.bundle().on("error", function (err) { console.log("Error: " + err.message); });
 let appWithin = rootWithin.bundle().on("error", function (err) { console.log("Error: " + err.message); });
@@ -58,6 +58,9 @@ rootWithin.on('css stream', function (css) {
 });
 rootSelfFront.on('css stream', function (css) {
     css.pipe(fs.createWriteStream('./public/css/stylesSelfFront.css')); //rewrite the file with the new "abstract name"
+});
+rootTerrace.on('css stream', function (css) {
+    css.pipe(fs.createWriteStream('./public/css/stylesTerrace.css')); //rewrite the file with the new "abstract name"
 });
 
 exports.bundler = ()=>{

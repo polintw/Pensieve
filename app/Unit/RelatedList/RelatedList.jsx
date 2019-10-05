@@ -8,8 +8,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import SimpleBlock from '../../Component/Blocks/SimpleBlock/SimpleBlock.jsx';
-import NailBasic from '../../Component/Nails/NailBasic/NailBasic.jsx';
+import NailRegular from '../../Component/Nails/NailRegular/NailRegular.jsx';
 import {
   handleNounsList,
   handleUsersList
@@ -90,24 +89,35 @@ class RelatedList extends React.Component {
 
       </div>
     );
+    //use Block to render if not empty
+    let units = [];
+    this.state.unitsBlock.forEach((block,blockIndex)=>{ //spread the list of blocks
+      block.forEach((unitId,unitIndex)=>{ //then sprean each block
+        units.push( //push each unit to return array directly
+          <div
+            key={'key_Cosmic_RelatedList_'+unitIndex}
+            className={classnames(
+              styles.boxNail, styles.boxRegular)}>
+              <NailRegular
+                {...this.props}
+                unitId={unitId}
+                linkPath={this.props.match.url}
+                unitBasic={this.state.unitsBasic[unitId]}
+                marksBasic={this.state.marksBasic}/>
+            </div>
+        );
+        let remainder = (unitIndex+1) % 2; //cauculate remainder to decide whether a interspace was needed or not
+        if(remainder==0) units.push(
+          <div
+            key={'key_Cosmic_RelatedList_interspace'+unitIndex}
+            className={classnames(styles.boxFillHoriz)}
+            ></div>
+        )
+      })
+    })
 
+    return units;
 
-    let list = this.state.unitsBlock.map((unitBlock, index)=>{
-      return (
-        <SimpleBlock
-          key={"key_block_"+index+"_atRelatedList"}
-          divide-two
-          unitsList={unitBlock}
-          unitsBasic={this.state.unitsBasic}>
-          <NailBasic
-            {...this.props}
-            linkPath={this.props.match.url}
-            marksBasic={this.state.marksBasic}/>
-        </SimpleBlock>
-      )
-    });
-
-    return list;
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -131,16 +141,8 @@ class RelatedList extends React.Component {
   render(){
     return(
       <div
-        style={{display: 'flex'}}>
-        <div
-          className={classnames(styles.boxSubtitle, styles.fontSubtitle)}>
-          <span
-            style={{position: 'sticky',top: '34%'}}>{"connect to more from"}</span>
-        </div>
-        <div
-          className={styles.boxList}>
-          {this._render_Block_relatedList()}
-        </div>
+        className={classnames(styles.comRelatedList)}>
+        {this._render_Block_relatedList()}
       </div>
     )
   }

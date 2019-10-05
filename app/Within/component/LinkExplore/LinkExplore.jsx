@@ -11,16 +11,37 @@ class LinkExplore extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      onExplore: false
+      onExplore: false,
+      onCategory: false
     };
     this._render_Category = this._render_Category.bind(this);
     this._handleLeave_linkExplore = this._handleLeave_linkExplore.bind(this);
     this._handleEnter_linkExplore = this._handleEnter_linkExplore.bind(this);
+    this._handleEnter_linkCategory = this._handleEnter_linkCategory.bind(this);
+    this._handleLeave_linkCategory = this._handleLeave_linkCategory.bind(this);
     this.style={
 
     }
 
     this.abbrRoute = ['nod', 'use', 'exp']
+  }
+
+  _handleEnter_linkCategory(e){
+    //don't need to stop proppagation,
+    //because both the 'onMouseEnter' & 'onMouseLeave'
+    //would not 'bubble'
+    this.setState({
+      onCategory: true
+    })
+  }
+
+  _handleLeave_linkCategory(e){
+    //don't need to stop proppagation,
+    //because both the 'onMouseEnter' & 'onMouseLeave'
+    //would not 'bubble'
+    this.setState({
+      onCategory: false
+    })
   }
 
   _handleEnter_linkExplore(e){
@@ -41,6 +62,16 @@ class LinkExplore extends React.Component {
     })
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot){
+    //reset to default if the path change
+    if(this.props.location.pathname.substring(8, 11) != prevProps.location.pathname.substring(8, 11)){
+      this.setState({
+        onExplore: false,
+        onCategory: false
+      })
+    };
+  }
+
   componentDidMount() {
 
   }
@@ -57,8 +88,11 @@ class LinkExplore extends React.Component {
             className={classnames(styles.boxCategory, styles.fontCategory)}>
             <Link
               to="/cosmic/explore/nodes"
-              className={classnames('plainLinkButton')}>
-              <span>
+              className={classnames('plainLinkButton')}
+              onMouseEnter={this._handleEnter_linkCategory}
+              onMouseLeave={this._handleLeave_linkCategory}>
+              <span
+                style={this.state.onCategory? {color: 'rgb(64, 133, 160)'}:{}}>
                 {'nodes '}
               </span>
             </Link>
@@ -72,8 +106,11 @@ class LinkExplore extends React.Component {
             className={classnames(styles.boxCategory, styles.fontCategory)}>
             <Link
               to="/cosmic/explore/users"
-              className={classnames('plainLinkButton')}>
-              <span>
+              className={classnames('plainLinkButton')}
+              onMouseEnter={this._handleEnter_linkCategory}
+              onMouseLeave={this._handleLeave_linkCategory}>
+              <span
+                style={this.state.onCategory? {color: 'rgb(64, 133, 160)'}:{}}>
                 {'users '}
               </span>
             </Link>
@@ -105,8 +142,8 @@ class LinkExplore extends React.Component {
           <span>
             {'explore'}</span>
           <span style={{
-              width: '54%', position: 'absolute', bottom: '-18%', right: '8%',
-              borderBottom: this.state.onExplore? 'solid 0.75px rgb(64, 133, 160)': 'solid 0.75px #a8a8a8',
+              width: '60%', marginTop: '10%',
+              borderBottom: this.state.onExplore? 'solid 1px #ff7a5f': 'solid 1px rgb(64, 133, 160)',
               opacity: (pathNow< 0)? 1 : 0
             }}/>
         </Link>
