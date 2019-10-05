@@ -22,7 +22,7 @@ const styleMiddle = {
   },
   boxTitle: {
     width: '100%',
-    height: '9rem',
+    height: '6rem',
     position: 'relative',
     boxSizing: 'border-box',
     margin: '0 0 3rem',
@@ -42,7 +42,6 @@ const styleMiddle = {
   boxName: {
     position: 'absolute',
     left: '0',
-    top: '2.7rem',
     boxSizing: 'border-box'
   },
   fontNav: {

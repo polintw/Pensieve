@@ -55,7 +55,7 @@ class FrontCognition extends React.Component {
         }
         break;
       case 'noun':
-        window.location.assign('/cosmic/nouns/'+identifier);
+        window.location.assign('/cosmic/nodes/'+identifier);
         break;
       default:
         return

@@ -10,29 +10,28 @@ import {
 
 const styleMiddle = {
   boxNotifyBox: {
-    width: '100%',
-    maxHeight: '900%',
-    minHeight: '320%',
+    width: '20vw',
+    maxHeight: '20vw',
+    minHeight: '10vw',
     position: 'absolute',
-    bottom: '102%',
-    left: '0',
+    bottom: '125%',
+    right: '0',
     boxSizing: 'border-box',
-    boxShadow: '0.056rem -0.16rem 0.21rem -0.06rem',
+    boxShadow: '-0.056rem 0.1rem 0.42rem 0rem',
     borderRadius: '0.21rem',
     backgroundColor: 'white',
-    overflow: 'auto'
+    overflowY: 'auto'
   },
   boxNotifyItem:{
     display: 'inline-block',
-    height: '54px',
+    height: '6rem',
     boxSizing: 'border-box',
     margin: '2% 0',
-    borderBottom: '1px solid black',
-    padding: '2% 3%',
-    cursor: 'pointer'
+    borderBottom: '2px solid rgb(64, 133, 160)',
+    padding: '2% 3% 2% 6%',
   },
   fontNotifyItem: {
-    fontSize: '1.28rem'
+    fontSize: '1.3rem'
   }
 };
 
@@ -70,14 +69,15 @@ class NotifyBox extends React.Component {
             <div
               style={{
                 display: 'inline-block',
-                width: '27%',
-                height: '100%'
+                paddingRight: '0.7rem'
               }}>
               <span
-                style={styleMiddle.fontNotifyItem}>{self.props.usersBasic[item.userId].account}</span>
+                style={Object.assign({}, styleMiddle.fontNotifyItem, {fontWeight: '600'})}>
+                {self.props.usersBasic[item.userId].account}</span>
             </div>
             <span
-              style={styleMiddle.fontNotifyItem}>{" was inspired by one of your paragraph."}</span>
+              style={Object.assign({}, styleMiddle.fontNotifyItem, {lineHeight: '1.5rem'})}>
+              {" was inspired by one of your paragraph."}</span>
           </Link>
         </div>
       )

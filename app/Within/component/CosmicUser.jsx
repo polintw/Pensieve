@@ -14,7 +14,7 @@ const styleMiddle = {
   },
   boxScroll: {
     position: 'absolute',
-    top: '4vh',
+    top: '9vh',
     left: '15%',
     boxSizing: 'border-box'
   },

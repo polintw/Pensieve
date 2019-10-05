@@ -49,10 +49,10 @@ const styleMiddle = {
     transform: 'translate(-50%,0)'
   },
   rootNotifyBox: {
-    width: '89%', //let the box bottom a bit wider than the distance between bell and most right button
+    width: '100%',
     height: '100%',
     position: 'absolute',
-    right: '5%',
+    right: '0%',
     bottom: '0%',
     boxSizing: 'border-box',
   }
