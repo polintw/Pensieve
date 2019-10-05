@@ -235,17 +235,20 @@ function _render_Marks_Less5(props){
   for(let i=0 ; i< props.unitBasic.marksList.length && i< 5; i++){
     let markKey = props.unitBasic.marksList[i]
     marksDOM.push(
-      <Link
+      <div
         key={"key_nailInspired_mark_"+i+"_ofUnit_"+props.unitId}
-        to={{
-          pathname: props.match.url+"/unit",
-          search: '?theater&unitId='+props.unitId+"&mark="+props.markId,
-          state: {from: props.location}
-        }}
-        className={classnames('plainLinkButton', styles.boxMark, 'fontNailMark', styles.fontMark)}>
-        <DisplayMarkPreview
-          rawContent={props.marksBasic[markKey].editorContent}/>
-      </Link>
+        className={classnames(styles.boxMark, 'fontNailMark', styles.fontMark)}>
+        <Link
+          to={{
+            pathname: props.match.url+"/unit",
+            search: '?theater&unitId='+props.unitId+"&mark="+props.markId,
+            state: {from: props.location}
+          }}
+          className={classnames('plainLinkButton', styles.boxContent)}>
+          <DisplayMarkPreview
+            rawContent={props.marksBasic[markKey].editorContent}/>
+        </Link>
+      </div>
     );
   };
 

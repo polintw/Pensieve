@@ -110,7 +110,8 @@ class UserWindow extends React.Component {
               <AccountPlate
                 size={'title'}
                 accountFisrtName={this.props.usersBasic[this.props.windowId].firstName}
-                accountLastName={this.props.usersBasic[this.props.windowId].lastName}/>
+                accountLastName={this.props.usersBasic[this.props.windowId].lastName}
+                styleFirst={{fontWeight: '600'}}/>
             ): (
               null
             )}
