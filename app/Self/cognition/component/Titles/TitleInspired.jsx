@@ -22,10 +22,10 @@ export default class TitleInspired extends React.Component {
       selfCom_Title_Inspired_main_: {
         display: 'inline-block',
         position: 'absolute',
-        top: '42.5%',
-        left: '5%',
+        top: '43.5%',
+        left: '50%',
+        transform: 'translate(-50%,0)',
         boxSizing: 'border-box',
-        margin: '0 3%',
         fontWeight: '700',
         fontSize: '2.8rem',
         letterSpacing: '0.54rem'

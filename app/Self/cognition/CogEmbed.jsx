@@ -21,10 +21,10 @@ export default class CogEmbed extends React.Component {
         left: '0'
       },
       selfCom_CogEmbed_Nav_: {
-        width: '25vw',
+        width: '20vw',
         position: 'absolute',
-        right: '0',
-        top: '24px',
+        right: '-5vw',
+        top: '12vh',
         boxSizing: 'border-box',
         borderBottom: 'solid 1px #a8a8a8'
       },

@@ -21,13 +21,9 @@ import {
 } from '../../../../utils/errHandlers.js';
 
 const styleMiddle = {
-  titleReserved: {
-    display: 'inline-block',
-    height: '25vw',
-    position: 'relative',
-    float: 'right',
-    boxSizing: 'border-box',
-    backgroundColor: 'transparent'
+  boxTitle: {
+    position: 'absolute',
+    right: '0',
   },
   scrollFooter: {
     display: 'inline-block',
@@ -77,7 +73,8 @@ class Inspired extends React.Component {
         reserved = (
           <div
             key={'key_Inspired_nails_titleReserved'}
-            style={Object.assign({}, {width: '20vw'}, styleMiddle.titleReserved)}>
+            className={classnames(styles.boxReserved)}
+            style={Object.assign({}, {width: '20vw'})}>
           </div>
         ), scrollFooter = (
           <div
@@ -88,7 +85,7 @@ class Inspired extends React.Component {
     //then we render Nail by Unit,
     //each Unit form only one Nail,
     //using the list in each unitBasic to accomplish this
-    let widthCount = 1; // a value used to accumulate the 'width'--- as the width of Nail was case by case,
+    let widthCount = 0; // a value used to accumulate the 'width'--- as the width of Nail was case by case,
     //begin from '1' is due to the titleReserved would must occupy a place at first row
     self.state.unitsList.forEach(function(unitKey, index){
       let unitBasic = self.state.unitsBasic[unitKey];
@@ -103,12 +100,14 @@ class Inspired extends React.Component {
             {...self.props}
             unitId={unitKey}
             unitBasic={unitBasic}
+            linkPath={self.props.match.url+'/unit'}
             marksBasic={self.state.marksBasic}/>
         </div>
       );
       widthCount += wideNail? 2: 1; //meaning the 'width'  of new nail just pushed
+      if(widthCount==2){inspireds.push(reserved); widthCount += 1 };
       //cauculate remainder to decide whether a interspace was needed or not
-      let remainder = widthCount % 3; // no need to +1 as we alredy start from 1
+      let remainder = widthCount % 3; // no need to +1 as the var must > 1 since we 'plus' 1 or 2 at last step
       if(remainder==0) inspireds.push(
         <div
           key={'key_Inspired_nails_interspace'+index}
@@ -118,8 +117,7 @@ class Inspired extends React.Component {
     });
 
     //in the end, and only at the end!
-    //unshift and push the footer & reserved(for title)
-    inspireds.unshift(reserved);
+    //push the footer
     inspireds.push(scrollFooter);
     return inspireds;
   }
@@ -175,7 +173,8 @@ class Inspired extends React.Component {
       <div
         style={this.style.selfCom_Inspired_}>
         <div
-          style={Object.assign({}, {width: '20vw'}, styleMiddle.titleReserved)}>
+          className={classnames(styles.boxReserved)}
+          style={Object.assign({}, {width: '20vw'}, styleMiddle.boxTitle)}>
           <TitleInspired
             {...this.props}/>
         </div>

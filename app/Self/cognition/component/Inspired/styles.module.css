@@ -5,6 +5,7 @@
   width: 100%;
   position: relative;
   box-sizing: border-box;
+  margin-top: 8vh;
 }
 
 .boxNail {
@@ -14,6 +15,13 @@
   box-shadow: 0 1px 1px rgb(230, 230, 230);
   background-color: #FFFFFF;
   cursor: pointer;
+}
+
+.boxReserved {
+  display: inline-block;
+  height: 25vw;
+  box-sizing: border-box;
+  background-color: transparent;
 }
 
 .boxFillHoriz {

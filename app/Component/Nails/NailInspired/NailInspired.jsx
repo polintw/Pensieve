@@ -12,93 +12,6 @@ import {
   renderNodesRows
 } from '../utils.js';
 
-const commonStyle = {
-  maskPic: {
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
-    top: '0',
-    left: '0',
-    backgroudColor: 'rgba(0,0,0,0.5)',
-    backgroundImage: "linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.4))",
-    //must beneath the 'backgroudColor', let browser choose if it do support gradient
-  },
-  markPlate: {
-    width: '100%',
-    height: '76.5%',
-    position: 'relative',
-    boxSizing: 'border-box',
-    border: '1.2px solid #9c9c9c',
-    borderRadius: '1vh',
-    backgroundColor: '#FFFFFF',
-    cursor: 'pointer'
-  },
-  frameInfo: {
-    width: '100%',
-    height: '23.5%',
-    position: 'relative',
-    boxSizing: 'border-box'
-  },
-  markFrame: {
-    width: '100%',
-    maxHeight: '72%',
-    position: 'absolute',
-    bottom: '36%',
-    right: '0%',
-    transform: 'translate(0, 40%)',
-    cursor: 'pointer'
-  },
-  markPreview: {
-    maxWidth: '86%',
-    position: 'relative',
-    boxSizing: 'border-box',
-    padding: '0% 4%',
-    float: 'right',
-    textAlign: 'left',
-    fontSize: '1.28rem',
-    fontWeight: '400',
-    letterSpacing: '0.22rem',
-    color: 'black'
-  },
-  rowNouns: {
-    width: '72%',
-    position: 'absolute',
-    top: '0',
-    right: '0%',
-    boxSizing: 'border-box',
-    padding: '0.64vw 4%'
-  },
-  rowAuthor: {
-    width: '64%',
-    height: '64%',
-    position: 'absolute',
-    bottom: '0',
-    left: '0',
-    boxSizing: 'border-box',
-    padding: '0.6vw 3%'
-  },
-  spanNoun: {
-    display: 'inline-block',
-    position: 'relative',
-    float: 'right',
-    marginLeft: '5%',
-    fontSize: '1.28rem',
-    fontWeight: '300',
-    letterSpacing: '0.28rem',
-    color: '#dbdbdb'
-  },
-  spanAuthor: {
-    display: 'inline-block',
-    position: 'relative',
-    boxSizing: 'border-box',
-    margin: '0 2%',
-    fontSize: '1.36rem',
-    fontWeight: '400',
-    letterSpacing: '0.14rem',
-    color: '#f2f2f2'
-  }
-}
-
 class NailInspired extends React.Component {
   constructor(props){
     super(props);
@@ -241,7 +154,7 @@ function _render_Marks_Less5(props){
         <Link
           to={{
             pathname: props.match.url+"/unit",
-            search: '?theater&unitId='+props.unitId+"&mark="+props.markId,
+            search: '?theater&unitId='+props.unitId+"&mark="+markKey,
             state: {from: props.location}
           }}
           className={classnames('plainLinkButton', styles.boxContent)}>
