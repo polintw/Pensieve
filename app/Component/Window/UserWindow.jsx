@@ -7,8 +7,7 @@ import {
   Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import Accumulated from './Accumulated/Accumulated.jsx';
-import Sheet from './Sheet.jsx';
+import Accumulated from './Accumulated.jsx';
 import {
   handleUsersList
 } from "../../redux/actions/general.js";
@@ -91,12 +90,6 @@ class UserWindow extends React.Component {
           <div
             style={Object.assign({}, styleMiddle.boxNav, styleMiddle.fontNav)}>
             <Link
-              to={this.props.match.url+"/sheet"}
-              className={'plainLinkButton'}>
-              <span
-                style={styleMiddle.spanNav}>{'sheet'}</span>
-            </Link>
-            <Link
               to={this.props.match.url+"/accumulated"}
               className={'plainLinkButton'}>
               <span
@@ -120,7 +113,6 @@ class UserWindow extends React.Component {
           style={styleMiddle.boxScroll}>
           <Switch>
             <Route path={this.props.match.path+"/accumulated"} render={(props)=> <Accumulated {...props} {...this.props}/>}/>
-            <Route path={this.props.match.path+"/sheet"} render={(props)=> <Sheet {...props} {...this.props}/>}/>
           </Switch>
         </div>
       </div>

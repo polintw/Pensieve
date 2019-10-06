@@ -9,7 +9,6 @@ import MarksArticle from './MarksArticle.jsx';
 import {NodesExtensible} from './NodesDisplay/NodesDisplay.jsx';
 import AuthorStatics from './Author/AuthorStatics.jsx';
 import DateConverter from '../Component/DateConverter.jsx';
-import SvgCreate from '../Component/Svg/SvgCreate.jsx'
 import {AccountPlate} from '../Component/AccountPlate.jsx';
 
 const styleMiddle = {
@@ -38,7 +37,6 @@ class UnitAuthorSummary extends React.Component {
     this._handleEnter_actEdit = this._handleEnter_actEdit.bind(this);
     this._handleLeave_actEdit = this._handleLeave_actEdit.bind(this);
     this._handleClick_UnitAction_Author = this._handleClick_UnitAction_Author.bind(this);
-    this._handleClick_UnitAction_response = this._handleClick_UnitAction_response.bind(this);
     this._handleWheel_marksArticle = (event)=>{event.stopPropagation();};
     this.style={
       Com_UnitViewSummary_: {
@@ -88,12 +86,6 @@ class UnitAuthorSummary extends React.Component {
     let moveCount = (layer=='cover')? 0 : 100;
     let marksStatus = markKey? {marksify: true, initMark: markKey}: {marksify: false, initMark: "all"};
     this.props._set_layerstatus(true, parseInt(moveCount), marksStatus);
-  }
-
-  _handleClick_UnitAction_response(event){
-    event.stopPropagation();
-    event.preventDefault();
-    this.props._set_Modalmode("response");
   }
 
   _handleClick_UnitAction_Author(event){

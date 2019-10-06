@@ -4,8 +4,6 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import PanelJump from '../PanelJump.jsx';
 import AuthorInspired from '../AuthorInspired.jsx';
-import MarkDialogue from '../MarkDialogue.jsx';
-import SvgPropic from '../../../Component/Svg/SvgPropic.jsx';
 import DraftDisplay from '../../../Component/Draft/DraftDisplay.jsx';
 import {
   setUnitInspired
@@ -17,13 +15,6 @@ const styleMiddle = {
     height: '100%',
     position: 'relative',
     boxSizing: 'border-box',
-  },
-  spanInteractions: {
-    fontSize: '1.4rem',
-    letterSpacing: '0.18rem',
-    lineHeight: '1.9rem',
-    fontWeight: '400',
-    cursor: 'pointer'
   },
   fontInteractions: {
     fontSize: '1.4rem',
@@ -37,13 +28,11 @@ class AuthorBlock extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      dialogue: false
+
     };
     this.boxContent = React.createRef();
     this.comAuthorBlock = React.createRef();
-    this._set_stateDefault = ()=>{this.setState({dialogue: false})};
     this._handleWheel_boxContent = (event)=>{event.stopPropagation();};
-    this._handleClick_openDialogue = this._handleClick_openDialogue.bind(this);
     this.style = {
       Com_AuthorBlock_: {
         width: '100%',
@@ -63,38 +52,12 @@ class AuthorBlock extends React.Component {
         boxSizing: 'border-box',
         margin: '2.4rem 0px 1.8rem',
       },
-      Com_AuthorBlock_credits_: {
-        width: '100%',
-        height: '2.6rem',
-        boxSizing: 'border-box',
-        marginTop: '2%',
-      },
-      Com_AuthorBlock_fold_:{
-        display: 'none'
-      },
-      Com_AuthorBlock_fold_dialogue: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box',
-        padding: '2% 3%',
-        color: '#FAFAFA',
-      },
     };
-  }
-
-  _handleClick_openDialogue(event){
-    event.preventDefault();
-    event.stopPropagation();
-    this.setState((prevState, props)=>{return this.state.dialogue?{dialogue: false}: {dialogue: true}})
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
     if(prevProps.markKey !== this.props.markKey){ //we use the same component rendering mark repeatly
       //so we have to reset the state & scroll top each time jumpinig to a new mark
-      this._set_stateDefault();
       this.comAuthorBlock.current.scrollTop = 0; //back to top
     }
   }
@@ -159,18 +122,6 @@ class AuthorBlock extends React.Component {
               style={Object.assign(
                 {},
                 styleMiddle.boxPanelInteraction,
-                {marginRight: '8%',float: 'right'}
-              )}>
-              <span
-                style={styleMiddle.spanInteractions}
-                onClick={this._handleClick_openDialogue}>
-                {'raise'}
-              </span>
-            </div>
-            <div
-              style={Object.assign(
-                {},
-                styleMiddle.boxPanelInteraction,
                 styleMiddle.fontInteractions,
                 {marginLeft: '58%',float: 'left'}
               )}>
@@ -178,25 +129,6 @@ class AuthorBlock extends React.Component {
                 markKey={this.props.markKey}/>
             </div>
           </div>
-          <div
-            style={Object.assign({}, this.style.Com_AuthorBlock_credits_)}>
-            <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
-            <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
-          </div>
-          <div>
-            {"(多行參考資料連結)"}
-          </div>
-        </div>
-        <div
-          style={this.style.Com_AuthorBlock_fold_}>
-          {
-            this.state.dialogue &&
-            <div
-              style={this.style.Com_AuthorBlock_fold_dialogue}>
-              <MarkDialogue
-                markKey={this.props.markKey}/>
-            </div>
-          }
         </div>
       </div>
     )

@@ -9,7 +9,6 @@ import classnames from 'classnames';
 import styles from './styles.module.css';
 import UnitModal from '../UnitModal.jsx';
 import UnitEditing from '../UnitEditing.jsx';
-import CreateResponse from '../../Component/CreateResponse.jsx';
 import WarningModal from '../../Component/WarningModal.jsx';
 
 class Theater extends React.Component {
@@ -100,12 +99,12 @@ class Theater extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot){
     //due to update to unitId only still Redirect to a new URL
     //check again to re-define the URL
-    if(!this.props.location.pathname.includes('explore/unit')) window.history.replaceState({from: this.props.location}, '', '/cosmic/explore/unit?theater&unitId='+this.unitId);
+    if(!this.props.location.pathname.includes('explore/unit')) window.history.replaceState({from: this.props.location}, '', '/explore/unit?theater&unitId='+this.unitId);
   }
 
   componentDidMount(){
     //replace the URL display in the browser bar if not from independt page
-    if(!this.props.location.pathname.includes('explore/unit')) window.history.replaceState({from: this.props.location}, '', '/cosmic/explore/unit?theater&unitId='+this.unitId);
+    if(!this.props.location.pathname.includes('explore/unit')) window.history.replaceState({from: this.props.location}, '', '/explore/unit?theater&unitId='+this.unitId);
   }
 
   componentWillUnmount(){
@@ -123,13 +122,6 @@ class Theater extends React.Component {
             _set_Modalmode={this._set_Modalmode}
             _refer_von_unit={this.props._refer_von_unit}
             _reset_UnitMount={this.props._reset_UnitMount}/>)
-        break;
-      case "response":
-        return (
-          <CreateResponse
-            mode={this.state.mode}
-            _set_Modalmode={this._set_Modalmode}
-            _refer_von_unit={this.props._refer_von_unit}/>)
         break;
       case "viewer":
         return (

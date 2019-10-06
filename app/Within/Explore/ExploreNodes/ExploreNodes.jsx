@@ -97,7 +97,7 @@ class NounsBlock extends React.Component {
           key={"key_Explore_randomNouns_"+index}
           style={styleMiddle.boxRendomItem}>
           <Link
-            to={"/cosmic/nodes/"+nounId}
+            to={"/nodes/"+nounId}
             className={'plainLinkButton'}>
             <span
               style={styleMiddle.fontListItem}>
@@ -219,7 +219,7 @@ class NodesUsed extends React.Component {
           style={Object.assign({}, styleMiddle.boxSubtitle, styleMiddle.fontSubtitle)}>
           <span>{"or, touch"}</span><br/>
           <Link
-            to="/cosmic/explore/nodes?boundary=unlimit"
+            to="/explore/nodes?boundary=unlimit"
             className={'plainLinkButton'}>
             <span
               style={Object.assign({}, styleMiddle.fontSubtitle, styleMiddle.spanMore)}>

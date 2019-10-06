@@ -12,7 +12,7 @@ import styles from "./styles.module.css";
 function SubNodes(props){
   return (
     <Link
-      to="/cosmic/explore/nodes"
+      to="/explore/nodes"
       className={classnames('plainLinkButton', styles.boxSubtitle)}>
       <span
         className={classnames(styles.fontSubtitle)}>
@@ -25,7 +25,7 @@ function SubNodes(props){
 function SubUsers(props){
   return (
     <Link
-      to="/cosmic/explore/users"
+      to="/explore/users"
       className={classnames('plainLinkButton', styles.boxSubtitle)}>
       <span
         className={classnames(styles.fontSubtitle)}>

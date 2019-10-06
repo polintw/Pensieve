@@ -7,7 +7,6 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import Threads from '../Threads.jsx';
 import TitleShared from '../Titles/TitleShared.jsx';
 import Unit from '../../../../Unit/Unit/Unit.jsx';
 import NailShared from '../../../../Component/Nails/NailShared/NailShared.jsx';

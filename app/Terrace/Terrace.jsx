@@ -33,11 +33,11 @@ class Terrace extends React.Component {
         if(identifier == this.props.userInfo.id){
           window.location.assign('/user/screen');
         }else{
-          window.location.assign('/cosmic/users/'+identifier+'/accumulated');
+          window.location.assign('/users/'+identifier+'/accumulated');
         }
         break;
       case 'noun':
-        window.location.assign('/cosmic/nodes/'+identifier);
+        window.location.assign('/nodes/'+identifier);
         break;
       default:
         return
@@ -53,22 +53,11 @@ class Terrace extends React.Component {
   }
 
   render(){
-    const params = new URLSearchParams(this.props.location.search); //query value
-    let paramWatch = params.get('watch');
-
     return(
       <div
         ref={(element)=>{this.terrace_=element;}}
         style={this.style.Self_pages_Terrace_}>
-        {
-          paramWatch== 'window'?(
-            <div>
-
-            </div>
-          ):(
-            <Screen {...this.props}/>
-          )
-        }
+        <Screen {...this.props}/>
       </div>
     )
   }

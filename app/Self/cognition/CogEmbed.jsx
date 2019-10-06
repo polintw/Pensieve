@@ -4,8 +4,6 @@ import {
   Link
 } from 'react-router-dom';
 import Inspired from './component/Inspired/Inspired.jsx';
-import Broads from './component/Broads.jsx';
-import NavEmbed from './Navs/NavEmbed.jsx';
 
 export default class CogEmbed extends React.Component {
   constructor(props){
@@ -44,12 +42,10 @@ export default class CogEmbed extends React.Component {
         <div
           style={this.style.selfCom_CogEmbed_main_}>
           <Route path={this.props.match.path+"/inspireds"} render={(props)=> <Inspired {...props} _refer_leaveSelf={this.props._refer_leaveSelf}/>}/>
-          <Route path={this.props.match.path+"/broads"} render={(props)=> <Broads {...props} _refer_leaveSelf={this.props._refer_leaveSelf}/>}/>
         </div>
         <div
           style={this.style.selfCom_CogEmbed_Nav_}>
-          <NavEmbed
-            {...this.props}/>
+
         </div>
       </div>
     )

@@ -53,29 +53,6 @@ class FrontProfile extends React.Component {
         left: '18%',
         boxSizing: 'border-box'
       },
-      Front_Profile_nav_: {
-        width: '9%',
-        height: '30%',
-        position: 'absolute',
-        top: '32%',
-        left: '5%',
-        boxSizing: 'border-box',
-        padding: '0 0.5vw',
-        borderRight: 'solid 1px #909090',
-        textAlign: 'right',
-        fontSize: '1.4rem',
-        letterSpacing: '0.15rem'
-      },
-      Front_Profile_nav_span: {
-        display: 'inline-block',
-        width: '100%',
-        position: 'relative',
-        float: 'right',
-        boxSizing: 'border-box',
-        padding: '0 0.2vw',
-        margin: '0.2vh 0',
-        cursor: 'pointer'
-      },
       Front_Profile_backPlane_top: {
         width: '100%',
         height: '1%',
@@ -134,11 +111,6 @@ class FrontProfile extends React.Component {
               {"back"}
             </div>
           </Link>
-        </div>
-        <div
-          style={this.style.Front_Profile_nav_}>
-          <span style={this.style.Front_Profile_nav_span}>{"about "}</span>
-          <span style={this.style.Front_Profile_nav_span}>{"binders "}</span>
         </div>
         {
           (this.props.settingSubmitting || this.props.axios) &&

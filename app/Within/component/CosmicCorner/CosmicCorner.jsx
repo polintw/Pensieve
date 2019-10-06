@@ -58,7 +58,7 @@ class CosmicCorner extends React.Component {
 
   render(){
     //detect where I am now, for styling
-    let subPath = this.props.location.pathname.substring(8, 11);
+    let subPath = this.props.location.pathname.substring(1, 4);
     //pathNow is a INT indicate the index refer to this.abbrRoute
     //default should be -1, page Main(not in abbrRoute)
     let pathNow = this.abbrRoute.indexOf(subPath);
@@ -66,15 +66,6 @@ class CosmicCorner extends React.Component {
 
     return(
       <div>
-        <div
-          className={classnames(styles.fontCosmicCorner)}
-          style={{display: 'none'}}>
-          <Link
-            to="/"
-            className={'plainLinkButton'}>
-            {"around"}
-          </Link>
-        </div>
         <div
           method="account"
           className={
@@ -107,7 +98,7 @@ class CosmicCorner extends React.Component {
             {[styles.boxFocus]: (pathNow> -1)}
           )}>
           <Link
-            to="/cosmic"
+            to="/"
             method="focus"
             className={'plainLinkButton'}
             onMouseEnter={this._handleEnter_CornerOpt}
