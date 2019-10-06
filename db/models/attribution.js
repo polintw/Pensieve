@@ -5,7 +5,8 @@ module.exports = (sequelize, DataTypes) => {
     id_unit: DataTypes.INTEGER,
     id_author: DataTypes.INTEGER
   }, {
-    paranoid: true
+    paranoid: true //set it to 'true' could let the Sequelize know locaaly,
+    //it should ignore any column which is not 'null' in 'deletedAt' (so called 'soft delete')
   });
   attribution.associate = function(models) {
     attribution.belongsTo(models.units, {

@@ -48,14 +48,16 @@ function _handle_unit_AuthorEditing(req, res){
       }).then(()=>{
         //first, check current records
         let pMarks = Promise.resolve(_select_withPromise_Basic(MARKS_UNITS, mysqlForm.accordancesList)),
-            pAttr = Promise.resolve(_select_withPromise_Basic(ATTRIBUTION_UNIT, mysqlForm.accordancesList));
-        return Promise.all([pAttr, pMarks]);
+            pAtrri = Promise.resolve(_DB_attribution.findAll({
+              where: {id_unit: reqUnit} //Notice, due to 'paranoid' prop set in Sequelize Model,
+              //this selection would exclude all attribution have been 'deleted' (not null in 'deletedAt')
+            }).catch((errObj)=>{throw errObj}));
+        return Promise.all([pAtrri, pMarks]);
       }).then(([resultsAttribution, resultsMarks])=>{
         let sendingData={};
         let reqMarksList = Array.from(req.body.joinedMarksList),
             nounsDeletionList = [],
-            reqNounsNewList = Array.from(req.body.nouns.list),
-            reqNewNames = [];
+            reqNounsNewList = Array.from(req.body.nouns.list);
         //for safety, all above variants use raw data from req and result
 
         //distinguish new, deleted, and modified marks
@@ -98,47 +100,36 @@ function _handle_unit_AuthorEditing(req, res){
         });
         //distinguish new, and deleted from attribution
         resultsAttribution.forEach((row, index)=>{
-          if(row.id_noun in req.body.nouns.basic){
+          if(row.id_noun in req.body.nouns.basic){ //if the nouns pass from client has already exist
             let position = reqNounsNewList.indexOf(row.id_noun) ;
-            reqNounsNewList.splice(position, 1);
-          }else{
+            reqNounsNewList.splice(position, 1); //rm it from List going to insert
+          }else{ //and going to rm the one that did not on the client's list
             nounsDeletionList.push(row.id_noun);
           }
         })
 
-        //middle step, dealing with the new nouns
-        reqNounsNewList.forEach((key,index)=>{
-          reqNewNames.push([req.body.nouns.basic[key].name]);
+        let nounsNewSet = reqNounsNewList.map((id, index)=>{
+          return [
+            id,
+            reqUnit,
+            userId
+          ]
         });
+        //check the necessity of each action
+        let pinsertNewAttribution = Promise.resolve(_insert_basic({table: 'attribution', col: '(id_noun, id_unit, id_author)'}, nounsNewSet)),
+            //sequelize could not accept empty values (2018.11.26)
+            pdeleteAttribution = nounsDeletionList.length>0?Promise.resolve(_DB_attribution.destroy({where: {id_noun: nounsDeletionList}})):null,
+            pinsertNewMarks = mysqlForm.marksSet.insertion.length>0?Promise.resolve(_DB_marks.bulkCreate(mysqlForm.marksSet.insertion, {fields: ['id_unit', 'id_author', 'layer','portion_top','portion_left','serial','editor_content']})):null,
+            pdeleteMarks = mysqlForm.marksList.deletion.length>0?Promise.resolve(_DB_marks.destroy({where: {id: mysqlForm.marksList.deletion}})):null;
+        //due to the query of mark update required the id, which could be modified from client
+        //this kind of 'INSERT' could not use for the new marks insertion!
+        let queryUpdate =('INSERT INTO '+
+                "marks (id, id_unit, id_author, layer,portion_top,portion_left,serial,editor_content) "+
+                'VALUES ? ON DUPLICATE KEY UPDATE '+
+                'layer=VALUES(layer),portion_top=VALUES(portion_top),portion_left=VALUES(portion_left),serial=VALUES(serial),editor_content=VALUES(editor_content)');
+        let pupdateMarks = Promise.resolve(_insert_raw(queryUpdate, mysqlForm.marksSet.update));
+        return Promise.all([pinsertNewAttribution, pdeleteAttribution, pinsertNewMarks, pdeleteMarks, pupdateMarks]).then(()=>{return sendingData;});
 
-        return _insert_basic_Ignore({table: "nouns", col: "(name)"}, reqNewNames).then(()=>{
-          //in the future, could consider a sepearate nouns creation process
-          //it could made a trusted id list pass from the client after we completed the seperation
-          //then free with the selection here
-          return _select_withPromise_Basic(NOUNS_NAME, reqNewNames)
-        }).then((resultsNouns)=>{
-          let nounsNewSet = resultsNouns.map((row, index)=>{
-            return [
-              row.id,
-              reqUnit,
-              userId
-            ]
-          })
-          //check the necessity of each action
-          let pinsertNewAttribution = Promise.resolve(_insert_basic({table: 'attribution', col: '(id_noun, id_unit, id_author)'}, nounsNewSet)),
-              //sequelize could not accept empty values (2018.11.26)
-              pdeleteAttribution = nounsDeletionList.length>0?Promise.resolve(_DB_attribution.destroy({where: {id_noun: nounsDeletionList}})):null,
-              pinsertNewMarks = mysqlForm.marksSet.insertion.length>0?Promise.resolve(_DB_marks.bulkCreate(mysqlForm.marksSet.insertion, {fields: ['id_unit', 'id_author', 'layer','portion_top','portion_left','serial','editor_content']})):null,
-              pdeleteMarks = mysqlForm.marksList.deletion.length>0?Promise.resolve(_DB_marks.destroy({where: {id: mysqlForm.marksList.deletion}})):null;
-          //due to the query of mark update required the id, which could be modified from client
-          //this kind of 'INSERT' could not use for the new marks insertion!
-          let queryUpdate =('INSERT INTO '+
-                  "marks (id, id_unit, id_author, layer,portion_top,portion_left,serial,editor_content) "+
-                  'VALUES ? ON DUPLICATE KEY UPDATE '+
-                  'layer=VALUES(layer),portion_top=VALUES(portion_top),portion_left=VALUES(portion_left),serial=VALUES(serial),editor_content=VALUES(editor_content)');
-          let pupdateMarks = Promise.resolve(_insert_raw(queryUpdate, mysqlForm.marksSet.update));
-          return Promise.all([pinsertNewAttribution, pdeleteAttribution, pinsertNewMarks, pdeleteMarks, pupdateMarks]).then(()=>{return sendingData;});
-        })
       }).then((sendingData)=>{
         _res_success_201(res, sendingData, "data patch req: unit author editing, complete.");
       }).catch((errObj)=>{

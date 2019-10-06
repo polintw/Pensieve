@@ -38,9 +38,11 @@ function _handle_unit_Mount(req, res){
 
     const _unit_Nouns = function(tempData){
       return new Promise((resolveSub, rejectSub)=>{
-        let selectQuery = 'SELECT id_noun FROM attribution WHERE id_unit=?';
         _DB_attribution.findAll({
-          where: {id_unit: reqUnit},
+          where: {
+            id_unit: reqUnit
+          }, //Notice, due to 'paranoid' prop set in Sequelize Model,
+          //this selection would exclude all attribution have been 'deleted' (not null in 'deletedAt')
           attributes: ['id_noun']
         }).then((results)=>{
           if (results.length > 0) {
