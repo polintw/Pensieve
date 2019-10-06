@@ -104,20 +104,6 @@ class Screen extends React.Component {
           className={classnames(styles.planeCanvas)}/>
         <div
           className={classnames(styles.boxOptions)}>
-          <Link
-            to={{
-              pathname: "/screen",
-              search: "?watch=window",
-              hash: "",
-              state: {}
-            }}
-            className={'plainLinkButton'}>
-            <span
-              className={styles.fontOption}
-              style={Object.assign({}, {color: 'black', cursor: 'pointer'})}>
-              {"window"}
-            </span>
-          </Link>
           <div
             className={styles.fontOption}
             style={Object.assign({}, this.style.terraceCom_Screen_options_expand)}
@@ -139,7 +125,7 @@ class Screen extends React.Component {
           className={classnames(styles.boxReturnSet)}>
           <div
             className={classnames(styles.boxLogo)}
-            onClick={(e)=>{e.preventDefault(); e.stopPropagation(); window.location.assign('/cosmic')}}>
+            onClick={(e)=>{e.preventDefault(); e.stopPropagation(); window.location.assign('/')}}>
             <SvgLogo/>
           </div>
           <div

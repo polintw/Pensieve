@@ -36,31 +36,6 @@ export default class NavWalls extends React.Component {
       <div
         className={styles.comNavWalls}>
         <Link
-          to={this.props.match.url+"/mutuals/dialogues"}
-          className={classnames('plainLinkButton', styles.roundRecBox, styles.boxButton)}>
-          <div
-            value={'mutuals'}
-            style={{position: 'relative'}}
-            onMouseEnter={this._handleEnter_Option}
-            onMouseLeave={this._handleLeave_Option}>
-            {
-              (this.state.mouseOn=='mutuals' || this.props.location.pathname.includes("/mutuals/")) &&
-              <span style={{
-                  width: '95%', position: 'absolute', top: '-10%', right: '0%',
-                  borderBottom: 'solid 0.75px #ff7a5f'
-                }}/>
-              }
-              <span
-                className={classnames(styles.spanButton, styles.fontButton)}
-                style={
-                  Object.assign({}, {
-                    color: (this.state.mouseOn=='mutuals' || this.props.location.pathname.includes("/mutuals/"))? "#1a1a1a":'#a0a0a0'}
-                  )}>
-                {"mutual"}
-              </span>
-          </div>
-        </Link>
-        <Link
           to={this.props.match.url+"/embedded/inspireds"}
           className={classnames('plainLinkButton', styles.roundRecBox, styles.boxButton)}>
           <div
@@ -81,7 +56,7 @@ export default class NavWalls extends React.Component {
                   Object.assign({}, {
                     color: (this.state.mouseOn=='embedded' || this.props.location.pathname.includes("/embedded/"))? "#1a1a1a":'#a0a0a0'}
                   )}>
-                {"embed"}
+                {"Inspired"}
               </span>
           </div>
         </Link>
@@ -106,7 +81,7 @@ export default class NavWalls extends React.Component {
                   Object.assign({}, {
                     color: (this.state.mouseOn=='actions' || this.props.location.pathname.includes("/actions/"))? "#1a1a1a":'#a0a0a0'}
                   )}>
-                {"actions"}
+                {"Shared"}
               </span>
           </div>
         </Link>

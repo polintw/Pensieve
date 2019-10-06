@@ -23,7 +23,7 @@ const recordLink = (nodeId, self)=>{
   return (
     <Link
       key={"key_Belong_records_"+nodeId}
-      to={"/cosmic/nodes/"+nodeId}
+      to={"/nodes/"+nodeId}
       nodeid={nodeId}
       className={classnames('plainLinkButton', styles.boxRecord)}
       onMouseEnter={self._handleEnter_Record}

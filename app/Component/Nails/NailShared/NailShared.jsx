@@ -124,17 +124,6 @@ class NailShared extends React.Component {
               )}/>
             <div
               className={classnames(styles.boxBreach)}>
-              <div
-                className={classnames(styles.boxBreachItem)}
-                style={this.style.Com_Nails_Shared_breach_button_}>
-                <span>{"Res"}</span>
-              </div>
-              <Link
-                to={this.props.match.url+"/"+this.props.unitId+'/threads'}
-                className={classnames("plainLinkButton", styles.boxBreachItem)}
-                style={this.style.Com_Nails_Shared_breach_button_}>
-                <span>{"Thr"}</span>
-              </Link>
               <Link
                 to={{
                   pathname: this.props.linkPath,

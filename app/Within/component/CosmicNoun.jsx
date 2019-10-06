@@ -177,7 +177,7 @@ class CosmicNoun extends React.Component {
         <Route path={this.props.match.path+"/"} render={(props)=> (
             <div
               style={Object.assign({}, styleMiddle.boxLogo)}
-              onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_von_cosmic('', '/cosmic')}}>
+              onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_von_cosmic('', '/')}}>
               <SvgLogo/>
             </div>
           )}/>

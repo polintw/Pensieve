@@ -7,7 +7,7 @@ import {
   Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import Accumulated from './Accumulated.jsx';
+import Accumulated from './Accumulated/Accumulated.jsx';
 import {
   handleUsersList
 } from "../../redux/actions/general.js";

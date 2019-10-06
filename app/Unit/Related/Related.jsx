@@ -81,7 +81,7 @@ class Related extends React.Component {
                 className={classnames(styles.boxLeaveSet)}>
                 <div
                   className={classnames(styles.boxLogo)}
-                  onClick={(e)=>{e.preventDefault(); e.stopPropagation(); window.location.assign('/cosmic')}}>
+                  onClick={(e)=>{e.preventDefault(); e.stopPropagation(); window.location.assign('/')}}>
                   <SvgLogo/>
                 </div>
                 <div
