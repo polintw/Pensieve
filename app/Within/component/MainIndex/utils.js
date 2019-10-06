@@ -28,7 +28,7 @@ export function nailChart(choice, unitId, pare){
           <NailRegular
             {...pare.props}
             unitId={unitId}
-            linkPath={pare.props.match.url+'/unit'}
+            linkPath={'/unit'}
             unitBasic={pare.state.unitsBasic[unitId]}
             marksBasic={pare.state.marksBasic}/>
         </div>
@@ -42,7 +42,7 @@ export function nailChart(choice, unitId, pare){
           <NailSquare
             {...pare.props}
             unitId={unitId}
-            linkPath={pare.props.match.url+'/unit'}
+            linkPath={'/unit'}
             unitBasic={pare.state.unitsBasic[unitId]}
             marksBasic={pare.state.marksBasic}/>
         </div>
@@ -56,7 +56,7 @@ export function nailChart(choice, unitId, pare){
           <NailSquare
             {...pare.props}
             unitId={unitId}
-            linkPath={pare.props.match.url+'/unit'}
+            linkPath={'/unit'}
             unitBasic={pare.state.unitsBasic[unitId]}
             marksBasic={pare.state.marksBasic}/>
         </div>

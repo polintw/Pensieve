@@ -190,13 +190,6 @@ class UnitAuthorSummary extends React.Component {
               {"edit"}
             </span>
           </div>
-          <div
-            className={'sumPanelOptions'}
-            style={{cursor: 'pointer'}}
-            onClick={this._handleClick_UnitAction_response}>
-            <SvgCreate
-              place={true}/>
-          </div>
         </div>
       </div>
     )
