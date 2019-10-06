@@ -86,10 +86,21 @@ class Inspired extends React.Component {
     //each Unit form only one Nail,
     //using the list in each unitBasic to accomplish this
     let widthCount = 0; // a value used to accumulate the 'width'--- as the width of Nail was case by case,
-    //begin from '1' is due to the titleReserved would must occupy a place at first row
     self.state.unitsList.forEach(function(unitKey, index){
       let unitBasic = self.state.unitsBasic[unitKey];
       let wideNail = !!(unitBasic.marksList.length > 1); //claim a var representing the width condition
+
+      widthCount += wideNail? 2: 1; //meaning the 'width'  of new nail going to be pushed
+      if(widthCount > 3){ //meaning if the width woudl over 3 (the limit to each row),
+        //than we push the interspace first before the new Nail,
+        //and reset the widthCount because it is belong to the new row.
+        inspireds.push(
+          <div
+            key={'key_Inspired_nails_interspace'+index}
+            className={classnames(styles.boxFillHoriz)}/>
+        );
+        widthCount = wideNail? 2: 1;
+      };
 
       inspireds.push(
         <div
@@ -104,15 +115,10 @@ class Inspired extends React.Component {
             marksBasic={self.state.marksBasic}/>
         </div>
       );
-      widthCount += wideNail? 2: 1; //meaning the 'width'  of new nail just pushed
-      if(widthCount==2){inspireds.push(reserved); widthCount += 1 };
-      //cauculate remainder to decide whether a interspace was needed or not
-      let remainder = widthCount % 3; // no need to +1 as the var must > 1 since we 'plus' 1 or 2 at last step
-      if(remainder==0) inspireds.push(
-        <div
-          key={'key_Inspired_nails_interspace'+index}
-          className={classnames(styles.boxFillHoriz)}/>
-      );
+      //but we have to make a special check for the first row,
+      //which has a reserved place for the title.
+      //only chekc at the first 2(index<2), and add reserved place if the first row already take by 2
+      if(index< 2 && widthCount> 1){inspireds.push(reserved); widthCount += 1 };
 
     });
 
