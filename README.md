@@ -1,6 +1,5 @@
 # project Pensieve *Dev*
 __自由的思考、無限制得探索__
-
 > _no Limitation by Any force_
 
 this is a web application project initiated & own by Chou Po Lin since May. 2018, modified and rewrote from an earlier version, dev_Corner, which was also owned by the same owner since Dec. 2017.
@@ -38,6 +37,12 @@ Doc of [React for production](https://reactjs.org/docs/optimizing-performance.ht
 
 Establishing node modules and basic folders __at the first time__:
 >please place it at a folder you have auth to write and edit
+
+
+```bash
+# only need to run at the first time
+npm run setup 
+```
 
 ```
 npm install
