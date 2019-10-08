@@ -99,12 +99,16 @@ class Theater extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot){
     //due to update to unitId only still Redirect to a new URL
     //check again to re-define the URL
-    if(!this.props.location.pathname.includes('explore/unit')) window.history.replaceState({from: this.props.location}, '', '/explore/unit?theater&unitId='+this.unitId);
+    if(!this.props.location.pathname.includes('explore/unit')) window.history.replaceState(this.props.location.state, '', '/explore/unit?theater&unitId='+this.unitId);
+    //Note that, replaceState would also change the behavior of 'back' by browser, (only back to the new path)
+    //we need to modify the behavior manually one day by 'popstate' iterate by the replaceState
   }
 
   componentDidMount(){
     //replace the URL display in the browser bar if not from independt page
-    if(!this.props.location.pathname.includes('explore/unit')) window.history.replaceState({from: this.props.location}, '', '/explore/unit?theater&unitId='+this.unitId);
+    if(!this.props.location.pathname.includes('explore/unit')) window.history.replaceState(this.props.location.state, '', '/explore/unit?theater&unitId='+this.unitId);
+    //Note that, replaceState would also change the behavior of 'back' by browser, (only back to the new path)
+    //we need to modify the behavior manually one day by 'popstate' iterate by the replaceState
   }
 
   componentWillUnmount(){
@@ -150,7 +154,7 @@ class Theater extends React.Component {
     if(this.state.close){return <Redirect to={{
         pathname: this.props.location.pathname,
         search: '?unitId='+this.unitId,
-        state: {from: (typeof this.props.location.state !== 'undefined')? this.props.location.state.from: '/'}
+        state: this.props.location.state //keep the state as props, perhaps need to increase 'current location' for 'back' use
       }}/>};
 
 
