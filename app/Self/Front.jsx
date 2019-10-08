@@ -5,10 +5,9 @@ import {
   Link
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import cxBind from 'classnames/bind';
 import FrontCognition from './Front_Cognition.jsx';
 import FrontProfile from './Front_Profile.jsx';
-import NavSelf from './component/NavSelf.jsx';
+import NavSelf from './component/NavSelf/NavSelf.jsx';
 
 class Front extends React.Component {
   constructor(props){
@@ -17,15 +16,7 @@ class Front extends React.Component {
 
     };
     this.style={
-      Self_pages_Front_NavSelf: {
-        display:'inline-block',
-        minWidth: '285px',
-        maxWidth: '360px',
-        position: 'fixed',
-        bottom: '0%',
-        left: '19%',
-        boxSizing: 'border-box'
-      }
+
     }
   }
 
@@ -38,8 +29,11 @@ class Front extends React.Component {
           <Route path="/cognition" render={(props)=> <FrontCognition {...props}/>}/>
           <Route path="/profile" render={(props)=> <FrontProfile {...props}/>}/>
           <div
-            className={"selfFront-fixedBottomBox-height"}
-            style={this.style.Self_pages_Front_NavSelf}>
+            style={{
+              position: 'fixed',
+              left: "10vw",
+              bottom: "2.4%" /*follow the position of Cosmic Corner*/
+            }}>
             <NavSelf {...this.props}/>
           </div>
         </div>

@@ -5,13 +5,12 @@
   height: 5%;
   position: absolute;
   top: 2%;
-  right: 1.4%;
-  font-size: 1.23rem;
-  font-weight: 500;
-  color: #F0F0F0;
+  right: 2.1%;
   cursor:pointer;
 }
 
 .spanBackTop {
   box-sizing: border-box;
+  font-size: 1rem;
+  color: #6e6e6e;
 }

@@ -1,18 +1,26 @@
-.boxList {
-  display: inline-block;
-  width: 73%;
+.comRelatedList {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
 }
 
-.boxSubtitle {
-  display: inline-block;
-  width: 27%;
+.boxNail {
+  position: relative;
   box-sizing: border-box;
-  padding: 12% 1%;
+  box-shadow: 0 1px 1px rgb(230, 230, 230);
+  background-color: #FFFFFF;
+  cursor: pointer;
 }
 
-.fontSubtitle {
-  font-size: 1.44rem;
-  letter-spacing: 0.12rem;
-  font-weight: 400;
-  color: #777777;
+/* beneath must after the main 'boxNail'*/
+
+.boxRegular {
+  width: 20vw;
+  height: 30vw;
+}
+
+.boxFillHoriz {
+  width: 99%;
+  height: 10vw;
 }

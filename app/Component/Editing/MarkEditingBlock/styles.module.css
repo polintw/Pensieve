@@ -3,37 +3,55 @@
   flex-direction: column;
   flex-wrap: nowrap;
   width: 100%;
-  min-height: 10.3rem;
+  min-height: 9rem;
   position: sticky;
   bottom: 0;
   box-sizing: border-box;
-  background-color: #FCFCFC;
 }
 
 .boxContent {
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-bottom: 27px;
+  margin-bottom: 32px;
+}
+
+.boxInteractBack {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  box-sizing: border-box;
+}
+
+.boxInteractBackSolid {
+  flex: 1;
+  width: 100%;
+  background-color: #FCFCFC;
+}
+
+.boxInteractBackGradiant {
+  width: 100%;
+  height: 1.9rem;
+  background-image: linear-gradient(0, rgba(252, 252, 252, 1), rgba(252, 252, 252, 0.1));
 }
 
 .boxContentDraft {
-  min-height: 37vh;
+  min-height: 59vh;
   box-sizing: border-box;
-  padding: 1vh 9% 0 10.8%;
+  padding: 0 10% 0 10%;
 }
 
 .boxDraftBottom{
-  height: 2rem;
-  margin: 2.7vh 0 0 0;
+  margin: 5.7vh 0 0 0;
 }
 
 .fontContentDraft {
-  font-size: 1.52rem;
-  letter-spacing: 0.07rem;
-  line-height: 1.6rem;
+  font-size: 1.64rem;
+  letter-spacing: 0.04rem;
+  line-height: 2rem;
   font-weight: 400;
   font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;
-  word-break: break-all;
   color: #000000;
 }

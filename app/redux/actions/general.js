@@ -8,9 +8,6 @@ import {
   AXIOS_SWITCH
 } from '../constants/typesGeneral.js';
 import {
-  SET_COSMIC_TITLE,
-} from '../constants/typesCosmic.js';
-import {
   UPDATE_USERSHEET,
   SETTING_SUBMITTING_SWITCH
 } from '../constants/typesSelfFront.js';
@@ -20,8 +17,8 @@ export function updateUsersBasic(obj) {
   return { type: UPDATE_USERSBASIC, newFetch: obj }
 };
 
-export function setCosmicTitle(int) {
-  return { type: SET_COSMIC_TITLE, ratio: int }
+export function updateNodesBasic(obj) {
+  return { type: UPDATE_NOUNSBASIC, newFetch: obj }
 };
 
 export function setUnitCurrent(obj) {

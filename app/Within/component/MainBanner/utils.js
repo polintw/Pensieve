@@ -1,15 +1,12 @@
 import React from 'react';
 
-export function axios_Main_Banner(cancelToken, lastVisit){
+export function axios_Main_Banner(cancelToken){
   let url = '/router/feed/banner';
 
   return axios.get(url, {
     headers: {
       'charset': 'utf-8',
       'token': window.localStorage['token']
-    },
-    params: {
-      lastVisit: lastVisit
     },
     cancelToken: cancelToken
   }).then(function (res) {

@@ -75,7 +75,7 @@ class EditingModal extends React.Component {
         width: '22%',
         height: '32%',
         position: 'absolute',
-        bottom: '22%',
+        bottom: '21%',
         right: '5.5%',
         overflow: 'visible'
       },

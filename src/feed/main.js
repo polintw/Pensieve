@@ -4,9 +4,11 @@ const main = express.Router();
 const focusExcutive = require('./focus.js');
 const bannerExcutive = require('./banner.js');
 const unitExcutive = require('./unit/execute.js');
+const optionsExcutive = require('./options/execute.js');
 
 main.use('/focus', focusExcutive)
 main.use('/banner', bannerExcutive)
 main.use('/unit', unitExcutive)
+main.use('/options', optionsExcutive)
 
 module.exports = main;

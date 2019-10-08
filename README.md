@@ -1,11 +1,12 @@
 # project Pensieve *Dev*
 __自由的思考、無限制得探索__
-
 > _no Limitation by Any force_
 
 this is a web application project initiated & own by Chou Po Lin since May. 2018, modified and rewrote from an earlier version, dev_Corner, which was also owned by the same owner since Dec. 2017.
 
-LTS : __2.1.0__ on 07/08/2019. Current version, rearrange Explore and Unit reading experience, also begin basic customized recommand.
+LTS : __3.0.0__ on 06/09/2019. Current version, redesign the Unit interface & est. Relation view with independent Unit route.
+
+ver : __2.1.0__ on 07/08/2019. rearrange Explore and Unit reading experience, also begin basic customized recommand.
 
 ver : __2.0.0__ on 05/07/2019. the version focus on Nodes sys & User journey update.
 
@@ -37,10 +38,13 @@ Doc of [React for production](https://reactjs.org/docs/optimizing-performance.ht
 Establishing node modules and basic folders __at the first time__:
 >please place it at a folder you have auth to write and edit
 
+
 ```bash
 # only need to run at the first time
 npm run setup 
+```
 
+```
 npm install
 ```
 
@@ -53,8 +57,8 @@ Rename-Item -Path .\\config\\.env.example.json -NewName .env.json
 > /bcrypt: check [doc](https://www.npmjs.com/package/bcrypt) if face error come from this module, uninstall and install again if needed
 
 
-`/config/.env.json` : modify neccessory info now
-  - databse connection:
+`/config/.env.json` : modify necessary info now
+  - database connection:
 
     modify beneath item to fit your database
 
@@ -81,16 +85,14 @@ npm run migrate
 
 build app by browserify
 
-```
-NODE_ENV="development"
-npm run build
+``` 
+NODE_ENV="development" npm run build
 ```
 
 final, start the server
 
 ```
-NODE_ENV="development"
-npm run start
+NODE_ENV="development" npm start
 ```
 
 
@@ -99,7 +101,7 @@ please, only using account below:
 usertest@mail.com
 helloworld
 ```
-otherwise, you have to add account to dabase manully.
+otherwise, you have to add account to database manually.
 
 Have a nice trip.
 
@@ -107,7 +109,7 @@ Have a nice trip.
 
 #### Branches
 - master: the current Lite version(stable) running on the server
-- develope: the main trunk of the whole project(ahead to master quite long)
+- develop: the main trunk of the whole project(ahead to master quite long)
 - release: a 'temp' branch emerge when we need to 'cut' and 'deploy' a new version. Merge to the master in the end, not to the develope.
 - [feature]: a 'temp' branch emerge during development. Merge to the develope in the end, not to the master.
 
@@ -125,7 +127,7 @@ Have a nice trip.
     Set-SCPFile -ComputerName '(domainName in string)'  -Credential $ (username as declaim var) -KeyFile .ssh\id_rsa -Port (port used) -RemotePath '(path to save at remote in string)' -LocalFile '(file path at local in string)'
 
   - db: seed
-4. set 'export env=production'
+4. set 'export NODE_ENV=produtction'
 5. db: migrate if needed
 6. run build.
 7. run start.

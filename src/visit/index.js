@@ -16,10 +16,10 @@ function _handle_GET_visit_Index(req, res){
 
     return _DB_lastvisitIndex.findOne({
       where: {id_user: userId},
-      attributes: ['updatedAt']
+      attributes: ['updatedAt', 'createdAt']
     }).then((lastVisit)=>{
       let sendingData={
-        lastTime: lastVisit.updatedAt,
+        lastTime: lastVisit.updatedAt==lastVisit.createdAt? 'newly': lastVisit.updatedAt, //to know if the user was newly register
         temp: {}
       };
 

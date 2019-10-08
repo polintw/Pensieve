@@ -4,3 +4,8 @@ node_modules/
 faked/
 config/.env.json
 public/react/
+
+
+stylesSelfFront.css
+stylesWithin.css
+stylesTerrace.css

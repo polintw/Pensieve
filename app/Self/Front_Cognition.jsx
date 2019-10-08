@@ -6,9 +6,9 @@ import {
   Switch
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import Cognition from './component/cognition/Cognition.jsx';
-import Collaterals from './component/cognition/Collaterals.jsx';
-import NavsCognition from './component/cognition/NavsCognition.jsx';
+import Cognition from './cognition/Cognition.jsx';
+import Collaterals from './cognition/Collaterals.jsx';
+import NavCognitions from './cognition/Navs/NavCognitions/NavCognitions.jsx';
 import NavOptions from '../Component/NavOptions.jsx';
 
 class FrontCognition extends React.Component {
@@ -26,15 +26,21 @@ class FrontCognition extends React.Component {
         top: '0',
         left: '0',
         boxSizing: 'border-box',
-        backgroundColor: '#FFFFFF'
+        backgroundColor: 'rgb(252,252,252)'
       },
       Front_Cognition_NavOptions: {
         width: '1.4%',
-        height: '4.2%',
+        height: '3.2%',
         position: 'fixed',
-        bottom: '21%',
-        right: '3%',
+        bottom: '6.9%',
+        right: '1%',
         boxSizing: 'border-box'
+      },
+      Front_cognition_backplane: {
+        width: '100%',
+        height: '100%',
+        position: 'fixed',
+        backgroundColor: '#FCFCFC'
       }
     }
   }
@@ -49,7 +55,7 @@ class FrontCognition extends React.Component {
         }
         break;
       case 'noun':
-        window.location.assign('/cosmic/nouns/'+identifier);
+        window.location.assign('/cosmic/nodes/'+identifier);
         break;
       default:
         return
@@ -57,19 +63,19 @@ class FrontCognition extends React.Component {
   }
 
   render(){
-    //let cx = cxBind.bind(styles);
     return(
       <div>
+        <div style={this.style.Front_cognition_backplane}></div>
         <Switch>
           <Route path={this.props.match.path+"/collaterals"} render={(props)=> <Collaterals {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>
           <Route path={this.props.match.path} render={(props)=> <Cognition {...props} _refer_leaveSelf={this._refer_leaveSelf}/>}/>
         </Switch>
         <div style={this.style.Front_Cognition_backPlane_top}/>
+        <NavCognitions {...this.props}/>
         <div
           style={this.style.Front_Cognition_NavOptions}>
           <NavOptions {...this.props}/>
         </div>
-        <NavsCognition {...this.props}/>
       </div>
     )
   }

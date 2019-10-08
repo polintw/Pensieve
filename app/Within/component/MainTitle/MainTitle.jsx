@@ -9,85 +9,105 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import SvgLogo from '../../../Component/Svg/SvgLogo.jsx';
-import {
-  setCosmicTitle
-} from "../../../redux/actions/general.js";
+import BelongForm from '../BelongForm/BelongForm.jsx';
+import DateConverter from '../../../Component/DateConverter.jsx';
+import CreateShare from '../../../Component/CreateShare.jsx';
+import SvgCreate from '../../../Component/Svg/SvgCreate.jsx';
 
 class MainTitle extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      greet: false, //temp use, before the real customized render constructed
+      onCreate: false
     };
     this.boxTitle = React.createRef();
-    this._check_Position = this._check_Position.bind(this);
+    this._submit_Share_New = this._submit_Share_New.bind(this);
+    this._handleMouseOn_Create = ()=> this.setState((prevState,props)=>{return {onCreate: prevState.onCreate?false:true}});
     this.style={
-      withinCom_MainIndex_scroll_col_logo: {
-        display: 'inline-block',
-        height: '94%',
-        position: 'relative',
-        top: '1%',
-        boxSizing: 'border-box',
-        margin: '0px 50% 0 9%'
-      }
 
     }
   }
 
-  _check_Position(){
-    let titleTop = this.boxTitle.current.getBoundingClientRect().top;
-    //due to this answer[https://stackoverflow.com/questions/6665997/switch-statement-for-greater-than-less-than]
-    //if else should be the fastest way
-
-    //1 after < scrollLine
-    if(this.props.mainTitle < 1 && titleTop < this.scrollLine){
-      this.props._set_title_topRatio(1);
-    }
-    else if(titleTop < this.scrollOrigin && titleTop > this.scrollLine){
-      let ratio = (this.scrollOrigin-titleTop)/this.scrollRange;
-      this.props._set_title_topRatio(ratio);
-    }
-    //always 0 if at the top view
-    else if(this.props.mainTitle > 0 && titleTop > this.scrollLine){
-      this.props._set_title_topRatio(0);
-    }
+  _submit_Share_New(dataObj){
+    window.location.assign('/user/cognition/actions/shareds/units?theater&unitId='+dataObj.unitId);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
+    //render greeting words after checking the visit status
+    //mainlt to understand whether the user was new register or not
+    if(prevProps.lastVisit!==this.props.lastVisit && this.props.lastVisit){
+      let date = new Date(),
+          i18n = '';
+      let currentCourse = date.getHours();
 
+      if(this.props.lastVisit=='newly') i18n = 'welcomeNew'
+      else if(currentCourse> 17) i18n = 'greetNight'
+      else if(currentCourse> 6 && currentCourse< 11) i18n = 'greetMorning'
+      else i18n = 'welcomeBack';
+
+      this.setState({
+        greet: i18n
+      });
+    }
   }
 
   componentDidMount() {
-    //beneath, base on the static of the height of the Tilte, now is 83px limited by MainIndex
-    this.scrollOrigin = (this.boxTitle.current.getBoundingClientRect().top-40);
-    this.scrollRange = 47;
-    this.scrollLine = this.scrollOrigin-this.scrollRange;
-    window.addEventListener("scroll", this._check_Position); //becuase we using "position: static", listener could not add on element directlly.
+
   }
 
   componentWillUnmount() {
-    window.removeEventListener("scroll", this._check_Position);
+
   }
 
   render(){
+    let date = new Date(); //be used to display present time
+
     return(
       <div
         ref={this.boxTitle}
         className={classnames(styles.comMainTitle)}>
         <div
-          style={this.style.withinCom_MainIndex_scroll_col_logo}>
-          <SvgLogo/>
+          className={classnames(styles.borderBanner, styles.boxUnderline)}></div>
+        <div
+          className={classnames(styles.boxFlex)}>
+          {
+            this.state.greet &&
+            <div
+              className={styles.boxGreet}>
+              <span className={classnames(styles.fontSubtitle)}>
+                {this.props.i18nUIString.catalog[this.state.greet]}</span>
+            </div>
+          }
+          <div
+            className={classnames(styles.boxDate, 'fontGillSN')}>
+            <DateConverter
+              place={'title'}
+              datetime={date.getTime()}/>
+          </div>
         </div>
         <div
-          className={classnames('boxInlineRelative', styles.boxExplore, styles.fontExplore)}>
-          <span style={{width: '73%', position: 'absolute', bottom: '7%', right: '8%', borderBottom: 'solid 0.75px #a8a8a8'}}></span>
-          <Link
-            to="/cosmic/explore"
-            className={'plainLinkButton'}>
-            {'explore'}
-          </Link>
+          className={classnames(styles.boxAction)}>
+          <div
+            className={classnames(styles.boxCreate)}
+            onMouseEnter={this._handleMouseOn_Create}
+            onMouseLeave={this._handleMouseOn_Create}>
+            <SvgCreate
+              black={this.state.onCreate}
+              place={false}
+              stretch={true}/>
+            <CreateShare
+              _submit_Share_New={this._submit_Share_New}
+              _refer_von_Create={this.props._refer_von_cosmic}/>
+            <div
+              style={{height: "100%", position: 'absolute', right: '-6%', top: '0',borderRight: 'solid 1px #6e6e6e'}}/>
+          </div>
+          <div
+            className={classnames(styles.boxBelong)}>
+            <BelongForm/>
+          </div>
         </div>
+
       </div>
     )
   }
@@ -97,13 +117,13 @@ const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
     unitCurrent: state.unitCurrent,
-    mainTitle: state.mainTitle
+    i18nUIString: state.i18nUIString,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    _set_title_topRatio: (int) => { dispatch(setCosmicTitle(int)); }
+
   }
 }
 

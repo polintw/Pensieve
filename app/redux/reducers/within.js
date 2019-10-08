@@ -9,9 +9,6 @@ import {
   UPDATE_USERSBASIC
 } from '../constants/typesGeneral.js';
 import {
-  SET_COSMIC_TITLE,
-} from '../constants/typesCosmic.js';
-import {
   initGlobal,
   initCosmicGeneral,
   initUnit,
@@ -37,11 +34,6 @@ function pageWithin(state = initialGeneral, action){
     case SET_UNITINSPIRED:
       return Object.assign({}, state, {
         unitCurrent: {...state.unitCurrent, ...action.nextMarksInteraction}
-      })
-      break;
-    case SET_COSMIC_TITLE:
-      return Object.assign({}, state, {
-        mainTitle: action.ratio
       })
       break;
     case UNIT_SUBMITTING_SWITCH:

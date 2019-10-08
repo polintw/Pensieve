@@ -1,9 +1,12 @@
 const express = require('express');
 const execute = express.Router();
 const jwt = require('jsonwebtoken');
+const {_res_success} = require('../utils/resHandler.js');
 const {verify_key} = require('../../config/jwt.js');
 const winston = require('../../config/winston.js');
-const {_res_success} = require('../utils/resHandler.js');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
+const _DB_attribution = require('../../db/models/index').attribution;
 const {
   _select_Basic
 } = require('../utils/dbSelectHandler.js');
@@ -23,7 +26,9 @@ function _handle_cosmicPresent_GET(req, res){
     if (!jwtVerified) throw new authorizedError("during GET--feed/focus, "+jwtVerified, 32);
 
     let userId = jwtVerified.user_Id;
-    let mysqlForm = {
+    let mysqlForm = { //this is prepard for the old method(any f() start with'_select_')
+      //this function need the items in array also stay in [],
+      //so we can only create another list for the method specifically
       accordancesList: userId, //operator is not "IN"
       unitsList: []
     },
@@ -46,7 +51,8 @@ function _handle_cosmicPresent_GET(req, res){
       if(resultsUnit.length < 1){return sendingData}; // if there is not any shareds record at all
       //if needed, selecting again by the result
       resultsUnit.forEach((row, index)=>{
-        mysqlForm.unitsList.push([row.id]);
+        mysqlForm.unitsList.push([row.id]); //this was actually similar to the unitsList in sendingData(create below),
+        //except the '[]' outside each item--- and the order here of course.
         sendingData.unitsList.unshift(row.id);
         sendingData.usersList.push(row.id_author);
         sendingData.unitsBasic[row.id] = {
@@ -69,12 +75,15 @@ function _handle_cosmicPresent_GET(req, res){
         where: ['id_unit']
       },
       conditionAttri = {
-        table: 'attribution',
-        cols: ['id_unit', 'id_noun'],
-        where: ['id_unit']
+        where: {
+          id_unit: sendingData.unitsList
+        }, //Notice, due to 'paranoid' prop set in Sequelize Model,
+        //this selection would exclude all attribution have been 'deleted' (not null in 'deletedAt')
+        attributes: ['id_unit', 'id_noun']
       };
+
       let pMarks = Promise.resolve(_select_Basic(conditionsMarks, mysqlForm.unitsList).catch((errObj)=>{throw errObj}));
-      let pAtrri = Promise.resolve(_select_Basic(conditionAttri, mysqlForm.unitsList).catch((errObj)=>{throw errObj}));
+      let pAtrri = Promise.resolve(_DB_attribution.findAll(conditionAttri).catch((errObj)=>{throw errObj}));
 
       return Promise.all([pAtrri, pMarks]).then((resultsStep2)=>{
         let resultsAttri = resultsStep2[0],

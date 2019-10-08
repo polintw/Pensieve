@@ -1,0 +1,29 @@
+.boxList {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  margin-top: 4vh;
+}
+
+.boxNail {
+  height: 25vw;
+  position: relative;
+  box-sizing: border-box;
+  box-shadow: 0 1px 1px rgb(230, 230, 230);
+  background-color: #FFFFFF;
+}
+
+.boxReserved {
+  display: inline-block;
+  height: 25vw;
+  box-sizing: border-box;
+  background-color: transparent;
+}
+
+.boxFillHoriz {
+  width: 99%;
+  height: 5vw;
+}

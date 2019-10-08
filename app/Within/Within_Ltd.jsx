@@ -136,7 +136,7 @@ class WithinLtd extends React.Component {
       case 'noun':
         this.setState((prevState, props)=>{
           let unitTo = {
-            params: '/cosmic/nouns/'+identifier,
+            params: '/cosmic/nodes/'+identifier,
             query: ''
           };
           return {unitTo: unitTo}

@@ -108,10 +108,10 @@ class OpenedMark extends React.Component {
     );
 
     //set height of scroll area between 81% ~ 69% depend on spot's top,
-    //use 50 as base to cauculate the portion
+    //use 50(downToMdidline) as base to cauculate the portion
     //basically it would equal to 'vh' as we set the block height 100% to vh
     //and keep them as a num first
-    inBlockHeight = 81 - ((downToMdidline? (coordinate.top- 50): (50- coordinate.top))/50) * (81-69)
+    inBlockHeight = (100-87) + ((coordinate.top/ 100) * (87-65))
 
     // because we want to pass left/right status as props to Block, we need to add from here
     const childrenWithProps = React.Children.map(this.props.children, (child) =>
