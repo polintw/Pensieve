@@ -41,6 +41,12 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
+    units.hasMany(models.nodes_activity, {
+      foreignKey:"id_firstUnit",
+      sourceKey: "id",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
   };
   return units;
 };
