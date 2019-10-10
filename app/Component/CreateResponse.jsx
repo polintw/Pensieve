@@ -94,7 +94,7 @@ class CreateResponse extends React.Component {
   }
 
   _submit_Share_New(){
-    window.location.assign('/user/cognition/actions/shareds/units?theater&unitId='+dataObj.unitId);
+    window.location.assign('/user/cognition/actions/shareds/unit?theater&unitId='+dataObj.unitId);
   }
 
   render(){

@@ -188,7 +188,7 @@ class Unit extends React.Component {
 
 
   render(){
-    if(this.state.close){return <Redirect to={this.props.location.state.from}/>}
+    if(this.state.close){let pathTo=this.props.location.pathname.replace("/unit","");return <Redirect to={pathTo}/>}
 
     let params = new URLSearchParams(this.props.location.search); //we need value in URL query
     let paramsTheater = params.has('theater'); //bool, true if there is 'theater'

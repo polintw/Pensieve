@@ -30,7 +30,7 @@ class MainTitle extends React.Component {
   }
 
   _submit_Share_New(dataObj){
-    window.location.assign('/user/cognition/actions/shareds/units?theater&unitId='+dataObj.unitId);
+    window.location.assign('/user/cognition/actions/shareds/unit?theater&unitId='+dataObj.unitId);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){

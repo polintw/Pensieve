@@ -6,6 +6,9 @@ const {
   _select_Basic
 } = require('../utils/dbSelectHandler.js');
 const {
+  internalError,
+  authorizedError,
+  _handle_ErrCatched,
   _handler_err_NotFound,
   _handler_err_BadReq,
   _handler_err_Unauthorized,
@@ -19,7 +22,7 @@ status.use(function(req, res) {
   if (token) {
     jwt.verify(token, verify_key, function(err, payload) {
       if (err) {
-        _handler_err_Unauthorized(err, res)
+        _handle_ErrCatched(new authorizedError("invalid token detect at /stattus, "+err, 32), req, res);
       } else {
         let userId = payload.user_Id;
         let mysqlForm = {

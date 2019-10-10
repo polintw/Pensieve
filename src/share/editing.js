@@ -44,7 +44,6 @@ function _handle_unit_AuthorEditing(req, res){
       //check user and unit combination!
       _select_withPromise_Basic(UNITS_GENERAL, mysqlForm.accordancesList).then((resultsUnit)=>{
         if(resultsUnit[0].id_author != userId){throw {err: "", status:400};}
-        return;
       }).then(()=>{
         //first, check current records
         let pMarks = Promise.resolve(_select_withPromise_Basic(MARKS_UNITS, mysqlForm.accordancesList)),
@@ -118,7 +117,7 @@ function _handle_unit_AuthorEditing(req, res){
         //check the necessity of each action
         let pinsertNewAttribution = Promise.resolve(_insert_basic({table: 'attribution', col: '(id_noun, id_unit, id_author)'}, nounsNewSet)),
             //sequelize could not accept empty values (2018.11.26)
-            pdeleteAttribution = nounsDeletionList.length>0?Promise.resolve(_DB_attribution.destroy({where: {id_noun: nounsDeletionList}})):null,
+            pdeleteAttribution = nounsDeletionList.length>0?Promise.resolve(_DB_attribution.destroy({where: {id_noun: nounsDeletionList, id_unit: reqUnit}})):null,
             pinsertNewMarks = mysqlForm.marksSet.insertion.length>0?Promise.resolve(_DB_marks.bulkCreate(mysqlForm.marksSet.insertion, {fields: ['id_unit', 'id_author', 'layer','portion_top','portion_left','serial','editor_content']})):null,
             pdeleteMarks = mysqlForm.marksList.deletion.length>0?Promise.resolve(_DB_marks.destroy({where: {id: mysqlForm.marksList.deletion}})):null;
         //due to the query of mark update required the id, which could be modified from client
