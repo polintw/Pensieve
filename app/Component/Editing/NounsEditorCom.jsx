@@ -45,7 +45,7 @@ export class NounsList extends React.Component {
   _handleClick_nounDelete(event){
     event.stopPropagation();
     event.preventDefault();
-    this.props._set_nounDelete(event.currentTarget.getAttribute('index'));
+    this.props._set_nounDelete(event.currentTarget.getAttribute('nodeid'));
   }
 
   render() {
@@ -58,7 +58,7 @@ export class NounsList extends React.Component {
           <span>{thisNoun.name}</span>
           <span style={{fontStyle: 'italic'}}>{thisNoun.prefix ? ", "+thisNoun.prefix :""}</span>
           <span
-            index={index}
+            nodeid={nounId}
             style={Object.assign({}, {float: 'left', cursor: 'pointer'}, styleMiddle.spanSubmit)}
             onClick={this._handleClick_nounDelete}>
             {"x"}</span>
