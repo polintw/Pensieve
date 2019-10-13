@@ -1,7 +1,7 @@
 import React from 'react';
 
 export function axios_Main_Banner(cancelToken){
-  let url = '/router/feed/banner';
+  let url = '/router/feed/custom/new';
 
   return axios.get(url, {
     headers: {

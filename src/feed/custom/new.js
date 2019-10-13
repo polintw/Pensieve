@@ -13,7 +13,7 @@ const {
   internalError,
 } = require('../utils/reserrHandler.js');
 
-function _handle_GET_feed_banner(req, res){
+function _handle_GET_feed_customNew(req, res){
   new Promise((resolve, reject)=>{
     let userId = req.extra.tokenUserId;
 
@@ -43,15 +43,10 @@ function _handle_GET_feed_banner(req, res){
     });
 
   }).then((sendingData)=>{
-    _res_success(res, sendingData, "feed, GET: /banner, complete.");
+    _res_success(res, sendingData, "feed, GET: /custom/new, complete.");
   }).catch((error)=>{
     _handle_ErrCatched(error, req, res);
   });
 }
 
-execute.get('/', function(req, res){
-  if(process.env.NODE_ENV == 'development') winston.verbose('feed, GET: /banner ');
-  _handle_GET_feed_banner(req, res);
-})
-
-module.exports = execute;
+module.exports = _handle_GET_feed_customNew;
