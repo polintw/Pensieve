@@ -2,16 +2,16 @@ const express = require('express');
 const execute = express.Router();
 //const jwt = require('jsonwebtoken');
 //const {verify_key} = require('../../config/jwt.js');
-const winston = require('../../config/winston.js');
+const winston = require('../../../config/winston.js');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
-const _DB_nodesActivity = require('../../db/models/index').nodes_activity;
-const _DB_lastvisitIndex = require('../../db/models/index').lastvisit_index;
-const {_res_success} = require('../utils/resHandler.js');
+const _DB_nodesActivity = require('../../../db/models/index').nodes_activity;
+const _DB_lastvisitIndex = require('../../../db/models/index').lastvisit_index;
+const {_res_success} = require('../../utils/resHandler.js');
 const {
   _handle_ErrCatched,
   internalError,
-} = require('../utils/reserrHandler.js');
+} = require('../../utils/reserrHandler.js');
 
 function _handle_GET_feed_customNew(req, res){
   new Promise((resolve, reject)=>{
