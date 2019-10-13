@@ -27,6 +27,11 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
+    users.hasOne(models.users_custom_index, {
+      foreignKey:"id_user",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
     users.hasOne(models.sheets, {
       foreignKey:"id_user",
       onDelete: 'cascade',
