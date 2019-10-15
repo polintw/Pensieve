@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function axios_Main_Banner(cancelToken){
+export function axios_feedList_customNew(cancelToken){
   let url = '/router/feed/custom/new';
 
   return axios.get(url, {
@@ -12,7 +12,6 @@ export function axios_Main_Banner(cancelToken){
   }).then(function (res) {
     let resObj = JSON.parse(res.data);
 
-    //data(perhaps nodes list) need to render after lastvisit check
     return resObj;
   }).catch(function (thrown) {
     throw thrown;
