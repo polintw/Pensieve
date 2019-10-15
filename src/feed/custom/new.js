@@ -62,12 +62,36 @@ function _handle_GET_feed_customNew(req, res){
           if(sendingData.listBelong.indexOf(row.id_unit) < 0) sendingData.listBelong.push(row.id_unit); // which means skipping the already count in Unit
           newAttri.rows.splice(i, 1);
         }
-      }
-      //next, check if any new Nodes used, and if the Unit used it still on the list
-      //confirm the length after the list form
-
+      } //(not ; yet)
+      //next, check if any new Nodes used, and if the Unit used it still is on the list
+      //and if there is not any new Unit left after belogn check, no need to do the rest
+      //notice, the newAttri.count is not reliable now since the count would not change at splice process
+      if(newAttri.rows.length > 0){
+        //we loop the newAttri again, check if the node id in new nodes list or not
+        //so, create a id list of new node first
+        let newNodeList = newNodesActi.rows.map((item,index)=> return item.id_node);
+        newAttri.rows.forEach((row, index)=>{
+          //if the node is new used, push it into listFirst
+          if(newNodeList.indexOf(row.id_noun) > 0){
+            if(sendingData.listFirst.indexOf(row.id_unit) < 0) sendingData.listFirst.push({star: row.id_noun, unitId: row.id_unit});
+            return; //return to next iterator
+          }
+          //if the node not on new node list
+          if(sendingData.commonList.indexOf(row.id_unit)< 0) sendingData.commonList.push(row.id_unit);
+        })
+        //finally, check the length of the listFirst if under the limit
+        //length limit of listFirst is 3
+        //if over, splice the outsider & move it to the common
+        if(sendingData.listFirst.length >3){
+          let surplusArr = sendingData.listFirst.slice(3); //shallow copy the surplus items
+          sendingData.commonList = sendingData.commonList.concat(surplusArr); //merge surplus items to commonList
+          //Notice! And we 'don't' delete the surplus part from listFirst
+          //in case the shallow copy lost its referrence(both slice & concat are shallow copy)
+          //and since the client side just render the limit amount, it would be safe
+        }
+      } //(not ; yet)
+      return sendingData; //(end of 'else')
     })
-
   }).then((sendingData)=>{
     _res_success(res, sendingData, "feed, GET: /custom/new, complete.");
   }).catch((error)=>{
