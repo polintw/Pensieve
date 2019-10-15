@@ -4,7 +4,7 @@ const execute = express.Router();
 const winston = require('../../../config/winston.js');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
-const _DB_attribution = require('../../db/models/index').attribution;
+const _DB_attribution = require('../../../db/models/index').attribution;
 const _DB_nodesActivity = require('../../../db/models/index').nodes_activity;
 const _DB_usersCustomIndex = require('../../../db/models/index').users_custom_index;
 const {_res_success} = require('../../utils/resHandler.js');
@@ -30,12 +30,12 @@ function _handle_GET_feed_customNew(req, res){
   }).then((usersIndex)=>{
     let pSelectAttri = _DB_attribution.findAndCountAll({
           where: {
-            createdAt: [Op.gt]: usersIndex.last_visit
+            createdAt: {[Op.gt]: usersIndex.last_visit}
           }
         }).catch((err)=>{throw err}),
         pSelectNodesActi = _DB_nodesActivity.findAndCountAll({
           where: {
-            createdAt: [Op.gt]: usersIndex.last_visit
+            createdAt: {[Op.gt]: usersIndex.last_visit}
           }
         }).catch((err)=>{throw err});
 
@@ -69,7 +69,7 @@ function _handle_GET_feed_customNew(req, res){
       if(newAttri.rows.length > 0){
         //we loop the newAttri again, check if the node id in new nodes list or not
         //so, create a id list of new node first
-        let newNodeList = newNodesActi.rows.map((item,index)=> return item.id_node);
+        let newNodeList = newNodesActi.rows.map((item,index)=>{return item.id_node;});
         newAttri.rows.forEach((row, index)=>{
           //if the node is new used, push it into listFirst
           if(newNodeList.indexOf(row.id_noun) > 0){

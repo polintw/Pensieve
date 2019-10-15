@@ -9,6 +9,9 @@ import {
   UPDATE_USERSBASIC
 } from '../constants/typesGeneral.js';
 import {
+  SET_INDEXLISTS
+} from '../constants/typesCosmic.js';
+import {
   initGlobal,
   initCosmicGeneral,
   initUnit,
@@ -34,6 +37,11 @@ function pageWithin(state = initialGeneral, action){
     case SET_UNITINSPIRED:
       return Object.assign({}, state, {
         unitCurrent: {...state.unitCurrent, ...action.nextMarksInteraction}
+      })
+      break;
+    case SET_INDEXLISTS:
+      return Object.assign({}, state, {
+        indexLists: {...state.indexLists, ...action.lists}
       })
       break;
     case UNIT_SUBMITTING_SWITCH:

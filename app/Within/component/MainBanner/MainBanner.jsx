@@ -13,6 +13,12 @@ import {
   axios_feedList_customNew,
 } from './utils.js';
 import {
+  setIndexLists
+} from '../../../redux/actions/cosmic.js';
+import {
+  initCosmicGeneral
+} from '../../../redux/constants/typesCosmic.js';
+import {
   cancelErr,
   uncertainErr
 } from '../../../utils/errHandlers.js';
@@ -22,11 +28,21 @@ class MainBanner extends React.Component {
     super(props);
     this.state = {
       axios: false,
+      unitsBasic: {},
+      marksBasic: {}
     };
     this.axiosSource = axios.CancelToken.source();
+    this._set_UnitsData = this._set_UnitsData.bind(this);
     this.style={
 
     }
+  }
+
+  _set_UnitsData(submitList){
+    //    axios_Units(this.axiosSource.token)
+    //self.props._submit_NounsList_new(focusObj.main.nounsListMix);
+    //self.props._submit_UsersList_new(focusObj.main.usersList);
+    //setState
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -38,19 +54,38 @@ class MainBanner extends React.Component {
     this.setState({axios: true});
 
     axios_feedList_customNew(this.axiosSource.token)
-      .then((feedNew)=>{
+      .then((parsedObj)=>{
         self.setState({
-          axios: false,
+          axios: false
         });
-
-        //here, update the list to Redux reducer first,
+        let submitObj = {},
+            concatList= [];
+        if(parsedObj.main.listBelong.length>0) {
+          submitObj['customNewBelong'] = parsedObj.main.listBelong;
+          concatList.concat(parsedObj.main.listBelong);
+        }else ;//if no item in: belong, GET people in belong or remind, or suggest belong input, or just silence
+        if(parsedObj.main.listFirst.length>0) {
+          //listFirst is different from the other two, each item is a obj
+          //we need to create another list represent the ids it had
+          let listFirstId = parsedObj.main.listFirst.map((item, index)=>{
+            return item.unitId;
+          });
+          concatList.concat(listFirstId);
+          submitObj['customNewFirst'] = parsedObj.main.listFirst;
+        }; //no else condition for listFirst
         //notice, the list 'selected' should keep in 'false' before any return, as a 'red light' to rendering focus list
         //so update it to [] if item in other new, or just wait for update by selected
-        //if any true list, then get Unit data by list, and keep it at local
-        //if no item in: belong, GET people in belong or remind, or suggest belong input, or just silence
-        //if no item in: other new, GET selected by preference(allow empty selected by this api)(remember update into [] even with empty return)
+        if(parsedObj.main.commonList.length>0) {
+          submitObj['customNew'] = parsedObj.main.commonList;
+          concatList.concat(parsedObj.main.commonList);
+          submitObj['customSelected'] = [];
+        }else ; //if no item in: other new, GET selected by preference(allow empty selected by this api)(remember update into [] even with empty return)
 
-        //clear & reset to init when Unmount, make sure the list would not render anything when retrun to index
+        //then before req Unit data to server, remove duplicate in concatList(commonList may have same item as listFirst)
+        concatList = concatList.filter((item,index)=>{return concatList.indexOf(item) == index}); //because indexOf() only return the first one
+        self._set_UnitsData(concatList);
+        //update the list to Redux reducer,
+        self.props._submit_IndexLists(submitObj);
 
       }).catch(function (thrown) {
         self.setState({axios: false});
@@ -67,9 +102,13 @@ class MainBanner extends React.Component {
     if(this.state.axios){
       this.axiosSource.cancel("component will unmount.")
     }
+    //clear & reset to init when Unmount, make sure the list would not render anything when retrun to index
+    self.props._submit_IndexLists(initCosmicGeneral.indexLists);
   }
 
   render(){
+    //the units list would update seperately from unitsBasic
+    //so check state in render, block rendering if unitsBasic not ready
     return(
       <div
         className={classnames(styles.comMainBanner)}>
@@ -90,7 +129,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    _submit_IndexLists: (listsObj) => { dispatch(setIndexLists(listsObj)); },
   }
 }
 
