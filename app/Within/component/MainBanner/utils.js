@@ -18,7 +18,7 @@ export function axios_feedList_customNew(cancelToken){
   });
 }
 
-export function axios_Units(cancelToken){
+export function axios_Units(cancelToken, reqList){
   let url = '/router/units';
 
   return axios.get(url, {
@@ -26,6 +26,9 @@ export function axios_Units(cancelToken){
       'charset': 'utf-8',
       'token': window.localStorage['token']
     },
+    params: {
+      unitsList: reqList
+    }
     cancelToken: cancelToken
   }).then(function (res) {
     let resObj = JSON.parse(res.data);

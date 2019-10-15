@@ -39,10 +39,28 @@ class MainBanner extends React.Component {
   }
 
   _set_UnitsData(submitList){
-    //    axios_Units(this.axiosSource.token)
-    //self.props._submit_NounsList_new(focusObj.main.nounsListMix);
-    //self.props._submit_UsersList_new(focusObj.main.usersList);
-    //setState
+    const self = this;
+    this.setState({axios: true});
+
+    axios_Units(this.axiosSource.token, submitList)
+      .then((parsedObj)=>{
+        self.setState({
+          axios: false
+        });
+        //self.props._submit_NounsList_new(focusObj.main.nounsListMix);
+        //self.props._submit_UsersList_new(focusObj.main.usersList);
+        //setState
+
+      }).catch(function (thrown) {
+        self.setState({axios: false});
+        if (axios.isCancel(thrown)) {
+          cancelErr(thrown);
+        } else {
+          let message = uncertainErr(thrown);
+          if(message) alert(message);
+        }
+      });
+
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
