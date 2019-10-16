@@ -19,15 +19,14 @@ export function axios_feedList_customNew(cancelToken){
 }
 
 export function axios_Units(cancelToken, reqList){
-  let url = '/router/units';
+  //compose url to a string, due to unknonw reason to axios that the prop "params" didn'y work
+  //and Notice ! reqList would be empty if no item in list, but it would cause error when compose url
+  let url = '/router/units?unitsList='+ ((reqList.length>0)? reqList : "[]");
 
   return axios.get(url, {
     headers: {
       'charset': 'utf-8',
       'token': window.localStorage['token']
-    },
-    params: {
-      unitsList: reqList
     },
     cancelToken: cancelToken
   }).then(function (res) {

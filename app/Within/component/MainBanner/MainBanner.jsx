@@ -94,7 +94,7 @@ class MainBanner extends React.Component {
           let listBelongId = parsedObj.main.listBelong.map((item, index)=>{
             return item.unitId;
           });
-          concatList.concat(listBelongId);
+          concatList = concatList.concat(listBelongId);
           submitObj['customNewBelong'] = parsedObj.main.listBelong;
         }else ;//if no item in: belong, GET people in belong or remind, or suggest belong input, or just silence
         if(parsedObj.main.listFirst.length>0) {
@@ -103,20 +103,20 @@ class MainBanner extends React.Component {
           let listFirstId = parsedObj.main.listFirst.map((item, index)=>{
             return item.unitId;
           });
-          concatList.concat(listFirstId);
+          concatList = concatList.concat(listFirstId);
           submitObj['customNewFirst'] = parsedObj.main.listFirst;
         }; //no else condition for listFirst
         //notice, the list 'selected' should keep in 'false' before any return, as a 'red light' to rendering focus list
         //so update it to [] if item in other new, or just wait for update by selected
         if(parsedObj.main.commonList.length>0) {
           submitObj['customNew'] = parsedObj.main.commonList;
-          concatList.concat(parsedObj.main.commonList);
+          concatList = concatList.concat(parsedObj.main.commonList);
           submitObj['customSelected'] = [];
         }else ; //if no item in: other new, GET selected by preference(allow empty selected by this api)(remember update into [] even with empty return)
 
         //then before req Unit data to server, remove duplicate in concatList(commonList may have same item as listFirst)
         concatList = concatList.filter((item,index)=>{return concatList.indexOf(item) == index}); //because indexOf() only return the first one
-        self._set_UnitsData(concatList);
+        if(concatList.length > 0) self._set_UnitsData(concatList); //req only if the list has something
         //update the list to Redux reducer,
         self.props._submit_IndexLists(submitObj);
 

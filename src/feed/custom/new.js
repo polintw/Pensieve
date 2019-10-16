@@ -48,19 +48,28 @@ function _handle_GET_feed_customNew(req, res){
         listBelong: [],
         listFirst: [],
         commonList: [],
-        temp: {}
+        temp: {
+          skipList: [] //this, is because the structure of listBelong & listFirst are hard to detect item value
+          //it's just a method to bypass repeat Unit among all of the three list
+        }
       };
 
       //remember we are using findAndCountAll method
       if(newAttri.count < 0){ return sendingData;} //pass the rest if there is none any new Units.
       else
       //first, check if there is any new Unit match the belong nodes
-      for(let i= (newAttri.rows.length-1) ; i >= 0 ; i--){ //because we need to splice the row if match,
-        //we count down from the end, to assure the index is work
-        let row = newAttri.rows[i];
-        if(usersIndex.currentbelong.indexOf(row.id_noun) >= 0) {
-          if(sendingData.listBelong.indexOf(row.id_unit) < 0) sendingData.listBelong.push({star: row.id_noun, unitId: row.id_unit}); // which means skipping the already count in Unit
-          newAttri.rows.splice(i, 1);
+      //is that, usersIndex.currentbelong could be 'null' if the user didn't input any records, so skip the loop if the currentbelong is empty
+      if(Boolean(usersIndex.currentbelong) ){
+        for(let i= (newAttri.rows.length-1) ; i >= 0 ; i--){ //because we need to splice the row if match,
+          //we count down from the end, to assure the index is work
+          let row = newAttri.rows[i];
+          if(usersIndex.currentbelong.indexOf(row.id_noun) >= 0) {
+            if(sendingData.temp.skipList.indexOf(row.id_unit) < 0){
+              sendingData.listBelong.push({star: row.id_noun, unitId: row.id_unit});
+              sendingData.temp.skipList.push(row.id_unit);
+            }
+            newAttri.rows.splice(i, 1);
+          }
         }
       } //(not ; yet)
       //next, check if any new Nodes used, and if the Unit used it still is on the list
@@ -72,12 +81,15 @@ function _handle_GET_feed_customNew(req, res){
         let newNodeList = newNodesActi.rows.map((item,index)=>{return item.id_node;});
         newAttri.rows.forEach((row, index)=>{
           //if the node is new used, push it into listFirst
-          if(newNodeList.indexOf(row.id_noun) > 0){
-            if(sendingData.listFirst.indexOf(row.id_unit) < 0) sendingData.listFirst.push({star: row.id_noun, unitId: row.id_unit});
-            return; //return to next iterator
+          if(newNodeList.indexOf(row.id_noun) >= 0){
+            if(sendingData.temp.skipList.indexOf(row.id_unit) < 0){
+              sendingData.listFirst.push({star: row.id_noun, unitId: row.id_unit});
+              sendingData.temp.skipList.push(row.id_unit);
+            }
           }
-          //if the node not on new node list
-          if(sendingData.commonList.indexOf(row.id_unit)< 0) sendingData.commonList.push(row.id_unit);
+          else //to skip the below step if the listFirst has it
+            //check the commonList directly, it's an arr with pure item
+            if(sendingData.commonList.indexOf(row.id_unit)< 0) sendingData.commonList.push(row.id_unit); //end of 'else'
         })
         //finally, check the length of the listFirst if under the limit
         //length limit of listFirst is 3
