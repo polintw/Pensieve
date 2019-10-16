@@ -8,9 +8,30 @@
 
 .boxUnitsBelong {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   flex-wrap: wrap;
   width: 100%; /*controled by parent*/
   position: relative;
   box-sizing: border-box;
+  margin: 1rem 0;
+}
+
+.boxUnitsFirst {
+  
+}
+
+.boxTitleGreet {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 1rem 0;
+}
+
+.spanTitleGreet {
+
+}
+
+.fontTitle {
+
 }

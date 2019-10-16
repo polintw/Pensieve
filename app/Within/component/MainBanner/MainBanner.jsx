@@ -41,7 +41,10 @@ class MainBanner extends React.Component {
     };
     this.axiosSource = axios.CancelToken.source();
     this._set_UnitsData = this._set_UnitsData.bind(this);
+    this._render_titleGreet = this._render_titleGreet.bind(this);
+    this._render_unitsFirst = this._render_unitsFirst.bind(this);
     this._render_unitsBelong = this._render_unitsBelong.bind(this);
+    this._render_subtitleFirst = this._render_subtitleFirst.bind(this)
     this.style={
 
     }
@@ -139,6 +142,29 @@ class MainBanner extends React.Component {
     self.props._submit_IndexLists(initCosmicGeneral.indexLists);
   }
 
+  _render_titleGreet(){
+    let indexLists = this.props.indexLists,
+        titleText = "";
+    // title for new belong > silence if no belong but first > niether belong nor first, then title for remind & status of belong node > statics ? plain greet?
+    if(indexLists.customNewBelong.length> 0){
+      if(indexLists.customNewBelong[0].star in this.props.nounsBasic){
+        indexLists.customNewBelong.map((obj, index)=>{
+          let nodeName = this.props.nounsBasic[obj.star] ;
+
+          return (index==indexLists.customNewBelong.length)? ("and "+nodeName): (nodeName+ ", ");
+        })
+      }
+      titleText = this.props.i18nUIString["titleBannerBelong"] + indexLists.customNewBelong
+    }
+    else ;// becuase remind is stil under constructing, we do nothing else
+
+    return (
+      <span
+        className={classnames(styles.spanTitleGreet, styles.fontTitle)}>
+        {titleText}</span>
+    )
+  }
+
   _render_unitsBelong(){
     let unitsList = this.props.indexLists.customNewBelong,
         unitsDOM = [];
@@ -158,17 +184,40 @@ class MainBanner extends React.Component {
     return unitsDOM;
   }
 
+  _render_unitsFirst(){
+
+  }
+
+  _render_subtitleFirst(){
+
+    return(
+      <div>
+        <span>{"First "}</span>
+        <span>{" to"}</span>
+
+      </div>
+    )
+
+  }
+
   render(){
     //the units list would update seperately from unitsBasic
     //so check state in render, block rendering if unitsBasic not ready
     return(
       <div
         className={classnames(styles.comMainBanner)}>
-        <div>{"一排字: new belong宣告 > silence for no belong but first > niether belong nor first, remind & info of belong > "}</div>
+        <div
+          className={classnames(styles.boxTitleGreet)}>
+          {this._render_titleGreet()}</div>
         <div
           className={classnames(styles.boxUnitsBelong)}>
           {this._render_unitsBelong()}</div>
-        <div>{'first, include title > or none'}</div>
+        <div
+          className={classnames(styles.boxUnitsFirst)}>
+          {this._render_subtitleFirst()}
+          {this._render_unitsFirst()}
+        </div>
+
         <div>{'common new > selection . combined by "other new or selected"'}</div>
       </div>
     )
@@ -180,6 +229,7 @@ const mapStateToProps = (state)=>{
     userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
     unitCurrent: state.unitCurrent,
+    nounsBasic: state.nounsBasic,
     mainTitle: state.mainTitle,
     indexLists: state.indexLists
   }
