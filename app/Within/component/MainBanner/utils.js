@@ -28,7 +28,7 @@ export function axios_Units(cancelToken, reqList){
     },
     params: {
       unitsList: reqList
-    }
+    },
     cancelToken: cancelToken
   }).then(function (res) {
     let resObj = JSON.parse(res.data);

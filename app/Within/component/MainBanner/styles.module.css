@@ -1,7 +1,16 @@
 .comMainBanner {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   width: 100%;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.boxUnitsBelong {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%; /*controled by parent*/
   position: relative;
   box-sizing: border-box;
 }

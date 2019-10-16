@@ -10,11 +10,19 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import {
+  axios_Units,
   axios_feedList_customNew,
 } from './utils.js';
 import {
+  nailChart,
+} from '../MainIndex/utils.js';
+import {
   setIndexLists
 } from '../../../redux/actions/cosmic.js';
+import {
+  handleNounsList,
+  handleUsersList
+} from "../../../redux/actions/general.js";
 import {
   initCosmicGeneral
 } from '../../../redux/constants/typesCosmic.js';
@@ -33,6 +41,7 @@ class MainBanner extends React.Component {
     };
     this.axiosSource = axios.CancelToken.source();
     this._set_UnitsData = this._set_UnitsData.bind(this);
+    this._render_unitsBelong = this._render_unitsBelong.bind(this);
     this.style={
 
     }
@@ -44,13 +53,14 @@ class MainBanner extends React.Component {
 
     axios_Units(this.axiosSource.token, submitList)
       .then((parsedObj)=>{
-        self.setState({
-          axios: false
-        });
-        //self.props._submit_NounsList_new(focusObj.main.nounsListMix);
-        //self.props._submit_UsersList_new(focusObj.main.usersList);
-        //setState
 
+        self.props._submit_NounsList_new(parsedObj.main.nounsListMix);
+        self.props._submit_UsersList_new(parsedObj.main.usersList);
+        self.setState({
+          axios: false,
+          unitsBasic: parsedObj.main.unitsBasic,
+          marksBasic: parsedObj.main.marksBasic
+        });
       }).catch(function (thrown) {
         self.setState({axios: false});
         if (axios.isCancel(thrown)) {
@@ -79,11 +89,16 @@ class MainBanner extends React.Component {
         let submitObj = {},
             concatList= [];
         if(parsedObj.main.listBelong.length>0) {
+          //each item in listBelong is a obj
+          //we need to create another list represent the ids it had
+          let listBelongId = parsedObj.main.listBelong.map((item, index)=>{
+            return item.unitId;
+          });
+          concatList.concat(listBelongId);
           submitObj['customNewBelong'] = parsedObj.main.listBelong;
-          concatList.concat(parsedObj.main.listBelong);
         }else ;//if no item in: belong, GET people in belong or remind, or suggest belong input, or just silence
         if(parsedObj.main.listFirst.length>0) {
-          //listFirst is different from the other two, each item is a obj
+          //each item in listfirst is a obj
           //we need to create another list represent the ids it had
           let listFirstId = parsedObj.main.listFirst.map((item, index)=>{
             return item.unitId;
@@ -124,13 +139,35 @@ class MainBanner extends React.Component {
     self.props._submit_IndexLists(initCosmicGeneral.indexLists);
   }
 
+  _render_unitsBelong(){
+    let unitsList = this.props.indexLists.customNewBelong,
+        unitsDOM = [];
+
+    //only rendering after the list & the units data ready
+    if(unitsList.length > 0 && unitsList[0] in this.state.unitsBasic){
+      //we render only two, but the backend may pass more than 2, so don't forget setting the limit
+      for(let i =0 ; i< 2 ; i++){
+        //the nailChart was co use with other component in MainIndex,
+        let nail = nailChart(3, unitsList[i], this);
+
+        unitsDOM.push(nail);
+      }
+    }
+
+  }
+
   render(){
     //the units list would update seperately from unitsBasic
     //so check state in render, block rendering if unitsBasic not ready
     return(
       <div
         className={classnames(styles.comMainBanner)}>
-
+        <div>{"一排字: new belong宣告 > silence for no belong but first > niether belong nor first, remind & info of belong > "}</div>
+        <div
+          className={classnames(styles.boxUnitsBelong)}>
+          {this._render_unitsBelong()}</div>
+        <div>{'first, include title > or none'}</div>
+        <div>{'common new > selection . combined by "other new or selected"'}</div>
       </div>
     )
   }
@@ -141,13 +178,16 @@ const mapStateToProps = (state)=>{
     userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
     unitCurrent: state.unitCurrent,
-    mainTitle: state.mainTitle
+    mainTitle: state.mainTitle,
+    indexLists: state.indexLists
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     _submit_IndexLists: (listsObj) => { dispatch(setIndexLists(listsObj)); },
+    _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
+    _submit_UsersList_new: (arr) => { dispatch(handleUsersList(arr)); }
   }
 }
 

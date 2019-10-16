@@ -59,7 +59,7 @@ function _handle_GET_feed_customNew(req, res){
         //we count down from the end, to assure the index is work
         let row = newAttri.rows[i];
         if(usersIndex.currentbelong.indexOf(row.id_noun) >= 0) {
-          if(sendingData.listBelong.indexOf(row.id_unit) < 0) sendingData.listBelong.push(row.id_unit); // which means skipping the already count in Unit
+          if(sendingData.listBelong.indexOf(row.id_unit) < 0) sendingData.listBelong.push({star: row.id_noun, unitId: row.id_unit}); // which means skipping the already count in Unit
           newAttri.rows.splice(i, 1);
         }
       } //(not ; yet)

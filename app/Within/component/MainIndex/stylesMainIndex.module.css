@@ -1,14 +1,20 @@
 .boxTop {
   width: 100%;
   position: relative;
-  transform: translate(-12.5%,0);
   box-sizing: border-box;
   margin: 0 0 4.5rem;
 }
 
 .boxBanner {
+  width: 65vw; /* follow the width of Scroll*/
+  position: relative;
+  box-sizing: border-box;
+}
+
+.boxTitle {
   width: 100%;
   position: relative;
+  transform: translate(-12.5%,0);
   box-sizing: border-box;
 }
 
@@ -35,6 +41,11 @@
 
 .boxNarrow {
   width: 20vw;
+  box-shadow: 0 1px 1px rgb(230, 230, 230);
+}
+
+.boxEven {
+  width: 30vw;
   box-shadow: 0 1px 1px rgb(230, 230, 230);
 }
 
