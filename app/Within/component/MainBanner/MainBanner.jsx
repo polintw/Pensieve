@@ -144,16 +144,18 @@ class MainBanner extends React.Component {
         unitsDOM = [];
 
     //only rendering after the list & the units data ready
-    if(unitsList.length > 0 && unitsList[0] in this.state.unitsBasic){
+    if(unitsList.length > 0 && unitsList[0].unitId in this.state.unitsBasic){
       //we render only two, but the backend may pass more than 2, so don't forget setting the limit
-      for(let i =0 ; i< 2 ; i++){
+      for(let i =0 ; i< 2 && i< unitsList.length; i++){
         //the nailChart was co use with other component in MainIndex,
-        let nail = nailChart(3, unitsList[i], this);
+        let unitId = unitsList[i].unitId;
+        let nail = nailChart(3, unitId, this);
 
         unitsDOM.push(nail);
       }
     }
 
+    return unitsDOM;
   }
 
   render(){
