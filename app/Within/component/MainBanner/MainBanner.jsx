@@ -12,6 +12,7 @@ import styles from "./styles.module.css";
 import {
   axios_Units,
   axios_feedList_customNew,
+  axios_feedList_customSelected
 } from './utils.js';
 import {
   nailChart,
@@ -41,6 +42,7 @@ class MainBanner extends React.Component {
     };
     this.axiosSource = axios.CancelToken.source();
     this._set_UnitsData = this._set_UnitsData.bind(this);
+    this._set_SelectedList = this._set_SelectedList.bind(this);
     this._render_nailsByType = this._render_nailsByType.bind(this);
     this._render_titleGreet = this._render_titleGreet.bind(this);
     this._render_subtitleFirst = this._render_subtitleFirst.bind(this)
@@ -66,6 +68,31 @@ class MainBanner extends React.Component {
           });
 
         });
+      }).catch(function (thrown) {
+        self.setState({axios: false});
+        if (axios.isCancel(thrown)) {
+          cancelErr(thrown);
+        } else {
+          let message = uncertainErr(thrown);
+          if(message) alert(message);
+        }
+      });
+
+  }
+
+  _set_SelectedList(vacancy){
+    const self = this;
+    this.setState({axios: true});
+
+    axios_feedList_customSelected(this.axiosSource.token, vacancy)
+      .then((parsedObj)=>{
+        self.setState({
+          axios: false
+        });
+
+        // _set_UnitsData()
+        // self.props._submit_IndexLists()
+
       }).catch(function (thrown) {
         self.setState({axios: false});
         if (axios.isCancel(thrown)) {
@@ -117,8 +144,8 @@ class MainBanner extends React.Component {
         concatList = concatList.concat(parsedObj.main.commonList);
          //if item in: new less than 3, GET selected by preference
         if(parsedObj.main.commonList.length< 3) {
-          let vacancy= (4- parsedObj.main.commonList.length);
-
+          let vacancy= (4- parsedObj.main.commonList.length); //just req the num lack
+          self._set_SelectedList(vacancy);
         }else submitObj['customSelected'] = [];
 
         //then before req Unit data to server, remove duplicate in concatList(commonList may have same item as listFirst)
