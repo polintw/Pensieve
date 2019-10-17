@@ -41,9 +41,10 @@ class MainBanner extends React.Component {
     };
     this.axiosSource = axios.CancelToken.source();
     this._set_UnitsData = this._set_UnitsData.bind(this);
+    this._render_nailsByType = this._render_nailsByType.bind(this);
+    this._render_nailsSuggest = this._render_nailsSuggest.bind(this);
     this._render_titleGreet = this._render_titleGreet.bind(this);
-    this._render_unitsFirst = this._render_unitsFirst.bind(this);
-    this._render_unitsBelong = this._render_unitsBelong.bind(this);
+    this._render_titleSuggest = this._render_titleSuggest.bind(this);
     this._render_subtitleFirst = this._render_subtitleFirst.bind(this)
     this.style={
 
@@ -142,6 +143,29 @@ class MainBanner extends React.Component {
     self.props._submit_IndexLists(initCosmicGeneral.indexLists);
   }
 
+  _render_nailsSuggest(){
+
+  }
+
+  _render_nailsByType(list, choice){
+    let unitsList = this.props.indexLists[list],
+        unitsDOM = [];
+
+    //only rendering after the list & the units data ready
+    if(unitsList.length > 0 && unitsList[0].unitId in this.state.unitsBasic){
+      //we render only two, but the backend may pass more than 2, so don't forget setting the limit
+      for(let i =0 ; i< 2 && i< unitsList.length; i++){
+        //the nailChart was co use with other component in MainIndex,
+        let unitId = unitsList[i].unitId;
+        let nail = nailChart(choice, unitId, this);
+
+        unitsDOM.push(nail);
+      }
+    }
+
+    return unitsDOM;
+  }
+
   _render_titleGreet(){
     let indexLists = this.props.indexLists,
         titleText = "";
@@ -165,39 +189,37 @@ class MainBanner extends React.Component {
     )
   }
 
-  _render_unitsBelong(){
-    let unitsList = this.props.indexLists.customNewBelong,
-        unitsDOM = [];
-
-    //only rendering after the list & the units data ready
-    if(unitsList.length > 0 && unitsList[0].unitId in this.state.unitsBasic){
-      //we render only two, but the backend may pass more than 2, so don't forget setting the limit
-      for(let i =0 ; i< 2 && i< unitsList.length; i++){
-        //the nailChart was co use with other component in MainIndex,
-        let unitId = unitsList[i].unitId;
-        let nail = nailChart(3, unitId, this);
-
-        unitsDOM.push(nail);
-      }
-    }
-
-    return unitsDOM;
-  }
-
-  _render_unitsFirst(){
-
+  _render_titleSuggest(){
+    {'common new > selection . combined by "other new or selected"'}
+    
   }
 
   _render_subtitleFirst(){
+    let starArr = [],
+        indexLists = this.props.indexLists;
 
-    return(
-      <div>
-        <span>{"First "}</span>
-        <span>{" to"}</span>
+    if(indexLists.customNewFirst.length >0){
+      if(indexLists.customNewFirst[0].star in this.props.nounsBasic) //make sure the nounsBasic has data
+        indexLists.customNewFirst.map((obj, index)=>{
+          let nodeName = this.props.nounsBasic[obj.star] ;
+          starArr.push(
+            <span
+              key={"key_Subtitle_firstNode_"+index}
+              className={classnames(styles.spanSubtitleFirst)}>
+              {nodeName}</span>
+          );
+        }); //end of 'if'
+    };
 
+    return (indexLists.customNewFirst.length> 0 ) ? (
+      <div
+        className={classnames(styles.boxSubtitleFirst)}>
+        <div>
+          <span>{"First to"}</span>
+          {starArr}
+        </div>
       </div>
-    )
-
+    ): ();
   }
 
   render(){
@@ -211,14 +233,16 @@ class MainBanner extends React.Component {
           {this._render_titleGreet()}</div>
         <div
           className={classnames(styles.boxUnitsBelong)}>
-          {this._render_unitsBelong()}</div>
+          {this._render_nailsByType("customNewBelong", 3)}</div>
         <div
           className={classnames(styles.boxUnitsFirst)}>
           {this._render_subtitleFirst()}
-          {this._render_unitsFirst()}
+          {this._render_nailsByType("customNewFirst", 2)}
         </div>
-
-        <div>{'common new > selection . combined by "other new or selected"'}</div>
+        <div
+          className={classnames(styles.boxUnitsSuggest)}>
+          {this._render_titleSuggest()}
+          {this._render_nailsSuggest()}</div>
       </div>
     )
   }
