@@ -89,6 +89,8 @@ class MainBanner extends React.Component {
         self.setState({
           axios: false
         });
+        
+        //return could be empty, check whether this case happen
 
         // _set_UnitsData()
         // self.props._submit_IndexLists()
@@ -144,7 +146,7 @@ class MainBanner extends React.Component {
         concatList = concatList.concat(parsedObj.main.commonList);
          //if item in: new less than 3, GET selected by preference
         if(parsedObj.main.commonList.length< 3) {
-          let vacancy= (4- parsedObj.main.commonList.length); //just req the num lack
+          let vacancy= (3- parsedObj.main.commonList.length); //just req the num lack
           self._set_SelectedList(vacancy);
         }else submitObj['customSelected'] = [];
 

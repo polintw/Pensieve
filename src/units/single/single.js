@@ -26,6 +26,7 @@ const {
   _handle_ErrCatched,
 } = require('../../utils/reserrHandler.js');
 const _reachStatus = require('./unitReachStatus.js');
+const _submitUsersUnits = require('./updateUsersUnits.js');
 
 function _handle_unit_Mount(req, res){
   new Promise((resolve, reject)=>{
@@ -257,10 +258,12 @@ function _handle_unit_Mount(req, res){
     _handle_ErrCatched(error, req, res);
   }).then((data)=>{
     //start processing the internal process which are not related to res
-    _reachStatus(data.unitId, data.userId);
+    _reachStatus(data.unitId, data.userId); //update read count by units
+    _submitUsersUnits(data.unitId, data.userId); //records relation between users units
+
   }).catch((error)=>{
     //currently, only reachStatus are needed
-    winston.error(`${"Internal process at "} ; ${"'"+req.originalUrl} , ${req.method+"', "} , ${req.ip}, ${"for "+"reachStatus"}`);
+    winston.error(`${"Internal process at single Unit req, "} ${error} ; ${"'"+req.originalUrl} , ${req.method+"', "} , ${req.ip}`);
   });
 };
 
