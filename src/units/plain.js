@@ -27,7 +27,8 @@ function _handle_GET_units(req, res){
     _DB_units.findAll({
       where: {
         id: unitsList
-      }
+      },
+      limit: 20 //set limit to prevent api abuse
     }).then((result)=>{
       let sendingData={
         unitsBasic: {},

@@ -40,6 +40,7 @@ export const i18nUIStringInit = {
      "guidingEditBelong": "missing another corner?",
      "messageChoiceBelong": ["Which one does the  ", "  match the most?"],
      "hintEmptyNode": "be the first introducing this corner to people!",
-     "titleBannerBelong": "new shared around the corner "
+     "titleBannerBelong": "new shared around the corner ",
+     "titleBannerRest": "new arrived or selected"
    }
 }
