@@ -18,7 +18,7 @@ function _submitUsersUnits(unitId, userId){
           nowTime = new Date();
 
       let currentDistance = nowTime - result.lastTime; //distance to last view, in order to reduce 'digit' of the time num
-      //
+      //save as seconds (miliseconds orginally)
       prevTimeDistance.unshift(Math.ceil(currentDistance/1000));
 
       return _DB_usersUnits.update(
