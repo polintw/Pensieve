@@ -21,6 +21,8 @@ export function axios_feedList_customNew(cancelToken){
 export function axios_feedList_customSelected(cancelToken, require){
   let url = '/router/feed/custom/selected?require='+require;
 
+  return({main:{unitsList:[]}});
+  /*
   return axios.get(url, {
     headers: {
       'charset': 'utf-8',
@@ -33,7 +35,7 @@ export function axios_feedList_customSelected(cancelToken, require){
     return resObj;
   }).catch(function (thrown) {
     throw thrown;
-  });
+  });*/
 }
 
 export function axios_Units(cancelToken, reqList){

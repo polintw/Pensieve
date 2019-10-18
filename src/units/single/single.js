@@ -262,7 +262,7 @@ function _handle_unit_Mount(req, res){
     _submitUsersUnits(data.unitId, data.userId); //records relation between users units
 
   }).catch((error)=>{
-    //currently, only reachStatus are needed
+    //handle err only locally, without relation to client side
     winston.error(`${"Internal process at single Unit req, "} ${error} ; ${"'"+req.originalUrl} , ${req.method+"', "} , ${req.ip}`);
   });
 };

@@ -12,40 +12,40 @@ function _submitUsersUnits(unitId, userId){
       id_user: userId
     }
   }).then(result => {
+    //result could be a records or null, depend on user's interaction with the unit
+    if(Boolean(result)){ //read already, update the count and timeDistance
+      let prevTimeDistance = JSON.parse(result.timeDistance), //parse back to array
+          nowTime = new Date();
 
-    Boolean(result)
+      let currentDistance = nowTime - result.lastTime; //distance to last view, in order to reduce 'digit' of the time num
+      //
+      prevTimeDistance.unshift(Math.ceil(currentDistance/1000));
 
-    let prevTimeDistance = JSON.parse(result.timeDistance),
-        nowTime = new Date();
-
-    let currentDistance = nowTime - result.createdAt;
-    let updateTimeDistance = prevTimeDistance.unshift(currentDistance);
-
-    _DB_usersUnits.update(
-      {
-        count: result.count+1,
-        lastTime: Sequelize.literal('CURRENT_TIMESTAMP'),
-        timeDistance: JSON.stringify(updateTimeDistance)
-      },
-      {
-        where: {
+      return _DB_usersUnits.update(
+        {
+          count: result.count+1,
+          lastTime: Sequelize.literal('CURRENT_TIMESTAMP'),
+          timeDistance: JSON.stringify(prevTimeDistance)
+        },
+        {
+          where: {
+            id_user: userId,
+            id_unit: unitId
+          }
+        }
+      );
+    }else{ //no records, no matter what's the reason
+      //just create records directly
+      return _DB_usersUnits.create(
+        {
           id_user: userId,
           id_unit: unitId
         }
-      }
-    )
-
-    _DB_usersUnits.create(
-      {
-        id_user: userId,
-        id_unit: unitId
-      }
-    )
-
+      )
+    }
   }).catch((err)=>{
     throw ("throw by _submitUsersUnits, "+err);
   });
-
 }
 
 module.exports = _submitUsersUnits

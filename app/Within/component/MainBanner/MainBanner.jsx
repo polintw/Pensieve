@@ -45,6 +45,7 @@ class MainBanner extends React.Component {
     this._set_SelectedList = this._set_SelectedList.bind(this);
     this._render_nailsByType = this._render_nailsByType.bind(this);
     this._render_titleGreet = this._render_titleGreet.bind(this);
+    this._render_titleBelong = this._render_titleBelong.bind(this);
     this._render_subtitleFirst = this._render_subtitleFirst.bind(this)
     this.style={
 
@@ -89,11 +90,25 @@ class MainBanner extends React.Component {
         self.setState({
           axios: false
         });
-        
-        //return could be empty, check whether this case happen
-
+        const selectedList = parsedObj.main.unitsList;
+        let varietyList = [];
         // _set_UnitsData()
         // self.props._submit_IndexLists()
+        if(selectedList.length > 0) self._set_UnitsData(selectedList); //req only if the list has something
+        //update the list to Redux reducer,
+        //but for now, we check the amount of list here, and decide how many need to be passed randomly
+        //to increase variety.
+        varietyList = selectedList;
+        if(selectedList.length == 2 && self.props.customNew.length == 1){
+          let remainder = Math.floor(Math.random()*10) % 3; // index 0, 1, or 2 for both
+          //now, 2 means keep as selectedList
+          //0 or 1 means we pick only one from the selectedList, regard the index
+          if(!remainder==2) varietyList = [selectedList[remainder]];
+        }
+
+        self.props._submit_IndexLists({
+          customSelected: (selectedList.length> 0) ? varietyList : [] //final check because we have to make sure the customSelected is not 'false' after this step
+        });
 
       }).catch(function (thrown) {
         self.setState({axios: false});
@@ -144,9 +159,11 @@ class MainBanner extends React.Component {
         //so update it to [] if item in other new, or just wait for update by selected
         submitObj['customNew'] = parsedObj.main.commonList;
         concatList = concatList.concat(parsedObj.main.commonList);
-         //if item in: new less than 3, GET selected by preference
-        if(parsedObj.main.commonList.length< 3) {
-          let vacancy= (3- parsedObj.main.commonList.length); //just req the num lack
+         //cauculate current shortage
+         //then, from the client, we req for selected only when there is only '1' new Unit in commonList
+         //but the res could has 1 or 2 selected Unit/Units.
+        if((3- parsedObj.main.commonList.length) == 2) {
+          let vacancy= (3- parsedObj.main.commonList.length); //actually it would only be '2' now
           self._set_SelectedList(vacancy);
         }else submitObj['customSelected'] = [];
 
@@ -197,8 +214,21 @@ class MainBanner extends React.Component {
   _render_titleGreet(){
     let indexLists = this.props.indexLists,
         titleText = "";
-    // title for new belong > silence if no belong but first > niether belong nor first, then title for remind & status of belong node > statics ? plain greet?
-    if(indexLists.customNewBelong.length> 0){
+
+    // greet title: first but no belong > lack all, title for remind & status of node > statics ? plain greet?
+
+    return (
+      <span
+        className={classnames(styles.spanTitle, styles.fontTitle)}>
+        {titleText}</span>
+    )
+  }
+
+  _render_titleBelong(){
+    let indexLists = this.props.indexLists,
+        titleText = "";
+
+    if(indexLists.customNewBelong.length> 0){ //just skip if there is not any nail need a title
       if(indexLists.customNewBelong[0].star in this.props.nounsBasic){
         indexLists.customNewBelong.map((obj, index)=>{
           let nodeName = this.props.nounsBasic[obj.star] ;
@@ -207,8 +237,7 @@ class MainBanner extends React.Component {
         })
       }
       titleText = this.props.i18nUIString["titleBannerBelong"] + indexLists.customNewBelong
-    }
-    else ;// becuase remind is stil under constructing, we do nothing else
+    };
 
     return (
       <span
@@ -255,6 +284,9 @@ class MainBanner extends React.Component {
           className={classnames(styles.boxTitle)}>
           {this._render_titleGreet()}</div>
         <div
+          className={classnames(styles.boxTitle)}>
+          {this._render_titleBelong()}</div>
+        <div
           className={classnames(styles.boxUnitsBelong)}>
           {this._render_nailsByType("customNewBelong", 3)}</div>
         <div
@@ -273,7 +305,12 @@ class MainBanner extends React.Component {
         </div>
         <div
           className={classnames(styles.boxUnitsSuggest)}>
-          {this._render_nailsByType("customNew", 2, 3)}
+          {
+            //customSelected either be 'false' or '[...]'
+            //both type of nails have to be render 'after' we could check if there would be selected or not
+            this.props.indexLists.customSelected &&
+            this._render_nailsByType("customNew", 2, 3)
+          }
           {
             this.props.indexLists.customSelected &&
             this._render_nailsByType("customSelected", 2, 3)
