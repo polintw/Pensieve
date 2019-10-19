@@ -22,7 +22,7 @@ function _handle_GET_units(req, res){
 
     //in this api, units list was passed from client,
     //we choose directly by that list, but Remember! limit the amount
-    let unitsList = JSON.parse(req.query.unitsList); //remember the params from query is type string
+    let unitsList = req.query.unitsList;
 
     _DB_units.findAll({
       where: {

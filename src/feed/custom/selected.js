@@ -43,20 +43,22 @@ function _handle_GET_feed_customSelected(req, res){
       return _DB_units.findAndCountAll({
         where: {
           createdAt: {[Op.lt]: resultUserCustom.last_visit},
-          id: {[Op.notIn]: readList},
-          limit: 50, //assume the reqLimit is always smaller than 50
-          order: [['createdAt', 'DESC']] //make sure the order of arr are from latest
-        }
+          id: {[Op.notIn]: readList}
+        },
+        attributes: ['id', 'createdAt'],
+        limit: 50, //assume the reqLimit is always smaller than 50
+        order: [['createdAt', 'DESC']] //make sure the order of arr are from latest
       }).then((resultUnits)=>{
         //at this part, we are going to prevent an extreme situation: not enough candidate, the user has already read most of the Unit before
-        if(results.count < reqLimit){ //which means, we can't get enough candidate
+        if(resultUnits.count < reqLimit){ //which means, we can't get enough candidate
           //we could only choose again, but without limit 'read' this time
           return _DB_units.findAndCountAll({
             where: {
-              createdAt: {[Op.lt]: resultUserCustom.last_visit},
-              limit: 200,
-              order: [['createdAt', 'DESC']] //make sure the order of arr are from latest
-            }
+              createdAt: {[Op.lt]: resultUserCustom.last_visit}
+            },
+            attributes: ['id', 'createdAt'],
+            limit: 200,
+            order: [['createdAt', 'DESC']] //make sure the order of arr are from latest
           })
         }
         else return resultUnits; //just return the result if the candidate is enough
@@ -70,7 +72,7 @@ function _handle_GET_feed_customSelected(req, res){
 
       //at this part, we pick Units by created time: not earlier than 5 months for current standard
       let dateLimit = new Date();
-      dateLimit.setMonth(d.getMonth() - 5);
+      dateLimit.setMonth(dateLimit.getMonth() - 5);
 
       let qualified = resultUnits.rows.filter((row, index)=>{
         return row.createdAt > dateLimit; //pick later than standard first
@@ -90,6 +92,11 @@ function _handle_GET_feed_customSelected(req, res){
         qualified.splice(pickIndex, 1);
         //and splice the picked one rom qualified, qualified would shorter now, and closer to the length we need
       }
+      //remember, qualified is claim from resultUnits.rows, so each item inside is still 'row'
+      //we need to turn it into plain id list
+      qualified = qualified.map((row,index)=> {
+        return row.id;
+      })
 
       sendingData.unitsList = qualified;
 

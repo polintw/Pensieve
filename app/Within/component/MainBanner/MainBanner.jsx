@@ -26,7 +26,7 @@ import {
 } from "../../../redux/actions/general.js";
 import {
   initCosmicGeneral
-} from '../../../redux/constants/typesCosmic.js';
+} from '../../../redux/constants/states.js';
 import {
   cancelErr,
   uncertainErr
@@ -99,7 +99,7 @@ class MainBanner extends React.Component {
         //but for now, we check the amount of list here, and decide how many need to be passed randomly
         //to increase variety.
         varietyList = selectedList;
-        if(selectedList.length == 2 && self.props.customNew.length == 1){
+        if(selectedList.length == 2 && self.props.indexLists.customNew.length == 1){
           let remainder = Math.floor(Math.random()*10) % 3; // index 0, 1, or 2 for both
           //now, 2 means keep as selectedList
           //0 or 1 means we pick only one from the selectedList, regard the index
@@ -189,7 +189,7 @@ class MainBanner extends React.Component {
       this.axiosSource.cancel("component will unmount.")
     }
     //clear & reset to init when Unmount, make sure the list would not render anything when retrun to index
-    self.props._submit_IndexLists(initCosmicGeneral.indexLists);
+    this.props._submit_IndexLists(initCosmicGeneral.indexLists);
   }
 
   _render_nailsByType(list, choice, limit){
@@ -197,11 +197,14 @@ class MainBanner extends React.Component {
         unitsDOM = [];
 
     //only rendering after the list & the units data ready
-    if(unitsList.length > 0 && unitsList[0].unitId in this.state.unitsBasic){
+    //there is a working method dealing the structure diff between list
+    let listType =  (typeof(unitsList[0])== "object")? true : false; //true for [{star,unitId}], false for []
+
+    if(unitsList.length > 0 && (listType ? unitsList[0].unitId : unitsList[0]) in this.state.unitsBasic){
       //we render only two, but the backend may pass more than 2, so don't forget setting the limit
       for(let i =0 ; i< (Boolean(limit)? limit : 2) && i< unitsList.length; i++){ //and don't forget the length limit to prevent error cause by unwanted cycle
         //the nailChart was co use with other component in MainIndex,
-        let unitId = unitsList[i].unitId;
+        let unitId = listType ? unitsList[i].unitId : unitsList[i];
         let nail = nailChart(choice, unitId, this);
 
         unitsDOM.push(nail);
@@ -231,12 +234,12 @@ class MainBanner extends React.Component {
     if(indexLists.customNewBelong.length> 0){ //just skip if there is not any nail need a title
       if(indexLists.customNewBelong[0].star in this.props.nounsBasic){
         indexLists.customNewBelong.map((obj, index)=>{
-          let nodeName = this.props.nounsBasic[obj.star] ;
+          let nodeName = this.props.nounsBasic[obj.star].name ;
 
           return (index==indexLists.customNewBelong.length)? ("and "+nodeName): (nodeName+ ", ");
         })
       }
-      titleText = this.props.i18nUIString["titleBannerBelong"] + indexLists.customNewBelong
+      titleText = this.props.i18nUIString.catalog["titleBannerBelong"] + indexLists.customNewBelong
     };
 
     return (
@@ -253,7 +256,7 @@ class MainBanner extends React.Component {
     if(indexLists.customNewFirst.length >0){
       if(indexLists.customNewFirst[0].star in this.props.nounsBasic) //make sure the nounsBasic has data
         indexLists.customNewFirst.map((obj, index)=>{
-          let nodeName = this.props.nounsBasic[obj.star] ;
+          let nodeName = this.props.nounsBasic[obj.star].name ;
           starArr.push(
             <span
               key={"key_Subtitle_firstNode_"+index}
@@ -300,7 +303,7 @@ class MainBanner extends React.Component {
             className={classnames(styles.spanTitle, styles.fontTitle)}>
             {
               (this.props.indexLists.customNew.length>0) && this.props.indexLists.customSelected &&
-              this.props.i18nUIString['titleBannerRest']
+              this.props.i18nUIString.catalog['titleBannerRest']
             }</span>
         </div>
         <div
