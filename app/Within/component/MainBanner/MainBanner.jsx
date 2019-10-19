@@ -231,16 +231,14 @@ class MainBanner extends React.Component {
     let indexLists = this.props.indexLists,
         titleText = "";
 
-    if(indexLists.customNewBelong.length> 0){ //just skip if there is not any nail need a title
-      if(indexLists.customNewBelong[0].star in this.props.nounsBasic){
-        indexLists.customNewBelong.map((obj, index)=>{
-          let nodeName = this.props.nounsBasic[obj.star].name ;
+    if(indexLists.customNewBelong[0].star in this.props.nounsBasic){
+      indexLists.customNewBelong.map((obj, index)=>{
+        let nodeName = this.props.nounsBasic[obj.star].name ;
 
-          return (index==indexLists.customNewBelong.length)? ("and "+nodeName): (nodeName+ ", ");
-        })
-      }
-      titleText = this.props.i18nUIString.catalog["titleBannerBelong"] + indexLists.customNewBelong
-    };
+        return (index==indexLists.customNewBelong.length)? ("and "+nodeName): (nodeName+ ", ");
+      })
+    }
+    titleText = this.props.i18nUIString.catalog["titleBannerBelong"] + indexLists.customNewBelong
 
     return (
       <span
@@ -253,28 +251,33 @@ class MainBanner extends React.Component {
     let starArr = [],
         indexLists = this.props.indexLists;
 
-    if(indexLists.customNewFirst.length >0){
-      if(indexLists.customNewFirst[0].star in this.props.nounsBasic) //make sure the nounsBasic has data
-        indexLists.customNewFirst.map((obj, index)=>{
-          let nodeName = this.props.nounsBasic[obj.star].name ;
-          starArr.push(
+    if(indexLists.customNewFirst[0].star in this.props.nounsBasic) //make sure the nounsBasic has data
+      indexLists.customNewFirst.map((obj, index)=>{
+        let nodeName = this.props.nounsBasic[obj.star].name ;
+        starArr.push(
+          <Link
+            key={"key_Subtitle_firstNode_"+index}
+            to={"/cosmic/nodes/"+obj.star}
+            className={'plainLinkButton'}>
             <span
-              key={"key_Subtitle_firstNode_"+index}
               className={classnames(styles.spanSubtitleFirst)}>
               {nodeName}</span>
-          );
-        }); //end of 'if'
-    };
+          </Link>
+        );
+      }); //end of 'if'
 
-    return (indexLists.customNewFirst.length> 0 ) ? (
+    if(starArr.length > 2) starArr.splice(2); //limit the amount to 2
+
+    return (
       <div
         className={classnames(styles.boxSubtitleFirst)}>
         <div>
-          <span>{"First to"}</span>
+          <span
+            style={{display: 'block',fontSize: '1.4rem',fontWeight:'500'}}>{"First to"}</span>
           {starArr}
         </div>
       </div>
-    ): null;
+    );
   }
 
   render(){
@@ -283,42 +286,56 @@ class MainBanner extends React.Component {
     return(
       <div
         className={classnames(styles.comMainBanner)}>
+
         <div
-          className={classnames(styles.boxTitle)}>
+          className={classnames(styles.boxTitle)}
+          style={{display: 'none'}}>
           {this._render_titleGreet()}</div>
-        <div
-          className={classnames(styles.boxTitle)}>
-          {this._render_titleBelong()}</div>
-        <div
-          className={classnames(styles.boxUnitsBelong)}>
-          {this._render_nailsByType("customNewBelong", 3)}</div>
-        <div
-          className={classnames(styles.boxUnitsFirst)}>
-          {this._render_subtitleFirst()}
-          {this._render_nailsByType("customNewFirst", 2)}
-        </div>
-        <div
-          className={classnames(styles.boxTitle)}>
-          <span
-            className={classnames(styles.spanTitle, styles.fontTitle)}>
-            {
-              (this.props.indexLists.customNew.length>0) && this.props.indexLists.customSelected &&
+
+        {
+          (this.props.indexLists.customNewBelong.length> 0) &&
+          <div>
+            <div
+              className={classnames(styles.boxTitle)}>
+              {this._render_titleBelong()}</div>
+            <div
+              className={classnames(styles.boxUnitsBelong)}>
+              {this._render_nailsByType("customNewBelong", 3)}</div>
+          </div>
+        }
+        {
+          (this.props.indexLists.customNewFirst.length >0) &&
+          <div
+            className={classnames(styles.boxRowFirst)}>
+            {this._render_subtitleFirst()}
+            {this._render_nailsByType(
+              "customNewFirst",
+              (this.props.indexLists.customNewFirst.length==1 ) ? 0 : 2
+            )}
+          </div>
+        }
+        {
+          (this.props.indexLists.customNew.length>0) && this.props.indexLists.customSelected &&
+          <div
+            className={classnames(styles.boxTitle)}>
+            <span
+              className={classnames(styles.spanTitle, styles.fontTitle)}>
               this.props.i18nUIString.catalog['titleBannerRest']
-            }</span>
-        </div>
-        <div
-          className={classnames(styles.boxUnitsSuggest)}>
-          {
-            //customSelected either be 'false' or '[...]'
-            //both type of nails have to be render 'after' we could check if there would be selected or not
-            this.props.indexLists.customSelected &&
-            this._render_nailsByType("customNew", 2, 3)
-          }
-          {
-            this.props.indexLists.customSelected &&
-            this._render_nailsByType("customSelected", 2, 3)
-          }
-        </div>
+            </span>
+          </div>
+        }
+        {
+          //customSelected either be 'false' or '[...]'
+          //both type of nails have to be render 'after' we could check if there would be selected or not
+          this.props.indexLists.customSelected &&
+          <div
+            className={classnames(styles.boxUnitsSuggest)}>
+            {
+              this._render_nailsByType("customNew", 2, 3) &&
+              this._render_nailsByType("customSelected", 2, 3)
+            }
+          </div>
+        }
       </div>
     )
   }

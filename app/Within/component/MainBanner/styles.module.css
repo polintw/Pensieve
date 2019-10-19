@@ -16,8 +16,13 @@
   margin: 1rem 0;
 }
 
-.boxUnitsFirst {
-
+.boxRowFirst {
+  display: flex;
+  justify-content: space-between;
+  width: 100%; /*controled by parent*/
+  position: relative;
+  box-sizing: border-box;
+  margin-bottom: 1rem;
 }
 
 .boxUnitsSuggest {
@@ -33,7 +38,10 @@
 }
 
 .boxSubtitleFirst {
-
+  display: flex;
+  align-items: center;
+  width: 20vw;
+  padding-left: 6.25;
 }
 
 .spanTitle {
@@ -41,7 +49,12 @@
 }
 
 .spanSubtitleFirst {
-
+  display: block;
+  font-size: 3rem;
+  font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.2rem;
+  overflow: visible;
 }
 
 .fontTitle {
