@@ -229,21 +229,39 @@ class MainBanner extends React.Component {
 
   _render_titleBelong(){
     let indexLists = this.props.indexLists,
-        titleText = "";
+        listNodes = [];
 
     if(indexLists.customNewBelong[0].star in this.props.nounsBasic){
-      indexLists.customNewBelong.map((obj, index)=>{
-        let nodeName = this.props.nounsBasic[obj.star].name ;
-
-        return (index==indexLists.customNewBelong.length)? ("and "+nodeName): (nodeName+ ", ");
+      //here, although the Unit each item in customNewBelong represent did not repeat, but the node 'could' repeat!
+      //so for the title, we need to process a list contain nodes not repeat
+      let idList = [];
+      indexLists.customNewBelong.forEach((obj, index)=>{
+        if(idList.indexOf(obj.star)< 0) idList.push(obj.star);
       })
-    }
-    titleText = this.props.i18nUIString.catalog["titleBannerBelong"] + indexLists.customNewBelong
+      idList.forEach((nodeId, index)=>{
+        let nodeName = this.props.nounsBasic[nodeId].name ;
+        //append the name behind the present text.
+        let deco = ()=>{
+          if((idList.length-1) == index) return ("") //without next one
+          else { return (index==(idList.length-2))? (", and") : (",");}; //find the last interval
+        };
+        listNodes.push(
+          <span
+            key={"key_belongTitle_"+index}
+            className={classnames(styles.spanTitle, styles.fontTitle)}
+            style={{paddingLeft: '1rem'}}>
+            {nodeName + deco()}</span>
+        );
+      })
+    };
 
     return (
-      <span
-        className={classnames(styles.spanTitle, styles.fontTitle)}>
-        {titleText}</span>
+      <div>
+        <span
+          className={classnames(styles.spanTitle, styles.fontTitle)}>
+          {this.props.i18nUIString.catalog["titleBannerBelong"]}</span>
+        {listNodes}
+      </div>
     )
   }
 
@@ -299,7 +317,10 @@ class MainBanner extends React.Component {
               className={classnames(styles.boxTitle)}>
               {this._render_titleBelong()}</div>
             <div
-              className={classnames(styles.boxUnitsBelong)}>
+              className={classnames(
+                styles.boxUnitsBelong,
+                {[styles.boxUnitsBelongSingle]: (this.props.indexLists.customNewBelong.length==1)}
+              )}>
               {this._render_nailsByType("customNewBelong", 3)}</div>
           </div>
         }
