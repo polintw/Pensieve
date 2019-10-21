@@ -16,7 +16,7 @@ import {
 } from './utils.js';
 import {
   nailChart,
-} from '../MainIndex/utils.js';
+} from '../Main/utils.js';
 import {
   setIndexLists
 } from '../../../redux/actions/cosmic.js';
@@ -200,14 +200,16 @@ class MainBanner extends React.Component {
     //there is a working method dealing the structure diff between list
     let listType =  (typeof(unitsList[0])== "object")? true : false; //true for [{star,unitId}], false for []
 
-    if(unitsList.length > 0 && (listType ? unitsList[0].unitId : unitsList[0]) in this.state.unitsBasic){
+    if(unitsList.length > 0 && unitsList.length <= this.state.unitsBasic.length){ // check necessity first, skip if no item or data not ye ready
       //we render only two, but the backend may pass more than 2, so don't forget setting the limit
       for(let i =0 ; i< (Boolean(limit)? limit : 2) && i< unitsList.length; i++){ //and don't forget the length limit to prevent error cause by unwanted cycle
-        //the nailChart was co use with other component in MainIndex,
         let unitId = listType ? unitsList[i].unitId : unitsList[i];
-        let nail = nailChart(choice, unitId, this);
-
-        unitsDOM.push(nail);
+        //then important question: do we have the data of this Unit ? if not, we skip to next one
+        if(unitId in this.state.unitsBasic) {
+          //the nailChart was co use with other component in Main,
+          let nail = nailChart(choice, unitId, this);
+          unitsDOM.push(nail);
+        }
       }
     }
 
@@ -231,29 +233,28 @@ class MainBanner extends React.Component {
     let indexLists = this.props.indexLists,
         listNodes = [];
 
-    if(indexLists.customNewBelong[0].star in this.props.nounsBasic){
-      //here, although the Unit each item in customNewBelong represent did not repeat, but the node 'could' repeat!
-      //so for the title, we need to process a list contain nodes not repeat
-      let idList = [];
-      indexLists.customNewBelong.forEach((obj, index)=>{
-        if(idList.indexOf(obj.star)< 0) idList.push(obj.star);
-      })
-      idList.forEach((nodeId, index)=>{
-        let nodeName = this.props.nounsBasic[nodeId].name ;
-        //append the name behind the present text.
-        let deco = ()=>{
-          if((idList.length-1) == index) return ("") //without next one
-          else { return (index==(idList.length-2))? (", and") : (",");}; //find the last interval
-        };
-        listNodes.push(
-          <span
-            key={"key_belongTitle_"+index}
-            className={classnames(styles.spanTitle, styles.fontTitle)}
-            style={{paddingLeft: '1rem'}}>
-            {nodeName + deco()}</span>
-        );
-      })
-    };
+    //here, although the Unit each item in customNewBelong represent did not repeat, but the node 'could' repeat!
+    //so for the title, we need to process a list contain nodes not repeat
+    let idList = [];
+    indexLists.customNewBelong.forEach((obj, index)=>{
+      //and important question: do we have the data of this node ? if not, we don't ass it into the list
+      if(idList.indexOf(obj.star)< 0 && obj.star in this.props.nounsBasic) idList.push(obj.star);
+    })
+    idList.forEach((nodeId, index)=>{
+      let nodeName = this.props.nounsBasic[nodeId].name ;
+      //append the name behind the present text.
+      let deco = ()=>{
+        if((idList.length-1) == index) return ("") //without next one
+        else { return (index==(idList.length-2))? (", and") : (",");}; //find the last interval
+      };
+      listNodes.push(
+        <span
+          key={"key_belongTitle_"+index}
+          className={classnames(styles.spanTitle, styles.fontTitle)}
+          style={{paddingLeft: '1rem'}}>
+          {nodeName + deco()}</span>
+      );
+    })
 
     return (
       <div>
@@ -269,9 +270,11 @@ class MainBanner extends React.Component {
     let starArr = [],
         indexLists = this.props.indexLists;
 
-    if(indexLists.customNewFirst[0].star in this.props.nounsBasic) //make sure the nounsBasic has data
-      indexLists.customNewFirst.map((obj, index)=>{
+    indexLists.customNewFirst.map((obj, index)=>{
+      //and important question: do we have the data of this node ? if not, we don't ass it into the list
+      if(obj.star in this.props.nounsBasic){
         let nodeName = this.props.nounsBasic[obj.star].name ;
+
         starArr.push(
           <Link
             key={"key_Subtitle_firstNode_"+index}
@@ -282,7 +285,7 @@ class MainBanner extends React.Component {
               {nodeName}</span>
           </Link>
         );
-      }); //end of 'if'
+      }});
 
     if(starArr.length > 2) starArr.splice(2); //limit the amount to 2
 
@@ -318,8 +321,8 @@ class MainBanner extends React.Component {
               {this._render_titleBelong()}</div>
             <div
               className={classnames(
-                styles.boxUnitsBelong,
-                {[styles.boxUnitsBelongSingle]: (this.props.indexLists.customNewBelong.length==1)}
+                styles.boxUnits,
+                {[styles.boxUnitsJustifyAround]: (this.props.indexLists.customNewBelong.length==1)}
               )}>
               {this._render_nailsByType("customNewBelong", 3)}</div>
           </div>
@@ -341,7 +344,7 @@ class MainBanner extends React.Component {
             className={classnames(styles.boxTitle)}>
             <span
               className={classnames(styles.spanTitle, styles.fontTitle)}>
-              this.props.i18nUIString.catalog['titleBannerRest']
+              {this.props.i18nUIString.catalog['titleBannerRest']}
             </span>
           </div>
         }
@@ -350,7 +353,10 @@ class MainBanner extends React.Component {
           //both type of nails have to be render 'after' we could check if there would be selected or not
           this.props.indexLists.customSelected &&
           <div
-            className={classnames(styles.boxUnitsSuggest)}>
+            className={classnames(
+              styles.boxUnits,
+              {[styles.boxUnitsJustifyAround]: ((this.props.indexLists.customNew.length+this.props.indexLists.customSelected.length)< 3)}
+            )}>
             {
               this._render_nailsByType("customNew", 2, 3) &&
               this._render_nailsByType("customSelected", 2, 3)

@@ -6,7 +6,7 @@
   box-sizing: border-box;
 }
 
-.boxUnitsBelong {
+.boxUnits {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -16,8 +16,16 @@
   margin-bottom: 5vw;
 }
 
-.boxUnitsBelongSingle {
+.boxTitle {
+  display: flex;
   justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 7.5vw 0 2.5vw;
+}
+
+.boxUnitsJustifyAround {
+  justify-content: space-around;
 }
 
 .boxRowFirst {
@@ -27,18 +35,6 @@
   position: relative;
   box-sizing: border-box;
   margin: 5vw 0;
-}
-
-.boxUnitsSuggest {
-
-}
-
-.boxTitle {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  box-sizing: border-box;
-  margin: 7.5vw 0 2.5vw;
 }
 
 .boxSubtitleFirst {

@@ -1,6 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
-import styles from "./stylesMainIndex.module.css";
+import styles from "./styles.module.css";
 import NailSquare from '../../../Component/Nails/NailSquare/NailSquare.jsx';
 import NailRegular from '../../../Component/Nails/NailRegular/NailRegular.jsx';
 import NailWideDisplay from '../../../Component/Nails/NailWideDisplay/NailWideDisplay.jsx';

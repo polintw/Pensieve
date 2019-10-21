@@ -4,7 +4,7 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import MainIndex from './MainIndex/MainIndex.jsx';
+import Main from './Main/Main.jsx';
 import SvgLogo from '../../Component/Svg/SvgLogo.jsx';
 
 class CosmicMain extends React.Component {

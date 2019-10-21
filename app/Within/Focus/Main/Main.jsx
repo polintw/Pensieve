@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
-import styles from "./stylesMainIndex.module.css";
+import styles from "./styles.module.css";
 import {
   nailChart,
   separationLine,
@@ -51,6 +51,7 @@ class MainIndex extends React.Component {
     this.state = {
       axios: false,
       lastVisit: false,
+      toMount: false,
       unitsList: [],
       unitsBasic: {},
       marksBasic: {},
@@ -81,6 +82,15 @@ class MainIndex extends React.Component {
     return unitInit;
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot){
+    if(this.state.toMount && this.state.toMount.length==0){
+      //now, after everything was mount, we update the visiting time to the server
+      axios_visit_Index(self.axiosSource.token);
+      //and for safety, we reset the state to default.
+      this.setState({toMount: false});
+    }
+  }
+
   componentDidMount(){
     const self = this;
 
@@ -90,40 +100,39 @@ class MainIndex extends React.Component {
     //in the future, method to get basic (user)sheet data would join here(use Promise.all())
     axios_visit_GET_last(self.axiosSource.token)
       .then((lastVisitObj)=>{
-        self.setState({axios: false});
-
-        //use promise to let the axios.all could be pass to .then even inside a callback
+        self.setState({
+          lastVisit: lastVisitObj.main.lastTime,
+          toMount: ["listMain", "listBannerNew", "listBannerSelect"]
+        });
+        //because the listMain is just in this file, we get data now directly
         return new Promise((resolve, reject)=>{
-          self.setState((state, props)=>{
-            return {
-              lastVisit: lastVisitObj.main.lastTime,
-              axios: true
-            }
-          }, ()=>{
-            resolve(axios.all([
-              axios_cosmic_IndexList(self.axiosSource.token),
-              axios_visit_Index(self.axiosSource.token)
-            ]));
-          })
-
+          //(actually, we are not sure whether the axios is a Promise or not)
+          //(so this Promise usage is just in cas it's 'not')
+          resolve(axios_cosmic_IndexList(self.axiosSource.token));
         });
       })
-      .then(axios.spread (function(focusObj) {
-        self.setState({axios: false});
+      .then((focusObj)=> {
+        self.setState((prevState, props)=>{
+          //remove the label of this process from mout todo
+          let restList = prevState.toMount.splice(prevState.toMount.indexOf("listMain"), 1);
+          return ({
+            axios: false,
+            toMount: restList
+          });
+        });
 
         self.props._submit_NounsList_new(focusObj.main.nounsListMix);
         self.props._submit_UsersList_new(focusObj.main.usersList);
 
         self.setState((prevState, props)=>{
           return({
-            axios: false,
             unitsList: focusObj.main.unitsList,
             unitsBasic: focusObj.main.unitsBasic,
             marksBasic: focusObj.main.marksBasic
           });
         });
 
-      })).catch(function (thrown) {
+      }).catch(function (thrown) {
         self.setState({axios: false});
         if (axios.isCancel(thrown)) {
           cancelErr(thrown);
