@@ -90,6 +90,8 @@ class MainBanner extends React.Component {
         self.setState({
           axios: false
         });
+        self.props._set_mountToDo("listBannerSelect"); //splice the label from the todo list
+
         const selectedList = parsedObj.main.unitsList;
         let varietyList = [];
         // _set_UnitsData()
@@ -135,6 +137,8 @@ class MainBanner extends React.Component {
         self.setState({
           axios: false
         });
+        self.props._set_mountToDo("listBannerNew"); //splice the label from the todo list
+
         let submitObj = {},
             concatList= [];
         if(parsedObj.main.listBelong.length>0) {
@@ -165,7 +169,7 @@ class MainBanner extends React.Component {
         if((3- parsedObj.main.commonList.length) == 2) {
           let vacancy= (3- parsedObj.main.commonList.length); //actually it would only be '2' now
           self._set_SelectedList(vacancy);
-        }else submitObj['customSelected'] = [];
+        }else{submitObj['customSelected'] = []; self.props._set_mountToDo("listBannerSelect ");}//remember splice the label from the todo list
 
         //then before req Unit data to server, remove duplicate in concatList(commonList may have same item as listFirst)
         concatList = concatList.filter((item,index)=>{return concatList.indexOf(item) == index}); //because indexOf() only return the first one
@@ -200,7 +204,7 @@ class MainBanner extends React.Component {
     //there is a working method dealing the structure diff between list
     let listType =  (typeof(unitsList[0])== "object")? true : false; //true for [{star,unitId}], false for []
 
-    if(unitsList.length > 0 && unitsList.length <= this.state.unitsBasic.length){ // check necessity first, skip if no item or data not ye ready
+    if(unitsList.length > 0 ){ // check necessity first, skip if no item.
       //we render only two, but the backend may pass more than 2, so don't forget setting the limit
       for(let i =0 ; i< (Boolean(limit)? limit : 2) && i< unitsList.length; i++){ //and don't forget the length limit to prevent error cause by unwanted cycle
         let unitId = listType ? unitsList[i].unitId : unitsList[i];

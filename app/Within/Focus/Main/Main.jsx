@@ -51,7 +51,7 @@ class MainIndex extends React.Component {
     this.state = {
       axios: false,
       lastVisit: false,
-      toMount: false,
+      mountTodo: ["lastVisit", "listMain", "listBannerNew", "listBannerSelect"],
       unitsList: [],
       unitsBasic: {},
       marksBasic: {},
@@ -59,6 +59,7 @@ class MainIndex extends React.Component {
     this.axiosSource = axios.CancelToken.source();
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._render_IndexNails = this._render_IndexNails.bind(this);
+    this._set_mountToDo = this._set_mountToDo.bind(this);
     this.style={
       withinCom_MainIndex_scroll_: {
         width: '100%',
@@ -82,12 +83,25 @@ class MainIndex extends React.Component {
     return unitInit;
   }
 
+  _set_mountToDo(item){
+    let itemIndex = this.state.mountTodo.indexOf(item);
+    if(!(itemIndex < 0)) //skip if the item already rm
+    this.setState((prevState, props)=>{
+      //remove the label of this process from mout todo
+      prevState.mountTodo.splice(itemIndex, 1);
+      return ({
+        mountTodo: prevState.mountTodo
+      });
+    }); //end of 'if'
+
+  }
+
   componentDidUpdate(prevProps, prevState, snapshot){
-    if(this.state.toMount && this.state.toMount.length==0){
+    if(this.state.mountTodo.length==0){
       //now, after everything was mount, we update the visiting time to the server
-      axios_visit_Index(self.axiosSource.token);
+      axios_visit_Index(this.axiosSource.token);
       //and for safety, we reset the state to default.
-      this.setState({toMount: false});
+      this.setState({mountTodo: ["lastVisit", "listMain", "listBannerNew", "listBannerSelect"]});
     }
   }
 
@@ -101,9 +115,9 @@ class MainIndex extends React.Component {
     axios_visit_GET_last(self.axiosSource.token)
       .then((lastVisitObj)=>{
         self.setState({
-          lastVisit: lastVisitObj.main.lastTime,
-          toMount: ["listMain", "listBannerNew", "listBannerSelect"]
+          lastVisit: lastVisitObj.main.lastTime
         });
+        self._set_mountToDo("lastVisit"); //and splice the label from the todo list
         //because the listMain is just in this file, we get data now directly
         return new Promise((resolve, reject)=>{
           //(actually, we are not sure whether the axios is a Promise or not)
@@ -112,20 +126,14 @@ class MainIndex extends React.Component {
         });
       })
       .then((focusObj)=> {
-        self.setState((prevState, props)=>{
-          //remove the label of this process from mout todo
-          let restList = prevState.toMount.splice(prevState.toMount.indexOf("listMain"), 1);
-          return ({
-            axios: false,
-            toMount: restList
-          });
-        });
 
         self.props._submit_NounsList_new(focusObj.main.nounsListMix);
         self.props._submit_UsersList_new(focusObj.main.usersList);
+        self._set_mountToDo("listMain"); //and splice the label from the todo list
 
         self.setState((prevState, props)=>{
           return({
+            axios: false,
             unitsList: focusObj.main.unitsList,
             unitsBasic: focusObj.main.unitsBasic,
             marksBasic: focusObj.main.marksBasic
@@ -186,6 +194,7 @@ class MainIndex extends React.Component {
               className={classnames(styles.boxBanner)}>
               <MainBanner
                 {...this.props}
+                _set_mountToDo={this._set_mountToDo}
                 _refer_von_cosmic={this.props._refer_von_cosmic}/>
             </div>
           </div>
