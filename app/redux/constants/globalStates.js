@@ -41,6 +41,6 @@ export const i18nUIStringInit = {
      "messageChoiceBelong": ["Which one does the  ", "  match the most?"],
      "hintEmptyNode": "be the first introducing this corner to people!",
      "titleBannerBelong": "new share, around the corner ",
-     "titleBannerRest": "new arrived or selected"
+     "titleBannerRest": "new arrived, or selected"
    }
 }

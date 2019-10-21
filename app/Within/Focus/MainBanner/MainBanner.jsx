@@ -105,7 +105,7 @@ class MainBanner extends React.Component {
           let remainder = Math.floor(Math.random()*10) % 3; // index 0, 1, or 2 for both
           //now, 2 means keep as selectedList
           //0 or 1 means we pick only one from the selectedList, regard the index
-          if(!remainder==2) varietyList = [selectedList[remainder]];
+          if(!(remainder==2)) varietyList = [selectedList[remainder]];
         }
 
         self.props._submit_IndexLists({
@@ -296,7 +296,7 @@ class MainBanner extends React.Component {
     return (
       <div
         className={classnames(styles.boxSubtitleFirst)}>
-        <div>
+        <div style={{width: '75%',position:'absolute',top: '25%'}}>
           <span
             style={{display: 'block',fontSize: '1.4rem',fontWeight:'500'}}>{"First to"}</span>
           {starArr}
@@ -361,10 +361,8 @@ class MainBanner extends React.Component {
               styles.boxUnits,
               {[styles.boxUnitsJustifyAround]: ((this.props.indexLists.customNew.length+this.props.indexLists.customSelected.length)< 3)}
             )}>
-            {
-              this._render_nailsByType("customNew", 2, 3) &&
-              this._render_nailsByType("customSelected", 2, 3)
-            }
+            {this._render_nailsByType("customNew", 2, 3)}
+            {this._render_nailsByType("customSelected", 2, 3)}
           </div>
         }
       </div>

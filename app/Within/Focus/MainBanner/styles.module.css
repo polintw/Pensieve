@@ -21,7 +21,7 @@
   justify-content: center;
   width: 100%;
   box-sizing: border-box;
-  margin: 7.5vw 0 2.5vw;
+  margin: 5vw 0 5vw;
 }
 
 .boxUnitsJustifyAround {
@@ -34,14 +34,13 @@
   width: 100%; /*controled by parent*/
   position: relative;
   box-sizing: border-box;
-  margin: 5vw 0;
+  margin: 5vw 0 2.5vw;
 }
 
 .boxSubtitleFirst {
-  display: flex;
-  align-items: center;
   width: 20vw;
-  padding-left: 6.25%;
+  height: 30vw; /*follow current heightNine*/
+  position: relative;
 }
 
 .spanTitle {
