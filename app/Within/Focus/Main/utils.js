@@ -1,6 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
-import styles from "./stylesMainIndex.module.css";
+import styles from "./styles.module.css";
 import NailSquare from '../../../Component/Nails/NailSquare/NailSquare.jsx';
 import NailRegular from '../../../Component/Nails/NailRegular/NailRegular.jsx';
 import NailWideDisplay from '../../../Component/Nails/NailWideDisplay/NailWideDisplay.jsx';
@@ -43,6 +43,19 @@ export function nailChart(choice, unitId, pare){
             {...pare.props}
             unitId={unitId}
             linkPath={pare.props.match.url+'/unit'}
+            unitBasic={pare.state.unitsBasic[unitId]}
+            marksBasic={pare.state.marksBasic}/>
+        </div>
+      )
+      break;
+    case 3:
+      return (
+        <div
+          key={'key_CosmicMain_Nails_'+unitId}
+          className={classnames(styles.boxNail, styles.heightNine, styles.boxEven)}>
+          <NailWideDisplay
+            {...pare.props}
+            unitId={unitId}
             unitBasic={pare.state.unitsBasic[unitId]}
             marksBasic={pare.state.marksBasic}/>
         </div>

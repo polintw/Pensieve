@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
-import styles from "./stylesMainIndex.module.css";
+import styles from "./styles.module.css";
 import {
   nailChart,
   separationLine,
@@ -51,6 +51,7 @@ class MainIndex extends React.Component {
     this.state = {
       axios: false,
       lastVisit: false,
+      mountTodo: ["lastVisit", "listMain", "listBannerNew", "listBannerSelect"],
       unitsList: [],
       unitsBasic: {},
       marksBasic: {},
@@ -58,6 +59,7 @@ class MainIndex extends React.Component {
     this.axiosSource = axios.CancelToken.source();
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._render_IndexNails = this._render_IndexNails.bind(this);
+    this._set_mountToDo = this._set_mountToDo.bind(this);
     this.style={
       withinCom_MainIndex_scroll_: {
         width: '100%',
@@ -81,6 +83,28 @@ class MainIndex extends React.Component {
     return unitInit;
   }
 
+  _set_mountToDo(item){
+    let itemIndex = this.state.mountTodo.indexOf(item);
+    if(!(itemIndex < 0)) //skip if the item already rm
+    this.setState((prevState, props)=>{
+      //remove the label of this process from mout todo
+      prevState.mountTodo.splice(itemIndex, 1);
+      return ({
+        mountTodo: prevState.mountTodo
+      });
+    }); //end of 'if'
+
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot){
+    if(this.state.mountTodo.length==0){
+      //now, after everything was mount, we update the visiting time to the server
+      axios_visit_Index(this.axiosSource.token);
+      //and for safety, we reset the state to default.
+      this.setState({mountTodo: ["lastVisit", "listMain", "listBannerNew", "listBannerSelect"]});
+    }
+  }
+
   componentDidMount(){
     const self = this;
 
@@ -90,29 +114,22 @@ class MainIndex extends React.Component {
     //in the future, method to get basic (user)sheet data would join here(use Promise.all())
     axios_visit_GET_last(self.axiosSource.token)
       .then((lastVisitObj)=>{
-        self.setState({axios: false});
-
-        //use promise to let the axios.all could be pass to .then even inside a callback
+        self.setState({
+          lastVisit: lastVisitObj.main.lastTime
+        });
+        self._set_mountToDo("lastVisit"); //and splice the label from the todo list
+        //because the listMain is just in this file, we get data now directly
         return new Promise((resolve, reject)=>{
-          self.setState((state, props)=>{
-            return {
-              lastVisit: lastVisitObj.main.lastTime,
-              axios: true
-            }
-          }, ()=>{
-            resolve(axios.all([
-              axios_cosmic_IndexList(self.axiosSource.token),
-              axios_visit_Index(self.axiosSource.token)
-            ]));
-          })
-
+          //(actually, we are not sure whether the axios is a Promise or not)
+          //(so this Promise usage is just in cas it's 'not')
+          resolve(axios_cosmic_IndexList(self.axiosSource.token));
         });
       })
-      .then(axios.spread (function(focusObj) {
-        self.setState({axios: false});
+      .then((focusObj)=> {
 
         self.props._submit_NounsList_new(focusObj.main.nounsListMix);
         self.props._submit_UsersList_new(focusObj.main.usersList);
+        self._set_mountToDo("listMain"); //and splice the label from the todo list
 
         self.setState((prevState, props)=>{
           return({
@@ -123,7 +140,7 @@ class MainIndex extends React.Component {
           });
         });
 
-      })).catch(function (thrown) {
+      }).catch(function (thrown) {
         self.setState({axios: false});
         if (axios.isCancel(thrown)) {
           cancelErr(thrown);
@@ -167,12 +184,17 @@ class MainIndex extends React.Component {
           style={this.style.withinCom_MainIndex_scroll_}>
           <div
             className={classnames(styles.boxTop)}>
-            <MainTitle
-              lastVisit={this.state.lastVisit}
-              _refer_von_cosmic={this.props._refer_von_cosmic}/>
+            <div
+              className={classnames(styles.boxTitle)}>
+              <MainTitle
+                lastVisit={this.state.lastVisit}
+                _refer_von_cosmic={this.props._refer_von_cosmic}/>
+            </div>
             <div
               className={classnames(styles.boxBanner)}>
               <MainBanner
+                {...this.props}
+                _set_mountToDo={this._set_mountToDo}
                 _refer_von_cosmic={this.props._refer_von_cosmic}/>
             </div>
           </div>

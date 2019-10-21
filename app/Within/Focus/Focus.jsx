@@ -4,7 +4,7 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import MainIndex from './MainIndex/MainIndex.jsx';
+import Main from './Main/Main.jsx';
 import SvgLogo from '../../Component/Svg/SvgLogo.jsx';
 
 class CosmicMain extends React.Component {
@@ -55,7 +55,7 @@ class CosmicMain extends React.Component {
         style={this.style.withinCom_CosmicMain_}>
         <div
           style={this.style.withinCom_CosmicMain_index_}>
-          <MainIndex {...this.props}/>
+          <Main {...this.props}/>
         </div>
         <div style={{width: '100%', height: '2.7rem', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
         <div style={{width: '100%', height: '4rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}>

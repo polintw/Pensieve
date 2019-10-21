@@ -1,0 +1,63 @@
+.comMainBanner {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.boxUnits {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%; /*controled by parent*/
+  position: relative;
+  box-sizing: border-box;
+  margin-bottom: 5vw;
+}
+
+.boxTitle {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 5vw 0 5vw;
+}
+
+.boxUnitsJustifyAround {
+  justify-content: space-around;
+}
+
+.boxRowFirst {
+  display: flex;
+  justify-content: space-between;
+  width: 100%; /*controled by parent*/
+  position: relative;
+  box-sizing: border-box;
+  margin: 5vw 0 2.5vw;
+}
+
+.boxSubtitleFirst {
+  width: 20vw;
+  height: 30vw; /*follow current heightNine*/
+  position: relative;
+}
+
+.spanTitle {
+
+}
+
+.spanSubtitleFirst {
+  display: block;
+  font-size: 3rem;
+  font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.2rem;
+  overflow: visible;
+}
+
+.fontTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 0.07rem;
+}

@@ -40,19 +40,27 @@ export default class NounsEditor extends React.Component {
   _set_nodeChoice(nounBasic){
     let nounObj = Object.assign({}, nounBasic);
     this.setState((prevState, props)=>{
-      prevState.nounsList.push(nounObj.id);
-      prevState.nounsBasic[nounObj.id] = nounObj;
+      //chekc the node passed from the SearchModule existed or not
+      //a check for preventing repeating on list
+      if(prevState.nounsList.indexOf(nounObj.id) < 0){
+        //save to push to the list
+        prevState.nounsList.push(nounObj.id);
+        prevState.nounsBasic[nounObj.id] = nounObj;
+      };
+
       return prevState;
     }, ()=>{
       this.props._set_nouns({list: this.state.nounsList, basic: this.state.nounsBasic});
     })
   }
 
-  _set_nounDelete(nounIndex){
+  _set_nounDelete(nodeId){
     this.setState((prevState, props)=>{
-      const nounId = prevState.nounsList[nounIndex];
-      delete prevState.nounsBasic[nounId];
-      prevState.nounsList.splice(nounIndex, 1);
+      delete prevState.nounsBasic[nodeId]; // remove the node data froom obj
+      prevState.nounsList = prevState.nounsList.filter((value, index)=>{ // use filter remove id from the list and replace it by new list
+        //using filter is just a safer way to remove 'all candidate' (at the time it was add because there was a bug would push the same id more than once at 'add' part)
+        return value != nodeId; //not equal value, but allow different "type" (the nodeId was string saved in the DOM attribute)
+      });
       return prevState;
     }, ()=>{
       this.props._set_nouns({list: this.state.nounsList, basic: this.state.nounsBasic});
