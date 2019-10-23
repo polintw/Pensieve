@@ -14,33 +14,44 @@ import {
   handleNounsList
 } from "../../../redux/actions/general.js";
 
-const recordLink = (nodeId, self)=>{
+const displaySubTitle = ["residence", "stay", "hometown", "", "used", "used"];
+
+const recordLink = (type, self)=>{
+  let nodeId = false;
+  if(type in self.state.typeObj) nodeId = (type=="used") ?
+
+  
   //still check if the node has data in reducer
   return (
     <div>
-      <
-      <Link
-        key={"key_Belong_records_"+nodeId}
-        to={"/cosmic/nodes/"+nodeId}
-        nodeid={nodeId}
-        className={classnames('plainLinkButton', styles.boxRecord)}
-        onMouseEnter={self._handleEnter_Record}
-        onMouseLeave={self._handleLeave_Record}>
-        <div
-          className={classnames(styles.spanRecord)}>
-          {
-            (self.state.onRecord== nodeId) &&
-            <span style={{
-                width: '72%', position: 'absolute', bottom: '-11%', left: '5%',
-                borderBottom: 'solid 1px #ff7a5f'
-              }}/>
-            }
-            {nodeId in self.props.nounsBasic ? (
-              self.props.nounsBasic[nodeId].name) : (
-                null
-              )}
-            </div>
-          </Link>
+      <div>
+        {type}
+      </div>
+      {
+         &&
+        <Link
+          key={"key_Belong_records_"+nodeId}
+          to={"/cosmic/nodes/"+nodeId}
+          nodeid={nodeId}
+          className={classnames('plainLinkButton', styles.boxRecord)}
+          onMouseEnter={self._handleEnter_Record}
+          onMouseLeave={self._handleLeave_Record}>
+          <div
+            className={classnames(styles.spanRecord)}>
+            {
+              (self.state.onRecord== nodeId) &&
+              <span style={{
+                  width: '72%', position: 'absolute', bottom: '-11%', left: '5%',
+                  borderBottom: 'solid 1px #ff7a5f'
+                }}/>
+              }
+              {nodeId in self.props.nounsBasic ? (
+                self.props.nounsBasic[nodeId].name) : (
+                  null
+                )}
+              </div>
+            </Link>
+      }
     </div>
   )
 }
@@ -51,10 +62,11 @@ class BannerBelong extends React.Component {
     this.state = {
       axios: false,
       onRecord: false,
-      nodesChart: {},
-      nodesList: []
+      typeObj: {},
+      nodesList: [],
+      nodesSharedCount: {}
     };
-    this._set_nodesShared = this._set_nodesShared.bind(this);
+    this._set_sharedCount = this._set_sharedCount.bind(this);
     this._render_BelongList = this._render_BelongList.bind(this);
     this._axios_GET_sharedCount = this._axios_GET_sharedCount.bind(this);
     this._axios_GET_belongRecords = this._axios_GET_belongRecords.bind(this);
@@ -112,8 +124,41 @@ class BannerBelong extends React.Component {
     })
   }
 
-  _set_nodesShared(nodesList){
+  _set_sharedCount(nodesList){
+    //make axios req by nodesList
+    let promiseArr = nodesList.map((nodeId, index)=>{
+      return this._axios_GET_sharedCount(nodeId)
+    });
+    const self = this;
+    this.setState({axios: true});
 
+    axios.all(promiseArr)
+      .then(results => { //we don't know how many res from .all(), so use general params
+        self.setState({axios: false});
+
+        let nodesSharedCount = {}; //obj prepare for new records, combined with current state later
+        //we then loop the results, and by the same order, we pick the nodeId from nodesList by index
+        //and remember, the result hasn't parse yet
+        results.forEach((res, index)=>{
+          let resObj = JSON.parse(res.data);
+          nodesSharedCount[nodesList[index]] = resObj.main.count;
+        });
+
+        self.setState((prevState, props)=>{
+          return {
+            nodesSharedCount: {...prevState.nodesSharedCount, ...nodesSharedCount} //combined new records to current state by spread
+          }
+        });
+
+      ).catch(function (thrown) {
+        self.setState({axios: false});
+        if (axios.isCancel(thrown)) {
+          cancelErr(thrown);
+        } else {
+          let message = uncertainErr(thrown);
+          if(message) alert(message);
+        }
+      });
   }
 
   componentDidMount() {
@@ -125,6 +170,8 @@ class BannerBelong extends React.Component {
       this._axios_GET_recordeShared()
     ]).then(
       axios.spread((belongRecord, recordShared)=>{
+        self.setState({axios: false}); //set here because we are going to next axios not far away
+
         let belongObj = JSON.parse(belongRecord.data),
             sharedObj = JSON.parse(recordShared.data);
         let sharedList = sharedObj.main.nodesList;
@@ -133,15 +180,19 @@ class BannerBelong extends React.Component {
         }
         //then, concat the lists
         const nodesList= belongObj.main.nodesList.concat(sharedList);
+        let typeObj = {used: []};
+        nodesList.forEach((nodeId, index)=>{ //and, switch nodesChart to type attribution for rendering convinence
+          if(nodeId in resObj.main.nodesChart) typeObj[resObj.main.nodesChart[nodeId]] = nodeId
+          else typeObj["used"].push(nodeId); //end of 'if'
+        });
 
         self.props._submit_NounsList_new(nodesList); //GET nodes info by Redux action
-        self._set_nodesShared(nodesList); //GET count of each node display
+        self._set_sharedCount(nodesList); //GET count of each node display
 
         self.setState((prevState, props)=>{
           return({
-            axios: false,
             nodesList: nodesList,
-            nodesChart: resObj.main.nodesChart
+            typeObj: typeObj
           });
         });
 
@@ -164,15 +215,11 @@ class BannerBelong extends React.Component {
   }
 
   _render_BelongList(){
-    ["residence", "stay", "hometown", "", "used", "used"]
-
-    let items = this.state.nodesList.map((nodeId, index)=>{
-
-      this.state.nodesChart[nodeId]
-      return recordLink(nodeId, this);
+    const nodesDOM = displaySubTitle.map((nodeType, index)=>{
+      return recordLink(nodeType, this);
     });
 
-    return items;
+    return nodesDOM;
   }
 
   render(){
