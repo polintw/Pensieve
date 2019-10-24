@@ -9,31 +9,59 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-
 import CreateShare from '../../../Component/CreateShare.jsx';
+import {updateNodesBasic} from '../../../redux/actions/general.js'
 
 
 class BelongbyType extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      settingChoice: "",
+      settingModal: false,
+      dialog: false,
       onNode: false,
     };
     this._render_type = this._render_type.bind(this);
     this._render_type_used = this._render_type_used.bind(this);
     this._render_nodeLink = this._render_nodeLink.bind(this);
+    this._handleClick_belongSetting = this._handleClick_belongSetting.bind(this);
     this._handleMouseOn_Node = ()=> this.setState((prevState,props)=>{return {onNode: prevState.onNode?false:true}});
-
+    this._set_settingModal = ()=> this.setState((prevState, index)=>{return {settingModal: prevState.settingModal? false: true}});
     this.style={
 
     }
+  }
+
+  _handleClick_belongSetting(event){
+    event.preventDefault();
+    event.stopPropagation();
+
+    this._set_settingModal();
   }
 
   _submit_Share_New(dataObj){
     window.location.assign('/user/cognition/actions/shareds/unit?theater&unitId='+dataObj.unitId);
   }
 
+  _set_choiceFromSearch(nodeBasic){
+    //create obj to fit the format of state in redux
+    let insertObj = {};
+    insertObj[nodeBasic.id] = nodeBasic;
+
+    //pass the node basic into redux first,
+    //so the handler would not need to fetch node data from db again
+    this.props._submit_Nodes_insert(insertObj);
+    //no need to fetch node data from db again for any condition gave the choice a non-false value
+    //has already save the data of node in reducer.
+    this.setState((prevState,props)=>{
+      return {
+        dialog: true,
+        settingChoice: nodeBasic.id,
+        settingModal: false
+      };
+    });
+  }
 
   componentDidUpdate(prevProps, prevState, snapshot){
 
@@ -90,7 +118,8 @@ class BelongbyType extends React.Component {
   _render_type(){
     return (
       <div>
-        <span>
+        <span
+          onClick={this._handleClick_belongSetting}>
           {this.props.type}</span>
       </div>
     )
@@ -111,9 +140,7 @@ class BelongbyType extends React.Component {
         {
           !nodeIfy &&
           <div
-            className={classnames(styles.boxCreate)}
-            onMouseEnter={this._handleMouseOn_Create}
-            onMouseLeave={this._handleMouseOn_Create}>
+            className={classnames(styles.boxCreate)}>
             <CreateShare
               _submit_Share_New={this._submit_Share_New}
               _refer_von_Create={this.props._refer_von_cosmic}/>
@@ -136,9 +163,34 @@ class BelongbyType extends React.Component {
           this._render_nodeLink()
         }
         {
-
+          this.state.settingModal &&
+          <div
+            className={classnames(styles.boxSettingModal)}>
+            <NodeSearchModule
+              type={"belong"}
+              _set_nodeChoice={this._set_choiceFromSearch}
+              _set_SearchModal_switch={this._set_settingModal}
+              _handleClick_SearchModal_switch={(e)=>{e.preventDefault();e.stopPropagation();this._set_settingModal();}}/>
+          </div>
         }
 
+        {
+          this.state.dialog &&
+          <ModalBox containerId="root">
+            <ModalBackground onClose={()=>{this._set_Dialog();}} style={{position: "fixed", backgroundColor: 'rgba(252,252,252,0.36)'}}>
+              <div
+                className={styles.boxDialog}>
+
+                <ChoiceDialog
+                  optionsList={optionsType}
+                  leavingChoice={'cancel'}
+                  message={this._render_DialogMessage()}
+                  _leavingHandler={this.props._set_refresh}
+                  _submitHandler={this._handlesubmit_newBelong}/>
+              </div>
+            </ModalBackground>
+          </ModalBox>
+        }
       </div>
     )
   }
@@ -155,7 +207,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    _submit_Nodes_insert: (obj) => { dispatch(updateNodesBasic(obj)); },
   }
 }
 

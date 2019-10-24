@@ -11,7 +11,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import {updateNodesBasic} from '../../../redux/actions/general.js'
 import ChoiceDialog from '../../../Component/Dialog/ChoiceDialog/ChoiceDialog.jsx';
-import {NounsSearchModal} from '../../../Component/NodeComs.jsx';
+import {NodeSearchModule} from '../../../Component/NodeSearchModule.jsx';
 import ModalBox from '../../../Component/ModalBox.jsx';
 import ModalBackground from '../../../Component/ModalBackground.jsx';
 import {
@@ -237,7 +237,8 @@ class BelongOptions extends React.Component {
           this.state.search &&
           <div
             className={classnames(styles.boxSearchModal)}>
-            <NounsSearchModal
+            <NodeSearchModule
+              type={"share"}
               _set_nodeChoice={this._set_choiceFromSearch}
               _set_SearchModal_switch={this._set_searchModal}
               _handleClick_SearchModal_switch={(e)=>{e.preventDefault();e.stopPropagation();this._set_searchModal();}}/>
