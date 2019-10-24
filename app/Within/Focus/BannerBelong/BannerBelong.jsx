@@ -7,6 +7,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import BelongbyType from '../BelongbyType/BelongbyType.jsx';
+import ChoiceDialog from '../../../Component/Dialog/BooleanDialog/BooleanDialog.jsx';
 import {
   cancelErr,
   uncertainErr
@@ -24,13 +25,78 @@ class BannerBelong extends React.Component {
       axios: false,
       typeObj: {},
       nodesList: [],
-      nodesSharedCount: {}
+      nodesSharedCount: {},
+      dialog: false,
+      chosenNode: '',
+      settingType: ''
     };
     this._set_sharedCount = this._set_sharedCount.bind(this);
+    this._set_choiceAnType = this._set_choiceAnType.bind(this);
+    this._set_dialog_cancel = this._set_dialog_cancel.bind(this);
     this._render_BelongList = this._render_BelongList.bind(this);
+    this._render_DialogMessage = this._render_DialogMessage.bind(this);
+    this._handlesubmit_newBelong = this._handlesubmit_newBelong.bind(this);
     this._axios_GET_sharedCount = this._axios_GET_sharedCount.bind(this);
     this._axios_GET_belongRecords = this._axios_GET_belongRecords.bind(this);
     this._axios_GET_recordeShared = this._axios_GET_recordeShared.bind(this);
+    this._set_Dialog = ()=> this.setState((prevState,props)=>{ return {dialog: prevState.dialog? false:true};});
+  }
+
+  _set_dialog_cancel(){
+    this.setState({
+      dialog: false,
+      chosenNode: '',
+      settingType: ''
+    })
+  }
+
+  _set_choiceAnType(choice, type){
+
+    this.setState({
+      dialog: true,
+      chosenNode: choice,
+      settingType: type
+    });
+  }
+
+  _handlesubmit_newBelong(){
+    const self = this;
+    //close the Dialog,
+    this._set_Dialog();
+
+    let objBelong = {};
+    objBelong[this.state.settingType]= this.state.chosenNode; //put nodeId by type
+
+    this._axios_PATCH_belongRecords({belong: objBelong}) //final reload the com to GET new setting
+      .then(function (res) {
+        self.setState({axios: false});
+        //and just refresh data set to render new setting
+        this.props._set_refresh()
+      }).catch(function (thrown) {
+        self.setState({axios: false});
+        if (axios.isCancel(thrown)) {
+          cancelErr(thrown);
+        } else {
+          let message = uncertainErr(thrown);
+          if(message) alert(message);
+        }
+      });
+
+  }
+
+  _axios_PATCH_belongRecords(submitObj){
+    this.setState({axios: true});
+
+    return axios({
+      method: 'patch',
+      url: '/router/profile/sheetsNodes',
+      headers: {
+        'charset': 'utf-8',
+        'token': window.localStorage['token']
+      },
+      cancelToken: this.axiosSource.cancelToken,
+      data: submitObj
+    });
   }
 
   _axios_GET_belongRecords(){
@@ -160,6 +226,19 @@ class BannerBelong extends React.Component {
     }
   }
 
+  _render_DialogMessage(){
+    let nodeName = (this.state.chosenNode in this.props.nounsBasic)? this.props.nounBasic[this.state.chosenNode]: '';
+    let messageList = [
+      {text: this.props.i18nUIString.catalog['messageBelongChoiceinBool'][0], style: {}},
+      {text: nodeName, style: {fontWeight: '700'}},
+      {text: this.props.i18nUIString.catalog['messageBelongChoiceinBool'][1], style: {}},
+      {text: this.state.settingType, style: {fontWeight: '700'}},
+      {text: this.props.i18nUIString.catalog['messageBelongChoiceinBool'][2], style: {}},
+    ];
+
+    return messageList;
+  }
+
   _render_BelongList(){
     const nodesDOM = nodeTypeList.map((nodeType, index)=>{
       return (
@@ -169,7 +248,8 @@ class BannerBelong extends React.Component {
             key={"key_BelongByType_"+index}
             {...this.state}
             tpye={nodeType}
-            listIndex={index}/>
+            listIndex={index}
+            _set_choiceAnType={this._set_choiceAnType}/>
         </div>
       )
 
@@ -185,6 +265,22 @@ class BannerBelong extends React.Component {
       <div
         className={classnames(styles.comBannerBelong)}>
         {this._render_BelongList()}
+        {
+          this.state.dialog &&
+          <ModalBox containerId="root">
+            <ModalBackground onClose={()=>{this._set_Dialog();}} style={{position: "fixed", backgroundColor: 'rgba(252,252,252,0.36)'}}>
+              <div
+                className={styles.boxDialog}>
+                <BooleanDialog
+                  customButton={"submitting"}
+                  message={this._render_DialogMessage()}
+                  _positiveHandler={this._handlesubmit_newBelong}
+                  _negativeHandler={this._set_dialog_cancel}/>
+              </div>
+            </ModalBackground>
+          </ModalBox>
+        }
+
       </div>
     )
   }

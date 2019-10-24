@@ -17,9 +17,7 @@ class BelongbyType extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      settingChoice: "",
       settingModal: false,
-      dialog: false,
       onNode: false,
     };
     this._render_type = this._render_type.bind(this);
@@ -54,10 +52,12 @@ class BelongbyType extends React.Component {
     this.props._submit_Nodes_insert(insertObj);
     //no need to fetch node data from db again for any condition gave the choice a non-false value
     //has already save the data of node in reducer.
+
+    //and pass the choice to
+    this.props._set_choiceAnType(nodeBasic.id, this.props.type);
+
     this.setState((prevState,props)=>{
       return {
-        dialog: true,
-        settingChoice: nodeBasic.id,
         settingModal: false
       };
     });
@@ -159,7 +159,8 @@ class BelongbyType extends React.Component {
         className={classnames(styles.comBelongByType)}>
         {(this.props.type=="used") ? this._render_type_used() : this._render_type()}
         {
-          !!(this.props.type in this.props.typeObj) &&
+          //only render the node if there is a data in typeObj (empty in default)
+          (!!(this.props.type in this.props.typeObj) && !this.state.settingModal) &&
           this._render_nodeLink()
         }
         {
@@ -172,24 +173,6 @@ class BelongbyType extends React.Component {
               _set_SearchModal_switch={this._set_settingModal}
               _handleClick_SearchModal_switch={(e)=>{e.preventDefault();e.stopPropagation();this._set_settingModal();}}/>
           </div>
-        }
-
-        {
-          this.state.dialog &&
-          <ModalBox containerId="root">
-            <ModalBackground onClose={()=>{this._set_Dialog();}} style={{position: "fixed", backgroundColor: 'rgba(252,252,252,0.36)'}}>
-              <div
-                className={styles.boxDialog}>
-
-                <ChoiceDialog
-                  optionsList={optionsType}
-                  leavingChoice={'cancel'}
-                  message={this._render_DialogMessage()}
-                  _leavingHandler={this.props._set_refresh}
-                  _submitHandler={this._handlesubmit_newBelong}/>
-              </div>
-            </ModalBackground>
-          </ModalBox>
         }
       </div>
     )

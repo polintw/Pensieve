@@ -1,0 +1,41 @@
+.comBooleanDialog {
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'space-around',
+  width: '100%',
+  minHeight: '10rem',
+  boxSizing: 'border-box',
+  padding: '2.4rem 3.7rem 3rem 3rem',
+}
+
+.boxMessage {
+
+}
+
+.boxfoot {
+  padding: 0 8%;
+}
+
+.boxRoundButton{
+  box-sizing: border-box;
+  padding: 11px 6%;
+  border-radius: 1.87vh;
+  background-color: #09a8e6;
+  text-align: center;
+  cursor: pointer;
+}
+
+.spanButton {
+
+}
+
+.spanMessage {
+
+}
+
+.fontButton {
+  font-size: 1.47rem;
+  font-weight: 400;
+  letter-spacing: 0.067rem;
+  color: #FAFAFA;
+}
