@@ -98,7 +98,7 @@ class BelongbyType extends React.Component {
                 }}/>
             }
             {nodeId in this.props.nounsBasic ? (
-              self.props.nounsBasic[nodeId].name) : (
+              this.props.nounsBasic[nodeId].name) : (
                 null
             )}
           </div>

@@ -14,6 +14,7 @@ import {
   axios_feedList_customNew,
   axios_feedList_customSelected
 } from './utils.js';
+import BannerBelong from '../BannerBelong/BannerBelong.jsx';
 import {
   nailChart,
 } from '../Main/utils.js';
@@ -44,7 +45,6 @@ class MainBanner extends React.Component {
     this._set_UnitsData = this._set_UnitsData.bind(this);
     this._set_SelectedList = this._set_SelectedList.bind(this);
     this._render_nailsByType = this._render_nailsByType.bind(this);
-    this._render_titleGreet = this._render_titleGreet.bind(this);
     this._render_titleBelong = this._render_titleBelong.bind(this);
     this._render_subtitleFirst = this._render_subtitleFirst.bind(this)
     this.style={
@@ -220,19 +220,6 @@ class MainBanner extends React.Component {
     return unitsDOM;
   }
 
-  _render_titleGreet(){
-    let indexLists = this.props.indexLists,
-        titleText = "";
-
-    // greet title: first but no belong > lack all, title for remind & status of node > statics ? plain greet?
-
-    return (
-      <span
-        className={classnames(styles.spanTitle, styles.fontTitle)}>
-        {titleText}</span>
-    )
-  }
-
   _render_titleBelong(){
     let indexLists = this.props.indexLists,
         listNodes = [];
@@ -312,11 +299,6 @@ class MainBanner extends React.Component {
       <div
         className={classnames(styles.comMainBanner)}>
 
-        <div
-          className={classnames(styles.boxTitle)}
-          style={{display: 'none'}}>
-          {this._render_titleGreet()}</div>
-
         {
           (this.props.indexLists.customNewBelong.length> 0) &&
           <div>
@@ -365,6 +347,11 @@ class MainBanner extends React.Component {
             {this._render_nailsByType("customSelected", 2, 3)}
           </div>
         }
+
+        <div>
+          <BannerBelong
+            _refer_von_cosmic={this.props._refer_von_cosmic}/>
+        </div>
       </div>
     )
   }

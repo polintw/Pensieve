@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import BelongbyType from '../BelongbyType/BelongbyType.jsx';
-import ChoiceDialog from '../../../Component/Dialog/BooleanDialog/BooleanDialog.jsx';
+import BooleanDialog from '../../../Component/Dialog/BooleanDialog/BooleanDialog.jsx';
 import {
   cancelErr,
   uncertainErr
@@ -30,6 +30,7 @@ class BannerBelong extends React.Component {
       chosenNode: '',
       settingType: ''
     };
+    this._init_fetch = this._init_fetch.bind(this);
     this._set_sharedCount = this._set_sharedCount.bind(this);
     this._set_choiceAnType = this._set_choiceAnType.bind(this);
     this._set_dialog_cancel = this._set_dialog_cancel.bind(this);
@@ -61,8 +62,14 @@ class BannerBelong extends React.Component {
 
   _handlesubmit_newBelong(){
     const self = this;
-    //close the Dialog,
-    this._set_Dialog();
+    //close the Dialog,And! reset all to wait for new fetch
+    //But remember keeping the sumit data alive !
+    this.setState({
+      typeObj: {},
+      nodesList: [],
+      nodesSharedCount: {},
+      dialog: false,
+    });
 
     let objBelong = {};
     objBelong[this.state.settingType]= this.state.chosenNode; //put nodeId by type
@@ -71,7 +78,7 @@ class BannerBelong extends React.Component {
       .then(function (res) {
         self.setState({axios: false});
         //and just refresh data set to render new setting
-        this.props._set_refresh()
+        this._init_fetch()
       }).catch(function (thrown) {
         self.setState({axios: false});
         if (axios.isCancel(thrown)) {
@@ -173,7 +180,7 @@ class BannerBelong extends React.Component {
       });
   }
 
-  componentDidMount() {
+  _init_fetch(){
     const self = this;
     this.setState({axios: true});
 
@@ -218,6 +225,11 @@ class BannerBelong extends React.Component {
         if(message) alert(message);
       }
     });
+
+  }
+
+  componentDidMount() {
+    this._init_fetch();
   }
 
   componentWillUnmount() {
@@ -249,7 +261,8 @@ class BannerBelong extends React.Component {
             {...this.state}
             tpye={nodeType}
             listIndex={index}
-            _set_choiceAnType={this._set_choiceAnType}/>
+            _set_choiceAnType={this._set_choiceAnType}
+            _refer_von_cosmic={this.props._refer_von_cosmic}/>
         </div>
       )
 
