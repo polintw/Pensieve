@@ -1,23 +1,7 @@
-.boxList {
-  display: flex;
-  flex-wrap: nowrap;
-  justify-content: space-around;
-  min-width: 62%;
-  margin: 0 3% 1.3rem 4%;
+.comBannerBelong {
+
 }
 
-.boxRecord {
-  display: inline-block;
-  padding-right: 1.4rem;
-}
+.boxByType {
 
-.spanRecord {
-  display: inline-block;
-  position: relative;
-}
-
-.fontList {
-  font-size: 1.6rem;
-  font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;
-  letter-spacing: 0.05rem;
 }

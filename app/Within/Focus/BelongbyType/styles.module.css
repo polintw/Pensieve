@@ -1,0 +1,13 @@
+.comBelongByType {
+
+}
+
+.boxNode {
+  display: inline-block;
+  padding-right: 1.4rem;
+}
+
+.spanNode {
+  display: inline-block;
+  position: relative;
+}

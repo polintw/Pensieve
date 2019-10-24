@@ -6,6 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import BelongbyType from '../BelongbyType/BelongbyType.jsx';
 import {
   cancelErr,
   uncertainErr
@@ -14,54 +15,13 @@ import {
   handleNounsList
 } from "../../../redux/actions/general.js";
 
-const displaySubTitle = ["residence", "stay", "hometown", "", "used", "used"];
-
-const recordLink = (type, self)=>{
-  let nodeId = false;
-  if(type in self.state.typeObj) nodeId = (type=="used") ?
-
-  
-  //still check if the node has data in reducer
-  return (
-    <div>
-      <div>
-        {type}
-      </div>
-      {
-         &&
-        <Link
-          key={"key_Belong_records_"+nodeId}
-          to={"/cosmic/nodes/"+nodeId}
-          nodeid={nodeId}
-          className={classnames('plainLinkButton', styles.boxRecord)}
-          onMouseEnter={self._handleEnter_Record}
-          onMouseLeave={self._handleLeave_Record}>
-          <div
-            className={classnames(styles.spanRecord)}>
-            {
-              (self.state.onRecord== nodeId) &&
-              <span style={{
-                  width: '72%', position: 'absolute', bottom: '-11%', left: '5%',
-                  borderBottom: 'solid 1px #ff7a5f'
-                }}/>
-              }
-              {nodeId in self.props.nounsBasic ? (
-                self.props.nounsBasic[nodeId].name) : (
-                  null
-                )}
-              </div>
-            </Link>
-      }
-    </div>
-  )
-}
+const nodeTypeList = ["residence", "stay", "hometown", "", "used", "used"];
 
 class BannerBelong extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       axios: false,
-      onRecord: false,
       typeObj: {},
       nodesList: [],
       nodesSharedCount: {}
@@ -71,20 +31,6 @@ class BannerBelong extends React.Component {
     this._axios_GET_sharedCount = this._axios_GET_sharedCount.bind(this);
     this._axios_GET_belongRecords = this._axios_GET_belongRecords.bind(this);
     this._axios_GET_recordeShared = this._axios_GET_recordeShared.bind(this);
-    this._handleEnter_Record = this._handleEnter_Record.bind(this);
-    this._handleLeave_Record = this._handleLeave_Record.bind(this);
-  }
-
-  _handleEnter_Record(e){
-    this.setState({
-      onRecord: e.currentTarget.getAttribute('nodeid')
-    })
-  }
-
-  _handleLeave_Record(e){
-    this.setState({
-      onRecord: false
-    })
   }
 
   _axios_GET_belongRecords(){
@@ -215,8 +161,20 @@ class BannerBelong extends React.Component {
   }
 
   _render_BelongList(){
-    const nodesDOM = displaySubTitle.map((nodeType, index)=>{
-      return recordLink(nodeType, this);
+    const nodesDOM = nodeTypeList.map((nodeType, index)=>{
+      return (
+        <div
+          className={classnames(styles.boxByType)}>
+          <BelongbyType
+            key={"key_BelongByType_"+index}
+            {...this.state}
+            tpye={nodeType}
+            listIndex={index}/>
+        </div>
+      )
+
+      //but return "·" for the site between 'hometown' & 'used'
+
     });
 
     return nodesDOM;
@@ -225,7 +183,7 @@ class BannerBelong extends React.Component {
   render(){
     return(
       <div
-        className={classnames(styles.boxList, styles.fontList)}>
+        className={classnames(styles.comBannerBelong)}>
         {this._render_BelongList()}
       </div>
     )
