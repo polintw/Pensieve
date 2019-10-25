@@ -30,6 +30,7 @@ class BannerBelong extends React.Component {
       chosenNode: '',
       settingType: ''
     };
+    this.axiosSource = axios.CancelToken.source();
     this._init_fetch = this._init_fetch.bind(this);
     this._set_sharedCount = this._set_sharedCount.bind(this);
     this._set_choiceAnType = this._set_choiceAnType.bind(this);
@@ -169,7 +170,7 @@ class BannerBelong extends React.Component {
           }
         });
 
-      ).catch(function (thrown) {
+      }).catch(function (thrown) {
         self.setState({axios: false});
         if (axios.isCancel(thrown)) {
           cancelErr(thrown);
@@ -201,7 +202,7 @@ class BannerBelong extends React.Component {
         const nodesList= belongObj.main.nodesList.concat(sharedList);
         let typeObj = {used: []};
         nodesList.forEach((nodeId, index)=>{ //and, switch nodesChart to type attribution for rendering convinence
-          if(nodeId in resObj.main.nodesChart) typeObj[resObj.main.nodesChart[nodeId]] = nodeId
+          if(nodeId in belongObj.main.nodesChart) typeObj[belongObj.main.nodesChart[nodeId]] = nodeId
           else typeObj["used"].push(nodeId); //end of 'if'
         });
 
@@ -255,11 +256,12 @@ class BannerBelong extends React.Component {
     const nodesDOM = nodeTypeList.map((nodeType, index)=>{
       return (
         <div
-          className={classnames(styles.boxByType)}>
+          key={"key_BelongByType_"+index}
+          className={classnames(styles.boxByType)}
+          style={{width: (nodeType.length> 0)? '18%': '8%'}}>
           <BelongbyType
-            key={"key_BelongByType_"+index}
             {...this.state}
-            tpye={nodeType}
+            type={nodeType}
             listIndex={index}
             _set_choiceAnType={this._set_choiceAnType}
             _refer_von_cosmic={this.props._refer_von_cosmic}/>

@@ -40,7 +40,7 @@ export const i18nUIStringInit = {
      "guidingEditBelong": "missing another corner?",
      "guidingShare_atBelong": "Unboxing your world!",
      "messageChoiceBelong": ["Which one does the  ", "  match the most?"],
-     "messageBelongChoiceinBool": ["setting ", " as ", "?"]
+     "messageBelongChoiceinBool": ["setting ", " as ", "?"],
      "hintEmptyNode": "be the first introducing this corner to people!",
      "titleBannerBelong": "new share, around the corner ",
      "titleBannerRest": "new arrived, or selected"

@@ -298,7 +298,6 @@ class MainBanner extends React.Component {
     return(
       <div
         className={classnames(styles.comMainBanner)}>
-
         {
           (this.props.indexLists.customNewBelong.length> 0) &&
           <div>
@@ -337,7 +336,7 @@ class MainBanner extends React.Component {
         {
           //customSelected either be 'false' or '[...]'
           //both type of nails have to be render 'after' we could check if there would be selected or not
-          this.props.indexLists.customSelected &&
+          this.props.indexLists.customSelected && (this.props.indexLists.customSelected.length>0) &&
           <div
             className={classnames(
               styles.boxUnits,
@@ -347,8 +346,8 @@ class MainBanner extends React.Component {
             {this._render_nailsByType("customSelected", 2, 3)}
           </div>
         }
-
-        <div>
+        <div
+          className={classnames(styles.boxRowBelong)}>
           <BannerBelong
             _refer_von_cosmic={this.props._refer_von_cosmic}/>
         </div>

@@ -159,13 +159,13 @@ const stylesShareSearch = {
   }
 }
 
-const DOMShareSearch = (this)=>{
+const DOMShareSearch = (comp)=>{
   return (
     <div
       style={stylesShareSearch.Com_NounsEditor_SearchModal_Modal_}>
       <div
         style={stylesShareSearch.Com_NounsEditor_SearchModal_Modal_close_}
-        onClick={this.props._handleClick_SearchModal_switch}>
+        onClick={comp.props._handleClick_SearchModal_switch}>
         <span
           style={Object.assign({}, stylesShareSearch.Com_NounsEditor_SearchModal_Modal_close_span, styleMiddle.spanSubmit)}>
           {'close'}
@@ -173,27 +173,27 @@ const DOMShareSearch = (this)=>{
       </div>
       <ul
         style={Object.assign({}, stylesShareSearch.Com_InfoNoun_modal_ul_, styleMiddle.spanContent)}>
-        {this._render_SearchResults()}
+        {comp._render_SearchResults()}
       </ul>
       <div
         style={stylesShareSearch.Com_NounsEditor_SearchModal_Modal_panel_}>
         <input
-          ref={this.search}
-          value={this.state.query}
+          ref={comp.search}
+          value={comp.state.query}
           style={Object.assign({}, stylesShareSearch.Com_NounsEditor_SearchModal_Modal_panel_input, styleMiddle.spanContent)}
-          onChange={this._handleChange_SearchInput} />
+          onChange={comp._handleChange_SearchInput} />
       </div>
     </div>
   )
 }
 
-const DOMBelongSearch = (this)=> {
+const DOMBelongSearch = (comp)=> {
   return (
     <div
       style={stylesShareSearch.Com_NounsEditor_SearchModal_Modal_}>
       <div
         style={stylesShareSearch.Com_NounsEditor_SearchModal_Modal_close_}
-        onClick={this.props._handleClick_SearchModal_switch}>
+        onClick={comp.props._handleClick_SearchModal_switch}>
         <span
           style={Object.assign({}, stylesShareSearch.Com_NounsEditor_SearchModal_Modal_close_span, styleMiddle.spanSubmit)}>
           {'close'}
@@ -201,27 +201,27 @@ const DOMBelongSearch = (this)=> {
       </div>
       <ul
         style={Object.assign({}, stylesShareSearch.Com_InfoNoun_modal_ul_, styleMiddle.spanContent)}>
-        {this._render_SearchResults()}
+        {comp._render_SearchResults()}
       </ul>
       <div
         style={stylesShareSearch.Com_NounsEditor_SearchModal_Modal_panel_}>
         <input
-          ref={this.search}
-          value={this.state.query}
+          ref={comp.search}
+          value={comp.state.query}
           style={Object.assign({}, stylesShareSearch.Com_NounsEditor_SearchModal_Modal_panel_input, styleMiddle.spanContent)}
-          onChange={this._handleChange_SearchInput} />
+          onChange={comp._handleChange_SearchInput} />
       </div>
     </div>
   )
 }
 
-const DOMResultShare = (this, nounBasic, index)=>{
+const DOMResultShare = (comp, nounBasic, index)=>{
   return(
     <li
       key={'_key_nounOption_'+index}
       index={index}
       style={stylesShareSearch.Com_InfoNoun_modal_ul_li}
-      onClick={this._handleClick_nounChoose}>
+      onClick={comp._handleClick_nounChoose}>
       <span>{nounBasic.name}</span>
       <span>{nounBasic.prefix? (", "+nounBasic.prefix):("")}</span>
     </li>
@@ -229,13 +229,13 @@ const DOMResultShare = (this, nounBasic, index)=>{
 
 }
 
-const DOMResultBelong = (this, nounBasic, index)=>{
+const DOMResultBelong = (comp, nounBasic, index)=>{
   return(
     <li
       key={'_key_nounOption_'+index}
       index={index}
       style={stylesShareSearch.Com_InfoNoun_modal_ul_li}
-      onClick={this._handleClick_nounChoose}>
+      onClick={comp._handleClick_nounChoose}>
       <span>{nounBasic.name}</span>
       <span>{nounBasic.prefix? (", "+nounBasic.prefix):("")}</span>
     </li>

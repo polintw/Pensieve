@@ -28,6 +28,14 @@ function _set_contributorsList(selectResult) {
   return sendingData;
 }
 
+function _set_sharedCount(selectResult) {
+  let sendingData = {
+    temp: {},
+    count: selectResult.count //go straight, the amount of rows of this node is same as the amount the Units used it
+  };
+
+  return sendingData;
+}
 
 
 function _handle_GET_nouns_attribution(req, res){
@@ -46,6 +54,9 @@ function _handle_GET_nouns_attribution(req, res){
       switch (req.query.require) {
         case 'contributors':
           sendingData = _set_contributorsList(results.rows);
+          break;
+        case 'countShared':
+          sendingData = _set_sharedCount(results); //Notice ! for convinence, we send whole results here, including both .row & .count
           break;
         default:
           sendingData = _set_contributorsList(results.rows);

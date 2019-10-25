@@ -31,10 +31,17 @@
 .boxRowFirst {
   display: flex;
   justify-content: space-between;
-  width: 100%; /*controled by parent*/
+  width: 100%; /*let it controled by parent*/
   position: relative;
   box-sizing: border-box;
-  margin: 5vw 0 2.5vw;
+  margin: 5vw 0 5vw;
+}
+
+.boxRowBelong {
+  width: 100%; /*let it controled by parent*/
+  position: relative;
+  box-sizing: border-box;
+  margin: 5vw 0;  
 }
 
 .boxSubtitleFirst {

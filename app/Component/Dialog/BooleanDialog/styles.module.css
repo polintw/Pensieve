@@ -1,11 +1,11 @@
 .comBooleanDialog {
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-around',
-  width: '100%',
-  minHeight: '10rem',
-  boxSizing: 'border-box',
-  padding: '2.4rem 3.7rem 3rem 3rem',
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 100%;
+  min-height: 10rem;
+  box-sizing: border-box;
+  padding: 2.4rem 3.7rem 3rem 3rem;
 }
 
 .boxMessage {
