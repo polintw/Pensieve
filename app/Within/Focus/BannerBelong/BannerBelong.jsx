@@ -16,7 +16,7 @@ import {
   handleNounsList
 } from "../../../redux/actions/general.js";
 
-const nodeTypeList = ["residence", "stay", "hometown", "", "used", "used"];
+const nodeTypeList = ["residence", "stay", "hometown", "used", "used"]; //Notice! redering in BelongbyType depend on length of this list
 
 class BannerBelong extends React.Component {
   constructor(props){
@@ -257,8 +257,7 @@ class BannerBelong extends React.Component {
       return (
         <div
           key={"key_BelongByType_"+index}
-          className={classnames(styles.boxByType)}
-          style={{width: (nodeType.length> 0)? '18%': '8%'}}>
+          className={classnames(styles.boxByType)}>
           <BelongbyType
             {...this.state}
             type={nodeType}
@@ -267,10 +266,16 @@ class BannerBelong extends React.Component {
             _refer_von_cosmic={this.props._refer_von_cosmic}/>
         </div>
       )
-
-      //but return "·" for the site between 'hometown' & 'used'
-
     });
+    //and insert "·" at the site between 'hometown' & 'used'
+    let decoDOM = (
+      <div
+        key={"key_BelongByType_listDeco"}
+        className={classnames(styles.boxListDeco)}>
+        {"．"}
+      </div>
+    );
+    nodesDOM.splice(3, 0, decoDOM);
 
     return nodesDOM;
   }

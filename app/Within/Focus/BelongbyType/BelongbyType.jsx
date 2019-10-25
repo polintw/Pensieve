@@ -20,12 +20,14 @@ class BelongbyType extends React.Component {
     this.state = {
       settingModal: false,
       onNode: false,
+      onType: false
     };
     this._render_type = this._render_type.bind(this);
     this._render_type_used = this._render_type_used.bind(this);
     this._render_nodeLink = this._render_nodeLink.bind(this);
     this._handleClick_belongSetting = this._handleClick_belongSetting.bind(this);
     this._handleMouseOn_Node = ()=> this.setState((prevState,props)=>{return {onNode: prevState.onNode?false:true}});
+    this._handleMouseOn_Type = ()=> this.setState((prevState,props)=>{return {onType: prevState.onType?false:true}});
     this._set_settingModal = ()=> this.setState((prevState, index)=>{return {settingModal: prevState.settingModal? false: true}});
     this.style={
 
@@ -79,22 +81,23 @@ class BelongbyType extends React.Component {
   _render_nodeLink(){
     //determine the id of current node, but Notice
     //the value of key 'used' is an array, to recognize it
-    //we need to follow the length of the whole Belong list --- currently there are 4 tiems before the 1sr 'used'
-    const nodeId = (this.props.type != 'used') ? this.props.typeObj[this.props.type] : this.props.typeObj['used'][(this.props.listIndex-4)];
+    //we need to follow the length of the whole Belong list --- currently there are 3 tiems before the 1sr 'used'
+    const nodeId = (this.props.type != 'used') ? this.props.typeObj[this.props.type] : this.props.typeObj['used'][(this.props.listIndex-3)];
 
     return (
-      <div>
+      <div
+        className={classnames(styles.boxDepend)}>
         <Link
           to={"/cosmic/nodes/"+nodeId}
           className={classnames('plainLinkButton', styles.boxNode)}
           onMouseEnter={this._handleMouseOn_Node}
           onMouseLeave={this._handleMouseOn_Node}>
           <div
-            className={classnames(styles.spanNode)}>
+            className={classnames(styles.spanNode, styles.fontNode)}>
             {
               this.state.onNode &&
               <span style={{
-                  width: '72%', position: 'absolute', bottom: '-11%', left: '5%',
+                  width: '74%', position: 'absolute', bottom: '10%', left: '5%',
                   borderBottom: 'solid 1px #ff7a5f'
                 }}/>
             }
@@ -104,9 +107,13 @@ class BelongbyType extends React.Component {
             )}
           </div>
         </Link>
-        <div>
-          <span>{"way to "}</span>
-          <span>
+        <div
+          className={classnames(styles.boxCount)}>
+          <span
+            className={classnames(styles.spanType, styles.fontType)}>
+            {"way to "}</span>
+          <span
+            className={classnames(styles.spanType, styles.fontCount)}>
             {
               !!(nodeId in this.props.nodesSharedCount) &&
               this.props.nodesSharedCount[nodeId]
@@ -118,9 +125,18 @@ class BelongbyType extends React.Component {
 
   _render_type(){
     return (
-      <div>
+      <div
+        className={classnames(styles.boxTitleType)}
+        onMouseEnter={this._handleMouseOn_Type}
+        onMouseLeave={this._handleMouseOn_Type}
+        onClick={this._handleClick_belongSetting}>
         <span
-          onClick={this._handleClick_belongSetting}>
+          className={classnames(
+            styles.spanType,
+            styles.fontType,
+            {[styles.fontOnType]: this.state.onType}
+          )}
+          style={{lineHeight: '3rem'}}>
           {this.props.type}</span>
       </div>
     )
@@ -131,12 +147,22 @@ class BelongbyType extends React.Component {
     //first, check if the data ready
     let nodeIfy = !!(this.props.typeObj['used']) ? true: false;
     //if the 'used' exist, the value of it is an array, to recognize it
-    //we need to follow the length of the whole Belong list --- currently there are 4 tiems before the 1sr 'used'
-    if(nodeIfy) nodeIfy = !!(this.props.typeObj['used'][(this.props.listIndex-4)]);
+    //we need to follow the length of the whole Belong list --- currently there are 3 tiems before the 1sr 'used'
+    if(nodeIfy) nodeIfy = !!(this.props.typeObj['used'][(this.props.listIndex-3)]);
 
     return (
-      <div>
-        <span>
+      <div
+        className={classnames(styles.boxTitleType)}
+        style={{cursor: nodeIfy? 'default': 'pointer'}}
+        onMouseEnter={this._handleMouseOn_Type}
+        onMouseLeave={this._handleMouseOn_Type}>
+        <span
+          className={classnames(
+            styles.spanType,
+            styles.fontType,
+            {[styles.fontOnType]: (this.state.onType && !nodeIfy)}
+          )}
+          style={{lineHeight: '3rem'}}>
           {this.props.type}</span>
         {
           !nodeIfy &&
@@ -158,13 +184,7 @@ class BelongbyType extends React.Component {
     return(
       <div
         className={classnames(styles.comBelongByType)}>
-        {(this.props.type=="used") ? this._render_type_used() : this._render_type()}
-        {
-          //only render the node if there is a data in typeObj (empty in default)
-          (!!(this.props.type in this.props.typeObj) && !this.state.settingModal) &&
-          this._render_nodeLink()
-        }
-        {
+        { //keep NodeSearchModule prior to the title type so it would not block the title
           this.state.settingModal &&
           <div
             className={classnames(styles.boxSettingModal)}>
@@ -174,6 +194,12 @@ class BelongbyType extends React.Component {
               _set_SearchModal_switch={this._set_settingModal}
               _handleClick_SearchModal_switch={(e)=>{e.preventDefault();e.stopPropagation();this._set_settingModal();}}/>
           </div>
+        }
+        {(this.props.type=="used") ? this._render_type_used() : this._render_type()}
+        {
+          //only render the node if there is a data in typeObj (empty in default)
+          (!!(this.props.type in this.props.typeObj) && !this.state.settingModal) &&
+          this._render_nodeLink()
         }
       </div>
     )

@@ -351,6 +351,13 @@ class MainBanner extends React.Component {
           <BannerBelong
             _refer_von_cosmic={this.props._refer_von_cosmic}/>
         </div>
+        <div style={{width: '74%'}}>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 561 1">
+            <defs><style>{".cls-1-strokeSeparationHorz{fill:none;stroke:#c4c4c4;stroke-linecap:round;stroke-miterlimit:10;opacity:0.78;}"}</style></defs>
+            <g id="圖層_2" data-name="圖層 2">
+              <g id="圖層_1-2" data-name="圖層 1">
+                <line className="cls-1-strokeSeparationHorz" x1="0.5" y1="0.5" x2="560.5" y2="0.5"/></g></g></svg>
+        </div>
       </div>
     )
   }

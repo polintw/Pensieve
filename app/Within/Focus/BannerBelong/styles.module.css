@@ -1,11 +1,18 @@
 .comBannerBelong {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   width: 100%;
 }
 
 .boxByType {
+  max-width: 18%;
+}
 
+.boxListDeco {
+  align-self: center;
+  margin: 2rem -2rem 0;
+  font-size: 3rem;
+  color: rgb(110, 110, 110);
 }
 
 .boxDialog { /*refer to similar part in BelongOptions*/

@@ -2,7 +2,7 @@
   width: 100%;
   position: relative;
   box-sizing: border-box;
-  margin: 0 0 5vw; /* '%' would follow the width of the width of higher com, and heigher com could set min-width to limit experience */
+  margin: 0 0 10vw; /* '%' would follow the width of the width of higher com, and heigher com could set min-width to limit experience */
 }
 
 .boxBanner {
