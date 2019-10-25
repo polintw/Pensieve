@@ -126,6 +126,7 @@ class BelongbyType extends React.Component {
   _render_type(){
     return (
       <div
+        title={this.props.i18nUIString.catalog["descript_BelongTypeInteract"][0]+this.props.type+this.props.i18nUIString.catalog["descript_BelongTypeInteract"][1]}
         className={classnames(styles.boxTitleType)}
         onMouseEnter={this._handleMouseOn_Type}
         onMouseLeave={this._handleMouseOn_Type}

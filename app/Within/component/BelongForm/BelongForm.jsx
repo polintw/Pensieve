@@ -117,14 +117,14 @@ class BelongForm extends React.Component {
       return (
         <p
           className={classnames(styles.pDescrip, styles.fontDescripTitle)}>
-          {this.props.i18nUIString.catalog['guidingNewBelong']}</p>
+          {this.props.i18nUIString.catalog['guidingBelong_NewSet']}</p>
       );
     }
     else //already enough records, so should display a 'change mind 'question here
     return (
       <p
         className={classnames(styles.pDescrip, styles.fontDescripTitle)}>
-        {this.props.i18nUIString.catalog['guidingNewBelong']}</p>
+        {this.props.i18nUIString.catalog['guidingBelong_EditReset']}</p>
     ); //end of 'if'
   }
 
@@ -138,7 +138,7 @@ class BelongForm extends React.Component {
           onClick={this._handleClick_editBelong}
           onMouseEnter={this._handleMouseOn_SubDescrip}
           onMouseLeave={this._handleMouseOn_SubDescrip}>
-          {this.props.i18nUIString.catalog['guidingEditBelong']}</p>
+          {this.props.i18nUIString.catalog['guidingBelong_New']}</p>
       );}
     else{ //belong records are all set, switch between greet
       return this.state.onGreet ? (
@@ -148,7 +148,7 @@ class BelongForm extends React.Component {
           onClick={this._handleClick_editBelong}
           onMouseEnter={this._handleMouseOn_SubDescrip}
           onMouseLeave={this._handleMouseOn_SubDescrip}>
-          {this.props.i18nUIString.catalog['guidingEditBelong']}</p>
+          {this.props.i18nUIString.catalog['guidingBelong_Edit']}</p>
       ): (
         <p
           className={classnames(styles.pDescrip, styles.fontTitleGreet)}
