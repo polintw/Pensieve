@@ -28,11 +28,10 @@
 }
 
 .boxSettingModal {
-  width: 53%;
-  height: 3rem;
+  width: 30vw;
+  min-height: 8.7rem;
   position: absolute;
-  right: 1%;
-  bottom: 0;
+  left: -24%;
 }
 
 .spanNode {

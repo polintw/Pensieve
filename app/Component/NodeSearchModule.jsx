@@ -159,6 +159,72 @@ const stylesShareSearch = {
   }
 }
 
+const stylesBelongSearch = {
+  comNodeSearchModule:{
+    width: '100%',
+    boxSizing: 'border-box',
+  },
+  boxSearchInput:{
+    width: '45%',
+    position: 'absolute',
+    top: '5.7rem',
+    left: '2.5%',
+    boxSizing: 'border-box',
+    borderBottom: '1px solid #6e6e6e',
+    padding: '0 2% 0.5rem'
+  },
+  inputSearchInput: {
+    display: 'inline-block',
+    width: '100%',
+    boxSizing: 'border-box',
+    border: 'none',
+    outline: 'none',
+    font: 'inherit' //the position of this one is important, must above all other 'font' properties
+  },
+  fontInput:{
+    fontSize: '1.76rem',
+    letterSpacing: '0.04rem',
+    fontWeight: '400',
+    color: '#000000'
+  },
+  boxClose: {
+    position: 'absolute',
+    top: '7rem',
+    left: '30%',
+    boxSizing: 'border-box',
+  },
+  spanClose: {
+    position: 'relative',
+    boxSizing: 'border-box',
+    cursor: 'pointer'
+  },
+  fontClose: {
+    fontSize: '1.3rem',
+    fontWeight: '400',
+    color: '#a8a8a8'
+  },
+  ulCandidates: {
+    width: '50%',
+    maxHeight: '17rem',
+    minHeight: '8rem',
+    position: 'relative',
+    float: 'right',
+    boxSizing: 'border-box',
+    padding: '4%',
+    margin: '0',
+    overflow: 'auto',
+    listStyle: 'none'
+  },
+  liItem: {
+    position: 'relative',
+    boxSizing: 'border-box',
+    margin: '1.2rem 0',
+    padding: '2% 2%',
+    borderRadius: '0.6rem',
+    cursor: 'pointer'
+  }
+}
+
 const DOMShareSearch = (comp)=>{
   return (
     <div
@@ -190,27 +256,27 @@ const DOMShareSearch = (comp)=>{
 const DOMBelongSearch = (comp)=> {
   return (
     <div
-      style={stylesShareSearch.Com_NounsEditor_SearchModal_Modal_}>
+      style={stylesBelongSearch.comNodeSearchModule}>
       <div
-        style={stylesShareSearch.Com_NounsEditor_SearchModal_Modal_close_}
+        style={stylesBelongSearch.boxSearchInput}>
+        <input
+          ref={comp.search}
+          value={comp.state.query}
+          style={Object.assign({}, stylesBelongSearch.inputSearchInput, stylesBelongSearch.fontInput)}
+          onChange={comp._handleChange_SearchInput} />
+      </div>
+      <div
+        style={stylesBelongSearch.boxClose}
         onClick={comp.props._handleClick_SearchModal_switch}>
         <span
-          style={Object.assign({}, stylesShareSearch.Com_NounsEditor_SearchModal_Modal_close_span, styleMiddle.spanSubmit)}>
+          style={Object.assign({}, stylesBelongSearch.spanClose, stylesBelongSearch.fontClose)}>
           {'close'}
         </span>
       </div>
       <ul
-        style={Object.assign({}, stylesShareSearch.Com_InfoNoun_modal_ul_, styleMiddle.spanContent)}>
+        style={Object.assign({}, stylesBelongSearch.ulCandidates, stylesBelongSearch.fontInput)}>
         {comp._render_SearchResults()}
       </ul>
-      <div
-        style={stylesShareSearch.Com_NounsEditor_SearchModal_Modal_panel_}>
-        <input
-          ref={comp.search}
-          value={comp.state.query}
-          style={Object.assign({}, stylesShareSearch.Com_NounsEditor_SearchModal_Modal_panel_input, styleMiddle.spanContent)}
-          onChange={comp._handleChange_SearchInput} />
-      </div>
     </div>
   )
 }
@@ -234,8 +300,10 @@ const DOMResultBelong = (comp, nounBasic, index)=>{
     <li
       key={'_key_nounOption_'+index}
       index={index}
-      style={stylesShareSearch.Com_InfoNoun_modal_ul_li}
-      onClick={comp._handleClick_nounChoose}>
+      style={Object.assign({}, stylesBelongSearch.liItem, {borderBottom: (comp.state.onLiItem==index)? 'solid 1px #ff7a5f': 'solid 1px rgb(110, 110, 110)'})}
+      onClick={comp._handleClick_nounChoose}
+      onMouseEnter={this._handleEnter_liItem}
+      onMouseLeave={this._handleLeave_liItem}>
       <span>{nounBasic.name}</span>
       <span>{nounBasic.prefix? (", "+nounBasic.prefix):("")}</span>
     </li>
@@ -250,14 +318,53 @@ export class NodeSearchModule extends React.Component {
       axios: false,
       query: "",
       optional: false,
-      options: []
+      options: [],
+      onLiItem: false
     };
     this.search = React.createRef();
     this.axiosSource = axios.CancelToken.source();
     this._axios_get_NounSet = this._axios_get_NounSet.bind(this);
     this._render_SearchResults = this._render_SearchResults.bind(this);
+    this._handleEnter_liItem = this._handleEnter_liItem.bind(this);
+    this._handleLeave_liItem = this._handleLeave_liItem.bind(this);
     this._handleChange_SearchInput = this._handleChange_SearchInput.bind(this);
     this._handleClick_nounChoose = this._handleClick_nounChoose.bind(this);
+  }
+
+  _handleEnter_liItem(e){
+    this.setState({
+      onLiItem: e.currentTarget.getAttribute('index')
+    })
+  }
+
+  _handleLeave_liItem(e){
+    this.setState({
+      onLiItem: false
+    })
+  }
+
+  _handleChange_SearchInput(){
+    this.setState({
+      query: this.search.current.value
+    }, () => {
+      if (this.state.query && this.state.query.length > 0) {
+        this._axios_get_NounSet()
+      }
+    })
+  }
+
+  _handleClick_nounChoose(event){
+    event.stopPropagation();
+    event.preventDefault();
+    let nounBasic = Object.assign({}, this.state.options[event.currentTarget.getAttribute('index')]);
+    this.props._set_nodeChoice(nounBasic);
+    this.setState({
+      query: "",
+      optional: false,
+      options: []
+    }, ()=>{
+      this.props._set_SearchModal_switch()
+    })
   }
 
   _axios_get_NounSet(){
@@ -316,30 +423,6 @@ export class NodeSearchModule extends React.Component {
       )]
     }
     return options;
-  }
-
-  _handleChange_SearchInput(){
-    this.setState({
-      query: this.search.current.value
-    }, () => {
-      if (this.state.query && this.state.query.length > 0) {
-        this._axios_get_NounSet()
-      }
-    })
-  }
-
-  _handleClick_nounChoose(event){
-    event.stopPropagation();
-    event.preventDefault();
-    let nounBasic = Object.assign({}, this.state.options[event.currentTarget.getAttribute('index')]);
-    this.props._set_nodeChoice(nounBasic);
-    this.setState({
-      query: "",
-      optional: false,
-      options: []
-    }, ()=>{
-      this.props._set_SearchModal_switch()
-    })
   }
 
   componentDidMount(){
