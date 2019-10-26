@@ -25,6 +25,7 @@ class BelongbyType extends React.Component {
     this._render_type = this._render_type.bind(this);
     this._render_type_used = this._render_type_used.bind(this);
     this._render_nodeLink = this._render_nodeLink.bind(this);
+    this._set_choiceFromSearch = this._set_choiceFromSearch.bind(this);
     this._handleClick_belongSetting = this._handleClick_belongSetting.bind(this);
     this._handleMouseOn_Node = ()=> this.setState((prevState,props)=>{return {onNode: prevState.onNode?false:true}});
     this._handleMouseOn_Type = ()=> this.setState((prevState,props)=>{return {onType: prevState.onType?false:true}});

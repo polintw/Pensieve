@@ -43,7 +43,7 @@ export const i18nUIStringInit = {
      "guidingShare_atBelong": "Unboxing your world!",
      "descript_BelongTypeInteract": ["reset your ", " ?"],
      "messageChoiceBelong": ["Which one does the  ", "  match the most?"],
-     "messageBelongChoiceinBool": ["setting ", " as ", "?"],
+     "messageBelongChoiceinBool": ["setting  ", "  as  ", " ?"],
      "hintEmptyNode": "be the first introducing this corner to people!",
      "titleBannerBelong": "new share, around the corner ",
      "titleBannerRest": "new arrived, or selected"

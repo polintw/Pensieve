@@ -8,6 +8,8 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import BelongbyType from '../BelongbyType/BelongbyType.jsx';
 import BooleanDialog from '../../../Component/Dialog/BooleanDialog/BooleanDialog.jsx';
+import ModalBox from '../../../Component/ModalBox.jsx';
+import ModalBackground from '../../../Component/ModalBackground.jsx';
 import {
   cancelErr,
   uncertainErr
@@ -79,7 +81,7 @@ class BannerBelong extends React.Component {
       .then(function (res) {
         self.setState({axios: false});
         //and just refresh data set to render new setting
-        this._init_fetch()
+        self._init_fetch()
       }).catch(function (thrown) {
         self.setState({axios: false});
         if (axios.isCancel(thrown)) {
@@ -240,12 +242,12 @@ class BannerBelong extends React.Component {
   }
 
   _render_DialogMessage(){
-    let nodeName = (this.state.chosenNode in this.props.nounsBasic)? this.props.nounBasic[this.state.chosenNode]: '';
+    let nodeName = (this.state.chosenNode in this.props.nounsBasic)? this.props.nounsBasic[this.state.chosenNode]['name']: '';
     let messageList = [
       {text: this.props.i18nUIString.catalog['messageBelongChoiceinBool'][0], style: {}},
-      {text: nodeName, style: {fontWeight: '700'}},
+      {text: (nodeName+" "), style: {fontWeight: '700', fontStyle:'italic'}},
       {text: this.props.i18nUIString.catalog['messageBelongChoiceinBool'][1], style: {}},
-      {text: this.state.settingType, style: {fontWeight: '700'}},
+      {text: (this.state.settingType+" "), style: {fontWeight: '700', fontStyle:'italic'}},
       {text: this.props.i18nUIString.catalog['messageBelongChoiceinBool'][2], style: {}},
     ];
 
@@ -288,7 +290,7 @@ class BannerBelong extends React.Component {
         {
           this.state.dialog &&
           <ModalBox containerId="root">
-            <ModalBackground onClose={()=>{this._set_Dialog();}} style={{position: "fixed", backgroundColor: 'rgba(252,252,252,0.36)'}}>
+            <ModalBackground onClose={()=>{this._set_Dialog();}} style={{position: "fixed", backgroundColor: 'rgba(52, 52, 52, 0.36)'}}>
               <div
                 className={styles.boxDialog}>
                 <BooleanDialog

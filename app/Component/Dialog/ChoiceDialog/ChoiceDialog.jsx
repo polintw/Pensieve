@@ -6,14 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-
-const styleMiddle = {
-  contentInter: {
-    fontSize: '2.2rem',
-    lineHeight: '2.7rem',
-    color: 'black'
-  }
-}
+import commonStyles from "../commonStyles.module.css";
 
 class ChoiceDialog extends React.Component {
   constructor(props){
@@ -95,7 +88,8 @@ class ChoiceDialog extends React.Component {
       return (
         <span
           key={"key_ChoiceDialog_message_"+index}
-          style={Object.assign({}, styleMiddle.contentInter, (obj.style=='italic') ? {fontStyle: 'italic'}:{})}>
+          className={classnames(commonStyles.fontMessage, styles.spanMessage)}
+          style={Object.assign({}, (obj.style=='italic') ? {fontStyle: 'italic'}:{})}>
           {obj.text}</span>
       )
     })
@@ -109,13 +103,13 @@ class ChoiceDialog extends React.Component {
         <div
           key={"key_ChoiceDialog_option_"+index}
           value={item.name}
-          className={classnames(styles.boxRoundButton)}
+          className={classnames(commonStyles.boxRoundButton)}
           style={(this.state.onButton==item.name)? {backgroundColor: '#ff7a5f'}:{}}
           onClick={this._handleClick_ChoiceDialog_option}
           onMouseEnter={this._handleEnter_button}
           onMouseLeave={this._handleLeave_button}>
           <span
-            className={classnames(styles.spanButton, styles.fontButton)}>
+            className={classnames(commonStyles.spanButton, commonStyles.fontButton)}>
             {item.name}
           </span>
         </div>

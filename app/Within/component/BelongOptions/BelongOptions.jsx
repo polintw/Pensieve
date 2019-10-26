@@ -248,7 +248,7 @@ class BelongOptions extends React.Component {
           this.state.dialog &&
           //should give it a 'dark' bg, position near the BelongOptions itself
           <ModalBox containerId="root">
-            <ModalBackground onClose={()=>{this._set_Dialog();}} style={{position: "fixed", backgroundColor: 'rgba(252,252,252,0.36)'}}>
+            <ModalBackground onClose={()=>{this._set_Dialog();}} style={{position: "fixed", backgroundColor: 'rgba(52, 52, 52, 0.36)'}}>
               <div
                 className={styles.boxDialog}>
                 <ChoiceDialog

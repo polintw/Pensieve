@@ -6,6 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import commonStyles from "../commonStyles.module.css";
 
 const styleMiddle = {
   contentInter: {
@@ -69,7 +70,7 @@ class BooleanDialog extends React.Component {
       return (
         <span
           key={"key_BooleanDialog_message_"+index}
-          className={classnames(styles.spanMessage)}
+          className={classnames(commonStyles.fontMessage, styles.spanMessage)}
           style={obj.style}>
           {obj.text}</span>
       )
@@ -98,25 +99,25 @@ class BooleanDialog extends React.Component {
       <div>
         <div
           value={"positive"}
-          className={classnames(styles.boxRoundButton)}
+          className={classnames(commonStyles.boxRoundButton, styles.boxButton)}
           style={(this.state.onButton=="positive")? {backgroundColor: '#ff7a5f'}:{}}
           onClick={this._handleClick_dialog_BooleanPosit}
           onMouseEnter={this._handleEnter_button}
           onMouseLeave={this._handleLeave_button}>
           <span
-            className={classnames(styles.spanButton, styles.fontButton)}>
+            className={classnames(commonStyles.spanButton, commonStyles.fontButton)}>
             {optionPositive}
           </span>
         </div>
         <div
           value={"negative"}
-          className={classnames(styles.boxRoundButton)}
+          className={classnames(commonStyles.boxRoundButton, styles.boxButton)}
           style= {{backgroundColor: (this.state.onButton== "negative")?'#ff7a5f': '#e6e6e6'}}
           onClick={this._handleClick_dialog_BooleanNegat}
           onMouseEnter={this._handleEnter_button}
           onMouseLeave={this._handleLeave_button}>
           <span
-            className={classnames(styles.spanButton, styles.fontButton)}>
+            className={classnames(commonStyles.spanButton, commonStyles.fontButton)}>
             {optionNegative}
           </span>
         </div>
