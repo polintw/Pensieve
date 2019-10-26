@@ -28,10 +28,23 @@
 }
 
 .boxSettingModal {
-  width: 30vw;
-  min-height: 8.7rem;
+  width: 40vw;
+  min-height: 11.7rem;
   position: absolute;
-  left: -24%;
+  left: -2vw;
+  top: -1rem;
+  background-color: #FcFCFC;
+  box-shadow: 2px 2px 6px -2px;
+  border-radius: 0.45rem;
+  z-index: 1;
+}
+
+.boxTypeSetting {
+  display: inline-block;
+  position: absolute;
+  left: 25%;
+  top: 1rem;
+  transform: translate(-50%, 0);
 }
 
 .spanNode {

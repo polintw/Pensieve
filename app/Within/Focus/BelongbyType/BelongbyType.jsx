@@ -189,6 +189,17 @@ class BelongbyType extends React.Component {
           this.state.settingModal &&
           <div
             className={classnames(styles.boxSettingModal)}>
+            <div
+              className={classnames(styles.boxTypeSetting)}>
+              <span
+                className={classnames(
+                  styles.spanType,
+                  styles.fontType,
+                  styles.fontOnType
+                )}
+                style={{lineHeight: '3rem'}}>
+                {this.props.type}</span>
+            </div>
             <NodeSearchModule
               type={"belong"}
               _set_nodeChoice={this._set_choiceFromSearch}

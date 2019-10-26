@@ -4,8 +4,8 @@ import {errHandler_axiosCatch} from '../utils/errHandlers.js';
 
 const styleMiddle={
   spanPlaceholder: {
-    fontSize: '1.2rem',
-    letterSpacing: '0.1rem',
+    fontSize: '1.3rem',
+    letterSpacing: '0.03rem',
     fontWeight: '400',
     color: '#ababab'
   },
@@ -165,10 +165,10 @@ const stylesBelongSearch = {
     boxSizing: 'border-box',
   },
   boxSearchInput:{
-    width: '45%',
+    width: '37.5%',
     position: 'absolute',
-    top: '5.7rem',
-    left: '2.5%',
+    top: '4.7rem',
+    left: '6.25%',
     boxSizing: 'border-box',
     borderBottom: '1px solid #6e6e6e',
     padding: '0 2% 0.5rem'
@@ -179,6 +179,7 @@ const stylesBelongSearch = {
     boxSizing: 'border-box',
     border: 'none',
     outline: 'none',
+    backgroundColor: 'transparent', //this is for ovelapping the default set of tag 'input'
     font: 'inherit' //the position of this one is important, must above all other 'font' properties
   },
   fontInput:{
@@ -189,9 +190,10 @@ const stylesBelongSearch = {
   },
   boxClose: {
     position: 'absolute',
-    top: '7rem',
-    left: '30%',
+    top: '8.7rem',
+    left: '36.5%',
     boxSizing: 'border-box',
+    transform: 'translate(-50%,0%)'
   },
   spanClose: {
     position: 'relative',
@@ -201,6 +203,7 @@ const stylesBelongSearch = {
   fontClose: {
     fontSize: '1.3rem',
     fontWeight: '400',
+    letterSpacing: '0.03rem',
     color: '#a8a8a8'
   },
   ulCandidates: {
@@ -210,7 +213,7 @@ const stylesBelongSearch = {
     position: 'relative',
     float: 'right',
     boxSizing: 'border-box',
-    padding: '4%',
+    padding: '3%',
     margin: '0',
     overflow: 'auto',
     listStyle: 'none'
@@ -302,8 +305,8 @@ const DOMResultBelong = (comp, nounBasic, index)=>{
       index={index}
       style={Object.assign({}, stylesBelongSearch.liItem, {borderBottom: (comp.state.onLiItem==index)? 'solid 1px #ff7a5f': 'solid 1px rgb(110, 110, 110)'})}
       onClick={comp._handleClick_nounChoose}
-      onMouseEnter={this._handleEnter_liItem}
-      onMouseLeave={this._handleLeave_liItem}>
+      onMouseEnter={comp._handleEnter_liItem}
+      onMouseLeave={comp._handleLeave_liItem}>
       <span>{nounBasic.name}</span>
       <span>{nounBasic.prefix? (", "+nounBasic.prefix):("")}</span>
     </li>
@@ -319,7 +322,7 @@ export class NodeSearchModule extends React.Component {
       query: "",
       optional: false,
       options: [],
-      onLiItem: false
+      onLiItem: '-1' //it;s quite weired but, if we set 'false' here, the comparison we used inside the DOM would get 'equal' whem the value at right side is '0'
     };
     this.search = React.createRef();
     this.axiosSource = axios.CancelToken.source();
@@ -339,7 +342,7 @@ export class NodeSearchModule extends React.Component {
 
   _handleLeave_liItem(e){
     this.setState({
-      onLiItem: false
+      onLiItem: '-1'
     })
   }
 
@@ -413,13 +416,23 @@ export class NodeSearchModule extends React.Component {
           }
         })
       ):(
-        options = [<span key='_key_nounOption_none' style={styleMiddle.spanPlaceholder}>{'......'}</span>]
+        options = [
+          <span
+            key='_key_nounOption_none'
+            style={Object.assign({},
+              {display: 'inline-block', textAlign: 'right', margin:'1rem 0'},
+              styleMiddle.spanPlaceholder)}>
+            {'......'}</span>
+        ]
       )
     }else{
       options = [(
         <span
           key='_key_nounOption_placeholder'
-          style={Object.assign({}, {display: 'inline-block', textAlign: 'right'}, styleMiddle.spanPlaceholder)}>{'perhaps a name of a city or district...'}</span>
+          style={Object.assign({},
+            {display: 'inline-block', textAlign: 'right', margin:'1rem 0'},
+            styleMiddle.spanPlaceholder)}>
+            {'perhaps a name of a city or district...'}</span>
       )]
     }
     return options;
