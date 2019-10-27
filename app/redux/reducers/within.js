@@ -3,7 +3,7 @@ import {
   MOUNT_USERINFO,
   SET_UNITCURRENT,
   SET_UNITINSPIRED,
-  SET_FETCHTOKEN,
+  SET_FETCHFLAGS,
   UNIT_SUBMITTING_SWITCH,
   UNIT_AXIOSINSPIRE_SWITCH,
   UPDATE_NOUNSBASIC,
@@ -40,9 +40,9 @@ function pageWithin(state = initialGeneral, action){
         unitCurrent: {...state.unitCurrent, ...action.nextMarksInteraction}
       })
       break;
-    case SET_FETCHTOKEN:
+    case SET_FETCHFLAGS:
       return Object.assign({}, state, {
-        fetchToken: action.fetchToken
+        fetchFlags: action.fetchFlags
       })
       break;
     case SET_INDEXLISTS:
