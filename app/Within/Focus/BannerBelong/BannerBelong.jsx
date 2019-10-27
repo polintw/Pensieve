@@ -17,6 +17,10 @@ import {
 import {
   handleNounsList
 } from "../../../redux/actions/general.js";
+import {
+  setFetchFlags,
+  rmFetchFlags
+} from "../../../redux/actions/cosmic.js";
 
 const nodeTypeList = ["residence", "stay", "hometown", "used", "used"]; //Notice! redering in BelongbyType depend on length of this list
 
@@ -80,8 +84,8 @@ class BannerBelong extends React.Component {
     this._axios_PATCH_belongRecords({belong: objBelong}) //final reload the com to GET new setting
       .then(function (res) {
         self.setState({axios: false});
-        //and just refresh data set to render new setting
-        self._init_fetch()
+        //use fetchFlags to refresh data set to render new setting
+        self.props._submit_FetchTarget('update_BelongNode');
       }).catch(function (thrown) {
         self.setState({axios: false});
         if (axios.isCancel(thrown)) {
@@ -231,6 +235,15 @@ class BannerBelong extends React.Component {
 
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot){
+    //in this component, use fetchFlags to check status of list
+    if(this.props.fetchFlags.indexOf('inBannerBelong') > -1){
+      this._init_fetch();
+      this.props._submit_FetchRmTarget('inBannerBelong');
+      //the fetchFlags could become empty(length=0) after the rm.
+    }
+  }
+
   componentDidMount() {
     this._init_fetch();
   }
@@ -314,12 +327,15 @@ const mapStateToProps = (state)=>{
     unitCurrent: state.unitCurrent,
     i18nUIString: state.i18nUIString,
     nounsBasic: state.nounsBasic,
+    fetchFlags: state.fetchFlags
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
+    _submit_FetchTarget: (target) => { dispatch(setFetchFlags(target)); },
+    _submit_FetchRmTarget: (target) => { dispatch(rmFetchFlags(target)); },
   }
 }
 

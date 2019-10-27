@@ -17,6 +17,10 @@ import {
 import {
   handleNounsList
 } from "../../../redux/actions/general.js";
+import {
+  setFetchFlags,
+  rmFetchFlags
+} from "../../../redux/actions/cosmic.js";
 
 class BelongForm extends React.Component {
   constructor(props){
@@ -59,7 +63,8 @@ class BelongForm extends React.Component {
         inOptions: false
       }
     }, ()=>{
-      this._axios_GET_belongRecords();
+      //use fetchFlags to refresh data set to render new setting
+      this.props._submit_FetchTarget('update_BelongNode');
     })
   }
 
@@ -99,7 +104,12 @@ class BelongForm extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-
+    //in this component, use fetchFlags to check status of list
+    if(this.props.fetchFlags.indexOf('inBelongForm') > -1){
+      this._axios_GET_belongRecords();
+      this.props._submit_FetchRmTarget('inBelongForm');
+      //the fetchFlags could become empty(length=0) after the rm.
+    }
   }
 
   componentDidMount() {
@@ -201,12 +211,15 @@ const mapStateToProps = (state)=>{
     unitCurrent: state.unitCurrent,
     i18nUIString: state.i18nUIString,
     nounsBasic: state.nounsBasic,
+    fetchFlags: state.fetchFlags
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
+    _submit_FetchTarget: (target) => { dispatch(setFetchFlags(target)); },
+    _submit_FetchRmTarget: (target) => { dispatch(rmFetchFlags(target)); },
   }
 }
 
