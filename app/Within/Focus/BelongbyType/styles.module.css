@@ -1,0 +1,81 @@
+.comBelongByType {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.boxTitleType {
+  cursor: pointer;
+}
+
+.boxCreate {
+
+}
+
+.boxDepend {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.boxNode {
+  display: inline-block;
+}
+
+.boxCount {
+
+}
+
+.boxSettingModal {
+  width: 40vw;
+  min-height: 11.7rem;
+  position: absolute;
+  left: -2vw;
+  top: -1rem;
+  background-color: #FcFCFC;
+  box-shadow: 2px 2px 6px -2px;
+  border-radius: 0.45rem;
+  z-index: 1;
+}
+
+.boxTypeSetting {
+  display: inline-block;
+  position: absolute;
+  left: 25%;
+  top: 1rem;
+  transform: translate(-50%, 0);
+}
+
+.spanNode {
+  display: inline-block;
+  position: relative;
+}
+
+.spanType {
+  margin: 0 0.4rem;
+}
+
+.fontType {
+  font-size: 1.37rem;
+  letter-spacing: 0.07rem;
+  line-height: 2rem;
+  color: rgb(110, 110, 110);
+}
+
+.fontCount {
+  font-size: 1.76rem;
+  letter-spacing: 0.04rem;
+  color: rgb(64, 133, 160);
+}
+
+.fontNode {
+  font-size: 1.76rem;
+  line-height: 3rem;
+  letter-spacing: 0.04rem;
+  font-weight: 700;
+}
+
+.fontOnType {
+  color: #000000;
+}

@@ -1,0 +1,28 @@
+.comBannerBelong {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.boxByType {
+  max-width: 18%;
+}
+
+.boxListDeco {
+  align-self: center;
+  margin: 2rem -2rem 0;
+  font-size: 3rem;
+  color: rgb(110, 110, 110);
+}
+
+.boxDialog { /*refer to similar part in BelongOptions*/
+  width: 467px;
+  position: absolute;
+  top: 39%;
+  left: 52%;
+  transform: translate(-50%,-50%);
+  box-sizing: border-box;
+  box-shadow: 1px 2px 3px 0;
+  border-radius: 1rem;
+  background-color: white;
+}

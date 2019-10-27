@@ -14,6 +14,7 @@ import {
   axios_feedList_customNew,
   axios_feedList_customSelected
 } from './utils.js';
+import BannerBelong from '../BannerBelong/BannerBelong.jsx';
 import {
   nailChart,
 } from '../Main/utils.js';
@@ -44,7 +45,6 @@ class MainBanner extends React.Component {
     this._set_UnitsData = this._set_UnitsData.bind(this);
     this._set_SelectedList = this._set_SelectedList.bind(this);
     this._render_nailsByType = this._render_nailsByType.bind(this);
-    this._render_titleGreet = this._render_titleGreet.bind(this);
     this._render_titleBelong = this._render_titleBelong.bind(this);
     this._render_subtitleFirst = this._render_subtitleFirst.bind(this)
     this.style={
@@ -220,19 +220,6 @@ class MainBanner extends React.Component {
     return unitsDOM;
   }
 
-  _render_titleGreet(){
-    let indexLists = this.props.indexLists,
-        titleText = "";
-
-    // greet title: first but no belong > lack all, title for remind & status of node > statics ? plain greet?
-
-    return (
-      <span
-        className={classnames(styles.spanTitle, styles.fontTitle)}>
-        {titleText}</span>
-    )
-  }
-
   _render_titleBelong(){
     let indexLists = this.props.indexLists,
         listNodes = [];
@@ -311,12 +298,6 @@ class MainBanner extends React.Component {
     return(
       <div
         className={classnames(styles.comMainBanner)}>
-
-        <div
-          className={classnames(styles.boxTitle)}
-          style={{display: 'none'}}>
-          {this._render_titleGreet()}</div>
-
         {
           (this.props.indexLists.customNewBelong.length> 0) &&
           <div>
@@ -355,7 +336,7 @@ class MainBanner extends React.Component {
         {
           //customSelected either be 'false' or '[...]'
           //both type of nails have to be render 'after' we could check if there would be selected or not
-          this.props.indexLists.customSelected &&
+          this.props.indexLists.customSelected && (this.props.indexLists.customSelected.length>0) &&
           <div
             className={classnames(
               styles.boxUnits,
@@ -365,6 +346,18 @@ class MainBanner extends React.Component {
             {this._render_nailsByType("customSelected", 2, 3)}
           </div>
         }
+        <div
+          className={classnames(styles.boxRowBelong)}>
+          <BannerBelong
+            _refer_von_cosmic={this.props._refer_von_cosmic}/>
+        </div>
+        <div style={{width: '74%'}}>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 561 1">
+            <defs><style>{".cls-1-strokeSeparationHorz{fill:none;stroke:#c4c4c4;stroke-linecap:round;stroke-miterlimit:10;opacity:0.78;}"}</style></defs>
+            <g id="圖層_2" data-name="圖層 2">
+              <g id="圖層_1-2" data-name="圖層 1">
+                <line className="cls-1-strokeSeparationHorz" x1="0.5" y1="0.5" x2="560.5" y2="0.5"/></g></g></svg>
+        </div>
       </div>
     )
   }
