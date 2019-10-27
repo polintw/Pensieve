@@ -22,6 +22,7 @@ export const initUnit = {
 }
 
 export const initCosmicGeneral = {
+  fetchToken: null,
   indexLists: {
     customNewBelong: [],
     customNewFirst: [],

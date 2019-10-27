@@ -17,6 +17,9 @@ import {
 import {
   handleNounsList
 } from "../../../redux/actions/general.js";
+import {
+  setFetchToken
+} from "../../../redux/actions/cosmic.js";
 
 class BelongForm extends React.Component {
   constructor(props){
@@ -59,7 +62,8 @@ class BelongForm extends React.Component {
         inOptions: false
       }
     }, ()=>{
-      this._axios_GET_belongRecords();
+      //use fetchToken to refresh data set to render new setting
+      this.props._submit_FetchTarget('update_BelongNode');
     })
   }
 
@@ -99,7 +103,11 @@ class BelongForm extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-
+    //in this component, use fetchToken to check status of list
+    if(this.props.fetchToken=='update_BelongNode'){
+      this._axios_GET_belongRecords();
+      this.props._submit_FetchTarget(null); //and remember to reset the reducer
+    }
   }
 
   componentDidMount() {
@@ -201,12 +209,14 @@ const mapStateToProps = (state)=>{
     unitCurrent: state.unitCurrent,
     i18nUIString: state.i18nUIString,
     nounsBasic: state.nounsBasic,
+    fetchToken: state.fetchToken
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
+    _submit_FetchTarget: (target) => { dispatch(setFetchToken(target)); },
   }
 }
 

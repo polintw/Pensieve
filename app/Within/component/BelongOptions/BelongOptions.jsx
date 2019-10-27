@@ -199,7 +199,9 @@ class BelongOptions extends React.Component {
   }
 
   componentWillUnmount() {
-
+    if(this.state.axios){
+      this.axiosSource.cancel("component will unmount.")
+    }
   }
 
   _render_DialogMessage(){
