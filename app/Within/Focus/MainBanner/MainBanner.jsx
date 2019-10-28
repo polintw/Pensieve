@@ -236,7 +236,7 @@ class MainBanner extends React.Component {
       //append the name behind the present text.
       let deco = ()=>{
         if((idList.length-1) == index) return ("") //without next one
-        else { return (index==(idList.length-2))? (", and") : (",");}; //find the last interval
+        else { return (index==(idList.length-2))? ("  and") : (",");}; //find the last interval
       };
       listNodes.push(
         <span
@@ -296,36 +296,38 @@ class MainBanner extends React.Component {
   render(){
     //the units list would update seperately from unitsBasic
     //so check state in render, block rendering if unitsBasic not ready
+    let indexLists = this.props.indexLists;
     return(
       <div
         className={classnames(styles.comMainBanner)}>
         {
-          (this.props.indexLists.customNewBelong.length> 0) &&
-          <div>
-            <div
-              className={classnames(styles.boxTitle)}>
-              {this._render_titleBelong()}</div>
-            <div
-              className={classnames(
-                styles.boxUnits,
-                {[styles.boxUnitsJustifyAround]: (this.props.indexLists.customNewBelong.length==1)}
-              )}>
-              {this._render_nailsByType("customNewBelong", 3)}</div>
-          </div>
+          (indexLists.customNewBelong.length> 0) &&
+          <div
+            className={classnames(styles.boxTitle)}>
+            {this._render_titleBelong()}</div>
         }
         {
-          (this.props.indexLists.customNewFirst.length >0) &&
+          (indexLists.customNewBelong.length> 0) &&
+          <div
+            className={classnames(
+              styles.boxUnits,
+              styles.boxUnitsJustifyAround
+            )}>
+            {this._render_nailsByType("customNewBelong", 3)}</div>
+        }
+        {
+          (indexLists.customNewFirst.length >0) &&
           <div
             className={classnames(styles.boxRowFirst)}>
             {this._render_titleFirst()}
             {this._render_nailsByType(
               "customNewFirst",
-              (this.props.indexLists.customNewFirst.length==1 ) ? 0 : 2
+              (indexLists.customNewFirst.length==1 ) ? 0 : 2
             )}
           </div>
         }
         {
-          (this.props.indexLists.customNew.length>0) && this.props.indexLists.customSelected &&
+          (indexLists.customNew.length>0) && indexLists.customSelected &&
           <div
             className={classnames(styles.boxTitle)}>
             <span
@@ -337,14 +339,14 @@ class MainBanner extends React.Component {
         {
           //customSelected either be 'false' or '[...]'
           //both type of nails have to be render 'after' we could check if there would be selected or not
-          this.props.indexLists.customSelected && (this.props.indexLists.customSelected.length>0) &&
+          indexLists.customSelected && (indexLists.customSelected.length>0) &&
           <div
             className={classnames(
               styles.boxUnits,
-              {[styles.boxUnitsJustifyAround]: ((this.props.indexLists.customNew.length+this.props.indexLists.customSelected.length)< 3)}
+              {[styles.boxUnitsJustifyAround]: ((indexLists.customNew.length+indexLists.customSelected.length)< 3)}
             )}>
-            {this._render_nailsByType("customNew", 2, 3)}
-            {this._render_nailsByType("customSelected", 2, 3)}
+            {this._render_nailsByType("customNew", (indexLists['customNew'].length+indexLists['customSelected'].length)< 3? 3:2, 3)}
+            {this._render_nailsByType("customSelected", (indexLists['customNew'].length+indexLists['customSelected'].length)< 3? 3:2, 3)}
           </div>
         }
         <div
@@ -356,7 +358,7 @@ class MainBanner extends React.Component {
           className={classnames(styles.boxRowSeperate)}>
           <div
             className={classnames(styles.decoLineSeperate)}
-            style={{width: '38vw', marginRight: '2vw'}}/>
+            style={{width: '37vw', marginRight: '8vw'}}/>
           <div
             className={classnames(styles.fontSubtitle)}>
             {this.props.i18nUIString.catalog['titleFocusStart']}</div>

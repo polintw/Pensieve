@@ -87,7 +87,7 @@ class BelongForm extends React.Component {
       self.setState((prevState, props)=>{
         return({
           axios: false,
-          records:  true, //default 'false', return true to let the com rendered
+          records:  resObj.main.nodesList, //default 'false', return list just for the com to depend
           inOptions: resObj.main.nodesList.length> 0 ? false : true //if nothing, means need to show the options Form, set it to 'true'
         });
       });
