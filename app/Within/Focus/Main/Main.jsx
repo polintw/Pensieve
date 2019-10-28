@@ -49,16 +49,19 @@ class MainIndex extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      axios: false,
+      axiosFocus: false,
       lastVisit: false,
+      focusFetchTurn: 1,
       mountTodo: ["lastVisit", "listMain", "listBannerNew", "listBannerSelect"],
       unitsList: [],
       unitsBasic: {},
       marksBasic: {},
     };
+    this.refScroll = React.createRef();
     this.axiosSource = axios.CancelToken.source();
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._render_IndexNails = this._render_IndexNails.bind(this);
+    this._check_Position = this._check_Position.bind(this);
     this._set_mountToDo = this._set_mountToDo.bind(this);
     this._set_focusList = this._set_focusList.bind(this);
     this.style={
@@ -84,6 +87,19 @@ class MainIndex extends React.Component {
     return unitInit;
   }
 
+  _check_Position(){
+    let boxScrollBottom = this.refScroll.current.getBoundingClientRect().bottom, //bottom related top of viewport of box Scroll
+        windowHeightInner = window.innerHeight; //height of viewport
+    //now, the bottom would change base on scroll, and calculate from the top of viewport
+    //we set the threshould of fetch to the 3 times of height of viewport.
+    //But! we only fetch if we are 'not' fetching--- check the axios status.
+    if(!this.state.axiosFocus && boxScrollBottom < (3*windowHeightInner) && boxScrollBottom > windowHeightInner){ 
+      //base on the concept that bottom of boxScroll should always lower than top of viewport,
+      //and do not need to fetch if you have see the 'real' bottom.
+      this._set_focusList();
+    }
+  }
+
   _set_mountToDo(item){
     let itemIndex = this.state.mountTodo.indexOf(item);
     if(!(itemIndex < 0)) //skip if the item already rm
@@ -99,19 +115,20 @@ class MainIndex extends React.Component {
 
   _set_focusList(){
     const self = this;
-    this.setState({axios: true});
+    this.setState({axiosFocus: true});
 
-    axios_cosmic_IndexList(self.axiosSource.token)
+    axios_cosmic_IndexList(self.axiosSource.token, this.state.focusFetchTurn+1)
     .then((focusObj)=> {
 
       self.props._submit_NounsList_new(focusObj.main.nounsListMix);
       self.props._submit_UsersList_new(focusObj.main.usersList);
 
       self.setState((prevState, props)=>{
-        let nextList = prevState.unitsList.concat(resObj.main.unitsList); //even the unitsList from rea was empty
+        let nextList = prevState.unitsList.concat(focusObj.main.unitsList); //even the unitsList from rea was empty
 
         return({
-          axios: false,
+          axiosFocus: false,
+          focusFetchTurn: prevState.focusFetchTurn+1,
           unitsList: nextList,
           unitsBasic: Object.assign({}, prevState.unitsBasic, focusObj.main.unitsBasic),
           marksBasic: Object.assign({}, prevState.marksBasic, focusObj.main.marksBasic)
@@ -119,7 +136,7 @@ class MainIndex extends React.Component {
       });
     })
     .catch(function (thrown) {
-      self.setState({axios: false});
+      self.setState({axiosFocus: false});
       if (axios.isCancel(thrown)) {
         cancelErr(thrown);
       } else {
@@ -143,7 +160,7 @@ class MainIndex extends React.Component {
   componentDidMount(){
     const self = this;
 
-    this.setState({axios: true});
+    this.setState({axiosFocus: true});
 
     //get the last visit situation for child component
     //in the future, method to get basic (user)sheet data would join here(use Promise.all())
@@ -154,26 +171,30 @@ class MainIndex extends React.Component {
         });
         self._set_mountToDo("lastVisit"); //and splice the label from the todo list
         //because we need to set mountTodo for mount stage, we get data of list now directly without _set_focusList
-        return axios_cosmic_IndexList(self.axiosSource.token);
+        return axios_cosmic_IndexList(self.axiosSource.token, this.state.focusFetchTurn);
       })
       .then((focusObj)=> {
         self.props._submit_NounsList_new(focusObj.main.nounsListMix);
         self.props._submit_UsersList_new(focusObj.main.usersList);
+
         self._set_mountToDo("listMain"); //and splice the label from the todo list
 
         self.setState((prevState, props)=>{
           let nextList = prevState.unitsList.concat(focusObj.main.unitsList); //even the unitsList from rea was empty
 
           return({
-            axios: false,
+            //we are not going to change the cycle turn in state, mark current '1'st round status
+            axiosFocus: false,
             unitsList: nextList,
             unitsBasic: Object.assign({}, prevState.unitsBasic, focusObj.main.unitsBasic),
             marksBasic: Object.assign({}, prevState.marksBasic, focusObj.main.marksBasic)
           });
+        }, ()=>{
+          window.addEventListener("scroll", self._check_Position);
         });
       })
       .catch(function (thrown) {
-        self.setState({axios: false});
+        self.setState({axiosFocus: false});
         if (axios.isCancel(thrown)) {
           cancelErr(thrown);
         } else {
@@ -187,6 +208,7 @@ class MainIndex extends React.Component {
     if(this.state.axios){
       this.axiosSource.cancel("component will unmount.")
     }
+    window.removeEventListener("scroll", this._check_Position);
   }
 
   _render_IndexNails(){
@@ -230,6 +252,7 @@ class MainIndex extends React.Component {
             </div>
           </div>
           <div
+            ref={this.refScroll}
             className={styles.boxScroll}>
             {this._render_IndexNails()}
             <div

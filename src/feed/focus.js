@@ -67,25 +67,37 @@ function _handle_cosmicPresent_GET(req, res){
           nounsListMix: [],
           temp: {}
         }
-        if(resultsUnits.length < 1) resolve(sendingData); // if there is not any shareds record at all
+        // if there is not any shareds record at all, or has alreadt to the very bottom of the DB,
+        //just return nothing.
+        if(resultsUnits.length < 1 || resultsUnits.length < (selectLimit-cycleFeedNr)){ resolve(sendingData); return;}
+        //it is tricky But Improtant that the Promise should stop/jump out if above situtaion happened And,
+        // the rest function should not be done to prevent possible confusing data!!
+        //so we have to wrap it by a 'if else' method, And RETURN it inside the if.
+        else
+          if(reqTurn > 1){
+            //then, use the number from the last, but remember preventing the situation reaching the bottom of the DB,
+            //by compare the length of results and the length one round less of the selectLimit (selectLimit - cycleFeedNr)
+            resultsUnits = resultsUnits.slice(
+              (-1)*((resultsUnits.length < selectLimit)? (resultsUnits.length- (selectLimit-cycleFeedNr)):cycleFeedNr)
+            );
+          }
 
-        if(reqTurn > 1) resultsUnits = resultsUnits.slice((-1)*cycleFeedNr); //only use the number from the last
+          resultsUnits.forEach((row, index)=>{
+            sendingData.unitsList.push(row.id); //the order of resultsUnits has ordered by time, push() would follow the order
+            sendingData.usersList.push(row.id_author);
+            sendingData.unitsBasic[row.id] = {
+              unitsId: row.id,
+              authorId: row.id_author,
+              pic_layer0: row.url_pic_layer0,
+              pic_layer1: row.url_pic_layer1,
+              createdAt: row.createdAt,
+              marksList: [],
+              nounsList: []
+            };
+          })
 
-        resultsUnits.forEach((row, index)=>{
-          sendingData.unitsList.push(row.id); //the order of resultsUnits has ordered by time, push() would follow the order
-          sendingData.usersList.push(row.id_author);
-          sendingData.unitsBasic[row.id] = {
-            unitsId: row.id,
-            authorId: row.id_author,
-            pic_layer0: row.url_pic_layer0,
-            pic_layer1: row.url_pic_layer1,
-            createdAt: row.createdAt,
-            marksList: [],
-            nounsList: []
-          };
-        });
+          return sendingData;  //end of 'else' from if since sendingData announce
 
-        return sendingData;
       }).then((sendingData)=>{
         //st this position, update the last_feedGroup in users_custom_index
         //due to the need of the  resultCustom, & the concern of after the finding Units

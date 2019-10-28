@@ -133,7 +133,7 @@ export function axios_cosmic_IndexList(cancelToken, turn){
       'token': window.localStorage['token']
     },
     params: {
-      turn: 1
+      turn: turn
     },
     cancelToken: cancelToken
   }).then(function (res) {
