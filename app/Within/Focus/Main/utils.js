@@ -79,24 +79,46 @@ export function nailChart(choice, unitId, pare){
 
 
 export function separationLine(remainder, index){
-  switch (remainder) {
+  let caseRef = ()=>{
+    switch (remainder) {
+      case 2:
+        return 2
+        break;
+      case 4:
+        return (
+          (index < 10) ? 0: 2
+        )
+        break;
+      case 6: //only for firstBlock (space between rows of wides)
+        return (
+          (index < 10) ? 2: false
+        )
+        break;
+      case 7: //only happened in followed Units
+        return (
+          (index < 10) ? false : 1
+        )
+        break;
+      case 9: //only happened in firstBlock
+        return (
+          (index < 10) ? 1 : false
+        )
+        break;
+      default:
+        false
+    }
+  }
+
+  switch (caseRef()) {
+    case 0:
+      return (
+        <div
+          key={'key_CosmicMain_NailsSparation_'+index}
+          className={classnames(styles.boxFillHoriz)}
+          ></div>
+      )
+      break;
     case 1:
-      return (
-        <div
-          key={'key_CosmicMain_NailsSparation_'+index}
-          className={classnames(styles.boxFillHoriz)}
-          ></div>
-      )
-      break;
-    case 3:
-      return (
-        <div
-          key={'key_CosmicMain_NailsSparation_'+index}
-          className={classnames(styles.boxFillHoriz)}
-          ></div>
-      )
-      break;
-    case 6:
       return (
         <div
           key={'key_CosmicMain_NailsSparation_'+index}
@@ -111,7 +133,7 @@ export function separationLine(remainder, index){
         </div>
       )// width and marginLeft of div combined to be 96.9% to match the border of the img in NailThumb
       break;
-    case 9:
+    case 2:
       return (
         <div
           key={'key_CosmicMain_NailsSparation_'+index}

@@ -93,7 +93,7 @@ class MainIndex extends React.Component {
     //now, the bottom would change base on scroll, and calculate from the top of viewport
     //we set the threshould of fetch to the 3 times of height of viewport.
     //But! we only fetch if we are 'not' fetching--- check the axios status.
-    if(!this.state.axiosFocus && boxScrollBottom < (3*windowHeightInner) && boxScrollBottom > windowHeightInner){ 
+    if(!this.state.axiosFocus && boxScrollBottom < (3*windowHeightInner) && boxScrollBottom > windowHeightInner){
       //base on the concept that bottom of boxScroll should always lower than top of viewport,
       //and do not need to fetch if you have see the 'real' bottom.
       this._set_focusList();
@@ -212,13 +212,16 @@ class MainIndex extends React.Component {
   }
 
   _render_IndexNails(){
-    this.patternRule = [1,0,0,1,2,2,2,2,2,2];
-    let cycleLength = this.patternRule.length;
+    const ruleFirstBlock = [2,2,2,3,3,0,2,2,2,2],
+          ruleBlock = [2,2,2,[0,2],[2,0],2,2,2];
 
     let nailsIndex = []; //don't use .map() because we probably need to push twice in one round
     this.state.unitsList.forEach((unitId, index)=>{
-      let remainder = index % cycleLength;
-      let nailChoice = this.patternRule[remainder];
+      let rulePattern = index< 10? ruleFirstBlock: ruleBlock;
+      let remainder = (index< 10)? index % rulePattern.length: (index-10) % rulePattern.length;
+      let nailChoice = rulePattern[remainder];
+      //and remember handling the switch of side -- like the painting of a long 'tunnel'
+      if(typeof nailChoice != "number") nailChoice = !!( Math.floor((index-10)/8) %2) ? nailChoice[0]: nailChoice[1];
 
       let nail = nailChart(nailChoice, unitId, this);
       nailsIndex.push(nail);
