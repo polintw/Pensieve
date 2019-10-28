@@ -60,6 +60,7 @@ class MainIndex extends React.Component {
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._render_IndexNails = this._render_IndexNails.bind(this);
     this._set_mountToDo = this._set_mountToDo.bind(this);
+    this._set_focusList = this._set_focusList.bind(this);
     this.style={
       withinCom_MainIndex_scroll_: {
         width: '100%',
@@ -96,6 +97,40 @@ class MainIndex extends React.Component {
 
   }
 
+  _set_focusList(){
+    const self = this;
+    this.setState({axios: true});
+
+    axios_cosmic_IndexList(self.axiosSource.token)
+    .then((focusObj)=> {
+
+      self.props._submit_NounsList_new(focusObj.main.nounsListMix);
+      self.props._submit_UsersList_new(focusObj.main.usersList);
+
+      self.setState((prevState, props)=>{
+        let nextList = prevState.unitsList.concat(resObj.main.unitsList); //even the unitsList from rea was empty
+
+        return({
+          axios: false,
+          unitsList: nextList,
+          unitsBasic: Object.assign({}, prevState.unitsBasic, focusObj.main.unitsBasic),
+          marksBasic: Object.assign({}, prevState.marksBasic, focusObj.main.marksBasic)
+        });
+      });
+    })
+    .catch(function (thrown) {
+      self.setState({axios: false});
+      if (axios.isCancel(thrown)) {
+        cancelErr(thrown);
+      } else {
+        let message = uncertainErr(thrown);
+        if(message) alert(message);
+      }
+    });
+
+  }
+
+
   componentDidUpdate(prevProps, prevState, snapshot){
     if(this.state.mountTodo.length==0){
       //now, after everything was mount, we update the visiting time to the server
@@ -118,29 +153,26 @@ class MainIndex extends React.Component {
           lastVisit: lastVisitObj.main.lastTime
         });
         self._set_mountToDo("lastVisit"); //and splice the label from the todo list
-        //because the listMain is just in this file, we get data now directly
-        return new Promise((resolve, reject)=>{
-          //(actually, we are not sure whether the axios is a Promise or not)
-          //(so this Promise usage is just in cas it's 'not')
-          resolve(axios_cosmic_IndexList(self.axiosSource.token));
-        });
+        //because we need to set mountTodo for mount stage, we get data of list now directly without _set_focusList
+        return axios_cosmic_IndexList(self.axiosSource.token);
       })
       .then((focusObj)=> {
-
         self.props._submit_NounsList_new(focusObj.main.nounsListMix);
         self.props._submit_UsersList_new(focusObj.main.usersList);
         self._set_mountToDo("listMain"); //and splice the label from the todo list
 
         self.setState((prevState, props)=>{
+          let nextList = prevState.unitsList.concat(focusObj.main.unitsList); //even the unitsList from rea was empty
+
           return({
             axios: false,
-            unitsList: focusObj.main.unitsList,
-            unitsBasic: focusObj.main.unitsBasic,
-            marksBasic: focusObj.main.marksBasic
+            unitsList: nextList,
+            unitsBasic: Object.assign({}, prevState.unitsBasic, focusObj.main.unitsBasic),
+            marksBasic: Object.assign({}, prevState.marksBasic, focusObj.main.marksBasic)
           });
         });
-
-      }).catch(function (thrown) {
+      })
+      .catch(function (thrown) {
         self.setState({axios: false});
         if (axios.isCancel(thrown)) {
           cancelErr(thrown);
@@ -149,7 +181,6 @@ class MainIndex extends React.Component {
           if(message) alert(message);
         }
       });
-
   }
 
   componentWillUnmount(){
