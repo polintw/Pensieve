@@ -45,7 +45,8 @@ export const i18nUIStringInit = {
      "messageChoiceBelong": ["Which one does the  ", "  match the most?"],
      "messageBelongChoiceinBool": ["setting  ", "  as  ", " ?"],
      "hintEmptyNode": "be the first introducing this corner to people!",
-     "titleBannerBelong": "new share, around the corner ",
-     "titleBannerRest": "new arrived, or selected"
+     "titleBannerBelong": "new share around ",
+     "titleBannerRest": "new arrived or selected",
+     "titleFocusStart": "All from browsing.",
    }
 }

@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
 }
 
 .boxTitleType {
@@ -56,7 +55,7 @@
   margin: 0 0.4rem;
 }
 
-.fontType {
+.fontType { /* keep it related to fontDescript in MainBanner*/
   font-size: 1.37rem;
   letter-spacing: 0.07rem;
   line-height: 2rem;
@@ -69,7 +68,7 @@
   color: rgb(64, 133, 160);
 }
 
-.fontNode {
+.fontNode { /* keep it related to fontSubtitle in MainBanner & fontTitleGreet in BelongForm*/
   font-size: 1.76rem;
   line-height: 3rem;
   letter-spacing: 0.04rem;

@@ -46,7 +46,7 @@ class MainBanner extends React.Component {
     this._set_SelectedList = this._set_SelectedList.bind(this);
     this._render_nailsByType = this._render_nailsByType.bind(this);
     this._render_titleBelong = this._render_titleBelong.bind(this);
-    this._render_subtitleFirst = this._render_subtitleFirst.bind(this)
+    this._render_titleFirst = this._render_titleFirst.bind(this)
     this.style={
 
     }
@@ -169,7 +169,7 @@ class MainBanner extends React.Component {
         if((3- parsedObj.main.commonList.length) == 2) {
           let vacancy= (3- parsedObj.main.commonList.length); //actually it would only be '2' now
           self._set_SelectedList(vacancy);
-        }else{submitObj['customSelected'] = []; self.props._set_mountToDo("listBannerSelect ");}//remember splice the label from the todo list
+        }else{submitObj['customSelected'] = []; self.props._set_mountToDo("listBannerSelect");} //remember splice the label from the todo list
 
         //then before req Unit data to server, remove duplicate in concatList(commonList may have same item as listFirst)
         concatList = concatList.filter((item,index)=>{return concatList.indexOf(item) == index}); //because indexOf() only return the first one
@@ -236,28 +236,29 @@ class MainBanner extends React.Component {
       //append the name behind the present text.
       let deco = ()=>{
         if((idList.length-1) == index) return ("") //without next one
-        else { return (index==(idList.length-2))? (", and") : (",");}; //find the last interval
+        else { return (index==(idList.length-2))? (" &") : (",");}; //find the last interval
       };
       listNodes.push(
         <span
           key={"key_belongTitle_"+index}
           className={classnames(styles.spanTitle, styles.fontTitle)}
-          style={{paddingLeft: '1rem'}}>
+          style={{paddingLeft: '0.5rem', lineHeight: '3rem'}}>
           {nodeName + deco()}</span>
       );
     })
 
     return (
-      <div>
+      <div
+        style={{textAlign:"center",maxWidth: '40vw',textOveflow: 'ellipsis'}}>
         <span
           className={classnames(styles.spanTitle, styles.fontTitle)}>
-          {this.props.i18nUIString.catalog["titleBannerBelong"]}</span>
+          {this.props.i18nUIString.catalog["titleBannerBelong"]}</span><br/>
         {listNodes}
       </div>
     )
   }
 
-  _render_subtitleFirst(){
+  _render_titleFirst(){
     let starArr = [],
         indexLists = this.props.indexLists;
 
@@ -268,11 +269,11 @@ class MainBanner extends React.Component {
 
         starArr.push(
           <Link
-            key={"key_Subtitle_firstNode_"+index}
+            key={"key_title_firstNode_"+index}
             to={"/cosmic/nodes/"+obj.star}
             className={'plainLinkButton'}>
             <span
-              className={classnames(styles.spanSubtitleFirst)}>
+              className={classnames(styles.spanTitleFirst, styles.fontTitle, styles.fontTitleFirst)}>
               {nodeName}</span>
           </Link>
         );
@@ -282,10 +283,11 @@ class MainBanner extends React.Component {
 
     return (
       <div
-        className={classnames(styles.boxSubtitleFirst)}>
+        className={classnames(styles.boxTitleFirst)}>
         <div style={{width: '75%',position:'absolute',top: '25%'}}>
           <span
-            style={{display: 'block',fontSize: '1.4rem',fontWeight:'500'}}>{"First to"}</span>
+            className={classnames(styles.fontDescript)}
+            style={{display: 'block', fontWeight: '500'}}>{"First to"}</span>
           {starArr}
         </div>
       </div>
@@ -295,36 +297,38 @@ class MainBanner extends React.Component {
   render(){
     //the units list would update seperately from unitsBasic
     //so check state in render, block rendering if unitsBasic not ready
+    let indexLists = this.props.indexLists;
     return(
       <div
         className={classnames(styles.comMainBanner)}>
         {
-          (this.props.indexLists.customNewBelong.length> 0) &&
-          <div>
-            <div
-              className={classnames(styles.boxTitle)}>
-              {this._render_titleBelong()}</div>
-            <div
-              className={classnames(
-                styles.boxUnits,
-                {[styles.boxUnitsJustifyAround]: (this.props.indexLists.customNewBelong.length==1)}
-              )}>
-              {this._render_nailsByType("customNewBelong", 3)}</div>
-          </div>
+          (indexLists.customNewBelong.length> 0) &&
+          <div
+            className={classnames(styles.boxTitle)}>
+            {this._render_titleBelong()}</div>
         }
         {
-          (this.props.indexLists.customNewFirst.length >0) &&
+          (indexLists.customNewBelong.length> 0) &&
+          <div
+            className={classnames(
+              styles.boxUnits,
+              styles.boxUnitsJustifyAround
+            )}>
+            {this._render_nailsByType("customNewBelong", 3)}</div>
+        }
+        {
+          (indexLists.customNewFirst.length >0) &&
           <div
             className={classnames(styles.boxRowFirst)}>
-            {this._render_subtitleFirst()}
+            {this._render_titleFirst()}
             {this._render_nailsByType(
               "customNewFirst",
-              (this.props.indexLists.customNewFirst.length==1 ) ? 0 : 2
+              (indexLists.customNewFirst.length==1 ) ? 0 : 2
             )}
           </div>
         }
         {
-          (this.props.indexLists.customNew.length>0) && this.props.indexLists.customSelected &&
+          (indexLists.customNew.length>0) && indexLists.customSelected &&
           <div
             className={classnames(styles.boxTitle)}>
             <span
@@ -336,14 +340,14 @@ class MainBanner extends React.Component {
         {
           //customSelected either be 'false' or '[...]'
           //both type of nails have to be render 'after' we could check if there would be selected or not
-          this.props.indexLists.customSelected && (this.props.indexLists.customSelected.length>0) &&
+          indexLists.customSelected && (indexLists.customSelected.length>0) &&
           <div
             className={classnames(
               styles.boxUnits,
-              {[styles.boxUnitsJustifyAround]: ((this.props.indexLists.customNew.length+this.props.indexLists.customSelected.length)< 3)}
+              {[styles.boxUnitsJustifyAround]: ((indexLists.customNew.length+indexLists.customSelected.length)< 3)}
             )}>
-            {this._render_nailsByType("customNew", 2, 3)}
-            {this._render_nailsByType("customSelected", 2, 3)}
+            {this._render_nailsByType("customNew", (indexLists['customNew'].length+indexLists['customSelected'].length)< 3? 3:2, 3)}
+            {this._render_nailsByType("customSelected", (indexLists['customNew'].length+indexLists['customSelected'].length)< 3? 3:2, 3)}
           </div>
         }
         <div
@@ -351,12 +355,14 @@ class MainBanner extends React.Component {
           <BannerBelong
             _refer_von_cosmic={this.props._refer_von_cosmic}/>
         </div>
-        <div style={{width: '74%'}}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 561 1">
-            <defs><style>{".cls-1-strokeSeparationHorz{fill:none;stroke:#c4c4c4;stroke-linecap:round;stroke-miterlimit:10;opacity:0.78;}"}</style></defs>
-            <g id="圖層_2" data-name="圖層 2">
-              <g id="圖層_1-2" data-name="圖層 1">
-                <line className="cls-1-strokeSeparationHorz" x1="0.5" y1="0.5" x2="560.5" y2="0.5"/></g></g></svg>
+        <div
+          className={classnames(styles.boxRowSeperate)}>
+          <div
+            className={classnames(styles.decoLineSeperate)}
+            style={{width: '37vw', marginRight: '8vw'}}/>
+          <div
+            className={classnames(styles.fontSubtitle)}>
+            {this.props.i18nUIString.catalog['titleFocusStart']}</div>
         </div>
       </div>
     )

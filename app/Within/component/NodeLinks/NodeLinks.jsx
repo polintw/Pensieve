@@ -75,7 +75,7 @@ class NodeLinks extends React.Component {
       self.props._submit_NounsList_new(resObj.main.nounsListMix);
       self.props._submit_UsersList_new(resObj.main.usersList);
       self.setState((prevState, props)=>{
-        //we don't push anything and keep it as previous,
+        //we don't push anything and keep it as previous if the res was empty,
         //bexuase we need to let the render check if there is any id for this noun or not.
         if(resObj.main.unitsList.length>0) prevState.unitsBlock.push(resObj.main.unitsList);
         return({

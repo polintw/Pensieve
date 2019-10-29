@@ -3,6 +3,7 @@ module.exports = (sequelize, DataTypes) => {
   const users_custom_index = sequelize.define('users_custom_index', {
     id_user: DataTypes.INTEGER,
     last_visit: DataTypes.DATE,
+    last_feedGroup: DataTypes.INTEGER,
     last_focusbelong: DataTypes.STRING,
     currentbelong: DataTypes.STRING
   }, {});
