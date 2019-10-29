@@ -38,9 +38,9 @@ let rootAbout = browserify({
   global: true
 }).require("./app/About/root.js", {
   entry: true
-})/*.plugin(require('css-modulesify'), {
+}).plugin(require('css-modulesify'), {
     rootDir: __dirname
-  });*/
+  });
 let rootWithin = browserify({
   debug: false
 }).transform(envify({

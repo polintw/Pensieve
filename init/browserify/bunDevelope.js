@@ -23,9 +23,9 @@ let rootAbout = browserify({debug: true}).transform(babelify.configure({
   plugins: [
     "transform-object-rest-spread"
   ]})
-).require("./app/About/root.js", {entry: true})/*.plugin(require('css-modulesify'), {
+).require("./app/About/root.js", {entry: true}).plugin(require('css-modulesify'), {
     rootDir: __dirname
-  });*/
+  });
 let rootWithin = browserify({debug: true}).transform(babelify.configure({
   presets: [
       "react",

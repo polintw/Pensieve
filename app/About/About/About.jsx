@@ -8,7 +8,9 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import Nav from '../component/Nav/Nav.jsx';
 import Terms from '../component/Terms/Terms.jsx';
+import Privacy from '../component/Privacy/Privacy.jsx';
 import NavSite from '../component/NavSite/NavSite.jsx';
 import SvgLogo from '../../Component/Svg/SvgLogo.jsx';
 
@@ -43,20 +45,26 @@ class About extends React.Component {
     return(
       <Router
         basename={"/a"}>
-        <Switch>
-          <Route path={"/terms"} render={(props)=> <Terms {...props}/>}/>
-        </Switch>
         <div>
-          <NavSite {...this.props}/>
-        </div>
-        <div style={{width: '100%', height: '2.7rem', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}>
-          <div
-            style={Object.assign({}, this.style.boxTopLogo)}
-            onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_von_cosmic('', '/cosmic')}}>
-            <SvgLogo/>
+          <Switch>
+            <Route path={"/terms"} render={(props)=> <Terms {...props}/>}/>
+            <Route path={"/privacy"} render={(props)=> <Privacy {...props}/>}/>
+          </Switch>
+          <div>
+            <NavSite {...this.props}/>
           </div>
+          <div style={{width: '100%', height: '4rem', position: 'fixed', top: '0', backgroundColor: '#FFFFFF'}}>
+            <div
+              style={Object.assign({}, this.style.boxTopLogo)}
+              onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_von_cosmic('', '/cosmic')}}>
+              <SvgLogo/>
+            </div>
+            <div>
+              <Nav {...this.props}/>
+            </div>
+          </div>
+          <div style={{width: '100%', height: '2.7rem', position: 'fixed', bottom: '0', backgroundColor: '#FFFFFF'}}></div>
         </div>
-        <div style={{width: '100%', height: '4rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
       </Router>
     )
   }

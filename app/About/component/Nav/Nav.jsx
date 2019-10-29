@@ -8,7 +8,6 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import {AccountPlate} from '../../../Component/AccountPlate.jsx';
 
 const styleMiddle = {
   boxNav: {
@@ -31,15 +30,13 @@ const styleMiddle = {
   },
 }
 
-class NavSite extends React.Component {
+class Nav extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      mouseOn: ''
     };
     this.refScroll = React.createRef();
-    this._handleEnter_Account = this._handleEnter_Account.bind(this);
-    this._handleLeave_Account = this._handleLeave_Account.bind(this);
     this._handleEnter_CornerOpt = this._handleEnter_CornerOpt.bind(this);
     this._handleLeave_CornerOpt = this._handleLeave_CornerOpt.bind(this);
     this.style={
@@ -59,18 +56,6 @@ class NavSite extends React.Component {
     })
   }
 
-  _handleEnter_Account(e){
-    this.setState({
-      onAccount: true
-    })
-  }
-
-  _handleLeave_Account(e){
-    this.setState({
-      onAccount: false
-    })
-  }
-
   componentDidUpdate(prevProps, prevState, snapshot){
 
   }
@@ -84,39 +69,39 @@ class NavSite extends React.Component {
   }
 
   render(){
-    return this.props.token=="verified" ? (
+    return (
       <div
         style={Object.assign({}, styleMiddle.boxNav, styleMiddle.fontNav)}>
-        <a
-          href="/cosmic"
-          method="focus"
+        <Link
+          to="/terms"
+          method="terms"
           className={classnames('plainLinkButton')}
           onMouseEnter={this._handleEnter_CornerOpt}
           onMouseLeave={this._handleLeave_CornerOpt}>
-          <span
-            style={(this.state.mouseOn=='focus')? {color: '#333333'}:{}}>{"focus"}</span>
-        </a>
-        <a
-          href="/user/screen"
+          {
+            (this.state.mouseOn=='terms') &&
+            <span style={{
+                width: '80%', position: 'absolute', bottom: '-11%', left: '10%',
+                borderBottom: 'solid 1px rgb(64, 133, 160)'
+              }}/>
+            }
+          <span>{"Terms"}</span>
+        </Link>
+        <Link
+          to="/privacy"
+          method="privacy"
           className={classnames('plainLinkButton')}
-          onMouseEnter={this._handleEnter_Account}
-          onMouseLeave={this._handleLeave_Account}>
-          <AccountPlate
-            size={'layer'}
-            accountFisrtName={this.props.userInfo.firstName}
-            accountLastName={this.props.userInfo.lastName}
-            styleFirst={{fontWeight: '600'}}/>
-        </a>
-      </div>
-    ): (
-      <div>
-        <a
-          href={"/s/signin"}
-          className={'plainLinkButton'}>
-          <span
-            className={classnames(styles.spanLink)}>
-            {'Sign in'}</span>
-        </a>
+          onMouseEnter={this._handleEnter_CornerOpt}
+          onMouseLeave={this._handleLeave_CornerOpt}>
+          {
+            (this.state.mouseOn=='privacy') &&
+            <span style={{
+                width: '80%', position: 'absolute', bottom: '-11%', left: '10%',
+                borderBottom: 'solid 1px rgb(64, 133, 160)'
+              }}/>
+            }
+          <span>{"Privacy"}</span>
+        </Link>
       </div>
     )
   }
@@ -138,4 +123,4 @@ const mapDispatchToProps = (dispatch) => {
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(NavSite));
+)(Nav));
