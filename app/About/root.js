@@ -5,7 +5,7 @@ import thunk from 'redux-thunk';
 import {Provider} from "react-redux";
 import jwtDecode from 'jwt-decode';
 import moment from 'moment';
-import About from './About.jsx';
+import About from './About/About.jsx';
 import storeAbout from "../redux/reducers/about.js";
 import {
   mountUserInfo,
