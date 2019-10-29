@@ -236,22 +236,23 @@ class MainBanner extends React.Component {
       //append the name behind the present text.
       let deco = ()=>{
         if((idList.length-1) == index) return ("") //without next one
-        else { return (index==(idList.length-2))? ("  and") : (",");}; //find the last interval
+        else { return (index==(idList.length-2))? (" &") : (",");}; //find the last interval
       };
       listNodes.push(
         <span
           key={"key_belongTitle_"+index}
           className={classnames(styles.spanTitle, styles.fontTitle)}
-          style={{paddingLeft: '1rem'}}>
+          style={{paddingLeft: '0.5rem', lineHeight: '3rem'}}>
           {nodeName + deco()}</span>
       );
     })
 
     return (
-      <div>
+      <div
+        style={{textAlign:"center",maxWidth: '40vw',textOveflow: 'ellipsis'}}>
         <span
           className={classnames(styles.spanTitle, styles.fontTitle)}>
-          {this.props.i18nUIString.catalog["titleBannerBelong"]}</span>
+          {this.props.i18nUIString.catalog["titleBannerBelong"]}</span><br/>
         {listNodes}
       </div>
     )
