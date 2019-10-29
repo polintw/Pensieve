@@ -1,4 +1,5 @@
 import {
+  SET_TOKENSTATUS,
   SET_UNITCURRENT,
   SET_UNITINSPIRED,
   MOUNT_USERINFO,
@@ -40,6 +41,10 @@ export function setUnitInspired(markId, aim) {
 
 export function mountUserInfo(obj) {
   return { type: MOUNT_USERINFO, userInfo: obj }
+};
+
+export function setTokenStatus(obj) {
+  return { type: SET_TOKENSTATUS, status: obj }
 };
 
 export function mountUserSheet(sheetObj, accountSet) {
