@@ -11,6 +11,10 @@ import {
   handleNounsList,
   handleUsersList
 } from "../../redux/actions/general.js";
+import {
+  cancelErr,
+  uncertainErr
+} from "../../utils/errHandlers.js";
 
 const styleMiddle = {
   comNodeContributor: {
@@ -133,7 +137,8 @@ class NodeContributor extends React.Component {
     //now get the Units of this noun from the attribution in database
     axios({
       method: 'get',
-      url: '/router/nouns/'+this.nounId+'/contributors',
+      url: '/router/nouns/'+this.nounId+'/attribution',
+      params: {require: "contributors"},
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']

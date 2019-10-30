@@ -3,7 +3,6 @@ const router = express.Router();
 
 const auth = require('./auth/main.js');
 const accountRouter = require('./account/main.js');
-const profileRouter = require('./user/profile/main.js');
 const unitsRouter = require('./units/main.js');
 const imgRouter = require('./img/main.js');
 
@@ -15,6 +14,8 @@ const nounsRouter = require('./nouns/main.js');
 const windowRouter = require('./window/main.js');
 const exploreRouter = require('./explore/main.js');
 const notificationsRouter = require('./notifications/main.js');
+const uProfileRouter = require('./user/profile/main.js');
+const uRecordsRouter = require('./user/records/main.js');
 const generalRouter = require('./general/main.js');
 
 //routes do not protect by token, to fix this, we would have to tranmit img totally by axios api
@@ -24,11 +25,11 @@ router.use('/img', imgRouter)
 router.use('/', auth)
 
 //only approach after verified
-router.use('/profile', profileRouter) //prepare to replace part of the "/user"
-
 
 // shift to "units"
 router.use('/units', unitsRouter)
+router.use('/profile', uProfileRouter)
+router.use('/records', uRecordsRouter)
 
 router.use('/account', accountRouter)
 router.use('/notifications', notificationsRouter)

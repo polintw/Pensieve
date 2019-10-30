@@ -28,10 +28,9 @@ export function uncertainErr(error){
     if(resConsole.length>0) console.log(error.response.data.console);
     switch (error.response.data.code) {
       case 32:
-        alert(error.response.data.message);
-        window.location.assign('/s/signin'); //anauthorized with invalid token, reload to check the token
-        return null; //return to inform iterator
-        break;
+      alert(error.response.data.message);
+      window.location.assign('/s/signin'); //anauthorized with invalid token, reload to check the token
+      return null; //return to inform iterator, meaning no need for further handleing
       default:
     };
     return error.response.data.message;

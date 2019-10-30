@@ -2,30 +2,10 @@
   padding: 0 8%;
 }
 
-.boxRoundButton{
-  box-sizing: border-box;
-  padding: 11px 6%;
-  border-radius: 1.87vh;
-  background-color: #09a8e6;
-  text-align: center;
-  cursor: pointer;
-}
-
 .boxLeaving {
   display: inline-block;
   box-sizing: border-box;
   cursor: pointer;
-}
-
-.spanButton {
-
-}
-
-.fontButton {
-  font-size: 1.47rem;
-  font-weight: 400;
-  letter-spacing: 0.067rem;
-  color: #FAFAFA;
 }
 
 .fontLeaving {
@@ -33,5 +13,5 @@
   font-weight: 400;
   letter-spacing: 0.056rem;
   text-align: center;
-  color: #e6e6e6;
+  color: #777777;
 }

@@ -6,7 +6,8 @@ const {
 
 export const initGlobal = {
   userInfo: accountInfoInit, //should change the key:'userInfo' to other else
-  i18nUIString: i18nUIStringInit
+  i18nUIString: i18nUIStringInit,
+  token: null
 }
 
 export const initSign = {
@@ -22,7 +23,13 @@ export const initUnit = {
 }
 
 export const initCosmicGeneral = {
-
+  fetchFlags: [],
+  indexLists: {
+    customNewBelong: [],
+    customNewFirst: [],
+    customNew: [],
+    customSelected: false, //keep in 'false' before any return, as a 'red light' to rendering focus list
+  }
 }
 
 export const initSelfFrontGeneral = {

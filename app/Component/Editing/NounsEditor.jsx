@@ -1,6 +1,6 @@
 import React from 'react';
 import {NounsList} from './NounsEditorCom.jsx';
-import {SearchModule} from '../NodeComs.jsx';
+import {SearchModule} from '../NodeSearchModule.jsx';
 
 export default class NounsEditor extends React.Component {
   constructor(props){
@@ -60,7 +60,7 @@ export default class NounsEditor extends React.Component {
       prevState.nounsList = prevState.nounsList.filter((value, index)=>{ // use filter remove id from the list and replace it by new list
         //using filter is just a safer way to remove 'all candidate' (at the time it was add because there was a bug would push the same id more than once at 'add' part)
         return value != nodeId; //not equal value, but allow different "type" (the nodeId was string saved in the DOM attribute)
-      }); 
+      });
       return prevState;
     }, ()=>{
       this.props._set_nouns({list: this.state.nounsList, basic: this.state.nounsBasic});

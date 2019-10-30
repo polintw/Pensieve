@@ -6,9 +6,9 @@ const {
   _select_Basic
 } = require('../utils/dbSelectHandler.js');
 const {
-  _handle_ErrCatched,
   internalError,
   authorizedError,
+  _handle_ErrCatched,
   _handler_err_NotFound,
   _handler_err_BadReq,
   _handler_err_Unauthorized,

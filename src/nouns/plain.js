@@ -23,7 +23,6 @@ function _handle_GET_nouns_singular(req, res){
     if (!jwtVerified) throw new authorizedError("during GET--nouns/singular, "+jwtVerified, 32);
 
     let userId = jwtVerified.user_Id;
-    //first, selecting by accordancelist
 
     return _DB_attribution.findAll({
       where: {

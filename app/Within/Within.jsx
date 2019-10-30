@@ -12,7 +12,7 @@ class Within extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      userBasic: this.props.userBasic
+
     };
     this.style={
 

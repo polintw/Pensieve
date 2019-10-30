@@ -21,7 +21,7 @@
   position:absolute;
   top:0;
   left: 0;
-  background-image:linear-gradient(0deg, rgba(0, 0, 0, 0.67), rgba(0, 0, 0, 0.6),rgba(0, 0, 0, 0.57),rgba(0, 0, 0, 0.57),rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.21),rgba(0, 0, 0, 0.15),rgba(0, 0, 0, 0.1) ,rgba(0, 0, 0, 0.05) ,transparent);
+  background-image:linear-gradient(0deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.64),rgba(0, 0, 0, 0.58),rgba(0, 0, 0, 0.52),rgba(0, 0, 0, 0.42),rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.18),rgba(0, 0, 0, 0.1),rgba(0, 0, 0, 0.07) ,rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.02) ,transparent);
 }
 
 .interMask { /*remember must after the boxMask*/
@@ -37,7 +37,7 @@
   width: 75%;
   max-height: 69%;
   position: absolute;
-  bottom: 6%;
+  bottom: 9%;
   right: 0%;
   box-sizing: border-box;
   padding: 0 4.5% 0 7%; /*right side align along with the right position of boxAuthor*/

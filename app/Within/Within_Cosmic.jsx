@@ -10,7 +10,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./stylesCosmic.module.css";
 import Explore from './Explore/Explore/Explore.jsx';
-import CosmicMain from './component/CosmicMain.jsx';
+import Focus from './Focus/Focus.jsx';
 import CosmicUser from './component/CosmicUser.jsx';
 import CosmicNoun from './component/CosmicNoun.jsx';
 import LinkExplore from './component/LinkExplore/LinkExplore.jsx';
@@ -116,7 +116,7 @@ class WithinCosmic extends React.Component {
           <Route path={"/nodes/:nounId"} render={(props)=> <CosmicNoun {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
           <Route path={"/users/:userId"} render={(props)=> <CosmicUser {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
           <Route path={"/explore"} render={(props)=> <Explore {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
-          <Route path={this.props.match.path} render={(props)=> <CosmicMain {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
+          <Route path={this.props.match.path} render={(props)=> <Focus {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
         </Switch>
         <div
           style={this.style.Within_Cosmic_corner_}>
