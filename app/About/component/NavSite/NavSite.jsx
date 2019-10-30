@@ -74,7 +74,7 @@ class NavSite extends React.Component {
       <div
         className={classnames(styles.comNavSite)}>
         <a
-          href="/cosmic"
+          href="/"
           method="focus"
           className={classnames('plainLinkButton')}
           onMouseEnter={this._handleEnter_CornerOpt}

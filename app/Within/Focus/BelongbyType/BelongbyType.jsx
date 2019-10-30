@@ -89,7 +89,7 @@ class BelongbyType extends React.Component {
       <div
         className={classnames(styles.boxDepend)}>
         <Link
-          to={"/cosmic/nodes/"+nodeId}
+          to={"/nodes/"+nodeId}
           className={classnames('plainLinkButton', styles.boxNode)}
           onMouseEnter={this._handleMouseOn_Node}
           onMouseLeave={this._handleMouseOn_Node}>

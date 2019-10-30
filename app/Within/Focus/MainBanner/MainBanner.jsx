@@ -270,7 +270,7 @@ class MainBanner extends React.Component {
         starArr.push(
           <Link
             key={"key_title_firstNode_"+index}
-            to={"/cosmic/nodes/"+obj.star}
+            to={"/nodes/"+obj.star}
             className={'plainLinkButton'}>
             <span
               className={classnames(styles.spanTitleFirst, styles.fontTitle, styles.fontTitleFirst)}>
