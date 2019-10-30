@@ -15,6 +15,7 @@ class Privacy extends React.Component {
     this.state = {
 
     };
+    this.refCom = React.createRef();
     this.refScroll = React.createRef();
     this.style={
 
@@ -27,7 +28,9 @@ class Privacy extends React.Component {
   }
 
   componentDidMount(){
-
+    if (this.refCom.scrollTop != 0) {
+      window.scrollTo(0, 0)
+    }
   }
 
   componentWillUnmount(){
@@ -37,18 +40,19 @@ class Privacy extends React.Component {
   render(){
     return(
       <div
+        ref={this.refCom}
         className={styles.comPrivacy}>
         <div
           ref={this.refScroll}
-          className={styles.boxScroll}>
-          <h1>{"Privacy Policy"}</h1>
+          className={classnames(styles.boxScroll, styles.fontScroll)}>
+          <h2>{"Privacy Policy"}</h2>
           <section>
             <p>{"We critically concern about the user’s privacy. The following is our Privacy Policy:"}</p>
           </section>
           <section>
             <ol>
               <li>
-                <h5>{"Information Collection"}</h5>
+                <h4>{"Information Collection"}</h4>
                 <p>{"We only collect your personal information for reasons to do so. For instance, to provide and improve our services and to communicate with you. We collect information in the following ways:"}</p>
                 <ol type="A">
                   <li>
@@ -70,7 +74,7 @@ class Privacy extends React.Component {
                 </ol>
               </li>
               <li>
-                <h5>{"Purposes for Using Information"}</h5>
+                <h4>{"Purposes for Using Information"}</h4>
                 <p>{"We collect and use information about you as mentioned above for the  following purposes: "}</p>
                 <ul>
                   <li>{"To provide our services. Such as setting up and maintenance of your account;"}</li>
@@ -84,15 +88,15 @@ class Privacy extends React.Component {
                 <p>{"However we may show ads to users who correspond to the kind of audience of advertisers, according to the factors of audience the advertisers provide."}</p>
               </li>
               <li>
-                <h5>{"Legal Bases for Collecting and Using Information"}</h5>
+                <h4>{"Legal Bases for Collecting and Using Information"}</h4>
                 <p>{"A note here for those in the European Union. Cornerth.com complied to General Data Protection Regulation (“GDPR”) in information collection and using."}</p>
               </li>
               <li>
-                <h5>{"Security"}</h5>
+                <h4>{"Security"}</h4>
                 <p>{"While no online service is 100% safe, we strive as much as possible to protect information security about you to against from unauthorized access, use, alteration, or destruction, and take reasonable measures."}</p>
               </li>
               <li>
-                <h5>{"How to reach us"}</h5>
+                <h4>{"How to reach us"}</h4>
                 <p>{"If you have further questions about our Privacy Policy, please contact us."}</p>
               </li>
             </ol>

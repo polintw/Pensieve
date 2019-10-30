@@ -15,6 +15,7 @@ class Terms extends React.Component {
     this.state = {
 
     };
+    this.refCom = React.createRef();
     this.refScroll = React.createRef();
     this.style={
 
@@ -27,7 +28,9 @@ class Terms extends React.Component {
   }
 
   componentDidMount(){
-
+    if (this.refCom.scrollTop != 0) {
+      window.scrollTo(0, 0)
+    }
   }
 
   componentWillUnmount(){
@@ -37,11 +40,12 @@ class Terms extends React.Component {
   render(){
     return(
       <div
+        ref={this.refCom}
         className={styles.comTerms}>
         <div
           ref={this.refScroll}
-          className={styles.boxScroll}>
-          <h1>{"Terms of Services"}</h1>
+          className={classnames(styles.boxScroll, styles.fontScroll)}>
+          <h2>{"Terms of Services"}</h2>
           <section>
             <p>{"Hi, welcome to Cornerth. !"}</p>
           </section>
@@ -57,16 +61,16 @@ class Terms extends React.Component {
           <section>
             <ol>
               <li>
-                <h5>{"Your Account"}</h5>
+                <h4>{"Your Account"}</h4>
                 <p>{"Where use of our Services requires an account. You agree to provide us with complete and accurate information about yourself when you register for an account. You will be solely responsible and liable for any activity that occurs under your username."}</p>
                 <p>{"You are responsible for keeping your account information up-to-date and for keeping your password secure. Please not share your password and provide access to your account to anyone else."}</p>
               </li>
               <li>
-                <h5>{"Minimum Age Requirements"}</h5>
+                <h4>{"Minimum Age Requirements"}</h4>
                 <p>{"Our Services are not directed provide for children. Access to and use of our Services is only for those over the age of 13 (or 16 in the European Union). If you are younger than this, you may not allowed to register for or use our Services. Anyone who registers as a user or provides their personal information to our Services as if represents that they are already 13 years of age or older (or 16 years or older in the European Union)."}</p>
               </li>
               <li>
-                <h5>{"Responsibility of  Users and Visitors"}</h5>
+                <h4>{"Responsibility of  Users and Visitors"}</h4>
                 <p>{"We have not reviewed, and cannot review all of the content (such as, but not limited to, text, graphic items , or other materials) posted to Cornerth.com by users or anyone else.  And we are not responsible for any use or effects of such content."}</p>
                 <p>{"Which means (For example):"}</p>
                 <ul>
@@ -78,11 +82,11 @@ class Terms extends React.Component {
                 </ul>
               </li>
               <li>
-                <h5>{"Fees and Renewal"}</h5>
+                <h4>{"Fees and Renewal"}</h4>
                 <p>{"Our services are free for provide. Yet we may change our fees at any time, or start charging fees for services that were previously free. We will sent advance notice of the fee changes."}</p>
               </li>
               <li>
-                <h5>{"General Representation and Warranty"}</h5>
+                <h4>{"General Representation and Warranty"}</h4>
                 <p>{"You represent and warrant that your use of our Services:"}</p>
                 <ul>
                   <li>{"Will be in strict accordance with these Terms;"}</li>
@@ -93,16 +97,16 @@ class Terms extends React.Component {
                 </ul>
               </li>
               <li>
-                <h5>{"Intellectual Property"}</h5>
+                <h4>{"Intellectual Property"}</h4>
                 <p>{"The content  you post, including the text and graphic items, may be protected by intellectual property laws. We guarantee you own the fully intellectual property rights according to the related law. But we need your authorization to use this content legally for providing and improving our services. "}</p>
                 <p>{"Specifically, once you post an article on Cornerth.com, we grant the permission to store, copy, and share the content through Hyperlink with others. This permission will terminate if you delete such content."}</p>
               </li>
               <li>
-                <h5>{"Copyright Infringement"}</h5>
+                <h4>{"Copyright Infringement"}</h4>
                 <p>{"If you believe that material located on Cornerth.com violates your copyright, please notify us. We will respond to all such notices, including as required or appropriate by removing the infringing material or disabling all links to the infringing material according to Digital Millennium Copyright Act (“DMCA”) ."}</p>
               </li>
               <li>
-                <h5>{"Amendment"}</h5>
+                <h4>{"Amendment"}</h4>
                 <p>{"We are constantly updating our services, which means that sometimes we have to change the legal terms under which our Services are offered."}</p>
               </li>
             </ol>

@@ -26,7 +26,7 @@ class About extends React.Component {
         height: '20px',
         position: 'absolute',
         bottom: '39%',
-        left: '10%',
+        left: '15%',
         boxSizing: 'border-box',
         cursor: 'pointer'
       }
@@ -56,7 +56,7 @@ class About extends React.Component {
           <div style={{width: '100%', height: '5.4rem', position: 'fixed', top: '0', backgroundColor: '#FCFCFC', boxShadow: '0 0px 4px -2px'}}>
             <div
               style={Object.assign({}, this.style.boxTopLogo)}
-              onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_von_cosmic('', '/cosmic')}}>
+              onClick={(e)=>{e.preventDefault(); e.stopPropagation(); window.location.assign('/')}}>
               <SvgLogo/>
             </div>
             <div style={{display: 'inline-block'}}>
