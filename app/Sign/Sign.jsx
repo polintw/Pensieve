@@ -6,10 +6,9 @@ import {
   Link
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import cxBind from 'classnames/bind';
-import Signup from './component/Signup.jsx';
+import Signup from './component/Signup/Signup.jsx';
 import Signin from './component/Signin/Signin.jsx';
-import Confirmation from './component/Confirmation.jsx';
+import Confirmation from './component/Confirmation/Confirmation.jsx';
 
 class Sign extends React.Component {
   constructor(props){

@@ -5,23 +5,25 @@ import {
   Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import cxBind from 'classnames/bind';
+import classnames from 'classnames';
+import styles from "./styles.module.css";
 import {
   cancelErr,
   uncertainErr
-} from '../utils/errHandler_axios.js';
+} from '../../utils/errHandler_axios.js';
 import {
   axiosSwitch,
   axiosGetRes,
   setSignInit
-} from "../../redux/actions/handleSign.js";
+} from "../../../redux/actions/handleSign.js";
 
 class SignupSuccess extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      onSignIn: false
     };
+    this._handleMouseOn_signIn = ()=> this.setState((prevState,props)=>{return {onSignIn: prevState.onSignIn?false:true}});
     this.style={
       SignupSuccess_: {
         width: '100%',
@@ -47,13 +49,24 @@ class SignupSuccess extends React.Component {
     return(
       <div
         style={this.style.SignupSuccess_}>
-        <div>
-          <p>{"You've already signed up."}</p>
-          <p>{"The World has been there, but"}</p>
-          <p>{"completing the process by verifing your Email Address!"}</p>
+        <div
+          className={classnames(styles.fontInput)}>
+          <p>{"You've already signed up, but don't move too fast!"}</p>
+          <p>{"Verifing your Email Address by Mail we just sent to you."}</p>
+          <p>{"You would get all settle "}</p>
+          <p>{"after the Verifing."}</p>
           <Link
-            to="/signin">
-            <span>{"Sign in"}</span>
+            to="/signin"
+            className={classnames('plainLinkButton')}
+            style={{margin: '5rem, 0', display: 'block'}}
+            onMouseEnter={this._handleMouseOn_signIn}
+            onMouseLeave={this._handleMouseOn_signIn}>
+            <span
+              className={classnames(
+                styles.spanSignIn,
+                {[styles.spanSignInMouse]: this.state.onSignIn}
+              )}>
+              {"Sign in"}</span>
           </Link>
         </div>
       </div>
@@ -134,15 +147,12 @@ class SignupMailresend extends React.Component {
   }
 
   render(){
-    //let cx = cxBind.bind(styles);
 
     const message = this.props.message;
     return(
       <div
         style={this.style.SignupMailresend_}>
-        <h3>{"Fill in your email address to re-send a verified email again."}</h3>
-        <div
-          style={this.style.Mailresend_form_}>
+        <h2>{"Fill in your email address to re-send a verified email again."}</h2>
           <form onSubmit={this._handle_Mailresend}>
             {'email:'}<br/>
             <input
@@ -165,13 +175,29 @@ class SignupMailresend extends React.Component {
                 value='confirm re-send'
                 disabled={this.props.axios? true:false}/>
             </form>
+          <div
+            style={{display:'flex',justifyContent: 'space-around',width: '50%',margin:'2rem 0',float:'right'}}>
+            <Link
+              to="/signin"
+              className={classnames('plainLinkButton')}
+              style={{margin: '5rem, 0', display: 'block'}}>
+              <span
+                className={classnames(
+                  styles.spanSignIn,
+                )}>
+                {"Sign in"}</span>
+            </Link>
+            <Link
+              to="/signup"
+              className={classnames('plainLinkButton')}
+              style={{margin: '5rem, 0', display: 'block'}}>
+              <span
+                className={classnames(
+                  styles.spanSignIn,
+                )}>
+                {"Sign up"}</span>
+            </Link>
           </div>
-          <Link to="/signin">
-            <span>{"Sign in"}</span>
-          </Link>
-          <Link to="/signup">
-            <span>{"Sign up"}</span>
-          </Link>
       </div>
     )
   }

@@ -132,7 +132,7 @@ class Signin extends React.Component {
                 }
               <input
                 type='submit'
-                value='Log in'
+                value='Sign in'
                 disabled={this.props.axios? true:false}
                 className={classnames(styles.boxSubmit)}
                 style={{float:"right"}}/>
