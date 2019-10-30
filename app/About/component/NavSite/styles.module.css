@@ -2,3 +2,17 @@
   box-sizing: border-box;
   cursor: pointer;
 }
+
+.comNavSite{
+  display:flex;
+  flex-direction: column;
+  position: fixed;
+  top: 34%;
+  right: 5vw;
+  box-sizing: border-box;
+}
+
+.fontLink {
+  font-size: 1.37rem;
+  letter-spacing: 0.04rem;
+}

@@ -10,20 +10,6 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 
 const styleMiddle = {
-  boxNav: {
-    display: 'inline-flex',
-    flexDirection: 'column',
-    width: '15vw',
-    position: 'relative',
-    boxSizing: 'border-box',
-    textAlign: 'right'
-  },
-  fontNav: {
-    fontSize: "1.36rem",
-    letterSpacing: "0.08rem",
-    whiteSpace: "nowrap",
-    color: "#a8a8a8"
-  },
   spanNav: {
     boxSizing: 'border-box',
     cursor: 'pointer'
@@ -71,11 +57,11 @@ class Nav extends React.Component {
   render(){
     return (
       <div
-        style={Object.assign({}, styleMiddle.boxNav, styleMiddle.fontNav)}>
+        className={classnames(styles.comAboutNav, styles.fontNav)}>
         <Link
           to="/terms"
           method="terms"
-          className={classnames('plainLinkButton')}
+          className={classnames('plainLinkButton', styles.boxLink)}
           onMouseEnter={this._handleEnter_Link}
           onMouseLeave={this._handleLeave_Link}>
           {
@@ -90,7 +76,7 @@ class Nav extends React.Component {
         <Link
           to="/privacy"
           method="privacy"
-          className={classnames('plainLinkButton')}
+          className={classnames('plainLinkButton', styles.boxLink)}
           onMouseEnter={this._handleEnter_Link}
           onMouseLeave={this._handleLeave_Link}>
           {

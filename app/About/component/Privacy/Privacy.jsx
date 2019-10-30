@@ -41,7 +41,7 @@ class Privacy extends React.Component {
         <div
           ref={this.refScroll}
           className={styles.boxScroll}>
-          <h3>{"Privacy Policy"}</h3>
+          <h1>{"Privacy Policy"}</h1>
           <section>
             <p>{"We critically concern about the user’s privacy. The following is our Privacy Policy:"}</p>
           </section>
@@ -90,10 +90,6 @@ class Privacy extends React.Component {
               <li>
                 <h5>{"Security"}</h5>
                 <p>{"While no online service is 100% safe, we strive as much as possible to protect information security about you to against from unauthorized access, use, alteration, or destruction, and take reasonable measures."}</p>
-              </li>
-              <li>
-                <h5>{"Amendment"}</h5>
-                <p>{"If we make amendment of our Privacy Policy, we will let you know by sending advance notification. "}</p>
               </li>
               <li>
                 <h5>{"How to reach us"}</h5>

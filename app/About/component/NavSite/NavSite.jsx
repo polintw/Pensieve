@@ -11,20 +11,6 @@ import styles from "./styles.module.css";
 import {AccountPlate} from '../../../Component/AccountPlate.jsx';
 
 const styleMiddle = {
-  boxNav: {
-    display: 'inline-flex',
-    flexDirection: 'column',
-    width: '15vw',
-    position: 'relative',
-    boxSizing: 'border-box',
-    textAlign: 'right'
-  },
-  fontNav: {
-    fontSize: "1.36rem",
-    letterSpacing: "0.08rem",
-    whiteSpace: "nowrap",
-    color: "#a8a8a8"
-  },
   spanNav: {
     boxSizing: 'border-box',
     cursor: 'pointer'
@@ -86,7 +72,7 @@ class NavSite extends React.Component {
   render(){
     return this.props.token=="verified" ? (
       <div
-        style={Object.assign({}, styleMiddle.boxNav, styleMiddle.fontNav)}>
+        className={classnames(styles.comNavSite)}>
         <a
           href="/cosmic"
           method="focus"
@@ -94,7 +80,8 @@ class NavSite extends React.Component {
           onMouseEnter={this._handleEnter_CornerOpt}
           onMouseLeave={this._handleLeave_CornerOpt}>
           <span
-            style={(this.state.mouseOn=='focus')? {color: '#333333'}:{}}>{"focus"}</span>
+            className={classnames(styles.spanLink, styles.fontLink)}
+            style={{borderBottom: (this.state.mouseOn=='focus')? '1px solid #ff7a5f': '1px solid #ababab'}}>{"focus"}</span>
         </a>
         <a
           href="/user/screen"
@@ -105,17 +92,22 @@ class NavSite extends React.Component {
             size={'layer'}
             accountFisrtName={this.props.userInfo.firstName}
             accountLastName={this.props.userInfo.lastName}
-            styleFirst={{fontWeight: '600'}}/>
+            styleFirst={{display: 'inline-block', margin: '1rem 0.5rem 1rem 0'}}
+            styleLast={{display: 'inline-block', margin: '1rem 0.5rem 1rem 0'}}/>
         </a>
       </div>
     ): (
-      <div>
+      <div
+        className={classnames(styles.comNavSite)}>
         <a
           href={"/s/signin"}
-          className={'plainLinkButton'}>
+          method="sign"
+          className={classnames('plainLinkButton')}
+          onMouseEnter={this._handleEnter_CornerOpt}
+          onMouseLeave={this._handleLeave_CornerOpt}>
           <span
-            className={classnames(styles.spanLink)}>
-            {'Sign in'}</span>
+            className={classnames(styles.spanLink, styles.fontLink)}
+            style={{borderBottom: (this.state.mouseOn=='sign')? '1px solid #ff7a5f': '1px solid #ababab'}}>{'Sign in'}</span>
         </a>
       </div>
     )

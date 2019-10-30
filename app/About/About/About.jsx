@@ -23,10 +23,10 @@ class About extends React.Component {
     this.style={
       boxTopLogo: {
         display: 'inline-block',
-        height: '12px',
+        height: '20px',
         position: 'absolute',
-        top: '39%',
-        left: '25%',
+        bottom: '39%',
+        left: '10%',
         boxSizing: 'border-box',
         cursor: 'pointer'
       }
@@ -53,17 +53,16 @@ class About extends React.Component {
           <div>
             <NavSite {...this.props}/>
           </div>
-          <div style={{width: '100%', height: '4rem', position: 'fixed', top: '0', backgroundColor: '#FFFFFF'}}>
+          <div style={{width: '100%', height: '5.4rem', position: 'fixed', top: '0', backgroundColor: '#FCFCFC', boxShadow: '0 0px 4px -2px'}}>
             <div
               style={Object.assign({}, this.style.boxTopLogo)}
               onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_von_cosmic('', '/cosmic')}}>
               <SvgLogo/>
             </div>
-            <div>
+            <div style={{display: 'inline-block'}}>
               <Nav {...this.props}/>
             </div>
           </div>
-          <div style={{width: '100%', height: '2.7rem', position: 'fixed', bottom: '0', backgroundColor: '#FFFFFF'}}></div>
         </div>
       </Router>
     )

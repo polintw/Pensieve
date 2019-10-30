@@ -4,9 +4,12 @@
 }
 
 .boxScroll {
-
+  width: 60vw;
+  position: absolute;
+  left: 20vw;
+  top: 7rem;
 }
 
 .boxFooter {
-
+  height: 30vh;
 }

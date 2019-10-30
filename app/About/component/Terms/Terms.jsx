@@ -41,7 +41,7 @@ class Terms extends React.Component {
         <div
           ref={this.refScroll}
           className={styles.boxScroll}>
-          <h3>{"Terms of Services"}</h3>
+          <h1>{"Terms of Services"}</h1>
           <section>
             <p>{"Hi, welcome to Cornerth. !"}</p>
           </section>
