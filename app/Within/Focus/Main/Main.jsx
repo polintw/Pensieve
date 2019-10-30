@@ -18,6 +18,7 @@ import {
 import MainTitle from '../MainTitle/MainTitle.jsx';
 import MainBanner from '../MainBanner/MainBanner.jsx';
 import Unit from '../../../Unit/Unit/Unit.jsx';
+import ServiceLinks from '../../../Component/ServiceLinks.jsx';
 import {
   handleNounsList,
   handleUsersList
@@ -36,7 +37,7 @@ const styleMiddle = {
   },
   spanFooterInfo: {
     display: 'inline-block',
-    boxSizing: 'border-block',
+    boxSizing: 'border-box',
     marginRight: '0.42rem'
   },
   textFooterInfo: {
@@ -263,11 +264,7 @@ class MainIndex extends React.Component {
               <span style={Object.assign({}, styleMiddle.spanFooterInfo, styleMiddle.textFooterInfo)}>{"Cornerth."}</span>
               <br></br>
               <br></br>
-              <span style={Object.assign({}, styleMiddle.spanFooterInfo, styleMiddle.textFooterInfo)}>{"about"}</span>
-              <span style={Object.assign({}, styleMiddle.spanFooterInfo, styleMiddle.textFooterInfo)}>{"．"}</span>
-              <span style={Object.assign({}, styleMiddle.spanFooterInfo, styleMiddle.textFooterInfo)}>{"contact"}</span>
-              <span style={Object.assign({}, styleMiddle.spanFooterInfo, styleMiddle.textFooterInfo)}>{"．"}</span>
-              <span style={Object.assign({}, styleMiddle.spanFooterInfo, styleMiddle.textFooterInfo)}>{"join"}</span>
+              <ServiceLinks/>
             </div>
             <div style={this.style.withinCom_MainIndex_scroll_col_footer}></div>
           </div>

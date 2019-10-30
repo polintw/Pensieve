@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 import Main from './Main/Main.jsx';
 import SvgLogo from '../../Component/Svg/SvgLogo.jsx';
 
-class CosmicMain extends React.Component {
+class Focus extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -85,4 +85,4 @@ const mapDispatchToProps = (dispatch) => {
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(CosmicMain));
+)(Focus));

@@ -37,20 +37,20 @@ class Nav extends React.Component {
       mouseOn: ''
     };
     this.refScroll = React.createRef();
-    this._handleEnter_CornerOpt = this._handleEnter_CornerOpt.bind(this);
-    this._handleLeave_CornerOpt = this._handleLeave_CornerOpt.bind(this);
+    this._handleEnter_Link = this._handleEnter_Link.bind(this);
+    this._handleLeave_Link = this._handleLeave_Link.bind(this);
     this.style={
 
     }
   }
 
-  _handleEnter_CornerOpt(e){
+  _handleEnter_Link(e){
     this.setState({
       mouseOn: e.currentTarget.attributes.method.value
     })
   }
 
-  _handleLeave_CornerOpt(e){
+  _handleLeave_Link(e){
     this.setState({
       mouseOn: ''
     })
@@ -76,8 +76,8 @@ class Nav extends React.Component {
           to="/terms"
           method="terms"
           className={classnames('plainLinkButton')}
-          onMouseEnter={this._handleEnter_CornerOpt}
-          onMouseLeave={this._handleLeave_CornerOpt}>
+          onMouseEnter={this._handleEnter_Link}
+          onMouseLeave={this._handleLeave_Link}>
           {
             (this.state.mouseOn=='terms') &&
             <span style={{
@@ -91,8 +91,8 @@ class Nav extends React.Component {
           to="/privacy"
           method="privacy"
           className={classnames('plainLinkButton')}
-          onMouseEnter={this._handleEnter_CornerOpt}
-          onMouseLeave={this._handleLeave_CornerOpt}>
+          onMouseEnter={this._handleEnter_Link}
+          onMouseLeave={this._handleLeave_Link}>
           {
             (this.state.mouseOn=='privacy') &&
             <span style={{

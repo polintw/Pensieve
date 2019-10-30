@@ -7,8 +7,8 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import cxBind from 'classnames/bind';
-import Signin from './component/Signin.jsx';
 import Signup from './component/Signup.jsx';
+import Signin from './component/Signin/Signin.jsx';
 import Confirmation from './component/Confirmation.jsx';
 
 class Sign extends React.Component {

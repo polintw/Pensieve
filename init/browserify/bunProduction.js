@@ -20,9 +20,9 @@ let rootSign = browserify({
   global: true
 }).require("./app/Sign/root.js", {
   entry: true
-})/*.plugin(require('css-modulesify'), {
+}).plugin(require('css-modulesify'), {
     rootDir: __dirname
-  });*/
+  });
 let rootAbout = browserify({
   debug: false
 }).transform(envify({
@@ -101,6 +101,9 @@ let appAbout = rootAbout.bundle().on("error", function (err) { console.log("Erro
 let appWithin = rootWithin.bundle().on("error", function (err) { console.log("Error: " + err.message); });
 let appSelfFront = rootSelfFront.bundle().on("error", function (err) { console.log("Error: " + err.message); });
 let appTerrace = rootTerrace.bundle().on("error", function (err) { console.log("Error: " + err.message); });
+rootSign.on('css stream', function (css) {
+    css.pipe(fs.createWriteStream('./public/css/stylesSign.css')); //rewrite the file with the new "abstract name"
+});
 rootAbout.on('css stream', function (css) {
     css.pipe(fs.createWriteStream('./public/css/stylesAbout.css')); //rewrite the file with the new "abstract name"
 });
