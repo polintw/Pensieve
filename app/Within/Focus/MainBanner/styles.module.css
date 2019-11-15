@@ -43,7 +43,14 @@
   width: 100%;
   position: relative;
   box-sizing: border-box;
-  margin: 5vw 0 12vw;
+  margin: 5vw 0 10vw;
+}
+
+.boxRowTodayNode {
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  margin: 5vw 0 10vw;
 }
 
 .boxRowSeperate {
