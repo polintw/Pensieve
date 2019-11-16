@@ -33,10 +33,21 @@ class TodayNode extends React.Component {
     };
     this.axiosSource = axios.CancelToken.source();
     this._render_nails = this._render_nails.bind(this);
+    this._axios_GET_Units = this._axios_GET_Units.bind(this);
+    this._axios_GET_NodeWiki = this._axios_GET_NodeWiki.bind(this);
     this._axios_GET_todayNode = this._axios_GET_todayNode.bind(this);
     this.style={
 
     }
+  }
+
+  _axios_GET_Units(){
+    //GET units list of this node
+    //and GET data for nails after the list return
+  }
+
+  _axios_GET_NodeWiki(){
+
   }
 
   _axios_GET_todayNode(){
@@ -59,9 +70,8 @@ class TodayNode extends React.Component {
           axios: false,
           nodeId: resObj.main.nodesList[0]
         });
-      }, ()=>{
-        // axios to wiki by resObj.main.nounsBasic
-        // axios to get list of units by nouns/ +limit
+        //the TodayNode component would update after this step
+        //then we fetch the data & info of this new node in 'componentDidUpdate'
       });
     }).catch(function (thrown) {
       self.setState({axios: false});
@@ -73,6 +83,13 @@ class TodayNode extends React.Component {
       }
     });
 
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot){
+    if(prevState.nodeId != this.state.nodeId){
+      this._axios_GET_NodeWiki();
+      this._axios_GET_Units();
+    }
   }
 
   componentDidMount() {
@@ -89,7 +106,6 @@ class TodayNode extends React.Component {
     //our list was saved to reducer after fetch
     let unitsList = this.props.indexLists['todayNode'],
         unitsDOM = [];
-
 
     if(unitsList.length > 0 ){ // check necessity first, skip if no item.
       //we render only two, but the backend may pass more than 2, so don't forget setting the limit
