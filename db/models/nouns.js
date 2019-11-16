@@ -17,6 +17,11 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
+    nouns.hasOne(models.daily, {
+      foreignKey:"focus_node",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
   };
   return nouns;
 };

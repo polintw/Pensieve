@@ -63,7 +63,7 @@ class TodayNode extends React.Component {
     }).then(function (res) {
       let resObj = JSON.parse(res.data);
 
-      _submit_NodesBasic(resObj.main.nounsBasic);
+      self.props._submit_NodesBasic(resObj.main.nounsBasic);
 
       self.setState((prevState, props)=>{
         return ({
