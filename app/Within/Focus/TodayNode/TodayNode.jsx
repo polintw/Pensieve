@@ -51,7 +51,12 @@ class TodayNode extends React.Component {
   _axios_GET_NodeWiki(){
     const self = this;
     this.setState({axios: true});
-    let baseURL = "https://en.wikipedia.org/w/api.php?origin=*&format=json&action=query&prop=extracts&exintro&redirects=1&titles=Stack%20Overflow&utf8"
+    //set the query link for the current node
+    let nodeName = this.props.nounsBasic[this.state.nodeId].name;
+    if (/\s/.test(nodeName)) { //if theres is any kind of space
+      nodeName = nodeName.replace(/\s/, "%20"); //'%20' represent the 'space' in URL string
+    }
+    let baseURL = `https://en.wikipedia.org/w/api.php?origin=*&format=json&action=query&prop=extracts&exintro&redirects=1&titles=${nodeName}&utf8`;
 
     axios({
       //IMPORTANT! we need to claim a clear req method by config because,
@@ -62,7 +67,17 @@ class TodayNode extends React.Component {
       url: baseURL,
       cancelToken: this.axiosSource.token
     }).then(function (res) {
-console.log(res)
+      let resObj = JSON.parse(res.data);
+
+      let pageObj = resObj.query.pages[Object.keys(resObj.query.pages)[0]];
+      let paragraph = (
+        <div>
+          {pageObj.extract}
+        </div>
+      )
+      self.setState({
+        wikiParagraph: [paragraph]
+      })
 
     }).catch(function (thrown) {
       self.setState({axios: false});
