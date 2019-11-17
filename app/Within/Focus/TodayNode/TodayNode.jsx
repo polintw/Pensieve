@@ -29,7 +29,8 @@ class TodayNode extends React.Component {
       axios: false,
       nodeId: null,
       unitsBasic: {},
-      marksBasic: {}
+      marksBasic: {},
+      wikiParagraph: []
     };
     this.axiosSource = axios.CancelToken.source();
     this._render_nails = this._render_nails.bind(this);
@@ -42,11 +43,36 @@ class TodayNode extends React.Component {
   }
 
   _axios_GET_Units(){
-    //GET units list of this node
-    //and GET data for nails after the list return
+    //GET units list of this node,
+    //and submit the list to the props.indexLists.
+    //GET data for nails after the list return
   }
 
   _axios_GET_NodeWiki(){
+    const self = this;
+    this.setState({axios: true});
+    let baseURL = "https://en.wikipedia.org/w/api.php?origin=*&format=json&action=query&prop=extracts&exintro&redirects=1&titles=Stack%20Overflow&utf8"
+
+    axios({
+      //IMPORTANT! we need to claim a clear req method by config because,
+      //we req to a differ domain, a cross-site situation.
+      //the axios would use method 'options' when facing absolute url if we didn't claim clear,
+      //but the browser would block this method to a cross-site req.
+      method:'get',
+      url: baseURL,
+      cancelToken: this.axiosSource.token
+    }).then(function (res) {
+console.log(res)
+
+    }).catch(function (thrown) {
+      self.setState({axios: false});
+      if (axios.isCancel(thrown)) {
+        cancelErr(thrown);
+      } else {
+        let message = uncertainErr(thrown);
+        if(message) alert(message);
+      }
+    });
 
   }
 
@@ -134,7 +160,7 @@ class TodayNode extends React.Component {
         </div>
         <div>{this._render_nails()}</div>
         <div>
-          {"from wiki"}
+          {this.state.wikiParagraph}
         </div>
       </div>
     )
