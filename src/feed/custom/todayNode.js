@@ -40,14 +40,34 @@ function _handle_GET_feed_customTodayNode(req, res){
        //compare the date, if not equal(not the same day), we make a new by randomly pick from nodes_activity
       if(!(nowDate==recDate && nowMonth==recMonth && nowYear==recYear)){
         //we just took 'one' node from used randomly
-        return _DB_nodesActivity.findOne({
-          order: [
-            [Sequelize.fn('RAND')] //"RAND" is order for 'random' selection specific for mySQL
-          ]
-        })
-        .then((resultRand)=>{
+        async function selectNode(){
+          let newNodeId, nodeData;
+          //for temp, we can allow only 'en' nodes (which means exclude 'tw Chinese'),
+          //so we have to check if it was a en one.
+          //that is a working method for the nodes we have: we can't distinguish the users preference,
+          //and we don't have reference of nodes between different language yet.
+
+          do { //select & check if language = 'en'
+            newNodeId = await _DB_nodesActivity.findOne({
+              order: [
+                [Sequelize.fn('RAND')] //"RAND" is order for 'random' selection specific for mySQL
+              ]
+            }).then((result)=>{return result.id_node});
+
+            nodeData = await _DB_nouns.findOne({
+              where: {id: newNodeId},
+              attributes: ['language']
+            }).then((result)=>{return result});
+          }
+          //if not, select again till language='en'
+          while (nodeData.language != 'en');
+          return newNodeId;
+        };
+
+        return selectNode()
+        .then((newNodeId)=>{
           return _DB_daily.create({
-            focus_node: resultRand.id_node
+            focus_node: newNodeId
           })
         })
         .then((createLast)=>{

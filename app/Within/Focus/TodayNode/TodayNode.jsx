@@ -67,16 +67,15 @@ class TodayNode extends React.Component {
       url: baseURL,
       cancelToken: this.axiosSource.token
     }).then(function (res) {
-      let resObj = JSON.parse(res.data);
-
-      let pageObj = resObj.query.pages[Object.keys(resObj.query.pages)[0]];
-      let paragraph = (
-        <div>
-          {pageObj.extract}
-        </div>
-      )
+      let resObj = res.data; //no need to parse, res.data is already a js obj
+      let pageObj = resObj.query.pages[Object.keys(resObj.query.pages)[0]]; //just a structure from origin
+      //then we retrieve only the first paragraph even it was a intro
+      
+      let tempBox = document.createElement('template');
+      tempBox.innerHTML = pageObj.extract;
+      let paragraph = tempBox.content.firstChild;
       self.setState({
-        wikiParagraph: [paragraph]
+        wikiParagraph: [paragraph.innerHTML]
       })
 
     }).catch(function (thrown) {
