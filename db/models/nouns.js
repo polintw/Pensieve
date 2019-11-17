@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     prefix: DataTypes.STRING,
     category: DataTypes.STRING,
+    language: DataTypes.TEXT('tiny'),
     parent: DataTypes.BOOLEAN,
     child: DataTypes.BOOLEAN
   }, {
