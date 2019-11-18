@@ -56,7 +56,7 @@ class TodayNode extends React.Component {
     if (/\s/.test(nodeName)) { //if theres is any kind of space
       nodeName = nodeName.replace(/\s/, "%20"); //'%20' represent the 'space' in URL string
     }
-    let baseURL = `https://en.wikipedia.org/w/api.php?origin=*&format=json&action=query&prop=extracts&exintro&redirects=1&titles=${nodeName}&utf8`;
+    let baseURL = `https://en.wikipedia.org/w/api.php?origin=*&format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles=${nodeName}&utf8`;
 
     axios({
       //IMPORTANT! we need to claim a clear req method by config because,
@@ -69,13 +69,26 @@ class TodayNode extends React.Component {
     }).then(function (res) {
       let resObj = res.data; //no need to parse, res.data is already a js obj
       let pageObj = resObj.query.pages[Object.keys(resObj.query.pages)[0]]; //just a structure from origin
-      //then we retrieve only the first paragraph even it was a intro
-      
-      let tempBox = document.createElement('template');
-      tempBox.innerHTML = pageObj.extract;
-      let paragraph = tempBox.content.firstChild;
+      //then we need to 'clean' the text
+      //we retrieve only the first paragraph even it was a intro
+      let strFirstLine = pageObj.extract.split(/\r?\n|\r/, 1)[0]; //use the Regex to detect line break(cover differ browser),
+      //and set '1' for limit option to improve performance (no need to check after first one)
+      //and remove also the additional discription,
+      //but the structure the Wiki used usually contain parentheses 'inside' parentheses,
+      //we could only loop it to remove all of them
+      let strLastRound; //used to saved the result from last round
+      do{
+        strLastRound= strFirstLine;
+        strFirstLine = strFirstLine.replace(/\([^\)\(]*\) */,'');  
+      }while(strLastRound != strFirstLine);
+
       self.setState({
-        wikiParagraph: [paragraph.innerHTML]
+        wikiParagraph: [(
+          <p
+            key={"key_wikiIntro_"}>
+            {strFirstLine}
+          </p>
+        )]
       })
 
     }).catch(function (thrown) {
@@ -169,8 +182,10 @@ class TodayNode extends React.Component {
       <div
         className={classnames(styles.comTodayNode)}>
         <div>
-          {"title"}
-          {"'corner'"}
+          {
+            (this.state.nodeId in this.props.nounsBasic) &&
+            <h3>{this.props.nounsBasic[this.state.nodeId].name}</h3>
+          }
         </div>
         <div>{this._render_nails()}</div>
         <div>
