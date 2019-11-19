@@ -127,6 +127,7 @@ class TodayNode extends React.Component {
           <a
             href={`http://en.wikipedia.org/wiki/${nodeName}`}
             target="_blank"
+            className={classnames(styles.linkWiki)}
             style={{textDecoration: 'none'}}>
             {"wikipedia"}
           </a>
@@ -208,7 +209,7 @@ class TodayNode extends React.Component {
 
     if(unitsList.length > 0 ){ // check necessity first, skip if no item.
       //we render only two, but the backend may pass more than 2, so don't forget setting the limit
-      for(let i =0 ; i< 2 && i< unitsList.length; i++){ //again, don't forget the length limit to prevent error cause by unwanted cycle
+      for(let i =0 ; i< 1 && i< unitsList.length; i++){ //again, don't forget the length limit to prevent error cause by unwanted cycle
         let unitId = unitsList[i];
         //then important question: do we have the data of this Unit ? if not, we skip to next one
         if(unitId in this.state.unitsBasic) {
@@ -226,17 +227,17 @@ class TodayNode extends React.Component {
     return(
       <div
         className={classnames(styles.comTodayNode)}>
-        <div>{this._render_nails()}</div>
+        {this._render_nails()}
         <div
           className={classnames(styles.boxWikiIntro)}>
           {this.state.wikiParagraph}
-        </div>
-        <div
-          className={classnames(styles.boxWikiTitle, styles.fontTitle, styles.fontTitleFirst)}>
-          {
-            (this.state.nodeId in this.props.nounsBasic) &&
-            <span>{this.props.nounsBasic[this.state.nodeId].name}</span>
-          }
+          <div
+            className={classnames(styles.boxWikiTitle, styles.fontTitle)}>
+            {
+              (this.state.nodeId in this.props.nounsBasic) &&
+              <span>{this.props.nounsBasic[this.state.nodeId].name}</span>
+            }
+          </div>
         </div>
       </div>
     )
