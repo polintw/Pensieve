@@ -75,16 +75,25 @@
   width: 100%;
 }
 
-.boxWikiTitle {
-
+.boxWikiIntro {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.boxWikiIntro {
-  width: 25vw;
+.boxWikiTitle {
+  width: 10vw;
+  text-align: right;
+  margin: 1rem 0 3rem 0;
 }
 
 .pWikiIntro {
+  width: 30vw;
+  box-sizing: border-box;
+}
 
+.linkWiki {
+  float: right;
 }
 
 .spanTitle {
@@ -127,6 +136,7 @@
 }
 
 .fontWikiIntro {
-  font-size: 1.37rem;
-  line-height: 1.7rem;
+  font-size: 1.45rem;
+  letter-spacing: 0.03rem;
+  line-height: 1.97rem;
 }
