@@ -43,9 +43,44 @@ class TodayNode extends React.Component {
   }
 
   _axios_GET_Units(){
-    //GET units list of this node,
-    //and submit the list to the props.indexLists.
-    //GET data for nails after the list return
+    //GET limited units list and data of this node
+    const self = this;
+    this.setState({axios: true});
+
+    axios({ //use config because we want to set 'params'
+      url: `/router/nouns/${this.state.nodeId}`,
+      method: 'get',
+      params: {limit: 3},
+      headers: {
+        'charset': 'utf-8',
+        'token': window.localStorage['token']
+      },
+      cancelToken: this.axiosSource.token
+    }).then(function (res) {
+      let resObj = JSON.parse(res.data);
+
+      self.props._submit_NounsList_new(resObj.main.nounsListMix);
+      self.props._submit_UsersList_new(resObj.main.usersList);
+      self.props._submit_IndexLists({todayNode: resObj.main.unitsList}); //submit the list to the props.indexLists.
+
+      self.setState((prevState, props)=>{
+        return({
+          axios: false,
+          unitsBasic: resObj.main.unitsBasic,
+          marksBasic: resObj.main.marksBasic
+        });
+      });
+
+    }).catch(function (thrown) {
+      self.setState({axios: false});
+      if (axios.isCancel(thrown)) {
+        cancelErr(thrown);
+      } else {
+        let message = uncertainErr(thrown);
+        if(message) alert(message);
+      }
+    });
+
   }
 
   _axios_GET_NodeWiki(){
@@ -79,7 +114,7 @@ class TodayNode extends React.Component {
       let strLastRound; //used to saved the result from last round
       do{
         strLastRound= strFirstLine;
-        strFirstLine = strFirstLine.replace(/\([^\)\(]*\) */,'');  
+        strFirstLine = strFirstLine.replace(/\([^\)\(]*\) */,'');
       }while(strLastRound != strFirstLine);
 
       self.setState({
@@ -139,7 +174,7 @@ class TodayNode extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-    if(prevState.nodeId != this.state.nodeId){
+    if(prevState.nodeId != this.state.nodeId && !!this.state.nodeId){ //req only if the new node came and truely a real node
       this._axios_GET_NodeWiki();
       this._axios_GET_Units();
     }
@@ -162,13 +197,12 @@ class TodayNode extends React.Component {
 
     if(unitsList.length > 0 ){ // check necessity first, skip if no item.
       //we render only two, but the backend may pass more than 2, so don't forget setting the limit
-      for(let i =0 ; i< 2 && i< unitsList.length; i++){ //and don't forget the length limit to prevent error cause by unwanted cycle
+      for(let i =0 ; i< 2 && i< unitsList.length; i++){ //again, don't forget the length limit to prevent error cause by unwanted cycle
         let unitId = unitsList[i];
         //then important question: do we have the data of this Unit ? if not, we skip to next one
         if(unitId in this.state.unitsBasic) {
           //the nailChart was co use with other component in Main,
-
-          let nail = nailChart(choice, unitId, this);
+          let nail = nailChart(3, unitId, this);
           unitsDOM.push(nail);
         }
       }

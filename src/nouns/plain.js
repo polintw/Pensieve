@@ -18,11 +18,8 @@ const _DB_attribution = require('../../db/models/index').attribution;
 
 function _handle_GET_nouns_singular(req, res){
   new Promise((resolve, reject)=>{
-    const reqToken = req.body.token || req.headers['token'] || req.query.token;
-    const jwtVerified = jwt.verify(reqToken, verify_key);
-    if (!jwtVerified) throw new authorizedError("during GET--nouns/singular, "+jwtVerified, 32);
-
-    let userId = jwtVerified.user_Id;
+    const userId = req.extra.tokenUserId;
+    let reqLimit = !!req.query.limit ? req.query.limit : Infinity; //if no 'limit' pass, set to 'Infinity' for unlimit
 
     return _DB_attribution.findAll({
       where: {
@@ -39,9 +36,11 @@ function _handle_GET_nouns_singular(req, res){
         nounsListMix: [],
         temp: {}
       }
-      result.forEach((row, index)=>{
+      //there are condition with or without 'limit'(amount of required units)
+      for(let i=0; i <result.length && i <reqLimit; i++){
+        let row = result[i];
         sendingData.unitsList.push(row.id_unit);//let the latest created first render
-      });
+      }
 
       return sendingData;
     }).then((sendingData)=>{

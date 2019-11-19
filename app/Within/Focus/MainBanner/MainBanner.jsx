@@ -359,6 +359,7 @@ class MainBanner extends React.Component {
         <div
           className={classnames(styles.boxRowTodayNode)}>
           <TodayNode
+            {...this.props}
             _refer_von_cosmic={this.props._refer_von_cosmic}/>
         </div>
         <div
