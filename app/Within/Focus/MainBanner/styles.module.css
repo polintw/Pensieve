@@ -69,6 +69,24 @@
   position: relative;
 }
 
+.comTodayNode {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.boxWikiTitle {
+
+}
+
+.boxWikiIntro {
+  width: 25vw;
+}
+
+.pWikiIntro {
+
+}
+
 .spanTitle {
 
 }
@@ -106,4 +124,9 @@
   box-sizing: border-box;
   border-bottom: solid 1.7px #c4c4c4;
   opacity: 0.5;
+}
+
+.fontWikiIntro {
+  font-size: 1.37rem;
+  line-height: 1.7rem;
 }

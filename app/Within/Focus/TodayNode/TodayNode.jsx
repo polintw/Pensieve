@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
-import styles from "./styles.module.css";
+import styles from "../MainBanner/styles.module.css"; //Notice, we use shared css file here for easier control
 import {
   nailChart,
 } from '../Main/utils.js';
@@ -117,14 +117,25 @@ class TodayNode extends React.Component {
         strFirstLine = strFirstLine.replace(/\([^\)\(]*\) */,'');
       }while(strLastRound != strFirstLine);
 
-      self.setState({
-        wikiParagraph: [(
+      let introDOM = (
+        <div
+          key={"key_wikiIntro_"}>
           <p
-            key={"key_wikiIntro_"}>
+            className={classnames(styles.pWikiIntro, styles.fontWikiIntro)}>
             {strFirstLine}
           </p>
-        )]
-      })
+          <a
+            href={`http://en.wikipedia.org/wiki/${nodeName}`}
+            target="_blank"
+            style={{textDecoration: 'none'}}>
+            {"wikipedia"}
+          </a>
+        </div>
+      );
+
+      self.setState({
+        wikiParagraph: [introDOM]
+      });
 
     }).catch(function (thrown) {
       self.setState({axios: false});
@@ -202,7 +213,7 @@ class TodayNode extends React.Component {
         //then important question: do we have the data of this Unit ? if not, we skip to next one
         if(unitId in this.state.unitsBasic) {
           //the nailChart was co use with other component in Main,
-          let nail = nailChart(3, unitId, this);
+          let nail = nailChart(2, unitId, this);
           unitsDOM.push(nail);
         }
       }
@@ -215,15 +226,17 @@ class TodayNode extends React.Component {
     return(
       <div
         className={classnames(styles.comTodayNode)}>
-        <div>
+        <div>{this._render_nails()}</div>
+        <div
+          className={classnames(styles.boxWikiIntro)}>
+          {this.state.wikiParagraph}
+        </div>
+        <div
+          className={classnames(styles.boxWikiTitle, styles.fontTitle, styles.fontTitleFirst)}>
           {
             (this.state.nodeId in this.props.nounsBasic) &&
-            <h3>{this.props.nounsBasic[this.state.nodeId].name}</h3>
+            <span>{this.props.nounsBasic[this.state.nodeId].name}</span>
           }
-        </div>
-        <div>{this._render_nails()}</div>
-        <div>
-          {this.state.wikiParagraph}
         </div>
       </div>
     )
