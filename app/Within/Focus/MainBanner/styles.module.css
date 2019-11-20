@@ -43,7 +43,14 @@
   width: 100%;
   position: relative;
   box-sizing: border-box;
-  margin: 5vw 0 12vw;
+  margin: 5vw 0 10vw;
+}
+
+.boxRowTodayNode {
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  margin: 5vw 0 10vw;
 }
 
 .boxRowSeperate {
@@ -60,6 +67,51 @@
   width: 20vw;
   height: 30vw; /*follow current heightNine*/
   position: relative;
+}
+
+.comTodayNode {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.boxTodayNails {
+
+}
+
+.boxWikiIntro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.boxIntroHead {
+  width: 100%;
+}
+
+.boxWikiTitle {
+  display: inline-flex;
+  flex-direction: column;
+  max-width: 70%;
+  margin: 0rem 0 4rem 0;
+}
+
+.pWikiIntro {
+  width: 35vw;
+  box-sizing: border-box;
+  margin: 0;  /*<p> has its default, so overlap it*/
+}
+
+.linkMore {
+
+}
+
+.linkWiki {
+  float: right;
+}
+
+.spanTodayDescript {
+   color: rgb(110, 110, 110); /* keep it related to fontType in BannerBelong*/
 }
 
 .spanTitle {
@@ -99,4 +151,13 @@
   box-sizing: border-box;
   border-bottom: solid 1.7px #c4c4c4;
   opacity: 0.5;
+}
+
+.fontWikiIntro {
+  font-size: 1.45rem;
+  line-height: 1.84rem;
+}
+
+.fontLink {
+  font-size: 1.3rem;
 }

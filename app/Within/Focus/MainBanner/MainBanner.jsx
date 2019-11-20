@@ -14,6 +14,7 @@ import {
   axios_feedList_customNew,
   axios_feedList_customSelected
 } from './utils.js';
+import TodayNode from '../TodayNode/TodayNode.jsx';
 import BannerBelong from '../BannerBelong/BannerBelong.jsx';
 import {
   nailChart,
@@ -353,6 +354,12 @@ class MainBanner extends React.Component {
         <div
           className={classnames(styles.boxRowBelong)}>
           <BannerBelong
+            _refer_von_cosmic={this.props._refer_von_cosmic}/>
+        </div>
+        <div
+          className={classnames(styles.boxRowTodayNode)}>
+          <TodayNode
+            {...this.props}
             _refer_von_cosmic={this.props._refer_von_cosmic}/>
         </div>
         <div
