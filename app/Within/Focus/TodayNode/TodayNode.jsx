@@ -137,7 +137,7 @@ class TodayNode extends React.Component {
             <a
               href={`http://en.wikipedia.org/wiki/${nodeName}`}
               target="_blank"
-              className={classnames(styles.linkWiki)}
+              className={classnames(styles.linkWiki, styles.fontLink)}
               style={{textDecoration: 'none'}}>
               {"wikipedia.org"}
             </a>
@@ -225,7 +225,7 @@ class TodayNode extends React.Component {
         //then important question: do we have the data of this Unit ? if not, we skip to next one
         if(unitId in this.state.unitsBasic) {
           //the nailChart was co use with other component in Main,
-          let nail = nailChart(2, unitId, this);
+          let nail = nailChart(4, unitId, this);
           unitsDOM.push(nail);
         }
       }
@@ -239,15 +239,9 @@ class TodayNode extends React.Component {
       <div
         className={classnames(styles.comTodayNode)}>
         <div
-          className={classnames(styles.boxTodayNails)}>
-          {this._render_nails()}
-        </div>
-        <div
           className={classnames(styles.boxWikiIntro)}>
-          <div>
-            <div
-              style={{
-                backgroundImage: `url(${this.state.wikiImg})`}}/>
+          <div
+            className={classnames(styles.boxIntroHead)}>
             <div
               className={classnames(styles.boxWikiTitle)}>
               {
@@ -261,17 +255,28 @@ class TodayNode extends React.Component {
               <span
                 className={classnames(styles.spanTodayDescript, styles.fontDescript)}>
                 {"Today Intro"}</span>
-              <div>
-                <Link
-                  to={"/cosmic/nodes/"+this.state.nodeId}
-                  className={classnames()}
-                  style={{textDecoration: 'none', textAlign: 'right'}}>
-                  {"> go"}
-                </Link>
-              </div>
             </div>
+            <div
+              style={{
+                display: 'inline',
+                backgroundImage: `url(${this.state.wikiImg})`}}/>
           </div>
           {this.state.wikiParagraph}
+        </div>
+        <div
+          className={classnames(styles.boxTodayNails)}>
+          {this._render_nails()}
+          <div
+            style={{
+              position: 'absolute', bottom: '0', left: '100%', transform: 'translate(50%, 0)'
+            }}>
+            <Link
+              to={"/cosmic/nodes/"+this.state.nodeId}
+              className={classnames(styles.linkMore, styles.fontLink)}
+              style={{textDecoration: 'none'}}>
+              {">more"}
+            </Link>
+          </div>
         </div>
       </div>
     )

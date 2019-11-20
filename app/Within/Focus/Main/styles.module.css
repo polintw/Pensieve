@@ -49,6 +49,11 @@
   box-shadow: 0 1px 1px rgb(230, 230, 230);
 }
 
+.boxMidium {
+  width: 25vw;
+  box-shadow: 0 1px 1px rgb(230, 230, 230);
+}
+
 .heightNine {
   height: 30vw;
 }

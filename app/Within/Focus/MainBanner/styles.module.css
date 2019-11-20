@@ -82,13 +82,18 @@
 .boxWikiIntro {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
+}
+
+.boxIntroHead {
+  width: 100%;
 }
 
 .boxWikiTitle {
-  display: flex;
+  display: inline-flex;
   flex-direction: column;
-  margin: 0rem 0 2rem 0;
+  max-width: 70%;
+  margin: 0rem 0 4rem 0;
 }
 
 .pWikiIntro {
@@ -97,8 +102,12 @@
   margin: 0;  /*<p> has its default, so overlap it*/
 }
 
+.linkMore {
+
+}
+
 .linkWiki {
-  float: left;
+  float: right;
 }
 
 .spanTodayDescript {
@@ -145,7 +154,10 @@
 }
 
 .fontWikiIntro {
-  font-size: 1.44rem;
-  letter-spacing: 0.03rem;
-  line-height: 1.97rem;
+  font-size: 1.45rem;
+  line-height: 1.84rem;
+}
+
+.fontLink {
+  font-size: 1.3rem;
 }
