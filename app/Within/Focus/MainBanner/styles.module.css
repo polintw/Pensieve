@@ -75,25 +75,34 @@
   width: 100%;
 }
 
+.boxTodayNails {
+
+}
+
 .boxWikiIntro {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 .boxWikiTitle {
-  width: 10vw;
-  text-align: right;
-  margin: 1rem 0 3rem 0;
+  display: flex;
+  flex-direction: column;
+  margin: 0rem 0 2rem 0;
 }
 
 .pWikiIntro {
-  width: 30vw;
+  width: 35vw;
   box-sizing: border-box;
+  margin: 0;  /*<p> has its default, so overlap it*/
 }
 
 .linkWiki {
-  float: right;
+  float: left;
+}
+
+.spanTodayDescript {
+   color: rgb(110, 110, 110); /* keep it related to fontType in BannerBelong*/
 }
 
 .spanTitle {
@@ -136,7 +145,7 @@
 }
 
 .fontWikiIntro {
-  font-size: 1.45rem;
+  font-size: 1.44rem;
   letter-spacing: 0.03rem;
   line-height: 1.97rem;
 }

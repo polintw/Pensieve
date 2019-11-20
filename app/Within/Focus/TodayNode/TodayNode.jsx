@@ -30,7 +30,8 @@ class TodayNode extends React.Component {
       nodeId: null,
       unitsBasic: {},
       marksBasic: {},
-      wikiParagraph: []
+      wikiParagraph: [],
+      wikiImg: ''
     };
     this.axiosSource = axios.CancelToken.source();
     this._render_nails = this._render_nails.bind(this);
@@ -92,53 +93,63 @@ class TodayNode extends React.Component {
       nodeName = nodeName.replace(/\s/, "%20"); //'%20' represent the 'space' in URL string
     }
     let baseURL = `https://en.wikipedia.org/w/api.php?origin=*&format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles=${nodeName}&utf8`;
+    let imgURL = `https://en.wikipedia.org/w/api.php?origin=*&format=json&action=query&prop=pageimages&titles=${nodeName}&pithumbsize=500`;
 
-    axios({
-      //IMPORTANT! we need to claim a clear req method by config because,
-      //we req to a differ domain, a cross-site situation.
-      //the axios would use method 'options' when facing absolute url if we didn't claim clear,
-      //but the browser would block this method to a cross-site req.
-      method:'get',
-      url: baseURL,
-      cancelToken: this.axiosSource.token
-    }).then(function (res) {
-      let resObj = res.data; //no need to parse, res.data is already a js obj
-      let pageObj = resObj.query.pages[Object.keys(resObj.query.pages)[0]]; //just a structure from origin
-      //then we need to 'clean' the text
-      //we retrieve only the first paragraph even it was a intro
-      let strFirstLine = pageObj.extract.split(/\r?\n|\r/, 1)[0]; //use the Regex to detect line break(cover differ browser),
-      //and set '1' for limit option to improve performance (no need to check after first one)
-      //and remove also the additional discription,
-      //but the structure the Wiki used usually contain parentheses 'inside' parentheses,
-      //we could only loop it to remove all of them
-      let strLastRound; //used to saved the result from last round
-      do{
-        strLastRound= strFirstLine;
-        strFirstLine = strFirstLine.replace(/\([^\)\(]*\) */,'');
-      }while(strLastRound != strFirstLine);
+    axios.all([
+      axios({
+        //IMPORTANT! we need to claim a clear req method by config because,
+        //we req to a differ domain, a cross-site situation.
+        //the axios would use method 'options' when facing absolute url if we didn't claim clear,
+        //but the browser would block this method to a cross-site req.
+        method:'get',
+        url: baseURL,
+        cancelToken: this.axiosSource.token}),
+      axios({
+        method: 'get',
+        url: imgURL,
+        cancelToken: this.axiosSource.token
+      })
+    ]).then(
+      axios.spread((resIntro, resImg)=>{
+        let resObj = resIntro.data; //no need to parse, res.data is already a js obj
+        let pageObj = resObj.query.pages[Object.keys(resObj.query.pages)[0]]; //just a structure from origin
+        let imgObj = resObj.query.pages[Object.keys(resObj.query.pages)[0]];
+        //then we need to 'clean' the text
+        //we retrieve only the first paragraph even it was a intro
+        let strFirstLine = pageObj.extract.split(/\r?\n|\r/, 1)[0]; //use the Regex to detect line break(cover differ browser),
+        //and set '1' for limit option to improve performance (no need to check after first one)
+        //and remove also the additional discription,
+        //but the structure the Wiki used usually contain parentheses 'inside' parentheses,
+        //we could only loop it to remove all of them
+        let strLastRound; //used to saved the result from last round
+        do{
+          strLastRound= strFirstLine;
+          strFirstLine = strFirstLine.replace(/\([^\)\(]*\) */,'');
+        }while(strLastRound != strFirstLine);
 
-      let introDOM = (
-        <div
-          key={"key_wikiIntro_"}>
-          <p
-            className={classnames(styles.pWikiIntro, styles.fontWikiIntro)}>
-            {strFirstLine}
-          </p>
-          <a
-            href={`http://en.wikipedia.org/wiki/${nodeName}`}
-            target="_blank"
-            className={classnames(styles.linkWiki)}
-            style={{textDecoration: 'none'}}>
-            {"wikipedia"}
-          </a>
-        </div>
-      );
+        let introDOM = (
+          <div
+            key={"key_wikiIntro_"}>
+            <p
+              className={classnames(styles.pWikiIntro, styles.fontWikiIntro)}>
+              {strFirstLine}
+            </p>
+            <a
+              href={`http://en.wikipedia.org/wiki/${nodeName}`}
+              target="_blank"
+              className={classnames(styles.linkWiki)}
+              style={{textDecoration: 'none'}}>
+              {"wikipedia.org"}
+            </a>
+          </div>
+        );
 
-      self.setState({
-        wikiParagraph: [introDOM]
-      });
-
-    }).catch(function (thrown) {
+        self.setState({
+          wikiParagraph: [introDOM],
+          wikiImg: ('thumbnail' in imgObj) ? imgObj.thumbnail.source : '' //too many page do not have a default thumbnail
+        });
+      })
+    ).catch(function (thrown) {
       self.setState({axios: false});
       if (axios.isCancel(thrown)) {
         cancelErr(thrown);
@@ -227,17 +238,40 @@ class TodayNode extends React.Component {
     return(
       <div
         className={classnames(styles.comTodayNode)}>
-        {this._render_nails()}
+        <div
+          className={classnames(styles.boxTodayNails)}>
+          {this._render_nails()}
+        </div>
         <div
           className={classnames(styles.boxWikiIntro)}>
-          {this.state.wikiParagraph}
-          <div
-            className={classnames(styles.boxWikiTitle, styles.fontTitle)}>
-            {
-              (this.state.nodeId in this.props.nounsBasic) &&
-              <span>{this.props.nounsBasic[this.state.nodeId].name}</span>
-            }
+          <div>
+            <div
+              style={{
+                backgroundImage: `url(${this.state.wikiImg})`}}/>
+            <div
+              className={classnames(styles.boxWikiTitle)}>
+              {
+                (this.state.nodeId in this.props.nounsBasic) &&
+                <span
+                  className={classnames(styles.fontTitle)}
+                  style={{cursor: 'pointer'}}
+                  onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_von_cosmic(this.state.nodeId, 'noun')}}>
+                  {this.props.nounsBasic[this.state.nodeId].name}</span>
+              }
+              <span
+                className={classnames(styles.spanTodayDescript, styles.fontDescript)}>
+                {"Today Intro"}</span>
+              <div>
+                <Link
+                  to={"/cosmic/nodes/"+this.state.nodeId}
+                  className={classnames()}
+                  style={{textDecoration: 'none', textAlign: 'right'}}>
+                  {"> go"}
+                </Link>
+              </div>
+            </div>
           </div>
+          {this.state.wikiParagraph}
         </div>
       </div>
     )
