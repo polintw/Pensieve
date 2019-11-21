@@ -5,7 +5,6 @@ const auth = require('./auth/main.js');
 const accountRouter = require('./account/main.js');
 const userRouter = require('./user/main.js');
 const actionsRouter = require('./user/actions/main.js');
-const embeddedRouter = require('./user/embedded/main.js');
 const collateralsRouter = require('./user/collaterals/main.js');
 const scapeRouter = require('./user/scape/main.js');
 const unitRouter = require('./unit/main.js');// shift to "units"
@@ -33,7 +32,6 @@ router.use('/', auth)
 //only approach after verified
 router.use('/user', userRouter)
 router.use('/actions', actionsRouter) //prepare to replace part of the "/user"
-router.use('/embedded', embeddedRouter) //prepare to replace part of the "/user"
 router.use('/collaterals', collateralsRouter) //prepare to replace part of the "/user"
 router.use('/scape', scapeRouter) //prepare to replace part of the "/user"
 
