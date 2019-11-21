@@ -259,7 +259,16 @@ class TodayNode extends React.Component {
             <div
               style={{
                 display: 'inline',
-                backgroundImage: `url(${this.state.wikiImg})`}}/>
+                maxWidth: '30%',
+                height: '100%',
+                position: 'relative',
+                float: 'right',
+                overflow: 'hidden',
+                backgroundImage: `url(${this.state.wikiImg})`,
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: 'cover',
+                backgroundPosition: '50% 50%'
+              }}/>
           </div>
           {this.state.wikiParagraph}
         </div>

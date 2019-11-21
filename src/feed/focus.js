@@ -81,9 +81,20 @@ function _handle_cosmicPresent_GET(req, res){
               (-1)*((resultsUnits.length < selectLimit)? (resultsUnits.length- (selectLimit-cycleFeedNr)):cycleFeedNr)
             );
           }
+          //now, we want to random it.Just use 'Fisher-Yates Shuffle'.
+          let dealAt = resultsUnits.length, tempHolder, randNr;
+
+          while (0 !== dealAt) { //until we go through all list
+            randNr = Math.floor(Math.random() * dealAt); //avoid repeatting 'shuffle' the shuffledpart
+            dealAt -= 1; //set the index to current one
+            //then, shuffle
+            tempHolder = resultsUnits[dealAt];
+            resultsUnits[dealAt] = resultsUnits[randNr];
+            resultsUnits[randNr] = tempHolder;
+          }
 
           resultsUnits.forEach((row, index)=>{
-            sendingData.unitsList.push(row.id); //the order of resultsUnits has ordered by time, push() would follow the order
+            sendingData.unitsList.push(row.id); //the order of resultsUnits has 'shuffled', do not match the 'time order'
             sendingData.usersList.push(row.id_author);
             sendingData.unitsBasic[row.id] = {
               unitsId: row.id,
