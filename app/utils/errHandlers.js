@@ -27,10 +27,10 @@ export function uncertainErr(error){
     //there would be error under this ld method here
     if(resConsole.length>0) console.log(error.response.data.console);
     switch (error.response.data.code) {
-      case 32:
-      alert(error.response.data.message);
-      window.location.assign('/s/signin'); //anauthorized with invalid token, reload to check the token
-      return null; //return to inform iterator, meaning no need for further handleing
+      case 32: //meaning no token or need to authorize again, need to redirect
+        alert(error.response.data.message);
+        window.location.assign('/s/signin'); //anauthorized with invalid token, reload to check the token
+        return null; //return to inform iterator, meaning no need for further handleing
       default:
     };
     return error.response.data.message;
