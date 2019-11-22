@@ -136,7 +136,7 @@ function _handle_unit_Mount(req, res){
         inspired.forEach((row, index)=>{
           sendingData['marksInteraction'][row.id_mark]['inspired']=true;
         });
-        sendingData['broad'] = !!broad ? broad : false; //broad is 'null' if no records
+        sendingData['broad'] = !!broad ? true : false; //broad is 'null' if no records
 
         return (sendingData);
       }).catch((error)=>{

@@ -164,7 +164,6 @@ class UnitViewSummary extends React.Component {
             className={classnames()}>
             <ActionBroad/>
           </div>
-
           <div
             className={'sumPanelOptions'}
             style={{cursor: 'pointer'}}

@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
+import styles from './styles.module.css';
 import {
   cancelErr,
   uncertainErr
@@ -15,20 +16,36 @@ class ActionBroad extends React.Component {
     super(props);
     this.state = {
       axios: false,
-
+      onAct: false
     };
     this.axiosSource = axios.CancelToken.source();
-    this._axios_get_AuthorStatics = this._axios_get_AuthorStatics.bind(this);
+    this._handleEnter_act = this._handleEnter_act.bind(this);
+    this._handleLeave_act = this._handleLeave_act.bind(this);
+    this._handleClick_Broad = this._handleClick_Broad.bind(this);
+    this._axios_post_actionBroad = this._axios_post_actionBroad.bind(this);
+    this._axios_patch_actionBroad = this._axios_patch_actionBroad.bind(this);
     this.style={
 
     };
   }
 
-  _axios_get_AuthorStatics(){
+  _handleEnter_act(e){
+    this.setState({
+      onAct: true
+    })
+  }
+
+  _handleLeave_act(e){
+    this.setState({
+      onAct: false
+    })
+  }
+
+  _axios_post_actionBroad(){
     const self = this;
     this.setState({axios: true});
 
-    axios.get('/router/share/'+this.props.unitCurrent.unitId+"/statics?sr=summary", {
+    axios.post('/router/broad/'+this.props.unitCurrent.unitId, {}, {
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']
@@ -36,9 +53,10 @@ class ActionBroad extends React.Component {
       cancelToken: self.axiosSource.token
     }).then((res)=>{
       self.setState({axios: false});
-      let resObj = JSON.parse(res.data);
 
-      self.setState({countReach: resObj.main.countReach})
+      //submit change to reducer
+      //
+
     }).catch(function (thrown) {
       self.setState({axios: false});
       if (axios.isCancel(thrown)) {
@@ -48,6 +66,40 @@ class ActionBroad extends React.Component {
         if(message) alert(message);
       }
     });
+  }
+
+  _axios_patch_actionBroad(){
+    const self = this;
+    this.setState({axios: true});
+
+    axios.patch('/router/broad/'+this.props.unitCurrent.unitId, {}, {
+      headers: {
+        'charset': 'utf-8',
+        'token': window.localStorage['token']
+      },
+      cancelToken: self.axiosSource.token
+    }).then((res)=>{
+      self.setState({axios: false});
+
+      //submit change to reducer
+      //
+
+    }).catch(function (thrown) {
+      self.setState({axios: false});
+      if (axios.isCancel(thrown)) {
+        cancelErr(thrown);
+      } else {
+        let message = uncertainErr(thrown);
+        if(message) alert(message);
+      }
+    });
+  }
+
+  _handleClick_Broad(event){
+    event.preventDefault();
+    event.stopPropagation();
+    if(this.props.unitCurrent.broad) this._axios_patch_actionBroad()
+    else this._axios_post_actionBroad();
   }
 
   componentDidMount(){
@@ -62,8 +114,25 @@ class ActionBroad extends React.Component {
 
   render(){
     return(
-      <div>
-
+      <div
+        className={classnames(styles.comActionBroad)}
+        style={Object.assign(
+          {},
+          {cursor: 'pointer'},
+          this.state.onAct? {color: '#FAFAFA'}:{color: 'rgba(250,250,250,0.5)'},
+          this.props.unitCurrent.broad? {color: '#FAFAFA'}:{color: 'rgba(250,250,250,0.5)'}
+        )}
+        onClick={this._handleClick_Broad}
+        onMouseEnter={this._handleEnter_act}
+        onMouseLeave={this._handleLeave_act}>
+        <span
+          className={classnames()}>
+          {"Broad"}
+        </span>
+        <span
+          className={classnames()}>
+          {"cast"}
+        </span>
       </div>
     )
   }
