@@ -5,11 +5,12 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
-import MarksArticle from './MarksArticle.jsx';
-import {NodesExtensible} from './NodesDisplay/NodesDisplay.jsx';
-import DateConverter from '../Component/DateConverter.jsx';
-import SvgCreate from '../Component/Svg/SvgCreate.jsx'
-import {AccountPlate} from '../Component/AccountPlate.jsx';
+import MarksArticle from '../MarksArticle.jsx';
+import {NodesExtensible} from '../NodesDisplay/NodesDisplay.jsx';
+import ActionBroad from '../Actions/ActionBroad.jsx';
+import DateConverter from '../../Component/DateConverter.jsx';
+import SvgCreate from '../../Component/Svg/SvgCreate.jsx'
+import {AccountPlate} from '../../Component/AccountPlate.jsx';
 
 const styleMiddle = {
 
@@ -154,7 +155,16 @@ class UnitViewSummary extends React.Component {
             _handleClick_listNoun={this.props._refer_toandclose}/>
         </div>
         <div
+          className={classnames()}>
+
+        </div>
+        <div
           style={this.style.Com_UnitViewSummary_panel_}>
+          <div
+            className={classnames()}>
+            <ActionBroad/>
+          </div>
+
           <div
             className={'sumPanelOptions'}
             style={{cursor: 'pointer'}}

@@ -5,12 +5,12 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
-import MarksArticle from './MarksArticle.jsx';
-import {NodesExtensible} from './NodesDisplay/NodesDisplay.jsx';
-import AuthorStatics from './Author/AuthorStatics.jsx';
-import DateConverter from '../Component/DateConverter.jsx';
-import SvgCreate from '../Component/Svg/SvgCreate.jsx'
-import {AccountPlate} from '../Component/AccountPlate.jsx';
+import MarksArticle from '../MarksArticle.jsx';
+import {NodesExtensible} from '../NodesDisplay/NodesDisplay.jsx';
+import AuthorStatics from '../Author/AuthorStatics.jsx';
+import DateConverter from '../../Component/DateConverter.jsx';
+import SvgCreate from '../../Component/Svg/SvgCreate.jsx'
+import {AccountPlate} from '../../Component/AccountPlate.jsx';
 
 const styleMiddle = {
   boxStatics: {
