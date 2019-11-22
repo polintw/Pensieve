@@ -4,6 +4,8 @@ import {
   Link
 } from 'react-router-dom';
 import Inspired from './component/Inspired/Inspired.jsx';
+import Broads from './component/Broads/Broads.jsx';
+import NavEmbed from './Navs/NavEmbed.jsx';
 
 export default class CogEmbed extends React.Component {
   constructor(props){
