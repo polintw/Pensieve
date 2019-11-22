@@ -35,6 +35,12 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
+    units.hasMany(models.broads, {
+      foreignKey:"id_unit",
+      sourceKey: "id",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
     units.hasMany(models.notifications, {
       foreignKey:"id_unit",
       sourceKey: "id",
