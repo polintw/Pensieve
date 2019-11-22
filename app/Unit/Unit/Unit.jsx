@@ -119,7 +119,7 @@ class Unit extends React.Component {
           beneathMarksData:beneathMarks.data,
           nouns: resObj.main.nouns,
           marksInteraction: resObj.main.marksInteraction,
-          broad: false,
+          broad: resObj.main.broad,
           refsArr: resObj.main.refsArr,
           createdAt: resObj.main.createdAt
         });
