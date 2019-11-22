@@ -5,24 +5,38 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
-import MarksArticle from './MarksArticle.jsx';
-import {NodesExtensible} from './NodesDisplay/NodesDisplay.jsx';
-import DateConverter from '../Component/DateConverter.jsx';
-import {AccountPlate} from '../Component/AccountPlate.jsx';
+import MarksArticle from '../MarksArticle.jsx';
+import {NodesExtensible} from '../NodesDisplay/NodesDisplay.jsx';
+import AuthorStatics from '../Author/AuthorStatics.jsx';
+import DateConverter from '../../Component/DateConverter.jsx';
+import {AccountPlate} from '../../Component/AccountPlate.jsx';
 
 const styleMiddle = {
-
+  boxStatics: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    width: '8%',
+    height: '64%',
+    position: 'absolute',
+    bottom: '13%',
+    left: '36%',
+    boxSizing: 'border-box'
+  },
 }
 
-class UnitViewSummary extends React.Component {
+class UnitAuthorSummary extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      onActEdit: false
     };
     this.marksArticle = React.createRef();
     this._set_layerstatus = this._set_layerstatus.bind(this);
     this._handleClick_Account = this._handleClick_Account.bind(this);
+    this._handleEnter_actEdit = this._handleEnter_actEdit.bind(this);
+    this._handleLeave_actEdit = this._handleLeave_actEdit.bind(this);
+    this._handleClick_UnitAction_Author = this._handleClick_UnitAction_Author.bind(this);
     this._handleWheel_marksArticle = (event)=>{event.stopPropagation();};
     this.style={
       Com_UnitViewSummary_: {
@@ -34,7 +48,7 @@ class UnitViewSummary extends React.Component {
         boxSizing: 'border-box'
       },
       Com_UnitViewSummary_Marksarticle: {
-        width: "51%",
+        width: "44%",
         height: '81.5%',
         position: 'absolute',
         right: '0%',
@@ -74,10 +88,34 @@ class UnitViewSummary extends React.Component {
     this.props._set_layerstatus(true, parseInt(moveCount), marksStatus);
   }
 
+  _handleClick_UnitAction_Author(event){
+    event.preventDefault();
+    event.stopPropagation();
+    this.props._set_Modalmode("author_editing");
+  }
+
   _handleClick_Account(event){
     event.preventDefault();
     event.stopPropagation();
     this.props._refer_toandclose('user', this.props.unitCurrent.authorBasic.authorId);
+  }
+
+  _handleEnter_actEdit(e){
+    //don't need to stop proppagation,
+    //because both the 'onMouseEnter' & 'onMouseLeave'
+    //would not 'bubble'
+    this.setState({
+      onActEdit: true
+    })
+  }
+
+  _handleLeave_actEdit(e){
+    //don't need to stop proppagation,
+    //because both the 'onMouseEnter' & 'onMouseLeave'
+    //would not 'bubble'
+    this.setState({
+      onActEdit: false
+    })
   }
 
   componentDidMount(){
@@ -134,6 +172,25 @@ class UnitViewSummary extends React.Component {
             styleItem={{margin: '0 0 1rem'}}
             _handleClick_listNoun={this.props._refer_toandclose}/>
         </div>
+        <div
+          style={styleMiddle.boxStatics}>
+          <AuthorStatics/>
+          <div
+            className={classnames('sumPanelOptions', 'boxSumOptEdit')}>
+            <span
+              className={classnames('fontSumOpt')}
+              style={Object.assign(
+                {},
+                {cursor: 'pointer'},
+                this.state.onActEdit? {color: '#FAFAFA'}:{color: 'rgba(250,250,250,0.5)'}
+              )}
+              onClick={this._handleClick_UnitAction_Author}
+              onMouseEnter={this._handleEnter_actEdit}
+              onMouseLeave={this._handleLeave_actEdit}>
+              {"edit"}
+            </span>
+          </div>
+        </div>
       </div>
     )
   }
@@ -149,4 +206,4 @@ const mapStateToProps = (state)=>{
 export default withRouter(connect(
   mapStateToProps,
   null
-)(UnitViewSummary));
+)(UnitAuthorSummary));
