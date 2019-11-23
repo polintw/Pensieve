@@ -6,6 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
+import {setUnitBroad} from '../../redux/actions/general.js';
 import {
   cancelErr,
   uncertainErr
@@ -53,10 +54,8 @@ class ActionBroad extends React.Component {
       cancelToken: self.axiosSource.token
     }).then((res)=>{
       self.setState({axios: false});
-
       //submit change to reducer
-      //
-
+      self.props._submit_Broad_status({broad: true});
     }).catch(function (thrown) {
       self.setState({axios: false});
       if (axios.isCancel(thrown)) {
@@ -80,9 +79,8 @@ class ActionBroad extends React.Component {
       cancelToken: self.axiosSource.token
     }).then((res)=>{
       self.setState({axios: false});
-
       //submit change to reducer
-      //
+      self.props._submit_Broad_status({broad: false});
 
     }).catch(function (thrown) {
       self.setState({axios: false});
@@ -145,7 +143,13 @@ const mapStateToProps = (state)=>{
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    _submit_Broad_status: (obj) => { dispatch(setUnitBroad(obj)); }
+  }
+}
+
 export default withRouter(connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(ActionBroad));
