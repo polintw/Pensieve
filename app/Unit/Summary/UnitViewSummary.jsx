@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
+import SumBroadList from './SumBroadList.jsx';
 import MarksArticle from '../MarksArticle.jsx';
 import {NodesExtensible} from '../NodesDisplay/NodesDisplay.jsx';
 import ActionBroad from '../Actions/ActionBroad.jsx';
@@ -137,7 +138,7 @@ class UnitViewSummary extends React.Component {
         </div>
         <div
           className={classnames()}>
-
+          <SumBroadList/>
         </div>
         <div
           style={this.style.Com_UnitViewSummary_panel_}>
