@@ -20,14 +20,26 @@ class SumBroadList extends React.Component {
     super(props);
     this.state = {
       axios: false,
+      modalAll: false,
       usersList: []
     };
     this.axiosSource = axios.CancelToken.source();
     this._render_broadList = this._render_broadList.bind(this);
     this._axios_get_listBroad = this._axios_get_listBroad.bind(this);
+    this._handleClick_list_toggle = this._handleClick_list_toggle.bind(this);
     this.style={
 
     };
+  }
+
+  _handleClick_list_toggle(event){
+    event.preventDefault();
+    event.stopPropagation();
+    this.setState((prevState, props)=>{
+      return {
+        modalAll: prevState ? false : true
+      }
+    });
   }
 
   _axios_get_listBroad(){
@@ -97,13 +109,22 @@ class SumBroadList extends React.Component {
   render(){
     return(
       <div
-        className={classnames(styles.comSum_BroadList)}>
-        <div>
+        className={classnames(styles.comSum_Broad)}>
+        <div
+          className={classnames(styles.comSum_boxList)}>
           {this._render_broadList()}
         </div>
-        <div>
+        <div
+          className={classnames(styles.comSum_boxOpenALl)}
+          onClick={this._handleClick_list_toggle}>
           {"check all"}
         </div>
+        {
+          this.state.modalAll &&
+          <div>
+            {this._render_broadList()}
+          </div>
+        }
       </div>
     )
   }

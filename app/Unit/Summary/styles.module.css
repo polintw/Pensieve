@@ -1,3 +1,45 @@
-.comSum_BroadList {
+.boxSideLeft {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 27%;
+  height: 79%;
+  position: absolute;
+  bottom: 13%;
+  right: 70%;
+  box-sizing: border-box;
+}
+
+.boxAuthor {
+  max-width: 100%;
+  text-align: right;
+}
+
+.boxNodes {
+  display: flex;
+  align-items: center;
+  max-width: 80%;
+  height: 40%;
+  box-sizing: border-box;
+  margin-right: 17%;
+  overflow: hidden;
+
+}
+
+.boxSumBroad {
+  width: 100%;
+
+}
+
+.comSum_Broad {
+
+}
+
+.comSum_boxList {
+
+}
+
+.comSum_boxOpenALl {
   
 }

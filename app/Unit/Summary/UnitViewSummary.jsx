@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
+import styles from './styles.module.css';
 import SumBroadList from './SumBroadList.jsx';
 import MarksArticle from '../MarksArticle.jsx';
 import {NodesExtensible} from '../NodesDisplay/NodesDisplay.jsx';
@@ -57,23 +58,6 @@ class UnitViewSummary extends React.Component {
         left: '34.5%',
         boxSizing: 'border-box'
       },
-      Com_UnitViewSummary_nodes_: {
-        maxWidth: '22%',
-        maxHeight: '40%',
-        position: 'absolute',
-        top: '33%',
-        right: '71%',
-        boxSizing: 'border-box',
-        transform: 'translate(0,-50%)',
-        overflow:'hidden'
-      },
-      Com_UnitViewSummary_author_: {
-        maxWidth: '27%',
-        position: 'absolute',
-        bottom: '13%',
-        right: '71%',
-        boxSizing: 'border-box'
-      },
       Com_UnitViewSummary_author_name: {
         position: 'relative',
         boxSizing: 'border-box',
@@ -118,21 +102,35 @@ class UnitViewSummary extends React.Component {
       <div
         style={this.style.Com_UnitViewSummary_}>
         <div
-          style={this.style.Com_UnitViewSummary_author_}>
+          className={classnames(styles.boxSideLeft)}>
           <div
-            className={'boxInlineRelative'}
-            style={Object.assign({}, {display: 'block', marginBottom: '2rem'})}>
-            <DateConverter
-              place={'layers'}
-              datetime={this.props.unitCurrent.createdAt}/>
+            className={classnames('nodesListSum', styles.boxNodes)}>
+            <NodesExtensible
+              nouns={this.props.unitCurrent.nouns}
+              styleItem={{margin: '0 0 1rem'}}
+              _handleClick_listNoun={this.props._refer_toandclose}/>
           </div>
           <div
-            onClick={this._handleClick_Account}
-            style={this.style.Com_UnitViewSummary_author_name}>
-            <AccountPlate
-              size={'title'}
-              accountFisrtName={this.props.unitCurrent.authorBasic.firstName}
-              accountLastName={this.props.unitCurrent.authorBasic.lastName}/>
+            className={classnames(styles.boxSumBroad)}>
+            <SumBroadList/>
+          </div>
+          <div
+            className={classnames(styles.boxAuthor)}>
+            <div
+              className={'boxInlineRelative'}
+              style={Object.assign({}, {display: 'block', marginBottom: '2rem'})}>
+              <DateConverter
+                place={'layers'}
+                datetime={this.props.unitCurrent.createdAt}/>
+            </div>
+            <div
+              onClick={this._handleClick_Account}
+              style={this.style.Com_UnitViewSummary_author_name}>
+              <AccountPlate
+                size={'title'}
+                accountFisrtName={this.props.unitCurrent.authorBasic.firstName}
+                accountLastName={this.props.unitCurrent.authorBasic.lastName}/>
+            </div>
           </div>
         </div>
         <div
@@ -146,18 +144,6 @@ class UnitViewSummary extends React.Component {
             layer={'beneath'}
             marksObj={{list: this.props.unitCurrent.beneathMarksList, data: this.props.unitCurrent.beneathMarksData}}
             _set_MarkInspect={this._set_layerstatus}/>
-        </div>
-        <div
-          className={'nodesListSum'}
-          style={this.style.Com_UnitViewSummary_nodes_}>
-          <NodesExtensible
-            nouns={this.props.unitCurrent.nouns}
-            styleItem={{margin: '0 0 1rem'}}
-            _handleClick_listNoun={this.props._refer_toandclose}/>
-        </div>
-        <div
-          className={classnames()}>
-          <SumBroadList/>
         </div>
         <div
           style={this.style.Com_UnitViewSummary_panel_}>
