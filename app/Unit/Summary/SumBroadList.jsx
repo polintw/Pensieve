@@ -6,6 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
+import {AccountPlate} from '../../Component/AccountPlate.jsx';
 import {
   handleUsersList
 } from "../../redux/actions/general.js";
@@ -76,18 +77,33 @@ class SumBroadList extends React.Component {
   }
 
   _render_broadList(){
-    let listDOM = [];
-    this.state.usersList.map
-    // return <div>
-    // in this.props.usersBasic ? <AccountPlate/>
+    let listDOM = this.state.usersList.map((userId, index)=>{
+      return (
+        <div>
+          {
+            (userId in this.props.usersBasic) &&
+            <AccountPlate
+              size={'regular'}
+              accountFisrtName={this.props.usersBasic[userId].firstName}
+              accountLastName={this.props.usersBasic[userId].lastName}/>
+          }
+        </div>
+      )
+    });
 
+    return listDOM;
   }
 
   render(){
     return(
       <div
         className={classnames(styles.comSum_BroadList)}>
-
+        <div>
+          {this._render_broadList()}
+        </div>
+        <div>
+          {"check all"}
+        </div>
       </div>
     )
   }
@@ -96,7 +112,8 @@ class SumBroadList extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
-    unitCurrent: state.unitCurrent
+    unitCurrent: state.unitCurrent,
+    usersBasic: state.usersBasic
   }
 }
 
