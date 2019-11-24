@@ -7,6 +7,9 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
 import {
+  handleUsersList
+} from "../../redux/actions/general.js";
+import {
   cancelErr,
   uncertainErr
 } from "../../utils/errHandlers.js";
@@ -16,43 +19,35 @@ class SumBroadList extends React.Component {
     super(props);
     this.state = {
       axios: false,
-      onAct: false
+      usersList: []
     };
     this.axiosSource = axios.CancelToken.source();
-    this._handleEnter_act = this._handleEnter_act.bind(this);
-    this._handleLeave_act = this._handleLeave_act.bind(this);
-    this._axios_post_actionBroad = this._axios_post_actionBroad.bind(this);
+    this._render_broadList = this._render_broadList.bind(this);
+    this._axios_get_listBroad = this._axios_get_listBroad.bind(this);
     this.style={
 
     };
   }
 
-  _handleEnter_act(e){
-    this.setState({
-      onAct: true
-    })
-  }
-
-  _handleLeave_act(e){
-    this.setState({
-      onAct: false
-    })
-  }
-
-  _axios_post_actionBroad(){
+  _axios_get_listBroad(){
     const self = this;
     this.setState({axios: true});
 
-    axios.post('/router/broad/'+this.props.unitCurrent.unitId, {}, {
+    axios.get('/router/broad/'+this.props.unitCurrent.unitId, {
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']
       },
       cancelToken: self.axiosSource.token
     }).then((res)=>{
-      self.setState({axios: false});
+      let resObj = JSON.parse(res.data);
       //submit change to reducer
-      self.props._submit_Broad_status({broad: true});
+      self.props._submit_UsersList_new(resObj.main.usersList);
+      self.setState({
+        axios: false,
+        usersList: resObj.main.usersList
+      });
+
     }).catch(function (thrown) {
       self.setState({axios: false});
       if (axios.isCancel(thrown)) {
@@ -64,14 +59,28 @@ class SumBroadList extends React.Component {
     });
   }
 
-  componentDidMount(){
+  componentDidUpdate(prevProps, prevState, snapshot){
+    if( !(prevProps.unitCurrent.broad===this.props.unitCurrent.broad) ){ //unitCurrent.broad is a boolean, need compare by '===' to avoid complicated exceptions
+      this._axios_get_listBroad();
+    }
+  }
 
+  componentDidMount(){
+    this._axios_get_listBroad();
   }
 
   componentWillUnmount(){
     if(this.state.axios){
       this.axiosSource.cancel("component will unmount.")
     };
+  }
+
+  _render_broadList(){
+    let listDOM = [];
+    this.state.usersList.map
+    // return <div>
+    // in this.props.usersBasic ? <AccountPlate/>
+
   }
 
   render(){
@@ -93,7 +102,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    _submit_UsersList_new: (arr) => { dispatch(handleUsersList(arr)); }
   }
 }
 

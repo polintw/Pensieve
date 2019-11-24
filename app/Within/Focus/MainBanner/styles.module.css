@@ -87,14 +87,15 @@
 
 .boxIntroHead {
   width: 100%;
+  min-height: 7.5vw;
   position: relative;
+  margin-bottom: 1rem;
 }
 
 .boxWikiTitle {
   display: inline-flex;
   flex-direction: column;
-  max-width: 70%;
-  margin: 0rem 0 4rem 0;
+  max-width: 60%;
 }
 
 .pWikiIntro {
