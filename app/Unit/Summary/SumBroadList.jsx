@@ -116,18 +116,18 @@ class SumBroadList extends React.Component {
           className={classnames(
             'plainLinkButton',
             styles.comSum_boxListItem,
-            styles.comSum_fontListItem,
-            {[styles.comSum_on_ListItem]: (this.state.onListItem == userId)}
+            styles.comSum_fontListItem
           )}
           onMouseEnter={this._handleEnter_listItem}
           onMouseLeave={this._handleLeave_listItem}>
           {
             (userId in this.props.usersBasic) &&
             <AccountPlate
-              size={'regular'}
+              size={'layer'}
               accountFisrtName={this.props.usersBasic[userId].firstName}
               accountLastName={this.props.usersBasic[userId].lastName}
-              styleFirst={{fontWeight: '600'}}/>
+              styleFirst={{fontWeight: '400', color: :(this.state.onListItem == userId)? "rgb(250, 250, 250)": "#FAFAFA"}}
+              styleLast={{fontWeight: '300', color: (this.state.onListItem == userId)? 'rgb(64, 133, 160)': "#fafafa"}}/>
           }
         </Link>
       )
