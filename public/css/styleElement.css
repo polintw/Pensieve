@@ -27,34 +27,33 @@
 .spanNameLayer {
   white-space: nowrap;
   font-size: 1.36rem;
-  font-weight: 400;
   letter-spacing: 0.07rem;
 }
 
 .spanNameRegular {
   white-space: nowrap;
   font-size: 1.5rem;
-  font-weight: 400;
   letter-spacing: 0.1rem;
 }
 
 .spanNameMedium {
   white-space: nowrap;
   font-size: 2.1rem;
-  font-weight: 400;
   letter-spacing: 0.2rem;
 }
 
 .spanNameTitle {
   white-space: nowrap;
   font-size: 3.2rem;
-  font-weight: 400;
   letter-spacing: 0.12rem;
 }
 
 .spanNameLarge {
   white-space: nowrap;
   font-size: 3.6rem;
-  font-weight: 400;
   letter-spacing: 0.21rem;
+}
+
+.spanNameFirstName {
+  font-weight: 600; /* to overlap the default font weight */
 }
