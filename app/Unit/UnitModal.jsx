@@ -51,7 +51,7 @@ class UnitModal extends React.Component {
         position: 'absolute',
         top: '1%',
         left: '50%',
-        transform: 'translate(-51%, 0)',
+        transform: 'translate(-48%, 0)',
         boxSizing: 'border-box'
       },
       Com_UnitModal_blocks_ImgLayer_: {

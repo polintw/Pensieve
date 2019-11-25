@@ -42,7 +42,7 @@ export const i18nUIStringInit = {
      "guidingBelong_Edit": "any new corner came into your life ?",
      "guidingShare_atBelong": "Unboxing your world!",
      "descript_BelongTypeInteract": ["reset your ", " ?"],
-     "descript_Unit_BroadList": ["broadcast this Shared to people.", ["and ", "more"]],
+     "descript_Unit_BroadList": ["all broadcast this Shared", ["and ", "more"]],
      "messageChoiceBelong": ["Which one does the  ", "  match the most?"],
      "messageBelongChoiceinBool": ["setting  ", "  as  ", " ?"],
      "hintEmptyNode": "be the first introducing this corner to people!",

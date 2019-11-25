@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: baseline;
-  width: 27%;
+  width: 28%;
   height: 79%;
   position: absolute;
   bottom: 13%;
@@ -14,6 +14,7 @@
 .boxAuthor {
   max-width: 100%;
   text-align: right;
+  padding-left: 1rem;
 }
 
 .boxNodes {
@@ -22,13 +23,15 @@
   max-width: 80%;
   height: 40%;
   box-sizing: border-box;
-  margin-right: 17%;
+  padding-left: 1rem;
+  border-left: solid 1px #fafafa;
   overflow: hidden;
 
 }
 
 .boxSumBroad {
   width: 100%;
+  padding-left: 1rem;
 
 }
 

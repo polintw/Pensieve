@@ -70,13 +70,21 @@ export class NodesExtensible extends React.Component {
           onMouseEnter={this._handleEnter_node}
           onMouseLeave={this._handleLeave_node}
           onClick={self._handleClick_listNoun}>
-          <span
+          <div
             className={classnames(
+              styles.boxItemWrap,
               {[styles.interLiItem]: (this.state.onLiItem==nounId)}
             )}
             title={iNoun.name+ (iNoun.prefix ? ", "+iNoun.prefix:"")}>
+            {
+              (this.state.onLiItem==nounId) &&
+              <span style={{
+                  width: '84%', position: 'absolute', bottom: '-5%', left: '5%',
+                  borderBottom: 'solid 1px #ff7a5f'
+                }}/>
+            }
             {iNoun.name}
-          </span>
+          </div>
         </li>
       )
     }

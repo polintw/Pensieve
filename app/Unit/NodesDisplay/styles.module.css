@@ -1,9 +1,12 @@
 .boxListItem {
-  display: inline-block;
-  width: 100%;
   position: relative;
   box-sizing: border-box;
   cursor: pointer;
+}
+
+.boxItemWrap {
+  display: inline;
+  position: relative; /*need this, for 'absolute' in child*/
 }
 
 .interLiItem {
