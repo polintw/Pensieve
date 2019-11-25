@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Route,
+  Link,
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
@@ -21,15 +22,30 @@ class SumBroadList extends React.Component {
     this.state = {
       axios: false,
       modalAll: false,
+      onListItem: '',
       usersList: []
     };
     this.axiosSource = axios.CancelToken.source();
     this._render_broadList = this._render_broadList.bind(this);
     this._axios_get_listBroad = this._axios_get_listBroad.bind(this);
+    this._handleEnter_listItem = this._handleEnter_listItem.bind(this);
+    this._handleLeave_listItem = this._handleLeave_listItem.bind(this);
     this._handleClick_list_toggle = this._handleClick_list_toggle.bind(this);
     this.style={
 
     };
+  }
+
+  _handleEnter_listItem(e){
+    this.setState({
+      onListItem: e.currentTarget.attributes.user.value
+    })
+  }
+
+  _handleLeave_listItem(e){
+    this.setState({
+      onListItem: ''
+    })
   }
 
   _handleClick_list_toggle(event){
@@ -90,16 +106,30 @@ class SumBroadList extends React.Component {
 
   _render_broadList(){
     let listDOM = this.state.usersList.map((userId, index)=>{
+      let userLink = (userId == this.props.userInfo.id) ? `/user/screen`: `/cosmic/users/${userId}/accumulated`;
+
       return (
-        <div>
+        <Link
+          key={"key_BroadList_item_"+index}
+          user={userId}
+          to= {userLink}
+          className={classnames(
+            'plainLinkButton',
+            styles.comSum_boxListItem,
+            styles.comSum_fontListItem,
+            {[styles.comSum_on_ListItem]: (this.state.onListItem == userId)}
+          )}
+          onMouseEnter={this._handleEnter_listItem}
+          onMouseLeave={this._handleLeave_listItem}>
           {
             (userId in this.props.usersBasic) &&
             <AccountPlate
               size={'regular'}
               accountFisrtName={this.props.usersBasic[userId].firstName}
-              accountLastName={this.props.usersBasic[userId].lastName}/>
+              accountLastName={this.props.usersBasic[userId].lastName}
+              styleFirst={{fontWeight: '600'}}/>
           }
-        </div>
+        </Link>
       )
     });
 
@@ -115,9 +145,19 @@ class SumBroadList extends React.Component {
           {this._render_broadList()}
         </div>
         <div
-          className={classnames(styles.comSum_boxOpenALl)}
+          className={classnames(styles.comSum_boxDescript, styles.comSum_fontDescript)}
           onClick={this._handleClick_list_toggle}>
-          {"check all"}
+          {
+            (this.state.usersList.length > 4) &&
+            <div style={{display: 'inline'}}>
+              <span>{this.props.i18nUIString.catalog["descript_Unit_BroadList"][1][0]}</span>
+              <a
+                className={classnames(styles.comSum_fontExpand)}
+                style={{textDecoration: 'none'}}>
+                {this.props.i18nUIString.catalog["descript_Unit_BroadList"][1][1]}</a>
+            </div>
+          }
+          <span>{this.props.i18nUIString.catalog["descript_Unit_BroadList"][0]}</span>
         </div>
         {
           this.state.modalAll &&
@@ -134,7 +174,8 @@ const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
     unitCurrent: state.unitCurrent,
-    usersBasic: state.usersBasic
+    usersBasic: state.usersBasic,
+    i18nUIString: state.i18nUIString,
   }
 }
 
