@@ -23,6 +23,8 @@ class SumBroadList extends React.Component {
       axios: false,
       modalAll: false,
       onListItem: '',
+      onExpand: false,
+      onClose: false,
       usersList: []
     };
     this.axiosSource = axios.CancelToken.source();
@@ -30,6 +32,8 @@ class SumBroadList extends React.Component {
     this._axios_get_listBroad = this._axios_get_listBroad.bind(this);
     this._handleEnter_listItem = this._handleEnter_listItem.bind(this);
     this._handleLeave_listItem = this._handleLeave_listItem.bind(this);
+    this._handleMouse_onExpand = this._handleMouse_onExpand.bind(this);
+    this._handleMouse_onClose = this._handleMouse_onClose.bind(this);
     this._handleClick_list_toggle = this._handleClick_list_toggle.bind(this);
     this.style={
 
@@ -48,12 +52,24 @@ class SumBroadList extends React.Component {
     })
   }
 
+  _handleMouse_onExpand(e){
+    this.setState((prevState, props)=>{
+      return {onExpand: prevState.onExpand? false: true}
+    })
+  }
+
+  _handleMouse_onClose(e){
+    this.setState((prevState, props)=>{
+      return {onExpand: prevState.onClose? false: true}
+    })
+  }
+
   _handleClick_list_toggle(event){
     event.preventDefault();
     event.stopPropagation();
     this.setState((prevState, props)=>{
       return {
-        modalAll: prevState ? false : true
+        modalAll: prevState.modalAll ? false : true
       }
     });
   }
@@ -109,10 +125,10 @@ class SumBroadList extends React.Component {
       let userLink = (userId == this.props.userInfo.id) ? `/user/screen`: `/cosmic/users/${userId}/accumulated`;
 
       return (
-        <Link
+        <a
           key={"key_BroadList_item_"+index}
           user={userId}
-          to= {userLink}
+          href= {userLink}
           className={classnames(
             'plainLinkButton',
             styles.comSum_boxListItem,
@@ -126,10 +142,11 @@ class SumBroadList extends React.Component {
               size={'layer'}
               accountFisrtName={this.props.usersBasic[userId].firstName}
               accountLastName={this.props.usersBasic[userId].lastName}
-              styleFirst={{fontWeight: '400', color: :(this.state.onListItem == userId)? "rgb(250, 250, 250)": "#FAFAFA"}}
-              styleLast={{fontWeight: '300', color: (this.state.onListItem == userId)? 'rgb(64, 133, 160)': "#fafafa"}}/>
+              styleFirst={{fontWeight: '400'}}
+              styleLast={{fontWeight: '300'}}/>
+            //But ! we give up the onMouse event, temporary.
           }
-        </Link>
+        </a>
       )
     });
 
@@ -145,24 +162,42 @@ class SumBroadList extends React.Component {
           {this._render_broadList()}
         </div>
         <div
-          className={classnames(styles.comSum_boxDescript, styles.comSum_fontDescript)}
-          onClick={this._handleClick_list_toggle}>
+          className={classnames(styles.comSum_boxDescript, styles.comSum_fontDescript)}>
           {
             (this.state.usersList.length > 4) &&
-            <div style={{display: 'inline'}}>
-              <span>{this.props.i18nUIString.catalog["descript_Unit_BroadList"][1][0]}</span>
-              <a
-                className={classnames(styles.comSum_fontExpand)}
-                style={{textDecoration: 'none'}}>
-                {this.props.i18nUIString.catalog["descript_Unit_BroadList"][1][1]}</a>
-            </div>
+            <span
+              className={classnames(styles.comSum_spanExpand, styles.comSum_fontExpand)}
+              style={
+                this.state.onExpand? {color: 'rgb(64, 133, 160)', fontWeight: '400'} : {}
+              }
+              onClick={this._handleClick_list_toggle}
+              onMouseEnter={this._handleMouse_onExpand}
+              onMouseLeave={this._handleMouse_onExpand}>
+              {this.props.i18nUIString.catalog["descript_Unit_BroadList"][1]}
+              {' '}
+            </span>
           }
-          <span>{this.props.i18nUIString.catalog["descript_Unit_BroadList"][0]}</span>
+          {
+            (this.state.usersList.length > 0) &&
+            <span>{this.props.i18nUIString.catalog["descript_Unit_BroadList"][0]}</span>
+          }
         </div>
         {
           this.state.modalAll &&
-          <div>
+          <div
+            className={classnames(styles.comSum_boxModal)}>
             {this._render_broadList()}
+            <div
+              className={classnames(styles.comSum_boxModalClose)}
+              onMouseEnter={this._handleMouse_onClose}
+              onMouseLeave={this._handleMouse_onClose}>
+              <span
+                className={classnames(styles.comSum_spanClose)}
+                style={this.state.onClose? {color: '#111111'}:{color: '#FAFAFA'}}
+                onClick={this._handleClick_list_toggle}>
+                {" ╳ "}
+              </span>
+            </div>
           </div>
         }
       </div>

@@ -5,6 +5,8 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
+import styles from './styles.module.css';
+import SumBroadList from './SumBroadList.jsx';
 import MarksArticle from '../MarksArticle.jsx';
 import {NodesExtensible} from '../NodesDisplay/NodesDisplay.jsx';
 import AuthorStatics from '../Author/AuthorStatics.jsx';
@@ -125,6 +127,10 @@ class UnitAuthorSummary extends React.Component {
               nouns={this.props.unitCurrent.nouns}
               styleItem={{margin: '0 0 1rem'}}
               _handleClick_listNoun={this.props._refer_toandclose}/>
+          </div>
+          <div
+            className={classnames(styles.boxSumBroad)}>
+            <SumBroadList/>
           </div>
           <div
             className={classnames(styles.boxAuthor)}>
