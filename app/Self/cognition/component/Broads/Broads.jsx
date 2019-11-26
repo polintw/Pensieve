@@ -35,6 +35,7 @@ class Broads extends React.Component {
     this.axiosSource = axios.CancelToken.source();
     this._render_Broads = this._render_Broads.bind(this);
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
+    this._axios_units = this._axios_units.bind(this);
     this._axios_nails_Broads = this._axios_nails_Broads.bind(this);
     this.style={
 
@@ -46,48 +47,44 @@ class Broads extends React.Component {
     return unitInit;
   }
 
-  _render_Broads(){
+  _axios_units(unitsList){
     const self = this;
-    let nailDOM=[],
-        reserved = (
-          <div
-            key={'key_Broads_nails_titleReserved'}
-            className={classnames(styles.boxReserved)}
-            style={Object.assign({}, {width: '20vw'})}>
-          </div>
-        ), scrollFooter = (
-          <div
-            key={'key_Broads_nails_scrollFooter'}
-            className={classnames(styles.scrollFooter)}/>
-        );
+    this.setState({axios: true});
 
-    this.state.unitsList.forEach(function(unitId, index){
-      let dataValue = self.state.unitsBasic[dataKey];
-      nailDOM.push(
-        <div
-          key={'key_Broads_Nails_'+unitId}
-          className={classnames(styles.boxNail)}>
-          <NailRegular
-            {...self.props}
-            unitId={unitId}
-            linkPath={self.props.match.url+'/unit'}
-            unitBasic={self.state.unitsBasic[unitId]}
-            marksBasic={self.state.marksBasic}/>
-        </div>
-      );
-      //cauculate remainder to decide whether a interspace was needed or not
-      let remainder = (index+1) % 3; // +1 to avoid error when index==0
-      if(remainder==0) shareds.push(
-        <div
-          key={'key_nails_interspace'+index}
-          className={classnames(styles.boxFillHoriz)}/>
-      );
-    })
-
-    //in the end, and only at the end!
-    //push the footer
-    nailDOM.push(scrollFooter);
-    return nailDOM;
+    axios.get('/router/units', {
+      headers: {
+        'charset': 'utf-8',
+        'token': window.localStorage['token']
+      },
+      params: {
+        unitsList: unitsList
+      },
+      cancelToken: self.axiosSource.token
+    }).then(function(res){
+      let resObj = JSON.parse(res.data);
+      //res should contain
+      //nounsListMix
+      //usersList
+      //unitsBasic, to state
+      //marksBasic, to state
+      self.props._submit_NounsList_new(resObj.main.nounsListMix);
+      self.props._submit_UsersList_new(resObj.main.usersList);
+      self.setState({
+        unitsBasic: resObj.main.unitsBasic,
+        marksBasic: resObj.main.marksBasic
+      })
+    }).catch(function (thrown) {
+      if (axios.isCancel(thrown)) {
+        cancelErr(thrown);
+      } else {
+        self.setState((prevState, props)=>{
+          return {axios:false}
+        }, ()=>{
+          let message = uncertainErr(thrown);
+          if(message) alert(message);
+        });
+      }
+    });
   }
 
   _axios_nails_Broads(){
@@ -102,22 +99,15 @@ class Broads extends React.Component {
       cancelToken: self.axiosSource.token
     }).then(function(res){
       let resObj = JSON.parse(res.data);
-
       //api /broad would only include unitsList
       //set unitsList in the state,
       //and get unitsBasic by api /unit before go to next
-
-    }).then(function(res){
-      let resObj = JSON.parse(res.data);
-      //res should contain
-      //nounsListMix
-      //usersList
-      //unitsBasic, to state
-      //marksBasic, to state
-
-      self.props._submit_NounsList_new(resObj.main.nounsListMix);
-      self.props._submit_UsersList_new(resObj.main.usersList);
-
+      self._axios_units(resObj.main.unitsList);
+      self.setState({
+        axios: false,
+        unitsList: resObj.main.unitsList
+      })
+      return; //close this promise
     }).catch(function (thrown) {
       if (axios.isCancel(thrown)) {
         cancelErr(thrown);
@@ -140,6 +130,51 @@ class Broads extends React.Component {
     if(this.state.axios){
       this.axiosSource.cancel("component will unmount.")
     }
+  }
+
+  _render_Broads(){
+    let nailDOM=[],
+        reserved = (
+          <div
+            key={'key_Broads_nails_titleReserved'}
+            className={classnames(styles.boxReserved)}
+            style={Object.assign({}, {width: '20vw'})}>
+          </div>
+        ), scrollFooter = (
+          <div
+            key={'key_Broads_nails_scrollFooter'}
+            className={classnames(styles.scrollFooter)}/>
+        );
+
+    this.state.unitsList.forEach(function(unitId, index){
+      //check the data status, only render after the data are ready.
+      if(unitId in this.state.unitsBasic){
+        nailDOM.push(
+          <div
+            key={'key_Broads_Nails_'+unitId}
+            className={classnames(styles.boxNail)}>
+            <NailRegular
+              {...this.props}
+              unitId={unitId}
+              linkPath={this.props.match.url+'/unit'}
+              unitBasic={this.state.unitsBasic[unitId]}
+              marksBasic={this.state.marksBasic}/>
+          </div>
+        );
+        //cauculate remainder to decide whether a interspace was needed or not
+        let remainder = (index+1) % 3; // +1 to avoid error when index==0
+        if(remainder==0) shareds.push(
+          <div
+            key={'key_nails_interspace'+index}
+            className={classnames(styles.boxFillHoriz)}/>
+        );
+      }
+    })
+
+    //in the end, and only at the end!
+    //push the footer
+    nailDOM.push(scrollFooter);
+    return nailDOM;
   }
 
   render(){

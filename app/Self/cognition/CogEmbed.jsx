@@ -37,7 +37,6 @@ export default class CogEmbed extends React.Component {
   }
 
   render(){
-    //let cx = cxBind.bind(styles);
     return(
       <div
         style={this.style.selfCom_CogEmbed_}>
