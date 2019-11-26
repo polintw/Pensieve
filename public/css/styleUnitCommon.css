@@ -38,6 +38,10 @@
   top: 50%;
 }
 
+.boxSumStatic {
+  margin-bottom: 2rem;
+}
+
 .circleMarkSpotSvg {
   width: 3.2vw;
   height: 3.2vw;
@@ -76,7 +80,7 @@
 }
 
 .fontSumOpt{
-  font-size: 1.54rem;
-  letter-spacing: 0.12rem;
+  font-size: 1.36rem; /*follow the Descript used in broad list*/
+  letter-spacing: 0.042rem;
   font-weight: 400;
 }

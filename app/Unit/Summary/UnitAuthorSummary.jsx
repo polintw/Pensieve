@@ -20,7 +20,7 @@ const styleMiddle = {
     flexDirection: 'column',
     justifyContent: 'space-between',
     width: '8%',
-    height: '64%',
+    height: '71%',
     position: 'absolute',
     bottom: '13%',
     left: '36%',

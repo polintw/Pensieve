@@ -113,7 +113,7 @@ class ActionBroad extends React.Component {
   render(){
     return(
       <div
-        className={classnames(styles.comActionBroad)}
+        className={classnames(styles.comActionBroad, 'fontSumOpt')}
         style={Object.assign(
           {},
           {cursor: 'pointer'},
