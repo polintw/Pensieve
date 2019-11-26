@@ -44,7 +44,8 @@ class AuthorStatics extends React.Component {
     super(props);
     this.state = {
       axios: false,
-      countReach: null
+      countReach: null,
+      countBroad: null
     };
     this.axiosSource = axios.CancelToken.source();
     this._axios_get_AuthorStatics = this._axios_get_AuthorStatics.bind(this);
@@ -67,7 +68,10 @@ class AuthorStatics extends React.Component {
       self.setState({axios: false});
       let resObj = JSON.parse(res.data);
 
-      self.setState({countReach: resObj.main.countReach})
+      self.setState({
+        countReach: resObj.main.countReach,
+        countBroad: resObj.main.countBroad
+      })
     }).catch(function (thrown) {
       self.setState({axios: false});
       if (axios.isCancel(thrown)) {
@@ -96,9 +100,18 @@ class AuthorStatics extends React.Component {
         <div>
           <span
             className={classnames('fontSumOpt')}
-            style={Object.assign({}, styleMiddle.spanSubtitle, {color: '#FAFAFA'})}>read</span>
+            style={Object.assign({}, styleMiddle.spanSubtitle, {color: '#FAFAFA'})}>
+            {this.props.i18nUIString.catalog["descript_Unit_Author_read"]}</span>
           <span
             style={Object.assign({}, styleMiddle.spanNumDis,styleMiddle.fontNumDis)}>{this.state.countReach}</span>
+        </div>
+        <div>
+          <span
+            className={classnames('fontSumOpt')}
+            style={Object.assign({}, styleMiddle.spanSubtitle, {color: '#FAFAFA'})}>
+            {this.props.i18nUIString.catalog["descript_Unit_Author_broad"]}</span>
+          <span
+            style={Object.assign({}, styleMiddle.spanNumDis,styleMiddle.fontNumDis)}>{this.state.countBroad}</span>
         </div>
       </div>
     )
@@ -108,6 +121,7 @@ class AuthorStatics extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
+    i18nUIString: state.i18nUIString,
     unitCurrent: state.unitCurrent
   }
 }

@@ -6,6 +6,7 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const _DB_broads = require('../../../db/models/index').broads;
 const _DB_units = require('../../../db/models/index').units;
+const _DB_unitsAuthor = require('../../../db/models/index').units_author;
 const {_res_success} = require('../../utils/resHandler.js');
 const {
   _handle_ErrCatched,
@@ -48,7 +49,10 @@ function _handle_POST_broad(req, res){
 
       //should update 'notifications' here, after the records create
 
-      resolve();
+      resolve({ //pass data for steps after res
+        userId: userId,
+        unitId: reqUnitId
+      });
     }).catch((err)=>{
       if(err.defined){
         reject(err.instance);
@@ -56,13 +60,32 @@ function _handle_POST_broad(req, res){
       else reject(new internalError(err, 131));
     });
 
-  }).then(()=>{
+  }).then((passedData)=>{
     let sendingData ={
       temp:{}
     }
     _res_success(res, sendingData, "POST: /broad, post actions , complete.");
+
+    return passedData; //pass to res-no-need handler
   }).catch((error)=>{
     _handle_ErrCatched(error, req, res);
+    //don't do any 'return' in catch, unless we still want to go next
+  }).then((passedData)=>{ //here, .then() after .catch would be called if any resolve() or return in both .then() & .catch()
+    //start processing the internal process which are not related to res
+
+    return _DB_broads.findAndCountAll({ //calculate newest broads count of this shared
+      where: {id_unit: passedData.unitId}
+    })
+    .then((resultBroads)=>{
+      return _DB_unitsAuthor.update(
+        {broaded: resultBroads.count},
+        {where: {id_unit: passedData.unitId}})
+    })
+    .catch((err)=>{ throw err;});
+
+  }).catch((error)=>{
+
+    winston.error(`${"Internal process "} , ${"in _handle_POST_broad, "}, ${error}`);
   });
 }
 
@@ -80,18 +103,40 @@ function _handle_PATCH_broad(req, res){
 
       //should update 'notifications' here, after confirmation
 
-      resolve();
+      resolve({ //pass data for steps after res
+        userId: userId,
+        unitId: reqUnitId
+      });
     }).catch((err)=>{
       reject(new internalError(err, 131));
     });
 
-  }).then(()=>{
+  }).then((passedData)=>{
     let sendingData ={
       temp:{}
     }
     _res_success(res, sendingData, "PATCH: /broad, patch(delete) actions , complete.");
+
+    return passedData; //pass to res-no-need handler
   }).catch((error)=>{
     _handle_ErrCatched(error, req, res);
+    //don't do any 'return' in catch, unless we still want to go next
+  }).then((passedData)=>{ //here, .then() after .catch would be called if any resolve() or return in both .then() & .catch()
+    //start processing the internal process which are not related to res
+
+    return _DB_broads.findAndCountAll({ //calculate newest broads count of this shared
+      where: {id_unit: passedData.unitId}
+    })
+    .then((resultBroads)=>{
+      return _DB_unitsAuthor.update(
+        {broaded: resultBroads.count},
+        {where: {id_unit: passedData.unitId}})
+    })
+    .catch((err)=>{ throw err;});
+
+  }).catch((error)=>{
+
+    winston.error(`${"Internal process "} , ${"in _handle_PATCH_broad, "}, ${error}`);
   });
 }
 
