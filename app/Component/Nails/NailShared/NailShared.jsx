@@ -139,7 +139,8 @@ class NailShared extends React.Component {
                 <SvgBulbPlainHalf/>
               </Link>
               <div
-                className={classnames(styles.boxBreachItem, styles.boxStatics)}>
+                className={classnames(styles.boxBreachItem)}
+                style={{marginRight: '0'}}>
                 <SharedStatics
                   unitId={this.props.unitId}/>
               </div>

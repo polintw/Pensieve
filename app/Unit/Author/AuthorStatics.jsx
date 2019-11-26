@@ -14,7 +14,7 @@ const styleMiddle = {
   spanSubtitle: {
     display: 'block',
     boxSizing: 'border-box',
-    margin: '0 0 0.87rem',
+    margin: '0 0 0.54rem',
     textAlign: 'right',
     cursor: 'default'
   },
@@ -96,20 +96,22 @@ class AuthorStatics extends React.Component {
   render(){
     return(
       <div
-        style={{minHeight: '42vh'}}>
-        <div>
+        style={{minHeight: '44vh'}}>
+        <div
+          className={classnames('boxSumStatic')}>
           <span
             className={classnames('fontSumOpt')}
             style={Object.assign({}, styleMiddle.spanSubtitle, {color: '#FAFAFA'})}>
-            {this.props.i18nUIString.catalog["descript_Unit_Author_read"]}</span>
+            {this.props.i18nUIString.catalog["descript_Unit_Author_read"][0]}</span>
           <span
             style={Object.assign({}, styleMiddle.spanNumDis,styleMiddle.fontNumDis)}>{this.state.countReach}</span>
         </div>
-        <div>
+        <div
+          className={classnames('boxSumStatic')}>
           <span
             className={classnames('fontSumOpt')}
             style={Object.assign({}, styleMiddle.spanSubtitle, {color: '#FAFAFA'})}>
-            {this.props.i18nUIString.catalog["descript_Unit_Author_broad"]}</span>
+            {this.props.i18nUIString.catalog["descript_Unit_Author_broad"][0]}</span>
           <span
             style={Object.assign({}, styleMiddle.spanNumDis,styleMiddle.fontNumDis)}>{this.state.countBroad}</span>
         </div>

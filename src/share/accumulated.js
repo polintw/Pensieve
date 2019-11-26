@@ -99,7 +99,7 @@ function _handle_GET_accumulated_Share(req, res){
           };
           if(sendingData.notifiedList.indexOf(row.id) != (-1)) return //ignore any unit has included in notifiedList
           else{
-            sendingData.unitsList.push(row.id);
+            sendingData.unitsList.unshift(row.id); //let the latest in the top at client view
             sendingData.notifiedStatus[row.id]={inspired: false};
           };
         });})

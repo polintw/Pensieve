@@ -18,10 +18,10 @@ const styleMiddle = {
     textAlign: 'center',
   },
   fontNumDis: {
-    fontSize: '2.3rem',
+    fontSize: '2.56rem',
     letterSpacing: '0.1rem',
     fontWeight: '600',
-    lineHeight: '2rem',
+    lineHeight: '2.3rem',
     color: '#FAFAFA',
   }
 }
@@ -31,7 +31,8 @@ class SharedStatics extends React.Component {
     super(props);
     this.state = {
       axios: false,
-      countReach: null
+      countReach: null,
+      countBroad: null
     };
     this.axiosSource = axios.CancelToken.source();
     this._axios_get_AuthorStatics = this._axios_get_AuthorStatics.bind(this);
@@ -54,7 +55,10 @@ class SharedStatics extends React.Component {
       self.setState({axios: false});
       let resObj = JSON.parse(res.data);
 
-      self.setState({countReach: resObj.main.countReach})
+      self.setState({
+        countReach: resObj.main.countReach,
+        countBroad: resObj.main.countBroad
+      })
     }).catch(function (thrown) {
       self.setState({axios: false});
       if (axios.isCancel(thrown)) {
@@ -78,13 +82,29 @@ class SharedStatics extends React.Component {
 
   render(){
     return(
-      <div>
-        <div>
+      <div
+        className={classnames(styles.comStatics)}>
+        {
+          this.state.countBroad &&
+          <div
+            className={classnames(styles.comStatics_boxWrap)}>
+            <span
+              style={Object.assign({}, styleMiddle.spanCommon,styleMiddle.fontNumDis)}>{this.state.countBroad}</span>
+            <span
+              className={classnames(styles.comStatics_fontTitle)}
+              style={Object.assign({}, styleMiddle.spanCommon)}>
+              {this.props.i18nUIString.catalog["descript_Unit_Author_broad"][1]}</span>
+          </div>
+        }
+        <div
+          className={classnames(styles.comStatics_boxWrap)}
+          style={{marginRight: '0'}}>
           <span
             style={Object.assign({}, styleMiddle.spanCommon,styleMiddle.fontNumDis)}>{this.state.countReach}</span>
           <span
-            className={classnames(styles.fontStaticTitle)}
-            style={Object.assign({}, styleMiddle.spanCommon)}>read</span>
+            className={classnames(styles.comStatics_fontTitle)}
+            style={Object.assign({}, styleMiddle.spanCommon)}>
+            {this.props.i18nUIString.catalog["descript_Unit_Author_read"][1]}</span>
         </div>
       </div>
     )
@@ -94,6 +114,7 @@ class SharedStatics extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
+    i18nUIString: state.i18nUIString,
     unitCurrent: state.unitCurrent
   }
 }
