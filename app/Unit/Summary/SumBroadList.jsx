@@ -126,11 +126,11 @@ class SumBroadList extends React.Component {
 
       return (
         <div
+          key={"key_BroadList_item_"+index}
           className={classnames(styles.comSum_boxListItem)}>
           {
             (userId in this.props.usersBasic) &&
             <a
-              key={"key_BroadList_item_"+index}
               user={userId}
               href= {userLink}
               className={classnames(
