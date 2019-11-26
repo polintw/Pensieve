@@ -110,7 +110,7 @@ class UnitViewSummary extends React.Component {
             className={classnames(styles.boxAuthor)}>
             <div
               className={'boxInlineRelative'}
-              style={Object.assign({}, {display: 'block', marginBottom: '2rem'})}>
+              style={Object.assign({}, {display: 'block', marginBottom: '1rem'})}>
               <DateConverter
                 place={'layers'}
                 datetime={this.props.unitCurrent.createdAt}/>
