@@ -60,7 +60,7 @@ class SumBroadList extends React.Component {
 
   _handleMouse_onClose(e){
     this.setState((prevState, props)=>{
-      return {onExpand: prevState.onClose? false: true}
+      return {onClose: prevState.onClose? false: true}
     })
   }
 
@@ -125,28 +125,37 @@ class SumBroadList extends React.Component {
       let userLink = (userId == this.props.userInfo.id) ? `/user/screen`: `/cosmic/users/${userId}/accumulated`;
 
       return (
-        <a
-          key={"key_BroadList_item_"+index}
-          user={userId}
-          href= {userLink}
-          className={classnames(
-            'plainLinkButton',
-            styles.comSum_boxListItem,
-            styles.comSum_fontListItem
-          )}
-          onMouseEnter={this._handleEnter_listItem}
-          onMouseLeave={this._handleLeave_listItem}>
+        <div
+          className={classnames(styles.comSum_boxListItem)}>
           {
             (userId in this.props.usersBasic) &&
-            <AccountPlate
-              size={'layer'}
-              accountFisrtName={this.props.usersBasic[userId].firstName}
-              accountLastName={this.props.usersBasic[userId].lastName}
-              styleFirst={{fontWeight: '400'}}
-              styleLast={{fontWeight: '300'}}/>
-            //But ! we give up the onMouse event, temporary.
+            <a
+              key={"key_BroadList_item_"+index}
+              user={userId}
+              href= {userLink}
+              className={classnames(
+                'plainLinkButton',
+                styles.comSum_boxListLink,
+                styles.comSum_fontListItem
+              )}
+              onMouseEnter={this._handleEnter_listItem}
+              onMouseLeave={this._handleLeave_listItem}>
+              {
+                (this.state.onListItem==userId) &&
+                <span style={{
+                    width: '84%', position: 'absolute', bottom: '-7%', left: '5%',
+                    borderBottom: 'solid 1px #FAFAFA'
+                  }}/>
+              }
+              <AccountPlate
+                size={'layer'}
+                accountFisrtName={this.props.usersBasic[userId].firstName}
+                accountLastName={this.props.usersBasic[userId].lastName}
+                styleFirst={{fontWeight: '400', fontSize: '1.32rem', letterSpacing: '0.05rem'}}
+                styleLast={{fontWeight: '300', fontSize: '1.32rem', letterSpacing: '0.05rem'}}/>
+            </a>
           }
-        </a>
+        </div>
       )
     });
 
@@ -168,7 +177,7 @@ class SumBroadList extends React.Component {
             <span
               className={classnames(styles.comSum_spanExpand, styles.comSum_fontExpand)}
               style={
-                this.state.onExpand? {color: 'rgb(64, 133, 160)', fontWeight: '400'} : {}
+                this.state.onExpand? {color: 'rgb(64, 133, 160)'} : {}
               }
               onClick={this._handleClick_list_toggle}
               onMouseEnter={this._handleMouse_onExpand}
@@ -179,25 +188,27 @@ class SumBroadList extends React.Component {
           }
           {
             (this.state.usersList.length > 0) &&
-            <span>{this.props.i18nUIString.catalog["descript_Unit_BroadList"][0]}</span>
+            <span
+              className={classnames(styles.spanBlock)}>
+              {this.props.i18nUIString.catalog["descript_Unit_BroadList"][0]}</span>
           }
         </div>
         {
           this.state.modalAll &&
           <div
             className={classnames(styles.comSum_boxModal)}>
-            {this._render_broadList()}
             <div
               className={classnames(styles.comSum_boxModalClose)}
               onMouseEnter={this._handleMouse_onClose}
               onMouseLeave={this._handleMouse_onClose}>
               <span
                 className={classnames(styles.comSum_spanClose)}
-                style={this.state.onClose? {color: '#111111'}:{color: '#FAFAFA'}}
+                style={this.state.onClose? {color: '#FAFAFA'}:{color: '#6e6e6e'}}
                 onClick={this._handleClick_list_toggle}>
                 {" ╳ "}
               </span>
             </div>
+            {this._render_broadList()}
           </div>
         }
       </div>
