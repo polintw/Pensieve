@@ -3,6 +3,9 @@ import {
   Route,
   Link
 } from 'react-router-dom';
+import {connect} from "react-redux";
+import classnames from 'classnames';
+import styles from "./styles.module.css";
 
 export default class TitleInspired extends React.Component {
   constructor(props){
@@ -11,21 +14,17 @@ export default class TitleInspired extends React.Component {
 
     };
     this.style={
-      selfCom_Title_Inspired_main_: {
-        fontWeight: '700',
-        fontSize: '2.8rem',
-        letterSpacing: '0.54rem'
-      },
+
     }
   }
 
   render(){
     return(
-      <div>
-        <div
-          style={this.style.selfCom_Title_Inspired_main_}>
-          <span>{"Broads"}</span>
-        </div>
+      <div
+        className={classnames(styles.boxEmbed)}>
+        <span
+          className={classnames(styles.spanText, styles.fontTitle)}>
+          {"Broaded"}</span>
       </div>
     )
   }

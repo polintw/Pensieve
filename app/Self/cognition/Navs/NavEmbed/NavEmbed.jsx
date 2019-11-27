@@ -65,6 +65,7 @@ class NavEmbed extends React.Component {
             style={Object.assign({}, commonStyle.spanButtonNavEmbed, this.style.selfCom_CogEmbed_nav_span_)}>
             {"dialogues"}</span>
         </nav>
+        <div style={{width: '100%', borderBottom: 'solid 1px #a8a8a8', margin: '1rem 0 1.54rem'}}/>
         <div
           className={classnames(styles.boxTitle)}>
           <Switch>
