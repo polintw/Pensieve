@@ -9,7 +9,7 @@ import querystring from 'query-string';
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import Unit from '../../../../Unit/Unit/Unit.jsx';
-import NailRegular from '../../../../Component/Nails/NailRegular/NailRegular.jsx';
+import NailSquare from '../../../../Component/Nails/NailSquare/NailSquare.jsx';
 import {
   handleNounsList,
   handleUsersList
@@ -35,7 +35,7 @@ class Broads extends React.Component {
     this.axiosSource = axios.CancelToken.source();
     this._render_Broads = this._render_Broads.bind(this);
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
-    this._axios_units = this._axios_units.bind(this);
+    this._axios_GET_Units = this._axios_GET_Units.bind(this);
     this._axios_nails_Broads = this._axios_nails_Broads.bind(this);
     this.style={
 
@@ -47,7 +47,7 @@ class Broads extends React.Component {
     return unitInit;
   }
 
-  _axios_units(unitsList){
+  _axios_GET_Units(unitsList){
     const self = this;
     this.setState({axios: true});
 
@@ -102,7 +102,7 @@ class Broads extends React.Component {
       //api /broad would only include unitsList
       //set unitsList in the state,
       //and get unitsBasic by api /unit before go to next
-      self._axios_units(resObj.main.unitsList);
+      self._axios_GET_Units(resObj.main.unitsList);
       self.setState({
         axios: false,
         unitsList: resObj.main.unitsList
@@ -133,37 +133,36 @@ class Broads extends React.Component {
   }
 
   _render_Broads(){
+    const self = this;
     let nailDOM=[],
-        reserved = (
-          <div
-            key={'key_Broads_nails_titleReserved'}
-            className={classnames(styles.boxReserved)}
-            style={Object.assign({}, {width: '20vw'})}>
-          </div>
-        ), scrollFooter = (
+        scrollFooter = (
           <div
             key={'key_Broads_nails_scrollFooter'}
             className={classnames(styles.scrollFooter)}/>
-        );
+        ),
+        //currently, the Nail was align by '3', three nails a row
+        //to add a empty a box for the last row if less than 3n,
+        //calculate the remainder of the list
+        initDelta = 3-(this.state.unitsList.length % 3);
 
     this.state.unitsList.forEach(function(unitId, index){
       //check the data status, only render after the data are ready.
-      if(unitId in this.state.unitsBasic){
+      if(unitId in self.state.unitsBasic){
         nailDOM.push(
           <div
             key={'key_Broads_Nails_'+unitId}
             className={classnames(styles.boxNail)}>
-            <NailRegular
-              {...this.props}
+            <NailSquare
+              {...self.props}
               unitId={unitId}
-              linkPath={this.props.match.url+'/unit'}
-              unitBasic={this.state.unitsBasic[unitId]}
-              marksBasic={this.state.marksBasic}/>
+              linkPath={self.props.match.url+'/unit'}
+              unitBasic={self.state.unitsBasic[unitId]}
+              marksBasic={self.state.marksBasic}/>
           </div>
         );
         //cauculate remainder to decide whether a interspace was needed or not
         let remainder = (index+1) % 3; // +1 to avoid error when index==0
-        if(remainder==0) shareds.push(
+        if(remainder==0) nailDOM.push(
           <div
             key={'key_nails_interspace'+index}
             className={classnames(styles.boxFillHoriz)}/>
@@ -171,6 +170,18 @@ class Broads extends React.Component {
       }
     })
 
+    //add the empty needed for the 3n
+    if(initDelta >0){
+      for(let i=0; i< initDelta; i++){
+        nailDOM.push(
+          <div
+            key={'key_Broads_Nails_tail_'+i}
+            style={{width: '20vw',
+              height: '25vw',
+              position: 'relative'}}/>
+        )
+      }
+    }
     //in the end, and only at the end!
     //push the footer
     nailDOM.push(scrollFooter);
@@ -181,11 +192,6 @@ class Broads extends React.Component {
     return(
       <div
         className={classnames(styles.comBroad)}>
-        <div
-          className={classnames(styles.boxReserved, styles.boxTitle)}
-          style={Object.assign({}, {width: '20vw'})}>
-          {'title broad'}
-        </div>
         <div
           className={classnames(styles.boxList)}>
           {this._render_Broads()}

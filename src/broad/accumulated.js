@@ -33,6 +33,8 @@ function _handle_GET_accumulated_Broad(req, res){
       sendingData.unitsList = resultsBroad.rows.map((row, index)=>{
         return row.id_unit;
       })
+      sendingData.unitsList.reverse(); //reverse the order, let the latest be the first
+      //reverse() would change the original arr directly
 
       return sendingData;
     }).then((sendingData)=>{
