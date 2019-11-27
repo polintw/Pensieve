@@ -16,14 +16,16 @@
   background-color: #FFFFFF;
 }
 
-.boxReserved {
-  display: inline-block;
-  height: 25vw;
-  box-sizing: border-box;
-  background-color: transparent;
-}
-
 .boxFillHoriz {
   width: 99%;
   height: 5vw;
+}
+
+.scrollFooter {
+  display: inline-block;
+  width: 99%;
+  height: 58vh;
+  min-height: 111px;
+  position: relative;
+  box-sizing: border-box;
 }
