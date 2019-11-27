@@ -8,7 +8,6 @@ import {connect} from "react-redux";
 import querystring from 'query-string';
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import TitleInspired from '../Titles/TitleInspired.jsx';
 import Unit from '../../../../Unit/Unit/Unit.jsx';
 import NailInspired from '../../../../Component/Nails/NailInspired/NailInspired.jsx';
 import {
@@ -19,21 +18,6 @@ import {
   cancelErr,
   uncertainErr
 } from '../../../../utils/errHandlers.js';
-
-const styleMiddle = {
-  boxTitle: {
-    position: 'absolute',
-    right: '0',
-  },
-  scrollFooter: {
-    display: 'inline-block',
-    width: '99%',
-    height: '58vh',
-    minHeight: '111px',
-    position: 'relative',
-    boxSizing: 'border-box',
-  }
-}
 
 class Inspired extends React.Component {
   constructor(props){
@@ -52,9 +36,6 @@ class Inspired extends React.Component {
     this.style={
       selfCom_Inspired_: {
         width: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0'
       },
     }
   }
@@ -65,67 +46,6 @@ class Inspired extends React.Component {
     //inspired mark opened, or Unit opened from related(response)
     let unitInit= urlQuery.mark? {marksify: true, initMark: urlQuery.mark, layer: this.state.marksBasic[urlQuery.mark].layer}: {marksify: false, initMark: "all", layer: 0};
     return unitInit;
-  }
-
-  _render_Inspireds(){
-    const self = this;
-    let inspireds=[],
-        reserved = (
-          <div
-            key={'key_Inspired_nails_titleReserved'}
-            className={classnames(styles.boxReserved)}
-            style={Object.assign({}, {width: '20vw'})}>
-          </div>
-        ), scrollFooter = (
-          <div
-            key={'key_Inspired_nails_scrollFooter'}
-            style={styleMiddle.scrollFooter}></div>
-        );
-
-    //then we render Nail by Unit,
-    //each Unit form only one Nail,
-    //using the list in each unitBasic to accomplish this
-    let widthCount = 0; // a value used to accumulate the 'width'--- as the width of Nail was case by case,
-    self.state.unitsList.forEach(function(unitKey, index){
-      let unitBasic = self.state.unitsBasic[unitKey];
-      let wideNail = !!(unitBasic.marksList.length > 1); //claim a var representing the width condition
-
-      widthCount += wideNail? 2: 1; //meaning the 'width'  of new nail going to be pushed
-      if(widthCount > 3){ //meaning if the width woudl over 3 (the limit to each row),
-        //than we push the interspace first before the new Nail,
-        //and reset the widthCount because it is belong to the new row.
-        inspireds.push(
-          <div
-            key={'key_Inspired_nails_interspace'+index}
-            className={classnames(styles.boxFillHoriz)}/>
-        );
-        widthCount = wideNail? 2: 1;
-      };
-
-      inspireds.push(
-        <div
-          key={'key_Inspired_nails_'+unitKey}
-          className={classnames(styles.boxNail)}
-          style={{width: wideNail? "40vw": "20vw"}}>
-          <NailInspired
-            {...self.props}
-            unitId={unitKey}
-            unitBasic={unitBasic}
-            linkPath={self.props.match.url+'/unit'}
-            marksBasic={self.state.marksBasic}/>
-        </div>
-      );
-      //but we have to make a special check for the first row,
-      //which has a reserved place for the title.
-      //only chekc at the first 2(index<2), and add reserved place if the first row already take by 2
-      if(index< 2 && widthCount> 1){inspireds.push(reserved); widthCount += 1 };
-
-    });
-
-    //in the end, and only at the end!
-    //push the footer
-    inspireds.push(scrollFooter);
-    return inspireds;
   }
 
   _axios_nails_Inspireds(){
@@ -174,16 +94,61 @@ class Inspired extends React.Component {
     }
   }
 
+  _render_Inspireds(){
+    const self = this;
+    let inspireds=[],
+        scrollFooter = (
+          <div
+            key={'key_Inspired_nails_scrollFooter'}
+            className={classnames(styles.scrollFooter)}/>
+        );
+
+    //then we render Nail by Unit,
+    //each Unit form only one Nail,
+    //using the list in each unitBasic to accomplish this
+    let widthCount = 0; // a value used to accumulate the 'width'--- as the width of Nail was case by case,
+    self.state.unitsList.forEach(function(unitKey, index){
+      let unitBasic = self.state.unitsBasic[unitKey];
+      let wideNail = !!(unitBasic.marksList.length > 1); //claim a var representing the width condition
+
+      widthCount += wideNail? 2: 1; //meaning the 'width'  of new nail going to be pushed
+      if(widthCount > 3){ //meaning if the width woudl over 3 (the limit to each row),
+        //than we push the interspace first before the new Nail,
+        //and reset the widthCount because it is belong to the new row.
+        inspireds.push(
+          <div
+            key={'key_Inspired_nails_interspace'+index}
+            className={classnames(styles.boxFillHoriz)}/>
+        );
+        widthCount = wideNail? 2: 1;
+      };
+
+      inspireds.push(
+        <div
+          key={'key_Inspired_nails_'+unitKey}
+          className={classnames(styles.boxNail)}
+          style={{width: wideNail? "40vw": "20vw"}}>
+          <NailInspired
+            {...self.props}
+            unitId={unitKey}
+            unitBasic={unitBasic}
+            linkPath={self.props.match.url+'/unit'}
+            marksBasic={self.state.marksBasic}/>
+        </div>
+      );
+
+    });
+
+    //in the end, and only at the end!
+    //push the footer
+    inspireds.push(scrollFooter);
+    return inspireds;
+  }
+
   render(){
     return(
       <div
         style={this.style.selfCom_Inspired_}>
-        <div
-          className={classnames(styles.boxReserved)}
-          style={Object.assign({}, {width: '20vw'}, styleMiddle.boxTitle)}>
-          <TitleInspired
-            {...this.props}/>
-        </div>
         <div
           className={classnames(styles.boxList)}>
           {this._render_Inspireds()}

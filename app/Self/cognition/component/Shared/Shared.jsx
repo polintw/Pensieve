@@ -96,9 +96,13 @@ class Shared extends React.Component {
           <div
             key={'key_Shared_nails_scrollFooter'}
             style={styleMiddle.scrollFooter}></div>
-        );
+          ),
+          //currently, the Nail was align by '3', three nails a row
+          //to add a empty a box for the last row if less than 3n,
+          //calculate the remainder of the list
+          initDelta = 3-(this.state.unitsList.length % 3);
 
-    self.state.unitsList.forEach(function(dataKey, index){
+    this.state.unitsList.forEach(function(dataKey, index){
       let dataValue = self.state.unitsBasic[dataKey];
       shareds.push(
         <div
@@ -154,6 +158,18 @@ class Shared extends React.Component {
         );
 
       });
+    }
+    //add the empty needed for the 3n
+    if(initDelta >0){
+      for(let i=0; i< initDelta; i++){
+        shareds.push(
+          <div
+            key={'key_Shared_nails_'+i}
+            style={{width: '20vw',
+              height: '25vw',
+              position: 'relative'}}/>
+        )
+      }
     }
     //in the end, push the footer
     shareds.push(scrollFooter);

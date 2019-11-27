@@ -11,19 +11,8 @@ export default class TitleInspired extends React.Component {
 
     };
     this.style={
-      selfCom_Title_Inspired_: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box'
-      },
       selfCom_Title_Inspired_main_: {
         display: 'inline-block',
-        position: 'absolute',
-        top: '40.5%',
-        left: '50%',
         transform: 'translate(-50%,0)',
         boxSizing: 'border-box',
         fontWeight: '700',
@@ -42,10 +31,8 @@ export default class TitleInspired extends React.Component {
   }
 
   render(){
-    //let cx = cxBind.bind(styles);
     return(
-      <div
-        style={this.style.selfCom_Title_Inspired_}>
+      <div>
         <div
           style={this.style.selfCom_Title_Inspired_main_}>
           <div
