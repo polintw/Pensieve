@@ -4,7 +4,7 @@ import {
   Link
 } from 'react-router-dom';
 import Shared from './component/Shared/Shared.jsx';
-import NavActions from './Navs/NavActions.jsx';
+import NavActions from './Navs/NavSubs/NavActions.jsx';
 
 export default class CogActions extends React.Component {
   constructor(props){

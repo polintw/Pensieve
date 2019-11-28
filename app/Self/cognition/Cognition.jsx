@@ -26,7 +26,7 @@ class Cognition extends React.Component {
       Cognition_scroll_: {
         width: '65vw',
         position: 'absolute',
-        top: '9vh',
+        top: '8.8vh',
         left: '20vw',
         boxSizing: 'border-box'
       },
