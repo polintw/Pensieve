@@ -7,6 +7,15 @@
   box-sizing: border-box;
 }
 
+.rowBroads {
+
+}
+
+.boxRowTitle {
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .boxUnits {
   display: flex;
   justify-content: space-between;
@@ -53,14 +62,12 @@
   margin: 5vw 0 10vw;
 }
 
-.boxRowSeperate {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.boxRowBroads {
   width: 100%;
-  height: 2vw;
   position: relative;
   box-sizing: border-box;
+  margin: 5vw 0 10vw;
+
 }
 
 .boxTitleFirst {
@@ -137,22 +144,10 @@
   /*letter-spacing: 0.2rem;*/
 }
 
-.fontSubtitle { /* keep it related to fontNode in BannerBelong & fontTitleGreet in BelongForm*/
-  font-size: 1.76rem;
-  line-height: 2.05rem;
-  letter-spacing: 0.04rem;
-}
-
 .fontDescript { /* keep it related to fontType in BannerBelong*/
   font-size: 1.37rem;
   letter-spacing: 0.07rem;
   line-height: 2rem;
-}
-
-.decoLineSeperate {
-  box-sizing: border-box;
-  border-bottom: solid 1.7px #c4c4c4;
-  opacity: 0.5;
 }
 
 .fontWikiIntro {

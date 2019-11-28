@@ -50,6 +50,6 @@ export const i18nUIStringInit = {
      "hintEmptyNode": "be the first introducing this corner to people!",
      "titleBannerBelong": "new share around ",
      "titleBannerRest": "new arrived or selected",
-     "titleFocusStart": "All from browsing.",
+     "title_Main_Broads": "or, here are some broaded by users."
    }
 }
