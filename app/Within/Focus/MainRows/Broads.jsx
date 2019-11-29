@@ -7,6 +7,9 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "../MainBanner/styles.module.css"; //Notice, we use shared css file here for easier control
 import {
+  axios_Units,
+} from '../MainBanner/utils.js';
+import {
   nailChart,
 } from '../Main/utils.js';
 import {
@@ -39,14 +42,14 @@ class Broads extends React.Component {
   }
 
   _axios_GET_broadsList(){
-    let url = '/router/feed/broad';
+    let url = '/router/feed/broads';
 
     return axios.get(url, {
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']
       },
-      cancelToken: cancelToken
+      cancelToken: this.axiosSource.token
     }).then(function (res) {
       let resObj = JSON.parse(res.data);
 
@@ -57,21 +60,35 @@ class Broads extends React.Component {
   }
 
   _set_BroadsUnits(){
+    const self = this;
+    this.setState({axios: true});
 
     //get list by lastvisit: new or rand
     this._axios_GET_broadsList()
-
-    .then({
-
+    .then((resObj)=>{
       //res: update to indexLists, call axios_Units of /MainBanner/utils, call _set_mountToDo from props
-
+      //(we don't update the 'axios' state, because there is another axios here, for units, right after the res)
       self.props._submit_IndexLists({broads: resObj.main.unitsList}); //submit the list to the props.indexLists.
+      self.props._set_mountToDo("listRowBroads"); //splice the label from the todo list of Main
+      //_set_mountToDo is a process control of Main, make sure the 'lastvisit' was update 'after' all the process was done
 
+      return axios_Units(self.axiosSource.token, resObj.main.unitsList); //and use the list to get the data of eahc unit
+    })
+    .then((resObj)=>{
       //after res of axios_Units: call get nouns & users
       self.props._submit_NounsList_new(resObj.main.nounsListMix);
       self.props._submit_UsersList_new(resObj.main.usersList);
+      //and final, update the data of units to state
+      self.setState((prevState, props)=>{
+        return ({
+          axios: false,
+          unitsBasic: {...prevState.unitsBasic, ...resObj.main.unitsBasic},
+          marksBasic: {...prevState.marksBasic, ...resObj.main.marksBasic}
+        });
+      });
 
-    }).catch(function (thrown) {
+    })
+    .catch(function (thrown) {
       self.setState({axios: false});
       if (axios.isCancel(thrown)) {
         cancelErr(thrown);

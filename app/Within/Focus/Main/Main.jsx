@@ -53,7 +53,7 @@ class MainIndex extends React.Component {
       axiosFocus: false,
       lastVisit: false,
       focusFetchTurn: 1,
-      mountTodo: ["lastVisit", "listMain", "listBannerNew", "listBannerSelect"],
+      mountTodo: ["lastVisit", "listMain", "listBannerNew", "listBannerSelect", "listRowBroads"],
       unitsList: [],
       unitsBasic: {},
       marksBasic: {},
