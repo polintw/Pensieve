@@ -31,7 +31,7 @@ function _handle_GET_feed_mainBroads(req, res){
         where: {
           createdAt: {[Op.gt]: usersIndex.last_visit}
         },
-        limit: 12, //just in case there are too many, the client would use not more than 12
+        //no 'limit', so it is dangerous if the broad accumulated too many
         order: [['createdAt', 'DESC']] //make sure the order of arr are from latest
       })
       .then((latestBroads)=>{
@@ -39,10 +39,13 @@ function _handle_GET_feed_mainBroads(req, res){
           unitsList: [],
           temp: {}
         };
-
         latestBroads.forEach((row, index)=>{
-          sendingData.unitsList.unshift(latestBroads.id_unit)
+          //the list, could have duplicate unit because the same unit would be broad many times
+          //and we could not just filter it during selection by native mysql(DISTINCT), because the 'createdAt' is almost unique for each row
+          //so, we have to rm duplicate value
+          if(sendingData.unitsList.indexOf(latestBroads.id_unit)< 0) sendingData.unitsList.unshift(latestBroads.id_unit);
         })
+
         sendingData.temp["last_visit"] = usersIndex.last_visit; //for the possible situation in next step
 
         return sendingData;
@@ -56,11 +59,13 @@ function _handle_GET_feed_mainBroads(req, res){
       const remainLength = 3-sendingData.unitsList.length;
       if(remainLength> 0){
         return _DB_broads.findAll({
-          where:{
-            createdAt: {[Op.lt]: sendingData.temp.last_visit}
-          },
-          limit: 23, //just a num conerning the later Fisher-Yates shuffle
-          order: [['createdAt', 'DESC']] //make sure the order of arr are from latest
+          attributes: [
+            [Sequelize.fn('DISTINCT', Sequelize.col('id_unit')) ,'id_unit']
+          ],
+          limit: 113, //just a num conerning the later Fisher-Yates shuffle
+          //Notice! this selection, is just a method work for current situation
+          //the 'limit' + 'DISTINCT' would be unrealistic after the frequency of broad raise
+          //we would need a better algorithm for this list after the future came
         })
         .then((resultBroads)=>{
           //now, we want to randomly select nums from it. Also use 'Fisher-Yates Shuffle'.
