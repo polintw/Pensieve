@@ -138,7 +138,7 @@ class Broads extends React.Component {
   }
 
   render(){
-    return(
+    return (this.props.indexLists['broads'].length > 0) ? (
       <div
         className={classnames(styles.rowBroads)}>
         <div
@@ -152,6 +152,17 @@ class Broads extends React.Component {
           {this._render_nails()}
         </div>
       </div>
+    ):(
+      <div
+        className={classnames(styles.rowBroads)}>
+        <div
+          className={classnames(styles.boxRowTitle)}>
+          <span
+            className={classnames(styles.spanTitle, styles.fontTitle)}>
+            {this.props.i18nUIString.catalog["guidingBroad_atMain"]}</span>
+        </div>
+      </div>
+
     )
   }
 }

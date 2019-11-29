@@ -41,6 +41,7 @@ export const i18nUIStringInit = {
      "guidingBelong_EditReset": "Let the new one join your List:",
      "guidingBelong_Edit": "any new corner came into your life ?",
      "guidingShare_atBelong": "Unboxing your world!",
+     "guidingBroad_atMain": "Go Broadcasting the Shared you like!",
      "descript_BelongTypeInteract": ["reset your ", " ?"],
      "descript_Unit_BroadList": ["all broadcast this Shared", "and more"],
      "descript_Unit_Author_read": ["reach to", "reach"],

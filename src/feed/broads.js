@@ -33,19 +33,21 @@ function _handle_GET_feed_mainBroads(req, res){
         },
         limit: 12, //just in case there are too many, the client would use not more than 12
         order: [['createdAt', 'DESC']] //make sure the order of arr are from latest
-      }).catch((err)=>{throw err});
-    })
-    .then((latestBroads)=>{
-      let sendingData={
-        unitsList: [],
-        temp: {}
-      };
-
-      latestBroads.forEach((row, index)=>{
-        sendingData.unitsList.unshift(latestBroads.id_unit)
       })
+      .then((latestBroads)=>{
+        let sendingData={
+          unitsList: [],
+          temp: {}
+        };
 
-      return sendingData;
+        latestBroads.forEach((row, index)=>{
+          sendingData.unitsList.unshift(latestBroads.id_unit)
+        })
+        sendingData.temp["last_visit"] = usersIndex.last_visit; //for the possible situation in next step
+
+        return sendingData;
+      })
+      .catch((err)=>{throw err});
     })
     .then((sendingData)=>{
       //But now! it is possible none of units was broaded since last_visit,
@@ -53,9 +55,9 @@ function _handle_GET_feed_mainBroads(req, res){
       //we pick from the old, unless, there are 'nothing' in the table(only happen at the beginging)
       const remainLength = 3-sendingData.unitsList.length;
       if(remainLength> 0){
-        return _DB_broads.findAndCountAll({
+        return _DB_broads.findAll({
           where:{
-            createdAt: {[Op.lt]: usersIndex.last_visit}
+            createdAt: {[Op.lt]: sendingData.temp.last_visit}
           },
           limit: 23, //just a num conerning the later Fisher-Yates shuffle
           order: [['createdAt', 'DESC']] //make sure the order of arr are from latest
