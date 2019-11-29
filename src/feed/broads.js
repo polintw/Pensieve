@@ -6,6 +6,7 @@ const {verify_key} = require('../../config/jwt.js');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const _DB_broads = require('../../db/models/index').broads;
+const _DB_usersCustomIndex = require('../../db/models/index').users_custom_index;
 const {_res_success} = require('../utils/resHandler.js');
 const {
   _select_Basic
@@ -19,24 +20,68 @@ function _handle_GET_feed_mainBroads(req, res){
   new Promise((resolve, reject)=>{
     const userId = req.extra.tokenUserId;
 
-    // in this api, we only return the units broaded by current user,
-    //res only the list
-    _DB_broads.findAndCountAll({
-      where: {id_user: userId}
+    _DB_usersCustomIndex.findOne({
+      where: {
+        id_user: userId
+      },
+      attributes: ['last_visit', 'id_user']
+    }).then((usersIndex)=>{
+      //then we select the list
+      return _DB_broads.findAll({
+        where: {
+          createdAt: {[Op.gt]: usersIndex.last_visit}
+        },
+        limit: 12, //just in case there are too many, the client would use not more than 12
+        order: [['createdAt', 'DESC']] //make sure the order of arr are from latest
+      }).catch((err)=>{throw err});
     })
-    .then((resultsBroad)=>{
+    .then((latestBroads)=>{
       let sendingData={
         unitsList: [],
         temp: {}
       };
 
-      sendingData.unitsList = resultsBroad.rows.map((row, index)=>{
-        return row.id_unit;
+      latestBroads.forEach((row, index)=>{
+        sendingData.unitsList.unshift(latestBroads.id_unit)
       })
-      sendingData.unitsList.reverse(); //reverse the order, let the latest be the first
-      //reverse() would change the original arr directly
 
       return sendingData;
+    })
+    .then((sendingData)=>{
+      //But now! it is possible none of units was broaded since last_visit,
+      //so we check the length now, and if the units less than 3 (the smallest num display on client side),
+      //we pick from the old, unless, there are 'nothing' in the table(only happen at the beginging)
+      const remainLength = 3-sendingData.unitsList.length;
+      if(remainLength> 0){
+        return _DB_broads.findAndCountAll({
+          where:{
+            createdAt: {[Op.lt]: usersIndex.last_visit}
+          },
+          limit: 23, //just a num conerning the later Fisher-Yates shuffle
+          order: [['createdAt', 'DESC']] //make sure the order of arr are from latest
+        })
+        .then((resultBroads)=>{
+          //now, we want to randomly select nums from it. Also use 'Fisher-Yates Shuffle'.
+          let dealAt = resultBroads.length, tempHolder, randNr;
+
+          while (0 !== dealAt) { //until we go through all list
+            randNr = Math.floor(Math.random() * dealAt); //avoid repeatting 'shuffle' the shuffledpart
+            dealAt -= 1; //set the index to current one
+            //then, shuffle
+            tempHolder = resultBroads[dealAt];
+            resultBroads[dealAt] = resultBroads[randNr];
+            resultBroads[randNr] = tempHolder;
+          };
+          //and final, pick the needed amount from the random arr
+          for(let i=0; i< remainLength; i++){
+            sendingData.unitsList.push(resultBroads[i].id_unit);
+          };
+
+          return sendingData
+        }).catch((err)=>{throw err});
+      }
+      //or if we got enough units at previous step
+      else return sendingData; //end of 'if'
     }).then((sendingData)=>{
 
       resolve(sendingData);
