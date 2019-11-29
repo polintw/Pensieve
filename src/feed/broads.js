@@ -31,8 +31,21 @@ function _handle_GET_feed_mainBroads(req, res){
         where: {
           createdAt: {[Op.gt]: usersIndex.last_visit}
         },
-        //no 'limit', so it is dangerous if the broad accumulated too many
-        order: [['createdAt', 'DESC']] //make sure the order of arr are from latest
+        //the list, could have duplicate unit because the same unit would be broad many times
+        //so we trying to select & filter the row with same id_unit here
+        attributes: [
+          //'max' here combined with 'group' prop beneath,
+          //because the GROUP by won't deal with the createdAt at the same time with id_unit,
+          //so we ask only the 'max' one by this method
+          [Sequelize.fn('max', Sequelize.col('createdAt')), 'createdAt'], //fn(function, col, alias)
+          'id_unit' //set attributes, so we also need to call every col we need
+        ],
+        group: 'id_unit', //Important. means we combined the rows by id_unit, each id_unit would only has one row
+        limit: 12, //client side need no more than 12
+        order: [ //make sure the order of arr are from latest
+          Sequelize.literal('`createdAt` DESC') //and here, using 'literal' is due to some wierd behavior of sequelize,
+          //it would make an Error if we provide col name by 'arr'
+        ]
       })
       .then((latestBroads)=>{
         let sendingData={
@@ -40,10 +53,7 @@ function _handle_GET_feed_mainBroads(req, res){
           temp: {}
         };
         latestBroads.forEach((row, index)=>{
-          //the list, could have duplicate unit because the same unit would be broad many times
-          //and we could not just filter it during selection by native mysql(DISTINCT), because the 'createdAt' is almost unique for each row
-          //so, we have to rm duplicate value
-          if(sendingData.unitsList.indexOf(latestBroads.id_unit)< 0) sendingData.unitsList.unshift(latestBroads.id_unit);
+          sendingData.unitsList.unshift(latestBroads.id_unit);
         })
 
         sendingData.temp["last_visit"] = usersIndex.last_visit; //for the possible situation in next step
@@ -59,13 +69,25 @@ function _handle_GET_feed_mainBroads(req, res){
       const remainLength = 3-sendingData.unitsList.length;
       if(remainLength> 0){
         return _DB_broads.findAll({
+          where: {
+            createdAt: {[Op.lt]: sendingData.temp.last_visit}
+          },
+          //the list, could have duplicate unit because the same unit would be broad many times
+          //so we trying to select & filter the row with same id_unit here
           attributes: [
-            [Sequelize.fn('DISTINCT', Sequelize.col('id_unit')) ,'id_unit']
+            //'max' here combined with 'group' prop beneath,
+            //because the GROUP by won't deal with the createdAt at the same time with id_unit,
+            //so we ask only the 'max' one by this method
+            [Sequelize.fn('max', Sequelize.col('createdAt')), 'createdAt'], //fn(function, col, alias)
+            'id_unit' //set attributes, so we also need to call every col we need
           ],
-          limit: 113, //just a num conerning the later Fisher-Yates shuffle
-          //Notice! this selection, is just a method work for current situation
-          //the 'limit' + 'DISTINCT' would be unrealistic after the frequency of broad raise
-          //we would need a better algorithm for this list after the future came
+          group: 'id_unit', //Important. means we combined the rows by id_unit, each id_unit would only has one row
+          limit: 43, //concerning the efficiency of the later Fisher Yates
+          order: [ //make sure the order of arr are from latest
+            Sequelize.literal('`createdAt` DESC') //and here, using 'literal' is due to some wierd behavior of sequelize,
+            //it would make an Error if we provide col name by 'arr'
+          ]
+
         })
         .then((resultBroads)=>{
           //now, we want to randomly select nums from it. Also use 'Fisher-Yates Shuffle'.
