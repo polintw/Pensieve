@@ -75,6 +75,23 @@ export function nailChart(choice, unitId, pare){
         </div>
       )
       break;
+    case 5:
+      return (
+        <div
+          key={'key_CosmicMain_rows_Nails_'+ unitId}
+          className={classnames(styles.boxNail, styles.heightNine, styles.boxNarrow)}>
+          <FetchBroads
+            {...this.props}>
+            <NailSquare
+              {...pare.props}
+              unitId={unitId}
+              linkPath={pare.props.match.url+'/unit'}
+              unitBasic={pare.state.unitsBasic[unitId]}
+              marksBasic={pare.state.marksBasic}/>
+          </FetchBroads>
+        </div>
+      )
+      break;
     default:
       return (
         <div
