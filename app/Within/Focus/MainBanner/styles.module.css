@@ -7,8 +7,33 @@
   box-sizing: border-box;
 }
 
-.rowBroads {
+.boxRow {
+  width: 100%;
+  margin: 5vw 0 7.5vw;
+}
 
+.boxRowBelong {
+  align-self: center;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.boxRowTodayNode {
+  position: relative;
+  box-sizing: border-box;
+}
+
+.boxRowBroads {
+  position: relative;
+  box-sizing: border-box;
+}
+
+.boxRowFirst {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  box-sizing: border-box;
+  margin: 5vw 0 7.5vw;
 }
 
 .boxRowTitle {
@@ -23,50 +48,17 @@
   width: 100%; /*controled by parent*/
   position: relative;
   box-sizing: border-box;
-  margin-bottom: 7.5vw;
 }
 
 .boxTitle {
   display: flex;
-  justify-content: center;
+  justify-content: left;
   width: 100%;
   box-sizing: border-box;
-  margin: 7.5vw 0 5vw;
+  margin: 5vw 0 0vw;
 }
 
-.boxUnitsJustifyAround {
-  justify-content: space-around;
-}
-
-.boxRowFirst {
-  display: flex;
-  justify-content: space-between;
-  width: 100%; /*let it controled by parent*/
-  position: relative;
-  box-sizing: border-box;
-  margin: 7.5vw 0;
-}
-
-.boxRowBelong {
-  align-self: center;
-  width: 100%;
-  position: relative;
-  box-sizing: border-box;
-  margin: 5vw 0 10vw;
-}
-
-.boxRowTodayNode {
-  width: 100%;
-  position: relative;
-  box-sizing: border-box;
-  margin: 5vw 0 10vw;
-}
-
-.boxRowBroads {
-  width: 100%;
-  position: relative;
-  box-sizing: border-box;
-  margin: 5vw 0 10vw;
+.rowBroads {
 
 }
 
@@ -124,7 +116,8 @@
 }
 
 .spanTitle {
-
+  display: inline-block;
+  padding: 0 0 1.76rem 0;
 }
 
 .spanTitleFirst {
@@ -133,15 +126,14 @@
 }
 
 .fontTitle {
-  font-size: 2.4rem;
-  font-weight: 700;
-  letter-spacing: 0.05rem;
+  font-size: 2.2rem;
+  font-weight: 500;
+  letter-spacing: 0.064rem;
 }
 
 .fontTitleFirst {
-  /*font-size: 3rem;*/
   font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;
-  /*letter-spacing: 0.2rem;*/
+  font-weight: 700;
 }
 
 .fontDescript { /* keep it related to fontType in BannerBelong*/

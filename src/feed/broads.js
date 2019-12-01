@@ -53,7 +53,7 @@ function _handle_GET_feed_mainBroads(req, res){
           temp: {}
         };
         latestBroads.forEach((row, index)=>{
-          sendingData.unitsList.unshift(latestBroads.id_unit);
+          sendingData.unitsList.unshift(row.id_unit);
         })
 
         sendingData.temp["last_visit"] = usersIndex.last_visit; //for the possible situation in next step

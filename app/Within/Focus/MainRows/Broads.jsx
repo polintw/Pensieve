@@ -142,7 +142,8 @@ class Broads extends React.Component {
       <div
         className={classnames(styles.rowBroads)}>
         <div
-          className={classnames(styles.boxRowTitle)}>
+          className={classnames(styles.boxRowTitle)}
+          style={{textAlign: 'right'}}>
           <span
             className={classnames(styles.spanTitle, styles.fontTitle)}>
             {this.props.i18nUIString.catalog["title_Main_Broads"]}</span>

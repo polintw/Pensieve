@@ -2,7 +2,7 @@
   width: 100%;
   position: relative;
   box-sizing: border-box;
-  margin: 0 0 10vw; /* '%' would follow the width of the width of higher com, and heigher com could set min-width to limit experience */
+  margin: 0 0 5vw; /* '%' would follow the width of the width of higher com, and heigher com could set min-width to limit experience */
 }
 
 .boxBanner {
@@ -36,22 +36,22 @@
 
 .boxWide {
   width: 40vw;
-  box-shadow: 0 1px 1px rgb(230, 230, 230);
+  box-shadow: 0 2px 1px rgb(230, 230, 230);
 }
 
 .boxNarrow {
   width: 20vw;
-  box-shadow: 0 1px 1px rgb(230, 230, 230);
+  box-shadow: 0 2px 1px rgb(230, 230, 230);
 }
 
 .boxEven {
   width: 30vw;
-  box-shadow: 0 1px 1px rgb(230, 230, 230);
+  box-shadow: 0 2px 1px rgb(230, 230, 230);
 }
 
 .boxMidium {
   width: 25vw;
-  box-shadow: 0 1px 1px rgb(230, 230, 230);
+  box-shadow: 0 2px 1px rgb(230, 230, 230);
 }
 
 .heightNine {
