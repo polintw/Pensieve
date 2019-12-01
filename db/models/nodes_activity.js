@@ -11,6 +11,12 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
+    nodes_activity.belongsTo(models.units, {
+      foreignKey:"id_firstUnit",
+      targetKey: "id",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
   };
   nodes_activity.removeAttribute('id'); //this model do not use 'id' nor any pk, so we need to tell it.
 

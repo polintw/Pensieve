@@ -1,9 +1,9 @@
 .nodesListLayers{
-  font-size: 2.68rem;
+  font-size: 2.56rem;
   letter-spacing: 0.13rem;
   font-weight: 400;
   font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;
-  line-height: 2.5rem;
+  line-height: 2.6rem;
   color: #FAFAFA;
 }
 
@@ -25,12 +25,11 @@
 }
 
 .fontContentSum {
-  font-size: 1.56rem;
+  font-size: 1.54rem;
   font-weight: 300;
   font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;
-  letter-spacing: 0.087rem;
-  line-height: 1.77rem;
-  word-wrap: break-word;
+  letter-spacing: 0.07rem;
+  line-height: 2.3rem;
   color: #FAFAFA;
 }
 
@@ -65,12 +64,6 @@
 }
 
 .sumPanelOptions {
-  display: inline-block;
-  width: 17%;
-  height: 100%;
-  position: relative;
-  margin-right: 7%;
-  float: right;
   box-sizing: border-box;
 }
 
@@ -78,11 +71,12 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-bottom: 7%;
+  text-align: right;
 }
 
-.fontSumOptEdit{
-  font-size: 1.64rem;
+.fontSumOpt{
+  font-size: 1.54rem;
   letter-spacing: 0.12rem;
-  text-align: right;
   font-weight: 400;
 }

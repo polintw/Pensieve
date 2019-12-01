@@ -8,7 +8,6 @@ const actionsRouter = require('./user/actions/main.js');
 const embeddedRouter = require('./user/embedded/main.js');
 const collateralsRouter = require('./user/collaterals/main.js');
 const scapeRouter = require('./user/scape/main.js');
-const profileRouter = require('./user/profile/main.js');
 const unitRouter = require('./unit/main.js');// shift to "units"
 const unitsRouter = require('./units/main.js');
 const imgRouter = require('./img/main.js');
@@ -21,6 +20,8 @@ const nounsRouter = require('./nouns/main.js');
 const windowRouter = require('./window/main.js');
 const exploreRouter = require('./explore/main.js');
 const notificationsRouter = require('./notifications/main.js');
+const uProfileRouter = require('./user/profile/main.js');
+const uRecordsRouter = require('./user/records/main.js');
 const generalRouter = require('./general/main.js');
 
 //routes do not protect by token, to fix this, we would have to tranmit img totally by axios api
@@ -34,13 +35,14 @@ router.use('/user', userRouter)
 router.use('/actions', actionsRouter) //prepare to replace part of the "/user"
 router.use('/embedded', embeddedRouter) //prepare to replace part of the "/user"
 router.use('/collaterals', collateralsRouter) //prepare to replace part of the "/user"
-router.use('/profile', profileRouter) //prepare to replace part of the "/user"
 router.use('/scape', scapeRouter) //prepare to replace part of the "/user"
 
 
 router.use('/unit', unitRouter)
 // shift to "units"
 router.use('/units', unitsRouter)
+router.use('/profile', uProfileRouter)
+router.use('/records', uRecordsRouter)
 
 router.use('/account', accountRouter)
 router.use('/notifications', notificationsRouter)

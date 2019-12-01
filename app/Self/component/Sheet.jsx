@@ -206,7 +206,8 @@ const styleMiddle = {
             <AccountPlate
               size={'large'}
               accountFisrtName={this.props.userInfo.firstName}
-              accountLastName={this.props.userInfo.lastName}/>
+              accountLastName={this.props.userInfo.lastName}
+              styleFirst={{fontWeight: '600'}}/>
           </div>
         </div>
         <div

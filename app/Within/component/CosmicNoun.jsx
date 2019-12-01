@@ -5,52 +5,57 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import NodeLinks from './NodeLinks.jsx';
+import NodeLinks from './NodeLinks/NodeLinks.jsx';
 import NodeContributor from './NodeContributor.jsx';
 import Unit from '../../Unit/Unit/Unit.jsx';
+import SvgLogo from '../../Component/Svg/SvgLogo.jsx';
 import {
   handleNounsList,
   handleUsersList
 } from "../../redux/actions/general.js";
 
 const styleMiddle = {
-  comNounSingular: {
-
-  },
   boxScroll: {
     display: 'flex',
-    justifyContent: 'flex-end',
     flexWrap: 'wrap',
-    width: '73.5%',
-    minWidth: '954px',
+    justifyContent: 'space-between',
+    width: '65vw',
     position: 'absolute',
-    top: '3.4vh',
-    right: '17.3%',
+    top: '9.6vh',
+    left: '15%',
     boxSizing: 'border-box'
   },
   boxTitle: {
     display:'inline-block',
-    width: '83%',
+    width: '100%',
     position: 'relative',
     boxSizing: 'border-box',
-    padding: '0 0 3rem 0'
+    marginBottom: '5.5rem'
   },
   boxName: {
     display: 'inline-block',
     boxSizing: 'border-box',
-    padding: '1rem 6.4% 1rem 0',
-    float: 'right'
+    float: 'left'
   },
   boxNav: {
     display: 'inline-flex',
-    width: '17%',
+    flexDirection: 'column',
+    width: '15vw',
     position: 'relative',
     boxSizing: 'border-box',
-    padding: '1.7rem 0px 2rem 0%'
+    textAlign: 'right'
   },
   boxView: {
+    width: '45vw',
+  },
+  boxLogo: {
     display: 'inline-block',
-    width: '93%',
+    height: '12px',
+    position: 'fixed',
+    bottom: '2.8%',
+    right: '30%',
+    boxSizing: 'border-box',
+    cursor: 'pointer'
   },
   fontNav: {
     fontSize: "1.36rem",
@@ -59,14 +64,11 @@ const styleMiddle = {
     color: "#a8a8a8"
   },
   spanNav: {
-    position: 'relative',
-    float: 'right',
     boxSizing: 'border-box',
-    margin: '0.8rem 2.5rem 0.8rem 0',
     cursor: 'pointer'
   },
   fontName: {
-    fontSize: '2.32rem',
+    fontSize: '2.7rem',
     fontWeight: '600',
     letterSpacing: '0.13rem',
     whiteSpace: 'nowrap',
@@ -128,30 +130,9 @@ class CosmicNoun extends React.Component {
 
     return(
       <div
-        className={'boxAbsoluteFull'}
-        style={styleMiddle.comNounSingular}>
+        className={'boxAbsoluteFull'}>
         <div
           style={styleMiddle.boxScroll}>
-          <div
-            style={Object.assign({}, styleMiddle.boxNav, styleMiddle.fontNav)}>
-            <Link
-              to={{
-                pathname: this.props.match.url,
-                search: ''
-              }}
-              className={'plainLinkButton'}>
-              <span
-                style={styleMiddle.spanNav}>{'links'}</span>
-            </Link>
-            <Link
-              to={{
-                pathname: this.props.match.url,
-                search: '?view=contribute'}}
-              className={'plainLinkButton'}>
-              <span
-                style={styleMiddle.spanNav}>{'contributors'}</span>
-            </Link>
-          </div>
           <div
             style={styleMiddle.boxTitle}>
             <div
@@ -163,14 +144,43 @@ class CosmicNoun extends React.Component {
               )}
             </div>
           </div>
+          <div style= {{width: '5vw'}}/>
           <div
-            className={'boxRelativeFull'}
             style={styleMiddle.boxView}>
             {this._render_CosmicNouns_byView(paramsStatus)}
+          </div>
+          <div
+            style={Object.assign({}, styleMiddle.boxNav, styleMiddle.fontNav)}>
+            <Link
+              to={{
+                pathname: this.props.match.url,
+                search: ''
+              }}
+              className={'plainLinkButton'}
+              style={{margin: '0px 0 2.7rem',cursor: 'default'}}>
+              <span
+                style={styleMiddle.spanNav}>{'shareds'}</span>
+            </Link>
+            <Link
+              to={{
+                pathname: this.props.match.url,
+                search: '?view=contribute'}}
+              className={'plainLinkButton'}
+              style={{margin: '0px 0 2.7rem',cursor: 'default'}}>
+              <span
+                style={styleMiddle.spanNav}>{'contributors'}</span>
+            </Link>
           </div>
         </div>
         <div style={{width: '100%', height: '3.3vh', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
         <div style={{width: '100%', height: '54px', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
+        <Route path={this.props.match.path+"/"} render={(props)=> (
+            <div
+              style={Object.assign({}, styleMiddle.boxLogo)}
+              onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_von_cosmic('', '/cosmic')}}>
+              <SvgLogo/>
+            </div>
+          )}/>
         <Route
           path={this.props.match.path+"/unit"}
           render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_von_cosmic}/>}/>

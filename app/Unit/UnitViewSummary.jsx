@@ -36,20 +36,23 @@ class UnitViewSummary extends React.Component {
         boxSizing: 'border-box'
       },
       Com_UnitViewSummary_Marksarticle: {
-        width: "53%",
-        height: '72%',
+        width: "51%",
+        height: '81.5%',
         position: 'absolute',
-        right: '0.5%',
+        right: '0%',
         top: '5.5%',
         boxSizing: 'border-box',
         overflowY: 'auto'
       },
       Com_UnitViewSummary_panel_: {
-        width: '48%',
-        height: '9%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent:'flex-end',
+        width: '8%',
+        height: '11%',
         position: 'absolute',
-        bottom: '6%',
-        right: '3.5%',
+        bottom: '13%',
+        left: '34.5%',
         boxSizing: 'border-box'
       },
       Com_UnitViewSummary_nodes_: {
@@ -57,15 +60,16 @@ class UnitViewSummary extends React.Component {
         maxHeight: '40%',
         position: 'absolute',
         top: '33%',
-        left: '10.4%',
+        right: '71%',
         boxSizing: 'border-box',
         transform: 'translate(0,-50%)',
         overflow:'hidden'
       },
       Com_UnitViewSummary_author_: {
+        maxWidth: '27%',
         position: 'absolute',
         bottom: '13%',
-        left: '7.5%',
+        right: '71%',
         boxSizing: 'border-box'
       },
       Com_UnitViewSummary_author_name: {

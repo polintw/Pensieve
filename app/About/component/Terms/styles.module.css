@@ -1,0 +1,20 @@
+.comTerms {
+  width: 100%;
+  overflow-y: auto;
+}
+
+.boxScroll {
+  width: 60vw;
+  position: absolute;
+  left: 20vw;
+  top: 7.2rem;
+}
+
+.boxFooter {
+  height: 30vh;
+}
+
+.fontScroll { /*set as local root for the <tag/> inside*/
+  font-size: 17px;
+  line-height: 25px;
+}

@@ -6,15 +6,39 @@
   transform: translate(-50%, -50%);
 }
 
-.plainLinkButton {
-  text-decoration: none;
-  color: inherit;
-}
-
 .selfFront-fixedBottomBox-height {
-  height: 36px;
+  height: 4rem;
 }
 
 .selfFront-fixedBottomOverlay-height {
-  height: 72px;
+  height: 16vh;
+  min-height: 83px;
+}
+
+.boxNailNodesItem {
+  box-sizing: border-box;
+  margin: 1% 0% 5%;
+}
+
+.fontNailNode {
+  font-size: 2.1rem;
+  font-weight: 500;
+  letter-spacing: 0.1rem;
+  line-height: 2.2rem;
+  font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;
+  color: #FAFAFA;
+}
+
+.fontNailMark {
+  font-size: 1.4rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 19px;
+  text-align: left;
+}
+
+.fontNailAuthor {
+  font-size: 1.27rem;
+  font-weight: 400;
+  letter-spacing: 0.04rem;
 }

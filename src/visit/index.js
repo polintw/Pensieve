@@ -1,9 +1,9 @@
 const express = require('express');
 const execute = express.Router();
-//const jwt = require('jsonwebtoken');
-//const {verify_key} = require('../../config/jwt.js');
 const winston = require('../../config/winston.js');
+const Sequelize = require('sequelize');
 const _DB_lastvisitIndex = require('../../db/models/index').lastvisit_index;
+const _DB_usersCustomIndex = require('../../db/models/index').users_custom_index;
 const {_res_success} = require('../utils/resHandler.js');
 const {
   _handle_ErrCatched,
@@ -16,10 +16,10 @@ function _handle_GET_visit_Index(req, res){
 
     return _DB_lastvisitIndex.findOne({
       where: {id_user: userId},
-      attributes: ['updatedAt']
+      attributes: ['updatedAt', 'createdAt']
     }).then((lastVisit)=>{
       let sendingData={
-        lastTime: lastVisit.updatedAt,
+        lastTime: lastVisit.updatedAt==lastVisit.createdAt? 'newly': lastVisit.updatedAt, //to know if the user was newly register
         temp: {}
       };
 
@@ -39,10 +39,19 @@ function _handle_PATCH_visit_Index(req, res){
   new Promise((resolve, reject)=>{
     let userId = req.extra.tokenUserId;
 
-    return _DB_lastvisitIndex.update(
-      {ip: req.ip},
-      {where: {id_user: userId}}
-    ).then(()=>{
+    let pUpdateVisitIndex = _DB_lastvisitIndex.update( //because we retrieve updatedAt in GET, we just 'update' to create action record
+          {ip: req.ip},
+          {where: {id_user: userId}}
+        ).catch((err)=>{throw err}),
+        pUpdateCustomIndex = _DB_usersCustomIndex.update(
+          {last_visit: Sequelize.literal('CURRENT_TIMESTAMP')}, //update current time to users_custom_index directly
+          {where: {id_user: userId}}
+        ).catch((err)=>{throw err});
+
+    return Promise.all([
+      pUpdateVisitIndex,
+      pUpdateCustomIndex
+    ]).then(()=>{
       //nothing need to return from this api
       let sendingData={
         temp: {}

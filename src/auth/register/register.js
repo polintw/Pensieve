@@ -22,6 +22,9 @@ const {
 const _DB_lastvisitShared = require('../../../db/models/index').lastvisit_shared;
 const _DB_lastvisitNotify = require('../../../db/models/index').lastvisit_notify;
 const _DB_lastvisitIndex = require('../../../db/models/index').lastvisit_index;
+const _DB_sheetsNode = require('../../../db/models/index').sheets_node;
+const _DB_usersPreferNodes = require('../../../db/models/index').users_prefer_nodes;
+const _DB_usersCustomIndex = require('../../../db/models/index').users_custom_index;
 
 const _create_new_ImgFolder = (userId)=>{
   return new Promise((resolve,reject)=>{
@@ -134,12 +137,18 @@ function _handle_auth_register_POST(req, res) {
               pinsertLastvisitShared = _DB_lastvisitShared.create({id_user: userId}).catch((err)=>{throw err}),
               pinsertLastvisitNotify = _DB_lastvisitNotify.create({id_user: userId}).catch((err)=>{throw err}),
               pinsertLastvisitIndex = _DB_lastvisitIndex.create({id_user: userId}).catch((err)=>{throw err});
+              pinsertNewSheetNode = _DB_sheetsNode.create({id_user: userId}).catch((err)=>{throw err});
+              pinsertNewPreferNodes = _DB_usersPreferNodes.create({id_user: userId}).catch((err)=>{throw err});
+              pinsertNewCustomIndex = _DB_usersCustomIndex.create({id_user: userId}).catch((err)=>{throw err});
 
           return Promise.all([
             pinsertNewVerifi,
             pinsertNewSheet,
             pinsertEmailToken,
             pcreateImgFolder,
+            pinsertNewSheetNode,
+            pinsertNewPreferNodes,
+            pinsertNewCustomIndex,
             pinsertLastvisitIndex,
             pinsertLastvisitShared,
             pinsertLastvisitNotify])

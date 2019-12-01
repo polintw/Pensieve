@@ -23,12 +23,14 @@ export function uncertainErr(error){
   if (error.response) {
     // The request was made and the server responded with a status code that falls out of the range of 2xx
     let resConsole = error.response.data.console; // to verify the string length, this is neccessary.
+    //Notice that! in old method used in backend would not include 'console' key, so the resConsole would be 'undefined'
+    //there would be error under this ld method here
     if(resConsole.length>0) console.log(error.response.data.console);
     switch (error.response.data.code) {
       case 32:
-        window.location.reload();//anauthorized with invalid token, reload to check the token
-        return null;
-        break;
+      alert(error.response.data.message);
+      window.location.assign('/s/signin'); //anauthorized with invalid token, reload to check the token
+      return null; //return to inform iterator, meaning no need for further handleing
       default:
     };
     return error.response.data.message;

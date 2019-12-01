@@ -4,51 +4,6 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 
-const generalStyle = {
-  spanNameRegular: {
-    display: 'inline-block',
-    whiteSpace: 'nowrap',
-    fontSize: '1.45rem',
-    fontWeight: '400',
-    letterSpacing: '0.1rem',
-  },
-}
-
-class Regular extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-
-    };
-    this.style={
-
-    }
-  }
-
-  render(){
-    //let cx = cxBind.bind(styles);
-    return(
-      <span style={generalStyle.spanNameRegular}>
-        {this.props.userInfo.firstName + " " + this.props.userInfo.lastName}
-      </span>
-    )
-  }
-}
-
-const mapStateToProps = (state)=>{
-  return {
-    userInfo: state.userInfo,
-    unitCurrent: state.unitCurrent
-  }
-}
-
-const reduxConnection = connect(
-  mapStateToProps,
-  null
-);
-
-export const NameRegular = withRouter(reduxConnection(Regular));
-
 class Palette extends React.Component {
   constructor(props){
     super(props);
@@ -81,22 +36,40 @@ class Palette extends React.Component {
   }
 
   render(){
-    let classSpan = this._set_classByProps();
+    let classSpan = this._set_classByProps(),
+        propsStyle = [
+          this.props.styleFirst ?　this.props.styleFirst: {},
+          this.props.styleLast ? this.props.styleLast: {}
+        ];
 
     return(
       <div
         style={{display: 'inline-block'}}>
         <span
-          className={classSpan}>
+          className={classSpan}
+          style={propsStyle[0]}>
           {this.props.accountFisrtName+" "}
         </span>
         <span
-          className={classSpan}>
+          className={classSpan}
+          style={propsStyle[1]}>
           {this.props.accountLastName}
         </span>
       </div>
     )
   }
 }
+
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo,
+    unitCurrent: state.unitCurrent
+  }
+}
+
+const reduxConnection = connect(
+  mapStateToProps,
+  null
+);
 
 export const AccountPlate = withRouter(reduxConnection(Palette));

@@ -77,17 +77,17 @@ export default class ContentModal extends React.Component {
       },
       Com_Modal_ContentModal_Mark: { //keep it & _imglayer is convenient for making img following the format of UnitImg
         width: '100%',
-        height: '96%',
+        height: '99%',
         position: 'absolute',
         top: '0',
         right: '0%',
         boxSizing: 'border-box',
       },
       Com_Modal_ContentModal_Mark_imglayer: {
-        width: '86%',
-        height: '99%',
+        width: '81%',
+        height: '100%',
         position: 'absolute',
-        top: '1%',
+        top: '0%',
         right: '0%',
         boxSizing: 'border-box'
       },

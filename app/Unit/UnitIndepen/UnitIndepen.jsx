@@ -198,7 +198,7 @@ class UnitIndepen extends React.Component {
     if(this.state.close){return <Redirect to={{
         pathname: this.props.location.pathname,
         search: '?unitId='+this.unitId,
-        state: {from: this.props.location}
+        state: this.props.location.state //keep the state as props, perhaps need to increase 'current location' for 'back' use
       }}/>};
 
     return(

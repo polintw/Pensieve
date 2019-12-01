@@ -19,11 +19,14 @@ class Theater extends React.Component {
       close: false,
       mode: this.props.unitMode?this.props.unitMode:"viewer",
       warningModal: false,
-      warningType: null
+      warningType: null,
+      onSpanBack: false,
     };
     this.unitInit = this.props._construct_UnitInit(this.props.match, this.props.location);
     this._render_UnitMode = this._render_UnitMode.bind(this);
     this._close_theater = this._close_theater.bind(this);
+    this._handleEnter_spanBack = this._handleEnter_spanBack.bind(this);
+    this._handleLeave_spanBack = this._handleLeave_spanBack.bind(this);
     this._handleClick_heigherBack = this._handleClick_heigherBack.bind(this);
     this._set_WarningModal_positive = this._set_WarningModal_positive.bind(this);
     this._set_WarningModal_negative = this._set_WarningModal_negative.bind(this);
@@ -32,6 +35,18 @@ class Theater extends React.Component {
     this.style={
 
     };
+  }
+
+  _handleEnter_spanBack(e){
+    this.setState({
+      onSpanBack: true
+    })
+  }
+
+  _handleLeave_spanBack(e){
+    this.setState({
+      onSpanBack: false
+    })
   }
 
   _set_WarningModal_positive(){
@@ -85,12 +100,16 @@ class Theater extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot){
     //due to update to unitId only still Redirect to a new URL
     //check again to re-define the URL
-    if(!this.props.location.pathname.includes('explore/unit')) window.history.replaceState({from: this.props.location}, '', '/cosmic/explore/unit?theater&unitId='+this.unitId);
+    if(!this.props.location.pathname.includes('explore/unit')) window.history.replaceState(this.props.location.state, '', '/cosmic/explore/unit?unitId='+this.unitId);
+    //Note that, replaceState would also change the behavior of 'back' by browser, (only back to the new path)
+    //we need to modify the behavior manually one day by 'popstate' iterate by the replaceState
   }
 
   componentDidMount(){
     //replace the URL display in the browser bar if not from independt page
-    if(!this.props.location.pathname.includes('explore/unit')) window.history.replaceState({from: this.props.location}, '', '/cosmic/explore/unit?theater&unitId='+this.unitId);
+    if(!this.props.location.pathname.includes('explore/unit')) window.history.replaceState(this.props.location.state, '', '/cosmic/explore/unit?unitId='+this.unitId);
+    //Note that, replaceState would also change the behavior of 'back' by browser, (only back to the new path)
+    //we need to modify the behavior manually one day by 'popstate' iterate by the replaceState
   }
 
   componentWillUnmount(){
@@ -143,7 +162,7 @@ class Theater extends React.Component {
     if(this.state.close){return <Redirect to={{
         pathname: this.props.location.pathname,
         search: '?unitId='+this.unitId,
-        state: {from: (typeof this.props.location.state !== 'undefined')? this.props.location.state.from: '/'}
+        state: this.props.location.state //keep the state as props, perhaps need to increase 'current location' for 'back' use
       }}/>};
 
 
@@ -151,11 +170,14 @@ class Theater extends React.Component {
       <div>
         {this._render_UnitMode()}
         <div
-          className={classnames(styles.boxBackTop)}>
+          className={classnames(styles.boxBackTop)}
+          onMouseEnter={this._handleEnter_spanBack}
+          onMouseLeave={this._handleLeave_spanBack}>
           <span
             className={classnames(styles.spanBackTop)}
+            style={this.state.onSpanBack?{color: '#F0F0F0'}:{}}
             onClick={this._handleClick_heigherBack}>
-            {" X "}
+            {" ╳ "}
           </span>
         </div>
 

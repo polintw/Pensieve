@@ -6,7 +6,31 @@
   transform: translate(-50%, -50%);
 }
 
-.plainLinkButton {
-  text-decoration: none;
-  color: inherit;
+.boxNailNodesItem {
+  flex: 1;
+  box-sizing: border-box;
+  margin: 0.12rem 0% 0.77rem; /*use 'rem' to match the scale used by font*/
+}
+
+.fontNailNode {
+  font-size: 2.2rem;
+  font-weight: 500;
+  letter-spacing: 0.064rem;
+  line-height: 1.74rem;
+  font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;
+  color: #FAFAFA;
+}
+
+.fontNailMark {
+  font-size: 1.42rem;
+  font-weight: 400;
+  letter-spacing: 0.034rem;
+  line-height: 17px;
+  text-align: left;
+}
+
+.fontNailAuthor {
+  font-size: 1.27rem;
+  font-weight: 400;
+  letter-spacing: 0.04rem;
 }

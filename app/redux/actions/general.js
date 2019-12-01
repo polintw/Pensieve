@@ -1,4 +1,5 @@
 import {
+  SET_TOKENSTATUS,
   SET_UNITCURRENT,
   SET_UNITINSPIRED,
   MOUNT_USERINFO,
@@ -7,9 +8,6 @@ import {
   UPDATE_USERSBASIC,
   AXIOS_SWITCH
 } from '../constants/typesGeneral.js';
-import {
-  SET_COSMIC_TITLE,
-} from '../constants/typesCosmic.js';
 import {
   UPDATE_USERSHEET,
   SETTING_SUBMITTING_SWITCH
@@ -20,8 +18,8 @@ export function updateUsersBasic(obj) {
   return { type: UPDATE_USERSBASIC, newFetch: obj }
 };
 
-export function setCosmicTitle(int) {
-  return { type: SET_COSMIC_TITLE, ratio: int }
+export function updateNodesBasic(obj) {
+  return { type: UPDATE_NOUNSBASIC, newFetch: obj }
 };
 
 export function setUnitCurrent(obj) {
@@ -43,6 +41,10 @@ export function setUnitInspired(markId, aim) {
 
 export function mountUserInfo(obj) {
   return { type: MOUNT_USERINFO, userInfo: obj }
+};
+
+export function setTokenStatus(obj) {
+  return { type: SET_TOKENSTATUS, status: obj }
 };
 
 export function mountUserSheet(sheetObj, accountSet) {

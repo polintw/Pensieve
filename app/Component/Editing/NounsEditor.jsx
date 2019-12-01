@@ -1,5 +1,6 @@
 import React from 'react';
-import {NounsList, SearchModule} from './NounsEditorCom.jsx';
+import {NounsList} from './NounsEditorCom.jsx';
+import {SearchModule} from '../NodeSearchModule.jsx';
 
 export default class NounsEditor extends React.Component {
   constructor(props){
@@ -8,7 +9,7 @@ export default class NounsEditor extends React.Component {
       nounsList: this.props.nouns.list,
       nounsBasic: this.props.nouns.basic
     };
-    this._set_nounChoose = this._set_nounChoose.bind(this);
+    this._set_nodeChoice = this._set_nodeChoice.bind(this);
     this._set_nounDelete = this._set_nounDelete.bind(this);
     this.style={
       Com_Editing_NounsEditor__: {
@@ -36,22 +37,30 @@ export default class NounsEditor extends React.Component {
     }
   }
 
-  _set_nounChoose(nounBasic){
+  _set_nodeChoice(nounBasic){
     let nounObj = Object.assign({}, nounBasic);
     this.setState((prevState, props)=>{
-      prevState.nounsList.push(nounObj.id);
-      prevState.nounsBasic[nounObj.id] = nounObj;
+      //chekc the node passed from the SearchModule existed or not
+      //a check for preventing repeating on list
+      if(prevState.nounsList.indexOf(nounObj.id) < 0){
+        //save to push to the list
+        prevState.nounsList.push(nounObj.id);
+        prevState.nounsBasic[nounObj.id] = nounObj;
+      };
+
       return prevState;
     }, ()=>{
       this.props._set_nouns({list: this.state.nounsList, basic: this.state.nounsBasic});
     })
   }
 
-  _set_nounDelete(nounIndex){
+  _set_nounDelete(nodeId){
     this.setState((prevState, props)=>{
-      const nounId = prevState.nounsList[nounIndex];
-      delete prevState.nounsBasic[nounId];
-      prevState.nounsList.splice(nounIndex, 1);
+      delete prevState.nounsBasic[nodeId]; // remove the node data froom obj
+      prevState.nounsList = prevState.nounsList.filter((value, index)=>{ // use filter remove id from the list and replace it by new list
+        //using filter is just a safer way to remove 'all candidate' (at the time it was add because there was a bug would push the same id more than once at 'add' part)
+        return value != nodeId; //not equal value, but allow different "type" (the nodeId was string saved in the DOM attribute)
+      });
       return prevState;
     }, ()=>{
       this.props._set_nouns({list: this.state.nounsList, basic: this.state.nounsBasic});
@@ -72,7 +81,7 @@ export default class NounsEditor extends React.Component {
         <div
           style={this.style.Com_Editing_NounsEditor_SearchModule}>
           <SearchModule
-            _set_nounChoose={this._set_nounChoose}/>
+            _set_nodeChoice={this._set_nodeChoice}/>
         </div>
       </div>
     )

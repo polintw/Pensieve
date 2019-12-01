@@ -6,22 +6,27 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import UserWindow from '../../Component/Window/UserWindow.jsx';
+import SvgLogo from '../../Component/Svg/SvgLogo.jsx';
 
 const styleMiddle = {
   comCosmicUser: {
     height: '', //keep the height depend on Scroll div
   },
   boxScroll: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    width: '73.5%',
-    minWidth: '754px',
     position: 'absolute',
-    top: '4vh',
-    left: '50%',
-    transform: 'translate(-51%,0)',
+    top: '9vh',
+    left: '15%',
     boxSizing: 'border-box'
   },
+  boxLogo: {
+    display: 'inline-block',
+    height: '12px',
+    position: 'fixed',
+    bottom: '2.8%',
+    right: '30%',
+    boxSizing: 'border-box',
+    cursor: 'pointer'
+  }
 }
 
 let windowId='';
@@ -67,6 +72,13 @@ class CosmicUser extends React.Component {
         </div>
         <div style={{width: '100%', height: '3.3vh', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
         <div style={{width: '100%', height: '54px', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}></div>
+        <Route path={this.props.match.path+"/"} render={(props)=> (
+            <div
+              style={Object.assign({}, styleMiddle.boxLogo)}
+              onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_von_cosmic('', '/cosmic')}}>
+              <SvgLogo/>
+            </div>
+          )}/>
       </div>
     )
   }

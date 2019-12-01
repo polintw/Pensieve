@@ -34,7 +34,19 @@ export const i18nUIStringInit = {
      "helloUser":"Hello, ",
      "welcomeNew": "Congratulations! Discover everything and beyond!",
      "welcomeBack":"Welcome back",
-     "greetNight": "Good evening~",
-     "greetMorning": "Good morning!"
+     "greetNight": "Good evening.",
+     "greetMorning": "Good morning!",
+     "guidingBelong_New": "Let's focus on some corners you care!",
+     "guidingBelong_NewSet": "Any Corner you familiar?",
+     "guidingBelong_EditReset": "Let the new one join your List:",
+     "guidingBelong_Edit": "any new corner came into your life ?",
+     "guidingShare_atBelong": "Unboxing your world!",
+     "descript_BelongTypeInteract": ["reset your ", " ?"],
+     "messageChoiceBelong": ["Which one does the  ", "  match the most?"],
+     "messageBelongChoiceinBool": ["setting  ", "  as  ", " ?"],
+     "hintEmptyNode": "be the first introducing this corner to people!",
+     "titleBannerBelong": "new share around ",
+     "titleBannerRest": "new arrived or selected",
+     "titleFocusStart": "All from browsing.",
    }
 }

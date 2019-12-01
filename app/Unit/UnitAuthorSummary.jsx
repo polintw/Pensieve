@@ -14,9 +14,14 @@ import {AccountPlate} from '../Component/AccountPlate.jsx';
 
 const styleMiddle = {
   boxStatics: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    width: '8%',
+    height: '64%',
     position: 'absolute',
-    top: '26%',
-    left: '40%',
+    bottom: '13%',
+    left: '36%',
     boxSizing: 'border-box'
   },
 }
@@ -45,36 +50,29 @@ class UnitAuthorSummary extends React.Component {
         boxSizing: 'border-box'
       },
       Com_UnitViewSummary_Marksarticle: {
-        width: "43%",
-        height: '72%',
+        width: "44%",
+        height: '81.5%',
         position: 'absolute',
-        right: '0.5%',
+        right: '0%',
         top: '5.5%',
         boxSizing: 'border-box',
         overflowY: 'auto'
-      },
-      Com_UnitViewSummary_panel_: {
-        width: '48%',
-        height: '9%',
-        position: 'absolute',
-        bottom: '6%',
-        right: '3.5%',
-        boxSizing: 'border-box'
       },
       Com_UnitViewSummary_nodes_: {
         maxWidth: '22%',
         maxHeight: '40%',
         position: 'absolute',
         top: '33%',
-        left: '10.4%',
+        right: '71%',
         boxSizing: 'border-box',
         transform: 'translate(0,-50%)',
         overflow:'hidden'
       },
       Com_UnitViewSummary_author_: {
+        maxWidth: '27%',
         position: 'absolute',
         bottom: '13%',
-        left: '7.5%',
+        right: '71%',
         boxSizing: 'border-box'
       },
       Com_UnitViewSummary_author_name: {
@@ -185,20 +183,10 @@ class UnitAuthorSummary extends React.Component {
         <div
           style={styleMiddle.boxStatics}>
           <AuthorStatics/>
-        </div>
-        <div
-          style={this.style.Com_UnitViewSummary_panel_}>
-          <div
-            className={'sumPanelOptions'}
-            style={{cursor: 'pointer'}}
-            onClick={this._handleClick_UnitAction_response}>
-            <SvgCreate
-              place={true}/>
-          </div>
           <div
             className={classnames('sumPanelOptions', 'boxSumOptEdit')}>
             <span
-              className={classnames('fontSumOptEdit')}
+              className={classnames('fontSumOpt')}
               style={Object.assign(
                 {},
                 {cursor: 'pointer'},
@@ -209,6 +197,13 @@ class UnitAuthorSummary extends React.Component {
               onMouseLeave={this._handleLeave_actEdit}>
               {"edit"}
             </span>
+          </div>
+          <div
+            className={'sumPanelOptions'}
+            style={{cursor: 'pointer'}}
+            onClick={this._handleClick_UnitAction_response}>
+            <SvgCreate
+              place={true}/>
           </div>
         </div>
       </div>

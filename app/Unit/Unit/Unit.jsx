@@ -20,7 +20,6 @@ class Unit extends React.Component {
     this.state = {
       axios: false,
       close: false,
-      onSpanBack: false,
       onSpanClose: false
     };
     this.axiosSource = axios.CancelToken.source();
@@ -30,8 +29,6 @@ class Unit extends React.Component {
     this._axios_get_UnitMount = this._axios_get_UnitMount.bind(this);
     this._handleEnter_spanClose = this._handleEnter_spanClose.bind(this);
     this._handleLeave_spanClose = this._handleLeave_spanClose.bind(this);
-    this._handleEnter_spanBack = this._handleEnter_spanBack.bind(this);
-    this._handleLeave_spanBack = this._handleLeave_spanBack.bind(this);
     this._reset_UnitMount = ()=>{this._axios_get_UnitMount();};
     this.style={
 
@@ -138,24 +135,6 @@ class Unit extends React.Component {
     });
   }
 
-  _handleEnter_spanBack(e){
-    //don't need to stop proppagation,
-    //because both the 'onMouseEnter' & 'onMouseLeave'
-    //would not 'bubble'
-    this.setState({
-      onSpanBack: true
-    })
-  }
-
-  _handleLeave_spanBack(e){
-    //don't need to stop proppagation,
-    //because both the 'onMouseEnter' & 'onMouseLeave'
-    //would not 'bubble'
-    this.setState({
-      onSpanBack: false
-    })
-  }
-
   _handleEnter_spanClose(e){
     this.setState({onSpanClose: true})
   }
@@ -209,7 +188,7 @@ class Unit extends React.Component {
 
 
   render(){
-    if(this.state.close){return <Redirect to={this.props.location.state.from}/>}
+    if(this.state.close){let pathTo=this.props.location.pathname.replace("/unit","");return <Redirect to={pathTo}/>}
 
     let params = new URLSearchParams(this.props.location.search); //we need value in URL query
     let paramsTheater = params.has('theater'); //bool, true if there is 'theater'
@@ -230,7 +209,8 @@ class Unit extends React.Component {
                 <div
                   className={styles.boxRelated}>
                   <Related
-                    {...this.props}/>
+                    {...this.props}
+                    _handleClick_leave={this._close_modal_Unit}/>
                   <div
                     className={classnames(styles.boxSubtitle)}>
                     <span
@@ -242,17 +222,6 @@ class Unit extends React.Component {
                       {" close "}
                     </span>
                   </div>
-                </div>
-                <div
-                  className={classnames(styles.boxBack)}
-                  onMouseEnter={this._handleEnter_spanBack}
-                  onMouseLeave={this._handleLeave_spanBack}>
-                  <span
-                    className={classnames(styles.spanBack)}
-                    style={this.state.onSpanBack?{color: '#333333'}:{}}
-                    onClick={(e)=>{e.stopPropagation();e.preventDefault();this._close_modal_Unit()}}>
-                    {" ╳ "}
-                  </span>
                 </div>
               </div>
             )

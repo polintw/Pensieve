@@ -3,13 +3,14 @@ import {
   MOUNT_USERINFO,
   SET_UNITCURRENT,
   SET_UNITINSPIRED,
+  SET_FETCHFLAGS,
   UNIT_SUBMITTING_SWITCH,
   UNIT_AXIOSINSPIRE_SWITCH,
   UPDATE_NOUNSBASIC,
   UPDATE_USERSBASIC
 } from '../constants/typesGeneral.js';
 import {
-  SET_COSMIC_TITLE,
+  SET_INDEXLISTS
 } from '../constants/typesCosmic.js';
 import {
   initGlobal,
@@ -39,9 +40,14 @@ function pageWithin(state = initialGeneral, action){
         unitCurrent: {...state.unitCurrent, ...action.nextMarksInteraction}
       })
       break;
-    case SET_COSMIC_TITLE:
+    case SET_FETCHFLAGS:
       return Object.assign({}, state, {
-        mainTitle: action.ratio
+        fetchFlags: action.fetchFlags
+      })
+      break;
+    case SET_INDEXLISTS:
+      return Object.assign({}, state, {
+        indexLists: {...state.indexLists, ...action.lists}
       })
       break;
     case UNIT_SUBMITTING_SWITCH:

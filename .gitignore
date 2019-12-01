@@ -7,3 +7,9 @@ public/react/
 
 # IDE
 .idea
+
+stylesSelfFront.css
+stylesWithin.css
+stylesTerrace.css
+stylesAbout.css
+stylesSign.css

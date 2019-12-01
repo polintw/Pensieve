@@ -40,6 +40,7 @@ class AuthorBlock extends React.Component {
       dialogue: false
     };
     this.boxContent = React.createRef();
+    this.comAuthorBlock = React.createRef();
     this._set_stateDefault = ()=>{this.setState({dialogue: false})};
     this._handleWheel_boxContent = (event)=>{event.stopPropagation();};
     this._handleClick_openDialogue = this._handleClick_openDialogue.bind(this);
@@ -54,13 +55,13 @@ class AuthorBlock extends React.Component {
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
-        marginBottom:'27px'
+        marginBottom:'54px'
       },
       Com_AuthorBlock_panel_: {
         width: '100%',
         height: '2.1rem',
         boxSizing: 'border-box',
-        margin: '1.2rem 0px 1.8rem',
+        margin: '2.4rem 0px 1.8rem',
       },
       Com_AuthorBlock_credits_: {
         width: '100%',
@@ -91,8 +92,10 @@ class AuthorBlock extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-    if(prevProps.markKey !== this.props.markKey){
+    if(prevProps.markKey !== this.props.markKey){ //we use the same component rendering mark repeatly
+      //so we have to reset the state & scroll top each time jumpinig to a new mark
       this._set_stateDefault();
+      this.comAuthorBlock.current.scrollTop = 0; //back to top
     }
   }
 
@@ -115,6 +118,7 @@ class AuthorBlock extends React.Component {
 
     return(
       <div
+        ref={this.comAuthorBlock}
         style={this.style.Com_AuthorBlock_}>
         <div
           ref={this.boxContent}
@@ -122,7 +126,7 @@ class AuthorBlock extends React.Component {
           <div
             style={{
               width: '100%',
-              height: this.props.downToMdidline? (100 -this.props.inBlockHeight) +'vh': (this.props.inBlockHeight-69+4)+'vh'
+              height: '13vh'
             }}></div>
           <div
             className={classnames(styles.boxContentDraft, styles.fontContentDraft)}>
@@ -142,9 +146,13 @@ class AuthorBlock extends React.Component {
           style={Object.assign(
             {},
             {
-              height: this.props.downToMdidline? (this.props.inBlockHeight- 57)+'vh': (100 -this.props.inBlockHeight+14-4)+'vh'
+              height: '18vh'
             }
           )}>
+          <div className={styles.boxInteractBack}>
+            <div className={styles.boxInteractBackGradiant}/>
+            <div className={styles.boxInteractBackSolid}/>
+          </div>
           <div
             style={Object.assign({},this.style.Com_AuthorBlock_panel_)}>
             <div

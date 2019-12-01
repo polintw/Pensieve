@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 import SvgOptions from './Svg/SvgOptions.jsx';
 import ModalBox from './ModalBox.jsx';
+import ServiceLinks from './ServiceLinks.jsx';
 
 const commonStyle = {
 
@@ -38,21 +39,24 @@ export default class NavOptions extends React.Component {
         cursor: 'pointer'
       },
       selfCom_NavOptions_ToolBox_: {
-        minWidth: '132px',
+        width: '10vw',
+        minWidth: '172px',
+        minHeight: '93px',
         position: 'absolute',
-        top: '-36%',
-        right: '-16%',
+        bottom: '-46%',
+        right: '-4%',
         boxSizing: 'border-box',
         boxShadow: '1px 1px 5px 0px',
         backgroundColor: '#FFFFFF'
       },
       selfCom_NavOptions_ToolBox_ol_: {
+        minHeight: '4rem',
         boxSizing: 'border-box',
-        padding: '0 10%',
-        margin: '1.2rem 0',
+        padding: '0 15%',
+        margin: '2rem 0 1.7rem',
         listStyle: 'none',
-        fontSize: '1.3rem',
-        letterSpacing: '0.15rem',
+        fontSize: '1.37rem',
+        letterSpacing: '0.1rem',
         fontWeight: '400',
         color: '#000000'
       }
@@ -101,6 +105,11 @@ export default class NavOptions extends React.Component {
                   {"Log Out"}
                 </li>
               </ol>
+              <div
+                style={{padding: '0 15%', margin: '1rem 0'}}>
+                <ServiceLinks/>
+              </div>
+              <div style={{width: '100%', paddingBottom:'2rem'}}/>
             </div>
           </ModalBox>
         }

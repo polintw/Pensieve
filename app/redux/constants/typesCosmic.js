@@ -1,1 +1,1 @@
-export const SET_COSMIC_TITLE = 'SET_COSMIC_TITLE';
+export const SET_INDEXLISTS = 'SET_INDEXLISTS';

@@ -1,0 +1,42 @@
+.comBelongOptions {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.boxOption {
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 0 2%;
+}
+
+.boxDialog {
+  width: 467px;
+  position: absolute;
+  top: 39%;
+  left: 52%;
+  transform: translate(-50%,-50%);
+  box-sizing: border-box;
+  box-shadow: 1px 2px 3px 0;
+  border-radius: 1rem;
+  background-color: white;
+}
+
+.boxSearchModal {
+  width: 53%;
+  height: 3rem;
+  position: absolute;
+  right: 1%;
+  bottom: 0;
+}
+
+.spanOption {
+  cursor: pointer;
+}
+
+.fontOption {
+  font-size: 1.47rem;
+  font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;
+  letter-spacing: 0.05rem;
+}

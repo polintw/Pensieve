@@ -14,24 +14,14 @@ import DisplayMarkPreview from '../../Component/Draft/DisplayMarkPreview.jsx';
 
 const styleMiddle = {
   Com_Nails_Basic_content_: {
-    maxWidth: '80%',
-    maxHeight: '30%',
+    width: '25%',
+    maxHeight: '45%',
     position: 'absolute',
-    bottom: '10%',
+    bottom: '5%',
     right: '0',
     boxSizing: 'border-box',
-    padding: '0 3%',
+    padding: '0 1% 0 4%',
     overflow: 'hidden'
-  },
-  pic_mask: {
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
-    top: '0',
-    left: '0',
-    backgroudColor: 'rgba(0,0,0,0.5)',
-    backgroundImage: 'linear-gradient(172deg, transparent, rgba(0, 0, 0, 0.07), rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.17), rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.54), rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.66), rgba(0, 0, 0, 0.74))'
-    //must beneath the 'backgroudColor', let browser choose if it do support gradient
   },
 }
 
@@ -86,7 +76,7 @@ class RelatedOrigin extends React.Component {
       marksDOM.push(
         <div
           key={"key_nailcosmic_"+self.props.unitCurrent.unitId+"_marks_"+i}
-          className={classnames(styles.boxMark, 'fontContentSum')}>
+          className={classnames(styles.boxMark, styles.fontMark)}>
           <DisplayMarkPreview
             rawContent={marksData[key].editorContent}/>
         </div>
@@ -108,39 +98,40 @@ class RelatedOrigin extends React.Component {
                 to={{
                   pathname: this.props.match.url,
                   search: '?theater&unitId='+this.props.unitCurrent.unitId,
-                  state: {from: (typeof this.props.location.state !== 'undefined')? this.props.location.state.from: '/'}
+                  state: this.props.location.state //keep the state as props, perhaps need to increase 'current location' for 'back' use
                 }}
-                className={'plainLinkButton'}>
+                className={classnames(
+                  'plainLinkButton',
+                  styles.linkOrigin,
+                  {[styles.mouseOnPreview]: this.state.onMouseEnter}
+                )}
+                onMouseEnter={this._handleEnter_originBox}
+                onMouseLeave={this._handleLeave_originBox}>
                 <div
-                  className={classnames(
-                    styles.boxPreview,
-                    {[styles.mouseOnPreview]: this.state.onMouseEnter}
-                  )}
-                  ref={this.originImgBox}
-                  onMouseEnter={this._handleEnter_originBox}
-                  onMouseLeave={this._handleLeave_originBox}>
+                  className={classnames(styles.boxPreview)}
+                  ref={this.originImgBox}>
                   <ImgPreview
                     blockName={''}
                     previewSrc={this.props.unitCurrent.coverSrc}
                     _handleClick_ImgPreview_preview={()=>{this.originImgBox.current.click()}}/>
                   <div
-                    style={Object.assign({},
-                      styleMiddle.pic_mask,
-                      this.state.onMouseEnter? {backgroundImage: 'linear-gradient(rgba(0,0,0,0.67), rgba(0,0,0,0.67))', backgroudColor: 'rgba(0,0,0,0.7)'}:{}
-                    )}/>
+                    className={classnames(
+                      styles.boxMask,
+                      {[styles.mouseOnImg]: this.state.onMouseEnter})}
+                    />
                   <div
-                    style={styleMiddle.Com_Nails_Basic_content_}>
-                    {this._render_origin_Marks()}
+                    className={classnames('fontNailAuthor', styles.boxAuthor, styles.fontAuthor)}>
+                    <AccountPlate
+                      size={'layer'}
+                      accountFisrtName={this.props.unitCurrent.authorBasic.firstName}
+                      accountLastName={this.props.unitCurrent.authorBasic.lastName}/>
                   </div>
                 </div>
+                <div
+                  style={styleMiddle.Com_Nails_Basic_content_}>
+                  {this._render_origin_Marks()}
+                </div>
               </Link>
-              <div
-                className={styles.boxAuthor}>
-                <AccountPlate
-                  size={'layer'}
-                  accountFisrtName={this.props.unitCurrent.authorBasic.firstName}
-                  accountLastName={this.props.unitCurrent.authorBasic.lastName}/>
-              </div>
               <div
                 className={styles.boxNodes}>
                 <div

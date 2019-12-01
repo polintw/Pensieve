@@ -1,0 +1,21 @@
+.comAboutNav {
+  display: inline-flex;
+  justify-content: space-between;
+  width: 10vw;
+  position: absolute;
+  bottom: 37%;
+  right: 15%;
+  box-sizing: border-box;
+  white-space: nowrap;
+
+}
+
+.boxLink {
+  position: relative;
+}
+
+.fontNav {
+  font-size: 1.37rem;
+  letter-spacing: 0.05rem;
+  color: #6e6e6e;
+}

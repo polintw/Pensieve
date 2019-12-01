@@ -1,3 +1,25 @@
+.boxServiceLink {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 100%;
+}
+
+.tagServiceLink {
+  display: inline-block;
+  box-sizing: border-box;
+  margin-bottom: 0.1rem;
+}
+
+.tagServiceLinkMouse {
+  border-bottom: solid 0.75px #ababab; /* color follow the font*/
+}
+
+.fontServiceLink {
+  font-size: 1.21rem;
+  letter-spacing: 0.07rem;
+  color: #ababab;
+}
+
 .spanNameItalic {
   font-style: italic;
 }
