@@ -314,14 +314,14 @@ class MainBanner extends React.Component {
           <div
             className={classnames(
               styles.boxUnits,
-              styles.boxUnitsJustifyAround
-            )}>
+            )}
+            style={{marginBottom: '7.5vw'}}>
             {this._render_nailsByType("customNewBelong", 3)}</div>
         }
         {
           (indexLists.customNewFirst.length >0) &&
           <div
-            className={classnames(styles.boxRowFirst)}>
+            className={classnames(styles.boxRow, styles.boxRowFirst)}>
             {this._render_titleFirst()}
             {this._render_nailsByType(
               "customNewFirst",
@@ -346,26 +346,26 @@ class MainBanner extends React.Component {
           <div
             className={classnames(
               styles.boxUnits,
-              {[styles.boxUnitsJustifyAround]: ((indexLists.customNew.length+indexLists.customSelected.length)< 3)}
-            )}>
+            )}
+            style={{marginBottom: '7.5vw'}}>
             {this._render_nailsByType("customNew", (indexLists['customNew'].length+indexLists['customSelected'].length)< 3? 3:2, 3)}
             {this._render_nailsByType("customSelected", (indexLists['customNew'].length+indexLists['customSelected'].length)< 3? 3:2, 3)}
           </div>
         }
         <div
-          className={classnames(styles.boxRowBelong)}>
+          className={classnames(styles.boxRow, styles.boxRowBelong)}>
           <BannerBelong
             _refer_von_cosmic={this.props._refer_von_cosmic}/>
         </div>
         <div
-          className={classnames(styles.boxRowBroads)}>
+          className={classnames(styles.boxRow, styles.boxRowBroads)}>
           <Broads
             {...this.props}
             _refer_von_cosmic={this.props._refer_von_cosmic}/>
 
         </div>
         <div
-          className={classnames(styles.boxRowTodayNode)}>
+          className={classnames(styles.boxRow, styles.boxRowTodayNode)}>
           <TodayNode
             {...this.props}
             _refer_von_cosmic={this.props._refer_von_cosmic}/>

@@ -59,22 +59,41 @@ class NailBroaded extends React.Component {
 
       listDOM.push(
         <div
-          className={classnames(styles.boxAccount)}>
+          key={"key_Nail_BroadList_"+this.props.unitId+"_"+userId}
+          className={classnames(styles.boxAccount, styles.fontAuthor)}>
           {
             (userId in this.props.usersBasic) &&
             <AccountPlate
               size={'layer'}
               accountFisrtName={this.props.usersBasic[userId].firstName}
               accountLastName={this.props.usersBasic[userId].lastName}
-              styleFirst={{fontWeight: '400', fontSize: '1.27rem', letterSpacing: '0.04rem'}}
-              styleLast={{fontWeight: '300', fontSize: '1.27rem', letterSpacing: '0.04rem'}}/>
+              styleFirst={{fontSize: '1.27rem', letterSpacing: '0.04rem'}}
+              styleLast={{fontSize: '1.27rem', letterSpacing: '0.04rem'}}/>
+          }
+          {
+            ((i+1) < list.length) &&
+            "﹐"
           }
         </div>
       );
     }
 
     return (
-      listDOM
+      <div>
+        {listDOM}
+        <br/>
+        {
+          (list.length > 2) &&
+          <span
+            className={classnames(styles.fontBroads)}>
+            {this.props.i18nUIString.catalog["descript_Nail_BroadList"][1]}
+          </span>
+        }
+        <span
+          className={classnames(styles.fontBroads)}>
+          {this.props.i18nUIString.catalog["descript_Nail_BroadList"][0]}
+        </span>
+      </div>
     );
   }
 
