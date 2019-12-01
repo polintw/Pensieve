@@ -128,7 +128,7 @@ class Broads extends React.Component {
           //the nailChart was co use with other component in Main,
 
           // should has a special type for broads --- to display broaded users
-          let nail = nailChart(2, unitId, this);
+          let nail = nailChart(5, unitId, this);
           unitsDOM.push(nail);
         }
       }

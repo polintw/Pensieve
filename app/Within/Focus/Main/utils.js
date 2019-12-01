@@ -1,7 +1,9 @@
 import React from 'react';
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import FetchBroads from '../../../Component/Fetch/FetchBroads.jsx';
 import NailSquare from '../../../Component/Nails/NailSquare/NailSquare.jsx';
+import NailBroaded from '../../../Component/Nails/NailBroaded/NailBroaded.jsx';
 import NailRegular from '../../../Component/Nails/NailRegular/NailRegular.jsx';
 import NailWideDisplay from '../../../Component/Nails/NailWideDisplay/NailWideDisplay.jsx';
 
@@ -81,8 +83,9 @@ export function nailChart(choice, unitId, pare){
           key={'key_CosmicMain_rows_Nails_'+ unitId}
           className={classnames(styles.boxNail, styles.heightNine, styles.boxNarrow)}>
           <FetchBroads
-            {...this.props}>
-            <NailSquare
+            {...pare.props}
+            unitId={unitId}>
+            <NailBroaded
               {...pare.props}
               unitId={unitId}
               linkPath={pare.props.match.url+'/unit'}
