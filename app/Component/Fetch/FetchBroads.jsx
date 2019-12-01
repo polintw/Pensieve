@@ -6,14 +6,14 @@ import {
 import {connect} from "react-redux";
 import {
   setIndexLists
-} from '../../../redux/actions/cosmic.js';
+} from '../../redux/actions/cosmic.js';
 import {
   handleUsersList,
-} from "../../../redux/actions/general.js";
+} from "../../redux/actions/general.js";
 import {
   cancelErr,
   uncertainErr
-} from '../../../utils/errHandlers.js';
+} from '../../utils/errHandlers.js';
 
 class FetchBroads extends React.Component {
   constructor(props){
