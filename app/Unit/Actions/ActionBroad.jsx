@@ -116,20 +116,22 @@ class ActionBroad extends React.Component {
         className={classnames(styles.comActionBroad, 'fontSumOpt')}
         style={Object.assign(
           {},
-          {cursor: 'pointer'},
           (this.props.unitCurrent.broad || this.state.onAct)? {color: '#FAFAFA'}:{color: 'rgba(250,250,250,0.5)'}
         )}
         onClick={this._handleClick_Broad}
         onMouseEnter={this._handleEnter_act}
         onMouseLeave={this._handleLeave_act}>
-        <span
-          className={classnames()}>
-          {"Broad"}
-        </span>
-        <span
-          className={classnames()}>
-          {"cast"}
-        </span>
+        <div
+          className={classnames(styles.boxDescript)}>
+          <span>
+            {"Broad"}
+          </span>
+          <span>
+            {"cast"}
+          </span>
+        </div>
+        <div
+          style={{fontSize: '2.2rem', alignSelf: 'center'}}>{"↗"}</div>
       </div>
     )
   }

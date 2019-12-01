@@ -48,11 +48,11 @@ class UnitViewSummary extends React.Component {
       Com_UnitViewSummary_panel_: {
         display: 'flex',
         flexDirection: 'column',
-        justifyContent:'flex-end',
+        justifyContent:'space-between',
         width: '8%',
-        height: '11%',
+        height: '31%',
         position: 'absolute',
-        bottom: '13%',
+        top:'56%',
         left: '34.5%',
         boxSizing: 'border-box'
       },
@@ -139,8 +139,7 @@ class UnitViewSummary extends React.Component {
         </div>
         <div
           style={this.style.Com_UnitViewSummary_panel_}>
-          <div
-            className={classnames()}>
+          <div>
             <ActionBroad/>
           </div>
         </div>

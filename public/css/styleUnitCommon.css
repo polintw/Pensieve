@@ -80,7 +80,8 @@
 }
 
 .fontSumOpt{
-  font-size: 1.36rem; /*follow the Descript used in broad list*/
-  letter-spacing: 0.042rem;
+  font-size: 1.4rem;
   font-weight: 400;
+  letter-spacing: 0.078rem;
+  line-height: 16px;
 }
