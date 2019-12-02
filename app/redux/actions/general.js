@@ -1,6 +1,7 @@
 import {
   SET_TOKENSTATUS,
   SET_UNITCURRENT,
+  SET_UNITBROAD,
   SET_UNITINSPIRED,
   MOUNT_USERINFO,
   UNIT_SUBMITTING_SWITCH,
@@ -24,6 +25,10 @@ export function updateNodesBasic(obj) {
 
 export function setUnitCurrent(obj) {
   return { type: SET_UNITCURRENT, unitCurrent: obj }
+};
+
+export function setUnitBroad(obj) {
+  return { type: SET_UNITBROAD, unitBroad: obj}
 };
 
 export function setUnitInspired(markId, aim) {

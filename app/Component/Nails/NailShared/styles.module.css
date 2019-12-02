@@ -103,11 +103,6 @@
   height: 33%;
 }
 
-.boxStatics {
-  display: flex;
-  align-items: center;
-}
-
 .spanAuthor {
   display: inline-block;
 }
@@ -131,7 +126,16 @@
   color: #000000;
 }
 
-.fontStaticTitle {
+.comStatics {
+  display: flex;
+  align-items: center;
+}
+
+.comStatics_boxWrap {
+  margin-left: 1rem;
+}
+
+.comStatics_fontTitle {
   font-size: 1.37rem;
   letter-spacing: 0.05rem;
   font-weight: 300;

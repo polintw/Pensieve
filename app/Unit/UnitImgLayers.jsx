@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 import { connect } from "react-redux";
 import ImgLayersFrame from './ImgLayersFrame.jsx';
-import UnitActionPanel from './UnitActionPanel.jsx';
+import SidePanel from './SidePanel.jsx';
 import {NodesExtensible} from './NodesDisplay/NodesDisplay.jsx';
 import {AccountPlate} from '../Component/AccountPlate.jsx';
 import DateConverter from '../Component/DateConverter.jsx';
@@ -124,7 +124,7 @@ class UnitImgLayers extends React.Component {
         </div>
         <div
           style={styleMiddle.boxActionPanel}>
-          <UnitActionPanel
+          <SidePanel
             _set_Modalmode={this.props._set_Modalmode}/>
         </div>
         <div

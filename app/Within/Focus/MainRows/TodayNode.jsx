@@ -111,9 +111,9 @@ class TodayNode extends React.Component {
       })
     ]).then(
       axios.spread((resIntro, resImg)=>{
-        let resObj = resIntro.data; //no need to parse, res.data is already a js obj
-        let pageObj = resObj.query.pages[Object.keys(resObj.query.pages)[0]]; //just a structure from origin
-        let imgObj = resObj.query.pages[Object.keys(resObj.query.pages)[0]];
+        //no need to parse res data, res.data is already a js obj
+        let pageObj = resIntro.data.query.pages[Object.keys(resIntro.data.query.pages)[0]]; //just a structure from origin
+        let imgObj = resImg.data.query.pages[Object.keys(resImg.data.query.pages)[0]];
         //then we need to 'clean' the text
         //we retrieve only the first paragraph even it was a intro
         let strFirstLine = pageObj.extract.split(/\r?\n|\r/, 1)[0]; //use the Regex to detect line break(cover differ browser),
@@ -259,14 +259,15 @@ class TodayNode extends React.Component {
             <div
               style={{
                 display: 'inline',
-                maxWidth: '30%',
-                height: '100%',
+                width:'30%', //~ 10vw
+                height: '7.5vw',
                 position: 'relative',
-                float: 'right',
+                float: 'left',
                 overflow: 'hidden',
+                marginRight: '7.2%', //~ 1/14 (of 35vw)
                 backgroundImage: `url(${this.state.wikiImg})`,
                 backgroundRepeat: 'no-repeat',
-                backgroundSize: 'cover',
+                backgroundSize: 'contain',
                 backgroundPosition: '50% 50%'
               }}/>
           </div>

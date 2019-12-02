@@ -30,6 +30,7 @@ export const initCosmicGeneral = {
     customNew: [],
     customSelected: false, //keep in 'false' before any return, as a 'red light' to rendering focus list
     todayNode: [],
+    broads: []
   }
 }
 
