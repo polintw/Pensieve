@@ -47,7 +47,19 @@ class ServiceLinks extends React.Component {
     return (
       <div
         className={classnames('boxServiceLink')}>
-        <span className={classnames('tagServiceLink', 'fontServiceLink')}>{"About"}</span>
+        <a
+          href="https://www.facebook.com/cornerth.center/"
+          target="_blank"
+          method="about"
+          className={classnames(
+            'plainLinkButton',
+            'tagServiceLink',
+            'fontServiceLink',
+            {['tagServiceLinkMouse']: this.state.mouseOn=='about'}
+          )}
+          onMouseEnter={this._handleEnter_Link}
+          onMouseLeave={this._handleLeave_Link}>
+          {"About"}</a>
         <span className={classnames('tagServiceLink', 'fontServiceLink')}>{"．"}</span>
         <a
           href="/a/privacy"
@@ -75,7 +87,19 @@ class ServiceLinks extends React.Component {
           onMouseLeave={this._handleLeave_Link}>
           {"Terms"}</a>
         <span className={classnames('tagServiceLink', 'fontServiceLink')}>{"．"}</span>
-        <span className={classnames('tagServiceLink', 'fontServiceLink')}>{"Contact"}</span>
+        <a
+          href="https://www.facebook.com/cornerth.center/"
+          target="_blank"
+          method="contact"
+          className={classnames(
+            'plainLinkButton',
+            'tagServiceLink',
+            'fontServiceLink',
+            {['tagServiceLinkMouse']: this.state.mouseOn=='contact'}
+          )}
+          onMouseEnter={this._handleEnter_Link}
+          onMouseLeave={this._handleLeave_Link}>
+          {"Contact"}</a>
       </div>
     )
   }
