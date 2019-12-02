@@ -31,27 +31,26 @@ export const unitCurrentInit = {
 export const i18nUIStringInit = {
   "language":"en",
   "catalog":{
-     "helloUser":"Hello, ",
      "welcomeNew": "Welcome to join Cornerth. Here you can discover every hidden thing and more!",
      "welcomeBack":"Welcome back",
      "greetNight": "Good evening.",
      "greetMorning": "Good morning!",
      "guidingBelong_New": "Focus on the corner around you!",
      "guidingBelong_NewSet": "Any Corner below around your life?",
-     "guidingBelong_EditReset": "Let’s spread out life surroundings by adding new Corner list!",
+     "guidingBelong_EditReset": "Recruiting the Corner whether fresh or mature in your surrounding!",
      "guidingBelong_Edit": "Open out new Corner and unbox you world!",
      "guidingShare_atBelong": "Let’s get started off!",
      "guidingBroad_atMain": "Go Broadcasting the Shared you like!",
-     "descript_BelongTypeInteract": ["reset your ", " ?"],
+     "descript_BelongTypeInteract": ["going to renew your ", " ?"],
      "descript_Nail_BroadList": [" broadcast this Shared.", "and more all"],
      "descript_Unit_BroadList": ["broadcast this Shared", "and more all"],
      "descript_Unit_Author_read": ["reach to", "reach"],
      "descript_Unit_Author_broad": ["broad by", "broad"],
      "messageChoiceBelong": ["Which living field below is ", " around over most?"],
-     "messageBelongChoiceinBool": ["site ", "  as your  ", "  place? We'd love for that!"],
+     "messageBelongChoiceinBool": ["site ", "  as your  ", "  place?"],
      "hintEmptyNode": "This Corner is still Waiting to be explored. Be the first one to wonder and wander!",
      "titleBannerBelong": "new shared.",
-     "titleBannerRest": "newly arrived or selected",
+     "titleBannerRest": "newly arrived or selected.",
      "title_Main_Broads": "or, here are some broaded by users."
    }
 }
