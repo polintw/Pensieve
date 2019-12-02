@@ -90,22 +90,26 @@ function _handle_GET_feed_mainBroads(req, res){
 
         })
         .then((resultBroads)=>{
-          //now, we want to randomly select nums from it. Also use 'Fisher-Yates Shuffle'.
-          let dealAt = resultBroads.length, tempHolder, randNr;
+          //at the very begining, the resultBroads.length was 0 (db.broads was empty)
+          //this 'if' was just a prevention only at this point.
+          if(resultBroads.length > 0){
+            //now, we want to randomly select nums from it. Also use 'Fisher-Yates Shuffle'.
+            let dealAt = resultBroads.length, tempHolder, randNr;
 
-          while (0 !== dealAt) { //until we go through all list
-            randNr = Math.floor(Math.random() * dealAt); //avoid repeatting 'shuffle' the shuffledpart
-            dealAt -= 1; //set the index to current one
-            //then, shuffle
-            tempHolder = resultBroads[dealAt];
-            resultBroads[dealAt] = resultBroads[randNr];
-            resultBroads[randNr] = tempHolder;
-          };
-          //and final, pick the needed amount from the random arr
-          for(let i=0; i< remainLength; i++){
-            sendingData.unitsList.push(resultBroads[i].id_unit);
-          };
-
+            while (0 !== dealAt) { //until we go through all list
+              randNr = Math.floor(Math.random() * dealAt); //avoid repeatting 'shuffle' the shuffledpart
+              dealAt -= 1; //set the index to current one
+              //then, shuffle
+              tempHolder = resultBroads[dealAt];
+              resultBroads[dealAt] = resultBroads[randNr];
+              resultBroads[randNr] = tempHolder;
+            };
+            //and final, pick the needed amount from the random arr
+            for(let i=0; i< remainLength; i++){
+              sendingData.unitsList.push(resultBroads[i].id_unit);
+            };
+          }
+          
           return sendingData
         }).catch((err)=>{throw err});
       }
