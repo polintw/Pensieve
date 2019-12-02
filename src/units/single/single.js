@@ -11,6 +11,7 @@ const _DB_users = require('../../../db/models/index').users;
 const _DB_units = require('../../../db/models/index').units;
 const _DB_nouns = require('../../../db/models/index').nouns;
 const _DB_marks = require('../../../db/models/index').marks;
+const _DB_broads = require('../../../db/models/index').broads;
 const _DB_inspired = require('../../../db/models/index').inspired;
 const _DB_attribution =  require('../../../db/models/index').attribution;
 const _DB_notifications = require('../../../db/models/index').notifications;
@@ -108,16 +109,35 @@ function _handle_unit_Mount(req, res){
       })
     };
     const _unit_identity_Viewer = (sendingData)=>{
-      return _DB_inspired.findAll({
-        where: {
-          id_mark: sendingData['temp']['marksKey'],
-          id_user: userId
-        },
-        attributes: ['id_mark']
-      }).then(function(inspired) {
+      //all alias process limited to reader (diff from author side)
+      let selectInspired = _DB_inspired.findAll({
+          where: {
+            id_mark: sendingData['temp']['marksKey'],
+            id_user: userId
+          },
+          attributes: ['id_mark']
+        }).then(function(inspired) {
+          return inspired;
+        }).catch((error)=>{throw error}),
+        selectBroad = _DB_broads.findOne({
+          where: {
+            id_unit: reqUnit,
+            id_user: userId
+          }
+        }).then(function(broad) {
+          return broad;//'null' if no records
+        }).catch((error)=>{throw error});
+
+      return Promise.all([
+        selectInspired,
+        selectBroad
+      ])
+      .then(([inspired, broad])=>{
         inspired.forEach((row, index)=>{
           sendingData['marksInteraction'][row.id_mark]['inspired']=true;
         });
+        sendingData['broad'] = !!broad ? true : false; //broad is 'null' if no records
+
         return (sendingData);
       }).catch((error)=>{
         throw new internalError("throw by /units/plain/_unit_mount, "+error ,131);//'throw' at this level, stop the process
@@ -194,9 +214,10 @@ function _handle_unit_Mount(req, res){
         authorBasic: {},
         createdAt: "",
         identity: "",
-        marksInteraction: {}
+        marksInteraction: {},
+        broad: false //false for default
       }
-      if (result) {
+      if (result) { //make sure there is a unit with the id
         sendingData['authorBasic']['authorId'] = result.id_author;
         sendingData['createdAt'] = result.createdAt;
         if(userId == result.id_author){
@@ -205,8 +226,9 @@ function _handle_unit_Mount(req, res){
           sendingData['identity'] = "viewer"
         }
         return (sendingData)
-      } else {
-        return (sendingData)
+      } else { //like the id is wrong or even not exist
+        //reject directly, skipping all the process afterward
+        reject(new notFoundError("this unit does not exist. please use a valid link.", 34));
       }
     }).then((sendingData)=>{
       return _DB_users.findOne({
@@ -237,6 +259,7 @@ function _handle_unit_Mount(req, res){
     }).then((sendingData)=>{
       return _unit_Marks(sendingData);
     }).then((sendingData)=>{
+      //deal with all the rest here by distinguishing the reader/author
       if(sendingData.identity == 'author') return _unit_identity_Author(sendingData)
       else{
         return _unit_identity_Viewer(sendingData);

@@ -131,11 +131,25 @@ function _handle_ErrCatched(e, req, res){
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;
+    case 34: //404, The specified resource was not found.
+      winston.info(`${e.status} - ${"code 34, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+      clientSet['code'] = 34;
+      clientSet['message'] = e.message;
+      clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
     case 36: //403, You cannot inspired your own mark
       winston.warn(`${e.status} - ${"Error: code 36, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
       clientSet['code'] = 36;
-      clientSet['message'] = e.message;
-      clientSet['console'] = "Hey, don't do this, it would be more interesting inspired by others!";
+      clientSet['message'] = "Hey, don't do this, it would be more interesting inspired by others!";
+      clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
+    case 37: //403, You cannot broadcast your own Shared
+      winston.warn(`${e.status} - ${" code 37, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+      clientSet['code'] = 37;
+      clientSet['message'] = "It's your own creation, let the people broadcast for you!";
+      clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;
     case 38: //403, part of required parameter (such as id, media, text, etc.) is missing.
@@ -152,8 +166,9 @@ function _handle_ErrCatched(e, req, res){
       return res.status(e.status).json(clientSet);
       break;
     case 87: //403, Client is not permitted to perform this action.
+      winston.warn(`${e.status} - ${" code 87, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
       clientSet['code'] = 87;
-      clientSet['message'] = e.message;
+      clientSet['message'] = "Hey, don't do this. This request is not allowed!";
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;

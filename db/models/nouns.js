@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     prefix: DataTypes.STRING,
     category: DataTypes.STRING,
+    language: DataTypes.TEXT('tiny'),
     parent: DataTypes.BOOLEAN,
     child: DataTypes.BOOLEAN
   }, {
@@ -14,6 +15,11 @@ module.exports = (sequelize, DataTypes) => {
     nouns.hasMany(models.attribution, {
       foreignKey:"id_noun",
       sourceKey: "id",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
+    nouns.hasOne(models.daily, {
+      foreignKey:"focus_node",
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });

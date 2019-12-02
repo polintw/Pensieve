@@ -3,6 +3,7 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import classnames from 'classnames';
 
 class Palette extends React.Component {
   constructor(props){
@@ -46,7 +47,7 @@ class Palette extends React.Component {
       <div
         style={{display: 'inline-block'}}>
         <span
-          className={classSpan}
+          className={classnames(classSpan, 'spanNameFirstName')}
           style={propsStyle[0]}>
           {this.props.accountFisrtName+" "}
         </span>

@@ -3,6 +3,7 @@ const execute = express.Router();
 const jwt = require('jsonwebtoken');
 const {verify_key} = require('../../config/jwt.js');
 const winston = require('../../config/winston.js');
+const _DB_broads = require('../../db/models/index').broads;
 const _DB_units = require('../../db/models/index').units;
 const _DB_unitsAuthor = require('../../db/models/index').units_author;
 const {_res_success} = require('../utils/resHandler.js');
@@ -14,28 +15,26 @@ const {
 
 function _handle_GET_shareStatics_reach(req, res){
   new Promise((resolve, reject)=>{
-    const reqToken = req.body.token || req.headers['token'] || req.query.token;
-    const jwtVerified = jwt.verify(reqToken, verify_key);
-    if (!jwtVerified) throw new authorizedError("during GET--/share/:id/statics, "+jwtVerified, 32);
+    const userId = req.extra.tokenUserId;
 
-    const userId = jwtVerified.user_Id;
-    const reqUnit = req.reqUnitId;
+    const reqUnitId = req.reqUnitId; //unit we now focus on
 
     //first, check the user is ideed the author
     return _DB_units.findOne({
-      where: {id: reqUnit},
+      where: {id: reqUnitId},
       attributes: ['id_author']
     }).then((result)=>{
       if(result.id_author !== userId){throw new forbbidenError("You are forbbiden to get this records.",87);}
       else {
         // then, we get the reach count now
         return _DB_unitsAuthor.findOne({
-          where: {id_unit: reqUnit},
-          attributes: ['reach']
+          where: {id_unit: reqUnitId},
+          attributes: ['reach', 'broaded']
         }).then((statics)=>{
           let sendingData = {
             temp: {},
-            countReach: statics.reach
+            countReach: statics.reach,
+            countBroad: statics.broaded
           };
 
           resolve(sendingData);

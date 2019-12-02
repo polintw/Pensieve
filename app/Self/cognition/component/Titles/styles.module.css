@@ -1,0 +1,24 @@
+.boxEmbed {
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  margin-right: 2.5vw;
+}
+
+.boxInsBulb {
+  display: inline-block;
+  width: 17px;
+  position: absolute;
+  left: -7px;
+  bottom: -4px;
+}
+
+ .spanText {
+
+ }
+
+ .fontTitle {
+   font-weight: 700;
+   font-size: 2.5rem;
+   letter-spacing: 0.34rem;
+ }

@@ -3,6 +3,8 @@ import {
   Route,
   Link
 } from 'react-router-dom';
+import classnames from 'classnames';
+import styles from "./styles.module.css";
 import CreateShare from '../../../../Component/CreateShare.jsx';
 import SvgCreate from '../../../../Component/Svg/SvgCreate.jsx';
 
@@ -28,9 +30,6 @@ export default class TitleShared extends React.Component {
         display: 'inline-block',
         float: 'left',
         boxSizing: 'border-box',
-        fontWeight: '700',
-        fontSize: '2.8rem',
-        letterSpacing: '0.54rem'
       },
       selfCom_Title_Shared_Create_: {
         width: '20vw',
@@ -64,6 +63,7 @@ export default class TitleShared extends React.Component {
       <div
         style={this.style.selfCom_Title_Shared_}>
         <div
+          className={classnames(styles.fontTitle)}
           style={this.style.selfCom_Title_Shared_main_}>
           {"Shared"}
         </div>

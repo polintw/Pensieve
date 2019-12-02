@@ -26,7 +26,7 @@ class Focus extends React.Component {
         minWidth: '890px',
         position: 'absolute',
         top: '3.4rem',
-        left: '15vw',
+        left: '12.5vw',
         boxSizing: 'border-box'
       },
       withinCom_CosmicMain_top_logo: {

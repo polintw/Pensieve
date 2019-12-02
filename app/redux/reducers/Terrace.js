@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import {
   MOUNT_USERINFO,
   SET_UNITCURRENT,
+  SET_UNITBROAD,
   SET_UNITINSPIRED,
   UNIT_AXIOSINSPIRE_SWITCH,
   UPDATE_NOUNSBASIC
@@ -25,6 +26,11 @@ function pageTerrace(state = initialGeneral, action){
     case SET_UNITCURRENT:
       return Object.assign({}, state, {
         unitCurrent: action.unitCurrent
+      })
+      break;
+    case SET_UNITBROAD:
+      return Object.assign({}, state, {
+        unitCurrent: {...state.unitCurrent, ...action.unitBroad}
       })
       break;
     case SET_UNITINSPIRED:

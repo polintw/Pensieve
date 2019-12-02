@@ -5,10 +5,13 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
-import MarksArticle from './MarksArticle.jsx';
-import {NodesExtensible} from './NodesDisplay/NodesDisplay.jsx';
-import DateConverter from '../Component/DateConverter.jsx';
-import {AccountPlate} from '../Component/AccountPlate.jsx';
+import styles from './styles.module.css';
+import SumBroadList from './SumBroadList.jsx';
+import MarksArticle from '../MarksArticle.jsx';
+import {NodesExtensible} from '../NodesDisplay/NodesDisplay.jsx';
+import ActionBroad from '../Actions/ActionBroad.jsx';
+import DateConverter from '../../Component/DateConverter.jsx';
+import {AccountPlate} from '../../Component/AccountPlate.jsx';
 
 const styleMiddle = {
 
@@ -42,21 +45,15 @@ class UnitViewSummary extends React.Component {
         boxSizing: 'border-box',
         overflowY: 'auto'
       },
-      Com_UnitViewSummary_nodes_: {
-        maxWidth: '22%',
-        maxHeight: '40%',
+      Com_UnitViewSummary_panel_: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent:'space-between',
+        width: '8%',
+        height: '31%',
         position: 'absolute',
-        top: '33%',
-        right: '71%',
-        boxSizing: 'border-box',
-        transform: 'translate(0,-50%)',
-        overflow:'hidden'
-      },
-      Com_UnitViewSummary_author_: {
-        maxWidth: '27%',
-        position: 'absolute',
-        bottom: '13%',
-        right: '71%',
+        top:'56%',
+        left: '34.5%',
         boxSizing: 'border-box'
       },
       Com_UnitViewSummary_author_name: {
@@ -97,21 +94,35 @@ class UnitViewSummary extends React.Component {
       <div
         style={this.style.Com_UnitViewSummary_}>
         <div
-          style={this.style.Com_UnitViewSummary_author_}>
+          className={classnames(styles.boxSideLeft)}>
           <div
-            className={'boxInlineRelative'}
-            style={Object.assign({}, {display: 'block', marginBottom: '2rem'})}>
-            <DateConverter
-              place={'layers'}
-              datetime={this.props.unitCurrent.createdAt}/>
+            className={classnames('nodesListSum', styles.boxNodes)}>
+            <NodesExtensible
+              nouns={this.props.unitCurrent.nouns}
+              styleItem={{margin: '0 0 1rem'}}
+              _handleClick_listNoun={this.props._refer_toandclose}/>
           </div>
           <div
-            onClick={this._handleClick_Account}
-            style={this.style.Com_UnitViewSummary_author_name}>
-            <AccountPlate
-              size={'title'}
-              accountFisrtName={this.props.unitCurrent.authorBasic.firstName}
-              accountLastName={this.props.unitCurrent.authorBasic.lastName}/>
+            className={classnames(styles.boxSumBroad)}>
+            <SumBroadList/>
+          </div>
+          <div
+            className={classnames(styles.boxAuthor)}>
+            <div
+              className={'boxInlineRelative'}
+              style={Object.assign({}, {display: 'block', marginBottom: '1rem'})}>
+              <DateConverter
+                place={'layers'}
+                datetime={this.props.unitCurrent.createdAt}/>
+            </div>
+            <div
+              onClick={this._handleClick_Account}
+              style={this.style.Com_UnitViewSummary_author_name}>
+              <AccountPlate
+                size={'title'}
+                accountFisrtName={this.props.unitCurrent.authorBasic.firstName}
+                accountLastName={this.props.unitCurrent.authorBasic.lastName}/>
+            </div>
           </div>
         </div>
         <div
@@ -127,12 +138,10 @@ class UnitViewSummary extends React.Component {
             _set_MarkInspect={this._set_layerstatus}/>
         </div>
         <div
-          className={'nodesListSum'}
-          style={this.style.Com_UnitViewSummary_nodes_}>
-          <NodesExtensible
-            nouns={this.props.unitCurrent.nouns}
-            styleItem={{margin: '0 0 1rem'}}
-            _handleClick_listNoun={this.props._refer_toandclose}/>
+          style={this.style.Com_UnitViewSummary_panel_}>
+          <div>
+            <ActionBroad/>
+          </div>
         </div>
       </div>
     )

@@ -6,8 +6,8 @@ import {
 import { connect } from "react-redux";
 import UnitImgLayers from './UnitImgLayers.jsx';
 import UnitLayerScroll from './UnitLayerScroll.jsx';
-import UnitViewSummary from './UnitViewSummary.jsx';
-import UnitAuthorSummary from './UnitAuthorSummary.jsx';
+import UnitViewSummary from './Summary/UnitViewSummary.jsx';
+import UnitAuthorSummary from './Summary/UnitAuthorSummary.jsx';
 import UnitLayerSwitch from './UnitLayerSwitch/UnitLayerSwitch.jsx';
 
 class UnitModal extends React.Component {
@@ -51,7 +51,7 @@ class UnitModal extends React.Component {
         position: 'absolute',
         top: '1%',
         left: '50%',
-        transform: 'translate(-51%, 0)',
+        transform: 'translate(-48%, 0)',
         boxSizing: 'border-box'
       },
       Com_UnitModal_blocks_ImgLayer_: {

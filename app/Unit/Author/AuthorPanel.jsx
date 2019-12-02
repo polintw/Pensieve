@@ -45,7 +45,6 @@ class AuthorPanel extends React.Component {
   }
 
   render(){
-    //let cx = cxBind.bind(styles);
     return(
       <div
         style={this.style.Com_AuthorPanel_}>

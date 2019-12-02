@@ -7,6 +7,40 @@
   box-sizing: border-box;
 }
 
+.boxRow {
+  width: 100%;
+  margin: 5vw 0 7.5vw;
+}
+
+.boxRowBelong {
+  align-self: center;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.boxRowTodayNode {
+  position: relative;
+  box-sizing: border-box;
+}
+
+.boxRowBroads {
+  position: relative;
+  box-sizing: border-box;
+}
+
+.boxRowFirst {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  box-sizing: border-box;
+  margin: 5vw 0 7.5vw;
+}
+
+.boxRowTitle {
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .boxUnits {
   display: flex;
   justify-content: space-between;
@@ -14,46 +48,18 @@
   width: 100%; /*controled by parent*/
   position: relative;
   box-sizing: border-box;
-  margin-bottom: 7.5vw;
 }
 
 .boxTitle {
   display: flex;
-  justify-content: center;
+  justify-content: left;
   width: 100%;
   box-sizing: border-box;
-  margin: 7.5vw 0 5vw;
+  margin: 5vw 0 0vw;
 }
 
-.boxUnitsJustifyAround {
-  justify-content: space-around;
-}
+.rowBroads {
 
-.boxRowFirst {
-  display: flex;
-  justify-content: space-between;
-  width: 100%; /*let it controled by parent*/
-  position: relative;
-  box-sizing: border-box;
-  margin: 7.5vw 0;
-}
-
-.boxRowBelong {
-  align-self: center;
-  width: 100%;
-  position: relative;
-  box-sizing: border-box;
-  margin: 5vw 0 12vw;
-}
-
-.boxRowSeperate {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 2vw;
-  position: relative;
-  box-sizing: border-box;
 }
 
 .boxTitleFirst {
@@ -62,8 +68,56 @@
   position: relative;
 }
 
-.spanTitle {
+.comTodayNode {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
 
+.boxTodayNails {
+
+}
+
+.boxWikiIntro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.boxIntroHead {
+  width: 100%;
+  min-height: 7.5vw;
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.boxWikiTitle {
+  display: inline-flex;
+  flex-direction: column;
+  max-width: 60%;
+}
+
+.pWikiIntro {
+  width: 35vw;
+  box-sizing: border-box;
+  margin: 0;  /*<p> has its default, so overlap it*/
+}
+
+.linkMore {
+
+}
+
+.linkWiki {
+  float: right;
+}
+
+.spanTodayDescript {
+   color: rgb(110, 110, 110); /* keep it related to fontType in BannerBelong*/
+}
+
+.spanTitle {
+  display: inline-block;
+  padding: 0 0 1.76rem 0;
 }
 
 .spanTitleFirst {
@@ -72,21 +126,14 @@
 }
 
 .fontTitle {
-  font-size: 2.4rem;
-  font-weight: 700;
-  letter-spacing: 0.05rem;
+  font-size: 2.2rem;
+  font-weight: 500;
+  letter-spacing: 0.064rem;
 }
 
 .fontTitleFirst {
-  /*font-size: 3rem;*/
   font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;
-  /*letter-spacing: 0.2rem;*/
-}
-
-.fontSubtitle { /* keep it related to fontNode in BannerBelong & fontTitleGreet in BelongForm*/
-  font-size: 1.76rem;
-  line-height: 2.05rem;
-  letter-spacing: 0.04rem;
+  font-weight: 700;
 }
 
 .fontDescript { /* keep it related to fontType in BannerBelong*/
@@ -95,8 +142,11 @@
   line-height: 2rem;
 }
 
-.decoLineSeperate {
-  box-sizing: border-box;
-  border-bottom: solid 1.7px #c4c4c4;
-  opacity: 0.5;
+.fontWikiIntro {
+  font-size: 1.45rem;
+  line-height: 1.84rem;
+}
+
+.fontLink {
+  font-size: 1.3rem;
 }
