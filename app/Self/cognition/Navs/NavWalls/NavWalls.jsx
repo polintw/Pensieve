@@ -56,7 +56,7 @@ export default class NavWalls extends React.Component {
                   Object.assign({}, {
                     color: (this.state.mouseOn=='embedded' || this.props.location.pathname.includes("/embedded/"))? "#1a1a1a":'#a0a0a0'}
                   )}>
-                {"Inspired"}
+                {"Absorb"}
               </span>
           </div>
         </Link>

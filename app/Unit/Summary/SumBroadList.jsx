@@ -122,7 +122,7 @@ class SumBroadList extends React.Component {
 
   _render_broadList(){
     let listDOM = this.state.usersList.map((userId, index)=>{
-      let userLink = (userId == this.props.userInfo.id) ? `/user/screen`: `/cosmic/users/${userId}/accumulated`;
+      let userLink = (userId == this.props.userInfo.id) ? `/user/screen`: `/users/${userId}/accumulated`;
 
       return (
         <div

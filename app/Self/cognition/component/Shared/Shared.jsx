@@ -100,7 +100,7 @@ class Shared extends React.Component {
           //currently, the Nail was align by '3', three nails a row
           //to add a empty a box for the last row if less than 3n,
           //calculate the remainder of the list
-          initDelta = 3-(this.state.unitsList.length % 3);
+          initDelta = 3-(this.state.unitsList.length % 3); //delta between 1-3
 
     this.state.unitsList.forEach(function(dataKey, index){
       let dataValue = self.state.unitsBasic[dataKey];
@@ -160,11 +160,11 @@ class Shared extends React.Component {
       });
     }
     //add the empty needed for the 3n
-    if(initDelta >0){
+    if(initDelta < 3){
       for(let i=0; i< initDelta; i++){
         shareds.push(
           <div
-            key={'key_Shared_nails_'+i}
+            key={'key_Shared_blankNails_'+i}
             style={{width: '20vw',
               height: '25vw',
               position: 'relative'}}/>

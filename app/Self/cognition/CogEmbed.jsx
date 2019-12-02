@@ -36,7 +36,8 @@ export default class CogEmbed extends React.Component {
         style={this.style.selfCom_CogEmbed_}>
         <div
           style={this.style.selfCom_CogEmbed_Nav_}>
-
+          <NavEmbed
+            {...this.props}/>
         </div>
         <div
           style={this.style.selfCom_CogEmbed_main_}>

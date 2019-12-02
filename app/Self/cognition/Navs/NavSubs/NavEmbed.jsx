@@ -70,10 +70,6 @@ class NavEmbed extends React.Component {
               className={classnames(styles.spanText, styles.fontLink)}>
               {"Broaded"}</span>
           </Link>
-          <span
-            className={classnames(styles.spanText, styles.fontLink)}
-            style={{padding: '0.2rem 1rem 0.4rem'}}>
-            {"dialogues"}</span>
         </nav>
         <div style={{width: '100%', borderBottom: 'solid 1px #a8a8a8', margin: '0.54rem 0 1.56rem'}}/>
         <div

@@ -9,7 +9,7 @@
 .boxNav {
   display: flex;
   justify-content: space-between;
-  width: 20vw;
+  width: 15vw;
   box-sizing: border-box;
 }
 
