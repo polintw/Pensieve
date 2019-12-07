@@ -161,11 +161,11 @@ class Shared extends React.Component {
       });
     }
     //add the empty needed for the 3n
-    if(initDelta >0){
+    if(initDelta < 3){
       for(let i=0; i< initDelta; i++){
         shareds.push(
           <div
-            key={'key_Shared_nails_'+i}
+            key={'key_Shared_blankNails_'+i}
             style={{width: '20vw',
               height: '25vw',
               position: 'relative'}}/>

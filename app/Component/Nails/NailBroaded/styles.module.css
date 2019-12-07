@@ -92,12 +92,12 @@
 
 .boxMarkPreview {
   width: 75%;
-  height: 50%;
+  height: 52.5%;
   position: absolute;
   box-sizing: border-box;
   left: 0%;
-  bottom: 12.5%;
-  padding: 0% 6.25%;
+  bottom: 15%;
+  padding: 0% 6.5%;
   overflow: hidden;
 }
 

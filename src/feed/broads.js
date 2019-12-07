@@ -102,7 +102,8 @@ function _handle_GET_feed_mainBroads(req, res){
             resultBroads[randNr] = tempHolder;
           };
           //and final, pick the needed amount from the random arr
-          for(let i=0; i< remainLength; i++){
+          //an additional condition for the very begining, the resultBroads.length was 0 (db.broads was empty)
+          for(let i=0; i< remainLength && i< resultBroads.length; i++){
             sendingData.unitsList.push(resultBroads[i].id_unit);
           };
 
