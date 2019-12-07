@@ -41,7 +41,7 @@ Establishing node modules and basic folders __at the first time__:
 
 ```bash
 # only need to run at the first time
-npm run setup 
+npm run setup
 ```
 
 ```
@@ -50,7 +50,7 @@ npm install
 
 or if on Windows:
 ```
-npm run installWin
+npm run setupWin
 Rename-Item -Path .\\config\\.env.example.json -NewName .env.json
 ```
 
@@ -85,7 +85,7 @@ npm run migrate
 
 build app by browserify
 
-``` 
+```
 NODE_ENV="development" npm run build
 ```
 
