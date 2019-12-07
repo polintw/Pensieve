@@ -35,23 +35,19 @@ Doc of [React for production](https://reactjs.org/docs/optimizing-performance.ht
 
 #### Install
 
-Establishing node modules and basic folders __at the first time__:
 >please place it at a folder you have auth to write and edit
 
 
 ```bash
-# only need to run at the first time
+#only at the first time, Establishing basic folders needed:
 npm run setup
-```
-
-```
-npm install
-```
-
-or if on Windows:
-```
+#or if on Windows:
 npm run setupWin
 Rename-Item -Path .\\config\\.env.example.json -NewName .env.json
+```
+
+```bash
+npm install
 ```
 
 > /bcrypt: check [doc](https://www.npmjs.com/package/bcrypt) if face error come from this module, uninstall and install again if needed
@@ -59,20 +55,19 @@ Rename-Item -Path .\\config\\.env.example.json -NewName .env.json
 
 `/config/.env.json` : modify necessary info now
   - database connection:
+    *modify beneath item to fit your database*
+    1. "host"<br>
+    2. "user" *with all privilege*<br>
+    3. "password"<br>
 
-    modify beneath item to fit your database
 
-    "host"<br>
-    "user" *with all privilege*<br>
-    "password"<br>
+  - jwt secret
+      *use default one or import yours*
 
-  - jwt secret:
+  - others:
+    *token to your services & path fit your choice*
 
-    use default one or import yours
-
-  - on Windows
-
-    log file path to absolute path if needed
+    >on Windows: log file path to absolute path if needed.
 
 Then using ORM migrate database :
 

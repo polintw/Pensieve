@@ -54,7 +54,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "setup": "node -e \"require('./init/process.js').setUp()\"",
-    "setupWin": "node -e \"require('./init/process.js').installWin()\"",
+    "setupWin": "node -e \"require('./init/process.js').setUpWin()\"",
     "migrate": "node -e \"require('./init/process.js').migrate()\"",
     "build": "node -e \"require('./init/process.js').build()\"",
     "start": "node server.js"
