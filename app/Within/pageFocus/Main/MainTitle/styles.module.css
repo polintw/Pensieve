@@ -33,14 +33,6 @@
   bottom: 0;
 }
 
-.boxBelong{
-  width: 191%;
-  position: absolute;
-  left: 100%;
-  bottom: 0;
-  box-sizing: border-box;
-}
-
 .boxGreet {
   margin-bottom: 4%;
 }

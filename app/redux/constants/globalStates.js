@@ -35,11 +35,13 @@ export const i18nUIStringInit = {
      "welcomeBack":"Welcome back",
      "greetNight": "Good evening.",
      "greetMorning": "Good morning!",
-     "guidingBelong_New": "Focus on the corner around you!",
+     /*"guidingBelong_New": "Focus on the corner around you!",
      "guidingBelong_NewSet": "Any Corner below around your life?",
      "guidingBelong_EditReset": "Recruiting the Corner whether fresh or mature in your surrounding!",
      "guidingBelong_Edit": "Open out new Corner and unbox you world!",
      "guidingShare_atBelong": "Let’s get started off!",
+     all above are used only in removed file "BelongForm"
+     */
      "guidingBroad_atMain": "Go Broadcasting the Shared you like!",
      "descript_BelongTypeInteract": ["going to renew your ", " ?"],
      "descript_Nail_BroadList": [" broadcast this Shared.", "and more all"],

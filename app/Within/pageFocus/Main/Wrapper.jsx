@@ -46,7 +46,7 @@ const styleMiddle = {
   }
 }
 
-class MainIndex extends React.Component {
+class Wrapper extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -293,4 +293,4 @@ const mapDispatchToProps = (dispatch) => {
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(MainIndex));
+)(Wrapper));

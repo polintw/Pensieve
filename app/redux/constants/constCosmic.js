@@ -1,1 +1,1 @@
-export const flagsUpdate_BelongNode = ['inBelongForm', 'inBannerBelong'];
+export const flagsUpdate_BelongNode = ['inBannerBelong'];

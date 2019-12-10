@@ -19,7 +19,7 @@
   color: rgb(110, 110, 110);
 }
 
-.boxDialog { /*refer to similar part in BelongOptions*/
+.boxDialog {
   width: 467px;
   position: absolute;
   top: 39%;

@@ -4,7 +4,7 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import Main from './Main/Main.jsx';
+import Main from './Main/Wrapper.jsx';
 import SvgLogo from '../../Component/Svg/SvgLogo.jsx';
 
 class Focus extends React.Component {

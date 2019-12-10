@@ -10,7 +10,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./stylesCosmic.module.css";
 import Explore from './Explore/Explore/Explore.jsx';
-import Focus from './Focus/Focus.jsx';
+import Focus from './pageFocus/Focus.jsx';
 import CosmicUser from './component/CosmicUser.jsx';
 import CosmicNoun from './component/CosmicNoun.jsx';
 import LinkExplore from './component/LinkExplore/LinkExplore.jsx';
