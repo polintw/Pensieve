@@ -52,10 +52,10 @@ function _handle_GET_feed_customTodayNode(req, res){
               order: [
                 [Sequelize.fn('RAND')] //"RAND" is order for 'random' selection specific for mySQL
               ]
-            }).then((result)=>{return result.id_node});
+            }).then((result)=>{return !!result ? result.id_node: false;}); //at the very begining, there was 'no' nodes at all--- special situation for dev
 
             nodeData = await _DB_nouns.findOne({
-              where: {id: newNodeId},
+              where: {id: newNodeId? newNodeId : 500}, //Notice! 500 is just a rand pick for dev
               attributes: ['language']
             }).then((result)=>{return result});
           }
