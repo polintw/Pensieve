@@ -25,10 +25,10 @@ export const initUnit = {
 export const initCosmicGeneral = {
   fetchFlags: [],
   indexLists: {
-    customNewBelong: [],
-    customNewFirst: [],
-    customNew: [],
-    customSelected: false, //keep in 'false' before any return, as a 'red light' to rendering focus list
+    listCustomNew: [],
+    listNew: [],
+    listFocus:[],
+    demandTake: [],
     todayNode: [],
     broads: []
   }

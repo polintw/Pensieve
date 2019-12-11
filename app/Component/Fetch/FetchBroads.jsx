@@ -5,9 +5,6 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import {
-  setIndexLists
-} from '../../redux/actions/cosmic.js';
-import {
   handleUsersList,
 } from "../../redux/actions/general.js";
 import {
@@ -94,7 +91,6 @@ const mapStateToProps = (state)=>{
     userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
     nounsBasic: state.nounsBasic,
-    indexLists: state.indexLists
   }
 }
 

@@ -38,6 +38,17 @@ export function rmFetchFlags(rmTarget){
   }
 }
 
+export function handFocusListNew(listArr){
+  //this actoin creator, could do function return is because we use 'thunk' middleware when create store
+  return (dispatch, getState) => {
+    //by this method we could use 'getState' & 'dispatch' in action creator
+    const prevList =  getState().indexLists.listFocus;
+    let nextList = prevList.concat(listArr);
+
+    dispatch({type: SET_INDEXLISTS, lists: {listFocus: nextList}})
+  }
+}
+
 export function setIndexLists(listsObj){
   return {type: SET_INDEXLISTS, lists: listsObj}
 }
