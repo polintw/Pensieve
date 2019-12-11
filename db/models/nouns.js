@@ -23,6 +23,11 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
+    nouns.hasOne(models.nodes_demand_match, {
+      foreignKey:"id_node",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
   };
   return nouns;
 };
