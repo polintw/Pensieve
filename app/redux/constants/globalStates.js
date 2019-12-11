@@ -51,8 +51,11 @@ export const i18nUIStringInit = {
      "messageChoiceBelong": ["Which living field below is ", " around over most?"],
      "messageBelongChoiceinBool": ["site ", "  as your  ", "  place?"],
      "hintEmptyNode": "This Corner is still Waiting to be explored. Be the first one to wonder and wander!",
-     "titleBannerBelong": "new shared.",
+     /*"titleBannerBelong": "new shared.",
      "titleBannerRest": "newly arrived or selected.",
+
+     removed part in Main
+     */
      "title_Main_Broads": "or, here are some broaded by users."
    }
 }

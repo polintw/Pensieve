@@ -1,24 +1,29 @@
-.boxTop {
+.comMainWrapper {
   width: 100%;
-  position: relative;
-  box-sizing: border-box;
-  margin: 0 0 5vw; /* '%' would follow the width of the width of higher com, and heigher com could set min-width to limit experience */
-}
-
-.boxBanner {
-  width: 65vw; /* follow the width of Scroll*/
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
   box-sizing: border-box;
 }
 
-.boxTitle {
+.boxRow {
+  width: 100%;
+  margin: 5vw 0 7.5vw;
+}
+
+.boxRowBroads {
+  position: relative;
+  box-sizing: border-box;
+}
+
+.boxRowTitle {
   width: 100%;
   position: relative;
   transform: translate(-12.5%,0);
   box-sizing: border-box;
 }
 
-.boxScroll {
+.boxRowScroll {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -72,4 +77,25 @@
   position: absolute;
   top: 50%;
   display: inline-block;
+}
+
+.fontTitle {
+  font-size: 2.2rem;
+  font-weight: 500;
+  letter-spacing: 0.064rem;
+}
+
+.fontDescript { /* keep it related to fontType in BannerBelong*/
+  font-size: 1.37rem;
+  letter-spacing: 0.07rem;
+  line-height: 2rem;
+}
+
+.fontLink {
+  font-size: 1.3rem;
+}
+
+.fontWikiIntro {
+  font-size: 1.45rem;
+  line-height: 1.84rem;
 }

@@ -9,18 +9,28 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import {
+  axios_feedList_customNew,
   axios_visit_GET_last,
   axios_visit_Index
 } from './utils.js';
-import MainTitle from '../MainTitle/MainTitle.jsx';
-import MainBanner from '../MainBanner/MainBanner.jsx';
-
+import MainTitle from './MainTitle/MainTitle.jsx';
 import MainList from './MainList/MainList.jsx';
+import Broads from './Broads/Broads.jsx';
+import NewShared from './NewShared/NewShared.jsx';
+import NewSharedCustom from './NewSharedCustom/NewSharedCustom.jsx';
 import Unit from '../../../Unit/Unit/Unit.jsx';
+import {
+  setIndexLists
+} from '../../../redux/actions/cosmic.js';
+import {
+  initCosmicGeneral
+} from '../../../redux/constants/states.js';
 import {
   cancelErr,
   uncertainErr
 } from '../../../utils/errHandlers.js';
+
+const toDoArr = ["lastVisit", "listMain", "listNewwithCustom", "listRowBroads"];
 
 class Wrapper extends React.Component {
   constructor(props){
@@ -28,19 +38,13 @@ class Wrapper extends React.Component {
     this.state = {
       axiosFocus: false,
       lastVisit: false,
-      mountTodo: ["lastVisit", "listMain", "listBannerNew", "listBannerSelect", "listRowBroads"]
+      mountTodo: toDoArr
     };
     this.axiosSource = axios.CancelToken.source();
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._set_mountToDo = this._set_mountToDo.bind(this);
     this.style={
-      withinCom_MainIndex_scroll_: {
-        width: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box'
-      },
+
     }
   }
 
@@ -67,26 +71,37 @@ class Wrapper extends React.Component {
       //now, after everything was mount, we update the visiting time to the server
       axios_visit_Index(this.axiosSource.token);
       //and for safety, we reset the state to default.
-      this.setState({mountTodo: ["lastVisit", "listMain", "listBannerNew", "listBannerSelect"]});
+      this.setState({mountTodo: toDoArr});
     }
   }
 
   componentDidMount(){
     const self = this;
-
     this.setState({axiosFocus: true});
 
     //get the last visit situation for child component
-    //in the future, method to get basic (user)sheet data would join here(use Promise.all())
-    axios_visit_GET_last(self.axiosSource.token)
-      .then((lastVisitObj)=>{
-        self.setState({
-          lastVisit: lastVisitObj.main.lastTime
-        });
-        self._set_mountToDo("lastVisit"); //and splice the label from the todo list
+    //in the future, method to get basic (user)sheet data would join here
+    axios.all([
+      axios_visit_GET_last(self.axiosSource.token),
+      axios_feedList_customNew(self.axiosSource.token)
+    ])
+      .then(
+        axios.spread(function(lastVisitRes, customNewRes){
+          self._set_mountToDo("listNewwithCustom"); //splice the label from the todo list
+          self._set_mountToDo("lastVisit"); //and splice the label from the todo list
+          let submitObj = {};
 
-      })
+          submitObj['listCustomNew'] = customNewRes.main.listCustomNew;
+          submitObj['listNew'] = customNewRes.main.listNew;
+          //update the list to Redux reducer,
+          self.props._submit_IndexLists(submitObj);
 
+          self.setState({
+            axiosFocus: false,
+            lastVisit: lastVisitObj.main.lastTime
+          });
+        })
+      )
       .catch(function (thrown) {
         self.setState({axiosFocus: false});
         if (axios.isCancel(thrown)) {
@@ -102,37 +117,50 @@ class Wrapper extends React.Component {
     if(this.state.axios){
       this.axiosSource.cancel("component will unmount.")
     }
+    //clear & reset to init when Unmount, make sure the list would not render anything when retrun to index
+    this.props._submit_IndexLists(initCosmicGeneral.indexLists);
   }
 
   render(){
     return(
       <div>
         <div
-          style={this.style.withinCom_MainIndex_scroll_}>
-
+          className={classnames(styles.comMainWrapper)}>
           <div
-            className={classnames(styles.boxTop)}>
-            <div
-              className={classnames(styles.boxTitle)}>
-              <MainTitle
-                lastVisit={this.state.lastVisit}
-                _refer_von_cosmic={this.props._refer_von_cosmic}/>
-            </div>
-            <div
-              className={classnames(styles.boxBanner)}>
-              <MainBanner
-                {...this.props}
-                _set_mountToDo={this._set_mountToDo}
-                _refer_von_cosmic={this.props._refer_von_cosmic}/>
-            </div>
+            className={classnames(styles.boxRowTitle)}>
+            <MainTitle
+              lastVisit={this.state.lastVisit}
+              _refer_von_cosmic={this.props._refer_von_cosmic}/>
           </div>
 
+          {
+            (this.props.indexLists.listCustomNew.length> 0) &&
+            <div
+              className={classnames(styles.boxRow)}>
+              <NewSharedCustom
+                {...this.props}/>
+            </div>
+          }
+
+          {
+            (this.props.indexLists.listNew.length> 0) &&
+            <div
+              className={classnames(styles.boxRow)}>
+              <NewShared
+                {...this.props}/>
+            </div>
+          }
           <div
-            className={styles.boxScroll}>
+            className={classnames(styles.boxRow, styles.boxRowBroads)}>
+            <Broads
+              {...this.props}
+              _set_mountToDo={this._set_mountToDo}/>
+          </div>
+          <div
+            className={styles.boxRowScroll}>
             <MainList
               {...this.props}
-              _set_mountToDo={this._set_mountToDo}
-              _refer_von_cosmic={this.props._refer_von_cosmic}/>
+              _set_mountToDo={this._set_mountToDo}/>
           </div>
         </div>
         <Route
@@ -151,7 +179,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    _submit_IndexLists: (listsObj) => { dispatch(setIndexLists(listsObj)); }
   }
 }
 
