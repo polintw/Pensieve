@@ -16,6 +16,7 @@ const visitRouter = require('./visit/main.js');
 const shareRouter = require('./share/main.js');
 const inspireRouter = require('./inspire/main.js');
 const broadRouter = require('./broad/main.js');
+const matchNodesRouter = require('./matchNodes/main.js');
 const nounsRouter = require('./nouns/main.js');
 const windowRouter = require('./window/main.js');
 const exploreRouter = require('./explore/main.js');
@@ -53,6 +54,7 @@ router.use('/nouns', nounsRouter)
 router.use('/share', shareRouter)
 router.use('/inspire', inspireRouter)
 router.use('/broad', broadRouter)
+router.use('/matchNodes', matchNodesRouter)
 router.use('/window', windowRouter)
 
 router.use('/feed', feedRouter)

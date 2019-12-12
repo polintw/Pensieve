@@ -173,9 +173,17 @@ function _handle_ErrCatched(e, req, res){
       return res.status(e.status).json(clientSet);
       break;
     case 120:
+      //403
       //currently used by sharedsPOST, when there is no noun accompany
       clientSet['code'] = 120;
       clientSet['message'] = e.message;
+      clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
+    case 121:
+      //403, wishlist of matchNodes has already full or ordered
+      clientSet['code'] = 121;
+      clientSet['message'] = "";
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;
