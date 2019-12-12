@@ -8,21 +8,21 @@ import classnames from 'classnames';
 import styles from "../styles.module.css"; //Notice, we use shared css file here for easier control
 import {
   axios_Units,
-} from '../MainBanner/utils.js';
+} from '../utils.js';
 import {
   nailChart,
-} from '../Main/utils.js';
+} from '../utils.js';
 import {
   setIndexLists
-} from '../../../redux/actions/cosmic.js';
+} from '../../../../redux/actions/cosmic.js';
 import {
   handleNounsList,
   handleUsersList,
-} from "../../../redux/actions/general.js";
+} from "../../../../redux/actions/general.js";
 import {
   cancelErr,
   uncertainErr
-} from '../../../utils/errHandlers.js';
+} from '../../../../utils/errHandlers.js';
 
 class Broads extends React.Component {
   constructor(props){

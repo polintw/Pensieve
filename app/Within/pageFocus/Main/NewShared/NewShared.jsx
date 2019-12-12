@@ -14,11 +14,11 @@ import {
 import {
   handleNounsList,
   handleUsersList
-} from "../../../redux/actions/general.js";
+} from "../../../../redux/actions/general.js";
 import {
   cancelErr,
   uncertainErr
-} from '../../../utils/errHandlers.js';
+} from '../../../../utils/errHandlers.js';
 
 class NewShared extends React.Component {
   constructor(props){
@@ -51,9 +51,6 @@ class NewShared extends React.Component {
 
   render(){
 
-    return(
-
-    )
   }
 }
 

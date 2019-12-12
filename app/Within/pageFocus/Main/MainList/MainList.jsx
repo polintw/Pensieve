@@ -17,7 +17,6 @@ import ServiceLinks from '../../../../Component/ServiceLinks.jsx';
 import {
   handleNounsList,
   handleUsersList,
-  handFocusListNew
 } from "../../../../redux/actions/general.js";
 import {
   handFocusListNew
