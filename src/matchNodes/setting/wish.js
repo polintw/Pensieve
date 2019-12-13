@@ -16,35 +16,62 @@ const {
 function _handle_PATCH_wish(req, res){
   new Promise((resolve, reject)=>{
     const userId = req.extra.tokenUserId;
-    let orderify = (`order` in req.query) ? true: false,
+    //There are 2 specific info from client,
+    //'order' in query, presenting if the req was from the Supply,
+    //and wished node(id) in an arr.
+    const orderify = (`order` in req.query) ? true: false,
         wishedNodeId = req.body.wishList[0];
+    //and prepare the async update if we need to update the wishList & nodes_demand_match
+    async function _update_Wish(mergedList){
+      //when the function calles, at least we need to update the wishedlist of this user
+      await _DB_usersDemandMatch.update(
+        {list_wished: JSON.stringify(mergedList)},  //remember turn the array into string before update
+        {where: {id_user: userId}}
+      ); //sequelize.update() would not return anything (as I know)
+      //then, we now check the condition of the wished node--- to see if there was already a records,
+      //
+      await _DB_nodesDemandMatch.findOrCreate({
+        where: {id_node: mergedList[0]},
+        defaults: {id_node: mergedList[0], list_demand: JSON.stringify([userId])}
+      })
+      .then(([nodeResult, created])=>{
+        //when wished from user, we just put him/her into the list
+        //that's all, no matter under what kind of condition now
+        let demandList = JSON.parse(nodeResult.list_demand);
+        if(demandList.indexOf(mergedList[0]) <0){ //means the record was there in table, so the user would be new one to the list
+          demandList.push(userId);
+        };
 
+        let updateObj = {
+          finished: 0, //this is the only factor need to be assure with the demand list
+          list_demand: JSON.stringify(demandList),
+        };
+        await _DB_nodesDemandMatch.update(
+          updateObj,
+          {fields: ['finished', 'list_demand']}
+        );
+      });
+    }
+
+    //first, we select the current records of wished list of this user in db
     _DB_usersDemandMatch.findOne({
-      where: {id: userId}
+      where: {id_user: userId}
     })
     .then((userRow)=>{
-      //check the current length of wishlist
       let prevWishedList = JSON.parse(userRow.list_wished), //it's saved as a 'string'
-          newWishedList=[],
-          successify;
+          newWishedList=[], //list going to be update if the submit was accepted
+          updateify; //flag used to see if the sumbit was accepted
 
-      async function _update_Wish(){
-        await _DB_usersDemandMatch.update(
-
-          {list_inspired: JSON.stringify(mergeList)},  //Important! and remember turn the array into string before update
-          {where: {id_user: data.userId}}
-        )
-      }
-
-      //first, chekc if the node has been wished
-      if(prevWishedList.indexOf(wishedNodeId)> -1){ successify = false;}
-      else{ //process if the wish is new one
+      //now, start from chekcing if the node has been wished
+      if(prevWishedList.indexOf(wishedNodeId)> -1){ updateify = false;}
+      //process if the wish is new one
+      else{
         for(let i=0; i<3; i++){ //loop times equal to desired length no matter the situation
           //seperate into 2 conditions: to 3rd place or not
           if(orderify){
             //if we need to insert to absolute the 3rd place,
-            //check if the previous value exist, or insert null to make the length 'grow'
-            newWishedList[i] = (i<2)? (!prevWishedList[i])? null : prevWishedList[i] :wishedNodeId;
+            //check if the value ahead exist, or insert null to make the length 'grow'
+            newWishedList[i] = (!prevWishedList[i])? (i<2)? null : wishedNodeId: prevWishedList[i]; //only '2' was >2 and <3 in the loop
           }
           else{
             //or if we don't need to insert to 3rd place,
@@ -54,11 +81,11 @@ function _handle_PATCH_wish(req, res){
           }
         }
         //and, check if we insert successfully
-        successify = (newWishedList.indexOf(wishedNodeId) >(-1)) ? true : false;
+        updateify = (newWishedList.indexOf(wishedNodeId) >(-1)) ? true : false;
       }
 
-      if(successify){ //if the new wish was accepted
-        return
+      if(updateify){ //if the new wish was accepted
+        return _update_Wish(newWishedList).catch((err)=>{throw err});
       }
       else reject(new forbbidenError('unsuccesful insertion to wish list due to length limit or duplicate claim', 121));
 
@@ -66,12 +93,72 @@ function _handle_PATCH_wish(req, res){
       reject(new internalError(err, 131));
     });
 
-  }).then((passedData)=>{
+  }).then(()=>{
     let sendingData ={ //still declaim one for the requirement of _res_success
       temp:{}
     };
 
     _res_success(res, sendingData, `'matchNodes, PATCH: /wish' ${req.query.order? 'with query order,': ','} 'complete.'`);
+  }).catch((error)=>{
+    _handle_ErrCatched(error, req, res);
+  });
+}
+
+
+function _handle_DELETE_wish(req, res){
+  new Promise((resolve, reject)=>{
+    const userId = req.extra.tokenUserId;
+    //There are 2 specific info from client,
+    //'order' in query, presenting if the req was from the Supply,
+    //and wished node(id) in an arr.
+    const orderify = (`order` in req.query) ? true: false,
+        unwantedNode = req.body.wishList[0];
+
+    let selectUserSide = _DB_usersDemandMatch.findOne({
+          where: {id_user: userId}}).catch((err)=> {throw err}),
+        selectNodeSide = _DB_nodesDemandMatch.findOne({
+          where: {id_node: unwantedNode}}).catch((err)=> {throw err});
+
+    Promise.all([selectUserSide, selectNodeSide])
+    .then(([userRow, nodeRow])=>{
+      let prevWishedList = JSON.parse(userRow.list_wished), //it's saved as a 'string'
+          prevDemandList = JSON.parse(nodeRow.list_demand),
+          //list going to be update if the submit was accepted
+          newWishedList=[],
+          newDemandList = [],
+          updateify; //flag used to see if the sumbit was accepted
+
+      let indexInWished = prevWishedList.indexOf(unwantedNode),
+          indexInDemand = prevDemandList.indexOf(unwantedNode);
+      //prevent malicious req
+      if(indexInWished< 0 && indexInDemand< 0){ updateify = false;}
+      else{
+        newDemandList = (indexInDemand < 0) ? prevDemandList.slice() : prevDemandList.splice(indexInDemand, 1);
+        //the wishedlist need to keep it's original length due to the position-specific 'order' value
+        //so replace with 'null' when splice
+        newWishedList = (indexInWished < 0) ? prevWishedList.slice() : prevWishedList.splice(indexInDemand, 1, null);
+
+        updateify= true;
+      }
+
+      if(updateify){ //if the new wish was accepted
+
+        
+        return _update_Wish(newWishedList).catch((err)=>{throw err});
+      }
+      else reject(new forbbidenError('unsuccesful insertion to wish list due to length limit or duplicate claim', 121));
+
+
+    }).catch((err)=>{
+      reject(new internalError(err, 131));
+    });
+
+  }).then(()=>{
+    let sendingData ={ //still declaim one for the requirement of _res_success
+      temp:{}
+    };
+
+    _res_success(res, sendingData, `'matchNodes, DELETE: /wish' ${req.query.order? 'with query order,': ','} 'complete.'`);
   }).catch((error)=>{
     _handle_ErrCatched(error, req, res);
   });
