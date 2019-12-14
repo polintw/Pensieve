@@ -181,7 +181,7 @@ function _handle_ErrCatched(e, req, res){
       return res.status(e.status).json(clientSet);
       break;
     case 121:
-      //403, wishlist of matchNodes has already full or ordered
+      //403, process about wishlist of matchNodes fail, perhaps exceed length limit or some unknown submit
       clientSet['code'] = 121;
       clientSet['message'] = "";
       clientSet['console'] = '';

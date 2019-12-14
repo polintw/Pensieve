@@ -31,14 +31,14 @@ function _handle_PATCH_wish(req, res){
       //then, we now check the condition of the wished node--- to see if there was already a records,
       //
       await _DB_nodesDemandMatch.findOrCreate({
-        where: {id_node: mergedList[0]},
-        defaults: {id_node: mergedList[0], list_demand: JSON.stringify([userId])}
+        where: {id_node: wishedNodeId},
+        defaults: {id_node: wishedNodeId, list_demand: JSON.stringify([userId])}
       })
       .then(([nodeResult, created])=>{
         //when wished from user, we just put him/her into the list
         //that's all, no matter under what kind of condition now
         let demandList = JSON.parse(nodeResult.list_demand);
-        if(demandList.indexOf(mergedList[0]) <0){ //means the record was there in table, so the user would be new one to the list
+        if(demandList.indexOf(userId) <0){ //means the record was there in table, so the user would be new one to the list
           demandList.push(userId);
         };
 
@@ -46,7 +46,7 @@ function _handle_PATCH_wish(req, res){
           finished: 0, //this is the only factor need to be assure with the demand list
           list_demand: JSON.stringify(demandList),
         };
-        await _DB_nodesDemandMatch.update(
+        return _DB_nodesDemandMatch.update(
           updateObj,
           {fields: ['finished', 'list_demand']}
         );
@@ -87,7 +87,7 @@ function _handle_PATCH_wish(req, res){
       if(updateify){ //if the new wish was accepted
         return _update_Wish(newWishedList).catch((err)=>{throw err});
       }
-      else reject(new forbbidenError('unsuccesful insertion to wish list due to length limit or duplicate claim', 121));
+      else reject(new forbbidenError('update to users_/nodes_ demand match fail, due to length limit or node not on the record.', 121));
 
     }).catch((err)=>{
       reject(new internalError(err, 131));
@@ -108,11 +108,20 @@ function _handle_PATCH_wish(req, res){
 function _handle_DELETE_wish(req, res){
   new Promise((resolve, reject)=>{
     const userId = req.extra.tokenUserId;
-    //There are 2 specific info from client,
-    //'order' in query, presenting if the req was from the Supply,
-    //and wished node(id) in an arr.
-    const orderify = (`order` in req.query) ? true: false,
-        unwantedNode = req.body.wishList[0];
+    //we only get the Node goint to delete from client
+    const unwantedNode = req.body.wishList[0];
+
+    async function _update_list_WishDemand(newWishedList, newDemandList){
+      await _DB_usersDemandMatch.update(
+        {list_wished: JSON.stringify(newWishedList)},  //remember turn the array into string before update
+        {where: {id_user: userId}}
+      ); //sequelize.update() would not return anything (as I know)
+
+      await _DB_nodesDemandMatch.update(
+        {list_demand: JSON.stringify(newDemandList)},  //remember turn the array into string before update
+        {where: {id_user: userId}}
+      ); //sequelize.update() would not return anything (as I know)
+    }
 
     let selectUserSide = _DB_usersDemandMatch.findOne({
           where: {id_user: userId}}).catch((err)=> {throw err}),
@@ -128,8 +137,9 @@ function _handle_DELETE_wish(req, res){
           newDemandList = [],
           updateify; //flag used to see if the sumbit was accepted
 
+      //we then check the existence of the node submit by getting the index
       let indexInWished = prevWishedList.indexOf(unwantedNode),
-          indexInDemand = prevDemandList.indexOf(unwantedNode);
+          indexInDemand = prevDemandList.indexOf(userId);
       //prevent malicious req
       if(indexInWished< 0 && indexInDemand< 0){ updateify = false;}
       else{
@@ -141,13 +151,10 @@ function _handle_DELETE_wish(req, res){
         updateify= true;
       }
 
-      if(updateify){ //if the new wish was accepted
-
-        
-        return _update_Wish(newWishedList).catch((err)=>{throw err});
+      if(updateify){
+        return _update_list_WishDemand(newWishedList, newDemandList).catch((err)=>{throw err});
       }
-      else reject(new forbbidenError('unsuccesful insertion to wish list due to length limit or duplicate claim', 121));
-
+      else reject(new forbbidenError('update to users_/nodes_ demand match fail, due to length limit or node not on the record.', 121));
 
     }).catch((err)=>{
       reject(new internalError(err, 131));
@@ -158,7 +165,7 @@ function _handle_DELETE_wish(req, res){
       temp:{}
     };
 
-    _res_success(res, sendingData, `'matchNodes, DELETE: /wish' ${req.query.order? 'with query order,': ','} 'complete.'`);
+    _res_success(res, sendingData, `'matchNodes, DELETE: /wish, complete.'`);
   }).catch((error)=>{
     _handle_ErrCatched(error, req, res);
   });
