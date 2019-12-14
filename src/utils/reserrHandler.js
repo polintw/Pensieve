@@ -187,6 +187,14 @@ function _handle_ErrCatched(e, req, res){
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;
+    case 122:
+      //403, process about waiting list of matchNodes, trying to update node not yet est. or not opened to submit
+      winston.warn(`${e.status} - ${"code 144, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+      clientSet['code'] = "122";
+      clientSet['message'] = "You are sumitting to a node not allowed submitting. Submit it by making a wish od order it!";
+      clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
     case 131:
       //500, unexpected internal error
       winston.error(`${"Res status: "+e.status} ; ${"Error code: 131, "+e.message} ; ${"Req: "+req.originalUrl} , ${req.method} , ${req.ip}`);

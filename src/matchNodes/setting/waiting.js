@@ -13,78 +13,59 @@ const {
   forbbidenError
 } = require('../../utils/reserrHandler.js');
 
-function _handle_PATCH_wish(req, res){
+function _handle_PATCH_waiting(req, res){
   new Promise((resolve, reject)=>{
     const userId = req.extra.tokenUserId;
-    //There are 2 specific info from client,
-    //'order' in query, presenting if the req was from the Supply,
-    //and wished node(id) in an arr.
-    const orderify = (`order` in req.query) ? true: false,
-        wishedNodeId = req.body.wishList[0];
-    //and prepare the async update if we need to update the wishList & nodes_demand_match
-    async function _update_Wish(mergedList){
-      //when the function calles, at least we need to update the wishedlist of this user
+
+    const waitingNodeId = req.body.waitingList[0];
+
+
+    async function _update_list_Waiting( ){
+
       await _DB_usersDemandMatch.update(
-        {list_wished: JSON.stringify(mergedList)},  //remember turn the array into string before update
+        {list_wished: JSON.stringify(newWishedList)},  //remember turn the array into string before update
         {where: {id_user: userId}}
       ); //sequelize.update() would not return anything (as I know)
-      //then, we now check the condition of the wished node--- to see if there was already a records,
-      //
-      await _DB_nodesDemandMatch.findOrCreate({
-        where: {id_node: wishedNodeId},
-        defaults: {id_node: wishedNodeId, list_demand: JSON.stringify([userId])}
-      })
-      .then(([nodeResult, created])=>{
-        //when wished from user, we just put him/her into the list
-        //that's all, no matter under what kind of condition now
-        let demandList = JSON.parse(nodeResult.list_demand);
-        if(demandList.indexOf(userId) <0){ //means the record was there in table, so the user would be new one to the list
-          demandList.push(userId);
-        };
 
-        let updateObj = {
-          finished: 0, //this is the only factor need to be assure with the demand list
-          list_demand: JSON.stringify(demandList),
-        };
-        return _DB_nodesDemandMatch.update(
-          updateObj,
-          {fields: ['finished', 'list_demand']}
-        );
-      });
+      await _DB_nodesDemandMatch.update(
+        {list_demand: JSON.stringify(newDemandList)},  //remember turn the array into string before update
+        {where: {id_user: userId}}
+      ); //sequelize.update() would not return anything (as I know)
     }
 
+
     //first, we select the current records of wished list of this user in db
-    _DB_usersDemandMatch.findOne({
-      where: {id_user: userId}
-    })
-    .then((userRow)=>{
-      let prevWishedList = JSON.parse(userRow.list_wished), //it's saved as a 'string'
-          newWishedList=[], //list going to be update if the submit was accepted
+    let selectUserSide = _DB_usersDemandMatch.findOne({
+          where: {id_user: userId}}).catch((err)=> {throw err}),
+        selectNodeSide = _DB_nodesDemandMatch.findOne({
+          where: {
+            id_node: waitingNodeId,
+            locked: 1 //Important!! this is important to this process, we only allow user 'list' to the node under working
+          }}).catch((err)=> {throw err});
+
+    Promise.all([selectUserSide, selectNodeSide])
+    .then(([userRow, nodeRow])=>{
+      if(!nodeRow) reject(new forbbidenError('reject due to null selection from node match.', 122)); //eliminate the 'null' situation first, which may incl. notexist or not opened to submit
+
+      let prevUserWaiting = JSON.parse(userRow.list_waiting), //it's saved as a 'string'
+          prevNodeUsers = JSON.parse(nodeRow.list_waiting),
+          //list going to be update if the submit was accepted
+          newUserWaiting = prevUserWaiting.slice(),
+          newNodeUsers = prevNodeUsers.slice(),
           updateify; //flag used to see if the sumbit was accepted
 
-      //now, start from chekcing if the node has been wished
-      if(prevWishedList.indexOf(wishedNodeId)> -1){ updateify = false;}
-      //process if the wish is new one
-      else{
-        for(let i=0; i<3; i++){ //loop times equal to desired length no matter the situation
-          //seperate into 2 conditions: to 3rd place or not
-          if(orderify){
-            //if we need to insert to absolute the 3rd place,
-            //check if the value ahead exist, or insert null to make the length 'grow'
-            newWishedList[i] = (!prevWishedList[i])? (i<2)? null : wishedNodeId: prevWishedList[i]; //only '2' was >2 and <3 in the loop
-          }
-          else{
-            //or if we don't need to insert to 3rd place,
-            //just find a empty place (at 1st or 2nd place) and break the loop
-            if(!prevWishedList[i]){ newWishedList[i] = wishedNodeId; break;}
-            else newWishedList[i] = prevWishedList[i];
-          }
-        }
-        //and, check if we insert successfully
-        updateify = (newWishedList.indexOf(wishedNodeId) >(-1)) ? true : false;
+      //now, start from chekcing if the node has been waiting
+      if(prevUserWaiting.indexOf(waitingNodeId)> -1){ updateify = false;}
+      else{ //if the node is new one
+        newUserWaiting.splice(0, 0, waitingNodeId);
+        if(prevNodeUsers.indexOf(waitingNodeId) < 0 ) newNodeUsers.splice(0, 0, waitingNodeId);
+
+        updateify = true ;
       }
 
       if(updateify){ //if the new wish was accepted
+
+        
         return _update_Wish(newWishedList).catch((err)=>{throw err});
       }
       else reject(new forbbidenError('update to users_/nodes_ demand match fail, due to length limit or node not on the record.', 121));
@@ -105,7 +86,7 @@ function _handle_PATCH_wish(req, res){
 }
 
 
-function _handle_DELETE_wish(req, res){
+function _handle_DELETE_waiting(req, res){
   new Promise((resolve, reject)=>{
     const userId = req.extra.tokenUserId;
     //we only get the Node goint to delete from client
@@ -133,8 +114,8 @@ function _handle_DELETE_wish(req, res){
       let prevWishedList = JSON.parse(userRow.list_wished), //it's saved as a 'string'
           prevDemandList = JSON.parse(nodeRow.list_demand),
           //list going to be update if the submit was accepted
-          newWishedList = prevWishedList.slice(),
-          newDemandList = prevDemandList.slice(),
+          newWishedList=[],
+          newDemandList = [],
           updateify; //flag used to see if the sumbit was accepted
 
       //we then check the existence of the node submit by getting the index
@@ -143,10 +124,10 @@ function _handle_DELETE_wish(req, res){
       //prevent malicious req
       if(indexInWished< 0 && indexInDemand< 0){ updateify = false;}
       else{
-        if(indexInDemand >= 0) newDemandList.splice(indexInDemand, 1);
+        newDemandList = (indexInDemand < 0) ? prevDemandList.slice() : prevDemandList.splice(indexInDemand, 1);
         //the wishedlist need to keep it's original length due to the position-specific 'order' value
         //so replace with 'null' when splice
-        if(indexInWished >= 0) newWishedList.splice(indexInDemand, 1, null);
+        newWishedList = (indexInWished < 0) ? prevWishedList.slice() : prevWishedList.splice(indexInDemand, 1, null);
 
         updateify= true;
       }
@@ -172,6 +153,6 @@ function _handle_DELETE_wish(req, res){
 }
 
 module.exports = {
-  _handle_PATCH_wish,
-  _handle_DELETE_wish
+  _handle_PATCH_waiting,
+  _handle_DELETE_waiting
 };
