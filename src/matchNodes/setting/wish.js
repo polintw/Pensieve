@@ -89,6 +89,10 @@ function _handle_PATCH_wish(req, res){
       }
       else reject(new forbbidenError('update to users_/nodes_ demand match fail, due to length limit or node not on the record.', 121));
 
+    })
+    .then(()=>{
+      //resolve if no rejection
+      resolve();
     }).catch((err)=>{
       reject(new internalError(err, 131));
     });
@@ -119,7 +123,7 @@ function _handle_DELETE_wish(req, res){
 
       await _DB_nodesDemandMatch.update(
         {list_demand: JSON.stringify(newDemandList)},  //remember turn the array into string before update
-        {where: {id_user: userId}}
+        {where: {id_node: unwantedNode}}
       ); //sequelize.update() would not return anything (as I know)
     }
 
@@ -131,9 +135,9 @@ function _handle_DELETE_wish(req, res){
     Promise.all([selectUserSide, selectNodeSide])
     .then(([userRow, nodeRow])=>{
       let prevWishedList = JSON.parse(userRow.list_wished), //it's saved as a 'string'
-          prevDemandList = JSON.parse(nodeRow.list_demand),
+          prevDemandList = JSON.parse(nodeRow.list_demand);
           //list going to be update if the submit was accepted
-          newWishedList = prevWishedList.slice(),
+      let newWishedList = prevWishedList.slice(),
           newDemandList = prevDemandList.slice(),
           updateify; //flag used to see if the sumbit was accepted
 
@@ -156,6 +160,10 @@ function _handle_DELETE_wish(req, res){
       }
       else reject(new forbbidenError('update to users_/nodes_ demand match fail, due to length limit or node not on the record.', 121));
 
+    })
+    .then(()=>{
+      //resolve if no rejection
+      resolve();
     }).catch((err)=>{
       reject(new internalError(err, 131));
     });

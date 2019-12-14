@@ -19,22 +19,21 @@ function _handle_PATCH_waiting(req, res){
 
     const waitingNodeId = req.body.waitingList[0];
 
-
-    async function _update_list_Waiting( ){
-
+    async function _update_list_Waiting(newNodeUsers, newUserWaited){
       await _DB_usersDemandMatch.update(
-        {list_wished: JSON.stringify(newWishedList)},  //remember turn the array into string before update
+        {list_waited: JSON.stringify(newUserWaited)},  //remember turn the array into string before update
         {where: {id_user: userId}}
       ); //sequelize.update() would not return anything (as I know)
 
       await _DB_nodesDemandMatch.update(
-        {list_demand: JSON.stringify(newDemandList)},  //remember turn the array into string before update
-        {where: {id_user: userId}}
+        {list_waiting: JSON.stringify(newNodeUsers)},  //remember turn the array into string before update
+        {where: {id_node: waitingNodeId}}
       ); //sequelize.update() would not return anything (as I know)
     }
 
 
-    //first, we select the current records of wished list of this user in db
+    //From here, we first select the current records in db,
+    //and add the first condition: 'only locked one can be list'.
     let selectUserSide = _DB_usersDemandMatch.findOne({
           where: {id_user: userId}}).catch((err)=> {throw err}),
         selectNodeSide = _DB_nodesDemandMatch.findOne({
@@ -45,30 +44,36 @@ function _handle_PATCH_waiting(req, res){
 
     Promise.all([selectUserSide, selectNodeSide])
     .then(([userRow, nodeRow])=>{
-      if(!nodeRow) reject(new forbbidenError('reject due to null selection from node match.', 122)); //eliminate the 'null' situation first, which may incl. notexist or not opened to submit
+      //eliminate the 'null' situation first, which may incl. notexist or not opened to submit
+      if(!nodeRow){ reject(new forbbidenError('reject due to null selection from node match.', 122)); return }; //return to break the promise
 
-      let prevUserWaiting = JSON.parse(userRow.list_waiting), //it's saved as a 'string'
-          prevNodeUsers = JSON.parse(nodeRow.list_waiting),
+      let prevUserWaited = JSON.parse(userRow.list_waited), //it's saved as a 'string'
+          prevNodeUsers = JSON.parse(nodeRow.list_waiting);
           //list going to be update if the submit was accepted
-          newUserWaiting = prevUserWaiting.slice(),
+      let newUserWaited = prevUserWaited.slice(),
           newNodeUsers = prevNodeUsers.slice(),
           updateify; //flag used to see if the sumbit was accepted
 
-      //now, start from chekcing if the node has been waiting
-      if(prevUserWaiting.indexOf(waitingNodeId)> -1){ updateify = false;}
-      else{ //if the node is new one
-        newUserWaiting.splice(0, 0, waitingNodeId);
-        if(prevNodeUsers.indexOf(waitingNodeId) < 0 ) newNodeUsers.splice(0, 0, waitingNodeId);
+      //now, start from chekcing if the user has already on the waiting list
+      //notice, the meaning of the list_waiting in nodes_demand_match is 'people expect to recieve the new Shared about this node',
+      //so we check it first as it would be clean out after a new shared has published
+      if(prevNodeUsers.indexOf(userId)> -1){ updateify = false;}
+      else{ //if the user was not on the list
+        newNodeUsers.splice(0, 0, userId);
+        if(prevUserWaited.indexOf(waitingNodeId) < 0 ) newUserWaited.splice(0, 0, waitingNodeId); // insert to the list at 1st place
 
         updateify = true ;
       }
 
       if(updateify){ //if the new wish was accepted
-
-        
-        return _update_Wish(newWishedList).catch((err)=>{throw err});
+        return _update_list_Waiting(newNodeUsers, newUserWaited)
+        .then(()=>{
+          //resolve if no rejection
+          resolve();
+        })
+        .catch((err)=>{throw err});
       }
-      else reject(new forbbidenError('update to users_/nodes_ demand match fail, due to length limit or node not on the record.', 121));
+      else reject(new forbbidenError(`reject due to duplicate announcement to waiting list for nodeId: ${waitingNodeId}.`, 122));
 
     }).catch((err)=>{
       reject(new internalError(err, 131));
@@ -79,7 +84,7 @@ function _handle_PATCH_waiting(req, res){
       temp:{}
     };
 
-    _res_success(res, sendingData, `'matchNodes, PATCH: /wish' ${req.query.order? 'with query order,': ','} 'complete.'`);
+    _res_success(res, sendingData, `matchNodes, PATCH: /waiting, complete`);
   }).catch((error)=>{
     _handle_ErrCatched(error, req, res);
   });
@@ -92,51 +97,34 @@ function _handle_DELETE_waiting(req, res){
     //we only get the Node goint to delete from client
     const unwantedNode = req.body.wishList[0];
 
-    async function _update_list_WishDemand(newWishedList, newDemandList){
-      await _DB_usersDemandMatch.update(
-        {list_wished: JSON.stringify(newWishedList)},  //remember turn the array into string before update
-        {where: {id_user: userId}}
-      ); //sequelize.update() would not return anything (as I know)
-
+    async function _update_list_Waiting(newNodeUsers){
       await _DB_nodesDemandMatch.update(
-        {list_demand: JSON.stringify(newDemandList)},  //remember turn the array into string before update
-        {where: {id_user: userId}}
+        {list_waiting: JSON.stringify(newNodeUsers)},  //remember turn the array into string before update
+        {where: {id_node: unwantedNode}}
       ); //sequelize.update() would not return anything (as I know)
     }
 
-    let selectUserSide = _DB_usersDemandMatch.findOne({
-          where: {id_user: userId}}).catch((err)=> {throw err}),
-        selectNodeSide = _DB_nodesDemandMatch.findOne({
-          where: {id_node: unwantedNode}}).catch((err)=> {throw err});
+    //From here, we first select the current records in db,
+    //and for DELETE, we only need to modify the list in node demand.
+    _DB_nodesDemandMatch.findOne({
+      //we select directly when DELETE, not like condition in PATCH
+      where: {id_node: unwantedNode}
+    })
+    .then((nodeRow)=>{
+      let prevNodeUsers = JSON.parse(nodeRow.list_waiting),
+          newNodeUsers = prevNodeUsers.slice();
 
-    Promise.all([selectUserSide, selectNodeSide])
-    .then(([userRow, nodeRow])=>{
-      let prevWishedList = JSON.parse(userRow.list_wished), //it's saved as a 'string'
-          prevDemandList = JSON.parse(nodeRow.list_demand),
-          //list going to be update if the submit was accepted
-          newWishedList=[],
-          newDemandList = [],
-          updateify; //flag used to see if the sumbit was accepted
-
-      //we then check the existence of the node submit by getting the index
-      let indexInWished = prevWishedList.indexOf(unwantedNode),
-          indexInDemand = prevDemandList.indexOf(userId);
-      //prevent malicious req
-      if(indexInWished< 0 && indexInDemand< 0){ updateify = false;}
-      else{
-        newDemandList = (indexInDemand < 0) ? prevDemandList.slice() : prevDemandList.splice(indexInDemand, 1);
-        //the wishedlist need to keep it's original length due to the position-specific 'order' value
-        //so replace with 'null' when splice
-        newWishedList = (indexInWished < 0) ? prevWishedList.slice() : prevWishedList.splice(indexInDemand, 1, null);
-
-        updateify= true;
+      let indexInWaiting = prevNodeUsers.indexOf(userId);
+      if(indexInWaiting > -1){ //check indexInWaiting in case we can't find the user in the list
+         newNodeUsers.splice(indexInWaiting, 1);
+         return _update_list_Waiting(newNodeUsers);
       }
-
-      if(updateify){
-        return _update_list_WishDemand(newWishedList, newDemandList).catch((err)=>{throw err});
-      }
-      else reject(new forbbidenError('update to users_/nodes_ demand match fail, due to length limit or node not on the record.', 121));
-
+      else return; //do nothing if the user was not on the list
+      
+    })
+    .then(()=>{
+      //resolve if no rejection
+      resolve();
     }).catch((err)=>{
       reject(new internalError(err, 131));
     });
@@ -146,7 +134,7 @@ function _handle_DELETE_waiting(req, res){
       temp:{}
     };
 
-    _res_success(res, sendingData, `'matchNodes, DELETE: /wish, complete.'`);
+    _res_success(res, sendingData, `matchNodes, DELETE: /waiting, complete.`);
   }).catch((error)=>{
     _handle_ErrCatched(error, req, res);
   });

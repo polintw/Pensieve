@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     taking: DataTypes.STRING,
     list_wished: DataTypes.STRING,
     list_willing: DataTypes.STRING,
-    list_waiting: DataTypes.STRING
+    list_waited: DataTypes.STRING
   }, {});
   users_demand_match.associate = function(models) {
     users_demand_match.belongsTo(models.users, {

@@ -22,7 +22,7 @@ module.exports = {
         type: Sequelize.STRING(511),
         defaultValue: "[]"
       },
-      list_waiting: {
+      list_waited: {
         type: Sequelize.STRING(511),
         defaultValue: "[]"
       },
