@@ -188,10 +188,18 @@ function _handle_ErrCatched(e, req, res){
       return res.status(e.status).json(clientSet);
       break;
     case 122:
-      //403, process about waiting list of matchNodes, trying to update node not yet est. or not opened to submit
+      //403, process modifying list of matchNodes, trying to update node not yet est. or not opened to submit
       winston.warn(`${e.status} - ${"code 144, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
       clientSet['code'] = "122";
-      clientSet['message'] = "You are sumitting to a node not allowed submitting. Submit it by making a wish od order it!";
+      clientSet['message'] = "You are sumitting to a node not allowed.";
+      clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
+    case 123:
+      //403, process for submitting new taking but user has already been occupied.
+      winston.info(`${e.status} - ${"code 123, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+      clientSet['code'] = "123";
+      clientSet['message'] = "You has alredy taken a node. Give it a chance, or you could let go of it by give up.";
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;
