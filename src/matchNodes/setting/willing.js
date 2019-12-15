@@ -13,28 +13,20 @@ const {
   forbbidenError
 } = require('../../utils/reserrHandler.js');
 
-function _handle_POST_taking(req, res){
+function _handle_PATCH_willing(req, res){
   new Promise((resolve, reject)=>{
     const userId = req.extra.tokenUserId;
 
-    const takingNodeId = req.body.takingList[0];
+    const willingNodeId = req.body.willingList[0];
 
-    async function _update_Taking(newTakingUser){
+    async function _update_Willing(updateUser, updateNode){
       await _DB_usersDemandMatch.update(
-        {
-          taking: JSON.stringify([takingNodeId]),
-          occupied: 1
-        },  //remember turn the array into string before update
+        updateUser,
         {where: {id_user: userId}}
       ); //sequelize.update() would not return anything (as I know)
 
       await _DB_nodesDemandMatch.update(
-        { //update the field as the switch chart
-          list_taking: JSON.stringify(newTakingUser),
-          locked: 1,
-          finished: 0,
-          supply: 0
-        },  //remember turn the array into string before update
+        updateNode,
         {where: {id_node: takingNodeId}}
       ); //sequelize.update() would not return anything (as I know)
     }
@@ -43,36 +35,69 @@ function _handle_POST_taking(req, res){
     //to judge if the submit should be accept.
     let selectUserSide = _DB_usersDemandMatch.findOne({
           where: {id_user: userId}}).catch((err)=> {throw err}),
-        selectNodeSide = _DB_nodesDemandMatch.findOne({
-          where: {id_node: takingNodeId}}).catch((err)=> {throw err});
+        //for willing, create directly if the node not in the table yet
+        selectNodeSide = _DB_nodesDemandMatch.findOrCreate({
+          where: {id_node: willingNodeId},
+          defaults: {id_node: willingNodeId, list_willing: '[]', supply: 1} //keep the list_willing empty, insert the content later
+        }).catch((err)=> {throw err});
 
     Promise.all([selectUserSide, selectNodeSide])
     .then(([userRow, nodeRow])=>{
-      //eliminate the 'null' situation first, which may incl. notexist or not opened to submit
-      if(!nodeRow){ reject(new forbbidenError(`reject due to null selection from node match modification during ${"taking" }process.`, 122)); return }; //return to break the promise
-
-      let prevTakingUser = JSON.parse(nodeRow.list_taking),
-          prevNodeTaking = JSON.parse(userRow.taking); //it's saved as a 'string'
-      let newTakingUser = prevTakingUser.slice();
+      //2 things: willing no more than 5, and if the user is 'available'
+      let prevWillingNode = JSON.parse(userRow.list_willing),
+          prevTakingNodes = JSON.parse(userRow.taking),
+          prevWillingList = JSON.parse(nodeRow.list_willing),
+          prevDemandUsers = JSON.parse(nodeRow.list_demand),
+          prevTakingUsers = JSON.parse(nodeRow.list_taking);
+      let newWillingNode = prevWillingNode.slice(),
+          newWillingList = prevWillingList.slice(),
+          updateNode = {}, //obj for node match
+          updateUser = {}, //obj for user match
           updateify; //flag used to see if the sumbit was accepted
 
-      //first check, if the user has taken some node.
-      if(!userRow.occupied || prevNodeTaking.length > 0 ){ updateify = false;}
-      else{ //if the user still available
-        //make a new taking list for the node base on current list
-        if(newTakingUser.indexOf(userId) < 0) newTakingUser.push(userId); //check just in case the list somehow has already had the user
+      //check the user's current list of willing to distinguish accepted or not.
+      let indexToNode = prevWillingNode.indexOf(willingNodeId),
+          indexToUser = prevWillingList.indexOf(userId);
+      if( indexToNode > (-1) || prevWillingNode.length =5 ){ updateify = false;}
+      else{ //if the list still available
+        newWillingNode.push(willingNodeId); //add the new node to user's list
+        if( indexToUser <0) newWillingList.push(userId); //in case somehow the list has already had the user
+
+        updateUser['list_willing'] = JSON.stringify(newWillingNode);
+        updateNode['list_willing'] = JSON.stringify(newWillingList); //add the user to the node's list
+        if( prevDemandUsers.length > 0 && prevTakingNodes.length = 0){
+          //the node has demand, and the user did not be occupied,
+          //if so, the willing will statrt a 'locked' cycle directly,
+          //the user would take the node automatically
+
+          if(prevTakingUsers.indexOf(userId) >(-1)) prevTakingUsers.push(userId);
+          let userObj = {
+                occupied: 1,
+                taking: JSON.stringify([willingNodeId])
+              },
+              nodeObj = {
+                locked: 1,
+                finished: 0,
+                supply: 0,
+                list_taking: JSON.stringify(prevTakingUsers)
+              };
+
+          Object.assign(updateUser, userObj);
+          Object.assign(updateNode, nodeObj);
+        }
+
         updateify = true ;
       }
 
       if(updateify){ //if the new wish was accepted
-        return _update_Taking(newTakingUser)
+        return _update_Willing(updateUser, updateNode)
         .then(()=>{
           //resolve if no rejection
           resolve();
         })
         .catch((err)=>{throw err});
       }
-      else reject(new forbbidenError(`reject due to the user has duplicate claim to the taking node.`, 123));
+      else reject(new forbbidenError(`reject due to the willing list was full or duplicate claim.`, 124));
 
     }).catch((err)=>{
       reject(new internalError(err, 131));
@@ -83,14 +108,14 @@ function _handle_POST_taking(req, res){
       temp:{}
     };
 
-    _res_success(res, sendingData, `matchNodes, POST: /taking, complete`);
+    _res_success(res, sendingData, `matchNodes, PATCH: /willing, complete`);
   }).catch((error)=>{
     _handle_ErrCatched(error, req, res);
   });
 }
 
 
-function _handle_DELETE_taking(req, res){
+function _handle_DELETE_willing(req, res){
   new Promise((resolve, reject)=>{
     const userId = req.extra.tokenUserId;
 
@@ -172,6 +197,6 @@ function _handle_DELETE_taking(req, res){
 }
 
 module.exports = {
-  _handle_POST_taking,
-  _handle_DELETE_taking
+  _handle_PATCH_willing,
+  _handle_DELETE_willing
 };

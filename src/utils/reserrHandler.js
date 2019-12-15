@@ -196,10 +196,17 @@ function _handle_ErrCatched(e, req, res){
       return res.status(e.status).json(clientSet);
       break;
     case 123:
-      //403, process for submitting new taking but user has already been occupied.
+      //403, process for modifying taken node  but may not match the current position, not the desired one or the position not available.
       winston.info(`${e.status} - ${"code 123, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
       clientSet['code'] = "123";
-      clientSet['message'] = "You has alredy taken a node. Give it a chance, or you could let go of it by give up.";
+      clientSet['message'] = "Node you submit could not be accepted because the position was taken by another node.";
+      clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
+    case 124:
+      //403, process sumitting the willing node but reject due to duplicate claim or reach limit
+      clientSet['code'] = 124;
+      clientSet['message'] = "";
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;
