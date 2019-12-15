@@ -189,7 +189,7 @@ function _handle_ErrCatched(e, req, res){
       break;
     case 122:
       //403, process modifying list of matchNodes, trying to update node not yet est. or not opened to submit
-      winston.warn(`${e.status} - ${"code 144, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+      winston.warn(`${e.status} - ${"code 122, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
       clientSet['code'] = "122";
       clientSet['message'] = "You are sumitting to a node not allowed.";
       clientSet['console'] = '';
