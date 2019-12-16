@@ -137,7 +137,7 @@ function _handle_DELETE_taking(req, res){
         if(indexInTaking >(-1)) newTakingUser.splice(indexInTaking, 1); //in case somehow the user is not on the list
         //the only thing need to distinguish is if the user was the last one one the taking list
         updateObj["list_taking"] = JSON.stringify(newTakingUser);
-        if(newTakingUser.length = 0){ //user was the last one before splice()
+        if(newTakingUser.length == 0){ //user was the last one before splice()
           updateObj['locked'] = 0;
           updateObj['supply'] = (nodeRow.list_willing> 0) ? 1: 0;
           updateObj['list_waiting'] = "[]"; //no one was working on this node, clean all users waiting

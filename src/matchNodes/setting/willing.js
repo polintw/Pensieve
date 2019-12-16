@@ -58,14 +58,14 @@ function _handle_PATCH_willing(req, res){
       //check the user's current list of willing to distinguish accepted or not.
       let indexToNode = prevWillingNode.indexOf(willingNodeId),
           indexToUser = prevWillingList.indexOf(userId);
-      if( indexToNode > (-1) || prevWillingNode.length =5 ){ updateify = false;}
+      if( indexToNode > (-1) || prevWillingNode.length == 5 ){ updateify = false;}
       else{ //if the list still available
         newWillingNode.push(willingNodeId); //add the new node to user's list
         if( indexToUser <0) newWillingList.push(userId); //in case somehow the list has already had the user
 
         updateUser['list_willing'] = JSON.stringify(newWillingNode);
         updateNode['list_willing'] = JSON.stringify(newWillingList); //add the user to the node's list
-        if( prevDemandUsers.length > 0 && prevTakingNodes.length = 0){
+        if( prevDemandUsers.length > 0 && prevTakingNodes.length == 0){
           //the node has demand, and the user did not be occupied,
           //if so, the willing will statrt a 'locked' cycle directly,
           //the user would take the node automatically
@@ -119,20 +119,17 @@ function _handle_DELETE_willing(req, res){
   new Promise((resolve, reject)=>{
     const userId = req.extra.tokenUserId;
 
-    const submitNodeId = req.body.takingList[0];
+    const willingNodeId = req.body.willingList[0];
 
-    async function _update_Taking(updateObj){
+    async function _update_Willing(newWillingNode, newWillingList){
       await _DB_usersDemandMatch.update(
-        {
-          taking: "[]",
-          occupied: 0
-        },  //remember turn the array into string before update
+        {list_willing: JSON.stringify(newWillingNode)},
         {where: {id_user: userId}}
       ); //sequelize.update() would not return anything (as I know)
 
       await _DB_nodesDemandMatch.update(
-        updateObj,
-        {where: {id_node: submitNodeId}}
+        {list_willing: JSON.stringify(newWillingList)},
+        {where: {id_node: willingNodeId}}
       ); //sequelize.update() would not return anything (as I know)
     }
 
@@ -140,47 +137,35 @@ function _handle_DELETE_willing(req, res){
     //to judge if the submit should be accept.
     let selectUserSide = _DB_usersDemandMatch.findOne({
           where: {id_user: userId}}).catch((err)=> {throw err}),
+        //for willing, create directly if the node not in the table yet
         selectNodeSide = _DB_nodesDemandMatch.findOne({
-          where: {id_node: submitNodeId}}).catch((err)=> {throw err});
+          where: {id_node: willingNodeId}}).catch((err)=> {throw err});
 
     Promise.all([selectUserSide, selectNodeSide])
     .then(([userRow, nodeRow])=>{
-      //eliminate the 'null' situation first, which may incl. notexist or not opened to submit
-      if(!nodeRow){ reject(new forbbidenError(`reject due to null selection from node match modification during ${"DELETE taking" }process.`, 122)); return }; //return to break the promise
+      if(!nodeRow) return ; //return to break the promise, no need to throw error.
 
-      let prevTakingUser = JSON.parse(nodeRow.list_taking),
-          prevNodeTaking = JSON.parse(userRow.taking); //it's saved as a 'string'
-      let newTakingUser = prevTakingUser.slice(),
-          updateObj = {}, //obj for node match
-          updateify; //flag used to see if the sumbit was accepted
+      let prevWillingNode = JSON.parse(userRow.list_willing),
+          prevWillingList = JSON.parse(nodeRow.list_willing);
+      let newWillingNode = prevWillingNode.slice(),
+          newWillingList = prevWillingList.slice();
 
-      //then for DELETE, the importantance is at if the user really is working on this node,
-      //that's what we are going to check first
-      if( prevNodeTaking.indexOf(submitNodeId)< 0 ){ updateify = false;}
-      else{ //if the user is really working on the node now
-        let indexInTaking = prevTakingUser.indexOf(userId);
-        if(indexInTaking >(-1)) newTakingUser.splice(indexInTaking, 1); //in case somehow the user is not on the list
-        //the only thing need to distinguish is if the user was the last one one the taking list
-        updateObj["list_taking"] = JSON.stringify(newTakingUser);
-        if(newTakingUser.length = 0){ //user was the last one before splice()
-          updateObj['locked'] = 0;
-          updateObj['supply'] = (nodeRow.list_willing> 0) ? 1: 0;
-          updateObj['list_waiting'] = "[]"; //no one was working on this node, clean all users waiting
-        };
+      //then for DELETE, nothing need to check
+      let indexToNode = prevWillingNode.indexOf(willingNodeId),
+          indexToUser = prevWillingList.indexOf(userId);
 
-        updateify = true ;
+      if(indexToNode > (-1) || indexToUser > (-1)){ //only process if the node was on the list
+         if(indexToNode > (-1)) newWillingNode.splice(indexToNode, 1);
+         if(indexToUser > (-1)) newWillingList.splice(indexToUser, 1);
+
+         return _update_Willing(newWillingNode, newWillingList);
       }
+      else return; //do nothing if the user was not on the list
 
-      if(updateify){ //if the new wish was accepted
-        return _update_Taking(updateObj)
-        .then(()=>{
-          //resolve if no rejection
-          resolve();
-        })
-        .catch((err)=>{throw err});
-      }
-      else reject(new forbbidenError(`reject due to trying to use unmatch node deleting the taken one.`, 123));
-
+    })
+    .then(()=>{
+      //resolve if no rejection
+      resolve();
     }).catch((err)=>{
       reject(new internalError(err, 131));
     });
@@ -190,7 +175,7 @@ function _handle_DELETE_willing(req, res){
       temp:{}
     };
 
-    _res_success(res, sendingData, `matchNodes, DELETE: /taking, complete.`);
+    _res_success(res, sendingData, `matchNodes, DELETE: /willing, complete.`);
   }).catch((error)=>{
     _handle_ErrCatched(error, req, res);
   });
