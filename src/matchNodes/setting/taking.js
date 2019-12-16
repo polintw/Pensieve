@@ -20,6 +20,7 @@ function _handle_POST_taking(req, res){
     const takingNodeId = req.body.takingList[0];
 
     async function _update_Taking(newTakingUser){
+      let date = new Date(); // for lockedAt
       await _DB_usersDemandMatch.update(
         {
           taking: JSON.stringify([takingNodeId]),
@@ -32,6 +33,7 @@ function _handle_POST_taking(req, res){
         { //update the field as the switch chart
           list_taking: JSON.stringify(newTakingUser),
           locked: 1,
+          lockedAt: date.getTime(),
           finished: 0,
           supply: 0
         },  //remember turn the array into string before update

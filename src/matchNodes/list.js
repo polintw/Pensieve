@@ -6,7 +6,7 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const _DB_usersDemandMatch = require('../../db/models/index').users_demand_match;
 const _DB_nodesDemandMatch = require('../../db/models/index').nodes_demand_match;
-const {_res_success} = require('../../utils/resHandler.js');
+const {_res_success} = require('../utils/resHandler.js');
 const {
   _handle_ErrCatched,
   internalError,
@@ -43,7 +43,7 @@ function _handle_GET_list_userNodes(req, res){
     });
 
   }).then((sendingData)=>{
-    _res_success(res, sendingData, "Complete, GET: /list/user.");
+    _res_success(res, sendingData, "Complete, matchNodes, GET: /list/user.");
   }).catch((error)=>{
     _handle_ErrCatched(error, req, res);
   });
@@ -93,14 +93,14 @@ function _handle_GET_list_taking(req, res){
     });
 
   }).then((sendingData)=>{
-    _res_success(res, sendingData, "Complete, GET: /list/user.");
+    _res_success(res, sendingData, "Complete, matchNodes, GET: /list/user.");
   }).catch((error)=>{
     _handle_ErrCatched(error, req, res);
   });
 }
 
 
-execute.get('/', function(req, res){
+execute.get('/user', function(req, res){
   if(process.env.NODE_ENV == 'development') winston.verbose('matchNodes, GET: /list/user');
   _handle_GET_list_userNodes(req, res);
 })

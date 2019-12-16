@@ -71,12 +71,14 @@ function _handle_PATCH_willing(req, res){
           //the user would take the node automatically
 
           if(prevTakingUsers.indexOf(userId) >(-1)) prevTakingUsers.push(userId);
+          let date = new Date(); // for lockedAt
           let userObj = {
                 occupied: 1,
                 taking: JSON.stringify([willingNodeId])
               },
               nodeObj = {
                 locked: 1,
+                lockedAt: date.getTime(),
                 finished: 0,
                 supply: 0,
                 list_taking: JSON.stringify(prevTakingUsers)
