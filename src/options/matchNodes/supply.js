@@ -15,41 +15,45 @@ const {
 
 function _handle_GET_matchNodes_supply(req, res){
   new Promise((resolve, reject)=>{
-
-
-
     const userId = req.extra.tokenUserId;
 
-    _DB_usersDemandMatch.findOne({
-      where: {id_user: userId}
+    //this api, provide 'menu' currently supplying to the client
+    //every node under taken, or every node marks 'supply'
+
+    _DB_nodesDemandMatch.findAndCountAll({
+      where: {
+        [Op.or]: [
+          {locked: 1},
+          {supply: 1}]
+      }
     })
     .then((selectResult)=>{
-      let nodeTaken = selectResult.taking[0];
       let sendingData ={
         nodesList: [],
-        demandCount: null,
         temp:{}
       };
+      let nodeRows = selectResult.rows;
 
-      if(!nodeTaken){
-        return sendingData; //if no taking on the record, return to next step directly
+      //no matter how many the result is, we just shuffle it to get a random order before the slice pick the number we want
+      //random it by 'Fisher-Yates Shuffle'.
+      let dealAt = nodeRows.length, tempHolder, randNr;
+
+      while (0 !== dealAt) { //until we go through all list
+        randNr = Math.floor(Math.random() * dealAt); //avoid repeatting 'shuffle' the shuffledpart
+        dealAt -= 1; //set the index to current one
+        //then, shuffle
+        tempHolder = nodeRows[dealAt];
+        nodeRows[dealAt] = nodeRows[randNr];
+        nodeRows[randNr] = tempHolder;
       }
-      else{
-        return _DB_nodesDemandMatch.findOne({
-          where: {id_node: nodeTaken}
-        })
-        .then((nodeRow)=>{
-          let demandList = JSON.parse(nodeRow.list_demand),
-              waitingList = JSON.parse(nodeRow.list_waiting);
+      //now the nodeRows has randomly order. We pick the number we need.
+      nodeRows = nodeRows.slice(0, 12); //it would return all items if the length was less
 
-          sendingData.nodesList.push(nodeRow.id_node);
-          sendingData.demandCount = (demandList.length + waitingList.length);
+      sendingData.nodesList = nodeRows.map((row, index)=>{
+        return row.id_node;
+      })
 
-          return sendingData;
-        })
-        .catch((err)=>{throw err});
-      }
-
+      return sendingData;
     })
     .then((sendingData)=>{
       //resolve if no rejection
