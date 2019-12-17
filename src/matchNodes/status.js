@@ -4,7 +4,6 @@ const winston = require('../../config/winston.js');
 
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
-const _DB_usersDemandMatch = require('../../db/models/index').users_demand_match;
 const _DB_nodesDemandMatch = require('../../db/models/index').nodes_demand_match;
 const {_res_success} = require('../utils/resHandler.js');
 const {

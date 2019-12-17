@@ -114,7 +114,7 @@ class BelongOptions extends React.Component {
 
     axios({
       method: 'get',
-      url: '/router/feed/options/belong',
+      url: '/router/options/belong',
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']

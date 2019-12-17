@@ -1,15 +1,15 @@
 const express = require('express');
 const execute = express.Router();
-const winston = require('../../../config/winston.js');
-const _DB_sheetsNode = require('../../../db/models/index').sheets_node;
-const _DB_users_prefer_nodes = require('../../../db/models/index').users_prefer_nodes;
-const {_res_success} = require('../../utils/resHandler.js');
+const winston = require('../../config/winston.js');
+const _DB_sheetsNode = require('../../db/models/index').sheets_node;
+const _DB_users_prefer_nodes = require('../../db/models/index').users_prefer_nodes;
+const {_res_success} = require('../utils/resHandler.js');
 const {
   _handle_ErrCatched,
   internalError,
-} = require('../../utils/reserrHandler.js');
+} = require('../utils/reserrHandler.js');
 
-function _handle_GET_feed_optionsBelong(req, res){
+function _handle_GET_options_Belong(req, res){
   new Promise((resolve, reject)=>{
     let userId = req.extra.tokenUserId; //use userId passed from pass.js
 
@@ -101,10 +101,16 @@ function _handle_GET_feed_optionsBelong(req, res){
 
 
   }).then((sendingData)=>{
-    _res_success(res, sendingData, "feed, GET: /options/belong, complete.");
+    _res_success(res, sendingData, "options, GET: /belong, complete.");
   }).catch((error)=>{
     _handle_ErrCatched(error, req, res);
   });
 }
 
-module.exports = _handle_GET_feed_optionsBelong;
+execute.get('/belong', function(req, res){
+  if(process.env.NODE_ENV == 'development') winston.verbose('options, GET: /belong ');
+  _handle_GET_feed_optionsBelong(req, res);
+})
+
+
+module.exports = execute;

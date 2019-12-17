@@ -18,11 +18,14 @@ function _handle_GET_list_userNodes(req, res){
 
     let desiredList;
     switch (req.query.desire) {
+      case 'wished':
+        desiredList = 'list_wished'
+        break;
       case 'willing':
         desiredList = 'list_willing'
         break;
-      case 'wished':
-        desiredList = 'list_wished'
+      case 'waiting':
+        desiredList = 'list_waited'
         break;
       default:
         desiredList =''
