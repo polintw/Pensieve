@@ -15,24 +15,31 @@ const {
 
 function _handle_GET_matchNodes_supply(req, res){
   new Promise((resolve, reject)=>{
-    const userId = req.extra.tokenUserId;
 
     //this api, provide 'menu' currently supplying to the client
     //every node under taken, or every node marks 'supply'
+    //And! we would have to rm all the nodes user wished or willing to.
 
-    _DB_nodesDemandMatch.findAndCountAll({
-      where: {
-        [Op.or]: [
-          {locked: 1},
-          {supply: 1}]
-      }
-    })
-    .then((selectResult)=>{
+    let selectUserSide = _DB_usersDemandMatch.findOne({
+          where: {id_user: userId}}).catch((err)=> {throw err}),
+        selectNodeSide = _DB_nodesDemandMatch.findAndCountAll({
+          where: {
+            [Op.or]: [
+              {locked: 1},
+              {supply: 1}]
+          }}).catch((err)=> {throw err});
+
+    Promise.all([selectUserSide, selectNodeSide])
+    .then(([userRow, selectResult])=>{
+      let nodeRows = selectResult.rows;
+      //and prepare the list we need
+      let prevWishedList = JSON.parse(userRow.list_wished),
+          prevWillingList = JSON.parse(userRow.list_willing);
+
       let sendingData ={
         nodesList: [],
         temp:{}
       };
-      let nodeRows = selectResult.rows;
 
       //no matter how many the result is, we just shuffle it to get a random order before the slice pick the number we want
       //random it by 'Fisher-Yates Shuffle'.
@@ -47,10 +54,12 @@ function _handle_GET_matchNodes_supply(req, res){
         nodeRows[randNr] = tempHolder;
       }
       //now the nodeRows has randomly order. We pick the number we need.
-      nodeRows = nodeRows.slice(0, 12); //it would return all items if the length was less
-
-      sendingData.nodesList = nodeRows.map((row, index)=>{
-        return row.id_node;
+      nodeRows = nodeRows.slice(0, 18); //it would return all items if the length was less
+      //then for now, we decide 'not to incl.' the nodes wished or suppy by the user him/her-self
+      //which would be no more than 8 as the limit set for the lists.
+      nodeRows.forEach((row, index)=>{
+        if(prevWishedList.indexOf(row.id_node) < 0 && prevWillingList.indexOf(row.id_node) < 0){
+          sendingData.nodesList.push(row.id_node);}
       })
 
       return sendingData;

@@ -122,7 +122,11 @@ function _handle_DELETE_wish(req, res){
       ); //sequelize.update() would not return anything (as I know)
 
       await _DB_nodesDemandMatch.update(
-        {list_demand: JSON.stringify(newDemandList)},  //remember turn the array into string before update
+        {
+          list_demand: (newDemandList.length == 0) ? null: JSON.stringify(newDemandList)
+          //this is a special design for DELET_wish, the demand should return to 'NULL' if the list was empty
+          //that's the way to easier the process selecting the nodes have demand.
+        },
         {where: {id_node: unwantedNode}}
       ); //sequelize.update() would not return anything (as I know)
     }
@@ -150,7 +154,7 @@ function _handle_DELETE_wish(req, res){
         if(indexInDemand >= 0) newDemandList.splice(indexInDemand, 1);
         //the wishedlist need to keep it's original length due to the position-specific 'order' value
         //so replace with 'null' when splice
-        if(indexInWished >= 0) newWishedList.splice(indexInDemand, 1, null);
+        if(indexInWished >= 0) newWishedList.splice(indexInWished, 1, null);
 
         updateify= true;
       }
