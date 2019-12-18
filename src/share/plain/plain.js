@@ -214,11 +214,55 @@ function shareHandler_POST(req, res){
             })
           };
 
+          async function checkingTakingNode(){
+            let userRow = await _DB_usersDemandMatch.findOne({
+              where: {id_user: userId}
+            });
+
+            if(!userRow.occupied) return; //use 'occupied' to determine if the user was taking any node.
+
+            let takenNodes = JSON.parse(userRow.taking); //actually, there would be only one node recorded in the list.
+            let indexInShared = modifiedBody.nouns.list.indexOf(takenNodes[0]);
+
+            if(indexInShared < 0) return; //jump out if the new shared do not match the node taken
+            //then we now at taken node was realize, we now going to modified taking status, and then rm user from list.
+            let nodeRow = await _DB_nodesDemandMatch.findOne({
+              where: {id_node: takenNodes[0]}
+            });
+            let prevTakingUsers = JSON.parse(nodeRow.list_taking);
+            let newTakingUser = prevTakingUser.slice();
+            let indexInTaking = prevTakingUser.indexOf(userId);
+            if(indexInTaking >(-1)) newTakingUser.splice(indexInTaking, 1); //in case somehow the user is not on the list
+
+            let updateUser = { //obj for user match
+                  occupied: 0,
+                  taking: '[]'
+                },
+                updateNode = {
+                  locked: 0,
+                  finished: modifiedBody.id_unit,
+                  supply: 0,
+                  list_waiting: '[]',
+                  list_taking: newTakingUser
+                };
+
+            await _DB_usersDemandMatch.update(
+              updateUser,
+              {where: {id_user: userId}}
+            ); //sequelize.update() would not return anything (as I know)
+
+            await _DB_nodesDemandMatch.update(
+              updateNode,
+              {where: {id_node: takenNodes[0]}}
+            ); //sequelize.update() would not return anything (as I know)
+          }
+
           let promiseArr = [
             Promise.resolve(_reachCreate(modifiedBody.id_unit, userId)).catch((err)=>{throw err}), //currently, reachCreate is 'not' a promise, so it is useless to wrap it in .resolve()
             //_reachCreate sould better be put in front process, as an opinion after finding the error here would cause undefined display of related records on client side
             Promise.resolve(dbSelectUpdate_Preference()).catch((err)=>{throw err}),
-            Promise.resolve(dbSelectUpdate_NodeActivity()).catch((err)=>{throw err})
+            Promise.resolve(dbSelectUpdate_NodeActivity()).catch((err)=>{throw err}),
+            Promise.resolve(checkingTakingNode()).catch((err)=>{throw err})
           ];
           return Promise.all(promiseArr).then((results)=>{
             resolveTop(); //should remove after the error could handle by top promise
