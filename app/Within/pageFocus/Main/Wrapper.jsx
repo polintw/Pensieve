@@ -15,6 +15,7 @@ import {
 } from './utils.js';
 import MainTitle from './MainTitle/MainTitle.jsx';
 import MainList from './MainList/MainList.jsx';
+import MatchSet from './MatchSet/Wrapper.jsx';
 import Broads from './Broads/Broads.jsx';
 import NewShared from './NewShared/NewShared.jsx';
 import NewSharedCustom from './NewSharedCustom/NewSharedCustom.jsx';
@@ -141,6 +142,7 @@ class Wrapper extends React.Component {
                 {...this.props}/>
             </div>
           }
+          <MatchSet/>
 
           {
             (this.props.indexLists.listNew.length> 0) &&

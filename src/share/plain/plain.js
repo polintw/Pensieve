@@ -243,7 +243,7 @@ function shareHandler_POST(req, res){
                   finished: modifiedBody.id_unit,
                   supply: 0,
                   list_waiting: '[]',
-                  list_taking: newTakingUser
+                  list_taking: JSON.stringify(newTakingUser)
                 };
 
             await _DB_usersDemandMatch.update(
