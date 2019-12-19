@@ -31,13 +31,13 @@ class NodeWished extends React.Component {
     event.preventDefault();
     event.stopPropagation();
     //could open node search if the box was empty
-    if(!this.props.wishedNode) this._set_settingModal();
+    if(!this.props.wishedNode && !this.props.axios) this._set_settingModal();
   }
 
   _handleClick_wish_delete(event){
     event.preventDefault();
     event.stopPropagation();
-    this.props._submit_wish_remove(this.props.wishedNode);
+    if(!this.props.axios) this.props._submit_wish_remove(this.props.wishedNode);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){

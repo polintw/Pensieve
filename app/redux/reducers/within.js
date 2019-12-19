@@ -47,9 +47,7 @@ function pageWithin(state = initialGeneral, action){
       })
       break;
     case SET_FETCHFLAGS:
-      return Object.assign({}, state, {
-        fetchFlags: action.fetchFlags
-      })
+      return Object.assign({}, state, {...action.flags}) //there were many kind of flags, all binary(bool), and all set by this case.
       break;
     case SET_INDEXLISTS:
       return Object.assign({}, state, {

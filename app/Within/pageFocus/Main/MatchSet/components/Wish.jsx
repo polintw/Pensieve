@@ -15,6 +15,9 @@ import {
 } from '../../utilsMatchNodes.js';
 import {updateNodesBasic} from '../../../../../redux/actions/general.js'
 import {
+  setFlag
+} from "../../../../../redux/actions/cosmic.js";
+import {
   cancelErr,
   uncertainErr
 } from '../../../../../utils/errHandlers.js';
@@ -113,7 +116,13 @@ class Wish extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-
+    //the neighbor 'Supply' may also 'order' a new wish
+    //it would set a flag 'wishListRefresh'
+    if(this.props.flagWishRefresh && this.props.flagWishRefresh != prevProps.flagWishRefresh){
+      this._fetch_WishList();
+      this.props._submit_FlagSwitch('flagWishRefresh');
+      //the fetchFlags could become empty(length=0) after the rm.
+    }
   }
 
   componentDidMount() {
@@ -153,12 +162,14 @@ const mapStateToProps = (state)=>{
     userInfo: state.userInfo,
     unitCurrent: state.unitCurrent,
     i18nUIString: state.i18nUIString,
+    flagWishRefresh: state.flagWishRefresh
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     _submit_Nodes_insert: (obj) => { dispatch(updateNodesBasic(obj)); },
+    _submit_FlagSwitch: (target) => { dispatch(setFlag(target)); },
   }
 }
 

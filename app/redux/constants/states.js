@@ -23,7 +23,8 @@ export const initUnit = {
 }
 
 export const initCosmicGeneral = {
-  fetchFlags: [],
+  flagBelongRefresh: false,
+  flagWishRefresh: false,
   indexLists: {
     listCustomNew: [],
     listNew: [],

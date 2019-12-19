@@ -2,8 +2,7 @@ import React from 'react';
 
 
 export function axios_get_wish_list(cancelToken){
-
-  let url = '/router/feed/focus';
+  let url = '/router/matchNodes/list/user';
 
   return axios.get(url, {
     headers: {
@@ -11,7 +10,7 @@ export function axios_get_wish_list(cancelToken){
       'token': window.localStorage['token']
     },
     params: {
-      turn: turn
+      desire: 'wished'
     },
     cancelToken: cancelToken
   }).then(function (res) {
@@ -24,17 +23,18 @@ export function axios_get_wish_list(cancelToken){
 }
 
 
-export function axios_patch_wish_make(cancelToken, nodeId){
+export function axios_patch_wish_make(cancelToken, nodeId, source){
+  let url = '/router/matchNodes/setting/wish';
 
-  let url = '/router/visit/index';
-
-  return axios({ //use confic directly to assure the patch was not influenced by empty .body obj
+  return axios({
     url:url,
-    method: "get",
+    method: "patch",
     headers: {
       'charset': 'utf-8',
       'token': window.localStorage['token']
     },
+    params: !!source? {order: true} : {},
+    data: {'wishList': [nodeId]},
     cancelToken: cancelToken
   }).then(function (res) {
     let resObj = JSON.parse(res.data);
@@ -46,16 +46,19 @@ export function axios_patch_wish_make(cancelToken, nodeId){
 }
 
 export function axios_delete_wish(cancelToken, nodeId){
+  let url = '/router/matchNodes/setting/wish';
 
-  let url = '/router/visit/index';
-
-  return axios({ //use confic directly to assure the patch was not influenced by empty .body obj
+  return axios({
     url:url,
-    method: "get",
+    method: "patch",
     headers: {
       'charset': 'utf-8',
       'token': window.localStorage['token']
     },
+    params: {
+      delete: true
+    },
+    data: {'wishList': [nodeId]},
     cancelToken: cancelToken
   }).then(function (res) {
     let resObj = JSON.parse(res.data);

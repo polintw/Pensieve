@@ -18,8 +18,7 @@ import {
   handleNounsList
 } from "../../../../redux/actions/general.js";
 import {
-  setFetchFlags,
-  rmFetchFlags
+  setFlag
 } from "../../../../redux/actions/cosmic.js";
 
 const nodeTypeList = ["residence", "stay", "hometown", "used", "used"]; //Notice! redering in BelongbyType depend on length of this list
@@ -85,7 +84,7 @@ class Belongs extends React.Component {
       .then(function (res) {
         self.setState({axios: false});
         //use fetchFlags to refresh data set to render new setting
-        self.props._submit_FetchTarget('update_BelongNode');
+        self.props._submit_FlagSwitch('flagBelongRefresh');
       }).catch(function (thrown) {
         self.setState({axios: false});
         if (axios.isCancel(thrown)) {
@@ -237,9 +236,9 @@ class Belongs extends React.Component {
 
   componentDidUpdate(prevProps, prevState, snapshot){
     //in this component, use fetchFlags to check status of list
-    if(this.props.fetchFlags.indexOf('inBannerBelong') > -1){
+    if(this.props.flagBelongRefresh && this.props.flagBelongRefresh != prevProps.flagBelongRefresh){
       this._init_fetch();
-      this.props._submit_FetchRmTarget('inBannerBelong');
+      this.props._submit_FlagSwitch('flagBelongRefresh');
       //the fetchFlags could become empty(length=0) after the rm.
     }
   }
@@ -334,8 +333,7 @@ const mapStateToProps = (state)=>{
 const mapDispatchToProps = (dispatch) => {
   return {
     _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
-    _submit_FetchTarget: (target) => { dispatch(setFetchFlags(target)); },
-    _submit_FetchRmTarget: (target) => { dispatch(rmFetchFlags(target)); },
+    _submit_FlagSwitch: (target) => { dispatch(setFlag(target)); },
   }
 }
 
