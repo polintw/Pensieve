@@ -8,6 +8,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
 import Wish from './components/Wish.jsx';
+import Belongs from '../Belongs/Belongs.jsx';
 
 class Wrapper extends React.Component {
   constructor(props){
@@ -60,6 +61,12 @@ class Wrapper extends React.Component {
       case 1:
         return (
           <Willing/>
+        )
+        break;
+      case 1:
+        return (
+          <Belongs
+            _refer_von_cosmic={this.props._refer_von_cosmic}/>
         )
         break;
       default:

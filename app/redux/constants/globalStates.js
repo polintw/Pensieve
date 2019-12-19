@@ -56,6 +56,7 @@ export const i18nUIStringInit = {
 
      removed part in Main
      */
-     "title_Main_Broads": "or, here are some broaded by users."
+     "title_Main_Broads": "or, here are some broaded by users.",
+     "catagory_MatchNodes_wished": ["Wish", "Wish·Order"]
    }
 }

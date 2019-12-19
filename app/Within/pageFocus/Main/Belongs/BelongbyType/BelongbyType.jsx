@@ -9,9 +9,9 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import CreateShare from '../../../Component/CreateShare.jsx';
-import {NodeSearchModule} from '../../../Component/NodeSearchModule.jsx';
-import {updateNodesBasic} from '../../../redux/actions/general.js'
+import CreateShare from '../../../../../Component/CreateShare.jsx';
+import {NodeSearchModule} from '../../../../../Component/NodeSearchModule.jsx';
+import {updateNodesBasic} from '../../../../../redux/actions/general.js'
 
 
 class BelongbyType extends React.Component {
@@ -186,7 +186,7 @@ class BelongbyType extends React.Component {
     return(
       <div
         className={classnames(styles.comBelongByType)}>
-        { //keep NodeSearchModule prior to the title type so it would not block the title
+        {
           this.state.settingModal &&
           <div
             className={classnames(styles.boxSettingModal)}>
@@ -202,7 +202,7 @@ class BelongbyType extends React.Component {
                 {this.props.type}</span>
             </div>
             <NodeSearchModule
-              type={"belong"}
+              type={"option"}
               _set_nodeChoice={this._set_choiceFromSearch}
               _set_SearchModal_switch={this._set_settingModal}
               _handleClick_SearchModal_switch={(e)=>{e.preventDefault();e.stopPropagation();this._set_settingModal();}}/>

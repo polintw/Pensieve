@@ -6,25 +6,25 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import BelongbyType from '../BelongbyType/BelongbyType.jsx';
-import BooleanDialog from '../../../Component/Dialog/BooleanDialog/BooleanDialog.jsx';
-import ModalBox from '../../../Component/ModalBox.jsx';
-import ModalBackground from '../../../Component/ModalBackground.jsx';
+import BelongbyType from './BelongbyType/BelongbyType.jsx';
+import BooleanDialog from '../../../../Component/Dialog/BooleanDialog/BooleanDialog.jsx';
+import ModalBox from '../../../../Component/ModalBox.jsx';
+import ModalBackground from '../../../../Component/ModalBackground.jsx';
 import {
   cancelErr,
   uncertainErr
-} from "../../../utils/errHandlers.js";
+} from "../../../../utils/errHandlers.js";
 import {
   handleNounsList
-} from "../../../redux/actions/general.js";
+} from "../../../../redux/actions/general.js";
 import {
   setFetchFlags,
   rmFetchFlags
-} from "../../../redux/actions/cosmic.js";
+} from "../../../../redux/actions/cosmic.js";
 
 const nodeTypeList = ["residence", "stay", "hometown", "used", "used"]; //Notice! redering in BelongbyType depend on length of this list
 
-class BannerBelong extends React.Component {
+class Belongs extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -342,4 +342,4 @@ const mapDispatchToProps = (dispatch) => {
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(BannerBelong));
+)(Belongs));

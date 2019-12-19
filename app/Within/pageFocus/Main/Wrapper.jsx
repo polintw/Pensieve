@@ -142,7 +142,8 @@ class Wrapper extends React.Component {
                 {...this.props}/>
             </div>
           }
-          <MatchSet/>
+          <MatchSet
+            _refer_von_cosmic={this.props._refer_von_cosmic}/>
 
           {
             (this.props.indexLists.listNew.length> 0) &&
