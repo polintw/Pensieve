@@ -99,7 +99,7 @@ class Wrapper extends React.Component {
 
           self.setState({
             axiosFocus: false,
-            lastVisit: lastVisitObj.main.lastTime
+            lastVisit: lastVisitRes.main.lastTime
           });
         })
       )
