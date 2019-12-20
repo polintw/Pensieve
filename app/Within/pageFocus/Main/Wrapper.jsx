@@ -21,7 +21,8 @@ import NewShared from './NewShared/NewShared.jsx';
 import NewSharedCustom from './NewSharedCustom/NewSharedCustom.jsx';
 import Unit from '../../../Unit/Unit/Unit.jsx';
 import {
-  setIndexLists
+  setIndexLists,
+  setFlag
 } from '../../../redux/actions/cosmic.js';
 import {
   initCosmicGeneral
@@ -96,6 +97,8 @@ class Wrapper extends React.Component {
           submitObj['listNew'] = customNewRes.main.listNew;
           //update the list to Redux reducer,
           self.props._submit_IndexLists(submitObj);
+          //set the flag to reduucer to inform NewShare or NewSharedCustom refresh
+          self.props._submit_FlagSwitch('flagNewSharedDataFetch');
 
           self.setState({
             axiosFocus: false,
@@ -176,13 +179,15 @@ class Wrapper extends React.Component {
 
 const mapStateToProps = (state)=>{
   return {
-    userInfo: state.userInfo
+    userInfo: state.userInfo,
+    indexLists: state.indexLists
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    _submit_IndexLists: (listsObj) => { dispatch(setIndexLists(listsObj)); }
+    _submit_IndexLists: (listsObj) => { dispatch(setIndexLists(listsObj)); },
+    _submit_FlagSwitch: (target) => { dispatch(setFlag(target)); },
   }
 }
 

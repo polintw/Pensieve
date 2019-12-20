@@ -182,7 +182,6 @@ const mapDispatchToProps = (dispatch) => {
     _submit_IndexLists: (listsObj) => { dispatch(setIndexLists(listsObj)); },
     _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
     _submit_UsersList_new: (arr) => { dispatch(handleUsersList(arr)); },
-    _submit_NodesBasic: (obj) => { dispatch(updateNodesBasic(obj)); }
   }
 }
 
