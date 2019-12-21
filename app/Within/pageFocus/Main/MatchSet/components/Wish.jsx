@@ -120,7 +120,7 @@ class Wish extends React.Component {
     //it would set a flag 'wishListRefresh'
     if(this.props.flagWishRefresh && this.props.flagWishRefresh != prevProps.flagWishRefresh){
       this._fetch_WishList();
-      this.props._submit_FlagSwitch('flagWishRefresh');
+      this.props._submit_FlagSwitch(['flagWishRefresh']);
       //the fetchFlags could become empty(length=0) after the rm.
     }
   }

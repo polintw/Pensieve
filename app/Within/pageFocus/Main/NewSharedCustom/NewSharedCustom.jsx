@@ -72,16 +72,16 @@ class NewSharedCustom extends React.Component {
 
 
   componentDidUpdate(prevProps, prevState, snapshot){
-    if(this.props.flagNewSharedDataFetch && this.props.flagNewSharedDataFetch != prevProps.flagNewSharedDataFetch){
+    if(this.props.flagNewCustomDataFetch && this.props.flagNewCustomDataFetch != prevProps.flagNewCustomDataFetch){
       this._fetch_Units(this.props.indexLists.listCustomNew);
-      this.props._submit_FlagSwitch('flagNewSharedDataFetch'); //set flag back to dafault
+      this.props._submit_FlagSwitch(['flagNewCustomDataFetch']); //set flag back to dafault
     }
   }
 
   componentDidMount() {
-    if(this.props.flagNewSharedDataFetch){
+    if(this.props.flagNewCustomDataFetch){
       this._fetch_Units(this.props.indexLists.listCustomNew);
-      this.props._submit_FlagSwitch('flagNewSharedDataFetch'); //set flag back to dafault
+      this.props._submit_FlagSwitch(['flagNewCustomDataFetch']); //set flag back to dafault
     }
   }
 
@@ -92,7 +92,22 @@ class NewSharedCustom extends React.Component {
   }
 
   _render_unitsCustomNew(){
+    //our list was saved to reducer after fetch
+    let unitsList = this.props.indexLists['listCustomNew'],
+        unitsDOM = [];
+    if(unitsList.length > 0 ){ // check necessity first, skip if no item.
+      //we render no more than 6, but the backend may pass more than 6, so don't forget setting the limit
+      for(let i =0 ; i< 6 && i< unitsList.length; i++){ //again, don't forget the length limit to prevent error cause by unwanted cycle
+        let unitId = unitsList[i];
+        //then important question: do we have the data of this Unit ? if not, we skip to next one
+        if(unitId in this.state.unitsBasic) {
+          let nail = nailChart(2, unitId, this);
+          unitsDOM.push(nail);
+        }
+      }
+    }
 
+    return unitsDOM;
   }
 
   render(){

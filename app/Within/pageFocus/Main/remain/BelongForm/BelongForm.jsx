@@ -63,7 +63,7 @@ class BelongForm extends React.Component {
       }
     }, ()=>{
       //use fetchFlags to refresh data set to render new setting
-      self.props._submit_FlagSwitch('flagBelongRefresh');
+      self.props._submit_FlagSwitch(['flagBelongRefresh']);
     })
   }
 

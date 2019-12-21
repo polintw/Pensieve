@@ -84,7 +84,7 @@ class Belongs extends React.Component {
       .then(function (res) {
         self.setState({axios: false});
         //use fetchFlags to refresh data set to render new setting
-        self.props._submit_FlagSwitch('flagBelongRefresh');
+        self.props._submit_FlagSwitch(['flagBelongRefresh']);
       }).catch(function (thrown) {
         self.setState({axios: false});
         if (axios.isCancel(thrown)) {
@@ -238,7 +238,7 @@ class Belongs extends React.Component {
     //in this component, use fetchFlags to check status of list
     if(this.props.flagBelongRefresh && this.props.flagBelongRefresh != prevProps.flagBelongRefresh){
       this._init_fetch();
-      this.props._submit_FlagSwitch('flagBelongRefresh');
+      this.props._submit_FlagSwitch(['flagBelongRefresh']);
       //the fetchFlags could become empty(length=0) after the rm.
     }
   }

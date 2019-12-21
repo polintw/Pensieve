@@ -98,7 +98,7 @@ class Wrapper extends React.Component {
           //update the list to Redux reducer,
           self.props._submit_IndexLists(submitObj);
           //set the flag to reduucer to inform NewShare or NewSharedCustom refresh
-          self.props._submit_FlagSwitch('flagNewSharedDataFetch');
+          self.props._submit_FlagSwitch(['flagNewSharedDataFetch', 'flagNewCustomDataFetch']);
 
           self.setState({
             axiosFocus: false,

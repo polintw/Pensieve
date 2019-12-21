@@ -9,15 +9,15 @@ import {
 } from '../constants/constCosmic.js';
 import {errHandler_axiosCatch} from "../../utils/errHandlers.js";
 
-export function setFlag(target){
+export function setFlag(targetArr){
   //this actoin creator, could do function return is because we use 'thunk' middleware when create store
   return (dispatch, getState) => {
     //by this method we could use 'getState' & 'dispatch' in action creator
     const currentState =  getState();
-    let currentFlag = currentState[target];
-
     let flagObj = {};
-    flagObj[target] = currentFlag ? false : true;
+    targetArr.forEach((target, index)=>{
+      flagObj[target] = currentState[target] ? false : true;
+    })
 
     let submitObj = {
       type: SET_FETCHFLAGS,
