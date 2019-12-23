@@ -51,14 +51,13 @@ class ConfirmSuccess extends React.Component {
   }
 
   render(){
-    //let cx = cxBind.bind(styles);
     return(
       <div
         style={this.style.ConfirmSuccess_}>
         <div
           className={classnames(styles.fontContent)}>
-          <p>{"Email address has successfully verified."}</p>
-          <p>{"Log in and start your adventure to the World!"}</p>
+          <p>{this.props.i18nUIString.catalog["guidingSign_Confirm_Success"][0]}</p>
+          <p>{this.props.i18nUIString.catalog["guidingSign_Confirm_Success"][1]}</p>
             <Link
               to="/signin"
               className={classnames('plainLinkButton')}
@@ -123,10 +122,9 @@ class ConfirmFail extends React.Component {
         <div>
           <div
             className={classnames(styles.fontContent)}>
-            <p>{"Email address verified failed."}</p>
-            <p>{"It's probablly due to the valid time was over."}</p>
-            <p>{"Or, haven't received the verified mail?"}</p>
-
+            <p>{this.props.i18nUIString.catalog["guidingSign_Confirm_Fail"][0]}</p>
+            <p>{this.props.i18nUIString.catalog["guidingSign_Confirm_Fail"][1]}</p>
+            <p>{this.props.i18nUIString.catalog["guidingSign_Confirm_Fail"][2]}</p>
             <Link
               to="/signup/email"
               purpose="email"
@@ -139,7 +137,7 @@ class ConfirmFail extends React.Component {
                   styles.spanSignIn,
                   {[styles.spanSignInMouse]: this.state.mouseOn =="email"}
                 )}>
-                {"send the verified email again"}</span>
+                {this.props.i18nUIString.catalog["link_Sign_mailResend"]}</span>
             </Link>
             <Link
               to="/signup"
@@ -241,7 +239,8 @@ class Confirmation extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     axios: state.axios,
-    message: state.message
+    message: state.message,
+    i18nUIString: state.i18nUIString,
   }
 }
 

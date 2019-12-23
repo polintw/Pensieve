@@ -13,7 +13,8 @@ export const initGlobal = {
 export const initSign = {
   axios: false,
   message:'',
-  code: ''
+  code: '',
+  i18nUIString: i18nUIStringInit //this Sign, should not have other state in Global like 'token', but we still need i18nUIString
 }
 
 export const initUnit = {

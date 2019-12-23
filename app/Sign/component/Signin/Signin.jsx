@@ -155,7 +155,8 @@ class Signin extends React.Component {
                 <Link to="/signup/email">
                   <span
                     className={classnames(styles.fontMessage)}>
-                    {"send the verified email again"}</span>
+                    {this.props.i18nUIString.catalog["link_Sign_mailResend"]}
+                  </span>
                 </Link>
               }
             </form>
@@ -174,7 +175,8 @@ const mapStateToProps = (state)=>{
   return {
     axios: state.axios,
     message: state.message,
-    code: state.code
+    code: state.code,
+    i18nUIString: state.i18nUIString,
   }
 }
 

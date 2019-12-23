@@ -172,7 +172,7 @@ class NodeContributor extends React.Component {
     if(!this.state.listUsers[0]) return(
       <div
         style={Object.assign({}, styleMiddle.fontPlaceholder, {boxSizing: 'border-box',margin: '13% 0'})}>
-        {"waiting for someone, perhaps that's just you! "}
+        {this.props.i18nUIString.catalog["hintEmptyNode_contributors"]}
       </div>
     );
 
@@ -233,6 +233,7 @@ const mapStateToProps = (state)=>{
     unitCurrent: state.unitCurrent,
     usersBasic: state.usersBasic,
     nounsBasic: state.nounsBasic,
+    i18nUIString: state.i18nUIString,
   }
 }
 

@@ -51,6 +51,27 @@ export const i18nUIStringInit = {
      "hintEmptyNode": "This Corner is still Waiting to be explored. Be the first one to wonder and wander!",
      "titleBannerBelong": "new shared.",
      "titleBannerRest": "newly arrived or selected.",
-     "title_Main_Broads": "or, here are some broaded by users."
+     "title_Main_Broads": "or, here are some broaded by users.",
+
+     "hintEmptyNode_contributors": "waiting for someone, perhaps that's just you! ",
+     "hintEmptyUsers_accumulated": "Still wondering and wandering~~ ",
+     "hintEmptySelf_Inspired": '(not yet established. expect to inform user the "inepired" Unit would emerge here.)',
+     "hintEmptySelf_Broaded": '(not yet established. expect to inform user the "broaded" Unit would emerge here.)',
+     "guidingExplore_NodesMore": [" more ", "or, touch", "to find out where you can be the First! "],
+     "guidingSelf_empty_Shared": '(not yet established. expect to guide user "share something" by the add button)',
+     "guidingSign_Confirm_Success": ["Email address has successfully verified.", "Log in and start your adventure to the World!"],
+     "guidingSign_Confirm_Fail": ["Email address verified failed.", "It's probablly due to the valid time was over.", "Or, haven't received the verified mail?"],
+     "guidingSign_Signup_Success": [
+       "You've already signed up, but don't move too fast!",
+       "Verifing your Email Address by Mail we just sent to you.",
+       "You would get all settle after the Verifing."
+     ],
+     "descript_NotifyBox_Ispired": " was inspired by one of your paragraph.",
+     "descript_Sign_termsDeclaim": [
+       "By clicking “sign up”, you agree our", " Terms", " of Services and ", "Privacy Policy", "."],
+     "title_Sign_mailResend": "Fill in your email address to re-send a verified email again.",
+     "link_Sign_resendButton": "confirm re-send",
+     "link_Sign_mailResend": "send the verified email again",
+
    }
 }

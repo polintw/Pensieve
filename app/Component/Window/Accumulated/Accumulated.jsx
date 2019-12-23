@@ -120,7 +120,7 @@ class Accumulated extends React.Component {
     if(!this.state.nailsBlock[0]) return(
       <div
         style={Object.assign({}, styleMiddle.fontPlaceholder, {boxSizing: 'border-box',margin: '13% 0'})}>
-        {"Still wondering and wandering~~ "}
+        {this.props.i18nUIString.catalog["hintEmptyUsers_accumulated"]}
       </div>
     );
     //use Block to render if not empty
@@ -209,6 +209,7 @@ const mapStateToProps = (state)=>{
     userInfo: state.userInfo,
     unitCurrent: state.unitCurrent,
     nounsBasic: state.nounsBasic,
+    i18nUIString: state.i18nUIString,
   }
 }
 
