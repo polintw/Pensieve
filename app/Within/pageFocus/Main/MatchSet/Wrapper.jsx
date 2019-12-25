@@ -8,6 +8,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
 import Wish from './components/Wish.jsx';
+import Willing from './components/Willing.jsx';
 import Belongs from '../Belongs/Belongs.jsx';
 
 class Wrapper extends React.Component {

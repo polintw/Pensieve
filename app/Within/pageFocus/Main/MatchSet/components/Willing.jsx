@@ -7,47 +7,44 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 
-import NodeWished from './NodeWished.jsx'
+import NodeWilling from './NodeWilling.jsx'
 import {
   axios_get_desire_list,
-  axios_patch_wish_make,
-  axios_delete_matchSetting
+  axios_delete_matchSetting,
+  axios_patch_willing,
 } from '../../utilsMatchNodes.js';
 import {updateNodesBasic} from '../../../../../redux/actions/general.js'
-import {
-  setFlag
-} from "../../../../../redux/actions/cosmic.js";
 import {
   cancelErr,
   uncertainErr
 } from '../../../../../utils/errHandlers.js';
 
-class Wish extends React.Component {
+class Willing extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       axios: false,
-      wishedList: []
+      willingList: []
     };
     this.axiosSource = axios.CancelToken.source();
-    this._render_Wished = this._render_Wished.bind(this);
-    this._fetch_WishList = this._fetch_WishList.bind(this);
-    this._submit_wish_remove = this._submit_wish_remove.bind(this);
+    this._fetch_List = this._fetch_List.bind(this);
+    this._submit_remove = this._submit_remove.bind(this);
+    this._render_WillingList = this._render_WillingList.bind(this);
     this._set_choiceFromSearch = this._set_choiceFromSearch.bind(this);
     this.style={
 
     }
   }
 
-  _submit_wish_remove(nodeId){
+  _submit_remove(nodeId){
     //for rm, or delete, just go ahead
     const self = this;
     this.setState({axios: true});
 
-    axios_delete_matchSetting(this.axiosSource.token, 'wish', {'wishList': [nodeId]})
+    axios_delete_matchSetting(this.axiosSource.token, 'willing', {'willingList': [nodeId]})
     .then((resObj)=>{
       //if succeed, just refresh the list
-      this._fetch_WishList();
+      this._fetch_List();
     })
     .catch(function (thrown) {
       self.setState({axios: false});
@@ -76,10 +73,10 @@ class Wish extends React.Component {
       return {axios: true};
     });
     //
-    axios_patch_wish_make(self.axiosSource.token, nodeBasic.id)
+    axios_patch_willing(self.axiosSource.token, {"willingList": [nodeBasic.id]})
     .then((resObj)=>{
       //if succeed, just refresh the list
-      this._fetch_WishList();
+      this._fetch_List();
     })
     .catch(function (thrown) {
       self.setState({axios: false});
@@ -93,15 +90,15 @@ class Wish extends React.Component {
 
   }
 
-  _fetch_WishList(){
+  _fetch_List(){
     const self = this;
     this.setState({axios: true});
 
-    axios_get_desire_list(this.axiosSource.token, 'wished')
+    axios_get_desire_list(this.axiosSource.token, 'willing')
     .then((resObj)=>{
       this.setState({
         axios: false,
-        wishedList: resObj.main.nodesList
+        willingList: resObj.main.nodesList
       })
     })
     .catch(function (thrown) {
@@ -116,33 +113,27 @@ class Wish extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-    //the neighbor 'Supply' may also 'order' a new wish
-    //it would set a flag 'wishListRefresh'
-    if(this.props.flagWishRefresh && this.props.flagWishRefresh != prevProps.flagWishRefresh){
-      this._fetch_WishList();
-      this.props._submit_FlagSwitch(['flagWishRefresh']);
-      //the fetchFlags could become empty(length=0) after the rm.
-    }
+
   }
 
   componentDidMount() {
-    this._fetch_WishList();
+    this._fetch_List();
   }
 
   componentWillUnmount() {
 
   }
 
-  _render_Wished(){
+  _render_WillingList(){
     let itemsDOM = [];
 
-    for(let i= 0; i< 3; i++){
+    for(let i= 0; i< 5; i++){
       itemsDOM.push(
-        <NodeWished
+        <NodeWilling
           listIndex={i}
-          wishedNode={this.state.wishedList[i]}
+          displayingNode={this.state.willingList[i]}
           _set_choiceFromSearch={this._set_choiceFromSearch}
-          _submit_wish_remove={this._submit_wish_remove}/>
+          _submit_remove={this._submit_remove}/>
       )
     }
   }
@@ -151,7 +142,12 @@ class Wish extends React.Component {
     return(
       <div
         className={classnames()}>
-        {this._render_Wished()}
+        <div>
+          {this.props.i18nUIString.catalog["title_Main_matchWilling"]}
+        </div>
+        <div>
+          {this._render_WillingList()}
+        </div>
       </div>
     )
   }
@@ -162,18 +158,16 @@ const mapStateToProps = (state)=>{
     userInfo: state.userInfo,
     unitCurrent: state.unitCurrent,
     i18nUIString: state.i18nUIString,
-    flagWishRefresh: state.flagWishRefresh
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     _submit_Nodes_insert: (obj) => { dispatch(updateNodesBasic(obj)); },
-    _submit_FlagSwitch: (target) => { dispatch(setFlag(target)); },
   }
 }
 
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(Wish));
+)(Willing));

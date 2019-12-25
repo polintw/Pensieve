@@ -57,6 +57,10 @@ export const i18nUIStringInit = {
      removed part in Main
      */
      "title_Main_Broads": "or, here are some broaded by users.",
-     "catagory_MatchNodes_wished": ["Wish", "Wish·Order"]
+     "catagory_MatchNodes_wished": ["Wish", "Wish·Order"],
+
+     "title_Main_matchWilling": "corners you are willing to dedicate: ",
+     "catagory_MatchNodes_willing": ["set", "dedicated corner"],
+     "submit_remove": "remove"
    }
 }
