@@ -18,6 +18,7 @@ class NodeWished extends React.Component {
       onType: false
     };
     this._render_nodeLink = this._render_nodeLink.bind(this);
+    this._render_nodeStatus = this._render_nodeStatus.bind(this);
     this._handleClick_wish_set = this._handleClick_wish_set.bind(this);
     this._handleClick_wish_delete = this._handleClick_wish_delete.bind(this);
     this._handleMouseOn_Node = ()=> this.setState((prevState,props)=>{return {onNode: prevState.onNode?false:true}});
@@ -50,6 +51,33 @@ class NodeWished extends React.Component {
 
   componentWillUnmount() {
 
+  }
+
+  _render_nodeStatus(){
+    let status = !this.props.nodeStatus['finished']? this.props.nodeStatus['taken'] ? 'taken': '' : 'finished';
+
+    switch (status) {
+      case 'taken':
+        return (
+          <div>
+
+          </div>
+        )
+        break;
+      case 'finished':
+        return (
+          <div>
+
+          </div>
+        )
+        break;
+      default:
+        return (
+          <div>
+
+          </div>
+        )        
+    }
   }
 
   _render_nodeLink(){
@@ -90,7 +118,6 @@ class NodeWished extends React.Component {
   }
 
   render(){
-
     return(
       <div
         className={classnames()}>
@@ -128,6 +155,9 @@ class NodeWished extends React.Component {
           this.props.wishedNode && //we skip render if the node was 'undefined' or 'null', both meaning empty list
           this._render_nodeLink()
         }
+        <div>
+          {this._render_nodeStatus()}
+        </div>
 
       </div>
     )

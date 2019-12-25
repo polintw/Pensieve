@@ -10,6 +10,7 @@ import classnames from 'classnames';
 import NodeWished from './NodeWished.jsx'
 import {
   axios_get_desire_list,
+  axios_get_nodesStatus,
   axios_patch_wish_make,
   axios_delete_matchSetting
 } from '../../utilsMatchNodes.js';
@@ -27,7 +28,8 @@ class Wish extends React.Component {
     super(props);
     this.state = {
       axios: false,
-      wishedList: []
+      wishedList: [],
+      nodesStatus: {}
     };
     this.axiosSource = axios.CancelToken.source();
     this._render_Wished = this._render_Wished.bind(this);
@@ -47,7 +49,7 @@ class Wish extends React.Component {
     axios_delete_matchSetting(this.axiosSource.token, 'wish', {'wishList': [nodeId]})
     .then((resObj)=>{
       //if succeed, just refresh the list
-      this._fetch_WishList();
+      self._fetch_WishList();
     })
     .catch(function (thrown) {
       self.setState({axios: false});
@@ -79,7 +81,7 @@ class Wish extends React.Component {
     axios_patch_wish_make(self.axiosSource.token, nodeBasic.id)
     .then((resObj)=>{
       //if succeed, just refresh the list
-      this._fetch_WishList();
+      self._fetch_WishList();
     })
     .catch(function (thrown) {
       self.setState({axios: false});
@@ -99,9 +101,25 @@ class Wish extends React.Component {
 
     axios_get_desire_list(this.axiosSource.token, 'wished')
     .then((resObj)=>{
-      this.setState({
-        axios: false,
+      self.setState({
         wishedList: resObj.main.nodesList
+      })
+      //we need to get the taken/finished status of each return node
+      let getStatusTaken = axios_get_nodesStatus(self.axiosSource.token, resObj.main.nodesList,'taken').catch(function (err) {throw err;}),
+          getStatusFinished = axios_get_nodesStatus(self.axiosSource.token, resObj.main.nodesList,'finished').catch(function (err) {throw err;});
+
+      return Promise.all([getStatusTaken, getStatusFinished]);
+    })
+    .then(([resTakenStatus, resFinishedStatus])=>{
+      let statusObj = {},
+          nodesList = Object.keys(resTakenStatus.main.listObj); //hard to trust list in state at this moment, so just make a certain one
+
+      nodesList.forEach((nodeId, index)=>{
+        statusObj[nodeId] = {taken: resTakenStatus.main.listObj[nodeId], finished: resFinishedStatus.main.listObj[nodeId]};
+      })
+      self.setState({
+        axios: false,
+        nodesStatus: statusObj
       })
     })
     .catch(function (thrown) {
@@ -141,6 +159,7 @@ class Wish extends React.Component {
         <NodeWished
           listIndex={i}
           wishedNode={this.state.wishedList[i]}
+          nodeStatus={this.state.nodesStatus[this.state.wishedList[i]]}
           _set_choiceFromSearch={this._set_choiceFromSearch}
           _submit_wish_remove={this._submit_wish_remove}/>
       )

@@ -18,6 +18,7 @@ class NodeWilling extends React.Component {
       onType: false
     };
     this._render_nodeLink = this._render_nodeLink.bind(this);
+    this._handleClick_nodeTaken = this._handleClick_nodeTaken.bind(this);
     this._handleClick_willing_set = this._handleClick_willing_set.bind(this);
     this._handleClick_willing_delete = this._handleClick_willing_delete.bind(this);
     this._handleMouseOn_Node = ()=> this.setState((prevState,props)=>{return {onNode: prevState.onNode?false:true}});
@@ -25,6 +26,13 @@ class NodeWilling extends React.Component {
     this.style={
 
     }
+  }
+
+  _handleClick_nodeTaken(event){
+    event.preventDefault();
+    event.stopPropagation();
+    //and, the req would be deal by action in redux, to submit taken node after check
+
   }
 
   _handleClick_willing_set(event){
@@ -84,10 +92,13 @@ class NodeWilling extends React.Component {
             {this.props.i18nUIString.catalog["submit_remove"]}
           </span>
         </div>
-        <div>
-          //'taken' depend on 'demand status' passed from props
-          //and _axios same as the one would be used in DemandTake
-        </div>
+        {
+          this.props.demandStatus &&
+          <div
+            onClick={this._handleClick_nodeTaken}>
+            <span>{'take'}</span>
+          </div>
+        }
 
       </div>
     )

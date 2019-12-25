@@ -22,6 +22,28 @@ export function axios_get_desire_list(cancelToken, desired){
   });
 }
 
+export function axios_get_nodesStatus(cancelToken, nodesList, interest){
+  let url = '/router/matchNodes/status/node';
+
+  return axios.get(url, {
+    headers: {
+      'charset': 'utf-8',
+      'token': window.localStorage['token']
+    },
+    params: {
+      nodesList: nodesList,
+      interest: interest
+    },
+    cancelToken: cancelToken
+  }).then(function (res) {
+    let resObj = JSON.parse(res.data);
+
+    return resObj;
+  }).catch(function (thrown) {
+    throw thrown;
+  });
+}
+
 export function axios_delete_matchSetting(cancelToken, onPath, submitData){
   let url = '/router/matchNodes/setting/'+onPath;
 

@@ -10,6 +10,7 @@ import classnames from 'classnames';
 import NodeWilling from './NodeWilling.jsx'
 import {
   axios_get_desire_list,
+  axios_get_nodesStatus,
   axios_delete_matchSetting,
   axios_patch_willing,
 } from '../../utilsMatchNodes.js';
@@ -24,7 +25,8 @@ class Willing extends React.Component {
     super(props);
     this.state = {
       axios: false,
-      willingList: []
+      willingList: [],
+      demandStatus: {}
     };
     this.axiosSource = axios.CancelToken.source();
     this._fetch_List = this._fetch_List.bind(this);
@@ -44,7 +46,7 @@ class Willing extends React.Component {
     axios_delete_matchSetting(this.axiosSource.token, 'willing', {'willingList': [nodeId]})
     .then((resObj)=>{
       //if succeed, just refresh the list
-      this._fetch_List();
+      self._fetch_List();
     })
     .catch(function (thrown) {
       self.setState({axios: false});
@@ -76,7 +78,7 @@ class Willing extends React.Component {
     axios_patch_willing(self.axiosSource.token, {"willingList": [nodeBasic.id]})
     .then((resObj)=>{
       //if succeed, just refresh the list
-      this._fetch_List();
+      self._fetch_List();
     })
     .catch(function (thrown) {
       self.setState({axios: false});
@@ -96,9 +98,16 @@ class Willing extends React.Component {
 
     axios_get_desire_list(this.axiosSource.token, 'willing')
     .then((resObj)=>{
-      this.setState({
-        axios: false,
+      self.setState({
         willingList: resObj.main.nodesList
+      })
+      //we need to get the demand status of each return node
+      return axios_get_nodesStatus(self.axiosSource.token, resObj.main.nodesList,'demand');
+    })
+    .then((resObj)=>{
+      self.setState({
+        axios: false,
+        demandStatus: resObj.main.listObj
       })
     })
     .catch(function (thrown) {
@@ -132,6 +141,7 @@ class Willing extends React.Component {
         <NodeWilling
           listIndex={i}
           displayingNode={this.state.willingList[i]}
+          demandStatus={this.state.demandStatus[this.state.willingList[i]]}
           _set_choiceFromSearch={this._set_choiceFromSearch}
           _submit_remove={this._submit_remove}/>
       )

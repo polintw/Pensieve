@@ -31,6 +31,9 @@ function _handle_GET_status_node(req, res){
           case 'taken':
             value = !!row.locked;
             break;
+          case 'finished':
+            value = !!row.finished;
+            break;
           case 'supply':
             value = !!row.supply; //0 or null would be turn into 'true'
             break;
