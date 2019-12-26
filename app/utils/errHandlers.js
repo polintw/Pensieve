@@ -31,6 +31,8 @@ export function uncertainErr(error){
         alert(error.response.data.message);
         window.location.assign('/s/signin'); //anauthorized with invalid token, reload to check the token
         return null; //return to inform iterator, meaning no need for further handleing
+      case 123: //in /MatchSet, the error return by server which usually means you already have taken a node
+        return error.response.data.message; //for now, show the message directly, keep the possibility in the future
       default:
     };
     return error.response.data.message;

@@ -50,9 +50,11 @@ class Willing extends React.Component {
     this.setState({axios: true});
     axios_post_taking(this.axiosSource.token, {takingList: [nodeId]})
     .then((resObj)=>{
+      //no matter error or not, the axios_post_taking always return to here,
+      //and we always need to reset the axios otherwise the action afterward would always been blocked
       this.setState({axios: false});
-      //and refresh the Taken by flag
-      this.props._submit_FlagSwitch(['flagTakingRefresh']);
+      //and refresh the Taken by flag, but if the res(req) was successful
+      if(resObj) this.props._submit_FlagSwitch(['flagTakingRefresh']);
     })
     //this import f() was unique, would handle the error before return to here
   }

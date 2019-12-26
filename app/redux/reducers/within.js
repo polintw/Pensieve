@@ -3,6 +3,7 @@ import {
   MOUNT_USERINFO,
   SET_UNITCURRENT,
   SET_UNITINSPIRED,
+  SET_MESSAGE_SINGLECLOSE,
   SET_UNITBROAD,
   SET_FETCHFLAGS,
   UNIT_SUBMITTING_SWITCH,
@@ -39,6 +40,11 @@ function pageWithin(state = initialGeneral, action){
     case SET_UNITINSPIRED:
       return Object.assign({}, state, {
         unitCurrent: {...state.unitCurrent, ...action.nextMarksInteraction}
+      })
+      break;
+    case SET_MESSAGE_SINGLECLOSE:
+      return Object.assign({}, state, {
+        messageSingleClose: action.messageSingleClose
       })
       break;
     case SET_UNITBROAD:

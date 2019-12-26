@@ -16,6 +16,9 @@ import CosmicNoun from './component/CosmicNoun.jsx';
 import LinkExplore from './component/LinkExplore/LinkExplore.jsx';
 import CosmicCorner from './component/CosmicCorner/CosmicCorner.jsx';
 import NavOptions from '../Component/NavOptions.jsx';
+import ModalBox from '../Component/ModalBox.jsx';
+import ModalBackground from '../Component/ModalBackground.jsx';
+import SingleCloseDialog from '../Component/Dialog/SingleCloseDialog/SingleCloseDialog.jsx';
 
 class WithinCosmic extends React.Component {
   constructor(props){
@@ -130,6 +133,23 @@ class WithinCosmic extends React.Component {
         <div style={this.style.Within_Cosmic_NavOptions}>
           <NavOptions {...this.props}/>
         </div>
+        {
+          //this is the global used dialog system, currently used by MatchSet, but not limit to it
+          //the series 'message' in redux state is prepared for this kind of global message dialog
+          this.props.messageSingleClose &&
+          <ModalBox containerId="root">
+            <ModalBackground onClose={()=>{this._set_Dialog();}} style={{position: "fixed", backgroundColor: 'rgba(52, 52, 52, 0.36)'}}>
+              <div
+                className={styles.boxDialog}>
+                
+                <SingleCloseDialog
+                  message={this.props.messageSingleClose}
+                  _positiveHandler={()=>{setMessageSingleClose(null)}}/>
+              </div>
+            </ModalBackground>
+          </ModalBox>
+        }
+
       </div>
     )
   }
@@ -138,7 +158,8 @@ class WithinCosmic extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
-    unitCurrent: state.unitCurrent
+    unitCurrent: state.unitCurrent,
+    messageSingleClose: state.messageSingleClose
   }
 }
 

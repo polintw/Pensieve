@@ -199,7 +199,7 @@ function _handle_ErrCatched(e, req, res){
       //403, process for modifying taken node  but may not match the current position, not the desired one or the position not available.
       winston.info(`${e.status} - ${"code 123, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
       clientSet['code'] = "123";
-      clientSet['message'] = "Node you submit could not be accepted because the position was taken by another node.";
+      clientSet['message'] = "There has already been another corner taken on record. Giving up the current one if you wanted to take this new corner.";
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;

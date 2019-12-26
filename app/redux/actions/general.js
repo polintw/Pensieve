@@ -3,6 +3,7 @@ import {
   SET_UNITCURRENT,
   SET_UNITBROAD,
   SET_UNITINSPIRED,
+  SET_MESSAGE_SINGLECLOSE,
   MOUNT_USERINFO,
   UNIT_SUBMITTING_SWITCH,
   UPDATE_NOUNSBASIC,
@@ -25,6 +26,10 @@ export function updateNodesBasic(obj) {
 
 export function setUnitCurrent(obj) {
   return { type: SET_UNITCURRENT, unitCurrent: obj }
+};
+
+export function setMessageSingleClose(str) {
+  return { type: SET_MESSAGE_SINGLECLOSE, messageSingleClose: str}
 };
 
 export function setUnitBroad(obj) {

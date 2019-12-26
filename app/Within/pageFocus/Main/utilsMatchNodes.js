@@ -1,4 +1,11 @@
 import React from 'react';
+import {
+  setMessageSingleClose
+} from '../../../redux/actions/general.js'
+import {
+  cancelErr,
+  uncertainErr
+} from '../../../utils/errHandlers.js';
 
 
 export function axios_get_desire_list(cancelToken, desired){
@@ -129,17 +136,19 @@ export function axios_post_taking(cancelToken, submitData){
     return resObj;
   })
   .catch(function (thrown) {
-
     //this component was unique, would has its own error res need to pass to reducer
     //like message, and call the modal box
-    //remember return to let the followed promise keep going on
-
-    self.setState({axios: false});
+    //remember return, but return 'null' to let the followed promise distinguish
     if (axios.isCancel(thrown)) {
       cancelErr(thrown);
-    } else {
+      return null;
+    }
+    else{
       let message = uncertainErr(thrown);
-      if(message) alert(message);
+
+      
+      if(message) setMessageSingleClose(message);
+      return null;
     }
   });
 }

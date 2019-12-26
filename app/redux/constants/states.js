@@ -6,8 +6,9 @@ const {
 
 export const initGlobal = {
   userInfo: accountInfoInit, //should change the key:'userInfo' to other else
+  token: null,
   i18nUIString: i18nUIStringInit,
-  token: null
+  messageSingleClose: null
 }
 
 export const initSign = {
