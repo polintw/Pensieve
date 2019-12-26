@@ -60,23 +60,19 @@ class NodeWished extends React.Component {
       case 'taken':
         return (
           <div>
-
+            {this.props.i18nUIString.catalog["descript_MatchNodes_demandTaken"]}
           </div>
         )
         break;
       case 'finished':
         return (
           <div>
-
+            {"✔"}
           </div>
         )
         break;
       default:
-        return (
-          <div>
-
-          </div>
-        )        
+        return null
     }
   }
 

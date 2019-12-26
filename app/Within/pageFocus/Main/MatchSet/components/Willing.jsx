@@ -13,8 +13,14 @@ import {
   axios_get_nodesStatus,
   axios_delete_matchSetting,
   axios_patch_willing,
+  axios_post_taking
 } from '../../utilsMatchNodes.js';
-import {updateNodesBasic} from '../../../../../redux/actions/general.js'
+import {
+  updateNodesBasic
+} from '../../../../../redux/actions/general.js'
+import {
+  setFlag
+} from "../../../../../redux/actions/cosmic.js";
 import {
   cancelErr,
   uncertainErr
@@ -30,6 +36,7 @@ class Willing extends React.Component {
     };
     this.axiosSource = axios.CancelToken.source();
     this._fetch_List = this._fetch_List.bind(this);
+    this._submit_taking = this._submit_taking.bind(this);
     this._submit_remove = this._submit_remove.bind(this);
     this._render_WillingList = this._render_WillingList.bind(this);
     this._set_choiceFromSearch = this._set_choiceFromSearch.bind(this);
@@ -38,7 +45,20 @@ class Willing extends React.Component {
     }
   }
 
+  _submit_taking(nodeId){
+    if(!!this.props.indexLists.demandTake[0]) return; //forbidden click if there is already a taken node
+    this.setState({axios: true});
+    axios_post_taking(this.axiosSource.token, {takingList: [nodeId]})
+    .then((resObj)=>{
+      this.setState({axios: false});
+      //and refresh the Taken by flag
+      this.props._submit_FlagSwitch(['flagTakingRefresh']);
+    })
+    //this import f() was unique, would handle the error before return to here
+  }
+
   _submit_remove(nodeId){
+    if(this.state.axios) return; //for this component, allow only one processat a period
     //for rm, or delete, just go ahead
     const self = this;
     this.setState({axios: true});
@@ -143,6 +163,7 @@ class Willing extends React.Component {
           displayingNode={this.state.willingList[i]}
           demandStatus={this.state.demandStatus[this.state.willingList[i]]}
           _set_choiceFromSearch={this._set_choiceFromSearch}
+          _submit_taking={this._submit_taking}
           _submit_remove={this._submit_remove}/>
       )
     }
@@ -168,12 +189,14 @@ const mapStateToProps = (state)=>{
     userInfo: state.userInfo,
     unitCurrent: state.unitCurrent,
     i18nUIString: state.i18nUIString,
+    indexLists: state.indexLists
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     _submit_Nodes_insert: (obj) => { dispatch(updateNodesBasic(obj)); },
+    _submit_FlagSwitch: (target) => { dispatch(setFlag(target)); },
   }
 }
 

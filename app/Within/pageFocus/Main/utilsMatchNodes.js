@@ -110,3 +110,36 @@ export function axios_patch_willing(cancelToken, submitData){
     throw thrown;
   });
 }
+
+export function axios_post_taking(cancelToken, submitData){
+  let url = '/router/matchNodes/setting/taking';
+
+  return axios({
+    url:url,
+    method: "post",
+    headers: {
+      'charset': 'utf-8',
+      'token': window.localStorage['token']
+    },
+    data: submitData,
+    cancelToken: cancelToken
+  }).then(function (res) {
+    let resObj = JSON.parse(res.data);
+
+    return resObj;
+  })
+  .catch(function (thrown) {
+
+    //this component was unique, would has its own error res need to pass to reducer
+    //like message, and call the modal box
+    //remember return to let the followed promise keep going on
+
+    self.setState({axios: false});
+    if (axios.isCancel(thrown)) {
+      cancelErr(thrown);
+    } else {
+      let message = uncertainErr(thrown);
+      if(message) alert(message);
+    }
+  });
+}

@@ -31,8 +31,8 @@ class NodeWilling extends React.Component {
   _handleClick_nodeTaken(event){
     event.preventDefault();
     event.stopPropagation();
-    //and, the req would be deal by action in redux, to submit taken node after check
-
+    //any check would be process at higher level
+    this.props._submit_taking(this.props.displayingNode);
   }
 
   _handleClick_willing_set(event){
@@ -152,6 +152,7 @@ const mapStateToProps = (state)=>{
     unitCurrent: state.unitCurrent,
     i18nUIString: state.i18nUIString,
     nounsBasic: state.nounsBasic,
+    indexLists: state.indexLists
   }
 }
 

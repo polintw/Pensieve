@@ -24,6 +24,7 @@ export const initUnit = {
 
 export const initCosmicGeneral = {
   flagBelongRefresh: false,
+  flagTakingRefresh: false,
   flagWishRefresh: false,
   flagNewCustomDataFetch: false,
   flagNewSharedDataFetch: false,

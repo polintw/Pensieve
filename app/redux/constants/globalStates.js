@@ -61,6 +61,7 @@ export const i18nUIStringInit = {
 
      "title_Main_matchWilling": "corners you are willing to dedicate: ",
      "catagory_MatchNodes_willing": ["set", "dedicated corner"],
-     "submit_remove": "remove"
+     "submit_remove": "remove",
+     "descript_MatchNodes_demandTaken": "Some users' begun working on your wish!",
    }
 }
