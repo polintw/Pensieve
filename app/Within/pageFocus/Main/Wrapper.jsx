@@ -13,6 +13,7 @@ import {
   axios_visit_GET_last,
   axios_visit_Index
 } from './utils.js';
+import DemandTake from './DemandTake/Wrapper.jsx';
 import MainTitle from './MainTitle/MainTitle.jsx';
 import MainList from './MainList/MainList.jsx';
 import MatchSet from './MatchSet/Wrapper.jsx';
@@ -142,6 +143,8 @@ class Wrapper extends React.Component {
               _refer_von_cosmic={this.props._refer_von_cosmic}/>
           </div>
 
+          <DemandTake
+            _refer_von_cosmic={this.props._refer_von_cosmic}/>
           {
             (this.props.indexLists.listCustomNew.length> 0) &&
             <div
