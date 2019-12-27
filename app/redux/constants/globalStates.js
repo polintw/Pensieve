@@ -59,9 +59,11 @@ export const i18nUIStringInit = {
      "title_Main_Broads": "or, here are some broaded by users.",
      "catagory_MatchNodes_wished": ["Wish", "Wish·Order"],
 
+     "title_Main_matchDemand": "Picking a corner, Sharing the thing you know.",
      "title_Main_matchWilling": "corners you are willing to dedicate: ",
      "catagory_MatchNodes_willing": ["set", "dedicated corner"],
      "submit_remove": "remove",
      "descript_MatchNodes_demandTaken": "Some users' begun working on your wish!",
+     "message_Main_duplicateTaking": "There has already been another corner taken on record. Giving up the current one if you wanted to take this new corner."
    }
 }
