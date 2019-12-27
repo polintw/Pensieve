@@ -1,4 +1,5 @@
 import React from 'react';
+import store from '../../store.js';
 import {
   setMessageSingleClose
 } from '../../../redux/actions/general.js'
@@ -31,16 +32,17 @@ export function axios_get_desire_list(cancelToken, desired){
 
 export function axios_get_nodesStatus(cancelToken, nodesList, interest){
   let url = '/router/matchNodes/status/node';
+  let params = { //in axios, this way of announcement of an arr was required
+    nodesList: JSON.stringify(nodesList), //parse to a string for URL setting, would be parse back in api
+    interest: interest
+  };
 
   return axios.get(url, {
     headers: {
       'charset': 'utf-8',
       'token': window.localStorage['token']
     },
-    params: {
-      nodesList: nodesList,
-      interest: interest
-    },
+    params: params,
     cancelToken: cancelToken
   }).then(function (res) {
     let resObj = JSON.parse(res.data);
@@ -145,9 +147,8 @@ export function axios_post_taking(cancelToken, submitData){
     }
     else{
       let message = uncertainErr(thrown);
-
-      
-      if(message) setMessageSingleClose(message);
+      //the res message of this axios_ should be displayed(if there is any)
+      if(message) store.dispatch(setMessageSingleClose(message));
       return null;
     }
   });

@@ -171,12 +171,15 @@ class MainList extends React.Component {
       let nailChoice = rulePattern[remainder];
       //and remember handling the switch of side -- like the painting of a long 'tunnel'
       if(typeof nailChoice != "number") nailChoice = !!( Math.floor((index-10)/8) %2) ? nailChoice[0]: nailChoice[1];
+      //then important question: do we have the data of this Unit ? if not, we skip to next one
+      if(unitId in this.state.unitsBasic) {
+        let nail = nailChart(nailChoice, unitId, this);
+        nailsIndex.push(nail);
+        //diff remainder again for rendering 'separation line'
+        let optionalLine = separationLine(remainder, index);
+        if(optionalLine) nailsIndex.push(optionalLine);
+      }
 
-      let nail = nailChart(nailChoice, unitId, this);
-      nailsIndex.push(nail);
-      //diff remainder again for rendering 'separation line'
-      let optionalLine = separationLine(remainder, index);
-      if(optionalLine) nailsIndex.push(optionalLine);
     })
 
     return nailsIndex;

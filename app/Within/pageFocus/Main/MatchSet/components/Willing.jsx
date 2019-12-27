@@ -159,16 +159,21 @@ class Willing extends React.Component {
     let itemsDOM = [];
 
     for(let i= 0; i< 5; i++){
+      let currentNode = this.state.willingList[i];
+      //deal with status separately because it is depend on different api and set into state not at the same time as the list
+      let nodeStatus = !this.state.demandStatus[currentNode] ? {}:this.state.demandStatus[currentNode];
       itemsDOM.push(
         <NodeWilling
+          key={"key_Willing_"+i}
           listIndex={i}
-          displayingNode={this.state.willingList[i]}
-          demandStatus={this.state.demandStatus[this.state.willingList[i]]}
+          displayingNode={currentNode}
+          demandStatus={nodeStatus}
           _set_choiceFromSearch={this._set_choiceFromSearch}
           _submit_taking={this._submit_taking}
           _submit_remove={this._submit_remove}/>
       )
     }
+    return itemsDOM;
   }
 
   render(){

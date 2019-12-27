@@ -1,12 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {createStore, applyMiddleware} from "redux";
-import thunk from 'redux-thunk';
 import {Provider} from "react-redux";
 import jwtDecode from 'jwt-decode';
 import moment from 'moment';
+import store from './store.js';
 import Within from './Within.jsx';
-import storeWithin from "../redux/reducers/within.js";
 import {mountUserInfo} from "../redux/actions/general.js";
 import tokenRefreshed from '../utils/refreshToken.js';
 import {
@@ -22,7 +20,6 @@ if(loggedin){
           'token': window.localStorage['token']
       }
     }).then(function(res){
-      const store = createStore(storeWithin, applyMiddleware(thunk));
       store.dispatch(mountUserInfo(res.data.userInfo));
       ReactDOM.hydrate(<Provider store={store}><Within/></Provider>, document.getElementById("root"));
     }).catch((err)=>{

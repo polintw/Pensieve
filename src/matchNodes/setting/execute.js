@@ -1,15 +1,22 @@
 const express = require('express');
 const execute = express.Router();
 const winston = require('../../../config/winston.js');
-
-const _handle_POST_taking = require('./taking.js');
-const _handle_DELETE_taking = require('./taking.js');
-const _handle_PATCH_wish = require('./wish.js');
-const _handle_DELETE_wish = require('./wish.js');
-const _handle_PATCH_willing = require('./willing.js');
-const _handle_DELETE_willing = require('./willing.js');
-const _handle_PATCH_waiting = require('./waiting.js');
-const _handle_DELETE_waiting = require('./waiting.js');
+const {
+  _handle_POST_taking,
+  _handle_DELETE_taking
+} = require('./taking.js');
+const {
+  _handle_PATCH_wish,
+  _handle_DELETE_wish
+} = require('./wish.js');
+const {
+  _handle_PATCH_willing,
+  _handle_DELETE_willing
+} = require('./willing.js');
+const {
+  _handle_PATCH_waiting,
+  _handle_DELETE_waiting
+} = require('./waiting.js');
 
 execute.post('/taking', function(req, res){
   if(process.env.NODE_ENV == 'development') winston.verbose(`matchNodes, POST: /taking`);

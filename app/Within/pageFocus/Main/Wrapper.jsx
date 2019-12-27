@@ -60,9 +60,12 @@ class Wrapper extends React.Component {
     if(!(itemIndex < 0)) //skip if the item already rm
     this.setState((prevState, props)=>{
       //remove the label of this process from mout todo
-      prevState.mountTodo.splice(itemIndex, 1);
+      let leftToDo = prevState.mountTodo.slice(); //this is line is crucial,
+      //the var 'toDoArr' would be modified if we splice() the prevState.mountTodo directly
+      //so we need to make a shallow copy to avoid this problem.
+      leftToDo.splice(itemIndex, 1);
       return ({
-        mountTodo: prevState.mountTodo
+        mountTodo: leftToDo
       });
     }); //end of 'if'
 
@@ -73,7 +76,9 @@ class Wrapper extends React.Component {
       //now, after everything was mount, we update the visiting time to the server
       axios_visit_Index(this.axiosSource.token);
       //and for safety, we reset the state to default.
-      this.setState({mountTodo: toDoArr});
+      this.setState((prevState, props)=>{
+        return {mountTodo: toDoArr};
+      });
     }
   }
 

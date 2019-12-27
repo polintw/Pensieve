@@ -155,15 +155,20 @@ class Wish extends React.Component {
     let itemsDOM = [];
 
     for(let i= 0; i< 3; i++){
+      let currentNode = this.state.wishedList[i];
+      //deal with status separately because it is depend on different api and set into state not at the same time as the list
+      let nodeStatus = !this.state.nodesStatus[currentNode] ? {}:this.state.nodesStatus[currentNode];
       itemsDOM.push(
         <NodeWished
+          key={"key_Wished_"+i}
           listIndex={i}
-          wishedNode={this.state.wishedList[i]}
-          nodeStatus={this.state.nodesStatus[this.state.wishedList[i]]}
+          wishedNode={currentNode}
+          nodeStatus={nodeStatus}
           _set_choiceFromSearch={this._set_choiceFromSearch}
           _submit_wish_remove={this._submit_wish_remove}/>
       )
     }
+    return itemsDOM;
   }
 
   render(){

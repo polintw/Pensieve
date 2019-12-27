@@ -17,7 +17,7 @@ function _handle_GET_status_node(req, res){
 
     //client would req many nodes in one req, from wished list to supply.
     _DB_nodesDemandMatch.findAll({
-      where: {id_node: req.body.nodesList},
+      where: {id_node: req.query.nodesList},
       limit: 10 //Notice! it is for the malicious req, but should always follow the requirement design for front end
     }).then((selectResult)=>{
       let sendingData = {

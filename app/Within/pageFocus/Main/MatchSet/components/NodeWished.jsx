@@ -140,7 +140,7 @@ class NodeWished extends React.Component {
         <div
           onClick={this._handleClick_wish_set}>
           <span>
-            {(this.props.listIndex==3) ?
+            {(this.props.listIndex==2) ?
               this.props.i18nUIString.catalog["catagory_MatchNodes_wished"][1] :
               this.props.i18nUIString.catalog["catagory_MatchNodes_wished"][0]
             }

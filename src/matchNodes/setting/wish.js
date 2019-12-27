@@ -48,7 +48,10 @@ function _handle_PATCH_wish(req, res){
         };
         return _DB_nodesDemandMatch.update(
           updateObj,
-          {fields: ['finished', 'list_demand']}
+          {
+            where: {id_node: wishedNodeId},
+            fields: ['finished', 'list_demand']
+          }
         );
       });
     }

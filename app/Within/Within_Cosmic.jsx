@@ -15,6 +15,9 @@ import CosmicUser from './component/CosmicUser.jsx';
 import CosmicNoun from './component/CosmicNoun.jsx';
 import LinkExplore from './component/LinkExplore/LinkExplore.jsx';
 import CosmicCorner from './component/CosmicCorner/CosmicCorner.jsx';
+import {
+  setMessageSingleClose
+} from '../redux/actions/general.js'
 import NavOptions from '../Component/NavOptions.jsx';
 import ModalBox from '../Component/ModalBox.jsx';
 import ModalBackground from '../Component/ModalBackground.jsx';
@@ -141,10 +144,9 @@ class WithinCosmic extends React.Component {
             <ModalBackground onClose={()=>{this._set_Dialog();}} style={{position: "fixed", backgroundColor: 'rgba(52, 52, 52, 0.36)'}}>
               <div
                 className={styles.boxDialog}>
-                
                 <SingleCloseDialog
                   message={this.props.messageSingleClose}
-                  _positiveHandler={()=>{setMessageSingleClose(null)}}/>
+                  _positiveHandler={()=>{this.props._set_MessageSinClose(null)}}/>
               </div>
             </ModalBackground>
           </ModalBox>
@@ -163,7 +165,13 @@ const mapStateToProps = (state)=>{
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    _set_MessageSinClose: (message) => { dispatch(setMessageSingleClose(message)); }
+  }
+}
+
 export default withRouter(connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(WithinCosmic));
