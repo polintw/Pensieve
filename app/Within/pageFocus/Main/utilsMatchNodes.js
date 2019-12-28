@@ -34,6 +34,24 @@ export function axios_get_desire_list(cancelToken, desired){
   });
 }
 
+export function axios_get_taking_list(cancelToken){
+  let url = '/router/matchNodes/list/taking';
+
+  return axios.get(url, {
+    headers: {
+      'charset': 'utf-8',
+      'token': window.localStorage['token']
+    },
+    cancelToken: cancelToken
+  }).then(function (res) {
+    let resObj = JSON.parse(res.data);
+
+    return resObj;
+  }).catch(function (thrown) {
+    throw thrown;
+  });
+}
+
 export function axios_get_nodesStatus(cancelToken, nodesList, interest){
   let url = '/router/matchNodes/status/node';
   let params = { //in axios, this way of announcement of an arr was required
@@ -150,7 +168,7 @@ export function axios_post_taking(cancelToken, nodeId){
     return;}
   if(state.axiosMatchTaking) return; //and cease new click if there is a connection on the way
   //Then, if everything is fine, we start to submit the taken node
-  store.dispatch(setAxiosMatchTaking()); //as local, set the axios state
+  store.dispatch(setAxiosMatchTaking(true)); //as local, set the axios state
 
   let url = '/router/matchNodes/setting/taking';
 
@@ -167,7 +185,7 @@ export function axios_post_taking(cancelToken, nodeId){
     let resObj = JSON.parse(res.data);
     //successfully submit, now we inform the Taking to refresh.
     store.dispatch(setFlag(['flagTakingRefresh']));
-    store.dispatch(setAxiosMatchTaking());
+    store.dispatch(setAxiosMatchTaking(false));
     return;
   })
   .catch(function (thrown) {

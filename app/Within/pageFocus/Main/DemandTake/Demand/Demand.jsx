@@ -12,6 +12,9 @@ import {
   axios_post_taking
 } from '../../utilsMatchNodes.js';
 import {
+  handleNounsList
+} from "../../../../../redux/actions/general.js";
+import {
   setFlag
 } from "../../../../../redux/actions/cosmic.js";
 import {
@@ -40,9 +43,12 @@ class Demand extends React.Component {
 
     axios_get_options(this.axiosSource.token, 'demand')
     .then((resObj)=>{
+      let nodesList = resObj.main.nodesList;
+
+      self.props._submit_NounsList_new(nodesList); //GET nodes info by Redux action
       self.setState({
         axios: false,
-        demandList: resObj.main.nodesList
+        demandList: nodesList
       })
     })
     .catch(function (thrown) {
@@ -109,6 +115,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
     _submit_FlagSwitch: (target) => { dispatch(setFlag(target)); },
     _set_Message_SingleClose : (message) =>{ dispatch(setMessageSingleClose(message)); }
   }

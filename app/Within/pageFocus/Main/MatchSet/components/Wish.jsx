@@ -14,7 +14,10 @@ import {
   axios_patch_wish_make,
   axios_delete_matchSetting
 } from '../../utilsMatchNodes.js';
-import {updateNodesBasic} from '../../../../../redux/actions/general.js'
+import {
+  updateNodesBasic,
+  handleNounsList
+} from '../../../../../redux/actions/general.js'
 import {
   setFlag
 } from "../../../../../redux/actions/cosmic.js";
@@ -101,12 +104,15 @@ class Wish extends React.Component {
 
     axios_get_desire_list(this.axiosSource.token, 'wished')
     .then((resObj)=>{
+      let nodesList = resObj.main.nodesList;
+
+      self.props._submit_NounsList_new(nodesList); //GET nodes info by Redux action
       self.setState({
-        wishedList: resObj.main.nodesList
+        wishedList: nodesList
       })
       //we need to get the taken/finished status of each return node
-      let getStatusTaken = axios_get_nodesStatus(self.axiosSource.token, resObj.main.nodesList,'taken').catch(function (err) {throw err;}),
-          getStatusFinished = axios_get_nodesStatus(self.axiosSource.token, resObj.main.nodesList,'finished').catch(function (err) {throw err;});
+      let getStatusTaken = axios_get_nodesStatus(self.axiosSource.token, nodesList,'taken').catch(function (err) {throw err;}),
+          getStatusFinished = axios_get_nodesStatus(self.axiosSource.token, nodesList,'finished').catch(function (err) {throw err;});
 
       return Promise.all([getStatusTaken, getStatusFinished]);
     })
@@ -192,6 +198,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
     _submit_Nodes_insert: (obj) => { dispatch(updateNodesBasic(obj)); },
     _submit_FlagSwitch: (target) => { dispatch(setFlag(target)); },
   }

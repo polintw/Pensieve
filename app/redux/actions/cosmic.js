@@ -10,20 +10,6 @@ import {
 } from '../constants/constCosmic.js';
 import {errHandler_axiosCatch} from "../../utils/errHandlers.js";
 
-export function setAxiosMatchTaking(){
-  //this actoin creator, could do function return is because we use 'thunk' middleware when create store
-  return (dispatch, getState) => {
-    const currentState =  getState();
-    let nextStatus = currentState.axiosMatchTaking ? false : true;
-
-    let submitObj = {
-      type: SET_AXIOS_MATCHTAKING,
-      axios: nextStatus
-    };
-    dispatch(submitObj)
-  }
-}
-
 export function setFlag(targetArr){
   //this actoin creator, could do function return is because we use 'thunk' middleware when create store
   return (dispatch, getState) => {
@@ -55,4 +41,8 @@ export function handFocusListNew(listArr){
 
 export function setIndexLists(listsObj){
   return {type: SET_INDEXLISTS, lists: listsObj}
+}
+
+export function setAxiosMatchTaking(nextStatus){
+  return {type: SET_AXIOS_MATCHTAKING, axios: nextStatus}
 }

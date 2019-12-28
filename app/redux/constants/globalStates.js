@@ -64,6 +64,8 @@ export const i18nUIStringInit = {
      "catagory_MatchNodes_willing": ["set", "dedicated corner"],
      "submit_remove": "remove",
      "descript_MatchNodes_demandTaken": "Some users' begun working on your wish!",
-     "message_Main_duplicateTaking": "There has already been another corner taken on record. Giving up the current one if you wanted to take this new corner."
+     "message_Main_duplicateTaking": "There has already been another corner taken on record. Giving up the current one if you wanted to take this new corner.",
+     "hint_Process_MatchTaking": "submitting the corner you taked...",
+     "title_Main_matchTaking": ["Taken", "on list", "Give up"]
    }
 }

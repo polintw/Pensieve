@@ -6,6 +6,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
 import Demand from './Demand/Demand.jsx';
+import Taking from './Taking/Taking.jsx';
 
 class Wrapper extends React.Component {
   constructor(props){
@@ -34,12 +35,10 @@ class Wrapper extends React.Component {
     return(
       <div
         className={classnames()}>
-        {
-          !!this.props.indexLists.demandTake[0] &&
-          <div>
-            <Taking/>
-          </div>
-        }
+
+        <div>
+          <Taking/>
+        </div>
         <div>
           <Demand/>
         </div>
