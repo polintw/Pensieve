@@ -46,15 +46,12 @@ class Willing extends React.Component {
   }
 
   _submit_taking(nodeId){
-    if(!!this.props.indexLists.demandTake[0]) return; //forbidden click if there is already a taken node
-    this.setState({axios: true});
-    axios_post_taking(this.axiosSource.token, {takingList: [nodeId]})
-    .then((resObj)=>{
+    this.setState({axios: true}); //for local com usage (the axios_post_taking has its own axios state in reducer)
+    axios_post_taking(this.axiosSource.token, nodeId)
+    .then(()=>{
       //no matter error or not, the axios_post_taking always return to here,
       //and we always need to reset the axios otherwise the action afterward would always been blocked
       this.setState({axios: false});
-      //and refresh the Taken by flag, but if the res(req) was successful
-      if(resObj) this.props._submit_FlagSwitch(['flagTakingRefresh']);
     })
     //this import f() was unique, would handle the error before return to here
   }

@@ -4,6 +4,10 @@ import {
   setMessageSingleClose
 } from '../../../redux/actions/general.js'
 import {
+  setFlag,
+  setAxiosMatchTaking
+} from '../../../redux/actions/cosmic.js'
+import {
   cancelErr,
   uncertainErr
 } from '../../../utils/errHandlers.js';
@@ -43,6 +47,24 @@ export function axios_get_nodesStatus(cancelToken, nodesList, interest){
       'token': window.localStorage['token']
     },
     params: params,
+    cancelToken: cancelToken
+  }).then(function (res) {
+    let resObj = JSON.parse(res.data);
+
+    return resObj;
+  }).catch(function (thrown) {
+    throw thrown;
+  });
+}
+
+export function axios_get_options(cancelToken, onPath){
+  let url = '/router/options/matchNodes/'+onPath;
+
+  return axios.get(url, {
+    headers: {
+      'charset': 'utf-8',
+      'token': window.localStorage['token']
+    },
     cancelToken: cancelToken
   }).then(function (res) {
     let resObj = JSON.parse(res.data);
@@ -120,7 +142,16 @@ export function axios_patch_willing(cancelToken, submitData){
   });
 }
 
-export function axios_post_taking(cancelToken, submitData){
+export function axios_post_taking(cancelToken, nodeId){
+  const state = store.getState(); //store in reducer at this moment
+
+  if(!!state.indexLists.demandTake[0]){ //forbidden submit if there is already a taken node
+    store.dispatch(setMessageSingleClose(state.i18nUIString.catalog["message_Main_duplicateTaking"]));
+    return;}
+  if(state.axiosMatchTaking) return; //and cease new click if there is a connection on the way
+  //Then, if everything is fine, we start to submit the taken node
+  store.dispatch(setAxiosMatchTaking()); //as local, set the axios state
+
   let url = '/router/matchNodes/setting/taking';
 
   return axios({
@@ -130,12 +161,14 @@ export function axios_post_taking(cancelToken, submitData){
       'charset': 'utf-8',
       'token': window.localStorage['token']
     },
-    data: submitData,
+    data: {takingList: [nodeId]},
     cancelToken: cancelToken
   }).then(function (res) {
     let resObj = JSON.parse(res.data);
-
-    return resObj;
+    //successfully submit, now we inform the Taking to refresh.
+    store.dispatch(setFlag(['flagTakingRefresh']));
+    store.dispatch(setAxiosMatchTaking());
+    return;
   })
   .catch(function (thrown) {
     //this component was unique, would has its own error res need to pass to reducer
@@ -148,7 +181,7 @@ export function axios_post_taking(cancelToken, submitData){
     else{
       let message = uncertainErr(thrown);
       //the res message of this axios_ should be displayed(if there is any)
-      if(message) store.dispatch(setMessageSingleClose(message));
+      if(message) store.dispatch(setMessageSingleClose(state.i18nUIString.catalog["message_Main_duplicateTaking"]));
       return null;
     }
   });

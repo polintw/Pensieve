@@ -12,7 +12,8 @@ import {
   UPDATE_USERSBASIC
 } from '../constants/typesGeneral.js';
 import {
-  SET_INDEXLISTS
+  SET_INDEXLISTS,
+  SET_AXIOS_MATCHTAKING
 } from '../constants/typesCosmic.js';
 import {
   initGlobal,
@@ -58,6 +59,11 @@ function pageWithin(state = initialGeneral, action){
     case SET_INDEXLISTS:
       return Object.assign({}, state, {
         indexLists: {...state.indexLists, ...action.lists}
+      })
+      break;
+    case SET_AXIOS_MATCHTAKING:
+      return Object.assign({}, state, {
+        axiosMatchTaking: action.axios
       })
       break;
     case UNIT_SUBMITTING_SWITCH:

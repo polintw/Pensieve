@@ -29,6 +29,7 @@ export const initCosmicGeneral = {
   flagWishRefresh: false,
   flagNewCustomDataFetch: false,
   flagNewSharedDataFetch: false,
+  axiosMatchTaking: false,
   indexLists: {
     listCustomNew: [],
     listNew: [],
