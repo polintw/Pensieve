@@ -21,7 +21,7 @@ import {
   setFlag
 } from "../../../../redux/actions/cosmic.js";
 
-const nodeTypeList = ["residence", "stay", "hometown", "used", "used"]; //Notice! redering in BelongbyType depend on length of this list
+const nodeTypeList = ["residence", "stay", "hometown", "used"]; //Notice! redering in BelongbyType depend on length of this list
 
 class Belongs extends React.Component {
   constructor(props){
@@ -83,8 +83,8 @@ class Belongs extends React.Component {
     this._axios_PATCH_belongRecords({belong: objBelong}) //final reload the com to GET new setting
       .then(function (res) {
         self.setState({axios: false});
-        //use fetchFlags to refresh data set to render new setting
-        self.props._submit_FlagSwitch(['flagBelongRefresh']);
+        //refresh locally
+        self._init_fetch();
       }).catch(function (thrown) {
         self.setState({axios: false});
         if (axios.isCancel(thrown)) {

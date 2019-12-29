@@ -64,7 +64,7 @@ class Wrapper extends React.Component {
           <Willing/>
         )
         break;
-      case 1:
+      case 2:
         return (
           <Belongs
             _refer_von_cosmic={this.props._refer_von_cosmic}/>

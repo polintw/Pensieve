@@ -24,11 +24,13 @@ class SupplyNode extends React.Component {
   _handleClick_nodeSupply(event){
     event.preventDefault();
     event.stopPropagation();
-
+    const nodeId = this.props.displayingNode;
     //distinguish order or list me
-    //if under order, submit directly
-    //if under list me, check the waitingStatus first to decide submit or remove
-    
+    if(this.props.supplyStatus) this.props._submit_order(nodeId) //if under order, submit directly
+    else{ //'list me'
+      //if under list me, check the waitingStatus first to decide submit or remove
+      this.props.waitingStatus? this.props._submit_waiting_remove(nodeId) : this.props._submit_waiting(nodeId);
+    };
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){

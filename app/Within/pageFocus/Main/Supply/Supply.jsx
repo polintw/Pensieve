@@ -13,18 +13,18 @@ import {
   axios_patch_wish_make,
   axios_patch_submitList,
   axios_delete_matchSetting
-} from '../../utilsMatchNodes.js';
+} from '../utilsMatchNodes.js';
 import {
   handleNounsList,
   setMessageSingleClose
-} from "../../../../../redux/actions/general.js";
+} from "../../../../redux/actions/general.js";
 import {
   setFlag
-} from "../../../../../redux/actions/cosmic.js";
+} from "../../../../redux/actions/cosmic.js";
 import {
   cancelErr,
   uncertainErr
-} from '../../../../../utils/errHandlers.js';
+} from '../../../../utils/errHandlers.js';
 
 class Supply extends React.Component {
   constructor(props){

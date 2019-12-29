@@ -56,7 +56,6 @@ class BelongOptions extends React.Component {
       onSearch: false,
       choice: null, //record the chosen node
       dialog: false, //whether dialog opened
-      search: false, //whether search modal opened
       options: []
     };
     this.axiosSource = axios.CancelToken.source();
@@ -71,7 +70,6 @@ class BelongOptions extends React.Component {
     this._set_choiceFromSearch = this._set_choiceFromSearch.bind(this);
     this._set_choice = (choice)=> this.setState({choice: choice});
     this._set_Dialog = ()=> this.setState((prevState,props)=>{ return {dialog: prevState.dialog? false:true};});
-    this._set_searchModal = ()=> this.setState((prevState,props)=>{return {search: prevState.search? false:true};});
     this.style={
 
     }
@@ -226,26 +224,27 @@ class BelongOptions extends React.Component {
     return(
       <div
         className={classnames(styles.comBelongOptions)}>
-        {this._render_Options()}
+
         <div
-          style={{display:'inline-block', marginLeft: '3%', fontSize:'1.2rem',letterSpacing: '0.02rem',
-            color: this.state.onSearch? '#a0a0a0':'#aeaeae'}}
-          onClick={(e)=>{e.stopPropagation();e.preventDefault(); this._set_searchModal()}}
-          onMouseEnter={this._handleMouseOn_optionSearch}
-          onMouseLeave={this._handleMouseOn_optionSearch}>
-          {"Search..."}
+          className={classnames(styles.boxTypeSetting)}>
+          <span
+            className={classnames(
+              styles.spanType,
+              styles.fontType,
+              styles.fontOnType
+            )}
+            style={{lineHeight: '3rem'}}>
+            {this.props.type}</span>
         </div>
-        {
-          this.state.search &&
-          <div
-            className={classnames(styles.boxSearchModal)}>
-            <NodeSearchModule
-              type={"share"}
-              _set_nodeChoice={this._set_choiceFromSearch}
-              _set_SearchModal_switch={this._set_searchModal}
-              _handleClick_SearchModal_switch={(e)=>{e.preventDefault();e.stopPropagation();this._set_searchModal();}}/>
-          </div>
-        }
+        <NodeSearchModule
+          type={"option"}
+          _set_nodeChoice={this._set_choiceFromSearch}
+          _set_SearchModal_switch={this.props._set_settingModal}
+          _handleClick_SearchModal_switch={(e)=>{e.preventDefault();e.stopPropagation();this.props._set_settingModal();}}/>
+
+        {this._render_Options()}
+
+
         {
           this.state.dialog &&
           //should give it a 'dark' bg, position near the BelongOptions itself

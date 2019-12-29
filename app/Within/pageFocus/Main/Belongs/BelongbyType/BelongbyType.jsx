@@ -9,6 +9,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import BelongOptions from './BelongOptions/BelongOptions.jsx';
 import CreateShare from '../../../../../Component/CreateShare.jsx';
 import {NodeSearchModule} from '../../../../../Component/NodeSearchModule.jsx';
 import {updateNodesBasic} from '../../../../../redux/actions/general.js'
@@ -190,22 +191,9 @@ class BelongbyType extends React.Component {
           this.state.settingModal &&
           <div
             className={classnames(styles.boxSettingModal)}>
-            <div
-              className={classnames(styles.boxTypeSetting)}>
-              <span
-                className={classnames(
-                  styles.spanType,
-                  styles.fontType,
-                  styles.fontOnType
-                )}
-                style={{lineHeight: '3rem'}}>
-                {this.props.type}</span>
-            </div>
-            <NodeSearchModule
-              type={"option"}
-              _set_nodeChoice={this._set_choiceFromSearch}
-              _set_SearchModal_switch={this._set_settingModal}
-              _handleClick_SearchModal_switch={(e)=>{e.preventDefault();e.stopPropagation();this._set_settingModal();}}/>
+            <BelongOptions
+              {...this.props}
+              _set_settingModal={this._set_settingModal}/>
           </div>
         }
         {(this.props.type=="used") ? this._render_type_used() : this._render_type()}

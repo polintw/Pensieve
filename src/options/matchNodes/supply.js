@@ -15,7 +15,7 @@ const {
 
 function _handle_GET_matchNodes_supply(req, res){
   new Promise((resolve, reject)=>{
-
+    const userId = req.extra.tokenUserId;
     //this api, provide 'menu' currently supplying to the client
     //every node under taken, or every node marks 'supply'
     //And! we would have to rm all the nodes user wished or willing to.

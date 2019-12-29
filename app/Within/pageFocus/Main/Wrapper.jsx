@@ -17,6 +17,7 @@ import DemandTake from './DemandTake/Wrapper.jsx';
 import MainTitle from './MainTitle/MainTitle.jsx';
 import MainList from './MainList/MainList.jsx';
 import MatchSet from './MatchSet/Wrapper.jsx';
+import Supply from './Supply/Supply.jsx';
 import Broads from './Broads/Broads.jsx';
 import NewShared from './NewShared/NewShared.jsx';
 import NewSharedCustom from './NewSharedCustom/NewSharedCustom.jsx';
@@ -155,7 +156,7 @@ class Wrapper extends React.Component {
           }
           <MatchSet
             _refer_von_cosmic={this.props._refer_von_cosmic}/>
-
+          <Supply/>
           {
             (this.props.indexLists.listNew.length> 0) &&
             <div
