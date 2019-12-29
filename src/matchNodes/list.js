@@ -61,19 +61,19 @@ function _handle_GET_list_taking(req, res){
       where: {id_user: userId}
     })
     .then((selectResult)=>{
-      let nodeTaken = selectResult.taking[0];
+      let takenList = JSON.parse(selectResult.taking);
       let sendingData ={
         nodesList: [],
         demandCount: null,
         temp:{}
       };
 
-      if(!nodeTaken){
+      if(!takenList[0]){
         return sendingData; //if no taking on the record, return to next step directly
       }
       else{
         return _DB_nodesDemandMatch.findOne({
-          where: {id_node: nodeTaken}
+          where: {id_node: takenList[0]}
         })
         .then((nodeRow)=>{
           let demandList = JSON.parse(nodeRow.list_demand),

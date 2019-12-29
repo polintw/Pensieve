@@ -1,14 +1,16 @@
 const {
   unitCurrentInit,
   accountInfoInit,
-  i18nUIStringInit
+  i18nUIStringInit,
+  messageDialogInit
 } = require('./globalStates.js');
 
 export const initGlobal = {
   userInfo: accountInfoInit, //should change the key:'userInfo' to other else
   token: null,
   i18nUIString: i18nUIStringInit,
-  messageSingleClose: null
+  messageSingleClose: null,
+  messageBoolean: messageDialogInit.boolean
 }
 
 export const initSign = {

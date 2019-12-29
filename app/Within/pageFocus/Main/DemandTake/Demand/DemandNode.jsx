@@ -46,7 +46,9 @@ class DemandNode extends React.Component {
 
     return (
       <div
-        className={classnames()}>
+        className={classnames()}
+        onMouseEnter={this._handleMouseOn_Node}
+        onMouseLeave={this._handleMouseOn_Node}>
         {nodeId in this.props.nounsBasic ? (
           this.props.nounsBasic[nodeId].name) : (
             null
@@ -64,9 +66,7 @@ class DemandNode extends React.Component {
           this.state.onNode &&
           <div
             className={classnames()}
-            onClick={this._handleClick_nodeTaken}
-            onMouseEnter={this._handleMouseOn_Node}
-            onMouseLeave={this._handleMouseOn_Node}>
+            onClick={this._handleClick_nodeTaken}>
             <span
               className={classnames()}
               onMouseEnter={this._handleMouseOn_NodeText}

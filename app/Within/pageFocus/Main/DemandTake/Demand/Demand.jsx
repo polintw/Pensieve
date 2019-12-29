@@ -117,7 +117,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
     _submit_FlagSwitch: (target) => { dispatch(setFlag(target)); },
-    _set_Message_SingleClose : (message) =>{ dispatch(setMessageSingleClose(message)); }
   }
 }
 

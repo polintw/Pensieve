@@ -4,6 +4,7 @@ import {
   SET_UNITBROAD,
   SET_UNITINSPIRED,
   SET_MESSAGE_SINGLECLOSE,
+  SET_MESSAGE_BOOLEAN,
   MOUNT_USERINFO,
   UNIT_SUBMITTING_SWITCH,
   UPDATE_NOUNSBASIC,
@@ -30,6 +31,10 @@ export function setUnitCurrent(obj) {
 
 export function setMessageSingleClose(str) {
   return { type: SET_MESSAGE_SINGLECLOSE, messageSingleClose: str}
+};
+
+export function setMessageBoolean(obj) {
+  return { type: SET_MESSAGE_BOOLEAN, messageBoolean: obj}
 };
 
 export function setUnitBroad(obj) {

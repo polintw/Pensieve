@@ -25,6 +25,16 @@ export const unitCurrentInit = {
   createdAt: null
 }
 
+export const messageDialogInit= {
+  boolean: {
+    render: false,
+    customButton: null,
+    message: '',
+    handlerPositive: ()=>{},
+    handlerNegative: ()=>{}
+  }
+}
+
 //here, is the i18n language switch basic, just for the future usage
 //ideally the content in "catalog" should be empty, fill in when the root create the store using the data return from backend
 //so this is just a temp, lazy way to test this approach
@@ -66,6 +76,7 @@ export const i18nUIStringInit = {
      "descript_MatchNodes_demandTaken": "Some users' begun working on your wish!",
      "message_Main_duplicateTaking": "There has already been another corner taken on record. Giving up the current one if you wanted to take this new corner.",
      "hint_Process_MatchTaking": "submitting the corner you taked...",
-     "title_Main_matchTaking": ["Taken", "on list", "Give up"]
+     "title_Main_matchTaking": ["Taken", "on list", "Give up"],
+     "message_Main_MatchTakingGiveup": ["There are still ", "users on the list looking forward to any Share about ", ". Are you sure you want to give up the taken?"],
    }
 }

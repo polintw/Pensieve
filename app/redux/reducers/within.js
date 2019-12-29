@@ -4,6 +4,7 @@ import {
   SET_UNITCURRENT,
   SET_UNITINSPIRED,
   SET_MESSAGE_SINGLECLOSE,
+  SET_MESSAGE_BOOLEAN,
   SET_UNITBROAD,
   SET_FETCHFLAGS,
   UNIT_SUBMITTING_SWITCH,
@@ -46,6 +47,11 @@ function pageWithin(state = initialGeneral, action){
     case SET_MESSAGE_SINGLECLOSE:
       return Object.assign({}, state, {
         messageSingleClose: action.messageSingleClose
+      })
+      break;
+    case SET_MESSAGE_BOOLEAN:
+      return Object.assign({}, state, {
+        messageBoolean: action.messageBoolean
       })
       break;
     case SET_UNITBROAD:

@@ -12,13 +12,17 @@ import {
   axios_delete_matchSetting
 } from '../../utilsMatchNodes.js';
 import {
-  handleNounsList
+  handleNounsList,
+  setMessageBoolean
 } from "../../../../../redux/actions/general.js";
 import {
   setFlag,
   setIndexLists,
   setAxiosMatchTaking
 } from "../../../../../redux/actions/cosmic.js";
+import {
+  messageDialogInit
+} from "../../../../../redux/constants/globalStates.js";
 import {
   cancelErr,
   uncertainErr
@@ -29,13 +33,15 @@ class Taking extends React.Component {
     super(props);
     this.state = {
       axios: false,
-      demandCount: null
+      demandCount: null,
+      onNode: false
     };
     this.axiosSource = axios.CancelToken.source();
     this._fetch_List = this._fetch_List.bind(this);
     this._submit_giveup = this._submit_giveup.bind(this);
     this._render_matchTaking = this._render_matchTaking.bind(this);
     this._handleClick_taken_giveUp = this._handleClick_taken_giveUp.bind(this);
+    this._handleMouseOn_Node = ()=> this.setState((prevState,props)=>{return {onNode: prevState.onNode?false:true}});
     this.style={
 
     }
@@ -45,11 +51,25 @@ class Taking extends React.Component {
     event.preventDefault();
     event.stopPropagation();
 
-    if(this.props.axiosMatchTaking) return; //for this component, allow only one process at a period
-
+    if(this.props.axiosMatchTaking || this.state.axios) return; //block if submit something or during GET
     // boolean message to confirm, which in top component, recieving obj as custom setting
-    // and use _submit_giveup as positive action
+    const self = this, //the handler need to pass to the reducer and then the Dialog, the 'this' would be different
+          nodeId = this.props.indexLists.demandTake[0];
+    let dialogMessage =
+        this.props.i18nUIString.catalog['message_Main_MatchTakingGiveup'][0]+
+        this.state.demandCount+
+        this.props.i18nUIString.catalog['message_Main_MatchTakingGiveup'][1]+
+        this.props.nounsBasic[nodeId].name+
+        this.props.i18nUIString.catalog['message_Main_MatchTakingGiveup'][2];
 
+    let messageObj = {
+      render: true,
+      customButton: "submitting",
+      message: dialogMessage,
+      handlerPositive: ()=>{self._submit_giveup(nodeId);self.props.setMessageBoolean(messageDialogInit.boolean);},
+      handlerNegative: ()=>{self.props.setMessageBoolean(messageDialogInit.boolean);} // reset messageBoolean if user regret
+    }
+    this.props._set_MessageBoolean(messageObj);
   }
 
   _submit_giveup(nodeId){
@@ -60,8 +80,8 @@ class Taking extends React.Component {
     axios_delete_matchSetting(this.axiosSource.token, 'taking', {'takingList': this.props.indexLists.demandTake})
     .then((resObj)=>{
       self.props._set_axios_MatchTaking(false); //set axiosMatchTaking back
-      //if succeed, just refresh the list locally
-      self._fetch_List();
+      self._fetch_List(); //if succeed, just refresh the list locally
+      //no need to reset local axios, in case the _fetch_List would set it again
     })
     .catch(function (thrown) {
       self.setState({axios: false});
@@ -105,7 +125,6 @@ class Taking extends React.Component {
       this._fetch_List();
       this.props._submit_FlagSwitch(['flagTakingRefresh']); //set flag back to dafault
     }
-
   }
 
   componentDidMount() {
@@ -126,10 +145,26 @@ class Taking extends React.Component {
           <div>
             <div>
               <span>{this.props.i18nUIString.catalog["title_Main_matchTaking"][0]}</span>
-              <span>
-                {nodeId in this.props.nounsBasic ? (
-                  this.props.nounsBasic[nodeId].name) : (null)}
-              </span>
+              <Link
+                to={"/cosmic/nodes/"+nodeId}
+                className={classnames('plainLinkButton')}
+                onMouseEnter={this._handleMouseOn_Node}
+                onMouseLeave={this._handleMouseOn_Node}>
+                <div
+                  className={classnames()}>
+                  {
+                    this.state.onNode &&
+                    <span style={{
+                        width: '74%', position: 'absolute', bottom: '10%', left: '5%',
+                        borderBottom: 'solid 1px #ff7a5f'
+                      }}/>
+                  }
+                  <span>
+                    {nodeId in this.props.nounsBasic ? (
+                      this.props.nounsBasic[nodeId].name) : (null)}
+                  </span>
+                </div>
+              </Link>
             </div>
             <div>
               <span>
@@ -183,6 +218,7 @@ const mapDispatchToProps = (dispatch) => {
     _submit_IndexLists: (listsObj) => { dispatch(setIndexLists(listsObj)); },
     _submit_FlagSwitch: (target) => { dispatch(setFlag(target)); },
     _set_axios_MatchTaking: () => { dispatch(setAxiosMatchTaking()); },
+    _set_MessageBoolean: (obj) => { dispatch(setMessageBoolean(obj));},
   }
 }
 

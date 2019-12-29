@@ -20,7 +20,7 @@ function _handle_GET_matchNodes_demand(req, res){
 
     _DB_nodesDemandMatch.findAll({
       where: {
-        [Op.ne]: null
+        list_demand: {[Op.ne]: null}
       },
       order: [
         [Sequelize.fn('RAND')] //"RAND" is order for 'random' selection specific for mySQL
