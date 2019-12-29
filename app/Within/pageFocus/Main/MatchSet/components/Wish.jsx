@@ -16,7 +16,8 @@ import {
 } from '../../utilsMatchNodes.js';
 import {
   updateNodesBasic,
-  handleNounsList
+  handleNounsList,
+  setMessageSingleClose
 } from '../../../../../redux/actions/general.js'
 import {
   setFlag
@@ -134,7 +135,9 @@ class Wish extends React.Component {
         cancelErr(thrown);
       } else {
         let message = uncertainErr(thrown);
-        if(message) alert(message);
+        if(message== "message_Main_forbbidenWish" )
+          self.props._set_MessageSinClose(self.props.i18nUIString.catalog["message_Main_forbbidenWish"])
+        else if(message.length > 0) alert(message); //end of 'if'
       }
     });
   }
@@ -201,6 +204,7 @@ const mapDispatchToProps = (dispatch) => {
     _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
     _submit_Nodes_insert: (obj) => { dispatch(updateNodesBasic(obj)); },
     _submit_FlagSwitch: (target) => { dispatch(setFlag(target)); },
+    _set_MessageSinClose: (obj) => { dispatch(setMessageSingleClose(str));},
   }
 }
 

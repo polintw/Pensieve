@@ -70,13 +70,16 @@ export const i18nUIStringInit = {
      "catagory_MatchNodes_wished": ["Wish", "Wish·Order"],
 
      "title_Main_matchDemand": "Picking a corner, Sharing the thing you know.",
+     "title_Main_matchSupply": "Corners incubating...",
      "title_Main_matchWilling": "corners you are willing to dedicate: ",
      "catagory_MatchNodes_willing": ["set", "dedicated corner"],
      "submit_remove": "remove",
      "descript_MatchNodes_demandTaken": "Some users' begun working on your wish!",
      "message_Main_duplicateTaking": "There has already been another corner taken on record. Giving up the current one if you wanted to take this new corner.",
+     "message_Main_forbbidenWish": "The Wish bucket allow an Order with/or up to 3 wishes. You have to remove some of them before making another one.",
      "hint_Process_MatchTaking": "submitting the corner you taked...",
      "title_Main_matchTaking": ["Taken", "on list", "Give up"],
      "message_Main_MatchTakingGiveup": ["There are still ", "users on the list looking forward to any Share about ", ". Are you sure you want to give up the taken?"],
+     "link_Main_matchSupplyAction": ["Order", "list me"]
    }
 }

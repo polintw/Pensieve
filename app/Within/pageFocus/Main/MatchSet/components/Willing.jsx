@@ -12,7 +12,7 @@ import {
   axios_get_desire_list,
   axios_get_nodesStatus,
   axios_delete_matchSetting,
-  axios_patch_willing,
+  axios_patch_submitList,
   axios_post_taking
 } from '../../utilsMatchNodes.js';
 import {
@@ -95,7 +95,7 @@ class Willing extends React.Component {
       return {axios: true};
     });
     //
-    axios_patch_willing(self.axiosSource.token, {"willingList": [nodeBasic.id]})
+    axios_patch_submitList(self.axiosSource.token, "willing", {"willingList": [nodeBasic.id]})
     .then((resObj)=>{
       //if succeed, just refresh the list
       self._fetch_List();

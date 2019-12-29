@@ -117,6 +117,27 @@ export function axios_delete_matchSetting(cancelToken, onPath, submitData){
   });
 }
 
+export function axios_patch_submitList(cancelToken, onPath, submitData){
+  let url = '/router/matchNodes/setting/'+onPath;
+
+  return axios({
+    url:url,
+    method: "patch",
+    headers: {
+      'charset': 'utf-8',
+      'token': window.localStorage['token']
+    },
+    data: submitData,
+    cancelToken: cancelToken
+  }).then(function (res) {
+    let resObj = JSON.parse(res.data);
+
+    return resObj;
+  }).catch(function (thrown) {
+    throw thrown;
+  });
+}
+
 export function axios_patch_wish_make(cancelToken, nodeId, source){
   let url = '/router/matchNodes/setting/wish';
 
@@ -129,27 +150,6 @@ export function axios_patch_wish_make(cancelToken, nodeId, source){
     },
     params: !!source? {order: true} : {},
     data: {'wishList': [nodeId]},
-    cancelToken: cancelToken
-  }).then(function (res) {
-    let resObj = JSON.parse(res.data);
-
-    return resObj;
-  }).catch(function (thrown) {
-    throw thrown;
-  });
-}
-
-export function axios_patch_willing(cancelToken, submitData){
-  let url = '/router/matchNodes/setting/willing';
-
-  return axios({
-    url:url,
-    method: "patch",
-    headers: {
-      'charset': 'utf-8',
-      'token': window.localStorage['token']
-    },
-    data: submitData,
     cancelToken: cancelToken
   }).then(function (res) {
     let resObj = JSON.parse(res.data);
