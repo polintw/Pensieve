@@ -1,18 +1,13 @@
 import React from 'react';
 import {
-  Route,
-  Switch,
   Link,
   withRouter,
-  Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import BelongOptions from './BelongOptions/BelongOptions.jsx';
+import BelongOptions from '../BelongOptions/BelongOptions.jsx';
 import CreateShare from '../../../../../Component/CreateShare.jsx';
-import {NodeSearchModule} from '../../../../../Component/NodeSearchModule.jsx';
-import {updateNodesBasic} from '../../../../../redux/actions/general.js'
 
 
 class BelongbyType extends React.Component {
@@ -26,7 +21,6 @@ class BelongbyType extends React.Component {
     this._render_type = this._render_type.bind(this);
     this._render_type_used = this._render_type_used.bind(this);
     this._render_nodeLink = this._render_nodeLink.bind(this);
-    this._set_choiceFromSearch = this._set_choiceFromSearch.bind(this);
     this._handleClick_belongSetting = this._handleClick_belongSetting.bind(this);
     this._handleMouseOn_Node = ()=> this.setState((prevState,props)=>{return {onNode: prevState.onNode?false:true}});
     this._handleMouseOn_Type = ()=> this.setState((prevState,props)=>{return {onType: prevState.onType?false:true}});
@@ -45,27 +39,6 @@ class BelongbyType extends React.Component {
 
   _submit_Share_New(dataObj){
     window.location.assign('/user/cognition/actions/shareds/unit?theater&unitId='+dataObj.unitId);
-  }
-
-  _set_choiceFromSearch(nodeBasic){
-    //create obj to fit the format of state in redux
-    let insertObj = {};
-    insertObj[nodeBasic.id] = nodeBasic;
-
-    //pass the node basic into redux first,
-    //so the handler would not need to fetch node data from db again
-    this.props._submit_Nodes_insert(insertObj);
-    //no need to fetch node data from db again for any condition gave the choice a non-false value
-    //has already save the data of node in reducer.
-
-    //and pass the choice to
-    this.props._set_choiceAnType(nodeBasic.id, this.props.type);
-
-    this.setState((prevState,props)=>{
-      return {
-        settingModal: false
-      };
-    });
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -218,7 +191,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    _submit_Nodes_insert: (obj) => { dispatch(updateNodesBasic(obj)); },
+
   }
 }
 

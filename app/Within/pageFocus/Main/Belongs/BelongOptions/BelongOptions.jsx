@@ -1,51 +1,20 @@
 import React from 'react';
 import {
-  Route,
-  Switch,
   Link,
   withRouter,
-  Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import {updateNodesBasic} from '../../../redux/actions/general.js'
-import ChoiceDialog from '../../../Component/Dialog/ChoiceDialog/ChoiceDialog.jsx';
-import {NodeSearchModule} from '../../../Component/NodeSearchModule.jsx';
-import ModalBox from '../../../Component/ModalBox.jsx';
-import ModalBackground from '../../../Component/ModalBackground.jsx';
+import {updateNodesBasic} from '../../../../../redux/actions/general.js'
+import {NodeSearchModule} from '../../../../../Component/NodeSearchModule.jsx';
 import {
   cancelErr,
   uncertainErr
-} from "../../../utils/errHandlers.js";
+} from "../../../../../utils/errHandlers.js";
 import {
   handleNounsList
-} from "../../../redux/actions/general.js";
-
-const optionsType= [{name: "residence"}, {name: "hometown"}, {name: "stay"}];
-
-const optionItem = (nodeId, self)=>{
-  return (
-    <div
-      key={"key_Belong_options_"+nodeId}
-      nodeid={nodeId}
-      className={classnames(styles.boxOption, styles.fontOption)}
-      style={(self.state.onOption== nodeId) ? {
-        backgroundColor:'rgb(255,255,255)',boxShadow: '0 0 1px rgb(255,122,95)'
-      }:{}}
-      onClick={(e)=>{e.stopPropagation();e.preventDefault(); self._set_choice(e.currentTarget.getAttribute('nodeid'));self._set_Dialog();}}
-      onMouseEnter={self._handleEnter_optionBelong}
-      onMouseLeave={self._handleLeave_optionBelong}>
-      <span
-        className={styles.spanOption}>
-        {nodeId in self.props.nounsBasic ? (
-          self.props.nounsBasic[nodeId].name) : (
-            null
-          )}
-      </span>
-    </div>
-  )
-}
+} from "../../../../../redux/actions/general.js";
 
 class BelongOptions extends React.Component {
   constructor(props){
@@ -53,23 +22,15 @@ class BelongOptions extends React.Component {
     this.state = {
       axios: false,
       onOption: false, //for mouse enter interaction
-      onSearch: false,
-      choice: null, //record the chosen node
-      dialog: false, //whether dialog opened
       options: []
     };
     this.axiosSource = axios.CancelToken.source();
     this._render_Options = this._render_Options.bind(this);
-    this._render_DialogMessage = this._render_DialogMessage.bind(this);
-    this._handlesubmit_newBelong = this._handlesubmit_newBelong.bind(this);
     this._handleEnter_optionBelong = this._handleEnter_optionBelong.bind(this);
     this._handleLeave_optionBelong = this._handleLeave_optionBelong.bind(this);
-    this._handleMouseOn_optionSearch = ()=> this.setState((prevState,props)=>{return {onSearch: prevState.onSearch?false:true}});
+    this._handleClick_SubmitvonOpions = this._handleClick_SubmitvonOpions.bind(this);
     this._axios_GET_belongOptions = this._axios_GET_belongOptions.bind(this);
-    this._axios_PATCH_belongRecords = this._axios_PATCH_belongRecords.bind(this);
     this._set_choiceFromSearch = this._set_choiceFromSearch.bind(this);
-    this._set_choice = (choice)=> this.setState({choice: choice});
-    this._set_Dialog = ()=> this.setState((prevState,props)=>{ return {dialog: prevState.dialog? false:true};});
     this.style={
 
     }
@@ -87,6 +48,16 @@ class BelongOptions extends React.Component {
     })
   }
 
+  _handleClick_SubmitvonOpions(e){
+    e.stopPropagation();
+    e.preventDefault();
+    //the submit from option was different from the one from NodeSearchModule,
+    //it is alredy has record in reducer(nounsBasic) and only knew the id
+    //so we pass it separately as well.
+    this.props._set_choiceAnType(e.currentTarget.getAttribute('nodeid'), this.props.type);
+    this.props._set_settingModal();
+  }
+
   _set_choiceFromSearch(nodeBasic){
     //create obj to fit the format of state in redux
     let insertObj = {};
@@ -97,13 +68,10 @@ class BelongOptions extends React.Component {
     this.props._submit_Nodes_insert(insertObj);
     //no need to fetch node data from db again for any condition gave the choice a non-false value
     //has already save the data of node in reducer.
-    this.setState((prevState,props)=>{
-      return {
-        choice: nodeBasic.id,
-        dialog: true,
-        search: false
-      };
-    });
+
+    //and pass the choice to
+    this.props._set_choiceAnType(nodeBasic.id, this.props.type);
+    this.props._set_settingModal();
   }
 
   _axios_GET_belongOptions(){
@@ -141,52 +109,6 @@ class BelongOptions extends React.Component {
   }
 
 
-  _axios_PATCH_belongRecords(submitObj,callback){
-    this.setState({axios: true});
-    const self = this;
-
-    axios({
-      method: 'patch',
-      url: '/router/profile/sheetsNodes',
-      headers: {
-        'charset': 'utf-8',
-        'token': window.localStorage['token']
-      },
-      cancelToken: self.axiosSource.cancelToken,
-      data: submitObj
-    }).then(function (res) {
-      self.setState({axios: false});
-      callback();
-    }).catch(function (thrown) {
-      self.setState({axios: false});
-      if (axios.isCancel(thrown)) {
-        cancelErr(thrown);
-      } else {
-        let message = uncertainErr(thrown);
-        if(message) alert(message);
-      }
-    });
-  }
-
-  _handlesubmit_newBelong(type){
-    //close the Dialog, make sure the passed data(match type) would not dissapear
-    //post new submit passed from Dialog
-
-    //lock the options at the same time by detect axios state
-    //final inform parent refresh the com
-
-    let objBelong = {};
-    //we use the const 'optionsType' claim in this file
-    //to avoid type dissapear if the dialog unmount first
-    optionsType.forEach((obj,index)=>{
-      if(obj.name==type) objBelong[optionsType[index].name]= this.state.choice;
-    });
-
-    this._set_Dialog();
-    this._axios_PATCH_belongRecords({belong: objBelong}, this.props._set_refresh);
-
-  }
-
   componentDidUpdate(prevProps, prevState, snapshot){
 
   }
@@ -202,29 +124,37 @@ class BelongOptions extends React.Component {
     }
   }
 
-  _render_DialogMessage(){
-    let messageList = [
-      {text: this.props.i18nUIString.catalog['messageChoiceBelong'][0], style: 'regular'},
-      {text: this.props.nounsBasic[this.state.choice].name, style: 'italic'},
-      {text: this.props.i18nUIString.catalog['messageChoiceBelong'][1], style:'regular'}
-    ];
-
-    return messageList;
-  }
-
   _render_Options(){
-    let items = this.state.options.map((nodeId, index)=>{
-      return optionItem(nodeId, this);
+    let itemsDOM = this.state.options.map((nodeId, index)=>{
+      return (
+        <div
+          key={"key_Belong_options_"+nodeId}
+          nodeid={nodeId}
+          className={classnames(styles.boxAOption, styles.fontOption)}
+          style={(this.state.onOption== nodeId) ? {
+            backgroundColor:'rgb(255,255,255)',boxShadow: '0 0 1px rgb(255,122,95)'
+          }:{}}
+          onClick={this._handleClick_SubmitvonOpions}
+          onMouseEnter={this._handleEnter_optionBelong}
+          onMouseLeave={this._handleLeave_optionBelong}>
+          <span
+            className={styles.spanOption}>
+            {nodeId in this.props.nounsBasic ? (
+              this.props.nounsBasic[nodeId].name) : (
+                null
+              )}
+          </span>
+        </div>
+      );
     });
 
-    return items;
+    return itemsDOM;
   }
 
   render(){
     return(
       <div
         className={classnames(styles.comBelongOptions)}>
-
         <div
           className={classnames(styles.boxTypeSetting)}>
           <span
@@ -241,27 +171,11 @@ class BelongOptions extends React.Component {
           _set_nodeChoice={this._set_choiceFromSearch}
           _set_SearchModal_switch={this.props._set_settingModal}
           _handleClick_SearchModal_switch={(e)=>{e.preventDefault();e.stopPropagation();this.props._set_settingModal();}}/>
+        <div
+          className={classnames(styles.boxOptions)}>
+          {this._render_Options()}
+        </div>
 
-        {this._render_Options()}
-
-
-        {
-          this.state.dialog &&
-          //should give it a 'dark' bg, position near the BelongOptions itself
-          <ModalBox containerId="root">
-            <ModalBackground onClose={()=>{this._set_Dialog();}} style={{position: "fixed", backgroundColor: 'rgba(52, 52, 52, 0.36)'}}>
-              <div
-                className={styles.boxDialog}>
-                <ChoiceDialog
-                  optionsList={optionsType}
-                  leavingChoice={'cancel'}
-                  message={this._render_DialogMessage()}
-                  _leavingHandler={this.props._set_refresh}
-                  _submitHandler={this._handlesubmit_newBelong}/>
-              </div>
-            </ModalBackground>
-          </ModalBox>
-        }
       </div>
     )
   }

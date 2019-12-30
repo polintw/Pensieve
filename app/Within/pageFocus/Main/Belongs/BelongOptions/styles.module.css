@@ -1,30 +1,46 @@
 .comBelongOptions {
+
+}
+
+.boxTypeSetting {
+  display: inline-block;
+  position: absolute;
+  left: 25%;
+  top: 1rem;
+  transform: translate(-50%, 0);
+}
+
+
+.boxOptions {
   display: flex;
   flex-wrap: nowrap;
   align-items: baseline;
   justify-content: space-between;
 }
 
-.boxOption {
+.boxAOption {
   display: inline-block;
   box-sizing: border-box;
   padding: 0 2%;
 }
 
-.boxDialog {
-  width: 467px;
-  position: absolute;
-  top: 39%;
-  left: 52%;
-  transform: translate(-50%,-50%);
-  box-sizing: border-box;
-  box-shadow: 1px 2px 3px 0;
-  border-radius: 1rem;
-  background-color: white;
-}
-
 .spanOption {
   cursor: pointer;
+}
+
+.spanType { /*should consider sync with style of BelongbyType*/
+  margin: 0 0.4rem;
+}
+
+.fontType { /* keep it related to fontDescript in MainBanner*/
+  font-size: 1.37rem;
+  letter-spacing: 0.07rem;
+  line-height: 2rem;
+  color: rgb(110, 110, 110);
+}
+
+.fontOnType {
+  color: #000000;
 }
 
 .fontOption {

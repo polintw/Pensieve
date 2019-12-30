@@ -58,7 +58,6 @@ class Belongs extends React.Component {
   }
 
   _set_choiceAnType(choice, type){
-
     this.setState({
       dialog: true,
       chosenNode: choice,

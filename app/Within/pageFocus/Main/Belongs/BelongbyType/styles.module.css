@@ -38,14 +38,6 @@
   z-index: 1;
 }
 
-.boxTypeSetting {
-  display: inline-block;
-  position: absolute;
-  left: 25%;
-  top: 1rem;
-  transform: translate(-50%, 0);
-}
-
 .spanNode {
   display: inline-block;
   position: relative;
