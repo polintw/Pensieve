@@ -5,7 +5,8 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
-import styles from "../styles.module.css"; //Notice, we use shared css file here for easier control
+import styles from './styles.module.css';
+import stylesMain from "../styles.module.css"; //Notice, we use shared css file here for easier control
 import {
   axios_Units,
 } from '../utils.js';
@@ -140,12 +141,11 @@ class Broads extends React.Component {
   render(){
     return (this.props.indexLists['broads'].length > 0) ? (
       <div
-        className={classnames(styles.rowBroads)}>
+        className={classnames(styles.comBroads)}>
         <div
-          className={classnames(styles.boxRowTitle)}
-          style={{textAlign: 'right'}}>
+          className={classnames(styles.boxBillboard)}>
           <span
-            className={classnames(styles.spanTitle, styles.fontTitle)}>
+            className={classnames(styles.spanBillboard, stylesMain.fontTitle)}>
             {this.props.i18nUIString.catalog["title_Main_Broads"]}</span>
         </div>
         <div
@@ -155,15 +155,14 @@ class Broads extends React.Component {
       </div>
     ):(
       <div
-        className={classnames(styles.rowBroads)}>
+        className={classnames(styles.comBroads)}>
         <div
-          className={classnames(styles.boxRowTitle)}>
+          className={classnames(styles.boxBillboard)}>
           <span
-            className={classnames(styles.spanTitle, styles.fontTitle)}>
+            className={classnames(styles.spanBillboard, stylesMain.fontTitle)}>
             {this.props.i18nUIString.catalog["guidingBroad_atMain"]}</span>
         </div>
       </div>
-
     )
   }
 }

@@ -188,6 +188,7 @@ class MainList extends React.Component {
   render(){
     return(
       <div
+        className={styles.comMainList}
         ref={this.refScroll}>
         {this._render_IndexNails()}
         <div

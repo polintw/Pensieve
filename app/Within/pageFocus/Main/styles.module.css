@@ -8,26 +8,19 @@
 
 .boxRow {
   width: 100%;
-  margin: 5vw 0 7.5vw;
+  margin: 5vw 0 5vw;
 }
 
-.boxRowBroads {
-  position: relative;
-  box-sizing: border-box;
-}
-
-.boxRowTitle {
-  width: 100%;
+.boxRowTop {
+  width: 80vw; /*the only row not follow the heigher comp*/
   position: relative;
   transform: translate(-12.5%,0);
-  box-sizing: border-box;
+  margin: 0 0 5vw;
 }
 
-.boxRowScroll {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  width: 65vw;
+.boxList {
+  width: 100%;
+  margin: 5vw 0 0;
   position: relative;
   box-sizing: border-box;
 }
@@ -63,10 +56,6 @@
   height: 30vw;
 }
 
-.heightSix {
-  height: 20vw;
-}
-
 .boxFillHoriz {
   width: 99%;
   height: 15vw;
@@ -93,9 +82,4 @@
 
 .fontLink {
   font-size: 1.3rem;
-}
-
-.fontWikiIntro {
-  font-size: 1.45rem;
-  line-height: 1.84rem;
 }

@@ -22,7 +22,7 @@ class Focus extends React.Component {
         boxSizing: 'border-box'
       },
       withinCom_CosmicMain_index_: {
-        width: '80vw',
+        width: '65vw',
         minWidth: '890px',
         position: 'absolute',
         top: '3.4rem',

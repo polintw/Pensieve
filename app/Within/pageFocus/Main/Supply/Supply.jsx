@@ -10,6 +10,7 @@ import SupplyNode from './SupplyNode.jsx'
 import {
   axios_get_options,
   axios_get_nodesStatus,
+  axios_get_desire_list,
   axios_patch_wish_make,
   axios_patch_submitList,
   axios_delete_matchSetting

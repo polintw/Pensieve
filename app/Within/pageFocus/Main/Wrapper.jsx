@@ -137,15 +137,18 @@ class Wrapper extends React.Component {
       <div>
         <div
           className={classnames(styles.comMainWrapper)}>
+
           <div
-            className={classnames(styles.boxRowTitle)}>
+            className={classnames(styles.boxRowTop)}>
             <MainTitle
               lastVisit={this.state.lastVisit}
               _refer_von_cosmic={this.props._refer_von_cosmic}/>
           </div>
-
-          <DemandTake
-            _refer_von_cosmic={this.props._refer_von_cosmic}/>
+          <div
+            className={classnames(styles.boxRow)}>
+            <DemandTake
+              _refer_von_cosmic={this.props._refer_von_cosmic}/>
+          </div>
           {
             (this.props.indexLists.listCustomNew.length> 0) &&
             <div
@@ -154,9 +157,12 @@ class Wrapper extends React.Component {
                 {...this.props}/>
             </div>
           }
-          <MatchSet
-            _refer_von_cosmic={this.props._refer_von_cosmic}/>
-          <Supply/>
+          <div
+            className={classnames(styles.boxRow)}>
+            <MatchSet
+              _refer_von_cosmic={this.props._refer_von_cosmic}/>
+            <Supply/>
+          </div>
           {
             (this.props.indexLists.listNew.length> 0) &&
             <div
@@ -166,13 +172,13 @@ class Wrapper extends React.Component {
             </div>
           }
           <div
-            className={classnames(styles.boxRow, styles.boxRowBroads)}>
+            className={classnames(styles.boxRow)}>
             <Broads
               {...this.props}
               _set_mountToDo={this._set_mountToDo}/>
           </div>
           <div
-            className={styles.boxRowScroll}>
+            className={styles.boxList}>
             <MainList
               {...this.props}
               _set_mountToDo={this._set_mountToDo}/>
