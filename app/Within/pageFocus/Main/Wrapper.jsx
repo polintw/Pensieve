@@ -159,9 +159,15 @@ class Wrapper extends React.Component {
           }
           <div
             className={classnames(styles.boxRow)}>
-            <MatchSet
-              _refer_von_cosmic={this.props._refer_von_cosmic}/>
-            <Supply/>
+            <div
+              className={classnames(styles.boxMatchSet)}>
+              <MatchSet
+                _refer_von_cosmic={this.props._refer_von_cosmic}/>
+            </div>
+            <div
+              className={classnames(styles.boxRowFlat)}>
+              <Supply/>
+            </div>
           </div>
           {
             (this.props.indexLists.listNew.length> 0) &&

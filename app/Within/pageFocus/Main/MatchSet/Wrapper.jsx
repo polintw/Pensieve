@@ -7,6 +7,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
+import stylesMain from "../styles.module.css"; //Notice, we use shared css file here for easier control
 import Wish from './components/Wish.jsx';
 import Willing from './components/Willing.jsx';
 import Belongs from '../Belongs/Belongs.jsx';
@@ -29,7 +30,7 @@ class Wrapper extends React.Component {
     e.preventDefault();
     //distinguish which one clicked
     let sideDelta = (e.currentTarget.getAttribute('side') == 'left') ? (-1) : 1;
-    thie.setState((prevState, props)=>{
+    this.setState((prevState, props)=>{
       let nextDisplay = prevState.display + sideDelta;
       //no change if already at the boundry
       if(nextDisplay < 0 || nextDisplay> 2) nextDisplay = prevState.display;
@@ -78,14 +79,20 @@ class Wrapper extends React.Component {
   render(){
     return(
       <div
-        className={classnames()}>
+        className={classnames(styles.wrapperMatchSet)}>
         {this._render_panel()}
         <div
           side={'left'}
-          onClick={this._handleClick_set_display}/>
+          className={classnames(
+            styles.boxSideControl)}
+          style={{left: '0'}}
+          onClick={this._handleClick_set_display}>{"〈"}</div>
         <div
           side={'right'}
-          onClick={this._handleClick_set_display}/>
+          className={classnames(
+            styles.boxSideControl)}
+          style={{right: '0'}}
+          onClick={this._handleClick_set_display}>{"〉"}</div>
       </div>
     )
   }

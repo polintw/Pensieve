@@ -6,7 +6,8 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
-import styles from "./styles.module.css";
+import styles from './styles.module.css';
+import stylesMain from "../styles.module.css"; //Notice, we use shared css file here for easier control
 import {
   axios_Units,
   nailChart,
@@ -112,9 +113,16 @@ class NewSharedCustom extends React.Component {
 
   render(){
     return(
-      <div>
-        <div>{"title"}</div>
-        <div>
+      <div
+        className={classnames(styles.comNewSharedCust)}>
+        <div
+          className={classnames(styles.boxBillboard)}>
+          <span
+            className={classnames(styles.spanBillboard, stylesMain.fontTitle)}>
+            {this.props.i18nUIString.catalog["title_Main_NewCust"]}</span>
+        </div>
+        <div
+          className={classnames(styles.boxUnits)}>
           {this._render_unitsCustomNew()}
         </div>
       </div>

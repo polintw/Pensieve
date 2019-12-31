@@ -1,0 +1,24 @@
+.wrapperMatchSet {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.boxSideControl {
+  position: absolute;
+  top: 50%;
+  cursor: pointer;
+}
+
+.boxRowList {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
+.boxSubTitle {
+
+}

@@ -6,6 +6,8 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
+import styles from './styles.module.css';
+import stylesMain from "../styles.module.css"; //Notice, we use shared css file here for easier control
 import SupplyNode from './SupplyNode.jsx'
 import {
   axios_get_options,

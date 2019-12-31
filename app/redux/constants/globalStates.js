@@ -56,13 +56,14 @@ export const i18nUIStringInit = {
      "messageBelongChoiceinBool": ["site ", "  as your  ", "  place?"],
      "hintEmptyNode": "This Corner is still Waiting to be explored. Be the first one to wonder and wander!",
      /*"titleBannerBelong": "new shared.",
-     "titleBannerRest": "newly arrived or selected.",
 
      removed part in Main
      */
-     "title_Main_Broads": "or, here are some broaded by users.",
+     "title_Main_Broads": "Broaded by users",
      "catagory_MatchNodes_wished": ["Wish", "Wish·Order"],
 
+     "title_Main_NewCust": "New for you",
+     "title_Main_OtherNew": "Newly arrived",
      "title_Main_matchDemand": "Picking a corner, Sharing the thing you know.",
      "title_Main_matchSupply": "Corners incubating...",
      "title_Main_matchWilling": "corners you are willing to dedicate: ",

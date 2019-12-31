@@ -1,0 +1,23 @@
+.comNewShared {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.boxBillboard {
+  display: inline-block;
+  width: 20vw;
+  margin-top: 15vw; /*half of Nail's height*/
+}
+
+.spanBillboard {
+
+}
+
+.boxUnits {
+  display: inline-flex;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+  flex-wrap: wrap;
+  width: 42.5vw;
+}

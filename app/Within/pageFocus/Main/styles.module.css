@@ -18,6 +18,17 @@
   margin: 0 0 5vw;
 }
 
+.boxRowFlat {
+  width:100%;
+}
+
+.boxMatchSet{
+  width: 100%;
+  height: 16rem;
+  box-sizing: border-box;
+  padding: 20px 0;
+}
+
 .boxList {
   width: 100%;
   margin: 5vw 0 0;
@@ -72,6 +83,10 @@
   font-size: 2.2rem;
   font-weight: 500;
   letter-spacing: 0.064rem;
+}
+
+.fontSubTitle {
+  
 }
 
 .fontDescript { /* keep it related to fontType in BannerBelong*/

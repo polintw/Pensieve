@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
-
+import stylesMatch from '../styles.module.css';
 import NodeWished from './NodeWished.jsx'
 import {
   axios_get_desire_list,
@@ -183,7 +183,7 @@ class Wish extends React.Component {
   render(){
     return(
       <div
-        className={classnames()}>
+        className={classnames(stylesMatch.boxRowList)}>
         {this._render_Wished()}
       </div>
     )

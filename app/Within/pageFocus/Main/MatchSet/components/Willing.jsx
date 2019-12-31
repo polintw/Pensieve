@@ -6,7 +6,8 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
-
+import stylesMatch from '../styles.module.css';
+import stylesMain from "../../styles.module.css"; //Notice, we use shared css file here for easier control
 import NodeWilling from './NodeWilling.jsx'
 import {
   axios_get_desire_list,
@@ -179,12 +180,13 @@ class Willing extends React.Component {
 
   render(){
     return(
-      <div
-        className={classnames()}>
-        <div>
+      <div>
+        <div
+          className={classnames(stylesMatch.boxSubTitle, stylesMain.fontSubTitle)}>
           {this.props.i18nUIString.catalog["title_Main_matchWilling"]}
         </div>
-        <div>
+        <div
+          className={classnames(stylesMatch.boxRowList)}>
           {this._render_WillingList()}
         </div>
       </div>
