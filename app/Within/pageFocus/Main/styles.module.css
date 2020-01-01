@@ -86,7 +86,7 @@
 }
 
 .fontSubTitle {
-  
+
 }
 
 .fontDescript { /* keep it related to fontType in BannerBelong*/
@@ -95,6 +95,14 @@
   line-height: 2rem;
 }
 
-.fontLink {
+.fontLink { /*usually a single or a few words represent link, to a certain page*/
   font-size: 1.3rem;
+}
+
+.fontOption { /*mainly the corner's name in an option list*/
+  white-space: pre-line;
+}
+
+.fontSubmit { /*the 'submit action' usually line up beneath a node*/
+
 }

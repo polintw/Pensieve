@@ -196,6 +196,8 @@ class Supply extends React.Component {
           _submit_waiting_remove={this._submit_waiting_remove}/>
       )
     })
+    //though the api res a limit amount of list, we still limit it again here
+    itemsDOM = itemsDOM.slice(0, 9);
 
     return itemsDOM;
   }
@@ -203,11 +205,13 @@ class Supply extends React.Component {
   render(){
     return(
       <div
-        className={classnames()}>
-        <div>
+        className={classnames(styles.comSupply)}>
+        <div
+          className={classnames(styles.boxOptions)}>
           {this._render_SupplyOptions()}
         </div>
-        <div>
+        <div
+          className={classnames(styles.boxSubTitle, stylesMain.fontSubTitle)}>
           {
             //this sentence, considering overlap one row of the options, similar to Demand
             this.props.i18nUIString.catalog["title_Main_matchSupply"]}

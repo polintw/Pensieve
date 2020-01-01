@@ -22,3 +22,29 @@
 .boxSubTitle {
 
 }
+
+.boxWilling {
+  width: 100%;
+}
+
+.boxNode {
+
+}
+
+.boxNodeLink {
+  align-items: center;
+}
+
+.boxNodeSubmit {
+
+}
+
+.boxNodeName{
+  display: inline-block;
+}
+
+.boxNodeWilling {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}

@@ -5,6 +5,8 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
+import styles from './styles.module.css';
+import stylesMain from "../styles.module.css"; //Notice, we use shared css file here for easier control
 
 class SupplyNode extends React.Component {
   constructor(props){
@@ -48,17 +50,15 @@ class SupplyNode extends React.Component {
   _render_submitButton(){
     return (
       <div
-        className={classnames()}
+        className={classnames(styles.boxNodeSubmit, stylesMain.fontSubmit)}
         onClick={this._handleClick_nodeSupply}>
         {
           this.props.supplyStatus ? (
-            <span
-              className={classnames()}>
+            <span>
               {this.props.i18nUIString.catalog['link_Main_matchSupplyAction'][0]}
             </span>
           ):(
-            <span
-              className={classnames()}>
+            <span>
               {this.props.i18nUIString.catalog['link_Main_matchSupplyAction'][1]}
             </span>
           )
@@ -73,11 +73,11 @@ class SupplyNode extends React.Component {
     return (
       <Link
         to={"/cosmic/nodes/"+nodeId}
-        className={classnames('plainLinkButton')}
+        className={classnames('plainLinkButton', styles.boxNodeLink)}
         onMouseEnter={this._handleMouseOn_Node}
         onMouseLeave={this._handleMouseOn_Node}>
         <div
-          className={classnames()}>
+          className={classnames(styles.boxNodeName, stylesMain.fontOption)}>
           {
             this.state.onNode &&
             <span style={{
@@ -97,7 +97,7 @@ class SupplyNode extends React.Component {
   render(){
     return(
       <div
-        className={classnames()}>
+        className={classnames(styles.boxNode)}>
         {this._render_nodeLink()}
         {this._render_submitButton()}
       </div>

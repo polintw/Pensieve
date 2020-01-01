@@ -1,0 +1,35 @@
+.comSupply {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.boxOptions {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.boxSubTitle {
+
+}
+
+.boxNode {
+  display: flex;
+  flex-direction: column;
+  align-items: right;
+}
+
+.boxNodeLink {
+  align-items: center;
+}
+
+.boxNodeSubmit {
+
+}
+
+.boxNodeName {
+  display: inline-block;
+}

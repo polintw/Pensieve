@@ -5,7 +5,8 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
-
+import stylesMatch from '../styles.module.css';
+import stylesMain from "../../styles.module.css"; //Notice, we use shared css file here for easier control
 import {NodeSearchModule} from '../../../../../Component/NodeSearchModule.jsx';
 
 
@@ -65,14 +66,14 @@ class NodeWilling extends React.Component {
 
     return (
       <div
-        className={classnames()}>
+        className={classnames(stylesMatch.boxNode)}>
         <Link
           to={"/cosmic/nodes/"+nodeId}
-          className={classnames('plainLinkButton')}
+          className={classnames('plainLinkButton', stylesMatch.boxNodeLink)}
           onMouseEnter={this._handleMouseOn_Node}
           onMouseLeave={this._handleMouseOn_Node}>
           <div
-            className={classnames()}>
+            className={classnames(stylesMatch.boxNodeName, stylesMain.fontOption)}>
             {
               this.state.onNode &&
               <span style={{
@@ -87,28 +88,32 @@ class NodeWilling extends React.Component {
           </div>
         </Link>
         <div
-          onClick={this._handleClick_willing_delete}>
-          <span>
-            {this.props.i18nUIString.catalog["submit_remove"]}
-          </span>
-        </div>
-        {
-          this.props.demandStatus &&
+          className={classnames(stylesMatch.boxNodeSubmit)}>
           <div
-            onClick={this._handleClick_nodeTaken}>
-            <span>{'take'}</span>
+            className={classnames(stylesMain.fontSubmit)}
+            onClick={this._handleClick_willing_delete}>
+            <span>
+              {this.props.i18nUIString.catalog["submit_remove"]}
+            </span>
           </div>
-        }
+          {
+            this.props.demandStatus &&
+            <div
+              className={classnames(stylesMain.fontSubmit)}
+              onClick={this._handleClick_nodeTaken}>
+              <span>{'take'}</span>
+            </div>
+          }
+        </div>
 
       </div>
     )
   }
 
   render(){
-
     return(
       <div
-        className={classnames()}>
+        className={classnames(stylesMatch.boxNodeWilling)}>
         {
           this.state.settingModal &&
           <div
@@ -134,6 +139,7 @@ class NodeWilling extends React.Component {
           this._render_nodeLink() :
           (
             <div
+              className={classnames(stylesMain.fontOption)}
               onClick={this._handleClick_willing_set}>
               <span>{this.props.i18nUIString.catalog["catagory_MatchNodes_willing"][0]}</span>
               <span>{this.props.i18nUIString.catalog["catagory_MatchNodes_willing"][1]}</span>
