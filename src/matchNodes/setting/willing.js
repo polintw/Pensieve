@@ -27,7 +27,7 @@ function _handle_PATCH_willing(req, res){
 
       await _DB_nodesDemandMatch.update(
         updateNode,
-        {where: {id_node: takingNodeId}}
+        {where: {id_node: willingNodeId}}
       ); //sequelize.update() would not return anything (as I know)
     }
 
@@ -42,12 +42,13 @@ function _handle_PATCH_willing(req, res){
         }).catch((err)=> {throw err});
 
     Promise.all([selectUserSide, selectNodeSide])
-    .then(([userRow, nodeRow])=>{
+    .then(([userRow, nodeResult])=>{
+      let nodeRow = nodeResult[0]; //the 'findOrCreate' return an 'array', which like '[instance, createdify(bool)]'
       //2 things: willing no more than 5, and if the user is 'available'
       let prevWillingNode = JSON.parse(userRow.list_willing),
           prevTakingNodes = JSON.parse(userRow.taking),
-          prevWillingList = JSON.parse(nodeRow.list_willing),
-          prevDemandUsers = JSON.parse(nodeRow.list_demand),
+          prevWillingList = nodeRow.list_willing? JSON.parse(nodeRow.list_willing): [], //in case the list was 'null'
+          prevDemandUsers = nodeRow.list_demand? JSON.parse(nodeRow.list_demand): [], //in case the list was 'null'
           prevTakingUsers = JSON.parse(nodeRow.list_taking);
       let newWillingNode = prevWillingNode.slice(),
           newWillingList = prevWillingList.slice(),

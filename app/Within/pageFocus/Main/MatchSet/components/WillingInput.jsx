@@ -51,13 +51,13 @@ class WillingInput extends React.Component {
         {
           this.state.settingModal &&
           <div
-            className={classnames()}>
+            className={classnames(stylesMatch.boxSettingModal)}>
             <div
-              className={classnames()}>
+              className={classnames(stylesMatch.boxSettingType)}>
               <span
-                className={classnames()}
+                className={classnames(stylesMatch.spanType, stylesMain.fontType)}
                 style={{lineHeight: '3rem'}}>
-                {this.props.i18nUIString.catalog["catagory_MatchNodes_willing"][1]}
+                {this.props.i18nUIString.catalog["catagory_MatchNodes_willing"][2]}
               </span>
             </div>
             <NodeSearchModule

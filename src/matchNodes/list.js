@@ -71,12 +71,12 @@ function _handle_GET_list_taking(req, res){
       if(!takenList[0]){
         return sendingData; //if no taking on the record, return to next step directly
       }
-      else{
+      else{ //and if the takinglist has something, we need to know the 'demand count'
         return _DB_nodesDemandMatch.findOne({
           where: {id_node: takenList[0]}
         })
         .then((nodeRow)=>{
-          let demandList = JSON.parse(nodeRow.list_demand),
+          let demandList = nodeRow.list_demand? JSON.parse(nodeRow.list_demand): [], //in case the list was 'null'
               waitingList = JSON.parse(nodeRow.list_waiting);
 
           sendingData.nodesList.push(nodeRow.id_node);

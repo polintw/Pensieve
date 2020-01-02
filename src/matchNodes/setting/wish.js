@@ -37,7 +37,7 @@ function _handle_PATCH_wish(req, res){
       .then(([nodeResult, created])=>{
         //when wished from user, we just put him/her into the list
         //that's all, no matter under what kind of condition now
-        let demandList = JSON.parse(nodeResult.list_demand);
+        let demandList = nodeResult.list_demand? JSON.parse(nodeResult.list_demand): []; //in case the list was 'null'
         if(demandList.indexOf(userId) <0){ //means the record was there in table, so the user would be new one to the list
           demandList.push(userId);
         };
@@ -142,7 +142,7 @@ function _handle_DELETE_wish(req, res){
     Promise.all([selectUserSide, selectNodeSide])
     .then(([userRow, nodeRow])=>{
       let prevWishedList = JSON.parse(userRow.list_wished), //it's saved as a 'string'
-          prevDemandList = JSON.parse(nodeRow.list_demand);
+          prevDemandList = nodeRow.list_demand? JSON.parse(nodeRow.list_demand): []; //basically, there 'must' be someone on the list, but in case the list was 'null'
           //list going to be update if the submit was accepted
       let newWishedList = prevWishedList.slice(),
           newDemandList = prevDemandList.slice(),

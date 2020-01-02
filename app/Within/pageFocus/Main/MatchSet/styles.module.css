@@ -55,12 +55,37 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
+  position: relative;
   box-sizing: border-box;
   padding-top: 24px;
 }
 
 .boxNodeWished {
+  position: relative;
+}
 
+.boxSettingModal {
+  width: 40vw;
+  min-height: 14.7rem;
+  position: absolute;
+  left: -5vw;
+  top: -1rem;
+  background-color: #FcFCFC;
+  box-shadow: 2px 2px 6px -2px;
+  border-radius: 0.45rem;
+  z-index: 1;
+}
+
+.boxTypeSetting {
+  display: inline-block;
+  position: absolute;
+  left: 25%;
+  top: 1rem;
+  transform: translate(-50%, 0);
+}
+
+.spanType { /*type-text using in SettingModal*/
+  margin: 0 0.4rem;
 }
 
 .fontOnType {
