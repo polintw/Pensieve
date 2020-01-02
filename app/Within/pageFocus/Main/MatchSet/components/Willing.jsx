@@ -8,7 +8,8 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import stylesMatch from '../styles.module.css';
 import stylesMain from "../../styles.module.css"; //Notice, we use shared css file here for easier control
-import NodeWilling from './NodeWilling.jsx'
+import NodeWilling from './NodeWilling.jsx';
+import WillingInput from './WillingInput.jsx';
 import {
   axios_get_desire_list,
   axios_get_nodesStatus,
@@ -159,22 +160,25 @@ class Willing extends React.Component {
 
   _render_WillingList(){
     let itemsDOM = [];
-
-    for(let i= 0; i< 5; i++){
-      let currentNode = this.state.willingList[i];
+    itemsDOM = this.state.willingList.map((nodeId, index)=>{
       //deal with status separately because it is depend on different api and set into state not at the same time as the list
-      let nodeStatus = !this.state.demandStatus[currentNode] ? {}:this.state.demandStatus[currentNode];
-      itemsDOM.push(
+      let nodeStatus = !this.state.demandStatus[nodeId] ? {}:this.state.demandStatus[nodeId];
+      return (
         <NodeWilling
-          key={"key_Willing_"+i}
-          listIndex={i}
-          displayingNode={currentNode}
+          key={"key_Willing_"+index}
+          listIndex={index}
+          displayingNode={nodeId}
           demandStatus={nodeStatus}
-          _set_choiceFromSearch={this._set_choiceFromSearch}
           _submit_taking={this._submit_taking}
           _submit_remove={this._submit_remove}/>
       )
-    }
+    });
+    if(this.state.willingList.length < 5) itemsDOM.push(
+      <WillingInput
+        key={"key_WillingInput_"}
+        _set_choiceFromSearch={this._set_choiceFromSearch}/>
+    )
+
     return itemsDOM;
   }
 

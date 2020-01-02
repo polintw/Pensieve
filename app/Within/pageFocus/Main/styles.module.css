@@ -24,7 +24,7 @@
 
 .boxMatchSet{
   width: 100%;
-  height: 16rem;
+  height: 17rem;
   box-sizing: border-box;
   padding: 20px 0;
 }
@@ -86,7 +86,8 @@
 }
 
 .fontSubTitle {
-
+  font-size: 1.76rem;
+  letter-spacing: 0.07rem;
 }
 
 .fontDescript { /* keep it related to fontType in BannerBelong*/
@@ -99,10 +100,24 @@
   font-size: 1.3rem;
 }
 
-.fontOption { /*mainly the corner's name in an option list*/
-  white-space: pre-line;
+.fontCorner { /*mainly the corner's name in an option list*/
+  font-size: 1.76rem;
+  line-height: 3rem;
+  letter-spacing: 0.04rem;
+  font-weight: 700;
+}
+
+.fontOption {
+
 }
 
 .fontSubmit { /*the 'submit action' usually line up beneath a node*/
 
+}
+
+.fontType { /*the "small title" above the Node name explining the 'type/category' of this node*/
+  font-size: 1.37rem;
+  letter-spacing: 0.07rem;
+  line-height: 2rem;
+  color: rgb(110, 110, 110);
 }

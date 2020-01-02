@@ -5,7 +5,8 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
-
+import stylesMatch from '../styles.module.css';
+import stylesMain from "../../styles.module.css"; //Notice, we use shared css file here for easier control
 import {NodeSearchModule} from '../../../../../Component/NodeSearchModule.jsx';
 
 
@@ -21,11 +22,21 @@ class NodeWished extends React.Component {
     this._render_nodeStatus = this._render_nodeStatus.bind(this);
     this._handleClick_wish_set = this._handleClick_wish_set.bind(this);
     this._handleClick_wish_delete = this._handleClick_wish_delete.bind(this);
+    this._handleMouseOn_Type = this._handleMouseOn_Type.bind(this);
     this._handleMouseOn_Node = ()=> this.setState((prevState,props)=>{return {onNode: prevState.onNode?false:true}});
     this._set_settingModal = ()=> this.setState((prevState, index)=>{return {settingModal: prevState.settingModal? false: true}});
     this.style={
 
     }
+  }
+
+  _handleMouseOn_Type(event){
+    //change only when if the box was empty
+    if(!this.props.wishedNode && !this.props.axios){
+      this.setState((prevState, props)=>{
+        return {onType: prevState.onType?false: true}
+      });
+    };
   }
 
   _handleClick_wish_set(event){
@@ -81,14 +92,14 @@ class NodeWished extends React.Component {
 
     return (
       <div
-        className={classnames()}>
+        className={classnames(stylesMatch.boxNode)}>
         <Link
           to={"/cosmic/nodes/"+nodeId}
-          className={classnames('plainLinkButton')}
+          className={classnames('plainLinkButton', stylesMatch.boxNodeLink)}
           onMouseEnter={this._handleMouseOn_Node}
           onMouseLeave={this._handleMouseOn_Node}>
           <div
-            className={classnames()}>
+            className={classnames(stylesMatch.boxNodeName, stylesMain.fontCorner)}>
             {
               this.state.onNode &&
               <span style={{
@@ -103,6 +114,7 @@ class NodeWished extends React.Component {
           </div>
         </Link>
         <div
+          className={classnames(stylesMatch.boxNodeSubmit, stylesMatch.fontSubmit)}
           onClick={this._handleClick_wish_delete}>
           <span>
             {" ╳ "}
@@ -116,7 +128,7 @@ class NodeWished extends React.Component {
   render(){
     return(
       <div
-        className={classnames()}>
+        className={classnames(stylesMatch.boxNodeWished)}>
         {
           this.state.settingModal &&
           <div
@@ -138,7 +150,14 @@ class NodeWished extends React.Component {
         }
 
         <div
-          onClick={this._handleClick_wish_set}>
+          className={classnames(
+            stylesMatch.boxNodeType,
+            stylesMain.fontType,
+            {[stylesMatch.fontOnType]: this.state.onType}
+          )}
+          onClick={this._handleClick_wish_set}
+          onMouseEnter={this._handleMouseOn_Type}
+          onMouseLeave={this._handleMouseOn_Type}>
           <span>
             {(this.props.listIndex==2) ?
               this.props.i18nUIString.catalog["catagory_MatchNodes_wished"][1] :
@@ -146,7 +165,6 @@ class NodeWished extends React.Component {
             }
           </span>
         </div>
-
         {
           this.props.wishedNode && //we skip render if the node was 'undefined' or 'null', both meaning empty list
           this._render_nodeLink()
@@ -154,7 +172,6 @@ class NodeWished extends React.Component {
         <div>
           {this._render_nodeStatus()}
         </div>
-
       </div>
     )
   }

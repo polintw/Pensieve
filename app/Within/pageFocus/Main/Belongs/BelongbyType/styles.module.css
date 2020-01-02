@@ -47,24 +47,10 @@
   margin: 0 0.4rem;
 }
 
-.fontType { /* keep it related to fontDescript in MainBanner*/
-  font-size: 1.37rem;
-  letter-spacing: 0.07rem;
-  line-height: 2rem;
-  color: rgb(110, 110, 110);
-}
-
 .fontCount {
   font-size: 1.76rem;
   letter-spacing: 0.04rem;
   color: rgb(64, 133, 160);
-}
-
-.fontNode { /* keep it related to fontSubtitle in MainBanner & fontTitleGreet in BelongForm*/
-  font-size: 1.76rem;
-  line-height: 3rem;
-  letter-spacing: 0.04rem;
-  font-weight: 700;
 }
 
 .fontOnType {

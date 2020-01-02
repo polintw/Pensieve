@@ -6,6 +6,8 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
+import styles from './styles.module.css';
+import stylesMain from "../../styles.module.css"; //Notice, we use shared css file here for easier control
 import DemandNode from './DemandNode.jsx'
 import {
   axios_get_options,
@@ -95,7 +97,8 @@ class Demand extends React.Component {
         <div>
           {this._render_DemandOptions()}
         </div>
-        <div>
+        <div
+          className={classnames(styles.boxTitle, stylesMain.fontTitle)}>
           {
             //this sentence, considering overlap one row of the options
             this.props.i18nUIString.catalog["title_Main_matchDemand"]}

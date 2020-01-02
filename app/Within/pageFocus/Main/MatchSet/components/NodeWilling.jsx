@@ -7,23 +7,18 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import stylesMatch from '../styles.module.css';
 import stylesMain from "../../styles.module.css"; //Notice, we use shared css file here for easier control
-import {NodeSearchModule} from '../../../../../Component/NodeSearchModule.jsx';
 
 
 class NodeWilling extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      settingModal: false,
       onNode: false,
-      onType: false
     };
     this._render_nodeLink = this._render_nodeLink.bind(this);
     this._handleClick_nodeTaken = this._handleClick_nodeTaken.bind(this);
-    this._handleClick_willing_set = this._handleClick_willing_set.bind(this);
     this._handleClick_willing_delete = this._handleClick_willing_delete.bind(this);
     this._handleMouseOn_Node = ()=> this.setState((prevState,props)=>{return {onNode: prevState.onNode?false:true}});
-    this._set_settingModal = ()=> this.setState((prevState, index)=>{return {settingModal: prevState.settingModal? false: true}});
     this.style={
 
     }
@@ -34,13 +29,6 @@ class NodeWilling extends React.Component {
     event.stopPropagation();
     //any check would be process at higher level
     this.props._submit_taking(this.props.displayingNode);
-  }
-
-  _handleClick_willing_set(event){
-    event.preventDefault();
-    event.stopPropagation();
-    //could open node search if the box was empty
-    if(!this.props.displayingNode && !this.props.axios) this._set_settingModal();
   }
 
   _handleClick_willing_delete(event){
@@ -73,7 +61,7 @@ class NodeWilling extends React.Component {
           onMouseEnter={this._handleMouseOn_Node}
           onMouseLeave={this._handleMouseOn_Node}>
           <div
-            className={classnames(stylesMatch.boxNodeName, stylesMain.fontOption)}>
+            className={classnames(stylesMatch.boxNodeName, stylesMain.fontCorner)}>
             {
               this.state.onNode &&
               <span style={{
@@ -115,36 +103,8 @@ class NodeWilling extends React.Component {
       <div
         className={classnames(stylesMatch.boxNodeWilling)}>
         {
-          this.state.settingModal &&
-          <div
-            className={classnames()}>
-            <div
-              className={classnames()}>
-              <span
-                className={classnames()}
-                style={{lineHeight: '3rem'}}>
-                {this.props.i18nUIString.catalog["catagory_MatchNodes_willing"][1]}
-              </span>
-            </div>
-            <NodeSearchModule
-              type={"option"}
-              _set_nodeChoice={this.props._set_choiceFromSearch}
-              _set_SearchModal_switch={this._set_settingModal}
-              _handleClick_SearchModal_switch={(e)=>{e.preventDefault();e.stopPropagation();this._set_settingModal();}}/>
-          </div>
-        }
-
-        {
-          this.props.displayingNode? //we skip render if the node was 'undefined' or 'null', both meaning empty list
-          this._render_nodeLink() :
-          (
-            <div
-              className={classnames(stylesMain.fontOption)}
-              onClick={this._handleClick_willing_set}>
-              <span>{this.props.i18nUIString.catalog["catagory_MatchNodes_willing"][0]}</span>
-              <span>{this.props.i18nUIString.catalog["catagory_MatchNodes_willing"][1]}</span>
-            </div>
-          )
+          this.props.displayingNode && //we skip render if the node was 'undefined' or 'null', both meaning empty list
+          this._render_nodeLink()
         }
 
       </div>

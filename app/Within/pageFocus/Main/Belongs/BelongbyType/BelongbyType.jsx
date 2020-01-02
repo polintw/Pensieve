@@ -6,6 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import stylesMain from "../../styles.module.css"; //Notice, we use shared css file here for easier control
 import BelongOptions from '../BelongOptions/BelongOptions.jsx';
 import CreateShare from '../../../../../Component/CreateShare.jsx';
 
@@ -68,7 +69,7 @@ class BelongbyType extends React.Component {
           onMouseEnter={this._handleMouseOn_Node}
           onMouseLeave={this._handleMouseOn_Node}>
           <div
-            className={classnames(styles.spanNode, styles.fontNode)}>
+            className={classnames(styles.spanNode, stylesMain.fontCorner)}>
             {
               this.state.onNode &&
               <span style={{
@@ -85,7 +86,7 @@ class BelongbyType extends React.Component {
         <div
           className={classnames(styles.boxCount)}>
           <span
-            className={classnames(styles.spanType, styles.fontType)}>
+            className={classnames(styles.spanType, stylesMain.fontType)}>
             {"way to "}</span>
           <span
             className={classnames(styles.spanType, styles.fontCount)}>
@@ -109,7 +110,7 @@ class BelongbyType extends React.Component {
         <span
           className={classnames(
             styles.spanType,
-            styles.fontType,
+            stylesMain.fontType,
             {[styles.fontOnType]: this.state.onType}
           )}
           style={{lineHeight: '3rem'}}>
@@ -135,7 +136,7 @@ class BelongbyType extends React.Component {
         <span
           className={classnames(
             styles.spanType,
-            styles.fontType,
+            stylesMain.fontType,
             {[styles.fontOnType]: (this.state.onType && !nodeIfy)}
           )}
           style={{lineHeight: '3rem'}}>

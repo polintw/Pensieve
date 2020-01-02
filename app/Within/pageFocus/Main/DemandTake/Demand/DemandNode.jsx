@@ -5,6 +5,8 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
+import styles from './styles.module.css';
+import stylesMain from "../../styles.module.css"; //Notice, we use shared css file here for easier control
 
 class DemandNode extends React.Component {
   constructor(props){
@@ -46,7 +48,7 @@ class DemandNode extends React.Component {
 
     return (
       <div
-        className={classnames()}
+        className={classnames(styles.boxNodeName, stylesMain.fontOption)}
         onMouseEnter={this._handleMouseOn_Node}
         onMouseLeave={this._handleMouseOn_Node}>
         {nodeId in this.props.nounsBasic ? (

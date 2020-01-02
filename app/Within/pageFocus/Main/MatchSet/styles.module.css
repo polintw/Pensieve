@@ -20,7 +20,8 @@
 }
 
 .boxSubTitle {
-
+  position: absolute;
+  top: 0;
 }
 
 .boxWilling {
@@ -31,8 +32,15 @@
 
 }
 
+.boxNodeType {
+  text-align: center;
+  cursor: default;
+}
+
 .boxNodeLink {
+  display: inline-block;
   align-items: center;
+  position: relative;
 }
 
 .boxNodeSubmit {
@@ -46,5 +54,16 @@
 .boxNodeWilling {
   display: flex;
   justify-content: space-around;
-  width: 100%;
+  align-items: center;
+  box-sizing: border-box;
+  padding-top: 24px;
+}
+
+.boxNodeWished {
+
+}
+
+.fontOnType {
+  color: #000000;
+  cursor: pointer;
 }
