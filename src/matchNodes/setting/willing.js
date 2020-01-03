@@ -45,6 +45,7 @@ function _handle_PATCH_willing(req, res){
     .then(([userRow, nodeResult])=>{
       let nodeRow = nodeResult[0]; //the 'findOrCreate' return an 'array', which like '[instance, createdify(bool)]'
       //2 things: willing no more than 5, and if the user is 'available'
+console.log(nodeRow)
       let prevWillingNode = JSON.parse(userRow.list_willing),
           prevTakingNodes = JSON.parse(userRow.taking),
           prevWillingList = nodeRow.list_willing? JSON.parse(nodeRow.list_willing): [], //in case the list was 'null'
@@ -55,7 +56,7 @@ function _handle_PATCH_willing(req, res){
           updateNode = {}, //obj for node match
           updateUser = {}, //obj for user match
           updateify; //flag used to see if the sumbit was accepted
-
+console.log('pass claim')
       //check the user's current list of willing to distinguish accepted or not.
       let indexToNode = prevWillingNode.indexOf(willingNodeId),
           indexToUser = prevWillingList.indexOf(userId);
@@ -70,6 +71,7 @@ function _handle_PATCH_willing(req, res){
           //the node has demand, and the user did not be occupied,
           //if so, the willing will statrt a 'locked' cycle directly,
           //the user would take the node automatically
+console.log('going to update')
 
           if(prevTakingUsers.indexOf(userId) >(-1)) prevTakingUsers.push(userId);
           let date = new Date(); // for lockedAt

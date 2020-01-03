@@ -62,15 +62,15 @@ class DemandNode extends React.Component {
   render(){
     return(
       <div
-        className={classnames()}>
+        className={classnames(styles.boxNode)}>
         {this._render_nodeLink()}
         {
           this.state.onNode &&
           <div
-            className={classnames()}
+            className={classnames(styles.boxNodeSubmit, stylesMain.fontSubmit)}
             onClick={this._handleClick_nodeTaken}>
             <span
-              className={classnames()}
+              style={this.state.onNodeText? {color: '#000000'}: {}}
               onMouseEnter={this._handleMouseOn_NodeText}
               onMouseLeave={this._handleMouseOn_NodeText}>
               {'take'}</span>
