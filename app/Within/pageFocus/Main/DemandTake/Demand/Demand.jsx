@@ -89,6 +89,7 @@ class Demand extends React.Component {
     //and, we insert the title, set it always at the second place.
     itemsDOM.splice(1, 0, (
       <div
+        key={"key_DemandList_Title"}
         className={classnames(styles.boxTitle, stylesMain.fontTitle)}>
         {
           //this sentence, considering overlap one row of the options

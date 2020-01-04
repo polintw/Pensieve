@@ -136,7 +136,7 @@ const mapStateToProps = (state)=>{
     indexLists: state.indexLists,
     unitCurrent: state.unitCurrent,
     i18nUIString: state.i18nUIString,
-    flagNewSharedRefresh: state.flagNewSharedRefresh,
+    flagNewSharedDataFetch: state.flagNewSharedDataFetch,
     nounsBasic: state.nounsBasic,
     usersBasic: state.usersBasic,
   }

@@ -74,14 +74,18 @@ class NewSharedCustom extends React.Component {
 
   componentDidUpdate(prevProps, prevState, snapshot){
     if(this.props.flagNewCustomDataFetch && this.props.flagNewCustomDataFetch != prevProps.flagNewCustomDataFetch){
-      this._fetch_Units(this.props.indexLists.listCustomNew);
+      // indexLists.listCustomNew was in form "[{star, unitId}]"
+      let unitsList = this.props.indexLists['listCustomNew'].map((obj, index)=>{return obj.unitId});
+      this._fetch_Units(unitsList);
       this.props._submit_FlagSwitch(['flagNewCustomDataFetch']); //set flag back to dafault
     }
   }
 
   componentDidMount() {
     if(this.props.flagNewCustomDataFetch){
-      this._fetch_Units(this.props.indexLists.listCustomNew);
+      // indexLists.listCustomNew was in form "[{star, unitId}]"
+      let unitsList = this.props.indexLists['listCustomNew'].map((obj, index)=>{return obj.unitId});
+      this._fetch_Units(unitsList);
       this.props._submit_FlagSwitch(['flagNewCustomDataFetch']); //set flag back to dafault
     }
   }
@@ -94,7 +98,8 @@ class NewSharedCustom extends React.Component {
 
   _render_unitsCustomNew(){
     //our list was saved to reducer after fetch
-    let unitsList = this.props.indexLists['listCustomNew'],
+    //and indexLists.listCustomNew was in form "[{star, unitId}]"
+    let unitsList = this.props.indexLists['listCustomNew'].map((obj, index)=>{return obj.unitId}),
         unitsDOM = [];
     if(unitsList.length > 0 ){ // check necessity first, skip if no item.
       //we render no more than 6, but the backend may pass more than 6, so don't forget setting the limit
@@ -136,7 +141,7 @@ const mapStateToProps = (state)=>{
     indexLists: state.indexLists,
     unitCurrent: state.unitCurrent,
     i18nUIString: state.i18nUIString,
-    flagNewSharedRefresh: state.flagNewSharedRefresh,
+    flagNewCustomDataFetch: state.flagNewCustomDataFetch,
     nounsBasic: state.nounsBasic,
     usersBasic: state.usersBasic,
   }

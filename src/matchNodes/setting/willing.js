@@ -45,18 +45,19 @@ function _handle_PATCH_willing(req, res){
     .then(([userRow, nodeResult])=>{
       let nodeRow = nodeResult[0]; //the 'findOrCreate' return an 'array', which like '[instance, createdify(bool)]'
       //2 things: willing no more than 5, and if the user is 'available'
-console.log(nodeRow)
+
       let prevWillingNode = JSON.parse(userRow.list_willing),
           prevTakingNodes = JSON.parse(userRow.taking),
-          prevWillingList = nodeRow.list_willing? JSON.parse(nodeRow.list_willing): [], //in case the list was 'null'
-          prevDemandUsers = nodeRow.list_demand? JSON.parse(nodeRow.list_demand): [], //in case the list was 'null'
-          prevTakingUsers = JSON.parse(nodeRow.list_taking);
+          /*there are 2 possible situation for value in nodeRow:
+          null, or "undefined" if the row was newly created by 'findOrCreate'--- it only retrun the value we put in 'defaults'*/
+          prevWillingList = nodeRow.list_willing? JSON.parse(nodeRow.list_willing): [],
+          prevDemandUsers = nodeRow.list_demand? JSON.parse(nodeRow.list_demand): [],
+          prevTakingUsers = nodeRow.list_taking? JSON.parse(nodeRow.list_taking): [];
       let newWillingNode = prevWillingNode.slice(),
           newWillingList = prevWillingList.slice(),
           updateNode = {}, //obj for node match
           updateUser = {}, //obj for user match
           updateify; //flag used to see if the sumbit was accepted
-console.log('pass claim')
       //check the user's current list of willing to distinguish accepted or not.
       let indexToNode = prevWillingNode.indexOf(willingNodeId),
           indexToUser = prevWillingList.indexOf(userId);
@@ -71,7 +72,6 @@ console.log('pass claim')
           //the node has demand, and the user did not be occupied,
           //if so, the willing will statrt a 'locked' cycle directly,
           //the user would take the node automatically
-console.log('going to update')
 
           if(prevTakingUsers.indexOf(userId) >(-1)) prevTakingUsers.push(userId);
           let date = new Date(); // for lockedAt
