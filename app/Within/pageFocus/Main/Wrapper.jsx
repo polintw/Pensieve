@@ -137,7 +137,6 @@ class Wrapper extends React.Component {
       <div>
         <div
           className={classnames(styles.comMainWrapper)}>
-
           <div
             className={classnames(styles.boxRowTop)}>
             <MainTitle

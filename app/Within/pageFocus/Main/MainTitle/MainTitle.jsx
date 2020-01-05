@@ -1,14 +1,13 @@
 import React from 'react';
 import {
   Route,
-  Switch,
   Link,
   withRouter,
-  Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
-import styles from "./styles.module.css";
+import styles from './styles.module.css';
+import stylesMain from "../styles.module.css"; //Notice, we use shared css file here for easier control
 import DateConverter from '../../../../Component/DateConverter.jsx';
 import CreateShare from '../../../../Component/CreateShare.jsx';
 import SvgCreate from '../../../../Component/Svg/SvgCreate.jsx';
@@ -67,14 +66,14 @@ class MainTitle extends React.Component {
         ref={this.boxTitle}
         className={classnames(styles.comMainTitle)}>
         <div
-          className={classnames(styles.borderBanner, styles.boxUnderline)}></div>
+          className={classnames(stylesMain.decoSeparationLine, styles.boxUnderline)}></div>
         <div
           className={classnames(styles.boxFlex)}>
           {
             this.state.greet &&
             <div
               className={styles.boxGreet}>
-              <span className={classnames(styles.fontSubtitle)}>
+              <span className={classnames(styles.fontGreet)}>
                 {this.props.i18nUIString.catalog[this.state.greet]}</span>
             </div>
           }
@@ -98,12 +97,9 @@ class MainTitle extends React.Component {
             <CreateShare
               _submit_Share_New={this._submit_Share_New}
               _refer_von_Create={this.props._refer_von_cosmic}/>
-            <div
-              style={{height: "100%", position: 'absolute', right: '-6%', top: '0',borderRight: 'solid 1px #6e6e6e'}}/>
           </div>
 
         </div>
-
       </div>
     )
   }

@@ -13,8 +13,10 @@
 
 .boxRowTop {
   width: 80vw; /*the only row not follow the heigher comp*/
+  height: 51vh;
+  min-height: 247px;
   position: relative;
-  transform: translate(-12.5%,0);
+  left: -2.5vw;
   margin: 0 0 5vw;
 }
 
@@ -77,6 +79,10 @@
   position: absolute;
   top: 50%;
   display: inline-block;
+}
+
+.decoSeparationLine {
+  border-bottom: 0.14rem solid #c4c4c4;
 }
 
 .fontTitle {
