@@ -22,12 +22,10 @@ import {
 const styleMiddle = {
   titleReserved: {
     width: '100%',
-    height: '15vh',
-    minHeight: '87px',
     position: 'relative',
     left: '-2.5vw',
     boxSizing: 'border-box',
-    marginBottom: '11vh',
+    marginBottom: '3.5rem',
     backgroundColor: 'transparent'
   },
   scrollFooter: {

@@ -85,20 +85,16 @@ class MainTitle extends React.Component {
           </div>
         </div>
         <div
-          className={classnames(styles.boxAction)}>
-          <div
-            className={classnames(styles.boxCreate)}
-            onMouseEnter={this._handleMouseOn_Create}
-            onMouseLeave={this._handleMouseOn_Create}>
-            <SvgCreate
-              black={this.state.onCreate}
-              place={false}
-              stretch={true}/>
-            <CreateShare
-              _submit_Share_New={this._submit_Share_New}
-              _refer_von_Create={this.props._refer_von_cosmic}/>
-          </div>
-
+          className={classnames(styles.boxCreate)}
+          onMouseEnter={this._handleMouseOn_Create}
+          onMouseLeave={this._handleMouseOn_Create}>
+          <SvgCreate
+            black={this.state.onCreate}
+            place={false}
+            stretch={false}/>
+          <CreateShare
+            _submit_Share_New={this._submit_Share_New}
+            _refer_von_Create={this.props._refer_von_cosmic}/>
         </div>
       </div>
     )

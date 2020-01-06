@@ -11,22 +11,13 @@
   box-sizing: border-box;
 }
 
-.boxAction{
-  width: 28%;
-  min-width: 268px; /*Notice we set the width only upon the size of CreateShare*/
-  position: absolute;
-  box-sizing: border-box;
-  bottom: 0%;
-  left: 12.5%;
-}
-
 .boxCreate {
-  width: 93%;
-  height: 3.4rem;
+  width: 10vw;
+  height: 6vw;
   position: absolute;
   box-sizing: border-box;
-  left: 0;
-  bottom: 0;
+  right: 9.375%;
+  bottom: 11%;
 }
 
 .boxGreet {
