@@ -8,6 +8,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
 import stylesMain from "../styles.module.css"; //Notice, we use shared css file here for easier control
+import TodayUnit from './TodayUnit.jsx';
 import DateConverter from '../../../../Component/DateConverter.jsx';
 import CreateShare from '../../../../Component/CreateShare.jsx';
 import SvgCreate from '../../../../Component/Svg/SvgCreate.jsx';
@@ -95,6 +96,10 @@ class MainTitle extends React.Component {
           <CreateShare
             _submit_Share_New={this._submit_Share_New}
             _refer_von_Create={this.props._refer_von_cosmic}/>
+        </div>
+
+        <div>
+          <TodayUnit/>
         </div>
       </div>
     )
