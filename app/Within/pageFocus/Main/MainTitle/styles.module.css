@@ -1,20 +1,26 @@
 .comMainTitle {
   width: 100%;
   box-sizing: border-box;
-  padding: 2.5% 0 0;
+  padding: 3.5% 0 0;
 }
 
 .boxBasic {
+  min-width: 13vw;
   position: absolute;
-  top: 30%;
-  left: 81.25%;
+  top: 40%;
+  left: 71.875%;
   box-sizing: border-box;
+}
+
+.boxBasicBottom {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .boxToday {
   display: inline-block;
   position: relative;
-  margin: 0 0 0 2.5%;
 }
 
 .comTodayUnit {
@@ -24,8 +30,8 @@
 .boxTodayTitle {
   display: flex;
   flex-direction: column-reverse;
-  max-width: 15vw;
-  padding: 0 7% 0 0;
+  max-width: 12.5vw;
+  padding: 0 5% 0 0;
   box-sizing: border-box;
 }
 
@@ -34,23 +40,19 @@
 }
 
 .boxCreate {
-  width: 10vw;
-  height: 6vw;
-  position: absolute;
+  width: 37%;
   box-sizing: border-box;
-  right: 9.375%;
-  bottom: 11%;
 }
 
 .boxGreet {
-  margin-bottom: 4%;
+  margin-bottom: 10%;
 }
 
 .boxDate {
   display: flex;
   justify-content: flex-end;
   box-sizing: border-box;
-  margin-right: 5%;
+  margin-right: 8%;
 }
 
 .boxUnderline {
@@ -61,7 +63,7 @@
 }
 
 .spanTodayCorner {
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
   cursor: pointer;
 }
 
@@ -69,9 +71,6 @@
   margin-bottom: 1rem;
 }
 
-.fontGreet {
-  font-size: 3.2rem;
-  font-weight: 500;
-  letter-spacing: 0.064rem;
-  line-height: 1rem;
+.spanGreet {
+  white-space: nowrap;
 }

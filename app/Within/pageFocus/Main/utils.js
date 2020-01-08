@@ -3,8 +3,8 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import FetchBroads from '../../../Component/Fetch/FetchBroads.jsx';
 import NailSquare from '../../../Component/Nails/NailSquare/NailSquare.jsx';
+import NailToday from '../../../Component/Nails/NailToday/NailToday.jsx';
 import NailBroaded from '../../../Component/Nails/NailBroaded/NailBroaded.jsx';
-import NailRegular from '../../../Component/Nails/NailRegular/NailRegular.jsx';
 import NailWideDisplay from '../../../Component/Nails/NailWideDisplay/NailWideDisplay.jsx';
 
 export function nailChart(choice, unitId, pare){
@@ -23,18 +23,8 @@ export function nailChart(choice, unitId, pare){
       )
       break;
     case 1:
-      return (
-        <div
-          key={'key_CosmicMain_Nails_'+unitId}
-          className={classnames(styles.boxNail, styles.heightNine, styles.boxNarrow)}>
-          <NailRegular
-            {...pare.props}
-            unitId={unitId}
-            linkPath={pare.props.match.url+'/unit'}
-            unitBasic={pare.state.unitsBasic[unitId]}
-            marksBasic={pare.state.marksBasic}/>
-        </div>
-      )
+    //originally was take by NailRegular, now no longer used in Index
+      return
       break;
     case 2:
       return (
@@ -67,10 +57,12 @@ export function nailChart(choice, unitId, pare){
       return (
         <div
           key={'key_CosmicMain_Nails_'+ unitId}
-          className={classnames(styles.boxNail, styles.heightNine, styles.boxMidium)}>
-          <NailSquare
+          className={classnames(styles.boxNail, styles.heightThird, styles.boxThree)}
+          style={{backgroundColor: 'transparent'}}>
+          <NailToday
             {...pare.props}
             unitId={unitId}
+            todayNode={pare.state.nodeId}
             linkPath={pare.props.match.url+'/unit'}
             unitBasic={pare.state.unitsBasic[unitId]}
             marksBasic={pare.state.marksBasic}/>
