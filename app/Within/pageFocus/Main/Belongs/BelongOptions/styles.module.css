@@ -32,7 +32,7 @@
   margin: 0 0.4rem;
 }
 
-.fontType { /* keep it related to fontDescript in MainBanner*/
+.fontType { /* keep it related to fontType in Main*/
   font-size: 1.37rem;
   letter-spacing: 0.07rem;
   line-height: 2rem;

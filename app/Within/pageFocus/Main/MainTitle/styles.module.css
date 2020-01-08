@@ -1,14 +1,36 @@
 .comMainTitle {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 2.5% 0 0;
+}
+
+.boxBasic {
+  position: absolute;
+  top: 30%;
+  left: 81.25%;
   box-sizing: border-box;
 }
 
-.boxFlex {
+.boxToday {
+  display: inline-block;
+  position: relative;
+  margin: 0 0 0 2.5%;
+}
+
+.comTodayUnit {
   display: flex;
-  flex-direction: column;
-  position: absolute;
-  top: 69%;
-  left: 0;
+}
+
+.boxTodayTitle {
+  display: flex;
+  flex-direction: column-reverse;
+  max-width: 15vw;
+  padding: 0 7% 0 0;
   box-sizing: border-box;
+}
+
+.boxTodayNails {
+
 }
 
 .boxCreate {
@@ -34,7 +56,17 @@
 .boxUnderline {
   width: 62.5%;
   position: absolute;
+  top: 0;
   left: 3.125%;
+}
+
+.spanTodayCorner {
+  margin-bottom: 2rem;
+  cursor: pointer;
+}
+
+.spanTodayDescript {
+  margin-bottom: 1rem;
 }
 
 .fontGreet {

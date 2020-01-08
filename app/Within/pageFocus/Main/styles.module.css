@@ -13,7 +13,6 @@
 
 .boxRowTop {
   width: 80vw; /*the only row not follow the heigher comp*/
-  height: 51vh;
   min-height: 247px;
   position: relative;
   left: -2.5vw;
@@ -94,12 +93,6 @@
 .fontSubTitle {
   font-size: 1.76rem;
   letter-spacing: 0.07rem;
-}
-
-.fontDescript { /* keep it related to fontType in BannerBelong*/
-  font-size: 1.37rem;
-  letter-spacing: 0.07rem;
-  line-height: 2rem;
 }
 
 .fontLink { /*usually a single or a few words represent link, to a certain page*/

@@ -6,6 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css"; //Notice, we use shared css file here for easier control
+import stylesMain from "../styles.module.css"; //Notice, we use shared css file here for easier control
 import {
   nailChart,
 } from '../utils.js';
@@ -156,20 +157,19 @@ class TodayUnit extends React.Component {
   render(){
     return(
       <div
-        className={classnames(styles.comTodayNode)}>
+        className={classnames(styles.comTodayUnit)}>
         <div
-          className={classnames(styles.boxWikiTitle)}>
+          className={classnames(styles.boxTodayTitle)}>
           {
             (this.state.nodeId in this.props.nounsBasic) &&
             <span
-              className={classnames(styles.fontTitle)}
-              style={{cursor: 'pointer'}}
+              className={classnames(styles.spanTodayCorner, stylesMain.fontTitle)}
               onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_von_cosmic(this.state.nodeId, 'noun')}}>
               {this.props.nounsBasic[this.state.nodeId].name}</span>
           }
           <span
-            className={classnames(styles.spanTodayDescript, styles.fontDescript)}>
-            {"Today Intro"}</span>
+            className={classnames(styles.spanTodayDescript, stylesMain.fontType)}>
+            {"Today Corner"}</span>
         </div>
         <div
           className={classnames(styles.boxTodayNails)}>
