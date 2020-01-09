@@ -86,17 +86,6 @@ class Demand extends React.Component {
           _submit_taking={(submitNode)=>{axios_post_taking(this.axiosSource.token, submitNode);}}/>
       )
     });
-    //and, we insert the title, set it always at the second place.
-    itemsDOM.splice(1, 0, (
-      <div
-        key={"key_DemandList_Title"}
-        className={classnames(styles.boxTitle, stylesMain.fontTitle)}>
-        {
-          //this sentence, considering overlap one row of the options
-          this.props.i18nUIString.catalog["title_Main_matchDemand"]}
-        </div>
-      )
-    );
 
     return itemsDOM;
   }
@@ -108,6 +97,12 @@ class Demand extends React.Component {
         <div
           className={classnames(styles.boxOptions)}>
           {this._render_DemandOptions()}
+        </div>
+        <div
+          className={classnames(styles.boxTitle, stylesMain.fontTitle)}>
+          {
+            //this sentence, considering overlap one row of the options
+            this.props.i18nUIString.catalog["title_Main_matchDemand"]}
         </div>
       </div>
     )

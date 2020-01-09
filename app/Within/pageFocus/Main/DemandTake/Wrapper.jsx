@@ -34,13 +34,14 @@ class Wrapper extends React.Component {
   render(){
     return(
       <div
-        className={classnames()}>
-
-        <div>
-          <Taking/>
-        </div>
-        <div>
+        className={classnames(styles.comDemandTakeWrapp)}>
+        <div
+          className={classnames(styles.boxWrappDemand)}>
           <Demand/>
+        </div>
+        <div
+          className={classnames(styles.boxWrappTake)}>
+          <Taking/>
         </div>
       </div>
     )

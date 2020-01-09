@@ -48,7 +48,11 @@ class DemandNode extends React.Component {
 
     return (
       <div
-        className={classnames(styles.boxNodeName, stylesMain.fontOption)}
+        className={classnames(
+          styles.boxNodeName,
+          stylesMain.fontOption,
+          stylesMain.colorFstAssist)}
+        style={this.state.onNode? {color: 'rgb(110, 110, 110)'}:{}}
         onMouseEnter={this._handleMouseOn_Node}
         onMouseLeave={this._handleMouseOn_Node}>
         {nodeId in this.props.nounsBasic ? (
@@ -70,7 +74,7 @@ class DemandNode extends React.Component {
             className={classnames(styles.boxNodeSubmit, stylesMain.fontSubmit)}
             onClick={this._handleClick_nodeTaken}>
             <span
-              style={this.state.onNodeText? {color: '#000000'}: {}}
+              style={this.state.onNodeText? {color: '#ff7a5f'}: {}}
               onMouseEnter={this._handleMouseOn_NodeText}
               onMouseLeave={this._handleMouseOn_NodeText}>
               {'take'}</span>
