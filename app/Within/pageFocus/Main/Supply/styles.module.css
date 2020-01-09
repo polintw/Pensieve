@@ -4,6 +4,7 @@
   align-items: center;
   width: 100%;
   padding: 2rem 0;
+  min-height: 9rem;
 }
 
 .boxOptions {
@@ -14,7 +15,8 @@
 }
 
 .boxSubTitle {
-
+  align-self: flex-end;
+  margin-right: 10%;
 }
 
 .boxNode {

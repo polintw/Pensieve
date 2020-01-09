@@ -16,13 +16,20 @@ class Wrapper extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      display: 0
+      display: 0,
+      onSideControl: null
     };
     this._render_panel = this._render_panel.bind(this);
     this._handleClick_set_display = this._handleClick_set_display.bind(this);
+    this._handleMouseOn_SideControl = this._handleMouseOn_SideControl.bind(this);
     this.style={
 
     }
+  }
+
+  _handleMouseOn_SideControl(event){
+    let side = event.currentTarget.getAttribute('side');
+    this.setState({onSideControl: !!this.state.onSideControl ? null : side});
   }
 
   _handleClick_set_display(e){
@@ -84,14 +91,22 @@ class Wrapper extends React.Component {
         <div
           side={'left'}
           className={classnames(
-            styles.boxSideControl)}
+            styles.boxSideControl,
+            {[styles.boxActSideontrol]: (this.state.onSideControl == 'left')}
+          )}
           style={{left: '0'}}
+          onMouseEnter={this._handleMouseOn_SideControl}
+          onMouseLeave={this._handleMouseOn_SideControl}
           onClick={this._handleClick_set_display}>{"〈"}</div>
         <div
           side={'right'}
           className={classnames(
-            styles.boxSideControl)}
+            styles.boxSideControl,
+            {[styles.boxActSideontrol]: (this.state.onSideControl == 'right')}
+          )}
           style={{right: '0'}}
+          onMouseEnter={this._handleMouseOn_SideControl}
+          onMouseLeave={this._handleMouseOn_SideControl}
           onClick={this._handleClick_set_display}>{"〉"}</div>
       </div>
     )

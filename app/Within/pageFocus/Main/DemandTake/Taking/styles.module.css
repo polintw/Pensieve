@@ -1,0 +1,31 @@
+.comTaking {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.boxWidth {
+  display: flex;
+  max-width: 20vw;
+  box-sizing: border-box;
+  padding: 0 2vw;
+}
+
+.boxCorner {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  margin-right: 1rem;
+}
+
+.boxAssist {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.boxNodeName {
+  display: block;
+}

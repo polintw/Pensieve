@@ -7,6 +7,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
+import stylesMain from "../../styles.module.css"; //Notice, we use shared css file here for easier control
 import {
   axios_get_taking_list,
   axios_delete_matchSetting
@@ -142,37 +143,45 @@ class Taking extends React.Component {
       case "taking":
         let nodeId = this.props.indexLists.demandTake[0];
         return (
-          <div>
-            <div>
-              <span>{this.props.i18nUIString.catalog["title_Main_matchTaking"][0]}</span>
+          <div
+            className={classnames(styles.boxWidth)}>
+            <div
+              className={classnames(styles.boxCorner)}>
+              <span
+                className={classnames(stylesMain.fontType)}
+                style={{color: '#ff7a5f'}}>
+                {this.props.i18nUIString.catalog["title_Main_matchTaking"][0]}</span>
               <Link
                 to={"/cosmic/nodes/"+nodeId}
-                className={classnames('plainLinkButton')}
+                className={classnames('plainLinkButton', styles.boxNodeName)}
                 onMouseEnter={this._handleMouseOn_Node}
                 onMouseLeave={this._handleMouseOn_Node}>
-                <div
-                  className={classnames()}>
-                  {
-                    this.state.onNode &&
-                    <span style={{
-                        width: '74%', position: 'absolute', bottom: '10%', left: '5%',
-                        borderBottom: 'solid 1px #ff7a5f'
-                      }}/>
+                {
+                  this.state.onNode &&
+                  <span style={{
+                      width: '74%', position: 'absolute', bottom: '10%', left: '5%',
+                      borderBottom: 'solid 1px #ff7a5f'
+                    }}/>
                   }
-                  <span>
+                  <span
+                    className={classnames(stylesMain.fontCorner)}>
                     {nodeId in this.props.nounsBasic ? (
                       this.props.nounsBasic[nodeId].name) : (null)}
-                  </span>
-                </div>
+                    </span>
               </Link>
             </div>
-            <div>
-              <span>
+            <div
+              className={classnames(styles.boxAssist)}>
+              <span
+                className={classnames(stylesMain.fontType)}>
                 {this.props.i18nUIString.catalog["title_Main_matchTaking"][1]}</span>
-              <span>
+              <span
+                className={classnames(stylesMain.fontCorner)}
+                style={{color: 'rgb(64, 133, 160)'}}>
                 {this.state.demandCount}
               </span>
               <div
+                className={classnames(stylesMain.fontType)}
                 onClick={this._handleClick_taken_giveUp}>
                 {this.props.i18nUIString.catalog["title_Main_matchTaking"][2]}
               </div>
@@ -182,7 +191,8 @@ class Taking extends React.Component {
         break;
       case "axios":
         return (
-          <div>
+          <div
+            className={classnames(styles.boxWidth, stylesMain.fontType)}>
             {this.props.i18nUIString.catalog["hint_Process_MatchTaking"]}
           </div>
         )
@@ -195,7 +205,7 @@ class Taking extends React.Component {
   render(){
     return(
       <div
-        className={classnames()}>
+        className={classnames(styles.comTaking)}>
         {this._render_matchTaking()}
       </div>
     )

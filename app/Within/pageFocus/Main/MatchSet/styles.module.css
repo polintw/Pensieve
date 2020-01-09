@@ -12,6 +12,10 @@
   cursor: pointer;
 }
 
+.boxActSideontrol {
+  background-color: rgba(230, 230, 230, 0.55);
+}
+
 .boxRowList {
   display: flex;
   justify-content: space-around;
