@@ -18,7 +18,7 @@ class DemandNode extends React.Component {
     this._render_nodeLink = this._render_nodeLink.bind(this);
     this._handleClick_nodeTaken = this._handleClick_nodeTaken.bind(this);
     this._handleMouseOn_Node = ()=> this.setState((prevState,props)=>{return {onNode: prevState.onNode?false:true}});
-    this._handleMouseOn_NodeText = ()=> this.setState((prevState,props)=>{return {onNodeText: prevState.onNode?false:true}});
+    this._handleMouseOn_NodeText = ()=> this.setState((prevState,props)=>{return {onNodeText: prevState.onNodeText?false:true}});
     this.style={
 
     }
@@ -52,9 +52,7 @@ class DemandNode extends React.Component {
           styles.boxNodeName,
           stylesMain.fontOption,
           stylesMain.colorFstAssist)}
-        style={this.state.onNode? {color: 'rgb(110, 110, 110)'}:{}}
-        onMouseEnter={this._handleMouseOn_Node}
-        onMouseLeave={this._handleMouseOn_Node}>
+        style={this.state.onNode? {color: 'rgba(196, 196, 196,0.9)'}:{}}>
         {nodeId in this.props.nounsBasic ? (
           this.props.nounsBasic[nodeId].name) : (
             null
@@ -66,14 +64,18 @@ class DemandNode extends React.Component {
   render(){
     return(
       <div
-        className={classnames(styles.boxNode)}>
+        className={classnames(styles.boxNode)}
+        onMouseEnter={this._handleMouseOn_Node}
+        onMouseLeave={this._handleMouseOn_Node}>
         {this._render_nodeLink()}
         {
           this.state.onNode &&
           <div
             className={classnames(styles.boxNodeSubmit, stylesMain.fontSubmit)}
+            style={{fontWeight: '700'}}
             onClick={this._handleClick_nodeTaken}>
             <span
+              className={classnames(styles.spanNodeSubmit)}
               style={this.state.onNodeText? {color: '#ff7a5f'}: {}}
               onMouseEnter={this._handleMouseOn_NodeText}
               onMouseLeave={this._handleMouseOn_NodeText}>

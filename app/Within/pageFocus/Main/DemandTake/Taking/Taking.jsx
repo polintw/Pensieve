@@ -35,7 +35,8 @@ class Taking extends React.Component {
     this.state = {
       axios: false,
       demandCount: null,
-      onNode: false
+      onNode: false,
+      onGiveUp: false
     };
     this.axiosSource = axios.CancelToken.source();
     this._fetch_List = this._fetch_List.bind(this);
@@ -43,6 +44,7 @@ class Taking extends React.Component {
     this._render_matchTaking = this._render_matchTaking.bind(this);
     this._handleClick_taken_giveUp = this._handleClick_taken_giveUp.bind(this);
     this._handleMouseOn_Node = ()=> this.setState((prevState,props)=>{return {onNode: prevState.onNode?false:true}});
+    this._handleMouseOn_giveUp = ()=> this.setState((prevState,props)=>{return {onGiveUp: prevState.onGiveUp?false:true}});
     this.style={
 
     }
@@ -56,19 +58,21 @@ class Taking extends React.Component {
     // boolean message to confirm, which in top component, recieving obj as custom setting
     const self = this, //the handler need to pass to the reducer and then the Dialog, the 'this' would be different
           nodeId = this.props.indexLists.demandTake[0];
-    let dialogMessage =
-        this.props.i18nUIString.catalog['message_Main_MatchTakingGiveup'][0]+
-        this.state.demandCount+
-        this.props.i18nUIString.catalog['message_Main_MatchTakingGiveup'][1]+
-        this.props.nounsBasic[nodeId].name+
-        this.props.i18nUIString.catalog['message_Main_MatchTakingGiveup'][2];
+    let dialogMessage = [ //message for dialog should be in form of array, composed by several obj containing text & style
+      {text: this.props.i18nUIString.catalog['message_Main_MatchTakingGiveup'][0], style: {}},
+      {text: this.state.demandCount, style: {}},
+      {text: ' ', style: {}},
+      {text: this.props.i18nUIString.catalog['message_Main_MatchTakingGiveup'][1], style: {}},
+      {text: this.props.nounsBasic[nodeId].name, style: {}},
+      {text: this.props.i18nUIString.catalog['message_Main_MatchTakingGiveup'][2], style: {}},
+    ];
 
     let messageObj = {
       render: true,
       customButton: "submitting",
       message: dialogMessage,
-      handlerPositive: ()=>{self._submit_giveup(nodeId);self.props.setMessageBoolean(messageDialogInit.boolean);},
-      handlerNegative: ()=>{self.props.setMessageBoolean(messageDialogInit.boolean);} // reset messageBoolean if user regret
+      handlerPositive: ()=>{self._submit_giveup(nodeId);self.props._set_MessageBoolean(messageDialogInit.boolean);},
+      handlerNegative: ()=>{self.props._set_MessageBoolean(messageDialogInit.boolean);} // reset messageBoolean if user regret
     }
     this.props._set_MessageBoolean(messageObj);
   }
@@ -146,44 +150,58 @@ class Taking extends React.Component {
           <div
             className={classnames(styles.boxWidth)}>
             <div
-              className={classnames(styles.boxCorner)}>
-              <span
-                className={classnames(stylesMain.fontType)}
-                style={{color: '#ff7a5f'}}>
-                {this.props.i18nUIString.catalog["title_Main_matchTaking"][0]}</span>
-              <Link
-                to={"/cosmic/nodes/"+nodeId}
-                className={classnames('plainLinkButton', styles.boxNodeName)}
-                onMouseEnter={this._handleMouseOn_Node}
-                onMouseLeave={this._handleMouseOn_Node}>
-                {
-                  this.state.onNode &&
-                  <span style={{
-                      width: '74%', position: 'absolute', bottom: '10%', left: '5%',
-                      borderBottom: 'solid 1px #ff7a5f'
-                    }}/>
-                  }
-                  <span
-                    className={classnames(stylesMain.fontCorner)}>
-                    {nodeId in this.props.nounsBasic ? (
-                      this.props.nounsBasic[nodeId].name) : (null)}
-                    </span>
-              </Link>
-            </div>
-            <div
-              className={classnames(styles.boxAssist)}>
-              <span
-                className={classnames(stylesMain.fontType)}>
-                {this.props.i18nUIString.catalog["title_Main_matchTaking"][1]}</span>
-              <span
-                className={classnames(stylesMain.fontCorner)}
-                style={{color: 'rgb(64, 133, 160)'}}>
-                {this.state.demandCount}
-              </span>
+              className={classnames(styles.boxColum)}>
               <div
-                className={classnames(stylesMain.fontType)}
+                className={classnames(styles.boxColumUp)}>
+                <div
+                  className={classnames(styles.boxCorner)}>
+                  <span
+                    className={classnames(stylesMain.fontType)}
+                    style={{color: '#ff7a5f'}}>
+                    {this.props.i18nUIString.catalog["title_Main_matchTaking"][0]}</span>
+                  <Link
+                    to={"/cosmic/nodes/"+nodeId}
+                    className={classnames('plainLinkButton', styles.boxNodeName)}
+                    onMouseEnter={this._handleMouseOn_Node}
+                    onMouseLeave={this._handleMouseOn_Node}>
+                    {
+                      this.state.onNode &&
+                      <span style={{
+                          width: '74%', position: 'absolute', bottom: '10%', left: '5%',
+                          borderBottom: 'solid 1px #ff7a5f'
+                        }}/>
+                      }
+                      <span
+                        className={classnames(stylesMain.fontCorner)}>
+                        {nodeId in this.props.nounsBasic ? (
+                          this.props.nounsBasic[nodeId].name) : (null)}
+                        </span>
+                      </Link>
+                </div>
+                <div
+                  className={classnames(styles.boxAssist)}>
+                  <span
+                    className={classnames(stylesMain.fontTitle)}
+                    style={{color: 'rgb(64, 133, 160)', fontWeight: '700'}}>
+                    {this.state.demandCount}
+                  </span>
+                  <span
+                    className={classnames(stylesMain.fontType)}>
+                    {this.props.i18nUIString.catalog["title_Main_matchTaking"][1]}</span>
+                </div>
+              </div>
+              <div
+                className={classnames(styles.boxfoot, stylesMain.fontSubmit)}
+                style={this.state.onGiveUp? {textShadow: '0 0 4px hsla(0, 0%, 68%, 0.88)'}:{}}
+                onMouseEnter={this._handleMouseOn_giveUp}
+                onMouseLeave={this._handleMouseOn_giveUp}
                 onClick={this._handleClick_taken_giveUp}>
-                {this.props.i18nUIString.catalog["title_Main_matchTaking"][2]}
+                <span>
+                  {this.props.i18nUIString.catalog["title_Main_matchTaking"][2][0]}
+                </span>
+                <span>
+                  {this.props.i18nUIString.catalog["title_Main_matchTaking"][2][1]}
+                </span>
               </div>
             </div>
           </div>

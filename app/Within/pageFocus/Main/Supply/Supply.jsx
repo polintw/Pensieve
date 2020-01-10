@@ -123,8 +123,12 @@ class Supply extends React.Component {
         cancelErr(thrown);
       } else {
         let message = uncertainErr(thrown);
-        if(message== "message_Main_forbbidenWish" )
-          self.props._set_MessageSinClose(self.props.i18nUIString.catalog["message_Main_forbbidenWish"])
+        if(message== "message_Main_forbbidenWish" ) {
+          let messageArr = [{
+            text: self.props.i18nUIString.catalog["message_Main_forbbidenWish"], style:{}
+          }];
+          self.props._set_MessageSinClose(messageArr);
+        }
         else if(message.length > 0) alert(message); //end of 'if'
       }
     });

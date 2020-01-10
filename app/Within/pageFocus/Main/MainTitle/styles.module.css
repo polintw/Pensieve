@@ -42,6 +42,7 @@
 .boxCreate {
   width: 37%;
   box-sizing: border-box;
+  position: relative;
 }
 
 .boxGreet {

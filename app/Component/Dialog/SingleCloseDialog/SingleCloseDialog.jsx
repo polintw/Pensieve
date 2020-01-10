@@ -33,7 +33,7 @@ class SingleCloseDialog extends React.Component {
 
   _handleEnter_button(e){
     this.setState({
-      onButton: e.currentTarget.getAttribute('value')
+      onButton: true
     })
   }
 
@@ -77,14 +77,10 @@ class SingleCloseDialog extends React.Component {
       <div
         className={classnames(styles.comSinCloseDialog)}>
         <div
-          className={classnames(styles.boxMessage)}>
-          {this._render_Message()}
-        </div>
-        <div
-          className={classnames(styles.boxfoot)}>
+          className={classnames(styles.boxTop)}>
           <div
-            className={classnames(commonStyles.boxRoundButton, styles.boxButton)}
-            style={(this.state.onButton=="positive")? {backgroundColor: '#ff7a5f'}:{}}
+            className={classnames(commonStyles.boxCornerButton, styles.boxButton)}
+            style={ this.state.onButton? {backgroundColor: '#ff7a5f'}:{}}
             onClick={this._handleClick_dialog_SinClosePosit}
             onMouseEnter={this._handleEnter_button}
             onMouseLeave={this._handleLeave_button}>
@@ -93,7 +89,10 @@ class SingleCloseDialog extends React.Component {
               {" ╳ "}
             </span>
           </div>
-
+        </div>
+        <div
+          className={classnames(styles.boxMessage)}>
+          {this._render_Message()}
         </div>
       </div>
     )

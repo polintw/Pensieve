@@ -164,7 +164,10 @@ export function axios_post_taking(cancelToken, nodeId){
   const state = store.getState(); //store in reducer at this moment
 
   if(!!state.indexLists.demandTake[0]){ //forbidden submit if there is already a taken node
-    store.dispatch(setMessageSingleClose(state.i18nUIString.catalog["message_Main_duplicateTaking"]));
+    let messageArr = [{
+      text: state.i18nUIString.catalog["message_Main_duplicateTaking"], style:{}
+    }];
+    store.dispatch(setMessageSingleClose(messageArr));
     return;}
   if(state.axiosMatchTaking) return; //and cease new click if there is a connection on the way
   //Then, if everything is fine, we start to submit the taken node
@@ -192,6 +195,7 @@ export function axios_post_taking(cancelToken, nodeId){
     //this component was unique, would has its own error res need to pass to reducer
     //like message, and call the modal box
     //remember return, but return 'null' to let the followed promise distinguish
+    store.dispatch(setAxiosMatchTaking(false)); //and remember reset axios in reducer, or the com would not reset if any wrong
     if (axios.isCancel(thrown)) {
       cancelErr(thrown);
       return null;
@@ -199,7 +203,13 @@ export function axios_post_taking(cancelToken, nodeId){
     else{
       let message = uncertainErr(thrown);
       //the res message of this axios_ should be displayed(if there is any)
-      if(message) store.dispatch(setMessageSingleClose(state.i18nUIString.catalog["message_Main_duplicateTaking"]));
+      if(message){
+        let dialogArr = [{
+          text: (message == "message_Main_duplicateTaking") ? state.i18nUIString.catalog["message_Main_duplicateTaking"]: message,
+          style:{}
+        }];
+        store.dispatch(setMessageSingleClose(dialogArr));
+      }
       return null;
     }
   });

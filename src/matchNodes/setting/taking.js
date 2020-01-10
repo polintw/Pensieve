@@ -55,11 +55,11 @@ function _handle_POST_taking(req, res){
 
       let prevTakingUser = JSON.parse(nodeRow.list_taking),
           prevNodeTaking = JSON.parse(userRow.taking); //it's saved as a 'string'
-      let newTakingUser = prevTakingUser.slice();
+      let newTakingUser = prevTakingUser.slice(),
           updateify; //flag used to see if the sumbit was accepted
 
       //first check, if the user has taken some node.
-      if(!userRow.occupied || prevNodeTaking.length > 0 ){ updateify = false;}
+      if(userRow.occupied || prevNodeTaking.length > 0 ){ updateify = false;}
       else{ //if the user still available
         //make a new taking list for the node base on current list
         if(newTakingUser.indexOf(userId) < 0) newTakingUser.push(userId); //check just in case the list somehow has already had the user

@@ -214,7 +214,7 @@ function _handle_ErrCatched(e, req, res){
       //500, unexpected internal error
       winston.error(`${"Res status: "+e.status} ; ${"Error code: 131, "+e.message} ; ${"Req: "+req.originalUrl} , ${req.method} , ${req.ip}`);
       clientSet['code'] = 131;
-      clientSet['message'] = {"warning":"Some error happened, please try again."};
+      clientSet['message'] = "Some error happened, please try again later.";
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;
