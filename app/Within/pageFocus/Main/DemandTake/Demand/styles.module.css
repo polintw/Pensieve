@@ -3,13 +3,15 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  min-height: 9rem;
+  min-height: 10rem;
 }
 
 .boxOptions {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
+  align-self: stretch;
+  margin-bottom: 7rem;
 }
 
 .boxTitle {

@@ -1,9 +1,9 @@
 .comDemandTakeWrapp {
   display: flex;
   width: 100%;
-  padding: 5% 0;
+  padding: 6rem 0 3rem;
   box-sizing: border-box;
-  box-shadow: 0 2px 2px -2px, 0 -2px 2px -2px;
+  box-shadow: 0 5px 5px -6px, 0 -6px 6px -7px;
 }
 
 .boxWrappTake {
@@ -11,5 +11,5 @@
 }
 
 .boxWrappDemand {
-
+  flex:1;
 }

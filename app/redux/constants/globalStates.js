@@ -64,7 +64,7 @@ export const i18nUIStringInit = {
 
      "title_Main_NewCust": "New for you",
      "title_Main_OtherNew": "Newly arrived",
-     "title_Main_matchDemand": "Picking a corner, Sharing the thing you know.",
+     "title_Main_matchDemand": "Picking a Corner, Sharing thing You know",
      "title_Main_matchSupply": "Corners incubating...",
      "title_Main_matchWilling": "corners you are willing to dedicate: ",
      "catagory_MatchNodes_willing": ["set dedicated", "corner", "dedicated to..."],
