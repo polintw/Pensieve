@@ -4,11 +4,15 @@
   width: 100%;
   height: 100%;
   position: relative;
+  box-sizing: border-box;
+  padding: 0 4rem;
 }
 
 .boxSideControl {
+  display: flex;
+  align-items: center;
+  height: 100%;
   position: absolute;
-  top: 50%;
   cursor: pointer;
 }
 
@@ -25,11 +29,13 @@
 
 .boxSubTitle {
   position: absolute;
-  top: 0;
+  bottom: 0;
+  right: 4rem;
 }
 
 .boxWilling {
   width: 100%;
+  align-self: baseline;
 }
 
 .boxNode {
@@ -45,10 +51,13 @@
   display: inline-block;
   align-items: center;
   position: relative;
+  margin-bottom: 1.5rem;
 }
 
 .boxNodeSubmit {
-
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 .boxNodeName{
@@ -61,7 +70,6 @@
   align-items: center;
   position: relative;
   box-sizing: border-box;
-  padding-top: 24px;
 }
 
 .boxNodeWished {
@@ -93,6 +101,6 @@
 }
 
 .fontOnType {
-  color: #000000;
+  color: #ff7a5f;
   cursor: pointer;
 }

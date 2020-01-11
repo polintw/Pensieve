@@ -14,11 +14,15 @@ class NodeWilling extends React.Component {
     super(props);
     this.state = {
       onNode: false,
+      onRemove: false,
+      onTake: false
     };
     this._render_nodeLink = this._render_nodeLink.bind(this);
     this._handleClick_nodeTaken = this._handleClick_nodeTaken.bind(this);
     this._handleClick_willing_delete = this._handleClick_willing_delete.bind(this);
     this._handleMouseOn_Node = ()=> this.setState((prevState,props)=>{return {onNode: prevState.onNode?false:true}});
+    this._handleMouseOn_take = ()=> this.setState((prevState,props)=>{return {onTake: prevState.onTake?false:true}});
+    this._handleMouseOn_remove = ()=> this.setState((prevState,props)=>{return {onRemove: prevState.onRemove?false:true}});
     this.style={
 
     }
@@ -78,9 +82,13 @@ class NodeWilling extends React.Component {
         <div
           className={classnames(stylesMatch.boxNodeSubmit)}>
           <div
-            className={classnames(stylesMain.fontSubmit)}
+            className={classnames(stylesMain.fontType)}
+            style={this.state.onRemove? {color: "#000000", textShadow: '0 0 4px hsla(0, 0%, 68%, 0.88)'}:{}}
+            onMouseEnter={this._handleMouseOn_remove}
+            onMouseLeave={this._handleMouseOn_remove}
             onClick={this._handleClick_willing_delete}>
-            <span>
+            <span
+              style={{cursor: 'pointer'}}>
               {this.props.i18nUIString.catalog["submit_remove"]}
             </span>
           </div>
@@ -88,8 +96,13 @@ class NodeWilling extends React.Component {
             this.props.demandStatus &&
             <div
               className={classnames(stylesMain.fontSubmit)}
+              style={this.state.onTake? {color: '#ff7a5f'}:{}}
+              onMouseEnter={this._handleMouseOn_take}
+              onMouseLeave={this._handleMouseOn_take}
               onClick={this._handleClick_nodeTaken}>
-              <span>{'take'}</span>
+              <span
+                style={{cursor: 'pointer'}}>
+                {'take'}</span>
             </div>
           }
         </div>

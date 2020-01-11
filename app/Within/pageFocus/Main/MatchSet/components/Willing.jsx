@@ -187,12 +187,12 @@ class Willing extends React.Component {
       <div
         className={classnames(stylesMatch.boxWilling)}>
         <div
-          className={classnames(stylesMatch.boxSubTitle, stylesMain.fontSubTitle)}>
-          {this.props.i18nUIString.catalog["title_Main_matchWilling"]}
-        </div>
-        <div
           className={classnames(stylesMatch.boxRowList)}>
           {this._render_WillingList()}
+        </div>
+        <div
+          className={classnames(stylesMatch.boxSubTitle, stylesMain.fontSubTitle)}>
+          {this.props.i18nUIString.catalog["title_Main_matchWilling"]}
         </div>
       </div>
     )

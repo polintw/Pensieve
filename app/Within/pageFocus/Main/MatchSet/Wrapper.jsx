@@ -94,7 +94,7 @@ class Wrapper extends React.Component {
             styles.boxSideControl,
             {[styles.boxActSideontrol]: (this.state.onSideControl == 'left')}
           )}
-          style={{left: '0'}}
+          style={{left: '0', fontSize:'1.37rem'}}
           onMouseEnter={this._handleMouseOn_SideControl}
           onMouseLeave={this._handleMouseOn_SideControl}
           onClick={this._handleClick_set_display}>{"〈"}</div>
@@ -104,7 +104,7 @@ class Wrapper extends React.Component {
             styles.boxSideControl,
             {[styles.boxActSideontrol]: (this.state.onSideControl == 'right')}
           )}
-          style={{right: '0'}}
+          style={{right: '0', fontSize:'1.37rem'}}
           onMouseEnter={this._handleMouseOn_SideControl}
           onMouseLeave={this._handleMouseOn_SideControl}
           onClick={this._handleClick_set_display}>{"〉"}</div>
