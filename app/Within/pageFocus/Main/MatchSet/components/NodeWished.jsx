@@ -16,7 +16,8 @@ class NodeWished extends React.Component {
     this.state = {
       settingModal: false,
       onNode: false,
-      onType: false
+      onType: false,
+      onDel: false
     };
     this._render_nodeLink = this._render_nodeLink.bind(this);
     this._render_nodeStatus = this._render_nodeStatus.bind(this);
@@ -24,6 +25,7 @@ class NodeWished extends React.Component {
     this._handleClick_wish_delete = this._handleClick_wish_delete.bind(this);
     this._handleMouseOn_Type = this._handleMouseOn_Type.bind(this);
     this._handleMouseOn_Node = ()=> this.setState((prevState,props)=>{return {onNode: prevState.onNode?false:true}});
+    this._handleMouseOn_Del = ()=> this.setState((prevState,props)=>{return {onDel: prevState.onDel?false:true}});
     this._set_settingModal = ()=> this.setState((prevState, index)=>{return {settingModal: prevState.settingModal? false: true}});
     this.style={
 
@@ -113,14 +115,6 @@ class NodeWished extends React.Component {
             )}
           </div>
         </Link>
-        <div
-          className={classnames(stylesMatch.boxNodeSubmit, stylesMatch.fontSubmit)}
-          onClick={this._handleClick_wish_delete}>
-          <span>
-            {" ╳ "}
-          </span>
-        </div>
-
       </div>
     )
   }
@@ -148,13 +142,13 @@ class NodeWished extends React.Component {
               _handleClick_SearchModal_switch={(e)=>{e.preventDefault();e.stopPropagation();this._set_settingModal();}}/>
           </div>
         }
-
         <div
           className={classnames(
             stylesMatch.boxNodeType,
             stylesMain.fontType,
             {[stylesMatch.fontOnType]: this.state.onType}
           )}
+          style={{position: 'relative', marginBottom: '1.5rem'}}
           onClick={this._handleClick_wish_set}
           onMouseEnter={this._handleMouseOn_Type}
           onMouseLeave={this._handleMouseOn_Type}>
@@ -164,6 +158,19 @@ class NodeWished extends React.Component {
               this.props.i18nUIString.catalog["catagory_MatchNodes_wished"][0]
             }
           </span>
+          {
+            this.props.wishedNode &&
+            <div
+              className={classnames(stylesMatch.boxSubmitWishDel, stylesMatch.fontSubmit)}
+              style={{fontSize: '1rem', color: this.state.onDel? '#000000': 'rgb(110, 110, 110)'}}
+              onMouseEnter={this._handleMouseOn_Del}
+              onMouseLeave={this._handleMouseOn_Del}
+              onClick={this._handleClick_wish_delete}>
+              <span>
+                {" ╳ "}
+              </span>
+            </div>
+          }
         </div>
         {
           this.props.wishedNode && //we skip render if the node was 'undefined' or 'null', both meaning empty list

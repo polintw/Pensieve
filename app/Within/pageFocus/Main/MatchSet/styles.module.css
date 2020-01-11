@@ -76,6 +76,14 @@
   position: relative;
 }
 
+.boxSubmitWishDel {
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: 0 1.3rem;
+  cursor: pointer;
+}
+
 .boxSettingModal {
   width: 40vw;
   min-height: 14.7rem;
