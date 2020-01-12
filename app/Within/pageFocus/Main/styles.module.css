@@ -27,10 +27,10 @@
 
 .boxMatchSet{
   width: 100%;
-  height: 17rem;
+  height: 16rem;
   box-sizing: border-box;
-  padding: 1%;
-  margin-bottom: 9rem;
+  padding: 2% 0 1%;
+  margin: 3.5vw 0 9rem;
   box-shadow: 4px 0 4px -5px inset, -4px 0 4px -5px inset;
 }
 
@@ -132,6 +132,13 @@
 }
 
 .fontType { /*the "small title" above the Node name explining the 'type/category' of this node*/
+  font-size: 1.37rem;
+  letter-spacing: 0.07rem;
+  line-height: 2rem;
+  color: rgb(110, 110, 110);
+}
+
+.fontDescrip { /*aim for sentence or paragraph used as a description or explain*/
   font-size: 1.37rem;
   letter-spacing: 0.07rem;
   line-height: 2rem;

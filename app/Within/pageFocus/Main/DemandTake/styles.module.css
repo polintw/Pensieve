@@ -1,7 +1,7 @@
 .comDemandTakeWrapp {
   display: flex;
   width: 100%;
-  padding: 7rem 0 3rem;
+  padding: 6.5rem 0 5rem;
   box-sizing: border-box;
   box-shadow: 0 5px 5px -6px, 0 -6px 6px -7px;
 }

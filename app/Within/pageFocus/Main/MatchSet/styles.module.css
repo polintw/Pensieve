@@ -39,7 +39,7 @@
 }
 
 .boxNode {
-
+  text-align: center;
 }
 
 .boxNodeType {
@@ -73,7 +73,9 @@
 }
 
 .boxNodeWished {
+  display: flex;
   position: relative;
+  width: 33%;
 }
 
 .boxSubmitWishDel {
@@ -82,6 +84,18 @@
   top: 0;
   margin: 0 1.3rem;
   cursor: pointer;
+}
+
+.boxColWishedNode {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+}
+
+.boxWishedStatus {
+  width: 27%;
+  margin-left: 6%;
 }
 
 .boxSettingModal {
@@ -102,6 +116,10 @@
   left: 25%;
   top: 1rem;
   transform: translate(-50%, 0);
+}
+
+.spanNodeType { /*span usaully wrap by boxNodeType*/
+
 }
 
 .spanType { /*type-text using in SettingModal*/

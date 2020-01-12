@@ -103,14 +103,12 @@ class Demand extends React.Component {
           <span
             className={classnames(stylesMain.fontSubTitle)}>
             {
-              //this sentence, considering overlap one row of the options
               this.props.i18nUIString.catalog["title_Main_matchDemand"][0]}
           </span>
           <br/>
           <span
-            className={classnames(stylesMain.fontType)}>
+            className={classnames(stylesMain.fontDescrip)}>
             {
-              //this sentence, considering overlap one row of the options
               this.props.i18nUIString.catalog["title_Main_matchDemand"][1]}
           </span>
         </div>

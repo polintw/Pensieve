@@ -95,7 +95,7 @@ class NodeWilling extends React.Component {
           {
             this.props.demandStatus &&
             <div
-              className={classnames(stylesMain.fontSubmit)}
+              className={classnames(stylesMain.fontSubmit, stylesMain.colorFstAssist)}
               style={this.state.onTake? {color: '#ff7a5f'}:{}}
               onMouseEnter={this._handleMouseOn_take}
               onMouseLeave={this._handleMouseOn_take}

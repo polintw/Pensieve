@@ -4,6 +4,7 @@ const winston = require('../../../config/winston.js');
 
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+const _DB_usersDemandMatch = require('../../../db/models/index').users_demand_match;
 const _DB_nodesDemandMatch = require('../../../db/models/index').nodes_demand_match;
 const {_res_success} = require('../../utils/resHandler.js');
 const {
@@ -18,24 +19,31 @@ function _handle_GET_matchNodes_demand(req, res){
 
     //this api, provide the client selected demand list
 
-    _DB_nodesDemandMatch.findAll({
-      where: {
-        list_demand: {[Op.ne]: null}
-      },
-      order: [
-        [Sequelize.fn('RAND')] //"RAND" is order for 'random' selection specific for mySQL
-      ],
-      limit: 24
-    })
-    .then((selectResult)=>{
+    let selectUserSide = _DB_usersDemandMatch.findOne({
+          where: {id_user: userId}}).catch((err)=> {throw err}),
+        selectNodeSide = _DB_nodesDemandMatch.findAll({
+          where: {
+            list_demand: {[Op.ne]: null}
+          },
+          order: [
+            [Sequelize.fn('RAND')] //"RAND" is order for 'random' selection specific for mySQL
+          ],
+          limit: 24
+        }).catch((err)=> {throw err});
+
+    Promise.all([selectUserSide, selectNodeSide])
+    .then(([userRow, nodeRows])=>{
       let sendingData ={
         nodesList: [],
         temp:{}
       };
+      let prevWishedList = JSON.parse(userRow.list_wished),
+          prevWillingList = JSON.parse(userRow.list_willing);
 
-      //for now, the list is simply a randomly formed, with solid length limit.
-      sendingData.nodesList = selectResult.map((row, index)=>{
-        return row.id_node;
+      //then for now, we decide 'not to incl.' the nodes wished or suppy by the user him/her-self
+      nodeRows.forEach((row, index)=>{
+        if(prevWishedList.indexOf(row.id_node) < 0 && prevWillingList.indexOf(row.id_node) < 0){
+          sendingData.nodesList.push(row.id_node);}
       })
 
       return sendingData;

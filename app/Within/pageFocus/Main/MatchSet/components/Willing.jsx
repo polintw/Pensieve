@@ -162,7 +162,7 @@ class Willing extends React.Component {
     let itemsDOM = [];
     itemsDOM = this.state.willingList.map((nodeId, index)=>{
       //deal with status separately because it is depend on different api and set into state not at the same time as the list
-      let nodeStatus = !this.state.demandStatus[nodeId] ? {}:this.state.demandStatus[nodeId];
+      let nodeStatus = !this.state.demandStatus[nodeId] ? false :this.state.demandStatus[nodeId];
       return (
         <NodeWilling
           key={"key_Willing_"+index}

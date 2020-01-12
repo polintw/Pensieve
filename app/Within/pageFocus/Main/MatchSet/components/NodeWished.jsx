@@ -72,14 +72,18 @@ class NodeWished extends React.Component {
     switch (status) {
       case 'taken':
         return (
-          <div>
+          <div
+            className={classnames(stylesMatch.boxWishedStatus, stylesMain.fontDescrip)}
+            style={{color: '#000'}}>
             {this.props.i18nUIString.catalog["descript_MatchNodes_demandTaken"]}
           </div>
         )
         break;
       case 'finished':
         return (
-          <div>
+          <div
+            className={classnames(stylesMatch.boxWishedStatus, stylesMain.fontDescrip)}
+            style={{color: 'rgb(72, 199, 121)'}}>
             {"✔"}
           </div>
         )
@@ -143,42 +147,44 @@ class NodeWished extends React.Component {
           </div>
         }
         <div
-          className={classnames(
-            stylesMatch.boxNodeType,
-            stylesMain.fontType,
-            {[stylesMatch.fontOnType]: this.state.onType}
-          )}
-          style={{position: 'relative', marginBottom: '1.5rem'}}
-          onClick={this._handleClick_wish_set}
-          onMouseEnter={this._handleMouseOn_Type}
-          onMouseLeave={this._handleMouseOn_Type}>
-          <span>
-            {(this.props.listIndex==2) ?
-              this.props.i18nUIString.catalog["catagory_MatchNodes_wished"][1] :
-              this.props.i18nUIString.catalog["catagory_MatchNodes_wished"][0]
+          className={classnames(stylesMatch.boxColWishedNode)}>
+          <div
+            className={classnames(stylesMatch.boxNodeType,)}
+            style={{position: 'relative', marginBottom: '1.5rem'}}>
+            <span
+              className={classnames(
+                stylesMatch.spanNodeType,
+                stylesMain.fontType,
+                {[stylesMatch.fontOnType]: this.state.onType}
+              )}
+              onClick={this._handleClick_wish_set}
+              onMouseEnter={this._handleMouseOn_Type}
+              onMouseLeave={this._handleMouseOn_Type}>
+              {(this.props.listIndex==2) ?
+                this.props.i18nUIString.catalog["catagory_MatchNodes_wished"][1] :
+                this.props.i18nUIString.catalog["catagory_MatchNodes_wished"][0]
+              }
+            </span>
+            {
+              this.props.wishedNode &&
+              <div
+                className={classnames(stylesMatch.boxSubmitWishDel, stylesMatch.fontSubmit)}
+                style={{fontSize: '1rem', color: this.state.onDel? '#000000': 'rgb(110, 110, 110)'}}
+                onMouseEnter={this._handleMouseOn_Del}
+                onMouseLeave={this._handleMouseOn_Del}
+                onClick={this._handleClick_wish_delete}>
+                <span>
+                  {" ╳ "}
+                </span>
+              </div>
             }
-          </span>
+          </div>
           {
-            this.props.wishedNode &&
-            <div
-              className={classnames(stylesMatch.boxSubmitWishDel, stylesMatch.fontSubmit)}
-              style={{fontSize: '1rem', color: this.state.onDel? '#000000': 'rgb(110, 110, 110)'}}
-              onMouseEnter={this._handleMouseOn_Del}
-              onMouseLeave={this._handleMouseOn_Del}
-              onClick={this._handleClick_wish_delete}>
-              <span>
-                {" ╳ "}
-              </span>
-            </div>
+            this.props.wishedNode && //we skip render if the node was 'undefined' or 'null', both meaning empty list
+            this._render_nodeLink()
           }
         </div>
-        {
-          this.props.wishedNode && //we skip render if the node was 'undefined' or 'null', both meaning empty list
-          this._render_nodeLink()
-        }
-        <div>
-          {this._render_nodeStatus()}
-        </div>
+        {this._render_nodeStatus()}
       </div>
     )
   }

@@ -69,7 +69,7 @@ export const i18nUIStringInit = {
      "title_Main_matchWilling": "Your Providing Menu.",
      "catagory_MatchNodes_willing": ["adding new", "providing", "dedicated to..."],
      "submit_remove": "remove",
-     "descript_MatchNodes_demandTaken": "Some users' begun working on your wish!",
+     "descript_MatchNodes_demandTaken": "Your Wish now was working by users!",
      "message_Main_duplicateTaking": "There has already been another corner taken on record. Giving up the current one if you wanted to take this new corner.",
      "message_Main_forbbidenWish": "The Wish bucket allow an Order with/or up to 3 wishes. You have to remove some of them before making another one.",
      "hint_Process_MatchTaking": "submitting the corner you taked...",
