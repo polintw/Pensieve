@@ -65,6 +65,7 @@ function _handle_GET_list_taking(req, res){
       let sendingData ={
         nodesList: [],
         demandCount: null,
+        takingType: selectResult.occupied,
         temp:{}
       };
 

@@ -36,7 +36,7 @@ function _handle_GET_status_node(req, res){
             value = !!row.finished;
             break;
           case 'supply':
-            value = !!row.supply; //0 or null would be turn into 'true'
+            value = !!row.supply; //0 or null would be turn into 'false'
             break;
           case 'demand':{
             let demandList = row.list_demand? JSON.parse(row.list_demand): []; //in case the list was 'null'

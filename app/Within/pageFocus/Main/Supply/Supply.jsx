@@ -187,7 +187,7 @@ class Supply extends React.Component {
     //render by the list saved in local state
     let itemsDOM = this.state.supplyList.map((nodeId, index)=>{
       //2 things: if the node was taken('list me'), and if the user has already on the list of the node
-      let supplyStatus = !this.state.supplyStatus[nodeId] ? {}:this.state.supplyStatus[nodeId];
+      let supplyStatus = this.state.supplyStatus[nodeId];
       let waitingStatus = !(this.state.userWaitingList.indexOf(nodeId)< 0 ) ? true : false;
       return (
         <SupplyNode
@@ -237,7 +237,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
     _submit_FlagSwitch: (target) => { dispatch(setFlag(target)); },
-    _set_MessageSinClose: (obj) => { dispatch(setMessageSingleClose(str));},
+    _set_MessageSinClose: (obj) => { dispatch(setMessageSingleClose(obj));},
   }
 }
 

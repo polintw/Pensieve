@@ -34,6 +34,7 @@ function _handle_GET_matchNodes_supply(req, res){
       let nodeRows = selectResult.rows;
       //and prepare the list we need
       let prevWishedList = JSON.parse(userRow.list_wished),
+          prevTakingList = JSON.parse(userRow.taking),
           prevWillingList = JSON.parse(userRow.list_willing);
 
       let sendingData ={
@@ -55,10 +56,11 @@ function _handle_GET_matchNodes_supply(req, res){
       }
       //now the nodeRows has randomly order. We pick the number we need.
       nodeRows = nodeRows.slice(0, 18); //it would return all items if the length was less
-      //then for now, we decide 'not to incl.' the nodes wished or suppy by the user him/her-self
-      //which would be no more than 8 as the limit set for the lists.
+      //then for now, we decide 'not to incl.' the nodes wished or suppy or 'taking' by the user him/her-self
+      //which would be no more than 18 as the limit set for the lists.
+      let userRegiCorners = prevWishedList.concat(prevTakingList, prevWillingList); //combined the list user records, no need to consider duplicate
       nodeRows.forEach((row, index)=>{
-        if(prevWishedList.indexOf(row.id_node) < 0 && prevWillingList.indexOf(row.id_node) < 0){
+        if(userRegiCorners.indexOf(row.id_node) < 0){
           sendingData.nodesList.push(row.id_node);}
       })
 

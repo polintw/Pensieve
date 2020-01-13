@@ -21,6 +21,61 @@ function _handle_PATCH_wish(req, res){
     //and wished node(id) in an arr.
     const orderify = (`order` in req.query) ? true: false,
         wishedNodeId = req.body.wishList[0];
+    //announce a function used if the wish was an 'order'
+    async function _check_OrderConfirm(willingList){
+      await _DB_usersDemandMatch.findAll({
+        where: {
+          id_user: willingList,
+          occupied: 0
+        }
+      })
+      .then((willingUsers)=>{
+        if(willingUsers.length <1 ) return; //none of the user qualified, ending the process
+        let takingUsers = [],
+            updatePromise = [],
+            updateObj = { //it's the same for every qualified user
+              occupied: 2, //Important! '2' representing 'from Order'
+              taking: JSON.stringify([wishedNodeId])
+            };
+
+        willingUsers.forEach((rowUser, index)=>{
+          let promiseOrder = ()=>{ return _DB_usersDemandMatch.update(
+            updateObj,
+            {where: {id_user: rowUser.id_user}}
+          ).catch((err)=> {throw err}); };
+
+          updatePromise.push(promiseOrder);
+          takingUsers.push(rowUser.id_user);
+        });
+        let date = new Date(); // for lockedAt, if going into if() beneath
+        if(takingUsers.length > 0) updatePromise.push(
+          ()=>{
+            return _DB_nodesDemandMatch.update(
+              {
+                locked: 1,
+                lockedAt: date.getTime(),
+                finished: 0,
+                supply: 0,
+                list_taking: JSON.stringify(takingUsers)
+              },
+              {where: {id_node: wishedNodeId}}
+            ).catch((err)=> {throw err});
+          }
+        ); //end of if()
+        /*
+          Explaination:
+          the "Promise.all" need an array including the promise want to init,
+          but anoounce a promise first and push it back would init it directly.
+          so, we have to wrap the promise() in a f() first, and!
+          init "them" by map & return f() only the inside the Promise.all,
+          like beneath.
+        */
+        function middlePass(f){ return f();};
+        return Promise.all(updatePromise.map(middlePass));
+      })
+      .catch((err)=> {throw err});
+    }
+
     //and prepare the async update if we need to update the wishList & nodes_demand_match
     async function _update_Wish(mergedList){
       //when the function calles, at least we need to update the wishedlist of this user
@@ -37,7 +92,8 @@ function _handle_PATCH_wish(req, res){
       .then(([nodeResult, created])=>{
         //when wished from user, we just put him/her into the list
         //that's all, no matter under what kind of condition now
-        let demandList = nodeResult.list_demand? JSON.parse(nodeResult.list_demand): []; //in case the list was 'null'
+        let demandList = nodeResult.list_demand? JSON.parse(nodeResult.list_demand): [], //in case the list was 'null'
+            willingList = nodeResult.list_willing? JSON.parse(nodeResult.list_willing): []; // used later if we need to check Order
         if(demandList.indexOf(userId) <0){ //means the record was there in table, so the user would be new one to the list
           demandList.push(userId);
         };
@@ -52,8 +108,14 @@ function _handle_PATCH_wish(req, res){
             where: {id_node: wishedNodeId},
             fields: ['finished', 'list_demand']
           }
-        );
-      });
+        )
+        .then(()=>{
+          //final, if the req is an 'order', and the node do has 'supply', we have to check if the take could happen
+          if(orderify && nodeResult.supply) return _check_OrderConfirm(willingList);
+          //or return directly if not
+          return;
+        });
+      }).catch((err)=> {throw err});
     }
 
     //first, we select the current records of wished list of this user in db

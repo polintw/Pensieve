@@ -2,7 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
   const users_demand_match = sequelize.define('users_demand_match', {
     id_user: DataTypes.INTEGER,
-    occupied: DataTypes.BOOLEAN,
+    occupied: DataTypes.INTEGER, //in fact, it was set originally a "Boolean", so the col was actually set as 'Tinyint' 
     taking: DataTypes.STRING,
     list_wished: DataTypes.STRING,
     list_willing: DataTypes.STRING,

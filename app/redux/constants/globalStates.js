@@ -73,7 +73,7 @@ export const i18nUIStringInit = {
      "message_Main_duplicateTaking": "There has already been another corner taken on record. Giving up the current one if you wanted to take this new corner.",
      "message_Main_forbbidenWish": "The Wish bucket allow an Order with/or up to 3 wishes. You have to remove some of them before making another one.",
      "hint_Process_MatchTaking": "submitting the corner you taked...",
-     "title_Main_matchTaking": ["Taken", "on list", ["Give ", "up"]],
+     "title_Main_matchTaking": ["Taken", "on list", ["Give ", "up"], "Ordered"],
      "message_Main_MatchTakingGiveup": ["There are still ", "users on the list looking forward to any Share about ", ". Are you sure you want to give up the taken?"],
      "link_Main_matchSupplyAction": ["Order", "list me"]
    }

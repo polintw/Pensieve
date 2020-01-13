@@ -35,6 +35,7 @@ class Taking extends React.Component {
     this.state = {
       axios: false,
       demandCount: null,
+      takingType: 0,
       onNode: false,
       onGiveUp: false
     };
@@ -111,7 +112,8 @@ class Taking extends React.Component {
 
       self.setState({
         axios: false,
-        demandCount: resObj.main.demandCount
+        demandCount: resObj.main.demandCount,
+        takingType: resObj.main.takingType
       })
     })
     .catch(function (thrown) {
@@ -158,7 +160,12 @@ class Taking extends React.Component {
                   <span
                     className={classnames(stylesMain.fontType)}
                     style={{color: '#ff7a5f'}}>
-                    {this.props.i18nUIString.catalog["title_Main_matchTaking"][0]}</span>
+                    {
+                      (this.state.takingType== 1) ?
+                      this.props.i18nUIString.catalog["title_Main_matchTaking"][0]:
+                      this.props.i18nUIString.catalog["title_Main_matchTaking"][3]
+                    }
+                  </span>
                   <Link
                     to={"/cosmic/nodes/"+nodeId}
                     className={classnames('plainLinkButton', styles.boxNodeName)}

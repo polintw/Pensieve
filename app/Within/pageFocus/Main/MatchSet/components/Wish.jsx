@@ -208,7 +208,7 @@ const mapDispatchToProps = (dispatch) => {
     _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
     _submit_Nodes_insert: (obj) => { dispatch(updateNodesBasic(obj)); },
     _submit_FlagSwitch: (target) => { dispatch(setFlag(target)); },
-    _set_MessageSinClose: (obj) => { dispatch(setMessageSingleClose(str));},
+    _set_MessageSinClose: (obj) => { dispatch(setMessageSingleClose(obj));},
   }
 }
 
