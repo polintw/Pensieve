@@ -211,14 +211,14 @@ class Supply extends React.Component {
       <div
         className={classnames(styles.comSupply)}>
         <div
-          className={classnames(styles.boxOptions)}>
-          {this._render_SupplyOptions()}
-        </div>
-        <div
-          className={classnames(styles.boxSubTitle, stylesMain.fontSubTitle)}>
+          className={classnames(styles.boxSubTitle, stylesMain.fontType)}>
           {
             //this sentence, considering overlap one row of the options, similar to Demand
             this.props.i18nUIString.catalog["title_Main_matchSupply"]}
+          </div>
+        <div
+          className={classnames(styles.boxOptions)}>
+          {this._render_SupplyOptions()}
         </div>
       </div>
     )

@@ -164,9 +164,11 @@ class Wrapper extends React.Component {
                 _refer_von_cosmic={this.props._refer_von_cosmic}/>
             </div>
             <div
-              className={classnames(styles.boxRowFlat)}>
+              className={classnames(styles.boxBeneathMatchSet)}>
               <Supply/>
             </div>
+            <div
+              className={classnames(styles.decoSeparationStroke, styles.boxCenterStrokeRow)}></div>
           </div>
           {
             (this.props.indexLists.listNew.length> 0) &&

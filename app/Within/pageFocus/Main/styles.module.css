@@ -10,7 +10,7 @@
 
 .boxRow {
   width: 100%;
-  margin: 3vw 0;
+  margin: 3.5vw 0;
 }
 
 .boxRowTop {
@@ -21,8 +21,9 @@
   margin: 0 0 2.5vw;
 }
 
-.boxRowFlat {
+.boxBeneathMatchSet {
   width:100%;
+  margin: 3rem 0 5.5vw;
 }
 
 .boxMatchSet{
@@ -30,7 +31,7 @@
   height: 16rem;
   box-sizing: border-box;
   padding: 2% 0 1%;
-  margin: 3.5vw 0 9rem;
+  margin: 3vw 0 9rem;
   box-shadow: 4px 0 4px -5px inset, -4px 0 4px -5px inset;
 }
 
@@ -81,6 +82,12 @@
   height: 21vw;
 }
 
+.boxCenterStrokeRow {
+  width: 10%;
+  margin-left: 50%;
+  transform: translate(-50%,0);
+}
+
 .boxFillHoriz {
   width: 99%;
   height: 15vw;
@@ -95,6 +102,10 @@
 
 .decoSeparationLine {
   border-bottom: 0.14rem solid #c4c4c4;
+}
+
+.decoSeparationStroke {
+  border-bottom: 0.21rem solid #ff7a5f;
 }
 
 .fontTitle {

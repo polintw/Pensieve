@@ -65,7 +65,7 @@ export const i18nUIStringInit = {
      "title_Main_NewCust": "New for you",
      "title_Main_OtherNew": "Newly arrived",
      "title_Main_matchDemand": ["Taking one!", "these are corners hoping from people."],
-     "title_Main_matchSupply": "Corners incubating...",
+     "title_Main_matchSupply": "And people are willing to providing these corners!",
      "title_Main_matchWilling": "Your Providing Menu.",
      "catagory_MatchNodes_willing": ["adding new", "providing", "dedicated to..."],
      "submit_remove": "remove",
