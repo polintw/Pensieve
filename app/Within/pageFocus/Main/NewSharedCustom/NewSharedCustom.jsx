@@ -109,6 +109,13 @@ class NewSharedCustom extends React.Component {
         if(unitId in this.state.unitsBasic) {
           let nail = nailChart(2, unitId, this);
           unitsDOM.push(nail);
+          //insert separation if needed
+          let remainder = i % 2; // i start from 0, so it would be either 1 or 0, just like 'true or false'
+          if(remainder && (i+1)< unitsList.length) unitsDOM.push(
+            <div
+              key={'key_CosmicMain_Sparation_CustomShared'+i}
+              className={classnames(stylesMain.boxFillHoriz)}/>
+          ); //end of if()
         }
       }
     }
@@ -122,14 +129,23 @@ class NewSharedCustom extends React.Component {
         className={classnames(styles.comNewSharedCust)}>
         <div
           className={classnames(styles.boxBillboard)}>
-          <span
-            className={classnames(styles.spanBillboard, stylesMain.fontTitle)}>
-            {this.props.i18nUIString.catalog["title_Main_NewCust"]}</span>
+          <div
+            className={classnames(styles.boxTitleWrap)}>
+            <span
+              className={classnames(styles.spanBillboard, stylesMain.fontTitle)}>
+              {this.props.i18nUIString.catalog["title_Main_NewCust"][0]}</span>
+            <br/>
+            <span
+              className={classnames(styles.spanBillboard, stylesMain.fontType)}>
+              {this.props.i18nUIString.catalog["title_Main_NewCust"][1]}</span>
+          </div>
         </div>
         <div
           className={classnames(styles.boxUnits)}>
           {this._render_unitsCustomNew()}
         </div>
+        <div
+          className={classnames(stylesMain.decoSeparationLine, styles.boxUnderline)}></div>
       </div>
     )
   }

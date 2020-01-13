@@ -148,14 +148,6 @@ class Wrapper extends React.Component {
             <DemandTake
               _refer_von_cosmic={this.props._refer_von_cosmic}/>
           </div>
-          {
-            (this.props.indexLists.listCustomNew.length> 0) &&
-            <div
-              className={classnames(styles.boxRow)}>
-              <NewSharedCustom
-                {...this.props}/>
-            </div>
-          }
           <div
             className={classnames(styles.boxRow)}>
             <div
@@ -170,6 +162,14 @@ class Wrapper extends React.Component {
             <div
               className={classnames(styles.decoSeparationStroke, styles.boxCenterStrokeRow)}></div>
           </div>
+          {
+            (this.props.indexLists.listCustomNew.length> 0) &&
+            <div
+              className={classnames(styles.boxRow)}>
+              <NewSharedCustom
+                {...this.props}/>
+            </div>
+          }
           {
             (this.props.indexLists.listNew.length> 0) &&
             <div

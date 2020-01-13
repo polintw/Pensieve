@@ -31,7 +31,7 @@
   height: 16rem;
   box-sizing: border-box;
   padding: 2% 0 1%;
-  margin: 3vw 0 9rem;
+  margin: 1vw 0 7rem;
   box-shadow: 4px 0 4px -5px inset, -4px 0 4px -5px inset;
 }
 
@@ -90,7 +90,7 @@
 
 .boxFillHoriz {
   width: 99%;
-  height: 15vw;
+  height: 5vw;
 }
 
 .decoSeparationHorz {

@@ -1,17 +1,26 @@
 .comNewShared {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   width: 100%;
+  position: relative;
+  padding-bottom: 7vw;
 }
 
 .boxBillboard {
   display: inline-block;
   width: 20vw;
-  margin-top: 15vw; /*half of Nail's height*/
+  margin-top: 10vw; /*base on Nail's height*/
+  text-align: center;
+}
+
+.boxTitleWrap {
+  display: inline-block;
+  transform: translate(-50%,0);
+  text-align: left;
 }
 
 .spanBillboard {
-
+  display: block;
 }
 
 .boxUnits {
@@ -20,4 +29,11 @@
   flex-direction: row-reverse;
   flex-wrap: wrap;
   width: 42.5vw;
+}
+
+.boxUnderline {
+  width: 88%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
 }
