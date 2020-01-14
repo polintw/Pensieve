@@ -108,7 +108,7 @@ class NewShared extends React.Component {
           let remainder = i % 2; // i start from 0, so it would be either 1 or 0, just like 'true or false'
           if(remainder && (i+1)< unitsList.length) unitsDOM.push(
             <div
-              key={'key_CosmicMain_Sparation_CustomShared'+i}
+              key={'key_CosmicMain_Sparation_NewShared'+i}
               className={classnames(stylesMain.boxFillHoriz)}/>
           ); //end of if()
         }

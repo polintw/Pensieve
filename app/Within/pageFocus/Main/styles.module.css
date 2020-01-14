@@ -10,7 +10,9 @@
 
 .boxRow {
   width: 100%;
-  margin: 3.5vw 0;
+  position: relative;
+  margin: 3.5vw 0 0;
+  padding-bottom: 3.5vw;
 }
 
 .boxRowTop {
@@ -80,6 +82,14 @@
 
 .heightThird {
   height: 21vw;
+}
+
+.boxCenterUnderLine {
+  width: 88%;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
 }
 
 .boxCenterStrokeRow {

@@ -131,6 +131,13 @@ class Broads extends React.Component {
           // should has a special type for broads --- to display broaded users
           let nail = nailChart(5, unitId, this);
           unitsDOM.push(nail);
+          //insert separation if needed
+          let remainder = i % 2; // i start from 0, so it would be either 1 or 0, just like 'true or false'
+          if(remainder && (i+1)< unitsList.length) unitsDOM.push(
+            <div
+              key={'key_CosmicMain_Sparation_Broads_'+i}
+              className={classnames(stylesMain.boxFillHoriz)}/>
+          ); //end of if()
         }
       }
     }
@@ -144,9 +151,16 @@ class Broads extends React.Component {
         className={classnames(styles.comBroads)}>
         <div
           className={classnames(styles.boxBillboard)}>
-          <span
-            className={classnames(styles.spanBillboard, stylesMain.fontTitle)}>
-            {this.props.i18nUIString.catalog["title_Main_Broads"]}</span>
+          <div
+            className={classnames(styles.boxTitleWrap)}>
+            <span
+              className={classnames(styles.spanBillboard, stylesMain.fontTitle)}>
+              {this.props.i18nUIString.catalog["title_Main_Broads"][0]}</span>
+            <br/>
+            <span
+              className={classnames(styles.spanBillboard, stylesMain.fontType)}>
+              {this.props.i18nUIString.catalog["title_Main_Broads"][1]}</span>
+          </div>
         </div>
         <div
           className={classnames(styles.boxUnits)}>

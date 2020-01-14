@@ -2,16 +2,22 @@
   display: flex;
   justify-content: space-around;
   width: 100%;
+  position: relative;
 }
 
 .boxBillboard {
   display: inline-block;
   width: 20vw;
-  margin-top: 15vw; /*half of Nail's height*/
+  margin-top: 10vw; /*base on Nail's height*/
+}
+
+.boxTitleWrap {
+  display: inline-block;
+  text-align: right;
 }
 
 .spanBillboard {
-
+  display: block;
 }
 
 .boxUnits {

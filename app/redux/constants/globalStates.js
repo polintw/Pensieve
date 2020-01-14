@@ -59,7 +59,7 @@ export const i18nUIStringInit = {
 
      removed part in Main
      */
-     "title_Main_Broads": "Broaded by users",
+     "title_Main_Broads": ["Broaded", "by people"],
      "catagory_MatchNodes_wished": ["Wish", "Wish·Order"],
 
      "title_Main_NewCust": ["NEW", "for you"],
