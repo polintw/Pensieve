@@ -8,6 +8,8 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
 import stylesMain from "../../styles.module.css"; //Notice, we use shared css file here for easier control
+import CreateShare from '../../../../../Component/CreateShare.jsx';
+import SvgCreate from '../../../../../Component/Svg/SvgCreate.jsx';
 import {
   axios_get_taking_list,
   axios_delete_matchSetting
@@ -37,18 +39,25 @@ class Taking extends React.Component {
       demandCount: null,
       takingType: 0,
       onNode: false,
-      onGiveUp: false
+      onGiveUp: false,
+      onCreate: false
     };
     this.axiosSource = axios.CancelToken.source();
     this._fetch_List = this._fetch_List.bind(this);
     this._submit_giveup = this._submit_giveup.bind(this);
+    this._submit_Share_New = this._submit_Share_New.bind(this);
     this._render_matchTaking = this._render_matchTaking.bind(this);
     this._handleClick_taken_giveUp = this._handleClick_taken_giveUp.bind(this);
     this._handleMouseOn_Node = ()=> this.setState((prevState,props)=>{return {onNode: prevState.onNode?false:true}});
     this._handleMouseOn_giveUp = ()=> this.setState((prevState,props)=>{return {onGiveUp: prevState.onGiveUp?false:true}});
+    this._handleMouseOn_Create = ()=> this.setState((prevState,props)=>{return {onCreate: prevState.onCreate?false:true}});
     this.style={
 
     }
+  }
+
+  _submit_Share_New(dataObj){
+    window.location.assign('/user/cognition/actions/shareds/unit?theater&unitId='+dataObj.unitId);
   }
 
   _handleClick_taken_giveUp(event){
@@ -198,17 +207,32 @@ class Taking extends React.Component {
                 </div>
               </div>
               <div
-                className={classnames(styles.boxfoot, stylesMain.fontSubmit)}
-                style={this.state.onGiveUp? {textShadow: '0 0 4px hsla(0, 0%, 68%, 0.88)'}:{}}
-                onMouseEnter={this._handleMouseOn_giveUp}
-                onMouseLeave={this._handleMouseOn_giveUp}
-                onClick={this._handleClick_taken_giveUp}>
-                <span>
-                  {this.props.i18nUIString.catalog["title_Main_matchTaking"][2][0]}
-                </span>
-                <span>
-                  {this.props.i18nUIString.catalog["title_Main_matchTaking"][2][1]}
-                </span>
+                className={classnames(styles.boxfoot)}>
+                <div
+                  className={classnames(styles.boxCreate)}
+                  onMouseEnter={this._handleMouseOn_Create}
+                  onMouseLeave={this._handleMouseOn_Create}>
+                  <SvgCreate
+                    black={this.state.onCreate}
+                    place={false}
+                    stretch={false}/>
+                  <CreateShare
+                    _submit_Share_New={this._submit_Share_New}
+                    _refer_von_Create={this.props._refer_von_cosmic}/>
+                </div>
+                <div
+                  className={classnames(styles.boxGiveUp, stylesMain.fontSubmit)}
+                  style={this.state.onGiveUp? {textShadow: '0 0 4px hsla(0, 0%, 68%, 0.88)'}:{}}
+                  onMouseEnter={this._handleMouseOn_giveUp}
+                  onMouseLeave={this._handleMouseOn_giveUp}
+                  onClick={this._handleClick_taken_giveUp}>
+                  <span>
+                    {this.props.i18nUIString.catalog["title_Main_matchTaking"][2][0]}
+                  </span>
+                  <span>
+                    {this.props.i18nUIString.catalog["title_Main_matchTaking"][2][1]}
+                  </span>
+                </div>
               </div>
             </div>
           </div>

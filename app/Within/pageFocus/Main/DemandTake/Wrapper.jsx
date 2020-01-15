@@ -41,7 +41,8 @@ class Wrapper extends React.Component {
         </div>
         <div
           className={classnames(styles.boxWrappTake)}>
-          <Taking/>
+          <Taking
+            _refer_von_cosmic={this.props._refer_von_cosmic}/>
         </div>
       </div>
     )

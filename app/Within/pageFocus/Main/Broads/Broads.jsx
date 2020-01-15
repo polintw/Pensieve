@@ -121,8 +121,8 @@ class Broads extends React.Component {
         unitsDOM = [];
 
     if(unitsList.length > 0 ){ // check necessity first, skip if no item.
-      //we render only two, but the backend may pass more than 2, so don't forget setting the limit
-      for(let i =0 ; i< 3 && i< unitsList.length; i++){ //again, don't forget the length limit to prevent error cause by unwanted cycle
+      //the backend may pass more than 4, so don't forget setting the limit
+      for(let i =0 ; i< 6 && i< unitsList.length; i++){ //again, don't forget the length limit to prevent error cause by unwanted cycle
         let unitId = unitsList[i];
         //then important question: do we have the data of this Unit ? if not, we skip to next one
         if(unitId in this.state.unitsBasic) {
@@ -136,7 +136,7 @@ class Broads extends React.Component {
           if(remainder && (i+1)< unitsList.length) unitsDOM.push(
             <div
               key={'key_CosmicMain_Sparation_Broads_'+i}
-              className={classnames(stylesMain.boxFillHoriz)}/>
+              className={classnames(stylesMain.boxFillHorizClose)}/>
           ); //end of if()
         }
       }

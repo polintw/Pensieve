@@ -72,7 +72,7 @@ export function nailChart(choice, unitId, pare){
     case 5:
       return (
         <div
-          key={'key_CosmicMain_rows_Nails_'+ unitId}
+          key={'key_CosmicMain_rows_NailBroaded_'+ unitId}
           className={classnames(styles.boxNail, styles.heightNine, styles.boxNarrow)}>
           <FetchBroads
             {...pare.props}
@@ -128,7 +128,7 @@ export function separationLine(remainder, index){
       case 1:
         return (
           /*'9' is the length of the firstBlock*/
-          (index < 9) ? 1: false
+          (index < 9) ? 0: false
         )
         break;
       case 2:
@@ -141,10 +141,10 @@ export function separationLine(remainder, index){
         break;
       case 6: //only for firstBlock (space between rows of wides)
         return (
-          (index < 9) ? 2: false
+          (index < 9) ? 1: false
         )
         break;
-      case 7: //only happened in followed Units
+      case 7:
         return (
           (index < 9) ? false : 2
         )
@@ -154,9 +154,9 @@ export function separationLine(remainder, index){
           (index < 9) ? 2: false
         )
         break;
-      case 9: //only happened in firstBlock
+      case 9:
         return (
-          (index < 9) ? 1 : false
+          (index < 9) ?  false : 1
         )
         break;
       default:
@@ -176,8 +176,7 @@ export function separationLine(remainder, index){
       return (
         <div
           key={'key_CosmicMain_NailsSparation_'+index}
-          className={classnames(styles.boxFillHoriz)}
-          style={!!( Math.floor((index-10)/8) %2) ? {width: '55%', position: 'relative', marginLeft: '3.1%', marginRight: '40%'}:{width: '55%',position: 'relative', marginLeft: '41.9%'}}>
+          className={classnames(styles.boxFillCenterLine)}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 561 1"
             className={classnames(styles.decoSeparationHorz)}>
             <defs><style>{".cls-1-strokeSeparationHorz{fill:none;stroke:#c4c4c4;stroke-linecap:round;stroke-miterlimit:10;opacity:0.78;}"}</style></defs>

@@ -25,7 +25,7 @@
 .boxColumUp {
   display: flex;
   justify-content: center;
-  margin-bottom: 2rem;
+  margin-bottom: 2.7rem;
 }
 
 .boxCorner {
@@ -43,7 +43,19 @@
 }
 
 .boxfoot {
-  align-self: flex-end;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  cursor: pointer;
+}
+
+.boxCreate {
+  width: 6.4rem;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.boxGiveUp {
   cursor: pointer;
 }
 

@@ -102,14 +102,14 @@ class NewShared extends React.Component {
         let unitId = unitsList[i];
         //then important question: do we have the data of this Unit ? if not, we skip to next one
         if(unitId in this.state.unitsBasic) {
-          let nail = nailChart(2, unitId, this);
+          let remainder = i % 2; // i start from 0, so it would be either 1 or 0, just like 'true or false'
+          let nail = (!remainder && (i+1) == unitsList.length) ? nailChart(0, unitId, this): nailChart(2, unitId, this);
           unitsDOM.push(nail);
           //insert separation if needed
-          let remainder = i % 2; // i start from 0, so it would be either 1 or 0, just like 'true or false'
           if(remainder && (i+1)< unitsList.length) unitsDOM.push(
             <div
               key={'key_CosmicMain_Sparation_NewShared'+i}
-              className={classnames(stylesMain.boxFillHoriz)}/>
+              className={classnames(stylesMain.boxFillHorizClose)}/>
           ); //end of if()
         }
       }

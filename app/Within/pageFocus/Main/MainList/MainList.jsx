@@ -163,8 +163,6 @@ class MainList extends React.Component {
   _render_IndexNails(){
     const ruleFirstBlock = [0,2,2,2,2,3,3,3,3],
           ruleBlock = [2,2,2,[0,2],[2,0],2,2,2,3,3];
-    /*const ruleFirstBlock = [2,2,2,3,3,0,2,2,2,2],
-          ruleBlock = [2,2,2,[0,2],[2,0],2,2,2];*/
 
     let nailsIndex = []; //don't use .map() because we probably need to push twice in one round
     this.props.indexLists.listFocus.forEach((unitId, index)=>{

@@ -190,7 +190,8 @@ class Wrapper extends React.Component {
               {...this.props}
               _set_mountToDo={this._set_mountToDo}/>
             <div
-              className={classnames(styles.decoSeparationLine, styles.boxUnderLine, styles.boxCenterUnderLine)}></div>
+              className={classnames(styles.decoSeparationLine, styles.boxUnderLine)}
+              style={{width:'38%', right:'0'}}></div>
           </div>
           <div
             className={styles.boxList}>
