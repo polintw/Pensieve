@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import Unit from '../../Unit/Unit/Unit.jsx';
-import NailBasic from '../../Component/Nails/NailBasic/NailBasic.jsx';
+import NailSquare from '../../Component/Nails/NailSquare/NailSquare.jsx';
 import {
   handleNounsList,
   handleUsersList
@@ -113,9 +113,10 @@ class LtdUnits extends React.Component {
         <div
           key={'key_ScapeNails_'+this.state.ltdList.length+'_'+index}
           style={this.style.frameNail}>
-          <NailBasic
+          <NailSquare
             {...this.props}
             unitId={unitId}
+            linkPath={this.props.match.url+'/unit'}
             unitBasic={this.state.unitsBasic[unitId]}
             marksBasic={this.state.marksBasic}/>
         </div>

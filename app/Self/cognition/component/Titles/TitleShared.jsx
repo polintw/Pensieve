@@ -19,24 +19,20 @@ export default class TitleShared extends React.Component {
     this._handleEnter_Create = this._handleEnter_Create.bind(this);
     this.style={
       selfCom_Title_Shared_: {
+        display: 'flex',
+        flexDirection: 'column',
         width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
         boxSizing: 'border-box'
       },
       selfCom_Title_Shared_main_: {
-        display: 'inline-block',
-        float: 'left',
         boxSizing: 'border-box',
+        marginBottom: '5.5rem'
       },
       selfCom_Title_Shared_Create_: {
-        width: '20vw',
-        position: 'absolute',
-        bottom: '0',
-        right: '0',
+        alignSelf: 'flex-end',
+        width: '6vw',
         boxSizing: 'border-box',
+        marginRight: '0'
       },
     }
   }

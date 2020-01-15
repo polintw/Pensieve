@@ -87,7 +87,7 @@ class Default extends React.Component {
     return(
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 593 86"
+        viewBox="0 0 393 364"
         style={{
           maxWidth: '100%',
           maxHeight: '100%'
@@ -95,16 +95,13 @@ class Default extends React.Component {
         preserveAspectRatio= {this.props.stretch? "none": 'xMidYMid'}>
         <defs>
           <style>{
-              ".cls-1-createD{"+ (!!this.props.black? "fill:#111111;": "fill:#777777;") + "}.cls-2-createD{"+ (!!this.props.black? "fill:#111111;": "fill:#777777;") + "}.cls-3-createD{fill:#4085a0;}"
+              ".cls-1-createD{fill:none;stroke-miterlimit:10;stroke-width:7px;stroke-dasharray:41 13;"+ (!!this.props.black? "stroke:#111111;": "stroke:#777777;") + "}.cls-2-createD{fill:#ff9a5e;}"
             }</style>
         </defs>
         <g id="圖層_2" data-name="圖層 2">
-          <g id="圖層_4" data-name="圖層 4">
-            <rect className="cls-1-createD" x="228" y="1.5" width="3" height="83"/>
-            <rect className="cls-1-createD" x="362" y="1.5" width="3" height="83"/>
-            <path className="cls-2-createD" d="M583.28,86H563.19V83h20.09a7,7,0,0,0,5.21-2.22l2.22,2A10.05,10.05,0,0,1,583.28,86Zm-24.1,0H539.09V83h20.09Zm-24.1,0H515V83h20.09ZM511,86H490.89V83H511Zm-24.1,0H466.79V83h20.09Zm-24.1,0H442.7V83h20.08Zm-24.1,0H418.6V83h20.08Zm-24.1,0H394.5V83h20.08Zm-24.1,0H370.4V83h20.08Zm-24.1,0H346.3V83h20.08Zm-24.1,0H322.2V83h20.08Zm-24.1,0H298.1V83h20.08Zm-24.1,0H274V83h20.08ZM270,86H249.9V83H270Zm-24.1,0H225.8V83h20.08Zm-24.1,0H201.7V83h20.08Zm-24.1,0H177.6V83h20.08Zm-24.1,0H153.5V83h20.08Zm-24.09,0H129.4V83h20.09Zm-24.1,0H105.3V83h20.09Zm-24.1,0H81.2V83h20.09Zm-24.1,0H57.1V83H77.19Zm-24.1,0H33V83H53.09ZM29,86H9.72c-.32,0-.63,0-1,0L9,83l.68,0H29ZM4.34,84.5A8.84,8.84,0,0,1,0,77V64.44H3V77a5.85,5.85,0,0,0,2.91,4.94Zm588.52-6-3-.55a5.33,5.33,0,0,0,.09-1V58.18h3V77A8.62,8.62,0,0,1,592.86,78.53ZM3,60.43H0V40.34H3Zm590-6.26h-3V34.08h3ZM3,36.33H0V16.24H3Zm590-6.26h-3V10h3ZM3,12.23H0V9C0,4,4.36,0,9.72,0h4.5V3H9.72C6,3,3,5.69,3,9ZM589.49,6.7A6.77,6.77,0,0,0,583.28,3H572.52V0h10.76a9.79,9.79,0,0,1,8.93,5.43ZM568.5,3H548.42V0H568.5ZM544.41,3H524.32V0h20.09Zm-24.1,0H500.22V0h20.09Zm-24.1,0H476.12V0h20.09Zm-24.1,0H452V0h20.09ZM448,3H427.92V0H448Zm-24.1,0H403.83V0h20.08Zm-24.1,0H379.73V0h20.08Zm-24.1,0H355.63V0h20.08Zm-24.1,0H331.53V0h20.08Zm-24.1,0H307.43V0h20.08Zm-24.1,0H283.33V0h20.08Zm-24.1,0H259.23V0h20.08Zm-24.1,0H235.13V0h20.08Zm-24.1,0H211V0h20.08ZM207,3H186.93V0H207Zm-24.1,0H162.83V0h20.08Zm-24.1,0H138.73V0h20.08Zm-24.1,0H114.63V0h20.08ZM110.62,3H90.53V0h20.09ZM86.52,3H66.43V0H86.52ZM62.42,3H42.33V0H62.42ZM38.32,3H18.23V0H38.32Z"/>
-            <path className="cls-3-createD" d="M296.5,67.16c-.95,0-1.71-.5-1.71-1.13V18.29c0-.62.76-1.13,1.71-1.13s1.71.51,1.71,1.13V66C298.21,66.66,297.45,67.16,296.5,67.16Z"/>
-            <path className="cls-3-createD" d="M321.5,42.16c0,1-.51,1.71-1.13,1.71H272.63c-.62,0-1.13-.76-1.13-1.71s.51-1.71,1.13-1.71h47.74C321,40.45,321.5,41.22,321.5,42.16Z"/>
+          <g id="圖層_1-2" data-name="圖層 1">
+            <rect className="cls-1-createD" x="1.5" y="1.5" width="390" height="361" rx="7.5"/>
+            <rect className="cls-2-createD" x="95" y="91.34" width="9" height="200" rx="4"/>
           </g>
         </g>
       </svg>

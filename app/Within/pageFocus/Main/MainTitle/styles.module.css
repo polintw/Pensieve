@@ -1,0 +1,77 @@
+.comMainTitle {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 3.5% 0 0;
+}
+
+.boxBasic {
+  min-width: 13vw;
+  position: absolute;
+  top: 45%;
+  left: 75%;
+  box-sizing: border-box;
+}
+
+.boxBasicBottom {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.boxToday {
+  display: inline-block;
+  position: relative;
+}
+
+.comTodayUnit {
+  display: flex;
+}
+
+.boxTodayTitle {
+  display: flex;
+  flex-direction: column-reverse;
+  max-width: 12.5vw;
+  padding: 0 4% 0 0;
+  box-sizing: border-box;
+}
+
+.boxTodayNails {
+
+}
+
+.boxCreate {
+  width: 37%;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.boxGreet {
+  margin-bottom: 10%;
+}
+
+.boxDate {
+  display: flex;
+  justify-content: flex-end;
+  box-sizing: border-box;
+  margin-right: 8%;
+}
+
+.boxUnderline {
+  width: 60%;
+  position: absolute;
+  top: 0;
+  left: 6.25%;
+}
+
+.spanTodayCorner {
+  margin-bottom: 2.5rem;
+  cursor: pointer;
+}
+
+.spanTodayDescript {
+  margin-bottom: 1rem;
+}
+
+.spanGreet {
+  white-space: nowrap;
+}

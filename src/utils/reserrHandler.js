@@ -173,9 +173,40 @@ function _handle_ErrCatched(e, req, res){
       return res.status(e.status).json(clientSet);
       break;
     case 120:
+      //403
       //currently used by sharedsPOST, when there is no noun accompany
       clientSet['code'] = 120;
       clientSet['message'] = e.message;
+      clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
+    case 121:
+      //403, process about wishlist of matchNodes fail, perhaps exceed length limit or some unknown submit
+      clientSet['code'] = 121;
+      clientSet['message'] = "";
+      clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
+    case 122:
+      //403, process modifying list of matchNodes, trying to update node not yet est. or not opened to submit
+      winston.warn(`${e.status} - ${"code 122, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+      clientSet['code'] = "122";
+      clientSet['message'] = "You are sumitting to a node not allowed.";
+      clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
+    case 123:
+      //403, process for modifying taken node  but may not match the current position, not the desired one or the position not available.
+      winston.info(`${e.status} - ${"code 123, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+      clientSet['code'] = "123";
+      clientSet['message'] = "There has already been another corner taken on record. Giving up the current one if you wanted to take this new corner.";
+      clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
+    case 124:
+      //403, process sumitting the willing node but reject due to duplicate claim or reach limit
+      clientSet['code'] = 124;
+      clientSet['message'] = "";
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;
@@ -183,7 +214,7 @@ function _handle_ErrCatched(e, req, res){
       //500, unexpected internal error
       winston.error(`${"Res status: "+e.status} ; ${"Error code: 131, "+e.message} ; ${"Req: "+req.originalUrl} , ${req.method} , ${req.ip}`);
       clientSet['code'] = 131;
-      clientSet['message'] = {"warning":"Some error happened, please try again."};
+      clientSet['message'] = "Some error happened, please try again later.";
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;

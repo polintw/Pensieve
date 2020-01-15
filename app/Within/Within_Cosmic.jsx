@@ -10,12 +10,19 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./stylesCosmic.module.css";
 import Explore from './Explore/Explore/Explore.jsx';
-import Focus from './Focus/Focus.jsx';
+import Focus from './pageFocus/Focus.jsx';
 import CosmicUser from './component/CosmicUser.jsx';
 import CosmicNoun from './component/CosmicNoun.jsx';
 import LinkExplore from './component/LinkExplore/LinkExplore.jsx';
 import CosmicCorner from './component/CosmicCorner/CosmicCorner.jsx';
+import {
+  setMessageSingleClose
+} from '../redux/actions/general.js'
 import NavOptions from '../Component/NavOptions.jsx';
+import ModalBox from '../Component/ModalBox.jsx';
+import ModalBackground from '../Component/ModalBackground.jsx';
+import SingleCloseDialog from '../Component/Dialog/SingleCloseDialog/SingleCloseDialog.jsx';
+import BooleanDialog from '../Component/Dialog/BooleanDialog/BooleanDialog.jsx';
 
 class WithinCosmic extends React.Component {
   constructor(props){
@@ -130,6 +137,38 @@ class WithinCosmic extends React.Component {
         <div style={this.style.Within_Cosmic_NavOptions}>
           <NavOptions {...this.props}/>
         </div>
+        {
+          //here and beneath, are dialog system for global used,
+          //SingleCloseDialog was currently used by MatchSet, but not limit to it
+          //the series 'message' in redux state is prepared for this kind of global message dialog
+          this.props.messageSingleClose &&
+          <ModalBox containerId="root">
+            <ModalBackground onClose={()=>{this._set_Dialog();}} style={{position: "fixed", backgroundColor: 'rgba(52, 52, 52, 0.36)'}}>
+              <div
+                className={styles.boxDialog}>
+                <SingleCloseDialog
+                  message={this.props.messageSingleClose}
+                  _positiveHandler={()=>{this.props._set_MessageSinClose(null)}}/>
+              </div>
+            </ModalBackground>
+          </ModalBox>
+        }
+        {
+          this.props.messageBoolean['render'] &&
+          <ModalBox containerId="root">
+            <ModalBackground onClose={()=>{this._set_Dialog();}} style={{position: "fixed", backgroundColor: 'rgba(52, 52, 52, 0.36)'}}>
+              <div
+                className={styles.boxDialog}>
+                <BooleanDialog
+                  customButton={this.props.messageBoolean['customButton']}
+                  message={this.props.messageBoolean['message']}
+                  _positiveHandler={this.props.messageBoolean['handlerPositive']}
+                  _negativeHandler={this.props.messageBoolean['handlerNegative']}/>
+              </div>
+            </ModalBackground>
+          </ModalBox>
+        }
+
       </div>
     )
   }
@@ -138,11 +177,19 @@ class WithinCosmic extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
-    unitCurrent: state.unitCurrent
+    unitCurrent: state.unitCurrent,
+    messageSingleClose: state.messageSingleClose,
+    messageBoolean: state.messageBoolean
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    _set_MessageSinClose: (message) => { dispatch(setMessageSingleClose(message)); }
   }
 }
 
 export default withRouter(connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(WithinCosmic));

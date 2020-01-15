@@ -3,6 +3,8 @@ import {
   MOUNT_USERINFO,
   SET_UNITCURRENT,
   SET_UNITINSPIRED,
+  SET_MESSAGE_SINGLECLOSE,
+  SET_MESSAGE_BOOLEAN,
   SET_UNITBROAD,
   SET_FETCHFLAGS,
   UNIT_SUBMITTING_SWITCH,
@@ -11,7 +13,8 @@ import {
   UPDATE_USERSBASIC
 } from '../constants/typesGeneral.js';
 import {
-  SET_INDEXLISTS
+  SET_INDEXLISTS,
+  SET_AXIOS_MATCHTAKING
 } from '../constants/typesCosmic.js';
 import {
   initGlobal,
@@ -41,19 +44,32 @@ function pageWithin(state = initialGeneral, action){
         unitCurrent: {...state.unitCurrent, ...action.nextMarksInteraction}
       })
       break;
+    case SET_MESSAGE_SINGLECLOSE:
+      return Object.assign({}, state, {
+        messageSingleClose: action.messageSingleClose
+      })
+      break;
+    case SET_MESSAGE_BOOLEAN:
+      return Object.assign({}, state, {
+        messageBoolean: action.messageBoolean
+      })
+      break;
     case SET_UNITBROAD:
       return Object.assign({}, state, {
         unitCurrent: {...state.unitCurrent, ...action.unitBroad}
       })
       break;
     case SET_FETCHFLAGS:
-      return Object.assign({}, state, {
-        fetchFlags: action.fetchFlags
-      })
+      return Object.assign({}, state, {...action.flags}) //there were many kind of flags, all binary(bool), and all set by this case.
       break;
     case SET_INDEXLISTS:
       return Object.assign({}, state, {
         indexLists: {...state.indexLists, ...action.lists}
+      })
+      break;
+    case SET_AXIOS_MATCHTAKING:
+      return Object.assign({}, state, {
+        axiosMatchTaking: action.axios
       })
       break;
     case UNIT_SUBMITTING_SWITCH:
