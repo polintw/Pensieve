@@ -1,16 +1,12 @@
 const express = require('express');
 const execute = express.Router();
-const jwt = require('jsonwebtoken');
 const winston = require('../../config/winston.js');
-const {verify_key} = require('../../config/jwt.js');
+
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const _DB_broads = require('../../db/models/index').broads;
 const _DB_usersCustomIndex = require('../../db/models/index').users_custom_index;
 const {_res_success} = require('../utils/resHandler.js');
-const {
-  _select_Basic
-} = require('../utils/dbSelectHandler.js');
 const {
   _handle_ErrCatched,
   internalError,

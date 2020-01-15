@@ -408,7 +408,7 @@ export class NodeSearchModule extends React.Component {
             case "share":
               return DOMResultShare(this, nounBasic, index)
               break;
-            case "belong":
+            case "option":
               return DOMResultBelong(this, nounBasic, index)
               break;
             default:
@@ -453,7 +453,7 @@ export class NodeSearchModule extends React.Component {
       case "share":
         return DOMShareSearch(this)
         break;
-      case "belong":
+      case "option":
         return DOMBelongSearch(this)
         break;
       default:

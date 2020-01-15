@@ -32,6 +32,11 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
+    users.hasOne(models.users_demand_match, {
+      foreignKey:"id_user",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
     users.hasOne(models.sheets, {
       foreignKey:"id_user",
       onDelete: 'cascade',

@@ -65,7 +65,7 @@
   bottom: 27%;
   right: 0;
   box-sizing: border-box;
-  padding: 5.5% 4.5% 6.5% 4.3%;
+  padding: 15px 12px 17.7px 13px;
   background-color: #FFFFFF;
   box-shadow: 0 1px 4px -2px;
 }
@@ -92,12 +92,12 @@
 
 .boxMarkPreview {
   width: 75%;
-  height: 50%;
+  height: 52.5%;
   position: absolute;
   box-sizing: border-box;
   left: 0%;
-  bottom: 12.5%;
-  padding: 0% 6.25%;
+  bottom: 15%;
+  padding: 0% 6.5%;
   overflow: hidden;
 }
 

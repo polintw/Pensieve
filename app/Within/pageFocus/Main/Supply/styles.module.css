@@ -1,0 +1,41 @@
+.comSupply {
+  width: 100%;
+  padding: 0 0 2rem;
+  min-height: 11rem;
+  max-height: 25rem;
+  overflow-y: scroll;
+}
+
+.boxOptions {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: 5.5rem 0px 2rem;
+}
+
+.boxSubTitle {
+  position: sticky;
+  top: 0;
+  padding: 0 3% 1rem;
+  text-align: right;
+}
+
+.boxNode {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.boxNodeLink {
+  align-items: center;
+  position: relative;
+}
+
+.boxNodeSubmit {
+  cursor: pointer;
+}
+
+.boxNodeName {
+  display: inline-block;
+}

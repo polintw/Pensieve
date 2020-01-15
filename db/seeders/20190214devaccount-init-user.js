@@ -23,6 +23,11 @@ module.exports = {
       })
     })
     .then(()=>{
+      return queryInterface.bulkInsert('users_apply', [
+        {id_user: '1', token_email: 'actuallythisisnotavalidtoken', status: 'unverified'}
+      ], {})
+    })
+    .then(()=>{
       return queryInterface.bulkInsert('sheets', [
         {id_user: '1', gender: '0', birthYear: '1990', birthMonth: '01', birthDate: '01'}
       ], {})
@@ -34,6 +39,26 @@ module.exports = {
     })
     .then(()=>{
       return queryInterface.bulkInsert('lastvisit_notify', [
+        {id_user: '1'}
+      ], {})
+    })
+    .then(()=>{
+      return queryInterface.bulkInsert('lastvisit_index', [
+        {id_user: '1'}
+      ], {})
+    })
+    .then(()=>{
+      return queryInterface.bulkInsert('sheets_node', [
+        {id_user: '1'}
+      ], {})
+    })
+    .then(()=>{
+      return queryInterface.bulkInsert('users_prefer_nodes', [
+        {id_user: '1'}
+      ], {})
+    })
+    .then(()=>{
+      return queryInterface.bulkInsert('users_custom_index', [
         {id_user: '1'}
       ], {})
     });

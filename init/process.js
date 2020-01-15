@@ -36,7 +36,7 @@ module.exports.setUp = ()=>{
     'mkdir -p ./faked/dbSeeds',
     'mkdir -p ./faked/dbJSON',
     'cp ./init/units_reach.example.json ./faked/dbJSON/units_reach.json',
-    'cp ./config/.env.example.json ./config/.env.json',
+    'cp ./config/.env.example.json ./config/.env.json', //need to watch the difference between the setUpWin below
   ]
   runCommands(commands, function(err, results) {
       // error or results here
@@ -45,16 +45,14 @@ module.exports.setUp = ()=>{
   });
 }
 
-module.exports.installWin = ()=>{
+module.exports.setUpWin = ()=>{
   //modify config if you change the path
   const commands = [
     "mkdir .\\faked\\dbSeeds",
     "mkdir .\\faked\\logs",
     "mkdir .\\faked\\pics\\1",
     'mkdir .\\faked\\dbJSON',
-    "cp .\\init\\units_reach.example.json .\\faked\\dbJSON\\units_reach.json", //actually command 'cp' not test yet
-    "cp .\\config\\.env.example.json .\\config\\.env.json",
-    "npm install"
+    "echo \{}\ > .\\faked\\dbJSON\\units_reach.json"
   ]
 
   runCommands(commands, function(err, results) {
@@ -69,7 +67,6 @@ module.exports.migrate = ()=>{
     'npx sequelize db:create',
     'npx sequelize db:migrate',
     'npx sequelize db:seed --seed 20190214121202-init-nouns.js',
-    'npx sequelize db:seed --seed 20190329010101-admin-nations.js',
     'npx sequelize db:seed --seed 20190214devaccount-init-user.js'
   ];
   runCommands(commands, function(err, results) {

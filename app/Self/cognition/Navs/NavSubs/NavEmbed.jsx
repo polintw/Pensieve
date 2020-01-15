@@ -54,7 +54,7 @@ class NavEmbed extends React.Component {
             onMouseLeave={this._handleLeave_Option}>
             <span
               className={classnames(styles.spanText, styles.fontLink)}>
-              {"Inpired"}</span>
+              {"Inspired"}</span>
           </Link>
           <Link
             to={this.props.match.url+"/broads"}

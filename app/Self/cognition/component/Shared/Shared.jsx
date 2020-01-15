@@ -21,12 +21,10 @@ import {
 const styleMiddle = {
   titleReserved: {
     width: '100%',
-    height: '15vh',
-    minHeight: '87px',
     position: 'relative',
     left: '-2.5vw',
     boxSizing: 'border-box',
-    marginBottom: '11vh',
+    marginBottom: '3.5rem',
     backgroundColor: 'transparent'
   },
   scrollFooter: {
@@ -100,7 +98,7 @@ class Shared extends React.Component {
           //currently, the Nail was align by '3', three nails a row
           //to add a empty a box for the last row if less than 3n,
           //calculate the remainder of the list
-          initDelta = 3-(this.state.unitsList.length % 3); //delta between 1-3
+          initDelta = 3-(this.state.unitsList.length % 3);
 
     this.state.unitsList.forEach(function(dataKey, index){
       let dataValue = self.state.unitsBasic[dataKey];

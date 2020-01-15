@@ -103,9 +103,9 @@ class Broads extends React.Component {
       //set unitsList in the state,
       //and get unitsBasic by api /unit before go to next
       if(resObj.main.unitsList.length > 0){ //it is possible the list was empty,
-        //only call the api if the list has 'something'
-        self._axios_GET_Units(resObj.main.unitsList);
-      }
+         //only call the api if the list has 'something'
+         self._axios_GET_Units(resObj.main.unitsList);
+       };
 
       self.setState({
         axios: false,

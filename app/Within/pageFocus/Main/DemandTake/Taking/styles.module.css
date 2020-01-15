@@ -1,0 +1,65 @@
+.comTaking {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  height: 100%;
+}
+
+.boxWidth {
+  display: flex;
+  justify-content: center;
+  max-width: 20vw;
+  min-width: 20vw;
+  box-sizing: border-box;
+  padding: 0 2vw;
+  margin: 0 2.5vw;
+  border-left: 1px solid #c4c4c4;
+}
+
+.boxColum {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.boxColumUp {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2.7rem;
+}
+
+.boxCorner {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  margin-right: 3rem;
+}
+
+.boxAssist {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.boxfoot {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  cursor: pointer;
+}
+
+.boxCreate {
+  width: 6.4rem;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.boxGiveUp {
+  cursor: pointer;
+}
+
+.boxNodeName {
+  display: block;
+  position: relative;
+}

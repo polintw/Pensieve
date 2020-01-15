@@ -1,13 +1,16 @@
 const {
   unitCurrentInit,
   accountInfoInit,
-  i18nUIStringInit
+  i18nUIStringInit,
+  messageDialogInit
 } = require('./globalStates.js');
 
 export const initGlobal = {
   userInfo: accountInfoInit, //should change the key:'userInfo' to other else
+  token: null,
   i18nUIString: i18nUIStringInit,
-  token: null
+  messageSingleClose: null, //format follow Boolean, as [{text: '', style:{}}]
+  messageBoolean: messageDialogInit.boolean
 }
 
 export const initSign = {
@@ -24,12 +27,17 @@ export const initUnit = {
 }
 
 export const initCosmicGeneral = {
-  fetchFlags: [],
+  flagBelongRefresh: false,
+  flagTakingRefresh: false,
+  flagWishRefresh: false,
+  flagNewCustomDataFetch: false,
+  flagNewSharedDataFetch: false,
+  axiosMatchTaking: false,
   indexLists: {
-    customNewBelong: [],
-    customNewFirst: [],
-    customNew: [],
-    customSelected: false, //keep in 'false' before any return, as a 'red light' to rendering focus list
+    listCustomNew: [],
+    listNew: [],
+    listFocus:[],
+    demandTake: [],
     todayNode: [],
     broads: []
   }

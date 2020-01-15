@@ -5,6 +5,8 @@ faked/
 config/.env.json
 public/react/
 
+# IDE
+.idea
 
 stylesSelfFront.css
 stylesWithin.css
