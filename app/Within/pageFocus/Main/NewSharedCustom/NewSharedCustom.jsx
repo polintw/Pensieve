@@ -144,8 +144,6 @@ class NewSharedCustom extends React.Component {
           className={classnames(styles.boxUnits)}>
           {this._render_unitsCustomNew()}
         </div>
-        <div
-          className={classnames(stylesMain.decoSeparationLine, styles.boxUnderline)}></div>
       </div>
     )
   }

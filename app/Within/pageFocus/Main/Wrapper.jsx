@@ -144,12 +144,14 @@ class Wrapper extends React.Component {
               _refer_von_cosmic={this.props._refer_von_cosmic}/>
           </div>
           <div
-            className={classnames(styles.boxRow)}>
+            className={classnames(styles.boxRow)}
+            style={{width: '65vw',left:'2.5vw'}}>
             <DemandTake
               _refer_von_cosmic={this.props._refer_von_cosmic}/>
           </div>
           <div
-            className={classnames(styles.boxRow)}>
+            className={classnames(styles.boxRow)}
+            style={{width: '65vw',left:'2.5vw'}}>
             <div
               className={classnames(styles.boxMatchSet)}>
               <MatchSet
@@ -168,6 +170,8 @@ class Wrapper extends React.Component {
               className={classnames(styles.boxRow)}>
               <NewSharedCustom
                 {...this.props}/>
+              <div
+                className={classnames(styles.decoSeparationLine, styles.boxUnderLine)}></div>
             </div>
           }
           {
@@ -176,6 +180,8 @@ class Wrapper extends React.Component {
               className={classnames(styles.boxRow)}>
               <NewShared
                 {...this.props}/>
+              <div
+                className={classnames(styles.decoSeparationLine, styles.boxUnderLine)}></div>
             </div>
           }
           <div
@@ -184,7 +190,7 @@ class Wrapper extends React.Component {
               {...this.props}
               _set_mountToDo={this._set_mountToDo}/>
             <div
-              className={classnames(styles.decoSeparationLine, styles.boxCenterUnderLine)}></div>
+              className={classnames(styles.decoSeparationLine, styles.boxUnderLine, styles.boxCenterUnderLine)}></div>
           </div>
           <div
             className={styles.boxList}>

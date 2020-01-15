@@ -127,12 +127,12 @@ class Broads extends React.Component {
         //then important question: do we have the data of this Unit ? if not, we skip to next one
         if(unitId in this.state.unitsBasic) {
           //the nailChart was co use with other component in Main,
-
-          // should has a special type for broads --- to display broaded users
-          let nail = nailChart(5, unitId, this);
+          // has a special type for broads --- to display broaded users,
+          //and should be 'wider' if it is the last one
+          let remainder = i % 2; // i start from 0, so it would be either 1 or 0, just like 'true or false'
+          let nail = (!remainder && (i+1) == unitsList.length) ? nailChart(6, unitId, this): nailChart(5, unitId, this);
           unitsDOM.push(nail);
           //insert separation if needed
-          let remainder = i % 2; // i start from 0, so it would be either 1 or 0, just like 'true or false'
           if(remainder && (i+1)< unitsList.length) unitsDOM.push(
             <div
               key={'key_CosmicMain_Sparation_Broads_'+i}

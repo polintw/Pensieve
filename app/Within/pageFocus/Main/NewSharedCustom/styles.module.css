@@ -29,10 +29,3 @@
   flex-wrap: wrap;
   width: 42.5vw;
 }
-
-.boxUnderline {
-  width: 88%;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-}

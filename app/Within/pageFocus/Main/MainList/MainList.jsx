@@ -161,16 +161,20 @@ class MainList extends React.Component {
   }
 
   _render_IndexNails(){
-    const ruleFirstBlock = [2,2,2,3,3,0,2,2,2,2],
-          ruleBlock = [2,2,2,[0,2],[2,0],2,2,2];
+    const ruleFirstBlock = [0,2,2,2,2,3,3,3,3],
+          ruleBlock = [2,2,2,[0,2],[2,0],2,2,2,3,3];
+    /*const ruleFirstBlock = [2,2,2,3,3,0,2,2,2,2],
+          ruleBlock = [2,2,2,[0,2],[2,0],2,2,2];*/
 
     let nailsIndex = []; //don't use .map() because we probably need to push twice in one round
     this.props.indexLists.listFocus.forEach((unitId, index)=>{
-      let rulePattern = index< 10? ruleFirstBlock: ruleBlock;
-      let remainder = (index< 10)? index % rulePattern.length: (index-10) % rulePattern.length;
+      let rulePattern = index< ruleFirstBlock.length? ruleFirstBlock: ruleBlock;
+      let remainder = (index< ruleFirstBlock.length)? index % rulePattern.length: (index-ruleFirstBlock.length) % rulePattern.length;
       let nailChoice = rulePattern[remainder];
       //and remember handling the switch of side -- like the painting of a long 'tunnel'
-      if(typeof nailChoice != "number") nailChoice = !!( Math.floor((index-10)/8) %2) ? nailChoice[0]: nailChoice[1];
+      if(typeof nailChoice != "number"){
+        nailChoice = !!( Math.floor((index-ruleFirstBlock.length)/ruleBlock.length) %2) ? nailChoice[0]: nailChoice[1];
+      };
       //then important question: do we have the data of this Unit ? if not, we skip to next one
       if(unitId in this.state.unitsBasic) {
         let nail = nailChart(nailChoice, unitId, this);

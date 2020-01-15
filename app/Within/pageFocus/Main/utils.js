@@ -87,6 +87,24 @@ export function nailChart(choice, unitId, pare){
         </div>
       )
       break;
+    case 6:
+      return (
+        <div
+          key={'key_CosmicMain_rows_NailBroaded_'+ unitId}
+          className={classnames(styles.boxNail, styles.heightNine, styles.boxWide)}>
+          <FetchBroads
+            {...pare.props}
+            unitId={unitId}>
+            <NailBroaded
+              {...pare.props}
+              unitId={unitId}
+              linkPath={pare.props.match.url+'/unit'}
+              unitBasic={pare.state.unitsBasic[unitId]}
+              marksBasic={pare.state.marksBasic}/>
+          </FetchBroads>
+        </div>
+      )
+      break;
     default:
       return (
         <div
@@ -107,27 +125,38 @@ export function nailChart(choice, unitId, pare){
 export function separationLine(remainder, index){
   let caseRef = ()=>{
     switch (remainder) {
+      case 1:
+        return (
+          /*'9' is the length of the firstBlock*/
+          (index < 9) ? 1: false
+        )
+        break;
       case 2:
-        return 2
+        return (
+          (index < 9) ? false: 2
+        )
         break;
       case 4:
-        return (
-          (index < 10) ? 0: 2
-        )
+        return 2
         break;
       case 6: //only for firstBlock (space between rows of wides)
         return (
-          (index < 10) ? 2: false
+          (index < 9) ? 2: false
         )
         break;
       case 7: //only happened in followed Units
         return (
-          (index < 10) ? false : 1
+          (index < 9) ? false : 2
+        )
+        break;
+      case 8: //only for firstBlock (space between rows of wides)
+        return (
+          (index < 9) ? 2: false
         )
         break;
       case 9: //only happened in firstBlock
         return (
-          (index < 10) ? 1 : false
+          (index < 9) ? 1 : false
         )
         break;
       default:

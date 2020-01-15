@@ -139,8 +139,6 @@ class NewShared extends React.Component {
           className={classnames(styles.boxUnits)}>
           {this._render_unitsNew()}
         </div>
-        <div
-          className={classnames(stylesMain.decoSeparationLine, styles.boxUnderline)}></div>
       </div>
     )
   }

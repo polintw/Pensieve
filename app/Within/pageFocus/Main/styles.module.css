@@ -52,7 +52,7 @@
 }
 
 .boxWide {
-  width: 40vw;
+  width: 42.5vw;
   box-shadow: 0 2px 1px rgb(230, 230, 230);
 }
 
@@ -84,10 +84,13 @@
   height: 21vw;
 }
 
-.boxCenterUnderLine {
+.boxUnderLine {
   width: 88%;
   position: absolute;
   bottom: 0;
+}
+
+.boxCenterUnderLine {
   left: 50%;
   transform: translate(-50%, 0);
 }
