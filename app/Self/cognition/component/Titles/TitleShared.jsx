@@ -31,6 +31,7 @@ export default class TitleShared extends React.Component {
       selfCom_Title_Shared_Create_: {
         alignSelf: 'flex-end',
         width: '6vw',
+        position: 'relative',
         boxSizing: 'border-box',
         marginRight: '0'
       },

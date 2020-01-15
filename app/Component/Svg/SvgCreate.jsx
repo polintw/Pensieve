@@ -95,12 +95,15 @@ class Default extends React.Component {
         preserveAspectRatio= {this.props.stretch? "none": 'xMidYMid'}>
         <defs>
           <style>{
-              ".cls-1-createD{fill:none;stroke-miterlimit:10;stroke-width:7px;stroke-dasharray:41 13;"+ (!!this.props.black? "stroke:#111111;": "stroke:#777777;") + "}.cls-2-createD{fill:#ff9a5e;}"
+              ".cls-1-createD{fill:none;stroke-miterlimit:10;stroke-width:7px;stroke-dasharray:41 13;}.cls-2-createD{fill:#ff9a5e;}"
             }</style>
         </defs>
         <g id="圖層_2" data-name="圖層 2">
           <g id="圖層_1-2" data-name="圖層 1">
-            <rect className="cls-1-createD" x="1.5" y="1.5" width="390" height="361" rx="7.5"/>
+            <rect
+              className="cls-1-createD"
+              style={{stroke: !!this.props.black? "#111111": "#777777"}}
+              x="1.5" y="1.5" width="390" height="361" rx="7.5"/>
             <rect className="cls-2-createD" x="95" y="91.34" width="9" height="200" rx="4"/>
           </g>
         </g>

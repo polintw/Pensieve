@@ -77,7 +77,7 @@ class SupplyNode extends React.Component {
 
     return (
       <Link
-        to={"/cosmic/nodes/"+nodeId}
+        to={"/nodes/"+nodeId}
         className={classnames('plainLinkButton', styles.boxNodeLink)}
         onMouseEnter={this._handleMouseOn_Node}
         onMouseLeave={this._handleMouseOn_Node}>

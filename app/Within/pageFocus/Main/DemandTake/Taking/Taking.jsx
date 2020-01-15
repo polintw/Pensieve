@@ -176,7 +176,7 @@ class Taking extends React.Component {
                     }
                   </span>
                   <Link
-                    to={"/cosmic/nodes/"+nodeId}
+                    to={"/nodes/"+nodeId}
                     className={classnames('plainLinkButton', styles.boxNodeName)}
                     onMouseEnter={this._handleMouseOn_Node}
                     onMouseLeave={this._handleMouseOn_Node}>

@@ -63,7 +63,7 @@ export function nailChart(choice, unitId, pare){
             {...pare.props}
             unitId={unitId}
             todayNode={pare.state.nodeId}
-            linkPath={pare.props.match.url+'/unit'}
+            linkPath={'/unit'}
             unitBasic={pare.state.unitsBasic[unitId]}
             marksBasic={pare.state.marksBasic}/>
         </div>
@@ -80,7 +80,7 @@ export function nailChart(choice, unitId, pare){
             <NailBroaded
               {...pare.props}
               unitId={unitId}
-              linkPath={pare.props.match.url+'/unit'}
+              linkPath={'/unit'}
               unitBasic={pare.state.unitsBasic[unitId]}
               marksBasic={pare.state.marksBasic}/>
           </FetchBroads>

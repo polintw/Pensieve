@@ -100,7 +100,7 @@ class NodeWished extends React.Component {
       <div
         className={classnames(stylesMatch.boxNode)}>
         <Link
-          to={"/cosmic/nodes/"+nodeId}
+          to={"/nodes/"+nodeId}
           className={classnames('plainLinkButton', stylesMatch.boxNodeLink)}
           onMouseEnter={this._handleMouseOn_Node}
           onMouseLeave={this._handleMouseOn_Node}>

@@ -281,7 +281,7 @@ class TodayNode extends React.Component {
               position: 'absolute', bottom: '0', left: '100%', transform: 'translate(50%, 0)'
             }}>
             <Link
-              to={"/cosmic/nodes/"+this.state.nodeId}
+              to={"/nodes/"+this.state.nodeId}
               className={classnames(styles.linkMore, styles.fontLink)}
               style={{textDecoration: 'none'}}>
               {">more"}
