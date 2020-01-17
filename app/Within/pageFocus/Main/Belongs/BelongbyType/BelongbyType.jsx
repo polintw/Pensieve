@@ -85,14 +85,31 @@ class BelongbyType extends React.Component {
         </Link>
         <div
           className={classnames(styles.boxCount)}>
-          <span
-            className={classnames(styles.spanType, stylesMain.fontType)}>
-            {"way to "}</span>
+          {
+            (this.props.type == "used") ? (
+              <span
+                className={classnames(styles.spanType, stylesMain.fontType)}>
+                {this.props.i18nUIString.catalog['category__Belong_usersCount'][2]}
+              </span>
+            )
+            : (
+              <div style={{display: 'inline-flex', flexDirection: 'column'}}>
+                <span
+                  className={classnames(styles.spanType, stylesMain.fontType)}>
+                  {this.props.i18nUIString.catalog['category__Belong_usersCount'][0]}
+                </span>
+                <span
+                  className={classnames(styles.spanType, stylesMain.fontType)}>
+                  {this.props.i18nUIString.catalog['category__Belong_usersCount'][1]}
+                </span>
+              </div>
+            )
+          }
           <span
             className={classnames(styles.spanType, styles.fontCount)}>
             {
-              !!(nodeId in this.props.nodesSharedCount) &&
-              this.props.nodesSharedCount[nodeId]
+              !!(this.props.type in this.props.nodesTypeCount) &&
+              this.props.nodesTypeCount[this.props.type]
             }</span>
         </div>
       </div>

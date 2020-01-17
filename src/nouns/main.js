@@ -3,6 +3,7 @@ const main = express.Router();
 
 const basicExcutive = require('./basic.js');
 const searchExecutive = require('./search/execute.js');
+const staticsExecutive = require('./statics/execute.js');
 const attributeExecutive = require('./attribution.js');
 const plainExecutive = require('./plain.js');
 
@@ -16,6 +17,8 @@ main.param("id", (req, res, next, id)=>{
 })
 
 main.use('/:id/attribution', attributeExecutive)
+
+main.use('/:id/statics', staticsExecutive)
 
 main.use('/:id', plainExecutive)
 

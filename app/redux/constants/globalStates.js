@@ -75,6 +75,7 @@ export const i18nUIStringInit = {
      "hint_Process_MatchTaking": "submitting the corner you taked...",
      "title_Main_matchTaking": ["Taken", "on list", ["Give ", "up"], "Ordered"],
      "message_Main_MatchTakingGiveup": ["There are still ", "users on the list looking forward to any Share about ", ". Are you sure you want to give up the taken?"],
-     "link_Main_matchSupplyAction": ["Order", "list me"]
+     "link_Main_matchSupplyAction": ["Order", "list me"],
+     "category__Belong_usersCount": ["with ", "users", "way to "]
    }
 }

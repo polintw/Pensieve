@@ -30,19 +30,20 @@ class Belongs extends React.Component {
       axios: false,
       typeObj: {},
       nodesList: [],
-      nodesSharedCount: {},
+      nodesTypeCount: {},
       dialog: false,
       chosenNode: '',
       settingType: ''
     };
     this.axiosSource = axios.CancelToken.source();
     this._init_fetch = this._init_fetch.bind(this);
-    this._set_sharedCount = this._set_sharedCount.bind(this);
+    this._set_infoCount = this._set_infoCount.bind(this);
     this._set_choiceAnType = this._set_choiceAnType.bind(this);
     this._set_dialog_cancel = this._set_dialog_cancel.bind(this);
     this._render_BelongList = this._render_BelongList.bind(this);
     this._render_DialogMessage = this._render_DialogMessage.bind(this);
     this._handlesubmit_newBelong = this._handlesubmit_newBelong.bind(this);
+    this._axios_GET_usersCount = this._axios_GET_usersCount.bind(this);
     this._axios_GET_sharedCount = this._axios_GET_sharedCount.bind(this);
     this._axios_GET_belongRecords = this._axios_GET_belongRecords.bind(this);
     this._axios_GET_recordeShared = this._axios_GET_recordeShared.bind(this);
@@ -72,7 +73,7 @@ class Belongs extends React.Component {
     this.setState({
       typeObj: {},
       nodesList: [],
-      nodesSharedCount: {},
+      nodesTypeCount: {},
       dialog: false,
     });
 
@@ -148,11 +149,31 @@ class Belongs extends React.Component {
     })
   }
 
-  _set_sharedCount(nodesList){
-    //make axios req by nodesList
-    let promiseArr = nodesList.map((nodeId, index)=>{
-      return this._axios_GET_sharedCount(nodeId)
+  _axios_GET_usersCount(nodeId, type){
+    return axios({
+      method: 'get',
+      url: '/router/nouns/'+nodeId+ '/statics',
+      params: {
+        request: 'belong',
+        subType:　type
+      },
+      headers: {
+        'charset': 'utf-8',
+        'token': window.localStorage['token']
+      },
+      cancelToken: this.axiosSource.cancelToken
+    })
+  }
+
+  _set_infoCount(typeObj){
+    //make axios req by typeObj
+    let typeKeys = Object.keys(typeObj);
+    let promiseArr = typeKeys.map((key, index)=>{
+      if(key =="used") return this._axios_GET_sharedCount(typeObj["used"]);
+      return this._axios_GET_usersCount(typeObj[key], key);
     });
+
+
     const self = this;
     this.setState({axios: true});
 
@@ -160,17 +181,17 @@ class Belongs extends React.Component {
       .then(results => { //we don't know how many res from .all(), so use general params
         self.setState({axios: false});
 
-        let nodesSharedCount = {}; //obj prepare for new records, combined with current state later
+        let nodesTypeCount = {}; //obj prepare for new records, combined with current state later
         //we then loop the results, and by the same order, we pick the nodeId from nodesList by index
         //and remember, the result hasn't parse yet
         results.forEach((res, index)=>{
           let resObj = JSON.parse(res.data);
-          nodesSharedCount[nodesList[index]] = resObj.main.count;
+          nodesTypeCount[typeKeys[index]] = resObj.main.count;
         });
 
         self.setState((prevState, props)=>{
           return {
-            nodesSharedCount: {...prevState.nodesSharedCount, ...nodesSharedCount} //combined new records to current state by spread
+            nodesTypeCount: {...prevState.nodesTypeCount, ...nodesTypeCount} //combined new records to current state by spread
           }
         });
 
@@ -211,7 +232,7 @@ class Belongs extends React.Component {
         });
 
         self.props._submit_NounsList_new(nodesList); //GET nodes info by Redux action
-        self._set_sharedCount(nodesList); //GET count of each node display
+        self._set_infoCount(typeObj); //GET count of each node display
 
         self.setState((prevState, props)=>{
           return({
