@@ -95,7 +95,7 @@ function _handle_crawler_GET_Unit(req, res){
 //route pass from parent start from here
 
 //res specific Unit info to crawler
-router.use('/cosmic/explore/unit', function(req, res, next){
+router.use('/explore/unit', function(req, res, next){
   if(process.env.NODE_ENV == 'development') winston.verbose(`${'from crawler, GET: '} ${req.originalUrl}`);
   //to res dynamic html to crawler, we need to select Unit basic info from DB
   //validate the query value trusted or not
