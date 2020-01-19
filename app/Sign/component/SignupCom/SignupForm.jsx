@@ -234,17 +234,19 @@ class SignupForm extends React.Component {
               <div
                 className={classnames(styles.boxInput)}
                 style={{color: '#ababab'}}>
-                <span>{"By clicking “sign up”, you agree our"}</span>
+                <span>
+                  {this.props.i18nUIString.catalog["descript_Sign_termsDeclaim"][0]}
+                </span>
                 <span>
                   <a href="/a/terms">
-                    {" Terms"}</a>
+                     {this.props.i18nUIString.catalog["descript_Sign_termsDeclaim"][1]}</a>
                 </span>
-                <span>{" of Services and "}</span>
+                <span> {this.props.i18nUIString.catalog["descript_Sign_termsDeclaim"][2]}</span>
                 <span>
                   <a href="/a/privacy">
-                    {"Privacy Policy"}</a>
+                     {this.props.i18nUIString.catalog["descript_Sign_termsDeclaim"][3]}</a>
                 </span>
-                <span>{"."}</span>
+                <span> {this.props.i18nUIString.catalog["descript_Sign_termsDeclaim"][4]}</span>
               </div>
               <div
                 style={{float:"right"}}>
@@ -280,7 +282,8 @@ class SignupForm extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     axios: state.axios,
-    message: state.message
+    message: state.message,
+    i18nUIString: state.i18nUIString,
   }
 }
 

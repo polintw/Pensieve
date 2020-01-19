@@ -51,10 +51,9 @@ class SignupSuccess extends React.Component {
         style={this.style.SignupSuccess_}>
         <div
           className={classnames(styles.fontInput)}>
-          <p>{"You've already signed up, but don't move too fast!"}</p>
-          <p>{"Verifing your Email Address by Mail we just sent to you."}</p>
-          <p>{"You would get all settle "}</p>
-          <p>{"after the Verifing."}</p>
+          <p>{this.props.i18nUIString.catalog["guidingSign_Signup_Success"][0]}</p>
+          <p>{this.props.i18nUIString.catalog["guidingSign_Signup_Success"][1]}</p>
+          <p>{this.props.i18nUIString.catalog["guidingSign_Signup_Success"][2]}</p>
           <Link
             to="/signin"
             className={classnames('plainLinkButton')}
@@ -152,7 +151,7 @@ class SignupMailresend extends React.Component {
     return(
       <div
         style={this.style.SignupMailresend_}>
-        <h2>{"Fill in your email address to re-send a verified email again."}</h2>
+          <h2>{this.props.i18nUIString.catalog["title_Sign_mailResend"]}</h2>
           <form onSubmit={this._handle_Mailresend}>
             {'email:'}<br/>
             <input
@@ -172,7 +171,7 @@ class SignupMailresend extends React.Component {
               }
               <input
                 type='submit'
-                value='confirm re-send'
+                value={this.props.i18nUIString.catalog["link_Sign_resendButton"]}
                 disabled={this.props.axios? true:false}/>
             </form>
           <div
@@ -206,7 +205,8 @@ class SignupMailresend extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     axios: state.axios,
-    message: state.message
+    message: state.message,
+    i18nUIString: state.i18nUIString,
   }
 }
 

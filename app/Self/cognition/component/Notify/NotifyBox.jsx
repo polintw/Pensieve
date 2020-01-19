@@ -77,7 +77,8 @@ class NotifyBox extends React.Component {
             </div>
             <span
               style={Object.assign({}, styleMiddle.fontNotifyItem, {lineHeight: '1.5rem'})}>
-              {" was inspired by one of your paragraph."}</span>
+              {this.props.i18nUIString.catalog["descript_NotifyBox_Ispired"]}
+            </span>
           </Link>
         </div>
       )
@@ -117,6 +118,7 @@ const mapStateToProps = (state)=>{
     userInfo: state.userInfo,
     usersBasic: state.usersBasic,
     unitCurrent: state.unitCurrent,
+    i18nUIString: state.i18nUIString,
     cognition: state.cognition
   }
 }

@@ -217,16 +217,17 @@ class NodesUsed extends React.Component {
         <div
           className={'boxRelativeFull'}
           style={Object.assign({}, styleMiddle.boxSubtitle, styleMiddle.fontSubtitle)}>
-          <span>{"or, touch"}</span><br/>
+          <span>
+            {this.props.i18nUIString.catalog["guidingExplore_NodesMore"][1]}</span><br/>
           <Link
             to="/cosmic/explore/nodes?boundary=unlimit"
             className={'plainLinkButton'}>
             <span
               style={Object.assign({}, styleMiddle.fontSubtitle, styleMiddle.spanMore)}>
-              {" more "}
-            </span>
+              {this.props.i18nUIString.catalog["guidingExplore_NodesMore"][0]}</span>
           </Link><br/>
-          <span>{"to find out where you can be the First! "}</span>
+          <span>
+            {this.props.i18nUIString.catalog["guidingExplore_NodesMore"][2]}</span>
           <div
             className={'boxRelativeFull'}
             style={{height: '156px'}}></div>
@@ -317,8 +318,7 @@ class NodesUnlimit extends React.Component {
         <span
           style={Object.assign({}, styleMiddle.fontListItem, styleMiddle.spanMore)}
           onClick={this._handleClick_Explore_more}>
-          {" more "}
-        </span>
+          {this.props.i18nUIString.catalog["guidingExplore_NodesMore"][0]}</span>
       </div>
     )
     //add a footer as ending
@@ -382,12 +382,10 @@ class ExploreNouns extends React.Component {
         {
           (paramsBoundary=='unlimit')? (
             <NodesUnlimit
-              nounsBasic={this.props.nounsBasic}
-              _submit_NounsList_new={this.props._submit_NounsList_new}/>
+              {...this.props}/>
           ):(
             <NodesUsed
-              nounsBasic={this.props.nounsBasic}
-              _submit_NounsList_new={this.props._submit_NounsList_new}/>
+              {...this.props}/>
           )
         }
       </div>
@@ -400,6 +398,7 @@ const mapStateToProps = (state)=>{
     userInfo: state.userInfo,
     unitCurrent: state.unitCurrent,
     nounsBasic: state.nounsBasic,
+    i18nUIString: state.i18nUIString,
   }
 }
 
