@@ -1,20 +1,21 @@
 const fs = require('fs');
 const path = require("path");
 const {
-  userImg_FirsttoSrc
+  userImg
 } = require('../../config/path.js');
+const projectRootPath = require("../../projectRootPath");
 
 function _handle_img_requisition(req, res){
   const folder = req.params.user;
   const file = req.params.ofWhich;
   switch(req.query.type){
     case 'thumb':
-      res.sendFile(path.join(__dirname, userImg_FirsttoSrc+folder+'/'+file), {headers: {'Content-Type': 'image'}}, function (err) {
+      res.sendFile(path.join(projectRootPath, userImg+folder+'/'+file), {headers: {'Content-Type': 'image'}}, function (err) {
         if (err) {console.log('error occured: img sending fail:'+err)}
       });
       break;
     case  'unitSingle':
-      fs.readFile(path.join(__dirname, userImg_FirsttoSrc+folder+'/'+file), function(err, imgBuffer){
+      fs.readFile(path.join(projectRootPath, userImg+folder+'/'+file), function(err, imgBuffer){
         if(err) {console.log('err in Read_imgFile:'+err);res.status(500);return;};
         let imgBase64 = new Buffer(imgBuffer, 'binary').toString('base64');
         imgBase64 = 'data:image/jpeg;base64,' + imgBase64;

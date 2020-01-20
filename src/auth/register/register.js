@@ -8,7 +8,7 @@ const {
   verify_email
 } = require('../../../config/jwt.js');
 const {
-  userImg_SecondtoSrc
+  userImg
 } = require('../../../config/path.js');
 const {
   _select_Basic
@@ -19,6 +19,7 @@ const {
 const {
   _handler_ErrorRes,
 } = require('../../utils/reserrHandler.js');
+const projectRootPath = require("../../../projectRootPath");
 const _DB_lastvisitShared = require('../../../db/models/index').lastvisit_shared;
 const _DB_lastvisitNotify = require('../../../db/models/index').lastvisit_notify;
 const _DB_lastvisitIndex = require('../../../db/models/index').lastvisit_index;
@@ -29,7 +30,7 @@ const _DB_usersDemandMatch = require('../../../db/models/index').users_demand_ma
 
 const _create_new_ImgFolder = (userId)=>{
   return new Promise((resolve,reject)=>{
-    let imgFolderPath = path.join(__dirname, userImg_SecondtoSrc+userId);
+    let imgFolderPath = path.join(projectRootPath, userImg+userId);
     fs.mkdir(imgFolderPath, function(err){
       if(err) {reject({err: err});return;}
       resolve();

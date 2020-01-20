@@ -9,9 +9,9 @@ const {verify_key} = require('../../../config/jwt.js');
 const {connection_key} = require('../../../config/database.js');
 const winston = require('../../../config/winston.js');
 const {
-  userImg_SecondtoSrc
+  userImg
 } = require('../../../config/path.js');
-
+const projectRootPath = require("../../../projectRootPath");
 const _DB_nouns = require('../../../db/models/index').nouns;
 const _DB_attribution = require('../../../db/models/index').attribution;
 const _DB_nodes_activity = require('../../../db/models/index').nodes_activity;
@@ -59,11 +59,11 @@ function shareHandler_POST(req, res){
             let beneathBase64Splice = req.body.beneathBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
             beneathBase64Buffer = new Buffer(beneathBase64Splice[2], 'base64');
           }
-          fs.writeFile(path.join(__dirname, userImg_SecondtoSrc+userId+'/'+req.body.submitTime+"_layer_0.jpg"), coverBase64Buffer, function(err){
+          fs.writeFile(path.join(projectRootPath, userImg+userId+'/'+req.body.submitTime+"_layer_0.jpg"), coverBase64Buffer, function(err){
             if(err) {reject(err);return;}
             modifiedBody['url_pic_layer0'] = userId+'/'+req.body.submitTime+'_layer_0.jpg';
             if(req.body.beneathBase64){
-              fs.writeFile(path.join(__dirname, userImg_SecondtoSrc+userId+'/'+req.body.submitTime+"_layer_1.jpg"), beneathBase64Buffer, function(err){
+              fs.writeFile(path.join(projectRootPath, userImg+userId+'/'+req.body.submitTime+"_layer_1.jpg"), beneathBase64Buffer, function(err){
                 if(err) {reject(err);return;}
                 modifiedBody['url_pic_layer1'] = userId+'/'+req.body.submitTime+'_layer_1.jpg';
                 resolve(modifiedBody);
