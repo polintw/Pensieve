@@ -13,6 +13,7 @@ const _DB_nouns = require('../db/models/index').nouns;
 const _DB_marks = require('../db/models/index').marks;
 const _DB_attribution = require('../db/models/index').attribution;
 const {_res_success} = require('./utils/resHandler.js');
+const projectRootPath = require('../projectRootPath');
 const {
   _handle_ErrCatched,
   internalError,
@@ -85,7 +86,7 @@ function _handle_crawler_GET_Unit(req, res){
     });
   }).then((variables)=>{
     //res html directly from templte modified by variables
-    res.render(path.join(__dirname+'/../public/html/ren_crawler.pug'), variables);
+    res.render(path.join(projectRootPath, '/public/html/ren_crawler.pug'), variables);
   }).catch((error)=>{
     _handle_ErrCatched(error, req, res);
   });
@@ -116,7 +117,7 @@ router.use('/', function(req, res){
     ogimg: "" //replace to page icon in the future
   }
 
-  res.render(path.join(__dirname+'/../public/html/ren_crawler.pug'), variables);
+  res.render(path.join(projectRootPath, '/public/html/ren_crawler.pug'), variables);
 })
 
 module.exports = router;

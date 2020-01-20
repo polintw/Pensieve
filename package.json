@@ -4,12 +4,13 @@
   "description": "",
   "main": "server.js",
   "dependencies": {
+    "aws-sdk": "^2.590.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "babelify": "^7.3.0",
-    "bcrypt": "^3.0.3",
+    "bcrypt": "^3.0.7",
     "body-parser": "^1.18.3",
     "browserify": "^14.4.0",
     "classnames": "^2.2.6",
@@ -26,6 +27,7 @@
     "mysql2": "^1.6.4",
     "nodemailer": "^5.1.1",
     "path": "^0.12.7",
+    "pg-hstore": "^2.3.3",
     "pug": "^2.0.4",
     "query-string": "^6.2.0",
     "react": "^16.6.3",
@@ -38,18 +40,27 @@
     "request": "^2.88.0",
     "sequelize": "^5.21.2",
     "sequelize-cli": "^5.5.0",
-    "sharp": "^0.21.0",
+    "sharp": "^0.23.4",
     "uglifyify": "^5.0.2",
     "winston": "^3.2.1",
     "winston-daily-rotate-file": "^3.6.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.7.5",
+    "@babel/preset-env": "^7.7.6",
+    "babel-loader": "^8.0.6",
     "cheerio": "^1.0.0-rc.2",
     "create-react-class": "^15.6.3",
     "css-modulesify": "^0.28.0",
     "immutability-helper": "^2.8.1",
     "jsonfile": "^4.0.0",
-    "linkify-it": "^2.0.3"
+    "linkify-it": "^2.0.3",
+    "node-loader": "^0.6.0",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-middleware": "^3.7.2",
+    "webpack-hot-middleware": "^2.25.0",
+    "webpack-node-externals": "^1.7.2"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -57,7 +68,8 @@
     "setupWin": "node -e \"require('./init/process.js').setUpWin()\"",
     "migrate": "node -e \"require('./init/process.js').migrate()\"",
     "build": "node -e \"require('./init/process.js').build()\"",
-    "start": "node server.js"
+    "build:server": "webpack --config config/server/webpack.base.conf.js --mode development",
+    "start": "node serverBuilt.js"
   },
   "author": "Polin Chou",
   "license": "",

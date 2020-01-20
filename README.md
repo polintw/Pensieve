@@ -84,6 +84,12 @@ build app by browserify
 NODE_ENV="development" npm run build
 ```
 
+build server by webpack 
+```bash
+NODE_ENV="development" npm run build:server
+```
+
+
 final, start the server
 
 ```
@@ -125,4 +131,5 @@ Have a nice trip.
 4. set 'export NODE_ENV=produtction'
 5. db: migrate if needed
 6. run build.
+7. run build:server.
 7. run start.

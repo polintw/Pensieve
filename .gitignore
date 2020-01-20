@@ -13,3 +13,6 @@ stylesWithin.css
 stylesTerrace.css
 stylesAbout.css
 stylesSign.css
+
+# Built
+serverBuilt.js*
