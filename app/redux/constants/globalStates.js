@@ -54,8 +54,8 @@ export const i18nUIStringInit = {
      "descript_Unit_Author_broad": ["broad by", "broad"],
      "messageChoiceBelong": ["Which living field below is ", " around over most?"],
      "messageBelongChoiceinBool": ["site ", "  as your  ", "  place?"],
-     "hintEmptyNode": "This Corner is still Waiting to be explored. Be the first one to wonder and wander!",
 
+     "hintEmptyNode": "This Corner is still Waiting to be explored. Be the first one to wonder and wander!",
      "hintEmptyNode_contributors": "waiting for someone, perhaps that's just you! ",
      "hintEmptyUsers_accumulated": "Still wondering and wandering~~ ",
      "hintEmptySelf_Inspired": '(not yet established. expect to inform user the "inepired" Unit would emerge here.)',
@@ -76,10 +76,6 @@ export const i18nUIStringInit = {
      "link_Sign_resendButton": "confirm re-send",
      "link_Sign_mailResend": "send the verified email again",
 
-     /*"titleBannerBelong": "new shared.",
-
-     removed part in Main
-     */
      "title_Main_Broads": ["Broaded", "by people"],
      "catagory_MatchNodes_wished": ["Wish", "Wish·Order"],
 

@@ -14,7 +14,7 @@ module.exports = {
     const Op = Sequelize.Op;
     return queryInterface.bulkDelete("nouns",{
       createdAt: {
-        [Op.gte]: new Date("2020","01","18") //remember minus 1 for month---which start from '0'
+        [Op.gte]: new Date("2020","00","18") //remember minus 1 for month---which start from '0'
       }
     });
   }

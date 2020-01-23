@@ -67,8 +67,9 @@ function _handle_GET_feed_customNew(req, res){
         //so we create the nodes list of users interest first.
         let nodesWished = JSON.parse(userDemand.list_wished),
             nodesWaited = JSON.parse(userDemand.list_waited),
+            currentBelong = !!usersIndex.currentBelong? JSON.parse(usersIndex.currentBelong): [], //default value of currentBelong in the db was 'null'
             unitsObj={};
-        let nodesCustom = usersIndex.currentbelong.concat(nodesWished, nodesWaited); //the arr may have duplicate items, but we just tolarate it.
+        let nodesCustom = currentBelong.concat(nodesWished, nodesWaited); //the arr may have duplicate items, but we just tolarate it.
         //loopping the newAttri to form an obj contain attri by Unit
         newAttri.rows.forEach((attriRow, index)=>{
           //unitsObj[attriRow.id_unit] should be an {unitId: [nodeId]} format

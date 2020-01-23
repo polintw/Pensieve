@@ -15,6 +15,8 @@ const {
 const _DB_nouns = require('../../../db/models/index').nouns;
 const _DB_attribution = require('../../../db/models/index').attribution;
 const _DB_nodes_activity = require('../../../db/models/index').nodes_activity;
+const _DB_nodesDemandMatch = require('../../../db/models/index').nodes_demand_match;
+const _DB_usersDemandMatch = require('../../../db/models/index').users_demand_match;
 const _DB_users_prefer_nodes = require('../../../db/models/index').users_prefer_nodes;
 const {
   _handler_err_Internal,
@@ -230,8 +232,8 @@ function shareHandler_POST(req, res){
               where: {id_node: takenNodes[0]}
             });
             let prevTakingUsers = JSON.parse(nodeRow.list_taking);
-            let newTakingUser = prevTakingUser.slice();
-            let indexInTaking = prevTakingUser.indexOf(userId);
+            let newTakingUser = prevTakingUsers.slice();
+            let indexInTaking = prevTakingUsers.indexOf(userId);
             if(indexInTaking >(-1)) newTakingUser.splice(indexInTaking, 1); //in case somehow the user is not on the list
 
             let updateUser = { //obj for user match
