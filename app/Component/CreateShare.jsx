@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import EditingModal from './Editing/EditingModal/EditingModal.jsx';
 import ModalBox from './ModalBox.jsx';
 import ModalBackground from './ModalBackground.jsx';
-import WarningModal from './WarningModal.jsx';
+import WarningModal from './Dialog/WarningModal.jsx';
 import {
   switchUnitSubmitting
 } from "../redux/actions/general.js";

@@ -1,16 +1,12 @@
 import React from 'react';
 import {
-  BrowserRouter as Router,
   Route,
   Link,
   Redirect,
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import cxBind from 'classnames/bind';
-import LtdNav from './component/LtdNav.jsx';
 import LtdUnits from './component/LtdUnits.jsx';
-import EntryCall from './component/EntryCall.jsx';
 
 class WithinLtd extends React.Component {
   constructor(props){
@@ -68,13 +64,6 @@ class WithinLtd extends React.Component {
         width: '100%',
         boxSizing: 'border-box'
       },
-      Within_Ltd_scroll_EntryCall: {
-        width: '76%',
-        height: '15vh',
-        position: 'fixed',
-        top: '9%',
-        left: '15%'
-      },
       Within_Ltd_scroll_LtdUnits: {
         width: '74%',
         minHeight: '110%',
@@ -84,24 +73,6 @@ class WithinLtd extends React.Component {
         transform: 'translate(-50%,0)',
         boxSizing: 'border-box'
       },
-      Within_Ltd_scroll_LtdNav_: {
-        width: '100%',
-        height: '7%',
-        position: 'fixed',
-        bottom: '0',
-        left: '0',
-        boxSizing: 'border-box',
-        backgroundColor: "rgba(2,2,2,0.64)"
-      },
-      Within_Ltd_scroll_LtdNav_light: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0%',
-        left: '0',
-        boxSizing: 'border-box',
-        backgroundColor: '#FAFAFA'
-      }
     }
   }
 
@@ -162,7 +133,6 @@ class WithinLtd extends React.Component {
   }
 
   render(){
-    //let cx = cxBind.bind(styles);
     if(this.state.unitTo){return <Redirect to={this.state.unitTo.params+this.state.unitTo.query}/>}
     return(
       <div
@@ -174,38 +144,13 @@ class WithinLtd extends React.Component {
             style={this.style.Within_Ltd_Background_}/>
           <div
             style={this.style.Within_Ltd_scroll_night}/>
-          <div
-            ref={(element)=>{this.ltdTop = element}}
-            style={Object.assign({height: (33-(this.state.cssPara*28))+"%", top: (this.state.cssPara*18)+'%'},this.style.Within_Ltd_scroll_dawn_)}>
-            <div
-              style={this.style.Within_Ltd_scroll_dawn_fly_}>
-              <svg
-                style={this.style.Within_Ltd_scroll_dawn_fly_svg}>
-                <Link to="/cosmic">
-                  <circle r="2vh" cx="50%" cy="50%" stroke='#999999' fill="transparent" style={{cursor: 'pointer'}}/>
-                </Link>
-              </svg>
-            </div>
-          </div>
-          <div
-            style={Object.assign({opacity: 1-this.state.cssPara}, this.style.Within_Ltd_scroll_EntryCall)}>
-            <EntryCall
-              _refer_leavevonLtd={this._refer_leavevonLtd}/>
-          </div>
+
           <div
             ref = {(element)=>{this.ltdUnits = element}}
             style={this.style.Within_Ltd_scroll_LtdUnits}>
             <LtdUnits {...this.props} _refer_leavevonLtd={this._refer_leavevonLtd}/>
           </div>
-          <div style={this.style.Within_Ltd_scroll_LtdNav_}>
-            <div style={Object.assign({opacity: this.state.cssPara}, this.style.Within_Ltd_scroll_LtdNav_light)}></div>
-            <div
-              ref={(element)=>{this.Within_Ltd_LtdNav = element}}
-              style={{opacity: this.state.cssPara}}>
-              <LtdNav
-                _refer_leavevonLtd={this._refer_leavevonLtd}/>
-            </div>
-          </div>
+
         </div>
       </div>
     )

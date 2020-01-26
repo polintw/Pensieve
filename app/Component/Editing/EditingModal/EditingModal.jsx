@@ -12,7 +12,7 @@ import EditingPanel from '../EditingPanel.jsx';
 import ContentModal from '../ContentModal.jsx';
 import MarksArticleEdit from '../MarksArticleEdit.jsx';
 import ImgPreview from '../../ImgPreview.jsx';
-import WarningModal from '../../WarningModal.jsx';
+import WarningModal from '../../Dialog/WarningModal.jsx';
 
 class EditingModal extends React.Component {
   constructor(props){

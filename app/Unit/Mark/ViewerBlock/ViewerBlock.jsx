@@ -5,7 +5,6 @@ import styles from "./styles.module.css";
 import PanelJump from '../PanelJump.jsx';
 import ViewerBulb from '../ViewerBulb.jsx';
 import MarkDialogue from '../MarkDialogue.jsx';
-import SvgPropic from '../../../Component/Svg/SvgPropic.jsx';
 import DraftDisplay from '../../../Component/Draft/DraftDisplay.jsx';
 
 const styleMiddle = {
@@ -195,8 +194,7 @@ class ViewerBlock extends React.Component {
           }
           <div
             style={Object.assign({}, this.style.Com_ViewerBlock_credits_)}>
-            <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
-            <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
+            <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}>{"(credit ilst)"}</span>
           </div>
           <div>
             {"(多行參考資料連結)"}

@@ -5,7 +5,6 @@ import styles from "./styles.module.css";
 import PanelJump from '../PanelJump.jsx';
 import AuthorInspired from '../AuthorInspired.jsx';
 import MarkDialogue from '../MarkDialogue.jsx';
-import SvgPropic from '../../../Component/Svg/SvgPropic.jsx';
 import DraftDisplay from '../../../Component/Draft/DraftDisplay.jsx';
 import {
   setUnitInspired
@@ -180,8 +179,7 @@ class AuthorBlock extends React.Component {
           </div>
           <div
             style={Object.assign({}, this.style.Com_AuthorBlock_credits_)}>
-            <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
-            <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}><SvgPropic/></span>
+            <span  style={{display:'inline-block', width: "24%", height: '99%', position: 'relative'}}>{"(credit list)"}</span>
           </div>
           <div>
             {"(多行參考資料連結)"}

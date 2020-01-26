@@ -9,8 +9,7 @@ import classnames from 'classnames';
 import styles from './styles.module.css';
 import UnitModal from '../UnitModal.jsx';
 import UnitEditing from '../UnitEditing.jsx';
-import CreateResponse from '../../Component/CreateResponse.jsx';
-import WarningModal from '../../Component/WarningModal.jsx';
+import WarningModal from '../../Component/Dialog/WarningModal.jsx';
 
 class Theater extends React.Component {
   constructor(props){
@@ -128,13 +127,7 @@ class Theater extends React.Component {
             _refer_von_unit={this.props._refer_von_unit}
             _reset_UnitMount={this.props._reset_UnitMount}/>)
         break;
-      case "response":
-        return (
-          <CreateResponse
-            mode={this.state.mode}
-            _set_Modalmode={this._set_Modalmode}
-            _refer_von_unit={this.props._refer_von_unit}/>)
-        break;
+
       case "viewer":
         return (
           <UnitModal

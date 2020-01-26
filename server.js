@@ -99,7 +99,7 @@ app.get('/favicon.ico', function(req, res){
 //api
 app.use('/router', router)
 
-//req for page files
+/*//req for page files
 app.use('/user/screen', function(req, res){
   winston.info(`${"page: requesting for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);
 
@@ -108,7 +108,7 @@ app.use('/user/screen', function(req, res){
       throw err
     }
   });
-})
+})*/
 
 app.use('/user', function(req, res){
   winston.info(`${"page: requesting for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);

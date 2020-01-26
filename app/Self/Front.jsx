@@ -5,7 +5,7 @@ import {
   Link
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import FrontCognition from './Front_Cognition.jsx';
+import FrontSpace from './Front_Space.jsx';
 import FrontProfile from './Front_Profile.jsx';
 import NavSelf from './component/NavSelf/NavSelf.jsx';
 
@@ -26,7 +26,7 @@ class Front extends React.Component {
       <Router
         basename={"/user"}>
         <div>
-          <Route path="/cognition" render={(props)=> <FrontCognition {...props}/>}/>
+          <Route path="/cognition" render={(props)=> <FrontSpace {...props}/>}/>
           <Route path="/profile" render={(props)=> <FrontProfile {...props}/>}/>
           <div
             style={{

@@ -9,11 +9,9 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./stylesCosmic.module.css";
-import Explore from './Explore/Explore/Explore.jsx';
 import Focus from './pageFocus/Focus.jsx';
 import CosmicUser from './component/CosmicUser.jsx';
 import CosmicNoun from './component/CosmicNoun.jsx';
-import LinkExplore from './component/LinkExplore/LinkExplore.jsx';
 import CosmicCorner from './component/CosmicCorner/CosmicCorner.jsx';
 import {
   setMessageSingleClose
@@ -122,18 +120,14 @@ class WithinCosmic extends React.Component {
         <Switch>
           <Route path={this.props.match.path+"/nodes/:nounId"} render={(props)=> <CosmicNoun {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
           <Route path={this.props.match.path+"/users/:userId"} render={(props)=> <CosmicUser {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
-          <Route path={this.props.match.path+"/explore"} render={(props)=> <Explore {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
+
           <Route path={this.props.match.path} render={(props)=> <Focus {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
         </Switch>
         <div
           style={this.style.Within_Cosmic_corner_}>
           <CosmicCorner {...this.props}/>
         </div>
-        <div
-          className={classnames(styles.fontExplore, styles.boxFixedExplore)}
-          style={(this.props.location.pathname==this.props.match.path)?{top: '30.2%', right: '5.4%'}:{}}>
-          <LinkExplore {...this.props}/>
-        </div>
+
         <div style={this.style.Within_Cosmic_NavOptions}>
           <NavOptions {...this.props}/>
         </div>
