@@ -5,8 +5,8 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import NodeLinks from './NodeLinks/NodeLinks.jsx';
-import NodeContributor from './NodeContributor.jsx';
+import NodeLinks from '../component/NodeLinks/NodeLinks.jsx';
+import NodeContributor from '../component/NodeContributor.jsx';
 import Unit from '../../Unit/Unit/Unit.jsx';
 import SvgLogo from '../../Component/Svg/SvgLogo.jsx';
 import {

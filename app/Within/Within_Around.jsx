@@ -9,10 +9,8 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./stylesCosmic.module.css";
-import Focus from './pageFocus/Focus.jsx';
-import Explore from './partExplore/Explore.jsx';
-import CosmicUser from './partExplore/CosmicUser.jsx';
-import CosmicNoun from './partExplore/CosmicNoun.jsx';
+
+import Around from './partAround/Around.jsx';
 import CosmicCorner from './component/CosmicCorner/CosmicCorner.jsx';
 import {
   setMessageSingleClose
@@ -23,7 +21,7 @@ import ModalBackground from '../Component/ModalBackground.jsx';
 import SingleCloseDialog from '../Component/Dialog/SingleCloseDialog/SingleCloseDialog.jsx';
 import BooleanDialog from '../Component/Dialog/BooleanDialog/BooleanDialog.jsx';
 
-class WithinCosmic extends React.Component {
+class WithinAround extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -31,19 +29,19 @@ class WithinCosmic extends React.Component {
     };
     this._refer_von_cosmic = this._refer_von_cosmic.bind(this);
     this.style={
-      Within_Cosmic_backplane:{
+      Within_Around_backplane:{
         width: '100%',
         height: '100%',
         position: 'fixed',
         backgroundColor: '#FCFCFC'
       },
-      Within_Cosmic_corner_: {
+      Within_Around_corner_: {
         position: 'fixed',
         bottom: '2.4%',
         right: '15%',
         boxSizing: 'border-box'
       },
-      Within_Cosmic_NavOptions: {
+      Within_Around_NavOptions: {
         width: '1.4%',
         height: '3.2%',
         position: 'fixed',
@@ -117,24 +115,21 @@ class WithinCosmic extends React.Component {
 
     return(
       <div>
-        <div style={this.style.Within_Cosmic_backplane}></div>
+        <div style={this.style.Within_Around_backplane}></div>
         <Switch>
-          <Route path={this.props.match.path+"/nodes/:nounId"} render={(props)=> <CosmicNoun {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
-          <Route path={this.props.match.path+"/users/:userId"} render={(props)=> <CosmicUser {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
-          <Route path={this.props.match.path+"/explore"} render={(props)=> <Explore {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
-          <Route path={this.props.match.path} render={(props)=> <Focus {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
+
+          <Route path={this.props.match.path} render={(props)=> <Around {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
         </Switch>
         <div
-          style={this.style.Within_Cosmic_corner_}>
+          style={this.style.Within_Around_corner_}>
           <CosmicCorner {...this.props}/>
         </div>
 
-        <div style={this.style.Within_Cosmic_NavOptions}>
+        <div style={this.style.Within_Around_NavOptions}>
           <NavOptions {...this.props}/>
         </div>
         {
           //here and beneath, are dialog system for global used,
-          //SingleCloseDialog was currently used by MatchSet, but not limit to it
           //the series 'message' in redux state is prepared for this kind of global message dialog
           this.props.messageSingleClose &&
           <ModalBox containerId="root">
@@ -187,4 +182,4 @@ const mapDispatchToProps = (dispatch) => {
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(WithinCosmic));
+)(WithinAround));

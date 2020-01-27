@@ -6,8 +6,8 @@ import {
   Switch
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import Cognition from './space/Cognition.jsx';
-import NavSpace from './space/component/Navs/NavSpace/NavSpace.jsx';
+import Cognition from './Space/Cognition.jsx';
+import NavSpace from './Space/component/Navs/NavSpace/NavSpace.jsx';
 import NavOptions from '../Component/NavOptions.jsx';
 
 class FrontSpace extends React.Component {
