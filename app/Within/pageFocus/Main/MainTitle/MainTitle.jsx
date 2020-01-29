@@ -70,28 +70,9 @@ class MainTitle extends React.Component {
           className={classnames(stylesMain.decoSeparationLine, styles.boxUnderline)}></div>
         <div
           className={classnames(styles.boxBasic)}>
-          {
-            this.state.greet &&
-            <div
-              className={styles.boxGreet}>
-              <span className={classnames(styles.spanGreet, stylesMain.fontTitle)}>
-                {this.props.i18nUIString.catalog[this.state.greet]}</span>
-            </div>
-          }
           <div
             className={classnames(styles.boxBasicBottom)}>
-            <div
-              className={classnames(styles.boxCreate)}
-              onMouseEnter={this._handleMouseOn_Create}
-              onMouseLeave={this._handleMouseOn_Create}>
-              <SvgCreate
-                black={this.state.onCreate}
-                place={false}
-                stretch={false}/>
-              <CreateShare
-                _submit_Share_New={this._submit_Share_New}
-                _refer_von_Create={this.props._refer_von_cosmic}/>
-            </div>
+
             <div
               className={classnames(styles.boxDate, 'fontGillSN')}>
               <DateConverter

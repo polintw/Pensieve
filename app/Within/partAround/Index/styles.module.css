@@ -37,14 +37,6 @@
   box-shadow: 4px 0 4px -5px inset, -4px 0 4px -5px inset;
 }
 
-.boxList {
-  width: 100%;
-  margin: 5vw 0 0;
-  padding-top: 3.5vw;
-  position: relative;
-  box-sizing: border-box;
-}
-
 .boxNail {
   background-color: #FFFFFF;
   box-sizing: content-box;
@@ -123,6 +115,12 @@
   height: 12.5vw;
   position: relative;
   margin-left: 33%;
+}
+
+.boxCreate {
+  width: 37%;
+  box-sizing: border-box;
+  position: relative;
 }
 
 .decoSeparationHorz {

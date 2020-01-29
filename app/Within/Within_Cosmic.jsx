@@ -7,8 +7,6 @@ import {
   Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import classnames from 'classnames';
-import styles from "./stylesCosmic.module.css";
 import Focus from './pageFocus/Focus.jsx';
 import Explore from './partExplore/Explore.jsx';
 import CosmicUser from './partExplore/CosmicUser.jsx';
@@ -140,7 +138,7 @@ class WithinCosmic extends React.Component {
           <ModalBox containerId="root">
             <ModalBackground onClose={()=>{this._set_Dialog();}} style={{position: "fixed", backgroundColor: 'rgba(52, 52, 52, 0.36)'}}>
               <div
-                className={styles.boxDialog}>
+                className={"boxDialog"}>
                 <SingleCloseDialog
                   message={this.props.messageSingleClose}
                   _positiveHandler={()=>{this.props._set_MessageSinClose(null)}}/>
@@ -153,7 +151,7 @@ class WithinCosmic extends React.Component {
           <ModalBox containerId="root">
             <ModalBackground onClose={()=>{this._set_Dialog();}} style={{position: "fixed", backgroundColor: 'rgba(52, 52, 52, 0.36)'}}>
               <div
-                className={styles.boxDialog}>
+                className={"boxDialog"}>
                 <BooleanDialog
                   customButton={this.props.messageBoolean['customButton']}
                   message={this.props.messageBoolean['message']}

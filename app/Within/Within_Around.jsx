@@ -7,9 +7,6 @@ import {
   Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import classnames from 'classnames';
-import styles from "./stylesCosmic.module.css";
-
 import Around from './partAround/Around.jsx';
 import CosmicCorner from './component/CosmicCorner/CosmicCorner.jsx';
 import {
@@ -135,7 +132,7 @@ class WithinAround extends React.Component {
           <ModalBox containerId="root">
             <ModalBackground onClose={()=>{this._set_Dialog();}} style={{position: "fixed", backgroundColor: 'rgba(52, 52, 52, 0.36)'}}>
               <div
-                className={styles.boxDialog}>
+                className={"boxDialog"}>
                 <SingleCloseDialog
                   message={this.props.messageSingleClose}
                   _positiveHandler={()=>{this.props._set_MessageSinClose(null)}}/>
@@ -148,7 +145,7 @@ class WithinAround extends React.Component {
           <ModalBox containerId="root">
             <ModalBackground onClose={()=>{this._set_Dialog();}} style={{position: "fixed", backgroundColor: 'rgba(52, 52, 52, 0.36)'}}>
               <div
-                className={styles.boxDialog}>
+                className={"boxDialog"}>
                 <BooleanDialog
                   customButton={this.props.messageBoolean['customButton']}
                   message={this.props.messageBoolean['message']}

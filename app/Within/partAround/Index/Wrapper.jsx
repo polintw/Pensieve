@@ -13,14 +13,12 @@ import {
   axios_visit_GET_last,
   axios_visit_Index
 } from './utils.js';
-import DemandTake from './DemandTake/Wrapper.jsx';
-import MainTitle from './MainTitle/MainTitle.jsx';
-import MainList from './MainList/MainList.jsx';
-import MatchSet from './MatchSet/Wrapper.jsx';
-import Supply from './Supply/Supply.jsx';
-import Broads from './Broads/Broads.jsx';
+import RowEntry from './RowEntry/RowEntry.jsx';
 import NewShared from './NewShared/NewShared.jsx';
 import NewSharedCustom from './NewSharedCustom/NewSharedCustom.jsx';
+import Belongs from './Belongs/Belongs.jsx';
+import CreateShare from '../../../Component/CreateShare.jsx';
+import SvgCreate from '../../../Component/Svg/SvgCreate.jsx';
 import Unit from '../../../Unit/Unit/Unit.jsx';
 import {
   setIndexLists,
@@ -34,7 +32,7 @@ import {
   uncertainErr
 } from '../../../utils/errHandlers.js';
 
-const toDoArr = ["lastVisit", "listMain", "listNewwithCustom", "listRowBroads"];
+const toDoArr = ["lastVisit", "listNewwithCustom"];
 
 class Wrapper extends React.Component {
   constructor(props){
@@ -47,6 +45,8 @@ class Wrapper extends React.Component {
     this.axiosSource = axios.CancelToken.source();
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._set_mountToDo = this._set_mountToDo.bind(this);
+    this._submit_Share_New = this._submit_Share_New.bind(this);
+    this._handleMouseOn_Create = ()=> this.setState((prevState,props)=>{return {onCreate: prevState.onCreate?false:true}});
     this.style={
 
     }
@@ -55,6 +55,10 @@ class Wrapper extends React.Component {
   _construct_UnitInit(match, location){
     let unitInit= {marksify: false, initMark: "all", layer: 0};
     return unitInit;
+  }
+
+  _submit_Share_New(dataObj){
+    window.location.assign('/user/cognition/actions/shareds/unit?theater&unitId='+dataObj.unitId);
   }
 
   _set_mountToDo(item){
@@ -139,28 +143,21 @@ class Wrapper extends React.Component {
           className={classnames(styles.comMainWrapper)}>
           <div
             className={classnames(styles.boxRowTop)}>
-            <MainTitle
+            <RowEntry
               lastVisit={this.state.lastVisit}
               _refer_von_cosmic={this.props._refer_von_cosmic}/>
           </div>
-          <div
-            className={classnames(styles.boxRow)}
-            style={{width: '65vw',left:'2.5vw'}}>
-            <DemandTake
-              _refer_von_cosmic={this.props._refer_von_cosmic}/>
-          </div>
+
           <div
             className={classnames(styles.boxRow)}
             style={{width: '65vw',left:'2.5vw'}}>
             <div
               className={classnames(styles.boxMatchSet)}>
-              <MatchSet
+
+              <Belongs
                 _refer_von_cosmic={this.props._refer_von_cosmic}/>
             </div>
-            <div
-              className={classnames(styles.boxBeneathMatchSet)}>
-              <Supply/>
-            </div>
+
             <div
               className={classnames(styles.decoSeparationStroke, styles.boxCenterStrokeRow)}></div>
           </div>
@@ -186,18 +183,22 @@ class Wrapper extends React.Component {
           }
           <div
             className={classnames(styles.boxRow)}>
-            <Broads
-              {...this.props}
-              _set_mountToDo={this._set_mountToDo}/>
+            <div
+              className={classnames(styles.boxCreate)}
+              onMouseEnter={this._handleMouseOn_Create}
+              onMouseLeave={this._handleMouseOn_Create}>
+              <SvgCreate
+                black={this.state.onCreate}
+                place={false}
+                stretch={false}/>
+              <CreateShare
+                _submit_Share_New={this._submit_Share_New}
+                _refer_von_Create={this.props._refer_von_cosmic}/>
+            </div>
+
             <div
               className={classnames(styles.decoSeparationLine, styles.boxUnderLine)}
               style={{width:'38%', right:'0'}}></div>
-          </div>
-          <div
-            className={styles.boxList}>
-            <MainList
-              {...this.props}
-              _set_mountToDo={this._set_mountToDo}/>
           </div>
         </div>
         <Route

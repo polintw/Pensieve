@@ -9,18 +9,12 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import {
-  axios_feedList_customNew,
   axios_visit_GET_last,
   axios_visit_Index
 } from './utils.js';
-import DemandTake from './DemandTake/Wrapper.jsx';
 import MainTitle from './MainTitle/MainTitle.jsx';
 import MainList from './MainList/MainList.jsx';
-import MatchSet from './MatchSet/Wrapper.jsx';
-import Supply from './Supply/Supply.jsx';
 import Broads from './Broads/Broads.jsx';
-import NewShared from './NewShared/NewShared.jsx';
-import NewSharedCustom from './NewSharedCustom/NewSharedCustom.jsx';
 import Unit from '../../../Unit/Unit/Unit.jsx';
 import {
   setIndexLists,
@@ -34,7 +28,7 @@ import {
   uncertainErr
 } from '../../../utils/errHandlers.js';
 
-const toDoArr = ["lastVisit", "listMain", "listNewwithCustom", "listRowBroads"];
+const toDoArr = ["lastVisit", "listMain", "listRowBroads"];
 
 class Wrapper extends React.Component {
   constructor(props){
@@ -90,29 +84,15 @@ class Wrapper extends React.Component {
 
     //get the last visit situation for child component
     //in the future, method to get basic (user)sheet data would join here
-    axios.all([
-      axios_visit_GET_last(self.axiosSource.token),
-      axios_feedList_customNew(self.axiosSource.token)
-    ])
-      .then(
-        axios.spread(function(lastVisitRes, customNewRes){
-          self._set_mountToDo("listNewwithCustom"); //splice the label from the todo list
-          self._set_mountToDo("lastVisit"); //and splice the label from the todo list
-          let submitObj = {};
+    axios_visit_GET_last(self.axiosSource.token)
+      .then((lastVisitRes)=> {
+        self._set_mountToDo("lastVisit"); //and splice the label from the todo list
 
-          submitObj['listCustomNew'] = customNewRes.main.listCustomNew;
-          submitObj['listNew'] = customNewRes.main.listNew;
-          //update the list to Redux reducer,
-          self.props._submit_IndexLists(submitObj);
-          //set the flag to reduucer to inform NewShare or NewSharedCustom refresh
-          self.props._submit_FlagSwitch(['flagNewSharedDataFetch', 'flagNewCustomDataFetch']);
-
-          self.setState({
-            axiosFocus: false,
-            lastVisit: lastVisitRes.main.lastTime
-          });
-        })
-      )
+        self.setState({
+          axiosFocus: false,
+          lastVisit: lastVisitRes.main.lastTime
+        });
+      })
       .catch(function (thrown) {
         self.setState({axiosFocus: false});
         if (axios.isCancel(thrown)) {
@@ -143,47 +123,7 @@ class Wrapper extends React.Component {
               lastVisit={this.state.lastVisit}
               _refer_von_cosmic={this.props._refer_von_cosmic}/>
           </div>
-          <div
-            className={classnames(styles.boxRow)}
-            style={{width: '65vw',left:'2.5vw'}}>
-            <DemandTake
-              _refer_von_cosmic={this.props._refer_von_cosmic}/>
-          </div>
-          <div
-            className={classnames(styles.boxRow)}
-            style={{width: '65vw',left:'2.5vw'}}>
-            <div
-              className={classnames(styles.boxMatchSet)}>
-              <MatchSet
-                _refer_von_cosmic={this.props._refer_von_cosmic}/>
-            </div>
-            <div
-              className={classnames(styles.boxBeneathMatchSet)}>
-              <Supply/>
-            </div>
-            <div
-              className={classnames(styles.decoSeparationStroke, styles.boxCenterStrokeRow)}></div>
-          </div>
-          {
-            (this.props.indexLists.listCustomNew.length> 0) &&
-            <div
-              className={classnames(styles.boxRow)}>
-              <NewSharedCustom
-                {...this.props}/>
-              <div
-                className={classnames(styles.decoSeparationLine, styles.boxUnderLine)}></div>
-            </div>
-          }
-          {
-            (this.props.indexLists.listNew.length> 0) &&
-            <div
-              className={classnames(styles.boxRow)}>
-              <NewShared
-                {...this.props}/>
-              <div
-                className={classnames(styles.decoSeparationLine, styles.boxUnderLine)}></div>
-            </div>
-          }
+
           <div
             className={classnames(styles.boxRow)}>
             <Broads

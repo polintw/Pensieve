@@ -39,16 +39,6 @@
 
 }
 
-.boxCreate {
-  width: 37%;
-  box-sizing: border-box;
-  position: relative;
-}
-
-.boxGreet {
-  margin-bottom: 10%;
-}
-
 .boxDate {
   display: flex;
   justify-content: flex-end;
@@ -70,8 +60,4 @@
 
 .spanTodayDescript {
   margin-bottom: 1rem;
-}
-
-.spanGreet {
-  white-space: nowrap;
 }
