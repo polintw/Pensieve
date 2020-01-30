@@ -198,16 +198,13 @@ export function separationLine(remainder, index){
   }
 }
 
-export function axios_cosmic_IndexList(cancelToken, turn){
-  let url = '/router/feed/focus';
+export function axios_GET_selectedList(cancelToken){
+  let url = '/router/feed/custom/selected';
 
   return axios.get(url, {
     headers: {
       'charset': 'utf-8',
       'token': window.localStorage['token']
-    },
-    params: {
-      turn: turn
     },
     cancelToken: cancelToken
   }).then(function (res) {

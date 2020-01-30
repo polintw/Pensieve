@@ -37,6 +37,7 @@ export const initCosmicGeneral = {
     listCustomNew: [],
     listNew: [],
     listFocus:[],
+    listCustomSelected: [],
     demandTake: [],
     todayNode: [],
     broads: []

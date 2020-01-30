@@ -4,6 +4,10 @@
   padding: 3.5% 0 0;
 }
 
+.boxLogo {
+  height: 4rem;
+}
+
 .boxBasic {
   min-width: 13vw;
   position: absolute;

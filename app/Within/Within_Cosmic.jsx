@@ -38,7 +38,7 @@ class WithinCosmic extends React.Component {
       Within_Cosmic_corner_: {
         position: 'fixed',
         bottom: '2.4%',
-        right: '15%',
+        right: '20%',
         boxSizing: 'border-box'
       },
       Within_Cosmic_NavOptions: {

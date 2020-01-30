@@ -1,0 +1,25 @@
+.comCusSelected {
+  width: 100%;
+  position: relative;
+}
+
+.boxTitleRow {
+  display: inline-block;
+}
+
+.boxTitleWrap {
+  display: inline-block;
+  text-align: left;
+}
+
+.spanTitle {
+  display: block;
+}
+
+.boxUnits {
+  display: inline-flex;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+  flex-wrap: wrap;
+  width: 42.5vw;
+}

@@ -27,7 +27,7 @@ class CosmicCorner extends React.Component {
   _handleClick_cosmic_Self(event){
     event.stopPropagation();
     event.preventDefault();
-    window.location.assign('/user/screen');
+    window.location.assign('/user/cognition/actions/shareds');
   }
 
   _handleEnter_CornerOpt(e){
@@ -67,14 +67,30 @@ class CosmicCorner extends React.Component {
     return(
       <div>
         <div
-          className={classnames(styles.fontCosmicCorner)}
-          style={{display: 'none'}}>
+          className={classnames(
+            styles.boxOptions,
+            styles.fontCosmicCorner,
+            styles.specificNoneDis,
+            {[styles.boxAround]: (this.props.location.pathname.indexOf("cosmic") !== -1)}
+          )}>
           <Link
             to="/"
-            className={'plainLinkButton'}>
-            {"around"}
+            method="around"
+            className={'plainLinkButton'}
+            onMouseEnter={this._handleEnter_CornerOpt}
+            onMouseLeave={this._handleLeave_CornerOpt}>
+            {
+              (this.state.mouseOn=='around') &&
+              <span style={{
+                  width: '75%', position: 'absolute', top: '-11%', left: '-1%',
+                  borderBottom: 'solid 1px rgb(64, 133, 160)'
+                }}/>
+              }
+            <span
+              style={(this.state.mouseOn=='all')? {color: '#333333'}:{}}>{"around"}</span>
           </Link>
         </div>
+
         <div
           method="account"
           className={
@@ -104,7 +120,7 @@ class CosmicCorner extends React.Component {
             styles.boxOptions,
             styles.fontCosmicCorner,
             styles.specificNoneDis,
-            {[styles.boxFocus]: (pathNow> -1)}
+            styles.boxFocus
           )}>
           <Link
             to="/cosmic"
@@ -120,7 +136,10 @@ class CosmicCorner extends React.Component {
                 }}/>
               }
             <span
-              style={(this.state.mouseOn=='focus')? {color: '#333333'}:{}}>{"focus"}</span>
+              style={(this.state.mouseOn=='focus')? {color: '#333333'}:{}}>
+              {
+                (this.props.location.pathname.indexOf("cosmic") !== -1) ? "focus" : "All"}
+            </span>
           </Link>
         </div>
       </div>

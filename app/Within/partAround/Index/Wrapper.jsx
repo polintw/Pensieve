@@ -16,6 +16,7 @@ import {
 import RowEntry from './RowEntry/RowEntry.jsx';
 import NewShared from './NewShared/NewShared.jsx';
 import NewSharedCustom from './NewSharedCustom/NewSharedCustom.jsx';
+import CustomSelected from './CustomSelected/CustomSelected.jsx';
 import Belongs from './Belongs/Belongs.jsx';
 import CreateShare from '../../../Component/CreateShare.jsx';
 import SvgCreate from '../../../Component/Svg/SvgCreate.jsx';
@@ -147,16 +148,10 @@ class Wrapper extends React.Component {
               lastVisit={this.state.lastVisit}
               _refer_von_cosmic={this.props._refer_von_cosmic}/>
           </div>
-
           <div
-            className={classnames(styles.boxRow)}
-            style={{width: '65vw',left:'2.5vw'}}>
-            <div
-              className={classnames(styles.boxMatchSet)}>
-
-              <Belongs
-                _refer_von_cosmic={this.props._refer_von_cosmic}/>
-            </div>
+            className={classnames(styles.boxRow, styles.boxBelong)}>
+            <Belongs
+              _refer_von_cosmic={this.props._refer_von_cosmic}/>
 
             <div
               className={classnames(styles.decoSeparationStroke, styles.boxCenterStrokeRow)}></div>
@@ -190,16 +185,22 @@ class Wrapper extends React.Component {
               <SvgCreate
                 black={this.state.onCreate}
                 place={false}
-                stretch={false}/>
+                stretch={true}/>
               <CreateShare
                 _submit_Share_New={this._submit_Share_New}
                 _refer_von_Create={this.props._refer_von_cosmic}/>
             </div>
-
             <div
               className={classnames(styles.decoSeparationLine, styles.boxUnderLine)}
               style={{width:'38%', right:'0'}}></div>
           </div>
+          <div
+            className={classnames(styles.boxRow)}>
+            <CustomSelected
+              {...this.props}/>
+          </div>
+          <div
+            className={classnames(styles.boxFooter)}></div>
         </div>
         <Route
           path={this.props.match.path+"/unit"}

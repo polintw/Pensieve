@@ -79,6 +79,7 @@ export const i18nUIStringInit = {
      "title_Main_Broads": ["Broaded", "by people"],
      "catagory_MatchNodes_wished": ["Wish", "Wish·Order"],
 
+     "title_index_CusSelected": "Selections",
      "title_Main_NewCust": ["NEW", "for you"],
      "title_Main_OtherNew": ["NEW", "arrived"],
      "title_Main_matchDemand": ["Taking one!", "these are corners hoping from people."],

@@ -35,7 +35,7 @@ class WithinAround extends React.Component {
       Within_Around_corner_: {
         position: 'fixed',
         bottom: '2.4%',
-        right: '15%',
+        right: '20%',
         boxSizing: 'border-box'
       },
       Within_Around_NavOptions: {
@@ -121,7 +121,6 @@ class WithinAround extends React.Component {
           style={this.style.Within_Around_corner_}>
           <CosmicCorner {...this.props}/>
         </div>
-
         <div style={this.style.Within_Around_NavOptions}>
           <NavOptions {...this.props}/>
         </div>

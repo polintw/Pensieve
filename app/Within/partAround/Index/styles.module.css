@@ -16,25 +16,16 @@
 }
 
 .boxRowTop {
-  width: 80vw; /*the only row not follow the heigher comp*/
+  width: 100%;
   min-height: 247px;
   position: relative;
-  left: -2.5vw;
+  left: 2.5vw;
   margin: 0 0 2.5vw;
 }
 
-.boxBeneathMatchSet {
-  width:100%;
-  margin: 3rem 0 5.5vw;
-}
-
-.boxMatchSet{
-  width: 100%;
+.boxBelong{
   height: 16rem;
   box-sizing: border-box;
-  padding: 2% 0 1%;
-  margin: 1vw 0 7rem;
-  box-shadow: 4px 0 4px -5px inset, -4px 0 4px -5px inset;
 }
 
 .boxNail {
@@ -118,9 +109,18 @@
 }
 
 .boxCreate {
-  width: 37%;
+  width: 60vw;
+  height: 24vh;
+  min-height: 121px;
   box-sizing: border-box;
   position: relative;
+}
+
+.boxFooter {
+  width: 100%;
+  height: 33vh;
+  position: relative;
+  box-sizing: border-box;
 }
 
 .decoSeparationHorz {

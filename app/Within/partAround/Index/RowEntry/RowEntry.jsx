@@ -9,6 +9,7 @@ import classnames from 'classnames';
 import styles from './styles.module.css';
 import stylesMain from "../styles.module.css"; //Notice, we use shared css file here for easier control
 import DateConverter from '../../../../Component/DateConverter.jsx';
+import SvgLogo from '../../../../Component/Svg/SvgLogo.jsx';
 
 class RowEntry extends React.Component {
   constructor(props){
@@ -60,6 +61,10 @@ class RowEntry extends React.Component {
         <div
           className={classnames(stylesMain.decoSeparationLine, styles.boxUnderline)}></div>
         <div
+          className={classnames(styles.boxLogo)}>
+          <SvgLogo/>
+        </div>
+        <div
           className={classnames(styles.boxBasic)}>
           {
             this.state.greet &&
@@ -70,15 +75,12 @@ class RowEntry extends React.Component {
             </div>
           }
           <div
-            className={classnames(styles.boxBasicBottom)}>
-
-            <div
-              className={classnames(styles.boxDate, 'fontGillSN')}>
-              <DateConverter
-                place={'title'}
-                datetime={date.getTime()}/>
-            </div>
+            className={classnames(styles.boxDate, 'fontGillSN')}>
+            <DateConverter
+              place={'title'}
+              datetime={date.getTime()}/>
           </div>
+
         </div>
 
       </div>

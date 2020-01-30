@@ -23,20 +23,6 @@
   margin: 0 0 2.5vw;
 }
 
-.boxBeneathMatchSet {
-  width:100%;
-  margin: 3rem 0 5.5vw;
-}
-
-.boxMatchSet{
-  width: 100%;
-  height: 16rem;
-  box-sizing: border-box;
-  padding: 2% 0 1%;
-  margin: 1vw 0 7rem;
-  box-shadow: 4px 0 4px -5px inset, -4px 0 4px -5px inset;
-}
-
 .boxList {
   width: 100%;
   margin: 5vw 0 0;

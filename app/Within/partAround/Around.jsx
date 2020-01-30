@@ -61,7 +61,7 @@ class Around extends React.Component {
         <div style={{width: '100%', height: '4rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}>
           <div
             style={Object.assign({}, this.style.withinCom_CosmicMain_top_logo)}
-            onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_von_cosmic('', '/cosmic')}}>
+            onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_von_cosmic('', '/')}}>
             <SvgLogo/>
           </div>
         </div>
