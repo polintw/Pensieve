@@ -92,8 +92,13 @@ class Theater extends React.Component {
     //handler deal with every intention to close(unmount) Theater
     if(this.props.unitSubmitting){this.setState({warningModal: "data is submitting, please hold on...", warningType: 'submitting'});return;};
     if(this.state.mode=='author_editing'){this.setState({warningModal: "modifications has not yet submitted, are you still going to close the it?", warningType: 'close'});return;};
-    //only close if passed all above
-    this.setState({close: true})
+
+    /*
+      after the Tailoring for new design,
+      this function do 'not' really close the Theater itself, instead close the whole Unit directly.
+      Should be recover if the Related was m back.
+    */
+    this.props._close_theaterHeigher();
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){

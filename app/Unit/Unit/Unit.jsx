@@ -8,7 +8,6 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
 import Theater from '../Theater/Theater.jsx';
-import Related from '../Related/Related.jsx';
 import ModalBox from '../../Component/ModalBox.jsx';
 import ModalBackground from '../../Component/ModalBackground.jsx';
 import {setUnitCurrent} from "../../redux/actions/general.js";
@@ -20,15 +19,12 @@ class Unit extends React.Component {
     this.state = {
       axios: false,
       close: false,
-      onSpanClose: false
     };
     this.axiosSource = axios.CancelToken.source();
     this._close_modal_Unit = this._close_modal_Unit.bind(this);
     this._axios_getUnitImg = this._axios_getUnitImg.bind(this);
     this._axios_getUnitData = this._axios_getUnitData.bind(this);
     this._axios_get_UnitMount = this._axios_get_UnitMount.bind(this);
-    this._handleEnter_spanClose = this._handleEnter_spanClose.bind(this);
-    this._handleLeave_spanClose = this._handleLeave_spanClose.bind(this);
     this._reset_UnitMount = ()=>{this._axios_get_UnitMount();};
     this.style={
 
@@ -135,14 +131,6 @@ class Unit extends React.Component {
     });
   }
 
-  _handleEnter_spanClose(e){
-    this.setState({onSpanClose: true})
-  }
-
-  _handleLeave_spanClose(e){
-    this.setState({onSpanClose: false})
-  }
-
   _close_modal_Unit(){
     //close the whole Unit Modal
     //different from the one in Theater, which used only for closing Theater
@@ -189,7 +177,7 @@ class Unit extends React.Component {
 
   render(){
     if(this.state.close){let pathTo=this.props.location.pathname.replace("/unit","");return <Redirect to={pathTo}/>}
-
+      //Notice !! beneath are remaining before there is a Related. Rm them only if Theater was no longer need a second comp.
     let params = new URLSearchParams(this.props.location.search); //we need value in URL query
     let paramsTheater = params.has('theater'); //bool, true if there is 'theater'
     this.unitId = params.get('unitId');
@@ -197,35 +185,11 @@ class Unit extends React.Component {
     return(
       <ModalBox containerId="root">
         <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: (!!paramsTheater)? 'rgba(11,11,11,0.98)': 'rgba(240, 238,233, 0.98)'}}>
-          {
-            (paramsTheater) ? (
-              <Theater
-                {...this.props}
-                _reset_UnitMount={this._reset_UnitMount}
-                _close_theaterHeigher={this._close_modal_Unit}/>
-            ): (
-              <div
-                className={styles.viewRelated}>
-                <div
-                  className={styles.boxRelated}>
-                  <Related
-                    {...this.props}
-                    _handleClick_leave={this._close_modal_Unit}/>
-                  <div
-                    className={classnames(styles.boxSubtitle)}>
-                    <span
-                      className={classnames(styles.spanRelatedClose)}
-                      onClick={(e)=>{e.stopPropagation();e.preventDefault();this._close_modal_Unit()}}
-                      style={this.state.onSpanClose ? {color: "#4085a0"}:{}}
-                      onMouseEnter={this._handleEnter_spanClose}
-                      onMouseLeave={this._handleLeave_spanClose}>
-                      {" close "}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            )
-          }
+          <Theater
+            {...this.props}
+            _reset_UnitMount={this._reset_UnitMount}
+            _close_theaterHeigher={this._close_modal_Unit}/>
+
         </ModalBackground>
       </ModalBox>
     )
