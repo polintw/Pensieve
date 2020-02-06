@@ -3,6 +3,7 @@ const execute = express.Router();
 const winston = require('../../../config/winston.js');
 const _DB_sheetsNode = require('../../../db/models/index').sheets_node;
 const _DB_usersCustomIndex = require('../../../db/models/index').users_custom_index;
+const _DB_staticsNodeBelong = require('../../../db/models/index').statics_nodes_belong;
 const {_res_success} = require('../../utils/resHandler.js');
 const {
   _handle_ErrCatched,
@@ -79,7 +80,8 @@ function _handle_PATCH_profile_sheetsNodes(req, res){
       where:{id_user: userId}
     }).then((preference)=>{
       let newSheetsRow = {},
-          newBelongArr = []; //used for record update to custom_index, we updating no matter there is any diff
+          newBelongArr = [], //used for record update to custom_index, we updating no matter there is any diff
+          objNodesStatics= {}; //to update the statics between nodes & Belong
       //check current data, if a new submit need to override the current, we move the current to history
       if(colsList[0] && !!preference[mutableCols[0]]){ //if there is a records in 'residence' in table and not null
         let prevRecord = JSON.parse(preference.residence_history);
@@ -99,6 +101,7 @@ function _handle_PATCH_profile_sheetsNodes(req, res){
           newSheetsRow[col] = req.body.belong[col];
           newBelongArr.push(Number(req.body.belong[col])); //for update to custom_index, keep it follow the latest client thought
           //here, need to parse the 'string' passed from request.body into num (it should be a ID/integer represent a node)
+
         }
         else{ if(!!preference[col] ) newBelongArr.push(preference[col]); //for update to custom_index, still compose as previous
         };

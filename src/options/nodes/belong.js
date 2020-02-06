@@ -107,10 +107,4 @@ function _handle_GET_options_Belong(req, res){
   });
 }
 
-execute.get('/belong', function(req, res){
-  if(process.env.NODE_ENV == 'development') winston.verbose('options, GET: /belong ');
-  _handle_GET_feed_optionsBelong(req, res);
-})
-
-
-module.exports = execute;
+module.exports = _handle_GET_options_Belong;

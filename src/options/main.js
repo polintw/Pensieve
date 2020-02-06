@@ -1,8 +1,8 @@
 const express = require('express');
 const main = express.Router();
 
-const belongExcutive = require('./belong.js');
+const nodesExcutive = require('./nodes/execute.js');
 
-main.use('/belong', belongExcutive)
+main.use('/nodes', nodesExcutive)
 
 module.exports = main;

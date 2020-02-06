@@ -80,7 +80,7 @@ class BelongOptions extends React.Component {
 
     axios({
       method: 'get',
-      url: '/router/options/belong',
+      url: '/router/options/nodes/belong',
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']
