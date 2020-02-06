@@ -3,11 +3,6 @@ const router = express.Router();
 
 const auth = require('./auth/main.js');
 const accountRouter = require('./account/main.js');
-const userRouter = require('./user/main.js');
-const actionsRouter = require('./user/actions/main.js');
-const collateralsRouter = require('./user/collaterals/main.js');
-const scapeRouter = require('./user/scape/main.js');
-const unitRouter = require('./unit/main.js');// shift to "units"
 const unitsRouter = require('./units/main.js');
 const imgRouter = require('./img/main.js');
 
@@ -20,7 +15,6 @@ const visitRouter = require('./visit/main.js');
 const shareRouter = require('./share/main.js');
 const inspireRouter = require('./inspire/main.js');
 const broadRouter = require('./broad/main.js');
-const matchNodesRouter = require('./matchNodes/main.js');
 const windowRouter = require('./window/main.js');
 const notificationsRouter = require('./notifications/main.js');
 const uProfileRouter = require('./user/profile/main.js');
@@ -33,13 +27,7 @@ router.use('/img', imgRouter)
 router.use('/', auth)
 
 //only approach after verified
-router.use('/user', userRouter)
-router.use('/actions', actionsRouter) //prepare to replace part of the "/user"
-router.use('/collaterals', collateralsRouter) //prepare to replace part of the "/user"
-router.use('/scape', scapeRouter) //prepare to replace part of the "/user"
 
-
-router.use('/unit', unitRouter)
 // shift to "units"
 router.use('/units', unitsRouter)
 //all above are path since begining, with old deisgn
@@ -56,7 +44,6 @@ router.use('/share', shareRouter)
 router.use('/inspire', inspireRouter)
 router.use('/broad', broadRouter)
 router.use('/window', windowRouter)
-router.use('/matchNodes', matchNodesRouter)
 router.use('/options', optionsRouter)
 
 router.use('/feed', feedRouter)

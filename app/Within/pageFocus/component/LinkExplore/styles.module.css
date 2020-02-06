@@ -1,0 +1,18 @@
+.comExplore {
+  display: flex;
+  position: relative;
+}
+
+.boxExplore {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.fontExplore {
+  font-size: 1.34rem;
+  letter-spacing: 0.1rem;
+  white-space: nowrap;
+  color: #353535;
+}

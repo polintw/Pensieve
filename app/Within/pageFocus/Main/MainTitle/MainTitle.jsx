@@ -9,6 +9,7 @@ import classnames from 'classnames';
 import styles from './styles.module.css';
 import stylesMain from "../styles.module.css"; //Notice, we use shared css file here for easier control
 import TodayUnit from './TodayUnit.jsx';
+import LinkExplore from '../..//component/LinkExplore/LinkExplore.jsx';
 import DateConverter from '../../../../Component/DateConverter.jsx';
 import CreateShare from '../../../../Component/CreateShare.jsx';
 import SvgCreate from '../../../../Component/Svg/SvgCreate.jsx';
@@ -72,7 +73,6 @@ class MainTitle extends React.Component {
           className={classnames(styles.boxBasic)}>
           <div
             className={classnames(styles.boxBasicBottom)}>
-
             <div
               className={classnames(styles.boxDate, 'fontGillSN')}>
               <DateConverter
@@ -80,6 +80,10 @@ class MainTitle extends React.Component {
                 datetime={date.getTime()}/>
             </div>
           </div>
+          <div>
+            <LinkExplore {...this.props}/>
+          </div>
+
         </div>
         <div
           className={classnames(styles.boxToday)}>

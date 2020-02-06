@@ -9,6 +9,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
+import ExpNodes from './ExpNodes/ExpNodes.jsx';
 import ExpSubtitle from './ExpSubtitle/ExpSubtitle.jsx';
 import UnitIndepen from '../../Unit/UnitIndepen/UnitIndepen.jsx';
 import SvgLogo from '../../Component/Svg/SvgLogo.jsx';
@@ -66,6 +67,7 @@ class Explore extends React.Component {
           className={styles.boxMain}
           style={unitify? {top: '7.2vh'}: {}}>
           <Switch>
+            <Route path={this.props.match.path+"/nodes"} render={(props)=> <ExpNodes {...props}/>}/>
             <Route path={this.props.match.path+"/unit"} render={(props)=> <UnitIndepen {...props} _refer_von_unit={this.props._refer_von_cosmic}/>}/>
 
           </Switch>

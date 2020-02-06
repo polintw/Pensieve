@@ -20,15 +20,6 @@ app.engine('jsx', require('express-react-views').createEngine({transformViews: f
 app.enable("trust proxy"); //for rateLimit, due to behind a reverse proxy(nginx)
 
 
-//redis server as a session pool
-/*const redis = require("redis"),
-    client = redis.createClient();
-
-client.on("error", function (err) {
-  winston.error(`${"Error: from redis when initiation: "} ${err}`);
-});*/
-
-
 //rate limit by ip
 const limiter = rateLimit({
   windowMs: 10 * 60 * 1000, // 10 minutes

@@ -1,10 +1,8 @@
 const express = require('express');
 const main = express.Router();
 
-const nounsExcutive = require('./nouns.js');
-const usersExcutive = require('./users.js');
+const nodesExecutive = require('./nodes.js');
 
-main.use('/nouns', nounsExcutive)
-main.use('/users', usersExcutive)
+main.use('/nodes', nodesExecutive)
 
 module.exports = main;

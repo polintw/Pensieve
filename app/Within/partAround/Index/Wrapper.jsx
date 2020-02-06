@@ -19,6 +19,7 @@ import NewSharedCustom from './NewSharedCustom/NewSharedCustom.jsx';
 import CustomSelected from './CustomSelected/CustomSelected.jsx';
 import Belongs from './Belongs/Belongs.jsx';
 import CreateShare from '../../../Component/CreateShare.jsx';
+import SvgCreate from '../../../Component/Svg/SvgCreate.jsx';
 import Unit from '../../../Unit/Unit/Unit.jsx';
 import {
   setIndexLists,
@@ -179,7 +180,10 @@ class Wrapper extends React.Component {
               className={classnames(styles.boxCreate)}
               onMouseEnter={this._handleMouseOn_Create}
               onMouseLeave={this._handleMouseOn_Create}>
-
+              <SvgCreate
+                black={this.state.onCreate}
+                place={false}
+                stretch={true}/>
               <CreateShare
                 _submit_Share_New={this._submit_Share_New}
                 _refer_von_Create={this.props._refer_von_cosmic}/>
