@@ -18,6 +18,7 @@ import NewShared from './NewShared/NewShared.jsx';
 import NewSharedCustom from './NewSharedCustom/NewSharedCustom.jsx';
 import CustomSelected from './CustomSelected/CustomSelected.jsx';
 import Belongs from './Belongs/Belongs.jsx';
+import CornersRecom from './CornersRecom/CornersRecom.jsx';
 import CreateShare from '../../../Component/CreateShare.jsx';
 import SvgCreate from '../../../Component/Svg/SvgCreate.jsx';
 import Unit from '../../../Unit/Unit/Unit.jsx';
@@ -149,9 +150,24 @@ class Wrapper extends React.Component {
               _refer_von_cosmic={this.props._refer_von_cosmic}/>
           </div>
           <div
-            className={classnames(styles.boxRow, styles.boxBelong)}>
-            <Belongs
-              _refer_von_cosmic={this.props._refer_von_cosmic}/>
+            className={classnames(styles.boxRow)}>
+            <div
+              className={classnames(styles.boxBelong)}>
+              <Belongs
+                _refer_von_cosmic={this.props._refer_von_cosmic}/>
+            </div>
+            <div
+              className={classnames(styles.boxCreate)}
+              onMouseEnter={this._handleMouseOn_Create}
+              onMouseLeave={this._handleMouseOn_Create}>
+              <SvgCreate
+                black={this.state.onCreate}
+                place={false}
+                stretch={true}/>
+              <CreateShare
+                _submit_Share_New={this._submit_Share_New}
+                _refer_von_Create={this.props._refer_von_cosmic}/>
+            </div>
 
           </div>
           {
@@ -176,18 +192,8 @@ class Wrapper extends React.Component {
           }
           <div
             className={classnames(styles.boxRow)}>
-            <div
-              className={classnames(styles.boxCreate)}
-              onMouseEnter={this._handleMouseOn_Create}
-              onMouseLeave={this._handleMouseOn_Create}>
-              <SvgCreate
-                black={this.state.onCreate}
-                place={false}
-                stretch={true}/>
-              <CreateShare
-                _submit_Share_New={this._submit_Share_New}
-                _refer_von_Create={this.props._refer_von_cosmic}/>
-            </div>
+            <CornersRecom
+              _refer_von_cosmic={this.props._refer_von_cosmic}/>
           </div>
           <div
             className={classnames(styles.boxRow)}>
