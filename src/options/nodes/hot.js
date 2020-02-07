@@ -1,13 +1,15 @@
 const express = require('express');
 const execute = express.Router();
-const winston = require('../../config/winston.js');
-const _DB_sheetsNode = require('../../db/models/index').sheets_node;
-
-const {_res_success} = require('../utils/resHandler.js');
+const winston = require('../../../config/winston.js');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
+const _DB_sheetsNode = require('../../../db/models/index').sheets_node;
+const _DB_lastUpdate_NodeBelongs = require('../../../db/models/index').lastUpdate_nodeBelongs;
+const {_res_success} = require('../../utils/resHandler.js');
 const {
   _handle_ErrCatched,
   internalError,
-} = require('../utils/reserrHandler.js');
+} = require('../../utils/reserrHandler.js');
 
 function _handle_GET_options_Hot(req, res){
   new Promise((resolve, reject)=>{
@@ -25,14 +27,29 @@ function _handle_GET_options_Hot(req, res){
 
       return currentRecords; //arr contain belong nodes in id
     }).then((recordsList)=>{
-      let sendingData={
-        nodesList:[],
-        temp: {}
-      };
+      /*
+        select last update, perhaps last 20 (ref: broad).
+        exclude nodes the user has before return to client
+      */
+      return _DB_lastUpdate_NodeBelongs.findAll({
+        limit: 17, //17 latest records
+        order: [ //make sure the order of arr are from latest
+          Sequelize.literal('`updatedAt` DESC') //and here, using 'literal' is due to some wierd behavior of sequelize,
+          //it would make an Error if we provide col name by 'arr'
+        ]
+      })
+      .then((results)=>{
+        let sendingData={
+          nodesList:[],
+          temp: {}
+        };
+        results.forEach((row, index)=>{
+          if(recordsList.indexOf(row.id_node) < 0) sendingData.nodesList.push(row.id_node);
+        });
 
+        resolve(sendingData);
 
-      resolve(sendingData);
-
+      })
     }).catch((err)=>{
       reject(new internalError(err, 131));
     });

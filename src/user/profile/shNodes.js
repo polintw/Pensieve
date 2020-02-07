@@ -3,7 +3,7 @@ const execute = express.Router();
 const winston = require('../../../config/winston.js');
 const _DB_sheetsNode = require('../../../db/models/index').sheets_node;
 const _DB_usersCustomIndex = require('../../../db/models/index').users_custom_index;
-const _DB_staticsNodeBelong = require('../../../db/models/index').statics_nodes_belong;
+const _DB_lastUpdate_NodeBelongs = require('../../../db/models/index').lastUpdate_nodeBelongs;
 const {_res_success} = require('../../utils/resHandler.js');
 const {
   _handle_ErrCatched,
@@ -81,7 +81,7 @@ function _handle_PATCH_profile_sheetsNodes(req, res){
     }).then((preference)=>{
       let newSheetsRow = {},
           newBelongArr = [], //used for record update to custom_index, we updating no matter there is any diff
-          objNodesStatics= {}; //to update the statics between nodes & Belong
+          updateNodesTimeObj= {}; //to records the 'update time' node was used to express belong
       //check current data, if a new submit need to override the current, we move the current to history
       if(colsList[0] && !!preference[mutableCols[0]]){ //if there is a records in 'residence' in table and not null
         let prevRecord = JSON.parse(preference.residence_history);
@@ -101,13 +101,23 @@ function _handle_PATCH_profile_sheetsNodes(req, res){
           newSheetsRow[col] = req.body.belong[col];
           newBelongArr.push(Number(req.body.belong[col])); //for update to custom_index, keep it follow the latest client thought
           //here, need to parse the 'string' passed from request.body into num (it should be a ID/integer represent a node)
-
+          //And, we are going to update the time each node was used
+          updateNodesTimeObj[req.body.belong[col]] = {
+            id_node: req.body.belong[col],
+            id_user: userId,
+            item: col,
+            increase: 1 //means a increasing to node
+          }
         }
         else{ if(!!preference[col] ) newBelongArr.push(preference[col]); //for update to custom_index, still compose as previous
         };
       });
 
-      resolve({newSheetsRow: newSheetsRow, newBelongValue: {currentbelong: JSON.stringify(newBelongArr)}});
+      resolve({
+        newSheetsRow: newSheetsRow,
+        newBelongValue: {currentbelong: JSON.stringify(newBelongArr)},
+        updateNodesTimeObj: updateNodesTimeObj
+      });
     }).catch((error)=>{
       reject(new internalError(error ,131));
     })
@@ -116,6 +126,13 @@ function _handle_PATCH_profile_sheetsNodes(req, res){
 
     //claim userId again because we have already left the last promise
     let userId = req.extra.tokenUserId; //use userId passed from pass.js
+    //update nodeBelongs for each node passed by user
+    let fUpdateNodesBelong = (updateObj) => {
+      return _DB_lastUpdate_NodeBelongs.update(
+        updateObj,
+        {where: {id_node: updateObj.id_node}}
+      ).catch((err)=>{throw err});
+    };
     let pUpdateSheetsNode = _DB_sheetsNode.update(
           valueObj.newSheetsRow,
           {
@@ -129,10 +146,35 @@ function _handle_PATCH_profile_sheetsNodes(req, res){
             where: {id_user: userId},
             fields: ['currentbelong'] //limit the mutable columns, in case the intentional error
           }
-        ).catch((err)=>{throw err});
+        ).catch((err)=>{throw err}),
+        // wrap the nodeBelongs update in a promise, due to the requirement for Promise.all().
+        pUpdateNodeBelongs = new Promise((resolve, reject) => {
+          let keysArr = Object.keys(valueObj.updateNodesTimeObj);
+          keysArr.forEach(async (key, index)=>{
+            /*
+            because the table lastUpdate_nodeBelongs was empty at begining, nodes was created one by one 'when' user start to use,
+            so we need to check the existence & create the row if the node hasn't been used.
+            */
+            await _DB_lastUpdate_NodeBelongs.findOrCreate({
+              where: {id_node: key},
+              defaults: valueObj.updateNodesTimeObj[key] //create from this time if no record before
+            })
+            .then(([nodesLastUpdate, created])=>{ //remember to "spread" the result from 'findOrCreate'
+              //only 'update' if the row existed
+              if(!created) return fUpdateNodesBelong(valueObj.updateNodesTimeObj[key])
+              else{ return }; //end of 'if()'
+            })
+            .catch((err)=>{throw err});
+          });
+
+          resolve(); //still need resolve, and make sure after the update loop
+        })
+        .catch((err)=>{reject(err)});
+
     return Promise.all([
       pUpdateSheetsNode,
-      pUpdateCustomIndex
+      pUpdateCustomIndex,
+      pUpdateNodeBelongs //ensure iterating the f()
     ]).then((result)=>{
       return {temp: {}}; //return a plain obj to inform success
     }).catch((error)=>{
