@@ -174,18 +174,23 @@ class Wrapper extends React.Component {
             <SelfShared/>
           </div>
           {
-            <div
-              className={classnames(styles.boxRow)}>
-              (this.props.indexLists.listCustomNew.length> 0) ? (
+            (this.props.indexLists.listCustomNew.length> 0) ? (
+              <div
+                className={classnames(styles.boxRow)}>
                 <NewSharedCustom
                   {...this.props}/>
-              ):(
+                <div
+                  className={classnames(styles.decoSeparationLine, styles.boxUnderLine)}></div>
+              </div>
+            ):(
+              <div
+                className={classnames(styles.boxRow)}>
                 <CustomSelected
                   {...this.props}/>
-              )
-              <div
-                className={classnames(styles.decoSeparationLine, styles.boxUnderLine)}></div>
-            </div>
+                <div
+                  className={classnames(styles.decoSeparationLine, styles.boxUnderLine)}></div>
+              </div>
+            )
           }
           <div
             className={classnames(styles.boxRow)}>

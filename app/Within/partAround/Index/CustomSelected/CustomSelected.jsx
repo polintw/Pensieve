@@ -46,7 +46,7 @@ class CustomSelected extends React.Component {
 
     axios_GET_selectedList(this.axiosSource.token)
     */
-    new Promise((resolve, reject)=>{
+    let ptemp_ListSelecton = new Promise((resolve, reject)=>{
       let resObj = {
         main: {
           nounsListMix: [],
@@ -56,8 +56,9 @@ class CustomSelected extends React.Component {
       };
 
       resolve(resObj);
-    })
+    });
     //Above, is the static data deisgned for prototype
+    ptemp_ListSelecton
     .then((resObj)=>{
       //after res of axios_GET_selectedList: call get nouns & users
       self.props._submit_NounsList_new(resObj.main.nounsListMix);
@@ -92,7 +93,7 @@ class CustomSelected extends React.Component {
 
 
   componentDidUpdate(prevProps, prevState, snapshot){
-    this._set_SelectedList();
+
   }
 
   componentDidMount() {

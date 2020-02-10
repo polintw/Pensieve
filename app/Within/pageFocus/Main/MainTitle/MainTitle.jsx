@@ -8,7 +8,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
 import stylesMain from "../styles.module.css"; //Notice, we use shared css file here for easier control
-import NewSharedCustom from '../NewShared/NewShared.jsx';
+import NewShared from '../NewShared/NewShared.jsx';
 import LinkExplore from '../../component/LinkExplore/LinkExplore.jsx';
 import DateConverter from '../../../../Component/DateConverter.jsx';
 import CreateShare from '../../../../Component/CreateShare.jsx';
