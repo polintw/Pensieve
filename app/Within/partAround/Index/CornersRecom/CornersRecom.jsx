@@ -6,6 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import CornersItem from './CornersItem.jsx';
 import {
   _axios_GET_OptionsRecomCorners
 } from "./utils.js";
@@ -75,11 +76,9 @@ class CornersRecom extends React.Component {
   _render_RecomList(){
     const nodesDOM = this.state.nodesList.map((nodeId, index)=>{
       return (
-
         <div
           key={"key_CornersItem_"+index}>
           <CornersItem
-
             _refer_von_cosmic={this.props._refer_von_cosmic}/>
         </div>
       )
