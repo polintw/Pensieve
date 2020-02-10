@@ -18,6 +18,10 @@ import {
   handleNounsList
 } from "../../../../redux/actions/general.js";
 
+/*
+static data deisgned for prototype
+*/
+const temp_nodesList = ["10370", "754", "10295", "387", "10170", "6288"]
 
 class CornersRecom extends React.Component {
   constructor(props){
@@ -38,9 +42,15 @@ class CornersRecom extends React.Component {
 
     _axios_GET_OptionsRecomCorners(this.axiosSource.token)
     .then((resObj)=>{
+
+resObj.main.nodesList = temp_nodesList;
+
       //not set state.axios back to 'true' because we are going to next axios not far away
       self.props._submit_NounsList_new(resObj.main.nodesList); //GET nodes info by Redux action
-      self.props._submit_Corners_count(resObj.main.nodesList); //GET count of each node display, by Redux action as well.
+//      self.props._submit_Corners_count(resObj.main.nodesList); //GET count of each node display, by Redux action as well.
+/*
+silence the above line during prototype test
+*/
 
       self.setState((prevState, props)=>{
         return({
@@ -79,6 +89,8 @@ class CornersRecom extends React.Component {
         <div
           key={"key_CornersItem_"+index}>
           <CornersItem
+            index={index}
+            nodeId={nodeId}
             _refer_von_cosmic={this.props._refer_von_cosmic}/>
         </div>
       )

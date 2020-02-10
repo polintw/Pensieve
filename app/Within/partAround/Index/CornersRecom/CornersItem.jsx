@@ -8,6 +8,11 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesMain from "../styles.module.css";
 
+/*
+static data deisgned for prototype
+*/
+const temp_nodesCount = ["37", "5", "29", "19", "10", "3"]
+
 class CornersItem extends React.Component {
   constructor(props){
     super(props);
@@ -39,7 +44,7 @@ class CornersItem extends React.Component {
       <div
         className={classnames(styles.boxDepend)}>
         <Link
-          to={"/cosmic/nodes/"+nodeId}
+          to={"/cosmic/nodes/"+this.props.nodeId}
           className={classnames('plainLinkButton', styles.boxNode)}
           onMouseEnter={this._handleMouseOn_Node}
           onMouseLeave={this._handleMouseOn_Node}>
@@ -52,8 +57,8 @@ class CornersItem extends React.Component {
                   borderBottom: 'solid 1px #ff7a5f'
                 }}/>
             }
-            {nodeId in this.props.nounsBasic ? (
-              this.props.nounsBasic[nodeId].name) : (
+            {this.props.nodeId in this.props.nounsBasic ? (
+              this.props.nounsBasic[this.props.nodeId].name) : (
                 null
             )}
           </div>
@@ -74,6 +79,7 @@ class CornersItem extends React.Component {
             className={classnames(styles.spanType, styles.fontCount)}>
             {
               //temp method, modified after permanent method est.
+              temp_nodesCount[this.props.index]
             }
           </span>
         </div>

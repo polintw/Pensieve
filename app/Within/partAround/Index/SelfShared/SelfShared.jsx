@@ -8,31 +8,35 @@ import classnames from 'classnames';
 import styles from "./styles.module.css"; //Notice, we use shared css file here for easier control
 import stylesMain from "../styles.module.css"; //Notice, we use shared css file here for easier control
 import {
+  axios_Units,
   nailChart,
 } from '../utils.js';
 import {
-  setIndexLists
-} from '../../../../redux/actions/cosmic.js';
-import {
   handleNounsList,
   handleUsersList,
-  updateNodesBasic
 } from "../../../../redux/actions/general.js";
 import {
   cancelErr,
   uncertainErr
 } from '../../../../utils/errHandlers.js';
 
+/*
+static data deisgned for prototype
+*/
+const temp_unitList = ["38"]
+
 class SelfShared extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       axios: false,
-      unitsList: [],
+//      unitsList: [],
+      unitsList: temp_unitList, //during the prototype period
       unitsBasic: {},
       marksBasic: {},
     };
     this.axiosSource = axios.CancelToken.source();
+    this._fetch_Units = this._fetch_Units.bind(this);
     this._render_nails = this._render_nails.bind(this);
     this.style={
 
@@ -43,13 +47,47 @@ class SelfShared extends React.Component {
   This is a new comp. est. during the test stage.
   It actually need a data fetch, fetching the latest Shared/new feedback of/to the user.
   */
+  _fetch_Units(unitsList){
+    const self = this;
+    this.setState({axios: true});
+
+    axios_Units(this.axiosSource.token, unitsList)
+    .then((resObj)=>{
+      //after res of axios_Units: call get nouns & users
+      self.props._submit_NounsList_new(resObj.main.nounsListMix);
+      self.props._submit_UsersList_new(resObj.main.usersList);
+      //and update the data of units to state
+      self.setState((prevState, props)=>{
+        return ({
+          axios: false,
+          unitsBasic: {...prevState.unitsBasic, ...resObj.main.unitsBasic},
+          marksBasic: {...prevState.marksBasic, ...resObj.main.marksBasic}
+        });
+      });
+
+    })
+    .catch(function (thrown) {
+      self.setState({axios: false});
+      if (axios.isCancel(thrown)) {
+        cancelErr(thrown);
+      } else {
+        let message = uncertainErr(thrown);
+        if(message) alert(message);
+      }
+    });
+
+  }
 
   componentDidUpdate(prevProps, prevState, snapshot){
 
   }
 
   componentDidMount() {
-
+/*
+should has it's own api to get the customized Shared list for Index first,
+fetch units directly only during the test period
+*/
+    this._fetch_Units(temp_unitList);
   }
 
   componentWillUnmount() {
@@ -103,10 +141,8 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    _submit_IndexLists: (listsObj) => { dispatch(setIndexLists(listsObj)); },
     _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
     _submit_UsersList_new: (arr) => { dispatch(handleUsersList(arr)); },
-    _submit_NodesBasic: (obj) => { dispatch(updateNodesBasic(obj)); }
   }
 }
 

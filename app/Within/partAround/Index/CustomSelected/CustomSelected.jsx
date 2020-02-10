@@ -45,13 +45,15 @@ class CustomSelected extends React.Component {
 /*    this.setState({axios: true});
 
     axios_GET_selectedList(this.axiosSource.token)
+    above should divide into GET List & fetch Units(and recruite part of work in the next step),
+    when we are going to make a permanent version.
     */
     let ptemp_ListSelecton = new Promise((resolve, reject)=>{
       let resObj = {
         main: {
-          nounsListMix: [],
-          usersList: [],
-          listCustomSelected: []
+          nounsListMix: ["10146", "10370","10295","10269","5113","5114","5119"],
+          usersList: ["8","3"],
+          listCustomSelected: ["20", "27", "19"]
         }
       };
 
