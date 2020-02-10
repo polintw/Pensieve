@@ -58,8 +58,7 @@ class RowEntry extends React.Component {
       <div
         ref={this.boxTitle}
         className={classnames(styles.comRowEntry)}>
-        <div
-          className={classnames(stylesMain.decoSeparationLine, styles.boxUnderline)}></div>
+
         <div
           className={classnames(styles.boxLogo)}>
           <SvgLogo/>

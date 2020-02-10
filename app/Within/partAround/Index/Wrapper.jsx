@@ -14,8 +14,8 @@ import {
   axios_visit_Index
 } from './utils.js';
 import RowEntry from './RowEntry/RowEntry.jsx';
-import NewShared from './NewShared/NewShared.jsx';
 import NewSharedCustom from './NewSharedCustom/NewSharedCustom.jsx';
+import SelfShared from './SelfShared/SelfShared.jsx';
 import CustomSelected from './CustomSelected/CustomSelected.jsx';
 import Belongs from './Belongs/Belongs.jsx';
 import CornersRecom from './CornersRecom/CornersRecom.jsx';
@@ -142,7 +142,7 @@ class Wrapper extends React.Component {
     return(
       <div>
         <div
-          className={classnames(styles.comMainWrapper)}>
+          className={classnames(styles.comAroundWrapper)}>
           <div
             className={classnames(styles.boxRowTop)}>
             <RowEntry
@@ -168,24 +168,21 @@ class Wrapper extends React.Component {
                 _submit_Share_New={this._submit_Share_New}
                 _refer_von_Create={this.props._refer_von_cosmic}/>
             </div>
-
+          </div>
+          <div
+            className={classnames(styles.boxRow)}>
+            <SelfShared/>
           </div>
           {
-            (this.props.indexLists.listCustomNew.length> 0) &&
             <div
               className={classnames(styles.boxRow)}>
-              <NewSharedCustom
-                {...this.props}/>
-              <div
-                className={classnames(styles.decoSeparationLine, styles.boxUnderLine)}></div>
-            </div>
-          }
-          {
-            (this.props.indexLists.listNew.length> 0) &&
-            <div
-              className={classnames(styles.boxRow)}>
-              <NewShared
-                {...this.props}/>
+              (this.props.indexLists.listCustomNew.length> 0) ? (
+                <NewSharedCustom
+                  {...this.props}/>
+              ):(
+                <CustomSelected
+                  {...this.props}/>
+              )
               <div
                 className={classnames(styles.decoSeparationLine, styles.boxUnderLine)}></div>
             </div>
@@ -194,11 +191,6 @@ class Wrapper extends React.Component {
             className={classnames(styles.boxRow)}>
             <CornersRecom
               _refer_von_cosmic={this.props._refer_von_cosmic}/>
-          </div>
-          <div
-            className={classnames(styles.boxRow)}>
-            <CustomSelected
-              {...this.props}/>
           </div>
           <div
             className={classnames(styles.boxFooter)}></div>

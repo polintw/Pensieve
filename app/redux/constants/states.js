@@ -35,11 +35,9 @@ export const initCosmicGeneral = {
   axiosMatchTaking: false,
   indexLists: {
     listCustomNew: [],
+    listCustomSelected: [],
     listNew: [],
     listFocus:[],
-    listCustomSelected: [],
-    demandTake: [],
-    todayNode: [],
     broads: []
   }
 }

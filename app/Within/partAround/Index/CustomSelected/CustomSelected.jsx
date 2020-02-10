@@ -17,8 +17,7 @@ import {
   handleUsersList
 } from "../../../../redux/actions/general.js";
 import {
-  setIndexLists,
-  setFlag
+  setIndexLists
 } from '../../../../redux/actions/cosmic.js';
 import {
   cancelErr,
@@ -43,9 +42,22 @@ class CustomSelected extends React.Component {
 
   _set_SelectedList(unitsList){
     const self = this;
-    this.setState({axios: true});
+/*    this.setState({axios: true});
 
     axios_GET_selectedList(this.axiosSource.token)
+    */
+    new Promise((resolve, reject)=>{
+      let resObj = {
+        main: {
+          nounsListMix: [],
+          usersList: [],
+          listCustomSelected: []
+        }
+      };
+
+      resolve(resObj);
+    })
+    //Above, is the static data deisgned for prototype
     .then((resObj)=>{
       //after res of axios_GET_selectedList: call get nouns & users
       self.props._submit_NounsList_new(resObj.main.nounsListMix);
@@ -80,19 +92,11 @@ class CustomSelected extends React.Component {
 
 
   componentDidUpdate(prevProps, prevState, snapshot){
-    if(this.props.flagCusSelectedRefresh && //flags up
-      this.props.flagCusSelectedRefresh != prevProps.flagCusSelectedRefresh //new flag
-    ){
-      this._set_SelectedList();
-      this.props._submit_FlagSwitch(['flagCusSelectedRefresh']); //set flag back to dafault
-    }
+    this._set_SelectedList();
   }
 
   componentDidMount() {
-    if(this.props.flagCusSelectedRefresh){ //actually, this may never init because there was not any 'true' would be set at the begining
-      this._set_SelectedList();
-      this.props._submit_FlagSwitch(['flagCusSelectedRefresh']); //set flag back to dafault
-    }
+    this._set_SelectedList();
   }
 
   componentWillUnmount() {
@@ -158,7 +162,6 @@ const mapStateToProps = (state)=>{
     indexLists: state.indexLists,
     unitCurrent: state.unitCurrent,
     i18nUIString: state.i18nUIString,
-    flagCusSelectedRefresh: state.flagCusSelectedRefresh,
     nounsBasic: state.nounsBasic,
     usersBasic: state.usersBasic,
   }
@@ -168,7 +171,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
     _submit_UsersList_new: (arr) => { dispatch(handleUsersList(arr)); },
-    _submit_FlagSwitch: (target) => { dispatch(setFlag(target)); },
     _submit_IndexLists: (listsObj) => { dispatch(setIndexLists(listsObj)); },
   }
 }

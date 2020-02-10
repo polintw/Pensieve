@@ -1,4 +1,4 @@
-.comMainWrapper {
+.comAroundWrapper {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -24,8 +24,17 @@
 }
 
 .boxBelong{
-  height: 16rem;
+  display: inline-block;
+  width: 70%;
   box-sizing: border-box;
+}
+
+.boxCreate {
+  display: inline-block;
+  width: 20%;
+  height: 9rem;
+  box-sizing: border-box;
+  position: relative;
 }
 
 .boxNail {
@@ -106,14 +115,6 @@
   height: 12.5vw;
   position: relative;
   margin-left: 33%;
-}
-
-.boxCreate {
-  width: 60vw;
-  height: 24vh;
-  min-height: 121px;
-  box-sizing: border-box;
-  position: relative;
 }
 
 .boxFooter {
