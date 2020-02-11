@@ -11,6 +11,9 @@ import BooleanDialog from '../../../../Component/Dialog/BooleanDialog/BooleanDia
 import ModalBox from '../../../../Component/ModalBox.jsx';
 import ModalBackground from '../../../../Component/ModalBackground.jsx';
 import {
+  _axios_GET_belongRecords
+} from './utils.js';
+import {
   cancelErr,
   uncertainErr
 } from "../../../../utils/errHandlers.js";
@@ -21,8 +24,6 @@ import {
   setFlag
 } from "../../../../redux/actions/cosmic.js";
 
-const nodeTypeList = ["residence", "stay", "hometown", "used"]; //Notice! redering in BelongbyType depend on length of this list
-
 class Belongs extends React.Component {
   constructor(props){
     super(props);
@@ -30,23 +31,18 @@ class Belongs extends React.Component {
       axios: false,
       typeObj: {},
       nodesList: [],
-      nodesTypeCount: {},
       dialog: false,
       chosenNode: '',
       settingType: ''
     };
     this.axiosSource = axios.CancelToken.source();
     this._init_fetch = this._init_fetch.bind(this);
-    this._set_infoCount = this._set_infoCount.bind(this);
     this._set_choiceAnType = this._set_choiceAnType.bind(this);
     this._set_dialog_cancel = this._set_dialog_cancel.bind(this);
     this._render_BelongList = this._render_BelongList.bind(this);
     this._render_DialogMessage = this._render_DialogMessage.bind(this);
     this._handlesubmit_newBelong = this._handlesubmit_newBelong.bind(this);
-    this._axios_GET_usersCount = this._axios_GET_usersCount.bind(this);
-    this._axios_GET_sharedCount = this._axios_GET_sharedCount.bind(this);
-    this._axios_GET_belongRecords = this._axios_GET_belongRecords.bind(this);
-    this._axios_GET_recordeShared = this._axios_GET_recordeShared.bind(this);
+    this._axios_PATCH_belongRecords = this._axios_PATCH_belongRecords.bind(this);
     this._set_Dialog = ()=> this.setState((prevState,props)=>{ return {dialog: prevState.dialog? false:true};});
   }
 
@@ -73,7 +69,6 @@ class Belongs extends React.Component {
     this.setState({
       typeObj: {},
       nodesList: [],
-      nodesTypeCount: {},
       dialog: false,
     });
 
@@ -112,137 +107,30 @@ class Belongs extends React.Component {
     });
   }
 
-  _axios_GET_belongRecords(){
-    return axios({
-      method: 'get',
-      url: '/router/profile/sheetsNodes?present&random&limit=8',
-      headers: {
-        'charset': 'utf-8',
-        'token': window.localStorage['token']
-      },
-      cancelToken: this.axiosSource.cancelToken
-    })
-  }
-
-  _axios_GET_recordeShared(){
-    return axios({
-      method: 'get',
-      url: '/router/records/nodes?type=shared&limit=5', //the limit 5, considering the possibility of 'repeat' to belong list
-      headers: {
-        'charset': 'utf-8',
-        'token': window.localStorage['token']
-      },
-      cancelToken: this.axiosSource.cancelToken
-    })
-  }
-
-  _axios_GET_sharedCount(nodeId){
-    return axios({
-      method: 'get',
-      url: '/router/nouns/'+nodeId+ '/attribution',
-      params: {require: 'countShared'},
-      headers: {
-        'charset': 'utf-8',
-        'token': window.localStorage['token']
-      },
-      cancelToken: this.axiosSource.cancelToken
-    })
-  }
-
-  _axios_GET_usersCount(nodeId, type){
-    return axios({
-      method: 'get',
-      url: '/router/nouns/'+nodeId+ '/statics',
-      params: {
-        request: 'belong',
-        subType:　type
-      },
-      headers: {
-        'charset': 'utf-8',
-        'token': window.localStorage['token']
-      },
-      cancelToken: this.axiosSource.cancelToken
-    })
-  }
-
-  _set_infoCount(typeObj){
-    //make axios req by typeObj
-    let typeKeys = Object.keys(typeObj);
-    let promiseArr = typeKeys.map((key, index)=>{
-      if(key =="used") return this._axios_GET_sharedCount(typeObj["used"]);
-      return this._axios_GET_usersCount(typeObj[key], key);
-    });
-
-
-    const self = this;
-    this.setState({axios: true});
-
-    axios.all(promiseArr)
-      .then(results => { //we don't know how many res from .all(), so use general params
-        self.setState({axios: false});
-
-        let nodesTypeCount = {}; //obj prepare for new records, combined with current state later
-        //we then loop the results, and by the same order, we pick the nodeId from nodesList by index
-        //and remember, the result hasn't parse yet
-        results.forEach((res, index)=>{
-          let resObj = JSON.parse(res.data);
-          nodesTypeCount[typeKeys[index]] = resObj.main.count;
-        });
-
-        self.setState((prevState, props)=>{
-          return {
-            nodesTypeCount: {...prevState.nodesTypeCount, ...nodesTypeCount} //combined new records to current state by spread
-          }
-        });
-
-      }).catch(function (thrown) {
-        self.setState({axios: false});
-        if (axios.isCancel(thrown)) {
-          cancelErr(thrown);
-        } else {
-          let message = uncertainErr(thrown);
-          if(message) alert(message);
-        }
-      });
-  }
-
   _init_fetch(){
     const self = this;
     this.setState({axios: true});
 
-    axios.all([
-      this._axios_GET_belongRecords(),
-      this._axios_GET_recordeShared()
-    ]).then(
-      axios.spread((belongRecord, recordShared)=>{
-        self.setState({axios: false}); //set here because we are going to next axios not far away
+    _axios_GET_belongRecords(this.axiosSource.cancelToken)
+    .then((belongObj)=>{
+      self.setState({axios: false}); //set here because we are going to next axios not far away
+      let typeObj = {};
 
-        let belongObj = JSON.parse(belongRecord.data),
-            sharedObj = JSON.parse(recordShared.data);
-        let sharedList = sharedObj.main.nodesList;
-        if(sharedList.length > belongObj.main.nodesList.length){ //long enouogh to delete repeat node by belong
-          sharedList = sharedList.filter((nodeId, index)=>{ return belongObj.main.nodesList.indexOf(nodeId)< 0 })
-        }
-        //then, concat the lists
-        const nodesList= belongObj.main.nodesList.concat(sharedList);
-        let typeObj = {used: []};
-        nodesList.forEach((nodeId, index)=>{ //and, switch nodesChart to type attribution for rendering convinence
-          if(nodeId in belongObj.main.nodesChart) typeObj[belongObj.main.nodesChart[nodeId]] = nodeId
-          else typeObj["used"].push(nodeId); //end of 'if'
+      const nodesList= belongObj.main.nodesList;
+      nodesList.forEach((nodeId, index)=>{ //and, switch nodesChart to type attribution for rendering convinence
+        typeObj[belongObj.main.nodesChart[nodeId]] = nodeId
+      });
+
+      self.props._submit_NounsList_new(nodesList); //GET nodes info by Redux action
+
+      self.setState((prevState, props)=>{
+        return({
+          nodesList: nodesList,
+          typeObj: typeObj
         });
-
-        self.props._submit_NounsList_new(nodesList); //GET nodes info by Redux action
-        self._set_infoCount(typeObj); //GET count of each node display
-
-        self.setState((prevState, props)=>{
-          return({
-            nodesList: nodesList,
-            typeObj: typeObj
-          });
-        });
-
-      })
-    ).catch(function (thrown) {
+      });
+    })
+    .catch(function (thrown) {
       self.setState({axios: false});
       if (axios.isCancel(thrown)) {
         cancelErr(thrown);
@@ -287,7 +175,8 @@ class Belongs extends React.Component {
   }
 
   _render_BelongList(){
-    const nodesDOM = nodeTypeList.map((nodeType, index)=>{
+    const typeKeys = Object.keys(this.state.typeObj);
+    const nodesDOM = typeKeys.map((nodeType, index)=>{
       return (
         <div
           key={"key_BelongByType_"+index}
@@ -301,15 +190,6 @@ class Belongs extends React.Component {
         </div>
       )
     });
-    //and insert "·" at the site between 'hometown' & 'used'
-    let decoDOM = (
-      <div
-        key={"key_BelongByType_listDeco"}
-        className={classnames(styles.boxListDeco)}>
-        {"．"}
-      </div>
-    );
-    nodesDOM.splice(3, 0, decoDOM);
 
     return nodesDOM;
   }
@@ -317,7 +197,7 @@ class Belongs extends React.Component {
   render(){
     return(
       <div
-        className={classnames(styles.comBannerBelong)}>
+        className={classnames(styles.comBelong)}>
         {this._render_BelongList()}
         {
           this.state.dialog &&

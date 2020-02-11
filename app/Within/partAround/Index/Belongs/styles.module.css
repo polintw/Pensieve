@@ -1,15 +1,15 @@
-.comBannerBelong {
+.comBelong {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   width: 100%;
 }
 
 .boxByType {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  max-width: 18%;
+  justify-content: left;
   position: relative;
+  margin: 0 0 4rem;
 }
 
 .boxListDeco {
