@@ -10,6 +10,7 @@ import styles from './styles.module.css';
 import stylesMain from "../styles.module.css"; //Notice, we use shared css file here for easier control
 import {
   axios_GET_selectedList,
+  axios_Units,
   nailChart,
 } from '../utils.js';
 import {
@@ -33,6 +34,7 @@ class CustomSelected extends React.Component {
       marksBasic: {}
     };
     this.axiosSource = axios.CancelToken.source();
+    this._fetch_Units = this._fetch_Units.bind(this);
     this._set_SelectedList = this._set_SelectedList.bind(this);
     this._render_unitsList = this._render_unitsList.bind(this);
     this.style={
@@ -40,37 +42,15 @@ class CustomSelected extends React.Component {
     }
   }
 
-  _set_SelectedList(unitsList){
+  _fetch_Units(unitsList){
     const self = this;
-/*    this.setState({axios: true});
+    this.setState({axios: true});
 
-    axios_GET_selectedList(this.axiosSource.token)
-    above should divide into GET List & fetch Units(and recruite part of work in the next step),
-    when we are going to make a permanent version.
-    */
-    let ptemp_ListSelecton = new Promise((resolve, reject)=>{
-      let resObj = {
-        main: {
-          nounsListMix: ["10146", "10370","10295","10269","5113","5114","5119"],
-          usersList: ["8","3"],
-          listCustomSelected: ["20", "27", "19"]
-        }
-      };
-
-      resolve(resObj);
-    });
-    //Above, is the static data deisgned for prototype
-    ptemp_ListSelecton
+    axios_Units(this.axiosSource.token, unitsList)
     .then((resObj)=>{
-      //after res of axios_GET_selectedList: call get nouns & users
+      //after res of axios_Units: call get nouns & users
       self.props._submit_NounsList_new(resObj.main.nounsListMix);
       self.props._submit_UsersList_new(resObj.main.usersList);
-      //update the list to the reducer.
-      let submitObj = {};
-      submitObj['listCustomSelected'] = resObj.main.listCustomSelected;
-      //update the list to Redux reducer,
-      self.props._submit_IndexLists(submitObj);
-
       //and update the data of units to state
       self.setState((prevState, props)=>{
         return ({
@@ -80,6 +60,45 @@ class CustomSelected extends React.Component {
         });
       });
 
+    })
+    .catch(function (thrown) {
+      self.setState({axios: false});
+      if (axios.isCancel(thrown)) {
+        cancelErr(thrown);
+      } else {
+        let message = uncertainErr(thrown);
+        if(message) alert(message);
+      }
+    });
+
+  }
+
+  _set_SelectedList(){
+    const self = this;
+/*    this.setState({axios: true});
+
+    axios_GET_selectedList(this.axiosSource.token)
+    */
+    let ptemp_ListSelecton = new Promise((resolve, reject)=>{
+      let resObj = {
+        main: {
+          listCustomSelected: ["20", "27", "19"]
+        }
+      };
+
+      resolve(resObj);
+    });
+    //Above, is the static data deisgned for prototype
+    ptemp_ListSelecton
+    .then((resObj)=>{
+      //we now has the list of selected items,
+      //call the unit fetch here, and no need to reset axios state.
+      self._fetch_Units(resObj.main.listCustomSelected);
+      //update the list to the reducer as well.
+      let submitObj = {};
+      submitObj['listCustomSelected'] = resObj.main.listCustomSelected;
+      //update the list to Redux reducer,
+      self.props._submit_IndexLists(submitObj);
     })
     .catch(function (thrown) {
       self.setState({axios: false});

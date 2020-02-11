@@ -74,14 +74,14 @@ class NewShared extends React.Component {
 
   componentDidUpdate(prevProps, prevState, snapshot){
     if(this.props.flagNewSharedDataFetch && this.props.flagNewSharedDataFetch != prevProps.flagNewSharedDataFetch){
-      this._fetch_Units(this.props.indexLists.listNew);
+      this._fetch_Units(this.props.focusLists.listNew);
       this.props._submit_FlagSwitch(['flagNewSharedDataFetch']); //set flag back to dafault
     }
   }
 
   componentDidMount() {
     if(this.props.flagNewSharedDataFetch){
-      this._fetch_Units(this.props.indexLists.listNew);
+      this._fetch_Units(this.props.focusLists.listNew);
       this.props._submit_FlagSwitch(['flagNewSharedDataFetch']); //set flag back to dafault
     }
   }
@@ -94,7 +94,7 @@ class NewShared extends React.Component {
 
   _render_unitsNew(){
     //our list was saved to reducer after fetch
-    let unitsList = this.props.indexLists['listNew'],
+    let unitsList = this.props.focusLists['listNew'],
         unitsDOM = [];
     if(unitsList.length > 0 ){ // check necessity first, skip if no item.
       //we render no more than 6, but the backend may pass more than 6, so don't forget setting the limit
@@ -147,7 +147,7 @@ class NewShared extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
-    indexLists: state.indexLists,
+    focusLists: state.focusLists,
     unitCurrent: state.unitCurrent,
     i18nUIString: state.i18nUIString,
     flagNewSharedDataFetch: state.flagNewSharedDataFetch,

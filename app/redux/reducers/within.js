@@ -14,6 +14,7 @@ import {
 } from '../constants/typesGeneral.js';
 import {
   SET_INDEXLISTS,
+  SET_FOCUSLISTS,
   SET_AXIOS_MATCHTAKING
 } from '../constants/typesCosmic.js';
 import {
@@ -65,6 +66,11 @@ function pageWithin(state = initialGeneral, action){
     case SET_INDEXLISTS:
       return Object.assign({}, state, {
         indexLists: {...state.indexLists, ...action.lists}
+      })
+      break;
+    case SET_FOCUSLISTS:
+      return Object.assign({}, state, {
+        focusLists: {...state.focusLists, ...action.lists}
       })
       break;
     case SET_AXIOS_MATCHTAKING:

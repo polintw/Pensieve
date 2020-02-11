@@ -165,7 +165,7 @@ class MainList extends React.Component {
           ruleBlock = [2,2,2,[0,2],[2,0],2,2,2,3,3];
 
     let nailsIndex = []; //don't use .map() because we probably need to push twice in one round
-    this.props.indexLists.listFocus.forEach((unitId, index)=>{
+    this.props.focusLists.listFocus.forEach((unitId, index)=>{
       let rulePattern = index< ruleFirstBlock.length? ruleFirstBlock: ruleBlock;
       let remainder = (index< ruleFirstBlock.length)? index % rulePattern.length: (index-ruleFirstBlock.length) % rulePattern.length;
       let nailChoice = rulePattern[remainder];
@@ -209,7 +209,7 @@ class MainList extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
-    indexLists: state.indexLists
+    focusLists: state.focusLists
   }
 }
 

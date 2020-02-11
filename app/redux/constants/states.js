@@ -33,12 +33,15 @@ export const initCosmicGeneral = {
   flagNewCustomDataFetch: false,
   flagNewSharedDataFetch: false,
   axiosMatchTaking: false,
+  focusLists: {
+    listFocus:[],
+    listNew: [],
+    broads: []
+  },
   indexLists: {
     listCustomNew: [],
     listCustomSelected: [],
-    listNew: [],
-    listFocus:[],
-    broads: []
+    listSelfShared: []
   }
 }
 

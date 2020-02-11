@@ -17,7 +17,7 @@ import MainList from './MainList/MainList.jsx';
 import Broads from './Broads/Broads.jsx';
 import Unit from '../../../Unit/Unit/Unit.jsx';
 import {
-  setIndexLists,
+  setFocusLists,
   setFlag
 } from '../../../redux/actions/cosmic.js';
 import {
@@ -109,7 +109,7 @@ class Wrapper extends React.Component {
       this.axiosSource.cancel("component will unmount.")
     }
     //clear & reset to init when Unmount, make sure the list would not render anything when retrun to index
-    this.props._submit_IndexLists(initCosmicGeneral.indexLists);
+    this.props._submit_FocusLists(initCosmicGeneral.focusLists);
   }
 
   render(){
@@ -151,13 +151,13 @@ class Wrapper extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
-    indexLists: state.indexLists
+    focusLists: state.focusLists
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    _submit_IndexLists: (listsObj) => { dispatch(setIndexLists(listsObj)); },
+    _submit_FocusLists: (listsObj) => { dispatch(setFocusLists(listsObj)); },
     _submit_FlagSwitch: (target) => { dispatch(setFlag(target)); },
   }
 }

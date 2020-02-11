@@ -3,7 +3,8 @@ import {
 } from '../constants/typesGeneral.js';
 import {
   SET_AXIOS_MATCHTAKING,
-  SET_INDEXLISTS
+  SET_INDEXLISTS,
+  SET_FOCUSLISTS
 } from '../constants/typesCosmic.js';
 import {
 
@@ -32,15 +33,19 @@ export function handFocusListNew(listArr){
   //this actoin creator, could do function return is because we use 'thunk' middleware when create store
   return (dispatch, getState) => {
     //by this method we could use 'getState' & 'dispatch' in action creator
-    const prevList =  getState().indexLists.listFocus;
+    const prevList =  getState().focusLists.listFocus;
     let nextList = prevList.concat(listArr);
 
-    dispatch({type: SET_INDEXLISTS, lists: {listFocus: nextList}})
+    dispatch({type: SET_FOCUSLISTS, lists: {listFocus: nextList}})
   }
 }
 
 export function setIndexLists(listsObj){
   return {type: SET_INDEXLISTS, lists: listsObj}
+}
+
+export function setFocusLists(listsObj){
+  return {type: SET_FOCUSLISTS, lists: listsObj}
 }
 
 export function setAxiosMatchTaking(nextStatus){

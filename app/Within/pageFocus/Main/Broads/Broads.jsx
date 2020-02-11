@@ -14,7 +14,7 @@ import {
   nailChart,
 } from '../utils.js';
 import {
-  setIndexLists
+  setFocusLists
 } from '../../../../redux/actions/cosmic.js';
 import {
   handleNounsList,
@@ -67,9 +67,9 @@ class Broads extends React.Component {
     //get list by lastvisit: new or rand
     this._axios_GET_broadsList()
     .then((resObj)=>{
-      //res: update to indexLists, call axios_Units of /MainBanner/utils, call _set_mountToDo from props
+      //res: update to reducer, call axios_Units of /MainBanner/utils, call _set_mountToDo from props
       //(we don't update the 'axios' state, because there is another axios here, for units, right after the res)
-      self.props._submit_IndexLists({broads: resObj.main.unitsList}); //submit the list to the props.indexLists.
+      self.props._submit_FocusLists({broads: resObj.main.unitsList}); //submit the list to the props.focusLists.
       self.props._set_mountToDo("listRowBroads"); //splice the label from the todo list of Main
       //_set_mountToDo is a process control of Main, make sure the 'lastvisit' was update 'after' all the process was done
 
@@ -117,7 +117,7 @@ class Broads extends React.Component {
 
   _render_nails(){
     //our list was saved to reducer after fetch
-    let unitsList = this.props.indexLists['broads'],
+    let unitsList = this.props.focusLists['broads'],
         unitsDOM = [];
 
     if(unitsList.length > 0 ){ // check necessity first, skip if no item.
@@ -146,7 +146,7 @@ class Broads extends React.Component {
   }
 
   render(){
-    return (this.props.indexLists['broads'].length > 0) ? (
+    return (this.props.focusLists['broads'].length > 0) ? (
       <div
         className={classnames(styles.comBroads)}>
         <div
@@ -186,13 +186,13 @@ const mapStateToProps = (state)=>{
     userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
     nounsBasic: state.nounsBasic,
-    indexLists: state.indexLists
+    focusLists: state.focusLists
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    _submit_IndexLists: (listsObj) => { dispatch(setIndexLists(listsObj)); },
+    _submit_FocusLists: (listsObj) => { dispatch(setFocusLists(listsObj)); },
     _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
     _submit_UsersList_new: (arr) => { dispatch(handleUsersList(arr)); },
   }

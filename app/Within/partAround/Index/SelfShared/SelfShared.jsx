@@ -16,6 +16,9 @@ import {
   handleUsersList,
 } from "../../../../redux/actions/general.js";
 import {
+  setIndexLists
+} from '../../../../redux/actions/cosmic.js';
+import {
   cancelErr,
   uncertainErr
 } from '../../../../utils/errHandlers.js';
@@ -30,23 +33,18 @@ class SelfShared extends React.Component {
     super(props);
     this.state = {
       axios: false,
-//      unitsList: [],
-      unitsList: temp_unitList, //during the prototype period
       unitsBasic: {},
       marksBasic: {},
     };
     this.axiosSource = axios.CancelToken.source();
     this._fetch_Units = this._fetch_Units.bind(this);
     this._render_nails = this._render_nails.bind(this);
+    this._set_List_SelfShared = this._set_List_SelfShared.bind(this);
     this.style={
 
     }
   }
 
-  /*
-  This is a new comp. est. during the test stage.
-  It actually need a data fetch, fetching the latest Shared/new feedback of/to the user.
-  */
   _fetch_Units(unitsList){
     const self = this;
     this.setState({axios: true});
@@ -78,6 +76,46 @@ class SelfShared extends React.Component {
 
   }
 
+  _set_List_SelfShared(unitsList){
+    const self = this;
+/*    this.setState({axios: true}); */
+/*
+This is a new comp. est. during the test stage.
+It actually need a data fetch, fetching the latest Shared/new feedback of/to the user.
+*/
+    let ptemp_ListSelfShared = new Promise((resolve, reject)=>{
+      let resObj = {
+        main: {
+          listSelfShared: temp_unitList
+        }
+      };
+
+      resolve(resObj);
+    });
+//Above, is the static data deisgned for prototype
+    ptemp_ListSelfShared
+    .then((resObj)=>{
+      //we now has the list of selected items,
+      //call the unit fetch here, and no need to reset axios state.
+      this._fetch_Units(resObj.main.listSelfShared);
+      //update the list to the reducer as well.
+      let submitObj = {};
+      submitObj['listSelfShared'] = resObj.main.listSelfShared;
+      //update the list to Redux reducer,
+      self.props._submit_IndexLists(submitObj);
+    })
+    .catch(function (thrown) {
+      self.setState({axios: false});
+      if (axios.isCancel(thrown)) {
+        cancelErr(thrown);
+      } else {
+        let message = uncertainErr(thrown);
+        if(message) alert(message);
+      }
+    });
+
+  }
+
   componentDidUpdate(prevProps, prevState, snapshot){
 
   }
@@ -87,7 +125,7 @@ class SelfShared extends React.Component {
 should has it's own api to get the customized Shared list for Index first,
 fetch units directly only during the test period
 */
-    this._fetch_Units(temp_unitList);
+    this._set_List_SelfShared();
   }
 
   componentWillUnmount() {
@@ -98,7 +136,7 @@ fetch units directly only during the test period
 
   _render_nails(){
     //our list was saved to reducer after fetch
-    let unitsList = this.state.unitsList,
+    let unitsList = this.props.indexLists.listSelfShared,
         unitsDOM = [];
 
     if(unitsList.length > 0 ){ // check necessity first, skip if no item.
@@ -143,6 +181,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
     _submit_UsersList_new: (arr) => { dispatch(handleUsersList(arr)); },
+    _submit_IndexLists: (listsObj) => { dispatch(setIndexLists(listsObj)); },
   }
 }
 
