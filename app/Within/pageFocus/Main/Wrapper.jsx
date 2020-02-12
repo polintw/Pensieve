@@ -13,11 +13,8 @@ import {
   axios_visit_GET_last,
   axios_visit_Index
 } from './utils.js';
-import DemandTake from './DemandTake/Wrapper.jsx';
 import MainTitle from './MainTitle/MainTitle.jsx';
 import MainList from './MainList/MainList.jsx';
-import MatchSet from './MatchSet/Wrapper.jsx';
-import Supply from './Supply/Supply.jsx';
 import Broads from './Broads/Broads.jsx';
 import NewShared from './NewShared/NewShared.jsx';
 import NewSharedCustom from './NewSharedCustom/NewSharedCustom.jsx';
@@ -146,21 +143,6 @@ class Wrapper extends React.Component {
           <div
             className={classnames(styles.boxRow)}
             style={{width: '65vw',left:'2.5vw'}}>
-            <DemandTake
-              _refer_von_cosmic={this.props._refer_von_cosmic}/>
-          </div>
-          <div
-            className={classnames(styles.boxRow)}
-            style={{width: '65vw',left:'2.5vw'}}>
-            <div
-              className={classnames(styles.boxMatchSet)}>
-              <MatchSet
-                _refer_von_cosmic={this.props._refer_von_cosmic}/>
-            </div>
-            <div
-              className={classnames(styles.boxBeneathMatchSet)}>
-              <Supply/>
-            </div>
             <div
               className={classnames(styles.decoSeparationStroke, styles.boxCenterStrokeRow)}></div>
           </div>
