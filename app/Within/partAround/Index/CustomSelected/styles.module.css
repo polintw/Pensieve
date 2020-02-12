@@ -4,7 +4,7 @@
 }
 
 .boxTitleRow {
-  display: inline-block;
+
 }
 
 .boxTitleWrap {
@@ -17,9 +17,7 @@
 }
 
 .boxUnits {
-  display: inline-flex;
+  display: flex;
   justify-content: space-between;
-  flex-direction: row-reverse;
-  flex-wrap: wrap;
-  width: 42.5vw;
+  width: 100%;
 }

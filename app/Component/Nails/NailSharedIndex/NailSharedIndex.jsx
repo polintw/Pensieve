@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
+import SharedStatics from '../SharedStatics.jsx';
 import ImgPreview from '../../ImgPreview.jsx';
 import DisplayMarkPreview from '../../Draft/DisplayMarkPreview.jsx';
 import styles from "./styles.module.css";
@@ -107,7 +108,7 @@ class NailSharedIndex extends React.Component {
             search: '?theater&unitId='+this.props.unitId,
             state: {from: this.props.location}
           }}
-          className={classnames('plainLinkButton', styles.frame)}
+          className={classnames('plainLinkButton', styles.boxUnitLink)}
           style={{display: 'block'}}>
           <div
             ref={this.nailImgBox}
@@ -123,6 +124,16 @@ class NailSharedIndex extends React.Component {
                 styles.boxMask,
                 {[styles.interMask]: this.state.onImg}
               )}/>
+            <div
+              className={classnames(styles.boxBreach)}>
+              <div
+                className={classnames(styles.boxBreachItem)}
+                style={{marginRight: '0'}}>
+                <SharedStatics
+                  unitId={this.props.unitId}/>
+              </div>
+            </div>
+
           </div>
           <div
             className={classnames(styles.boxContent)}>

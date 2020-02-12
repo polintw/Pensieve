@@ -57,8 +57,8 @@ export function nailChart(choice, unitId, pare){
     case 4:
       return (
         <div
-          key={'key_CosmicMain_Nails_'+ unitId}
-          className={classnames(styles.boxNail, styles.heightThird, styles.boxWide)}
+          key={'key_Around_Nails_case4_'+ unitId}
+          className={classnames(styles.boxNail, styles.heightThird, styles.boxDistribWide)}
           style={{backgroundColor: 'transparent'}}>
           <NailSharedIndex
             {...pare.props}

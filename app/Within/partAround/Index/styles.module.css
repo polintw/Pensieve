@@ -43,6 +43,10 @@
   position: relative;
 }
 
+.boxDistribWide {
+  width: 42.5vw;
+}
+
 .boxWide {
   width: 42.5vw;
   box-shadow: 0 2px 1px rgb(230, 230, 230);

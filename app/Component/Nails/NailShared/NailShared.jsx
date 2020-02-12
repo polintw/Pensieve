@@ -6,7 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import SharedStatics from './SharedStatics.jsx';
+import SharedStatics from '../SharedStatics.jsx';
 import ImgPreview from '../../ImgPreview.jsx';
 import DisplayMarkPreview from '../../Draft/DisplayMarkPreview.jsx';
 import DraftDisplay from '../../Draft/DraftDisplay.jsx';
@@ -124,17 +124,6 @@ class NailShared extends React.Component {
               )}/>
             <div
               className={classnames(styles.boxBreach)}>
-              <div
-                className={classnames(styles.boxBreachItem)}
-                style={this.style.Com_Nails_Shared_breach_button_}>
-                <span>{"Res"}</span>
-              </div>
-              <Link
-                to={this.props.match.url+"/"+this.props.unitId+'/threads'}
-                className={classnames("plainLinkButton", styles.boxBreachItem)}
-                style={this.style.Com_Nails_Shared_breach_button_}>
-                <span>{"Thr"}</span>
-              </Link>
               <Link
                 to={{
                   pathname: this.props.linkPath,

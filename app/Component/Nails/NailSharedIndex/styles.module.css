@@ -1,12 +1,22 @@
 .frame {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
   width: 100%;
   height: 100%;
-
-  display: flex; /*perhaps only used in prototype*/
+  position: relative;
 }
 
 .frameOnMouse {
   outline: double 1.5px #777777;
+}
+
+.boxUnitLink {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  box-shadow: 0 2px 1px rgb(230, 230, 230);
 }
 
 .boxImg {
@@ -35,11 +45,11 @@
 .boxNodes {
   display: flex;
   flex-direction: column;
-  width: 90%;
+  width: 40%;
   max-height: 54%;
   box-sizing: border-box;
-  padding: 0 4.5% 4% 7%;
-  margin: 7% 0;
+  padding: 0 0 4% 0%;
+  margin: 5% 5% 0;
   border-bottom: 1px solid #ff7a5f;
   overflow: hidden;
 }
@@ -99,6 +109,26 @@
   position: relative;
   box-sizing: border-box;
   margin-bottom: 1.5rem; /* follow the line height of mark*/
+}
+
+.boxBreach {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  height: 50%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  box-sizing: border-box;
+  padding: 0 6%;
+}
+
+.boxBreachItem {
+  position: relative;
+  box-sizing: border-box;
+  margin-right: 6%;
+  cursor: pointer;
 }
 
 .fontMark {

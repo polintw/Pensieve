@@ -26,7 +26,7 @@ import {
 /*
 static data deisgned for prototype
 */
-const temp_unitList = ["38"]
+const temp_unitList = ["27"]
 
 class SelfShared extends React.Component {
   constructor(props){
@@ -140,8 +140,7 @@ fetch units directly only during the test period
         unitsDOM = [];
 
     if(unitsList.length > 0 ){ // check necessity first, skip if no item.
-      //we render only two, but the backend may pass more than 2, so don't forget setting the limit
-      for(let i =0 ; i< 1 && i< unitsList.length; i++){ //again, don't forget the length limit to prevent error cause by unwanted cycle
+      for(let i =0 ; i< 2 && i< unitsList.length; i++){ //again, don't forget the length limit to prevent error cause by unwanted cycle
         let unitId = unitsList[i];
         //then important question: do we have the data of this Unit ? if not, we skip to next one
         if(unitId in this.state.unitsBasic) {
@@ -160,7 +159,10 @@ fetch units directly only during the test period
       <div
         className={classnames(styles.comSelfShared)}>
         <div
-          className={classnames(styles.boxTodayNails)}>
+          className={classnames(stylesMain.fontTitle)}>
+          {this.props.i18nUIString.catalog['title_index_SelfShared']}
+        </div>
+        <div>
           {this._render_nails()}
         </div>
       </div>

@@ -87,7 +87,8 @@ silence the above line during prototype test
     const nodesDOM = this.state.nodesList.map((nodeId, index)=>{
       return (
         <div
-          key={"key_CornersItem_"+index}>
+          key={"key_CornersItem_"+index}
+          className={classnames(styles.boxItem)}>
           <CornersItem
             index={index}
             nodeId={nodeId}

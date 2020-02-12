@@ -5,11 +5,11 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
-import styles from "./styles.module.css";
+import stylesShared from "./NailShared/styles.module.css";
 import {
   cancelErr,
   uncertainErr
-} from "../../../utils/errHandlers.js";
+} from "../../utils/errHandlers.js";
 
 const styleMiddle = {
   spanCommon: {
@@ -83,26 +83,26 @@ class SharedStatics extends React.Component {
   render(){
     return(
       <div
-        className={classnames(styles.comStatics)}>
+        className={classnames(stylesShared.comStatics)}>
         {
           this.state.countBroad &&
           <div
-            className={classnames(styles.comStatics_boxWrap)}>
+            className={classnames(stylesShared.comStatics_boxWrap)}>
             <span
               style={Object.assign({}, styleMiddle.spanCommon,styleMiddle.fontNumDis)}>{this.state.countBroad}</span>
             <span
-              className={classnames(styles.comStatics_fontTitle)}
+              className={classnames(stylesShared.comStatics_fontTitle)}
               style={Object.assign({}, styleMiddle.spanCommon)}>
               {this.props.i18nUIString.catalog["descript_Unit_Author_broad"][1]}</span>
           </div>
         }
         <div
-          className={classnames(styles.comStatics_boxWrap)}
+          className={classnames(stylesShared.comStatics_boxWrap)}
           style={{marginRight: '0'}}>
           <span
             style={Object.assign({}, styleMiddle.spanCommon,styleMiddle.fontNumDis)}>{this.state.countReach}</span>
           <span
-            className={classnames(styles.comStatics_fontTitle)}
+            className={classnames(stylesShared.comStatics_fontTitle)}
             style={Object.assign({}, styleMiddle.spanCommon)}>
             {this.props.i18nUIString.catalog["descript_Unit_Author_read"][1]}</span>
         </div>

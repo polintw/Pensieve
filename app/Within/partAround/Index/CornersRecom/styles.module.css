@@ -1,9 +1,14 @@
 .comCornersRecom {
-
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .comCornersItem {
   margin: 3rem 0;
+}
+
+.boxItem {
+  width: 50%;
 }
 
 .boxDepend {
