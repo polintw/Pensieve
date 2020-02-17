@@ -17,7 +17,7 @@ import {
 } from "../../../../redux/actions/general.js";
 import {
   setIndexLists
-} from '../../../../redux/actions/cosmic.js';
+} from '../../../../redux/actions/around.js';
 import {
   cancelErr,
   uncertainErr

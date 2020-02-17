@@ -13,12 +13,10 @@ import {
   nailChart,
 } from '../utils.js';
 import {
+  setFlag,
   handleNounsList,
   handleUsersList
 } from "../../../../redux/actions/general.js";
-import {
-  setFlag
-} from '../../../../redux/actions/cosmic.js';
 import {
   cancelErr,
   uncertainErr

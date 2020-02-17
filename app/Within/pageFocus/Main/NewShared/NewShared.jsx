@@ -14,11 +14,9 @@ import {
 } from '../utils.js';
 import {
   handleNounsList,
-  handleUsersList
-} from "../../../../redux/actions/general.js";
-import {
+  handleUsersList,
   setFlag
-} from '../../../../redux/actions/cosmic.js';
+} from "../../../../redux/actions/general.js";
 import {
   cancelErr,
   uncertainErr

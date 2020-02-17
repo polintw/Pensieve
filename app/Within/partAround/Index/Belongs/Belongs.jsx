@@ -18,11 +18,9 @@ import {
   uncertainErr
 } from "../../../../utils/errHandlers.js";
 import {
-  handleNounsList
-} from "../../../../redux/actions/general.js";
-import {
+  handleNounsList,
   setFlag
-} from "../../../../redux/actions/cosmic.js";
+} from "../../../../redux/actions/general.js";
 
 class Belongs extends React.Component {
   constructor(props){

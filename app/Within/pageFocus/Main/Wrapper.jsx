@@ -17,8 +17,10 @@ import MainList from './MainList/MainList.jsx';
 import Broads from './Broads/Broads.jsx';
 import Unit from '../../../Unit/Unit/Unit.jsx';
 import {
-  setFocusLists,
   setFlag
+} from '../../../redux/actions/general.js';
+import {
+  setFocusLists,
 } from '../../../redux/actions/cosmic.js';
 import {
   initCosmicGeneral

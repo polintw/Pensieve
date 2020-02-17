@@ -9,7 +9,6 @@ import {
 import {
   initSign
 } from '../states/stateSign.js';
-import {errHandler_axiosCatch} from "../../utils/errHandlers.js";
 
 export function setSignInit(){
   return {type: SET_SIGNINIT, initState: initSign}

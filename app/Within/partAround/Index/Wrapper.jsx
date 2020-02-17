@@ -23,9 +23,11 @@ import CreateShare from '../../../Component/CreateShare.jsx';
 import SvgCreate from '../../../Component/Svg/SvgCreate.jsx';
 import Unit from '../../../Unit/Unit/Unit.jsx';
 import {
-  setIndexLists,
   setFlag
-} from '../../../redux/actions/cosmic.js';
+} from '../../../redux/actions/general.js';
+import {
+  setIndexLists,
+} from '../../../redux/actions/around.js';
 import {
   initCosmicGeneral
 } from '../../../redux/constants/states.js';
