@@ -14,9 +14,8 @@ import {
 } from '../SignupCom/SignupCom.jsx';
 import SignupForm from '../SignupCom/SignupForm.jsx';
 import {
-  axiosSwitch,
   axiosGetRes
-} from "../../../redux/actions/handleSign.js";
+} from "../../../redux/actions/sign.js";
 import ServiceLinks from '../../../Component/ServiceLinks.jsx';
 import SvgLogo from '../../../Component/Svg/SvgLogo.jsx';
 
@@ -103,7 +102,6 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch)=>{
   return {
-    _set_axiosStatus: (bool)=>{dispatch(axiosSwitch(bool));},
     _set_axiosRes: (resObj)=>{dispatch(axiosGetRes(resObj));}
   }
 }

@@ -15,10 +15,12 @@ import {
 import MaskProcessing from '../../../Component/MaskProcessing.jsx';
 import {
   setSignInit,
-  axiosSwitch,
   axiosGetRes,
   handleSignUser
-} from "../../../redux/actions/handleSign.js";
+} from "../../../redux/actions/sign.js";
+import {
+  axiosSwitch,
+} from "../../../redux/actions/general.js";
 
 class SignupForm extends React.Component {
   constructor(props){

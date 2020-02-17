@@ -68,7 +68,7 @@
     "setupWin": "node -e \"require('./init/process.js').setUpWin()\"",
     "migrate": "node -e \"require('./init/process.js').migrate()\"",
     "build": "node -e \"require('./init/process.js').build()\"",
-    "build:server": "webpack --config config/server/webpack.base.conf.js --mode development",
+    "build:server": "webpack --config config/webpack/webpack.base.conf.js --mode development",
     "start": "node serverBuilt.js"
   },
   "author": "Polin Chou",

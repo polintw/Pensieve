@@ -11,7 +11,7 @@ import ServiceLinks from '../../../Component/ServiceLinks.jsx';
 import {
   setSignInit,
   handleSignUser
-} from "../../../redux/actions/handleSign.js";
+} from "../../../redux/actions/sign.js";
 
 const commonStyle= {
   signLogo: {

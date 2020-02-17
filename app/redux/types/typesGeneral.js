@@ -1,0 +1,5 @@
+export const MOUNT_USERINFO = 'MOUNT_USERINFO';
+
+export const SET_TOKENSTATUS = 'SET_TOKENSTATUS';
+
+export const AXIOS_SWITCH = 'AXIOS_SWITCH';
