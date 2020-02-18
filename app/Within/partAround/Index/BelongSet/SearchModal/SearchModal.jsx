@@ -16,7 +16,7 @@ import {
   handleNounsList
 } from "../../../../../redux/actions/general.js";
 
-class BelongOptions extends React.Component {
+class SearchModal extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -154,7 +154,7 @@ class BelongOptions extends React.Component {
   render(){
     return(
       <div
-        className={classnames(styles.comBelongOptions)}>
+        className={classnames(styles.comSearchModal)}>
         <div
           className={classnames(styles.boxTypeSetting)}>
           <span
@@ -200,4 +200,4 @@ const mapDispatchToProps = (dispatch) => {
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(BelongOptions));
+)(SearchModal));

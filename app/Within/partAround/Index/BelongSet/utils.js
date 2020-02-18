@@ -1,12 +1,13 @@
-export function _axios_GET_belongRecords(cancelToken){
+export function _axios_PATCH_belongRecords(cancelToken, submitObj){
   return axios({
-    method: 'get',
-    url: '/router/profile/sheetsNodes?present&random&limit=8',
+    method: 'patch',
+    url: '/router/profile/sheetsNodes',
     headers: {
       'charset': 'utf-8',
       'token': window.localStorage['token']
     },
-    cancelToken: cancelToken
+    cancelToken: cancelToken,
+    data: submitObj
   }).then(function (res) {
     let resObj = JSON.parse(res.data);
 
@@ -16,11 +17,10 @@ export function _axios_GET_belongRecords(cancelToken){
   });
 }
 
-export function _axios_GET_sharedCount(cancelToken, nodeId){
+export function _axios_GET_belongRecords(cancelToken){
   return axios({
     method: 'get',
-    url: '/router/nouns/'+nodeId+ '/attribution',
-    params: {require: 'countShared'},
+    url: '/router/profile/sheetsNodes?present&random&limit=8',
     headers: {
       'charset': 'utf-8',
       'token': window.localStorage['token']

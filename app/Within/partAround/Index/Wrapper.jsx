@@ -13,7 +13,7 @@ import {
   axios_visit_Index
 } from './utils.js';
 import RowEntry from './RowEntry/RowEntry.jsx';
-import Belongs from './Belongs/Belongs.jsx';
+import BelongsSet from './BelongsSet/BelongsSet.jsx';
 
 import {
   setIndexLists,
@@ -108,16 +108,12 @@ class Wrapper extends React.Component {
           <div
             className={classnames(styles.boxRowTop)}>
             <RowEntry
-              lastVisit={this.state.lastVisit}
-              _refer_von_cosmic={this.props._refer_von_cosmic}/>
+              lastVisit={this.state.lastVisit}/>
           </div>
           <div
             className={classnames(styles.boxRow)}>
-            <div
-              className={classnames(styles.boxBelong)}>
-              <Belongs
-                _refer_von_cosmic={this.props._refer_von_cosmic}/>
-            </div>
+            <BelongsSet
+              lastVisit={this.state.lastVisit}/>
           </div>
 
           <div

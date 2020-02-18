@@ -1,5 +1,4 @@
 export const initWithin = {
-  flagBelongRefresh: false,
   flagNewSharedDataFetch: false,
 }
 

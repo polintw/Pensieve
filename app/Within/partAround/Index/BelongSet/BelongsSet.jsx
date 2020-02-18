@@ -6,12 +6,14 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import BelongbyType from './BelongbyType/BelongbyType.jsx';
+import SetByTypes from './SetByTypes.jsx';
+import BelongsbyType from './BelongsbyType/BelongsbyType.jsx';
 import BooleanDialog from '../../../../Component/Dialog/BooleanDialog/BooleanDialog.jsx';
 import ModalBox from '../../../../Component/ModalBox.jsx';
 import ModalBackground from '../../../../Component/ModalBackground.jsx';
 import {
-  _axios_GET_belongRecords
+  _axios_GET_belongRecords,
+  _axios_PATCH_belongRecords
 } from './utils.js';
 import {
   cancelErr,
@@ -22,13 +24,20 @@ import {
   setFlag
 } from "../../../../redux/actions/general.js";
 
-class Belongs extends React.Component {
+/*
+  this const, belongTypes, was the very foundation of the whole BelongSet.
+  it was uesd to render, and PATCH.
+  It is no need to match the cols name used at backend.
+  Perhaps one day would be replace by customized data from DB.
+*/
+const belongTypes = ["residence", "homeland"];
+
+class BelongsSet extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       axios: false,
       typeObj: {},
-      nodesList: [],
       dialog: false,
       chosenNode: '',
       settingType: ''
@@ -37,11 +46,10 @@ class Belongs extends React.Component {
     this._init_fetch = this._init_fetch.bind(this);
     this._set_choiceAnType = this._set_choiceAnType.bind(this);
     this._set_dialog_cancel = this._set_dialog_cancel.bind(this);
-    this._render_BelongList = this._render_BelongList.bind(this);
     this._render_DialogMessage = this._render_DialogMessage.bind(this);
     this._handlesubmit_newBelong = this._handlesubmit_newBelong.bind(this);
-    this._axios_PATCH_belongRecords = this._axios_PATCH_belongRecords.bind(this);
     this._set_Dialog = ()=> this.setState((prevState,props)=>{ return {dialog: prevState.dialog? false:true};});
+
   }
 
   _set_dialog_cancel(){
@@ -66,15 +74,14 @@ class Belongs extends React.Component {
     //But remember keeping the sumit data alive !
     this.setState({
       typeObj: {},
-      nodesList: [],
       dialog: false,
     });
 
     let objBelong = {};
     objBelong[this.state.settingType]= this.state.chosenNode; //put nodeId by type
 
-    this._axios_PATCH_belongRecords({belong: objBelong}) //final reload the com to GET new setting
-      .then(function (res) {
+    _axios_PATCH_belongRecords(this.axiosSource.cancelToken, {belong: objBelong}) //final reload the com to GET new setting
+      .then(function (resObj) {
         self.setState({axios: false});
         //refresh locally
         self._init_fetch();
@@ -88,21 +95,6 @@ class Belongs extends React.Component {
         }
       });
 
-  }
-
-  _axios_PATCH_belongRecords(submitObj){
-    this.setState({axios: true});
-
-    return axios({
-      method: 'patch',
-      url: '/router/profile/sheetsNodes',
-      headers: {
-        'charset': 'utf-8',
-        'token': window.localStorage['token']
-      },
-      cancelToken: this.axiosSource.cancelToken,
-      data: submitObj
-    });
   }
 
   _init_fetch(){
@@ -123,7 +115,6 @@ class Belongs extends React.Component {
 
       self.setState((prevState, props)=>{
         return({
-          nodesList: nodesList,
           typeObj: typeObj
         });
       });
@@ -141,12 +132,7 @@ class Belongs extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-    //in this component, use fetchFlags to check status of list
-    if(this.props.flagBelongRefresh && this.props.flagBelongRefresh != prevProps.flagBelongRefresh){
-      this._init_fetch();
-      this.props._submit_FlagSwitch(['flagBelongRefresh']);
-      //the fetchFlags could become empty(length=0) after the rm.
-    }
+
   }
 
   componentDidMount() {
@@ -172,31 +158,17 @@ class Belongs extends React.Component {
     return messageList;
   }
 
-  _render_BelongList(){
-    const typeKeys = Object.keys(this.state.typeObj);
-    const nodesDOM = typeKeys.map((nodeType, index)=>{
-      return (
-        <div
-          key={"key_BelongByType_"+index}
-          className={classnames(styles.boxByType)}>
-          <BelongbyType
-            {...this.state}
-            type={nodeType}
-            listIndex={index}
-            _set_choiceAnType={this._set_choiceAnType}
-            _refer_von_cosmic={this.props._refer_von_cosmic}/>
-        </div>
-      )
-    });
-
-    return nodesDOM;
-  }
-
   render(){
     return(
       <div
         className={classnames(styles.comBelong)}>
-        {this._render_BelongList()}
+
+        <BelongsbyType
+          typeObj={this.state.typeObj}/>
+        <SetByTypes
+          typeObj={this.state.typeObj}
+          belongTypes={belongTypes}/>
+
         {
           this.state.dialog &&
           <ModalBox containerId="root">
@@ -212,7 +184,6 @@ class Belongs extends React.Component {
             </ModalBackground>
           </ModalBox>
         }
-
       </div>
     )
   }
@@ -221,7 +192,6 @@ class Belongs extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
-    unitCurrent: state.unitCurrent,
     i18nUIString: state.i18nUIString,
     nounsBasic: state.nounsBasic,
     fetchFlags: state.fetchFlags
@@ -238,4 +208,4 @@ const mapDispatchToProps = (dispatch) => {
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(Belongs));
+)(BelongsSet));

@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesMain from "../../styles.module.css"; //Notice, we use shared css file here for easier control
-import BelongOptions from '../BelongOptions/BelongOptions.jsx';
+import SearchModal from '../SearchModal/SearchModal.jsx';
 import {
   _axios_GET_sharedCount,
   _axios_GET_usersCount
@@ -15,7 +15,7 @@ import {
 
 const staticsRoles = ["resident", "visitors", "homesick"]
 
-class BelongbyType extends React.Component {
+class Belong extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -186,12 +186,12 @@ it need some necessary modification.
 
     return(
       <div
-        className={classnames(styles.comBelongByType)}>
+        className={classnames(styles.comBelong)}>
         {
           this.state.settingModal &&
           <div
             className={classnames(styles.boxSettingModal)}>
-            <BelongOptions
+            <SearchModal
               {...this.props}
               _set_settingModal={this._set_settingModal}/>
           </div>
@@ -231,4 +231,4 @@ const mapDispatchToProps = (dispatch) => {
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(BelongbyType));
+)(Belong));
