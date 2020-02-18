@@ -1,3 +1,7 @@
+/*
+  Plan is let store used by multiple components,
+  so export in an independent file.
+*/
 import {
   createStore,
   applyMiddleware

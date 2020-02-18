@@ -9,60 +9,35 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import {
-  axios_feedList_customNew,
   axios_visit_GET_last,
   axios_visit_Index
 } from './utils.js';
 import RowEntry from './RowEntry/RowEntry.jsx';
-import NewSharedCustom from './NewSharedCustom/NewSharedCustom.jsx';
-import SelfShared from './SelfShared/SelfShared.jsx';
-import CustomSelected from './CustomSelected/CustomSelected.jsx';
 import Belongs from './Belongs/Belongs.jsx';
-import CornersRecom from './CornersRecom/CornersRecom.jsx';
-import CreateShare from '../../../Component/CreateShare.jsx';
-import SvgCreate from '../../../Component/Svg/SvgCreate.jsx';
-import Unit from '../../../Unit/Unit/Unit.jsx';
-import {
-  setFlag
-} from '../../../redux/actions/general.js';
+
 import {
   setIndexLists,
 } from '../../../redux/actions/around.js';
 import {
-  initCosmicGeneral
-} from '../../../redux/constants/states.js';
+  initAround
+} from '../../../redux/states/statesWithin.js';
 import {
   cancelErr,
   uncertainErr
 } from '../../../utils/errHandlers.js';
 
-const toDoArr = ["lastVisit", "listNewwithCustom"];
+const toDoArr = ["lastVisit"];
 
 class Wrapper extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      axiosFocus: false,
+      axios: false,
       lastVisit: false,
       mountTodo: toDoArr
     };
     this.axiosSource = axios.CancelToken.source();
-    this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._set_mountToDo = this._set_mountToDo.bind(this);
-    this._submit_Share_New = this._submit_Share_New.bind(this);
-    this._handleMouseOn_Create = ()=> this.setState((prevState,props)=>{return {onCreate: prevState.onCreate?false:true}});
-    this.style={
-
-    }
-  }
-
-  _construct_UnitInit(match, location){
-    let unitInit= {marksify: false, initMark: "all", layer: 0};
-    return unitInit;
-  }
-
-  _submit_Share_New(dataObj){
-    window.location.assign('/user/cognition/actions/shareds/unit?theater&unitId='+dataObj.unitId);
   }
 
   _set_mountToDo(item){
@@ -94,42 +69,27 @@ class Wrapper extends React.Component {
 
   componentDidMount(){
     const self = this;
-    this.setState({axiosFocus: true});
+    this.setState({axios: true});
 
     //get the last visit situation for child component
-    //in the future, method to get basic (user)sheet data would join here
-    axios.all([
-      axios_visit_GET_last(self.axiosSource.token),
-      axios_feedList_customNew(self.axiosSource.token)
-    ])
-      .then(
-        axios.spread(function(lastVisitRes, customNewRes){
-          self._set_mountToDo("listNewwithCustom"); //splice the label from the todo list
-          self._set_mountToDo("lastVisit"); //and splice the label from the todo list
-          let submitObj = {};
+    axios_visit_GET_last(self.axiosSource.token)
+    .then(function(lastVisitRes){
+      self._set_mountToDo("lastVisit"); //and splice the label from the todo list
 
-          submitObj['listCustomNew'] = customNewRes.main.listCustomNew;
-          submitObj['listNew'] = customNewRes.main.listNew;
-          //update the list to Redux reducer,
-          self.props._submit_IndexLists(submitObj);
-          //set the flag to reduucer to inform NewShare or NewSharedCustom refresh
-          self.props._submit_FlagSwitch(['flagNewSharedDataFetch', 'flagNewCustomDataFetch']);
-
-          self.setState({
-            axiosFocus: false,
-            lastVisit: lastVisitRes.main.lastTime
-          });
-        })
-      )
-      .catch(function (thrown) {
-        self.setState({axiosFocus: false});
-        if (axios.isCancel(thrown)) {
-          cancelErr(thrown);
-        } else {
-          let message = uncertainErr(thrown);
-          if(message) alert(message);
-        }
+      self.setState({
+        axios: false,
+        lastVisit: lastVisitRes.main.lastTime
       });
+    })
+    .catch(function (thrown) {
+      self.setState({axios: false});
+      if (axios.isCancel(thrown)) {
+        cancelErr(thrown);
+      } else {
+        let message = uncertainErr(thrown);
+        if(message) alert(message);
+      }
+    });
   }
 
   componentWillUnmount(){
@@ -137,7 +97,7 @@ class Wrapper extends React.Component {
       this.axiosSource.cancel("component will unmount.")
     }
     //clear & reset to init when Unmount, make sure the list would not render anything when retrun to index
-    this.props._submit_IndexLists(initCosmicGeneral.indexLists);
+    this.props._submit_IndexLists(initAround.indexLists);
   }
 
   render(){
@@ -158,53 +118,12 @@ class Wrapper extends React.Component {
               <Belongs
                 _refer_von_cosmic={this.props._refer_von_cosmic}/>
             </div>
-            <div
-              className={classnames(styles.boxCreate)}
-              onMouseEnter={this._handleMouseOn_Create}
-              onMouseLeave={this._handleMouseOn_Create}>
-              <SvgCreate
-                black={this.state.onCreate}
-                place={false}
-                stretch={true}/>
-              <CreateShare
-                _submit_Share_New={this._submit_Share_New}
-                _refer_von_Create={this.props._refer_von_cosmic}/>
-            </div>
           </div>
-          <div
-            className={classnames(styles.boxRow)}>
-            <SelfShared/>
-          </div>
-          {
-            (this.props.indexLists.listCustomNew.length> 0) ? (
-              <div
-                className={classnames(styles.boxRow)}>
-                <NewSharedCustom
-                  {...this.props}/>
-                <div
-                  className={classnames(styles.decoSeparationLine, styles.boxUnderLine)}></div>
-              </div>
-            ):(
-              <div
-                className={classnames(styles.boxRow)}>
-                <CustomSelected
-                  {...this.props}/>
-                <div
-                  className={classnames(styles.decoSeparationLine, styles.boxUnderLine)}></div>
-              </div>
-            )
-          }
-          <div
-            className={classnames(styles.boxRow)}>
-            <CornersRecom
-              _refer_von_cosmic={this.props._refer_von_cosmic}/>
-          </div>
+
           <div
             className={classnames(styles.boxFooter)}></div>
         </div>
-        <Route
-          path={this.props.match.path+"/unit"}
-          render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_von_cosmic}/>}/>
+
       </div>
     )
   }
@@ -220,7 +139,6 @@ const mapStateToProps = (state)=>{
 const mapDispatchToProps = (dispatch) => {
   return {
     _submit_IndexLists: (listsObj) => { dispatch(setIndexLists(listsObj)); },
-    _submit_FlagSwitch: (target) => { dispatch(setFlag(target)); },
   }
 }
 

@@ -8,7 +8,6 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import Around from './partAround/Around.jsx';
-import CosmicCorner from './component/CosmicCorner/CosmicCorner.jsx';
 import {
   setMessageSingleClose
 } from '../redux/actions/general.js'
@@ -31,12 +30,6 @@ class WithinAround extends React.Component {
         height: '100%',
         position: 'fixed',
         backgroundColor: '#FCFCFC'
-      },
-      Within_Around_corner_: {
-        position: 'fixed',
-        bottom: '2.4%',
-        right: '20%',
-        boxSizing: 'border-box'
       },
       Within_Around_NavOptions: {
         width: '1.4%',
@@ -117,10 +110,7 @@ class WithinAround extends React.Component {
 
           <Route path={this.props.match.path} render={(props)=> <Around {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
         </Switch>
-        <div
-          style={this.style.Within_Around_corner_}>
-          <CosmicCorner {...this.props}/>
-        </div>
+
         <div style={this.style.Within_Around_NavOptions}>
           <NavOptions {...this.props}/>
         </div>
@@ -154,7 +144,6 @@ class WithinAround extends React.Component {
             </ModalBackground>
           </ModalBox>
         }
-
       </div>
     )
   }
