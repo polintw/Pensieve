@@ -20,7 +20,7 @@ class SetByTypes extends React.Component {
   _handleClick_editByType(event){
     event.preventDefault();
     event.stopPropagation();
-
+    this.props._set_searchModal(event.getAttribute('valuetype'));
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -37,7 +37,7 @@ class SetByTypes extends React.Component {
 
   _render_typesSubmit(){
     let noRecTypes = this.props.belongTypes.filter((type, index)=>{
-      return !(type in this.props.typeObj) //return the type not yet set
+      return !(type in this.props.belongsByType) //return the type not yet set
     });
     let submitDOM = [];
 
@@ -71,6 +71,7 @@ const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
+    belongsByType: state.belongsByType
   }
 }
 

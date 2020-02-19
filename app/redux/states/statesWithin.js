@@ -1,4 +1,5 @@
 export const initWithin = {
+  belongsByType: {},
   flagNewSharedDataFetch: false,
 }
 

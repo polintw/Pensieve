@@ -14,6 +14,9 @@ import {
   SET_FOCUSLISTS,
 } from '../types/typesCosmic.js';
 import {
+  SET_BELONGSBYTYPE,
+} from '../types/typesWithin.js';
+import {
   initGlobal,
   initNouns,
   initUsers
@@ -55,6 +58,11 @@ function pageWithin(state = initialGeneral, action){
     case SET_FOCUSLISTS:
       return Object.assign({}, state, {
         focusLists: {...state.focusLists, ...action.lists}
+      })
+      break;
+    case SET_BELONGSBYTYPE:
+      return Object.assign({}, state, {
+        belongsByType: {...state.belongsByType, ...action.typeObj}
       })
       break;
     case UPDATE_NOUNSBASIC:

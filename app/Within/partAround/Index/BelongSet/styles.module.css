@@ -30,3 +30,15 @@
   border-radius: 1rem;
   background-color: white;
 }
+
+.boxSearchModal {
+  width: 40vw;
+  min-height: 11.7rem;
+  position: absolute;
+  left: -2vw;
+  top: -1rem;
+  background-color: #FcFCFC;
+  box-shadow: 2px 2px 6px -2px;
+  border-radius: 0.45rem;
+  z-index: 1;
+}

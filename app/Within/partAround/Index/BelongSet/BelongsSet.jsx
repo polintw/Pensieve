@@ -8,6 +8,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import SetByTypes from './SetByTypes.jsx';
 import BelongsbyType from './BelongsbyType/BelongsbyType.jsx';
+import SearchModal from './SearchModal/SearchModal.jsx';
 import BooleanDialog from '../../../../Component/Dialog/BooleanDialog/BooleanDialog.jsx';
 import ModalBox from '../../../../Component/ModalBox.jsx';
 import ModalBackground from '../../../../Component/ModalBackground.jsx';
@@ -21,8 +22,10 @@ import {
 } from "../../../../utils/errHandlers.js";
 import {
   handleNounsList,
-  setFlag
 } from "../../../../redux/actions/general.js";
+import {
+  setBelongsByType,
+} from "../../../../redux/actions/within.js";
 
 /*
   this const, belongTypes, was the very foundation of the whole BelongSet.
@@ -37,13 +40,14 @@ class BelongsSet extends React.Component {
     super(props);
     this.state = {
       axios: false,
-      typeObj: {},
-      dialog: false,
       chosenNode: '',
-      settingType: ''
+      settingType: '',
+      dialog: false,
+      searchModal: false
     };
     this.axiosSource = axios.CancelToken.source();
     this._init_fetch = this._init_fetch.bind(this);
+    this._set_searchModal = this._set_searchModal.bind(this);
     this._set_choiceAnType = this._set_choiceAnType.bind(this);
     this._set_dialog_cancel = this._set_dialog_cancel.bind(this);
     this._render_DialogMessage = this._render_DialogMessage.bind(this);
@@ -60,6 +64,15 @@ class BelongsSet extends React.Component {
     })
   }
 
+  _set_searchModal(settingType){
+    this.setState((prevState, props)=>{
+      return {
+        settingType: !!settingType ? settingType: '', //param 'settingType' could be empty if it was cancel or finished
+        searchModal: prevState.searchModal ? false: true
+      };
+    })
+  }
+
   _set_choiceAnType(choice, type){
     this.setState({
       dialog: true,
@@ -73,7 +86,6 @@ class BelongsSet extends React.Component {
     //close the Dialog,And! reset all to wait for new fetch
     //But remember keeping the sumit data alive !
     this.setState({
-      typeObj: {},
       dialog: false,
     });
 
@@ -104,20 +116,15 @@ class BelongsSet extends React.Component {
     _axios_GET_belongRecords(this.axiosSource.cancelToken)
     .then((belongObj)=>{
       self.setState({axios: false}); //set here because we are going to next axios not far away
-      let typeObj = {};
+      let byTypeObj = {};
 
       const nodesList= belongObj.main.nodesList;
       nodesList.forEach((nodeId, index)=>{ //and, switch nodesChart to type attribution for rendering convinence
-        typeObj[belongObj.main.nodesChart[nodeId]] = nodeId
+        byTypeObj[belongObj.main.nodesChart[nodeId]] = nodeId
       });
 
       self.props._submit_NounsList_new(nodesList); //GET nodes info by Redux action
-
-      self.setState((prevState, props)=>{
-        return({
-          typeObj: typeObj
-        });
-      });
+      self.props._submit_belongsByType(byTypeObj)
     })
     .catch(function (thrown) {
       self.setState({axios: false});
@@ -164,10 +171,21 @@ class BelongsSet extends React.Component {
         className={classnames(styles.comBelong)}>
 
         <BelongsbyType
-          typeObj={this.state.typeObj}/>
+          _set_searchModal={this._set_searchModal}/>
         <SetByTypes
-          typeObj={this.state.typeObj}
-          belongTypes={belongTypes}/>
+          belongTypes={belongTypes}
+          _set_searchModal={this._set_searchModal}/>
+
+        {
+          this.state.searchModal &&
+          <div
+            className={classnames(styles.boxSearchModal)}>
+            <SearchModal
+              settingType={this.state.settingType}
+              _set_choiceAnType={this._set_choiceAnType}
+              _set_searchModal={this._set_searchModal}/>
+          </div>
+        }
 
         {
           this.state.dialog &&
@@ -194,14 +212,13 @@ const mapStateToProps = (state)=>{
     userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
     nounsBasic: state.nounsBasic,
-    fetchFlags: state.fetchFlags
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
-    _submit_FlagSwitch: (target) => { dispatch(setFlag(target)); },
+    _submit_belongsByType: (obj) => { dispatch(setBelongsByType(obj)); },
   }
 }
 

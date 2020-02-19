@@ -33,18 +33,6 @@
 
 }
 
-.boxSettingModal {
-  width: 40vw;
-  min-height: 11.7rem;
-  position: absolute;
-  left: -2vw;
-  top: -1rem;
-  background-color: #FcFCFC;
-  box-shadow: 2px 2px 6px -2px;
-  border-radius: 0.45rem;
-  z-index: 1;
-}
-
 .spanNode {
   display: inline-block;
   position: relative;
@@ -60,6 +48,6 @@
   color: rgb(64, 133, 160);
 }
 
-.fontOnType {
+.fontOnEdit {
   color: #000000;
 }

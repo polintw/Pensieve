@@ -33,18 +33,16 @@ class BelongsbyType extends React.Component {
   }
 
   _render_BelongList(){
-    const typeKeys = Object.keys(this.state.typeObj);
+    const typeKeys = Object.keys(this.props.belongsByType);
     const nodesDOM = typeKeys.map((nodeType, index)=>{
       return (
         <div
           key={"key_Belong_"+index}
           className={classnames(styles.boxByType)}>
           <Belong
-            {...this.state}
             type={nodeType}
-            listIndex={index}
-            _set_choiceAnType={this._set_choiceAnType}
-            _refer_von_cosmic={this.props._refer_von_cosmic}/>
+            nodeId={this.props.belongsByType[nodeType]}
+            _set_searchModal={this.props._set_searchModal}/>
         </div>
       )
     });
@@ -66,6 +64,7 @@ const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
+    belongsByType: state.belongsByType
   }
 }
 

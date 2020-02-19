@@ -1,4 +1,4 @@
-.comBelongOptions {
+.comSearchModal {
 
 }
 
@@ -11,40 +11,8 @@
 }
 
 
-.boxOptions {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: baseline;
-  justify-content: space-between;
-}
-
-.boxAOption {
-  display: inline-block;
-  box-sizing: border-box;
-  padding: 0 2%;
-}
-
-.spanOption {
-  cursor: pointer;
-}
-
-.spanType { /*should consider sync with style of BelongbyType*/
-  margin: 0 0.4rem;
-}
-
-.fontType { /* keep it related to fontType in Main*/
+.fontDescrip {
   font-size: 1.37rem;
   letter-spacing: 0.07rem;
   line-height: 2rem;
-  color: rgb(110, 110, 110);
-}
-
-.fontOnType {
-  color: #000000;
-}
-
-.fontOption {
-  font-size: 1.47rem;
-  font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;
-  letter-spacing: 0.05rem;
 }

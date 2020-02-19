@@ -71,6 +71,7 @@ export const i18nUIStringInit = {
      "title_Main_matchWilling": "Your Providing Menu.",
      "catagory_MatchNodes_willing": ["adding new", "providing", "dedicated to..."],
      "submit_remove": "remove",
+     "submit_edit": "edit",
      "descript_MatchNodes_demandTaken": "Your Wish now was working by users!",
      "message_Main_duplicateTaking": "There has already been another corner taken on record. Giving up the current one if you wanted to take this new corner.",
      "message_Main_forbbidenWish": "The Wish bucket allow an Order with/or up to 3 wishes. You have to remove some of them before making another one.",
@@ -78,6 +79,8 @@ export const i18nUIStringInit = {
      "title_Main_matchTaking": ["Taken", "on list", ["Give ", "up"], "Ordered"],
      "message_Main_MatchTakingGiveup": ["There are still ", "users on the list looking forward to any Share about ", ". Are you sure you want to give up the taken?"],
      "link_Main_matchSupplyAction": ["Order", "list me"],
-     "category__Belong_usersCount": ["with ", "users", "way to "]
+     "category__Belong_usersCount": ["with ", "users", "way to "],
+     "descript_BelongSet_SearchBytType": ["Input corner name of your "],
+
    }
 }
