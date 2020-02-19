@@ -12,7 +12,7 @@ import Nav from '../component/Nav/Nav.jsx';
 import Terms from '../component/Terms/Terms.jsx';
 import Privacy from '../component/Privacy/Privacy.jsx';
 import NavSite from '../component/NavSite/NavSite.jsx';
-import SvgLogo from '../../Component/Svg/SvgLogo.jsx';
+import SvgLogo from '../../Components/Svg/SvgLogo.jsx';
 
 class About extends React.Component {
   constructor(props){

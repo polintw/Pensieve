@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import IndexWrapper from './Index/Wrapper.jsx';
-import SvgLogo from '../../Component/Svg/SvgLogo.jsx';
+import SvgLogo from '../../Components/Svg/SvgLogo.jsx';
 
 class Around extends React.Component {
   constructor(props){

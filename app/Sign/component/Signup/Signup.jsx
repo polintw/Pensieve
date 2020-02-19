@@ -16,8 +16,8 @@ import SignupForm from '../SignupCom/SignupForm.jsx';
 import {
   axiosGetRes
 } from "../../../redux/actions/sign.js";
-import ServiceLinks from '../../../Component/ServiceLinks.jsx';
-import SvgLogo from '../../../Component/Svg/SvgLogo.jsx';
+import ServiceLinks from '../../../Components/ServiceLinks.jsx';
+import SvgLogo from '../../../Components/Svg/SvgLogo.jsx';
 
 const commonStyle= {
   signLogo: {

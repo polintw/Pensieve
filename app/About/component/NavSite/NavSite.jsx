@@ -8,7 +8,6 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import {AccountPlate} from '../../../Component/AccountPlate.jsx';
 
 const styleMiddle = {
   spanNav: {
@@ -74,26 +73,14 @@ class NavSite extends React.Component {
       <div
         className={classnames(styles.comNavSite)}>
         <a
-          href="/cosmic"
-          method="focus"
+          href="/"
+          method="back"
           className={classnames('plainLinkButton')}
           onMouseEnter={this._handleEnter_CornerOpt}
           onMouseLeave={this._handleLeave_CornerOpt}>
           <span
             className={classnames(styles.spanLink, styles.fontLink)}
-            style={{borderBottom: (this.state.mouseOn=='focus')? '1px solid #ff7a5f': '1px solid #ababab'}}>{"focus"}</span>
-        </a>
-        <a
-          href="/user/screen"
-          className={classnames('plainLinkButton')}
-          onMouseEnter={this._handleEnter_Account}
-          onMouseLeave={this._handleLeave_Account}>
-          <AccountPlate
-            size={'layer'}
-            accountFisrtName={this.props.userInfo.firstName}
-            accountLastName={this.props.userInfo.lastName}
-            styleFirst={{display: 'inline-block', margin: '1rem 0.5rem 1rem 0'}}
-            styleLast={{display: 'inline-block', margin: '1rem 0.5rem 1rem 0'}}/>
+            style={{borderBottom: (this.state.mouseOn=='back')? '1px solid #ff7a5f': '1px solid #ababab'}}>{"back"}</span>
         </a>
       </div>
     ): (

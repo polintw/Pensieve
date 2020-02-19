@@ -11,11 +11,11 @@ import Around from './partAround/Around.jsx';
 import {
   setMessageSingleClose
 } from '../redux/actions/general.js'
-import NavOptions from '../Component/NavOptions.jsx';
-import ModalBox from '../Component/ModalBox.jsx';
-import ModalBackground from '../Component/ModalBackground.jsx';
-import SingleCloseDialog from '../Component/Dialog/SingleCloseDialog/SingleCloseDialog.jsx';
-import BooleanDialog from '../Component/Dialog/BooleanDialog/BooleanDialog.jsx';
+import NavOptions from '../Components/NavOptions.jsx';
+import ModalBox from '../Components/ModalBox.jsx';
+import ModalBackground from '../Components/ModalBackground.jsx';
+import SingleCloseDialog from '../Components/Dialog/SingleCloseDialog/SingleCloseDialog.jsx';
+import BooleanDialog from '../Components/Dialog/BooleanDialog/BooleanDialog.jsx';
 
 class WithinAround extends React.Component {
   constructor(props){

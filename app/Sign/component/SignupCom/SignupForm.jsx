@@ -12,7 +12,7 @@ import {
   cancelErr,
   uncertainErr
 } from '../../utils/errHandler_axios.js';
-import MaskProcessing from '../../../Component/MaskProcessing.jsx';
+import MaskProcessing from '../../../Components/MaskProcessing.jsx';
 import {
   setSignInit,
   axiosGetRes,

@@ -9,9 +9,9 @@ import styles from "./styles.module.css";
 import SetByTypes from './SetByTypes.jsx';
 import BelongsbyType from './BelongsbyType/BelongsbyType.jsx';
 import SearchModal from './SearchModal/SearchModal.jsx';
-import BooleanDialog from '../../../../Component/Dialog/BooleanDialog/BooleanDialog.jsx';
-import ModalBox from '../../../../Component/ModalBox.jsx';
-import ModalBackground from '../../../../Component/ModalBackground.jsx';
+import BooleanDialog from '../../../../Components/Dialog/BooleanDialog/BooleanDialog.jsx';
+import ModalBox from '../../../../Components/ModalBox.jsx';
+import ModalBackground from '../../../../Components/ModalBackground.jsx';
 import {
   _axios_GET_belongRecords,
   _axios_PATCH_belongRecords

@@ -6,8 +6,8 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import SvgLogo from '../../../Component/Svg/SvgLogo.jsx';
-import ServiceLinks from '../../../Component/ServiceLinks.jsx';
+import SvgLogo from '../../../Components/Svg/SvgLogo.jsx';
+import ServiceLinks from '../../../Components/ServiceLinks.jsx';
 import {
   setSignInit,
   handleSignUser

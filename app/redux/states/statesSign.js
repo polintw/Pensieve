@@ -1,6 +1,6 @@
 const {
   i18nUIStringInit,
-} = require('./global.js');
+} = require('./constants.js');
 
 export const initSign = {
   axios: false,

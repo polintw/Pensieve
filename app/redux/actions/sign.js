@@ -8,7 +8,7 @@ import {
 } from '../types/typesGeneral.js';
 import {
   initSign
-} from '../states/stateSign.js';
+} from '../states/statesSign.js';
 
 export function setSignInit(){
   return {type: SET_SIGNINIT, initState: initSign}

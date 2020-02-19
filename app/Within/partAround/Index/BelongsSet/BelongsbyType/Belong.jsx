@@ -47,7 +47,7 @@ class Belong extends React.Component {
       self.setState((prevState, props)=>{
         return {
           axios: false,
-          infoCount: {...prevState.infoCount, {totalUserCount: resObj.main.count}}
+          infoCount: Object.assign({}, prevState.infoCount, {totalUserCount: resObj.main.count})
         }
       });
     }).catch(function (thrown) {

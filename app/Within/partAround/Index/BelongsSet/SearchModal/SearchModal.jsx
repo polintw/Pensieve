@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import {updateNodesBasic} from '../../../../../redux/actions/general.js'
-import {NodeSearchModule} from '../../../../../Component/NodeSearchModule.jsx';
+import {NodeSearchModule} from '../../../../../Components/Node/NodeSearchModule.jsx';
 
 class SearchModal extends React.Component {
   constructor(props){
