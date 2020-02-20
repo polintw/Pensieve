@@ -13,7 +13,7 @@ import {
 } from "../redux/actions/general.js";
 import tokenRefreshed from '../utils/refreshToken.js';
 import {
-  uncertainErr
+  statusVerifiedErr
 } from "../utils/errHandlers.js";
 
 
@@ -29,7 +29,7 @@ if(loggedin){
           'token': window.localStorage['token']
       }
     }).then(function(res){
-      store.dispatch(mountUserInfo(res.data.userInfo));
+      store.dispatch(mountUserInfo(res.data.main.userInfo));
       store.dispatch(setTokenStatus({token: 'verified'}));
       ReactDOM.hydrate(<Provider store={store}><About/></Provider>, document.getElementById("root"));
     }).catch((err)=>{
@@ -38,25 +38,9 @@ if(loggedin){
       But for token state, record the difference by res.status
       */
 
-      //this part could be a independt process moved into errHandlers
-      if(err.response){ //still create store for page
-        switch (err.response.status) {
-          case 401:
-            store.dispatch(setTokenStatus({token: 'invalid'}))
-            break;
-          case 403:
-            store.dispatch(setTokenStatus({token: 'lack'}))
-            break;
-          case 500:
-            store.dispatch(setTokenStatus({token: 'internalErr'}))
-            break;
-          default:
-            store.dispatch(setTokenStatus({token: 'invalid'}))
-        };
-      }
-      else store.dispatch(setTokenStatus({token: 'invalid'})); //end of 'if'
-
-      //and Render the dom, let the DOM itself check the status
+      let verifiedErrify = statusVerifiedErr(err, store); //set token status to Redux by f() import from errHandlers
+      //Render the dom no matter the result of the errHandlers
+      //and let the DOM itself check the status
       ReactDOM.hydrate(<Provider store={store}><About/></Provider>, document.getElementById("root"));
     })
   };

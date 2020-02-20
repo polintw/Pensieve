@@ -5,10 +5,13 @@ import jwtDecode from 'jwt-decode';
 import moment from 'moment';
 import store from './store.js';
 import Within from './Within.jsx';
-import {mountUserInfo} from "../redux/actions/general.js";
+import {
+  mountUserInfo,
+  setTokenStatus
+} from "../redux/actions/general.js";
 import tokenRefreshed from '../utils/refreshToken.js';
 import {
-  uncertainErr
+  statusVerifiedErr
 } from "../utils/errHandlers.js";
 
 
@@ -20,16 +23,19 @@ if(loggedin){
           'token': window.localStorage['token']
       }
     }).then(function(res){
-      store.dispatch(mountUserInfo(res.data.userInfo));
+      store.dispatch(mountUserInfo(res.data.main.userInfo));
+      store.dispatch(setTokenStatus({token: 'verified'})); //also set token verified result to middleware.
       ReactDOM.hydrate(<Provider store={store}><Within/></Provider>, document.getElementById("root"));
     }).catch((err)=>{
-      //deal the axios error with standard axios err handler first
-      let message = uncertainErr(err);
-      //than alert the user before sign in again
-      if(message){
-        alert(message);
-        window.location.assign('/s/signin');
-      }
+      /*
+      one possiblity is the token was invalid,
+      then we still going to render after we mark the result in Redux.
+      */
+      let verifiedErrify = statusVerifiedErr(err, store); //set token status to Redux by f() import from errHandlers
+      //Render the dom no matter the result of the errHandlers,
+      //and let the DOM itself check the status
+      ReactDOM.hydrate(<Provider store={store}><Within/></Provider>, document.getElementById("root"));
+
     })
   };
 
