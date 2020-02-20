@@ -32,7 +32,7 @@ status.use(function(req, res) {
           attributes: ['id', 'account', 'first_name', 'last_name']
         })
         .then((result)=>{
-          if(!!result) throw new notFoundError("no this user in DB.", null) //if the result was 'null'
+          if(!result) throw new notFoundError("no this user in DB.") //if the result was 'null'
           else {
             let sendingData={
               userInfo: {

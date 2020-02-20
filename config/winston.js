@@ -1,7 +1,7 @@
 const { createLogger, format, transports } = require('winston');
 require('winston-daily-rotate-file');
 const path = require("path");
-const {envLogPath} =  require('./path.js')['logPath'];
+const {envLogPath} = require('./.env.json');
 
 const options = {
   fileErr: {

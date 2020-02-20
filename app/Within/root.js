@@ -62,5 +62,8 @@ if(loggedin){
   }
 
 }else{
-  window.location.assign('/s/signin')
+  store.dispatch(setTokenStatus({token: 'lack'}));
+
+  //Render the dom, let the DOM itself check the status
+  ReactDOM.hydrate(<Provider store={store}><Within/></Provider>, document.getElementById("root"));
 }

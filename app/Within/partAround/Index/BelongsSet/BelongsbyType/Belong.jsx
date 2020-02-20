@@ -21,6 +21,7 @@ class Belong extends React.Component {
       onEdit: false,
       infoCount: {totalUserCount: null},
     };
+    this.axiosSource = axios.CancelToken.source();
     this._set_infoCount = this._set_infoCount.bind(this);
     this._render_type = this._render_type.bind(this);
     this._render_statics = this._render_statics.bind(this);
@@ -41,8 +42,8 @@ class Belong extends React.Component {
     const self = this;
     this.setState({axios: true});
 
-    _axios_GET_usersCount(this.axiosSource.cancelToken, nodeId) //it req the total num registered to this corner
-    .then((results) => {
+    _axios_GET_usersCount(this.axiosSource.cancelToken, this.props.nodeId) //it req the total num registered to this corner
+    .then((resObj) => {
 
       self.setState((prevState, props)=>{
         return {
@@ -154,7 +155,7 @@ class Belong extends React.Component {
         </div>
         <div
           className={classnames(styles.boxCornerTitle)}>
-          this._render_nodeLink()
+          {this._render_nodeLink()}
         </div>
         <div
           className={classnames(styles.boxStatics)}>

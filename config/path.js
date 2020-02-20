@@ -1,8 +1,8 @@
 const {
   envSeedPath,
-  envLogPath
+  envImgPath
 } = require('./.env.json');
 
-exports.dbSeed = envSeedPath;
+exports.userImg = envImgPath;
 
-exports.logPath = envLogPath;
+exports.dbSeed = envSeedPath;

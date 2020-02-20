@@ -246,16 +246,20 @@ function _handle_ErrCatched(e, req, res){
       return res.status(e.status).json(clientSet);
       break;
     default:
-      if(e.status == 404) return res.status(404) //actually, the error could have a res.status without e.code, not only 404
-      else {
-        winston.error(`${500} - ${e} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
-        return res.status(500).json({
-          "message": {"warning":"Some error happened, please try again."},
-          'console': ''
-        });
-      };
+      return _undefiendCode(e, req, res);
   }
 }
+
+function _undefiendCode(e, req, res){
+  if(e.status == 404) return res.status(404).end() //actually, the error could have a res.status without e.code, not only 404
+  else {
+    winston.error(`${500} - ${e} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+    return res.status(500).json({
+      "message": {"warning":"Some error happened, please try again."},
+      'console': ''
+    });
+  };
+};
 
 module.exports= {
   validationError,
