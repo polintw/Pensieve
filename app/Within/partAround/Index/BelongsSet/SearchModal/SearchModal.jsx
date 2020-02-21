@@ -33,7 +33,7 @@ class SearchModal extends React.Component {
     //has already save the data of node in reducer.
 
     //and pass the choice to
-    this.props._set_choiceAnType(nodeBasic.id, this.props.type);
+    this.props._set_choiceAnType(nodeBasic.id, this.props.settingType);
     this.props._set_searchModal();
   }
 

@@ -89,10 +89,12 @@ class BelongsSet extends React.Component {
       dialog: false,
     });
 
-    let objBelong = {};
-    objBelong[this.state.settingType]= this.state.chosenNode; //put nodeId by type
+    let submitObj = {
+      category: this.state.settingType,
+      nodeId: this.state.chosenNode
+    };
 
-    _axios_PATCH_belongRecords(this.axiosSource.cancelToken, {belong: objBelong}) //final reload the com to GET new setting
+    _axios_PATCH_belongRecords(this.axiosSource.cancelToken, submitObj) //final reload the com to GET new setting
       .then(function (resObj) {
         self.setState({axios: false});
         //refresh locally
@@ -116,12 +118,8 @@ class BelongsSet extends React.Component {
     _axios_GET_belongRecords(this.axiosSource.cancelToken)
     .then((belongObj)=>{
       self.setState({axios: false}); //set here because we are going to next axios not far away
-      let byTypeObj = {};
-
       const nodesList= belongObj.main.nodesList;
-      nodesList.forEach((nodeId, index)=>{ //and, switch nodesChart to type attribution for rendering convinence
-        byTypeObj[belongObj.main.nodesChart[nodeId]] = nodeId
-      });
+      let byTypeObj = belongObj.main.categoryObj;
 
       self.props._submit_NounsList_new(nodesList); //GET nodes info by Redux action
       self.props._submit_belongsByType(byTypeObj)

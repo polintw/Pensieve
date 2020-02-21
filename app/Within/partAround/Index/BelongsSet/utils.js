@@ -1,7 +1,7 @@
 export function _axios_PATCH_belongRecords(cancelToken, submitObj){
   return axios({
     method: 'patch',
-    url: '/router/profile/sheetsNodes',
+    url: '/router/profile/nodesBelong',
     headers: {
       'charset': 'utf-8',
       'token': window.localStorage['token']
@@ -20,7 +20,7 @@ export function _axios_PATCH_belongRecords(cancelToken, submitObj){
 export function _axios_GET_belongRecords(cancelToken){
   return axios({
     method: 'get',
-    url: '/router/profile/sheetsNodes?present&random&limit=8',
+    url: '/router/profile/nodesBelong',
     headers: {
       'charset': 'utf-8',
       'token': window.localStorage['token']

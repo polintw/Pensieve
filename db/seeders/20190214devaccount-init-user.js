@@ -48,17 +48,7 @@ module.exports = {
       ], {})
     })
     .then(()=>{
-      return queryInterface.bulkInsert('sheets_node', [
-        {id_user: '1'}
-      ], {})
-    })
-    .then(()=>{
       return queryInterface.bulkInsert('users_prefer_nodes', [
-        {id_user: '1'}
-      ], {})
-    })
-    .then(()=>{
-      return queryInterface.bulkInsert('users_custom_index', [
         {id_user: '1'}
       ], {})
     });
