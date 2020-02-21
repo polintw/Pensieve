@@ -20,7 +20,7 @@ class SetByTypes extends React.Component {
   _handleClick_editByType(event){
     event.preventDefault();
     event.stopPropagation();
-    this.props._set_searchModal(event.getAttribute('valuetype'));
+    this.props._set_searchModal(event.currentTarget.getAttribute('valuetype'));
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){

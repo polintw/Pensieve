@@ -34,7 +34,6 @@ class SearchModal extends React.Component {
 
     //and pass the choice to
     this.props._set_choiceAnType(nodeBasic.id, this.props.settingType);
-    this.props._set_searchModal();
   }
 
 

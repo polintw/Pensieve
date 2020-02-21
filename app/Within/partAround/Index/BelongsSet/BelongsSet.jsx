@@ -77,7 +77,8 @@ class BelongsSet extends React.Component {
     this.setState({
       dialog: true,
       chosenNode: choice,
-      settingType: type
+      settingType: type,
+      searchModal: false
     });
   }
 

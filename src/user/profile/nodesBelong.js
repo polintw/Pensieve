@@ -165,18 +165,26 @@ const _update_Residence_last = (userId)=>{
 };
 
 async function _create_new(userId, submitObj, category){
-  // Update the last records First!!
-  await (category=='residence') ? _update_Residence_last(userId): _update_Homeland_last(userId);
   //create new row after the last one was thorw into history.
   if(category=='residence'){
+    // Update the last records First!!
+    await _update_Residence_last(userId);
     await _DB_usersNodesResidence
     .create(submitObj)
+    .then(()=>{
+      return
+    })
     .catch((err)=>{
       throw err
     });
   }else{
+    // Update the last records First!!
+    await _update_Homeland_last(userId);
     await _DB_usersNodesHomeland
     .create(submitObj)
+    .then(()=>{
+      return
+    })
     .catch((err)=>{
       throw err
     });
@@ -187,14 +195,14 @@ async function _create_new(userId, submitObj, category){
 function _handle_PATCH_profile_nodesBelong(req, res){
   //claim all repeatedly used var iutside the Promise chain.
   let userId = req.extra.tokenUserId; //use userId passed from pass.js
-  let category = req.query.category,
-      passedNode = req.query.nodeId;
+  let category = req.body.category,
+      passedNode = req.body.nodeId;
 
   new Promise((resolve, reject)=>{
     //decided which selection to use depend on the category req passed.
     let selection = (category == 'residence') ? _find_fromResidence_All : _find_fromHomeland_All;
 
-    selection()
+    selection(userId)
     .then((allRecs)=>{
       let permissionToken = true; //permission for updateing.
       /*
@@ -212,7 +220,9 @@ function _handle_PATCH_profile_nodesBelong(req, res){
         };
         return _create_new(userId, submitObj, category); //create the new records & set last one into history.
       }
-
+    })
+    .then(()=>{
+      //have to seperate from the last step.
       resolve()
 
     }).catch((error)=>{
