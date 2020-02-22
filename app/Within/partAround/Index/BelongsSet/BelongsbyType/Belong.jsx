@@ -40,15 +40,22 @@ class Belong extends React.Component {
 
   _set_infoCount(){
     const self = this;
-    this.setState({axios: true});
+    this.setState({
+      axios: true,
+      infoCount: {} //going to renew, so we refresh the render first
+    });
+    let queryObj = {}; //not any params need to be set, it's a plain 'all select' in this request
 
-    _axios_GET_usersCount(this.axiosSource.cancelToken, this.props.nodeId) //it req the total num registered to this corner
+    _axios_GET_usersCount(
+      this.axiosSource.cancelToken,
+      this.props.belongsByType[this.props.type],
+      queryObj
+    ) //it req the total num registered to this corner
     .then((resObj) => {
-
       self.setState((prevState, props)=>{
         return {
           axios: false,
-          infoCount: Object.assign({}, prevState.infoCount, {totalUserCount: resObj.main.count})
+          infoCount: Object.assign({}, prevState.infoCount, {totalUserCount: resObj.main.countsByTypes.all})
         }
       });
     }).catch(function (thrown) {
@@ -64,12 +71,13 @@ class Belong extends React.Component {
 
 
   componentDidUpdate(prevProps, prevState, snapshot){
-
+    if(prevProps.belongsByType[this.props.type] != this.props.belongsByType[this.props.type]){ //the node was edit and different
+      this._set_infoCount();
+    }
   }
 
   componentDidMount() {
     this._set_infoCount();
-
   }
 
   componentWillUnmount() {
@@ -78,7 +86,7 @@ class Belong extends React.Component {
 
   _render_nodeLink(){
     //determine the id of current node
-    const nodeId = this.props.nodeId;
+    const nodeId = this.props.belongsByType[this.props.type];
 
     return (
       <Link
@@ -171,6 +179,7 @@ const mapStateToProps = (state)=>{
     userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
     nounsBasic: state.nounsBasic,
+    belongsByType: state.belongsByType
   }
 }
 

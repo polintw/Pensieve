@@ -209,6 +209,7 @@ function _handle_PATCH_profile_nodesBelong(req, res){
         There are some limitation to the update to the belong:
         - for Homeland, no more the 3 time
         - for residence, only once per 24 hrs & no more than 5 times in a month.
+        - and, residence & homeland could not be the same.
 
         But for now, we just left it to make a dirty test.
       */

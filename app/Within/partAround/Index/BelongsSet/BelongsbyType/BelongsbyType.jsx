@@ -41,7 +41,6 @@ class BelongsbyType extends React.Component {
           className={classnames(styles.boxByType)}>
           <Belong
             type={nodeType}
-            nodeId={this.props.belongsByType[nodeType]}
             _set_searchModal={this.props._set_searchModal}/>
         </div>
       )
