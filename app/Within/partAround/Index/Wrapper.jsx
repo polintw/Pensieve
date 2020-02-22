@@ -14,7 +14,7 @@ import {
 } from './utils.js';
 import RowEntry from './RowEntry/RowEntry.jsx';
 import BelongsSet from './BelongsSet/BelongsSet.jsx';
-
+import BelongsMap from './BelongsMap/BelongsMap.jsx';
 import {
   setIndexLists,
 } from '../../../redux/actions/around.js';
@@ -113,6 +113,11 @@ class Wrapper extends React.Component {
           <div
             className={classnames(styles.boxRow)}>
             <BelongsSet
+              lastVisit={this.state.lastVisit}/>
+          </div>
+          <div
+            className={classnames(styles.boxRow)}>
+            <BelongsMap
               lastVisit={this.state.lastVisit}/>
           </div>
 

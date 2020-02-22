@@ -79,8 +79,10 @@ export const i18nUIStringInit = {
      "title_Main_matchTaking": ["Taken", "on list", ["Give ", "up"], "Ordered"],
      "message_Main_MatchTakingGiveup": ["There are still ", "users on the list looking forward to any Share about ", ". Are you sure you want to give up the taken?"],
      "link_Main_matchSupplyAction": ["Order", "list me"],
+     "link_BelongsMap_Nav": ["Fellows", "from Home", "same Residence"],
      "category__Belong_usersCount": ["with ", "users", "way to "],
      "descript_BelongSet_SearchBytType": ["Input corner name of your "],
+     "guidingBelongs_EmptyMap": "Set your corner, and taking a look for the distribution of your fellows.",
 
    }
 }

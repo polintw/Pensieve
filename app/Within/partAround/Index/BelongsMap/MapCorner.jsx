@@ -6,55 +6,42 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import stylesMain from "../../styles.module.css"; //Notice, we use shared css file here for easier control
 import {
   _axios_GET_usersCount
-} from '../../utils.js'; //the utils share by all comps in /Index
+} from '../utils.js'; //the utils share by all comps in /Index
 
-
-class Belong extends React.Component {
+class MapCorner extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       onNode: false,
-      onEdit: false,
-      infoCount: {totalUserCount: null},
+      usersCount: null
     };
     this.axiosSource = axios.CancelToken.source();
-    this._set_infoCount = this._set_infoCount.bind(this);
-    this._render_type = this._render_type.bind(this);
+    this._set_usersCount = this._set_usersCount.bind(this);
     this._render_statics = this._render_statics.bind(this);
     this._render_nodeLink = this._render_nodeLink.bind(this);
-    this._handleClick_belongEdit = this._handleClick_belongEdit.bind(this);
     this._handleMouseOn_Node = ()=> this.setState((prevState,props)=>{return {onNode: prevState.onNode?false:true}});
-    this._handleMouseOn_Edit = ()=> this.setState((prevState,props)=>{return {onEdit: prevState.onEdit?false:true}});
   }
 
-  _handleClick_belongEdit(event){
-    event.preventDefault();
-    event.stopPropagation();
-
-    this.props._set_searchModal(this.props.type);
-  }
-
-  _set_infoCount(){
+  _set_usersCount(){
     const self = this;
-    this.setState({
-      axios: true,
-      infoCount: {} //going to renew, so we refresh the render first
-    });
-    let queryObj = {}; //not any params need to be set, it's a plain 'all select' in this request
+    this.setState({axios: true});
+    let queryObj={
+      limitCorner: this.props.typeNodeId,
+      countCat: [this.props.typeReverse]
+    };
 
     _axios_GET_usersCount(
       this.axiosSource.cancelToken,
-      this.props.belongsByType[this.props.type],
+      this.props.nodeId,
       queryObj
-    ) //it req the total num registered to this corner
+    )
     .then((resObj) => {
       self.setState((prevState, props)=>{
         return {
           axios: false,
-          infoCount: Object.assign({}, prevState.infoCount, {totalUserCount: resObj.main.countsByTypes.all})
+          usersCount: resObj.main.countsByTypes[this.props.currentType]
         }
       });
     }).catch(function (thrown) {
@@ -70,13 +57,11 @@ class Belong extends React.Component {
 
 
   componentDidUpdate(prevProps, prevState, snapshot){
-    if(prevProps.belongsByType[this.props.type] != this.props.belongsByType[this.props.type]){ //the node was edit and different
-      this._set_infoCount();
-    }
+
   }
 
   componentDidMount() {
-    this._set_infoCount();
+    this._set_usersCount();
   }
 
   componentWillUnmount() {
@@ -84,8 +69,7 @@ class Belong extends React.Component {
   }
 
   _render_nodeLink(){
-    //determine the id of current node
-    const nodeId = this.props.belongsByType[this.props.type];
+    const nodeId = this.props.nodeId;
 
     return (
       <Link
@@ -94,7 +78,7 @@ class Belong extends React.Component {
         onMouseEnter={this._handleMouseOn_Node}
         onMouseLeave={this._handleMouseOn_Node}>
         <div
-          className={classnames(styles.spanNode, stylesMain.fontCorner)}>
+          className={classnames(styles.spanNode)}>
           {
             this.state.onNode &&
             <span style={{
@@ -111,19 +95,6 @@ class Belong extends React.Component {
     )
   }
 
-  _render_type(){
-    return (
-      <div
-        title={this.props.i18nUIString.catalog["descript_BelongTypeInteract"][0]+this.props.type+this.props.i18nUIString.catalog["descript_BelongTypeInteract"][1]}
-        className={classnames(styles.boxTitleType)}>
-        <span
-          className={classnames(styles.spanType, stylesMain.fontType)}
-          style={{lineHeight: '3rem'}}>
-          {this.props.type}</span>
-      </div>
-    )
-  }
-
   _render_statics(){
     return (
       <div>
@@ -132,7 +103,7 @@ class Belong extends React.Component {
           {this.props.i18nUIString.catalog["category__Belong_usersCount"][1]}
         </span>
         <span>
-          {this.state.infoCount.totalUserCount}
+          {this.state.usersCount}
         </span>
       </div>
     )
@@ -142,24 +113,7 @@ class Belong extends React.Component {
 
     return(
       <div
-        className={classnames(styles.comBelong)}>
-        <div>
-          {this._render_type()}
-          <div
-            onMouseEnter={this._handleMouseOn_Edit}
-            onMouseLeave={this._handleMouseOn_Edit}
-            onClick={this._handleClick_belongEdit}>
-            <span
-              className={classnames(
-                styles.spanType,
-                stylesMain.fontType,
-                {[styles.fontOnEdit]: this.state.onEdit}
-              )}
-              style={{lineHeight: '3rem'}}>
-              {this.props.i18nUIString.catalog["submit_edit"]}
-            </span>
-          </div>
-        </div>
+        className={classnames(styles.comMapCorner)}>
         <div
           className={classnames(styles.boxCornerTitle)}>
           {this._render_nodeLink()}
@@ -191,4 +145,4 @@ const mapDispatchToProps = (dispatch) => {
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(Belong));
+)(MapCorner));
