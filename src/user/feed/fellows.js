@@ -12,7 +12,6 @@ const {
   forbbidenError
 } = require('../../utils/reserrHandler.js');
 
-const categoryAll = ["residence", "homeland"];
 
 const _find_fromHomeland_AllFellows = (nodeId)=>{
   return _DB_usersNodesHomeland.findAll({

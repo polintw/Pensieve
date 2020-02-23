@@ -12,6 +12,7 @@ const {
   internalError,
 } = require('../../utils/reserrHandler.js');
 
+// notice! cause the var was here, it would definitely be modified(NOT consist) if we do the modification  in the _handler
 const categoryAll = ["residence", "homeland"];
 
 const _find_fromHomeland_last = (userId)=>{

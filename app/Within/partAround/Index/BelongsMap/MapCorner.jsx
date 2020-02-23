@@ -41,7 +41,7 @@ class MapCorner extends React.Component {
       self.setState((prevState, props)=>{
         return {
           axios: false,
-          usersCount: resObj.main.countsByTypes[this.props.currentType]
+          usersCount: resObj.main.countsByTypes[this.props.typeReverse] //the count going to display is the one reverse to the 'view tab type'
         }
       });
     }).catch(function (thrown) {

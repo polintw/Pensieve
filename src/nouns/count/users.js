@@ -10,8 +10,6 @@ const {
   forbbidenError
 } = require('../../utils/reserrHandler.js');
 
-const categoryAll = ["residence", "homeland"];
-
 const _findandcount_fromHomeland_All = (nodeId)=>{
   return _DB_usersNodesHomeland.findAndCountAll({
     where: {
@@ -37,10 +35,36 @@ const _findandcount_fromResidence_All = (nodeId)=>{
   .catch((err)=>{ throw err })
 };
 
+const _findandcount_fromHomeland_byUsers = (usersArr)=>{
+  return _DB_usersNodesHomeland.findAndCountAll({
+    where: {
+      id_user: usersArr, //an IN query by users array
+      historyify: false
+    }
+  })
+  .then((result)=>{
+    return result;
+  })
+  .catch((err)=>{ throw err })
+};
+const _findandcount_fromResidence_byUsers = (usersArr)=>{
+  return _DB_usersNodesResidence.findAndCountAll({
+    where: {
+      id_user: usersArr, //an IN query by users array
+      historyify: false
+    }
+  })
+  .then((result)=>{
+    return result;
+  })
+  .catch((err)=>{ throw err })
+};
+
 function _handle_GET_nounCount_users(req, res){
   new Promise((resolve, reject)=>{
     const userId = req.extra.tokenUserId;
     const baseNode = req.reqNounId;
+    const categoryAll = ["residence", "homeland"]; //remember put this var inside _handler, otherwise it would be modified once a req came in!
     const arrSelectionList = [ //the order has to match the params in the categoryAll
       new Promise((resolve, reject)=>{resolve(_findandcount_fromResidence_All(baseNode));}),
       new Promise((resolve, reject)=>{resolve(_findandcount_fromHomeland_All(baseNode));})
@@ -49,7 +73,7 @@ function _handle_GET_nounCount_users(req, res){
     const limitCorner = !!req.query.limitCorner ? req.query.limitCorner: false; // 'str' if true
     const countCat = !!req.query.countCat ? req.query.countCat: false; // [] if true
 
-    let processedCat = categoryAll;
+    let processedCat = categoryAll; //the categoryAll would still be modified by f() later??
     let arrPromiseList = arrSelectionList;
 
     if(countCat) {
@@ -61,12 +85,60 @@ function _handle_GET_nounCount_users(req, res){
         }
       });
     };
+
+    //condition limitCorner, but actually should not be put here and processed like this
     if(limitCorner) {
       /*
         Actually, we should use a selection with 'JOIN' if there were any limitCorner.
         Have to: add join param into selection, let the selection use the parmas obj passed.
         Rm the second selection beneath if the new method was est.
       */
+      /*
+        And we all assume now that the limitCorner contain only one node,
+        "countCat" array only 1 catagory as well!
+      */
+
+      //find all users base on baseNode
+      let _find_fromHomeland_outUsers = (nodeId)=>{
+        return _DB_usersNodesHomeland.findAll({
+          where: {id_node: nodeId, historyify: false}
+        })
+        .then((result)=>{
+          let usersArr = result.map((row, index)=>{
+            return row.id_user
+          });
+          return usersArr;
+        })
+        .catch((err)=>{ throw err })
+      };
+      let _find_fromResidence_outUsers = (nodeId)=>{
+        return _DB_usersNodesResidence.findAll({
+          where: {id_node: nodeId, historyify: false}
+        })
+        .then((result)=>{
+          let usersArr = result.map((row, index)=>{
+            return row.id_user
+          });
+          return usersArr;
+        })
+        .catch((err)=>{ throw err })
+      };
+      // get the users
+      let usersSelection = (countCat[0]=="homeland") ? _find_fromHomeland_outUsers : _find_fromResidence_outUsers;
+      let limitSelection = (countCat[0]=="homeland") ? _findandcount_fromResidence_byUsers: _findandcount_fromHomeland_byUsers;
+      async function asyncUsersArr(nodeId){
+        let usersArr = await usersSelection(nodeId);
+        return usersArr;
+      }
+
+      arrPromiseList = [
+        new Promise((resolve, reject)=>{
+          asyncUsersArr(baseNode)
+          .then((usersArr)=>{
+            resolve(limitSelection(usersArr))
+          })
+        })
+      ]
     };
 
 
@@ -79,7 +151,7 @@ function _handle_GET_nounCount_users(req, res){
       //remember we using the 'findAndCountAll'
       if(countCat){ //not 'all' situation, have to separate.
         processedCat.forEach((category, index) => {
-          sendingData.countsByTypes[category] = results.count
+          sendingData.countsByTypes[category] = results[index].count
         });
       }
       else{ // every category were included, no need to separate.
@@ -89,7 +161,6 @@ function _handle_GET_nounCount_users(req, res){
         }
         sendingData.countsByTypes["all"] = countTotal;
       }
-
 
 
       resolve(sendingData);
