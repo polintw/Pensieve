@@ -32,14 +32,18 @@ class BelongsMap extends React.Component {
     let prevType = Object.keys(prevProps.belongsByType);
     let recordsType = Object.keys(this.props.belongsByType);
     if(prevType.length != recordsType.length){
-      this.setState({viewTab: recordsType[0]});
+      //depend on user's willing, we'd like to display "homeland" at the first glance,
+      //but it might not be set by user.
+      this.setState({viewTab: (recordsType.indexOf("homeland")> (-1)) ? "homeland" : recordsType[0]});
     }
   }
 
   componentDidMount(){
     let recordsType = Object.keys(this.props.belongsByType);
     if(recordsType.length > 0){
-      this.setState({viewTab: recordsType[0]});
+      //depend on user's willing, we'd like to display "homeland" at the first glance,
+      //but it might not be set by user.
+      this.setState({viewTab: (recordsType.indexOf("homeland")> (-1)) ? "homeland" : recordsType[0]});
     }
   }
 
@@ -84,6 +88,7 @@ class BelongsMap extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
+    i18nUIString: state.i18nUIString,
     belongsByType: state.belongsByType
   }
 }

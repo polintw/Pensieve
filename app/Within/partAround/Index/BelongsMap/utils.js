@@ -1,11 +1,13 @@
-export function _axios_GET_feed_Fellows(cancelToken, nodeId, curious){
+export function _axios_GET_feed_Fellows(cancelToken, nodeId, catObj){
 
   return axios({
     method: 'get',
     url: '/router/feed/fellows',
     params: {
       base: nodeId,
-      curious: [curious]
+      baseCat: catObj.baseCat,
+      curious: catObj.curiousArr,
+      limit: 18
     },
     headers: {
       'charset': 'utf-8',

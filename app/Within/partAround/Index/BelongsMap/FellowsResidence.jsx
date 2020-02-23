@@ -9,6 +9,9 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import MapCorner from './MapCorner.jsx';
 import {
+  _axios_GET_feed_Fellows
+} from './utils.js';
+import {
   cancelErr,
   uncertainErr
 } from "../../../../utils/errHandlers.js";
@@ -33,7 +36,11 @@ class FellowsResidence extends React.Component {
     const self = this;
     this.setState({axios: true});
 
-    _axios_GET_feed_Fellows(this.axiosSource.cancelToken, this.props.belongsByType['residence'], 'homeland')
+    _axios_GET_feed_Fellows(
+      this.axiosSource.cancelToken,
+      this.props.belongsByType['residence'],
+      {baseCat: 'residence', curiousArr: ['homeland']}
+    )
     .then((resObj)=>{
       const nodesList= resObj.main.nodesList;
       self.props._submit_NounsList_new(nodesList); //GET nodes info by Redux action

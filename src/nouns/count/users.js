@@ -1,5 +1,3 @@
-const express = require('express');
-const execute = express.Router();
 const winston = require('../../../config/winston.js');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
@@ -51,7 +49,7 @@ function _handle_GET_nounCount_users(req, res){
     const limitCorner = !!req.query.limitCorner ? req.query.limitCorner: false; // 'str' if true
     const countCat = !!req.query.countCat ? req.query.countCat: false; // [] if true
 
-    let processedCat = [categoryAll];
+    let processedCat = categoryAll;
     let arrPromiseList = arrSelectionList;
 
     if(countCat) {
