@@ -1,17 +1,26 @@
-.comBelongByType {
+.boxBelong {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  justify-content: left;
+  position: relative;
+  margin: 0 0 3rem;
+}
+
+.comBelong {
+  display: flex;;
+  align-items: center;
   width: 100%;
+}
+
+.boxCategory {
+  margin: 0 2.5vw;
 }
 
 .boxTitleType {
   display: inline-block;
-  cursor: pointer;
 }
 
 .boxCornerTitle {
-  width: 100%;
+  width: 40%;
 }
 
 .boxCreate {
@@ -29,10 +38,6 @@
   display: inline-block;
 }
 
-.boxCount {
-
-}
-
 .spanNode {
   display: inline-block;
   position: relative;
@@ -42,12 +47,6 @@
   margin: 0 0.4rem;
 }
 
-.fontCount {
-  font-size: 1.76rem;
-  letter-spacing: 0.04rem;
-  color: rgb(64, 133, 160);
-}
-
 .fontOnEdit {
-  color: #000000;
+  color: #545454;
 }

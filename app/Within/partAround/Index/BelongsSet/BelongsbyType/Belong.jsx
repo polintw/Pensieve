@@ -94,7 +94,8 @@ class Belong extends React.Component {
         onMouseEnter={this._handleMouseOn_Node}
         onMouseLeave={this._handleMouseOn_Node}>
         <div
-          className={classnames(styles.spanNode, stylesMain.fontCorner)}>
+          className={classnames(styles.spanNode, stylesMain.fontCorner)}
+          style={{fontSize: '1.7rem'}}>
           {
             this.state.onNode &&
             <span style={{
@@ -127,11 +128,13 @@ class Belong extends React.Component {
   _render_statics(){
     return (
       <div>
-        <span>
+        <span
+          style={{display: 'block'}}>
           {this.props.i18nUIString.catalog["category__Belong_usersCount"][0]}
           {this.props.i18nUIString.catalog["category__Belong_usersCount"][1]}
         </span>
-        <span>
+        <span
+          style={{fontSize: '1.7rem'}}>
           {this.state.infoCount.totalUserCount}
         </span>
       </div>
@@ -143,7 +146,8 @@ class Belong extends React.Component {
     return(
       <div
         className={classnames(styles.comBelong)}>
-        <div>
+        <div
+          className={classnames(styles.boxCategory)}>
           {this._render_type()}
           <div
             onMouseEnter={this._handleMouseOn_Edit}
@@ -155,7 +159,7 @@ class Belong extends React.Component {
                 stylesMain.fontType,
                 {[styles.fontOnEdit]: this.state.onEdit}
               )}
-              style={{lineHeight: '3rem'}}>
+              style={{lineHeight: '3rem', cursor: 'pointer'}}>
               {this.props.i18nUIString.catalog["submit_edit"]}
             </span>
           </div>

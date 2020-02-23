@@ -35,6 +35,11 @@ const _findandcount_fromResidence_All = (nodeId)=>{
   .catch((err)=>{ throw err })
 };
 
+/*
+Beneath are part counting users by the users list selected from 'another' table
+But! They are only part of a temporary method for the dirty prototype,
+should be reconsider in a former production!
+*/
 const _findandcount_fromHomeland_byUsers = (usersArr)=>{
   return _DB_usersNodesHomeland.findAndCountAll({
     where: {

@@ -20,7 +20,9 @@ class Nav extends React.Component {
   _handleClick_navBelongsMap(event){
     event.stopPropagation();
     event.preventDefault();
-    this.props._set_viewTab(event.currentTarget.getAttribute('valuetab'));
+    let targetCat = event.currentTarget.getAttribute('valuetab');
+    //only switch if the user had set
+    if(targetCat in this.props.belongsByType) this.props._set_viewTab(targetCat);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -38,18 +40,34 @@ class Nav extends React.Component {
   render(){
     return(
       <div
-        className={classnames(styles.comNavBelongMap)}>
+        className={classnames(styles.comNavBelongsMap)}>
         <div
           valuetab={"homeland"}
+          style={Object.assign({},
+            {display: 'inline-block', marginBottom: '1rem', cursor: 'pointer'},
+            {color: (this.props.currentTab=="homeland") ? '#000000': '#787878'}
+          )}
           onClick={this._handleClick_navBelongsMap}>
-          <span>{this.props.i18nUIString.catalog['link_BelongsMap_Nav'][0]}</span>
-          <span>{this.props.i18nUIString.catalog['link_BelongsMap_Nav'][1]}</span>
+          <span
+            style={{display: 'block'}}>
+            {this.props.i18nUIString.catalog['link_BelongsMap_Nav'][0]}</span>
+          <span
+            style={{fontSize: '1.32rem'}}>
+            {this.props.i18nUIString.catalog['link_BelongsMap_Nav'][1]}</span>
         </div>
         <div
           valuetab={"residence"}
+          style={Object.assign({},
+            {display: 'inline-block', marginBottom: '1rem', cursor: 'pointer'},
+            {color: (this.props.currentTab=="residence") ? '#000000': '#787878'}
+          )}
           onClick={this._handleClick_navBelongsMap}>
-          <span>{this.props.i18nUIString.catalog['link_BelongsMap_Nav'][0]}</span>
-          <span>{this.props.i18nUIString.catalog['link_BelongsMap_Nav'][2]}</span>
+          <span
+            style={{display: 'block'}}>
+            {this.props.i18nUIString.catalog['link_BelongsMap_Nav'][0]}</span>
+          <span
+            style={{fontSize: '1.32rem'}}>
+            {this.props.i18nUIString.catalog['link_BelongsMap_Nav'][2]}</span>
         </div>
       </div>
     )
@@ -60,6 +78,7 @@ const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
+    belongsByType: state.belongsByType
   }
 }
 

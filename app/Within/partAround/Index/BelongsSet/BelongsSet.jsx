@@ -167,13 +167,16 @@ class BelongsSet extends React.Component {
   render(){
     return(
       <div
-        className={classnames(styles.comBelong)}>
-
-        <BelongsbyType
-          _set_searchModal={this._set_searchModal}/>
-        <SetByTypes
-          belongTypes={belongTypes}
-          _set_searchModal={this._set_searchModal}/>
+        className={classnames(styles.comBelongSet)}>
+        <div>
+          <BelongsbyType
+            _set_searchModal={this._set_searchModal}/>
+        </div>
+        <div>
+          <SetByTypes
+            belongTypes={belongTypes}
+            _set_searchModal={this._set_searchModal}/>
+        </div>
 
         {
           this.state.searchModal &&

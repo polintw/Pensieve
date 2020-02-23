@@ -70,11 +70,14 @@ class BelongsMap extends React.Component {
     return(
       <div
         className={classnames(styles.comBelongsMap)}>
-        <div>
+        <div
+          className={classnames(styles.boxNavBelongsMap)}>
           <Nav
+            currentTab={this.state.viewTab}
             _set_viewTab={this._set_viewTab}/>
         </div>
-        <div>
+        <div
+          className={classnames(styles.boxTabView)}>
           {
             this._render_mapView()
           }

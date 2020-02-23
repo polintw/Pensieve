@@ -81,7 +81,8 @@ class FellowsHome extends React.Component {
   _render_corners(){
     let listDOM = this.state.cornersList.map((nodeId, index)=>{
       return (
-        <div>
+        <div
+          style={{margin: "0 1vw"}}>
           <MapCorner
             nodeId={nodeId}
             typeNodeId={this.props.belongsByType['homeland']}

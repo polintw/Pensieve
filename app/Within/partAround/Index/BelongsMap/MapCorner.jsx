@@ -78,7 +78,8 @@ class MapCorner extends React.Component {
         onMouseEnter={this._handleMouseOn_Node}
         onMouseLeave={this._handleMouseOn_Node}>
         <div
-          className={classnames(styles.spanNode)}>
+          className={classnames(styles.spanNode)}
+          style={{fontSize: '1.7rem'}}>
           {
             this.state.onNode &&
             <span style={{
@@ -98,7 +99,8 @@ class MapCorner extends React.Component {
   _render_statics(){
     return (
       <div>
-        <span>
+        <span
+          style={{display: 'block'}}>
           {this.props.i18nUIString.catalog["category__Belong_usersCount"][0]}
           {this.props.i18nUIString.catalog["category__Belong_usersCount"][1]}
         </span>

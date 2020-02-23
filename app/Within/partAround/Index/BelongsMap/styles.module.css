@@ -1,21 +1,31 @@
 .comBelongsMap {
-
+  display: flex;
+  width: 100%;
 }
 
-.comNavBelongMap {
-
+.comNavBelongsMap {
+  display: flex;
+  flex-direction: column;
 }
 
 .comTabView {
-
+  display: flex;
 }
 
 .comMapCorner {
 
 }
 
-.boxCornerTitle {
+.boxNavBelongsMap {
+  width: 20%;
+}
 
+.boxTabView {
+
+}
+
+.boxCornerTitle {
+  margin-bottom: 1rem;
 }
 
 .boxNode {

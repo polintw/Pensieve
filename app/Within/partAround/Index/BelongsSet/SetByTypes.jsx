@@ -46,6 +46,7 @@ class SetByTypes extends React.Component {
         return (
           <div
             valuetype={type}
+            style={{cursor: 'pointer'}}
             onClick={this._handleClick_editByType}>
             {type}
           </div>
@@ -59,7 +60,7 @@ class SetByTypes extends React.Component {
   render(){
     return(
       <div
-        className={classnames(styles.comBelong)}>
+        className={classnames(styles.comSetByTypes)}>
         {this._render_typesSubmit()}
 
       </div>

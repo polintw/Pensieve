@@ -50,7 +50,6 @@ const _find_fromHomeland_Condition = (usersArr)=>{
       //so we ask only the 'max' one by this method
       [Sequelize.fn('max', Sequelize.col('createdAt')), 'createdAt'], //fn(function, col, alias)
       'id_node', //set attributes, so we also need to call every col we need
-      'id_user'
     ],
     group: 'id_node' //Important. means we combined the rows by node, each id_node would only has one row
   })
@@ -71,7 +70,6 @@ const _find_fromResidence_Condition = (usersArr)=>{
       //so we ask only the 'max' one by this method
       [Sequelize.fn('max', Sequelize.col('createdAt')), 'createdAt'], //fn(function, col, alias)
       'id_node', //set attributes, so we also need to call every col we need
-      'id_user'
     ],
     group: 'id_node' //Important. means we combined the rows by node, each id_node would only has one row
   })
