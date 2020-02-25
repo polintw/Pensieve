@@ -1,6 +1,6 @@
 const {
-  envImgPath,
-  envSeedPath
+  envSeedPath,
+  envImgPath
 } = require('./.env.json');
 
 exports.userImg = envImgPath;

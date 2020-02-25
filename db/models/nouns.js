@@ -12,24 +12,20 @@ module.exports = (sequelize, DataTypes) => {
     charset: 'utf8mb4', //for Mandarin, or emoji if you don't speak in mandarin
   });
   nouns.associate = function(models) {
-    nouns.hasMany(models.attribution, {
-      foreignKey:"id_noun",
-      sourceKey: "id",
-      onDelete: 'cascade',
-      onUpdate: 'cascade'
-    });
-    nouns.hasOne(models.daily, {
-      foreignKey:"focus_node",
-      onDelete: 'cascade',
-      onUpdate: 'cascade'
-    });
     nouns.hasOne(models.lastUpdate_nodeBelongs, {
       foreignKey:"id_node",
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
-    nouns.hasOne(models.nodes_demand_match, {
+    nouns.hasMany(models.users_nodes_homeland, {
       foreignKey:"id_node",
+      sourceKey: "id",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
+    nouns.hasMany(models.users_nodes_residence, {
+      foreignKey:"id_node",
+      sourceKey: "id",
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });

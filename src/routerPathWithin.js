@@ -12,8 +12,8 @@ const _DB_units = require('../db/models/index').units;
 const _DB_nouns = require('../db/models/index').nouns;
 const _DB_marks = require('../db/models/index').marks;
 const _DB_attribution = require('../db/models/index').attribution;
-const {_res_success} = require('./utils/resHandler.js');
 const projectRootPath = require('../projectRootPath');
+const {_res_success} = require('./utils/resHandler.js');
 const {
   _handle_ErrCatched,
   internalError,

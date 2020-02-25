@@ -1,21 +1,25 @@
 import {
   SET_TOKENSTATUS,
-  SET_UNITCURRENT,
-  SET_UNITBROAD,
-  SET_UNITINSPIRED,
+  SET_FETCHFLAGS,
   SET_MESSAGE_SINGLECLOSE,
   SET_MESSAGE_BOOLEAN,
   MOUNT_USERINFO,
-  UNIT_SUBMITTING_SWITCH,
   UPDATE_NOUNSBASIC,
   UPDATE_USERSBASIC,
-  AXIOS_SWITCH
-} from '../constants/typesGeneral.js';
-import {
-  UPDATE_USERSHEET,
-  SETTING_SUBMITTING_SWITCH
-} from '../constants/typesSelfFront.js';
-import {errHandler_axiosCatch} from "../../utils/errHandlers.js";
+  AXIOS_SWITCH,
+} from '../types/typesGeneral.js';
+
+export function mountUserInfo(obj) {
+  return { type: MOUNT_USERINFO, userInfo: obj }
+};
+
+export function setTokenStatus(obj) {
+  return { type: SET_TOKENSTATUS, status: obj }
+};
+
+export function axiosSwitch(bool) {
+  return { type: AXIOS_SWITCH, status: bool }
+};
 
 export function updateUsersBasic(obj) {
   return { type: UPDATE_USERSBASIC, newFetch: obj }
@@ -23,10 +27,6 @@ export function updateUsersBasic(obj) {
 
 export function updateNodesBasic(obj) {
   return { type: UPDATE_NOUNSBASIC, newFetch: obj }
-};
-
-export function setUnitCurrent(obj) {
-  return { type: SET_UNITCURRENT, unitCurrent: obj }
 };
 
 export function setMessageSingleClose(arr) {
@@ -37,46 +37,23 @@ export function setMessageBoolean(obj) {
   return { type: SET_MESSAGE_BOOLEAN, messageBoolean: obj}
 };
 
-export function setUnitBroad(obj) {
-  return { type: SET_UNITBROAD, unitBroad: obj}
-};
-
-export function setUnitInspired(markId, aim) {
+export function setFlag(targetArr){
   //this actoin creator, could do function return is because we use 'thunk' middleware when create store
   return (dispatch, getState) => {
-    const currentMarksInteraction = getState().unitCurrent.marksInteraction;
-    const currentMark =  getState().unitCurrent.marksInteraction[markId];
-    let nextMark = Object.assign({}, currentMark); //shallow copy of the mark status
-    nextMark.inspired = (aim=="delete") ? 0: true;
-    let nextMarksInteraction = Object.assign({}, currentMarksInteraction); //shallow copy for the whole marksInteraction
-    nextMarksInteraction[markId] = nextMark;
-    dispatch({ type: SET_UNITINSPIRED, nextMarksInteraction: {marksInteraction: nextMarksInteraction}});
+    //by this method we could use 'getState' & 'dispatch' in action creator
+    const currentState =  getState();
+    let flagObj = {};
+    targetArr.forEach((target, index)=>{
+      flagObj[target] = currentState[target] ? false : true;
+    })
+
+    let submitObj = {
+      type: SET_FETCHFLAGS,
+      flags: flagObj
+    };
+    dispatch(submitObj)
   }
-};
-
-export function mountUserInfo(obj) {
-  return { type: MOUNT_USERINFO, userInfo: obj }
-};
-
-export function setTokenStatus(obj) {
-  return { type: SET_TOKENSTATUS, status: obj }
-};
-
-export function mountUserSheet(sheetObj, accountSet) {
-  return { type: UPDATE_USERSHEET, userSheet: sheetObj, accountSet: accountSet}
-};
-
-export function switchUnitSubmitting(bool) {
-  return { type: UNIT_SUBMITTING_SWITCH, unitSubmitting: bool}
-};
-
-export function switchSettingSubmitting(bool) {
-  return { type: SETTING_SUBMITTING_SWITCH, settingSubmitting: bool}
-};
-
-export function axiosSwitch(bool) {
-  return { type: AXIOS_SWITCH, status: bool }
-};
+}
 
 export function handleNounsList(nounsArr) {
   //this actoin creator, could do function return is because we use 'thunk' middleware when create store

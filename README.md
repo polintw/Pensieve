@@ -4,7 +4,10 @@ __自由的思考、無限制得探索__
 
 this is a web application project initiated & own by Chou Po Lin since May. 2018, modified and rewrote from an earlier version, dev_Corner, which was also owned by the same owner since Dec. 2017.
 
-LTS : __3.0.0__ on 06/09/2019. Current version, redesign the Unit interface & est. Relation view with independent Unit route.
+### *series: One core*
+>LTS should be update in 2020/01/15, without definite version number.
+
+ver : __3.0.0__ on 06/09/2019. redesign the Unit interface & est. Relation view with independent Unit route.
 
 ver : __2.1.0__ on 07/08/2019. rearrange Explore and Unit reading experience, also begin basic customized recommand.
 
@@ -29,13 +32,15 @@ Only at branch other than master.
 Doc of [React for production](https://reactjs.org/docs/optimizing-performance.html#use-the-production-build)
 
 #### Env
+>please place it at a folder you have auth to write and edit
+
 - node 10.15.1
 - npm  6.4.1
 - MySQL 14.14 Distrib 5.7.25
 
+
 #### Install
 
->please place it at a folder you have auth to write and edit
 
 
 ```bash
@@ -80,11 +85,11 @@ npm run migrate
 
 build app by browserify
 
-```
+```bash
 NODE_ENV="development" npm run build
 ```
 
-build server by webpack 
+build server by webpack
 ```bash
 NODE_ENV="development" npm run build:server
 ```
@@ -92,7 +97,7 @@ NODE_ENV="development" npm run build:server
 
 final, start the server
 
-```
+```bash
 NODE_ENV="development" npm start
 ```
 

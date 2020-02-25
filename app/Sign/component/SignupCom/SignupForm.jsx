@@ -12,13 +12,15 @@ import {
   cancelErr,
   uncertainErr
 } from '../../utils/errHandler_axios.js';
-import MaskProcessing from '../../../Component/MaskProcessing.jsx';
+import MaskProcessing from '../../../Components/MaskProcessing.jsx';
 import {
   setSignInit,
-  axiosSwitch,
   axiosGetRes,
   handleSignUser
-} from "../../../redux/actions/handleSign.js";
+} from "../../../redux/actions/sign.js";
+import {
+  axiosSwitch,
+} from "../../../redux/actions/general.js";
 
 class SignupForm extends React.Component {
   constructor(props){

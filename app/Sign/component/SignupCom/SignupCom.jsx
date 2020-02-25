@@ -12,10 +12,12 @@ import {
   uncertainErr
 } from '../../utils/errHandler_axios.js';
 import {
-  axiosSwitch,
   axiosGetRes,
   setSignInit
-} from "../../../redux/actions/handleSign.js";
+} from "../../../redux/actions/sign.js";
+import {
+  axiosSwitch,
+} from "../../../redux/actions/general.js";
 
 class SignupSuccess extends React.Component {
   constructor(props){

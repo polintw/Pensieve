@@ -14,11 +14,10 @@ import {
 } from '../SignupCom/SignupCom.jsx';
 import SignupForm from '../SignupCom/SignupForm.jsx';
 import {
-  axiosSwitch,
   axiosGetRes
-} from "../../../redux/actions/handleSign.js";
-import ServiceLinks from '../../../Component/ServiceLinks.jsx';
-import SvgLogo from '../../../Component/Svg/SvgLogo.jsx';
+} from "../../../redux/actions/sign.js";
+import ServiceLinks from '../../../Components/ServiceLinks.jsx';
+import SvgLogo from '../../../Components/Svg/SvgLogo.jsx';
 
 const commonStyle= {
   signLogo: {
@@ -103,7 +102,6 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch)=>{
   return {
-    _set_axiosStatus: (bool)=>{dispatch(axiosSwitch(bool));},
     _set_axiosRes: (resObj)=>{dispatch(axiosGetRes(resObj));}
   }
 }

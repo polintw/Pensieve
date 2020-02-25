@@ -1,3 +1,7 @@
+/*
+  Temporary not in use, preserve for init. process & usage in the futre
+*/
+/*
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {createStore, applyMiddleware} from "redux";
@@ -58,3 +62,4 @@ if(loggedin){
 }else{
   window.location.assign('/s/signin')
 }
+*/

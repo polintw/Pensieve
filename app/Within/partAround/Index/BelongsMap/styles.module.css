@@ -1,0 +1,43 @@
+.comBelongsMap {
+  display: flex;
+  width: 100%;
+}
+
+.comNavBelongsMap {
+  display: flex;
+  flex-direction: column;
+}
+
+.comTabView {
+  display: flex;
+}
+
+.comMapCorner {
+
+}
+
+.boxNavBelongsMap {
+  width: 20%;
+}
+
+.boxTabView {
+
+}
+
+.boxCornerTitle {
+  margin-bottom: 1rem;
+}
+
+.boxNode {
+  align-items: center;
+  display: inline-block;
+}
+
+.boxStatics {
+
+}
+
+.spanNode {
+  display: inline-block;
+  position: relative;
+}

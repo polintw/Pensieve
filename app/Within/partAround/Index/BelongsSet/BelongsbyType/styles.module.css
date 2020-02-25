@@ -1,0 +1,52 @@
+.boxBelong {
+  display: flex;
+  justify-content: left;
+  position: relative;
+  margin: 0 0 3rem;
+}
+
+.comBelong {
+  display: flex;;
+  align-items: center;
+  width: 100%;
+}
+
+.boxCategory {
+  margin: 0 2.5vw;
+}
+
+.boxTitleType {
+  display: inline-block;
+}
+
+.boxCornerTitle {
+  width: 40%;
+}
+
+.boxCreate {
+
+}
+
+.boxStatics {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.boxNode {
+  align-items: center;
+  display: inline-block;
+}
+
+.spanNode {
+  display: inline-block;
+  position: relative;
+}
+
+.spanType {
+  margin: 0 0.4rem;
+}
+
+.fontOnEdit {
+  color: #545454;
+}

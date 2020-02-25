@@ -1,48 +1,40 @@
 import { combineReducers } from 'redux';
 import {
   MOUNT_USERINFO,
-  SET_UNITCURRENT,
-  SET_UNITINSPIRED,
   SET_MESSAGE_SINGLECLOSE,
   SET_MESSAGE_BOOLEAN,
-  SET_UNITBROAD,
   SET_FETCHFLAGS,
-  UNIT_SUBMITTING_SWITCH,
-  UNIT_AXIOSINSPIRE_SWITCH,
   UPDATE_NOUNSBASIC,
   UPDATE_USERSBASIC
-} from '../constants/typesGeneral.js';
+} from '../types/typesGeneral.js';
 import {
   SET_INDEXLISTS,
+} from '../types/typesAround.js';
+import {
   SET_FOCUSLISTS,
-  SET_AXIOS_MATCHTAKING
-} from '../constants/typesCosmic.js';
+} from '../types/typesCosmic.js';
+import {
+  SET_BELONGSBYTYPE,
+} from '../types/typesWithin.js';
 import {
   initGlobal,
-  initCosmicGeneral,
-  initUnit,
   initNouns,
   initUsers
-} from '../constants/states.js';
+} from '../states/states.js';
+import {
+  initWithin,
+  initCosmic,
+  initAround
+} from '../states/statesWithin.js'
 
 //this is a temp management, in case one day we will seperate the reducer like the initstate
-const initialGeneral = Object.assign({}, initGlobal, initCosmicGeneral, initUnit, initNouns, initUsers);
+const initialGeneral = Object.assign({}, initGlobal, initWithin, initCosmic, initAround, initNouns, initUsers);
 
 function pageWithin(state = initialGeneral, action){
   switch (action.type) {
     case MOUNT_USERINFO:
       return Object.assign({}, state, {
         userInfo: action.userInfo
-      })
-      break;
-    case SET_UNITCURRENT:
-      return Object.assign({}, state, {
-        unitCurrent: action.unitCurrent
-      })
-      break;
-    case SET_UNITINSPIRED:
-      return Object.assign({}, state, {
-        unitCurrent: {...state.unitCurrent, ...action.nextMarksInteraction}
       })
       break;
     case SET_MESSAGE_SINGLECLOSE:
@@ -53,11 +45,6 @@ function pageWithin(state = initialGeneral, action){
     case SET_MESSAGE_BOOLEAN:
       return Object.assign({}, state, {
         messageBoolean: action.messageBoolean
-      })
-      break;
-    case SET_UNITBROAD:
-      return Object.assign({}, state, {
-        unitCurrent: {...state.unitCurrent, ...action.unitBroad}
       })
       break;
     case SET_FETCHFLAGS:
@@ -73,19 +60,9 @@ function pageWithin(state = initialGeneral, action){
         focusLists: {...state.focusLists, ...action.lists}
       })
       break;
-    case SET_AXIOS_MATCHTAKING:
+    case SET_BELONGSBYTYPE:
       return Object.assign({}, state, {
-        axiosMatchTaking: action.axios
-      })
-      break;
-    case UNIT_SUBMITTING_SWITCH:
-      return Object.assign({}, state, {
-        unitSubmitting: action.unitSubmitting
-      })
-      break;
-    case UNIT_AXIOSINSPIRE_SWITCH:
-      return Object.assign({}, state, {
-        unitAxiosInspire: action.unitAxiosInspire
+        belongsByType: {...state.belongsByType, ...action.typeObj}
       })
       break;
     case UPDATE_NOUNSBASIC:

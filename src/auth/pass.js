@@ -30,9 +30,9 @@ pass.use(function(req, res, next) {
       }
     });
   } else {
-    resData['error'] = 1;
-    resData['message'] = 'Please send a token';
-    res.status(403).json(resData);
+    let message = `res code 401: missing token caught by /pass, to route "${req.originalUrl}".`;
+
+    _handle_ErrCatched(new authorizedError(message, 89), req, res);
   }
 });
 

@@ -27,22 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
-    users.hasOne(models.users_custom_index, {
-      foreignKey:"id_user",
-      onDelete: 'cascade',
-      onUpdate: 'cascade'
-    });
-    users.hasOne(models.users_demand_match, {
-      foreignKey:"id_user",
-      onDelete: 'cascade',
-      onUpdate: 'cascade'
-    });
     users.hasOne(models.sheets, {
-      foreignKey:"id_user",
-      onDelete: 'cascade',
-      onUpdate: 'cascade'
-    });
-    users.hasOne(models.sheets_node, {
       foreignKey:"id_user",
       onDelete: 'cascade',
       onUpdate: 'cascade'
@@ -59,44 +44,14 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
-    users.hasMany(models.units, {
-      foreignKey:"id_author",
-      sourceKey: "id",
-      onDelete: 'cascade',
-      onUpdate: 'cascade'
-    });
-    users.hasMany(models.users_units, {
+    users.hasMany(models.users_nodes_homeland, {
       foreignKey:"id_user",
       sourceKey: "id",
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
-    users.hasMany(models.marks, {
-      foreignKey:"id_author",
-      sourceKey: "id",
-      onDelete: 'cascade',
-      onUpdate: 'cascade'
-    });
-    users.hasMany(models.inspired, {
+    users.hasMany(models.users_nodes_residence, {
       foreignKey:"id_user",
-      sourceKey: "id",
-      onDelete: 'cascade',
-      onUpdate: 'cascade'
-    });
-    users.hasMany(models.broads, {
-      foreignKey:"id_user",
-      sourceKey: "id",
-      onDelete: 'cascade',
-      onUpdate: 'cascade'
-    });
-    users.hasMany(models.notifications, {
-      foreignKey:"id_user",
-      sourceKey: "id",
-      onDelete: 'cascade',
-      onUpdate: 'cascade'
-    });
-    users.hasMany(models.notifications, {
-      foreignKey:"id_reciever",
       sourceKey: "id",
       onDelete: 'cascade',
       onUpdate: 'cascade'

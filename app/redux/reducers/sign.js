@@ -1,13 +1,16 @@
 import { combineReducers } from 'redux';
 import {
   initSign
-} from '../constants/states.js';
+} from '../states/statesSign.js';
 import {
   SET_SIGNINIT,
   SET_RESCODE,
-  AXIOS_SWITCH,
   AXIOS_GET_RES
-} from '../constants/typesSign.js';
+} from '../types/typesSign.js';
+import {
+  AXIOS_SWITCH,
+} from '../types/typesGeneral.js';
+
 
 const initialGeneral = Object.assign({}, initSign);
 

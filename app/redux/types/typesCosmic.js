@@ -1,0 +1,1 @@
+export const SET_FOCUSLISTS = 'SET_FOCUSLISTS';

@@ -8,8 +8,8 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
 import stylesMain from "../styles.module.css"; //Notice, we use shared css file here for easier control
-import DateConverter from '../../../../Component/DateConverter.jsx';
-import SvgLogo from '../../../../Component/Svg/SvgLogo.jsx';
+import DateConverter from '../../../../Components/DateConverter.jsx';
+import SvgLogo from '../../../../Components/Svg/SvgLogo.jsx';
 
 class RowEntry extends React.Component {
   constructor(props){

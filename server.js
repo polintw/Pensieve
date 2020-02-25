@@ -1,10 +1,10 @@
 const express = require('express');
 const app = express();
-const bodyParser = require('body-parser');
 const path = require("path");
-
+const bodyParser = require('body-parser');
 const rateLimit = require('express-rate-limit');
 const crawlers = require('crawler-user-agents');
+
 
 const router = require('./src/router.js');
 const routerPathWithin = require('./src/routerPathWithin.js');
@@ -23,7 +23,7 @@ app.enable("trust proxy"); //for rateLimit, due to behind a reverse proxy(nginx)
 //rate limit by ip
 const limiter = rateLimit({
   windowMs: 10 * 60 * 1000, // 10 minutes
-  max: 600, // limit each IP to 600 requests per windowMs
+  max: 800, // limit each IP to 800 requests per windowMs
   message:{
     'message': {'warning': "Too many request from this IP, please try again later"},
     'console': ''
@@ -33,7 +33,7 @@ const limiter = rateLimit({
   }
 });
 const loginLimiter = rateLimit({
-  windowMs: 10 * 60 * 1000,
+  windowMs: 15 * 60 * 1000, // 15 minutes
   max: 5,
   message:{
     'message': {'warning': "Login failed too many time or wierd behavior from this IP, please try again after 15 min."},
@@ -55,7 +55,7 @@ const registerLimiter = rateLimit({
   }
 });
 const shareLimiter = rateLimit({
-  windowMs: 12 * 60 * 1000, // 10 minutes
+  windowMs: 12 * 60 * 1000, // 12 minutes
   max: 3, // limit each IP to 600 requests per windowMs
   message:{
     'message': {'warning': "Trying sharing a new unit from yuor account too many times."},
@@ -89,17 +89,6 @@ app.get('/favicon.ico', function(req, res){
 
 //api
 app.use('/router', router)
-
-/*//req for page files
-app.use('/user/screen', function(req, res){
-  winston.info(`${"page: requesting for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);
-
-  res.sendFile(path.join(__dirname+'/public/html/html_Terrace.html'), {headers: {'Content-Type': 'text/html'}}, function (err) {
-    if (err) {
-      throw err
-    }
-  });
-})*/
 
 app.use('/user', function(req, res){
   winston.info(`${"page: requesting for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);

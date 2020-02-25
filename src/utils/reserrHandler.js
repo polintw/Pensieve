@@ -121,7 +121,7 @@ function _handle_ErrCatched(e, req, res){
     case 32:
       //401, token invalid, authorized failed
       clientSet['code'] = 32;
-      clientSet['message'] = "invalid authority. perhaps log in again or sign up for more function!";
+      clientSet['message'] = "Invalid authorization. Sign in again or sign up for more the wonderful world!";
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;
@@ -170,6 +170,13 @@ function _handle_ErrCatched(e, req, res){
       clientSet['code'] = 87;
       clientSet['message'] = "Hey, don't do this. This request is not allowed!";
       clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
+    case 89:
+      //401, missing token.
+      clientSet['code'] = 89;
+      clientSet['message'] = "Please send a token.";
+      clientSet['console'] = e.message;
       return res.status(e.status).json(clientSet);
       break;
     case 120:
@@ -239,13 +246,20 @@ function _handle_ErrCatched(e, req, res){
       return res.status(e.status).json(clientSet);
       break;
     default:
-      winston.error(`${500} - ${e} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
-      return res.status(500).json({
-        "message": {"warning":"Some error happened, please try again."},
-        'console': ''
-      });
+      return _undefiendCode(e, req, res);
   }
 }
+
+function _undefiendCode(e, req, res){
+  if(e.status == 404) return res.status(404).end() //actually, the error could have a res.status without e.code, not only 404
+  else {
+    winston.error(`${500} - ${e} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+    return res.status(500).json({
+      "message": {"warning":"Some error happened, please try again."},
+      'console': ''
+    });
+  };
+};
 
 module.exports= {
   validationError,

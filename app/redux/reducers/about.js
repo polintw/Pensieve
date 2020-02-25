@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 import {
   initGlobal
-} from '../constants/states.js';
+} from '../states/states.js';
 import {
   SET_TOKENSTATUS,
   MOUNT_USERINFO,
-} from '../constants/typesGeneral.js';
+} from '../types/typesGeneral.js';
 
 const initialGeneral = Object.assign({}, initGlobal);
 
