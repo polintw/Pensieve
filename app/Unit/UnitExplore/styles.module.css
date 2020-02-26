@@ -1,0 +1,11 @@
+.boxRelated {
+  position: absolute;
+  left: 15vw;
+  box-sizing: border-box;
+  padding-top: 4vh;
+}
+
+.footer {
+  height: 27vh;
+  min-height: 121px;
+}
