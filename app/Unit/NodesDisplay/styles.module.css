@@ -1,0 +1,14 @@
+.boxListItem {
+  position: relative;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.boxItemWrap {
+  display: inline;
+  position: relative; /*need this, for 'absolute' in child*/
+}
+
+.interLiItem {
+  text-shadow: 0px 1px 1px #bbbbbb;
+}

@@ -4,6 +4,7 @@ import {
   SET_MESSAGE_SINGLECLOSE,
   SET_MESSAGE_BOOLEAN,
   SET_FETCHFLAGS,
+  SET_UNITCURRENT,
   UPDATE_NOUNSBASIC,
   UPDATE_USERSBASIC
 } from '../types/typesGeneral.js';
@@ -18,6 +19,7 @@ import {
 } from '../types/typesWithin.js';
 import {
   initGlobal,
+  initUnit,
   initNouns,
   initUsers
 } from '../states/states.js';
@@ -28,7 +30,7 @@ import {
 } from '../states/statesWithin.js'
 
 //this is a temp management, in case one day we will seperate the reducer like the initstate
-const initialGeneral = Object.assign({}, initGlobal, initWithin, initCosmic, initAround, initNouns, initUsers);
+const initialGeneral = Object.assign({}, initGlobal, initWithin, initCosmic, initAround, initUnit, initNouns, initUsers);
 
 function pageWithin(state = initialGeneral, action){
   switch (action.type) {
@@ -49,6 +51,11 @@ function pageWithin(state = initialGeneral, action){
       break;
     case SET_FETCHFLAGS:
       return Object.assign({}, state, {...action.flags}) //there were many kind of flags, all binary(bool), and all set by this case.
+      break;
+    case SET_UNITCURRENT:
+      return Object.assign({}, state, {
+        unitCurrent: action.unitCurrent
+      })
       break;
     case SET_INDEXLISTS:
       return Object.assign({}, state, {

@@ -9,12 +9,16 @@ import classnames from 'classnames';
 import styles from './styles.module.css';
 import Theater from '../Theater/Theater.jsx';
 import Related from '../Related/Related.jsx';
-import ModalBox from '../../Component/ModalBox.jsx';
-import ModalBackground from '../../Component/ModalBackground.jsx';
+import {
+  _axios_getUnitData,
+  _axios_getUnitImg
+} from '../utils.js';
+import ModalBox from '../../Components/ModalBox.jsx';
+import ModalBackground from '../../Components/ModalBackground.jsx';
 import {setUnitCurrent} from "../../redux/actions/general.js";
-import {unitCurrentInit} from "../../redux/constants/globalStates.js";
+import {unitCurrentInit} from "../../redux/states/constants.js";
 
-class UnitIndepen extends React.Component {
+class UnitExplore extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -23,11 +27,9 @@ class UnitIndepen extends React.Component {
     };
     this.axiosSource = axios.CancelToken.source();
     this._close_theater = this._close_theater.bind(this);
-    this._axios_getUnitImg = this._axios_getUnitImg.bind(this);
-    this._axios_getUnitData = this._axios_getUnitData.bind(this);
-    this._axios_get_UnitMount = this._axios_get_UnitMount.bind(this);
+    this._set_UnitCurrent = this._set_UnitCurrent.bind(this);
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
-    this._reset_UnitMount = ()=>{this._axios_get_UnitMount();};
+    this._reset_UnitMount = ()=>{this._set_UnitCurrent();};
     this.style={
 
     };
@@ -44,58 +46,19 @@ class UnitIndepen extends React.Component {
     return unitInit;
   }
 
-  _axios_getUnitData(){
-    return axios.get('/router/units/'+this.unitId, {
-      headers: {
-        'charset': 'utf-8',
-        'token': window.localStorage['token']
+  _close_theater(){
+    this.setState((prevState, props)=>{
+      return {
+        close: true
       }
     })
-  };
+  }
 
-  _axios_getUnitImg(){
-    const self = this,
-          _axios_getUnitImg_base64 = (src)=>{
-            return axios.get('/router/img/'+src+'?type=unitSingle', {
-              headers: {
-                'token': window.localStorage['token']
-              }
-            });
-          };
-
-    return axios.get('/router/units/'+this.unitId+'/src', {
-      headers: {
-        'token': window.localStorage['token']
-      },
-      cancelToken: self.axiosSource.token
-    }).then((res)=>{
-      let resObj = JSON.parse(res.data);
-      let srcCover = resObj.main['pic_layer0'],
-          srcBeneath = resObj.main['pic_layer1'];
-
-      return axios.all([
-        _axios_getUnitImg_base64(srcCover),
-        srcBeneath? _axios_getUnitImg_base64(srcBeneath) : Promise.resolve({data: null})
-      ]).then(
-        axios.spread((resImgCover, resImgBeneath)=>{
-          let imgsBase64 = {
-            cover: resImgCover.data,
-            beneath: resImgBeneath.data
-          }
-          return imgsBase64;
-        })
-      )
-    }).catch(function (thrown) {
-      throw thrown;
-    });
-  };
-
-  _axios_get_UnitMount(){
+  _set_UnitCurrent(){
     const self = this;
-    let axiosArr = [this._axios_getUnitData(),this._axios_getUnitImg()];
     this.setState({axios: true});
 
-    axios.all(axiosArr).then(
+    axios.all([_axios_getUnitData(this.axiosSource.token, this.unitId),_axios_getUnitImg(this.axiosSource.token)]).then(
       axios.spread(function(unitRes, imgsBase64){
         self.setState({axios: false});
         let resObj = JSON.parse(unitRes.data);
@@ -140,14 +103,6 @@ class UnitIndepen extends React.Component {
     });
   }
 
-  _close_theater(){
-    this.setState((prevState, props)=>{
-      return {
-        close: true
-      }
-    })
-  }
-
   componentDidUpdate(prevProps, prevState, snapshot){
     //1) modify <body> first depend on current view status
     if(this.paramsTheater) document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:hidden;");
@@ -167,14 +122,14 @@ class UnitIndepen extends React.Component {
       //and Don't worry about the order between state reset, due to the Redux would keep always synchronized
       let unitCurrentState = Object.assign({}, unitCurrentInit);
       this.props._set_store_UnitCurrent(unitCurrentState);
-      this._axios_get_UnitMount();
+      this._set_UnitCurrent();
     };
   }
 
   componentDidMount(){
     //because we fetch the data of Unit only from this file,
     //now we need to check if it was necessary to fetch or not in case the props.unitCurrent has already saved the right data we want
-    this._axios_get_UnitMount();
+    this._set_UnitCurrent();
   }
 
   componentWillUnmount(){
@@ -242,4 +197,4 @@ const mapDispatchToProps = (dispatch)=>{
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(UnitIndepen));
+)(UnitExplore));

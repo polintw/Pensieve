@@ -1,7 +1,8 @@
 const {
   accountInfoInit,
   i18nUIStringInit,
-  messageDialogInit
+  messageDialogInit,
+  unitCurrentInit
 } = require('./constants.js');
 
 export const initGlobal = {
@@ -10,6 +11,10 @@ export const initGlobal = {
   i18nUIString: i18nUIStringInit,
   messageSingleClose: null, //format follow Boolean, as [{text: '', style:{}}]
   messageBoolean: messageDialogInit.boolean
+}
+
+export const initUnit = {
+  unitCurrent: unitCurrentInit,
 }
 
 //cnetralize nouns used by the user

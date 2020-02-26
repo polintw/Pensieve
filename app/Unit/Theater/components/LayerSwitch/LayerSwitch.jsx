@@ -7,10 +7,10 @@ import { connect } from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import {
-  LayerSwitch,
-  LayerSpot,
-  LayerSwitUp
-} from '../../Component/Svg/SvgUnitSwit.jsx';
+  SvgSwitch,
+  SvgLayerSpot,
+  SvgSwitUp
+} from '../../../../Components/Svg/SvgUnitSwit.jsx';
 
 class LayerSwitch extends React.Component {
   constructor(props){

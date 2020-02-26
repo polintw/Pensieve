@@ -1,11 +1,10 @@
 import React from 'react';
 import { connect } from "react-redux";
-import MarksAuthor from './Mark/MarksAuthor.jsx';
-import MarksViewer from './Mark/MarksViewer.jsx';
+
 import {
   baseHorizonRatial,
   baseVertivalRatial
-} from '../config/styleParams.js';
+} from '../../props.js';
 
 const generalStyle = {
   absolute_FullVersion: {
@@ -41,6 +40,13 @@ class ImgLayer extends React.Component {
   }
 
   _render_MarksLayer(){
+    return;
+    /*
+
+    Beneath, are the remain of the complete version,
+    which could update Mark contents.
+    We just ignore it in simplified ver.
+
     let imgWidthHeight = {
       width: this.Com_ImgLayer_img.current.clientWidth,
       height: this.Com_ImgLayer_img.current.clientHeight
@@ -67,6 +73,7 @@ class ImgLayer extends React.Component {
         imgWidthHeight={imgWidthHeight}
         baseHorizonRatial={baseHorizonRatial}/>
     )
+    */
   }
 
   render(){
@@ -93,7 +100,6 @@ const mapStateToProps = (state) => {
   return {
     userInfo: state.userInfo,
     unitCurrent: state.unitCurrent,
-    unitSubmitting: state.unitSubmitting
   }
 }
 

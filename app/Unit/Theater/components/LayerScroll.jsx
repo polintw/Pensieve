@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import {
   unitLockBufferLimit,
   unitBasicMoveCount
-} from '../config/interactionsParams.js';
+} from '../../props.js';
 
 class LayerScroll extends React.Component {
   constructor(props){

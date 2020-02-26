@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import Explore from './partExplore/Explore.jsx';
-import NavOptions from '../Component/NavOptions.jsx';
+import NavOptions from '../Components/NavOptions.jsx';
 
 class WithinCosmic extends React.Component {
   constructor(props){

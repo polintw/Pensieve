@@ -6,9 +6,9 @@ import {
 import { connect } from "react-redux";
 import ImgsFrame from './ImgsFrame.jsx';
 import SidePanel from './SidePanel.jsx';
-import {NodesExtensible} from './NodesDisplay/NodesDisplay.jsx';
-import {AccountPlate} from '../Component/AccountPlate.jsx';
-import DateConverter from '../Component/DateConverter.jsx';
+import {NodesExtensible} from '../../NodesDisplay/NodesExtensible.jsx';
+import {AccountPalette} from '../../../Components/AccountPalette.jsx';
+import DateConverter from '../../../Components/DateConverter.jsx';
 
 const styleMiddle = {
   boxContent: {
@@ -96,7 +96,7 @@ class Wrapper extends React.Component {
           <div
             onClick={this._handleClick_Account}
             style={Object.assign({}, this.style.Com_Unit_ImgLayers_commonSection_InfoPanel_blocks_,{marginBottom:'0.5rem',textAlign: 'right', cursor:'pointer'})}>
-            <AccountPlate
+            <AccountPalette
               size={'layer'}
               accountFisrtName={this.props.unitCurrent.authorBasic.firstName}
               accountLastName={this.props.unitCurrent.authorBasic.lastName}/>
@@ -145,7 +145,6 @@ const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
     unitCurrent: state.unitCurrent,
-    unitSubmitting: state.unitSubmitting
   }
 }
 

@@ -10,7 +10,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
 import UnitExplore from '../../Unit/UnitExplore/UnitExplore.jsx';
-import SvgLogo from '../../Component/Svg/SvgLogo.jsx';
+import SvgLogo from '../../Components/Svg/SvgLogo.jsx';
 
 const styleMiddle = {
   comExplore: {

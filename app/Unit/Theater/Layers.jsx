@@ -4,9 +4,8 @@ import {
   withRouter
 } from 'react-router-dom';
 import { connect } from "react-redux";
-import WrapperImg from './LayerImgs/WrapperImg.jsx';
-import UnitViewSummary from './Summary/UnitViewSummary.jsx';
-import UnitAuthorSummary from './Summary/UnitAuthorSummary.jsx';
+import WrapperImg from './LayerImgs/Wrapper.jsx';
+
 import LayerScroll from './components/LayerScroll.jsx';
 import LayerSwitch from './components/LayerSwitch/LayerSwitch.jsx';
 
@@ -92,20 +91,27 @@ class Layers extends React.Component {
   }
 
   _render_ScrollLayers(){
+    return (
+      <div
+        style={this.style.Com_Layers_blocks_ImgLayer_}>
+        <WrapperImg
+          lockify={this.state.lockify}
+          moveCount={this.state.moveCount}
+          marksStatus={this.state.marksStatus}
+          _set_markOpened={this._set_markOpened}
+          _set_layerstatus={this._set_layerstatus}
+          _set_Modalmode={this.props._set_Modalmode}
+          _refer_toandclose={this._refer_toandclose}/>
+      </div>
+    )
+    /*
+
+    Beneath, are the remain of the complete version,
+    which has Summary layer.
+    We just ignore it in simplified ver.
+
     if(this.state.moveCount< 200) {
-      return (
-        <div
-          style={this.style.Com_Layers_blocks_ImgLayer_}>
-          <WrapperImg
-            lockify={this.state.lockify}
-            moveCount={this.state.moveCount}
-            marksStatus={this.state.marksStatus}
-            _set_markOpened={this._set_markOpened}
-            _set_layerstatus={this._set_layerstatus}
-            _set_Modalmode={this.props._set_Modalmode}
-            _refer_toandclose={this._refer_toandclose}/>
-        </div>
-      )
+
     }else{
       return (
         <div
@@ -128,12 +134,19 @@ class Layers extends React.Component {
           }
         </div>
       )
-    }
+    }*/
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
     //check if the Modal should be cloed by Count
+    if(this.state.moveCount> 201) this.props._close_theater();
+    /*
+    Beneath, are the remain of the complete version,
+    which has Summary layer.
+    We have to close the theater earlier due to the lack of Summary layer.
+
     if(this.state.moveCount> 250) this.props._close_theater();
+    */
   }
 
 

@@ -13,8 +13,6 @@ class Theater extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      close: false,
-      warningType: null,
       onSpanBack: false,
     };
     this.unitInit = this.props._construct_UnitInit(this.props.match, this.props.location);
@@ -45,19 +43,15 @@ class Theater extends React.Component {
     event.stopPropagation();
 
 
-
     //only close if passed all above
     this.props._close_theaterHeigher();
   }
 
   _close_theater(){
-    //handler deal with every intention to close(unmount) Theater
-
-
     /*
-      after the Tailoring for new design,
-      this function do 'not' really close the Theater itself, instead close the whole Unit directly.
-      Should be recover if the Related was m back.
+      This f() was originally dealing the close only the 'theater',
+      but for simplified ver., without Related in /Unit,
+      we don't really need this f(), so just make it have same ability as _handleClick_heigherBack
     */
     this.props._close_theaterHeigher();
   }
@@ -86,17 +80,10 @@ class Theater extends React.Component {
   render(){
     let params = new URLSearchParams(this.props.location.search); //we need value in URL query
     this.unitId = params.get('unitId');
-    //restract unitId here agian(not from unitCurrent) just in case the unitCurrent still empty
-    if(this.state.close){return <Redirect to={{
-        pathname: this.props.location.pathname,
-        search: '?unitId='+this.unitId,
-        state: this.props.location.state //keep the state as props, perhaps need to increase 'current location' for 'back' use
-      }}/>};
 
 
     return(
       <div>
-
         <Layers
           initStatus={this.unitInit}
           _close_theater={this._close_theater}
@@ -121,7 +108,6 @@ class Theater extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
-    unitCurrent: state.unitCurrent,
     unitSubmitting: state.unitSubmitting
   }
 }

@@ -8,6 +8,23 @@ export const accountInfoInit = {
   id: null
 }
 
+export const unitCurrentInit = {
+  unitId:"",
+  identity: "",
+  authorBasic: {authorId: "", account: '', firstName: '', lastName: ''},
+  coverSrc: null,
+  beneathSrc: null,
+  coverMarksList:[],
+  coverMarksData:{},
+  beneathMarksList:[],
+  beneathMarksData:{},
+  nouns: null,
+  marksInteraction: {},
+  broad: false,
+  refsArr: null,
+  createdAt: null
+}
+
 export const messageDialogInit= {
   boolean: {
     render: false,
