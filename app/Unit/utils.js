@@ -22,7 +22,7 @@ export function _axios_getUnitImg_base64(cancelToken, src){
   });
 };
 
-export function _axios_getUnitImgs(cancelToken){
+export function _axios_getUnitImgs(cancelToken, unitId){
   return axios.get('/router/units/'+unitId+'/src', {
     headers: {
       'token': window.localStorage['token']

@@ -19,8 +19,6 @@ export const unitCurrentInit = {
   beneathMarksList:[],
   beneathMarksData:{},
   nouns: null,
-  marksInteraction: {},
-  broad: false,
   refsArr: null,
   createdAt: null
 }

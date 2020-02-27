@@ -11,7 +11,7 @@ import Theater from '../Theater/Theater.jsx';
 import Related from '../Related/Related.jsx';
 import {
   _axios_getUnitData,
-  _axios_getUnitImg
+  _axios_getUnitImgs
 } from '../utils.js';
 import ModalBox from '../../Components/ModalBox.jsx';
 import ModalBackground from '../../Components/ModalBackground.jsx';
@@ -58,41 +58,43 @@ class UnitExplore extends React.Component {
     const self = this;
     this.setState({axios: true});
 
-    axios.all([_axios_getUnitData(this.axiosSource.token, this.unitId),_axios_getUnitImg(this.axiosSource.token)]).then(
-      axios.spread(function(unitRes, imgsBase64){
-        self.setState({axios: false});
-        let resObj = JSON.parse(unitRes.data);
-        //we compose the marksset here, but sould consider done @ server
-        let keysArr = Object.keys(resObj.main.marksObj);//if any modified or update, keep the "key" as string
-        let [coverMarks, beneathMarks] = [{list:[],data:{}}, {list:[],data:{}}];
-        keysArr.forEach(function(key, index){
-          if(resObj.main.marksObj[key].layer==0){
-            coverMarks.data[key]=resObj.main.marksObj[key];
-            coverMarks.list[resObj.main.marksObj[key].serial] = key; //let the list based on order of marks, same as beneath
-          }else{
-            beneathMarks.data[key]=resObj.main.marksObj[key]
-            beneathMarks.list[resObj.main.marksObj[key].serial] = key;
-          }
-        })
-        //actually, beneath part might need to be rewritten to asure the state could stay consistency
-        self.props._set_store_UnitCurrent({
-          unitId:self.unitId,
-          identity: resObj.main.identity,
-          authorBasic: resObj.main.authorBasic,
-          coverSrc: imgsBase64.cover,
-          beneathSrc: imgsBase64.beneath,
-          coverMarksList:coverMarks.list,
-          coverMarksData:coverMarks.data,
-          beneathMarksList:beneathMarks.list,
-          beneathMarksData:beneathMarks.data,
-          nouns: resObj.main.nouns,
-          marksInteraction: resObj.main.marksInteraction,
-          broad: resObj.main.broad,
-          refsArr: resObj.main.refsArr,
-          createdAt: resObj.main.createdAt
-        });
+    let promiseArr = [
+      new Promise((resolve, reject)=>{_axios_getUnitData(this.axiosSource.token, this.unitId);}),
+      new Promise((resolve, reject)=>{_axios_getUnitImgs(this.axiosSource.token, this.unitId);})
+    ];
+    Promise.all(promiseArr)
+    .then(([unitRes, imgsBase64])=>{
+      self.setState({axios: false});
+      let resObj = JSON.parse(unitRes.data);
+      //we compose the marksset here, but sould consider done @ server
+      let keysArr = Object.keys(resObj.main.marksObj);//if any modified or update, keep the "key" as string
+      let [coverMarks, beneathMarks] = [{list:[],data:{}}, {list:[],data:{}}];
+      keysArr.forEach(function(key, index){
+        if(resObj.main.marksObj[key].layer==0){
+          coverMarks.data[key]=resObj.main.marksObj[key];
+          coverMarks.list[resObj.main.marksObj[key].serial] = key; //let the list based on order of marks, same as beneath
+        }else{
+          beneathMarks.data[key]=resObj.main.marksObj[key]
+          beneathMarks.list[resObj.main.marksObj[key].serial] = key;
+        }
       })
-    ).catch(function (thrown) {
+      //actually, beneath part might need to be rewritten to asure the state could stay consistency
+      self.props._set_store_UnitCurrent({
+        unitId:self.unitId,
+        identity: resObj.main.identity,
+        authorBasic: resObj.main.authorBasic,
+        coverSrc: imgsBase64.cover,
+        beneathSrc: imgsBase64.beneath,
+        coverMarksList:coverMarks.list,
+        coverMarksData:coverMarks.data,
+        beneathMarksList:beneathMarks.list,
+        beneathMarksData:beneathMarks.data,
+        nouns: resObj.main.nouns,
+        refsArr: resObj.main.refsArr,
+        createdAt: resObj.main.createdAt
+      });
+    })
+    .catch(function (thrown) {
       if (axios.isCancel(thrown)) {
         console.log('Request canceled: ', thrown.message);
       } else {
