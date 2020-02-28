@@ -27,6 +27,11 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
+    marks.hasOne(models.marks_content, {
+      foreignKey:"id_mark",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
   };
   return marks;
 };

@@ -2,6 +2,8 @@
 module.exports = (sequelize, DataTypes) => {
 
   const units = sequelize.define('units', {
+    id: DataTypes.UUID,
+    exposedId: DataTypes.UUID,
     id_author: DataTypes.INTEGER,
     url_pic_layer0: DataTypes.STRING,
     url_pic_layer1: DataTypes.STRING,
@@ -24,6 +26,12 @@ module.exports = (sequelize, DataTypes) => {
       onUpdate: 'cascade'
     });
     units.hasMany(models.marks, {
+      foreignKey:"id_unit",
+      sourceKey: "id",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
+    units.hasMany(models.marks_content, {
       foreignKey:"id_unit",
       sourceKey: "id",
       onDelete: 'cascade',
