@@ -10,11 +10,23 @@ module.exports = {
         type: Sequelize.UUID,
         allowNull: false
       },
-      contentstate_noText: {
+      contentEntityMap: {
+        type: Sequelize.STRING(1023)
+      },
+      contentBlocks_Light: {
         type: Sequelize.STRING(1023)
       },
       text_byBlocks: {
         type: Sequelize.STRING(4095)
+      },
+      inlineStyleRanges_byBlocks: {
+        type: Sequelize.STRING(1023)
+      },
+      entityRanges_byBlocks: {
+        type: Sequelize.STRING(1023)
+      },
+      data_byBlocks: {
+        type: Sequelize.STRING(1023)
       },
       createdAt: {
         type: Sequelize.DATE,

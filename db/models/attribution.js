@@ -2,7 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
   const attribution = sequelize.define('attribution', {
     id_noun: DataTypes.INTEGER,
-    id_unit: DataTypes.INTEGER,
+    id_unit: DataTypes.UUID,
     id_author: DataTypes.INTEGER
   }, {
     paranoid: true //set it to 'true' could let the Sequelize know locaaly,

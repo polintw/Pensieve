@@ -72,20 +72,7 @@ module.exports = {
     .then(()=>{
       return queryInterface.addColumn('units', 'exposedId', {
         type: Sequelize.UUID,
-        defaultValue: function(){
-          console.log('making default exposedId')
-          /*
-          reference: https://cythilya.github.io/2017/03/12/uuid/
-          */
-          let d = new Date();
-          d = d.now(); //milliseconds, similat to getTime().
-          return 'xxxxxx-yxx-xxx-yxxx'.replace(/[xy]/g, function (c) {
-            var r = (d + Math.random() * 16) % 16 | 0;
-            d = Math.floor(d / 16);
-            return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-          });
-
-        },
+        //new col, no need to set defaultValue(set in working model)
         //Not to forbidden default Null at this moment.
         unique: true
       })

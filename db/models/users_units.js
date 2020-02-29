@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const users_units = sequelize.define('users_units', {
-    id_unit: DataTypes.INTEGER,
+    id_unit: DataTypes.UUID,
     id_user: DataTypes.INTEGER,
     count: DataTypes.INTEGER,
     lastTime: DataTypes.DATE,

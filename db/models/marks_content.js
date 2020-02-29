@@ -2,9 +2,13 @@
 module.exports = (sequelize, DataTypes) => {
   const marks_content = sequelize.define('marks_content', {
     id_mark: DataTypes.INTEGER,
-    id_unit: DataTypes.INTEGER,
-    contentstate_noText: DataTypes.STRING,
-    text_byBlocks: DataTypes.STRING
+    id_unit: DataTypes.UUID,
+    contentEntityMap: DataTypes.STRING,
+    contentBlocks_Light: DataTypes.STRING,
+    text_byBlocks: DataTypes.STRING,
+    inlineStyleRanges_byBlocks: DataTypes.STRING,
+    entityRanges_byBlocks: DataTypes.STRING,
+    data_byBlocks: DataTypes.STRING
   }, {
     charset: 'utf8mb4', //for Mandarin, or emoji if you don't speak in mandarin
     paranoid: true

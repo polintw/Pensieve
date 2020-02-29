@@ -2,7 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
   const marks = sequelize.define('marks', {
     id_author: DataTypes.INTEGER,
-    id_unit: DataTypes.INTEGER,
+    id_unit: DataTypes.UUID,
     layer: DataTypes.INTEGER,
     portion_top: DataTypes.FLOAT,
     portion_left: DataTypes.FLOAT,

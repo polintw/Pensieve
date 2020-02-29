@@ -2,6 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
   const nodes_activity = sequelize.define('nodes_activity', {
     id_node: DataTypes.INTEGER(10),
+    id_firstUnit: DataTypes.UUID,
     status: DataTypes.TEXT('tiny')
   }, {});
   nodes_activity.associate = function(models) {
