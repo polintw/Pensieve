@@ -1,14 +1,13 @@
 import React from 'react';
 import {connect} from "react-redux";
-import ImgChoose from './ImgChoose.jsx';
-import SvgButton from '../Svg/SvgButton.jsx';
+import ImgChoose from '../../../Components/ImgChoose.jsx';
 import {
   switchUnitSubmitting
-} from "../../redux/actions/general.js";
+} from "../../../redux/actions/unit.js";
 import {
   cancelErr,
   uncertainErr
-} from "../../utils/errHandlers.js";
+} from "../../../utils/errHandlers.js";
 
 class ImgImport extends React.Component {
   constructor(props){
@@ -62,7 +61,7 @@ class ImgImport extends React.Component {
     }).then((res)=>{
       let resObj = JSON.parse(res.data);
       let resizedURL = resObj.main.resizedURL;
-      self.props._set_newImgSrc(resizedURL, self.props.blockName);
+      self.props._set_newImgSrc(resizedURL);
       self.props._set_unitSubmitting(false);
     }).catch(function (thrown) {
       self.props._set_unitSubmitting(false);
@@ -85,7 +84,7 @@ class ImgImport extends React.Component {
     return(
       <div
         style={this.style.Com_div_ImgImport_ImgEmpty}>
-        <SvgButton/>
+
         <div
           style={this.style.Com_div_ImgImport_ImgEmpty_Choose}>
           <ImgChoose

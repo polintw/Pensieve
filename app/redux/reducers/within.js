@@ -18,11 +18,14 @@ import {
   SET_BELONGSBYTYPE,
 } from '../types/typesWithin.js';
 import {
+  UNIT_SUBMITTING_SWITCH
+} from '../types/typesUnit.js';
+import {
   initGlobal,
-  initUnit,
   initNouns,
   initUsers
 } from '../states/states.js';
+import {initUnit} from '../states/statesUnit.js';
 import {
   initWithin,
   initCosmic,
@@ -80,6 +83,11 @@ function pageWithin(state = initialGeneral, action){
     case UPDATE_USERSBASIC:
       return Object.assign({}, state, {
         usersBasic: {...state.usersBasic, ...action.newFetch}
+      })
+      break;
+    case UNIT_SUBMITTING_SWITCH:
+      return Object.assign({}, state, {
+        unitSubmitting: action.unitSubmitting
       })
       break;
     default:

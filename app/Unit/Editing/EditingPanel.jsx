@@ -7,7 +7,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import ContentModal from './ContentModal/ContentModal.jsx';
+import ContentEditor from './ContentEditor/ContentEditor.jsx';
 import NodesEditor from './NodesEditor/NodesEditor.jsx';
 import Submit from './components/Submit.jsx';
 import ImgImport from './components/ImgImport.jsx';
@@ -16,9 +16,43 @@ class EditingPanel extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      coverSrc: !!this.props.unitSet?this.props.unitSet.coverSrc:null,
+      coverMarks: !!this.props.unitSet?this.props.unitSet.coverMarks:{list:[], data:{}},
+      contentEditing: false
     };
-    this._render_importOrPreview = this._render_importOrPreview.bind(this);
+    this._set_newImgSrc = this._set_newImgSrc.bind(this);
+    this._set_img_delete = this._set_img_delete.bind(this);
+    this._set_Mark_Complete = this._set_Mark_Complete.bind(this);
+    this._render_importOrCover = this._render_importOrCover.bind(this);
+  }
+
+  _set_newImgSrc(dataURL){
+    this.setState({
+      coverSrc: dataURL,
+      contentEditing: true //going to edit directly
+    })
+  }
+
+  _set_img_delete(){
+    /*
+      Currently only has layer 'cover',
+      so we delete all process related to 'beneath' (refer to previous ver.)
+    */
+    this.setState((prevState, props)=>{
+      let modifiedState = {
+        coverSrc: null,
+        coverMarks:{list:[], data:{}},
+        contentEditing: false
+      };
+
+      return modifiedState;
+    })
+  }
+
+  _set_Mark_Complete(markData, layer){
+    this.setState((prevState, props) => {
+      return {coverMarks: markData, contentEditing: false};
+    });
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -33,36 +67,36 @@ class EditingPanel extends React.Component {
 
   }
 
-  _render_importOrPreview(){
-    return(
-      <div
-        className={styleMiddle.imgBLockButton}
-        style={Object.assign({},{top: '14%'})}>
-        <ImgImport
-          blockName={'cover'}
-          _set_newImgSrc={this._set_newImgSrc}/>
-      </div>
-    )
+  _render_importOrCover(){
+    if(!this.state.coverSrc ){
+      return(
+        <div
+          className={styleMiddle.imgBLockButton}
+          style={Object.assign({},{top: '14%'})}>
+          <ImgImport
+            _set_newImgSrc={this._set_newImgSrc}/>
+        </div>
+      )
+    }else{
+      return(
+        <ContentEditor
+          editing={this.state.contentEditing?false:true}
+          imgSrc={this.state.coverSrc}
+          marks={this.state.coverMarks}
+          _set_Mark_Complete={this._set_Mark_Complete}
+          _set_delete={this._set_img_delete}/>
+      )
+    }
   }
 
   render(){
     return(
       <div
-        className={classnames(styles.comChain)}>
-        <div
-          style={this.style.Com_Modal_Editing_imgBlocks_}>
-          {this._render_importOrPreview()}
+        className={classnames(styles.comEditingPanel)}>
+        <div>
+          {this._render_importOrCover()}
         </div>
 
-        <ContentModal
-          creating={this.props.unitSet?false:true}
-          layer={this.state.contentInit.focusBlock=='cover'?0:1}
-          imgSrc={this.state.contentInit.focusBlock=='cover'?this.state.coverSrc:this.state.beneathSrc}
-          marks={this.state.contentInit.focusBlock=='cover'?this.state.coverMarks:this.state.beneathMarks}
-          markExpand={this.state.contentInit.markExpand}
-          _set_refsArr={this.props._set_refsArr}
-          _close_Mark_Complete={this._close_Mark_Complete}
-          _close_img_Cancell={this._handleClick_Img_Delete}/>
         <div
           style={this.style.Com_Modal_Editing_Side_}>
           <NodesEditor

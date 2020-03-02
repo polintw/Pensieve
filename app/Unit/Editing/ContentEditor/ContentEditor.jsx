@@ -1,6 +1,13 @@
 import React from 'react';
+import {
+  Link,
+  Route,
+  withRouter
+} from 'react-router-dom';
+import {connect} from "react-redux";
+import classnames from 'classnames';
+import styles from "./styles.module.css";
 import ImgLayerEditing from './ImgLayerEditing.jsx';
-import ModalBox from '../ModalBox.jsx';
 
 const generalStyle={
   submitInvalid: { //use a box to cover the valid submit button
@@ -47,7 +54,7 @@ const styleMiddle = {
   }
 }
 
-export default class ContentModal extends React.Component {
+class ContentEditor extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -65,7 +72,7 @@ export default class ContentModal extends React.Component {
     this._set_markDelete = this._set_markDelete.bind(this);
     this._set_markUpdate_editor = this._set_markUpdate_editor.bind(this);
     this._handleClick_editingComplete = this._handleClick_editingComplete.bind(this);
-    this._handleClick_editingCancell =this._handleClick_editingCancell.bind(this);
+    this._handleClick_img_delete =this._handleClick_img_delete.bind(this);
     this.style={
       Com_Modal_ContentModal: {
         width: "100%",
@@ -172,20 +179,22 @@ export default class ContentModal extends React.Component {
       };
       marksData["list"].push(markKey)
     })
-    this.props._close_Mark_Complete(marksData, this.props.layer);
+    this.props._set_Mark_Complete(marksData);
   }
 
-  _handleClick_editingCancell(event){
+  _handleClick_img_delete(event){
     event.stopPropagation();
     event.preventDefault();
     if(this.state.markExpandify) return;
-    this.props._close_img_Cancell();
+    this.props._set_delete();
   }
 
   componentDidMount(){
     const self = this;
     let circles = {},
         editorContent = {};
+    //We don't know if this was a new one, or editing an old one,
+    //so we set the whole state by props at the begining.
     this.props.marks.list.forEach(function(key, index){
       circles[key] = {top: self.props.marks.data[key].top, left: self.props.marks.data[key].left}
       editorContent[key] = self.props.marks.data[key].editorContent
@@ -195,52 +204,50 @@ export default class ContentModal extends React.Component {
         marksList: props.marks.list,
         markCircles: circles,
         markEditorContent: editorContent,
-        markExpand: props.markExpand,
-        markExpandify: props.markExpand?true : false
       };
     })
-    //Be awared ! the mounted component only means ModalBox itself here, it would render the children "leter"
   }
 
   render(){
     return(
-      <ModalBox containerId="editingModal">
+      <div
+        style={this.style.Com_Modal_ContentModal}>
+
         <div
-          style={this.style.Com_Modal_ContentModal}>
-          <div style={styleMiddle.imgDecoBackContent}/>
+          style={this.style.Com_Modal_ContentModal_Mark}>
           <div
-            style={this.style.Com_Modal_ContentModal_Mark}>
-            <div
-              style={this.style.Com_Modal_ContentModal_Mark_imglayer}>
-              <ImgLayerEditing
-                imgSrc={this.props.imgSrc}
-                currentMark={this.state.markExpand}
-                markOpened={this.state.markExpandify}
-                marksList={this.state.marksList}
-                markCircles={this.state.markCircles}
-                markEditorContent={this.state.markEditorContent}
-                _set_Markvisible={this._set_markExpand}
-                _set_markNewSpot={this._set_markNewSpot}
-                _set_markUpdate_editor={this._set_markUpdate_editor}
-                _set_markDelete={this._set_markDelete}
-                _reset_expandState={this._reset_expandState}/>
-            </div>
+            style={this.style.Com_Modal_ContentModal_Mark_imglayer}>
+            <ImgLayerEditing
+              imgSrc={this.props.imgSrc}
+              currentMark={this.state.markExpand}
+              markOpened={this.state.markExpandify}
+              marksList={this.state.marksList}
+              markCircles={this.state.markCircles}
+              markEditorContent={this.state.markEditorContent}
+              _set_Markvisible={this._set_markExpand}
+              _set_markNewSpot={this._set_markNewSpot}
+              _set_markUpdate_editor={this._set_markUpdate_editor}
+              _set_markDelete={this._set_markDelete}
+              _reset_expandState={this._reset_expandState}/>
           </div>
+        </div>
+        <div
+          style={this.style.Com_ContentModal_ControlSection_div}>
           <div
-            style={this.style.Com_ContentModal_ControlSection_div}>
+            style={Object.assign({}, this.style.Com_ContentModal_ControlSection_div_Cancel, styleMiddle.boxSubmitButton, styleMiddle.roundRecBox)}
+            onClick={this._handleClick_img_delete}>
+            <span
+              className={'centerAlignChild'}
+              style={styleMiddle.spanDestiny}>
+              {'delete'}</span>
             {
-              this.props.creating &&
+              this.state.markExpandify &&
               <div
-                style={
-                  Object.assign({}, this.style.Com_ContentModal_ControlSection_div_Cancel, styleMiddle.boxSubmitButton, styleMiddle.roundRecBox)}
-                onClick={this._handleClick_editingCancell}>
-                <span
-                  className={'centerAlignChild'}
-                  style={styleMiddle.spanDestiny}>
-                  {'delete'}</span>
-                {this.state.markExpandify && <div style={Object.assign({}, styleMiddle.boxSubmitInvalid, styleMiddle.roundRecBox, generalStyle.submitInvalid)}/>}
-              </div>
+                style={Object.assign({}, styleMiddle.boxSubmitInvalid, styleMiddle.roundRecBox, generalStyle.submitInvalid)}/>
             }
+          </div>
+          {
+            this.props.editing &&
             <div
               style={
                 Object.assign({}, this.style.Com_ContentModal_ControlSection_div_Complete, styleMiddle.boxSubmitButton, styleMiddle.roundRecBox, {backgroundColor:'#ff7a5f'})}
@@ -251,9 +258,29 @@ export default class ContentModal extends React.Component {
                 {"complete"}</span>
               {this.state.markExpandify && <div style={Object.assign({}, styleMiddle.boxSubmitInvalid, styleMiddle.roundRecBox, generalStyle.submitInvalid)}/>}
             </div>
-          </div>
+          }
         </div>
-      </ModalBox>
+      </div>
+
     )
   }
 }
+
+const mapStateToProps = (state)=>{
+  return {
+    userInfo: state.userInfo,
+    i18nUIString: state.i18nUIString,
+    belongsByType: state.belongsByType
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+
+  }
+}
+
+export default withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ContentEditor));

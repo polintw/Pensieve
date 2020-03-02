@@ -13,10 +13,6 @@ export const initGlobal = {
   messageBoolean: messageDialogInit.boolean
 }
 
-export const initUnit = {
-  unitCurrent: unitCurrentInit,
-}
-
 //cnetralize nouns used by the user
 export const initNouns = {
   nounsBasic: {
