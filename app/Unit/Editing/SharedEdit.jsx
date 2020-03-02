@@ -5,7 +5,7 @@ import {
 } from "../redux/actions/general.js";
 import EditingModal from '../Component/Editing/EditingModal/EditingModal.jsx';
 
-class Editing extends React.Component {
+class SharedEdit extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -29,7 +29,7 @@ class Editing extends React.Component {
     this._axios_patch_Share = this._axios_patch_Share.bind(this);
     this._submit_Share_modified = this._submit_Share_modified.bind(this);
     this.style={
-      Com_Modal_Editing: {
+      comSharedEdit: {
 
       }
     }
@@ -112,7 +112,7 @@ class Editing extends React.Component {
   render(){
     return(
       <div
-        style={this.style.Com_Modal_Editing}>
+        style={this.style.comSharedEdit}>
         <EditingModal
           unitSet={this.unitSet}
           _refer_toandclose={this._refer_toandclose}
@@ -139,4 +139,4 @@ const mapDispatchToProps = (dispatch)=>{
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Editing);
+)(SharedEdit);

@@ -12,6 +12,7 @@ import {
   axios_visit_GET_last,
   axios_visit_Index
 } from './utils.js';
+import Chain from './Chain/Chain.jsx';
 import RowEntry from './RowEntry/RowEntry.jsx';
 import BelongsSet from './BelongsSet/BelongsSet.jsx';
 import BelongsMap from './BelongsMap/BelongsMap.jsx';
@@ -117,10 +118,16 @@ class Wrapper extends React.Component {
           </div>
           <div
             className={classnames(styles.boxRow)}>
+            <Chain
+              lastVisit={this.state.lastVisit}
+              _refer_von_cosmic={this.props._refer_von_cosmic}/>
+          </div>
+
+          <div
+            className={classnames(styles.boxRow)}>
             <BelongsMap
               lastVisit={this.state.lastVisit}/>
           </div>
-
           <div
             className={classnames(styles.boxFooter)}></div>
         </div>
