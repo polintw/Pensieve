@@ -1,7 +1,6 @@
 import React from 'react';
 import {connect} from "react-redux";
-import {AccountPlate} from '../AccountPlate.jsx';
-import DateConverter from '../DateConverter.jsx';
+import DateConverter from '../../../DateConverter.jsx';
 
 const generalStyle = { //could included in a global style sheet
   absolute_FullVersion: {
@@ -79,14 +78,14 @@ class Submit extends React.Component {
   _handleClick_Editing_Cancell(event){
     event.stopPropagation();
     event.preventDefault();
-    if(this.props.unitSubmitting || this.props.warningModal || this.props.articleEditing) return;
+    if(this.props.unitSubmitting || this.props.editing || this.props.warningDialog || this.props.confirmDialog) return;
     this.props._set_Clear();
   }
 
   _handleClick_Editing_Submit(event){
     event.stopPropagation();
     event.preventDefault();
-    if(this.props.unitSubmitting || this.props.warningModal || this.props.articleEditing) return;
+    if(this.props.unitSubmitting || this.props.editing || this.props.warningDialog || this.props.confirmDialog) return;
     this.props._submit_newShare();
   }
 
@@ -137,7 +136,7 @@ class Submit extends React.Component {
                 {"Submit"}
               </span>
               {
-                this.props.articleEditing &&
+                this.props.editing &&
                 <div
                   style={{
                     width: '100%',
@@ -154,16 +153,6 @@ class Submit extends React.Component {
         </div>
         <div
           style={this.style.Com_Modal_Editing_Panel_Info_}>
-          <div
-            style={Object.assign({}, styleMiddle.boxInlineRelative, {color: '#FAFAFA'})}>
-            <div
-              style={{display: 'inline-block',paddingRight:'2vw'}}>
-              <AccountPlate
-                size={'medium'}
-                accountFisrtName={this.props.userInfo.firstName}
-                accountLastName={this.props.userInfo.lastName}/>
-            </div>
-          </div>
           <div
             style={Object.assign({}, styleMiddle.boxInlineRelative, {color: '#e6e6e6'})}>
             <DateConverter

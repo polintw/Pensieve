@@ -1,0 +1,15 @@
+.boxSubmitInvalid: {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  border-color: #e6e6e6;
+  color: #e6e6e6;
+  cursor: auto;
+  opacity: 0.6;
+}
+
+.roundRecBox: {
+  border-radius: 2.4vh;
+  background-color: #e6e6e6;
+  cursor: pointer;
+}

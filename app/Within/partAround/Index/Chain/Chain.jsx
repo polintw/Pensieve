@@ -7,7 +7,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import CreateShare from '../../../Unit/Editing/CreateShare.jsx';
+import CreateShare from '../../../../Unit/Editing/CreateShare.jsx';
 
 class Chain extends React.Component {
   constructor(props){

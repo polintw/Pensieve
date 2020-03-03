@@ -39,6 +39,8 @@ class CreateShare extends React.Component {
     this._set_Submit = this._set_Submit.bind(this);
     this._set_EditingClose_clear = this._set_EditingClose_clear.bind(this);
     this._set_EditingClose_andRefer = this._set_EditingClose_andRefer.bind(this);
+    this._set_warningDialog = this._set_warningDialog.bind(this);
+    this._set_confirmDialog = this._set_confirmDialog.bind(this);
     this._modalHandler_positive = this._modalHandler_positive.bind(this);
     this._modalHandler_negative = this._modalHandler_negative.bind(this);
     this._handleClick_CreateShare_init = this._handleClick_CreateShare_init.bind(this);
@@ -62,13 +64,30 @@ class CreateShare extends React.Component {
     this._open_editingModal();
   }
 
+  _set_confirmDialog(message, purpose, tempObj){
+    this.setState({
+      dialogMessage: message,
+      dialogPurpose: purpose,
+      confirmDialog: true,
+      warningTemp: {source: tempObj.source, identity: tempObj.identity}
+    })
+  }
+
+  _set_warningDialog(message, purpose, tempObj){
+    this.setState({
+      dialogMessage: message,
+      dialogPurpose: purpose,
+      warningDialog: true,
+    })
+  }
+
   _modalHandler_positive(){
     switch (this.state.dialogPurpose) {
-      case 'refer':
-        this.props._refer_von_Create(warningTemp.identity, warningTemp.source);
-        break;
       case 'close': //confirm close the EditingModal
         this.setState(initState)
+        break;
+      case 'refer':
+        this.props._refer_von_Create(warningTemp.identity, warningTemp.source);
         break;
       case 'warning':
         this.setState({warningDialog: false, dialogMessage: null, dialogPurpose: null, warningTemp: {}})
@@ -92,21 +111,13 @@ class CreateShare extends React.Component {
   }
 
   _set_EditingClose_clear(){
-    if(this.props.unitSubmitting) this.setState({warningDialog: true, dialogMessage: 'still submitting, please hold on.', dialogPurpose: 'warning'});
-    this.setState({
-      dialogMessage: 'current input would not be saved after leaving, are you sure going to leave?',
-      dialogPurpose: 'close',
-      confirmDialog: true
-    });
+    if(this.props.unitSubmitting) this._set_warningDialog('still submitting, please hold on.', 'warning');
+    this._set_confirmDialog('current input would not be saved after leaving, are you sure going to leave?', 'close');
   }
 
   _set_EditingClose_andRefer(source, identity){
-    this.setState({
-      dialogMessage: 'current input would not be saved after leaving, are you sure going to leave?',
-      dialogPurpose: 'refer',
-      confirmDialog: true,
-      warningTemp: {source: source, identity: identity}
-    });
+    let warningTempObj = {source: source, identity: identity};
+    this._set_confirmDialog('current input would not be saved after leaving, are you sure going to leave?', 'close', warningTempObj);
   }
 
   _set_Submit(stateObj){
@@ -185,7 +196,10 @@ class CreateShare extends React.Component {
           <ModalBox containerId="root">
             <ModalBackground onClose={this._set_EditingClose_clear} style={{position: "fixed"}}>
               <EditingPanel
+                confirmDialog={this.state.confirmDialog}
+                warningDialog={this.state.warningDialog}
                 _refer_toandclose={this._set_EditingClose_andRefer}
+                _set_warningDialog={this._set_warningDialog}
                 _set_Submit={this._set_Submit}
                 _set_Clear={this._set_EditingClose_clear}/>
             </ModalBackground>

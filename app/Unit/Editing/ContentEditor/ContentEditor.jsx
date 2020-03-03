@@ -9,40 +9,12 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import ImgLayerEditing from './ImgLayerEditing.jsx';
 
-const generalStyle={
-  submitInvalid: { //use a box to cover the valid submit button
-    backgroundColor: '#e6e6e6',
-    color: '#e6e6e6',
-    cursor: 'auto',
-    opacity: '0.6'
-  }
-}
-
 const styleMiddle = {
-  imgDecoBackContent:{
-    width: '4%',
-    height: '78%',
-    position: 'absolute',
-    left: '10%',
-    top: '0',
-    boxSizing: 'border-box',
-    backgroundColor: '#FAFAFA'
-  },
   boxSubmitButton:{
     width: '68%',
     height: '31%',
     position: 'absolute',
     boxSizing: 'border-box',
-  },
-  boxSubmitInvalid: {
-    width: '100%',
-    height: '100%',
-    boxSizing: 'border-box'
-  },
-  roundRecBox: {
-    borderRadius: '2.4vh',
-    backgroundColor: "#e6e6e6",
-    cursor: 'pointer'
   },
   spanDestiny: {
     width: '100%',
@@ -98,15 +70,6 @@ class ContentEditor extends React.Component {
         right: '0%',
         boxSizing: 'border-box'
       },
-      Com_ContentModal_ListSection_div: {
-        width: '14%',
-        height: '91%',
-        position: 'absolute',
-        top: '0',
-        right: '0',
-        boxSizing: 'border-box',
-        borderLeft: 'solid 2px #FAFAFA'
-      },
       Com_ContentModal_ControlSection_div: {
         width: '14%',
         height: '15%',
@@ -127,16 +90,22 @@ class ContentEditor extends React.Component {
   }
 
   _set_markExpand(markKey){
+    //no matter what situation, check if the parent comp knew we are editing.
+    if(!this.props.editing) this.props._set_statusEditing(true); //_set_statusEditing() need a bool param.
     if(markKey !== this.state.markExpand){
-      this.setState((prevState, props) => {return {markExpandify: false}}, ()=>{this.setState({markExpand: markKey, markExpandify: true});})
+      this.setState((prevState, props) => {return {markExpandify: false}}, ()=>{
+        this.setState({markExpand: markKey, markExpandify: true});
+      });
     }else if(markKey == this.state.markExpand){
       this._reset_expandState();
     }
   }
 
   _set_markNewSpot(portionCoordinate){
-    let d = new Date(); //we need to create a specific id here, so we use time
+    //no matter what situation, check if the parent comp knew we are editing.
+    if(!this.props.editing) this.props._set_statusEditing(true); //_set_statusEditing() need a bool param.
 
+    let d = new Date(); //we need to create a specific id here, so we use time
     this.setState((prevState, props)=>{
       const tempId = this.props.layer+"_"+prevState.marksList.length+"_"+d.getTime(); //keep it "const" to assure the var would not change after push()
       prevState.markCircles[tempId] = portionCoordinate;
@@ -234,29 +203,31 @@ class ContentEditor extends React.Component {
         <div
           style={this.style.Com_ContentModal_ControlSection_div}>
           <div
-            style={Object.assign({}, this.style.Com_ContentModal_ControlSection_div_Cancel, styleMiddle.boxSubmitButton, styleMiddle.roundRecBox)}
+            className={classnames(
+              styles.roundRecBox,
+              {[this.state.markExpandify]: styles.boxSubmitInvalid}
+            )}
+            style={Object.assign({}, this.style.Com_ContentModal_ControlSection_div_Cancel, styleMiddle.boxSubmitButton)}
             onClick={this._handleClick_img_delete}>
             <span
               className={'centerAlignChild'}
               style={styleMiddle.spanDestiny}>
               {'delete'}</span>
-            {
-              this.state.markExpandify &&
-              <div
-                style={Object.assign({}, styleMiddle.boxSubmitInvalid, styleMiddle.roundRecBox, generalStyle.submitInvalid)}/>
-            }
+
           </div>
           {
             this.props.editing &&
             <div
-              style={
-                Object.assign({}, this.style.Com_ContentModal_ControlSection_div_Complete, styleMiddle.boxSubmitButton, styleMiddle.roundRecBox, {backgroundColor:'#ff7a5f'})}
+              className={classnames(
+                styles.roundRecBox,
+                {[this.state.markExpandify]: styles.boxSubmitInvalid}
+              )}
+              style={Object.assign({}, this.style.Com_ContentModal_ControlSection_div_Complete, styleMiddle.boxSubmitButton {backgroundColor:'#ff7a5f'})}
               onClick={this._handleClick_editingComplete}>
               <span
                 className={'centerAlignChild'}
                 style={styleMiddle.spanDestiny}>
                 {"complete"}</span>
-              {this.state.markExpandify && <div style={Object.assign({}, styleMiddle.boxSubmitInvalid, styleMiddle.roundRecBox, generalStyle.submitInvalid)}/>}
             </div>
           }
         </div>

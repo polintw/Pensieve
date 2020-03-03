@@ -18,11 +18,19 @@ class EditingPanel extends React.Component {
     this.state = {
       coverSrc: !!this.props.unitSet?this.props.unitSet.coverSrc:null,
       coverMarks: !!this.props.unitSet?this.props.unitSet.coverMarks:{list:[], data:{}},
-      contentEditing: false
+      contentEditing: false,
+      nouns: this.props.unitSet?this.props.unitSet.nouns:{list:[],basic:{}}
+
+      //beneath, is remaining for future use, and kept the parent comp to process submitting
+      beneathSrc: null,
+      beneathMarks: {list:[],data:{}},
+      refsArr: []
     };
     this._set_newImgSrc = this._set_newImgSrc.bind(this);
     this._set_img_delete = this._set_img_delete.bind(this);
     this._set_Mark_Complete = this._set_Mark_Complete.bind(this);
+    this._set_statusEditing = this._set_statusEditing.bind(this);
+    this._submit_newShare = this._submit_newShare.bind(this);
     this._render_importOrCover = this._render_importOrCover.bind(this);
   }
 
@@ -55,6 +63,42 @@ class EditingPanel extends React.Component {
     });
   }
 
+  _set_statusEditing(bool){
+    this.setState((prevState, props)=>{
+      return (
+        contentEditing: bool
+      )
+    });
+  }
+
+  _submit_newShare(){
+    //shallow copy, prevent render init during the modifications
+    let newObj = Object.assign({}, this.state);
+    /*
+      Going to check everything:
+      - if the obj contain cover & nodes: give warn
+      - no Unit was submitting: give warn
+      - not editing: give warn
+    */
+    if(!newObj["coverSrc"] || newObj["nouns"]["list"].length < 1) {
+      this.props._set_warningDialog("make sure you've already upload 1 image and set at least 1 Node.", 'warning'});
+      return;
+    }else if(this.props.unitSubmitting){
+      this.props._set_warningDialog('submit is processing, please hold on ...', 'warning'});
+      return;
+    }else if(this.state.editing){
+      this.props._set_warningDialog("your edit hasn't completed.", 'warning'});
+      return;
+    };
+    //Then if everything is fine
+    //seal the mark obj by fill in the lasr undetermined value, 'layer'
+    newObj.coverMarks.list.forEach((markKey, index)=>{
+      newObj.coverMarks.data[markKey].layer='0';
+    });
+
+    this.props._set_Submit(newObj);
+  }
+
   componentDidUpdate(prevProps, prevState, snapshot){
 
   }
@@ -80,9 +124,10 @@ class EditingPanel extends React.Component {
     }else{
       return(
         <ContentEditor
-          editing={this.state.contentEditing?false:true}
+          editing={this.state.contentEditing}
           imgSrc={this.state.coverSrc}
           marks={this.state.coverMarks}
+          _set_statusEditing={this._set_statusEditing}
           _set_Mark_Complete={this._set_Mark_Complete}
           _set_delete={this._set_img_delete}/>
       )
@@ -108,8 +153,9 @@ class EditingPanel extends React.Component {
         <div
           style={this.style.Com_Modal_Editing_Panel_}>
           <Submit
-            warningModal={this.state.warningModal}
-            articleEditing={this.state.articleEditing}
+            editing={this.state.contentEditing}
+            confirmDialog={this.props.confirmDialog}
+            warningDialog={this.props.warningDialog}
             _set_Clear={this.props._set_Clear}
             _submit_newShare={this._submit_newShare}
             _refer_toandclose={this.props._refer_toandclose}/>
