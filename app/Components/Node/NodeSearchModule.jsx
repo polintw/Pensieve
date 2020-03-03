@@ -1,5 +1,4 @@
 import React from 'react';
-import ModalBox from '../ModalBox.jsx';
 import {errHandler_axiosCatch} from '../../utils/errHandlers.js';
 
 const styleMiddle={
@@ -21,66 +20,6 @@ const styleMiddle={
     fontWeight: '400',
     letterSpacing: '0.14rem',
     color: '#ededed'
-  }
-}
-
-export class SearchModule extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      expandify: false
-    };
-    this._set_SearchModal_switch = this._set_SearchModal_switch.bind(this);
-    this._handleClick_SearchModal_switch = this._handleClick_SearchModal_switch.bind(this);
-    this.style={
-      Com_NounsEditor_SearchModal_: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-      },
-      Com_NounsEditor_SearchModal_anchor: {
-        width: "92%",
-        height: '81%',
-        position: 'absolute',
-        bottom: '7px', //in order to let the border bottom at same level as input in NodeSearchModule
-        boxSizing: 'border-box',
-        borderBottom: 'solid 0.2rem #e6e6e6',
-        cursor: 'text'
-      },
-    }
-  }
-
-  _set_SearchModal_switch(){
-    this.setState((prevState, index)=>{
-      return {expandify: prevState.expandify?false:true}
-    });
-  }
-  _handleClick_SearchModal_switch(event){
-    event.stopPropagation();
-    event.preventDefault();
-    this._set_SearchModal_switch();
-  }
-
-  render() {
-    return (
-      <div
-        style={this.style.Com_NounsEditor_SearchModal_}>
-        {
-          this.state.expandify ?(
-            <NodeSearchModule
-              _set_nodeChoice={this.props._set_nodeChoice}
-              _set_SearchModal_switch={this._set_SearchModal_switch}
-              _handleClick_SearchModal_switch={this._handleClick_SearchModal_switch}/>
-          ):(
-            <div
-              style={Object.assign({}, this.style.Com_NounsEditor_SearchModal_anchor, styleMiddle.spanPlaceholder)}
-              onClick={this._handleClick_SearchModal_switch}>
-              {"Name it to a place......"}
-            </div>
-          )
-        }
-      </div>
-    )
   }
 }
 
@@ -232,14 +171,6 @@ const DOMShareSearch = (comp)=>{
   return (
     <div
       style={stylesShareSearch.Com_NounsEditor_SearchModal_Modal_}>
-      <div
-        style={stylesShareSearch.Com_NounsEditor_SearchModal_Modal_close_}
-        onClick={comp.props._handleClick_SearchModal_switch}>
-        <span
-          style={Object.assign({}, stylesShareSearch.Com_NounsEditor_SearchModal_Modal_close_span, styleMiddle.spanSubmit)}>
-          {'close'}
-        </span>
-      </div>
       <ul
         style={Object.assign({}, stylesShareSearch.Com_InfoNoun_modal_ul_, styleMiddle.spanContent)}>
         {comp._render_SearchResults()}

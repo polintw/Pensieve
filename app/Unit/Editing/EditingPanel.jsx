@@ -19,8 +19,7 @@ class EditingPanel extends React.Component {
       coverSrc: !!this.props.unitSet?this.props.unitSet.coverSrc:null,
       coverMarks: !!this.props.unitSet?this.props.unitSet.coverMarks:{list:[], data:{}},
       contentEditing: false,
-      nouns: this.props.unitSet?this.props.unitSet.nouns:{list:[],basic:{}}
-
+      nodesSet: {assign:[], tags:[]},
       //beneath, is remaining for future use, and kept the parent comp to process submitting
       beneathSrc: null,
       beneathMarks: {list:[],data:{}},
@@ -30,8 +29,30 @@ class EditingPanel extends React.Component {
     this._set_img_delete = this._set_img_delete.bind(this);
     this._set_Mark_Complete = this._set_Mark_Complete.bind(this);
     this._set_statusEditing = this._set_statusEditing.bind(this);
+    this._submit_new_node = this._submit_new_node.bind(this);
     this._submit_newShare = this._submit_newShare.bind(this);
+    this._submit_deleteNodes= this._submit_deleteNodes.bind(this);
     this._render_importOrCover = this._render_importOrCover.bind(this);
+  }
+
+  _submit_new_node(nodeId, type){
+    this.setState((prevState, props)=>{
+      prevState.nodesSet[(type=="assign")? 'assign': 'others'].push(nodeId);
+
+      return {
+        nodesSet: prevState.nodesSet
+      }
+    })
+  }
+
+  _submit_deleteNodes(nodeId, type){
+    this.setState((prevState, props)=>{
+      let targetArr = prevState.nodesSet[(type=="assign")? 'assign': 'others'];
+       targetArr= targetArr.filter((value, index)=>{ // use filter remove id from the list and replace it by new list
+        return value != nodeId; //not equal value, but allow different "type" (the nodeId was string saved in the DOM attribute)
+      });
+      return prevState;
+    })
   }
 
   _set_newImgSrc(dataURL){
@@ -80,7 +101,7 @@ class EditingPanel extends React.Component {
       - no Unit was submitting: give warn
       - not editing: give warn
     */
-    if(!newObj["coverSrc"] || newObj["nouns"]["list"].length < 1) {
+    if(!newObj["coverSrc"] || newObj["nodesList"].length < 1) {
       this.props._set_warningDialog("make sure you've already upload 1 image and set at least 1 Node.", 'warning'});
       return;
     }else if(this.props.unitSubmitting){
@@ -129,7 +150,8 @@ class EditingPanel extends React.Component {
           marks={this.state.coverMarks}
           _set_statusEditing={this._set_statusEditing}
           _set_Mark_Complete={this._set_Mark_Complete}
-          _set_delete={this._set_img_delete}/>
+          _set_delete={this._set_img_delete}
+          _set_warningDialog={this.props._set_warningDialog}/>
       )
     }
   }
@@ -141,13 +163,12 @@ class EditingPanel extends React.Component {
         <div>
           {this._render_importOrCover()}
         </div>
-
         <div
           style={this.style.Com_Modal_Editing_Side_}>
           <NodesEditor
-            settingType={this.state.settingType}
-            _set_choiceAnType={this._set_choiceAnType}
-            _set_searchModal={this._set_searchModal}/>
+            nodesSet={this.state.nodesSet}
+            _submit_new_node={this._submit_new_node}
+            _submit_deleteNodes={this._submit_deleteNodes}/>
 
         </div>
         <div

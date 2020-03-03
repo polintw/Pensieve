@@ -6,8 +6,10 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import {updateNodesBasic} from '../../../../../redux/actions/general.js'
-import {NodeSearchModule} from '../../../../../Components/Node/NodeSearchModule.jsx';
+import NodesList from './NodesList.jsx';
+import AssignNodes from './AssignNodes.jsx';
+import {updateNodesBasic} from '../../../redux/actions/general.js'
+import {NodeSearchModule} from '../../../Components/Node/NodeSearchModule.jsx';
 
 class NodesEditor extends React.Component {
   constructor(props){
@@ -25,15 +27,12 @@ class NodesEditor extends React.Component {
     //create obj to fit the format of state in redux
     let insertObj = {};
     insertObj[nodeBasic.id] = nodeBasic;
-
     //pass the node basic into redux first,
     //so the handler would not need to fetch node data from db again
     this.props._submit_Nodes_insert(insertObj);
     //no need to fetch node data from db again for any condition gave the choice a non-false value
     //has already save the data of node in reducer.
-
-    //and pass the choice to
-    this.props._set_choiceAnType(nodeBasic.id, this.props.settingType);
+    this.props._submit_new_node(nodeBasic.id); //and pass the choice to parent comp
   }
 
 
@@ -54,28 +53,24 @@ class NodesEditor extends React.Component {
     return(
       <div
         className={classnames(styles.comNodesEditor)}>
-        <div
-          className={classnames(styles.boxTypeSetting)}>
-          <span
-            className={classnames(
-              styles.fontDescrip,
-            )}
-            style={{lineHeight: '3rem'}}>
-            {this.props.i18nUIString.catalog["descript_BelongSet_SearchBytType"][0]}
-          </span>
-          <span
-            className={classnames(
-              styles.fontDescrip,
-            )}
-            style={{lineHeight: '3rem'}}>
-            {this.props.settingType}</span>
+        <div>
+          <AssignNodes
+            assigned={this.props.nodesSet['assign']}
+            _submit_new_node={this.props._submit_new_node}
+            _submit_deleteNodes={this.props._submit_deleteNodes}/>
         </div>
 
+        <div
+          style={this.style.Com_Editing_NounsEditor_List}>
+          <NodesList
+            nodesList={this.props.nodesSet['others']}
+            _set_nounDelete={this.props._submit_deleteNodes}/>
+        </div>
         <NodeSearchModule
-          type={"option"}
+          type={"share"}
           _set_nodeChoice={this._set_choiceFromSearch}
-          _set_SearchModal_switch={this.props._set_searchModal}
-          _handleClick_SearchModal_switch={(e)=>{e.preventDefault();e.stopPropagation();this.props._set_searchModal();}}/>
+          _set_SearchModal_switch={()=>{}}
+          _handleClick_SearchModal_switch={(e)=>{e.preventDefault();e.stopPropagation();}}/>
 
       </div>
     )

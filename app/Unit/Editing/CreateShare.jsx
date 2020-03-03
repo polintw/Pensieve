@@ -130,7 +130,7 @@ class CreateShare extends React.Component {
       joinedMarks: Object.assign({}, stateObj.coverMarks.data, stateObj.beneathMarks.data),
       joinedMarksList: stateObj.coverMarks.list.concat(stateObj.beneathMarks.list),
       refsArr: stateObj.refsArr,
-      nouns: stateObj.nouns,
+      nodesSet: stateObj.nodesSet,
       submitTime: submitTime
     };
     //all pure JS object or structure,
