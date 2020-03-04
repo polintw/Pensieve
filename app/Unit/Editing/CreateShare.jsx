@@ -1,5 +1,7 @@
 import React from 'react';
 import {connect} from "react-redux";
+import classnames from 'classnames';
+import styles from "./styles.module.css";
 import EditingPanel from './EditingPanel.jsx';
 import ModalBox from '../../Components/ModalBox.jsx';
 import ModalBackground from '../../Components/ModalBackground.jsx';
@@ -8,11 +10,11 @@ import SingleCloseDialog from '../../Components/Dialog/SingleCloseDialog/SingleC
 
 import {
   switchUnitSubmitting
-} from "../redux/actions/general.js";
+} from "../../redux/actions/general.js";
 import {
   cancelErr,
   uncertainErr
-} from "../utils/errHandlers.js";
+} from "../../utils/errHandlers.js";
 
 const initState = {
   editingModal: false,
@@ -45,17 +47,6 @@ class CreateShare extends React.Component {
     this._modalHandler_negative = this._modalHandler_negative.bind(this);
     this._handleClick_CreateShare_init = this._handleClick_CreateShare_init.bind(this);
     this._open_editingModal = () => {this.setState({editingModal: true})};
-    this.style={
-      Com_CreateShare_: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        right: '0',
-        boxSizing: 'border-box',
-        cursor: 'pointer'
-      }
-    }
   }
 
   _handleClick_CreateShare_init(event){
@@ -65,11 +56,20 @@ class CreateShare extends React.Component {
   }
 
   _set_confirmDialog(message, purpose, tempObj){
+    /*
+      actually, the Dialog series should use state in Redux reducer,
+      shift in the future. so does the warningDialog below.
+    */
+    let warningTemp = {
+      source: !!tempObj ? tempObj.source: '',
+      identity: !!tempObj ? tempObj.identity: ''
+    }; //tempObj was an optional param
+
     this.setState({
       dialogMessage: message,
       dialogPurpose: purpose,
       confirmDialog: true,
-      warningTemp: {source: tempObj.source, identity: tempObj.identity}
+      warningTemp: warningTemp
     })
   }
 
@@ -111,13 +111,13 @@ class CreateShare extends React.Component {
   }
 
   _set_EditingClose_clear(){
-    if(this.props.unitSubmitting) this._set_warningDialog('still submitting, please hold on.', 'warning');
-    this._set_confirmDialog('current input would not be saved after leaving, are you sure going to leave?', 'close');
+    if(this.props.unitSubmitting) this._set_warningDialog([{text: 'still submitting, please hold on.',style:{}}], 'warning');
+    this._set_confirmDialog([{text:'current input would not be saved after leaving, are you sure going to leave?',style:{}}], 'close');
   }
 
   _set_EditingClose_andRefer(source, identity){
     let warningTempObj = {source: source, identity: identity};
-    this._set_confirmDialog('current input would not be saved after leaving, are you sure going to leave?', 'close', warningTempObj);
+    this._set_confirmDialog([{text:'current input would not be saved after leaving, are you sure going to leave?',style:{}}], 'close', warningTempObj);
   }
 
   _set_Submit(stateObj){
@@ -189,19 +189,27 @@ class CreateShare extends React.Component {
   render(){
     return(
       <div
-        style={this.style.Com_CreateShare_}
+        className={classnames(styles.comCreateShare)}
         onClick={this._handleClick_CreateShare_init}>
         {
           this.state.editingModal &&
           <ModalBox containerId="root">
-            <ModalBackground onClose={this._set_EditingClose_clear} style={{position: "fixed"}}>
-              <EditingPanel
-                confirmDialog={this.state.confirmDialog}
-                warningDialog={this.state.warningDialog}
-                _refer_toandclose={this._set_EditingClose_andRefer}
-                _set_warningDialog={this._set_warningDialog}
-                _set_Submit={this._set_Submit}
-                _set_Clear={this._set_EditingClose_clear}/>
+            <ModalBackground
+              onClose={this._set_EditingClose_clear}
+              style={{
+                position: "fixed",
+                backgroundColor: 'rgba(215, 215, 215, 0.67)'
+              }}>
+              <div
+                className={classnames(styles.boxEditinginCreate)}>
+                <EditingPanel
+                  confirmDialog={this.state.confirmDialog}
+                  warningDialog={this.state.warningDialog}
+                  _refer_toandclose={this._set_EditingClose_andRefer}
+                  _set_warningDialog={this._set_warningDialog}
+                  _set_Submit={this._set_Submit}
+                  _set_Clear={this._set_EditingClose_clear}/>
+              </div>
             </ModalBackground>
           </ModalBox>
         }
@@ -210,7 +218,7 @@ class CreateShare extends React.Component {
           <ModalBox containerId="root">
             <ModalBackground onClose={()=>{}} style={{position: "fixed"}}>
               <div
-                className={styles.boxDialog}>
+                className={"boxDialog"}>
                 <BooleanDialog
                   customButton={"submitting"}
                   message={this.state.dialogMessage}
@@ -221,7 +229,7 @@ class CreateShare extends React.Component {
           </ModalBox>
         }
         {
-          this.props.warningDialog &&
+          this.state.warningDialog &&
           <ModalBox containerId="root">
             <ModalBackground onClose={()=>{}} style={{position: "fixed"}}>
               <div

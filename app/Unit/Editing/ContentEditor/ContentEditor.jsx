@@ -223,7 +223,7 @@ class ContentEditor extends React.Component {
                 styles.roundRecBox,
                 {[this.state.markExpandify]: styles.boxSubmitInvalid}
               )}
-              style={Object.assign({}, this.style.Com_ContentModal_ControlSection_div_Complete, styleMiddle.boxSubmitButton {backgroundColor:'#ff7a5f'})}
+              style={Object.assign({}, this.style.Com_ContentModal_ControlSection_div_Complete, styleMiddle.boxSubmitButton, {backgroundColor:'#ff7a5f'})}
               onClick={this._handleClick_editingComplete}>
               <span
                 className={'centerAlignChild'}

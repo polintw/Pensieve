@@ -46,6 +46,7 @@ class SetByTypes extends React.Component {
         return (
           <div
             valuetype={type}
+            key={"_key_typeNoRec_"+index}
             style={{cursor: 'pointer'}}
             onClick={this._handleClick_editByType}>
             {type}

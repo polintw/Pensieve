@@ -32,7 +32,7 @@ class NodesEditor extends React.Component {
     this.props._submit_Nodes_insert(insertObj);
     //no need to fetch node data from db again for any condition gave the choice a non-false value
     //has already save the data of node in reducer.
-    this.props._submit_new_node(nodeBasic.id); //and pass the choice to parent comp
+    this.props._submit_new_node(nodeBasic.id, 'tags'); //and pass the choice to parent comp
   }
 
 
@@ -59,11 +59,10 @@ class NodesEditor extends React.Component {
             _submit_new_node={this.props._submit_new_node}
             _submit_deleteNodes={this.props._submit_deleteNodes}/>
         </div>
-
         <div
           style={this.style.Com_Editing_NounsEditor_List}>
           <NodesList
-            nodesList={this.props.nodesSet['others']}
+            nodesList={this.props.nodesSet['tags']}
             _set_nounDelete={this.props._submit_deleteNodes}/>
         </div>
         <NodeSearchModule

@@ -16,9 +16,9 @@ class EditingPanel extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      contentEditing: false,
       coverSrc: !!this.props.unitSet?this.props.unitSet.coverSrc:null,
       coverMarks: !!this.props.unitSet?this.props.unitSet.coverMarks:{list:[], data:{}},
-      contentEditing: false,
       nodesSet: {assign:[], tags:[]},
       //beneath, is remaining for future use, and kept the parent comp to process submitting
       beneathSrc: null,
@@ -37,7 +37,7 @@ class EditingPanel extends React.Component {
 
   _submit_new_node(nodeId, type){
     this.setState((prevState, props)=>{
-      prevState.nodesSet[(type=="assign")? 'assign': 'others'].push(nodeId);
+      prevState.nodesSet[(type=="assign")? 'assign': 'tags'].push(nodeId);
 
       return {
         nodesSet: prevState.nodesSet
@@ -47,7 +47,7 @@ class EditingPanel extends React.Component {
 
   _submit_deleteNodes(nodeId, type){
     this.setState((prevState, props)=>{
-      let targetArr = prevState.nodesSet[(type=="assign")? 'assign': 'others'];
+      let targetArr = prevState.nodesSet[(type=="assign")? 'assign': 'tags'];
        targetArr= targetArr.filter((value, index)=>{ // use filter remove id from the list and replace it by new list
         return value != nodeId; //not equal value, but allow different "type" (the nodeId was string saved in the DOM attribute)
       });
@@ -102,13 +102,13 @@ class EditingPanel extends React.Component {
       - not editing: give warn
     */
     if(!newObj["coverSrc"] || newObj["nodesList"].length < 1) {
-      this.props._set_warningDialog("make sure you've already upload 1 image and set at least 1 Node.", 'warning'});
+      this.props._set_warningDialog([{text: "make sure you've already upload 1 image and set at least 1 Node.",style:{}}], 'warning');
       return;
     }else if(this.props.unitSubmitting){
-      this.props._set_warningDialog('submit is processing, please hold on ...', 'warning'});
+      this.props._set_warningDialog([{text: "submit is processing, please hold on ...",style:{}}], 'warning');
       return;
     }else if(this.state.editing){
-      this.props._set_warningDialog("your edit hasn't completed.", 'warning'});
+      this.props._set_warningDialog([{text: "your edit hasn't completed.", style:{}}], 'warning');
       return;
     };
     //Then if everything is fine
@@ -136,8 +136,7 @@ class EditingPanel extends React.Component {
     if(!this.state.coverSrc ){
       return(
         <div
-          className={styleMiddle.imgBLockButton}
-          style={Object.assign({},{top: '14%'})}>
+          className={styles.boxImgImport}>
           <ImgImport
             _set_newImgSrc={this._set_newImgSrc}/>
         </div>
@@ -160,19 +159,19 @@ class EditingPanel extends React.Component {
     return(
       <div
         className={classnames(styles.comEditingPanel)}>
-        <div>
+        <div
+          className={classnames(styles.boxContent)}>
           {this._render_importOrCover()}
         </div>
         <div
-          style={this.style.Com_Modal_Editing_Side_}>
+          className={classnames(styles.boxSide, styles.boxSideEdit)}>
           <NodesEditor
             nodesSet={this.state.nodesSet}
             _submit_new_node={this._submit_new_node}
             _submit_deleteNodes={this._submit_deleteNodes}/>
-
         </div>
         <div
-          style={this.style.Com_Modal_Editing_Panel_}>
+          className={classnames(styles.boxSide, styles.boxBottomPanel)}>
           <Submit
             editing={this.state.contentEditing}
             confirmDialog={this.props.confirmDialog}

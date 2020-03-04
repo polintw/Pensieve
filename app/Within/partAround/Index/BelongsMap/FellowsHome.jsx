@@ -82,6 +82,7 @@ class FellowsHome extends React.Component {
     let listDOM = this.state.cornersList.map((nodeId, index)=>{
       return (
         <div
+          key={"_key_fellowsHomeCorners_"+index}
           style={{margin: "0 1vw"}}>
           <MapCorner
             nodeId={nodeId}

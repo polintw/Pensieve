@@ -46,12 +46,12 @@ class ImgLayerEditing extends React.Component {
   _handleClick_SpotsLayer(event){
     event.stopPropagation();
     event.preventDefault();
-    this.props._set_warningDialog("your edit hasn't completed.", 'warning'});
+    this.props._set_warningDialog([{text:"your edit hasn't completed.", style:{}}], 'warning');
     if(this.props.marksList.length >0){ //we now want user only to write in one Mark, so limit the marksList length
-      this.props._set_warningDialog("A better spot? Please delete the old one first before create a new!", 'warning');
+      this.props._set_warningDialog([{text: "A better spot? Please delete the old one first before create a new!", style:{}}], 'warning');
       return;
     };
-    
+
     let originalCoordinate = {
       clickX : event.clientX,
       clickY : event.clientY,

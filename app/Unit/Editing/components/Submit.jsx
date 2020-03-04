@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from "react-redux";
-import DateConverter from '../../../DateConverter.jsx';
+import DateConverter from '../../../Components/DateConverter.jsx';
 
 const generalStyle = { //could included in a global style sheet
   absolute_FullVersion: {

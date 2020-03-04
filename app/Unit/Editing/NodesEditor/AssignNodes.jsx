@@ -11,9 +11,34 @@ class AssignNodes extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      onNode:''
     };
     this._render_assignedNodes = this._render_assignedNodes.bind(this);
+    this._handleClick_NodeAssigned = this._handleClick_NodeAssigned.bind(this);
+  }
+
+  _handleEnter_liItem(e){
+    this.setState({
+      onNode: e.currentTarget.getAttribute('nodeid')
+    })
+  }
+
+  _handleLeave_CornerOpt(e){
+    this.setState({
+      onNode: ''
+    })
+  }
+
+  _handleClick_NodeAssigned(event){
+    event.preventDefault();
+    event.stopPropagation();
+    let targetId = event.currentTarget.getAttribute('nodeid');
+    let assignify = event.currentTarget.getAttribute('assigning');
+    assignify ? (
+      this.props._submit_deleteNodes(targetId, 'assign')
+    ):(
+      this.props._submit_new_node(targetId, 'assign')
+    );
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -35,13 +60,24 @@ class AssignNodes extends React.Component {
     });
 
     let nodesDOM = belongNodesList.map((nodeId, index)=>{
+      let assigning = this.props.assigned.filter((assignedNode, index)=>{
+        return assignedNode == nodeId;
+      });
       return (
         <li
           key={'_key_assignNode_'+index}
           nodeid={nodeId}
-          onClick={}
-          onMouseEnter={_handleEnter_liItem}
-          onMouseLeave={_handleLeave_liItem}>
+          assigning={assigning}
+          className={classnames(
+            styles.boxListItem,
+            {
+              [styles.chosenListItem]: (assigning.length > 0),
+              [styles.mouseListItem]: (this.state.onNode==nodeId)
+            }
+          )}
+          onClick={this._handleClick_NodeAssigned}
+          onMouseEnter={this._handleEnter_liItem}
+          onMouseLeave={this._handleLeave_liItem}>
           {(nodeId in this.props.nounsBasic) &&
             <div>
               <span>{this.props.nounsBasic[nodeId].name}</span>

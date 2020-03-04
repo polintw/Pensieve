@@ -2,7 +2,6 @@ const {
   accountInfoInit,
   i18nUIStringInit,
   messageDialogInit,
-  unitCurrentInit
 } = require('./constants.js');
 
 export const initGlobal = {

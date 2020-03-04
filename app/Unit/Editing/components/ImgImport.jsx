@@ -84,7 +84,7 @@ class ImgImport extends React.Component {
     return(
       <div
         style={this.style.Com_div_ImgImport_ImgEmpty}>
-
+        {"upload the Pic/Img of your Corner"}
         <div
           style={this.style.Com_div_ImgImport_ImgEmpty_Choose}>
           <ImgChoose

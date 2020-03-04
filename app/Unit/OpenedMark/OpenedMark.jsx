@@ -2,13 +2,12 @@ import React from 'react';
 import { connect } from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import SvgCircle from '../Svg/SvgCircle.jsx';
-import SvgNextCir from '../Svg/SvgNextCir.jsx';
+import SvgCircle from '../../Components/Svg/SvgCircle.jsx';
 import {
   baseHorizonRatial,
   baseVertivalRatial,
   widthDivisionRatial
-} from '../../config/styleParams.js';
+} from '../props.js';
 
 const styleMiddle = {
   absolute_FullVersion: {
@@ -29,7 +28,6 @@ class OpenedMark extends React.Component {
 
     };
     this._render_CircleGroup = this._render_CircleGroup.bind(this);
-    this._handleClick_jumpMark = this._handleClick_jumpMark.bind(this);
     this.style = {
       dependent_radius_Bottom: {
         borderBottomLeftRadius: '3%',
@@ -40,13 +38,6 @@ class OpenedMark extends React.Component {
         borderTopRightRadius: '3%'
       }
     };
-  }
-
-  _handleClick_jumpMark (event){
-    event.preventDefault();
-    event.stopPropagation();
-    let direction = event.currentTarget.getAttribute('jump');
-    this.props._set_markJump(direction, this.props.currentSerial);
   }
 
   _render_CircleGroup (coordinate){
@@ -62,19 +53,7 @@ class OpenedMark extends React.Component {
             notify={this.props.notify}
             serial={this.props.serial}/>
         </div>
-        <div
-          className={'boxMarkNextCir'}
-          style={{
-            top: coordinate.top > 90? '-72%': '124%',
-            left: coordinate.left > 90 ? '-56%': '100%'}}
-          jump={(this.props.currentSerial==(this.props.marksData.list.length-1)) ? 'continue':'next'}
-          onClick={this._handleClick_jumpMark}>
-          <SvgNextCir
-            pathStyle={{
-              fill: '#fff',
-              stroke: '#fff'
-            }}/>
-        </div>
+
       </div>
     )
   }
