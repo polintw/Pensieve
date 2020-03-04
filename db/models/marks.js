@@ -6,7 +6,6 @@ module.exports = (sequelize, DataTypes) => {
     layer: DataTypes.INTEGER,
     portion_top: DataTypes.FLOAT,
     portion_left: DataTypes.FLOAT,
-    editor_content: DataTypes.STRING,
     serial: DataTypes.INTEGER,
     created: DataTypes.DATE
   }, {
