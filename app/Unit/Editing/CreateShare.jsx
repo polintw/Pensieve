@@ -10,7 +10,7 @@ import SingleCloseDialog from '../../Components/Dialog/SingleCloseDialog/SingleC
 
 import {
   switchUnitSubmitting
-} from "../../redux/actions/general.js";
+} from "../../redux/actions/unit.js";
 import {
   cancelErr,
   uncertainErr

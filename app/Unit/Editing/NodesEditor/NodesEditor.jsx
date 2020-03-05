@@ -53,23 +53,27 @@ class NodesEditor extends React.Component {
     return(
       <div
         className={classnames(styles.comNodesEditor)}>
-        <div>
+        <div
+          className={classnames(styles.editorRow, styles.boxAssignNodes)}>
           <AssignNodes
             assigned={this.props.nodesSet['assign']}
             _submit_new_node={this.props._submit_new_node}
             _submit_deleteNodes={this.props._submit_deleteNodes}/>
         </div>
         <div
-          style={this.style.Com_Editing_NounsEditor_List}>
+          className={classnames(styles.editorRow, styles.boxNodeSearchModule)}>
+          <NodeSearchModule
+            type={"share"}
+            _set_nodeChoice={this._set_choiceFromSearch}
+            _set_SearchModal_switch={()=>{}}
+            _handleClick_SearchModal_switch={(e)=>{e.preventDefault();e.stopPropagation();}}/>
+        </div>
+        <div
+          className={classnames(styles.editorRow, styles.boxNodesLists)}>
           <NodesList
             nodesList={this.props.nodesSet['tags']}
             _set_nounDelete={this.props._submit_deleteNodes}/>
         </div>
-        <NodeSearchModule
-          type={"share"}
-          _set_nodeChoice={this._set_choiceFromSearch}
-          _set_SearchModal_switch={()=>{}}
-          _handleClick_SearchModal_switch={(e)=>{e.preventDefault();e.stopPropagation();}}/>
 
       </div>
     )

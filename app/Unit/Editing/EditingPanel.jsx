@@ -101,7 +101,7 @@ class EditingPanel extends React.Component {
       - no Unit was submitting: give warn
       - not editing: give warn
     */
-    if(!newObj["coverSrc"] || newObj["nodesList"].length < 1) {
+    if(!newObj["coverSrc"] || newObj['nodesSet'].assign.length < 1) { // the 'img' & 'node assigned to' are required
       this.props._set_warningDialog([{text: "make sure you've already upload 1 image and set at least 1 Node.",style:{}}], 'warning');
       return;
     }else if(this.props.unitSubmitting){

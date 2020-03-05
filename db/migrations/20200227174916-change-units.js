@@ -51,7 +51,7 @@ module.exports = {
       new Promise((resolve, reject)=>{typeChange('units_author', 'id_unit').then(resolve());}),
       new Promise((resolve, reject)=>{typeChange('notifications', 'id_unit', 'nullLimit').then(resolve());}),
       new Promise((resolve, reject)=>{typeChange('notifi_inspired', 'id_unit').then(resolve());}),
-      new Promise((resolve, reject)=>{typeChange('attributes', 'id_unit').then(resolve());}),
+      new Promise((resolve, reject)=>{typeChange('attribution', 'id_unit').then(resolve());}),
       new Promise((resolve, reject)=>{typeChange('marks', 'id_unit').then(resolve());}),
     ];
 
@@ -128,7 +128,7 @@ module.exports = {
       new Promise((resolve, reject)=>{typeChange('units_author', 'id_unit').then(resolve());}),
       new Promise((resolve, reject)=>{typeChange('notifications', 'id_unit', 'nullLimit').then(resolve());}),
       new Promise((resolve, reject)=>{typeChange('notifi_inspired', 'id_unit').then(resolve());}),
-      new Promise((resolve, reject)=>{typeChange('attributes', 'id_unit').then(resolve());}),
+      new Promise((resolve, reject)=>{typeChange('attribution', 'id_unit').then(resolve());}),
       new Promise((resolve, reject)=>{typeChange('marks', 'id_unit').then(resolve());}),
     ];
 

@@ -14,6 +14,8 @@ class AssignNodes extends React.Component {
       onNode:''
     };
     this._render_assignedNodes = this._render_assignedNodes.bind(this);
+    this._handleEnter_liItem = this._handleEnter_liItem.bind(this);
+    this._handleLeave_liItem = this._handleLeave_liItem.bind(this);
     this._handleClick_NodeAssigned = this._handleClick_NodeAssigned.bind(this);
   }
 
@@ -23,7 +25,7 @@ class AssignNodes extends React.Component {
     })
   }
 
-  _handleLeave_CornerOpt(e){
+  _handleLeave_liItem(e){
     this.setState({
       onNode: ''
     })
@@ -89,6 +91,7 @@ class AssignNodes extends React.Component {
       )
     })
 
+    return nodesDOM;
   }
 
   render(){

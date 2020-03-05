@@ -69,7 +69,7 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
-    units.hasMany(models.units_nodes_assign, {
+    users.hasMany(models.units_nodes_assign, {
       foreignKey:"id_author",
       sourceKey: "id",
       onDelete: 'cascade',

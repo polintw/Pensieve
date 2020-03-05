@@ -44,7 +44,7 @@ class OpenedMark extends React.Component {
     return (
       <div
         id={this.props.currentMark}
-        className={'circleMarkSpotSvg'}
+        className={'boxMarkSpot'}
         style={{top: coordinate.top+"%", left: coordinate.left+'%'}}>
         <div
           onClick={this.props._handleClick_ImgLayer_circle}>

@@ -1,0 +1,22 @@
+.comSearchModule_Share {
+  width: 100%;
+  position: relative;
+  top: 0;
+  box-sizing: border-box;
+}
+
+.boxSearchList_Share {
+  width: 100%;
+  min-height: 4rem;
+  max-height: 9rem;
+  position: relative;
+  box-sizing: border-box;
+  overflow: auto;
+}
+
+.boxSearchInput_Share {
+  width: 88%;
+  height: 3rem;
+  position: relative;
+  border-bottom: solid 0.2rem #e6e6e6;
+}

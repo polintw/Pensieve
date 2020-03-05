@@ -11,13 +11,11 @@ const styleMiddle={
     fontSize: '1.6rem',
     letterSpacing: '0.36rem',
     fontWeight: '300',
-    color: '#FAFAFA'
   },
   spanSubmit: {
     fontSize: '1.3rem',
     fontWeight: '400',
     letterSpacing: '0.14rem',
-    color: '#ededed'
   }
 }
 

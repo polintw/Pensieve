@@ -46,7 +46,6 @@ class ImgLayerEditing extends React.Component {
   _handleClick_SpotsLayer(event){
     event.stopPropagation();
     event.preventDefault();
-    this.props._set_warningDialog([{text:"your edit hasn't completed.", style:{}}], 'warning');
     if(this.props.marksList.length >0){ //we now want user only to write in one Mark, so limit the marksList length
       this.props._set_warningDialog([{text: "A better spot? Please delete the old one first before create a new!", style:{}}], 'warning');
       return;
@@ -141,7 +140,7 @@ class ImgLayerEditing extends React.Component {
             <div
               id={id}
               key={"key_Mark_Circle_"+index}
-              className={'circleMarkSpotSvg'}
+              className={'boxMarkSpot'}
               style={{top: coordinate.top+"%", left: coordinate.left+'%'}}
               onClick={self._handleClick_ImgLayer_circle}>
               <SvgCircle

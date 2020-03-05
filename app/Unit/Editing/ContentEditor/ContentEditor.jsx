@@ -55,7 +55,7 @@ class ContentEditor extends React.Component {
         backgroundColor: '#101010',
       },
       Com_Modal_ContentModal_Mark: { //keep it & _imglayer is convenient for making img following the format of UnitImg
-        width: '100%',
+        width: '85%',
         height: '99%',
         position: 'absolute',
         top: '0',
@@ -63,11 +63,11 @@ class ContentEditor extends React.Component {
         boxSizing: 'border-box',
       },
       Com_Modal_ContentModal_Mark_imglayer: {
-        width: '81%',
+        width: '100%',
         height: '100%',
         position: 'absolute',
         top: '0%',
-        right: '0%',
+        left: '0%',
         boxSizing: 'border-box'
       },
       Com_ContentModal_ControlSection_div: {
@@ -181,7 +181,6 @@ class ContentEditor extends React.Component {
     return(
       <div
         style={this.style.Com_Modal_ContentModal}>
-
         <div
           style={this.style.Com_Modal_ContentModal_Mark}>
           <div

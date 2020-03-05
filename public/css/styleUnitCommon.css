@@ -1,0 +1,13 @@
+.boxImgPosition {
+  position: absolute;
+  top: 50%;
+}
+
+.boxMarkSpot {
+  width: 3.2vw;
+  height: 3.2vw;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  overflow: visible;
+  cursor: pointer;
+}
