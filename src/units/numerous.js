@@ -15,6 +15,7 @@ const Op = Sequelize.Op;
 const _DB_units = require('../../db/models/index').units;
 const _DB_marks = require('../../db/models/index').marks;
 const _DB_attribution = require('../../db/models/index').attribution;
+const _DB_marksContent = require('../../../db/models/index').marks_content;
 
 function _handle_GET_unitsByList(req, res){
   new Promise((resolve, reject)=>{
@@ -40,8 +41,8 @@ function _handle_GET_unitsByList(req, res){
 
       result.forEach((row, index)=>{
         sendingData.usersList.push(row.id_author);
-        sendingData.unitsBasic[row.id] = {
-          unitsId: row.id,
+        sendingData.unitsBasic[row.exposedId] = {
+          unitsId: row.exposedId, 
           authorId: row.id_author,
           pic_layer0: row.url_pic_layer0,
           pic_layer1: row.url_pic_layer1,
@@ -76,13 +77,40 @@ function _handle_GET_unitsByList(req, res){
         resultsMarks.forEach((row, index)=> {
           sendingData.unitsBasic[row.id_unit]["marksList"].push(row.id);
           sendingData.marksBasic[row.id] = {
-            editorContent: JSON.parse(row.editor_content), //we parse the string into js obj now, because the res handler would parse all data into JSON string again
             layer: row.layer
           }
         });
+        return sendingData;
+      });
+    }).then((sendingData) => {
+
+      _DB_marksContent.findAll({
+        where: {
+          id_unit: unitsList
+          }
+      })
+      .then((resultsMarksContent)=>{
+        resultsMarksContent.forEach((row, index)=>{
+          //editorContent was in form: {blocks:[], entityMap:{}}
+          sendingData.marksBasic[row.id_mark]['editorContent'] = { 
+            blocks: [],
+            entityMap: row.contentEntityMap
+          };
+
+          resultsMarksContent.blockLigntening.forEach((blockBasic, index) => {
+            blockBasic['text'] = row.textByBlocks[blockBasic.key]
+            blockBasic['inlineStyleRanges'] = row.inlineStyleRangesByBlocks[blockBasic.key]
+            blockBasic['entityRanges'] = row.entityRangesByBlocks[blockBasic.key]
+            blockBasic['data'] = row.dataByBlocks[blockBasic.key]
+
+            sendingData.marksBasic[row.id_mark]['editorContent'].blocks.push(blockBasic);
+          });
+
+        });
 
         resolve(sendingData);
-      });
+      })
+
     }).catch((err)=>{ //catch the error came from the whole
       reject(err);
     });
@@ -94,7 +122,7 @@ function _handle_GET_unitsByList(req, res){
 };
 
 execute.get('/', function(req, res){
-  if(process.env.NODE_ENV == 'development') winston.verbose('GET units: plain');
+  if (process.env.NODE_ENV == 'development') winston.verbose('GET: units /numerous.');
   _handle_GET_unitsByList(req, res);
 })
 

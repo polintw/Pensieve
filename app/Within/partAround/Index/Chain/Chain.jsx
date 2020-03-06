@@ -8,6 +8,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import CreateShare from '../../../../Unit/Editing/CreateShare.jsx';
+import {axios_get_UnitsBasic} from '../../../../utils/fetchHandlers.js';
 import {
   handleNounsList,
   handleUsersList,
@@ -57,6 +58,7 @@ class Chain extends React.Component {
     this._axios_get_chainlist()
     .then((resObj)=>{
       let unitsList =[]; //list composed of unitId, prepared for getting their basic info for Nail
+      //and remember, the 'unitId' in res were 'exposeId'
       unitsList.push(resObj['orderFirst'].unitId);
       if(!!resObj['orderSecond']) unitsList.push(resObj['orderSecond'].unitId);
 
@@ -144,8 +146,7 @@ class Chain extends React.Component {
   render(){
     const recKeys = Object.keys(this.props.belongsByType);
 
-    return
-      (recKeys.length > 0) ? (
+    return (recKeys.length > 0) ? (
         <div
           className={classnames(styles.comChain)}>
           <div>
@@ -163,8 +164,7 @@ class Chain extends React.Component {
             _submit_Share_New={this._submit_Share_New}
             _refer_von_Create={this.props._refer_von_cosmic}/>
         </div>
-      ):();
-    )
+      ):();    
   }
 }
 
