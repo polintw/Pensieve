@@ -183,7 +183,9 @@ class CreateShare extends React.Component {
   }
 
   componentWillUnmount(){
-
+    if(this.props.unitSubmitting){
+      this.axiosSource.cancel("component will unmount.")
+    }
   }
 
   render(){
