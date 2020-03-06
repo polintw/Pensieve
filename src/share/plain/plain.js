@@ -182,7 +182,7 @@ function shareHandler_POST(req, res){
       return modifiedBody;
     })
     .catch((err)=>{
-      throw err
+      throw "error thrown from marks created & nodesSet handling process"+ err
     });
 
   }).then((modifiedBody)=>{
@@ -226,29 +226,33 @@ function shareHandler_POST(req, res){
       return modifiedBody;
     })
     .catch((err)=>{
-      throw err
+      throw "error thrown from marks_content created process"+ err
     });
 
-  }).then((modifiedBody)=>{
+  })
+  .then((modifiedBody)=>{
     //every essential step for a shared has been done
     //return success & id just created
-    _res_success_201(res, {unitId: modifiedBody.id_unit_exposed});
-
+    _res_success_201(res, {unitId: modifiedBody.id_unit_exposed}, '');
     //resolve, and return the modifiedBody for backend process
     return(modifiedBody);
   })
   .catch((error)=>{
     //a catch here, shut the process if the error happened in the 'front' steps
     _handle_ErrCatched(error, req, res);
-
-  }).then((modifiedBody)=>{
+    return Promise.reject();
+    //we still need to 'return', but return a reject(),
+    //otherwise it would still be seen as 'handled', and go to the next .then()
+  })
+  .then((modifiedBody)=>{
     //backend process
     //no connection should be used during this process
     let concatList = modifiedBody.nodesSet.assign.concat(modifiedBody.nodesSet.tags); //combined list pass from req
 
     return _DB_nodes_activity.findAll({
       where: {id_node: concatList}
-    }).then((nodesActivity)=>{
+    })
+    .then((nodesActivity)=>{
       //if the node was new used, it won't has record from nodesActivity
       //so let's compare the selection and the list in modifiedBody
       //first, copy a new array, prevent modification to modifiedBody
@@ -271,13 +275,16 @@ function shareHandler_POST(req, res){
       }
     })
     .catch((error)=>{
-      throw error;
-    })
+      /*
+      Main error handler for whole backend process!
+      the backend process has its own error catch, different from the previous process.
+      and throw to upper catch just to make a clear structure.
+      */
+      winston.error(`${"Internal process "} , ${"for "+"shareHandler_POST: "}, ${error}`);
+    });
   })
   .catch((error)=>{
-    //the backend process has its own error catch,
-    //different from the previous process
-    winston.error(`${"Internal process "} , ${"for "+"shareHandler_POST: "}, ${error}`);
+    //nothing need to happend here, just a catch to deal with chain design(.then() after .catch())
   });
 
 }
