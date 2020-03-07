@@ -23,11 +23,11 @@ function _handle_GET_unitsByList(req, res){
 
     //in this api, units list was passed from client,
     //we choose directly by that list, but Remember! limit the amount
-    let unitsList = req.query.unitsList;
+    let unitsList = req.query.unitsList; //list was composed of 'exposedId'
 
     _DB_units.findAll({
       where: {
-        id: unitsList
+        exposedId: unitsList
       },
       limit: 20 //set limit to prevent api abuse
     }).then((result)=>{
@@ -36,13 +36,16 @@ function _handle_GET_unitsByList(req, res){
         marksBasic: {},
         usersList: [],
         nounsListMix: [],
-        temp: {}
+        temp: {
+          chart: {},
+          unitpm: []
+        }
       }
 
       result.forEach((row, index)=>{
         sendingData.usersList.push(row.id_author);
         sendingData.unitsBasic[row.exposedId] = {
-          unitsId: row.exposedId, 
+          unitsId: row.exposedId,
           authorId: row.id_author,
           pic_layer0: row.url_pic_layer0,
           pic_layer1: row.url_pic_layer1,
@@ -50,16 +53,19 @@ function _handle_GET_unitsByList(req, res){
           marksList: [],
           nounsList: []
         };
+        //Now it's Important! We have to build a 'map' between unitid & exposedId
+        sendingData.temp['chart'][row.exposedId] = row.id;
+        sendingData.temp.unitpm.push(row.id); //push the internal id to form a list
       });
 
       return sendingData;
     }).then((sendingData)=>{
       let conditionsMarks = {
-        where: {id_unit: unitsList},
+        where: {id_unit: sendingData.temp.unitpm}, //select from table by internal unit id
         attributes: ['id','id_unit','layer','editor_content']
       },
       conditionAttri = {
-        where: {id_unit: unitsList},
+        where: {id_unit: sendingData.temp.unitpm},
         attributes: ['id_unit', 'id_noun'],
       };
       let marksSelection = Promise.resolve(_DB_marks.findAll(conditionsMarks).catch((err)=>{throw err}));
@@ -67,15 +73,19 @@ function _handle_GET_unitsByList(req, res){
 
       return Promise.all([attriSelection, marksSelection])
       .then(([resultsAttri, resultsMarks])=>{
-
+        /*
+        Remember composed all unitsBasic related data by exposedId
+        */
         resultsAttri.forEach((row, index)=> {
-          sendingData.unitsBasic[row.id_unit]["nounsList"].push(row.id_noun);
+          let currentExposedId = sendingData.temp['chart'][row.id_unit];
+          sendingData.unitsBasic[currentExposedId]["nounsList"].push(row.id_noun);
           //and push it into nounsListMix, but remember to avoid duplicate
           if(sendingData.nounsListMix.indexOf(row.id_noun)< 0) sendingData.nounsListMix.push(row.id_noun);
         });
 
         resultsMarks.forEach((row, index)=> {
-          sendingData.unitsBasic[row.id_unit]["marksList"].push(row.id);
+          let currentExposedId = sendingData.temp['chart'][row.id_unit];
+          sendingData.unitsBasic[currentExposedId]["marksList"].push(row.id);
           sendingData.marksBasic[row.id] = {
             layer: row.layer
           }
@@ -83,29 +93,36 @@ function _handle_GET_unitsByList(req, res){
         return sendingData;
       });
     }).then((sendingData) => {
-
+      //compose editorContent for each mark in this section.
       _DB_marksContent.findAll({
         where: {
-          id_unit: unitsList
+          id_unit: sendingData.temp.unitpm
           }
       })
       .then((resultsMarksContent)=>{
         resultsMarksContent.forEach((row, index)=>{
           //editorContent was in form: {blocks:[], entityMap:{}}
-          sendingData.marksBasic[row.id_mark]['editorContent'] = { 
+          sendingData.marksBasic[row.id_mark]['editorContent'] = {
             blocks: [],
-            entityMap: row.contentEntityMap
+            entityMap: JSON.parse(row.contentEntityMap)
           };
+          /*
+          and Notive, every col here still remain in 'string', so parse them.
+          */
+          let blockLigntening=JSON.parse(row.contentBlocks_Light),
+              textByBlocks=JSON.parse(row.textByBlocks),
+              inlineStyleRangesByBlocks=JSON.parse(row.inlineStyleRangesByBlocks),
+              entityRangesByBlocks=JSON.parse(row.entityRangesByBlocks),
+              dataByBlocks=JSON.parse(row.dataByBlocks);
 
-          resultsMarksContent.blockLigntening.forEach((blockBasic, index) => {
-            blockBasic['text'] = row.textByBlocks[blockBasic.key]
-            blockBasic['inlineStyleRanges'] = row.inlineStyleRangesByBlocks[blockBasic.key]
-            blockBasic['entityRanges'] = row.entityRangesByBlocks[blockBasic.key]
-            blockBasic['data'] = row.dataByBlocks[blockBasic.key]
+          blockLigntening.forEach((blockBasic, index) => {
+            blockBasic['text'] = textByBlocks[blockBasic.key]
+            blockBasic['inlineStyleRanges'] = inlineStyleRangesByBlocks[blockBasic.key]
+            blockBasic['entityRanges'] = entityRangesByBlocks[blockBasic.key]
+            blockBasic['data'] = dataByBlocks[blockBasic.key]
 
             sendingData.marksBasic[row.id_mark]['editorContent'].blocks.push(blockBasic);
           });
-
         });
 
         resolve(sendingData);
