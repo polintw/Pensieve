@@ -97,6 +97,13 @@ function _handle_GET_feedChainlist(req, res){
       .then((result)=>{
         return result;
       });
+    }) //and we have to select from units for getting exposedId
+    .then((resultAssign)=>{
+      return _DB_units.findOne({
+        where: !!resultAssign ? {
+          id: resultAssign.id_unit
+        }:{} //in case the resultAssign was NUll
+      });
     })
     .catch((err)=>{throw err})
   };
@@ -129,7 +136,9 @@ function _handle_GET_feedChainlist(req, res){
         orderFirst: {},
         orderSecond: {},
         firstsetify: false,
-        temp: {}
+        temp: {
+          settingTime:{}
+        }
       };
       let residence = !!results[0] ? results[0].id_node : false; //checking if the results was 'null'
       let homeland = !!results[1] ? results[1].id_node : false;
@@ -137,8 +146,8 @@ function _handle_GET_feedChainlist(req, res){
       if(!residence && !homeland) return Promise.resolve(sendingData);
       //and if there has some record,
       let belongList = [];
-      if(residence){ sendingData.temp['residTime']=results[0].createdAt; belongList.push(results[0].id_node)};
-      if(homeland){ sendingData.temp['homelaTime']=results[1].createdAt; belongList.push(results[1].id_node)};
+      if(residence){ sendingData.temp['settingTime']['resid']=results[0].createdAt; belongList.push(results[0].id_node)};
+      if(homeland){ sendingData.temp['settingTime']['homela']=results[1].createdAt; belongList.push(results[1].id_node)};
 
       let arrPSecondList = [ //select belong the user set
             new Promise((resolve, reject)=>{_find_Shared_last(userId).then((results)=>{resolve(results);});}),
@@ -147,22 +156,59 @@ function _handle_GET_feedChainlist(req, res){
           ];
       return Promise.all(arrPSecondList)
       .then((resultsSec)=>{
-        if(sendingData.temp['residTime'] < resultsSec[1] || sendingData.temp['homelaTime'] < resultsSec[1]){ //only happen when 'first set'
-          sendingData.firstsetify = true;
+        //resultsSec are all result return by 'findOne', representing ony 'a row'
+        let rowShared = resultsSec[0],
+        rowLastVisit = resultsSec[1],
+        rowAssign = resultsSec[2];
+        //check if the req was the first time after belong was set
+        let firstsetify = true; //a temp param before insert into sendingData
+        let setBelong = Object.keys(sendingData.temp['settingTime']);
+        setBelong.forEach((key, index) => {
+          //that is, if the last visit time was latter than setting time, this must be 'not' the first time after set
+          //(rowLastVisit must not NULL)
+          if(sendingData.temp['settingTime'][key] < rowLastVisit.updatedAt) firstsetify = false;
+        });
+        sendingData.firstsetify = firstsetify; //update by the result
+        //then arrange the units by the time
+        //we now compare the time line first, but Notice! it was a method because we only have 2 belongs
+        const _check_nullRowandTimeCompare = (mainRow, compareRow)=>{
+          //2 things need to do by this handler:
+          // which one is later, and if any row was NULL
+          let boolResult;
+          if(!!mainRow && !!compareRow){ //if bothe row are 'not' NULL
+            boolResult = (mainRow.createdAt > compareRow.createdAt)? true : false;
+          }else{ //only look the mainRow if there is any row was NULL
+            boolResult = !!mainRow ? true: false;
+          }
+          return boolResult;
         };
-        let rowShared = arrPSecondList[0],
-            rowLastVisit = arrPSecondList[1],
-            rowAssign = arrPSecondList[2];
-        if(rowLastVisit.createdAt> rowShared.createdAt && rowLastVisit.createdAt > rowAssign.createdAt){
-          sendingData.orderFirst['unitId'] = rowShared.createdAt > rowAssign.createdAt ? rowShared.exposedId:
-          rowAssign.id_unit;
-
-          
+        let visitLaterShared = _check_nullRowandTimeCompare(rowLastVisit, rowShared)? true: false,
+            visitLaterAssign = _check_nullRowandTimeCompare(rowLastVisit, rowAssign)? true: false,
+            sharedLaterAssign = _check_nullRowandTimeCompare(rowShared, rowAssign)? true: false;
+        if(visitLaterShared && visitLaterAssign){
+          //if there is nothing new after last visit, only show the later one between Shared & Assign
+          sendingData.orderFirst = (sharedLaterAssign) ? ( //incl. the condition with a null row
+            {unitId: rowShared.exposedId, form: 'shared'}
+          ):(
+            {unitId: rowAssign.exposedId, form: 'assign'}
+          ); //both rowShared & rowAssign are selection from table 'units'
+        }else{ //then any else condition, incl. Shared the latest, multiple new assign, sending all selection
+          if(sharedLaterAssign){ //shared is later, and means rowShared must 'not' NULL
+            sendingData.orderFirst = !!rowAssign ? {unitId: rowAssign.exposedId, form: 'assign'} : {unitId: rowShared.exposedId, form: 'shared'};
+            sendingData.orderSecond = !!rowAssign ? {unitId: rowShared.exposedId, form: 'shared'} : {};
+          }else{ //shared is later, and means rowAssign must 'not' NULL
+            sendingData.orderFirst = !!rowShared ? {unitId: rowShared.exposedId, form: 'shared'} : {unitId: rowAssign.exposedId, form: 'assign'};
+            sendingData.orderSecond = !!rowShared ? {unitId: rowAssign.exposedId, form: 'assign'} : {};
+          };
         }
 
+        return sendingData;
       })
-
-
+      .catch((err)=>{
+        throw err
+      });
+    })
+    .then((sendingData)=>{
       resolve(sendingData);
     }).catch((error)=>{
       reject(new internalError(error ,131));
