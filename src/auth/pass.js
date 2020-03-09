@@ -30,9 +30,21 @@ pass.use(function(req, res, next) {
       }
     });
   } else {
-    let message = `res code 401: missing token caught by /pass, to route "${req.originalUrl}".`;
-
-    _handle_ErrCatched(new authorizedError(message, 89), req, res);
+    let pathSplice = req.path.match(/\/(.*?)\//); //would always return the '1st' of '/.../'
+    /*
+    ref:
+    stackoverflow: https://stackoverflow.com/questions/5642315/regular-expression-to-get-a-string-between-two-strings-in-javascript/40782646
+    RegExp.exec(): https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/exec
+    */
+    switch (pathSplice[1]) { //[1] to the 'match obj', was the match substring (part between the parenthesis in rex.)
+      case 'img':
+        // let /img/ pass even without a token.
+        next()
+        break;
+      default:
+        let message = `res code 401: missing token caught by /pass, to route "${req.originalUrl}".`;
+        _handle_ErrCatched(new authorizedError(message, 89), req, res);
+    };
   }
 });
 
