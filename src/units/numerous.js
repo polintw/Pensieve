@@ -15,7 +15,7 @@ const Op = Sequelize.Op;
 const _DB_units = require('../../db/models/index').units;
 const _DB_marks = require('../../db/models/index').marks;
 const _DB_attribution = require('../../db/models/index').attribution;
-const _DB_marksContent = require('../../../db/models/index').marks_content;
+const _DB_marksContent = require('../../db/models/index').marks_content;
 
 function _handle_GET_unitsByList(req, res){
   new Promise((resolve, reject)=>{
@@ -54,7 +54,7 @@ function _handle_GET_unitsByList(req, res){
           nounsList: []
         };
         //Now it's Important! We have to build a 'map' between unitid & exposedId
-        sendingData.temp['chart'][row.exposedId] = row.id;
+        sendingData.temp['chart'][row.id] = row.exposedId;
         sendingData.temp.unitpm.push(row.id); //push the internal id to form a list
       });
 
@@ -62,7 +62,7 @@ function _handle_GET_unitsByList(req, res){
     }).then((sendingData)=>{
       let conditionsMarks = {
         where: {id_unit: sendingData.temp.unitpm}, //select from table by internal unit id
-        attributes: ['id','id_unit','layer','editor_content']
+        attributes: ['id','id_unit','layer']
       },
       conditionAttri = {
         where: {id_unit: sendingData.temp.unitpm},
@@ -110,10 +110,10 @@ function _handle_GET_unitsByList(req, res){
           and Notive, every col here still remain in 'string', so parse them.
           */
           let blockLigntening=JSON.parse(row.contentBlocks_Light),
-              textByBlocks=JSON.parse(row.textByBlocks),
-              inlineStyleRangesByBlocks=JSON.parse(row.inlineStyleRangesByBlocks),
-              entityRangesByBlocks=JSON.parse(row.entityRangesByBlocks),
-              dataByBlocks=JSON.parse(row.dataByBlocks);
+              textByBlocks=JSON.parse(row.text_byBlocks),
+              inlineStyleRangesByBlocks=JSON.parse(row.inlineStyleRanges_byBlocks),
+              entityRangesByBlocks=JSON.parse(row.entityRanges_byBlocks),
+              dataByBlocks=JSON.parse(row.data_byBlocks);
 
           blockLigntening.forEach((blockBasic, index) => {
             blockBasic['text'] = textByBlocks[blockBasic.key]
@@ -127,6 +127,7 @@ function _handle_GET_unitsByList(req, res){
 
         resolve(sendingData);
       })
+      .catch((err)=>{throw err})
 
     }).catch((err)=>{ //catch the error came from the whole
       reject(err);

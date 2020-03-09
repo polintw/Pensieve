@@ -11,7 +11,8 @@ module.exports = (sequelize, DataTypes) => {
     data_byBlocks: DataTypes.STRING
   }, {
     charset: 'utf8mb4', //for Mandarin, or emoji if you don't speak in mandarin
-    paranoid: true
+    paranoid: true //set it to 'true' could let the Sequelize know locaaly,
+    //it should ignore any column which is not 'null' in 'deletedAt' (so called 'soft delete')
   });
   marks_content.associate = function(models) {
     // associations can be defined here

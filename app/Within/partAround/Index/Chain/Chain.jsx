@@ -59,14 +59,14 @@ class Chain extends React.Component {
     .then((resObj)=>{
       let unitsList =[]; //list composed of unitId, prepared for getting their basic info for Nail
       //and remember, the 'unitId' in res were 'exposeId'
-      unitsList.push(resObj['orderFirst'].unitId);
-      if(!!resObj['orderSecond']) unitsList.push(resObj['orderSecond'].unitId);
+      if('unitId' in resObj.main['orderFirst']) unitsList.push(resObj.main['orderFirst'].unitId);
+      if('unitId' in resObj.main['orderSecond']) unitsList.push(resObj.main['orderSecond'].unitId);
 
       //(we don't update the 'axios' state, because there is another axios here, for units, right after the res)
       this.setState({
-        nailFirst: resObj.orderFirst,
-        nailSecond: resObj.orderSecond,
-        firstify: resObj.firstsetify
+        nailFirst: resObj.main.orderFirst,
+        nailSecond: resObj.main.orderSecond,
+        firstify: resObj.main.firstsetify
       });
 
       return axios_get_UnitsBasic(self.axiosSource.token, unitsList); //and use the list to get the data of eahc unit
@@ -96,7 +96,7 @@ class Chain extends React.Component {
   }
 
   _axios_get_chainlist(){
-    axios.get('/router/feed/chainlist', {
+    return axios.get('/router/feed/chainlist', {
       headers: {
         'Content-Type': 'application/json',
         'charset': 'utf-8',
@@ -164,7 +164,7 @@ class Chain extends React.Component {
             _submit_Share_New={this._submit_Share_New}
             _refer_von_Create={this.props._refer_von_cosmic}/>
         </div>
-      ):();    
+      ):(<div></div>);
   }
 }
 

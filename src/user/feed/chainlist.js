@@ -86,7 +86,7 @@ function _handle_GET_feedChainlist(req, res){
       return _DB_unitsNodes_assign.findOne({
         where: {
           nodeAssigned: belongList,
-          id_unit: {[Op.ne]: readList}, //unread
+          id_unit: {[Op.notIn]: readList}, //unread
           id_author: {[Op.ne]: userId} //not user him/herself
         },
         order: [ //make sure the order of arr are from latest
@@ -96,13 +96,14 @@ function _handle_GET_feedChainlist(req, res){
       })
       .then((result)=>{
         return result;
-      });
+      })
+      .catch((err)=>{throw err})
     }) //and we have to select from units for getting exposedId
     .then((resultAssign)=>{
       return _DB_units.findOne({
-        where: !!resultAssign ? {
-          id: resultAssign.id_unit
-        }:{} //in case the resultAssign was NUll
+        where: {
+          id: !!resultAssign ? (resultAssign.id_unit) : (null) //in case the resultAssign was NUll, and let it return 'null'
+        }
       });
     })
     .catch((err)=>{throw err})
@@ -152,7 +153,7 @@ function _handle_GET_feedChainlist(req, res){
       let arrPSecondList = [ //select belong the user set
             new Promise((resolve, reject)=>{_find_Shared_last(userId).then((results)=>{resolve(results);});}),
             new Promise((resolve, reject)=>{_find_lastVisit_index(userId).then((results)=>{resolve(results);});}),
-            new Promise((resolve, reject)=>{_find_assigned_unread(userId, belongList).then((results)=>{resolve(results);});}),
+            new Promise((resolve, reject)=>{_find_assigned_unread(userId, belongList).then((results)=>{resolve(results);}).catch((err)=>{reject(err)});}).catch((err)=>{throw err}),
           ];
       return Promise.all(arrPSecondList)
       .then((resultsSec)=>{
@@ -196,7 +197,9 @@ function _handle_GET_feedChainlist(req, res){
           if(sharedLaterAssign){ //shared is later, and means rowShared must 'not' NULL
             sendingData.orderFirst = !!rowAssign ? {unitId: rowAssign.exposedId, form: 'assign'} : {unitId: rowShared.exposedId, form: 'shared'};
             sendingData.orderSecond = !!rowAssign ? {unitId: rowShared.exposedId, form: 'shared'} : {};
-          }else{ //shared is later, and means rowAssign must 'not' NULL
+          }else if(!sharedLaterAssign && !rowAssign){ //means both rowShared & rowAssign are NULL
+            //do nothing! keep sendingData as current status.
+          }else{ //
             sendingData.orderFirst = !!rowShared ? {unitId: rowShared.exposedId, form: 'shared'} : {unitId: rowAssign.exposedId, form: 'assign'};
             sendingData.orderSecond = !!rowShared ? {unitId: rowAssign.exposedId, form: 'assign'} : {};
           };
