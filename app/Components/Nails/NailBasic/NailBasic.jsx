@@ -6,11 +6,12 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import ImgPreview from '../../ImgPreview.jsx';
+import AccountPalette from '../../AccountPalette.jsx';
 import DisplayMarkPreview from '../../Draft/DisplayMarkPreview.jsx';
 import styles from "./styles.module.css";
 import {
   renderNodesRows
-} from '../utils.js';
+} from '../../Node/generators.js';
 
 class NailBasic extends React.Component {
   constructor(props){
@@ -112,22 +113,24 @@ class NailBasic extends React.Component {
                 styles.boxMask,
                 {[styles.interMask]: this.state.onImg}
               )}/>
+
+          </div>
+          <div
+            className={classnames(styles.boxContent)}>
+
             <div
               className={classnames(styles.boxNodes)}>
               {this._render_nails_nouns()}
             </div>
-          </div>
-          <div
-            className={classnames(styles.boxContent)}>
             <div
               className={classnames(styles.boxMarkPreview)}>
               {this._render_nails_Marks()}
             </div>
             <div className={styles.boxAuthor}>
-              <span
-                className={classnames('fontNailAuthor', styles.spanAuthor, styles.fontAuthor)}>
-                {this.props.unitBasic.authorId in this.props.usersBasic ? this.props.usersBasic[this.props.unitBasic.authorId].account:null}
-              </span>
+              <AccountPalette
+                size={'regular'}
+                userId={this.props.unitBasic.authorId}/>
+
             </div>
           </div>
         </Link>

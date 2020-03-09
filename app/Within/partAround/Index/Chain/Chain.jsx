@@ -30,6 +30,7 @@ class Chain extends React.Component {
       nailFirst: {},
       nailSecond: {},
       firstify: false,
+      fetched: false,
       unitsBasic: {},
       marksBasic: {}
     };
@@ -68,7 +69,8 @@ class Chain extends React.Component {
       this.setState({
         nailFirst: resObj.main.orderFirst,
         nailSecond: resObj.main.orderSecond,
-        firstify: resObj.main.firstsetify
+        firstify: resObj.main.firstsetify,
+        fetched: true
       });
       this.props._set_mountToDo('chainlist'); // and, after we get the list back, inform the parent we are done with the lastVisit time
 
@@ -149,6 +151,8 @@ class Chain extends React.Component {
       //render if there are something in the data
       if('unitId' in this.state[order]){
         let unitId = this.state[order].unitId;
+        if( !(unitId in this.state.unitsBasic)) return; //skip if the info of the unit not yet fetch
+
         switch (this.state[order].form) {
           case 'shared':
             nailsDOM.push(
@@ -158,7 +162,7 @@ class Chain extends React.Component {
                   {...this.props}
                   unitId={unitId}
                   linkPath={this.props.match.url+'/unit'}
-                  unitBasic={this.state.unitBasic[unitId]}
+                  unitBasic={this.state.unitsBasic[unitId]}
                   marksBasic={this.state.marksBasic}/>
               </div>
             )
@@ -184,13 +188,20 @@ class Chain extends React.Component {
                   {...this.props}
                   unitId={unitId}
                   linkPath={this.props.match.url+'/unit'}
-                  unitBasic={this.state.unitBasic[unitId]}
+                  unitBasic={this.state.unitsBasic[unitId]}
                   marksBasic={this.state.marksBasic}/>
               </div>
             )
         }
       }
     });
+    //and if they both empty, but list was already fetched, which means no records can be showed even register the belong
+    if(nailsDOM.length == 0 && this.state.fetched) nailsDOM.push(
+      <div
+        key={"key_ChainNail_emptyRecords"}>
+        {this.props.i18nUIString.catalog["guidingChain_emptyRecords"]}
+      </div>
+    );
 
     return nailsDOM;
   }
@@ -216,7 +227,11 @@ class Chain extends React.Component {
             _submit_Share_New={this._submit_Share_New}
             _refer_von_Create={this.props._refer_von_cosmic}/>
         </div>
-      ):(<div></div>);
+      ):(
+        <div>
+          {this.props.i18nUIString.catalog["guidingChain_noBelongSet"]}
+        </div>
+      );
   }
 }
 

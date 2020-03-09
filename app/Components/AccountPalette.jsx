@@ -41,7 +41,11 @@ class Palette extends React.Component {
         propsStyle = [
           this.props.styleFirst ?　this.props.styleFirst: {},
           this.props.styleLast ? this.props.styleLast: {}
-        ];
+        ],
+        firstName = !!this.props.accountFirstName? (this.props.accountFirstName+" ") : null,
+        lastName = !!this.props.accountLastName? this.props.accountLastName : null;
+    if(!!firstName) firstName = !!this.props.userId ? (this.props.userId in this.props.usersBasic) ? (this.props.usersBasic[this.props.userId].firstName+" ") :　null : null;
+    if(!!lastName) lastName = !!this.props.userId ? (this.props.userId in this.props.usersBasic) ? this.props.usersBasic[this.props.userId].lastName :　null : null;
 
     return(
       <div
@@ -49,12 +53,12 @@ class Palette extends React.Component {
         <span
           className={classnames(classSpan, 'spanNameFirstName')}
           style={propsStyle[0]}>
-          {this.props.accountFisrtName+" "}
+          {firstName}
         </span>
         <span
           className={classSpan}
           style={propsStyle[1]}>
-          {this.props.accountLastName}
+          {lastName}
         </span>
       </div>
     )
@@ -64,7 +68,7 @@ class Palette extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
-    unitCurrent: state.unitCurrent
+    usersBasic: state.usersBasic
   }
 }
 
@@ -73,4 +77,6 @@ const reduxConnection = connect(
   null
 );
 
-export const AccountPlate = withRouter(reduxConnection(Palette));
+const AccountPalette = withRouter(reduxConnection(Palette));
+
+export default AccountPalette;

@@ -6,14 +6,13 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import SharedStatics from '../SharedStatics.jsx';
+import SharedStatics from './SharedStatics.jsx';
 import ImgPreview from '../../ImgPreview.jsx';
+import AccountPalette from '../../AccountPalette.jsx';
 import DisplayMarkPreview from '../../Draft/DisplayMarkPreview.jsx';
-import DraftDisplay from '../../Draft/DraftDisplay.jsx';
-import {SvgBulbPlainHalf} from '../../Svg/SvgBulb.jsx';
 import {
   renderNodesRows
-} from '../utils.js';
+} from '../../Node/generators.js';
 
 class NailShared extends React.Component {
   constructor(props){
@@ -29,14 +28,7 @@ class NailShared extends React.Component {
     this._handleLeave_nailImg = this._handleLeave_nailImg.bind(this);
     this._render_nails_Marks = this._render_nails_Marks.bind(this);
     this._render_nails_nouns = this._render_nails_nouns.bind(this);
-    this.style={
-      Com_Nails_Shared_breach_button_: {
-        fontSize: '1.28rem',
-        fontWeight: '300',
-        letterSpacing: '0.22rem',
-        color: 'grey',
-      }
-    }
+
   }
 
   _handleEnter_nailFrame(e){
@@ -104,10 +96,7 @@ class NailShared extends React.Component {
             state: {from: this.props.location}
           }}
           className={classnames('plainLinkButton', styles.frame)}>
-          <div
-            className={classnames(styles.boxMarkPreview)}>
-            {this._render_nails_Marks()}
-          </div>
+
           <div
             ref={this.nailImgBox}
             className={styles.boxImg}
@@ -124,20 +113,7 @@ class NailShared extends React.Component {
               )}/>
             <div
               className={classnames(styles.boxBreach)}>
-              <Link
-                to={{
-                  pathname: this.props.linkPath,
-                  search: '?theater&unitId='+this.props.unitId,
-                  state: {from: this.props.location}
-                }}
-                className={classnames("plainLinkButton", styles.boxBreachItem, styles.boxHalfBulb)}
-                style={Object.assign({}, this.style.Com_Nails_Shared_breach_button_, {
-                  stroke:this.props.notifiedStatus.inspired?'#ff7a5f':'#aaaaaa',
-                  strokeWidth: '10px',
-                  fill:'none'
-                })}>
-                <SvgBulbPlainHalf/>
-              </Link>
+
               <div
                 className={classnames(styles.boxBreachItem)}
                 style={{marginRight: '0'}}>
@@ -148,9 +124,24 @@ class NailShared extends React.Component {
 
           </div>
           <div
-            className={styles.boxNodes}>
-            {this._render_nails_nouns()}
+            className={classnames(styles.boxContent)}>
+
+            <div
+              className={classnames(styles.boxNodes)}>
+              {this._render_nails_nouns()}
+            </div>
+            <div
+              className={classnames(styles.boxMarkPreview)}>
+              {this._render_nails_Marks()}
+            </div>
+            <div className={styles.boxAuthor}>
+              <AccountPalette
+                size={'regular'}
+                userId={this.props.unitBasic.authorId}/>
+
+            </div>
           </div>
+
         </Link>
       </div>
     )
