@@ -27,7 +27,7 @@ import {
   uncertainErr
 } from '../../../utils/errHandlers.js';
 
-const toDoArr = ["lastVisit"];
+const toDoArr = ["lastVisit", "chainlist"];
 
 class Wrapper extends React.Component {
   constructor(props){
@@ -120,6 +120,7 @@ class Wrapper extends React.Component {
             className={classnames(styles.boxRow)}>
             <Chain
               lastVisit={this.state.lastVisit}
+              _set_mountToDo={this._set_mountToDo}
               _refer_von_cosmic={this.props._refer_von_cosmic}/>
           </div>
 

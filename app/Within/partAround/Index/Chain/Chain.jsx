@@ -7,6 +7,8 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import NailBasic from '../../../../Components/Nails/NailBasic/NailBasic.jsx';
+import NailShared from '../../../../Components/Nails/NailShared/NailShared.jsx';
 import CreateShare from '../../../../Unit/Editing/CreateShare.jsx';
 import {axios_get_UnitsBasic} from '../../../../utils/fetchHandlers.js';
 import {
@@ -68,6 +70,7 @@ class Chain extends React.Component {
         nailSecond: resObj.main.orderSecond,
         firstify: resObj.main.firstsetify
       });
+      this.props._set_mountToDo('chainlist'); // and, after we get the list back, inform the parent we are done with the lastVisit time
 
       return axios_get_UnitsBasic(self.axiosSource.token, unitsList); //and use the list to get the data of eahc unit
     })
@@ -140,7 +143,56 @@ class Chain extends React.Component {
   }
 
   _render_ChainUnits(){
+    let nailsDOM = [];
+    let loopState = ['nailFirst', 'nailSecond'];
+    loopState.forEach((order, index) => {
+      //render if there are something in the data
+      if('unitId' in this.state[order]){
+        let unitId = this.state[order].unitId;
+        switch (this.state[order].form) {
+          case 'shared':
+            nailsDOM.push(
+              <div
+                key={"key_ChainNail_"+order}>
+                <NailShared
+                  {...this.props}
+                  unitId={unitId}
+                  linkPath={this.props.match.url+'/unit'}
+                  unitBasic={this.state.unitBasic[unitId]}
+                  marksBasic={this.state.marksBasic}/>
+              </div>
+            )
+            break;
+          case 'assign':
+            nailsDOM.push(
+              <div
+                key={"key_ChainNail_"+order}>
+                <NailBasic
+                  {...this.props}
+                  unitId={unitId}
+                  linkPath={this.props.match.url+'/unit'}
+                  unitBasic={this.state.unitsBasic[unitId]}
+                  marksBasic={this.state.marksBasic}/>
+              </div>
+            )
+            break;
+          default:
+            nailsDOM.push(
+              <div
+                key={"key_ChainNail_"+order}>
+                <NailShared
+                  {...this.props}
+                  unitId={unitId}
+                  linkPath={this.props.match.url+'/unit'}
+                  unitBasic={this.state.unitBasic[unitId]}
+                  marksBasic={this.state.marksBasic}/>
+              </div>
+            )
+        }
+      }
+    });
 
+    return nailsDOM;
   }
 
   render(){

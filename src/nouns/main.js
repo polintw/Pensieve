@@ -5,7 +5,6 @@ const basicExcutive = require('./basic.js');
 const countExecutive = require('./count/execute.js');
 const searchExecutive = require('./search/execute.js');
 const attributeExecutive = require('./attribution.js');
-const plainExecutive = require('./plain.js');
 
 main.use('/basic', basicExcutive)
 
@@ -20,6 +19,5 @@ main.use('/:id/attribution', attributeExecutive)
 
 main.use('/:id/count', countExecutive)
 
-main.use('/:id', plainExecutive)
 
 module.exports = main;
