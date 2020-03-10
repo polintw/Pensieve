@@ -6,8 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     layer: DataTypes.INTEGER,
     portion_top: DataTypes.FLOAT,
     portion_left: DataTypes.FLOAT,
-    serial: DataTypes.INTEGER,
-    created: DataTypes.DATE
+    serial: DataTypes.INTEGER
   }, {
     charset: 'utf8mb4', //for Mandarin, or emoji if you don't speak in mandarin
     paranoid: true

@@ -94,7 +94,7 @@ function _handle_GET_unitsByList(req, res){
       });
     }).then((sendingData) => {
       //compose editorContent for each mark in this section.
-      _DB_marksContent.findAll({
+      return _DB_marksContent.findAll({
         where: {
           id_unit: sendingData.temp.unitpm
           }

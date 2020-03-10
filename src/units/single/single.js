@@ -1,8 +1,6 @@
 const express = require('express');
 const execute = express.Router();
 
-const jwt = require('jsonwebtoken');
-const {verify_key} = require('../../../config/jwt.js');
 const winston = require('../../../config/winston.js');
 const {_res_success,_res_success_201} = require('../../utils/resHandler.js');
 const Sequelize = require('sequelize');
@@ -11,7 +9,7 @@ const _DB_users = require('../../../db/models/index').users;
 const _DB_units = require('../../../db/models/index').units;
 const _DB_nouns = require('../../../db/models/index').nouns;
 const _DB_marks = require('../../../db/models/index').marks;
-
+const _DB_marksContent = require('../../../db/models/index').marks_content;
 const _DB_attribution =  require('../../../db/models/index').attribution;
 
 const {
@@ -29,18 +27,16 @@ const _submitUsersUnits = require('./updateUsersUnits.js');
 
 function _handle_unit_Mount(req, res){
   new Promise((resolve, reject)=>{
-    const reqToken = req.body.token || req.headers['token'] || req.query.token;
-    const jwtVerified = jwt.verify(reqToken, verify_key);
-    if (!jwtVerified) throw new internalError(jwtVerified, 32)
-
-    const userId = jwtVerified.user_Id;
-    const reqUnit = req.reqUnitId;
+    //This api allow empty token,
+    //would be after the permission check, with tokenify in req.extra
+    const userId = req.extra.tokenify ? req.extra.tokenUserId: '';
+    const reqExposedId = req.reqExposedId;
 
     const _unit_Nouns = function(tempData){
       return new Promise((resolveSub, rejectSub)=>{
         _DB_attribution.findAll({
           where: {
-            id_unit: reqUnit
+            id_unit: tempData.sendingData.temp.internalId
           }, //Notice, due to 'paranoid' prop set in Sequelize Model,
           //this selection would exclude all attribution have been 'deleted' (not null in 'deletedAt')
           attributes: ['id_noun']
@@ -79,39 +75,72 @@ function _handle_unit_Mount(req, res){
     };
     const _unit_Marks = (sendingData)=>{
       return _DB_marks.findAll({
-        where: {id_unit:reqUnit}
+        where: {id_unit: sendingData.temp.internalId}
       }).then((results)=>{
-        if (results.length > 0) {
+        if (results.length > 0) { //something or [] (empty)
           results.forEach(function(row, index){
             let obj = {
               top: row.portion_top,
               left: row.portion_left,
-              editorContent:  row.editor_content?JSON.parse(row.editor_content):null,
               serial: row.serial,
               layer: row.layer
             };
             let markKey = row.id;
             sendingData['marksObj'][markKey]=obj;
-            sendingData['temp']['marksKey'].push(row.id); //we use ORM now, no need to fullfill mysal module format
-            sendingData['marksInteraction'][markKey]={
-              notify: false,
-              inspired:0
-            }; //set 0 instead of 'false' is because we need to 'plus' number if there are notifications for author
+
           })
           return (sendingData);
         } else {
           return (sendingData);
         }
+
+      }).then((sendingData) => {
+        //compose editorContent for each mark in this section.
+        return _DB_marksContent.findAll({
+          where: {
+            id_unit: sendingData.temp.internalId
+            }
+        })
+        .then((resultsMarksContent)=>{
+          resultsMarksContent.forEach((row, index)=>{
+            //editorContent was in form: {blocks:[], entityMap:{}}
+            sendingData.marksObj[row.id_mark]['editorContent'] = {
+              blocks: [],
+              entityMap: JSON.parse(row.contentEntityMap)
+            };
+            /*
+            and Notive, every col here still remain in 'string', so parse them.
+            */
+            let blockLigntening=JSON.parse(row.contentBlocks_Light),
+                textByBlocks=JSON.parse(row.text_byBlocks),
+                inlineStyleRangesByBlocks=JSON.parse(row.inlineStyleRanges_byBlocks),
+                entityRangesByBlocks=JSON.parse(row.entityRanges_byBlocks),
+                dataByBlocks=JSON.parse(row.data_byBlocks);
+
+            blockLigntening.forEach((blockBasic, index) => {
+              blockBasic['text'] = textByBlocks[blockBasic.key]
+              blockBasic['inlineStyleRanges'] = inlineStyleRangesByBlocks[blockBasic.key]
+              blockBasic['entityRanges'] = entityRangesByBlocks[blockBasic.key]
+              blockBasic['data'] = dataByBlocks[blockBasic.key]
+
+              sendingData.marksObj[row.id_mark]['editorContent'].blocks.push(blockBasic);
+            });
+          });
+
+          return sendingData;
+        })
+        .catch((err)=>{throw err});
+
       }).catch((error)=>{
         throw new internalError("throw by /units/plain/_unit_mount, "+error ,131);//'throw' at this level, stop the process
       })
     };
 
     return _DB_units.findOne({
-      where: {id: reqUnit}
+      where: {exposedId: reqExposedId}
     }).then((result)=>{
       let sendingData = {
-        temp: {marksKey: []},
+        temp: {internalId: ''},
         marksObj: {},
         refsArr: [],
         nouns: {
@@ -121,12 +150,12 @@ function _handle_unit_Mount(req, res){
         authorBasic: {},
         createdAt: "",
         identity: "",
-        marksInteraction: {},
-        broad: false //false for default
+        broad: false //false by default
       }
-      if (result) { //make sure there is a unit with the id
+      if (!!result) { //make sure there is a unit with the id (would be 'null' if not exist)
         sendingData['authorBasic']['authorId'] = result.id_author;
         sendingData['createdAt'] = result.createdAt;
+        sendingData['temp']['internalId'] = result.id; //the id used as 'id_unit' among database.
         if(userId == result.id_author){
           sendingData['identity'] = "author"
         }else{
@@ -167,10 +196,12 @@ function _handle_unit_Mount(req, res){
       return _unit_Marks(sendingData);
 
     }).then((sendingData)=>{
+      let cpInJSON = JSON.stringify(sendingData); // part of data (i.e unitId) would be used later in internal process, so keep it by copy
       _res_success(res, sendingData);
       //after all the function res needed, processing the internal process
       //unit reach status specific here
-      resolve({userId: userId, unitId: reqUnit});
+      let cpInDeep = JSON.parse(cpInJSON);
+      resolve({userId: userId, unitId: cpInDeep.temp.internalId});
     }).catch((error)=>{
       //and 'reject' at here return to the parent level handler
       if(error.status){reject(error);return;}
@@ -181,19 +212,37 @@ function _handle_unit_Mount(req, res){
     });
   }).catch((error)=>{
     _handle_ErrCatched(error, req, res);
+    return Promise.reject();
+    //we still need to 'return', but return a reject(),
+    //otherwise it would still be seen as 'handled', and go to the next .then()
   }).then((data)=>{
     //start processing the internal process which are not related to res
-    _submitUsersUnits(data.unitId, data.userId); //records relation between users units
+    //But, the one _submitUsersUnits need a 'login user', not allow if no token
+    const processByTokenify = ()=>{
+      if(req.extra.tokenify){
+        return _submitUsersUnits(data.unitId, data.userId) //records relation between users units
+      }
+      else return Promise.resolve();
+    };
 
-  }).catch((error)=>{
-    //handle err only locally, without relation to client side
-    winston.error(`${"Internal process at single Unit req, "} ${error} ; ${"'"+req.originalUrl} , ${req.method+"', "} , ${req.ip}`);
+    return processByTokenify()
+    .catch((error)=>{
+      /*
+      Main error handler for whole backend process!
+      the backend process has its own error catch, different from the previous process.
+      and throw to upper catch just to make a clear structure.
+      */
+      winston.error(`${"Internal process at single Unit req, "} ${error} ; ${"'"+req.originalUrl} , ${req.method+"', "} , ${req.ip}`);
+    });
+  })
+  .catch((error)=>{
+    //nothing need to happend here, just a catch to deal with chain design(.then() after .catch())
   });
 };
 
 
 execute.get('/', function(req, res){
-  if(process.env.NODE_ENV == 'development') winston.verbose('GET: /unit @ '+req.reqUnitId);
+  if(process.env.NODE_ENV == 'development') winston.verbose('GET: /unit @ '+req.reqExposedId);
   _handle_unit_Mount(req, res);
 })
 

@@ -68,7 +68,7 @@ class MarksViewer extends React.Component {
           {...this.props}
           currentSerial={currentSerial}
           widthDivisionRatial={widthDivisionRatial}
-          notify={this.props.unitCurrent.marksInteraction[markKey].notify?true:false}
+          notify={false}
           _handleClick_ImgLayer_circle={this._handleClick_ImgLayer_circle}>
           <ViewerBlock
             currentSerial={currentSerial}
@@ -94,7 +94,7 @@ class MarksViewer extends React.Component {
             style={{top: coordinate.top+"%", left: coordinate.left+'%'}}
             onClick={self._handleClick_ImgLayer_circle}>
             <SvgCircle
-              notify={self.props.unitCurrent.marksInteraction[id].notify ?true:false}
+              notify={false}
               current={(currentSerial==markData.serial)? true :false}/>
             {
               (currentSerial==markData.serial) &&

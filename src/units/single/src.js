@@ -13,11 +13,10 @@ function _handle_GET_units_src(req, res){
   new Promise((resolve, reject)=>{
     //becuase we have verify the token at upper level,
     //and there is no need to use 'userId' in this function
-    // so we don't verify jwt token here
-    const reqUnit = req.reqUnitId;
+    const reqExposedId = req.reqExposedId;
 
     return _DB_units.findOne({
-      where: {id: reqUnit},
+      where: {exposedId: reqExposedId},
       attributes: ['url_pic_layer0', 'url_pic_layer1']
     }).then((result)=>{
       let sendingData = {
@@ -32,14 +31,14 @@ function _handle_GET_units_src(req, res){
     });
 
   }).then((sendingData)=>{
-    _res_success(res, sendingData, "GET: /units/:id/src, complete.");
+    _res_success(res, sendingData, "GET: /units/:/src, complete.");
   }).catch((error)=>{
     _handle_ErrCatched(error, req, res);
   });
 }
 
 execute.get('/', function(req, res){
-  if(process.env.NODE_ENV == 'development') winston.verbose('GET: /units/:id/src ');
+  if(process.env.NODE_ENV == 'development') winston.verbose('GET: /units/:/src ');
   _handle_GET_units_src(req, res);
 })
 

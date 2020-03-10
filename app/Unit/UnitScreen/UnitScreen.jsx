@@ -51,8 +51,8 @@ class UnitScreen extends React.Component {
     this.setState({axios: true});
 
     let promiseArr = [
-      new Promise((resolve, reject)=>{_axios_getUnitData(this.axiosSource.token, this.unitId);}),
-      new Promise((resolve, reject)=>{_axios_getUnitImgs(this.axiosSource.token, this.unitId);})
+      new Promise((resolve, reject)=>{_axios_getUnitData(this.axiosSource.token, this.unitId).then((result)=>{resolve(result);});}),
+      new Promise((resolve, reject)=>{_axios_getUnitImgs(this.axiosSource.token, this.unitId).then((result)=>{resolve(result);});})
     ];
     Promise.all(promiseArr)
     .then(([unitRes, imgsBase64])=>{

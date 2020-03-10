@@ -6,7 +6,7 @@ const winston = require('../../../config/winston.js');
 const _DB_usersUnits = require('../../../db/models/index').users_units;
 
 function _submitUsersUnits(unitId, userId){
-  _DB_usersUnits.findOne({
+  return _DB_usersUnits.findOne({
     where:{
       id_unit: unitId,
       id_user: userId

@@ -21,15 +21,31 @@ pass.use(function(req, res, next) {
       } else {
         //set the decoded general info into req
         //in case there were not an established 'extra' obj in req
-        if(!!req['extra']) req['extra']['tokenUserId']= decoded.user_Id
+        if(!!req['extra']){
+          req['extra']['tokenUserId']= decoded.user_Id;
+          req['extra']['tokenify']= true;
+        }
         else{
-          req['extra'] = {tokenUserId: decoded.user_Id};
+          req['extra'] = {
+            tokenUserId: decoded.user_Id,
+            tokenify: true
+          };
         };
 
         next();
       }
     });
   } else {
+    // we set 'tokenify' as a mark after the permission check
+    if(!!req['extra']){
+      req['extra']['tokenify']= false;
+    }
+    else{
+      req['extra'] = {
+        tokenify: false
+      };
+    };
+    //And now, some path are allowed passeing even without token (let the middleware judge themselves)
     let pathSplice = req.path.match(/\/(.*?)\//); //would always return the '1st' of '/.../'
     /*
     ref:
@@ -39,6 +55,10 @@ pass.use(function(req, res, next) {
     switch (pathSplice[1]) { //[1] to the 'match obj', was the match substring (part between the parenthesis in rex.)
       case 'img':
         // let /img/ pass even without a token.
+        next()
+        break;
+      case 'units':
+        // let /units/ pass, check the 'tokenify' itself.
         next()
         break;
       default:

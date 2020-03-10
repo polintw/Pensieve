@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import ImgsFrame from './ImgsFrame.jsx';
 import SidePanel from './SidePanel.jsx';
 import {NodesExtensible} from '../../NodesDisplay/NodesExtensible.jsx';
-import {AccountPalette} from '../../../Components/AccountPalette.jsx';
+import AccountPalette from '../../../Components/AccountPalette.jsx';
 import DateConverter from '../../../Components/DateConverter.jsx';
 
 const styleMiddle = {

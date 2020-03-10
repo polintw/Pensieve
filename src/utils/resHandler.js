@@ -5,7 +5,7 @@ exports._res_success = function(res, sendingData, message){
   delete sendingData.temp;
   let resData = {};
   resData['error'] = 0;
-  resData['message'] = (message.length > 0) ? message: 'req success!';
+  resData['message'] = (!!message) ? message: 'req success!';
   resData['main'] = sendingData;
   resData = JSON.stringify(resData);
   res.status(200).json(resData);
