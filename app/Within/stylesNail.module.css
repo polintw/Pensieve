@@ -1,0 +1,15 @@
+.boxNail {
+  background-color: #FFFFFF;
+  box-sizing: content-box;
+  cursor: pointer;
+  position: relative;
+}
+
+.wideBasic {
+  width: 30vw;
+  box-shadow: 0 2px 1px rgb(230, 230, 230);
+}
+
+.heightBasic {
+  height: 30vw;
+}

@@ -7,6 +7,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import stylesNail from "../../../stylesNail.module.css";
 import NailBasic from '../../../../Components/Nails/NailBasic/NailBasic.jsx';
 import NailShared from '../../../../Components/Nails/NailShared/NailShared.jsx';
 import CreateShare from '../../../../Unit/Editing/CreateShare.jsx';
@@ -157,11 +158,12 @@ class Chain extends React.Component {
           case 'shared':
             nailsDOM.push(
               <div
-                key={"key_ChainNail_"+order}>
+                key={"key_ChainNail_"+order}
+                className={classnames(stylesNail.boxNail, stylesNail.heightBasic, stylesNail.wideBasic)}>
                 <NailShared
                   {...this.props}
                   unitId={unitId}
-                  linkPath={this.props.match.url+'/unit'}
+                  linkPath={'/unit'}
                   unitBasic={this.state.unitsBasic[unitId]}
                   marksBasic={this.state.marksBasic}/>
               </div>
@@ -170,11 +172,12 @@ class Chain extends React.Component {
           case 'assign':
             nailsDOM.push(
               <div
-                key={"key_ChainNail_"+order}>
+                key={"key_ChainNail_"+order}
+                className={classnames(stylesNail.boxNail, stylesNail.heightBasic, stylesNail.wideBasic)}>
                 <NailBasic
                   {...this.props}
                   unitId={unitId}
-                  linkPath={this.props.match.url+'/unit'}
+                  linkPath={'/unit'}
                   unitBasic={this.state.unitsBasic[unitId]}
                   marksBasic={this.state.marksBasic}/>
               </div>
@@ -183,11 +186,12 @@ class Chain extends React.Component {
           default:
             nailsDOM.push(
               <div
-                key={"key_ChainNail_"+order}>
+                key={"key_ChainNail_"+order}
+                className={classnames(stylesNail.boxNail, stylesNail.heightBasic, stylesNail.wideBasic)}>
                 <NailShared
                   {...this.props}
                   unitId={unitId}
-                  linkPath={this.props.match.url+'/unit'}
+                  linkPath={'/unit'}
                   unitBasic={this.state.unitsBasic[unitId]}
                   marksBasic={this.state.marksBasic}/>
               </div>
@@ -209,29 +213,38 @@ class Chain extends React.Component {
   render(){
     const recKeys = Object.keys(this.props.belongsByType);
 
-    return (recKeys.length > 0) ? (
-        <div
-          className={classnames(styles.comChain)}>
-          <div>
-            {this._render_ChainUnits()}
-          </div>
-          <div
-            className={classnames(styles.boxCreate)}
-            onClick={this._handleClick_plainOpen}
-            onMouseEnter={this._handleMouseOn_Create}
-            onMouseLeave={this._handleMouseOn_Create}>
-            {"Upload"}
-          </div>
-          <CreateShare
-            forceCreate={this.state.editingOpen}
-            _submit_Share_New={this._submit_Share_New}
-            _refer_von_Create={this.props._refer_von_cosmic}/>
-        </div>
-      ):(
-        <div>
-          {this.props.i18nUIString.catalog["guidingChain_noBelongSet"]}
-        </div>
-      );
+    return (
+      <div
+        className={classnames(styles.comChain)}>
+        {
+          (recKeys.length > 0) ? (
+            <div
+              className={classnames(styles.boxModule)}>
+              <div>
+                {this._render_ChainUnits()}
+              </div>
+              <div
+                className={classnames(styles.boxCreate)}>
+                <div
+                  onClick={this._handleClick_plainOpen}
+                  onMouseEnter={this._handleMouseOn_Create}
+                  onMouseLeave={this._handleMouseOn_Create}>
+                  {"Upload"}
+                </div>
+                <CreateShare
+                  forceCreate={this.state.editingOpen}
+                  _submit_Share_New={this._submit_Share_New}
+                  _refer_von_Create={this.props._refer_von_cosmic}/>
+              </div>
+            </div>
+          ):(
+            <div>
+              {this.props.i18nUIString.catalog["guidingChain_noBelongSet"]}
+            </div>
+          )
+        }
+      </div>
+    )
   }
 }
 

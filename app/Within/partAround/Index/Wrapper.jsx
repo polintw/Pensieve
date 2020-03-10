@@ -16,6 +16,8 @@ import Chain from './Chain/Chain.jsx';
 import RowEntry from './RowEntry/RowEntry.jsx';
 import BelongsSet from './BelongsSet/BelongsSet.jsx';
 import BelongsMap from './BelongsMap/BelongsMap.jsx';
+import Unit from '../../../Unit/Unit/Unit.jsx';
+
 import {
   setIndexLists,
 } from '../../../redux/actions/around.js';
@@ -39,6 +41,12 @@ class Wrapper extends React.Component {
     };
     this.axiosSource = axios.CancelToken.source();
     this._set_mountToDo = this._set_mountToDo.bind(this);
+    this._construct_UnitInit = this._construct_UnitInit.bind(this);
+  }
+
+  _construct_UnitInit(match, location){
+    let unitInit= {marksify: false, initMark: "all", layer: 0};
+    return unitInit;
   }
 
   _set_mountToDo(item){
@@ -132,6 +140,9 @@ class Wrapper extends React.Component {
           <div
             className={classnames(styles.boxFooter)}></div>
         </div>
+        <Route
+          path={"/unit"}
+          render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_von_cosmic}/>}/>
 
       </div>
     )
