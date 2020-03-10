@@ -12,10 +12,10 @@ import {
   _axios_getUnitData,
   _axios_getUnitImgs
 } from '../utils.js';
-import ModalBox from '../../Component/ModalBox.jsx';
-import ModalBackground from '../../Component/ModalBackground.jsx';
+import ModalBox from '../../Components/ModalBox.jsx';
+import ModalBackground from '../../Components/ModalBackground.jsx';
 import {setUnitCurrent} from "../../redux/actions/general.js";
-import {unitCurrentInit} from "../../redux/constants/globalStates.js";
+import {unitCurrentInit} from "../../redux/states/constants.js";
 
 class UnitScreen extends React.Component {
   constructor(props){

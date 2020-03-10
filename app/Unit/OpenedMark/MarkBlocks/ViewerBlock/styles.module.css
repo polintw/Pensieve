@@ -9,13 +9,6 @@
   box-sizing: border-box;
 }
 
-.boxPanelJump {
-  box-sizing: border-box;
-  padding: 0 10% 0 8%;
-  margin: 5.7vh 0 0 0;
-  text-align: right;
-}
-
 .boxInteractBack {
   display: flex;
   flex-direction: column;

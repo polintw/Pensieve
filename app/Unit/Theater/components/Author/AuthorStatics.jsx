@@ -55,6 +55,11 @@ class AuthorStatics extends React.Component {
   }
 
   _axios_get_AuthorStatics(){
+    /*
+    previously this was called from Summary,
+    but both author/viewer Summary are temporary blocked,
+    so we block this api either.
+    
     const self = this;
     this.setState({axios: true});
 
@@ -81,6 +86,7 @@ class AuthorStatics extends React.Component {
         if(message) alert(message);
       }
     });
+    */
   }
 
   componentDidMount(){

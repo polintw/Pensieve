@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from "react-redux";
 import OpenedMark from '../../OpenedMark/OpenedMark.jsx';
-import MarkEditingBlock from '../../OpenedMark/MarkEditingBlock.jsx';
+import MarkEditingBlock from '../../OpenedMark/MarkBlocks/MarkEditingBlock.jsx';
 import SvgCircle from '../../../Components/Svg/SvgCircle.jsx';
 import {
   baseHorizonRatial,

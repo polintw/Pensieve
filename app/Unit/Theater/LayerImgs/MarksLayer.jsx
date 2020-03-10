@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from "react-redux";
-import ViewerBlock from './ViewerBlock/ViewerBlock.jsx';
+import ViewerBlock from '../../OpenedMark/MarkBlocks/ViewerBlock/ViewerBlock.jsx';
 import {widthDivisionRatial} from '../../props.js'; //dividing markglayer width, used for determineing the position
 import OpenedMark from '../../OpenedMark/OpenedMark.jsx';
-import SvgCircle from '../../Component/Svg/SvgCircle.jsx';
-import SvgCurCir from '../../Component/Svg/SvgCurCir.jsx';
+import SvgCircle from '../../../Components/Svg/SvgCircle.jsx';
+import SvgCurCir from '../../../Components/Svg/SvgCurCir.jsx';
 
 class MarksViewer extends React.Component {
   constructor(props){
@@ -69,14 +69,12 @@ class MarksViewer extends React.Component {
           currentSerial={currentSerial}
           widthDivisionRatial={widthDivisionRatial}
           notify={this.props.unitCurrent.marksInteraction[markKey].notify?true:false}
-          _handleClick_ImgLayer_circle={this._handleClick_ImgLayer_circle}
-          _set_markJump={this._set_markJump}>
+          _handleClick_ImgLayer_circle={this._handleClick_ImgLayer_circle}>
           <ViewerBlock
             currentSerial={currentSerial}
             markKey={markKey}
             marksLength={this.props.marksData.list.length}
-            markData={this.props.marksData.data[markKey]}
-            _set_markJump={this._set_markJump}/>
+            markData={this.props.marksData.data[markKey]}/>
         </OpenedMark>
       );
     }else{

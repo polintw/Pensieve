@@ -6,9 +6,9 @@ import {
   convertToRaw,
   convertFromRaw
 } from 'draft-js';
-import styles from "./styles.module.css";
-import DraftEditor from '../../Components/Draft/DraftEditor.jsx';
-import ModalBox from '../../Components/ModalBox.jsx';
+import styles from "../styles.module.css";
+import DraftEditor from '../../../Components/Draft/DraftEditor.jsx';
+import ModalBox from '../../../Components/ModalBox.jsx';
 
 const styleMiddle = {
   boxSubmitButton:{

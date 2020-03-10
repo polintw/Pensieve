@@ -2,17 +2,9 @@ import React from 'react';
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import PanelJump from '../PanelJump.jsx';
-import ViewerBulb from '../ViewerBulb.jsx';
-import DraftDisplay from '../../../Component/Draft/DraftDisplay.jsx';
+import DraftDisplay from '../../../../Components/Draft/DraftDisplay.jsx';
 
 const styleMiddle = {
-  boxPanelInteraction: {
-    display: 'inline-block',
-    height: '100%',
-    position: 'relative',
-    boxSizing: 'border-box',
-  },
   boxMessage: {
     boxSizing: 'border-box',
     padding: '1rem 0.7rem 0'
@@ -50,12 +42,6 @@ class ViewerBlock extends React.Component {
         flexDirection: 'column',
         width: '100%',
         marginBottom:'54px'
-      },
-      Com_ViewerBlock_panel_: {
-        width: '100%',
-        height: '2.1rem',
-        boxSizing: 'border-box',
-        margin: '2.4rem 0px 1.8rem',
       },
     };
   }
@@ -107,14 +93,6 @@ class ViewerBlock extends React.Component {
               editorState={this.props.markData.editorContent}/>
           </div>
 
-          <div
-            className={classnames(styles.boxPanelJump, styles.fontPanelJump)}>
-            <PanelJump
-              marksLength={this.props.marksLength}
-              currentSerial={this.props.currentSerial}
-              _set_markJump={this.props._set_markJump}/>
-          </div>
-
         </div>
         <div
           className={classnames(styles.boxInteraction)}
@@ -128,20 +106,7 @@ class ViewerBlock extends React.Component {
             <div className={styles.boxInteractBackGradiant}/>
             <div className={styles.boxInteractBackSolid}/>
           </div>
-          <div
-            style={Object.assign({},this.style.Com_ViewerBlock_panel_)}>
 
-            <div
-              style={Object.assign(
-                {},
-                styleMiddle.boxPanelInteraction,
-                {marginLeft: '69%',float: 'left'}
-              )}>
-              <ViewerBulb
-                markKey={this.props.markKey}
-                _set_BlockMessage={this._set_BlockMessage}/>
-            </div>
-          </div>
           {
             this.state.message &&
             <div
