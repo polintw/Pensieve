@@ -7,7 +7,6 @@ import { connect } from "react-redux";
 import WrapperImg from './LayerImgs/Wrapper.jsx';
 
 import LayerScroll from './components/LayerScroll.jsx';
-import LayerSwitch from './components/LayerSwitch/LayerSwitch.jsx';
 
 class Layers extends React.Component {
   constructor(props){
@@ -58,13 +57,6 @@ class Layers extends React.Component {
         height: '100%',
         position: 'absolute',
         boxSizing: 'border-box',
-      },
-      Com_Layers_blocks_SwitchBar_: {
-        width:'1.6%',
-        height:'100%',
-        position: 'absolute',
-        right: '0',
-        overflow:'visible'
       },
     }
   }
@@ -167,12 +159,7 @@ class Layers extends React.Component {
                 markOpened={this.state.marksStatus.marksify}
                 _set_layerstatus={this._set_layerstatus}>
                 {this._render_ScrollLayers()}
-                <div
-                  style={this.style.Com_Layers_blocks_SwitchBar_}>
-                  <LayerSwitch
-                    moveCount={this.state.moveCount}
-                    _set_layerstatus={this._set_layerstatus}/>
-                </div>
+
               </LayerScroll>
             ): (
               <div

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from "react-redux";
-
+import MarksLayer from './MarksLayer.jsx';
 import {
   baseHorizonRatial,
   baseVertivalRatial
@@ -40,12 +40,6 @@ class ImgLayer extends React.Component {
   }
 
   _render_MarksLayer(){
-    return;
-    /*
-
-    Beneath, are the remain of the complete version,
-    which could update Mark contents.
-    We just ignore it in simplified ver.
 
     let imgWidthHeight = {
       width: this.Com_ImgLayer_img.current.clientWidth,
@@ -58,22 +52,15 @@ class ImgLayer extends React.Component {
       },
       boxWidth=this.Com_ImgLayer_box.current.clientWidth;
 
-    return this.props.unitCurrent.identity=="author" ? (
-      <MarksAuthor
-        {...this.props}
-        boxWidth={boxWidth}
-        imgPosition={imgPosition}
-        imgWidthHeight={imgWidthHeight}
-        baseHorizonRatial={baseHorizonRatial}/>
-    ):(
-      <MarksViewer
+    return (
+      <MarksLayer
         {...this.props}
         boxWidth={boxWidth}
         imgPosition={imgPosition}
         imgWidthHeight={imgWidthHeight}
         baseHorizonRatial={baseHorizonRatial}/>
     )
-    */
+
   }
 
   render(){

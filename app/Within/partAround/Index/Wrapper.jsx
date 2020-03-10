@@ -16,8 +16,7 @@ import Chain from './Chain/Chain.jsx';
 import RowEntry from './RowEntry/RowEntry.jsx';
 import BelongsSet from './BelongsSet/BelongsSet.jsx';
 import BelongsMap from './BelongsMap/BelongsMap.jsx';
-import Unit from '../../../Unit/Unit/Unit.jsx';
-
+import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
 import {
   setIndexLists,
 } from '../../../redux/actions/around.js';
@@ -142,7 +141,7 @@ class Wrapper extends React.Component {
         </div>
         <Route
           path={"/unit"}
-          render={(props)=> <Unit {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_von_cosmic}/>}/>
+          render={(props)=> <UnitScreen {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_von_cosmic}/>}/>
 
       </div>
     )
