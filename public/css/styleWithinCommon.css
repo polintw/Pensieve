@@ -1,11 +1,3 @@
-.centerAlignChild {
-  display: inline-block;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
 .boxDialog {
   width: 467px;
   position: absolute;
@@ -16,21 +8,6 @@
   box-shadow: 1px 2px 3px 0;
   border-radius: 1rem;
   background-color: white;
-}
-
-.boxNailNodesItem {
-  flex: 1;
-  box-sizing: border-box;
-  margin: 0.12rem 0% 0.77rem; /*use 'rem' to match the scale used by font*/
-}
-
-.fontNailNode {
-  font-size: 2.2rem;
-  font-weight: 500;
-  letter-spacing: 0.064rem;
-  line-height: 1.74rem;
-  font-family: 'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif;
-  color: #FAFAFA;
 }
 
 .fontNailMark {

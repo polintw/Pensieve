@@ -1,0 +1,38 @@
+.comNodesEditor{
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.editorRow {
+  width: 100%;
+  position: relative;
+}
+
+.boxAssignNodes {
+
+}
+
+.boxNodesLists {
+
+}
+
+.boxNodeSearchModule {
+
+}
+
+.comAssignNodes {
+
+}
+
+.boxListItem {
+
+}
+
+.chosenListItem {
+  color: #ff7a5f;
+}
+
+.mouseListItem {
+
+}

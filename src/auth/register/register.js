@@ -23,7 +23,6 @@ const projectRootPath = require("../../../projectRootPath");
 const _DB_lastvisitShared = require('../../../db/models/index').lastvisit_shared;
 const _DB_lastvisitNotify = require('../../../db/models/index').lastvisit_notify;
 const _DB_lastvisitIndex = require('../../../db/models/index').lastvisit_index;
-const _DB_usersPreferNodes = require('../../../db/models/index').users_prefer_nodes;
 
 const _create_new_ImgFolder = (userId)=>{
   return new Promise((resolve,reject)=>{

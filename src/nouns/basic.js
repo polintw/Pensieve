@@ -1,76 +1,51 @@
 const express = require('express');
 const execute = express.Router();
-const jwt = require('jsonwebtoken');
-const {verify_key} = require('../../config/jwt.js');
+const winston = require('../../config/winston.js');
 const {_res_success} = require('../utils/resHandler.js');
 const {
-  _select_Basic
-} = require('../utils/dbSelectHandler.js');
-const {
-  _handler_err_NotFound,
-  _handler_err_BadReq,
-  _handler_err_Unauthorized,
-  _handler_err_Internal
+  _handle_ErrCatched,
 } = require('../utils/reserrHandler.js');
 
-function _handle_nouns_basic_GET(req, res){
-  jwt.verify(req.headers['token'], verify_key, function(err, payload) {
-    if (err) {
-      _handler_err_Unauthorized(err, res)
-    } else {
-      const userId = payload.user_Id;
-      let fetchList = req.query.fetchList;
+const _DB_nouns = require('../../db/models/index').nouns;
 
-      let accordancesList = fetchList.map((id, index)=>{return [id];});
-      let mysqlForm = {
-        accordancesList: accordancesList
-      },
-      condition = {
-        table: "nouns",
-        cols: ["id", "name", "prefix"],
-        where: ["id"]
+function _handle_nouns_basic_GET(req, res){
+  new Promise((resolve, reject)=>{
+    let userId = req.extra.tokenUserId;
+    let fetchList = req.query.fetchList;
+
+    _DB_nouns.findAll({
+      where: {id: fetchList},
+      attributes: ["id", "name", "prefix"]
+    })
+    .then((results)=>{
+      let sendingData={
+        nounsBasic:{},
+        temp: {}
       };
 
-      _select_Basic(condition, mysqlForm.accordancesList).then((result)=>{
-        if(result.length < 1){throw {status: 500, err: 'nouns array fail when searching'}};
-        let sendingData={
-          nounsBasic:{},
-          temp: {}
+      results.forEach((row, index)=>{
+        sendingData.nounsBasic[row.id] = {
+          id: row.id,
+          name: row.name,
+          prefix: row.prefix
         };
+      })
 
-        result.forEach((row, index)=>{
-          sendingData.nounsBasic[row.id] = {
-            id: row.id,
-            name: row.name,
-            prefix: row.prefix
-          };
-        })
+      resolve(sendingData);
 
-        return sendingData;
-      }).then((sendingData)=>{
-        _res_success(res, sendingData, "Complete, GET: nouns/basic.");
-      }).catch((errObj)=>{
-        console.log("error occured during GET: nouns/basic promise: "+(errObj.err?errObj.err:errObj))
-        switch (errObj.status) {
-          case 400:
-            _handler_err_BadReq(errObj.err, res);
-            break;
-          case 404:
-            _handler_err_NotFound(errObj.err, res);
-            break;
-          case 500:
-            _handler_err_Internal(errObj.err, res);
-            break;
-          default:
-            _handler_err_Internal(errObj.err?errObj.err:errObj, res);
-        }
-      });
-    }
-  })
+    }).catch((err)=>{ //catch the error came from the whole
+      reject(err);
+    });
+  }).then((sendingData)=>{
+    _res_success(res, sendingData, "GET nouns: /basic, complete.");
+  }).catch((error)=>{
+    _handle_ErrCatched(error, req, res);
+  });
+
 }
 
 execute.get('/', function(req, res){
-  console.log('GET: nouns/basic');
+  if (process.env.NODE_ENV == 'development') winston.verbose('GET nouns: /basic.');
   _handle_nouns_basic_GET(req, res);
 })
 

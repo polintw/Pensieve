@@ -1,0 +1,59 @@
+.comCreateShare {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.boxEditinginCreate {
+  width: 65%;
+  height: 80%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-sizing: border-box;
+  background-color: #FFFFFF;
+  box-shadow: -3px 1px 3px 1px;
+}
+
+.comEditingPanel {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.boxContent {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+}
+
+.boxSide {
+  width: 30%;
+  position: absolute;
+  right: 0;
+}
+
+.boxSideEdit {
+  height: 80%;
+  top: 0;
+}
+
+.boxBottomPanel {
+  height: 20%;
+  bottom: 0;
+}
+
+.boxImgImport {
+  width: 65%;
+  height: 80%;
+  position: absolute;
+  left: 5%;
+  top: 10%;
+  box-sizing: border-box;
+}

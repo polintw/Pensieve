@@ -32,6 +32,14 @@
   transform: translate(0, -50%);
 }
 
+.centerAlignChild {
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .fontGillSN {
   font-family: 'gill-sans-nova';
 }

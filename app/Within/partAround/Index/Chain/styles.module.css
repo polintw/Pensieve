@@ -1,0 +1,14 @@
+.comChain{
+  width: 100%;
+  position: relative;
+}
+
+.boxModule{
+  display: flex;
+  justify-content: space-around;
+}
+
+.boxCreate {
+  position: relative;
+  cursor: pointer;
+}

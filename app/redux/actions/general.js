@@ -3,6 +3,7 @@ import {
   SET_FETCHFLAGS,
   SET_MESSAGE_SINGLECLOSE,
   SET_MESSAGE_BOOLEAN,
+  SET_UNITCURRENT,
   MOUNT_USERINFO,
   UPDATE_NOUNSBASIC,
   UPDATE_USERSBASIC,
@@ -15,6 +16,10 @@ export function mountUserInfo(obj) {
 
 export function setTokenStatus(obj) {
   return { type: SET_TOKENSTATUS, status: obj }
+};
+
+export function setUnitCurrent(obj) {
+  return { type: SET_UNITCURRENT, unitCurrent: obj }
 };
 
 export function axiosSwitch(bool) {

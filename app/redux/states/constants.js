@@ -8,6 +8,21 @@ export const accountInfoInit = {
   id: null
 }
 
+export const unitCurrentInit = {
+  unitId:"",
+  identity: "",
+  authorBasic: {authorId: "", account: '', firstName: '', lastName: ''},
+  coverSrc: null,
+  beneathSrc: null,
+  coverMarksList:[],
+  coverMarksData:{},
+  beneathMarksList:[],
+  beneathMarksData:{},
+  nouns: null,
+  refsArr: null,
+  createdAt: null
+}
+
 export const messageDialogInit= {
   boolean: {
     render: false,
@@ -83,6 +98,7 @@ export const i18nUIStringInit = {
      "category__Belong_usersCount": ["with ", "users", "way to "],
      "descript_BelongSet_SearchBytType": ["Input corner name of your "],
      "guidingBelongs_EmptyMap": "Set your corner, and taking a look for the distribution of your fellows.",
-
+     "guidingChain_emptyRecords": "Share your corner about your place to the Next fellow!",
+     "guidingChain_noBelongSet": "Set a Residence/homeland to touch the people near your corners!",
    }
 }

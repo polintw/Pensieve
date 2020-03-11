@@ -1,6 +1,7 @@
 import React from 'react';
-import ModalBox from '../ModalBox.jsx';
 import {errHandler_axiosCatch} from '../../utils/errHandlers.js';
+import classnames from 'classnames';
+import styles from "./styles.module.css";
 
 const styleMiddle={
   spanPlaceholder: {
@@ -24,85 +25,7 @@ const styleMiddle={
   }
 }
 
-export class SearchModule extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      expandify: false
-    };
-    this._set_SearchModal_switch = this._set_SearchModal_switch.bind(this);
-    this._handleClick_SearchModal_switch = this._handleClick_SearchModal_switch.bind(this);
-    this.style={
-      Com_NounsEditor_SearchModal_: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-      },
-      Com_NounsEditor_SearchModal_anchor: {
-        width: "92%",
-        height: '81%',
-        position: 'absolute',
-        bottom: '7px', //in order to let the border bottom at same level as input in NodeSearchModule
-        boxSizing: 'border-box',
-        borderBottom: 'solid 0.2rem #e6e6e6',
-        cursor: 'text'
-      },
-    }
-  }
-
-  _set_SearchModal_switch(){
-    this.setState((prevState, index)=>{
-      return {expandify: prevState.expandify?false:true}
-    });
-  }
-  _handleClick_SearchModal_switch(event){
-    event.stopPropagation();
-    event.preventDefault();
-    this._set_SearchModal_switch();
-  }
-
-  render() {
-    return (
-      <div
-        style={this.style.Com_NounsEditor_SearchModal_}>
-        {
-          this.state.expandify ?(
-            <NodeSearchModule
-              _set_nodeChoice={this.props._set_nodeChoice}
-              _set_SearchModal_switch={this._set_SearchModal_switch}
-              _handleClick_SearchModal_switch={this._handleClick_SearchModal_switch}/>
-          ):(
-            <div
-              style={Object.assign({}, this.style.Com_NounsEditor_SearchModal_anchor, styleMiddle.spanPlaceholder)}
-              onClick={this._handleClick_SearchModal_switch}>
-              {"Name it to a place......"}
-            </div>
-          )
-        }
-      </div>
-    )
-  }
-}
-
 const stylesShareSearch = {
-  Com_NounsEditor_SearchModal_Modal_:{
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
-    bottom: '0%',
-    left: '0%',
-    boxSizing: 'border-box',
-    overflow: 'visible'
-  },
-  Com_NounsEditor_SearchModal_Modal_panel_:{
-    width: '88%',
-    height: '98%',
-    position: 'absolute',
-    bottom: '7px',
-    left: '6%',
-    boxSizing: 'border-box',
-    borderBottom: 'solid 0.2rem #e6e6e6',
-  },
   Com_NounsEditor_SearchModal_Modal_close_: {
     width: '100%',
     height: '178%',
@@ -131,22 +54,6 @@ const stylesShareSearch = {
     boxSizing: 'border-box',
     float: 'right',
     cursor: 'pointer'
-  },
-  Com_InfoNoun_modal_ul_: {
-    width: '100%',
-    maxHeight: '560%',
-    position: 'absolute',
-    bottom: '184%',
-    right: '0',
-    boxSizing: 'border-box',
-    padding: '4% 4% 5%',
-    margin: '0',
-    boxShadow: 'rgb(1, 1, 1) 0px 3px 0.4rem 0',
-    backgroundColor: '#000000',
-    borderTopLeftRadius: '0.47vw',
-    borderTopRightRadius: '0.47vw',
-    overflow: 'auto',
-    listStyle: 'none'
   },
   Com_InfoNoun_modal_ul_li: {
     position: 'relative',
@@ -231,27 +138,19 @@ const stylesBelongSearch = {
 const DOMShareSearch = (comp)=>{
   return (
     <div
-      style={stylesShareSearch.Com_NounsEditor_SearchModal_Modal_}>
+      className={classnames(styles.comSearchModule_Share)}>
       <div
-        style={stylesShareSearch.Com_NounsEditor_SearchModal_Modal_close_}
-        onClick={comp.props._handleClick_SearchModal_switch}>
-        <span
-          style={Object.assign({}, stylesShareSearch.Com_NounsEditor_SearchModal_Modal_close_span, styleMiddle.spanSubmit)}>
-          {'close'}
-        </span>
-      </div>
-      <ul
-        style={Object.assign({}, stylesShareSearch.Com_InfoNoun_modal_ul_, styleMiddle.spanContent)}>
-        {comp._render_SearchResults()}
-      </ul>
-      <div
-        style={stylesShareSearch.Com_NounsEditor_SearchModal_Modal_panel_}>
+        className={classnames(styles.boxSearchInput_Share)}>
         <input
           ref={comp.search}
           value={comp.state.query}
-          style={Object.assign({}, stylesShareSearch.Com_NounsEditor_SearchModal_Modal_panel_input, styleMiddle.spanContent)}
+          style={Object.assign({}, stylesShareSearch.Com_NounsEditor_SearchModal_Modal_panel_input)}
           onChange={comp._handleChange_SearchInput} />
       </div>
+      <ul
+        className={classnames(styles.boxSearchList_Share)}>
+        {comp._render_SearchResults()}
+      </ul>
     </div>
   )
 }

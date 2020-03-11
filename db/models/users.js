@@ -22,11 +22,6 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
-    users.hasOne(models.users_prefer_nodes, {
-      foreignKey:"id_user",
-      onDelete: 'cascade',
-      onUpdate: 'cascade'
-    });
     users.hasOne(models.sheets, {
       foreignKey:"id_user",
       onDelete: 'cascade',
@@ -44,6 +39,24 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
+    users.hasMany(models.units, {
+      foreignKey:"id_author",
+      sourceKey: "id",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
+    users.hasMany(models.users_units, {
+      foreignKey:"id_user",
+      sourceKey: "id",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
+    users.hasMany(models.marks, {
+      foreignKey:"id_author",
+      sourceKey: "id",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
     users.hasMany(models.users_nodes_homeland, {
       foreignKey:"id_user",
       sourceKey: "id",
@@ -52,6 +65,12 @@ module.exports = (sequelize, DataTypes) => {
     });
     users.hasMany(models.users_nodes_residence, {
       foreignKey:"id_user",
+      sourceKey: "id",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
+    users.hasMany(models.units_nodes_assign, {
+      foreignKey:"id_author",
       sourceKey: "id",
       onDelete: 'cascade',
       onUpdate: 'cascade'
