@@ -1,3 +1,16 @@
+.comTheater {
+  width: 93.2%;
+  min-width: 900px;
+  height: 99.2%;
+  min-height: 320px;
+  position: absolute;
+  top: 0;
+  left: 4.8%;
+  box-sizing: border-box;
+  background-color: rgba(11,11,11,0.98);
+  overflow-y: scroll;
+}
+
 .boxBackTop {
   display:flex;
   justify-content: space-around;

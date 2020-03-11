@@ -83,11 +83,12 @@ class Theater extends React.Component {
 
 
     return(
-      <div>
+      <div
+        className={classnames(styles.comTheater)}>
         <Layers
           initStatus={this.unitInit}
           _close_theater={this._close_theater}
-          _refer_von_unit={this.props._refer_von_unit}/>)
+          _refer_von_unit={this.props._refer_von_unit}/>
         <div
           className={classnames(styles.boxBackTop)}
           onMouseEnter={this._handleEnter_spanBack}

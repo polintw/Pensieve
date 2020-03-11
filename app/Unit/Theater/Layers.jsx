@@ -20,7 +20,6 @@ class Layers extends React.Component {
     this._set_layerstatus = this._set_layerstatus.bind(this);
     this._refer_toandclose = this._refer_toandclose.bind(this);
     this._render_ScrollLayers = this._render_ScrollLayers.bind(this);
-    this._handleClick_modalBack = this._handleClick_modalBack.bind(this);
     this.style={
       Com_Layers: {
         width: '100%',
@@ -29,17 +28,6 @@ class Layers extends React.Component {
         top: '0',
         left: '0%',
         boxSizing: 'border-box',
-        overflowY: 'scroll'
-      },
-      Com_Layers_blocks_Scroll: {
-        width: '93.2%',
-        minWidth: '900px',
-        height: '99.2%',
-        minHeight: '320px',
-        position: 'absolute',
-        top: '0',
-        left: '4.8%',
-        boxSizing: 'border-box'
       },
       Com_Layers_blocks_SumLayer_ : {
         width: '79%',
@@ -63,12 +51,6 @@ class Layers extends React.Component {
 
   _refer_toandclose(source, identity){
     this.props._refer_von_unit(identity, source);
-    this.props._close_theater();
-  }
-
-  _handleClick_modalBack(event){
-    event.preventDefault();
-    event.stopPropagation();
     this.props._close_theater();
   }
 
@@ -147,29 +129,25 @@ class Layers extends React.Component {
     return(
       <div
         style={this.style.Com_Layers}
-        onClick={this._handleClick_modalBack}>
-        <div
-          style={this.style.Com_Layers_blocks_Scroll}
-          onClick={(event)=>{event.stopPropagation();}}>
-          {
-            (this.props.unitCurrent.coverSrc) ? (
-              <LayerScroll
-                lockify={this.state.lockify}
-                moveCount={this.state.moveCount}
-                markOpened={this.state.marksStatus.marksify}
-                _set_layerstatus={this._set_layerstatus}>
-                {this._render_ScrollLayers()}
+        onClick={(event)=>{event.stopPropagation();}}>
+        {
+          (this.props.unitCurrent.coverSrc) ? (
+            <LayerScroll
+              lockify={this.state.lockify}
+              moveCount={this.state.moveCount}
+              markOpened={this.state.marksStatus.marksify}
+              _set_layerstatus={this._set_layerstatus}>
+              {this._render_ScrollLayers()}
 
-              </LayerScroll>
-            ): (
+            </LayerScroll>
+          ): (
+            <div
+              style={this.style.Com_Layers_blocks_SumLayer_}>
               <div
-                style={this.style.Com_Layers_blocks_SumLayer_}>
-                <div
-                  style={{backgroundColor:'#F0F0F0',width: '20%', height: '20%', position: 'absolute', top: '40%', left: '40%'}}/>
-              </div>
-            )
-          }
-        </div>
+                style={{backgroundColor:'#F0F0F0',width: '20%', height: '20%', position: 'absolute', top: '40%', left: '40%'}}/>
+            </div>
+          )
+        }
       </div>
     )
   }

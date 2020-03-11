@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from "react-redux";
+import classnames from 'classnames';
+import styles from './styles.module.css';
 import ViewerBlock from '../../OpenedMark/MarkBlocks/ViewerBlock/ViewerBlock.jsx';
 import {widthDivisionRatial} from '../../props.js'; //dividing markglayer width, used for determineing the position
 import OpenedMark from '../../OpenedMark/OpenedMark.jsx';
@@ -12,7 +14,6 @@ class MarksViewer extends React.Component {
     this.state = {
 
     };
-    this.Com_ImgLayer=React.createRef();
     this._set_markJump = this._set_markJump.bind(this);
     this._render_SpotsorMark = this._render_SpotsorMark.bind(this);
     this._handleClick_ImgLayer_circle = this._handleClick_ImgLayer_circle.bind(this);
@@ -90,7 +91,7 @@ class MarksViewer extends React.Component {
           <div
             id={id}
             key={"key_Mark_Circle_"+index}
-            className={'circleMarkSpotSvg'}
+            className={classnames('boxMarkSpot')}
             style={{top: coordinate.top+"%", left: coordinate.left+'%'}}
             onClick={self._handleClick_ImgLayer_circle}>
             <SvgCircle
@@ -114,7 +115,8 @@ class MarksViewer extends React.Component {
       });
       return (
         <div
-          className={'boxImgPosition'}
+          className={classnames('boxImgPosition')}
+          onClick={this._handleClick_SpotsLayer}
           style={{
             width: imgWidth,
             height: imgHeight,
@@ -128,10 +130,7 @@ class MarksViewer extends React.Component {
 
   render(){
     return(
-      <div
-        className={'boxAbsoluteFull'}
-        ref={this.Com_ImgLayer}
-        onClick={this._handleClick_SpotsLayer}>
+      <div>
         {
           this.props.spotsVisible &&
           this._render_SpotsorMark()

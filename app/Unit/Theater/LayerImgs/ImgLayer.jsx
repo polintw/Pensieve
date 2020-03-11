@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from "react-redux";
+import classnames from 'classnames';
+import styles from './styles.module.css';
 import MarksLayer from './MarksLayer.jsx';
 import {
   baseHorizonRatial,
@@ -69,7 +71,7 @@ class ImgLayer extends React.Component {
         ref={this.Com_ImgLayer_box}
         style={generalStyle.absolute_FullVersion}>
         <img
-          className={'boxImgPosition'}
+          className={classnames('boxImgPosition')}
           style={this.style.Com_ImgLayer_img}
           ref={this.Com_ImgLayer_img}
           src={this.props.imgSrc}

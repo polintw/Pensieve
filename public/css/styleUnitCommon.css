@@ -1,4 +1,4 @@
-.boxImgPosition {
+.boxImgPosition { /*used in OpenedMark, MarksLayer, and ImgLayer.*/
   position: absolute;
   top: 50%;
 }
@@ -9,5 +9,14 @@
   position: absolute;
   transform: translate(-50%, -50%);
   overflow: visible;
+  cursor: pointer;
+}
+
+.boxMarkCurCir {
+  position: absolute;
+  width: 57%;
+  height: auto;
+  top: 53%;
+  transform: translate(0, -50%);
   cursor: pointer;
 }

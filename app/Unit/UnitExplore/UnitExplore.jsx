@@ -168,7 +168,7 @@ class UnitExplore extends React.Component {
         </div>
         { this.paramsTheater &&
           <ModalBox containerId="root">
-            <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(11,11,11,0.98)'}}>
+            <ModalBackground onClose={()=>{this._close_theater();}} style={{position: "fixed", backgroundColor: 'transparent'}}>
               <Theater
                 {...this.props}
                 _construct_UnitInit={this._construct_UnitInit}
