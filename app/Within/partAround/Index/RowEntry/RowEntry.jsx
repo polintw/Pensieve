@@ -74,7 +74,7 @@ class RowEntry extends React.Component {
             </div>
           }
           <div
-            className={classnames(styles.boxDate, 'fontGillSN')}>
+            className={classnames(styles.boxDate)}>
             <DateConverter
               place={'title'}
               datetime={date.getTime()}/>

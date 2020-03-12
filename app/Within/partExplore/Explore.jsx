@@ -10,7 +10,6 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
 import UnitExplore from '../../Unit/UnitExplore/UnitExplore.jsx';
-import SvgLogo from '../../Components/Svg/SvgLogo.jsx';
 
 const styleMiddle = {
   comExplore: {
@@ -25,15 +24,6 @@ const styleMiddle = {
     bottom: '109px',
     left: '7%'
   },
-  boxLogo: {
-    display: 'inline-block',
-    height: '12px',
-    position: 'fixed',
-    bottom: '2.8%',
-    right: '30%',
-    boxSizing: 'border-box',
-    cursor: 'pointer'
-  }
 }
 
 class Explore extends React.Component {
@@ -75,11 +65,7 @@ class Explore extends React.Component {
         <div
           className={classnames(styles.boxOverlay, styles.boxBottom)}
           style={unitify ? {height: '66px'}: {}}/>
-        <div
-          style={Object.assign({}, styleMiddle.boxLogo)}
-          onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_von_cosmic('', '/')}}>
-          <SvgLogo/>
-        </div>
+
       </div>
     )
   }

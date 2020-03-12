@@ -29,15 +29,6 @@ class Around extends React.Component {
         left: '15vw',
         boxSizing: 'border-box'
       },
-      withinCom_CosmicMain_top_logo: {
-        display: 'inline-block',
-        height: '12px',
-        position: 'absolute',
-        top: '39%',
-        left: '25%',
-        boxSizing: 'border-box',
-        cursor: 'pointer'
-      }
     }
   }
 
@@ -59,11 +50,6 @@ class Around extends React.Component {
         </div>
         <div style={{width: '100%', height: '2.7rem', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
         <div style={{width: '100%', height: '4rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}>
-          <div
-            style={Object.assign({}, this.style.withinCom_CosmicMain_top_logo)}
-            onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_von_cosmic('', '/')}}>
-            <SvgLogo/>
-          </div>
         </div>
       </div>
     )

@@ -59,7 +59,7 @@ class NailBasic extends React.Component {
       marksDOM.push(
         <div
           key={"key_nailcosmic_"+self.props.unitId+"_marks_"+i}
-          className={classnames(styles.boxMark, 'fontNailMark', styles.fontMark)}>
+          className={classnames(styles.boxMark, styles.fontMark)}>
           <DisplayMarkPreview
             rawContent={self.props.marksBasic[key].editorContent}/>
         </div>

@@ -1,0 +1,52 @@
+.comNavWithin {
+  height: 4rem;
+  position: relative;
+}
+
+.boxOptions {
+  box-sizing: border-box;
+  text-align: center;
+  cursor: pointer;
+}
+
+.fontCosmicCorner {
+  font-size: 1.37rem;
+  letter-spacing: 0.1rem;
+  white-space: nowrap;
+  color: #a8a8a8;
+}
+
+.boxAccount {
+  display: block;
+  max-width: 150px;
+  position: absolute;
+  top: 20%;
+  left: 75vw;
+}
+
+.boxLogo {
+  display: inline-block;
+  height: 12px;
+  position: absolute;
+  top: 39%;
+  left: 25%;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.boxBack {
+  display: inline-block;
+  position: absolute;
+  top: 20%;
+  right: 25vw;
+}
+
+/*
+mind the order here
+because the css would overlap one by one,
+start the fundemental first, and then the specific condition
+*/
+
+.specificNoneDis {
+  display: none;
+}

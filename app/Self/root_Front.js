@@ -1,7 +1,3 @@
-/*
-  Temporary not in use, preserve for init. process & usage in the futre
-*/
-/*
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {createStore, applyMiddleware} from "redux";
@@ -11,7 +7,10 @@ import jwtDecode from 'jwt-decode';
 import moment from 'moment';
 import Front from './Front.jsx'
 import storeSelfFront from "../redux/reducers/selfFront.js";
-import {mountUserInfo} from "../redux/actions/general.js";
+import {
+  mountUserInfo,
+  setTokenStatus
+} from "../redux/actions/general.js";
 import tokenRefreshed from '../utils/refreshToken.js';
 import {
   uncertainErr
@@ -26,7 +25,9 @@ if(loggedin){
       }
     }).then(function(res){
       const store = createStore(storeSelfFront, applyMiddleware(thunk));
-      store.dispatch(mountUserInfo(res.data.userInfo));
+      const resObj = JSON.parse(res.data);
+      store.dispatch(mountUserInfo(resObj.main.userInfo));
+      store.dispatch(setTokenStatus({token: 'verified'})); //also set token verified result to middleware.
       ReactDOM.hydrate(<Provider store={store}><Front/></Provider>, document.getElementById("root"));
     }).catch((err)=>{
       //deal the axios error with standard axios err handler first
@@ -60,6 +61,6 @@ if(loggedin){
     statusVerified();
   }
 }else{
-  window.location.assign('/s/signin')
+  store.dispatch(setTokenStatus({token: 'lack'}));
+  window.location.assign('/') //back to index, the index would decide how to dealt with a no token situation(sign in/up)
 }
-*/

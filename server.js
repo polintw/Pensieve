@@ -90,7 +90,7 @@ app.get('/favicon.ico', function(req, res){
 //api
 app.use('/router', router)
 
-app.use('/user', function(req, res){
+app.use('/self', function(req, res){
   winston.info(`${"page: requesting for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);
 
   res.sendFile(path.join(__dirname+'/public/html/html_SelfFront.html'), {headers: {'Content-Type': 'text/html'}}, function (err) {

@@ -128,7 +128,7 @@ class RelatedOrigin extends React.Component {
                       {[styles.mouseOnImg]: this.state.onMouseEnter})}
                     />
                   <div
-                    className={classnames('fontNailAuthor', styles.boxAuthor, styles.fontAuthor)}>
+                    className={classnames(styles.boxAuthor, styles.fontAuthor)}>
                     <AccountPalette
                       size={'layer'}
                       accountFisrtName={this.props.unitCurrent.authorBasic.firstName}

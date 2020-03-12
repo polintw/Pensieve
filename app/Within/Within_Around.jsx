@@ -7,10 +7,13 @@ import {
   Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import classnames from 'classnames';
+import styles from "./styles.module.css";
 import Around from './partAround/Around.jsx';
 import {
   setMessageSingleClose
 } from '../redux/actions/general.js'
+import NavWithin from '../Components/NavWithin/NavWithin.jsx';
 import NavOptions from '../Components/NavOptions.jsx';
 import ModalBox from '../Components/ModalBox.jsx';
 import ModalBackground from '../Components/ModalBackground.jsx';
@@ -67,13 +70,7 @@ class WithinAround extends React.Component {
         })
         break;
       default:
-        this.setState((prevState, props)=>{
-          let switchTo = {
-            params: route,
-            query: ''
-          };
-          return {switchTo: switchTo}
-      })
+        window.location.assign(route)
     }
   }
 
@@ -111,6 +108,10 @@ class WithinAround extends React.Component {
           <Route path={this.props.match.path} render={(props)=> <Around {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
         </Switch>
 
+        <div
+          className={classnames(styles.boxNavAround)}>
+          <NavWithin {...this.props} _refer_to={this._refer_von_cosmic}/>
+        </div>
         <div style={this.style.Within_Around_NavOptions}>
           <NavOptions {...this.props}/>
         </div>

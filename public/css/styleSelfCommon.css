@@ -6,17 +6,3 @@
   height: 16vh;
   min-height: 83px;
 }
-
-.fontNailMark {
-  font-size: 1.4rem;
-  font-weight: 400;
-  letter-spacing: 0;
-  line-height: 19px;
-  text-align: left;
-}
-
-.fontNailAuthor {
-  font-size: 1.27rem;
-  font-weight: 400;
-  letter-spacing: 0.04rem;
-}

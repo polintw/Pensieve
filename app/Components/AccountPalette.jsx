@@ -44,8 +44,8 @@ class Palette extends React.Component {
         ],
         firstName = !!this.props.accountFirstName? (this.props.accountFirstName+" ") : null,
         lastName = !!this.props.accountLastName? this.props.accountLastName : null;
-    if(!!firstName) firstName = !!this.props.userId ? (this.props.userId in this.props.usersBasic) ? (this.props.usersBasic[this.props.userId].firstName+" ") :　null : null;
-    if(!!lastName) lastName = !!this.props.userId ? (this.props.userId in this.props.usersBasic) ? this.props.usersBasic[this.props.userId].lastName :　null : null;
+    if(!firstName) firstName = !!this.props.userId ? (this.props.userId in this.props.usersBasic) ? (this.props.usersBasic[this.props.userId].firstName+" ") :　null : null;
+    if(!lastName) lastName = !!this.props.userId ? (this.props.userId in this.props.usersBasic) ? this.props.usersBasic[this.props.userId].lastName :　null : null;
 
     return(
       <div

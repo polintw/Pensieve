@@ -23,7 +23,8 @@ if(loggedin){
           'token': window.localStorage['token']
       }
     }).then(function(res){
-      store.dispatch(mountUserInfo(res.data.main.userInfo));
+      const resObj = JSON.parse(res.data);
+      store.dispatch(mountUserInfo(resObj.main.userInfo));
       store.dispatch(setTokenStatus({token: 'verified'})); //also set token verified result to middleware.
       ReactDOM.hydrate(<Provider store={store}><Within/></Provider>, document.getElementById("root"));
     }).catch((err)=>{
@@ -64,6 +65,6 @@ if(loggedin){
 }else{
   store.dispatch(setTokenStatus({token: 'lack'}));
 
-  //Render the dom, let the DOM itself check the status
+  //Render the dom, let the index be previewed, sign in/up in a modal
   ReactDOM.hydrate(<Provider store={store}><Within/></Provider>, document.getElementById("root"));
 }
