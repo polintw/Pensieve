@@ -7,6 +7,7 @@ import {
 import {connect} from "react-redux";
 import WithinAround from './Within_Around.jsx';
 import WithinCosmic from './Within_Cosmic.jsx';
+import WithinSign from './Within_Sign.jsx';
 
 class Within extends React.Component {
   constructor(props){
@@ -25,15 +26,33 @@ class Within extends React.Component {
   }
 
   render(){
-    return(
-      <Router>
-        <Switch>
-          <Route path="/cosmic" render={(props)=> <WithinCosmic {...props}/>}/>
-          <Route path="/" render={(props)=> <WithinAround {...props}/>}/>
-        </Switch>
-      </Router>
-    )
+    if(this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack'){
+      return (
+        <Router>
+            <Route path="/" render={(props) => <WithinSign {...props} />} />
+        </Router>
+      )
+    }else{
+      return(
+        <Router>
+          <Switch>
+            <Route path="/cosmic" render={(props)=> <WithinCosmic {...props}/>}/>
+            <Route path="/" render={(props)=> <WithinAround {...props}/>}/>
+          </Switch>
+        </Router>
+      )
+    };
   }
 }
 
-export default connect()(Within);
+const mapStateToProps = (state) => {
+  return {
+    tokenStatus: state.token,
+    userInfo: state.userInfo,
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  null
+)(Within);

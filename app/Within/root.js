@@ -32,7 +32,7 @@ if(loggedin){
       one possiblity is the token was invalid,
       then we still going to render after we mark the result in Redux.
       */
-      let verifiedErrify = statusVerifiedErr(err, store); //set token status to Redux by f() import from errHandlers
+      statusVerifiedErr(err, store); //set token status to Redux by f() import from errHandlers
       //Render the dom no matter the result of the errHandlers,
       //and let the DOM itself check the status
       ReactDOM.hydrate(<Provider store={store}><Within/></Provider>, document.getElementById("root"));

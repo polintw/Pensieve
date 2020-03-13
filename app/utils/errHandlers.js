@@ -16,7 +16,7 @@ export function statusVerifiedErr(error, store){
         store.dispatch(setTokenStatus({token: 'lack'}))
         break;
       case 404:
-        store.dispatch(setTokenStatus({token: 'invalid'}))
+        store.dispatch(setTokenStatus({ token: 'internalErr'}))
         break;
       case 500:
         store.dispatch(setTokenStatus({token: 'internalErr'}))

@@ -76,11 +76,10 @@ export default class NavOptions extends React.Component {
     event.preventDefault();
     localStorage.removeItem('token');
     localStorage.removeItem('tokenRefresh');
-    window.location.assign('/login');
+    window.location.assign('/s/signin');
   }
 
   render(){
-    //let cx = cxBind.bind(styles);
     return(
       <div
         style={this.style.selfCom_NavOptions_}>

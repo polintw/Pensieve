@@ -41,23 +41,36 @@ class Around extends React.Component {
   }
 
   render(){
-    return(
-      <div
-        style={this.style.withinCom_CosmicMain_}>
+    if (this.props.tokenStatus == 'invalid' || this.props.tokenStatus == 'lack') {
+      return (
         <div
-          style={this.style.withinCom_CosmicMain_index_}>
-          <IndexWrapper {...this.props}/>
+          style={this.style.withinCom_CosmicMain_}>
+
+          <div style={{ width: '100%', height: '2.7rem', position: 'fixed', top: '0', backgroundColor: '#FCFCFC' }}></div>
+          <div style={{ width: '100%', height: '4rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC' }}>
+          </div>
         </div>
-        <div style={{width: '100%', height: '2.7rem', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
-        <div style={{width: '100%', height: '4rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}>
+      )
+    } else {
+      return(
+        <div
+          style={this.style.withinCom_CosmicMain_}>
+          <div
+            style={this.style.withinCom_CosmicMain_index_}>
+            <IndexWrapper {...this.props}/>
+          </div>
+          <div style={{width: '100%', height: '2.7rem', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
+          <div style={{width: '100%', height: '4rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}>
+          </div>
         </div>
-      </div>
-    )
+      )
+    };
   }
 }
 
 const mapStateToProps = (state)=>{
   return {
+    tokenStatus: state.token,
     userInfo: state.userInfo
   }
 }

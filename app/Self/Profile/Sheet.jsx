@@ -10,6 +10,10 @@ import {
 } from './SheetCom.jsx';
 import AccountPalette from '../../Components/AccountPalette.jsx';
 import {mountUserSheet} from "../../redux/actions/front.js";
+import {
+  cancelErr,
+  uncertainErr
+} from "../../utils/errHandlers.js";
 
 const styleMiddle = {
 
@@ -116,26 +120,12 @@ const styleMiddle = {
           self.props._set_store_userSheetMount(sheetResObj.main.sheetSet, accountResObj.main.accountSet);
         })
       ).catch(function (thrown) {
+        self.setState({ axios: false });
         if (axios.isCancel(thrown)) {
-          console.log('Request canceled: ', thrown.message);
+          cancelErr(thrown);
         } else {
-          self.setState({axios: false});
-          if (thrown.response) {
-            // The request was made and the server responded with a status code that falls out of the range of 2xx
-            alert('Something went wrong: '+thrown.response.data.message)
-            if(thrown.response.status == 403){
-              window.location.assign('/login');
-            }
-          } else if (thrown.request) {
-              // The request was made but no response was received
-              // `err.request` is an instance of XMLHttpRequest in the browser and an instance of
-              // http.ClientRequest in node.js
-              console.log(thrown.request);
-          } else {
-              // Something happened in setting up the request that triggered an Error
-              console.log('Error: ', thrown.message);
-          }
-          console.log("Error config: "+thrown.config);
+          let message = uncertainErr(thrown);
+          if (message) alert(message);
         }
       });
     }
