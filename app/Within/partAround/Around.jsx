@@ -22,7 +22,7 @@ class Around extends React.Component {
         boxSizing: 'border-box'
       },
       withinCom_CosmicMain_index_: {
-        width: '70vw',
+        width: '80vw',
         minWidth: '890px',
         position: 'absolute',
         top: '3.4rem',

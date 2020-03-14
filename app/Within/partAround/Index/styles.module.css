@@ -17,10 +17,8 @@
 
 .boxRowTop {
   width: 100%;
-  height: 21vh;
   position: relative;
-  left: 2.5vw;
-  margin: 2vw 0 2.5vw;
+  margin: 2.5vw 0 3.5vw;
 }
 
 .boxFooter {

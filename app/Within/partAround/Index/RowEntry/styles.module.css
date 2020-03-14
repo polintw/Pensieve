@@ -1,36 +1,40 @@
 .comRowEntry {
+  display: flex;
+  justify-content: space-between;
   width: 100%;
   box-sizing: border-box;
-  padding: 3.5% 0 0;
+}
+
+.boxBelong {
+  width: 62.5%; /*50/80vw*/
+}
+
+.boxStatic {
+  display: flex;
+  flex-direction: column;
+  width: 31.25%; /* 25/80vw*/
+
 }
 
 .boxLogo {
   height: 4rem;
+  margin-bottom: 6.4rem;
 }
 
 .boxBasic {
-  min-width: 13vw;
-  position: absolute;
-  top: 45%;
-  left: 75%;
-  box-sizing: border-box;
-}
-
-.boxBasicBottom {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
+  margin-bottom: 2rem;
 }
 
 .boxGreet {
-  margin-bottom: 10%;
+  margin-bottom: 2rem;
+}
+
+.spanGreet {
+  white-space: nowrap;
 }
 
 .boxDate {
-  display: flex;
-  justify-content: flex-end;
-  box-sizing: border-box;
-  margin-right: 8%;
+  display: inline-block;
 }
 
 .boxUnderline {
@@ -38,8 +42,4 @@
   position: absolute;
   top: 0;
   left: 6.25%;
-}
-
-.spanGreet {
-  white-space: nowrap;
 }

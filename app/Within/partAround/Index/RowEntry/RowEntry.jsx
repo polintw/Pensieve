@@ -7,7 +7,8 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
-import stylesMain from "../styles.module.css"; //Notice, we use shared css file here for easier control
+import stylesFont from '../../stylesFont.module.css';
+import BelongsSet from '../BelongsSet/BelongsSet.jsx';
 import DateConverter from '../../../../Components/DateConverter.jsx';
 import SvgLogo from '../../../../Components/Svg/SvgLogo.jsx';
 
@@ -60,26 +61,34 @@ class RowEntry extends React.Component {
         className={classnames(styles.comRowEntry)}>
 
         <div
-          className={classnames(styles.boxLogo)}>
-          <SvgLogo/>
-        </div>
-        <div
-          className={classnames(styles.boxBasic)}>
-          {
-            this.state.greet &&
-            <div
-              className={styles.boxGreet}>
-              <span className={classnames(styles.spanGreet, stylesMain.fontTitle)}>
-                {this.props.i18nUIString.catalog[this.state.greet]}</span>
-            </div>
-          }
+          className={classnames(styles.boxStatic)}>
           <div
-            className={classnames(styles.boxDate)}>
-            <DateConverter
-              place={'title'}
-              datetime={date.getTime()}/>
+            className={classnames(styles.boxLogo)}>
+            <SvgLogo/>
           </div>
+          <div
+            className={classnames(styles.boxBasic)}>
+            {
+              this.state.greet &&
+              <div
+                className={styles.boxGreet}>
+                <span className={classnames(styles.spanGreet, stylesFont.fontGreet)}>
+                  {this.props.i18nUIString.catalog[this.state.greet]}</span>
+              </div>
+            }
+            <div
+              className={classnames(styles.boxDate)}>
+              <DateConverter
+                place={'title'}
+                datetime={date.getTime()}/>
+            </div>
+          </div>
+        </div>
 
+        <div
+          className={classnames(styles.boxBelong)}>
+          <BelongsSet
+            lastVisit={this.props.lastVisit}/>
         </div>
 
       </div>

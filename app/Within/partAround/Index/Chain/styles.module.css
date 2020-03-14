@@ -8,7 +8,19 @@
   justify-content: space-around;
 }
 
+.boxChainUpload {
+  position: relative;
+}
+
 .boxCreate {
+  display: inline-block;
   position: relative;
   cursor: pointer;
+}
+
+.boxBlankHint {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 1rem 0;
+  text-align: center;
 }

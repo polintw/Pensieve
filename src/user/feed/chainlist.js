@@ -148,9 +148,10 @@ function _handle_GET_feedChainlist(req, res){
     Promise.all(arrPromiseList)
     .then((results)=>{
       let sendingData={
-        orderFirst: {},
-        orderSecond: {},
+        orderFirst: false, //'false' for front end
+        orderSecond: false,
         firstsetify: false,
+        belongify: false,
         temp: {
           settingTime:{}
         }

@@ -14,7 +14,6 @@ import {
 } from './utils.js';
 import Chain from './Chain/Chain.jsx';
 import RowEntry from './RowEntry/RowEntry.jsx';
-import BelongsSet from './BelongsSet/BelongsSet.jsx';
 import BelongsMap from './BelongsMap/BelongsMap.jsx';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
 import {
@@ -118,11 +117,7 @@ class Wrapper extends React.Component {
             <RowEntry
               lastVisit={this.state.lastVisit}/>
           </div>
-          <div
-            className={classnames(styles.boxRow)}>
-            <BelongsSet
-              lastVisit={this.state.lastVisit}/>
-          </div>
+
           <div
             className={classnames(styles.boxRow)}>
             <Chain

@@ -7,10 +7,11 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import stylesFont from '../../stylesFont.module.css';
 import stylesNail from "../../../stylesNail.module.css";
+import ChainUpload from './ChainUpload.jsx';
 import NailBasic from '../../../../Components/Nails/NailBasic/NailBasic.jsx';
 import NailShared from '../../../../Components/Nails/NailShared/NailShared.jsx';
-import CreateShare from '../../../../Unit/Editing/CreateShare.jsx';
 import {axios_get_UnitsBasic} from '../../../../utils/fetchHandlers.js';
 import {
   handleNounsList,
@@ -25,34 +26,21 @@ class Chain extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      editingOpen: false,
-      onCreate: false,
       axios: false,
-      nailFirst: {},
-      nailSecond: {},
+      nailFirst: false, //because we sould not render anything if the res nail was empty
+      nailSecond: false,
       firstify: false,
+      belongify: false,
       fetched: false,
       unitsBasic: {},
       marksBasic: {}
     };
+    this.nailsKey = ['nailFirst', 'nailSecond'];
     this.axiosSource = axios.CancelToken.source();
     this._set_ChainUnits = this._set_ChainUnits.bind(this);
-    this._submit_Share_New = this._submit_Share_New.bind(this);
     this._render_ChainUnits = this._render_ChainUnits.bind(this);
+    this._render_HintMessage = this._render_HintMessage.bind(this);
     this._axios_get_chainlist = this._axios_get_chainlist.bind(this);
-    this._handleClick_plainOpen = this._handleClick_plainOpen.bind(this);
-    this._handleMouseOn_Create = ()=> this.setState((prevState,props)=>{return {onCreate: prevState.onCreate?false:true}});
-  }
-
-  _handleClick_plainOpen(event){
-    event.preventDefault();
-    event.stopPropagation();
-    this.setState({editingOpen: true});
-  }
-
-  _submit_Share_New(dataObj){
-    //Fetch list again
-    this._set_ChainUnits();
   }
 
   _set_ChainUnits(){
@@ -71,6 +59,7 @@ class Chain extends React.Component {
         nailFirst: resObj.main.orderFirst,
         nailSecond: resObj.main.orderSecond,
         firstify: resObj.main.firstsetify,
+        belongify: resObj.main.belongify,
         fetched: true
       });
       this.props._set_mountToDo('chainlist'); // and, after we get the list back, inform the parent we are done with the lastVisit time
@@ -145,10 +134,33 @@ class Chain extends React.Component {
     }
   }
 
+  _render_HintMessage(){
+    const recKeys = Object.keys(this.props.belongsByType);
+
+    if(recKeys == 0){
+      return (
+        <div
+          className={classnames(styles.boxBlankHint, stylesFont.fontTitleHint, stylesFont.colorLightHint)}>
+          {this.props.i18nUIString.catalog["guidingChain_noBelongSet"]}
+        </div>
+      )
+    }else if(this.state.belongify){
+      return (
+        <div
+          className={classnames(styles.boxBlankHint, stylesFont.fontTitleHint, stylesFont.colorLightHint)}>
+          <span>{this.props.i18nUIString.catalog["guidingChain_noSharedEst."][0]}</span>
+          <span>{this.props.i18nUIString.catalog["guidingChain_noSharedEst."][1]}</span>
+        </div>
+      )
+    }else{
+      return null
+    }
+  }
+
   _render_ChainUnits(){
     let nailsDOM = [];
-    let loopState = ['nailFirst', 'nailSecond'];
-    loopState.forEach((order, index) => {
+
+    this.nailsKey.forEach((order, index) => {
       //render if there are something in the data
       if('unitId' in this.state[order]){
         let unitId = this.state[order].unitId;
@@ -199,49 +211,31 @@ class Chain extends React.Component {
         }
       }
     });
-    //and if they both empty, but list was already fetched, which means no records can be showed even register the belong
-    if(nailsDOM.length == 0 && this.state.fetched) nailsDOM.push(
-      <div
-        key={"key_ChainNail_emptyRecords"}>
-        {this.props.i18nUIString.catalog["guidingChain_emptyRecords"]}
-      </div>
-    );
 
     return nailsDOM;
   }
 
   render(){
-    const recKeys = Object.keys(this.props.belongsByType);
-
     return (
       <div
         className={classnames(styles.comChain)}>
+        {this._render_HintMessage()}
         {
-          (recKeys.length > 0) ? (
-            <div
-              className={classnames(styles.boxModule)}>
-              <div>
-                {this._render_ChainUnits()}
-              </div>
-              <div
-                className={classnames(styles.boxCreate)}>
-                <div
-                  onClick={this._handleClick_plainOpen}
-                  onMouseEnter={this._handleMouseOn_Create}
-                  onMouseLeave={this._handleMouseOn_Create}>
-                  {"Upload"}
-                </div>
-                <CreateShare
-                  forceCreate={this.state.editingOpen}
-                  _submit_Share_New={this._submit_Share_New}
-                  _refer_von_Create={this.props._refer_von_cosmic}/>
-              </div>
-            </div>
-          ):(
+          this.state.nailFirst &&
+          <div
+            className={classnames(styles.boxModule)}>
             <div>
-              {this.props.i18nUIString.catalog["guidingChain_noBelongSet"]}
+              {this._render_ChainUnits()}
             </div>
-          )
+            <div
+              className={classnames(styles.boxChainUpload)}>
+              <ChainUpload
+                {...this.state}
+                nailsKey = {this.nailsKey}
+                _set_ChainUnits={this._set_ChainUnits}
+                _refer_von_cosmic={this.props._refer_von_cosmic}/>
+            </div>
+          </div>
         }
       </div>
     )

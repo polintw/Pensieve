@@ -98,7 +98,9 @@ export const i18nUIStringInit = {
      "category__Belong_usersCount": ["with ", "users", "way to "],
      "descript_BelongSet_SearchBytType": ["Input corner name of your "],
      "guidingBelongs_EmptyMap": "Set your corner, and taking a look for the distribution of your fellows.",
-     "guidingChain_emptyRecords": "Share your corner about your place to the Next fellow!",
-     "guidingChain_noBelongSet": "Set a Residence/homeland to touch the people near your corners!",
+     "guidingChain_noBelongSet": "Touching your Fellows by setting the place you are and the land you were born.",
+     "guidingChain_noSharedEst.": ["You would be the first one to share about your corner!", "Let's first see other corner people shared to their fellows."],
+     "guidingChain_Upload_noSharedEst.":　"what's the corner you want the next joiner to know?",
+     "guidingChain_Upload_aShared": "what's yours?"
    }
 }
