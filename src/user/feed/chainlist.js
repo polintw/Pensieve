@@ -95,23 +95,6 @@ function _handle_GET_feedChainlist(req, res){
         ]
       })
       .catch((err)=>{throw err})
-    })
-    .then((result)=>{
-        if(!result){ // if the result was null, perhaps every unit was read,
-          return _DB_unitsNodes_assign.findOne({
-            where: {
-              nodeAssigned: belongList,
-              id_author: {[Op.ne]: userId} //not user him/herself
-            },
-            order: [ //make sure the order of arr are from latest
-              Sequelize.literal('`createdAt` DESC') //and here, using 'literal' is due to some wierd behavior of sequelize,
-              //it would make an Error if we provide col name by 'arr'
-            ]
-          })
-          .catch((err)=>{throw err})
-        }
-        return result;
-
     }) //and we have to select from units for getting exposedId
     .then((resultAssign)=>{
       return _DB_units.findOne({
@@ -205,7 +188,7 @@ function _handle_GET_feedChainlist(req, res){
           //if there is nothing new after last visit, only show the later one between Shared & Assign
           sendingData.orderFirst = (sharedLaterAssign) ? ( //incl. the condition with a null row
             {unitId: rowShared.exposedId, form: 'shared'}
-          ):(
+          ):( //theorically, the rowAssign should not be null only at the very begining with the very first user.
             {unitId: rowAssign.exposedId, form: 'assign'}
           ); //both rowShared & rowAssign are selection from table 'units'
         }else{ //then any else condition, incl. Shared the latest, multiple new assign, sending all selection

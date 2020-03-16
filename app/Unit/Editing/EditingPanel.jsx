@@ -9,7 +9,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import ContentEditor from './ContentEditor/ContentEditor.jsx';
 import NodesEditor from './NodesEditor/NodesEditor.jsx';
-import Submit from './components/Submit.jsx';
+import Submit from './components/Submit/Submit.jsx';
 import ImgImport from './components/ImgImport.jsx';
 
 class EditingPanel extends React.Component {
@@ -37,10 +37,19 @@ class EditingPanel extends React.Component {
 
   _submit_new_node(nodeId, type){
     this.setState((prevState, props)=>{
-      prevState.nodesSet[(type=="assign")? 'assign': 'tags'].push(nodeId);
+      /*
+      we are going to change the data 'inside' a prevState value,
+      so we have to avoid modified the base data during the process,
+      i.e we need to copy to assure the prevState data would not be modified before retrun.
+      (same as _submit_deleteNodes)
+      */
+      let newNodeArr = [nodeId];
+      let updateArr = prevState.nodesSet[(type=="assign")? 'assign': 'tags'].concat(newNodeArr);
+      let updateObj = {};
+      updateObj[(type=="assign")? 'assign': 'tags'] = updateArr;
 
       return {
-        nodesSet: prevState.nodesSet
+        nodesSet: Object.assign({}, prevState.nodesSet, updateObj)
       }
     })
   }
@@ -48,10 +57,15 @@ class EditingPanel extends React.Component {
   _submit_deleteNodes(nodeId, type){
     this.setState((prevState, props)=>{
       let targetArr = prevState.nodesSet[(type=="assign")? 'assign': 'tags'];
-       targetArr= targetArr.filter((value, index)=>{ // use filter remove id from the list and replace it by new list
+      let updateArr = targetArr.filter((value, index)=>{ // use filter remove id from the list and replace it by new list
         return value != nodeId; //not equal value, but allow different "type" (the nodeId was string saved in the DOM attribute)
       });
-      return prevState;
+      let updateObj = {};
+      updateObj[(type=="assign")? 'assign': 'tags'] = updateArr;
+
+      return {
+        nodesSet: Object.assign({}, prevState.nodesSet, updateObj)
+      }
     })
   }
 

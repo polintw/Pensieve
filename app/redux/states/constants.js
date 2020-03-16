@@ -100,7 +100,8 @@ export const i18nUIStringInit = {
      "guidingBelongs_EmptyMap": "Set your corner, and taking a look for the distribution of your fellows.",
      "guidingChain_noBelongSet": "Touching your Fellows by setting the place you are and the land you were born.",
      "guidingChain_noSharedEst.": ["You would be the first one to share about your corner!", "Let's first see other corner people shared to their fellows."],
-     "guidingChain_Upload_noSharedEst.":　"what's the corner you want the next joiner to know?",
-     "guidingChain_Upload_aShared": "what's yours?"
+     "guidingChain_Upload_noSharedEst.":　"So, which corner in your mind do you want to share?",
+     "guidingChain_Upload_aShared": "what's yours?",
+     "guidingCreateShare_AssignGroup": "sharing to people linked to which of your corner?"
    }
 }

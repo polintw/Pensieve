@@ -34,8 +34,12 @@ class AssignNodes extends React.Component {
   _handleClick_NodeAssigned(event){
     event.preventDefault();
     event.stopPropagation();
-    let targetId = event.currentTarget.getAttribute('nodeid');
-    let assignify = event.currentTarget.getAttribute('assigning');
+    let targetId = event.currentTarget.getAttribute('nodeid'); //type of attribute always be a 'string'
+    // we'd better turn it into 'int', the type the DB saved
+    targetId = parseInt(targetId);
+    //now the type of targetId is 'int'
+    let assignify = (this.props.assigned.indexOf(targetId) < 0) ? false : true;
+
     assignify ? (
       this.props._submit_deleteNodes(targetId, 'assign')
     ):(
@@ -58,22 +62,24 @@ class AssignNodes extends React.Component {
   _render_assignedNodes(){
     const typeKeys = Object.keys(this.props.belongsByType);
     let belongNodesList = typeKeys.map((type, index)=>{
+      //that is, due to directly from the GET method, the type of nodeId cintain in 'belongsByType' was 'int'!
       return this.props.belongsByType[type];
     });
 
-    let nodesDOM = belongNodesList.map((nodeId, index)=>{
-      let assigning = this.props.assigned.filter((assignedNode, index)=>{
-        return assignedNode == nodeId;
-      });
+    let nodesDOM = belongNodesList.map((nodeId, index)=>{ //tpye of nodeId here was 'int'
+      /*
+      and the type of records in props.assigned was 'int' as well,
+      it's important because the array.indexOf() would see diff. types as 'no the same'
+      */
+      let assigning = (this.props.assigned.indexOf(nodeId) < 0) ? false : true;
       return (
         <li
           key={'_key_assignNode_'+index}
           nodeid={nodeId}
-          assigning={assigning}
           className={classnames(
             styles.boxListItem,
             {
-              [styles.chosenListItem]: (assigning.length > 0),
+              [styles.chosenListItem]: assigning,
               [styles.mouseListItem]: (this.state.onNode==nodeId)
             }
           )}
@@ -98,7 +104,10 @@ class AssignNodes extends React.Component {
     return(
       <div
         className={classnames(styles.comAssignNodes)}>
-        {this._render_assignedNodes()}
+        <div>{this.props.i18nUIString.catalog["guidingCreateShare_AssignGroup"]}</div>
+        <div>
+          {this._render_assignedNodes()}
+        </div>
       </div>
     )
   }

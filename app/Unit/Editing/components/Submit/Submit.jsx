@@ -1,17 +1,8 @@
 import React from 'react';
 import {connect} from "react-redux";
-import DateConverter from '../../../Components/DateConverter.jsx';
-
-const generalStyle = { //could included in a global style sheet
-  absolute_FullVersion: {
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
-    top: '0',
-    left:'0',
-    boxSizing: 'border-box'
-  }
-}
+import classnames from 'classnames';
+import styles from "./styles.module.css";
+import DateConverter from '../../../../Components/DateConverter.jsx';
 
 const styleMiddle = {
   boxNavButton:{
@@ -54,25 +45,6 @@ class Submit extends React.Component {
     this._handleLeave_Submit = this._handleLeave_Submit.bind(this);
     this._handleClick_Editing_Submit = this._handleClick_Editing_Submit.bind(this);
     this._handleClick_Editing_Cancell = this._handleClick_Editing_Cancell.bind(this);
-    this.style={
-      Com_EPanel_: {
-
-      },
-      Com_Modal_Editing_Panel_Destiny_: {
-        width: '18%',
-        height: '100%',
-        position: 'absolute',
-        top: '0%',
-        right: '8%',
-        boxSizing: 'border-box'
-      },
-      Com_Modal_Editing_Panel_Info_: {
-        position: 'absolute',
-        bottom: '0%',
-        left: '10%',
-        boxSizing: 'border-box',
-      }
-    }
   }
 
   _handleClick_Editing_Cancell(event){
@@ -111,9 +83,17 @@ class Submit extends React.Component {
     let editDate = new Date();
     return(
       <div
-        style={generalStyle.absolute_FullVersion}>
+        className={classnames(styles.comSubmit)}>
         <div
-          style={this.style.Com_Modal_Editing_Panel_Destiny_}>
+          className={classnames(styles.boxDate)}>
+          <div
+            style={Object.assign({}, styleMiddle.boxInlineRelative, {color: '#e6e6e6'})}>
+            <DateConverter
+              datetime={editDate}/>
+          </div>
+        </div>
+        <div
+          className={classnames(styles.boxButtons)}>
           <div
             style={Object.assign({}, styleMiddle.boxNavButton, {width: '36%', marginRight: '16%',cursor: 'pointer'})}>
             <span
@@ -149,14 +129,6 @@ class Submit extends React.Component {
                   }}></div>
               }
             </div>
-          </div>
-        </div>
-        <div
-          style={this.style.Com_Modal_Editing_Panel_Info_}>
-          <div
-            style={Object.assign({}, styleMiddle.boxInlineRelative, {color: '#e6e6e6'})}>
-            <DateConverter
-              datetime={editDate}/>
           </div>
         </div>
       </div>
