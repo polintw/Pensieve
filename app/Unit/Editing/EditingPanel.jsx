@@ -100,9 +100,9 @@ class EditingPanel extends React.Component {
 
   _set_statusEditing(bool){
     this.setState((prevState, props)=>{
-      return (
+      return {
         contentEditing: bool
-      )
+      }
     });
   }
 
@@ -157,14 +157,16 @@ class EditingPanel extends React.Component {
       )
     }else{
       return(
-        <ContentEditor
-          editing={this.state.contentEditing}
-          imgSrc={this.state.coverSrc}
-          marks={this.state.coverMarks}
-          _set_statusEditing={this._set_statusEditing}
-          _set_Mark_Complete={this._set_Mark_Complete}
-          _set_delete={this._set_img_delete}
-          _set_warningDialog={this.props._set_warningDialog}/>
+        <div>
+          <ContentEditor
+            editing={this.state.contentEditing}
+            imgSrc={this.state.coverSrc}
+            marks={this.state.coverMarks}
+            _set_statusEditing={this._set_statusEditing}
+            _set_Mark_Complete={this._set_Mark_Complete}
+            _set_delete={this._set_img_delete}
+            _set_warningDialog={this.props._set_warningDialog}/>
+        </div>
       )
     }
   }
@@ -173,10 +175,6 @@ class EditingPanel extends React.Component {
     return(
       <div
         className={classnames(styles.comEditingPanel)}>
-        <div
-          className={classnames(styles.boxContent)}>
-          {this._render_importOrCover()}
-        </div>
         <div
           className={classnames(styles.boxSide, styles.boxSideEdit)}>
           <NodesEditor
@@ -193,6 +191,9 @@ class EditingPanel extends React.Component {
             _set_Clear={this.props._set_Clear}
             _submit_newShare={this._submit_newShare}
             _refer_toandclose={this.props._refer_toandclose}/>
+        </div>
+        <div>
+          {this._render_importOrCover()}
         </div>
       </div>
     )
