@@ -195,6 +195,19 @@ class EditingPanel extends React.Component {
         <div>
           {this._render_importOrCover()}
         </div>
+        {
+          this.props.unitSubmitting &&
+          <div
+            style={{
+              width: '100%',
+              height: '100%',
+              position: 'absolute',
+              top: '0',
+              left:'0',
+              backgroundColor: 'rgba(230,230,230,0.5)'
+            }}
+            onClick={(e)=>{e.preventDefault(); e.stopPropagation();}}/>
+        }
       </div>
     )
   }
@@ -204,6 +217,7 @@ const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
+    unitSubmitting: state.unitSubmitting,
     belongsByType: state.belongsByType
   }
 }

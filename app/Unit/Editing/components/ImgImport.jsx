@@ -13,7 +13,7 @@ class ImgImport extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      axios: false
+
     };
     this.axiosSource = axios.CancelToken.source();
     this._handle_newImgSrc = this._handle_newImgSrc.bind(this);
@@ -75,9 +75,7 @@ class ImgImport extends React.Component {
   }
 
   componentWillUnmount(){
-    if(this.state.axios){
-      this.axiosSource.cancel("component will unmount.")
-    }
+
   }
 
   render(){

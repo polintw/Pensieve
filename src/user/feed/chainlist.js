@@ -30,7 +30,6 @@ function _handle_GET_feedChainlist(req, res){
     })
     .catch((err)=>{throw err})
   };
-
   const _find_fromResidence_last = (userId)=>{
     return _DB_usersNodesResidence.findOne({
       where: {
@@ -70,6 +69,7 @@ function _handle_GET_feedChainlist(req, res){
     })
     .catch((err)=>{throw err})
   };
+
   const _find_assigned_unread = (userId, belongList)=>{
     return _DB_usersUnits.findAll({
       where: {
@@ -97,113 +97,158 @@ function _handle_GET_feedChainlist(req, res){
       .catch((err)=>{throw err})
     }) //and we have to select from units for getting exposedId
     .then((resultAssign)=>{
-      return _DB_units.findOne({
-        where: {
-          id: !!resultAssign ? (resultAssign.id_unit) : (null) //in case the resultAssign was NUll, and let it return 'null'
-        }
-      });
+      /*
+      the resultAssign has 2 possibility:
+      - has result, an unread assigned Unit, or
+      - null, and we have to know why: read everything or no rec belong to Belong at all
+      */
+      if(!resultAssign){ // if the resultAssign 'Null'
+        return _DB_unitsNodes_assign.findOne({
+          where: {
+            nodeAssigned: belongList,
+          }
+        })
+        .then((result)=>{
+          if(!!result){ //has some rec
+            return 'recAllRead'
+          } else return 'noRec';
+        })
+        .catch((err)=>{throw err})
+      }else { //and if the result was not empty, select and return the unit data
+        return _DB_units.findOne({
+          where: {
+            id: resultAssign.id_unit
+          }
+        })
+        .then((resultUnit)=>{
+          //we need not only the selection from units, but also the previous result from units_nodes_assign
+          return {
+            id_unit: resultUnit.id,
+            exposedId: resultUnit.exposedId,
+            id_author: resultUnit.id_author,
+            id_primer: resultUnit.id_primer,
+            nodeAssigned: resultAssign.nodeAssigned,
+            createdAt: resultUnit.createdAt
+          };
+        });
+      }
+    })
+    .catch((err)=>{throw err})
+  };
+
+  const _find_unit_random = ()=>{
+    return _DB_units.findOne({
+      order: [
+        [Sequelize.fn('RAND')] //"RAND" is order for 'random' selection specific for mySQL
+      ]
     })
     .catch((err)=>{throw err})
   };
 
   new Promise((resolve, reject)=>{
     const userId = req.extra.tokenUserId;
-    /*
-    A simplified algorithm.
 
-    find belongsest >
-    if(belongset) >
-    keep createdAt of belongset/
-    find from users_units by user +
-    find unread _assign unit by belong(latest or not yet read, limit:1, not author)/
-    find latest Shared (ify)/
-    find lastvisit index >
-    compare createdAt of belongset and lastvisit: firstsetify if belongset is later than lastvisit.
-    compare createdAt of _assign[0], latest Shared, lastvisit:
-    - Shared & _assign which earlier?
-    - is last visit later than both? then only show the later one
-    */
     let arrPromiseList = [ //select belong the user set
+          new Promise((resolve, reject)=>{_find_Shared_last(userId).then((results)=>{resolve(results);});}),
+          new Promise((resolve, reject)=>{_find_lastVisit_index(userId).then((results)=>{resolve(results);});}),
           new Promise((resolve, reject)=>{_find_fromResidence_last(userId).then((results)=>{resolve(results);});}),
           new Promise((resolve, reject)=>{_find_fromHomeland_last(userId).then((results)=>{resolve(results);});})
         ];
 
     Promise.all(arrPromiseList)
     .then((results)=>{
-      let sendingData={
-        orderFirst: false, //'false' for front end
-        orderSecond: false,
-        firstsetify: false,
-        belongify: false,
-        temp: {
-          settingTime:{}
-        }
+      let sendingData={ //default as the state res if no belong set at all
+        displayOrder: [],
+        unitsInfo: {}, // unitId: {id, form, toBelong:[], toBelongNew: {nodeId: bool}}
+        popup: null,  //{id, toBelong: [], reason: 'firstify'}
+        sharedify: false,
+        belongRecify: false,
+        temp: {}
       };
-      let residence = !!results[0] ? results[0].id_node : false; //checking if the results was 'null'
-      let homeland = !!results[1] ? results[1].id_node : false;
-      //first, if the belongset was empty, just res empty set(but this shouldn't happen due to the api should only called if the client 'has' belongset)
-      if(!residence && !homeland) return Promise.resolve(sendingData);
-      //and if there has some record,
-      let belongList = [];
-      if(residence){ sendingData.temp['settingTime']['resid']=results[0].createdAt; belongList.push(results[0].id_node)};
-      if(homeland){ sendingData.temp['settingTime']['homela']=results[1].createdAt; belongList.push(results[1].id_node)};
+      let resultShared = results[0],
+          resultVisit = results[1],
+          resultRecResi = results[2],
+          resultRecHome = results[3];
 
-      let arrPSecondList = [ //select belong the user set
-            new Promise((resolve, reject)=>{_find_Shared_last(userId).then((results)=>{resolve(results);});}),
-            new Promise((resolve, reject)=>{_find_lastVisit_index(userId).then((results)=>{resolve(results);});}),
-            new Promise((resolve, reject)=>{_find_assigned_unread(userId, belongList).then((results)=>{resolve(results);}).catch((err)=>{reject(err)});}).catch((err)=>{throw err}),
-          ];
-      return Promise.all(arrPSecondList)
-      .then((resultsSec)=>{
-        //resultsSec are all result return by 'findOne', representing ony 'a row'
-        let rowShared = resultsSec[0],
-        rowLastVisit = resultsSec[1],
-        rowAssign = resultsSec[2];
-        //check if the req was the first time after belong was set
-        let firstsetify = true; //a temp param before insert into sendingData
-        let setBelong = Object.keys(sendingData.temp['settingTime']);
-        setBelong.forEach((key, index) => {
-          //that is, if the last visit time was latter than setting time, this must be 'not' the first time after set
-          //(rowLastVisit must not NULL)
-          if(sendingData.temp['settingTime'][key] < rowLastVisit.updatedAt) firstsetify = false;
-        });
-        sendingData.firstsetify = firstsetify; //update by the result
-        //then arrange the units by the time
-        //we now compare the time line first, but Notice! it was a method because we only have 2 belongs
-        const _check_nullRowandTimeCompare = (mainRow, compareRow)=>{
-          //2 things need to do by this handler:
-          // which one is later, and if any row was NULL
-          let boolResult;
-          if(!!mainRow && !!compareRow){ //if bothe row are 'not' NULL
-            boolResult = (mainRow.createdAt > compareRow.createdAt)? true : false;
-          }else{ //only look the mainRow if there is any row was NULL
-            boolResult = !!mainRow ? true: false;
-          }
-          return boolResult;
-        };
-        let visitLaterShared = _check_nullRowandTimeCompare(rowLastVisit, rowShared)? true: false,
-            visitLaterAssign = _check_nullRowandTimeCompare(rowLastVisit, rowAssign)? true: false,
-            sharedLaterAssign = _check_nullRowandTimeCompare(rowShared, rowAssign)? true: false;
-        if(visitLaterShared && visitLaterAssign){
-          //if there is nothing new after last visit, only show the later one between Shared & Assign
-          sendingData.orderFirst = (sharedLaterAssign) ? ( //incl. the condition with a null row
-            {unitId: rowShared.exposedId, form: 'shared'}
-          ):( //theorically, the rowAssign should not be null only at the very begining with the very first user.
-            {unitId: rowAssign.exposedId, form: 'assign'}
-          ); //both rowShared & rowAssign are selection from table 'units'
-        }else{ //then any else condition, incl. Shared the latest, multiple new assign, sending all selection
-          if(sharedLaterAssign){ //shared is later, and means rowShared must 'not' NULL
-            sendingData.orderFirst = !!rowAssign ? {unitId: rowAssign.exposedId, form: 'assign'} : {unitId: rowShared.exposedId, form: 'shared'};
-            sendingData.orderSecond = !!rowAssign ? {unitId: rowShared.exposedId, form: 'shared'} : {};
-          }else if(!sharedLaterAssign && !rowAssign){ //means both rowShared & rowAssign are NULL
-            //do nothing! keep sendingData as current status.
-          }else{ //
-            sendingData.orderFirst = !!rowShared ? {unitId: rowShared.exposedId, form: 'shared'} : {unitId: rowAssign.exposedId, form: 'assign'};
-            sendingData.orderSecond = !!rowShared ? {unitId: rowAssign.exposedId, form: 'assign'} : {};
+      //first, if the belongset was empty, just res empty set(but this shouldn't happen due to the api should only called if the client 'has' belongset)
+      if(!resultRecResi && !resultRecHome) return Promise.resolve(sendingData);
+
+      //and if any belong has been set,
+      let belongList = []; //list used to select from assign
+      if(!!resultRecResi){ belongList.push(resultRecResi.id_node);};
+      if(!!resultRecHome){ belongList.push(resultRecHome.id_node)};
+
+      return _find_assigned_unread(userId, belongList)
+      .then((resultAssign)=>{ // Notice! the resultAssign was 'Not' an instance, it's a plain js obj
+        //resultAssign could be one of 3: an unit row, 'noRec', or 'recAllRead'
+        if(resultShared) { //sharedify ? set true and put into unitsInfo.
+          sendingData.sharedify = true;
+          sendingData.unitsInfo[resultShared.exposedId] = {
+            unitId: resultShared.exposedId,
+            form: 'shared',
+            createdAt: resultShared.createdAt
           };
-        }
+        };
+        if(typeof resultAssign!== 'string'){ //typeof resultAssign !== 'string'? set belongRecify true and put into unitsInfo
+          sendingData.belongRecify = true;
+          sendingData.unitsInfo[resultAssign.exposedId] = {
+            // unitId: {id, form, toBelong:[], toBelongNew: {nodeId: bool}}
+            unitId: resultAssign.exposedId,
+            form: 'assign',
+            toBelong: [resultAssign.nodeAssigned],
+            toBelongNew: {},
+            createdAt: resultAssign.createdAt
+          };
+          sendingData.unitsInfo[resultAssign.exposedId]['toBelongNew'][resultAssign.nodeAssigned] = (resultAssign.createdAt > resultVisit.updatedAt) ? true : false;
+          // meanwhile, check if this is a 'first time' after belong was set
+          // compare the created time of record with last visit, but push it only if the assigned node was match to it
+          if(!!resultRecResi ){
+            if(resultRecResi.createdAt > resultVisit.updatedAt && resultRecResi.id_node == resultAssign.nodeAssigned){
+              //{id, toBelong: [], reason: 'firstify'}
+              sendingData.popup = {unitId: resultAssign.exposedId, toBelong: [resultAssign.nodeAssigned], reason: 'firstify'};
+            }
+          };
+          if(!!resultRecHome ){
+            if(resultRecHome.createdAt > resultVisit.updatedAt && resultRecHome.id_node == resultAssign.nodeAssigned){
+              //{id, toBelong: [], reason: 'firstify'}
+              sendingData.popup = {unitId: resultAssign.exposedId, toBelong: [resultAssign.nodeAssigned], reason: 'firstify'};
+            }
+          };
+        }else if(resultAssign == 'recAllRead'){
+          sendingData.belongRecify = true;
+        };
+        //and now, keys(unitsInfo) > 0? compare order, and set popup if the last visit time was earlier than assigned created
+        let infoKeys = Object.keys(sendingData.unitsInfo);
+        if(infoKeys.length >0){
+          // determine the order: compare the createdAt between each unit
+          sendingData.displayOrder = infoKeys.map((key, index)=>{ return key; }); //put every key into displayOrder
+          function compare(key1, key2){
+            return sendingData.unitsInfo[key1].createdAt - sendingData.unitsInfo[key2].createdAt
+          };
+          sendingData.displayOrder.sort(compare); //the displayOrder now was 'ordered'---earlier to latest
+        };
+
 
         return sendingData;
+      })
+      .then((sendingData)=>{
+        /*
+        if !belongRecify !sharedify & order < 0: select units randomly
+        i.e no unit can display even the user has set belong(s).
+        */
+        if(sendingData.displayOrder.length < 1){
+          return _find_unit_random()
+          .then((randomUnit)=>{
+            sendingData.displayOrder.push(randomUnit.exposeId);
+            sendingData.unitsInfo[randomUnit.exposedId] = {
+              unitId: randomUnit.exposeId,
+              form: 'assign' //perhaps should seperate ?
+            };
+
+            return sendingData;
+          });
+        //do nothing if the sendingData
+        }else return sendingData;
       })
       .catch((err)=>{
         throw err
