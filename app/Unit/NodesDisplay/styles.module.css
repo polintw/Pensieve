@@ -1,7 +1,7 @@
 .boxListItem {
   position: relative;
   box-sizing: border-box;
-  cursor: pointer;
+
 }
 
 .boxItemWrap {

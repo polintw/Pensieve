@@ -73,11 +73,11 @@ export class NodesExtensible extends React.Component {
           <div
             className={classnames(
               styles.boxItemWrap,
-              {[styles.interLiItem]: (this.state.onLiItem==nounId)}
+
             )}
             title={iNoun.name+ (iNoun.prefix ? ", "+iNoun.prefix:"")}>
             {
-              (this.state.onLiItem==nounId) &&
+              (false) &&
               <span style={{
                   width: '84%', position: 'absolute', bottom: '-5%', left: '5%',
                   borderBottom: 'solid 1px #ff7a5f'

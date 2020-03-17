@@ -16,10 +16,7 @@ class AuthorPanel extends React.Component {
     this.style={
       Com_AuthorPanel_: {
         display: 'flex',
-        justifyContent: 'space-between',
-        width: '131%',
         position: 'relative',
-        transform:'translate(-34%,0)',
         boxSizing: 'border-box'
       },
       Com_AuthorPanel_span: {
@@ -27,7 +24,6 @@ class AuthorPanel extends React.Component {
         fontSize: '1.5rem',
         letterSpacing: '0.12rem',
         fontWeight: '300',
-        color: '#FAFAFA',
         cursor: 'pointer'
       }
     };

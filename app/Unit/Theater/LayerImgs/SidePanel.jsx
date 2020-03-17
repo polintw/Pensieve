@@ -4,6 +4,8 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import classnames from 'classnames';
+import styles from './styles.module.css';
 import AuthorPanel from '../components/Author/AuthorPanel.jsx';
 
 class SidePanel extends React.Component {
@@ -23,11 +25,17 @@ class SidePanel extends React.Component {
 
   render(){
     return(
-      <div>
+      <div
+        className={styles.comSidePanel}>
         {
           (this.props.unitCurrent.identity=="author") &&
           <AuthorPanel
             _set_Modalmode={this.props._set_Modalmode}/>
+        }
+        {
+          (this.props.unitCurrent.identity=="viewer") &&
+          <div>
+            {"create new"}</div>
         }
       </div>
     )
