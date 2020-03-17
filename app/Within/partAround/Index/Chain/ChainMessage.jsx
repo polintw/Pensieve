@@ -9,13 +9,12 @@ import styles from "./styles.module.css";
 import stylesFont from '../../stylesFont.module.css';
 import CreateShare from '../../../../Unit/Editing/CreateShare.jsx';
 
-class ChainUpload extends React.Component {
+class ChainMessage extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       editingOpen: false,
       onCreate: false,
-
     };
     this._render_HintMessage = this._render_HintMessage.bind(this);
     this._handleClick_plainOpen = this._handleClick_plainOpen.bind(this);
@@ -41,18 +40,20 @@ class ChainUpload extends React.Component {
   }
 
   _render_HintMessage(){
-    if(!this.props.belongRecify){ // no records for user's belong
+    const recKeys = Object.keys(this.props.belongsByType);
+    if(recKeys == 0){ // if no belongsByType was set
       return (
         <div
-          className={classnames(styles.boxBlankHint, stylesFont.fontHint)}>
-          <span>{this.props.i18nUIString.catalog["guidingChain_Upload_noSharedEst."]}</span>
+          className={classnames(styles.boxBlankHint, stylesFont.fontTitleHint, stylesFont.colorLightHint)}>
+          {this.props.i18nUIString.catalog["guidingChain_noBelongSet"]}
         </div>
       )
-    }else if(!this.props.sharedify){ //no shared record
+    }else if(!this.props.belongRecify){
       return (
         <div
-          className={classnames(styles.boxBlankHint, stylesFont.fontHint)}>
-          <span>{this.props.i18nUIString.catalog["guidingChain_Upload_aShared"]}</span>
+          className={classnames(styles.boxBlankHint, stylesFont.fontTitleHint, stylesFont.colorLightHint)}>
+          <span>{this.props.i18nUIString.catalog["guidingChain_noSharedEst."][0]}</span>
+          <span>{this.props.i18nUIString.catalog["guidingChain_noSharedEst."][1]}</span>
         </div>
       )
     }else{
@@ -63,21 +64,24 @@ class ChainUpload extends React.Component {
   render(){
     return(
       <div
-        className={classnames(styles.comChainUpload)}>
+        className={classnames(styles.comChainMessage)}>
         {this._render_HintMessage()}
-        <div
-          className={classnames(styles.boxCreate)}>
+        {
+          (this.props.displayOrder.length < 1) &&
           <div
-            onClick={this._handleClick_plainOpen}
-            onMouseEnter={this._handleMouseOn_Create}
-            onMouseLeave={this._handleMouseOn_Create}>
-            {"Upload"}
+            className={classnames(styles.boxCreate)}>
+            <div
+              onClick={this._handleClick_plainOpen}
+              onMouseEnter={this._handleMouseOn_Create}
+              onMouseLeave={this._handleMouseOn_Create}>
+              {"Upload"}
+            </div>
+            <CreateShare
+              forceCreate={this.state.editingOpen}
+              _submit_Share_New={this.props._submit_Share_New}
+              _refer_von_Create={this.props._refer_von_cosmic}/>
           </div>
-          <CreateShare
-            forceCreate={this.state.editingOpen}
-            _submit_Share_New={this.props._submit_Share_New}
-            _refer_von_Create={this.props._refer_von_cosmic}/>
-        </div>
+        }
       </div>
     )
   }
@@ -100,4 +104,4 @@ const mapDispatchToProps = (dispatch) => {
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(ChainUpload));
+)(ChainMessage));
