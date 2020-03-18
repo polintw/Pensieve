@@ -189,8 +189,7 @@ class EditingPanel extends React.Component {
             confirmDialog={!!this.props.confirmDialog? this.props.confirmDialog: false}
             warningDialog={!!this.props.warningDialog? this.props.warningDialog: false}
             _set_Clear={this.props._set_Clear}
-            _submit_newShare={this._submit_newShare}
-            _refer_toandclose={this.props._refer_toandclose}/>
+            _submit_newShare={this._submit_newShare}/>
         </div>
         <div>
           {this._render_importOrCover()}

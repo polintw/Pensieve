@@ -17,7 +17,7 @@ import {
   uncertainErr
 } from "../../utils/errHandlers.js";
 
-class SharedEdit extends React.Component {
+class CreateRespond extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -126,7 +126,7 @@ class SharedEdit extends React.Component {
   render(){
     return(
       <div
-        className={classnames('boxAbsoluteFull', styles.comSharedEdit)}
+        className={classnames('boxAbsoluteFull', styles.comCreateRespond)}
         onClick={this._handleClick_bg}>
         <div
           className={classnames(styles.boxEditinginCreate)}>
@@ -160,4 +160,4 @@ const mapDispatchToProps = (dispatch)=>{
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SharedEdit);
+)(CreateRespond);

@@ -9,6 +9,7 @@ import classnames from 'classnames';
 import styles from './styles.module.css';
 import Theater from '../Theater/Theater.jsx';
 import SharedEdit from '../Editing/SharedEdit.jsx';
+import CreateRespond from '../Editing/CreateRespond.jsx';
 import {
   _axios_getUnitData,
   _axios_getUnitImgs
@@ -155,6 +156,13 @@ class UnitScreen extends React.Component {
       case 'editing':
         return (
           <SharedEdit
+            {...this.props}
+            _reset_UnitMount={this._reset_UnitMount}/>
+        )
+        break;
+      case 'respond':
+        return (
+          <CreateRespond
             {...this.props}
             _reset_UnitMount={this._reset_UnitMount}
             _close_theaterHeigher={this._close_modal_Unit}/>

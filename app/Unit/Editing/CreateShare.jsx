@@ -111,8 +111,8 @@ class CreateShare extends React.Component {
   }
 
   _set_EditingClose_clear(){
-    if(this.props.unitSubmitting) this._set_warningDialog([{text: 'still submitting, please hold on.',style:{}}], 'warning');
-    this._set_confirmDialog([{text:'current input would not be saved after leaving, are you sure going to leave?',style:{}}], 'close');
+    if(this.props.unitSubmitting) {this._set_warningDialog([{text: 'still submitting, please hold on.',style:{}}], 'warning');}
+    else this._set_confirmDialog([{text:'current input would not be saved after leaving, are you sure going to leave?',style:{}}], 'close');
   }
 
   _set_EditingClose_andRefer(source, identity){

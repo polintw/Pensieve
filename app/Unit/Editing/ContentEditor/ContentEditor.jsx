@@ -106,7 +106,7 @@ class ContentEditor extends React.Component {
   _handleClick_img_delete(event){
     event.stopPropagation();
     event.preventDefault();
-    if(this.state.markExpandify) return;
+    if(this.state.markExpandify || this.props.unitView=='editing') return;
     this.props._set_delete();
   }
 
@@ -172,12 +172,12 @@ class ContentEditor extends React.Component {
               styles.boxSubmitDelete,
               {[this.state.markExpandify]: styles.boxSubmitInvalid}
             )}
+            style={(this.props.unitView=="editing") ? {display: 'none'}: {}}
             onClick={this._handleClick_img_delete}>
             <span
-              className={'centerAlignChild'}
+              className={classnames('centerAlignChild')}
               style={styleMiddle.spanDestiny}>
               {' ╳ '}</span>
-
           </div>
         </div>
 
@@ -190,6 +190,7 @@ class ContentEditor extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
+    unitView: state.unitView,
     i18nUIString: state.i18nUIString,
     belongsByType: state.belongsByType
   }
