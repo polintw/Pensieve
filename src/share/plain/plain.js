@@ -73,14 +73,33 @@ function shareHandler_POST(req, res){
       'id_author': userId,
       'url_pic_layer0': modifiedBody.url_pic_layer0,
       'url_pic_layer1': modifiedBody.url_pic_layer1,
-      'id_primer': req.query.primer?req.query.primer:null
+      'id_primer': null
     };
+    return new Promise ((resolveLoc, rejectLoc)=>{
+      if(!!modifiedBody.primer){
+        return _DB_units.findOne({
+          where: {exposedId: modifiedBody.primer}
+        })
+        .then((resultPrimer)=>{
+          resolveLoc(resultPrimer)
+        })
+        .catch((err)=>{
+          rejectLoc(err);
+        });
+      }
+      else resolveLoc(false);
+    })
+    .then((primer)=>{
+      if(!!primer){
+        unitProfile['id_primer'] = primer.id;
+      }
 
-    return _DB_units.create(unitProfile).then((createdUnit)=>{
-      modifiedBody['id_unit'] = createdUnit.id;
-      modifiedBody['id_unit_exposed'] = createdUnit.exposedId;
+      return _DB_units.create(unitProfile).then((createdUnit)=>{
+        modifiedBody['id_unit'] = createdUnit.id;
+        modifiedBody['id_unit_exposed'] = createdUnit.exposedId;
 
-      return modifiedBody;
+        return modifiedBody;
+      });
     })
     .catch((err)=>{
       throw err

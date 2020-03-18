@@ -24,6 +24,11 @@ export const unitCurrentInit = {
 }
 
 export const messageDialogInit= {
+  singleClose: {
+    render: false,
+    message: [/*{text: '', style:{}}*/],
+    handlerPositive: ()=>{}
+  },
   boolean: {
     render: false,
     customButton: null,

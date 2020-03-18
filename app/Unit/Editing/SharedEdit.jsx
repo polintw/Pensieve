@@ -56,7 +56,13 @@ class SharedEdit extends React.Component {
 
   _set_EditingClose_clear(){
     //any clear passed up we all confirm again, incl. warning if submitting
-    if(this.props.unitSubmitting){ this.props._submit_SingleCloseDialog([{text: 'still submitting, please hold on.',style:{}}])} //format follow Boolean, as [{text: '', style:{}}]
+    if(this.props.unitSubmitting){
+      this.props._submit_SingleCloseDialog({
+        render: true,
+        message: [{text: 'still submitting, please hold on.',style:{}}], //format follow Boolean, as [{text: '', style:{}}]
+        handlerPositive: ()=>{this.props._submit_SingleCloseDialog(messageDialogInit.singleClose); return;}
+      });
+    }
     else {
       this.props._submit_BooleanDialog({
         render: true,
@@ -68,9 +74,13 @@ class SharedEdit extends React.Component {
     };
   }
 
-  _set_Submitwarning(message, purpose){ //the child '_set_warningDialog' is a old style for warningDialog controled locally,
+  _set_Submitwarning(messageArr, purpose){ //the child '_set_warningDialog' is a old style for warningDialog controled locally,
     //so the param 'purpose' could be ignored at this new style
-    this.props._submit_SingleCloseDialog([{text: message, style:{}}]) //format follow Boolean, as [{text: '', style:{}}]
+    this.props._submit_SingleCloseDialog({
+      render: true,
+      message: messageArr, //format follow Boolean, as [{text: '', style:{}}]
+      handlerPositive: ()=>{this.props._submit_SingleCloseDialog(messageDialogInit.singleClose); return;}
+    });
   }
 
   _set_Submit(stateObj){

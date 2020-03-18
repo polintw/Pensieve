@@ -212,9 +212,7 @@ class Chain extends React.Component {
           (this.state.displayOrder.length > 0) &&
           <div
             className={classnames(styles.boxModule)}>
-            <div>
-              {this._render_ChainUnits()}
-            </div>
+            {this._render_ChainUnits()}
             <div
               className={classnames(styles.boxChainUpload)}>
               <ChainUpload
