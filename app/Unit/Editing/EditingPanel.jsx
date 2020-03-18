@@ -19,7 +19,7 @@ class EditingPanel extends React.Component {
       contentEditing: false,
       coverSrc: !!this.props.unitSet?this.props.unitSet.coverSrc:null,
       coverMarks: !!this.props.unitSet?this.props.unitSet.coverMarks:{list:[], data:{}},
-      nodesSet: {assign:[], tags:[]},
+      nodesSet: !!this.props.unitSet?this.props.unitSet.nodesSet:{assign:[], tags:[]},
       //beneath, is remaining for future use, and kept the parent comp to process submitting
       beneathSrc: null,
       beneathMarks: {list:[],data:{}},
@@ -186,8 +186,8 @@ class EditingPanel extends React.Component {
           className={classnames(styles.boxSide, styles.boxBottomPanel)}>
           <Submit
             editing={this.state.contentEditing}
-            confirmDialog={this.props.confirmDialog}
-            warningDialog={this.props.warningDialog}
+            confirmDialog={!!this.props.confirmDialog? this.props.confirmDialog: false}
+            warningDialog={!!this.props.warningDialog? this.props.warningDialog: false}
             _set_Clear={this.props._set_Clear}
             _submit_newShare={this._submit_newShare}
             _refer_toandclose={this.props._refer_toandclose}/>

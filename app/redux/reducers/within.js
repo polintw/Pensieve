@@ -18,6 +18,7 @@ import {
   SET_BELONGSBYTYPE,
 } from '../types/typesWithin.js';
 import {
+  SET_UNITVIEW,
   UNIT_SUBMITTING_SWITCH
 } from '../types/typesUnit.js';
 import {
@@ -54,6 +55,11 @@ function pageWithin(state = initialGeneral, action){
       break;
     case SET_FETCHFLAGS:
       return Object.assign({}, state, {...action.flags}) //there were many kind of flags, all binary(bool), and all set by this case.
+      break;
+    case SET_UNITVIEW:
+      return Object.assign({}, state, {
+        unitView: action.unitView
+      })
       break;
     case SET_UNITCURRENT:
       return Object.assign({}, state, {

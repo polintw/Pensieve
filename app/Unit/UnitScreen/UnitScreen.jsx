@@ -8,6 +8,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
 import Theater from '../Theater/Theater.jsx';
+import SharedEdit from '../Editing/SharedEdit.jsx';
 import {
   _axios_getUnitData,
   _axios_getUnitImgs
@@ -25,9 +26,10 @@ class UnitScreen extends React.Component {
       close: false,
     };
     this.axiosSource = axios.CancelToken.source();
+    this._render_switch = this._render_switch.bind(this);
     this._close_modal_Unit = this._close_modal_Unit.bind(this);
     this._set_UnitCurrent = this._set_UnitCurrent.bind(this);
-    this._reset_UnitMount = ()=>{this._set_UnitCurrent();};
+    this._reset_UnitMount = this._reset_UnitMount.bind(this);
     this.style={
 
     };
@@ -44,6 +46,13 @@ class UnitScreen extends React.Component {
         close: true
       }
     })
+  }
+
+  _reset_UnitMount(){
+    //Don't worry about the order between state reset, due to the Redux would keep always synchronized
+    let unitCurrentState = Object.assign({}, unitCurrentInit);
+    this.props._set_store_UnitCurrent(unitCurrentState);
+    this._set_UnitCurrent();
   }
 
   _set_UnitCurrent(){
@@ -111,10 +120,7 @@ class UnitScreen extends React.Component {
     let prevParams = new URLSearchParams(prevProps.location.search); //we need value in URL query
     if(this.unitId !== prevParams.get('unitId')){
       //reset UnitCurrent to clear the view
-      //and Don't worry about the order between state reset, due to the Redux would keep always synchronized
-      let unitCurrentState = Object.assign({}, unitCurrentInit);
-      this.props._set_store_UnitCurrent(unitCurrentState);
-      this._set_UnitCurrent();
+      this._reset_UnitMount();
     };
   }
 
@@ -136,6 +142,29 @@ class UnitScreen extends React.Component {
     document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:scroll;");
   }
 
+  _render_switch(){
+    switch (this.props.unitView) {
+      case 'theater':
+        return (
+          <Theater
+            {...this.props}
+            _reset_UnitMount={this._reset_UnitMount}
+            _close_theaterHeigher={this._close_modal_Unit}/>
+        )
+        break;
+      case 'editing':
+        return (
+          <SharedEdit
+            {...this.props}
+            _reset_UnitMount={this._reset_UnitMount}
+            _close_theaterHeigher={this._close_modal_Unit}/>
+        )
+        break;
+      default:
+        return null
+    };
+  }
+
 
   render(){
     if(this.state.close){let pathTo=this.props.location.pathname.replace("/unit","");return <Redirect to={pathTo}/>}
@@ -147,11 +176,7 @@ class UnitScreen extends React.Component {
     return(
       <ModalBox containerId="root">
         <ModalBackground onClose={()=>{this._close_modal_Unit();}} style={{position: "fixed", minWidth: "890px", minHeight: '320px', backgroundColor: (!!paramsTheater)? 'rgba(215, 215, 215, 0.67)': 'rgba(240, 238,233, 0.98)'}}>
-          <Theater
-            {...this.props}
-            _reset_UnitMount={this._reset_UnitMount}
-            _close_theaterHeigher={this._close_modal_Unit}/>
-
+          {this._render_switch()}
         </ModalBackground>
       </ModalBox>
     )
@@ -161,6 +186,7 @@ class UnitScreen extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
+    unitView: state.unitView,
     unitCurrent: state.unitCurrent,
     unitSubmitting: state.unitSubmitting
   }

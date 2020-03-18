@@ -116,8 +116,7 @@ class Wrapper extends React.Component {
         </div>
         <div
           className={classnames(styles.boxImgBottom)}>
-          <SidePanel
-            _set_Modalmode={this.props._set_Modalmode}/>
+          <SidePanel/>
         </div>
         <div
           style={styleMiddle.boxImgFrame}>

@@ -5,4 +5,5 @@ const {
 export const initUnit = {
   unitCurrent: unitCurrentInit,
   unitSubmitting: false,
+  unitView: 'theater'
 }

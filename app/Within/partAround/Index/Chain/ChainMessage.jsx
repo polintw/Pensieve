@@ -39,8 +39,7 @@ class ChainMessage extends React.Component {
 
   }
 
-  _render_HintMessage(){
-    const recKeys = Object.keys(this.props.belongsByType);
+  _render_HintMessage(recKeys){
     if(recKeys == 0){ // if no belongsByType was set
       return (
         <div
@@ -62,12 +61,13 @@ class ChainMessage extends React.Component {
   }
 
   render(){
+    const recKeys = Object.keys(this.props.belongsByType);
     return(
       <div
         className={classnames(styles.comChainMessage)}>
-        {this._render_HintMessage()}
+        {this._render_HintMessage(recKeys)}
         {
-          (this.props.displayOrder.length < 1) &&
+          (this.props.displayOrder.length < 1 && recKeys.length >0) && //that's, has Belong, but never shared and has read all
           <div
             className={classnames(styles.boxCreate)}>
             <div

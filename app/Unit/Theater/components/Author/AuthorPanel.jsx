@@ -4,6 +4,7 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import {setUnitView} from "../../../../redux/actions/unit.js";
 
 class AuthorPanel extends React.Component {
   constructor(props){
@@ -31,7 +32,7 @@ class AuthorPanel extends React.Component {
 
   _handleClick_UnitAction_Author(event){
     event.preventDefault();event.stopPropagation();
-    this.props._set_Modalmode("author_editing");
+    this.props._set_state_UnitView("editing");
   }
 
   componentWillUnmount(){
@@ -65,7 +66,13 @@ const mapStateToProps = (state)=>{
   }
 }
 
+const mapDispatchToProps = (dispatch)=>{
+  return {
+    _set_state_UnitView: (expression)=>{dispatch(setUnitView(expression));}
+  }
+}
+
 export default withRouter(connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(AuthorPanel));

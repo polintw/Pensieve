@@ -29,8 +29,7 @@ class SidePanel extends React.Component {
         className={styles.comSidePanel}>
         {
           (this.props.unitCurrent.identity=="author") &&
-          <AuthorPanel
-            _set_Modalmode={this.props._set_Modalmode}/>
+          <AuthorPanel/>
         }
         {
           (this.props.unitCurrent.identity=="viewer") &&

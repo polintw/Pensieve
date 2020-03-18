@@ -74,7 +74,6 @@ class Layers extends React.Component {
           marksStatus={this.state.marksStatus}
           _set_markOpened={this._set_markOpened}
           _set_layerstatus={this._set_layerstatus}
-          _set_Modalmode={this.props._set_Modalmode}
           _refer_toandclose={this._refer_toandclose}/>
       </div>
     )
