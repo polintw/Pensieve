@@ -45,7 +45,8 @@ class SharedEdit extends React.Component {
 
   _submit_Share_modified(){
     //reset UnitCurrent to reload the view
-    this.props._reset_UnitMount();
+    this.props._reset_UnitMount(); //reset unitCurrent
+    this.props._set_state_UnitView('theater'); //back to theater view
   }
 
   _handleClick_bg(event){

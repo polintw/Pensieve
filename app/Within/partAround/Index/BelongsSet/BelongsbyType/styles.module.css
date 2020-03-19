@@ -27,12 +27,6 @@
 
 }
 
-.boxStatics {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
-
 .boxNode {
   align-items: center;
   display: inline-block;

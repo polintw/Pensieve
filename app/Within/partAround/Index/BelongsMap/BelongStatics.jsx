@@ -6,37 +6,68 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import stylesMain from "../../styles.module.css"; //Notice, we use shared css file here for easier control
+import stylesMain from "../styles.module.css"; //Notice, we use shared css file here for easier control
+import {
+  _axios_GET_usersCount
+} from '../utils.js'; //the utils share by all comps in /Index
 
 
-class Belong extends React.Component {
+class BelongStatics extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      axios: false,
       onNode: false,
-      onEdit: false,
+      infoCount: {totalUserCount: null},
     };
+    this.axiosSource = axios.CancelToken.source();
+    this._set_infoCount = this._set_infoCount.bind(this);
     this._render_type = this._render_type.bind(this);
+    this._render_statics = this._render_statics.bind(this);
     this._render_nodeLink = this._render_nodeLink.bind(this);
-    this._handleClick_belongEdit = this._handleClick_belongEdit.bind(this);
     this._handleMouseOn_Node = ()=> this.setState((prevState,props)=>{return {onNode: prevState.onNode?false:true}});
-    this._handleMouseOn_Edit = ()=> this.setState((prevState,props)=>{return {onEdit: prevState.onEdit?false:true}});
   }
 
-  _handleClick_belongEdit(event){
-    event.preventDefault();
-    event.stopPropagation();
+  _set_infoCount(){
+    const self = this;
+    this.setState({
+      axios: true,
+      infoCount: {} //going to renew, so we refresh the render first
+    });
+    let queryObj = {}; //not any params need to be set, it's a plain 'all select' in this request
 
-    this.props._set_searchModal(this.props.type);
+    _axios_GET_usersCount(
+      this.axiosSource.cancelToken,
+      this.props.belongsByType[this.props.type],
+      queryObj
+    ) //it req the total num registered to this corner
+    .then((resObj) => {
+      self.setState((prevState, props)=>{
+        return {
+          axios: false,
+          infoCount: Object.assign({}, prevState.infoCount, {totalUserCount: resObj.main.countsByTypes.all})
+        }
+      });
+    }).catch(function (thrown) {
+      self.setState({axios: false});
+      if (axios.isCancel(thrown)) {
+        cancelErr(thrown);
+      } else {
+        let message = uncertainErr(thrown);
+        if(message) alert(message);
+      }
+    });
   }
 
 
   componentDidUpdate(prevProps, prevState, snapshot){
-
+    if(prevProps.belongsByType[this.props.type] != this.props.belongsByType[this.props.type]){ //the node was edit and different
+      this._set_infoCount();
+    }
   }
 
   componentDidMount() {
-
+    this._set_infoCount();
   }
 
   componentWillUnmount() {
@@ -85,34 +116,39 @@ class Belong extends React.Component {
     )
   }
 
+  _render_statics(){
+    return (
+      <div>
+        <span
+          style={{display: 'block'}}>
+          {this.props.i18nUIString.catalog["category__Belong_usersCount"][0]}
+          {this.props.i18nUIString.catalog["category__Belong_usersCount"][1]}
+        </span>
+        <span
+          style={{fontSize: '1.7rem'}}>
+          {this.state.infoCount.totalUserCount}
+        </span>
+      </div>
+    )
+  }
+
   render(){
 
     return(
       <div
-        className={classnames(styles.comBelong)}>
+        className={classnames(styles.comBelongStatics)}>
         <div
           className={classnames(styles.boxCategory)}>
           {this._render_type()}
-          <div
-            onMouseEnter={this._handleMouseOn_Edit}
-            onMouseLeave={this._handleMouseOn_Edit}
-            onClick={this._handleClick_belongEdit}>
-            <span
-              className={classnames(
-                styles.spanType,
-                stylesMain.fontType,
-                {[styles.fontOnEdit]: this.state.onEdit}
-              )}
-              style={{lineHeight: '3rem', cursor: 'pointer'}}>
-              {this.props.i18nUIString.catalog["submit_edit"]}
-            </span>
-          </div>
         </div>
         <div
           className={classnames(styles.boxCornerTitle)}>
           {this._render_nodeLink()}
         </div>
-
+        <div
+          className={classnames(styles.boxStatics)}>
+          {this._render_statics()}
+        </div>
       </div>
     )
   }
@@ -136,4 +172,4 @@ const mapDispatchToProps = (dispatch) => {
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(Belong));
+)(BelongStatics));

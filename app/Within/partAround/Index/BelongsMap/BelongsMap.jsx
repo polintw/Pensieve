@@ -8,6 +8,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import Nav from './Nav.jsx';
+import BelongStatics from './BelongStatics.jsx';
 import FellowsHome from './FellowsHome.jsx';
 import FellowsResidence from './FellowsResidence.jsx';
 
@@ -54,10 +55,22 @@ class BelongsMap extends React.Component {
   _render_mapView(){
     switch (this.state.viewTab) {
       case 'homeland':
-        return <FellowsHome/>
+        return (
+          <div>
+            <FellowsHome/>
+            <BelongStatics
+              type={this.state.viewTab}/>
+          </div>
+        )
         break;
       case 'residence':
-        return <FellowsResidence/>
+        return (
+          <div>
+            <FellowsResidence/>
+            <BelongStatics
+              type={this.state.viewTab}/>
+          </div>
+        )
         break;
       default:
         return (
