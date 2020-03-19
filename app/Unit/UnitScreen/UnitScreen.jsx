@@ -42,6 +42,8 @@ class UnitScreen extends React.Component {
   _close_modal_Unit(){
     //close the whole Unit Modal
     //different from the one in Theater, which used only for closing Theater
+    let unitCurrentState = Object.assign({}, unitCurrentInit);
+    this.props._set_store_UnitCurrent(unitCurrentState);
     this.setState((prevState, props)=>{
       return {
         close: true

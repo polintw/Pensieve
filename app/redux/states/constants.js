@@ -107,6 +107,9 @@ export const i18nUIStringInit = {
      "guidingChain_noSharedEst.": ["You would be the first one to share about your corner!", "Let's first see other corner people shared to their fellows."],
      "guidingChain_Upload_noSharedEst.":　"So, which corner in your mind do you want to share?",
      "guidingChain_Upload_aShared": "what's yours?",
-     "guidingCreateShare_AssignGroup": "sharing to people linked to which of your corner?"
+     "guidingCreateShare_AssignGroup": "sharing to people linked to which of your corner?",
+     "message_Unit_Editing_AssignNotAllowed": "the corner linked to could Not be changed after first release.",
+     "message_Unit_EraseConfirm": ["No one would see this Shared after erase, including you. ", "Are you sure your going to erase this Shared?"],
+     "message_Unit_EraseRes": ["This Shared has beed erased successfully."]
    }
 }

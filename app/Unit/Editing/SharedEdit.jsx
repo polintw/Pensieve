@@ -163,7 +163,7 @@ const mapDispatchToProps = (dispatch)=>{
   return {
     _set_unitSubmitting: (bool)=>{dispatch(switchUnitSubmitting(bool));},
     _set_state_UnitView: (expression)=>{dispatch(setUnitView(expression));},
-    _submit_SingleCloseDialog: (arr)=>{dispatch(setMessageSingleClose(arr));},
+    _submit_SingleCloseDialog: (obj)=>{dispatch(setMessageSingleClose(obj));},
     _submit_BooleanDialog: (obj)=>{dispatch(setMessageBoolean(obj));},
   }
 }

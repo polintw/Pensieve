@@ -49,3 +49,19 @@ export function _axios_getUnitImgs(cancelToken, unitId){
     throw thrown;
   });
 };
+
+export function _axios_patch_ShareErase(cancelToken, exposedId){
+  return axios.patch('/router/share/'+exposedId+'/erase', {}, {
+    headers: {
+      'Content-Type': 'application/json',
+      'charset': 'utf-8',
+      'token': window.localStorage['token']
+    },
+    cancelToken: cancelToken
+  }).then(function (res) {
+    let resObj = JSON.parse(res.data); //still parse the res data prepared to be used below
+    return;
+  }).catch(function (thrown) {
+    throw thrown;
+  });
+}

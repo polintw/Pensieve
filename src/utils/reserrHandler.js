@@ -159,6 +159,13 @@ function _handle_ErrCatched(e, req, res){
       clientSet['console'] = {"warning":"Some parameter missed, please use correct format."};
       return res.status(e.status).json(clientSet);
       break;
+    case 39: //403, client trying to edit/erase unit not released by him
+      winston.warn(`${e.status} - ${"Error: code 39, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+      clientSet['code'] = 39;
+      clientSet['message'] = "Hey! This is not your Shared! You can and only can edit, erase your own Shared.";
+      clientSet['console'] = {};
+      return res.status(e.status).json(clientSet);
+      break;
     case 50:
       clientSet['code'] = 50;
       clientSet['message'] = e.message;
@@ -243,6 +250,14 @@ function _handle_ErrCatched(e, req, res){
       clientSet['code'] = 215;
       clientSet['message'] = e.message;
       clientSet['console'] = 'warning: no token was sent.';
+      return res.status(e.status).json(clientSet);
+      break;
+    case 325:
+      //400, a exposedId do not match any Shared
+      winston.warn(`${"Res status: "+e.status} ; ${"Error code: 325, "+e.message} ; ${"Req: "+req.originalUrl} , ${req.method} , ${req.ip}`);
+      clientSet['code'] = 325;
+      clientSet['message'] = "Shared you found was not exist.";
+      clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;
     default:

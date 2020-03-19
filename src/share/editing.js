@@ -17,7 +17,8 @@ const _DB_units_nodesAssign = require('../../db/models/index').units_nodes_assig
 const {
   _handle_ErrCatched,
   forbbidenError,
-  internalError
+  internalError,
+  validationError
 } = require('../utils/reserrHandler.js');
 const {
   _res_success_201
@@ -27,7 +28,26 @@ async function _handle_unit_AuthorEditing(req, res){
 
   const userId = req.extra.tokenUserId; //use userId passed from pass.js
   const exposedId = req.reqUnitId; //in editing by author, the unit was created so did the unitId
-  const unitId = await _DB_units.findOne({where: {exposedId: exposedId}}).then((result)=>{return result.id;});
+  let unitId = false, authorId=false;
+  await _DB_units.findOne({where: {exposedId: exposedId}})
+    .then((result)=>{
+      if(!!result){
+        unitId = result.id;
+        authorId = result.id_author;
+      }
+    });
+
+  //first, check validation
+  if(authorId != userId){ //if the user are the author?
+    _handle_ErrCatched(new forbbidenError("from _handle_unit_AuthorEditing, trying to edit Shared not belong by client.", 39), req, res);
+    return; //stop and end the handler.
+  }
+  else if(!unitId){ //if the unit really 'existed'
+    _handle_ErrCatched(new validationError("from _handle_unit_AuthorEditing, trying to edit Shared not exist.", 325), req, res);
+    return; //stop and end the handler.
+  }
+
+  //then, we can start erase process
 
   new Promise((resolve, reject)=>{
 

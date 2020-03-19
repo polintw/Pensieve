@@ -6,6 +6,11 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import {
+  setMessageBoolean,
+  setMessageSingleClose
+} from "../../../redux/actions/general.js";
+import {messageDialogInit} from "../../../redux/states/constants.js";
 
 class AssignNodes extends React.Component {
   constructor(props){
@@ -34,6 +39,15 @@ class AssignNodes extends React.Component {
   _handleClick_NodeAssigned(event){
     event.preventDefault();
     event.stopPropagation();
+    if(this.props.unitView=="editing") {
+      // AssignNodes was not allowed change after first release to public
+      this.props._submit_SingleCloseDialog({
+        render: true,
+        message: [{text: this.props.i18nUIString.catalog['message_Unit_Editing_AssignNotAllowed'],style:{}}], //format follow Boolean, as [{text: '', style:{}}]
+        handlerPositive: ()=>{this.props._submit_SingleCloseDialog(messageDialogInit.singleClose); return;}
+      });
+      return;
+    }
     let targetId = event.currentTarget.getAttribute('nodeid'); //type of attribute always be a 'string'
     // we'd better turn it into 'int', the type the DB saved
     targetId = parseInt(targetId);
@@ -117,6 +131,7 @@ const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
+    unitView: state.unitView,
     nounsBasic: state.nounsBasic,
     belongsByType: state.belongsByType
   }
@@ -124,7 +139,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    _submit_SingleCloseDialog: (obj)=>{dispatch(setMessageSingleClose(obj));},
   }
 }
 
