@@ -5,6 +5,7 @@ import {
   SET_MESSAGE_BOOLEAN,
   SET_FETCHFLAGS,
   SET_UNITCURRENT,
+  SET_TOKENSTATUS,
   UPDATE_NOUNSBASIC,
   UPDATE_USERSBASIC
 } from '../types/typesGeneral.js';
@@ -55,6 +56,11 @@ function pageWithin(state = initialGeneral, action){
       break;
     case SET_FETCHFLAGS:
       return Object.assign({}, state, {...action.flags}) //there were many kind of flags, all binary(bool), and all set by this case.
+      break;
+    case SET_TOKENSTATUS:
+      return Object.assign({}, state, {
+        ...action.status
+      })
       break;
     case SET_UNITVIEW:
       return Object.assign({}, state, {

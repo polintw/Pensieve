@@ -9,13 +9,16 @@ export function cancelErr(error){
 export function statusVerifiedErr(error, store){
   if(error.response){ //still create store for page
     switch (error.response.status) {
-      case 401:
+      case 400: //validation error
+        store.dispatch(setTokenStatus({ token: 'invalid' }))
+        break;
+      case 401: //authorized error
         store.dispatch(setTokenStatus({token: 'invalid'}))
         break;
-      case 403:
+      case 403: //forbidden error
         store.dispatch(setTokenStatus({token: 'lack'}))
         break;
-      case 404:
+      case 404: //not found
         store.dispatch(setTokenStatus({ token: 'internalErr'}))
         break;
       case 500:

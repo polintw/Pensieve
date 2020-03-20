@@ -20,28 +20,42 @@ const {
   forbbidenError
 } = require('./utils/reserrHandler.js');
 
-function _handle_crawler_GET_Unit(req, res){
+async function _handle_crawler_GET_Unit(req, res){
   //select Unit by id in query
   //already validate before pass to this handler
-  const unitId = req.query.unitId;
+  const exposedId = req.query.unitId;
+  let unitId, url_pic_layer0, url_pic_layer1, authorId;
+  unitId = url_pic_layer0 = url_pic_layer1 = authorId = false; //a 'lazy assign', not official
+  await _DB_units.findOne({ where: { exposedId: exposedId } })
+    .then((result) => {
+      if (!!result) {
+        unitId = result.id;
+        url_pic_layer0 = result.url_pic_layer0;
+        url_pic_layer1 = result.url_pic_layer1;
+        authorId = result.id_author;
+      }
+    });
+
+  if (!unitId || !url_pic_layer0) { //if the unit not 'existed'
+    _handle_ErrCatched(new validationError("from _handle_crawler_GET_Unit, the req unit not exist.", 325), req, res);
+    return; //stop and end the handler.
+  }
+
 
   //the selection start from info about & nodes used by this Unit
   new Promise((resolve, reject)=>{
     let conditionsAttri = {
-      where: {id_unit: unitId},
+      where: { id_unit: unitId},
       attributes: ['id_noun']
     };
-    let attriSelection = Promise.resolve(_DB_attribution.findAll(conditionsAttri).catch((err)=>{throw err}));
-    let unitsSelection = Promise.resolve(_DB_units.findByPk(unitId).catch((err)=>{throw err}));
+    _DB_attribution.findAll(conditionsAttri)
+    .then((resultsAttri)=>{
 
-    Promise.all([attriSelection, unitsSelection]).then((resultsSelect)=>{
-      let resultsAttri = resultsSelect[0],
-      resultsUnit = resultsSelect[1];
       let variables= { //create local variables as value used in template
         title: [], //set array fisrt, will be mdified to string later before res
         descrip: "",
         ogurl: req.originalUrl,
-        ogimg: 'https://'+envServiceGeneral.appDomain+'/router/img/'+resultsUnit.url_pic_layer0+'?type=thumb' //don't forget using absolute path for dear crawler
+        ogimg: 'https://'+envServiceGeneral.appDomain+'/router/img/'+url_pic_layer0+'?type=thumb' //don't forget using absolute path for dear crawler
       };
       //put the nodes used list into title
       variables.title = resultsAttri.map((row, index)=>{
@@ -57,7 +71,7 @@ function _handle_crawler_GET_Unit(req, res){
     //we select them by id we selected
     let conditionsMarks = {
       where: {id_unit: unitId},
-      attributes: ['id', 'layer', 'serial', 'editor_content', 'createdAt']
+      attributes: ['id', 'layer', 'serial', 'createdAt']
     };
     let nodesSelection = Promise.resolve(_DB_nouns.findAll({where: {id: variables.title}}).catch((err)=>{throw err}));
     let marksSelection = Promise.resolve(_DB_marks.findAll(conditionsMarks).catch((err)=>{throw err}));
@@ -73,12 +87,15 @@ function _handle_crawler_GET_Unit(req, res){
         if(index< 1){ titleStr += (row.name); return } //avoid ":" at the begining
         titleStr += (": "+row.name);
       });
+      variables.title = titleStr;
 
       //then retrieve the first block of the first Mark
-      description = convertFromRaw(JSON.parse(resultsMarks[0].editor_content)).getFirstBlock().getText();
+      /*
+      the editor_content has shift to table marks_content, need a magnificent update if really want to display these data
+      */
+      //description = convertFromRaw(JSON.parse(resultsMarks[0].editor_content)).getFirstBlock().getText();
+      //variables.descrip = description;  //for now, only use the first block of first mark as description
 
-      variables.title = titleStr;
-      variables.descrip = description;  //for now, only use the first block of first mark as description
 
       return variables;
     }).catch((err)=>{
