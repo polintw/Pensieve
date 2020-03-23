@@ -78,10 +78,11 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
       - has result, an unread assigned Unit, or
       - null, and we have to know why: read everything or no rec belong to Belong at all
       */
-      if(!resultAssign){ // if the resultAssign 'Null'
+      if(!resultAssign){ // if the resultAssign 'Null', we then pick 'last one' to represent
         return _DB_unitsNodes_assign.findAll({
           where: {
             nodeAssigned: belongList,
+            id_author: {[Op.ne]: userId} //not user him/herself
           },
           order: [
             Sequelize.literal('`createdAt` DESC') //and here, using 'literal' is due to some wierd behavior of sequelize,
@@ -107,8 +108,12 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
         it is possible that one unit has two assigned (for current situation, homeland & residence are both assigned),
         so we also need to distinguish it
         */
-        if(!(row.id_unit in unitsInfo)) unitsList.push(row.id_unit); //check if this row represent a new unit first
-        unitsInfo[row.id_unit][row.belongType] = row.nodeAssigned; // put assigned info into a unit-oriented obj
+        if(!(row.id_unit in unitsInfo)) { //check if this row represent a new unit first
+          unitsList.push(row.id_unit);
+          unitsInfo[row.id_unit] = {};
+          unitsInfo[row.id_unit][row.belongTypes] = row.nodeAssigned; // put assigned info into a unit-oriented obj
+        }
+        else unitsInfo[row.id_unit][row.belongTypes] = row.nodeAssigned;
       });
       return _DB_units.findAll({
         where: {
