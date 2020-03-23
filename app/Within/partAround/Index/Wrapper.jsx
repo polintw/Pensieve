@@ -21,6 +21,9 @@ import {
   initAround
 } from '../../../redux/states/statesWithin.js';
 import {
+  setIndexList
+} from "../../../redux/actions/within.js";
+import {
   cancelErr,
   uncertainErr
 } from '../../../utils/errHandlers.js';
@@ -101,6 +104,8 @@ class Wrapper extends React.Component {
     if(this.state.axios){
       this.axiosSource.cancel("component will unmount.")
     }
+    //clear & reset to init when Unmount, make sure the list would not render anything when retrun to index
+    this.props._set_IndexLists(initAround.indexLists);
   }
 
   render(){
@@ -154,7 +159,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    _set_IndexLists: (obj) => { dispatch(setIndexList(obj)); }
   }
 }
 

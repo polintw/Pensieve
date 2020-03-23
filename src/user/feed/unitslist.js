@@ -21,8 +21,8 @@ const {
 async function _handle_GET_feedUnitslist_assigned(req, res){
 
   const userId = req.extra.tokenUserId;
-  const lastVisit = req.query.timeLastVisit;
-  const userHomeland = await _DB_usersNoesHomeland.findOne({
+  const lastVisit = req.query.timeBase;
+  const userHomeland = await _DB_usersNodesHomeland.findOne({
     where: {
       id_user: userId,
       historyify: false
@@ -68,7 +68,7 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
           Sequelize.literal('`createdAt` DESC') //and here, using 'literal' is due to some wierd behavior of sequelize,
           //it would make an Error if we provide col name by 'arr'
         ],
-        limit: 64
+        limit: 32
       })
       .catch((err)=>{throw err})
     }) //and we have to select from units for getting exposedId
@@ -101,8 +101,14 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
 
     })
     .then((assignedList)=>{
-      let unitsList = assignedList.map((row,index)=>{
-        return row.id_unit
+      let unitsList=[], unitsInfo={} ;
+      assignedList.forEach((row,index)=>{
+        /*
+        it is possible that one unit has two assigned (for current situation, homeland & residence are both assigned),
+        so we also need to distinguish it
+        */
+        if(!(row.id_unit in unitsInfo)) unitsList.push(row.id_unit); //check if this row represent a new unit first
+        unitsInfo[row.id_unit][row.belongType] = row.nodeAssigned; // put assigned info into a unit-oriented obj
       });
       return _DB_units.findAll({
         where: {
@@ -115,7 +121,8 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
           return {
             id_unit: row.id,
             exposedId: row.exposedId,
-            createdAt: row.createdAt
+            createdAt: row.createdAt,
+            assignedInfo: unitsInfo[row.id]
           };
         });
         return assignedUnits;
@@ -148,7 +155,14 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
         /*
         distinguish: if the req are the 1st after belong set
         */
-        if(unitObj.createdAt < lastVisit && userResidence.createdAt < lastVisit && userHomeland < lastVisit){
+        let newSetResi = (userResidence.createdAt > lastVisit)? true : false;
+        let newSetHome = (userHomeland.createdAt > lastVisit)? true : false;
+        if(newSetResi || newSetHome){ // if one or both belong are new set
+          if(newSetResi && 'residence' in unitObj.assignedInfo) {sendingData.listUnreadNew.push({unitId: unitObj.exposedId});return;};
+          if(newSetHome && 'homeland' in unitObj.assignedInfo) {sendingData.listUnreadNew.push({unitId: unitObj.exposedId});return;};
+        };
+        //and if none new set, we just pick the new created after last visit
+        if(unitObj.createdAt < lastVisit ){
           sendingData.listUnread.push({unitId: unitObj.exposedId});
         }
         else sendingData.listUnreadNew.push({unitId: unitObj.exposedId});

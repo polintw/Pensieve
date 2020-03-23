@@ -108,8 +108,11 @@ export const i18nUIStringInit = {
      "guidingChain_Upload_noSharedEst.":　"So, which corner in your mind do you want to share?",
      "guidingChain_Upload_aShared": "what's yours?",
      "guidingCreateShare_AssignGroup": "sharing to people linked to which of your corner?",
+     "guiding_FeedAssigned_noBelongHint": "Setting your homeland or current stay before geting news from your fellows!",
+     "guiding_FeedAssigned_noneAssigned": "how's your home going?",
      "message_Unit_Editing_AssignNotAllowed": "the corner linked to could Not be changed after first release.",
      "message_Unit_EraseConfirm": ["No one would see this Shared after erase, including you. ", "Are you sure your going to erase this Shared?"],
-     "message_Unit_EraseRes": ["This Shared has beed erased successfully."]
+     "message_Unit_EraseRes": ["This Shared has beed erased successfully."],
+     "title_FeedAssigned_AllRead": "you've all browsed."
    }
 }

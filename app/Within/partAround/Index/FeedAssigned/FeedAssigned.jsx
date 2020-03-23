@@ -30,7 +30,6 @@ class FeedAssigned extends React.Component {
     super(props);
     this.state = {
       axios: false,
-      fetched: false,
       unitsBasic: {},
       marksBasic: {}
     };
@@ -47,7 +46,7 @@ class FeedAssigned extends React.Component {
     this._axios_get_assignedList({
       onlyNew: false,
       residLimit: null,
-      timeLastVisit: lastVisit
+      timeBase: lastVisit
     })
     .then((resObj)=>{
       //(we don't update the 'axios' state, because there is another axios here, for units, right after the res)
@@ -59,7 +58,14 @@ class FeedAssigned extends React.Component {
       })
       let unitslist = idlistUnread.concat(idlistUnreadNew);
 
-      return axios_get_UnitsBasic(self.axiosSource.token, unitslist); //and use the list to get the data of eahc unit
+      return unitslist.length > 0 ?(
+        axios_get_UnitsBasic(self.axiosSource.token, unitslist) //and use the list to get the data of eahc unit
+      ): ({ main: {
+        nounsListMix: [],
+        usersList: [],
+        unitsBasic: {},
+        marksBasic: {}
+      }});
     })
     .then((resObj)=>{
       //after res of axios_Units: call get nouns & users
@@ -69,7 +75,6 @@ class FeedAssigned extends React.Component {
       self.setState((prevState, props)=>{
         return ({
           axios: false,
-          fetched: true,
           unitsBasic: {...prevState.unitsBasic, ...resObj.main.unitsBasic},
           marksBasic: {...prevState.marksBasic, ...resObj.main.marksBasic}
         });
@@ -109,11 +114,15 @@ class FeedAssigned extends React.Component {
     /*
     GET list if! the belongsByType has changed
     */
-    const recKeys = Object.keys(this.props.belongsByType);
     //it's very slow to compare 2 obj directly, so just compare by key pair we already set up
+    let lastvisitchangeify = (this.props.lastVisit != prevProps.lastVisit) ? true : false;
+    if(this.recKeys.length > 0 && lastvisitchangeify){ // usually at the landing render cycle, not yet fetched and finally got the lastVisit data
+      this._set_feedUnits(this.props.lastVisit);
+    };
+    
     let residenceify = (this.props.belongsByType['residence'] == prevProps.belongsByType['residence']) ? true:false;
     let homelandify = (this.props.belongsByType['homeland'] == prevProps.belongsByType['homeland']) ? true:false;
-    if(recKeys.length > 0 && !residenceify && !homelandify && !this.state.fetched){ //if Not the same
+    if(this.recKeys.length > 0 && this.props.lastVisit&& (!residenceify || !homelandify)){ //this one is for situation setting new belong
       this._set_feedUnits(this.props.lastVisit);
     };
   }
@@ -131,7 +140,7 @@ class FeedAssigned extends React.Component {
   _render_FeedNails(listChoice){
     let nailsDOM = [];
 
-    let renderList = (listChoice=="unreadNew") ? this.props.listUnreadNew : this.props.listUnread;
+    let renderList = (listChoice=="unreadNew") ? this.props.indexLists.listUnreadNew : this.props.indexLists.listUnread;
     renderList.forEach((unitId, index) => {
       //render if there are something in the data
       if( !(unitId in this.state.unitsBasic)) return; //skip if the info of the unit not yet fetch
@@ -155,18 +164,37 @@ class FeedAssigned extends React.Component {
   }
 
   render(){
+    this.recKeys = Object.keys(this.props.belongsByType); //because there are more than one process need to use this var, but this var would change bu props., we claim it to this.
+    let concatList = this.props.indexLists.listUnreadNew.concat(this.props.indexLists.listUnread); //just for checking if there are any units are going to render
     return (
       <div
         className={classnames(styles.comFeedAssigned)}>
-        <div
-          className={classnames(styles.boxModule)}>
-          {this._render_FeedNails('unreadNew')}
-        </div>
-        <div
-          className={classnames(styles.boxModule)}>
-          {this._render_FeedNails('unread')}
-        </div>
-
+        {
+          (concatList.length > 0) &&
+          <div>
+            <div
+              className={classnames(styles.boxModule)}>
+              {this._render_FeedNails('unreadNew')}
+            </div>
+            <div>{this.props.i18nUIString.catalog['title_FeedAssigned_AllRead']}</div>
+            <div
+              className={classnames(styles.boxModule)}>
+              {this._render_FeedNails('unread')}
+            </div>
+          </div>
+        }
+        {
+          (concatList.length< 1)  &&
+          ( !(this.recKeys.length > 0) ? (
+            <div>
+              {this.props.i18nUIString.catalog['guiding_FeedAssigned_noBelongHint']}
+            </div>
+          ):(
+            <div>
+              {this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned']}
+            </div>
+          ))
+        }
       </div>
     )
   }
@@ -176,7 +204,8 @@ const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
-    belongsByType: state.belongsByType
+    belongsByType: state.belongsByType,
+    indexLists: state.indexLists
   }
 }
 

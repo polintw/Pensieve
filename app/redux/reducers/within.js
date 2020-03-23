@@ -10,6 +10,7 @@ import {
   UPDATE_USERSBASIC
 } from '../types/typesGeneral.js';
 import {
+  SET_INDEXLISTS,
   SET_BELONGSBYTYPE,
   SUBMIT_FEEDASSIGN
 } from '../types/typesWithin.js';
@@ -70,6 +71,11 @@ function pageWithin(state = initialGeneral, action){
     case SET_BELONGSBYTYPE:
       return Object.assign({}, state, {
         belongsByType: {...state.belongsByType, ...action.typeObj}
+      })
+      break;
+    case SET_INDEXLISTS:
+      return Object.assign({}, state, {
+        indexLists: {...state.indexLists, ...action.lists}
       })
       break;
     case SUBMIT_FEEDASSIGN:
