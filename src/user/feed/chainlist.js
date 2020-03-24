@@ -84,21 +84,28 @@ function _handle_GET_feedChainlist(req, res){
         userShared: false,
         resToShared: false,
         resToRespond: false,
-        temp: {}
+        latestShared: false,
+        temp: {temp_unitIdKeyObj:{}}
       };
       //first, if the belongset was empty, just res empty set(but this shouldn't happen due to the api should only called if the client 'has' belongset)
       if(resultResponds.length < 1){
         return _find_Shared_last()
         .then((result)=>{ //result might be 'null' due to findOne used
-          sendingData.userShared = !!result ? result.exposedId : false;
+          if(!!result) {
+            sendingData.latestShared = result.id;
+            sendingData['temp']['temp_unitIdKeyObj'][result.id] = 'latestShared';
+          }
 
           return Promise.resolve(sendingData);
         })
+        .catch((err)=>{
+          throw err
+        });
       }; //process stop here if the "if" condition was true;
       //else, if there were responds records
       //check if any one respond unread
       let readUnits = resultUsersUnits.map((row,index)=>{
-        return row.id
+        return row.id_unit
       });
 
       function unreadUnitsify (unitsInstance){
@@ -129,6 +136,8 @@ function _handle_GET_feedChainlist(req, res){
         });
         sendingData.resToShared= objToShared.unreadRespond[0];
         sendingData.userShared = objToShared.respondsInfo[objToShared.unreadRespond[0]].primer;
+        sendingData['temp']['temp_unitIdKeyObj'][objToShared.unreadRespond[0]] = 'resToShared';
+        sendingData['temp']['temp_unitIdKeyObj'][objToShared.respondsInfo[objToShared.unreadRespond[0]].primer] = 'userShared';
 
         return Promise.resolve(sendingData);
       }
@@ -146,6 +155,8 @@ function _handle_GET_feedChainlist(req, res){
             });
             sendingData.resToRespond= objToRespond.unreadRespond[0];
             sendingData.resToShared = objToRespond.respondsInfo[objToRespond.unreadRespond[0]].primer;
+            sendingData['temp']['temp_unitIdKeyObj'][objToRespond.unreadRespond[0]] = 'resToRespond';
+            sendingData['temp']['temp_unitIdKeyObj'][objToRespond.respondsInfo[objToRespond.unreadRespond[0]].primer] = 'resToShared';
 
             return Promise.resolve(sendingData);
           }
@@ -161,6 +172,8 @@ function _handle_GET_feedChainlist(req, res){
             });
             sendingData.resToShared= objToShared.respondsUnits[0];
             sendingData.userShared = objToShared.respondsInfo[objToShared.respondsUnits[0]].primer;
+            sendingData['temp']['temp_unitIdKeyObj'][objToShared.respondsUnits[0]] = 'resToShared';
+            sendingData['temp']['temp_unitIdKeyObj'][objToShared.respondsInfo[objToShared.respondsUnits[0]].primer] = 'userShared';
 
             return Promise.resolve(sendingData);
           }
@@ -172,7 +185,29 @@ function _handle_GET_feedChainlist(req, res){
 
     })
     .then((sendingData)=>{
-      resolve(sendingData);
+      /*
+      now, the sendingData contain either all false, or one or two unit by 'id'
+      the thing is, we need to res to client the 'exposedId'
+      */
+      if(sendingData.userShared || sendingData.resToShared || sendingData.resToRespond){ //any unit was set
+        let unitsIdList = Object.keys(sendingData.temp.temp_unitIdKeyObj);
+        _DB_units.findAll({
+          where: {id: unitsIdList}
+        })
+        .then((resultUnits)=>{
+          resultUnits.forEach((row, index) => {
+            let targetKey = sendingData.temp.temp_unitIdKeyObj[row.id];
+            sendingData[targetKey] = row.exposedId;
+          });
+
+          resolve(sendingData);
+        })
+        .catch((err)=>{
+          throw err
+        });
+      }
+      else resolve(sendingData);
+
     }).catch((error)=>{
       reject(new internalError(error ,131));
     })
