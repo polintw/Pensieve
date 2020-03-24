@@ -21,7 +21,7 @@ const {
 async function _handle_GET_feedUnitslist_assigned(req, res){
 
   const userId = req.extra.tokenUserId;
-  const lastVisit = req.query.timeBase;
+  const lastVisit = new Date(req.query.timeBase); // param from query could only be parse as 'string', we need to turn it into time
   const userHomeland = await _DB_usersNodesHomeland.findOne({
     where: {
       id_user: userId,
@@ -76,9 +76,9 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
       /*
       the resultAssign has 2 possibility:
       - has result, an unread assigned Unit, or
-      - null, and we have to know why: read everything or no rec belong to Belong at all
+      - length ==0, and we have to know why: read everything or no rec belong to Belong at all
       */
-      if(!resultAssign){ // if the resultAssign 'Null', we then pick 'last one' to represent
+      if(resultAssign.length < 1){ // if the matched, we then pick 'last one' to represent
         return _DB_unitsNodes_assign.findAll({
           where: {
             nodeAssigned: belongList,
@@ -92,7 +92,7 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
         })
         .then((result)=>{
           if(!!result) return result
-          else{  // still empty(null)
+          else{  // still empty(null), only when none of belong has any assigned
             let arr = [];
             return arr;
           }

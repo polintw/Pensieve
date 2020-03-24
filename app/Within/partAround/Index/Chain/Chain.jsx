@@ -64,7 +64,7 @@ class Chain extends React.Component {
               }
       */
       let displayOrder = [], displayInfo={};
-      displayOrder.push(resObj.main['userShared'], resObj.main['resToShared'],resObj.main['resToRespond']);
+      displayOrder.push(resObj.main['userShared'], resObj.main['resToShared'],resObj.main['resToRespond'],resObj.main['latestShared']);
       displayOrder = displayOrder.filter((item, index)=> {return item}); //use the property the item would be 'false' if none
       Object.keys(resObj.main).forEach((key, index) => {
         displayInfo[resObj.main[key]] = key;
@@ -149,23 +149,32 @@ class Chain extends React.Component {
 
   _render_ChainUnits(){
     let nailsDOM = [];
+    const props = this.props; //f() _nailTitle only under this _render_, could not link to "this"
 
     function _nailTitle(unitType){
-      switch (this.state.displayInfo[unitId]) {
+      switch (unitType) {
         case 'userShared':
-          return this.props.i18nUIString.catalog['catagory_indexChain_NailTypes'][0]
+          return (
+            <span>{props.i18nUIString.catalog['catagory_indexChain_NailTypes'][0]}</span>
+            )
           break;
         case 'resToShared':
-          return this.props.i18nUIString.catalog['catagory_indexChain_NailTypes'][1]
+          return (
+            <span>{props.i18nUIString.catalog['catagory_indexChain_NailTypes'][1]}</span>
+          )
           break;
         case 'resToRespond':
-          return this.props.i18nUIString.catalog['catagory_indexChain_NailTypes'][2]
+          return (
+            <span>{props.i18nUIString.catalog['catagory_indexChain_NailTypes'][2]}</span>
+          )
           break;
         case 'latestShared':
-          return this.props.i18nUIString.catalog['catagory_indexChain_NailTypes'][3]
+          return (
+            <span>{props.i18nUIString.catalog['catagory_indexChain_NailTypes'][3]}</span>
+          )
           break;
         default:
-
+          return null
       }
 
     }
@@ -174,16 +183,18 @@ class Chain extends React.Component {
       if( !(unitId in this.state.unitsBasic)) return; //skip if the info of the unit not yet fetch
 
       nailsDOM.push(
-        <div
-          key={"key_ChainNail_"+index}
-          className={classnames(stylesNail.boxNail, stylesNail.heightBasic, stylesNail.wideBasic)}>
+        <div>
           {_nailTitle(this.state.displayInfo[unitId])}
-          <NailBasic
-            {...this.props}
-            unitId={unitId}
-            linkPath={'/unit'}
-            unitBasic={this.state.unitsBasic[unitId]}
-            marksBasic={this.state.marksBasic}/>
+          <div
+            key={"key_ChainNail_"+index}
+            className={classnames(stylesNail.boxNail, stylesNail.heightBasic, stylesNail.wideBasic)}>
+            <NailBasic
+              {...this.props}
+              unitId={unitId}
+              linkPath={'/unit'}
+              unitBasic={this.state.unitsBasic[unitId]}
+              marksBasic={this.state.marksBasic}/>
+          </div>
         </div>
       );
 

@@ -96,7 +96,7 @@ function _handle_GET_feedChainlist(req, res){
             sendingData['temp']['temp_unitIdKeyObj'][result.id] = 'latestShared';
           }
 
-          return Promise.resolve(sendingData);
+          return (sendingData);
         })
         .catch((err)=>{
           throw err
@@ -139,7 +139,7 @@ function _handle_GET_feedChainlist(req, res){
         sendingData['temp']['temp_unitIdKeyObj'][objToShared.unreadRespond[0]] = 'resToShared';
         sendingData['temp']['temp_unitIdKeyObj'][objToShared.respondsInfo[objToShared.unreadRespond[0]].primer] = 'userShared';
 
-        return Promise.resolve(sendingData);
+        return (sendingData);
       }
       else{ //has responds, but all have been read, we check deeper to 'if any respond to responds'
         return _DB_responds.findAll({
@@ -158,7 +158,7 @@ function _handle_GET_feedChainlist(req, res){
             sendingData['temp']['temp_unitIdKeyObj'][objToRespond.unreadRespond[0]] = 'resToRespond';
             sendingData['temp']['temp_unitIdKeyObj'][objToRespond.respondsInfo[objToRespond.unreadRespond[0]].primer] = 'resToShared';
 
-            return Promise.resolve(sendingData);
+            return (sendingData);
           }
           else{
             /*
@@ -175,7 +175,7 @@ function _handle_GET_feedChainlist(req, res){
             sendingData['temp']['temp_unitIdKeyObj'][objToShared.respondsUnits[0]] = 'resToShared';
             sendingData['temp']['temp_unitIdKeyObj'][objToShared.respondsInfo[objToShared.respondsUnits[0]].primer] = 'userShared';
 
-            return Promise.resolve(sendingData);
+            return (sendingData);
           }
         })
         .catch((err)=>{
@@ -189,8 +189,8 @@ function _handle_GET_feedChainlist(req, res){
       now, the sendingData contain either all false, or one or two unit by 'id'
       the thing is, we need to res to client the 'exposedId'
       */
-      if(sendingData.userShared || sendingData.resToShared || sendingData.resToRespond){ //any unit was set
-        let unitsIdList = Object.keys(sendingData.temp.temp_unitIdKeyObj);
+      let unitsIdList = Object.keys(sendingData.temp.temp_unitIdKeyObj);
+      if(unitsIdList.length > 0 ){ //any unit was set
         _DB_units.findAll({
           where: {id: unitsIdList}
         })
