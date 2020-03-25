@@ -15,13 +15,14 @@ import {
 import Chain from './Chain/Chain.jsx';
 import RowEntry from './RowEntry/RowEntry.jsx';
 import BelongsMap from './BelongsMap/BelongsMap.jsx';
+import FeedAssigned from './FeedAssigned/FeedAssigned.jsx';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
-import {
-  setIndexLists,
-} from '../../../redux/actions/around.js';
 import {
   initAround
 } from '../../../redux/states/statesWithin.js';
+import {
+  setIndexList
+} from "../../../redux/actions/within.js";
 import {
   cancelErr,
   uncertainErr
@@ -104,7 +105,7 @@ class Wrapper extends React.Component {
       this.axiosSource.cancel("component will unmount.")
     }
     //clear & reset to init when Unmount, make sure the list would not render anything when retrun to index
-    this.props._submit_IndexLists(initAround.indexLists);
+    this.props._set_IndexLists(initAround.indexLists);
   }
 
   render(){
@@ -121,6 +122,12 @@ class Wrapper extends React.Component {
           <div
             className={classnames(styles.boxRow)}>
             <Chain
+              lastVisit={this.state.lastVisit}
+              _set_mountToDo={this._set_mountToDo}
+              _refer_von_cosmic={this.props._refer_von_cosmic}/>
+          </div>
+          <div>
+            <FeedAssigned
               lastVisit={this.state.lastVisit}
               _set_mountToDo={this._set_mountToDo}
               _refer_von_cosmic={this.props._refer_von_cosmic}/>
@@ -152,7 +159,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    _submit_IndexLists: (listsObj) => { dispatch(setIndexLists(listsObj)); },
+    _set_IndexLists: (obj) => { dispatch(setIndexList(obj)); }
   }
 }
 

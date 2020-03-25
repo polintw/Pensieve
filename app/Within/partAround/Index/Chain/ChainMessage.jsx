@@ -40,19 +40,18 @@ class ChainMessage extends React.Component {
   }
 
   _render_HintMessage(recKeys){
-    if(recKeys == 0){ // if no belongsByType was set
+    if(recKeys.length == 0){ // if no belongsByType was set
       return (
         <div
           className={classnames(styles.boxBlankHint, stylesFont.fontTitleHint, stylesFont.colorLightHint)}>
           {this.props.i18nUIString.catalog["guidingChain_noBelongSet"]}
         </div>
       )
-    }else if(!this.props.belongRecify){
+    }else if(this.props.displayOrder.length < 1 && recKeys.length >0){
       return (
         <div
           className={classnames(styles.boxBlankHint, stylesFont.fontTitleHint, stylesFont.colorLightHint)}>
           <span>{this.props.i18nUIString.catalog["guidingChain_noSharedEst."][0]}</span>
-          <span>{this.props.i18nUIString.catalog["guidingChain_noSharedEst."][1]}</span>
         </div>
       )
     }else{

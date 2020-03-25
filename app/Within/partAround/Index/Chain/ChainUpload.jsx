@@ -17,7 +17,6 @@ class ChainUpload extends React.Component {
       onCreate: false,
 
     };
-    this._render_HintMessage = this._render_HintMessage.bind(this);
     this._handleClick_plainOpen = this._handleClick_plainOpen.bind(this);
     this._handleMouseOn_Create = ()=> this.setState((prevState,props)=>{return {onCreate: prevState.onCreate?false:true}});
   }
@@ -40,31 +39,10 @@ class ChainUpload extends React.Component {
 
   }
 
-  _render_HintMessage(){
-    if(!this.props.belongRecify){ // no records for user's belong
-      return (
-        <div
-          className={classnames(styles.boxBlankHint, stylesFont.fontHint)}>
-          <span>{this.props.i18nUIString.catalog["guidingChain_Upload_noSharedEst."]}</span>
-        </div>
-      )
-    }else if(!this.props.sharedify){ //no shared record
-      return (
-        <div
-          className={classnames(styles.boxBlankHint, stylesFont.fontHint)}>
-          <span>{this.props.i18nUIString.catalog["guidingChain_Upload_aShared"]}</span>
-        </div>
-      )
-    }else{
-      return null
-    }
-  }
-
   render(){
     return(
       <div
         className={classnames(styles.comChainUpload)}>
-        {this._render_HintMessage()}
         <div
           className={classnames(styles.boxCreate)}>
           <div

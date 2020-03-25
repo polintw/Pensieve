@@ -11,12 +11,8 @@ import {
 } from '../types/typesGeneral.js';
 import {
   SET_INDEXLISTS,
-} from '../types/typesAround.js';
-import {
-  SET_FOCUSLISTS,
-} from '../types/typesCosmic.js';
-import {
   SET_BELONGSBYTYPE,
+  SUBMIT_FEEDASSIGN
 } from '../types/typesWithin.js';
 import {
   SET_UNITVIEW,
@@ -72,19 +68,19 @@ function pageWithin(state = initialGeneral, action){
         unitCurrent: action.unitCurrent
       })
       break;
+    case SET_BELONGSBYTYPE:
+      return Object.assign({}, state, {
+        belongsByType: {...state.belongsByType, ...action.typeObj}
+      })
+      break;
     case SET_INDEXLISTS:
       return Object.assign({}, state, {
         indexLists: {...state.indexLists, ...action.lists}
       })
       break;
-    case SET_FOCUSLISTS:
+    case SUBMIT_FEEDASSIGN:
       return Object.assign({}, state, {
-        focusLists: {...state.focusLists, ...action.lists}
-      })
-      break;
-    case SET_BELONGSBYTYPE:
-      return Object.assign({}, state, {
-        belongsByType: {...state.belongsByType, ...action.typeObj}
+        indexLists: {...state.indexLists, ...action.listsObj}
       })
       break;
     case UPDATE_NOUNSBASIC:

@@ -29,17 +29,13 @@ class Chain extends React.Component {
     super(props);
     this.state = {
       axios: false,
-      displayOrder: [],
-      unitsInfo: {}, // unitId: {id, form, toBelong:[], toBelongNew: {nodeId: bool}}
-      popup: null,  //{id, toBelong: [], reason: 'firstify'}
-      sharedify: false,
-      belongRecify: false,
       fetched: false,
-      redirectPopup: false,
+      displayOrder: [],
+      displayInfo: {}, // unitId: type
       unitsBasic: {},
       marksBasic: {}
     };
-    this.nailsKey = ['nailFirst', 'nailSecond'];
+
     this.axiosSource = axios.CancelToken.source();
     this._set_ChainUnits = this._set_ChainUnits.bind(this);
     this._submit_Share_New = this._submit_Share_New.bind(this);
@@ -59,18 +55,29 @@ class Chain extends React.Component {
     this._axios_get_chainlist()
     .then((resObj)=>{
       //(we don't update the 'axios' state, because there is another axios here, for units, right after the res)
+      /*
+      resObj.main: {
+              userShared: false,
+              resToShared: false,
+              resToRespond: false,
+              latestShared: false
+              }
+      */
+      let displayOrder = [], displayInfo={};
+      displayOrder.push(resObj.main['userShared'], resObj.main['resToShared'],resObj.main['resToRespond'],resObj.main['latestShared']);
+      displayOrder = displayOrder.filter((item, index)=> {return item}); //use the property the item would be 'false' if none
+      Object.keys(resObj.main).forEach((key, index) => {
+        displayInfo[resObj.main[key]] = key;
+      });
+
       self.setState({
-        displayOrder: resObj.main.displayOrder,
-        displayInfo: resObj.main.unitsInfo, // unitId: {id, form, toBelong:[], toBelongNew: {nodeId: bool}}
-        popup: resObj.main.popup,  //{unitId, toBelong: [], reason: 'firstify'}
-        sharedify: resObj.main.sharedify,
-        belongRecify: resObj.main.belongRecify,
+        displayOrder: displayOrder,
+        displayInfo: displayInfo, // unitId: type.
         fetched: true,
-        redirectPopup: !!resObj.main.popup ? true : false
       });
       self.props._set_mountToDo('chainlist'); // and, after we get the list back, inform the parent we are done with the lastVisit time
 
-      return axios_get_UnitsBasic(self.axiosSource.token, resObj.main.displayOrder); //and use the list to get the data of eahc unit
+      return axios_get_UnitsBasic(self.axiosSource.token, displayOrder); //and use the list to get the data of eahc unit
     })
     .then((resObj)=>{
       //after res of axios_Units: call get nouns & users
@@ -120,13 +127,9 @@ class Chain extends React.Component {
     //it's very slow to compare 2 obj directly, so just compare by key pair we already set up
     let residenceify = (this.props.belongsByType['residence'] == prevProps.belongsByType['residence']) ? true:false;
     let homelandify = (this.props.belongsByType['homeland'] == prevProps.belongsByType['homeland']) ? true:false;
-    if(recKeys.length > 0 && !residenceify && !homelandify){ //if Not the same
+    if(recKeys.length > 0 && (!residenceify || !homelandify)){ //if Not the same
       this._set_ChainUnits();
     };
-    //and if the redirectPopup has done
-    if(this.state.redirectPopup && prevState.redirectPopup){
-      this.setState({redirectPopup: false});
-    }
   }
 
   componentDidMount(){
@@ -146,54 +149,54 @@ class Chain extends React.Component {
 
   _render_ChainUnits(){
     let nailsDOM = [];
+    const props = this.props; //f() _nailTitle only under this _render_, could not link to "this"
 
+    function _nailTitle(unitType){
+      switch (unitType) {
+        case 'userShared':
+          return (
+            <span>{props.i18nUIString.catalog['catagory_indexChain_NailTypes'][0]}</span>
+            )
+          break;
+        case 'resToShared':
+          return (
+            <span>{props.i18nUIString.catalog['catagory_indexChain_NailTypes'][1]}</span>
+          )
+          break;
+        case 'resToRespond':
+          return (
+            <span>{props.i18nUIString.catalog['catagory_indexChain_NailTypes'][2]}</span>
+          )
+          break;
+        case 'latestShared':
+          return (
+            <span>{props.i18nUIString.catalog['catagory_indexChain_NailTypes'][3]}</span>
+          )
+          break;
+        default:
+          return null
+      }
+
+    }
     this.state.displayOrder.forEach((unitId, index) => {
       //render if there are something in the data
       if( !(unitId in this.state.unitsBasic)) return; //skip if the info of the unit not yet fetch
 
-      switch (this.state.displayInfo[unitId].form) {
-        case 'shared':
-          nailsDOM.push(
-            <div
-              key={"key_ChainNail_"+index}
-              className={classnames(stylesNail.boxNail, stylesNail.heightBasic, stylesNail.wideBasic)}>
-              <NailShared
-                {...this.props}
-                unitId={unitId}
-                linkPath={'/unit'}
-                unitBasic={this.state.unitsBasic[unitId]}
-                marksBasic={this.state.marksBasic}/>
-            </div>
-          )
-          break;
-        case 'assign':
-          nailsDOM.push(
-            <div
-              key={"key_ChainNail_"+index}
-              className={classnames(stylesNail.boxNail, stylesNail.heightBasic, stylesNail.wideBasic)}>
-              <NailBasic
-                {...this.props}
-                unitId={unitId}
-                linkPath={'/unit'}
-                unitBasic={this.state.unitsBasic[unitId]}
-                marksBasic={this.state.marksBasic}/>
-            </div>
-          )
-          break;
-        default:
-          nailsDOM.push(
-            <div
-              key={"key_ChainNail_"+index}
-              className={classnames(stylesNail.boxNail, stylesNail.heightBasic, stylesNail.wideBasic)}>
-              <NailShared
-                {...this.props}
-                unitId={unitId}
-                linkPath={'/unit'}
-                unitBasic={this.state.unitsBasic[unitId]}
-                marksBasic={this.state.marksBasic}/>
-            </div>
-        )
-      }
+      nailsDOM.push(
+        <div>
+          {_nailTitle(this.state.displayInfo[unitId])}
+          <div
+            key={"key_ChainNail_"+index}
+            className={classnames(stylesNail.boxNail, stylesNail.heightBasic, stylesNail.wideBasic)}>
+            <NailBasic
+              {...this.props}
+              unitId={unitId}
+              linkPath={'/unit'}
+              unitBasic={this.state.unitsBasic[unitId]}
+              marksBasic={this.state.marksBasic}/>
+          </div>
+        </div>
+      );
 
     });
 
@@ -217,20 +220,12 @@ class Chain extends React.Component {
               className={classnames(styles.boxChainUpload)}>
               <ChainUpload
                 {...this.state}
-                nailsKey = {this.nailsKey}
                 _submit_Share_New={this._submit_Share_New}
                 _refer_von_cosmic={this.props._refer_von_cosmic}/>
             </div>
           </div>
         }
-        {
-          this.state.redirectPopup &&
-          <Redirect to={{
-            pathname: '/unit',
-            search: '?theater&unitId='+this.state.popup.unitId,
-            state: {from: this.props.location}
-          }}/>
-        }
+
       </div>
     )
   }

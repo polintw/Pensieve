@@ -1,8 +1,12 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('units_nodes_assign', {
+    return queryInterface.createTable('responds', {
       id_unit: {
+        type: Sequelize.UUID,
+        allowNull: false
+      },
+      id_primer: {
         type: Sequelize.UUID,
         allowNull: false
       },
@@ -10,12 +14,12 @@ module.exports = {
         type: Sequelize.INTEGER(10).UNSIGNED,
         allowNull: false
       },
-      nodeAssigned: {
+      primer_author: {
         type: Sequelize.INTEGER(10).UNSIGNED,
         allowNull: false
       },
-      belongTypes: {
-        type: Sequelize.STRING(31)
+      primer_createdAt: {
+        type: Sequelize.DATE
       },
       createdAt: {
         type: Sequelize.DATE,
@@ -26,9 +30,9 @@ module.exports = {
         type: Sequelize.DATE
       }
     }).then(()=>{
-      return queryInterface.addConstraint('units_nodes_assign', ['id_unit'], {
+      return queryInterface.addConstraint('responds', ['id_unit'], {
         type: 'foreign key',
-        name: 'constraint_fkey_unitsNodes_assign_idunit',
+        name: 'constraint_fkey_responds_idunit',
         references: { //Required field
           table: 'units',
           field: 'id'
@@ -37,9 +41,20 @@ module.exports = {
         onUpdate: 'cascade'
       })
     }).then(()=>{
-      return queryInterface.addConstraint('units_nodes_assign', ['id_author'], {
+      return queryInterface.addConstraint('responds', ['id_primer'], {
         type: 'foreign key',
-        name: 'constraint_fkey_unitsNodes_assign_idAuthor',
+        name: 'constraint_fkey_responds_idprimer',
+        references: { //Required field
+          table: 'units',
+          field: 'id'
+        },
+        onDelete: 'cascade',
+        onUpdate: 'cascade'
+      })
+    }).then(()=>{
+      return queryInterface.addConstraint('responds', ['id_author'], {
+        type: 'foreign key',
+        name: 'constraint_fkey_responds_idauthor',
         references: { //Required field
           table: 'users',
           field: 'id'
@@ -48,11 +63,11 @@ module.exports = {
         onUpdate: 'cascade'
       })
     }).then(()=>{
-      return queryInterface.addConstraint('units_nodes_assign', ['nodeAssigned'], {
+      return queryInterface.addConstraint('responds', ['primer_author'], {
         type: 'foreign key',
-        name: 'constraint_fkey_unitsNodes_assign_nodeAssigned',
+        name: 'constraint_fkey_responds_primerAuthor',
         references: { //Required field
-          table: 'nouns',
+          table: 'users',
           field: 'id'
         },
         onDelete: 'cascade',
@@ -61,6 +76,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('units_nodes_assign');
+    return queryInterface.dropTable('responds');
   }
 };

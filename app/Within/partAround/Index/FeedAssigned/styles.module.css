@@ -1,0 +1,9 @@
+.comFeedAssigned{
+  width: 75%;
+  position: relative;
+}
+
+.boxModule{
+  display: flex;
+  flex-direction: column;
+}

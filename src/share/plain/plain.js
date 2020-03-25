@@ -10,6 +10,7 @@ const {
 const _DB_units = require('../../../db/models/index').units;
 const _DB_marks = require('../../../db/models/index').marks;
 const _DB_nouns = require('../../../db/models/index').nouns;
+const _DB_responds = require('../../../db/models/index').responds;
 const _DB_marksContent = require('../../../db/models/index').marks_content;
 const _DB_attribution = require('../../../db/models/index').attribution;
 const _DB_nodes_activity = require('../../../db/models/index').nodes_activity;
@@ -94,11 +95,27 @@ function shareHandler_POST(req, res){
         unitProfile['id_primer'] = primer.id;
       }
 
-      return _DB_units.create(unitProfile).then((createdUnit)=>{
+      return _DB_units.create(unitProfile)
+      .then((createdUnit)=>{
         modifiedBody['id_unit'] = createdUnit.id;
         modifiedBody['id_unit_exposed'] = createdUnit.exposedId;
 
-        return modifiedBody;
+        if(!!primer){
+          return _DB_responds.create({
+            id_unit: createdUnit.id,
+            id_primer: primer.id,
+            id_author: userId,
+            primer_author: primer.id_author,
+            primer_createdAt: primer.createdAt,
+          })
+          .then((createdRespond)=>{
+            return modifiedBody;
+          })
+          .catch((err)=>{
+            throw err
+          });
+        }
+        else return modifiedBody;
       });
     })
     .catch((err)=>{
