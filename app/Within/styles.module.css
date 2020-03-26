@@ -4,3 +4,12 @@
   left: 0;
   bottom: 0;
 }
+
+.boxSignDialog {
+  max-width: 60%;
+  max-height: 80vh;
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

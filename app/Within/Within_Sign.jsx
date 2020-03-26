@@ -8,8 +8,10 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import Around from './partAround/Around.jsx';
+import WithinSign from './partSign/WithinSign.jsx';
 import SvgLogo from '../Components/Svg/SvgLogo.jsx';
 import NavOptions from '../Components/NavOptions.jsx';
+import CustomDialog from '../Components/Dialog/CustomDialog.jsx';
 
 class WithinAround extends React.Component {
   constructor(props){
@@ -81,19 +83,15 @@ class WithinAround extends React.Component {
           <NavOptions {...this.props}/>
         </div>
         <div
-          style={{
-            width: '100%',
-            height: '100%',
-            position: 'fixed',
-            top: '0',
-            left: '0',
-            backgroundColor: 'rgba(23,23,23,0.5)'
-          }}
+          className={'coverFullDark'}
           onClick={(e) => { e.preventDefault(); e.stopPropagation(); }} />
-        <Switch>
 
-        </Switch>
-
+        <div
+          className={styles.boxSignDialog}>
+          <CustomDialog>
+            <WithinSign {...this.props}/>
+          </CustomDialog>
+        </div>
 
       </div>
     )

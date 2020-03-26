@@ -32,3 +32,12 @@
   line-height: 3rem;
   color: black;
 }
+
+.comCustomDialog {
+  position: relative;
+  box-sizing: border-box;
+  background-color: #FAFAFA;
+  border-radius: 0.5rem;
+  border: 0.5px solid #a8a8a8;
+  box-shadow: 0 2px 3px 1px;
+}
