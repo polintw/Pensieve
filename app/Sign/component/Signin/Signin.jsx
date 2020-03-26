@@ -8,6 +8,9 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import SigninForm from './SigninForm/SigninForm.jsx';
 import ServiceLinks from '../../../Components/ServiceLinks.jsx';
+import {
+  setSignInit,
+} from "../../../redux/actions/sign.js";
 
 
 class Signin extends React.Component {
@@ -16,6 +19,7 @@ class Signin extends React.Component {
     this.state = {
 
     };
+    this._signin_success = this._signin_success.bind(this);
     this.style={
       Signin_: {
         width: '100%',
@@ -36,12 +40,16 @@ class Signin extends React.Component {
     }
   }
 
+  _signin_success(){
+    window.location.assign('/');
+  }
+
   componentDidMount() {
 
   }
 
   componentWillUnmount(){
-
+    this.props._set_StateInit()
   }
 
   render(){
@@ -52,7 +60,8 @@ class Signin extends React.Component {
           className={classnames(styles.boxColumn)}>
           <div
             style={this.style.Signin_member_}>
-            <SigninForm/>
+            <SigninForm
+              _signin_success={this._signin_success}/>
           </div>
         </div>
         <div
@@ -73,7 +82,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch)=>{
   return {
-
+    _set_StateInit: ()=>{dispatch(setSignInit());},
   }
 }
 

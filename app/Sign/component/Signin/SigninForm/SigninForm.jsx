@@ -14,17 +14,20 @@ import {
 } from './SigninFormComps.jsx';
 import SvgLogo from '../../../../Components/Svg/SvgLogo.jsx';
 import {
-  setSignInit,
-  handleSignUser
-} from "../../../../redux/actions/sign.js";
+  cancelErr,
+  uncertainErr
+} from "../../../../utils/errHandlers.js";
 
 class SigninForm extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      axios: false,
+      resCode: null,
+      resMessage: "",
     };
     this.axiosSource = axios.CancelToken.source();
+    this._axios_Signin = this._axios_Signin.bind(this);
     this._handle_Signin = this._handle_Signin.bind(this);
   }
 
@@ -34,7 +37,40 @@ class SigninForm extends React.Component {
       email: this.emailInput.value,
       password: this.passwordInput.value
     };
-    this.props._submit_Signin(submitObj, this.axiosSource.token);
+    const self = this;
+    this.setState({axios: true});
+
+    this._axios_Signin(submitObj)
+    .then(()=>{
+      this.props._signin_success();
+
+    })
+    .catch(function (thrown) {
+      self.setState({axios: false});
+      if (axios.isCancel(thrown)) {
+        cancelErr(thrown);
+      } else {
+        let message = uncertainErr(thrown);
+        if(typeof message == 'object'){ //basically, not a string
+          if('code33' in message) {self.setState({resCode: '33'}); message = message.message};
+        }
+        if(message) self.setState({resMessage: message});
+      }
+    });
+  }
+
+  _axios_Signin(submitObj){
+    return axios.post('/router/login', submitObj, {
+      headers: {'charset': 'utf-8'},
+      cancelToken: this.axiosSource.token
+    }).then(function (res) {
+      window.localStorage['token'] = res.data.token; //'access token', used in usual case
+      window.localStorage['tokenRefresh'] = res.data.tokenRefresh; //'refresh token', used in case the access token expired
+      return;
+    })
+    .catch((err)=>{
+      throw err;
+    })
   }
 
   componentDidMount() {
@@ -42,14 +78,13 @@ class SigninForm extends React.Component {
   }
 
   componentWillUnmount() {
-    if(this.props.axios){
+    if(this.state.axios){
       this.axiosSource.cancel("component will unmount.")
     }
-    this.props._set_StateInit()
   }
 
   render(){
-    const message = this.props.message;
+    const message = this.state.resMessage;
     return(
       <div>
         <div
@@ -98,28 +133,14 @@ class SigninForm extends React.Component {
           <input
             type='submit'
             value='Sign in'
-            disabled={this.props.axios? true:false}
+            disabled={this.state.axios? true:false}
             className={classnames(styles.boxSubmit)}
             style={{float:"right"}}/>
-          <LinkSignUp {...this.props}>
-            <span
-              className={classnames(
-                styles.fontInput,
-                styles.spanSignUp,
-                {[styles.spanSignUpMouse]: this.state.onSignUp}
-              )}
-              style={{fontWeight: '500', letterSpacing: 'unset'}}>
-              {"Sign up"}</span>
-          </LinkSignUp>
-
+          
+          <LinkSignUp {...this.props}/>
           {
-            message.warning && this.props.code == "33" &&
-            <LinkMailResend {...this.props}>
-              <span
-                className={classnames(styles.fontMessage)}>
-                {this.props.i18nUIString.catalog["link_Sign_mailResend"]}
-              </span>
-            </LinkMailResend>
+            message.warning && this.state.resCode == "33" &&
+            <LinkMailResend {...this.props}/>
           }
         </form>
       </div>
@@ -131,17 +152,13 @@ class SigninForm extends React.Component {
 
 const mapStateToProps = (state)=>{
   return {
-    axios: state.axios,
-    code: state.code,
-    message: state.message,
     i18nUIString: state.i18nUIString,
   }
 }
 
 const mapDispatchToProps = (dispatch)=>{
   return {
-    _set_StateInit: ()=>{dispatch(setSignInit());},
-    _submit_Signin: (submitObj, cancelToken)=>{dispatch(handleSignUser(submitObj, cancelToken));}
+
   }
 }
 

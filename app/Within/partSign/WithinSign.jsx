@@ -8,6 +8,8 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
 import SigninForm from '../../Sign/component/Signin/SigninForm/SigninForm.jsx';
+import SignupForm from '../../Sign/component/SignupCom/SignupForm.jsx';
+import {SignUpSuccess} from '../../Sign/component/SignupCom/SignupCom.jsx';
 
 class WithinSign extends React.Component {
   constructor(props){
@@ -16,17 +18,32 @@ class WithinSign extends React.Component {
       steps: 'signin'
     };
     this._switch_Sign = this._switch_Sign.bind(this);
+    this._signin_success = this._signin_success.bind(this);
     this._render_signInDialog = this._render_signInDialog.bind(this);
   }
 
   _switch_Sign(aim){
     switch (aim) {
+      case 'toSignIn':
+        this.setState({steps: 'signin'})
+        break;
       case 'toSignUp':
         this.setState({steps: 'signup'})
+        break;
+      case 'toSignUpSuccess':
+        this.setState({steps: 'signupsuccess'})
         break;
       default:
         null
     }
+  }
+
+  _signin_success(){
+    window.location.reload();
+  }
+
+  _signup_success(){
+    this._switch_Sign('toSignUpSuccess')
   }
 
   componentDidMount() {
@@ -44,12 +61,29 @@ class WithinSign extends React.Component {
           <div>
             <SigninForm
               {...this.props}
-              _switch_Sign={this._switch_Sign}/>
+              _switch_Sign={this._switch_Sign}
+              _signin_success={this._signin_success}/>
           </div>
         )
         break;
       case 'signup':
-
+        return (
+          <div>
+            <SignupForm
+              {...this.props}
+              _switch_Sign={this._switch_Sign}
+              _signup_success={this._signup_success}/>
+          </div>
+        )
+        break;
+      case 'signupsuccess':
+        return (
+          <div>
+            <SignUpSuccess
+              {...this.props}
+              _switch_Sign={this._switch_Sign}/>
+          </div>
+        )
         break;
       default:
         return

@@ -45,6 +45,10 @@ export function uncertainErr(error){
         alert(error.response.data.message);
         window.location.assign('/s/signin'); //anauthorized with invalid token, reload to check the token
         return null; //return to inform iterator, meaning no need for further handleing
+        break;
+      case 33: //special for sign in, user not verified email
+        return {code33: true, message: error.response.data.message};
+        break;
       case 89: //meaning no token, redirect.
       //a missing token, no need to alert anything.
         window.location.assign('/s/signin');

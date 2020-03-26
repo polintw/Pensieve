@@ -31,14 +31,28 @@ export class LinkSignUp extends React.Component {
         className={classnames('plainLinkButton')}
         onMouseEnter={this._handleMouseOn_signUp}
         onMouseLeave={this._handleMouseOn_signUp}>
-        {this.props.children}
+        <span
+          className={classnames(
+            styles.fontInput,
+            styles.spanSignUp,
+            {[styles.spanSignUpMouse]: this.state.onSignUp}
+          )}
+          style={{fontWeight: '500', letterSpacing: 'unset'}}>
+          {"Sign up"}</span>
       </Link>
     ): (
       <div
         onClick={this._handleClick_pathWithin}
         onMouseEnter={this._handleMouseOn_signUp}
         onMouseLeave={this._handleMouseOn_signUp}>
-        {this.props.children}
+        <span
+          className={classnames(
+            styles.fontInput,
+            styles.spanSignUp,
+            {[styles.spanSignUpMouse]: this.state.onSignUp}
+          )}
+          style={{fontWeight: '500', letterSpacing: 'unset'}}>
+          {"Sign up"}</span>
       </div>
     )
   }
@@ -62,12 +76,18 @@ export class LinkMailResend extends React.Component {
   render(){
     return this.props.location.pathname.includes('/sign') ? (
       <Link to="/signup/email">
-        {this.props.children}
+        <span
+          className={classnames(styles.fontMessage)}>
+          {this.props.i18nUIString.catalog["link_Sign_mailResend"]}
+        </span>
       </Link>
     ): (
       <div
         onClick={this._handleClick_pathWithin}>
-        {this.props.children}
+        <span
+          className={classnames(styles.fontMessage)}>
+          {this.props.i18nUIString.catalog["link_Sign_mailResend"]}
+        </span>
       </div>
     )
   }

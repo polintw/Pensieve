@@ -13,31 +13,18 @@ import {
   SignupSuccess
 } from '../SignupCom/SignupCom.jsx';
 import SignupForm from '../SignupCom/SignupForm.jsx';
-import {
-  axiosGetRes
-} from "../../../redux/actions/sign.js";
 import ServiceLinks from '../../../Components/ServiceLinks.jsx';
-import SvgLogo from '../../../Components/Svg/SvgLogo.jsx';
-
-const commonStyle= {
-  signLogo: {
-    display: 'inline-block',
-    width: '10vw',
-    minHeight: '27px',
-    position: 'absolute',
-    left: '0%',
-    top: '25%',
-    boxSizing: 'border-box',
-    transform: 'rotate(270deg)'
-  }
-}
+import {
+  setSignInit,
+} from "../../../redux/actions/sign.js";
 
 class Signup extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      redirect: false
     };
+    this._signup_success = this._signup_success.bind(this);
     this.style={
       Signup_: {
         width: '100%',
@@ -57,30 +44,38 @@ class Signup extends React.Component {
     }
   }
 
+  _signup_success(){
+    this.setState({redirect: '/signup/success'})
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot){
+    if(!prevState.redirect) { //means had redirected
+      this.setState({redirect: false})
+    }
+  }
+
   componentDidMount() {
 
   }
 
   componentWillUnmount() {
-
+    this.props._set_StateInit()
   }
 
   render(){
+    if(this.state.redirect) return (<Redirect to={this.state.redirect}/>);
+
     return(
       <div
         style={this.style.Signup_}>
         <div
           className={classnames(styles.boxColumn)}>
           <div
-            style={commonStyle.signLogo}>
-            <SvgLogo/>
-          </div>
-          <div
             style={this.style.boxContent}>
             <Switch>
               <Route path={this.props.match.path+"/email"} render={(props)=> <SignupMailresend {...props}/>}/>
               <Route path={this.props.match.path+"/success"} render={(props)=> <SignupSuccess {...props}/>}/>
-              <Route path={this.props.match.path+"/"} render={(props)=> <SignupForm {...props}/>}/>
+              <Route path={this.props.match.path+"/"} render={(props)=> <SignupForm {...props} _signup_success={this._signup_success}/>}/>
             </Switch>
           </div>
           <div
@@ -102,7 +97,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch)=>{
   return {
-    _set_axiosRes: (resObj)=>{dispatch(axiosGetRes(resObj));}
+    _set_StateInit: ()=>{dispatch(setSignInit());},
   }
 }
 

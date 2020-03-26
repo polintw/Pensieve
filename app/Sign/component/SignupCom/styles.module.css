@@ -1,5 +1,4 @@
 .boxInput {
-  width: 100%;
   margin-bottom: 1rem;
   padding: 0.3rem;
 }
@@ -17,6 +16,13 @@
 .boxSelect {
   display: inline-block;
   margin: 2rem 0.5rem;
+}
+
+.boxLogo: {
+  display: inline-block;
+  width: 10vw;
+  min-height: 27px;
+  position: relative;
 }
 
 .spanTag {

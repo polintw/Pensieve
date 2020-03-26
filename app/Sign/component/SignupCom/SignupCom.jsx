@@ -7,6 +7,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import {LinkSignIn} from './SignupFormComps.jsx';
 import {
   cancelErr,
   uncertainErr
@@ -47,29 +48,20 @@ class SignupSuccess extends React.Component {
   }
 
   render(){
-    //let cx = cxBind.bind(styles);
     return(
       <div
         style={this.style.SignupSuccess_}>
+        <div
+          className={styles.boxLogo}>
+          <SvgLogo/>
+        </div>
         <div
           className={classnames(styles.fontInput)}>
           <p>{this.props.i18nUIString.catalog["guidingSign_Signup_Success"][0]}</p>
           <p>{this.props.i18nUIString.catalog["guidingSign_Signup_Success"][1]}</p>
           <p>{this.props.i18nUIString.catalog["guidingSign_Signup_Success"][2]}</p>
-          <Link
-            to="/signin"
-            className={classnames('plainLinkButton')}
-            style={{margin: '5rem, 0', display: 'block'}}
-            onMouseEnter={this._handleMouseOn_signIn}
-            onMouseLeave={this._handleMouseOn_signIn}>
-            <span
-              className={classnames(
-                styles.spanSignIn,
-                {[styles.spanSignInMouse]: this.state.onSignIn}
-              )}>
-              {"Sign in"}</span>
-          </Link>
         </div>
+        <LinkSignIn {...this.props}/>
       </div>
     )
   }
