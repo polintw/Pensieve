@@ -53,7 +53,7 @@ export const i18nUIStringInit = {
      "guidingSign_Confirm_Success": ["Email address has successfully verified.", "Log in and start your adventure to the World!"],
      "guidingSign_Confirm_Fail": ["Email address verified failed.", "It's probablly due to the valid time was over.", "Or, haven't received the verified mail?"],
      "link_Sign_mailResend": "send the verified email again",
-     "title_Sign_mailResend": "Fill in your email address to re-send a verified email again.",
+     "title_Sign_mailResend": ["Fill in your email address to re-send a verified email again.", "Fill in the email of your account. "],
      "link_Sign_resendButton": "confirm re-send",
      "guidingSign_Signup_Success": [
        "You've already signed up, but don't move too fast!",

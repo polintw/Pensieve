@@ -6,11 +6,11 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import SigninForm from './SigninForm/SigninForm.jsx';
-import ServiceLinks from '../../../Components/ServiceLinks.jsx';
+import SigninForm from '../components/SigninForm/SigninForm.jsx';
+import ServiceLinks from '../../Components/ServiceLinks.jsx';
 import {
   setSignInit,
-} from "../../../redux/actions/sign.js";
+} from "../../redux/actions/sign.js";
 
 
 class Signin extends React.Component {

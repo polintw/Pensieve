@@ -20,54 +20,7 @@ import {
   axiosSwitch,
 } from "../../../redux/actions/general.js";
 
-class SignupSuccess extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      onSignIn: false
-    };
-    this._handleMouseOn_signIn = ()=> this.setState((prevState,props)=>{return {onSignIn: prevState.onSignIn?false:true}});
-    this.style={
-      SignupSuccess_: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box'
-      }
-    }
-  }
-
-  componentDidMount() {
-
-  }
-
-  componentWillUnmount() {
-
-  }
-
-  render(){
-    return(
-      <div
-        style={this.style.SignupSuccess_}>
-        <div
-          className={styles.boxLogo}>
-          <SvgLogo/>
-        </div>
-        <div
-          className={classnames(styles.fontInput)}>
-          <p>{this.props.i18nUIString.catalog["guidingSign_Signup_Success"][0]}</p>
-          <p>{this.props.i18nUIString.catalog["guidingSign_Signup_Success"][1]}</p>
-          <p>{this.props.i18nUIString.catalog["guidingSign_Signup_Success"][2]}</p>
-        </div>
-        <LinkSignIn {...this.props}/>
-      </div>
-    )
-  }
-}
-
-class SignupMailresend extends React.Component {
+class EmailResend extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -104,8 +57,10 @@ class SignupMailresend extends React.Component {
     let reqBody = {
       'email': this.state.email
     };
+    let url = (this.purpose == 'verifications')? '/router/register/mail/resend' : '/router/account/password?forget';
+
     this.props._set_axiosStatus(true);
-    axios.patch('/router/register/mail/resend', reqBody, {
+    axios.patch(url, reqBody, {
       headers: {
         'charset': 'utf-8'
       },
@@ -140,12 +95,22 @@ class SignupMailresend extends React.Component {
   }
 
   render(){
+    let params = new URLSearchParams(this.props.location.search); //we need value in URL query
+    this.purpose = params.get('purpose');
 
     const message = this.props.message;
     return(
       <div
         style={this.style.SignupMailresend_}>
-          <h2>{this.props.i18nUIString.catalog["title_Sign_mailResend"]}</h2>
+          <h2>
+            {
+              (this.purpose == "verifications") ? (
+                this.props.i18nUIString.catalog["title_Sign_mailResend"][0]
+              ):(
+                this.props.i18nUIString.catalog["title_Sign_mailResend"][1]
+              )
+
+            }</h2>
           <form onSubmit={this._handle_Mailresend}>
             {'email:'}<br/>
             <input
@@ -170,16 +135,19 @@ class SignupMailresend extends React.Component {
             </form>
           <div
             style={{display:'flex',justifyContent: 'space-around',width: '50%',margin:'2rem 0',float:'right'}}>
-            <Link
-              to="/signin"
-              className={classnames('plainLinkButton')}
+            <a
+              href="/"
+              target="_self"
+              className={classnames(
+                'plainLinkButton'
+              )}
               style={{margin: '5rem, 0', display: 'block'}}>
               <span
                 className={classnames(
                   styles.spanSignIn,
                 )}>
                 {"Sign in"}</span>
-            </Link>
+            </a>
             <Link
               to="/signup"
               className={classnames('plainLinkButton')}
@@ -212,12 +180,7 @@ const mapDispatchToProps = (dispatch)=>{
   }
 }
 
-const reduxConnection = connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-);
-
-module.exports = {
-  SignupSuccess: reduxConnection(SignupSuccess),
-  SignupMailresend: reduxConnection(SignupMailresend)
-}
+)(EmailResend));

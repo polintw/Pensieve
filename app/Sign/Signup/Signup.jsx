@@ -8,15 +8,12 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import {
-  SignupMailresend,
-  SignupSuccess
-} from '../SignupCom/SignupCom.jsx';
-import SignupForm from '../SignupCom/SignupForm.jsx';
-import ServiceLinks from '../../../Components/ServiceLinks.jsx';
+import SignupForm from '../components/SignupCom/SignupForm.jsx';
+import SignupSuccess from '../components/SignupCom/SignupSuccess.jsx';
+import ServiceLinks from '../../Components/ServiceLinks.jsx';
 import {
   setSignInit,
-} from "../../../redux/actions/sign.js";
+} from "../../redux/actions/sign.js";
 
 class Signup extends React.Component {
   constructor(props){
@@ -73,7 +70,6 @@ class Signup extends React.Component {
           <div
             style={this.style.boxContent}>
             <Switch>
-              <Route path={this.props.match.path+"/email"} render={(props)=> <SignupMailresend {...props}/>}/>
               <Route path={this.props.match.path+"/success"} render={(props)=> <SignupSuccess {...props}/>}/>
               <Route path={this.props.match.path+"/"} render={(props)=> <SignupForm {...props} _signup_success={this._signup_success}/>}/>
             </Switch>

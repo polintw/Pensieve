@@ -5,9 +5,9 @@ import {
 import {connect} from "react-redux";
 import {
   SheetAccount,
-  SheetPassword,
   SheetBasic
 } from './SheetCom.jsx';
+import Password from '../../Components/Password.jsx';
 import AccountPalette from '../../Components/AccountPalette.jsx';
 import {mountUserSheet} from "../../redux/actions/front.js";
 import {
@@ -143,7 +143,7 @@ const styleMiddle = {
         return (
           <div
             style={this.style.selfCom_Sheet_display_settingform}>
-            <SheetPassword {...this.props}/>
+            <Password {...this.props}/>
           </div>
         )
         break;

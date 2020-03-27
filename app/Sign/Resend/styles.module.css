@@ -1,0 +1,21 @@
+.boxColumn {
+  width: 30vw;
+  height: 100%;
+  position: absolute;
+  left: 25%;
+}
+
+.boxServiceLink {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  box-sizing: border-box;
+  padding: 5vh 0;
+}
+
+.boxLogo: {
+  display: inline-block;
+  width: 10vw;
+  min-height: 27px;
+  position: relative;
+}

@@ -7,8 +7,8 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import ServiceLinks from '../../../Components/ServiceLinks.jsx';
-import SvgLogo from '../../../Components/Svg/SvgLogo.jsx';
+import ServiceLinks from '../../Components/ServiceLinks.jsx';
+import SvgLogo from '../../Components/Svg/SvgLogo.jsx';
 
 const commonStyle= {
   signLogo: {
@@ -51,7 +51,6 @@ class ConfirmSuccess extends React.Component {
   }
 
   render(){
-    //let cx = cxBind.bind(styles);
     return(
       <div
         style={this.style.ConfirmSuccess_}>
@@ -59,19 +58,21 @@ class ConfirmSuccess extends React.Component {
           className={classnames(styles.fontContent)}>
           <p>{this.props.i18nUIString.catalog["guidingSign_Confirm_Success"][0]}</p>
           <p>{this.props.i18nUIString.catalog["guidingSign_Confirm_Success"][1]}</p>
-            <Link
-              to="/signin"
-              className={classnames('plainLinkButton')}
-              style={{margin: '5rem, 0', display: 'block'}}
-              onMouseEnter={this._handleMouseOn_signIn}
-              onMouseLeave={this._handleMouseOn_signIn}>
-              <span
-                className={classnames(
-                  styles.spanSignIn,
-                  {[styles.spanSignInMouse]: this.state.onSignIn}
-                )}>
-                {"Sign in"}</span>
-            </Link>
+          <a
+            href="/"
+            target="_self"
+            purpose="signup"
+            className={classnames('plainLinkButton')}
+            style={{margin: '5rem, 0', display: 'block'}}
+            onMouseEnter={this._handleMouseOn_signIn}
+            onMouseLeave={this._handleMouseOn_signIn}>
+            <span
+              className={classnames(
+                styles.spanSignIn,
+                {[styles.spanSignInMouse]: this.state.onSignIn}
+              )}>
+              {"Sign in"}</span>
+          </a>
         </div>
       </div>
     )
@@ -128,7 +129,7 @@ class ConfirmFail extends React.Component {
             <p>{this.props.i18nUIString.catalog["guidingSign_Confirm_Fail"][2]}</p>
 
             <Link
-              to="/signup/email"
+              to="/resend?purpose=verifications"
               purpose="email"
               className={classnames('plainLinkButton')}
               style={{margin: '5rem, 0', display: 'block'}}
@@ -141,22 +142,9 @@ class ConfirmFail extends React.Component {
                 )}>
                 {this.props.i18nUIString.catalog["link_Sign_mailResend"]}</span>
             </Link>
-            <Link
-              to="/signup"
-              purpose="signup"
-              className={classnames('plainLinkButton')}
-              style={{margin: '1rem 0', display: 'block'}}
-              onMouseEnter={this._handleEnter_Links}
-              onMouseLeave={this._handleLeave_Links}>
-              <span
-                className={classnames(
-                  styles.spanSignIn,
-                  {[styles.spanSignInMouse]: this.state.mouseOn =="signup"}
-                )}>
-                {"Sign up"}</span>
-            </Link>
-            <Link
-              to="/signin"
+            <a
+              href="/"
+              target="_self"
               purpose="signup"
               className={classnames('plainLinkButton')}
               style={{margin: '5rem, 0', display: 'block'}}
@@ -168,6 +156,16 @@ class ConfirmFail extends React.Component {
                   {[styles.spanSignInMouse]: this.state.mouseOn =="signin"}
                 )}>
                 {"Sign in"}</span>
+            </a>
+            <Link
+              to="/signup"
+              className={classnames('plainLinkButton')}
+              style={{margin: '5rem, 0', display: 'block'}}>
+              <span
+                className={classnames(
+                  styles.spanSignIn,
+                )}>
+                {"Sign up"}</span>
             </Link>
 
           </div>

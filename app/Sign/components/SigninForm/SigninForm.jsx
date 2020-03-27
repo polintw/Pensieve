@@ -10,13 +10,14 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import {
   LinkSignUp,
-  LinkMailResend
+  LinkForgetPw,
+  LinkMailResend,
 } from './SigninFormComps.jsx';
-import SvgLogo from '../../../../Components/Svg/SvgLogo.jsx';
+import SvgLogo from '../../../Components/Svg/SvgLogo.jsx';
 import {
   cancelErr,
   uncertainErr
-} from "../../../../utils/errHandlers.js";
+} from "../../../utils/errHandlers.js";
 
 class SigninForm extends React.Component {
   constructor(props){
@@ -136,12 +137,13 @@ class SigninForm extends React.Component {
             disabled={this.state.axios? true:false}
             className={classnames(styles.boxSubmit)}
             style={{float:"right"}}/>
-          
+
           <LinkSignUp {...this.props}/>
           {
             message.warning && this.state.resCode == "33" &&
             <LinkMailResend {...this.props}/>
           }
+          <LinkForgetPw {...this.props}/>
         </form>
       </div>
 

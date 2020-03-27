@@ -75,7 +75,7 @@ export class LinkMailResend extends React.Component {
 
   render(){
     return this.props.location.pathname.includes('/sign') ? (
-      <Link to="/signup/email">
+      <Link to="/resend?purpose=verifications">
         <span
           className={classnames(styles.fontMessage)}>
           {this.props.i18nUIString.catalog["link_Sign_mailResend"]}
@@ -88,6 +88,56 @@ export class LinkMailResend extends React.Component {
           className={classnames(styles.fontMessage)}>
           {this.props.i18nUIString.catalog["link_Sign_mailResend"]}
         </span>
+      </div>
+    )
+  }
+}
+
+export class LinkForgetPw extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      onForgetPw: false
+    };
+    this._handleClick_pathWithin = this._handleClick_pathWithin.bind(this);
+    this._handleMouseOn_forgetPw = ()=> this.setState((prevState,props)=>{return {onForgetPw: prevState.onForgetPw?false:true}});
+  }
+
+  _handleClick_pathWithin(e){
+    e.preventDefault();
+    e.stopPropagation();
+    this.props._switch_Sign('toForgetPw');
+  }
+
+  render(){
+    return this.props.location.pathname.includes('/sign') ? (
+      <Link
+        to="/resned?purpose=password"
+        className={classnames('plainLinkButton')}
+        onMouseEnter={this._handleMouseOn_forgetPw}
+        onMouseLeave={this._handleMouseOn_forgetPw}>
+        <span
+          className={classnames(
+            styles.fontInput,
+            styles.spanSignUp,
+            {[styles.spanSignUpMouse]: this.state.onForgetPw}
+          )}
+          style={{fontWeight: '500', letterSpacing: 'unset'}}>
+          {"forget password?"}</span>
+      </Link>
+    ): (
+      <div
+        onClick={this._handleClick_pathWithin}
+        onMouseEnter={this._handleMouseOn_forgetPw}
+        onMouseLeave={this._handleMouseOn_forgetPw}>
+        <span
+          className={classnames(
+            styles.fontInput,
+            styles.spanSignUp,
+            {[styles.spanSignUpMouse]: this.state.onForgetPw}
+          )}
+          style={{fontWeight: '500', letterSpacing: 'unset'}}>
+          {"forget password?"}</span>
       </div>
     )
   }

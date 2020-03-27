@@ -6,9 +6,9 @@ import {
   Link
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import Signup from './component/Signup/Signup.jsx';
-import Signin from './component/Signin/Signin.jsx';
-import Confirmation from './component/Confirmation/Confirmation.jsx';
+import Signup from './Signup/Signup.jsx';
+import Signin from './Signin/Signin.jsx';
+import Confirmation from './Confirmation/Confirmation.jsx';
 
 class Sign extends React.Component {
   constructor(props){
@@ -41,6 +41,7 @@ class Sign extends React.Component {
             <Route path="/signup" render={(props)=> <Signup {...props}/>}/>
             <Route path="/signin" render={(props)=> <Signin {...props}/>}/>
             <Route path="/confirm" render={(props)=> <Confirmation {...props}/>}/>
+            <Route path="/resend" render={(props)=> <Resend {...props}/>}/>
           </Switch>
         </div>
       </Router>

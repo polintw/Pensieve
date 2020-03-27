@@ -7,9 +7,9 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
-import SigninForm from '../../Sign/component/Signin/SigninForm/SigninForm.jsx';
-import SignupForm from '../../Sign/component/SignupCom/SignupForm.jsx';
-import {SignUpSuccess} from '../../Sign/component/SignupCom/SignupCom.jsx';
+import SigninForm from '../../Sign/components/SigninForm/SigninForm.jsx';
+import SignupForm from '../../Sign/components/SignupCom/SignupForm.jsx';
+import SignUpSuccess from '../../Sign/components/SignupCom/SignUpSuccess.jsx';
 
 class WithinSign extends React.Component {
   constructor(props){
@@ -32,6 +32,12 @@ class WithinSign extends React.Component {
         break;
       case 'toSignUpSuccess':
         this.setState({steps: 'signupsuccess'})
+        break;
+      case 'toMailResend':
+        window.location.assign('/s/resend?purpose=verifications');
+        break;
+      case 'toForgetPw':
+        window.location.assign('/s/resend?purpose=password');
         break;
       default:
         null
