@@ -29,6 +29,12 @@ export const messageDialogInit= {
     message: [/*{text: '', style:{}}*/],
     handlerPositive: ()=>{}
   },
+  single: {
+    render: false,
+    message: [/*{text: '', style:{}}*/],
+    handlerPositive: ()=>{},
+    buttonValue: null
+  },
   boolean: {
     render: false,
     customButton: null,
@@ -54,7 +60,8 @@ export const i18nUIStringInit = {
      "guidingSign_Confirm_Fail": ["Email address verified failed.", "It's probablly due to the valid time was over.", "Or, haven't received the verified mail?"],
      "link_Sign_mailResend": "send the verified email again",
      "title_Sign_mailResend": ["Fill in your email address to re-send a verified email again.", "Fill in the email of your account. "],
-     "link_Sign_resendButton": "confirm re-send",
+     "title_Sign_pwReset": "Now please enter New Password.",
+     "link_Sign_resendButton": "submit",
      "guidingSign_Signup_Success": [
        "You've already signed up, but don't move too fast!",
        "Verifing your Email Address by Mail we just sent to you.",
@@ -79,6 +86,8 @@ export const i18nUIStringInit = {
      "descript_BelongSet_SearchBytType": ["Input corner name of your "],
      "guidingChain_noBelongSet": "Touching your Fellows by setting the place you are and the land you were born.",
      "guidingChain_noSharedEst.": ["You would be the first one to share about your corner."],
+     "message_Resend_PassReset": "Your password has been updated. Please Sign in with new password. ",
+     "hint_inputMessage_pw": ["keep the password in same!"],
 
 
      "hintEmptyNode": "This Corner is still Waiting to be explored. Be the first one to wonder and wander!",

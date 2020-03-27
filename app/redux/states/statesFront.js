@@ -16,5 +16,4 @@ export const initSheetSetting = {
     lastName: "",
     mail: ''
   },
-  settingSubmitting: false
 }

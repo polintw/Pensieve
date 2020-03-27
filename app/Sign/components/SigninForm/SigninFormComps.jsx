@@ -112,7 +112,7 @@ export class LinkForgetPw extends React.Component {
   render(){
     return this.props.location.pathname.includes('/sign') ? (
       <Link
-        to="/resned?purpose=password"
+        to="/resend?purpose=password"
         className={classnames('plainLinkButton')}
         onMouseEnter={this._handleMouseOn_forgetPw}
         onMouseLeave={this._handleMouseOn_forgetPw}>

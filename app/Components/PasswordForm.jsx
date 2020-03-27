@@ -5,25 +5,26 @@ import {
   Link
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import {switchSettingSubmitting} from "../redux/actions/front.js";
 import {
   cancelErr,
   uncertainErr
 } from '../utils/errHandlers.js';
 
-class Password extends React.Component {
+class PasswordForm extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      axios: false,
       greenlight: false,
-      warning: false,
       passNew: '',
       passConfirm: '',
+      passOld: '',
       message: {}
     };
     this.axiosSource = axios.CancelToken.source();
     this._handle_settingPassword = this._handle_settingPassword.bind(this);
     this._handleChange_passCheck = this._handleChange_passCheck.bind(this);
+    this._handleChange_passOld = ()=>{this.setState({passOld: this.passOld.value});};
     this.style={
       selfCom_Setting_: {
         width: '42%',
@@ -40,34 +41,43 @@ class Password extends React.Component {
 
   _handle_settingPassword(event){
     event.preventDefault();
-    const self = this;
-    if(this.props.settingSubmitting) return; //prevent any repeated call
+    if(this.state.axios) return; //prevent any repeated call
+
     if(this.state.greenlight){
+      const self = this;
       let reqBody = {};
-      reqBody["password_old"] = this.passOld.value;
+      reqBody["password_old"] = this.state.passOld; //empty if under /pwreset
       reqBody["password"] = this.state.passNew;
-      this.props._set_store_submittingStatus(true);
-      axios.patch('/router/account/password', reqBody, {
+      let params = new URLSearchParams(this.props.location.search); //we need value in URL query
+      let token = !this.props.pwreset? window.localStorage['token']: params.get('token');
+
+      this.setState({axios: true});
+      axios({
+        method: 'patch',
+        url: '/router/account/password',
+        params: !this.props.pwreset? {}:{forget: true},
+        data: reqBody,
         headers: {
           'charset': 'utf-8',
-          'token': window.localStorage['token']
+          'token': token
         },
         cancelToken: this.axiosSource.token
       }).then(function (res) {
-        self.props._set_store_submittingStatus(false);
-        alert(res.data.message.warning);
-        window.location.assign('/self/profile/sheet');
+        self.setState({axios: false});
+        self.props._submit_success();
       }).catch(function (thrown) {
+        self.setState({axios: false});
         if (axios.isCancel(thrown)) {
           cancelErr(thrown);
         } else {
-          self.props._set_store_submittingStatus(false);
           let message = uncertainErr(thrown);
           if(message) self.setState({message: message});
         }
       });
     }else{
-      this.setState({warning: true});
+      this.setState({
+        message: {warning: this.props.i18nUIString.catalog['hint_inputMessage_pw'][0]}
+      });
     }
   }
 
@@ -78,47 +88,47 @@ class Password extends React.Component {
       passConfirm: this.passConfirm.value
     },()=>{
       if (this.state.passConfirm.length > 0) {
-        signal = this.state.passNew == this.state.passConfirm ? true : false;
+        signal = (this.state.passNew == this.state.passConfirm) ? true : false;
         this.setState({
           greenlight: signal? true : false,
-          warning: signal? false : true
+          message:  !signal? {warning: this.props.i18nUIString.catalog['hint_inputMessage_pw'][0]} : {}
         })
       }
     })
   }
 
   componentWillUnmount(){
-    if(this.props.axios){
+    if(this.state.axios){
       this.axiosSource.cancel("component will unmount.")
     }
   }
 
   render(){
-    //let cx = cxBind.bind(styles);
     return(
       <div
         style={this.style.selfCom_Setting_}>
         <form onSubmit={this._handle_settingPassword}>
-          <span>{'change password'}</span><br/>
-          <span>{"current password: "}</span><br/>
-            <input
-              type="password"
-              ref={(element)=>{this.passOld = element}}
-              required/><br/>
+          {
+            !this.props.pwreset &&
+            <div>
+              <span>{"current password: "}</span><br/>
+              <input
+                type="password"
+                ref={(element)=>{this.passOld = element}}
+                onChange={this._handleChange_passOld}
+                required/><br/>
               {
                 this.state.message.password_old &&
                 <div>{this.state.message.password_old}</div>
               }
+            </div>
+          }
             <span>{"new password: "}</span><br/>
             <input
               type="password"
               ref={(element)=>{this.passNew = element}}
               onChange={this._handleChange_passCheck}
               required/><br/>
-            {
-              this.state.greenlight &&
-              <span>{" 密碼已確認"}</span>
-            }
             {
               this.state.message.password &&
               <div>{this.state.message.password}</div>
@@ -130,49 +140,47 @@ class Password extends React.Component {
               onChange={this._handleChange_passCheck}
               required/><br/>
             {
-              this.state.greenlight &&
-              <span>{" 密碼已確認"}</span>
-            }
-            {
-              this.state.warning &&
-              <span>{" 請輸入相同密碼"}</span>
-            }
-            {
               this.state.message.warning &&
               <div>{this.state.message.warning}</div>
             }
+
             <input
               type='submit'
               value='submit'
-              disabled={this.props.settingSubmitting? true:false}/>
-            <Link
-              to={{
-                pathname: this.props.match.url ,
-                search: '',
+              disabled={this.state.axios? true:false}/>
+            {
+              !this.props.pwreset &&
+              <Link
+                to={{
+                  pathname: this.props.match.url ,
+                  search: '',
 
-              }}>
-              <input
-                type='button'
-                value='cancel'/>
-            </Link>
+                }}>
+                <input
+                  type='button'
+                  value='cancel'/>
+              </Link>
+            }
+
         </form>
       </div>
     )
   }
 }
 
-const mapDispatchToProps = (dispatch)=>{
+const mapStateToProps = (state)=>{
   return {
-    _set_store_submittingStatus: (bool)=>{dispatch(switchSettingSubmitting(bool));}
+    i18nUIString: state.i18nUIString,
   }
 }
 
-const reduxConnection = connect(
-  null,
-  mapDispatchToProps
-);
+const mapDispatchToProps = (dispatch)=>{
+  return {
+
+  }
+}
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Password);
+)(PasswordForm);

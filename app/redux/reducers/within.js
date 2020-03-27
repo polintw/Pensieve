@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import {
   MOUNT_USERINFO,
+  SET_MESSAGE_SINGLE,
   SET_MESSAGE_SINGLECLOSE,
   SET_MESSAGE_BOOLEAN,
   SET_FETCHFLAGS,
@@ -38,6 +39,11 @@ function pageWithin(state = initialGeneral, action){
     case MOUNT_USERINFO:
       return Object.assign({}, state, {
         userInfo: action.userInfo
+      })
+      break;
+    case SET_MESSAGE_SINGLE:
+      return Object.assign({}, state, {
+        messageSingle: action.messageSingle
       })
       break;
     case SET_MESSAGE_SINGLECLOSE:

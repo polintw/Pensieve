@@ -7,7 +7,7 @@ import {
   SheetAccount,
   SheetBasic
 } from './SheetCom.jsx';
-import Password from '../../Components/Password.jsx';
+import PasswordForm from '../../Components/PasswordForm.jsx';
 import AccountPalette from '../../Components/AccountPalette.jsx';
 import {mountUserSheet} from "../../redux/actions/front.js";
 import {
@@ -27,6 +27,7 @@ const styleMiddle = {
     };
     this.axiosSource = axios.CancelToken.source();
     this._render_SheetView = this._render_SheetView.bind(this);
+    this._submit_password_success = this._submit_password_success.bind(this);
     this.style={
       selfCom_Sheet_ProfileTitle_: {
         width: '100%',
@@ -83,6 +84,10 @@ const styleMiddle = {
         boxShadow: '0px 0px 3px -2px',
       },
     }
+  }
+
+  _submit_password_success(){
+    window.location.assign('/self/profile/sheet');
   }
 
   componentDidMount(){
@@ -143,7 +148,10 @@ const styleMiddle = {
         return (
           <div
             style={this.style.selfCom_Sheet_display_settingform}>
-            <Password {...this.props}/>
+            <span>{'change password'}</span><br/>
+            <PasswordForm
+              {...this.props}
+              _submit_success={this._submit_password_success}/>
           </div>
         )
         break;

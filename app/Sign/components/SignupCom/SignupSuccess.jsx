@@ -1,13 +1,9 @@
 import React from 'react';
-import {
-  Link,
-  Switch,
-  Redirect
-} from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import {LinkSignIn} from './SignupFormComps.jsx';
+import SvgLogo from '../../../Components/Svg/SvgLogo.jsx';
 
 class SignupSuccess extends React.Component {
   constructor(props){
@@ -69,7 +65,7 @@ const mapDispatchToProps = (dispatch)=>{
   }
 }
 
-export default withRouter(connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SignupSuccess));
+)(SignupSuccess);

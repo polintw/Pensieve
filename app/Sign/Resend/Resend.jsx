@@ -9,11 +9,13 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import EmailResend from './EmailResend.jsx';
-import SvgLogo from '../../../Components/Svg/SvgLogo.jsx';
-import ServiceLinks from '../../../Components/ServiceLinks.jsx';
+import PasswordReset from './PasswordReset.jsx';
+import SvgLogo from '../../Components/Svg/SvgLogo.jsx';
+import ServiceLinks from '../../Components/ServiceLinks.jsx';
+import SingleDialog from '../../Components/Dialog/SingleDialog/SingleDialog.jsx';
 import {
   setSignInit,
-} from "../../../redux/actions/sign.js";
+} from "../../redux/actions/sign.js";
 
 class Resend extends React.Component {
   constructor(props){
@@ -65,7 +67,7 @@ class Resend extends React.Component {
           <div
             style={this.style.boxContent}>
             <Switch>
-              <Route path={this.props.match.path+"/pwreset"} render={(props)=> <PasswrodReset {...props}/>}/>
+              <Route path={this.props.match.path+"/pwreset"} render={(props)=> <PasswordReset {...props}/>}/>
               <Route path={this.props.match.path+"/"} render={(props)=> <EmailResend {...props}/>}/>
             </Switch>
           </div>
@@ -74,6 +76,23 @@ class Resend extends React.Component {
             <ServiceLinks/>
           </div>
         </div>
+        {
+          //here and beneath, are dialog system,
+          //the series 'message' in redux state is prepared for this kind of global message dialog
+          this.props.messageSingle['render'] &&
+          <ModalBox containerId="root">
+            <ModalBackground onClose={()=>{this._set_Dialog();}} style={{position: "fixed", backgroundColor: 'rgba(52, 52, 52, 0.36)'}}>
+              <div
+                className={"boxDialog"}>
+                <SingleDialog
+                  message={this.props.messageSingle['message']}
+                  buttonValue={this.props.messageSingle['buttonValue']}
+                  _positiveHandler={this.props.messageSingle['handlerPositive']}/>
+              </div>
+            </ModalBackground>
+          </ModalBox>
+        }
+
       </div>
     )
   }
@@ -81,8 +100,7 @@ class Resend extends React.Component {
 
 const mapStateToProps = (state)=>{
   return {
-    axios: state.axios,
-    message: state.message
+    messageSingle: state.messageSingle
   }
 }
 

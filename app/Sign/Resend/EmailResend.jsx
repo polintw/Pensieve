@@ -1,24 +1,22 @@
 import React from 'react';
 import {
   Link,
-  Switch,
-  Redirect
+  withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import {LinkSignIn} from './SignupFormComps.jsx';
 import {
   cancelErr,
   uncertainErr
-} from '../../utils/errHandler_axios.js';
+} from '../utils/errHandler_axios.js';
 import {
   axiosGetRes,
   setSignInit
-} from "../../../redux/actions/sign.js";
+} from "../../redux/actions/sign.js";
 import {
   axiosSwitch,
-} from "../../../redux/actions/general.js";
+} from "../../redux/actions/general.js";
 
 class EmailResend extends React.Component {
   constructor(props){

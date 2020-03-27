@@ -5,7 +5,6 @@ import {
   Link
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import {switchSettingSubmitting} from "../../redux/actions/front.js";
 import {
   cancelErr,
   uncertainErr
@@ -168,7 +167,7 @@ class AccountatSheet extends React.Component {
 
 const mapDispatchToProps = (dispatch)=>{
   return {
-    _set_store_submittingStatus: (bool)=>{dispatch(switchSettingSubmitting(bool));}
+
   }
 }
 

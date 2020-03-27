@@ -175,6 +175,27 @@ class ConfirmFail extends React.Component {
   }
 }
 
+/*
+if the 2 class above did "not" connect to redux,
+it could not get i18nUIString or other props from parent comp (class Confirmation).
+we have to connect them directly.
+*/
+const mapStateToProps = (state)=>{
+  return {
+    axios: state.axios,
+    message: state.message,
+    i18nUIString: state.i18nUIString,
+  }
+}
+
+const reduxConnection = connect(
+  mapStateToProps,
+  null
+);
+
+const Success = reduxConnection(ConfirmSuccess);
+const Fail = withRouter(reduxConnection(ConfirmFail));
+
 class Confirmation extends React.Component {
   constructor(props){
     super(props);
@@ -223,8 +244,8 @@ class Confirmation extends React.Component {
           </div>
           <div
             style={this.style.boxContent}>
-            <Route path={this.props.match.path+"/success"} render={(props)=> <ConfirmSuccess {...props}/>}/>
-            <Route path={this.props.match.path+"/fail"} render={(props)=> <ConfirmFail {...props}/>}/>
+            <Route path={this.props.match.path+"/success"} render={(props)=> <Success {...props}/>}/>
+            <Route path={this.props.match.path+"/fail"} render={(props)=> <Fail {...props}/>}/>
           </div>
           <div
             className={classnames(styles.boxServiceLink)}>
@@ -236,13 +257,6 @@ class Confirmation extends React.Component {
   }
 }
 
-const mapStateToProps = (state)=>{
-  return {
-    axios: state.axios,
-    message: state.message,
-    i18nUIString: state.i18nUIString,
-  }
-}
 
 const mapDispatchToProps = (dispatch)=>{
   return {

@@ -9,6 +9,7 @@ import {
 } from '../types/typesSign.js';
 import {
   AXIOS_SWITCH,
+  SET_MESSAGE_SINGLE
 } from '../types/typesGeneral.js';
 
 
@@ -23,6 +24,11 @@ function pageSign(state = initialGeneral, action){
     case SET_RESCODE:
       return Object.assign({}, state, {
         code: action.code
+      })
+      break;
+    case SET_MESSAGE_SINGLE:
+      return Object.assign({}, state, {
+        messageSingle: action.messageSingle
       })
       break;
     case AXIOS_SWITCH:

@@ -1,6 +1,7 @@
 import {
   SET_TOKENSTATUS,
   SET_FETCHFLAGS,
+  SET_MESSAGE_SINGLE,
   SET_MESSAGE_SINGLECLOSE,
   SET_MESSAGE_BOOLEAN,
   SET_UNITCURRENT,
@@ -34,8 +35,12 @@ export function updateNodesBasic(obj) {
   return { type: UPDATE_NOUNSBASIC, newFetch: obj }
 };
 
-export function setMessageSingleClose(arr) {
-  return { type: SET_MESSAGE_SINGLECLOSE, messageSingleClose: arr}
+export function setMessageSingle(obj) {
+  return { type: SET_MESSAGE_SINGLE, messageSingle: obj}
+};
+
+export function setMessageSingleClose(obj) {
+  return { type: SET_MESSAGE_SINGLECLOSE, messageSingleClose: obj}
 };
 
 export function setMessageBoolean(obj) {

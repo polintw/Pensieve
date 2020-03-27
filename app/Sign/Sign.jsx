@@ -8,6 +8,7 @@ import {
 import {connect} from "react-redux";
 import Signup from './Signup/Signup.jsx';
 import Signin from './Signin/Signin.jsx';
+import Resend from './Resend/Resend.jsx';
 import Confirmation from './Confirmation/Confirmation.jsx';
 
 class Sign extends React.Component {
