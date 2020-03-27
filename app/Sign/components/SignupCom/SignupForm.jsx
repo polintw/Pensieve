@@ -21,19 +21,25 @@ class SignupForm extends React.Component {
     super(props);
     this.state = {
       axios: false,
-      resMessage: "",
+      resMessage: {},
       finalSteps: false,
+      greenlight: false,
       firstName: '',
       lastName: '',
       email: '',
+      gender: null,
       password: '',
       password_confirm: '',
-      gender: null,
     };
+    this.refInputEmail = React.createRef();
+    this.refInpuPwConfirm = React.createRef();
     this.axiosSource = axios.CancelToken.source();
     this._render_form = this._render_form.bind(this);
     this._handle_Signup = this._handle_Signup.bind(this);
     this._handleChange_Input = this._handleChange_Input.bind(this);
+    this._handleChange_passCheck = this._handleChange_passCheck.bind(this);
+    this._check_strLength = this._check_strLength.bind(this);
+    this._check_passwordRules = this._check_passwordRules.bind(this);
     this._handleClick_StepsConti = this._handleClick_StepsConti.bind(this);
     this.style={
       Signup_form_: {
@@ -44,9 +50,41 @@ class SignupForm extends React.Component {
     }
   }
 
+  _check_strLength(str){
+    //we check input value, somply let it pass if not empty value
+    if(str.length > 0){
+      return true
+    }
+    else return false;
+  }
+
+  _check_passwordRules(event){
+    /*
+    this is an onBlur f(), fires when element has lost focus.
+    it would not bubbles.
+    we planning check if the password fullfill the rules we need.
+    Now just only 1 simple rule: between 6~30 characters
+    */
+    let strLength = event.target.value.length;
+    if(strLength < 6 || strLength > 30) {
+      this.setState({
+        resMessage: {password: 'Password must more than 6 chars (and no more than 30)'}
+      })
+    }
+    else{
+      this.setState((prevState, props)=>{
+        let alternative = {password: ''};
+        return ({
+          resMessage: {...prevState.resMessage, ...alternative}
+        });
+      })
+    };
+  }
+
   _handle_Signup(event){
     event.preventDefault();
-    if(this.state.axios) return;
+    if(this.state.axios || !this.state.greenlight) return;
+
     const self = this;
     let reqBody = {
       'email': this.state.email,
@@ -84,9 +122,48 @@ class SignupForm extends React.Component {
     })
   }
 
+  _handleChange_passCheck(event){
+    let signal;
+    this.setState({
+      password_confirm:  event.target.value //right now only used by <input> password_confirm
+    },()=>{
+      if (this.state.password_confirm.length > 0) {
+        signal = (this.state.password == this.state.password_confirm) ? true : false;
+        let messageObj = !signal? {password_confirm: this.props.i18nUIString.catalog['hint_inputMessage_pw'][0]} : {password_confirm: ''};
+        this.setState((prevState, props)=>{
+          return {
+            greenlight: signal? true : false,
+            resMessage:  {...prevState.resMessage, ...messageObj}
+          };
+        })
+      }
+    })
+  }
+
+
   _handleClick_StepsConti(event){
     event.stopPropagation();
     event.preventDefault();
+    //before move to next step, validating the current input
+    let emailEle = this.refInputEmail.current;
+    let emailValidation = emailEle.checkValidity(), //js f(), would return bool by result of validation
+        firstNameValidation = this._check_strLength(this.state.firstName),
+        lastNameValidation = this._check_strLength(this.state.lastName);
+
+    if(!emailValidation || !firstNameValidation || !lastNameValidation){
+      let messageObj = {
+        email: emailValidation? '': 'please fill in the correct form for email address',
+        account: (firstNameValidation || lastNameValidation)? '': 'First and Last name are required.'
+      };
+
+      this.setState((prevState, props)=>{
+        return {
+          resMessage: {...prevState.resMessage, ...messageObj}
+        };
+      });
+      return; //keeping in this step
+    }
+    //if all filed are validated
     this.setState((prevState, props)=>{
       return {finalSteps: prevState.finalSteps? false : true}; //simple toggle, just because we has only 2 steps
     })
@@ -113,6 +190,7 @@ class SignupForm extends React.Component {
                 placeholder="Password"
                 name="password"
                 onChange={ this._handleChange_Input }
+                onBlur={this._check_passwordRules}
                 value={ this.state.password }
                 className={classnames(styles.boxInput, styles.fontInput)}
                 required/>
@@ -126,7 +204,8 @@ class SignupForm extends React.Component {
                 type="password"
                 placeholder="Confirm Password"
                 name="password_confirm"
-                onChange={ this._handleChange_Input }
+                ref={this.refInpuPwConfirm}
+                onChange={ this._handleChange_passCheck }
                 value={ this.state.password_confirm }
                 className={classnames(styles.boxInput, styles.fontInput)}
                 required/>
@@ -168,6 +247,7 @@ class SignupForm extends React.Component {
                 type="email"
                 placeholder="Email"
                 name="email"
+                ref={this.refInputEmail}
                 onChange={ this._handleChange_Input }
                 value={ this.state.email }
                 className={classnames(styles.boxInput, styles.fontInput)}
@@ -243,7 +323,7 @@ class SignupForm extends React.Component {
                 type='submit'
                 value="Sign Up"
                 className={classnames(styles.boxSubmit)}
-                disabled={this.state.axios? true:false}/>
+                disabled={(this.state.axios && !this.state.greenlight)? true:false}/>
             ):(
               <div
                 className={classnames(styles.boxSubmit)}

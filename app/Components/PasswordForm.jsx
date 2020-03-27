@@ -22,6 +22,7 @@ class PasswordForm extends React.Component {
       message: {}
     };
     this.axiosSource = axios.CancelToken.source();
+    this._check_passwordRules = this._check_passwordRules.bind(this);
     this._handle_settingPassword = this._handle_settingPassword.bind(this);
     this._handleChange_passCheck = this._handleChange_passCheck.bind(this);
     this._handleChange_passOld = ()=>{this.setState({passOld: this.passOld.value});};
@@ -89,12 +90,38 @@ class PasswordForm extends React.Component {
     },()=>{
       if (this.state.passConfirm.length > 0) {
         signal = (this.state.passNew == this.state.passConfirm) ? true : false;
-        this.setState({
-          greenlight: signal? true : false,
-          message:  !signal? {warning: this.props.i18nUIString.catalog['hint_inputMessage_pw'][0]} : {}
+        let messageObj = !signal? {warning: this.props.i18nUIString.catalog['hint_inputMessage_pw'][0]} : {warning: ''};
+        this.setState((prevState, props)=>{
+          return {
+            greenlight: signal? true : false,
+            message:  {...prevState.message, ...messageObj}
+          };
         })
       }
     })
+  }
+
+  _check_passwordRules(event){
+    /*
+    this is an onBlur f(), fires when element has lost focus.
+    it would not bubbles.
+    we planning check if the password fullfill the rules we need.
+    Now just only 1 simple rule: between 6~30 characters
+    */
+    let strLength = event.target.value.length;
+    if(strLength < 6 || strLength > 30) {
+      this.setState({
+        message: {password: 'Password must more than 6 chars (and no more than 30)'}
+      })
+    }
+    else{
+      this.setState((prevState, props)=>{
+        let alternative = {password: ''};
+        return ({
+          message: {...prevState.message, ...alternative}
+        });
+      })
+    };
   }
 
   componentWillUnmount(){
@@ -128,6 +155,7 @@ class PasswordForm extends React.Component {
               type="password"
               ref={(element)=>{this.passNew = element}}
               onChange={this._handleChange_passCheck}
+              onBlur={this._check_passwordRules}
               required/><br/>
             {
               this.state.message.password &&
@@ -147,7 +175,7 @@ class PasswordForm extends React.Component {
             <input
               type='submit'
               value='submit'
-              disabled={this.state.axios? true:false}/>
+              disabled={(this.state.axios && !this.state.greenlight)? true:false}/>
             {
               !this.props.pwreset &&
               <Link
