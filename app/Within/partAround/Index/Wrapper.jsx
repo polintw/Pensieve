@@ -138,8 +138,6 @@ class Wrapper extends React.Component {
             <BelongsMap
               lastVisit={this.state.lastVisit}/>
           </div>
-          <div
-            className={classnames(styles.boxFooter)}></div>
         </div>
         <Route
           path={"/unit"}
