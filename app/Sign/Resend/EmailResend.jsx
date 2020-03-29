@@ -55,7 +55,7 @@ class EmailResend extends React.Component {
     let reqBody = {
       'email': this.state.email
     };
-    let url = (this.purpose == 'verifications')? '/router/register/mail/resend' : '/router/account/password?forget';
+    let url = (this.purpose == 'verifications')? '/router/register/mail/resend' : '/router/account/password';
 
     this.props._set_axiosStatus(true);
     axios.patch(url, reqBody, {

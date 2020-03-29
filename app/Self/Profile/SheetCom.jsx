@@ -47,9 +47,6 @@ class Basic extends React.Component {
       selfCom_Sheet_Basic_list_gender: {
         top: '25%',
       },
-      selfCom_Sheet_Basic_list_birth: {
-        top: '49%',
-      },
     }
   }
 
@@ -57,10 +54,40 @@ class Basic extends React.Component {
   _render_Gender(dbRecords){
     switch (dbRecords) {
       case 0:
-        return (<span>{"Female"}</span>)
+        return (
+          <div
+            style={Object.assign({}, this.style.selfCom_Sheet_Basic_list_gender, styleMiddle.basicList, styleMiddle.fontContent)}>
+            <span>{"gender : "}</span>
+            <span>{"Female"}</span>
+          </div>
+        )
         break;
       case 1:
-        return (<span>{"Male"}</span>)
+        return (
+          <div
+            style={Object.assign({}, this.style.selfCom_Sheet_Basic_list_gender, styleMiddle.basicList, styleMiddle.fontContent)}>
+            <span>{"gender : "}</span>
+            <span>{"Male"}</span>
+          </div>
+        )
+        break;
+      case 30:
+        return (
+          <div
+            style={Object.assign({}, this.style.selfCom_Sheet_Basic_list_gender, styleMiddle.basicList, styleMiddle.fontContent)}>
+            <span>{"pronoun : "}</span>
+            <span>{this.props.i18nUIString.catalog['options_genderPronoun'][1]}</span>
+          </div>
+        )
+        break;
+      case 31:
+        return (
+          <div
+            style={Object.assign({}, this.style.selfCom_Sheet_Basic_list_gender, styleMiddle.basicList, styleMiddle.fontContent)}>
+            <span>{"pronoun : "}</span>
+            <span>{this.props.i18nUIString.catalog['options_genderPronoun'][0]}</span>
+          </div>
+        )
         break;
       default:
         return (<span>{"no gender record"}</span>)
@@ -68,33 +95,13 @@ class Basic extends React.Component {
   }
 
   render(){
-    //let cx = cxBind.bind(styles);
     const sheetRec = this.props.userSheet;
 
     return(
       <div
         style={this.style.selfCom_Sheet_Basic_}>
-        <div
-          style={Object.assign({}, this.style.selfCom_Sheet_Basic_list_gender, styleMiddle.basicList, styleMiddle.fontContent)}>
-          <span>{"gender : "}</span>
-          {this._render_Gender(sheetRec.gender)}
-        </div>
-        <div
-          style={Object.assign({}, this.style.selfCom_Sheet_Basic_list_birth, styleMiddle.basicList, styleMiddle.fontContent)}>
-          <span>{"birthday : "}</span>
-          {
-            (sheetRec.birthDate && sheetRec.birthYear && sheetRec.birthMonth)?(
-              <p
-                style={{display: 'inline-block', margin: '0'}}>
-                <span>{this.props.userSheet.birthDate + ". "}</span>
-                <span>{this.props.userSheet.birthMonth + ". "}</span>
-                <span>{this.props.userSheet.birthYear}</span>
-              </p>
-            ):(
-              <span>{"no birthday record"}</span>
-            )
-          }
-        </div>
+        {this._render_Gender(sheetRec.gender)}
+
       </div>
     )
   }
@@ -165,6 +172,12 @@ class AccountatSheet extends React.Component {
 
 
 
+const mapStateToProps = (state)=>{
+  return {
+    i18nUIString: state.i18nUIString,
+  }
+}
+
 const mapDispatchToProps = (dispatch)=>{
   return {
 
@@ -172,7 +185,7 @@ const mapDispatchToProps = (dispatch)=>{
 }
 
 const reduxConnection = connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 );
 

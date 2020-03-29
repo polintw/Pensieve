@@ -3,9 +3,6 @@ export const initFront = {
   userSheet: {
     ify: false,
     gender: "",
-    birthYear: "",
-    birthMonth:"",
-    birthDate: ""
   }
 }
 

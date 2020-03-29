@@ -79,9 +79,6 @@ function _handle_auth_register_POST(req, res) {
         first_name: req.body.firstName,
         last_name: req.body.lastName,
         gender: req.body.gender,
-        birthYear: req.body.birthYear,
-        birthMonth: req.body.birthMonth,
-        birthDate: req.body.birthDate
       };
       return newUser;
     }

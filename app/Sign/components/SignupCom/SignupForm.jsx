@@ -24,6 +24,7 @@ class SignupForm extends React.Component {
       resMessage: {},
       finalSteps: false,
       greenlight: false,
+      selectOtherGender: false,
       firstName: '',
       lastName: '',
       email: '',
@@ -33,10 +34,13 @@ class SignupForm extends React.Component {
     };
     this.refInputEmail = React.createRef();
     this.refInpuPwConfirm = React.createRef();
+    this.refSelectGender = React.createRef();
     this.axiosSource = axios.CancelToken.source();
     this._render_form = this._render_form.bind(this);
     this._handle_Signup = this._handle_Signup.bind(this);
     this._handleChange_Input = this._handleChange_Input.bind(this);
+    this._handleChange_InputOtherGender = this._handleChange_InputOtherGender.bind(this);
+    this._handleChange_pronounSelect = this._handleChange_pronounSelect.bind(this);
     this._handleChange_passCheck = this._handleChange_passCheck.bind(this);
     this._check_strLength = this._check_strLength.bind(this);
     this._check_passwordRules = this._check_passwordRules.bind(this);
@@ -122,6 +126,19 @@ class SignupForm extends React.Component {
     })
   }
 
+  _handleChange_InputOtherGender(event) {
+    this.setState({
+        gender: event.target.value,
+        selectOtherGender: (event.target.value== "3")? true: false
+    });
+  }
+
+  _handleChange_pronounSelect(event){
+    this.setState({
+      gender: this.refSelectGender.current.value
+    })
+  }
+
   _handleChange_passCheck(event){
     let signal;
     this.setState({
@@ -148,12 +165,14 @@ class SignupForm extends React.Component {
     let emailEle = this.refInputEmail.current;
     let emailValidation = emailEle.checkValidity(), //js f(), would return bool by result of validation
         firstNameValidation = this._check_strLength(this.state.firstName),
-        lastNameValidation = this._check_strLength(this.state.lastName);
+        lastNameValidation = this._check_strLength(this.state.lastName),
+        genderValidation = this._check_strLength(this.state.gender);
 
-    if(!emailValidation || !firstNameValidation || !lastNameValidation){
+    if(!emailValidation || !firstNameValidation || !lastNameValidation || !genderValidation){
       let messageObj = {
-        email: emailValidation? '': 'please fill in the correct form for email address',
-        account: (firstNameValidation || lastNameValidation)? '': 'First and Last name are required.'
+        email: emailValidation? '': this.props.i18nUIString.catalog['message_Signup_Form'][0],
+        account: (firstNameValidation || lastNameValidation)? '': this.props.i18nUIString.catalog['message_Signup_Form'][1],
+        warning: genderValidation? '': this.props.i18nUIString.catalog['message_Signup_Form'][2]
       };
 
       this.setState((prevState, props)=>{
@@ -181,7 +200,7 @@ class SignupForm extends React.Component {
 
   _render_form(){
     return (
-      <form onSubmit={this._handle_Signup}>
+      <form onSubmit={this._handle_Signup} id={'signupForm'}>
         { //becaie we current;y only has 2 steps
           (this.state.finalSteps) ? (
             <div>
@@ -287,8 +306,8 @@ class SignupForm extends React.Component {
                 type="radio"
                 name="gender"
                 value= {"1"}
-                checked={this.state.gender === "1"}
-                onChange={this._handleChange_Input}
+                checked={this.state.gender == "1"}
+                onChange={this._handleChange_InputOtherGender}
                 required/>
               <span
                 className={classnames(styles.spanTag, styles.fontInput)}>
@@ -298,12 +317,34 @@ class SignupForm extends React.Component {
                 type="radio"
                 name="gender"
                 value= {"0"}
-                checked={this.state.gender === "0"}
-                onChange={this._handleChange_Input}/>
+                checked={this.state.gender == "0"}
+                onChange={this._handleChange_InputOtherGender}/>
               <span
                 className={classnames(styles.spanTag, styles.fontInput)}>
                 {'Female'}
               </span>
+              <input
+                type="radio"
+                name="gender"
+                value= {"3"}
+                checked={(this.state.gender == "3" || this.state.gender == "30" || this.state.gender == "31")}
+                onChange={this._handleChange_InputOtherGender}/>
+              <span
+                className={classnames(styles.spanTag, styles.fontInput)}>
+                {'Others'}
+              </span>
+              {
+                this.state.selectOtherGender && (
+                  <div>
+                    <label htmlFor="otherGen">{this.props.i18nUIString.catalog['hint_Signup_gendeSelect']}</label>
+                    <select ref={this.refSelectGender} id="otherGen" form={'signupForm'} required
+                      onChange={this._handleChange_pronounSelect}>
+                      <option value="31">{this.props.i18nUIString.catalog['options_genderPronoun'][0]}</option>
+                      <option value="30">{this.props.i18nUIString.catalog['options_genderPronoun'][1]}</option>
+                    </select>
+                  </div>
+                )
+              }
               {
                 this.state.resMessage.warning &&
                 <div

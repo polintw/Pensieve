@@ -4,7 +4,7 @@ const execute = express.Router();
 const _handle_auth_register_POST = require('./register');
 const {
   _handle_auth_mailConfirm_GET,
-  _handle_auth_mailResend_GET
+  _handle_auth_mailResend_PATCH
 } = require('./mail.js');
 
 execute.get('/mail/confirm', function(req, res){
@@ -14,7 +14,7 @@ execute.get('/mail/confirm', function(req, res){
 
 execute.patch('/mail/resend', function(req, res){
   console.log('GET: register/resend mail');
-  _handle_auth_mailResend_GET(req, res);
+  _handle_auth_mailResend_PATCH(req, res);
 })
 
 execute.post('/', function(req, res){

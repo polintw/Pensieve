@@ -1,7 +1,7 @@
 const path = require("path");
 const jwt = require('jsonwebtoken');
 const Validator = require('validator');
-const deliverVerifiedMail = require('./verifiedMail');
+const deliverVerifiedMail = require('./verifiedMail.js');
 const {
   verify_email
 } = require('../../../config/jwt.js');
@@ -78,7 +78,7 @@ function _handle_auth_mailConfirm_GET(req, res){
   })
 }
 
-function _handle_auth_mailResend_GET(req, res){
+function _handle_auth_mailResend_PATCH(req, res){
   new Promise((resolve, reject)=>{
     //input format validation first
     let errors = {};
@@ -154,5 +154,5 @@ function _handle_auth_mailResend_GET(req, res){
 
 module.exports = {
   _handle_auth_mailConfirm_GET,
-  _handle_auth_mailResend_GET
+  _handle_auth_mailResend_PATCH
 };

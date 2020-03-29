@@ -88,6 +88,13 @@ export const i18nUIStringInit = {
      "guidingChain_noSharedEst.": ["You would be the first one to share about your corner."],
      "message_Resend_PassReset": "Your password has been updated. Please Sign in with new password. ",
      "hint_inputMessage_pw": ["keep the password in same!"],
+     "hint_Signup_gendeSelect": "How do you want us to call you?",
+     "options_genderPronoun": ["He/Him", "She/Her"],
+     "message_Signup_Form": [
+       "please fill in the correct form for email address.",
+       "First and Last name are required.",
+       "please choose your gender, or select desired pronoun by 'Others'."
+     ],
 
 
      "hintEmptyNode": "This Corner is still Waiting to be explored. Be the first one to wonder and wander!",
