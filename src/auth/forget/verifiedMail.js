@@ -1,9 +1,9 @@
 const nodemailer = require("nodemailer");
-const winston = require('../../config/winston.js');
+const winston = require('../../../config/winston.js');
 const {
   smtpAccount,
   domain
-} = require('../../config/services.js');
+} = require('../../../config/services.js');
 
 const _render_HtmlBody = (token)=>{
   return (

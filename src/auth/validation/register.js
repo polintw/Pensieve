@@ -7,9 +7,10 @@ module.exports = function validateRegisterInput(data) {
     data.email = !isEmpty(data.email) ? data.email : '';
     data.password = !isEmpty(data.password) ? data.password : '';
     data.password_confirm = !isEmpty(data.password_confirm) ? data.password_confirm : '';
+    data.gender = !isEmpty(data.gender) ? data.gender : '';
 
-    if(!Validator.isLength(data.account, { min: 2, max: 30 })) {
-        errors.account = 'Both first and family name must be between 1 to 20 chars';
+    if(!Validator.isLength(data.account, { min: 2, max: 42 })) {
+        errors.account = 'Both first and family name are required.';
     }
 
     if(Validator.isEmpty(data.account)) {
@@ -42,6 +43,10 @@ module.exports = function validateRegisterInput(data) {
 
     if(Validator.isEmpty(data.password_confirm)) {
         errors.password_confirm = 'Password is required';
+    }
+
+    if (Validator.isEmpty(data.gender)) {
+        errors.warning = 'Select a gender or set pronoun.';
     }
 
     return {

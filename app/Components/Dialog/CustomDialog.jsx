@@ -27,7 +27,7 @@ class CustomDialog extends React.Component {
     return(
       <div
         className={classnames(commonStyles.comCustomDialog)}
-        onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
+        onClick={(e) => { /*NOTICE! Do not set stoppropagation() or prevetdefault on this component! <form>、<input> etc. inside any children need to propagete to browser.*/ }}>
         {this.props.children}
       </div>
     )

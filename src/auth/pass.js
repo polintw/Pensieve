@@ -2,7 +2,10 @@ const express = require('express');
 const pass = express.Router();
 const jwt = require('jsonwebtoken');
 const winston = require('../../config/winston.js');
-const {verify_key} = require('../../config/jwt.js');
+const {
+  verify_key,
+  verify_forget
+} = require('../../config/jwt.js');
 const {
   _handle_ErrCatched,
   authorizedError,
@@ -13,9 +16,12 @@ pass.use(function(req, res, next) {
   if(process.env.NODE_ENV == 'development') winston.verbose('GET: auth/pass check ');
 
   let token = req.body.token || req.headers['token'] || req.query.token;
-  let resData = {};
+
   if (token) {
-    jwt.verify(token, verify_key, function(err, decoded) {
+    /*There is a special api: /account/password?forget */
+    let keyUsed = !!req.query.forget ? verify_forget : verify_key ;
+
+    jwt.verify(token, keyUsed, function(err, decoded) {
       if (err) {
         _handle_ErrCatched(new authorizedError("unauthorize throw by pass.js, "+err, 32), req, res);
       } else {

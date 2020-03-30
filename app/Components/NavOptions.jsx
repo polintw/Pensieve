@@ -76,7 +76,7 @@ export default class NavOptions extends React.Component {
     event.preventDefault();
     localStorage.removeItem('token');
     localStorage.removeItem('tokenRefresh');
-    window.location.assign('/s/signin');
+    window.location.assign('/');
   }
 
   render(){
