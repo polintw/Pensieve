@@ -80,7 +80,7 @@ function _handle_password_ForgetResend_PATCH(req, res){
       //complete the process, and response to client
       let resData = {
         "code": "",
-        "message": {"warning": "Resetting mail has been sent to email address you typed."},
+        "message": {"warning": "Password resetting link has been sent to email address you input."},
         "console": ""
       };
       res.status(200).json(resData);

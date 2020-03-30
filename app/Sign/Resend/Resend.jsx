@@ -12,6 +12,8 @@ import EmailResend from './EmailResend.jsx';
 import PasswordReset from './PasswordReset.jsx';
 import SvgLogo from '../../Components/Svg/SvgLogo.jsx';
 import ServiceLinks from '../../Components/ServiceLinks.jsx';
+import ModalBox from '../../Components/ModalBox.jsx';
+import ModalBackground from '../../Components/ModalBackground.jsx';
 import SingleDialog from '../../Components/Dialog/SingleDialog/SingleDialog.jsx';
 import {
   setSignInit,

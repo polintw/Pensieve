@@ -2,6 +2,7 @@ const express = require('express');
 const execute = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const Validator = require('validator');
 const validatePasswordChangedInput = require('./validation/password');
 const {
   verify_key,
@@ -17,13 +18,14 @@ const {
   authorizedError,
   notFoundError
 } = require('../utils/reserrHandler.js');
+const isEmpty = require('../utils/isEmpty');
 
 //handle register request
 function _handle_account_password_PATCH(req, res) {
   new Promise((resolve, reject)=>{
     const { validationErrors, isValid } = validatePasswordChangedInput(req.body);
 
-    if(!!req.query.forget){
+    if(!req.query.forget){ //not for 'forgetting password'
       req.body.password_old = !isEmpty(req.body.password_old) ? req.body.password_old : '';
       if (Validator.isEmpty(req.body.password_old)) {
         validationErrors.password_old = 'Current password is required.';
@@ -39,7 +41,7 @@ function _handle_account_password_PATCH(req, res) {
     There are 2 condition entering this api: from 'change password' in Sheet, or from forgot password.
      */
     let selectMethod = ()=>{
-      if(!!req.query.forget) return //just pass to hash if it was from forget password
+      if(!!req.query.forget) return Promise.resolve() //if for forget password, just resolve() to next .then
       else {
         let mysqlForm = {
           accordancesList: [[userId]]

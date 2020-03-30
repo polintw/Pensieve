@@ -9,7 +9,7 @@ import classnames from 'classnames';
 import styles from './styles.module.css';
 import SigninForm from '../../Sign/components/SigninForm/SigninForm.jsx';
 import SignupForm from '../../Sign/components/SignupCom/SignupForm.jsx';
-import SignUpSuccess from '../../Sign/components/SignupCom/SignUpSuccess.jsx';
+import SignupSuccess from '../../Sign/components/SignupCom/SignupSuccess.jsx';
 
 class WithinSign extends React.Component {
   constructor(props){
@@ -85,7 +85,7 @@ class WithinSign extends React.Component {
       case 'signupsuccess':
         return (
           <div>
-            <SignUpSuccess
+            <SignupSuccess
               {...this.props}
               _switch_Sign={this._switch_Sign}/>
           </div>

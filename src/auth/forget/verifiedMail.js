@@ -15,7 +15,7 @@ const _render_HtmlBody = (token)=>{
       '</section>'+
       '<div>'+
         '<p>Please clicking link below to reset your password.</p>'+
-        '<a href="https://'+domain.name+'/s/resend/pwreset?token='+token+'">Reset.</a>'+
+        '<a href="'+domain.name+'/s/resend/pwreset?token='+token+'">Reset.</a>'+
       '</div>'+
       '</body>'+
     '</html>'
@@ -36,14 +36,14 @@ function deliverVerifiedMail(userInfo, token){
     let mailOptions = {
       from: '"Cornerth team" <noreply@cornerth.com>', // sender address
       to: userInfo.email, // list of receivers
-      subject: userInfo.first_name+", password resetting.", // Subject line
+      subject: "[Resetting your password.]", // Subject line
       html: _render_HtmlBody(token)
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) reject({status: 500, err: 'There was an error '+error});
       else{
-        winston.info('Address verification %s sent: %s', info.messageId, info.response);
+        winston.info('Password reset %s sent: %s', info.messageId, info.response);
         resolve();
       }
     });
