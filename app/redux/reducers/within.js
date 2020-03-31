@@ -13,7 +13,8 @@ import {
 import {
   SET_INDEXLISTS,
   SET_BELONGSBYTYPE,
-  SUBMIT_FEEDASSIGN
+  SUBMIT_FEEDASSIGN,
+  SUBMIT_CHAINLIST
 } from '../types/typesWithin.js';
 import {
   SET_UNITVIEW,
@@ -86,7 +87,12 @@ function pageWithin(state = initialGeneral, action){
       break;
     case SUBMIT_FEEDASSIGN:
       return Object.assign({}, state, {
-        indexLists: {...state.indexLists, ...action.listsObj}
+        indexLists: { ...state.indexLists, ...action.listsObj }
+      })
+      break;
+    case SUBMIT_CHAINLIST:
+      return Object.assign({}, state, {
+        chainList: { ...state.chainList, ...action.listsObj}
       })
       break;
     case UPDATE_NOUNSBASIC:

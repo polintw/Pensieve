@@ -47,7 +47,7 @@ class ChainMessage extends React.Component {
           {this.props.i18nUIString.catalog["guidingChain_noBelongSet"]}
         </div>
       )
-    }else if(this.props.displayOrder.length < 1 && recKeys.length >0){
+    } else if (this.props.chainList.listOrderedChain.length < 1 && recKeys.length >0){
       return (
         <div
           className={classnames(styles.boxBlankHint, stylesFont.fontTitleHint, stylesFont.colorLightHint)}>
@@ -66,7 +66,7 @@ class ChainMessage extends React.Component {
         className={classnames(styles.comChainMessage)}>
         {this._render_HintMessage(recKeys)}
         {
-          (this.props.displayOrder.length < 1 && recKeys.length >0) && //that's, has Belong, but never shared and has read all
+          (this.props.chainList.listOrderedChain.length < 1 && recKeys.length >0) && //that's, has Belong, but never shared and has read all
           <div
             className={classnames(styles.boxCreate)}>
             <div
@@ -90,7 +90,8 @@ const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
-    belongsByType: state.belongsByType
+    belongsByType: state.belongsByType,
+    chainList: state.chainList
   }
 }
 

@@ -11,6 +11,10 @@ export const initCosmic = {
 }
 
 export const initAround = {
+  chainList: {
+    listOrderedChain: [],
+    listInfo: {}
+  },
   indexLists: {
     listUnread: [],
     listUnreadNew: [],

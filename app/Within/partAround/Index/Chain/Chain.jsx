@@ -19,6 +19,8 @@ import {
   handleNounsList,
   handleUsersList,
 } from "../../../../redux/actions/general.js";
+import { submitChainList
+} from "../../../../redux/actions/within.js";
 import {
   cancelErr,
   uncertainErr
@@ -30,8 +32,6 @@ class Chain extends React.Component {
     this.state = {
       axios: false,
       fetched: false,
-      displayOrder: [],
-      displayInfo: {}, // unitId: type
       unitsBasic: {},
       marksBasic: {}
     };
@@ -70,9 +70,11 @@ class Chain extends React.Component {
         displayInfo[resObj.main[key]] = key;
       });
 
+      self.props._submit_list_Chain({
+        listOrderedChain: displayOrder,
+        listInfo: displayInfo
+      });
       self.setState({
-        displayOrder: displayOrder,
-        displayInfo: displayInfo, // unitId: type.
         fetched: true,
       });
       self.props._set_mountToDo('chainlist'); // and, after we get the list back, inform the parent we are done with the lastVisit time
@@ -178,13 +180,13 @@ class Chain extends React.Component {
       }
 
     }
-    this.state.displayOrder.forEach((unitId, index) => {
+    this.props.chainList.listOrderedChain.forEach((unitId, index) => {
       //render if there are something in the data
       if( !(unitId in this.state.unitsBasic)) return; //skip if the info of the unit not yet fetch
 
       nailsDOM.push(
         <div>
-          {_nailTitle(this.state.displayInfo[unitId])}
+          {_nailTitle(this.props.chainList.listInfo[unitId])}
           <div
             key={"key_ChainNail_"+index}
             className={classnames(stylesNail.boxNail, stylesNail.heightBasic, stylesNail.wideBasic)}>
@@ -212,14 +214,13 @@ class Chain extends React.Component {
           _submit_Share_New={this._submit_Share_New}
           _refer_von_cosmic={this.props._refer_von_cosmic}/>
         {
-          (this.state.displayOrder.length > 0) &&
+          (this.props.chainList.listOrderedChain.length > 0) &&
           <div
             className={classnames(styles.boxModule)}>
             {this._render_ChainUnits()}
             <div
               className={classnames(styles.boxChainUpload)}>
               <ChainUpload
-                {...this.state}
                 _submit_Share_New={this._submit_Share_New}
                 _refer_von_cosmic={this.props._refer_von_cosmic}/>
             </div>
@@ -235,7 +236,8 @@ const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
-    belongsByType: state.belongsByType
+    belongsByType: state.belongsByType,
+    chainList: state.chainList
   }
 }
 
@@ -243,6 +245,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
     _submit_UsersList_new: (arr) => { dispatch(handleUsersList(arr)); },
+    _submit_list_Chain: (obj) => { dispatch(submitChainList(obj)); }
   }
 }
 
