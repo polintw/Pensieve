@@ -70,8 +70,8 @@ export const i18nUIStringInit = {
      "descript_Sign_termsDeclaim": [
        "By clicking “sign up”, you agree our", " Terms", " of Services and ", "Privacy Policy", "."],
      "guidingCreateShare_AssignGroup": "sharing to people linked to which of your corner?",
-     "guiding_FeedAssigned_noBelongHint": "Setting your homeland or current stay before geting news from your fellows!",
-     "guiding_FeedAssigned_noneAssigned": "how's your home going?",
+     "guiding_FeedAssigned_noneAssigned": "Not yet any unit was shared. But let's take a look at other places:",
+     "guiding_FeedAssigned_noShared": "how's your home going?",
      "message_Unit_Editing_AssignNotAllowed": "the corner linked to could Not be changed after first release.",
      "message_Unit_EraseConfirm": ["No one would see this Shared after erase, including you. ", "Are you sure your going to erase this Shared?"],
      "message_Unit_EraseRes": ["This Shared has beed erased successfully."],
@@ -95,7 +95,6 @@ export const i18nUIStringInit = {
        "First and Last name are required.",
        "please choose your gender, or select desired pronoun by 'Others'."
      ],
-
 
      "hintEmptyNode": "This Corner is still Waiting to be explored. Be the first one to wonder and wander!",
      "hintEmptyNode_contributors": "waiting for someone, perhaps that's just you! ",

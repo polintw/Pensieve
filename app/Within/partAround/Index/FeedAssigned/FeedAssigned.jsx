@@ -30,6 +30,8 @@ class FeedAssigned extends React.Component {
     super(props);
     this.state = {
       axios: false,
+      statusAllread: false,
+      statusNoneAssigned: false,
       unitsBasic: {},
       marksBasic: {}
     };
@@ -54,8 +56,13 @@ class FeedAssigned extends React.Component {
       let idlistUnread = resObj.main.listUnread.map((unitsObj, index)=>{ return unitsObj.unitId;});
       this.props._submit_list_FeedAssigned({
           listUnreadNew: idlistUnreadNew,
-          listUnread: idlistUnread
-      })
+          listUnread: idlistUnread,
+      });
+      this.setState({
+        statusAllread: resObj.main.allread,
+        statusNoneAssigned: resObj.main.noneassigned
+      });
+
       let unitslist = idlistUnread.concat(idlistUnreadNew);
 
       return unitslist.length > 0 ?(
@@ -119,7 +126,7 @@ class FeedAssigned extends React.Component {
     if(this.recKeys.length > 0 && lastvisitchangeify){ // usually at the landing render cycle, not yet fetched and finally got the lastVisit data
       this._set_feedUnits(this.props.lastVisit);
     };
-    
+
     let residenceify = (this.props.belongsByType['residence'] == prevProps.belongsByType['residence']) ? true:false;
     let homelandify = (this.props.belongsByType['homeland'] == prevProps.belongsByType['homeland']) ? true:false;
     if(this.recKeys.length > 0 && this.props.lastVisit&& (!residenceify || !homelandify)){ //this one is for situation setting new belong
@@ -176,25 +183,27 @@ class FeedAssigned extends React.Component {
               className={classnames(styles.boxModule)}>
               {this._render_FeedNails('unreadNew')}
             </div>
-            <div>{this.props.i18nUIString.catalog['title_FeedAssigned_AllRead']}</div>
+            {
+              this.state.statusNoneAssigned ? (
+                <div>{this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned']}</div>
+              ): (
+                <div>{this.props.i18nUIString.catalog['title_FeedAssigned_AllRead']}</div>
+              )
+            }
+
             <div
               className={classnames(styles.boxModule)}>
               {this._render_FeedNails('unread')}
             </div>
+            {
+              (this.props.chainList.listOrderedChain.length< 1) &&
+              <div>
+                {this.props.i18nUIString.catalog['guiding_FeedAssigned_noShared']}
+              </div>
+            }
           </div>
         }
-        {
-          (concatList.length< 1)  &&
-          ( !(this.recKeys.length > 0) ? (
-            <div>
-              {this.props.i18nUIString.catalog['guiding_FeedAssigned_noBelongHint']}
-            </div>
-          ):(
-            <div>
-              {this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned']}
-            </div>
-          ))
-        }
+
       </div>
     )
   }
@@ -205,7 +214,8 @@ const mapStateToProps = (state)=>{
     userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
     belongsByType: state.belongsByType,
-    indexLists: state.indexLists
+    indexLists: state.indexLists,
+    chainList: state.chainList
   }
 }
 

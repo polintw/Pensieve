@@ -46,43 +46,43 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
     _handle_ErrCatched(new internalError("from _DB_usersNodesResidence selection _handle_GET_feedUnitslist_assigned, "+err, 131), req, res);});
 
   const _find_assigned_unread = (userId, belongList)=>{
-    return _DB_usersUnits.findAll({
-      where: {
-        id_user: userId,
-      }
-    })
-    .then((results)=>{
-      //results represent all the units read by the user,
-      //ask it to make a units list
-      let readList = results.map((row, index)=>{
-        return row.id_unit;
-      });
-
-      return _DB_unitsNodes_assign.findAll({
+    return Promise.all([
+      _DB_usersUnits.findAll({
+        where: {
+          id_user: userId,
+        }
+      }).then((result)=>{return result;}),
+      _DB_unitsNodes_assign.findAll({
         where: {
           nodeAssigned: belongList,
-          id_unit: {[Op.notIn]: readList}, //unread
-          id_author: {[Op.ne]: userId} //not user him/herself
         },
         order: [ //make sure the order of arr are from latest
           Sequelize.literal('`createdAt` DESC') //and here, using 'literal' is due to some wierd behavior of sequelize,
           //it would make an Error if we provide col name by 'arr'
         ],
         limit: 32
-      })
+      }).then((result)=>{return result;})
       .catch((err)=>{throw err})
-    }) //and we have to select from units for getting exposedId
-    .then((resultAssign)=>{
-      /*
-      the resultAssign has 2 possibility:
-      - has result, an unread assigned Unit, or
-      - length ==0, and we have to know why: read everything or no rec belong to Belong at all
-      */
-      if(resultAssign.length < 1){ // if the matched, we then pick 'last one' to represent
+    ])
+    .then(([resultRead, resultNodesAssign])=>{
+      //compare 2 selection, remove units read by the user from assignedList
+      let readList = resultRead.map((row, index)=>{
+        return row.id_unit;
+      });
+      let unreadList = resultNodesAssign.filter((row, index) => {
+        return readList.indexOf(row.id_unit) < 0
+      });
+
+      if(unreadList.length > 0) return {status: 'unread', list: unreadList}
+      else if(resultNodesAssign.length > 0){ //if all assigned were read, return the last one in selection(not the latest)
+        let readOne = [];
+        readOne.push(resultNodesAssign[resultNodesAssign.length-1]); //keep the instance in an arr
+        return {status: 'allread', list: readOne};
+      }
+      else{ //which means no assigned to user's belong at all
         return _DB_unitsNodes_assign.findAll({
           where: {
-            nodeAssigned: belongList,
-            id_author: {[Op.ne]: userId} //not user him/herself
+            id_author: {[Op.ne]: userId} //any but not user him/herself
           },
           order: [
             Sequelize.literal('`createdAt` DESC') //and here, using 'literal' is due to some wierd behavior of sequelize,
@@ -91,19 +91,16 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
           limit: 1 //because we use 'findAll' to keep form consistency, we set 'limit' to mimic 'findOne'
         })
         .then((result)=>{
-          if(!!result) return result
-          else{  // still empty(null), only when none of belong has any assigned
-            let arr = [];
-            return arr;
-          }
+          return {status: 'noneassigned', list: result};
         })
         .catch((err)=>{throw err})
-      }else return resultAssign;
+      }
 
-    })
-    .then((assignedList)=>{
-      let unitsList=[], unitsInfo={} ;
-      assignedList.forEach((row,index)=>{
+    }) //and we have to select from units for getting exposedId
+    .then((selectResultObj)=>{
+      let unitsList=[],
+          unitsInfo={listStatus: selectResultObj.status} ; //status was for whole list, set directly
+      selectResultObj.list.forEach((row,index)=>{
         /*
         it is possible that one unit has two assigned (for current situation, homeland & residence are both assigned),
         so we also need to distinguish it
@@ -127,7 +124,8 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
             id_unit: row.id,
             exposedId: row.exposedId,
             createdAt: row.createdAt,
-            assignedInfo: unitsInfo[row.id]
+            assignedInfo: unitsInfo[row.id],
+            listStatus: unitsInfo.listStatus //keep it in every unit, later would be check by foreach
           };
         });
         return assignedUnits;
@@ -153,16 +151,18 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
       let sendingData={
         listUnread: [],
         listUnreadNew: [],
+        noneassigned: false,
+        allread: false,
         temp: {}
       };
-
+      let newSetResi = (userResidence.createdAt > lastVisit)? true : false;
+      let newSetHome = (userHomeland.createdAt > lastVisit)? true : false;
+      
       assignedUnits.forEach((unitObj, index) => {
         /*
         distinguish: if the req are the 1st after belong set
         */
-        let newSetResi = (userResidence.createdAt > lastVisit)? true : false;
-        let newSetHome = (userHomeland.createdAt > lastVisit)? true : false;
-        if(newSetResi || newSetHome){ // if one or both belong are new set
+        if( unitObj.listStatus != 'noneassigned' && newSetResi || newSetHome){ // if one or both belong are new set, and! there is any assigned to it
           if(newSetResi && 'residence' in unitObj.assignedInfo) {sendingData.listUnreadNew.push({unitId: unitObj.exposedId});return;};
           if(newSetHome && 'homeland' in unitObj.assignedInfo) {sendingData.listUnreadNew.push({unitId: unitObj.exposedId});return;};
         };
@@ -171,6 +171,9 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
           sendingData.listUnread.push({unitId: unitObj.exposedId});
         }
         else sendingData.listUnreadNew.push({unitId: unitObj.exposedId});
+
+        sendingData.noneassigned = (unitObj.listStatus =='noneassigned') ? true : false; //lazy way to use status pass in every row of unit
+        sendingData.allread = (unitObj.listStatus =='allread') ? true : false;
       });
       return sendingData;
 
