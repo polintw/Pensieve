@@ -21,7 +21,8 @@ import {
   initAround
 } from '../../../redux/states/statesWithin.js';
 import {
-  setIndexList
+  setIndexList,
+  setWithinFlag
 } from "../../../redux/actions/within.js";
 import {
   cancelErr,
@@ -40,12 +41,17 @@ class Wrapper extends React.Component {
     };
     this.axiosSource = axios.CancelToken.source();
     this._set_mountToDo = this._set_mountToDo.bind(this);
+    this._createdRespond = this._createdRespond.bind(this);
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
   }
 
   _construct_UnitInit(match, location){
     let unitInit= {marksify: false, initMark: "all", layer: 0};
     return unitInit;
+  }
+
+  _createdRespond(){
+    this.props._set_WithinFlag(true, "chainFetRespond");
   }
 
   _set_mountToDo(item){
@@ -142,7 +148,14 @@ class Wrapper extends React.Component {
         </div>
         <Route
           path={"/unit"}
-          render={(props)=> <UnitScreen {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_von_cosmic}/>}/>
+          render={(props)=> {
+            return (
+              <UnitScreen
+                {...props}
+                _createdRespond= {this._createdRespond}
+                _construct_UnitInit={this._construct_UnitInit}
+                _refer_von_unit={this.props._refer_von_cosmic}/>)
+          }}/>
 
       </div>
     )
@@ -158,7 +171,8 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    _set_IndexLists: (obj) => { dispatch(setIndexList(obj)); }
+    _set_IndexLists: (obj) => { dispatch(setIndexList(obj)); },
+    _set_WithinFlag: (bool, flag) => {dispatch(setWithinFlag(bool, flag)); }
   }
 }
 

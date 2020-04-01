@@ -48,11 +48,11 @@ class Chain extends React.Component {
     this._set_ChainUnits();
   }
 
-  _set_ChainUnits(){
+  _set_ChainUnits(params){
     const self = this;
     this.setState({axios: true});
 
-    this._axios_get_chainlist()
+    this._axios_get_chainlist(params)
     .then((resObj)=>{
       //(we don't update the 'axios' state, because there is another axios here, for units, right after the res)
       /*
@@ -64,7 +64,7 @@ class Chain extends React.Component {
               }
       */
       let displayOrder = [], displayInfo={};
-      displayOrder.push(resObj.main['userShared'], resObj.main['resToShared'],resObj.main['resToRespond'],resObj.main['latestShared']);
+      displayOrder.push(resObj.main['sharedPrimer'], resObj.main['userShared'], resObj.main['resToShared'],resObj.main['resToRespond'],resObj.main['latestShared']);
       displayOrder = displayOrder.filter((item, index)=> {return item}); //use the property the item would be 'false' if none
       Object.keys(resObj.main).forEach((key, index) => {
         displayInfo[resObj.main[key]] = key;
@@ -105,8 +105,16 @@ class Chain extends React.Component {
     });
   }
 
-  _axios_get_chainlist(){
-    return axios.get('/router/feed/chainlist', {
+  _axios_get_chainlist(params){
+    let paramObj = {};
+    params.forEach((param, index) => {
+      paramObj[param.key] = param.value;
+    });
+
+    return axios({
+      method: 'get',
+      url: '/router/feed/chainlist',
+      params: paramObj,
       headers: {
         'Content-Type': 'application/json',
         'charset': 'utf-8',
@@ -132,6 +140,8 @@ class Chain extends React.Component {
     if(recKeys.length > 0 && (!residenceify || !homelandify)){ //if Not the same
       this._set_ChainUnits();
     };
+    //monitor flag for this comp.
+    if(this.props.flagChainFetRespond && this.props.flagChainFetRespond != prevProps.flagChainFetRespond) this._set_ChainUnits([{key: 'respond',value:true}]);
   }
 
   componentDidMount(){
@@ -237,7 +247,8 @@ const mapStateToProps = (state)=>{
     userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
     belongsByType: state.belongsByType,
-    chainList: state.chainList
+    chainList: state.chainList,
+    flagChainFetRespond: state.flagChainFetRespond
   }
 }
 

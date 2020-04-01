@@ -11,6 +11,7 @@ export const initCosmic = {
 }
 
 export const initAround = {
+  flagChainFetRespond: false,
   chainList: {
     listOrderedChain: [],
     listInfo: {}

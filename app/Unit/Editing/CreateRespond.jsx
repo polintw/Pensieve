@@ -33,8 +33,8 @@ class CreateRespond extends React.Component {
   }
 
   _submit_Share_New(resMain){
-    //no doubt, it's a 'lazy' deal
-    window.location.assign('/unit?theater&unitId='+resMain.unitId);
+    this.props._createdRespond();
+    this.props._close_theaterHeigher();
   }
 
   _handleClick_bg(event){
@@ -111,8 +111,7 @@ class CreateRespond extends React.Component {
       //then second call this, perhaps unmount the component so need to be called after redux state reset
       //pass the res data which including id of unit
       self._submit_Share_New(resObj.main);
-      //local state was final, as a last defense in case the user click the submit during a very small 'window'
-      self.setState(initState);
+
     }).catch(function (thrown) {
       self.props._set_unitSubmitting(false);
       if (axios.isCancel(thrown)) {

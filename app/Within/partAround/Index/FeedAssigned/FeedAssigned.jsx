@@ -38,7 +38,15 @@ class FeedAssigned extends React.Component {
     this.axiosSource = axios.CancelToken.source();
     this._set_feedUnits = this._set_feedUnits.bind(this);
     this._render_FeedNails = this._render_FeedNails.bind(this);
+    this._filter_repeatedChin = this._filter_repeatedChin.bind(this);
     this._axios_get_assignedList = this._axios_get_assignedList.bind(this);
+  }
+
+  _filter_repeatedChin(unitslist){
+    unitslist = unitslist.filter((unitId, index)=>{
+      return this.props.chainList.listOrderedChain.indexOf(unitId) < 0
+    })
+    return unitslist;
   }
 
   _set_feedUnits(lastVisit){
@@ -54,6 +62,10 @@ class FeedAssigned extends React.Component {
       //(we don't update the 'axios' state, because there is another axios here, for units, right after the res)
       let idlistUnreadNew = resObj.main.listUnreadNew.map((unitsObj, index)=>{ return unitsObj.unitId;});
       let idlistUnread = resObj.main.listUnread.map((unitsObj, index)=>{ return unitsObj.unitId;});
+      //it is possible the Unread list conatin unit respond to user Shared, we have to rm them
+      idlistUnreadNew = this._filter_repeatedChin(idlistUnreadNew);
+      idlistUnread = this._filter_repeatedChin(idlistUnread);
+
       this.props._submit_list_FeedAssigned({
           listUnreadNew: idlistUnreadNew,
           listUnread: idlistUnread,
@@ -64,7 +76,6 @@ class FeedAssigned extends React.Component {
       });
 
       let unitslist = idlistUnread.concat(idlistUnreadNew);
-
       return unitslist.length > 0 ?(
         axios_get_UnitsBasic(self.axiosSource.token, unitslist) //and use the list to get the data of eahc unit
       ): ({ main: {
@@ -131,6 +142,16 @@ class FeedAssigned extends React.Component {
     let homelandify = (this.props.belongsByType['homeland'] == prevProps.belongsByType['homeland']) ? true:false;
     if(this.recKeys.length > 0 && this.props.lastVisit&& (!residenceify || !homelandify)){ //this one is for situation setting new belong
       this._set_feedUnits(this.props.lastVisit);
+    };
+    //another situation need to update was, when the Chain was updated, we have to rm repeated if there was any
+    if( //it's 'array' we have to compare to, but actually, we only care the very beginning, the 'first fetch' after mount
+      prevProps.chainList.listOrderedChain.length != this.props.chainList.listOrderedChain.length ){
+        let checkedUnreadNew = this._filter_repeatedChin(this.props.indexLists.listUnreadNew);
+        let checkedUnread = this._filter_repeatedChin(this.props.indexLists.listUnread);
+        this.props._submit_list_FeedAssigned({
+            listUnreadNew: checkedUnreadNew,
+            listUnread: checkedUnread,
+        });
     };
   }
 
