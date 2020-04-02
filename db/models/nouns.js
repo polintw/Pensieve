@@ -7,7 +7,9 @@ module.exports = (sequelize, DataTypes) => {
     category: DataTypes.STRING,
     language: DataTypes.TEXT('tiny'),
     parent: DataTypes.BOOLEAN,
-    child: DataTypes.BOOLEAN
+    child: DataTypes.BOOLEAN,
+    parent_id: DataTypes.INTEGER,
+    prefix_correspond_id: DataTypes.INTEGER,
   }, {
     charset: 'utf8mb4', //for Mandarin, or emoji if you don't speak in mandarin
   });

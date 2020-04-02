@@ -107,7 +107,7 @@ class Chain extends React.Component {
 
   _axios_get_chainlist(params){
     let paramObj = {};
-    params.forEach((param, index) => {
+    if(!!params) params.forEach((param, index) => {
       paramObj[param.key] = param.value;
     });
 
