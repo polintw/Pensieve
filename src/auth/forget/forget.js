@@ -52,7 +52,7 @@ function _handle_password_ForgetResend_PATCH(req, res){
               expiresIn: '30m'
             }, (err, token) => {
               if(err){
-                rejectJWT(new internalError("jwt.sign error in account/password.js", 131));
+                rejectJWT(new internalError({"warning": "jwt.sign error in forget/password.js"}, 131));
               }
               else {
                 resolveJWT(token);

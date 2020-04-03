@@ -12,7 +12,7 @@ import {LinkSignIn} from './SignupFormComps.jsx';
 import {
   cancelErr,
   uncertainErr
-} from '../../utils/errHandler_axios.js';
+} from '../../../utils/errHandlers.js';
 import SvgLogo from '../../../Components/Svg/SvgLogo.jsx';
 import MaskProcessing from '../../../Components/MaskProcessing.jsx';
 

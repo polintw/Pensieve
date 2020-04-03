@@ -19,6 +19,7 @@ class WithinSign extends React.Component {
     };
     this._switch_Sign = this._switch_Sign.bind(this);
     this._signin_success = this._signin_success.bind(this);
+    this._signup_success = this._signup_success.bind(this);
     this._render_signInDialog = this._render_signInDialog.bind(this);
   }
 
