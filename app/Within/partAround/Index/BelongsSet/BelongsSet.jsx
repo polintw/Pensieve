@@ -25,6 +25,7 @@ import {
 } from "../../../../redux/actions/general.js";
 import {
   setBelongsByType,
+  fetchBelongsSeries
 } from "../../../../redux/actions/within.js";
 
 /*
@@ -123,7 +124,8 @@ class BelongsSet extends React.Component {
       let byTypeObj = belongObj.main.categoryObj;
 
       self.props._submit_NounsList_new(nodesList); //GET nodes info by Redux action
-      self.props._submit_belongsByType(byTypeObj)
+      self.props._submit_belongsByType(byTypeObj);
+      self.props._fetch_belongsSeries(byTypeObj);
     })
     .catch(function (thrown) {
       self.setState({axios: false});
@@ -221,6 +223,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
     _submit_belongsByType: (obj) => { dispatch(setBelongsByType(obj)); },
+    _fetch_belongsSeries: (obj) => { dispatch(fetchBelongsSeries(obj)); },
   }
 }
 

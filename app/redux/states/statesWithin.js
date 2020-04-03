@@ -1,5 +1,8 @@
 export const initWithin = {
-  belongsByType: {},
+  belongsByType: {
+    "homeland": null,
+    "homelandup": {}
+  },
 }
 
 export const initCosmic = {

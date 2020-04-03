@@ -135,11 +135,10 @@ export function handleUsersList(usersArr) {
     }).then((res)=>{
       let resObj = JSON.parse(res.data);
       dispatch({type: UPDATE_USERSBASIC, newFetch: resObj.main.usersBasic})
-    }).catch(function (thrown) {
-      let customSwitch = (status)=>{
-        return null
-      };
-      errHandler_axiosCatch(thrown, customSwitch);
+    })
+    .catch(function (thrown) {
+      let message = uncertainErr(thrown);
+      if(message) alert(message);
     });
   }
 }
