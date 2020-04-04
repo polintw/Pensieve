@@ -16,6 +16,7 @@ const {
   internalError,
   validationError
 } = require('../../utils/reserrHandler.js');
+const {selectNodesParent} = require('../../nouns/utils.js');
 
 
 async function _handle_GET_feedUnitslist_assigned(req, res){
@@ -45,7 +46,7 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
   .catch((err)=>{
     _handle_ErrCatched(new internalError("from _DB_usersNodesResidence selection _handle_GET_feedUnitslist_assigned, "+err, 131), req, res);});
 
-  const _find_assigned_unread = (userId, belongList)=>{
+  const _find_assigned_unread = (userId, targetList)=>{
     return Promise.all([
       _DB_usersUnits.findAll({
         where: {
@@ -54,13 +55,13 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
       }).then((result)=>{return result;}),
       _DB_unitsNodes_assign.findAll({
         where: {
-          nodeAssigned: belongList,
+          nodeAssigned: targetList,
         },
         order: [ //make sure the order of arr are from latest
           Sequelize.literal('`createdAt` DESC') //and here, using 'literal' is due to some wierd behavior of sequelize,
           //it would make an Error if we provide col name by 'arr'
         ],
-        limit: 32
+        limit: 48
       }).then((result)=>{return result;})
       .catch((err)=>{throw err})
     ])
@@ -110,7 +111,17 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
           unitsInfo[row.id_unit] = {};
           unitsInfo[row.id_unit][row.belongTypes] = row.nodeAssigned; // put assigned info into a unit-oriented obj
         }
-        else unitsInfo[row.id_unit][row.belongTypes] = row.nodeAssigned;
+        else{ //means both 'homeland'/'residence' were assigned to same unit
+          unitsInfo[row.id_unit][row.belongTypes] = row.nodeAssigned
+          /*
+          we now has a rule: Unit has set a homeland type assigned, only share to user 'belong to' that homeland,
+          and we do the selection here when this only happen on both 'homeland'/'residence' were set currently
+          */
+          if(userHomeland.selfInclList.indexOf(unitsInfo[row.id_unit]['homeland']) < 0){
+            delete unitsInfo[row.id_unit];
+            let indexInList = unitsList.indexOf(row.id_unit);
+            unitsList.splice(indexInList, 1)};
+        };
       });
       return _DB_units.findAll({
         where: {
@@ -134,19 +145,56 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
     })
     .catch((err)=>{throw err})
   };
-
+  /*
+  first check we have anyneccessary to select
+  */
   if(!userHomeland && !userResidence) {
     let sendingData={temp:{}}; //just an empty obj
     _res_success(res, sendingData, "GET: user feed/unitslist/assigned, complete.");
     return; //no need to go through any further
   };
+  /*
+  Selection start from here.
+  */
+  let belongList = []; //list used to select from assign, would incl. parent of belong nodes.
+  if(!!userResidence){ belongList.push(userResidence.id_node);};
+  if(!!userHomeland){ belongList.push(userHomeland.id_node)};
+
+  let ancestorsList = await selectNodesParent(belongList)
+  .then((nodesInfo)=>{
+    if(!!userResidence && userResidence.id_node in nodesInfo){
+      let selfInclList = [], currentNode=nodesInfo[userResidence.id_node].id;
+      while (!!currentNode) { //jump out until the currentNode was "null" or 'undefined'
+        selfInclList.push(currentNode);
+        currentNode = nodesInfo[currentNode].parent_id;
+      }
+      userResidence['selfInclList'] = selfInclList;
+    }else if(!!userResidence) userResidence['selfInclList']= [userResidence.id_node];
+    if(!!userHomeland && userHomeland.id_node in nodesInfo){
+      let selfInclList = [], currentNode=nodesInfo[userHomeland.id_node].id;
+      while (!!currentNode) { //jump out until the currentNode was "null" or 'undefined'
+        selfInclList.push(currentNode);
+        currentNode = nodesInfo[currentNode].parent_id;
+      }
+      userHomeland['selfInclList'] = selfInclList;
+    }else if(!!userHomeland) userHomeland['selfInclList']= [userHomeland.id_node];
+
+    //selectNodesParent()  would return an Obj by 'nodeId' as keys, so simply spread the keys to get the nodes list
+    let ancestorKeys = Object.keys(nodesInfo);
+    //Object.keys definetely return key in 'string', but id from userResidence/Homeland are 'int'
+    //so next step is just a process to unified the item 'type'
+    ancestorKeys = ancestorKeys.map((key,index)=>{
+      return parseInt(key)
+    })
+    return ancestorKeys;
+  });
+  belongList = belongList.concat(ancestorsList);
+  let filteredList = belongList.filter((nodeId, index)=>{
+    return index == belongList.indexOf(nodeId) //to rm the duplicate
+  });
 
   new Promise((resolve, reject)=>{
-    let belongList = []; //list used to select from assign
-    if(!!userResidence){ belongList.push(userResidence.id_node);};
-    if(!!userHomeland){ belongList.push(userHomeland.id_node)};
-
-    _find_assigned_unread(userId, belongList)
+    _find_assigned_unread(userId, filteredList)
     .then((assignedUnits)=>{ // Notice! the resultAssign was 'Not' an instance, it's a plain js obj
       let sendingData={
         listUnread: [],
@@ -157,7 +205,7 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
       };
       let newSetResi = (userResidence.createdAt > lastVisit)? true : false;
       let newSetHome = (userHomeland.createdAt > lastVisit)? true : false;
-      
+
       assignedUnits.forEach((unitObj, index) => {
         /*
         distinguish: if the req are the 1st after belong set
