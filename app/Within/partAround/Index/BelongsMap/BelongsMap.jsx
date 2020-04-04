@@ -30,9 +30,9 @@ class BelongsMap extends React.Component {
 
 
   componentDidUpdate(prevProps, prevState, snapshot){
-    let prevType = Object.keys(prevProps.belongsByType);
-    let recordsType = Object.keys(this.props.belongsByType);
-    if(prevType.length != recordsType.length){
+    let recordsType = !!this.props.belongsByType.setTypesList? this.props.belongsByType.setTypesList: [];
+    let prevRecordsType = !!prevProps.belongsByType.setTypesList? prevProps.belongsByType.setTypesList: [];
+    if(prevRecordsType.length != recordsType.length){
       //depend on user's willing, we'd like to display "homeland" at the first glance,
       //but it might not be set by user.
       this.setState({viewTab: (recordsType.indexOf("homeland")> (-1)) ? "homeland" : recordsType[0]});
@@ -40,7 +40,7 @@ class BelongsMap extends React.Component {
   }
 
   componentDidMount(){
-    let recordsType = Object.keys(this.props.belongsByType);
+    let recordsType = !!this.props.belongsByType.setTypesList? this.props.belongsByType.setTypesList: [];
     if(recordsType.length > 0){
       //depend on user's willing, we'd like to display "homeland" at the first glance,
       //but it might not be set by user.

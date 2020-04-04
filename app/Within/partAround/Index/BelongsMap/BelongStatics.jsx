@@ -63,7 +63,10 @@ class BelongStatics extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot){
     if(prevProps.belongsByType[this.props.type] != this.props.belongsByType[this.props.type]){ //the node was edit and different
       this._set_infoCount();
-    }
+    };
+    if(prevProps.type != this.props.type){ //the comp would not render when jumping by Nav, have to manual trigger
+      this._set_infoCount();
+    };
   }
 
   componentDidMount() {

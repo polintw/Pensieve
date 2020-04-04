@@ -28,14 +28,6 @@ import {
   fetchBelongsSeries
 } from "../../../../redux/actions/within.js";
 
-/*
-  this const, belongTypes, was the very foundation of the whole BelongSet.
-  it was uesd to render, and PATCH.
-  It is no need to match the cols name used at backend.
-  Perhaps one day would be replace by customized data from DB.
-*/
-const belongTypes = ["residence", "homeland"];
-
 class BelongsSet extends React.Component {
   constructor(props){
     super(props);
@@ -122,10 +114,12 @@ class BelongsSet extends React.Component {
       self.setState({axios: false}); //set here because we are going to next axios not far away
       const nodesList= belongObj.main.nodesList;
       let byTypeObj = belongObj.main.categoryObj;
+      let inclCatListObj = Object.assign({}, byTypeObj); //shallow copy to prevent modifying res obj
+      inclCatListObj['setTypesList'] = belongObj.main.setCatList;
 
       self.props._submit_NounsList_new(nodesList); //GET nodes info by Redux action
-      self.props._submit_belongsByType(byTypeObj);
-      self.props._fetch_belongsSeries(byTypeObj);
+      self.props._submit_belongsByType(inclCatListObj); //update data incl. setCatList
+      self.props._fetch_belongsSeries(byTypeObj); //only need to know the type need to ve fetched
     })
     .catch(function (thrown) {
       self.setState({axios: false});
@@ -176,7 +170,6 @@ class BelongsSet extends React.Component {
         </div>
         <div>
           <SetByTypes
-            belongTypes={belongTypes}
             _set_searchModal={this._set_searchModal}/>
         </div>
 

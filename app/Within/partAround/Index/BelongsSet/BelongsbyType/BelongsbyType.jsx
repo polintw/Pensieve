@@ -34,7 +34,7 @@ class BelongsbyType extends React.Component {
   }
 
   _render_BelongList(){
-    const typeKeys = Object.keys(this.props.belongsByType);
+    const typeKeys = !!this.props.belongsByType.setTypesList? this.props.belongsByType.setTypesList: [];
     const nodesDOM = typeKeys.map((nodeType, index)=>{
       return (
         <div

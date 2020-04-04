@@ -192,7 +192,7 @@ class FeedAssigned extends React.Component {
   }
 
   render(){
-    this.recKeys = Object.keys(this.props.belongsByType); //because there are more than one process need to use this var, but this var would change bu props., we claim it to this.
+    this.recKeys = !!this.props.belongsByType.setTypesList? this.props.belongsByType.setTypesList: []; //because there are more than one process need to use this var, but this var would change bu props., we claim it to this.
     let concatList = this.props.indexLists.listUnreadNew.concat(this.props.indexLists.listUnread); //just for checking if there are any units are going to render
     return (
       <div

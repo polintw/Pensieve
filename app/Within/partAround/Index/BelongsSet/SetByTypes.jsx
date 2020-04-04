@@ -7,6 +7,9 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 
+//category allow to used by this users, currently all the same
+const belongTypes = ["residence", "homeland"];
+
 class SetByTypes extends React.Component {
   constructor(props){
     super(props);
@@ -36,7 +39,7 @@ class SetByTypes extends React.Component {
   }
 
   _render_typesSubmit(){
-    let noRecTypes = this.props.belongTypes.filter((type, index)=>{
+    let noRecTypes = belongTypes.filter((type, index)=>{
       return !(type in this.props.belongsByType) //return the type not yet set
     });
     let submitDOM = [];

@@ -17,7 +17,13 @@ function _handle_GET_nouns_direct(req, res){
     async function selectNodesParent(initList){
       let nodesInfo = {};
       let targetList=initList.slice(); //shallow copy, prevent modifying initList
-
+      /*
+      The concept is, we INNER JOIN table nouns to itself everytime,
+      to select the child + parent,
+      then by while, we check if parent has parent,
+      select until the parent was the top level.
+      this way is only decrease 1 cycle compare to select one by one after each relationship was checked.
+      */
       while (targetList.length > 0) {
         await _DB_nouns.findAll({
           where: {id: targetList},
@@ -54,8 +60,9 @@ function _handle_GET_nouns_direct(req, res){
         temp: {}
       };
 
-      fetchList.forEach((nodeId, index)=>{
+      fetchList.forEach((nodeId, index)=>{ //loop by list client sent
         // for now, if the node passed by client was the top level, no result would be selected in the previous step
+        // but we still insert an obj to represent it.
         if(nodeId in nodesInfo){
           let parentList = [], currentNode=nodesInfo[nodeId].parent_id;
           while (!!currentNode) { //jump out until the currentNode(parent_id) was "null" or 'undefined'
@@ -64,13 +71,12 @@ function _handle_GET_nouns_direct(req, res){
           }
           sendingData.nodesSeries[nodeId] = {
             nodeId: nodeId,
-            prefixId: nodesInfo[nodeId].parent_id,
             topParentId: parentList[(parentList.length-1)],
             listToTop: parentList
           };
         }
         else{
-          sendingData.nodesSeries[nodeId] = {nodeId: nodeId, prefixId:null, topParentId: null, listToTop:[]};
+          sendingData.nodesSeries[nodeId] = {nodeId: nodeId, topParentId: null, listToTop:[]};
         }
       })
 

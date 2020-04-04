@@ -74,7 +74,7 @@ class AssignNodes extends React.Component {
   }
 
   _render_assignedNodes(){
-    const typeKeys = Object.keys(this.props.belongsByType);
+    const typeKeys = !!this.props.belongsByType.setTypesList? this.props.belongsByType.setTypesList: [];
     let belongNodesList = typeKeys.map((type, index)=>{
       //that is, due to directly from the GET method, the type of nodeId cintain in 'belongsByType' was 'int'!
       return this.props.belongsByType[type];

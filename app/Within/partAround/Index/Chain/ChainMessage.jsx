@@ -60,7 +60,7 @@ class ChainMessage extends React.Component {
   }
 
   render(){
-    const recKeys = Object.keys(this.props.belongsByType);
+    const recKeys = !!this.props.belongsByType.setTypesList? this.props.belongsByType.setTypesList: [];
     return(
       <div
         className={classnames(styles.comChainMessage)}>

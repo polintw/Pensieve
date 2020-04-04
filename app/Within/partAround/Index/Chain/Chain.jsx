@@ -133,7 +133,7 @@ class Chain extends React.Component {
     /*
     GET　chain list if! the belongsByType has changed
     */
-    const recKeys = Object.keys(this.props.belongsByType);
+    const recKeys = !!this.props.belongsByType.setTypesList? this.props.belongsByType.setTypesList: [];
     //it's very slow to compare 2 obj directly, so just compare by key pair we already set up
     let residenceify = (this.props.belongsByType['residence'] == prevProps.belongsByType['residence']) ? true:false;
     let homelandify = (this.props.belongsByType['homeland'] == prevProps.belongsByType['homeland']) ? true:false;
@@ -149,7 +149,7 @@ class Chain extends React.Component {
     if props.belongsByType has something,
     GET　chain list
     */
-    const recKeys = Object.keys(this.props.belongsByType);
+    const recKeys = !!this.props.belongsByType.setTypesList? this.props.belongsByType.setTypesList: [];
     if(recKeys.length> 0) this._set_ChainUnits();
   }
 

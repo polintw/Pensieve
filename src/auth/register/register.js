@@ -132,14 +132,12 @@ function _handle_auth_register_POST(req, res) {
               pinsertLastvisitShared = _DB_lastvisitShared.create({id_user: userId}).catch((err)=>{throw err}),
               pinsertLastvisitNotify = _DB_lastvisitNotify.create({id_user: userId}).catch((err)=>{throw err}),
               pinsertLastvisitIndex = _DB_lastvisitIndex.create({id_user: userId}).catch((err)=>{throw err});
-              pinsertNewPreferNodes = _DB_usersPreferNodes.create({id_user: userId}).catch((err)=>{throw err});
 
           return Promise.all([
             pinsertNewVerifi,
             pinsertNewSheet,
             pinsertEmailToken,
             pcreateImgFolder,
-            pinsertNewPreferNodes,
             pinsertLastvisitIndex,
             pinsertLastvisitShared,
             pinsertLastvisitNotify])
@@ -160,7 +158,7 @@ function _handle_auth_register_POST(req, res) {
     //catch errors, both custom and internal
     if(errObj.custom) _handler_ErrorRes(errObj.errSet, res);
     else{
-      console.log("Error: during auth/register promise: "+errObj.err)
+      console.log("Error: during auth/register promise: "+errObj.err?errObj.err:errObj)
       let errSet = {
         "status": errObj.status?errObj.status:500,
         "message": {'warning': 'Internal Server Error, please try again later'},

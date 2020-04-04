@@ -105,6 +105,7 @@ function _handle_GET_profile_nodesBelong(req, res){
     .then((results)=>{
       let sendingData={
         nodesList: [],
+        setCatList: [],
         categoryObj: {},
         temp:{}
       }
@@ -114,6 +115,7 @@ function _handle_GET_profile_nodesBelong(req, res){
       results.forEach((singleRec, index)=>{ //singleRec: each return from _last would be a single row from table
         if(!!singleRec){ //in case the result was 'null'
           sendingData.nodesList.push(singleRec.id_node);
+          sendingData.setCatList.push(categoryAll[index]);
           sendingData.categoryObj[category? category: categoryAll[index]] = singleRec.id_node;
         }
       })
