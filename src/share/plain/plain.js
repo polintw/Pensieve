@@ -15,6 +15,8 @@ const _DB_marksContent = require('../../../db/models/index').marks_content;
 const _DB_attribution = require('../../../db/models/index').attribution;
 const _DB_nodes_activity = require('../../../db/models/index').nodes_activity;
 const _DB_units_nodesAssign = require('../../../db/models/index').units_nodes_assign;
+const _DB_usersNodesHomeland = require('../../../db/models/index').users_nodes_homeland;
+const _DB_usersNodesResidence = require('../../../db/models/index').users_nodes_residence;
 
 const {
   _handle_ErrCatched,
@@ -24,10 +26,65 @@ const {
   _res_success_201
 } = require('../../utils/resHandler.js');
 
+async function _get_ancestors(userId){
+  const userHomeland = await _DB_usersNodesHomeland.findOne({
+    where: {
+      id_user: userId,
+      historyify: false
+    }
+  })
+  .then((result)=>{
+    return !!result ? result: false;
+  })
+  .catch((err)=>{
+    throw new internalError("from _DB_usersNodesHomeland selection shareHandler_POST, "+err, 131)});
+  const userResidence = await _DB_usersNodesResidence.findOne({
+    where: {
+      id_user: userId,
+      historyify: false
+    }
+  })
+  .then((result)=>{
+    return !!result ? result: false;
+  })
+  .catch((err)=>{
+    throw new internalError("from _DB_usersNodesResidence selection shareHandler_POST, "+err, 131);});
 
-function shareHandler_POST(req, res){
+  let ancestorsByType = {};
+  let belongList = [], belongsToType={}; //list used to select from assign, would incl. parent of belong nodes.
+  if(!!userResidence){ belongList.push(userResidence.id_node); belongsToType['residence'] = userResidence.id_node};
+  if(!!userHomeland){ belongList.push(userHomeland.id_node);  belongsToType['homeland'] = userHomeland.id_node};
+  // build a check point to block action without belong setting first .
+  if(belongList.length < 1) throw new forbbidenError("Please, submit your Shared only after set a corner you belong to.", 120);
+
+  const ancestorsInfo = await selectNodesParent(belongList);
+  belongList.forEach((nodeId, index)=>{ //loop by list client sent
+    let type = belongsToType[nodeId];
+    if(nodeId in ancestorsInfo){
+      let selfInclList = [], currentNode=ancestorsInfo[nodeId].id;
+      while (!!currentNode) { //jump out until the currentNode was "null" or 'undefined'
+        selfInclList.push(currentNode);
+        currentNode = nodesInfo[currentNode].parent_id;
+      }
+      ancestorsByType[type] = selfInclList;
+    }else ancestorsByType[type] = [nodeId];
+  });
+
+  return ancestorsByType;
+}
+
+async function shareHandler_POST(req, res){
 
   const userId = req.extra.tokenUserId; //use userId passed from pass.js
+  let ancestorsByType;
+  try{
+    ancestorsByType = await _get_ancestors(userId);
+  }
+  catch(error){
+    _handle_ErrCatched(error, req, res);
+    return ; //close the process
+  }
+
 
   new Promise((resolve, reject)=>{
     //add it into shares as a obj value
@@ -153,9 +210,28 @@ function shareHandler_POST(req, res){
     const handlerNodesSet = ()=>{
       //check if the noun exist! in case some people use faked nound id,
       //and prepared to insert into attribution
-      let concatList = modifiedBody.nodesSet.assign.concat(modifiedBody.nodesSet.tags); //combined list pass from req
-      return _DB_nouns.findAll({
-        where: {id: concatList}
+      return new Promise((resolveHere, rejectHere)=>{
+        let allowedTypes = ['homeland','residence'], assignedNodes=[];
+        modifiedBody.nodesSet.assign.every((assignedObj, index) => {
+          if(allowedTypes.indexOf(assignedObj.type)< 0 || allowedTypes.length <1) {
+            rejectHere(new forbbidenError("You didn't submit with an allowed nodes.", 120)); return false ;};
+
+          let series = (assignedObj.type in ancestorsByType) ?ancestorsByType[assignedObj.type]: [];
+          if(series.indexOf(assignedObj.nodeId) < 0) {rejectHere(new forbbidenError("You didn't submit with an allowed nodes.", 120)); return false;};
+          let indexInAllowed = allowedTypes.indexOf(assignedObj.type);
+          allowedTypes.splice(indexInAllowed, 1);
+          assignedNodes.push(assignedObj.nodeId);
+        });
+
+        let concatList = assignedNodes.concat(modifiedBody.nodesSet.tags); //combined list pass from req
+
+        resolveHere(concatList);
+      })
+      .then((concatList)=>{
+        return _DB_nouns.findAll({
+          where: {id: concatList}
+        })
+
       }).then(results => {
         //if there is no validate noun passed from client,
         //cancel by reject to the Top level
@@ -163,24 +239,25 @@ function shareHandler_POST(req, res){
         if(results.length!= concatList.length){
           throw(new forbbidenError({"warning": "you've passed an invalid nouns key"}, 120));return;};
 
-        //make nodes array by rows
+        let assignedNodesArr = modifiedBody.nodesSet.assign.map((assignedObj, index)=>{
+          return ({
+            id_unit: modifiedBody.id_unit,
+            id_author: userId,
+            nodeAssigned: assignedObj.nodeId,
+            belongTypes: assignedObj.type
+          })
+        });
+        //make array for attribution
         let nodesArr = results.map((row, index)=>{
               return ({
                 id_noun: row.id,
                 id_unit: modifiedBody.id_unit,
                 id_author: userId
               })
-            }),
-            assigendNodesArr = modifiedBody.nodesSet.assign.map((nodeId, index)=>{
-              return ({
-                id_unit: modifiedBody.id_unit,
-                id_author: userId,
-                nodeAssigned: nodeId
-              })
             });
         //then create into table attribution
         let creationAttri =()=>{return _DB_attribution.bulkCreate(nodesArr, {fields: ['id_unit', 'id_author', 'id_noun']}).catch((err)=> {throw err})};
-        let creationNodesAssign = ()=>{return _DB_units_nodesAssign.bulkCreate(assigendNodesArr).catch((err)=>{throw err});};
+        let creationNodesAssign = ()=>{return _DB_units_nodesAssign.bulkCreate(assignedNodesArr).catch((err)=>{throw err});};
 
         return Promise.all([
           new Promise((resolve, reject)=>{creationAttri().then(()=>{resolve();});}),
