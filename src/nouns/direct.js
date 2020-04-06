@@ -32,13 +32,13 @@ function _handle_GET_nouns_direct(req, res){
             currentNode = nodesInfo[currentNode].parent_id;
           }
           sendingData.nodesSeries[nodeId] = {
-            nodeId: nodeId,
+            nodeId: nodesInfo[nodeId].id, //keep the same source as below, all are data came from DB with type 'int'
             topParentId: parentList[(parentList.length-1)],
             listToTop: parentList
           };
         }
         else{
-          sendingData.nodesSeries[nodeId] = {nodeId: nodeId, topParentId: null, listToTop:[]};
+          sendingData.nodesSeries[nodeId] = {nodeId: parseInt(nodeId), topParentId: null, listToTop:[]}; //for now, we keep nodeId in 'int'
         }
       })
 

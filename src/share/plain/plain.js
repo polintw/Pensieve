@@ -64,7 +64,7 @@ async function _get_ancestors(userId){
       let selfInclList = [], currentNode=ancestorsInfo[nodeId].id;
       while (!!currentNode) { //jump out until the currentNode was "null" or 'undefined'
         selfInclList.push(currentNode);
-        currentNode = nodesInfo[currentNode].parent_id;
+        currentNode = ancestorsInfo[currentNode].parent_id;
       }
       ancestorsByType[type] = selfInclList;
     }else ancestorsByType[type] = [nodeId];
@@ -221,7 +221,7 @@ async function shareHandler_POST(req, res){
           let series = (assignedObj.type in ancestorsByType) ?ancestorsByType[assignedObj.type]: []; //theoratically ancestorsByType shole have included all types, just in case
           if(series.indexOf(assignedObj.nodeId) < 0) {rejectHere(new forbbidenError("You didn't submit with an allowed nodes.", 120)); return false;}; //reject to client if he want to assigned a node not belong to his registered
           let indexInAllowed = allowedTypes.indexOf(assignedObj.type);
-          allowedTypes.splice(indexInAllowed, 1); //rm type checked in this round 
+          allowedTypes.splice(indexInAllowed, 1); //rm type checked in this round
           assignedNodes.push(assignedObj.nodeId);
         });
 
@@ -366,7 +366,10 @@ async function shareHandler_POST(req, res){
   .then((modifiedBody)=>{
     //backend process
     //no connection should be used during this process
-    let concatList = modifiedBody.nodesSet.assign.concat(modifiedBody.nodesSet.tags); //combined list pass from req
+    let assignedNodes = modifiedBody.nodesSet.assign.map((assignedObj,index)=>{
+      return assignedObj.nodeId;
+    });
+    let concatList = assignedNodes.concat(modifiedBody.nodesSet.tags); //combined list pass from req
 
     return _DB_nodes_activity.findAll({
       where: {id_node: concatList}

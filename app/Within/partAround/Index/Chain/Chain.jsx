@@ -195,10 +195,10 @@ class Chain extends React.Component {
       if( !(unitId in this.state.unitsBasic)) return; //skip if the info of the unit not yet fetch
 
       nailsDOM.push(
-        <div>
+        <div
+          key={"key_ChainNail_"+index}>
           {_nailTitle(this.props.chainList.listInfo[unitId])}
           <div
-            key={"key_ChainNail_"+index}
             className={classnames(stylesNail.boxNail, stylesNail.heightBasic, stylesNail.wideBasic)}>
             <NailBasic
               {...this.props}

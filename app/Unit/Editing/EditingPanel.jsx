@@ -19,7 +19,7 @@ class EditingPanel extends React.Component {
       contentEditing: false,
       coverSrc: !!this.props.unitSet?this.props.unitSet.coverSrc:null,
       coverMarks: !!this.props.unitSet?this.props.unitSet.coverMarks:{list:[], data:{}},
-      nodesSet: !!this.props.unitSet?this.props.unitSet.nodesSet:{assign:{}, tags:[]},
+      nodesSet: !!this.props.unitSet?this.props.unitSet.nodesSet:{assign:[], tags:[]},
       //beneath, is remaining for future use, and kept the parent comp to process submitting
       beneathSrc: null,
       beneathMarks: {list:[],data:{}},
@@ -35,7 +35,7 @@ class EditingPanel extends React.Component {
     this._render_importOrCover = this._render_importOrCover.bind(this);
   }
 
-  _submit_new_node(nodeId, type){
+  _submit_new_node(node, type){ //param 'node' could be 'obj' || 'array', up to the type they passed for
     this.setState((prevState, props)=>{
       /*
       we are going to change the data 'inside' a prevState value,
@@ -43,7 +43,7 @@ class EditingPanel extends React.Component {
       i.e we need to copy to assure the prevState data would not be modified before retrun.
       (same as _submit_deleteNodes)
       */
-      let newNodeArr = [nodeId];
+      let newNodeArr = [node];
       let updateArr = prevState.nodesSet[(type=="assign")? 'assign': 'tags'].concat(newNodeArr);
       let updateObj = {};
       updateObj[(type=="assign")? 'assign': 'tags'] = updateArr;
@@ -54,12 +54,20 @@ class EditingPanel extends React.Component {
     })
   }
 
-  _submit_deleteNodes(nodeId, type){
+  _submit_deleteNodes(target, type){
     this.setState((prevState, props)=>{
       let targetArr = prevState.nodesSet[(type=="assign")? 'assign': 'tags'];
-      let updateArr = targetArr.filter((value, index)=>{ // use filter remove id from the list and replace it by new list
-        return value != nodeId; //not equal value, but allow different "type" (the nodeId was string saved in the DOM attribute)
-      });
+      let updateArr = [];
+      if(type=="assign"){
+        //'target' is an index mark the unwanted node
+        updateArr = targetArr.slice();
+        updateArr.splice(target, 1);
+      }else{
+        //'target' would be a nodeId
+        updateArr = targetArr.filter((value, index)=>{ // use filter remove id from the list and replace it by new list
+          return value != nodeId; //not equal value, but allow different "type" (the nodeId was string saved in the DOM attribute)
+        });
+      }
       let updateObj = {};
       updateObj[(type=="assign")? 'assign': 'tags'] = updateArr;
 
