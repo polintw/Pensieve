@@ -17,7 +17,7 @@ const _DB_nodes_activity = require('../../../db/models/index').nodes_activity;
 const _DB_units_nodesAssign = require('../../../db/models/index').units_nodes_assign;
 const _DB_usersNodesHomeland = require('../../../db/models/index').users_nodes_homeland;
 const _DB_usersNodesResidence = require('../../../db/models/index').users_nodes_residence;
-
+const {selectNodesParent } = require('../../nouns/utils.js');
 const {
   _handle_ErrCatched,
   forbbidenError,
@@ -208,18 +208,20 @@ async function shareHandler_POST(req, res){
       });
     };
     const handlerNodesSet = ()=>{
-      //check if the noun exist! in case some people use faked nound id,
-      //and prepared to insert into attribution
       return new Promise((resolveHere, rejectHere)=>{
+        /*
+        Here we check the asigned nodes, to see if the assigned are really one belong to the user's.
+        will get a nodes list returned to next step
+        */
         let allowedTypes = ['homeland','residence'], assignedNodes=[];
-        modifiedBody.nodesSet.assign.every((assignedObj, index) => {
-          if(allowedTypes.indexOf(assignedObj.type)< 0 || allowedTypes.length <1) {
+        modifiedBody.nodesSet.assign.every((assignedObj, index) => { //arr.every could be break
+          if(allowedTypes.indexOf(assignedObj.type)< 0 || allowedTypes.length <1) { //means the assigned was 'reapeated', which are not allowed under any circumstance
             rejectHere(new forbbidenError("You didn't submit with an allowed nodes.", 120)); return false ;};
 
-          let series = (assignedObj.type in ancestorsByType) ?ancestorsByType[assignedObj.type]: [];
-          if(series.indexOf(assignedObj.nodeId) < 0) {rejectHere(new forbbidenError("You didn't submit with an allowed nodes.", 120)); return false;};
+          let series = (assignedObj.type in ancestorsByType) ?ancestorsByType[assignedObj.type]: []; //theoratically ancestorsByType shole have included all types, just in case
+          if(series.indexOf(assignedObj.nodeId) < 0) {rejectHere(new forbbidenError("You didn't submit with an allowed nodes.", 120)); return false;}; //reject to client if he want to assigned a node not belong to his registered
           let indexInAllowed = allowedTypes.indexOf(assignedObj.type);
-          allowedTypes.splice(indexInAllowed, 1);
+          allowedTypes.splice(indexInAllowed, 1); //rm type checked in this round 
           assignedNodes.push(assignedObj.nodeId);
         });
 
@@ -228,6 +230,8 @@ async function shareHandler_POST(req, res){
         resolveHere(concatList);
       })
       .then((concatList)=>{
+        //check if the noun exist! in case some people use faked nound id,
+        //and prepared to insert into attribution
         return _DB_nouns.findAll({
           where: {id: concatList}
         })
@@ -238,7 +242,9 @@ async function shareHandler_POST(req, res){
         //& warn the client
         if(results.length!= concatList.length){
           throw(new forbbidenError({"warning": "you've passed an invalid nouns key"}, 120));return;};
-
+        /*till this moment the check for assigned, attributed nodes have completed.
+        for assigned, we assumed the list here can be trusted undoubt.
+        */
         let assignedNodesArr = modifiedBody.nodesSet.assign.map((assignedObj, index)=>{
           return ({
             id_unit: modifiedBody.id_unit,
