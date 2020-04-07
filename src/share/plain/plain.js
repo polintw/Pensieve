@@ -21,6 +21,7 @@ const {selectNodesParent } = require('../../nouns/utils.js');
 const {
   _handle_ErrCatched,
   forbbidenError,
+  internalError
 } = require('../../utils/reserrHandler.js');
 const {
   _res_success_201
@@ -52,8 +53,8 @@ async function _get_ancestors(userId){
 
   let ancestorsByType = {};
   let belongList = [], belongsToType={}; //list used to select from assign, would incl. parent of belong nodes.
-  if(!!userResidence){ belongList.push(userResidence.id_node); belongsToType['residence'] = userResidence.id_node};
-  if(!!userHomeland){ belongList.push(userHomeland.id_node);  belongsToType['homeland'] = userHomeland.id_node};
+  if(!!userResidence){ belongList.push(userResidence.id_node); belongsToType[userResidence.id_node]= "residence"};
+  if(!!userHomeland){ belongList.push(userHomeland.id_node);  belongsToType[userHomeland.id_node]= 'homeland'};
   // build a check point to block action without belong setting first .
   if(belongList.length < 1) throw new forbbidenError("Please, submit your Shared only after set a corner you belong to.", 120);
 
@@ -210,10 +211,12 @@ async function shareHandler_POST(req, res){
     const handlerNodesSet = ()=>{
       return new Promise((resolveHere, rejectHere)=>{
         /*
-        Here we check the asigned nodes, to see if the assigned are really one belong to the user's.
-        will get a nodes list returned to next step
+        Here we check the asigned nodes first.
+        to see if the assigned are really one belong to the user's.
+        will get a assignedNodes list returned to next step
         */
         let allowedTypes = ['homeland','residence'], assignedNodes=[];
+
         modifiedBody.nodesSet.assign.every((assignedObj, index) => { //arr.every could be break
           if(allowedTypes.indexOf(assignedObj.type)< 0 || allowedTypes.length <1) { //means the assigned was 'reapeated', which are not allowed under any circumstance
             rejectHere(new forbbidenError("You didn't submit with an allowed nodes.", 120)); return false ;};
@@ -223,25 +226,34 @@ async function shareHandler_POST(req, res){
           let indexInAllowed = allowedTypes.indexOf(assignedObj.type);
           allowedTypes.splice(indexInAllowed, 1); //rm type checked in this round
           assignedNodes.push(assignedObj.nodeId);
+          return true; //we are using .every(), must return true to go to next round
         });
 
-        let concatList = assignedNodes.concat(modifiedBody.nodesSet.tags); //combined list pass from req
-
-        resolveHere(concatList);
+        resolveHere(assignedNodes);
       })
-      .then((concatList)=>{
+      .then((assignedNodes)=>{
+        //no need to edit the nodesSet.tags, but concat to assignedNodes list
+        let concatList = assignedNodes.concat(modifiedBody.nodesSet.tags); //combined list pass from req
         //check if the noun exist! in case some people use faked nound id,
         //and prepared to insert into attribution
         return _DB_nouns.findAll({
           where: {id: concatList}
         })
+        .then((results) => {
+          //if there is no validate noun passed from client,
+          //cancel by reject to the Top level
+          //& warn the client
+          if(results.length!= concatList.length){
+            throw(new forbbidenError({"warning": "you've passed an invalid nouns key"}, 120));return;};
 
-      }).then(results => {
-        //if there is no validate noun passed from client,
-        //cancel by reject to the Top level
-        //& warn the client
-        if(results.length!= concatList.length){
-          throw(new forbbidenError({"warning": "you've passed an invalid nouns key"}, 120));return;};
+          return results;
+        })
+        .catch((err)=>{
+          throw err
+        });
+
+      })
+      .then(resultNodes => {
         /*till this moment the check for assigned, attributed nodes have completed.
         for assigned, we assumed the list here can be trusted undoubt.
         */
@@ -254,7 +266,7 @@ async function shareHandler_POST(req, res){
           })
         });
         //make array for attribution
-        let nodesArr = results.map((row, index)=>{
+        let nodesArr = resultNodes.map((row, index)=>{
               return ({
                 id_noun: row.id,
                 id_unit: modifiedBody.id_unit,
@@ -284,7 +296,7 @@ async function shareHandler_POST(req, res){
 
     return Promise.all([
       new Promise((resolve, reject)=>{creationMarks().then((marksIdList)=>{resolve(marksIdList);});}),
-      new Promise((resolve, reject)=>{handlerNodesSet().then(()=>{resolve();});})
+      new Promise((resolve, reject)=>{handlerNodesSet().then(()=>{resolve();}).catch((err)=>{reject(err);});}).catch((err)=> {throw err})
     ])
     .then((results)=>{
       let marksIdList = results[0];
@@ -301,7 +313,7 @@ async function shareHandler_POST(req, res){
       return modifiedBody;
     })
     .catch((err)=>{
-      throw "error thrown from marks created & nodesSet handling process"+ err
+      throw err;
     });
 
   }).then((modifiedBody)=>{
@@ -345,7 +357,7 @@ async function shareHandler_POST(req, res){
       return modifiedBody;
     })
     .catch((err)=>{
-      throw "error thrown from marks_content created process"+ err
+      throw err;
     });
 
   })

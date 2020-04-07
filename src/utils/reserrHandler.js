@@ -270,7 +270,7 @@ function _undefiendCode(e, req, res){
   else {
     winston.error(`${500} - ${e} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
     return res.status(500).json({
-      "message": {"warning":"Some error happened, please try again."},
+      "message": "Some error happened, please try again.",
       'console': ''
     });
   };
