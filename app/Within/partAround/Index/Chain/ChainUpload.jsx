@@ -8,6 +8,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesFont from '../../stylesFont.module.css';
 import CreateShare from '../../../../Unit/Editing/CreateShare.jsx';
+import SvgCreate from '../../../../Components/Svg/SvgCreate.jsx';
 
 class ChainUpload extends React.Component {
   constructor(props){
@@ -44,18 +45,18 @@ class ChainUpload extends React.Component {
       <div
         className={classnames(styles.comChainUpload)}>
         <div
-          className={classnames(styles.boxCreate)}>
-          <div
-            onClick={this._handleClick_plainOpen}
-            onMouseEnter={this._handleMouseOn_Create}
-            onMouseLeave={this._handleMouseOn_Create}>
-            {"Upload"}
-          </div>
-          <CreateShare
-            forceCreate={this.state.editingOpen}
-            _submit_Share_New={this.props._submit_Share_New}
-            _refer_von_Create={this.props._refer_von_cosmic}/>
+          onClick={this._handleClick_plainOpen}
+          onMouseEnter={this._handleMouseOn_Create}
+          onMouseLeave={this._handleMouseOn_Create}>
+          <SvgCreate
+             black={this.state.onCreate}
+             place={false}
+             stretch={false}/>
         </div>
+        <CreateShare
+          forceCreate={this.state.editingOpen}
+          _submit_Share_New={this.props._submit_Share_New}
+          _refer_von_Create={this.props._refer_von_cosmic}/>
       </div>
     )
   }

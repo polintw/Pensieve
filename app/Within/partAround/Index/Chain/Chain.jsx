@@ -8,8 +8,8 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import stylesNail from "../stylesNail.module.css";
 import stylesFont from '../../stylesFont.module.css';
-import stylesNail from "../../../stylesNail.module.css";
 import ChainUpload from './ChainUpload.jsx';
 import ChainMessage from './ChainMessage.jsx';
 import NailBasic from '../../../../Components/Nails/NailBasic/NailBasic.jsx';
@@ -167,22 +167,30 @@ class Chain extends React.Component {
       switch (unitType) {
         case 'userShared':
           return (
-            <span>{props.i18nUIString.catalog['catagory_indexChain_NailTypes'][0]}</span>
+            <span
+              className={classnames(stylesFont.fontSubtitle, stylesFont.colorChainSubtitle, styles.spanSubtitle)}>
+              {props.i18nUIString.catalog['catagory_indexChain_NailTypes'][0]}</span>
             )
           break;
         case 'resToShared':
           return (
-            <span>{props.i18nUIString.catalog['catagory_indexChain_NailTypes'][1]}</span>
+            <span
+              className={classnames(stylesFont.fontSubtitle, stylesFont.colorChainSubtitle, styles.spanSubtitle)}>
+              {props.i18nUIString.catalog['catagory_indexChain_NailTypes'][1]}</span>
           )
           break;
         case 'resToRespond':
           return (
-            <span>{props.i18nUIString.catalog['catagory_indexChain_NailTypes'][2]}</span>
+            <span
+              className={classnames(stylesFont.fontSubtitle, stylesFont.colorChainSubtitle, styles.spanSubtitle)}>
+              {props.i18nUIString.catalog['catagory_indexChain_NailTypes'][2]}</span>
           )
           break;
         case 'latestShared':
           return (
-            <span>{props.i18nUIString.catalog['catagory_indexChain_NailTypes'][3]}</span>
+            <span
+              className={classnames(stylesFont.fontSubtitle, stylesFont.colorChainSubtitle, styles.spanSubtitle)}>
+              {props.i18nUIString.catalog['catagory_indexChain_NailTypes'][3]}</span>
           )
           break;
         default:
@@ -196,10 +204,11 @@ class Chain extends React.Component {
 
       nailsDOM.push(
         <div
-          key={"key_ChainNail_"+index}>
-          {_nailTitle(this.props.chainList.listInfo[unitId])}
+          key={"key_ChainNail_"+index}
+          className={classnames(stylesNail.wideChain)}
+          style={{marginBottom: '2rem'}}>
           <div
-            className={classnames(stylesNail.boxNail, stylesNail.heightBasic, stylesNail.wideBasic)}>
+            className={classnames(stylesNail.boxNail, stylesNail.heightBasic)}>
             <NailBasic
               {...this.props}
               unitId={unitId}
@@ -207,6 +216,7 @@ class Chain extends React.Component {
               unitBasic={this.state.unitsBasic[unitId]}
               marksBasic={this.state.marksBasic}/>
           </div>
+          {_nailTitle(this.props.chainList.listInfo[unitId])}
         </div>
       );
 

@@ -8,10 +8,10 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import stylesNail from "../stylesNail.module.css";
 import stylesFont from '../../stylesFont.module.css';
-import stylesNail from "../../../stylesNail.module.css";
 
-import NailBasic from '../../../../Components/Nails/NailBasic/NailBasic.jsx';
+import NailFeed from '../../../../Components/Nails/NailFeed/NailFeed.jsx';
 import {axios_get_UnitsBasic} from '../../../../utils/fetchHandlers.js';
 import {
   handleNounsList,
@@ -176,8 +176,8 @@ class FeedAssigned extends React.Component {
       nailsDOM.push(
         <div
           key={"key_FeedAssigned_new_"+index}
-          className={classnames(stylesNail.boxNail, stylesNail.heightBasic, stylesNail.wideBasic)}>
-          <NailBasic
+          className={classnames(stylesNail.boxNail, stylesNail.heightBasic, stylesNail.wideFeedAssigned)}>
+          <NailFeed
             {...this.props}
             unitId={unitId}
             linkPath={'/unit'}

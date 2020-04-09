@@ -108,6 +108,10 @@ class NailBasic extends React.Component {
               blockName={''}
               previewSrc={'/router/img/'+this.props.unitBasic.pic_layer0+'?type=thumb'}
               _handleClick_ImgPreview_preview={()=>{this.nailImgBox.current.click()}}/>
+            <div
+              className={classnames(
+                styles.boxMask,
+                {[styles.interMask]: this.state.onImg}
               )}/>
 
           </div>

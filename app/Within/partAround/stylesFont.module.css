@@ -7,9 +7,17 @@
   font-size: 1.4rem;
 }
 
+.fontSubtitle {
+  font-size: 1.5rem;
+}
+
 .fontGreet {
   font-size: 1.87rem;
   letter-spacing: 0.07rem;
+}
+
+.colorChainSubtitle {
+  color: #b8b8b8;
 }
 
 .colorLightHint {
