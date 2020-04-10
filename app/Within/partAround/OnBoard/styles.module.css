@@ -1,0 +1,18 @@
+.boxAbsoluteRow {
+  width: 100%;
+  position: absolute;
+}
+
+.rowTop {
+  height: 56px;
+}
+
+.boxLogo {
+  width: 180px;
+  height: 36px;
+  position: absolute;
+  top: 20px;
+  left: 11.39%;
+  transform: translate(-50%, 0);
+  box-sizing: border-box;
+}

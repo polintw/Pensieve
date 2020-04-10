@@ -205,10 +205,10 @@ class Chain extends React.Component {
       nailsDOM.push(
         <div
           key={"key_ChainNail_"+index}
-          className={classnames(stylesNail.wideChain)}
-          style={{marginBottom: '2rem'}}>
+          className={classnames(stylesNail.wideChain)}>
           <div
-            className={classnames(stylesNail.boxNail, stylesNail.heightBasic)}>
+            className={classnames(stylesNail.boxNail, stylesNail.heightBasic)}
+            style={{marginBottom: '2rem'}}>
             <NailBasic
               {...this.props}
               unitId={unitId}

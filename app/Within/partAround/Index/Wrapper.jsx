@@ -16,7 +16,10 @@ import Chain from './Chain/Chain.jsx';
 import RowEntry from './RowEntry/RowEntry.jsx';
 import BelongsMap from './BelongsMap/BelongsMap.jsx';
 import FeedAssigned from './FeedAssigned/FeedAssigned.jsx';
+import OnBoard from '../OnBoard/Wrapper.jsx';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
+import ModalBox from '../../../Components/ModalBox.jsx';
+import ModalBackground from '../../../Components/ModalBackground.jsx';
 import {
   initAround
 } from '../../../redux/states/statesWithin.js';
@@ -86,6 +89,9 @@ class Wrapper extends React.Component {
     this.setState({axios: true});
 
     //get the last visit situation for child component
+    /*
+    Now this req is important. It not only res the last visit, but also res 'newly' at the very first sign in right after verified.
+    */
     axios_visit_GET_last(self.axiosSource.token)
     .then(function(lastVisitRes){
       self._set_mountToDo("lastVisit"); //and splice the label from the todo list
@@ -155,7 +161,15 @@ class Wrapper extends React.Component {
                 _createdRespond= {this._createdRespond}
                 _construct_UnitInit={this._construct_UnitInit}
                 _refer_von_unit={this.props._refer_von_cosmic}/>)
-          }}/>
+              }}/>
+        {
+          (this.state.lastVisit == 'newly') &&
+          <ModalBox containerId="root">
+            <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(255,255,255, 0.92)'}}>
+              <OnBoard/>
+            </ModalBackground>
+          </ModalBox>
+        }
 
       </div>
     )
