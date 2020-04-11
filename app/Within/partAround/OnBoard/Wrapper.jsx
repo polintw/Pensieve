@@ -6,7 +6,9 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
 import stylesFont from '../stylesFont.module.css';
+import BelongSet from './BelongSet.jsx';
 import SvgLogo from '../../../Components/Svg/SvgLogo.jsx';
+import {NodeSearchModule} from '../../../Components/Node/NodeSearchModule.jsx';
 
 class Wrapper extends React.Component {
   constructor(props){
@@ -76,7 +78,68 @@ class Wrapper extends React.Component {
           className={classnames(styles.boxRelativeRow, styles.rowForm)}>
           <div
             className={classnames(styles.boxFlexColumn, styles.boxForm)}>
+            <div
+              className={classnames(styles.boxFormSubTitle)}>
+              <span
+                className={classnames(stylesFont.fontDescrip, stylesFont.colorDescripBlack)}
+                style={{ lineHeight: 1.88 }}>
+                {this.props.i18nUIString.catalog["descript_onBoard_BelongsHint"][0]}
+              </span>
+            </div>
+            <div
+              className={classnames(styles.boxFormTitle)}>
+              <span
+                className={classnames(stylesFont.fontTitleNotice, stylesFont.colorNoticeBlack)}>
+                {this.props.i18nUIString.catalog["descript_onBoard_BelongsHint"][1]}
+              </span>
+            </div>
+            <div
+              className={classnames(styles.boxFlexColumn, styles.boxFormBelongs)}>
+              <div
+                className={classnames(styles.boxFormBelongsRow)}
+                style={{marginBottom: "2.19vh"}}>
+                <span
+                  className={classnames(styles.spanFormBelongsType, stylesFont.fontDescrip ,stylesFont.colorDescripBlack, stylesFont.weightBold)}
+                  style={{lineHeight: "1.5"}}>
+                  {this.props.i18nUIString.catalog["category_Belongs_"][0]}
+                </span>
+                <span
+                  className={classnames(styles.spanFormBelongsDescrip, stylesFont.fontDescrip ,stylesFont.colorDescripBlack)}
+                  style={{lineHeight: "1.5"}}>
+                  {this.props.i18nUIString.catalog["guideing_onBoard_BelongsHint"][0]}
+                </span>
+                <div>
+                  <BelongSet
+                    belongs={this.state.belongs}
+                    settingType={"homeland"}/>
+                </div>
 
+              </div>
+              <div
+                className={classnames(styles.boxFormBelongsRow)}>
+                <span
+                  className={classnames(styles.spanFormBelongsType, stylesFont.fontDescrip ,stylesFont.colorDescripBlack, stylesFont.weightBold)}
+                  style={{lineHeight: "1.5"}}>
+                  {this.props.i18nUIString.catalog["category_Belongs_"][1]}
+                </span>
+                <span
+                  className={classnames(styles.spanFormBelongsDescrip, stylesFont.fontDescrip ,stylesFont.colorDescripBlack)}
+                  style={{lineHeight: "1.5"}}>
+                  {this.props.i18nUIString.catalog["guideing_onBoard_BelongsHint"][1]}
+                </span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div
+          className={classnames(styles.boxRelativeRow, styles.rowButton)}>
+          <div
+            className={classnames(styles.boxButton)}>
+            <span
+              className={classnames(stylesFont.fontSubmit ,stylesFont.colorWhite)}>
+              {this.props.i18nUIString.catalog["submit_onBoard_start"]}
+            </span>
           </div>
         </div>
 

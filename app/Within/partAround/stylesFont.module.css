@@ -8,6 +8,15 @@
   line-height: 1.5;
 }
 
+.fontTitleNotice {
+  font-size: 2.8rem;
+  line-height: 1.71;
+}
+
+.fontSubmit {
+  font-size: 2.4rem;
+}
+
 .fontHint {
   font-size: 1.4rem;
 }
@@ -22,7 +31,11 @@
 }
 
 .fontDescrip {
-  font-size: 1.67rem;
+  font-size: 1.6rem;
+}
+
+.colorWhite {
+  color: #FFFFFF;
 }
 
 .colorChainSubtitle {
@@ -37,6 +50,14 @@
   color: #444444;
 }
 
+.colorNoticeBlack {
+  color: #545454;
+}
+
 .colorCoral {
   color: #ff8168;
+}
+
+.weightBold {
+  font-weight: bold;
 }

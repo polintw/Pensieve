@@ -80,8 +80,13 @@ export const i18nUIStringInit = {
        "please choose your gender, or select desired pronoun by 'Others'."
      ],
      "title_onBoard_Welcome": "Welcome!",
-    "descript_onBoard_Intro": ["Cornerth. brings you info from your homeland and residence.", "Share what’s happening around you and keep in touch with friends from the other side!"],
+     "descript_onBoard_Intro": ["Cornerth. brings you info from your homeland and your current stay.", "Share what’s happening around you and keep in touch with friends from the other side!"],
+     "descript_onBoard_BelongsHint": ["Before you start …", "Tell us where are you from?"],
+     "guideing_onBoard_BelongsHint": ["I'm from", "Now based at"],
+     "submit_onBoard_start": "Let's Start",
 
+     "category_Belongs_": ["Homeland", "Current Stay"],
+     "submit_edit": "edit",
 
      "guidingCreateShare_AssignGroup": "sharing to people linked to which of your corner?",
      "guiding_FeedAssigned_noneAssigned": "Not yet any unit was shared. But let's take a look at other places:",
@@ -95,7 +100,6 @@ export const i18nUIStringInit = {
      "descript_BelongTypeInteract": ["going to renew your ", " ?"],
      "category__Belong_usersCount": ["with ", "users", "way to "],
      "link_BelongsMap_Nav": ["Fellows", "from Home", "same Residence"],
-     "submit_edit": "edit",
      "messageBelongChoiceinBool": ["site ", "  as your  ", "  place?"],
      "descript_BelongSet_SearchBytType": ["Input corner name of your "],
      "guidingChain_noBelongSet": "Touching your Fellows by setting the place you are and the land you were born.",
