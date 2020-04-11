@@ -1,18 +1,69 @@
-.boxAbsoluteRow {
+.comOnBoardWrapper {
   width: 100%;
+  height: 100%;
   position: absolute;
+}
+
+.boxRelativeRow {
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.boxFlexColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.rowGreet {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
 }
 
 .rowTop {
-  height: 56px;
+  padding-top: 20px;
+  margin-bottom: 50px;
+}
+
+.rowForm {
+  display: flex;
+  justify-content: center;
+}
+
+.rowButton {
+
+}
+
+.boxGreetTitle {
+  margin-bottom: 20px;
+}
+
+.boxGreetContent {
+  align-items: center;
+  margin-bottom: 40px;
 }
 
 .boxLogo {
-  width: 180px;
-  height: 36px;
-  position: absolute;
-  top: 20px;
-  left: 11.39%;
-  transform: translate(-50%, 0);
+  width: 12.5%;
+  box-sizing: border-box;
+  margin-left: 5.14%;
+  opacity: 0.23;
+}
+
+.boxGreet {
+  align-items: center;
+  width: 1036px;
+  max-width: 98vw;
+  position: relative;
+  box-sizing: border-box;
+  border-bottom: 1px solid #d8d8d8;
+}
+
+.boxForm {
+  align-items: center;
+  width: 556px;
+  max-width: 90vw;
+  position: relative;
   box-sizing: border-box;
 }

@@ -3,6 +3,11 @@
   font-weight: 700;
 }
 
+.fontTitle {
+  font-size: 3.2rem;
+  line-height: 1.5;
+}
+
 .fontHint {
   font-size: 1.4rem;
 }
@@ -16,10 +21,22 @@
   letter-spacing: 0.07rem;
 }
 
+.fontDescrip {
+  font-size: 1.67rem;
+}
+
 .colorChainSubtitle {
   color: #b8b8b8;
 }
 
 .colorLightHint {
   color: #a8a8a8;
+}
+
+.colorDescripBlack {
+  color: #444444;
+}
+
+.colorCoral {
+  color: #ff8168;
 }

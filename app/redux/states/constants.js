@@ -56,6 +56,7 @@ export const i18nUIStringInit = {
      "greetMorning": "Good morning!",
      "descript_Unit_Author_read": ["reach to", "reach"],
      "descript_Unit_Author_broad": ["broad by", "broad"],
+
      "guidingSign_Confirm_Success": ["Email address has successfully verified.", "Log in and start your adventure to the World!"],
      "guidingSign_Confirm_Fail": ["Email address verified failed.", "It's probablly due to the valid time was over.", "Or, haven't received the verified mail?"],
      "link_Sign_mailResend": "send the verified email again",
@@ -69,6 +70,19 @@ export const i18nUIStringInit = {
      ],
      "descript_Sign_termsDeclaim": [
        "By clicking “sign up”, you agree our", " Terms", " of Services and ", "Privacy Policy", "."],
+     "message_Resend_PassReset": "Your password has been updated. Please Sign in with new password. ",
+     "hint_inputMessage_pw": ["keep the password in same!"],
+     "hint_Signup_gendeSelect": "How do you want us to call you?",
+     "options_genderPronoun": ["He/Him", "She/Her"],
+     "message_Signup_Form": [
+       "please fill in the correct form for email address.",
+       "First and Last name are required.",
+       "please choose your gender, or select desired pronoun by 'Others'."
+     ],
+     "title_onBoard_Welcome": "Welcome!",
+    "descript_onBoard_Intro": ["Cornerth. brings you info from your homeland and residence.", "Share what’s happening around you and keep in touch with friends from the other side!"],
+
+
      "guidingCreateShare_AssignGroup": "sharing to people linked to which of your corner?",
      "guiding_FeedAssigned_noneAssigned": "Not yet any unit was shared. But let's take a look at other places:",
      "guiding_FeedAssigned_noShared": "how's your home going?",
@@ -86,15 +100,6 @@ export const i18nUIStringInit = {
      "descript_BelongSet_SearchBytType": ["Input corner name of your "],
      "guidingChain_noBelongSet": "Touching your Fellows by setting the place you are and the land you were born.",
      "guidingChain_noSharedEst.": ["You would be the first one to share about your corner."],
-     "message_Resend_PassReset": "Your password has been updated. Please Sign in with new password. ",
-     "hint_inputMessage_pw": ["keep the password in same!"],
-     "hint_Signup_gendeSelect": "How do you want us to call you?",
-     "options_genderPronoun": ["He/Him", "She/Her"],
-     "message_Signup_Form": [
-       "please fill in the correct form for email address.",
-       "First and Last name are required.",
-       "please choose your gender, or select desired pronoun by 'Others'."
-     ],
 
      "hintEmptyNode": "This Corner is still Waiting to be explored. Be the first one to wonder and wander!",
      "hintEmptyNode_contributors": "waiting for someone, perhaps that's just you! ",
