@@ -77,6 +77,12 @@
   margin-right: 20px;
 }
 
+.boxFormBelongSet {
+  display: inline-block;
+  width: 290px;
+  overflow: visible;
+}
+
 .boxLogo {
   width: 12.5%;
   box-sizing: border-box;
@@ -116,5 +122,13 @@
 }
 
 .comBelongSet {
-  
+
+}
+
+.belongSetBoxNode {
+  display: flex;
+  justify-content: space-around;
+  min-width: 240px;
+  max-width: 310px;
+  overflow: visible;
 }

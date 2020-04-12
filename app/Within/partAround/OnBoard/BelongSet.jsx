@@ -38,8 +38,8 @@ class BelongSet extends React.Component {
   _handleClick_belongsDelete(event){
     event.preventDefault();
     event.stopPropagation();
-    
-    this.props._set_nodesByTypes(false, this.props.settingType);    
+
+    this.props._set_nodesByTypes(false, this.props.settingType);
   }
 
   componentDidMount() {
@@ -56,7 +56,7 @@ class BelongSet extends React.Component {
 
     return (
         <div
-          className={classnames()}>
+          className={classnames(stylesFont.fontDescrip ,stylesFont.colorDescripBlack)}>
           {nodeId in this.props.nodesBasic ? (
             this.props.nodesBasic[nodeId].name) : (
               null
@@ -71,7 +71,8 @@ class BelongSet extends React.Component {
         className={styles.comBelongSet}>
         {
           this.props.belongs[this.props.settingType] ? (
-            <div>
+            <div
+              className={classnames(styles.belongSetBoxNode)}>
               {this._render_node()}
               <div
                 className={classnames()}
@@ -79,6 +80,7 @@ class BelongSet extends React.Component {
                 onMouseLeave={this._handleLeave_spanDelete}>
                 <span
                   className={classnames()}
+                  style={{fontSize: '1.2rem', cursor: 'pointer', color: '#b8b8b8'}}
                   onClick={this._handleClick_belongsDelete}>
                   {" ╳ "}
                 </span>
@@ -86,7 +88,9 @@ class BelongSet extends React.Component {
             </div>
           ):(
             <NodeSearchModule
-              type={"option"}
+              type={"inputDirect"}
+              mountFocus={false}
+              reversed = {true}
               _set_nodeChoice={this._set_choiceFromSearch}
               _set_SearchModal_switch={()=>{}}
               _handleClick_SearchModal_switch={(e)=>{e.preventDefault();e.stopPropagation();}}/>

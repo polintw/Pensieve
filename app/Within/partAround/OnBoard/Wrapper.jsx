@@ -61,6 +61,9 @@ class Wrapper extends React.Component {
   _handleClick_onBoardSubmit(event){
     event.preventDefault();
     event.stopPropagation();
+    //most important, check if we were under patching
+    if(this.state.axiosPatch) return;
+
     //check if any belong was input
     if(!!this.state.belongs.homeland || !!this.state.belongs.residence){
       let belongsKeys = Object.keys(this.state.belongs);
@@ -77,7 +80,7 @@ class Wrapper extends React.Component {
 
       Promise.all(patchPromises)
       .then(function (results) {
-        //successfully updated, 
+        //successfully updated,
         self.setState({ axiosPatch: false });
         // now close the onBoard, and reload the page to fetch the new belongs set
         self.props._set_lastVisit(true);
@@ -111,6 +114,8 @@ class Wrapper extends React.Component {
 
 
   render(){
+    let submitBlocked = (!(this.state.belongs['homeland'] || this.state.belongs['residence']) && !this.state.axiosPatch) ? true:false;
+
     return(
       <div
         className={styles.comOnBoardWrapper}>
@@ -188,7 +193,8 @@ class Wrapper extends React.Component {
                   style={{lineHeight: "1.5"}}>
                   {this.props.i18nUIString.catalog["guideing_onBoard_BelongsHint"][0]}
                 </span>
-                <div>
+                <div
+                  className={classnames(styles.boxFormBelongSet)}>
                   <BelongSet
                     belongs={this.state.belongs}
                     settingType={"homeland"}
@@ -208,7 +214,8 @@ class Wrapper extends React.Component {
                   style={{lineHeight: "1.5"}}>
                   {this.props.i18nUIString.catalog["guideing_onBoard_BelongsHint"][1]}
                 </span>
-                <div>
+                <div
+                  className={classnames(styles.boxFormBelongSet)}>
                   <BelongSet
                     belongs={this.state.belongs}
                     settingType={"residence"}
@@ -225,9 +232,13 @@ class Wrapper extends React.Component {
           className={classnames(styles.boxRelativeRow, styles.rowButton)}>
           <div
             className={classnames(styles.boxButton)}
+            style={ submitBlocked ? {cursor: 'default'}:{}}
             onClick={this._handleClick_onBoardSubmit}>
             <span
-              className={classnames(stylesFont.fontSubmit ,stylesFont.colorWhite)}>
+              className={classnames(
+                stylesFont.fontSubmit ,
+                stylesFont.colorWhite)}
+              style={  submitBlocked ? {color: "#fdc79d"}:{}}>
               {this.props.i18nUIString.catalog["submit_onBoard_start"]}
             </span>
           </div>

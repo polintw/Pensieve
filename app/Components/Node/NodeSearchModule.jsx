@@ -2,6 +2,7 @@ import React from 'react';
 import {errHandler_axiosCatch} from '../../utils/errHandlers.js';
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import stylesFont from './stylesFont.module.css';
 
 const styleMiddle={
   spanPlaceholder: {
@@ -37,17 +38,6 @@ const stylesShareSearch = {
     boxShadow: 'rgb(1, 1, 1) 0px 2px 0.4rem 0',
     backgroundColor: '#000000',
   },
-  Com_NounsEditor_SearchModal_Modal_panel_input: {
-    display: 'inline-block',
-    width: '100%',
-    height: '96%',
-    position: 'relative',
-    boxSizing: 'border-box',
-    border: 'none',
-    backgroundColor: 'transparent',
-    outline: 'none',
-    font: 'inherit' //the position of this one is important, must above all other 'font' properties
-  },
   Com_NounsEditor_SearchModal_Modal_close_span: {
     display: 'inline-block',
     position: 'relative',
@@ -55,15 +45,6 @@ const stylesShareSearch = {
     float: 'right',
     cursor: 'pointer'
   },
-  Com_InfoNoun_modal_ul_li: {
-    position: 'relative',
-    boxSizing: 'border-box',
-    margin: '1.2rem 0',
-    padding: '2% 2%',
-    border: 'solid 1px #ededed',
-    borderRadius: '0.6rem',
-    cursor: 'pointer'
-  }
 }
 
 const stylesBelongSearch = {
@@ -135,22 +116,34 @@ const stylesBelongSearch = {
   }
 }
 
-const DOMShareSearch = (comp)=>{
+const DOMInput = (comp)=> {
   return (
     <div
-      className={classnames(styles.comSearchModule_Share)}>
+      className={styles.comNodeModuleInputDir}>
       <div
-        className={classnames(styles.boxSearchInput_Share)}>
+        className={classnames(
+          styles.boxInput,
+          stylesFont.fontListItem,
+          stylesFont.colorListItem,
+          {[styles.boxInputFocus]: comp.state.focused}
+        )}>
         <input
           ref={comp.search}
           value={comp.state.query}
-          style={Object.assign({}, stylesShareSearch.Com_NounsEditor_SearchModal_Modal_panel_input)}
+          onFocus={()=> comp.setState((prevState, props)=>{return {focused: true};})}
+          onBlur={()=> comp.setState((prevState, props)=>{return {focused: false};})}
           onChange={comp._handleChange_SearchInput} />
       </div>
-      <ul
-        className={classnames(styles.boxSearchList_Share)}>
-        {comp._render_SearchResults()}
-      </ul>
+      {
+        comp.state.query &&
+        <ul
+          className={classnames(
+            styles.boxList,
+            {[styles.boxListReversed]: comp.props.reversed}
+          )}>
+          {comp._render_SearchResults(comp.props.reversed)}
+        </ul>
+      }
     </div>
   )
 }
@@ -183,13 +176,19 @@ const DOMBelongSearch = (comp)=> {
   )
 }
 
-const DOMResultShare = (comp, nounBasic, index)=>{
+const DOMSearchResult = (comp, nounBasic, index)=>{
   return(
     <li
       key={'_key_nounOption_'+index}
       index={index}
-      style={stylesShareSearch.Com_InfoNoun_modal_ul_li}
-      onClick={comp._handleClick_nounChoose}>
+      className={classnames(
+        stylesFont.fontListItem,
+        stylesFont.colorListItem,
+        {[styles.boxLiFilled]: (comp.state.onLiItem == index)}
+      )}
+      onClick={comp._handleClick_nounChoose}
+      onMouseEnter={comp._handleEnter_liItem}
+      onMouseLeave={comp._handleLeave_liItem}>
       <span>{nounBasic.name}</span>
       <span>{nounBasic.prefix? (", "+nounBasic.prefix):("")}</span>
     </li>
@@ -218,6 +217,7 @@ export class NodeSearchModule extends React.Component {
     super(props);
     this.state = {
       axios: false,
+      focused: false,
       query: "",
       optional: false,
       options: [],
@@ -298,32 +298,34 @@ export class NodeSearchModule extends React.Component {
     });
   }
 
-  _render_SearchResults(){
+  _render_SearchResults(reverse){
     let options = [];
     if(this.state.query){
       this.state.optional?(
         options = this.state.options.map((nounBasic, index) => {
           switch (this.props.type) {
-            case "share":
-              return DOMResultShare(this, nounBasic, index)
-              break;
             case "option":
               return DOMResultBelong(this, nounBasic, index)
               break;
+            case "inputDirect":
+              return DOMSearchResult(this, nounBasic, index)
+              break;
             default:
-              return DOMResultShare(this, nounBasic, index)
+              return DOMResultBelong(this, nounBasic, index)
           }
         })
       ):(
         options = [
           <span
             key='_key_nounOption_none'
-            style={Object.assign({},
-              {display: 'inline-block', textAlign: 'right', margin:'1rem 0'},
-              styleMiddle.spanPlaceholder)}>
+            className={classnames(
+              stylesFont.fontListItem,
+              stylesFont.colorListItem
+            )}>
             {'......'}</span>
         ]
-      )
+      );
+      options = !!reverse ? options.reverse() : options;
     }else{
       options = [(
         <span
@@ -338,7 +340,7 @@ export class NodeSearchModule extends React.Component {
   }
 
   componentDidMount(){
-    this.search.current.focus();
+    if(this.props.mountFocus) this.search.current.focus();
   }
 
   componentWillUnmount(){
@@ -349,14 +351,14 @@ export class NodeSearchModule extends React.Component {
 
   render(){
     switch (this.props.type) {
-      case "share":
-        return DOMShareSearch(this)
-        break;
       case "option":
         return DOMBelongSearch(this)
         break;
+      case "inputDirect":
+        return DOMInput(this)
+        break;
       default:
-        return DOMShareSearch(this)
+        return DOMInput(this)
     }
   }
 }

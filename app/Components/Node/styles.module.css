@@ -1,22 +1,52 @@
-.comSearchModule_Share {
+.comNodeModuleInputDir {
   width: 100%;
   position: relative;
-  top: 0;
-  box-sizing: border-box;
 }
 
-.boxSearchList_Share {
+.boxInput {
+  border-bottom: 1px solid #d8d8d8;
+  padding: 0 1.4rem 0.4rem;
+}
+
+.boxInput input {
+  display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font: inherit;
+}
+
+.boxInputFocus {
+  border-bottom: 1px solid #444444;
+}
+
+.boxList {
   width: 100%;
   min-height: 4rem;
-  max-height: 9rem;
-  position: relative;
+  max-height: 23rem;
+  position: absolute;
   box-sizing: border-box;
+  padding: 0.4rem 1.7rem;
+  background-color: #FFFFFF;
+  list-style: none;
   overflow: auto;
 }
 
-.boxSearchInput_Share {
-  width: 88%;
-  height: 3rem;
-  position: relative;
-  border-bottom: solid 0.2rem #e6e6e6;
+.boxListReversed {
+  bottom: 105%;
+  left: -2%;
+  box-shadow: -1px -2px 3px 1px #d8d8d8;
+  border-radius: 0.2rem 0.2rem 0 0;
+}
+
+.boxList li {
+  margin: 0.8rem -1.7rem;
+  padding: 0 1.7rem;
+  cursor: pointer;
+}
+
+.boxLiFilled {
+  background-color: rgba(0,0,0,0.09);
 }
