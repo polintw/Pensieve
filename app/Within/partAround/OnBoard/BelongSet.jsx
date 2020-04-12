@@ -14,30 +14,33 @@ class BelongSet extends React.Component {
     this.state = {
 
     };
+    this._render_node = this._render_node.bind(this);
     this._set_choiceFromSearch = this._set_choiceFromSearch.bind(this);
+    this._handleEnter_spanDelete = this._handleEnter_spanDelete.bind(this);
+    this._handleLeave_spanDelete = this._handleLeave_spanDelete.bind(this);
+    this._handleClick_belongsDelete = this._handleClick_belongsDelete.bind(this);
+
+  }
+
+  _handleEnter_spanDelete(e) {
+
+  }
+
+  _handleLeave_spanDelete(e) {
 
   }
 
   _set_choiceFromSearch(nodeBasic){
-    //create obj to fit the format of state in redux
-    let insertObj = {};
-    insertObj[nodeBasic.id] = nodeBasic;
-
-    //pass the node basic into redux first,
-    //so the handler would not need to fetch node data from db again
-    this.props._submit_Nodes_insert(insertObj);
-    //no need to fetch node data from db again for any condition gave the choice a non-false value
-    //has already save the data of node in reducer.
-
-    //and pass the choice to
-    this.setState({
-      dialog: true,
-      chosenNode: choice,
-      settingType: type,
-      searchModal: false
-    });
+    //pass the choice to parent's state
+    this.props._set_nodesByTypes(nodeBasic, this.props.settingType);
   }
 
+  _handleClick_belongsDelete(event){
+    event.preventDefault();
+    event.stopPropagation();
+    
+    this.props._set_nodesByTypes(false, this.props.settingType);    
+  }
 
   componentDidMount() {
 
@@ -47,6 +50,20 @@ class BelongSet extends React.Component {
 
   }
 
+  _render_node() {
+    //determine the id of current node
+    const nodeId = this.props.belongs[this.props.settingType];
+
+    return (
+        <div
+          className={classnames()}>
+          {nodeId in this.props.nodesBasic ? (
+            this.props.nodesBasic[nodeId].name) : (
+              null
+            )}
+        </div>
+    )
+  }
 
   render(){
     return(
@@ -55,7 +72,17 @@ class BelongSet extends React.Component {
         {
           this.props.belongs[this.props.settingType] ? (
             <div>
-              {this.props.belongs[this.props.settingType]}
+              {this._render_node()}
+              <div
+                className={classnames()}
+                onMouseEnter={this._handleEnter_spanDelete}
+                onMouseLeave={this._handleLeave_spanDelete}>
+                <span
+                  className={classnames()}
+                  onClick={this._handleClick_belongsDelete}>
+                  {" ╳ "}
+                </span>
+              </div>
             </div>
           ):(
             <NodeSearchModule

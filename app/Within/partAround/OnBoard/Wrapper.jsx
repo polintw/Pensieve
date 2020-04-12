@@ -8,17 +8,93 @@ import styles from './styles.module.css';
 import stylesFont from '../stylesFont.module.css';
 import BelongSet from './BelongSet.jsx';
 import SvgLogo from '../../../Components/Svg/SvgLogo.jsx';
-import {NodeSearchModule} from '../../../Components/Node/NodeSearchModule.jsx';
+import {
+  _axios_PATCH_belongRecords
+} from '../Index/BelongsSet/utils.js';
+import {
+  cancelErr,
+  uncertainErr
+} from "../../../utils/errHandlers.js";
 
 class Wrapper extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      axiosPatch: false,
+      nodesBasic: {},
+      belongs: { homeland: false, residence: false}
     };
+    this.axiosSource = axios.CancelToken.source();
+    this._set_nodesByTypes = this._set_nodesByTypes.bind(this);
+    this._handleClick_onBoardSubmit = this._handleClick_onBoardSubmit.bind(this);
     //And! we have to 'hide' the scroll bar and preventing the scroll behavior to the page one for all
     //so dismiss the scroll ability for <body> here
     document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:hidden;");
+  }
+
+  _set_nodesByTypes(nodeBasic, type){
+    this.setState((prevState, props)=>{
+      //create obj to fit the format of state
+      let updatedBasic= Object.assign({}, prevState.nodesBasic);
+      /*
+      2 conditions: update a new one, or delete the current one.
+      we start from the deleted one.
+      */
+      if(!nodeBasic){
+        prevState.belongs[type] = false;
+      }
+      else{
+        let insertObj = {};
+        insertObj[nodeBasic.id] = nodeBasic;
+        updatedBasic = Object.assign({}, prevState.nodesBasic, insertObj);
+        // then put the node into 'belongs' by type
+        prevState.belongs[type] = nodeBasic.id;
+      }
+
+      return {
+        nodesBasic: updatedBasic,
+        belongs: prevState.belongs
+      }
+    })
+  }
+
+  _handleClick_onBoardSubmit(event){
+    event.preventDefault();
+    event.stopPropagation();
+    //check if any belong was input
+    if(!!this.state.belongs.homeland || !!this.state.belongs.residence){
+      let belongsKeys = Object.keys(this.state.belongs);
+      let patchPromises = belongsKeys.map((key)=>{
+        let submitObj = {
+          category: key,
+          nodeId: this.state.belongs[key]
+        };
+        return new Promise((resolve, reject) => _axios_PATCH_belongRecords(this.axiosSource.cancelToken, submitObj).then((resObj)=>resolve(resObj)).catch((err)=> reject(err)) );
+      });
+
+      const self = this;
+      self.setState({ axiosPatch: true });
+
+      Promise.all(patchPromises)
+      .then(function (results) {
+        //successfully updated, 
+        self.setState({ axiosPatch: false });
+        // now close the onBoard, and reload the page to fetch the new belongs set
+        self.props._set_lastVisit(true);
+        window.location.reload();
+
+      }).catch(function (thrown) {
+        self.setState({ axiosPatch: false });
+        if (axios.isCancel(thrown)) {
+          cancelErr(thrown);
+        } else {
+          let message = uncertainErr(thrown);
+          if (message) alert(message);
+        }
+      });
+
+    }
+
   }
 
   componentDidMount() {
@@ -28,6 +104,9 @@ class Wrapper extends React.Component {
   componentWillUnmount(){
     //recruit the scroll ability back to <body>
     document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:scroll;");
+    if (this.state.axiosPatch) {
+      this.axiosSource.cancel("component will unmount.")
+    }
   }
 
 
@@ -95,6 +174,7 @@ class Wrapper extends React.Component {
             </div>
             <div
               className={classnames(styles.boxFlexColumn, styles.boxFormBelongs)}>
+
               <div
                 className={classnames(styles.boxFormBelongsRow)}
                 style={{marginBottom: "2.19vh"}}>
@@ -111,9 +191,10 @@ class Wrapper extends React.Component {
                 <div>
                   <BelongSet
                     belongs={this.state.belongs}
-                    settingType={"homeland"}/>
+                    settingType={"homeland"}
+                    nodesBasic= {this.state.nodesBasic}
+                    _set_nodesByTypes={this._set_nodesByTypes}/>
                 </div>
-
               </div>
               <div
                 className={classnames(styles.boxFormBelongsRow)}>
@@ -127,7 +208,15 @@ class Wrapper extends React.Component {
                   style={{lineHeight: "1.5"}}>
                   {this.props.i18nUIString.catalog["guideing_onBoard_BelongsHint"][1]}
                 </span>
+                <div>
+                  <BelongSet
+                    belongs={this.state.belongs}
+                    settingType={"residence"}
+                    nodesBasic={this.state.nodesBasic}
+                    _set_nodesByTypes={this._set_nodesByTypes} />
+                </div>
               </div>
+
             </div>
 
           </div>
@@ -135,7 +224,8 @@ class Wrapper extends React.Component {
         <div
           className={classnames(styles.boxRelativeRow, styles.rowButton)}>
           <div
-            className={classnames(styles.boxButton)}>
+            className={classnames(styles.boxButton)}
+            onClick={this._handleClick_onBoardSubmit}>
             <span
               className={classnames(stylesFont.fontSubmit ,stylesFont.colorWhite)}>
               {this.props.i18nUIString.catalog["submit_onBoard_start"]}

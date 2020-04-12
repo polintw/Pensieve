@@ -44,6 +44,7 @@ class Wrapper extends React.Component {
     };
     this.axiosSource = axios.CancelToken.source();
     this._set_mountToDo = this._set_mountToDo.bind(this);
+    this._set_lastVisit = this._set_lastVisit.bind(this);
     this._createdRespond = this._createdRespond.bind(this);
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
   }
@@ -71,6 +72,10 @@ class Wrapper extends React.Component {
       });
     }); //end of 'if'
 
+  }
+
+  _set_lastVisit(visitTime){
+    this.setState({ lastVisit: visitTime});
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -166,7 +171,8 @@ class Wrapper extends React.Component {
           (this.state.lastVisit == 'newly') &&
           <ModalBox containerId="root">
             <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(255,255,255, 0.98)'}}>
-              <OnBoard/>
+              <OnBoard
+                _set_lastVisit={this._set_lastVisit}/>
             </ModalBackground>
           </ModalBox>
         }
