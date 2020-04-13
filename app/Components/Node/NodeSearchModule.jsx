@@ -132,6 +132,7 @@ const DOMInput = (comp)=> {
           value={comp.state.query}
           onFocus={()=> comp.setState((prevState, props)=>{return {focused: true};})}
           onBlur={()=> comp.setState((prevState, props)=>{return {focused: false};})}
+          onKeyDown={comp._handleKeyDown_onInput}
           onChange={comp._handleChange_SearchInput} />
       </div>
       {
@@ -141,7 +142,7 @@ const DOMInput = (comp)=> {
             styles.boxList,
             {[styles.boxListReversed]: comp.props.reversed}
           )}>
-          {comp._render_SearchResults(comp.props.reversed)}
+          {comp._render_SearchResults()}
         </ul>
       }
     </div>
@@ -231,6 +232,7 @@ export class NodeSearchModule extends React.Component {
     this._handleLeave_liItem = this._handleLeave_liItem.bind(this);
     this._handleChange_SearchInput = this._handleChange_SearchInput.bind(this);
     this._handleClick_nounChoose = this._handleClick_nounChoose.bind(this);
+    this._handleKeyDown_onInput = this._handleKeyDown_onInput.bind(this);
   }
 
   _handleEnter_liItem(e){
@@ -243,6 +245,75 @@ export class NodeSearchModule extends React.Component {
     this.setState({
       onLiItem: '-1'
     })
+  }
+
+  _handleKeyDown_onInput(event){
+    if(!this.state.optional) return; // no options could be selected, no need to handle
+
+    switch (event.keyCode || event.which) {
+      case 38: // key 'up' 
+        if (this.state.onLiItem != '-1' && this.state.onLiItem != '0'){ //already focus in the list, But! not the top one
+          //onLiItem represent the index to state.options
+          this.setState((prevState, props)=>{
+            let itemIndex = Number(prevState.onLiItem); //attribute was always keep in string, have to parsed
+            itemIndex = itemIndex - 1;
+            return {
+              onLiItem: itemIndex.toString()
+            }
+          })
+        }
+        else if(this.state.onLiItem == '-1'){ //not focus on the list, but has option(s)
+          this.setState((prevState, props) => {
+            return {
+              onLiItem: '0'
+            }
+          })
+        }
+
+        break;
+      case 40: // key 'down' 
+        if (this.state.onLiItem != '-1' && Number(this.state.onLiItem) < this.state.options.length) { //already focus in the list, But! not the last one
+          //onLiItem represent the index to state.options
+          this.setState((prevState, props) => {
+            let itemIndex = Number(prevState.onLiItem); //attribute was always keep in string, have to parsed
+            itemIndex = itemIndex + 1;
+            return {
+              onLiItem: itemIndex.toString()
+            }
+          })
+        }
+        else if (this.state.onLiItem == '-1') { //not focus on the list, but has option(s)
+          this.setState((prevState, props) => {
+            return {
+              onLiItem: '0'
+            }
+          })
+        }
+
+        break;
+      case 27: // key 'Esc' 
+        this.setState({
+          query: "",
+          optional: false,
+          options: [],
+          onLiItem: '-1'
+        })
+        break;    
+      case 13: // key 'Enter' 
+        if(this.state.onLiItem != '-1'){ //make sure there was really an selected one
+          let nounBasic = Object.assign({}, this.state.options[Number(this.state.onLiItem)]);
+          this.props._set_nodeChoice(nounBasic);
+          this.setState({
+            query: "",
+            optional: false,
+            options: [],
+            onLiItem: '-1'
+          })
+        }
+        break;    
+      default:
+        break;
+    }
   }
 
   _handleChange_SearchInput(){
@@ -263,7 +334,8 @@ export class NodeSearchModule extends React.Component {
     this.setState({
       query: "",
       optional: false,
-      options: []
+      options: [],
+      onLiItem: '-1'
     }, ()=>{
       this.props._set_SearchModal_switch()
     })
@@ -281,9 +353,12 @@ export class NodeSearchModule extends React.Component {
     }).then((res) => {
       self.setState({axios: false});
       let resObj = JSON.parse(res.data);
+      let nodesList = resObj.main.nounsList;
+      if (!!this.props.reversed) nodesList = nodesList.reverse();
+
       this.setState({
-        optional: resObj.main.nounsList.length > 0?true:false,
-        options: resObj.main.nounsList
+        optional: nodesList.length > 0?true:false,
+        options: nodesList
       });
     }).catch(function (thrown) {
       if (axios.isCancel(thrown)) {
@@ -298,7 +373,7 @@ export class NodeSearchModule extends React.Component {
     });
   }
 
-  _render_SearchResults(reverse){
+  _render_SearchResults(){
     let options = [];
     if(this.state.query){
       this.state.optional?(
@@ -325,7 +400,6 @@ export class NodeSearchModule extends React.Component {
             {'......'}</span>
         ]
       );
-      options = !!reverse ? options.reverse() : options;
     }else{
       options = [(
         <span

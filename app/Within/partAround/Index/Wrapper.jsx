@@ -170,7 +170,7 @@ class Wrapper extends React.Component {
         {
           (this.state.lastVisit == 'newly') &&
           <ModalBox containerId="root">
-            <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(255,255,255, 0.98)'}}>
+            <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(255,255,255, 0.976)'}}>
               <OnBoard
                 _set_lastVisit={this._set_lastVisit}/>
             </ModalBackground>
