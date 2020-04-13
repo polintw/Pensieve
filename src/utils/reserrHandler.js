@@ -194,27 +194,13 @@ function _handle_ErrCatched(e, req, res){
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;
-    case 121:
-      //403, process about wishlist of matchNodes fail, perhaps exceed length limit or some unknown submit
-      clientSet['code'] = 121;
-      clientSet['message'] = "";
-      clientSet['console'] = '';
-      return res.status(e.status).json(clientSet);
-      break;
-    case 122:
-      //403, process modifying list of matchNodes, trying to update node not yet est. or not opened to submit
-      winston.warn(`${e.status} - ${"code 122, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
-      clientSet['code'] = "122";
-      clientSet['message'] = "You are sumitting to a node not allowed.";
-      clientSet['console'] = '';
-      return res.status(e.status).json(clientSet);
-      break;
     case 123:
-      //403, process for modifying taken node  but may not match the current position, not the desired one or the position not available.
+      //403,
+      // used by sharedsPOST, in validation, the img data passed was not valid
       winston.info(`${e.status} - ${"code 123, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
-      clientSet['code'] = "123";
-      clientSet['message'] = "There has already been another corner taken on record. Giving up the current one if you wanted to take this new corner.";
-      clientSet['console'] = '';
+      clientSet['code'] = 123;
+      clientSet['message'] = e.message;
+      clientSet['console'] = 'Hey! Use this api as required!';
       return res.status(e.status).json(clientSet);
       break;
     case 124:

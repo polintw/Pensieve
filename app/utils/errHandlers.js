@@ -53,10 +53,6 @@ export function uncertainErr(error){
       //a missing token, no need to alert anything.
         window.location.assign('/s/signin');
         return false; //return to inform iterator, meaning no need for further handleing
-      case 121: //in /MatchSet, the error return by server which usually means you already have taken a node
-        return "message_Main_forbbidenWish";
-      case 123: //in /MatchSet, the error return by server which usually means you already have taken a node
-        return "message_Main_duplicateTaking";
       default:
     };
     return error.response.data.message;

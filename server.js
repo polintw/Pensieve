@@ -43,9 +43,9 @@ const loginLimiter = rateLimit({
     winston.warn(`${"WARN: login request exceeded from ip "} ${req.ip}`);
   }
 });
-const registerLimiter = rateLimit({
-  windowMs: 10 * 60 * 1000, // 10 minutes
-  max: 12, // limit each IP to 600 requests per windowMs
+const registerLimiter = rateLimit({ // incl. both /register & /register/mail
+  windowMs: 20 * 60 * 1000, // 20 minutes
+  max: 12,
   message:{
     'message': {'warning': "Trying completing registered process or verifying account too many times."},
     'console': ''
@@ -54,21 +54,71 @@ const registerLimiter = rateLimit({
     winston.warn(`${"WARN: too many register request for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);
   }
 });
+const forgetLimiter = rateLimit({ // incl. /forget/password
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 3,
+  message:{
+    'message': {'warning': "Requesting too /forget too many times."},
+    'console': ''
+  },
+  onLimitReached: function(req, res){
+    winston.warn(`${"WARN: too many request to /forget for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);
+  }
+});
 const shareLimiter = rateLimit({
   windowMs: 12 * 60 * 1000, // 12 minutes
-  max: 3, // limit each IP to 600 requests per windowMs
+  max: 3,
   message:{
-    'message': {'warning': "Trying sharing a new unit from yuor account too many times."},
+    'message':  "Trying sharing a new unit from yuor account too many times.",
     'console': ''
   },
   onLimitReached: function(req, res){
     winston.warn(`${"WARN: share post over the limit for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);
   }
 });
+
+const accountPwLimiter = rateLimit({
+  windowMs: 30 * 60 * 1000, // 30 minutes
+  max: 4,
+  message:{
+    'message': {'warning': "Asking for resetting password too many times."},
+    'console': ''
+  },
+  onLimitReached: function(req, res){
+    winston.warn(`${"WARN: too many request to /account/Password for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);
+  }
+});
+const nodesSearchLimiter = rateLimit({
+  windowMs: 12 * 60 * 1000, // 12 minutes
+  max: 100,
+  message:{
+    'message': "Too many request.",
+    'console': 'Too many request to /nouns/search.'
+  },
+  onLimitReached: function(req, res){
+    winston.warn(`${"WARN: too many request to /nouns/search for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);
+  }
+});
+const belongsPatchLimiter = rateLimit({
+  windowMs: 20 * 60 * 1000, // 20 minutes
+  max: 8,
+  message:{
+    'message': "You've kept setting your belongs repeatedly. Please set a place favor you the most. ",
+    'console': ''
+  },
+  onLimitReached: function(req, res){
+    winston.warn(`${"WARN: too many request to /profile/nodesBelong for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);
+  }
+});
+
 app.use(limiter); //rate limiter apply to all requests
 app.use("/router/login", loginLimiter); // restrict specially for login behavior, but should use username one day
 app.use("/router/register", registerLimiter);
+app.use("/router/forget", forgetLimiter);
 app.post("/router/share", shareLimiter); //it's just a temp method, its not good enough
+app.use("/router/account/password", accountPwLimiter);
+app.use("/router/nouns/search", nodesSearchLimiter);
+app.patch("/router/profile/nodesBelong", belongsPatchLimiter);  // only patch, spare GET (which is res belongs)
 
 
 //parse url comeing in
