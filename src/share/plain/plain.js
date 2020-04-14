@@ -2,6 +2,7 @@ const express = require('express');
 const execute = express.Router();
 const fs = require('fs');
 const path = require("path");
+const {validateShared} = require('./validation.js');
 const projectRootPath = require("../../../projectRootPath");
 const winston = require('../../../config/winston.js');
 const {
@@ -15,71 +16,23 @@ const _DB_marksContent = require('../../../db/models/index').marks_content;
 const _DB_attribution = require('../../../db/models/index').attribution;
 const _DB_nodes_activity = require('../../../db/models/index').nodes_activity;
 const _DB_units_nodesAssign = require('../../../db/models/index').units_nodes_assign;
-const _DB_usersNodesHomeland = require('../../../db/models/index').users_nodes_homeland;
-const _DB_usersNodesResidence = require('../../../db/models/index').users_nodes_residence;
-const {selectNodesParent } = require('../../nouns/utils.js');
 const {
   _handle_ErrCatched,
-  forbbidenError,
   internalError
 } = require('../../utils/reserrHandler.js');
 const {
   _res_success_201
 } = require('../../utils/resHandler.js');
 
-async function _get_ancestors(userId){
-  const userHomeland = await _DB_usersNodesHomeland.findOne({
-    where: {
-      id_user: userId,
-      historyify: false
-    }
-  })
-  .then((result)=>{
-    return !!result ? result: false;
-  })
-  .catch((err)=>{
-    throw new internalError("from _DB_usersNodesHomeland selection shareHandler_POST, "+err, 131)});
-  const userResidence = await _DB_usersNodesResidence.findOne({
-    where: {
-      id_user: userId,
-      historyify: false
-    }
-  })
-  .then((result)=>{
-    return !!result ? result: false;
-  })
-  .catch((err)=>{
-    throw new internalError("from _DB_usersNodesResidence selection shareHandler_POST, "+err, 131);});
-
-  let ancestorsByType = {};
-  let belongList = [], belongsToType={}; //list used to select from assign, would incl. parent of belong nodes.
-  if(!!userResidence){ belongList.push(userResidence.id_node); belongsToType[userResidence.id_node]= "residence"};
-  if(!!userHomeland){ belongList.push(userHomeland.id_node);  belongsToType[userHomeland.id_node]= 'homeland'};
-  // build a check point to block action without belong setting first .
-  if(belongList.length < 1) throw new forbbidenError("Please, submit your Shared only after set a corner you belong to.", 120);
-
-  const ancestorsInfo = await selectNodesParent(belongList);
-  belongList.forEach((nodeId, index)=>{ //loop by list client sent
-    let type = belongsToType[nodeId];
-    if(nodeId in ancestorsInfo){
-      let selfInclList = [], currentNode=ancestorsInfo[nodeId].id;
-      while (!!currentNode) { //jump out until the currentNode was "null" or 'undefined'
-        selfInclList.push(currentNode);
-        currentNode = ancestorsInfo[currentNode].parent_id;
-      }
-      ancestorsByType[type] = selfInclList;
-    }else ancestorsByType[type] = [nodeId];
-  });
-
-  return ancestorsByType;
-}
 
 async function shareHandler_POST(req, res){
-
   const userId = req.extra.tokenUserId; //use userId passed from pass.js
-  let ancestorsByType;
+  let modifiedBody = {};
+  Object.assign(modifiedBody, req.body);
+
+  //First of all, validating the data passed
   try{
-    ancestorsByType = await _get_ancestors(userId);
+    await validateShared(modifiedBody, userId)
   }
   catch(error){
     _handle_ErrCatched(error, req, res);
@@ -89,7 +42,6 @@ async function shareHandler_POST(req, res){
 
   new Promise((resolve, reject)=>{
     //add it into shares as a obj value
-    let modifiedBody = {};
 
     let coverBase64Buffer ,beneathBase64Buffer;
     //deal with cover img first.
@@ -113,19 +65,19 @@ async function shareHandler_POST(req, res){
             return;
           };
           modifiedBody['url_pic_layer1'] = userId+'/'+req.body.submitTime+'_layer_1.jpg';
-          resolve(modifiedBody);
+          resolve();
         });
       }else{
-        resolve(modifiedBody);
+        resolve();
       }
     })
-  }).then((modifiedBody)=>{
-    Object.assign(modifiedBody, req.body);
+  }).then(()=>{
+
     delete modifiedBody.coverBase64;
     delete modifiedBody.beneathBase64;
 
-    return(modifiedBody);
-  }).then((modifiedBody)=>{
+    return;
+  }).then(()=>{
     //first, write into the table units
     //and get the id_unit here first time
     let unitProfile = {
@@ -167,20 +119,20 @@ async function shareHandler_POST(req, res){
             primer_createdAt: primer.createdAt,
           })
           .then((createdRespond)=>{
-            return modifiedBody;
+            return;
           })
           .catch((err)=>{
             throw err
           });
         }
-        else return modifiedBody;
+        else return;
       });
     })
     .catch((err)=>{
       throw err
     });
 
-  }).then((modifiedBody)=>{
+  }).then(()=>{
     //this block, write into the table: marks(and get id_mark back), attribution, and units_nodes_assign.
     //And Notice! we need id_mark for marks_content, so update to it happened in next step.
     let marksArr = modifiedBody.joinedMarksList.map((markKey, index)=>{
@@ -197,7 +149,8 @@ async function shareHandler_POST(req, res){
     });
 
     const creationMarks = ()=>{
-      return _DB_marks.bulkCreate(marksArr).then((createdInst)=>{
+      return _DB_marks.bulkCreate(marksArr)
+      .then((createdInst)=>{
         let idList = createdInst.map((newRow, index)=>{
           return newRow.id
         })
@@ -209,49 +162,17 @@ async function shareHandler_POST(req, res){
       });
     };
     const handlerNodesSet = ()=>{
-      return new Promise((resolveHere, rejectHere)=>{
-        /*
-        Here we check the asigned nodes first.
-        to see if the assigned are really one belong to the user's.
-        will get a assignedNodes list returned to next step
-        */
-        let allowedTypes = ['homeland','residence'], assignedNodes=[];
-
-        modifiedBody.nodesSet.assign.every((assignedObj, index) => { //arr.every could be break
-          if(allowedTypes.indexOf(assignedObj.type)< 0 || allowedTypes.length <1) { //means the assigned was 'reapeated', which are not allowed under any circumstance
-            rejectHere(new forbbidenError("You didn't submit with an allowed nodes.", 120)); return false ;};
-
-          let series = (assignedObj.type in ancestorsByType) ?ancestorsByType[assignedObj.type]: []; //theoratically ancestorsByType shole have included all types, just in case
-          if(series.indexOf(assignedObj.nodeId) < 0) {rejectHere(new forbbidenError("You didn't submit with an allowed nodes.", 120)); return false;}; //reject to client if he want to assigned a node not belong to his registered
-          let indexInAllowed = allowedTypes.indexOf(assignedObj.type);
-          allowedTypes.splice(indexInAllowed, 1); //rm type checked in this round
-          assignedNodes.push(assignedObj.nodeId);
-          return true; //we are using .every(), must return true to go to next round
-        });
-
-        resolveHere(assignedNodes);
-      })
-      .then((assignedNodes)=>{
-        //no need to edit the nodesSet.tags, but concat to assignedNodes list
-        let concatList = assignedNodes.concat(modifiedBody.nodesSet.tags); //combined list pass from req
-        //check if the noun exist! in case some people use faked nound id,
-        //and prepared to insert into attribution
-        return _DB_nouns.findAll({
-          where: {id: concatList}
-        })
-        .then((results) => {
-          //if there is no validate noun passed from client,
-          //cancel by reject to the Top level
-          //& warn the client
-          if(results.length!= concatList.length){
-            throw(new forbbidenError({"warning": "you've passed an invalid nouns key"}, 120));return;};
-
-          return results;
-        })
-        .catch((err)=>{
-          throw err
-        });
-
+      /*
+      the nodes passed to here were already validated, could used directly
+      */
+      //no need to edit the nodesSet.tags, but concat to assignedNodes list
+      let assignedNodes= modifiedBody.nodesSet.assign.map((assignedObj, index)=>{
+        return assignedObj.nodeId;
+      });
+      let concatList = assignedNodes.concat(modifiedBody.nodesSet.tags); //combined list pass from req
+      //prepared to insert into attribution
+      return _DB_nouns.findAll({
+        where: {id: concatList}
       })
       .then(resultNodes => {
         /*till this moment the check for assigned, attributed nodes have completed.
@@ -280,13 +201,7 @@ async function shareHandler_POST(req, res){
         return Promise.all([
           new Promise((resolve, reject)=>{creationAttri().then(()=>{resolve();});}),
           new Promise((resolve, reject)=>{creationNodesAssign().then(()=>{resolve();});})
-        ])
-        .then(()=>{
-          return;
-        })
-        .catch((err)=>{
-          throw err
-        });
+        ]);
       })
       .catch((err)=>{
         throw err
@@ -310,13 +225,13 @@ async function shareHandler_POST(req, res){
       modifiedBody['newIdMarksList'] = newIdMarksList;
       modifiedBody['newIdMarksObj'] = newIdMarksObj;
 
-      return modifiedBody;
+      return;
     })
     .catch((err)=>{
       throw err;
     });
 
-  }).then((modifiedBody)=>{
+  }).then(()=>{
     //now in this section, update into the marks_content
     //it's the final records need to be saved before res to the client
     let insertArr = modifiedBody.newIdMarksList.map((markId, index) => {
@@ -354,19 +269,19 @@ async function shareHandler_POST(req, res){
     });
 
     return _DB_marksContent.bulkCreate(insertArr).then((createdInst)=>{
-      return modifiedBody;
+      return;
     })
     .catch((err)=>{
       throw err;
     });
 
   })
-  .then((modifiedBody)=>{
+  .then(()=>{
     //every essential step for a shared has been done
     //return success & id just created
     _res_success_201(res, {unitId: modifiedBody.id_unit_exposed}, '');
     //resolve, and return the modifiedBody for backend process
-    return(modifiedBody);
+    return;
   })
   .catch((error)=>{
     //a catch here, shut the process if the error happened in the 'front' steps
@@ -375,7 +290,7 @@ async function shareHandler_POST(req, res){
     //we still need to 'return', but return a reject(),
     //otherwise it would still be seen as 'handled', and go to the next .then()
   })
-  .then((modifiedBody)=>{
+  .then(()=>{
     //backend process
     //no connection should be used during this process
     let assignedNodes = modifiedBody.nodesSet.assign.map((assignedObj,index)=>{

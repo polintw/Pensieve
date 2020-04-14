@@ -1,6 +1,7 @@
 const express = require('express');
 const execute = express.Router();
 const path = require("path");
+const {validateSharedEdit} = require('./plain/validation.js');
 const projectRootPath = require("../../projectRootPath");
 const winston = require('../../config/winston.js');
 const {
@@ -28,31 +29,20 @@ async function _handle_unit_AuthorEditing(req, res){
 
   const userId = req.extra.tokenUserId; //use userId passed from pass.js
   const exposedId = req.reqUnitId; //in editing by author, the unit was created so did the unitId
-  let unitId = false, authorId=false;
-  await _DB_units.findOne({where: {exposedId: exposedId}})
-    .then((result)=>{
-      if(!!result){
-        unitId = result.id;
-        authorId = result.id_author;
-      }
-    });
-
-  //first, check validation
-  if(authorId != userId){ //if the user are the author?
-    _handle_ErrCatched(new forbbidenError("from _handle_unit_AuthorEditing, trying to edit Shared not belong by client.", 39), req, res);
-    return; //stop and end the handler.
+  let modifiedBody = {};
+  Object.assign(modifiedBody, req.body);
+  //First of all, validating the data passed
+  try{
+    await validateSharedEdit(modifiedBody, userId, exposedId)
   }
-  else if(!unitId){ //if the unit really 'existed'
-    _handle_ErrCatched(new validationError("from _handle_unit_AuthorEditing, trying to edit Shared not exist.", 325), req, res);
-    return; //stop and end the handler.
+  catch(error){
+    _handle_ErrCatched(error, req, res);
+    return ; //close the process
   }
 
   //then, we can start erase process
 
   new Promise((resolve, reject)=>{
-
-    let modifiedBody = {};
-    Object.assign(modifiedBody, req.body);
     /*
       different from Create, not allow replacing the pic,
       so we jumo the pic process.
@@ -89,19 +79,15 @@ async function _handle_unit_AuthorEditing(req, res){
       });
     };
     const handlerNodesSet = ()=>{
-      //check if the noun exist! in case some people use faked nound id,
-      //and prepared to insert into attribution
-      let concatList = modifiedBody.nodesSet.assign.concat(modifiedBody.nodesSet.tags); //combined list pass from req
+      // prepared to insert into attribution
+      let assignedNodes= modifiedBody.nodesSet.assign.map((assignedObj, index)=>{
+        return assignedObj.nodeId;
+      });
+      let concatList = assignedNodes.concat(modifiedBody.nodesSet.tags); //combined list pass from req
       return _DB_nouns.findAll({
         where: {id: concatList}
       })
       .then(results => {
-        //if there is no validate noun passed from client,
-        //cancel by reject to the Top level
-        //& warn the client
-        if(results.length!= concatList.length){
-          throw(new forbbidenError({"warning": "you've passed an invalid nouns key"}, 120));return;};
-
         //make nodes array by rows
         let nodesArr = results.map((row, index)=>{
               return ({
@@ -146,13 +132,13 @@ async function _handle_unit_AuthorEditing(req, res){
       modifiedBody['newIdMarksList'] = newIdMarksList;
       modifiedBody['newIdMarksObj'] = newIdMarksObj;
 
-      resolve(modifiedBody);
+      resolve();
     })
     .catch((err)=>{
       reject(new internalError("error thrown from marks created & nodesSet handling process"+ err, 131));
     });
 
-  }).then((modifiedBody)=>{
+  }).then(()=>{
     //now in this section, update into the marks_content
     //it's the final records need to be saved before res to the client
     let insertArr = modifiedBody.newIdMarksList.map((markId, index) => {
@@ -192,7 +178,7 @@ async function _handle_unit_AuthorEditing(req, res){
     return _DB_marksContent.destroy({where: {id_unit: unitId}})
     .then(()=>{
       return _DB_marksContent.bulkCreate(insertArr).then((createdInst)=>{
-        return modifiedBody;
+        return;
       })
       .catch((err)=>{
         throw err
@@ -203,12 +189,12 @@ async function _handle_unit_AuthorEditing(req, res){
     });
 
   })
-  .then((modifiedBody)=>{
+  .then(()=>{
     //every essential step for a shared has been done
     //return success & id just created
     _res_success_201(res, {unitId: exposedId}, '');
     //resolve, and return the modifiedBody for backend process
-    return(modifiedBody);
+    return;
   })
   .catch((error)=>{
     //a catch here, shut the process if the error happened in the 'front' steps
@@ -217,7 +203,7 @@ async function _handle_unit_AuthorEditing(req, res){
     //we still need to 'return', but return a reject(),
     //otherwise it would still be seen as 'handled', and go to the next .then()
   })
-  .then((modifiedBody)=>{
+  .then(()=>{
     //backend process
     //no connection should be used during this process
     let concatList = modifiedBody.nodesSet.assign.concat(modifiedBody.nodesSet.tags); //combined list pass from req
