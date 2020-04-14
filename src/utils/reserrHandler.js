@@ -118,6 +118,13 @@ function _handle_ErrCatched(e, req, res){
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;
+    case 7:
+      //400, validation, invalid marks in posted shared
+      clientSet['code'] = 3;
+      clientSet['message'] = e.message;
+      clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
     case 32:
       //401, token invalid, authorized failed
       clientSet['code'] = 32;
@@ -166,7 +173,7 @@ function _handle_ErrCatched(e, req, res){
       clientSet['console'] = {};
       return res.status(e.status).json(clientSet);
       break;
-    case 50:
+    case 50: //404, user was not found
       clientSet['code'] = 50;
       clientSet['message'] = e.message;
       clientSet['console'] = '';

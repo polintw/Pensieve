@@ -37,7 +37,8 @@ function _handle_password_ForgetResend_PATCH(req, res){
       where: {email: req.body.email},
       attributes: ['id', 'status', 'first_name']
     }).then(user =>{
-      if(!user) throw new notFoundError({"email": "please using a valid email address."}, 50);
+      if(!user) { throw new notFoundError({"email": "please using a valid email address."}, 50); return;}
+
       switch (user.status) {
         case 'unverified': // it's unreasonable to reset a password even before verified
           throw new forbbidenError({"warning:": "Your email hasn't verified yet. Verifying it to sign in, or resending verifications."}, 87)

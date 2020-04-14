@@ -136,7 +136,7 @@ class EditingPanel extends React.Component {
     //Then if everything is fine
     //seal the mark obj by fill in the lasr undetermined value, 'layer'
     newObj.coverMarks.list.forEach((markKey, index)=>{
-      newObj.coverMarks.data[markKey].layer='0';
+      newObj.coverMarks.data[markKey].layer = 0;
     });
 
     this.props._set_Submit(newObj);

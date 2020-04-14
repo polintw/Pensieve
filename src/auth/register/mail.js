@@ -98,7 +98,8 @@ function _handle_auth_mailResend_PATCH(req, res){
       where: {email: req.body.email},
       attributes: ['id', 'status', 'first_name']
     }).then(user =>{
-      if(!user) throw new notFoundError({"email": "this email hasn't sign up yet!"}, 50);
+      if(!user){ throw new notFoundError({"email": "this email hasn't sign up yet!"}, 50); return ;};
+
       switch (user.status) {
         case 'unverified':
           //start to send email verification again
