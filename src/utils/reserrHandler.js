@@ -179,6 +179,15 @@ function _handle_ErrCatched(e, req, res){
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;
+    case 71:
+      //403,
+      // currently used in patch /nodesBelong, change belongs too often
+      winston.info(`${e.status} - ${" code 71, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+      clientSet['code'] = 71;
+      clientSet['message'] = e.message;
+      clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
     case 87: //403, Client is not permitted to perform this action.
       winston.warn(`${e.status} - ${" code 87, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
       clientSet['code'] = 87;
@@ -208,13 +217,6 @@ function _handle_ErrCatched(e, req, res){
       clientSet['code'] = 123;
       clientSet['message'] = e.message;
       clientSet['console'] = 'Hey! Use this api as required!';
-      return res.status(e.status).json(clientSet);
-      break;
-    case 124:
-      //403, process sumitting the willing node but reject due to duplicate claim or reach limit
-      clientSet['code'] = 124;
-      clientSet['message'] = "";
-      clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;
     case 131:

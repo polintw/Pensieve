@@ -3,6 +3,7 @@ const execute = express.Router();
 const winston = require('../../../config/winston.js');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+const _DB_nouns = require('../../../db/models/index').nouns;
 const _DB_usersNodesHomeland = require('../../../db/models/index').users_nodes_homeland;
 const _DB_usersNodesResidence = require('../../../db/models/index').users_nodes_residence;
 const _DB_lastUpdate_NodeBelongs = require('../../../db/models/index').lastUpdate_nodeBelongs;
@@ -195,36 +196,58 @@ async function _create_new(userId, submitObj, category){
 
 };
 
-function _handle_PATCH_profile_nodesBelong(req, res){
+async function _handle_PATCH_profile_nodesBelong(req, res){
   //claim all repeatedly used var iutside the Promise chain.
   let userId = req.extra.tokenUserId; //use userId passed from pass.js
   let category = req.body.category,
       passedNode = req.body.nodeId;
 
-  new Promise((resolve, reject)=>{
+  //First of all, validating the data passed
+  try{
+    const passedNodeInfo = await _DB_nouns.findOne({
+      where: {id: passedNode}
+    });
+    if(!passedNodeInfo) throw new forbbidenError("You didn't submit with an allowed nodes.", 120);
     //decided which selection to use depend on the category req passed.
     let selection = (category == 'residence') ? _find_fromResidence_All : _find_fromHomeland_All;
 
-    selection(userId)
-    .then((allRecs)=>{
-      let permissionToken = true; //permission for updateing.
-      /*
-        There are some limitation to the update to the belong:
-        - for Homeland, no more the 3 time
-        - for residence, only once per 24 hrs & no more than 5 times in a month.
-        - and, residence & homeland could not be the same.
+    const allRecs = await selection(userId);
+    /*
+    There are some limitation to the update to the belong:
+    - for Homeland, no more the 3 time
+    - for residence, only once per 24 hrs & no more than 5 times in a month.
+    - and, residence & homeland could not be the same.
 
-        But for now, we just left it to make a dirty test.
-      */
-
-      if(permissionToken){
-        let submitObj = {
-          id_user: userId,
-          id_node: passedNode,
-        };
-        return _create_new(userId, submitObj, category); //create the new records & set last one into history.
+    But, as you will see, now it's just a simple check.
+    */
+    if(allRecs.length > 1){
+      let dateNow = new Date(),
+          dateLatest = new Date(allRecs[0].createdAt),
+          dateSecond = new Date(allRecs[1].updatedAt);
+      let nowTime = dateNow.getTime(),
+          lastTime = dateLatest.getTime(),
+          secondTime = dateSecond.getTime();
+      if((nowTime - lastTime) < 300000 && (lastTime - secondTime) < 300000){
+        throw new forbbidenError("Are you sure this time? Don't change place you belong to too frequently.", 71)
       }
-    })
+      if(allRecs.length > 10 && (nowTime - lastTime) < 129600000 && (lastTime - secondTime) < 129600000){ //too many time and too frequent
+        throw new forbbidenError("You've change your "+((category == 'residence')? 'stay': 'homeland') + " for too many times. Please find a place most suit you, but change it later.", 71)
+      }
+    }
+
+  }
+  catch(error){
+    _handle_ErrCatched(error, req, res);
+    return ; //close the process
+  }
+
+  new Promise((resolve, reject)=>{
+
+    let submitObj = {
+      id_user: userId,
+      id_node: passedNode,
+    };
+    return _create_new(userId, submitObj, category) //create the new records & set last one into history.
     .then(()=>{
       //have to seperate from the last step.
       resolve()
