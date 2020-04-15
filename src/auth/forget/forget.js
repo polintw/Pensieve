@@ -53,7 +53,7 @@ function _handle_password_ForgetResend_PATCH(req, res){
       .then((resultApply)=>{
         // checking the frequency here, in order to update if needed
         let frequentify = false;
-        if(!resultApply.updatedAt){ // only need if the updatedAt ia not NULL
+        if(!!resultApply.updatedAt){ // only need if the updatedAt ia not NULL
           // prepare time for later compare
           let dateNow = new Date(),
               dateLastReq = new Date(resultApply.updatedAt);

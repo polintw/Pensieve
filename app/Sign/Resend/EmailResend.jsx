@@ -9,7 +9,7 @@ import styles from "./styles.module.css";
 import {
   cancelErr,
   uncertainErr
-} from '../utils/errHandler_axios.js';
+} from '../../utils/errHandlers.js';
 import {
   axiosGetRes,
   setSignInit
@@ -66,11 +66,14 @@ class EmailResend extends React.Component {
     }).then(function (res) {
       self.props._set_axiosRes({axiosStatus: false, message: res.data.message});
     }).catch(function (thrown) {
+      self.props._set_axiosStatus(false);
       if (axios.isCancel(thrown)) {
-        cancelErr(thrown, self.props);
+        cancelErr(thrown);
       } else {
-        uncertainErr(thrown, self.props);
+        let message = uncertainErr(thrown);
+        if(message) self.props._set_axiosRes({axiosStatus: false, message: (typeof message == 'string') ? {"warning": message}: message});
       }
+
     });
   }
 

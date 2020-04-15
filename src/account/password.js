@@ -22,36 +22,42 @@ const isEmpty = require('../utils/isEmpty');
 
 //handle register request
 async function _handle_account_password_PATCH(req, res) {
-  // validte format first
-  const { validationErrors, isValid } = validatePasswordChangedInput(req.body);
-
-  req.body.password_old = !isEmpty(req.body.password_old) ? req.body.password_old : '';
-  if (Validator.isEmpty(req.body.password_old)) {
-    validationErrors.password_old = 'Current password is required.';
-    isValid= false; //must be false if the password_old was not valid
-  }
-  if(!isValid) {
-    _handle_ErrCatched(new forbbidenError(validationErrors, 186), req, res);
-    return;
-  };
 
   const userId = req.extra.tokenUserId; //use userId passed from pass.js
 
-  //still, checking last req time
-  const resultVeri = await _DB_verifications.findOne({
-    where: {id_user: userId}
-  });
-  // compare time interval
-  let dateNow = new Date(),
-  dateLastReq = new Date(!!resultVeri.updatedAt? resultVeri.updatedAt : 1586946370000);
-  let nowTime = dateNow.getTime(),
-  lastReqTime = dateLastReq.getTime();
-  let timeLimit =  43200000; // 12hr
-  //if req twice less than timeLimit
-  if((nowTime - lastReqTime) < timeLimit){
-    _handle_ErrCatched(new forbbidenError( "You shouldn't change your password so often. If you forget your password, please log out first, and using 'forget password'" , 77), req, res);
-    return;
-  };
+  //validation
+  try{
+    // validte format first
+    const { validationErrors, isValid } = validatePasswordChangedInput(req.body);
+
+    req.body.password_old = !isEmpty(req.body.password_old) ? req.body.password_old : '';
+    if (Validator.isEmpty(req.body.password_old)) {
+      validationErrors.password_old = 'Current password is required.';
+      isValid= false; //must be false if the password_old was not valid
+    }
+    if(!isValid) {
+      throw new forbbidenError(validationErrors, 186);
+    };
+
+    // checking last req time
+    const resultVeri = await _DB_verifications.findOne({
+      where: {id_user: userId}
+    });
+    // compare time interval
+    let dateNow = new Date(),
+    dateLastReq = new Date(!!resultVeri.updatedAt? resultVeri.updatedAt : 1586946370000);
+    let nowTime = dateNow.getTime(),
+    lastReqTime = dateLastReq.getTime();
+    let timeLimit =  43200000; // 12hr
+    //if req twice less than timeLimit
+    if((nowTime - lastReqTime) < timeLimit){
+      throw new forbbidenError( {"warning": "You shouldn't change your password so often. If you forget your password, please log out first, and using 'forget password'"} , 77);
+    };
+  }
+  catch(error){
+    _handle_ErrCatched(error, req, res);
+    return ; //close the process
+  }
 
   //everything was checked, go update
   new Promise((resolve, reject)=>{

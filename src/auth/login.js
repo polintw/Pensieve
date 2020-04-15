@@ -53,8 +53,7 @@ login.use(function(req, res) {
             throw {custom: false, status: 500, err: "existed email in verications couldn't be found in users"};
           }
           else{
-            if(rowsUsers[0].status == 'active') Promise.resolve();
-            else {
+            if(rowsUsers[0].status == 'unverified' || rowsUsers[0].status == 'frequentUnverified'){
               let errSet = {
                 "status": 401,
                 "message": {'warning': "You haven't verified your email address yet!"},
@@ -63,6 +62,7 @@ login.use(function(req, res) {
               };
               throw {custom: true, errSet: errSet};
             }
+            else  Promise.resolve();
           }
         }).then(()=>{
           let resData = {};
