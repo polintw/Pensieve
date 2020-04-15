@@ -78,67 +78,84 @@ function _handle_auth_mailConfirm_GET(req, res){
   })
 }
 
-function _handle_auth_mailResend_PATCH(req, res){
+async function _handle_auth_mailResend_PATCH(req, res){
+  //input format validation first
+  let errors = {};
+  req.body.email = !isEmpty(req.body.email) ? req.body.email : '';
+  if (!Validator.isEmail(req.body.email)) {
+    errors.email = 'Email is invalid';
+  }
+  if (Validator.isEmpty(req.body.email)) {
+    errors.email = 'Email is required';
+  }
+  let isValid = isEmpty(errors);
+  if (!isValid) {
+    throw new forbbidenError(errors, 186)
+  }
+
+  const userRow = await _DB_users.findOne({
+    where: { email: req.body.email },
+    attributes: ['id', 'status', 'first_name']
+  });
+
+
+  if (!userRow) { //null, nothing found
+    throw new notFoundError({ "email": "this email hasn't sign up yet!" }, 50); return;
+  };
+
+
   new Promise((resolve, reject)=>{
-    //input format validation first
-    let errors = {};
-    req.body.email = !isEmpty(req.body.email) ? req.body.email : '';
-    if(!Validator.isEmail(req.body.email)) {
-        errors.email = 'Email is invalid';
-    }
-    if(Validator.isEmpty(req.body.email)) {
-        errors.email = 'Email is required';
-    }
-    let isValid = isEmpty(errors);
-    if(!isValid) {
-      throw new forbbidenError(errors, 186)
-    }
+      /*
+      a new userRow.status 'frequent'
+      last updatedat too close to now if 'unverified',
+      turn to 'frequentMail'
+      need to wait a period if 'frequent',
+      but shift back to 'unverified' if has warned.
+      */
 
-    _DB_users.findOne({
-      where: {email: req.body.email},
-      attributes: ['id', 'status', 'first_name']
-    }).then(user =>{
-      if(!user){ throw new notFoundError({"email": "this email hasn't sign up yet!"}, 50); return ;};
 
-      switch (user.status) {
-        case 'unverified':
-          //start to send email verification again
-          return new Promise((resolveJWT, rejectJWT)=>{
-          //sign a token for email verification
-            const payload = {
-              user_Id: user.id,
-              token_property: 'emailVerified'
-            };
-            jwt.sign(JSON.parse(JSON.stringify(payload)), verify_email, {
-              expiresIn: '1d'
-            }, (err, token) => {
-              if(err){
-                rejectJWT(new internalError("jwt.sign error in register/mail.js", 131));
-              }
-              else {
-                resolveJWT(token);
-              }
-            });
-          }).then((tokenEmail)=>{
-            //update this token into users_apply
-            return _DB_users_apply.update(
-              { token_email: tokenEmail},
-              { where: { id_user: user.id } }
-            ).then(()=>{
-              return tokenEmail;
-            })
-          }).then((tokenEmail)=>{
-            //finally, sending the mail to the user
-            let userInfo = {
-              email: req.body.email,
-              first_name: user.first_name
-            }
-            return deliverVerifiedMail(userInfo, tokenEmail);
-          }).catch((error)=>{throw error}); // this line is neccessary for promise in promise
-          break;
-        default:
-          throw new forbbidenError({"warning:": "Your email had been verified, could sign in directly."}, 87)
-      }
+     switch (userRow.status) {
+
+
+       case 'unverified':
+         //start to send email verification again
+         return new Promise((resolveJWT, rejectJWT)=>{
+         //sign a token for email verification
+           const payload = {
+             user_Id: userRow.id,
+             token_property: 'emailVerified'
+           };
+           jwt.sign(JSON.parse(JSON.stringify(payload)), verify_email, {
+             expiresIn: '1d'
+           }, (err, token) => {
+             if(err){
+               rejectJWT(new internalError("jwt.sign error in register/mail.js", 131));
+             }
+             else {
+               resolveJWT(token);
+             }
+           });
+         }).then((tokenEmail)=>{
+           //update this token into users_apply
+           return _DB_users_apply.update(
+             { token_email: tokenEmail},
+             { where: { id_user: userRow.id } }
+           ).then(()=>{
+             return tokenEmail;
+           })
+         }).then((tokenEmail)=>{
+           //finally, sending the mail to the user
+           let userInfo = {
+             email: req.body.email,
+             first_name: userRow.first_name
+           }
+           return deliverVerifiedMail(userInfo, tokenEmail);
+         }).catch((error)=>{throw error}); // this line is neccessary for promise in promise
+         break;
+  
+       default:
+         throw new forbbidenError({"warning:": "Your email had been verified, could sign in directly."}, 87)
+    }
     }).then(()=>{
       //complete the process, and response to client
       let resData = {

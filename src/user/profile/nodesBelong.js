@@ -85,6 +85,69 @@ const _find_fromResidence_All = (userId)=>{
     throw err
   })
 };
+const _update_Homeland_last = (userId) => {
+  return _DB_usersNodesHomeland.update(
+    { historyify: 1 },
+    {
+      where: {
+        id_user: userId,
+        historyify: false
+      }
+    }
+  )
+    .then(() => {
+      return;
+    })
+    .catch((err) => {
+      throw err
+    })
+};
+const _update_Residence_last = (userId) => {
+  return _DB_usersNodesResidence.update(
+    { historyify: 1 },
+    {
+      where: {
+        id_user: userId,
+        historyify: false
+      }
+    }
+  )
+    .then(() => {
+      return;
+    })
+    .catch((err) => {
+      throw err
+    })
+};
+
+async function _create_new(userId, submitObj, category) {
+  //create new row after the last one was thorw into history.
+  if (category == 'residence') {
+    // Update the last records First!!
+    await _update_Residence_last(userId);
+    await _DB_usersNodesResidence
+      .create(submitObj)
+      .then(() => {
+        return
+      })
+      .catch((err) => {
+        throw err
+      });
+  } else {
+    // Update the last records First!!
+    await _update_Homeland_last(userId);
+    await _DB_usersNodesHomeland
+      .create(submitObj)
+      .then(() => {
+        return
+      })
+      .catch((err) => {
+        throw err
+      });
+  }
+
+};
+
 
 function _handle_GET_profile_nodesBelong(req, res){
   new Promise((resolve, reject)=>{
@@ -133,69 +196,6 @@ function _handle_GET_profile_nodesBelong(req, res){
 }
 
 
-const _update_Homeland_last = (userId)=>{
-  return _DB_usersNodesHomeland.update(
-    {historyify: 1},
-    {
-      where: {
-        id_user: userId,
-        historyify: false
-      }
-    }
-  )
-  .then(()=>{
-    return;
-  })
-  .catch((err)=>{
-    throw err
-  })
-};
-const _update_Residence_last = (userId)=>{
-  return _DB_usersNodesResidence.update(
-    {historyify: 1},
-    {
-      where: {
-        id_user: userId,
-        historyify: false
-      }
-    }
-  )
-  .then(()=>{
-    return;
-  })
-  .catch((err)=>{
-    throw err
-  })
-};
-
-async function _create_new(userId, submitObj, category){
-  //create new row after the last one was thorw into history.
-  if(category=='residence'){
-    // Update the last records First!!
-    await _update_Residence_last(userId);
-    await _DB_usersNodesResidence
-    .create(submitObj)
-    .then(()=>{
-      return
-    })
-    .catch((err)=>{
-      throw err
-    });
-  }else{
-    // Update the last records First!!
-    await _update_Homeland_last(userId);
-    await _DB_usersNodesHomeland
-    .create(submitObj)
-    .then(()=>{
-      return
-    })
-    .catch((err)=>{
-      throw err
-    });
-  }
-
-};
-
 async function _handle_PATCH_profile_nodesBelong(req, res){
   //claim all repeatedly used var iutside the Promise chain.
   let userId = req.extra.tokenUserId; //use userId passed from pass.js
@@ -223,15 +223,18 @@ async function _handle_PATCH_profile_nodesBelong(req, res){
     if(allRecs.length > 1){
       let dateNow = new Date(),
           dateLatest = new Date(allRecs[0].createdAt),
-          dateSecond = new Date(allRecs[1].updatedAt);
+          dateSecond = new Date(allRecs[1].createdAt);
       let nowTime = dateNow.getTime(),
           lastTime = dateLatest.getTime(),
           secondTime = dateSecond.getTime();
       if((nowTime - lastTime) < 300000 && (lastTime - secondTime) < 300000){
-        throw new forbbidenError("Are you sure this time? Don't change place you belong to too frequently.", 71)
+        throw new forbbidenError("Is there any difficulty to find a place the most suit you? Perhaps take a while to search a good choice. 'a while' means 5 mins.", 71)
       }
-      if(allRecs.length > 10 && (nowTime - lastTime) < 129600000 && (lastTime - secondTime) < 129600000){ //too many time and too frequent
-        throw new forbbidenError("You've change your "+((category == 'residence')? 'stay': 'homeland') + " for too many times. Please find a place most suit you, but change it later.", 71)
+      if (allRecs.length > 10 && (nowTime - lastTime) < 72000000 && (lastTime - secondTime) < 43200000) { //too many time and too frequent, wait 20hrs after a frequency shorter than 12hrs
+        throw new forbbidenError("You've change your " + ((category == 'residence') ? 'stay' : 'homeland') + " for too many times. Please find a place most suit you, but change it later.", 71)
+      }
+      if( category == 'homeland' && allRecs.length > 5 && (nowTime - lastTime) < 518400000 ){ //too many time and too frequent to 'homeland', wait for 6 days
+        throw new forbbidenError("You've change your Homeland for too many times. Perhaps spend a weekend to explore your mother land, find your origin, and record the place next week.", 71)
       }
     }
 
