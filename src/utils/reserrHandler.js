@@ -188,6 +188,15 @@ function _handle_ErrCatched(e, req, res){
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;
+    case 77:
+      //403,
+      // currently used in patch account/password, change password too frequetly
+      winston.info(`${e.status} - ${" code 77, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+      clientSet['code'] = 77;
+      clientSet['message'] = e.message;
+      clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
     case 87: //403, Client is not permitted to perform this action.
       winston.warn(`${e.status} - ${" code 87, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
       clientSet['code'] = 87;
@@ -231,6 +240,13 @@ function _handle_ErrCatched(e, req, res){
       winston.warn(`${e.status} - ${"Error: code 144, "+e.message["log"]} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
       clientSet['code'] = "144";
       clientSet['message'] ={"warning":"User not found, perhaps the account had been deleted."};
+      clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
+    case 150:
+      //429, too many req for verified mail
+      clientSet['code'] = 150;
+      clientSet['message'] = e.message;
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;

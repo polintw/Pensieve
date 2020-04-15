@@ -35,8 +35,8 @@ const registerLimiter = rateLimit({ // incl. both /register & /register/mail
   }
 });
 const forgetLimiter = rateLimit({ // incl. /forget/password
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 3,
+  windowMs: 60 * 60 * 1000, // 60 minutes
+  max: 5,
   message:{
     'message': {'warning': "Requesting too /forget too many times."},
     'console': ''

@@ -21,53 +21,66 @@ const {
 const isEmpty = require('../utils/isEmpty');
 
 //handle register request
-function _handle_account_password_PATCH(req, res) {
+async function _handle_account_password_PATCH(req, res) {
+  // validte format first
+  const { validationErrors, isValid } = validatePasswordChangedInput(req.body);
+
+  req.body.password_old = !isEmpty(req.body.password_old) ? req.body.password_old : '';
+  if (Validator.isEmpty(req.body.password_old)) {
+    validationErrors.password_old = 'Current password is required.';
+    isValid= false; //must be false if the password_old was not valid
+  }
+  if(!isValid) {
+    _handle_ErrCatched(new forbbidenError(validationErrors, 186), req, res);
+    return;
+  };
+
+  const userId = req.extra.tokenUserId; //use userId passed from pass.js
+
+  //still, checking last req time
+  const resultVeri = await _DB_verifications.findOne({
+    where: {id_user: userId}
+  });
+  // compare time interval
+  let dateNow = new Date(),
+  dateLastReq = new Date(!!resultVeri.updatedAt? resultVeri.updatedAt : 1586946370000);
+  let nowTime = dateNow.getTime(),
+  lastReqTime = dateLastReq.getTime();
+  let timeLimit =  43200000; // 12hr
+  //if req twice less than timeLimit
+  if((nowTime - lastReqTime) < timeLimit){
+    _handle_ErrCatched(new forbbidenError( "You shouldn't change your password so often. If you forget your password, please log out first, and using 'forget password'" , 77), req, res);
+    return;
+  };
+
+  //everything was checked, go update
   new Promise((resolve, reject)=>{
-    const { validationErrors, isValid } = validatePasswordChangedInput(req.body);
-
-    if(!req.query.forget){ //not for 'forgetting password'
-      req.body.password_old = !isEmpty(req.body.password_old) ? req.body.password_old : '';
-      if (Validator.isEmpty(req.body.password_old)) {
-        validationErrors.password_old = 'Current password is required.';
-        isValid= false; //must be false if the password_old was not valid
-      }
-    };
-    if(!isValid) {
-      return reject( new forbbidenError(validationErrors, 186));
-    }
-
-    const userId = req.extra.tokenUserId; //use userId passed from pass.js
-    /*
-    There are 2 condition entering this api: from 'change password' in Sheet, or from forgot password.
-     */
     let selectMethod = ()=>{
-      if(!!req.query.forget) return Promise.resolve() //if for forget password, just resolve() to next .then
-      else {
-        let mysqlForm = {
-          accordancesList: [[userId]]
-        },
-          conditionUser = {
-            table: "verifications",
-            cols: ["id_user", "password"],
-            where: ["id_user"]
-          };
-        return _select_Basic(conditionUser, mysqlForm.accordancesList)
-          .then((rows) => {
-            if (rows.length > 0) {
-              return bcrypt.compare(req.body.password_old, rows[0].password).then(isMatch => {
-                //bcrypt genSalt and hash new password, then Sequelize update to verifications
-                if (isMatch) {
-                  return; //compare success, go to hash
-                }
-                else {
-                  throw new authorizedError({ "password_old": "inputed password was wrong." }, 32)
-                }
-              })
-            } else {
-              throw new notFoundError({ "log": "no such user though with valid token in account/password.js" }, 144)
-            }
-          })
-      }
+      let mysqlForm = {
+        accordancesList: [[userId]]
+      },
+        conditionUser = {
+          table: "verifications",
+          cols: ["id_user", "password"],
+          where: ["id_user"]
+        };
+      return _select_Basic(conditionUser, mysqlForm.accordancesList)
+        .then((rows) => {
+          if (rows.length > 0) {
+            return bcrypt.compare(req.body.password_old, rows[0].password).then(isMatch => {
+              //bcrypt genSalt and hash new password, then Sequelize update to verifications
+              if (isMatch) {
+                return; //compare success, go to hash
+              }
+              else {
+                throw new authorizedError({ "password_old": "inputed password was wrong." }, 32)
+              }
+            })
+          } else {
+            throw new notFoundError({ "log": "no such user though with valid token in account/password.js" }, 144)
+          }
+        })
+        .catch((error)=>{throw error});
     };
 
     selectMethod()
