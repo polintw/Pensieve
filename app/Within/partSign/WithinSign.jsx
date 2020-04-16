@@ -46,7 +46,8 @@ class WithinSign extends React.Component {
   }
 
   _signin_success(){
-    window.location.reload();
+    let url = this.props.location.pathname+this.props.location.search;
+    window.location.reload(url);
   }
 
   _signup_success(){
