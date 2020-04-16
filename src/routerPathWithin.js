@@ -11,6 +11,7 @@ const Op = Sequelize.Op;
 const _DB_units = require('../db/models/index').units;
 const _DB_nouns = require('../db/models/index').nouns;
 const _DB_marks = require('../db/models/index').marks;
+const _DB_marksContent = require('../db/models/index').marks_content;
 const _DB_attribution = require('../db/models/index').attribution;
 const projectRootPath = require('../projectRootPath');
 const {_res_success} = require('./utils/resHandler.js');
@@ -72,29 +73,57 @@ async function _handle_crawler_GET_Unit(req, res){
     let conditionsMarks = {
       where: {id_unit: unitId},
       attributes: ['id', 'layer', 'serial', 'createdAt']
+    },
+    conditionsMarksContent = {
+      where: { id_unit: unitId}
     };
     let nodesSelection = Promise.resolve(_DB_nouns.findAll({where: {id: variables.title}}).catch((err)=>{throw err}));
     let marksSelection = Promise.resolve(_DB_marks.findAll(conditionsMarks).catch((err)=>{throw err}));
+    let marksContentSelection = Promise.resolve(_DB_marksContent.findAll(conditionsMarksContent).catch((err)=>{throw err}));
 
-    return Promise.all([nodesSelection, marksSelection]).then((resultsSelect)=>{
+    return Promise.all([nodesSelection, marksSelection, marksContentSelection]).then((resultsSelect)=>{
       let resultsNodes = resultsSelect[0],
       resultsMarks = resultsSelect[1],
+      resultsMarksContent = resultsSelect[2],
       titleStr = "",
       description= "";
 
+      //then retrieve the first block of the first Mark
+      let marksContentObj = {};
+      resultsMarksContent.forEach((row, index)=>{
+        //editorContent was in form: {blocks:[], entityMap:{}}
+        marksContentObj[row.id_mark] = {
+          blocks: [],
+          entityMap: JSON.parse(row.contentEntityMap)
+        };
+        /*
+        and Notive, every col here still remain in 'string', so parse them.
+        */
+        let blockLigntening=JSON.parse(row.contentBlocks_Light),
+            textByBlocks=JSON.parse(row.text_byBlocks),
+            inlineStyleRangesByBlocks=JSON.parse(row.inlineStyleRanges_byBlocks),
+            entityRangesByBlocks=JSON.parse(row.entityRanges_byBlocks),
+            dataByBlocks=JSON.parse(row.data_byBlocks);
+
+        blockLigntening.forEach((blockBasic, index) => {
+          blockBasic['text'] = textByBlocks[blockBasic.key]
+          blockBasic['inlineStyleRanges'] = inlineStyleRangesByBlocks[blockBasic.key]
+          blockBasic['entityRanges'] = entityRangesByBlocks[blockBasic.key]
+          blockBasic['data'] = dataByBlocks[blockBasic.key]
+
+          marksContentObj[row.id_mark].blocks.push(blockBasic);
+        });
+      });
+      description = convertFromRaw(JSON.parse(marksContentObj[resultsMarks[0].id])).getFirstBlock().getText();
+      variables.descrip = description;  //for now, only use the first block of first mark as description
+
+
       //compose title from Nodes used
       resultsNodes.forEach((row, index)=>{
-        if(index< 1){ titleStr += (row.name); return } //avoid ":" at the begining
-        titleStr += (": "+row.name);
+        if(index< 1){ titleStr += (row.name); return } //avoid "·" at the begining
+        titleStr += ("· "+row.name);
       });
       variables.title = titleStr;
-
-      //then retrieve the first block of the first Mark
-      /*
-      the editor_content has shift to table marks_content, need a magnificent update if really want to display these data
-      */
-      //description = convertFromRaw(JSON.parse(resultsMarks[0].editor_content)).getFirstBlock().getText();
-      //variables.descrip = description;  //for now, only use the first block of first mark as description
 
 
       return variables;
