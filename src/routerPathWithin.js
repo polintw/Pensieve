@@ -114,7 +114,7 @@ async function _handle_crawler_GET_Unit(req, res){
           marksContentObj[row.id_mark].blocks.push(blockBasic);
         });
       });
-      description = convertFromRaw(JSON.parse(marksContentObj[resultsMarks[0].id])).getFirstBlock().getText();
+      description = convertFromRaw(marksContentObj[resultsMarks[0].id]).getFirstBlock().getText();
       variables.descrip = description;  //for now, only use the first block of first mark as description
 
 
