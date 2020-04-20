@@ -4,6 +4,8 @@ import {
   withRouter
 } from 'react-router-dom';
 import { connect } from "react-redux";
+import classnames from 'classnames';
+import styles from './styles.module.css';
 import ImgsFrame from './ImgsFrame.jsx';
 import SidePanel from './SidePanel.jsx';
 import {NodesExtensible} from '../../NodesDisplay/NodesExtensible.jsx';
@@ -11,20 +13,12 @@ import AccountPalette from '../../../Components/AccountPalette.jsx';
 import DateConverter from '../../../Components/DateConverter.jsx';
 
 const styleMiddle = {
-  boxContent: {
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
-    top: '0%',
-    right: '0%',
-    boxSizing: 'border-box',
-  },
   boxImgFrame: {
     width: '77%',
-    height: '100%',
+    height: '90%',
     position: 'absolute',
     top: '0%',
-    right: '0%',
+    left: '16%',
     boxSizing: 'border-box'
   },
   boxActionPanel: {
@@ -34,22 +28,17 @@ const styleMiddle = {
     boxSizing: 'border-box'
   },
   boxAuthor: {
-    maxWidth: '14%',
-    position: 'absolute',
-    bottom: '55%',
-    right: '85%',
+    width: '100%',
+    position: 'relative',
     boxSizing: 'border-box',
   },
   boxNodes: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    width: '17.5%',
-    height: '44%',
+    width: '100%',
+    maxHeight: '44%',
     minHeight: '242px',
-    position: 'absolute',
-    bottom: '4%',
-    left: '0%',
     boxSizing: 'border-box',
     overflow: 'hidden' //just a temp method
   }
@@ -75,7 +64,6 @@ class Wrapper extends React.Component {
         position: 'relative',
         boxSizing: 'border-box',
         marginBottom: '0.6rem',
-        color: 'rgb(250, 250, 250)',
       }
     }
   }
@@ -83,49 +71,52 @@ class Wrapper extends React.Component {
   _handleClick_Account(event){
     event.preventDefault();
     event.stopPropagation();
-    this.props._refer_toandclose('user', this.props.unitCurrent.authorBasic.authorId);
+    // rm this action temporary
+    //this.props._refer_toandclose('user', this.props.unitCurrent.authorBasic.authorId);
   }
 
 
   render(){
     return(
       <div
-        style={styleMiddle.boxContent}>
+        className={classnames('boxAbsoluteFull', styles.comWrapper)}>
         <div
-          style={styleMiddle.boxAuthor}>
+          className={classnames(styles.boxImgLeft)}>
           <div
-            onClick={this._handleClick_Account}
-            style={Object.assign({}, this.style.Com_Unit_ImgLayers_commonSection_InfoPanel_blocks_,{marginBottom:'0.5rem',textAlign: 'right', cursor:'pointer'})}>
-            <AccountPalette
-              size={'layer'}
-              accountFisrtName={this.props.unitCurrent.authorBasic.firstName}
-              accountLastName={this.props.unitCurrent.authorBasic.lastName}/>
+            style={styleMiddle.boxNodes}>
+            {
+              this.props.unitCurrent.nouns &&
+              <div
+                className={'nodesListLayers'}
+                style={this.style.Com_Unit_ImgLayers_contentSection_links_nouns}>
+                <NodesExtensible
+                  nouns={this.props.unitCurrent.nouns}
+                  styleItem= {{margin: '0 0 2.32rem'}}
+                  _handleClick_listNoun={this.props._refer_toandclose}/>
+              </div>
+            }
           </div>
           <div
-            style={this.style.Com_Unit_ImgLayers_commonSection_InfoPanel_blocks_}>
-            <DateConverter
-              place={'layers'}
-              datetime={this.props.unitCurrent.createdAt}/>
-          </div>
-        </div>
-        <div
-          style={styleMiddle.boxNodes}>
-          {
-            this.props.unitCurrent.nouns &&
+            style={styleMiddle.boxAuthor}>
             <div
-              className={'nodesListLayers'}
-              style={this.style.Com_Unit_ImgLayers_contentSection_links_nouns}>
-              <NodesExtensible
-                nouns={this.props.unitCurrent.nouns}
-                styleItem= {{margin: '0 0 2.32rem'}}
-                _handleClick_listNoun={this.props._refer_toandclose}/>
+              style={this.style.Com_Unit_ImgLayers_commonSection_InfoPanel_blocks_}>
+              <DateConverter
+                place={'layers'}
+                datetime={this.props.unitCurrent.createdAt}/>
             </div>
-          }
+            <div
+              onClick={this._handleClick_Account}
+              style={Object.assign({}, this.style.Com_Unit_ImgLayers_commonSection_InfoPanel_blocks_,{marginBottom:'0.5rem',textAlign: 'right'})}>
+              <AccountPalette
+                size={'layer'}
+                accountFirstName={this.props.unitCurrent.authorBasic.firstName}
+                accountLastName={this.props.unitCurrent.authorBasic.lastName}/>
+            </div>
+          </div>
         </div>
         <div
-          style={styleMiddle.boxActionPanel}>
-          <SidePanel
-            _set_Modalmode={this.props._set_Modalmode}/>
+          className={classnames(styles.boxImgBottom)}>
+          <SidePanel/>
         </div>
         <div
           style={styleMiddle.boxImgFrame}>

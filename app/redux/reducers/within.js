@@ -1,23 +1,24 @@
 import { combineReducers } from 'redux';
 import {
   MOUNT_USERINFO,
+  SET_MESSAGE_SINGLE,
   SET_MESSAGE_SINGLECLOSE,
   SET_MESSAGE_BOOLEAN,
   SET_FETCHFLAGS,
   SET_UNITCURRENT,
+  SET_TOKENSTATUS,
   UPDATE_NOUNSBASIC,
   UPDATE_USERSBASIC
 } from '../types/typesGeneral.js';
 import {
   SET_INDEXLISTS,
-} from '../types/typesAround.js';
-import {
-  SET_FOCUSLISTS,
-} from '../types/typesCosmic.js';
-import {
   SET_BELONGSBYTYPE,
+  SUBMIT_FEEDASSIGN,
+  SUBMIT_CHAINLIST,
+  SET_FLAG_CHAINRESPOND
 } from '../types/typesWithin.js';
 import {
+  SET_UNITVIEW,
   UNIT_SUBMITTING_SWITCH
 } from '../types/typesUnit.js';
 import {
@@ -42,6 +43,11 @@ function pageWithin(state = initialGeneral, action){
         userInfo: action.userInfo
       })
       break;
+    case SET_MESSAGE_SINGLE:
+      return Object.assign({}, state, {
+        messageSingle: action.messageSingle
+      })
+      break;
     case SET_MESSAGE_SINGLECLOSE:
       return Object.assign({}, state, {
         messageSingleClose: action.messageSingleClose
@@ -55,9 +61,24 @@ function pageWithin(state = initialGeneral, action){
     case SET_FETCHFLAGS:
       return Object.assign({}, state, {...action.flags}) //there were many kind of flags, all binary(bool), and all set by this case.
       break;
+    case SET_TOKENSTATUS:
+      return Object.assign({}, state, {
+        ...action.status
+      })
+      break;
+    case SET_UNITVIEW:
+      return Object.assign({}, state, {
+        unitView: action.unitView
+      })
+      break;
     case SET_UNITCURRENT:
       return Object.assign({}, state, {
         unitCurrent: action.unitCurrent
+      })
+      break;
+    case SET_BELONGSBYTYPE:
+      return Object.assign({}, state, {
+        belongsByType: {...state.belongsByType, ...action.typeObj}
       })
       break;
     case SET_INDEXLISTS:
@@ -65,14 +86,19 @@ function pageWithin(state = initialGeneral, action){
         indexLists: {...state.indexLists, ...action.lists}
       })
       break;
-    case SET_FOCUSLISTS:
+    case SUBMIT_FEEDASSIGN:
       return Object.assign({}, state, {
-        focusLists: {...state.focusLists, ...action.lists}
+        indexLists: { ...state.indexLists, ...action.listsObj }
       })
       break;
-    case SET_BELONGSBYTYPE:
+    case SUBMIT_CHAINLIST:
       return Object.assign({}, state, {
-        belongsByType: {...state.belongsByType, ...action.typeObj}
+        chainList: { ...state.chainList, ...action.listsObj}
+      })
+      break;
+    case SET_FLAG_CHAINRESPOND:
+      return Object.assign({}, state, {
+        flagChainFetRespond: action.bool
       })
       break;
     case UPDATE_NOUNSBASIC:

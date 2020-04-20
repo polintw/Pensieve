@@ -39,3 +39,16 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.displayNone {
+  display: none;
+}
+
+.coverFullDark {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(23,23,23,0.5);
+}

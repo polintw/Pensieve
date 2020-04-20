@@ -3,8 +3,26 @@
   font-weight: 700;
 }
 
+.fontTitle {
+  font-size: 3.2rem;
+  line-height: 1.5;
+}
+
+.fontTitleNotice {
+  font-size: 2.8rem;
+  line-height: 1.71;
+}
+
+.fontSubmit {
+  font-size: 2.4rem;
+}
+
 .fontHint {
   font-size: 1.4rem;
+}
+
+.fontSubtitle {
+  font-size: 1.5rem;
 }
 
 .fontGreet {
@@ -12,6 +30,34 @@
   letter-spacing: 0.07rem;
 }
 
+.fontDescrip {
+  font-size: 1.6rem;
+}
+
+.colorWhite {
+  color: #FFFFFF;
+}
+
+.colorChainSubtitle {
+  color: #b8b8b8;
+}
+
 .colorLightHint {
   color: #a8a8a8;
+}
+
+.colorDescripBlack {
+  color: #444444;
+}
+
+.colorNoticeBlack {
+  color: #545454;
+}
+
+.colorCoral {
+  color: #ff8168;
+}
+
+.weightBold {
+  font-weight: bold;
 }

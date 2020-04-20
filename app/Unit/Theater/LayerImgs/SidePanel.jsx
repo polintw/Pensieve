@@ -4,7 +4,10 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import classnames from 'classnames';
+import styles from './styles.module.css';
 import AuthorPanel from '../components/Author/AuthorPanel.jsx';
+import {setUnitView} from "../../../redux/actions/unit.js";
 
 class SidePanel extends React.Component {
   constructor(props){
@@ -12,9 +15,13 @@ class SidePanel extends React.Component {
     this.state = {
 
     };
-    this.style={
+    this._handleClick_UnitRespond = this._handleClick_UnitRespond.bind(this);
+  }
 
-    };
+  _handleClick_UnitRespond(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.props._set_state_UnitView("respond");
   }
 
   componentWillUnmount(){
@@ -23,11 +30,17 @@ class SidePanel extends React.Component {
 
   render(){
     return(
-      <div>
+      <div
+        className={styles.comSidePanel}>
         {
           (this.props.unitCurrent.identity=="author") &&
-          <AuthorPanel
-            _set_Modalmode={this.props._set_Modalmode}/>
+          <AuthorPanel/>
+        }
+        {
+          (this.props.unitCurrent.identity=="viewer") &&
+          <div
+            onClick={this._handleClick_UnitRespond}>
+            {"create new"}</div>
         }
       </div>
     )
@@ -41,7 +54,13 @@ const mapStateToProps = (state)=>{
   }
 }
 
+const mapDispatchToProps = (dispatch)=>{
+  return {
+    _set_state_UnitView: (expression)=>{dispatch(setUnitView(expression));}
+  }
+}
+
 export default withRouter(connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(SidePanel));

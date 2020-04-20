@@ -9,8 +9,6 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 
-import RelatedOrigin from './RelatedOrigin/RelatedOrigin.jsx';
-
 const styleMiddle = {
 
 }
@@ -52,11 +50,6 @@ class Related extends React.Component {
     return(
       <div
         className={classnames(styles.comRelated)}>
-        <div
-          className={classnames(styles.boxTop)}>
-          <RelatedOrigin
-            {...this.props}/>
-        </div>
 
         <div
           className={styles.footer}>

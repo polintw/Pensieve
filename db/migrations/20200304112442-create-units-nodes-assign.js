@@ -14,6 +14,9 @@ module.exports = {
         type: Sequelize.INTEGER(10).UNSIGNED,
         allowNull: false
       },
+      belongTypes: {
+        type: Sequelize.STRING(31)
+      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,

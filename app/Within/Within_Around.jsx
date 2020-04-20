@@ -118,14 +118,14 @@ class WithinAround extends React.Component {
         {
           //here and beneath, are dialog system for global used,
           //the series 'message' in redux state is prepared for this kind of global message dialog
-          this.props.messageSingleClose &&
+          this.props.messageSingleClose['render'] &&
           <ModalBox containerId="root">
             <ModalBackground onClose={()=>{this._set_Dialog();}} style={{position: "fixed", backgroundColor: 'rgba(52, 52, 52, 0.36)'}}>
               <div
                 className={"boxDialog"}>
                 <SingleCloseDialog
-                  message={this.props.messageSingleClose}
-                  _positiveHandler={()=>{this.props._set_MessageSinClose(null)}}/>
+                  message={this.props.messageSingleClose['message']}
+                  _positiveHandler={this.props.messageSingleClose['handlerPositive']}/>
               </div>
             </ModalBackground>
           </ModalBox>

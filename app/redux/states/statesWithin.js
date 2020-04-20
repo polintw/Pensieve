@@ -1,6 +1,8 @@
 export const initWithin = {
-  belongsByType: {},
-  flagNewSharedDataFetch: false,
+  belongsByType: {
+    "homeland": null,
+    "homelandup": {}
+  },
 }
 
 export const initCosmic = {
@@ -12,12 +14,13 @@ export const initCosmic = {
 }
 
 export const initAround = {
-  flagTakingRefresh: false,
-  flagWishRefresh: false,
-  flagNewCustomDataFetch: false,
+  flagChainFetRespond: false,
+  chainList: {
+    listOrderedChain: [],
+    listInfo: {}
+  },
   indexLists: {
-    listCustomNew: [],
-    listCustomSelected: [],
-    listSelfShared: []
+    listUnread: [],
+    listUnreadNew: [],
   }
 }

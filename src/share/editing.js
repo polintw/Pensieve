@@ -1,154 +1,251 @@
 const express = require('express');
 const execute = express.Router();
-
-const jwt = require('jsonwebtoken');
-const {verify_key} = require('../../config/jwt.js');
+const path = require("path");
+const {validateSharedEdit} = require('./plain/validation.js');
+const projectRootPath = require("../../projectRootPath");
 const winston = require('../../config/winston.js');
-const {_res_success,_res_success_201} = require('../utils/resHandler.js');
+const {
+  userImg
+} = require('../../config/path.js');
+const _DB_units = require('../../db/models/index').units;
 const _DB_marks = require('../../db/models/index').marks;
-const _DB_attribution =  require('../../db/models/index').attribution;
+const _DB_nouns = require('../../db/models/index').nouns;
+const _DB_marksContent = require('../../db/models/index').marks_content;
+const _DB_attribution = require('../../db/models/index').attribution;
+const _DB_nodes_activity = require('../../db/models/index').nodes_activity;
+const _DB_units_nodesAssign = require('../../db/models/index').units_nodes_assign;
+
 const {
-  UNITS_GENERAL,
-  MARKS_UNITS,
-  ATTRIBUTION_UNIT,
-  NOUNS_NAME
-} = require('../utils/queryIndicators.js');
-const {
-  _insert_basic,
-  _insert_basic_Ignore,
-  _insert_raw
-} = require('../utils/dbInsertHandler.js');
-const {
-  _select_withPromise_Basic
-} = require('../utils/dbSelectHandler.js');
-const {
-  _handler_err_BadReq,
-  _handler_err_NotFound,
-  _handler_err_Unauthorized,
-  _handler_err_Internal
+  _handle_ErrCatched,
+  forbbidenError,
+  internalError,
+  validationError
 } = require('../utils/reserrHandler.js');
+const {
+  _res_success_201
+} = require('../utils/resHandler.js');
 
-function _handle_unit_AuthorEditing(req, res){
-  jwt.verify(req.headers['token'], verify_key, function(err, payload) {
-    if (err) {
-      _handler_err_Unauthorized(err, res)
-    } else {
-      const userId = payload.user_Id;
-      const reqUnit = req.reqUnitId;
-      let mysqlForm = {
-        accordancesList: [[reqUnit]],
-        marksSet: {insertion:[], update:[]},
-        marksList: {update:[], deletion:[]}
+async function _handle_unit_AuthorEditing(req, res){
+
+  const userId = req.extra.tokenUserId; //use userId passed from pass.js
+  const exposedId = req.reqUnitId; //in editing by author, the unit was created so did the unitId
+  let modifiedBody = {};
+  Object.assign(modifiedBody, req.body);
+  //First of all, validating the data passed
+  try{
+    await validateSharedEdit(modifiedBody, userId, exposedId)
+  }
+  catch(error){
+    _handle_ErrCatched(error, req, res);
+    return ; //close the process
+  }
+
+  //then, we can start erase process
+
+  new Promise((resolve, reject)=>{
+    /*
+      different from Create, not allow replacing the pic,
+      so we jumo the pic process.
+      and obviously, we pass the new insertion to units.
+    */
+    //this block, write into the table: marks(and get id_mark back), attribution, and units_nodes_assign.
+    //And Notice! we need id_mark for marks_content, so update to it happened in next step.
+    let marksArr = modifiedBody.joinedMarksList.map((markKey, index)=>{
+      let markObj = modifiedBody.joinedMarks[markKey];
+
+      return {
+        id_unit: unitId,
+        id_author: userId,
+        layer: markObj.layer,
+        portion_top: markObj.top,
+        portion_left: markObj.left,
+        serial: markObj.serial
       };
+    });
 
-      //check user and unit combination!
-      _select_withPromise_Basic(UNITS_GENERAL, mysqlForm.accordancesList).then((resultsUnit)=>{
-        if(resultsUnit[0].id_author != userId){throw {err: "", status:400};}
-      }).then(()=>{
-        //first, check current records
-        let pMarks = Promise.resolve(_select_withPromise_Basic(MARKS_UNITS, mysqlForm.accordancesList)),
-            pAtrri = Promise.resolve(_DB_attribution.findAll({
-              where: {id_unit: reqUnit} //Notice, due to 'paranoid' prop set in Sequelize Model,
-              //this selection would exclude all attribution have been 'deleted' (not null in 'deletedAt')
-            }).catch((errObj)=>{throw errObj}));
-        return Promise.all([pAtrri, pMarks]);
-      }).then(([resultsAttribution, resultsMarks])=>{
-        let sendingData={};
-        let reqMarksList = Array.from(req.body.joinedMarksList),
-            nounsDeletionList = [],
-            reqNounsNewList = Array.from(req.body.nouns.list);
-        //for safety, all above variants use raw data from req and result
+    const creationMarks = ()=>{
+      return _DB_marks.destroy({where: {id_unit: unitId}})
+      .then(()=>{
+        return _DB_marks.bulkCreate(marksArr).then((createdInst)=>{
+          let idList = createdInst.map((newRow, index)=>{
+            return newRow.id
+          })
 
-        //distinguish new, deleted, and modified marks
-        resultsMarks.forEach((row, index)=>{
-          if(row.id in req.body.joinedMarks){
-            let markObj = req.body.joinedMarks[row.id];
-            let editorString = JSON.stringify(markObj.editorContent); //notice, same part in the req.body would also be transformed
-            mysqlForm.marksSet.update.push([
-              row.id,
-              reqUnit,
-              userId,
-              markObj.layer,
-              markObj.top,
-              markObj.left,
-              markObj.serial,
-              editorString
-            ]);
-
-            mysqlForm.marksList.update.push(row.id);
-            //then, erase this one in the id list
-            let position = reqMarksList.indexOf(row.id.toString()) ;
-            reqMarksList.splice(position, 1);
-          }else{
-            mysqlForm.marksList.deletion.push(row.id);
-          }
+          return idList;
         });
-        //the rest in the list should be the new
-        reqMarksList.forEach((newMarkKey, index)=>{
-          let markObj = req.body.joinedMarks[newMarkKey];
-          let editorString = JSON.stringify(markObj.editorContent); //notice, same part in the req.body would also be transformed
-          mysqlForm.marksSet.insertion.push({
-            id_unit: reqUnit,
-            id_author:  userId,
-            layer:  markObj.layer,
-            portion_top: markObj.top,
-            portion_left: markObj.left,
-            serial: markObj.serial,
-            editor_content:  editorString
-          });
-        });
-        //distinguish new, and deleted from attribution
-        resultsAttribution.forEach((row, index)=>{
-          if(row.id_noun in req.body.nouns.basic){ //if the nouns pass from client has already exist
-            let position = reqNounsNewList.indexOf(row.id_noun) ;
-            reqNounsNewList.splice(position, 1); //rm it from List going to insert
-          }else{ //and going to rm the one that did not on the client's list
-            nounsDeletionList.push(row.id_noun);
-          }
+      })
+      .catch((err)=>{
+        throw err
+      });
+    };
+    const handlerNodesSet = ()=>{
+      // prepared to insert into attribution
+      let assignedNodes= modifiedBody.nodesSet.assign.map((assignedObj, index)=>{
+        return assignedObj.nodeId;
+      });
+      let concatList = assignedNodes.concat(modifiedBody.nodesSet.tags); //combined list pass from req
+      return _DB_nouns.findAll({
+        where: {id: concatList}
+      })
+      .then(results => {
+        //make nodes array by rows
+        let nodesArr = results.map((row, index)=>{
+              return ({
+                id_noun: row.id,
+                id_unit: unitId,
+                id_author: userId
+              })
+            });
+        //then create into table attribution
+        return _DB_attribution.destroy({where: {id_unit: unitId}})
+        .then(()=>{
+          return _DB_attribution.bulkCreate(nodesArr, {
+            fields: ['id_unit', 'id_author', 'id_noun']
+          })
+          .then(()=>{
+            return;
+          })
+          .catch((err)=> {throw err});
         })
-
-        let nounsNewSet = reqNounsNewList.map((id, index)=>{
-          return [
-            id,
-            reqUnit,
-            userId
-          ]
+        .catch((err)=>{
+          throw err
         });
-        //check the necessity of each action
-        let pinsertNewAttribution = Promise.resolve(_insert_basic({table: 'attribution', col: '(id_noun, id_unit, id_author)'}, nounsNewSet)),
-            //sequelize could not accept empty values (2018.11.26)
-            pdeleteAttribution = nounsDeletionList.length>0?Promise.resolve(_DB_attribution.destroy({where: {id_noun: nounsDeletionList, id_unit: reqUnit}})):null,
-            pinsertNewMarks = mysqlForm.marksSet.insertion.length>0?Promise.resolve(_DB_marks.bulkCreate(mysqlForm.marksSet.insertion, {fields: ['id_unit', 'id_author', 'layer','portion_top','portion_left','serial','editor_content']})):null,
-            pdeleteMarks = mysqlForm.marksList.deletion.length>0?Promise.resolve(_DB_marks.destroy({where: {id: mysqlForm.marksList.deletion}})):null;
-        //due to the query of mark update required the id, which could be modified from client
-        //this kind of 'INSERT' could not use for the new marks insertion!
-        let queryUpdate =('INSERT INTO '+
-                "marks (id, id_unit, id_author, layer,portion_top,portion_left,serial,editor_content) "+
-                'VALUES ? ON DUPLICATE KEY UPDATE '+
-                'layer=VALUES(layer),portion_top=VALUES(portion_top),portion_left=VALUES(portion_left),serial=VALUES(serial),editor_content=VALUES(editor_content)');
-        let pupdateMarks = Promise.resolve(_insert_raw(queryUpdate, mysqlForm.marksSet.update));
-        return Promise.all([pinsertNewAttribution, pdeleteAttribution, pinsertNewMarks, pdeleteMarks, pupdateMarks]).then(()=>{return sendingData;});
-
-      }).then((sendingData)=>{
-        _res_success_201(res, sendingData, "data patch req: unit author editing, complete.");
-      }).catch((errObj)=>{
-        console.log("error occured during patching unit author editing promise: "+errObj.err)
-        switch (errObj.status) {
-          case 400:
-            _handler_err_BadReq(errObj.err, res);
-            break;
-          case 404:
-            _handler_err_NotFound(errObj.err, res);
-            break;
-          case 500:
-            _handler_err_Internal(errObj.err, res);
-            break;
-          default:
-            _handler_err_Internal(errObj.err?errObj.err:errObj, res);
-        }
+      })
+      .catch((err)=>{
+        throw err
       });
     }
+
+    Promise.all([
+      new Promise((resolve, reject)=>{creationMarks().then((marksIdList)=>{resolve(marksIdList);});}),
+      new Promise((resolve, reject)=>{handlerNodesSet().then(()=>{resolve();});})
+    ])
+    .then((results)=>{
+      let marksIdList = results[0];
+      //replace the 'key' used for marks in modifiedBody
+      let newIdMarksList=[], newIdMarksObj={};
+      newIdMarksList = modifiedBody.joinedMarksList.map((originKey, index)=>{
+        newIdMarksObj[marksIdList[index]] = modifiedBody.joinedMarks[originKey];
+        return marksIdList[index];
+      });
+
+      modifiedBody['newIdMarksList'] = newIdMarksList;
+      modifiedBody['newIdMarksObj'] = newIdMarksObj;
+
+      resolve();
+    })
+    .catch((err)=>{
+      reject(new internalError("error thrown from marks created & nodesSet handling process"+ err, 131));
+    });
+
+  }).then(()=>{
+    //now in this section, update into the marks_content
+    //it's the final records need to be saved before res to the client
+    let insertArr = modifiedBody.newIdMarksList.map((markId, index) => {
+      const contentObj = modifiedBody.newIdMarksObj[markId].editorContent;
+      let blockLigntening=[],
+          textByBlocks={},
+          inlineStyleRangesByBlocks={},
+          entityRangesByBlocks={},
+          dataByBlocks={};
+
+      contentObj.blocks.forEach((block, index) => {
+        textByBlocks[block.key] = block.text;
+        inlineStyleRangesByBlocks[block.key] = block.inlineStyleRanges;
+        entityRangesByBlocks[block.key] = block.entityRanges;
+        dataByBlocks[block.key] = block.data;
+
+        let blockNew = Object.assign({}, block); //make a shalloe copy of current block.
+        delete blockNew.text; //delete the text only in the copy one.
+        delete blockNew.inlineStyleRanges;
+        delete blockNew.entityRanges;
+        delete blockNew.data;
+        blockLigntening.push(blockNew);
+      });
+
+      return {
+        id_mark : markId,
+        id_unit : unitId,
+        contentEntityMap: JSON.stringify(Object.assign({}, contentObj.entityMap)),
+        contentBlocks_Light: JSON.stringify(blockLigntening),
+        text_byBlocks: JSON.stringify(textByBlocks),
+        inlineStyleRanges_byBlocks: JSON.stringify(inlineStyleRangesByBlocks),
+        entityRanges_byBlocks: JSON.stringify(entityRangesByBlocks),
+        data_byBlocks: JSON.stringify(dataByBlocks),
+      };
+    });
+
+    return _DB_marksContent.destroy({where: {id_unit: unitId}})
+    .then(()=>{
+      return _DB_marksContent.bulkCreate(insertArr).then((createdInst)=>{
+        return;
+      })
+      .catch((err)=>{
+        throw err
+      });
+    })
+    .catch((err)=>{
+      throw (new internalError("error thrown from marks_content created process"+ err, 131));
+    });
+
   })
+  .then(()=>{
+    //every essential step for a shared has been done
+    //return success & id just created
+    _res_success_201(res, {unitId: exposedId}, '');
+    //resolve, and return the modifiedBody for backend process
+    return;
+  })
+  .catch((error)=>{
+    //a catch here, shut the process if the error happened in the 'front' steps
+    _handle_ErrCatched(error, req, res);
+    return Promise.reject();
+    //we still need to 'return', but return a reject(),
+    //otherwise it would still be seen as 'handled', and go to the next .then()
+  })
+  .then(()=>{
+    //backend process
+    //no connection should be used during this process
+    let concatList = modifiedBody.nodesSet.assign.concat(modifiedBody.nodesSet.tags); //combined list pass from req
+
+    return _DB_nodes_activity.findAll({
+      where: {id_node: concatList}
+    })
+    .then((nodesActivity)=>{
+      //if the node was new used, it won't has record from nodesActivity
+      //so let's compare the selection and the list in modifiedBody
+      //first, copy a new array, prevent modification to modifiedBody
+      let nodesList = concatList.slice();
+      //second, make a list reveal record in nodesActivity
+      let activityList = nodesActivity.map((row,index)=>{ return row.id_node;});
+      let newList = [];
+      //then, check id in list, skip the node already exist in nodesActivity
+      nodesList.forEach((nodeId, index)=>{
+        if(activityList.indexOf(nodeId) > (-1)) return;
+        newList.push({
+          id_node: nodeId,
+          status: 'online',
+          id_firstUnit: unitId
+        });
+      });
+      //final, insert to table if there is any new used node.
+      if(newList.length > 0){
+        return _DB_nodes_activity.bulkCreate(newList);
+      }
+    })
+    .catch((error)=>{
+      /*
+      Main error handler for whole backend process!
+      the backend process has its own error catch, different from the previous process.
+      and throw to upper catch just to make a clear structure.
+      */
+      winston.error(`${"Internal process "} , ${"for "+"authorEditing: "}, ${error}`);
+    });
+  })
+  .catch((error)=>{
+    //nothing need to happend here, just a catch to deal with chain design(.then() after .catch())
+  });
+
 }
 
 execute.patch('/', function(req, res){

@@ -1,0 +1,10 @@
+.comFeedAssigned{
+  width: 65.625%;
+  position: relative;
+  margin-left: 18.75%;
+}
+
+.boxModule{
+  display: flex;
+  flex-direction: column;
+}

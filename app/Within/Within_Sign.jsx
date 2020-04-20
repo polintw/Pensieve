@@ -2,15 +2,16 @@ import React from 'react';
 import {
   Route,
   Switch,
-  Link,
   withRouter,
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import Around from './partAround/Around.jsx';
-
+import WithinSign from './partSign/WithinSign.jsx';
+import SvgLogo from '../Components/Svg/SvgLogo.jsx';
 import NavOptions from '../Components/NavOptions.jsx';
+import CustomDialog from '../Components/Dialog/CustomDialog.jsx';
 
 class WithinAround extends React.Component {
   constructor(props){
@@ -18,8 +19,16 @@ class WithinAround extends React.Component {
     this.state = {
 
     };
-    this._refer_von_cosmic = this._refer_von_cosmic.bind(this);
     this.style={
+      boxLogo_NavWithin: {
+        display: "inline-block",
+        height: "12px",
+        position: "absolute",
+        top: "39%",
+        left: "25%",
+        boxSizing: "border-box",
+        cursor: "pointer"
+      },
       Within_Around_backplane:{
         width: '100%',
         height: '100%',
@@ -59,10 +68,29 @@ class WithinAround extends React.Component {
     return(
       <div>
         <div style={this.style.Within_Around_backplane}></div>
-        <Route path={this.props.match.path} render={(props)=> <Around {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
+        <Route path={this.props.match.path} render={(props) => <Around {...props} />} />
 
+        <div
+          className={classnames(styles.boxNavAround)}
+          style={ { height: "4rem"}}>
+          <div
+            style={Object.assign({}, this.style.boxLogo_NavWithin)}
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
+            <SvgLogo />
+          </div>
+        </div>
         <div style={this.style.Within_Around_NavOptions}>
           <NavOptions {...this.props}/>
+        </div>
+        <div
+          className={'coverFullDark'}
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); }} />
+
+        <div
+          className={styles.boxSignDialog}>
+          <CustomDialog>
+            <WithinSign {...this.props}/>
+          </CustomDialog>
         </div>
 
       </div>

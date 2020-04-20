@@ -35,9 +35,8 @@ class ImgLayerEditing extends React.Component {
     this._set_imgSize = ()=>{this.setState({imgWidthHeight:true})};
     this.style = {
       Com_ImgLayer_img: {
-        maxWidth: '99%',
+        maxWidth: '100%',
         maxHeight: '100%',
-        right: baseHorizonRatial+'%',
         transform: 'translate('+baseHorizonRatial+'%,-50%)'
       }
     };

@@ -4,6 +4,17 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import {
+  _axios_patch_ShareErase} from '../../../utils.js';
+import {
+  setUnitView,
+  switchUnitSubmitting
+} from "../../../../redux/actions/unit.js";
+import {
+  setMessageBoolean,
+  setMessageSingleClose
+} from "../../../../redux/actions/general.js";
+import {messageDialogInit} from "../../../../redux/states/constants.js";
 
 class AuthorPanel extends React.Component {
   constructor(props){
@@ -12,14 +23,13 @@ class AuthorPanel extends React.Component {
       axios: true
     };
     this.axiosSource = axios.CancelToken.source();
-    this._handleClick_UnitAction_Author = this._handleClick_UnitAction_Author.bind(this);
+    this._submit_SharedErased = this._submit_SharedErased.bind(this);
+    this._handleClick_UnitAction_edit = this._handleClick_UnitAction_edit.bind(this);
+    this._handleClick_UnitAction_erase = this._handleClick_UnitAction_erase.bind(this);
     this.style={
       Com_AuthorPanel_: {
         display: 'flex',
-        justifyContent: 'space-between',
-        width: '131%',
         position: 'relative',
-        transform:'translate(-34%,0)',
         boxSizing: 'border-box'
       },
       Com_AuthorPanel_span: {
@@ -27,15 +37,54 @@ class AuthorPanel extends React.Component {
         fontSize: '1.5rem',
         letterSpacing: '0.12rem',
         fontWeight: '300',
-        color: '#FAFAFA',
         cursor: 'pointer'
       }
     };
   }
 
-  _handleClick_UnitAction_Author(event){
+  _handleClick_UnitAction_edit(event){
     event.preventDefault();event.stopPropagation();
-    this.props._set_Modalmode("author_editing");
+    this.props._set_state_UnitView("editing");
+  }
+
+  _handleClick_UnitAction_erase(event){
+    event.preventDefault();event.stopPropagation();
+    this.props._submit_BooleanDialog({
+      render: true,
+      customButton: null,
+      message: [
+        {text: this.props.i18nUIString.catalog['message_Unit_EraseConfirm'][0],style:{}},
+        {text: this.props.i18nUIString.catalog['message_Unit_EraseConfirm'][1],style:{}}],
+      handlerPositive: ()=>{
+        this._submit_SharedErased();
+        this.props._submit_BooleanDialog(messageDialogInit.boolean);},
+      handlerNegative: ()=>{this.props._submit_BooleanDialog(messageDialogInit.boolean);return;}
+    });
+  }
+
+  _submit_SharedErased(){
+    const self = this;
+    self.props._set_unitSubmitting(true);
+
+    _axios_patch_ShareErase(this.axiosSource.token, this.props.unitCurrent.unitId)
+    .then(()=>{
+      this.props._submit_SingleCloseDialog({
+        render: true,
+        message: [{text: this.props.i18nUIString.catalog['message_Unit_EraseRes'][0],style:{}}], //format follow Boolean, as [{text: '', style:{}}]
+        handlerPositive: ()=>{
+          this.props._submit_SingleCloseDialog(messageDialogInit.singleClose);
+          window.location.assign('/');}
+      });
+    })
+    .catch(function (thrown) {
+      self.props._set_unitSubmitting(false);
+      if (axios.isCancel(thrown)) {
+        cancelErr(thrown);
+      } else {
+        let message = uncertainErr(thrown);
+        if (message) alert(message);
+      }
+    });
   }
 
   componentWillUnmount(){
@@ -50,11 +99,12 @@ class AuthorPanel extends React.Component {
         style={this.style.Com_AuthorPanel_}>
         <span
           style={this.style.Com_AuthorPanel_span}
-          onClick={this._handleClick_UnitAction_Author}>
+          onClick={this._handleClick_UnitAction_edit}>
           {"edit"}
         </span>
         <span
-          style={this.style.Com_AuthorPanel_span}>
+          style={this.style.Com_AuthorPanel_span}
+          onClick={this._handleClick_UnitAction_erase}>
           {"erase"}
         </span>
       </div>
@@ -65,11 +115,22 @@ class AuthorPanel extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
-    unitCurrent: state.unitCurrent
+    unitCurrent: state.unitCurrent,
+    i18nUIString: state.i18nUIString,
+    unitSubmitting: state.unitSubmitting,
+  }
+}
+
+const mapDispatchToProps = (dispatch)=>{
+  return {
+    _submit_SingleCloseDialog: (obj)=>{dispatch(setMessageSingleClose(obj));},
+    _submit_BooleanDialog: (obj)=>{dispatch(setMessageBoolean(obj));},
+    _set_unitSubmitting: (bool)=>{dispatch(switchUnitSubmitting(bool));},
+    _set_state_UnitView: (expression)=>{dispatch(setUnitView(expression));}
   }
 }
 
 export default withRouter(connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(AuthorPanel));

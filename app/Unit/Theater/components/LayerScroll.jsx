@@ -18,12 +18,6 @@ class LayerScroll extends React.Component {
     this._handleWheel_moveCount = this._handleWheel_moveCount.bind(this);
     this.style={
       Com_Unit_LayerScroll_: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0%',
-        boxSizing: 'border-box',
         touchAction: 'pan-y'
       },
     }
@@ -108,6 +102,7 @@ class LayerScroll extends React.Component {
   render(){
     return(
       <div
+        className={'boxAbsoluteFull'}
         ref={this.scrollBase}
         style={this.style.Com_Unit_LayerScroll_}>
         {this.props.children}

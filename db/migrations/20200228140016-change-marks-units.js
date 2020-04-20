@@ -14,6 +14,11 @@ module.exports = {
         unique: true,
         allowNull: false
       });
+    })
+    .then(()=>{ //just here for easier update
+      return queryInterface.changeColumn('units', 'id_primer', {
+        type: Sequelize.UUID
+      });
     });
   },
 

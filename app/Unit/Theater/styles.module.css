@@ -1,14 +1,10 @@
 .comTheater {
-  width: 93.2%;
-  min-width: 900px;
-  height: 99.2%;
-  min-height: 320px;
+  width: 75%;
+  height: 85%;
   position: absolute;
-  top: 0;
-  left: 4.8%;
+  top: 6%;
+  left: 15%;
   box-sizing: border-box;
-  background-color: rgba(11,11,11,0.98);
-  overflow-y: scroll;
 }
 
 .boxBackTop {

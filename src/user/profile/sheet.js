@@ -30,7 +30,7 @@ function _handle_user_profileSheet_GET(req, res){
       },
       selectCondition = {
         table: "sheets",
-        cols: ["gender", "birthYear", "birthMonth", "birthDate"],
+        cols: ["gender"],
         where: ["id_user"]
       };
       //first, selecting by accordancelist
@@ -40,9 +40,6 @@ function _handle_user_profileSheet_GET(req, res){
         let sendingData={
             sheetSet:{
               gender: sheetRec.gender,
-              birthYear: sheetRec.birthYear,
-              birthMonth:sheetRec.birthMonth,
-              birthDate: sheetRec.birthDate
             },
           temp: {}
         };

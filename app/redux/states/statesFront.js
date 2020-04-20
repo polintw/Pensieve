@@ -3,9 +3,6 @@ export const initFront = {
   userSheet: {
     ify: false,
     gender: "",
-    birthYear: "",
-    birthMonth:"",
-    birthDate: ""
   }
 }
 
@@ -16,5 +13,4 @@ export const initSheetSetting = {
     lastName: "",
     mail: ''
   },
-  settingSubmitting: false
 }

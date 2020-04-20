@@ -9,7 +9,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import ContentEditor from './ContentEditor/ContentEditor.jsx';
 import NodesEditor from './NodesEditor/NodesEditor.jsx';
-import Submit from './components/Submit.jsx';
+import Submit from './components/Submit/Submit.jsx';
 import ImgImport from './components/ImgImport.jsx';
 
 class EditingPanel extends React.Component {
@@ -19,7 +19,7 @@ class EditingPanel extends React.Component {
       contentEditing: false,
       coverSrc: !!this.props.unitSet?this.props.unitSet.coverSrc:null,
       coverMarks: !!this.props.unitSet?this.props.unitSet.coverMarks:{list:[], data:{}},
-      nodesSet: {assign:[], tags:[]},
+      nodesSet: !!this.props.unitSet?this.props.unitSet.nodesSet:{assign:[], tags:[]},
       //beneath, is remaining for future use, and kept the parent comp to process submitting
       beneathSrc: null,
       beneathMarks: {list:[],data:{}},
@@ -35,23 +35,45 @@ class EditingPanel extends React.Component {
     this._render_importOrCover = this._render_importOrCover.bind(this);
   }
 
-  _submit_new_node(nodeId, type){
+  _submit_new_node(node, type){ //param 'node' could be 'obj' || 'array', up to the type they passed for
     this.setState((prevState, props)=>{
-      prevState.nodesSet[(type=="assign")? 'assign': 'tags'].push(nodeId);
+      /*
+      we are going to change the data 'inside' a prevState value,
+      so we have to avoid modified the base data during the process,
+      i.e we need to copy to assure the prevState data would not be modified before retrun.
+      (same as _submit_deleteNodes)
+      */
+      let newNodeArr = [node];
+      let updateArr = prevState.nodesSet[(type=="assign")? 'assign': 'tags'].concat(newNodeArr);
+      let updateObj = {};
+      updateObj[(type=="assign")? 'assign': 'tags'] = updateArr;
 
       return {
-        nodesSet: prevState.nodesSet
+        nodesSet: Object.assign({}, prevState.nodesSet, updateObj)
       }
     })
   }
 
-  _submit_deleteNodes(nodeId, type){
+  _submit_deleteNodes(target, type){
     this.setState((prevState, props)=>{
       let targetArr = prevState.nodesSet[(type=="assign")? 'assign': 'tags'];
-       targetArr= targetArr.filter((value, index)=>{ // use filter remove id from the list and replace it by new list
-        return value != nodeId; //not equal value, but allow different "type" (the nodeId was string saved in the DOM attribute)
-      });
-      return prevState;
+      let updateArr = [];
+      if(type=="assign"){
+        //'target' is an index mark the unwanted node
+        updateArr = targetArr.slice();
+        updateArr.splice(target, 1);
+      }else{
+        //'target' would be a nodeId
+        updateArr = targetArr.filter((value, index)=>{ // use filter remove id from the list and replace it by new list
+          return value != nodeId; //not equal value, but allow different "type" (the nodeId was string saved in the DOM attribute)
+        });
+      }
+      let updateObj = {};
+      updateObj[(type=="assign")? 'assign': 'tags'] = updateArr;
+
+      return {
+        nodesSet: Object.assign({}, prevState.nodesSet, updateObj)
+      }
     })
   }
 
@@ -86,9 +108,9 @@ class EditingPanel extends React.Component {
 
   _set_statusEditing(bool){
     this.setState((prevState, props)=>{
-      return (
+      return {
         contentEditing: bool
-      )
+      }
     });
   }
 
@@ -114,7 +136,7 @@ class EditingPanel extends React.Component {
     //Then if everything is fine
     //seal the mark obj by fill in the lasr undetermined value, 'layer'
     newObj.coverMarks.list.forEach((markKey, index)=>{
-      newObj.coverMarks.data[markKey].layer='0';
+      newObj.coverMarks.data[markKey].layer = 0;
     });
 
     this.props._set_Submit(newObj);
@@ -143,14 +165,16 @@ class EditingPanel extends React.Component {
       )
     }else{
       return(
-        <ContentEditor
-          editing={this.state.contentEditing}
-          imgSrc={this.state.coverSrc}
-          marks={this.state.coverMarks}
-          _set_statusEditing={this._set_statusEditing}
-          _set_Mark_Complete={this._set_Mark_Complete}
-          _set_delete={this._set_img_delete}
-          _set_warningDialog={this.props._set_warningDialog}/>
+        <div>
+          <ContentEditor
+            editing={this.state.contentEditing}
+            imgSrc={this.state.coverSrc}
+            marks={this.state.coverMarks}
+            _set_statusEditing={this._set_statusEditing}
+            _set_Mark_Complete={this._set_Mark_Complete}
+            _set_delete={this._set_img_delete}
+            _set_warningDialog={this.props._set_warningDialog}/>
+        </div>
       )
     }
   }
@@ -159,10 +183,6 @@ class EditingPanel extends React.Component {
     return(
       <div
         className={classnames(styles.comEditingPanel)}>
-        <div
-          className={classnames(styles.boxContent)}>
-          {this._render_importOrCover()}
-        </div>
         <div
           className={classnames(styles.boxSide, styles.boxSideEdit)}>
           <NodesEditor
@@ -174,12 +194,27 @@ class EditingPanel extends React.Component {
           className={classnames(styles.boxSide, styles.boxBottomPanel)}>
           <Submit
             editing={this.state.contentEditing}
-            confirmDialog={this.props.confirmDialog}
-            warningDialog={this.props.warningDialog}
+            confirmDialog={!!this.props.confirmDialog? this.props.confirmDialog: false}
+            warningDialog={!!this.props.warningDialog? this.props.warningDialog: false}
             _set_Clear={this.props._set_Clear}
-            _submit_newShare={this._submit_newShare}
-            _refer_toandclose={this.props._refer_toandclose}/>
+            _submit_newShare={this._submit_newShare}/>
         </div>
+        <div>
+          {this._render_importOrCover()}
+        </div>
+        {
+          this.props.unitSubmitting &&
+          <div
+            style={{
+              width: '100%',
+              height: '100%',
+              position: 'absolute',
+              top: '0',
+              left:'0',
+              backgroundColor: 'rgba(230,230,230,0.5)'
+            }}
+            onClick={(e)=>{e.preventDefault(); e.stopPropagation();}}/>
+        }
       </div>
     )
   }
@@ -189,6 +224,7 @@ const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
+    unitSubmitting: state.unitSubmitting,
     belongsByType: state.belongsByType
   }
 }

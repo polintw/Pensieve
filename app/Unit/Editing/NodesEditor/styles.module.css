@@ -13,20 +13,12 @@
 
 }
 
-.boxNodesLists {
-
-}
-
-.boxNodeSearchModule {
-
-}
-
 .comAssignNodes {
 
 }
 
 .boxListItem {
-
+  list-style: none;
 }
 
 .chosenListItem {
@@ -34,5 +26,5 @@
 }
 
 .mouseListItem {
-
+  cursor: pointer;
 }

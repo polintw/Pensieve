@@ -1,6 +1,7 @@
 import {
   SET_TOKENSTATUS,
   SET_FETCHFLAGS,
+  SET_MESSAGE_SINGLE,
   SET_MESSAGE_SINGLECLOSE,
   SET_MESSAGE_BOOLEAN,
   SET_UNITCURRENT,
@@ -34,8 +35,12 @@ export function updateNodesBasic(obj) {
   return { type: UPDATE_NOUNSBASIC, newFetch: obj }
 };
 
-export function setMessageSingleClose(arr) {
-  return { type: SET_MESSAGE_SINGLECLOSE, messageSingleClose: arr}
+export function setMessageSingle(obj) {
+  return { type: SET_MESSAGE_SINGLE, messageSingle: obj}
+};
+
+export function setMessageSingleClose(obj) {
+  return { type: SET_MESSAGE_SINGLECLOSE, messageSingleClose: obj}
 };
 
 export function setMessageBoolean(obj) {
@@ -130,11 +135,10 @@ export function handleUsersList(usersArr) {
     }).then((res)=>{
       let resObj = JSON.parse(res.data);
       dispatch({type: UPDATE_USERSBASIC, newFetch: resObj.main.usersBasic})
-    }).catch(function (thrown) {
-      let customSwitch = (status)=>{
-        return null
-      };
-      errHandler_axiosCatch(thrown, customSwitch);
+    })
+    .catch(function (thrown) {
+      let message = uncertainErr(thrown);
+      if(message) alert(message);
     });
   }
 }

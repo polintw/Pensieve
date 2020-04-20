@@ -1,0 +1,140 @@
+.comOnBoardWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  overflow-y: auto;
+}
+
+.boxRelativeRow {
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.boxFlexColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.rowGreet {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 4.386vh;
+}
+
+.rowTop {
+  padding-top: 2.19vh;
+  margin-bottom: 2.19vh;
+}
+
+.rowForm {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 9.87vh;
+}
+
+.rowButton {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 9.87vh;
+}
+
+.boxGreetTitle {
+  margin-bottom: 2.19vh;
+}
+
+.boxGreetContent {
+  align-items: center;
+  margin-bottom: 4.386vh;
+}
+
+.boxFormSubTitle {
+  align-items: center;
+  margin-bottom: 2.19vh;
+}
+
+.boxFormTitle {
+  align-items: center;
+  margin-bottom: 5.48vh;
+}
+
+.boxFormBelongs {
+  width: 100%;
+}
+
+.boxFormBelongsRow {
+  display: flex;
+  align-items: center;
+  height: 44px;
+}
+
+.spanFormBelongsType {
+  display: inline-block;
+  width: 80px;
+  margin-right: 42px;
+}
+
+.spanFormBelongsDescrip {
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.boxFormBelongSet {
+  display: inline-block;
+  width: 290px;
+  overflow: visible;
+}
+
+.boxLogo {
+  height: 4.3vh;
+  max-width: 25%;
+  box-sizing: border-box;
+  margin-left: 5.14%;
+  opacity: 0.23;
+}
+
+.boxGreet {
+  align-items: center;
+  width: 1036px;
+  max-width: 84vw;
+  position: relative;
+  box-sizing: border-box;
+  border-bottom: 1px solid #d8d8d8;
+}
+
+.boxForm {
+  align-items: center;
+  width: 556px;
+  max-width: 83vw;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.boxButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 320px;
+  height: 6rem;
+  max-width: 72vw;
+  position: relative;
+  box-sizing: border-box;
+  border-radius: 32px;
+  background-color: #ff8168;
+  cursor: pointer;
+}
+
+.comBelongSet {
+
+}
+
+.belongSetBoxNode {
+  display: flex;
+  justify-content: space-around;
+  min-width: 240px;
+  max-width: 310px;
+  overflow: visible;
+}

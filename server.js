@@ -2,14 +2,22 @@ const express = require('express');
 const app = express();
 const path = require("path");
 const bodyParser = require('body-parser');
-const rateLimit = require('express-rate-limit');
 const crawlers = require('crawler-user-agents');
-
 
 const router = require('./src/router.js');
 const routerPathWithin = require('./src/routerPathWithin.js');
 const winston = require('./config/winston.js');
 const {envBasic} = require('./config/.env.json');
+const {
+  limiter,
+  loginLimiter,
+  registerLimiter,
+  forgetLimiter,
+  shareLimiter,
+  accountPwLimiter,
+  nodesSearchLimiter,
+  belongsPatchLimiter
+} = require('./src/rateLimiter.js');
 
 //babel-polyfill is here for the whole code after it!
 require('babel-polyfill');
@@ -21,54 +29,14 @@ app.enable("trust proxy"); //for rateLimit, due to behind a reverse proxy(nginx)
 
 
 //rate limit by ip
-const limiter = rateLimit({
-  windowMs: 10 * 60 * 1000, // 10 minutes
-  max: 800, // limit each IP to 800 requests per windowMs
-  message:{
-    'message': {'warning': "Too many request from this IP, please try again later"},
-    'console': ''
-  },
-  onLimitReached: function(req, res){
-    winston.warn(`${"WARN: too many request for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);
-  }
-});
-const loginLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5,
-  message:{
-    'message': {'warning': "Login failed too many time or wierd behavior from this IP, please try again after 15 min."},
-    'console': ''
-  },
-  onLimitReached: function(req, res){
-    winston.warn(`${"WARN: login request exceeded from ip "} ${req.ip}`);
-  }
-});
-const registerLimiter = rateLimit({
-  windowMs: 10 * 60 * 1000, // 10 minutes
-  max: 12, // limit each IP to 600 requests per windowMs
-  message:{
-    'message': {'warning': "Trying completing registered process or verifying account too many times."},
-    'console': ''
-  },
-  onLimitReached: function(req, res){
-    winston.warn(`${"WARN: too many register request for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);
-  }
-});
-const shareLimiter = rateLimit({
-  windowMs: 12 * 60 * 1000, // 12 minutes
-  max: 3, // limit each IP to 600 requests per windowMs
-  message:{
-    'message': {'warning': "Trying sharing a new unit from yuor account too many times."},
-    'console': ''
-  },
-  onLimitReached: function(req, res){
-    winston.warn(`${"WARN: share post over the limit for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);
-  }
-});
 app.use(limiter); //rate limiter apply to all requests
 app.use("/router/login", loginLimiter); // restrict specially for login behavior, but should use username one day
 app.use("/router/register", registerLimiter);
-app.post("/router/share", shareLimiter); //it's just a temp method, its not good enough
+app.use("/router/forget", forgetLimiter);
+app.post("/router/share", shareLimiter);
+app.use("/router/account/password", accountPwLimiter);
+app.use("/router/nouns/search", nodesSearchLimiter);
+app.patch("/router/profile/nodesBelong", belongsPatchLimiter);  // only patch, spare GET (which is res belongs)
 
 
 //parse url comeing in

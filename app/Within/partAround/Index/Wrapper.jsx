@@ -15,13 +15,18 @@ import {
 import Chain from './Chain/Chain.jsx';
 import RowEntry from './RowEntry/RowEntry.jsx';
 import BelongsMap from './BelongsMap/BelongsMap.jsx';
+import FeedAssigned from './FeedAssigned/FeedAssigned.jsx';
+import OnBoard from '../OnBoard/Wrapper.jsx';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
-import {
-  setIndexLists,
-} from '../../../redux/actions/around.js';
+import ModalBox from '../../../Components/ModalBox.jsx';
+import ModalBackground from '../../../Components/ModalBackground.jsx';
 import {
   initAround
 } from '../../../redux/states/statesWithin.js';
+import {
+  setIndexList,
+  setWithinFlag
+} from "../../../redux/actions/within.js";
 import {
   cancelErr,
   uncertainErr
@@ -39,12 +44,18 @@ class Wrapper extends React.Component {
     };
     this.axiosSource = axios.CancelToken.source();
     this._set_mountToDo = this._set_mountToDo.bind(this);
+    this._set_lastVisit = this._set_lastVisit.bind(this);
+    this._createdRespond = this._createdRespond.bind(this);
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
   }
 
   _construct_UnitInit(match, location){
     let unitInit= {marksify: false, initMark: "all", layer: 0};
     return unitInit;
+  }
+
+  _createdRespond(){
+    this.props._set_WithinFlag(true, "chainFetRespond");
   }
 
   _set_mountToDo(item){
@@ -63,6 +74,10 @@ class Wrapper extends React.Component {
 
   }
 
+  _set_lastVisit(visitTime){
+    this.setState({ lastVisit: visitTime});
+  }
+
   componentDidUpdate(prevProps, prevState, snapshot){
     if(this.state.mountTodo.length==0){
       //now, after everything was mount, we update the visiting time to the server
@@ -79,6 +94,9 @@ class Wrapper extends React.Component {
     this.setState({axios: true});
 
     //get the last visit situation for child component
+    /*
+    Now this req is important. It not only res the last visit, but also res 'newly' at the very first sign in right after verified.
+    */
     axios_visit_GET_last(self.axiosSource.token)
     .then(function(lastVisitRes){
       self._set_mountToDo("lastVisit"); //and splice the label from the todo list
@@ -104,7 +122,7 @@ class Wrapper extends React.Component {
       this.axiosSource.cancel("component will unmount.")
     }
     //clear & reset to init when Unmount, make sure the list would not render anything when retrun to index
-    this.props._submit_IndexLists(initAround.indexLists);
+    this.props._set_IndexLists(initAround.indexLists);
   }
 
   render(){
@@ -125,18 +143,39 @@ class Wrapper extends React.Component {
               _set_mountToDo={this._set_mountToDo}
               _refer_von_cosmic={this.props._refer_von_cosmic}/>
           </div>
+          <div
+            className={classnames(styles.boxRow)}>
+            <FeedAssigned
+              lastVisit={this.state.lastVisit}
+              _set_mountToDo={this._set_mountToDo}
+              _refer_von_cosmic={this.props._refer_von_cosmic}/>
+          </div>
 
           <div
             className={classnames(styles.boxRow)}>
             <BelongsMap
               lastVisit={this.state.lastVisit}/>
           </div>
-          <div
-            className={classnames(styles.boxFooter)}></div>
         </div>
         <Route
           path={"/unit"}
-          render={(props)=> <UnitScreen {...props} _construct_UnitInit={this._construct_UnitInit} _refer_von_unit={this.props._refer_von_cosmic}/>}/>
+          render={(props)=> {
+            return (
+              <UnitScreen
+                {...props}
+                _createdRespond= {this._createdRespond}
+                _construct_UnitInit={this._construct_UnitInit}
+                _refer_von_unit={this.props._refer_von_cosmic}/>)
+              }}/>
+        {
+          (this.state.lastVisit == 'newly') &&
+          <ModalBox containerId="root">
+            <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(255,255,255, 0.976)'}}>
+              <OnBoard
+                _set_lastVisit={this._set_lastVisit}/>
+            </ModalBackground>
+          </ModalBox>
+        }
 
       </div>
     )
@@ -152,7 +191,8 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    _submit_IndexLists: (listsObj) => { dispatch(setIndexLists(listsObj)); },
+    _set_IndexLists: (obj) => { dispatch(setIndexList(obj)); },
+    _set_WithinFlag: (bool, flag) => {dispatch(setWithinFlag(bool, flag)); }
   }
 }
 

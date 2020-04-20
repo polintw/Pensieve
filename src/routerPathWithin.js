@@ -11,6 +11,7 @@ const Op = Sequelize.Op;
 const _DB_units = require('../db/models/index').units;
 const _DB_nouns = require('../db/models/index').nouns;
 const _DB_marks = require('../db/models/index').marks;
+const _DB_marksContent = require('../db/models/index').marks_content;
 const _DB_attribution = require('../db/models/index').attribution;
 const projectRootPath = require('../projectRootPath');
 const {_res_success} = require('./utils/resHandler.js');
@@ -20,28 +21,42 @@ const {
   forbbidenError
 } = require('./utils/reserrHandler.js');
 
-function _handle_crawler_GET_Unit(req, res){
+async function _handle_crawler_GET_Unit(req, res){
   //select Unit by id in query
   //already validate before pass to this handler
-  const unitId = req.query.unitId;
+  const exposedId = req.query.unitId;
+  let unitId, url_pic_layer0, url_pic_layer1, authorId;
+  unitId = url_pic_layer0 = url_pic_layer1 = authorId = false; //a 'lazy assign', not official
+  await _DB_units.findOne({ where: { exposedId: exposedId } })
+    .then((result) => {
+      if (!!result) {
+        unitId = result.id;
+        url_pic_layer0 = result.url_pic_layer0;
+        url_pic_layer1 = result.url_pic_layer1;
+        authorId = result.id_author;
+      }
+    });
+
+  if (!unitId || !url_pic_layer0) { //if the unit not 'existed'
+    _handle_ErrCatched(new validationError("from _handle_crawler_GET_Unit, the req unit not exist.", 325), req, res);
+    return; //stop and end the handler.
+  }
+
 
   //the selection start from info about & nodes used by this Unit
   new Promise((resolve, reject)=>{
     let conditionsAttri = {
-      where: {id_unit: unitId},
+      where: { id_unit: unitId},
       attributes: ['id_noun']
     };
-    let attriSelection = Promise.resolve(_DB_attribution.findAll(conditionsAttri).catch((err)=>{throw err}));
-    let unitsSelection = Promise.resolve(_DB_units.findByPk(unitId).catch((err)=>{throw err}));
+    _DB_attribution.findAll(conditionsAttri)
+    .then((resultsAttri)=>{
 
-    Promise.all([attriSelection, unitsSelection]).then((resultsSelect)=>{
-      let resultsAttri = resultsSelect[0],
-      resultsUnit = resultsSelect[1];
       let variables= { //create local variables as value used in template
         title: [], //set array fisrt, will be mdified to string later before res
         descrip: "",
         ogurl: req.originalUrl,
-        ogimg: 'https://'+envServiceGeneral.appDomain+'/router/img/'+resultsUnit.url_pic_layer0+'?type=thumb' //don't forget using absolute path for dear crawler
+        ogimg: 'https://'+envServiceGeneral.appDomain+'/router/img/'+url_pic_layer0+'?type=thumb' //don't forget using absolute path for dear crawler
       };
       //put the nodes used list into title
       variables.title = resultsAttri.map((row, index)=>{
@@ -57,28 +72,59 @@ function _handle_crawler_GET_Unit(req, res){
     //we select them by id we selected
     let conditionsMarks = {
       where: {id_unit: unitId},
-      attributes: ['id', 'layer', 'serial', 'editor_content', 'createdAt']
+      attributes: ['id', 'layer', 'serial', 'createdAt']
+    },
+    conditionsMarksContent = {
+      where: { id_unit: unitId}
     };
     let nodesSelection = Promise.resolve(_DB_nouns.findAll({where: {id: variables.title}}).catch((err)=>{throw err}));
     let marksSelection = Promise.resolve(_DB_marks.findAll(conditionsMarks).catch((err)=>{throw err}));
+    let marksContentSelection = Promise.resolve(_DB_marksContent.findAll(conditionsMarksContent).catch((err)=>{throw err}));
 
-    return Promise.all([nodesSelection, marksSelection]).then((resultsSelect)=>{
+    return Promise.all([nodesSelection, marksSelection, marksContentSelection]).then((resultsSelect)=>{
       let resultsNodes = resultsSelect[0],
       resultsMarks = resultsSelect[1],
+      resultsMarksContent = resultsSelect[2],
       titleStr = "",
       description= "";
 
+      //then retrieve the first block of the first Mark
+      let marksContentObj = {};
+      resultsMarksContent.forEach((row, index)=>{
+        //editorContent was in form: {blocks:[], entityMap:{}}
+        marksContentObj[row.id_mark] = {
+          blocks: [],
+          entityMap: JSON.parse(row.contentEntityMap)
+        };
+        /*
+        and Notive, every col here still remain in 'string', so parse them.
+        */
+        let blockLigntening=JSON.parse(row.contentBlocks_Light),
+            textByBlocks=JSON.parse(row.text_byBlocks),
+            inlineStyleRangesByBlocks=JSON.parse(row.inlineStyleRanges_byBlocks),
+            entityRangesByBlocks=JSON.parse(row.entityRanges_byBlocks),
+            dataByBlocks=JSON.parse(row.data_byBlocks);
+
+        blockLigntening.forEach((blockBasic, index) => {
+          blockBasic['text'] = textByBlocks[blockBasic.key]
+          blockBasic['inlineStyleRanges'] = inlineStyleRangesByBlocks[blockBasic.key]
+          blockBasic['entityRanges'] = entityRangesByBlocks[blockBasic.key]
+          blockBasic['data'] = dataByBlocks[blockBasic.key]
+
+          marksContentObj[row.id_mark].blocks.push(blockBasic);
+        });
+      });
+      description = convertFromRaw(marksContentObj[resultsMarks[0].id]).getFirstBlock().getText();
+      variables.descrip = description;  //for now, only use the first block of first mark as description
+
+
       //compose title from Nodes used
       resultsNodes.forEach((row, index)=>{
-        if(index< 1){ titleStr += (row.name); return } //avoid ":" at the begining
-        titleStr += (": "+row.name);
+        if(index< 1){ titleStr += (row.name); return } //avoid "·" at the begining
+        titleStr += ("· "+row.name);
       });
-
-      //then retrieve the first block of the first Mark
-      description = convertFromRaw(JSON.parse(resultsMarks[0].editor_content)).getFirstBlock().getText();
-
       variables.title = titleStr;
-      variables.descrip = description;  //for now, only use the first block of first mark as description
+
 
       return variables;
     }).catch((err)=>{

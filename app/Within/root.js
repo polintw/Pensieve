@@ -51,8 +51,10 @@ if(loggedin){
     tokenRefreshed().then(()=>{
       statusVerified();
     }).catch((error)=>{
-      alert(error.message);
-      window.location.assign('/s/signin');
+      statusVerifiedErr(error, store);
+      //Render the dom no matter the result of the errHandlers,
+      //and let the DOM itself check the status
+      ReactDOM.hydrate(<Provider store={store}><Within /></Provider>, document.getElementById("root"));
     })
 
    }

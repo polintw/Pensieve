@@ -16,6 +16,7 @@ export default class SvgLogo extends React.Component {
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210.89 41.61"
       style={{
         height: '100%',
+        maxWidth: '100%',
         position: 'relative',
         boxSizing: 'border-box'
       }}>

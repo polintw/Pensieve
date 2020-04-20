@@ -35,7 +35,7 @@ if(loggedin){
       //than alert the user before sign in again
       if(message){
         alert(message);
-        window.location.assign('/s/signin');
+        window.location.assign('/');
       }
     })
   };
@@ -51,7 +51,7 @@ if(loggedin){
       statusVerified();
     }).catch((error)=>{
       alert(error.message);
-      window.location.assign('/s/signin');
+      window.location.assign('/');
     })
 
    }
@@ -61,6 +61,5 @@ if(loggedin){
     statusVerified();
   }
 }else{
-  store.dispatch(setTokenStatus({token: 'lack'}));
   window.location.assign('/') //back to index, the index would decide how to dealt with a no token situation(sign in/up)
 }

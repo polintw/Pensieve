@@ -84,7 +84,7 @@ function _handle_GET_feedFellows(req, res){
   new Promise((resolve, reject)=>{
     const userId = req.extra.tokenUserId;
 
-    const baseNode = req.query.base; //nodeId
+    const baseNode = !!req.query.base? req.query.base: null ; //nodeId, set 'null' to avoid empty query(would res empty arr)
     const baseCat = req.query.baseCat; //cat str
     const curiousCat = req.query.curious; //[]
     const limit = !!req.query.limit ? req.query.limit: false;

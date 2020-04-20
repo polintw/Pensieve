@@ -8,6 +8,8 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
 import Theater from '../Theater/Theater.jsx';
+import SharedEdit from '../Editing/SharedEdit.jsx';
+import CreateRespond from '../Editing/CreateRespond.jsx';
 import Related from '../Related/Related.jsx';
 import {
   _axios_getUnitData,
@@ -26,6 +28,7 @@ class UnitExplore extends React.Component {
       close: false,
     };
     this.axiosSource = axios.CancelToken.source();
+    this._render_switch = this._render_switch.bind(this);
     this._close_theater = this._close_theater.bind(this);
     this._set_UnitCurrent = this._set_UnitCurrent.bind(this);
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
@@ -37,8 +40,8 @@ class UnitExplore extends React.Component {
     //so dismiss the scroll ability for <body> here
     //and add condition to distinguish diff URL
     let params = new URLSearchParams(this.props.location.search);
-    let paramsTheater = params.has('theater'); //bool, true if there is 'theater'
-    if(paramsTheater) document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:hidden;");
+    let paramsRelated = params.has('related'); //bool, true if there is 'related'
+    if( !paramsRelated) document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:hidden;");
   }
 
   _construct_UnitInit(match, location){
@@ -59,8 +62,8 @@ class UnitExplore extends React.Component {
     this.setState({axios: true});
 
     let promiseArr = [
-      new Promise((resolve, reject)=>{_axios_getUnitData(this.axiosSource.token, this.unitId);}),
-      new Promise((resolve, reject)=>{_axios_getUnitImgs(this.axiosSource.token, this.unitId);})
+      new Promise((resolve, reject)=>{_axios_getUnitData(this.axiosSource.token, this.unitId).then((result)=>{resolve(result);});}),
+      new Promise((resolve, reject)=>{_axios_getUnitImgs(this.axiosSource.token, this.unitId).then((result)=>{resolve(result);});})
     ];
     Promise.all(promiseArr)
     .then(([unitRes, imgsBase64])=>{
@@ -107,12 +110,16 @@ class UnitExplore extends React.Component {
 
   componentDidUpdate(prevProps, prevState, snapshot){
     //1) modify <body> first depend on current view status
-    if(this.paramsTheater) document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:hidden;");
+    if(!this.paramsRelated) document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:hidden;");
     else{
       document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:scroll;")
-      //2) in state, if 'close' is true but the paramsTheater was false
+      //2) in state, if 'close' is true but the paramsRelated was false
       //that's mean the Redirect happened, & should not redirect again
       if(this.state.close) this.setState({close: false});
+      /*
+      Beneath is a method used by current ver., no <Related> could be build, need to redirect back to index
+      */
+      this.props._refer_von_unit(null, '/');
     };
     //3) becuase there is chance we jump to another Unit from Related but using the same component
     //so we check if the unit has changed
@@ -146,15 +153,46 @@ class UnitExplore extends React.Component {
     document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:scroll;");
   }
 
+  _render_switch(){
+    switch (this.props.unitView) {
+      case 'theater':
+        return (
+          <Theater
+            {...this.props}
+            _construct_UnitInit={this._construct_UnitInit}
+            _reset_UnitMount={this._reset_UnitMount}
+            _close_theaterHeigher={this._close_theater}/>
+        )
+        break;
+      case 'editing':
+        return (
+          <SharedEdit
+            {...this.props}
+            _reset_UnitMount={this._reset_UnitMount}/>
+        )
+        break;
+      case 'respond':
+        return (
+          <CreateRespond
+            {...this.props}
+            _reset_UnitMount={this._reset_UnitMount}
+            _close_theaterHeigher={this._close_theater}/>
+        )
+        break;
+      default:
+        return null
+    };
+  }
 
   render(){
     let params = new URLSearchParams(this.props.location.search); //we need value in URL query
-    this.paramsTheater = params.has('theater'); //declaim here and would be used throughout the life cycle
+    // if there was any difference between old version, here it is, param was now 'related' sonsitive
+    this.paramsRelated = params.has('related'); //declaim here and would be used throughout the life cycle
     this.unitId = params.get('unitId');
 
     if(this.state.close){return <Redirect to={{
         pathname: this.props.location.pathname,
-        search: '?unitId='+this.unitId,
+        search: '?unitId='+this.unitId+'&related',
         state: this.props.location.state //keep the state as props, perhaps need to increase 'current location' for 'back' use
       }}/>};
 
@@ -166,14 +204,11 @@ class UnitExplore extends React.Component {
             {...this.props}/>
           <div className={styles.footer}/>
         </div>
-        { this.paramsTheater &&
+        {
+          !this.paramsRelated &&
           <ModalBox containerId="root">
-            <ModalBackground onClose={()=>{this._close_theater();}} style={{position: "fixed", backgroundColor: 'transparent'}}>
-              <Theater
-                {...this.props}
-                _construct_UnitInit={this._construct_UnitInit}
-                _reset_UnitMount={this._reset_UnitMount}
-                _close_theaterHeigher={this._close_theater}/>
+            <ModalBackground onClose={()=>{this._close_theater();}} style={{position: "fixed", minWidth: "890px", minHeight: '320px', backgroundColor: 'rgba(215, 215, 215, 0.67)'}}>
+              {this._render_switch()}
             </ModalBackground>
           </ModalBox>
         }
@@ -185,6 +220,7 @@ class UnitExplore extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
+    unitView: state.unitView,
     unitCurrent: state.unitCurrent,
     unitSubmitting: state.unitSubmitting
   }

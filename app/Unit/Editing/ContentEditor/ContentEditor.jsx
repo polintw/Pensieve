@@ -10,12 +10,6 @@ import styles from "./styles.module.css";
 import ImgLayerEditing from './ImgLayerEditing.jsx';
 
 const styleMiddle = {
-  boxSubmitButton:{
-    width: '68%',
-    height: '31%',
-    position: 'absolute',
-    boxSizing: 'border-box',
-  },
   spanDestiny: {
     width: '100%',
     fontSize: '1.3rem',
@@ -45,48 +39,6 @@ class ContentEditor extends React.Component {
     this._set_markUpdate_editor = this._set_markUpdate_editor.bind(this);
     this._handleClick_editingComplete = this._handleClick_editingComplete.bind(this);
     this._handleClick_img_delete =this._handleClick_img_delete.bind(this);
-    this.style={
-      Com_Modal_ContentModal: {
-        width: "100%",
-        height: "100%",
-        position: "fixed",
-        top: "0%",
-        left: '0',
-        backgroundColor: '#101010',
-      },
-      Com_Modal_ContentModal_Mark: { //keep it & _imglayer is convenient for making img following the format of UnitImg
-        width: '85%',
-        height: '99%',
-        position: 'absolute',
-        top: '0',
-        right: '0%',
-        boxSizing: 'border-box',
-      },
-      Com_Modal_ContentModal_Mark_imglayer: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0%',
-        left: '0%',
-        boxSizing: 'border-box'
-      },
-      Com_ContentModal_ControlSection_div: {
-        width: '14%',
-        height: '15%',
-        position: 'absolute',
-        bottom: '5%',
-        left: '0',
-        boxSizing: 'border-box'
-      },
-      Com_ContentModal_ControlSection_div_Cancel: {
-        bottom: '52%',
-        right: '2%',
-      },
-      Com_ContentModal_ControlSection_div_Complete: {
-        bottom: '0%',
-        right: '2%',
-      }
-    }
   }
 
   _set_markExpand(markKey){
@@ -154,7 +106,7 @@ class ContentEditor extends React.Component {
   _handleClick_img_delete(event){
     event.stopPropagation();
     event.preventDefault();
-    if(this.state.markExpandify) return;
+    if(this.state.markExpandify || this.props.unitView=='editing') return;
     this.props._set_delete();
   }
 
@@ -180,57 +132,55 @@ class ContentEditor extends React.Component {
   render(){
     return(
       <div
-        style={this.style.Com_Modal_ContentModal}>
-        <div
-          style={this.style.Com_Modal_ContentModal_Mark}>
+        className={classnames(styles.comContentEditor)}>
+        {
+          this.props.editing &&
           <div
-            style={this.style.Com_Modal_ContentModal_Mark_imglayer}>
-            <ImgLayerEditing
-              imgSrc={this.props.imgSrc}
-              currentMark={this.state.markExpand}
-              markOpened={this.state.markExpandify}
-              marksList={this.state.marksList}
-              markCircles={this.state.markCircles}
-              markEditorContent={this.state.markEditorContent}
-              _set_Markvisible={this._set_markExpand}
-              _set_markNewSpot={this._set_markNewSpot}
-              _set_markUpdate_editor={this._set_markUpdate_editor}
-              _set_markDelete={this._set_markDelete}
-              _reset_expandState={this._reset_expandState}
-              _set_warningDialog={this.props._set_warningDialog}/>
-          </div>
-        </div>
-        <div
-          style={this.style.Com_ContentModal_ControlSection_div}>
-          <div
-            className={classnames(
-              styles.roundRecBox,
-              {[this.state.markExpandify]: styles.boxSubmitInvalid}
-            )}
-            style={Object.assign({}, this.style.Com_ContentModal_ControlSection_div_Cancel, styleMiddle.boxSubmitButton)}
-            onClick={this._handleClick_img_delete}>
-            <span
-              className={'centerAlignChild'}
-              style={styleMiddle.spanDestiny}>
-              {'delete'}</span>
-
-          </div>
-          {
-            this.props.editing &&
+            className={classnames('boxAbsoluteFull', styles.boxEditingBack)}>
             <div
               className={classnames(
+                styles.boxButtonComplete,
                 styles.roundRecBox,
                 {[this.state.markExpandify]: styles.boxSubmitInvalid}
               )}
-              style={Object.assign({}, this.style.Com_ContentModal_ControlSection_div_Complete, styleMiddle.boxSubmitButton, {backgroundColor:'#ff7a5f'})}
+              style={Object.assign({}, {backgroundColor:'#ff7a5f'})}
               onClick={this._handleClick_editingComplete}>
               <span
                 className={'centerAlignChild'}
                 style={styleMiddle.spanDestiny}>
                 {"complete"}</span>
             </div>
-          }
+          </div>
+        }
+        <div
+          className={classnames(styles.boxImgFrame)}>
+          <ImgLayerEditing
+            imgSrc={this.props.imgSrc}
+            currentMark={this.state.markExpand}
+            markOpened={this.state.markExpandify}
+            marksList={this.state.marksList}
+            markCircles={this.state.markCircles}
+            markEditorContent={this.state.markEditorContent}
+            _set_Markvisible={this._set_markExpand}
+            _set_markNewSpot={this._set_markNewSpot}
+            _set_markUpdate_editor={this._set_markUpdate_editor}
+            _set_markDelete={this._set_markDelete}
+            _reset_expandState={this._reset_expandState}
+            _set_warningDialog={this.props._set_warningDialog}/>
+          <div
+            className={classnames(
+              styles.boxSubmitDelete,
+              {[this.state.markExpandify]: styles.boxSubmitInvalid}
+            )}
+            style={(this.props.unitView=="editing") ? {display: 'none'}: {}}
+            onClick={this._handleClick_img_delete}>
+            <span
+              className={classnames('centerAlignChild')}
+              style={styleMiddle.spanDestiny}>
+              {' ╳ '}</span>
+          </div>
         </div>
+
       </div>
 
     )
@@ -240,6 +190,7 @@ class ContentEditor extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
+    unitView: state.unitView,
     i18nUIString: state.i18nUIString,
     belongsByType: state.belongsByType
   }

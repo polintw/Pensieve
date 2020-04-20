@@ -122,7 +122,7 @@ class FrontProfile extends React.Component {
         </div>
 
         {
-          (this.props.settingSubmitting || this.props.axios) &&
+          (this.props.axios) &&
           <MaskProcessing/>
         }
       </div>
@@ -133,7 +133,6 @@ class FrontProfile extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
-    settingSubmitting: state.settingSubmitting,
     axios: state.axios
   }
 }

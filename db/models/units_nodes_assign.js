@@ -3,7 +3,8 @@ module.exports = (sequelize, DataTypes) => {
   const units_nodes_assign = sequelize.define('units_nodes_assign', {
     id_unit: DataTypes.UUID,
     id_author: DataTypes.INTEGER,
-    nodeAssigned: DataTypes.INTEGER
+    nodeAssigned: DataTypes.INTEGER,
+    belongTypes: DataTypes.STRING
   }, {});
   units_nodes_assign.associate = function(models) {
     // associations can be defined here

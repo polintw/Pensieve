@@ -118,6 +118,13 @@ function _handle_ErrCatched(e, req, res){
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;
+    case 7:
+      //400, validation, invalid marks in posted shared
+      clientSet['code'] = 3;
+      clientSet['message'] = e.message;
+      clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
     case 32:
       //401, token invalid, authorized failed
       clientSet['code'] = 32;
@@ -159,8 +166,33 @@ function _handle_ErrCatched(e, req, res){
       clientSet['console'] = {"warning":"Some parameter missed, please use correct format."};
       return res.status(e.status).json(clientSet);
       break;
-    case 50:
+    case 39: //403, client trying to edit/erase unit not released by him
+      winston.warn(`${e.status} - ${"Error: code 39, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+      clientSet['code'] = 39;
+      clientSet['message'] = "Hey! This is not your Shared! You can and only can edit, erase your own Shared.";
+      clientSet['console'] = {};
+      return res.status(e.status).json(clientSet);
+      break;
+    case 50: //404, user was not found
       clientSet['code'] = 50;
+      clientSet['message'] = e.message;
+      clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
+    case 71:
+      //403,
+      // currently used in patch /nodesBelong, change belongs too often
+      winston.info(`${e.status} - ${" code 71, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+      clientSet['code'] = 71;
+      clientSet['message'] = e.message;
+      clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
+    case 77:
+      //403,
+      // currently used in patch account/password, change password too frequetly
+      winston.info(`${e.status} - ${" code 77, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+      clientSet['code'] = 77;
       clientSet['message'] = e.message;
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
@@ -187,34 +219,13 @@ function _handle_ErrCatched(e, req, res){
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;
-    case 121:
-      //403, process about wishlist of matchNodes fail, perhaps exceed length limit or some unknown submit
-      clientSet['code'] = 121;
-      clientSet['message'] = "";
-      clientSet['console'] = '';
-      return res.status(e.status).json(clientSet);
-      break;
-    case 122:
-      //403, process modifying list of matchNodes, trying to update node not yet est. or not opened to submit
-      winston.warn(`${e.status} - ${"code 122, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
-      clientSet['code'] = "122";
-      clientSet['message'] = "You are sumitting to a node not allowed.";
-      clientSet['console'] = '';
-      return res.status(e.status).json(clientSet);
-      break;
     case 123:
-      //403, process for modifying taken node  but may not match the current position, not the desired one or the position not available.
+      //403,
+      // used by sharedsPOST, in validation, the img data passed was not valid
       winston.info(`${e.status} - ${"code 123, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
-      clientSet['code'] = "123";
-      clientSet['message'] = "There has already been another corner taken on record. Giving up the current one if you wanted to take this new corner.";
-      clientSet['console'] = '';
-      return res.status(e.status).json(clientSet);
-      break;
-    case 124:
-      //403, process sumitting the willing node but reject due to duplicate claim or reach limit
-      clientSet['code'] = 124;
-      clientSet['message'] = "";
-      clientSet['console'] = '';
+      clientSet['code'] = 123;
+      clientSet['message'] = e.message;
+      clientSet['console'] = 'Hey! Use this api as required!';
       return res.status(e.status).json(clientSet);
       break;
     case 131:
@@ -232,6 +243,13 @@ function _handle_ErrCatched(e, req, res){
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;
+    case 150:
+      //429, too many req for verified mail
+      clientSet['code'] = 150;
+      clientSet['message'] = e.message;
+      clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
     case 186:
       //403, invalid format from register or mail resend
       clientSet['code'] = 186;
@@ -245,6 +263,14 @@ function _handle_ErrCatched(e, req, res){
       clientSet['console'] = 'warning: no token was sent.';
       return res.status(e.status).json(clientSet);
       break;
+    case 325:
+      //400, a exposedId do not match any Shared
+      winston.warn(`${"Res status: "+e.status} ; ${"Error code: 325, "+e.message} ; ${"Req: "+req.originalUrl} , ${req.method} , ${req.ip}`);
+      clientSet['code'] = 325;
+      clientSet['message'] = "Shared you found was not exist.";
+      clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
     default:
       return _undefiendCode(e, req, res);
   }
@@ -255,7 +281,7 @@ function _undefiendCode(e, req, res){
   else {
     winston.error(`${500} - ${e} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
     return res.status(500).json({
-      "message": {"warning":"Some error happened, please try again."},
+      "message": "Some error happened, please try again.",
       'console': ''
     });
   };

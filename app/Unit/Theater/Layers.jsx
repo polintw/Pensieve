@@ -74,7 +74,6 @@ class Layers extends React.Component {
           marksStatus={this.state.marksStatus}
           _set_markOpened={this._set_markOpened}
           _set_layerstatus={this._set_layerstatus}
-          _set_Modalmode={this.props._set_Modalmode}
           _refer_toandclose={this._refer_toandclose}/>
       </div>
     )
@@ -128,7 +127,7 @@ class Layers extends React.Component {
     //Notice! it's important to let the WrapperImg unmount if >200, due to we need the re-render, not just css change
     return(
       <div
-        style={this.style.Com_Layers}
+        className={'boxAbsoluteFull'}
         onClick={(event)=>{event.stopPropagation();}}>
         {
           (this.props.unitCurrent.coverSrc) ? (
