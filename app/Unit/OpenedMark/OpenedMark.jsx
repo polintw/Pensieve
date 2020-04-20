@@ -9,17 +9,6 @@ import {
   widthDivisionRatial
 } from '../props.js';
 
-const styleMiddle = {
-  absolute_FullVersion: {
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
-    top: '0',
-    left:'0',
-    boxSizing: 'border-box'
-  },
-}
-
 
 class OpenedMark extends React.Component {
   constructor(props){
@@ -104,7 +93,7 @@ class OpenedMark extends React.Component {
     return (
       <div>
         <div
-          style={styleMiddle.absolute_FullVersion}
+          className={'boxAbsoluteFull'}
           onClick={this.props._handleClick_ImgLayer_circle}/>
         <div
           className={'boxImgPosition'}

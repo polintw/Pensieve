@@ -8,17 +8,6 @@ import {
   widthDivisionRatial
 } from '../../props.js';
 
-const generalStyle = {
-  absolute_FullVersion: {
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
-    top: '0',
-    left:'0',
-    boxSizing: 'border-box'
-  }
-}
-
 class ImgLayerEditing extends React.Component {
   constructor(props){
     super(props);
@@ -37,6 +26,7 @@ class ImgLayerEditing extends React.Component {
       Com_ImgLayer_img: {
         maxWidth: '100%',
         maxHeight: '100%',
+        right: baseHorizonRatial+'%',
         transform: 'translate('+baseHorizonRatial+'%,-50%)'
       }
     };
@@ -156,7 +146,7 @@ class ImgLayerEditing extends React.Component {
             style={{
               width: imgWidthHeight.width,
               height: imgWidthHeight.height,
-              right: baseHorizonRatial+'%',
+              right: baseHorizonRatial+'%',  //it's wierd, because this is a remain from previous ver., which need to set the value not the center
               transform: 'translate('+baseHorizonRatial+'%,-50%)',
               cursor: 'crosshair'}}
               onClick={this._handleClick_SpotsLayer}>
@@ -170,7 +160,7 @@ class ImgLayerEditing extends React.Component {
     return(
       <div
         ref={this.Com_ImgLayer_box}
-        style={generalStyle.absolute_FullVersion}>
+        className={'boxAbsoluteFull'}>
         <img
           className={'boxImgPosition'}
           style={this.style.Com_ImgLayer_img}

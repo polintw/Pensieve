@@ -26,7 +26,6 @@ class EditingPanel extends React.Component {
       refsArr: []
     };
     this._set_newImgSrc = this._set_newImgSrc.bind(this);
-    this._set_img_delete = this._set_img_delete.bind(this);
     this._set_Mark_Complete = this._set_Mark_Complete.bind(this);
     this._set_statusEditing = this._set_statusEditing.bind(this);
     this._submit_new_node = this._submit_new_node.bind(this);
@@ -81,22 +80,6 @@ class EditingPanel extends React.Component {
     this.setState({
       coverSrc: dataURL,
       contentEditing: true //going to edit directly
-    })
-  }
-
-  _set_img_delete(){
-    /*
-      Currently only has layer 'cover',
-      so we delete all process related to 'beneath' (refer to previous ver.)
-    */
-    this.setState((prevState, props)=>{
-      let modifiedState = {
-        coverSrc: null,
-        coverMarks:{list:[], data:{}},
-        contentEditing: false
-      };
-
-      return modifiedState;
     })
   }
 
@@ -168,7 +151,6 @@ class EditingPanel extends React.Component {
           marks={this.state.coverMarks}
           _set_statusEditing={this._set_statusEditing}
           _set_Mark_Complete={this._set_Mark_Complete}
-          _set_delete={this._set_img_delete}
           _set_warningDialog={this.props._set_warningDialog}/>
       )
     }

@@ -1,4 +1,4 @@
-export const baseHorizonRatial = 0;
+export const baseHorizonRatial = 50; //now used by ImgLayer as translate ratio to img,
 export const baseVertivalRatial = 47
 //above two are both used to set position of img and marksLayer in Unit
 

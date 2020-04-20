@@ -3,9 +3,9 @@
   top: 50%;
 }
 
-.boxMarkSpot {
-  width: 3.2vw;
-  height: 3.2vw;
+.boxMarkSpot { /*now used by ImgLayerEditing, */
+  width: 48px;
+  height: 48px;
   position: absolute;
   transform: translate(-50%, -50%);
   overflow: visible;

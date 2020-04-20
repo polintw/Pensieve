@@ -26,7 +26,7 @@ class ImgImport extends React.Component {
         height: '100%',
         position: 'relative',
         boxSizing: 'border-box',
-        backgroundImage: "linear-gradient(to bottom, #fffdfa, #fff9f2)"
+        backgroundImage: "linear-gradient(to bottom, #fffdfa, #fff9f2)",
         borderRadius: '4px',
         border: "dashed 2px #ff8168",
         overflow: 'hidden'

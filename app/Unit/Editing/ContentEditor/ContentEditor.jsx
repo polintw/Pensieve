@@ -9,17 +9,6 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import ImgLayerEditing from './ImgLayerEditing.jsx';
 
-const styleMiddle = {
-  spanDestiny: {
-    width: '100%',
-    fontSize: '1.3rem',
-    fontWeight: '400',
-    letterSpacing: '0.1rem',
-    textAlign: 'center',
-    color: 'rgb(16, 16, 16)'
-  }
-}
-
 class ContentEditor extends React.Component {
   constructor(props){
     super(props);
@@ -38,7 +27,6 @@ class ContentEditor extends React.Component {
     this._set_markDelete = this._set_markDelete.bind(this);
     this._set_markUpdate_editor = this._set_markUpdate_editor.bind(this);
     this._handleClick_editingComplete = this._handleClick_editingComplete.bind(this);
-    this._handleClick_img_delete =this._handleClick_img_delete.bind(this);
   }
 
   _set_markExpand(markKey){
@@ -82,8 +70,12 @@ class ContentEditor extends React.Component {
   }
 
   _set_markUpdate_editor(contentRaw, key){
+
+
     this.state.markEditorContent[key]=contentRaw;
+
   }
+
 
   _handleClick_editingComplete(event){
     event.stopPropagation();
@@ -101,13 +93,6 @@ class ContentEditor extends React.Component {
       marksData["list"].push(markKey)
     })
     this.props._set_Mark_Complete(marksData);
-  }
-
-  _handleClick_img_delete(event){
-    event.stopPropagation();
-    event.preventDefault();
-    if(this.state.markExpandify || this.props.unitView=='editing') return;
-    this.props._set_delete();
   }
 
   componentDidMount(){
@@ -133,53 +118,20 @@ class ContentEditor extends React.Component {
     return(
       <div
         className={classnames(styles.comContentEditor)}>
-        {
-          this.props.editing &&
-          <div
-            className={classnames('boxAbsoluteFull', styles.boxEditingBack)}>
-            <div
-              className={classnames(
-                styles.boxButtonComplete,
-                styles.roundRecBox,
-                {[this.state.markExpandify]: styles.boxSubmitInvalid}
-              )}
-              style={Object.assign({}, {backgroundColor:'#ff7a5f'})}
-              onClick={this._handleClick_editingComplete}>
-              <span
-                className={'centerAlignChild'}
-                style={styleMiddle.spanDestiny}>
-                {"complete"}</span>
-            </div>
-          </div>
-        }
-        <div
-          className={classnames(styles.boxImgFrame)}>
-          <ImgLayerEditing
-            imgSrc={this.props.imgSrc}
-            currentMark={this.state.markExpand}
-            markOpened={this.state.markExpandify}
-            marksList={this.state.marksList}
-            markCircles={this.state.markCircles}
-            markEditorContent={this.state.markEditorContent}
-            _set_Markvisible={this._set_markExpand}
-            _set_markNewSpot={this._set_markNewSpot}
-            _set_markUpdate_editor={this._set_markUpdate_editor}
-            _set_markDelete={this._set_markDelete}
-            _reset_expandState={this._reset_expandState}
-            _set_warningDialog={this.props._set_warningDialog}/>
-          <div
-            className={classnames(
-              styles.boxSubmitDelete,
-              {[this.state.markExpandify]: styles.boxSubmitInvalid}
-            )}
-            style={(this.props.unitView=="editing") ? {display: 'none'}: {}}
-            onClick={this._handleClick_img_delete}>
-            <span
-              className={classnames('centerAlignChild')}
-              style={styleMiddle.spanDestiny}>
-              {' ╳ '}</span>
-          </div>
-        </div>
+
+        <ImgLayerEditing
+          imgSrc={this.props.imgSrc}
+          currentMark={this.state.markExpand}
+          markOpened={this.state.markExpandify}
+          marksList={this.state.marksList}
+          markCircles={this.state.markCircles}
+          markEditorContent={this.state.markEditorContent}
+          _set_Markvisible={this._set_markExpand}
+          _set_markNewSpot={this._set_markNewSpot}
+          _set_markUpdate_editor={this._set_markUpdate_editor}
+          _set_markDelete={this._set_markDelete}
+          _reset_expandState={this._reset_expandState}
+          _set_warningDialog={this.props._set_warningDialog}/>
 
       </div>
 
