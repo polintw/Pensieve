@@ -89,7 +89,8 @@
 }
 
 .boxLogo {
-  width: 12.5%;
+  height: 4.3vh;
+  max-width: 25%;
   box-sizing: border-box;
   margin-left: 5.14%;
   opacity: 0.23;
@@ -98,7 +99,7 @@
 .boxGreet {
   align-items: center;
   width: 1036px;
-  max-width: 98vw;
+  max-width: 84vw;
   position: relative;
   box-sizing: border-box;
   border-bottom: 1px solid #d8d8d8;
@@ -107,7 +108,7 @@
 .boxForm {
   align-items: center;
   width: 556px;
-  max-width: 90vw;
+  max-width: 83vw;
   position: relative;
   box-sizing: border-box;
 }
@@ -118,7 +119,7 @@
   justify-content: center;
   width: 320px;
   height: 6rem;
-  max-width: 84vw;
+  max-width: 72vw;
   position: relative;
   box-sizing: border-box;
   border-radius: 32px;
