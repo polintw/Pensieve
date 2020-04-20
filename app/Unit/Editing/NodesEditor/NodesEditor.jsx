@@ -6,7 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-
+import stylesFont from '../stylesFont.module.css';
 import AssignNodes from './AssignNodes.jsx';
 import {updateNodesBasic} from '../../../redux/actions/general.js'
 
@@ -39,6 +39,10 @@ class NodesEditor extends React.Component {
     return(
       <div
         className={classnames(styles.comNodesEditor)}>
+        <div
+          className={classnames(styles.boxSubtitle, stylesFont.fontSubtitle, stylesFont.colorEditLightBlack)}>
+          {this.props.i18nUIString.catalog["guidingCreateShare_AssignGroup"]}
+        </div>
         <div
           className={classnames(styles.editorRow, styles.boxAssignNodes)}>
           <AssignNodes

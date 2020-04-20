@@ -10,10 +10,9 @@ export default class DateConverter extends React.Component {
     this._set_styleByProps = this._set_styleByProps.bind(this);
     this.style={
       fontGeneral: {
-        fontSize: '1.2rem',
-        letterSpacing: '0.142rem',
-        textAlign: 'center',
-        fontWeight: '400'
+        fontSize: '1.4rem',
+        fontWeight: '400',
+        color: '#757575'
       },
       fontLayers: {
         fontSize: '1rem',
@@ -89,7 +88,6 @@ export default class DateConverter extends React.Component {
   }
 
   render(){
-    //let cx = cxBind.bind(styles);
     let d = new Date(this.props.datetime)
 
     return(

@@ -185,7 +185,11 @@ class UnitScreen extends React.Component {
 
     return(
       <ModalBox containerId="root">
-        <ModalBackground onClose={()=>{this._close_modal_Unit();}} style={{position: "fixed", minWidth: "890px", minHeight: '320px', backgroundColor: (!!paramsTheater)? 'rgba(215, 215, 215, 0.67)': 'rgba(240, 238,233, 0.98)'}}>
+        <ModalBackground
+          onClose={()=>{this._close_modal_Unit();}}
+          style={{
+            position: "fixed",
+            backgroundColor: 'rgba(51, 51, 51, 0.3)'}}>
           {this._render_switch()}
         </ModalBackground>
       </ModalBox>

@@ -1,7 +1,13 @@
 .comNodesEditor{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   width: 100%;
-  height: 100%;
   position: relative;
+}
+
+.boxSubtitle {
+  margin-bottom: 1.2rem;
 }
 
 .editorRow {

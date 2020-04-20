@@ -13,40 +13,51 @@
 }
 
 .comCreateRespond {
-  
+
 }
 
 .boxEditinginCreate {
-  width: 75%;
-  height: 85%;
+  width: 740px;
+  height: 559px;
+  min-width: 51.39%;
+  max-width: 90vw;
+  min-height: 70.94%;
+  max-height: 90vh;
   position: absolute;
-  top: 6%;
-  left: 15%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   box-sizing: border-box;
+  border-radius: 4px;
   background-color: #FFFFFF;
-  box-shadow: -3px 1px 3px 1px;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
 }
 
 .comEditingPanel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
   height: 100%;
   position: relative;
 }
 
-.boxSide {
-  width: 25%;
-  position: absolute;
-  right: 0;
+.boxContentWidth {
+  width: 86.48%;
 }
 
-.boxSideEdit {
-  height: 80%;
-  top: 0;
+.boxFrame {
+  height: 64.28%;
+  box-sizing: border-box;
+  margin-bottom: 2.54vh;
+  border-radius: 4px;
+  overflow: hidden;
 }
 
-.boxBottomPanel {
-  height: 20%;
-  bottom: 0;
+.boxSubmit {
+  margin-top: 4.44vh;
+  margin-bottom: 2.54vh;
 }
 
 .boxImgImport {
@@ -56,4 +67,8 @@
   left: 5%;
   top: 10%;
   box-sizing: border-box;
+}
+
+.boxNodesEditor {
+  margin-bottom: 4.44vh;
 }

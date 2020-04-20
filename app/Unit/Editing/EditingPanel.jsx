@@ -157,24 +157,19 @@ class EditingPanel extends React.Component {
   _render_importOrCover(){
     if(!this.state.coverSrc ){
       return(
-        <div
-          className={styles.boxImgImport}>
-          <ImgImport
-            _set_newImgSrc={this._set_newImgSrc}/>
-        </div>
+        <ImgImport
+          _set_newImgSrc={this._set_newImgSrc}/>
       )
     }else{
       return(
-        <div>
-          <ContentEditor
-            editing={this.state.contentEditing}
-            imgSrc={this.state.coverSrc}
-            marks={this.state.coverMarks}
-            _set_statusEditing={this._set_statusEditing}
-            _set_Mark_Complete={this._set_Mark_Complete}
-            _set_delete={this._set_img_delete}
-            _set_warningDialog={this.props._set_warningDialog}/>
-        </div>
+        <ContentEditor
+          editing={this.state.contentEditing}
+          imgSrc={this.state.coverSrc}
+          marks={this.state.coverMarks}
+          _set_statusEditing={this._set_statusEditing}
+          _set_Mark_Complete={this._set_Mark_Complete}
+          _set_delete={this._set_img_delete}
+          _set_warningDialog={this.props._set_warningDialog}/>
       )
     }
   }
@@ -184,14 +179,7 @@ class EditingPanel extends React.Component {
       <div
         className={classnames(styles.comEditingPanel)}>
         <div
-          className={classnames(styles.boxSide, styles.boxSideEdit)}>
-          <NodesEditor
-            nodesSet={this.state.nodesSet}
-            _submit_new_node={this._submit_new_node}
-            _submit_deleteNodes={this._submit_deleteNodes}/>
-        </div>
-        <div
-          className={classnames(styles.boxSide, styles.boxBottomPanel)}>
+          className={classnames(styles.boxContentWidth, styles.boxSubmit)}>
           <Submit
             editing={this.state.contentEditing}
             confirmDialog={!!this.props.confirmDialog? this.props.confirmDialog: false}
@@ -199,8 +187,16 @@ class EditingPanel extends React.Component {
             _set_Clear={this.props._set_Clear}
             _submit_newShare={this._submit_newShare}/>
         </div>
-        <div>
+        <div
+          className={classnames(styles.boxContentWidth, styles.boxFrame)}>
           {this._render_importOrCover()}
+        </div>
+        <div
+          className={classnames(styles.boxContentWidth, styles.boxNodesEditor)}>
+          <NodesEditor
+            nodesSet={this.state.nodesSet}
+            _submit_new_node={this._submit_new_node}
+            _submit_deleteNodes={this._submit_deleteNodes}/>
         </div>
         {
           this.props.unitSubmitting &&

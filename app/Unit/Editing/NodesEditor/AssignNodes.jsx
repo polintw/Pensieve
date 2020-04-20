@@ -243,7 +243,7 @@ class AssignNodes extends React.Component {
     return(
       <div
         className={classnames(styles.comAssignNodes)}>
-        <div>{this.props.i18nUIString.catalog["guidingCreateShare_AssignGroup"]}</div>
+
         <div>
           {this._render_assignedNodes()}
         </div>

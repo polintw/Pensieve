@@ -194,7 +194,7 @@ class CreateShare extends React.Component {
               onClose={this._set_EditingClose_clear}
               style={{
                 position: "fixed",
-                backgroundColor: 'rgba(215, 215, 215, 0.67)'
+                backgroundColor: 'rgba(51, 51, 51, 0.3)'
               }}>
               <div
                 className={classnames(styles.boxEditinginCreate)}>

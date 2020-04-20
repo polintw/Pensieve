@@ -88,7 +88,9 @@ export const i18nUIStringInit = {
      "category_Belongs_": ["Homeland", "Current Stay"],
      "submit_edit": "edit",
 
-     "guidingCreateShare_AssignGroup": "sharing to people linked to which of your corner?",
+     "submit_Unit_upload": "Add image",
+     "guiding_UnitEdit_upload": "Share what you've observed in Your Corner!",
+     "guidingCreateShare_AssignGroup": "Share to Fellows from",
      "guiding_FeedAssigned_noneAssigned": "Not yet any unit was shared. But let's take a look at other places:",
      "guiding_FeedAssigned_noShared": "how's your home going?",
      "message_Unit_Editing_AssignNotAllowed": "the corner linked to could Not be changed after first release.",

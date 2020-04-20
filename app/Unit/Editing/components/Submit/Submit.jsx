@@ -2,19 +2,18 @@ import React from 'react';
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import stylesFont from '../../stylesFont.module.css';
 import DateConverter from '../../../../Components/DateConverter.jsx';
 
 const styleMiddle = {
   boxNavButton:{
     display: 'inline-block',
-    height: '100%',
+    width: '96px',
+    height: '32px',
     position: 'relative',
     boxSizing: 'border-box',
-  },
-  boxInlineRelative: {
-    display: 'inline-block',
-    position: 'relative',
-    boxSizing:'border-box',
+    borderRadius: '4px',
+    cursor: 'pointer'
   },
   roundRecBox: {
     width: '100%',
@@ -25,14 +24,6 @@ const styleMiddle = {
     overflow: 'hidden',
     cursor: 'pointer'
   },
-  spanEditingDestiny: {
-    width: '100%',
-    fontSize: '1.3rem',
-    fontWeight: '400',
-    letterSpacing: '0.14rem',
-    textAlign: 'center',
-    color: 'black'
-  }
 }
 
 class Submit extends React.Component {
@@ -86,50 +77,43 @@ class Submit extends React.Component {
         className={classnames(styles.comSubmit)}>
         <div
           className={classnames(styles.boxDate)}>
-          <div
-            style={Object.assign({}, styleMiddle.boxInlineRelative, {color: '#e6e6e6'})}>
-            <DateConverter
-              datetime={editDate}/>
-          </div>
+          <DateConverter
+            datetime={editDate}/>
         </div>
         <div
           className={classnames(styles.boxButtons)}>
           <div
-            style={Object.assign({}, styleMiddle.boxNavButton, {width: '36%', marginRight: '16%',cursor: 'pointer'})}>
+            style={Object.assign({}, styleMiddle.boxNavButton)}>
             <span
-              className={'centerAlignChild'}
-              style={Object.assign({}, styleMiddle.spanEditingDestiny, {color: '#ababab'})}
+              className={classnames('centerAlignChild', stylesFont.colorEditBlack, stylesFont.fontSubmit)}
               onClick={this._handleClick_Editing_Cancell}>
               {'cancel'}
             </span>
           </div>
           <div
-            style={Object.assign({}, styleMiddle.boxNavButton, {width: '45%'})}>
-            <div
-              style={Object.assign({}, styleMiddle.roundRecBox, {backgroundColor: this.state.onEnterSubmit? "#ff7a5f": "#e6e6e6"})}
-              onClick={this._handleClick_Editing_Submit}
-              onMouseEnter={this._handleEnter_Submit}
-              onMouseLeave={this._handleLeave_Submit}>
-              <span
-                className={'centerAlignChild'}
-                style={styleMiddle.spanEditingDestiny}>
-                {"Submit"}
-              </span>
-              {
-                this.props.editing &&
-                <div
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    position: 'absolute',
-                    top: '0',
-                    left:'0',
-                    backgroundColor: 'rgba(230,230,230,0.5)',
-                    cursor: 'default'
-                  }}></div>
+            style={Object.assign({}, styleMiddle.boxNavButton, {backgroundColor: 'rgba(255, 129, 104, 0.1)'})}
+            onClick={this._handleClick_Editing_Submit}
+            onMouseEnter={this._handleEnter_Submit}
+            onMouseLeave={this._handleLeave_Submit}>
+            <span
+              className={classnames('centerAlignChild', stylesFont.fontSubmit, stylesFont.colorStandard)}>
+              {"Submit"}
+            </span>
+            {
+              this.props.editing &&
+              <div
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  position: 'absolute',
+                  top: '0',
+                  left:'0',
+                  backgroundColor: 'rgba(230,230,230,0.5)',
+                  cursor: 'default'
+                }}/>
               }
             </div>
-          </div>
+
         </div>
       </div>
     )
