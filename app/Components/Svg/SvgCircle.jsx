@@ -19,7 +19,8 @@ class CircleSerial extends React.Component {
         viewBox="0 0 122 122"
         style={{
           width: '100%',
-          height: 'auto'
+          height: 'auto',
+          overflow: 'visible'
         }}>
         <defs>
           <style>{".cls-1-CircleSerial,.cls-4-CircleSerial{fill:#fff;}.cls-4-CircleSerial{font-size:32px;font-weight: bold;}.cls-5-CircleSerial{stroke: #fff;stroke-width: 3;fill: rgba(84, 84, 84, 0.45)}"}</style>

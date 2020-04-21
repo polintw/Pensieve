@@ -1,18 +1,39 @@
 .boxMarkBlock {
-  width: 36.6%;
-  height: 97%;
+  width: 46.87%;
+  height: 83.33%;
+  min-width: 300px;
   position: absolute;
-  top: 2%;
+  top: 8.33%;
   box-sizing: border-box;
-  border-top: 3px solid #E0E0E0;
-  border-bottom: 3px solid #E0E0E0;
-  box-shadow: 0 0 2px 0;
-  background-color: rgba(252, 252, 252, 0.9);
+  box-shadow: 0 0 8px 0 #c0d3f0;
+  background-color: rgba(255, 255, 255, 0.9);
 }
 
-.boxMarkinBlock {
+.boxBlockDraft {
   width: 100%;
-  height: 100%;
+  position: relative;
+  box-sizing: border-box;
+  padding: 13.33% 5% 5%;
+  overflow-y: auto;
+}
+
+.boxBlockInteract {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  padding: 5%;
+}
+
+.boxBlockBack {
   position: absolute;
-  bottom: 0;
+  top: 5%;
+  right: 5%;
+}
+
+.boxDraftEditor {
+  width: 100%;
+  min-height: 50px;
+  position: relative;
 }

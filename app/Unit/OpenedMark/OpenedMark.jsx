@@ -5,8 +5,6 @@ import styles from "./styles.module.css";
 import SvgCircle from '../../Components/Svg/SvgCircle.jsx';
 import {
   baseHorizonRatial,
-  baseVertivalRatial,
-  widthDivisionRatial
 } from '../props.js';
 
 
@@ -17,16 +15,7 @@ class OpenedMark extends React.Component {
 
     };
     this._render_CircleGroup = this._render_CircleGroup.bind(this);
-    this.style = {
-      dependent_radius_Bottom: {
-        borderBottomLeftRadius: '3%',
-        borderBottomRightRadius: '3%'
-      },
-      dependent_radius_Top: {
-        borderTopLeftRadius: '3%',
-        borderTopRightRadius: '3%'
-      }
-    };
+
   }
 
   _render_CircleGroup (coordinate){
@@ -34,20 +23,22 @@ class OpenedMark extends React.Component {
       <div
         id={this.props.currentMark}
         className={'boxMarkSpot'}
-        style={{top: coordinate.top+"%", left: coordinate.left+'%'}}>
-        <div
-          onClick={this.props._handleClick_ImgLayer_circle}>
-          <SvgCircle
-            current={true}
-            notify={this.props.notify}
-            serial={this.props.serial}/>
-        </div>
-
+        style={{top: coordinate.top+"%", left: coordinate.left+'%'}}
+        onClick={this.props._handleClick_ImgLayer_circle}>
+        <SvgCircle
+          current={true}
+          notify={this.props.notify}
+          serial={this.props.serial}/>
       </div>
     )
   }
 
   render(){
+    /*
+    Beneath we are going to calculate the position the MarkBlocks should be.
+    Why it's so complicated due to at the beginning, the img is not position to the center,
+    we didn't even know how 'left' the img was.
+    */
     const markId = this.props.currentMark,
           imgWidth = this.props.imgWidthHeight.width,
           imgHeight = this.props.imgWidthHeight.height,
@@ -60,33 +51,26 @@ class OpenedMark extends React.Component {
 
     //then cauculate position of opened mark here in render()
     //to make the mark would change the position when jumping between different spot
-    let [
-      blockLeft,
-      blockRight,
-      inBlockHeight,
-    ] = ['','',''];
-
-    (spotLeftPx) > (this.props.boxWidth/2) ? ( //check which side of the box the circle at
-      //if circle st the right side, put the box 'left' to the circle
-      blockRight = this.props.boxWidth-(spotLeftPx)+3*(this.props.boxWidth/widthDivisionRatial)
-      //which means, block would be 3/20 of boxWidth left to the spot (if the widthDivisionRatial='20')
-      //(about 15% when the widthDivisionRatial='20')
-    ): (
-      blockLeft = spotLeftPx+3*(this.props.boxWidth/widthDivisionRatial)
-    );
-
-    //set height of scroll area between 81% ~ 69% depend on spot's top,
-    //use 50(downToMdidline) as base to cauculate the portion
-    //basically it would equal to 'vh' as we set the block height 100% to vh
-    //and keep them as a num first
-    inBlockHeight = (100-87) + ((coordinate.top/ 100) * (87-65))
+    let [blockLeft, blockRight] = ['26.56%',''];
+    /*
+    the block would always be at the center, unless it overlap itself(spot).
+    At that situation, move the block aside the spot.
+    */
+    if(coordinate.left < 50 && (spotLeftPx+24+22) > this.props.boxWidth*0.2656){
+      blockLeft = spotLeftPx + 24+22;
+      if((this.props.boxWidth - spotLeftPx - 24 -22) < 300){ blockLeft = ''; blockRight = 1;}
+    }
+    else if(coordinate.left > 50 && (this.props.boxWidth - spotLeftPx + 24+22) > this.props.boxWidth*0.2656){
+      blockLeft = '';
+      blockRight = this.props.boxWidth - spotLeftPx + 24+22;
+      if((spotLeftPx - 24 -22) < 300){ blockLeft = 1; blockRight = '';}
+    }
 
     // because we want to pass left/right status as props to Block, we need to add from here
     const childrenWithProps = React.Children.map(this.props.children, (child) =>
       React.cloneElement(child, {
-        toCircleLeft: blockRight > 0? true : false,
+        toCircleLeft: (coordinate.left > 50)? true : false,
         downToMdidline: downToMdidline,
-        inBlockHeight: inBlockHeight
       })
     );
 
@@ -100,33 +84,20 @@ class OpenedMark extends React.Component {
           style={{
             width: imgWidth,
             height: imgHeight,
-            top: baseVertivalRatial+'%',
             right: baseHorizonRatial+'%',
-            transform: 'translate('+baseHorizonRatial+'%, -'+ baseVertivalRatial+'%)',
-            backgroundImage: 'radial-gradient(ellipse at '+
-              (coordinate.left+ (blockRight > 0?6:(-6)))+
-              '% '+
-              (coordinate.top+ (downToMdidline? (-12): 12))+
-              '%, rgba(30, 30, 30, 0) 0px, rgba(30, 30, 30, 0.1) 16%, rgba(30, 30, 30, 0.2) 28%,rgba(30, 30, 30, 0.32) 37%, rgba(30, 30, 30, 0.39) 44%, rgba(33, 33, 33, 0.47) 50%, rgba(33, 33, 33, 0.56) 56% )'
+            transform: 'translate('+baseHorizonRatial+'%, -50%)'
           }}
           onClick={this.props._handleClick_ImgLayer_circle}>
           {this._render_CircleGroup(coordinate)}
         </div>
-
         <div
           className={classnames(styles.boxMarkBlock)}
-          style={Object.assign(
-            {},
-            {
-              left: blockLeft,
-              right: blockRight
-            }
-          )}
+          style={Object.assign({},{
+            left: blockLeft,
+            right: blockRight
+          })}
           onClick={(e)=>{e.stopPropagation();}}>
-          <div
-            className={classnames(styles.boxMarkinBlock)}>
-            {childrenWithProps}
-          </div>
+          {childrenWithProps}
         </div>
       </div>
     )

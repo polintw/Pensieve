@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
 import ViewerBlock from '../../OpenedMark/MarkBlocks/ViewerBlock/ViewerBlock.jsx';
-import {widthDivisionRatial} from '../../props.js'; //dividing markglayer width, used for determineing the position
 import OpenedMark from '../../OpenedMark/OpenedMark.jsx';
 import SvgCircle from '../../../Components/Svg/SvgCircle.jsx';
 import SvgCurCir from '../../../Components/Svg/SvgCurCir.jsx';
@@ -68,7 +67,6 @@ class MarksViewer extends React.Component {
         <OpenedMark
           {...this.props}
           currentSerial={currentSerial}
-          widthDivisionRatial={widthDivisionRatial}
           notify={false}
           _handleClick_ImgLayer_circle={this._handleClick_ImgLayer_circle}>
           <ViewerBlock

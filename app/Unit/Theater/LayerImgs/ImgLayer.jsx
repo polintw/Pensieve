@@ -5,7 +5,6 @@ import styles from './styles.module.css';
 import MarksLayer from './MarksLayer.jsx';
 import {
   baseHorizonRatial,
-  baseVertivalRatial
 } from '../../props.js';
 
 const generalStyle = {
@@ -34,8 +33,7 @@ class ImgLayer extends React.Component {
         maxWidth: '100%',
         maxHeight: '100%',
         right: baseHorizonRatial+'%',
-        top: baseVertivalRatial+ '%',
-        transform: 'translate('+baseHorizonRatial+'%, -'+ baseVertivalRatial+'%)'
+        transform: 'translate('+baseHorizonRatial+'%, -50%)'
         //we use the params managed in a single file to assure the position always consistent across component
       }
   };

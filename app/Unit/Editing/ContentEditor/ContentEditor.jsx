@@ -26,18 +26,20 @@ class ContentEditor extends React.Component {
     this._set_markNewSpot = this._set_markNewSpot.bind(this);
     this._set_markDelete = this._set_markDelete.bind(this);
     this._set_markUpdate_editor = this._set_markUpdate_editor.bind(this);
-    this._handleClick_editingComplete = this._handleClick_editingComplete.bind(this);
+    this._set_editingComplete = this._set_editingComplete.bind(this);
   }
 
   _set_markExpand(markKey){
     //no matter what situation, check if the parent comp knew we are editing.
-    if(!this.props.editing) this.props._set_statusEditing(true); //_set_statusEditing() need a bool param.
     if(markKey !== this.state.markExpand){
+      if(!this.props.editing) this.props._set_statusEditing(true); //_set_statusEditing() need a bool param.
       this.setState((prevState, props) => {return {markExpandify: false}}, ()=>{
         this.setState({markExpand: markKey, markExpandify: true});
       });
-    }else if(markKey == this.state.markExpand){
+    }
+    else if(markKey == this.state.markExpand){ //the 'cancel' process, different from 'delete'
       this._reset_expandState();
+      this.props._set_statusEditing(false); //_set_statusEditing() need a bool param.
     }
   }
 
@@ -62,25 +64,31 @@ class ContentEditor extends React.Component {
   }
 
   _set_markDelete(key){
+    //notice here we "didn't" setState(), just 'saved' the data without re-render
     delete this.state.markCircles[key];
     delete this.state.markEditorContent[key];
     let indexTar = this.state.marksList.indexOf(key);
     this.state.marksList.splice(indexTar, 1);
     this._reset_expandState();
+    this._set_editingComplete();
   }
 
   _set_markUpdate_editor(contentRaw, key){
-
-
-    this.state.markEditorContent[key]=contentRaw;
-
+    /*
+    this processing structure was a reamining from previous ver., aiming to deal with 2 layers which has to open ContentEditor in a different modal.
+    Now only 1 layer used, but keep this structure for the future.
+    */
+    this.state.markEditorContent[key]=contentRaw; //notice here we "didn't" setState(), just 'saved' the data without re-render
+    this._reset_expandState();
+    this._set_editingComplete();
   }
 
 
-  _handleClick_editingComplete(event){
-    event.stopPropagation();
-    event.preventDefault();
-    if(this.state.markExpandify) return;
+  _set_editingComplete(){
+    /*
+    this processing structure was a reamining from previous ver., aiming to deal with 2 layers which has to open ContentEditor in a different modal.
+    Now only 1 layer used, but keep this structure for the future.
+    */
     let marksData = {list:[], data:{}};
     this.state.marksList.forEach((markKey, index)=>{
       marksData["data"][markKey] = {

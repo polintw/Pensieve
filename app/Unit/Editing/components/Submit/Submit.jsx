@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import stylesFont from '../../stylesFont.module.css';
+import stylesFont from '../../../stylesFont.module.css';
 import DateConverter from '../../../../Components/DateConverter.jsx';
 
 const styleMiddle = {

@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from "react-redux";
 import classnames from 'classnames';
-import stylesFont from '../stylesFont.module.css';
+import stylesFont from '../../stylesFont.module.css';
 import ImgChoose from '../../../Components/ImgChoose.jsx';
 import SvgUpload from '../../../Components/Svg/SvgUpload.jsx';
 import {

@@ -4,8 +4,7 @@ import OpenedMark from '../../OpenedMark/OpenedMark.jsx';
 import MarkEditingBlock from '../../OpenedMark/MarkBlocks/MarkEditingBlock.jsx';
 import SvgCircle from '../../../Components/Svg/SvgCircle.jsx';
 import {
-  baseHorizonRatial,
-  widthDivisionRatial
+  baseHorizonRatial
 } from '../../props.js';
 
 class ImgLayerEditing extends React.Component {
@@ -110,12 +109,11 @@ class ImgLayerEditing extends React.Component {
             marksData={marksData}
             imgPosition={imgPosition}
             imgWidthHeight={imgWidthHeight}
-            widthDivisionRatial={widthDivisionRatial}
             _handleClick_ImgLayer_circle={this._handleClick_ImgLayer_circle}
             _set_markJump={this._set_markJump}>
             <MarkEditingBlock
               markKey = {this.props.currentMark}
-              editorState={this.props.markEditorContent[this.props.currentMark]}
+              contentRaw={this.props.markEditorContent[this.props.currentMark]}
               _set_markUpdate_editor={this.props._set_markUpdate_editor}
               _set_markDelete={this.props._set_markDelete}
               _reset_expandState={this.props._reset_expandState}/>

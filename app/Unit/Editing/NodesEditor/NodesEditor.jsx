@@ -6,7 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import stylesFont from '../stylesFont.module.css';
+import stylesFont from '../../stylesFont.module.css';
 import AssignNodes from './AssignNodes.jsx';
 import {updateNodesBasic} from '../../../redux/actions/general.js'
 
