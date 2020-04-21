@@ -57,3 +57,7 @@
 .spanNameFirstName {
   font-weight: 600; /* to overlap the default font weight */
 }
+
+.public-DraftEditorPlaceholder-root { /* default at draft.js, setting style to placeholder*/
+  color: #d8d8d8;
+}

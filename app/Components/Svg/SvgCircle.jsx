@@ -23,7 +23,9 @@ class CircleSerial extends React.Component {
           overflow: 'visible'
         }}>
         <defs>
-          <style>{".cls-1-CircleSerial,.cls-4-CircleSerial{fill:#fff;}.cls-4-CircleSerial{font-size:32px;font-weight: bold;}.cls-5-CircleSerial{stroke: #fff;stroke-width: 3;fill: rgba(84, 84, 84, 0.45)}"}</style>
+          <style>
+            {".cls-1-CircleSerial,.cls-4-CircleSerial{fill:#fff;}.cls-4-CircleSerial{font-size:32px;font-weight: bold;}.cls-5-CircleSerial{stroke: #fff;stroke-width: 3;fill:"+ (this.props.current? "rgba(240, 151, 22, 0.45)" :" rgba(84, 84, 84, 0.45)")+ "}"}
+          </style>
         </defs>
         <g id="圖層_2" data-name="圖層 2">
           <g id="圖層_3" data-name="圖層 3">
@@ -87,7 +89,10 @@ export default class SvgCircle extends React.Component {
   }
 
   _render_Circle(){
-    return (<CircleSerial serial={this.props.serial}/>)
+    return (
+      <CircleSerial
+        serial={this.props.serial}
+        current={this.props.current}/>)
 
   }
 

@@ -57,7 +57,8 @@ class DraftEditor extends React.Component {
         <Editor
           ref={this.props.parentRef?this.props.parentRef:(element)=>{this.contentEditor = element;}}
           editorState={this.state.editorState}
-          onChange={this.changeEditorState}/>
+          onChange={this.changeEditorState}
+          placeholder={!!this.props.placeholder?this.props.placeholder : ''}/>
       </div>
     )
   }

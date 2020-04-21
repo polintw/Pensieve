@@ -79,7 +79,6 @@ class EditingPanel extends React.Component {
   _set_newImgSrc(dataURL){
     this.setState({
       coverSrc: dataURL,
-      contentEditing: true //going to edit directly
     })
   }
 
@@ -164,6 +163,7 @@ class EditingPanel extends React.Component {
           className={classnames(styles.boxContentWidth, styles.boxSubmit)}>
           <Submit
             editing={this.state.contentEditing}
+            contentPermit = {(!this.state["coverSrc"] || this.state['nodesSet'].assign.length < 1) ? false: true}
             confirmDialog={!!this.props.confirmDialog? this.props.confirmDialog: false}
             warningDialog={!!this.props.warningDialog? this.props.warningDialog: false}
             _set_Clear={this.props._set_Clear}

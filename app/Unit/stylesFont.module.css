@@ -9,6 +9,11 @@
   text-align: center;
 }
 
+.fontContent {
+  font-size: 1.4rem;
+  line-height: 1.5;
+}
+
 .fontDescript {
   font-size: 1.4rem;
   font-weight: 300;
@@ -34,4 +39,8 @@
 
 .colorGrey {
   color: #a3a3a3;
+}
+
+.colorDarkGrey {
+  color: #979797;
 }

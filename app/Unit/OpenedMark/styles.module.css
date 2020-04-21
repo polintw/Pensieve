@@ -30,10 +30,21 @@
   position: absolute;
   top: 5%;
   right: 5%;
+  cursor: pointer;
 }
 
 .boxDraftEditor {
   width: 100%;
   min-height: 50px;
   position: relative;
+}
+
+.boxBlockSubmit {
+  display: inline-block;
+  width: 77px;
+  height: 32px;
+  position: relative;
+  box-sizing: border-box;
+  border-radius: 4px;
+  cursor: pointer;
 }

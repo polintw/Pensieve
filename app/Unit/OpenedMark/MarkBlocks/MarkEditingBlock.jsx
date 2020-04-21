@@ -16,13 +16,16 @@ class MarkEditingBlock extends React.Component {
     super(props);
     this.state = {
       contentRaw: this.props.contentRaw,
-      onEnterSave: false
+      onEnterSave: false,
+      onEnterDelete: false
     }
     this.contentEditor = React.createRef();
     this.comEditingBlock = React.createRef();
     this._set_EditorUpdate = this._set_EditorUpdate.bind(this);
     this._handleEnter_Save = this._handleEnter_Save.bind(this);
     this._handleLeave_Save = this._handleLeave_Save.bind(this);
+    this._handleEnter_Delete = this._handleEnter_Delete.bind(this);
+    this._handleLeave_Delete = this._handleLeave_Delete.bind(this);
     this._handleClick_blockPanel_cancel = this._handleClick_blockPanel_cancel.bind(this);
     this._handleClick_blockPanel_delete = this._handleClick_blockPanel_delete.bind(this);
     this._handleClick_blockPanel_complete = this._handleClick_blockPanel_complete.bind(this);
@@ -54,6 +57,18 @@ class MarkEditingBlock extends React.Component {
     //would not 'bubble'
     this.setState({
       onEnterSave: false
+    })
+  }
+
+  _handleEnter_Delete(e){
+    this.setState({
+      onEnterDelete: true
+    })
+  }
+
+  _handleLeave_Delete(e){
+    this.setState({
+      onEnterDelete: false
     })
   }
 
@@ -100,10 +115,11 @@ class MarkEditingBlock extends React.Component {
           className={classnames(styles.boxBlockDraft)}
           onClick={this._handleClick_markComponentEditor}>
           <div
-            className={classnames(styles.boxDraftEditor)}>
+            className={classnames(styles.boxDraftEditor, stylesFont.fontContent, stylesFont.colorEditBlack)}>
             <DraftEditor
               ref={this.contentEditor}
               editorState={this.state.contentRaw}
+              placeholder={this.props.i18nUIString.catalog['guiding_placeholder_UnitEdit_MarkBlock']}
               _on_EditorChange={this._set_EditorUpdate}/>
           </div>
         </div>
@@ -111,25 +127,43 @@ class MarkEditingBlock extends React.Component {
           className={classnames(styles.boxBlockInteract)}>
           <div>
             <div
-              onClick={this._handleClick_blockPanel_delete}>
+              className={classnames(styles.boxBlockSubmit)}
+              style={{backgroundColor: this.state.onEnterDelete ? "#757575":'transparent', marginRight: '10px'}}
+              onClick={this._handleClick_blockPanel_delete}
+              onMouseEnter={this._handleEnter_Delete}
+              onMouseLeave={this._handleLeave_Delete}>
               <span
-                className={classnames(stylesFont.fontSubmit, stylesFont.colorGrey)}>
-                {'delete'}
+                className={classnames(
+                  'centerAlignChild',
+                  stylesFont.fontSubmit,
+                  {[stylesFont.colorGrey]: !this.state.onEnterDelete},
+                  {[stylesFont.colorWhite]: this.state.onEnterDelete}
+                )}>
+                {'Delete'}
               </span>
             </div>
             <div
+              className={classnames(styles.boxBlockSubmit)}
+              style={{backgroundColor: this.state.onEnterSave? "#ff8168": 'rgba(255, 129, 104, 0.1)'}}
               onClick={this._handleClick_blockPanel_complete}
               onMouseEnter={this._handleEnter_Save}
               onMouseLeave={this._handleLeave_Save}>
               <span
-                className={classnames(stylesFont.fontSubmit, stylesFont.colorStandard)}>
-                {'save'}
+                className={classnames(
+                  'centerAlignChild',
+                  stylesFont.fontSubmit,
+                  {[stylesFont.colorStandard]: (!this.state.onEnterSave)},
+                  {[stylesFont.colorWhite]: (this.state.onEnterSave)}
+                )}>
+                {'Save'}
               </span>
             </div>
           </div>
         </div>
         <div className={styles.boxBlockBack}>
           <span
+            className={classnames(stylesFont.colorDarkGrey)}
+            style={{fontSize: '0.8rem'}}
             onClick={this._handleClick_blockPanel_cancel}>
             {" ╳ "}
           </span>
@@ -143,7 +177,7 @@ class MarkEditingBlock extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
-    unitCurrent: state.unitCurrent,
+    i18nUIString: state.i18nUIString,
     unitSubmitting: state.unitSubmitting
   }
 }
