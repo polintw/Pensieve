@@ -50,7 +50,6 @@ class DraftEditor extends React.Component {
   }
 
   render(){
-    //let cx = cxBind.bind(styles);
     return(
       <div
         style={this.style.Com_DraftEditor_}>

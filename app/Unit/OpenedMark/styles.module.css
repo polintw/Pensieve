@@ -5,15 +5,16 @@
   position: absolute;
   top: 8.33%;
   box-sizing: border-box;
-  box-shadow: 0 0 8px 0 #c0d3f0;
-  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 5px 0 #c0d3f0;
+  background-color: rgba(255, 255, 255, 0.93);
 }
 
 .boxBlockDraft {
   width: 100%;
   position: relative;
   box-sizing: border-box;
-  padding: 13.33% 5% 5%;
+  padding: 0 5% 5%;
+  margin-top: 13.33%;
   overflow-y: auto;
 }
 
@@ -35,8 +36,9 @@
 
 .boxDraftEditor {
   width: 100%;
-  min-height: 50px;
+  min-height: 130px;
   position: relative;
+  cursor: text;
 }
 
 .boxBlockSubmit {

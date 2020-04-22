@@ -111,7 +111,7 @@ class EditingPanel extends React.Component {
     }else if(this.props.unitSubmitting){
       this.props._set_warningDialog([{text: "submit is processing, please hold on ...",style:{}}], 'warning');
       return;
-    }else if(this.state.editing){
+    }else if(this.state.contentEditing){
       this.props._set_warningDialog([{text: "your edit hasn't completed.", style:{}}], 'warning');
       return;
     };

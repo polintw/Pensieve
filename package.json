@@ -50,6 +50,7 @@
     "@babel/core": "^7.7.5",
     "@babel/preset-env": "^7.7.6",
     "babel-loader": "^8.0.6",
+    "browserify-css": "^0.15.0",
     "cheerio": "^1.0.0-rc.2",
     "create-react-class": "^15.6.3",
     "css-modulesify": "^0.28.0",

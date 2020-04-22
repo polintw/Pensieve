@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from "react-redux";
+import classnames from 'classnames';
+import stylesFont from '../../stylesFont.module.css';
 import OpenedMark from '../../OpenedMark/OpenedMark.jsx';
 import MarkEditingBlock from '../../OpenedMark/MarkBlocks/MarkEditingBlock.jsx';
 import SvgCircle from '../../../Components/Svg/SvgCircle.jsx';
@@ -116,7 +118,7 @@ class ImgLayerEditing extends React.Component {
               contentRaw={this.props.markEditorContent[this.props.currentMark]}
               _set_markUpdate_editor={this.props._set_markUpdate_editor}
               _set_markDelete={this.props._set_markDelete}
-              _reset_expandState={this.props._reset_expandState}/>
+              _set_Markvisible= {this.props._set_Markvisible}/>
           </OpenedMark>
         );
       }else{
@@ -166,6 +168,21 @@ class ImgLayerEditing extends React.Component {
           src={this.props.imgSrc}
           onLoad={this._set_imgSize}/>
         {
+          this.props.marksList.length < 1 &&
+          (
+            <div
+              className={'boxAbsoluteFull'}>
+              <span
+                className={classnames(stylesFont.fontContent, stylesFont.colorWhite)}
+                style={{
+                  display: 'block', position: 'absolute', left:'50%', top:'76.39%',transform: 'translate(-50%,0)',
+                  textShadow: '0 0 5px #FF8168'}}>
+                {this.props.i18nUIString.catalog['guiding_UnitEdit_imgNoMark']}
+              </span>
+            </div>
+          )
+        }
+        {
           this.state.imgWidthHeight &&
           this._render_MarksLayer()
         }
@@ -177,7 +194,7 @@ class ImgLayerEditing extends React.Component {
 const mapStateToProps = (state) => {
   return {
     userInfo: state.userInfo,
-    unitCurrent: state.unitCurrent,
+    i18nUIString: state.i18nUIString,
     unitSubmitting: state.unitSubmitting
   }
 }

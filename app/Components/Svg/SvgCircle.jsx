@@ -4,14 +4,29 @@ class CircleSerial extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      onEnterCircle: false
     };
-    this.style={
+    this._handleEnterSVG_CircleSerial = this._handleEnterSVG_CircleSerial.bind(this);
+    this._handleLeaveSVG_CircleSerial = this._handleLeaveSVG_CircleSerial.bind(this);
+  }
 
-    }
+  _handleEnterSVG_CircleSerial(e){
+    this.setState({
+      onEnterCircle: true
+    })
+  }
+
+  _handleLeaveSVG_CircleSerial(e){
+    this.setState({
+      onEnterCircle: false
+    })
   }
 
   render(){
+    let styleString = ".cls-1-CircleSerial,.cls-4-CircleSerial{fill:#fff;}.cls-4-CircleSerial{font-size:32px;font-weight: bold;}.cls-5-CircleSerial{stroke: #fff;stroke-width: 3;fill:"
+    + (this.props.current? "rgba(240, 151, 22, 0.45)" : (this.state.onEnterCircle ? "rgba(255, 129, 104, 0.45)": " rgba(84, 84, 84, 0.45)"))
+    + "}";
+
     return(
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -21,10 +36,12 @@ class CircleSerial extends React.Component {
           width: '100%',
           height: 'auto',
           overflow: 'visible'
-        }}>
+        }}
+        onMouseEnter={this._handleEnterSVG_CircleSerial}
+        onMouseLeave={this._handleLeaveSVG_CircleSerial}>
         <defs>
           <style>
-            {".cls-1-CircleSerial,.cls-4-CircleSerial{fill:#fff;}.cls-4-CircleSerial{font-size:32px;font-weight: bold;}.cls-5-CircleSerial{stroke: #fff;stroke-width: 3;fill:"+ (this.props.current? "rgba(240, 151, 22, 0.45)" :" rgba(84, 84, 84, 0.45)")+ "}"}
+            {styleString}
           </style>
         </defs>
         <g id="圖層_2" data-name="圖層 2">

@@ -138,7 +138,6 @@ class ContentEditor extends React.Component {
           _set_markNewSpot={this._set_markNewSpot}
           _set_markUpdate_editor={this._set_markUpdate_editor}
           _set_markDelete={this._set_markDelete}
-          _reset_expandState={this._reset_expandState}
           _set_warningDialog={this.props._set_warningDialog}/>
 
       </div>

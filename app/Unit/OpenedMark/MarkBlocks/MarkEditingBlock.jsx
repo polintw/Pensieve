@@ -81,7 +81,7 @@ class MarkEditingBlock extends React.Component {
   _handleClick_blockPanel_cancel(event){
     event.stopPropagation();
     event.preventDefault();
-    this.props._reset_expandState();
+    this.props._set_Markvisible(this.props.markKey);
   }
 
   _handleClick_blockPanel_delete(event){

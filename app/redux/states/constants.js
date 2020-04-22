@@ -90,7 +90,9 @@ export const i18nUIStringInit = {
 
      "submit_Unit_upload": "Add image",
      "guiding_UnitEdit_upload": "Share what you've observed in Your Corner!",
+     "guiding_UnitEdit_imgNoMark": "Click to add a post-it, but also not bad leaving it pure",
      "guiding_placeholder_UnitEdit_MarkBlock": "What's SPECIAL!  Telling us some details you found." ,
+
      "guidingCreateShare_AssignGroup": "Share to Fellows from",
      "guiding_FeedAssigned_noneAssigned": "Not yet any unit was shared. But let's take a look at other places:",
      "guiding_FeedAssigned_noShared": "how's your home going?",
