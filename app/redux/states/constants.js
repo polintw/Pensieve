@@ -87,13 +87,16 @@ export const i18nUIStringInit = {
 
      "category_Belongs_": ["Homeland", "Current Stay"],
      "submit_edit": "edit",
+     "submit_understand": "Understand",
 
      "submit_Unit_upload": "Add image",
      "guiding_UnitEdit_upload": "Share what you've observed in Your Corner!",
      "guiding_UnitEdit_imgNoMark": "Click to add a post-it, but also not bad leaving it pure",
      "guiding_placeholder_UnitEdit_MarkBlock": "What's SPECIAL!  Telling us some details you found." ,
+     "message_UnitEdit_tooManySpot": "A better spot? But too many paragraph would be a burdon to readers. Please delete an old one before you implement this new!",
+     "message_UnitEdit_ruleAssignedNodes": ["Select only one corner from where you stay, and one from homeland."],
 
-     "guidingCreateShare_AssignGroup": "Share to Fellows from",
+     "guidingCreateShare_AssignGroup": "Share to Fellows from/at",
      "guiding_FeedAssigned_noneAssigned": "Not yet any unit was shared. But let's take a look at other places:",
      "guiding_FeedAssigned_noShared": "how's your home going?",
      "message_Unit_Editing_AssignNotAllowed": "the corner linked to could Not be changed after first release.",

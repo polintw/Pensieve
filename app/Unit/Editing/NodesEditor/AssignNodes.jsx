@@ -6,8 +6,10 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import stylesFont from '../../stylesFont.module.css';
 import {
   setMessageBoolean,
+  setMessageSingle,
   setMessageSingleClose
 } from "../../../redux/actions/general.js";
 import {messageDialogInit} from "../../../redux/states/constants.js";
@@ -70,7 +72,15 @@ class AssignNodes extends React.Component {
           prevState.restTypes.splice(indexInList, 1);
           return { restTypes: prevState.restTypes }
         })
-      } else return;
+      } else{
+        this.props._submit_SingleDialog({
+          render: true,
+          message: [{text:this.props.i18nUIString.catalog['message_UnitEdit_ruleAssignedNodes'][0],style:{}}],
+          handlerPositive: ()=>{this.props._submit_SingleDialog(messageDialogInit.single)},
+          buttonValue: this.props.i18nUIString.catalog['submit_understand']
+        });
+        return;
+      };
 
     }else if(assignedList.indexOf(targetId) > -1){
       let indexInList = assignedList.indexOf(targetId);
@@ -87,6 +97,15 @@ class AssignNodes extends React.Component {
         //delete the targetNode from nodesSet
         this.props._submit_deleteNodes( indexInList, 'assign');
       })
+    }
+    else{
+      this.props._submit_SingleDialog({
+        render: true,
+        message: [{text:this.props.i18nUIString.catalog['message_UnitEdit_ruleAssignedNodes'][0],style:{}}],
+        handlerPositive: ()=>{this.props._submit_SingleDialog(messageDialogInit.single)},
+        buttonValue: this.props.i18nUIString.catalog['submit_understand']
+      });
+      return;
     }
 
   }
@@ -167,33 +186,52 @@ class AssignNodes extends React.Component {
         let assigning = (assignedNodes.indexOf(node0) < 0) ? false : true;
 
         nodesDOM.push(
-          <div
-            key={'_key_assignNode_both_' + i}>
-            <li
-              nodeid={node0}
-              className={classnames(
-                styles.boxListItem,
-                {
-                  [styles.chosenListItem]: assigning,
-                  [styles.mouseListItem]: (this.state.onNode == node0)
-                }
-              )}
-              onClick={this._handleClick_NodeAssigned}
-              onMouseEnter={this._handleEnter_liItem}
-              onMouseLeave={this._handleLeave_liItem}>
-              {(node0 in this.props.nounsBasic) &&
-                <div>
-                <span>{this.props.nounsBasic[node0].name}</span>
-                <span>{this.props.nounsBasic[node0].prefix ? (", " + this.props.nounsBasic[node0].prefix) : ("")}</span>
-                </div>
+          <li
+            key={'_key_assignNode_both_' + i}
+            nodeid={node0}
+            className={classnames(
+              styles.boxListItem,
+              {
+                [styles.chosenListItem]: assigning,
+                [styles.mouseListItem]: (this.state.onNode == node0 && !assigning)
               }
-            </li>
-          </div>
+            )}
+            onClick={this._handleClick_NodeAssigned}
+            onMouseEnter={this._handleEnter_liItem}
+            onMouseLeave={this._handleLeave_liItem}>
+            {(node0 in this.props.nounsBasic) &&
+              <div>
+                <span
+                  className={classnames(
+                    styles.spanListItem, stylesFont.fontContent, stylesFont.colorGrey,
+                    {
+                      [styles.chosenSpanItem]: assigning,
+                      [styles.mouseSpanItem]: (this.state.onNode== node0)
+                    }
+                  )}>
+                  {this.props.nounsBasic[node0].name}</span>
+                {
+                  !!this.props.nounsBasic[node0].prefix &&
+                  <span
+                    className={classnames(
+                      styles.spanListItem, stylesFont.fontContent, stylesFont.colorGrey,
+                      {
+                        [styles.chosenSpanItem]: assigning,
+                        [styles.mouseSpanItem]: (this.state.onNode== node0)
+                      }
+                    )}
+                    style={{ alignSelf:'right', fontSize: '1.2rem', fontStyle: 'italic'}}>
+                    {this.props.nounsBasic[node0].prefix}</span>
+                }
+              </div>
+            }
+          </li>
         );
         this.nodesTypes[node0] = 'both'; //modifying the type of node in nodesTypes(no matter what's the original)
         cycleCount = i;
       }else break;
     };
+    //so, cycleCount shorter than list.length means the belongs nodes are not the same (actually this is should be normal condition)
     if (cycleCount < belongNodesList[0].length || cycleCount < belongNodesList[1].length){
       let restList = [];
       for(let i=0; i< 2; i++){
@@ -202,16 +240,29 @@ class AssignNodes extends React.Component {
         restList.push(restItems);
       };
       restList.forEach((restItems, index)=>{
-        let itemsDOM = restItems.map((nodeId, indexItems) => {
+        //at first, insert "/" if right after the shared nodes as a separation
+        if(index == 0 && nodesDOM.length > 0) nodesDOM.push(
+          <span
+            className={classnames(stylesFont.colorEditBlack, stylesFont.fontContent)}
+            style={{display: 'flex',alignItems:'center',marginRight: '1rem'}}>{" / "}</span>
+        );
+        //if this is not the first round, add a '．' as separation
+        if(index > 0) nodesDOM.unshift(
+          <span
+            className={classnames(stylesFont.colorEditBlack, stylesFont.fontContent)}
+            style={{display: 'flex',alignItems:'center',marginRight: '1rem'}}>{"．"}</span>
+        );
+        restItems.forEach((nodeId, indexItems) => {
           let assigning = (assignedNodes.indexOf(nodeId) < 0) ? false : true;
-          return (
+          nodesDOM.unshift (
             <li
+              key={'_key_assignNode_' + index +"_"+ indexItems}
               nodeid={nodeId}
               className={classnames(
                 styles.boxListItem,
                 {
                   [styles.chosenListItem]: assigning,
-                  [styles.mouseListItem]: (this.state.onNode == nodeId)
+                  [styles.mouseListItem]: (this.state.onNode == nodeId && !assigning)
                 }
               )}
               onClick={this._handleClick_NodeAssigned}
@@ -219,21 +270,34 @@ class AssignNodes extends React.Component {
               onMouseLeave={this._handleLeave_liItem}>
               {(nodeId in this.props.nounsBasic) &&
                 <div>
-                  <span>{this.props.nounsBasic[nodeId].name}</span>
-                  <span>{this.props.nounsBasic[nodeId].prefix ? (", " + this.props.nounsBasic[nodeId].prefix) : ("")}</span>
+                  <span
+                    className={classnames(
+                      styles.spanListItem, stylesFont.fontContent, stylesFont.colorGrey,
+                      {
+                        [styles.chosenSpanItem]: assigning,
+                        [styles.mouseSpanItem]: (this.state.onNode== nodeId)
+                      }
+                    )}>
+                    {this.props.nounsBasic[nodeId].name}</span>
+                  {
+                    !!this.props.nounsBasic[nodeId].prefix &&
+                    <span
+                      className={classnames(
+                        styles.spanListItem, stylesFont.fontContent, stylesFont.colorGrey,
+                        {
+                          [styles.chosenSpanItem]: assigning,
+                          [styles.mouseSpanItem]: (this.state.onNode== nodeId)
+                        }
+                      )}
+                      style={{ alignSelf:'right', fontSize: '1.2rem', fontStyle: 'italic'}}>
+                      {this.props.nounsBasic[nodeId].prefix}</span>
+                  }
                 </div>
               }
             </li>
           )
         });
-        nodesDOM.unshift(
-          <div
-            key={'_key_assignNode_type_' + index}>
-            {itemsDOM}
-          </div>
-        );
       })
-
     }
 
     return nodesDOM;
@@ -243,10 +307,8 @@ class AssignNodes extends React.Component {
     return(
       <div
         className={classnames(styles.comAssignNodes)}>
+        {this._render_assignedNodes()}
 
-        <div>
-          {this._render_assignedNodes()}
-        </div>
       </div>
     )
   }
@@ -265,6 +327,7 @@ const mapStateToProps = (state)=>{
 const mapDispatchToProps = (dispatch) => {
   return {
     _submit_SingleCloseDialog: (obj)=>{dispatch(setMessageSingleClose(obj));},
+    _submit_SingleDialog: (obj)=>{dispatch(setMessageSingle(obj));},
   }
 }
 

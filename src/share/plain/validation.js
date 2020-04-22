@@ -107,8 +107,8 @@ async function validateShared(modifiedBody, userId) {
   const marksObjConfirm = modifiedBody.joinedMarksList.every((markKey, index) => { return markKey in modifiedBody.joinedMarks});
   // deeper to data format
   const marksDataConfirm = marksKeys.every((key, index)=>{
-    //first, we do not allow more than 1 mark in a Unit
-    if(index > 0) return false;
+    //first, we do not allow more than 12 mark in a Unit
+    if(index > 11) return false;
 
     const obj = !isEmpty(modifiedBody.joinedMarks[key]) ? modifiedBody.joinedMarks[key] : {};
     if(!('editorContent' in obj) || !('layer' in obj) || !('left' in obj) || !('top' in obj) || !("serial" in obj)) return false; //block here
@@ -236,8 +236,8 @@ async function validateSharedEdit(modifiedBody, userId, exposedId) {
   const marksObjConfirm = modifiedBody.every((markKey, index) => { return markKey in modifiedBody.joinedMarks});
   // deeper to data format
   const marksDataConfirm = marksKeys.every((key, index)=>{
-    //first, we do not allow more than 1 mark in a Unit
-    if(index > 0) return false;
+    //first, we do not allow more than 12 mark in a Unit
+    if(index > 11) return false;
 
     const obj = !isEmpty(modifiedBody.joinedMarks[key]) ? modifiedBody.joinedMarks[key] : {};
     if(!('editorContent' in obj) || !('layer' in obj) || !('left' in obj) || !('top' in obj) || !("serial" in obj)) return false; //block here

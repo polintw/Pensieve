@@ -17,6 +17,7 @@ import NavWithin from '../Components/NavWithin/NavWithin.jsx';
 import NavOptions from '../Components/NavOptions.jsx';
 import ModalBox from '../Components/ModalBox.jsx';
 import ModalBackground from '../Components/ModalBackground.jsx';
+import SingleDialog from '../Components/Dialog/SingleDialog/SingleDialog.jsx';
 import SingleCloseDialog from '../Components/Dialog/SingleCloseDialog/SingleCloseDialog.jsx';
 import BooleanDialog from '../Components/Dialog/BooleanDialog/BooleanDialog.jsx';
 
@@ -131,6 +132,20 @@ class WithinAround extends React.Component {
           </ModalBox>
         }
         {
+          this.props.messageSingle['render'] &&
+          <ModalBox containerId="root">
+            <ModalBackground onClose={()=>{this._set_Dialog();}} style={{position: "fixed", backgroundColor: 'rgba(52, 52, 52, 0.36)'}}>
+              <div
+                className={"boxDialog"}>
+                <SingleDialog
+                  message={this.props.messageSingle['message']}
+                  buttonValue={this.props.messageSingle['buttonValue']}
+                  _positiveHandler={this.props.messageSingle['handlerPositive']}/>
+              </div>
+            </ModalBackground>
+          </ModalBox>
+        }
+        {
           this.props.messageBoolean['render'] &&
           <ModalBox containerId="root">
             <ModalBackground onClose={()=>{this._set_Dialog();}} style={{position: "fixed", backgroundColor: 'rgba(52, 52, 52, 0.36)'}}>
@@ -154,6 +169,7 @@ const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
     unitCurrent: state.unitCurrent,
+    messageSingle: state.messageSingle,
     messageSingleClose: state.messageSingleClose,
     messageBoolean: state.messageBoolean
   }

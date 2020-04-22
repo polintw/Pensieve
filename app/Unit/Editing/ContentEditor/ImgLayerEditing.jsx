@@ -36,8 +36,8 @@ class ImgLayerEditing extends React.Component {
   _handleClick_SpotsLayer(event){
     event.stopPropagation();
     event.preventDefault();
-    if(this.props.marksList.length >0){ //we now want user only to write in one Mark, so limit the marksList length
-      this.props._set_warningDialog([{text: "A better spot? Please delete the old one first before create a new!", style:{}}], 'warning');
+    if(this.props.marksList.length >12){ // guess not so many spot would be used, just in case some users want to know
+      this.props._set_warningDialog([{text: this.props.i18nUIString.catalog['message_UnitEdit_tooManySpot'], style:{}}], 'warning');
       return;
     };
 
@@ -111,7 +111,7 @@ class ImgLayerEditing extends React.Component {
             marksData={marksData}
             imgPosition={imgPosition}
             imgWidthHeight={imgWidthHeight}
-            _handleClick_ImgLayer_circle={this._handleClick_ImgLayer_circle}
+            _handleClick_ImgLayer_circle={(e)=>{e.preventDefault();e.stopPropagation();}}
             _set_markJump={this._set_markJump}>
             <MarkEditingBlock
               markKey = {this.props.currentMark}
