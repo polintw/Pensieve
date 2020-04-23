@@ -158,7 +158,8 @@ class EditingPanel extends React.Component {
   render(){
     return(
       <div
-        className={classnames(styles.comEditingPanel)}>
+        className={classnames(styles.comEditingPanel)}
+        onClick={(e)=>{e.preventDefault();e.stopPropagation();/*prevent bubbling to bg of wherever it was called*/}}>
         <div
           className={classnames(styles.boxContentWidth, styles.boxSubmit)}>
           <Submit

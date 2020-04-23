@@ -45,10 +45,11 @@ class AssignNodes extends React.Component {
     event.stopPropagation();
     if(this.props.unitView=="editing") {
       // AssignNodes was not allowed change after first release to public
-      this.props._submit_SingleCloseDialog({
+      this.props._submit_SingleDialog({
         render: true,
         message: [{text: this.props.i18nUIString.catalog['message_Unit_Editing_AssignNotAllowed'],style:{}}], //format follow Boolean, as [{text: '', style:{}}]
-        handlerPositive: ()=>{this.props._submit_SingleCloseDialog(messageDialogInit.singleClose); return;}
+        handlerPositive: ()=>{this.props._submit_SingleDialog(messageDialogInit.single)},
+        buttonValue: this.props.i18nUIString.catalog['submit_understand']
       });
       return;
     };
@@ -138,11 +139,26 @@ class AssignNodes extends React.Component {
               styles.boxListItem,
               styles.chosenListItem
             )}
+            style={{cursor: 'default'}}
             onClick={this._handleClick_NodeAssigned}>
             {(nodeId in this.props.nounsBasic) &&
               <div>
-                <span>{this.props.nounsBasic[nodeId].name}</span>
-                <span>{this.props.nounsBasic[nodeId].prefix ? (", " + this.props.nounsBasic[nodeId].prefix) : ("")}</span>
+                <span
+                  className={classnames(
+                    styles.spanListItem, stylesFont.fontContent, stylesFont.colorGrey,
+                    styles.chosenSpanItem
+                  )}>
+                  {this.props.nounsBasic[nodeId].name}</span>
+                {
+                  !!this.props.nounsBasic[nodeId].prefix &&
+                  <span
+                    className={classnames(
+                      styles.spanListItem, stylesFont.fontContent, stylesFont.colorGrey,
+                      styles.chosenSpanItem
+                    )}
+                    style={{ alignSelf:'right', fontSize: '1.2rem', fontStyle: 'italic'}}>
+                    {this.props.nounsBasic[nodeId].prefix}</span>
+                }
               </div>
             }
           </li>

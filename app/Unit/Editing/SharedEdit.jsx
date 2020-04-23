@@ -23,11 +23,16 @@ class SharedEdit extends React.Component {
     this.state = {
 
     };
+    let currentNodesList = this.props.unitCurrent.nouns.list.slice();
+    //actually, this is not a good method. The better one should be, get format like the nodesSet as required here when GET unitCurrent from api
+    //or at least, make the nodes in unitCurrent by compareing the the belongsByType.
+    let assignedList = currentNodesList.map((nodeId, index)=>{return {nodeId: nodeId}});
+
     this.unitSet={
       authorBasic: this.props.unitCurrent.authorBasic,
       coverSrc: this.props.unitCurrent.coverSrc,
       coverMarks: {list: this.props.unitCurrent.coverMarksList.slice(), data: Object.assign({},this.props.unitCurrent.coverMarksData)},
-      nodesSet: {assign: this.props.unitCurrent.nouns.list.slice(), tags:[]},
+      nodesSet: {assign:assignedList , tags:[]},
       createdAt: this.props.unitCurrent.createdAt,
       //beneath, is remaining for future use, and kept the parent comp to process submitting
       beneathSrc: null,

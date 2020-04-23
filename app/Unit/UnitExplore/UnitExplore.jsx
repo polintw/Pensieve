@@ -207,7 +207,11 @@ class UnitExplore extends React.Component {
         {
           !this.paramsRelated &&
           <ModalBox containerId="root">
-            <ModalBackground onClose={()=>{this._close_theater();}} style={{position: "fixed", minWidth: "890px", minHeight: '320px', backgroundColor: 'rgba(215, 215, 215, 0.67)'}}>
+            <ModalBackground
+              onClose={()=>{this._close_theater();}}
+              style={{
+                position: "fixed",
+                backgroundColor: 'rgba(51, 51, 51, 0.3)'}}>
               {this._render_switch()}
             </ModalBackground>
           </ModalBox>

@@ -18,19 +18,48 @@ class OpenedMark extends React.Component {
 
   }
 
-  _render_CircleGroup (coordinate){
-    return (
-      <div
-        id={this.props.currentMark}
-        className={'boxMarkSpot'}
-        style={{top: coordinate.top+"%", left: coordinate.left+'%'}}
-        onClick={this.props._handleClick_ImgLayer_circle}>
-        <SvgCircle
-          current={true}
-          notify={this.props.notify}
-          serial={this.props.serial}/>
-      </div>
-    )
+  _render_CircleGroup (coordinateCurrent){
+    if(!!this.props.editingModal){
+      const self = this;
+      let circlesArr = this.props.marksList.map(function(id, index){
+        const coordinate = self.props.markCircles[id];
+        return (
+          <div
+            key={"key_OpenedMark_Circle_"+index}
+            id={id}
+            className={'boxMarkSpot'}
+            style={{top: coordinate.top+"%", left: coordinate.left+'%'}}
+            onClick={self.props._handleClick_ImgLayer_circle}>
+            <SvgCircle
+              current={(id== self.props.currentMark)? true: false}
+              notify={false}
+              serial={index+1}/>
+          </div>
+        )
+      });
+      return circlesArr;
+    }
+    else {
+      /*
+      data from props. are different from above, called by editingModal,
+      because they inherit from different system:
+      editing is direct from list & circles the parent's 'state' had, while
+      view like beneath, is from a reformed 'marksData' system designed for the children (history reason)
+      */
+      return (
+        <div
+          key={"key_OpenedMark_Circle_"}
+          id={this.props.currentMark}
+          className={'boxMarkSpot'}
+          style={{top: coordinateCurrent.top+"%", left: coordinateCurrent.left+'%'}}
+          onClick={this.props._handleClick_ImgLayer_circle}>
+          <SvgCircle
+            current={true}
+            notify={this.props.notify}
+            serial={this.props.serial}/>
+        </div>
+      )
+    }
   }
 
   render(){
@@ -108,7 +137,7 @@ const mapStateToProps = (state) => {
   return {
     userInfo: state.userInfo,
     unitCurrent: state.unitCurrent,
-    unitSubmitting: state.unitSubmitting
+    unitSubmitting: state.unitSubmitting,
   }
 }
 

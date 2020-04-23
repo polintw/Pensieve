@@ -90,8 +90,8 @@ export const i18nUIStringInit = {
      "submit_understand": "Understand",
 
      "submit_Unit_upload": "Add image",
-     "guiding_UnitEdit_upload": "Share what you've observed in Your Corner!",
-     "guiding_UnitEdit_imgNoMark": "Click to add a post-it, but also not bad leaving it pure",
+     "guiding_UnitEdit_upload": "Share what you've observed at Your Corner!",
+     "guiding_UnitEdit_imgNoMark": "keep it clean or by Clicking make some Post-it without hesitate!",
      "guiding_placeholder_UnitEdit_MarkBlock": "What's SPECIAL!  Telling us some details you found." ,
      "message_UnitEdit_tooManySpot": "A better spot? But too many paragraph would be a burdon to readers. Please delete an old one before you implement this new!",
      "message_UnitEdit_ruleAssignedNodes": ["Select only one corner from where you stay, and one from homeland."],

@@ -109,6 +109,7 @@ class ImgLayerEditing extends React.Component {
             serial={markIndex+1}
             currentSerial={markIndex}
             marksData={marksData}
+            editingModal = {true}
             imgPosition={imgPosition}
             imgWidthHeight={imgWidthHeight}
             _handleClick_ImgLayer_circle={(e)=>{e.preventDefault();e.stopPropagation();}}
@@ -176,7 +177,7 @@ class ImgLayerEditing extends React.Component {
                 className={classnames(stylesFont.fontContent, stylesFont.colorWhite)}
                 style={{
                   display: 'block', position: 'absolute', left:'50%', top:'76.39%',transform: 'translate(-50%,0)',
-                  textShadow: '0 0 5px #FF8168'}}>
+                  textShadow: '0 0 5px #FF8168', textAlign: 'center'}}>
                 {this.props.i18nUIString.catalog['guiding_UnitEdit_imgNoMark']}
               </span>
             </div>
