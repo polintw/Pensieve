@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         reference: https://cythilya.github.io/2017/03/12/uuid/
         */
         let d = Date.now(); //milliseconds, similat to date.getTime().
-        return 'xxxxxx-yxx-xxx-yxxx'.replace(/[xy]/g, function (c) {
+        return 'xxxxxxiyxxixxxiyxxx'.replace(/[xy]/g, function (c) {
           var r = (d + Math.random() * 16) % 16 | 0;
           d = Math.floor(d / 16);
           return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
