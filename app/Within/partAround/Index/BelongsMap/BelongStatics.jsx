@@ -34,7 +34,7 @@ class BelongStatics extends React.Component {
       axios: true,
       infoCount: {} //going to renew, so we refresh the render first
     });
-    let queryObj = {}; //not any params need to be set, it's a plain 'all select' in this request
+    let queryObj = {countCat: this.props.type}; //get count by current map type
 
     _axios_GET_usersCount(
       this.axiosSource.cancelToken,
@@ -45,7 +45,7 @@ class BelongStatics extends React.Component {
       self.setState((prevState, props)=>{
         return {
           axios: false,
-          infoCount: Object.assign({}, prevState.infoCount, {totalUserCount: resObj.main.countsByTypes.all})
+          infoCount: Object.assign({}, prevState.infoCount, {totalUserCount: resObj.main.countsByTypes[self.props.type]})
         }
       });
     }).catch(function (thrown) {

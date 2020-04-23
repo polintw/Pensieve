@@ -205,7 +205,11 @@ async function _handle_PATCH_profile_nodesBelong(req, res){
   //First of all, validating the data passed
   try{
     const passedNodeInfo = await _DB_nouns.findOne({
-      where: {id: passedNode}
+      where: {
+        id: passedNode,
+        language: 'en',
+        category: 'location_admin'
+      }
     });
     if(!passedNodeInfo) throw new forbbidenError("You didn't submit with an allowed nodes.", 120);
     //decided which selection to use depend on the category req passed.
