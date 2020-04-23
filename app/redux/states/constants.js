@@ -86,7 +86,8 @@ export const i18nUIStringInit = {
      "submit_onBoard_start": "Let's Start",
 
      "category_Belongs_": ["Homeland", "Current Stay"],
-     "submit_edit": "edit",
+     "submit_edit": "Edit",
+     "submit_save": "Save",
      "submit_understand": "Understand",
 
      "submit_Unit_upload": "Add image",

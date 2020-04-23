@@ -120,7 +120,7 @@ function _handle_ErrCatched(e, req, res){
       break;
     case 7:
       //400, validation, invalid marks in posted shared
-      clientSet['code'] = 3;
+      clientSet['code'] = 7;
       clientSet['message'] = e.message;
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);

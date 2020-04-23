@@ -17,7 +17,8 @@ class MarkEditingBlock extends React.Component {
     this.state = {
       contentRaw: this.props.contentRaw,
       onEnterSave: false,
-      onEnterDelete: false
+      onEnterDelete: false,
+      message: null
     }
     this.contentEditor = React.createRef();
     this.comEditingBlock = React.createRef();
@@ -30,6 +31,7 @@ class MarkEditingBlock extends React.Component {
     this._handleClick_blockPanel_delete = this._handleClick_blockPanel_delete.bind(this);
     this._handleClick_blockPanel_complete = this._handleClick_blockPanel_complete.bind(this);
     this._handleClick_markComponentEditor = this._handleClick_markComponentEditor.bind(this);
+    this._set_Message = (message)=>{this.setState({message: message})};
     this.style={
       Com_MarkEditingBlock_: {
         display: 'flex',
@@ -120,28 +122,37 @@ class MarkEditingBlock extends React.Component {
               ref={this.contentEditor}
               editorState={this.state.contentRaw}
               placeholder={this.props.i18nUIString.catalog['guiding_placeholder_UnitEdit_MarkBlock']}
-              _on_EditorChange={this._set_EditorUpdate}/>
+              _on_EditorChange={this._set_EditorUpdate}
+              _handleMessage={this._set_Message}/>
           </div>
         </div>
         <div
           className={classnames(styles.boxBlockInteract)}>
           <div>
-            <div
-              className={classnames(styles.boxBlockSubmit)}
-              style={{backgroundColor: this.state.onEnterDelete ? "#757575":'transparent', marginRight: '10px'}}
-              onClick={this._handleClick_blockPanel_delete}
-              onMouseEnter={this._handleEnter_Delete}
-              onMouseLeave={this._handleLeave_Delete}>
-              <span
-                className={classnames(
-                  'centerAlignChild',
-                  stylesFont.fontSubmit,
-                  {[stylesFont.colorGrey]: !this.state.onEnterDelete},
-                  {[stylesFont.colorWhite]: this.state.onEnterDelete}
-                )}>
-                {'Delete'}
-              </span>
-            </div>
+            <span className={classnames(stylesFont.fontContent, stylesFont.colorEditBlack)}>
+              {this.state.message}
+            </span>
+          </div>
+          <div style={{display: 'flex'}}>
+            {
+              (this.props.unitView != 'editing') &&
+              <div
+                className={classnames(styles.boxBlockSubmit)}
+                style={{backgroundColor: this.state.onEnterDelete ? "#757575":'transparent', marginRight: '10px'}}
+                onClick={this._handleClick_blockPanel_delete}
+                onMouseEnter={this._handleEnter_Delete}
+                onMouseLeave={this._handleLeave_Delete}>
+                <span
+                  className={classnames(
+                    'centerAlignChild',
+                    stylesFont.fontSubmit,
+                    {[stylesFont.colorGrey]: !this.state.onEnterDelete},
+                    {[stylesFont.colorWhite]: this.state.onEnterDelete}
+                  )}>
+                  {'Delete'}
+                </span>
+              </div>
+            }
             <div
               className={classnames(styles.boxBlockSubmit)}
               style={{backgroundColor: this.state.onEnterSave? "#ff8168": 'rgba(255, 129, 104, 0.1)'}}
@@ -155,7 +166,7 @@ class MarkEditingBlock extends React.Component {
                   {[stylesFont.colorStandard]: (!this.state.onEnterSave)},
                   {[stylesFont.colorWhite]: (this.state.onEnterSave)}
                 )}>
-                {'Save'}
+                {this.props.i18nUIString.catalog['submit_save']}
               </span>
             </div>
           </div>
@@ -178,6 +189,7 @@ const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
+    unitView: state.unitView,
     unitSubmitting: state.unitSubmitting
   }
 }

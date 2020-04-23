@@ -20,7 +20,7 @@
 
 .boxBlockInteract {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   width: 100%;
   position: relative;
   box-sizing: border-box;

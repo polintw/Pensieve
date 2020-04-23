@@ -10,6 +10,7 @@ const {
 const _DB_users = require('../../../db/models/index').users;
 const _DB_units = require('../../../db/models/index').units;
 const _DB_nouns = require('../../../db/models/index').nouns;
+const _DB_marks = require('../../../db/models/index').marks;
 const _DB_usersNodesHomeland = require('../../../db/models/index').users_nodes_homeland;
 const _DB_usersNodesResidence = require('../../../db/models/index').users_nodes_residence;
 
@@ -231,11 +232,14 @@ async function validateSharedEdit(modifiedBody, userId, exposedId) {
   }
 
   // checking the markObj passed in joinedMarks {reasonable portion_top, portion_left, layer & serial}
-  const marksKeys = Object.keys(modifiedBody.joinedMarks);
-  // compare list to data obj
-  const marksObjConfirm = modifiedBody.every((markKey, index) => { return markKey in modifiedBody.joinedMarks});
+  // compare list to data obj, each key has matched data
+  //this one is important! because we have to trust the list in the steps afterward
+  const marksObjConfirm = modifiedBody.joinedMarksList.every((markKey, index) => { return markKey in modifiedBody.joinedMarks});
+  //checking if all the previous marks still exist (do not allow 'delete' from edit after first published)
+  const prevMarks = await _DB_marks.findAll({where: {id_unit: unitId}});
+  const noDeleteConfirm = prevMarks.every((row, index)=>{ return modifiedBody.joinedMarksList.indexOf(row.id) > -1 });
   // deeper to data format
-  const marksDataConfirm = marksKeys.every((key, index)=>{
+  const marksDataConfirm = modifiedBody.joinedMarksList.every((key, index)=>{
     //first, we do not allow more than 12 mark in a Unit
     if(index > 11) return false;
 
@@ -290,7 +294,11 @@ async function validateSharedEdit(modifiedBody, userId, exposedId) {
 
   })
   if (!marksObjConfirm || !marksDataConfirm) {
-    throw new validationError("the marks list do not match the data obj, or the marks has incorrect format.", 7);
+    throw new validationError("Your contents do not have correct format or most often, the characters you passed has over the limit.", 7);
+    return;
+  }
+  else if( !noDeleteConfirm){
+    throw new validationError("There are some marks missing. Notice, the marks could not be deleted after first published.", 7);
     return;
   };
 

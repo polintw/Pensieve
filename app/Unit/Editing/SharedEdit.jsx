@@ -27,6 +27,7 @@ class SharedEdit extends React.Component {
     //actually, this is not a good method. The better one should be, get format like the nodesSet as required here when GET unitCurrent from api
     //or at least, make the nodes in unitCurrent by compareing the the belongsByType.
     let assignedList = currentNodesList.map((nodeId, index)=>{return {nodeId: nodeId}});
+    //(the description above means, the props.unitCurrent only has a simple array to contain the nodes from attribution, do not have info about 'type')
 
     this.unitSet={
       authorBasic: this.props.unitCurrent.authorBasic,
