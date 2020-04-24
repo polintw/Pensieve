@@ -10,9 +10,14 @@ class WritingPanel extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      axios: false,
+      belong: '',
+      resMessage: {}
     };
-
+    this._render_Form = this._render_Form.bind(this);
+    this._handleSubmit_ = this._handleSubmit_.bind(this);
+    this._handleChange_InputRadio = this._handleChange_InputRadio.bind(this);
+    this._handleClick_inviteComplete = this._handleClick_inviteComplete.bind(this);
   }
 
   componentDidMount(){
@@ -23,20 +28,128 @@ class WritingPanel extends React.Component {
 
   }
 
+  _render_Form(){
+    if( !("homeland" in this.props.belongsByType) && !("residence" in this.props.belongsByType)){
+      return (
+        <div>
+          <span>{this.props.i18nUIString.catalog['guiding_Invite_'][0]}</span>
+        </div>
+      )
+    };
+    return (
+      <form onSubmit={this._handleSubmit_}>
+        <div>
+          {
+            !!("homeland" in this.props.belongsByType) &&
+            <div>
+              <input
+                type="radio"
+                name="belong"
+                value= {"homeland"}
+                checked={this.state.belong == "homeland"}
+                onChange={this._handleChange_InputRadio}
+                required/>
+              <span>
+                {this.props.belongsByType["homeland"] in this.props.nounsBasic ? (
+                  this.props.nounsBasic[this.props.belongsByType["homeland"]].name) : (
+                    null
+                  )}
+              </span>
+            </div>
+          }
+          {
+            !!("residence" in this.props.belongsByType) &&
+            <div>
+              <input
+                type="radio"
+                name="belong"
+                value= {"residence"}
+                checked={this.state.belong == "residence"}
+                onChange={this._handleChange_InputRadio}
+                required/>
+              <span>
+                {this.props.belongsByType["residence"] in this.props.nounsBasic ? (
+                  this.props.nounsBasic[this.props.belongsByType["residence"]].name) : (
+                    null
+                  )}
+              </span>
+            </div>
+          }
+        </div>
+        <div>
+          {
+            ('warning' in this.state.resMessage) &&
+            <div>
+              {this.state.resMessage.warning}
+            </div>
+          }
+          <input
+            type='submit'
+            value="generate"
+            disabled={this.state.axios}/>
+        </div>
+      </form>
+    )
+  }
+
   render(){
     return(
       <div
-        className={classnames()}>
+        className={classnames(styles.comWritingPanel)}>
+        <div>
+          <span>
+            {this.props.i18nUIString.catalog["descript_Invite_"][0]}
+          </span>
+          <span>
+            {this.props.i18nUIString.catalog["descript_Invite_"][1]}
+          </span>
+        </div>
+        <div>
+          <div>
+            <span>{this.props.i18nUIString.catalog["guiding_Invite_"][0]}</span>
+          </div>
+          {this._render_Form()}
+        </div>
+        <div>
 
+        </div>
+        <div>
+          <div
+            onClick={this._handleClick_inviteComplete}>
+            <span>
+              {this.props.i18nUIString.catalog["button_complete"]}
+            </span>
+          </div>
+        </div>
 
       </div>
     )
   }
+
+  _handleSubmit_(event){
+    event.preventDefault(); //prevent default form submit behavior
+
+  }
+
+  _handleChange_InputRadio(event) {
+    this.setState({
+      belong: event.target.value
+    });
+  }
+
+  _handleClick_inviteComplete(event){
+    event.preventDefault();
+    event.stopPropagation();
+    this.props.onComplete();
+  }
+
 }
 
 const mapStateToProps = (state)=>{
   return {
-
+    i18nUIString: state.i18nUIString,
+    nounsBasic: state.nounsBasic,
+    belongsByType: state.belongsByType,
   }
 }
 

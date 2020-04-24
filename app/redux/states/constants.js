@@ -85,9 +85,12 @@ export const i18nUIStringInit = {
      "guideing_onBoard_BelongsHint": ["I'm from", "Now based at"],
      "submit_onBoard_start": "Let's Start",
      "submit_Invite_": "Fellow Inviting!",
+     "descript_Invite_": ["Any people you knew born or lived around you? ", "Inviting these fellows to join you!"],
+     "guiding_Invite_": ["Choosing the characteristic of people you want to invite", "You havn't set the place you belong to yet."],
 
      "category_Belongs_": ["Homeland", "Current Stay"],
      "submit_edit": "edit",
+     "button_complete": "Complete",
 
      "submit_Unit_upload": "Add image",
      "guiding_UnitEdit_upload": "Share what you've observed in Your Corner!",
