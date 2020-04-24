@@ -84,6 +84,7 @@ export const i18nUIStringInit = {
      "descript_onBoard_BelongsHint": ["Before you start …", "Tell us where are you from?"],
      "guideing_onBoard_BelongsHint": ["I'm from", "Now based at"],
      "submit_onBoard_start": "Let's Start",
+     "submit_Invite_": "Fellow Inviting!",
 
      "category_Belongs_": ["Homeland", "Current Stay"],
      "submit_edit": "edit",
