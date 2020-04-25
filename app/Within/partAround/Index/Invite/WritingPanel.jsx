@@ -5,6 +5,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import CopyOneLine from '../../../../Components/CopyOneLine.jsx';
 import {
   cancelErr,
   uncertainErr
@@ -86,7 +87,7 @@ class WritingPanel extends React.Component {
         </div>
         <div>
           {
-            ('warning' in this.state.resMessage) &&
+            ( this.state.resMessage.warning) &&
             <div>
               {this.state.resMessage.warning}
             </div>
@@ -119,7 +120,8 @@ class WritingPanel extends React.Component {
           {this._render_Form()}
         </div>
         <div>
-
+          <CopyOneLine
+            inputString={this.state.invitingLink}/>
         </div>
         <div>
           <div
@@ -151,7 +153,7 @@ class WritingPanel extends React.Component {
       // not going to reset axios state, on the view the next step would start immediately. self.setState({ axios: false });
       let resObj = JSON.parse(res.data);
 
-      _axios_GET_InvitingLink(belongType);
+      self._axios_GET_InvitingLink(belongType);
     })
     .catch(function (thrown) {
       self.setState({ axios: false });
@@ -159,7 +161,7 @@ class WritingPanel extends React.Component {
         cancelErr(thrown);
       } else {
         let message = uncertainErr(thrown);
-  
+
         if (message) self.setState({ resMessage: message });
       }
     });
@@ -182,10 +184,10 @@ class WritingPanel extends React.Component {
     .then(function (res) {
       let resObj = JSON.parse(res.data);
 
-      this.setState({
+      self.setState({
         axios: false,
         invitingLink: resObj.main.invitingLink
-      })
+      });
     })
     .catch(function (thrown) {
       self.setState({ axios: false });
@@ -193,7 +195,7 @@ class WritingPanel extends React.Component {
         cancelErr(thrown);
       } else {
         let message = uncertainErr(thrown);
-  
+
         if (message) self.setState({ resMessage: message });
       }
     });
