@@ -5,6 +5,10 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import {
+  cancelErr,
+  uncertainErr
+} from "../../../../utils/errHandlers.js";
 
 class WritingPanel extends React.Component {
   constructor(props){
@@ -12,12 +16,16 @@ class WritingPanel extends React.Component {
     this.state = {
       axios: false,
       belong: '',
+      invitingLink: null,
       resMessage: {}
     };
+    this.axiosSource = axios.CancelToken.source();
     this._render_Form = this._render_Form.bind(this);
     this._handleSubmit_ = this._handleSubmit_.bind(this);
     this._handleChange_InputRadio = this._handleChange_InputRadio.bind(this);
     this._handleClick_inviteComplete = this._handleClick_inviteComplete.bind(this);
+    this._axios_PATCH_Invitation = this._axios_PATCH_Invitation.bind(this);
+    this._axios_GET_InvitingLink = this._axios_GET_InvitingLink.bind(this);
   }
 
   componentDidMount(){
@@ -85,7 +93,7 @@ class WritingPanel extends React.Component {
           }
           <input
             type='submit'
-            value="generate"
+            value="Generate"
             disabled={this.state.axios}/>
         </div>
       </form>
@@ -126,9 +134,75 @@ class WritingPanel extends React.Component {
     )
   }
 
+  _axios_PATCH_Invitation(belongType){
+    const self = this;
+    this.setState({axios: true});
+
+    axios({
+      method: 'patch',
+      url: '/router/invitation/fellows',
+      headers: {
+        'charset': 'utf-8',
+        'token': window.localStorage['token']
+      },
+      cancelToken: this.axiosSource.token,
+      data: {belongType: belongType}
+    }).then(function (res) {
+      // not going to reset axios state, on the view the next step would start immediately. self.setState({ axios: false });
+      let resObj = JSON.parse(res.data);
+
+      _axios_GET_InvitingLink(belongType);
+    })
+    .catch(function (thrown) {
+      self.setState({ axios: false });
+      if (axios.isCancel(thrown)) {
+        cancelErr(thrown);
+      } else {
+        let message = uncertainErr(thrown);
+  
+        if (message) self.setState({ resMessage: message });
+      }
+    });
+  }
+
+  _axios_GET_InvitingLink(belongType) {
+    const self = this;
+    this.setState({ axios: true });
+
+    axios({
+      method: 'get',
+      url: '/router/invitation/fellows',
+      headers: {
+        'charset': 'utf-8',
+        'token': window.localStorage['token']
+      },
+      cancelToken: this.axiosSource.token,
+      params: {belongType: belongType},
+    })
+    .then(function (res) {
+      let resObj = JSON.parse(res.data);
+
+      this.setState({
+        axios: false,
+        invitingLink: resObj.main.invitingLink
+      })
+    })
+    .catch(function (thrown) {
+      self.setState({ axios: false });
+      if (axios.isCancel(thrown)) {
+        cancelErr(thrown);
+      } else {
+        let message = uncertainErr(thrown);
+  
+        if (message) self.setState({ resMessage: message });
+      }
+    });
+  }
+
+
   _handleSubmit_(event){
     event.preventDefault(); //prevent default form submit behavior
-
+    this._axios_PATCH_Invitation(this.state.belong);
   }
 
   _handleChange_InputRadio(event) {
