@@ -142,7 +142,7 @@ class WritingPanel extends React.Component {
 
     axios({
       method: 'patch',
-      url: '/router/invitation/fellows',
+      url: '/router/invite/fellows',
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']
@@ -173,7 +173,7 @@ class WritingPanel extends React.Component {
 
     axios({
       method: 'get',
-      url: '/router/invitation/fellows',
+      url: '/router/invite/fellows',
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']

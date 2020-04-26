@@ -11,7 +11,7 @@ const nounsRouter = require('./nouns/main.js');
 const visitRouter = require('./visit/main.js');
 const shareRouter = require('./share/main.js');
 const uFeedRouter = require('./user/feed/main.js');
-const uInvitRouter = require('./user/invitation/main.js');
+const uInvitRouter = require('./user/invite/main.js');
 const uProfileRouter = require('./user/profile/main.js');
 
 //routes do not protect by token
@@ -27,7 +27,7 @@ router.use('/account', accountRouter)
 router.use('/profile', uProfileRouter)
 
 router.use('/feed', uFeedRouter)
-router.use('/invitation', uInvitRouter)
+router.use('/invite', uInvitRouter)
 router.use('/visit', visitRouter)
 router.use('/share', shareRouter)
 

@@ -1,12 +1,11 @@
 import React from 'react';
 import {
-  Route,
-  Link,
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
+import InvitationFellow from './InvitationFellow.jsx';
 import SigninForm from '../../Sign/components/SigninForm/SigninForm.jsx';
 import SignupForm from '../../Sign/components/SignupCom/SignupForm.jsx';
 import SignupSuccess from '../../Sign/components/SignupCom/SignupSuccess.jsx';
@@ -21,6 +20,10 @@ class WithinSign extends React.Component {
     this._signin_success = this._signin_success.bind(this);
     this._signup_success = this._signup_success.bind(this);
     this._render_signInDialog = this._render_signInDialog.bind(this);
+    // the "invitation" would only display after page load, so process here
+    let params = new URLSearchParams(this.props.location.search); //we need value in URL query
+    let invitation = !!params.invitation ? params.get('invitation') : false;
+    if(invitation) Object.assign(this.state, {steps: 'invitation'});
   }
 
   _switch_Sign(aim){
@@ -88,6 +91,15 @@ class WithinSign extends React.Component {
         return (
           <div>
             <SignupSuccess
+              {...this.props}
+              _switch_Sign={this._switch_Sign}/>
+          </div>
+        )
+        break;
+      case 'invitation':
+        return (
+          <div>
+            <InvitationFellow
               {...this.props}
               _switch_Sign={this._switch_Sign}/>
           </div>

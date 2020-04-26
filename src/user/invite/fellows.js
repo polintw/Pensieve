@@ -12,8 +12,11 @@ const {
   forbbidenError,
   validationError
 } = require('../../utils/reserrHandler.js');
+const {
+  domain
+} = require('../../../config/services.js');
 
-async function _handle_GET_invitationFellows(req, res){
+async function _handle_GET_inviteFellows(req, res){
   const userId = req.extra.tokenUserId;
   const reqType= req.query.belongType;
   // no need to validate any thing, select directly
@@ -27,18 +30,19 @@ async function _handle_GET_invitationFellows(req, res){
     if(!selected){ //means the result is 'null'
       throw new notFoundError({warning: "The link did not generate correctly or something went wrong. Please try again."},34);
     }
+    let sendingLink = domain.name + "?invitation=" + selected.exposedKey;
     let sendingData={
-      invitingLink: selected.exposedKey,
+      invitingLink: sendingLink,
       temp: {}
     };
-    _res_success(res, sendingData, "GET: user invitation/fellows, complete.");
+    _res_success(res, sendingData, "GET: user invite/fellows, complete.");
   }
   catch(error){
     _handle_ErrCatched(error, req, res);
   }
 }
 
-async function _handle_PATCH_invitationFellows(req, res){
+async function _handle_PATCH_inviteFellows(req, res){
   const userId = req.extra.tokenUserId;
   /*
   validation? does belongType in ['homeland', 'residence']
@@ -80,7 +84,7 @@ async function _handle_PATCH_invitationFellows(req, res){
     let sendingData={
       temp: {}
     };
-    _res_success(res, sendingData, "PATCH: user invitation/fellows, complete.");
+    _res_success(res, sendingData, "PATCH: user invite/fellows, complete.");
     return; //success and end the handler.
   };
   //then, if no matched recored exist, create a new one
@@ -92,20 +96,20 @@ async function _handle_PATCH_invitationFellows(req, res){
     let sendingData={
       temp: {}
     };
-    _res_success(res, sendingData, "PATCH: user invitation/fellows, complete.");
+    _res_success(res, sendingData, "PATCH: user invite/fellows, complete.");
   }).catch((error)=>{
     _handle_ErrCatched(error, req, res);
   });
 }
 
 execute.patch('/', function(req, res){
-  if(process.env.NODE_ENV == 'development') winston.verbose('PATCH: user invitation/fellows.');
-  _handle_PATCH_invitationFellows(req, res);
+  if(process.env.NODE_ENV == 'development') winston.verbose('PATCH: user invite/fellows.');
+  _handle_PATCH_inviteFellows(req, res);
 })
 
 execute.get('/', function(req, res){
-  if(process.env.NODE_ENV == 'development') winston.verbose('GET: user invitation/fellows.');
-  _handle_GET_invitationFellows(req, res);
+  if(process.env.NODE_ENV == 'development') winston.verbose('GET: user invite/fellows.');
+  _handle_GET_inviteFellows(req, res);
 })
 
 module.exports = execute;
