@@ -26,8 +26,8 @@
 
 .spanNameLayer {
   white-space: nowrap;
-  font-size: 1.36rem;
-  letter-spacing: 0.07rem;
+  font-size: 1.4rem;
+  line-height: 1.71;
 }
 
 .spanNameRegular {

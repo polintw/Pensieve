@@ -9,6 +9,11 @@ import {
 import {connect} from "react-redux";
 import Explore from './partExplore/Explore.jsx';
 import NavOptions from '../Components/NavOptions.jsx';
+import ModalBox from '../Components/ModalBox.jsx';
+import ModalBackground from '../Components/ModalBackground.jsx';
+import SingleDialog from '../Components/Dialog/SingleDialog/SingleDialog.jsx';
+import SingleCloseDialog from '../Components/Dialog/SingleCloseDialog/SingleCloseDialog.jsx';
+import BooleanDialog from '../Components/Dialog/BooleanDialog/BooleanDialog.jsx';
 
 class WithinCosmic extends React.Component {
   constructor(props){
@@ -107,6 +112,50 @@ class WithinCosmic extends React.Component {
         <div style={this.style.Within_Cosmic_NavOptions}>
           <NavOptions {...this.props}/>
         </div>
+        {
+          //here and beneath, are dialog system for global used,
+          //the series 'message' in redux state is prepared for this kind of global message dialog
+          this.props.messageSingleClose['render'] &&
+          <ModalBox containerId="root">
+            <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(52, 52, 52, 0.36)'}}>
+              <div
+                className={"boxDialog"}>
+                <SingleCloseDialog
+                  message={this.props.messageSingleClose['message']}
+                  _positiveHandler={this.props.messageSingleClose['handlerPositive']}/>
+              </div>
+            </ModalBackground>
+          </ModalBox>
+        }
+        {
+          this.props.messageSingle['render'] &&
+          <ModalBox containerId="root">
+            <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(52, 52, 52, 0.36)'}}>
+              <div
+                className={"boxDialog"}>
+                <SingleDialog
+                  message={this.props.messageSingle['message']}
+                  buttonValue={this.props.messageSingle['buttonValue']}
+                  _positiveHandler={this.props.messageSingle['handlerPositive']}/>
+              </div>
+            </ModalBackground>
+          </ModalBox>
+        }
+        {
+          this.props.messageBoolean['render'] &&
+          <ModalBox containerId="root">
+            <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(52, 52, 52, 0.36)'}}>
+              <div
+                className={"boxDialog"}>
+                <BooleanDialog
+                  customButton={this.props.messageBoolean['customButton']}
+                  message={this.props.messageBoolean['message']}
+                  _positiveHandler={this.props.messageBoolean['handlerPositive']}
+                  _negativeHandler={this.props.messageBoolean['handlerNegative']}/>
+              </div>
+            </ModalBackground>
+          </ModalBox>
+        }
 
       </div>
     )
@@ -117,6 +166,9 @@ const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
     unitCurrent: state.unitCurrent,
+    messageSingle: state.messageSingle,
+    messageSingleClose: state.messageSingleClose,
+    messageBoolean: state.messageBoolean
   }
 }
 

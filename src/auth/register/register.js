@@ -74,11 +74,13 @@ function _handle_auth_register_POST(req, res) {
       };
       throw _promise_customBreak_res(errSet);
     }else{
+      let firstChrUpperCaseFirName = req.body.firstName.charAt(0).toUpperCase() + req.body.firstName.slice(1);
+      let firstChrUpperCaseLasName = req.body.lastName.charAt(0).toUpperCase() + req.body.lastName.slice(1);
       const newUser = {
         email: req.body.email,
         password: req.body.password,
-        first_name: req.body.firstName,
-        last_name: req.body.lastName,
+        first_name: firstChrUpperCaseFirName,
+        last_name: firstChrUpperCaseLasName,
         gender: req.body.gender,
       };
       return newUser;
@@ -128,7 +130,7 @@ function _handle_auth_register_POST(req, res) {
         }).then((hash)=>{
           let pinsertNewVerifi = Promise.resolve(_insert_basic({table: 'verifications', col: '(id_user, email, password)'}, [[userId, newUser.email, hash]]).catch((errObj)=>{throw errObj})),
               pinsertEmailToken = Promise.resolve(_insert_basic({table: 'users_apply', col: '(id_user, token_email, status)'}, [[userId, tokenEmail, 'unverified']]).catch((errObj)=>{throw errObj})),
-              pcreateImgFolder = Promise.resolve(_create_new_ImgFolder(userId).catch((errObj)=>{throw errObj})),              
+              pcreateImgFolder = Promise.resolve(_create_new_ImgFolder(userId).catch((errObj)=>{throw errObj})),
               pinsertNewSheet = _DB_sheets.create({id_user: userId, gender:newUser.gender}).catch((err)=>{throw err}),
               pinsertLastvisitShared = _DB_lastvisitShared.create({id_user: userId}).catch((err)=>{throw err}),
               pinsertLastvisitNotify = _DB_lastvisitNotify.create({id_user: userId}).catch((err)=>{throw err}),

@@ -4,6 +4,9 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import classnames from 'classnames';
+import styles from '../styles.module.css';
+import stylesFont from '../../../stylesFont.module.css';
 import {
   _axios_patch_ShareErase} from '../../../utils.js';
 import {
@@ -20,26 +23,18 @@ class AuthorPanel extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      axios: true
+      axios: false,
+      onEnterSubmit: false,
+      onEnterDelete: false
     };
     this.axiosSource = axios.CancelToken.source();
+    this._handleEnter_Submit = this._handleEnter_Submit.bind(this);
+    this._handleLeave_Submit = this._handleLeave_Submit.bind(this);
+    this._handleEnter_Delete = this._handleEnter_Delete.bind(this);
+    this._handleLeave_Delete = this._handleLeave_Delete.bind(this);
     this._submit_SharedErased = this._submit_SharedErased.bind(this);
     this._handleClick_UnitAction_edit = this._handleClick_UnitAction_edit.bind(this);
     this._handleClick_UnitAction_erase = this._handleClick_UnitAction_erase.bind(this);
-    this.style={
-      Com_AuthorPanel_: {
-        display: 'flex',
-        position: 'relative',
-        boxSizing: 'border-box'
-      },
-      Com_AuthorPanel_span: {
-        boxSizing: 'border-box',
-        fontSize: '1.5rem',
-        letterSpacing: '0.12rem',
-        fontWeight: '300',
-        cursor: 'pointer'
-      }
-    };
   }
 
   _handleClick_UnitAction_edit(event){
@@ -95,21 +90,74 @@ class AuthorPanel extends React.Component {
 
   render(){
     return(
-      <div
-        style={this.style.Com_AuthorPanel_}>
-        <span
-          style={this.style.Com_AuthorPanel_span}
-          onClick={this._handleClick_UnitAction_edit}>
-          {"edit"}
-        </span>
-        <span
-          style={this.style.Com_AuthorPanel_span}
-          onClick={this._handleClick_UnitAction_erase}>
-          {"erase"}
-        </span>
+      <div style={{display:'flex'}}>
+        <div
+          className={classnames(styles.btnSubmit)}
+          style={Object.assign({},
+            {marginRight: '10px'},
+            (this.state.onEnterDelete )? {backgroundColor: "#757575", cursor: 'pointer'}:{}
+          )}
+          onClick={this._handleClick_UnitAction_erase}
+          onMouseEnter={this._handleEnter_Delete}
+          onMouseLeave={this._handleLeave_Delete}>
+          <span
+            className={classnames(
+              'centerAlignChild',
+              stylesFont.fontSubmit,
+              {[stylesFont.colorEditBlack]: !this.state.onEnterDelete},
+              {[stylesFont.colorWhite]: this.state.onEnterDelete}
+            )}>
+            {this.props.i18nUIString.catalog["submit_erase"]}
+          </span>
+        </div>
+        <div
+          className={classnames(styles.btnSubmit)}
+          style={Object.assign({},
+            (this.state.onEnterSubmit)? {backgroundColor: "#ff8168", cursor: 'pointer'}:
+            {backgroundColor: 'rgba(255, 129, 104, 0.1)'}
+          )}
+          onClick={this._handleClick_UnitAction_edit}
+          onMouseEnter={this._handleEnter_Submit}
+          onMouseLeave={this._handleLeave_Submit}>
+          <span
+            className={classnames(
+              'centerAlignChild',
+              stylesFont.fontSubmit,
+              {[stylesFont.colorStandard]: (!this.state.onEnterSubmit)},
+              {[stylesFont.colorWhite]: (this.state.onEnterSubmit)}
+            )}>
+            {this.props.i18nUIString.catalog["submit_edit"]}
+          </span>
+        </div>
+
       </div>
     )
   }
+
+  _handleEnter_Submit(e){
+    this.setState({
+      onEnterSubmit: true
+    })
+  }
+
+  _handleLeave_Submit(e){
+    this.setState({
+      onEnterSubmit: false
+    })
+  }
+
+  _handleEnter_Delete(e){
+    this.setState({
+      onEnterDelete: true
+    })
+  }
+
+  _handleLeave_Delete(e){
+    this.setState({
+      onEnterDelete: false
+    })
+  }
+
 }
 
 const mapStateToProps = (state)=>{

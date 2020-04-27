@@ -88,7 +88,9 @@ export const i18nUIStringInit = {
      "category_Belongs_": ["Homeland", "Current Stay"],
      "submit_edit": "Edit",
      "submit_save": "Save",
+     "submit_erase": "erase",
      "submit_understand": "Understand",
+     "submit_respond": "Respond",
 
      "submit_Unit_upload": "Add image",
      "guiding_UnitEdit_upload": "Share what you've observed at Your Corner!",
