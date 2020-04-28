@@ -73,7 +73,7 @@ function pageWithin(state = initialGeneral, action){
       break;
     case SET_UNITCURRENT:
       return Object.assign({}, state, {
-        unitCurrent: action.unitCurrent
+        unitCurrent: {...state.unitCurrent, ...action.unitCurrent}
       })
       break;
     case SET_BELONGSBYTYPE:

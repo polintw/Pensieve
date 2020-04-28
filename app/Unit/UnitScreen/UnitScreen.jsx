@@ -12,12 +12,24 @@ import SharedEdit from '../Editing/SharedEdit.jsx';
 import CreateRespond from '../Editing/CreateRespond.jsx';
 import {
   _axios_getUnitData,
-  _axios_getUnitImgs
+  _axios_getUnitImgs,
+  _axios_getUnitSrc,
+  _axios_getUnitPrimer
 } from '../utils.js';
 import ModalBox from '../../Components/ModalBox.jsx';
 import ModalBackground from '../../Components/ModalBackground.jsx';
-import {setUnitCurrent} from "../../redux/actions/general.js";
+import {
+  setUnitView,
+} from "../../redux/actions/unit.js";
+import {
+  setUnitCurrent,
+  handleUsersList
+} from "../../redux/actions/general.js";
 import {unitCurrentInit} from "../../redux/states/constants.js";
+import {
+  cancelErr,
+  uncertainErr
+} from '../../utils/errHandlers.js';
 
 class UnitScreen extends React.Component {
   constructor(props){
@@ -30,6 +42,7 @@ class UnitScreen extends React.Component {
     this._render_switch = this._render_switch.bind(this);
     this._close_modal_Unit = this._close_modal_Unit.bind(this);
     this._set_UnitCurrent = this._set_UnitCurrent.bind(this);
+    this._set_UnitCurrentPrimer = this._set_UnitCurrentPrimer.bind(this);
     this._reset_UnitMount = this._reset_UnitMount.bind(this);
     this.style={
 
@@ -73,6 +86,7 @@ class UnitScreen extends React.Component {
       //we compose the marksset here, but sould consider done @ server
       let keysArr = Object.keys(resObj.main.marksObj);//if any modified or update, keep the "key" as string
       let [coverMarks, beneathMarks] = [{list:[],data:{}}, {list:[],data:{}}];
+      // due to some historical reason, the marks in unitCurrent has a special format
       keysArr.forEach(function(key, index){
         if(resObj.main.marksObj[key].layer==0){
           coverMarks.data[key]=resObj.main.marksObj[key];
@@ -81,13 +95,17 @@ class UnitScreen extends React.Component {
           beneathMarks.data[key]=resObj.main.marksObj[key]
           beneathMarks.list[resObj.main.marksObj[key].serial] = key;
         }
-      })
+      });
+      // this is a new add, req for a primer if (.primerify)
+      if(resObj.main.primerify) self._set_UnitCurrentPrimer();
+
       //actually, beneath part might need to be rewritten to asure the state could stay consistency
       self.props._set_store_UnitCurrent({
         unitId:self.unitId,
         identity: resObj.main.identity,
         authorBasic: resObj.main.authorBasic,
         coverSrc: imgsBase64.cover,
+        primerify: resObj.main.primerify,
         /*
         'beneath' was currently not used,
         and in order to 'not render' the beneath layer in the child component(which preserve most of its original structure),
@@ -105,12 +123,45 @@ class UnitScreen extends React.Component {
       });
     })
     .catch(function (thrown) {
+      self.setState({axios: false});
       if (axios.isCancel(thrown)) {
-        console.log('Request canceled: ', thrown.message);
+        cancelErr(thrown);
       } else {
-        console.log(thrown);
-        self.setState({axios: false});
-        alert("Failed, please try again later");
+        let message = uncertainErr(thrown);
+        if(message) alert(message);
+      }
+    });
+  }
+
+  _set_UnitCurrentPrimer(){
+    //First, this is a token based req in a token free allowed comp.
+    if( !window.localStorage['token'] ) return;
+
+    const self = this;
+    this.setState({axios: true});
+
+    _axios_getUnitPrimer(this.axiosSource.token, this.unitId)
+    .then((resObj)=>{
+      self.props._submit_UsersList_new([resObj.main.authorId]); //still, get the user info
+      self.props._set_store_UnitCurrent({ //pass the info about primer to redux state
+        primer: {primerId: resObj.main.exposedId, authorPrimer: resObj.main.authorId}
+      });
+      // here we have next step to get the src of the cover img
+      return _axios_getUnitSrc(this.axiosSource.token, resObj.main.exposedId);
+    })
+    .then((resObj)=>{
+      self.setState({axios: false});
+      self.props._set_store_UnitCurrent({ //pass the info about primer to redux state
+        primerSrc: resObj.main['pic_layer0']
+      });
+    })
+    .catch(function (thrown) {
+      self.setState({axios: false});
+      if (axios.isCancel(thrown)) {
+        cancelErr(thrown);
+      } else {
+        let message = uncertainErr(thrown);
+        if(message) alert(message);
       }
     });
   }
@@ -141,6 +192,7 @@ class UnitScreen extends React.Component {
     // It's Important !! next Unit should not have a 'coverSrc' to prevent children component render in UnitModal before Unit data response!
     let unitCurrentState = Object.assign({}, unitCurrentInit);
     this.props._set_store_UnitCurrent(unitCurrentState);
+    this.props._set_state_UnitView('theater'); // it's default for next view
     //last, recruit the scroll ability back to <body>
     document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:scroll;");
   }
@@ -208,6 +260,8 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch)=>{
   return {
+    _submit_UsersList_new: (arr) => { dispatch(handleUsersList(arr)); },
+    _set_state_UnitView: (expression)=>{dispatch(setUnitView(expression));},
     _set_store_UnitCurrent: (obj)=>{dispatch(setUnitCurrent(obj));}
   }
 }

@@ -9,6 +9,7 @@ const {
 const srcExecutive = require('./single/src.js');
 const singleExecutive = require('./single/single.js');
 const numerousExecutive = require('./numerous.js')
+const primerExecutive = require('./primer.js')
 
 /*
   Notice! Check First!
@@ -31,6 +32,9 @@ main.use(function(req, res, next) {
     case 'numerous':
       tokenify ? next() : noTokenHandler();
       break;
+    case 'primer':
+      tokenify ? next() : noTokenHandler();
+      break;
     default:
       next()
   }
@@ -39,6 +43,7 @@ main.use(function(req, res, next) {
 //then other middleware after the permission check
 
 main.use('/numerous', numerousExecutive)
+main.use('/primer', primerExecutive)
 
 // remember put the pathe with ':id' after the others.
 main.param("exposedId", (req, res, next, exposedId)=>{

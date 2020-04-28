@@ -113,13 +113,12 @@ async function validateShared(modifiedBody, userId) {
 
     const obj = !isEmpty(modifiedBody.joinedMarks[key]) ? modifiedBody.joinedMarks[key] : {};
     if(!('editorContent' in obj) || !('layer' in obj) || !('left' in obj) || !('top' in obj) || !("serial" in obj)) return false; //block here
-
     // check, length of every property except 'blocks' in 'editorContent' not longer than limit
     if(
       obj['layer'] != 0 || // now only 1 im was allowed
       !(obj['left'] <= 100 && obj['left'] >= 0) ||
       !(obj['top'] <= 100 && obj['top'] >= 0) ||
-      !(obj['serial'] == 0) // now only 1 mark is allowed
+      !(obj['serial'] < 13 ) // now only 12 mark is allowed
     ) return false;
 
     //then, check if editorContent has required format
@@ -250,7 +249,7 @@ async function validateSharedEdit(modifiedBody, userId, exposedId) {
       obj['layer'] != 0 || // now only 1 im was allowed
       !(obj['left'] <= 100 && obj['left'] >= 0) ||
       !(obj['top'] <= 100 && obj['top'] >= 0) ||
-      !(obj['serial'] == 0) // now only 1 mark is allowed
+      !(obj['serial'] < 13 ) // now only 12 mark is allowed
     ) return false;
 
     //then, check if editorContent has required format

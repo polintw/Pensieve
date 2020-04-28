@@ -179,6 +179,13 @@ function _handle_ErrCatched(e, req, res){
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;
+    case 51: //404, Unit was not found
+      winston.warn(`${e.status} - ${"Error: code 51, req a Unit probably with an invalid id, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+      clientSet['code'] = 51;
+      clientSet['message'] = e.message;
+      clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
     case 71:
       //403,
       // currently used in patch /nodesBelong, change belongs too often

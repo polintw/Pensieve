@@ -2,7 +2,7 @@ export function _axios_getUnitData(cancelToken, unitId){
   return axios.get('/router/units/'+unitId, {
     headers: {
       'charset': 'utf-8',
-      'token': window.localStorage['token']
+      'token': !!window.localStorage['token'] ? window.localStorage['token'] : false
     },
     cancelToken: cancelToken
   }).catch(function (thrown) {
@@ -14,7 +14,7 @@ export function _axios_getUnitData(cancelToken, unitId){
 export function _axios_getUnitImg_base64(cancelToken, src){
   return axios.get('/router/img/'+src+'?type=unitSingle', {
     headers: {
-      'token': window.localStorage['token']
+      'token': !!window.localStorage['token'] ? window.localStorage['token'] : false
     },
     cancelToken: cancelToken
   }).catch(function (thrown) {
@@ -25,7 +25,7 @@ export function _axios_getUnitImg_base64(cancelToken, src){
 export function _axios_getUnitImgs(cancelToken, unitId){
   return axios.get('/router/units/'+unitId+'/src', {
     headers: {
-      'token': window.localStorage['token']
+      'token': !!window.localStorage['token'] ? window.localStorage['token'] : false
     },
     cancelToken: cancelToken
   }).then((res)=>{
@@ -49,6 +49,37 @@ export function _axios_getUnitImgs(cancelToken, unitId){
     throw thrown;
   });
 };
+
+export function _axios_getUnitSrc(cancelToken, unitId){
+  return axios.get('/router/units/'+unitId+'/src', {
+    headers: {
+      'token': !!window.localStorage['token'] ? window.localStorage['token'] : false
+    },
+    cancelToken: cancelToken
+  }).then(function (res) {
+    let resObj = JSON.parse(res.data); //still parse the res data prepared to be used below
+    return resObj;
+  }).catch(function (thrown) {
+    throw thrown;
+  });
+};
+
+export function _axios_getUnitPrimer(cancelToken, unitId){
+  return axios.get('/router/units/primer', {
+    headers: {
+      'charset': 'utf-8',
+      'token': window.localStorage['token']
+    },
+    params: {exposedId: unitId},
+    cancelToken: cancelToken
+  }).then(function (res) {
+    let resObj = JSON.parse(res.data); //still parse the res data prepared to be used below
+    return resObj;
+  }).catch(function (thrown) {
+    throw thrown;
+  });
+};
+
 
 export function _axios_patch_ShareErase(cancelToken, exposedId){
   return axios.patch('/router/share/'+exposedId+'/erase', {}, {

@@ -20,7 +20,10 @@ export const unitCurrentInit = {
   beneathMarksData:{},
   nouns: null,
   refsArr: null,
-  createdAt: null
+  createdAt: null,
+  primerify: false,
+  primer: {primerId: '', authorPrimer: ''},
+  primerSrc: null
 }
 
 export const messageDialogInit= {

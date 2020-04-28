@@ -26,12 +26,12 @@ const {
 const _submitUsersUnits = require('./updateUsersUnits.js');
 
 function _handle_unit_Mount(req, res){
-  new Promise((resolve, reject)=>{
-    //This api allow empty token,
-    //would be after the permission check, with tokenify in req.extra
-    const userId = req.extra.tokenify ? req.extra.tokenUserId: '';
-    const reqExposedId = req.reqExposedId;
+  //This api allow empty token,
+  //would be after the permission check, with tokenify in req.extra
+  const userId = req.extra.tokenify ? req.extra.tokenUserId: '';
+  const reqExposedId = req.reqExposedId;
 
+  new Promise((resolve, reject)=>{
     const _unit_Nouns = function(tempData){
       return new Promise((resolveSub, rejectSub)=>{
         _DB_attribution.findAll({
@@ -149,8 +149,8 @@ function _handle_unit_Mount(req, res){
         },
         authorBasic: {},
         createdAt: "",
-        identity: "",
-        broad: false //false by default
+        identity: "visitor", // default as a 'no token' visitor
+        primerify: false
       }
       if (!!result) { //make sure there is a unit with the id (would be 'null' if not exist)
         sendingData['authorBasic']['authorId'] = result.id_author;
@@ -158,10 +158,13 @@ function _handle_unit_Mount(req, res){
         sendingData['temp']['internalId'] = result.id; //the id used as 'id_unit' among database.
         if(userId == result.id_author){
           sendingData['identity'] = "author"
-        }else{
+        }
+        else if(req.extra.tokenify){ //at least has a token
           sendingData['identity'] = "viewer"
         }
-        return (sendingData)
+        sendingData['primerify'] = !!result.id_primer? true:false; // this api was a 'token free', Do NOT append another id here.
+
+        return (sendingData);
       } else { //like the id is wrong or even not exist
         //reject directly, skipping all the process afterward
         reject(new notFoundError("this unit does not exist. please use a valid link.", 34));
