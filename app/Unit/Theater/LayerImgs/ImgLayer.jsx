@@ -7,17 +7,6 @@ import {
   baseHorizonRatial,
 } from '../../props.js';
 
-const generalStyle = {
-  absolute_FullVersion: {
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
-    top: '0',
-    left:'0',
-    boxSizing: 'border-box'
-  }
-}
-
 class ImgLayer extends React.Component {
   constructor(props){
     super(props);
@@ -67,7 +56,8 @@ class ImgLayer extends React.Component {
     return(
       <div
         ref={this.Com_ImgLayer_box}
-        style={generalStyle.absolute_FullVersion}>
+        className={classnames(styles.comImgLayer)}>
+
         <img
           className={classnames('boxImgPosition')}
           style={this.style.Com_ImgLayer_img}

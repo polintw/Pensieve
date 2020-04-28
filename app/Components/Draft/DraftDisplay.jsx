@@ -10,15 +10,6 @@ export default class DraftDisplay extends React.Component {
     };
     this.changeEditorState = (editorState) => {}; //no use, just for component requirement.
     this._draft_blockClass = this._draft_blockClass.bind(this);
-    this.style={
-      Com_DraftDisplay_: {
-        width: '100%',
-        height: '100%',
-        position: 'relative',
-        boxSizing: 'border-box',
-        overflow: 'hidden'
-      }
-    }
   }
 
   _draft_blockClass(contentBlock){
@@ -31,8 +22,7 @@ export default class DraftDisplay extends React.Component {
     //second, the displaying content should update follow it's parent---like editing.
 
     return(
-      <div
-        style={this.style.Com_DraftDisplay_}>
+      <div>
         <Editor
           ref={(element)=>{this.contentEditor = element;}}
           editorState={editorState}

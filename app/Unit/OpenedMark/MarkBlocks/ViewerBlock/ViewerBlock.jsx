@@ -2,21 +2,8 @@ import React from 'react';
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import stylesFont from '../../../stylesFont.module.css';
 import DraftDisplay from '../../../../Components/Draft/DraftDisplay.jsx';
-
-const styleMiddle = {
-  boxMessage: {
-    boxSizing: 'border-box',
-    padding: '1rem 0.7rem 0'
-  },
-  textMessage: {
-    fontSize: '1.2rem',
-    letterSpacing: '0.1rem',
-    fontStyle: 'italic',
-    color: '#adadad',
-    cursor: 'default'
-  }
-}
 
 class ViewerBlock extends React.Component {
   constructor(props){
@@ -32,16 +19,12 @@ class ViewerBlock extends React.Component {
 
     this.style = {
       Com_ViewerBlock_: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: "space-between",
         width: '100%',
         height: '100%',
         boxSizing: 'border-box',
-        overflowY: 'auto'
-      },
-      Com_ViewerBlock_content_: {
-        display: 'flex',
-        flexDirection: 'column',
-        width: '100%',
-        marginBottom:'54px'
       },
     };
   }
@@ -71,52 +54,29 @@ class ViewerBlock extends React.Component {
   }
 
   render(){
-    const downToMdidline = this.props.downToMdidline;
-    const toCircleLeft = this.props.toCircleLeft;// both props come from OpenedMark
-    //we use these two cosnt to tune the position of whole <div> for not protruding out the view
-
     return(
       <div
         ref={this.comViewerBlock}
         style={this.style.Com_ViewerBlock_}>
         <div
           ref={this.boxContent}
-          style={Object.assign({}, this.style.Com_ViewerBlock_content_)}>
+          className={classnames(styles.boxBlockDraft)}>
           <div
-            style={{
-              width: '100%',
-              height: '13vh'
-            }}></div>
-          <div
-            className={classnames(styles.boxContentDraft, styles.fontContentDraft)}>
+            className={classnames(styles.boxDraftDisplay, stylesFont.fontContent, stylesFont.colorEditBlack)}>
             <DraftDisplay
               editorState={this.props.markData.editorContent}/>
           </div>
 
         </div>
         <div
-          className={classnames(styles.boxInteraction)}
-          style={Object.assign(
-            {},
-            {
-              height: '18vh'
-            }
-          )}>
-          <div className={styles.boxInteractBack}>
-            <div className={styles.boxInteractBackGradiant}/>
-            <div className={styles.boxInteractBackSolid}/>
-          </div>
-
+          className={classnames(styles.boxInteraction)}>
           {
             this.state.message &&
-            <div
-              style={styleMiddle.boxMessage}>
-              <span style={styleMiddle.textMessage}>{this.state.message}</span>
-            </div>
+            <span className={classnames(stylesFont.fontContent, stylesFont.colorEditBlack)}>
+              {this.state.message}
+            </span>
           }
-
         </div>
-
       </div>
     )
   }

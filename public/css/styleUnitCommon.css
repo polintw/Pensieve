@@ -4,7 +4,7 @@
   border-radius: 4px;
 }
 
-.boxMarkSpot { /*now used by ImgLayerEditing, OpenedMark, */
+.boxMarkSpot { /*now used by ImgLayerEditing, OpenedMark, and MarksLayer*/
   width: 48px;
   height: 48px;
   position: absolute;

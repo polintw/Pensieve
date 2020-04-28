@@ -20,16 +20,6 @@ class DraftEditor extends React.Component {
     this._count_CharactersRemain = this._count_CharactersRemain.bind(this);
     this._handleBeforeInput = this._handleBeforeInput.bind(this);
     this._handlePastedText = this._handlePastedText.bind(this);
-    this.style={
-      Com_DraftDisplay_: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box'
-      }
-    }
   }
 
   changeEditorState(editorState){
@@ -67,8 +57,7 @@ class DraftEditor extends React.Component {
 
   render(){
     return(
-      <div
-        style={this.style.Com_DraftEditor_}>
+      <div>
         <Editor
           ref={this.props.parentRef?this.props.parentRef:(element)=>{this.contentEditor = element;}}
           editorState={this.state.editorState}
