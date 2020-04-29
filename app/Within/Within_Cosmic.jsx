@@ -14,6 +14,9 @@ import ModalBackground from '../Components/ModalBackground.jsx';
 import SingleDialog from '../Components/Dialog/SingleDialog/SingleDialog.jsx';
 import SingleCloseDialog from '../Components/Dialog/SingleCloseDialog/SingleCloseDialog.jsx';
 import BooleanDialog from '../Components/Dialog/BooleanDialog/BooleanDialog.jsx';
+import {
+  fetchBelongRecords
+} from '../redux/actions/general.js'
 
 class WithinCosmic extends React.Component {
   constructor(props){
@@ -91,7 +94,12 @@ class WithinCosmic extends React.Component {
   }
 
   componentDidMount() {
-
+    /*
+    Here is the highest level next only to status() in root, fetching data or any info needed
+    */
+    if( !window.localStorage['token'] ) return;
+    //beneath are the process difinately need a token
+    this.props._fetch_belongRecords();
   }
 
   componentWillUnmount() {
@@ -174,7 +182,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    _fetch_belongRecords: () => {dispatch(fetchBelongRecords())},
   }
 }
 

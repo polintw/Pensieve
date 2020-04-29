@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesFont from '../../../stylesFont.module.css';
 import DateConverter from '../../../../Components/DateConverter.jsx';
+import AccountPalette from '../../../../Components/AccountPalette.jsx';
 
 const styleMiddle = {
   boxNavButton:{
@@ -31,12 +32,15 @@ class Submit extends React.Component {
     super(props);
     this.state = {
       onEnterSubmit: false,
-      onEnterCancel: false
+      onEnterCancel: false,
+      onPrimerLine: false
     };
     this._handleEnter_Submit = this._handleEnter_Submit.bind(this);
     this._handleLeave_Submit = this._handleLeave_Submit.bind(this);
     this._handleEnter_Cancel = this._handleEnter_Cancel.bind(this);
     this._handleLeave_Cancel = this._handleLeave_Cancel.bind(this);
+    this._handleEnter_primerLine = this._handleEnter_primerLine.bind(this);
+    this._handleLeave_primerLine = this._handleLeave_primerLine.bind(this);
     this._handleClick_Editing_Submit = this._handleClick_Editing_Submit.bind(this);
     this._handleClick_Editing_Cancell = this._handleClick_Editing_Cancell.bind(this);
   }
@@ -95,6 +99,38 @@ class Submit extends React.Component {
           className={classnames(styles.boxDate)}>
           <DateConverter
             datetime={editDate}/>
+          {
+            this.props.unitView == 'respond' &&
+            <div
+              className={classnames(stylesFont.fontContent, stylesFont.colorGrey)}>
+              <span style={{cursor: 'default'}}>{this.props.i18nUIString.catalog["descript_Unit_Primer"][0]}</span>
+              <div
+                className={classnames(stylesFont.colorStandard)}
+                style={{
+                  display: 'inline-block', cursor: 'default',
+                  textDecoration: this.state.onPrimerLine? "underline": "none"
+                }}
+                onMouseEnter={this._handleEnter_primerLine}
+                onMouseLeave={this._handleLeave_primerLine}>
+                <div
+                  style={{display: 'inline-block'}}>
+                  <AccountPalette
+                    styleFirst={{
+                      fontSize: '1.4rem', fontWeight: '400',
+                      textDecoration: this.state.onPrimerLine? "underline": "none"
+                    }}
+                    styleLast={{
+                      fontSize: '1.4rem',
+                      textDecoration: this.state.onPrimerLine? "underline": "none"
+                    }}
+                    accountFirstName={this.props.unitCurrent.authorBasic.firstName}
+                    accountLastName={this.props.unitCurrent.authorBasic.lastName}/>
+                </div>
+                <span>{this.props.i18nUIString.catalog["descript_Unit_Primer"][1]}</span>
+              </div>
+            </div>
+
+          }
         </div>
         <div
           className={classnames(styles.boxButtons)}>
@@ -141,11 +177,22 @@ class Submit extends React.Component {
       </div>
     )
   }
+
+  _handleEnter_primerLine(e){
+    this.setState({onPrimerLine: true})
+  }
+
+  _handleLeave_primerLine(e){
+    this.setState({onPrimerLine: false})
+  }
+
 }
 
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
+    unitView: state.unitView,
+    i18nUIString: state.i18nUIString,
     unitCurrent: state.unitCurrent,
     unitSubmitting: state.unitSubmitting
   }

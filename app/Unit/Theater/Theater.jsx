@@ -7,6 +7,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
+import stylesFont from '../stylesFont.module.css';
 import Layers from './Layers.jsx';
 
 class Theater extends React.Component {
@@ -94,8 +95,11 @@ class Theater extends React.Component {
           onMouseEnter={this._handleEnter_spanBack}
           onMouseLeave={this._handleLeave_spanBack}>
           <span
-            className={classnames(styles.spanBackTop)}
-            style={this.state.onSpanBack?{color: '#F0F0F0'}:{}}
+            className={classnames(
+              styles.spanBackTop,
+              {[stylesFont.colorEditBlack]: this.state.onSpanBack, [stylesFont.colorGrey]: !this.state.onSpanBack}
+            )}
+            style={{opacity: this.state.onSpanBack? "1" :" 0.5"}}
             onClick={this._handleClick_heigherBack}>
             {" ╳ "}
           </span>

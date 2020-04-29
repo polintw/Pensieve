@@ -19,7 +19,6 @@
   display:flex;
   justify-content: space-around;
   width: 2rem;
-  height: 5%;
   position: absolute;
   top: 2%;
   right: 2.1%;
@@ -29,5 +28,4 @@
 .spanBackTop {
   box-sizing: border-box;
   font-size: 1rem;
-  color: #6e6e6e;
 }

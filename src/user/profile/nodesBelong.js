@@ -11,6 +11,7 @@ const {_res_success} = require('../../utils/resHandler.js');
 const {
   _handle_ErrCatched,
   internalError,
+  forbbidenError
 } = require('../../utils/reserrHandler.js');
 
 // notice! cause the var was here, it would definitely be modified(NOT consist) if we do the modification  in the _handler
