@@ -135,7 +135,7 @@ class MarkEditingBlock extends React.Component {
           </div>
           <div style={{display: 'flex'}}>
             {
-              (this.props.unitView != 'editing') &&
+              (this.props.unitCurrent.coverMarksList.indexOf(this.props.markKey) < 0 ) && //not allowed delete existed marks
               <div
                 className={classnames(styles.boxBlockSubmit)}
                 style={{backgroundColor: this.state.onEnterDelete ? "#757575":'transparent', marginRight: '10px'}}
@@ -190,7 +190,8 @@ const mapStateToProps = (state)=>{
     userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
     unitView: state.unitView,
-    unitSubmitting: state.unitSubmitting
+    unitSubmitting: state.unitSubmitting,
+    unitCurrent: state.unitCurrent,
   }
 }
 

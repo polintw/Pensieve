@@ -23,7 +23,9 @@ import {
 } from "../../redux/actions/unit.js";
 import {
   setUnitCurrent,
-  handleUsersList
+  handleUsersList,
+  updateNodesBasic,
+  updateUsersBasic
 } from "../../redux/actions/general.js";
 import {unitCurrentInit} from "../../redux/states/constants.js";
 import {
@@ -96,8 +98,15 @@ class UnitScreen extends React.Component {
           beneathMarks.list[resObj.main.marksObj[key].serial] = key;
         }
       });
-      // this is a new add, req for a primer if (.primerify)
-      if(resObj.main.primerify) self._set_UnitCurrentPrimer();
+      // api GET unit data was totally independent, even the nodesBasic & userBasic
+      //But we still update the info to redux state, for other comp. using
+      let nodesBasic = {}, userBasic = {};
+      resObj.main.nouns.list.forEach((nodeKey, index) => {
+        nodesBasic[nodeKey] = resObj.main.nouns.basic[nodeKey];
+      });
+      userBasic[resObj.main.authorBasic.id] = resObj.main.authorBasic;
+      self.props._submit_Nodes_insert(nodesBasic);
+      self.props._submit_Users_insert(userBasic);
 
       //actually, beneath part might need to be rewritten to asure the state could stay consistency
       self.props._set_store_UnitCurrent({
@@ -121,6 +130,9 @@ class UnitScreen extends React.Component {
         refsArr: resObj.main.refsArr,
         createdAt: resObj.main.createdAt
       });
+
+      // this is a new add, req for a primer if (.primerify)
+      if(resObj.main.primerify) self._set_UnitCurrentPrimer();
     })
     .catch(function (thrown) {
       self.setState({axios: false});
@@ -261,6 +273,8 @@ const mapStateToProps = (state)=>{
 const mapDispatchToProps = (dispatch)=>{
   return {
     _submit_UsersList_new: (arr) => { dispatch(handleUsersList(arr)); },
+    _submit_Nodes_insert: (obj) => { dispatch(updateNodesBasic(obj)); },
+    _submit_Users_insert: (obj) => { dispatch(updateUsersBasic(obj)); },
     _set_state_UnitView: (expression)=>{dispatch(setUnitView(expression));},
     _set_store_UnitCurrent: (obj)=>{dispatch(setUnitCurrent(obj));}
   }

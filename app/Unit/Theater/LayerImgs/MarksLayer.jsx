@@ -72,6 +72,7 @@ class MarksLayer extends React.Component {
           editingModal = {false}
           _handleClick_ImgLayer_circle={this._handleClick_ImgLayer_circle}>
           <ViewerBlock
+            {...this.props}
             currentSerial={currentSerial}
             markKey={markKey}
             marksLength={this.props.marksData.list.length}

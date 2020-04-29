@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesFont from '../../../stylesFont.module.css';
+import stylesOpenedMark from "../../styles.module.css";
 import DraftDisplay from '../../../../Components/Draft/DraftDisplay.jsx';
 
 class ViewerBlock extends React.Component {
@@ -16,7 +17,7 @@ class ViewerBlock extends React.Component {
     this._set_stateDefault = ()=>{this.setState({message: false})};
     this._set_BlockMessage = this._set_BlockMessage.bind(this);
     this._handleWheel_boxContent = (event)=>{event.stopPropagation();};
-
+    this._handleClick_blockPanel_cancel = this._handleClick_blockPanel_cancel.bind(this);
     this.style = {
       Com_ViewerBlock_: {
         display: 'flex',
@@ -27,6 +28,12 @@ class ViewerBlock extends React.Component {
         boxSizing: 'border-box',
       },
     };
+  }
+
+  _handleClick_blockPanel_cancel(event){
+    event.stopPropagation();
+    event.preventDefault();
+    this.props._set_Markvisible(false);
   }
 
   _set_BlockMessage(message){
@@ -77,6 +84,18 @@ class ViewerBlock extends React.Component {
             </span>
           }
         </div>
+        {
+          !(this.props.boxWidth > 420) && //a way to detect small screen, like cell phone
+          <div className={stylesOpenedMark.boxBlockBack}>
+            <span
+              className={classnames(stylesFont.colorDarkGrey)}
+              style={{fontSize: '0.8rem'}}
+              onClick={this._handleClick_blockPanel_cancel}>
+              {" ╳ "}
+            </span>
+          </div>
+        }
+
       </div>
     )
   }
