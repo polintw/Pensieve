@@ -13,8 +13,6 @@ import CreateRespond from '../Editing/CreateRespond.jsx';
 import {
   _axios_getUnitData,
   _axios_getUnitImgs,
-  _axios_getUnitSrc,
-  _axios_getUnitPrimer
 } from '../utils.js';
 import ModalBox from '../../Components/ModalBox.jsx';
 import ModalBackground from '../../Components/ModalBackground.jsx';
@@ -44,7 +42,6 @@ class UnitScreen extends React.Component {
     this._render_switch = this._render_switch.bind(this);
     this._close_modal_Unit = this._close_modal_Unit.bind(this);
     this._set_UnitCurrent = this._set_UnitCurrent.bind(this);
-    this._set_UnitCurrentPrimer = this._set_UnitCurrentPrimer.bind(this);
     this._reset_UnitMount = this._reset_UnitMount.bind(this);
     this.style={
 
@@ -131,41 +128,6 @@ class UnitScreen extends React.Component {
         createdAt: resObj.main.createdAt
       });
 
-      // this is a new add, req for a primer if (.primerify)
-      if(resObj.main.primerify) self._set_UnitCurrentPrimer();
-    })
-    .catch(function (thrown) {
-      self.setState({axios: false});
-      if (axios.isCancel(thrown)) {
-        cancelErr(thrown);
-      } else {
-        let message = uncertainErr(thrown);
-        if(message) alert(message);
-      }
-    });
-  }
-
-  _set_UnitCurrentPrimer(){
-    //First, this is a token based req in a token free allowed comp.
-    if( !window.localStorage['token'] ) return;
-
-    const self = this;
-    this.setState({axios: true});
-
-    _axios_getUnitPrimer(this.axiosSource.token, this.unitId)
-    .then((resObj)=>{
-      self.props._submit_UsersList_new([resObj.main.authorId]); //still, get the user info
-      self.props._set_store_UnitCurrent({ //pass the info about primer to redux state
-        primer: {primerId: resObj.main.exposedId, authorPrimer: resObj.main.authorId}
-      });
-      // here we have next step to get the src of the cover img
-      return _axios_getUnitSrc(this.axiosSource.token, resObj.main.exposedId);
-    })
-    .then((resObj)=>{
-      self.setState({axios: false});
-      self.props._set_store_UnitCurrent({ //pass the info about primer to redux state
-        primerSrc: resObj.main['pic_layer0']
-      });
     })
     .catch(function (thrown) {
       self.setState({axios: false});
@@ -272,7 +234,6 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch)=>{
   return {
-    _submit_UsersList_new: (arr) => { dispatch(handleUsersList(arr)); },
     _submit_Nodes_insert: (obj) => { dispatch(updateNodesBasic(obj)); },
     _submit_Users_insert: (obj) => { dispatch(updateUsersBasic(obj)); },
     _set_state_UnitView: (expression)=>{dispatch(setUnitView(expression));},
