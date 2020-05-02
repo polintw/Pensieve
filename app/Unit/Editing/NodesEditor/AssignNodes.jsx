@@ -157,7 +157,7 @@ class AssignNodes extends React.Component {
                       styles.chosenSpanItem
                     )}
                     style={{ alignSelf:'right', fontSize: '1.2rem', fontStyle: 'italic'}}>
-                    {this.props.nounsBasic[nodeId].prefix}</span>
+                    {", "+this.props.nounsBasic[nodeId].prefix}</span>
                 }
               </div>
             }
@@ -237,7 +237,7 @@ class AssignNodes extends React.Component {
                       }
                     )}
                     style={{ alignSelf:'right', fontSize: '1.2rem', fontStyle: 'italic'}}>
-                    {this.props.nounsBasic[node0].prefix}</span>
+                    {", "+this.props.nounsBasic[node0].prefix}</span>
                 }
               </div>
             }
@@ -306,7 +306,7 @@ class AssignNodes extends React.Component {
                         }
                       )}
                       style={{ alignSelf:'right', fontSize: '1.2rem', fontStyle: 'italic'}}>
-                      {this.props.nounsBasic[nodeId].prefix}</span>
+                      {", "+this.props.nounsBasic[nodeId].prefix}</span>
                   }
                 </div>
               }

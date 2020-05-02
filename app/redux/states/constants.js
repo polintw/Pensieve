@@ -95,7 +95,7 @@ export const i18nUIStringInit = {
      "submit_understand": "Understand",
      "submit_respond": "Respond",
 
-     "submit_Unit_upload": "Add image",
+     "submit_Unit_upload": ["Add image", "Processing..."],
      "descript_Unit_Primer": ["Based on ", "'s Unit", "Based on a published Unit"],
      "guiding_UnitEdit_upload": "Share what you've observed at Your Corner!",
      "guiding_UnitEdit_imgNoMark": "keep it clean or by Clicking make some Post-it without hesitate!",

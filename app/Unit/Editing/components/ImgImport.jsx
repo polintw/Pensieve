@@ -2,15 +2,11 @@ import React from 'react';
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import stylesFont from '../../stylesFont.module.css';
-import ImgChoose from '../../../Components/ImgChoose.jsx';
 import SvgUpload from '../../../Components/Svg/SvgUpload.jsx';
+import AniBtnImgUpload from '../../../Components/AniBtn/AniBtnImgUpload.jsx';
 import {
   switchUnitSubmitting
 } from "../../../redux/actions/unit.js";
-import {
-  cancelErr,
-  uncertainErr
-} from "../../../utils/errHandlers.js";
 
 class ImgImport extends React.Component {
   constructor(props){
@@ -18,8 +14,6 @@ class ImgImport extends React.Component {
     this.state = {
 
     };
-    this.axiosSource = axios.CancelToken.source();
-    this._handle_newImgSrc = this._handle_newImgSrc.bind(this);
     this.style={
       Com_div_ImgImport_ImgEmpty: {
         width: '100%',
@@ -47,9 +41,6 @@ class ImgImport extends React.Component {
         transform: 'translate(-50%, 0)',
       },
       Com_div_ImgImport_ImgEmpty_Choose: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
         width:'42.188%',
         height: '40px',
         position: 'absolute',
@@ -57,38 +48,9 @@ class ImgImport extends React.Component {
         left: '50%',
         transform: 'translate(-50%, 0)',
         borderRadius: '4px',
-        backgroundColor: '#ff8168',
         cursor: 'pointer'
       },
     }
-  }
-
-  _handle_newImgSrc(base64URL){
-    const self = this;
-    //situation similar to submitting, everything forbidden
-    //need cover mask, warning modal if disobey
-    self.props._set_unitSubmitting(true);
-    axios.post('/router/img/resize', base64URL, {
-      headers: {
-        'Content-Type': 'text/plain',
-        'charset': 'utf-8',
-        'token': window.localStorage['token']
-      },
-      cancelToken: self.axiosSource.token
-    }).then((res)=>{
-      let resObj = JSON.parse(res.data);
-      let resizedURL = resObj.main.resizedURL;
-      self.props._set_newImgSrc(resizedURL);
-      self.props._set_unitSubmitting(false);
-    }).catch(function (thrown) {
-      self.props._set_unitSubmitting(false);
-      if (axios.isCancel(thrown)) {
-        cancelErr(thrown);
-      } else {
-        let message = uncertainErr(thrown);
-        if(message) alert(message);
-      }
-    });
   }
 
   componentWillUnmount(){
@@ -105,12 +67,9 @@ class ImgImport extends React.Component {
         </div>
         <div
           style={this.style.Com_div_ImgImport_ImgEmpty_Choose}>
-          <span
-            className={classnames(stylesFont.colorWhite, stylesFont.fontSubmit)}>
-            {this.props.i18nUIString.catalog['submit_Unit_upload']}
-          </span>
-          <ImgChoose
-             _handle_newImgSrc={this._handle_newImgSrc}/>
+          <AniBtnImgUpload
+            _set_newImgSrc={this.props._set_newImgSrc}
+            _set_Submitting={()=>{/* Here we do not inform the parent we are submitting */}}/>
         </div>
         <div
           style={this.style.Com_div_ImgImport_ImgEmpty_Guiding}>
