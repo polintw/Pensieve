@@ -34,6 +34,10 @@
   font-size: 1.6rem;
 }
 
+/*
+remember all above font style should also have copy in @media neneath
+*/
+
 .colorWhite {
   color: #FFFFFF;
 }
@@ -60,4 +64,42 @@
 
 .weightBold {
   font-weight: bold;
+}
+
+@media screen and (max-width:430px) {
+/*
+all class from and only from above
+*/
+  .fontTitleHint {
+    font-size: 2.1rem;
+  }
+
+  .fontTitle {
+    font-size: 2.9rem;
+  }
+
+  .fontTitleNotice {
+    font-size: 2.65rem;
+  }
+
+  .fontSubmit {
+    font-size: 2.25rem;
+  }
+
+  .fontHint {
+    font-size: 1.4rem;
+  }
+
+  .fontSubtitle {
+    font-size: 1.5rem;
+  }
+
+  .fontGreet {
+    font-size: 1.87rem;
+  }
+
+  .fontDescrip {
+    font-size: 1.6rem;
+  }
+
 }
