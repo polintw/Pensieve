@@ -25,25 +25,23 @@ module.exports = function validateRegisterInput(data) {
         errors.email = 'Email is required';
     }
 
-    if(!Validator.isLength(data.password, {min: 6, max: 30})) {
-        errors.password = 'Password must have 6 chars';
+
+    if(!Validator.equals(data.password, data.password_confirm)) {
+      errors.password_confirm = 'Password and Confirm Password must match';
     }
 
-    if(Validator.isEmpty(data.password)) {
+    if(Validator.isEmpty(data.password) || Validator.isEmpty(data.password_confirm)) {
         errors.password = 'Password is required';
     }
 
-    if(!Validator.isLength(data.password_confirm, {min: 6, max: 30})) {
-        errors.password_confirm = 'Password must more than 6 chars (and no more than 30)';
+    if(!Validator.isLength(data.password, {min: 6, max: 32}) || !Validator.isLength(data.password_confirm, {min: 6, max: 32})) {
+      errors.password = 'Password must have at least 6 chars, and using both numbers and letters.';
     }
 
-    if(!Validator.equals(data.password, data.password_confirm)) {
-        errors.password_confirm = 'Password and Confirm Password must match';
+    if(Validator.isAlphanumeric(data.password) || Validator.isAlphanumeric(data.password_confirm)) {
+        errors.password = 'Password must have at least 6 chars, and using both numbers and letters.';
     }
 
-    if(Validator.isEmpty(data.password_confirm)) {
-        errors.password_confirm = 'Password is required';
-    }
 
     if (Validator.isEmpty(data.gender)) {
         errors.warning = 'Select a gender or set pronoun.';
