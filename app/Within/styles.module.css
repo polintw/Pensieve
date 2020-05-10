@@ -1,9 +1,23 @@
+.boxAround {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
 .boxNavAround {
   width: 100%;
   position: fixed;
   left: 0;
   bottom: 0;
 }
+
+      .boxNavOptions {
+        width: 1.4%;
+        height: 3.2%;
+        position: fixed;
+        box-sizing: border-box;
+      }
+
 
 .boxSignDialog {
   max-width: 60%;

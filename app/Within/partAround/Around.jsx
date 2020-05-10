@@ -1,12 +1,9 @@
 import React from 'react';
 import {
-  Link,
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import IndexWrapper from './Index/Wrapper.jsx';
-import SvgLogo from '../../Components/Svg/SvgLogo.jsx';
-import ServiceLinks from '../../Components/ServiceLinks.jsx';
 
 const styleMiddle = {
   boxFooterInfo: {
@@ -19,15 +16,6 @@ const styleMiddle = {
     padding: '2rem 1.2rem 0',
     color: '#ababab'
   },
-  spanFooterInfo: {
-    display: 'inline-block',
-    boxSizing: 'border-box',
-    marginRight: '0.42rem'
-  },
-  textFooterInfo: {
-    fontSize: '1.21rem',
-    letterSpacing: '0.1rem',
-  }
 }
 
 class Around extends React.Component {
@@ -78,16 +66,16 @@ class Around extends React.Component {
       return(
         <div
           style={this.style.withinCom_CosmicMain_}>
+           /*塞填充物 包夾Index feedㄡ. 填充物會在 screen width < ?? 時消失*/ 
           <div
             style={this.style.withinCom_CosmicMain_index_}>
             <IndexWrapper {...this.props}/>
             <div
               style={styleMiddle.boxFooterInfo}>
-              <span style={Object.assign({}, styleMiddle.spanFooterInfo, styleMiddle.textFooterInfo)}>{"Cornerth."}</span>
-              <br></br>
-              <br></br>
-              <ServiceLinks/>
+
+
             </div>
+
           </div>
           <div style={{width: '100%', height: '2.7rem', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
           <div style={{width: '100%', height: '4rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}>

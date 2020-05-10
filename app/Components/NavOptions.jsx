@@ -1,22 +1,18 @@
 import React from 'react';
-import {
-  Route,
-  Link
-} from 'react-router-dom';
 import SvgOptions from './Svg/SvgOptions.jsx';
 import ModalBox from './ModalBox.jsx';
 import ServiceLinks from './ServiceLinks.jsx';
-
-const commonStyle = {
-
-}
+import AccountPalette from './AccountPalette.jsx';
 
 export default class NavOptions extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      mouseOn: false, 
       toolBoxify: false
     };
+    this._handleEnter_CornerOpt = this._handleEnter_CornerOpt.bind(this);
+    this._handleLeave_CornerOpt = this._handleLeave_CornerOpt.bind(this);
     this._handleClick_navToolBox = this._handleClick_navToolBox.bind(this);
     this._handleClick_ToolBox_logout = this._handleClick_ToolBox_logout.bind(this);
     this.style={
@@ -90,12 +86,35 @@ export default class NavOptions extends React.Component {
           style={this.style.selfCom_NavOptions_svg_}
           onClick={this._handleClick_navToolBox}>
           <SvgOptions/>
+          
         </div>
         {
           this.state.toolBoxify &&
           <ModalBox containerId="NavOptions_Self">
             <div
               style={this.style.selfCom_NavOptions_ToolBox_}>
+              <div
+                method="account"
+                className={
+                  classnames()
+                }
+                onClick={(e) => { e.preventDefault(); e.stopPropagation(); this.props._refer_to('', '/self/profile/sheet') }}
+                onMouseEnter={this._handleEnter_CornerOpt}
+                onMouseLeave={this._handleLeave_CornerOpt}>
+                {
+                  (this.state.mouseOn == 'account') &&
+                  <span style={{
+                    width: '75%', position: 'absolute', top: '-11%', left: '-1%',
+                    borderBottom: 'solid 1px #ff7a5f'
+                  }} />
+                }
+                <AccountPalette
+                  size={'regular'}
+                  accountFirstName={this.props.userInfo.firstName}
+                  accountLastName={this.props.userInfo.lastName}
+                  styleFirst={{ fontWeight: '600' }} />
+              </div>
+
               <ol
                 style={this.style.selfCom_NavOptions_ToolBox_ol_}>
                 <li
@@ -108,11 +127,31 @@ export default class NavOptions extends React.Component {
                 style={{padding: '0 15%', margin: '1rem 0'}}>
                 <ServiceLinks/>
               </div>
-              <div style={{width: '100%', paddingBottom:'2rem'}}/>
+
             </div>
           </ModalBox>
         }
       </div>
     )
   }
+
+
+  _handleEnter_CornerOpt(e) {
+    //don't need to stop proppagation,
+    //because both the 'onMouseEnter' & 'onMouseLeave'
+    //would not 'bubble'
+    this.setState({
+      mouseOn: e.currentTarget.attributes.method.value
+    })
+  }
+
+  _handleLeave_CornerOpt(e) {
+    //don't need to stop proppagation,
+    //because both the 'onMouseEnter' & 'onMouseLeave'
+    //would not 'bubble'
+    this.setState({
+      mouseOn: ''
+    })
+  }
+
 }

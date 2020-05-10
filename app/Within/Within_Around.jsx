@@ -35,14 +35,6 @@ class WithinAround extends React.Component {
         position: 'fixed',
         backgroundColor: '#FCFCFC'
       },
-      Within_Around_NavOptions: {
-        width: '1.4%',
-        height: '3.2%',
-        position: 'fixed',
-        bottom: '6.9%',
-        right: '1%',
-        boxSizing: 'border-box'
-      }
     }
   }
 
@@ -109,18 +101,23 @@ class WithinAround extends React.Component {
     return(
       <div>
         <div style={this.style.Within_Around_backplane}></div>
-        <Switch>
-
-          <Route path={this.props.match.path} render={(props)=> <Around {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
-        </Switch>
-
         <div
-          className={classnames(styles.boxNavAround)}>
-          <NavWithin {...this.props} _refer_to={this._refer_von_cosmic}/>
+          className={classnames(styles.boxAround)}>
+          <Switch>
+
+            <Route path={this.props.match.path} render={(props)=> <Around {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
+          </Switch>
+          <div
+            className={classnames(styles.boxNavAround)}>
+            <NavWithin {...this.props} _refer_to={this._refer_von_cosmic}/>
+          </div>
         </div>
-        <div style={this.style.Within_Around_NavOptions}>
+
+        <div 
+          className={classnames(styles.boxNavOptions)}>
           <NavOptions {...this.props}/>
         </div>
+
         {
           //here and beneath, are dialog system for global used,
           //the series 'message' in redux state is prepared for this kind of global message dialog
