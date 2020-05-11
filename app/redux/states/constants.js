@@ -94,6 +94,8 @@ export const i18nUIStringInit = {
      "submit_erase": "erase",
      "submit_understand": "Understand",
      "submit_respond": "Respond",
+     "Cornerth_inc": "Cornerth., Inc. ",
+     "AllRights": "All Rights Reserved.",
 
      "submit_Unit_upload": ["Add image", "Processing..."],
      "descript_Unit_Primer": ["Based on ", "'s Unit", "Based on a published Unit"],

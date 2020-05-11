@@ -4,19 +4,28 @@
   width: 100%;
 }
 
-.boxNavAround {
+.boxAroundContent {
   width: 100%;
-  position: fixed;
-  left: 0;
-  bottom: 0;
 }
 
-      .boxNavOptions {
-        width: 1.4%;
-        height: 3.2%;
-        position: fixed;
-        box-sizing: border-box;
-      }
+.boxNavAround {
+  width: 20vw;
+  height: 100%;
+  position: fixed;
+  right: 0;
+  top: 0;
+  box-sizing: border-box;
+  background-color: #fff8f7;
+}
+
+.boxNavOptions {
+  width: 6.9vw;
+  height: 9.6vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+}
 
 
 .boxSignDialog {

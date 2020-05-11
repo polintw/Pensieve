@@ -25,21 +25,17 @@ class Around extends React.Component {
 
     };
     this.style={
-      withinCom_CosmicMain_: {
+      withinCom_Around_: {
+        display: 'flex',
         width: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
         boxSizing: 'border-box'
       },
-      withinCom_CosmicMain_index_: {
-        width: '64vw',
-        minWidth: '854px',
-        position: 'absolute',
-        top: '3.4rem',
-        left: '18vw',
-        boxSizing: 'border-box'
+      withinCom_Around_Center: {
+
       },
+      withinCom_Around_filling: {
+
+      }
     }
   }
 
@@ -65,21 +61,18 @@ class Around extends React.Component {
     } else {
       return(
         <div
-          style={this.style.withinCom_CosmicMain_}>
-           /*塞填充物 包夾Index feedㄡ. 填充物會在 screen width < ?? 時消失*/ 
+          style={this.style.withinCom_Around_}>
+          <div style={Object.assign({}, this.style.withinCom_Around_filling, {width: "10vw"})}/>
           <div
-            style={this.style.withinCom_CosmicMain_index_}>
+            style={this.style.withinCom_Around_Center}>
             <IndexWrapper {...this.props}/>
             <div
               style={styleMiddle.boxFooterInfo}>
 
-
             </div>
+          </div>
 
-          </div>
-          <div style={{width: '100%', height: '2.7rem', position: 'fixed', top: '0', backgroundColor: '#FCFCFC'}}></div>
-          <div style={{width: '100%', height: '4rem', position: 'fixed', bottom: '0', backgroundColor: '#FCFCFC'}}>
-          </div>
+          <div style={Object.assign({}, this.style.withinCom_Around_filling, {width: "20vw"})}/>
         </div>
       )
     };

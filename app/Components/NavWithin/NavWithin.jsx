@@ -29,15 +29,20 @@ class NavWithin extends React.Component {
     return(
       <div
         className={classnames(styles.comNavWithin)}>
-
         <div
           className={classnames(styles.boxLogo)}
           onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_to('', '/')}}>
           <SvgLogo/>
         </div>
+
         <div
-          style={{ padding: '0 15%', margin: '1rem 0' }}>
+          className={classnames(styles.boxFooter)}>
           <ServiceLinks />
+          <div
+            className={classnames(styles.boxRightsClaim)}>
+            <span>{this.props.i18nUIString.catalog["Cornerth_inc"]}</span>
+            <span>{this.props.i18nUIString.catalog["AllRights"]}</span>
+          </div>
         </div>
 
       </div>
@@ -47,7 +52,8 @@ class NavWithin extends React.Component {
 
 const mapStateToProps = (state)=>{
   return {
-    userInfo: state.userInfo
+    userInfo: state.userInfo,
+    i18nUIString: state.i18nUIString,
   }
 }
 

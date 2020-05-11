@@ -8,7 +8,7 @@ export default class NavOptions extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      mouseOn: false, 
+      mouseOn: false,
       toolBoxify: false
     };
     this._handleEnter_CornerOpt = this._handleEnter_CornerOpt.bind(this);
@@ -16,23 +16,15 @@ export default class NavOptions extends React.Component {
     this._handleClick_navToolBox = this._handleClick_navToolBox.bind(this);
     this._handleClick_ToolBox_logout = this._handleClick_ToolBox_logout.bind(this);
     this.style={
-      selfCom_NavOptions_: {
-        display: 'inline-block',
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        left: '0',
-        top: '0',
-        boxSizing: 'border-box'
-      },
       selfCom_NavOptions_svg_:{
-        width: '100%',
-        height: '100%',
+        width: '4.16vw',
+        height: '7.6vh',
         position: 'absolute',
-        top: '0',
-        right: '0',
+        top: '2vh',
+        left: '2.77vw',
         boxSizing: 'border-box',
-        cursor: 'pointer'
+        cursor: 'pointer',
+        overflow: 'visible'
       },
       selfCom_NavOptions_ToolBox_: {
         width: '10vw',
@@ -77,16 +69,13 @@ export default class NavOptions extends React.Component {
 
   render(){
     return(
-      <div
-        style={this.style.selfCom_NavOptions_}>
+      <div>
         <div
           id={"NavOptions_Self"}
-          style={{width: "100%", height: '100%', position: 'absolute',boxSizing: 'border-box'}}></div>
-        <div
           style={this.style.selfCom_NavOptions_svg_}
           onClick={this._handleClick_navToolBox}>
           <SvgOptions/>
-          
+
         </div>
         {
           this.state.toolBoxify &&
