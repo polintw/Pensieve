@@ -170,6 +170,7 @@ class Wrapper extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
+    i18nUIString: state.i18nUIString,
     indexLists: state.indexLists
   }
 }

@@ -110,10 +110,13 @@ class WithinAround extends React.Component {
           <div
             className={classnames(styles.boxAroundContent)}>
             <div style={{width: "10vw"}}/>
-            <Switch>
-              <Route path={this.props.match.path} render={(props)=> <Around {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
+            <div
+              className={classnames(styles.boxAroundContentCenter)}>
+              <Switch>
+                <Route path={this.props.match.path} render={(props)=> <Around {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
 
-            </Switch>
+              </Switch>
+            </div>
 
             <div style={{width: "21.38vw"}}/>
           </div>

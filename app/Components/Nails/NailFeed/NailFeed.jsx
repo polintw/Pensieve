@@ -11,9 +11,9 @@ import DisplayMarkPreview from '../../Draft/DisplayMarkPreview.jsx';
 import styles from "./styles.module.css";
 import {
   renderNodesRows
-} from '../../Node/generators.js';
+} from '../generators.js';
 
-class NailBasic extends React.Component {
+class NailFeed extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -72,6 +72,8 @@ class NailBasic extends React.Component {
   }
 
   render(){
+    let imgSrcCover = '/router/img/'+this.props.unitBasic.pic_layer0+'?type=thumb';
+
     return(
       <Link
         ref={this.nailUnitLink}
@@ -85,40 +87,57 @@ class NailBasic extends React.Component {
           styles.frame,
           {[styles.frameOnMouse]: this.state.onFrame}
         )}
+        style={
+          this.state.onFrame ? ({
+            backgroundImage: 'url('+ imgSrcCover +')',
+            backgroundSize: 'cover',
+            backgroundPosition: '50% 50%',
+            backgroundRepeat: 'no-repeat',
+          }):({})
+        }
         onMouseEnter={this._handleEnter_nailFrame}
         onMouseLeave={this._handleLeave_nailFrame}>
         <div
-          className={classnames(styles.boxNodes)}>
-          {this._render_nails_nouns()}
-        </div>
-        
-        {
-          this.state.onFrame ? (
+          className={classnames(styles.boxContent)}>
+          <div
+            className={classnames(styles.boxTitle)}>
             <div
-              className={classnames(styles.boxContent)}>
+              style={{width: "30px", height: "30px"}}>
+            </div>
+            <div
+              className={classnames(styles.boxNodes)}>
+              {this._render_nails_nouns()}
+            </div>
+          </div>
+
+          {
+            this.state.onFrame ? (
               <div
-                className={classnames(styles.boxMarkPreview)}>
-                {this._render_nails_Marks()}
-              </div>
+                className={classnames(styles.boxPreview)}>
+                <div
+                  className={classnames(styles.boxMarkPreview)}>
+                  {this._render_nails_Marks()}
+                </div>
 
-              <div className={styles.boxAuthor}>
-                <AccountPalette
-                  size={'regular'}
-                  userId={this.props.unitBasic.authorId}/>
+                <div className={styles.boxAuthor}>
+                  <AccountPalette
+                    size={'regular'}
+                    userId={this.props.unitBasic.authorId}/>
 
+                </div>
               </div>
-            </div>
-          ): (
-            <div
-              ref={this.nailImgBox}
-              className={styles.boxImg}>
-              <ImgPreview
-                blockName={''}
-                previewSrc={'/router/img/'+this.props.unitBasic.pic_layer0+'?type=thumb'}
-                _handleClick_ImgPreview_preview={()=>{this.nailImgBox.current.click()}}/>
-            </div>
-          )
-        }
+            ): (
+              <div
+                ref={this.nailImgBox}
+                className={styles.boxImg}>
+                <ImgPreview
+                  blockName={''}
+                  previewSrc={ imgSrcCover }
+                  _handleClick_ImgPreview_preview={()=>{this.nailImgBox.current.click()}}/>
+              </div>
+            )
+          }
+        </div>
 
       </Link>
     )
@@ -137,4 +156,4 @@ const mapStateToProps = (state)=>{
 export default withRouter(connect(
   mapStateToProps,
   null
-)(NailBasic));
+)(NailFeed));
