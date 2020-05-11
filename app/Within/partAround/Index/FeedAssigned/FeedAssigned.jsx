@@ -173,10 +173,12 @@ class FeedAssigned extends React.Component {
       //render if there are something in the data
       if( !(unitId in this.state.unitsBasic)) return; //skip if the info of the unit not yet fetch
 
-      nailsDOM.push(
+      let remainder = index % 4; // cycle every 4 units.
+
+      nailsDOM.push (
         <div
           key={"key_FeedAssigned_new_"+index}
-          className={classnames(stylesNail.boxNail, stylesNail.heightBasic, stylesNail.wideFeedAssigned)}>
+          className={classnames(stylesNail.boxNail)}>
           <NailFeed
             {...this.props}
             unitId={unitId}
@@ -195,8 +197,7 @@ class FeedAssigned extends React.Component {
     this.recKeys = !!this.props.belongsByType.setTypesList? this.props.belongsByType.setTypesList: []; //because there are more than one process need to use this var, but this var would change bu props., we claim it to this.
     let concatList = this.props.indexLists.listUnreadNew.concat(this.props.indexLists.listUnread); //just for checking if there are any units are going to render
     return (
-      <div
-        className={classnames(styles.comFeedAssigned)}>
+      <div>
         {
           (concatList.length > 0) &&
           <div>

@@ -12,9 +12,7 @@ import {
   axios_visit_GET_last,
   axios_visit_Index
 } from './utils.js';
-import Chain from './Chain/Chain.jsx';
-import RowEntry from './RowEntry/RowEntry.jsx';
-import BelongsMap from './BelongsMap/BelongsMap.jsx';
+
 import FeedAssigned from './FeedAssigned/FeedAssigned.jsx';
 import OnBoard from '../OnBoard/Wrapper.jsx';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
@@ -130,19 +128,7 @@ class Wrapper extends React.Component {
       <div>
         <div
           className={classnames(styles.comAroundWrapper)}>
-          <div
-            className={classnames(styles.boxRowTop)}>
-            <RowEntry
-              lastVisit={this.state.lastVisit}/>
-          </div>
 
-          <div
-            className={classnames(styles.boxRow)}>
-            <Chain
-              lastVisit={this.state.lastVisit}
-              _set_mountToDo={this._set_mountToDo}
-              _refer_von_cosmic={this.props._refer_von_cosmic}/>
-          </div>
           <div
             className={classnames(styles.boxRow)}>
             <FeedAssigned
@@ -152,9 +138,8 @@ class Wrapper extends React.Component {
           </div>
 
           <div
-            className={classnames(styles.boxRow)}>
-            <BelongsMap
-              lastVisit={this.state.lastVisit}/>
+            className={classnames(styles.boxFooter)}>
+            <span>{this.props.i18nUIString.catalog['descript_AroundIndex_footer']}</span>
           </div>
         </div>
         <Route

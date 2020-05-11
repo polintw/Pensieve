@@ -1,58 +1,31 @@
 .frame {
-  width: 100%;
-  height: 100%;
+  display: block; /* due to it was at the tag <a> now */
+  width: 474px;
+  min-width: 32.9vw;
+  max-width: 99vw;
+  /*
+  give it a padding for all children!
+  */
 }
 
 .frameOnMouse {
-  outline: double 1.5px #777777;
+
 }
 
 .boxImg {
-  width: 100%;
+  width: 72.57%;
   height: 66.66%; /* 2/3 */
   position: absolute;
   top: 0;
   box-sizing: border-box;
 }
 
-.boxMask {
-  width: 100%;
-  height: 100%;
-  position:absolute;
-  top:0;
-  left: 0;
-  background-image:linear-gradient(0deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.64),rgba(0, 0, 0, 0.58),rgba(0, 0, 0, 0.52),rgba(0, 0, 0, 0.42),rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.18),rgba(0, 0, 0, 0.1),rgba(0, 0, 0, 0.07) ,rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.02) ,transparent);
-}
-
-.interMask { /*remember must after the boxMask*/
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  background-color: rgba(0,0,0,0.1)
-}
-
 .boxNodes {
-  display: flex;
-  flex-direction: column;
-  width: 75%;
-  max-height: 69%;
+  width: 72.57%;
   position: absolute;
-  bottom: 9%;
-  right: 0%;
+  top: 6%;
+  left: 4.2%;
   box-sizing: border-box;
-  padding: 0 4.5% 0 7%; /*right side align along with the right position of boxAuthor*/
-  border-left: 1px solid #ff7a5f;
-  overflow: hidden;
-}
-
-.boxNodesItem {
-  /*usually the font were controlled by class in common file of the belonged page.
-  this is for local modified*/
-}
-
-.fontNode {
-  /*usually the font were controlled by class in common file of the belonged page.
-  this is for local modified*/
 }
 
 .boxContent {

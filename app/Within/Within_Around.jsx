@@ -104,18 +104,20 @@ class WithinAround extends React.Component {
         <div
           className={classnames(styles.boxAround)}>
           <div
+            className={classnames(styles.boxNavAround)}>
+            <NavWithin {...this.props} _refer_to={this._refer_von_cosmic}/>
+          </div>
+          <div
             className={classnames(styles.boxAroundContent)}>
+            <div style={{width: "10vw"}}/>
             <Switch>
               <Route path={this.props.match.path} render={(props)=> <Around {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
 
             </Switch>
-          </div>
-          <div
-            className={classnames(styles.boxNavAround)}>
-            <NavWithin {...this.props} _refer_to={this._refer_von_cosmic}/>
+
+            <div style={{width: "21.38vw"}}/>
           </div>
         </div>
-
         <div
           className={classnames(styles.boxNavOptions)}>
           <NavOptions {...this.props}/>

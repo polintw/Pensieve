@@ -18,14 +18,11 @@ class NailBasic extends React.Component {
     super(props);
     this.state = {
       onFrame: false,
-      onImg: false
     };
     this.nailImgBox = React.createRef();
     this.nailUnitLink = React.createRef();
     this._handleEnter_nailFrame = this._handleEnter_nailFrame.bind(this);
     this._handleLeave_nailFrame = this._handleLeave_nailFrame.bind(this);
-    this._handleEnter_nailImg = this._handleEnter_nailImg.bind(this);
-    this._handleLeave_nailImg = this._handleLeave_nailImg.bind(this);
     this._render_nails_Marks = this._render_nails_Marks.bind(this);
     this._render_nails_nouns = this._render_nails_nouns.bind(this);
     this.style={
@@ -39,14 +36,6 @@ class NailBasic extends React.Component {
 
   _handleLeave_nailFrame(e){
     this.setState({onFrame: false})
-  }
-
-  _handleEnter_nailImg(e){
-    this.setState({onImg: true})
-  }
-
-  _handleLeave_nailImg(e){
-    this.setState({onImg: false})
   }
 
   _render_nails_Marks(){
@@ -84,57 +73,54 @@ class NailBasic extends React.Component {
 
   render(){
     return(
-      <div
+      <Link
+        ref={this.nailUnitLink}
+        to={{
+          pathname: this.props.linkPath,
+          search: '?theater&unitId='+this.props.unitId,
+          state: {from: this.props.location}
+        }}
         className={classnames(
+          'plainLinkButton',
           styles.frame,
           {[styles.frameOnMouse]: this.state.onFrame}
         )}
         onMouseEnter={this._handleEnter_nailFrame}
         onMouseLeave={this._handleLeave_nailFrame}>
-        <Link
-          ref={this.nailUnitLink}
-          to={{
-            pathname: this.props.linkPath,
-            search: '?theater&unitId='+this.props.unitId,
-            state: {from: this.props.location}
-          }}
-          className={classnames('plainLinkButton', styles.frame)}>
-          <div
-            ref={this.nailImgBox}
-            className={styles.boxImg}
-            onMouseEnter={this._handleEnter_nailImg}
-            onMouseLeave={this._handleLeave_nailImg}>
-            <ImgPreview
-              blockName={''}
-              previewSrc={'/router/img/'+this.props.unitBasic.pic_layer0+'?type=thumb'}
-              _handleClick_ImgPreview_preview={()=>{this.nailImgBox.current.click()}}/>
+        <div
+          className={classnames(styles.boxNodes)}>
+          {this._render_nails_nouns()}
+        </div>
+        
+        {
+          this.state.onFrame ? (
             <div
-              className={classnames(
-                styles.boxMask,
-                {[styles.interMask]: this.state.onImg}
-              )}/>
+              className={classnames(styles.boxContent)}>
+              <div
+                className={classnames(styles.boxMarkPreview)}>
+                {this._render_nails_Marks()}
+              </div>
 
-          </div>
-          <div
-            className={classnames(styles.boxContent)}>
+              <div className={styles.boxAuthor}>
+                <AccountPalette
+                  size={'regular'}
+                  userId={this.props.unitBasic.authorId}/>
 
+              </div>
+            </div>
+          ): (
             <div
-              className={classnames(styles.boxNodes)}>
-              {this._render_nails_nouns()}
+              ref={this.nailImgBox}
+              className={styles.boxImg}>
+              <ImgPreview
+                blockName={''}
+                previewSrc={'/router/img/'+this.props.unitBasic.pic_layer0+'?type=thumb'}
+                _handleClick_ImgPreview_preview={()=>{this.nailImgBox.current.click()}}/>
             </div>
-            <div
-              className={classnames(styles.boxMarkPreview)}>
-              {this._render_nails_Marks()}
-            </div>
-            <div className={styles.boxAuthor}>
-              <AccountPalette
-                size={'regular'}
-                userId={this.props.unitBasic.authorId}/>
+          )
+        }
 
-            </div>
-          </div>
-        </Link>
-      </div>
+      </Link>
     )
   }
 }

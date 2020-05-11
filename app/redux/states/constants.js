@@ -53,10 +53,6 @@ export const messageDialogInit= {
 export const i18nUIStringInit = {
   "language":"en",
   "catalog":{
-     "welcomeNew": "Welcome to join Cornerth. Here you can discover every hidden thing and more!",
-     "welcomeBack":"Welcome back",
-     "greetNight": "Good evening.",
-     "greetMorning": "Good morning!",
      "descript_Unit_Author_read": ["reach to", "reach"],
      "descript_Unit_Author_broad": ["broad by", "broad"],
 
@@ -121,10 +117,7 @@ export const i18nUIStringInit = {
      "descript_BelongSet_SearchBytType": ["Input corner name of your "],
      "guidingChain_noBelongSet": "Touching your Fellows by setting the place you are and the land you were born.",
      "guidingChain_noSharedEst.": ["You would be the first one to share about your corner."],
-
-     "hintEmptyNode": "This Corner is still Waiting to be explored. Be the first one to wonder and wander!",
-     "hintEmptyNode_contributors": "waiting for someone, perhaps that's just you! ",
-     "guidingExplore_NodesMore": [" more ", "or, touch", "to find out where you can be the First! "],
+     "descript_AroundIndex_footer": "You've seen the edge of Cornerth.!",
 
    }
 }
