@@ -19,6 +19,7 @@
   width: 100%;
   height: 289px;
   min-height: 36.8vh;
+  position: relative;
 }
 
 .boxImg {
@@ -32,8 +33,9 @@
 .boxPreview {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   width: 100%;
-  max-height: 61.93%;
+  height: 61.93%;
 }
 
 .boxTitle {
@@ -50,10 +52,4 @@
 
 .boxAuthor {
   max-width: 100%;
-}
-
-.boxMarkPreview {
-  width: 100%;
-  max-height: 46.93%;
-  overflow: hidden;
 }

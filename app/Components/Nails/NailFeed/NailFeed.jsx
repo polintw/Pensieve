@@ -7,11 +7,11 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesFont from '../stylesFont.module.css';
+import NailMarksPreview from '../components/NailMarksPreview.jsx';
 import ImgPreview from '../../ImgPreview.jsx';
 import AccountPalette from '../../AccountPalette.jsx';
-import DisplayMarkPreview from '../../Draft/DisplayMarkPreview.jsx';
 import {
-  renderNodesRows
+  renderNodesRows,
 } from '../generators.js';
 
 class NailFeed extends React.Component {
@@ -24,7 +24,6 @@ class NailFeed extends React.Component {
     this.nailUnitLink = React.createRef();
     this._handleEnter_nailFrame = this._handleEnter_nailFrame.bind(this);
     this._handleLeave_nailFrame = this._handleLeave_nailFrame.bind(this);
-    this._render_nails_Marks = this._render_nails_Marks.bind(this);
     this._render_nails_nouns = this._render_nails_nouns.bind(this);
     this.style={
 
@@ -37,25 +36,6 @@ class NailFeed extends React.Component {
 
   _handleLeave_nailFrame(e){
     this.setState({onFrame: false})
-  }
-
-  _render_nails_Marks(){
-    let list = this.props.unitBasic.marksList;
-    let marksDOM = [];
-    const self = this;
-
-    for(let i=0 ; i< list.length && i< 3; i++){
-      let key = list[i]
-      marksDOM.push(
-        <div
-          key={"key_nailcosmic_"+self.props.unitId+"_marks_"+i}
-          className={classnames(stylesFont.fontContent, stylesFont.colorEditBlack)}>
-          <DisplayMarkPreview
-            rawContent={self.props.marksBasic[key].editorContent}/>
-        </div>
-      )
-    }
-    return marksDOM;
   }
 
   _render_nails_nouns(){
@@ -119,16 +99,15 @@ class NailFeed extends React.Component {
             this.state.onFrame ? (
               <div
                 className={classnames(styles.boxPreview)}>
-                <div
-                  className={classnames(styles.boxMarkPreview)}>
-                  {this._render_nails_Marks()}
-                </div>
+                <NailMarksPreview
+                  unitId={this.props.unitId}
+                  unitBasic={this.props.unitBasic}
+                  marksBasic={this.props.marksBasic}/>
 
                 <div className={classnames(styles.boxAuthor, stylesFont.colorStandard)}>
                   <AccountPalette
                     size={"regularBold"}
-                    userId={this.props.unitBasic.authorId}/>
-
+                    userId={this.props.unitBasic.authorId}/>                  
                 </div>
               </div>
             ): (
@@ -147,6 +126,7 @@ class NailFeed extends React.Component {
       </Link>
     )
   }
+
 }
 
 const mapStateToProps = (state)=>{
