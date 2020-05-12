@@ -7,6 +7,12 @@ export function renderNodesRows(props, styles){
   let nounsDOM = [];
 
   list.forEach((id, index)=>{
+    if(index >0) nounsDOM.push(
+      <span
+        key={"key_nailNodes_coma_"+index}
+        className={classnames(stylesFont.fontNodesTitle, stylesFont.colorEditBlack)}>{", "}</span>
+    );
+
     nounsDOM.push(
       <span
         key={"key_nailNodes_"+props.unitId+"_nouns_"+index}

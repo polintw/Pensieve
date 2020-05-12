@@ -24,6 +24,13 @@
   font-style: italic;
 }
 
+.spanNameRegularBold {
+  white-space: nowrap;
+  font-size: 1.6rem;
+  font-weight: bold;
+  line-height: 1.5;
+}
+
 .spanNameLayer {
   white-space: nowrap;
   font-size: 1.4rem;

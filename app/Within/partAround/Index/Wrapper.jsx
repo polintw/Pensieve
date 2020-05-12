@@ -140,6 +140,12 @@ class Wrapper extends React.Component {
           <div
             className={classnames(styles.boxFooter)}>
             <span>{this.props.i18nUIString.catalog['descript_AroundIndex_footer']}</span>
+            {
+              (this.props.chainList.listOrderedChain.length< 1) &&
+              <span>
+                {this.props.i18nUIString.catalog['descript_AroundIndex_footer_noshared']}
+              </span>
+            }
           </div>
         </div>
         <Route
@@ -171,7 +177,8 @@ const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
-    indexLists: state.indexLists
+    indexLists: state.indexLists,
+    chainList: state.chainList
   }
 }
 

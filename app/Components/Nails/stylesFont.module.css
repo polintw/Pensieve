@@ -4,6 +4,11 @@
   line-height: 1.5;
 }
 
+.fontContent {
+  font-size: 1.4rem;
+  line-height: 1.5;
+}
+
 .colorWhite {
   color: #ffffff
 }

@@ -5,10 +5,11 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
+import styles from "./styles.module.css";
+import stylesFont from '../stylesFont.module.css';
 import ImgPreview from '../../ImgPreview.jsx';
 import AccountPalette from '../../AccountPalette.jsx';
 import DisplayMarkPreview from '../../Draft/DisplayMarkPreview.jsx';
-import styles from "./styles.module.css";
 import {
   renderNodesRows
 } from '../generators.js';
@@ -48,7 +49,7 @@ class NailFeed extends React.Component {
       marksDOM.push(
         <div
           key={"key_nailcosmic_"+self.props.unitId+"_marks_"+i}
-          className={classnames(styles.boxMark, styles.fontMark)}>
+          className={classnames(stylesFont.fontContent, stylesFont.colorEditBlack)}>
           <DisplayMarkPreview
             rawContent={self.props.marksBasic[key].editorContent}/>
         </div>
@@ -87,16 +88,20 @@ class NailFeed extends React.Component {
           styles.frame,
           {[styles.frameOnMouse]: this.state.onFrame}
         )}
-        style={
-          this.state.onFrame ? ({
-            backgroundImage: 'url('+ imgSrcCover +')',
-            backgroundSize: 'cover',
-            backgroundPosition: '50% 50%',
-            backgroundRepeat: 'no-repeat',
-          }):({})
-        }
         onMouseEnter={this._handleEnter_nailFrame}
         onMouseLeave={this._handleLeave_nailFrame}>
+        { // layer as a overlap when mouseon
+          this.state.onFrame &&
+          <div style={{
+              position: 'absolute', width:'100%', height: '100%', top: '0', left: '0',
+              backgroundColor:'rgba(217, 232, 255, 0.15)',
+              backgroundImage: 'url('+ imgSrcCover +')',
+              backgroundSize: 'cover',
+              backgroundPosition: '50% 50%',
+              backgroundRepeat: 'no-repeat',
+              opacity: '0.3'
+          }}/>
+        }
         <div
           className={classnames(styles.boxContent)}>
           <div
@@ -119,9 +124,9 @@ class NailFeed extends React.Component {
                   {this._render_nails_Marks()}
                 </div>
 
-                <div className={styles.boxAuthor}>
+                <div className={classnames(styles.boxAuthor, stylesFont.colorStandard)}>
                   <AccountPalette
-                    size={'regular'}
+                    size={"regularBold"}
                     userId={this.props.unitBasic.authorId}/>
 
                 </div>

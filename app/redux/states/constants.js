@@ -103,7 +103,6 @@ export const i18nUIStringInit = {
 
      "guidingCreateShare_AssignGroup": "Share to Fellows from/at",
      "guiding_FeedAssigned_noneAssigned": "Not yet any unit was shared. But let's take a look at other places:",
-     "guiding_FeedAssigned_noShared": "how's your home going?",
      "message_Unit_Editing_AssignNotAllowed": "the corner linked to could Not be changed after first release.",
      "message_Unit_EraseConfirm": ["No one would see this Shared after erase, including you. ", "Are you sure your going to erase this Shared?"],
      "message_Unit_EraseRes": ["This Shared has beed erased successfully."],
@@ -118,6 +117,6 @@ export const i18nUIStringInit = {
      "guidingChain_noBelongSet": "Touching your Fellows by setting the place you are and the land you were born.",
      "guidingChain_noSharedEst.": ["You would be the first one to share about your corner."],
      "descript_AroundIndex_footer": "You've seen the edge of Cornerth.!",
-
+     "descript_AroundIndex_footer_noshared": "how about yours?"
    }
 }

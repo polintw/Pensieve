@@ -217,12 +217,6 @@ class FeedAssigned extends React.Component {
               className={classnames(styles.boxModule)}>
               {this._render_FeedNails('unread')}
             </div>
-            {
-              (this.props.chainList.listOrderedChain.length< 1) &&
-              <div>
-                {this.props.i18nUIString.catalog['guiding_FeedAssigned_noShared']}
-              </div>
-            }
           </div>
         }
 
