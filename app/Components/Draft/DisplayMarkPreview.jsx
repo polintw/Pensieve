@@ -2,7 +2,7 @@ import React from 'react';
 import {Editor, EditorState, ContentState, convertToRaw, convertFromRaw} from 'draft-js';
 import styles from "./styleDisplay.module.css";
 
-const _truncate_previewMark = (editorState, charCount = 100) => {
+const _truncate_previewMark = (editorState, charCount = 259) => {
   /*
     ref: https://github.com/facebook/draft-js/issues/742
     by: JimLiu & irvingv8

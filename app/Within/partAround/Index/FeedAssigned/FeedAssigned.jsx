@@ -10,8 +10,8 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesNail from "../stylesNail.module.css";
 import stylesFont from '../../stylesFont.module.css';
-
 import NailFeed from '../../../../Components/Nails/NailFeed/NailFeed.jsx';
+import NailFeedWide from '../../../../Components/Nails/NailFeedWide/NailFeedWide.jsx';
 import {axios_get_UnitsBasic} from '../../../../utils/fetchHandlers.js';
 import {
   handleNounsList,
@@ -179,7 +179,7 @@ class FeedAssigned extends React.Component {
         <div
           key={"key_FeedAssigned_new_"+index}
           className={classnames(stylesNail.boxNail)}>
-          <NailFeed
+          <NailFeedWide
             {...this.props}
             unitId={unitId}
             linkPath={'/unit'}
