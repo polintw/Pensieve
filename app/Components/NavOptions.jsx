@@ -1,4 +1,6 @@
 import React from 'react';
+import {connect} from "react-redux";
+import classnames from 'classnames';
 import SvgOptions from './Svg/SvgOptions.jsx';
 import ModalBox from './ModalBox.jsx';
 import ServiceLinks from './ServiceLinks.jsx';

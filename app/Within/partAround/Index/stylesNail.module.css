@@ -1,5 +1,6 @@
 .boxNail {
   box-sizing: border-box;
+  margin: 8px 0;
   border-radius: 8px;
   box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
   background-color: #FFFFFF;

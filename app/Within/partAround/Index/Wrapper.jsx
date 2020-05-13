@@ -45,7 +45,7 @@ class Wrapper extends React.Component {
     this._set_lastVisit = this._set_lastVisit.bind(this);
     this._createdRespond = this._createdRespond.bind(this);
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
-    this.renderFooterHint = this.renderFooterHint.bind(this);
+    this._render_FooterHint = this._render_FooterHint.bind(this);
   }
 
   _construct_UnitInit(match, location){
@@ -140,7 +140,7 @@ class Wrapper extends React.Component {
 
           <div
             className={classnames(styles.boxFooter)}>
-            {this.renderFooterHint()}
+            {this._render_FooterHint()}
           </div>
         </div>
         <Route
@@ -167,7 +167,7 @@ class Wrapper extends React.Component {
     )
   }
 
-  let renderFooterHint = ()=>{
+  _render_FooterHint(){
     //first, if the belong do not be set at all, which means could not share and do fetch any feed
     if(!this.props.belongsByType['residence'] && !this.props.belongsByType['homeland']){
       return (

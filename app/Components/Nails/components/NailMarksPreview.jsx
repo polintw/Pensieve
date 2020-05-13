@@ -74,13 +74,14 @@ class NailMarksPreview extends React.Component {
   }
 
   _render_nails_Marks(){
-    let key = (this.state.onCount in this.props.unitBasic.marksList) ? this.state.onCount : this.props.unitBasic.marksList[0];
+    let key = (this.props.unitBasic.marksList.indexOf(parseInt(this.state.onCount)) != (-1)) ? this.state.onCount : this.props.unitBasic.marksList[0];
 
     return (
       <div
         key={"key_nail_"+this.props.unitId+"_mark"}
         className={classnames(stylesFont.fontContent, stylesFont.colorEditBlack)}>
         <DisplayMarkPreview
+          markId={key}
           rawContent={this.props.marksBasic[key].editorContent}/>
       </div>
     );

@@ -6,12 +6,13 @@
 
 .boxAroundContent {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   width: 100%;
 }
 
 .boxAroundContentCenter {
   min-width: 67vw;
+  max-width: 67vw;
 }
 
 .boxNavAround {

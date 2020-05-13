@@ -203,6 +203,18 @@ class FeedAssigned extends React.Component {
 
     });
 
+    if(listChoice=="unread" && nailsDOM.length > 0) nailsDOM.splice(1, 0, (
+      this.state.statusNoneAssigned ?(
+        <div
+          className={classnames(styles.boxDescript)}>
+          {this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned']}</div>
+      ):(
+        <div
+          className={classnames(styles.boxDescript)}>
+          {this.props.i18nUIString.catalog['title_FeedAssigned_AllRead']}</div>
+      )
+    ));
+
     return nailsDOM;
   }
 
@@ -221,15 +233,6 @@ class FeedAssigned extends React.Component {
               )}>
               {this._render_FeedNails('unreadNew')}
             </div>
-            {
-              this.state.statusNoneAssigned &&
-              <div>{this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned']}</div>
-            }
-            {
-              this.state.allread &&
-              <div>{this.props.i18nUIString.catalog['title_FeedAssigned_AllRead']}</div>
-            }
-
             <div
               className={classnames(
                 styles.boxModule,

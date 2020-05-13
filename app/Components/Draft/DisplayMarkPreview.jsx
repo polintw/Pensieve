@@ -63,8 +63,15 @@ export default class DisplayMarkPreview extends React.Component {
     }
   }
 
-  _draft_blockClass(contentBlock){
-    return styles.markDisplayBlock;
+  componentDidUpdate(prevProps, prevState, snapshot){
+    if(this.props.markId != prevProps.markId){ // detect the mark going to display
+      this.setState({
+        editorState: this.props.rawContent ?
+          _truncate_previewMark(EditorState.createWithContent(
+            convertFromRaw(this.props.rawContent)
+          )) : EditorState.createEmpty()
+      });
+    };
   }
 
   render(){
@@ -80,4 +87,9 @@ export default class DisplayMarkPreview extends React.Component {
       </div>
     )
   }
+
+  _draft_blockClass(contentBlock){
+    return styles.markDisplayBlock;
+  }
+
 }
