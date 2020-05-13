@@ -13,7 +13,7 @@ class Around extends React.Component {
     };
     this.style={
       withinCom_Around_: {
-        maxWidth: '100vw',
+        maxWidth: '99vw',
         boxSizing: 'border-box'
       },
     }

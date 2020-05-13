@@ -1,8 +1,5 @@
 .frame {
   display: block; /* due to it was at the tag <a> now */
-  width: 474px;
-  min-width: 32.9vw;
-  max-width: 99vw;
   position: relative;
   box-sizing: border-box;
   padding: 1.38vw;
@@ -16,7 +13,9 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 100%;
+  width: 342px;
+  min-width: 30.16vw;
+  max-width: 96.24vw;
   height: 289px;
   min-height: 36.8vh;
   position: relative;

@@ -173,20 +173,33 @@ class FeedAssigned extends React.Component {
       //render if there are something in the data
       if( !(unitId in this.state.unitsBasic)) return; //skip if the info of the unit not yet fetch
 
-      let remainder = index % 4; // cycle every 4 units.
+      let remainder3 = index % 3,
+          remainder2 = index % 2; // cycle, but every 3 units has a wide, left, right in turn.
 
-      nailsDOM.push (
+      nailsDOM.push (remainder3 ? ( // 0 would be false, which means index % 3 =0
         <div
           key={"key_FeedAssigned_new_"+index}
           className={classnames(stylesNail.boxNail)}>
-          <NailFeedWide
+          <NailFeed
             {...this.props}
             unitId={unitId}
             linkPath={'/unit'}
             unitBasic={this.state.unitsBasic[unitId]}
             marksBasic={this.state.marksBasic}/>
         </div>
-      )
+      ): (
+        <div
+          key={"key_FeedAssigned_new_"+index}
+          className={classnames(stylesNail.boxNail)}>
+          <NailFeedWide
+            {...this.props}
+            leftimg={ remainder2 ? true : false}
+            unitId={unitId}
+            linkPath={'/unit'}
+            unitBasic={this.state.unitsBasic[unitId]}
+            marksBasic={this.state.marksBasic}/>
+        </div>
+      ));
 
     });
 
@@ -202,7 +215,10 @@ class FeedAssigned extends React.Component {
           (concatList.length > 0) &&
           <div>
             <div
-              className={classnames(styles.boxModule)}>
+              className={classnames(
+                styles.boxModule,
+                styles.boxModuleSmall,
+              )}>
               {this._render_FeedNails('unreadNew')}
             </div>
             {
@@ -214,7 +230,10 @@ class FeedAssigned extends React.Component {
             }
 
             <div
-              className={classnames(styles.boxModule)}>
+              className={classnames(
+                styles.boxModule,
+                styles.boxModuleSmall,                
+              )}>
               {this._render_FeedNails('unread')}
             </div>
           </div>

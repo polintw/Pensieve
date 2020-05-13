@@ -109,7 +109,9 @@ class WithinAround extends React.Component {
           </div>
           <div
             className={classnames(styles.boxAroundContent)}>
-            <div style={{width: "10vw"}}/>
+            <div
+              className={classnames(
+                styles.boxContentFilledLeft)}/>
             <div
               className={classnames(styles.boxAroundContentCenter)}>
               <Switch>
@@ -118,7 +120,9 @@ class WithinAround extends React.Component {
               </Switch>
             </div>
 
-            <div style={{width: "21.38vw"}}/>
+            <div
+              className={classnames(
+                styles.boxContentFilledRight)}/>
           </div>
         </div>
         <div
