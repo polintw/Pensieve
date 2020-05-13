@@ -117,6 +117,7 @@ export const i18nUIStringInit = {
      "guidingChain_noBelongSet": "Touching your Fellows by setting the place you are and the land you were born.",
      "guidingChain_noSharedEst.": ["You would be the first one to share about your corner."],
      "descript_AroundIndex_footer": "You've seen the edge of Cornerth.!",
-     "descript_AroundIndex_footer_noshared": "how about yours?"
+     "descript_AroundIndex_footer_noshared": "how about yours?",
+     'descript_AroundIndex_footer_BelongHint': "start browsing by your current stay or homeland!",
    }
 }

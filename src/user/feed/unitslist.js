@@ -146,10 +146,19 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
     .catch((err)=>{throw err})
   };
   /*
+  process start from here.
+  */
+  /*
   first check we have anyneccessary to select
   */
-  if(!userHomeland && !userResidence) {
-    let sendingData={temp:{}}; //just an empty obj
+  if(!userHomeland && !userResidence) { // if both homeland and residence do not be set
+    let sendingData={ //res a default obj
+      listUnread: [],
+      listUnreadNew: [],
+      noneassigned: false,
+      allread: false,
+      temp: {}
+    };
     _res_success(res, sendingData, "GET: user feed/unitslist/assigned, complete.");
     return; //no need to go through any further
   };
@@ -210,7 +219,9 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
         /*
         distinguish: if the req are the 1st after belong set
         */
-        if( unitObj.listStatus != 'noneassigned' && newSetResi || newSetHome){ // if one or both belong are new set, and! there is any assigned to it
+        // if one or both belong are new set, and! there is any assigned to it
+        if( unitObj.listStatus != 'noneassigned' && newSetResi || newSetHome){
+          //to do so is because there are units 'created' earlier than lastVisit, but if the belong was newly set, that's not the situation exclude them from 'new' to user
           if(newSetResi && 'residence' in unitObj.assignedInfo) {sendingData.listUnreadNew.push({unitId: unitObj.exposedId});return;};
           if(newSetHome && 'homeland' in unitObj.assignedInfo) {sendingData.listUnreadNew.push({unitId: unitObj.exposedId});return;};
         };

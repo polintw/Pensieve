@@ -222,17 +222,18 @@ class FeedAssigned extends React.Component {
               {this._render_FeedNails('unreadNew')}
             </div>
             {
-              this.state.statusNoneAssigned ? (
-                <div>{this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned']}</div>
-              ): (
-                <div>{this.props.i18nUIString.catalog['title_FeedAssigned_AllRead']}</div>
-              )
+              this.state.statusNoneAssigned &&
+              <div>{this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned']}</div>
+            }
+            {
+              this.state.allread &&
+              <div>{this.props.i18nUIString.catalog['title_FeedAssigned_AllRead']}</div>
             }
 
             <div
               className={classnames(
                 styles.boxModule,
-                styles.boxModuleSmall,                
+                styles.boxModuleSmall,
               )}>
               {this._render_FeedNails('unread')}
             </div>

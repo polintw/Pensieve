@@ -45,6 +45,7 @@ class Wrapper extends React.Component {
     this._set_lastVisit = this._set_lastVisit.bind(this);
     this._createdRespond = this._createdRespond.bind(this);
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
+    this.renderFooterHint = this.renderFooterHint.bind(this);
   }
 
   _construct_UnitInit(match, location){
@@ -139,13 +140,7 @@ class Wrapper extends React.Component {
 
           <div
             className={classnames(styles.boxFooter)}>
-            <span>{this.props.i18nUIString.catalog['descript_AroundIndex_footer']}</span>
-            {
-              (this.props.chainList.listOrderedChain.length< 1) &&
-              <span>
-                {this.props.i18nUIString.catalog['descript_AroundIndex_footer_noshared']}
-              </span>
-            }
+            {this.renderFooterHint()}
           </div>
         </div>
         <Route
@@ -171,12 +166,35 @@ class Wrapper extends React.Component {
       </div>
     )
   }
+
+  let renderFooterHint = ()=>{
+    //first, if the belong do not be set at all, which means could not share and do fetch any feed
+    if(!this.props.belongsByType['residence'] && !this.props.belongsByType['homeland']){
+      return (
+        <span>{this.props.i18nUIString.catalog["descript_AroundIndex_footer_BelongHint"]}</span>
+      );
+    }
+    else if(this.props.chainList.listOrderedChain.length< 1){
+      return (
+        <span>
+          {this.props.i18nUIString.catalog['descript_AroundIndex_footer_noshared']}
+        </span>
+      );
+    }
+    else{
+      return (
+        <span>{this.props.i18nUIString.catalog['descript_AroundIndex_footer']}</span>
+      )
+    }
+  }
 }
+
 
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
+    belongsByType: state.belongsByType,
     indexLists: state.indexLists,
     chainList: state.chainList
   }
