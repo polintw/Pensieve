@@ -190,7 +190,7 @@ class FeedAssigned extends React.Component {
       ): (
         <div
           key={"key_FeedAssigned_new_"+index}
-          className={classnames(stylesNail.boxNail)}>
+          className={classnames(stylesNail.boxNail, stylesNail.custNailWide)}>
           <NailFeedWide
             {...this.props}
             leftimg={ remainder2 ? true : false}

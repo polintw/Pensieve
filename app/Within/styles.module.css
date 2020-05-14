@@ -11,8 +11,7 @@
 }
 
 .boxAroundContentCenter {
-  min-width: 67vw;
-  max-width: 67vw;
+  min-width: 67vw; /* actually, this is not enough for a 13' laptop screen*/
 }
 
 .boxNavAround {
@@ -45,25 +44,29 @@
 }
 
 .boxContentFilledLeft {
-  width: 11.32vw;
+  min-width: 10vw;
 }
 
 .boxContentFilledRight {
-  width: 21.64vw;
+  min-width: 21.64vw;
 }
 
 
-@media screen and (max-width:1110px) and (min-width: 720px) {
+@media screen and (max-width:1110px) and (min-width: 860px) {
+  .boxAroundContentCenter {
+    width: 760px;
+  }
+
   .boxContentFilledLeft {
-    width: 6.78vw;
+    min-width: 2.7vw;
   }
 
   .boxContentFilledRight {
-    width: 13vw;
+    min-width: 11.5vw;
   }
 
   .boxNavAround {
-    width: 13vw;
+    width: 11vw;
     height: 100%;
     position: fixed;
     right: 0;
@@ -73,12 +76,14 @@
   }
 }
 
-@media screen and (max-width:720px) {
+@media screen and (max-width:860px) {
   .boxContentFilledLeft {
     width: 0;
+    min-width: 0; /* overlap basic setting, the 'width' is not enough for the min-width---which has higher priority*/
   }
 
   .boxContentFilledRight {
     width: 0;
+    min-width: 0; /* overlap basic setting, the 'width' is not enough for the min-width---which has higher priority*/
   }
 }

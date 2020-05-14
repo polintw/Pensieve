@@ -10,7 +10,7 @@
   text-align: center;
 }
 
-@media screen and (max-width:840px) {
+@media screen and (max-width:860px) {
   .boxModuleSmall {
     justify-content: center;
   }
