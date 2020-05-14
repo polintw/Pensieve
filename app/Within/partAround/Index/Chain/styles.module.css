@@ -1,17 +1,11 @@
-.comChain{
-  width: 100%;
-  position: relative;
-}
-
 .boxModule{
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
 }
 
-.comChainUpload {
-  display: inline-block;
+.boxFullWide {
   width: 100%;
-  cursor: pointer;
 }
 
 .boxBlankHint {
@@ -25,4 +19,10 @@
   display: inline-block;
   box-sizing: border-box;
   margin: 0 6%;
+}
+
+@media screen and (max-width:860px) {
+  .boxModuleSmall {
+    justify-content: center;
+  }
 }

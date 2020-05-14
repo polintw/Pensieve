@@ -28,32 +28,20 @@ class ChainMessage extends React.Component {
 
   }
 
-  _render_HintMessage(recKeys){
-    if(recKeys.length == 0){ // if no belongsByType was set
-      return (
-        <div
-          className={classnames(styles.boxBlankHint, stylesFont.fontTitleHint, stylesFont.colorLightHint)}>
-          {this.props.i18nUIString.catalog["guidingChain_noBelongSet"]}
-        </div>
-      )
-    } else if (this.props.chainList.listOrderedChain.length < 1 && recKeys.length >0){
-      return (
-        <div
-          className={classnames(styles.boxBlankHint, stylesFont.fontTitleHint, stylesFont.colorLightHint)}>
-          <span>{this.props.i18nUIString.catalog["guidingChain_noSharedEst."][0]}</span>
-        </div>
-      )
-    }else{
-      return null
-    }
+  _render_HintMessage(){
+    return (
+      <div
+        className={classnames(styles.boxBlankHint, stylesFont.fontTitleHint, stylesFont.colorLightHint)}>
+        {}
+      </div>
+    )
   }
 
   render(){
-    const recKeys = !!this.props.belongsByType.setTypesList? this.props.belongsByType.setTypesList: [];
     return(
       <div
         className={classnames(styles.comChainMessage)}>
-        {this._render_HintMessage(recKeys)}
+        {this._render_HintMessage()}
       </div>
     )
   }
@@ -63,7 +51,6 @@ const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
-    belongsByType: state.belongsByType,
     chainList: state.chainList
   }
 }

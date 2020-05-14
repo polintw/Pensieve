@@ -111,19 +111,10 @@ function _handle_GET_feedChainlist(req, res){
           resultUsersUnits = results[1];
 
       if(resultResponds.length < 1){
-        return _find_Shared_last()
-        .then((result)=>{ //result might be 'null' due to findOne used
-          if(!!result) {
-            sendingData.latestShared = result.id;
-            sendingData['temp']['temp_unitIdKeyObj'][result.id] = 'latestShared';
-          }
-
-          return;
-        })
-        .catch((err)=>{
-          throw err
-        });
-      }; //process stop here if the "if" condition was true;
+        return;
+         //process stop here if the "if" condition was true
+         // that is, we do not go to display anything to client
+      };
       //else, if there were responds records
       //check if any one respond unread
       let readUnits = resultUsersUnits.map((row,index)=>{
@@ -182,23 +173,7 @@ function _handle_GET_feedChainlist(req, res){
 
             return ;
           }
-          else{
-            /*
-            finally, no unread to the Shared, but also no unread to responds,
-            then we res the last shard, and the latest respond to it
-            */
-            //similar to process above, but this time, we use 'respondsUnits' as base
-            objToShared.respondsUnits.sort((a,b)=>{
-              //we want the bigger 'order first', so reverse the sort
-              return (objToShared.respondsInfo[a].primer_createdAt > objToShared.respondsInfo[b].primer_createdAt)? -1 : 1;
-            });
-            sendingData.resToShared= objToShared.respondsUnits[0];
-            sendingData.userShared = objToShared.respondsInfo[objToShared.respondsUnits[0]].primer;
-            sendingData['temp']['temp_unitIdKeyObj'][objToShared.respondsUnits[0]] = 'resToShared';
-            sendingData['temp']['temp_unitIdKeyObj'][objToShared.respondsInfo[objToShared.respondsUnits[0]].primer] = 'userShared';
 
-            return;
-          }
         })
         .catch((err)=>{
           throw err
@@ -235,7 +210,6 @@ function _handle_GET_feedChainlist(req, res){
       });
     }
     else return sendingData;
-
 
   }).then((sendingData)=>{
     _res_success(res, sendingData, "GET: user feed/chainlist, complete.");
