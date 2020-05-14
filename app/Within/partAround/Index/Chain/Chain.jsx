@@ -10,10 +10,8 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesNail from "../stylesNail.module.css";
 import stylesFont from '../../stylesFont.module.css';
-import ChainUpload from './ChainUpload.jsx';
 import ChainMessage from './ChainMessage.jsx';
-import NailBasic from '../../../../Components/Nails/NailBasic/NailBasic.jsx';
-import NailShared from '../../../../Components/Nails/NailShared/NailShared.jsx';
+import NailFeed from '../../../../Components/Nails/NailFeed/NailFeed.jsx';
 import {axios_get_UnitsBasic} from '../../../../utils/fetchHandlers.js';
 import {
   handleNounsList,
@@ -38,14 +36,8 @@ class Chain extends React.Component {
 
     this.axiosSource = axios.CancelToken.source();
     this._set_ChainUnits = this._set_ChainUnits.bind(this);
-    this._submit_Share_New = this._submit_Share_New.bind(this);
     this._render_ChainUnits = this._render_ChainUnits.bind(this);
     this._axios_get_chainlist = this._axios_get_chainlist.bind(this);
-  }
-
-  _submit_Share_New(dataObj){
-    //Fetch list again
-    this._set_ChainUnits();
   }
 
   _set_ChainUnits(params){
@@ -209,7 +201,7 @@ class Chain extends React.Component {
           <div
             className={classnames(stylesNail.boxNail, stylesNail.heightBasic)}
             style={{marginBottom: '2rem'}}>
-            <NailBasic
+            <NailFeed
               {...this.props}
               unitId={unitId}
               linkPath={'/unit'}
@@ -229,23 +221,17 @@ class Chain extends React.Component {
     return (
       <div
         className={classnames(styles.comChain)}>
-        <ChainMessage
-          {...this.state}
-          _submit_Share_New={this._submit_Share_New}
-          _refer_von_cosmic={this.props._refer_von_cosmic}/>
+        
         {
           (this.props.chainList.listOrderedChain.length > 0) &&
           <div
             className={classnames(styles.boxModule)}>
             {this._render_ChainUnits()}
-            <div
-              className={classnames(styles.boxChainUpload)}>
-              <ChainUpload
-                _submit_Share_New={this._submit_Share_New}
-                _refer_von_cosmic={this.props._refer_von_cosmic}/>
-            </div>
           </div>
         }
+        <ChainMessage
+          {...this.state}
+          _refer_von_cosmic={this.props._refer_von_cosmic}/>
 
       </div>
     )

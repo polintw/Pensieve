@@ -1,3 +1,8 @@
+.fontTitleSmall {
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
 .fontTitleHint {
   font-size: 2.1rem;
   font-weight: 700;
@@ -7,6 +12,13 @@
   font-size: 3.2rem;
   line-height: 1.5;
 }
+
+
+.fontContent {
+  font-size: 1.4rem;
+  line-height: 1.5;
+}
+
 
 .fontTitleNotice {
   font-size: 2.8rem;
@@ -42,7 +54,7 @@ remember all above font style should also have copy in @media neneath
   color: #FFFFFF;
 }
 
-.colorChainSubtitle {
+.colorLightGrey {
   color: #b8b8b8;
 }
 
@@ -60,6 +72,10 @@ remember all above font style should also have copy in @media neneath
 
 .colorCoral {
   color: #ff8168;
+}
+
+.colorAssistGold {
+  color: #f3b55a;
 }
 
 .weightBold {

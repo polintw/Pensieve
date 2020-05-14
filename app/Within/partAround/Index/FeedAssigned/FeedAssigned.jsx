@@ -206,11 +206,11 @@ class FeedAssigned extends React.Component {
     if(listChoice=="unread" && nailsDOM.length > 0) nailsDOM.splice(1, 0, (
       this.state.statusNoneAssigned ?(
         <div
-          className={classnames(styles.boxDescript)}>
+          className={classnames(styles.boxTitle, styles.boxDescript, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
           {this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned']}</div>
       ):(
         <div
-          className={classnames(styles.boxDescript)}>
+          className={classnames(styles.boxTitle, styles.boxDescript, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
           {this.props.i18nUIString.catalog['title_FeedAssigned_AllRead']}</div>
       )
     ));
@@ -223,6 +223,12 @@ class FeedAssigned extends React.Component {
     let concatList = this.props.indexLists.listUnreadNew.concat(this.props.indexLists.listUnread); //just for checking if there are any units are going to render
     return (
       <div>
+        <div
+          className={classnames(styles.boxTitle)}>
+          <span
+            className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
+            {this.props.i18nUIString.catalog["title_FeedAssigned_"]}</span>
+        </div>
         {
           (concatList.length > 0) &&
           <div>

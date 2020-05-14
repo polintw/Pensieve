@@ -1,3 +1,6 @@
+.boxTitle {
+  margin: 8px 0;
+}
 
 .boxModule{
   display: flex;

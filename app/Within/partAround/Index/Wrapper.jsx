@@ -8,11 +8,12 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import stylesFont from '../stylesFont.module.css';
 import {
   axios_visit_GET_last,
   axios_visit_Index
 } from './utils.js';
-
+import Chain from './Chain/Chain.jsx';
 import FeedAssigned from './FeedAssigned/FeedAssigned.jsx';
 import OnBoard from '../OnBoard/Wrapper.jsx';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
@@ -132,6 +133,13 @@ class Wrapper extends React.Component {
 
           <div
             className={classnames(styles.boxRow)}>
+            <Chain
+              lastVisit={this.state.lastVisit}
+              _set_mountToDo={this._set_mountToDo}
+              _refer_von_cosmic={this.props._refer_von_cosmic}/>
+          </div>
+          <div
+            className={classnames(styles.boxRow)}>
             <FeedAssigned
               lastVisit={this.state.lastVisit}
               _set_mountToDo={this._set_mountToDo}
@@ -171,19 +179,24 @@ class Wrapper extends React.Component {
     //first, if the belong do not be set at all, which means could not share and do fetch any feed
     if(!this.props.belongsByType['residence'] && !this.props.belongsByType['homeland']){
       return (
-        <span>{this.props.i18nUIString.catalog["descript_AroundIndex_footer_BelongHint"]}</span>
+        <span
+          className={classnames(stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
+          {this.props.i18nUIString.catalog["descript_AroundIndex_footer_BelongHint"]}</span>
       );
     }
     else if(this.props.chainList.listOrderedChain.length< 1){
       return (
-        <span>
+        <span
+          className={classnames(stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
           {this.props.i18nUIString.catalog['descript_AroundIndex_footer_noshared']}
         </span>
       );
     }
     else{
       return (
-        <span>{this.props.i18nUIString.catalog['descript_AroundIndex_footer']}</span>
+        <span
+          className={classnames(stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
+          {this.props.i18nUIString.catalog['descript_AroundIndex_footer']}</span>
       )
     }
   }
