@@ -149,6 +149,7 @@ class Wrapper extends React.Component {
           <div
             className={classnames(styles.boxFooter)}>
             {this._render_FooterHint()}
+            <span className={classnames(styles.spanFooterHint, styles.spanFooterDash)}/>
           </div>
         </div>
         <Route
@@ -180,14 +181,14 @@ class Wrapper extends React.Component {
     if(!this.props.belongsByType['residence'] && !this.props.belongsByType['homeland']){
       return (
         <span
-          className={classnames(stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
+          className={classnames(styles.spanFooterHint, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
           {this.props.i18nUIString.catalog["descript_AroundIndex_footer_BelongHint"]}</span>
       );
     }
     else if(this.props.sharedsList.list.length< 1){
       return (
         <span
-          className={classnames(stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
+          className={classnames(styles.spanFooterHint, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
           {this.props.i18nUIString.catalog['descript_AroundIndex_footer_noshared']}
         </span>
       );
@@ -195,7 +196,7 @@ class Wrapper extends React.Component {
     else{
       return (
         <span
-          className={classnames(stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
+          className={classnames(styles.spanFooterHint, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
           {this.props.i18nUIString.catalog['descript_AroundIndex_footer']}</span>
       )
     }

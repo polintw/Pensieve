@@ -97,9 +97,9 @@ class Theater extends React.Component {
           <span
             className={classnames(
               styles.spanBackTop,
-              {[stylesFont.colorEditBlack]: this.state.onSpanBack, [stylesFont.colorGrey]: !this.state.onSpanBack}
+              {[stylesFont.colorEditBlack]: this.state.onSpanBack, [stylesFont.colorDarkGrey]: !this.state.onSpanBack}
             )}
-            style={{opacity: this.state.onSpanBack? "1" :" 0.5"}}
+            style={{opacity: this.state.onSpanBack? "1" :" 0.75"}}
             onClick={this._handleClick_heigherBack}>
             {" ╳ "}
           </span>
