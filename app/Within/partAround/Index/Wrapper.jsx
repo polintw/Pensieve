@@ -132,7 +132,7 @@ class Wrapper extends React.Component {
           className={classnames(styles.comAroundWrapper)}>
 
           <div
-            className={classnames(styles.boxRow)}>
+            className={classnames(styles.boxRow, styles.boxRowTop)}>
             <Chain
               lastVisit={this.state.lastVisit}
               _set_mountToDo={this._set_mountToDo}
@@ -184,7 +184,7 @@ class Wrapper extends React.Component {
           {this.props.i18nUIString.catalog["descript_AroundIndex_footer_BelongHint"]}</span>
       );
     }
-    else if(this.props.chainList.listOrderedChain.length< 1){
+    else if(this.props.sharedsList.list.length< 1){
       return (
         <span
           className={classnames(stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
@@ -209,7 +209,8 @@ const mapStateToProps = (state)=>{
     i18nUIString: state.i18nUIString,
     belongsByType: state.belongsByType,
     indexLists: state.indexLists,
-    chainList: state.chainList
+    chainList: state.chainList,
+    sharedsList: state.sharedsList
   }
 }
 

@@ -29,9 +29,17 @@ class ChainMessage extends React.Component {
   }
 
   _render_HintMessage(){
+    /*
+    1) no shareds at all
+    2) shareds but no responds, most common condition (perhap a greet)
+    3) new shared, not a responds
+    4) new shareds responds to primer
+    5) responds to your shared
+    6) responds to a responds
+    */
     return (
       <div
-        className={classnames(styles.boxBlankHint, stylesFont.fontTitleHint, stylesFont.colorLightHint)}>
+        className={classnames(stylesFont.fontTitleHint, stylesFont.colorLightHint)}>
         {}
       </div>
     )
@@ -39,8 +47,7 @@ class ChainMessage extends React.Component {
 
   render(){
     return(
-      <div
-        className={classnames(styles.comChainMessage)}>
+      <div>
         {this._render_HintMessage()}
       </div>
     )

@@ -167,7 +167,10 @@ class Chain extends React.Component {
   render(){
     return (
       <div>
-        <ChainShared/>
+        <div
+          className={classnames(styles.boxFullWide, styles.boxSeperate)}>
+          <ChainShared/>
+        </div>
         {
           (this.props.chainList.listOrderedChain.length > 0) &&
           <div
@@ -179,7 +182,7 @@ class Chain extends React.Component {
           </div>
         }
         <div
-          className={classnames(styles.boxFullWide)}>
+          className={classnames(styles.boxFullWide, styles.boxSeperate)}>
           <ChainMessage/>
         </div>
 

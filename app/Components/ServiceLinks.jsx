@@ -48,7 +48,7 @@ class ServiceLinks extends React.Component {
       <div
         className={classnames('boxServiceLink')}>
         <a
-          href="https://www.facebook.com/cornerth.center/"
+          href="https://www.facebook.com/pg/cornerth.center/about/"
           target="_blank"
           method="about"
           className={classnames(

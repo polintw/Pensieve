@@ -108,6 +108,7 @@ export const i18nUIStringInit = {
      "message_Unit_EraseRes": ["This Shared has beed erased successfully."],
      "title_FeedAssigned_AllRead": "you've all browsed.",
      "title_FeedAssigned_": "Pool",
+     "title_Chain_Shareds_": "My shareds",
 
      "guidingBelongs_EmptyMap": "Set your corner, and taking a look for the distribution of your fellows.",
      "descript_BelongTypeInteract": ["going to renew your ", " ?"],

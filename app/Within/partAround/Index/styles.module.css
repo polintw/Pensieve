@@ -10,6 +10,10 @@
   margin-bottom: 2.4rem;
 }
 
+.boxRowTop {
+  margin-top: 1.6rem;
+}
+
 .boxFooter {
   display: flex;
   flex-direction: column;

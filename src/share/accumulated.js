@@ -26,7 +26,7 @@ function _handle_GET_accumulated_Share(req, res){
     if(resultShareds.length < 1){return sendingData}; // if there is not any shareds record at all
 
     resultShareds.forEach((row, index)=>{
-      sendingData.unitsList.unshift(row.id); //let the latest in the top at client view
+      sendingData.unitsList.unshift(row.exposedId); //let the latest in the top at client view
     });
 
     return sendingData;

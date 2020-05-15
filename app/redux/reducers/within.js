@@ -15,6 +15,7 @@ import {
   SET_BELONGSBYTYPE,
   SUBMIT_FEEDASSIGN,
   SUBMIT_CHAINLIST,
+  SUBMIT_SHAREDSLIST,
   SET_FLAG_CHAINRESPOND
 } from '../types/typesWithin.js';
 import {
@@ -94,6 +95,11 @@ function pageWithin(state = initialGeneral, action){
     case SUBMIT_CHAINLIST:
       return Object.assign({}, state, {
         chainList: { ...state.chainList, ...action.listsObj}
+      })
+      break;
+    case SUBMIT_SHAREDSLIST:
+      return Object.assign({}, state, {
+        sharedsList: { ...state.sharedsList, ...action.listsObj}
       })
       break;
     case SET_FLAG_CHAINRESPOND:

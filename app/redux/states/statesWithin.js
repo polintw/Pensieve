@@ -22,5 +22,8 @@ export const initAround = {
   indexLists: {
     listUnread: [],
     listUnreadNew: [],
+  },
+  sharedsList: {
+    list: []
   }
 }

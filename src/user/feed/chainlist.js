@@ -21,10 +21,10 @@ function _handle_GET_feedChainlist(req, res){
   >>
   check any respond not read:
   1) at least one unread respond, pick latest(by primer_createdAt), combine with id_primer to client
-  2) no respond at all, select latest one by this user from units
-  3) has respond but all read, select all again by respond list, then, pick latest, combine with id_primer back to client (similar to no.1)
+  2) has respond but all read, select all again by respond list, then, pick latest, combine with id_primer back to client (similar to no.1)
     * a special case: the author of share of respond is client himself, still saw it as common
   sendingData {
+    sharedPrimer: ?unitId,
     userShared: ?unitId,
     resToShared: ?unitId,
     resToRespond: ?unitId,
