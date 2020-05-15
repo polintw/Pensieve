@@ -88,9 +88,12 @@ function _handle_GET_feedChainlist(req, res){
       .then((result)=>{
         if(!!result) { //result might be 'null' due to findOne used
           sendingData.latestShared = result.id;
-          sendingData.sharedPrimer = result.id_primer;
           sendingData['temp']['temp_unitIdKeyObj'][result.id] = 'latestShared';
-          sendingData['temp']['temp_unitIdKeyObj'][result.id_primer] = 'sharedPrimer';
+          // and only if there is a primer---or just a general share
+          if(!!result.id_primer){
+            sendingData.sharedPrimer = result.id_primer;
+            sendingData['temp']['temp_unitIdKeyObj'][result.id_primer] = 'sharedPrimer';
+          }
         }
 
         return resolve(sendingData);

@@ -110,6 +110,9 @@ export const i18nUIStringInit = {
      "title_FeedAssigned_": "Pool",
      "title_Chain_Shareds_": "My shareds",
 
+     "message_Chain_noShareds": "share a scene to see how people think.",
+     "message_Chain_noChain": ["hey, ", ", how's your day?"],
+     "message_Chain_byChainInfo": ["your shared had been published successfully.", ["you successfully responds to ", "'s shared."], "responded to your shared.", ["a respond to ", "'s respond to your shared."]],
      "guidingBelongs_EmptyMap": "Set your corner, and taking a look for the distribution of your fellows.",
      "descript_BelongTypeInteract": ["going to renew your ", " ?"],
      "category__Belong_usersCount": ["with ", "users", "way to "],

@@ -166,9 +166,11 @@ class Chain extends React.Component {
 
   render(){
     return (
-      <div>
+      <div
+        className={classnames(styles.comChain)}>
         <div
-          className={classnames(styles.boxFullWide, styles.boxSeperate)}>
+          className={classnames(styles.boxFullWide)}
+          style={{margin: '4px 0'}}>
           <ChainShared/>
         </div>
         {
@@ -182,8 +184,10 @@ class Chain extends React.Component {
           </div>
         }
         <div
-          className={classnames(styles.boxFullWide, styles.boxSeperate)}>
-          <ChainMessage/>
+          className={classnames(styles.boxFullWide, styles.boxSeperate)}
+          style={{textAlign: 'right'}}>
+          <ChainMessage
+            unitsBasic={this.state.unitsBasic}/>
         </div>
 
       </div>

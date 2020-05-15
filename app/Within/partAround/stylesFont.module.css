@@ -3,11 +3,6 @@
   line-height: 1.5;
 }
 
-.fontTitleHint {
-  font-size: 2.1rem;
-  font-weight: 700;
-}
-
 .fontTitle {
   font-size: 3.2rem;
   line-height: 1.5;
@@ -58,8 +53,12 @@ remember all above font style should also have copy in @media neneath
   color: #b8b8b8;
 }
 
-.colorLightHint {
-  color: #a8a8a8;
+.colorEditBlack {
+  color: #545454;
+}
+
+.colorEditLightBlack {
+  color: #757575;
 }
 
 .colorDescripBlack {

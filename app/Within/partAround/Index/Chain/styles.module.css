@@ -1,3 +1,8 @@
+.comChain {
+  display: flex;
+  flex-direction: column;
+}
+
 .boxModule{
   display: flex;
   flex-wrap: wrap;
