@@ -10,7 +10,6 @@ import styles from "./styles.module.css";
 import Around from './partAround/Around.jsx';
 import WithinSign from './partSign/WithinSign.jsx';
 import SvgLogo from '../Components/Svg/SvgLogo.jsx';
-import NavOptions from '../Components/NavOptions.jsx';
 import CustomDialog from '../Components/Dialog/CustomDialog.jsx';
 
 class WithinAround extends React.Component {
@@ -79,9 +78,7 @@ class WithinAround extends React.Component {
             <SvgLogo />
           </div>
         </div>
-        <div style={this.style.Within_Around_NavOptions}>
-          <NavOptions {...this.props}/>
-        </div>
+
         <div
           className={'coverFullDark'}
           onClick={(e) => { e.preventDefault(); e.stopPropagation(); }} />

@@ -1,17 +1,5 @@
 .boxAround {
-  display: flex;
-  flex-wrap: wrap;
   width: 100%;
-}
-
-.boxAroundContent {
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
-}
-
-.boxAroundContentCenter {
-  min-width: 67vw; /* actually, this is not enough for a 13' laptop screen*/
 }
 
 .boxNavAround {
@@ -25,12 +13,23 @@
 }
 
 .boxNavOptions {
-  width: 6.9vw;
-  height: 9.6vh;
+  width: 4.2vw;
+  min-height: 7.6vh;
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 2vh;
+  left: 2.7vw;
   box-sizing: border-box;
+  z-index: 1;
+}
+
+.boxAroundContent {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.boxAroundContentCenter {
+  min-width: 67vw;
 }
 
 
@@ -54,7 +53,8 @@
 
 @media screen and (max-width:1110px) and (min-width: 860px) {
   .boxAroundContentCenter {
-    width: 760px;
+    width: calc(342px * 2 + 1.38vw * 4 + 1.38vw);
+    min-width: 69.7vw; /*calc(32vw + 30.8vw + 1.38vw * 4 + 1.38vw)*/
   }
 
   .boxContentFilledLeft {
@@ -77,6 +77,12 @@
 }
 
 @media screen and (max-width:860px) {
+  .boxAroundContentCenter {
+    min-width: unset;
+    width: calc(342px + 1.38vw * 2);
+    max-width: 99vw;
+  }
+
   .boxContentFilledLeft {
     width: 0;
     min-width: 0; /* overlap basic setting, the 'width' is not enough for the min-width---which has higher priority*/
@@ -85,5 +91,12 @@
   .boxContentFilledRight {
     width: 0;
     min-width: 0; /* overlap basic setting, the 'width' is not enough for the min-width---which has higher priority*/
+  }
+
+  .boxNavAround {
+    width: 100%;
+    height: unset;
+    position: static;
+    box-sizing: border-box;
   }
 }

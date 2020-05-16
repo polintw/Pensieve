@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import Explore from './partExplore/Explore.jsx';
-import NavOptions from '../Components/NavOptions.jsx';
+import NavOptions from '../Components/NavOptions/NavOptions.jsx';
 import ModalBox from '../Components/ModalBox.jsx';
 import ModalBackground from '../Components/ModalBackground.jsx';
 import SingleDialog from '../Components/Dialog/SingleDialog/SingleDialog.jsx';

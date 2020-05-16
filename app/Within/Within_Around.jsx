@@ -14,7 +14,7 @@ import {
   fetchBelongRecords
 } from '../redux/actions/general.js'
 import NavWithin from '../Components/NavWithin/NavWithin.jsx';
-import NavOptions from '../Components/NavOptions.jsx';
+import NavOptions from '../Components/NavOptions/NavOptions.jsx';
 import ModalBox from '../Components/ModalBox.jsx';
 import ModalBackground from '../Components/ModalBackground.jsx';
 import SingleDialog from '../Components/Dialog/SingleDialog/SingleDialog.jsx';
@@ -104,8 +104,8 @@ class WithinAround extends React.Component {
         <div
           className={classnames(styles.boxAround)}>
           <div
-            className={classnames(styles.boxNavAround)}>
-            <NavWithin {...this.props} _refer_to={this._refer_von_cosmic}/>
+            className={classnames(styles.boxNavOptions)}>
+            <NavOptions {...this.props}/>
           </div>
           <div
             className={classnames(styles.boxAroundContent)}>
@@ -119,15 +119,14 @@ class WithinAround extends React.Component {
 
               </Switch>
             </div>
-
             <div
               className={classnames(
                 styles.boxContentFilledRight)}/>
           </div>
-        </div>
-        <div
-          className={classnames(styles.boxNavOptions)}>
-          <NavOptions {...this.props}/>
+          <div
+            className={classnames(styles.boxNavAround)}>
+            <NavWithin {...this.props} _refer_to={this._refer_von_cosmic}/>
+          </div>
         </div>
 
         {

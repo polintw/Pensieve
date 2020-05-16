@@ -24,6 +24,12 @@
   font-style: italic;
 }
 
+.spanNameLayer {
+  white-space: nowrap;
+  font-size: 1.4rem;
+  line-height: 1.71;
+}
+
 .spanNameRegularBold {
   white-space: nowrap;
   font-size: 1.6rem;
@@ -31,16 +37,10 @@
   line-height: 1.5;
 }
 
-.spanNameLayer {
-  white-space: nowrap;
-  font-size: 1.4rem;
-  line-height: 1.71;
-}
-
 .spanNameRegular {
   white-space: nowrap;
-  font-size: 1.4rem;
-  letter-spacing: 0.05rem;
+  font-size: 1.6rem;
+  line-height: 1.5;
 }
 
 .spanNameMedium {

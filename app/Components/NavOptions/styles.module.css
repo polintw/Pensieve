@@ -1,0 +1,46 @@
+.selfCom_NavOptions_svg_ {
+  position: relative;
+  color: #444444;
+  cursor: pointer;
+}
+
+.selfCom_NavOptions_ToolBox_ {
+  min-width: 300%;
+  max-width: 80vw;
+  position: absolute;
+  top: 110%;
+  box-sizing: border-box;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
+  background-color: #FFFFFF;
+  cursor: default; /* block the 'pointer' setting inherit from parent*/
+}
+
+.boxOlist {
+  padding: 0 0 0.5rem 1rem;
+  margin: 0 0 1.5rem;
+  border-bottom: solid 1px #d8d8d8;
+  list-style: none;
+}
+
+.boxLiItem {
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.boxLogout {
+  padding-left: 1rem;
+}
+
+.fontContent {
+  font-size: 1.4rem;
+}
+
+.colorDescripBlack {
+  color: #444444;
+}
+
+.colorOptionsBlack {
+  color: #333333;
+}

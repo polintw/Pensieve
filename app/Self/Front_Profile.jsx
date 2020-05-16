@@ -9,7 +9,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import Sheet from './Profile/Sheet.jsx';
 import MaskProcessing from '../Components/MaskProcessing.jsx';
-import NavOptions from '../Components/NavOptions.jsx';
+import NavOptions from '../Components/NavOptions/NavOptions.jsx';
 import NavWithin from '../Components/NavWithin/NavWithin.jsx';
 
 const styleMiddle ={

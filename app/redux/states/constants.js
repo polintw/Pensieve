@@ -85,14 +85,18 @@ export const i18nUIStringInit = {
      "submit_onBoard_start": "Let's Start",
 
      "category_Belongs_": ["Homeland", "Current Stay"],
+
+     "message_hello": "Hi, ",
      "submit_edit": "Edit",
      "submit_save": "Save",
      "submit_erase": "erase",
      "submit_understand": "Understand",
      "submit_respond": "Respond",
+     "submit_logout": "Log out",
      "Cornerth_inc": "Cornerth., Inc. ",
      "AllRights": "All Rights Reserved.",
 
+     "submit_Options_profile": "My profile",
      "submit_Unit_upload": ["Add image", "Processing..."],
      "descript_Unit_Primer": ["Based on ", "'s Unit", "Based on a published Unit"],
      "guiding_UnitEdit_upload": "Share what you've observed at Your Corner!",
