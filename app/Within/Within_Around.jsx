@@ -105,7 +105,7 @@ class WithinAround extends React.Component {
           className={classnames(styles.boxAround)}>
           <div
             className={classnames(styles.boxNavOptions)}>
-            <NavOptions {...this.props}/>
+            <NavOptions {...this.props} _refer_to={this._refer_von_cosmic}/>
           </div>
           <div
             className={classnames(styles.boxAroundContent)}>

@@ -7,6 +7,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import ModalBox from '../ModalBox.jsx';
 import AccountPalette from '../AccountPalette.jsx';
+import SvgLogo from '../Svg/SvgLogo.jsx';
 
 class NavOptions extends React.Component {
   constructor(props){
@@ -24,8 +25,9 @@ class NavOptions extends React.Component {
   _handleClick_navToolBox(event){
     event.stopPropagation();
     event.preventDefault();
+    let currentTarget = event.currentTarget.attributes.id.value;
     this.setState((prevState, props)=>{
-      return {toolBoxify: prevState.toolBoxify?false:true}
+      return {toolBoxify: prevState.toolBoxify?false: currentTarget }
     })
   }
 
@@ -39,10 +41,28 @@ class NavOptions extends React.Component {
 
   render(){
     return(
-      <div>
+      <div
+        className={classnames(styles.comNavOption)}>
         <div
-          id={"NavOptions_Self"}
-          className={styles.selfCom_NavOptions_svg_}
+          className={classnames(styles.boxLogo, styles.smallDisplayBox)}
+          onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_to('', '/')}}>
+          <SvgLogo
+            reverseColor={true}/>
+        </div>
+
+        <div
+          id={"NavOptions_Self_small"}
+          className={classnames(styles.selfCom_NavOptions_svg_, 'colorWhite', styles.smallDisplayBox)}
+          onClick={this._handleClick_navToolBox}>
+          <AccountPalette
+            size={'regular'}
+            accountFirstName={this.props.userInfo.firstName}
+            accountLastName={this.props.userInfo.lastName}
+            styleFirst={{ fontWeight: '600' }}/>
+        </div>
+        <div
+          id={"NavOptions_Self_"}
+          className={classnames(styles.selfCom_NavOptions_svg_, 'colorDescripBlack', styles.smallDisplayNone)}
           onClick={this._handleClick_navToolBox}>
           <AccountPalette
             size={'regular'}
@@ -54,12 +74,12 @@ class NavOptions extends React.Component {
         </div>
         {
           this.state.toolBoxify &&
-          <ModalBox containerId="NavOptions_Self">
+          <ModalBox containerId={this.state.toolBoxify}>
             <div
               className={classnames(
                 styles.selfCom_NavOptions_ToolBox_,
                 styles.fontContent,
-                styles.colorOptionsBlack
+                'colorOptionsBlack'
               )}>
               <div style={{marginBottom: '2rem'}}>
                 <span style={{fontSize: '1.6rem'}}>

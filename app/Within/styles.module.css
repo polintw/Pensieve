@@ -1,5 +1,6 @@
 .boxAround {
   width: 100%;
+  z-index: 3; /* set as a 'base': on the contrast to the 'Modal'*/
 }
 
 .boxNavAround {
@@ -9,11 +10,12 @@
   right: 0;
   top: 0;
   box-sizing: border-box;
+  padding: 0 0.5vw;
   background-color: #fff8f7;
 }
 
 .boxNavOptions {
-  width: 4.2vw;
+  min-width: 4.2vw;
   min-height: 7.6vh;
   position: fixed;
   top: 2vh;
@@ -98,5 +100,16 @@
     height: unset;
     position: static;
     box-sizing: border-box;
+  }
+
+  .boxNavOptions {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    left: 0;
+    background-color: rgb(117,117,117);
+    box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
   }
 }

@@ -1,14 +1,21 @@
+.comNavOption {
+
+}
+
+.smallDisplayBox {
+  display: none;
+}
+
 .selfCom_NavOptions_svg_ {
   position: relative;
-  color: #444444;
   cursor: pointer;
 }
 
 .selfCom_NavOptions_ToolBox_ {
-  min-width: 300%;
+  min-width: 180px;
   max-width: 80vw;
   position: absolute;
-  top: 110%;
+  top: 120%;
   box-sizing: border-box;
   padding: 15px;
   border-radius: 8px;
@@ -19,7 +26,7 @@
 
 .boxOlist {
   padding: 0 0 0.5rem 1rem;
-  margin: 0 0 1.5rem;
+  margin: 0 0 2rem;
   border-bottom: solid 1px #d8d8d8;
   list-style: none;
 }
@@ -33,14 +40,35 @@
   padding-left: 1rem;
 }
 
+.boxLogo {
+  height: 20px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
 .fontContent {
   font-size: 1.4rem;
 }
 
-.colorDescripBlack {
-  color: #444444;
-}
+@media screen and (max-width:860px) {
+  .comNavOption {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    width: 100%;
+    padding: 0 1.38vw;
+  }
 
-.colorOptionsBlack {
-  color: #333333;
+  .smallDisplayBox {
+    display: block;
+  }
+
+  .smallDisplayNone {
+    display: none;
+  }
+
+  .selfCom_NavOptions_ToolBox_{
+    left: unset;
+    right: 0;
+  }
 }

@@ -39,7 +39,11 @@ class NavWithin extends React.Component {
           className={classnames(styles.boxFooter)}>
           <ServiceLinks />
           <div
-            className={classnames(styles.boxRightsClaim)}>
+            className={classnames(
+              styles.boxRightsClaim,
+              'fontTitleSmall',
+              'colorDescripBlack'
+            )}>
             <span>{this.props.i18nUIString.catalog["Cornerth_inc"]}</span>
             <span>{this.props.i18nUIString.catalog["AllRights"]}</span>
           </div>

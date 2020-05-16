@@ -1,3 +1,45 @@
+.fontTitleSmall {
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+.fontContent {
+  font-size: 1.4rem;
+  line-height: 1.5;
+}
+
+.colorWhite {
+  color: #ffffff
+}
+
+.colorEditBlack {
+  color: #545454;
+}
+
+.colorEditLightBlack {
+  color: #757575;
+}
+
+.colorStandard {
+  color: #ff8168;
+}
+
+.colorGrey {
+  color: #a3a3a3;
+}
+
+.colorDarkGrey {
+  color: #979797;
+}
+
+.colorDescripBlack {
+  color: #444444;
+}
+
+.colorOptionsBlack {
+  color: #333333;
+}
+
 .boxServiceLink {
   display: flex;
   flex-wrap: wrap;
@@ -15,8 +57,7 @@
 }
 
 .fontServiceLink {
-  font-size: 1.21rem;
-  letter-spacing: 0.07rem;
+  font-size: 1.2rem;
   color: #ababab;
 }
 
@@ -40,7 +81,6 @@
 .spanNameRegular {
   white-space: nowrap;
   font-size: 1.6rem;
-  line-height: 1.5;
 }
 
 .spanNameMedium {
