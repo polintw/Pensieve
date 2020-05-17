@@ -12,6 +12,7 @@ import stylesNail from "../stylesNail.module.css";
 import stylesFont from '../../stylesFont.module.css';
 import ChainShared from './ChainShared.jsx';
 import ChainMessage from './ChainMessage.jsx';
+import IndexShare from '../IndexShare/IndexShare.jsx';
 import NailFeed from '../../../../Components/Nails/NailFeed/NailFeed.jsx';
 import {axios_get_UnitsBasic} from '../../../../utils/fetchHandlers.js';
 import {
@@ -172,6 +173,12 @@ class Chain extends React.Component {
           className={classnames(styles.boxFullWide)}
           style={{margin: '4px 0 8px'}}>
           <ChainShared/>
+        </div>
+        <div
+          className={classnames(styles.boxIndexShare)}>
+          <IndexShare
+            _submit_Share_New={()=>{ this._set_ChainUnits([{key: 'respond',value:true}]);}}
+            _refer_von_cosmic={this.props._refer_von_cosmic}/>
         </div>
         {
           (this.props.chainList.listOrderedChain.length > 0) &&

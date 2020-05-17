@@ -7,7 +7,6 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import CreateShare from '../../Unit/Editing/CreateShare.jsx';
-import SvgCreateDashed from '../Svg/SvgCreateDashed.jsx';
 
 class ShareUpload extends React.Component {
   constructor(props){
@@ -17,7 +16,8 @@ class ShareUpload extends React.Component {
       onCreate: false,
 
     };
-    this._handleMouseOn_Create = ()=> this.setState((prevState,props)=>{return {onCreate: prevState.onCreate?false:true}});
+    this._handleEnter_Upload = this._handleEnter_Upload.bind(this);
+    this._handleLeave_Upload = this._handleLeave_Upload.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -35,13 +35,12 @@ class ShareUpload extends React.Component {
   render(){
     return(
       <div
-        className={classnames(styles.comShareUpload)}>
-        <div
-          className={classnames(styles.boxSvgBg)}
-          onMouseEnter={this._handleMouseOn_Create}
-          onMouseLeave={this._handleMouseOn_Create}>
-          <SvgCreateDashed/>
-        </div>
+        className={classnames(
+          styles.comShareUpload,
+          {[styles.comMouseEnter]: this.state.onCreate}
+        )}
+        onMouseEnter={this._handleEnter_Upload}
+        onMouseLeave={this._handleLeave_Upload}>
         <CreateShare
           forceCreate={this.state.editingOpen}
           _submit_Share_New={this.props._submit_Share_New}
@@ -49,6 +48,15 @@ class ShareUpload extends React.Component {
       </div>
     )
   }
+
+  _handleEnter_Upload(e){
+    this.setState({onCreate: true})
+  }
+
+  _handleLeave_Upload(e){
+    this.setState({onCreate: false})
+  }
+
 }
 
 const mapStateToProps = (state)=>{

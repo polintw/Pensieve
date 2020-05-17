@@ -55,8 +55,26 @@
   opacity: 1;
 }
 
+.boxIndexShare {
+  width: 12.5vw;
+  min-width: 90px;
+  position: fixed;
+  top: 64.3vh;
+  left: 2.7vw;
+  z-index: 1;
+}
+
 @media screen and (max-width:860px) {
   .boxModuleSmall {
     justify-content: center;
   }
+
+  .boxIndexShare {
+    width: 100%;
+    position: static;
+    margin: 8px 0;
+    z-index: unset;
+    overflow: hidden;
+  }
+
 }

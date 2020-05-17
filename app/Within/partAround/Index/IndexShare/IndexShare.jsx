@@ -13,7 +13,7 @@ class IndexShare extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      mouseEnter: false
     };
   }
 
@@ -31,8 +31,7 @@ class IndexShare extends React.Component {
 
   render(){
     return(
-      <div
-        className={classnames(styles.comIndexShare)}>
+      <div>
         <div
           className={classnames(styles.boxGuiding)}>
           <span

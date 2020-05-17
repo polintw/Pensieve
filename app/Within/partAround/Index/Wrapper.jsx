@@ -15,7 +15,6 @@ import {
 } from './utils.js';
 import Chain from './Chain/Chain.jsx';
 import FeedAssigned from './FeedAssigned/FeedAssigned.jsx';
-import IndexShare from './IndexShare/IndexShare.jsx';
 import OnBoard from '../OnBoard/Wrapper.jsx';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
 import ModalBox from '../../../Components/ModalBox.jsx';
@@ -154,12 +153,6 @@ class Wrapper extends React.Component {
           </div>
         </div>
 
-        <div
-          className={classnames(styles.boxIndexShare)}>
-          <IndexShare
-            _submit_Share_New={this._createdRespond}
-            _refer_von_cosmic={this.props._refer_von_cosmic}/>
-        </div>
         <Route
           path={"/unit"}
           render={(props)=> {
