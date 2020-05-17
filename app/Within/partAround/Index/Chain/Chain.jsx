@@ -125,7 +125,7 @@ class Chain extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-    //monitor flag for this comp.
+    //monitor flag for this comp: 1) new shared by user.
     if(this.props.flagChainFetRespond && this.props.flagChainFetRespond != prevProps.flagChainFetRespond) this._set_ChainUnits([{key: 'respond',value:true}]);
   }
 

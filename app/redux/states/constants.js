@@ -126,5 +126,6 @@ export const i18nUIStringInit = {
      "descript_AroundIndex_footer": "You've seen the edge of Cornerth.!",
      "descript_AroundIndex_footer_noshared": "how about yours?",
      'descript_AroundIndex_footer_BelongHint': "start browsing by your current stay or homeland!",
+     "guiding_AroundIndex_Share": "Share something",
    }
 }

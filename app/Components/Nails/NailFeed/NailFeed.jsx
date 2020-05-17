@@ -10,6 +10,7 @@ import stylesFont from '../stylesFont.module.css';
 import NailMarksPreview from '../components/NailMarksPreview.jsx';
 import ImgPreview from '../../ImgPreview.jsx';
 import AccountPalette from '../../AccountPalette.jsx';
+import SvgPin from '../../Svg/SvgPin.jsx';
 import {
   renderNodesRows,
 } from '../generators.js';
@@ -87,7 +88,12 @@ class NailFeed extends React.Component {
           <div
             className={classnames(styles.boxTitle)}>
             <div
-              style={{width: "30px", height: "30px"}}>
+              className={classnames(styles.boxTitlePin)}>
+              <div
+                style={{width: "11px", height: "16px"}}>
+                <SvgPin
+                  mouseOn={this.state.onFrame}/>
+              </div>
             </div>
             <div
               className={classnames(styles.boxNodes)}>
@@ -107,7 +113,7 @@ class NailFeed extends React.Component {
                 <div className={classnames(styles.boxAuthor, stylesFont.colorStandard)}>
                   <AccountPalette
                     size={"regularBold"}
-                    userId={this.props.unitBasic.authorId}/>                  
+                    userId={this.props.unitBasic.authorId}/>
                 </div>
               </div>
             ): (

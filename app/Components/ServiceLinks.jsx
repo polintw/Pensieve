@@ -55,12 +55,13 @@ class ServiceLinks extends React.Component {
             'plainLinkButton',
             'tagServiceLink',
             'fontServiceLink',
+            'colorGrey',
             {['tagServiceLinkMouse']: this.state.mouseOn=='about'}
           )}
           onMouseEnter={this._handleEnter_Link}
           onMouseLeave={this._handleLeave_Link}>
           {"About"}</a>
-        <span className={classnames('tagServiceLink', 'fontServiceLink')}>{"．"}</span>
+        <span className={classnames('tagServiceLink', 'fontServiceLink', 'colorGrey')}>{"．"}</span>
         <a
           href="/a/privacy"
           method="privacy"
@@ -68,12 +69,13 @@ class ServiceLinks extends React.Component {
             'plainLinkButton',
             'tagServiceLink',
             'fontServiceLink',
+            'colorGrey',
             {['tagServiceLinkMouse']: this.state.mouseOn=='privacy'}
           )}
           onMouseEnter={this._handleEnter_Link}
           onMouseLeave={this._handleLeave_Link}>
           {"Privacy"}</a>
-        <span className={classnames('tagServiceLink', 'fontServiceLink')}>{"．"}</span>
+        <span className={classnames('tagServiceLink', 'fontServiceLink', 'colorGrey')}>{"．"}</span>
         <a
           href="/a/terms"
           method="terms"
@@ -81,12 +83,13 @@ class ServiceLinks extends React.Component {
             'plainLinkButton',
             'tagServiceLink',
             'fontServiceLink',
+            'colorGrey',
             {['tagServiceLinkMouse']: this.state.mouseOn=='terms'}
           )}
           onMouseEnter={this._handleEnter_Link}
           onMouseLeave={this._handleLeave_Link}>
           {"Terms"}</a>
-        <span className={classnames('tagServiceLink', 'fontServiceLink')}>{"．"}</span>
+        <span className={classnames('tagServiceLink', 'fontServiceLink', 'colorGrey')}>{"．"}</span>
         <a
           href="https://www.facebook.com/cornerth.center/"
           target="_blank"
@@ -95,6 +98,7 @@ class ServiceLinks extends React.Component {
             'plainLinkButton',
             'tagServiceLink',
             'fontServiceLink',
+            'colorGrey',
             {['tagServiceLinkMouse']: this.state.mouseOn=='contact'}
           )}
           onMouseEnter={this._handleEnter_Link}

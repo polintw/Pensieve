@@ -30,3 +30,11 @@
   width: 100%;
   border: dashed 1px #d8d8d8;
 }
+
+.boxIndexShare {
+  width: 12.5vw;
+  min-width: 90px;
+  position: fixed;
+  top: 64.3vh;
+  left: 2.7vw;
+}

@@ -10,6 +10,7 @@ import stylesFont from '../stylesFont.module.css';
 import NailMarksPreview from '../components/NailMarksPreview.jsx';
 import ImgPreview from '../../ImgPreview.jsx';
 import AccountPalette from '../../AccountPalette.jsx';
+import SvgPin from '../../Svg/SvgPin.jsx';
 import {
   renderNodesRows,
 } from '../generators.js';
@@ -111,7 +112,12 @@ const contentBoxMarks = (self)=>{
       <div
         className={classnames(styles.boxTitle)}>
         <div
-          style={{width: "30px", height: "30px"}}>
+          className={classnames(styles.boxTitlePin)}>
+          <div
+            style={{width: "11px", height: "16px"}}>
+            <SvgPin
+              mouseOn={self.state.onFrame}/>
+          </div>
         </div>
         <div
           className={classnames(styles.boxNodes)}>

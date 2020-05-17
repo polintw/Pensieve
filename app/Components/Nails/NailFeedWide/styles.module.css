@@ -57,6 +57,14 @@
   max-width: 100%;
 }
 
+.boxTitlePin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 3rem;
+  height: 3rem;
+}
+
 @media screen and (max-width:860px) {
   .frmaeSmall {
     display: inline-block;

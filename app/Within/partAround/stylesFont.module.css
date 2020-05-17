@@ -69,6 +69,10 @@ remember all above font style should also have copy in @media neneath
   color: #545454;
 }
 
+.colorStandard {
+  color: #ff8168;
+}
+
 .colorCoral {
   color: #ff8168;
 }
