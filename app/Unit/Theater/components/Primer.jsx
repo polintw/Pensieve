@@ -32,6 +32,7 @@ class Primer extends React.Component {
     this._set_UnitCurrentPrimer = this._set_UnitCurrentPrimer.bind(this);
     this._handleEnter_primerLine = this._handleEnter_primerLine.bind(this);
     this._handleLeave_primerLine = this._handleLeave_primerLine.bind(this);
+    this._handleClick_Primerhref = this._handleClick_Primerhref.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -57,13 +58,14 @@ class Primer extends React.Component {
         style={{lineHeight: 'unset'}}>
         <span style={{cursor: 'default'}}>{this.props.i18nUIString.catalog["descript_Unit_Primer"][0]}</span>
         {
+          /*
+          actually this is should  be a <div>, or any other than <Link>.
+          we just under time pressure to have a detaul replacement.
+          */
           (this.props.unitCurrent.primer.primerId.length > 0) &&
           <Link
-            to={{
-              pathname: this.props.match.path, //should always be ".../unit" because primer only used in a Unit
-              search: '?theater&unitId='+this.props.unitCurrent.primer.primerId,
-              state: {from: this.props.location}
-            }}
+            to={''}
+            onClick={this._handleClick_Primerhref}
             className={classnames('plainLinkButton', stylesFont.colorStandard)}
             style={{
               display: 'inline-block',
@@ -94,6 +96,22 @@ class Primer extends React.Component {
         <span>{this.props.i18nUIString.catalog["descript_Unit_Primer"][2]}</span>
       </div>
     )
+  }
+
+  _handleClick_Primerhref(event){
+    event.preventDefault();
+    event.stopPropagation();
+    if(!this.props.location.pathname.includes('explore/unit')){
+      // the browser, which do not know the origin it has was modified, need to be modified again to have the pratical history
+      window.history.replaceState(this.props.location.state, '', this.props.location.pathname+this.props.location.search);
+    };
+    //and Notice! history should be pushed after the replaceState has been done
+    this.props.history.push({
+      pathname: this.props.match.path, //should always be ".../unit" because primer only used in a Unit
+      search: '?unitId='+this.props.unitCurrent.primer.primerId+'&unitView=theater',
+      state: {from: this.props.location}
+    });
+
   }
 
   _set_UnitCurrentPrimer(){

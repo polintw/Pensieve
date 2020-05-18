@@ -60,14 +60,14 @@ class Theater extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot){
     //due to update to unitId only still Redirect to a new URL
     //check again to re-define the URL
-    if(!this.props.location.pathname.includes('explore/unit')) window.history.replaceState(this.props.location.state, '', '/cosmic/explore/unit?unitId='+this.unitId);
+    if(!this.props.location.pathname.includes('explore/unit')) window.history.replaceState(this.props.location.state, '', '/cosmic/explore/unit?unitId='+this.unitId+'&unitView=theater');
     //Note that, replaceState would also change the behavior of 'back' by browser, (only back to the new path)
     //we need to modify the behavior manually one day by 'popstate' iterate by the replaceState
   }
 
   componentDidMount(){
     //replace the URL display in the browser bar if not from independt page
-    if(!this.props.location.pathname.includes('explore/unit')) window.history.replaceState(this.props.location.state, '', '/cosmic/explore/unit?unitId='+this.unitId);
+    if(!this.props.location.pathname.includes('explore/unit')) window.history.replaceState(this.props.location.state, '', '/cosmic/explore/unit?unitId='+this.unitId+'&unitView=theater');
     //Note that, replaceState would also change the behavior of 'back' by browser, (only back to the new path)
     //we need to modify the behavior manually one day by 'popstate' iterate by the replaceState
   }
@@ -87,6 +87,7 @@ class Theater extends React.Component {
       <div
         className={classnames(styles.comTheater)}>
         <Layers
+          {...this.props}
           initStatus={this.unitInit}
           _close_theater={this._close_theater}
           _refer_von_unit={this.props._refer_von_unit}/>

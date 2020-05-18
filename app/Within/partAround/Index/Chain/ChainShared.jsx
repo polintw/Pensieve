@@ -86,7 +86,7 @@ class ChainShared extends React.Component {
           unitid={unitId}
           to={{
             pathname: "/unit",
-            search: '?theater&unitId='+ unitId,
+            search: '?theater&unitId='+ unitId+'&unitView=theater',
             state: {from: this.props.location}
           }}
           className={classnames(

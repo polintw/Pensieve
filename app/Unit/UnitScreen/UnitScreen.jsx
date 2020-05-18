@@ -172,7 +172,9 @@ class UnitScreen extends React.Component {
   }
 
   _render_switch(){
-    switch (this.props.unitView) {
+    let paramUnitView = this.urlParams.get('unitView');
+
+    switch (paramUnitView) {
       case 'theater':
         return (
           <Theater
@@ -197,17 +199,22 @@ class UnitScreen extends React.Component {
         )
         break;
       default:
-        return null
+        return (
+          <Theater
+            {...this.props}
+            _reset_UnitMount={this._reset_UnitMount}
+            _close_theaterHeigher={this._close_modal_Unit}/>
+        )
+        break;
     };
   }
 
 
   render(){
     if(this.state.close){let pathTo=this.props.location.pathname.replace("/unit","");return <Redirect to={pathTo}/>}
-      //Notice !! beneath are remaining before there is a Related. Rm them only if Theater was no longer need a second comp.
-    let params = new URLSearchParams(this.props.location.search); //we need value in URL query
-    let paramsTheater = params.has('theater'); //bool, true if there is 'theater'
-    this.unitId = params.get('unitId');
+
+    this.urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
+    this.unitId = this.urlParams.get('unitId');
 
     return(
       <ModalBox containerId="root">

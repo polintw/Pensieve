@@ -61,7 +61,7 @@ class NailFeed extends React.Component {
         ref={this.nailUnitLink}
         to={{
           pathname: this.props.linkPath,
-          search: '?theater&unitId='+this.props.unitId,
+          search: '?unitId='+this.props.unitId+'&unitView=theater',
           state: {from: this.props.location}
         }}
         className={classnames(

@@ -23,6 +23,7 @@ class Wrapper extends React.Component {
     this._handleClick_Account = this._handleClick_Account.bind(this);
     this._handleEnter_primerImg = this._handleEnter_primerImg.bind(this);
     this._handleLeave_primerImg = this._handleLeave_primerImg.bind(this);
+    this._handleClick_Primerhref = this._handleClick_Primerhref.bind(this);
   }
 
   _handleClick_Account(event){
@@ -45,7 +46,8 @@ class Wrapper extends React.Component {
               nouns={this.props.unitCurrent.nouns}
               _handleClick_listNoun={this.props._refer_toandclose}/>
           }
-          <SidePanel/>
+          <SidePanel
+            {...this.props}/>
         </div>
         <div
           className={classnames(styles.boxContentWidth, styles.boxFrame)}>
@@ -87,11 +89,8 @@ class Wrapper extends React.Component {
           {
             this.props.unitCurrent.primerify &&
             <Link
-              to={{
-                pathname: this.props.match.path, //should always be ".../unit" because primer only used in a Unit
-                search: '?theater&unitId='+this.props.unitCurrent.primer.primerId,
-                state: {from: this.props.location}
-              }}
+              to={''}
+              onClick={this._handleClick_Primerhref}
               className={classnames('plainLinkButton', styles.boxLinkPrimerImg)}
               style={{opacity: this.state.onPrimerImg? '1' : "0.3"}}
               onMouseEnter={this._handleEnter_primerImg}
@@ -106,6 +105,21 @@ class Wrapper extends React.Component {
 
       </div>
     )
+  }
+
+  _handleClick_Primerhref(event){
+    event.preventDefault();
+    event.stopPropagation();
+    if(!this.props.location.pathname.includes('explore/unit')){
+      // the browser, which do not know the origin it has was modified, need to be modified again to have the pratical history
+      window.history.replaceState(this.props.location.state, '', this.props.location.pathname+this.props.location.search);
+    };
+    //and Notice! history should be pushed after the replaceState has been done
+    this.props.history.push({
+      pathname: this.props.match.path, //should always be ".../unit" because primer only used in a Unit
+      search: '?unitId='+this.props.unitCurrent.primer.primerId+'&unitView=theater',
+      state: {from: this.props.location}
+    });
   }
 
   _handleEnter_primerImg(e){

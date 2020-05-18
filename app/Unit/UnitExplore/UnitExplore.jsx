@@ -181,7 +181,9 @@ class UnitExplore extends React.Component {
   }
 
   _render_switch(){
-    switch (this.props.unitView) {
+    let paramUnitView = this.urlParams.get('unitView');
+
+    switch (paramUnitView) {
       case 'theater':
         return (
           <Theater
@@ -212,10 +214,11 @@ class UnitExplore extends React.Component {
   }
 
   render(){
-    let params = new URLSearchParams(this.props.location.search); //we need value in URL query
+    this.urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
+
     // if there was any difference between old version, here it is, param was now 'related' sonsitive
-    this.paramsRelated = params.has('related'); //declaim here and would be used throughout the life cycle
-    this.unitId = params.get('unitId');
+    this.paramsRelated = this.urlParams.has('related'); //declaim here and would be used throughout the life cycle
+    this.unitId = this.urlParams.get('unitId');
 
     if(this.state.close){return <Redirect to={{
         pathname: this.props.location.pathname,

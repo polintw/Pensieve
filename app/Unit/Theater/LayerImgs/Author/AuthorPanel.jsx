@@ -40,6 +40,17 @@ class AuthorPanel extends React.Component {
   _handleClick_UnitAction_edit(event){
     event.preventDefault();event.stopPropagation();
     this.props._set_state_UnitView("editing");
+    // now the unitView was switch by the param in URL
+    if(!this.props.location.pathname.includes('explore/unit')){
+      // the browser, which do not know the origin it has was modified, need to be modified again to have the pratical history
+      window.history.replaceState(this.props.location.state, '', this.props.location.pathname+this.props.location.search);
+    };
+    let nextSearch = this.props.location.search.replace("unitView=theater","unitView=editing");
+    this.props.history.push({
+      pathname: this.props.match.path,
+      search: nextSearch,
+      state: {from: this.props.location}
+    });
   }
 
   _handleClick_UnitAction_erase(event){

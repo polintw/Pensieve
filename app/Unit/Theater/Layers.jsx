@@ -62,6 +62,7 @@ class Layers extends React.Component {
   _render_ScrollLayers(){
     return (
       <WrapperImg
+        {...this.props}
         lockify={this.state.lockify}
         moveCount={this.state.moveCount}
         marksStatus={this.state.marksStatus}
