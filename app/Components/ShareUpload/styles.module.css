@@ -12,6 +12,32 @@
   background-color: #FFFFFF;
 }
 
+.boxWriter {
+  position: absolute;
+  left: 10%;
+  top: 17.85%;
+}
+
+/* ref: https://codepen.io/geoffgraham/pen/jrWwWM */
+.spanWriter {
+  display: inline-block;
+  height: 4rem;
+  padding-right: 2px;
+  white-space: nowrap;
+  border-right: solid 3px #ff906c;
+  overflow: hidden;
+}
+
+.spanWriterTyping {
+  animation: blink-caret .7s step-end infinite;
+}
+
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: #ff906c }
+}
+
 @media screen and (max-width:860px) {
   .comShareUpload {
     border-radius: 8px;

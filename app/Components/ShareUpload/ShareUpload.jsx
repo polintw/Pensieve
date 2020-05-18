@@ -13,15 +13,16 @@ class ShareUpload extends React.Component {
     super(props);
     this.state = {
       editingOpen: false,
+      typeWriterText: '',
       onCreate: false,
-
     };
     this._handleEnter_Upload = this._handleEnter_Upload.bind(this);
     this._handleLeave_Upload = this._handleLeave_Upload.bind(this);
+    this._setInterval_typeWriter = this._setInterval_typeWriter.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-
+    if(this.state.onCreate && !prevState.onCreate) this._setInterval_typeWriter();
   }
 
   componentDidMount() {
@@ -41,6 +42,17 @@ class ShareUpload extends React.Component {
         )}
         onMouseEnter={this._handleEnter_Upload}
         onMouseLeave={this._handleLeave_Upload}>
+        <div
+          className={classnames(
+            styles.boxWriter)}>
+            <span
+              className={classnames(
+                styles.spanWriter, 'fontTitleHuge', 'colorStandard',
+                {[styles.spanWriterTyping]: this.state.onCreate}
+              )}>
+              {this.state.typeWriterText}
+            </span>
+        </div>
         <CreateShare
           forceCreate={this.state.editingOpen}
           _submit_Share_New={this.props._submit_Share_New}
@@ -49,12 +61,31 @@ class ShareUpload extends React.Component {
     )
   }
 
+  _setInterval_typeWriter(){
+    this._timer_typeWriter = setInterval(function(){
+      let textShareUpload = this.props.i18nUIString.catalog["title_shareUpload_typewriter"];
+      let currentTypeWriter = this.state.typeWriterText;
+
+      if(currentTypeWriter.length < textShareUpload.length){
+        this.setState((prevState,props)=>{
+          return {typeWriterText: prevState.typeWriterText+ textShareUpload[prevState.typeWriterText.length]}
+        })
+      }
+      else {
+        clearInterval(this._timer_typeWriter)
+      }
+    }.bind(this), 200);
+  }
+
   _handleEnter_Upload(e){
     this.setState({onCreate: true})
   }
 
   _handleLeave_Upload(e){
-    this.setState({onCreate: false})
+    clearInterval(this._timer_typeWriter);
+    this.setState({
+      typeWriterText: '',
+      onCreate: false})
   }
 
 }

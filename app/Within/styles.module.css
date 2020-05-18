@@ -98,7 +98,8 @@
   .boxNavAround {
     width: 100%;
     height: unset;
-    position: static;
+    position: sticky;
+    top: unset;
     box-sizing: border-box;
   }
 

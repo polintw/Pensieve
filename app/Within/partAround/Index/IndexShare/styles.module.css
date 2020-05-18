@@ -2,6 +2,10 @@
   margin-bottom: 1rem;
 }
 
+.boxGuidingMouseOn {
+  display: none;
+}
+
 .boxShareUpload {
   width: 100%;
   height: 17.76vh;

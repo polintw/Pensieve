@@ -93,6 +93,7 @@ export const i18nUIStringInit = {
      "submit_understand": "Understand",
      "submit_respond": "Respond",
      "submit_logout": "Log out",
+     "title_share": "Share",
      "Cornerth_inc": "Cornerth., Inc. ",
      "AllRights": "All Rights Reserved.",
 
@@ -105,6 +106,7 @@ export const i18nUIStringInit = {
      "message_UnitEdit_tooManySpot": "A better spot? But too many paragraph would be a burdon to readers. Please delete an old one before you implement this new!",
      "message_UnitEdit_ruleAssignedNodes": ["Select only one corner from where you stay, and one from homeland."],
 
+     "title_shareUpload_typewriter": ['S','h','a','r','e'],
      "guidingCreateShare_AssignGroup": "Share to Fellows from/at",
      "guiding_FeedAssigned_noneAssigned": "Not yet any unit was shared. But let's take a look at other places:",
      "message_Unit_Editing_AssignNotAllowed": "the corner linked to could Not be changed after first release.",

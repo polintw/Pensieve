@@ -3,6 +3,10 @@
   flex-direction: column;
 }
 
+.boxChainModule {
+  padding-bottom: 4px;
+}
+
 .boxModule{
   display: flex;
   flex-wrap: wrap;
@@ -67,6 +71,11 @@
 @media screen and (max-width:860px) {
   .boxModuleSmall {
     justify-content: center;
+  }
+
+  .boxChainModule {
+    display: flex;
+    flex-direction: column-reverse;
   }
 
   .boxIndexShare {

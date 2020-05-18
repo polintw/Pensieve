@@ -180,21 +180,24 @@ class Chain extends React.Component {
             _submit_Share_New={()=>{ this._set_ChainUnits([{key: 'respond',value:true}]);}}
             _refer_von_cosmic={this.props._refer_von_cosmic}/>
         </div>
-        {
-          (this.props.chainList.listOrderedChain.length > 0) &&
-          <div
-            className={classnames(
-              styles.boxModule,
-              styles.boxModuleSmall
-            )}>
-            {this._render_ChainUnits()}
-          </div>
-        }
         <div
-          className={classnames(styles.boxFullWide, styles.boxSeperate)}
-          style={{textAlign: 'right'}}>
-          <ChainMessage
-            unitsBasic={this.state.unitsBasic}/>
+          className={classnames(styles.boxChainModule)}>
+          {
+            (this.props.chainList.listOrderedChain.length > 0) &&
+            <div
+              className={classnames(
+                styles.boxModule,
+                styles.boxModuleSmall
+              )}>
+              {this._render_ChainUnits()}
+            </div>
+          }
+          <div
+            className={classnames(styles.boxFullWide, styles.boxSeperate)}
+            style={{marginBottom: '4px', textAlign: 'right'}}>
+            <ChainMessage
+              unitsBasic={this.state.unitsBasic}/>
+          </div>
         </div>
 
       </div>
