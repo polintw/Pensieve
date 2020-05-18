@@ -54,9 +54,8 @@ class ShareUpload extends React.Component {
             </span>
         </div>
         <CreateShare
-          forceCreate={this.state.editingOpen}
-          _submit_Share_New={this.props._submit_Share_New}
-          _refer_von_Create={this.props._refer_von_Create}/>
+          {...this.props}
+          forceCreate={this.state.editingOpen}/>
       </div>
     )
   }

@@ -177,8 +177,8 @@ class Chain extends React.Component {
         <div
           className={classnames(styles.boxIndexShare)}>
           <IndexShare
-            _submit_Share_New={()=>{ this._set_ChainUnits([{key: 'respond',value:true}]);}}
-            _refer_von_cosmic={this.props._refer_von_cosmic}/>
+            {...this.props}
+            _set_ChainUnits={this._set_ChainUnits}/>
         </div>
         <div
           className={classnames(styles.boxChainModule)}>

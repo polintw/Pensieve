@@ -1,6 +1,6 @@
 .comNavWithin {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   flex-wrap: wrap;
   align-items: flex-end;
   align-content: space-between;
@@ -14,7 +14,6 @@
   max-width: 27vw;
   min-width: 9vw;
   box-sizing: border-box;
-  margin-top: 3.8vh;
   margin-bottom: 2.66vh;
   mix-blend-mode: darken;
   text-align: center;

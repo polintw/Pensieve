@@ -139,7 +139,7 @@ class UnitExplore extends React.Component {
     if(!this.paramsRelated) document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:hidden;");
     else{
       document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:scroll;")
-      //2) in state, if 'close' is true but the paramsRelated was false
+      //2) in state, if 'close' is true 'and' the paramsRelated was true, too
       //that's mean the Redirect happened, & should not redirect again
       if(this.state.close) this.setState({close: false});
       /*

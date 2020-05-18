@@ -15,6 +15,7 @@ class IndexShare extends React.Component {
     this.state = {
       mouseEnter: false
     };
+    this._submit_Share_New = this._submit_Share_New.bind(this);
     this._handleEnter_Share = this._handleEnter_Share.bind(this);
     this._handleLeave_Share = this._handleLeave_Share.bind(this);
   }
@@ -48,7 +49,8 @@ class IndexShare extends React.Component {
           onMouseEnter={this._handleEnter_Share}
           onMouseLeave={this._handleLeave_Share}>
           <ShareUpload
-            _submit_Share_New={this.props._submit_Share_New}
+            {...this.props}
+            _submit_Share_New={this._submit_Share_New}
             _refer_von_Create={this.props._refer_von_cosmic}/>
         </div>
 
@@ -62,6 +64,17 @@ class IndexShare extends React.Component {
 
   _handleLeave_Share(e){
     this.setState({mouseEnter: false})
+  }
+
+  _submit_Share_New(){
+    this.props._set_ChainUnits([{key: 'respond',value:true}]);
+    // and remember the editing modal was opened by URL change
+    let lastState = this.props.location.state.from ; // because we are pretty sure there is a "from" obj when opened EditingModal
+    this.props.history.replace({
+      pathname: lastState.pathname,
+      search: lastState.search,
+      state: lastState.state
+    });
   }
 }
 
