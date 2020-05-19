@@ -7,49 +7,26 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import Around from './partAround/Around.jsx';
 import WithinSign from './partSign/WithinSign.jsx';
-import SvgLogo from '../Components/Svg/SvgLogo.jsx';
-import CustomDialog from '../Components/Dialog/CustomDialog.jsx';
+import NavWithin from '../Components/NavWithin/NavWithin.jsx';
+import NavOptions from '../Components/NavOptions/NavOptions.jsx';
 
-class WithinAround extends React.Component {
+class Within_Sign extends React.Component {
   constructor(props){
     super(props);
     this.state = {
 
     };
     this.style={
-      boxLogo_NavWithin: {
-        display: "inline-block",
-        height: "12px",
-        position: "absolute",
-        top: "39%",
-        left: "25%",
-        boxSizing: "border-box",
-        cursor: "pointer"
-      },
       Within_Around_backplane:{
         width: '100%',
         height: '100%',
         position: 'fixed',
         backgroundColor: '#FCFCFC'
       },
-      Within_Around_NavOptions: {
-        width: '1.4%',
-        height: '3.2%',
-        position: 'fixed',
-        bottom: '6.9%',
-        right: '1%',
-        boxSizing: 'border-box'
-      }
     }
   }
 
-
-  static getDerivedStateFromProps(props, state){
-    //It should return an object to update the state, or 'null' to update nothing.
-    return null;
-  }
 
   componentDidUpdate(prevProps, prevState, snapshot){
 
@@ -67,27 +44,22 @@ class WithinAround extends React.Component {
     return(
       <div>
         <div style={this.style.Within_Around_backplane}></div>
-        <Route path={this.props.match.path} render={(props) => <Around {...props} />} />
-
         <div
-          className={classnames(styles.boxNavAround)}
-          style={ { height: "4rem"}}>
+          className={classnames(styles.comWithinSign)}>
           <div
-            style={Object.assign({}, this.style.boxLogo_NavWithin)}
-            onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
-            <SvgLogo />
+            className={classnames(styles.boxNavOptions)}>
+            <NavOptions {...this.props} _refer_to={()=>{}}/>
           </div>
-        </div>
-
-        <div
-          className={'coverFullDark'}
-          onClick={(e) => { e.preventDefault(); e.stopPropagation(); }} />
-
-        <div
-          className={styles.boxSignDialog}>
-          <CustomDialog>
+          <div
+            className={styles.boxWithinSign}>
             <WithinSign {...this.props}/>
-          </CustomDialog>
+          </div>
+
+
+          <div
+            className={classnames(styles.boxNavAround)}>
+            <NavWithin {...this.props} _refer_to={()=>{}}/>
+          </div>
         </div>
 
       </div>
@@ -110,4 +82,4 @@ const mapDispatchToProps = (dispatch) => {
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(WithinAround));
+)(Within_Sign));

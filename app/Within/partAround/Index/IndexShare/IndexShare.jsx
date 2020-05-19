@@ -40,9 +40,12 @@ class IndexShare extends React.Component {
             styles.boxGuiding,
             {[styles.boxGuidingMouseOn]: this.state.mouseEnter}
           )}>
-          <span
-            className={classnames(stylesFont.fontContent, stylesFont.colorStandard)}>
-            {this.props.i18nUIString.catalog["guiding_AroundIndex_Share"]}</span>
+          {
+            !this.state.mouseEnter &&
+            <span
+              className={classnames(stylesFont.fontContent, stylesFont.colorStandard)}>
+              {this.props.i18nUIString.catalog["guiding_AroundIndex_Share"]}</span>
+          }
         </div>
         <div
           className={classnames(styles.boxShareUpload)}

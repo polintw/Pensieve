@@ -7,7 +7,9 @@ export function cancelErr(error){
 }
 
 export function statusVerifiedErr(error, store){
-  if(error.response){ //still create store for page
+  let currentReducer = store.getState();
+  //set tokenStatus
+  if(error.response){ // if error came from res
     switch (error.response.status) {
       case 400: //validation error
         store.dispatch(setTokenStatus({ token: 'invalid' }))
@@ -28,6 +30,7 @@ export function statusVerifiedErr(error, store){
         store.dispatch(setTokenStatus({token: 'invalid'}))
     };
   }
+  else if(currentReducer.token=='verified'){return; } //if error came from React render (no need update token status)
   else store.dispatch(setTokenStatus({token: 'invalid'})); //end of 'if'
 
   return; //now, we return 'nothing', just a structure prepared for the plan in future.

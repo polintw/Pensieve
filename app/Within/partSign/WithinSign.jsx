@@ -102,7 +102,11 @@ class WithinSign extends React.Component {
     return(
       <div
         className={styles.comWithinSign}>
-        {this._render_signInDialog()}
+        <div
+          className={classnames(styles.boxForm)}>
+          
+          {this._render_signInDialog()}
+        </div>
 
       </div>
     )

@@ -1,3 +1,7 @@
+.comWithinSign{
+  width: 100%;
+  z-index: 3; /* set as a 'base': on the contrast to the 'Modal'*/
+}
 .boxAround {
   width: 100%;
   z-index: 3; /* set as a 'base': on the contrast to the 'Modal'*/
@@ -34,22 +38,18 @@
   min-width: 67vw;
 }
 
-
-.boxSignDialog {
-  max-width: 60%;
-  max-height: 80vh;
-  position: fixed;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
 .boxContentFilledLeft {
   min-width: 10vw;
 }
 
 .boxContentFilledRight {
   min-width: 21.64vw;
+}
+
+.boxWithinSign {
+  width: 70vw;
+  margin-left: 10vw;
+  margin-right: 20vw;
 }
 
 
