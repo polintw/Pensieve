@@ -1,8 +1,5 @@
 import React from 'react';
 import {
-  Link,
-  Redirect,
-  Route,
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
@@ -12,6 +9,7 @@ import stylesNail from "../stylesNail.module.css";
 import stylesFont from '../../stylesFont.module.css';
 import NailFeed from '../../../../Components/Nails/NailFeed/NailFeed.jsx';
 import NailFeedWide from '../../../../Components/Nails/NailFeedWide/NailFeedWide.jsx';
+import NailFeedMobile from '../../../../Components/Nails/NailFeedMobile/NailFeedMobile.jsx';
 import {axios_get_UnitsBasic} from '../../../../utils/fetchHandlers.js';
 import {
   handleNounsList,
@@ -172,7 +170,25 @@ class FeedAssigned extends React.Component {
     renderList.forEach((unitId, index) => {
       //render if there are something in the data
       if( !(unitId in this.state.unitsBasic)) return; //skip if the info of the unit not yet fetch
-
+      // for mobile device, use one special Nail
+      let cssVW = window.innerWidth;
+      if(cssVW < 860) {
+        nailsDOM.push(
+          <div
+            key={"key_FeedAssigned_new_" + index}
+            className={classnames(stylesNail.boxNail, stylesNail.custNailWide)}>
+            <NailFeedMobile
+              {...this.props}
+              leftimg={false}
+              unitId={unitId}
+              linkPath={'/unit'}
+              unitBasic={this.state.unitsBasic[unitId]}
+              marksBasic={this.state.marksBasic} />
+          </div>
+        );
+        return;
+      };
+      // for laptop / desktop, change nail by cycles
       let remainder3 = index % 3,
           remainder2 = index % 2; // cycle, but every 3 units has a wide, left, right in turn.
 
