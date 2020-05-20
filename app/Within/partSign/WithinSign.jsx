@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Route,
+  Switch,
   Link,
   withRouter
 } from 'react-router-dom';
@@ -10,7 +11,7 @@ import styles from './styles.module.css';
 import SigninForm from '../../Sign/components/SigninForm/SigninForm.jsx';
 import SignupForm from '../../Sign/components/SignupCom/SignupForm.jsx';
 import SignupSuccess from '../../Sign/components/SignupCom/SignupSuccess.jsx';
-import NavSign from '../../Sign/components/NavSign.jsx';
+import NavSign from '../../Sign/components/NavSign/NavSign.jsx';
 
 
 class WithinSign extends React.Component {
@@ -63,13 +64,16 @@ class WithinSign extends React.Component {
         className={styles.comWithinSign}>
         <div
           className={classnames(styles.boxForm)}>
+          <Route path={ "/signup/success"} render={(props) => <SignupSuccess {...props} _switch_Sign={this._switch_Sign} />} />
+          <div
+            className={classnames(styles.boxNav)}>
+            <NavSign
+              {...this.props}/>
+          </div>
           <Switch>
-            <Route path={this.props.match.path + "/signup/success"} render={(props) => <SignupSuccess {...props} _switch_Sign={this._switch_Sign} />} />
-
-            <NavSign/>
-            <Route path={this.props.match.path + "/signup"} render={(props) => <SignupForm {...props} _switch_Sign={this._switch_Sign} _signin_success={this._signup_success} />}/>
+            <Route path={"/signup"} render={(props) => <SignupForm {...props} _switch_Sign={this._switch_Sign} _signin_success={this._signup_success} />}/>
             <Route path={this.props.match.path} render={(props) => <SigninForm {...props} _switch_Sign={this._switch_Sign} _signin_success={this._signin_success} />}/>
-          </Switch>          
+          </Switch>
         </div>
 
       </div>

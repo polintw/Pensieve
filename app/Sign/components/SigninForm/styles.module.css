@@ -1,8 +1,5 @@
-.boxLogo: {
-  display: inline-block;
-  width: 10vw;
-  min-height: 27px;
-  position: relative;
+.comSigninForm {
+  width: 100%;
 }
 
 .boxInput {

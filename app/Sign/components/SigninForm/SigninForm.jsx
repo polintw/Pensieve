@@ -13,7 +13,6 @@ import {
   LinkForgetPw,
   LinkMailResend,
 } from './SigninFormComps.jsx';
-import SvgLogo from '../../../Components/Svg/SvgLogo.jsx';
 import {
   cancelErr,
   uncertainErr
@@ -87,11 +86,8 @@ class SigninForm extends React.Component {
   render(){
     const message = this.state.resMessage;
     return(
-      <div>
-        <div
-          className={styles.boxLogo}>
-          <SvgLogo/>
-        </div>
+      <div
+        className={styles.comSigninForm}>
         <form onSubmit={this._handle_Signin}>
           <span
             className={classnames(styles.spanTag, styles.fontTag)}>

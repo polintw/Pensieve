@@ -78,6 +78,9 @@ export const i18nUIStringInit = {
        "First and Last name are required.",
        "please choose your gender, or select desired pronoun by 'Others'."
      ],
+     "submit_nav_Signin": "Sign in",
+     "submit_nav_Signup": "Sign up",
+
      "title_onBoard_Welcome": "welcome, ",
      "descript_onBoard_Intro": ["Cornerth. brings you info from your homeland and current stay.", "Share what’s happening around you and keep up your steps to the fellows from the other side!"],
      "descript_onBoard_BelongsHint": ["Before you start …", "Tell us where are you from?"],
