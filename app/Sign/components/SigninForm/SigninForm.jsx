@@ -8,8 +8,8 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import stylesFont from '../../stylesFont.module.css';
 import {
-  LinkSignUp,
   LinkForgetPw,
   LinkMailResend,
 } from './SigninFormComps.jsx';
@@ -90,56 +90,59 @@ class SigninForm extends React.Component {
         className={styles.comSigninForm}>
         <form onSubmit={this._handle_Signin}>
           <span
-            className={classnames(styles.spanTag, styles.fontTag)}>
-            {'email:'}
+            className={classnames(styles.spanTag, stylesFont.fontContent, stylesFont.colorSignBlack)}>
+            {'Email'}
           </span><br/>
           <input
             type="email"
-            placeholder="Email"
+            placeholder="example@mail.com"
             name="email"
-            className={classnames(styles.boxInput, styles.fontInput)}
+            required
+            className={classnames(styles.boxInput, stylesFont.fontContent, stylesFont.colorBlack85)}
             ref={(element)=>{this.emailInput = element}}/><br/>
           {
             message.email &&
             <div
-              className={classnames(styles.fontMessage)}>
+              className={classnames()}>
               {message.email}</div>
           }
           <span
-            className={classnames(styles.spanTag, styles.fontTag)}>
-            {'password:'}
+            className={classnames(styles.spanTag, stylesFont.fontContent, stylesFont.colorSignBlack)}>
+            {'Password'}
           </span><br/>
           <input
             type="password"
             placeholder="Password"
-            className={classnames(styles.boxInput, styles.fontInput)}
+            required
+            className={classnames(styles.boxInput, stylesFont.fontContent, stylesFont.colorEditBlack)}
             ref={(element)=>{this.passwordInput = element}}/><br/>
           {
             message.password &&
             <div
-              className={classnames(styles.fontMessage)}>
+              className={classnames()}>
               {message.password}</div>
           }
           <br/>
           {
             message.warning &&
             <div
-              className={classnames(styles.fontMessage)}>
+              className={classnames()}>
               {message.warning}</div>
           }
+          <div
+            className={classnames(styles.boxAssist)}>
+            <LinkForgetPw {...this.props}/>
+            {
+              message.warning && this.state.resCode == "33" &&
+              <LinkMailResend {...this.props}/>
+            }
+          </div>
+
           <input
             type='submit'
             value='Sign in'
             disabled={this.state.axios? true:false}
-            className={classnames(styles.boxSubmit)}
-            style={{float:"right"}}/>
-
-          <LinkSignUp {...this.props}/>
-          {
-            message.warning && this.state.resCode == "33" &&
-            <LinkMailResend {...this.props}/>
-          }
-          <LinkForgetPw {...this.props}/>
+            className={classnames(styles.boxSubmit, stylesFont.colorWhite, stylesFont.fontSubtitle)}/>
         </form>
       </div>
 

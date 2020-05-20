@@ -7,56 +7,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
-
-export class LinkSignUp extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      onSignUp: false
-    };
-    this._handleClick_pathWithin = this._handleClick_pathWithin.bind(this);
-    this._handleMouseOn_signUp = ()=> this.setState((prevState,props)=>{return {onSignUp: prevState.onSignUp?false:true}});
-  }
-
-  _handleClick_pathWithin(e){
-    e.preventDefault();
-    e.stopPropagation();
-    this.props._switch_Sign('toSignUp');
-  }
-
-  render(){
-    return this.props.location.pathname.includes('/sign') ? (
-      <Link
-        to="/signup"
-        className={classnames('plainLinkButton')}
-        onMouseEnter={this._handleMouseOn_signUp}
-        onMouseLeave={this._handleMouseOn_signUp}>
-        <span
-          className={classnames(
-            styles.fontInput,
-            styles.spanSignUp,
-            {[styles.spanSignUpMouse]: this.state.onSignUp}
-          )}
-          style={{fontWeight: '500', letterSpacing: 'unset'}}>
-          {"Sign up"}</span>
-      </Link>
-    ): (
-      <div
-        onClick={this._handleClick_pathWithin}
-        onMouseEnter={this._handleMouseOn_signUp}
-        onMouseLeave={this._handleMouseOn_signUp}>
-        <span
-          className={classnames(
-            styles.fontInput,
-            styles.spanSignUp,
-            {[styles.spanSignUpMouse]: this.state.onSignUp}
-          )}
-          style={{fontWeight: '500', letterSpacing: 'unset'}}>
-          {"Sign up"}</span>
-      </div>
-    )
-  }
-}
+import stylesFont from '../../stylesFont.module.css';
 
 export class LinkMailResend extends React.Component {
   constructor(props){
@@ -118,12 +69,12 @@ export class LinkForgetPw extends React.Component {
         onMouseLeave={this._handleMouseOn_forgetPw}>
         <span
           className={classnames(
-            styles.fontInput,
-            styles.spanSignUp,
-            {[styles.spanSignUpMouse]: this.state.onForgetPw}
-          )}
-          style={{fontWeight: '500', letterSpacing: 'unset'}}>
-          {"forget password?"}</span>
+            styles.spanAssist,
+            stylesFont.fontContentPlain,
+            stylesFont.colorEditBlack,
+            {[styles.spanAssistOnMouse]: this.state.onForgetPw}
+          )}>
+          {"Forget password?"}</span>
       </Link>
     ): (
       <div
@@ -132,12 +83,12 @@ export class LinkForgetPw extends React.Component {
         onMouseLeave={this._handleMouseOn_forgetPw}>
         <span
           className={classnames(
-            styles.fontInput,
-            styles.spanSignUp,
-            {[styles.spanSignUpMouse]: this.state.onForgetPw}
-          )}
-          style={{fontWeight: '500', letterSpacing: 'unset'}}>
-          {"forget password?"}</span>
+            styles.spanAssist,
+            stylesFont.fontContentPlain,
+            stylesFont.colorEditBlack,
+            {[styles.spanAssistOnMouse]: this.state.onForgetPw}
+          )}>
+          {"Forget password?"}</span>
       </div>
     )
   }

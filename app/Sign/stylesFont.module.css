@@ -11,6 +11,15 @@
   font-size: 1.6rem;
 }
 
+.fontBold {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.fontContentPlain {
+  font-size: 1.4rem;
+}
+
 .fontContent {
   font-size: 1.4rem;
   line-height: 1.5;
@@ -21,11 +30,6 @@
   font-weight: 300;
   line-height: 1.71;
   text-align: center;
-}
-
-.fontBold {
-  font-size: 1.4rem;
-  font-weight: bold;
 }
 
 
@@ -67,4 +71,12 @@
 
 .colorSignBlack {
   color: #3c4144;
+}
+
+.colorBlack {
+  color: #000000;
+}
+
+.colorBlack85 {
+  color: rgba(0,0,0,0.85);
 }
