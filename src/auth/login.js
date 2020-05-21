@@ -56,7 +56,7 @@ login.use(function(req, res) {
             if(rowsUsers[0].status == 'unverified' || rowsUsers[0].status == 'frequentUnverified'){
               let errSet = {
                 "status": 401,
-                "message": {'warning': "You haven't verified your email address yet!"},
+                "message": {'warning': "You haven't verified your email yet"},
                 "console": '',
                 "code": 33
               };
@@ -88,7 +88,7 @@ login.use(function(req, res) {
             else {
               let errSet = {
                 "status": 401,
-                "message": {'password': 'account and Password does not match'},
+                "message": {'password': 'Email and Password does not match'},
                 "console": ''
               };
               return _handler_ErrorRes(errSet, res);
@@ -98,7 +98,7 @@ login.use(function(req, res) {
       } else {
         let errSet = {
           "status": 404,
-          "message": {'email': 'account does not exist!'},
+          "message": {'email': 'account does not exist'},
           "console": ''
         };
         return _handler_ErrorRes(errSet, res);

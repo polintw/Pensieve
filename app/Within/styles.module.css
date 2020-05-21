@@ -115,4 +115,9 @@
     background-color: rgb(117,117,117);
     box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
   }
+
+  .boxWithinSign {
+    min-height: calc(85.94vh - 67px);
+    margin: 0 auto;
+  }
 }

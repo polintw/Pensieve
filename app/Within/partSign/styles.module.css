@@ -10,6 +10,7 @@
   display: flex;
   flex-direction: column;
   width: 335px;
+  max-width: 98vw;
 }
 
 .boxNav {

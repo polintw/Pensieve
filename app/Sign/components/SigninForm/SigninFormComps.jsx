@@ -28,7 +28,10 @@ export class LinkMailResend extends React.Component {
     return this.props.location.pathname.includes('/sign') ? (
       <Link to="/resend?purpose=verifications">
         <span
-          className={classnames(styles.fontMessage)}>
+          className={classnames(
+            styles.spanAssist,
+            stylesFont.fontContentPlain,
+            stylesFont.colorEditBlack)}>
           {this.props.i18nUIString.catalog["link_Sign_mailResend"]}
         </span>
       </Link>
@@ -36,7 +39,10 @@ export class LinkMailResend extends React.Component {
       <div
         onClick={this._handleClick_pathWithin}>
         <span
-          className={classnames(styles.fontMessage)}>
+          className={classnames(
+            styles.spanAssist,
+            stylesFont.fontContentPlain,
+            stylesFont.colorEditBlack)}>
           {this.props.i18nUIString.catalog["link_Sign_mailResend"]}
         </span>
       </div>

@@ -20,7 +20,6 @@
   right: 105.97%;
   top: 50%;
   transform: translate(0, -50%);
-  text-align: right;
 }
 
 .boxWarning {
@@ -60,4 +59,14 @@
 
 .spanAssistOnMouse {
   border-bottom: 1px solid #545454;
+}
+
+@media screen and (max-width:860px) {
+  .boxInputMes {
+    position: unset;
+    right: unset;
+    top: unset;
+    transform: unset;
+    margin-bottom: 1rem;
+  }
 }

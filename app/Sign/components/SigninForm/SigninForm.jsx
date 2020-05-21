@@ -35,6 +35,9 @@ class SigninForm extends React.Component {
     this._handleChange_input = (event)=>{
       let obj={};
       obj[event.currentTarget.name] = event.currentTarget.value;
+      // we also check if going to reset message
+      let resMessageKeys = Object.keys((typeof this.state.resMessage != "string") ? this.state.resMessage : {});
+      if(resMessageKeys.length > 0) { obj['resMessage']=''; };
       this.setState(obj);
     };
   }
