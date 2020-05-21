@@ -1,3 +1,11 @@
+::placeholder {
+  color: #a3a3a3;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: #a3a3a3;
+}
+
 .fontTitleSmall {
   font-size: 1.2rem;
   line-height: 1.5;
@@ -35,6 +43,10 @@
 
 .colorWhite {
   color: #FFFFFF;
+}
+
+.colorOrange {
+  color: #eb584e;
 }
 
 .colorStandard {

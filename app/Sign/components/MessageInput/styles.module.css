@@ -1,0 +1,15 @@
+.comMessageInput {
+  display: flex;
+  white-space: nowrap;
+}
+
+.boxSvgIcon {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+}
+
+.spanText {
+  display: inline-block;
+  margin-right: 2rem;
+}

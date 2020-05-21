@@ -13,6 +13,7 @@ import {
   LinkForgetPw,
   LinkMailResend,
 } from './SigninFormComps.jsx';
+import MessageInput from '../MessageInput/MessageInput.jsx';
 import {
   cancelErr,
   uncertainErr
@@ -25,17 +26,24 @@ class SigninForm extends React.Component {
       axios: false,
       resCode: null,
       resMessage: "",
+      email: '',
+      password: ''
     };
     this.axiosSource = axios.CancelToken.source();
     this._axios_Signin = this._axios_Signin.bind(this);
     this._handle_Signin = this._handle_Signin.bind(this);
+    this._handleChange_input = (event)=>{
+      let obj={};
+      obj[event.currentTarget.name] = event.currentTarget.value;
+      this.setState(obj);
+    };
   }
 
   _handle_Signin(event){
     event.preventDefault();
     let submitObj = {
-      email: this.emailInput.value,
-      password: this.passwordInput.value
+      email: this.state.email,
+      password: this.state.password
     };
     const self = this;
     this.setState({axios: true});
@@ -85,6 +93,8 @@ class SigninForm extends React.Component {
 
   render(){
     const message = this.state.resMessage;
+    const submitPermission = ( !this.state.axios && this.state.email.length>0 && this.state.password.length >0)? true : false;
+
     return(
       <div
         className={styles.comSigninForm}>
@@ -92,57 +102,82 @@ class SigninForm extends React.Component {
           <span
             className={classnames(styles.spanTag, stylesFont.fontContent, stylesFont.colorSignBlack)}>
             {'Email'}
-          </span><br/>
-          <input
-            type="email"
-            placeholder="example@mail.com"
-            name="email"
-            required
-            className={classnames(styles.boxInput, stylesFont.fontContent, stylesFont.colorBlack85)}
-            ref={(element)=>{this.emailInput = element}}/><br/>
-          {
-            message.email &&
-            <div
-              className={classnames()}>
-              {message.email}</div>
-          }
+          </span>
+          <div
+            className={classnames(styles.boxInput)}>
+            <input
+              type="email"
+              placeholder="example@mail.com"
+              name="email"
+              required
+              className={classnames(
+                'plainInputText',
+                styles.inputSign, stylesFont.fontContent, stylesFont.colorBlack85)}
+              value={this.state.email}
+              onChange={this._handleChange_input}/>
+              {
+                message.email &&
+                <div
+                  className={classnames(styles.boxInputMes)}>
+                  <MessageInput
+                    messageIcon={"error"}
+                    messageText={message.email}/>
+                </div>
+              }
+          </div>
           <span
             className={classnames(styles.spanTag, stylesFont.fontContent, stylesFont.colorSignBlack)}>
             {'Password'}
-          </span><br/>
-          <input
-            type="password"
-            placeholder="Password"
-            required
-            className={classnames(styles.boxInput, stylesFont.fontContent, stylesFont.colorEditBlack)}
-            ref={(element)=>{this.passwordInput = element}}/><br/>
-          {
-            message.password &&
-            <div
-              className={classnames()}>
-              {message.password}</div>
-          }
-          <br/>
-          {
-            message.warning &&
-            <div
-              className={classnames()}>
-              {message.warning}</div>
-          }
+          </span>
+          <div
+            className={classnames(styles.boxInput)}>
+            <input
+              type="password"
+              placeholder="Password"
+              name="password"
+              required
+              className={classnames(
+                'plainInputText',
+                styles.inputSign, stylesFont.fontContent, stylesFont.colorEditBlack)}
+              value={this.state.password}
+              onChange={this._handleChange_input}/>
+              {
+                message.password &&
+                <div
+                  className={classnames(styles.boxInputMes)}>
+                  <MessageInput
+                    messageIcon={"error"}
+                    messageText={message.password}/>
+                </div>
+              }
+          </div>
           <div
             className={classnames(styles.boxAssist)}>
             <LinkForgetPw {...this.props}/>
             {
-              message.warning && this.state.resCode == "33" &&
+              (message.warning && this.state.resCode == "33") &&
               <LinkMailResend {...this.props}/>
             }
           </div>
+          {
+            (message.warning && this.state.resCode != "33") &&
+            <div
+              className={classnames(styles.boxWarning)}>
+              <MessageInput
+                messageIcon={false}
+                messageText={message.warning}/>
+            </div>
+          }
 
           <input
             type='submit'
             value='Sign in'
-            disabled={this.state.axios? true:false}
-            className={classnames(styles.boxSubmit, stylesFont.colorWhite, stylesFont.fontSubtitle)}/>
+            disabled={submitPermission? false: true}
+            className={classnames(
+              'plainInput',
+              styles.boxSubmit,
+              {[styles.boxSubmitAllow]: submitPermission},
+              stylesFont.colorWhite, stylesFont.fontSubtitle)}/>
         </form>
       </div>
 

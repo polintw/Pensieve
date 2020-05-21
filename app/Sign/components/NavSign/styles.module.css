@@ -3,6 +3,7 @@
   justify-content: center;
   width: 100%;
   position: relative;
+  box-sizing: border-box;
   padding: 0 6px;
 }
 

@@ -53,6 +53,8 @@ class NailMarksPreview extends React.Component {
     let list = this.props.unitBasic.marksList;
     let countsDOM = [];
     const self = this;
+    // modification for small screen
+    let cssVW = window.innerWidth;
 
     for(let i=0 ; i< list.length && i< 5; i++){
       let key = list[i];
@@ -62,11 +64,18 @@ class NailMarksPreview extends React.Component {
           markkey={key}
           className={classnames(styles.boxOvalCount)}
           style={{
-            backgroundColor: (self.state.onCount == key) ? "rgba(240, 151, 22, 0.45)": "rgba(84, 84, 84, 0.45)"
+            backgroundColor: (self.state.onCount == key && cssVW >= 860) ? "rgba(240, 151, 22, 0.45)": "rgba(84, 84, 84, 0.45)"
           }}
           onMouseEnter={self._handleEnter_MarkCount}
           onMouseLeave={self._handleLeave_MarkCount}>
-          <span className={classnames(stylesFont.fontBold, stylesFont.colorWhite)}>{i+1}</span>
+          {
+            (i == 0) &&
+            <span className={classnames(stylesFont.fontBold, stylesFont.colorWhite)}>{i+1}</span>
+          }
+          {
+            (cssVW >= 860 && i> 0) &&
+            <span className={classnames(stylesFont.fontBold, stylesFont.colorWhite)}>{i+1}</span>
+          }
         </div>
       )
     };
@@ -82,6 +91,7 @@ class NailMarksPreview extends React.Component {
         className={classnames(stylesFont.fontContent, stylesFont.colorEditBlack)}>
         <DisplayMarkPreview
           markId={key}
+          multipleMark={this.props.unitBasic.marksList.length > 1 ? true : false}
           rawContent={this.props.marksBasic[key].editorContent}/>
       </div>
     );
