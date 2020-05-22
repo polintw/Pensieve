@@ -12,9 +12,19 @@ class NavSign extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      onInActive: false
     };
     this._render_linkCenter= this._render_linkCenter.bind(this);
+    this._handleEnter_Link = this._handleEnter_Link.bind(this);
+    this._handleLeave_Link = this._handleLeave_Link.bind(this);
+  }
+
+  _handleEnter_Link(e){
+    this.setState({onInActive: true})
+  }
+
+  _handleLeave_Link(e){
+    this.setState({onInActive: false})
   }
 
   componentDidMount() {
@@ -28,7 +38,31 @@ class NavSign extends React.Component {
   _render_linkCenter(){
     let navDOM = [];
     if(this.props.location.pathname.includes('/success')){
-
+      navDOM.push(
+        <Link
+          key={"key_NavSign_toSignin"}
+          to={{
+            pathname: "/",
+            state: {from: this.props.location}
+          }}
+          className={classnames(
+            'plainLinkButton',
+            styles.boxLinkSelfAlign
+          )}
+          onClick={(event)=>{ if(iscenter) event.preventDefault();}}>
+          <span
+            className={classnames(
+              styles.spanLinkSign,
+              stylesFont.fontTitle,
+              stylesFont.colorWhiteGrey,
+              {[stylesFont.colorSignBlack]: this.state.onInActive}
+            )}
+            onMouseEnter={this._handleEnter_Link}
+            onMouseLeave={this._handleLeave_Link}>
+            {this.props.i18nUIString.catalog["submit_nav_Signin"]}
+          </span>
+        </Link>
+      );
     }
     else if(this.props.location.pathname.includes('/signup')){
       navDOM.push(linkSignup(this, true));
@@ -68,8 +102,11 @@ const linkSignin = (self, iscenter) => {
         className={classnames(
           styles.spanLinkSign,
           stylesFont.fontTitle,
-          stylesFont.colorWhiteGrey
+          {[stylesFont.colorWhiteGrey]: !self.state.onInActive},
+          {[stylesFont.colorStandard]: self.state.onInActive}
         )}
+        onMouseEnter={(e)=> { if( !iscenter) self._handleEnter_Link(e);}}
+        onMouseLeave={(e)=> { if( !iscenter) self._handleLeave_Link(e);}}
         style={iscenter? {color: '#3c4144', cursor: 'default'}: {}}>
         {self.props.i18nUIString.catalog["submit_nav_Signin"]}
       </span>
@@ -94,8 +131,11 @@ const linkSignup = (self, iscenter) => {
         className={classnames(
           styles.spanLinkSign,
           stylesFont.fontTitle,
-          stylesFont.colorWhiteGrey
+          {[stylesFont.colorWhiteGrey]: !self.state.onInActive},
+          {[stylesFont.colorStandard]: self.state.onInActive}
         )}
+        onMouseEnter={(e)=> { if( !iscenter) self._handleEnter_Link(e);}}
+        onMouseLeave={(e)=> { if( !iscenter) self._handleLeave_Link(e);}}
         style={iscenter? {color: '#3c4144', cursor: 'default'}: {}}>
         {self.props.i18nUIString.catalog["submit_nav_Signup"]}
       </span>

@@ -114,7 +114,9 @@ class SigninForm extends React.Component {
               required
               className={classnames(
                 'plainInputText',
-                styles.inputSign, stylesFont.fontContent, stylesFont.colorBlack85)}
+                styles.inputSign, stylesFont.fontContent, stylesFont.colorBlack85,
+                {[styles.inputSignError]: message.email}
+              )}
               value={this.state.email}
               onChange={this._handleChange_input}/>
               {
@@ -140,7 +142,9 @@ class SigninForm extends React.Component {
               required
               className={classnames(
                 'plainInputText',
-                styles.inputSign, stylesFont.fontContent, stylesFont.colorEditBlack)}
+                styles.inputSign, stylesFont.fontContent, stylesFont.colorEditBlack,
+                {[styles.inputSignError]: message.password}
+              )}
               value={this.state.password}
               onChange={this._handleChange_input}/>
               {

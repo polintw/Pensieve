@@ -34,12 +34,14 @@ module.exports = function validateRegisterInput(data) {
         errors.password = 'Password is required';
     }
 
-    if(!Validator.isLength(data.password, {min: 6, max: 32}) || !Validator.isLength(data.password_confirm, {min: 6, max: 32})) {
-      errors.password = 'Password must have at least 6 chars, and using both numbers and letters.';
-    }
-
-    if(Validator.isAlphanumeric(data.password) || Validator.isAlphanumeric(data.password_confirm)) {
-        errors.password = 'Password must have at least 6 chars, and using both numbers and letters.';
+    const regexRule = RegExp("^(?=.*?[A-Za-z])(?=.*?[0-9]).{8,}$");
+    let str = data.password;
+    let ruleOneOne = regexRule.test(str); //at least 1 alphabetical, 1 digit & 8 characters
+    /* ref: https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a */
+    /* ref: https://stackoverflow.com/questions/11533474/java-how-to-test-if-a-string-contains-both-letter-and-number */
+    /* ref: https://stackoverflow.com/questions/34292024/regular-expression-vs-vs-none */
+    if( !ruleOneOne ) {
+      errors.password = 'Password must be more than 8 chars and incl. at least 1 letter and 1 number';
     }
 
 

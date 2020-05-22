@@ -68,15 +68,16 @@ class SignupForm extends React.Component {
           };
           return {
             resMessage: {...prevState.resMessage, ...messageObj},
-            greenlight: {...prevState.greenlight, lightObj}
+            greenlight: {...prevState.greenlight, ...lightObj}
           };
         });
         break;
       case "password":
         this._check_passwordRules(event);
+        this._check_passwordConfirm();
         break;
       case "password_confirm":
-        this._check_passwordConfirm(event);
+        this._check_passwordConfirm();
         break;
       default:
         return
@@ -89,8 +90,12 @@ class SignupForm extends React.Component {
     it would not bubbles.
     we planning check if the password fullfill the rules we need.
     */
+    const regexRule = RegExp("^(?=.*?[A-Za-z])(?=.*?[0-9]).{8,}$");
     let str = event.target.value;
-    let ruleOneOne = str.match("^(?=.*[A-Z]/i)(?=.*[0-9])"); //at least 1 alphabetical, 1 digit
+    let ruleOneOne = regexRule.test(str); //at least 1 alphabetical, 1 digit & 8 characters
+    /* ref: https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a */
+    /* ref: https://stackoverflow.com/questions/11533474/java-how-to-test-if-a-string-contains-both-letter-and-number */
+    /* ref: https://stackoverflow.com/questions/34292024/regular-expression-vs-vs-none */
 
     this.setState((prevState, props)=>{
       let messageObj={password: ''}, lightObj={password: true};
@@ -100,14 +105,14 @@ class SignupForm extends React.Component {
       };
       return {
         resMessage: {...prevState.resMessage, ...messageObj},
-        greenlight: {...prevState.greenlight, lightObj}
+        greenlight: {...prevState.greenlight, ...lightObj}
       };
     });
 
   }
 
-  _check_passwordConfirm(event){
-    if (this.state.password_confirm.length > 0) {
+  _check_passwordConfirm(){
+    if (this.state.password_confirm.length > 0) { // method would be called from passwrd input even before any focus on password_confirm
       let signal = (this.state.password == this.state.password_confirm) ? true : false;
       this.setState((prevState, props)=>{
         let messageObj={password_confirm: ''}, lightObj={password_confirm: true};
@@ -117,7 +122,7 @@ class SignupForm extends React.Component {
         };
         return {
           resMessage: {...prevState.resMessage, ...messageObj},
-          greenlight: {...prevState.greenlight, lightObj}
+          greenlight: {...prevState.greenlight, ...lightObj}
         };
       });
     }
@@ -284,7 +289,7 @@ class SignupForm extends React.Component {
       <div>
         <div
           className={classnames(styles.boxInput)}
-          style={{marginBottom: '0.6rem'}}>
+          style={{marginBottom: '1.6rem'}}>
           <input
             type="password"
             placeholder="at least 8 character with letter and digit "
@@ -295,7 +300,9 @@ class SignupForm extends React.Component {
             required
             className={classnames(
               'plainInputText',
-              styles.inputSign, stylesFont.fontContent, stylesFont.colorEditBlack)}/>
+              styles.inputSign, stylesFont.fontContent, stylesFont.colorEditBlack,
+              {[styles.inputSignError]: this.state.resMessage.password}
+            )}/>
             {
               this.state.resMessage.password &&
               <div
@@ -317,7 +324,7 @@ class SignupForm extends React.Component {
         </div>
         <div
           className={classnames(styles.boxInput)}
-          style={{marginBottom: '2rem'}}>
+          style={{marginBottom: '3rem'}}>
           <input
             type="password"
             placeholder="Confirm Password"
@@ -329,7 +336,9 @@ class SignupForm extends React.Component {
             required
             className={classnames(
               'plainInputText',
-              styles.inputSign, stylesFont.fontContent, stylesFont.colorEditBlack)}/>
+              styles.inputSign, stylesFont.fontContent, stylesFont.colorEditBlack,
+              {[styles.inputSignError]: this.state.resMessage.password_confirm}
+            )}/>
             {
               this.state.resMessage.password_confirm &&
               <div
@@ -365,7 +374,9 @@ class SignupForm extends React.Component {
           required
           className={classnames(
             'plainInputText',
-            styles.inputSign, stylesFont.fontContent, stylesFont.colorBlack85)}
+            styles.inputSign, stylesFont.fontContent, stylesFont.colorBlack85,
+            {[styles.inputSignError]: this.state.resMessage.email}
+          )}
           value={this.state.email}
           onChange={this._handleChange_Input}
           onBlur={this._blurHandler_Validate}/>
@@ -480,10 +491,12 @@ class SignupForm extends React.Component {
     let targetName = event.currentTarget.name;
     this.setState((prevState, props)=>{
       // to reset message warning no matter how is the state
-      let messageObj = {warning: ''};
+      let messageObj = {warning: ''}, lightObj = {};
+      if(prevState.greenlight[targetName]) lightObj[targetName] = false;
       return {
         [targetName]: updatedValue,
-        resMessage: {...prevState.resMessage, ...messageObj}
+        resMessage: {...prevState.resMessage, ...messageObj},
+        greenlight: {...prevState.greenlight, ...lightObj}
       };
     })
   }
@@ -495,7 +508,7 @@ class SignupForm extends React.Component {
       return {
         gender: inputValue,
         selectOtherGender: (inputValue== "3")? true: false,
-        greenlight: {...prevState.greenlight, lightObj}
+        greenlight: {...prevState.greenlight, ...lightObj}
       };
     });
   }
@@ -505,7 +518,7 @@ class SignupForm extends React.Component {
       let lightObj={gender: true };
       return {
         gender: this.refSelectGender.current.value,
-        greenlight: {...prevState.greenlight, lightObj}
+        greenlight: {...prevState.greenlight, ...lightObj}
       };
     });
   }

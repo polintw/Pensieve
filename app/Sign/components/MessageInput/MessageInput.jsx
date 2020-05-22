@@ -10,6 +10,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesFont from '../../stylesFont.module.css';
 import SvgIconError from '../../../Components/Svg/SvgIcon_Err.jsx';
+import SvgIconChecked from '../../../Components/Svg/SvgIcon_Checked.jsx';
 
 class MessageInput extends React.Component {
   constructor(props){
@@ -44,6 +45,10 @@ class MessageInput extends React.Component {
           {
             (this.props.messageIcon=="error") &&
             <SvgIconError/>
+          }
+          {
+            (this.props.messageIcon=="checked") &&
+            <SvgIconChecked/>
           }
         </div>
       </div>

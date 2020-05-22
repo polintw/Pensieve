@@ -1,7 +1,6 @@
 .comMessageInput {
-  display: flex;
-  justify-content: flex-end;
-  white-space: nowrap;
+  width: 100%;
+  text-align: right;
 }
 
 .boxSvgIcon {
@@ -12,5 +11,6 @@
 
 .spanText {
   display: inline-block;
+  max-width: calc( 100% - 2rem - 2rem); /* 100% - Icon width - margin right*/
   margin-right: 2rem;
 }

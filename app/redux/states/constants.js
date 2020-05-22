@@ -62,26 +62,27 @@ export const i18nUIStringInit = {
      "title_Sign_mailResend": ["Fill in your email address to re-send a verified email again.", "Fill in the email of your account. "],
      "title_Sign_pwReset": "Now please enter New Password.",
      "link_Sign_resendButton": "submit",
-     "guidingSign_Signup_Success": [
-       "You've already signed up, but don't move too fast!",
-       "Verifing your Email Address by Mail we just sent to you.",
-       "You would get all settle after the Verifing."
-     ],
-     "descript_Sign_termsDeclaim": [
-       "By clicking “Register”, you agree our", " Terms", " of Services and ", "Privacy Policy", "."],
      "message_Resend_PassReset": "Your password has been updated. Please Sign in with new password. ",
+
+     "title_Signup_Success": "Success!",
+     "guidingSign_Signup_Success": [
+       "Your registration was submit successfully, and there is only 1 last step.",
+       "Please Verifing your Email Address by Mail we just sent to you. That's all you need to do before log in.",
+     ],
 
      "subtitle_Sign_name": ["First name", "Family name"],
      "subtitle_Sign_gender": "Gender",
      "hint_Signup_gendeSelect": "How do you want us to call you?",
      "options_genderPronoun": ["He/Him", "She/Her"],
      "message_Signup_Form": [
-       "please fill in the correct form for email address.",
+       "Please provide an valid email adress",
        "First and Last name are required.",
-       "please choose your gender, or select desired pronoun by 'Others'.",
+       "please choose your gender, or select desired pronoun by 'Others'",
        'Password must be more than 8 chars and incl. at least 1 letter and 1 number',
-       "keep the password in same!"
+       "Not the same as above"
      ],
+     "descript_Sign_termsDeclaim": [
+       "By clicking “Register”, you agree our", " Terms", " of Services and ", "Privacy Policy", "."],
      "submit_nav_Signin": "Sign in",
      "submit_nav_Signup": "Sign up",
 

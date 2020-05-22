@@ -4,15 +4,19 @@
 
 .boxInput {
   position: relative;
+  margin-bottom: 1rem;
 }
 
 .inputSign {
   width: 100%;
   box-sizing: border-box;
   padding: 1.2rem 2rem;
-  margin-bottom: 1rem;
   border: solid 1px #979797;
   border-radius: 5px;
+}
+
+.inputSignError {
+  border: solid 1px #eb584e;
 }
 
 .inputSignGender {
@@ -23,6 +27,8 @@
 }
 
 .boxInputMes {
+  width: 100%;
+  max-width: 25vw;
   position: absolute;
   right: 105.97%;
   top: 50%;
@@ -56,6 +62,7 @@
 .boxAccount {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 1rem;
 }
 
 .boxAccountSet {
@@ -112,6 +119,6 @@
     right: unset;
     top: unset;
     transform: unset;
-    margin-bottom: 1rem;
+    margin-top: 1rem;
   }
 }

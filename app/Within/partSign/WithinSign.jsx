@@ -63,14 +63,15 @@ class WithinSign extends React.Component {
       <div
         className={styles.comWithinSign}>
         <div
-          className={classnames(styles.boxForm)}>
-          <Route path={ "/signup/success"} render={(props) => <SignupSuccess {...props} _switch_Sign={this._switch_Sign} />} />
+          className={classnames(styles.boxForm)}
+          style={this.props.location.pathname.includes('/success') ? {flexDirection: 'column-reverse'}:{}}>
           <div
             className={classnames(styles.boxNav)}>
             <NavSign
               {...this.props}/>
           </div>
           <Switch>
+            <Route path={ "/signup/success"} render={(props) => <SignupSuccess {...props} _switch_Sign={this._switch_Sign} />} />
             <Route path={"/signup"} render={(props) => <SignupForm {...props} _switch_Sign={this._switch_Sign} _signin_success={this._signup_success} />}/>
             <Route path={this.props.match.path} render={(props) => <SigninForm {...props} _switch_Sign={this._switch_Sign} _signin_success={this._signin_success} />}/>
           </Switch>

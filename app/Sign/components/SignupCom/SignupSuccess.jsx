@@ -2,23 +2,23 @@ import React from 'react';
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import {LinkSignIn} from './SignupFormComps.jsx';
-import SvgLogo from '../../../Components/Svg/SvgLogo.jsx';
+import stylesFont from '../../stylesFont.module.css';
 
 class SignupSuccess extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      onSignIn: false
+
     };
-    this._handleMouseOn_signIn = ()=> this.setState((prevState,props)=>{return {onSignIn: prevState.onSignIn?false:true}});
     this.style={
       SignupSuccess_: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        alignItems: 'flex-start',
         width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
+        minHeight: '50vh',
+        paddingBottom: '5vh',
         boxSizing: 'border-box'
       }
     }
@@ -36,17 +36,17 @@ class SignupSuccess extends React.Component {
     return(
       <div
         style={this.style.SignupSuccess_}>
-        <div
-          className={styles.boxLogo}>
-          <SvgLogo/>
+        <div>
+          <span
+            className={classnames(stylesFont.fontTitle, stylesFont.colorStandard)}>
+            {this.props.i18nUIString.catalog["title_Signup_Success"]}
+          </span>
         </div>
         <div
-          className={classnames(styles.fontInput)}>
+          className={classnames(stylesFont.fontContent, stylesFont.colorSignBlack)}>
           <p>{this.props.i18nUIString.catalog["guidingSign_Signup_Success"][0]}</p>
           <p>{this.props.i18nUIString.catalog["guidingSign_Signup_Success"][1]}</p>
-          <p>{this.props.i18nUIString.catalog["guidingSign_Signup_Success"][2]}</p>
         </div>
-        <LinkSignIn {...this.props}/>
       </div>
     )
   }

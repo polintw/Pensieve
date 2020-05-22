@@ -15,7 +15,13 @@
   border-radius: 5px;
 }
 
+.inputSignError {
+  border: solid 1px #eb584e;
+}
+
 .boxInputMes {
+  width: 100%;
+  max-width: 25vw;
   position: absolute;
   right: 105.97%;
   top: 50%;
