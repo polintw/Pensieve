@@ -19,6 +19,11 @@
   font-size: 1.6rem;
 }
 
+.fontSubtitle_h5 {
+  font-size: 1.6rem;
+  line-height: 1.5;
+}
+
 .fontBold {
   font-size: 1.4rem;
   font-weight: bold;

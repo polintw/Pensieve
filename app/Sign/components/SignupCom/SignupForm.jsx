@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Link,
   Redirect,
   Route,
   withRouter
@@ -46,13 +45,13 @@ class SignupForm extends React.Component {
     this._render_formPassword = this._render_formPassword.bind(this);
     this._render_formServiceTerms = this._render_formServiceTerms.bind(this);
     this._handle_Signup = this._handle_Signup.bind(this);
-    this._handleChange_Input = this._handleChange_Input.bind(this);
-    this._check_passwordRules = this._check_passwordRules.bind(this);
-    this._check_passwordConfirm = this._check_passwordConfirm.bind(this);
 
+    this._handleKey_DownInput = this._handleKey_DownInput.bind(this);
+    this._handleChange_Input = this._handleChange_Input.bind(this);
     this._handleChange_InputOtherGender = this._handleChange_InputOtherGender.bind(this);
     this._handleChange_pronounSelect = this._handleChange_pronounSelect.bind(this);
-
+    this._check_passwordRules = this._check_passwordRules.bind(this);
+    this._check_passwordConfirm = this._check_passwordConfirm.bind(this);
     this._blurHandler_Validate = this._blurHandler_Validate.bind(this);
   }
 
@@ -64,8 +63,8 @@ class SignupForm extends React.Component {
         this.setState((prevState, props)=>{
           let messageObj={email: ''}, lightObj={email: true};
           if(!emailValidation){
-            let messageObj = {email: props.i18nUIString.catalog['message_Signup_Form'][0] };
-            let lightObj = {email: false};
+            messageObj = {email: props.i18nUIString.catalog['message_Signup_Form'][0] };
+            lightObj = {email: false};
           };
           return {
             resMessage: {...prevState.resMessage, ...messageObj},
@@ -91,7 +90,7 @@ class SignupForm extends React.Component {
     we planning check if the password fullfill the rules we need.
     */
     let str = event.target.value;
-    let ruleOneOne = str.matches("^(?=.*[A-Z]/i)(?=.*[0-9])"); //at least 1 alphabetical, 1 digit
+    let ruleOneOne = str.match("^(?=.*[A-Z]/i)(?=.*[0-9])"); //at least 1 alphabetical, 1 digit
 
     this.setState((prevState, props)=>{
       let messageObj={password: ''}, lightObj={password: true};
@@ -148,49 +147,77 @@ class SignupForm extends React.Component {
 
   _render_formGender(){
     return (
-      <div>
-        <input
-          type="radio"
-          name="gender"
-          value= {"1"}
-          checked={this.state.gender == "1"}
-          onChange={this._handleChange_InputOtherGender}
-          required/>
-        <span
-          className={classnames(styles.spanTag, styles.fontInput)}>
-          {'Male'}
-        </span>
-        <input
-          type="radio"
-          name="gender"
-          value= {"0"}
-          checked={this.state.gender == "0"}
-          onChange={this._handleChange_InputOtherGender}/>
-        <span
-          className={classnames(styles.spanTag, styles.fontInput)}>
-          {'Female'}
-        </span>
-        <input
-          type="radio"
-          name="gender"
-          value= {"3"}
-          checked={(this.state.gender == "3" || this.state.gender == "30" || this.state.gender == "31")}
-          onChange={this._handleChange_InputOtherGender}/>
-        <span
-          className={classnames(styles.spanTag, styles.fontInput)}>
-          {'Others'}
-        </span>
+      <div
+        className={classnames(styles.boxGender)}>
+        <div
+          className={classnames(styles.boxGenderSet)}>
+          <input
+            type="radio"
+            name="gender"
+            value= {"1"}
+            checked={this.state.gender == "1"}
+            className={classnames(styles.inputSignGender)}
+            onChange={this._handleChange_InputOtherGender}
+            required/>
+          <span
+            className={classnames(styles.spanRadio, stylesFont.colorBlack85, stylesFont.fontSubtitle_h5)}>
+            {'Male'}
+          </span>
+        </div>
+        <div
+          className={classnames(styles.boxGenderSet)}>
+          <input
+            type="radio"
+            name="gender"
+            value= {"0"}
+            checked={this.state.gender == "0"}
+            className={classnames(styles.inputSignGender)}
+            onChange={this._handleChange_InputOtherGender}/>
+          <span
+            className={classnames(styles.spanRadio, stylesFont.colorBlack85, stylesFont.fontSubtitle_h5)}>
+            {'Female'}
+          </span>
+        </div>
+        <div
+          className={classnames(styles.boxGenderSet)}>
+          <input
+            type="radio"
+            name="gender"
+            value= {"3"}
+            checked={(this.state.gender == "3" || this.state.gender == "30" || this.state.gender == "31")}
+            className={classnames(styles.inputSignGender)}
+            onChange={this._handleChange_InputOtherGender}/>
+          <span
+            className={classnames(styles.spanRadio, stylesFont.colorBlack85, stylesFont.fontSubtitle_h5)}>
+            {'Others'}
+          </span>
+        </div>
         {
           this.state.selectOtherGender && (
-            <div>
-              <label htmlFor="otherGen">{this.props.i18nUIString.catalog['hint_Signup_gendeSelect']}</label>
+            <div
+              className={classnames(styles.boxGenderOther)}>
+              <label
+                htmlFor="otherGen"
+                className={classnames(stylesFont.fontContent, stylesFont.colorSignBlack)}>
+                {this.props.i18nUIString.catalog['hint_Signup_gendeSelect']}
+              </label>
               <select ref={this.refSelectGender} id="otherGen" form={'signupForm'} required
-                onChange={this._handleChange_pronounSelect}>
+                onChange={this._handleChange_pronounSelect}
+                className={classnames(styles.spanGenderSelect, stylesFont.colorBlack85, stylesFont.fontSubtitle_h5)}>
                 <option value="31">{this.props.i18nUIString.catalog['options_genderPronoun'][0]}</option>
                 <option value="30">{this.props.i18nUIString.catalog['options_genderPronoun'][1]}</option>
               </select>
             </div>
           )
+        }
+        {
+          this.state.resMessage.gender &&
+          <div
+            className={classnames(styles.boxInputMes)}>
+            <MessageInput
+              messageIcon={"error"}
+              messageText={this.state.resMessage.gender}/>
+          </div>
         }
       </div>
     )
@@ -198,8 +225,10 @@ class SignupForm extends React.Component {
 
   _render_formAccount(){
     return (
-      <div>
-        <div>
+      <div
+        className={classnames(styles.boxAccount)}>
+        <div
+          className={classnames(styles.boxAccountSet)}>
           <span
             className={classnames(styles.spanTag, stylesFont.fontContent, stylesFont.colorSignBlack)}>
             {this.props.i18nUIString.catalog['subtitle_Sign_name'][0]}
@@ -208,14 +237,17 @@ class SignupForm extends React.Component {
             type="text"
             placeholder="First Name"
             name="firstName"
+            onKeyDown={this._handleKey_DownInput}
             onChange={ this._handleChange_Input }
             value={ this.state.firstName }
             className={classnames(
               'plainInputText',
               styles.inputSign, stylesFont.fontContent, stylesFont.colorBlack85)}
+            style={{padding: '1.2rem 1.5rem'}}
             required/>
         </div>
-        <div>
+        <div
+          className={classnames(styles.boxAccountSet)}>
           <span
             className={classnames(styles.spanTag, stylesFont.fontContent, stylesFont.colorSignBlack)}>
             {this.props.i18nUIString.catalog['subtitle_Sign_name'][1]}
@@ -224,11 +256,13 @@ class SignupForm extends React.Component {
             type="text"
             placeholder="Family Name"
             name="lastName"
+            onKeyDown={this._handleKey_DownInput}
             onChange={ this._handleChange_Input }
             value={ this.state.lastName}
             className={classnames(
               'plainInputText',
               styles.inputSign, stylesFont.fontContent, stylesFont.colorBlack85)}
+            style={{padding: '1.2rem 1.5rem'}}
             required/>
         </div>
         {
@@ -249,7 +283,8 @@ class SignupForm extends React.Component {
     return (
       <div>
         <div
-          className={classnames(styles.boxInput)}>
+          className={classnames(styles.boxInput)}
+          style={{marginBottom: '0.6rem'}}>
           <input
             type="password"
             placeholder="at least 8 character with letter and digit "
@@ -281,7 +316,8 @@ class SignupForm extends React.Component {
             }
         </div>
         <div
-          className={classnames(styles.boxInput)}>
+          className={classnames(styles.boxInput)}
+          style={{marginBottom: '2rem'}}>
           <input
             type="password"
             placeholder="Confirm Password"
@@ -358,18 +394,20 @@ class SignupForm extends React.Component {
   _render_formServiceTerms(){
     return (
       <div
-        className={classnames(styles.boxInput)}
-        style={{color: '#ababab'}}>
+        className={classnames(styles.boxInput, stylesFont.colorEditBlack)}
+        style={{fontSize: '1rem', lineHeight: '1.8'}}>
         <span>
           {this.props.i18nUIString.catalog["descript_Sign_termsDeclaim"][0]}
         </span>
         <span>
-          <a href="/a/terms">
+          <a href="/a/terms"
+            className={classnames('plainLinkButton', stylesFont.colorStandard)}>
             {this.props.i18nUIString.catalog["descript_Sign_termsDeclaim"][1]}</a>
         </span>
         <span> {this.props.i18nUIString.catalog["descript_Sign_termsDeclaim"][2]}</span>
         <span>
-          <a href="/a/privacy">
+          <a href="/a/privacy"
+            className={classnames('plainLinkButton', stylesFont.colorStandard)}>
             {this.props.i18nUIString.catalog["descript_Sign_termsDeclaim"][3]}</a>
         </span>
         <span> {this.props.i18nUIString.catalog["descript_Sign_termsDeclaim"][4]}</span>
@@ -382,12 +420,12 @@ class SignupForm extends React.Component {
       <div
         className={styles.comSignupForm}>
         <form onSubmit={this._handle_Signup} id={'signupForm'}>
-
           {this._render_formAccount()}
 
           <span
-            className={classnames(styles.spanTag, stylesFont.fontContent, stylesFont.colorSignBlack)}>
-            {this.props.i18nUIString.catalog['subtitle_Sign_name'][1]}
+            className={classnames(styles.spanTag, stylesFont.fontContent, stylesFont.colorSignBlack)}
+            style={{marginBottom: '10px'}}>
+            {this.props.i18nUIString.catalog['subtitle_Sign_gender']}
           </span>
           {this._render_formGender()}
 
@@ -403,7 +441,7 @@ class SignupForm extends React.Component {
           </span>
           {this._render_formPassword()}
 
-
+          {this._render_formServiceTerms()}
           {
             this.state.resMessage.warning &&
             <div
@@ -416,13 +454,14 @@ class SignupForm extends React.Component {
 
           <input
             type='submit'
-            value='Sign in'
+            value='Register'
             disabled={(this.state.axios || !this.state.submitPermission)? true : false}
             className={classnames(
               'plainInput',
               styles.boxSubmit,
               {[styles.boxSubmitAllow]: this.state.submitPermission},
-              stylesFont.colorWhite, stylesFont.fontSubtitle)}/>
+              stylesFont.colorWhite, stylesFont.fontSubtitle)}
+            style={{marginTop: '1rem'}}/>
 
         </form>
 
@@ -430,15 +469,16 @@ class SignupForm extends React.Component {
     )
   }
 
+  _handleKey_DownInput(event){
+    // space was not allowed in all input
+    if (event.keyCode == 32 || event.which == 32) event.preventDefault();
+  }
+
   _handleChange_Input(event) {
     //the value of event target would convert into String, no matter what type in original options/inputs
     let updatedValue = event.currentTarget.value;
     let targetName = event.currentTarget.name;
     this.setState((prevState, props)=>{
-      // space was not allowed in all input
-      if (event.keyCode == 32 || event.which == 32){
-        updatedValue = prevState[targetName];
-      };
       // to reset message warning no matter how is the state
       let messageObj = {warning: ''};
       return {
@@ -449,11 +489,12 @@ class SignupForm extends React.Component {
   }
 
   _handleChange_InputOtherGender(event) {
+    let inputValue = event.currentTarget.value; // 'event' was a synthetic obj, react would block usage in setState(a async)
     this.setState((prevState, props)=>{
-      let lightObj={gender: (event.currentTarget.value== "3")? false : true };
+      let lightObj={gender: (inputValue == "3")? false : true };
       return {
-        gender: event.currentTarget.value,
-        selectOtherGender: (event.currentTarget.value== "3")? true: false,
+        gender: inputValue,
+        selectOtherGender: (inputValue== "3")? true: false,
         greenlight: {...prevState.greenlight, lightObj}
       };
     });

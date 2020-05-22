@@ -15,6 +15,13 @@
   border-radius: 5px;
 }
 
+.inputSignGender {
+  width: 2rem;
+  height: 2rem;
+  margin: 0;
+  border: solid 1px #979797;
+}
+
 .boxInputMes {
   position: absolute;
   right: 105.97%;
@@ -46,9 +53,47 @@
   margin-top: 5px;
 }
 
+.boxAccount {
+  display: flex;
+  justify-content: space-between;
+}
+
+.boxAccountSet {
+  width: 48%;
+}
+
+.boxGender {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.boxGenderSet {
+  display: flex;
+  align-items: center;
+}
+
+.boxGenderOther {
+  width: 100%;
+  text-align: right;
+  margin-top: 10px;
+}
+
 .spanTag {
   display: block;
   margin-bottom: 8px;
+}
+
+.spanRadio {
+  display: inline-block;
+  margin-left: 1.6rem;
+}
+
+.spanGenderSelect {
+  border: solid 1px #979797;
+  border-radius: 5px;
+  margin-left: 1.5rem;
 }
 
 .spanAssist {

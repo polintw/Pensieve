@@ -56,7 +56,6 @@ export const i18nUIStringInit = {
      "descript_Unit_Author_read": ["reach to", "reach"],
      "descript_Unit_Author_broad": ["broad by", "broad"],
 
-     "subtitle_Sign_name": ["First name", "Family name"],
      "guidingSign_Confirm_Success": ["Email address has successfully verified.", "Log in and start your adventure to the World!"],
      "guidingSign_Confirm_Fail": ["Email address verified failed.", "It's probablly due to the valid time was over.", "Or, haven't received the verified mail?"],
      "link_Sign_mailResend": "send the verified email again",
@@ -69,9 +68,11 @@ export const i18nUIStringInit = {
        "You would get all settle after the Verifing."
      ],
      "descript_Sign_termsDeclaim": [
-       "By clicking “sign up”, you agree our", " Terms", " of Services and ", "Privacy Policy", "."],
+       "By clicking “Register”, you agree our", " Terms", " of Services and ", "Privacy Policy", "."],
      "message_Resend_PassReset": "Your password has been updated. Please Sign in with new password. ",
 
+     "subtitle_Sign_name": ["First name", "Family name"],
+     "subtitle_Sign_gender": "Gender",
      "hint_Signup_gendeSelect": "How do you want us to call you?",
      "options_genderPronoun": ["He/Him", "She/Her"],
      "message_Signup_Form": [
