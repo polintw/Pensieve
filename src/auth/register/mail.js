@@ -26,7 +26,7 @@ function _handle_auth_mailConfirm_GET(req, res){
   jwt.verify(reqToken, verify_email, function(err, payload) {
     if (err) {
       winston.error(`${"Error: JWT verify, "} - ${err} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
-      res.status(401).redirect('/s/confirm/fail');
+      res.status(401).redirect('/confirm/fail');
     } else {
       let userId = payload.user_Id;
       let mysqlForm = {
@@ -62,7 +62,7 @@ function _handle_auth_mailConfirm_GET(req, res){
                 ).catch((err)=>{console.log('error from pupdateUsersApply');throw {err: err}})
               );
               return Promise.all([pupdateUsers, pupdateUsersApply]).then((results)=>{
-                res.status(200).redirect('/s/confirm/success');
+                res.status(200).redirect('/confirm/success');
               });
             }else{throw {custom: true, status: 401, path: '/s/confirm/fail', err: 'token_email inconsistent for user sended'}};
           }

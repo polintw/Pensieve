@@ -56,7 +56,7 @@ export const i18nUIStringInit = {
      "descript_Unit_Author_read": ["reach to", "reach"],
      "descript_Unit_Author_broad": ["broad by", "broad"],
 
-     "guidingSign_Confirm_Success": ["Email address has successfully verified.", "Log in and start your adventure to the World!"],
+     "guidingSign_Confirm_Success": ["Email address has been successfully verified.", "Sign in now and start your adventure, to infinity and beyond!"],
      "guidingSign_Confirm_Fail": ["Email address verified failed.", "It's probablly due to the valid time was over.", "Or, haven't received the verified mail?"],
      "link_Sign_mailResend": "send the verified email again",
      "title_Sign_mailResend": ["Fill in your email address to re-send a verified email again.", "Fill in the email of your account. "],
@@ -65,6 +65,8 @@ export const i18nUIStringInit = {
      "message_Resend_PassReset": "Your password has been updated. Please Sign in with new password. ",
 
      "title_Signup_Success": "Success!",
+     "title_Signup_VefiryFail": "Verified fail.",
+     "title_Signup_VefiryConfirm": "Complete!",
      "guidingSign_Signup_Success": [
        "Your registration was submit successfully, and there is only 1 last step.",
        "Please Verifing your Email Address by Mail we just sent to you. That's all you need to do before log in.",

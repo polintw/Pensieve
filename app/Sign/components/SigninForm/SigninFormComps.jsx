@@ -13,9 +13,10 @@ export class LinkMailResend extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      onMailResend: false
     };
     this._handleClick_pathWithin = this._handleClick_pathWithin.bind(this);
+    this._handleMouseOn_MailResend = ()=> this.setState((prevState,props)=>{return {onMailResend: prevState.onMailResend?false:true}});
   }
 
   _handleClick_pathWithin(e){
@@ -26,23 +27,29 @@ export class LinkMailResend extends React.Component {
 
   render(){
     return this.props.location.pathname.includes('/sign') ? (
-      <Link to="/resend?purpose=verifications">
+      <Link to="/resend?purpose=verifications"
+        onMouseEnter={this._handleMouseOn_MailResend}
+        onMouseLeave={this._handleMouseOn_MailResend}>
         <span
           className={classnames(
             styles.spanAssist,
             stylesFont.fontContentPlain,
-            stylesFont.colorEditBlack)}>
+            stylesFont.colorEditBlack,
+            {[styles.spanAssistOnMouse]: this.state.onMailResend})}>
           {this.props.i18nUIString.catalog["link_Sign_mailResend"]}
         </span>
       </Link>
     ): (
       <div
-        onClick={this._handleClick_pathWithin}>
+        onClick={this._handleClick_pathWithin}
+        onMouseEnter={this._handleMouseOn_MailResend}
+        onMouseLeave={this._handleMouseOn_MailResend}>
         <span
           className={classnames(
             styles.spanAssist,
             stylesFont.fontContentPlain,
-            stylesFont.colorEditBlack)}>
+            stylesFont.colorEditBlack,
+            {[styles.spanAssistOnMouse]: this.state.onMailResend})}>
           {this.props.i18nUIString.catalog["link_Sign_mailResend"]}
         </span>
       </div>

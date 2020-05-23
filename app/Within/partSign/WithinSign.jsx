@@ -11,6 +11,7 @@ import styles from './styles.module.css';
 import SigninForm from '../../Sign/components/SigninForm/SigninForm.jsx';
 import SignupForm from '../../Sign/components/SignupCom/SignupForm.jsx';
 import SignupSuccess from '../../Sign/components/SignupCom/SignupSuccess.jsx';
+import Confirmation from '../../Sign/components/Confirmation/Confirmation.jsx';
 import NavSign from '../../Sign/components/NavSign/NavSign.jsx';
 
 
@@ -71,6 +72,7 @@ class WithinSign extends React.Component {
               {...this.props}/>
           </div>
           <Switch>
+            <Route path={ "/confirm"} render={(props) => <Confirmation {...props} _switch_Sign={this._switch_Sign} />} />
             <Route path={ "/signup/success"} render={(props) => <SignupSuccess {...props} _switch_Sign={this._switch_Sign} />} />
             <Route path={"/signup"} render={(props) => <SignupForm {...props} _switch_Sign={this._switch_Sign} _signin_success={this._signup_success} />}/>
             <Route path={this.props.match.path} render={(props) => <SigninForm {...props} _switch_Sign={this._switch_Sign} _signin_success={this._signin_success} />}/>

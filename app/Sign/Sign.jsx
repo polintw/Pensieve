@@ -9,7 +9,7 @@ import {connect} from "react-redux";
 import Signup from './Signup/Signup.jsx';
 import Signin from './Signin/Signin.jsx';
 import Resend from './Resend/Resend.jsx';
-import Confirmation from './Confirmation/Confirmation.jsx';
+import Confirmation from './components/Confirmation/Confirmation.jsx';
 
 class Sign extends React.Component {
   constructor(props){
@@ -20,11 +20,8 @@ class Sign extends React.Component {
     this.style={
       div_Base: {
         width: "100%",
-        minWidth: '720px',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0'
+        minHeight: "100vh",
+        position: 'relative'
       }
     }
   }

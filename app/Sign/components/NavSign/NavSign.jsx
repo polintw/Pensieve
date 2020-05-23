@@ -68,6 +68,9 @@ class NavSign extends React.Component {
       navDOM.push(linkSignup(this, true));
       navDOM.push(linkSignin(this, false));
     }
+    else if(this.props.location.pathname.includes('/fail')){ // '/confirm/fail'
+      navDOM.push(linkSignin(this, false));
+    }
     else{
        navDOM.push(linkSignin(this, true));
        navDOM.push(linkSignup(this, false));
