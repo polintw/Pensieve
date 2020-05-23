@@ -67,6 +67,10 @@ pass.use(function(req, res, next) {
         // let /units/ pass, check the 'tokenify' itself.
         next()
         break;
+      case 'general':
+        // let /general/ pass, check the 'tokenify' itself.
+        next()
+        break;
       default:
         let message = `res code 401: missing token caught by /pass, to route "${req.originalUrl}".`;
         _handle_ErrCatched(new authorizedError(message, 89), req, res);

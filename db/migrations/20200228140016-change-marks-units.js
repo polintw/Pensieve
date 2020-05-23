@@ -10,7 +10,6 @@ module.exports = {
       return queryInterface.changeColumn('units', 'exposedId', {
         type: Sequelize.UUID,
         //new col, no need to set defaultValue(set in working model)
-        //Not to forbidden default Null at this moment.
         unique: true,
         allowNull: false
       });

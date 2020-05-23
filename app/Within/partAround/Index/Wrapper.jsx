@@ -14,6 +14,7 @@ import {
   axios_visit_Index
 } from './utils.js';
 import Chain from './Chain/Chain.jsx';
+import Invite from './Invite/Invite.jsx';
 import FeedAssigned from './FeedAssigned/FeedAssigned.jsx';
 import OnBoard from '../OnBoard/Wrapper.jsx';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
@@ -145,12 +146,16 @@ class Wrapper extends React.Component {
               _set_mountToDo={this._set_mountToDo}
               _refer_von_cosmic={this.props._refer_von_cosmic}/>
           </div>
-
           <div
             className={classnames(styles.boxFooter)}>
             {this._render_FooterHint()}
 
           </div>
+          <div
+            className={classnames(styles.boxRow)}>
+            <Invite/>
+          </div>
+
         </div>
 
         <Route

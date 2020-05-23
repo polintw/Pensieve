@@ -54,7 +54,7 @@ export function uncertainErr(error){
         break;
       case 89: //meaning no token, redirect.
       //a missing token, no need to alert anything.
-        window.location.assign('/s/signin');
+        window.location.assign('/');
         return false; //return to inform iterator, meaning no need for further handleing
       default:
     };

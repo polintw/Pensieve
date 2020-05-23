@@ -8,6 +8,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
+import InvitationFellow from './InvitationFellow.jsx';
 import SigninForm from '../../Sign/components/SigninForm/SigninForm.jsx';
 import SignupForm from '../../Sign/components/SignupCom/SignupForm.jsx';
 import SignupSuccess from '../../Sign/components/SignupCom/SignupSuccess.jsx';
@@ -52,7 +53,10 @@ class WithinSign extends React.Component {
   }
 
   componentDidMount() {
-
+    // the "invitation" would only display after page load, so process here
+    let params = new URLSearchParams(this.props.location.search); //we need value in URL query
+    let invitationify = !!params.get('invitation') ? params.get('invitation') : false;
+    if(invitationify) {this._switch_Sign("toInvitation");};
   }
 
   componentWillUnmount() {
@@ -71,6 +75,13 @@ class WithinSign extends React.Component {
             <NavSign
               {...this.props}/>
           </div>
+
+          {
+            this.state.invitation &&
+            <InvitationFellow
+              {...this.props}
+              _switch_Sign={this._switch_Sign}/>
+          }
           <Switch>
             <Route path={ "/confirm"} render={(props) => <Confirmation {...props} _switch_Sign={this._switch_Sign} />} />
             <Route path={ "/signup/success"} render={(props) => <SignupSuccess {...props} _switch_Sign={this._switch_Sign} />} />

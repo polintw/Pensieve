@@ -49,6 +49,12 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
+    nouns.hasMany(models.belongs_invitation, {
+      foreignKey:"id_node",
+      sourceKey: "id",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
     // foreignKey to 'table self'
     nouns.belongsTo(models.nouns, {
       as: 'nouns2', //because this is a self associated, this line, is setting a clear assciation to alias when INNER JOIN
