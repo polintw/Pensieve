@@ -115,6 +115,7 @@
 
 @media screen and (max-width:860px) {
   .boxInputMes {
+    max-width: unset;
     position: unset;
     right: unset;
     top: unset;

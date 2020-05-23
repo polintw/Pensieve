@@ -127,6 +127,13 @@ class AssignNodes extends React.Component {
     const typeKeys = !!this.props.belongsByType.setTypesList? this.props.belongsByType.setTypesList: [];
     const assignedNodes = this.props.assigned.map((assignedObj, index)=>{return assignedObj.nodeId;});
     /*
+    there is a period the typeKeys would be 'empty' at all: belongsByType not yet res.
+    And we just give up render these 'empty'
+    */
+    if(typeKeys.length < 1) return [];
+    // or ther parent list haven't res yet, also empty render
+    if( !((typeKeys[0] == "homeland") ? "homelandup" : "residenceup" in this.props.belongsByType)) return [];
+    /*
     simple first. If we are now editing a published shared, not allowing editing assigned
     */
     if(this.props.unitView=="editing") {

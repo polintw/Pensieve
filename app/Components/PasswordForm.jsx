@@ -49,6 +49,7 @@ class PasswordForm extends React.Component {
       let reqBody = {};
       reqBody["password_old"] = this.state.passOld; //empty if under /pwreset
       reqBody["password"] = this.state.passNew;
+      reqBody["password_confirm"] = this.state.passConfirm;
       let params = new URLSearchParams(this.props.location.search); //we need value in URL query
       let token = !this.props.pwreset? window.localStorage['token']: params.get('token');
 

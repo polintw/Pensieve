@@ -102,11 +102,8 @@ const linkSignin = (self, iscenter) => {
         className={classnames(
           styles.spanLinkSign,
           stylesFont.fontTitle,
-          {[stylesFont.colorWhiteGrey]: !self.state.onInActive},
-          {[stylesFont.colorStandard]: self.state.onInActive}
+          stylesFont.colorWhiteGrey
         )}
-        onMouseEnter={(e)=> { if( !iscenter) self._handleEnter_Link(e);}}
-        onMouseLeave={(e)=> { if( !iscenter) self._handleLeave_Link(e);}}
         style={iscenter? {color: '#3c4144', cursor: 'default'}: {}}>
         {self.props.i18nUIString.catalog["submit_nav_Signin"]}
       </span>
@@ -131,11 +128,8 @@ const linkSignup = (self, iscenter) => {
         className={classnames(
           styles.spanLinkSign,
           stylesFont.fontTitle,
-          {[stylesFont.colorWhiteGrey]: !self.state.onInActive},
-          {[stylesFont.colorStandard]: self.state.onInActive}
+          stylesFont.colorWhiteGrey
         )}
-        onMouseEnter={(e)=> { if( !iscenter) self._handleEnter_Link(e);}}
-        onMouseLeave={(e)=> { if( !iscenter) self._handleLeave_Link(e);}}
         style={iscenter? {color: '#3c4144', cursor: 'default'}: {}}>
         {self.props.i18nUIString.catalog["submit_nav_Signup"]}
       </span>

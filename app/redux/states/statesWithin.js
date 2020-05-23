@@ -1,7 +1,11 @@
 export const initWithin = {
   belongsByType: {
+    setTypesList: [], // [? 'homeland', ? 'residence']
     "homeland": null,
-    "homelandup": {}
+    /*"homelandup": {}*/
+    /*
+    and here is a trick: '...up' obj only true after parent list res,
+    could be used as a 'checkpoint' to distinguish if the parent list has res*/
   },
 }
 

@@ -4,17 +4,24 @@ const isEmpty = require('../../utils/isEmpty');
 module.exports = function validatePasswordChangedInput(data) {
     let validationErrors = {};
     data.password = !isEmpty(data.password) ? data.password : '';
+    data.password_confirm = !isEmpty(data.password_confirm) ? data.password_confirm : '';
 
-    if(Validator.isEmpty(data.password) ) {
-      errors.password = 'Password is required';
+    if(Validator.isEmpty(data.password) || Validator.isEmpty(data.password_confirm)) {
+        errors.password = 'Password is required';
     }
 
-    if(!Validator.isLength(data.password, {min: 6, max: 32}) ) {
-      errors.password = 'Password must have at least 6 chars, and using both numbers and letters.';
+    if(!Validator.equals(data.password, data.password_confirm)) {
+      errors.password_confirm = 'Password and Confirm Password must match';
     }
 
-    if(Validator.isAlphanumeric(data.password) ) {
-      errors.password = 'Password must have at least 6 chars, and using both numbers and letters.';
+    const regexRule = RegExp("^(?=.*?[A-Za-z])(?=.*?[0-9]).{8,}$");
+    let str = data.password;
+    let ruleOneOne = regexRule.test(str); //at least 1 alphabetical, 1 digit & 8 characters
+    /* ref: https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a */
+    /* ref: https://stackoverflow.com/questions/11533474/java-how-to-test-if-a-string-contains-both-letter-and-number */
+    /* ref: https://stackoverflow.com/questions/34292024/regular-expression-vs-vs-none */
+    if( !ruleOneOne ) {
+      errors.password = 'Password must be more than 8 chars and incl. at least 1 letter and 1 number';
     }
 
     /*
