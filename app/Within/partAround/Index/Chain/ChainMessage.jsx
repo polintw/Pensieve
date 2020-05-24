@@ -38,6 +38,14 @@ class ChainMessage extends React.Component {
   }
 
   _render_HintMessage(){
+    /*
+    More like a 'situation board'
+    1) no shared: ------
+    2) userShared + resToShared: "Your Shared" + "Responded by ____"
+    3) sharedPrimer + latestShared: "" + "Responded succesfully"
+    4) latestShared: "Shared succesfully"
+    5) resToShared + resToRespond: "Respond to yours" + "Responded by _____"
+    */
     if(this.props.sharedsList.list.length == 0){ // 1) no shareds at all
       return (
         <span

@@ -62,14 +62,16 @@ class ChainShared extends React.Component {
 
   render(){
     return(
-      <div
-        className={classnames(styles.boxModuleShareds)}>
+      <div>
         <span
           className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}
-          style={{margin: "4px 12px 0 0"}}>
+          style={{marginBottom: '8px', width: '100%'}}>
           {this.props.i18nUIString.catalog["title_Chain_Shareds_"]}</span>
-        {this._render_sharenails()}
+        <div
+          className={classnames(styles.boxModuleShareds)}>
+          {this._render_sharenails()}
 
+        </div>
       </div>
     )
   }

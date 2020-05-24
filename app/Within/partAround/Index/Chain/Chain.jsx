@@ -182,6 +182,12 @@ class Chain extends React.Component {
         </div>
         <div
           className={classnames(styles.boxChainModule)}>
+          <div
+            className={classnames(styles.boxFullWide, styles.boxSeperate)}
+            style={{marginBottom: '4px', textAlign: 'right'}}>
+            <ChainMessage
+              unitsBasic={this.state.unitsBasic}/>
+          </div>
           {
             (this.props.chainList.listOrderedChain.length > 0) &&
             <div
@@ -192,12 +198,6 @@ class Chain extends React.Component {
               {this._render_ChainUnits()}
             </div>
           }
-          <div
-            className={classnames(styles.boxFullWide, styles.boxSeperate)}
-            style={{marginBottom: '4px', textAlign: 'right'}}>
-            <ChainMessage
-              unitsBasic={this.state.unitsBasic}/>
-          </div>
         </div>
 
       </div>

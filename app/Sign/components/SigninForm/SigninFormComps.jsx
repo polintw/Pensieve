@@ -15,14 +15,7 @@ export class LinkMailResend extends React.Component {
     this.state = {
       onMailResend: false
     };
-    this._handleClick_pathWithin = this._handleClick_pathWithin.bind(this);
     this._handleMouseOn_MailResend = ()=> this.setState((prevState,props)=>{return {onMailResend: prevState.onMailResend?false:true}});
-  }
-
-  _handleClick_pathWithin(e){
-    e.preventDefault();
-    e.stopPropagation();
-    this.props._switch_Sign('toMailResend');
   }
 
   render(){
@@ -40,8 +33,9 @@ export class LinkMailResend extends React.Component {
         </span>
       </Link>
     ): (
-      <div
-        onClick={this._handleClick_pathWithin}
+      <a
+        href={'/s/resend?purpose=verifications'}
+        target={'_self'}
         onMouseEnter={this._handleMouseOn_MailResend}
         onMouseLeave={this._handleMouseOn_MailResend}>
         <span
@@ -52,7 +46,7 @@ export class LinkMailResend extends React.Component {
             {[styles.spanAssistOnMouse]: this.state.onMailResend})}>
           {this.props.i18nUIString.catalog["link_Sign_mailResend"]}
         </span>
-      </div>
+      </a>
     )
   }
 }
@@ -63,14 +57,7 @@ export class LinkForgetPw extends React.Component {
     this.state = {
       onForgetPw: false
     };
-    this._handleClick_pathWithin = this._handleClick_pathWithin.bind(this);
     this._handleMouseOn_forgetPw = ()=> this.setState((prevState,props)=>{return {onForgetPw: prevState.onForgetPw?false:true}});
-  }
-
-  _handleClick_pathWithin(e){
-    e.preventDefault();
-    e.stopPropagation();
-    this.props._switch_Sign('toForgetPw');
   }
 
   render(){
@@ -90,19 +77,21 @@ export class LinkForgetPw extends React.Component {
           {"Forget password?"}</span>
       </Link>
     ): (
-      <div
-        onClick={this._handleClick_pathWithin}
+      <a
+        href={'/s/resend?purpose=password'}
+        target={'_self'}
         onMouseEnter={this._handleMouseOn_forgetPw}
         onMouseLeave={this._handleMouseOn_forgetPw}>
         <span
           className={classnames(
+            'plainLinkButton',
             styles.spanAssist,
             stylesFont.fontContentPlain,
             stylesFont.colorEditBlack,
             {[styles.spanAssistOnMouse]: this.state.onForgetPw}
           )}>
           {"Forget password?"}</span>
-      </div>
+      </a>
     )
   }
 }

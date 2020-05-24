@@ -50,27 +50,43 @@ class SignupForm extends React.Component {
     this._handleChange_Input = this._handleChange_Input.bind(this);
     this._handleChange_InputOtherGender = this._handleChange_InputOtherGender.bind(this);
     this._handleChange_pronounSelect = this._handleChange_pronounSelect.bind(this);
+    this._check_EmailFormat = this._check_EmailFormat.bind(this);
     this._check_passwordRules = this._check_passwordRules.bind(this);
     this._check_passwordConfirm = this._check_passwordConfirm.bind(this);
     this._blurHandler_Validate = this._blurHandler_Validate.bind(this);
+    this._greenLight_Validate = this._greenLight_Validate.bind(this);
+  }
+
+  _greenLight_Validate(currentTarget){
+    let targetName = currentTarget.name;
+    let light = false;
+    switch (targetName) {
+      case 'email':
+        light = emailValidation(currentTarget);
+        break;
+      case "password":
+        light = passwordValidation(currentTarget.value);
+        break;
+      case "password_confirm":
+        light = (this.state.password == this.state.password_confirm && this.state.password.length > 0) ? true : false;
+        break;
+      default:
+        return
+    }
+    this.setState((prevState, props)=>{
+      let messageObj={[targetName]: light ? '': prevState.resMessage[targetName]}, lightObj={[targetName]: light};
+      return {
+        resMessage: {...prevState.resMessage, ...messageObj},
+        greenlight: {...prevState.greenlight, ...lightObj}
+      };
+    });
   }
 
   _blurHandler_Validate(event){
     let eventTarget = event.currentTarget.name;
     switch (eventTarget) {
       case 'email':
-        let emailValidation = event.currentTarget.checkValidity(); //js f(), would return bool by result of validation
-        this.setState((prevState, props)=>{
-          let messageObj={email: ''}, lightObj={email: true};
-          if(!emailValidation){
-            messageObj = {email: props.i18nUIString.catalog['message_Signup_Form'][0] };
-            lightObj = {email: false};
-          };
-          return {
-            resMessage: {...prevState.resMessage, ...messageObj},
-            greenlight: {...prevState.greenlight, ...lightObj}
-          };
-        });
+        this._check_EmailFormat(event);
         break;
       case "password":
         this._check_passwordRules(event);
@@ -84,19 +100,29 @@ class SignupForm extends React.Component {
     }
   }
 
+  _check_EmailFormat(event){
+    let formatValidation = emailValidation(event.currentTarget);
+    this.setState((prevState, props)=>{
+      let messageObj={email: ''}, lightObj={email: true};
+      if(!formatValidation){
+        messageObj = {email: props.i18nUIString.catalog['message_Signup_Form'][0] };
+        lightObj = {email: false};
+      };
+      return {
+        resMessage: {...prevState.resMessage, ...messageObj},
+        greenlight: {...prevState.greenlight, ...lightObj}
+      };
+    });
+  }
+
   _check_passwordRules(event){
     /*
     this is an onBlur f(), fires when element has lost focus.
     it would not bubbles.
     we planning check if the password fullfill the rules we need.
     */
-    const regexRule = RegExp("^(?=.*?[A-Za-z])(?=.*?[0-9]).{8,}$");
-    let str = event.target.value;
-    let ruleOneOne = regexRule.test(str); //at least 1 alphabetical, 1 digit & 8 characters
-    /* ref: https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a */
-    /* ref: https://stackoverflow.com/questions/11533474/java-how-to-test-if-a-string-contains-both-letter-and-number */
-    /* ref: https://stackoverflow.com/questions/34292024/regular-expression-vs-vs-none */
-
+    let str = event.currentTarget.value;
+    let ruleOneOne = passwordValidation(str);
     this.setState((prevState, props)=>{
       let messageObj={password: ''}, lightObj={password: true};
       if(!ruleOneOne || str.length < 8 || str.length > 30) {
@@ -487,18 +513,21 @@ class SignupForm extends React.Component {
 
   _handleChange_Input(event) {
     //the value of event target would convert into String, no matter what type in original options/inputs
+    const self = this;
+    let currentTarget = event.currentTarget;
     let updatedValue = event.currentTarget.value;
     let targetName = event.currentTarget.name;
     this.setState((prevState, props)=>{
-      // to reset message warning no matter how is the state
-      let messageObj = {warning: ''}, lightObj = {};
-      if(prevState.greenlight[targetName]) lightObj[targetName] = false;
+      let messageObj = {warning: ''}, lightObj={};
+      if(targetName=="password"){  // only password_confirm was bundle to situation of password, and need to check 'every time'
+        lightObj={password_confirm: false};
+      };
       return {
         [targetName]: updatedValue,
-        resMessage: {...prevState.resMessage, ...messageObj},
+        resMessage: {...prevState.resMessage, ...messageObj}, // to reset message warning no matter how is the state
         greenlight: {...prevState.greenlight, ...lightObj}
       };
-    })
+    }, ()=>{ self._greenLight_Validate(currentTarget);}) // check light by independent f(), and callback after the state was set to ensure it get the newest state
   }
 
   _handleChange_InputOtherGender(event) {
@@ -581,7 +610,7 @@ class SignupForm extends React.Component {
 
           self.setState((prevState, props)=>{
             return {
-              resMessage: {...prevState.resMessage, ...messageObj},
+              resMessage: {...prevState.resMessage, ...message},
               greenlight: {...prevState.greenlight, ...lightObj}
             };
           });
@@ -589,6 +618,17 @@ class SignupForm extends React.Component {
       }
     });
   }
+}
+
+const emailValidation = (emailValue)=>{ return emailValue.checkValidity(); } //js f(), would return bool by result of validation
+
+const passwordValidation = (passwordValue)=>{
+  const regexRule = RegExp("^(?=.*?[A-Za-z])(?=.*?[0-9]).{8,}$");
+  let ruleOneOne = regexRule.test(passwordValue); //at least 1 alphabetical, 1 digit & 8 characters
+  /* ref: https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a */
+  /* ref: https://stackoverflow.com/questions/11533474/java-how-to-test-if-a-string-contains-both-letter-and-number */
+  /* ref: https://stackoverflow.com/questions/34292024/regular-expression-vs-vs-none */
+  return ruleOneOne;
 }
 
 const i18nUIStringMap = ['email','account', 'gender', 'password', 'password_confirm']
