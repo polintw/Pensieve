@@ -123,7 +123,8 @@ class Layers extends React.Component {
         className={'boxAbsoluteFull'}
         onClick={(event)=>{event.stopPropagation();}}>
         {
-          (this.props.unitCurrent.coverSrc) ? (
+          (this.props.unitCurrent.coverSrc) ? /*(
+            only one layer now, even without Summary, so took away scroll effect first
             <LayerScroll
               lockify={this.state.lockify}
               moveCount={this.state.moveCount}
@@ -132,6 +133,9 @@ class Layers extends React.Component {
               {this._render_ScrollLayers()}
 
             </LayerScroll>
+          )*/
+          (
+            this._render_ScrollLayers()
           ): (
             <div
               style={{backgroundColor:'rgba(0, 0, 0, 0.3)',width: '20%', height: '20%', position: 'absolute', top: '40%', left: '40%'}}/>

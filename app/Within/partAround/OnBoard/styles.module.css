@@ -126,6 +126,11 @@
   cursor: pointer;
 }
 
+.boxButtonBlocked {
+  background-color: #d8d8d8;
+  cursor: default;
+}
+
 .comBelongSet {
 
 }

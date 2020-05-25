@@ -65,7 +65,7 @@ class ChainShared extends React.Component {
       <div>
         <span
           className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}
-          style={{marginBottom: '8px', width: '100%'}}>
+          style={{marginBottom: '12px', width: '100%', display: 'block'}}>
           {this.props.i18nUIString.catalog["title_Chain_Shareds_"]}</span>
         <div
           className={classnames(styles.boxModuleShareds)}>
@@ -115,6 +115,17 @@ class ChainShared extends React.Component {
         </Link>
       )
     });
+
+    if(this.props.sharedsList.list.length == 0){
+      listDOM.push(
+        <span
+          key={"key_SharedNails_emptyHint"}
+          className={classnames(stylesFont.fontContent, stylesFont.colorEditLightBlack)}
+          style={{display: 'block', textAlign: 'right', height: '51px', minHeight: '4.1vw'}/* follow styles.boxImg*/}>
+          {this.props.i18nUIString.catalog["message_Chain_noShareds"]}
+        </span>
+      )
+    }
 
     return listDOM;
   }

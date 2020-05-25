@@ -7,6 +7,8 @@ import {
   Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import classnames from 'classnames';
+import styles from "./styles.module.css";
 import Explore from './partExplore/Explore.jsx';
 import NavOptions from '../Components/NavOptions/NavOptions.jsx';
 import ModalBox from '../Components/ModalBox.jsx';
@@ -32,14 +34,6 @@ class WithinCosmic extends React.Component {
         position: 'fixed',
         backgroundColor: '#FCFCFC'
       },
-      Within_Cosmic_NavOptions: {
-        width: '1.4%',
-        height: '3.2%',
-        position: 'fixed',
-        bottom: '6.9%',
-        right: '1%',
-        boxSizing: 'border-box'
-      }
     }
   }
 
@@ -112,14 +106,19 @@ class WithinCosmic extends React.Component {
     return(
       <div>
         <div style={this.style.Within_Cosmic_backplane}></div>
-        <Switch>
+        <div
+          className={classnames(styles.boxCosmic)}>
+          <div
+            className={classnames(styles.boxNavOptions)}
+            style={{bottom: '2vh', top: 'unset'}}>
+            <NavOptions {...this.props} _refer_to={this._refer_von_cosmic}/>
+          </div>
+          <Switch>
 
-          <Route path={this.props.match.path+"/explore"} render={(props)=> <Explore {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
-        </Switch>
-
-        <div style={this.style.Within_Cosmic_NavOptions}>
-          <NavOptions {...this.props}/>
+            <Route path={this.props.match.path+"/explore"} render={(props)=> <Explore {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
+          </Switch>
         </div>
+
         {
           //here and beneath, are dialog system for global used,
           //the series 'message' in redux state is prepared for this kind of global message dialog

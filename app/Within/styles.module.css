@@ -4,6 +4,10 @@
   position: relative;
   z-index: 3; /* set as a 'base': on the contrast to the 'Modal'*/
 }
+.boxCosmic {
+  width: 100%;
+  z-index: 3; /* set as a 'base': on the contrast to the 'Modal'*/
+}
 .boxAround {
   width: 100%;
   z-index: 3; /* set as a 'base': on the contrast to the 'Modal'*/

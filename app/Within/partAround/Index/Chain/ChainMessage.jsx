@@ -31,7 +31,10 @@ class ChainMessage extends React.Component {
 
   render(){
     return(
-      <div>
+      <div
+        className={classnames(
+          styles.boxModule,
+          styles.boxModuleSmall)}>
         {this._render_HintMessage()}
       </div>
     )
@@ -40,171 +43,159 @@ class ChainMessage extends React.Component {
   _render_HintMessage(){
     /*
     More like a 'situation board'
-    1) no shared: ------
-    2) userShared + resToShared: "Your Shared" + "Responded by ____"
-    3) sharedPrimer + latestShared: "" + "Responded succesfully"
-    4) latestShared: "Shared succesfully"
-    5) resToShared + resToRespond: "Respond to yours" + "Responded by _____"
+    1) X no respond: ------
+    2) userShared + resToShared: "Your Shared" + "Responded [by ____]"
+    3) sharedPrimer + latestShared: "Your Last Read" + "Responded to it [succesfully]"
+    4) latestShared: "Shared [succesfully]" + ""
+    5) resToShared + resToRespond: "Respond to yours" + "Responded [by _____]"
     */
-    if(this.props.sharedsList.list.length == 0){ // 1) no shareds at all
-      return (
-        <span
-          className={classnames(stylesFont.fontContent, stylesFont.colorEditLightBlack)}>
-          {this.props.i18nUIString.catalog["message_Chain_noShareds"]}
-        </span>
-      );
-    }
-    else if(this.props.chainList.listOrderedChain.length == 0){ // 2) shareds but no responds, most common condition
-      return (
-        <div
-          className={classnames(stylesFont.colorEditLightBlack)}>
-          <span
-            className={classnames(stylesFont.fontContent)}>
-            {this.props.i18nUIString.catalog["message_Chain_noChain"][0]}
-          </span>
-          <div
-            style={{display: 'inline-block'}}>
-            <AccountPalette
-              styleFirst={{
-                fontSize: '1.4rem', fontWeight: '400',
-              }}
-              styleLast={{
-                display: 'none'
-              }}
-              userId={this.props.userInfo.id}/>
-          </div>
-          <span
-            className={classnames(stylesFont.fontContent)}>
-            {this.props.i18nUIString.catalog["message_Chain_noChain"][1]}
-          </span>
-        </div>
-      );
-    }
-    else{
-      /*
-      3) new shared, not a responds: latestShared
-      4) new shareds responds to primer: sharedPrimer +latestShared
-      5) responds to your shared: userShared + resToShared
-      6) responds to a responds: resToShared + resToRespond
-      */
-      let user;
-      if( !(this.props.chainList.listOrderedChain[0] in this.props.unitsBasic) || !(this.props.chainList.listOrderedChain[1] in this.props.unitsBasic)) return;
-      switch (this.props.chainList.listInfo[this.props.chainList.listOrderedChain[0]]) {
-        case 'latestShared':
-          return (
-            <span
-              className={classnames(stylesFont.fontContent, stylesFont.colorEditLightBlack)}>
-              {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][0]}
-            </span>
-          );
-          break;
-        case 'sharedPrimer':
-          user = this.props.unitsBasic[this.props.chainList.listOrderedChain[0]].authorId;
-          return (
+    let titleDOM = [];
+    // modification for small screen
+    let cssVW = window.innerWidth; // px of vw in pure integer
+
+    switch (this.props.chainList.listInfo[this.props.chainList.listOrderedChain[0]]) {
+      case "userShared":
+        titleDOM.push(
+          (
             <div
-              className={classnames(stylesFont.colorEditLightBlack)}>
+              key={"key_ChainNailTitle_0"}
+              className={classnames(styles.boxNailTitle)}>
               <span
-                className={classnames(stylesFont.fontContent)}>
-                {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][1][0]}
+                className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
+                {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][0]}
+              </span>
+            </div>
+          ),
+          (
+            <div
+              key={"key_ChainNailTitle_1"}
+              className={classnames(styles.boxNailTitle)}>
+              <span
+                className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
+                {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][1]}
               </span>
               <div
-                className={classnames(stylesFont.colorAssistGold)}
+                className={classnames(stylesFont.colorEditLightBlack)}
                 style={{display: 'inline-block'}}>
                 <AccountPalette
-                  styleFirst={{
-                    fontSize: '1.4rem', fontWeight: '400',
-                  }}
-                  styleLast={{
-                    display: 'none'
-                  }}
-                  userId={user}/>
+                  styleFirst={{fontSize: '1.4rem', fontWeight: '400'}}
+                  userId={this.props.unitsBasic[this.props.chainList.listOrderedChain[1]].authorId}/>
               </div>
-              <span
-                className={classnames(stylesFont.fontContent)}>
-                {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][1][1]}
-              </span>
             </div>
-          );
-          break;
-        case 'userShared':
-          user = this.props.unitsBasic[this.props.chainList.listOrderedChain[1]].authorId;
-          return (
-            <div
-              className={classnames(stylesFont.colorEditLightBlack)}>
-              <div
-                className={classnames(stylesFont.colorAssistGold)}
-                style={{display: 'inline-block'}}>
-                <AccountPalette
-                  styleFirst={{
-                    fontSize: '1.4rem', fontWeight: '400',
-                  }}
-                  styleLast={{
-                    display: 'none'
-                  }}
-                  userId={user}/>
-              </div>
-              <span
-                className={classnames(stylesFont.fontContent)}>
-                {" "+this.props.i18nUIString.catalog["message_Chain_byChainInfo"][2]}
-              </span>
-            </div>
-          );
-          break;
-        case 'resToShared':
-          user = this.props.unitsBasic[this.props.chainList.listOrderedChain[0]].authorId;
-          return (
-            <div
-              className={classnames(stylesFont.colorEditLightBlack)}>
-              <span
-                className={classnames(stylesFont.fontContent)}>
-                {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][3][0]}
-              </span>
-              <div
-                className={classnames(stylesFont.colorAssistGold)}
-                style={{display: 'inline-block'}}>
-                <AccountPalette
-                  styleFirst={{
-                    fontSize: '1.4rem', fontWeight: '400',
-                  }}
-                  styleLast={{
-                    display: 'none'
-                  }}
-                  userId={user}/>
-              </div>
-              <span
-                className={classnames(stylesFont.fontContent)}>
-                {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][3][1]}
-              </span>
-            </div>
-          );
-          break;
-        default:
-        return (
-          <div
-            className={classnames(stylesFont.colorEditLightBlack)}>
-            <span
-              className={classnames(stylesFont.fontContent)}>
-              {this.props.i18nUIString.catalog["message_Chain_noChain"][0]}
-            </span>
-            <div
-              style={{display: 'inline-block'}}>
-              <AccountPalette
-                styleFirst={{
-                  fontSize: '1.4rem', fontWeight: '400',
-                }}
-                styleLast={{
-                  display: 'none'
-                }}
-                userId={this.props.userInfo.id}/>
-            </div>
-            <span
-              className={classnames(stylesFont.fontContent)}>
-              {this.props.i18nUIString.catalog["message_Chain_noChain"][1]}
-            </span>
-          </div>
+          )
         )
-      };
+        break;
+      case "sharedPrimer":
+        titleDOM.push(
+          (
+            <div
+              key={"key_ChainNailTitle_0"}
+              className={classnames(styles.boxNailTitle)}>
+              <span
+                className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
+                {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][3]}
+              </span>
+            </div>
+          ),
+          (
+            <div
+              key={"key_ChainNailTitle_1"}
+              className={classnames(styles.boxNailTitle)}>
+              <span
+                className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
+                {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][4]}
+              </span>
+              <span
+                className={classnames(stylesFont.fontHint, stylesFont.colorEditLightBlack)}>
+                {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][7]}
+              </span>
+            </div>
+          )
+        );
+        if(cssVW < 860) {
+          titleDOM = [];
+          titleDOM.push(
+            (
+              <div
+                key={"key_ChainNailTitle_0"}
+                className={classnames(styles.boxNailTitle)}>
+                <span
+                  className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
+                  {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][2]}
+                </span>
+              </div>
+            ),
+            (
+              <div
+                key={"key_ChainNailTitle_1"}
+                className={classnames(styles.boxNailTitle)}>
+                <span
+                  className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
+                  {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][3]}
+                </span>
+                <span
+                  className={classnames(stylesFont.fontHint, stylesFont.colorEditLightBlack)}>
+                  {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][7]}
+                </span>
+              </div>
+            )
+          )
+        }
+        break;
+      case "latestShared":
+        titleDOM.push(
+          (
+            <div
+              key={"key_ChainNailTitle_0"}
+              className={classnames(styles.boxNailTitle)}>
+              <span
+                className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
+                {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][5]}
+              </span>
+              <span
+                className={classnames(stylesFont.fontHint, stylesFont.colorEditLightBlack)}>
+                {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][7]}
+              </span>
+            </div>
+          ),
+        )
+        break;
+      case "resToShared":
+        titleDOM.push(
+          (
+            <div
+              key={"key_ChainNailTitle_0"}
+              className={classnames(styles.boxNailTitle)}>
+              <span
+                className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
+                {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][6]}
+              </span>
+            </div>
+          ),
+          (
+            <div
+              key={"key_ChainNailTitle_1"}
+              className={classnames(styles.boxNailTitle)}>
+              <span
+                className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
+                {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][1]}
+              </span>
+              <div
+                className={classnames(stylesFont.colorEditLightBlack)}
+                style={{display: 'inline-block'}}>
+                <AccountPalette
+                  styleFirst={{fontSize: '1.4rem', fontWeight: '400'}}
+                  userId={this.props.unitsBasic[this.props.chainList.listOrderedChain[1]].authorId}/>
+              </div>
+            </div>
+          )
+        )
+        break;
+      default:
+
     }
+
+    return titleDOM;
   }
 
 }

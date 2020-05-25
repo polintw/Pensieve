@@ -180,16 +180,17 @@ class Chain extends React.Component {
             {...this.props}
             _set_ChainUnits={this._set_ChainUnits}/>
         </div>
-        <div
-          className={classnames(styles.boxChainModule)}>
+        {
+          (this.props.chainList.listOrderedChain.length > 0 && this.props.chainList.listOrderedChain[0] in this.state.unitsBasic) &&
           <div
-            className={classnames(styles.boxFullWide, styles.boxSeperate)}
-            style={{marginBottom: '4px', textAlign: 'right'}}>
-            <ChainMessage
-              unitsBasic={this.state.unitsBasic}/>
-          </div>
-          {
-            (this.props.chainList.listOrderedChain.length > 0) &&
+            className={classnames(styles.boxChainModule)}>
+            <div
+              className={classnames(
+                styles.boxFullWide, styles.boxSeperate
+              )}>
+              <ChainMessage
+                unitsBasic={this.state.unitsBasic}/>
+            </div>
             <div
               className={classnames(
                 styles.boxModule,
@@ -197,8 +198,8 @@ class Chain extends React.Component {
               )}>
               {this._render_ChainUnits()}
             </div>
-          }
-        </div>
+          </div>
+        }
 
       </div>
     )

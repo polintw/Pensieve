@@ -33,7 +33,7 @@
   min-width: 6.5vw;
   min-height: 4.1vw;
   position: relative;
-  margin: 4px;
+  margin: 4px 8px 4px 0;
   border-radius: 4px;
   box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
   cursor: pointer;
@@ -68,20 +68,25 @@
   z-index: 1;
 }
 
+.boxNailTitle { /* follow width change of NailFeed */
+  width: 342px;
+  min-width: 30.16vw;
+  max-width: 96.24vw;
+  padding-right: 2.76vw;
+}
+
 @media screen and (max-width:860px) {
   .boxModuleSmall {
     justify-content: center;
   }
 
   .boxChainModule {
-    display: flex;
-    flex-direction: column-reverse;
+    margin-top: 12px;
   }
 
   .boxIndexShare {
     width: 100%;
     position: static;
-    margin: 8px 0;
     z-index: unset;
     overflow: hidden;
   }
