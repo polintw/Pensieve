@@ -58,18 +58,18 @@ export const i18nUIStringInit = {
 
      "guidingSign_Confirm_Success": ["Email address has been successfully verified.", "Sign in now and start your adventure, to infinity and beyond!"],
      "guidingSign_Confirm_Fail": ["Email address verified failed.", "It's probablly due to the valid time was over.", "Or, haven't received the verified mail?"],
-     "link_Sign_mailResend": "send the verified email again",
+     "link_Sign_mailResend": "sending verified mail again",
      "title_Sign_mailResend": ["Fill in your email address to re-send a verified email again.", "Fill in the email of your account. "],
      "title_Sign_pwReset": "Now please enter New Password.",
      "link_Sign_resendButton": "submit",
      "message_Resend_PassReset": "Your password has been updated. Please Sign in with new password. ",
 
-     "title_Signup_Success": "Success!",
+     "title_Signup_Success": "Success! Please Verifying Your Mail Address.",
      "title_Signup_VefiryFail": "Verified fail.",
      "title_Signup_VefiryConfirm": "Complete!",
      "guidingSign_Signup_Success": [
-       "Your registration was submit successfully, and there is only 1 last step.",
-       "Please Verifing your Email Address by Mail we just sent to you. That's all you need to do before log in.",
+       "Your registration was submit successfully.",
+       "Please verifing your mail address by link we just sent to you. That's all you need to do before log in.",
      ],
 
      "subtitle_Sign_name": ["First name", "Family name"],
@@ -77,7 +77,7 @@ export const i18nUIStringInit = {
      "hint_Signup_gendeSelect": "How do you want us to call you?",
      "options_genderPronoun": ["He/Him", "She/Her"],
      "message_Signup_Form": [
-       "Please provide an valid email adress",
+       "Please provide an valid email address",
        "First and Last name are required.",
        "please choose your gender, or select desired pronoun by 'Others'",
        'Password must be more than 8 chars and incl. at least 1 letter and 1 number',

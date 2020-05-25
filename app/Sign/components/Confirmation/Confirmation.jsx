@@ -7,9 +7,6 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import stylesFont from '../../stylesFont.module.css';
-import {
-  LinkMailResend,
-} from '../SigninForm/SigninFormComps.jsx';
 
 class ConfirmSuccess extends React.Component {
   constructor(props){
@@ -100,9 +97,6 @@ class ConfirmFail extends React.Component {
           <p>{this.props.i18nUIString.catalog["guidingSign_Confirm_Fail"][0]}</p>
           <p>{this.props.i18nUIString.catalog["guidingSign_Confirm_Fail"][1]}</p>
           <p>{this.props.i18nUIString.catalog["guidingSign_Confirm_Fail"][2]}</p>
-          <p style={{textAlign: 'right'}}>
-            <LinkMailResend {...this.props}/>
-          </p>
         </div>
       </div>
     )

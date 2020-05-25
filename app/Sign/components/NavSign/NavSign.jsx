@@ -7,6 +7,9 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesFont from '../../stylesFont.module.css';
+import {
+  LinkMailResend,
+} from '../SigninForm/SigninFormComps.jsx';
 
 class NavSign extends React.Component {
   constructor(props){
@@ -70,6 +73,14 @@ class NavSign extends React.Component {
     }
     else if(this.props.location.pathname.includes('/fail')){ // '/confirm/fail'
       navDOM.push(linkSignin(this, false));
+      //and for this case, we add LinkMailResend additionally
+      navDOM.unshift(
+        <p
+          key={"key_NavSign_verifiedMail"}
+          style={{position: 'absolute', left:'0'}}>
+          <LinkMailResend {...this.props}/>
+        </p>
+      );
     }
     else{
        navDOM.push(linkSignin(this, true));

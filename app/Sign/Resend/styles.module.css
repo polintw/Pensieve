@@ -1,21 +1,37 @@
-.boxColumn {
-  width: 30vw;
-  height: 100%;
-  position: absolute;
-  left: 25%;
+.comSignResend{
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  z-index: 3; /* set as a 'base': on the contrast to the 'Modal'*/
+}
+
+.boxFooter {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  align-content: space-between;
+  width: 100%;
+  position: sticky;
+  box-sizing: border-box;
 }
 
 .boxServiceLink {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  box-sizing: border-box;
-  padding: 5vh 0;
+  position: relative;
+  margin-bottom: 2.66vh;
 }
 
-.boxLogo: {
-  display: inline-block;
-  width: 10vw;
-  min-height: 27px;
-  position: relative;
+.boxLogo {
+  width: 73%;
+  max-width: 27vw;
+  min-width: 9vw;
+  box-sizing: border-box;
+  margin-bottom: 2.66vh;
+  mix-blend-mode: darken;
+  text-align: center;
+  cursor: pointer;
+}
+
+.boxRightsClaim {
+  text-align: right;
 }

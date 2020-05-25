@@ -15,33 +15,22 @@ class Sign extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      pages: 'signin'
+
     };
-    this.style={
-      div_Base: {
-        width: "100%",
-        minHeight: "100vh",
-        position: 'relative'
-      }
-    }
   }
 
 
 
   render(){
-    //let cx = cxBind.bind(styles);
     return(
       <Router
         basename={"/s"}>
-        <div
-          style={this.style.div_Base}>
-          <Switch>
-            <Route path="/signup" render={(props)=> <Signup {...props}/>}/>
-            <Route path="/signin" render={(props)=> <Signin {...props}/>}/>
-            <Route path="/confirm" render={(props)=> <Confirmation {...props}/>}/>
-            <Route path="/resend" render={(props)=> <Resend {...props}/>}/>
-          </Switch>
-        </div>
+        <Switch>
+          <Route path="/signup" render={(props)=> <Signup {...props}/>}/>
+          <Route path="/signin" render={(props)=> <Signin {...props}/>}/>
+          <Route path="/confirm" render={(props)=> <Confirmation {...props}/>}/>
+          <Route path="/resend" render={(props)=> <Resend {...props}/>}/>
+        </Switch>
       </Router>
     )
   }
