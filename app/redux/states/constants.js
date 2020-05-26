@@ -59,9 +59,8 @@ export const i18nUIStringInit = {
      "guidingSign_Confirm_Success": ["Email address has been successfully verified.", "Sign in now and start your adventure, to infinity and beyond!"],
      "guidingSign_Confirm_Fail": ["Email address verified failed.", "It's probablly due to the valid time was over.", "Or, haven't received the verified mail?"],
      "link_Sign_mailResend": "sending verified mail again",
-     "title_Sign_mailResend": ["Fill in your email address to re-send a verified email again.", "Fill in the email of your account. "],
+     "title_Sign_mailResend": ["Re-send Verified Mail", "Forget Password"],
      "title_Sign_pwReset": "Now please enter New Password.",
-     "link_Sign_resendButton": "submit",
      "message_Resend_PassReset": "Your password has been updated. Please Sign in with new password. ",
 
      "title_Signup_Success": "Success! Please Verifying Your Mail Address.",
@@ -74,6 +73,7 @@ export const i18nUIStringInit = {
 
      "subtitle_Sign_name": ["First name", "Family name"],
      "subtitle_Sign_gender": "Gender",
+     "subtitle_Sign_emailResend": "Email of your account",
      "hint_Signup_gendeSelect": "How do you want us to call you?",
      "options_genderPronoun": ["He/Him", "She/Her"],
      "message_Signup_Form": [
@@ -109,6 +109,7 @@ export const i18nUIStringInit = {
      "button_complete": "Complete",
 
      "message_hello": "Hi, ",
+     "submit_": "Submit",
      "submit_edit": "Edit",
      "submit_save": "Save",
      "submit_erase": "erase",

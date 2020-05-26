@@ -6,6 +6,8 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import stylesFont from '../stylesFont.module.css';
+import MessageInput from '../components/MessageInput/MessageInput.jsx';
 import {
   cancelErr,
   uncertainErr
@@ -18,34 +20,18 @@ import {
   axiosSwitch,
 } from "../../redux/actions/general.js";
 
+const emailValidation = (emailValue)=>{ return emailValue.checkValidity(); } //js f(), would return bool by result of validation
+
 class EmailResend extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      email: ""
+      email: "",
+      greenlight: false
     };
     this.axiosSource = axios.CancelToken.source();
     this._handleChange_Input = this._handleChange_Input.bind(this);
     this._handle_Mailresend = this._handle_Mailresend.bind(this);
-    this.style={
-      SignupMailresend_: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box'
-      },
-      Mailresend_form_: {
-        width: '40%',
-        height: '70%',
-        position: 'absolute',
-        top: '18%',
-        left: '50%',
-        transform: 'translate(-50%, 0)',
-        boxSizing:'border-box'
-      }
-    }
   }
 
   _handle_Mailresend(event){
@@ -78,10 +64,16 @@ class EmailResend extends React.Component {
   }
 
   _handleChange_Input(event) {
-    //the value of event target would convert into String, no matter what type in original options/inputs
-    this.setState({
-        [event.target.name]: event.target.value
-    })
+    let obj={};
+    obj[event.currentTarget.name] = event.currentTarget.value;
+    obj['greenlight'] =  emailValidation(event.currentTarget) ? true : false;
+    // we also check if going to reset message
+    if(event.currentTarget.name in ((typeof this.props.message != "string") ? this.props.message : {})) {
+      let messageObj = {};
+      messageObj[event.currentTarget.name] = "";
+      this.props._set_axiosRes({message: messageObj});
+    };
+    this.setState(obj);
   }
 
   componentDidMount() {
@@ -99,68 +91,76 @@ class EmailResend extends React.Component {
     let params = new URLSearchParams(this.props.location.search); //we need value in URL query
     this.purpose = params.get('purpose');
 
+    const submitPermission = ( !this.props.axios && this.state.greenlight )? true : false;
     const message = this.props.message;
     return(
       <div
-        style={this.style.SignupMailresend_}>
-          <h2>
+        className={styles.comResendMail}>
+        <div
+          style={{marginBottom: '3rem'}}>
+          <span
+            className={classnames(stylesFont.fontTitle, stylesFont.colorBlack85)}>
             {
               (this.purpose == "verifications") ? (
                 this.props.i18nUIString.catalog["title_Sign_mailResend"][0]
               ):(
                 this.props.i18nUIString.catalog["title_Sign_mailResend"][1]
               )
-
-            }</h2>
-          <form onSubmit={this._handle_Mailresend}>
-            {'email:'}<br/>
+            }
+          </span>
+        </div>
+        <form onSubmit={this._handle_Mailresend}
+          style={{width: '100%'}}>
+          <span
+            className={classnames(styles.spanTag, stylesFont.fontContent, stylesFont.colorSignBlack)}>
+            {this.props.i18nUIString.catalog["subtitle_Sign_emailResend"]}
+          </span>
+          <div
+            className={classnames(styles.boxInput)}>
             <input
               type="email"
-              placeholder="Email"
+              placeholder="example@mail.com"
               name="email"
-              onChange={ this._handleChange_Input }
-              value={ this.state.email }/><br/>
-              {
-                message.email &&
-                <div>{message.email}</div>
-              }
-              <br/>
-              {
-                message.warning &&
-                <div>{message.warning}</div>
-              }
-              <input
-                type='submit'
-                value={this.props.i18nUIString.catalog["link_Sign_resendButton"]}
-                disabled={this.props.axios? true:false}/>
-            </form>
-          <div
-            style={{display:'flex',justifyContent: 'space-around',width: '50%',margin:'2rem 0',float:'right'}}>
-            <a
-              href="/"
-              target="_self"
+              required
               className={classnames(
-                'plainLinkButton'
+                'plainInputText',
+                styles.inputSign, stylesFont.fontContent, stylesFont.colorBlack85,
+                {[styles.inputSignError]: message.email}
               )}
-              style={{margin: '5rem, 0', display: 'block'}}>
-              <span
-                className={classnames(
-                  styles.spanSignIn,
-                )}>
-                {"Sign in"}</span>
-            </a>
-            <Link
-              to="/signup"
-              className={classnames('plainLinkButton')}
-              style={{margin: '5rem, 0', display: 'block'}}>
-              <span
-                className={classnames(
-                  styles.spanSignIn,
-                )}>
-                {"Sign up"}</span>
-            </Link>
+              value={this.state.email}
+              onChange={this._handleChange_Input}/>
+            {
+              message.email &&
+              <div
+                className={classnames(styles.boxInputMes)}>
+                <MessageInput
+                  messageIcon={"error"}
+                  messageText={message.email}/>
+              </div>
+            }
           </div>
+          {
+            message.warning &&
+            <div
+              className={classnames(styles.boxWarning)}>
+              <MessageInput
+                messageIcon={false}
+                messageText={message.warning}/>
+            </div>
+          }
+          <input
+            type='submit'
+            value={this.props.i18nUIString.catalog["submit_"]}
+            disabled={submitPermission? false: true}
+            className={classnames(
+              'plainInput',
+              styles.boxSubmit,
+              {[styles.boxSubmitAllow]: submitPermission},
+              stylesFont.colorWhite, stylesFont.fontSubtitle)}/>
+
+        </form>
       </div>
+
     )
   }
 }

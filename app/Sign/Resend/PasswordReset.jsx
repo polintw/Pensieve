@@ -23,12 +23,7 @@ class PasswordReset extends React.Component {
     this._submit_success = this._submit_success.bind(this);
     this.style={
       SignupMailresend_: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box'
+
       },
       Mailresend_form_: {
         width: '40%',
@@ -64,6 +59,7 @@ class PasswordReset extends React.Component {
     return(
       <div
         style={this.style.SignupMailresend_}>
+
           <h2>
             { this.props.i18nUIString.catalog["title_Sign_pwReset"]}</h2>
           <PasswordForm
@@ -71,32 +67,6 @@ class PasswordReset extends React.Component {
             pwreset={true}
             _submit_success={this._submit_success}/>
 
-          <div
-            style={{display:'flex',justifyContent: 'space-around',width: '50%',margin:'2rem 0',float:'right'}}>
-            <a
-              href="/"
-              target="_self"
-              className={classnames(
-                'plainLinkButton'
-              )}
-              style={{margin: '5rem, 0', display: 'block'}}>
-              <span
-                className={classnames(
-                  styles.spanSignIn,
-                )}>
-                {"Sign in"}</span>
-            </a>
-            <Link
-              to="/signup"
-              className={classnames('plainLinkButton')}
-              style={{margin: '5rem, 0', display: 'block'}}>
-              <span
-                className={classnames(
-                  styles.spanSignIn,
-                )}>
-                {"Sign up"}</span>
-            </Link>
-          </div>
       </div>
     )
   }

@@ -10,6 +10,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import EmailResend from './EmailResend.jsx';
 import PasswordReset from './PasswordReset.jsx';
+import NavSign from '../components/NavSign/NavSign.jsx';
 import SvgLogo from '../../Components/Svg/SvgLogo.jsx';
 import ServiceLinks from '../../Components/ServiceLinks.jsx';
 import ModalBox from '../../Components/ModalBox.jsx';
@@ -26,13 +27,6 @@ class Resend extends React.Component {
 
     };
     this.style={
-      boxContent: {
-        width: '20vw',
-        position: 'absolute',
-        top: '13%',
-        right: '0',
-        boxSizing:'border-box'
-      },
       Within_Around_backplane:{
         width: '100%',
         height: '100%',
@@ -60,13 +54,20 @@ class Resend extends React.Component {
         <div style={this.style.Within_Around_backplane}></div>
         <div
           className={classnames(styles.comSignResend)}>
-
           <div
-            style={this.style.boxContent}>
-            <Switch>
-              <Route path={this.props.match.path+"/pwreset"} render={(props)=> <PasswordReset {...props}/>}/>
-              <Route path={this.props.match.path+"/"} render={(props)=> <EmailResend {...props}/>}/>
-            </Switch>
+            className={classnames(styles.boxContent)}>
+            <div
+              className={classnames(styles.boxColumn)}>
+              <Switch>
+                <Route path={this.props.match.path+"/pwreset"} render={(props)=> <PasswordReset {...props}/>}/>
+                <Route path={this.props.match.path+"/"} render={(props)=> <EmailResend {...props}/>}/>
+              </Switch>
+              <div
+                className={classnames(styles.boxNav)}>
+                <NavSign
+                  {...this.props}/>
+              </div>
+            </div>
           </div>
 
           <div
@@ -76,7 +77,6 @@ class Resend extends React.Component {
               onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_to('', '/')}}>
               <SvgLogo/>
             </div>
-
             <div
               className={classnames(styles.boxServiceLink)}>
               <ServiceLinks />
@@ -90,7 +90,6 @@ class Resend extends React.Component {
                 <span>{this.props.i18nUIString.catalog["AllRights"]}</span>
               </div>
             </div>
-
           </div>
 
         </div>
@@ -111,7 +110,6 @@ class Resend extends React.Component {
             </ModalBackground>
           </ModalBox>
         }
-
       </div>
     )
   }
