@@ -2,9 +2,31 @@
   font-size: 3.2rem;
 }
 
+.fontTitle {
+  font-size: 2.4rem;
+}
+
 .fontTitleSmall {
   font-size: 1.2rem;
   line-height: 1.5;
+}
+
+.fontSubtitle {
+  font-size: 1.6rem;
+}
+
+.fontSubtitle_h5 {
+  font-size: 1.6rem;
+  line-height: 1.5;
+}
+
+.fontBold {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.fontContentPlain {
+  font-size: 1.4rem;
 }
 
 .fontContent {
@@ -14,14 +36,6 @@
 
 .colorWhite {
   color: #ffffff
-}
-
-.colorEditBlack {
-  color: #545454;
-}
-
-.colorEditLightBlack {
-  color: #757575;
 }
 
 .colorStandard {
@@ -34,6 +48,18 @@
 
 .colorDarkGrey {
   color: #979797;
+}
+
+.colorSignBlack {
+  color: #3c4144;
+}
+
+.colorEditBlack {
+  color: #545454;
+}
+
+.colorEditLightBlack {
+  color: #757575;
 }
 
 .colorDescripBlack {

@@ -581,15 +581,16 @@ class SignupForm extends React.Component {
       'password': this.state.password,
       'password_confirm': this.state.password_confirm,
       'gender': this.state.gender,
-
     };
 
+    this.setState({axios: true});
     axios.post('/router/register', reqBody, {
       headers: {'charset': 'utf-8'},
       cancelToken: this.axiosSource.token
     }).then(function (res) {
-      this.props._signup_success();
+      self.setState({axios: false});
 
+      this.props._signup_success();
     })
     .catch(function (thrown) {
       self.setState({axios: false});

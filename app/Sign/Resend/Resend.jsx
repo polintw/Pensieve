@@ -74,7 +74,7 @@ class Resend extends React.Component {
             className={classnames(styles.boxFooter)}>
             <div
               className={classnames(styles.boxLogo)}
-              onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_to('', '/')}}>
+              onClick={(e)=>{e.preventDefault(); e.stopPropagation(); window.location.assign('/');}}>
               <SvgLogo/>
             </div>
             <div

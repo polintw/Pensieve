@@ -46,7 +46,7 @@ export function uncertainErr(error){
     switch (error.response.data.code) {
       case 32: //meaning invalid authorization, need to authorize again & redirect.
         alert(error.response.data.message);
-        window.location.assign('/s/signin'); //anauthorized with invalid token, reload to check the token
+        window.location.assign('/signin'); //anauthorized with invalid token, reload to check the token
         return null; //return to inform iterator, meaning no need for further handleing
         break;
       case 33: //special for sign in, user not verified email

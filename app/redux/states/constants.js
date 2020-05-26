@@ -60,7 +60,7 @@ export const i18nUIStringInit = {
      "guidingSign_Confirm_Fail": ["Email address verified failed.", "It's probablly due to the valid time was over.", "Or, haven't received the verified mail?"],
      "link_Sign_mailResend": "sending verified mail again",
      "title_Sign_mailResend": ["Re-send Verified Mail", "Forget Password"],
-     "title_Sign_pwReset": "Now please enter New Password.",
+     "title_Sign_pwReset": "Reset New Password.",
      "message_Resend_PassReset": "Your password has been updated. Please Sign in with new password. ",
 
      "title_Signup_Success": "Success! Please Verifying Your Mail Address.",

@@ -58,7 +58,7 @@ class Within_Sign extends React.Component {
 
           <div
             className={classnames(styles.boxNavAround)}>
-            <NavWithin {...this.props} _refer_to={()=>{}}/>
+            <NavWithin {...this.props} _refer_to={()=>{window.location.assign('/')}}/>
           </div>
         </div>
 
