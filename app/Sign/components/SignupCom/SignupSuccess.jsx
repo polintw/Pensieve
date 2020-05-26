@@ -17,9 +17,9 @@ class SignupSuccess extends React.Component {
         justifyContent: 'flex-end',
         alignItems: 'flex-start',
         width: '100%',
-        minHeight: '50vh',
-        paddingBottom: '5vh',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        paddingTop: "12vh",
+        marginBottom: "7.6vh"
       }
     }
   }

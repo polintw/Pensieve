@@ -152,6 +152,7 @@ class Wrapper extends React.Component {
 
           </div>
           <div
+            style={{display: 'none'}}
             className={classnames(styles.boxRow)}>
             <Invite/>
           </div>

@@ -87,7 +87,7 @@ class NavSite extends React.Component {
       <div
         className={classnames(styles.comNavSite)}>
         <a
-          href={"/s/signin"}
+          href={"/"}
           method="sign"
           className={classnames('plainLinkButton')}
           onMouseEnter={this._handleEnter_CornerOpt}

@@ -40,7 +40,10 @@ class NavSign extends React.Component {
 
   _render_linkCenter(){
     let navDOM = [];
-    if(this.props.location.pathname.includes('/success')){
+    if(this.props.location.pathname.includes('/resend')){ // only under /s/, and "/s/" was set as 'base', not present in location.pathname
+      navDOM.push(hrefSign(this, false, true, "/"));
+    }
+    else if(this.props.location.pathname.includes('/success')){
       navDOM.push(
         <Link
           key={"key_NavSign_toSignin"}
@@ -98,6 +101,33 @@ class NavSign extends React.Component {
     )
   }
 }
+
+const hrefSign = (self, iscenter, leftBorder, path) => {
+  return (
+    <a
+      key={"key_NavSign_to_"+path}
+      href={path}
+      className={classnames(
+        'plainLinkButton',
+        {[styles.boxLinkSelfAlign]: !iscenter}
+      )}
+      style={ leftBorder ? {}: {border: 'unset'} }
+      onClick={(event)=>{ if(iscenter) event.preventDefault();}}>
+      <span
+        className={classnames(
+          styles.spanLinkSign,
+          stylesFont.fontTitle,
+          stylesFont.colorWhiteGrey,
+          {[stylesFont.colorSignBlack]: self.state.onInActive}
+        )}
+        style={iscenter? {color: '#3c4144', cursor: 'default'}: {}}
+        onMouseEnter={self._handleEnter_Link}
+        onMouseLeave={self._handleLeave_Link}>
+        {self.props.i18nUIString.catalog["submit_nav_Signin"]}
+      </span>
+    </a>
+  )
+};
 
 const linkSignin = (self, iscenter) => {
   return (

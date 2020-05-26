@@ -20,7 +20,6 @@ class ConfirmSuccess extends React.Component {
         flexDirection: 'column',
         justifyContent: 'flex-end',
         alignItems: 'flex-start',
-        minHeight: '42vh',
         width: '100%',
         boxSizing: 'border-box'
       }
@@ -67,7 +66,6 @@ class ConfirmFail extends React.Component {
         flexDirection: 'column',
         justifyContent: 'flex-end',
         alignItems: 'flex-start',
-        minHeight: '42vh',
         width: '100%',
         boxSizing: 'border-box'
       }
@@ -112,8 +110,9 @@ class Confirmation extends React.Component {
     this.style={
       Confirmation_: {
         width: '100%',
-        paddingBottom: '10vh',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        paddingTop: "12vh",
+        marginBottom: "7.6vh"
       },
     }
   }

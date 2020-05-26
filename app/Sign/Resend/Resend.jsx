@@ -27,7 +27,7 @@ class Resend extends React.Component {
 
     };
     this.style={
-      Within_Around_backplane:{
+      Sign_backplane:{
         width: '100%',
         height: '100%',
         position: 'fixed',
@@ -51,7 +51,7 @@ class Resend extends React.Component {
   render(){
     return(
       <div>
-        <div style={this.style.Within_Around_backplane}></div>
+        <div style={this.style.Sign_backplane}></div>
         <div
           className={classnames(styles.comSignResend)}>
           <div
