@@ -6,12 +6,12 @@ module.exports = function validatePasswordChangedInput(data) {
     data.password = !isEmpty(data.password) ? data.password : '';
     data.password_confirm = !isEmpty(data.password_confirm) ? data.password_confirm : '';
 
-    if(Validator.isEmpty(data.password) || Validator.isEmpty(data.password_confirm)) {
-        errors.password = 'Password is required';
+    if(Validator.isEmpty(data.password)) {
+        validationErrors.password = 'Password is required';
     }
 
     if(!Validator.equals(data.password, data.password_confirm)) {
-      errors.password_confirm = 'Password and Confirm Password must match';
+      validationErrors.password_confirm = 'Password and Confirm Password must match';
     }
 
     const regexRule = RegExp("^(?=.*?[A-Za-z])(?=.*?[0-9]).{8,}$");
@@ -21,7 +21,7 @@ module.exports = function validatePasswordChangedInput(data) {
     /* ref: https://stackoverflow.com/questions/11533474/java-how-to-test-if-a-string-contains-both-letter-and-number */
     /* ref: https://stackoverflow.com/questions/34292024/regular-expression-vs-vs-none */
     if( !ruleOneOne ) {
-      errors.password = 'Password must be more than 8 chars and incl. at least 1 letter and 1 number';
+      validationErrors.password = 'Password must be more than 8 chars and incl. at least 1 letter and 1 number';
     }
 
     /*

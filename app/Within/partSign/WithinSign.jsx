@@ -33,7 +33,7 @@ class WithinSign extends React.Component {
 
   _signup_success(){
     this.props.history.replace({
-      pathname: this.props.match.path + "/signup/success",
+      pathname: this.props.location.pathname + "/success", // '/signup' + '/success'
       state: { from: this.props.location }
     });
   }
@@ -73,7 +73,7 @@ class WithinSign extends React.Component {
           <Switch>
             <Route path={ "/confirm"} render={(props) => <Confirmation {...props} />} />
             <Route path={ "/signup/success"} render={(props) => <SignupSuccess {...props} />} />
-            <Route path={"/signup"} render={(props) => <SignupForm {...props} _signin_success={this._signup_success} />}/>
+            <Route path={"/signup"} render={(props) => <SignupForm {...props} _signup_success={this._signup_success} />}/>
             <Route path={this.props.match.path} render={(props) => <SigninForm {...props} _signin_success={this._signin_success} />}/>
           </Switch>
         </div>

@@ -496,7 +496,7 @@ class SignupForm extends React.Component {
             className={classnames(
               'plainInput',
               styles.boxSubmit,
-              {[styles.boxSubmitAllow]: this.state.submitPermission},
+              {[styles.boxSubmitAllow]: (this.state.submitPermission && !this.state.axios)},
               stylesFont.colorWhite, stylesFont.fontSubtitle)}
             style={{marginTop: '1rem'}}/>
 
@@ -590,7 +590,7 @@ class SignupForm extends React.Component {
     }).then(function (res) {
       self.setState({axios: false});
 
-      this.props._signup_success();
+      self.props._signup_success();
     })
     .catch(function (thrown) {
       self.setState({axios: false});

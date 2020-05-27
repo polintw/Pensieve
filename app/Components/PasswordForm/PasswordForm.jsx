@@ -279,7 +279,7 @@ class PasswordForm extends React.Component {
             className={classnames(
               'plainInput',
               styles.boxSubmit,
-              {[styles.boxSubmitAllow]: this.state.submitPermission},
+              {[styles.boxSubmitAllow]: (this.state.submitPermission && !this.state.axios)},
               "colorWhite", "fontSubtitle")}
             style={{marginTop: '1rem'}}/>
         </form>
@@ -327,10 +327,18 @@ class PasswordForm extends React.Component {
 
       return; // and stop process
     }
+    else {
+      this.setState((prevState, props)=>{
+        return {
+          resMessage: {} // reset resMessage, especially clear 'warning'
+        };
+      });
+    }
 
     const self = this;
     let reqBody = {
       'password': this.state.password,
+      'password_confirm': this.state.password_confirm,
       'password_old': this.state.password_old //empty if under /pwreset
     };
     let params = new URLSearchParams(this.props.location.search); //we need value in URL query
@@ -350,7 +358,7 @@ class PasswordForm extends React.Component {
     }).then(function (res) {
       self.setState({axios: false});
 
-      this.props._submit_success();
+      self.props._submit_success();
     })
     .catch(function (thrown) {
       self.setState({axios: false});
