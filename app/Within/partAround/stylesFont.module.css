@@ -53,6 +53,10 @@ remember all above font style should also have copy in @media neneath
   color: #b8b8b8;
 }
 
+.colorGrey {
+  color: #a3a3a3;
+}
+
 .colorEditBlack {
   color: #545454;
 }

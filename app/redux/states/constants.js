@@ -84,7 +84,7 @@ export const i18nUIStringInit = {
        "Not the same as above"
      ],
      "descript_Sign_termsDeclaim": [
-       "By clicking “Register”, you agree our", " Terms", " of Services and ", "Privacy Policy", "."],
+       "By clicking “Register”, you agree our", " Terms of Services", " and ", "Privacy Policy", "."],
      "submit_nav_Signin": "Sign in",
      "submit_nav_Signup": "Sign up",
 
@@ -131,12 +131,12 @@ export const i18nUIStringInit = {
 
      "title_shareUpload_typewriter": ['S','h','a','r','e'],
      "guidingCreateShare_AssignGroup": "Share to Fellows from/at",
-     "guiding_FeedAssigned_noneAssigned": "Not yet any unit was shared. But let's take a look at other places:",
+     "guiding_FeedAssigned_noneAssigned": "Not yet any unit was contributed to your corners. But let's take a look at other places:",
      "message_Unit_Editing_AssignNotAllowed": "the corner linked to could Not be changed after first release.",
      "message_Unit_EraseConfirm": ["No one would see this Shared after erase, including you. ", "Are you sure your going to erase this Shared?"],
      "message_Unit_EraseRes": ["This Shared has beed erased successfully."],
      "title_FeedAssigned_AllRead": "you've all browsed.",
-     "title_FeedAssigned_": "Pool",
+     "title_FeedAssigned_": "View",
      "title_Chain_Shareds_": "My shareds",
 
      "message_Chain_noShareds": "share a scene to see how people think.",
@@ -156,8 +156,9 @@ export const i18nUIStringInit = {
      "messageBelongChoiceinBool": ["site ", "  as your  ", "  place?"],
      "descript_BelongSet_SearchBytType": ["Input corner name of your "],
      "descript_AroundIndex_footer": "You've reached the edge of Cornerth.!",
-     "descript_AroundIndex_footer_noshared": "how about yours?",
      'descript_AroundIndex_footer_BelongHint': "start browsing by your current stay or homeland!",
      "guiding_AroundIndex_Share": "Share something",
+
+     "descript_Nail_noMark": "(expand image...)"
    }
 }

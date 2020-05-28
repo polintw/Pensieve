@@ -83,6 +83,17 @@ class NailMarksPreview extends React.Component {
   }
 
   _render_nails_Marks(){
+    // we allow img without text content or any Mark, but that's means there was no marks. so we should distinguish them
+    if(this.props.unitBasic.marksList.length == 0){
+      return(
+        <div
+          key={"key_nail_" + this.props.unitId + "_mark"}
+          className={classnames(stylesFont.fontContent, stylesFont.colorGrey)}>
+          {this.props.i18nUIString.catalog['descript_Nail_noMark']}
+        </div>
+      )
+    };
+
     let key = (this.props.unitBasic.marksList.indexOf(parseInt(this.state.onCount)) != (-1)) ? this.state.onCount : this.props.unitBasic.marksList[0];
 
     return (

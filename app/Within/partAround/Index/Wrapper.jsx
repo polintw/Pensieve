@@ -184,23 +184,19 @@ class Wrapper extends React.Component {
   }
 
   _render_FooterHint(){
-    //first, if the belong do not be set at all, which means could not share and do fetch any feed
-    if(!this.props.belongsByType['residence'] && !this.props.belongsByType['homeland']){
+    // by feed length, we gave users some message about the thing they could do
+    let feedConcatList = this.props.indexLists.listUnreadNew.concat(this.props.indexLists.listUnread);
+    if (!this.props.belongsByType['residence'] && !this.props.belongsByType['homeland']) { //first, if the belong do not be set at all, which means could not share and do fetch any feed
       return (
         <span
-          className={classnames(styles.spanFooterHint, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
+          className={classnames(styles.spanFooterHint, stylesFont.fontTitleSmall, stylesFont.colorGrey)}>
           {this.props.i18nUIString.catalog["descript_AroundIndex_footer_BelongHint"]}</span>
       );
     }
-    else if(this.props.sharedsList.list.length< 1){
-      return (
-        <span
-          className={classnames(styles.spanFooterHint, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
-          {this.props.i18nUIString.catalog['descript_AroundIndex_footer_noshared']}
-        </span>
-      );
+    else if (feedConcatList.length< 1){ // no feed at all
+      return ;
     }
-    else{
+    else{ // general situation
       return (
         <span
           className={classnames(styles.spanFooterHint, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>

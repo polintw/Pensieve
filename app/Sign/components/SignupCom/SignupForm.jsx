@@ -439,7 +439,8 @@ class SignupForm extends React.Component {
         <span>
           <a href="/a/terms"
             className={classnames('plainLinkButton', stylesFont.colorStandard)}>
-            {this.props.i18nUIString.catalog["descript_Sign_termsDeclaim"][1]}</a>
+            {this.props.i18nUIString.catalog["descript_Sign_termsDeclaim"][1]}
+          </a>
         </span>
         <span> {this.props.i18nUIString.catalog["descript_Sign_termsDeclaim"][2]}</span>
         <span>

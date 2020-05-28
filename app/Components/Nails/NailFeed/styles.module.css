@@ -26,6 +26,7 @@
   height: 84%;
   position: relative;
   border-radius: 4px;
+  background-color: rgba(217, 232, 255, 0.15);
   overflow: hidden;
 }
 
