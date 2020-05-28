@@ -52,9 +52,9 @@ class FeedAssigned extends React.Component {
     this.setState({axios: true});
 
     this._axios_get_assignedList({
-      onlyNew: false,
-      residLimit: null,
-      timeBase: lastVisit
+      visitBase: lastVisit,
+      listUnitBase:　
+
     })
     .then((resObj)=>{
       //(we don't update the 'axios' state, because there is another axios here, for units, right after the res)
@@ -237,6 +237,7 @@ class FeedAssigned extends React.Component {
   render(){
     this.recKeys = !!this.props.belongsByType.setTypesList? this.props.belongsByType.setTypesList: []; //because there are more than one process need to use this var, but this var would change bu props., we claim it to this.
     let concatList = this.props.indexLists.listUnreadNew.concat(this.props.indexLists.listUnread); //just for checking if there are any units are going to render
+
     return (
       <div>
         <div
@@ -245,6 +246,7 @@ class FeedAssigned extends React.Component {
             className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
             {this.props.i18nUIString.catalog["title_FeedAssigned_"]}</span>
         </div>
+
         {
           (concatList.length > 0) &&
           <div>
