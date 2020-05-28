@@ -22,24 +22,32 @@ const isEmpty = require('../utils/isEmpty');
 
 //handle register request
 async function _handle_account_password_PATCH(req, res) {
-
+  // Notice! userId here hass special meaning if req has 'forget' in query: forget passwrd only depend on token is passed, not going ot compare anything. userId here means it's already passed the checkpoint
   const userId = req.extra.tokenUserId; //use userId passed from pass.js
+  const isForget = !!req.query.forget; // detect if reset from password forget
 
   //validation
   try{
     // validte format first
-    const { validationErrors, isValid } = validatePasswordChangedInput(req.body);
+    let { validationErrors, isValid } = validatePasswordChangedInput(req.body); // notice! don't use 'const' to announce because we might modify 'isValid' later
 
-    req.body.password_old = !isEmpty(req.body.password_old) ? req.body.password_old : '';
-    if (Validator.isEmpty(req.body.password_old)) {
-      validationErrors.password_old = 'Current password is required.';
-      isValid= false; //must be false if the password_old was not valid
+    if(!isForget){ // there should be a old password if not from forget password
+      req.body.password_old = !isEmpty(req.body.password_old) ? req.body.password_old : '';
+      if (Validator.isEmpty(req.body.password_old)) {
+        validationErrors.password_old = 'Current password is required.';
+        isValid= false; //must be false if the password_old was not valid
+      };
     }
+
     if(!isValid) {
       throw new forbbidenError(validationErrors, 186);
     };
 
-    // checking last req time
+    /*
+    this api, should set up a 'limit' to limit user reset passwrd again and again,
+    no matter by old password, or by token
+    */
+      // checking last req time
     const resultVeri = await _DB_verifications.findOne({
       where: {id_user: userId}
     });
@@ -51,7 +59,7 @@ async function _handle_account_password_PATCH(req, res) {
     let timeLimit =  43200000; // 12hr
     //if req twice less than timeLimit
     if((nowTime - lastReqTime) < timeLimit){
-      throw new forbbidenError( {"warning": "You shouldn't change your password so often. If you forget your password, please log out first, and using 'forget password'"} , 77);
+      throw new forbbidenError( {"warning": "You shouldn't change your password so often."} , 77);
     };
   }
   catch(error){
@@ -61,7 +69,10 @@ async function _handle_account_password_PATCH(req, res) {
 
   //everything was checked, go update
   new Promise((resolve, reject)=>{
-    let selectMethod = ()=>{
+    let oldPassCompare = ()=>{
+      //first, if this was called from forget password, no need to compare old password
+      if(isForget) return Promise.resolve(); // already pass the token checked
+
       let mysqlForm = {
         accordancesList: [[userId]]
       },
@@ -89,7 +100,7 @@ async function _handle_account_password_PATCH(req, res) {
         .catch((error)=>{throw error});
     };
 
-    selectMethod()
+    oldPassCompare()
     .then(()=>{
       return new Promise((resolveBcrypt, rejectBcrypt) => {
         bcrypt.genSalt(10, (err, salt) => {

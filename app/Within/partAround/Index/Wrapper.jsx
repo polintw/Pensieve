@@ -8,13 +8,13 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import stylesFont from '../stylesFont.module.css';
 import {
   axios_visit_GET_last,
   axios_visit_Index
 } from './utils.js';
 import Chain from './Chain/Chain.jsx';
-import RowEntry from './RowEntry/RowEntry.jsx';
-import BelongsMap from './BelongsMap/BelongsMap.jsx';
+import Invite from './Invite/Invite.jsx';
 import FeedAssigned from './FeedAssigned/FeedAssigned.jsx';
 import OnBoard from '../OnBoard/Wrapper.jsx';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
@@ -47,6 +47,7 @@ class Wrapper extends React.Component {
     this._set_lastVisit = this._set_lastVisit.bind(this);
     this._createdRespond = this._createdRespond.bind(this);
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
+    this._render_FooterHint = this._render_FooterHint.bind(this);
   }
 
   _construct_UnitInit(match, location){
@@ -130,18 +131,13 @@ class Wrapper extends React.Component {
       <div>
         <div
           className={classnames(styles.comAroundWrapper)}>
-          <div
-            className={classnames(styles.boxRowTop)}>
-            <RowEntry
-              lastVisit={this.state.lastVisit}/>
-          </div>
 
           <div
-            className={classnames(styles.boxRow)}>
+            className={classnames(styles.boxRow, styles.boxRowTop)}>
             <Chain
+              {...this.props}
               lastVisit={this.state.lastVisit}
-              _set_mountToDo={this._set_mountToDo}
-              _refer_von_cosmic={this.props._refer_von_cosmic}/>
+              _set_mountToDo={this._set_mountToDo}/>
           </div>
           <div
             className={classnames(styles.boxRow)}>
@@ -150,13 +146,19 @@ class Wrapper extends React.Component {
               _set_mountToDo={this._set_mountToDo}
               _refer_von_cosmic={this.props._refer_von_cosmic}/>
           </div>
-
           <div
-            className={classnames(styles.boxRow)}>
-            <BelongsMap
-              lastVisit={this.state.lastVisit}/>
+            className={classnames(styles.boxFooter)}>
+            {this._render_FooterHint()}
+
           </div>
+          <div
+            style={{display: 'none'}}
+            className={classnames(styles.boxRow)}>
+            <Invite/>
+          </div>
+
         </div>
+
         <Route
           path={"/unit"}
           render={(props)=> {
@@ -170,7 +172,7 @@ class Wrapper extends React.Component {
         {
           (this.state.lastVisit == 'newly') &&
           <ModalBox containerId="root">
-            <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(255,255,255, 0.976)'}}>
+            <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(255,255,255, 0.98)'}}>
               <OnBoard
                 _set_lastVisit={this._set_lastVisit}/>
             </ModalBackground>
@@ -180,12 +182,39 @@ class Wrapper extends React.Component {
       </div>
     )
   }
+
+  _render_FooterHint(){
+    // by feed length, we gave users some message about the thing they could do
+    let feedConcatList = this.props.indexLists.listUnreadNew.concat(this.props.indexLists.listUnread);
+    if (!this.props.belongsByType['residence'] && !this.props.belongsByType['homeland']) { //first, if the belong do not be set at all, which means could not share and do fetch any feed
+      return (
+        <span
+          className={classnames(styles.spanFooterHint, stylesFont.fontTitleSmall, stylesFont.colorGrey)}>
+          {this.props.i18nUIString.catalog["descript_AroundIndex_footer_BelongHint"]}</span>
+      );
+    }
+    else if (feedConcatList.length< 1){ // no feed at all
+      return ;
+    }
+    else{ // general situation
+      return (
+        <span
+          className={classnames(styles.spanFooterHint, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
+          {this.props.i18nUIString.catalog['descript_AroundIndex_footer']}</span>
+      )
+    }
+  }
 }
+
 
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
-    indexLists: state.indexLists
+    i18nUIString: state.i18nUIString,
+    belongsByType: state.belongsByType,
+    indexLists: state.indexLists,
+    chainList: state.chainList,
+    sharedsList: state.sharedsList
   }
 }
 

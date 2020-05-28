@@ -10,16 +10,17 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesNail from "../stylesNail.module.css";
 import stylesFont from '../../stylesFont.module.css';
-import ChainUpload from './ChainUpload.jsx';
+import ChainShared from './ChainShared.jsx';
 import ChainMessage from './ChainMessage.jsx';
-import NailBasic from '../../../../Components/Nails/NailBasic/NailBasic.jsx';
-import NailShared from '../../../../Components/Nails/NailShared/NailShared.jsx';
+import IndexShare from '../IndexShare/IndexShare.jsx';
+import NailFeed from '../../../../Components/Nails/NailFeed/NailFeed.jsx';
 import {axios_get_UnitsBasic} from '../../../../utils/fetchHandlers.js';
 import {
   handleNounsList,
   handleUsersList,
 } from "../../../../redux/actions/general.js";
-import { submitChainList
+import {
+  submitChainList
 } from "../../../../redux/actions/within.js";
 import {
   cancelErr,
@@ -38,14 +39,8 @@ class Chain extends React.Component {
 
     this.axiosSource = axios.CancelToken.source();
     this._set_ChainUnits = this._set_ChainUnits.bind(this);
-    this._submit_Share_New = this._submit_Share_New.bind(this);
     this._render_ChainUnits = this._render_ChainUnits.bind(this);
     this._axios_get_chainlist = this._axios_get_chainlist.bind(this);
-  }
-
-  _submit_Share_New(dataObj){
-    //Fetch list again
-    this._set_ChainUnits();
   }
 
   _set_ChainUnits(params){
@@ -57,10 +52,11 @@ class Chain extends React.Component {
       //(we don't update the 'axios' state, because there is another axios here, for units, right after the res)
       /*
       resObj.main: {
+              sharedPrimer: false,
               userShared: false,
               resToShared: false,
               resToRespond: false,
-              latestShared: false
+              latestShared: false,
               }
       */
       let displayOrder = [], displayInfo={};
@@ -130,27 +126,12 @@ class Chain extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-    /*
-    GET　chain list if! the belongsByType has changed
-    */
-    const recKeys = !!this.props.belongsByType.setTypesList? this.props.belongsByType.setTypesList: [];
-    //it's very slow to compare 2 obj directly, so just compare by key pair we already set up
-    let residenceify = (this.props.belongsByType['residence'] == prevProps.belongsByType['residence']) ? true:false;
-    let homelandify = (this.props.belongsByType['homeland'] == prevProps.belongsByType['homeland']) ? true:false;
-    if(recKeys.length > 0 && (!residenceify || !homelandify)){ //if Not the same
-      this._set_ChainUnits();
-    };
-    //monitor flag for this comp.
+    //monitor flag for this comp: 1) new shared by user.
     if(this.props.flagChainFetRespond && this.props.flagChainFetRespond != prevProps.flagChainFetRespond) this._set_ChainUnits([{key: 'respond',value:true}]);
   }
 
   componentDidMount(){
-    /*
-    if props.belongsByType has something,
-    GET　chain list
-    */
-    const recKeys = !!this.props.belongsByType.setTypesList? this.props.belongsByType.setTypesList: [];
-    if(recKeys.length> 0) this._set_ChainUnits();
+    this._set_ChainUnits();
   }
 
   componentWillUnmount(){
@@ -161,62 +142,21 @@ class Chain extends React.Component {
 
   _render_ChainUnits(){
     let nailsDOM = [];
-    const props = this.props; //f() _nailTitle only under this _render_, could not link to "this"
+    const props = this.props;
 
-    function _nailTitle(unitType){
-      switch (unitType) {
-        case 'userShared':
-          return (
-            <span
-              className={classnames(stylesFont.fontSubtitle, stylesFont.colorChainSubtitle, styles.spanSubtitle)}>
-              {props.i18nUIString.catalog['catagory_indexChain_NailTypes'][0]}</span>
-            )
-          break;
-        case 'resToShared':
-          return (
-            <span
-              className={classnames(stylesFont.fontSubtitle, stylesFont.colorChainSubtitle, styles.spanSubtitle)}>
-              {props.i18nUIString.catalog['catagory_indexChain_NailTypes'][1]}</span>
-          )
-          break;
-        case 'resToRespond':
-          return (
-            <span
-              className={classnames(stylesFont.fontSubtitle, stylesFont.colorChainSubtitle, styles.spanSubtitle)}>
-              {props.i18nUIString.catalog['catagory_indexChain_NailTypes'][2]}</span>
-          )
-          break;
-        case 'latestShared':
-          return (
-            <span
-              className={classnames(stylesFont.fontSubtitle, stylesFont.colorChainSubtitle, styles.spanSubtitle)}>
-              {props.i18nUIString.catalog['catagory_indexChain_NailTypes'][3]}</span>
-          )
-          break;
-        default:
-          return null
-      }
-
-    }
     this.props.chainList.listOrderedChain.forEach((unitId, index) => {
       //render if there are something in the data
       if( !(unitId in this.state.unitsBasic)) return; //skip if the info of the unit not yet fetch
-
       nailsDOM.push(
         <div
-          key={"key_ChainNail_"+index}
-          className={classnames(stylesNail.wideChain)}>
-          <div
-            className={classnames(stylesNail.boxNail, stylesNail.heightBasic)}
-            style={{marginBottom: '2rem'}}>
-            <NailBasic
-              {...this.props}
-              unitId={unitId}
-              linkPath={'/unit'}
-              unitBasic={this.state.unitsBasic[unitId]}
-              marksBasic={this.state.marksBasic}/>
-          </div>
-          {_nailTitle(this.props.chainList.listInfo[unitId])}
+          key={"key_ChainUnits_"+index}
+          className={classnames(stylesNail.boxNail)}>
+          <NailFeed
+            {...this.props}
+            unitId={unitId}
+            linkPath={'/unit'}
+            unitBasic={this.state.unitsBasic[unitId]}
+            marksBasic={this.state.marksBasic}/>
         </div>
       );
 
@@ -229,20 +169,34 @@ class Chain extends React.Component {
     return (
       <div
         className={classnames(styles.comChain)}>
-        <ChainMessage
-          {...this.state}
-          _submit_Share_New={this._submit_Share_New}
-          _refer_von_cosmic={this.props._refer_von_cosmic}/>
+        <div
+          className={classnames(styles.boxFullWide)}
+          style={{margin: '4px 0 8px'}}>
+          <ChainShared/>
+        </div>
+        <div
+          className={classnames(styles.boxIndexShare)}>
+          <IndexShare
+            {...this.props}
+            _set_ChainUnits={this._set_ChainUnits}/>
+        </div>
         {
-          (this.props.chainList.listOrderedChain.length > 0) &&
+          (this.props.chainList.listOrderedChain.length > 0 && this.props.chainList.listOrderedChain[0] in this.state.unitsBasic) &&
           <div
-            className={classnames(styles.boxModule)}>
-            {this._render_ChainUnits()}
+            className={classnames(styles.boxChainModule)}>
             <div
-              className={classnames(styles.boxChainUpload)}>
-              <ChainUpload
-                _submit_Share_New={this._submit_Share_New}
-                _refer_von_cosmic={this.props._refer_von_cosmic}/>
+              className={classnames(
+                styles.boxFullWide, styles.boxSeperate
+              )}>
+              <ChainMessage
+                unitsBasic={this.state.unitsBasic}/>
+            </div>
+            <div
+              className={classnames(
+                styles.boxModule,
+                styles.boxModuleSmall
+              )}>
+              {this._render_ChainUnits()}
             </div>
           </div>
         }

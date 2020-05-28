@@ -120,7 +120,14 @@ function _handle_ErrCatched(e, req, res){
       break;
     case 7:
       //400, validation, invalid marks in posted shared
-      clientSet['code'] = 3;
+      clientSet['code'] = 7;
+      clientSet['message'] = e.message;
+      clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
+    case 15:
+      //400, validation, invalid format for data going to DB, whatever the api is
+      clientSet['code'] = 15;
       clientSet['message'] = e.message;
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
@@ -179,11 +186,27 @@ function _handle_ErrCatched(e, req, res){
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;
+    case 51: //404, Unit was not found
+      winston.warn(`${e.status} - ${"Error: code 51, req a Unit probably with an invalid id, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+      clientSet['code'] = 51;
+      clientSet['message'] = e.message;
+      clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
     case 71:
       //403,
       // currently used in patch /nodesBelong, change belongs too often
       winston.info(`${e.status} - ${" code 71, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
       clientSet['code'] = 71;
+      clientSet['message'] = e.message;
+      clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
+    case 73:
+      //403,
+      // currently used in patch /invitation/fellows, no belong had been set yet
+      winston.warn(`${e.status} - ${" code 71, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+      clientSet['code'] = 73;
       clientSet['message'] = e.message;
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);

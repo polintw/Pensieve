@@ -1,0 +1,39 @@
+.fontNodesTitle {
+  font-size: 2rem;
+  font-weight: bold;
+  line-height: 1.5;
+}
+
+.fontContent {
+  font-size: 1.4rem;
+  line-height: 1.5;
+}
+
+.fontBold {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.colorWhite {
+  color: #ffffff
+}
+
+.colorEditBlack {
+  color: #545454;
+}
+
+.colorEditLightBlack {
+  color: #757575;
+}
+
+.colorStandard {
+  color: #ff8168;
+}
+
+.colorGrey {
+  color: #a3a3a3;
+}
+
+.colorDarkGrey {
+  color: #979797;
+}

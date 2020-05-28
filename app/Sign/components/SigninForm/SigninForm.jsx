@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Link,
   Switch,
   Route,
   withRouter
@@ -8,12 +7,12 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import stylesFont from '../../stylesFont.module.css';
 import {
-  LinkSignUp,
   LinkForgetPw,
   LinkMailResend,
 } from './SigninFormComps.jsx';
-import SvgLogo from '../../../Components/Svg/SvgLogo.jsx';
+import MessageInput from '../MessageInput/MessageInput.jsx';
 import {
   cancelErr,
   uncertainErr
@@ -26,17 +25,30 @@ class SigninForm extends React.Component {
       axios: false,
       resCode: null,
       resMessage: "",
+      email: '',
+      password: ''
     };
     this.axiosSource = axios.CancelToken.source();
     this._axios_Signin = this._axios_Signin.bind(this);
     this._handle_Signin = this._handle_Signin.bind(this);
+    this._handleChange_input = (event)=>{
+      let obj={};
+      obj[event.currentTarget.name] = event.currentTarget.value;
+      // we also check if going to reset message
+      if(event.currentTarget.name in ((typeof this.state.resMessage != "string") ? this.state.resMessage : {})) {
+        let messageObj = {};
+        messageObj[event.currentTarget.name] = "";
+        obj['resMessage'] = Object.assign({}, this.state.resMessage, messageObj);
+      };
+      this.setState(obj);
+    };
   }
 
   _handle_Signin(event){
     event.preventDefault();
     let submitObj = {
-      email: this.emailInput.value,
-      password: this.passwordInput.value
+      email: this.state.email,
+      password: this.state.password
     };
     const self = this;
     this.setState({axios: true});
@@ -86,64 +98,95 @@ class SigninForm extends React.Component {
 
   render(){
     const message = this.state.resMessage;
+    const submitPermission = ( !this.state.axios && this.state.email.length>0 && this.state.password.length >0)? true : false;
+
     return(
-      <div>
-        <div
-          className={styles.boxLogo}>
-          <SvgLogo/>
-        </div>
+      <div
+        className={styles.comSigninForm}>
         <form onSubmit={this._handle_Signin}>
           <span
-            className={classnames(styles.spanTag, styles.fontTag)}>
-            {'email:'}
-          </span><br/>
-          <input
-            type="email"
-            placeholder="Email"
-            name="email"
-            className={classnames(styles.boxInput, styles.fontInput)}
-            ref={(element)=>{this.emailInput = element}}/><br/>
-          {
-            message.email &&
-            <div
-              className={classnames(styles.fontMessage)}>
-              {message.email}</div>
-          }
+            className={classnames(styles.spanTag, stylesFont.fontContent, stylesFont.colorSignBlack)}>
+            {'Email'}
+          </span>
+          <div
+            className={classnames(styles.boxInput)}>
+            <input
+              type="email"
+              placeholder="example@mail.com"
+              name="email"
+              required
+              className={classnames(
+                'plainInputText',
+                styles.inputSign, stylesFont.fontContent, stylesFont.colorBlack85,
+                {[styles.inputSignError]: message.email}
+              )}
+              value={this.state.email}
+              onChange={this._handleChange_input}/>
+              {
+                message.email &&
+                <div
+                  className={classnames(styles.boxInputMes)}>
+                  <MessageInput
+                    messageIcon={"error"}
+                    messageText={message.email}/>
+                </div>
+              }
+          </div>
           <span
-            className={classnames(styles.spanTag, styles.fontTag)}>
-            {'password:'}
-          </span><br/>
-          <input
-            type="password"
-            placeholder="Password"
-            className={classnames(styles.boxInput, styles.fontInput)}
-            ref={(element)=>{this.passwordInput = element}}/><br/>
+            className={classnames(styles.spanTag, stylesFont.fontContent, stylesFont.colorSignBlack)}>
+            {'Password'}
+          </span>
+          <div
+            className={classnames(styles.boxInput)}>
+            <input
+              type="password"
+              placeholder="Password"
+              name="password"
+              required
+              className={classnames(
+                'plainInputText',
+                styles.inputSign, stylesFont.fontContent, stylesFont.colorEditBlack,
+                {[styles.inputSignError]: message.password}
+              )}
+              value={this.state.password}
+              onChange={this._handleChange_input}/>
+              {
+                message.password &&
+                <div
+                  className={classnames(styles.boxInputMes)}>
+                  <MessageInput
+                    messageIcon={"error"}
+                    messageText={message.password}/>
+                </div>
+              }
+          </div>
+          <div
+            className={classnames(styles.boxAssist)}>
+            <LinkForgetPw {...this.props}/>
+            {
+              (message.warning && this.state.resCode == "33") &&
+              <LinkMailResend {...this.props}/>
+            }
+          </div>
           {
-            message.password &&
+            (message.warning && this.state.resCode != "33") &&
             <div
-              className={classnames(styles.fontMessage)}>
-              {message.password}</div>
+              className={classnames(styles.boxWarning)}>
+              <MessageInput
+                messageIcon={false}
+                messageText={message.warning}/>
+            </div>
           }
-          <br/>
-          {
-            message.warning &&
-            <div
-              className={classnames(styles.fontMessage)}>
-              {message.warning}</div>
-          }
+
           <input
             type='submit'
             value='Sign in'
-            disabled={this.state.axios? true:false}
-            className={classnames(styles.boxSubmit)}
-            style={{float:"right"}}/>
-
-          <LinkSignUp {...this.props}/>
-          {
-            message.warning && this.state.resCode == "33" &&
-            <LinkMailResend {...this.props}/>
-          }
-          <LinkForgetPw {...this.props}/>
+            disabled={submitPermission? false: true}
+            className={classnames(
+              'plainInput',
+              styles.boxSubmit,
+              {[styles.boxSubmitAllow]: submitPermission},
+              stylesFont.colorWhite, stylesFont.fontSubtitle)}/>
         </form>
       </div>
 

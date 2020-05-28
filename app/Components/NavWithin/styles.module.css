@@ -1,52 +1,37 @@
 .comNavWithin {
-  height: 4rem;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  align-content: space-between;
+  width: 100%;
+  height: 100%;
   position: relative;
 }
 
-.boxOptions {
+.boxLogo {
+  width: 73%;
+  max-width: 27vw;
+  min-width: 9vw;
   box-sizing: border-box;
+  margin-bottom: 2.66vh;
+  mix-blend-mode: darken;
   text-align: center;
   cursor: pointer;
 }
 
-.fontCosmicCorner {
-  font-size: 1.37rem;
-  letter-spacing: 0.1rem;
-  white-space: nowrap;
-  color: #a8a8a8;
+.boxFooter {
+  position: relative;
+  margin-bottom: 2.66vh;
 }
 
-.boxAccount {
-  display: block;
-  max-width: 150px;
-  position: absolute;
-  top: 20%;
-  left: 75vw;
+.boxRightsClaim {
+  margin-top: 3rem;
+  text-align: center;
 }
 
-.boxLogo {
-  display: inline-block;
-  height: 12px;
-  position: absolute;
-  top: 39%;
-  left: 25%;
-  box-sizing: border-box;
-  cursor: pointer;
-}
-
-.boxBack {
-  display: inline-block;
-  position: absolute;
-  top: 20%;
-  right: 25vw;
-}
-
-/*
-mind the order here
-because the css would overlap one by one,
-start the fundemental first, and then the specific condition
-*/
-
-.specificNoneDis {
-  display: none;
+@media screen and (max-width:1110px) {
+  .boxRightsClaim {
+    text-align: right;
+  }
 }

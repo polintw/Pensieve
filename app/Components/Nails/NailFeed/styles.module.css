@@ -1,108 +1,63 @@
 .frame {
-  width: 100%;
-  height: 100%;
+  display: block; /* due to it was at the tag <a> now */
+  position: relative;
+  box-sizing: border-box;
+  padding: 1.38vw;
 }
 
 .frameOnMouse {
-  outline: double 1.5px #777777;
+
+}
+
+.boxContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 342px;
+  min-width: 30.16vw;
+  max-width: 96.24vw;
+  height: 289px;
+  min-height: 36.8vh;
+  position: relative;
 }
 
 .boxImg {
   width: 100%;
-  height: 66.66%; /* 2/3 */
-  position: absolute;
-  top: 0;
+  height: 84%;
+  position: relative;
+  border-radius: 4px;
+  background-color: rgba(217, 232, 255, 0.15);
+  overflow: hidden;
+}
+
+.boxPreview {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 61.93%;
+}
+
+.boxTitle {
+  display: flex;
+  width: 100%;
   box-sizing: border-box;
-}
-
-.boxMask {
-  width: 100%;
-  height: 100%;
-  position:absolute;
-  top:0;
-  left: 0;
-  background-image:linear-gradient(0deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.64),rgba(0, 0, 0, 0.58),rgba(0, 0, 0, 0.52),rgba(0, 0, 0, 0.42),rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.18),rgba(0, 0, 0, 0.1),rgba(0, 0, 0, 0.07) ,rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.02) ,transparent);
-}
-
-.interMask { /*remember must after the boxMask*/
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  background-color: rgba(0,0,0,0.1)
 }
 
 .boxNodes {
-  display: flex;
-  flex-direction: column;
-  width: 75%;
-  max-height: 69%;
-  position: absolute;
-  bottom: 9%;
-  right: 0%;
-  box-sizing: border-box;
-  padding: 0 4.5% 0 7%; /*right side align along with the right position of boxAuthor*/
-  border-left: 1px solid #ff7a5f;
   overflow: hidden;
-}
-
-.boxNodesItem {
-  /*usually the font were controlled by class in common file of the belonged page.
-  this is for local modified*/
-}
-
-.fontNode {
-  /*usually the font were controlled by class in common file of the belonged page.
-  this is for local modified*/
-}
-
-.boxContent {
-  width: 100%;
-  height: 33.33%; /* 1/3 */
-  position: absolute;
-  bottom: 0;
-  box-sizing: border-box;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .boxAuthor {
-  max-width: 20%;
-  position: absolute;
-  box-sizing: border-box;
-  right: 12.5%;
-  top: 50%;
-  transform: translate(50%, -50%);
+  max-width: 100%;
 }
 
-.spanAuthor {
-  display: inline-block;
-  position: relative;
-  right: 0;
-  bottom: 0;
-}
-
-.fontAuthor {
-  color: #6e6e6e;
-}
-
-.boxMarkPreview {
-  width: 75%;
-  height: 50%;
-  position: absolute;
-  box-sizing: border-box;
-  left: 0%;
-  bottom: 25%;
-  padding: 0% 6.25%;
-  overflow: hidden;
-}
-
-.boxMark {
-  width: 100%;
-  position: relative;
-  box-sizing: border-box;
-  margin-bottom: 1.5rem; /* follow the line height of mark*/
-}
-
-.fontMark {
-  /*usually the font were controlled by class in common file of the belonged page.
-  this is for local modified*/
-  color: #000000;
+.boxTitlePin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 3rem;
+  height: 3rem;
 }

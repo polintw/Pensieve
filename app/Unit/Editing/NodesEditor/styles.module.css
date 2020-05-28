@@ -7,7 +7,7 @@
 }
 
 .boxSubtitle {
-  margin-bottom: 1.2rem;
+  margin-bottom: 1rem;
 }
 
 .editorRow {
@@ -20,17 +20,42 @@
 }
 
 .comAssignNodes {
-
+  display: flex;
+  width: 100%;
 }
 
 .boxListItem {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   list-style: none;
+  height: 39px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  border: solid 1.2px #a3a3a3;
+  padding: 2px 10px;
+  margin-right: 1rem;
+  cursor: pointer;
 }
 
 .chosenListItem {
-  color: #ff7a5f;
+  background-color: #757575;
+  border: solid 1.2px transparent;
 }
 
 .mouseListItem {
-  cursor: pointer;
+  background-color: #ff8168;
+  border: solid 1.2px transparent;
+}
+
+.spanListItem {
+
+}
+
+.chosenSpanItem {
+  color: #FFFFFF;
+}
+
+.mouseSpanItem {
+  color: #FFFFFF;
 }

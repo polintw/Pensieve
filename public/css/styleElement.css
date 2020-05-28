@@ -1,3 +1,75 @@
+.fontTitleHuge {
+  font-size: 3.2rem;
+}
+
+.fontTitle {
+  font-size: 2.4rem;
+}
+
+.fontTitleSmall {
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+.fontSubtitle {
+  font-size: 1.6rem;
+}
+
+.fontSubtitle_h5 {
+  font-size: 1.6rem;
+  line-height: 1.5;
+}
+
+.fontBold {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.fontContentPlain {
+  font-size: 1.4rem;
+}
+
+.fontContent {
+  font-size: 1.4rem;
+  line-height: 1.5;
+}
+
+.colorWhite {
+  color: #ffffff
+}
+
+.colorStandard {
+  color: #ff8168;
+}
+
+.colorGrey {
+  color: #a3a3a3;
+}
+
+.colorDarkGrey {
+  color: #979797;
+}
+
+.colorSignBlack {
+  color: #3c4144;
+}
+
+.colorEditBlack {
+  color: #545454;
+}
+
+.colorEditLightBlack {
+  color: #757575;
+}
+
+.colorDescripBlack {
+  color: #444444;
+}
+
+.colorOptionsBlack {
+  color: #333333;
+}
+
 .boxServiceLink {
   display: flex;
   flex-wrap: wrap;
@@ -15,9 +87,8 @@
 }
 
 .fontServiceLink {
-  font-size: 1.21rem;
-  letter-spacing: 0.07rem;
-  color: #ababab;
+  font-size: 1.2rem;
+  font-weight: bold;
 }
 
 .spanNameItalic {
@@ -26,14 +97,20 @@
 
 .spanNameLayer {
   white-space: nowrap;
-  font-size: 1.36rem;
-  letter-spacing: 0.07rem;
+  font-size: 1.4rem;
+  line-height: 1.71;
+}
+
+.spanNameRegularBold {
+  white-space: nowrap;
+  font-size: 1.6rem;
+  font-weight: bold;
+  line-height: 1.5;
 }
 
 .spanNameRegular {
   white-space: nowrap;
-  font-size: 1.4rem;
-  letter-spacing: 0.05rem;
+  font-size: 1.6rem;
 }
 
 .spanNameMedium {

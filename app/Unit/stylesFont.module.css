@@ -1,0 +1,50 @@
+.fontTitle {
+  font-size: 2.4rem;
+}
+
+.fontSubtitle {
+  font-size: 1.6rem;
+}
+
+.fontSubmit {
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.fontContent {
+  font-size: 1.4rem;
+  line-height: 1.5;
+}
+
+.fontDescript {
+  font-size: 1.4rem;
+  font-weight: 300;
+  line-height: 1.71;
+  text-align: center;
+}
+
+.colorWhite {
+  color: #ffffff
+}
+
+.colorEditBlack {
+  color: #545454;
+}
+
+.colorEditLightBlack {
+  color: #757575;
+}
+
+.colorStandard {
+  color: #ff8168;
+}
+
+.colorGrey {
+  color: #a3a3a3;
+}
+
+.colorDarkGrey {
+  color: #979797;
+}

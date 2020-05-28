@@ -18,18 +18,10 @@ class ImgsFrame extends React.Component {
       Com_ImgsFrame: {
         width: '100%',
         height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-      },
-      Com_ImgsFrame_div_: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0%',
-        left: '0',
+        position: 'relative',
         boxSizing: 'border-box',
-      }
+        borderRadius: '4px'
+      },
     };
   }
 
@@ -65,14 +57,8 @@ class ImgsFrame extends React.Component {
       beneathZIndex: this.props.moveCount< 100 ? '1':'2',
       beneathOpa: (1-portion)
     }
-    let Com_ImgsFrame_div_cover = Object.assign(
-      {opacity: controledCSS.coverOpa, zIndex: controledCSS.coverZIndex},
-      this.style.Com_ImgsFrame_div_
-    ),
-    Com_ImgsFrame_div_beneath = Object.assign(
-      {opacity: controledCSS.beneathOpa, zIndex: controledCSS.beneathZIndex},
-      this.style.Com_ImgsFrame_div_
-    );
+    let Com_ImgsFrame_div_cover = {opacity: controledCSS.coverOpa, zIndex: controledCSS.coverZIndex},
+    Com_ImgsFrame_div_beneath = {opacity: controledCSS.beneathOpa, zIndex: controledCSS.beneathZIndex};
 
     let beneathMarks = {
       list: this.props.unitCurrent.beneathMarksList,
@@ -87,6 +73,7 @@ class ImgsFrame extends React.Component {
       <div
         style={this.style.Com_ImgsFrame}>
         <div
+          className={'boxAbsoluteFull'}
           style={Com_ImgsFrame_div_beneath}>
           {
             this.props.unitCurrent.beneathSrc &&
@@ -103,6 +90,7 @@ class ImgsFrame extends React.Component {
           }
         </div>
         <div
+          className={'boxAbsoluteFull'}
           style={Com_ImgsFrame_div_cover}>
           {
             this.props.unitCurrent.coverSrc &&

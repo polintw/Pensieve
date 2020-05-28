@@ -22,24 +22,23 @@
 .rowGreet {
   display: flex;
   justify-content: center;
-  margin-bottom: 4.386vh;
+  margin-bottom: 2.386vh;
 }
 
 .rowTop {
   padding-top: 2.19vh;
-  margin-bottom: 2.19vh;
 }
 
 .rowForm {
   display: flex;
   justify-content: center;
-  margin-bottom: 9.87vh;
+  margin-bottom: 8.87vh;
 }
 
 .rowButton {
   display: flex;
   justify-content: center;
-  margin-bottom: 9.87vh;
+  padding-bottom: 6.87vh;
 }
 
 .boxGreetTitle {
@@ -125,6 +124,11 @@
   border-radius: 32px;
   background-color: #ff8168;
   cursor: pointer;
+}
+
+.boxButtonBlocked {
+  background-color: #d8d8d8;
+  cursor: default;
 }
 
 .comBelongSet {

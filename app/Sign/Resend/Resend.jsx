@@ -10,6 +10,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import EmailResend from './EmailResend.jsx';
 import PasswordReset from './PasswordReset.jsx';
+import NavSign from '../components/NavSign/NavSign.jsx';
 import SvgLogo from '../../Components/Svg/SvgLogo.jsx';
 import ServiceLinks from '../../Components/ServiceLinks.jsx';
 import ModalBox from '../../Components/ModalBox.jsx';
@@ -26,20 +27,11 @@ class Resend extends React.Component {
 
     };
     this.style={
-      Signup_: {
+      Sign_backplane:{
         width: '100%',
         height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box'
-      },
-      boxContent: {
-        width: '20vw',
-        position: 'absolute',
-        top: '13%',
-        right: '0',
-        boxSizing:'border-box'
+        position: 'fixed',
+        backgroundColor: '#FCFCFC'
       },
     }
   }
@@ -58,26 +50,50 @@ class Resend extends React.Component {
 
   render(){
     return(
-      <div
-        style={this.style.Signup_}>
+      <div>
+        <div style={this.style.Sign_backplane}></div>
         <div
-          className={classnames(styles.boxColumn)}>
+          className={classnames(styles.comSignResend)}>
           <div
-            className={styles.boxLogo}>
-            <SvgLogo/>
+            className={classnames(styles.boxContent)}>
+            <div
+              className={classnames(styles.boxColumn)}>
+              <Switch>
+                <Route path={this.props.match.path+"/pwreset"} render={(props)=> <PasswordReset {...props}/>}/>
+                <Route path={this.props.match.path+"/"} render={(props)=> <EmailResend {...props}/>}/>
+              </Switch>
+              <div
+                className={classnames(styles.boxNav)}>
+                <NavSign
+                  {...this.props}/>
+              </div>
+            </div>
           </div>
+
           <div
-            style={this.style.boxContent}>
-            <Switch>
-              <Route path={this.props.match.path+"/pwreset"} render={(props)=> <PasswordReset {...props}/>}/>
-              <Route path={this.props.match.path+"/"} render={(props)=> <EmailResend {...props}/>}/>
-            </Switch>
+            className={classnames(styles.boxFooter)}>
+            <div
+              className={classnames(styles.boxLogo)}
+              onClick={(e)=>{e.preventDefault(); e.stopPropagation(); window.location.assign('/');}}>
+              <SvgLogo/>
+            </div>
+            <div
+              className={classnames(styles.boxServiceLink)}>
+              <ServiceLinks />
+              <div
+                className={classnames(
+                  styles.boxRightsClaim,
+                  'fontTitleSmall',
+                  'colorDescripBlack'
+                )}>
+                <span>{this.props.i18nUIString.catalog["Cornerth_inc"]}</span>
+                <span>{this.props.i18nUIString.catalog["AllRights"]}</span>
+              </div>
+            </div>
           </div>
-          <div
-            className={classnames(styles.boxServiceLink)}>
-            <ServiceLinks/>
-          </div>
+
         </div>
+
         {
           //here and beneath, are dialog system,
           //the series 'message' in redux state is prepared for this kind of global message dialog
@@ -94,7 +110,6 @@ class Resend extends React.Component {
             </ModalBackground>
           </ModalBox>
         }
-
       </div>
     )
   }
@@ -102,6 +117,7 @@ class Resend extends React.Component {
 
 const mapStateToProps = (state)=>{
   return {
+    i18nUIString: state.i18nUIString,
     messageSingle: state.messageSingle
   }
 }

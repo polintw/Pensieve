@@ -24,8 +24,10 @@ export default class ImgPreview extends React.Component {
   }
 
   _handleClick_ImgPreview_preview(event){
-    event.preventDefault();
-    event.stopPropagation();
+    /*
+    In this Click, we didnt stop Propagation, niether preventing default.
+    So the parent need to NOtice this for they have to stop it by themself
+    */
     this.props._handleClick_ImgPreview_preview(this.props.blockName);
   }
 

@@ -5,28 +5,26 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
+import styles from "./styles.module.css";
+import stylesFont from '../stylesFont.module.css';
+import NailMarksPreview from '../components/NailMarksPreview.jsx';
 import ImgPreview from '../../ImgPreview.jsx';
 import AccountPalette from '../../AccountPalette.jsx';
-import DisplayMarkPreview from '../../Draft/DisplayMarkPreview.jsx';
-import styles from "./styles.module.css";
+import SvgPin from '../../Svg/SvgPin.jsx';
 import {
-  renderNodesRows
-} from '../../Node/generators.js';
+  renderNodesRows,
+} from '../generators.js';
 
-class NailBasic extends React.Component {
+class NailFeed extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       onFrame: false,
-      onImg: false
     };
     this.nailImgBox = React.createRef();
     this.nailUnitLink = React.createRef();
     this._handleEnter_nailFrame = this._handleEnter_nailFrame.bind(this);
     this._handleLeave_nailFrame = this._handleLeave_nailFrame.bind(this);
-    this._handleEnter_nailImg = this._handleEnter_nailImg.bind(this);
-    this._handleLeave_nailImg = this._handleLeave_nailImg.bind(this);
-    this._render_nails_Marks = this._render_nails_Marks.bind(this);
     this._render_nails_nouns = this._render_nails_nouns.bind(this);
     this.style={
 
@@ -39,33 +37,6 @@ class NailBasic extends React.Component {
 
   _handleLeave_nailFrame(e){
     this.setState({onFrame: false})
-  }
-
-  _handleEnter_nailImg(e){
-    this.setState({onImg: true})
-  }
-
-  _handleLeave_nailImg(e){
-    this.setState({onImg: false})
-  }
-
-  _render_nails_Marks(){
-    let list = this.props.unitBasic.marksList;
-    let marksDOM = [];
-    const self = this;
-
-    for(let i=0 ; i< list.length && i< 3; i++){
-      let key = list[i]
-      marksDOM.push(
-        <div
-          key={"key_nailcosmic_"+self.props.unitId+"_marks_"+i}
-          className={classnames(styles.boxMark, styles.fontMark)}>
-          <DisplayMarkPreview
-            rawContent={self.props.marksBasic[key].editorContent}/>
-        </div>
-      )
-    }
-    return marksDOM;
   }
 
   _render_nails_nouns(){
@@ -83,60 +54,85 @@ class NailBasic extends React.Component {
   }
 
   render(){
+    let imgSrcCover = '/router/img/'+this.props.unitBasic.pic_layer0+'?type=thumb';
+
     return(
-      <div
+      <Link
+        ref={this.nailUnitLink}
+        to={{
+          pathname: this.props.linkPath,
+          search: '?unitId='+this.props.unitId+'&unitView=theater',
+          state: {from: this.props.location}
+        }}
         className={classnames(
+          'plainLinkButton',
           styles.frame,
           {[styles.frameOnMouse]: this.state.onFrame}
         )}
         onMouseEnter={this._handleEnter_nailFrame}
         onMouseLeave={this._handleLeave_nailFrame}>
-        <Link
-          ref={this.nailUnitLink}
-          to={{
-            pathname: this.props.linkPath,
-            search: '?theater&unitId='+this.props.unitId,
-            state: {from: this.props.location}
-          }}
-          className={classnames('plainLinkButton', styles.frame)}>
+        { // layer as a overlap when mouseon
+          this.state.onFrame &&
+          <div style={{
+              position: 'absolute', width:'100%', height: '100%', top: '0', left: '0',
+              backgroundColor:'rgba(217, 232, 255, 0.15)',
+              backgroundImage: 'url('+ imgSrcCover +')',
+              backgroundSize: 'cover',
+              backgroundPosition: '50% 50%',
+              backgroundRepeat: 'no-repeat',
+              opacity: '0.3'
+          }}/>
+        }
+        <div
+          className={classnames(styles.boxContent)}>
           <div
-            ref={this.nailImgBox}
-            className={styles.boxImg}
-            onMouseEnter={this._handleEnter_nailImg}
-            onMouseLeave={this._handleLeave_nailImg}>
-            <ImgPreview
-              blockName={''}
-              previewSrc={'/router/img/'+this.props.unitBasic.pic_layer0+'?type=thumb'}
-              _handleClick_ImgPreview_preview={()=>{this.nailImgBox.current.click()}}/>
+            className={classnames(styles.boxTitle)}>
             <div
-              className={classnames(
-                styles.boxMask,
-                {[styles.interMask]: this.state.onImg}
-              )}/>
-
-          </div>
-          <div
-            className={classnames(styles.boxContent)}>
-
+              className={classnames(styles.boxTitlePin)}>
+              <div
+                style={{width: "11px", height: "16px"}}>
+                <SvgPin
+                  mouseOn={this.state.onFrame}/>
+              </div>
+            </div>
             <div
               className={classnames(styles.boxNodes)}>
               {this._render_nails_nouns()}
             </div>
-            <div
-              className={classnames(styles.boxMarkPreview)}>
-              {this._render_nails_Marks()}
-            </div>
-            <div className={styles.boxAuthor}>
-              <AccountPalette
-                size={'regular'}
-                userId={this.props.unitBasic.authorId}/>
-
-            </div>
           </div>
-        </Link>
-      </div>
+
+          {
+            this.state.onFrame ? (
+              <div
+                className={classnames(styles.boxPreview)}>
+                <NailMarksPreview
+                  unitId={this.props.unitId}
+                  unitBasic={this.props.unitBasic}
+                  marksBasic={this.props.marksBasic}/>
+
+                <div className={classnames(styles.boxAuthor, stylesFont.colorStandard)}>
+                  <AccountPalette
+                    size={"regularBold"}
+                    userId={this.props.unitBasic.authorId}/>
+                </div>
+              </div>
+            ): (
+              <div
+                ref={this.nailImgBox}
+                className={styles.boxImg}>
+                <ImgPreview
+                  blockName={''}
+                  previewSrc={ imgSrcCover }
+                  _handleClick_ImgPreview_preview={()=>{this.nailImgBox.current.click()}}/>
+              </div>
+            )
+          }
+        </div>
+
+      </Link>
     )
   }
+
 }
 
 const mapStateToProps = (state)=>{
@@ -151,4 +147,4 @@ const mapStateToProps = (state)=>{
 export default withRouter(connect(
   mapStateToProps,
   null
-)(NailBasic));
+)(NailFeed));

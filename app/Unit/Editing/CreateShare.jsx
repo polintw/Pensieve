@@ -17,7 +17,6 @@ import {
 } from "../../utils/errHandlers.js";
 
 const initState = {
-  editingModal: false,
   warningDialog: false,
   confirmDialog: false,
   dialogMessage: null,
@@ -29,7 +28,6 @@ class CreateShare extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      editingModal: false,
       warningDialog: false,
       confirmDialog: false,
       dialogMessage: null,
@@ -45,7 +43,8 @@ class CreateShare extends React.Component {
     this._modalHandler_positive = this._modalHandler_positive.bind(this);
     this._modalHandler_negative = this._modalHandler_negative.bind(this);
     this._handleClick_CreateShare_init = this._handleClick_CreateShare_init.bind(this);
-    this._open_editingModal = () => {this.setState({editingModal: true})};
+    this._open_editingModal = this._open_editingModal.bind(this);
+    this._close_editingModal = this._close_editingModal.bind(this);
   }
 
   _handleClick_CreateShare_init(event){
@@ -83,7 +82,8 @@ class CreateShare extends React.Component {
   _modalHandler_positive(){
     switch (this.state.dialogPurpose) {
       case 'close': //confirm close the EditingModal
-        this.setState(initState)
+        this.setState(initState);
+        this._close_editingModal();
         break;
       case 'refer':
         this.props._refer_von_Create(warningTemp.identity, warningTemp.source);
@@ -183,12 +183,15 @@ class CreateShare extends React.Component {
   }
 
   render(){
+    let params = new URLSearchParams(this.props.location.search); //we need value in URL query
+    let paramsCreating = params.has('creating'); //bool, true if there is 'creating'
+
     return(
       <div
         className={classnames(styles.comCreateShare)}
         onClick={this._handleClick_CreateShare_init}>
         {
-          this.state.editingModal &&
+          paramsCreating &&
           <ModalBox containerId="root">
             <ModalBackground
               onClose={this._set_EditingClose_clear}
@@ -239,6 +242,26 @@ class CreateShare extends React.Component {
 
       </div>
     )
+  }
+
+  _open_editingModal(){
+    // we modify the url to allow user using 'previous page' for going back
+    this.props.history.push({
+      pathname: this.props.match.path,
+      search: (this.props.location.search.length> 0) ? this.props.location.search+"&creating" : '?creating',
+      state: {from: this.props.location}
+    });
+  }
+
+  _close_editingModal(){
+    // Only used if 'cancel'!
+    // any successfully submit should inform the parent to close preventing possible overlap
+    let lastState = this.props.location.state.from ; // because we are pretty sure there is a "from" obj when opened EditingModal
+    this.props.history.replace({
+      pathname: lastState.pathname,
+      search: lastState.search,
+      state: lastState.state
+    });
   }
 }
 

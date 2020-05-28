@@ -23,11 +23,17 @@ class SharedEdit extends React.Component {
     this.state = {
 
     };
+    let currentNodesList = this.props.unitCurrent.nouns.list.slice();
+    //actually, this is not a good method. The better one should be, get format like the nodesSet as required here when GET unitCurrent from api
+    //or at least, make the nodes in unitCurrent by compareing the the belongsByType.
+    let assignedList = currentNodesList.map((nodeId, index)=>{return {nodeId: nodeId}});
+    //(the description above means, the props.unitCurrent only has a simple array to contain the nodes from attribution, do not have info about 'type')
+
     this.unitSet={
       authorBasic: this.props.unitCurrent.authorBasic,
       coverSrc: this.props.unitCurrent.coverSrc,
       coverMarks: {list: this.props.unitCurrent.coverMarksList.slice(), data: Object.assign({},this.props.unitCurrent.coverMarksData)},
-      nodesSet: {assign: this.props.unitCurrent.nouns.list.slice(), tags:[]},
+      nodesSet: {assign:assignedList , tags:[]},
       createdAt: this.props.unitCurrent.createdAt,
       //beneath, is remaining for future use, and kept the parent comp to process submitting
       beneathSrc: null,
@@ -47,6 +53,12 @@ class SharedEdit extends React.Component {
     //reset UnitCurrent to reload the view
     this.props._reset_UnitMount(); //reset unitCurrent
     this.props._set_state_UnitView('theater'); //back to theater view
+    let lastState = this.props.location.state.from ; // because we are pretty sure there is a "from" obj when opened EditingModal
+    this.props.history.replace({
+      pathname: lastState.pathname,
+      search: lastState.search,
+      state: lastState.state
+    });
   }
 
   _handleClick_bg(event){
@@ -69,7 +81,15 @@ class SharedEdit extends React.Component {
         render: true,
         customButton: null,
         message: [{text:'current input would not be saved after leaving, are you sure going to leave?',style:{}}],
-        handlerPositive: ()=>{this.props._set_state_UnitView('theater');this.props._submit_BooleanDialog(messageDialogInit.boolean)},
+        handlerPositive: ()=>{
+          this.props._set_state_UnitView('theater');
+          let lastState = this.props.location.state.from ; // because we are pretty sure there is a "from" obj when opened EditingModal
+          this.props.history.replace({
+            pathname: lastState.pathname,
+            search: lastState.search,
+            state: lastState.state
+          });
+          this.props._submit_BooleanDialog(messageDialogInit.boolean)},
         handlerNegative: ()=>{this.props._submit_BooleanDialog(messageDialogInit.boolean);return;}
       });
     };

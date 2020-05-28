@@ -12,15 +12,27 @@ export default class ModalBackground extends React.Component {
       position: "absolute",
       top: "0%",
       left: 0,
-      backgroundColor: "rgba(105, 105, 105, 0.77)"
+      backgroundColor: "rgba(105, 105, 105, 0.77)",
+      zIndex: '7' // basically all the main page was set to '3' up to the "root" <div>
     };
     if(this.props.style){
       Object.assign(style, this.props.style)
     }
 
     return(
-      <div className={this.props.className} style={style} onClick={(event) => {event.stopPropagation();event.preventDefault();this.props.onClose();}}>
-        <div onClick={(event) => {event.preventDefault(); event.stopPropagation();}}>
+      <div className={this.props.className} style={style}
+        onClick={(event) => {
+          event.stopPropagation();
+          /*
+          NOTICE! Do not set prevetdefault on this component! <form>、<input> etc. inside any children need it.
+         event.preventDefault(); */
+          this.props.onClose();}}>
+        <div
+          onClick={(event) => {
+             /*
+             NOTICE! Do not set prevetdefault on this component! <form>、<input> etc. inside any children need it.
+            event.preventDefault(); */
+            event.stopPropagation();}}>
           {this.props.children}
         </div>
       </div>

@@ -3,6 +3,7 @@ import {
   SET_BELONGSBYTYPE,
   SUBMIT_FEEDASSIGN,
   SUBMIT_CHAINLIST,
+  SUBMIT_SHAREDSLIST,
   SET_FLAG_CHAINRESPOND
 } from '../types/typesWithin.js';
 import {
@@ -32,6 +33,10 @@ export function setWithinFlag(bool, flag){
 
 export function submitFeedAssigned(listsObj){
   return {type: SUBMIT_FEEDASSIGN, listsObj: listsObj}
+}
+
+export function submitSharedsList(listsObj){
+  return {type: SUBMIT_SHAREDSLIST, listsObj: listsObj}
 }
 
 export function submitChainList(listsObj) {

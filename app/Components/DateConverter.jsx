@@ -92,7 +92,7 @@ export default class DateConverter extends React.Component {
 
     return(
       <div
-        style={this._set_styleByProps()}>
+        style={Object.assign({}, this._set_styleByProps(), this.props.styles)}>
         <span>{this._render_monthRome(d)}</span>
         <span>{d.getDate()}</span>
         <span>{". "}</span>

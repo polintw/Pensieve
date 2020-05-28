@@ -1,56 +1,125 @@
-.boxInput {
-  margin-bottom: 1rem;
-  padding: 0.3rem;
+.comSignupForm {
+  width: 100%;
 }
 
-.boxRadioInput {
-  margin: 0 5% 0.5rem;
+.boxInput {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.inputSign {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 1.2rem 2rem;
+  border: solid 1px #979797;
+  border-radius: 5px;
+}
+
+.inputSignError {
+  border: solid 1px #eb584e;
+}
+
+.inputSignGender {
+  width: 2rem;
+  height: 2rem;
+  margin: 0;
+  border: solid 1px #979797;
+}
+
+.boxInputMes {
+  width: 100%;
+  max-width: 25vw;
+  position: absolute;
+  right: 105.97%;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
+.boxWarning {
+  width: 100%;
+  text-align: right;
 }
 
 .boxSubmit {
-  margin: 1rem 2rem;
-  padding: 0.5rem;
+  width: 100%;
+  height: 45px;
+  margin-top: 5rem;
+  border-radius: 4px;
+  background-color: #d8d8d8;
+}
+
+.boxSubmitAllow {
+  background-color: #ff8168;
   cursor: pointer;
 }
 
-.boxSelect {
-  display: inline-block;
-  margin: 2rem 0.5rem;
+.boxAssist {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
 }
 
-.boxLogo: {
-  display: inline-block;
-  width: 10vw;
-  min-height: 27px;
-  position: relative;
+.boxAccount {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.boxAccountSet {
+  width: 48%;
+}
+
+.boxGender {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.boxGenderSet {
+  display: flex;
+  align-items: center;
+}
+
+.boxGenderOther {
+  width: 100%;
+  text-align: right;
+  margin-top: 10px;
 }
 
 .spanTag {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.spanRadio {
   display: inline-block;
-  margin: 1rem 0 0.5rem;
+  margin-left: 1.6rem;
 }
 
-.spanSignIn {
-  padding-bottom: 0.4rem;
-  border-bottom: 1px solid #ababab;
+.spanGenderSelect {
+  border: solid 1px #979797;
+  border-radius: 5px;
+  margin-left: 1.5rem;
 }
 
-.spanSignInMouse {
-  border-bottom: 1px solid #ff7a5f;
+.spanAssist {
+  display: inline-block;
+  border-bottom: 1px solid #FCFCFC;
+  cursor: pointer;
 }
 
-
-.fontTag {
-  font-size: 1.37rem;
-  letter-spacing: 0.05rem;
+.spanAssistOnMouse {
+  border-bottom: 1px solid #545454;
 }
 
-.fontInput {
-  font-size: 1.37rem;
-  letter-spacing: 0.05rem;
-}
-
-.fontMessage {
-  font-size: 1.37rem;
-  color: rgb(64, 133, 160);
+@media screen and (max-width:860px) {
+  .boxInputMes {
+    max-width: unset;
+    position: unset;
+    right: unset;
+    top: unset;
+    transform: unset;
+    margin-top: 1rem;
+  }
 }

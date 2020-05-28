@@ -57,7 +57,15 @@ class CreateRespond extends React.Component {
         render: true,
         customButton: null,
         message: [{text:'current input would not be saved after leaving, are you sure going to leave?',style:{}}],
-        handlerPositive: ()=>{this.props._set_state_UnitView('theater');this.props._submit_BooleanDialog(messageDialogInit.boolean)},
+        handlerPositive: ()=>{
+          this.props._set_state_UnitView('theater');
+          let lastState = this.props.location.state.from ; // because we are pretty sure there is a "from" obj when opened EditingModal
+          this.props.history.replace({
+            pathname: lastState.pathname,
+            search: lastState.search,
+            state: lastState.state
+          });
+          this.props._submit_BooleanDialog(messageDialogInit.boolean)},
         handlerNegative: ()=>{this.props._submit_BooleanDialog(messageDialogInit.boolean);return;}
       });
     };

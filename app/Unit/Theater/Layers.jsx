@@ -29,6 +29,7 @@ class Layers extends React.Component {
         left: '0%',
         boxSizing: 'border-box',
       },
+      /*
       Com_Layers_blocks_SumLayer_ : {
         width: '79%',
         minWidth: '840px',
@@ -39,13 +40,7 @@ class Layers extends React.Component {
         left: '50%',
         transform: 'translate(-48%, 0)',
         boxSizing: 'border-box'
-      },
-      Com_Layers_blocks_ImgLayer_: {
-        width: '96.8%',
-        height: '100%',
-        position: 'absolute',
-        boxSizing: 'border-box',
-      },
+      },*/
     }
   }
 
@@ -66,16 +61,14 @@ class Layers extends React.Component {
 
   _render_ScrollLayers(){
     return (
-      <div
-        style={this.style.Com_Layers_blocks_ImgLayer_}>
-        <WrapperImg
-          lockify={this.state.lockify}
-          moveCount={this.state.moveCount}
-          marksStatus={this.state.marksStatus}
-          _set_markOpened={this._set_markOpened}
-          _set_layerstatus={this._set_layerstatus}
-          _refer_toandclose={this._refer_toandclose}/>
-      </div>
+      <WrapperImg
+        {...this.props}
+        lockify={this.state.lockify}
+        moveCount={this.state.moveCount}
+        marksStatus={this.state.marksStatus}
+        _set_markOpened={this._set_markOpened}
+        _set_layerstatus={this._set_layerstatus}
+        _refer_toandclose={this._refer_toandclose}/>
     )
     /*
 
@@ -130,7 +123,8 @@ class Layers extends React.Component {
         className={'boxAbsoluteFull'}
         onClick={(event)=>{event.stopPropagation();}}>
         {
-          (this.props.unitCurrent.coverSrc) ? (
+          (this.props.unitCurrent.coverSrc) ? /*(
+            only one layer now, even without Summary, so took away scroll effect first
             <LayerScroll
               lockify={this.state.lockify}
               moveCount={this.state.moveCount}
@@ -139,12 +133,12 @@ class Layers extends React.Component {
               {this._render_ScrollLayers()}
 
             </LayerScroll>
+          )*/
+          (
+            this._render_ScrollLayers()
           ): (
             <div
-              style={this.style.Com_Layers_blocks_SumLayer_}>
-              <div
-                style={{backgroundColor:'#F0F0F0',width: '20%', height: '20%', position: 'absolute', top: '40%', left: '40%'}}/>
-            </div>
+              style={{backgroundColor:'rgba(0, 0, 0, 0.3)',width: '20%', height: '20%', position: 'absolute', top: '40%', left: '40%'}}/>
           )
         }
       </div>

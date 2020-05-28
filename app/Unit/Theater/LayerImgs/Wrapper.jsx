@@ -8,64 +8,22 @@ import classnames from 'classnames';
 import styles from './styles.module.css';
 import ImgsFrame from './ImgsFrame.jsx';
 import SidePanel from './SidePanel.jsx';
+import Primer from '../components/Primer.jsx';
 import {NodesExtensible} from '../../NodesDisplay/NodesExtensible.jsx';
+import ImgPreview from '../../../Components/ImgPreview.jsx';
 import AccountPalette from '../../../Components/AccountPalette.jsx';
 import DateConverter from '../../../Components/DateConverter.jsx';
-
-const styleMiddle = {
-  boxImgFrame: {
-    width: '77%',
-    height: '90%',
-    position: 'absolute',
-    top: '0%',
-    left: '16%',
-    boxSizing: 'border-box'
-  },
-  boxActionPanel: {
-    position: 'absolute',
-    top: '29%',
-    right: '84%',
-    boxSizing: 'border-box'
-  },
-  boxAuthor: {
-    width: '100%',
-    position: 'relative',
-    boxSizing: 'border-box',
-  },
-  boxNodes: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    width: '100%',
-    maxHeight: '44%',
-    minHeight: '242px',
-    boxSizing: 'border-box',
-    overflow: 'hidden' //just a temp method
-  }
-}
 
 class Wrapper extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      onPrimerImg: false
     };
     this._handleClick_Account = this._handleClick_Account.bind(this);
-    this.style={
-      Com_Unit_ImgLayers_contentSection_links_nouns: {
-        width: '100%',
-        boxSizing: 'border-box',
-        textAlign: 'right',
-        paddingRight: '13%',
-        borderRight:'0.75px solid #FAFAFA'
-      },
-      Com_Unit_ImgLayers_commonSection_InfoPanel_blocks_: {
-        height: '100%',
-        position: 'relative',
-        boxSizing: 'border-box',
-        marginBottom: '0.6rem',
-      }
-    }
+    this._handleEnter_primerImg = this._handleEnter_primerImg.bind(this);
+    this._handleLeave_primerImg = this._handleLeave_primerImg.bind(this);
+    this._handleClick_Primerhref = this._handleClick_Primerhref.bind(this);
   }
 
   _handleClick_Account(event){
@@ -79,47 +37,20 @@ class Wrapper extends React.Component {
   render(){
     return(
       <div
-        className={classnames('boxAbsoluteFull', styles.comWrapper)}>
+        className={classnames( styles.comWrapper)}>
         <div
-          className={classnames(styles.boxImgLeft)}>
-          <div
-            style={styleMiddle.boxNodes}>
-            {
-              this.props.unitCurrent.nouns &&
-              <div
-                className={'nodesListLayers'}
-                style={this.style.Com_Unit_ImgLayers_contentSection_links_nouns}>
-                <NodesExtensible
-                  nouns={this.props.unitCurrent.nouns}
-                  styleItem= {{margin: '0 0 2.32rem'}}
-                  _handleClick_listNoun={this.props._refer_toandclose}/>
-              </div>
-            }
-          </div>
-          <div
-            style={styleMiddle.boxAuthor}>
-            <div
-              style={this.style.Com_Unit_ImgLayers_commonSection_InfoPanel_blocks_}>
-              <DateConverter
-                place={'layers'}
-                datetime={this.props.unitCurrent.createdAt}/>
-            </div>
-            <div
-              onClick={this._handleClick_Account}
-              style={Object.assign({}, this.style.Com_Unit_ImgLayers_commonSection_InfoPanel_blocks_,{marginBottom:'0.5rem',textAlign: 'right'})}>
-              <AccountPalette
-                size={'layer'}
-                accountFirstName={this.props.unitCurrent.authorBasic.firstName}
-                accountLastName={this.props.unitCurrent.authorBasic.lastName}/>
-            </div>
-          </div>
+          className={classnames(styles.boxContentWidth, styles.boxTitle)}>
+          {
+            this.props.unitCurrent.nouns &&
+            <NodesExtensible
+              nouns={this.props.unitCurrent.nouns}
+              _handleClick_listNoun={this.props._refer_toandclose}/>
+          }
+          <SidePanel
+            {...this.props}/>
         </div>
         <div
-          className={classnames(styles.boxImgBottom)}>
-          <SidePanel/>
-        </div>
-        <div
-          style={styleMiddle.boxImgFrame}>
+          className={classnames(styles.boxContentWidth, styles.boxFrame)}>
           <ImgsFrame
             moveCount={this.props.moveCount}
             lockify={this.props.lockify}
@@ -127,9 +58,78 @@ class Wrapper extends React.Component {
             _set_markOpened={this.props._set_markOpened}
             _set_layerstatus={this.props._set_layerstatus}/>
         </div>
+        <div
+          className={classnames(styles.boxContentWidth, styles.boxBottom)}>
+          <div>
+            <div
+              className={classnames(styles.boxBottomUpper)}
+              style={{color: '#757575'}}
+              onClick={this._handleClick_Account}>
+              <AccountPalette
+                size={'layer'}
+                accountFirstName={this.props.unitCurrent.authorBasic.firstName}
+                accountLastName={this.props.unitCurrent.authorBasic.lastName}/>
+            </div>
+            <div
+              className={classnames(styles.boxBottomLower)}>
+              <div style={{marginRight: '5rem'}}>
+                <DateConverter
+                  styles={{color: '#a3a3a3'}}
+                  datetime={this.props.unitCurrent.createdAt}/>
+              </div>
+              <div>
+                {
+                  this.props.unitCurrent.primerify &&
+                  <Primer
+                    {...this.props}/>
+                }
+              </div>
+            </div>
+          </div>
+          {
+            this.props.unitCurrent.primerify &&
+            <Link
+              to={''}
+              onClick={this._handleClick_Primerhref}
+              className={classnames('plainLinkButton', styles.boxLinkPrimerImg)}
+              style={{opacity: this.state.onPrimerImg? '1' : "0.3"}}
+              onMouseEnter={this._handleEnter_primerImg}
+              onMouseLeave={this._handleLeave_primerImg}>
+              <ImgPreview
+                blockName={''}
+                previewSrc={'/router/img/'+this.props.unitCurrent.primerSrc+'?type=thumb'}
+                _handleClick_ImgPreview_preview={()=>{/*nothing need to happen*/}}/>
+            </Link>
+          }
+        </div>
+
       </div>
     )
   }
+
+  _handleClick_Primerhref(event){
+    event.preventDefault();
+    event.stopPropagation();
+    if(!this.props.location.pathname.includes('explore/unit')){
+      // the browser, which do not know the origin it has was modified, need to be modified again to have the pratical history
+      window.history.replaceState(this.props.location.state, '', this.props.location.pathname+this.props.location.search);
+    };
+    //and Notice! history should be pushed after the replaceState has been done
+    this.props.history.push({
+      pathname: this.props.match.path, //should always be ".../unit" because primer only used in a Unit
+      search: '?unitId='+this.props.unitCurrent.primer.primerId+'&unitView=theater',
+      state: {from: this.props.location}
+    });
+  }
+
+  _handleEnter_primerImg(e){
+    this.setState({onPrimerImg: true})
+  }
+
+  _handleLeave_primerImg(e){
+    this.setState({onPrimerImg: false})
+  }
+
 }
 
 const mapStateToProps = (state)=>{

@@ -11,12 +11,13 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import Around from './partAround/Around.jsx';
 import {
-  setMessageSingleClose
+  fetchBelongRecords
 } from '../redux/actions/general.js'
 import NavWithin from '../Components/NavWithin/NavWithin.jsx';
-import NavOptions from '../Components/NavOptions.jsx';
+import NavOptions from '../Components/NavOptions/NavOptions.jsx';
 import ModalBox from '../Components/ModalBox.jsx';
 import ModalBackground from '../Components/ModalBackground.jsx';
+import SingleDialog from '../Components/Dialog/SingleDialog/SingleDialog.jsx';
 import SingleCloseDialog from '../Components/Dialog/SingleCloseDialog/SingleCloseDialog.jsx';
 import BooleanDialog from '../Components/Dialog/BooleanDialog/BooleanDialog.jsx';
 
@@ -34,14 +35,6 @@ class WithinAround extends React.Component {
         position: 'fixed',
         backgroundColor: '#FCFCFC'
       },
-      Within_Around_NavOptions: {
-        width: '1.4%',
-        height: '3.2%',
-        position: 'fixed',
-        bottom: '6.9%',
-        right: '1%',
-        boxSizing: 'border-box'
-      }
     }
   }
 
@@ -90,7 +83,12 @@ class WithinAround extends React.Component {
   }
 
   componentDidMount() {
-
+    /*
+    Here is the highest level next only to status() in root, fetching data or any info needed
+    */
+    if( !window.localStorage['token'] ) return;
+    //beneath are the process difinately need a token
+    this.props._fetch_belongRecords();
   }
 
   componentWillUnmount() {
@@ -103,18 +101,34 @@ class WithinAround extends React.Component {
     return(
       <div>
         <div style={this.style.Within_Around_backplane}></div>
-        <Switch>
-
-          <Route path={this.props.match.path} render={(props)=> <Around {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
-        </Switch>
-
         <div
-          className={classnames(styles.boxNavAround)}>
-          <NavWithin {...this.props} _refer_to={this._refer_von_cosmic}/>
+          className={classnames(styles.boxAround)}>
+          <div
+            className={classnames(styles.boxNavOptions)}>
+            <NavOptions {...this.props} _refer_to={this._refer_von_cosmic}/>
+          </div>
+          <div
+            className={classnames(styles.boxAroundContent)}>
+            <div
+              className={classnames(
+                styles.boxContentFilledLeft)}/>
+            <div
+              className={classnames(styles.boxAroundContentCenter)}>
+              <Switch>
+                <Route path={this.props.match.path} render={(props)=> <Around {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
+
+              </Switch>
+            </div>
+            <div
+              className={classnames(
+                styles.boxContentFilledRight)}/>
+          </div>
+          <div
+            className={classnames(styles.boxNavAround)}>
+            <NavWithin {...this.props} _refer_to={this._refer_von_cosmic}/>
+          </div>
         </div>
-        <div style={this.style.Within_Around_NavOptions}>
-          <NavOptions {...this.props}/>
-        </div>
+
         {
           //here and beneath, are dialog system for global used,
           //the series 'message' in redux state is prepared for this kind of global message dialog
@@ -126,6 +140,20 @@ class WithinAround extends React.Component {
                 <SingleCloseDialog
                   message={this.props.messageSingleClose['message']}
                   _positiveHandler={this.props.messageSingleClose['handlerPositive']}/>
+              </div>
+            </ModalBackground>
+          </ModalBox>
+        }
+        {
+          this.props.messageSingle['render'] &&
+          <ModalBox containerId="root">
+            <ModalBackground onClose={()=>{this._set_Dialog();}} style={{position: "fixed", backgroundColor: 'rgba(52, 52, 52, 0.36)'}}>
+              <div
+                className={"boxDialog"}>
+                <SingleDialog
+                  message={this.props.messageSingle['message']}
+                  buttonValue={this.props.messageSingle['buttonValue']}
+                  _positiveHandler={this.props.messageSingle['handlerPositive']}/>
               </div>
             </ModalBackground>
           </ModalBox>
@@ -154,6 +182,7 @@ const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
     unitCurrent: state.unitCurrent,
+    messageSingle: state.messageSingle,
     messageSingleClose: state.messageSingleClose,
     messageBoolean: state.messageBoolean
   }
@@ -161,7 +190,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    _set_MessageSinClose: (message) => { dispatch(setMessageSingleClose(message)); }
+    _fetch_belongRecords: () => {dispatch(fetchBelongRecords())},
   }
 }
 

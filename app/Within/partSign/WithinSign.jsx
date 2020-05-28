@@ -1,48 +1,29 @@
 import React from 'react';
 import {
   Route,
+  Switch,
   Link,
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
+import InvitationFellow from './InvitationFellow.jsx';
 import SigninForm from '../../Sign/components/SigninForm/SigninForm.jsx';
 import SignupForm from '../../Sign/components/SignupCom/SignupForm.jsx';
 import SignupSuccess from '../../Sign/components/SignupCom/SignupSuccess.jsx';
+import Confirmation from '../../Sign/components/Confirmation/Confirmation.jsx';
+import NavSign from '../../Sign/components/NavSign/NavSign.jsx';
+
 
 class WithinSign extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      steps: 'signin'
+
     };
-    this._switch_Sign = this._switch_Sign.bind(this);
     this._signin_success = this._signin_success.bind(this);
     this._signup_success = this._signup_success.bind(this);
-    this._render_signInDialog = this._render_signInDialog.bind(this);
-  }
-
-  _switch_Sign(aim){
-    switch (aim) {
-      case 'toSignIn':
-        this.setState({steps: 'signin'})
-        break;
-      case 'toSignUp':
-        this.setState({steps: 'signup'})
-        break;
-      case 'toSignUpSuccess':
-        this.setState({steps: 'signupsuccess'})
-        break;
-      case 'toMailResend':
-        window.location.assign('/s/resend?purpose=verifications');
-        break;
-      case 'toForgetPw':
-        window.location.assign('/s/resend?purpose=password');
-        break;
-      default:
-        null
-    }
   }
 
   _signin_success(){
@@ -51,58 +32,51 @@ class WithinSign extends React.Component {
   }
 
   _signup_success(){
-    this._switch_Sign('toSignUpSuccess')
+    this.props.history.replace({
+      pathname: this.props.location.pathname + "/success", // '/signup' + '/success'
+      state: { from: this.props.location }
+    });
   }
 
   componentDidMount() {
+    // the "invitation" would only display after page load, so process here
+    let params = new URLSearchParams(this.props.location.search); //we need value in URL query
+    let invitationify = !!params.get('invitation') ? params.get('invitation') : false;
+    if(invitationify) {
 
+    };
   }
 
   componentWillUnmount() {
 
   }
 
-  _render_signInDialog(){
-    switch (this.state.steps) {
-      case 'signin':
-        return (
-          <div>
-            <SigninForm
-              {...this.props}
-              _switch_Sign={this._switch_Sign}
-              _signin_success={this._signin_success}/>
-          </div>
-        )
-        break;
-      case 'signup':
-        return (
-          <div>
-            <SignupForm
-              {...this.props}
-              _switch_Sign={this._switch_Sign}
-              _signup_success={this._signup_success}/>
-          </div>
-        )
-        break;
-      case 'signupsuccess':
-        return (
-          <div>
-            <SignupSuccess
-              {...this.props}
-              _switch_Sign={this._switch_Sign}/>
-          </div>
-        )
-        break;
-      default:
-        return
-    }
-  }
-
   render(){
     return(
       <div
         className={styles.comWithinSign}>
-        {this._render_signInDialog()}
+        <div
+          className={classnames(styles.boxForm)}
+          style={(this.props.location.pathname.includes('/success') || this.props.location.pathname.includes('/confirm')) ?
+            {flexDirection: 'column-reverse'}:{}}>
+          <div
+            className={classnames(styles.boxNav)}>
+            <NavSign
+              {...this.props}/>
+          </div>
+
+          {
+            this.state.invitation &&
+            <InvitationFellow
+              {...this.props}/>
+          }
+          <Switch>
+            <Route path={ "/confirm"} render={(props) => <Confirmation {...props} />} />
+            <Route path={ "/signup/success"} render={(props) => <SignupSuccess {...props} />} />
+            <Route path={"/signup"} render={(props) => <SignupForm {...props} _signup_success={this._signup_success} />}/>
+            <Route path={this.props.match.path} render={(props) => <SigninForm {...props} _signin_success={this._signin_success} />}/>
+          </Switch>
+        </div>
 
       </div>
     )

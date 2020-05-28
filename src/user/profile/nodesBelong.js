@@ -11,6 +11,7 @@ const {_res_success} = require('../../utils/resHandler.js');
 const {
   _handle_ErrCatched,
   internalError,
+  forbbidenError
 } = require('../../utils/reserrHandler.js');
 
 // notice! cause the var was here, it would definitely be modified(NOT consist) if we do the modification  in the _handler
@@ -179,7 +180,7 @@ function _handle_GET_profile_nodesBelong(req, res){
       results.forEach((singleRec, index)=>{ //singleRec: each return from _last would be a single row from table
         if(!!singleRec){ //in case the result was 'null'
           sendingData.nodesList.push(singleRec.id_node);
-          sendingData.setCatList.push(categoryAll[index]);
+          sendingData.setCatList.push(category? category: categoryAll[index]);
           sendingData.categoryObj[category? category: categoryAll[index]] = singleRec.id_node;
         }
       })
@@ -205,7 +206,11 @@ async function _handle_PATCH_profile_nodesBelong(req, res){
   //First of all, validating the data passed
   try{
     const passedNodeInfo = await _DB_nouns.findOne({
-      where: {id: passedNode}
+      where: {
+        id: passedNode,
+        language: 'en',
+        category: 'location_admin'
+      }
     });
     if(!passedNodeInfo) throw new forbbidenError("You didn't submit with an allowed nodes.", 120);
     //decided which selection to use depend on the category req passed.

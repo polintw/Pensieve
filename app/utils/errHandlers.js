@@ -7,7 +7,9 @@ export function cancelErr(error){
 }
 
 export function statusVerifiedErr(error, store){
-  if(error.response){ //still create store for page
+  let currentReducer = store.getState();
+  //set tokenStatus
+  if(error.response){ // if error came from res
     switch (error.response.status) {
       case 400: //validation error
         store.dispatch(setTokenStatus({ token: 'invalid' }))
@@ -28,6 +30,7 @@ export function statusVerifiedErr(error, store){
         store.dispatch(setTokenStatus({token: 'invalid'}))
     };
   }
+  else if(currentReducer.token=='verified'){return; } //if error came from React render (no need update token status)
   else store.dispatch(setTokenStatus({token: 'invalid'})); //end of 'if'
 
   return; //now, we return 'nothing', just a structure prepared for the plan in future.
@@ -43,7 +46,7 @@ export function uncertainErr(error){
     switch (error.response.data.code) {
       case 32: //meaning invalid authorization, need to authorize again & redirect.
         alert(error.response.data.message);
-        window.location.assign('/s/signin'); //anauthorized with invalid token, reload to check the token
+        window.location.assign('/signin'); //anauthorized with invalid token, reload to check the token
         return null; //return to inform iterator, meaning no need for further handleing
         break;
       case 33: //special for sign in, user not verified email
@@ -51,7 +54,7 @@ export function uncertainErr(error){
         break;
       case 89: //meaning no token, redirect.
       //a missing token, no need to alert anything.
-        window.location.assign('/s/signin');
+        window.location.assign('/');
         return false; //return to inform iterator, meaning no need for further handleing
       default:
     };

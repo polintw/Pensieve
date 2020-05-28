@@ -1,13 +1,14 @@
 import React from 'react';
 import {
-  withRouter
+  withRouter,
+  Link
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import {
   SheetAccount,
   SheetBasic
 } from './SheetCom.jsx';
-import PasswordForm from '../../Components/PasswordForm.jsx';
+import PasswordForm from '../../Components/PasswordForm/PasswordForm.jsx';
 import AccountPalette from '../../Components/AccountPalette.jsx';
 import {mountUserSheet} from "../../redux/actions/front.js";
 import {
@@ -152,6 +153,16 @@ const styleMiddle = {
             <PasswordForm
               {...this.props}
               _submit_success={this._submit_password_success}/>
+            <Link
+              to={{
+                pathname: this.props.match.url ,
+                search: '',
+
+              }}>
+              <input
+                type='button'
+                value='cancel'/>
+            </Link>
           </div>
         )
         break;

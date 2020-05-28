@@ -1,25 +1,31 @@
 .comTheater {
-  width: 75%;
-  height: 85%;
+  width: 1008px;
+  height: 710px;
+  min-width: 70%;
+  max-width: 98vw;
+  min-height: 90%;
+  max-height: 95vh;
   position: absolute;
-  top: 6%;
-  left: 15%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   box-sizing: border-box;
+  border-radius: 4px;
+  background-color: #FFFFFF;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
 }
 
 .boxBackTop {
   display:flex;
   justify-content: space-around;
   width: 2rem;
-  height: 5%;
   position: absolute;
-  top: 2%;
-  right: 2.1%;
+  bottom: 5vh;
+  right: 5%;
   cursor:pointer;
 }
 
 .spanBackTop {
   box-sizing: border-box;
-  font-size: 1rem;
-  color: #6e6e6e;
+  font-size: 1.4rem;
 }

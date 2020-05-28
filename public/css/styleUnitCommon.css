@@ -1,11 +1,12 @@
 .boxImgPosition { /*used in OpenedMark, MarksLayer, and ImgLayer.*/
   position: absolute;
   top: 50%;
+  border-radius: 4px;
 }
 
-.boxMarkSpot {
-  width: 3.2vw;
-  height: 3.2vw;
+.boxMarkSpot { /*now used by ImgLayerEditing, OpenedMark, and MarksLayer*/
+  width: 48px;
+  height: 48px;
   position: absolute;
   transform: translate(-50%, -50%);
   overflow: visible;

@@ -5,19 +5,7 @@ import styles from './styles.module.css';
 import MarksLayer from './MarksLayer.jsx';
 import {
   baseHorizonRatial,
-  baseVertivalRatial
 } from '../../props.js';
-
-const generalStyle = {
-  absolute_FullVersion: {
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
-    top: '0',
-    left:'0',
-    boxSizing: 'border-box'
-  }
-}
 
 class ImgLayer extends React.Component {
   constructor(props){
@@ -34,8 +22,7 @@ class ImgLayer extends React.Component {
         maxWidth: '100%',
         maxHeight: '100%',
         right: baseHorizonRatial+'%',
-        top: baseVertivalRatial+ '%',
-        transform: 'translate('+baseHorizonRatial+'%, -'+ baseVertivalRatial+'%)'
+        transform: 'translate('+baseHorizonRatial+'%, -50%)'
         //we use the params managed in a single file to assure the position always consistent across component
       }
   };
@@ -69,7 +56,8 @@ class ImgLayer extends React.Component {
     return(
       <div
         ref={this.Com_ImgLayer_box}
-        style={generalStyle.absolute_FullVersion}>
+        className={classnames(styles.comImgLayer)}>
+
         <img
           className={classnames('boxImgPosition')}
           style={this.style.Com_ImgLayer_img}

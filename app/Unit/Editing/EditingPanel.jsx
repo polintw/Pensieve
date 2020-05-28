@@ -26,7 +26,6 @@ class EditingPanel extends React.Component {
       refsArr: []
     };
     this._set_newImgSrc = this._set_newImgSrc.bind(this);
-    this._set_img_delete = this._set_img_delete.bind(this);
     this._set_Mark_Complete = this._set_Mark_Complete.bind(this);
     this._set_statusEditing = this._set_statusEditing.bind(this);
     this._submit_new_node = this._submit_new_node.bind(this);
@@ -80,23 +79,6 @@ class EditingPanel extends React.Component {
   _set_newImgSrc(dataURL){
     this.setState({
       coverSrc: dataURL,
-      contentEditing: true //going to edit directly
-    })
-  }
-
-  _set_img_delete(){
-    /*
-      Currently only has layer 'cover',
-      so we delete all process related to 'beneath' (refer to previous ver.)
-    */
-    this.setState((prevState, props)=>{
-      let modifiedState = {
-        coverSrc: null,
-        coverMarks:{list:[], data:{}},
-        contentEditing: false
-      };
-
-      return modifiedState;
     })
   }
 
@@ -129,7 +111,7 @@ class EditingPanel extends React.Component {
     }else if(this.props.unitSubmitting){
       this.props._set_warningDialog([{text: "submit is processing, please hold on ...",style:{}}], 'warning');
       return;
-    }else if(this.state.editing){
+    }else if(this.state.contentEditing){
       this.props._set_warningDialog([{text: "your edit hasn't completed.", style:{}}], 'warning');
       return;
     };
@@ -168,7 +150,6 @@ class EditingPanel extends React.Component {
           marks={this.state.coverMarks}
           _set_statusEditing={this._set_statusEditing}
           _set_Mark_Complete={this._set_Mark_Complete}
-          _set_delete={this._set_img_delete}
           _set_warningDialog={this.props._set_warningDialog}/>
       )
     }
@@ -177,11 +158,13 @@ class EditingPanel extends React.Component {
   render(){
     return(
       <div
-        className={classnames(styles.comEditingPanel)}>
+        className={classnames(styles.comEditingPanel)}
+        onClick={(e)=>{e.preventDefault();e.stopPropagation();/*prevent bubbling to bg of wherever it was called*/}}>
         <div
           className={classnames(styles.boxContentWidth, styles.boxSubmit)}>
           <Submit
             editing={this.state.contentEditing}
+            contentPermit = {(!this.state["coverSrc"] || this.state['nodesSet'].assign.length < 1) ? false: true}
             confirmDialog={!!this.props.confirmDialog? this.props.confirmDialog: false}
             warningDialog={!!this.props.warningDialog? this.props.warningDialog: false}
             _set_Clear={this.props._set_Clear}

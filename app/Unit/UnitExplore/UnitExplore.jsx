@@ -13,12 +13,24 @@ import CreateRespond from '../Editing/CreateRespond.jsx';
 import Related from '../Related/Related.jsx';
 import {
   _axios_getUnitData,
-  _axios_getUnitImgs
+  _axios_getUnitImgs,
 } from '../utils.js';
 import ModalBox from '../../Components/ModalBox.jsx';
 import ModalBackground from '../../Components/ModalBackground.jsx';
-import {setUnitCurrent} from "../../redux/actions/general.js";
+import {
+  setUnitView,
+} from "../../redux/actions/unit.js";
+import {
+  setUnitCurrent,
+  handleUsersList,
+  updateNodesBasic,
+  updateUsersBasic
+} from "../../redux/actions/general.js";
 import {unitCurrentInit} from "../../redux/states/constants.js";
+import {
+  cancelErr,
+  uncertainErr
+} from '../../utils/errHandlers.js';
 
 class UnitExplore extends React.Component {
   constructor(props){
@@ -72,6 +84,7 @@ class UnitExplore extends React.Component {
       //we compose the marksset here, but sould consider done @ server
       let keysArr = Object.keys(resObj.main.marksObj);//if any modified or update, keep the "key" as string
       let [coverMarks, beneathMarks] = [{list:[],data:{}}, {list:[],data:{}}];
+      // due to some historical reason, the marks in unitCurrent has a special format
       keysArr.forEach(function(key, index){
         if(resObj.main.marksObj[key].layer==0){
           coverMarks.data[key]=resObj.main.marksObj[key];
@@ -80,13 +93,25 @@ class UnitExplore extends React.Component {
           beneathMarks.data[key]=resObj.main.marksObj[key]
           beneathMarks.list[resObj.main.marksObj[key].serial] = key;
         }
-      })
+      });
+      // api GET unit data was totally independent, even the nodesBasic & userBasic
+      //But we still update the info to redux state, for other comp. using
+      let nodesBasic = {}, userBasic = {};
+      resObj.main.nouns.list.forEach((nodeKey, index) => {
+        nodesBasic[nodeKey] = resObj.main.nouns.basic[nodeKey];
+      });
+      userBasic[resObj.main.authorBasic.id] = resObj.main.authorBasic;
+      self.props._submit_Nodes_insert(nodesBasic);
+      self.props._submit_Users_insert(userBasic);
+
       //actually, beneath part might need to be rewritten to asure the state could stay consistency
       self.props._set_store_UnitCurrent({
         unitId:self.unitId,
         identity: resObj.main.identity,
         authorBasic: resObj.main.authorBasic,
         coverSrc: imgsBase64.cover,
+        primerify: resObj.main.primerify,
+
         beneathSrc: imgsBase64.beneath,
         coverMarksList:coverMarks.list,
         coverMarksData:coverMarks.data,
@@ -96,14 +121,15 @@ class UnitExplore extends React.Component {
         refsArr: resObj.main.refsArr,
         createdAt: resObj.main.createdAt
       });
+
     })
     .catch(function (thrown) {
+      self.setState({axios: false});
       if (axios.isCancel(thrown)) {
-        console.log('Request canceled: ', thrown.message);
+        cancelErr(thrown);
       } else {
-        console.log(thrown);
-        self.setState({axios: false});
-        alert("Failed, please try again later");
+        let message = uncertainErr(thrown);
+        if(message) alert(message);
       }
     });
   }
@@ -113,7 +139,7 @@ class UnitExplore extends React.Component {
     if(!this.paramsRelated) document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:hidden;");
     else{
       document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:scroll;")
-      //2) in state, if 'close' is true but the paramsRelated was false
+      //2) in state, if 'close' is true 'and' the paramsRelated was true, too
       //that's mean the Redirect happened, & should not redirect again
       if(this.state.close) this.setState({close: false});
       /*
@@ -149,12 +175,15 @@ class UnitExplore extends React.Component {
     // It's Important !! next Unit should not have a 'coverSrc' to prevent children component render in UnitModal before Unit data response!
     let unitCurrentState = Object.assign({}, unitCurrentInit);
     this.props._set_store_UnitCurrent(unitCurrentState);
+    this.props._set_state_UnitView('theater'); // it's default for next view
     //last, make sure the scroll ability back to <body>
     document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:scroll;");
   }
 
   _render_switch(){
-    switch (this.props.unitView) {
+    let paramUnitView = this.urlParams.get('unitView');
+
+    switch (paramUnitView) {
       case 'theater':
         return (
           <Theater
@@ -185,10 +214,11 @@ class UnitExplore extends React.Component {
   }
 
   render(){
-    let params = new URLSearchParams(this.props.location.search); //we need value in URL query
+    this.urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
+
     // if there was any difference between old version, here it is, param was now 'related' sonsitive
-    this.paramsRelated = params.has('related'); //declaim here and would be used throughout the life cycle
-    this.unitId = params.get('unitId');
+    this.paramsRelated = this.urlParams.has('related'); //declaim here and would be used throughout the life cycle
+    this.unitId = this.urlParams.get('unitId');
 
     if(this.state.close){return <Redirect to={{
         pathname: this.props.location.pathname,
@@ -207,7 +237,11 @@ class UnitExplore extends React.Component {
         {
           !this.paramsRelated &&
           <ModalBox containerId="root">
-            <ModalBackground onClose={()=>{this._close_theater();}} style={{position: "fixed", minWidth: "890px", minHeight: '320px', backgroundColor: 'rgba(215, 215, 215, 0.67)'}}>
+            <ModalBackground
+              onClose={()=>{this._close_theater();}}
+              style={{
+                position: "fixed",
+                backgroundColor: 'rgba(51, 51, 51, 0.3)'}}>
               {this._render_switch()}
             </ModalBackground>
           </ModalBox>
@@ -228,6 +262,9 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch)=>{
   return {
+    _submit_Nodes_insert: (obj) => { dispatch(updateNodesBasic(obj)); },
+    _submit_Users_insert: (obj) => { dispatch(updateUsersBasic(obj)); },
+    _set_state_UnitView: (expression)=>{dispatch(setUnitView(expression));},
     _set_store_UnitCurrent: (obj)=>{dispatch(setUnitCurrent(obj));}
   }
 }

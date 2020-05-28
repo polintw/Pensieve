@@ -1,0 +1,74 @@
+.comNavOption {
+
+}
+
+.smallDisplayBox {
+  display: none;
+}
+
+.selfCom_NavOptions_svg_ {
+  position: relative;
+  cursor: pointer;
+}
+
+.selfCom_NavOptions_ToolBox_ {
+  min-width: 180px;
+  max-width: 80vw;
+  position: absolute;
+  top: 120%;
+  box-sizing: border-box;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
+  background-color: #FFFFFF;
+  cursor: default; /* block the 'pointer' setting inherit from parent*/
+}
+
+.boxOlist {
+  padding: 0 0 0.5rem 1rem;
+  margin: 0 0 2rem;
+  border-bottom: solid 1px #d8d8d8;
+  list-style: none;
+}
+
+.boxLiItem {
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.boxLogout {
+  padding-left: 1rem;
+}
+
+.boxLogo {
+  height: 20px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.fontContent {
+  font-size: 1.4rem;
+}
+
+@media screen and (max-width:860px) {
+  .comNavOption {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    width: 100%;
+    padding: 0 1.38vw;
+  }
+
+  .smallDisplayBox {
+    display: block;
+  }
+
+  .smallDisplayNone {
+    display: none;
+  }
+
+  .selfCom_NavOptions_ToolBox_{
+    left: unset;
+    right: 0;
+  }
+}

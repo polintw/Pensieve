@@ -1,0 +1,30 @@
+
+.comImgUpload{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  background-color: #ff8168;
+  cursor: pointer;
+}
+
+.spanText {
+
+}
+
+.progressbar {
+  transition: width 4s cubic-bezier(0.2, 0.25, 0.5, 0.9);
+  width: 0%;
+  height: 4px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  border-radius: 2px;
+  background-color: #545454;
+}
+
+.progressed {
+  width: 96%;
+}

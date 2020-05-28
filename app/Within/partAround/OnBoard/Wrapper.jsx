@@ -231,14 +231,15 @@ class Wrapper extends React.Component {
         <div
           className={classnames(styles.boxRelativeRow, styles.rowButton)}>
           <div
-            className={classnames(styles.boxButton)}
-            style={ submitBlocked ? {cursor: 'default'}:{}}
+            className={classnames(
+              styles.boxButton,
+              {[styles.boxButtonBlocked]: submitBlocked}
+            )}
             onClick={this._handleClick_onBoardSubmit}>
             <span
               className={classnames(
                 stylesFont.fontSubmit ,
-                stylesFont.colorWhite)}
-              style={  submitBlocked ? {color: "#fdc79d"}:{}}>
+                stylesFont.colorWhite)}>
               {this.props.i18nUIString.catalog["submit_onBoard_start"]}
             </span>
           </div>

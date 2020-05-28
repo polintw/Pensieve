@@ -1,0 +1,24 @@
+.boxMarkPreview {
+  width: 100%;
+  height: 77.65%;
+  overflow: hidden;
+}
+
+.boxMarkPreviewCounts {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 2.3rem;
+}
+
+.boxOvalCount {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  box-sizing: border-box;
+  border: solid 3px #ffffff;
+  border-radius: 50%;
+  margin-left: 18px;
+  cursor: default;
+}

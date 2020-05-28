@@ -1,3 +1,19 @@
 .comWithinSign {
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 3.8vh 0 1.9vh;
+}
+
+.boxForm {
+  display: flex;
+  flex-direction: column;
+  width: 335px;
+  max-width: 98vw;
+}
+
+.boxNav {
+  width: 100%;
+  margin-bottom: 30px;
 }

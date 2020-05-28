@@ -21,12 +21,8 @@ import {
   uncertainErr
 } from "../../../../utils/errHandlers.js";
 import {
-  handleNounsList,
+  fetchBelongRecords
 } from "../../../../redux/actions/general.js";
-import {
-  setBelongsByType,
-  fetchBelongsSeries
-} from "../../../../redux/actions/within.js";
 
 class BelongsSet extends React.Component {
   constructor(props){
@@ -39,7 +35,6 @@ class BelongsSet extends React.Component {
       searchModal: false
     };
     this.axiosSource = axios.CancelToken.source();
-    this._init_fetch = this._init_fetch.bind(this);
     this._set_searchModal = this._set_searchModal.bind(this);
     this._set_choiceAnType = this._set_choiceAnType.bind(this);
     this._set_dialog_cancel = this._set_dialog_cancel.bind(this);
@@ -91,8 +86,8 @@ class BelongsSet extends React.Component {
     _axios_PATCH_belongRecords(this.axiosSource.cancelToken, submitObj) //final reload the com to GET new setting
       .then(function (resObj) {
         self.setState({axios: false});
-        //refresh locally
-        self._init_fetch();
+        self.props._fetch_belongRecords(); //calling action to refresh loca records
+
       }).catch(function (thrown) {
         self.setState({axios: false});
         if (axios.isCancel(thrown)) {
@@ -105,40 +100,12 @@ class BelongsSet extends React.Component {
 
   }
 
-  _init_fetch(){
-    const self = this;
-    this.setState({axios: true});
-
-    _axios_GET_belongRecords(this.axiosSource.cancelToken)
-    .then((belongObj)=>{
-      self.setState({axios: false}); //set here because we are going to next axios not far away
-      const nodesList= belongObj.main.nodesList;
-      let byTypeObj = belongObj.main.categoryObj;
-      let inclCatListObj = Object.assign({}, byTypeObj); //shallow copy to prevent modifying res obj
-      inclCatListObj['setTypesList'] = belongObj.main.setCatList;
-
-      self.props._submit_NounsList_new(nodesList); //GET nodes info by Redux action
-      self.props._submit_belongsByType(inclCatListObj); //update data incl. setCatList
-      self.props._fetch_belongsSeries(byTypeObj); //only need to know the type need to ve fetched
-    })
-    .catch(function (thrown) {
-      self.setState({axios: false});
-      if (axios.isCancel(thrown)) {
-        cancelErr(thrown);
-      } else {
-        let message = uncertainErr(thrown);
-        if(message) alert(message);
-      }
-    });
-
-  }
-
   componentDidUpdate(prevProps, prevState, snapshot){
 
   }
 
   componentDidMount() {
-    this._init_fetch();
+
   }
 
   componentWillUnmount() {
@@ -214,9 +181,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
-    _submit_belongsByType: (obj) => { dispatch(setBelongsByType(obj)); },
-    _fetch_belongsSeries: (obj) => { dispatch(fetchBelongsSeries(obj)); },
+    _fetch_belongRecords: () => {dispatch(fetchBelongRecords())},
   }
 }
 

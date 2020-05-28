@@ -3,12 +3,10 @@ import { connect } from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
 import ViewerBlock from '../../OpenedMark/MarkBlocks/ViewerBlock/ViewerBlock.jsx';
-import {widthDivisionRatial} from '../../props.js'; //dividing markglayer width, used for determineing the position
 import OpenedMark from '../../OpenedMark/OpenedMark.jsx';
 import SvgCircle from '../../../Components/Svg/SvgCircle.jsx';
-import SvgCurCir from '../../../Components/Svg/SvgCurCir.jsx';
 
-class MarksViewer extends React.Component {
+class MarksLayer extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -27,6 +25,7 @@ class MarksViewer extends React.Component {
     event.preventDefault();
     event.stopPropagation();
     let markKey = this.props.markOpened ? (false) : (event.currentTarget.getAttribute('id'));
+    if(!markKey) markKey = false; //prevent "undefined" situation
     this.props._set_Markvisible(markKey);
   }
 
@@ -67,22 +66,24 @@ class MarksViewer extends React.Component {
       return (
         <OpenedMark
           {...this.props}
+          serial={currentSerial+1}
           currentSerial={currentSerial}
-          widthDivisionRatial={widthDivisionRatial}
           notify={false}
+          editingModal = {false}
           _handleClick_ImgLayer_circle={this._handleClick_ImgLayer_circle}>
           <ViewerBlock
+            {...this.props}
             currentSerial={currentSerial}
             markKey={markKey}
             marksLength={this.props.marksData.list.length}
             markData={this.props.marksData.data[markKey]}/>
         </OpenedMark>
       );
-    }else{
+    }
+    else{
       const self = this,
       imgWidth = this.props.imgWidthHeight.width,
       imgHeight = this.props.imgWidthHeight.height;
-      currentSerial = currentSerial< 0? 0 : currentSerial;
 
       let circlesArr = self.props.marksData.list.map(function(id, index){
         const markData = self.props.marksData.data[id];
@@ -95,21 +96,9 @@ class MarksViewer extends React.Component {
             style={{top: coordinate.top+"%", left: coordinate.left+'%'}}
             onClick={self._handleClick_ImgLayer_circle}>
             <SvgCircle
+              serial={index+1}
               notify={false}
               current={(currentSerial==markData.serial)? true :false}/>
-            {
-              (currentSerial==markData.serial) &&
-              <div
-                className={'boxMarkCurCir'}
-                style={ (coordinate.left < '15%') ? {
-                  left:'70%',
-                  transform: 'translate(0, -50%) scaleX(-1)'
-                }: {
-                  left:'-70%'
-                }}>
-                <SvgCurCir/>
-              </div>
-            }
           </div>
         )
       });
@@ -122,7 +111,10 @@ class MarksViewer extends React.Component {
             height: imgHeight,
             right: this.props.baseHorizonRatial+'%',
             transform: 'translate('+this.props.baseHorizonRatial+'%,-50%)'}}>
-            {circlesArr}
+            {
+              this.props.spotsVisible && //this is the way we 'switch' spotsLayer
+              circlesArr
+            }
         </div>
       );
     }
@@ -131,10 +123,7 @@ class MarksViewer extends React.Component {
   render(){
     return(
       <div>
-        {
-          this.props.spotsVisible &&
-          this._render_SpotsorMark()
-        }
+        { this._render_SpotsorMark() }
       </div>
     )
   }
@@ -151,4 +140,4 @@ const mapStateToProps = (state) => {
 export default connect(
   mapStateToProps,
   null
-)(MarksViewer);
+)(MarksLayer);

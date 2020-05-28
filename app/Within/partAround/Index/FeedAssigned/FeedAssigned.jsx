@@ -1,8 +1,5 @@
 import React from 'react';
 import {
-  Link,
-  Redirect,
-  Route,
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
@@ -10,8 +7,9 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesNail from "../stylesNail.module.css";
 import stylesFont from '../../stylesFont.module.css';
-
 import NailFeed from '../../../../Components/Nails/NailFeed/NailFeed.jsx';
+import NailFeedWide from '../../../../Components/Nails/NailFeedWide/NailFeedWide.jsx';
+import NailFeedMobile from '../../../../Components/Nails/NailFeedMobile/NailFeedMobile.jsx';
 import {axios_get_UnitsBasic} from '../../../../utils/fetchHandlers.js';
 import {
   handleNounsList,
@@ -172,11 +170,32 @@ class FeedAssigned extends React.Component {
     renderList.forEach((unitId, index) => {
       //render if there are something in the data
       if( !(unitId in this.state.unitsBasic)) return; //skip if the info of the unit not yet fetch
+      // for mobile device, use one special Nail
+      let cssVW = window.innerWidth;
+      if(cssVW < 860) {
+        nailsDOM.push(
+          <div
+            key={"key_FeedAssigned_new_" + index}
+            className={classnames(stylesNail.boxNail, stylesNail.custNailWide)}>
+            <NailFeedMobile
+              {...this.props}
+              leftimg={false}
+              unitId={unitId}
+              linkPath={'/unit'}
+              unitBasic={this.state.unitsBasic[unitId]}
+              marksBasic={this.state.marksBasic} />
+          </div>
+        );
+        return;
+      };
+      // for laptop / desktop, change nail by cycles
+      let remainder3 = index % 3,
+          remainder2 = index % 2; // cycle, but every 3 units has a wide, left, right in turn.
 
-      nailsDOM.push(
+      nailsDOM.push (remainder3 ? ( // 0 would be false, which means index % 3 =0
         <div
           key={"key_FeedAssigned_new_"+index}
-          className={classnames(stylesNail.boxNail, stylesNail.heightBasic, stylesNail.wideFeedAssigned)}>
+          className={classnames(stylesNail.boxNail)}>
           <NailFeed
             {...this.props}
             unitId={unitId}
@@ -184,9 +203,33 @@ class FeedAssigned extends React.Component {
             unitBasic={this.state.unitsBasic[unitId]}
             marksBasic={this.state.marksBasic}/>
         </div>
-      )
+      ): (
+        <div
+          key={"key_FeedAssigned_new_"+index}
+          className={classnames(stylesNail.boxNail, stylesNail.custNailWide)}>
+          <NailFeedWide
+            {...this.props}
+            leftimg={ remainder2 ? true : false}
+            unitId={unitId}
+            linkPath={'/unit'}
+            unitBasic={this.state.unitsBasic[unitId]}
+            marksBasic={this.state.marksBasic}/>
+        </div>
+      ));
 
     });
+
+    if(listChoice=="unread" && nailsDOM.length > 0) nailsDOM.splice(1, 0, (
+      this.state.statusNoneAssigned ?(
+        <div
+          className={classnames(styles.boxTitle, styles.boxDescript, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
+          {this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned']}</div>
+      ):(
+        <div
+          className={classnames(styles.boxTitle, styles.boxDescript, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
+          {this.props.i18nUIString.catalog['title_FeedAssigned_AllRead']}</div>
+      )
+    ));
 
     return nailsDOM;
   }
@@ -195,33 +238,30 @@ class FeedAssigned extends React.Component {
     this.recKeys = !!this.props.belongsByType.setTypesList? this.props.belongsByType.setTypesList: []; //because there are more than one process need to use this var, but this var would change bu props., we claim it to this.
     let concatList = this.props.indexLists.listUnreadNew.concat(this.props.indexLists.listUnread); //just for checking if there are any units are going to render
     return (
-      <div
-        className={classnames(styles.comFeedAssigned)}>
+      <div>
+        <div
+          className={classnames(styles.boxTitle)}>
+          <span
+            className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
+            {this.props.i18nUIString.catalog["title_FeedAssigned_"]}</span>
+        </div>
         {
           (concatList.length > 0) &&
           <div>
             <div
-              className={classnames(styles.boxModule)}>
+              className={classnames(
+                styles.boxModule,
+                styles.boxModuleSmall,
+              )}>
               {this._render_FeedNails('unreadNew')}
             </div>
-            {
-              this.state.statusNoneAssigned ? (
-                <div>{this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned']}</div>
-              ): (
-                <div>{this.props.i18nUIString.catalog['title_FeedAssigned_AllRead']}</div>
-              )
-            }
-
             <div
-              className={classnames(styles.boxModule)}>
+              className={classnames(
+                styles.boxModule,
+                styles.boxModuleSmall,
+              )}>
               {this._render_FeedNails('unread')}
             </div>
-            {
-              (this.props.chainList.listOrderedChain.length< 1) &&
-              <div>
-                {this.props.i18nUIString.catalog['guiding_FeedAssigned_noShared']}
-              </div>
-            }
           </div>
         }
 

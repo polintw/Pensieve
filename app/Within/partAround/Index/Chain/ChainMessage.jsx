@@ -1,30 +1,20 @@
 import React from 'react';
 import {
-  Link,
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesFont from '../../stylesFont.module.css';
-import CreateShare from '../../../../Unit/Editing/CreateShare.jsx';
+import AccountPalette from '../../../../Components/AccountPalette.jsx';
 
 class ChainMessage extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      editingOpen: false,
-      onCreate: false,
+
     };
     this._render_HintMessage = this._render_HintMessage.bind(this);
-    this._handleClick_plainOpen = this._handleClick_plainOpen.bind(this);
-    this._handleMouseOn_Create = ()=> this.setState((prevState,props)=>{return {onCreate: prevState.onCreate?false:true}});
-  }
-
-  _handleClick_plainOpen(event){
-    event.preventDefault();
-    event.stopPropagation();
-    this.setState({editingOpen: true});
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -39,59 +29,183 @@ class ChainMessage extends React.Component {
 
   }
 
-  _render_HintMessage(recKeys){
-    if(recKeys.length == 0){ // if no belongsByType was set
-      return (
-        <div
-          className={classnames(styles.boxBlankHint, stylesFont.fontTitleHint, stylesFont.colorLightHint)}>
-          {this.props.i18nUIString.catalog["guidingChain_noBelongSet"]}
-        </div>
-      )
-    } else if (this.props.chainList.listOrderedChain.length < 1 && recKeys.length >0){
-      return (
-        <div
-          className={classnames(styles.boxBlankHint, stylesFont.fontTitleHint, stylesFont.colorLightHint)}>
-          <span>{this.props.i18nUIString.catalog["guidingChain_noSharedEst."][0]}</span>
-        </div>
-      )
-    }else{
-      return null
-    }
-  }
-
   render(){
-    const recKeys = !!this.props.belongsByType.setTypesList? this.props.belongsByType.setTypesList: [];
     return(
       <div
-        className={classnames(styles.comChainMessage)}>
-        {this._render_HintMessage(recKeys)}
-        {
-          (this.props.chainList.listOrderedChain.length < 1 && recKeys.length >0) && //that's, has Belong, but never shared and has read all
-          <div
-            className={classnames(styles.boxCreate)}>
-            <div
-              onClick={this._handleClick_plainOpen}
-              onMouseEnter={this._handleMouseOn_Create}
-              onMouseLeave={this._handleMouseOn_Create}>
-              {"Upload"}
-            </div>
-            <CreateShare
-              forceCreate={this.state.editingOpen}
-              _submit_Share_New={this.props._submit_Share_New}
-              _refer_von_Create={this.props._refer_von_cosmic}/>
-          </div>
-        }
+        className={classnames(
+          styles.boxModule,
+          styles.boxModuleSmall)}>
+        {this._render_HintMessage()}
       </div>
     )
   }
+
+  _render_HintMessage(){
+    /*
+    More like a 'situation board'
+    1) X no respond: ------
+    2) userShared + resToShared: "Your Shared" + "Responded [by ____]"
+    3) sharedPrimer + latestShared: "Your Last Read" + "Responded to it [succesfully]"
+    4) latestShared: "Shared [succesfully]" + ""
+    5) resToShared + resToRespond: "Respond to yours" + "Responded [by _____]"
+    */
+    let titleDOM = [];
+    // modification for small screen
+    let cssVW = window.innerWidth; // px of vw in pure integer
+
+    switch (this.props.chainList.listInfo[this.props.chainList.listOrderedChain[0]]) {
+      case "userShared":
+        titleDOM.push(
+          (
+            <div
+              key={"key_ChainNailTitle_0"}
+              className={classnames(styles.boxNailTitle)}>
+              <span
+                className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
+                {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][0]}
+              </span>
+            </div>
+          ),
+          (
+            <div
+              key={"key_ChainNailTitle_1"}
+              className={classnames(styles.boxNailTitle)}>
+              <span
+                className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
+                {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][1]}
+              </span>
+              <div
+                className={classnames(stylesFont.colorEditLightBlack)}
+                style={{display: 'inline-block'}}>
+                <AccountPalette
+                  styleFirst={{fontSize: '1.4rem', fontWeight: '400'}}
+                  userId={this.props.unitsBasic[this.props.chainList.listOrderedChain[1]].authorId}/>
+              </div>
+            </div>
+          )
+        )
+        break;
+      case "sharedPrimer":
+        titleDOM.push(
+          (
+            <div
+              key={"key_ChainNailTitle_0"}
+              className={classnames(styles.boxNailTitle)}>
+              <span
+                className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
+                {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][3]}
+              </span>
+            </div>
+          ),
+          (
+            <div
+              key={"key_ChainNailTitle_1"}
+              className={classnames(styles.boxNailTitle)}>
+              <span
+                className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
+                {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][4]}
+              </span>
+              <span
+                className={classnames(stylesFont.fontHint, stylesFont.colorEditLightBlack)}>
+                {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][7]}
+              </span>
+            </div>
+          )
+        );
+        if(cssVW < 860) {
+          titleDOM = [];
+          titleDOM.push(
+            (
+              <div
+                key={"key_ChainNailTitle_0"}
+                className={classnames(styles.boxNailTitle)}>
+                <span
+                  className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
+                  {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][2]}
+                </span>
+              </div>
+            ),
+            (
+              <div
+                key={"key_ChainNailTitle_1"}
+                className={classnames(styles.boxNailTitle)}>
+                <span
+                  className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
+                  {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][3]}
+                </span>
+                <span
+                  className={classnames(stylesFont.fontHint, stylesFont.colorEditLightBlack)}>
+                  {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][7]}
+                </span>
+              </div>
+            )
+          )
+        }
+        break;
+      case "latestShared":
+        titleDOM.push(
+          (
+            <div
+              key={"key_ChainNailTitle_0"}
+              className={classnames(styles.boxNailTitle)}>
+              <span
+                className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
+                {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][5]}
+              </span>
+              <span
+                className={classnames(stylesFont.fontHint, stylesFont.colorEditLightBlack)}>
+                {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][7]}
+              </span>
+            </div>
+          ),
+        )
+        break;
+      case "resToShared":
+        titleDOM.push(
+          (
+            <div
+              key={"key_ChainNailTitle_0"}
+              className={classnames(styles.boxNailTitle)}>
+              <span
+                className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
+                {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][6]}
+              </span>
+            </div>
+          ),
+          (
+            <div
+              key={"key_ChainNailTitle_1"}
+              className={classnames(styles.boxNailTitle)}>
+              <span
+                className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
+                {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][1]}
+              </span>
+              <div
+                className={classnames(stylesFont.colorEditLightBlack)}
+                style={{display: 'inline-block'}}>
+                <AccountPalette
+                  styleFirst={{fontSize: '1.4rem', fontWeight: '400'}}
+                  userId={this.props.unitsBasic[this.props.chainList.listOrderedChain[1]].authorId}/>
+              </div>
+            </div>
+          )
+        )
+        break;
+      default:
+
+    }
+
+    return titleDOM;
+  }
+
 }
 
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
-    belongsByType: state.belongsByType,
-    chainList: state.chainList
+    chainList: state.chainList,
+    sharedsList: state.sharedsList
   }
 }
 

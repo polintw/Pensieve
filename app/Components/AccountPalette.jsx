@@ -31,6 +31,9 @@ class Palette extends React.Component {
       case 'layer':
         return 'spanNameLayer'
         break;
+      case 'regularBold':
+        return 'spanNameRegularBold'
+        break;
       default:
         return 'spanNameRegular'
     }

@@ -12,12 +12,24 @@ import SharedEdit from '../Editing/SharedEdit.jsx';
 import CreateRespond from '../Editing/CreateRespond.jsx';
 import {
   _axios_getUnitData,
-  _axios_getUnitImgs
+  _axios_getUnitImgs,
 } from '../utils.js';
 import ModalBox from '../../Components/ModalBox.jsx';
 import ModalBackground from '../../Components/ModalBackground.jsx';
-import {setUnitCurrent} from "../../redux/actions/general.js";
+import {
+  setUnitView,
+} from "../../redux/actions/unit.js";
+import {
+  setUnitCurrent,
+  handleUsersList,
+  updateNodesBasic,
+  updateUsersBasic
+} from "../../redux/actions/general.js";
 import {unitCurrentInit} from "../../redux/states/constants.js";
+import {
+  cancelErr,
+  uncertainErr
+} from '../../utils/errHandlers.js';
 
 class UnitScreen extends React.Component {
   constructor(props){
@@ -73,6 +85,7 @@ class UnitScreen extends React.Component {
       //we compose the marksset here, but sould consider done @ server
       let keysArr = Object.keys(resObj.main.marksObj);//if any modified or update, keep the "key" as string
       let [coverMarks, beneathMarks] = [{list:[],data:{}}, {list:[],data:{}}];
+      // due to some historical reason, the marks in unitCurrent has a special format
       keysArr.forEach(function(key, index){
         if(resObj.main.marksObj[key].layer==0){
           coverMarks.data[key]=resObj.main.marksObj[key];
@@ -81,13 +94,24 @@ class UnitScreen extends React.Component {
           beneathMarks.data[key]=resObj.main.marksObj[key]
           beneathMarks.list[resObj.main.marksObj[key].serial] = key;
         }
-      })
+      });
+      // api GET unit data was totally independent, even the nodesBasic & userBasic
+      //But we still update the info to redux state, for other comp. using
+      let nodesBasic = {}, userBasic = {};
+      resObj.main.nouns.list.forEach((nodeKey, index) => {
+        nodesBasic[nodeKey] = resObj.main.nouns.basic[nodeKey];
+      });
+      userBasic[resObj.main.authorBasic.id] = resObj.main.authorBasic;
+      self.props._submit_Nodes_insert(nodesBasic);
+      self.props._submit_Users_insert(userBasic);
+
       //actually, beneath part might need to be rewritten to asure the state could stay consistency
       self.props._set_store_UnitCurrent({
         unitId:self.unitId,
         identity: resObj.main.identity,
         authorBasic: resObj.main.authorBasic,
         coverSrc: imgsBase64.cover,
+        primerify: resObj.main.primerify,
         /*
         'beneath' was currently not used,
         and in order to 'not render' the beneath layer in the child component(which preserve most of its original structure),
@@ -103,14 +127,15 @@ class UnitScreen extends React.Component {
         refsArr: resObj.main.refsArr,
         createdAt: resObj.main.createdAt
       });
+
     })
     .catch(function (thrown) {
+      self.setState({axios: false});
       if (axios.isCancel(thrown)) {
-        console.log('Request canceled: ', thrown.message);
+        cancelErr(thrown);
       } else {
-        console.log(thrown);
-        self.setState({axios: false});
-        alert("Failed, please try again later");
+        let message = uncertainErr(thrown);
+        if(message) alert(message);
       }
     });
   }
@@ -141,12 +166,15 @@ class UnitScreen extends React.Component {
     // It's Important !! next Unit should not have a 'coverSrc' to prevent children component render in UnitModal before Unit data response!
     let unitCurrentState = Object.assign({}, unitCurrentInit);
     this.props._set_store_UnitCurrent(unitCurrentState);
+    this.props._set_state_UnitView('theater'); // it's default for next view
     //last, recruit the scroll ability back to <body>
     document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:scroll;");
   }
 
   _render_switch(){
-    switch (this.props.unitView) {
+    let paramUnitView = this.urlParams.get('unitView');
+
+    switch (paramUnitView) {
       case 'theater':
         return (
           <Theater
@@ -171,17 +199,22 @@ class UnitScreen extends React.Component {
         )
         break;
       default:
-        return null
+        return (
+          <Theater
+            {...this.props}
+            _reset_UnitMount={this._reset_UnitMount}
+            _close_theaterHeigher={this._close_modal_Unit}/>
+        )
+        break;
     };
   }
 
 
   render(){
     if(this.state.close){let pathTo=this.props.location.pathname.replace("/unit","");return <Redirect to={pathTo}/>}
-      //Notice !! beneath are remaining before there is a Related. Rm them only if Theater was no longer need a second comp.
-    let params = new URLSearchParams(this.props.location.search); //we need value in URL query
-    let paramsTheater = params.has('theater'); //bool, true if there is 'theater'
-    this.unitId = params.get('unitId');
+
+    this.urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
+    this.unitId = this.urlParams.get('unitId');
 
     return(
       <ModalBox containerId="root">
@@ -208,6 +241,9 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch)=>{
   return {
+    _submit_Nodes_insert: (obj) => { dispatch(updateNodesBasic(obj)); },
+    _submit_Users_insert: (obj) => { dispatch(updateUsersBasic(obj)); },
+    _set_state_UnitView: (expression)=>{dispatch(setUnitView(expression));},
     _set_store_UnitCurrent: (obj)=>{dispatch(setUnitCurrent(obj));}
   }
 }

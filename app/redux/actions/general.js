@@ -10,6 +10,13 @@ import {
   UPDATE_USERSBASIC,
   AXIOS_SWITCH,
 } from '../types/typesGeneral.js';
+import {
+  setBelongsByType,
+  fetchBelongsSeries
+} from "./within.js";
+import {
+  uncertainErr
+} from "../../utils/errHandlers.js";
 
 export function mountUserInfo(obj) {
   return { type: MOUNT_USERINFO, userInfo: obj }
@@ -135,6 +142,36 @@ export function handleUsersList(usersArr) {
     }).then((res)=>{
       let resObj = JSON.parse(res.data);
       dispatch({type: UPDATE_USERSBASIC, newFetch: resObj.main.usersBasic})
+    })
+    .catch(function (thrown) {
+      let message = uncertainErr(thrown);
+      if(message) alert(message);
+    });
+  }
+}
+
+export function fetchBelongRecords(cancelToken){
+  return (dispatch, getState) => {
+    //by this method we could use 'getState' & 'dispatch' in action creator
+    axios({
+      method: 'get',
+      url: '/router/profile/nodesBelong',
+      headers: {
+        'charset': 'utf-8',
+        'token': window.localStorage['token']
+      },
+      cancelToken: cancelToken
+    }).then(function (res) {
+      let belongObj = JSON.parse(res.data);
+
+      const nodesList= belongObj.main.nodesList;
+      let byTypeObj = belongObj.main.categoryObj;
+      let inclCatListObj = Object.assign({}, byTypeObj); //shallow copy to prevent modifying res obj
+      inclCatListObj['setTypesList'] = belongObj.main.setCatList;
+
+      dispatch(handleNounsList(nodesList)); //GET nodes info
+      dispatch(setBelongsByType(inclCatListObj)); //update data incl. setCatList
+      dispatch(fetchBelongsSeries(byTypeObj)); //only need to know the type need to be fetched
     })
     .catch(function (thrown) {
       let message = uncertainErr(thrown);

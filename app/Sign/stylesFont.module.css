@@ -1,0 +1,99 @@
+::placeholder {
+  color: #a3a3a3;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: #a3a3a3;
+}
+
+.fontTitleSmall {
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+.fontTitle {
+  font-size: 2.4rem;
+}
+
+.fontSubtitle {
+  font-size: 1.6rem;
+}
+
+.fontSubtitle_h5 {
+  font-size: 1.6rem;
+  line-height: 1.5;
+}
+
+.fontBold {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.fontContentPlain {
+  font-size: 1.4rem;
+}
+
+.fontContent {
+  font-size: 1.4rem;
+  line-height: 1.5;
+}
+
+.fontDescript {
+  font-size: 1.4rem;
+  font-weight: 300;
+  line-height: 1.71;
+  text-align: center;
+}
+
+
+.colorWhite {
+  color: #FFFFFF;
+}
+
+.colorOrange {
+  color: #eb584e;
+}
+
+.colorStandard {
+  color: #ff8168;
+}
+
+.colorWhiteGrey {
+  color: #d8d8d8;
+}
+
+.colorGrey {
+  color: #a3a3a3;
+}
+
+.colorDarkGrey {
+  color: #979797;
+}
+
+.colorLightGrey {
+  color: #b8b8b8;
+}
+
+.colorEditBlack {
+  color: #545454;
+}
+
+.colorEditLightBlack {
+  color: #757575;
+}
+
+.colorDescripBlack {
+  color: #444444;
+}
+
+.colorSignBlack {
+  color: #3c4144;
+}
+
+.colorBlack {
+  color: #000000;
+}
+
+.colorBlack85 {
+  color: rgba(0,0,0,0.85);
+}

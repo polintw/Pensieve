@@ -7,8 +7,18 @@ import {
   Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import classnames from 'classnames';
+import styles from "./styles.module.css";
 import Explore from './partExplore/Explore.jsx';
-import NavOptions from '../Components/NavOptions.jsx';
+import NavOptions from '../Components/NavOptions/NavOptions.jsx';
+import ModalBox from '../Components/ModalBox.jsx';
+import ModalBackground from '../Components/ModalBackground.jsx';
+import SingleDialog from '../Components/Dialog/SingleDialog/SingleDialog.jsx';
+import SingleCloseDialog from '../Components/Dialog/SingleCloseDialog/SingleCloseDialog.jsx';
+import BooleanDialog from '../Components/Dialog/BooleanDialog/BooleanDialog.jsx';
+import {
+  fetchBelongRecords
+} from '../redux/actions/general.js'
 
 class WithinCosmic extends React.Component {
   constructor(props){
@@ -24,14 +34,6 @@ class WithinCosmic extends React.Component {
         position: 'fixed',
         backgroundColor: '#FCFCFC'
       },
-      Within_Cosmic_NavOptions: {
-        width: '1.4%',
-        height: '3.2%',
-        position: 'fixed',
-        bottom: '6.9%',
-        right: '1%',
-        boxSizing: 'border-box'
-      }
     }
   }
 
@@ -86,7 +88,12 @@ class WithinCosmic extends React.Component {
   }
 
   componentDidMount() {
-
+    /*
+    Here is the highest level next only to status() in root, fetching data or any info needed
+    */
+    if( !window.localStorage['token'] ) return;
+    //beneath are the process difinately need a token
+    this.props._fetch_belongRecords();
   }
 
   componentWillUnmount() {
@@ -99,14 +106,63 @@ class WithinCosmic extends React.Component {
     return(
       <div>
         <div style={this.style.Within_Cosmic_backplane}></div>
-        <Switch>
+        <div
+          className={classnames(styles.boxCosmic)}>
+          <div
+            className={classnames(styles.boxNavOptions)}
+            style={{bottom: '2vh', top: 'unset'}}>
+            <NavOptions {...this.props} _refer_to={this._refer_von_cosmic}/>
+          </div>
+          <Switch>
 
-          <Route path={this.props.match.path+"/explore"} render={(props)=> <Explore {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
-        </Switch>
-
-        <div style={this.style.Within_Cosmic_NavOptions}>
-          <NavOptions {...this.props}/>
+            <Route path={this.props.match.path+"/explore"} render={(props)=> <Explore {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
+          </Switch>
         </div>
+
+        {
+          //here and beneath, are dialog system for global used,
+          //the series 'message' in redux state is prepared for this kind of global message dialog
+          this.props.messageSingleClose['render'] &&
+          <ModalBox containerId="root">
+            <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(52, 52, 52, 0.36)'}}>
+              <div
+                className={"boxDialog"}>
+                <SingleCloseDialog
+                  message={this.props.messageSingleClose['message']}
+                  _positiveHandler={this.props.messageSingleClose['handlerPositive']}/>
+              </div>
+            </ModalBackground>
+          </ModalBox>
+        }
+        {
+          this.props.messageSingle['render'] &&
+          <ModalBox containerId="root">
+            <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(52, 52, 52, 0.36)'}}>
+              <div
+                className={"boxDialog"}>
+                <SingleDialog
+                  message={this.props.messageSingle['message']}
+                  buttonValue={this.props.messageSingle['buttonValue']}
+                  _positiveHandler={this.props.messageSingle['handlerPositive']}/>
+              </div>
+            </ModalBackground>
+          </ModalBox>
+        }
+        {
+          this.props.messageBoolean['render'] &&
+          <ModalBox containerId="root">
+            <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(52, 52, 52, 0.36)'}}>
+              <div
+                className={"boxDialog"}>
+                <BooleanDialog
+                  customButton={this.props.messageBoolean['customButton']}
+                  message={this.props.messageBoolean['message']}
+                  _positiveHandler={this.props.messageBoolean['handlerPositive']}
+                  _negativeHandler={this.props.messageBoolean['handlerNegative']}/>
+              </div>
+            </ModalBackground>
+          </ModalBox>
+        }
 
       </div>
     )
@@ -117,12 +173,15 @@ const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
     unitCurrent: state.unitCurrent,
+    messageSingle: state.messageSingle,
+    messageSingleClose: state.messageSingleClose,
+    messageBoolean: state.messageBoolean
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    _fetch_belongRecords: () => {dispatch(fetchBelongRecords())},
   }
 }
 

@@ -1,23 +1,13 @@
 import React from 'react';
 import { connect } from "react-redux";
+import classnames from 'classnames';
+import stylesFont from '../../stylesFont.module.css';
 import OpenedMark from '../../OpenedMark/OpenedMark.jsx';
 import MarkEditingBlock from '../../OpenedMark/MarkBlocks/MarkEditingBlock.jsx';
 import SvgCircle from '../../../Components/Svg/SvgCircle.jsx';
 import {
-  baseHorizonRatial,
-  widthDivisionRatial
+  baseHorizonRatial
 } from '../../props.js';
-
-const generalStyle = {
-  absolute_FullVersion: {
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
-    top: '0',
-    left:'0',
-    boxSizing: 'border-box'
-  }
-}
 
 class ImgLayerEditing extends React.Component {
   constructor(props){
@@ -37,6 +27,7 @@ class ImgLayerEditing extends React.Component {
       Com_ImgLayer_img: {
         maxWidth: '100%',
         maxHeight: '100%',
+        right: baseHorizonRatial+'%',
         transform: 'translate('+baseHorizonRatial+'%,-50%)'
       }
     };
@@ -45,8 +36,8 @@ class ImgLayerEditing extends React.Component {
   _handleClick_SpotsLayer(event){
     event.stopPropagation();
     event.preventDefault();
-    if(this.props.marksList.length >0){ //we now want user only to write in one Mark, so limit the marksList length
-      this.props._set_warningDialog([{text: "A better spot? Please delete the old one first before create a new!", style:{}}], 'warning');
+    if(this.props.marksList.length >12){ // guess not so many spot would be used, just in case some users want to know
+      this.props._set_warningDialog([{text: this.props.i18nUIString.catalog['message_UnitEdit_tooManySpot'], style:{}}], 'warning');
       return;
     };
 
@@ -118,17 +109,17 @@ class ImgLayerEditing extends React.Component {
             serial={markIndex+1}
             currentSerial={markIndex}
             marksData={marksData}
+            editingModal = {true}
             imgPosition={imgPosition}
             imgWidthHeight={imgWidthHeight}
-            widthDivisionRatial={widthDivisionRatial}
-            _handleClick_ImgLayer_circle={this._handleClick_ImgLayer_circle}
+            _handleClick_ImgLayer_circle={(e)=>{e.preventDefault();e.stopPropagation();}}
             _set_markJump={this._set_markJump}>
             <MarkEditingBlock
               markKey = {this.props.currentMark}
-              editorState={this.props.markEditorContent[this.props.currentMark]}
+              contentRaw={this.props.markEditorContent[this.props.currentMark]}
               _set_markUpdate_editor={this.props._set_markUpdate_editor}
               _set_markDelete={this.props._set_markDelete}
-              _reset_expandState={this.props._reset_expandState}/>
+              _set_Markvisible= {this.props._set_Markvisible}/>
           </OpenedMark>
         );
       }else{
@@ -156,7 +147,7 @@ class ImgLayerEditing extends React.Component {
             style={{
               width: imgWidthHeight.width,
               height: imgWidthHeight.height,
-              right: baseHorizonRatial+'%',
+              right: baseHorizonRatial+'%',  //it's wierd, because this is a remain from previous ver., which need to set the value not the center
               transform: 'translate('+baseHorizonRatial+'%,-50%)',
               cursor: 'crosshair'}}
               onClick={this._handleClick_SpotsLayer}>
@@ -170,13 +161,28 @@ class ImgLayerEditing extends React.Component {
     return(
       <div
         ref={this.Com_ImgLayer_box}
-        style={generalStyle.absolute_FullVersion}>
+        className={'boxAbsoluteFull'}>
         <img
           className={'boxImgPosition'}
           style={this.style.Com_ImgLayer_img}
           ref={this.Com_ImgLayer_img}
           src={this.props.imgSrc}
           onLoad={this._set_imgSize}/>
+        {
+          this.props.marksList.length < 1 &&
+          (
+            <div
+              className={'boxAbsoluteFull'}>
+              <span
+                className={classnames(stylesFont.fontContent, stylesFont.colorWhite)}
+                style={{
+                  display: 'block', position: 'absolute', left:'50%', top:'76.39%',transform: 'translate(-50%,0)',
+                  textShadow: '0 0 5px #FF8168', textAlign: 'center'}}>
+                {this.props.i18nUIString.catalog['guiding_UnitEdit_imgNoMark']}
+              </span>
+            </div>
+          )
+        }
         {
           this.state.imgWidthHeight &&
           this._render_MarksLayer()
@@ -189,7 +195,7 @@ class ImgLayerEditing extends React.Component {
 const mapStateToProps = (state) => {
   return {
     userInfo: state.userInfo,
-    unitCurrent: state.unitCurrent,
+    i18nUIString: state.i18nUIString,
     unitSubmitting: state.unitSubmitting
   }
 }
