@@ -32,7 +32,19 @@ export function setWithinFlag(bool, flag){
 }
 
 export function submitFeedAssigned(listsObj){
-  return {type: SUBMIT_FEEDASSIGN, listsObj: listsObj}
+  return (dispatch, getState) => {
+    const currentState =  getState();
+    let copyStateListUnread = currentState.indexLists.listUnread.slice();
+    let copyStateListBrowsed = currentState.indexLists.listBrowsed.slice();
+
+    if(listsObj.listUnread.length > 0) copyStateListUnread.push(listsObj.listUnread);
+    if(listsObj.listBrowsed.length > 0) copyStateListBrowsed.push(listsObj.listBrowsed);
+
+    dispatch({
+      type: SUBMIT_FEEDASSIGN,
+      listsObj: {listUnread: copyStateListUnread, listBrowsed: copyStateListBrowsed, scrolled: listsObj.scrolled}
+    });
+  }
 }
 
 export function submitSharedsList(listsObj){

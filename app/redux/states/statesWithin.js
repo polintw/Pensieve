@@ -25,7 +25,8 @@ export const initAround = {
   },
   indexLists: {
     listUnread: [],
-    listUnreadNew: [],
+    listBrowsed: [],
+    scrolled: true
   },
   sharedsList: {
     list: []

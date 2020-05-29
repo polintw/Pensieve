@@ -185,7 +185,7 @@ class Wrapper extends React.Component {
 
   _render_FooterHint(){
     // by feed length, we gave users some message about the thing they could do
-    let feedConcatList = this.props.indexLists.listUnreadNew.concat(this.props.indexLists.listUnread);
+    let feedConcatList = this.props.indexLists.listBrowsed.concat(this.props.indexLists.listUnread);
     if (!this.props.belongsByType['residence'] && !this.props.belongsByType['homeland']) { //first, if the belong do not be set at all, which means could not share and do fetch any feed
       return (
         <span
@@ -194,6 +194,7 @@ class Wrapper extends React.Component {
       );
     }
     else if (feedConcatList.length< 1){ // no feed at all
+      // not the business of footer
       return ;
     }
     else{ // general situation
