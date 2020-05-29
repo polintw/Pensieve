@@ -125,13 +125,11 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
           unitsInfo[row.id_unit][row.belongTypes] = row.nodeAssigned
         };
         /*
-        we now has a rule: Unit has set a homeland type assigned, only share to user 'belong to' that homeland,
+        we now has a rule: Unit has set a homeland type assigned, would be only delivered to user 'belong to' that homeland,
         and we do the selection here when this only happen on both 'homeland'/'residence' were set currently
         */
-        if(userHomeland.selfInclList.indexOf(unitsInfo[row.id_unit]['homeland']) >= 0){
-          if(row.id_unit in notFromHome) delete notFromHome[row.id_unit]; // rm it from watching list
-        }
-        else{
+        // because for now type 'homeland' could be only assigned once to each Unit, wo we just record the one not allowed
+        if(row.belongTypes == "homeland" && userHomeland.selfInclList.indexOf(unitsInfo[row.id_unit]['homeland']) < 0){
           notFromHome[row.id_unit] = {list: listName, unitId: row.id_unit};
         };
       });

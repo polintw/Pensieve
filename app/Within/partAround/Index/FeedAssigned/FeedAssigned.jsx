@@ -34,8 +34,10 @@ class FeedAssigned extends React.Component {
       unitsBasic: {},
       marksBasic: {}
     };
+    this.refScroll = React.createRef();
     this.axiosSource = axios.CancelToken.source();
     this._set_feedUnits = this._set_feedUnits.bind(this);
+    this._check_Position = this._check_Position.bind(this);
     this._render_FeedNails = this._render_FeedNails.bind(this);
     this._filter_repeatedChin = this._filter_repeatedChin.bind(this);
     this._axios_get_assignedList = this._axios_get_assignedList.bind(this);
@@ -46,6 +48,23 @@ class FeedAssigned extends React.Component {
       return this.props.chainList.listOrderedChain.indexOf(unitId) < 0
     })
     return unitslist;
+  }
+
+  _check_Position(){
+    let boxScrollBottom = this.refScroll.current.getBoundingClientRect().bottom, //bottom related top of viewport of box Scroll
+        windowHeightInner = window.innerHeight; //height of viewport
+    //now, the bottom would change base on scroll, and calculate from the top of viewport
+    //we set the threshould of fetch to the 2.5 times of height of viewport.
+    //But! we only fetch if we are 'not' fetching--- check the axios status.
+    if(!this.state.axios &&
+      boxScrollBottom < (2.5*windowHeightInner) &&
+      boxScrollBottom > windowHeightInner && // safety check, especially for the very beginning, or nothing in the list
+      this.props.indexLists.scrolled // checkpoint from the backend, no items could be res if !scrolled
+    ){
+      //base on the concept that bottom of boxScroll should always lower than top of viewport,
+      //and do not need to fetch if you have see the 'real' bottom.
+      this._set_feedUnits();
+    }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -79,17 +98,19 @@ class FeedAssigned extends React.Component {
 
   componentDidMount(){
     if(this.props.lastVisit) this._set_feedUnits(this.props.lastVisit);
+    window.addEventListener("scroll", this._check_Position);
   }
 
   componentWillUnmount(){
     if(this.state.axios){
       this.axiosSource.cancel("component will unmount.")
     }
+    window.removeEventListener("scroll", this._check_Position);
   }
 
   _render_FeedNails(listChoice){
     let groupsDOM = [];
-    const _nailsGroup = (unitGroup)=>{
+    const _nailsGroup = (unitGroup, groupIndex)=>{
       let nailsDOM = [];
       unitGroup.forEach((unitId, index) => {
         //render if there are something in the data
@@ -142,7 +163,7 @@ class FeedAssigned extends React.Component {
         ));
       });
       if(listChoice=="unread" && (nailsDOM.length % 3) == 1) nailsDOM.splice(-1, 1); // basically should only happened at the final round of listUnread, no more unit newer than lastVisit
-      if(listChoice=="browsed" && nailsDOM.length > 0) nailsDOM.splice(1, 0, ( // 'You've all browsed' at the second place of listbrowsed
+      if(listChoice=="browsed" && groupIndex==0 && nailsDOM.length > 0) nailsDOM.splice(1, 0, ( // 'You've all browsed' at the second place of listbrowsed
         <div
           className={classnames(styles.boxTitle, styles.boxDescript, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
           {this.props.i18nUIString.catalog['title_FeedAssigned_AllRead']}</div>
@@ -158,7 +179,7 @@ class FeedAssigned extends React.Component {
             styles.boxModule,
             styles.boxModuleSmall,
           )}>
-          {_nailsGroup(unitGroup)}
+          {_nailsGroup(unitGroup, index)}
         </div>
       );
     });
@@ -198,6 +219,7 @@ class FeedAssigned extends React.Component {
           </div>
         }
 
+        <div ref={this.refScroll}/>
       </div>
     )
   }
