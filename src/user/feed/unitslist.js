@@ -22,148 +22,209 @@ const {selectNodesParent} = require('../../nouns/utils.js');
 async function _handle_GET_feedUnitslist_assigned(req, res){
 
   const userId = req.extra.tokenUserId;
-  const lastVisit = new Date(req.query.timeBase); // param from query could only be parse as 'string', we need to turn it into time
-  const userHomeland = await _DB_usersNodesHomeland.findOne({
+  //now, we to prepared a few thnigs first:
+  //user last visit time, created time of last Unit res to client in last req, and users' belongs.
+  const lastVisit = new Date(req.query.visitBase); // param from query could only be parse as 'string', we need to turn it into time
+  const lastUnitTime = !!req.query.listUnitBase ? new Date(req.query.listUnitBase): new Date(); // basically, undefined listUnitBase means first landing to the page
+  // get users' belong set
+  let userHomeland, userResidence;
+  await _DB_usersNodesHomeland.findOne({
     where: {
       id_user: userId,
       historyify: false
     }
   })
   .then((result)=>{
-    return !!result ? result: false;
+    userHomeland = !!result ? result: false;
+    return;
   })
-  .catch((err)=>{
-    _handle_ErrCatched(new internalError("from _DB_usersNodesHomeland selection _handle_GET_feedUnitslist_assigned, "+err, 131), req, res);});
-  const userResidence = await _DB_usersNodesResidence.findOne({
+  .catch((err)=>{ _handle_ErrCatched(new internalError("from _DB_usersNodesHomeland selection _handle_GET_feedUnitslist_assigned, "+err, 131), req, res);});
+  await _DB_usersNodesResidence.findOne({
     where: {
       id_user: userId,
       historyify: false
     }
   })
   .then((result)=>{
-    return !!result ? result: false;
+    userResidence = !!result ? result: false;
+    return;
   })
-  .catch((err)=>{
-    _handle_ErrCatched(new internalError("from _DB_usersNodesResidence selection _handle_GET_feedUnitslist_assigned, "+err, 131), req, res);});
-
-  const _find_assigned_unread = (userId, targetList)=>{
-    return Promise.all([
-      _DB_usersUnits.findAll({
-        where: {
-          id_user: userId,
-        }
-      }).then((result)=>{return result;}),
-      _DB_unitsNodes_assign.findAll({
-        where: {
-          nodeAssigned: targetList,
-        },
-        order: [ //make sure the order of arr are from latest
-          Sequelize.literal('`createdAt` DESC') //and here, using 'literal' is due to some wierd behavior of sequelize,
-          //it would make an Error if we provide col name by 'arr'
-        ],
-        limit: 48
-      }).then((result)=>{return result;})
-      .catch((err)=>{throw err})
-    ])
-    .then(([resultRead, resultNodesAssign])=>{
-      //compare 2 selection, remove units read by the user from assignedList
-      let readList = resultRead.map((row, index)=>{
-        return row.id_unit;
-      });
-      let unreadList = resultNodesAssign.filter((row, index) => {
-        return readList.indexOf(row.id_unit) < 0
-      });
-
-      if(unreadList.length > 0) return {status: 'unread', list: unreadList}
-      else if(resultNodesAssign.length > 0){ //if all assigned were read, return the last one in selection(not the latest)
-        let readOne = [];
-        readOne.push(resultNodesAssign[resultNodesAssign.length-1]); //keep the instance in an arr
-        return {status: 'allread', list: readOne};
+  .catch((err)=>{ _handle_ErrCatched(new internalError("from _DB_usersNodesResidence selection _handle_GET_feedUnitslist_assigned, "+err, 131), req, res);});
+  // here we then has a f() later would be user to preserve the parent list for both userHomeland / userResidence
+  const _presv_ParentsByBelong = (type, parentNodesInfo)=> {
+    let currentInstance = (type == "homeland") ? userHomeland : userResidence ; // would be instance or null, depend on belong settong
+    if(!!currentInstance && currentInstance.id_node in parentNodesInfo){
+      let selfInclList = [], currentNode=parentNodesInfo[currentInstance.id_node].id;
+      while (!!currentNode) { //jump out until the currentNode was "null" or 'undefined'
+        selfInclList.push(currentNode);
+        currentNode = parentNodesInfo[currentNode].parent_id;
       }
-      else{ //which means no assigned to user's belong at all
-        return _DB_unitsNodes_assign.findAll({
-          where: {
-            id_author: {[Op.ne]: userId} //any but not user him/herself
-          },
-          order: [
-            Sequelize.literal('`createdAt` DESC') //and here, using 'literal' is due to some wierd behavior of sequelize,
-            //it would make an Error if we provide col name by 'arr'
-          ],
-          limit: 1 //because we use 'findAll' to keep form consistency, we set 'limit' to mimic 'findOne'
-        })
-        .then((result)=>{
-          return {status: 'noneassigned', list: result};
-        })
-        .catch((err)=>{throw err})
+      currentInstance['selfInclList'] = selfInclList;
+    }
+    else if(!!currentInstance) currentInstance['selfInclList']= [currentInstance.id_node]; // already top wuthout parent
+  };
+
+  const _find_assigned_unread = ( targetList)=>{
+    let selectUserUnits = ()=>{ // select read records
+          return _DB_usersUnits.findAll({
+            where: {
+              id_user: userId,
+            }
+          }).then((result)=>{return result;});
+        },
+        selectNodesAssigned = ()=>{ // select units by units_nodes_assign
+          return _DB_unitsNodes_assign.findAll({
+            where: {
+              nodeAssigned: targetList,
+              createdAt: {[Op.lt]: lastUnitTime},
+              id_author: {[Op.ne]: userId}
+            },
+            order: [ //make sure the order of arr are from latest
+              Sequelize.literal('`createdAt` DESC') //and here, using 'literal' is due to some wierd behavior of sequelize,
+              //it would make an Error if we provide col name by 'arr'
+            ],
+            limit: 1024
+          }).then((result)=>{return result;})
+          .catch((err)=>{throw err});
+        };
+    let listObj = {
+      newAssignedList: [],
+      weekLastAssignedList: [],
+      weekBeforeAssignedList: []
+    };
+    let weekBefore = new Date(lastVisit.getTime() - 604800000);
+    let unitsInfo = {}; // to keep belong type of each assigned unit
+
+    return Promise.all([
+      selectNodesAssigned(), selectUserUnits()
+    ])
+    .then(([resultNodesAssign, resultRead])=>{
+      // seperate rows(units) by created time
+      // the way we call: 「暴力展開」
+      let notFromHome = {}; // to track any assigned unit if it was contribute by fellow from same homeland
+      //seperate each assigned unit to different list by created time
+      resultNodesAssign.forEach((row, index) => {
+        let rowCreatedAt = row.createdAt;
+        let listName='';
+        if(rowCreatedAt > lastVisit){ // new after last visit
+          listName = 'newAssignedList';
+        }
+        else if(rowCreatedAt > weekBefore && rowCreatedAt < lastVisit){
+          listName = 'weekLastAssignedList';
+        }
+        else{
+          listName = 'weekBeforeAssignedList';
+        };
+        // make a obj contain info about this assigned unit & put in list
+        if(!(row.id_unit in unitsInfo)) {
+          listObj[listName].push(row.id_unit);
+          unitsInfo[row.id_unit] = {};
+          unitsInfo[row.id_unit][row.belongTypes] = row.nodeAssigned; // put assigned info into a unit-oriented obj
+        }
+        else{ //means more than one assigned node to same unit, already in a list by created time
+          unitsInfo[row.id_unit][row.belongTypes] = row.nodeAssigned
+        };
+        /*
+        we now has a rule: Unit has set a homeland type assigned, would be only delivered to user 'belong to' that homeland,
+        and we do the selection here when this only happen on both 'homeland'/'residence' were set currently
+        */
+        // because for now type 'homeland' could be only assigned once to each Unit, wo we just record the one not allowed
+        if(row.belongTypes == "homeland" && userHomeland.selfInclList.indexOf(unitsInfo[row.id_unit]['homeland']) < 0){
+          notFromHome[row.id_unit] = {list: listName, unitId: row.id_unit};
+        };
+      });
+      // last step, rm those not match the 'same homeland' rule
+      let notFellowKeys = Object.keys(notFromHome);
+      notFellowKeys.forEach((unitId, index) => {
+        delete unitsInfo[unitId];
+        let indexInList = listObj[notFromHome[unitId].list].indexOf(unitId);
+        listObj[notFromHome[unitId].list].splice(indexInList, 1);
+      });
+
+      /*
+      1) if newAssignedList > 12: return only first 12 of newAssignedList
+      2) if newAssignedList < 12:
+        a. weekLastAssignedList > 12: + return first 12 of weekLastAssignedList
+        b. add unreadlist by weekBeforeAssignedList, .concat() weekLastAssignedList, > 12 ? return first 12 of concat : return all & scrolled: false
+        c. even the concat length == 0 ! then mark scrolled: false
+      */
+      if(listObj.newAssignedList.length > 12 ){
+        let resList = listObj.newAssignedList.slice(0, 12);
+        return {listUnread: resList, listBrowsed: [], scrolled: true};
+      }
+      else if(listObj.weekLastAssignedList.length > 12 ){
+        let resBrowsedList = listObj.weekLastAssignedList.slice(0, 12);
+        return {listUnread: listObj.newAssignedList, listBrowsed: resBrowsedList,　scrolled: true };
+      }
+      else{
+        // need to res weekBeforeAssignedList, then have to rm read from list first
+        let readList = resultRead.map((row, index)=>{
+          return row.id_unit;
+        });
+        let unreadList = listObj.weekBeforeAssignedList.filter((row, index) => {
+          return readList.indexOf(row.id_unit) < 0
+        });
+        let concatList = listObj.weekLastAssignedList.concat(unreadList);
+        let resBrowsedList = (concatList.length > 12) ? concatList.slice(0, 12): concatList;
+        return {listUnread: listObj.newAssignedList, listBrowsed: resBrowsedList,　scrolled:　(concatList.length > 12)　? true : false };
       }
 
     }) //and we have to select from units for getting exposedId
     .then((selectResultObj)=>{
-      let unitsList=[],
-          unitsInfo={listStatus: selectResultObj.status} ; //status was for whole list, set directly
-      selectResultObj.list.forEach((row,index)=>{
-        /*
-        it is possible that one unit has two assigned (for current situation, homeland & residence are both assigned),
-        so we also need to distinguish it
-        */
-        if(!(row.id_unit in unitsInfo)) { //check if this row represent a new unit first
-          unitsList.push(row.id_unit);
-          unitsInfo[row.id_unit] = {};
-          unitsInfo[row.id_unit][row.belongTypes] = row.nodeAssigned; // put assigned info into a unit-oriented obj
-        }
-        else{ //means both 'homeland'/'residence' were assigned to same unit
-          unitsInfo[row.id_unit][row.belongTypes] = row.nodeAssigned
-          /*
-          we now has a rule: Unit has set a homeland type assigned, only share to user 'belong to' that homeland,
-          and we do the selection here when this only happen on both 'homeland'/'residence' were set currently
-          */
-          if(userHomeland.selfInclList.indexOf(unitsInfo[row.id_unit]['homeland']) < 0){
-            delete unitsInfo[row.id_unit];
-            let indexInList = unitsList.indexOf(row.id_unit);
-            unitsList.splice(indexInList, 1)};
-        };
-      });
+      let selectResultList = selectResultObj.listUnread.concat(selectResultObj.listBrowsed);
+
       return _DB_units.findAll({
         where: {
-          id: unitsList
+          id: selectResultList
         }
       })
-      .then((resultUnit)=>{
-        //we need not only the selection from units, but also the previous result from units_nodes_assign
-        let assignedUnits = resultUnit.map((row, index)=>{
-          return {
-            id_unit: row.id,
-            exposedId: row.exposedId,
-            createdAt: row.createdAt,
+      .then((resultUnit)=>{ // resultUnit should less than 12 (or 24)
+        let resultUnitObj = {};
+        let assignedUnits ={
+          listUnread: [], listBrowsed: [], scrolled: selectResultObj.scrolled
+        };
+        resultUnit.forEach((row, index)=>{
+          resultUnitObj[row.id] = {
+            unitId: row.exposedId,
             assignedInfo: unitsInfo[row.id],
-            listStatus: unitsInfo.listStatus //keep it in every unit, later would be check by foreach
           };
         });
+        selectResultObj.listUnread.forEach((unitKey, i) => {
+          assignedUnits.listUnread.push(resultUnitObj[unitKey]);
+        });
+        selectResultObj.listBrowsed.forEach((unitKey, i) => {
+          assignedUnits.listBrowsed.push(resultUnitObj[unitKey]);
+        });
+
         return assignedUnits;
       });
 
     })
     .catch((err)=>{throw err})
   };
+
+  //default obj for res
+  let sendingData={
+    listUnread: [],
+    listBrowsed: [],
+    scrolled: false, // true if theere is any qualified Unit not yet res
+    temp: {}
+  };
+
   /*
   process start from here.
   */
   /*
-  first check we have anyneccessary to select
+  first check we have any neccessary to select
   */
   if(!userHomeland && !userResidence) { // if both homeland and residence do not be set
-    let sendingData={ //res a default obj
-      listUnread: [],
-      listUnreadNew: [],
-      noneassigned: false,
-      allread: false,
-      temp: {}
-    };
+    // res default sendingData
     _res_success(res, sendingData, "GET: user feed/unitslist/assigned, complete.");
     return; //no need to go through any further
   };
   /*
   Selection start from here.
+  gether belongs & their parent first to provide 'assigned'
   */
   let belongList = []; //list used to select from assign, would incl. parent of belong nodes.
   if(!!userResidence){ belongList.push(userResidence.id_node);};
@@ -171,23 +232,9 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
 
   let ancestorsList = await selectNodesParent(belongList)
   .then((nodesInfo)=>{
-    if(!!userResidence && userResidence.id_node in nodesInfo){
-      let selfInclList = [], currentNode=nodesInfo[userResidence.id_node].id;
-      while (!!currentNode) { //jump out until the currentNode was "null" or 'undefined'
-        selfInclList.push(currentNode);
-        currentNode = nodesInfo[currentNode].parent_id;
-      }
-      userResidence['selfInclList'] = selfInclList;
-    }else if(!!userResidence) userResidence['selfInclList']= [userResidence.id_node];
-    if(!!userHomeland && userHomeland.id_node in nodesInfo){
-      let selfInclList = [], currentNode=nodesInfo[userHomeland.id_node].id;
-      while (!!currentNode) { //jump out until the currentNode was "null" or 'undefined'
-        selfInclList.push(currentNode);
-        currentNode = nodesInfo[currentNode].parent_id;
-      }
-      userHomeland['selfInclList'] = selfInclList;
-    }else if(!!userHomeland) userHomeland['selfInclList']= [userHomeland.id_node];
-
+    //these 2 f() are going to keep the parent & self in a list, seperately by belongType, in original instance
+    _presv_ParentsByBelong("residence", nodesInfo);
+    _presv_ParentsByBelong("homeland", nodesInfo);
     //selectNodesParent()  would return an Obj by 'nodeId' as keys, so simply spread the keys to get the nodes list
     let ancestorKeys = Object.keys(nodesInfo);
     //Object.keys definetely return key in 'string', but id from userResidence/Homeland are 'int'
@@ -198,51 +245,37 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
     return ancestorKeys;
   });
   belongList = belongList.concat(ancestorsList);
+  // make a list without duplicate
   let filteredList = belongList.filter((nodeId, index)=>{
-    return index == belongList.indexOf(nodeId) //to rm the duplicate
+    return index == belongList.indexOf(nodeId)
   });
 
+
   new Promise((resolve, reject)=>{
-    _find_assigned_unread(userId, filteredList)
-    .then((assignedUnits)=>{ // Notice! the resultAssign was 'Not' an instance, it's a plain js obj
-      let sendingData={
-        listUnread: [],
-        listUnreadNew: [],
-        noneassigned: false,
-        allread: false,
-        temp: {}
+    _find_assigned_unread( filteredList)
+    .then((assignedUnits)=>{
+      /*
+      assignedUnits was an obj contain {listUnread, listBrowsed, scrolled},
+      both list... was an array composed of unit obj contain {unitId, unitsInfo}
+      */
+      //now we set sendingData
+      sendingData.listUnread = assignedUnits.listUnread;
+      sendingData.listBrowsed = assignedUnits.listBrowsed;
+      sendingData.scrolled = assignedUnits.scrolled;
+      // a special situation: if the req was from a reset belong, then we have to free the 'lastVisit' limit
+      if(userResidence.createdAt > lastVisit || userHomeland.createdAt > lastVisit){
+        // that is, we see all the unit early than lastVisit as new one
+        sendingData.listUnread = assignedUnits.listUnread.concat(assignedUnits.listBrowsed);
+        sendingData.listBrowsed = [];
       };
-      let newSetResi = (userResidence.createdAt > lastVisit)? true : false;
-      let newSetHome = (userHomeland.createdAt > lastVisit)? true : false;
 
-      assignedUnits.forEach((unitObj, index) => {
-        /*
-        distinguish: if the req are the 1st after belong set
-        */
-        // if one or both belong are new set, and! there is any assigned to it
-        if( unitObj.listStatus != 'noneassigned' && newSetResi || newSetHome){
-          //to do so is because there are units 'created' earlier than lastVisit, but if the belong was newly set, that's not the situation exclude them from 'new' to user
-          if(newSetResi && 'residence' in unitObj.assignedInfo) {sendingData.listUnreadNew.push({unitId: unitObj.exposedId});return;};
-          if(newSetHome && 'homeland' in unitObj.assignedInfo) {sendingData.listUnreadNew.push({unitId: unitObj.exposedId});return;};
-        };
-        //and if none new set, we just pick the new created after last visit
-        if(unitObj.createdAt < lastVisit ){
-          sendingData.listUnread.push({unitId: unitObj.exposedId});
-        }
-        else sendingData.listUnreadNew.push({unitId: unitObj.exposedId});
-
-        sendingData.noneassigned = (unitObj.listStatus =='noneassigned') ? true : false; //lazy way to use status pass in every row of unit
-        sendingData.allread = (unitObj.listStatus =='allread') ? true : false;
-      });
-      return sendingData;
-
+      resolve();
     })
-    .then((sendingData)=>{
-      resolve(sendingData);
-    }).catch((error)=>{
+    .catch((error)=>{
       reject(new internalError(error ,131));
     })
-  }).then((sendingData)=>{
+
+  }).then(()=>{
     _res_success(res, sendingData, "GET: user feed/unitslist/assigned, complete.");
   }).catch((error)=>{
     _handle_ErrCatched(error, req, res);

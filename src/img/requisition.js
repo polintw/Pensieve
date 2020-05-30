@@ -11,7 +11,10 @@ function _handle_img_requisition(req, res){
   switch(req.query.type){
     case 'thumb':
       res.sendFile(path.join(projectRootPath, userImg+folder+'/'+file), {headers: {'Content-Type': 'image'}}, function (err) {
-        if (err) {console.log('error occured: img sending fail:'+err)}
+        if (err) {
+          console.log('error occured: img sending fail:'+err);
+          res.status(404).end();
+        }
       });
       break;
     case  'unitSingle':
@@ -24,7 +27,10 @@ function _handle_img_requisition(req, res){
       break;
     default:
       res.sendFile(path.join(__dirname, '/../..', '/faked_Pics/'+folder+'/'+file), {headers: {'Content-Type': 'image'}}, function (err) {
-        if (err) {console.log('error occured: img sending fail:'+err)}
+        if (err) {
+          console.log('error occured: img sending fail:'+err);
+          res.status(404).end();
+        }
       });
   }
 }

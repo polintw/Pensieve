@@ -14,6 +14,7 @@ class ChainMessage extends React.Component {
     this.state = {
 
     };
+    this._text_toNodes = this._text_toNodes.bind(this);
     this._render_HintMessage = this._render_HintMessage.bind(this);
   }
 
@@ -63,6 +64,10 @@ class ChainMessage extends React.Component {
               <span
                 className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
                 {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][0]}
+              </span>
+              <span
+                className={classnames(stylesFont.fontHint, stylesFont.colorEditLightBlack)}>
+                {this._text_toNodes(0)}
               </span>
             </div>
           ),
@@ -155,6 +160,7 @@ class ChainMessage extends React.Component {
               <span
                 className={classnames(stylesFont.fontHint, stylesFont.colorEditLightBlack)}>
                 {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][7]}
+                {this._text_toNodes(0)}
               </span>
             </div>
           ),
@@ -198,14 +204,25 @@ class ChainMessage extends React.Component {
     return titleDOM;
   }
 
+  _text_toNodes(listOrder){
+    let nodesList = this.props.unitsBasic[this.props.chainList.listOrderedChain[listOrder]].nounsList;
+    let firstNodeId = nodesList[0];
+    let firstNodeName = (firstNodeId in this.props.nounsBasic) ? (
+      this.props.nounsBasic[firstNodeId].name) : null ;
+    let returnText = this.props.i18nUIString.catalog["message_Chain_toNodes"][0] + firstNodeName;
+    if(nodesList.length > 1) returnText += this.props.i18nUIString.catalog["message_Chain_toNodes"][1];
+
+    return returnText;
+  }
+
 }
 
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
+    nounsBasic: state.nounsBasic,
     chainList: state.chainList,
-    sharedsList: state.sharedsList
   }
 }
 

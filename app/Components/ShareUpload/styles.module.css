@@ -20,7 +20,8 @@
 
 /* ref: https://codepen.io/geoffgraham/pen/jrWwWM */
 .spanWriter {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   height: 4rem;
   padding-right: 2px;
   white-space: nowrap;

@@ -150,7 +150,7 @@ class Submit extends React.Component {
                 {[stylesFont.colorEditBlack]: !this.state.onEnterCancel},
                 {[stylesFont.colorWhite]: this.state.onEnterCancel}
               )}>
-              {'cancel'}
+              {this.props.i18nUIString.catalog["submit_cancel"]}
             </span>
           </div>
           <div
@@ -169,7 +169,7 @@ class Submit extends React.Component {
                 {[stylesFont.colorStandard]: (!this.state.onEnterSubmit || !submitPermit)},
                 {[stylesFont.colorWhite]: (this.state.onEnterSubmit && submitPermit)}
               )}>
-              {"Submit"}
+              {this.props.i18nUIString.catalog["submit_complete"]}
             </span>
           </div>
 
