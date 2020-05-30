@@ -200,6 +200,15 @@ class Chain extends React.Component {
             </div>
           </div>
         }
+        {
+          (this.props.sharedsList.list.length == 0 && !this.state.axios) &&
+          <div
+            className={classnames(styles.boxSeperate, styles.boxFullWide)}
+            style={{padding: '8px 0'}}>
+            <span className={classnames(stylesFont.colorEditLightBlack, stylesFont.fontDescrip)}>
+              {this.props.i18nUIString.catalog['message_Chain_noSharedsCourage']}</span>
+          </div>
+        }
 
       </div>
     )

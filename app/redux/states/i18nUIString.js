@@ -80,6 +80,7 @@ const i18nUIString_EN = {
 
   "title_shareUpload_typewriter": ['S','u','b','m','i', 't'],
   "guidingCreateShare_AssignGroup": "corner(s) going to contribute",
+  "guidingCreateShare_AssignNull": "please set corners you belong first.",
   "guiding_FeedAssigned_noneAssigned": "Not yet any new unit had been contributed to your corners.",
   "guiding_FeedAssigned_noneAssigned_justSubmit": "Good to have your contrubution.",
   "message_Unit_Editing_AssignNotAllowed": "the corner linked to could Not be changed after first release.",
@@ -90,6 +91,7 @@ const i18nUIString_EN = {
   "title_Chain_Shareds_": "Contributions",
 
   "message_Chain_noShareds": "You'll see the list of your constributions here.",
+  "message_Chain_noSharedsCourage": "Trying submitting an observation about your corners.",
   "message_Chain_byChainInfo": [
     "Contribution ",
     "Responded by ",

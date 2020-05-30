@@ -200,14 +200,16 @@ class FeedAssigned extends React.Component {
             {this.props.i18nUIString.catalog["title_FeedAssigned_"]}</span>
         </div>
         {
-          (concatList.length > 0) &&
+          // notice, a condition if the user didn't set any belong, not going to render at all
+          ((concatList.length > 0) &&
+          (this.recKeys.length != 0) ) &&
           <div>
             {this._render_FeedNails('unread')}
             {this._render_FeedNails('browsed')}
           </div>
         }
         {
-          ((concatList.length == 0) && !this.props.indexLists.scrolled) &&
+          ((concatList.length == 0) && !this.props.indexLists.scrolled && this.recKeys.length != 0 && !this.state.axios) &&
           <div
             className={classnames(
               styles.boxModule,
