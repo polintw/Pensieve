@@ -207,7 +207,7 @@ class FeedAssigned extends React.Component {
           </div>
         }
         {
-          ((concatList.length == 0) && !this.props.indexLists.scrolled ) &&
+          ((concatList.length == 0) && !this.props.indexLists.scrolled) &&
           <div
             className={classnames(
               styles.boxModule,
@@ -215,7 +215,12 @@ class FeedAssigned extends React.Component {
             )}>
             <div
               className={classnames(styles.boxTitle, styles.boxDescript, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
-              {this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned']}</div>
+              {
+                (!!this.props.chainList.listInfo[this.props.chainList.listOrderedChain[0]] && this.props.chainList.listInfo[this.props.chainList.listOrderedChain[0]] == "latestShared") ?
+                this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned_justSubmit'] : //which means, the user just share something
+                this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned']
+              }
+            </div>
           </div>
         }
 
@@ -319,7 +324,7 @@ const mapStateToProps = (state)=>{
     i18nUIString: state.i18nUIString,
     belongsByType: state.belongsByType,
     indexLists: state.indexLists,
-    chainList: state.chainList
+    chainList: state.chainList,
   }
 }
 

@@ -47,7 +47,7 @@ class ShareUpload extends React.Component {
             styles.boxWriter)}>
             <span
               className={classnames(
-                styles.spanWriter, 'fontTitleBig', 'colorStandard',
+                styles.spanWriter, 'fontTitleHuge', 'colorStandard',
                 {[styles.spanWriterTyping]: this.state.onCreate}
               )}>
               {this.state.typeWriterText}
