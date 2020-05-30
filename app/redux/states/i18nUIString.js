@@ -16,6 +16,7 @@ const i18nUIString_EN = {
     "Your registration was submit successfully.",
     "Please verifing your mail address by link we just sent to you. That's all you need to do before log in.",
   ],
+  "message_Signin_intro": ["Get Start!", "before you miss the wonder of the world."],
 
   "subtitle_Sign_name": ["First name", "Family name"],
   "subtitle_Sign_gender": "Gender",

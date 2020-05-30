@@ -17,3 +17,10 @@
   width: 100%;
   margin-bottom: 30px;
 }
+
+.boxIntro {
+  display: inline-block;
+  align-self: center;
+  margin-top: 6rem;
+  text-align: center;
+}
