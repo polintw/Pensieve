@@ -209,7 +209,12 @@ class FeedAssigned extends React.Component {
           </div>
         }
         {
-          ((concatList.length == 0) && !this.props.indexLists.scrolled && this.recKeys.length != 0 && !this.state.axios) &&
+          ((concatList.length == 0) &&
+            !this.props.indexLists.scrolled &&
+            !this.state.axios &&
+            this.recKeys.length != 0 &&
+            this.props.sharedsList.length > 0
+          ) &&
           <div
             className={classnames(
               styles.boxModule,
@@ -223,6 +228,23 @@ class FeedAssigned extends React.Component {
                 this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned']
               }
             </div>
+          </div>
+        }
+        { // this should be a temp method, to encourage user upload their first unit
+          ((concatList.length == 0) &&
+            !this.props.indexLists.scrolled &&
+            !this.state.axios &&
+            this.recKeys.length != 0 &&
+            this.props.sharedsList.length == 0
+          ) &&
+          <div
+            className={classnames(
+              styles.boxModule,
+              styles.boxModuleSmall)}>
+            <span
+              className={classnames(styles.boxTitle, styles.boxDescript, stylesFont.colorEditLightBlack, stylesFont.fontDescrip)}
+              style={{textAlign: 'unset', padding: '8px 0'}}>
+              {this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned_norContri']}</span>
           </div>
         }
 

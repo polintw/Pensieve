@@ -8,6 +8,9 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesFont from '../../stylesFont.module.css';
 import ShareUpload from '../../../../Components/ShareUpload/ShareUpload.jsx';
+import {
+  setWithinFlag
+} from "../../../../redux/actions/within.js";
 
 class IndexShare extends React.Component {
   constructor(props){
@@ -70,7 +73,7 @@ class IndexShare extends React.Component {
   }
 
   _submit_Share_New(){
-    this.props._set_ChainUnits([{key: 'respond',value:true}]);
+    this.props._set_WithinFlag(true, "chainFetRespond");
     // and remember the editing modal was opened by URL change
     let lastState = this.props.location.state.from ; // because we are pretty sure there is a "from" obj when opened EditingModal
     this.props.history.replace({
@@ -90,7 +93,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    _set_WithinFlag: (bool, flag) => {dispatch(setWithinFlag(bool, flag)); }
   }
 }
 

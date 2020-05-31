@@ -177,8 +177,7 @@ class Chain extends React.Component {
         <div
           className={classnames(styles.boxIndexShare)}>
           <IndexShare
-            {...this.props}
-            _set_ChainUnits={this._set_ChainUnits}/>
+            {...this.props}/>
         </div>
         {
           (this.props.chainList.listOrderedChain.length > 0 && this.props.chainList.listOrderedChain[0] in this.state.unitsBasic) &&
@@ -200,8 +199,11 @@ class Chain extends React.Component {
             </div>
           </div>
         }
-        {
-          (this.props.sharedsList.list.length == 0 && !this.state.axios) &&
+        { // this should be a temp method, to encourage user upload their first unit
+          ((this.props.sharedsList.list.length == 0 && this.props.chainList.listOrderedChain.length == 0) &&
+            !this.state.axios &&
+            (this.props.indexLists.listUnread.length > 0 || this.props.indexLists.listBrowsed.length > 0)
+          ) &&
           <div
             className={classnames(styles.boxSeperate, styles.boxFullWide)}
             style={{padding: '8px 0'}}>
@@ -221,6 +223,7 @@ const mapStateToProps = (state)=>{
     i18nUIString: state.i18nUIString,
     belongsByType: state.belongsByType,
     chainList: state.chainList,
+    indexLists: state.indexLists,
     flagChainFetRespond: state.flagChainFetRespond
   }
 }
