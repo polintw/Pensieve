@@ -9,7 +9,6 @@
 
       <style type="text/css">
         html {
-          font-size: 10px;
           font-family: "Lato", "Noto Sans TC", "微軟正黑體", "Helvetica Neue", Helvetica, Futura, sans-serif, Arial;
         }
         body {
@@ -19,7 +18,7 @@
         .mailMain {
           width: 100%;
           box-sizing: border-box;
-          padding: 2vh 5%;
+          padding: 12.5px 5%;
         }
         .plainLinkButton {
           text-decoration: none;
@@ -28,7 +27,7 @@
         .boxFooter {
           width: 100%;
           box-sizing: border-box;
-          padding: 3.8vh 10vw 0;
+          padding: 23.75px 136.6px 0;
           text-align: center;
           background-color: rgb(117,117,117);
         }
@@ -36,7 +35,7 @@
         .boxServiceLink {
           display: inline-block;
           position: relative;
-          margin-bottom: 1.6rem;
+          margin-bottom: 16px;
         }
 
         .boxLogo {
@@ -50,9 +49,9 @@
           display: inline-block;
           width: 160px;
           max-width: 63vw;
-          min-width: 10vw;
+          min-width: 136.6px;
           box-sizing: border-box;
-          margin: 0 40% 4%;
+          margin: 0 40% 37.625px;
           text-align: center;
           cursor: pointer;
         }
@@ -60,41 +59,41 @@
         .mailBoxContent {
           width: 100%;
           box-sizing: border-box;
-          padding: 2vh 5.5%;
+          padding: 12.5px 5.5%;
           text-align: right;
         }
         .mailBoxContentGreet {
-          padding-bottom: 4rem;
+          padding-bottom: 40px;
           margin: 0;
         }
         .mailBoxContentTail {
           box-sizing: border-box;
-          padding: 3rem 0;
+          padding: 30px 0;
         }
         .mailBoxContentTail div {
-          margin-bottom: 2rem;
+          margin-bottom: 20px;
         }
         .tagServiceLink {
           display: inline-block;
           box-sizing: border-box;
-          margin-bottom: 0.1rem;
+          margin-bottom: 1px;
         }
         .fontTitleSmall {
-          font-size: 1.2rem;
+          font-size: 12px;
           line-height: 1.5;
         }
         .fontSubtitle {
-          font-size: 1.6rem;
+          font-size: 16px;
         }
         .fontSubmit {
-          font-size: 2.4rem;
+          font-size: 24px;
         }
         .fontContent {
-          font-size: 1.4rem;
+          font-size: 14px;
           line-height: 1.5;
         }
         .fontServiceLink {
-          font-size: 1.2rem;
+          font-size: 12px;
           font-weight: bold;
         }
         .colorStandard {
@@ -121,7 +120,7 @@
     <body>
       <div
         class="mailMain">
-        <div style="border:solid 1px #ff8168; width: 90%; margin: 5vh 5% 2vh;"></div>
+        <div style="border:solid 1px #ff8168; width: 90%; margin: 31.25px 5% 12.5px;"></div>
         <div
           class="mailBoxContent">
           <a
@@ -134,27 +133,28 @@
               style= "height:auto; width: 100%; position:relative; box-sizing: border-box; ">
           </a>
         </div>
-
+        
         <div
           class="mailBoxContent"
-          style="text-align: left; min-height: 60vh; padding-bottom: 5vh;">
+          style="text-align: left; min-height: 60vh; padding-bottom: 31.25px;">
           <div
             class="colorEditBlack fontSubtitle">
             <h2
               class="mailBoxContentGreet fontSubmit"
               style="font-weight: 700;">
-              Welcome, {$ user name} !</h2>
+              Welcome, {$ user name}.
+            </h2>
             <p>
               We are glad to have you here on Cornerth.<br/>
-              This is the last step for the registration.
+              This is the <strong>last step for the registration.</strong>
             </p>
             <p>
               Please
               <a href="{$domain.name} /router/register/mail/confirm?token= {$token} ">click here</a>
               <span> today<br/> verifying your email address to complete your registration.</span>
             </p>
-            <p>
-              Enjoy your adventure, and nice to meet you again!
+            <p style="padding: 30px 0;">
+              Enjoy your adventure, and nice to meet you!
             </p>
           </div>
           <div

@@ -61,20 +61,6 @@ class WithinSign extends React.Component {
             <Route path={"/signup"} render={(props) => <SignupForm {...props} _signup_success={this._signup_success} />}/>
             <Route path={this.props.match.path} component={this._compPathPlain}/>
           </Switch>
-          <Route path={this.props.match.path} render={(props) =>{return (
-              <div
-                className={classnames(styles.boxIntro)}>
-                <span
-                  className={classnames("colorSignBlack", "fontTitle")}>
-                  {this.props.i18nUIString.catalog["message_Signin_intro"][0]}
-                </span>
-                <br/>
-                <span
-                  className={classnames("colorSignBlack", "fontSubtitle")}>
-                  {this.props.i18nUIString.catalog["message_Signin_intro"][1]}
-                </span>
-              </div>
-            )}} />
         </div>
 
       </div>
@@ -99,6 +85,19 @@ const SigninWrapper = ( props, parent) => {
   return (
     <div>
       <SigninForm {...props} _signin_success={_signin_success} />
+      <div
+        className={classnames(styles.boxIntro)}>
+        <span
+          className={classnames("colorSignBlack", "fontTitle")}
+          style={{display: 'inline-block'}}>
+          {parent.props.i18nUIString.catalog["message_Signin_intro"][0]}
+        </span>
+        <span
+          className={classnames("colorSignBlack", "fontSubtitle")}
+          style={{display: 'inline-block', maxWidth: '200px'}}>
+          {parent.props.i18nUIString.catalog["message_Signin_intro"][1]}
+        </span>
+      </div>
     </div>
   )
 }
