@@ -15,6 +15,7 @@ import {
 } from './utils.js';
 import Chain from './Chain/Chain.jsx';
 import Invite from './Invite/Invite.jsx';
+import BelongsSet from './BelongsSet/BelongsSet.jsx';
 import FeedAssigned from './FeedAssigned/FeedAssigned.jsx';
 import OnBoard from '../OnBoard/Wrapper.jsx';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
@@ -138,6 +139,10 @@ class Wrapper extends React.Component {
               {...this.props}
               lastVisit={this.state.lastVisit}
               _set_mountToDo={this._set_mountToDo}/>
+          </div>
+          <div
+            className={classnames(styles.boxRow)}>
+            <BelongsSet/>
           </div>
           <div
             className={classnames(styles.boxRow)}>

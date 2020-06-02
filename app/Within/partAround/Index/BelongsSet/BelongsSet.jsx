@@ -6,12 +6,8 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import SetByTypes from './SetByTypes.jsx';
 import BelongsbyType from './BelongsbyType/BelongsbyType.jsx';
 import SearchModal from './SearchModal/SearchModal.jsx';
-import BooleanDialog from '../../../../Components/Dialog/BooleanDialog/BooleanDialog.jsx';
-import ModalBox from '../../../../Components/ModalBox.jsx';
-import ModalBackground from '../../../../Components/ModalBackground.jsx';
 import {
   _axios_GET_belongRecords,
   _axios_PATCH_belongRecords
@@ -20,6 +16,10 @@ import {
   cancelErr,
   uncertainErr
 } from "../../../../utils/errHandlers.js";
+import {
+  setMessageBoolean,
+} from "../../../../redux/actions/general.js";
+import {messageDialogInit} from "../../../../redux/states/constants.js";
 import {
   fetchBelongRecords
 } from "../../../../redux/actions/general.js";
@@ -31,25 +31,14 @@ class BelongsSet extends React.Component {
       axios: false,
       chosenNode: '',
       settingType: '',
-      dialog: false,
       searchModal: false
     };
     this.axiosSource = axios.CancelToken.source();
     this._set_searchModal = this._set_searchModal.bind(this);
     this._set_choiceAnType = this._set_choiceAnType.bind(this);
-    this._set_dialog_cancel = this._set_dialog_cancel.bind(this);
     this._render_DialogMessage = this._render_DialogMessage.bind(this);
     this._handlesubmit_newBelong = this._handlesubmit_newBelong.bind(this);
-    this._set_Dialog = ()=> this.setState((prevState,props)=>{ return {dialog: prevState.dialog? false:true};});
 
-  }
-
-  _set_dialog_cancel(){
-    this.setState({
-      dialog: false,
-      chosenNode: '',
-      settingType: ''
-    })
   }
 
   _set_searchModal(settingType){
@@ -62,11 +51,21 @@ class BelongsSet extends React.Component {
   }
 
   _set_choiceAnType(choice, type){
-    this.setState({
-      dialog: true,
-      chosenNode: choice,
-      settingType: type,
-      searchModal: false
+    const self = this;
+    this.setState((prevState, props)=>{
+      return {
+        chosenNode: choice,
+        settingType: type,
+        searchModal: false
+      };
+    }, ()=>{
+      self.props._submit_BooleanDialog({
+        render: true,
+        customButton: "submitting",
+        message: self._render_DialogMessage(),
+        handlerPositive: ()=>{self._handlesubmit_newBelong()},
+        handlerNegative: ()=>{self.props._submit_BooleanDialog(messageDialogInit.boolean);}
+      });
     });
   }
 
@@ -74,9 +73,7 @@ class BelongsSet extends React.Component {
     const self = this;
     //close the Dialog,And! reset all to wait for new fetch
     //But remember keeping the sumit data alive !
-    this.setState({
-      dialog: false,
-    });
+    this.props._submit_BooleanDialog(messageDialogInit.boolean);
 
     let submitObj = {
       category: this.state.settingType,
@@ -85,7 +82,11 @@ class BelongsSet extends React.Component {
 
     _axios_PATCH_belongRecords(this.axiosSource.cancelToken, submitObj) //final reload the com to GET new setting
       .then(function (resObj) {
-        self.setState({axios: false});
+        self.setState({
+          axios: false,
+          chosenNode: '',
+          settingType: '',
+        });
         self.props._fetch_belongRecords(); //calling action to refresh loca records
 
       }).catch(function (thrown) {
@@ -135,10 +136,6 @@ class BelongsSet extends React.Component {
           <BelongsbyType
             _set_searchModal={this._set_searchModal}/>
         </div>
-        <div>
-          <SetByTypes
-            _set_searchModal={this._set_searchModal}/>
-        </div>
 
         {
           this.state.searchModal &&
@@ -151,21 +148,6 @@ class BelongsSet extends React.Component {
           </div>
         }
 
-        {
-          this.state.dialog &&
-          <ModalBox containerId="root">
-            <ModalBackground onClose={()=>{this._set_Dialog();}} style={{position: "fixed", backgroundColor: 'rgba(52, 52, 52, 0.36)'}}>
-              <div
-                className={styles.boxDialog}>
-                <BooleanDialog
-                  customButton={"submitting"}
-                  message={this._render_DialogMessage()}
-                  _positiveHandler={this._handlesubmit_newBelong}
-                  _negativeHandler={this._set_dialog_cancel}/>
-              </div>
-            </ModalBackground>
-          </ModalBox>
-        }
       </div>
     )
   }
@@ -182,6 +164,7 @@ const mapStateToProps = (state)=>{
 const mapDispatchToProps = (dispatch) => {
   return {
     _fetch_belongRecords: () => {dispatch(fetchBelongRecords())},
+    _submit_BooleanDialog: (obj)=>{dispatch(setMessageBoolean(obj));},
   }
 }
 

@@ -34,7 +34,9 @@ class BelongsbyType extends React.Component {
   }
 
   _render_BelongList(){
-    const typeKeys = !!this.props.belongsByType.setTypesList? this.props.belongsByType.setTypesList: [];
+    //category allow to used by this users, currently all the same
+    const typeKeys = ["residence", "homeland"];
+
     const nodesDOM = typeKeys.map((nodeType, index)=>{
       return (
         <div

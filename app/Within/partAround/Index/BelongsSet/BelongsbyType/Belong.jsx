@@ -6,7 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import stylesMain from "../../styles.module.css"; //Notice, we use shared css file here for easier control
+import stylesFont from "../../../stylesFont.module.css"; //Notice, we use shared css file here for easier control
 
 
 class Belong extends React.Component {
@@ -19,7 +19,6 @@ class Belong extends React.Component {
     this._render_type = this._render_type.bind(this);
     this._render_nodeLink = this._render_nodeLink.bind(this);
     this._handleClick_belongEdit = this._handleClick_belongEdit.bind(this);
-    this._handleMouseOn_Node = ()=> this.setState((prevState,props)=>{return {onNode: prevState.onNode?false:true}});
     this._handleMouseOn_Edit = ()=> this.setState((prevState,props)=>{return {onEdit: prevState.onEdit?false:true}});
   }
 
@@ -48,27 +47,19 @@ class Belong extends React.Component {
     const nodeId = this.props.belongsByType[this.props.type];
 
     return (
-      <Link
-        to={"/cosmic/nodes/"+nodeId}
-        className={classnames('plainLinkButton', styles.boxNode)}
-        onMouseEnter={this._handleMouseOn_Node}
-        onMouseLeave={this._handleMouseOn_Node}>
-        <div
-          className={classnames(styles.spanNode, stylesMain.fontCorner)}
-          style={{fontSize: '1.7rem'}}>
-          {
-            this.state.onNode &&
-            <span style={{
-                width: '74%', position: 'absolute', bottom: '10%', left: '5%',
-                borderBottom: 'solid 1px #ff7a5f'
-              }}/>
-          }
+      <div className={classnames(styles.boxNode)}>
+        <span
+          className={classnames(
+            styles.spanNode,
+            stylesFont.fontNodesTitle,
+            stylesFont.colorEditBlack
+          )}>
           {nodeId in this.props.nounsBasic ? (
             this.props.nounsBasic[nodeId].name) : (
               null
             )}
-          </div>
-        </Link>
+          </span>
+        </div>
     )
   }
 
@@ -78,9 +69,8 @@ class Belong extends React.Component {
         title={this.props.i18nUIString.catalog["descript_BelongTypeInteract"][0]+this.props.type+this.props.i18nUIString.catalog["descript_BelongTypeInteract"][1]}
         className={classnames(styles.boxTitleType)}>
         <span
-          className={classnames(styles.spanType, stylesMain.fontType)}
-          style={{lineHeight: '3rem'}}>
-          {this.props.type}</span>
+          className={classnames(styles.spanType, stylesFont.colorEditLightBlack, stylesFont.fontHint)}>
+          { (this.props.type=="residence") ? "Current Stay" : this.props.type}</span>
       </div>
     )
   }
@@ -90,6 +80,14 @@ class Belong extends React.Component {
     return(
       <div
         className={classnames(styles.comBelong)}>
+
+        <div
+          className={classnames(styles.boxCornerTitle)}>
+          {
+            !!(this.props.type in this.props.belongsByType) &&
+            this._render_nodeLink()
+          }
+        </div>
         <div
           className={classnames(styles.boxCategory)}>
           {this._render_type()}
@@ -99,18 +97,14 @@ class Belong extends React.Component {
             onClick={this._handleClick_belongEdit}>
             <span
               className={classnames(
-                styles.spanType,
-                stylesMain.fontType,
-                {[styles.fontOnEdit]: this.state.onEdit}
+                styles.spanEdit,
+                stylesFont.fontHint,
+                stylesFont.colorWhiteGrey
               )}
-              style={{lineHeight: '3rem', cursor: 'pointer'}}>
+              style={ this.state.onEdit ? {color: "#757575"}:{} }>
               {this.props.i18nUIString.catalog["submit_edit"]}
             </span>
           </div>
-        </div>
-        <div
-          className={classnames(styles.boxCornerTitle)}>
-          {this._render_nodeLink()}
         </div>
 
       </div>

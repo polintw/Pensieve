@@ -1,18 +1,18 @@
 .boxBelong {
-  display: flex;
-  justify-content: left;
+  display: inline-block;
   position: relative;
-  margin: 0 0 3rem;
 }
 
 .comBelong {
   display: flex;;
-  align-items: center;
-  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .boxCategory {
-  margin: 0 2.5vw;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .boxTitleType {
@@ -20,7 +20,7 @@
 }
 
 .boxCornerTitle {
-  width: 40%;
+
 }
 
 .boxCreate {
@@ -38,7 +38,13 @@
 }
 
 .spanType {
-  margin: 0 0.4rem;
+
+}
+
+.spanEdit {
+  border-left: solid 1px #d8d8d8;
+  padding-left: 3px;
+  cursor: pointer;
 }
 
 .fontOnEdit {

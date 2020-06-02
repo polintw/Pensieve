@@ -14,6 +14,11 @@
   line-height: 1.5;
 }
 
+.fontNodesTitle {
+  font-size: 2rem;
+  font-weight: bold;
+  line-height: 1.5;
+}
 
 .fontTitleNotice {
   font-size: 2.8rem;
@@ -71,6 +76,10 @@ remember all above font style should also have copy in @media neneath
 
 .colorNoticeBlack {
   color: #545454;
+}
+
+.colorWhiteGrey {
+  color: #d8d8d8;
 }
 
 .colorStandard {
