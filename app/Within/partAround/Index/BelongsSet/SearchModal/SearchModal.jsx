@@ -6,6 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import stylesFont from "../../../stylesFont.module.css"; //Notice, we use shared css file here for easier control
 import {updateNodesBasic} from '../../../../../redux/actions/general.js'
 import {NodeSearchModule} from '../../../../../Components/Node/NodeSearchModule.jsx';
 
@@ -16,6 +17,7 @@ class SearchModal extends React.Component {
 
     };
     this._set_choiceFromSearch = this._set_choiceFromSearch.bind(this);
+    this._handleClick_SearchModal_switch = this._handleClick_SearchModal_switch.bind(this);
     this.style={
 
     }
@@ -57,29 +59,40 @@ class SearchModal extends React.Component {
         <div
           className={classnames(styles.boxTypeSetting)}>
           <span
-            className={classnames(
-              styles.fontDescrip,
-            )}
-            style={{lineHeight: '3rem'}}>
+            className={classnames(styles.spanFormBelongsType, stylesFont.fontDescrip ,stylesFont.colorDescripBlack, stylesFont.weightBold)}
+            style={{lineHeight: "1.5"}}>
             {this.props.i18nUIString.catalog["descript_BelongSet_SearchBytType"][0]}
           </span>
           <span
-            className={classnames(
-              styles.fontDescrip,
-            )}
-            style={{lineHeight: '3rem'}}>
-            {this.props.settingType}</span>
+            className={classnames(styles.spanFormBelongsDescrip, stylesFont.fontDescrip ,stylesFont.colorDescripBlack)}
+            style={{lineHeight: "1.5"}}>
+            { (this.props.settingType=="residence") ? "Current Stay" : this.props.settingType}
+          </span>
+        </div>
+
+        <div
+          onClick={this._handleClick_SearchModal_switch}>
+          <span>
+            {'close'}
+          </span>
         </div>
 
         <NodeSearchModule
-          type={"option"}
+          type={"inputDirect"}
+          mountFocus={false}
+          reversed = {true}
           _set_nodeChoice={this._set_choiceFromSearch}
-          _set_SearchModal_switch={this.props._set_searchModal}
-          _handleClick_SearchModal_switch={(e)=>{e.preventDefault();e.stopPropagation();this.props._set_searchModal();}}/>
+          _set_SearchModal_switch={this.props._set_searchModal}/>
 
       </div>
     )
   }
+
+  _handleClick_SearchModal_switch(e){
+    e.preventDefault();e.stopPropagation();
+    this.props._set_searchModal();
+  }
+
 }
 
 const mapStateToProps = (state)=>{

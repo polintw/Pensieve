@@ -6,7 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import stylesSet from '../styles.module.css';
+import stylesFont from "../../../stylesFont.module.css";
 import Belong from './Belong.jsx';
 
 class BelongsbyType extends React.Component {
@@ -44,7 +44,8 @@ class BelongsbyType extends React.Component {
           className={classnames(styles.boxBelong)}>
           <Belong
             type={nodeType}
-            _set_searchModal={this.props._set_searchModal}/>
+            _set_Settingtype={this.props._set_Settingtype}
+            _set_choiceAnType={this.props._set_choiceAnType}/>
         </div>
       )
     });
@@ -55,8 +56,14 @@ class BelongsbyType extends React.Component {
   render(){
     return(
       <div
-        className={classnames(stylesSet.comBelongsbyType)}>
+        className={classnames(styles.comBelongsbyType)}>
         {this._render_BelongList()}
+        <div
+          className={classnames(styles.boxTitle)}>
+          <span
+            className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
+            {this.props.i18nUIString.catalog["title_BelongSet_"]}</span>
+        </div>
       </div>
     )
   }

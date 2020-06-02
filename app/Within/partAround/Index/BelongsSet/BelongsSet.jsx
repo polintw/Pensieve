@@ -6,8 +6,8 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import stylesFont from "../../stylesFont.module.css"; 
 import BelongsbyType from './BelongsbyType/BelongsbyType.jsx';
-import SearchModal from './SearchModal/SearchModal.jsx';
 import {
   _axios_GET_belongRecords,
   _axios_PATCH_belongRecords
@@ -31,23 +31,13 @@ class BelongsSet extends React.Component {
       axios: false,
       chosenNode: '',
       settingType: '',
-      searchModal: false
     };
     this.axiosSource = axios.CancelToken.source();
-    this._set_searchModal = this._set_searchModal.bind(this);
     this._set_choiceAnType = this._set_choiceAnType.bind(this);
     this._render_DialogMessage = this._render_DialogMessage.bind(this);
     this._handlesubmit_newBelong = this._handlesubmit_newBelong.bind(this);
+    this._set_Settingtype = (settingType)=>{this.setState({settingType: settingType})};
 
-  }
-
-  _set_searchModal(settingType){
-    this.setState((prevState, props)=>{
-      return {
-        settingType: !!settingType ? settingType: '', //param 'settingType' could be empty if it was cancel or finished
-        searchModal: prevState.searchModal ? false: true
-      };
-    })
   }
 
   _set_choiceAnType(choice, type){
@@ -56,7 +46,6 @@ class BelongsSet extends React.Component {
       return {
         chosenNode: choice,
         settingType: type,
-        searchModal: false
       };
     }, ()=>{
       self.props._submit_BooleanDialog({
@@ -134,19 +123,9 @@ class BelongsSet extends React.Component {
         className={classnames(styles.comBelongSet)}>
         <div>
           <BelongsbyType
-            _set_searchModal={this._set_searchModal}/>
+            _set_Settingtype={this._set_Settingtype}
+            _set_choiceAnType={this._set_choiceAnType}/>
         </div>
-
-        {
-          this.state.searchModal &&
-          <div
-            className={classnames(styles.boxSearchModal)}>
-            <SearchModal
-              settingType={this.state.settingType}
-              _set_choiceAnType={this._set_choiceAnType}
-              _set_searchModal={this._set_searchModal}/>
-          </div>
-        }
 
       </div>
     )

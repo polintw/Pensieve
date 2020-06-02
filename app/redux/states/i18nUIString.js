@@ -87,6 +87,7 @@ const i18nUIString_EN = {
   "title_FeedAssigned_AllRead": "you've all browsed.",
   "title_FeedAssigned_": "Gathering",
   "title_Chain_Shareds_": "Contributions",
+  "title_BelongSet_": "Belonged Corners",
 
   "message_Chain_noShareds": "You'll see the list of your constributions here.",
   "message_Chain_byChainInfo": [

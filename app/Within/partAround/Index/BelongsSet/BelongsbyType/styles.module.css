@@ -1,6 +1,14 @@
+.comBelongsbyType{
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
 .boxBelong {
   display: inline-block;
   position: relative;
+  margin: 0 0 8px 2.76vw;
 }
 
 .comBelong {
@@ -13,6 +21,10 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
+}
+
+.boxTitle {
+  margin: 0 0 8px 2.76vw;
 }
 
 .boxTitleType {
@@ -32,6 +44,19 @@
   display: inline-block;
 }
 
+.boxSearchModal {
+  width: 420px;
+  max-width: 90vw;
+  min-height: 18vh;
+  position: absolute;
+  left: -2vw;
+  top: -1rem;
+  background-color: #FFFFFF;
+  box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
+  border-radius: 8px;
+  z-index: 1;
+}
+
 .spanNode {
   display: inline-block;
   position: relative;
@@ -45,8 +70,4 @@
   border-left: solid 1px #d8d8d8;
   padding-left: 3px;
   cursor: pointer;
-}
-
-.fontOnEdit {
-  color: #545454;
 }

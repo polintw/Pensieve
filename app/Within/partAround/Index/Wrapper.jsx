@@ -141,7 +141,8 @@ class Wrapper extends React.Component {
               _set_mountToDo={this._set_mountToDo}/>
           </div>
           <div
-            className={classnames(styles.boxRow)}>
+            className={classnames(styles.boxRow)}
+            style={{margin: '8px 0 0'}}>
             <BelongsSet/>
           </div>
           <div
