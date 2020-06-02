@@ -37,7 +37,8 @@ const DOMInput = (comp)=> {
         <ul
           className={classnames(
             styles.boxList,
-            {[styles.boxListReversed]: comp.props.reversed}
+            {[styles.boxListReversed]: comp.props.reversed},
+            {[styles.boxListRelative]: !!comp.props.relative}
           )}>
           {comp._render_SearchResults()}
         </ul>

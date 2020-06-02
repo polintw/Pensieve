@@ -105,7 +105,7 @@ const i18nUIString_EN = {
   "category__Belong_usersCount": ["with ", "users", "way to "],
   "link_BelongsMap_Nav": ["Fellows", "from Home", "same Residence"],
   "messageBelongChoiceinBool": ["site ", "  as your  ", "  place?"],
-  "descript_BelongSet_SearchBytType": ["Input corner name of your "],
+  "descript_BelongSet_SearchBytType": ["Search one fit your "],
   "descript_AroundIndex_footer": "You've reached the edge of Cornerth.!",
   'descript_AroundIndex_footer_BelongHint': "start browsing by your current stay or homeland!",
   "guiding_AroundIndex_Share": "how's your corners",

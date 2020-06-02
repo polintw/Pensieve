@@ -12,14 +12,12 @@
 }
 
 .comBelong {
-  display: flex;;
+  display: flex;
   flex-direction: column;
-  align-items: flex-start;
 }
 
 .boxCategory {
   display: flex;
-  justify-content: space-between;
   width: 100%;
 }
 
@@ -47,10 +45,13 @@
 .boxSearchModal {
   width: 420px;
   max-width: 90vw;
-  min-height: 18vh;
+  height: 26rem;
   position: absolute;
   left: -2vw;
-  top: -1rem;
+  top: 0;
+  transform: translate(0 , -50%);
+  box-sizing: border-box;
+  padding: 2rem 1.38vw;
   background-color: #FFFFFF;
   box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
   border-radius: 8px;
@@ -68,6 +69,7 @@
 
 .spanEdit {
   border-left: solid 1px #d8d8d8;
+  margin-left: 3px;
   padding-left: 3px;
   cursor: pointer;
 }

@@ -78,6 +78,10 @@ remember all above font style should also have copy in @media neneath
   color: #545454;
 }
 
+.colorOptionsBlack {
+  color: #333333;
+}
+
 .colorWhiteGrey {
   color: #d8d8d8;
 }

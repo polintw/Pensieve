@@ -59,30 +59,35 @@ class SearchModal extends React.Component {
         <div
           className={classnames(styles.boxTypeSetting)}>
           <span
-            className={classnames(styles.spanFormBelongsType, stylesFont.fontDescrip ,stylesFont.colorDescripBlack, stylesFont.weightBold)}
+            className={classnames(stylesFont.fontDescrip ,stylesFont.colorOptionsBlack)}
             style={{lineHeight: "1.5"}}>
             {this.props.i18nUIString.catalog["descript_BelongSet_SearchBytType"][0]}
           </span>
           <span
-            className={classnames(styles.spanFormBelongsDescrip, stylesFont.fontDescrip ,stylesFont.colorDescripBlack)}
+            className={classnames(stylesFont.fontDescrip ,stylesFont.colorOptionsBlack)}
             style={{lineHeight: "1.5"}}>
-            { (this.props.settingType=="residence") ? "Current Stay" : this.props.settingType}
+            { (this.props.settingType=="residence") ? "current stay" : this.props.settingType}
           </span>
-        </div>
+          <div
+            style={{display: 'inline-block', position: 'relative', float: 'right'}}
+            onClick={this._handleClick_SearchModal_switch}>
+            <span
+              className={classnames(styles.spanClose, stylesFont.fontContent, stylesFont.colorGrey)}>
+              {'close'}
+            </span>
+          </div>
 
+        </div>
         <div
-          onClick={this._handleClick_SearchModal_switch}>
-          <span>
-            {'close'}
-          </span>
+          className={classnames(styles.boxSearchInput)}>
+          <NodeSearchModule
+            type={"inputDirect"}
+            mountFocus={false}
+            reversed = {false}
+            relative = {true}
+            _set_nodeChoice={this._set_choiceFromSearch}
+            _set_SearchModal_switch={this.props._set_ModalOnly}/>
         </div>
-
-        <NodeSearchModule
-          type={"inputDirect"}
-          mountFocus={false}
-          reversed = {true}
-          _set_nodeChoice={this._set_choiceFromSearch}
-          _set_SearchModal_switch={this.props._set_searchModal}/>
 
       </div>
     )
