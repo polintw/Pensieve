@@ -68,18 +68,12 @@ class FrontProfile extends React.Component {
           <div
             className={classnames(styles.boxContent)}>
             <div
-              className={classnames(
-                styles.boxContentFilledLeft)}/>
-            <div
               className={classnames(styles.boxContentCenter)}>
               <Switch>
                 <Route path={this.props.match.path+"/sheet"} render={(props)=> <Sheet {...props}/>}/>
 
               </Switch>
             </div>
-            <div
-              className={classnames(
-                styles.boxContentFilledRight)}/>
           </div>
           <div
             className={classnames(styles.boxNavAround)}>

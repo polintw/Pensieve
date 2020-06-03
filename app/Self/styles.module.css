@@ -1,5 +1,6 @@
 .boxProfile {
   width: 100%;
+  position: relative;
   z-index: 3; /* set as a 'base': on the contrast to the 'Modal'*/
 }
 
@@ -23,38 +24,16 @@
 }
 
 .boxContent {
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
+  width: 60vw;
+  margin-left: 15vw;
+  margin-right: 25vw;
 }
 
 .boxContentCenter {
-  min-width: 67vw;
+  width: 100%;
 }
-
-.boxContentFilledLeft {
-  min-width: 10vw;
-}
-
-.boxContentFilledRight {
-  min-width: 21.64vw;
-}
-
 
 @media screen and (max-width:1110px) and (min-width: 860px) {
-  .boxContentCenter {
-    width: calc(342px * 2 + 1.38vw * 4 + 1.38vw);
-    min-width: 69.7vw; /*calc(32vw + 30.8vw + 1.38vw * 4 + 1.38vw)*/
-  }
-
-  .boxContentFilledLeft {
-    min-width: 2.7vw;
-  }
-
-  .boxContentFilledRight {
-    min-width: 11.5vw;
-  }
-
   .boxNavAround {
     width: 11vw;
     height: 100%;
@@ -67,27 +46,11 @@
 }
 
 @media screen and (max-width:860px) {
-  .boxContentCenter {
-    min-width: unset;
-    width: calc(342px + 1.38vw * 2);
-    max-width: 99vw;
-  }
-
-  .boxContentFilledLeft {
-    width: 0;
-    min-width: 0; /* overlap basic setting, the 'width' is not enough for the min-width---which has higher priority*/
-  }
-
-  .boxContentFilledRight {
-    width: 0;
-    min-width: 0; /* overlap basic setting, the 'width' is not enough for the min-width---which has higher priority*/
-  }
-
   .boxNavAround {
     width: 100%;
     height: unset;
     position: sticky;
-    top: unset;
+    bottom: unset;
     box-sizing: border-box;
   }
 
@@ -102,4 +65,8 @@
     box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
   }
 
+  .boxContent {
+    width: 96vw;
+    margin: 0 auto;
+  }
 }

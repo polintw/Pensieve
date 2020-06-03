@@ -56,8 +56,10 @@ const i18nUIString_EN = {
 
   "message_hello": "Hi, ",
   "submit_": "Submit",
+  "submit_back": "back",
   "submit_complete": "complete",
   "submit_cancel": "cancel",
+  "submit_change": "change",
   "submit_edit": "Edit",
   "submit_save": "Save",
   "submit_erase": "erase",
@@ -65,6 +67,9 @@ const i18nUIString_EN = {
   "submit_respond": "Respond",
   "submit_logout": "Log out",
   "title_share": "Share",
+  "title_profile": "Profile",
+  "subtitle_email": "Email",
+  "subtitle_Password": "Password",
   "Cornerth_inc": "Cornerth., Inc. ",
   "AllRights": "All Rights Reserved.",
 

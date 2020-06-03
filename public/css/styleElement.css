@@ -20,6 +20,10 @@
   line-height: 1.5;
 }
 
+.fontNodesEqual {
+  font-size: 2rem;
+}
+
 .fontBold {
   font-size: 1.4rem;
   font-weight: bold;
@@ -68,6 +72,14 @@
 
 .colorOptionsBlack {
   color: #333333;
+}
+
+.colorSignBlack {
+  color: #3c4144;
+}
+
+.colorBlack85 {
+  color: rgba(0,0,0,0.85);
 }
 
 .boxServiceLink {

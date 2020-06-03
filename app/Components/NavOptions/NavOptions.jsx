@@ -40,6 +40,8 @@ class NavOptions extends React.Component {
   }
 
   render(){
+    let currentPath = this.props.location.pathname;
+
     return(
       <div
         className={classnames(styles.comNavOption)}>
@@ -51,11 +53,30 @@ class NavOptions extends React.Component {
         </div>
 
         {
+          ((this.props.tokenStatus== 'verified') &&
+          currentPath.includes('profile')) && //special one for path 'self/profile'
+          <div
+            id={"NavOptions_Self_small"}
+            className={classnames(
+              styles.selfCom_NavOptions_svg_, 'colorWhite', 'fontSubtitle',
+              styles.smallDisplayBox
+            )}
+            onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props.history.goBack()}}>
+            {this.props.i18nUIString.catalog['submit_back']}
+          </div>
+        }
+
+        {
           (this.props.tokenStatus== 'verified') &&
-          <div>
+          <div
+            className={classnames(
+              {[styles.smallDisplayNone]: (currentPath.includes('profile'))}
+            )}>
             <div
               id={"NavOptions_Self_small"}
-              className={classnames(styles.selfCom_NavOptions_svg_, 'colorWhite', styles.smallDisplayBox)}
+              className={classnames(
+                styles.selfCom_NavOptions_svg_, 'colorWhite',styles.smallDisplayBox
+              )}
               onClick={this._handleClick_navToolBox}>
               <AccountPalette
                 size={'regular'}
