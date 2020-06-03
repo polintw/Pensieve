@@ -69,18 +69,19 @@ class FeedAssigned extends React.Component {
 
   componentDidUpdate(prevProps, prevState, snapshot){
     /*
-    GET list if! the belongsByType has changed
+    there are 3 situations we have to fetch list again
     */
+    //1st one, props.lastVisit updated
     //it's very slow to compare 2 obj directly, so just compare by key pair we already set up
     let lastvisitchangeify = (this.props.lastVisit != prevProps.lastVisit) ? true : false;
     if(this.recKeys.length > 0 && lastvisitchangeify){ // usually at the landing render cycle, not yet fetched and finally got the lastVisit data
       this._set_feedUnits(this.props.lastVisit);
     };
-
+    //2nd, the belongsByType had been changed
     let residenceify = (this.props.belongsByType['residence'] == prevProps.belongsByType['residence']) ? true:false;
     let homelandify = (this.props.belongsByType['homeland'] == prevProps.belongsByType['homeland']) ? true:false;
     if(this.recKeys.length > 0 && this.props.lastVisit&& (!residenceify || !homelandify)){ //this one is for situation setting new belong
-      this.props._submit_list_FeedAssigned(initAround.indexLists); //reset to initial state before fetch
+      this.props._submit_list_FeedAssigned(initAround.indexLists, true); //reset to initial state before fetch
       let nowDate = new Date();
       this._set_feedUnits(this.props.lastVisit, nowDate);
     };
