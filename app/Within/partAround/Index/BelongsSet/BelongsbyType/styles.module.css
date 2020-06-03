@@ -1,14 +1,16 @@
 .comBelongsbyType{
   display: flex;
-  justify-content: flex-end;
+  flex-direction: row-reverse;
+  justify-content: flex-start;
   align-items: flex-end;
   flex-wrap: wrap;
+  margin: 0 0 8px;
 }
 
 .boxBelong {
   display: inline-block;
   position: relative;
-  margin: 0 0 8px 2.76vw;
+  margin: 8px 0 0 2.76vw;
 }
 
 .comBelong {
@@ -22,7 +24,7 @@
 }
 
 .boxTitle {
-  margin: 0 0 8px 2.76vw;
+  margin: 8px 0 0 2.76vw;
 }
 
 .boxTitleType {
@@ -72,4 +74,22 @@
   margin-left: 3px;
   padding-left: 3px;
   cursor: pointer;
+}
+
+@media screen and (max-width:860px) {
+  .comBelongsbyType{
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 0 32px;
+  }
+
+  .boxTitle {
+    width: 100%;
+    margin: 8px 0;
+    text-align: right;
+  }
+
+  .boxBelong {
+    margin: 8px 0 0;
+  }
 }

@@ -142,7 +142,7 @@ class Wrapper extends React.Component {
           </div>
           <div
             className={classnames(styles.boxRow)}
-            style={{margin: '8px 0 0'}}>
+            style={{margin: '4px 0 0'}}>
             <BelongsSet/>
           </div>
           <div

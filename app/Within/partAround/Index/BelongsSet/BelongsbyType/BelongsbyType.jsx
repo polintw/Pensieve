@@ -35,7 +35,7 @@ class BelongsbyType extends React.Component {
 
   _render_BelongList(){
     //category allow to used by this users, currently all the same
-    const typeKeys = ["residence", "homeland"];
+    const typeKeys = ["homeland", "residence"];
 
     const nodesDOM = typeKeys.map((nodeType, index)=>{
       return (
@@ -57,13 +57,13 @@ class BelongsbyType extends React.Component {
     return(
       <div
         className={classnames(styles.comBelongsbyType)}>
-        {this._render_BelongList()}
         <div
           className={classnames(styles.boxTitle)}>
           <span
             className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
             {this.props.i18nUIString.catalog["title_BelongSet_"]}</span>
         </div>
+        {this._render_BelongList()}
       </div>
     )
   }

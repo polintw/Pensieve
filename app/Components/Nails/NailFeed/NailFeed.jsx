@@ -72,7 +72,7 @@ class NailFeed extends React.Component {
         onMouseEnter={this._handleEnter_nailFrame}
         onMouseLeave={this._handleLeave_nailFrame}>
         { // layer as a overlap when mouseon
-          /*this.state.onFrame &&
+          this.state.onFrame &&
           <div style={{
               position: 'absolute', width:'100%', height: '100%', top: '0', left: '0',
               backgroundColor:'rgba(217, 232, 255, 0.15)',
@@ -81,7 +81,7 @@ class NailFeed extends React.Component {
               backgroundPosition: '50% 50%',
               backgroundRepeat: 'no-repeat',
               opacity: '0.3'
-          }}/>*/
+          }}/>
         }
         <div
           className={classnames(styles.boxContent)}>

@@ -78,12 +78,10 @@
 
 .tagServiceLink {
   display: inline-block;
+  width: 50%;
   box-sizing: border-box;
-  margin-bottom: 0.1rem;
-}
-
-.tagServiceLinkMouse {
-  border-bottom: solid 0.75px #ababab; /* color follow the font*/
+  margin-top: 1rem;
+  text-align: center;
 }
 
 .fontServiceLink {
