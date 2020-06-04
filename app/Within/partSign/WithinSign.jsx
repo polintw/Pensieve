@@ -22,13 +22,8 @@ class WithinSign extends React.Component {
     this.state = {
 
     };
-    this._signin_success = this._signin_success.bind(this);
+    this._compPathPlain = this._compPathPlain.bind(this);
     this._signup_success = this._signup_success.bind(this);
-  }
-
-  _signin_success(){
-    let url = this.props.location.pathname+this.props.location.search;
-    window.location.reload(url);
   }
 
   _signup_success(){
@@ -39,12 +34,7 @@ class WithinSign extends React.Component {
   }
 
   componentDidMount() {
-    // the "invitation" would only display after page load, so process here
-    let params = new URLSearchParams(this.props.location.search); //we need value in URL query
-    let invitationify = !!params.get('invitation') ? params.get('invitation') : false;
-    if(invitationify) {
 
-    };
   }
 
   componentWillUnmount() {
@@ -65,27 +55,58 @@ class WithinSign extends React.Component {
               {...this.props}/>
           </div>
 
-          {
-            this.state.invitation &&
-            <InvitationFellow
-              {...this.props}/>
-          }
           <Switch>
             <Route path={ "/confirm"} render={(props) => <Confirmation {...props} />} />
             <Route path={ "/signup/success"} render={(props) => <SignupSuccess {...props} />} />
             <Route path={"/signup"} render={(props) => <SignupForm {...props} _signup_success={this._signup_success} />}/>
-            <Route path={this.props.match.path} render={(props) => <SigninForm {...props} _signin_success={this._signin_success} />}/>
+            <Route path={this.props.match.path} component={this._compPathPlain}/>
           </Switch>
         </div>
 
       </div>
     )
   }
+
+  _compPathPlain ( props ){
+    let params = new URLSearchParams( props.location.search); //we need value in URL query
+    let invitationify = !!params.get('invitation') ? params.get('invitation') : false;
+
+    if(invitationify) return <InvitationFellow {...this.props}/>
+    else return SigninWrapper( props, this);
+  }
 }
+
+const SigninWrapper = ( props, parent) => {
+  const _signin_success = ()=>{
+    let url = props.location.pathname+ props.location.search;
+    window.location.reload(url);
+  }
+
+  return (
+    <div>
+      <SigninForm {...props} _signin_success={_signin_success} />
+      <div
+        className={classnames(styles.boxIntro)}>
+        <span
+          className={classnames("colorSignBlack", "fontTitle")}
+          style={{display: 'inline-block'}}>
+          {parent.props.i18nUIString.catalog["message_Signin_intro"][0]}
+        </span>
+        <span
+          className={classnames("colorSignBlack", "fontSubtitle")}
+          style={{display: 'inline-block', maxWidth: '200px'}}>
+          {parent.props.i18nUIString.catalog["message_Signin_intro"][1]}
+        </span>
+      </div>
+    </div>
+  )
+}
+
 
 const mapStateToProps = (state)=>{
   return {
-    userInfo: state.userInfo
+    userInfo: state.userInfo,
+    i18nUIString: state.i18nUIString,
   }
 }
 

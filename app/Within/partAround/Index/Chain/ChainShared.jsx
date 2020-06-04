@@ -118,12 +118,14 @@ class ChainShared extends React.Component {
 
     if(this.props.sharedsList.list.length == 0){
       listDOM.push(
-        <span
-          key={"key_SharedNails_emptyHint"}
-          className={classnames(stylesFont.fontContent, stylesFont.colorEditLightBlack)}
-          style={{display: 'block', textAlign: 'right', height: '51px', minHeight: '4.1vw'}/* follow styles.boxImg*/}>
-          {this.props.i18nUIString.catalog["message_Chain_noShareds"]}
-        </span>
+        <div
+          style={{width: '100%', height: '51px', minHeight: '4.1vw', display: 'flex', justifyContent: 'center', alignItems: 'center'}/* follow styles.boxImg*/}>
+          <span
+            key={"key_SharedNails_emptyHint"}
+            className={classnames(stylesFont.fontTitleSmall, stylesFont.colorGrey)}>
+            {this.props.i18nUIString.catalog["message_Chain_noShareds"]}
+          </span>
+        </div>
       )
     }
 

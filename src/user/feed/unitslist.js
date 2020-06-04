@@ -24,8 +24,10 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
   const userId = req.extra.tokenUserId;
   //now, we to prepared a few thnigs first:
   //user last visit time, created time of last Unit res to client in last req, and users' belongs.
-  const lastVisit = new Date(req.query.visitBase); // param from query could only be parse as 'string', we need to turn it into time
-  const lastUnitTime = !!req.query.listUnitBase ? new Date(req.query.listUnitBase): new Date(); // basically, undefined listUnitBase means first landing to the page
+  //but it is possible, the 'date' in query are not a 'date', and param from query could only be parse as 'string', we need to turn it into time
+  let visitBase = new Date(req.query.visitBase), unitBase = new Date(req.query.listUnitBase);
+  const lastVisit = !isNaN(visitBase) ? visitBase : new Date();
+  const lastUnitTime = !isNaN(unitBase) ? unitBase : new Date(); // basically, undefined listUnitBase means first landing to the page
   // get users' belong set
   let userHomeland, userResidence;
   await _DB_usersNodesHomeland.findOne({
@@ -263,7 +265,7 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
       sendingData.listBrowsed = assignedUnits.listBrowsed;
       sendingData.scrolled = assignedUnits.scrolled;
       // a special situation: if the req was from a reset belong, then we have to free the 'lastVisit' limit
-      if(userResidence.createdAt > lastVisit || userHomeland.createdAt > lastVisit){
+      if(userResidence.createdAt > lastVisit || userHomeland.createdAt > lastVisit || req.query.visitBase == "newly"){
         // that is, we see all the unit early than lastVisit as new one
         sendingData.listUnread = assignedUnits.listUnread.concat(assignedUnits.listBrowsed);
         sendingData.listBrowsed = [];

@@ -5,22 +5,6 @@ const {
   domain
 } = require('../../../config/services.js');
 
-const _render_HtmlBody = (token)=>{
-  return (
-    '<html>'+
-      '<body>'+
-      '<section>'+
-        '<h2>Cornerth.</h2>'+
-        "<p>You've asking reset your password."+
-      '</section>'+
-      '<div>'+
-        '<p>Please clicking link below to reset your password.</p>'+
-        '<a href="'+domain.name+'/s/resend/pwreset?token='+token+'">Reset.</a>'+
-      '</div>'+
-      '</body>'+
-    '</html>'
-  )
-}
 
 function deliverVerifiedMail(userInfo, token){
   return new Promise((resolve, reject)=>{
@@ -34,10 +18,10 @@ function deliverVerifiedMail(userInfo, token){
 
     // setup email data with unicode symbols
     let mailOptions = {
-      from: '"Cornerth team" <noreply@cornerth.com>', // sender address
+      from: '"Cornerth." <noreply@cornerth.com>', // sender address
       to: userInfo.email, // list of receivers
-      subject: "[Resetting your password.]", // Subject line
-      html: _render_HtmlBody(token)
+      subject: "Resetting your password", // Subject line
+      html: _render_HtmlBody(token, userInfo)
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -49,5 +33,19 @@ function deliverVerifiedMail(userInfo, token){
     });
   })
 }
+
+const _render_HtmlBody = (token, userInfo)=>{
+  return (
+    '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0001, minimum-scale=1.0001, maximum-scale=1.0001, user-scalable=no"> <!--[if !mso]><!--> <meta http-equiv="X-UA-Compatible" content="IE=Edge"> <!--<![endif]--> <style type="text/css"> html { font-family: "Lato", "Noto Sans TC", "微軟正黑體", "Helvetica Neue", Helvetica, Futura, sans-serif, Arial; } body { margin: 0; width: 100%; } .mailMain { width: 100%; box-sizing: border-box; padding: 12.5px 5%; } .plainLinkButton { text-decoration: none; color: inherit; } .boxFooter { width: 100%; box-sizing: border-box; padding: 23.75px 136.6px 0; text-align: center; background-color: rgb(117,117,117); } .boxServiceLink { display: inline-block; position: relative; margin-bottom: 16px; } .boxLogo { display: inline-block; width: 100px; min-width: 12vw; box-sizing: border-box; cursor: pointer; } .boxLogoReverse { display: inline-block; width: 160px; max-width: 63vw; min-width: 136.6px; box-sizing: border-box; margin: 0 40% 37.625px; text-align: center; cursor: pointer; } .mailBoxContent { width: 100%; box-sizing: border-box; padding: 12.5px 5.5%; text-align: right; } .mailBoxContentGreet { padding-bottom: 40px; margin: 0; } .mailBoxContentTail { box-sizing: border-box; padding: 30px 0; } .mailBoxContentTail div { margin-bottom: 20px; } .tagServiceLink { display: inline-block; box-sizing: border-box; margin-bottom: 1px; } .fontTitleSmall { font-size: 12px; line-height: 1.5; } .fontSubtitle { font-size: 16px; } .fontSubmit { font-size: 24px; } .fontContent { font-size: 14px; line-height: 1.5; } .fontServiceLink { font-size: 12px; font-weight: bold; } .colorStandard { color: #ff8168; } .colorLightStandard { color: #fff8f7; } .colorGrey { color: #a3a3a3; } .colorEditLightBlack { color: #757575; } .colorEditBlack { color: #545454; } .colorDescripBlack { color: #444444; } </style> </head> <body><div class="mailMain"><div style="border:solid 1px #ff8168; width: 90%; margin: 31.25px 5% 12.5px;"></div> <div class="mailBoxContent"> <a href="https://cornerth.com/" target="_blank" class="boxLogo plainLinkButton"> <!-- <SvgLogo/> --> <img src="http://' +
+    domain.name+
+    '/png/Logo.png" style= "height:auto; width: 100%; position:relative; box-sizing: border-box; "> </a> </div> <div class="mailBoxContent" style="text-align: left; min-height: 60vh; padding-bottom: 31.25px;"> <div class="colorEditBlack fontSubtitle"> <h2 class="mailBoxContentGreet fontSubmit" style="font-weight: 700;"> Hello, '+
+    userInfo.first_name +
+    '. </h2> <p> You received this mail is because,<br/> there is a request for<strong> restting your account password</strong> on Cornerth.com </p> <p> Please <a href="https://'+
+    domain.name+ '/s/resend/pwreset?token='+ token +
+    '">click here</a><br/> <span> to verify your identity and reset your password.</span> </p> <p> If this is not you, please contact us and keep using the current password you have.<br/> The account is still under the protection safely. </p> <p class="colorEditLightBlack"> For your account safety, we highly recommended that your password must contain at least 8 characters in length including both letters and digits. </p> <p style="padding: 30px 0;"> Enjoy your adventure on Cornerth, leave the problem to us. </p> </div> <div class="mailBoxContentTail"> <div> <span class="colorEditLightBlack fontContent"> Best Wishes,</span> </div> <div> <span class="colorEditLightBlack fontContent"> Cornerth. Team</span> </div> </div> </div> <div class="boxFooter"> <a href="https://cornerth.com/" target="_blank" class="boxLogoReverse plainLinkButton"> <!-- <SvgLogo/> --> <img src="http://'+
+    domain.name+
+    '/png/Logo_reverse.png" style= "height:auto; width: 100%; position:relative; box-sizing: border-box; "> </a> <div class="boxServiceLink"> <!-- <ServiceLinks/> --> <div class="boxServiceLink"> <a href="https://www.facebook.com/pg/cornerth.center/about/" target="_blank" method="about" class="plainLinkButton tagServiceLink fontServiceLink colorLightStandard"> About</a> <span class="tagServiceLink fontServiceLink colorGrey">．</span> <a href="https://cornerth.com/a/privacy" method="privacy" class="plainLinkButton tagServiceLink fontServiceLink colorLightStandard"> Privacy</a> <span class="tagServiceLink fontServiceLink colorGrey">．</span> <a href="https://cornerth.com/a/terms" method="terms" class="plainLinkButton tagServiceLink fontServiceLink colorLightStandard"> Terms</a> <span class="tagServiceLink fontServiceLink colorGrey">．</span> <a href="https://www.facebook.com/cornerth.center/" target="_blank" method="contact" class="plainLinkButton tagServiceLink fontServiceLink colorLightStandard"> Contact</a> </div> <div class="fontTitleSmall colorGrey"> <span>Cornerth., Inc. </span> <span>All Rights Reserved.</span> </div> </div> </div> </div></body></html>'
+  );
+};
 
 module.exports = deliverVerifiedMail;

@@ -16,6 +16,7 @@ const i18nUIString_EN = {
     "Your registration was submit successfully.",
     "Please verifing your mail address by link we just sent to you. That's all you need to do before log in.",
   ],
+  "message_Signin_intro": ["Get Start!", "before you miss the wonder of the world."],
 
   "subtitle_Sign_name": ["First name", "Family name"],
   "subtitle_Sign_gender": "Gender",
@@ -85,8 +86,7 @@ const i18nUIString_EN = {
 
   "title_shareUpload_typewriter": ['S','u','b','m','i', 't'],
   "guidingCreateShare_AssignGroup": "corner(s) going to contribute",
-  "guiding_FeedAssigned_noneAssigned": "Not yet any new unit had been contributed to your corners.",
-  "guiding_FeedAssigned_noneAssigned_justSubmit": "Good to have your contrubution.",
+  "guidingCreateShare_AssignNull": "please set corners you belong first.",
   "message_Unit_Editing_AssignNotAllowed": "the corner linked to could Not be changed after first release.",
   "message_Unit_EraseConfirm": ["No one would see this Shared after erase, including you. ", "Are you sure your going to erase this Shared?"],
   "message_Unit_EraseRes": ["This Shared has beed erased successfully."],
@@ -94,8 +94,13 @@ const i18nUIString_EN = {
   "title_FeedAssigned_": "Gathering",
   "title_Chain_Shareds_": "Contributions",
   "title_BelongSet_": "Belonged Corners",
+  "guiding_FeedAssigned_noneAssigned": "Not yet any new unit had been contributed to your corners.",
+  "guiding_FeedAssigned_noneAssigned_justSubmit": "Good to have your contrubution.",
+  "guiding_FeedAssigned_noneAssigned_norContri": "It could be you contributing somthing for your corners!",
 
-  "message_Chain_noShareds": "You'll see the list of your constributions here.",
+  "title_Chain_Shareds_": "Contributions",
+  "message_Chain_noShareds": "You'll see the list of your contributions here.",
+  "message_Chain_noSharedsCourage": "Trying submitting an observation about your corners.",
   "message_Chain_byChainInfo": [
     "Contribution ",
     "Responded by ",

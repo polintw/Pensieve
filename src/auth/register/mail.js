@@ -242,7 +242,7 @@ async function _handle_auth_mailResend_PATCH(req, res){
         break;
       default:
         // mail had been confirmed
-        reject (new forbbidenError({"warning:": "Your email had been verified, could sign in directly."}, 87));
+        reject (new forbbidenError({"warning": "Your email had been verified, could sign in directly."}, 85));
     };
 
   }).then(()=>{
