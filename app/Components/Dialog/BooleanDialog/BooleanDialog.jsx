@@ -9,11 +9,15 @@ import styles from "./styles.module.css";
 import commonStyles from "../commonStyles.module.css";
 
 const styleMiddle = {
-  contentInter: {
-    fontSize: '2.2rem',
-    lineHeight: '2.7rem',
-    color: 'black'
-  }
+  boxNavButton:{
+    display: 'inline-block',
+    width: '96px',
+    height: '32px',
+    position: 'relative',
+    boxSizing: 'border-box',
+    borderRadius: '4px',
+    cursor: 'default'
+  },
 }
 
 class BooleanDialog extends React.Component {
@@ -70,7 +74,7 @@ class BooleanDialog extends React.Component {
       return (
         <span
           key={"key_BooleanDialog_message_"+index}
-          className={classnames(commonStyles.fontMessage, styles.spanMessage)}
+          className={classnames('fontSubtitle_h5', 'colorOptionsBlack', styles.spanMessage)}
           style={obj.style}>
           {obj.text}</span>
       )
@@ -96,29 +100,45 @@ class BooleanDialog extends React.Component {
     };
 
     return (
-      <div>
-        <div
-          value={"positive"}
-          className={classnames(commonStyles.boxRoundButton, styles.boxButton)}
-          style={(this.state.onButton=="positive")? {backgroundColor: '#ff7a5f'}:{}}
-          onClick={this._handleClick_dialog_BooleanPosit}
-          onMouseEnter={this._handleEnter_button}
-          onMouseLeave={this._handleLeave_button}>
-          <span
-            className={classnames(commonStyles.spanButton, commonStyles.fontButton)}>
-            {optionPositive}
-          </span>
-        </div>
+      <div
+        style={{textAlign: 'center'}}>
         <div
           value={"negative"}
-          className={classnames(commonStyles.boxRoundButton, styles.boxButton)}
-          style= {{backgroundColor: (this.state.onButton== "negative")?'#ff7a5f': '#e6e6e6'}}
+          style={Object.assign({},
+            styleMiddle.boxNavButton,
+            {marginRight: '11px'},
+            (this.state.onButton=="negative")? {backgroundColor: "#757575", cursor: 'pointer'}:{}
+          )}
           onClick={this._handleClick_dialog_BooleanNegat}
           onMouseEnter={this._handleEnter_button}
           onMouseLeave={this._handleLeave_button}>
           <span
-            className={classnames(commonStyles.spanButton, commonStyles.fontButton)}>
+            className={classnames(
+              'centerAlignChild',
+              'fontSubtitle_h5',
+              {["colorEditBlack"]: !(this.state.onButton=="negative")},
+              {["colorWhite"]: (this.state.onButton=="negative")}
+            )}>
             {optionNegative}
+          </span>
+        </div>
+        <div
+          value={"positive"}
+          style={Object.assign({},
+            styleMiddle.boxNavButton,
+            (this.state.onButton=="positive")? {backgroundColor: "#ff8168", cursor: 'pointer'}:
+            {backgroundColor: '#4587A0'}
+          )}
+          onClick={this._handleClick_dialog_BooleanPosit}
+          onMouseEnter={this._handleEnter_button}
+          onMouseLeave={this._handleLeave_button}>
+          <span
+            className={classnames(
+              'centerAlignChild',
+              'fontSubtitle_h5',
+              'colorWhite'
+            )}>
+            {optionPositive}
           </span>
         </div>
       </div>

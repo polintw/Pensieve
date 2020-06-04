@@ -1,12 +1,12 @@
 .comSinCloseDialog {
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
+  align-content: center;
+  flex-wrap: wrap;
   width: 100%;
-  min-height: 21rem;
-  max-height: 54vh;
+  min-height: 24rem;
   box-sizing: border-box;
-  padding: 3rem 3rem 7rem 3.7rem;
+  padding: 2rem 10% 3rem;
 }
 
 .boxMessage {
@@ -14,14 +14,13 @@
 }
 
 .boxButton {
-  display: inline-block;
-  width: 11%;
-  float: right;
-  margin:0 5%;
+
 }
 
 .boxTop {
-  margin: 0 0 2rem;
+  position: absolute;
+  top: 0;
+  right: 5%;
 }
 
 .spanMessage {

@@ -8,6 +8,18 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import commonStyles from "../commonStyles.module.css";
 
+const styleMiddle = {
+  boxNavButton:{
+    display: 'inline-block',
+    width: '104px',
+    height: '32px',
+    position: 'relative',
+    boxSizing: 'border-box',
+    borderRadius: '4px',
+    cursor: 'default'
+  },
+}
+
 class SingleDialog extends React.Component {
   constructor(props){
     super(props);
@@ -52,7 +64,7 @@ class SingleDialog extends React.Component {
       return (
         <span
           key={"key_SinDialog_message_"+index}
-          className={classnames(commonStyles.fontMessage, styles.spanMessage)}
+          className={classnames('fontSubtitle_h5', 'colorOptionsBlack', styles.spanMessage)}
           style={obj.style}>
           {obj.text}</span>
       )
@@ -70,19 +82,26 @@ class SingleDialog extends React.Component {
           {this._render_Message()}
         </div>
         <div
-          className={classnames(styles.boxfoot)}>
+          className={classnames(styles.boxfoot)}
+          style={{textAlign: 'center'}}>
           <div
-            className={classnames(commonStyles.boxRoundButton, styles.boxButton)}
-            style={this.state.onButton? {backgroundColor: '#ff7a5f'}:{}}
+            style={Object.assign({},
+              styleMiddle.boxNavButton,
+              (this.state.onButton)? {backgroundColor: "#ff8168", cursor: 'pointer'}:
+              {backgroundColor: '#4587A0'}
+            )}
             onClick={this._handleClick_dialog_Posit}
             onMouseEnter={this._handleEnter_button}
             onMouseLeave={this._handleLeave_button}>
             <span
-              className={classnames(commonStyles.spanButton, commonStyles.fontButton)}>
+              className={classnames(
+                'centerAlignChild',
+                'fontSubtitle_h5',
+                'colorWhite'
+              )}>
               {this.props.buttonValue}
             </span>
           </div>
-
         </div>
       </div>
     )

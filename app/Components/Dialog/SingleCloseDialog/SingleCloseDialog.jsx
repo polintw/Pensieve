@@ -62,7 +62,7 @@ class SingleCloseDialog extends React.Component {
       return (
         <span
           key={"key_SinCloseDialog_message_"+index}
-          className={classnames(commonStyles.fontMessage, styles.spanMessage)}
+          className={classnames('fontSubtitle_h5', 'colorOptionsBlack', styles.spanMessage)}
           style={obj.style}>
           {obj.text}</span>
       )
@@ -80,12 +80,15 @@ class SingleCloseDialog extends React.Component {
           className={classnames(styles.boxTop)}>
           <div
             className={classnames(commonStyles.boxCornerButton, styles.boxButton)}
-            style={ this.state.onButton? {backgroundColor: '#ff7a5f'}:{}}
+            style={ this.state.onButton? {backgroundColor: '#ff7a5f'}:{backgroundColor: '#4587A0'} }
             onClick={this._handleClick_dialog_SinClosePosit}
             onMouseEnter={this._handleEnter_button}
             onMouseLeave={this._handleLeave_button}>
             <span
-              className={classnames(commonStyles.spanButton, commonStyles.fontButton)}>
+              className={classnames(
+                'fontTitleSmall',
+                'colorWhite'
+              )}>
               {" ╳ "}
             </span>
           </div>

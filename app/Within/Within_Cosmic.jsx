@@ -124,7 +124,7 @@ class WithinCosmic extends React.Component {
           //the series 'message' in redux state is prepared for this kind of global message dialog
           this.props.messageSingleClose['render'] &&
           <ModalBox containerId="root">
-            <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(52, 52, 52, 0.36)'}}>
+            <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(51, 51, 51, 0.3)'}}>
               <div
                 className={"boxDialog"}>
                 <SingleCloseDialog
@@ -137,7 +137,7 @@ class WithinCosmic extends React.Component {
         {
           this.props.messageSingle['render'] &&
           <ModalBox containerId="root">
-            <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(52, 52, 52, 0.36)'}}>
+            <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(51, 51, 51, 0.3)'}}>
               <div
                 className={"boxDialog"}>
                 <SingleDialog
@@ -151,7 +151,7 @@ class WithinCosmic extends React.Component {
         {
           this.props.messageBoolean['render'] &&
           <ModalBox containerId="root">
-            <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(52, 52, 52, 0.36)'}}>
+            <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(51, 51, 51, 0.3)'}}>
               <div
                 className={"boxDialog"}>
                 <BooleanDialog

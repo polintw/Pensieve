@@ -1,26 +1,20 @@
 .comBooleanDialog {
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
+  align-content: space-between;
+  flex-wrap: wrap;
   width: 100%;
-  min-height: 17rem;
+  min-height: 24rem;
   box-sizing: border-box;
-  padding: 3rem 3.7rem 4rem 3rem;
+  padding: 4rem 10% 3rem;
 }
 
 .boxMessage {
 
 }
 
-.boxButton {
-  display: inline-block;
-  width: 32%;
-  float: right;
-  margin:0 5%;
-}
-
 .boxfoot {
-  margin: 5rem 0 0;
+  margin: 3rem 0 0;
 }
 
 .spanMessage {

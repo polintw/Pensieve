@@ -58,7 +58,7 @@ class Invite extends React.Component {
         {
           this.state.panelModal &&
           <ModalBox containerId="root">
-            <ModalBackground onClose={()=>{this._set_Dialog();}} style={{position: "fixed", backgroundColor: 'rgba(52, 52, 52, 0.36)'}}>
+            <ModalBackground onClose={()=>{this._set_Dialog();}} style={{position: "fixed", backgroundColor: 'rgba(51, 51, 51, 0.3)'}}>
               <FixWidthDialog>
                 <WritingPanel
                   onComplete={this._set_Dialog}/>
