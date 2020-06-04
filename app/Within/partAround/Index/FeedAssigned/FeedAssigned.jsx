@@ -349,6 +349,7 @@ const mapStateToProps = (state)=>{
     i18nUIString: state.i18nUIString,
     belongsByType: state.belongsByType,
     indexLists: state.indexLists,
+    sharedsList: state.sharedsList,
     chainList: state.chainList,
   }
 }
