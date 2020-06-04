@@ -10,7 +10,6 @@
   margin-top: 1rem;
   padding: 2.77vh 0;
   box-sizing: border-box;
-  border-bottom: solid 1px #ff8168;
 }
 
 .boxRows {
@@ -31,6 +30,13 @@
 .boxResetForm {
   width: 358px;
   max-width: 98vw;
+}
+
+.spanTitle {
+  display: inline-block;
+  padding-right: 2rem;
+  border-right: solid 1.5px #ff8168;
+  box-sizing: border-box;
 }
 
 .comAccountSheet {
@@ -97,4 +103,24 @@
   display: block;
   width: 100%;
   box-sizing: border-box;
+}
+
+.comNavProfile {
+  text-align: right;
+}
+
+.boxNavLink {
+  display: inline-block;
+  padding-right: 1rem;
+  box-sizing: border-box;
+}
+
+.spanNavLink {
+  display: inline-block;
+  border-bottom: 1px solid transparent;
+  cursor: pointer;
+}
+
+.spanNavLinkMouse {
+  border-bottom: 1px solid #3c4144;
 }

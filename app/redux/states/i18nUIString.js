@@ -68,6 +68,7 @@ const i18nUIString_EN = {
   "submit_logout": "Log out",
   "title_share": "Share",
   "title_profile": "Profile",
+  "title_home": "Home",
   "subtitle_email": "Email",
   "subtitle_Password": "Password",
   "Cornerth_inc": "Cornerth., Inc. ",

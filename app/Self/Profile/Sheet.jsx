@@ -151,7 +151,7 @@ import {
         <div
           className={classnames(styles.boxTitle)}>
           <span
-            className={classnames("fontTitle", "colorSignBlack")}>
+            className={classnames(styles.spanTitle, "fontTitle", "colorSignBlack")}>
             {this.props.i18nUIString.catalog["title_profile"]}
           </span>
         </div>

@@ -8,7 +8,7 @@
   width: 20vw;
   position: fixed;
   right: 0;
-  bottom: 0;
+  bottom: 1.14vh;
   box-sizing: border-box;
   padding: 3.8vh 0.5vw 0;
 }
@@ -23,6 +23,15 @@
   z-index: 1;
 }
 
+.boxNavProfile {
+  width: 65vw;
+  position: fixed;
+  right: 20vw;
+  bottom: 0;
+  background-color: #fcfcfc;
+  padding: 2.66vh 0 5.32vh;
+}
+
 .boxContent {
   width: 60vw;
   margin-left: 15vw;
@@ -32,6 +41,15 @@
 .boxContentCenter {
   width: 100%;
 }
+
+.boxDecoBottom {
+  height: 2.66vh;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  background-color: #a4a4a4
+}
+
 
 @media screen and (max-width:1110px) and (min-width: 860px) {
   .boxNavAround {
@@ -68,5 +86,16 @@
   .boxContent {
     width: 96vw;
     margin: 0 auto;
+  }
+
+  .boxNavProfile {
+    display: none;
+  }
+
+  .boxDecoBottom {
+    width: 90vw;
+    height: 1px;
+    position: unset;
+    margin-left: 5vw;
   }
 }

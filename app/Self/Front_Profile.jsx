@@ -9,6 +9,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import Sheet from './Profile/Sheet.jsx';
+import NavProfile from './Profile/NavProfile.jsx';
 import NavWithin from '../Components/NavWithin/NavWithin.jsx';
 import NavOptions from '../Components/NavOptions/NavOptions.jsx';
 
@@ -74,11 +75,20 @@ class FrontProfile extends React.Component {
 
               </Switch>
             </div>
+
+            <div style={{width:'100%', height: '10vh', position: 'unset', bottom: 'unset', backgroundColor: 'transparent'}}></div>
           </div>
+
+          <div
+            className={classnames(styles.boxNavProfile)}>
+            <NavProfile/>
+          </div>
+          <div className={classnames(styles.boxDecoBottom)}></div>
           <div
             className={classnames(styles.boxNavAround)}>
             <NavWithin {...this.props} _refer_to={this._refer_leaveSelf}/>
           </div>
+
         </div>
 
       </div>
