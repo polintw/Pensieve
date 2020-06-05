@@ -2,18 +2,45 @@
 
 }
 
-.boxTop {
+.boxTitle {
+  margin: 8px 0;
+}
+
+.boxModule{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.boxDescript {
   width: 100%;
-  height: 51vh;
-  min-height: 259px;
+  text-align: center;
+}
+
+.boxFooter {
+  position: relative;
+  padding-top: 2.4rem;
+  margin-bottom: 31.1vh;
+}
+.boxNail {
   box-sizing: border-box;
+  margin: 8px 0;
+  border-radius: 8px;
+  box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
+  background-color: #FFFFFF;
+  overflow: hidden;
 }
 
-.boxList {
-  width: 42.5vw; /* including only one interspace(which between the Nails) */
-}
-
-.footer {
+.custNailWide {
   width: 100%;
-  height: 91px;
+}
+
+
+@media screen and (max-width:860px) {
+  .boxModuleSmall {
+    justify-content: center;
+  }
+  .custNailWide {
+    width: unset;
+  }
 }

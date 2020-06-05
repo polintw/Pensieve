@@ -15,13 +15,13 @@ export function switchUnitSubmitting(bool) {
   return { type: UNIT_SUBMITTING_SWITCH, unitSubmitting: bool}
 };
 
-export function submitUnitRespondsList(list, reset){
+export function submitUnitRespondsList(listsObj, reset){
   return (dispatch, getState) => {
     const currentState =  getState();
     let copyStateList = currentState.unitCurrentResponds.list.slice();
     let scrolled = listsObj.scrolled; // only this one follow the param directly
 
-    if(list.length > 0) copyStateList.push(list);
+    if(listsObj.list.length > 0) copyStateList.push(listsObj.list);
     if(!!reset){ // special condition, ask to reset to init state
       copyStateList = initUnit.unitCurrentResponds.list;
       scrolled = initUnit.unitCurrentResponds.scrolled;

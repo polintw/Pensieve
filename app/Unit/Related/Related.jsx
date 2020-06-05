@@ -15,7 +15,7 @@ import NailFeedWide from '../../Components/Nails/NailFeedWide/NailFeedWide.jsx';
 import NailFeedMobile from '../../Components/Nails/NailFeedMobile/NailFeedMobile.jsx';
 import {
   submitUnitRespondsList
-} from "../../redux/actions/within.js";
+} from "../../redux/actions/unit.js";
 import {
   handleNounsList,
   handleUsersList,
@@ -66,7 +66,7 @@ class Related extends React.Component {
     window.removeEventListener("scroll", this._check_Position);
   }
 
-  _render_FeedNails(listChoice){
+  _render_RespondsNails(){
     let groupsDOM = [];
     const _nailsGroup = (unitGroup, groupIndex)=>{
       let nailsDOM = [];
@@ -79,7 +79,7 @@ class Related extends React.Component {
           nailsDOM.push(
             <div
               key={"key_FeedAssigned_new_" + index}
-              className={classnames(stylesNail.boxNail, stylesNail.custNailWide)}>
+              className={classnames(styles.boxNail, styles.custNailWide)}>
               <NailFeedMobile
                 {...this.props}
                 leftimg={false}
@@ -95,7 +95,7 @@ class Related extends React.Component {
         nailsDOM.push (
           <div
             key={"key_FeedAssigned_new_"+index}
-            className={classnames(stylesNail.boxNail, stylesNail.custNailWide)}>
+            className={classnames(styles.boxNail, styles.custNailWide)}>
             <NailFeedWide
               {...this.props}
               leftimg={ false}
@@ -135,11 +135,11 @@ class Related extends React.Component {
         <div
           className={classnames(styles.boxTitle)}>
           <span
-            className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
-            {this.props.i18nUIString.catalog["title_FeedAssigned_"]}</span>
+            className={classnames('fontContentPlain', "weightBold", "colorAssistGold")}>
+            {this.props.i18nUIString.catalog["title_Unit_ListResponds"]}</span>
         </div>
         {
-          ((this.props.unitCurrentResponds.list.length > 0) &&
+          (this.props.unitCurrentResponds.list.length > 0) &&
           <div>
             {this._render_RespondsNails()}
           </div>
@@ -155,7 +155,7 @@ class Related extends React.Component {
               styles.boxModuleSmall,
             )}>
             <div
-              className={classnames(styles.boxTitle, styles.boxDescript, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
+              className={classnames(styles.boxTitle, styles.boxDescript, "fontTitleSmall", "colorLightGrey")}>
 
               {this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned']}
             </div>
@@ -165,7 +165,7 @@ class Related extends React.Component {
         <div ref={this.refScroll}/>
 
         <div
-          className={styles.footer}>
+          className={styles.boxFooter}>
         </div>
       </div>
     )
@@ -202,7 +202,7 @@ class Related extends React.Component {
     const self = this;
     this.setState({axios: true});
 
-    _axios_get_responds({
+    _axios_get_responds(this.axiosSource.token, {
       exposedId: this.unitId,
       listUnitBase: listUnitBase
     })
@@ -247,6 +247,8 @@ class Related extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
+    i18nUIString: state.i18nUIString,
+    unitCurrent: state.unitCurrent,
     unitCurrentResponds: state.unitCurrentResponds
   }
 }

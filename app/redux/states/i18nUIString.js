@@ -72,6 +72,7 @@ const i18nUIString_EN = {
   "title_home": "Home",
   "subtitle_email": "Email",
   "subtitle_Password": "Password",
+  "link_UnitListResponds": 'responds',
   "Cornerth_inc": "Cornerth., Inc. ",
   "AllRights": "All Rights Reserved.",
 
@@ -90,6 +91,7 @@ const i18nUIString_EN = {
   "message_Unit_Editing_AssignNotAllowed": "the corner linked to could Not be changed after first release.",
   "message_Unit_EraseConfirm": ["No one would see this Shared after erase, including you. ", "Are you sure your going to erase this Shared?"],
   "message_Unit_EraseRes": ["This Shared has beed erased successfully."],
+  "title_Unit_ListResponds": "Responds",
   "title_FeedAssigned_AllRead": "you've all browsed.",
   "title_FeedAssigned_": "Gathering",
   "title_Chain_Shareds_": "Contributions",

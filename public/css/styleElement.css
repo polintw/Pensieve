@@ -46,6 +46,14 @@
   color: #ff8168;
 }
 
+.colorAssistGold {
+  color: #f3b55a;
+}
+
+.colorLightGrey {
+  color: #b8b8b8;
+}
+
 .colorWhiteGrey {
   color: #d8d8d8;
 }
@@ -85,6 +93,11 @@
 .colorBlack85 {
   color: rgba(0,0,0,0.85);
 }
+
+.weightBold {
+  font-weight: bold;
+}
+
 
 .boxServiceLink {
   display: flex;
