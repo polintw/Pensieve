@@ -85,7 +85,7 @@ const i18nUIString_EN = {
   "message_UnitEdit_ruleAssignedNodes": ["Select only one corner from where you stay, and one from homeland."],
 
   "title_shareUpload_typewriter": ['S','u','b','m','i', 't'],
-  "guidingCreateShare_AssignGroup": "corner(s) going to contribute",
+  "guidingCreateShare_AssignGroup": "corner(s) you'd like to contribute",
   "guidingCreateShare_AssignNull": "please set corners you belong first.",
   "message_Unit_Editing_AssignNotAllowed": "the corner linked to could Not be changed after first release.",
   "message_Unit_EraseConfirm": ["No one would see this Shared after erase, including you. ", "Are you sure your going to erase this Shared?"],

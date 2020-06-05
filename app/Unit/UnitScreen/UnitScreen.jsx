@@ -8,6 +8,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
 import Theater from '../Theater/Theater.jsx';
+import Related from '../Related/Related.jsx';
 import SharedEdit from '../Editing/SharedEdit.jsx';
 import CreateRespond from '../Editing/CreateRespond.jsx';
 import {
@@ -193,6 +194,14 @@ class UnitScreen extends React.Component {
       case 'respond':
         return (
           <CreateRespond
+            {...this.props}
+            _reset_UnitMount={this._reset_UnitMount}
+            _close_theaterHeigher={this._close_modal_Unit}/>
+        )
+        break;
+      case 'related':
+        return (
+          <Related
             {...this.props}
             _reset_UnitMount={this._reset_UnitMount}
             _close_theaterHeigher={this._close_modal_Unit}/>

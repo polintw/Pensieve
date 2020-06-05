@@ -14,13 +14,12 @@ class SearchModal extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      onButton: false
     };
     this._set_choiceFromSearch = this._set_choiceFromSearch.bind(this);
     this._handleClick_SearchModal_switch = this._handleClick_SearchModal_switch.bind(this);
-    this.style={
-
-    }
+    this._handleEnter_button = this._handleEnter_button.bind(this);
+    this._handleLeave_button = this._handleLeave_button.bind(this);
   }
 
   _set_choiceFromSearch(nodeBasic){
@@ -64,15 +63,24 @@ class SearchModal extends React.Component {
             {this.props.i18nUIString.catalog["descript_BelongSet_SearchBytType"][0]}
           </span>
           <span
-            className={classnames(stylesFont.fontDescrip ,stylesFont.colorOptionsBlack)}
+            className={classnames(stylesFont.fontDescrip ,stylesFont.colorOptionsBlack, stylesFont.weightBold)}
             style={{lineHeight: "1.5"}}>
-            { (this.props.settingType=="residence") ? "current stay" : this.props.settingType}
+            { (this.props.settingType=="residence") ? this.props.i18nUIString.catalog['category_Belongs_'][1] : this.props.i18nUIString.catalog['category_Belongs_'][0]}
           </span>
           <div
             style={{display: 'inline-block', position: 'relative', float: 'right'}}
             onClick={this._handleClick_SearchModal_switch}>
             <span
-              className={classnames(styles.spanClose, stylesFont.fontContent, stylesFont.colorGrey)}>
+              value={'close'}
+              className={classnames(
+                styles.spanClose, stylesFont.fontContent,
+                {
+                  [stylesFont.colorGrey]: !this.state.onButton,
+                  [stylesFont.colorDescripBlack]: this.state.onButton
+                }
+              )}
+              onMouseEnter={this._handleEnter_button}
+              onMouseLeave={this._handleLeave_button}>
               {'close'}
             </span>
           </div>
@@ -96,6 +104,18 @@ class SearchModal extends React.Component {
   _handleClick_SearchModal_switch(e){
     e.preventDefault();e.stopPropagation();
     this.props._set_searchModal();
+  }
+
+  _handleEnter_button(e){
+    this.setState({
+      onButton: e.currentTarget.getAttribute('value')
+    })
+  }
+
+  _handleLeave_button(e){
+    this.setState({
+      onButton: false
+    })
   }
 
 }

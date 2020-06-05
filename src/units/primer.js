@@ -36,7 +36,7 @@ async function _handle_GET_units_primer(req, res){
       sendingData['authorId']= primerUnit.id_author;
     };
 
-    _res_success(res, sendingData, "GET: /units/:/src, complete.");
+    _res_success(res, sendingData, "GET: /units/primer, complete.");
   }
   catch(error){
     _handle_ErrCatched(error, req, res);
@@ -46,7 +46,7 @@ async function _handle_GET_units_primer(req, res){
 }
 
 execute.get('/', function(req, res){
-  if(process.env.NODE_ENV == 'development') winston.verbose('GET: /units/:/primer ');
+  if(process.env.NODE_ENV == 'development') winston.verbose('GET: /units/primer ');
   _handle_GET_units_primer(req, res);
 })
 

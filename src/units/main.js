@@ -10,6 +10,7 @@ const srcExecutive = require('./single/src.js');
 const singleExecutive = require('./single/single.js');
 const numerousExecutive = require('./numerous.js')
 const primerExecutive = require('./primer.js')
+const respondsExecutive = require('./responds.js')
 
 /*
   Notice! Check First!
@@ -33,12 +34,15 @@ main.use(function(req, res, next) {
     switch (pathSplice[1]) { //pathSplice should be e.g "[/numerous/,numerous, ...]"
       case 'numerous':
       tokenify ? next() : noTokenHandler();
-      break;
-    case 'primer':
+        break;
+      case 'primer':
       tokenify ? next() : noTokenHandler();
-      break;
-    default:
-      next()
+        break;
+      case 'responds':
+      tokenify ? next() : noTokenHandler();
+        break;
+      default:
+        next()
     }
   }
   //or if there is token, we just go next
@@ -47,9 +51,12 @@ main.use(function(req, res, next) {
 
 //then other middleware after the permission check
 
+// path has token
 main.use('/numerous', numerousExecutive)
 main.use('/primer', primerExecutive)
+main.use('/responds', respondsExecutive)
 
+// path do not need a token
 // remember put the pathe with ':id' after the others.
 main.param("exposedId", (req, res, next, exposedId)=>{
   req.reqExposedId = exposedId;

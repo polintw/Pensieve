@@ -20,6 +20,7 @@ import {
 } from '../types/typesWithin.js';
 import {
   SET_UNITVIEW,
+  SUBMIT_UNITRESPONDSLIST,
   UNIT_SUBMITTING_SWITCH
 } from '../types/typesUnit.js';
 import {
@@ -100,6 +101,11 @@ function pageWithin(state = initialGeneral, action){
     case SUBMIT_SHAREDSLIST:
       return Object.assign({}, state, {
         sharedsList: { ...state.sharedsList, ...action.listsObj}
+      })
+      break;
+    case SUBMIT_UNITRESPONDSLIST:
+      return Object.assign({}, state, {
+        unitCurrentResponds: {...state.unitCurrentResponds, ...action.listsObj}
       })
       break;
     case SET_FLAG_CHAINRESPOND:
