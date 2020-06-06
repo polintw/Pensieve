@@ -70,6 +70,7 @@ class NailFeedMobile extends React.Component {
           styles.frmaeSmall,
           {[styles.frameOnMouse]: this.state.onFrame}
         )}
+        onClick={(e)=>{if( !this.props.pathname ){e.preventDefault();};/*a optional control, mean the parent want to take the refer control*/ }}
         onMouseEnter={this._handleEnter_nailFrame}
         onMouseLeave={this._handleLeave_nailFrame}>
         {this._render_ContentBox()}

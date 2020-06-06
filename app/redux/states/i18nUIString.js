@@ -92,6 +92,7 @@ const i18nUIString_EN = {
   "message_Unit_EraseConfirm": ["No one would see this Shared after erase, including you. ", "Are you sure your going to erase this Shared?"],
   "message_Unit_EraseRes": ["This Shared has beed erased successfully."],
   "title_Unit_ListResponds": "Responds",
+  "guiding_Unit_Reponds_none": "Submit your respond to this article!",
   "title_FeedAssigned_AllRead": "you've all browsed.",
   "title_FeedAssigned_": "Gathering",
   "title_Chain_Shareds_": "Contributions",

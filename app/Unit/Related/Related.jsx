@@ -14,6 +14,7 @@ import {
 import NailFeedWide from '../../Components/Nails/NailFeedWide/NailFeedWide.jsx';
 import NailFeedMobile from '../../Components/Nails/NailFeedMobile/NailFeedMobile.jsx';
 import {
+  setUnitView,
   submitUnitRespondsList
 } from "../../redux/actions/unit.js";
 import {
@@ -31,6 +32,7 @@ class Related extends React.Component {
     super(props);
     this.state = {
       axios: false,
+      onEnterSubmit: false,
       unitsBasic: {},
       marksBasic: {}
     };
@@ -39,6 +41,10 @@ class Related extends React.Component {
     this._check_Position = this._check_Position.bind(this);
     this._set_respoondsUnits = this._set_respoondsUnits.bind(this);
     this._render_RespondsNails = this._render_RespondsNails.bind(this);
+    this._handleClick_hrefNail = this._handleClick_hrefNail.bind(this);
+    this._handleEnter_Submit = this._handleEnter_Submit.bind(this);
+    this._handleLeave_Submit = this._handleLeave_Submit.bind(this);
+    this._handleClick_UnitSwitch = this._handleClick_UnitSwitch.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -63,6 +69,7 @@ class Related extends React.Component {
     if(this.state.axios){
       this.axiosSource.cancel("component will unmount.")
     }
+    this.props._submit_list_UnitResponds({list:'',scrolled:''}, true); // reset the responds state to initial
     window.removeEventListener("scroll", this._check_Position);
   }
 
@@ -79,12 +86,14 @@ class Related extends React.Component {
           nailsDOM.push(
             <div
               key={"key_FeedAssigned_new_" + index}
-              className={classnames(styles.boxNail, styles.custNailWide)}>
+              className={classnames(styles.boxNail, styles.custNailWide)}
+              unitid={unitId}
+              onClick={this._handleClick_hrefNail}>
               <NailFeedMobile
                 {...this.props}
                 leftimg={false}
                 unitId={unitId}
-                linkPath={'/unit'}
+                linkPath={false}
                 unitBasic={this.state.unitsBasic[unitId]}
                 marksBasic={this.state.marksBasic} />
             </div>
@@ -95,12 +104,14 @@ class Related extends React.Component {
         nailsDOM.push (
           <div
             key={"key_FeedAssigned_new_"+index}
-            className={classnames(styles.boxNail, styles.custNailWide)}>
+            className={classnames(styles.boxNail, styles.custNailWide)}
+            unitid={unitId}
+            onClick={this._handleClick_hrefNail}>
             <NailFeedWide
               {...this.props}
               leftimg={ false}
               unitId={unitId}
-              linkPath={'/unit'}
+              linkPath={false}
               unitBasic={this.state.unitsBasic[unitId]}
               marksBasic={this.state.marksBasic}/>
           </div>
@@ -153,11 +164,33 @@ class Related extends React.Component {
             className={classnames(
               styles.boxModule,
               styles.boxModuleSmall,
-            )}>
+            )}
+            style={{justifyContent: 'center'}}>
             <div
-              className={classnames(styles.boxTitle, styles.boxDescript, "fontTitleSmall", "colorLightGrey")}>
-
-              {this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned']}
+              style={{textAlign: 'center'}}>
+              <span
+                className={classnames(styles.boxTitle, styles.spanDescript, "fontTitleSmall", "colorWhiteGrey")}>
+                {this.props.i18nUIString.catalog['guiding_Unit_Reponds_none']}
+              </span>
+              <div
+                className={classnames(styles.btnSubmit)}
+                style={Object.assign({},
+                  (this.state.onEnterSubmit)? {border:'solid 1px #FFFFFF', cursor: 'pointer'}:
+                  {border:'solid 1px #d8d8d8', backgroundColor: 'transparent'}
+                )}
+                onClick={this._handleClick_UnitSwitch}
+                onMouseEnter={this._handleEnter_Submit}
+                onMouseLeave={this._handleLeave_Submit}>
+                <span
+                  className={classnames(
+                    'centerAlignChild',
+                    "fontSubtitle_h5",
+                    {["colorWhiteGrey"]: (!this.state.onEnterSubmit)},
+                    {["colorWhite"]: (this.state.onEnterSubmit)}
+                  )}>
+                  {this.props.i18nUIString.catalog["submit_respond"]}
+                </span>
+              </div>
             </div>
           </div>
         }
@@ -242,6 +275,50 @@ class Related extends React.Component {
     });
   }
 
+  _handleClick_hrefNail(event){
+    event.preventDefault();
+    event.stopPropagation();
+    if(!this.props.location.pathname.includes('explore/unit')){
+      // the browser, which do not know the origin it has was modified, need to be modified again to have the pratical history
+      window.history.replaceState(this.props.location.state, '', this.props.location.pathname+this.props.location.search);
+    };
+    //and Notice! history should be pushed after the replaceState has been done
+    this.props.history.push({
+      pathname: this.props.match.path, //should always be ".../unit" because primer only used in a Unit
+      search: '?unitId='+event.currentTarget.getAttribute('unitid')+'&unitView=theater',
+      state: {from: this.props.location}
+    });
+  }
+
+  _handleClick_UnitSwitch(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.props._set_state_UnitView("respond");
+    // now the unitView was switch by the param in URL
+    if(!this.props.location.pathname.includes('explore/unit')){
+      // the browser, which do not know the origin it has was modified, need to be modified again to have the pratical history
+      window.history.replaceState(this.props.location.state, '', this.props.location.pathname+this.props.location.search);
+    };
+    let nextSearch = this.props.location.search.replace("unitView=related","unitView=respond");
+    this.props.history.push({
+      pathname: this.props.match.path,
+      search: nextSearch,
+      state: {from: this.props.location}
+    });
+  }
+
+  _handleEnter_Submit(e){
+    this.setState({
+      onEnterSubmit: true
+    })
+  }
+
+  _handleLeave_Submit(e){
+    this.setState({
+      onEnterSubmit: false
+    })
+  }
+
 }
 
 const mapStateToProps = (state)=>{
@@ -257,7 +334,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
     _submit_UsersList_new: (arr) => { dispatch(handleUsersList(arr)); },
-    _submit_list_UnitResponds: (obj) => { dispatch(submitUnitRespondsList(obj)); }
+    _submit_list_UnitResponds: (obj, reset) => { dispatch(submitUnitRespondsList(obj, reset)); },
+    _set_state_UnitView: (expression)=>{dispatch(setUnitView(expression));}
   }
 }
 

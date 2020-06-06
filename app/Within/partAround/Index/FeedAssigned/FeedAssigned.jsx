@@ -106,6 +106,7 @@ class FeedAssigned extends React.Component {
     if(this.state.axios){
       this.axiosSource.cancel("component will unmount.")
     }
+    this.props._submit_list_FeedAssigned(initAround.indexLists, true); //reset to initial state before fetch
     window.removeEventListener("scroll", this._check_Position);
   }
 
@@ -358,7 +359,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
     _submit_UsersList_new: (arr) => { dispatch(handleUsersList(arr)); },
-    _submit_list_FeedAssigned: (obj) => { dispatch(submitFeedAssigned(obj)); }
+    _submit_list_FeedAssigned: (obj, reset) => { dispatch(submitFeedAssigned(obj, reset)); }
   }
 }
 

@@ -12,16 +12,22 @@
   justify-content: space-between;
 }
 
-.boxDescript {
-  width: 100%;
-  text-align: center;
-}
-
 .boxFooter {
   position: relative;
   padding-top: 2.4rem;
   margin-bottom: 31.1vh;
 }
+
+.btnSubmit {
+  display: inline-block;
+  width: 96px;
+  height: 32px;
+  position: relative;
+  box-sizing: border-box;
+  border-radius: 4px;
+  cursor: default;
+}
+
 .boxNail {
   box-sizing: border-box;
   margin: 8px 0;
@@ -33,6 +39,12 @@
 
 .custNailWide {
   width: 100%;
+}
+
+.spanDescript {
+  display: block;
+  width: 100%;
+  text-align: center;
 }
 
 

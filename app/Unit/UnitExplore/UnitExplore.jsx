@@ -157,6 +157,7 @@ class UnitExplore extends React.Component {
       //and Don't worry about the order between state reset, due to the Redux would keep always synchronized
       let unitCurrentState = Object.assign({}, unitCurrentInit);
       this.props._set_store_UnitCurrent(unitCurrentState);
+      this.props._submit_list_UnitResponds({list:'', scrolled:''}, true); // reset the responds state to initial
       this._set_UnitCurrent();
     };
   }
@@ -176,6 +177,7 @@ class UnitExplore extends React.Component {
     let unitCurrentState = Object.assign({}, unitCurrentInit);
     this.props._set_store_UnitCurrent(unitCurrentState);
     this.props._set_state_UnitView('theater'); // it's default for next view
+    this.props._submit_list_UnitResponds({list:'', scrolled:''}, true); // reset the responds state to initial
     //last, make sure the scroll ability back to <body>
     document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:scroll;");
   }
@@ -265,7 +267,8 @@ const mapDispatchToProps = (dispatch)=>{
     _submit_Nodes_insert: (obj) => { dispatch(updateNodesBasic(obj)); },
     _submit_Users_insert: (obj) => { dispatch(updateUsersBasic(obj)); },
     _set_state_UnitView: (expression)=>{dispatch(setUnitView(expression));},
-    _set_store_UnitCurrent: (obj)=>{dispatch(setUnitCurrent(obj));}
+    _set_store_UnitCurrent: (obj)=>{dispatch(setUnitCurrent(obj));},
+    _submit_list_UnitResponds: (obj, reset) => { dispatch(submitUnitRespondsList(obj, reset)); }
   }
 }
 
