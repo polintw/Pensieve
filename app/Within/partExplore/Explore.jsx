@@ -52,19 +52,12 @@ class Explore extends React.Component {
       <div
         style={styleMiddle.comExplore}>
         <div
-          className={styles.boxMain}
-          style={unitify? {top: '7.2vh'}: {}}>
+          className={styles.boxMain}>
           <Switch>
-
             <Route path={this.props.match.path+"/unit"} render={(props)=> <UnitExplore {...props} _refer_von_unit={this.props._refer_von_cosmic}/>}/>
+
           </Switch>
         </div>
-        <div
-          className={classnames(styles.boxOverlay, styles.boxTop)}
-          style={unitify ? {height: '5vh'}: {}}/>
-        <div
-          className={classnames(styles.boxOverlay, styles.boxBottom)}
-          style={unitify ? {height: '66px'}: {}}/>
 
       </div>
     )

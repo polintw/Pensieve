@@ -240,9 +240,12 @@ class UnitScreen extends React.Component {
     return(
       <ModalBox containerId="root">
         <ModalBackground
+          _didMountSeries={()=>{window.addEventListener('touchmove', (e)=>{e.stopPropagation();});}}
+          _willUnmountSeries={()=>{window.removeEventListener('touchmove', (e)=>{e.stopPropagation();});}}
           onClose={()=>{this._close_modal_Unit();}}
           style={{
             position: "fixed",
+            overflowY: "scroll",
             backgroundColor: paramUnitView=="related" ? 'rgba(51, 51, 51, 0.75)': 'rgba(51, 51, 51, 0.3)' }}>
           {this._render_switch(paramUnitView)}
         </ModalBackground>

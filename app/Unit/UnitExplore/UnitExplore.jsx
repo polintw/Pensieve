@@ -19,6 +19,7 @@ import ModalBox from '../../Components/ModalBox.jsx';
 import ModalBackground from '../../Components/ModalBackground.jsx';
 import {
   setUnitView,
+  submitUnitRespondsList
 } from "../../redux/actions/unit.js";
 import {
   setUnitCurrent,
@@ -50,10 +51,7 @@ class UnitExplore extends React.Component {
     };
     //And! we have to 'hide' the scroll bar and preventing the scroll behavior to the page one for all
     //so dismiss the scroll ability for <body> here
-    //and add condition to distinguish diff URL
-    let params = new URLSearchParams(this.props.location.search);
-    let paramsRelated = params.has('related'); //bool, true if there is 'related'
-    if( !paramsRelated) document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:hidden;");
+    document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:hidden;");
   }
 
   _construct_UnitInit(match, location){
@@ -135,19 +133,7 @@ class UnitExplore extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-    //1) modify <body> first depend on current view status
-    if(!this.paramsRelated) document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:hidden;");
-    else{
-      document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:scroll;")
-      //2) in state, if 'close' is true 'and' the paramsRelated was true, too
-      //that's mean the Redirect happened, & should not redirect again
-      if(this.state.close) this.setState({close: false});
-      /*
-      Beneath is a method used by current ver., no <Related> could be build, need to redirect back to index
-      */
-      this.props._refer_von_unit(null, '/');
-    };
-    //3) becuase there is chance we jump to another Unit from Related but using the same component
+    // becuase there is chance we jump to another Unit from Related but using the same component
     //so we check if the unit has changed
     //but Notice! always check the diff between the current & pre id from 'path search'
     //due to this is the only reliable and stable source (compare to the unitCurrent)
@@ -182,9 +168,7 @@ class UnitExplore extends React.Component {
     document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:scroll;");
   }
 
-  _render_switch(){
-    let paramUnitView = this.urlParams.get('unitView');
-
+  _render_switch(paramUnitView){
     switch (paramUnitView) {
       case 'theater':
         return (
@@ -210,45 +194,50 @@ class UnitExplore extends React.Component {
             _close_theaterHeigher={this._close_theater}/>
         )
         break;
+      case 'related':
+        return (
+          <div
+            className={classnames(styles.boxRelated)}
+            onClick={(e)=> { e.stopPropagation();e.preventDefault();this._close_theater()}}>
+            <div
+              onClick={(e)=> { e.stopPropagation();e.preventDefault();}}>
+              <Related
+                {...this.props}
+                _reset_UnitMount={this._reset_UnitMount}
+                _close_theaterHeigher={this._close_theater}/>
+            </div>
+          </div>
+        )
+        break;
       default:
         return null
     };
   }
 
   render(){
-    this.urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
-
-    // if there was any difference between old version, here it is, param was now 'related' sonsitive
-    this.paramsRelated = this.urlParams.has('related'); //declaim here and would be used throughout the life cycle
+    this.urlParams = new URLSearchParams(this.props.location.search);
     this.unitId = this.urlParams.get('unitId');
+    let paramUnitView = this.urlParams.get('unitView');
 
     if(this.state.close){return <Redirect to={{
-        pathname: this.props.location.pathname,
-        search: '?unitId='+this.unitId+'&related',
+        pathname: '/',
+        search: '',
         state: this.props.location.state //keep the state as props, perhaps need to increase 'current location' for 'back' use
       }}/>};
 
     return(
-      <div>
-        <div
-          className={styles.boxRelated}>
-          <Related
-            {...this.props}/>
-          <div className={styles.footer}/>
-        </div>
-        {
-          !this.paramsRelated &&
-          <ModalBox containerId="root">
-            <ModalBackground
-              onClose={()=>{this._close_theater();}}
-              style={{
-                position: "fixed",
-                backgroundColor: 'rgba(51, 51, 51, 0.3)'}}>
-              {this._render_switch()}
-            </ModalBackground>
-          </ModalBox>
-        }
-      </div>
+      <ModalBox containerId="root">
+        <ModalBackground
+          _didMountSeries={()=>{window.addEventListener('touchmove', (e)=>{e.stopPropagation();});}}
+          _willUnmountSeries={()=>{window.removeEventListener('touchmove', (e)=>{e.stopPropagation();});}}
+          onClose={()=>{this._close_theater();}}
+          style={{
+            position: "fixed",
+            overflowY: "scroll",
+            backgroundColor: paramUnitView=="related" ? 'rgba(51, 51, 51, 0.75)': 'rgba(51, 51, 51, 0.3)' }}>
+          {this._render_switch(paramUnitView)}
+        </ModalBackground>
+      </ModalBox>
     )
   }
 }

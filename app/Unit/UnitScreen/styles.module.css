@@ -1,19 +1,14 @@
 .boxRelated {
-  min-width: 67vw;
-  box-sizing: border-box;
-  padding: 0 16.5vw;
+  width: calc(342px * 2 + 1.38vw * 4 + 1.38vw);
+  min-width: 69.7vw; /*calc(32vw + 30.8vw + 1.38vw * 4 + 1.38vw)*/
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translate(-50%, 0);
 }
 
 @media screen and (max-width:1110px) and (min-width: 860px) {
-  .boxRelated {
-    width: calc(342px * 2 + 1.38vw * 4 + 1.38vw);
-    min-width: 69.7vw; /*calc(32vw + 30.8vw + 1.38vw * 4 + 1.38vw)*/
-    padding: unset;
-    position: absolute;
-    left: 50%;
-    top: 0;
-    transform: translate(-50%, 0);
-  }
+
 }
 
 @media screen and (max-width:860px) {
@@ -21,10 +16,5 @@
     min-width: unset;
     width: calc(342px + 1.38vw * 2);
     max-width: 98vw;
-    padding: unset;
-    position: absolute;
-    left: 50%;
-    top: 0;
-    transform: translate(-50%, 0);
   }
 }

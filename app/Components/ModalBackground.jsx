@@ -5,6 +5,18 @@ export default class ModalBackground extends React.Component {
     super(props);
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot){
+
+  }
+
+  componentDidMount(){
+    if(!!this.props._didMountSeries) this.props._didMountSeries();
+  }
+
+  componentWillUnmount(){
+    if(!!this.props._willUnmountSeries) this.props._willUnmountSeries();
+  }
+
   render(){
     let style = {
       width: "100%",

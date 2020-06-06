@@ -110,7 +110,7 @@ class WithinCosmic extends React.Component {
           className={classnames(styles.boxCosmic)}>
           <div
             className={classnames(styles.boxNavOptions)}
-            style={{bottom: '2vh', top: 'unset'}}>
+            style={{left: '2.7vw', top: '64.3vh'}}>
             <NavOptions {...this.props} _refer_to={this._refer_von_cosmic}/>
           </div>
           <Switch>
