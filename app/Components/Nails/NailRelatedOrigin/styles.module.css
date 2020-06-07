@@ -1,7 +1,8 @@
 .frame {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-around;
+  width: 100%;
   position: relative;
   box-sizing: border-box;
   padding: 0.69vw;
@@ -15,13 +16,14 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 342px;
-  min-width: 32vw;
   max-width: 96.24vw;
-  height: 289px;
-  min-height: 36.8vh;
   position: relative;
   margin: 0.69vw;
+}
+
+.boxContentImg {
+  width: 16%;
+  min-height: 7vw;
 }
 
 .boxImg {
@@ -66,7 +68,8 @@
 }
 
 @media screen and (max-width:860px) {
-  .frmaeSmall {
-    display: inline-block;
+  .boxContentImg {
+    width: 20%;
+    min-height: 16vw;
   }
 }

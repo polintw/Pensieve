@@ -1,5 +1,7 @@
 .comRelated {
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .boxTitle {
@@ -15,7 +17,7 @@
 .boxFooter {
   position: relative;
   padding-top: 2.4rem;
-  margin-bottom: 31.1vh;
+  margin-bottom: 34vh;
 }
 
 .btnSubmit {

@@ -12,7 +12,7 @@ import ImgPreview from '../../ImgPreview.jsx';
 import AccountPalette from '../../AccountPalette.jsx';
 import SvgPin from '../../Svg/SvgPin.jsx';
 import {
-  renderNodesRows,
+  renderNodesRowsColorReverse,
 } from '../generators.js';
 
 class NailRelatedOrigin extends React.Component {
@@ -41,7 +41,7 @@ class NailRelatedOrigin extends React.Component {
   }
 
   _render_nails_nouns(){
-    let nodesDOM = renderNodesRows(this.props, styles);
+    let nodesDOM = renderNodesRowsColorReverse(this.props, styles);
 
     return nodesDOM;
   }
@@ -67,7 +67,6 @@ class NailRelatedOrigin extends React.Component {
         className={classnames(
           'plainLinkButton',
           styles.frame,
-          styles.frmaeSmall,
           {[styles.frameOnMouse]: this.state.onFrame}
         )}
         onClick={(e)=>{if( !this.props.pathname ){e.preventDefault();};/*a optional control, mean the parent want to take the refer control*/ }}
@@ -91,12 +90,11 @@ const contentBoxImg = (self)=>{
   let imgSrcCover = self.props.imgSrc;
   return (
     <div
-      key={"key_NailBoxImg_"+self.props.unitId}
-      className={classnames(styles.boxContent)}
-      style={{minWidth: "30.8vw"}}>
+      key={"key_NailImgRelatedOrigin_"+self.props.unitId}
+      className={classnames(styles.boxContent, styles.boxContentImg)}>
       <div
         ref={self.nailImgBox}
-        className={styles.boxImg}>
+        className={classnames(styles.boxImg)}>
         <ImgPreview
           blockName={''}
           previewSrc={ imgSrcCover }
@@ -109,7 +107,8 @@ const contentBoxMarks = (self)=>{
   return (
     <div
       key={"key_NailBoxMarks_"+self.props.unitId}
-      className={classnames(styles.boxContent)}>
+      className={classnames(styles.boxContent)}
+      style={{width: '64%'}}>
       <div
         className={classnames(styles.boxTitle)}>
         <div
@@ -125,18 +124,11 @@ const contentBoxMarks = (self)=>{
           {self._render_nails_nouns()}
         </div>
       </div>
-      <div
-        className={classnames(styles.boxPreview)}>
-        <NailMarksPreview
-          unitId={self.props.unitId}
-          unitBasic={self.props.unitBasic}
-          marksBasic={self.props.marksBasic}/>
 
-        <div className={classnames(styles.boxAuthor, stylesFont.colorStandard)}>
-          <AccountPalette
-            size={"regularBold"}
-            userId={self.props.unitBasic.authorId}/>
-        </div>
+      <div className={classnames(styles.boxAuthor, "colorWhite")}>
+        <AccountPalette
+          size={"regularBold"}
+          userId={self.props.unitBasic.authorId}/>
       </div>
 
     </div>

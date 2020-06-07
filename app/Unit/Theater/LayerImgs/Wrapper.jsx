@@ -68,6 +68,7 @@ class Wrapper extends React.Component {
             <span
               className={classnames(
                 'colorEditLightBlack',
+                'fontContentPlain',
                 styles.spanResponds,
                 {[styles.spanRespondsActiv]: this.state.onSpanResponds}
               )}

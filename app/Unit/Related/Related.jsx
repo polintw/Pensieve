@@ -151,7 +151,8 @@ class Related extends React.Component {
 
     return (
       <div
-        className={classnames(styles.boxNail, styles.custNailWide)}
+        className={classnames(styles.boxNail)}
+        style={{width: '100%', margin:'0', backgroundColor: 'transparent'}}
         unitid={this.props.unitCurrent.unitId}
         onClick={this._handleClick_hrefNail}>
         <NailRelatedOrigin
@@ -174,24 +175,27 @@ class Related extends React.Component {
     return(
       <div
         className={classnames(styles.comRelated)}>
-        {this._render_relatedOrigin()}
         <div
-          className={classnames(styles.boxTitle)}>
-          <span
-            className={classnames('fontContentPlain', "weightBold", "colorAssistGold")}>
-            {this.props.i18nUIString.catalog["title_Unit_ListResponds"]}</span>
+          className={classnames( styles.boxModule)}
+          style={{width: '100%', paddingTop: '12px'}}>
+          {this._render_relatedOrigin()}
         </div>
-        {
-          (this.props.unitCurrentResponds.list.length > 0) &&
-          <div>
-            {this._render_RespondsNails()}
+
+        <div style={{margin: '12px 0', width: '90%', borderBottom: 'solid 0.75px #b8b8b8'}}></div>
+        <div>
+          <div
+            className={classnames(styles.boxTitle)}>
+            <span
+              className={classnames('fontContentPlain', "weightBold", "colorAssistGold")}>
+              {this.props.i18nUIString.catalog["title_Unit_ListResponds"]}</span>
           </div>
-        }
-        {
-          ((this.props.unitCurrentResponds.list.length == 0) &&
-            !this.state.axios &&
-            !this.props.unitCurrentResponds.scrolled
-          ) &&
+          {
+            (this.props.unitCurrentResponds.list.length > 0) &&
+            <div>
+              {this._render_RespondsNails()}
+            </div>
+          }
+
           <div
             className={classnames(
               styles.boxModule,
@@ -202,30 +206,46 @@ class Related extends React.Component {
               style={{textAlign: 'center'}}>
               <span
                 className={classnames(styles.boxTitle, styles.spanDescript, "fontTitleSmall", "colorWhiteGrey")}>
-                {this.props.i18nUIString.catalog['guiding_Unit_Reponds_none']}
+                {
+                  (this.props.unitCurrent.identity=="viewer") &&
+                  this.props.i18nUIString.catalog['guiding_Unit_Responds_none']
+                }
+                {
+                  ((this.props.unitCurrent.identity=="author") &&
+                   (this.props.unitCurrentResponds.list.length > 0) ) &&
+                  this.props.i18nUIString.catalog['guiding_Unit_Responds_author']
+                }
+                {
+                  ((this.props.unitCurrent.identity=="author") &&
+                   (this.props.unitCurrentResponds.list.length == 0) ) &&
+                  this.props.i18nUIString.catalog['guiding_Unit_Responds_authorEmpty']
+                }
               </span>
-              <div
-                className={classnames(styles.btnSubmit)}
-                style={Object.assign({},
-                  (this.state.onEnterSubmit)? {border:'solid 1px #FFFFFF', cursor: 'pointer'}:
-                  {border:'solid 1px #d8d8d8', backgroundColor: 'transparent'}
-                )}
-                onClick={this._handleClick_UnitSwitch}
-                onMouseEnter={this._handleEnter_Submit}
-                onMouseLeave={this._handleLeave_Submit}>
-                <span
-                  className={classnames(
-                    'centerAlignChild',
-                    "fontSubtitle_h5",
-                    {["colorWhiteGrey"]: (!this.state.onEnterSubmit)},
-                    {["colorWhite"]: (this.state.onEnterSubmit)}
-                  )}>
-                  {this.props.i18nUIString.catalog["submit_respond"]}
-                </span>
-              </div>
+              {
+                (this.props.unitCurrent.identity=="viewer") &&
+                <div
+                  className={classnames(styles.boxTitle, styles.btnSubmit)}
+                  style={Object.assign({},
+                    (this.state.onEnterSubmit)? {border:'solid 1px #FFFFFF', cursor: 'pointer'}:
+                    {border:'solid 1px #d8d8d8', backgroundColor: 'transparent'}
+                  )}
+                  onClick={this._handleClick_UnitSwitch}
+                  onMouseEnter={this._handleEnter_Submit}
+                  onMouseLeave={this._handleLeave_Submit}>
+                  <span
+                    className={classnames(
+                      'centerAlignChild',
+                      "fontSubtitle_h5",
+                      {["colorWhiteGrey"]: (!this.state.onEnterSubmit)},
+                      {["colorWhite"]: (this.state.onEnterSubmit)}
+                    )}>
+                    {this.props.i18nUIString.catalog["submit_respond"]}
+                  </span>
+                </div>
+              }
             </div>
           </div>
-        }
+        </div>
 
         <div ref={this.refScroll}/>
 

@@ -235,7 +235,7 @@ class UnitExplore extends React.Component {
           onClose={()=>{this._close_theater();}}
           style={{
             position: "fixed",
-            backgroundColor: paramUnitView=="related" ? 'rgba(51, 51, 51, 0.75)': 'rgba(51, 51, 51, 0.3)' }}>
+            backgroundColor: paramUnitView=="related" ? 'rgba(51, 51, 51, 0.85)': 'rgba(51, 51, 51, 0.3)' }}>
             {
               (cssVW < 860) &&
               <div

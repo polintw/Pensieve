@@ -77,6 +77,7 @@
 .spanResponds {
   display: inline-block;
   box-sizing: border-box;
+  border-bottom: solid 0.75px transparent;
   cursor: pointer;
 }
 
