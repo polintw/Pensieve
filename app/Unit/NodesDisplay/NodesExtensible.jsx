@@ -7,29 +7,11 @@ export class NodesExtensible extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      expandify: false,
       onLiItem: ''
     };
     this._handleEnter_node = this._handleEnter_node.bind(this);
     this._handleLeave_node = this._handleLeave_node.bind(this);
-    this._handleClick_listExpand = this._handleClick_listExpand.bind(this);
     this._render_unitModal_Nouns =this._render_unitModal_Nouns.bind(this);
-    this.style={
-      Com_Nodes_Extensible_switch_: {
-        display: 'inline-block',
-        width: '100%',
-        height: '2rem',
-        position: 'relative',
-        boxSizing: 'border-box',
-        fontSize: '1.2rem',
-        letterSpacing: '0.4vh',
-        textAlign: 'center',
-        fontWeight: '400',
-        fontFamily: 'cwTeXMing',
-        color: '#FAFAFA',
-        cursor: 'pointer'
-      }
-    }
   }
 
   _handleEnter_node(e){
@@ -41,18 +23,11 @@ export class NodesExtensible extends React.Component {
     this.setState({onLiItem: ''})
   }
 
-  _handleClick_listExpand(event){
-    event.preventDefault();
-    event.stopPropagation();
-    this.setState((prevState, props)=>{
-      return {expandify: prevState.expandify ? false : true}
-    })
-  }
-
   _render_unitModal_Nouns(){
     const self = this;
     let nounsArr = [];
-    let expandLeng = this.state.expandify?this.props.nouns.list.length:3
+    let expandLeng = 3;
+    let cssVW = window.innerWidth; // for RWD
     for(let i = 0; i < expandLeng ; i++){
       // display only the nodes under limit
       if(i >= this.props.nouns.list.length) break;
@@ -72,7 +47,14 @@ export class NodesExtensible extends React.Component {
           onMouseEnter={this._handleEnter_node}
           onMouseLeave={this._handleLeave_node}>
           <span
-            className={classnames(styles.spanNodeItem, stylesFont.fontTitle, stylesFont.colorEditLightBlack )}
+            className={classnames(
+              styles.spanNodeItem,
+              stylesFont.colorEditLightBlack,
+              {
+                [stylesFont.fontTitle]: (cssVW > 860),
+                ["fontNodesEqual"]: (cssVW <=860)
+              }
+             )}
             title={iNoun.name+ (iNoun.prefix ? ", "+iNoun.prefix:"")}>
             {iNoun.name}
           </span>
@@ -85,16 +67,9 @@ export class NodesExtensible extends React.Component {
 
   render(){
     return(
-      <div style={{display: 'flex'}}>
+      <div
+        className={classnames(styles.comNodesExtensible)}>
         {this._render_unitModal_Nouns()}
-        {
-          (this.props.nouns.length>3) &&
-          <div
-            style={this.style.Com_Nodes_Extensible_switch_}
-            onClick={this._handleClick_listExpand}>
-             'show all >'
-          </div>
-        }
       </div>
     )
   }

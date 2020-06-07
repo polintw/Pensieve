@@ -1,3 +1,7 @@
+.comNodesExtensible {
+  display: flex;
+}
+
 .boxListItem {
   display: inline-block;
   padding: 0;
@@ -8,4 +12,10 @@
 
 .spanNodeItem {
 
+}
+
+@media screen and (max-width:860px) {
+  .comNodesExtensible {
+    flex-wrap: wrap;
+  }
 }

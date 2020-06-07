@@ -33,9 +33,17 @@
 
 .boxBottom {
   display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 5vh;
+}
+
+.boxBottomLeft{
+  display: flex;
   justify-content: flex-start;
   align-items: flex-end;
-  margin-bottom: 5vh;
 }
 
 .boxBottomUpper {
@@ -64,6 +72,16 @@
   box-sizing: border-box;
   border-radius: 4px;
   cursor: default;
+}
+
+.spanResponds {
+  display: inline-block;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.spanRespondsActiv {
+  border-bottom: solid 0.75px #757575;
 }
 
 .comImgLayer {

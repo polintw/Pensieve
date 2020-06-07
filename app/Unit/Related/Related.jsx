@@ -13,6 +13,7 @@ import {
 } from '../utils.js';
 import NailFeedWide from '../../Components/Nails/NailFeedWide/NailFeedWide.jsx';
 import NailFeedMobile from '../../Components/Nails/NailFeedMobile/NailFeedMobile.jsx';
+import NailRelatedOrigin from '../../Components/Nails/NailRelatedOrigin/NailRelatedOrigin.jsx';
 import {
   setUnitView,
   submitUnitRespondsList
@@ -41,6 +42,7 @@ class Related extends React.Component {
     this._check_Position = this._check_Position.bind(this);
     this._set_respoondsUnits = this._set_respoondsUnits.bind(this);
     this._render_RespondsNails = this._render_RespondsNails.bind(this);
+    this._render_relatedOrigin = this._render_relatedOrigin.bind(this);
     this._handleClick_hrefNail = this._handleClick_hrefNail.bind(this);
     this._handleEnter_Submit = this._handleEnter_Submit.bind(this);
     this._handleLeave_Submit = this._handleLeave_Submit.bind(this);
@@ -136,6 +138,35 @@ class Related extends React.Component {
     return groupsDOM;
   }
 
+  _render_relatedOrigin(){
+    let unitBasic = {
+      unitId: this.props.unitCurrent.unitId,
+      authorId: this.props.unitCurrent.authorBasic.authorId,
+      pic_layer0: this.props.unitCurrent.coverSrc,
+      createdAt: this.props.unitCurrent.createdAt,
+      marksList: this.props.unitCurrent.coverMarksList, // only the marks of cover
+      nounsList: this.props.unitCurrent.nouns.list
+    };
+    let marksBasic = this.props.unitCurrent.coverMarksData; //only the marks of cover
+
+    return (
+      <div
+        className={classnames(styles.boxNail, styles.custNailWide)}
+        unitid={this.props.unitCurrent.unitId}
+        onClick={this._handleClick_hrefNail}>
+        <NailRelatedOrigin
+          {...this.props}
+          leftimg={ false}
+          unitId={this.props.unitCurrent.unitId}
+          linkPath={false}
+          imgSrc={unitBasic.pic_layer0 /*unitCurrent has diff route patern compare to the regular thumb for Nail*/}
+          unitBasic={unitBasic}
+          marksBasic={marksBasic}/>
+      </div>
+
+    )
+  }
+
   render(){
     let params = new URLSearchParams(this.props.location.search); //we need value in URL query
     this.unitId = params.get('unitId');
@@ -143,6 +174,7 @@ class Related extends React.Component {
     return(
       <div
         className={classnames(styles.comRelated)}>
+        {this._render_relatedOrigin()}
         <div
           className={classnames(styles.boxTitle)}>
           <span
