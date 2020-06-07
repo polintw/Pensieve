@@ -15,6 +15,7 @@ import {
   _axios_getUnitData,
   _axios_getUnitImgs,
 } from '../utils.js';
+import NavOptions from '../../Components/NavOptions/NavOptions.jsx';
 import ModalBox from '../../Components/ModalBox.jsx';
 import ModalBackground from '../../Components/ModalBackground.jsx';
 import {
@@ -236,6 +237,7 @@ class UnitScreen extends React.Component {
     this.urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
     this.unitId = this.urlParams.get('unitId');
     let paramUnitView = this.urlParams.get('unitView');
+    let cssVW = window.innerWidth; // for RWD
 
     return(
       <ModalBox containerId="root">
@@ -245,9 +247,19 @@ class UnitScreen extends React.Component {
           onClose={()=>{this._close_modal_Unit();}}
           style={{
             position: "fixed",
-            overflowY: "scroll",
             backgroundColor: paramUnitView=="related" ? 'rgba(51, 51, 51, 0.75)': 'rgba(51, 51, 51, 0.3)' }}>
-          {this._render_switch(paramUnitView)}
+            {
+              (cssVW < 860) &&
+              <div
+                className={classnames(styles.boxNavOptions)}>
+                <NavOptions {...this.props} _refer_to={this._close_modal_Unit}/>
+              </div>
+            }
+            <div
+              className={classnames(styles.boxUnitContent)}
+              onClick={this._close_modal_Unit}>
+              {this._render_switch(paramUnitView)}
+            </div>
         </ModalBackground>
       </ModalBox>
     )

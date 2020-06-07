@@ -59,6 +59,7 @@ const i18nUIString_EN = {
   "submit_": "Submit",
   "submit_back": "back",
   "submit_complete": "complete",
+  "submit_close": "close",
   "submit_cancel": "cancel",
   "submit_change": "change",
   "submit_edit": "Edit",

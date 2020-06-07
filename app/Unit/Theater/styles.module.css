@@ -4,7 +4,7 @@
   min-width: 70%;
   max-width: 98vw;
   min-height: 90%;
-  max-height: 95vh;
+  max-height: 92vh;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -13,19 +13,4 @@
   border-radius: 4px;
   background-color: #FFFFFF;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
-}
-
-.boxBackTop {
-  display:flex;
-  justify-content: space-around;
-  width: 2rem;
-  position: absolute;
-  bottom: 5vh;
-  right: 5%;
-  cursor:pointer;
-}
-
-.spanBackTop {
-  box-sizing: border-box;
-  font-size: 1.4rem;
 }
