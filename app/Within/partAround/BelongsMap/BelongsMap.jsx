@@ -58,8 +58,6 @@ class BelongsMap extends React.Component {
         return (
           <div>
             <FellowsHome/>
-            <BelongStatics
-              type={this.state.viewTab}/>
           </div>
         )
         break;
@@ -67,8 +65,6 @@ class BelongsMap extends React.Component {
         return (
           <div>
             <FellowsResidence/>
-            <BelongStatics
-              type={this.state.viewTab}/>
           </div>
         )
         break;
@@ -85,6 +81,8 @@ class BelongsMap extends React.Component {
         className={classnames(styles.comBelongsMap)}>
         <div
           className={classnames(styles.boxNavBelongsMap)}>
+          <BelongStatics
+            type={this.state.viewTab}/>
           <Nav
             currentTab={this.state.viewTab}
             _set_viewTab={this._set_viewTab}/>

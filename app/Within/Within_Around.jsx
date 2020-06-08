@@ -10,6 +10,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import Around from './partAround/Around.jsx';
+import BelongsMap from './partAround/BelongsMap/BelongsMap.jsx'
 import {
   fetchBelongRecords
 } from '../redux/actions/general.js'
@@ -116,6 +117,7 @@ class WithinAround extends React.Component {
               className={classnames(styles.boxAroundContentCenter)}>
               <Switch>
                 <Route path={this.props.match.path} render={(props)=> <Around {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
+                <Route path={this.props.match.path+'/fellows'} render={(props)=> <BelongsMap {...props} />}/>
 
               </Switch>
             </div>
