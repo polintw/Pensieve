@@ -1,7 +1,7 @@
 .comBelongsbyType{
   display: flex;
   flex-direction: row-reverse;
-  justify-content: flex-start;
+  justify-content: flex-end;
   align-items: flex-end;
   flex-wrap: wrap;
   margin: 0 0 8px;
@@ -10,7 +10,7 @@
 .boxBelong {
   display: inline-block;
   position: relative;
-  margin: 8px 0 0 2.76vw;
+  margin: 8px 2.76vw 0 0;
 }
 
 .comBelong {
@@ -21,10 +21,6 @@
 .boxCategory {
   display: flex;
   width: 100%;
-}
-
-.boxTitle {
-  margin: 8px 0 0 2.76vw;
 }
 
 .boxTitleType {

@@ -14,10 +14,10 @@ import {
 import {
   cancelErr,
   uncertainErr
-} from "../../../../utils/errHandlers.js";
+} from "../../../utils/errHandlers.js";
 import {
   handleNounsList,
-} from "../../../../redux/actions/general.js";
+} from "../../../redux/actions/general.js";
 
 class FellowsResidence extends React.Component {
   constructor(props){

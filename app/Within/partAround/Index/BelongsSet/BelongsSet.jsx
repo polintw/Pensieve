@@ -6,7 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import stylesFont from "../../stylesFont.module.css"; 
+import stylesFont from "../../stylesFont.module.css";
 import BelongsbyType from './BelongsbyType/BelongsbyType.jsx';
 import {
   _axios_GET_belongRecords,
@@ -121,6 +121,12 @@ class BelongsSet extends React.Component {
     return(
       <div
         className={classnames(styles.comBelongSet)}>
+        <div
+          className={classnames(styles.boxTitle)}>
+          <span
+            className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
+            {this.props.i18nUIString.catalog["title_BelongSet_"]}</span>
+        </div>
         <div>
           <BelongsbyType
             _set_Settingtype={this._set_Settingtype}

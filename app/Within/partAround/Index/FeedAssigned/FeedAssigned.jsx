@@ -196,7 +196,8 @@ class FeedAssigned extends React.Component {
     return (
       <div>
         <div
-          className={classnames(styles.boxTitle)}>
+          className={classnames(styles.boxTitle)}
+          style={{textAlign: 'right'}}>
           <span
             className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
             {this.props.i18nUIString.catalog["title_FeedAssigned_"]}</span>

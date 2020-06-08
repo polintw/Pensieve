@@ -57,12 +57,6 @@ class BelongsbyType extends React.Component {
     return(
       <div
         className={classnames(styles.comBelongsbyType)}>
-        <div
-          className={classnames(styles.boxTitle)}>
-          <span
-            className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
-            {this.props.i18nUIString.catalog["title_BelongSet_"]}</span>
-        </div>
         {this._render_BelongList()}
       </div>
     )

@@ -6,10 +6,9 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import stylesMain from "../styles.module.css"; //Notice, we use shared css file here for easier control
 import {
   _axios_GET_usersCount
-} from '../utils.js'; //the utils share by all comps in /Index
+} from './utils.js';
 
 
 class BelongStatics extends React.Component {
@@ -88,7 +87,7 @@ class BelongStatics extends React.Component {
         onMouseEnter={this._handleMouseOn_Node}
         onMouseLeave={this._handleMouseOn_Node}>
         <div
-          className={classnames(styles.spanNode, stylesMain.fontCorner)}
+          className={classnames(styles.spanNode)}
           style={{fontSize: '1.7rem'}}>
           {
             this.state.onNode &&
@@ -112,7 +111,7 @@ class BelongStatics extends React.Component {
         title={this.props.i18nUIString.catalog["descript_BelongTypeInteract"][0]+this.props.type+this.props.i18nUIString.catalog["descript_BelongTypeInteract"][1]}
         className={classnames(styles.boxTitleType)}>
         <span
-          className={classnames(styles.spanType, stylesMain.fontType)}
+          className={classnames(styles.spanType)}
           style={{lineHeight: '3rem'}}>
           {this.props.type}</span>
       </div>

@@ -99,7 +99,7 @@ const i18nUIString_EN = {
   "title_FeedAssigned_AllRead": "you've all browsed.",
   "title_FeedAssigned_": "Gathering",
   "title_Chain_Shareds_": "Contributions",
-  "title_BelongSet_": "Belonged Corners",
+  "title_BelongSet_": "Your Corners",
   "guiding_FeedAssigned_noneAssigned": "Not yet any new unit had been contributed to your corners.",
   "guiding_FeedAssigned_noneAssigned_justSubmit": "Good to have your contrubution.",
   "guiding_FeedAssigned_noneAssigned_norContri": "It could be you contributing somthing for your corners!",

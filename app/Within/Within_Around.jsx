@@ -116,8 +116,8 @@ class WithinAround extends React.Component {
             <div
               className={classnames(styles.boxAroundContentCenter)}>
               <Switch>
+                <Route path={'/fellows'} render={(props)=> <BelongsMap {...props} />}/>
                 <Route path={this.props.match.path} render={(props)=> <Around {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
-                <Route path={this.props.match.path+'/fellows'} render={(props)=> <BelongsMap {...props} />}/>
 
               </Switch>
             </div>

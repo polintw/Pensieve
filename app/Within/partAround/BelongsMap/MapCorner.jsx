@@ -8,7 +8,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import {
   _axios_GET_usersCount
-} from '../utils.js'; //the utils share by all comps in /Index
+} from './utils.js';
 
 class MapCorner extends React.Component {
   constructor(props){
