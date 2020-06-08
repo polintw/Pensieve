@@ -152,7 +152,7 @@ class Related extends React.Component {
     return (
       <div
         className={classnames(styles.boxNail)}
-        style={{width: '100%', margin:'0', backgroundColor: 'transparent'}}
+        style={{width: '100%', margin:'0', backgroundColor: 'transparent', overflow: 'visible'}}
         unitid={this.props.unitCurrent.unitId}
         onClick={this._handleClick_hrefNail}>
         <NailRelatedOrigin
@@ -177,7 +177,7 @@ class Related extends React.Component {
         className={classnames(styles.comRelated)}>
         <div
           className={classnames( styles.boxModule)}
-          style={{width: '100%', paddingTop: '12px'}}>
+          style={{width: '90%', paddingTop: '12px'}}>
           {this._render_relatedOrigin()}
         </div>
 

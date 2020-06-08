@@ -1,15 +1,17 @@
 .frame {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-between;
   width: 100%;
   position: relative;
   box-sizing: border-box;
   padding: 0.69vw;
+  border-radius: 8px;
+  border: solid 0.75px transparent;
 }
 
 .frameOnMouse {
-
+  border: solid 0.75px white;
 }
 
 .boxContent {

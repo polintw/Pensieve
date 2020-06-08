@@ -116,7 +116,7 @@ const contentBoxMarks = (self)=>{
           <div
             style={{width: "11px", height: "16px"}}>
             <SvgPin
-              mouseOn={self.state.onFrame}/>
+              mouseOn={false}/>
           </div>
         </div>
         <div

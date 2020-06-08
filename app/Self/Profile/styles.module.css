@@ -111,7 +111,8 @@
 
 .boxNavLink {
   display: inline-block;
-  padding-right: 1rem;
+  padding-left: 1rem;
+  border-left: solid 1px #d8d8d8;
   box-sizing: border-box;
 }
 
@@ -122,5 +123,5 @@
 }
 
 .spanNavLinkMouse {
-  border-bottom: 1px solid #3c4144;
+  border-bottom: 1px solid #333333;
 }

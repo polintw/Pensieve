@@ -50,7 +50,7 @@ class NavProfile extends React.Component {
               "fontTitle",
               "colorWhiteGrey",
               {
-                ['colorSignBlack']: this.state.onInActive,
+                ['colorOptionsBlack']: this.state.onInActive,
                 [styles.spanNavLinkMouse]: this.state.onInActive
               }
             )}
