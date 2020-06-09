@@ -87,7 +87,7 @@ class ChainShared extends React.Component {
           key={"key_SharedNails_"+index}
           unitid={unitId}
           to={{
-            pathname: "/unit",
+            pathname: this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit'),
             search: '?theater&unitId='+ unitId+'&unitView=theater',
             state: {from: this.props.location}
           }}

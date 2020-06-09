@@ -1,11 +1,10 @@
 .comBelongsMap {
-  display: flex;
   width: 100%;
+  margin: 8px 0;
 }
 
 .comNavBelongsMap {
   display: flex;
-  flex-direction: column;
 }
 
 .comTabView {
@@ -19,11 +18,11 @@
 .comBelongStatics {
   display: flex;;
   align-items: center;
-  width: 100%;
 }
 
 .boxNavBelongsMap {
-  width: 20%;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .boxStatics {
@@ -32,16 +31,8 @@
   width: 100%;
 }
 
-.boxCategory {
-  margin: 0 2.5vw;
-}
-
 .boxCornerTitle {
   width: 40%;
-}
-
-.boxTitleType {
-  display: inline-block;
 }
 
 
@@ -65,8 +56,4 @@
 .spanNode {
   display: inline-block;
   position: relative;
-}
-
-.spanType {
-  margin: 0 0.4rem;
 }

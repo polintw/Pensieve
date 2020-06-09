@@ -49,9 +49,6 @@ class Nav extends React.Component {
           )}
           onClick={this._handleClick_navBelongsMap}>
           <span
-            style={{display: 'block'}}>
-            {this.props.i18nUIString.catalog['link_BelongsMap_Nav'][0]}</span>
-          <span
             style={{fontSize: '1.32rem'}}>
             {this.props.i18nUIString.catalog['link_BelongsMap_Nav'][1]}</span>
         </div>
@@ -62,9 +59,6 @@ class Nav extends React.Component {
             {color: (this.props.currentTab=="residence") ? '#000000': '#787878'}
           )}
           onClick={this._handleClick_navBelongsMap}>
-          <span
-            style={{display: 'block'}}>
-            {this.props.i18nUIString.catalog['link_BelongsMap_Nav'][0]}</span>
           <span
             style={{fontSize: '1.32rem'}}>
             {this.props.i18nUIString.catalog['link_BelongsMap_Nav'][2]}</span>

@@ -21,7 +21,6 @@ class BelongStatics extends React.Component {
     };
     this.axiosSource = axios.CancelToken.source();
     this._set_infoCount = this._set_infoCount.bind(this);
-    this._render_type = this._render_type.bind(this);
     this._render_statics = this._render_statics.bind(this);
     this._render_nodeLink = this._render_nodeLink.bind(this);
     this._handleMouseOn_Node = ()=> this.setState((prevState,props)=>{return {onNode: prevState.onNode?false:true}});
@@ -105,19 +104,6 @@ class BelongStatics extends React.Component {
     )
   }
 
-  _render_type(){
-    return (
-      <div
-        title={this.props.i18nUIString.catalog["descript_BelongTypeInteract"][0]+this.props.type+this.props.i18nUIString.catalog["descript_BelongTypeInteract"][1]}
-        className={classnames(styles.boxTitleType)}>
-        <span
-          className={classnames(styles.spanType)}
-          style={{lineHeight: '3rem'}}>
-          {this.props.type}</span>
-      </div>
-    )
-  }
-
   _render_statics(){
     return (
       <div>
@@ -139,10 +125,6 @@ class BelongStatics extends React.Component {
     return(
       <div
         className={classnames(styles.comBelongStatics)}>
-        <div
-          className={classnames(styles.boxCategory)}>
-          {this._render_type()}
-        </div>
         <div
           className={classnames(styles.boxCornerTitle)}>
           {this._render_nodeLink()}

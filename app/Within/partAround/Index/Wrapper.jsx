@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   Link,
-  Redirect,
+  Switch,
   Route,
   withRouter
 } from 'react-router-dom';
@@ -15,8 +15,10 @@ import {
 } from './utils.js';
 import Chain from './Chain/Chain.jsx';
 import Invite from './Invite/Invite.jsx';
+import BelongsMap from './BelongsMap/BelongsMap.jsx'
 import BelongsSet from './BelongsSet/BelongsSet.jsx';
 import FeedAssigned from './FeedAssigned/FeedAssigned.jsx';
+import NavFeed from "./NavFeed/NavFeed.jsx";
 import OnBoard from '../OnBoard/Wrapper.jsx';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
 import ModalBox from '../../../Components/ModalBox.jsx';
@@ -147,10 +149,19 @@ class Wrapper extends React.Component {
           </div>
           <div
             className={classnames(styles.boxRow)}>
-            <FeedAssigned
-              lastVisit={this.state.lastVisit}
-              _set_mountToDo={this._set_mountToDo}
-              _refer_von_cosmic={this.props._refer_von_cosmic}/>
+            <NavFeed {...this.props}/>
+            <Switch>
+              <Route path={'/gathering'}
+                render={(props)=>{
+                  return (
+                    <FeedAssigned
+                      lastVisit={this.state.lastVisit}
+                      _set_mountToDo={this._set_mountToDo}
+                      _refer_von_cosmic={this.props._refer_von_cosmic}/>);
+                }}/>
+              <Route path={this.props.match.path} render={(props)=> <BelongsMap {...props} />}/>
+            </Switch>
+
           </div>
           <div
             className={classnames(styles.boxFooter)}>
@@ -166,7 +177,7 @@ class Wrapper extends React.Component {
         </div>
 
         <Route
-          path={"/unit"}
+          path={((this.props.location.pathname =="/") ? '' : this.props.location.pathname.slice(0, -5))+ '/unit' }
           render={(props)=> {
             return (
               <UnitScreen

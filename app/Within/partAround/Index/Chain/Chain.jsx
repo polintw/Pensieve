@@ -154,7 +154,7 @@ class Chain extends React.Component {
           <NailFeed
             {...this.props}
             unitId={unitId}
-            linkPath={'/unit'}
+            linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
             unitBasic={this.state.unitsBasic[unitId]}
             marksBasic={this.state.marksBasic}/>
         </div>
