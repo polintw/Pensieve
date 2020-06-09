@@ -84,7 +84,7 @@ class FellowsResidence extends React.Component {
       return (
         <div
           key={"_key_fellowsResiCorners_"+index}
-          style={{margin: "0 1vw"}}>
+          className={classnames(styles.boxMapCorner)}>
           <MapCorner
             nodeId={nodeId}
             typeNodeId={this.props.belongsByType['residence']}

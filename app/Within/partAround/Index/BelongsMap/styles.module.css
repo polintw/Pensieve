@@ -9,10 +9,11 @@
 
 .comTabView {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .comMapCorner {
-
+  display: flex;
 }
 
 .comBelongStatics {
@@ -25,35 +26,30 @@
   justify-content: flex-end;
 }
 
-.boxStatics {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
+.boxMapCorner {
+  width: 28%;
+  min-width: 240px;
+  max-width: 96vw;
+  margin-right: 2.76vw;
 }
 
 .boxCornerTitle {
-  width: 40%;
+
 }
 
 
 .boxTabView {
-
-}
-
-.boxCornerTitle {
-  margin-bottom: 1rem;
+  width: 100%;
 }
 
 .boxNode {
-  align-items: center;
   display: inline-block;
 }
 
 .boxStatics {
-
+  width: 6rem;
 }
 
 .spanNode {
   display: inline-block;
-  position: relative;
 }

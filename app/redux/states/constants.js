@@ -17,7 +17,7 @@ export const unitCurrentInit = {
   coverMarksData:{},
   beneathMarksList:[],
   beneathMarksData:{},
-  nouns: null,
+  nouns: {list:[]},
   refsArr: null,
   createdAt: null,
   primerify: false,

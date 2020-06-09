@@ -14,7 +14,6 @@ import {
   axios_visit_Index
 } from './utils.js';
 import Chain from './Chain/Chain.jsx';
-import Invite from './Invite/Invite.jsx';
 import BelongsMap from './BelongsMap/BelongsMap.jsx'
 import BelongsSet from './BelongsSet/BelongsSet.jsx';
 import FeedAssigned from './FeedAssigned/FeedAssigned.jsx';
@@ -167,11 +166,6 @@ class Wrapper extends React.Component {
             className={classnames(styles.boxFooter)}>
             {this._render_FooterHint()}
 
-          </div>
-          <div
-            style={{display: 'none'}}
-            className={classnames(styles.boxRow)}>
-            <Invite/>
           </div>
 
         </div>

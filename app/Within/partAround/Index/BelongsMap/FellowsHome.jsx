@@ -83,7 +83,7 @@ class FellowsHome extends React.Component {
       return (
         <div
           key={"_key_fellowsHomeCorners_"+index}
-          style={{margin: "0 1vw"}}>
+          className={classnames(styles.boxMapCorner)}>
           <MapCorner
             nodeId={nodeId}
             typeNodeId={this.props.belongsByType['homeland']}

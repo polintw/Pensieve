@@ -44,12 +44,9 @@ class Wrapper extends React.Component {
         className={classnames( styles.comWrapper)}>
         <div
           className={classnames(styles.boxContentWidth, styles.boxTitle)}>
-          {
-            this.props.unitCurrent.nouns &&
-            <NodesExtensible
-              nouns={this.props.unitCurrent.nouns}
-              _handleClick_listNoun={this.props._refer_toandclose}/>
-          }
+          <NodesExtensible
+            nouns={this.props.unitCurrent.nouns}
+            _handleClick_listNoun={this.props._refer_toandclose}/>
           <SidePanel
             {...this.props}/>
         </div>
