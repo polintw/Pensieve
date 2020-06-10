@@ -7,6 +7,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import SvgAvetar from "../../../../Components/Svg/SvgAvetar.jsx";
 
 class Nav extends React.Component {
   constructor(props){
@@ -47,11 +48,16 @@ class Nav extends React.Component {
         return(
           <div
             valuetab={"residence"}
+            className={classnames(styles.boxMapNavLink)}
             onClick={this._handleClick_navBelongsMap}>
             <span
               className={classnames(
-                styles.spanNav, 'colorWhiteGrey',
-                {[styles.spanNavMouse]: this.state.onMapNav}
+                styles.spanNav, 'colorWhiteGrey', 'fontContent',
+                {
+                  ["colorWhiteGrey"]: !this.state.onMapNav,
+                  ["colorEditLightBlack"]: this.state.onMapNav,
+                  [styles.spanNavMouse]: this.state.onMapNav,
+                }
               )}
               onMouseEnter={this._handleEnter_MapNav}
               onMouseLeave={this._handleLeave_MapNav}>
@@ -63,11 +69,16 @@ class Nav extends React.Component {
         return (
           <div
             valuetab={"homeland"}
+            className={classnames(styles.boxMapNavLink)}
             onClick={this._handleClick_navBelongsMap}>
             <span
               className={classnames(
-                styles.spanNav, 'colorWhiteGrey',
-                {[styles.spanNavMouse]: this.state.onMapNav}
+                styles.spanNav, 'colorWhiteGrey', 'fontContent',
+                {
+                  ["colorWhiteGrey"]: !this.state.onMapNav,
+                  ["colorEditLightBlack"]: this.state.onMapNav,
+                  [styles.spanNavMouse]: this.state.onMapNav,
+                }
               )}
               onMouseEnter={this._handleEnter_MapNav}
               onMouseLeave={this._handleLeave_MapNav}>
@@ -84,6 +95,24 @@ class Nav extends React.Component {
     return(
       <div
         className={classnames(styles.comNavBelongsMap)}>
+        <div
+          className={classnames(styles.svgNavAvetar)}>
+          <SvgAvetar/>
+        </div>
+        <div
+          style={{marginLeft: '2rem'}}>
+          <span
+            className={classnames('colorEditBlack', 'fontTitle')}>
+            {this.props.i18nUIString.catalog['title_BelongsMap_Nav']}</span>
+        </div>
+        <div
+          className={classnames(styles.boxStaticsDescript)}
+          style={ (this.props.currentTab =="residence") ? {width: '8rem'}: {}}>
+          <span
+            className={classnames('colorEditBlack', 'fontContentPlain')}>
+            { this.props.i18nUIString.catalog["link_BelongsMap_Nav"][(this.props.currentTab =="residence") ? 2 : 1] }
+          </span>
+        </div>
         {this._render_MapNav()}
       </div>
     )
