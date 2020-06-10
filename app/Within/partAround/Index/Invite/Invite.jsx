@@ -48,12 +48,13 @@ class Invite extends React.Component {
 
   render(){
     return(
-      <div
-        ref={this.boxTitle}
-        className={classnames(styles.comRowEntry)}>
+      <div>
         <div
+          className={classnames(styles.boxBtnInvite)}
           onClick={this._handleClick_inviteModal}>
-          <span>{this.props.i18nUIString.catalog["submit_Invite_"]}</span>
+          <span
+            className={classnames(styles.spanBtnInvite, 'colorGrey', 'fontSubtitle_h5')}>
+            {this.props.i18nUIString.catalog["submit_Invite_"]}</span>
         </div>
         {
           this.state.panelModal &&

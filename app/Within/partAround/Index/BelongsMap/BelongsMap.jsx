@@ -94,7 +94,8 @@ class BelongsMap extends React.Component {
             this._render_mapView()
           }
         </div>
-        <div>
+        <div
+          className={classnames(styles.boxInvite)}>
           <Invite/>
         </div>
 

@@ -120,7 +120,7 @@ const i18nUIString_EN = {
   "guidingBelongs_EmptyMap": "Set your corner, and taking a look for the distribution of your fellows.",
   "descript_BelongTypeInteract": ["going to renew your ", " ?"],
   "category__Belong_usersCount": ["with ", "users", "way to "],
-  "link_BelongsMap_Nav": ["Fellows", "from Home", "same Residence"],
+  "link_BelongsMap_Nav": ["Fellows", "from your homeland", "around your stay"],
   "messageBelongChoiceinBool": ["site ", "  as your  ", "  place?"],
   "descript_BelongSet_SearchBytType": ["Search one fit your "],
   "descript_AroundIndex_footer": "You've reached the edge of Cornerth.!",

@@ -1,6 +1,7 @@
 .comBelongsMap {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  margin: 8px 0;
 }
 
 .comNavBelongsMap {
@@ -17,13 +18,18 @@
 }
 
 .comBelongStatics {
-  display: flex;;
-  align-items: center;
+  display: flex;
+  align-items: flex-end;
+  max-width: 76vw;
+  margin-right: 4.16vw;
 }
 
 .boxNavBelongsMap {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
+  align-items: flex-end;
+  margin: 8px 0 28px;
+  padding: 4px 0;
 }
 
 .boxMapCorner {
@@ -40,16 +46,58 @@
 
 .boxTabView {
   width: 100%;
+  margin: 8px 0;
+}
+
+.boxInvite {
+  margin: 8px 0;
+  padding: 44px 0 4px;
+  text-align: right;
 }
 
 .boxNode {
   display: inline-block;
 }
 
+.boxNodePin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 3rem;
+  height: 3rem;
+}
+
 .boxStatics {
   width: 6rem;
 }
 
+.boxStaticsDescript {
+  width: 7rem;
+  margin-right: 1rem;
+}
+
+.boxBelongStatSubtitle {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
 .spanNode {
   display: inline-block;
+}
+
+.spanBelongStatCount {
+  display: inline-block;
+  min-width: 2rem;
+  padding: 0 1rem;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.spanNav {
+  cursor: pointer;
+}
+
+.spanNavMouse {
+  border-bottom: solid 0.75px #d8d8d8;
 }

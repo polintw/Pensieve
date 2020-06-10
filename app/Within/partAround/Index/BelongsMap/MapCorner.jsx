@@ -7,6 +7,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesFont from '../../stylesFont.module.css';
+import SvgPin from '../../../../Components/Svg/SvgPin.jsx';
 import {
   _axios_GET_usersCount
 } from './utils.js';
@@ -84,10 +85,20 @@ class MapCorner extends React.Component {
               null
             )}
         </span>
-        <span>
-          {this.props.i18nUIString.catalog["category__Belong_usersCount"][0]}
-          {this.props.i18nUIString.catalog["category__Belong_usersCount"][1]}
-        </span>
+        <div>
+          <div
+            className={classnames(styles.boxNodePin)}>
+            <div
+              style={{width: "11px", height: "16px"}}>
+              <SvgPin
+                mouseOn={false}/>
+            </div>
+          </div>
+          <span>
+            {this.props.i18nUIString.catalog["category__Belong_usersCount"][0]}
+            {this.props.i18nUIString.catalog["category__Belong_usersCount"][1]}
+          </span>
+        </div>
       </div>
     )
   }

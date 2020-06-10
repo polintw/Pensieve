@@ -12,9 +12,10 @@ class NavFeed extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      onNavLink: false
     };
-
+    this._handleEnter_link = this._handleEnter_link.bind(this);
+    this._handleLeave_link = this._handleLeave_link.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -33,37 +34,50 @@ class NavFeed extends React.Component {
     return(
       <div
         className={classnames(styles.boxTitle)}
-        style={{textAlign: 'right'}}>
-        <Link
-          to={"/"}
-          className={classnames('plainLinkButton')}
-          onClick={(e)=>{ if(this.props.location.pathname == '/') e.preventDefault(); }}>
+        style={{textAlign: 'right', paddingTop: '4px'}}>
+        <div
+          className={classnames( styles.boxLinkLeft)}
+          style={{display: 'unset'}}>
           <span
             className={classnames(
               stylesFont.fontHint, stylesFont.weightBold,
-              {
-                [stylesFont.colorAssistGold]: (this.props.location.pathname == '/'),
-                ["colorLightGrey"]: !(this.props.location.pathname == '/')
-              })}>
-            {this.props.i18nUIString.catalog["link_Fellows"]}</span>
-        </Link>
+              stylesFont.colorAssistGold)}>
+            {
+              this.props.location.pathname.includes('gathering') ?
+              this.props.i18nUIString.catalog["title_FeedAssigned_"] : this.props.i18nUIString.catalog["link_Fellows"]
+            }
+          </span>
+        </div>
         <Link
-          to={"/gathering"}
-          className={classnames('plainLinkButton')}
-          onClick={(e)=>{ if(this.props.location.pathname.includes('gathering')) e.preventDefault(); }}>
+          to={ this.props.location.pathname.includes('gathering') ? "/" :"/gathering" }
+          className={classnames('plainLinkButton', styles.boxLinkRight)}
+          onMouseEnter={this._handleEnter_link}
+          onMouseLeave={this._handleLeave_link}>
           <span
             className={classnames(
-              stylesFont.fontHint, stylesFont.weightBold,
+              styles.spanLink,
+              stylesFont.fontHint, stylesFont.weightBold, "colorLightGrey",
+              {[styles.spanLinkMouse]: this.state.onNavLink}
+            )}>
               {
-                [stylesFont.colorAssistGold]: this.props.location.pathname.includes('gathering'),
-                ["colorLightGrey"]: !this.props.location.pathname.includes('gathering')
-              })}>
-            {this.props.i18nUIString.catalog["title_FeedAssigned_"]}</span>
+                this.props.location.pathname.includes('gathering') ?
+                this.props.i18nUIString.catalog["link_Fellows"] : this.props.i18nUIString.catalog["title_FeedAssigned_"]
+              }
+          </span>
         </Link>
 
       </div>
     )
   }
+
+  _handleEnter_link(e){
+    this.setState({onNavLink: true})
+  }
+
+  _handleLeave_link(e){
+    this.setState({onNavLink: false})
+  }
+
 }
 
 const mapStateToProps = (state)=>{

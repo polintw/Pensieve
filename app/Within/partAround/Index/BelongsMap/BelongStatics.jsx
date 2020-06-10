@@ -6,6 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import stylesFont from '../../stylesFont.module.css';
 import {
   _axios_GET_usersCount
 } from './utils.js';
@@ -80,40 +81,32 @@ class BelongStatics extends React.Component {
     const nodeId = this.props.belongsByType[this.props.type];
 
     return (
-      <Link
-        to={"/cosmic/nodes/"+nodeId}
-        className={classnames('plainLinkButton', styles.boxNode)}
-        onMouseEnter={this._handleMouseOn_Node}
-        onMouseLeave={this._handleMouseOn_Node}>
-        <div
-          className={classnames(styles.spanNode)}
-          style={{fontSize: '1.7rem'}}>
-          {
-            this.state.onNode &&
-            <span style={{
-                width: '74%', position: 'absolute', bottom: '10%', left: '5%',
-                borderBottom: 'solid 1px #ff7a5f'
-              }}/>
-          }
+      <div
+        className={classnames( styles.boxNode)}>
+        <span
+          className={classnames(
+            styles.spanNode,
+            stylesFont.fontNodesTitle,
+            stylesFont.colorEditBlack
+          )}>
           {nodeId in this.props.nounsBasic ? (
             this.props.nounsBasic[nodeId].name) : (
               null
             )}
-          </div>
-        </Link>
+        </span>
+      </div>
     )
   }
 
   _render_statics(){
     return (
-      <div>
-        <span
-          style={{display: 'block'}}>
+      <div
+        className={classnames(styles.boxBelongStatSubtitle, 'fontContent', 'colorEditLightBlack')}>
+        <span>
           {this.props.i18nUIString.catalog["category__Belong_usersCount"][0]}
           {this.props.i18nUIString.catalog["category__Belong_usersCount"][1]}
         </span>
-        <span
-          style={{fontSize: '1.7rem'}}>
+        <span className={styles.spanBelongStatCount}>
           {this.state.infoCount.totalUserCount}
         </span>
       </div>
@@ -126,11 +119,15 @@ class BelongStatics extends React.Component {
       <div
         className={classnames(styles.comBelongStatics)}>
         <div
-          className={classnames(styles.boxCornerTitle)}>
-          {this._render_nodeLink()}
+          className={classnames(styles.boxStaticsDescript)}>
+          <span
+            className={classnames('colorStandard', 'fontContentPlain')}>
+            { this.props.i18nUIString.catalog["link_BelongsMap_Nav"][(this.props.type =="residence") ? 2 : 1] }
+          </span>
         </div>
         <div
-          className={classnames(styles.boxStatics)}>
+          className={classnames(styles.boxCornerTitle)}>
+          {this._render_nodeLink()}
           {this._render_statics()}
         </div>
       </div>
