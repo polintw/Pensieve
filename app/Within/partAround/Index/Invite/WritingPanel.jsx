@@ -74,6 +74,11 @@ class WritingPanel extends React.Component {
                     null
                   )}
               </span>
+              <span
+                className={classnames(styles.spanInputTag, "colorOptionsBlack", "fontSubtitle_h5")}
+                style={{marginLeft: '0'}}>
+                {this.props.i18nUIString.catalog["descript_Invite_optType"][0]}
+              </span>
             </div>
           }
           {
@@ -90,33 +95,45 @@ class WritingPanel extends React.Component {
                 required/>
                 <span
                   className={classnames(styles.spanInputTag, "colorOptionsBlack", "fontSubtitle_h5")}>
-                {this.props.belongsByType["residence"] in this.props.nounsBasic ? (
-                  this.props.nounsBasic[this.props.belongsByType["residence"]].name) : (
-                    null
-                  )}
-              </span>
+                  {this.props.belongsByType["residence"] in this.props.nounsBasic ? (
+                    this.props.nounsBasic[this.props.belongsByType["residence"]].name) : (
+                      null
+                    )}
+                </span>
+                <span
+                  className={classnames(styles.spanInputTag, "colorOptionsBlack", "fontSubtitle_h5")}
+                  style={{marginLeft: '0'}}>
+                  {this.props.i18nUIString.catalog["descript_Invite_optType"][1]}
+                </span>
             </div>
           }
         </div>
         <div
           className={classnames(styles.boxFormGenerate)}>
-          {
-            ( this.state.resMessage.warning) &&
-            <div>
+          <div
+            className={classnames(styles.boxWarning)}>
+            <span
+              className={classnames(
+                "fontSubtitle_h5",
+                "colorEditBlack"
+              )}>
               {this.state.resMessage.warning}
-            </div>
-          }
+            </span>
+          </div>
           <input
             type='submit'
-            value="Generate"
+            value="Get Link!"
             disabled={this.state.axios}
             className={classnames(
               'plainInput',
               styles.inputSubmit, 'fontSubtitle_h5', 'colorWhite'
             )}
-            style={Object.assign({},
-              (this.state.onButton=="Generate")? {backgroundColor: "#ff8168"}: {backgroundColor: '#4587A0'}
-            )}
+            style={
+              Object.assign({}, (this.state.belong.length > 0) ? {
+                backgroundColor: (this.state.onButton=="Get Link!")?  "#ff8168" : '#4587A0',
+                cursor: "pointer"
+              }: {  backgroundColor: "#d8d8d8" /* inactive status*/, cursor: "default"})
+            }
             onMouseEnter={this._handleEnter_button}
             onMouseLeave={this._handleLeave_button}/>
         </div>
@@ -131,7 +148,7 @@ class WritingPanel extends React.Component {
         <div
           className={classnames(styles.boxSection)}>
           <span
-            className={classnames('fontTitle', 'colorOptionsBlack')}>
+            className={classnames('fontTitle', 'colorStandard')}>
             {this.props.i18nUIString.catalog["title_Invite_"]}
           </span>
         </div>
@@ -148,7 +165,8 @@ class WritingPanel extends React.Component {
         </div>
         <div style={{ width: '100%', marginBottom: '2rem', borderTop: "solid 0.75px #979797"}}/>
         <div
-          className={classnames(styles.boxSection)}>
+          className={classnames(styles.boxSection)}
+          style={{margin: '0 0 3rem'}}>
           <div
             className={classnames(styles.boxTitleForm)}>
             <span
@@ -159,7 +177,7 @@ class WritingPanel extends React.Component {
 
         </div>
         <div
-          className={classnames(styles.boxCopyOneLine)}>
+          className={classnames(styles.boxCopyOneLine, styles.boxSection)}>
           <CopyOneLine
             inputString={this.state.invitingLink}/>
         </div>
@@ -240,7 +258,8 @@ class WritingPanel extends React.Component {
 
       self.setState({
         axios: false,
-        invitingLink: resObj.main.invitingLink
+        invitingLink: resObj.main.invitingLink,
+        resMessage: resObj.main.message
       });
     })
     .catch(function (thrown) {

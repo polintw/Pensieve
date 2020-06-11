@@ -109,7 +109,7 @@ class Nav extends React.Component {
           className={classnames(styles.boxStaticsDescript)}
           style={ (this.props.currentTab =="residence") ? {width: '8rem'}: {}}>
           <span
-            className={classnames('colorDescripBlack', 'fontContentPlain')}>
+            className={classnames('colorDescripBlack', 'fontContent')}>
             { this.props.i18nUIString.catalog["link_BelongsMap_Nav"][(this.props.currentTab =="residence") ? 2 : 1] }
           </span>
         </div>

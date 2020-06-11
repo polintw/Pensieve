@@ -37,7 +37,12 @@
 
 .boxFormGenerate{
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+}
+
+.boxWarning {
+  display: flex;
+  align-items: center;
 }
 
 .boxCopyOneLine {

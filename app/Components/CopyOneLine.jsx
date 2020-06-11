@@ -10,21 +10,33 @@ import classnames from 'classnames';
 const styleMiddle = {
   boxNavButton:{
     display: 'inline-block',
-    width: '96px',
-    height: '32px',
     position: 'relative',
     boxSizing: 'border-box',
-    borderRadius: '4px',
+    padding: '1.2rem 1rem',
     cursor: 'pointer',
-    float: 'right' // important. this could allow the parent comp. put their element just "next" to this <input>
   },
-  inputTextLink: {
-    width: "100%",
+  boxInputCopy: {
+    display: 'flex',
+    justifyContent: 'space-between',
     boxSizing: "border-box",
-    padding: "1.2rem 2rem",
     border: "solid 1px #979797",
     borderRadius: "5px",
-    margin:'8px 0px 16px'
+    margin:'8px 0px'
+  },
+  inputTextLink: {
+    width: "88%",
+    boxSizing: "border-box",
+    padding: "1.2rem 2rem",
+    border: 'unset',
+    borderRadius: "5px",
+  },
+  boxReaction: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-end'
+  },
+  boxWarning: {
+
   }
 }
 
@@ -33,7 +45,8 @@ class CopyOneLine extends React.Component {
     super(props);
     this.state = {
       stateValue: !!this.props.inputString? this.props.inputString : '',
-      onButton: false
+      onButton: false,
+      message: ''
     };
     this.refInputString = React.createRef();
     this._handleEnter_button = this._handleEnter_button.bind(this);
@@ -61,7 +74,8 @@ class CopyOneLine extends React.Component {
   render(){
     return(
       <div>
-        <div>
+        <div
+          style={styleMiddle.boxInputCopy}>
           <input
             type="text"
             ref={this.refInputString}
@@ -69,27 +83,42 @@ class CopyOneLine extends React.Component {
               'plainInputText',
               "fontContent", "colorOptionsBlack"
             )}
-            style={styleMiddle.inputTextLink}
+            style={Object.assign({}, styleMiddle.inputTextLink, {cursor: (this.state.stateValue.length > 0)? "text" : "default"})}
             onChange={this._handleChange_Input}
             value={this.state.stateValue}
+            placeholder={"https:"}
             readOnly={(this.state.stateValue.length > 0)? false: true}/>
+
+            <div
+              style={Object.assign({},
+                styleMiddle.boxNavButton,
+                (this.state.onButton )? {backgroundColor: "#757575"}:{}
+              )}
+              onClick={this._handleClick_copyValue}
+              onMouseEnter={this._handleEnter_button}
+              onMouseLeave={this._handleLeave_button}>
+              <span
+                className={classnames(
+                  'fontContent',
+                  {["colorGrey"]: !this.state.onButton},
+                  {["colorWhite"]: this.state.onButton}
+                )}>
+                {this.props.i18nUIString.catalog["submit_copy"]}
+              </span>
+            </div>
         </div>
         <div
-          style={Object.assign({},
-            styleMiddle.boxNavButton,
-            (this.state.onButton )? {backgroundColor: "#ff8168"}:{}
-          )}
-          onClick={this._handleClick_copyValue}
-          onMouseEnter={this._handleEnter_button}
-          onMouseLeave={this._handleLeave_button}>
-          <span
-            className={classnames(
-              'centerAlignChild', 'fontSubtitle_h5',
-              {["colorEditBlack"]: !this.state.onButton},
-              {["colorWhite"]: this.state.onButton}
-            )}>
-            {this.props.i18nUIString.catalog["submit_copy"]}
-          </span>
+          style={styleMiddle.boxReaction}>
+          <div
+            style={styleMiddle.boxWarning}>
+            <span
+              className={classnames(
+                "fontContent",
+                "colorLightGrey"
+              )}>
+              {this.state.message}
+            </span>
+          </div>
         </div>
       </div>
     )
@@ -102,9 +131,14 @@ class CopyOneLine extends React.Component {
   _handleClick_copyValue(event){
     event.preventDefault();
     event.stopPropagation();
+    if(this.state.stateValue.length == 0){
+      this.setState({message: this.props.i18nUIString.catalog["message_oneLineCopy_empty"]});
+      return;
+    };
+
     this.refInputString.current.select();
     document.execCommand('copy');
-
+    this.setState({message: this.props.i18nUIString.catalog["message_oneLineCopy_success"]});
   }
 
   _handleEnter_button(e){

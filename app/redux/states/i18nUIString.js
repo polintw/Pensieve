@@ -41,7 +41,8 @@ const i18nUIString_EN = {
   "guideing_onBoard_BelongsHint": ["I'm from", "Now based at"],
   "submit_onBoard_start": "Let's Start",
   "submit_Invite_": "Fellow Inviting !",
-  "title_Invite_": "Send an Invitation",
+  "title_Invite_": "Create an Invitation!",
+  "descript_Invite_optType": [", as Homeland.", ", as Current Stay."],
   "descript_Invite_": ["Any people you knew born or lived around you? ", "Inviting these fellows to join you!"],
   "guiding_Invite_": ["Choosing the characteristic of people you want to invite", "You havn't set the place you belong to yet."],
   "message_Invite_fellows": [
@@ -51,6 +52,9 @@ const i18nUIString_EN = {
     "as well! Joining me by Signing up and see you in there!",
   ],
   "message_Invite_General": "It's a place for you connecting the environment you are. Signing up and join your fellows in this confused world!",
+
+  "message_oneLineCopy_success": "Link has copied to your clipboard.",
+  "message_oneLineCopy_empty": "No text could be copied.",
 
   "category_Belongs_": ["Homeland", "Current Stay"],
 
@@ -62,7 +66,7 @@ const i18nUIString_EN = {
   "submit_complete": "complete",
   "submit_close": "close",
   "submit_cancel": "cancel",
-  "submit_copy": "copy",
+  "submit_copy": "Copy",
   "submit_change": "change",
   "submit_edit": "Edit",
   "submit_save": "Save",
@@ -122,7 +126,7 @@ const i18nUIString_EN = {
   "guidingBelongs_EmptyMap": "Set your corner, and taking a look for the distribution of your fellows.",
   "descript_BelongTypeInteract": ["going to renew your ", " ?"],
   "category__Belong_usersCount": ["living at", "came from"],
-  "link_BelongsMap_Nav": ["Fellows", "from your homeland", "around your current stay"],
+  "link_BelongsMap_Nav": ["Fellows", "from your Homeland", "around your Current Stay"],
   "title_BelongsMap_Nav": "Users ",
   "messageBelongChoiceinBool": ["site ", "  as your  ", "  place?"],
   "descript_BelongSet_SearchBytType": ["Search one fit your "],

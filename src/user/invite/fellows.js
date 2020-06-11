@@ -30,9 +30,10 @@ async function _handle_GET_inviteFellows(req, res){
     if(!selected){ //means the result is 'null'
       throw new notFoundError({warning: "The link did not generate correctly or something went wrong. Please try again."},34);
     }
-    let sendingLink = domain.name + "?invitation=" + selected.exposedKey;
+    let sendingLink = "https://"+ domain.name + "?invitation=" + selected.exposedKey;
     let sendingData={
       invitingLink: sendingLink,
+      message: {warning: 'Copy the inviting link to your fellows.'},
       temp: {}
     };
     _res_success(res, sendingData, "GET: user invite/fellows, complete.");
