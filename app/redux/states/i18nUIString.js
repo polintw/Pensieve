@@ -3,7 +3,7 @@ const i18nUIString_EN = {
   "descript_Unit_Author_broad": ["broad by", "broad"],
 
   "guidingSign_Confirm_Success": ["Email address has been successfully verified.", "Sign in now and start your adventure, to infinity and beyond!"],
-  "guidingSign_Confirm_Fail": ["Email address verification failed.", "You are probablly over the valid time.", "Or, haven't received the verification email?"], //Original:"It's probablly due to the valid time was over.", "Or, haven't received the verified mail?"
+  "guidingSign_Confirm_Fail": ["Email address verification failed.", "You are probablly over the valid time.", "Or, haven't you received the verification email?"], //Original:"It's probablly due to the valid time was over.", "Or, haven't received the verified mail?"
   "link_Sign_mailResend": "Re-send verification email.", //Original: "sending verified mail again"
   "title_Sign_mailResend": ["Re-send Verification Mail", "Forget Password"], //Original: "Verified"
   "title_Sign_pwReset": "Reset Password.", //Original: "Reset New Password."
@@ -16,7 +16,7 @@ const i18nUIString_EN = {
     "Your registration was submitted successfully.", //"Your registration was submit successfully."
     "Please verify your email address with the link sent to your mailbox.", 
   ],//"Please verifing your mail address by link we just sent to you. That's all you need to do before log in." 後面這句感覺不太需要?!
-  "message_Signin_intro": ["Get Start!", "before you miss the wonder of the world."],
+  "message_Signin_intro": ["Get Start!", "Before you miss the wonder of the world."], //"before" to "Before"
 
   "subtitle_Sign_name": ["First name", "Last name"], //Original: Family name. 但Last name比較常用
   "subtitle_Sign_gender": "Gender",
@@ -73,7 +73,7 @@ const i18nUIString_EN = {
   "title_home": "Home",
   "subtitle_email": "Email",
   "subtitle_Password": "Password",
-  "link_UnitListResponds": 'Responds',//Original:'responds'
+  "link_UnitListResponds": 'View Responds',//Original:'responds'
   "Cornerth_inc": "Cornerth., Inc. ",
   "AllRights": "All Rights Reserved.",
 
