@@ -40,7 +40,8 @@ const i18nUIString_EN = {
   "descript_onBoard_BelongsHint": ["Before you start …", "Tell us where are you from?"],
   "guideing_onBoard_BelongsHint": ["I'm from", "Now based at"],
   "submit_onBoard_start": "Let's Start",
-  "submit_Invite_": "Fellow Inviting!",
+  "submit_Invite_": "Fellow Inviting !",
+  "title_Invite_": "Send an Invitation",
   "descript_Invite_": ["Any people you knew born or lived around you? ", "Inviting these fellows to join you!"],
   "guiding_Invite_": ["Choosing the characteristic of people you want to invite", "You havn't set the place you belong to yet."],
   "message_Invite_fellows": [
@@ -61,6 +62,7 @@ const i18nUIString_EN = {
   "submit_complete": "complete",
   "submit_close": "close",
   "submit_cancel": "cancel",
+  "submit_copy": "copy",
   "submit_change": "change",
   "submit_edit": "Edit",
   "submit_save": "Save",

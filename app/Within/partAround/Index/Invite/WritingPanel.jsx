@@ -18,13 +18,16 @@ class WritingPanel extends React.Component {
       axios: false,
       belong: '',
       invitingLink: null,
-      resMessage: {}
+      resMessage: {},
+      onButton: false
     };
     this.axiosSource = axios.CancelToken.source();
     this._render_Form = this._render_Form.bind(this);
     this._handleSubmit_ = this._handleSubmit_.bind(this);
     this._handleChange_InputRadio = this._handleChange_InputRadio.bind(this);
     this._handleClick_inviteComplete = this._handleClick_inviteComplete.bind(this);
+    this._handleEnter_button = this._handleEnter_button.bind(this);
+    this._handleLeave_button = this._handleLeave_button.bind(this);
     this._axios_PATCH_Invitation = this._axios_PATCH_Invitation.bind(this);
     this._axios_GET_InvitingLink = this._axios_GET_InvitingLink.bind(this);
   }
@@ -40,25 +43,32 @@ class WritingPanel extends React.Component {
   _render_Form(){
     if( !("homeland" in this.props.belongsByType) && !("residence" in this.props.belongsByType)){
       return (
-        <div>
-          <span>{this.props.i18nUIString.catalog['guiding_Invite_'][0]}</span>
+        <div
+          className={classnames(styles.boxOption)}>
+          <span
+            className={classnames('fontSubtitle_h5', 'colorGrey')}>
+            {this.props.i18nUIString.catalog['guiding_Invite_'][0]}</span>
         </div>
       )
     };
     return (
       <form onSubmit={this._handleSubmit_}>
-        <div>
+        <div
+          className={classnames(styles.boxFormOptions)}>
           {
             !!("homeland" in this.props.belongsByType) &&
-            <div>
+            <div
+              className={classnames(styles.boxOption)}>
               <input
                 type="radio"
                 name="belong"
                 value= {"homeland"}
                 checked={this.state.belong == "homeland"}
                 onChange={this._handleChange_InputRadio}
+                className={classnames(styles.inputOptBelong)}
                 required/>
-              <span>
+              <span
+                className={classnames(styles.spanInputTag, "colorOptionsBlack", "fontSubtitle_h5")}>
                 {this.props.belongsByType["homeland"] in this.props.nounsBasic ? (
                   this.props.nounsBasic[this.props.belongsByType["homeland"]].name) : (
                     null
@@ -68,15 +78,18 @@ class WritingPanel extends React.Component {
           }
           {
             !!("residence" in this.props.belongsByType) &&
-            <div>
+            <div
+              className={classnames(styles.boxOption)}>
               <input
                 type="radio"
                 name="belong"
                 value= {"residence"}
                 checked={this.state.belong == "residence"}
                 onChange={this._handleChange_InputRadio}
+                className={classnames(styles.inputOptBelong)}
                 required/>
-              <span>
+                <span
+                  className={classnames(styles.spanInputTag, "colorOptionsBlack", "fontSubtitle_h5")}>
                 {this.props.belongsByType["residence"] in this.props.nounsBasic ? (
                   this.props.nounsBasic[this.props.belongsByType["residence"]].name) : (
                     null
@@ -85,7 +98,8 @@ class WritingPanel extends React.Component {
             </div>
           }
         </div>
-        <div>
+        <div
+          className={classnames(styles.boxFormGenerate)}>
           {
             ( this.state.resMessage.warning) &&
             <div>
@@ -95,7 +109,16 @@ class WritingPanel extends React.Component {
           <input
             type='submit'
             value="Generate"
-            disabled={this.state.axios}/>
+            disabled={this.state.axios}
+            className={classnames(
+              'plainInput',
+              styles.inputSubmit, 'fontSubtitle_h5', 'colorWhite'
+            )}
+            style={Object.assign({},
+              (this.state.onButton=="Generate")? {backgroundColor: "#ff8168"}: {backgroundColor: '#4587A0'}
+            )}
+            onMouseEnter={this._handleEnter_button}
+            onMouseLeave={this._handleLeave_button}/>
         </div>
       </form>
     )
@@ -105,28 +128,59 @@ class WritingPanel extends React.Component {
     return(
       <div
         className={classnames(styles.comWritingPanel)}>
-        <div>
-          <span>
+        <div
+          className={classnames(styles.boxSection)}>
+          <span
+            className={classnames('fontTitle', 'colorOptionsBlack')}>
+            {this.props.i18nUIString.catalog["title_Invite_"]}
+          </span>
+        </div>
+        <div
+          className={classnames(styles.boxSection)}>
+          <span
+            className={classnames('fontSubtitle_h5', 'colorOptionsBlack')}>
             {this.props.i18nUIString.catalog["descript_Invite_"][0]}
           </span>
-          <span>
+          <span
+            className={classnames('fontSubtitle_h5', 'colorOptionsBlack')}>
             {this.props.i18nUIString.catalog["descript_Invite_"][1]}
           </span>
         </div>
-        <div>
-          <div>
-            <span>{this.props.i18nUIString.catalog["guiding_Invite_"][0]}</span>
+        <div style={{ width: '100%', marginBottom: '2rem', borderTop: "solid 0.75px #979797"}}/>
+        <div
+          className={classnames(styles.boxSection)}>
+          <div
+            className={classnames(styles.boxTitleForm)}>
+            <span
+              className={classnames('fontSubtitle_h5', 'colorDescripBlack')}>
+              {this.props.i18nUIString.catalog["guiding_Invite_"][0]}</span>
           </div>
           {this._render_Form()}
+
         </div>
-        <div>
+        <div
+          className={classnames(styles.boxCopyOneLine)}>
           <CopyOneLine
             inputString={this.state.invitingLink}/>
         </div>
         <div>
           <div
-            onClick={this._handleClick_inviteComplete}>
-            <span>
+            value="complete"
+            className={classnames(styles.inputSubmit)}
+            style={Object.assign({},
+              (this.state.onButton=="complete")? {backgroundColor: "#4587A0"}: {}
+            )}
+            onClick={this._handleClick_inviteComplete}
+            onMouseEnter={this._handleEnter_button}
+            onMouseLeave={this._handleLeave_button}>
+            <span
+              className={classnames(
+                'centerAlignChild', 'fontSubtitle_h5',
+                {
+                  ['colorWhite']: this.state.onButton=="complete",
+                  ['colorOptionsBlack']: this.state.onButton!="complete"
+                }
+              )}>
               {this.props.i18nUIString.catalog["button_complete"]}
             </span>
           </div>
@@ -217,6 +271,18 @@ class WritingPanel extends React.Component {
     event.preventDefault();
     event.stopPropagation();
     this.props.onComplete();
+  }
+
+  _handleEnter_button(e){
+    this.setState({
+      onButton: e.currentTarget.getAttribute('value')
+    })
+  }
+
+  _handleLeave_button(e){
+    this.setState({
+      onButton: false
+    })
   }
 
 }

@@ -106,7 +106,7 @@ class MapCorner extends React.Component {
           <div
             className={classnames(styles.boxMapCountNum)}>
             <span
-              className={classnames(styles.spanMapCount, 'fontTitleHuge')}>
+              className={classnames(styles.spanMapCount, 'fontTitleHuge', 'weightBold', 'colorDescripBlack')}>
               {this.state.usersCount}
             </span>
           </div>

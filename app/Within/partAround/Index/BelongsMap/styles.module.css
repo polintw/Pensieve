@@ -29,9 +29,9 @@
 
 .boxMapCorner {
   width: 29%;
-  min-width: 240px;
+  min-width: 256px;
   max-width: 96vw;
-  margin: 0 1.38vw 0 0.69vw;
+  margin: 8px 1.38vw 8px 0.69vw;
   background-color: #FFFFFF;
   box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
   border-radius: 8px;
@@ -46,7 +46,7 @@
   box-sizing: border-box;
   background-color: rgba(217, 232, 255, 0.15);
   border-radius: 8px;
-  padding: 1rem 1rem 2rem;
+  padding: 1rem 2rem 2rem;
   float: right;
 }
 
@@ -59,7 +59,7 @@
   display: inline-block;
   flex: 1;
   text-align: right;
-  padding: 5px 3rem 1rem;
+  padding: 5px 2rem 1rem;
 }
 
 .boxNode {
@@ -137,7 +137,7 @@
 }
 
 .svgNavAvetar {
-  width: 6rem;
-  height: 6rem;
-  margin: -1.2rem;
+  width: 5.5rem;
+  height: 5.5rem;
+  margin: -1rem;
 }

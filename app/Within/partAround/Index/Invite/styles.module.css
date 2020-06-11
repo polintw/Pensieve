@@ -12,6 +12,60 @@
   cursor: pointer;
 }
 
+.boxBtnInviteActiv {
+  border: solid 1px transparent;
+  background-color: #ff8168;
+}
+
+.boxOption {
+  display: flex;
+  align-items: center;
+  margin: 8px 0;
+}
+
+.boxSection {
+  margin: 0 0 2rem;
+}
+
+.boxTitleForm {
+  margin: 0 0 1rem;
+}
+
+.boxFormOptions {
+  margin: 0 0 2rem;
+}
+
+.boxFormGenerate{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.boxCopyOneLine {
+
+}
+
 .spanBtnInvite {
   white-space: nowrap;
+}
+
+.spanInputTag {
+  display: inline-block;
+  margin-left: 1.6rem;
+}
+
+.inputOptBelong {
+  width: 2rem;
+  height: 2rem;
+  margin: 0;
+  border: solid 1px #979797;
+}
+
+.inputSubmit {
+  display: inline-block;
+  width: 96px;
+  height: 32px;
+  position: relative;
+  box-sizing: border-box;
+  border-radius: 4px;
+  cursor: pointer;
 }

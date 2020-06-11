@@ -6,7 +6,6 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import commonStyles from "../commonStyles.module.css";
 
 const styleMiddle = {
   boxNavButton:{
