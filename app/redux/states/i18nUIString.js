@@ -27,7 +27,7 @@ const i18nUIString_EN = {
     "Please provide a valid email address", //Change "an" to "a"
     "First and Last name are required.",
     "please choose your gender, or select desired pronoun by choosing 'Others'", //Original:"please choose your gender, or select desired pronoun by 'Others'"
-    'Your password must be more than 8 characters. Your password must contain at least one letter and one number digit.', //Original: 'Password must be more than 8 chars and incl. at least 1 letter and 1 number'
+    'Your password must be more than 8 characters and at least one letter and one number digit.', //Original: 'Password must be more than 8 chars and incl. at least 1 letter and 1 number'
     "The password and confirmation password do not match." //Original:"Not the same as above"
   ],
   "descript_Sign_termsDeclaim": [
