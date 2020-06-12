@@ -67,11 +67,6 @@ class WithinAround extends React.Component {
     }
   }
 
-  static getDerivedStateFromProps(props, state){
-    //It should return an object to update the state, or 'null' to update nothing.
-    return null;
-  }
-
   componentDidUpdate(prevProps, prevState, snapshot){
     //set the state back to default if the update came from Redirect
     //preventing Redirect again which would cause error

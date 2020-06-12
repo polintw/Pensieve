@@ -40,7 +40,7 @@ function _handle_auth_mailConfirm_GET(req, res){
       _select_Basic(conditionUser, mysqlForm.accordancesList).then((rows)=>{
         if(rows.length>0){
           let applyData = rows[0];
-          if(applyData.status == 'active') throw {custom: true, status: 302, path: '/s/confirm/success'};
+          if(applyData.status == 'newly') throw {custom: true, status: 302, path: '/s/confirm/success'};
           else{
             if(reqToken == applyData.token_email){
               let pupdateUsers = Promise.resolve(
@@ -49,7 +49,7 @@ function _handle_auth_mailConfirm_GET(req, res){
                   attributes: ['id', 'status']
                 }).then(users => {
                   return users.update(
-                    { status: 'active'},
+                    { status: 'newly'},
                     {where: {id: userId}}
                   );
                 }).catch((err)=>{console.log('error from pupdateUsers');throw {err: err}})
@@ -57,7 +57,7 @@ function _handle_auth_mailConfirm_GET(req, res){
               let pupdateUsersApply = Promise.resolve(
                 //it's bad to use 'findOne' before update, the result instance is not proper here
                 _DB_users_apply.update(
-                  {status:'active'},
+                  {status:'newly'},
                   {where:{id_user: userId}}
                 ).catch((err)=>{console.log('error from pupdateUsersApply');throw {err: err}})
               );

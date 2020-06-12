@@ -7,7 +7,6 @@ import classnames from 'classnames';
 import styles from './styles.module.css';
 import stylesFont from '../stylesFont.module.css';
 import BelongSet from './BelongSet.jsx';
-import SvgLogo from '../../../Components/Svg/SvgLogo.jsx';
 import {
   _axios_PATCH_belongRecords
 } from '../Index/BelongsSet/utils.js';
@@ -27,9 +26,6 @@ class Wrapper extends React.Component {
     this.axiosSource = axios.CancelToken.source();
     this._set_nodesByTypes = this._set_nodesByTypes.bind(this);
     this._handleClick_onBoardSubmit = this._handleClick_onBoardSubmit.bind(this);
-    //And! we have to 'hide' the scroll bar and preventing the scroll behavior to the page one for all
-    //so dismiss the scroll ability for <body> here
-    document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:hidden;");
   }
 
   _set_nodesByTypes(nodeBasic, type){
@@ -82,8 +78,7 @@ class Wrapper extends React.Component {
       .then(function (results) {
         //successfully updated,
         self.setState({ axiosPatch: false });
-        // now close the onBoard, and reload the page to fetch the new belongs set
-        self.props._set_lastVisit(true);
+        // now reload the page to fetch the new belongs set
         window.location.reload();
 
       }).catch(function (thrown) {
@@ -105,8 +100,6 @@ class Wrapper extends React.Component {
   }
 
   componentWillUnmount(){
-    //recruit the scroll ability back to <body>
-    document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:scroll;");
     if (this.state.axiosPatch) {
       this.axiosSource.cancel("component will unmount.")
     }
@@ -119,45 +112,7 @@ class Wrapper extends React.Component {
     return(
       <div
         className={styles.comOnBoardWrapper}>
-        <div
-          className={classnames(styles.boxRelativeRow, styles.rowTop)}>
-          <div
-            className={classnames(styles.boxLogo)}
-            onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
-            <SvgLogo />
-          </div>
-        </div>
-        <div
-          className={classnames(styles.boxRelativeRow, styles.rowGreet)}>
-          <div
-            className={classnames(styles.boxFlexColumn, styles.boxGreet)}>
-            <div
-              className={classnames(styles.boxGreetTitle)}>
-              <span
-                className={classnames(stylesFont.fontTitle, stylesFont.colorCoral)}
-                style={{ marginRight: "0.87rem" }}>
-                {this.props.i18nUIString.catalog["title_onBoard_Welcome"]}
-              </span>
-              <span
-                className={classnames(stylesFont.fontTitle, stylesFont.colorCoral)}>
-                {this.props.userInfo.firstName + "!"}
-              </span>
-            </div>
-            <div
-              className={classnames(styles.boxGreetContent, styles.boxFlexColumn)}>
-              <span
-                className={classnames(stylesFont.fontDescrip, styles.colorDescripBlack)}
-                style={{ lineHeight: 1.88 }}>
-                {this.props.i18nUIString.catalog["descript_onBoard_Intro"][0]}
-              </span>
-              <span
-                className={classnames(stylesFont.fontDescrip, styles.colorDescripBlack)}
-                style={{ lineHeight: 1.88 }}>
-                {this.props.i18nUIString.catalog["descript_onBoard_Intro"][1]}
-              </span>
-            </div>
-          </div>
-        </div>
+
         <div
           className={classnames(styles.boxRelativeRow, styles.rowForm)}>
           <div

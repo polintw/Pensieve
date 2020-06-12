@@ -3,9 +3,6 @@
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  height: 100%;
-  position: absolute;
-  overflow-y: auto;
 }
 
 .boxRelativeRow {
@@ -19,16 +16,6 @@
   flex-direction: column;
 }
 
-.rowGreet {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 2.386vh;
-}
-
-.rowTop {
-  padding-top: 2.19vh;
-}
-
 .rowForm {
   display: flex;
   justify-content: center;
@@ -38,16 +25,6 @@
 .rowButton {
   display: flex;
   justify-content: center;
-  padding-bottom: 6.87vh;
-}
-
-.boxGreetTitle {
-  margin-bottom: 2.19vh;
-}
-
-.boxGreetContent {
-  align-items: center;
-  margin-bottom: 4.386vh;
 }
 
 .boxFormSubTitle {
@@ -85,23 +62,6 @@
   display: inline-block;
   width: 290px;
   overflow: visible;
-}
-
-.boxLogo {
-  height: 4.3vh;
-  max-width: 25%;
-  box-sizing: border-box;
-  margin-left: 5.14%;
-  opacity: 0.23;
-}
-
-.boxGreet {
-  align-items: center;
-  width: 1036px;
-  max-width: 84vw;
-  position: relative;
-  box-sizing: border-box;
-  border-bottom: 1px solid #d8d8d8;
 }
 
 .boxForm {

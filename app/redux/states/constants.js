@@ -2,9 +2,10 @@ const i18nUIString = require('./i18nUIString.js');
 
 export const accountInfoInit = {
   account: "",
+  accountStatus: '',
   firstName: '',
   lastName: '',
-  id: null
+  id: null,
 }
 
 export const unitCurrentInit = {

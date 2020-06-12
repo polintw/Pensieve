@@ -1,7 +1,14 @@
 .comBelongSet {
-
+  display: flex;
+  flex-direction: column;
 }
 
 .boxTitle {
   margin: 8px 0;
+}
+
+.boxOnBoard {
+  width: 100%;
+  margin: 12px 0 8px;
+  padding-bottom: 2rem;
 }

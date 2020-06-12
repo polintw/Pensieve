@@ -265,7 +265,7 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
       sendingData.listBrowsed = assignedUnits.listBrowsed;
       sendingData.scrolled = assignedUnits.scrolled;
       // a special situation: if the req was from a reset belong, then we have to free the 'lastVisit' limit
-      if(userResidence.createdAt > lastVisit || userHomeland.createdAt > lastVisit || req.query.visitBase == "newly"){
+      if(userResidence.createdAt > lastVisit || userHomeland.createdAt > lastVisit){
         // that is, we see all the unit early than lastVisit as new one
         sendingData.listUnread = assignedUnits.listUnread.concat(assignedUnits.listBrowsed);
         sendingData.listBrowsed = [];

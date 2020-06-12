@@ -97,9 +97,6 @@ class Wrapper extends React.Component {
     this.setState({axios: true});
 
     //get the last visit situation for child component
-    /*
-    Now this req is important. It not only res the last visit, but also res 'newly' at the very first sign in right after verified.
-    */
     axios_visit_GET_last(self.axiosSource.token)
     .then(function(lastVisitRes){
       self._set_mountToDo("lastVisit"); //and splice the label from the todo list
@@ -146,22 +143,27 @@ class Wrapper extends React.Component {
             style={{margin: '4px 0 0'}}>
             <BelongsSet/>
           </div>
-          <div
-            className={classnames(styles.boxRow)}>
-            <NavFeed {...this.props}/>
-            <Switch>
-              <Route path={'/gathering'}
-                render={(props)=>{
-                  return (
-                    <FeedAssigned
-                      lastVisit={this.state.lastVisit}
-                      _set_mountToDo={this._set_mountToDo}
-                      _refer_von_cosmic={this.props._refer_von_cosmic}/>);
-                }}/>
-              <Route path={this.props.match.path} render={(props)=> <BelongsMap {...props} />}/>
-            </Switch>
-
-          </div>
+          { // the reset would not be render before the belonged corner was set
+            ( ( ("homeland" in this.props.belongsByType) && (this.props.belongsByType['homeland'])) ||
+              ( ("residence" in this.props.belongsByType) && (this.props.belongsByType["residence"]))
+            ) &&
+            <div
+              className={classnames(styles.boxRow)}>
+              <NavFeed {...this.props}/>
+              <Switch>
+                <Route path={'/gathering'}
+                  render={(props)=>{
+                    return (
+                      <FeedAssigned
+                        lastVisit={this.state.lastVisit}
+                        _set_mountToDo={this._set_mountToDo}
+                        _refer_von_cosmic={this.props._refer_von_cosmic}/>
+                    );
+                  }}/>
+                <Route path={this.props.match.path} render={(props)=> <BelongsMap {...props} />}/>
+              </Switch>
+            </div>
+          }
           <div
             className={classnames(styles.boxFooter)}>
             {this._render_FooterHint()}
@@ -178,17 +180,10 @@ class Wrapper extends React.Component {
                 {...props}
                 _createdRespond= {this._createdRespond}
                 _construct_UnitInit={this._construct_UnitInit}
-                _refer_von_unit={this.props._refer_von_cosmic}/>)
-              }}/>
-        {
-          (this.state.lastVisit == 'newly') &&
-          <ModalBox containerId="root">
-            <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(255,255,255, 0.98)'}}>
-              <OnBoard
-                _set_lastVisit={this._set_lastVisit}/>
-            </ModalBackground>
-          </ModalBox>
-        }
+                _refer_von_unit={this.props._refer_von_cosmic}/>
+            )
+          }
+        }/>
 
       </div>
     )

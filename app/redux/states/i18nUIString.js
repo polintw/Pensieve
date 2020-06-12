@@ -37,7 +37,7 @@ const i18nUIString_EN = {
 
   "title_onBoard_Welcome": "welcome, ",
   "descript_onBoard_Intro": ["Cornerth. brings you info from your homeland and current stay.", "Share what’s happening around you and keep up your steps to the fellows from the other side!"],
-  "descript_onBoard_BelongsHint": ["Before you start …", "Tell us where are you from?"],
+  "descript_onBoard_BelongsHint": ["First thing to do …", "Tell us where are you from?"],
   "guideing_onBoard_BelongsHint": ["I'm from", "Now based at"],
   "submit_onBoard_start": "Let's Start",
   "submit_Invite_": "Fellow Inviting !",
@@ -74,6 +74,8 @@ const i18nUIString_EN = {
   "submit_understand": "Understand",
   "submit_respond": "Respond",
   "submit_logout": "Log out",
+  "title_welcome": 'OnBoard',
+  "title_instruction": "Instruction",
   "title_share": "Share",
   "title_profile": "Profile",
   "title_home": "Home",
@@ -131,7 +133,7 @@ const i18nUIString_EN = {
   "messageBelongChoiceinBool": ["site ", "  as your  ", "  place?"],
   "descript_BelongSet_SearchBytType": ["Search one fit your "],
   "descript_AroundIndex_footer": "You've reached the edge of Cornerth.!",
-  'descript_AroundIndex_footer_BelongHint': "start browsing by your current stay or homeland!",
+  'descript_AroundIndex_footer_BelongHint': "start browsing by setting your current stay or homeland!",
   "guiding_AroundIndex_Share": "how's your corners",
 
   "descript_Nail_noMark": "(expand image...)"

@@ -166,7 +166,39 @@ class Chain extends React.Component {
   }
 
   render(){
-    return (
+    // the reset would not be render before the belonged corner was set
+    return this.props.userInfo.accountStatus == "newly" ? (
+      <div
+        className={classnames(styles.comChain)}>
+        <div
+          className={classnames(styles.boxFullWide)}
+          style={{margin: '4px 0 8px'}}>
+          {
+            ( (!("homeland" in this.props.belongsByType) || (!this.props.belongsByType['homeland'])) &&
+              (!("residence" in this.props.belongsByType) || (!this.props.belongsByType["residence"]))
+            ) ? (
+              <div>
+                <div>
+                  <span
+                    className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
+                    {this.props.i18nUIString.catalog["title_welcome"]}</span>
+                </div>
+
+              </div>
+            ): (
+              <div>
+                <div>
+                  <span
+                    className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
+                    {this.props.i18nUIString.catalog["title_instruction"]}</span>
+                </div>
+
+              </div>
+            )
+          }
+        </div>
+      </div>
+    ): (
       <div
         className={classnames(styles.comChain)}>
         <div
@@ -206,15 +238,16 @@ class Chain extends React.Component {
           ) &&
           <div
             className={classnames(styles.boxSeperate, styles.boxFullWide)}
-            style={{padding: '8px 0'}}>
-            <span className={classnames(stylesFont.colorEditLightBlack, stylesFont.fontDescrip)}>
+            style={{padding: '8px 0', textAlign: 'center'}}>
+            <span
+              className={classnames(stylesFont.fontTitleSmall, stylesFont.colorGrey)}>
               {this.props.i18nUIString.catalog['message_Chain_noSharedsCourage']}</span>
           </div>
         }
-
       </div>
     )
   }
+
 }
 
 const mapStateToProps = (state)=>{
