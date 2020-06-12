@@ -80,7 +80,7 @@ class SharedEdit extends React.Component {
       this.props._submit_BooleanDialog({
         render: true,
         customButton: null,
-        message: [{text:'current input would not be saved after leaving, are you sure going to leave?',style:{}}],
+        message: [{text:'Your change will NOT be saved, do you still want to leave?',style:{}}], //Original:'current input would not be saved after leaving, are you sure going to leave?'
         handlerPositive: ()=>{
           this.props._set_state_UnitView('theater');
           let lastState = this.props.location.state.from ; // because we are pretty sure there is a "from" obj when opened EditingModal
