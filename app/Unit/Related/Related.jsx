@@ -177,11 +177,9 @@ class Related extends React.Component {
         className={classnames(styles.comRelated)}>
         <div
           className={classnames( styles.boxModule)}
-          style={{width: '90%', paddingTop: '12px'}}>
+          style={{width: '90%', padding: '12px 0'}}>
           {this._render_relatedOrigin()}
         </div>
-
-        <div style={{margin: '12px 0', width: '90%', borderBottom: 'solid 0.75px #b8b8b8'}}></div>
         <div>
           <div
             className={classnames(styles.boxTitle)}>
@@ -202,10 +200,13 @@ class Related extends React.Component {
               styles.boxModuleSmall,
             )}
             style={{justifyContent: 'center'}}>
+
+            <div style={{margin: '12px 0', width: '90%', borderBottom: 'solid 0.75px #b8b8b8'}}></div>
+
             <div
               style={{textAlign: 'center'}}>
               <span
-                className={classnames(styles.boxTitle, styles.spanDescript, "fontTitleSmall", "colorWhiteGrey")}>
+                className={classnames(styles.spanBottomDescript, "fontTitleSmall", "colorWhiteGrey")}>
                 {
                   (this.props.unitCurrent.identity=="viewer") &&
                   this.props.i18nUIString.catalog['guiding_Unit_Responds_none']
@@ -246,9 +247,7 @@ class Related extends React.Component {
             </div>
           </div>
         </div>
-
         <div ref={this.refScroll}/>
-
         <div
           className={styles.boxFooter}>
         </div>
