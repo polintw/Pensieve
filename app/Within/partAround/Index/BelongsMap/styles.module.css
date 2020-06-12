@@ -9,10 +9,9 @@
   align-items: flex-end;
 }
 
-.comTabView {
+.boxModule{
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
 }
 
 .boxNavBelongsMap {
@@ -28,10 +27,10 @@
 }
 
 .boxMapCorner {
-  width: 29%;
+  width: 31%;
   min-width: 256px;
   max-width: 96vw;
-  margin: 8px 1.38vw 8px 0.69vw;
+  margin: 8px 1.2% 8px 1%;
   background-color: #FFFFFF;
   box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
   border-radius: 8px;

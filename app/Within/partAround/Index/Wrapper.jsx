@@ -19,6 +19,7 @@ import BelongsSet from './BelongsSet/BelongsSet.jsx';
 import FeedAssigned from './FeedAssigned/FeedAssigned.jsx';
 import NavFeed from "./NavFeed/NavFeed.jsx";
 import OnBoard from '../OnBoard/Wrapper.jsx';
+import GuideNails from '../OnBoard/GuideNails.jsx';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
 import ModalBox from '../../../Components/ModalBox.jsx';
 import ModalBackground from '../../../Components/ModalBackground.jsx';
@@ -133,10 +134,16 @@ class Wrapper extends React.Component {
 
           <div
             className={classnames(styles.boxRow, styles.boxRowTop)}>
-            <Chain
-              {...this.props}
-              lastVisit={this.state.lastVisit}
-              _set_mountToDo={this._set_mountToDo}/>
+            {
+              this.props.userInfo.accountStatus == "newly" ? (
+                <GuideNails/>
+              ):(
+                <Chain
+                  {...this.props}
+                  lastVisit={this.state.lastVisit}
+                  _set_mountToDo={this._set_mountToDo}/>
+              )
+            }
           </div>
           <div
             className={classnames(styles.boxRow)}

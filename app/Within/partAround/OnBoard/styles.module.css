@@ -5,6 +5,11 @@
   width: 100%;
 }
 
+.comGuideNails {
+  display: flex;
+  flex-direction: column;
+}
+
 .boxRelativeRow {
   width: 100%;
   position: relative;
@@ -101,4 +106,20 @@
   min-width: 240px;
   max-width: 310px;
   overflow: visible;
+}
+
+.boxFullWide {
+  width: 100%;
+}
+
+.boxModule{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+@media screen and (max-width:860px) {
+  .boxModuleSmall {
+    justify-content: center;
+  }
 }

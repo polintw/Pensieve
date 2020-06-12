@@ -100,7 +100,7 @@ class FellowsResidence extends React.Component {
   render(){
     return(
       <div
-        className={classnames(styles.comTabView)}>
+        className={classnames(styles.boxModule)}>
         {this._render_corners()}
       </div>
     )

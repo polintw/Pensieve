@@ -13,6 +13,7 @@ import AccountPalette from '../../AccountPalette.jsx';
 import SvgPin from '../../Svg/SvgPin.jsx';
 import {
   renderNodesRows,
+  renderNodesRowsCustom
 } from '../generators.js';
 import {
   domain
@@ -43,8 +44,10 @@ class NailFeedWide extends React.Component {
     this.setState({onFrame: false})
   }
 
-  _render_nails_nouns(){
-    let nodesDOM = renderNodesRows(this.props, styles);
+  _render_nails_nouns(customNodesTitle){
+    let nodesDOM = [];
+    if(!!customNodesTitle) nodesDOM = renderNodesRowsCustom(this.props, customNodesTitle); // currently only GuideNails using, so render without check
+    nodesDOM = renderNodesRows(this.props, styles);
 
     return nodesDOM;
   }
@@ -126,7 +129,7 @@ const contentBoxMarks = (self)=>{
         </div>
         <div
           className={classnames(styles.boxNodes)}>
-          {self._render_nails_nouns()}
+          {self._render_nails_nouns(this.props.customNodesTitle)}
         </div>
       </div>
       <div

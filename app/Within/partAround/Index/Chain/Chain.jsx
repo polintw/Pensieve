@@ -8,7 +8,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import stylesNail from "../stylesNail.module.css";
+import stylesNail from "../../stylesNail.module.css";
 import stylesFont from '../../stylesFont.module.css';
 import ChainShared from './ChainShared.jsx';
 import ChainMessage from './ChainMessage.jsx';
@@ -39,6 +39,7 @@ class Chain extends React.Component {
 
     this.axiosSource = axios.CancelToken.source();
     this._set_ChainUnits = this._set_ChainUnits.bind(this);
+    this._set_unitBasic = this._set_unitBasic.bind(this);
     this._render_ChainUnits = this._render_ChainUnits.bind(this);
     this._axios_get_chainlist = this._axios_get_chainlist.bind(this);
   }
@@ -74,9 +75,26 @@ class Chain extends React.Component {
         fetched: true,
       });
       self.props._set_mountToDo('chainlist'); // and, after we get the list back, inform the parent we are done with the lastVisit time
-
-      return axios_get_UnitsBasic(self.axiosSource.token, displayOrder); //and use the list to get the data of eahc unit
+      //and use the list to get the data of each unit
+      // no need to 'return' here, let the f() deal with the error itself
+      _set_unitBasic(displayOrder);
     })
+    .catch(function (thrown) {
+      self.setState({axios: false});
+      if (axios.isCancel(thrown)) {
+        cancelErr(thrown);
+      } else {
+        let message = uncertainErr(thrown);
+        if(message) alert(message);
+      }
+    });
+  }
+
+  _set_unitBasic(unitsList){
+    const self = this;
+    this.setState({axios: true});
+
+    axios_get_UnitsBasic(this.axiosSource.token, unitsList)
     .then((resObj)=>{
       //after res of axios_Units: call get nouns & users
       self.props._submit_NounsList_new(resObj.main.nounsListMix);
@@ -166,39 +184,7 @@ class Chain extends React.Component {
   }
 
   render(){
-    // the reset would not be render before the belonged corner was set
-    return this.props.userInfo.accountStatus == "newly" ? (
-      <div
-        className={classnames(styles.comChain)}>
-        <div
-          className={classnames(styles.boxFullWide)}
-          style={{margin: '4px 0 8px'}}>
-          {
-            ( (!("homeland" in this.props.belongsByType) || (!this.props.belongsByType['homeland'])) &&
-              (!("residence" in this.props.belongsByType) || (!this.props.belongsByType["residence"]))
-            ) ? (
-              <div>
-                <div>
-                  <span
-                    className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
-                    {this.props.i18nUIString.catalog["title_welcome"]}</span>
-                </div>
-
-              </div>
-            ): (
-              <div>
-                <div>
-                  <span
-                    className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
-                    {this.props.i18nUIString.catalog["title_instruction"]}</span>
-                </div>
-
-              </div>
-            )
-          }
-        </div>
-      </div>
-    ): (
+    return (
       <div
         className={classnames(styles.comChain)}>
         <div
