@@ -153,8 +153,39 @@
   margin: 8px 0;
 }
 
+.boxNewly {
+  width: 208px;
+  max-width: 64vw;
+  text-align: center;
+}
+
+.boxBtnStart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 4.9rem;
+  position: relative;
+  box-sizing: border-box;
+  border-radius: 24px;
+  background-color: #d8d8d8;
+  cursor: pointer;
+}
+
+.boxBtnStartMouseOn {
+  background-color: #ff8168;
+}
+
+.spanNewly {
+  display: inline-block;
+  margin: 0 0 0.5rem;
+}
+
 @media screen and (max-width:860px) {
   .boxModuleSmall {
     justify-content: center;
+  }
+
+  .boxNewly {
+    align-self: center;
   }
 }

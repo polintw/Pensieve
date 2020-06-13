@@ -8,6 +8,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesFont from "../../stylesFont.module.css";
 import BelongsbyType from './BelongsbyType/BelongsbyType.jsx';
+import StartBtn from '../../OnBoard/StartBtn.jsx';
 import {
   _axios_GET_belongRecords,
   _axios_PATCH_belongRecords
@@ -31,16 +32,12 @@ class BelongsSet extends React.Component {
       axios: false,
       chosenNode: '',
       settingType: '',
-      mouseOnStart: false
     };
     this.axiosSource = axios.CancelToken.source();
     this._set_choiceAnType = this._set_choiceAnType.bind(this);
     this._render_DialogMessage = this._render_DialogMessage.bind(this);
     this._handlesubmit_newBelong = this._handlesubmit_newBelong.bind(this);
     this._set_Settingtype = (settingType)=>{this.setState({settingType: settingType})};
-    this._handleEnter_newlyStart = this._handleEnter_newlyStart.bind(this);
-    this._handleLeave_newlyStart = this._handleLeave_newlyStart.bind(this);
-    this._handleClick_onBoardComplete = this._handleClick_onBoardComplete.bind(this);
 
   }
 
@@ -138,53 +135,14 @@ class BelongsSet extends React.Component {
               _set_Settingtype={this._set_Settingtype}
               _set_choiceAnType={this._set_choiceAnType}/>
           </div>
-
         </div>
         {
           (this.props.userInfo.accountStatus == "newly") &&
-          <div
-            className={classnames(styles.boxNewly)}>
-            <span
-              className={classnames(
-                styles.spanNewly,
-                stylesFont.colorEditLightBlack, stylesFont.fontContent)}>
-              {this.props.i18nUIString.catalog['hint_onBoard_start']}
-            </span>
-            <div
-              className={classnames(
-                styles.boxButton,
-                {[styles.boxButtonMouseOn]: this.state.mouseOnStart}
-              )}
-              onClick={this._handleClick_onBoardComplete}
-              onMouseEnter={this._handleEnter_newlyStart}
-              onMouseLeave={this._handleLeave_newlyStart}>
-              <span
-                className={classnames(
-                  stylesFont.fontSubmit ,
-                  stylesFont.colorWhite)}>
-                  {this.props.i18nUIString.catalog["submit_onBoard_start"]}
-                </span>
-              </div>
-          </div>
+          <StartBtn/>
         }
       </div>
     )
   }
-
-  _handleClick_onBoardComplete(e){
-    e.preventDefault();
-    e.stopPropagation();
-
-  }
-
-  _handleEnter_newlyStart(e){
-    this.setState({mouseOnStart: true})
-  }
-
-  _handleLeave_newlyStart(e){
-    this.setState({mouseOnStart: false})
-  }
-
 }
 
 const mapStateToProps = (state)=>{

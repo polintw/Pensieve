@@ -42,7 +42,7 @@ function pageWithin(state = initialGeneral, action){
   switch (action.type) {
     case MOUNT_USERINFO:
       return Object.assign({}, state, {
-        userInfo: action.userInfo
+        userInfo: {...state.userInfo, ...action.userInfo}
       })
       break;
     case SET_MESSAGE_SINGLE:
