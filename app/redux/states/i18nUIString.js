@@ -36,6 +36,7 @@ const i18nUIString_EN = {
   "submit_nav_Signup": "Sign up",
 
   "title_onBoard_Welcome": "welcome, ",
+  "title_onBoard_GuideNailTitle": ["Welcome to Cornerth.", "What to do?"],
   "descript_onBoard_Intro": ["Cornerth. brings you info from your homeland and current stay.", "Share what’s happening around you and keep up your steps to the fellows from the other side!"],
   "descript_onBoard_BelongsHint": ["First thing to do …", "Tell us where are you from?"],
   "guideing_onBoard_BelongsHint": ["I'm from", "Now based at"],

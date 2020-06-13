@@ -19,8 +19,6 @@ import {
   uncertainErr
 } from "../../../utils/errHandlers.js";
 
-const guidingNaildId = [];
-
 class GuideNails extends React.Component {
   constructor(props){
     super(props);
@@ -29,9 +27,9 @@ class GuideNails extends React.Component {
       unitsBasic: {},
       marksBasic: {}
     };
-
     this.axiosSource = axios.CancelToken.source();
     this._set_unitBasic = this._set_unitBasic.bind(this);
+    this._render_GuideNails = this._render_GuideNails.bind(this);
   }
 
   _set_unitBasic(unitsList){
@@ -68,13 +66,48 @@ class GuideNails extends React.Component {
   }
 
   componentDidMount(){
-
+    this._set_unitBasic( (this.props.guideChoice=="welcome") ? [this.props.guidingNailsId[0]]: [this.props.guidingNailsId[1]] );
   }
 
   componentWillUnmount(){
     if(this.state.axios){
       this.axiosSource.cancel("component will unmount.")
     }
+  }
+
+  _render_GuideNails(){
+    let unitId = this.props.guidingNailsId[ (this.props.guideChoice=="welcome") ? 0 : 1];
+    // for mobile device, use one special Nail
+    let cssVW = window.innerWidth;
+    if(cssVW < 860) {
+      return (
+        <div
+          className={classnames(stylesNail.boxNail, stylesNail.custNailWide)}>
+          <NailFeedMobile
+            {...this.props}
+            leftimg={false}
+            unitId={unitId}
+            customNodesTitle={this.props.guideChoice}
+            linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
+            unitBasic={this.state.unitsBasic[unitId]}
+            marksBasic={this.state.marksBasic} />
+        </div>
+      );
+    };
+    // for laptop / desktop, change nail by cycles
+    return (
+      <div
+        className={classnames(stylesNail.boxNail, stylesNail.custNailWide)}>
+        <NailFeedWide
+          {...this.props}
+          leftimg={ false}
+          unitId={unitId}
+          customNodesTitle={this.props.guideChoice}
+          linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
+          unitBasic={this.state.unitsBasic[unitId]}
+          marksBasic={this.state.marksBasic}/>
+      </div>
+    );
   }
 
   render(){
@@ -94,10 +127,7 @@ class GuideNails extends React.Component {
             styles.boxModule,
             styles.boxModuleSmall
           )}>
-          <div
-            className={classnames(stylesNail.boxNail)}>
-
-          </div>
+          {this._render_GuideNails()}
         </div>
       </div>
     )
@@ -108,6 +138,7 @@ class GuideNails extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
+    guidingNailsId: state.guidingNailsId,
     i18nUIString: state.i18nUIString,
     belongsByType: state.belongsByType,
   }

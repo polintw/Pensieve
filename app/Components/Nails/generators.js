@@ -61,7 +61,9 @@ export function renderNodesRowsCustom(props, customNodesTitle){
       key={"key_nailNodes_custom_"+customNodesTitle}
       className={classnames(stylesFont.fontNodesTitle, stylesFont.colorEditBlack)}>
       {
-        customNodesTitle=="welcome" ? props.i18nUIString.catalog[''] : props.i18nUIString.catalog['']
+        customNodesTitle=="welcome" ?
+        props.i18nUIString.catalog['title_onBoard_GuideNailTitle'][0] :
+        props.i18nUIString.catalog['title_onBoard_GuideNailTitle'][1] // currently only the GuideNail use this
       }
     </span>
   );

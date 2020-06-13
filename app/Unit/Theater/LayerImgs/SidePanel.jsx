@@ -62,7 +62,10 @@ class SidePanel extends React.Component {
           <AuthorPanel/>
         }
         {
-          (this.props.unitCurrent.identity=="viewer") &&
+          (
+            this.props.unitCurrent.identity=="viewer" &&
+            (this.props.guidingNailsId.indexOf(this.props.unitCurrent.unitId) < 0) // guidingNails do not show the Respond & view responds
+          ) &&
           <div
             className={classnames(styles.btnSubmit)}
             style={Object.assign({},
@@ -91,6 +94,7 @@ class SidePanel extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
+    guidingNailsId: state.guidingNailsId,
     unitCurrent: state.unitCurrent,
     i18nUIString: state.i18nUIString,
   }

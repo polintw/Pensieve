@@ -10,7 +10,8 @@ export const initGlobal = {
   i18nUIString: i18nUIStringInit,
   messageSingleClose: messageDialogInit.singleClose,
   messageSingle: messageDialogInit.single,
-  messageBoolean: messageDialogInit.boolean
+  messageBoolean: messageDialogInit.boolean,
+  guidingNailsId: [null,null]
 }
 
 //cnetralize nouns used by the user

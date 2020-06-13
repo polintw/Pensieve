@@ -44,10 +44,11 @@ class NailFeedWide extends React.Component {
     this.setState({onFrame: false})
   }
 
-  _render_nails_nouns(customNodesTitle){
+  _render_nails_nouns(){
+    let customNodesTitle = !!this.props.customNodesTitle ? this.props.customNodesTitle : null;
     let nodesDOM = [];
-    if(!!customNodesTitle) nodesDOM = renderNodesRowsCustom(this.props, customNodesTitle); // currently only GuideNails using, so render without check
-    nodesDOM = renderNodesRows(this.props, styles);
+    if(!!customNodesTitle){ nodesDOM = renderNodesRowsCustom(this.props, customNodesTitle)} // currently only GuideNails using, so render without check
+    else nodesDOM = renderNodesRows(this.props, styles);
 
     return nodesDOM;
   }
@@ -129,7 +130,7 @@ const contentBoxMarks = (self)=>{
         </div>
         <div
           className={classnames(styles.boxNodes)}>
-          {self._render_nails_nouns(this.props.customNodesTitle)}
+          {self._render_nails_nouns()}
         </div>
       </div>
       <div
