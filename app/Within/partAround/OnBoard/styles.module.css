@@ -16,6 +16,10 @@
   box-sizing: border-box;
 }
 
+.rowTop {
+  padding-top: 2.19vh;
+}
+
 .boxFlexColumn {
   display: flex;
   flex-direction: column;

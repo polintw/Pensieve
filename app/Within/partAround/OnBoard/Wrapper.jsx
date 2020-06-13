@@ -112,7 +112,41 @@ class Wrapper extends React.Component {
     return(
       <div
         className={styles.comOnBoardWrapper}>
+        <div
+          className={classnames(styles.boxRelativeRow, styles.rowTop)}>
 
+        </div>
+        <div
+          className={classnames(styles.boxRelativeRow, styles.rowGreet)}>
+          <div
+            className={classnames(styles.boxFlexColumn, styles.boxGreet)}>
+            <div
+              className={classnames(styles.boxGreetTitle)}>
+              <span
+                className={classnames(stylesFont.fontTitle, stylesFont.colorCoral)}
+                style={{ marginRight: "0.87rem" }}>
+                {this.props.i18nUIString.catalog["title_onBoard_Welcome"]}
+              </span>
+              <span
+                className={classnames(stylesFont.fontTitle, stylesFont.colorCoral)}>
+                {this.props.userInfo.firstName + "!"}
+              </span>
+            </div>
+            <div
+              className={classnames(styles.boxGreetContent, styles.boxFlexColumn)}>
+              <span
+                className={classnames(stylesFont.fontDescrip, styles.colorDescripBlack)}
+                style={{ lineHeight: 1.88 }}>
+                {this.props.i18nUIString.catalog["descript_onBoard_Intro"][0]}
+              </span>
+              <span
+                className={classnames(stylesFont.fontDescrip, styles.colorDescripBlack)}
+                style={{ lineHeight: 1.88 }}>
+                {this.props.i18nUIString.catalog["descript_onBoard_Intro"][1]}
+              </span>
+            </div>
+          </div>
+        </div>
         <div
           className={classnames(styles.boxRelativeRow, styles.rowForm)}>
           <div

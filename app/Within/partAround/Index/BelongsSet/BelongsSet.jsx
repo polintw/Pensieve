@@ -8,7 +8,6 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesFont from "../../stylesFont.module.css";
 import BelongsbyType from './BelongsbyType/BelongsbyType.jsx';
-import OnBoard from '../../OnBoard/Wrapper.jsx';
 import {
   _axios_GET_belongRecords,
   _axios_PATCH_belongRecords
@@ -128,23 +127,11 @@ class BelongsSet extends React.Component {
             className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
             {this.props.i18nUIString.catalog["title_BelongSet_"]}</span>
         </div>
-        {
-          ( (!("homeland" in this.props.belongsByType) || (!this.props.belongsByType['homeland'])) &&
-            (!("residence" in this.props.belongsByType) || (!this.props.belongsByType["residence"])) &&
-            this.props.userInfo.accountStatus == "newly"
-          ) ? (
-            <div
-              className={classnames(styles.boxOnBoard)}>
-              <OnBoard/>
-            </div>
-          ): (
-            <div>
-              <BelongsbyType
-                _set_Settingtype={this._set_Settingtype}
-                _set_choiceAnType={this._set_choiceAnType}/>
-            </div>
-          )
-        }
+        <div>
+          <BelongsbyType
+            _set_Settingtype={this._set_Settingtype}
+            _set_choiceAnType={this._set_choiceAnType}/>
+        </div>
 
       </div>
     )

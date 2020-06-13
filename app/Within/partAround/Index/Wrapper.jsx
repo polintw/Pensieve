@@ -51,6 +51,7 @@ class Wrapper extends React.Component {
     this._createdRespond = this._createdRespond.bind(this);
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._render_FooterHint = this._render_FooterHint.bind(this);
+    this._render_Newly = this._render_Newly.bind(this);
   }
 
   _construct_UnitInit(match, location){
@@ -129,55 +130,48 @@ class Wrapper extends React.Component {
   render(){
     return(
       <div>
-        <div
-          className={classnames(styles.comAroundWrapper)}>
-
-          <div
-            className={classnames(styles.boxRow, styles.boxRowTop)}>
-            {
-              this.props.userInfo.accountStatus == "newly" ? (
-                <GuideNails/>
-              ):(
+        {
+          (this.props.userInfo.accountStatus == "newly") ? //should knew before React mount
+          (
+            this._render_Newly()
+          ):(
+            <div
+              className={classnames(styles.comAroundWrapper)}>
+              <div
+                className={classnames(styles.boxRow, styles.boxRowTop)}>
                 <Chain
                   {...this.props}
                   lastVisit={this.state.lastVisit}
                   _set_mountToDo={this._set_mountToDo}/>
-              )
-            }
-          </div>
-          <div
-            className={classnames(styles.boxRow)}
-            style={{margin: '4px 0 0'}}>
-            <BelongsSet/>
-          </div>
-          { // the reset would not be render before the belonged corner was set
-            ( ( ("homeland" in this.props.belongsByType) && (this.props.belongsByType['homeland'])) ||
-              ( ("residence" in this.props.belongsByType) && (this.props.belongsByType["residence"]))
-            ) &&
-            <div
-              className={classnames(styles.boxRow)}>
-              <NavFeed {...this.props}/>
-              <Switch>
-                <Route path={'/gathering'}
-                  render={(props)=>{
-                    return (
-                      <FeedAssigned
-                        lastVisit={this.state.lastVisit}
-                        _set_mountToDo={this._set_mountToDo}
-                        _refer_von_cosmic={this.props._refer_von_cosmic}/>
-                    );
-                  }}/>
-                <Route path={this.props.match.path} render={(props)=> <BelongsMap {...props} />}/>
-              </Switch>
+              </div>
+              <div
+                className={classnames(styles.boxRow)}
+                style={{margin: '4px 0 0'}}>
+                <BelongsSet/>
+              </div>
+              <div
+                className={classnames(styles.boxRow)}>
+                <NavFeed {...this.props}/>
+                <Switch>
+                  <Route path={'/gathering'}
+                    render={(props)=>{
+                      return (
+                        <FeedAssigned
+                          lastVisit={this.state.lastVisit}
+                          _set_mountToDo={this._set_mountToDo}
+                          _refer_von_cosmic={this.props._refer_von_cosmic}/>
+                      );
+                    }}/>
+                    <Route path={this.props.match.path} render={(props)=> <BelongsMap {...props} />}/>
+                  </Switch>
+                </div>
+              <div
+                  className={classnames(styles.boxFooter)}>
+                  {this._render_FooterHint()}
+                </div>
             </div>
-          }
-          <div
-            className={classnames(styles.boxFooter)}>
-            {this._render_FooterHint()}
-
-          </div>
-
-        </div>
+          )
+        }
 
         <Route
           path={((this.props.location.pathname =="/") ? '' : this.props.location.pathname.slice(0, -5))+ '/unit' }
@@ -191,9 +185,40 @@ class Wrapper extends React.Component {
             )
           }
         }/>
-
       </div>
     )
+  }
+
+  _render_Newly(){
+    return this.props.belongsByType.fetched ? // already recieved the res of belonstype
+    (
+      ( (!("homeland" in this.props.belongsByType) || (!this.props.belongsByType['homeland'])) && //no set homeland
+        (!("residence" in this.props.belongsByType) || (!this.props.belongsByType["residence"])) // no set residence
+      ) ? (
+        <div
+          className={classnames(styles.comAroundWrapper)}>
+          <OnBoard/>
+        </div>
+      ) : (
+        <div
+          className={classnames(styles.comAroundWrapper)}>
+          <div
+            className={classnames(styles.boxRow, styles.boxRowTop)}>
+            <GuideNails/>
+          </div>
+          <div
+            className={classnames(styles.boxRow)}
+            style={{margin: '4px 0 0'}}>
+            <BelongsSet/>
+          </div>
+          <div
+            className={classnames(styles.boxRow)}>
+            <GuideNails/>
+          </div>
+        </div>
+      )
+    ) :
+    null;
   }
 
   _render_FooterHint(){

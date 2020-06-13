@@ -13,11 +13,11 @@ import NailFeedWide from '../../../Components/Nails/NailFeedWide/NailFeedWide.js
 import {axios_get_UnitsBasic} from '../../../utils/fetchHandlers.js';
 import {
   handleUsersList,
-} from "../../../../redux/actions/general.js";
+} from "../../../redux/actions/general.js";
 import {
   cancelErr,
   uncertainErr
-} from "../../../../utils/errHandlers.js";
+} from "../../../utils/errHandlers.js";
 
 const guidingNaildId = [];
 
