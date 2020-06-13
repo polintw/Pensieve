@@ -83,48 +83,21 @@ class GuideNails extends React.Component {
       <div
         className={classnames(styles.comGuideNails)}>
         <div
-          className={classnames(styles.boxFullWide)}
-          style={{margin: '4px 0 8px'}}>
-          {
-            ( (!("homeland" in this.props.belongsByType) || (!this.props.belongsByType['homeland'])) &&
-              (!("residence" in this.props.belongsByType) || (!this.props.belongsByType["residence"]))
-            ) ? (
-              <div>
-                <div>
-                  <span
-                    className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
-                    {this.props.i18nUIString.catalog["title_welcome"]}</span>
-                </div>
-                <div
-                  className={classnames(
-                    styles.boxModule,
-                    styles.boxModuleSmall
-                  )}>
-                  <div
-                    className={classnames(stylesNail.boxNail)}>
-                    <NailFeedWide
-                      {...this.props}
-                      leftimg={false}
-                      customNodesTitle={"welcome"}
-                      unitId={guidingNaildId[0]}
-                      linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
-                      unitBasic={this.state.unitsBasic[guidingNaildId[0]]}
-                      marksBasic={this.state.marksBasic}/>
-                  </div>
-                </div>
+          className={classnames(styles.boxTitle)}>
+          <span
+            className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
+            {this.props.i18nUIString.catalog[ (this.props.guideChoice=="welcome")? "title_welcome": 'title_instruction']}
+          </span>
+        </div>
+        <div
+          className={classnames(
+            styles.boxModule,
+            styles.boxModuleSmall
+          )}>
+          <div
+            className={classnames(stylesNail.boxNail)}>
 
-              </div>
-            ): (
-              <div>
-                <div>
-                  <span
-                    className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
-                    {this.props.i18nUIString.catalog["title_instruction"]}</span>
-                </div>
-
-              </div>
-            )
-          }
+          </div>
         </div>
       </div>
     )

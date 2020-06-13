@@ -6,8 +6,7 @@
 }
 
 .comGuideNails {
-  display: flex;
-  flex-direction: column;
+
 }
 
 .boxRelativeRow {
@@ -16,8 +15,23 @@
   box-sizing: border-box;
 }
 
+.rowGreet {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2.386vh;
+}
+
 .rowTop {
   padding-top: 2.19vh;
+}
+
+.boxGreetTitle {
+  margin-bottom: 2.19vh;
+}
+
+.boxGreetContent {
+  align-items: center;
+  margin-bottom: 4.386vh;
 }
 
 .boxFlexColumn {
@@ -73,6 +87,23 @@
   overflow: visible;
 }
 
+.boxLogo {
+  height: 4.3vh;
+  max-width: 25%;
+  box-sizing: border-box;
+  margin-left: 5.14%;
+  opacity: 0.23;
+}
+
+.boxGreet {
+  align-items: center;
+  width: 1036px;
+  max-width: 84vw;
+  position: relative;
+  box-sizing: border-box;
+  border-bottom: 1px solid #d8d8d8;
+}
+
 .boxForm {
   align-items: center;
   width: 556px;
@@ -112,14 +143,14 @@
   overflow: visible;
 }
 
-.boxFullWide {
-  width: 100%;
-}
-
 .boxModule{
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+}
+
+.boxTitle {
+  margin: 8px 0;
 }
 
 @media screen and (max-width:860px) {

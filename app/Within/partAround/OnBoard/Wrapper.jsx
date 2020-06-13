@@ -114,7 +114,7 @@ class Wrapper extends React.Component {
         className={styles.comOnBoardWrapper}>
         <div
           className={classnames(styles.boxRelativeRow, styles.rowTop)}>
-
+          <div className={classnames(styles.boxLogo)}></div>
         </div>
         <div
           className={classnames(styles.boxRelativeRow, styles.rowGreet)}>
@@ -229,7 +229,7 @@ class Wrapper extends React.Component {
               className={classnames(
                 stylesFont.fontSubmit ,
                 stylesFont.colorWhite)}>
-              {this.props.i18nUIString.catalog["submit_onBoard_start"]}
+              {this.props.i18nUIString.catalog["submit_onBoard_next"]}
             </span>
           </div>
         </div>

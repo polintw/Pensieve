@@ -31,12 +31,16 @@ class BelongsSet extends React.Component {
       axios: false,
       chosenNode: '',
       settingType: '',
+      mouseOnStart: false
     };
     this.axiosSource = axios.CancelToken.source();
     this._set_choiceAnType = this._set_choiceAnType.bind(this);
     this._render_DialogMessage = this._render_DialogMessage.bind(this);
     this._handlesubmit_newBelong = this._handlesubmit_newBelong.bind(this);
     this._set_Settingtype = (settingType)=>{this.setState({settingType: settingType})};
+    this._handleEnter_newlyStart = this._handleEnter_newlyStart.bind(this);
+    this._handleLeave_newlyStart = this._handleLeave_newlyStart.bind(this);
+    this._handleClick_onBoardComplete = this._handleClick_onBoardComplete.bind(this);
 
   }
 
@@ -120,22 +124,67 @@ class BelongsSet extends React.Component {
   render(){
     return(
       <div
-        className={classnames(styles.comBelongSet)}>
+        className={classnames(styles.boxNewlySet)}>
         <div
-          className={classnames(styles.boxTitle)}>
-          <span
-            className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
-            {this.props.i18nUIString.catalog["title_BelongSet_"]}</span>
-        </div>
-        <div>
-          <BelongsbyType
-            _set_Settingtype={this._set_Settingtype}
-            _set_choiceAnType={this._set_choiceAnType}/>
-        </div>
+          className={classnames(styles.comBelongSet)}>
+          <div
+            className={classnames(styles.boxTitle)}>
+            <span
+              className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
+              {this.props.i18nUIString.catalog["title_BelongSet_"]}</span>
+          </div>
+          <div>
+            <BelongsbyType
+              _set_Settingtype={this._set_Settingtype}
+              _set_choiceAnType={this._set_choiceAnType}/>
+          </div>
 
+        </div>
+        {
+          (this.props.userInfo.accountStatus == "newly") &&
+          <div
+            className={classnames(styles.boxNewly)}>
+            <span
+              className={classnames(
+                styles.spanNewly,
+                stylesFont.colorEditLightBlack, stylesFont.fontContent)}>
+              {this.props.i18nUIString.catalog['hint_onBoard_start']}
+            </span>
+            <div
+              className={classnames(
+                styles.boxButton,
+                {[styles.boxButtonMouseOn]: this.state.mouseOnStart}
+              )}
+              onClick={this._handleClick_onBoardComplete}
+              onMouseEnter={this._handleEnter_newlyStart}
+              onMouseLeave={this._handleLeave_newlyStart}>
+              <span
+                className={classnames(
+                  stylesFont.fontSubmit ,
+                  stylesFont.colorWhite)}>
+                  {this.props.i18nUIString.catalog["submit_onBoard_start"]}
+                </span>
+              </div>
+          </div>
+        }
       </div>
     )
   }
+
+  _handleClick_onBoardComplete(e){
+    e.preventDefault();
+    e.stopPropagation();
+
+  }
+
+  _handleEnter_newlyStart(e){
+    this.setState({mouseOnStart: true})
+  }
+
+  _handleLeave_newlyStart(e){
+    this.setState({mouseOnStart: false})
+  }
+
 }
 
 const mapStateToProps = (state)=>{

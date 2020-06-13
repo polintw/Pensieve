@@ -166,9 +166,9 @@ class Wrapper extends React.Component {
                   </Switch>
                 </div>
               <div
-                  className={classnames(styles.boxFooter)}>
+                className={classnames(styles.boxFooter)}>
                   {this._render_FooterHint()}
-                </div>
+              </div>
             </div>
           )
         }
@@ -198,13 +198,17 @@ class Wrapper extends React.Component {
         <div
           className={classnames(styles.comAroundWrapper)}>
           <OnBoard/>
+          <div
+            className={classnames(styles.boxFooter)}
+            style={{marginBottom: '6vh'}}></div>
         </div>
       ) : (
         <div
           className={classnames(styles.comAroundWrapper)}>
           <div
             className={classnames(styles.boxRow, styles.boxRowTop)}>
-            <GuideNails/>
+            <GuideNails
+              guideChoice={'welcome'}/>
           </div>
           <div
             className={classnames(styles.boxRow)}
@@ -212,8 +216,10 @@ class Wrapper extends React.Component {
             <BelongsSet/>
           </div>
           <div
-            className={classnames(styles.boxRow)}>
-            <GuideNails/>
+            className={classnames(styles.boxRow)}
+            style={{paddingTop: '24px'}}>
+            <GuideNails
+              guideChoice={'instruction'}/>
           </div>
         </div>
       )
