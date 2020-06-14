@@ -77,6 +77,7 @@ class GuideNails extends React.Component {
 
   _render_GuideNails(){
     let unitId = this.props.guidingNailsId[ (this.props.guideChoice=="welcome") ? 0 : 1];
+    if (!(unitId in this.state.unitsBasic)) return; //skip if the info of the unit not yet fetch
     // for mobile device, use one special Nail
     let cssVW = window.innerWidth;
     if(cssVW < 860) {

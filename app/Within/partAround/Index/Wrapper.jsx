@@ -221,6 +221,9 @@ class Wrapper extends React.Component {
             <GuideNails
               guideChoice={'instruction'}/>
           </div>
+          <div
+            className={classnames(styles.boxFooter)}
+            style={{marginBottom: '6vh'}}></div>
         </div>
       )
     ) :
