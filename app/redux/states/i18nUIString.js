@@ -55,7 +55,8 @@ const i18nUIString_EN = {
     "from ", "staying at ", //Original: "coming from"
     "as well! Joining me by Signing up today on Cornerth. See you there!", //Original:"as well! Joining me by Signing up and see you in there!"
   ],
-  "message_Invite_General": "Welcome to Cornerth.! It's our pleasure to invite you exploring a different world with our fellows. This is a place for you to get more connection to the environment at where you are. Signing up now and join your fellows in this confused world!", //Original:"It's a place for you connecting the environment you are. Signing up and join your fellows in this confused world!"
+  "message_Invite_General": "Welcome to Cornerth.! It's our pleasure to invite you exploring a different world with our fellows. This is a place for you to get more connection to the environment at where you are. Signing up now and join your fellows in this confused world!", 
+  //Original:"It's a place for you connecting the environment you are. Signing up and join your fellows in this confused world!"
 
   "message_oneLineCopy_success": "Link has copied to your clipboard.",
   "message_oneLineCopy_empty": "No text could be copied.",

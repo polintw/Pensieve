@@ -44,7 +44,7 @@ class Wrapper extends React.Component {
       nodesTitleObj = {
         list: [1],
         basic: {
-          1: {name: this.props.title_onBoard_GuideNailTitle[this.props.guidingNailsId.indexOf(this.props.unitCurrent.unitId)]}
+          1: {name: this.props.i18nUIString.catalog['title_onBoard_GuideNailTitle'][this.props.guidingNailsId.indexOf(this.props.unitCurrent.unitId)]}
         }
       }
     };

@@ -11,7 +11,7 @@ export const initGlobal = {
   messageSingleClose: messageDialogInit.singleClose,
   messageSingle: messageDialogInit.single,
   messageBoolean: messageDialogInit.boolean,
-  guidingNailsId: [null,null]
+  guidingNailsId: ["0c1707iab5id31i83b8", null]
 }
 
 //cnetralize nouns used by the user

@@ -20,6 +20,9 @@ import {
   uncertainErr
 } from "../../../../utils/errHandlers.js";
 import {axios_get_UnitsBasic} from '../../../../utils/fetchHandlers.js';
+import {
+  domain
+} from '../../../../../config/services.js';
 
 class ChainShared extends React.Component {
   constructor(props){
@@ -81,7 +84,7 @@ class ChainShared extends React.Component {
     let listDOM = this.props.sharedsList.list.map((unitId, index)=>{
       if( !(unitId in self.state.unitsBasic)) return null; //check if unitsBasic was prepared.
 
-      let imgSrcCover = '/router/img/'+self.state.unitsBasic[unitId].pic_layer0+'?type=thumb';
+      let imgSrcCover = 'https://' + domain.name +'/router/img/'+self.state.unitsBasic[unitId].pic_layer0+'?type=thumb';
       return (
         <Link
           key={"key_SharedNails_"+index}

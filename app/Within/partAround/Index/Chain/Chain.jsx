@@ -77,7 +77,7 @@ class Chain extends React.Component {
       self.props._set_mountToDo('chainlist'); // and, after we get the list back, inform the parent we are done with the lastVisit time
       //and use the list to get the data of each unit
       // no need to 'return' here, let the f() deal with the error itself
-      _set_unitBasic(displayOrder);
+      self._set_unitBasic(displayOrder);
     })
     .catch(function (thrown) {
       self.setState({axios: false});
