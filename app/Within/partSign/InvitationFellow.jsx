@@ -77,55 +77,64 @@ class InvitationFellow extends React.Component {
       return null
     };
     return (this.state.valid) ? (
-      <div>
+      <div
+        className={classnames(styles.comInvitation)}>
         <div>
-          <span>
-            {this.props.i18nUIString.catalog["greet_Welcome"]}
+          <span
+            className={classnames("fontTitle", "colorStandard")}>
+            {this.props.i18nUIString.catalog["title_Invitation_"]}
           </span>
-          <div
-            className={styles.boxLogo}>
-            <SvgLogo/>
-          </div>
         </div>
-        <div>
-          <p>{this.props.i18nUIString.catalog["message_Invite_fellows"][0]}</p>
-          <div>
-            <AccountPalette
-              size={'regular'}
-              userId={this.state.sender}/>
-          </div>
-          <p>{this.props.i18nUIString.catalog["message_Invite_fellows"][1]}</p>
+        <p
+          className={classnames("fontContent", "colorSignBlack")}>
+          {this.props.i18nUIString.catalog["message_Invite_fellows"][0]}
+          <AccountPalette
+            size={'regular'}
+            styleFirst={{fontWeight: '400'}}
+            userId={this.state.sender}/>
+          {this.props.i18nUIString.catalog["message_Invite_fellows"][5]}
+        </p>
+        <p
+          className={classnames("fontContent", "colorSignBlack")}>
+          {this.props.i18nUIString.catalog["message_Invite_fellows"][1]}
+        </p>
+        <p
+          className={classnames("fontContent", "colorSignBlack")}>
           {
             this.state.belongType =="homeland" ? (
-              <p>{this.props.i18nUIString.catalog["message_Invite_fellows"][2]}</p>
+              this.props.i18nUIString.catalog["message_Invite_fellows"][2]
             ):(
-              <p>{this.props.i18nUIString.catalog["message_Invite_fellows"][3]}</p>
+              this.props.i18nUIString.catalog["message_Invite_fellows"][3]
             )
           }
-          <div>
+          <span
+            className={classnames("fontContent", "colorSignBlack", "weightBold")}>
             {this.state.node in this.props.nounsBasic ? (
               this.props.nounsBasic[this.state.node].name) : (
                 null
               )}
-          </div>
-          <p>{this.props.i18nUIString.catalog["message_Invite_fellows"][4]}</p>
+          </span>
+          {this.props.i18nUIString.catalog["message_Invite_fellows"][6]}
+        </p>
+        <p
+          className={classnames("fontContent", "colorSignBlack")}>
+          {this.props.i18nUIString.catalog["message_Invite_fellows"][4]}</p>
+        <p
+          className={classnames("fontContent", "colorSignBlack")}>
+          {this.props.i18nUIString.catalog["message_Invite_fellows"][7]}</p>
 
-        </div>
       </div>
     ):(
-      <div>
+      <div
+        className={classnames(styles.comInvitation)}>
         <div>
-          <span>
-            {this.props.i18nUIString.catalog["greet_Welcome"]}
+          <span
+            className={classnames("fontTitle", "colorStandard")}>
+            {this.props.i18nUIString.catalog["title_Invitation_"]}
           </span>
-          <div
-            className={styles.boxLogo}>
-            <SvgLogo/>
-          </div>
         </div>
         <div>
           <p>{this.props.i18nUIString.catalog["message_Invite_General"]}</p>
-
         </div>
       </div>
     )

@@ -14,7 +14,7 @@ const i18nUIString_EN = {
   "title_Signup_VefiryConfirm": "Complete!",
   "guidingSign_Signup_Success": [
     "Your registration was submitted successfully.", //"Your registration was submit successfully."
-    "Please verify your email address with the link sent to your mailbox.", 
+    "Please verify your email address with the link sent to your mailbox.",
   ],//"Please verifing your mail address by link we just sent to you. That's all you need to do before log in." 後面這句感覺不太需要?!
   "message_Signin_intro": ["Get Started!", "Before you miss the wonder of the world."], //"before" to "Before"
 
@@ -46,16 +46,20 @@ const i18nUIString_EN = {
   "guiding_Invite_": ["Choosing the surrounding people you would like to invite", "You havn't set the place where you belong to."],//Original:"Choosing the characteristic of people you want to invite", "You havn't set the place you belong to yet."
   "title_onBoard_GuideNailTitle": ["Welcome to Cornerth.", "What to do?"],
   "hint_onBoard_start": "That's it. If you get ready,",
-  "submit_onBoard_next": "Next",  
+  "submit_onBoard_next": "Next",
   "title_Invite_": "Create an Invitation!",
+  "title_Invitation_": "Invitation",
   "descript_Invite_optType": [", as Homeland.", ", as Current Stay."],
   "message_Invite_fellows": [
     "Hi, there. This is ", //Original: "Here is"
-    ". I'm pleased to invite you to experience Cornerth. with me as you're ", //Original:". And I would like to invite you to experience the Cornerth. with me as you're "
+    "I'm pleased to invite you to experience Cornerth. with me as you're ", //Original:". And I would like to invite you to experience the Cornerth. with me as you're "
     "from ", "staying at ", //Original: "coming from"
-    "as well! Joining me by Signing up today on Cornerth. See you there!", //Original:"as well! Joining me by Signing up and see you in there!"
+    "Joining me by Signing up today on Cornerth. ", //Original:"as well! Joining me by Signing up and see you in there!"
+    ".",
+    " as well!",
+    "See you there!"
   ],
-  "message_Invite_General": "Welcome to Cornerth.! It's our pleasure to invite you exploring a different world with our fellows. This is a place for you to get more connection to the environment at where you are. Signing up now and join your fellows in this confused world!", 
+  "message_Invite_General": "Welcome to Cornerth.! It's our pleasure to invite you exploring a different world with our fellows. This is a place for you to get more connection to the environment at where you are. Signing up now and join your fellows in this confused world!",
   //Original:"It's a place for you connecting the environment you are. Signing up and join your fellows in this confused world!"
 
   "message_oneLineCopy_success": "Link has copied to your clipboard.",
