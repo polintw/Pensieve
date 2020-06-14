@@ -285,7 +285,7 @@ class SignupForm extends React.Component {
           </span>
           <input
             type="text"
-            placeholder="Family Name"
+            placeholder={this.props.i18nUIString.catalog['subtitle_Sign_name'][1]}
             name="lastName"
             onKeyDown={this._handleKey_DownInput}
             onChange={ this._handleChange_Input }
