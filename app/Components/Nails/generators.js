@@ -53,3 +53,20 @@ export function renderNodesRowsColorReverse(props, styles){
 
   return nounsDOM;
 }
+
+export function renderNodesRowsCustom(props, customNodesTitle){
+  let nounsDOM = [];
+  nounsDOM.push(
+    <span
+      key={"key_nailNodes_custom_"+customNodesTitle}
+      className={classnames(stylesFont.fontNodesTitle, stylesFont.colorEditBlack)}>
+      {
+        customNodesTitle=="welcome" ?
+        props.i18nUIString.catalog['title_onBoard_GuideNailTitle'][0] :
+        props.i18nUIString.catalog['title_onBoard_GuideNailTitle'][1] // currently only the GuideNail use this
+      }
+    </span>
+  );
+
+  return nounsDOM;
+}

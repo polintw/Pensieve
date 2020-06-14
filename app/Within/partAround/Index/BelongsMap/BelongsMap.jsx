@@ -8,9 +8,9 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import Nav from './Nav.jsx';
-import BelongStatics from './BelongStatics.jsx';
 import FellowsHome from './FellowsHome.jsx';
 import FellowsResidence from './FellowsResidence.jsx';
+import Invite from '../Invite/Invite.jsx';
 
 class BelongsMap extends React.Component {
   constructor(props){
@@ -81,8 +81,6 @@ class BelongsMap extends React.Component {
         className={classnames(styles.comBelongsMap)}>
         <div
           className={classnames(styles.boxNavBelongsMap)}>
-          <BelongStatics
-            type={this.state.viewTab}/>
           <Nav
             currentTab={this.state.viewTab}
             _set_viewTab={this._set_viewTab}/>
@@ -92,6 +90,10 @@ class BelongsMap extends React.Component {
           {
             this._render_mapView()
           }
+        </div>
+        <div
+          className={classnames(styles.boxInvite)}>
+          <Invite/>
         </div>
 
       </div>

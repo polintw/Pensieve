@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   Link,
-  Redirect,
+  Switch,
   Route,
   withRouter
 } from 'react-router-dom';
@@ -14,10 +14,12 @@ import {
   axios_visit_Index
 } from './utils.js';
 import Chain from './Chain/Chain.jsx';
-import Invite from './Invite/Invite.jsx';
+import BelongsMap from './BelongsMap/BelongsMap.jsx'
 import BelongsSet from './BelongsSet/BelongsSet.jsx';
 import FeedAssigned from './FeedAssigned/FeedAssigned.jsx';
+import NavFeed from "./NavFeed/NavFeed.jsx";
 import OnBoard from '../OnBoard/Wrapper.jsx';
+import GuideNails from '../OnBoard/GuideNails.jsx';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
 import ModalBox from '../../../Components/ModalBox.jsx';
 import ModalBackground from '../../../Components/ModalBackground.jsx';
@@ -49,6 +51,7 @@ class Wrapper extends React.Component {
     this._createdRespond = this._createdRespond.bind(this);
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._render_FooterHint = this._render_FooterHint.bind(this);
+    this._render_Newly = this._render_Newly.bind(this);
   }
 
   _construct_UnitInit(match, location){
@@ -96,9 +99,6 @@ class Wrapper extends React.Component {
     this.setState({axios: true});
 
     //get the last visit situation for child component
-    /*
-    Now this req is important. It not only res the last visit, but also res 'newly' at the very first sign in right after verified.
-    */
     axios_visit_GET_last(self.axiosSource.token)
     .then(function(lastVisitRes){
       self._set_mountToDo("lastVisit"); //and splice the label from the todo list
@@ -130,15 +130,85 @@ class Wrapper extends React.Component {
   render(){
     return(
       <div>
+        {
+          (this.props.userInfo.accountStatus == "newly") ? //should knew before React mount
+          (
+            this._render_Newly()
+          ):(
+            <div
+              className={classnames(styles.comAroundWrapper)}>
+              <div
+                className={classnames(styles.boxRow, styles.boxRowTop)}>
+                <Chain
+                  {...this.props}
+                  lastVisit={this.state.lastVisit}
+                  _set_mountToDo={this._set_mountToDo}/>
+              </div>
+              <div
+                className={classnames(styles.boxRow)}
+                style={{margin: '4px 0 0'}}>
+                <BelongsSet/>
+              </div>
+              <div
+                className={classnames(styles.boxRow)}>
+                <NavFeed {...this.props}/>
+                <Switch>
+                  <Route path={'/gathering'}
+                    render={(props)=>{
+                      return (
+                        <FeedAssigned
+                          lastVisit={this.state.lastVisit}
+                          _set_mountToDo={this._set_mountToDo}
+                          _refer_von_cosmic={this.props._refer_von_cosmic}/>
+                      );
+                    }}/>
+                    <Route path={this.props.match.path} render={(props)=> <BelongsMap {...props} />}/>
+                  </Switch>
+                </div>
+              <div
+                className={classnames(styles.boxFooter)}>
+                  {this._render_FooterHint()}
+              </div>
+            </div>
+          )
+        }
+
+        <Route
+          path={((this.props.location.pathname =="/") ? '' : this.props.location.pathname.slice(0, -5))+ '/unit' }
+          render={(props)=> {
+            return (
+              <UnitScreen
+                {...props}
+                _createdRespond= {this._createdRespond}
+                _construct_UnitInit={this._construct_UnitInit}
+                _refer_von_unit={this.props._refer_von_cosmic}/>
+            )
+          }
+        }/>
+      </div>
+    )
+  }
+
+  _render_Newly(){
+    return this.props.belongsByType.fetched ? // already recieved the res of belonstype
+    (
+      ( (!("homeland" in this.props.belongsByType) || (!this.props.belongsByType['homeland'])) && //no set homeland
+        (!("residence" in this.props.belongsByType) || (!this.props.belongsByType["residence"])) // no set residence
+      ) ? (
         <div
           className={classnames(styles.comAroundWrapper)}>
-
+          <OnBoard/>
+          <div
+            className={classnames(styles.boxFooter)}
+            style={{marginBottom: '6vh'}}></div>
+        </div>
+      ) : (
+        <div
+          className={classnames(styles.comAroundWrapper)}>
           <div
             className={classnames(styles.boxRow, styles.boxRowTop)}>
-            <Chain
-              {...this.props}
-              lastVisit={this.state.lastVisit}
-              _set_mountToDo={this._set_mountToDo}/>
+            <GuideNails
+              guideChoice={'welcome'}/>
           </div>
           <div
             className={classnames(styles.boxRow)}
@@ -146,47 +216,15 @@ class Wrapper extends React.Component {
             <BelongsSet/>
           </div>
           <div
-            className={classnames(styles.boxRow)}>
-            <FeedAssigned
-              lastVisit={this.state.lastVisit}
-              _set_mountToDo={this._set_mountToDo}
-              _refer_von_cosmic={this.props._refer_von_cosmic}/>
+            className={classnames(styles.boxRow)}
+            style={{paddingTop: '24px'}}>
+            <GuideNails
+              guideChoice={'instruction'}/>
           </div>
-          <div
-            className={classnames(styles.boxFooter)}>
-            {this._render_FooterHint()}
-
-          </div>
-          <div
-            style={{display: 'none'}}
-            className={classnames(styles.boxRow)}>
-            <Invite/>
-          </div>
-
         </div>
-
-        <Route
-          path={"/unit"}
-          render={(props)=> {
-            return (
-              <UnitScreen
-                {...props}
-                _createdRespond= {this._createdRespond}
-                _construct_UnitInit={this._construct_UnitInit}
-                _refer_von_unit={this.props._refer_von_cosmic}/>)
-              }}/>
-        {
-          (this.state.lastVisit == 'newly') &&
-          <ModalBox containerId="root">
-            <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(255,255,255, 0.98)'}}>
-              <OnBoard
-                _set_lastVisit={this._set_lastVisit}/>
-            </ModalBackground>
-          </ModalBox>
-        }
-
-      </div>
-    )
+      )
+    ) :
+    null;
   }
 
   _render_FooterHint(){

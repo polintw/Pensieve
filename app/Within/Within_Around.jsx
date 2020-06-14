@@ -10,7 +10,6 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import Around from './partAround/Around.jsx';
-import BelongsMap from './partAround/BelongsMap/BelongsMap.jsx'
 import {
   fetchBelongRecords
 } from '../redux/actions/general.js'
@@ -68,11 +67,6 @@ class WithinAround extends React.Component {
     }
   }
 
-  static getDerivedStateFromProps(props, state){
-    //It should return an object to update the state, or 'null' to update nothing.
-    return null;
-  }
-
   componentDidUpdate(prevProps, prevState, snapshot){
     //set the state back to default if the update came from Redirect
     //preventing Redirect again which would cause error
@@ -116,7 +110,6 @@ class WithinAround extends React.Component {
             <div
               className={classnames(styles.boxAroundContentCenter)}>
               <Switch>
-                <Route path={'/fellows'} render={(props)=> <BelongsMap {...props} />}/>
                 <Route path={this.props.match.path} render={(props)=> <Around {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
 
               </Switch>

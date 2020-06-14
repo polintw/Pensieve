@@ -5,7 +5,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import stylesNail from "../stylesNail.module.css";
+import stylesNail from "../../stylesNail.module.css";
 import stylesFont from '../../stylesFont.module.css';
 import NailFeed from '../../../../Components/Nails/NailFeed/NailFeed.jsx';
 import NailFeedWide from '../../../../Components/Nails/NailFeedWide/NailFeedWide.jsx';
@@ -128,7 +128,7 @@ class FeedAssigned extends React.Component {
                 {...this.props}
                 leftimg={false}
                 unitId={unitId}
-                linkPath={'/unit'}
+                linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
                 unitBasic={this.state.unitsBasic[unitId]}
                 marksBasic={this.state.marksBasic} />
             </div>
@@ -146,7 +146,7 @@ class FeedAssigned extends React.Component {
             <NailFeed
               {...this.props}
               unitId={unitId}
-              linkPath={'/unit'}
+              linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
               unitBasic={this.state.unitsBasic[unitId]}
               marksBasic={this.state.marksBasic}/>
           </div>
@@ -158,7 +158,7 @@ class FeedAssigned extends React.Component {
               {...this.props}
               leftimg={ remainder2 ? true : false}
               unitId={unitId}
-              linkPath={'/unit'}
+              linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
               unitBasic={this.state.unitsBasic[unitId]}
               marksBasic={this.state.marksBasic}/>
           </div>
@@ -195,13 +195,6 @@ class FeedAssigned extends React.Component {
 
     return (
       <div>
-        <div
-          className={classnames(styles.boxTitle)}
-          style={{textAlign: 'right'}}>
-          <span
-            className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
-            {this.props.i18nUIString.catalog["title_FeedAssigned_"]}</span>
-        </div>
         {
           // notice, a condition if the user didn't set any belong, not going to render at all
           ((concatList.length > 0) &&

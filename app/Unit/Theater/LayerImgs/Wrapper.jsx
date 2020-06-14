@@ -39,17 +39,24 @@ class Wrapper extends React.Component {
 
 
   render(){
+    let nodesTitleObj = this.props.unitCurrent.nouns;
+    if(this.props.guidingNailsId.indexOf(this.props.unitCurrent.unitId) != (-1) ){ // guidingNails has its special title
+      nodesTitleObj = {
+        list: [1],
+        basic: {
+          1: {name: this.props.title_onBoard_GuideNailTitle[this.props.guidingNailsId.indexOf(this.props.unitCurrent.unitId)]}
+        }
+      }
+    };
+
     return(
       <div
         className={classnames( styles.comWrapper)}>
         <div
           className={classnames(styles.boxContentWidth, styles.boxTitle)}>
-          {
-            this.props.unitCurrent.nouns &&
-            <NodesExtensible
-              nouns={this.props.unitCurrent.nouns}
-              _handleClick_listNoun={this.props._refer_toandclose}/>
-          }
+          <NodesExtensible
+            nouns={nodesTitleObj}
+            _handleClick_listNoun={this.props._refer_toandclose}/>
           <SidePanel
             {...this.props}/>
         </div>
@@ -65,18 +72,21 @@ class Wrapper extends React.Component {
         <div
           className={classnames(styles.boxContentWidth, styles.boxBottom)}>
           <div>
-            <span
-              className={classnames(
-                'colorEditBlack',
-                'fontContentPlain',
-                styles.spanResponds,
-                {[styles.spanRespondsActiv]: this.state.onSpanResponds}
-              )}
-              onClick={this._handleClick_LinkListResponds}
-              onMouseEnter={this._handleEnter_spanResponds}
-              onMouseLeave={this._handleLeave_spanResponds}>
-              {this.props.i18nUIString.catalog['link_UnitListResponds']}
-            </span>
+            {
+              (this.props.guidingNailsId.indexOf(this.props.unitCurrent.unitId) < 0) && // guidingNails do not show the Respond & view responds
+              <span
+                className={classnames(
+                  'colorEditBlack',
+                  'fontContentPlain',
+                  styles.spanResponds,
+                  {[styles.spanRespondsActiv]: this.state.onSpanResponds}
+                )}
+                onClick={this._handleClick_LinkListResponds}
+                onMouseEnter={this._handleEnter_spanResponds}
+                onMouseLeave={this._handleLeave_spanResponds}>
+                {this.props.i18nUIString.catalog['link_UnitListResponds']}
+              </span>
+            }
           </div>
           <div
             className={classnames(styles.boxBottomLeft)}>
@@ -181,6 +191,7 @@ class Wrapper extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
+    guidingNailsId: state.guidingNailsId,
     unitCurrent: state.unitCurrent,
     i18nUIString: state.i18nUIString
   }

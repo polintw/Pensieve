@@ -14,12 +14,12 @@ import {
 import {
   cancelErr,
   uncertainErr
-} from "../../../utils/errHandlers.js";
+} from "../../../../utils/errHandlers.js";
 import {
   handleNounsList,
-} from "../../../redux/actions/general.js";
+} from "../../../../redux/actions/general.js";
 
-class FellowsResidence extends React.Component {
+class FellowsHome extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -38,8 +38,8 @@ class FellowsResidence extends React.Component {
 
     _axios_GET_feed_Fellows(
       this.axiosSource.cancelToken,
-      this.props.belongsByType['residence'],
-      {baseCat: 'residence', curiousArr: ['homeland']}
+      this.props.belongsByType['homeland'],
+      {baseCat: 'homeland', curiousArr: ['residence']}
     )
     .then((resObj)=>{
       const nodesList= resObj.main.nodesList;
@@ -62,9 +62,8 @@ class FellowsResidence extends React.Component {
 
   }
 
-
   componentDidUpdate(prevProps, prevState, snapshot){
-    if(prevProps.belongsByType.residence != this.props.belongsByType.residence && !!this.props.belongsByType.residence){
+    if(prevProps.belongsByType.homeland != this.props.belongsByType.homeland && !!this.props.belongsByType.homeland){
       this._init_fetch();
     }
   }
@@ -83,13 +82,13 @@ class FellowsResidence extends React.Component {
     let listDOM = this.state.cornersList.map((nodeId, index)=>{
       return (
         <div
-          key={"_key_fellowsResiCorners_"+index}
-          style={{margin: "0 1vw"}}>
+          key={"_key_fellowsHomeCorners_"+index}
+          className={classnames(styles.boxMapCorner)}>
           <MapCorner
             nodeId={nodeId}
-            typeNodeId={this.props.belongsByType['residence']}
-            currentType={'residence'}
-            typeReverse={'homeland'}/>
+            typeNodeId={this.props.belongsByType['homeland']}
+            currentType={'homeland'}
+            typeReverse={'residence'}/>
         </div>
       )
     });
@@ -100,7 +99,7 @@ class FellowsResidence extends React.Component {
   render(){
     return(
       <div
-        className={classnames(styles.comTabView)}>
+        className={classnames(styles.boxModule)}>
         {this._render_corners()}
       </div>
     )
@@ -124,4 +123,4 @@ const mapDispatchToProps = (dispatch) => {
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(FellowsResidence));
+)(FellowsHome));

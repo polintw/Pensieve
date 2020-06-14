@@ -1,5 +1,6 @@
 export const initWithin = {
   belongsByType: {
+    fetched: false,
     setTypesList: [], // [? 'homeland', ? 'residence']
     "homeland": null,
     /*"homelandup": {nodeId, listToTop, topParentId}*/

@@ -247,7 +247,7 @@ class CreateShare extends React.Component {
   _open_editingModal(){
     // we modify the url to allow user using 'previous page' for going back
     this.props.history.push({
-      pathname: this.props.match.path,
+      pathname: this.props.location.pathname,
       search: (this.props.location.search.length> 0) ? this.props.location.search+"&creating" : '?creating',
       state: {from: this.props.location}
     });

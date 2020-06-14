@@ -14,6 +14,9 @@ import SvgPin from '../../Svg/SvgPin.jsx';
 import {
   renderNodesRows,
 } from '../generators.js';
+import {
+  domain
+} from '../../../../config/services.js';
 
 class NailFeed extends React.Component {
   constructor(props){
@@ -54,7 +57,7 @@ class NailFeed extends React.Component {
   }
 
   render(){
-    let imgSrcCover = '/router/img/'+this.props.unitBasic.pic_layer0+'?type=thumb';
+    let imgSrcCover = 'https://'+domain.name+'/router/img/'+this.props.unitBasic.pic_layer0+'?type=thumb';
 
     return(
       <Link

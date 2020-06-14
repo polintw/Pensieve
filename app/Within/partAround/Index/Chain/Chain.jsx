@@ -8,7 +8,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import stylesNail from "../stylesNail.module.css";
+import stylesNail from "../../stylesNail.module.css";
 import stylesFont from '../../stylesFont.module.css';
 import ChainShared from './ChainShared.jsx';
 import ChainMessage from './ChainMessage.jsx';
@@ -39,6 +39,7 @@ class Chain extends React.Component {
 
     this.axiosSource = axios.CancelToken.source();
     this._set_ChainUnits = this._set_ChainUnits.bind(this);
+    this._set_unitBasic = this._set_unitBasic.bind(this);
     this._render_ChainUnits = this._render_ChainUnits.bind(this);
     this._axios_get_chainlist = this._axios_get_chainlist.bind(this);
   }
@@ -74,9 +75,26 @@ class Chain extends React.Component {
         fetched: true,
       });
       self.props._set_mountToDo('chainlist'); // and, after we get the list back, inform the parent we are done with the lastVisit time
-
-      return axios_get_UnitsBasic(self.axiosSource.token, displayOrder); //and use the list to get the data of eahc unit
+      //and use the list to get the data of each unit
+      // no need to 'return' here, let the f() deal with the error itself
+      _set_unitBasic(displayOrder);
     })
+    .catch(function (thrown) {
+      self.setState({axios: false});
+      if (axios.isCancel(thrown)) {
+        cancelErr(thrown);
+      } else {
+        let message = uncertainErr(thrown);
+        if(message) alert(message);
+      }
+    });
+  }
+
+  _set_unitBasic(unitsList){
+    const self = this;
+    this.setState({axios: true});
+
+    axios_get_UnitsBasic(this.axiosSource.token, unitsList)
     .then((resObj)=>{
       //after res of axios_Units: call get nouns & users
       self.props._submit_NounsList_new(resObj.main.nounsListMix);
@@ -154,7 +172,7 @@ class Chain extends React.Component {
           <NailFeed
             {...this.props}
             unitId={unitId}
-            linkPath={'/unit'}
+            linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
             unitBasic={this.state.unitsBasic[unitId]}
             marksBasic={this.state.marksBasic}/>
         </div>
@@ -206,15 +224,16 @@ class Chain extends React.Component {
           ) &&
           <div
             className={classnames(styles.boxSeperate, styles.boxFullWide)}
-            style={{padding: '8px 0'}}>
-            <span className={classnames(stylesFont.colorEditLightBlack, stylesFont.fontDescrip)}>
+            style={{padding: '8px 0', textAlign: 'center'}}>
+            <span
+              className={classnames(stylesFont.fontTitleSmall, stylesFont.colorGrey)}>
               {this.props.i18nUIString.catalog['message_Chain_noSharedsCourage']}</span>
           </div>
         }
-
       </div>
     )
   }
+
 }
 
 const mapStateToProps = (state)=>{

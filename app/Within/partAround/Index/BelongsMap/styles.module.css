@@ -1,0 +1,142 @@
+.comBelongsMap {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.comNavBelongsMap {
+  display: flex;
+  align-items: flex-end;
+}
+
+.boxModule{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.boxNavBelongsMap {
+  display: flex;
+  align-items: flex-end;
+  margin: 8px 0 28px;
+  padding: 4px 0;
+}
+
+.boxMapNavLink {
+  border-left: solid 1px #d8d8d8;
+  padding-left: 1rem;
+}
+
+.boxMapCorner {
+  width: 31%;
+  min-width: 256px;
+  max-width: 96vw;
+  margin: 8px 1.2% 8px 1%;
+  background-color: #FFFFFF;
+  box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
+  border-radius: 8px;
+  padding: 0.69vw;
+  box-sizing: border-box;
+}
+
+.comMapCorner {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  box-sizing: border-box;
+  background-color: rgba(217, 232, 255, 0.15);
+  border-radius: 8px;
+  padding: 1rem 2rem 2rem;
+  float: right;
+}
+
+.boxMapCount {
+  display: flex;
+  justify-content: space-between;
+}
+
+.boxMapCountNum {
+  display: inline-block;
+  flex: 1;
+  text-align: right;
+  padding: 5px 2rem 1rem;
+}
+
+.boxNode {
+  display: inline-block;
+  float: right;
+}
+
+.boxNodePin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 4rem;
+  height: 6rem;
+  margin-right: 1rem;
+}
+
+.boxNodeSub {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.boxStatics {
+  margin-top: 1rem;
+}
+
+.boxTabView {
+  width: 100%;
+  margin: 8px 0;
+}
+
+.boxInvite {
+  margin: 8px 0;
+  padding: 44px 0 4px;
+  text-align: right;
+}
+
+.boxStaticsDescript {
+  width: 7rem;
+  margin: 0 1rem 0 2rem;
+}
+
+.boxBelongStatSubtitle {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.spanNode {
+  display: inline-block;
+}
+
+.spanNodeSub {
+  display: inline-block;
+}
+
+.spanBelongStatCount {
+  display: inline-block;
+  min-width: 2rem;
+  padding: 0 1rem;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.spanNav {
+  cursor: pointer;
+}
+
+.spanNavMouse {
+  border-bottom: solid 0.75px #757575;
+}
+
+.spanMapCount {
+
+}
+
+.svgNavAvetar {
+  width: 5.5rem;
+  height: 5.5rem;
+  margin: -1rem;
+}

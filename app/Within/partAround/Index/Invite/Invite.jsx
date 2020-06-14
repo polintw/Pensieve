@@ -17,10 +17,13 @@ class Invite extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      panelModal: false
+      panelModal: false,
+      onInvite: false
     };
     this._set_Dialog = this._set_Dialog.bind(this);
     this._handleClick_inviteModal = this._handleClick_inviteModal.bind(this);
+    this._handleEnter_Invite = this._handleEnter_Invite.bind(this);
+    this._handleLeave_Invite = this._handleLeave_Invite.bind(this);
     this._switchState_panelModal = (bool)=>{this.setState({panelModal: bool})};
   }
 
@@ -48,12 +51,23 @@ class Invite extends React.Component {
 
   render(){
     return(
-      <div
-        ref={this.boxTitle}
-        className={classnames(styles.comRowEntry)}>
+      <div>
         <div
-          onClick={this._handleClick_inviteModal}>
-          <span>{this.props.i18nUIString.catalog["submit_Invite_"]}</span>
+          className={classnames(
+            styles.boxBtnInvite,
+            {[styles.boxBtnInviteActiv]: this.state.onInvite}
+          )}
+          onClick={this._handleClick_inviteModal}
+          onMouseEnter={this._handleEnter_Invite}
+          onMouseLeave={this._handleLeave_Invite}>
+          <span
+            className={classnames(
+              styles.spanBtnInvite,
+              {
+                ['colorGrey']: !this.state.onInvite,
+                ['colorWhite']: this.state.onInvite,
+              }, 'fontSubtitle_h5')}>
+            {this.props.i18nUIString.catalog["submit_Invite_"] }</span>
         </div>
         {
           this.state.panelModal &&
@@ -70,6 +84,15 @@ class Invite extends React.Component {
       </div>
     )
   }
+
+  _handleEnter_Invite(e){
+    this.setState({onInvite: true})
+  }
+
+  _handleLeave_Invite(e){
+    this.setState({onInvite: false})
+  }
+
 }
 
 const mapStateToProps = (state)=>{

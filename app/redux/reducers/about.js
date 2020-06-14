@@ -19,7 +19,7 @@ function pageAbout(state = initialGeneral, action){
       break;
     case MOUNT_USERINFO:
       return Object.assign({}, state, {
-        userInfo: action.userInfo
+        userInfo: {...state.userInfo, ...action.userInfo}
       })
       break;
     default:

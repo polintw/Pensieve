@@ -13,7 +13,11 @@ import AccountPalette from '../../AccountPalette.jsx';
 import SvgPin from '../../Svg/SvgPin.jsx';
 import {
   renderNodesRows,
+  renderNodesRowsCustom
 } from '../generators.js';
+import {
+  domain
+} from '../../../../config/services.js';
 
 class NailFeedMobile extends React.Component {
   constructor(props){
@@ -41,7 +45,10 @@ class NailFeedMobile extends React.Component {
   }
 
   _render_nails_nouns(){
-    let nodesDOM = renderNodesRows(this.props, styles);
+    let customNodesTitle = !!this.props.customNodesTitle ? this.props.customNodesTitle : null;
+    let nodesDOM = [];
+    if(!!customNodesTitle){ nodesDOM = renderNodesRowsCustom(this.props, customNodesTitle)} // currently only GuideNails using, so render without check
+    else nodesDOM = renderNodesRows(this.props, styles);
 
     return nodesDOM;
   }
@@ -88,7 +95,8 @@ class NailFeedMobile extends React.Component {
 }
 
 const contentBoxImg = (self)=>{
-  let imgSrcCover = '/router/img/'+self.props.unitBasic.pic_layer0+'?type=thumb';
+  let imgSrcCover = 'https://'+domain.name+'/router/img/'+self.props.unitBasic.pic_layer0+'?type=thumb';
+
   return (
     <div
       key={"key_NailBoxImg_"+self.props.unitId}

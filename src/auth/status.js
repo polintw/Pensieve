@@ -29,7 +29,7 @@ status.use(function(req, res) {
 
         _DB_users.findOne({
           where: {id: userId},
-          attributes: ['id', 'account', 'first_name', 'last_name']
+          attributes: ['id', 'account', 'first_name', 'last_name', 'status']
         })
         .then((result)=>{
           if(!result) throw new notFoundError("no this user in DB.") //if the result was 'null'
@@ -37,9 +37,10 @@ status.use(function(req, res) {
             let sendingData={
               userInfo: {
                 account: result.account,
+                accountStatus: result.status,
                 firstName: result.first_name,
                 lastName: result.last_name,
-                id: result.id
+                id: result.id,
               },
               temp: {}
             };

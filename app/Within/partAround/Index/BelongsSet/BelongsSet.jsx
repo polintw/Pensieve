@@ -8,6 +8,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesFont from "../../stylesFont.module.css";
 import BelongsbyType from './BelongsbyType/BelongsbyType.jsx';
+import StartBtn from '../../OnBoard/StartBtn.jsx';
 import {
   _axios_GET_belongRecords,
   _axios_PATCH_belongRecords
@@ -120,19 +121,25 @@ class BelongsSet extends React.Component {
   render(){
     return(
       <div
-        className={classnames(styles.comBelongSet)}>
+        className={classnames(styles.boxNewlySet)}>
         <div
-          className={classnames(styles.boxTitle)}>
-          <span
-            className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
-            {this.props.i18nUIString.catalog["title_BelongSet_"]}</span>
+          className={classnames(styles.comBelongSet)}>
+          <div
+            className={classnames(styles.boxTitle)}>
+            <span
+              className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
+              {this.props.i18nUIString.catalog["title_BelongSet_"]}</span>
+          </div>
+          <div>
+            <BelongsbyType
+              _set_Settingtype={this._set_Settingtype}
+              _set_choiceAnType={this._set_choiceAnType}/>
+          </div>
         </div>
-        <div>
-          <BelongsbyType
-            _set_Settingtype={this._set_Settingtype}
-            _set_choiceAnType={this._set_choiceAnType}/>
-        </div>
-
+        {
+          (this.props.userInfo.accountStatus == "newly") &&
+          <StartBtn/>
+        }
       </div>
     )
   }
@@ -143,6 +150,7 @@ const mapStateToProps = (state)=>{
     userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
     nounsBasic: state.nounsBasic,
+    belongsByType: state.belongsByType,
   }
 }
 

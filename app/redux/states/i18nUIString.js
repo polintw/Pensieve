@@ -35,14 +35,20 @@ const i18nUIString_EN = {
   "submit_nav_Signin": "Sign in",
   "submit_nav_Signup": "Sign up",
 
+
   "title_onBoard_Welcome": "Welcome, ",
   "descript_onBoard_Intro": ["Thank you for joining Cornerth.! Cornerth. brings you info from your homeland and current stay.", "Share what’s happening around you and keep up your steps to the fellows from the other side!"],//Original:"Cornerth. brings you info from your homeland and current stay.", "Share what’s happening around you and keep up your steps to the fellows from the other side!"
   "descript_onBoard_BelongsHint": ["Before you start …", "Tell us, where are you from?"], //Original: "Before you start …", "Tell us where are you from?"
   "guideing_onBoard_BelongsHint": ["I'm from", "Living in"], //Original:"Now based at"
-  "submit_onBoard_start": "Let's Get Started", //Original:"Let's Start"
+  "submit_onBoard_start": "Get Started", //Original:"Let's Start"
   "submit_Invite_": "Invite Fellow!", //Original:"Fellow Inviting!"
   "descript_Invite_": ["Any one you know stay or was born in the same country or city? ", "Invite these fellows to join us!"], //Original:"Any people you knew born or lived around you? ", "Inviting these fellows to join you!"
   "guiding_Invite_": ["Choosing the surrounding people you would like to invite", "You havn't set the place where you belong to."],//Original:"Choosing the characteristic of people you want to invite", "You havn't set the place you belong to yet."
+  "title_onBoard_GuideNailTitle": ["Welcome to Cornerth.", "What to do?"],
+  "hint_onBoard_start": "That's it. If you get ready,",
+  "submit_onBoard_next": "Next",  
+  "title_Invite_": "Create an Invitation!",
+  "descript_Invite_optType": [", as Homeland.", ", as Current Stay."],
   "message_Invite_fellows": [
     "Hi, there. This is ", //Original: "Here is"
     ". I'm pleased to invite you to experience Cornerth. with me as you're ", //Original:". And I would like to invite you to experience the Cornerth. with me as you're "
@@ -50,6 +56,10 @@ const i18nUIString_EN = {
     "as well! Joining me by Signing up today on Cornerth. See you there!", //Original:"as well! Joining me by Signing up and see you in there!"
   ],
   "message_Invite_General": "Welcome to Cornerth.! It's our pleasure to invite you exploring a different world with our fellows. This is a place for you to get more connection to the environment at where you are. Signing up now and join your fellows in this confused world!", //Original:"It's a place for you connecting the environment you are. Signing up and join your fellows in this confused world!"
+
+  "message_oneLineCopy_success": "Link has copied to your clipboard.",
+  "message_oneLineCopy_empty": "No text could be copied.",
+
   "category_Belongs_": ["Homeland", "Current Stay"],
 
   "button_complete": "Complete",
@@ -61,18 +71,22 @@ const i18nUIString_EN = {
   "submit_close": "Close", //Original: "close"
   "submit_cancel": "Cancel", //Original: "cancel"
   "submit_change": "Change", //Original: "change"
+  "submit_copy": "Copy",
   "submit_edit": "Edit",
   "submit_save": "Save",
   "submit_erase": "Erase", //感覺用Delete比較好
   "submit_understand": "Understand",//感覺用Close比較好
   "submit_respond": "Respond",
   "submit_logout": "Log out",
+  "title_welcome": 'OnBoard',
+  "title_instruction": "Instruction",
   "title_share": "Share",
   "title_profile": "Profile",
   "title_home": "Home",
   "subtitle_email": "Email",
   "subtitle_Password": "Password",
   "link_UnitListResponds": 'View Responds',//Original:'responds'
+  "link_Fellows": 'Fellows',
   "Cornerth_inc": "Cornerth., Inc. ",
   "AllRights": "All Rights Reserved.",
 
@@ -97,9 +111,8 @@ const i18nUIString_EN = {
   "guiding_Unit_Responds_none": "Submit your respond to this article!",
   "title_FeedAssigned_AllRead": "You're up-to-date.",//Original:"you've all browsed."
   "title_FeedAssigned_": "Gathering",
-  "title_Chain_Shareds_": "Contributions",
-  "title_BelongSet_": "Belonged Corners",
   "guiding_FeedAssigned_noneAssigned": "You're pretty current! No contributions around your corners. Please come back and check it out later.",//Original:"Not yet any new unit had been contributed to your corners."
+  "title_BelongSet_": "Your Corners",
   "guiding_FeedAssigned_noneAssigned_justSubmit": "Good to have your contrubution.",
   "guiding_FeedAssigned_noneAssigned_norContri": "It could be you contributing somthing to your corners!", //Original:"It could be you contributing somthing for your corners!"
 
@@ -118,13 +131,14 @@ const i18nUIString_EN = {
   "message_Chain_toNodes": ["to ", " and several"],
   "guidingBelongs_EmptyMap": "Set your corner, and take a look for the distribution of your fellows.", //Changed "taking" to "take"
   "descript_BelongTypeInteract": ["going to renew your ", " ?"],
-  "category__Belong_usersCount": ["with ", "users", "way to "],
-  "link_BelongsMap_Nav": ["Fellows", "from Home", "same Residence"],
+  "category__Belong_usersCount": ["living at", "came from"],
+  "link_BelongsMap_Nav": ["Fellows", "from your Homeland", "around your Current Stay"],
+  "title_BelongsMap_Nav": "Users ",
   "messageBelongChoiceinBool": ["site ", "  as your  ", "  place?"],
   "descript_BelongSet_SearchBytType": ["Search one fit your "],
   "descript_AroundIndex_footer": "You've reached the edge of Cornerth.!",
-  'descript_AroundIndex_footer_BelongHint': "Start browsing by your current stay or homeland!", //Changed "start" to "Start"
   "guiding_AroundIndex_Share": "What’s around your corner?", //Original:"how's your corners"
+  'descript_AroundIndex_footer_BelongHint': "Start browsing by setting your current stay or homeland!",
 
   "descript_Nail_noMark": "(expand image...)"
 };
