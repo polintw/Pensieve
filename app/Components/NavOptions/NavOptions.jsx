@@ -30,7 +30,6 @@ class NavOptions extends React.Component {
     depend on css class '.smallDisplayBox'
     */
     let currentPath = this.props.location.pathname;
-    let cssVW = window.innerWidth; // for RWD
 
     if(this.props.tokenStatus != 'verified' &&  currentPath.includes('explore/unit')){
       return(
@@ -149,9 +148,6 @@ class NavOptions extends React.Component {
   }
 
   render(){
-    let currentPath = this.props.location.pathname;
-    let cssVW = window.innerWidth; // for RWD
-
     return(
       <div
         className={classnames(styles.comNavOption)}>

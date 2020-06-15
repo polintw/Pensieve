@@ -11,6 +11,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import Explore from './partExplore/Explore.jsx';
 import NavOptions from '../Components/NavOptions/NavOptions.jsx';
+import NavWithin from '../Components/NavWithin/NavWithin.jsx';
 import ModalBox from '../Components/ModalBox.jsx';
 import ModalBackground from '../Components/ModalBackground.jsx';
 import SingleDialog from '../Components/Dialog/SingleDialog/SingleDialog.jsx';
@@ -109,15 +110,31 @@ class WithinCosmic extends React.Component {
         <div
           className={classnames(styles.boxCosmic)}>
           <div
-            className={classnames(styles.boxNavOptions)}
-            style={{left: '2.7vw', top: '64.3vh'}}>
-            <NavOptions {...this.props} _refer_to={this._refer_von_cosmic}/>
+            className={classnames(styles.boxNavOptionsCosmic)}>
+            <NavOptions {...this.props} _refer_to={this._refer_von_cosmic} />
           </div>
-          <Switch>
+          <div
+            className={classnames(styles.boxAroundContent)}>
+            <div
+              className={classnames(
+                styles.boxContentFilledLeft)} />
+            <div
+              className={classnames(styles.boxAroundContentCenter)}>
+              <Switch>
 
-            <Route path={this.props.match.path+"/explore"} render={(props)=> <Explore {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
-          </Switch>
+                <Route path={this.props.match.path + "/explore"} render={(props) => <Explore {...props} _refer_von_cosmic={this._refer_von_cosmic} />} />
+              </Switch>
+            </div>
+            <div
+              className={classnames(
+                styles.boxContentFilledRight)} />
+          </div>
+          <div
+            className={classnames(styles.boxNavWithinCosmic)}>
+            <NavWithin {...this.props} _refer_to={this._refer_von_cosmic} />
+          </div>
         </div>
+
 
         {
           //here and beneath, are dialog system for global used,
