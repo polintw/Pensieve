@@ -46,7 +46,9 @@ class IndexShare extends React.Component {
           {
             !this.state.mouseEnter &&
             <span
-              className={classnames(stylesFont.fontContent, stylesFont.colorStandard)}>
+              className={classnames(
+                styles.spanShareGuiding,
+                stylesFont.fontContent, stylesFont.colorStandard)}>
               {this.props.i18nUIString.catalog["guiding_AroundIndex_Share"]}</span>
           }
         </div>

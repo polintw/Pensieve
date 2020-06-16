@@ -102,6 +102,9 @@
   font-weight: bold;
 }
 
+.fontStyleItalic {
+  font-style: italic;
+}
 
 .boxServiceLink {
   display: flex;

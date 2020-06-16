@@ -57,9 +57,11 @@ const i18nUIString_EN = {
     "Joining me by Signing up today on Cornerth. ", //Original:"as well! Joining me by Signing up and see you in there!"
     ".",
     " as well!",
-    "See you there!"
+    "See you there!",
+    "an invitation from "
   ],
   "message_Invite_General": "Welcome to Cornerth.! It's our pleasure to invite you exploring a different world with our fellows. This is a place for you to get more connection to the environment at where you are. Signing up now and join your fellows in this confused world!",
+  "message_Invite_validToken": ["It is an invitation from ", "! If you are also ", ", modified Your Corners to join them!"],
   //Original:"It's a place for you connecting the environment you are. Signing up and join your fellows in this confused world!"
 
   "message_oneLineCopy_success": "Link has copied to your clipboard.",
