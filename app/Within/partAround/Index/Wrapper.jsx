@@ -240,16 +240,14 @@ class Wrapper extends React.Component {
           {this.props.i18nUIString.catalog["descript_AroundIndex_footer_BelongHint"]}</span>
       );
     }
-    else if (feedConcatList.length< 1){ // no feed at all
-      // not the business of footer
+    else if (feedConcatList.length> 0){
+      <span
+        className={classnames(styles.spanFooterHint, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
+        {this.props.i18nUIString.catalog['descript_AroundIndex_footer']}</span>
       return ;
     }
-    else{ // general situation
-      return (
-        <span
-          className={classnames(styles.spanFooterHint, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
-          {this.props.i18nUIString.catalog['descript_AroundIndex_footer']}</span>
-      )
+    else{ // most frequent reason:no feed at all
+      return null;
     }
   }
 }

@@ -70,7 +70,24 @@ class BelongsMap extends React.Component {
         break;
       default:
         return (
-          <div>{this.props.i18nUIString.catalog["guidingBelongs_EmptyMap"]}</div>
+          <div
+            style={{width: '100%', margin: '8px 0'}}>
+            <div
+              style={{width: '100%', height: '51px', minHeight: '4.1vw', display: 'flex', justifyContent: 'center', alignItems: 'center'}/* follow styles.boxImg*/}>
+              <span
+                className={classnames("fontTitleSmall", "colorGrey")}>
+                {this.props.i18nUIString.catalog["guidingBelongs_EmptyMap"][0]}
+              </span>
+              <span
+                className={classnames("fontTitleSmall", "colorGrey")}>
+                {this.props.i18nUIString.catalog['category_Belongs_'][this.state.viewTab=="homeland"? 1 : 0]}
+              </span>
+              <span
+                className={classnames("fontTitleSmall", "colorGrey")}>
+                {this.props.i18nUIString.catalog["guidingBelongs_EmptyMap"][1]}
+              </span>
+            </div>
+          </div>
         )
     }
   }

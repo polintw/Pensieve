@@ -223,11 +223,19 @@ class Chain extends React.Component {
             (this.props.indexLists.listUnread.length > 0 || this.props.indexLists.listBrowsed.length > 0)
           ) &&
           <div
-            className={classnames(styles.boxSeperate, styles.boxFullWide)}
-            style={{padding: '8px 0', textAlign: 'center'}}>
-            <span
-              className={classnames(stylesFont.fontTitleSmall, stylesFont.colorGrey)}>
-              {this.props.i18nUIString.catalog['message_Chain_noSharedsCourage']}</span>
+            className={classnames(
+              styles.boxFullWide, styles.boxSeperate
+            )}>
+            <div
+              className={classnames(styles.boxModuleShareds)}>
+              <div
+                style={{width: '100%', height: '51px', minHeight: '4.1vw', display: 'flex', justifyContent: 'center', alignItems: 'center'}/* follow styles.boxImg*/}>
+                <span
+                  className={classnames(stylesFont.fontTitleSmall, stylesFont.colorGrey)}>
+                  {this.props.i18nUIString.catalog["message_Chain_noSharedsCourage"]}
+                </span>
+              </div>
+            </div>
           </div>
         }
       </div>

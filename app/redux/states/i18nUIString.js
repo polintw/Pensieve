@@ -61,7 +61,7 @@ const i18nUIString_EN = {
     "an invitation from "
   ],
   "message_Invite_General": "Welcome to Cornerth.! It's our pleasure to invite you exploring a different world with our fellows. This is a place for you to get more connection to the environment at where you are. Signing up now and join your fellows in this confused world!",
-  "message_Invite_validToken": ["It is an invitation from ", "! If you are also ", ", modified Your Corners to join them!"],
+  "message_Invite_validToken": ["invited you to join Cornerth at ", ". Since you're already a member of Cornerth., you can view or respond to your friends by changing Your Corners."],
   //Original:"It's a place for you connecting the environment you are. Signing up and join your fellows in this confused world!"
 
   "message_oneLineCopy_success": "Link has copied to your clipboard.",
@@ -136,7 +136,7 @@ const i18nUIString_EN = {
     "Respond to Yours ",
     "succesfully "],
   "message_Chain_toNodes": ["to ", " and several"],
-  "guidingBelongs_EmptyMap": "Set your corner, and take a look for the distribution of your fellows.", //Changed "taking" to "take"
+  "guidingBelongs_EmptyMap": ["Set your ", ", and take a look for the distribution of your fellows."], //Changed "taking" to "take"
   "descript_BelongTypeInteract": ["going to renew your ", " ?"],
   "category__Belong_usersCount": ["living at", "came from"],
   "link_BelongsMap_Nav": ["Fellows", "from your Homeland", "around your Current Stay"],

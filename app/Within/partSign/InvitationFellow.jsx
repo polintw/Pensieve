@@ -40,7 +40,6 @@ class InvitationFellow extends React.Component {
       !this.props.messageSingle['render']
     ){
       let message = this.state.valid ? ([
-        {text:this.props.i18nUIString.catalog['message_Invite_validToken'][0],style:{}},
         {
           text: this.props.usersBasic[this.state.sender].firstName+" ",
           style:{}
@@ -49,19 +48,13 @@ class InvitationFellow extends React.Component {
           text: this.props.usersBasic[this.state.sender].lastName+" ",
           style:{}
         },
-        {text:this.props.i18nUIString.catalog['message_Invite_validToken'][1],style:{}},
-        {text:
-          this.state.belongType =="homeland" ? (
-            this.props.i18nUIString.catalog["message_Invite_fellows"][2]
-          ):(
-            this.props.i18nUIString.catalog["message_Invite_fellows"][3]
-          ) ,style:{}},
+        {text:this.props.i18nUIString.catalog['message_Invite_validToken'][0],style:{}},
         {text:
           this.state.node in this.props.nounsBasic ? (
             this.props.nounsBasic[this.state.node].name) : (
               null
             ) ,style:{}},
-        {text:this.props.i18nUIString.catalog['message_Invite_validToken'][2],style:{}},
+        {text:this.props.i18nUIString.catalog['message_Invite_validToken'][1],style:{}}
       ]): ([
         {text:this.props.i18nUIString.catalog['message_Invite_General'],style:{}}
       ]);
