@@ -118,7 +118,7 @@ const i18nUIString_EN = {
   "guiding_Unit_Responds_none": "Submit your respond to this article!",
   "title_FeedAssigned_AllRead": "You're up-to-date.",//Original:"you've all browsed."
   "title_FeedAssigned_": "Gathering",
-  "guiding_FeedAssigned_noneAssigned": "You're pretty current! No contributions around your corners. Please come back and check it out later.",//Original:"Not yet any new unit had been contributed to your corners."
+  "guiding_FeedAssigned_noneAssigned": ["You're pretty current!","No contributions around your corners now. Please come back and check it out later."],//Original:"Not yet any new unit had been contributed to your corners."
   "title_BelongSet_": "Your Corners",
   "guiding_FeedAssigned_noneAssigned_justSubmit": "Good to have your contrubution.",
   "guiding_FeedAssigned_noneAssigned_norContri": "It could be you contributing somthing to your corners!", //Original:"It could be you contributing somthing for your corners!"
@@ -136,7 +136,8 @@ const i18nUIString_EN = {
     "Respond to Yours ",
     "succesfully "],
   "message_Chain_toNodes": ["to ", " and several"],
-  "guidingBelongs_EmptyMap": ["Set your ", ", and take a look for the distribution of your fellows."], //Changed "taking" to "take"
+  "guidingBelongs_EmptyMap_noSet": ["Set your", ", and take a look for the distribution of your fellows."], //Changed "taking" to "take"
+  "guidingBelongs_EmptyMap_": "You were the first user among this corner!",
   "descript_BelongTypeInteract": ["going to renew your ", " ?"],
   "category__Belong_usersCount": ["living at", "came from"],
   "link_BelongsMap_Nav": ["Fellows", "from your Homeland", "around your Current Stay"],

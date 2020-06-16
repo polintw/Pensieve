@@ -56,7 +56,7 @@ class WritingPanel extends React.Component {
         <div
           className={classnames(styles.boxFormOptions)}>
           {
-            !!("homeland" in this.props.belongsByType) &&
+            (("homeland" in this.props.belongsByType) && !!this.props.belongsByType["homeland"]) &&
             <div
               className={classnames(styles.boxOption)}>
               <input
@@ -82,7 +82,7 @@ class WritingPanel extends React.Component {
             </div>
           }
           {
-            !!("residence" in this.props.belongsByType) &&
+            (("residence" in this.props.belongsByType) && !!this.props.belongsByType["residence"]) &&
             <div
               className={classnames(styles.boxOption)}>
               <input
