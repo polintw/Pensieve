@@ -27,9 +27,12 @@ class FixWidthDialog extends React.Component {
   render(){
     return(
       <div
-        className={classnames()}
+        className={classnames(commonStyles.frameFixedWidth)}
         onClick={(e) => { /*NOTICE! Do not set stoppropagation() or prevetdefault on this component! <form>、<input> etc. inside any children need to propagete to browser.*/ }}>
-        {this.props.children}
+        <div
+          className={classnames(commonStyles.frameDialog)}>
+          {this.props.children}
+        </div>
       </div>
     )
   }

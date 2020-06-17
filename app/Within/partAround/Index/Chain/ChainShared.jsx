@@ -20,6 +20,9 @@ import {
   uncertainErr
 } from "../../../../utils/errHandlers.js";
 import {axios_get_UnitsBasic} from '../../../../utils/fetchHandlers.js';
+import {
+  domain
+} from '../../../../../config/services.js';
 
 class ChainShared extends React.Component {
   constructor(props){
@@ -81,13 +84,13 @@ class ChainShared extends React.Component {
     let listDOM = this.props.sharedsList.list.map((unitId, index)=>{
       if( !(unitId in self.state.unitsBasic)) return null; //check if unitsBasic was prepared.
 
-      let imgSrcCover = '/router/img/'+self.state.unitsBasic[unitId].pic_layer0+'?type=thumb';
+      let imgSrcCover = 'https://' + domain.name +'/router/img/'+self.state.unitsBasic[unitId].pic_layer0+'?type=thumb';
       return (
         <Link
           key={"key_SharedNails_"+index}
           unitid={unitId}
           to={{
-            pathname: "/unit",
+            pathname: this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit'),
             search: '?theater&unitId='+ unitId+'&unitView=theater',
             state: {from: this.props.location}
           }}
@@ -118,12 +121,14 @@ class ChainShared extends React.Component {
 
     if(this.props.sharedsList.list.length == 0){
       listDOM.push(
-        <span
+        <div
           key={"key_SharedNails_emptyHint"}
-          className={classnames(stylesFont.fontContent, stylesFont.colorEditLightBlack)}
-          style={{display: 'block', textAlign: 'right', height: '51px', minHeight: '4.1vw'}/* follow styles.boxImg*/}>
-          {this.props.i18nUIString.catalog["message_Chain_noShareds"]}
-        </span>
+          style={{width: '100%', height: '51px', minHeight: '4.1vw', display: 'flex', justifyContent: 'center', alignItems: 'center'}/* follow styles.boxImg*/}>
+          <span
+            className={classnames(stylesFont.fontTitleSmall, stylesFont.colorGrey)}>
+            {this.props.i18nUIString.catalog["message_Chain_noShareds"]}
+          </span>
+        </div>
       )
     }
 

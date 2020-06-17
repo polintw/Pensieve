@@ -168,6 +168,7 @@ export function fetchBelongRecords(cancelToken){
       let byTypeObj = belongObj.main.categoryObj;
       let inclCatListObj = Object.assign({}, byTypeObj); //shallow copy to prevent modifying res obj
       inclCatListObj['setTypesList'] = belongObj.main.setCatList;
+      inclCatListObj['fetched'] = true;
 
       dispatch(handleNounsList(nodesList)); //GET nodes info
       dispatch(setBelongsByType(inclCatListObj)); //update data incl. setCatList

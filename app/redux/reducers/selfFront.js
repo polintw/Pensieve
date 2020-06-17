@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import {
   MOUNT_USERINFO,
+  SET_TOKENSTATUS,
   AXIOS_SWITCH
 } from '../types/typesGeneral.js';
 import {
@@ -22,7 +23,12 @@ function pageSelfFront(state = initialGeneral, action){
   switch (action.type) {
     case MOUNT_USERINFO:
       return Object.assign({}, state, {
-        userInfo: action.userInfo
+        userInfo: {...state.userInfo, ...action.userInfo}
+      })
+      break;
+    case SET_TOKENSTATUS:
+      return Object.assign({}, state, {
+        ...action.status
       })
       break;
     case UPDATE_USERSHEET:

@@ -4,87 +4,31 @@ import {
   Link
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import classnames from 'classnames';
+import styles from "./styles.module.css";
 import {
   SheetAccount,
   SheetBasic
 } from './SheetCom.jsx';
 import PasswordForm from '../../Components/PasswordForm/PasswordForm.jsx';
-import AccountPalette from '../../Components/AccountPalette.jsx';
 import {mountUserSheet} from "../../redux/actions/front.js";
 import {
   cancelErr,
   uncertainErr
 } from "../../utils/errHandlers.js";
 
-const styleMiddle = {
-
-}
-
   class Sheet extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      axios: false
+      axios: false,
+      onEnterBackPwd: false
     };
     this.axiosSource = axios.CancelToken.source();
     this._render_SheetView = this._render_SheetView.bind(this);
     this._submit_password_success = this._submit_password_success.bind(this);
-    this.style={
-      selfCom_Sheet_ProfileTitle_: {
-        width: '100%',
-        height: '115px',
-        position: 'absolute',
-        top: '11px',
-        right: '0',
-        boxSizing: 'border-box',
-        boxShadow: '1px 0px 3px -2px',
-        backgroundColor: '#ffffff'
-      },
-      selfCom_Sheet_ProfileTitle_name: {
-        display: 'inline-block',
-        position: 'absolute',
-        bottom: '22%',
-        left: '6%',
-        boxSizing: 'border-box',
-        color: '#000000'
-      },
-      selfCom_Sheet_display_: {
-        width: '100%',
-        position: 'absolute',
-        top: '151px',
-        left: '0',
-        boxSizing: 'border-box',
-      },
-      selfCom_Sheet_display_basic_: {
-        display: 'inline-block',
-        width: '100%',
-        position: 'relative',
-        boxSizing: 'border-box',
-        backgroundColor: '#FFFFFF'
-      },
-      selfCom_Sheet_display_settingform: {
-        width: '100%',
-        position: 'relative',
-        boxSizing: 'border-box',
-        boxShadow: '0px 0px 3px -2px',
-        backgroundColor: '#FFFFFF'
-      },
-      selfCom_Sheet_display_basic_tempSetting: {
-        width: '100%',
-        height: '152px',
-        position: 'relative',
-        boxSizing: 'border-box',
-        marginBottom: '2.5%',
-        boxShadow: '0px 0px 3px -2px',
-      },
-      selfCom_Sheet_display_basic_blockGender: {
-        width: '100%',
-        height: '118px',
-        position: 'relative',
-        boxSizing: 'border-box',
-        boxShadow: '0px 0px 3px -2px',
-      },
-    }
+    this._handleEnter_PassBack = this._handleEnter_PassBack.bind(this);
+    this._handleLeave_PassBack = this._handleLeave_PassBack.bind(this);
   }
 
   _submit_password_success(){
@@ -148,34 +92,48 @@ const styleMiddle = {
       case 'password':
         return (
           <div
-            style={this.style.selfCom_Sheet_display_settingform}>
-            <span>{'change password'}</span><br/>
-            <PasswordForm
-              {...this.props}
-              _submit_success={this._submit_password_success}/>
-            <Link
-              to={{
-                pathname: this.props.match.url ,
-                search: '',
+            className={classnames(styles.boxReset)}>
+            <div
+              className={classnames(styles.boxResetForm)}>
+              <PasswordForm
+                {...this.props}
+                _submit_success={this._submit_password_success}/>
+              <Link
+                to={{
+                  pathname: this.props.match.url ,
+                  search: '',
+                }}
+                className={classnames(
+                  styles.linkPassBack,
+                  {[styles.linkPassBackMouse]: this.state.onEnterBackPwd}
+                )}
+                onMouseEnter={this._handleEnter_PassBack}
+                onMouseLeave={this._handleLeave_PassBack}>
+                <span
+                  className={classnames(
+                    'centerAlignChild',
+                    "fontSubtitle_h5",
+                    {
+                      ['colorEditBlack']: !this.state.onEnterBackPwd,
+                      ["colorWhite"]: this.state.onEnterBackPwd
+                    }
+                  )}>
+                  {this.props.i18nUIString.catalog["submit_cancel"]}
+                </span>
+              </Link>
+            </div>
 
-              }}>
-              <input
-                type='button'
-                value='cancel'/>
-            </Link>
           </div>
         )
         break;
       default:
         return (
           <div
-            style={this.style.selfCom_Sheet_display_basic_}>
-            <div
-              style={this.style.selfCom_Sheet_display_basic_tempSetting}>
+            className={classnames(styles.boxRows)}>
+            <div>
               <SheetAccount {...this.props}/>
             </div>
-            <div
-              style={this.style.selfCom_Sheet_display_basic_blockGender}>
+            <div>
               <SheetBasic {...this.props}/>
             </div>
           </div>
@@ -184,36 +142,45 @@ const styleMiddle = {
   }
 
   render(){
-    //let cx = cxBind.bind(styles);
     let params = new URLSearchParams(this.props.location.search); //we need value in URL query
     let paramsStatus = params.get('status');
 
     return(
-      <div>
+      <div
+        className={classnames(styles.compSheet)}>
         <div
-          style={this.style.selfCom_Sheet_ProfileTitle_}>
-          <div
-            style={this.style.selfCom_Sheet_ProfileTitle_name}>
-            <AccountPalette
-              size={'large'}
-              accountFirstName={this.props.userInfo.firstName}
-              accountLastName={this.props.userInfo.lastName}
-              styleFirst={{fontWeight: '600'}}/>
-          </div>
+          className={classnames(styles.boxTitle)}>
+          <span
+            className={classnames(styles.spanTitle, "fontTitle", "colorSignBlack")}>
+            {this.props.i18nUIString.catalog["title_profile"]}
+          </span>
         </div>
         <div
-          style={this.style.selfCom_Sheet_display_}>
+          style={{marginTop: '3.47vh'}}>
           {this._render_SheetView(paramsStatus)}
         </div>
       </div>
     )
   }
+
+  _handleEnter_PassBack(e){
+    this.setState({
+      onEnterBackPwd: true
+    })
+  }
+
+  _handleLeave_PassBack(e){
+    this.setState({
+      onEnterBackPwd: false
+    })
+  }
+
 }
 
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
-    unitCurrent: state.unitCurrent,
+    i18nUIString: state.i18nUIString,
     userSheet: state.userSheet,
     accountSet: state.accountSet
   }

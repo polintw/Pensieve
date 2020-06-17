@@ -16,15 +16,6 @@ const styleMiddle = {
     borderRadius: '4px',
     cursor: 'default'
   },
-  roundRecBox: {
-    width: '100%',
-    height: '100%',
-    position: 'relative',
-    boxSizing: 'border-box',
-    borderRadius: '2.4vh',
-    overflow: 'hidden',
-    cursor: 'pointer'
-  },
 }
 
 class Submit extends React.Component {

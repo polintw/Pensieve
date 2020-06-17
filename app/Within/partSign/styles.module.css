@@ -8,7 +8,7 @@
 
 .boxForm {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   width: 335px;
   max-width: 98vw;
 }
@@ -16,4 +16,32 @@
 .boxNav {
   width: 100%;
   margin-bottom: 30px;
+}
+
+.boxTitle {
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.boxIntro {
+  display: inline-flex;
+  justify-content: space-between;
+  align-self: center;
+  width: 100%;
+  margin-top: 6rem;
+}
+
+.comInvitation {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  width: 400px;
+  max-width: 98vw;
+  padding-top: 11vh;
+  margin-bottom: 7.6vh;
+}
+
+.comInvitation p {
+  margin: 8px 0;
 }

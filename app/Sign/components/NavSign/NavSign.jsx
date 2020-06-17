@@ -23,7 +23,7 @@ class NavSign extends React.Component {
   }
 
   _handleEnter_Link(e){
-    this.setState({onInActive: true})
+    this.setState({onInActive: e.currentTarget.getAttribute('linkto')})
   }
 
   _handleLeave_Link(e){
@@ -57,11 +57,12 @@ class NavSign extends React.Component {
           )}
           onClick={(event)=>{ if(iscenter) event.preventDefault();}}>
           <span
+            linkto= {"success"}
             className={classnames(
               styles.spanLinkSign,
               stylesFont.fontTitle,
               stylesFont.colorWhiteGrey,
-              {[stylesFont.colorSignBlack]: this.state.onInActive}
+              {[stylesFont.colorSignBlack]: this.state.onInActive=="success"}
             )}
             onMouseEnter={this._handleEnter_Link}
             onMouseLeave={this._handleLeave_Link}>
@@ -69,10 +70,6 @@ class NavSign extends React.Component {
           </span>
         </Link>
       );
-    }
-    else if(this.props.location.pathname.includes('/signup')){
-      navDOM.push(linkSignup(this, true));
-      navDOM.push(linkSignin(this, false));
     }
     else if(this.props.location.pathname.includes('/fail')){ // '/confirm/fail'
       navDOM.push(linkSignin(this, false));
@@ -84,6 +81,37 @@ class NavSign extends React.Component {
           <LinkMailResend {...this.props}/>
         </p>
       );
+    }
+    else if(this.props.location.search.includes('invitation')){
+      navDOM.push(linkSignup(this, false));
+      navDOM.unshift( // base on linkSignin, modified style
+        <Link
+          key={"key_NavSign_toSignin"}
+          to={{
+            pathname: "/",
+            state: {from: this.props.location}
+          }}
+          className={classnames(
+            'plainLinkButton'
+          )}>
+          <span
+            linkto={'signin'}
+            className={classnames(
+              styles.spanLinkSign,
+              stylesFont.fontTitle,
+              stylesFont.colorWhiteGrey,
+              {[stylesFont.colorSignBlack]: this.state.onInActive =="signin"}
+            )}
+            onMouseEnter={this._handleEnter_Link}
+            onMouseLeave={this._handleLeave_Link}>
+            {this.props.i18nUIString.catalog["submit_nav_Signin"]}
+          </span>
+        </Link>
+      );
+    }
+    else if(this.props.location.pathname.includes('/signup')){
+      navDOM.push(linkSignup(this, true));
+      navDOM.push(linkSignin(this, false));
     }
     else{
        navDOM.push(linkSignin(this, true));
@@ -114,11 +142,12 @@ const hrefSign = (self, iscenter, leftBorder, path) => {
       style={ leftBorder ? {}: {border: 'unset'} }
       onClick={(event)=>{ if(iscenter) event.preventDefault();}}>
       <span
+        linkto={"href"+path}
         className={classnames(
           styles.spanLinkSign,
           stylesFont.fontTitle,
           stylesFont.colorWhiteGrey,
-          {[stylesFont.colorSignBlack]: self.state.onInActive}
+          {[stylesFont.colorSignBlack]: self.state.onInActive== ("href"+path)}
         )}
         style={iscenter? {color: '#3c4144', cursor: 'default'}: {}}
         onMouseEnter={self._handleEnter_Link}
@@ -143,12 +172,16 @@ const linkSignin = (self, iscenter) => {
       )}
       onClick={(event)=>{ if(iscenter) event.preventDefault();}}>
       <span
+        linkto={'signin'}
         className={classnames(
           styles.spanLinkSign,
           stylesFont.fontTitle,
-          stylesFont.colorWhiteGrey
+          stylesFont.colorWhiteGrey,
+          {[stylesFont.colorSignBlack]: (self.state.onInActive =="signin" && !iscenter)}
         )}
-        style={iscenter? {color: '#3c4144', cursor: 'default'}: {}}>
+        style={iscenter? {color: '#3c4144', cursor: 'default'}: {}}
+        onMouseEnter={self._handleEnter_Link}
+        onMouseLeave={self._handleLeave_Link}>
         {self.props.i18nUIString.catalog["submit_nav_Signin"]}
       </span>
     </Link>
@@ -169,12 +202,16 @@ const linkSignup = (self, iscenter) => {
       )}
       onClick={(event)=>{ if(iscenter) event.preventDefault();}}>
       <span
+        linkto={"signup"}
         className={classnames(
           styles.spanLinkSign,
           stylesFont.fontTitle,
-          stylesFont.colorWhiteGrey
+          stylesFont.colorWhiteGrey,
+          {[stylesFont.colorSignBlack]: (self.state.onInActive =="signup" && !iscenter)}
         )}
-        style={iscenter? {color: '#3c4144', cursor: 'default'}: {}}>
+        style={iscenter? {color: '#3c4144', cursor: 'default'}: {}}
+        onMouseEnter={self._handleEnter_Link}
+        onMouseLeave={self._handleLeave_Link}>
         {self.props.i18nUIString.catalog["submit_nav_Signup"]}
       </span>
     </Link>

@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Route,
+  Switch,
   Link,
   withRouter
 } from 'react-router-dom';
@@ -8,27 +9,9 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import Sheet from './Profile/Sheet.jsx';
-import MaskProcessing from '../Components/MaskProcessing.jsx';
-import NavOptions from '../Components/NavOptions/NavOptions.jsx';
+import NavProfile from './Profile/NavProfile.jsx';
 import NavWithin from '../Components/NavWithin/NavWithin.jsx';
-
-const styleMiddle ={
-  boxReturn: {
-    display: 'inline-block',
-    boxSizing: 'border-box',
-    cursor: 'pointer',
-    zIndex: '2' //a temp method, to avoid cover by NavSelf
-  },
-  spanReturn: {
-    top: '44%',
-    whiteSpace: 'nowrap',
-    fontSize: '1.6rem',
-    fontWeight: '700',
-    letterSpacing: '0.12rem',
-    color: '#ff7a5f',
-    cursor: 'pointer'
-  }
-}
+import NavOptions from '../Components/NavOptions/NavOptions.jsx';
 
 class FrontProfile extends React.Component {
   constructor(props){
@@ -37,41 +20,11 @@ class FrontProfile extends React.Component {
       switchTo: null
     };
     this.style={
-      Front_Profile_: {
+      Front_Profile_backplane:{
         width: '100%',
         height: '100%',
-        position: 'absolute',
-        top: '0%',
-        left: '0%',
-        backgroundColor: '#d1d1d1'
-      },
-      Front_Profile_scroll_: {
-        width: '61%',
-        position: 'absolute',
-        top: '2%',
-        left: '18%',
-        boxSizing: 'border-box'
-      },
-      Front_Profile_nav_: {
-        width: '9%',
-        height: '30%',
-        position: 'absolute',
-        top: '32%',
-        left: '5%',
-        boxSizing: 'border-box',
-        padding: '0 0.5vw',
-        borderRight: 'solid 1px #909090',
-        textAlign: 'right',
-        fontSize: '1.4rem',
-        letterSpacing: '0.15rem'
-      },
-      Front_Profile_backPlane_top: {
-        width: '100%',
-        height: '1%',
         position: 'fixed',
-        top: '0',
-        left: '0',
-        backgroundColor: '#d1d1d1'
+        backgroundColor: '#FCFCFC'
       },
       Within_NavOptions: {
         width: '1.4%',
@@ -105,26 +58,39 @@ class FrontProfile extends React.Component {
     if(this.state.switchTo){return <Redirect to={this.state.switchTo.params+this.state.switchTo.query}/>}
 
     return(
-      <div
-        style={this.style.Front_Profile_}>
+      <div>
+        <div style={this.style.Front_Profile_backplane}></div>
         <div
-          style={this.style.Front_Profile_scroll_}>
-          <Route path={this.props.match.path+"/sheet"} render={(props)=> <Sheet {...props}/>}/>
-        </div>
-        <div style={this.style.Front_Profile_backPlane_top}></div>
+          className={classnames(styles.boxProfile)}>
+          <div
+            className={classnames(styles.boxNavOptions)}>
+            <NavOptions {...this.props}/>
+          </div>
+          <div
+            className={classnames(styles.boxContent)}>
+            <div
+              className={classnames(styles.boxContentCenter)}>
+              <Switch>
+                <Route path={this.props.match.path+"/sheet"} render={(props)=> <Sheet {...props}/>}/>
 
-        <div
-          className={classnames(styles.boxNavAround)}>
-          <NavWithin {...this.props} _refer_to={this._refer_leaveSelf}/>
-        </div>
-        <div style={this.style.Within_NavOptions}>
-          <NavOptions {...this.props}/>
+              </Switch>
+            </div>
+
+            <div style={{width:'100%', height: '10vh', position: 'unset', bottom: 'unset', backgroundColor: 'transparent'}}></div>
+          </div>
+
+          <div
+            className={classnames(styles.boxNavProfile)}>
+            <NavProfile/>
+          </div>
+          <div className={classnames(styles.boxDecoBottom)}></div>
+          <div
+            className={classnames(styles.boxNavAround)}>
+            <NavWithin {...this.props} _refer_to={this._refer_leaveSelf}/>
+          </div>
+
         </div>
 
-        {
-          (this.props.axios) &&
-          <MaskProcessing/>
-        }
       </div>
     )
   }

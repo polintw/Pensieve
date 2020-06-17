@@ -1,18 +1,15 @@
 .comSearchModal {
-
+  position: relative;
 }
 
 .boxTypeSetting {
-  display: inline-block;
-  position: absolute;
-  left: 25%;
-  top: 1rem;
-  transform: translate(-50%, 0);
+  position: relative;
 }
 
+.boxSearchInput {
+  padding-right: 5%;
+}
 
-.fontDescrip {
-  font-size: 1.37rem;
-  letter-spacing: 0.07rem;
-  line-height: 2rem;
+.spanClose {
+  cursor: pointer;
 }

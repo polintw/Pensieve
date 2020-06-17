@@ -6,7 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import stylesSet from '../styles.module.css';
+import stylesFont from "../../../stylesFont.module.css";
 import Belong from './Belong.jsx';
 
 class BelongsbyType extends React.Component {
@@ -34,7 +34,9 @@ class BelongsbyType extends React.Component {
   }
 
   _render_BelongList(){
-    const typeKeys = !!this.props.belongsByType.setTypesList? this.props.belongsByType.setTypesList: [];
+    //category allow to used by this users, currently all the same
+    const typeKeys = ["homeland", "residence"];
+
     const nodesDOM = typeKeys.map((nodeType, index)=>{
       return (
         <div
@@ -42,7 +44,8 @@ class BelongsbyType extends React.Component {
           className={classnames(styles.boxBelong)}>
           <Belong
             type={nodeType}
-            _set_searchModal={this.props._set_searchModal}/>
+            _set_Settingtype={this.props._set_Settingtype}
+            _set_choiceAnType={this.props._set_choiceAnType}/>
         </div>
       )
     });
@@ -53,7 +56,7 @@ class BelongsbyType extends React.Component {
   render(){
     return(
       <div
-        className={classnames(stylesSet.comBelongsbyType)}>
+        className={classnames(styles.comBelongsbyType)}>
         {this._render_BelongList()}
       </div>
     )

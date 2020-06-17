@@ -1,18 +1,26 @@
-.boxBelong {
+.comBelongsbyType{
   display: flex;
-  justify-content: left;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  margin: 0 0 8px;
+}
+
+.boxBelong {
+  display: inline-block;
   position: relative;
-  margin: 0 0 3rem;
+  margin: 8px 2.76vw 0 0;
 }
 
 .comBelong {
-  display: flex;;
-  align-items: center;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .boxCategory {
-  margin: 0 2.5vw;
+  display: flex;
+  width: 100%;
 }
 
 .boxTitleType {
@@ -20,7 +28,7 @@
 }
 
 .boxCornerTitle {
-  width: 40%;
+
 }
 
 .boxCreate {
@@ -32,15 +40,52 @@
   display: inline-block;
 }
 
+.boxSearchModal {
+  width: 420px;
+  max-width: 90vw;
+  height: 26rem;
+  position: absolute;
+  left: -2vw;
+  top: 0;
+  transform: translate(0 , -50%);
+  box-sizing: border-box;
+  padding: 2rem 3rem;
+  background-color: #FFFFFF;
+  box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
+  border-radius: 8px;
+  z-index: 1;
+}
+
 .spanNode {
   display: inline-block;
   position: relative;
 }
 
 .spanType {
-  margin: 0 0.4rem;
+
 }
 
-.fontOnEdit {
-  color: #545454;
+.spanEdit {
+  border-left: solid 1px #d8d8d8;
+  margin-left: 3px;
+  padding-left: 3px;
+  cursor: pointer;
+}
+
+@media screen and (max-width:860px) {
+  .comBelongsbyType{
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 0 32px;
+  }
+
+  .boxTitle {
+    width: 100%;
+    margin: 8px 0;
+    text-align: right;
+  }
+
+  .boxBelong {
+    margin: 8px 0 0;
+  }
 }

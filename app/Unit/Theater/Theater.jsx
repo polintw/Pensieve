@@ -14,29 +14,15 @@ class Theater extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      onSpanBack: false,
+
     };
     this.unitInit = this.props._construct_UnitInit(this.props.match, this.props.location);
     this._close_theater = this._close_theater.bind(this);
-    this._handleEnter_spanBack = this._handleEnter_spanBack.bind(this);
-    this._handleLeave_spanBack = this._handleLeave_spanBack.bind(this);
     this._handleClick_heigherBack = this._handleClick_heigherBack.bind(this);
 
     this.style={
 
     };
-  }
-
-  _handleEnter_spanBack(e){
-    this.setState({
-      onSpanBack: true
-    })
-  }
-
-  _handleLeave_spanBack(e){
-    this.setState({
-      onSpanBack: false
-    })
   }
 
   _handleClick_heigherBack(){
@@ -92,24 +78,6 @@ class Theater extends React.Component {
           initStatus={this.unitInit}
           _close_theater={this._close_theater}
           _refer_von_unit={this.props._refer_von_unit}/>
-        {
-          (cssVW < 1110) &&
-          <div
-            className={classnames(styles.boxBackTop)}
-            onMouseEnter={this._handleEnter_spanBack}
-            onMouseLeave={this._handleLeave_spanBack}>
-            <span
-              className={classnames(
-                styles.spanBackTop,
-                {[stylesFont.colorEditBlack]: this.state.onSpanBack, [stylesFont.colorDarkGrey]: !this.state.onSpanBack}
-              )}
-              style={{opacity: this.state.onSpanBack? "1" :" 0.8"}}
-              onClick={this._handleClick_heigherBack}>
-              {" ╳ "}
-            </span>
-          </div>
-        }
-
       </div>
     )
   }

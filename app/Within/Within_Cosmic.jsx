@@ -11,6 +11,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import Explore from './partExplore/Explore.jsx';
 import NavOptions from '../Components/NavOptions/NavOptions.jsx';
+import NavWithin from '../Components/NavWithin/NavWithin.jsx';
 import ModalBox from '../Components/ModalBox.jsx';
 import ModalBackground from '../Components/ModalBackground.jsx';
 import SingleDialog from '../Components/Dialog/SingleDialog/SingleDialog.jsx';
@@ -109,22 +110,38 @@ class WithinCosmic extends React.Component {
         <div
           className={classnames(styles.boxCosmic)}>
           <div
-            className={classnames(styles.boxNavOptions)}
-            style={{bottom: '2vh', top: 'unset'}}>
-            <NavOptions {...this.props} _refer_to={this._refer_von_cosmic}/>
+            className={classnames(styles.boxNavOptionsCosmic)}>
+            <NavOptions {...this.props} _refer_to={this._refer_von_cosmic} />
           </div>
-          <Switch>
+          <div
+            className={classnames(styles.boxAroundContent)}>
+            <div
+              className={classnames(
+                styles.boxContentFilledLeft)} />
+            <div
+              className={classnames(styles.boxAroundContentCenter)}>
+              <Switch>
 
-            <Route path={this.props.match.path+"/explore"} render={(props)=> <Explore {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
-          </Switch>
+                <Route path={this.props.match.path + "/explore"} render={(props) => <Explore {...props} _refer_von_cosmic={this._refer_von_cosmic} />} />
+              </Switch>
+            </div>
+            <div
+              className={classnames(
+                styles.boxContentFilledRight)} />
+          </div>
+          <div
+            className={classnames(styles.boxNavWithinCosmic)}>
+            <NavWithin {...this.props} _refer_to={this._refer_von_cosmic} />
+          </div>
         </div>
+
 
         {
           //here and beneath, are dialog system for global used,
           //the series 'message' in redux state is prepared for this kind of global message dialog
           this.props.messageSingleClose['render'] &&
           <ModalBox containerId="root">
-            <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(52, 52, 52, 0.36)'}}>
+            <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(51, 51, 51, 0.3)'}}>
               <div
                 className={"boxDialog"}>
                 <SingleCloseDialog
@@ -137,7 +154,7 @@ class WithinCosmic extends React.Component {
         {
           this.props.messageSingle['render'] &&
           <ModalBox containerId="root">
-            <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(52, 52, 52, 0.36)'}}>
+            <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(51, 51, 51, 0.3)'}}>
               <div
                 className={"boxDialog"}>
                 <SingleDialog
@@ -151,7 +168,7 @@ class WithinCosmic extends React.Component {
         {
           this.props.messageBoolean['render'] &&
           <ModalBox containerId="root">
-            <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(52, 52, 52, 0.36)'}}>
+            <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(51, 51, 51, 0.3)'}}>
               <div
                 className={"boxDialog"}>
                 <BooleanDialog

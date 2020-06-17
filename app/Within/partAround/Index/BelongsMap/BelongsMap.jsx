@@ -8,9 +8,9 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import Nav from './Nav.jsx';
-import BelongStatics from './BelongStatics.jsx';
 import FellowsHome from './FellowsHome.jsx';
 import FellowsResidence from './FellowsResidence.jsx';
+import Invite from '../Invite/Invite.jsx';
 
 class BelongsMap extends React.Component {
   constructor(props){
@@ -58,8 +58,6 @@ class BelongsMap extends React.Component {
         return (
           <div>
             <FellowsHome/>
-            <BelongStatics
-              type={this.state.viewTab}/>
           </div>
         )
         break;
@@ -67,15 +65,11 @@ class BelongsMap extends React.Component {
         return (
           <div>
             <FellowsResidence/>
-            <BelongStatics
-              type={this.state.viewTab}/>
           </div>
         )
         break;
       default:
-        return (
-          <div>{this.props.i18nUIString.catalog["guidingBelongs_EmptyMap"]}</div>
-        )
+        return null
     }
   }
 
@@ -94,6 +88,10 @@ class BelongsMap extends React.Component {
           {
             this._render_mapView()
           }
+        </div>
+        <div
+          className={classnames(styles.boxInvite)}>
+          <Invite/>
         </div>
 
       </div>

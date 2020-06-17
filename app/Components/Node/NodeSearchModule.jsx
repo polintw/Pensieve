@@ -11,109 +11,6 @@ const styleMiddle={
     fontWeight: '400',
     color: '#ababab'
   },
-  spanContent: {
-    fontSize: '1.47rem',
-    letterSpacing: '0.13rem',
-    fontWeight: '300',
-    fontFamily: "'gill-sans-nova', 'Noto Sans TC','Lato', sans-serif",
-    color: '#FAFAFA'
-  },
-  spanSubmit: {
-    fontSize: '1.3rem',
-    fontWeight: '400',
-    letterSpacing: '0.14rem',
-    color: '#ededed'
-  }
-}
-
-const stylesShareSearch = {
-  Com_NounsEditor_SearchModal_Modal_close_: {
-    width: '100%',
-    height: '178%',
-    position: 'absolute',
-    bottom: '6%',
-    right: '0%',
-    boxSizing: 'border-box',
-    padding: '0 4%',
-    boxShadow: 'rgb(1, 1, 1) 0px 2px 0.4rem 0',
-    backgroundColor: '#000000',
-  },
-  Com_NounsEditor_SearchModal_Modal_close_span: {
-    display: 'inline-block',
-    position: 'relative',
-    boxSizing: 'border-box',
-    float: 'right',
-    cursor: 'pointer'
-  },
-}
-
-const stylesBelongSearch = {
-  comNodeSearchModule:{
-    width: '100%',
-    boxSizing: 'border-box',
-  },
-  boxSearchInput:{
-    width: '37.5%',
-    position: 'absolute',
-    top: '4.7rem',
-    left: '6.25%',
-    boxSizing: 'border-box',
-    borderBottom: '1px solid #6e6e6e',
-    padding: '0 2% 0.5rem'
-  },
-  inputSearchInput: {
-    display: 'inline-block',
-    width: '100%',
-    boxSizing: 'border-box',
-    border: 'none',
-    outline: 'none',
-    backgroundColor: 'transparent', //this is for ovelapping the default set of tag 'input'
-    font: 'inherit' //the position of this one is important, must above all other 'font' properties
-  },
-  fontInput:{
-    fontSize: '1.76rem',
-    letterSpacing: '0.04rem',
-    fontWeight: '400',
-    color: '#000000'
-  },
-  boxClose: {
-    position: 'absolute',
-    top: '8.7rem',
-    left: '36.5%',
-    boxSizing: 'border-box',
-    transform: 'translate(-50%,0%)'
-  },
-  spanClose: {
-    position: 'relative',
-    boxSizing: 'border-box',
-    cursor: 'pointer'
-  },
-  fontClose: {
-    fontSize: '1.3rem',
-    fontWeight: '400',
-    letterSpacing: '0.03rem',
-    color: '#a8a8a8'
-  },
-  ulCandidates: {
-    width: '50%',
-    maxHeight: '17rem',
-    minHeight: '8rem',
-    position: 'relative',
-    float: 'right',
-    boxSizing: 'border-box',
-    padding: '3%',
-    margin: '0',
-    overflow: 'auto',
-    listStyle: 'none'
-  },
-  liItem: {
-    position: 'relative',
-    boxSizing: 'border-box',
-    margin: '1.2rem 0',
-    padding: '2% 2%',
-    borderRadius: '0.6rem',
-    cursor: 'pointer'
-  }
 }
 
 const DOMInput = (comp)=> {
@@ -140,39 +37,12 @@ const DOMInput = (comp)=> {
         <ul
           className={classnames(
             styles.boxList,
-            {[styles.boxListReversed]: comp.props.reversed}
+            {[styles.boxListReversed]: comp.props.reversed},
+            {[styles.boxListRelative]: !!comp.props.relative}
           )}>
           {comp._render_SearchResults()}
         </ul>
       }
-    </div>
-  )
-}
-
-const DOMBelongSearch = (comp)=> {
-  return (
-    <div
-      style={stylesBelongSearch.comNodeSearchModule}>
-      <div
-        style={stylesBelongSearch.boxSearchInput}>
-        <input
-          ref={comp.search}
-          value={comp.state.query}
-          style={Object.assign({}, stylesBelongSearch.inputSearchInput, stylesBelongSearch.fontInput)}
-          onChange={comp._handleChange_SearchInput} />
-      </div>
-      <div
-        style={stylesBelongSearch.boxClose}
-        onClick={comp.props._handleClick_SearchModal_switch}>
-        <span
-          style={Object.assign({}, stylesBelongSearch.spanClose, stylesBelongSearch.fontClose)}>
-          {'close'}
-        </span>
-      </div>
-      <ul
-        style={Object.assign({}, stylesBelongSearch.ulCandidates, stylesBelongSearch.fontInput)}>
-        {comp._render_SearchResults()}
-      </ul>
     </div>
   )
 }
@@ -187,22 +57,6 @@ const DOMSearchResult = (comp, nounBasic, index)=>{
         stylesFont.colorListItem,
         {[styles.boxLiFilled]: (comp.state.onLiItem == index)}
       )}
-      onClick={comp._handleClick_nounChoose}
-      onMouseEnter={comp._handleEnter_liItem}
-      onMouseLeave={comp._handleLeave_liItem}>
-      <span>{nounBasic.name}</span>
-      <span>{nounBasic.prefix? (", "+nounBasic.prefix):("")}</span>
-    </li>
-  )
-
-}
-
-const DOMResultBelong = (comp, nounBasic, index)=>{
-  return(
-    <li
-      key={'_key_nounOption_'+index}
-      index={index}
-      style={Object.assign({}, stylesBelongSearch.liItem, {borderBottom: (comp.state.onLiItem==index)? 'solid 1px #ff7a5f': 'solid 1px rgb(110, 110, 110)'})}
       onClick={comp._handleClick_nounChoose}
       onMouseEnter={comp._handleEnter_liItem}
       onMouseLeave={comp._handleLeave_liItem}>
@@ -251,7 +105,7 @@ export class NodeSearchModule extends React.Component {
     if(!this.state.optional) return; // no options could be selected, no need to handle
 
     switch (event.keyCode || event.which) {
-      case 38: // key 'up' 
+      case 38: // key 'up'
         if (this.state.onLiItem != '-1' && this.state.onLiItem != '0'){ //already focus in the list, But! not the top one
           //onLiItem represent the index to state.options
           this.setState((prevState, props)=>{
@@ -271,7 +125,7 @@ export class NodeSearchModule extends React.Component {
         }
 
         break;
-      case 40: // key 'down' 
+      case 40: // key 'down'
         if (this.state.onLiItem != '-1' && Number(this.state.onLiItem) < this.state.options.length) { //already focus in the list, But! not the last one
           //onLiItem represent the index to state.options
           this.setState((prevState, props) => {
@@ -291,15 +145,15 @@ export class NodeSearchModule extends React.Component {
         }
 
         break;
-      case 27: // key 'Esc' 
+      case 27: // key 'Esc'
         this.setState({
           query: "",
           optional: false,
           options: [],
           onLiItem: '-1'
         })
-        break;    
-      case 13: // key 'Enter' 
+        break;
+      case 13: // key 'Enter'
         if(this.state.onLiItem != '-1'){ //make sure there was really an selected one
           let nounBasic = Object.assign({}, this.state.options[Number(this.state.onLiItem)]);
           this.props._set_nodeChoice(nounBasic);
@@ -310,7 +164,7 @@ export class NodeSearchModule extends React.Component {
             onLiItem: '-1'
           })
         }
-        break;    
+        break;
       default:
         break;
     }
@@ -379,14 +233,11 @@ export class NodeSearchModule extends React.Component {
       this.state.optional?(
         options = this.state.options.map((nounBasic, index) => {
           switch (this.props.type) {
-            case "option":
-              return DOMResultBelong(this, nounBasic, index)
-              break;
             case "inputDirect":
               return DOMSearchResult(this, nounBasic, index)
               break;
             default:
-              return DOMResultBelong(this, nounBasic, index)
+              return DOMSearchResult(this, nounBasic, index)
           }
         })
       ):(
@@ -425,9 +276,6 @@ export class NodeSearchModule extends React.Component {
 
   render(){
     switch (this.props.type) {
-      case "option":
-        return DOMBelongSearch(this)
-        break;
       case "inputDirect":
         return DOMInput(this)
         break;

@@ -40,7 +40,14 @@ async function _handle_unit_AuthorEditing(req, res){
     return ; //close the process
   }
 
-  //then, we can start erase process
+  //then, we can start process
+  let unitId ;
+  await _DB_units.findOne({ where: { exposedId: exposedId } })
+    .then((result) => {
+      if (!!result) {
+        unitId = result.id;
+      }
+    }); // must have a record in db, already passed the validation
 
   new Promise((resolve, reject)=>{
     /*

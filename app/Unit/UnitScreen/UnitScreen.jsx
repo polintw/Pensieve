@@ -8,16 +8,19 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
 import Theater from '../Theater/Theater.jsx';
+import Related from '../Related/Related.jsx';
 import SharedEdit from '../Editing/SharedEdit.jsx';
 import CreateRespond from '../Editing/CreateRespond.jsx';
 import {
   _axios_getUnitData,
   _axios_getUnitImgs,
 } from '../utils.js';
+import NavOptions from '../../Components/NavOptions/NavOptions.jsx';
 import ModalBox from '../../Components/ModalBox.jsx';
 import ModalBackground from '../../Components/ModalBackground.jsx';
 import {
   setUnitView,
+  submitUnitRespondsList
 } from "../../redux/actions/unit.js";
 import {
   setUnitCurrent,
@@ -26,6 +29,9 @@ import {
   updateUsersBasic
 } from "../../redux/actions/general.js";
 import {unitCurrentInit} from "../../redux/states/constants.js";
+import {
+  initUnit
+} from "../../redux/states/statesUnit.js";
 import {
   cancelErr,
   uncertainErr
@@ -149,6 +155,7 @@ class UnitScreen extends React.Component {
     if(this.unitId !== prevParams.get('unitId')){
       //reset UnitCurrent to clear the view
       this._reset_UnitMount();
+      this.props._submit_list_UnitResponds({list:'', scrolled:''}, true); // reset the responds state to initial
     };
   }
 
@@ -167,13 +174,12 @@ class UnitScreen extends React.Component {
     let unitCurrentState = Object.assign({}, unitCurrentInit);
     this.props._set_store_UnitCurrent(unitCurrentState);
     this.props._set_state_UnitView('theater'); // it's default for next view
+    this.props._submit_list_UnitResponds({list:'',scrolled:''}, true); // reset the responds state to initial
     //last, recruit the scroll ability back to <body>
     document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:scroll;");
   }
 
-  _render_switch(){
-    let paramUnitView = this.urlParams.get('unitView');
-
+  _render_switch(paramUnitView){
     switch (paramUnitView) {
       case 'theater':
         return (
@@ -198,6 +204,21 @@ class UnitScreen extends React.Component {
             _close_theaterHeigher={this._close_modal_Unit}/>
         )
         break;
+      case 'related':
+        return (
+          <div
+            className={classnames(styles.boxRelated)}
+            onClick={(e)=> { e.stopPropagation();e.preventDefault();this._close_modal_Unit()}}>
+            <div
+              onClick={(e)=> { e.stopPropagation();e.preventDefault();}}>
+              <Related
+                {...this.props}
+                _reset_UnitMount={this._reset_UnitMount}
+                _close_theaterHeigher={this._close_modal_Unit}/>
+            </div>
+          </div>
+        )
+        break;
       default:
         return (
           <Theater
@@ -215,15 +236,30 @@ class UnitScreen extends React.Component {
 
     this.urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
     this.unitId = this.urlParams.get('unitId');
+    let paramUnitView = this.urlParams.get('unitView');
+    let cssVW = window.innerWidth; // for RWD
 
     return(
       <ModalBox containerId="root">
         <ModalBackground
+          _didMountSeries={()=>{window.addEventListener('touchmove', (e)=>{e.stopPropagation();});}}
+          _willUnmountSeries={()=>{window.removeEventListener('touchmove', (e)=>{e.stopPropagation();});}}
           onClose={()=>{this._close_modal_Unit();}}
           style={{
             position: "fixed",
-            backgroundColor: 'rgba(51, 51, 51, 0.3)'}}>
-          {this._render_switch()}
+            backgroundColor: (paramUnitView=="related" || paramUnitView=="respond") ? 'rgba(51, 51, 51, 0.85)': 'rgba(51, 51, 51, 0.3)' }}>
+            {
+              (cssVW < 860) &&
+              <div
+                className={classnames(styles.boxNavOptions)}>
+                <NavOptions {...this.props} _refer_to={this._close_modal_Unit}/>
+              </div>
+            }
+            <div
+              className={classnames(styles.boxUnitContent)}
+              onClick={this._close_modal_Unit}>
+              {this._render_switch(paramUnitView)}
+            </div>
         </ModalBackground>
       </ModalBox>
     )
@@ -244,7 +280,8 @@ const mapDispatchToProps = (dispatch)=>{
     _submit_Nodes_insert: (obj) => { dispatch(updateNodesBasic(obj)); },
     _submit_Users_insert: (obj) => { dispatch(updateUsersBasic(obj)); },
     _set_state_UnitView: (expression)=>{dispatch(setUnitView(expression));},
-    _set_store_UnitCurrent: (obj)=>{dispatch(setUnitCurrent(obj));}
+    _set_store_UnitCurrent: (obj)=>{dispatch(setUnitCurrent(obj));},
+    _submit_list_UnitResponds: (obj, reset) => { dispatch(submitUnitRespondsList(obj, reset)); }
   }
 }
 

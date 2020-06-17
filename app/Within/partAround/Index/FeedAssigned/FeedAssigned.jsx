@@ -5,7 +5,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import stylesNail from "../stylesNail.module.css";
+import stylesNail from "../../stylesNail.module.css";
 import stylesFont from '../../stylesFont.module.css';
 import NailFeed from '../../../../Components/Nails/NailFeed/NailFeed.jsx';
 import NailFeedWide from '../../../../Components/Nails/NailFeedWide/NailFeedWide.jsx';
@@ -69,18 +69,19 @@ class FeedAssigned extends React.Component {
 
   componentDidUpdate(prevProps, prevState, snapshot){
     /*
-    GET list if! the belongsByType has changed
+    there are 3 situations we have to fetch list again
     */
+    //1st one, props.lastVisit updated
     //it's very slow to compare 2 obj directly, so just compare by key pair we already set up
     let lastvisitchangeify = (this.props.lastVisit != prevProps.lastVisit) ? true : false;
     if(this.recKeys.length > 0 && lastvisitchangeify){ // usually at the landing render cycle, not yet fetched and finally got the lastVisit data
       this._set_feedUnits(this.props.lastVisit);
     };
-
+    //2nd, the belongsByType had been changed
     let residenceify = (this.props.belongsByType['residence'] == prevProps.belongsByType['residence']) ? true:false;
     let homelandify = (this.props.belongsByType['homeland'] == prevProps.belongsByType['homeland']) ? true:false;
     if(this.recKeys.length > 0 && this.props.lastVisit&& (!residenceify || !homelandify)){ //this one is for situation setting new belong
-      this.props._submit_list_FeedAssigned(initAround.indexLists); //reset to initial state before fetch
+      this.props._submit_list_FeedAssigned(initAround.indexLists, true); //reset to initial state before fetch
       let nowDate = new Date();
       this._set_feedUnits(this.props.lastVisit, nowDate);
     };
@@ -105,6 +106,7 @@ class FeedAssigned extends React.Component {
     if(this.state.axios){
       this.axiosSource.cancel("component will unmount.")
     }
+    this.props._submit_list_FeedAssigned(initAround.indexLists, true); //reset to initial state before fetch
     window.removeEventListener("scroll", this._check_Position);
   }
 
@@ -126,7 +128,7 @@ class FeedAssigned extends React.Component {
                 {...this.props}
                 leftimg={false}
                 unitId={unitId}
-                linkPath={'/unit'}
+                linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
                 unitBasic={this.state.unitsBasic[unitId]}
                 marksBasic={this.state.marksBasic} />
             </div>
@@ -144,7 +146,7 @@ class FeedAssigned extends React.Component {
             <NailFeed
               {...this.props}
               unitId={unitId}
-              linkPath={'/unit'}
+              linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
               unitBasic={this.state.unitsBasic[unitId]}
               marksBasic={this.state.marksBasic}/>
           </div>
@@ -156,7 +158,7 @@ class FeedAssigned extends React.Component {
               {...this.props}
               leftimg={ remainder2 ? true : false}
               unitId={unitId}
-              linkPath={'/unit'}
+              linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
               unitBasic={this.state.unitsBasic[unitId]}
               marksBasic={this.state.marksBasic}/>
           </div>
@@ -193,34 +195,58 @@ class FeedAssigned extends React.Component {
 
     return (
       <div>
-        <div
-          className={classnames(styles.boxTitle)}>
-          <span
-            className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
-            {this.props.i18nUIString.catalog["title_FeedAssigned_"]}</span>
-        </div>
         {
-          (concatList.length > 0) &&
+          // notice, a condition if the user didn't set any belong, not going to render at all
+          ((concatList.length > 0) &&
+          (this.recKeys.length != 0) ) &&
           <div>
             {this._render_FeedNails('unread')}
             {this._render_FeedNails('browsed')}
           </div>
         }
         {
-          ((concatList.length == 0) && !this.props.indexLists.scrolled) &&
+          ((concatList.length == 0) &&
+            !this.props.indexLists.scrolled &&
+            !this.state.axios &&
+            this.recKeys.length != 0 &&
+            this.props.sharedsList.list.length > 0
+          ) &&
           <div
             className={classnames(
               styles.boxModule,
               styles.boxModuleSmall,
             )}>
-            <div
-              className={classnames(styles.boxTitle, styles.boxDescript, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
-              {
-                (!!this.props.chainList.listInfo[this.props.chainList.listOrderedChain[0]] && this.props.chainList.listInfo[this.props.chainList.listOrderedChain[0]] == "latestShared") ?
-                this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned_justSubmit'] : //which means, the user just share something
-                this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned']
-              }
-            </div>
+            {
+              (!!this.props.chainList.listInfo[this.props.chainList.listOrderedChain[0]] && this.props.chainList.listInfo[this.props.chainList.listOrderedChain[0]] == "latestShared") ?(
+                <div
+                  className={classnames(styles.boxTitle, styles.boxEmptyDescript, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
+                  {this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned_justSubmit']} //which means, the user just share something
+                </div>
+              ):(
+                <div
+                  className={classnames(styles.boxTitle, styles.boxEmptyDescript, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
+                  {this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned'][0]}
+                  <br/>
+                  {this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned'][1]}
+                </div>
+              )
+            }
+          </div>
+        }
+        { // this should be a temp method, to encourage user upload their first unit
+          ((concatList.length == 0) &&
+            !this.props.indexLists.scrolled &&
+            !this.state.axios &&
+            this.recKeys.length != 0 &&
+            this.props.sharedsList.list.length == 0
+          ) &&
+          <div
+            className={classnames(
+              styles.boxModule,
+              styles.boxModuleSmall)}>
+            <span
+              className={classnames(styles.boxTitle, styles.boxEmptyDescript, stylesFont.colorEditLightBlack, stylesFont.fontDescrip)}>
+              {this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned_norContri']}</span>
           </div>
         }
 
@@ -324,6 +350,7 @@ const mapStateToProps = (state)=>{
     i18nUIString: state.i18nUIString,
     belongsByType: state.belongsByType,
     indexLists: state.indexLists,
+    sharedsList: state.sharedsList,
     chainList: state.chainList,
   }
 }
@@ -332,7 +359,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
     _submit_UsersList_new: (arr) => { dispatch(handleUsersList(arr)); },
-    _submit_list_FeedAssigned: (obj) => { dispatch(submitFeedAssigned(obj)); }
+    _submit_list_FeedAssigned: (obj, reset) => { dispatch(submitFeedAssigned(obj, reset)); }
   }
 }
 

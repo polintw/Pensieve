@@ -1,0 +1,19 @@
+.boxTitle {
+  margin: 8px 0;
+}
+
+.boxLinkLeft {
+  padding-right: 1rem;
+}
+
+.boxLinkRight {
+  padding-left: 5px;
+}
+
+.spanLink {
+  cursor: pointer;
+}
+
+.spanLinkMouse {
+  border-bottom: solid 0.75px #b8b8b8;
+}

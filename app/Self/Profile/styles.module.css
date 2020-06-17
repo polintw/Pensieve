@@ -1,0 +1,127 @@
+.compSheet {
+  display: flex;
+  flex-direction: column;
+  max-width: 99vw;
+  box-sizing: border-box;
+}
+
+.boxTitle {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 2.77vh 0;
+  box-sizing: border-box;
+}
+
+.boxRows {
+  min-height: 54vh;
+  padding: 2rem 4rem;
+  box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
+  background-color: #FFFFFF;
+  border-radius: 8px;
+}
+
+.boxReset {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.boxResetForm {
+  width: 358px;
+  max-width: 98vw;
+}
+
+.spanTitle {
+  display: inline-block;
+  padding-right: 2rem;
+  border-right: solid 1.5px #ff8168;
+  box-sizing: border-box;
+}
+
+.comAccountSheet {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.rowSheet {
+  margin-bottom: 3rem;
+}
+
+.boxAccountSet {
+  display: inline-block;
+  width: 48%;
+}
+
+.boxEmail {
+  width: 100%;
+}
+
+.boxPassword {
+  width: 100%;
+}
+
+.linkPassBack {
+  display: inline-block;
+  width: 96px;
+  height: 32px;
+  position: relative;
+  margin: 1rem 0;
+  box-sizing: border-box;
+  border-radius: 4px;
+  background-color: transparent;
+  float: right;
+  cursor: pointer;
+}
+
+.linkPassBackMouse {
+  background-color: #757575;
+}
+
+.linkPassChange {
+  display: inline-block;
+  width: 96px;
+  height: 32px;
+  position: relative;
+  box-sizing: border-box;
+  border-radius: 4px;
+  background-color: #757575;
+  cursor: pointer;
+}
+
+.linkPassChangeMouse {
+  background-color: #ff8168;
+}
+
+.spanTag {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.inputSign {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.comNavProfile {
+  text-align: right;
+}
+
+.boxNavLink {
+  display: inline-block;
+  padding-left: 1rem;
+  border-left: solid 1px #d8d8d8;
+  box-sizing: border-box;
+}
+
+.spanNavLink {
+  display: inline-block;
+  border-bottom: 1px solid transparent;
+  cursor: pointer;
+}
+
+.spanNavLinkMouse {
+  border-bottom: 1px solid #333333;
+}

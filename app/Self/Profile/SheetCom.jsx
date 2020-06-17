@@ -5,29 +5,12 @@ import {
   Link
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import classnames from 'classnames';
+import styles from "./styles.module.css";
 import {
   cancelErr,
   uncertainErr
 } from '../../utils/errHandlers.js';
-
-const styleMiddle= {
-  fontContent: {
-    fontSize: '1.4rem',
-    letterSpacing: '0.12rem',
-    fontWeight: '400'
-  },
-  submit: {
-    fontSize: '1.3rem',
-    letterSpacing: '0.12rem',
-    fontWeight: '400'
-  },
-  basicList: {
-    width: '70%',
-    position: 'absolute',
-    left: '6%',
-    boxSizing: 'border-box',
-  }
-}
 
 class Basic extends React.Component {
   constructor(props){
@@ -36,71 +19,56 @@ class Basic extends React.Component {
       axios: false
     };
     this._render_Gender = this._render_Gender.bind(this);
-    this.style={
-      selfCom_Sheet_Basic_: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0%',
-        left: '0%'
-      },
-      selfCom_Sheet_Basic_list_gender: {
-        top: '25%',
-      },
-    }
   }
 
 
   _render_Gender(dbRecords){
     switch (dbRecords) {
       case 0:
-        return (
-          <div
-            style={Object.assign({}, this.style.selfCom_Sheet_Basic_list_gender, styleMiddle.basicList, styleMiddle.fontContent)}>
-            <span>{"gender : "}</span>
-            <span>{"Female"}</span>
-          </div>
-        )
+        return ({
+          gender: 'Female',
+          subtitle: this.props.i18nUIString.catalog['subtitle_Sign_gender']
+        })
         break;
       case 1:
-        return (
-          <div
-            style={Object.assign({}, this.style.selfCom_Sheet_Basic_list_gender, styleMiddle.basicList, styleMiddle.fontContent)}>
-            <span>{"gender : "}</span>
-            <span>{"Male"}</span>
-          </div>
-        )
+      return ({
+        gender: 'Male',
+        subtitle: this.props.i18nUIString.catalog['subtitle_Sign_gender']
+      })
         break;
       case 30:
-        return (
-          <div
-            style={Object.assign({}, this.style.selfCom_Sheet_Basic_list_gender, styleMiddle.basicList, styleMiddle.fontContent)}>
-            <span>{"pronoun : "}</span>
-            <span>{this.props.i18nUIString.catalog['options_genderPronoun'][1]}</span>
-          </div>
-        )
+      return ({
+        gender: this.props.i18nUIString.catalog['options_genderPronoun'][1],
+        subtitle: "Pronoun"
+      })
         break;
       case 31:
-        return (
-          <div
-            style={Object.assign({}, this.style.selfCom_Sheet_Basic_list_gender, styleMiddle.basicList, styleMiddle.fontContent)}>
-            <span>{"pronoun : "}</span>
-            <span>{this.props.i18nUIString.catalog['options_genderPronoun'][0]}</span>
-          </div>
-        )
+      return ({
+        gender: this.props.i18nUIString.catalog['options_genderPronoun'][0],
+        subtitle: "Pronoun"
+      })
         break;
       default:
-        return (<span>{"no gender record"}</span>)
+        return ({gender: '', subtitle:''})
     }
   }
 
   render(){
     const sheetRec = this.props.userSheet;
+    let genderText = this._render_Gender(sheetRec.gender);
 
     return(
       <div
-        style={this.style.selfCom_Sheet_Basic_}>
-        {this._render_Gender(sheetRec.gender)}
+        className={classnames(styles.rowSheet)}>
+        <span
+          className={classnames(styles.spanTag, "fontContent", "colorSignBlack")}>
+          {genderText.subtitle}
+        </span>
+        <span
+          className={classnames("fontContent", "colorBlack85")}>
+          {genderText.gender}
+        </span>
+
 
       </div>
     )
@@ -108,66 +76,98 @@ class Basic extends React.Component {
 }
 
 class AccountatSheet extends React.Component {
-//this part is more like a temporary stay in this file, would moving to a independent 'setting page' someday.
   constructor(props){
     super(props);
     this.state = {
-
+      onEnterChangePwd: false
     };
-    this.style={
-      selfCom_Setting_: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0%',
-        left: '0%'
-      },
-      selfCom_Setting_email_: {
-        width: '70%',
-        height: '24%',
-        position: 'absolute',
-        top: '25%',
-        left: '6%',
-        boxSizing: 'border-box',
-      },
-      selfCom_Setting_reset: {
-        position: 'absolute',
-        top: '69%',
-        left: '58%',
-        boxSizing: 'border-box',
-      },
-      selfCom_Setting_pass: {
-        position: 'absolute',
-        top: '69%',
-        left: '6%',
-        boxSizing: 'border-box',
-      }
-    }
+    this._handleEnter_PassChange = this._handleEnter_PassChange.bind(this);
+    this._handleLeave_PassChange = this._handleLeave_PassChange.bind(this);
   }
 
   render(){
     return(
       <div
-        style={this.style.selfCom_Setting_}>
+        className={classnames(styles.comAccountSheet)}>
         <div
-          style={Object.assign({}, this.style.selfCom_Setting_email_, styleMiddle.fontContent)}>
-          <span>{"email: "}</span>
-          <span>{this.props.accountSet.mail}</span>
+          className={classnames(styles.rowSheet, styles.boxAccountSet)}>
+          <span
+            className={classnames(styles.spanTag, "fontContent", "colorSignBlack")}>
+            {this.props.i18nUIString.catalog['subtitle_Sign_name'][0]}
+          </span>
+          <span
+            className={classnames(styles.inputSign, "fontNodesEqual", "colorBlack85")}>
+            {this.props.userInfo.firstName}
+          </span>
         </div>
-        <Link
-          to={{
-            pathname: this.props.match.url ,
-            search: '?status=password',
-          }}
-          style={Object.assign({},this.style.selfCom_Setting_pass,styleMiddle.submit)}>
-          <input
-            type="button"
-            value=" change password "/>
-        </Link>
+        <div
+          className={classnames(styles.rowSheet, styles.boxAccountSet)}>
+          <span
+            className={classnames(styles.spanTag, "fontContent", "colorSignBlack")}>
+            {this.props.i18nUIString.catalog['subtitle_Sign_name'][1]}
+          </span>
+          <span
+            className={classnames(styles.inputSign, "fontNodesEqual", "colorBlack85")}>
+            {this.props.userInfo.lastName}
+          </span>
+        </div>
+
+        <div
+          className={classnames(styles.rowSheet, styles.boxEmail)}>
+          <span
+            className={classnames(styles.spanTag, "fontContent", "colorSignBlack")}>
+            {this.props.i18nUIString.catalog['subtitle_email']}
+          </span>
+          <span
+            className={classnames(styles.inputSign, "fontNodesEqual", "colorBlack85")}>
+            {this.props.accountSet.mail}</span>
+        </div>
+
+        <div
+          className={classnames(styles.rowSheet, styles.boxPassword)}>
+          <span
+            className={classnames(styles.spanTag, "fontContent", "colorSignBlack")}>
+            {this.props.i18nUIString.catalog['subtitle_Password']}
+          </span>
+
+          <Link
+            to={{
+              pathname: this.props.match.url ,
+              search: '?status=password',
+            }}
+            className={classnames(
+              styles.linkPassChange,
+              {[styles.linkPassChangeMouse]: this.state.onEnterChangePwd}
+            )}
+            onMouseEnter={this._handleEnter_PassChange}
+            onMouseLeave={this._handleLeave_PassChange}>
+            <span
+              className={classnames(
+                'centerAlignChild',
+                "fontContent",
+                "colorWhite"
+              )}>
+              {this.props.i18nUIString.catalog["submit_change"]}
+            </span>
+          </Link>
+        </div>
 
       </div>
     )
   }
+
+  _handleEnter_PassChange(e){
+    this.setState({
+      onEnterChangePwd: true
+    })
+  }
+
+  _handleLeave_PassChange(e){
+    this.setState({
+      onEnterChangePwd: false
+    })
+  }
+
 }
 
 

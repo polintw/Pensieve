@@ -11,6 +11,11 @@
   height: 17.76vh;
 }
 
+.spanShareGuiding {
+  display: block;
+  width: 175px;
+}
+
 @media screen and (max-width:860px) {
   .boxGuiding {
     display: none;

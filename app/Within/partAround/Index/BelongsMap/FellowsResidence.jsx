@@ -84,7 +84,7 @@ class FellowsResidence extends React.Component {
       return (
         <div
           key={"_key_fellowsResiCorners_"+index}
-          style={{margin: "0 1vw"}}>
+          className={classnames(styles.boxMapCorner)}>
           <MapCorner
             nodeId={nodeId}
             typeNodeId={this.props.belongsByType['residence']}
@@ -93,6 +93,38 @@ class FellowsResidence extends React.Component {
         </div>
       )
     });
+    if(!this.props.belongsByType['residence']) { // no homeland record from the begining
+      listDOM = [(
+        <div
+          key={"_key_fellowsResidenceCorners_unset"}
+          style={{width: '100%', margin: '8px 0'}}>
+          <div
+            style={{width: '100%', height: '51px', minHeight: '4.1vw', display: 'flex', justifyContent: 'center', alignItems: 'center'}/* follow styles.boxImg*/}>
+            <span
+              className={classnames("fontTitleSmall", "colorGrey")}>
+              {this.props.i18nUIString.catalog["guidingBelongs_EmptyMap_noSet"][0]}
+              &nbsp;
+              {this.props.i18nUIString.catalog['category_Belongs_'][1]}
+              {this.props.i18nUIString.catalog["guidingBelongs_EmptyMap_noSet"][1]}
+            </span>
+          </div>
+        </div>
+      )];
+    }else if(listDOM.length ==0){ // no users among this node--- or only the user himself but lacking another belong setting
+      listDOM = [(
+        <div
+          key={"_key_fellowsResidenceCorners_empty"}
+          style={{width: '100%', margin: '8px 0'}}>
+          <div
+            style={{width: '100%', height: '51px', minHeight: '4.1vw', display: 'flex', justifyContent: 'center', alignItems: 'center'}/* follow styles.boxImg*/}>
+            <span
+              className={classnames("fontTitleSmall", "colorGrey")}>
+              {this.props.i18nUIString.catalog["guidingBelongs_EmptyMap_"]}
+            </span>
+          </div>
+        </div>
+      )];
+    }
 
     return listDOM;
   }
@@ -100,7 +132,7 @@ class FellowsResidence extends React.Component {
   render(){
     return(
       <div
-        className={classnames(styles.comTabView)}>
+        className={classnames(styles.boxModule)}>
         {this._render_corners()}
       </div>
     )

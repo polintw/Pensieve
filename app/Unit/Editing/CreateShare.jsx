@@ -111,7 +111,7 @@ class CreateShare extends React.Component {
 
   _set_EditingClose_clear(){
     if(this.props.unitSubmitting) {this._set_warningDialog([{text: 'still submitting, please hold on.',style:{}}], 'warning');}
-    else this._set_confirmDialog([{text:'current input would not be saved after leaving, are you sure going to leave?',style:{}}], 'close');
+    else this._set_confirmDialog([{text:'Your change will NOT be saved, do you still want to leave?',style:{}}], 'close'); //Original:'current input would not be saved after leaving, are you sure going to leave?'
   }
 
   _set_Submit(stateObj){
@@ -247,7 +247,7 @@ class CreateShare extends React.Component {
   _open_editingModal(){
     // we modify the url to allow user using 'previous page' for going back
     this.props.history.push({
-      pathname: this.props.match.path,
+      pathname: this.props.location.pathname,
       search: (this.props.location.search.length> 0) ? this.props.location.search+"&creating" : '?creating',
       state: {from: this.props.location}
     });

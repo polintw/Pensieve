@@ -41,6 +41,10 @@
   border-radius: 0.42rem 0.42rem 0 0;
 }
 
+.boxListRelative {
+  position: relative;
+}
+
 .boxList li {
   margin: 0.8rem -1.7rem;
   padding: 0 1.7rem;

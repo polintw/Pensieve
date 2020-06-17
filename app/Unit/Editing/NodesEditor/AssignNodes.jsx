@@ -130,7 +130,10 @@ class AssignNodes extends React.Component {
     there is a period the typeKeys would be 'empty' at all: belongsByType not yet res.
     And we just give up render these 'empty'
     */
-    if(typeKeys.length < 1) return [];
+    if(typeKeys.length < 1) {
+      return <span className={classnames(stylesFont.colorGrey, stylesFont.fontContent)}>
+        {this.props.i18nUIString.catalog['guidingCreateShare_AssignNull']}</span>
+    };
     // or ther parent list haven't res yet, also empty render
     if( !((typeKeys[0] == "homeland") ? "homelandup" : "residenceup" in this.props.belongsByType)) return [];
     /*

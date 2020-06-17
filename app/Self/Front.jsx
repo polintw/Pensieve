@@ -22,11 +22,8 @@ class Front extends React.Component {
     return(
       <Router
         basename={"/self"}>
-        <div>
+        <Route path="/profile" render={(props)=> <FrontProfile {...props}/>}/>
 
-          <Route path="/profile" render={(props)=> <FrontProfile {...props}/>}/>
-
-        </div>
       </Router>
     )
   }

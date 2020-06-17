@@ -7,7 +7,10 @@ import SvgLogo from '../../Components/Svg/SvgLogo.jsx';
 import {
   updateUsersBasic,
   updateNodesBasic,
+  setMessageSingle
 } from "../../redux/actions/general.js";
+import {
+  messageDialogInit} from "../../redux/states/constants.js";
 import {
     cancelErr,
     uncertainErr
@@ -25,6 +28,51 @@ class InvitationFellow extends React.Component {
     this.axiosSource = axios.CancelToken.source();
     this._render_Invitation = this._render_Invitation.bind(this);
     this._axios_GET_InvitationFellow = this._axios_GET_InvitationFellow.bind(this);
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot){
+    if(
+      (this.props.tokenStatus == 'verified') &&
+      ("valid" in this.state) &&
+      (this.state.sender in this.props.usersBasic) &&
+      // Important! need to check prevProps to stop loop
+      prevProps.messageSingle['render'] == this.props.messageSingle['render'] &&
+      !this.props.messageSingle['render']
+    ){
+      let message = this.state.valid ? ([
+        {
+          text: this.props.usersBasic[this.state.sender].firstName+" ",
+          style:{}
+        },
+        {
+          text: this.props.usersBasic[this.state.sender].lastName+" ",
+          style:{}
+        },
+        {text:this.props.i18nUIString.catalog['message_Invite_validToken'][0],style:{}},
+        {text:
+          this.state.node in this.props.nounsBasic ? (
+            this.props.nounsBasic[this.state.node].name) : (
+              null
+            ) ,style:{}},
+        {text:this.props.i18nUIString.catalog['message_Invite_validToken'][1],style:{}}
+      ]): ([
+        {text:this.props.i18nUIString.catalog['message_Invite_General'],style:{}}
+      ]);
+
+      this.props._submit_SingleDialog({
+        render: true,
+        message: message,
+        handlerPositive: ()=>{
+          // first!! reset the dialog state to init
+          this.props._submit_SingleDialog(messageDialogInit.single);
+          this.props.history.push({ // back to index
+            pathname: this.props.match.path,
+            search: '',
+            state: {from: this.props.location}
+          }); return;},
+        buttonValue: 'Okay'
+      });
+    };
   }
 
   componentDidMount() {
@@ -77,68 +125,90 @@ class InvitationFellow extends React.Component {
       return null
     };
     return (this.state.valid) ? (
-      <div>
-        <div>
-          <span>
-            {this.props.i18nUIString.catalog["greet_Welcome"]}
+      <div
+        className={classnames(styles.comInvitation)}>
+        <div
+          className={classnames(styles.boxTitle)}>
+          <span
+            className={classnames("fontTitle", "colorStandard")}>
+            {this.props.i18nUIString.catalog["title_Invitation_"]}
           </span>
-          <div
-            className={styles.boxLogo}>
-            <SvgLogo/>
-          </div>
-        </div>
-        <div>
-          <p>{this.props.i18nUIString.catalog["message_Invite_fellows"][0]}</p>
-          <div>
+          <span
+            className={classnames("fontContent", "colorEditBlack", "fontStyleItalic")}
+            style={{display: 'inline-block', marginLeft: '1rem'}}>
+            {this.props.i18nUIString.catalog["message_Invite_fellows"][8]}
             <AccountPalette
               size={'regular'}
+              styleFirst={{fontWeight: '400'}}
               userId={this.state.sender}/>
-          </div>
-          <p>{this.props.i18nUIString.catalog["message_Invite_fellows"][1]}</p>
+          </span>
+        </div>
+        <p
+          className={classnames("fontSubtitle_h5", "colorSignBlack")}>
+          {this.props.i18nUIString.catalog["message_Invite_fellows"][0]}
+          <AccountPalette
+            size={'regular'}
+            styleFirst={{fontWeight: '400'}}
+            userId={this.state.sender}/>
+          {this.props.i18nUIString.catalog["message_Invite_fellows"][5]}
+        </p>
+        <p
+          className={classnames("fontSubtitle_h5", "colorSignBlack")}>
+          {this.props.i18nUIString.catalog["message_Invite_fellows"][1]}
           {
             this.state.belongType =="homeland" ? (
-              <p>{this.props.i18nUIString.catalog["message_Invite_fellows"][2]}</p>
+              this.props.i18nUIString.catalog["message_Invite_fellows"][2]
             ):(
-              <p>{this.props.i18nUIString.catalog["message_Invite_fellows"][3]}</p>
+              this.props.i18nUIString.catalog["message_Invite_fellows"][3]
             )
           }
-          <div>
+        </p>
+        <p
+          className={classnames("fontSubtitle_h5", "colorSignBlack")}>
+          <span
+            className={classnames("fontSubtitle_h5", "colorSignBlack", "weightBold")}>
             {this.state.node in this.props.nounsBasic ? (
               this.props.nounsBasic[this.state.node].name) : (
                 null
               )}
-          </div>
-          <p>{this.props.i18nUIString.catalog["message_Invite_fellows"][4]}</p>
-
-        </div>
+          </span>
+          {this.props.i18nUIString.catalog["message_Invite_fellows"][6]}
+        </p>
+        <p
+          className={classnames("fontSubtitle_h5", "colorSignBlack")}>
+          {this.props.i18nUIString.catalog["message_Invite_fellows"][4]}
+          <br/>
+          {this.props.i18nUIString.catalog["message_Invite_fellows"][7]}
+        </p>
       </div>
     ):(
-      <div>
-        <div>
-          <span>
-            {this.props.i18nUIString.catalog["greet_Welcome"]}
+      <div
+        className={classnames(styles.comInvitation)}>
+        <div
+          className={classnames(styles.boxTitle)}>
+          <span
+            className={classnames("fontTitle", "colorStandard")}>
+            {this.props.i18nUIString.catalog["title_Invitation_"]}
           </span>
-          <div
-            className={styles.boxLogo}>
-            <SvgLogo/>
-          </div>
         </div>
-        <div>
-          <p>{this.props.i18nUIString.catalog["message_Invite_General"]}</p>
-
-        </div>
+        <p
+          className={classnames("fontSubtitle_h5", "colorSignBlack")}>
+          {this.props.i18nUIString.catalog["message_Invite_General"]}</p>
       </div>
     )
   }
 
   render(){
-    return(
-      <div>
-        {
-          this._render_Invitation()
-        }
-      </div>
-    )
+    if (this.props.tokenStatus == 'verified' ) return null
+    else {
+      return(
+        <div>
+          {
+            this._render_Invitation()
+          }
+        </div>
+      )
+    };
   }
 
   _axios_GET_InvitationFellow() {
@@ -168,7 +238,10 @@ class InvitationFellow extends React.Component {
 
 const mapStateToProps = (state)=>{
   return {
+    tokenStatus: state.token,
     i18nUIString: state.i18nUIString,
+    messageSingle: state.messageSingle,
+    usersBasic: state.usersBasic,
     nounsBasic: state.nounsBasic,
   }
 }
@@ -177,6 +250,7 @@ const mapDispatchToProps = (dispatch)=>{
   return {
     _submit_Users_insert: (obj) => { dispatch(updateUsersBasic(obj)); },
     _submit_Nodes_insert: (obj) => { dispatch(updateNodesBasic(obj)); },
+    _submit_SingleDialog: (obj)=>{dispatch(setMessageSingle(obj));},
   }
 }
 

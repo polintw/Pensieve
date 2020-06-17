@@ -1,18 +1,21 @@
 .comSinDialog {
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
+  align-content: space-between;
+  flex-wrap: wrap;
   width: 100%;
-  min-height: 21rem;
-  max-height: 54vh;
+  min-height: 24rem;
   box-sizing: border-box;
-  padding: 3rem 3rem 7rem 3.7rem;
+  padding: 4rem 10% 3rem;
 }
 
 .boxMessage {
 
 }
 
+.boxfoot {
+  margin: 3rem 0 0;
+}
 .spanMessage {
 
 }

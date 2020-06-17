@@ -220,7 +220,16 @@ function _handle_ErrCatched(e, req, res){
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;
-    case 87: //403, Client is not permitted to perform this action.
+    case 85:
+      //403, user has verified, not allowed request again.
+      winston.warn(`${e.status} - ${" code 85, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+      clientSet['code'] = 85;
+      clientSet['message'] = e.message;
+      clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
+    case 87:
+      //403, Client is not permitted to perform this action.
       winston.warn(`${e.status} - ${" code 87, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
       clientSet['code'] = 87;
       clientSet['message'] = "Hey, don't do this. This request is not allowed!";

@@ -13,6 +13,13 @@
   text-align: center;
 }
 
+.boxEmptyDescript {
+  width: 100%;
+  height: 51px;
+  min-height: 4.1vw;
+  text-align: center;
+}
+
 @media screen and (max-width:860px) {
   .boxModuleSmall {
     justify-content: center;

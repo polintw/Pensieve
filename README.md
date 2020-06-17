@@ -98,7 +98,7 @@ NODE_ENV="development" npm run build:server
 final, start the server
 
 ```bash
-NODE_ENV="development" npm start
+NODE_ENV="development" npm run start
 ```
 
 

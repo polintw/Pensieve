@@ -4,6 +4,7 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import IndexWrapper from './Index/Wrapper.jsx';
+import InvitationFellow from '../partSign/InvitationFellow.jsx';
 
 class Around extends React.Component {
   constructor(props){
@@ -40,7 +41,10 @@ class Around extends React.Component {
         <div
           style={this.style.withinCom_Around_}>
           <IndexWrapper {...this.props}/>
-
+          {
+            this.props.location.search.includes('invitation') &&
+            <InvitationFellow {...this.props}/>
+          }
         </div>
       )
     };

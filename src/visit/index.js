@@ -17,12 +17,9 @@ function _handle_GET_visit_Index(req, res){
       where: {id_user: userId},
       attributes: ['updatedAt', 'createdAt']
     }).then((lastVisit)=>{
-      // to compare createdAt & updatedAt
-      let createdD = new Date(lastVisit.createdAt),
-          updatedD = new Date(lastVisit.updatedAt);
 
       let sendingData={
-        lastTime: updatedD.getTime()==createdD.getTime() ? 'newly': lastVisit.updatedAt, //to know if the user was newly register
+        lastTime: lastVisit.updatedAt,
         temp: {}
       };
 
