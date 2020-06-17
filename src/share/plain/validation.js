@@ -235,6 +235,7 @@ async function validateSharedEdit(modifiedBody, userId, exposedId) {
   */
   const typeStaticJoinedMarksList = modifiedBody.joinedMarksList.map((id, index)=>{
     let typeNumId = parseInt(id);
+    if (isNaN(typeNumId)) { return id; }; // a 'new' add has a markId like "undefined_......". it's a string
     return typeNumId;
   });
   // checking the markObj passed in joinedMarks {reasonable portion_top, portion_left, layer & serial}
@@ -299,6 +300,7 @@ async function validateSharedEdit(modifiedBody, userId, exposedId) {
     return true;
 
   })
+
   if (!marksObjConfirm || !marksDataConfirm) {
     throw new validationError("Your contents do not have correct format or most often, the characters you passed has over the limit.", 7);
     return;
