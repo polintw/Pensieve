@@ -64,6 +64,8 @@ class Wrapper extends React.Component {
     if(!!this.state.belongs.homeland || !!this.state.belongs.residence){
       let belongsKeys = Object.keys(this.state.belongs);
       let patchPromises = belongsKeys.map((key)=>{
+        // we alloweduser submit only one node, so ignore unset category
+        if(!this.state.belongs[key]) return ()=>{Promise.resolve()};
         let submitObj = {
           category: key,
           nodeId: this.state.belongs[key]
@@ -107,7 +109,7 @@ class Wrapper extends React.Component {
 
 
   render(){
-    let submitBlocked = (!(this.state.belongs['homeland'] || this.state.belongs['residence']) && !this.state.axiosPatch) ? true:false;
+    let submitBlocked = (!(this.state.belongs['homeland'] || this.state.belongs['residence']) || this.state.axiosPatch) ? true:false;
 
     return(
       <div
