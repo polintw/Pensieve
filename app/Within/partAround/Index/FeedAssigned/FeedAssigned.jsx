@@ -164,7 +164,18 @@ class FeedAssigned extends React.Component {
           </div>
         ));
       });
-      if(listChoice=="unread" && (nailsDOM.length % 3) == 1) nailsDOM.splice(-1, 1); // basically should only happened at the final round of listUnread, no more unit newer than lastVisit
+      if(listChoice=="unread" && (groupIndex+1)==this.props.indexLists.listUnread.length){ //sepcial handler for last round of listUnread
+        if(this.props.indexLists.listBrowsed.length ==0){ // should add hint at a special condition: no browsed item, means no followed units after the last round
+          nailsDOM.push(
+            <div
+              className={classnames(styles.boxTitle, styles.boxDescript, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
+              {this.props.i18nUIString.catalog['title_FeedAssigned_AllRead']}</div>
+          );
+        }
+        else if( (nailsDOM.length % 3) == 2){ // only happend if the last one was a 'lonely' one, not good looking
+          nailsDOM.splice(-1, 1);
+        };
+      };
       if(listChoice=="browsed" && groupIndex==0 && nailsDOM.length > 0) nailsDOM.splice(1, 0, ( // 'You've all browsed' at the second place of listbrowsed
         <div
           className={classnames(styles.boxTitle, styles.boxDescript, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
