@@ -40,10 +40,11 @@ Beneath are part counting users by the users list selected from 'another' table
 But! They are only part of a temporary method for the dirty prototype,
 should be reconsider in a former production!
 */
-const _findandcount_fromHomeland_byUsers = (usersArr)=>{
+const _findandcount_currentResiFromLimit_byUsers = (usersArr, nodeLimit)=>{
   return _DB_usersNodesHomeland.findAndCountAll({
     where: {
       id_user: usersArr, //an IN query by users array
+      id_node: nodeLimit,
       historyify: false
     }
   })
@@ -52,10 +53,11 @@ const _findandcount_fromHomeland_byUsers = (usersArr)=>{
   })
   .catch((err)=>{ throw err })
 };
-const _findandcount_fromResidence_byUsers = (usersArr)=>{
+const _findandcount_fromHomeAtLimit_byUsers = (usersArr, nodeLimit)=>{
   return _DB_usersNodesResidence.findAndCountAll({
     where: {
       id_user: usersArr, //an IN query by users array
+      id_node: nodeLimit,
       historyify: false
     }
   })
@@ -130,7 +132,7 @@ function _handle_GET_nounCount_users(req, res){
       };
       // get the users
       let usersSelection = (countCat[0]=="homeland") ? _find_fromHomeland_outUsers : _find_fromResidence_outUsers;
-      let limitSelection = (countCat[0]=="homeland") ? _findandcount_fromResidence_byUsers: _findandcount_fromHomeland_byUsers;
+      let limitSelection = (countCat[0]=="homeland") ? _findandcount_fromHomeAtLimit_byUsers: _findandcount_currentResiFromLimit_byUsers;
       async function asyncUsersArr(nodeId){
         let usersArr = await usersSelection(nodeId);
         return usersArr;
@@ -140,7 +142,7 @@ function _handle_GET_nounCount_users(req, res){
         new Promise((resolve, reject)=>{
           asyncUsersArr(baseNode)
           .then((usersArr)=>{
-            resolve(limitSelection(usersArr))
+            resolve(limitSelection(usersArr, limitCorner))
           })
         })
       ]
