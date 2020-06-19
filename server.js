@@ -19,6 +19,17 @@ const {
   belongsPatchLimiter
 } = require('./src/rateLimiter.js');
 
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
+const webpack = require('webpack');
+const config = require('./config/server/webpack.dev.conf.js');
+
+const compiler = webpack(config);
+
+app.use(webpackDevMiddleware(compiler));
+
+app.use(webpackHotMiddleware(compiler));
+
 //babel-polyfill is here for the whole code after it!
 require('babel-polyfill');
 
