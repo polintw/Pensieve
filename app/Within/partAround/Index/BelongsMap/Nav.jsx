@@ -16,6 +16,8 @@ class Nav extends React.Component {
       onMapNav: false
     };
     this._render_MapNav =this._render_MapNav.bind(this);
+    this._render_NavBelongSeries = this._render_NavBelongSeries.bind(this);
+    this._handleClick_navBelongSeries = this._handleClick_navBelongSeries.bind(this);
     this._handleClick_navBelongsMap = this._handleClick_navBelongsMap.bind(this);
     this._handleEnter_MapNav = this._handleEnter_MapNav.bind(this);
     this._handleLeave_MapNav = this._handleLeave_MapNav.bind(this);
@@ -39,6 +41,41 @@ class Nav extends React.Component {
 
   componentWillUnmount(){
 
+  }
+
+  _render_NavBelongSeries(){
+    let targetSeries = (this.props.currentTab== "homeland") ? "homelandup" : "residenceup" ;
+    // first, check if the belong was set
+    if( !(targetSeries in this.props.belongsByType)) return [];
+
+    let typeList = this.props.belongsByType[targetSeries].listToTop.slice(); //shallow copy
+    // then unshift the belong itself
+    typeList.unshift(this.props.belongsByType[targetSeries].nodeId);
+    let navDOM = typeList.map((nodeId, index)=>{
+      return (
+        <div
+          key={'key_NavBelongSeries_' + nodeId}
+          nodeid={nodeId}
+          className={classnames()}
+          onClick={this._handleClick_navBelongSeries}>
+          {(nodeId in this.props.nounsBasic) &&
+            <div>
+              <span
+                className={classnames( "fontContent", "colorGrey" )}>
+                {this.props.nounsBasic[nodeId].name}</span>
+              {
+                !!this.props.nounsBasic[nodeId].prefix &&
+                <span
+                  className={classnames( "fontContent", "colorGrey" )}
+                  style={{ alignSelf:'right', fontSize: '1.2rem', fontStyle: 'italic'}}>
+                  {", "+this.props.nounsBasic[nodeId].prefix}</span>
+              }
+            </div>
+          }
+        </div>
+      )
+    });
+    return navDOM;
   }
 
   _render_MapNav(){
@@ -113,9 +150,20 @@ class Nav extends React.Component {
             { this.props.i18nUIString.catalog["link_BelongsMap_Nav"][(this.props.currentTab =="residence") ? 2 : 1] }
           </span>
         </div>
+        <div>
+          {this._render_NavBelongSeries()}
+        </div>
         {this._render_MapNav()}
       </div>
     )
+  }
+
+  _handleClick_navBelongSeries(event){
+    event.stopPropagation();
+    event.preventDefault();
+    let targetNode= event.currentTarget.getAttribute('nodeid');
+
+    this.props._set_viewNode(targetNode);
   }
 
   _handleEnter_MapNav(e){
@@ -132,6 +180,7 @@ const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
+    nounsBasic: state.nounsBasic,
     belongsByType: state.belongsByType
   }
 }
