@@ -1,0 +1,36 @@
+.boxTitle {
+  margin: 8px 0;
+}
+
+.boxModule{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.boxDescript {
+  width: 100%;
+  text-align: center;
+}
+
+.boxEmptyDescript {
+  width: 100%;
+  height: 51px;
+  min-height: 4.1vw;
+  text-align: center;
+}
+
+.boxFooter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding-top: 2.4rem;
+  margin-bottom: 31.1vh;
+}
+
+@media screen and (max-width:860px) {
+  .boxModuleSmall {
+    justify-content: center;
+  }
+}

@@ -7,8 +7,8 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import stylesNail from "../stylesNail.module.css";
 import stylesFont from '../stylesFont.module.css';
+import stylesNail from "../../stylesNail.module.css";
 import NailFeedWide from '../../../Components/Nails/NailFeedWide/NailFeedWide.jsx';
 import NailFeedMobile from '../../../Components/Nails/NailFeedMobile/NailFeedMobile.jsx';
 import {axios_get_UnitsBasic} from '../../../utils/fetchHandlers.js';

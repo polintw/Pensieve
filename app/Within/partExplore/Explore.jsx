@@ -9,22 +9,8 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
+import AtNode from './AtNode/Wrapper.jsx';
 import UnitExplore from '../../Unit/UnitExplore/UnitExplore.jsx';
-
-const styleMiddle = {
-  comExplore: {
-    width: '100%',
-    position: 'absolute',
-    top: '0',
-    left: '0',
-    boxSizing: 'border-box'
-  },
-  boxSubtitle: {
-    position: 'fixed',
-    bottom: '109px',
-    left: '7%'
-  },
-}
 
 class Explore extends React.Component {
   constructor(props){
@@ -46,19 +32,14 @@ class Explore extends React.Component {
   }
 
   render(){
-    let unitify = this.props.location.pathname.includes('/unit');
-
     return(
       <div
-        style={styleMiddle.comExplore}>
-        <div
-          className={styles.boxMain}>
-          <Switch>
-            <Route path={this.props.match.path+"/unit"} render={(props)=> <UnitExplore {...props} _refer_von_unit={this.props._refer_von_cosmic}/>}/>
+        className={styles.comExplore}>
+        <Switch>
+          <Route path={this.props.match.path+"/node"} render={(props)=> <AtNode {...props} _refer_to={this.props._refer_von_cosmic}/>}/>
 
-          </Switch>
-        </div>
-
+          <Route path={this.props.match.path+"/unit"} render={(props)=> <UnitExplore {...props} _refer_von_unit={this.props._refer_von_cosmic}/>}/>
+        </Switch>
       </div>
     )
   }

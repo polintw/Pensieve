@@ -8,8 +8,8 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import stylesNail from "../../stylesNail.module.css";
 import stylesFont from '../../stylesFont.module.css';
+import stylesNail from "../../../stylesNail.module.css";
 import ChainShared from './ChainShared.jsx';
 import ChainMessage from './ChainMessage.jsx';
 import IndexShare from '../IndexShare/IndexShare.jsx';
