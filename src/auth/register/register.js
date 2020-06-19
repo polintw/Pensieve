@@ -132,8 +132,6 @@ function _handle_auth_register_POST(req, res) {
               pinsertEmailToken = Promise.resolve(_insert_basic({table: 'users_apply', col: '(id_user, token_email, status)'}, [[userId, tokenEmail, 'unverified']]).catch((errObj)=>{throw errObj})),
               pcreateImgFolder = Promise.resolve(_create_new_ImgFolder(userId).catch((errObj)=>{throw errObj})),
               pinsertNewSheet = _DB_sheets.create({id_user: userId, gender:newUser.gender}).catch((err)=>{throw err}),
-              pinsertLastvisitShared = _DB_lastvisitShared.create({id_user: userId}).catch((err)=>{throw err}),
-              pinsertLastvisitNotify = _DB_lastvisitNotify.create({id_user: userId}).catch((err)=>{throw err}),
               pinsertLastvisitIndex = _DB_lastvisitIndex.create({id_user: userId}).catch((err)=>{throw err});
 
           return Promise.all([
@@ -141,9 +139,7 @@ function _handle_auth_register_POST(req, res) {
             pinsertNewSheet,
             pinsertEmailToken,
             pcreateImgFolder,
-            pinsertLastvisitIndex,
-            pinsertLastvisitShared,
-            pinsertLastvisitNotify])
+            pinsertLastvisitIndex])
             .then((results)=>{
               return deliverVerifiedMail(newUser, tokenEmail);
             });
