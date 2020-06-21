@@ -6,6 +6,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesNail from "../../../stylesNail.module.css";
+import FeedEmpty from './FeedEmpty.jsx';
 import NodeUsers from '../NodeUsers/NodeUsers.jsx';
 import NailFeed from '../../../../Components/Nails/NailFeed/NailFeed.jsx';
 import NailFeedWide from '../../../../Components/Nails/NailFeedWide/NailFeedWide.jsx';
@@ -44,7 +45,7 @@ class Feed extends React.Component {
     let lastUrlParams = new URLSearchParams(prevProps.location.search); //we need value in URL query
     let lastNodeAtId = lastUrlParams.get('nodeid');
     if(this.nodeAtId != lastNodeAtId){
-
+      this._set_feedUnits();
     }
   }
 
@@ -174,12 +175,9 @@ class Feed extends React.Component {
               styles.boxModule,
               styles.boxModuleSmall,
             )}>
-            <div
-              className={classnames(styles.boxTitle, styles.boxEmptyDescript, "fontTitleSmall", "colorLightGrey")}>
-              {this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned'][0]}
-              <br/>
-              {this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned'][1]}
-            </div>
+            <FeedEmpty
+              {...this.props}
+              nodeAtId={this.nodeAtId}/>
           </div>
         }
 
@@ -226,24 +224,27 @@ class Feed extends React.Component {
       listUnitBase: lastUnitTime
     })
     .then((resObj)=>{
-      self.setState((prevState, props)=>{
-        let copyList = prevState.feedList.slice();
-        copyList.push(resObj.main.unitsList);
+      if(resObj.main.unitsList.length > 0){
+        self.setState((prevState, props)=>{
+          let copyList = prevState.feedList.slice();
+          copyList.push(resObj.main.unitsList);
+          return {
+            feedList: copyList,
+            scrolled: resObj.main.scrolled
+          }
+        });
 
-        return {
-          feedList: copyList,
-          scrolled: resObj.main.scrolled
-        }
-      });
-
-      return resObj.main.unitsList.length > 0 ?(
-        axios_get_UnitsBasic(self.axiosSource.token, resObj.main.unitsList)
-      ): ({ main: {
-        nounsListMix: [],
-        usersList: [],
-        unitsBasic: {},
-        marksBasic: {}
-      }});
+        return axios_get_UnitsBasic(self.axiosSource.token, resObj.main.unitsList);
+      }
+      else{
+        self.setState({scrolled: resObj.main.scrolled}) // don't forget set scrolled to false to indicate the list was end
+        return { //just a way to deal with the next step, stop further request
+          main: {
+            nounsListMix: [],
+            usersList: [],
+            unitsBasic: {},
+            marksBasic: {}
+          }}};
     })
     .then((resObj)=>{
       //after res of axios_Units: call get nouns & users
