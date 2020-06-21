@@ -7,10 +7,10 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesFont from '../../stylesFont.module.css';
-import SvgPin from '../../../../Components/Svg/SvgPin.jsx';
 import {
   _axios_GET_usersCount
-} from './utils.js';
+} from '../../../utils.js';
+import SvgPin from '../../../../Components/Svg/SvgPin.jsx';
 
 class MapCorner extends React.Component {
   constructor(props){

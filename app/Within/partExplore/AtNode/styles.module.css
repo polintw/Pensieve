@@ -1,0 +1,13 @@
+.comAtNode {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.boxRow {
+  position: relative;
+}
+
+.boxTitle {
+  margin: 8px 0;
+}

@@ -148,7 +148,9 @@ const i18nUIString_EN = {
   "guiding_AroundIndex_Share": "What’s around your corner?", //Original:"how's your corners"
   'descript_AroundIndex_footer_BelongHint': "Start browsing by setting your current stay or homeland!",
 
-  "descript_Nail_noMark": "(expand image...)"
+  "descript_Nail_noMark": "(expand image...)",
+
+  "title_NavAtNode_": "Accumulated",
 };
 
 module.exports = i18nUIString_EN;

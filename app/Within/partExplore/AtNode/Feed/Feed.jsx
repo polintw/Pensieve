@@ -6,6 +6,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesNail from "../../../stylesNail.module.css";
+import NodeUsers from '../NodeUsers/NodeUsers.jsx';
 import NailFeed from '../../../../Components/Nails/NailFeed/NailFeed.jsx';
 import NailFeedWide from '../../../../Components/Nails/NailFeedWide/NailFeedWide.jsx';
 import NailFeedMobile from '../../../../Components/Nails/NailFeedMobile/NailFeedMobile.jsx';
@@ -39,12 +40,15 @@ class Feed extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
+    // if change the node bymodifying the nodeid in search, the page would only update
+    let lastUrlParams = new URLSearchParams(prevProps.location.search); //we need value in URL query
+    let lastNodeAtId = lastUrlParams.get('nodeid');
+    if(this.nodeAtId != lastNodeAtId){
 
+    }
   }
 
   componentDidMount(){
-    let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
-    this.nodeAtId = urlParams.get('nodeid');
     // must set the nodeAtId first, before _set_feedUnits
     this._set_feedUnits();
     window.addEventListener("scroll", this._check_Position);
@@ -145,8 +149,15 @@ class Feed extends React.Component {
   }
 
   render(){
+    let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
+    this.nodeAtId = urlParams.get('nodeid');
+
     return (
       <div>
+        <div>
+          <NodeUsers
+            nodeId={this.nodeAtId}/>
+        </div>
         {
           (this.state.feedList.length > 0) &&
           <div>
