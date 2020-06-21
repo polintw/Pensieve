@@ -9,7 +9,7 @@ export default class SvgPin extends React.Component {
   }
 
   render(){
-    let fillColor = this.props.mouseOn ? "#545454": "#D8D8D8"; // reaction if on mouse enter
+    let fillColor = this.props.mouseOn ? !!this.props.customStyles ? this.props.customStyles.fillColor: "#545454" : "#D8D8D8"; // reaction if on mouse enter
 
     return(
       <svg

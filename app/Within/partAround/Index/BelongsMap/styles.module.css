@@ -49,6 +49,10 @@
   float: right;
 }
 
+.comMapCornerNodeMouse {
+  background-color: transparent;
+}
+
 .boxMapCount {
   display: flex;
   justify-content: space-between;
@@ -107,11 +111,17 @@
   width: 100%;
 }
 
-.spanNode {
+.spanMapNode {
   display: inline-block;
+  border-bottom: solid 0.75px transparent;
+  cursor: pointer;
 }
 
-.spanNodeSub {
+.spanMapNodeMouseOn {
+  border-bottom: solid 0.75px #545454;
+}
+
+.spanMapNodeSub {
   display: inline-block;
 }
 
