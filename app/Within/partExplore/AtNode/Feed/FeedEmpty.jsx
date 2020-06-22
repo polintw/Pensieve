@@ -61,7 +61,9 @@ class FeedEmpty extends React.Component {
       return (
         <div
           className={classnames(styles.boxInvite)}>
-          <Invite/>
+          <Invite
+            belongOnly={false}
+            reqNode={this.props.nodeAtId}/>
         </div>
       )
     };

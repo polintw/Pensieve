@@ -119,7 +119,8 @@ class BelongsMap extends React.Component {
         </div>
         <div
           className={classnames(styles.boxInvite)}>
-          <Invite/>
+          <Invite
+            belongOnly={true}/>
         </div>
 
       </div>

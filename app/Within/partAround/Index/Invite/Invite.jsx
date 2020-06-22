@@ -67,7 +67,11 @@ class Invite extends React.Component {
                 ['colorGrey']: !this.state.onInvite,
                 ['colorWhite']: this.state.onInvite,
               }, 'fontSubtitle_h5')}>
-            {this.props.i18nUIString.catalog["submit_Invite_"] }</span>
+            {
+              this.props.belongOnly?
+              this.props.i18nUIString.catalog["submit_Invite_"]:
+              this.props.i18nUIString.catalog["submit_Invite_people"]
+            }</span>
         </div>
         {
           this.state.panelModal &&
@@ -75,6 +79,8 @@ class Invite extends React.Component {
             <ModalBackground onClose={()=>{this._set_Dialog();}} style={{position: "fixed", backgroundColor: 'rgba(51, 51, 51, 0.3)'}}>
               <FixWidthDialog>
                 <WritingPanel
+                  belongOnly={this.props.belongOnly}
+                  reqNode={!!this.props.reqNode ? this.props.reqNode: null}
                   onComplete={this._set_Dialog}/>
               </FixWidthDialog>
             </ModalBackground>

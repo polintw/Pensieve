@@ -66,9 +66,8 @@
 }
 
 .spanEdit {
-  border-left: solid 1px #d8d8d8;
-  margin-left: 3px;
-  padding-left: 3px;
+  margin-left: 5px;
+  padding-left: 5px;
   cursor: pointer;
 }
 

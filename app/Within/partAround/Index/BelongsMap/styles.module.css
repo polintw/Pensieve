@@ -6,7 +6,7 @@
 
 .comNavBelongsMap {
   display: flex;
-  align-items: flex-end;
+  align-items: baseline;
 }
 
 .boxModule{
@@ -101,7 +101,6 @@
 }
 
 .boxStaticsDescript {
-  width: 7rem;
   margin: 0 1rem 0 2rem;
 }
 
@@ -109,6 +108,11 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
+}
+
+.spanStaticDescript {
+  display: inline-block;
+  width: 7rem;
 }
 
 .spanMapNode {
