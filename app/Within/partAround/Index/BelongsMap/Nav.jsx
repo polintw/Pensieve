@@ -13,7 +13,8 @@ class Nav extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      onMapNav: false
+      onMapNav: false,
+      currentMouseOn: false
     };
     this._render_MapNav =this._render_MapNav.bind(this);
     this._render_NavBelongSeries = this._render_NavBelongSeries.bind(this);
@@ -21,6 +22,8 @@ class Nav extends React.Component {
     this._handleClick_navBelongsMap = this._handleClick_navBelongsMap.bind(this);
     this._handleEnter_MapNav = this._handleEnter_MapNav.bind(this);
     this._handleLeave_MapNav = this._handleLeave_MapNav.bind(this);
+    this._handleEnter_navLinkSeries = this._handleEnter_navLinkSeries.bind(this);
+    this._handleLeave_navLinkSeries = this._handleLeave_navLinkSeries.bind(this);
   }
 
   _handleClick_navBelongsMap(event){
@@ -56,20 +59,21 @@ class Nav extends React.Component {
         <div
           key={'key_NavBelongSeries_' + nodeId}
           nodeid={nodeId}
-          className={classnames()}
-          onClick={this._handleClick_navBelongSeries}>
+          className={classnames(
+            styles.boxNavLinkSeries,
+            {[styles.boxNavLinkSeriesMouse]: (this.state.onLinkSeries == nodeId && this.props.currentNode != nodeId)}
+          )}
+          onClick={this._handleClick_navBelongSeries}
+          onMouseEnter={this._handleEnter_navLinkSeries}
+          onMouseLeave={this._handleLeave_navLinkSeries}>
           {(nodeId in this.props.nounsBasic) &&
             <div>
               <span
-                className={classnames( "fontContent", "colorGrey" )}>
+                className={classnames(
+                  "fontContent", "colorLightGrey",
+                  {["colorDescripBlack"]: (this.props.currentNode== nodeId)}
+                )}>
                 {this.props.nounsBasic[nodeId].name}</span>
-              {
-                !!this.props.nounsBasic[nodeId].prefix &&
-                <span
-                  className={classnames( "fontContent", "colorGrey" )}
-                  style={{ alignSelf:'right', fontSize: '1.2rem', fontStyle: 'italic'}}>
-                  {", "+this.props.nounsBasic[nodeId].prefix}</span>
-              }
             </div>
           }
         </div>
@@ -140,22 +144,28 @@ class Nav extends React.Component {
           style={{marginLeft: '2rem'}}>
           <span
             className={classnames('colorDescripBlack', 'fontTitle')}>
-            {this.props.i18nUIString.catalog['title_BelongsMap_Nav']}</span>
+            {this.props.i18nUIString.catalog['title_BelongsMap_Nav'][0]}</span>
+          <span
+              className={classnames(styles.spanStaticDescript, 'colorDescripBlack', 'fontContent')}>
+              { this.props.i18nUIString.catalog["title_BelongsMap_Nav"][(this.props.currentTab =="residence") ? 2 : 1] }
+          </span>
         </div>
-        <div>
+        <div
+          className={classnames(styles.boxNavTitle)}>
           <div
             className={classnames(styles.boxStaticsDescript)}>
             <span
-              className={classnames(styles.spanStaticDescript, 'colorDescripBlack', 'fontContent')}
-              style={ (this.props.currentTab =="residence") ? {width: '8rem'}: {}}>
+              className={classnames(styles.spanStaticDescript, 'colorDescripBlack', 'fontContent')}>
               { this.props.i18nUIString.catalog["link_BelongsMap_Nav"][(this.props.currentTab =="residence") ? 2 : 1] }
             </span>
           </div>
-          {this._render_MapNav()}
-          <div>
+          <div
+            className={classnames(styles.boxNavTitleLower)}>
             {this._render_NavBelongSeries()}
           </div>
         </div>
+        {this._render_MapNav()}
+
       </div>
     )
   }
@@ -164,7 +174,7 @@ class Nav extends React.Component {
     event.stopPropagation();
     event.preventDefault();
     let targetNode= event.currentTarget.getAttribute('nodeid');
-
+    if(targetNode == this.props.currentNode) return; // no effect if clicked on the currentNode
     this.props._set_viewNode(targetNode);
   }
 
@@ -174,6 +184,15 @@ class Nav extends React.Component {
 
   _handleLeave_MapNav(e){
     this.setState({onMapNav: false})
+  }
+
+  _handleEnter_navLinkSeries(e){
+    let currentMouseOn = e.currentTarget.getAttribute('nodeid');
+    this.setState({onLinkSeries: currentMouseOn});
+  }
+
+  _handleLeave_navLinkSeries(e){
+    this.setState({onLinkSeries: false})
   }
 
 }

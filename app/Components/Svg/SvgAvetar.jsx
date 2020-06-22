@@ -10,31 +10,37 @@ export default class SvgAvetar extends React.Component {
 
   render(){
     return(
-      <svg viewBox="0 0 60 60" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
+      <svg viewBox="0 0 35.54 33.57" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
         style={Object.assign({}, {
           height: '100%',
           maxWidth: '100%',
           position: 'relative',
           boxSizing: 'border-box'
         })}>
-        {/*Generator: sketchtool 61.2 (101010) - https://sketch.com*/}
         <defs>
-          <polygon id="path-1" points="0.00036 0.63378 35.541 0.63378 35.541 34.2 0.00036 34.2"></polygon>
+          <style>{ ".cls-1-Avatar{fill:#fff;}.cls-1-Avatar,.cls-3-Avatar{fill-rule:evenodd;}.cls-2-Avatar{mask:url(#mask);}.cls-3-Avatar{fill:#444;} "}</style>
+          <mask id="mask" x="0" y="0" width="35.54" height="33.57" maskUnits="userSpaceOnUse">
+            <g id="mask-2">
+              <polygon id="path-1" className="cls-1-Avatar" points="0 0 35.54 0 35.54 33.57 0 33.57 0 0"/>
+            </g>
+          </mask>
         </defs>
-        <g id="Dashboard" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
-          <g id="homepage/general" transform="translate(-40.000000, -128.000000)">
-            <g id="avatar" transform="translate(40.000000, 128.000000)">
-              <g id="Group-10" transform="translate(12.000000, 12.750000)">
-                <g id="Group-3">
-                  <mask id="mask-2" fill="white">
-                    <use xlinkHref="#path-1"></use>
-                  </mask>
-                  <g id="Clip-2"></g>
-                  <path fill="#444444" d="M27.14256,18.25398 L27.14256,9.80478 C27.14256,4.75938 22.92516,0.63378 17.76816,0.63378 C12.61476,0.63378 8.39376,4.75938 8.39376,9.80478 L8.39376,18.25398 C3.45456,20.41938 0.00036,25.25058 0.00036,30.89178 C0.00036,32.71878 1.51416,34.20018 3.38076,34.20018 L32.15916,34.20018 C34.02756,34.20018 35.54136,32.71878 35.54136,30.89178 C35.54136,25.25058 32.08536,20.41938 27.14256,18.25398" id="Fill-1" fill="#444444" mask="url(#mask-2)"></path>
+        <g id="圖層_2" dataName="圖層 2">
+          <g id="圖層_1-2" dataName="圖層 1">
+            <g id="Dashboard">
+              <g id="homepage_general" dataName="homepage/general">
+                <g id="avatar">
+                  <g id="Group-10">
+                    <g id="Group-3">
+                      <g className="cls-2-Avatar">
+                        <path id="Fill-1" className="cls-3-Avatar" d="M27.14,17.62V9.17a9.38,9.38,0,0,0-18.75,0v8.45A13.84,13.84,0,0,0,0,30.26a3.34,3.34,0,0,0,3.38,3.31H32.16a3.34,3.34,0,0,0,3.38-3.31,13.84,13.84,0,0,0-8.4-12.64"/>
+                      </g>
+                    </g>
+                    <path id="Fill-4" className="cls-1-Avatar" d="M14.25,8.74a1.13,1.13,0,1,1-1.13-1.12,1.13,1.13,0,0,1,1.13,1.12"/>
+                    <path id="Fill-6" className="cls-1-Avatar" d="M24,8.74a1.13,1.13,0,1,1-1.13-1.12A1.13,1.13,0,0,1,24,8.74"/>
+                    <path id="Fill-8" className="cls-1-Avatar" d="M18.29,15.87a9.05,9.05,0,0,1-5.38-2.12.53.53,0,0,1-.06-.7A.44.44,0,0,1,13.5,13c.19.17,4.75,4.2,9,0a.42.42,0,0,1,.64,0,.53.53,0,0,1,0,.71,6.73,6.73,0,0,1-4.81,2.13"/>
+                  </g>
                 </g>
-                <path d="M14.25,9.375 C14.25,9.99557992 13.7471711,10.5 13.125,10.5 C12.5044201,10.5 12,9.99557992 12,9.375 C12,8.75282885 12.5044201,8.25 13.125,8.25 C13.7471711,8.25 14.25,8.75282885 14.25,9.375" id="Fill-4" fill="#FFFFFF"></path>
-                <path d="M24,9.375 C24,9.99557992 23.4968153,10.5 22.8742038,10.5 C22.2531847,10.5 21.75,9.99557992 21.75,9.375 C21.75,8.75282885 22.2531847,8.25 22.8742038,8.25 C23.4968153,8.25 24,8.75282885 24,9.375" id="Fill-6" fill="#FFFFFF"></path>
-                <path d="M18.294124,16.5 C15.3028735,16.5 12.950779,14.4158655 12.9142558,14.381961 C12.7206828,14.2084493 12.6951166,13.8933361 12.8539925,13.6819311 C13.0146946,13.4705261 13.3014018,13.4386159 13.4968009,13.6141219 C13.6903739,13.7876336 18.2502962,17.8103123 22.486988,13.630077 C22.6750825,13.4426047 22.9636158,13.4605541 23.1316226,13.665976 C23.3014555,13.8694035 23.2868462,14.1845166 23.0987517,14.3699946 C21.4789475,15.9674987 19.8061847,16.5 18.294124,16.5" id="Fill-8" fill="#FFFFFF"></path>
               </g>
             </g>
           </g>

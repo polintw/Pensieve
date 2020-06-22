@@ -108,6 +108,7 @@ class BelongsMap extends React.Component {
           className={classnames(styles.boxNavBelongsMap)}>
           <Nav
             currentTab={this.state.viewTab}
+            currentNode={this.state.viewNode}
             _set_viewNode={this._set_viewNode}
             _set_viewTab={this._set_viewTab}/>
         </div>

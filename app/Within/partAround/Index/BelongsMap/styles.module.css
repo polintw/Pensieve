@@ -6,7 +6,8 @@
 
 .comNavBelongsMap {
   display: flex;
-  align-items: baseline;
+  align-items: flex-end;
+  width: 100%;
 }
 
 .boxModule{
@@ -19,6 +20,34 @@
   align-items: flex-end;
   margin: 8px 0 28px;
   padding: 4px 0;
+}
+
+.boxNavTitle {
+  flex: 1;
+}
+
+.boxNavTitleUpper {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.boxNavTitleLower {
+  display: flex;
+  padding: 0 1rem 0 2rem;
+}
+
+.boxNavLinkSeries {
+  margin-right: 1.5rem;
+  border-bottom: solid 0.75px transparent;
+  cursor: default;
+}
+
+.boxNavLinkSeriesMouse {
+  border-bottom: solid 0.75px #b8b8b8;
+  cursor: pointer;
 }
 
 .boxMapNavLink {
@@ -150,7 +179,6 @@
 }
 
 .svgNavAvetar {
-  width: 5.5rem;
-  height: 5.5rem;
-  margin: -1rem;
+  width: 4.5rem;
+  height: 4.5rem;
 }
