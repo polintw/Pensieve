@@ -129,6 +129,7 @@
   .boxNavWithinCosmic {
     width: 100%;
     position: sticky;
+    bottom: unset;
   }
 
   .boxNavOptions {

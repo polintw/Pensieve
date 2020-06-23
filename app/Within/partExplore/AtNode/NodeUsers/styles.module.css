@@ -5,3 +5,15 @@
 .boxSet {
   margin-bottom: 2rem;
 }
+
+@media screen and (max-width:860px) {
+  .comNodeUsers {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .boxSet{
+    margin-bottom: 1.6rem;
+    padding: 0 2.76vw;
+  }
+}

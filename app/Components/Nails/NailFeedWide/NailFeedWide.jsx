@@ -105,7 +105,7 @@ const contentBoxImg = (self)=>{
         styles.boxContent,
         {[styles.boxContentNarrow]: self.props.narrowWidth}
       )}
-      style={{minWidth: "27.6vw"}}>
+      style={{minWidth: self.props.narrowWidth ? "27.6vw": "30.8vw"}}>
       <div
         ref={self.nailImgBox}
         className={styles.boxImg}>

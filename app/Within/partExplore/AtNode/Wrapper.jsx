@@ -83,6 +83,7 @@ class Wrapper extends React.Component {
             <Feed/>
           </div>
 
+          <div className={classnames(styles.boxDecoBottom, styles.smallDisplayNone)}></div>
         </div>
 
         <Route

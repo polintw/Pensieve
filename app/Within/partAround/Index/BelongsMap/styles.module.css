@@ -7,6 +7,7 @@
 .comNavBelongsMap {
   display: flex;
   align-items: flex-end;
+  flex-wrap: wrap;
   width: 100%;
 }
 
@@ -35,6 +36,7 @@
 
 .boxNavSeries {
   flex: 1;
+  margin-top: 2rem;
 }
 
 .boxNavTitleLower {
@@ -188,4 +190,10 @@
 .spanNavLinkSeriesMouse {
   border-bottom: solid 0.75px #b8b8b8;
   cursor: pointer;
+}
+
+@media screen and (max-width:860px) {
+  .boxNavTitleLower {
+    padding: 0 1rem 0 5rem;
+  }
 }

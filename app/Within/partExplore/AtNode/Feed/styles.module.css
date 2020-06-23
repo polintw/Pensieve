@@ -64,6 +64,10 @@
 }
 
 @media screen and (max-width:860px) {
+  .comAtNodeFeed {
+    flex-direction: column;
+  }
+
   .boxModuleSmall {
     justify-content: center;
   }

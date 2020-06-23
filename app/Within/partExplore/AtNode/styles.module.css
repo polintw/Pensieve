@@ -12,3 +12,23 @@
 .boxTitle {
   margin: 8px 0;
 }
+
+.boxDecoBottom {
+  height: 2.66vh;
+  width: 80%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background-color: #FCFCFC;
+}
+
+@media screen and (max-width:860px) {
+  .smallDisplayBox {
+    display: block;
+  }
+
+  .smallDisplayNone {
+    display: none;
+  }
+
+}
