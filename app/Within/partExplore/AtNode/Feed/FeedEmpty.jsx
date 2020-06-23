@@ -12,9 +12,11 @@ class FeedEmpty extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      onInvite: false
     };
     this._render_emptyButton =this._render_emptyButton.bind(this);
+    this._handleEnter_Invite = this._handleEnter_Invite.bind(this);
+    this._handleLeave_Invite = this._handleLeave_Invite.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -71,7 +73,7 @@ class FeedEmpty extends React.Component {
 
   render(){
     return (
-      <div>
+      <div className={styles.comFeedEmpty}>
         <div
           className={classnames(styles.boxTitle, styles.boxEmptyDescript, "fontTitleSmall", "colorLightGrey")}>
           {this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned'][0]}
@@ -84,6 +86,14 @@ class FeedEmpty extends React.Component {
         }
       </div>
     )
+  }
+
+  _handleEnter_Invite(e){
+    this.setState({onInvite: true})
+  }
+
+  _handleLeave_Invite(e){
+    this.setState({onInvite: false})
   }
 
 }

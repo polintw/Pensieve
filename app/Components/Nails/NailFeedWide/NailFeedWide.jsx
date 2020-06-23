@@ -100,8 +100,11 @@ const contentBoxImg = (self)=>{
   return (
     <div
       key={"key_NailBoxImg_"+self.props.unitId}
-      className={classnames(styles.boxContent)}
-      style={{minWidth: "30.8vw"}}>
+      className={classnames(
+        styles.boxContent,
+        {[styles.boxContentNarrow]: self.props.narrowWidth}
+      )}
+      style={{minWidth: "27.6vw"}}>
       <div
         ref={self.nailImgBox}
         className={styles.boxImg}>
@@ -117,7 +120,10 @@ const contentBoxMarks = (self)=>{
   return (
     <div
       key={"key_NailBoxMarks_"+self.props.unitId}
-      className={classnames(styles.boxContent)}>
+      className={classnames(
+        styles.boxContent,
+        {[styles.boxContentNarrow]: self.props.narrowWidth}
+      )}>
       <div
         className={classnames(styles.boxTitle)}>
         <div

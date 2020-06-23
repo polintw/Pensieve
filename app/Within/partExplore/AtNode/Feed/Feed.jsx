@@ -112,6 +112,7 @@ class Feed extends React.Component {
             <NailFeed
               {...this.props}
               unitId={unitId}
+              narrowWidth={true}
               linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
               unitBasic={this.state.unitsBasic[unitId]}
               marksBasic={this.state.marksBasic}/>
@@ -124,6 +125,7 @@ class Feed extends React.Component {
               {...this.props}
               leftimg={ remainder2 ? true : false}
               unitId={unitId}
+              narrowWidth={true}
               linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
               unitBasic={this.state.unitsBasic[unitId]}
               marksBasic={this.state.marksBasic}/>
@@ -154,37 +156,41 @@ class Feed extends React.Component {
     this.nodeAtId = urlParams.get('nodeid');
 
     return (
-      <div>
-        <div>
+      <div className={styles.comAtNodeFeed}>
+        <div
+          className={classnames(styles.boxNodeUsers)}>
           <NodeUsers
             nodeId={this.nodeAtId}/>
         </div>
-        {
-          (this.state.feedList.length > 0) &&
-          <div>
-            {this._render_FeedNails()}
-          </div>
-        }
-        {
-          ((this.state.feedList.length == 0) &&
-            !this.state.scrolled &&
-            !this.state.axios
-          ) &&
-          <div
-            className={classnames(
-              styles.boxModule,
-              styles.boxModuleSmall,
-            )}>
-            <FeedEmpty
-              {...this.props}
-              nodeAtId={this.nodeAtId}/>
-          </div>
-        }
-
-        <div ref={this.refScroll}/>
         <div
-          className={classnames(styles.boxFooter)}>
-          {this._render_FooterHint()}
+          style={{flex: "1"}}>
+          {
+            (this.state.feedList.length > 0) &&
+            <div>
+              {this._render_FeedNails()}
+            </div>
+          }
+          {
+            ((this.state.feedList.length == 0) &&
+              !this.state.scrolled &&
+              !this.state.axios
+            ) &&
+            <div
+              className={classnames(
+                styles.boxModule,
+                styles.boxModuleSmall,
+              )}>
+              <FeedEmpty
+                {...this.props}
+                nodeAtId={this.nodeAtId}/>
+            </div>
+          }
+
+          <div ref={this.refScroll}/>
+          <div
+            className={classnames(styles.boxFooter)}>
+            {this._render_FooterHint()}
+          </div>
         </div>
       </div>
     )

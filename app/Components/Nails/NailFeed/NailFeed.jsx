@@ -87,7 +87,10 @@ class NailFeed extends React.Component {
           }}/>
         }
         <div
-          className={classnames(styles.boxContent)}>
+          className={classnames(
+            styles.boxContent,
+            {[styles.boxContentNarrow]: this.props.narrowWidth}
+          )}>
           <div
             className={classnames(styles.boxTitle)}>
             <div
