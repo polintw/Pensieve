@@ -6,7 +6,6 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import stylesFont from '../../stylesFont.module.css';
 import {
   _axios_GET_usersCount
 } from '../../../utils.js';
@@ -81,8 +80,7 @@ class MapCorner extends React.Component {
         <span
           className={classnames(
             styles.spanMapNode,
-            stylesFont.fontNodesTitle,
-            stylesFont.colorEditBlack,
+            "fontNodesEqual", "weightBold", "colorEditBlack",
             {[styles.spanMapNodeMouseOn]: this.state.onNodeLink}
           )}
           onMouseEnter={this._handleEnter_NodeLink}

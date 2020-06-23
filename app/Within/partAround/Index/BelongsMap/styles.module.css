@@ -22,36 +22,32 @@
   padding: 4px 0;
 }
 
-.boxNavTitle {
-  flex: 1;
+.boxNavTitleType {
+  display: flex;
+  flex-direction: column;
+  margin-left: 2rem;
 }
 
-.boxNavTitleUpper {
+.boxNavTitle {
   display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  width: 100%;
-  margin-bottom: 1rem;
+  align-items: flex-end;
+}
+
+.boxNavSeries {
+  flex: 1;
 }
 
 .boxNavTitleLower {
   display: flex;
-  padding: 0 1rem 0 2rem;
+  padding: 0 1rem 0 4.5rem;
 }
 
 .boxNavLinkSeries {
   margin-right: 1.5rem;
-  border-bottom: solid 0.75px transparent;
-  cursor: default;
-}
-
-.boxNavLinkSeriesMouse {
-  border-bottom: solid 0.75px #b8b8b8;
-  cursor: pointer;
+  padding-left: 1.5rem;
 }
 
 .boxMapNavLink {
-  border-left: solid 1px #d8d8d8;
   padding-left: 1rem;
 }
 
@@ -97,6 +93,7 @@
 .boxNode {
   display: inline-block;
   float: right;
+  margin-top: 8px;
 }
 
 .boxNodePin {
@@ -141,7 +138,6 @@
 
 .spanStaticDescript {
   display: inline-block;
-  width: 7rem;
 }
 
 .spanMapNode {
@@ -181,4 +177,15 @@
 .svgNavAvetar {
   width: 4.5rem;
   height: 4.5rem;
+}
+
+.spanNavLinkSeries {
+  display: inline-block;
+  border-bottom: solid 0.75px transparent;
+  cursor: default;
+}
+
+.spanNavLinkSeriesMouse {
+  border-bottom: solid 0.75px #b8b8b8;
+  cursor: pointer;
 }
