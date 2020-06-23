@@ -50,11 +50,16 @@ class FeedEmpty extends React.Component {
                 styles.spanBtnInvite,
                 {
                   ['colorGrey']: !this.state.onInvite,
-                  ['colorWhite']: this.state.onInvite,
+                  ['colorStandard']: this.state.onInvite,
                 }, 'fontSubtitle_h5')}>
                 {this.props.i18nUIString.catalog["submit_"] }</span>
               <CreateShare
-                {...this.props}/>
+                {...this.props}
+                _submit_Share_New={()=>{
+                  // close the Create by rm creating in url, and then refresh page
+                  let lastState = this.props.location.state.from ;
+                  window.history.replaceState(lastState);
+                  window.location.reload();}}/>
             </div>
         </div>
       );
@@ -76,9 +81,8 @@ class FeedEmpty extends React.Component {
       <div className={styles.comFeedEmpty}>
         <div
           className={classnames(styles.boxTitle, styles.boxEmptyDescript, "fontTitleSmall", "colorLightGrey")}>
-          {this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned'][0]}
+          {this.props.i18nUIString.catalog['guiding_AtNode_noAccumulated']}
           <br/>
-          {this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned'][1]}
         </div>
         {
           this.props.belongsByType.fetched &&

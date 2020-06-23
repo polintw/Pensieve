@@ -67,33 +67,31 @@ class NodeUsers extends React.Component {
     return(
       <div
         className={classnames(styles.comNodeUsers)}>
-        <div>
-          <div
-            className={classnames(styles.boxNodeSub)}>
-            <span className={classnames('fontContent', 'colorEditLightBlack')}>
-              {this.props.i18nUIString.catalog["category__Belong_usersCount"][0]}
-            </span>
-          </div>
-          <div
-            className={classnames(styles.boxMapCountNum)}>
+        <div
+          className={classnames(styles.boxSet)}>
+          <div>
             <span
-              className={classnames( 'fontTitleHuge', 'weightBold', 'colorDescripBlack')}>
+              className={classnames("fontTitle", "colorEditBlack", "weightBold")}>
               {this.state.usersLive}
             </span>
           </div>
-        </div>
-        <div>
-          <div
-            className={classnames(styles.boxNodeSub)}>
+          <div>
             <span className={classnames('fontContent', 'colorEditLightBlack')}>
-              {this.props.i18nUIString.catalog["category__Belong_usersCount"][1]}
+              {this.props.i18nUIString.catalog["subtitle_NavAtNode_Num"][0]}
             </span>
           </div>
-          <div
-            className={classnames(styles.boxMapCountNum)}>
+        </div>
+        <div
+          className={classnames(styles.boxSet)}>
+          <div>
             <span
-              className={classnames( 'fontTitleHuge', 'weightBold', 'colorDescripBlack')}>
+              className={classnames("fontTitle", "colorEditBlack", "weightBold")}>
               {this.state.usersFrom}
+            </span>
+          </div>
+          <div>
+            <span className={classnames('fontContent', 'colorEditLightBlack')}>
+              {this.props.i18nUIString.catalog["subtitle_NavAtNode_Num"][1]}
             </span>
           </div>
         </div>

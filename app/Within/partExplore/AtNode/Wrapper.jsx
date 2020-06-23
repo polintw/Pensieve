@@ -27,6 +27,7 @@ class Wrapper extends React.Component {
 
     };
     this.axiosSource = axios.CancelToken.source();
+    this._construct_UnitInit = this._construct_UnitInit.bind(this);
 
   }
 
@@ -59,7 +60,8 @@ class Wrapper extends React.Component {
         <div
           className={classnames(styles.comAtNode)}>
           <div
-            className={classnames(styles.boxRow, styles.boxTitle)}>
+            className={classnames(styles.boxRow, styles.boxTitle)}
+            style={{paddingBottom: '14px'}}>
             <span
               className={classnames("fontTitle", "colorEditBlack", "weightBold")}>
               { this.nodeAtId in this.props.nounsBasic ? (this.props.nounsBasic[this.nodeAtId].name) : null }
@@ -89,7 +91,7 @@ class Wrapper extends React.Component {
             return (
               <UnitScreen
                 {...props}
-                _createdRespond= {this._createdRespond}
+                _createdRespond= {()=>{/* no need to give any flad in AtNode*/ }}
                 _construct_UnitInit={this._construct_UnitInit}
                 _refer_von_unit={this.props._refer_von_cosmic}/>
             )
@@ -99,6 +101,10 @@ class Wrapper extends React.Component {
     )
   }
 
+  _construct_UnitInit(match, location){
+    let unitInit= {marksify: false, initMark: "all", layer: 0};
+    return unitInit;
+  }
 }
 
 

@@ -139,6 +139,7 @@ class Feed extends React.Component {
     this.state.feedList.forEach((unitGroup, index)=>{
       groupsDOM.push(
         <div
+          key={"key_AtNode_FeedGroup"+index}
           className={classnames(
             styles.boxModule,
             styles.boxModuleSmall,

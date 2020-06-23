@@ -25,10 +25,10 @@ export default class SvgAvetar extends React.Component {
             </g>
           </mask>
         </defs>
-        <g id="圖層_2" dataName="圖層 2">
-          <g id="圖層_1-2" dataName="圖層 1">
+        <g id="圖層_2" data-name="圖層 2">
+          <g id="圖層_1-2" data-name="圖層 1">
             <g id="Dashboard">
-              <g id="homepage_general" dataName="homepage/general">
+              <g id="homepage_general" data-name="homepage/general">
                 <g id="avatar">
                   <g id="Group-10">
                     <g id="Group-3">
