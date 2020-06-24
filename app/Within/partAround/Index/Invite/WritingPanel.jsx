@@ -22,7 +22,8 @@ class WritingPanel extends React.Component {
       onButton: false
     };
     this.axiosSource = axios.CancelToken.source();
-    this._render_Form = this._render_Form.bind(this);
+    this._render_FormBelong = this._render_FormBelong.bind(this);
+    this._render_FormUnrelated = this._render_FormUnrelated.bind(this);
     this._handleSubmit_ = this._handleSubmit_.bind(this);
     this._handleChange_InputRadio = this._handleChange_InputRadio.bind(this);
     this._handleClick_inviteComplete = this._handleClick_inviteComplete.bind(this);
@@ -40,7 +41,7 @@ class WritingPanel extends React.Component {
 
   }
 
-  _render_Form(){
+  _render_FormBelong(){
     if( !("homeland" in this.props.belongsByType) && !("residence" in this.props.belongsByType)){
       return (
         <div
@@ -141,6 +142,92 @@ class WritingPanel extends React.Component {
     )
   }
 
+  _render_FormUnrelated(){
+    return (
+      <form onSubmit={this._handleSubmit_}>
+        <div
+          className={classnames(styles.boxFormOptions)}>
+          <div
+            className={classnames(styles.boxOption)}>
+            <input
+              type="radio"
+              name="unrelated"
+              value= {"homeland"}
+              checked={this.state.belong == "homeland"}
+              onChange={this._handleChange_InputRadio}
+              className={classnames(styles.inputOptBelong)}
+              required/>
+              <span
+                className={classnames(styles.spanInputTag, "colorOptionsBlack", "fontSubtitle_h5")}>
+                {this.props.reqNode in this.props.nounsBasic ? (
+                  this.props.nounsBasic[this.props.reqNode].name) : (
+                    null
+                  )}
+              </span>
+              <span
+                className={classnames(styles.spanInputTag, "colorOptionsBlack", "fontSubtitle_h5")}
+                style={{marginLeft: '0'}}>
+                {this.props.i18nUIString.catalog["descript_Invite_optType"][0]}
+              </span>
+          </div>
+          <div
+            className={classnames(styles.boxOption)}>
+            <input
+              type="radio"
+              name="unrelated"
+              value= {"residence"}
+              checked={this.state.belong == "residence"}
+              onChange={this._handleChange_InputRadio}
+              className={classnames(styles.inputOptBelong)}
+              required/>
+              <span
+                className={classnames(styles.spanInputTag, "colorOptionsBlack", "fontSubtitle_h5")}>
+                {this.props.reqNode in this.props.nounsBasic ? (
+                  this.props.nounsBasic[this.props.reqNode].name) : (
+                    null
+                  )}
+              </span>
+              <span
+                className={classnames(styles.spanInputTag, "colorOptionsBlack", "fontSubtitle_h5")}
+                style={{marginLeft: '0'}}>
+                {this.props.i18nUIString.catalog["descript_Invite_optType"][1]}
+              </span>
+          </div>
+
+        </div>
+        <div
+          className={classnames(styles.boxFormGenerate)}>
+          <div
+            className={classnames(styles.boxWarning)}>
+            <span
+              className={classnames(
+                "fontSubtitle_h5",
+                "colorEditBlack"
+              )}>
+              {this.state.resMessage.warning}
+            </span>
+          </div>
+          <input
+            type='submit'
+            value="Get Link!"
+            disabled={this.state.axios}
+            className={classnames(
+              'plainInput',
+              styles.inputSubmit, 'fontSubtitle_h5', 'colorWhite'
+            )}
+            style={
+              Object.assign({}, (this.state.belong.length > 0) ? {
+                backgroundColor: (this.state.onButton=="Get Link!")?  "#ff8168" : '#4587A0',
+                cursor: "pointer"
+              }: {  backgroundColor: "#d8d8d8" /* inactive status*/, cursor: "default"})
+            }
+            onMouseEnter={this._handleEnter_button}
+            onMouseLeave={this._handleLeave_button}/>
+        </div>
+      </form>
+    )
+  }
+
   render(){
     return(
       <div
@@ -156,7 +243,7 @@ class WritingPanel extends React.Component {
           className={classnames(styles.boxSection)}>
           <span
             className={classnames('fontSubtitle_h5', 'colorOptionsBlack')}>
-            {this.props.i18nUIString.catalog["descript_Invite_"][0]}
+            {this.props.i18nUIString.catalog["descript_Invite_"][2]}
           </span>
           <span
             className={classnames('fontSubtitle_h5', 'colorOptionsBlack')}>
@@ -171,9 +258,14 @@ class WritingPanel extends React.Component {
             className={classnames(styles.boxTitleForm)}>
             <span
               className={classnames('fontSubtitle_h5', 'colorDescripBlack')}>
-              {this.props.i18nUIString.catalog["guiding_Invite_"][0]}</span>
+              {
+                this.props.i18nUIString.catalog["guiding_Invite_"][this.props.belongOnly ? 0: 2]
+              }
+              </span>
           </div>
-          {this._render_Form()}
+          {
+            this.props.belongOnly ?
+            this._render_FormBelong(): this._render_FormUnrelated()}
 
         </div>
         <div
@@ -208,7 +300,7 @@ class WritingPanel extends React.Component {
     )
   }
 
-  _axios_PATCH_Invitation(belongType){
+  _axios_PATCH_Invitation(belongType, reqNode){
     const self = this;
     this.setState({axios: true});
 
@@ -220,12 +312,15 @@ class WritingPanel extends React.Component {
         'token': window.localStorage['token']
       },
       cancelToken: this.axiosSource.token,
-      data: {belongType: belongType}
+      data: {
+        belongType: belongType,
+        reqNode: reqNode
+      }
     }).then(function (res) {
       // not going to reset axios state, on the view the next step would start immediately. self.setState({ axios: false });
       let resObj = JSON.parse(res.data);
 
-      self._axios_GET_InvitingLink(belongType);
+      self._axios_GET_InvitingLink(belongType, reqNode);
     })
     .catch(function (thrown) {
       self.setState({ axios: false });
@@ -239,7 +334,7 @@ class WritingPanel extends React.Component {
     });
   }
 
-  _axios_GET_InvitingLink(belongType) {
+  _axios_GET_InvitingLink(belongType, reqNode) {
     const self = this;
     this.setState({ axios: true });
 
@@ -251,7 +346,7 @@ class WritingPanel extends React.Component {
         'token': window.localStorage['token']
       },
       cancelToken: this.axiosSource.token,
-      params: {belongType: belongType},
+      params: {belongType: belongType, reqNode: reqNode},
     })
     .then(function (res) {
       let resObj = JSON.parse(res.data);
@@ -277,7 +372,9 @@ class WritingPanel extends React.Component {
 
   _handleSubmit_(event){
     event.preventDefault(); //prevent default form submit behavior
-    this._axios_PATCH_Invitation(this.state.belong);
+    let belongType = !!this.props.belongOnly ? this.state.belong: "unrelated";
+    let reqNode = !!this.props.reqNode ? this.props.reqNode : this.props.belongsByType[belongType]; // node going to req, took from belongsByType if not "unrelated"
+    this._axios_PATCH_Invitation(belongType, reqNode);
   }
 
   _handleChange_InputRadio(event) {

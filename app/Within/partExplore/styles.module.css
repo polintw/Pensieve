@@ -1,6 +1,4 @@
-.boxMain {
-  width: 100%;
-  position: absolute;
-  top: 47px;
+.comExplore {
+  max-width: 99vw;
   box-sizing: border-box;
 }

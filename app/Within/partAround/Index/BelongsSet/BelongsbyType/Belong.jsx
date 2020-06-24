@@ -14,13 +14,15 @@ class Belong extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      onNode: false,
       onEdit: false,
+      onNodeLink: false,
       searchModal: false
     };
     this._render_type = this._render_type.bind(this);
     this._render_nodeLink = this._render_nodeLink.bind(this);
     this._set_searchModal = this._set_searchModal.bind(this);
+    this._handleEnter_NodeLink = this._handleEnter_NodeLink.bind(this);
+    this._handleLeave_NodeLink = this._handleLeave_NodeLink.bind(this);
     this._handleClick_belongEdit = this._handleClick_belongEdit.bind(this);
     this._set_ModalOnly = ()=>{this.setState((prevState,props)=>{ return {searchModal: prevState.searchModal ? false : true}; })};
     this._handleMouseOn_Edit = ()=> this.setState((prevState,props)=>{return {onEdit: prevState.onEdit?false:true}});
@@ -54,17 +56,24 @@ class Belong extends React.Component {
 
     return (
       <div className={classnames(styles.boxNode)}>
-        <span
-          className={classnames(
-            styles.spanNode,
-            stylesFont.fontNodesTitle,
-            stylesFont.colorEditBlack
-          )}>
-          {nodeId in this.props.nounsBasic ? (
-            this.props.nounsBasic[nodeId].name) : (
-              null
-            )}
-          </span>
+        <Link
+          to={"/cosmic/explore/node?nodeid="+nodeId}
+          className={classnames( 'plainLinkButton')}
+          onMouseEnter={this._handleEnter_NodeLink}
+          onMouseLeave={this._handleLeave_NodeLink}>
+          <span
+            className={classnames(
+              styles.spanNode,
+              "fontNodesEqual", "weightBold",
+              stylesFont.colorEditBlack,
+              {[styles.spanNodeMouse]: this.state.onNodeLink}
+            )}>
+            {nodeId in this.props.nounsBasic ? (
+              this.props.nounsBasic[nodeId].name) : (
+                null
+              )}
+            </span>
+        </Link>
           <span
             className={classnames(styles.spanType, stylesFont.colorEditLightBlack, stylesFont.fontContent)}>
             { firstParentId in this.props.nounsBasic ? (
@@ -134,6 +143,14 @@ class Belong extends React.Component {
 
       </div>
     )
+  }
+
+  _handleEnter_NodeLink(e){
+    this.setState({onNodeLink: true})
+  }
+
+  _handleLeave_NodeLink(e){
+    this.setState({onNodeLink: false})
   }
 
   _set_searchModal(settingType){

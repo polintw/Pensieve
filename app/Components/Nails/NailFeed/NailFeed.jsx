@@ -58,13 +58,14 @@ class NailFeed extends React.Component {
 
   render(){
     let imgSrcCover = 'https://'+domain.name+'/router/img/'+this.props.unitBasic.pic_layer0+'?type=thumb';
+    let linkSearch = ((this.props.location.search.length > 0) ? this.props.location.search+'&' : '?') +'unitId='+this.props.unitId+'&unitView=theater';
 
     return(
       <Link
         ref={this.nailUnitLink}
         to={{
           pathname: this.props.linkPath,
-          search: '?unitId='+this.props.unitId+'&unitView=theater',
+          search: linkSearch,
           state: {from: this.props.location}
         }}
         className={classnames(
@@ -87,7 +88,10 @@ class NailFeed extends React.Component {
           }}/>
         }
         <div
-          className={classnames(styles.boxContent)}>
+          className={classnames(
+            styles.boxContent,
+            {[styles.boxContentNarrow]: this.props.narrowWidth}
+          )}>
           <div
             className={classnames(styles.boxTitle)}>
             <div

@@ -42,8 +42,17 @@ const i18nUIString_EN = {
   "guideing_onBoard_BelongsHint": ["I'm from", "Living in"], //Original:"Now based at"
   "submit_onBoard_start": "Get Started", //Original:"Let's Start"
   "submit_Invite_": "Invite Fellow!", //Original:"Fellow Inviting!"
-  "descript_Invite_": ["Any one you know stay or was born in the same country or city? ", "Invite these fellows to join us!"], //Original:"Any people you knew born or lived around you? ", "Inviting these fellows to join you!"
-  "guiding_Invite_": ["Choosing the surrounding people you would like to invite", "You havn't set the place where you belong to."],//Original:"Choosing the characteristic of people you want to invite", "You havn't set the place you belong to yet."
+  "submit_Invite_people": "Invite People!", //Original:"Fellow Inviting!"
+  "descript_Invite_": [
+    "Any one you know stay or was born in the same corner as you? ",
+    "Invite these fellows to join us!",
+    "Any one you know stay or related to this corner? "
+  ], //Original:"Any people you knew born or lived around you? ", "Inviting these fellows to join you!"
+  "guiding_Invite_": [
+    "Choosing the surrounding people you would like to invite",
+    "You havn't set the place where you belong to.",
+    "Choosing the status of the people you would like to invite"
+  ],//Original:"Choosing the characteristic of people you want to invite", "You havn't set the place you belong to yet."
   "title_onBoard_GuideNailTitle": ["Welcome to Cornerth.", "What to do?"],
   "hint_onBoard_start": "That's it. If you get ready,",
   "submit_onBoard_next": "Next",
@@ -58,7 +67,8 @@ const i18nUIString_EN = {
     ".",
     " as well!",
     "See you there!",
-    "an invitation from "
+    "an invitation from ",
+    "related to ",
   ],
   "message_Invite_General": "Welcome to Cornerth.! It's our pleasure to invite you exploring a different world with our fellows. This is a place for you to get more connection to the environment at where you are. Signing up now and join your fellows in this confused world!",
   "message_Invite_validToken": ["invited you to join Cornerth at ", ". Since you're already a member of Cornerth., you can view or respond to your friends by changing Your Corners."],
@@ -140,15 +150,19 @@ const i18nUIString_EN = {
   "guidingBelongs_EmptyMap_": "You were the first user among this corner!",
   "descript_BelongTypeInteract": ["going to renew your ", " ?"],
   "category__Belong_usersCount": ["living at", "came from"],
-  "link_BelongsMap_Nav": ["Fellows", "from your Homeland", "around your Current Stay"],
-  "title_BelongsMap_Nav": "Users ",
+  "link_BelongsMap_Nav": ["Fellows", "your Homeland", "your Current Stay"],
+  "title_BelongsMap_Nav": ["Users ", "from", "around"],
   "messageBelongChoiceinBool": ["site ", "  as your  ", "  place?"],
   "descript_BelongSet_SearchBytType": ["Search one fit your "],
   "descript_AroundIndex_footer": "You've reached the edge of Cornerth.!",
   "guiding_AroundIndex_Share": "What’s around your corner?", //Original:"how's your corners"
   'descript_AroundIndex_footer_BelongHint': "Start browsing by setting your current stay or homeland!",
 
-  "descript_Nail_noMark": "(expand image...)"
+  "descript_Nail_noMark": "(expand image...)",
+
+  "title_NavAtNode_": "Accumulated",
+  "subtitle_NavAtNode_Num": ['stay', "from"],
+  "guiding_AtNode_noAccumulated": "Waiting for the first contribution!"
 };
 
 module.exports = i18nUIString_EN;

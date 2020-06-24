@@ -334,9 +334,12 @@ class Related extends React.Component {
       window.history.replaceState(this.props.location.state, '', this.props.location.pathname+this.props.location.search);
     };
     //and Notice! history should be pushed after the replaceState has been done
+    let urlParams = new URLSearchParams(this.props.location.search);
+    urlParams.set('unitId', event.currentTarget.getAttribute('unitid'));
+    urlParams.set('unitView', "theater");
     this.props.history.push({
       pathname: this.props.match.path, //should always be ".../unit" because primer only used in a Unit
-      search: '?unitId='+event.currentTarget.getAttribute('unitid')+'&unitView=theater',
+      search: urlParams.toString(),
       state: {from: this.props.location}
     });
   }

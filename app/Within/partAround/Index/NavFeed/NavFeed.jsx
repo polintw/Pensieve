@@ -34,7 +34,7 @@ class NavFeed extends React.Component {
     return(
       <div
         className={classnames(styles.boxTitle)}
-        style={{textAlign: 'right', paddingTop: '24px'}}>
+        style={{display:'flex',justifyContent: 'space-between', paddingTop: '24px'}}>
         <div
           className={classnames( styles.boxLinkLeft)}
           style={{display: 'unset'}}>

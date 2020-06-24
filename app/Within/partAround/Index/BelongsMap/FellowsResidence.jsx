@@ -38,7 +38,7 @@ class FellowsResidence extends React.Component {
 
     _axios_GET_feed_Fellows(
       this.axiosSource.cancelToken,
-      this.props.belongsByType['residence'],
+      this.props.viewNode,
       {baseCat: 'residence', curiousArr: ['homeland']}
     )
     .then((resObj)=>{
@@ -64,7 +64,7 @@ class FellowsResidence extends React.Component {
 
 
   componentDidUpdate(prevProps, prevState, snapshot){
-    if(prevProps.belongsByType.residence != this.props.belongsByType.residence && !!this.props.belongsByType.residence){
+    if(this.props.viewNode != prevProps.viewNode){
       this._init_fetch();
     }
   }
@@ -87,7 +87,7 @@ class FellowsResidence extends React.Component {
           className={classnames(styles.boxMapCorner)}>
           <MapCorner
             nodeId={nodeId}
-            typeNodeId={this.props.belongsByType['residence']}
+            typeNodeId={this.props.viewNode}
             currentType={'residence'}
             typeReverse={'homeland'}/>
         </div>

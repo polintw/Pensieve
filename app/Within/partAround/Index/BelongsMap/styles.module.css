@@ -7,6 +7,8 @@
 .comNavBelongsMap {
   display: flex;
   align-items: flex-end;
+  flex-wrap: wrap;
+  width: 100%;
 }
 
 .boxModule{
@@ -21,8 +23,33 @@
   padding: 4px 0;
 }
 
+.boxNavTitleType {
+  display: flex;
+  flex-direction: column;
+  margin-left: 2rem;
+}
+
+.boxNavTitle {
+  display: flex;
+  align-items: flex-end;
+}
+
+.boxNavSeries {
+  flex: 1;
+  margin-top: 2rem;
+}
+
+.boxNavTitleLower {
+  display: flex;
+  padding: 0 1rem 0 4.5rem;
+}
+
+.boxNavLinkSeries {
+  margin-right: 1.5rem;
+  padding-left: 1.5rem;
+}
+
 .boxMapNavLink {
-  border-left: solid 1px #d8d8d8;
   padding-left: 1rem;
 }
 
@@ -49,6 +76,10 @@
   float: right;
 }
 
+.comMapCornerNodeMouse {
+  background-color: transparent;
+}
+
 .boxMapCount {
   display: flex;
   justify-content: space-between;
@@ -64,6 +95,7 @@
 .boxNode {
   display: inline-block;
   float: right;
+  margin-top: 8px;
 }
 
 .boxNodePin {
@@ -97,7 +129,6 @@
 }
 
 .boxStaticsDescript {
-  width: 7rem;
   margin: 0 1rem 0 2rem;
 }
 
@@ -107,11 +138,21 @@
   width: 100%;
 }
 
-.spanNode {
+.spanStaticDescript {
   display: inline-block;
 }
 
-.spanNodeSub {
+.spanMapNode {
+  display: inline-block;
+  border-bottom: solid 0.75px transparent;
+  cursor: pointer;
+}
+
+.spanMapNodeMouseOn {
+  border-bottom: solid 0.75px #545454;
+}
+
+.spanMapNodeSub {
   display: inline-block;
 }
 
@@ -136,7 +177,23 @@
 }
 
 .svgNavAvetar {
-  width: 5.5rem;
-  height: 5.5rem;
-  margin: -1rem;
+  width: 4.5rem;
+  height: 4.5rem;
+}
+
+.spanNavLinkSeries {
+  display: inline-block;
+  border-bottom: solid 0.75px transparent;
+  cursor: default;
+}
+
+.spanNavLinkSeriesMouse {
+  border-bottom: solid 0.75px #b8b8b8;
+  cursor: pointer;
+}
+
+@media screen and (max-width:860px) {
+  .boxNavTitleLower {
+    padding: 0 1rem 0 5rem;
+  }
 }

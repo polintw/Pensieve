@@ -89,9 +89,9 @@ build app by browserify
 NODE_ENV="development" npm run build
 ```
 
-build server by webpack
+build server(dev) by webpack
 ```bash
-NODE_ENV="development" npm run build:server
+NODE_ENV="development" npm run build:dev-server
 ```
 
 
@@ -133,7 +133,7 @@ Have a nice trip.
     Set-SCPFile -ComputerName '(domainName in string)'  -Credential $ (username as declaim var) -KeyFile .ssh\id_rsa -Port (port used) -RemotePath '(path to save at remote in string)' -LocalFile '(file path at local in string)'
 
   - db: seed
-4. set 'export NODE_ENV=produtction'
+4. set 'export NODE_ENV=production'
 5. db: migrate if needed
 6. run build.
 7. run build:server.

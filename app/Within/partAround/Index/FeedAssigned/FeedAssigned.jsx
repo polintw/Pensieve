@@ -5,7 +5,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import stylesNail from "../../stylesNail.module.css";
+import stylesNail from "../../../stylesNail.module.css";
 import stylesFont from '../../stylesFont.module.css';
 import NailFeed from '../../../../Components/Nails/NailFeed/NailFeed.jsx';
 import NailFeedWide from '../../../../Components/Nails/NailFeedWide/NailFeedWide.jsx';
@@ -172,7 +172,7 @@ class FeedAssigned extends React.Component {
               {this.props.i18nUIString.catalog['title_FeedAssigned_AllRead']}</div>
           );
         }
-        else if( (nailsDOM.length % 3) == 2){ // only happend if the last one was a 'lonely' one, not good looking
+        else if( ((nailsDOM.length % 3) == 2) && this.props.indexLists.listBrowsed.length !=0){ // only happend if the last one was a 'lonely' one, not good looking
           nailsDOM.splice(-1, 1);
         };
       };

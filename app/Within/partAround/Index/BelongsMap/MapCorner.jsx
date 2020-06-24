@@ -6,21 +6,23 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import stylesFont from '../../stylesFont.module.css';
-import SvgPin from '../../../../Components/Svg/SvgPin.jsx';
 import {
   _axios_GET_usersCount
-} from './utils.js';
+} from '../../../utils.js';
+import SvgPin from '../../../../Components/Svg/SvgPin.jsx';
 
 class MapCorner extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      usersCount: null
+      usersCount: null,
+      onNodeLink: false
     };
     this.axiosSource = axios.CancelToken.source();
     this._set_usersCount = this._set_usersCount.bind(this);
     this._render_nodeLink = this._render_nodeLink.bind(this);
+    this._handleEnter_NodeLink = this._handleEnter_NodeLink.bind(this);
+    this._handleLeave_NodeLink = this._handleLeave_NodeLink.bind(this);
   }
 
   _set_usersCount(){
@@ -71,20 +73,24 @@ class MapCorner extends React.Component {
     const nodeId = this.props.nodeId;
 
     return (
-      <div
-        className={classnames( styles.boxNode)}>
+      <Link
+        key={"key_MapCornerNode_"+nodeId}
+        to={"/cosmic/explore/node?nodeid="+nodeId}
+        className={classnames( 'plainLinkButton', styles.boxNode)}>
         <span
           className={classnames(
-            styles.spanNode,
-            stylesFont.fontNodesTitle,
-            stylesFont.colorEditBlack
-          )}>
+            styles.spanMapNode,
+            "fontNodesEqual", "weightBold", "colorEditBlack",
+            {[styles.spanMapNodeMouseOn]: this.state.onNodeLink}
+          )}
+          onMouseEnter={this._handleEnter_NodeLink}
+          onMouseLeave={this._handleLeave_NodeLink}>
           {nodeId in this.props.nounsBasic ? (
             this.props.nounsBasic[nodeId].name) : (
               null
             )}
         </span>
-      </div>
+      </Link>
     )
   }
 
@@ -92,7 +98,10 @@ class MapCorner extends React.Component {
 
     return(
       <div
-        className={classnames(styles.comMapCorner)}>
+        className={classnames(
+          styles.comMapCorner,
+          {[styles.comMapCornerNodeMouse]: this.state.onNodeLink}
+        )}>
         <div
           className={classnames(styles.boxMapCount)}>
           <div
@@ -100,7 +109,8 @@ class MapCorner extends React.Component {
             <div
               style={{width: "30px", height: "45px"}}>
               <SvgPin
-                mouseOn={false}/>
+                mouseOn={this.state.onNodeLink}
+                customStyles={{fillColor: '#ff8168'}}/>
             </div>
           </div>
           <div
@@ -115,7 +125,7 @@ class MapCorner extends React.Component {
           className={classnames(styles.boxStatics)}>
           <div
             className={classnames(styles.boxNodeSub)}>
-            <span className={classnames(styles.spanNodeSub, 'fontContent', 'colorEditLightBlack')}>
+            <span className={classnames(styles.spanMapNodeSub, 'fontContent', 'colorEditLightBlack')}>
               {
                 (this.props.currentType =="homeland") ?
                 this.props.i18nUIString.catalog["category__Belong_usersCount"][0] :
@@ -128,6 +138,15 @@ class MapCorner extends React.Component {
       </div>
     )
   }
+
+  _handleEnter_NodeLink(e){
+    this.setState({onNodeLink: true})
+  }
+
+  _handleLeave_NodeLink(e){
+    this.setState({onNodeLink: false})
+  }
+
 }
 
 const mapStateToProps = (state)=>{

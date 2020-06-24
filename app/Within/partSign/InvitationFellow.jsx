@@ -27,6 +27,7 @@ class InvitationFellow extends React.Component {
     };
     this.axiosSource = axios.CancelToken.source();
     this._render_Invitation = this._render_Invitation.bind(this);
+    this._render_textTypeConnectin = this._render_textTypeConnectin.bind(this);
     this._axios_GET_InvitationFellow = this._axios_GET_InvitationFellow.bind(this);
   }
 
@@ -120,6 +121,22 @@ class InvitationFellow extends React.Component {
 
   }
 
+  _render_textTypeConnectin(){
+    switch (this.state.belongType) {
+      case "unrelated":
+        return this.props.i18nUIString.catalog["message_Invite_fellows"][9]
+        break;
+      case "homeland":
+        return this.props.i18nUIString.catalog["message_Invite_fellows"][2]
+        break;
+      case "residence":
+        return this.props.i18nUIString.catalog["message_Invite_fellows"][3]
+        break;
+      default:
+        return null
+    }
+  }
+
   _render_Invitation(){
     if(!("valid" in this.state) ){ //at first load, should be 'empty' waiting for res
       return null
@@ -155,13 +172,7 @@ class InvitationFellow extends React.Component {
         <p
           className={classnames("fontSubtitle_h5", "colorSignBlack")}>
           {this.props.i18nUIString.catalog["message_Invite_fellows"][1]}
-          {
-            this.state.belongType =="homeland" ? (
-              this.props.i18nUIString.catalog["message_Invite_fellows"][2]
-            ):(
-              this.props.i18nUIString.catalog["message_Invite_fellows"][3]
-            )
-          }
+          {this._render_textTypeConnectin()}
         </p>
         <p
           className={classnames("fontSubtitle_h5", "colorSignBlack")}>

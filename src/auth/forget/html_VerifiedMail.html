@@ -27,17 +27,14 @@
         .boxFooter {
           width: 100%;
           box-sizing: border-box;
-          padding: 23.75px 136.6px 0;
           text-align: center;
           background-color: rgb(117,117,117);
-        }
-
-        .boxServiceLink {
-          display: inline-block;
-          position: relative;
           margin-bottom: 16px;
         }
-
+        .boxServiceLink { 
+          padding: 10px;
+          white-space: nowrap;
+        }
         .boxLogo {
           display: inline-block;
           width: 100px;
@@ -145,7 +142,8 @@
               Hello, {$ user name}.
             </h2>
             <p>
-              You received this mail is because,<br/> there is a request for<strong> restting your account password</strong> on Cornerth.com
+              We have received a request to<strong> reset the password</strong> for your Cornerth.com account.
+            <!--You received this mail is because,<br/> there is a request for<strong> restting your account password</strong> on Cornerth.com-->
             </p>
             <p>
               Please
@@ -153,11 +151,13 @@
               <span> to verify your identity and reset your password.</span>
             </p>
             <p>
-              If this is not you, please contact us and keep using the current password you have.<br/>
-              The account is still under the protection safely.
+              If this was not you, please contact us and remain using your current password.<br/>
+              Do not worry! Your account is still under protection.
+              <!--If this is not you, please contact us and keep using the current password you have.<br/>
+              The account is still under the protection safely.-->
             </p>
             <p class="colorEditLightBlack">
-              For your account safety, we highly recommended that your password must contain at least 8 characters in length including both letters and digits.
+              For your account safety, we highly recommend that your password must contain at least 8 characters in length including both letters and digits.
             </p>
             <p style="padding: 30px 0;">
               Enjoy your adventure on Cornerth, leave the problem to us.
@@ -178,51 +178,59 @@
           </div>
         </div>
 
+
         <div
-          class="boxFooter">
-          <a
-            href="https://cornerth.com/"
-            target="_blank"
-            class="boxLogoReverse plainLinkButton">
-            <!-- <SvgLogo/> -->
-            <img
-              src="http://localhost:8080/png/Logo_reverse.png"
-              style= "height:auto; width: 100%; position:relative; box-sizing: border-box; ">
-          </a>
-          <div
+        class="boxFooter">
+        <a
+          href="https://cornerth.com/"
+          target="_blank"
+          class="boxLogoReverse plainLinkButton"
+          style="margin-top: 20px; text-align: center;">
+          <!-- <SvgLogo/> -->
+          <img
+            src="http://localhost:8080/png/Logo_reverse.png"
+            style= "height:auto; width: 100%; position:relative; box-sizing: border-box; ">
+        </a>
+        <div
+          class="boxFooter"> <!--class="boxServiceLink"-->
+          <!-- <ServiceLinks/> -->
+
+         <div
             class="boxServiceLink">
-            <!-- <ServiceLinks/> -->
+            <a
+              href="https://www.facebook.com/pg/cornerth.center/about/"
+              target="_blank"
+              method="about"
+              style="color:white"
+              class="plainLinkButton tagServiceLink fontServiceLink colorLightStandard">
+              About</a>
+            <span class="tagServiceLink fontServiceLink colorGrey">．</span>
+            <a
+              href="https://cornerth.com/a/privacy"
+              method="privacy"
+              style="color:white"
+              class="plainLinkButton tagServiceLink fontServiceLink colorLightStandard">
+              Privacy</a>
+            <span class="tagServiceLink fontServiceLink colorGrey">．</span>
+            <a
+              href="https://cornerth.com/a/terms"
+              method="terms"
+              style="color:white"
+              class="plainLinkButton tagServiceLink fontServiceLink colorLightStandard">
+              Terms</a>
+            <span class="tagServiceLink fontServiceLink colorGrey">．</span>
+            <a
+              href="https://www.facebook.com/cornerth.center/"
+              target="_blank"
+              method="contact"
+              style="color:white"
+              class="plainLinkButton tagServiceLink fontServiceLink colorLightStandard">
+              Contact</a>
+          </div>
+
             <div
-              class="boxServiceLink">
-              <a
-                href="https://www.facebook.com/pg/cornerth.center/about/"
-                target="_blank"
-                method="about"
-                class="plainLinkButton tagServiceLink fontServiceLink colorLightStandard">
-                About</a>
-              <span class="tagServiceLink fontServiceLink colorGrey">．</span>
-              <a
-                href="https://cornerth.com/a/privacy"
-                method="privacy"
-                class="plainLinkButton tagServiceLink fontServiceLink colorLightStandard">
-                Privacy</a>
-              <span class="tagServiceLink fontServiceLink colorGrey">．</span>
-              <a
-                href="https://cornerth.com/a/terms"
-                method="terms"
-                class="plainLinkButton tagServiceLink fontServiceLink colorLightStandard">
-                Terms</a>
-              <span class="tagServiceLink fontServiceLink colorGrey">．</span>
-              <a
-                href="https://www.facebook.com/cornerth.center/"
-                target="_blank"
-                method="contact"
-                class="plainLinkButton tagServiceLink fontServiceLink colorLightStandard">
-                Contact</a>
-            </div>
-            <div
-              class="fontTitleSmall colorGrey">
-              <span>Cornerth., Inc. </span>
+              class="boxServiceLink fontTitleSmall colorGrey">
+              <span>Cornerth., Inc.</span>
               <span>All Rights Reserved.</span>
             </div>
           </div>
