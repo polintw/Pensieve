@@ -1,0 +1,9 @@
+{"service":"corner","level":"warn","message":"winston.js test message first, second","timestamp":"2020-06-24 10:53:42","number":123}
+{"message":"Sequelize: instance has prepared.","level":"warn","service":"corner","timestamp":"2020-06-24 10:53:42"}
+{"message":"server initiating, running at Port 8080","level":"warn","service":"corner","timestamp":"2020-06-24 10:53:45"}
+{"message":"page: requesting for Within under /  '/', GET, from ip , ::1,  identify crawler first.","level":"info","service":"corner","timestamp":"2020-06-24 10:55:18"}
+{"service":"corner","level":"warn","message":"winston.js test message first, second","timestamp":"2020-06-24 10:57:56","number":123}
+{"message":"Sequelize: instance has prepared.","level":"warn","service":"corner","timestamp":"2020-06-24 10:57:57"}
+{"message":"server initiating, running at Port 8080","level":"warn","service":"corner","timestamp":"2020-06-24 10:57:58"}
+{"message":"page: requesting for  '/s/resend?purpose=password', GET, from ip , ::1","level":"info","service":"corner","timestamp":"2020-06-24 10:58:35"}
+{"service":"corner","level":"info","message":"Password reset <0a2c3620-7e87-b69b-2c39-55de71067095@cornerth.com> sent: 250 OK queued as fa53e433-d27a-4c33-8f66-9708ef9482a6","timestamp":"2020-06-24 10:58:48"}

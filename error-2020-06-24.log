@@ -1,0 +1,6 @@
+{"service":"corner","level":"warn","message":"winston.js test message first, second","timestamp":"2020-06-24 10:53:42","number":123}
+{"message":"Sequelize: instance has prepared.","level":"warn","service":"corner","timestamp":"2020-06-24 10:53:42"}
+{"message":"server initiating, running at Port 8080","level":"warn","service":"corner","timestamp":"2020-06-24 10:53:45"}
+{"service":"corner","level":"warn","message":"winston.js test message first, second","timestamp":"2020-06-24 10:57:56","number":123}
+{"message":"Sequelize: instance has prepared.","level":"warn","service":"corner","timestamp":"2020-06-24 10:57:57"}
+{"message":"server initiating, running at Port 8080","level":"warn","service":"corner","timestamp":"2020-06-24 10:57:58"}
