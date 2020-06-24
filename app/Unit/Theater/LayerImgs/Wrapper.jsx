@@ -146,9 +146,12 @@ class Wrapper extends React.Component {
       window.history.replaceState(this.props.location.state, '', this.props.location.pathname+this.props.location.search);
     };
     //and Notice! history should be pushed after the replaceState has been done
+    let urlParams = new URLSearchParams(this.props.location.search);
+    urlParams.set('unitId', this.props.unitCurrent.primer.primerId);
+    urlParams.set('unitView', "theater");
     this.props.history.push({
       pathname: this.props.match.path, //should always be ".../unit" because primer only used in a Unit
-      search: '?unitId='+this.props.unitCurrent.primer.primerId+'&unitView=theater',
+      search: urlParams.toString(),
       state: {from: this.props.location}
     });
   }

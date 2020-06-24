@@ -16,15 +16,24 @@ class BelongsMap extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      viewTab: ""
+      viewTab: "",
+      viewNode: null
     };
     this._render_mapView = this._render_mapView.bind(this);
     this._set_viewTab = this._set_viewTab.bind(this);
+    this._set_viewNode = this._set_viewNode.bind(this);
   }
 
   _set_viewTab(targetTab){
     this.setState({
-      viewTab: targetTab
+      viewTab: targetTab,
+      viewNode: this.props.belongsByType[targetTab] // and we have to modify viewNode as well due to the node would diff
+    })
+  }
+
+  _set_viewNode(targetNode){
+    this.setState({
+      viewNode: targetNode
     })
   }
 
@@ -32,10 +41,23 @@ class BelongsMap extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot){
     let recordsType = !!this.props.belongsByType.setTypesList? this.props.belongsByType.setTypesList: [];
     let prevRecordsType = !!prevProps.belongsByType.setTypesList? prevProps.belongsByType.setTypesList: [];
-    if(prevRecordsType.length != recordsType.length){
-      //depend on user's willing, we'd like to display "homeland" at the first glance,
-      //but it might not be set by user.
-      this.setState({viewTab: (recordsType.indexOf("homeland")> (-1)) ? "homeland" : recordsType[0]});
+    let belongFlag = ()=>{ //check if any change at props.belongsByType
+      if(recordsType.length != prevRecordsType.length) return true;
+      let comparison = recordsType.some((type, index) => {
+        if( !(type in prevProps.belongsByType)) return true;
+        // if both this.props & prevProps has this type
+        if( this.props.belongsByType[type] != prevProps.belongsByType[type]) return true;
+        // if none of above
+        return false;
+      });
+      return comparison;
+    };
+    if(belongFlag()){
+      //not only refresh, but also re-render the FellowsHome/Residence
+      this.setState({
+        viewTab: (recordsType.indexOf("homeland")> (-1)) ? "homeland" : recordsType[0],
+        viewNode: (recordsType.indexOf("homeland")> (-1)) ? this.props.belongsByType["homeland"] : this.props.belongsByType[recordsType[0]],
+      });
     }
   }
 
@@ -44,7 +66,10 @@ class BelongsMap extends React.Component {
     if(recordsType.length > 0){
       //depend on user's willing, we'd like to display "homeland" at the first glance,
       //but it might not be set by user.
-      this.setState({viewTab: (recordsType.indexOf("homeland")> (-1)) ? "homeland" : recordsType[0]});
+      this.setState({
+        viewTab: (recordsType.indexOf("homeland")> (-1)) ? "homeland" : recordsType[0],
+        viewNode: (recordsType.indexOf("homeland")> (-1)) ? this.props.belongsByType["homeland"] : this.props.belongsByType[recordsType[0]],
+      });
     }
   }
 
@@ -57,14 +82,16 @@ class BelongsMap extends React.Component {
       case 'homeland':
         return (
           <div>
-            <FellowsHome/>
+            <FellowsHome
+              viewNode={this.state.viewNode}/>
           </div>
         )
         break;
       case 'residence':
         return (
           <div>
-            <FellowsResidence/>
+            <FellowsResidence
+              viewNode={this.state.viewNode}/>
           </div>
         )
         break;
@@ -81,6 +108,8 @@ class BelongsMap extends React.Component {
           className={classnames(styles.boxNavBelongsMap)}>
           <Nav
             currentTab={this.state.viewTab}
+            currentNode={this.state.viewNode}
+            _set_viewNode={this._set_viewNode}
             _set_viewTab={this._set_viewTab}/>
         </div>
         <div
@@ -91,7 +120,8 @@ class BelongsMap extends React.Component {
         </div>
         <div
           className={classnames(styles.boxInvite)}>
-          <Invite/>
+          <Invite
+            belongOnly={true}/>
         </div>
 
       </div>

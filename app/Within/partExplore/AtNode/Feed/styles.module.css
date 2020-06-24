@@ -1,0 +1,74 @@
+.comAtNodeFeed {
+  display: flex;
+}
+
+.comFeedEmpty {
+  width: 100%;
+  padding-top: 6rem;
+}
+
+.boxTitle {
+  margin: 8px 0;
+}
+
+.boxModule{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.boxDescript {
+  width: 100%;
+  text-align: center;
+}
+
+.boxNodeUsers {
+  margin: 8px 2.76vw 0 0;
+}
+
+.boxEmptyDescript {
+  width: 100%;
+  text-align: center;
+}
+
+.boxInvite {
+  padding-top: 22px;
+  text-align: center;
+}
+
+.boxBtnInvite {
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  padding: 6px 1.2rem 7px;
+  border-radius: 4px;
+  border: solid 1px #a3a3a3;
+  cursor: pointer;
+}
+
+.boxBtnInviteActiv {
+  border: dashed 2px #ababab;
+}
+
+.boxFooter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding-top: 2.4rem;
+  margin-bottom: 31.1vh;
+}
+
+.spanBtnInvite {
+  white-space: nowrap;
+}
+
+@media screen and (max-width:860px) {
+  .comAtNodeFeed {
+    flex-direction: column;
+  }
+
+  .boxModuleSmall {
+    justify-content: center;
+  }
+}

@@ -232,7 +232,17 @@ class UnitScreen extends React.Component {
 
 
   render(){
-    if(this.state.close){let pathTo=this.props.location.pathname.replace("/unit","");return <Redirect to={pathTo}/>}
+    if(this.state.close){
+      let toPath=this.props.location.pathname.replace("/unit", "");
+      let toSearch = new URLSearchParams(this.props.location.search);
+      toSearch.delete('unitId');
+      toSearch.delete('unitView');
+      return <Redirect to={{
+        pathname: (toPath.length > 0) ? toPath: '/', // totally empty would cause error,
+        search: toSearch.toString(),
+        state: {from: this.props.location}
+        }}/>
+    }
 
     this.urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
     this.unitId = this.urlParams.get('unitId');

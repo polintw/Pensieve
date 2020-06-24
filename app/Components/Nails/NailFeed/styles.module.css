@@ -21,6 +21,12 @@
   position: relative;
 }
 
+.boxContentNarrow {
+  width: 309px;
+  min-width: 27.6vw;
+  max-width: 96.24vw;
+}
+
 .boxImg {
   width: 100%;
   height: 84%;

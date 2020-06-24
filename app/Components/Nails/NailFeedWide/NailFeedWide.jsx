@@ -62,13 +62,14 @@ class NailFeedWide extends React.Component {
   }
 
   render(){
+    let linkSearch = ((this.props.location.search.length > 0) ? this.props.location.search+'&' : '?') +'unitId='+this.props.unitId+'&unitView=theater';
 
     return(
       <Link
         ref={this.nailUnitLink}
         to={{
           pathname: this.props.linkPath,
-          search: '?unitId='+this.props.unitId+'&unitView=theater',
+          search: linkSearch,
           state: {from: this.props.location}
         }}
         className={classnames(
@@ -100,8 +101,11 @@ const contentBoxImg = (self)=>{
   return (
     <div
       key={"key_NailBoxImg_"+self.props.unitId}
-      className={classnames(styles.boxContent)}
-      style={{minWidth: "30.8vw"}}>
+      className={classnames(
+        styles.boxContent,
+        {[styles.boxContentNarrow]: self.props.narrowWidth}
+      )}
+      style={{minWidth: self.props.narrowWidth ? "27.6vw": "30.8vw"}}>
       <div
         ref={self.nailImgBox}
         className={styles.boxImg}>
@@ -117,7 +121,10 @@ const contentBoxMarks = (self)=>{
   return (
     <div
       key={"key_NailBoxMarks_"+self.props.unitId}
-      className={classnames(styles.boxContent)}>
+      className={classnames(
+        styles.boxContent,
+        {[styles.boxContentNarrow]: self.props.narrowWidth}
+      )}>
       <div
         className={classnames(styles.boxTitle)}>
         <div
