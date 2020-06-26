@@ -153,6 +153,7 @@ async function mailListGenerator(){
       if(respondify || newResiify || newHomeify){
         mailList.push(userId);
         mailInfo[userId] = [];
+        // for convinient at html render, keep the type 'responds' at the first
         if(respondify) mailInfo[userId].push({
           unitExposed: unitsUsedBasic[respondsNotify[userId]].exposedId,
           type: "responds",
@@ -221,7 +222,7 @@ async function mailTimer(){
       from: '"Cornerth." <noreply@cornerth.com>', // sender address
       to: mailsData["address"][userId], // list of receivers
       subject: (infoObj.type == "responds") ? "New Responds" : "New Contributions", // Subject line
-      html: _render_HtmlBody(infoObj);
+      html: _render_HtmlBody(infoObj)
     };
   });
 
@@ -234,8 +235,12 @@ async function mailTimer(){
         else{
           winston.info('Marketing mails %s sent: %s', resStatus.messageId, resStatus.response);
         }
-      );
+      });
     };
+
+    // update last_deliver in _DB_listMails for those who was sent mail
+
+
     // transporter uses pooling then connections are kept open even if there is nothing to be sent,
     // close it if while end(no mail going to send)
     transporter.close();
@@ -244,6 +249,7 @@ async function mailTimer(){
 }
 
 const _render_HtmlBody = (mailInfoObj)=>{
-  return ();
+  return
+
 }
 module.exports = mailTimer;

@@ -7,12 +7,12 @@ module.exports = {
         allowNull: false
       },
       setting: {
-        type: Sequelize.TEXT('tiny'),
-        defaultValue: Sequelize.literal("full")
+        type: Sequelize.STRING(), // there is a bug for tiny text: could not set default under mysql 'strict mode'
+        defaultValue: "full"
       },
       last_deliver: {
         type: Sequelize.DATE,
-        defaultValue: Sequelize.literal(0)
+        defaultValue: "2019-01-01"
       },
       createdAt: {
         type: Sequelize.DATE,

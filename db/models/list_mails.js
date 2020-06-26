@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   list_mails.init({
     id_user: DataTypes.INTEGER(10),
-    setting: DataTypes.TEXT('tiny'),
+    setting: DataTypes.STRING(),
     last_deliver: DataTypes.DATE
   }, {
     sequelize,
