@@ -9,6 +9,7 @@ import {connect} from "react-redux";
 import Signup from './Signup/Signup.jsx';
 import Signin from './Signin/Signin.jsx';
 import Resend from './Resend/Resend.jsx';
+import Unsubscribe from './Unsubscribe/Unsubscribe.jsx';
 import Confirmation from './components/Confirmation/Confirmation.jsx';
 
 class Sign extends React.Component {
@@ -30,6 +31,7 @@ class Sign extends React.Component {
           <Route path="/signin" render={(props)=> <Signin {...props}/>}/>
           <Route path="/confirm" render={(props)=> <Confirmation {...props}/>}/>
           <Route path="/resend" render={(props)=> <Resend {...props}/>}/>
+          <Route path="/unsubscribe" render={(props)=> <Unsubscribe {...props}/>}/>
         </Switch>
       </Router>
     )
