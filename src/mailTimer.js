@@ -6,7 +6,7 @@ const {
   smtpAccount,
   domain
 } = require('../config/services.js');
-const _DB_users = require('../db/models/index').unsers;
+const _DB_users = require('../db/models/index').users;
 const _DB_units = require('../db/models/index').units;
 const _DB_nouns = require('../db/models/index').nouns;
 const _DB_attribution = require('../db/models/index').attribution;
@@ -21,7 +21,7 @@ async function mailListGenerator(){
   const d = new Date();
   const now = d.getTime(); // milisecond
   const respondPoint = now-interval; // past 24hr
-  const lastMailPoint = now-(interval*5); // 5 days
+  const lastMailPoint = now-(interval* 5); // 5 days
 
   try{
     //start from checking latest responds
@@ -93,16 +93,12 @@ async function mailListGenerator(){
         id_noun: nodesList,
         createdAt: {[Op.gt]: earliestVisit}
       },
-      attributes: [
-        //'max' here combined with 'group' prop beneath,
-        //because the GROUP by would fail when the 'createdAt' is different between each row,
-        [Sequelize.fn('max', Sequelize.col('createdAt')), 'createdAt'], //fn(function, col, alias)
-        'id_unit', 'id_noun', 'id_author' //set attributes, so we also need to call every col we need
-      ],
-      group: 'id_noun' //Important. means we combined the rows by node, each id_node would only has one row
+      // no Group by, select all and keep them all
     });
     let attriByNodes = {}, attriUnitsList= [];
     latestAttri.forEach((rowLatestAttri, i) => {
+      // consider there were a small chance several unit would be created at 'exact' the same time, selected from attributes together,
+      // it's important here to keep every node related to only one unit.
       attriByNodes[rowLatestAttri.id_noun] = rowLatestAttri.id_unit;
       if(attriUnitsList.indexOf(rowLatestAttri.id_unit) < 0) attriUnitsList.push(rowLatestAttri.id_unit);
     });
@@ -122,10 +118,11 @@ async function mailListGenerator(){
     const unitsAttribution = await _DB_attribution.findAll({ // here, although a little weired, we selected the attribution again to include all attribution all units have
       where: {id_unit: unitsList},
       include: { // left join 'nouns' to get the basic info about the node
-        model: "nouns", as: "nouns",
+        model: _DB_nouns, // default alias for this table was 'noun'
         where: {
           id: Sequelize.col("attribution.id_noun")
-        }
+        },
+        required:false // to let it become a LEFT JOIN
       }
     });
     let unitsUsedBasic = {};
@@ -137,8 +134,8 @@ async function mailListGenerator(){
     });
     unitsAttribution.forEach((rowUnitsAttribution, i) => {
       "nodesList" in unitsUsedBasic[rowUnitsAttribution.id_unit] ?
-      unitsUsedBasic[rowUnitsAttribution.id_unit].nodesList.push(rowUnitsAttribution.nouns[0].name) :
-      unitsUsedBasic[rowUnitsAttribution.id_unit] = Object.assign({}, unitsUsedBasic[rowUnitsAttribution.id_unit], {nodesList: [rowUnitsAttribution.nouns[0].name]})
+      unitsUsedBasic[rowUnitsAttribution.id_unit].nodesList.push(rowUnitsAttribution.noun.name) :
+      unitsUsedBasic[rowUnitsAttribution.id_unit] = Object.assign({}, unitsUsedBasic[rowUnitsAttribution.id_unit], {nodesList: [rowUnitsAttribution.noun.name]})
     });
     //now, this is finally the start to check if the users should recieve a mail
     let mailList = [];
@@ -190,7 +187,8 @@ async function mailListGenerator(){
     };
   }
   catch(error){
-    winston.error(error+ 'from timer: marketing mail.<<<');
+    winston.error(error+ ' from timer: list generator of marketing mail.<<<');
+    return false; // to stop the mailing process
   }
 
 }
@@ -198,58 +196,77 @@ async function mailListGenerator(){
 async function mailTimer(){
   // get the list and info of users we are going to mail first
   let mailsData = await mailListGenerator();
-  mailsData["address"] = {}; // new pair to save the mail address for each user
-  const mailUsersInfo = await _DB_users.findAll({ // to build email address
-    where: {id: mailsData.mailList}
-  });
-  mailUsersInfo.forEach((rowUsers, index) => {
-    mailsData['address'][rowUsers.id] = rowUsers.email;
-  });
+  if( !mailsData) return; // error in generator, stop process
+  /*
+  Notice, 'mailList' & 'mailInfo' in mailsData do not always match.
+  Always use the mailList.
+  */
+  try{
+    mailsData["address"] = {}; // new pair to save the mail address for each user
+    const mailUsersInfo = await _DB_users.findAll({ // to build email address
+      where: {id: mailsData.mailList}
+    });
+    mailUsersInfo.forEach((rowUsers, index) => {
+      mailsData['address'][rowUsers.id] = rowUsers.email;
+    });
 
-  let transporter = nodemailer.createTransport({
-    service: "Mailjet",
-    auth: {
-      user: smtpAccount.user,
-      pass: smtpAccount.password
-    },
-    pool: true, // to use pooled connections (defaults to false) instead of creating a new connection for every email
-    maxConnections: 5, // is the count of maximum simultaneous connections to make against the SMTP server (defaults to 5)
-    maxMessages: 1000 //limits the message count to be sent using a single connection (defaults to 100). After maxMessages is reached the connection is dropped and a new one is created for the following messages
-  });
-  let sentMails = mailsData.mailList.map((userId, index)=>{
-    let infoObj = mailsData.mailInfo[userId];
-    return {
-      from: '"Cornerth." <noreply@cornerth.com>', // sender address
-      to: mailsData["address"][userId], // list of receivers
-      subject: (infoObj.type == "responds") ? "New Responds" : "New Contributions", // Subject line
-      html: _render_HtmlBody(infoObj)
-    };
-  });
+    let transporter = nodemailer.createTransport({
+      service: "Mailjet",
+      auth: {
+        user: smtpAccount.user,
+        pass: smtpAccount.password
+      },
+      pool: true, // to use pooled connections (defaults to false) instead of creating a new connection for every email
+      maxConnections: 5, // is the count of maximum simultaneous connections to make against the SMTP server (defaults to 5)
+      maxMessages: 1000 //limits the message count to be sent using a single connection (defaults to 100). After maxMessages is reached the connection is dropped and a new one is created for the following messages
+    });
+    let sentMails = mailsData.mailList.map((userId, index)=>{
+      let mailUnitArr = mailsData.mailInfo[userId];
+      return {
+        from: '"Cornerth." <noreply@cornerth.com>', // sender address
+        to: mailsData["address"][userId], // list of receivers
+        subject: (mailUnitArr.length >1 ) ? "New Responds & Contributions" : "Update to you", // Subject line
+        html: _render_HtmlBody(mailUnitArr)
+      };
+    });
+    let wrappedMailSend = (sentOptions)=>{ // use a wrapper to create a promise could return to a 'await' f()
+      return new Promise((resolve, reject)=>{
+        // shift() would return the first item but also rm it
+        transporter.sendMail(sentOptions, (error, resStatus) => {
+          if (error){ winston.error('from mailTimer when dilivering: '+error); reject(error);}
+          else{
+            winston.info('Marketing mails %s sent: %s', resStatus.messageId, resStatus.response);
+            resolve();
+          }
+        });
+      })
+    }
 
-  transporter.on("idle", function () { // Emitted by the transporter object if connection pool has free connection slots
-    // send next message from the pending queue
-    while (transporter.isIdle() && sentMails.length) {
-      // shift() would return the first item but also rm it
-      transporter.sendMail(sentMails.shift(), (error, resStatus) => {
-        if (error) winston.error('from mailTimer when dilivering: '+error);
-        else{
-          winston.info('Marketing mails %s sent: %s', resStatus.messageId, resStatus.response);
-        }
-      });
-    };
-
-    // update last_deliver in _DB_listMails for those who was sent mail
-
-
-    // transporter uses pooling then connections are kept open even if there is nothing to be sent,
-    // close it if while end(no mail going to send)
-    transporter.close();
-  });
-
+    transporter.on("idle", async function () { // Emitted by the transporter object if connection pool has free connection slots
+      // send next message from the pending queue
+      while (transporter.isIdle() && sentMails.length) {
+        //  move while loop only 'after' the .sendMail() fin. by await --- otherwise the while would go on 'before' the sendMail really return
+        await wrappedMailSend(sentMails[0]);
+        sentMails.shift();
+      };
+      // transporter uses pooling then connections are kept open even if there is nothing to be sent,
+      // close it if while end(no mail going to send)
+      transporter.close();
+      // update last_deliver in _DB_listMails for those who was sent mail
+      await _DB_listMails.update(
+        {last_deliver: Sequelize.literal('CURRENT_TIMESTAMP')},
+        {where: {id_user: mailsData.mailList}}
+      );
+    });
+  }
+  catch(error){
+    winston.error(error+ ' from timer: marketing mail.<<<');
+    return; // to stop the mailing process
+  }
 }
 
-const _render_HtmlBody = (mailInfoObj)=>{
-  return
+const _render_HtmlBody = (mailUnitArr)=>{
+  return('<div>"Success, with unit: "'+ mailUnitArr[0].unitExposed+ 'by type: '+ mailUnitArr[0].type+ '</div>')
 
 }
 module.exports = mailTimer;
