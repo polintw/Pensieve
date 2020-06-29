@@ -20,24 +20,6 @@ class Signin extends React.Component {
 
     };
     this._signin_success = this._signin_success.bind(this);
-    this.style={
-      Signin_: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box'
-      },
-      Signin_member_: {
-        width: '20vw',
-        height: '70%',
-        position: 'absolute',
-        top: '15%',
-        right: '0',
-        boxSizing:'border-box'
-      },
-    }
   }
 
   _signin_success(){
@@ -55,19 +37,9 @@ class Signin extends React.Component {
   render(){
     return(
       <div
-        style={this.style.Signin_}>
-        <div
-          className={classnames(styles.boxColumn)}>
-          <div
-            style={this.style.Signin_member_}>
-            <SigninForm
-              _signin_success={this._signin_success}/>
-          </div>
-        </div>
-        <div
-          className={classnames(styles.boxServiceLink)}>
-          <ServiceLinks/>
-        </div>
+        className={classnames(styles.boxColumn)}>
+        <SigninForm
+          _signin_success={this._signin_success}/>
       </div>
     )
   }

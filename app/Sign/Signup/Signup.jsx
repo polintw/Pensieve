@@ -10,7 +10,6 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import SignupForm from '../components/SignupCom/SignupForm.jsx';
 import SignupSuccess from '../components/SignupCom/SignupSuccess.jsx';
-import ServiceLinks from '../../Components/ServiceLinks.jsx';
 import {
   setSignInit,
 } from "../../redux/actions/sign.js";
@@ -22,23 +21,6 @@ class Signup extends React.Component {
       redirect: false
     };
     this._signup_success = this._signup_success.bind(this);
-    this.style={
-      Signup_: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        boxSizing: 'border-box'
-      },
-      boxContent: {
-        width: '20vw',
-        position: 'absolute',
-        top: '13%',
-        right: '0',
-        boxSizing:'border-box'
-      },
-    }
   }
 
   _signup_success(){
@@ -64,21 +46,11 @@ class Signup extends React.Component {
 
     return(
       <div
-        style={this.style.Signup_}>
-        <div
-          className={classnames(styles.boxColumn)}>
-          <div
-            style={this.style.boxContent}>
-            <Switch>
-              <Route path={this.props.match.path+"/success"} render={(props)=> <SignupSuccess {...props}/>}/>
-              <Route path={this.props.match.path+"/"} render={(props)=> <SignupForm {...props} _signup_success={this._signup_success}/>}/>
-            </Switch>
-          </div>
-          <div
-            className={classnames(styles.boxServiceLink)}>
-            <ServiceLinks/>
-          </div>
-        </div>
+        className={classnames(styles.boxColumn)}>
+        <Switch>
+          <Route path={this.props.match.path+"/success"} render={(props)=> <SignupSuccess {...props}/>}/>
+          <Route path={this.props.match.path+"/"} render={(props)=> <SignupForm {...props} _signup_success={this._signup_success}/>}/>
+        </Switch>
       </div>
     )
   }

@@ -35,7 +35,8 @@ class ConnectMail extends React.Component {
 
   componentDidMount() {
     // checking the token existence
-    if(window.localStorage['token'])
+
+    //if(window.localStorage['token'])
   }
 
   componentWillUnmount(){
@@ -57,9 +58,7 @@ class ConnectMail extends React.Component {
         )
         break;
       case "confirm":
-        return (
-
-        )
+        return
         break;
       case "unsigned":
         return (
@@ -67,7 +66,7 @@ class ConnectMail extends React.Component {
             {"you have to sign in first"}
             <SigninForm
               {...props}
-              _signin_success={} />
+              _signin_success={window.location.reload()} />
           </div>
         )
         break;
