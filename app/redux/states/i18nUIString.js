@@ -7,6 +7,10 @@ const i18nUIString_EN = {
   "link_Sign_mailResend": "Re-send verification email.", //Original: "sending verified mail again"
   "title_Sign_mailResend": ["Re-send Verification Mail", "Forget Password"], //Original: "Verified"
   "title_Sign_pwReset": "Reset Password.", //Original: "Reset New Password."
+  "title_Sign_UnsubMail": "Unsubsribe",
+  "descript_Sign_UnsubMail": "You are unsubscribing from notified mail list. If you finished the process, you would not recieve mails for reminding you update to your Cornerth account. Are you sure you want to unsubscribe?",
+  "descript_Sign_UnsubMail_complete": ["Done!", "Your email  was succesfully removed from the mail list. It might take up to 24 hours for server to complete the process."],
+  "message_Sign_UnsubMail_noToken": "Sing in first to continue.",
   "message_Resend_PassReset": "Your password has been updated. Please Sign in with the new password. ", //Add "the" before new
 
   "title_Signup_Success": "Success! Please Verify Your Email Address.", //Original: "Success! Please Verifying Your Mail Address."

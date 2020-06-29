@@ -44,6 +44,10 @@
   text-align: right;
 }
 
+.boxNav {
+  margin-bottom: 30px;
+}
+
 .spanTag {
   display: block;
   margin-bottom: 8px;

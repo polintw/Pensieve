@@ -7,6 +7,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import SigninForm from '../components/SigninForm/SigninForm.jsx';
+import NavSign from '../components/NavSign/NavSign.jsx';
 import ServiceLinks from '../../Components/ServiceLinks.jsx';
 import {
   setSignInit,
@@ -40,6 +41,12 @@ class Signin extends React.Component {
         className={classnames(styles.boxColumn)}>
         <SigninForm
           _signin_success={this._signin_success}/>
+
+        <div
+          className={classnames(styles.boxNav)}>
+          <NavSign
+            {...this.props}/>
+        </div>
       </div>
     )
   }

@@ -8,7 +8,8 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesFont from '../stylesFont.module.css';
 import SigninForm from '../components/SigninForm/SigninForm.jsx';
-import NavSign from '../components/NavSign/NavSign.jsx';
+import NavHome from '../components/NavHome/NavHome.jsx';
+import MessageInput from '../components/MessageInput/MessageInput.jsx';
 import {
   setSignInit
 } from "../../redux/actions/sign.js";
@@ -28,15 +29,26 @@ class ConnectMail extends React.Component {
         width: "385px",
         maxWidth: "98vw",
         paddingTop: "12vh",
-        marginBottom: "7.6vh"
       },
+      ConfirmSuccess_: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-end',
+        alignItems: 'flex-start',
+        width: '100%',
+        boxSizing: 'border-box'
+      }
     }
   }
 
   componentDidMount() {
     // checking the token existence
-
-    //if(window.localStorage['token'])
+    if(!window.localStorage['token']){
+      this.setState({view: 'unsigned'});
+    }
+    else{ // has token
+      this.setState({view: 'confirm'});
+    }
   }
 
   componentWillUnmount(){
@@ -48,25 +60,44 @@ class ConnectMail extends React.Component {
       case "complete":
         return (
           <div>
-
+            <div
+              className={classnames(stylesFont.fontContent, stylesFont.colorSignBlack)}
+              style={{ marginBottom: "7.6vh"}}>
+              <p>{this.props.i18nUIString.catalog["descript_Sign_UnsubMail_complete"][0]}</p>
+              <br/>
+              <p>{this.props.i18nUIString.catalog["descript_Sign_UnsubMail_complete"][1]}</p>
+            </div>
             <div
               className={classnames(styles.boxNav)}>
-              <NavSign
-                {...this.props}/>
+              <NavHome/> //Home
             </div>
           </div>
         )
         break;
       case "confirm":
-        return
+        return (
+          <div
+            style={this.style.ConfirmSuccess_}>
+            <div
+              className={classnames(stylesFont.fontContent, stylesFont.colorSignBlack)}>
+              <p>{this.props.i18nUIString.catalog["descript_Sign_UnsubMail"]}</p>
+            </div>
+
+          </div>
+        )
         break;
       case "unsigned":
         return (
           <div>
-            {"you have to sign in first"}
+            <div
+              className={classnames(styles.boxWarning)}>
+              <MessageInput
+                messageIcon={false}
+                messageText={this.props.i18nUIString.catalog["message_Sign_UnsubMail_noToken"]}/>
+            </div>
             <SigninForm
-              {...props}
-              _signin_success={window.location.reload()} />
+              {...this.props}
+              _signin_success={()=>{window.location.reload();} } />
           </div>
         )
         break;
@@ -83,11 +114,10 @@ class ConnectMail extends React.Component {
           style={{marginBottom: '3rem'}}>
           <span
             className={classnames(stylesFont.fontTitle, stylesFont.colorBlack85)}>
-            {this.props.i18nUIString.catalog["title_Sign_pwReset"]}
+            {this.props.i18nUIString.catalog["title_Sign_UnsubMail"]}
           </span>
         </div>
         {this._render_unsubscribeMail()}
-
       </div>
     )
   }

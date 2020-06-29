@@ -13,7 +13,6 @@ import Signin from './Signin/Signin.jsx';
 import Resend from './Resend/Resend.jsx';
 import Unsubscribe from './Unsubscribe/Unsubscribe.jsx';
 import Confirmation from './components/Confirmation/Confirmation.jsx';
-import NavSign from './components/NavSign/NavSign.jsx';
 import SvgLogo from '../Components/Svg/SvgLogo.jsx';
 import ServiceLinks from '../Components/ServiceLinks.jsx';
 import ModalBox from '../Components/ModalBox.jsx';
@@ -48,22 +47,13 @@ class Sign extends React.Component {
             className={classnames(styles.comSign)}>
             <div
               className={classnames(styles.boxContent)}>
-              <div
-                className={classnames(styles.boxColumn)}>
-                <Switch>
-                  <Route path="/signup" render={(props)=> <Signup {...props}/>}/>
-                  <Route path="/signin" render={(props)=> <Signin {...props}/>}/>
-                  <Route path="/confirm" render={(props)=> <Confirmation {...props}/>}/>
-                  <Route path="/resend" render={(props)=> <Resend {...props}/>}/>
-                  <Route path="/unsubscribe" render={(props)=> <Unsubscribe {...props}/>}/>
-                </Switch>
-
-                <div
-                  className={classnames(styles.boxNav)}>
-                  <NavSign
-                    {...this.props}/>
-                </div>
-              </div>
+              <Switch>
+                <Route path="/signup" render={(props)=> <Signup {...props}/>}/>
+                <Route path="/signin" render={(props)=> <Signin {...props}/>}/>
+                <Route path="/confirm" render={(props)=> <Confirmation {...props}/>}/>
+                <Route path="/resend" render={(props)=> <Resend {...props}/>}/>
+                <Route path="/unsubscribe" render={(props)=> <Unsubscribe {...props}/>}/>
+              </Switch>
             </div>
 
             <div

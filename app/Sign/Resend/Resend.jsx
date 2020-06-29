@@ -10,6 +10,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import EmailResend from './EmailResend.jsx';
 import PasswordReset from './PasswordReset.jsx';
+import NavSign from '../components/NavSign/NavSign.jsx';
 import {
   setSignInit,
 } from "../../redux/actions/sign.js";
@@ -43,6 +44,11 @@ class Resend extends React.Component {
           <Route path={this.props.match.path+"/"} render={(props)=> <EmailResend {...props}/>}/>
         </Switch>
 
+        <div
+          className={classnames(styles.boxNav)}>
+          <NavSign
+            {...this.props}/>
+        </div>
       </div>
     )
   }

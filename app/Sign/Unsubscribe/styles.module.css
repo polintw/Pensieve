@@ -1,3 +1,9 @@
 .comUnsubscribe{
 
 }
+
+.boxWarning {
+  width: 100%;
+  text-align: right;
+  margin-bottom: 1rem;
+}

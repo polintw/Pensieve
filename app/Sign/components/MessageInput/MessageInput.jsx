@@ -40,17 +40,20 @@ class MessageInput extends React.Component {
           )}>
           {this.props.messageText}
         </span>
-        <div
-          className={classnames(styles.boxSvgIcon)}>
-          {
-            (this.props.messageIcon=="error") &&
-            <SvgIconError/>
-          }
-          {
-            (this.props.messageIcon=="checked") &&
-            <SvgIconChecked/>
-          }
-        </div>
+        {
+          this.props.messageIcon &&          
+          <div
+            className={classnames(styles.boxSvgIcon)}>
+            {
+              (this.props.messageIcon=="error") &&
+              <SvgIconError/>
+            }
+            {
+              (this.props.messageIcon=="checked") &&
+              <SvgIconChecked/>
+            }
+          </div>
+        }
       </div>
     )
   }

@@ -13,10 +13,6 @@
   box-sizing: border-box;
 }
 
-.boxColumn {
-
-}
-
 .boxFooter {
   display: flex;
   justify-content: space-around;
@@ -50,8 +46,4 @@
 .boxRightsClaim {
   margin-top: 3rem;
   text-align: right;
-}
-
-.boxNav {
-  margin-bottom: 30px;
 }

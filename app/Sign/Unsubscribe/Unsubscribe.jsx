@@ -38,7 +38,6 @@ class Unsubscribe extends React.Component {
           <Route path={this.props.match.path+"/"} render={(props)=> <ConnectMail {...props}/>}/>
 
         </Switch>
-
       </div>
     )
   }
