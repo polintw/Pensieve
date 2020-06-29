@@ -17,9 +17,10 @@ if(loggedin){
     if(window.location.pathname.includes('/unsubscribe')) { // pass it to /unsubscribe, let the comp check token itself
       const store = createStore(storeSign, applyMiddleware(thunk));
       ReactDOM.hydrate(<Provider store={store}><Sign/></Provider>, document.getElementById("root"));
-    };
+    }
+    else
     // any other situation
-    window.location.assign('/')
+    window.location.assign('/');
   }).catch((err)=>{
     if (err.response) {
       // The request was made and the server responded with a status code that falls out of the range of 2xx
