@@ -75,11 +75,13 @@ class Belong extends React.Component {
             </span>
         </Link>
           <span
-            className={classnames(styles.spanType, stylesFont.colorEditLightBlack, stylesFont.fontContent)}>
-            { firstParentId in this.props.nounsBasic ? (
-              "/ " + this.props.nounsBasic[firstParentId].name ) : (
-                null
-              )}
+            className={classnames(styles.spanType, stylesFont.colorEditLightBlack, stylesFont.fontContent)}
+            style={{opacity: !!(firstParentId in this.props.nounsBasic)? 1 : 0}}>
+            {"/ "}
+            {
+              !!(firstParentId in this.props.nounsBasic) &&
+              this.props.nounsBasic[firstParentId].name
+            }
           </span>
         </div>
     )

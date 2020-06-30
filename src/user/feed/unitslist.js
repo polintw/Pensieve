@@ -78,8 +78,7 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
           return _DB_unitsNodes_assign.findAll({
             where: {
               nodeAssigned: targetList,
-              createdAt: {[Op.lt]: lastUnitTime},
-              id_author: {[Op.ne]: userId}
+              createdAt: {[Op.lt]: lastUnitTime}
             },
             order: [ //make sure the order of arr are from latest
               Sequelize.literal('`createdAt` DESC') //and here, using 'literal' is due to some wierd behavior of sequelize,
@@ -163,8 +162,8 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
         let readList = resultRead.map((row, index)=>{
           return row.id_unit;
         });
-        let unreadList = listObj.weekBeforeAssignedList.filter((row, index) => {
-          return readList.indexOf(row.id_unit) < 0
+        let unreadList = listObj.weekBeforeAssignedList.filter((unitId, index) => {
+          return readList.indexOf(unitId) < 0
         });
         let concatList = listObj.weekLastAssignedList.concat(unreadList);
         let resBrowsedList = (concatList.length > 12) ? concatList.slice(0, 12): concatList;
