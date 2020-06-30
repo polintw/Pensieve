@@ -61,8 +61,8 @@ class Nav extends React.Component {
           nodeid={nodeId}
           className={classnames(
             styles.boxNavLinkSeries,
+            {[styles.boxNavLinkSeriesMouse]: (this.state.onLinkSeries == nodeId && this.props.currentNode != nodeId)}
           )}
-          style={(index > 0) ? {borderLeft: 'solid 1px #d8d8d8'}: {}}
           onClick={this._handleClick_navBelongSeries}
           onMouseEnter={this._handleEnter_navLinkSeries}
           onMouseLeave={this._handleLeave_navLinkSeries}>
@@ -72,8 +72,7 @@ class Nav extends React.Component {
                 className={classnames(
                   styles.spanNavLinkSeries,
                   "fontSubtitle", "weightBold", "colorLightGrey",
-                  {["colorEditBlack"]: (this.props.currentNode== nodeId),
-                    [styles.spanNavLinkSeriesMouse]: (this.state.onLinkSeries == nodeId && this.props.currentNode != nodeId)}
+                  {["colorEditBlack"]: (this.props.currentNode== nodeId || this.state.onLinkSeries == nodeId)}
                 )}>
                 {this.props.nounsBasic[nodeId].name}</span>
             </div>

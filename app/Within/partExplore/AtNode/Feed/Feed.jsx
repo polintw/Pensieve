@@ -8,6 +8,7 @@ import styles from "./styles.module.css";
 import stylesNail from "../../../stylesNail.module.css";
 import FeedEmpty from './FeedEmpty.jsx';
 import NodeUsers from '../NodeUsers/NodeUsers.jsx';
+import Invite from '../../../partAround/Index/Invite/Invite.jsx';
 import NailFeed from '../../../../Components/Nails/NailFeed/NailFeed.jsx';
 import NailFeedWide from '../../../../Components/Nails/NailFeedWide/NailFeedWide.jsx';
 import NailFeedMobile from '../../../../Components/Nails/NailFeedMobile/NailFeedMobile.jsx';
@@ -66,9 +67,19 @@ class Feed extends React.Component {
     // by feed length, we gave users some message about the thing they could do
     if (this.state.feedList.length> 0){
       return (
-        <span
-          className={classnames("fontTitleSmall", "colorLightGrey")}>
-          {this.props.i18nUIString.catalog['descript_AroundIndex_footer']}</span>
+        <div>
+          <span
+            className={classnames("fontTitleSmall", "colorLightGrey")}
+            style={{margin: "8px 0", display: 'inline-block' }}>
+            {this.props.i18nUIString.catalog['descript_AroundIndex_footer']}
+          </span>
+          <div
+            className={classnames(styles.boxInvite)}>
+            <Invite
+              belongOnly={false}
+              reqNode={this.nodeAtId}/>
+          </div>
+        </div>
       );
     }
     else{ // most reason to:no feed at all

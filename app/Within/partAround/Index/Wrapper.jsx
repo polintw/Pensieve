@@ -162,12 +162,12 @@ class Wrapper extends React.Component {
                           _refer_von_cosmic={this.props._refer_von_cosmic}/>
                       );
                     }}/>
-                    <Route path={this.props.match.path} render={(props)=> <BelongsMap {...props} />}/>
-                  </Switch>
-                </div>
+                  <Route path={this.props.match.path} render={(props)=> <BelongsMap {...props} />}/>
+                </Switch>
+              </div>
               <div
                 className={classnames(styles.boxFooter)}>
-                  {this._render_FooterHint()}
+                {this._render_FooterHint()}
               </div>
             </div>
           )
