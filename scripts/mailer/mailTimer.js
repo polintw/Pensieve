@@ -1,20 +1,20 @@
 const nodemailer = require("nodemailer");
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
-const winston = require('../config/winston.js');
+const winston = require('../../config/winston.js');
 const {
   smtpAccount,
   domain
-} = require('../config/services.js');
-const _DB_users = require('../db/models/index').users;
-const _DB_units = require('../db/models/index').units;
-const _DB_nouns = require('../db/models/index').nouns;
-const _DB_attribution = require('../db/models/index').attribution;
-const _DB_responds = require('../db/models/index').responds;
-const _DB_lastVisitIndex = require('../db/models/index').lastvisit_index;
-const _DB_listMails = require('../db/models/index').list_mails;
-const _DB_usersNodesHome = require('../db/models/index').users_nodes_homeland;
-const _DB_usersNodesResi = require('../db/models/index').users_nodes_residence;
+} = require('../../config/services.js');
+const _DB_users = require('../../db/models/index').users;
+const _DB_units = require('../../db/models/index').units;
+const _DB_nouns = require('../../db/models/index').nouns;
+const _DB_attribution = require('../../db/models/index').attribution;
+const _DB_responds = require('../../db/models/index').responds;
+const _DB_lastVisitIndex = require('../../db/models/index').lastvisit_index;
+const _DB_listMails = require('../../db/models/index').list_mails;
+const _DB_usersNodesHome = require('../../db/models/index').users_nodes_homeland;
+const _DB_usersNodesResi = require('../../db/models/index').users_nodes_residence;
 
 async function mailListGenerator(){
   const interval = 60*60*24*1000; // 24hr by milisecond
@@ -266,7 +266,8 @@ async function mailTimer(){
 }
 
 const _render_HtmlBody = (mailUnitArr)=>{
-  return('<div>"Success, with unit: "'+ mailUnitArr[0].unitExposed+ 'by type: '+ mailUnitArr[0].type+ '</div>')
+  return(
 
+  )
 }
 module.exports = mailTimer;

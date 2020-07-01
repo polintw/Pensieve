@@ -12,7 +12,7 @@ module.exports = {
       },
       last_deliver: {
         type: Sequelize.DATE,
-        defaultValue: "2019-01-01"
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
       createdAt: {
         type: Sequelize.DATE,
