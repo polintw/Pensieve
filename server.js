@@ -18,7 +18,7 @@ const {
   nodesSearchLimiter,
   belongsPatchLimiter
 } = require('./src/rateLimiter.js');
-const mailTimer = require("./scripts/mailTimer.js");
+const mailTimer = require("./scripts/mailer/mailTimer.js");
 
 
 //babel-polyfill is here for the whole code after it!

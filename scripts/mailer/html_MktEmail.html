@@ -39,7 +39,7 @@
         .imgThumb {
           display: inline-block;
           width: 80%;
-          height: 270px;
+          height: 280px;
           box-sizing: border-box;
           background-size: cover;
           background-position: 50% 50%;
@@ -52,12 +52,13 @@
           min-width: 320px;
           max-width: 90vw;
           padding:0 10px;
-          margin:30px 0 20px;
+          margin:36px 0 20px;
           text-align: center;
         }
         .boxTitleThumb {
           padding: 15px 10% 8px;
           text-align: left;
+          white-space: nowrap;
         }
         .boxThumbNodes {
           padding: 8px 10% 15px;
@@ -85,6 +86,7 @@
           min-width: 12vw;
           box-sizing: border-box;
           cursor: pointer;
+          float: left;
         }
         .boxLogoReverse {
           display: inline-block;
@@ -95,6 +97,10 @@
           margin: 40px 40% 10px;
           cursor: pointer;
         }
+        .spanTitleDate {
+          display: inline-block;
+          float: right;
+        }
         .tagServiceLink {
           display: inline-block;
           box-sizing: border-box;
@@ -103,6 +109,9 @@
         .fontContent {
           font-size: 14px;
           line-height: 1.5;
+        }
+        .fontContentPlain {
+          font-size: 14px;
         }
         .fontTitle {
           font-size: 24px;
@@ -125,6 +134,9 @@
           font-size: 12px;
           font-weight: bold;
         }
+        .weightBold {
+          font-weight: bold;
+        }
         .colorWhite {
           color: #ffffff
         }
@@ -142,6 +154,9 @@
         }
         .colorLightStandard {
           color: #fff8f7;
+        }
+        .colorLightGrey {
+          color: #b8b8b8;
         }
         .colorGrey {
           color: #a3a3a3;
@@ -174,6 +189,9 @@
               src="http://cornerth.com/png/Logo.png"
               style= "height:auto; width: 100%; position:relative; box-sizing: border-box; ">
           </a>
+          <span class="spanTitleDate fontContentPlain colorLightGrey weightBold">
+            Jul. 2, 2020
+          </span>
         </div>
 
         <div
@@ -188,10 +206,9 @@
           </div>
 
           <div
-            class="mailBanner colorEditBlack fontSubtitle"
-            style="text-align:left;">
+            class="mailBanner colorEditBlack fontContent">
             <p>
-              We are glad to see more and more people enjoying their advanture on <strong>Cornerth. </strong>There are new posts around your corners. Your <strong>Fellows</strong> will be happy to meet you there.
+              We are glad to see more and more people enjoying their advanture on <strong>Cornerth. </strong>There are new posts around you.<br/> Your <strong>Fellows</strong> will be happy to meet you there.
             </p>
           </div>
           <div>
@@ -235,6 +252,12 @@
 
           <div
             style="padding:15px 0 35px;">
+            <div
+              class="colorEditBlack fontContent"
+              style="margin-bottom: 20px">
+              And more on Cornerth, <br/>
+              don't miss the thing!
+            </div>
             <a
               href="https://cornerth.com/"
               target="_blank"

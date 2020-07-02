@@ -6,6 +6,7 @@ const {
   smtpAccount,
   domain
 } = require('../../config/services.js');
+const {_render_HtmlBody} = require('./MktEmail.js');
 const _DB_users = require('../../db/models/index').users;
 const _DB_units = require('../../db/models/index').units;
 const _DB_nouns = require('../../db/models/index').nouns;
@@ -129,7 +130,8 @@ async function mailListGenerator(){
     unitsBasic.forEach((rowUnitsBasic, i) => {
       unitsUsedBasic[rowUnitsBasic.id] = {
         id: rowUnitsBasic.id,
-        exposedId: rowUnitsBasic.exposedId
+        exposedId: rowUnitsBasic.exposedId,
+        coverImg: rowUnitsBasic.url_pic_layer0
       };
     });
     unitsAttribution.forEach((rowUnitsAttribution, i) => {
@@ -154,16 +156,19 @@ async function mailListGenerator(){
         if(respondify) mailInfo[userId].push({
           unitExposed: unitsUsedBasic[respondsNotify[userId]].exposedId,
           type: "responds",
+          imgUrl: unitsUsedBasic[respondsNotify[userId]].coverImg,
           nodes: unitsUsedBasic[respondsNotify[userId]].nodesList // ["name of node"]
         });
-        if(newHomeify) mailInfo[userId].puah({
+        if(newHomeify) mailInfo[userId].push({
           unitExposed: unitsUsedBasic[attriByNodes[belongedHome]].exposedId,
           type: "newHome",
+          imgUrl: unitsUsedBasic[attriByNodes[belongedHome]].coverImg,
           nodes: unitsUsedBasic[attriByNodes[belongedHome]].nodesList // ["name of node"]
         });
-        if(newResiify) mailInfo[userId].puah({
+        if(newResiify) mailInfo[userId].push({
           unitExposed: unitsUsedBasic[attriByNodes[belongedResi]].exposedId,
           type: "newResi",
+          imgUrl: unitsUsedBasic[attriByNodes[belongedResi]].coverImg,
           nodes: unitsUsedBasic[attriByNodes[belongedResi]].nodesList // ["name of node"]
         });
       };
@@ -187,7 +192,7 @@ async function mailListGenerator(){
     };
   }
   catch(error){
-    winston.error(error+ ' from timer: list generator of marketing mail.<<<');
+    winston.error(error+ '. From timer: list generator of marketing mail.<<<');
     return false; // to stop the mailing process
   }
 
@@ -201,6 +206,7 @@ async function mailTimer(){
   Notice, 'mailList' & 'mailInfo' in mailsData do not always match.
   Always use the mailList.
   */
+  winston.info('>>> from timer: marketing mail. mailsData get, start sending.<<<');
   try{
     mailsData["address"] = {}; // new pair to save the mail address for each user
     const mailUsersInfo = await _DB_users.findAll({ // to build email address
@@ -223,7 +229,7 @@ async function mailTimer(){
     let sentMails = mailsData.mailList.map((userId, index)=>{
       let mailUnitArr = mailsData.mailInfo[userId];
       return {
-        from: '"Cornerth." <noreply@cornerth.com>', // sender address
+        from: '"Cornerth." <noreply.marketing@cornerth.com>', // sender address
         to: mailsData["address"][userId], // list of receivers
         subject: (mailUnitArr.length >1 ) ? "New Responds & Contributions" : "Update to you", // Subject line
         html: _render_HtmlBody(mailUnitArr)
@@ -233,7 +239,7 @@ async function mailTimer(){
       return new Promise((resolve, reject)=>{
         // shift() would return the first item but also rm it
         transporter.sendMail(sentOptions, (error, resStatus) => {
-          if (error){ winston.error('from mailTimer when dilivering: '+error); reject(error);}
+          if (error){ winston.error('from mailTimer when delivering: '+error); reject(error);}
           else{
             winston.info('Marketing mails %s sent: %s', resStatus.messageId, resStatus.response);
             resolve();
@@ -265,9 +271,4 @@ async function mailTimer(){
   }
 }
 
-const _render_HtmlBody = (mailUnitArr)=>{
-  return(
-
-  )
-}
 module.exports = mailTimer;
