@@ -4,7 +4,6 @@ const Op = Sequelize.Op;
 const winston = require('../../config/winston.js');
 const {
   smtpAccount,
-  domain
 } = require('../../config/services.js');
 const {_render_HtmlBody} = require('./MktEmail.js');
 const _DB_users = require('../../db/models/index').users;

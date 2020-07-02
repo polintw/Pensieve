@@ -1,3 +1,7 @@
+const {
+  domain
+} = require('../../config/services.js');
+
 const _render_HtmlBody = (mailUnitArr)=>{
   const _getYearAbbr = (dateObj)=>{
     switch (dateObj.getMonth()) {
@@ -55,9 +59,13 @@ const _render_HtmlBody = (mailUnitArr)=>{
       });
       domSubtitle = '<span>at </span>' + domSubtitle;
 
-      domString = domString + '<div class="setBox"> <a href="https://www.cornerth.com/cosmic/explore/unit?unitId=' +
+      domString = domString + '<div class="setBox"> <a href="https://' +
+      domain.name +
+      '/cosmic/explore/unit?unitId=' +
       unitObj.unitExposed +
-      '&unitView=theater" target="_blank" class="plainLinkButton imgThumb" style="background-image: url(https://www.cornerth.com/router/img/' +
+      '&unitView=theater" target="_blank" class="plainLinkButton imgThumb" style="background-image: url(https://' +
+      domain.name+
+      '/router/img/' +
       unitObj.imgUrl +
       '?type=thumb);"></a>  <div class="boxTitleThumb fontNodesEqual_L5 colorDescripBlack"> <strong>' +
       ((unitObj.type == 'responds') ? 'Responds to your contribution' : 'New to your corners') +
@@ -74,7 +82,9 @@ const _render_HtmlBody = (mailUnitArr)=>{
     month +date + ', '+year +
     '</span> </div> <div class="mailBoxContent" style="text-align: center; min-height: 60vh; padding-bottom: 35px;"> <div> <div class="mailBoxContentGreet fontTitle colorStandard" style="font-weight: 700;"> Update About Your Corners! </div> </div> <div class="mailBanner colorEditBlack fontContent" > <p> We are glad to see more and more people enjoying their advanture on <strong>Cornerth. </strong>There are new posts around you.<br/> Your <strong>Fellows</strong> will be happy to meet you there. </p> </div> <div>' +
     unitsPreview() +
-    `</div> <div style="padding:15px 0 35px;"> <div class="colorEditBlack fontContent" style="margin-bottom: 20px"> And more on Cornerth, <br/> don't miss the thing! </div> <a href="https://www.cornerth.com/" target="_blank" style="font-weight: bold;" class="signInButton plainLinkButton fontSubtitle colorWhite"> Go to Cornerth. </a> </div> </div> <div class="boxFooter"> <a href="https://www.cornerth.com/" target="_blank" class="boxLogoReverse plainLinkButton" style="margin-top: 40px; text-align: center;"> <!-- <SvgLogo/> --> <img src="http://www.cornerth.com/png/Logo_reverse.png" style= "height:auto; width: 100%; position:relative; box-sizing: border-box; "> </a> <div class="boxServiceLink"> <a href="https://www.cornerth.com/s/unsubscribe" target="_blank" style="color:#a3a3a3;" class="tagServiceLink fontServiceLink colorGrey"> Unsubscribe from List</a> </div> <div class="boxServiceLink"> <a href="https://www.facebook.com/pg/cornerth.center/about/" target="_blank" method="about" style="color:#fff8f7;" class="plainLinkButton tagServiceLink fontServiceLink colorLightStandard"> About</a> <span class="tagServiceLink fontServiceLink colorGrey" style="cursor:default;">．</span> <a href="https://www.cornerth.com/a/privacy" method="privacy" style="color:#fff8f7;" class="plainLinkButton tagServiceLink fontServiceLink colorLightStandard"> Privacy</a> <span class="tagServiceLink fontServiceLink colorGrey" style="cursor:default;">．</span> <a href="https://www.cornerth.com/a/terms" method="terms" style="color:#fff8f7;" class="plainLinkButton tagServiceLink fontServiceLink colorLightStandard"> Terms</a> <span class="tagServiceLink fontServiceLink colorGrey" style="cursor:default;">．</span> <a href="https://www.facebook.com/cornerth.center/" target="_blank" method="contact" style="color:#fff8f7;" class="plainLinkButton tagServiceLink fontServiceLink colorLightStandard"> Contact</a> </div> <div class="boxServiceLink fontTitleSmall colorGrey" style="padding-bottom: 20px;"> <span>Cornerth., Inc.</span> <span>All Rights Reserved.</span> </div> </div> </body></html>`
+    `</div> <div style="padding:15px 0 35px;"> <div class="colorEditBlack fontContent" style="margin-bottom: 20px"> And more on Cornerth, <br/> don't miss the thing! </div> <a href="https://www.cornerth.com/" target="_blank" style="font-weight: bold;color: white;" class="signInButton plainLinkButton fontSubtitle colorWhite"> Go to Cornerth. </a> </div> </div> <div class="boxFooter"> <a href="https://www.cornerth.com/" target="_blank" class="boxLogoReverse plainLinkButton" style="margin-top: 40px; text-align: center;"> <!-- <SvgLogo/> --> <img src="http://www.cornerth.com/png/Logo_reverse.png" style= "height:auto; width: 100%; position:relative; box-sizing: border-box; "> </a> <div class="boxServiceLink"> <a href="https://` +
+    domain.name +
+    `/s/unsubscribe" target="_blank" style="color:#a3a3a3;" class="tagServiceLink fontServiceLink colorGrey"> Unsubscribe from List</a> </div> <div class="boxServiceLink"> <a href="https://www.facebook.com/pg/cornerth.center/about/" target="_blank" method="about" style="color:#fff8f7;" class="plainLinkButton tagServiceLink fontServiceLink colorLightStandard"> About</a> <span class="tagServiceLink fontServiceLink colorGrey" style="cursor:default;">．</span> <a href="https://www.cornerth.com/a/privacy" method="privacy" style="color:#fff8f7;" class="plainLinkButton tagServiceLink fontServiceLink colorLightStandard"> Privacy</a> <span class="tagServiceLink fontServiceLink colorGrey" style="cursor:default;">．</span> <a href="https://www.cornerth.com/a/terms" method="terms" style="color:#fff8f7;" class="plainLinkButton tagServiceLink fontServiceLink colorLightStandard"> Terms</a> <span class="tagServiceLink fontServiceLink colorGrey" style="cursor:default;">．</span> <a href="https://www.facebook.com/cornerth.center/" target="_blank" method="contact" style="color:#fff8f7;" class="plainLinkButton tagServiceLink fontServiceLink colorLightStandard"> Contact</a> </div> <div class="boxServiceLink fontTitleSmall colorGrey" style="padding-bottom: 20px;"> <span>Cornerth., Inc.</span> <span>All Rights Reserved.</span> </div> </div> </body></html>`
   )
 }
 
