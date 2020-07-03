@@ -148,7 +148,7 @@ class Nav extends React.Component {
               </span>
               <span
                 className={classnames('colorEditLightBlack', 'fontContent')}>
-                { this.props.i18nUIString.catalog["title_BelongsMap_Nav"][(this.props.currentTab =="residence") ? 2 : 1] }
+                { this.props.i18nUIString.catalog["title_BelongsMap_Nav"][1] }
               </span>
             </div>
             <div>
