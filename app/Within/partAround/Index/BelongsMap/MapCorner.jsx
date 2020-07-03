@@ -110,13 +110,13 @@ class MapCorner extends React.Component {
               style={{width: "30px", height: "45px"}}>
               <SvgPin
                 mouseOn={this.state.onNodeLink}
-                customStyles={{fillColor: '#ff8168'}}/>
+                customStyles={{fillColor: 'rgba(255, 144, 108, 0.6)'}}/>
             </div>
           </div>
           <div
             className={classnames(styles.boxMapCountNum)}>
             <span
-              className={classnames(styles.spanMapCount, 'fontTitleHuge', 'weightBold', 'colorDescripBlack')}>
+              className={classnames(styles.spanMapCount, 'fontTitleHuge', 'weightBold', 'colorEditBlack')}>
               {this.state.usersCount}
             </span>
           </div>
@@ -125,7 +125,7 @@ class MapCorner extends React.Component {
           className={classnames(styles.boxStatics)}>
           <div
             className={classnames(styles.boxNodeSub)}>
-            <span className={classnames(styles.spanMapNodeSub, 'fontContent', 'colorEditLightBlack')}>
+            <span className={classnames(styles.spanMapNodeSub, 'fontContent', 'colorStandard')}>
               {
                 (this.props.currentType =="homeland") ?
                 this.props.i18nUIString.catalog["category__Belong_usersCount"][0] :

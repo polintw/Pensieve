@@ -20,7 +20,7 @@
   display: flex;
   align-items: flex-end;
   margin: 8px 0 28px;
-  padding: 4px 0;
+  padding: 4px 2rem;
 }
 
 .boxNavTitleType {
@@ -32,6 +32,8 @@
 .boxNavTitle {
   display: flex;
   align-items: flex-end;
+  padding-right: 2rem;
+  border-right: solid 1px #d8d8d8;
 }
 
 .boxNavSeries {
@@ -41,13 +43,21 @@
 
 .boxNavTitleLower {
   display: flex;
-  padding: 0 1rem 0 4.5rem;
+  flex-wrap: wrap;
+  padding: 0 1rem 0 2.5rem;
 }
 
 .boxNavLinkSeries {
-  margin-right: 1.5rem;
-  padding-left: 1.5rem;
+  padding: 5px 1.5rem;
+  border-radius: 4px;
+  margin: 0 5px;
 }
+
+.boxNavLinkSeriesMouse {
+  background-color: rgb(216,216,216,0.15);
+  cursor: pointer;
+}
+
 
 .boxMapNavLink {
   padding-left: 1rem;
@@ -128,6 +138,15 @@
   text-align: right;
 }
 
+.boxInviteMapCorner {
+  display: inline-block;
+  width: 31%;
+  min-width: 256px;
+  max-width: 96vw;
+  margin: 0 1.2% 0 1%;
+  text-align: center;
+}
+
 .boxStaticsDescript {
   margin: 0 1rem 0 2rem;
 }
@@ -136,10 +155,6 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-}
-
-.spanStaticDescript {
-  display: inline-block;
 }
 
 .spanMapNode {
@@ -184,16 +199,10 @@
 .spanNavLinkSeries {
   display: inline-block;
   border-bottom: solid 0.75px transparent;
-  cursor: default;
-}
-
-.spanNavLinkSeriesMouse {
-  border-bottom: solid 0.75px #b8b8b8;
-  cursor: pointer;
 }
 
 @media screen and (max-width:860px) {
   .boxNavTitleLower {
-    padding: 0 1rem 0 5rem;
+    padding: 0 1rem 0 4.5rem;
   }
 }

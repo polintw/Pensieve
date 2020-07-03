@@ -120,8 +120,11 @@ class BelongsMap extends React.Component {
         </div>
         <div
           className={classnames(styles.boxInvite)}>
-          <Invite
-            belongOnly={true}/>
+          <div
+            className={classnames(styles.boxInviteMapCorner) /*Important. keep this box under boxInvite to keep th btn at right but also follow the boxMapCorner*/ }>
+            <Invite
+              belongOnly={true}/>
+          </div>
         </div>
 
       </div>
