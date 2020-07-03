@@ -20,9 +20,9 @@
 
 .boxCategory {
   display: flex;
+  align-items: flex-start;
   flex-direction: column;
-  align-items: flex-end;
-  margin-left: 1.6rem;
+  margin-right: 1.6rem;
 }
 
 .boxTitleType {

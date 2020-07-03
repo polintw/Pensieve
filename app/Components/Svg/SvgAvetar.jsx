@@ -18,7 +18,7 @@ export default class SvgAvetar extends React.Component {
           boxSizing: 'border-box'
         })}>
         <defs>
-          <style>{ ".cls-1-Avatar{fill:#fff;}.cls-1-Avatar,.cls-3-Avatar{fill-rule:evenodd;}.cls-2-Avatar{mask:url(#mask);}.cls-3-Avatar{fill:#444;} "}</style>
+          <style>{ ".cls-1-Avatar{fill:#fff;}.cls-1-Avatar,.cls-3-Avatar{fill-rule:evenodd;}.cls-2-Avatar{mask:url(#mask);}.cls-3-Avatar{fill:#545454;} "}</style>
           <mask id="mask" x="0" y="0" width="35.54" height="33.57" maskUnits="userSpaceOnUse">
             <g id="mask-2">
               <polygon id="path-1" className="cls-1-Avatar" points="0 0 35.54 0 35.54 33.57 0 33.57 0 0"/>

@@ -75,7 +75,7 @@ class Belong extends React.Component {
             </span>
         </Link>
           <span
-            className={classnames(styles.spanType, stylesFont.colorEditLightBlack, stylesFont.fontContent)}
+            className={classnames(styles.spanType, stylesFont.colorEditBlack, stylesFont.fontContent)}
             style={{opacity: !!(firstParentId in this.props.nounsBasic)? 1 : 0}}>
             {"/ "}
             {
@@ -106,13 +106,6 @@ class Belong extends React.Component {
         className={classnames(styles.comBelong)}>
 
         <div
-          className={classnames(styles.boxCornerTitle)}>
-          {
-            !!(this.props.type in this.props.belongsByType) &&
-            this._render_nodeLink()
-          }
-        </div>
-        <div
           className={classnames(styles.boxCategory)}>
           {this._render_type()}
           <div
@@ -129,6 +122,13 @@ class Belong extends React.Component {
               {this.props.i18nUIString.catalog["submit_edit"]}
             </span>
           </div>
+        </div>
+        <div
+          className={classnames(styles.boxCornerTitle)}>
+          {
+            !!(this.props.type in this.props.belongsByType) &&
+            this._render_nodeLink()
+          }
         </div>
 
         {
