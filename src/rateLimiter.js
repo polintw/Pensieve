@@ -2,8 +2,9 @@ const rateLimit = require('express-rate-limit');
 const winston = require('../config/winston.js');
 
 const limiter = rateLimit({
-  windowMs: 10 * 60 * 1000, // 10 minutes
-  max: 800, // limit each IP to 800 requests per windowMs
+  // limit each IP to 2.5 requests per sec
+  windowMs: 15 * 60 * 1000,
+  max: 2250,
   message:{
     'message': "Too many request from this IP, please try again later",
     'console': ''
