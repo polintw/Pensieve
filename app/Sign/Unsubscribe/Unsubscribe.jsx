@@ -8,14 +8,9 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import EmailResend from './EmailResend.jsx';
-import PasswordReset from './PasswordReset.jsx';
-import NavSign from '../components/NavSign/NavSign.jsx';
-import {
-  setSignInit,
-} from "../../redux/actions/sign.js";
+import ConnectMail from './ConnectMail.jsx';
 
-class Resend extends React.Component {
+class Unsubscribe extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -38,17 +33,11 @@ class Resend extends React.Component {
   render(){
     return(
       <div
-        className={classnames(styles.comSignResend)}>
+        className={classnames(styles.comUnsubscribe)}>
         <Switch>
-          <Route path={this.props.match.path+"/pwreset"} render={(props)=> <PasswordReset {...props}/>}/>
-          <Route path={this.props.match.path+"/"} render={(props)=> <EmailResend {...props}/>}/>
-        </Switch>
+          <Route path={this.props.match.path+"/"} render={(props)=> <ConnectMail {...props}/>}/>
 
-        <div
-          className={classnames(styles.boxNav)}>
-          <NavSign
-            {...this.props}/>
-        </div>
+        </Switch>
       </div>
     )
   }
@@ -70,4 +59,4 @@ const mapDispatchToProps = (dispatch)=>{
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(Resend));
+)(Unsubscribe));

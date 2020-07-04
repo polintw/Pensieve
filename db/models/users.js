@@ -39,6 +39,11 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
+    users.hasOne(models.list_mails, {
+      foreignKey:"id_user",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
     users.hasMany(models.units, {
       foreignKey:"id_author",
       sourceKey: "id",

@@ -107,14 +107,6 @@ class Confirmation extends React.Component {
     this.state = {
 
     };
-    this.style={
-      Confirmation_: {
-        width: '100%',
-        boxSizing: 'border-box',
-        paddingTop: "12vh",
-        marginBottom: "7.6vh"
-      },
-    }
   }
 
   componentDidMount() {
@@ -127,9 +119,7 @@ class Confirmation extends React.Component {
 
   render(){
     return(
-      <div
-        style={this.style.Confirmation_}>
-
+      <div>
         <Route path={this.props.match.path+"/success"} render={(props)=> <ConfirmSuccess {...props} {...this.props}/>}/>
         <Route path={this.props.match.path+"/fail"} render={(props)=> <ConfirmFail {...props} {...this.props}/>}/>
       </div>

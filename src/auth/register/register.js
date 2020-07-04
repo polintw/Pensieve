@@ -24,6 +24,7 @@ const _DB_sheets = require('../../../db/models/index').sheets;
 const _DB_lastvisitShared = require('../../../db/models/index').lastvisit_shared;
 const _DB_lastvisitNotify = require('../../../db/models/index').lastvisit_notify;
 const _DB_lastvisitIndex = require('../../../db/models/index').lastvisit_index;
+const _DB_listMails = require('../../../db/models/index').list_mails;
 
 const _create_new_ImgFolder = (userId)=>{
   return new Promise((resolve,reject)=>{
@@ -133,12 +134,14 @@ function _handle_auth_register_POST(req, res) {
               pcreateImgFolder = Promise.resolve(_create_new_ImgFolder(userId).catch((errObj)=>{throw errObj})),
               pinsertNewSheet = _DB_sheets.create({id_user: userId, gender:newUser.gender}).catch((err)=>{throw err}),
               pinsertLastvisitIndex = _DB_lastvisitIndex.create({id_user: userId}).catch((err)=>{throw err});
+              pinsertListMail = _DB_listMails.create({id_user: userId}).catch((err)=>{throw err});
 
           return Promise.all([
             pinsertNewVerifi,
             pinsertNewSheet,
             pinsertEmailToken,
             pcreateImgFolder,
+            pinsertListMail,
             pinsertLastvisitIndex])
             .then((results)=>{
               return deliverVerifiedMail(newUser, tokenEmail);

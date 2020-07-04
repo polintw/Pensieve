@@ -1,0 +1,49 @@
+.comSign {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  z-index: 3; /* set as a 'base': on the contrast to the 'Modal'*/
+}
+
+.boxContent {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  min-height: calc(93.54vh - 67px);
+  box-sizing: border-box;
+}
+
+.boxFooter {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  align-content: space-between;
+  width: 100%;
+  position: sticky;
+  bottom: 0;
+  box-sizing: border-box;
+  padding: 3.8vh 0.5vw 0;
+  background-color: #fff8f7;
+}
+
+.boxServiceLink {
+  position: relative;
+  margin-bottom: 2.66vh;
+}
+
+.boxLogo {
+  width: 17%;
+  max-width: 27vw;
+  min-width: 9vw;
+  box-sizing: border-box;
+  margin-bottom: 2.66vh;
+  mix-blend-mode: darken;
+  text-align: center;
+  cursor: pointer;
+}
+
+.boxRightsClaim {
+  margin-top: 3rem;
+  text-align: right;
+}

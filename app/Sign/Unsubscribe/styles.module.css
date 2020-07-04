@@ -1,0 +1,22 @@
+.comUnsubscribe{
+
+}
+
+.boxWarning {
+  width: 100%;
+  text-align: right;
+  margin-bottom: 1rem;
+}
+
+.boxBtn {
+  align-self: flex-end;
+}
+
+.btnSubmit {
+  width: 96px;
+  height: 32px;
+  position: relative;
+  box-sizing: border-box;
+  border-radius: 4px;
+  cursor: default;
+}
