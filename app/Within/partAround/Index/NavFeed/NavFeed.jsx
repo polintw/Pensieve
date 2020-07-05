@@ -43,13 +43,13 @@ class NavFeed extends React.Component {
               stylesFont.fontHint, stylesFont.weightBold,
               stylesFont.colorAssistGold)}>
             {
-              this.props.location.pathname.includes('gathering') ?
-              this.props.i18nUIString.catalog["title_FeedAssigned_"] : this.props.i18nUIString.catalog["link_Fellows"]
+              this.props.location.pathname.includes('fellows') ?
+                this.props.i18nUIString.catalog["link_Fellows"] : this.props.i18nUIString.catalog["title_FeedAssigned_"]
             }
           </span>
         </div>
         <Link
-          to={ this.props.location.pathname.includes('gathering') ? "/" :"/gathering" }
+          to={this.props.location.pathname.includes('fellows') ? "/" :"/fellows" }
           className={classnames('plainLinkButton', styles.boxLinkRight)}
           onMouseEnter={this._handleEnter_link}
           onMouseLeave={this._handleLeave_link}>
@@ -60,8 +60,8 @@ class NavFeed extends React.Component {
               {[styles.spanLinkMouse]: this.state.onNavLink}
             )}>
               {
-                this.props.location.pathname.includes('gathering') ?
-                this.props.i18nUIString.catalog["link_Fellows"] : this.props.i18nUIString.catalog["title_FeedAssigned_"]
+                this.props.location.pathname.includes('fellows') ?
+                this.props.i18nUIString.catalog["title_FeedAssigned_"] : this.props.i18nUIString.catalog["link_Fellows"]
               }
           </span>
         </Link>

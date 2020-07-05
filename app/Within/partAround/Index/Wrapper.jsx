@@ -21,8 +21,6 @@ import NavFeed from "./NavFeed/NavFeed.jsx";
 import OnBoard from '../OnBoard/Wrapper.jsx';
 import GuideNails from '../OnBoard/GuideNails.jsx';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
-import ModalBox from '../../../Components/ModalBox.jsx';
-import ModalBackground from '../../../Components/ModalBackground.jsx';
 import {
   initAround
 } from '../../../redux/states/statesWithin.js';
@@ -144,25 +142,17 @@ class Wrapper extends React.Component {
                   lastVisit={this.state.lastVisit}
                   _set_mountToDo={this._set_mountToDo}/>
               </div>
-              <div
-                className={classnames(styles.boxRow)}
-                style={{margin: '4px 0 0'}}>
-                <BelongsSet/>
-              </div>
+
               <div
                 className={classnames(styles.boxRow)}>
                 <NavFeed {...this.props}/>
                 <Switch>
-                  <Route path={'/gathering'}
-                    render={(props)=>{
-                      return (
-                        <FeedAssigned
-                          lastVisit={this.state.lastVisit}
-                          _set_mountToDo={this._set_mountToDo}
-                          _refer_von_cosmic={this.props._refer_von_cosmic}/>
-                      );
-                    }}/>
-                  <Route path={this.props.match.path} render={(props)=> <BelongsMap {...props} />}/>
+                  <Route path={'/fellows'} render={(props)=> <BelongsMap {...props} /> }/>
+                  <Route path={this.props.match.path} render={(props) => <FeedAssigned
+                    {...props}
+                    lastVisit={this.state.lastVisit}
+                    _set_mountToDo={this._set_mountToDo}
+                    _refer_von_cosmic={this.props._refer_von_cosmic} />}/>
                 </Switch>
               </div>
               <div
