@@ -13,6 +13,8 @@ class Nav extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      nodesSeriesList: [],
+      nodesTypeMap: {},
       onMapNav: false,
       currentMouseOn: false
     };
@@ -24,6 +26,7 @@ class Nav extends React.Component {
     this._handleLeave_MapNav = this._handleLeave_MapNav.bind(this);
     this._handleEnter_navLinkSeries = this._handleEnter_navLinkSeries.bind(this);
     this._handleLeave_navLinkSeries = this._handleLeave_navLinkSeries.bind(this);
+    this._set_belongedToType = this._set_belongedToType.bind(this);
   }
 
   _handleClick_navBelongsMap(event){
@@ -35,11 +38,13 @@ class Nav extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-
+    if(this.props.belongsByType.fetchedSeries && prevProps.belongsByType.fetchedSeries != this.props.belongsByType.fetchedSeries){
+      this._set_belongedToType();
+    }
   }
 
   componentDidMount(){
-
+    this._set_belongedToType();
   }
 
   componentWillUnmount(){
@@ -47,14 +52,7 @@ class Nav extends React.Component {
   }
 
   _render_NavBelongSeries(){
-    let targetSeries = (this.props.currentTab== "homeland") ? "homelandup" : "residenceup" ;
-    // first, check if the belong was set
-    if( !(targetSeries in this.props.belongsByType)) return [];
-
-    let typeList = this.props.belongsByType[targetSeries].listToTop.slice(); //shallow copy
-    // then unshift the belong itself
-    typeList.unshift(this.props.belongsByType[targetSeries].nodeId);
-    let navDOM = typeList.map((nodeId, index)=>{
+    let navDOM = this.state.nodesSeriesList.map((nodeId, index)=>{
       return (
         <div
           key={'key_NavBelongSeries_' + nodeId}
@@ -84,6 +82,7 @@ class Nav extends React.Component {
   }
 
   _render_MapNav(){
+
     switch (this.props.currentTab) {
       // Notice! pick the one "reverse" to the props.currentTab
       case "homeland":
@@ -138,43 +137,29 @@ class Nav extends React.Component {
       <div
         className={classnames(styles.comNavBelongsMap)}>
         <div
-          className={classnames(styles.boxNavTitle)}>
-          <div
-            className={classnames(styles.boxNavTitleType)}>
-            <div>
-              <span
-                className={classnames('colorEditLightBlack', 'fontContent')}>
-                {this.props.i18nUIString.catalog['title_BelongsMap_Nav'][0]}
-              </span>
-              <span
-                className={classnames('colorEditLightBlack', 'fontContent')}>
-                { this.props.i18nUIString.catalog["title_BelongsMap_Nav"][1] }
-              </span>
-            </div>
-            <div>
-              <span
-                className={classnames('colorEditLightBlack', 'fontContent')}>
-                { this.props.i18nUIString.catalog["link_BelongsMap_Nav"][1] }
-              </span>
-              <span
-                className={classnames('colorStandard', 'fontContent')}>
-                { this.props.i18nUIString.catalog["link_BelongsMap_Nav"][(this.props.currentTab =="residence") ? 3 : 2] }
-              </span>
-            </div>
-          </div>
-          {this._render_MapNav()}
-        </div>
-
-        <div
           className={classnames(styles.boxNavSeries)}>
           <div
             className={classnames(styles.boxNavTitleLower)}>
             {this._render_NavBelongSeries()}
           </div>
         </div>
+
         <div
-          className={classnames(styles.svgNavAvetar)}>
-          <SvgAvetar/>
+          className={classnames(styles.boxNavTitle)}>
+          <div
+            className={classnames(styles.boxNavTitleType)}>
+            <div>
+              <span
+                className={classnames('colorEditLightBlack', 'fontContent')}>
+                { this.props.i18nUIString.catalog["link_BelongsMap_Nav"][0] }
+              </span>
+              <span
+                className={classnames('colorStandard', 'fontContent')}>
+                { this.props.i18nUIString.catalog["link_BelongsMap_Nav"][(this.props.currentTab =="residence") ? 2 : 1] }
+              </span>
+            </div>
+          </div>
+          {this._render_MapNav()}
         </div>
       </div>
     )
@@ -203,6 +188,44 @@ class Nav extends React.Component {
 
   _handleLeave_navLinkSeries(e){
     this.setState({onLinkSeries: false})
+  }
+
+  _set_belongedToType(){
+    if( !this.props.belongsByType.fetched || !this.props.belongsByType.fetchedSeries) return ;
+
+    let seriesList = []; // to save both serires as nest arr: [[ 'list homeland'], [ 'list residence']]
+    let nodesList= [],
+        nodesToType= {};
+    // first, create seriesList by setTypesList, so the type order and the 'group' order would follow it.
+    this.props.belongsByType.setTypesList.forEach((type, index) => {
+      let series = (type == "homeland") ? "homelandup" : "residenceup";
+      let typeList = this.props.belongsByType[series].listToTop.slice(); //shallow copy
+      // then unshift the belong itself
+      typeList.unshift(this.props.belongsByType[series].nodeId);
+      typeList.reverse(); // reverse the typeList, the 'largest' administration would be the first
+      seriesList.push(typeList);
+    });
+    /*
+    then, loop the seriesList, and by each item in each sereis,
+    compare to nodesList. If the item hasn't been in nodesList, unshift it.
+    */
+    seriesList.forEach((series, index) => {
+      series.forEach((nodeId, i) => {
+        if(nodesList.indexOf(nodeId) < 0){
+          nodesList.unshift(nodeId);
+          nodesToType[nodeId] = [this.props.belongsByType.setTypesList[index]];
+        }
+        else{
+          nodesToType[nodeId].push(this.props.belongsByType.setTypesList[index]);
+          return;
+        };
+      });
+    });
+
+    this.setState({
+      nodesSeriesList: nodesList,
+      nodesTypeMap: nodesToType
+    });
   }
 
 }

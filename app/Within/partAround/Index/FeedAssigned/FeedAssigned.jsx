@@ -230,12 +230,12 @@ class FeedAssigned extends React.Component {
             {
               (!!this.props.chainList.listInfo[this.props.chainList.listOrderedChain[0]] && this.props.chainList.listInfo[this.props.chainList.listOrderedChain[0]] == "latestShared") ?(
                 <div
-                  className={classnames(styles.boxTitle, styles.boxEmptyDescript, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
+                  className={classnames(styles.boxEmptyDescript, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
                   {this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned_justSubmit']} //which means, the user just share something
                 </div>
               ):(
                 <div
-                  className={classnames(styles.boxTitle, styles.boxEmptyDescript, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
+                  className={classnames(styles.boxEmptyDescript, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
                   {this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned'][0]}
                   <br/>
                   {this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned'][1]}

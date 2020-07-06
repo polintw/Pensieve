@@ -6,6 +6,7 @@ export const initFront = {
   },
   belongsByType: {
     fetched: false,
+    fetchedSeries: false,
     setTypesList: [], // [? 'homeland', ? 'residence']
     "homeland": null,
     /*"homelandup": {nodeId, listToTop, topParentId}*/

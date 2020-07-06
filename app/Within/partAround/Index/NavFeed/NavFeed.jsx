@@ -31,47 +31,59 @@ class NavFeed extends React.Component {
   }
 
   render(){
+    let gatheringify = this.props.location.pathname.includes('fellows') ? false : true;
+
     return(
       <div
         className={classnames(styles.boxTitle)}
         style={{display:'flex'}}>
-        <div
-          className={classnames( styles.boxLinkLeft)}
-          style={{display: 'unset'}}>
-          <span
-            className={classnames(
-              stylesFont.fontHint, stylesFont.weightBold,
-              stylesFont.colorAssistGold)}>
-            {
-              this.props.location.pathname.includes('fellows') ?
-                this.props.i18nUIString.catalog["link_Fellows"] : this.props.i18nUIString.catalog["title_FeedAssigned_"]
-            }
-          </span>
-        </div>
         <Link
-          to={this.props.location.pathname.includes('fellows') ? "/" :"/fellows" }
-          className={classnames('plainLinkButton', styles.boxLinkRight)}
+          to={ "/" }
+          topath={"gathering"}
+          className={classnames('plainLinkButton', styles.boxLinkLeft)}
+          style={{cursor: 'default'}}
+          onClick={(e)=>{ if( gatheringify ) e.preventDefault(); }}
           onMouseEnter={this._handleEnter_link}
           onMouseLeave={this._handleLeave_link}>
           <span
             className={classnames(
-              styles.spanLink,
-              stylesFont.fontHint, stylesFont.weightBold, "colorLightGrey",
-              {[styles.spanLinkMouse]: this.state.onNavLink}
-            )}>
+              stylesFont.fontHint, stylesFont.weightBold,
               {
-                this.props.location.pathname.includes('fellows') ?
-                this.props.i18nUIString.catalog["title_FeedAssigned_"] : this.props.i18nUIString.catalog["link_Fellows"]
+                [styles.spanLinkMouse]: (this.state.onNavLink == 'gathering' && !gatheringify),
+                ["colorLightGrey"]: !gatheringify,
+                ["colorAssistGold"]: gatheringify
               }
+            )}>
+              {this.props.i18nUIString.catalog["title_FeedAssigned_"] }
           </span>
         </Link>
-
+        <Link
+          to={ "/fellows" }
+          topath={"fellows"}
+          className={classnames('plainLinkButton', styles.boxLinkRight)}
+          style={{cursor: 'default'}}
+          onClick={(e)=>{ if( !gatheringify ) e.preventDefault(); }}
+          onMouseEnter={this._handleEnter_link}
+          onMouseLeave={this._handleLeave_link}>
+          <span
+            className={classnames(
+              stylesFont.fontHint, stylesFont.weightBold,
+              {
+                [styles.spanLinkMouse]: (this.state.onNavLink == 'fellows' && gatheringify),
+                ["colorLightGrey"]: gatheringify,
+                ["colorAssistGold"]: !gatheringify
+              }
+            )}>
+            {this.props.i18nUIString.catalog["link_Fellows"] }
+          </span>
+        </Link>
       </div>
     )
   }
 
   _handleEnter_link(e){
-    this.setState({onNavLink: true})
+    let linkTo = e.currentTarget.getAttribute('topath');
+    this.setState({onNavLink: linkTo});
   }
 
   _handleLeave_link(e){

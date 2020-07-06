@@ -153,6 +153,10 @@ export function handleUsersList(usersArr) {
 
 export function fetchBelongRecords(cancelToken){
   return (dispatch, getState) => {
+    dispatch(setBelongsByType({ // reset fetched- to init
+      fetched: false,
+      fetchedSeries: false
+    }));
     //by this method we could use 'getState' & 'dispatch' in action creator
     axios({
       method: 'get',
@@ -208,6 +212,7 @@ export function fetchBelongsSeries(objByType) {
         submitObj[(type=="homeland") ?"homelandup": "residenceup" ] = resObj.main.nodesSeries[targetNode];
         submitNodesList= submitNodesList.concat(resObj.main.nodesSeries[targetNode].listToTop);
       });
+      submitObj["fetchedSeries"] = true;
 
       dispatch({type: SET_BELONGSBYTYPE, typeObj: submitObj});
       dispatch(handleNounsList(submitNodesList)); //also, these 'new fetched' nodes need to be handle

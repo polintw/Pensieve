@@ -16,8 +16,7 @@
 
 .boxEmptyDescript {
   width: 100%;
-  height: 51px;
-  min-height: 4.1vw;
+  margin: 32px 0 28px;
   text-align: center;
 }
 

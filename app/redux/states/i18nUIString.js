@@ -133,7 +133,7 @@ const i18nUIString_EN = {
   "guiding_Unit_Responds_none": "Submit your respond to this article!",
   "title_FeedAssigned_AllRead": "You're up-to-date.",//Original:"you've all browsed."
   "title_FeedAssigned_": "Gathering",
-  "guiding_FeedAssigned_noneAssigned": ["You're pretty current!","New contributions around your corners would show up here. Check it out later!"],//Original:"Not yet any new unit had been contributed to your corners."
+  "guiding_FeedAssigned_noneAssigned": ["You're pretty current!","New contributions around your corners would be show up here. Check it out later!"],//Original:"Not yet any new unit had been contributed to your corners."
   "title_BelongSet_": "Your Corners",
   "guiding_FeedAssigned_noneAssigned_justSubmit": "Good to have your contrubution.",
   "guiding_FeedAssigned_noneAssigned_norContri": "It could be you contributing somthing to your corners!", //Original:"It could be you contributing somthing for your corners!"
@@ -155,8 +155,7 @@ const i18nUIString_EN = {
   "guidingBelongs_EmptyMap_": "You were the first user among this corner!",
   "descript_BelongTypeInteract": ["going to renew your ", " ?"],
   "category__Belong_usersCount": ["living at", "came from"],
-  "link_BelongsMap_Nav": ["Fellows", "your ", "Homeland", "Current Stay"],
-  "title_BelongsMap_Nav": ["Fellows ", "same as" ],
+  "link_BelongsMap_Nav": ["as ", "Homeland", "Current Stay"],
   "messageBelongChoiceinBool": ["site ", "  as your  ", "  place?"],
   "descript_BelongSet_SearchBytType": ["Search one fit your "],
   "descript_AroundIndex_footer": "You've reached the edge of Cornerth.!",
