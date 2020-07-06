@@ -6,23 +6,21 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import stylesFont from "../../stylesFont.module.css";
 import BelongsbyType from './BelongsbyType/BelongsbyType.jsx';
-import StartBtn from '../../OnBoard/StartBtn.jsx';
 import {
   _axios_PATCH_belongRecords
 } from './utils.js';
 import {
   cancelErr,
   uncertainErr
-} from "../../../../utils/errHandlers.js";
+} from "../../../utils/errHandlers.js";
 import {
   setMessageBoolean,
-} from "../../../../redux/actions/general.js";
-import {messageDialogInit} from "../../../../redux/states/constants.js";
+} from "../../../redux/actions/general.js";
+import {messageDialogInit} from "../../../redux/states/constants.js";
 import {
   fetchBelongRecords
-} from "../../../../redux/actions/general.js";
+} from "../../../redux/actions/general.js";
 
 class BelongsSet extends React.Component {
   constructor(props){
@@ -126,7 +124,7 @@ class BelongsSet extends React.Component {
           <div
             className={classnames(styles.boxTitle)}>
             <span
-              className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
+              className={classnames("fontContentPlain", "weightBold", "colorAssistGold")}>
               {this.props.i18nUIString.catalog["title_BelongSet_"]}</span>
           </div>
           <div>
@@ -135,10 +133,6 @@ class BelongsSet extends React.Component {
               _set_choiceAnType={this._set_choiceAnType}/>
           </div>
         </div>
-        {
-          (this.props.userInfo.accountStatus == "newly") &&
-          <StartBtn/>
-        }
       </div>
     )
   }

@@ -12,6 +12,9 @@ import Sheet from './Profile/Sheet.jsx';
 import NavProfile from './Profile/NavProfile.jsx';
 import NavWithin from '../Components/NavWithin/NavWithin.jsx';
 import NavOptions from '../Components/NavOptions/NavOptions.jsx';
+import {
+  fetchBelongRecords
+} from '../redux/actions/general.js'
 
 class FrontProfile extends React.Component {
   constructor(props){
@@ -52,6 +55,14 @@ class FrontProfile extends React.Component {
       default:
         window.location.assign(route)
     }
+  }
+
+  componentDidMount() {
+    /*
+    Here is the highest level next only to status() in root, fetching data or any info needed
+    */
+    //beneath are the process difinately need a token
+    this.props._fetch_belongRecords();
   }
 
   render(){
@@ -102,7 +113,14 @@ const mapStateToProps = (state)=>{
     axios: state.axios
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    _fetch_belongRecords: () => {dispatch(fetchBelongRecords())},
+  }
+}
+
 export default withRouter(connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(FrontProfile));

@@ -10,8 +10,7 @@ import {
   SheetAccount,
   SheetBasic
 } from './SheetCom.jsx';
-import BelongsSet from '../../Within/partAround/Index/BelongsSet/BelongsSet.jsx';
-
+import BelongsSet from './BelongsSet/BelongsSet.jsx';
 import PasswordForm from '../../Components/PasswordForm/PasswordForm.jsx';
 import {mountUserSheet} from "../../redux/actions/front.js";
 import {

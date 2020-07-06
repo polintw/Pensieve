@@ -2,14 +2,16 @@ import { combineReducers } from 'redux';
 import {
   MOUNT_USERINFO,
   SET_TOKENSTATUS,
+  SET_BELONGSBYTYPE,
+  UPDATE_NOUNSBASIC,
   AXIOS_SWITCH
 } from '../types/typesGeneral.js';
 import {
   UPDATE_USERSHEET,
-  UPDATE_ACCOUNTSET,
 } from '../types/typesFront.js';
 import {
   initGlobal,
+  initNouns,
 } from '../states/states.js';
 import {
   initFront,
@@ -17,7 +19,7 @@ import {
 } from '../states/statesFront.js';
 
 //this is a temp management, in case one day we will seperate the reducer like the initstate
-const initialGeneral = Object.assign({}, initGlobal, initSheetSetting, initFront);
+const initialGeneral = Object.assign({}, initGlobal, initSheetSetting, initFront, initNouns);
 
 function pageSelfFront(state = initialGeneral, action){
   switch (action.type) {
@@ -26,19 +28,24 @@ function pageSelfFront(state = initialGeneral, action){
         userInfo: {...state.userInfo, ...action.userInfo}
       })
       break;
+    case SET_BELONGSBYTYPE:
+      return Object.assign({}, state, {
+        belongsByType: {...state.belongsByType, ...action.typeObj}
+      })
+      break;
     case SET_TOKENSTATUS:
       return Object.assign({}, state, {
         ...action.status
       })
       break;
+    case UPDATE_NOUNSBASIC:
+      return Object.assign({}, state, {
+        nounsBasic: {...state.nounsBasic, ...action.newFetch}
+      })
+      break;
     case UPDATE_USERSHEET:
       return Object.assign({}, state, {
         userSheet: action.userSheet,
-        accountSet: action.accountSet
-      })
-      break;
-    case UPDATE_ACCOUNTSET:
-      return Object.assign({}, state, {
         accountSet: action.accountSet
       })
       break;
