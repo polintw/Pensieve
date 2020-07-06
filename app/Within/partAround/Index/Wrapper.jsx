@@ -142,7 +142,6 @@ class Wrapper extends React.Component {
                   lastVisit={this.state.lastVisit}
                   _set_mountToDo={this._set_mountToDo}/>
               </div>
-
               <div
                 className={classnames(styles.boxRow)}>
                 <NavFeed {...this.props}/>
@@ -156,7 +155,7 @@ class Wrapper extends React.Component {
                 </Switch>
               </div>
               <div
-                className={classnames(styles.boxFooter)}>
+                className={classnames(styles.boxRow, styles.boxFooter)}>
                 {this._render_FooterHint()}
               </div>
             </div>

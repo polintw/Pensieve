@@ -189,7 +189,7 @@ class Chain extends React.Component {
         className={classnames(styles.comChain)}>
         <div
           className={classnames(styles.boxFullWide)}
-          style={{margin: '4px 0 8px'}}>
+          style={{margin: '4px 0'}}>
           <ChainShared/>
         </div>
         <div

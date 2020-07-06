@@ -168,7 +168,7 @@ class FeedAssigned extends React.Component {
         if(this.props.indexLists.listBrowsed.length ==0){ // should add hint at a special condition: no browsed item, means no followed units after the last round
           nailsDOM.push(
             <div
-              className={classnames(styles.boxTitle, styles.boxDescript, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
+              className={classnames(styles.boxDescript, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
               {this.props.i18nUIString.catalog['title_FeedAssigned_AllRead']}</div>
           );
         }
@@ -178,7 +178,7 @@ class FeedAssigned extends React.Component {
       };
       if(listChoice=="browsed" && groupIndex==0 && nailsDOM.length > 0) nailsDOM.splice(1, 0, ( // 'You've all browsed' at the second place of listbrowsed
         <div
-          className={classnames(styles.boxTitle, styles.boxDescript, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
+          className={classnames(styles.boxDescript, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
           {this.props.i18nUIString.catalog['title_FeedAssigned_AllRead']}</div>
       ));
 
