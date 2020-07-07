@@ -16,8 +16,32 @@
 
 .boxEmptyDescript {
   width: 100%;
-  margin: 32px 0 28px;
+  margin: 8px 0 28px;
   text-align: center;
+}
+
+.boxEmptyColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+.boxGatheringBase {
+  margin-left: 1rem;
+}
+
+.boxBasedNodes {
+  display: inline-block;
+}
+
+.spanBaseNode {
+  display: inline-block;
+  border-bottom: solid 0.75px transparent;
+}
+
+.spanBaseNodeMouse {
+  border-bottom: solid 0.75px #545454;
 }
 
 @media screen and (max-width:860px) {

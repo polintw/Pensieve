@@ -33,6 +33,7 @@ class Nav extends React.Component {
     event.stopPropagation();
     event.preventDefault();
     let targetCat = event.currentTarget.getAttribute('valuetab');
+    if(targetCat == this.props.currentTab) return;
     //only switch if the user had set
     if(targetCat in this.props.belongsByType) this.props._set_viewTab(targetCat);
   }
@@ -82,54 +83,32 @@ class Nav extends React.Component {
   }
 
   _render_MapNav(){
+    if( !(this.props.currentNode in this.state.nodesTypeMap)) return ; // check if the map was standby
 
-    switch (this.props.currentTab) {
-      // Notice! pick the one "reverse" to the props.currentTab
-      case "homeland":
-        return(
-          <div
-            valuetab={"residence"}
-            className={classnames(styles.boxMapNavLink)}
-            onClick={this._handleClick_navBelongsMap}>
-            <span
-              className={classnames(
-                styles.spanNav, 'colorWhiteGrey', 'fontContent',
-                {
-                  ["colorWhiteGrey"]: !this.state.onMapNav,
-                  ["colorEditLightBlack"]: this.state.onMapNav,
-                  [styles.spanNavMouse]: this.state.onMapNav,
-                }
-              )}
-              onMouseEnter={this._handleEnter_MapNav}
-              onMouseLeave={this._handleLeave_MapNav}>
-              {this.props.i18nUIString.catalog['category_Belongs_'][1]}</span>
-          </div>
-        )
-        break;
-      case "residence":
-        return (
-          <div
-            valuetab={"homeland"}
-            className={classnames(styles.boxMapNavLink)}
-            onClick={this._handleClick_navBelongsMap}>
-            <span
-              className={classnames(
-                styles.spanNav, 'colorWhiteGrey', 'fontContent',
-                {
-                  ["colorWhiteGrey"]: !this.state.onMapNav,
-                  ["colorEditLightBlack"]: this.state.onMapNav,
-                  [styles.spanNavMouse]: this.state.onMapNav,
-                }
-              )}
-              onMouseEnter={this._handleEnter_MapNav}
-              onMouseLeave={this._handleLeave_MapNav}>
-              {this.props.i18nUIString.catalog['category_Belongs_'][0]}</span>
-          </div>
-        )
-        break;
-      default:
-        return null
-    }
+    let mapNovDOM = this.state.nodesTypeMap[this.props.currentNode].map((type, index)=>{
+      return (
+        <div
+          key={"key_BelongsMapNav_typeMap_"+index}
+          valuetab={type}
+          className={classnames(styles.boxMapNavLink)}
+          onClick={this._handleClick_navBelongsMap}
+          onMouseEnter={this._handleEnter_MapNav}
+          onMouseLeave={this._handleLeave_MapNav}>
+          <span
+            className={classnames(
+              styles.spanNav, 'fontContent',
+              {
+                ["colorWhiteGrey"]: (this.state.onMapNav != type && this.props.currentTab != type),
+                ["colorEditLightBlack"]: (this.state.onMapNav == type && this.props.currentTab != type),
+                [styles.spanNavMouse]: (this.state.onMapNav == type && this.props.currentTab != type),
+                ["colorStandard"]: this.props.currentTab == type
+              }
+            )}>
+            {this.props.i18nUIString.catalog['link_BelongsMap_Nav'][(type == "homeland") ? 1 : 2 ]}</span>
+        </div>
+      )
+    });
+    return mapNovDOM;
   }
 
   render(){
@@ -153,10 +132,6 @@ class Nav extends React.Component {
                 className={classnames('colorEditLightBlack', 'fontContent')}>
                 { this.props.i18nUIString.catalog["link_BelongsMap_Nav"][0] }
               </span>
-              <span
-                className={classnames('colorStandard', 'fontContent')}>
-                { this.props.i18nUIString.catalog["link_BelongsMap_Nav"][(this.props.currentTab =="residence") ? 2 : 1] }
-              </span>
             </div>
           </div>
           {this._render_MapNav()}
@@ -171,10 +146,12 @@ class Nav extends React.Component {
     let targetNode= event.currentTarget.getAttribute('nodeid');
     if(targetNode == this.props.currentNode) return; // no effect if clicked on the currentNode
     this.props._set_viewNode(targetNode);
+    this.props._set_viewTab(this.state.nodesTypeMap[targetNode][0]); // set the tab to the first of its map
   }
 
   _handleEnter_MapNav(e){
-    this.setState({onMapNav: true})
+    let currentMouseOn = e.currentTarget.getAttribute('valuetab');
+    this.setState({onMapNav: currentMouseOn});
   }
 
   _handleLeave_MapNav(e){

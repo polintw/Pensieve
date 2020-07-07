@@ -180,11 +180,12 @@
 }
 
 .spanNav {
-  cursor: pointer;
+  cursor: default;
 }
 
 .spanNavMouse {
   border-bottom: solid 0.75px #757575;
+  cursor: pointer;
 }
 
 .spanMapCount {
