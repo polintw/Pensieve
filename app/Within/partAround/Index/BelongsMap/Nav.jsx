@@ -7,7 +7,6 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import SvgAvetar from "../../../../Components/Svg/SvgAvetar.jsx";
 
 class Nav extends React.Component {
   constructor(props){
@@ -115,26 +114,33 @@ class Nav extends React.Component {
     return(
       <div
         className={classnames(styles.comNavBelongsMap)}>
+        <span
+          className={classnames('colorEditLightBlack', 'fontContent')}
+          style={{padding: '0 2rem 1rem'}}>
+          {this.props.i18nUIString.catalog["hint_FeedAssigned_belongedBase"]}
+        </span>
         <div
-          className={classnames(styles.boxNavSeries)}>
+          className={classnames(styles.boxNavColumn)}>
           <div
-            className={classnames(styles.boxNavTitleLower)}>
-            {this._render_NavBelongSeries()}
-          </div>
-        </div>
-
-        <div
-          className={classnames(styles.boxNavTitle)}>
-          <div
-            className={classnames(styles.boxNavTitleType)}>
-            <div>
-              <span
-                className={classnames('colorEditLightBlack', 'fontContent')}>
-                { this.props.i18nUIString.catalog["link_BelongsMap_Nav"][0] }
-              </span>
+            className={classnames(styles.boxNavSeries)}>
+            <div
+              className={classnames(styles.boxNavTitleLower)}>
+              {this._render_NavBelongSeries()}
             </div>
           </div>
-          {this._render_MapNav()}
+          <div
+            className={classnames(styles.boxNavTitle)}>
+            <div
+              className={classnames(styles.boxNavTitleType)}>
+              <div>
+                <span
+                  className={classnames('colorEditLightBlack', 'fontContent')}>
+                  { this.props.i18nUIString.catalog["link_BelongsMap_Nav"][0] }
+                </span>
+              </div>
+            </div>
+            {this._render_MapNav()}
+          </div>
         </div>
       </div>
     )

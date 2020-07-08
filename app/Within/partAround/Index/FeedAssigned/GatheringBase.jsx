@@ -12,11 +12,13 @@ class GatheringBase extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      onEdit: false,
       onNodeLink: false
     };
     this._render_belongedNodes = this._render_belongedNodes.bind(this);
     this._handleEnter_NodeLink = this._handleEnter_NodeLink.bind(this);
     this._handleLeave_NodeLink = this._handleLeave_NodeLink.bind(this);
+    this._handleMouseOn_Edit = this._handleMouseOn_Edit.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -63,11 +65,28 @@ class GatheringBase extends React.Component {
   render(){
     return(
       <div>
-        <span
-          className={classnames('colorEditLightBlack', 'fontContent')}
-          style={{display: 'block',paddingLeft: '5px'}}>
-          {this.props.i18nUIString.catalog["hint_FeedAssigned_belongedBase"]}
-        </span>
+        <div>
+          <span
+            className={classnames('colorEditLightBlack', 'fontContent')}
+            style={{padding: '0 5px'}}>
+            {this.props.i18nUIString.catalog["hint_FeedAssigned_belongedBase"]}
+          </span>
+          <a
+            href={'/self/profile/sheet'}
+            className={classnames(
+              'plainLinkButton',
+              styles.linkEditBelong,
+              {[styles.linkEditBelongOnMouse]: this.state.onEdit}
+            )}
+            onMouseEnter={this._handleMouseOn_Edit}
+            onMouseLeave={this._handleMouseOn_Edit}>
+            <span
+              className={classnames("fontContent", "colorWhiteGrey")}
+              style={ this.state.onEdit ? {color: "#757575"}:{} }>
+              {this.props.i18nUIString.catalog["submit_edit"]}
+            </span>
+          </a>
+        </div>
         <div
           className={classnames(styles.boxBasedNodes)}>
           {this._render_belongedNodes()}
@@ -83,6 +102,12 @@ class GatheringBase extends React.Component {
 
   _handleLeave_NodeLink(e){
     this.setState({onNodeLink: false})
+  }
+
+  _handleMouseOn_Edit(){
+    this.setState((prevState,props)=>{
+      return {onEdit: prevState.onEdit?false:true}
+    });
   }
 
 }

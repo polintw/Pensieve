@@ -6,10 +6,7 @@
 
 .comNavBelongsMap {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  flex-wrap: wrap;
-  width: 100%;
+  align-items: baseline;
 }
 
 .boxModule{
@@ -17,11 +14,16 @@
   flex-wrap: wrap;
 }
 
+.boxNavColumn {
+  display: flex;
+  flex-direction: column;
+}
+
 .boxNavBelongsMap {
   display: flex;
   align-items: flex-end;
-  margin: 8px 0 28px;
-  padding: 4px 2rem;
+  justify-content: flex-end;
+  padding: 8px 2rem;
 }
 
 .boxNavTitleType {
@@ -32,19 +34,18 @@
 
 .boxNavTitle {
   display: flex;
-  align-items: flex-end;
-  border-top: solid 1px #d8d8d8;
+  padding: 5px 1rem 0 0;
 }
 
 .boxNavSeries {
-  flex: 1;
-  margin-top: 2rem;
+
 }
 
 .boxNavTitleLower {
   display: flex;
   flex-wrap: wrap;
-  padding: 0 1rem 0 2.5rem;
+  padding-bottom: 5px;
+  border-bottom: solid 1px #d8d8d8;
 }
 
 .boxNavLinkSeries {
@@ -64,8 +65,8 @@
 }
 
 .boxMapCorner {
-  width: 31%;
-  min-width: 256px;
+  width: 47%;
+  min-width: 296px;
   max-width: 96vw;
   margin: 8px 1.2% 8px 1%;
   background-color: #FFFFFF;
@@ -77,12 +78,12 @@
 
 .comMapCorner {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   width: 90%;
   box-sizing: border-box;
   background-color: rgba(217, 232, 255, 0.15);
   border-radius: 8px;
-  padding: 1rem 2rem 2rem;
+  padding: 2rem;
   float: right;
 }
 
@@ -92,7 +93,7 @@
 
 .boxMapCount {
   display: flex;
-  justify-content: space-between;
+  padding: 5px 0;
 }
 
 .boxMapCountNum {
@@ -119,12 +120,19 @@
 
 .boxNodeSub {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: flex-end;
 }
 
+.boxPinLocat {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 3rem;
+}
+
 .boxStatics {
-  margin-top: 1rem;
+
 }
 
 .boxTabView {
@@ -134,7 +142,7 @@
 
 .boxInvite {
   margin: 8px 0;
-  padding: 44px 0 4px;
+  padding: 24px 0 4px;
   text-align: right;
 }
 
@@ -184,7 +192,6 @@
 }
 
 .spanNavMouse {
-  border-bottom: solid 0.75px #757575;
   cursor: pointer;
 }
 
@@ -203,7 +210,7 @@
 }
 
 @media screen and (max-width:860px) {
-  .boxNavTitleLower {
-    padding: 0 1rem 0 4.5rem;
+  .boxModuleSmall {
+    justify-content: center;
   }
 }

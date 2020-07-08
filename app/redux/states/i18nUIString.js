@@ -45,7 +45,7 @@ const i18nUIString_EN = {
   "descript_onBoard_BelongsHint": ["Before you start …", "Tell us, where are you from?"], //Original: "Before you start …", "Tell us where are you from?"
   "guideing_onBoard_BelongsHint": ["I'm from", "Living in"], //Original:"Now based at"
   "submit_onBoard_start": "Get Started", //Original:"Let's Start"
-  "submit_Invite_": "Invite Fellow!", //Original:"Fellow Inviting!"
+  "submit_Invite_": "Invite Fellows!", //Original:"Fellow Inviting!"
   "submit_Invite_people": "Invite People!", //Original:"Fellow Inviting!"
   "descript_Invite_": [
     "Any one you know stay or was born in the same corner as you? ",
@@ -134,7 +134,7 @@ const i18nUIString_EN = {
 
   "title_FeedAssigned_AllRead": "You're up-to-date.",//Original:"you've all browsed."
   "title_FeedAssigned_": "Gathering",
-  "hint_FeedAssigned_belongedBase": "by your corners ",
+  "hint_FeedAssigned_belongedBase": "fellows by ",
   "guiding_FeedAssigned_noneAssigned": ["You're pretty current!","New contributions around your corners would be show up here."],//Original:"Not yet any new unit had been contributed to your corners."
   "guiding_FeedAssigned_noneAssigned_justSubmit": "Good to have your contrubution.",
   "guiding_FeedAssigned_noneAssigned_norContri": "It could be you contributing somthing to your corners!", //Original:"It could be you contributing somthing for your corners!"

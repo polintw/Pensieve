@@ -44,6 +44,15 @@
   border-bottom: solid 0.75px #545454;
 }
 
+.linkEditBelong {
+  display: inline-block;
+  border-bottom: solid 0.75px transparent;
+}
+
+.linkEditBelongOnMouse {
+  border-bottom: solid 0.75px #757575;
+}
+
 @media screen and (max-width:860px) {
   .boxModuleSmall {
     justify-content: center;
