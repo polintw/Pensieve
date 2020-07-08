@@ -117,7 +117,7 @@ class Nav extends React.Component {
         <span
           className={classnames('colorEditLightBlack', 'fontContent')}
           style={{padding: '0 2rem 1rem'}}>
-          {this.props.i18nUIString.catalog["hint_FeedAssigned_belongedBase"]}
+          {this.props.i18nUIString.catalog["hint_BelongsMap_Nav"]}
         </span>
         <div
           className={classnames(styles.boxNavColumn)}>

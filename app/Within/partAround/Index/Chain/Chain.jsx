@@ -8,7 +8,6 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import stylesFont from '../../stylesFont.module.css';
 import stylesNail from "../../../stylesNail.module.css";
 import ChainShared from './ChainShared.jsx';
 import ChainMessage from './ChainMessage.jsx';
@@ -179,6 +178,20 @@ class Chain extends React.Component {
       );
 
     });
+    if(this.props.chainList.listInfo[this.props.chainList.listOrderedChain[0]] == "latestShared" && nailsDOM.length < 2){ // just submit new one
+      nailsDOM.push(
+        <div
+          key={"key_ChainUnits_forLatestSahre"}
+          className={classnames(styles.boxEmptyNailFeed)}>
+          <div>
+            <span
+              className={classnames("fontTitleSmall", "colorGrey")}>
+              {this.props.i18nUIString.catalog["hint_Chain_waitForRespond"]}
+            </span>
+          </div>
+        </div>
+      );
+    }
 
     return nailsDOM;
   }
@@ -214,27 +227,6 @@ class Chain extends React.Component {
                 styles.boxModuleSmall
               )}>
               {this._render_ChainUnits()}
-            </div>
-          </div>
-        }
-        { // this should be a temp method, to encourage user upload their first unit
-          ((this.props.sharedsList.list.length == 0 && this.props.chainList.listOrderedChain.length == 0) &&
-            !this.state.axios &&
-            (this.props.indexLists.listUnread.length > 0 || this.props.indexLists.listBrowsed.length > 0)
-          ) &&
-          <div
-            className={classnames(
-              styles.boxFullWide, styles.boxSeperate
-            )}>
-            <div
-              className={classnames(styles.boxModuleShareds)}>
-              <div
-                style={{width: '100%', height: '51px', minHeight: '4.1vw', display: 'flex', justifyContent: 'center', alignItems: 'center'}/* follow styles.boxImg*/}>
-                <span
-                  className={classnames(stylesFont.fontTitleSmall, stylesFont.colorGrey)}>
-                  {this.props.i18nUIString.catalog["message_Chain_noSharedsCourage"]}
-                </span>
-              </div>
             </div>
           </div>
         }

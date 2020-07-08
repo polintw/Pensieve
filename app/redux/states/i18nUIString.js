@@ -134,14 +134,14 @@ const i18nUIString_EN = {
 
   "title_FeedAssigned_AllRead": "You're up-to-date.",//Original:"you've all browsed."
   "title_FeedAssigned_": "Gathering",
-  "hint_FeedAssigned_belongedBase": "fellows by ",
+  "hint_FeedAssigned_belongedBase": "by your corners ",
   "guiding_FeedAssigned_noneAssigned": ["You're pretty current!","New contributions around your corners would be show up here."],//Original:"Not yet any new unit had been contributed to your corners."
   "guiding_FeedAssigned_noneAssigned_justSubmit": "Good to have your contrubution.",
   "guiding_FeedAssigned_noneAssigned_norContri": "It could be you contributing somthing to your corners!", //Original:"It could be you contributing somthing for your corners!"
 
   "title_Chain_Shareds_": "Contributions",
   "message_Chain_noShareds": "You'll see the list of your contributions here.",
-  "message_Chain_noSharedsCourage": "Try to submit an observation of your corners.",//Original:"Trying submitting an observation about your corners."
+  "message_Chain_noSharedsCourage": "Submit your first one!",//Original:"Trying submitting an observation about your corners."
   "message_Chain_byChainInfo": [
     "Contribution ",
     "Responded by ",
@@ -152,10 +152,12 @@ const i18nUIString_EN = {
     "Respond to Yours ",
     "succesfully "],
   "message_Chain_toNodes": ["to ", " and several"],
+  "hint_Chain_waitForRespond": "People's respond to your contribution would be emphasized here.",
   "guidingBelongs_EmptyMap_noSet": ["Set your", ", and take a look for the distribution of your fellows."], //Changed "taking" to "take"
   "guidingBelongs_EmptyMap_": "You were the first user among this corner!",
   "descript_BelongTypeInteract": ["going to renew your ", " ?"],
-  "category__Belong_usersCount": ["living at", "came from"],
+  "category__Belong_usersCount": ["now living at", "came from"],
+  "hint_BelongsMap_Nav": "fellows by ",
   "link_BelongsMap_Nav": ["as ", "Homeland", "Current Stay"],
   "messageBelongChoiceinBool": ["site ", "  as your  ", "  place?"],
   "title_BelongSet_": "Your Corners",

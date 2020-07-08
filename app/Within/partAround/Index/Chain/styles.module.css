@@ -59,6 +59,36 @@
   opacity: 1;
 }
 
+.boxEmptyShared {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 8px 0;
+  padding: 0 2rem;
+}
+
+.boxEmptyNailFeed {
+  box-sizing: border-box;
+  margin: 8px 0;
+  padding: 1.38vw;
+  border-radius: 8px;
+  background-color: rgba(217, 232, 255, 0.15);
+  overflow: hidden;
+}
+
+.boxEmptyNailFeed div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 342px;
+  min-width: 30.16vw;
+  max-width: 96.24vw;
+  height: 249px;
+  min-height: 31.6vh;
+}
+
 .boxIndexShare {
   width: 22.83vh;
   min-width: 90px;
