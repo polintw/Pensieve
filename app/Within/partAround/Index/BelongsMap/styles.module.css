@@ -78,6 +78,7 @@
 
 .comMapCorner {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   width: 90%;
   box-sizing: border-box;
@@ -212,5 +213,9 @@
 @media screen and (max-width:860px) {
   .boxModuleSmall {
     justify-content: center;
+  }
+
+  .comNavBelongsMap {
+    flex-direction: column;
   }
 }
