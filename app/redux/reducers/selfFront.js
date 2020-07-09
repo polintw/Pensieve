@@ -1,6 +1,9 @@
 import { combineReducers } from 'redux';
 import {
   MOUNT_USERINFO,
+  SET_MESSAGE_SINGLE,
+  SET_MESSAGE_SINGLECLOSE,
+  SET_MESSAGE_BOOLEAN,
   SET_TOKENSTATUS,
   SET_BELONGSBYTYPE,
   UPDATE_NOUNSBASIC,
@@ -36,6 +39,21 @@ function pageSelfFront(state = initialGeneral, action){
     case SET_TOKENSTATUS:
       return Object.assign({}, state, {
         ...action.status
+      })
+      break;
+    case SET_MESSAGE_SINGLE:
+      return Object.assign({}, state, {
+        messageSingle: action.messageSingle
+      })
+      break;
+    case SET_MESSAGE_SINGLECLOSE:
+      return Object.assign({}, state, {
+        messageSingleClose: action.messageSingleClose
+      })
+      break;
+    case SET_MESSAGE_BOOLEAN:
+      return Object.assign({}, state, {
+        messageBoolean: action.messageBoolean
       })
       break;
     case UPDATE_NOUNSBASIC:

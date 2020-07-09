@@ -12,6 +12,11 @@ import Sheet from './Profile/Sheet.jsx';
 import NavProfile from './Profile/NavProfile.jsx';
 import NavWithin from '../Components/NavWithin/NavWithin.jsx';
 import NavOptions from '../Components/NavOptions/NavOptions.jsx';
+import SingleDialog from '../Components/Dialog/SingleDialog/SingleDialog.jsx';
+import SingleCloseDialog from '../Components/Dialog/SingleCloseDialog/SingleCloseDialog.jsx';
+import BooleanDialog from '../Components/Dialog/BooleanDialog/BooleanDialog.jsx';
+import ModalBox from '../Components/ModalBox.jsx';
+import ModalBackground from '../Components/ModalBackground.jsx';
 import {
   fetchBelongRecords
 } from '../redux/actions/general.js'
@@ -87,7 +92,7 @@ class FrontProfile extends React.Component {
               </Switch>
             </div>
 
-            <div style={{width:'100%', height: '10vh', position: 'unset', bottom: 'unset', backgroundColor: 'transparent'}}></div>
+            <div style={{width:'100%', height: '22vh', minHeight: '81px', position: 'unset', bottom: 'unset', backgroundColor: 'transparent'}}></div>
           </div>
 
           <div
@@ -102,6 +107,50 @@ class FrontProfile extends React.Component {
 
         </div>
 
+        {
+          //here and beneath, are dialog system for global used,
+          //the series 'message' in redux state is prepared for this kind of global message dialog
+          this.props.messageSingleClose['render'] &&
+          <ModalBox containerId="root">
+            <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(51, 51, 51, 0.3)'}}>
+              <div
+                className={"boxDialog"}>
+                <SingleCloseDialog
+                  message={this.props.messageSingleClose['message']}
+                  _positiveHandler={this.props.messageSingleClose['handlerPositive']}/>
+              </div>
+            </ModalBackground>
+          </ModalBox>
+        }
+        {
+          this.props.messageSingle['render'] &&
+          <ModalBox containerId="root">
+            <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(51, 51, 51, 0.3)'}}>
+              <div
+                className={"boxDialog"}>
+                <SingleDialog
+                  message={this.props.messageSingle['message']}
+                  buttonValue={this.props.messageSingle['buttonValue']}
+                  _positiveHandler={this.props.messageSingle['handlerPositive']}/>
+              </div>
+            </ModalBackground>
+          </ModalBox>
+        }
+        {
+          this.props.messageBoolean['render'] &&
+          <ModalBox containerId="root">
+            <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(51, 51, 51, 0.3)'}}>
+              <div
+                className={"boxDialog"}>
+                <BooleanDialog
+                  customButton={this.props.messageBoolean['customButton']}
+                  message={this.props.messageBoolean['message']}
+                  _positiveHandler={this.props.messageBoolean['handlerPositive']}
+                  _negativeHandler={this.props.messageBoolean['handlerNegative']}/>
+              </div>
+            </ModalBackground>
+          </ModalBox>
+        }
       </div>
     )
   }
@@ -110,7 +159,10 @@ class FrontProfile extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
-    axios: state.axios
+    axios: state.axios,
+    messageSingle: state.messageSingle,
+    messageSingleClose: state.messageSingleClose,
+    messageBoolean: state.messageBoolean
   }
 }
 

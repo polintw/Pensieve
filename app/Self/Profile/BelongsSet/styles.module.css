@@ -1,16 +1,18 @@
 .comBelongSet {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .boxNewlySet {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+  margin-bottom: 3rem;
 }
 
-.boxTitle {
-  margin: 8px 0;
+.boxCate {
+  margin: 0 0 8px;
 }
 
 @media screen and (max-width:860px) {

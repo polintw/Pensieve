@@ -16,11 +16,9 @@ import {
 } from "../../../utils/errHandlers.js";
 import {
   setMessageBoolean,
-} from "../../../redux/actions/general.js";
-import {messageDialogInit} from "../../../redux/states/constants.js";
-import {
   fetchBelongRecords
 } from "../../../redux/actions/general.js";
+import {messageDialogInit} from "../../../redux/states/constants.js";
 
 class BelongsSet extends React.Component {
   constructor(props){
@@ -122,9 +120,9 @@ class BelongsSet extends React.Component {
         <div
           className={classnames(styles.comBelongSet)}>
           <div
-            className={classnames(styles.boxTitle)}>
+            className={classnames(styles.boxCate)}>
             <span
-              className={classnames("fontContentPlain", "weightBold", "colorAssistGold")}>
+              className={classnames("fontContentPlain", "colorStandard")}>
               {this.props.i18nUIString.catalog["title_BelongSet_"]}</span>
           </div>
           <div>

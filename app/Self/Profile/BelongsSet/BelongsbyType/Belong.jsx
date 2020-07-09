@@ -55,8 +55,8 @@ class Belong extends React.Component {
 
     return (
       <div className={classnames(styles.boxNode)}>
-        <Link
-          to={"/cosmic/explore/node?nodeid="+nodeId}
+        <a
+          href={"/cosmic/explore/node?nodeid="+nodeId}
           className={classnames( 'plainLinkButton')}
           onMouseEnter={this._handleEnter_NodeLink}
           onMouseLeave={this._handleLeave_NodeLink}>
@@ -64,7 +64,7 @@ class Belong extends React.Component {
             className={classnames(
               styles.spanNode,
               "fontNodesEqual", "weightBold",
-              "colorEditBlack",
+              "colorBlack85",
               {[styles.spanNodeMouse]: this.state.onNodeLink}
             )}>
             {nodeId in this.props.nounsBasic ? (
@@ -72,9 +72,9 @@ class Belong extends React.Component {
                 null
               )}
             </span>
-        </Link>
+        </a>
           <span
-            className={classnames(styles.spanType, "colorEditBlack", "fontContent")}
+            className={classnames(styles.spanType, "colorBlack85", "fontContent")}
             style={{opacity: !!(firstParentId in this.props.nounsBasic)? 1 : 0}}>
             {"/ "}
             {
@@ -92,7 +92,7 @@ class Belong extends React.Component {
         title={this.props.i18nUIString.catalog["descript_BelongTypeInteract"][0]+this.props.type+this.props.i18nUIString.catalog["descript_BelongTypeInteract"][1]}
         className={classnames(styles.boxTitleType)}>
         <span
-          className={classnames(styles.spanType, "colorEditLightBlack", "fontContent")}>
+          className={classnames(styles.spanType, "colorSignBlack", "fontContent")}>
           { (this.props.type=="residence") ? "Current Stay" : this.props.type}</span>
       </div>
     )

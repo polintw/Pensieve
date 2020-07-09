@@ -52,3 +52,16 @@
 .displayNone {
   display: none;
 }
+
+.boxDialog {
+  width: 520px;
+  max-width: 90vw;
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  box-sizing: border-box;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);;
+  border-radius: 4px;
+  background-color: white;
+}

@@ -1,16 +1,16 @@
 .comBelongsbyType{
   display: flex;
   flex-direction: row-reverse;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: flex-end;
   flex-wrap: wrap;
-  margin: 0 0 8px;
 }
 
 .boxBelong {
   display: inline-block;
+  width: 48%;
   position: relative;
-  margin: 8px 4.14vw 0 0;
+  margin: 8px 0 0;
 }
 
 .comBelong {
@@ -30,7 +30,7 @@
 }
 
 .boxCornerTitle {
-  margin-bottom: 1rem;
+
 }
 
 .boxCreate {
