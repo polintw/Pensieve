@@ -131,7 +131,7 @@ class FellowsHome extends React.Component {
   render(){
     return(
       <div
-        className={classnames(styles.boxModule)}>
+        className={classnames(styles.boxModule, styles.boxModuleSmall)}>
         {this._render_corners()}
       </div>
     )

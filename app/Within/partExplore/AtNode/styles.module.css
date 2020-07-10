@@ -1,6 +1,7 @@
 .comAtNode {
   display: flex;
   flex-direction: column;
+  position: relative;
   box-sizing: border-box;
   padding-top: 2.8vh;
 }
@@ -20,6 +21,13 @@
   bottom: 0;
   left: 0;
   background-color: #FCFCFC;
+}
+
+.boxNavCosmic {
+  position: absolute;
+  right: 0;
+  margin: 8px 0;
+  z-index: 3;
 }
 
 @media screen and (max-width:860px) {

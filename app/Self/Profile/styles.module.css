@@ -106,14 +106,18 @@
 }
 
 .comNavProfile {
-  text-align: right;
+  text-align: center;
+}
+
+.boxSvgArrow {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 3rem;
 }
 
 .boxNavLink {
   display: inline-block;
-  padding-left: 1rem;
-  border-left: solid 1px #d8d8d8;
-  box-sizing: border-box;
 }
 
 .spanNavLink {

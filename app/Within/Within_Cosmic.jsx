@@ -63,13 +63,7 @@ class WithinCosmic extends React.Component {
         })
         break;
       default:
-        this.setState((prevState, props)=>{
-          let switchTo = {
-            params: route,
-            query: ''
-          };
-          return {switchTo: switchTo}
-      })
+        window.location.assign(route)
     }
   }
 

@@ -10,6 +10,7 @@ import {
   SheetAccount,
   SheetBasic
 } from './SheetCom.jsx';
+import BelongsSet from './BelongsSet/BelongsSet.jsx';
 import PasswordForm from '../../Components/PasswordForm/PasswordForm.jsx';
 import {mountUserSheet} from "../../redux/actions/front.js";
 import {
@@ -136,6 +137,11 @@ import {
             <div>
               <SheetBasic {...this.props}/>
             </div>
+            <div style={{width: '100%', borderBottom: "solid 1px #d8d8d8", marginBottom: '3rem'}}/>
+            <div>
+              <BelongsSet />
+            </div>
+
           </div>
         )
     };

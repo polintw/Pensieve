@@ -6,9 +6,8 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import stylesFont from "../../../stylesFont.module.css"; //Notice, we use shared css file here for easier control
-import {updateNodesBasic} from '../../../../../redux/actions/general.js'
-import {NodeSearchModule} from '../../../../../Components/Node/NodeSearchModule.jsx';
+import {NodeSearchModule} from '../NodeSearchModule.jsx';
+import {updateNodesBasic} from '../../../redux/actions/general.js'
 
 class SearchModal extends React.Component {
   constructor(props){
@@ -58,12 +57,12 @@ class SearchModal extends React.Component {
         <div
           className={classnames(styles.boxTypeSetting)}>
           <span
-            className={classnames(stylesFont.fontDescrip ,stylesFont.colorOptionsBlack)}
+            className={classnames("fontSubtitle","colorOptionsBlack")}
             style={{lineHeight: "1.5"}}>
             {this.props.i18nUIString.catalog["descript_BelongSet_SearchBytType"][0]}
           </span>
           <span
-            className={classnames(stylesFont.fontDescrip ,stylesFont.colorOptionsBlack, stylesFont.weightBold)}
+            className={classnames("fontSubtitle" ,"colorOptionsBlack", "weightBold")}
             style={{lineHeight: "1.5"}}>
             { (this.props.settingType=="residence") ? this.props.i18nUIString.catalog['category_Belongs_'][1] : this.props.i18nUIString.catalog['category_Belongs_'][0]}
           </span>
@@ -73,10 +72,10 @@ class SearchModal extends React.Component {
             <span
               value={'close'}
               className={classnames(
-                styles.spanClose, stylesFont.fontContent,
+                styles.spanClose, "fontContent",
                 {
-                  [stylesFont.colorGrey]: !this.state.onButton,
-                  [stylesFont.colorDescripBlack]: this.state.onButton
+                  ["colorGrey"]: !this.state.onButton,
+                  ["colorDescripBlack"]: this.state.onButton
                 }
               )}
               onMouseEnter={this._handleEnter_button}

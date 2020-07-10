@@ -10,7 +10,6 @@ import stylesFont from "../../stylesFont.module.css";
 import BelongsbyType from './BelongsbyType/BelongsbyType.jsx';
 import StartBtn from '../../OnBoard/StartBtn.jsx';
 import {
-  _axios_GET_belongRecords,
   _axios_PATCH_belongRecords
 } from './utils.js';
 import {

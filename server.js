@@ -18,6 +18,7 @@ const {
   nodesSearchLimiter,
   belongsPatchLimiter
 } = require('./src/rateLimiter.js');
+const mailTimer = require("./scripts/mailer/mailTimer.js");
 
 
 //babel-polyfill is here for the whole code after it!
@@ -129,6 +130,12 @@ const crawlersIdentify = (userAgent) => { //using userAgents list to identifing 
 }
 
 
-//initiate
+// initiate api server
 app.listen(process.env.port || envBasic.port);
 winston.warn("server initiating, running at Port "+envBasic.port);
+
+// initiate mail timer
+setInterval(()=>{
+  mailTimer();
+}, 86400000) // every 24 hours. Nodejs could accept only integer < 2147483647 miliseconds
+winston.warn("mail timer initiating, setInterval to: 24 hours.");

@@ -3,6 +3,9 @@ const {
   i18nUIStringInit,
   messageDialogInit,
 } = require('./constants.js');
+const {
+  staticData
+} = require('../../../config/.env.json')
 
 export const initGlobal = {
   userInfo: accountInfoInit, //should change the key:'userInfo' to other else
@@ -11,7 +14,7 @@ export const initGlobal = {
   messageSingleClose: messageDialogInit.singleClose,
   messageSingle: messageDialogInit.single,
   messageBoolean: messageDialogInit.boolean,
-  guidingNailsId: ["0c1707iab5id31i83b8", "861e9di8afi654ia7a1"]
+  guidingNailsId: staticData.guidingNailsId
 }
 
 //cnetralize nouns used by the user

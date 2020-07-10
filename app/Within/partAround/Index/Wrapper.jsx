@@ -21,8 +21,6 @@ import NavFeed from "./NavFeed/NavFeed.jsx";
 import OnBoard from '../OnBoard/Wrapper.jsx';
 import GuideNails from '../OnBoard/GuideNails.jsx';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
-import ModalBox from '../../../Components/ModalBox.jsx';
-import ModalBackground from '../../../Components/ModalBackground.jsx';
 import {
   initAround
 } from '../../../redux/states/statesWithin.js';
@@ -145,28 +143,19 @@ class Wrapper extends React.Component {
                   _set_mountToDo={this._set_mountToDo}/>
               </div>
               <div
-                className={classnames(styles.boxRow)}
-                style={{margin: '4px 0 0'}}>
-                <BelongsSet/>
-              </div>
-              <div
                 className={classnames(styles.boxRow)}>
                 <NavFeed {...this.props}/>
                 <Switch>
-                  <Route path={'/gathering'}
-                    render={(props)=>{
-                      return (
-                        <FeedAssigned
-                          lastVisit={this.state.lastVisit}
-                          _set_mountToDo={this._set_mountToDo}
-                          _refer_von_cosmic={this.props._refer_von_cosmic}/>
-                      );
-                    }}/>
-                  <Route path={this.props.match.path} render={(props)=> <BelongsMap {...props} />}/>
+                  <Route path={'/fellows'} render={(props)=> <BelongsMap {...props} /> }/>
+                  <Route path={this.props.match.path} render={(props) => <FeedAssigned
+                    {...props}
+                    lastVisit={this.state.lastVisit}
+                    _set_mountToDo={this._set_mountToDo}
+                    _refer_von_cosmic={this.props._refer_von_cosmic} />}/>
                 </Switch>
               </div>
               <div
-                className={classnames(styles.boxFooter)}>
+                className={classnames(styles.boxRow, styles.boxFooter)}>
                 {this._render_FooterHint()}
               </div>
             </div>
@@ -240,15 +229,12 @@ class Wrapper extends React.Component {
           {this.props.i18nUIString.catalog["descript_AroundIndex_footer_BelongHint"]}</span>
       );
     }
-    else if (feedConcatList.length> 0){
+    else{
       return (
         <span
           className={classnames(styles.spanFooterHint, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
           {this.props.i18nUIString.catalog['descript_AroundIndex_footer']}</span>
       );
-    }
-    else{ // most frequent reason:no feed at all
-      return null;
     }
   }
 }

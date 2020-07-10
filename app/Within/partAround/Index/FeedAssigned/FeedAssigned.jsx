@@ -7,6 +7,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesNail from "../../../stylesNail.module.css";
 import stylesFont from '../../stylesFont.module.css';
+import GatheringBase from './GatheringBase.jsx';
 import NailFeed from '../../../../Components/Nails/NailFeed/NailFeed.jsx';
 import NailFeedWide from '../../../../Components/Nails/NailFeedWide/NailFeedWide.jsx';
 import NailFeedMobile from '../../../../Components/Nails/NailFeedMobile/NailFeedMobile.jsx';
@@ -168,7 +169,7 @@ class FeedAssigned extends React.Component {
         if(this.props.indexLists.listBrowsed.length ==0){ // should add hint at a special condition: no browsed item, means no followed units after the last round
           nailsDOM.push(
             <div
-              className={classnames(styles.boxTitle, styles.boxDescript, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
+              className={classnames(styles.boxDescript, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
               {this.props.i18nUIString.catalog['title_FeedAssigned_AllRead']}</div>
           );
         }
@@ -178,7 +179,7 @@ class FeedAssigned extends React.Component {
       };
       if(listChoice=="browsed" && groupIndex==0 && nailsDOM.length > 0) nailsDOM.splice(1, 0, ( // 'You've all browsed' at the second place of listbrowsed
         <div
-          className={classnames(styles.boxTitle, styles.boxDescript, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
+          className={classnames(styles.boxDescript, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
           {this.props.i18nUIString.catalog['title_FeedAssigned_AllRead']}</div>
       ));
 
@@ -206,6 +207,11 @@ class FeedAssigned extends React.Component {
 
     return (
       <div>
+        <div
+          className={classnames(styles.boxTitle, styles.boxGatheringBase)}>
+          <GatheringBase/>
+        </div>
+
         {
           // notice, a condition if the user didn't set any belong, not going to render at all
           ((concatList.length > 0) &&
@@ -230,15 +236,25 @@ class FeedAssigned extends React.Component {
             {
               (!!this.props.chainList.listInfo[this.props.chainList.listOrderedChain[0]] && this.props.chainList.listInfo[this.props.chainList.listOrderedChain[0]] == "latestShared") ?(
                 <div
-                  className={classnames(styles.boxTitle, styles.boxEmptyDescript, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
-                  {this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned_justSubmit']} //which means, the user just share something
+                  className={classnames(
+                    styles.boxEmptyDescript,
+                    "fontTitleSmall", "colorGrey")}
+                    style={{marginTop: '22px'}}>
+                    {this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned_justSubmit'] /*which means, the user just share something*/}
                 </div>
               ):(
                 <div
-                  className={classnames(styles.boxTitle, styles.boxEmptyDescript, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
-                  {this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned'][0]}
-                  <br/>
-                  {this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned'][1]}
+                  className={classnames(
+                    styles.boxEmptyDescript, stylesNail.boxNail, stylesNail.custNailWideEmpty,
+                    "fontTitleSmall", "colorGrey")}>
+                  <div
+                    className={styles.boxEmptyColumn}>
+                    <span className={classnames("fontSubtitle")}>
+                      {this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned'][0]}
+                    </span>
+                    <br/>
+                    {this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned'][1]}
+                  </div>
                 </div>
               )
             }
@@ -255,9 +271,16 @@ class FeedAssigned extends React.Component {
             className={classnames(
               styles.boxModule,
               styles.boxModuleSmall)}>
-            <span
-              className={classnames(styles.boxTitle, styles.boxEmptyDescript, stylesFont.colorEditLightBlack, stylesFont.fontDescrip)}>
-              {this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned_norContri']}</span>
+            <div
+              className={classnames(
+                styles.boxEmptyDescript, stylesNail.boxNail, stylesNail.custNailWideEmpty,
+                "fontDescrip", "colorEditLightBlack")}>
+              <div
+                className={styles.boxEmptyColumn}>
+                <span>
+                  {this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned_norContri']}</span>
+              </div>
+            </div>
           </div>
         }
 

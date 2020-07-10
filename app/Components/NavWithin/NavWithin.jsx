@@ -2,7 +2,6 @@ import React from 'react';
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import NavWihtinCosmic from './NavWihtinCosmic.jsx';
 import SvgLogo from '../Svg/SvgLogo.jsx';
 import ServiceLinks from '../ServiceLinks.jsx';
 
@@ -31,18 +30,6 @@ class NavWithin extends React.Component {
     return(
       <div
         className={classnames(styles.comNavWithin)}>
-        {
-          (
-            currentPath.includes('cosmic') &&
-            !currentPath.includes('explore/unit')
-          ) &&
-          <div
-            className={classnames(
-              styles.boxNavCosmic,
-              styles.smallDisplayNone)}>
-            <NavWihtinCosmic/>
-          </div>
-        }
         <div
           className={classnames(styles.boxLogo)}
           onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_to('', '/')}}>

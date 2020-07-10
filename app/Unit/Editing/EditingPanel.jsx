@@ -106,7 +106,7 @@ class EditingPanel extends React.Component {
       - not editing: give warn
     */
     if(!newObj["coverSrc"] || newObj['nodesSet'].assign.length < 1) { // the 'img' & 'node assigned to' are required
-      this.props._set_warningDialog([{text: "make sure you've already upload 1 image and set at least 1 Node.",style:{}}], 'warning');
+      this.props._set_warningDialog([{text: this.props.i18nUIString.catalog['message_CreateShare_basicRequireWarn'],style:{}}], 'warning');
       return;
     }else if(this.props.unitSubmitting){
       this.props._set_warningDialog([{text: "submit is processing, please hold on ...",style:{}}], 'warning');
@@ -119,6 +119,23 @@ class EditingPanel extends React.Component {
     //seal the mark obj by fill in the lasr undetermined value, 'layer'
     newObj.coverMarks.list.forEach((markKey, index)=>{
       newObj.coverMarks.data[markKey].layer = 0;
+    });
+    // check if any node type was 'both'
+    let originalTypeList = [], // 2 array, beacuase we have to rm the processed one but keep knowing the index in original newObj
+        originalNodeIndex = [];
+    newObj.nodesSet.assign.forEach((nodeObj, index) => {
+      originalTypeList.push(nodeObj.type); // list by type
+      originalNodeIndex.push(index); // index match the assign.list in newObj
+    });
+    this.props.belongsByType.setTypesList.forEach((type, i) => {
+      if(originalTypeList.indexOf(type) < 0){ // this type of node do not be set specifiaclly, or used by 'both'
+        let indexBoth = originalTypeList.indexOf('both');
+        if(indexBoth >= 0){ // there is a 'both' type in originalTypeList
+          newObj.nodesSet.assign[originalNodeIndex[indexBoth]].type = type; // replace the type in newObj by the index saved in originalNodeIndex
+          originalTypeList.splice(indexBoth, 1);
+          originalNodeIndex.splice(indexBoth, 1);
+        }
+      };
     });
 
     this.props._set_Submit(newObj);

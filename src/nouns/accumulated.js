@@ -43,7 +43,11 @@ async function _handle_GET_node_FeedList(req, res){
         where: {
           id: unitsIdList
         },
-        attributes: ['exposedId']
+        attributes: ['exposedId'],
+        order: [ //make sure the order of arr are from latest
+          Sequelize.literal('`createdAt` DESC') //and here, using 'literal' is due to some wierd behavior of sequelize,
+          //it would make an Error if we provide col name by 'arr'
+        ]
       })
       .then((results)=>{
         let exposedIdlist = results.map((row, index)=>{ return row.exposedId;});

@@ -1,0 +1,23 @@
+.comBelongSet {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.boxNewlySet {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 3rem;
+}
+
+.boxCate {
+  margin: 0 0 8px;
+}
+
+@media screen and (max-width:860px) {
+  .boxNewlySet {
+    flex-direction: column;
+    align-items: unset;
+  }
+}
