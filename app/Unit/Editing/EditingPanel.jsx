@@ -124,13 +124,13 @@ class EditingPanel extends React.Component {
     let originalTypeList = [], // 2 array, beacuase we have to rm the processed one but keep knowing the index in original newObj
         originalNodeIndex = [];
     newObj.nodesSet.assign.forEach((nodeObj, index) => {
-      originalTypeList.push(newObj.type); // list by type
+      originalTypeList.push(nodeObj.type); // list by type
       originalNodeIndex.push(index); // index match the assign.list in newObj
     });
     this.props.belongsByType.setTypesList.forEach((type, i) => {
       if(originalTypeList.indexOf(type) < 0){ // this type of node do not be set specifiaclly, or used by 'both'
         let indexBoth = originalTypeList.indexOf('both');
-        if(indexBoth > 0){ // there is a 'both' type in originalTypeList
+        if(indexBoth >= 0){ // there is a 'both' type in originalTypeList
           newObj.nodesSet.assign[originalNodeIndex[indexBoth]].type = type; // replace the type in newObj by the index saved in originalNodeIndex
           originalTypeList.splice(indexBoth, 1);
           originalNodeIndex.splice(indexBoth, 1);

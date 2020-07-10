@@ -186,7 +186,11 @@ class Chain extends React.Component {
           <div>
             <span
               className={classnames("fontTitleSmall", "colorGrey")}>
-              {this.props.i18nUIString.catalog["hint_Chain_waitForRespond"]}
+              {this.props.i18nUIString.catalog["hint_Chain_waitForRespond"][0]}
+            </span>
+            <span
+              className={classnames("fontTitleSmall", "colorGrey")}>
+              {this.props.i18nUIString.catalog["hint_Chain_waitForRespond"][1]}
             </span>
           </div>
         </div>

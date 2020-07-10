@@ -74,12 +74,12 @@
   margin: 8px 0;
   padding: 1.38vw;
   border-radius: 8px;
-  background-color: rgba(217, 232, 255, 0.15);
   overflow: hidden;
 }
 
 .boxEmptyNailFeed div {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 342px;
