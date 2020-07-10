@@ -26,8 +26,7 @@ class BelongsMap extends React.Component {
 
   _set_viewTab(targetTab){
     this.setState({
-      viewTab: targetTab,
-      viewNode: this.props.belongsByType[targetTab] // and we have to modify viewNode as well due to the node would diff
+      viewTab: targetTab
     })
   }
 

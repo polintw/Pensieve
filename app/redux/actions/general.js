@@ -5,15 +5,12 @@ import {
   SET_MESSAGE_SINGLECLOSE,
   SET_MESSAGE_BOOLEAN,
   SET_UNITCURRENT,
+  SET_BELONGSBYTYPE,
   MOUNT_USERINFO,
   UPDATE_NOUNSBASIC,
   UPDATE_USERSBASIC,
   AXIOS_SWITCH,
 } from '../types/typesGeneral.js';
-import {
-  setBelongsByType,
-  fetchBelongsSeries
-} from "./within.js";
 import {
   uncertainErr
 } from "../../utils/errHandlers.js";
@@ -25,6 +22,10 @@ export function mountUserInfo(obj) {
 export function setTokenStatus(obj) {
   return { type: SET_TOKENSTATUS, status: obj }
 };
+
+export function setBelongsByType(typeObj){
+  return {type: SET_BELONGSBYTYPE, typeObj: typeObj}
+}
 
 export function setUnitCurrent(obj) {
   return { type: SET_UNITCURRENT, unitCurrent: obj }
@@ -152,6 +153,10 @@ export function handleUsersList(usersArr) {
 
 export function fetchBelongRecords(cancelToken){
   return (dispatch, getState) => {
+    dispatch(setBelongsByType({ // reset fetched- to init
+      fetched: false,
+      fetchedSeries: false
+    }));
     //by this method we could use 'getState' & 'dispatch' in action creator
     axios({
       method: 'get',
@@ -173,6 +178,44 @@ export function fetchBelongRecords(cancelToken){
       dispatch(handleNounsList(nodesList)); //GET nodes info
       dispatch(setBelongsByType(inclCatListObj)); //update data incl. setCatList
       dispatch(fetchBelongsSeries(byTypeObj)); //only need to know the type need to be fetched
+    })
+    .catch(function (thrown) {
+      let message = uncertainErr(thrown);
+      if(message) alert(message);
+    });
+  }
+}
+
+export function fetchBelongsSeries(objByType) {
+  //this actoin creator, could do function return is because we use 'thunk' middleware when create store
+  return (dispatch, getState) => {
+    let typeKeys = Object.keys(objByType);
+    let fetchList = typeKeys.map((type, index)=>{
+      return objByType[type];
+    });
+    if(fetchList.length<1){ return;}; //security check, just prevent any unpredictable req
+
+    return axios.get('/router/nouns/direct', {
+      headers: {
+        'charset': 'utf-8',
+        'token': window.localStorage['token']
+      },
+      params: {
+        fetchList: fetchList
+      }
+    }).then((res)=>{
+      let resObj = JSON.parse(res.data);
+      let submitObj = {}, submitNodesList = [];
+      //continued using var 'typeKeys' to keep it staying consistent
+      typeKeys.forEach((type, index) => {
+        let targetNode = objByType[type];
+        submitObj[(type=="homeland") ?"homelandup": "residenceup" ] = resObj.main.nodesSeries[targetNode];
+        submitNodesList= submitNodesList.concat(resObj.main.nodesSeries[targetNode].listToTop);
+      });
+      submitObj["fetchedSeries"] = true;
+
+      dispatch({type: SET_BELONGSBYTYPE, typeObj: submitObj});
+      dispatch(handleNounsList(submitNodesList)); //also, these 'new fetched' nodes need to be handle
     })
     .catch(function (thrown) {
       let message = uncertainErr(thrown);

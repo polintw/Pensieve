@@ -4,7 +4,7 @@
 }
 
 .boxChainModule {
-
+  margin-top: 4px;
 }
 
 .boxModule{
@@ -57,6 +57,36 @@
   transform: translate(-50%, -50%);
   box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
   opacity: 1;
+}
+
+.boxEmptyShared {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 8px 0;
+  padding: 0 2rem;
+}
+
+.boxEmptyNailFeed {
+  box-sizing: border-box;
+  margin: 8px 0;
+  padding: 1.38vw;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.boxEmptyNailFeed div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 342px;
+  min-width: 30.16vw;
+  max-width: 96.24vw;
+  height: 249px;
+  min-height: 31.6vh;
 }
 
 .boxIndexShare {

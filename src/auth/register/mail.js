@@ -103,18 +103,103 @@ async function _handle_auth_mailResend_PATCH(req, res){
     _handle_ErrCatched(new notFoundError({ "email": "this email hasn't sign up yet!" }, 50), req, res);
     return;
   };
+  // then use the status in users_apply, which has 'active', 'newly', 'unverified', 'frequentUnverified/Forget'
+  const userApplyRow = await _DB_users_apply.findOne({
+    where: { id_user: userRow.id }
+  });
 
   new Promise((resolve, reject)=>{
     /*
-    a new userRow.status 'frequent'
+    a new status 'frequent'
     last updatedat too close to now if 'unverified',
     turn to 'frequentUnverified'
     need to wait a period if 'frequent',
     but shift back to 'unverified' if has warned.
     */
-    switch (userRow.status) {
-      case 'frequentUnverified':
-        _DB_users_apply.findOne({
+    if(userRow.status != 'unverified'){ // mail had been confirmed, base on status in .users
+      reject (new forbbidenError({"warning": "Your email had been verified, could sign in directly."}, 85));
+    }
+    else if(userApplyRow.status == 'frequentUnverified'){ // check if the cerified mail had been sent too many time, base on users_apply
+      _DB_users_apply.findOne({
+        where: { id_user: userRow.id }
+      }).then((resultApply)=>{
+        // checking the frequency here, in order to update if needed
+        let frequentify = false;
+        if(!!resultApply.updatedAt){ // only need if the updatedAt ia not NULL
+          // prepare time for later compare
+          let dateNow = new Date(),
+          dateLastReq = new Date(resultApply.updatedAt);
+          let nowTime = dateNow.getTime(),
+          lastReqTime = dateLastReq.getTime();
+
+          if((nowTime - lastReqTime) < 2400000) frequentify = true; //req twice less than 40 mins
+        };
+
+        if(frequentify) throw new tooManyReqError({"warning": "Havn't seen the mail? Take a look at spam folder, or take a rest before it came. You could resend the mail again 30 mins later."}, 150)
+        else { // pass the 'cool time'
+          return _DB_users_apply.update(
+            {status: 'unverified'},
+            { where: {id: userRow.id}}
+          )
+          .then(()=>{
+            return new Promise((resolveJWT, rejectJWT)=>{
+              //sign a token for email verification
+              const payload = {
+                user_Id: userRow.id,
+                token_property: 'emailVerified'
+              };
+              jwt.sign(JSON.parse(JSON.stringify(payload)), verify_email, {
+                expiresIn: '1d'
+              }, (err, token) => {
+                if(err){
+                  rejectJWT(new internalError("jwt.sign error in register/mail.js: "+err, 131));
+                }
+                else {
+                  resolveJWT(token);
+                }
+              });
+            });
+          }).then((tokenEmail)=>{
+            //update token to users_apply
+            return resultApply.update(
+              { token_email: tokenEmail},
+              { where: { id_user: userRow.id } }
+            ).then(()=>{
+              return tokenEmail;
+            })
+          }).then((tokenEmail)=>{
+            //finally, sending the mail to the user
+            let userInfo = {
+              email: req.body.email,
+              first_name: userRow.first_name
+            }
+            return deliverVerifiedMail(userInfo, tokenEmail);
+          });
+        }
+      })
+      .then(()=>{ resolve(); })
+      .catch((error)=>{reject(error);});
+    }
+    else{ // any status accepted to send verifications again
+      //start to send email verification again
+      new Promise((resolveJWT, rejectJWT)=>{
+        //sign a token for email verification
+        const payload = {
+          user_Id: userRow.id,
+          token_property: 'emailVerified'
+        };
+        jwt.sign(JSON.parse(JSON.stringify(payload)), verify_email, {
+          expiresIn: '1d'
+        }, (err, token) => {
+          if(err){
+            rejectJWT(new internalError("jwt.sign error in register/mail.js: "+err, 131));
+          }
+          else {
+            resolveJWT(token);
+          }
+        });
+      }).then((tokenEmail)=>{
+        return _DB_users_apply.findOne({
           where: { id_user: userRow.id }
         }).then((resultApply)=>{
           // checking the frequency here, in order to update if needed
@@ -126,125 +211,40 @@ async function _handle_auth_mailResend_PATCH(req, res){
             let nowTime = dateNow.getTime(),
             lastReqTime = dateLastReq.getTime();
 
-            if((nowTime - lastReqTime) < 2400000) frequentify = true; //req twice less than 40 mins
+            if((nowTime - lastReqTime) < 1200000) frequentify = true; //req twice less than 20 mins
           };
-
-          if(frequentify) throw new tooManyReqError({"warning": "Havn't seen the mail? Take a look at spam folder, or take a rest before it came. You could resend the mail again 30 mins later."}, 150)
-          else { // pass the 'cool time'
-            return _DB_users.update(
-              {status: 'unverified'},
-              { where: {id: userRow.id}}
-            )
-            .then(()=>{
-              return new Promise((resolveJWT, rejectJWT)=>{
-                //sign a token for email verification
-                const payload = {
-                  user_Id: userRow.id,
-                  token_property: 'emailVerified'
-                };
-                jwt.sign(JSON.parse(JSON.stringify(payload)), verify_email, {
-                  expiresIn: '1d'
-                }, (err, token) => {
-                  if(err){
-                    rejectJWT(new internalError("jwt.sign error in register/mail.js: "+err, 131));
-                  }
-                  else {
-                    resolveJWT(token);
-                  }
-                });
-              });
-            }).then((tokenEmail)=>{
-              //update token to users_apply
-              return resultApply.update(
-                { token_email: tokenEmail},
-                { where: { id_user: userRow.id } }
-              ).then(()=>{
-                return tokenEmail;
+          //update token to users_apply
+          return resultApply.update(
+            { token_email: tokenEmail},
+            { where: { id_user: userRow.id } }
+          ).then(()=>{
+            if(frequentify){
+              return _DB_users_apply.update(
+                {status: 'frequentUnverified'},
+                {where: { id_user: userRow.id}}
+              )
+              .then(()=>{
+                return;
               })
-            }).then((tokenEmail)=>{
-              //finally, sending the mail to the user
-              let userInfo = {
-                email: req.body.email,
-                first_name: userRow.first_name
-              }
-              return deliverVerifiedMail(userInfo, tokenEmail);
-            });
-          }
-        })
-        .then(()=>{ resolve(); })
-        .catch((error)=>{reject(error);});
-
-        break;
-      case 'unverified':
-        //start to send email verification again
-        new Promise((resolveJWT, rejectJWT)=>{
-          //sign a token for email verification
-          const payload = {
-            user_Id: userRow.id,
-            token_property: 'emailVerified'
-          };
-          jwt.sign(JSON.parse(JSON.stringify(payload)), verify_email, {
-            expiresIn: '1d'
-          }, (err, token) => {
-            if(err){
-              rejectJWT(new internalError("jwt.sign error in register/mail.js: "+err, 131));
             }
-            else {
-              resolveJWT(token);
-            }
-          });
-        }).then((tokenEmail)=>{
-          return _DB_users_apply.findOne({
-            where: { id_user: userRow.id }
-          }).then((resultApply)=>{
-            // checking the frequency here, in order to update if needed
-            let frequentify = false;
-            if(!!resultApply.updatedAt){ // only need if the updatedAt ia not NULL
-              // prepare time for later compare
-              let dateNow = new Date(),
-              dateLastReq = new Date(resultApply.updatedAt);
-              let nowTime = dateNow.getTime(),
-              lastReqTime = dateLastReq.getTime();
-
-              if((nowTime - lastReqTime) < 1200000) frequentify = true; //req twice less than 20 mins
-            };
-            //update token to users_apply
-            return resultApply.update(
-              { token_email: tokenEmail},
-              { where: { id_user: userRow.id } }
-            ).then(()=>{
-              if(frequentify){
-                return _DB_users.update(
-                  {status: 'frequentUnverified'},
-                  {where: { id: userRow.id}}
-                )
-                .then(()=>{
-                  return;
-                })
-              }
-              else return;
-            }).then(()=>{
-              return tokenEmail;
-            })
+            else return;
+          }).then(()=>{
+            return tokenEmail;
           })
-          .catch((err) =>{ throw err;});
-
-        }).then((tokenEmail)=>{
-          //finally, sending the mail to the user
-          let userInfo = {
-            email: req.body.email,
-            first_name: userRow.first_name
-          }
-          return deliverVerifiedMail(userInfo, tokenEmail);
         })
-        .then(()=>{ resolve(); })
-        .catch((error)=>{reject(error);}); // this line is neccessary for promise in promise
-        break;
-      default:
-        // mail had been confirmed
-        reject (new forbbidenError({"warning": "Your email had been verified, could sign in directly."}, 85));
-    };
+        .catch((err) =>{ throw err;});
 
+      }).then((tokenEmail)=>{
+        //finally, sending the mail to the user
+        let userInfo = {
+          email: req.body.email,
+          first_name: userRow.first_name
+        }
+        return deliverVerifiedMail(userInfo, tokenEmail);
+      })
+      .then(()=>{ resolve(); })
+      .catch((error)=>{reject(error);}); // this line is neccessary for promise in promise
+    };
   }).then(()=>{
     //complete the process, and response to client
     let resData = {

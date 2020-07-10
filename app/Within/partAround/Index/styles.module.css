@@ -6,20 +6,19 @@
 
 .boxRow {
   position: relative;
-  margin-bottom: 2rem;
+  margin: 12px 0;
 }
 
-.boxRowTop {
-  margin-top: 1.6rem;
+.boxRowTop { /* should after .boxRow */
+  padding-top: 4px;
 }
 
 .boxFooter {
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
-  padding-top: 2.4rem;
-  margin-bottom: 31.1vh;
+  padding-top: 2rem;
+  margin-bottom: 36vh;
 }
 
 .spanFooterHint {

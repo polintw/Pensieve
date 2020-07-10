@@ -6,6 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import {SvgArrowToRight} from '../../Components/Svg/SvgArrow.jsx';
 
 class NavProfile extends React.Component {
   constructor(props){
@@ -43,19 +44,28 @@ class NavProfile extends React.Component {
           className={classnames(
             'plainLinkButton',
             styles.boxNavLink
-          )}>
+          )}
+          onMouseEnter={this._handleEnter_Link}
+          onMouseLeave={this._handleLeave_Link}>
+          <div
+            className={classnames(styles.boxSvgArrow)}>
+            <div
+              style={{width: "10px", height: "15px"}}>
+              <SvgArrowToRight
+                mouseOn={this.state.onInActive}
+                customStyles={{fillColorMouseOn: '#333333', fillColor: '#d8d8d8'}}/>
+            </div>
+          </div>
           <span
             className={classnames(
               styles.spanNavLink,
-              "fontTitle",
+              "fontNodesEqual",
               "colorWhiteGrey",
               {
                 ['colorOptionsBlack']: this.state.onInActive,
                 [styles.spanNavLinkMouse]: this.state.onInActive
               }
-            )}
-            onMouseEnter={this._handleEnter_Link}
-            onMouseLeave={this._handleLeave_Link}>
+            )}>
             {this.props.i18nUIString.catalog["title_home"]}
           </span>
         </a>

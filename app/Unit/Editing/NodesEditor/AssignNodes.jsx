@@ -61,19 +61,22 @@ class AssignNodes extends React.Component {
     let assignedList = this.props.assigned.map((assignedObj, index)=>{return assignedObj.nodeId;});
 
     if(assignedList.indexOf(targetId) < 0 && assignedList.length < 2 ){ // submit a new one, and still has postion
+      // check if the type the target still empty
       if (this.state.restTypes.indexOf(this.nodesTypes[targetId]) > -1 || this.nodesTypes[targetId]== 'both') {
         let choiceType = this.nodesTypes[targetId];
         //but the type 'both' was not a practical type, need transmit to either homeland or residence
-        if(choiceType == 'both' ) choiceType = this.state.restTypes.indexOf("homeland") < 0 ? "residence" : "homeland";
+        // if(choiceType == 'both' ) choiceType = this.state.restTypes.indexOf("homeland") < 0 ? "residence" : "homeland";
+        // on Jul. 8 2020, checked, no need to replace 'both', pass it to parent's state, but modified it beofre axios
 
         this.props._submit_new_node({ nodeId: targetId, type: choiceType }, 'assign');
         //and rm the type from the 'rest'Types
         this.setState((prevState, props) => {
-          let indexInList = prevState.restTypes.indexOf(choiceType);
-          prevState.restTypes.splice(indexInList, 1);
+          let indexInList = prevState.restTypes.indexOf(choiceType); // in case 'both', the indexInList would be '-1'
+          if(indexInList > -1 ) prevState.restTypes.splice(indexInList, 1);
           return { restTypes: prevState.restTypes }
         })
-      } else{
+      }
+      else{
         this.props._submit_SingleDialog({
           render: true,
           message: [{text:this.props.i18nUIString.catalog['message_UnitEdit_ruleAssignedNodes'][0],style:{}}],
@@ -83,12 +86,13 @@ class AssignNodes extends React.Component {
         return;
       };
 
-    }else if(assignedList.indexOf(targetId) > -1){
+    }
+    else if(assignedList.indexOf(targetId) > -1){ // going to rm this node from assignedList
       let indexInList = assignedList.indexOf(targetId);
       let targetType = this.props.assigned[indexInList].type;
       //add the it represent back to local state
       this.setState((prevState, props) => {
-        prevState.restTypes.push(targetType);
+        if( targetType != 'both') prevState.restTypes.push(targetType); // only 'residence' || 'homeland' need to be push
         return { restTypes: prevState.restTypes }
       }, ()=>{
         /*
@@ -124,18 +128,10 @@ class AssignNodes extends React.Component {
   }
 
   _render_assignedNodes(){
-    const typeKeys = !!this.props.belongsByType.setTypesList? this.props.belongsByType.setTypesList: [];
     const assignedNodes = this.props.assigned.map((assignedObj, index)=>{return assignedObj.nodeId;});
-    /*
-    there is a period the typeKeys would be 'empty' at all: belongsByType not yet res.
-    And we just give up render these 'empty'
-    */
-    if(typeKeys.length < 1) {
-      return <span className={classnames(stylesFont.colorGrey, stylesFont.fontContent)}>
-        {this.props.i18nUIString.catalog['guidingCreateShare_AssignNull']}</span>
-    };
-    // or ther parent list haven't res yet, also empty render
-    if( !((typeKeys[0] == "homeland") ? "homelandup" : "residenceup" in this.props.belongsByType)) return [];
+    /* there is a period the typeKeys would be 'empty' at all: belongsByType not yet res.
+    or ther parent list haven't res yet, also empty render */
+    if( !this.props.belongsByType.fetched || !this.props.belongsByType.fetchedSeries) return [];
     /*
     simple first. If we are now editing a published shared, not allowing editing assigned
     */
@@ -155,7 +151,7 @@ class AssignNodes extends React.Component {
               <div>
                 <span
                   className={classnames(
-                    styles.spanListItem, stylesFont.fontContent, stylesFont.colorGrey,
+                    styles.spanListItem, stylesFont.fontContent, "colorWhite",
                     styles.chosenSpanItem
                   )}>
                   {this.props.nounsBasic[nodeId].name}</span>
@@ -163,7 +159,7 @@ class AssignNodes extends React.Component {
                   !!this.props.nounsBasic[nodeId].prefix &&
                   <span
                     className={classnames(
-                      styles.spanListItem, stylesFont.fontContent, stylesFont.colorGrey,
+                      styles.spanListItem, stylesFont.fontContent, "colorWhite",
                       styles.chosenSpanItem
                     )}
                     style={{ alignSelf:'right', fontSize: '1.2rem', fontStyle: 'italic'}}>
@@ -176,155 +172,98 @@ class AssignNodes extends React.Component {
       })
       return nodesDOM;
     }; //process would stop if return from this if()
-    /*
-    and if we are creating a new one compare to editing a shared one:
-    we build up the nodesList first, save by types
-    and compare 2 list from the last one(top parent),
-    if both the item were the same, we only render once
-    if the items were different, we render the 2 lists seperately.
-    */
-    //actually now we only have 2 types: 'homeland' or 'residence', must be either one or both
-    let belongNodesList = typeKeys.map((type, index)=>{ //recruite the ancestors list from Belong tree
-      let typeList = this.props.belongsByType[(type == "homeland") ? "homelandup" : "residenceup"].listToTop.slice(); //shallow copy
-      // then inshift the belong itself, and level of node of "nodeId" represnet must lower than every "parent"
-      typeList.unshift(this.props.belongsByType[(type == "homeland") ? "homelandup" : "residenceup"].nodeId);
-      typeList.forEach((item, i) => {
-        this.nodesTypes[item] = type; //set type to each node, Notice! some time both types have the same node, a 'shared' parent, and that would be mark 'both' later during the compare process
-      });
 
-      return typeList;
+    // compare series list to render the same node only once & create node-type table(obj)
+    let seriesList = []; // to save both serires as nest arr: [[ 'list homeland'], [ 'list residence']]
+    let nodesList= [],
+        nodesToType= {};
+    // first, create seriesList by setTypesList, so the type order and the 'group' order would follow it.
+    this.props.belongsByType.setTypesList.forEach((type, index) => {
+      let series = (type == "homeland") ? "homelandup" : "residenceup";
+      let typeList = this.props.belongsByType[series].listToTop.slice(); //shallow copy
+      // then unshift the belong itself
+      typeList.unshift(this.props.belongsByType[series].nodeId);
+      typeList.reverse(); // reverse the typeList, the 'largest' administration would be the first
+      seriesList.push(typeList);
     });
-    // belongNodesList : [[], []]
-    let nodesDOM =[];
-    // now as we only have 2 type, we compare them directly
-    if(belongNodesList.length != 2) belongNodesList.push([]); //But remember to ensure the belongNodesList has 2 items for this method
-    let cycleCount = 0; //used to record the cycle loop ran
-    for(let i=1 ; i <= belongNodesList[0].length && i <= belongNodesList[1].length; i++){ //keep 'i' sstart from 1, also used for 'cycaleCount'
-      //from the last one in the list, toplevel ancestor
-      let node0 = belongNodesList[0][belongNodesList[0].length -i],
-          node1 = belongNodesList[1][belongNodesList[1].length -i];
-      //if 2 nodes are the same, render once; if not, then the children woulld not be the same either, break to next step
-      if (node0 == node1){
-        /*
-        and the type of records in props.assigned was 'int' as well,
-        it's important because the array.indexOf() would see diff. types as 'not the same'
-        */
-        let assigning = (assignedNodes.indexOf(node0) < 0) ? false : true;
+    /*
+    then, loop the seriesList, and by each item in each sereis,
+    compare to nodesList. If the item hasn't been in nodesList, unshift it.
+    */
+    seriesList.forEach((series, index) => {
+      series.forEach((nodeId, i) => {
+        if(nodesList.indexOf(nodeId) < 0){
+          nodesList.unshift(nodeId);
+          nodesToType[nodeId] = this.props.belongsByType.setTypesList[index]; // nodeId: "homeland" || "residence"
+        }
+        else{
+          nodesToType[nodeId] = "both";
+          return;
+        };
+      });
+    });
 
-        nodesDOM.push(
-          <li
-            key={'_key_assignNode_both_' + i}
-            nodeid={node0}
-            className={classnames(
-              styles.boxListItem,
+    // simply loop the nodes list to render
+    let nodesDOM =[];
+    nodesList.forEach((nodeId, index)=>{
+      let assigning = (assignedNodes.indexOf(nodeId) < 0) ? false : true;
+      // push a seperation '．' if the type change
+      if(nodesToType[nodeId] != nodesToType[nodesList[(index-1)]] && index != 0) nodesDOM.push(
+        <span
+          key={'_key_assignNode_sepration_' + index }
+          className={classnames(stylesFont.colorEditBlack, stylesFont.fontContent)}
+          style={{display: 'flex',alignItems:'center',marginRight: '1rem'}}>{"．"}</span>
+      );
+
+      nodesDOM.push(
+        <li
+          key={'_key_assignNode_' + index }
+          nodeid={nodeId}
+          className={classnames(
+            styles.boxListItem,
+            {
+              [styles.chosenListItem]: assigning,
+              [styles.mouseListItem]: (this.state.onNode == nodeId && !assigning)
+            }
+          )}
+          onClick={this._handleClick_NodeAssigned}
+          onMouseEnter={this._handleEnter_liItem}
+          onMouseLeave={this._handleLeave_liItem}>
+          {(nodeId in this.props.nounsBasic) &&
+            <div>
+              <span
+                className={classnames(
+                  styles.spanListItem, stylesFont.fontContent,
+                  {
+                    ["colorGrey"]: !assigning && this.state.onNode != nodeId,
+                    ["colorWhite"]: assigning || this.state.onNode == nodeId,
+                    [styles.chosenSpanItem]: assigning,
+                    [styles.mouseSpanItem]: (this.state.onNode== nodeId)
+                  }
+                )}>
+                {this.props.nounsBasic[nodeId].name}</span>
               {
-                [styles.chosenListItem]: assigning,
-                [styles.mouseListItem]: (this.state.onNode == node0 && !assigning)
-              }
-            )}
-            onClick={this._handleClick_NodeAssigned}
-            onMouseEnter={this._handleEnter_liItem}
-            onMouseLeave={this._handleLeave_liItem}>
-            {(node0 in this.props.nounsBasic) &&
-              <div>
+                !!this.props.nounsBasic[nodeId].prefix &&
                 <span
                   className={classnames(
-                    styles.spanListItem, stylesFont.fontContent, stylesFont.colorGrey,
+                    styles.spanListItem, stylesFont.fontContent,
                     {
+                      ["colorGrey"]: !assigning && this.state.onNode != nodeId,
+                      ["colorWhite"]: assigning || this.state.onNode == nodeId,
                       [styles.chosenSpanItem]: assigning,
-                      [styles.mouseSpanItem]: (this.state.onNode== node0)
+                      [styles.mouseSpanItem]: (this.state.onNode== nodeId)
                     }
-                  )}>
-                  {this.props.nounsBasic[node0].name}</span>
-                {
-                  !!this.props.nounsBasic[node0].prefix &&
-                  <span
-                    className={classnames(
-                      styles.spanListItem, stylesFont.fontContent, stylesFont.colorGrey,
-                      {
-                        [styles.chosenSpanItem]: assigning,
-                        [styles.mouseSpanItem]: (this.state.onNode== node0)
-                      }
-                    )}
-                    style={{ alignSelf:'right', fontSize: '1.2rem', fontStyle: 'italic'}}>
-                    {", "+this.props.nounsBasic[node0].prefix}</span>
-                }
-              </div>
-            }
-          </li>
-        );
-        this.nodesTypes[node0] = 'both'; //modifying the type of node in nodesTypes(no matter what's the original)
-        cycleCount = i;
-      }else break;
-    };
-    //so, cycleCount shorter than list.length means the belongs nodes are not the same (actually this is should be normal condition)
-    if (cycleCount < belongNodesList[0].length || cycleCount < belongNodesList[1].length){
-      let restList = [];
-      for(let i=0; i< 2; i++){
-        let restItems = belongNodesList[i].slice();
-        restItems.splice(-1, cycleCount);
-        restList.push(restItems);
-      };
-      restList.forEach((restItems, index)=>{
-        //at first, insert "/" if right after the shared nodes as a separation
-        if(index == 0 && nodesDOM.length > 0) nodesDOM.push(
-          <span
-            className={classnames(stylesFont.colorEditBlack, stylesFont.fontContent)}
-            style={{display: 'flex',alignItems:'center',marginRight: '1rem'}}>{" / "}</span>
-        );
-        //if this is not the first round, add a '．' as separation
-        if(index > 0) nodesDOM.unshift(
-          <span
-            className={classnames(stylesFont.colorEditBlack, stylesFont.fontContent)}
-            style={{display: 'flex',alignItems:'center',marginRight: '1rem'}}>{"．"}</span>
-        );
-        restItems.forEach((nodeId, indexItems) => {
-          let assigning = (assignedNodes.indexOf(nodeId) < 0) ? false : true;
-          nodesDOM.unshift (
-            <li
-              key={'_key_assignNode_' + index +"_"+ indexItems}
-              nodeid={nodeId}
-              className={classnames(
-                styles.boxListItem,
-                {
-                  [styles.chosenListItem]: assigning,
-                  [styles.mouseListItem]: (this.state.onNode == nodeId && !assigning)
-                }
-              )}
-              onClick={this._handleClick_NodeAssigned}
-              onMouseEnter={this._handleEnter_liItem}
-              onMouseLeave={this._handleLeave_liItem}>
-              {(nodeId in this.props.nounsBasic) &&
-                <div>
-                  <span
-                    className={classnames(
-                      styles.spanListItem, stylesFont.fontContent, stylesFont.colorGrey,
-                      {
-                        [styles.chosenSpanItem]: assigning,
-                        [styles.mouseSpanItem]: (this.state.onNode== nodeId)
-                      }
-                    )}>
-                    {this.props.nounsBasic[nodeId].name}</span>
-                  {
-                    !!this.props.nounsBasic[nodeId].prefix &&
-                    <span
-                      className={classnames(
-                        styles.spanListItem, stylesFont.fontContent, stylesFont.colorGrey,
-                        {
-                          [styles.chosenSpanItem]: assigning,
-                          [styles.mouseSpanItem]: (this.state.onNode== nodeId)
-                        }
-                      )}
-                      style={{ alignSelf:'right', fontSize: '1.2rem', fontStyle: 'italic'}}>
-                      {", "+this.props.nounsBasic[nodeId].prefix}</span>
-                  }
-                </div>
+                  )}
+                  style={{ alignSelf:'right', fontSize: '1.2rem'}}>
+                  {", "+this.props.nounsBasic[nodeId].prefix}</span>
               }
-            </li>
-          )
-        });
-      })
-    }
+            </div>
+          }
+        </li>
+      );
+    });
+    // finally, remembering set nodesToType to this.nodesTypes, used to an old method to set assigning to props
+    this.nodesTypes = nodesToType;
 
     return nodesDOM;
   }

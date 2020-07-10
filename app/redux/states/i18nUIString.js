@@ -45,7 +45,7 @@ const i18nUIString_EN = {
   "descript_onBoard_BelongsHint": ["Before you start …", "Tell us, where are you from?"], //Original: "Before you start …", "Tell us where are you from?"
   "guideing_onBoard_BelongsHint": ["I'm from", "Living in"], //Original:"Now based at"
   "submit_onBoard_start": "Get Started", //Original:"Let's Start"
-  "submit_Invite_": "Invite Fellow!", //Original:"Fellow Inviting!"
+  "submit_Invite_": "Invite Fellows!", //Original:"Fellow Inviting!"
   "submit_Invite_people": "Invite People!", //Original:"Fellow Inviting!"
   "descript_Invite_": [
     "Any one you know stay or was born in the same corner as you? ",
@@ -122,8 +122,9 @@ const i18nUIString_EN = {
   "message_UnitEdit_ruleAssignedNodes": ["Select only one corner from where you stay, and one from your homeland."],
 
   "title_shareUpload_typewriter": ['S','u','b','m','i', 't'],
-  "guidingCreateShare_AssignGroup": "To which of your corners:",//Changed "corner(s)" to "Corner(s)"
+  "guidingCreateShare_AssignGroup": "Corners or fellows you could contribute to",//Changed "corner(s)" to "Corner(s)"
   "guidingCreateShare_AssignNull": "Please set corners you belong first.",//Changed "please" to "Please"
+  "message_CreateShare_basicRequireWarn": "Make sure you've already upload 1 image and pick at least 1 corner to which you want to contribute.",
   "message_Unit_Editing_AssignNotAllowed": "We're sorry. Your contribution Can't be changed once released since it's linked either to the markup or location.", //Original:"the corner linked to could Not be changed after first release."
   "message_Unit_EraseConfirm": ["No one can see this Share after erase, including you. ", "Are you sure you want to erase this Share?"], //Original:"No one would see this Shared after erase, including you. ", "Are you sure your going to erase this Shared?"
   "message_Unit_EraseRes": ["This Share has beed erased successfully."],//Changed "Shared" to "Share"
@@ -131,16 +132,17 @@ const i18nUIString_EN = {
   "guiding_Unit_Responds_authorEmpty": "Respond to your contribution will show up here!",//Changed "would" to "will"
   "guiding_Unit_Responds_author": "More responds would be listed!",
   "guiding_Unit_Responds_none": "Submit your respond to this article!",
+
   "title_FeedAssigned_AllRead": "You're up-to-date.",//Original:"you've all browsed."
   "title_FeedAssigned_": "Gathering",
-  "guiding_FeedAssigned_noneAssigned": ["You're pretty current!","New contributions around your corners would show up here. Check it out later!"],//Original:"Not yet any new unit had been contributed to your corners."
-  "title_BelongSet_": "Your Corners",
+  "hint_FeedAssigned_belongedBase": "by your corners ",
+  "guiding_FeedAssigned_noneAssigned": ["You're pretty current!","New contributions around your corners would be show up here."],//Original:"Not yet any new unit had been contributed to your corners."
   "guiding_FeedAssigned_noneAssigned_justSubmit": "Good to have your contrubution.",
   "guiding_FeedAssigned_noneAssigned_norContri": "It could be you contributing somthing to your corners!", //Original:"It could be you contributing somthing for your corners!"
 
   "title_Chain_Shareds_": "Contributions",
   "message_Chain_noShareds": "You'll see the list of your contributions here.",
-  "message_Chain_noSharedsCourage": "Try to submit an observation of your corners.",//Original:"Trying submitting an observation about your corners."
+  "message_Chain_noSharedsCourage": "Submit your first one!",//Original:"Trying submitting an observation about your corners."
   "message_Chain_byChainInfo": [
     "Contribution ",
     "Responded by ",
@@ -151,13 +153,15 @@ const i18nUIString_EN = {
     "Respond to Yours ",
     "succesfully "],
   "message_Chain_toNodes": ["to ", " and several"],
+  "hint_Chain_waitForRespond": ["Your contribution would be delivered to your fellows.", "And any new respond to your contribution would be emphasized here."],
   "guidingBelongs_EmptyMap_noSet": ["Set your", ", and take a look for the distribution of your fellows."], //Changed "taking" to "take"
   "guidingBelongs_EmptyMap_": "You were the first user among this corner!",
   "descript_BelongTypeInteract": ["going to renew your ", " ?"],
-  "category__Belong_usersCount": ["living at", "came from"],
-  "link_BelongsMap_Nav": ["Fellows", "your ", "Homeland", "Current Stay"],
-  "title_BelongsMap_Nav": ["Fellows ", "same as" ],
+  "category__Belong_usersCount": ["now living at", "came from"],
+  "hint_BelongsMap_Nav": "fellows by ",
+  "link_BelongsMap_Nav": ["as ", "Homeland", "Current Stay"],
   "messageBelongChoiceinBool": ["site ", "  as your  ", "  place?"],
+  "title_BelongSet_": "Your Corners",
   "descript_BelongSet_SearchBytType": ["Search one fit your "],
   "descript_AroundIndex_footer": "You've reached the edge of Cornerth.!",
   "guiding_AroundIndex_Share": "What’s around your corner?", //Original:"how's your corners"
