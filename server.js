@@ -50,12 +50,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 //establish the statics resources
 app.use(express.static(path.join(__dirname+'/public')));
+app.use(express.static(path.join(__dirname+'/public/ico'))); // for /favicon.ico
 
-
-//Fianl!! begining managing the specific request
-app.get('/favicon.ico', function(req, res){
-  res.end();
-})
 
 //api
 app.use('/router', router)
