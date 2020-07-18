@@ -131,7 +131,12 @@ app.listen(process.env.port || envBasic.port);
 winston.warn("server initiating, running at Port "+envBasic.port);
 
 // initiate mail timer
-setInterval(()=>{
-  mailTimer();
-}, 86400000) // every 24 hours. Nodejs could accept only integer < 2147483647 miliseconds
-winston.warn("mail timer initiating, setInterval to: 24 hours.");
+function intervalMarketMail(){
+  winston.warn("mail timer initiating, setInterval to: 24 hours.");
+  mailTimer(); // first time at init
+
+  setInterval(()=>{
+    mailTimer();
+  }, 43200000) // every 12 hours. Nodejs could accept only integer < 2147483647 miliseconds
+};
+intervalMarketMail();
