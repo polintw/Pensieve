@@ -21,7 +21,7 @@ async function mailListGenerator(){
   const d = new Date();
   const now = d.getTime(); // milisecond
   const respondPoint = now-interval; // past 24hr
-  const lastMailPoint = now-(interval* 5); // 5 days
+  const lastMailPoint = now-(interval* 5)-7200000; // 5 days & 2 hr, combine to interval in server.js
 
   try{
     //start from checking latest responds
@@ -52,13 +52,19 @@ async function mailListGenerator(){
     //then start checking if any new submit to belong
     const longPeriodUsers = await _DB_listMails.findAll({
       where: {
-        last_deliver: {[Op.lt]: lastMailPoint}, // more than 5 days not recieving mail
-        id_user: {[Op.notIn]: candidateList}, // exclude those users already on the list due to author to responds
+        [Op.or]: [
+          {last_deliver: {[Op.lt]: lastMailPoint}}, // more than 5 days not recieving mail
+          {id_user: {[Op.in]: candidateList}} // 'include' those users already on the list due to author to responds
+        ],
         setting: 'full' // to accelerate the process, we exclude ant users unsubscribed, but to exclude those from responds, we would still do this again later
       }
     });
-    let longPeriodList = longPeriodUsers.map((rowLongUsers, index)=>{ return rowLongUsers.id_user;});
-    candidateList = candidateList.concat(longPeriodList); // combine users list from responds & long period
+    candidateList = longPeriodUsers.map((rowLongUsers, index)=>{ return rowLongUsers.id_user;});
+    let usersMailStatus = {}; // used to save user's current mail status
+    longPeriodUsers.forEach((rowLongUsers, index) => {
+      usersMailStatus[rowLongUsers.id_user] = rowLongUsers.last_deliver;
+    });
+    // and pick user's belonged homeland, residenc, and lastvisit_index
     const usersBelongHome = await _DB_usersNodesHome.findAll({
       where: {id_user: candidateList}
     });
@@ -93,12 +99,17 @@ async function mailListGenerator(){
         id_noun: nodesList,
         createdAt: {[Op.gt]: earliestVisit}
       },
+      order: [ //make sure the order of arr are from earliest
+        Sequelize.literal('`createdAt` ASC') //and here, using 'literal' is due to some wierd behavior of sequelize,
+        //it would make an Error if we provide col name by 'arr'
+      ],
       // no Group by, select all and keep them all
     });
     let attriByNodes = {}, attriUnitsList= [];
     latestAttri.forEach((rowLatestAttri, i) => {
       // consider there were a small chance several unit would be created at 'exact' the same time, selected from attributes together,
       // it's important here to keep every node related to only one unit.
+      //And the "latest" would be left due to the latestAttri was from the earliest to latest
       attriByNodes[rowLatestAttri.id_noun] = rowLatestAttri.id_unit;
       if(attriUnitsList.indexOf(rowLatestAttri.id_unit) < 0) attriUnitsList.push(rowLatestAttri.id_unit);
     });
@@ -129,8 +140,10 @@ async function mailListGenerator(){
     unitsBasic.forEach((rowUnitsBasic, i) => {
       unitsUsedBasic[rowUnitsBasic.id] = {
         id: rowUnitsBasic.id,
+        author: rowUnitsBasic.id_author,
         exposedId: rowUnitsBasic.exposedId,
-        coverImg: rowUnitsBasic.url_pic_layer0
+        coverImg: rowUnitsBasic.url_pic_layer0,
+        createdAt: rowUnitsBasic.createdAt
       };
     });
     unitsAttribution.forEach((rowUnitsAttribution, i) => {
@@ -138,19 +151,22 @@ async function mailListGenerator(){
       unitsUsedBasic[rowUnitsAttribution.id_unit].nodesList.push(rowUnitsAttribution.noun.name) :
       unitsUsedBasic[rowUnitsAttribution.id_unit] = Object.assign({}, unitsUsedBasic[rowUnitsAttribution.id_unit], {nodesList: [rowUnitsAttribution.noun.name]})
     });
-    //now, this is finally the start to check if the users should recieve a mail
+    //now, finally start checking if the users should recieve a mail
     let mailList = [];
     let mailInfo = {};
     candidateList.forEach((userId, index) => {
-      // 2 things need to be examined: does the user has respond, which belong the user had had new,
+      // have to examined:
+      //  does the user has respond,
+      //  does the belong of user had new,
+      //  does the new to user's belong are upload by user self
+      //  or does the new one had had on user's mail list
       let belongedHome = "nodeBelongHome" in usersNotified[userId] ? usersNotified[userId]["nodeBelongHome"] : null;
       let belongedResi = "nodeBelongResi" in usersNotified[userId] ? usersNotified[userId]["nodeBelongResi"] : null;
       let newHomeify = (belongedHome in attriByNodes) ? true : false;
       let newResiify = (belongedResi in attriByNodes) ? true : false;
       let respondify = (userId in respondsNotify) ? true : false;
       if(respondify || newResiify || newHomeify){
-        mailList.push(userId);
-        mailInfo[userId] = [];
+        mailInfo[userId] = []; // notice, not yet sure the user could be put on the list
         // for convinient at html render, keep the type 'responds' at the first
         if(respondify) mailInfo[userId].push({
           unitExposed: unitsUsedBasic[respondsNotify[userId]].exposedId,
@@ -158,32 +174,37 @@ async function mailListGenerator(){
           imgUrl: unitsUsedBasic[respondsNotify[userId]].coverImg,
           nodes: unitsUsedBasic[respondsNotify[userId]].nodesList // ["name of node"]
         });
-        if(newHomeify) mailInfo[userId].push({
-          unitExposed: unitsUsedBasic[attriByNodes[belongedHome]].exposedId,
-          type: "newHome",
-          imgUrl: unitsUsedBasic[attriByNodes[belongedHome]].coverImg,
-          nodes: unitsUsedBasic[attriByNodes[belongedHome]].nodesList // ["name of node"]
-        });
-        if(newResiify) mailInfo[userId].push({
-          unitExposed: unitsUsedBasic[attriByNodes[belongedResi]].exposedId,
-          type: "newResi",
-          imgUrl: unitsUsedBasic[attriByNodes[belongedResi]].coverImg,
-          nodes: unitsUsedBasic[attriByNodes[belongedResi]].nodesList // ["name of node"]
-        });
+        if(newResiify){// has new to user beloned residence
+          if(
+            unitsUsedBasic[attriByNodes[belongedResi]].author != userId && // the new one not upload by user self
+            unitsUsedBasic[attriByNodes[belongedResi]].createdAt > usersMailStatus[userId] // the new one was created 'after' the last mail
+          ) mailInfo[userId].push({
+            unitExposed: unitsUsedBasic[attriByNodes[belongedResi]].exposedId,
+            type: "newResi",
+            imgUrl: unitsUsedBasic[attriByNodes[belongedResi]].coverImg,
+            nodes: unitsUsedBasic[attriByNodes[belongedResi]].nodesList // ["name of node"]
+          });
+        };
+        // and, we have an additional check for homeland to see if the unit by homeland was same as the residence,
+        // to avoid duplicate content to an user.
+        // That's mean we choose 'residence' as the prior remind
+        if(newHomeify){
+          if(
+            unitsUsedBasic[attriByNodes[belongedHome]].author != userId &&
+            unitsUsedBasic[attriByNodes[belongedHome]].createdAt > usersMailStatus[userId] &&
+            unitsUsedBasic[attriByNodes[belongedHome]].id != (newResiify ? unitsUsedBasic[attriByNodes[belongedResi]].id: null)
+          ) mailInfo[userId].push({
+            unitExposed: unitsUsedBasic[attriByNodes[belongedHome]].exposedId,
+            type: "newHome",
+            imgUrl: unitsUsedBasic[attriByNodes[belongedHome]].coverImg,
+            nodes: unitsUsedBasic[attriByNodes[belongedHome]].nodesList // ["name of node"]
+          });
+        };
+        // now chekc if the user qualified put on the list
+        if(mailInfo[userId].length > 0 ) mailList.push(userId);
       };
     });
     // now we have parpared a list of users going to mail
-    //last, there must some users don'y have unsubscribed, remove them
-    const fullUsers = await _DB_listMails.findAll({
-      where: {
-        id_user: mailList,
-        setting: 'full'
-      }
-    });
-    mailList = fullUsers.map((row, index)=>{
-      return row.id_user;
-    });
-    //so now the mailList would be shorter to or same length as mailInfo
     // everything completed, return the list & info to mailer
     return {
       mailList: mailList,
@@ -230,7 +251,7 @@ async function mailTimer(){
       return {
         from: '"Cornerth." <noreply.marketing@cornerth.com>', // sender address
         to: mailsData["address"][userId], // list of receivers
-        subject: (mailUnitArr.length >1 ) ? "New Responds & Contributions" : "Update to you", // Subject line
+        subject: (mailUnitArr[0].type == "responds" ) ? "New Responds to Your Contributions" : "Update to you", // Subject line
         html: _render_HtmlBody(mailUnitArr)
       };
     });
@@ -258,7 +279,7 @@ async function mailTimer(){
       // close it if while end(no mail going to send)
       transporter.close();
       // update last_deliver in _DB_listMails for those who was sent mail
-      await _DB_listMails.update(
+      if(sentMails.length > 0) await _DB_listMails.update(
         {last_deliver: Sequelize.literal('CURRENT_TIMESTAMP')},
         {where: {id_user: mailsData.mailList}}
       );
