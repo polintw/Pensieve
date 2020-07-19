@@ -54,6 +54,7 @@ origin: node_modules/draft-js-static-toolbar-plugin/lib/plugin.css
   vertical-align: bottom;
   height: 34px;
   width: 36px;
+  cursor: pointer;
 }
 
 .draftJsToolbar__button__qi1gf svg {

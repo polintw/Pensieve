@@ -1,7 +1,14 @@
 import React from 'react';
 // It is important to import the Editor which accepts plugins.
-import Editor, { createEditorStateWithText } from 'draft-js-plugins-editor';
-import createToolbarPlugin from 'draft-js-static-toolbar-plugin';
+import Editor from 'draft-js-plugins-editor';
+import createToolbarPlugin, { Separator } from 'draft-js-static-toolbar-plugin';
+import {
+  ItalicButton,
+  BoldButton,
+  UnderlineButton,
+  UnorderedListButton,
+  OrderedListButton
+} from 'draft-js-buttons';
 import {
   //Editor,
   EditorState,
@@ -67,7 +74,8 @@ class DraftEditor extends React.Component {
   render(){
     
     return(
-      <div>
+     <React.Fragment>
+      <div style={{ minHeight: '130px', marginBottom: '2.5%', overflowY: 'auto', cursor: "text"}}>
         <Editor
           ref={this.props.parentRef ? this.props.parentRef : this.contentEditor}
           editorState={this.state.editorState}
@@ -76,8 +84,26 @@ class DraftEditor extends React.Component {
           onChange={this.changeEditorState}
           plugins={plugins}
           placeholder={!!this.props.placeholder?this.props.placeholder : ''}/>
-        <Toolbar />
-      </div>
+       </div>
+       <div>
+        <Toolbar>
+          {
+            (externalProps)=>{
+              return(
+                <React.Fragment>
+                  <BoldButton {...externalProps} />
+                  <ItalicButton {...externalProps} />
+                  <UnderlineButton {...externalProps} />
+                  <Separator {...externalProps} />
+                  <UnorderedListButton {...externalProps} />
+                  <OrderedListButton {...externalProps} />
+                </React.Fragment>
+              )
+            }
+          }
+        </Toolbar>
+       </div>
+      </React.Fragment>
     )
   }
 
