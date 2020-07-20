@@ -115,7 +115,6 @@ class MarkEditingBlock extends React.Component {
         style={this.style.Com_MarkEditingBlock_}>
         <div
           className={classnames(styles.boxBlockDraft)}
-          style={{height: '100%', padding: '0 5%', overflowY: 'hidden'}}
           onClick={this._handleClick_markComponentEditor}>
           <div
             className={classnames(styles.boxDraftEditor, stylesFont.fontContent, stylesFont.colorEditBlack)}>
