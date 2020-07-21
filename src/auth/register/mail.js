@@ -40,7 +40,8 @@ function _handle_auth_mailConfirm_GET(req, res){
       _select_Basic(conditionUser, mysqlForm.accordancesList).then((rows)=>{
         if(rows.length>0){
           let applyData = rows[0];
-          if(applyData.status == 'newly') throw {custom: true, status: 302, path: '/s/confirm/success'};
+          // for link to confirm use, 2 condition: 'unverified/frequentUnverified' or 'newly/active'
+          if((applyData.status != 'unverified') || (applyData.status != 'frequentUnverified')) throw {custom: true, status: 302, path: '/s/confirm/success'};
           else{
             if(reqToken == applyData.token_email){
               let pupdateUsers = Promise.resolve(
