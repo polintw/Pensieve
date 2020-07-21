@@ -20,9 +20,9 @@
   width: 740px;
   height: 560px;
   min-width: 51.39%;
-  max-width: 98vw;
+  max-width: 100vw;
   min-height: 70.94%;
-  max-height: 90vh;
+  max-height: 96vh;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -71,4 +71,13 @@
 
 .boxNodesEditor {
   margin-bottom: 4.44vh;
+}
+
+@media screen and (max-width:860px) {
+  .comEditingPanel {
+    justify-content: space-around;
+  }
+  .boxContentWidth {
+    width: 92%;
+  }
 }

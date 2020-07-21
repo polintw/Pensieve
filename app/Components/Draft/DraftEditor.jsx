@@ -2,6 +2,7 @@ import React from 'react';
 // It is important to import the Editor which accepts plugins.
 import Editor from 'draft-js-plugins-editor';
 import createToolbarPlugin, { Separator } from 'draft-js-static-toolbar-plugin';
+import createLinkifyPlugin from 'draft-js-linkify-plugin';
 import {
   ItalicButton,
   BoldButton,
@@ -10,7 +11,6 @@ import {
   OrderedListButton
 } from 'draft-js-buttons';
 import {
-  //Editor,
   EditorState,
   convertToRaw,
   convertFromRaw,
@@ -22,8 +22,14 @@ const charactersRemindThreshold = 150;
 // Creates an Instance for Editor plugins. At this step, a configuration object can be passed in
 // as an argument.
 const staticToolbarPlugin = createToolbarPlugin();
+const linkifyPlugin = createLinkifyPlugin({
+  component: (props) => ( // the <a> has some unwanted default reaction to mouse, rm them, and keep the link unable
+    <a {...props}
+      style={{pointerEvents: 'none'}}/>
+  )
+});
 const { Toolbar } = staticToolbarPlugin;
-const plugins = [staticToolbarPlugin];
+const plugins = [staticToolbarPlugin, linkifyPlugin];
 
 class DraftEditor extends React.Component {
   constructor(props){
@@ -72,7 +78,7 @@ class DraftEditor extends React.Component {
   }
 
   render(){
-    
+
     return(
      <React.Fragment>
       <div style={{ minHeight: '130px', marginBottom: '2.5%', overflowY: 'auto', cursor: "text"}}>
