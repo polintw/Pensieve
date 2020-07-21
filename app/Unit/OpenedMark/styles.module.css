@@ -24,7 +24,7 @@
   width: 100%;
   position: relative;
   box-sizing: border-box;
-  padding: 5%;
+  padding: 3% 5% 5%;
 }
 
 .boxBlockBack {
@@ -35,10 +35,12 @@
 }
 
 .boxDraftEditor {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 100%;
-  min-height: 130px;
+  height: 100%;
   position: relative;
-  cursor: text;
 }
 
 .boxBlockSubmit {

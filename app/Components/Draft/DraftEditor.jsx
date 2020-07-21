@@ -37,6 +37,7 @@ class DraftEditor extends React.Component {
     this.state = {
       editorState: this.props.editorState?EditorState.createWithContent(convertFromRaw(this.props.editorState)):EditorState.createEmpty(),
     };
+    this.contentEditor = React.createRef();
     this.changeEditorState = this.changeEditorState.bind(this);
     this._count_CharactersRemain = this._count_CharactersRemain.bind(this);
     this._handleBeforeInput = this._handleBeforeInput.bind(this);
@@ -79,15 +80,36 @@ class DraftEditor extends React.Component {
   render(){
 
     return(
-      <div>
+     <React.Fragment>
+      <div style={{ minHeight: '130px', marginBottom: '2.5%', overflowY: 'auto', cursor: "text"}}>
         <Editor
-          ref={this.props.parentRef?this.props.parentRef:(element)=>{this.contentEditor = element;}}
+          ref={this.props.parentRef ? this.props.parentRef : this.contentEditor}
           editorState={this.state.editorState}
           handleBeforeInput={this._handleBeforeInput}
           handlePastedText={this._handlePastedText}
           onChange={this.changeEditorState}
+          plugins={plugins}
           placeholder={!!this.props.placeholder?this.props.placeholder : ''}/>
-      </div>
+       </div>
+       <div>
+        <Toolbar>
+          {
+            (externalProps)=>{
+              return(
+                <React.Fragment>
+                  <BoldButton {...externalProps} />
+                  <ItalicButton {...externalProps} />
+                  <UnderlineButton {...externalProps} />
+                  <Separator {...externalProps} />
+                  <UnorderedListButton {...externalProps} />
+                  <OrderedListButton {...externalProps} />
+                </React.Fragment>
+              )
+            }
+          }
+        </Toolbar>
+       </div>
+      </React.Fragment>
     )
   }
 
