@@ -1,6 +1,16 @@
 import React from 'react';
+// It is important to import the Editor which accepts plugins.
+import Editor from 'draft-js-plugins-editor';
+import createToolbarPlugin, { Separator } from 'draft-js-static-toolbar-plugin';
+import createLinkifyPlugin from 'draft-js-linkify-plugin';
 import {
-  Editor,
+  ItalicButton,
+  BoldButton,
+  UnderlineButton,
+  UnorderedListButton,
+  OrderedListButton
+} from 'draft-js-buttons';
+import {
   EditorState,
   convertToRaw,
   convertFromRaw,
@@ -9,6 +19,17 @@ import {
 
 const charactersLimit = 4000;
 const charactersRemindThreshold = 150;
+// Creates an Instance for Editor plugins. At this step, a configuration object can be passed in
+// as an argument.
+const staticToolbarPlugin = createToolbarPlugin();
+const linkifyPlugin = createLinkifyPlugin({
+  component: (props) => ( // the <a> has some unwanted default reaction to mouse, rm them, and keep the link unable
+    <a {...props}
+      style={{pointerEvents: 'none'}}/>
+  )
+});
+const { Toolbar } = staticToolbarPlugin;
+const plugins = [staticToolbarPlugin, linkifyPlugin];
 
 class DraftEditor extends React.Component {
   constructor(props){
@@ -56,6 +77,7 @@ class DraftEditor extends React.Component {
   }
 
   render(){
+
     return(
       <div>
         <Editor
