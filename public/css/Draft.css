@@ -21,7 +21,7 @@
 .public-DraftEditorPlaceholder-root{color:#d8d8d8;position:absolute;z-index:1}
 .public-DraftEditorPlaceholder-hasFocus{color:#bdc1c9}.DraftEditorPlaceholder-hidden{display:none}
 .public-DraftStyleDefault-block{position:relative;white-space:pre-wrap}.public-DraftStyleDefault-ltr{direction:ltr;text-align:left}.public-DraftStyleDefault-rtl{direction:rtl;text-align:right}
-.public-DraftStyleDefault-listLTR{direction:ltr}.public-DraftStyleDefault-listRTL{direction:rtl}.public-DraftStyleDefault-ol,.public-DraftStyleDefault-ul{margin:16px 0;padding:0}
+.public-DraftStyleDefault-listLTR{direction:ltr}.public-DraftStyleDefault-listRTL{direction:rtl}.public-DraftStyleDefault-ol,.public-DraftStyleDefault-ul{margin:14px 0;padding:0}
 .public-DraftStyleDefault-depth0.public-DraftStyleDefault-listLTR{margin-left:1.5em}
 .public-DraftStyleDefault-depth0.public-DraftStyleDefault-listRTL{margin-right:1.5em}.public-DraftStyleDefault-depth1.public-DraftStyleDefault-listLTR{margin-left:3em}.public-DraftStyleDefault-depth1.public-DraftStyleDefault-listRTL{margin-right:3em}.public-DraftStyleDefault-depth2.public-DraftStyleDefault-listLTR{margin-left:4.5em}
 .public-DraftStyleDefault-depth2.public-DraftStyleDefault-listRTL{margin-right:4.5em}
@@ -35,3 +35,89 @@
 .public-DraftStyleDefault-depth0.public-DraftStyleDefault-reset{counter-reset:ol0}.public-DraftStyleDefault-depth1.public-DraftStyleDefault-reset{counter-reset:ol1}
 .public-DraftStyleDefault-depth2.public-DraftStyleDefault-reset{counter-reset:ol2}
 .public-DraftStyleDefault-depth3.public-DraftStyleDefault-reset{counter-reset:ol3}.public-DraftStyleDefault-depth4.public-DraftStyleDefault-reset{counter-reset:ol4}
+
+/*
+.css of draft-js-static-toolbar-plugin
+
+origin: node_modules/draft-js-static-toolbar-plugin/lib/plugin.css
+*/
+.draftJsToolbar__buttonWrapper__1Dmqh {
+  display: inline-block;
+}
+
+.draftJsToolbar__button__qi1gf {
+  background: #fbfbfb;
+  color: #888;
+  font-size: 18px;
+  border: 0;
+  padding-top: 5px;
+  vertical-align: bottom;
+  height: 34px;
+  width: 36px;
+  cursor: pointer;
+}
+
+.draftJsToolbar__button__qi1gf svg {
+  fill: #888;
+}
+
+.draftJsToolbar__button__qi1gf:hover, .draftJsToolbar__button__qi1gf:focus {
+  background: #f3f3f3;
+  outline: 0; /* reset for :focus */
+}
+
+.draftJsToolbar__active__3qcpF {
+  background: #efefef;
+  color: #444;
+}
+
+.draftJsToolbar__active__3qcpF svg {
+  fill: #444;
+}
+.draftJsToolbar__separator__3U7qt {
+  display: inline-block;
+  border-right: 1px solid #ddd;
+  height: 24px;
+  margin: 0 0.5em;
+}
+.draftJsToolbar__toolbar__dNtBH {
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 2px;
+  box-shadow: 0px 1px 3px 0px rgba(220,220,220,1);
+  z-index: 2;
+  box-sizing: border-box;
+}
+
+.draftJsToolbar__toolbar__dNtBH:after {
+  border-color: rgba(255, 255, 255, 0);
+  border-top-color: #fff;
+  border-width: 4px;
+  margin-left: -4px;
+}
+.draftJsToolbar__toolbar__dNtBH:before {
+  border-color: rgba(221, 221, 221, 0);
+  border-top-color: #ddd;
+  border-width: 6px;
+  margin-left: -6px;
+}
+
+/*
+.css of draft-js-linkify-plugin
+
+origin: node_modules/draft-js-linkify-plugin/lib/plugin.css
+*/
+.draftJsLinkifyPlugin__link__2ittM, .draftJsLinkifyPlugin__link__2ittM:visited {
+  color: #5e93c5;
+  text-decoration: none;
+}
+
+.draftJsLinkifyPlugin__link__2ittM:hover, .draftJsLinkifyPlugin__link__2ittM:focus {
+  color: #7eadda;
+  outline: 0; /* reset for :focus */
+  cursor: pointer;
+}
+
+.draftJsLinkifyPlugin__link__2ittM:active {
+  color: #4a7bab;
+}

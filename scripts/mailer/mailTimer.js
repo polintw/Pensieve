@@ -279,7 +279,7 @@ async function mailTimer(){
       // close it if while end(no mail going to send)
       transporter.close();
       // update last_deliver in _DB_listMails for those who was sent mail
-      if(sentMails.length > 0) await _DB_listMails.update(
+      if(mailsData.mailList.length > 0) await _DB_listMails.update(
         {last_deliver: Sequelize.literal('CURRENT_TIMESTAMP')},
         {where: {id_user: mailsData.mailList}}
       );

@@ -93,7 +93,7 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
       weekLastAssignedList: [],
       weekBeforeAssignedList: []
     };
-    let weekBefore = new Date(lastVisit.getTime() - 604800000);
+    let weekBefore = new Date(lastVisit.getTime() - 777600000); // not 'week', is 9 days before lastVisit
     let unitsInfo = {}; // to keep belong type of each assigned unit
 
     return Promise.all([
