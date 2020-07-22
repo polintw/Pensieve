@@ -41,7 +41,7 @@ function _handle_auth_mailConfirm_GET(req, res){
         if(rows.length>0){
           let applyData = rows[0];
           // for link to confirm use, 2 condition: 'unverified/frequentUnverified' or 'newly/active'
-          if((applyData.status != 'unverified') || (applyData.status != 'frequentUnverified')) throw {custom: true, status: 302, path: '/s/confirm/success'};
+          if((applyData.status != 'unverified') && (applyData.status != 'frequentUnverified')) throw {custom: true, status: 302, path: '/confirm/success'};
           else{
             if(reqToken == applyData.token_email){
               let pupdateUsers = Promise.resolve(
@@ -65,15 +65,15 @@ function _handle_auth_mailConfirm_GET(req, res){
               return Promise.all([pupdateUsers, pupdateUsersApply]).then((results)=>{
                 res.status(200).redirect('/confirm/success');
               });
-            }else{throw {custom: true, status: 401, path: '/s/confirm/fail', err: 'token_email inconsistent for user sended'}};
+            }else{throw {custom: true, status: 401, path: '/confirm/fail', err: 'token_email inconsistent for user sended'}};
           }
         }else{
-          throw {custom: true, status: 404, path: '/s/confirm/fail', err: 'no such user found '+userId};
+          throw {custom: true, status: 404, path: '/confirm/fail', err: 'no such user found '+userId};
         }
       }).catch((errObj)=>{
         //catch errors, both custom and internal
         if('err' in errObj) console.log("Error catched during: auth/confirm register promise: "+errObj.err);
-        errObj = Object.assign({status: 500, path: '/s/confirm/fail'}, errObj);
+        errObj = Object.assign({status: 500, path: '/confirm/fail'}, errObj);
         res.status(errObj.status).redirect(errObj.path);
       });
     }
