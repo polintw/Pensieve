@@ -205,12 +205,6 @@ class Wrapper extends React.Component {
             <BelongsSet/>
           </div>
           <div
-            className={classnames(styles.boxRow)}
-            style={{paddingTop: '24px'}}>
-            <GuideNails
-              guideChoice={'instruction'}/>
-          </div>
-          <div
             className={classnames(styles.boxFooter)}
             style={{marginBottom: '6vh'}}></div>
         </div>
