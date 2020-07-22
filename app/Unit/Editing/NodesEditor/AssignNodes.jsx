@@ -22,6 +22,7 @@ class AssignNodes extends React.Component {
       restTypes: ["homeland", "residence"] //depend on type users can assign
     };
     this._render_assignedNodes = this._render_assignedNodes.bind(this);
+    this._render_settingModal = this._render_settingModal.bind(this);
     this._handleEnter_liItem = this._handleEnter_liItem.bind(this);
     this._handleLeave_liItem = this._handleLeave_liItem.bind(this);
     this._handleClick_NodeAssigned = this._handleClick_NodeAssigned.bind(this);
@@ -173,6 +174,50 @@ class AssignNodes extends React.Component {
       return nodesDOM;
     }; //process would stop if return from this if()
 
+    let nodesDOM = assignedNodes.map((nodeId, index) => {
+
+      return (
+        <li
+          key={'_key_assignNode_' + index }
+          nodeid={nodeId}
+          className={classnames(
+            styles.boxListItem,
+            styles.chosenListItem
+          )}
+          onClick={this._handleClick_NodeAssigned}
+          onMouseEnter={this._handleEnter_liItem}
+          onMouseLeave={this._handleLeave_liItem}>
+          {(nodeId in this.props.nounsBasic) &&
+            <div>
+              <span
+                className={classnames(
+                  styles.spanListItem, stylesFont.fontContent, "colorWhite",
+                  styles.chosenSpanItem
+                  {
+                    [styles.mouseSpanItem]: (this.state.onNode== nodeId)
+                  }
+                )}>
+                {this.props.nounsBasic[nodeId].name}</span>
+              {
+                !!this.props.nounsBasic[nodeId].prefix &&
+                <span
+                  className={classnames(
+                    styles.spanListItem, stylesFont.fontContent, "colorWhite",
+                    styles.chosenSpanItem
+                    {
+                      [styles.mouseSpanItem]: (this.state.onNode== nodeId)
+                    }
+                  )}
+                  style={{ alignSelf:'right', fontSize: '1.2rem'}}>
+                  {", "+this.props.nounsBasic[nodeId].prefix}</span>
+              }
+            </div>
+          }
+        </li>
+      );
+
+    });
+    /*
     // compare series list to render the same node only once & create node-type table(obj)
     let seriesList = []; // to save both serires as nest arr: [[ 'list homeland'], [ 'list residence']]
     let nodesList= [],
@@ -186,11 +231,11 @@ class AssignNodes extends React.Component {
       typeList.reverse(); // reverse the typeList, the 'largest' administration would be the first
       seriesList.push(typeList);
     });
-    /*
-    then, loop the seriesList, and by each item in each sereis,
-    compare to nodesList. If the item hasn't been in nodesList, unshift it.
-    */
-    seriesList.forEach((series, index) => {
+
+    //then, loop the seriesList, and by each item in each sereis,
+    //compare to nodesList. If the item hasn't been in nodesList, unshift it.
+
+        seriesList.forEach((series, index) => {
       series.forEach((nodeId, i) => {
         if(nodesList.indexOf(nodeId) < 0){
           nodesList.unshift(nodeId);
@@ -261,11 +306,22 @@ class AssignNodes extends React.Component {
           }
         </li>
       );
-    });
+    });*/
+
+    // ???
     // finally, remembering set nodesToType to this.nodesTypes, used to an old method to set assigning to props
     this.nodesTypes = nodesToType;
 
     return nodesDOM;
+  }
+
+  _render_settingModal(){
+    if(this.props.unitView=="editing") return; // no need to render anything if editing
+    if(this.props.assigned.length >= 3 ) return; // no seat left
+
+    return (
+
+    )
   }
 
   render(){
@@ -273,6 +329,7 @@ class AssignNodes extends React.Component {
       <div
         className={classnames(styles.comAssignNodes)}>
         {this._render_assignedNodes()}
+        {this._render_settingModal()}
 
       </div>
     )
