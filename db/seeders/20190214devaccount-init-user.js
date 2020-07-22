@@ -33,16 +33,6 @@ module.exports = {
       ], {})
     })
     .then(()=>{
-      return queryInterface.bulkInsert('lastvisit_shared', [
-        {id_user: '1'}
-      ], {})
-    })
-    .then(()=>{
-      return queryInterface.bulkInsert('lastvisit_notify', [
-        {id_user: '1'}
-      ], {})
-    })
-    .then(()=>{
       return queryInterface.bulkInsert('lastvisit_index', [
         {id_user: '1'}
       ], {})

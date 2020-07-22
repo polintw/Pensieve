@@ -27,18 +27,6 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
-    users.hasOne(models.lastvisit_notify, {
-      foreignKey: "id_user",
-      sourceKey: "id",
-      onDelete: 'cascade',
-      onUpdate: 'cascade'
-    });
-    users.hasOne(models.lastvisit_shared, {
-      foreignKey: "id_user",
-      sourceKey: "id",
-      onDelete: 'cascade',
-      onUpdate: 'cascade'
-    });
     users.hasOne(models.list_mails, {
       foreignKey:"id_user",
       onDelete: 'cascade',
