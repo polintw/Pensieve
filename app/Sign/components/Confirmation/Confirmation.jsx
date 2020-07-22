@@ -21,7 +21,9 @@ class ConfirmSuccess extends React.Component {
         justifyContent: 'flex-end',
         alignItems: 'flex-start',
         width: '100%',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        paddingTop: "12vh",
+        marginBottom: "7.6vh"
       }
     }
   }
@@ -67,7 +69,9 @@ class ConfirmFail extends React.Component {
         justifyContent: 'flex-end',
         alignItems: 'flex-start',
         width: '100%',
-        boxSizing: 'border-box'
+        boxSizing: 'border-box',
+        paddingTop: "12vh",
+        marginBottom: "7.6vh"
       }
     }
   }
