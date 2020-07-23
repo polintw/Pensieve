@@ -39,15 +39,15 @@ async function _get_ancestors(userId){
     throw new internalError("from _DB_usersNodesResidence selection shareHandler_POST, "+err, 131);});
 
   let ancestorsByType = {};
-  let belongList = [], belongsToType={}; //list used to select from assign, would incl. parent of belong nodes.
-  if(!!userResidence){ belongList.push(userResidence.id_node); belongsToType[userResidence.id_node]= "residence"};
-  if(!!userHomeland){ belongList.push(userHomeland.id_node);  belongsToType[userHomeland.id_node]= 'homeland'};
+  let belongList = [], setTypes = [], typeToNodes={}; //list used to select from assign, would incl. parent of belong nodes.
+  if(!!userResidence){ belongList.push(userResidence.id_node); setTypes.push("residence"); typeToNodes["residence"]= userResidence.id_node};
+  if(!!userHomeland){ belongList.push(userHomeland.id_node); setTypes.push("homeland");  typeToNodes["homeland"]= userHomeland.id_node};
   // build a check point to block action without belong setting first .
   if(belongList.length < 1) throw new forbbidenError("Please, submit your Shared only after set a corner you belong to.", 120);
-
   const ancestorsInfo = await selectNodesParent(belongList);
-  belongList.forEach((nodeId, index)=>{ //loop by list client sent
-    let type = belongsToType[nodeId];
+
+  setTypes.forEach((type, index)=>{ //loop by list client set
+    let nodeId = typeToNodes[type];
     if(nodeId in ancestorsInfo){
       let selfInclList = [], currentNode=ancestorsInfo[nodeId].id;
       while (!!currentNode) { //jump out until the currentNode was "null" or 'undefined'
@@ -194,7 +194,7 @@ async function validateShared(modifiedBody, userId) {
     return true; //we are using .every(), must return true to go to next round
   });
   if(!assignSetConfirm) {
-    throw new forbbidenError("You didn't submit with an allowed nodes.", 120);
+    throw new forbbidenError(" assignSetConfirm was false, not allowed node type or not user's belonged node.", 120);
     return;
   };
   // checking if all the nodes exist.
@@ -204,7 +204,7 @@ async function validateShared(modifiedBody, userId) {
     where: {id: concatNodesList}
   })
   if(allNodesConfirm.length != concatNodesList.length){
-    throw new forbbidenError("You didn't submit with an allowed nodes.", 120);
+    throw new forbbidenError(" some of assignedNodes did not exist.", 120);
     return;
   };
 

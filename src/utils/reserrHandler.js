@@ -246,8 +246,9 @@ function _handle_ErrCatched(e, req, res){
     case 120:
       //403
       //currently used by sharedsPOST, when there is no noun accompany
+      winston.warn(`${e.status} - ${"code 120, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
       clientSet['code'] = 120;
-      clientSet['message'] = e.message;
+      clientSet['message'] = "You didn't submit with an allowed nodes";
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;
