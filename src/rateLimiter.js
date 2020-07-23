@@ -48,7 +48,7 @@ const forgetLimiter = rateLimit({ // incl. /forget/password
 });
 const shareLimiter = rateLimit({
   windowMs: 12 * 60 * 1000, // 12 minutes
-  max: 3,
+  max: 7,
   message:{
     'message':  "Trying sharing a new unit from yuor account too many times.",
     'console': ''
