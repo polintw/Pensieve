@@ -28,7 +28,7 @@ async function mailListGenerator(){
     const latestResponds = await _DB_responds.findAll({
       where: {createdAt: {[Op.gt]: respondPoint} }
     });
-    let respondsAuthors = latestResponds.map((row, index) => { return row.id_author; });
+    let respondsAuthors = latestResponds.map((row, index) => { return row.primer_author; });
     const respondsAuthorVisit = await _DB_lastVisitIndex.findAll({
       where: {id_user: respondsAuthors}
     });
@@ -43,10 +43,10 @@ async function mailListGenerator(){
     let respondsNotify = {}; // used to save users and units going to set as type:respond
     let respondsUnitsList = []; // used to save the units due to responds going to mail to author
     latestResponds.forEach((row, index) => { //check each responds and it's author, any necessary need to mail--- if no visit after the responds
-      if( row.createdAt> authorsLastVisit[row.id_author] && !(row.id_author in respondsNotify)){
-        respondsNotify[row.id_author] = row.id_unit;
+      if( row.createdAt> authorsLastVisit[row.primer_author] && !(row.primer_author in respondsNotify)){
+        respondsNotify[row.primer_author] = row.id_unit;
         respondsUnitsList.push(row.id_unit);
-        candidateList.push(row.id_author);
+        candidateList.push(row.primer_author);
       };
     });
     //then start checking if any new submit to belong
