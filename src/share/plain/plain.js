@@ -2,6 +2,7 @@ const express = require('express');
 const execute = express.Router();
 const fs = require('fs');
 const path = require("path");
+const sharp = require('sharp');
 const {validateShared} = require('./validation.js');
 const projectRootPath = require("../../../projectRootPath");
 const winston = require('../../../config/winston.js');
@@ -24,6 +25,22 @@ const {
   _res_success_201
 } = require('../../utils/resHandler.js');
 
+const resizeThumb = (base64Buffer)=>{
+  return sharp(base64Buffer)
+      .rotate()
+      .resize({width: 640, height: 640, fit: 'inside'})  // px, define it to nHD 640 x 360
+      .jpeg({
+          quality: 64
+        })
+      .toBuffer({ resolveWithObject: true })
+      .then(({data, info})=>{
+        winston.verbose(`${"resizeThumb, inside POST /share, "} ${"outputFormat: "+info.format}, ${"outputSize: "+info.size}`);
+        let imgBase64 = new Buffer.from(data, 'binary').toString('base64');
+        return imgBase64;
+      }).catch((err)=>{
+        throw err;
+      });
+};
 
 async function shareHandler_POST(req, res){
   const userId = req.extra.tokenUserId; //use userId passed from pass.js
@@ -51,26 +68,44 @@ async function shareHandler_POST(req, res){
     if(req.body.beneathBase64){
       let beneathBase64Splice = req.body.beneathBase64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/)
       beneathBase64Buffer = Buffer.from(beneathBase64Splice[2], 'base64');
-    }
-    fs.writeFile(path.join(projectRootPath, userImg+userId+'/'+req.body.submitTime+"_layer_0.jpg"), coverBase64Buffer, function(err){
-      if(err) {
-        reject(new internalError(err ,131));
-        return;
-      };
-      modifiedBody['url_pic_layer0'] = userId+'/'+req.body.submitTime+'_layer_0.jpg';
-      if(req.body.beneathBase64){
-        fs.writeFile(path.join(projectRootPath, userImg+userId+'/'+req.body.submitTime+"_layer_1.jpg"), beneathBase64Buffer, function(err){
+    };
+
+    // the img pass from client could as big as 1920px x 1920px
+    // prepare a smaller one for 'thumb'
+    resizeThumb(coverBase64Buffer)
+    .then((coverBase64Thumb)=>{
+      // save image pass from client
+      fs.writeFile(path.join(projectRootPath, userImg+userId+'/'+req.body.submitTime+"_layer_0.jpg"), coverBase64Buffer, function(err){
+        if(err) {
+          reject(new internalError(err ,131));
+          return;
+        };
+        modifiedBody['url_pic_layer0'] = userId+'/'+req.body.submitTime+'_layer_0.jpg'; // save path to DB units
+        // save thumb img to path _thumb
+        let coverBase64BufferThumb = Buffer.from(coverBase64Thumb, 'base64');
+        fs.writeFile(path.join(projectRootPath, userImg+userId+'/'+'thumb_'+req.body.submitTime+"_layer_0.jpg"), coverBase64BufferThumb, function(err){
           if(err) {
             reject(new internalError(err ,131));
             return;
           };
-          modifiedBody['url_pic_layer1'] = userId+'/'+req.body.submitTime+'_layer_1.jpg';
-          resolve();
-        });
-      }else{
-        resolve();
-      }
+          if(req.body.beneathBase64){
+            fs.writeFile(path.join(projectRootPath, userImg+userId+'/'+req.body.submitTime+"_layer_1.jpg"), beneathBase64Buffer, function(err){
+              if(err) {
+                reject(new internalError(err ,131));
+                return;
+              };
+              modifiedBody['url_pic_layer1'] = userId+'/'+req.body.submitTime+'_layer_1.jpg';
+              resolve();
+            });
+          }else{
+            resolve();
+          }
+        })
+      });
     })
+    .catch((err)=>{
+      reject(new internalError(err ,131));
+    });
   }).then(()=>{
 
     delete modifiedBody.coverBase64;

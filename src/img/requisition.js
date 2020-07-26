@@ -10,7 +10,7 @@ function _handle_img_requisition(req, res){
   const file = req.params.ofWhich;
   switch(req.query.type){
     case 'thumb':
-      res.sendFile(path.join(projectRootPath, userImg+folder+'/'+file), {headers: {'Content-Type': 'image'}}, function (err) {
+      res.sendFile(path.join(projectRootPath, userImg+folder+'/'+'thumb_'+ file), {headers: {'Content-Type': 'image'}}, function (err) {
         if (err) {
           console.log('error occured: img sending fail:'+err);
           res.status(404).end();
