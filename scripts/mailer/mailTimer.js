@@ -28,14 +28,24 @@ async function mailListGenerator(){
     const latestResponds = await _DB_responds.findAll({
       where: {createdAt: {[Op.gt]: respondPoint} }
     });
-    let respondsAuthors = latestResponds.map((row, index) => { return row.primer_author; });
+    let respondsAuthorsUnsure = latestResponds.map((row, index) => { return row.primer_author; }); // it's possible same author have several responds
+    respondsAuthors = respondsAuthorsUnsure.filter((authorId, index)=>{ return index == respondsAuthorsUnsure.indexOf(authorId)});
     const respondsAuthorVisit = await _DB_lastVisitIndex.findAll({
       where: {id_user: respondsAuthors}
     });
-    let authorsLastVisit ={};
+    const respondsAuthorsLastMail = await _DB_listMails.findAll({
+      where: {id_user: respondsAuthors}
+    });
+    // make both selection results to an obj which could be index by author id
+    let authorsLastVisit ={}, authorsLastMail ={};
     respondsAuthorVisit.forEach((rowAuthorsVisit, index) => {
       if(!(rowAuthorsVisit.id_user in authorsLastVisit)){
         authorsLastVisit[rowAuthorsVisit.id_user] = rowAuthorsVisit.updatedAt;
+      }
+    });
+    respondsAuthorsLastMail.forEach((rowAuthorsLastMail, index) => {
+      if(!(rowAuthorsLastMail.id_user in authorsLastMail)){
+        authorsLastMail[rowAuthorsLastMail.id_user] = rowAuthorsLastMail.last_deliver;
       }
     });
 
@@ -43,7 +53,10 @@ async function mailListGenerator(){
     let respondsNotify = {}; // used to save users and units going to set as type:respond
     let respondsUnitsList = []; // used to save the units due to responds going to mail to author
     latestResponds.forEach((row, index) => { //check each responds and it's author, any necessary need to mail--- if no visit after the responds
-      if( row.createdAt> authorsLastVisit[row.primer_author] && !(row.primer_author in respondsNotify)){
+      if( row.createdAt> authorsLastVisit[row.primer_author] &&
+        row.createdAt> authorsLastMail[row.primer_author].last_deliver &&
+        !(row.primer_author in respondsNotify) // first one of an author encounter by loop
+      ){
         respondsNotify[row.primer_author] = row.id_unit;
         respondsUnitsList.push(row.id_unit);
         candidateList.push(row.primer_author);
