@@ -10,7 +10,18 @@ function _handle_img_requisition(req, res){
   const file = req.params.ofWhich;
   switch(req.query.type){
     case 'thumb':
-      res.sendFile(path.join(projectRootPath, userImg+folder+'/'+file), {headers: {'Content-Type': 'image'}}, function (err) {
+      /*
+      For historical reason, units created before 31 JUL. 2020, or by user id less than 70,
+      do not have thumb_ img, set a check for this condition before the file were all prepared
+      */
+      let thumbImgPath = '';
+      if (fs.existsSync(path.join(projectRootPath, userImg+folder+'/'+'thumb_'+ file))) {
+        thumbImgPath = path.join(projectRootPath, userImg+folder+'/'+'thumb_'+ file);
+      }
+      else {
+        thumbImgPath = path.join(projectRootPath, userImg+folder+'/'+ file);
+      };
+      res.sendFile(thumbImgPath, {headers: {'Content-Type': 'image'}}, function (err) {
         if (err) {
           console.log('error occured: img sending fail:'+err);
           res.status(404).end();
