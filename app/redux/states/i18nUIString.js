@@ -120,6 +120,7 @@ const i18nUIString_EN = {
   "guiding_placeholder_UnitEdit_MarkBlock": "What's SPECIAL!  Tell us about details you found." , //Original:Telling us some details you found."
   "message_UnitEdit_tooManySpot": "A better spot? However, having too many highlights could be overwhelmed to readers. Please delete an old one before you implement this new!", //Original:"A better spot? But too many paragraph would be a burdon to readers. Please delete an old one before you implement this new!"
   "message_UnitEdit_ruleAssignedNodes": ["Select only one corner from where you stay, and one from your homeland."],
+  "tagTitle_Unit_Inspired": "inspired by this article",
 
   "title_shareUpload_typewriter": ['S','u','b','m','i', 't'],
   "guidingCreateShare_AssignGroup": "Corners or fellows you could contribute to",//Changed "corner(s)" to "Corner(s)"

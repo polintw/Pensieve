@@ -74,9 +74,13 @@ class Wrapper extends React.Component {
           className={classnames(styles.boxContentWidth, styles.boxBottom)}>
           <div
             className={classnames(styles.boxBottomRight)}>
-            <div>
-              <Inspired/>
-            </div>
+            {
+              (this.props.unitCurrent.identity != "author") &&
+              <div
+                className={classnames(styles.btnBottomIcon)}>
+                <Inspired/>
+              </div>
+            }
 
             <div>
               {
