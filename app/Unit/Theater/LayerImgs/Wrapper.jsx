@@ -8,6 +8,7 @@ import classnames from 'classnames';
 import styles from './styles.module.css';
 import ImgsFrame from './ImgsFrame.jsx';
 import SidePanel from './SidePanel.jsx';
+import Inspired from '../components/Inspired/Inspired.jsx';
 import Primer from '../components/Primer.jsx';
 import {NodesExtensible} from '../../NodesDisplay/NodesExtensible.jsx';
 import ImgPreview from '../../../Components/ImgPreview.jsx';
@@ -71,22 +72,29 @@ class Wrapper extends React.Component {
         </div>
         <div
           className={classnames(styles.boxContentWidth, styles.boxBottom)}>
-          <div>
-            {
-              (this.props.guidingNailsId.indexOf(this.props.unitCurrent.unitId) < 0) && // guidingNails do not show the Respond & view responds
-              <span
-                className={classnames(
-                  'colorEditBlack',
-                  'fontContentPlain',
-                  styles.spanResponds,
-                  {[styles.spanRespondsActiv]: this.state.onSpanResponds}
-                )}
-                onClick={this._handleClick_LinkListResponds}
-                onMouseEnter={this._handleEnter_spanResponds}
-                onMouseLeave={this._handleLeave_spanResponds}>
-                {this.props.i18nUIString.catalog['link_UnitListResponds']}
-              </span>
-            }
+          <div
+            className={classnames(styles.boxBottomRight)}>
+            <div>
+              <Inspired/>
+            </div>
+
+            <div>
+              {
+                (this.props.guidingNailsId.indexOf(this.props.unitCurrent.unitId) < 0) && // guidingNails do not show the Respond & view responds
+                <span
+                  className={classnames(
+                    'colorEditBlack',
+                    'fontContentPlain',
+                    styles.spanResponds,
+                    {[styles.spanRespondsActiv]: this.state.onSpanResponds}
+                  )}
+                  onClick={this._handleClick_LinkListResponds}
+                  onMouseEnter={this._handleEnter_spanResponds}
+                  onMouseLeave={this._handleLeave_spanResponds}>
+                  {this.props.i18nUIString.catalog['link_UnitListResponds']}
+                </span>
+              }
+            </div>
           </div>
           <div
             className={classnames(styles.boxBottomLeft)}>

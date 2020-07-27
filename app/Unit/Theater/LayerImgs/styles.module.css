@@ -44,6 +44,12 @@
   display: flex;
   justify-content: flex-start;
   align-items: flex-end;
+  max-width: 440px;
+}
+
+.boxBottomRight {
+  display: flex;
+  align-items: center;
 }
 
 .boxBottomUpper {
