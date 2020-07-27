@@ -35,17 +35,7 @@ const bulbDelight = (propsWickColor)=>{
         boxSizing: 'border-box'
       })}>
       <defs>
-        <style>{".cls-1-bulbDelight{fill:url(#未命名漸層_45);}.cls-2-bulbDelight{fill:"+wickColor+";}.cls-3-bulbDelight{fill:#a3a3a3;}.cls-4-bulbDelight{fill:rgba(84, 84, 84, 0.45);}"}</style>
-        <linearGradient id="未命名漸層_45" x1="65.51" y1="155.48" x2="65.51" y2="5.02" gradientUnits="userSpaceOnUse">
-          <stop offset="0" stopColor="#ffd16d"/>
-          <stop offset="0.1" stopColor="#ffd86f"/>
-          <stop offset="0.26" stopColor="#ffed75"/>
-          <stop offset="0.37" stopColor="#ffff7b"/>
-          <stop offset="0.45" stopColor="#ff8"/>
-          <stop offset="0.67" stopColor="#ffffa7"/>
-          <stop offset="0.87" stopColor="#ffffba"/>
-          <stop offset="1" stopColor="#ffffc1"/>
-        </linearGradient>
+        <style>{".cls-1-bulbDelight{fill:rgba(240, 151, 22, 0.45);}.cls-2-bulbDelight{fill:" + wickColor +";}.cls-3-bulbDelight{fill:rgba(240, 151, 22, 0.45);}.cls-4-bulbDelight{fill:transparent;}"}</style>
       </defs>
       <g id="圖層_2" data-name="圖層 2">
         <g id="圖層_1-2" data-name="圖層 1">
@@ -72,7 +62,7 @@ export class SvgBulbInspired extends React.Component {
   render(){
     switch (this.props.bulbPattern) {
       case 'dark':
-        let fillColor = this.props.mouseReact ? "#ff8168" : false;
+        let fillColor = this.props.mouseReact ? "rgba(255, 129, 104, 0.45)" : false;
         return bulbDark(fillColor);
         break;
       case 'delight':
@@ -82,7 +72,7 @@ export class SvgBulbInspired extends React.Component {
         return
         break;
       default:
-        let fillColorDefault = this.props.mouseReact ? "#ff8168" : false;
+        let fillColorDefault = this.props.mouseReact ? "rgba(255, 129, 104, 0.45)" : false;
         return bulbDark(fillColorDefault);
     }
   }

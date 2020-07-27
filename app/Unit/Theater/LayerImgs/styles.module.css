@@ -27,8 +27,15 @@
   box-sizing: border-box;
   margin-bottom: 2.54vh;
   border-radius: 4px;
-  background-color: rgba(217, 232, 255, 0.15);
   overflow: hidden;
+}
+
+.boxFrameAuthor {
+  display: flex;
+}
+
+.boxAuthorStatics {
+  width: 80px;
 }
 
 .boxBottom {
@@ -73,7 +80,7 @@
 
 .btnBottomIcon {
   width: 4.8rem;
-  height: 4rem;
+  height: 3.6rem;
   position: relative;
   margin-right: 2rem;
   border-radius: 4px;
@@ -105,4 +112,14 @@
   position: relative;
   box-sizing: border-box;
   border-radius: 4px;
+}
+
+@media screen and (max-width:860px) {
+  .boxFrameAuthor {
+    flex-direction: column;
+  }
+
+  .boxAuthorStatics {
+    align-self: flex-end;
+  }
 }

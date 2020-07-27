@@ -62,13 +62,23 @@ class Wrapper extends React.Component {
             {...this.props}/>
         </div>
         <div
-          className={classnames(styles.boxContentWidth, styles.boxFrame)}>
+          className={classnames(
+            styles.boxContentWidth, styles.boxFrame,
+            {[styles.boxFrameAuthor]: (this.props.unitCurrent.identity == "author")}
+            )}>            
           <ImgsFrame
             moveCount={this.props.moveCount}
             lockify={this.props.lockify}
             marksStatus={this.props.marksStatus}
             _set_markOpened={this.props._set_markOpened}
             _set_layerstatus={this.props._set_layerstatus}/>
+          {
+            (this.props.unitCurrent.identity == "author") &&
+            <div
+              className={classnames(styles.boxAuthorStatics)}>
+
+            </div>
+          }
         </div>
         <div
           className={classnames(styles.boxContentWidth, styles.boxBottom)}>
