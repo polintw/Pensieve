@@ -42,9 +42,9 @@ class Wrapper extends React.Component {
     let nodesTitleObj = this.props.unitCurrent.nouns;
     if(this.props.guidingNailsId.indexOf(this.props.unitCurrent.unitId) != (-1) ){ // guidingNails has its special title
       nodesTitleObj = {
-        list: [1],
+        list: [4692], // an empty position in DB, to prevent a conflict between real node
         basic: {
-          1: {name: this.props.i18nUIString.catalog['title_onBoard_GuideNailTitle'][this.props.guidingNailsId.indexOf(this.props.unitCurrent.unitId)]}
+          4692: {name: this.props.i18nUIString.catalog['title_onBoard_GuideNailTitle'][this.props.guidingNailsId.indexOf(this.props.unitCurrent.unitId)]}
         }
       }
     };
@@ -56,7 +56,7 @@ class Wrapper extends React.Component {
           className={classnames(styles.boxContentWidth, styles.boxTitle)}>
           <NodesExtensible
             nouns={nodesTitleObj}
-            _handleClick_listNoun={this.props._refer_toandclose}/>
+            _referNode={this.props._refer_toandclose}/>
           <SidePanel
             {...this.props}/>
         </div>

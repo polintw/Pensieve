@@ -45,8 +45,8 @@ class Layers extends React.Component {
   }
 
   _refer_toandclose(source, identity){
-    this.props._refer_von_unit(identity, source);
     this.props._close_theater();
+    this.props._refer_von_unit(identity, source);
   }
 
   _set_layerstatus(lockify, moveCount, marksStatus){

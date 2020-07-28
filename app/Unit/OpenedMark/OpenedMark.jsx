@@ -41,10 +41,10 @@ class OpenedMark extends React.Component {
     }
     else {
       /*
-      data from props. are different from above, called by editingModal,
+      data from props. are different from above, which called by editingModal,
       because they inherit from different system:
       editing is direct from list & circles the parent's 'state' had, while
-      view like beneath, is from a reformed 'marksData' system designed for the children (history reason)
+      view like beneath, is from a reformed 'marksData' system designed for the children (historical reason)
       */
       return (
         <div
@@ -56,7 +56,7 @@ class OpenedMark extends React.Component {
           <SvgCircle
             current={true}
             notify={this.props.notify}
-            serial={this.props.serial}/>
+            serial={null}/>
         </div>
       )
     }

@@ -56,8 +56,8 @@ class WithinAround extends React.Component {
       case 'noun':
         this.setState((prevState, props)=>{
           let switchTo = {
-            params: '/cosmic/nodes/'+identifier,
-            query: ''
+            params: '/cosmic/explore/node',
+            query: '?nodeid='+identifier
           };
           return {switchTo: switchTo}
         })

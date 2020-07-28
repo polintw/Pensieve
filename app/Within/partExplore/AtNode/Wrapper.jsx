@@ -101,7 +101,7 @@ class Wrapper extends React.Component {
                 {...props}
                 _createdRespond= {()=>{/* no need to give any flad in AtNode*/ }}
                 _construct_UnitInit={this._construct_UnitInit}
-                _refer_von_unit={this.props._refer_von_cosmic}/>
+                _refer_von_unit={this.props._refer_to}/>
             )
           }
         }/>
