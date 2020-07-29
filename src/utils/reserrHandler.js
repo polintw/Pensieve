@@ -173,10 +173,10 @@ function _handle_ErrCatched(e, req, res){
       clientSet['console'] = {"warning":"Some parameter missed, please use correct format."};
       return res.status(e.status).json(clientSet);
       break;
-    case 39: //403, client trying to edit/erase unit not released by him
+    case 39: //403, client trying to edit/erase/get statics unit not released by him
       winston.warn(`${e.status} - ${"Error: code 39, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
       clientSet['code'] = 39;
-      clientSet['message'] = "Hey! This is not your Shared! You can and only can edit, erase your own Shared.";
+      clientSet['message'] = "Hey! This is not your Shared! You can and only can edit, erase, or request statics for your own Shared.";
       clientSet['console'] = {};
       return res.status(e.status).json(clientSet);
       break;
