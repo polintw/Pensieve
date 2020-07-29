@@ -1,0 +1,21 @@
+.boxSet {
+  position: relative;
+  margin-top: 2rem;
+  text-align: right;
+}
+
+.boxInspiredBulb {
+    display: inline-block;
+    width: auto;
+    height: 26px;
+    position: absolute;
+    left: 0;
+    top: 5%;
+}
+
+@media screen and (max-width:860px) {
+  .boxSet{
+    display: inline-block;
+    margin: 0 0 1.6rem 40px; /* overlap margin-top set in normal size*/
+  }
+}

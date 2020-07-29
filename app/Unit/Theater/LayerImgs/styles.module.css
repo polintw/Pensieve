@@ -14,7 +14,6 @@
 
 .boxTitle {
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   position: relative;
@@ -35,7 +34,9 @@
 }
 
 .boxAuthorStatics {
-  width: 80px;
+  display: flex;
+  align-items: flex-end;
+  padding-left: 30px;
 }
 
 .boxBottom {
@@ -116,7 +117,7 @@
 
 @media screen and (max-width:860px) {
   .boxFrameAuthor {
-    flex-direction: column;
+    flex-direction: column-reverse;
   }
 
   .boxAuthorStatics {

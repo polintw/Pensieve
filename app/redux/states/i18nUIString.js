@@ -85,6 +85,7 @@ const i18nUIString_EN = {
 
   "button_complete": "Complete",
 
+  "text_users": "users",
   "message_hello": "Hi, ",
   "submit_": "Submit",
   "submit_back": "Back", //Original:"back"
@@ -120,6 +121,7 @@ const i18nUIString_EN = {
   "guiding_placeholder_UnitEdit_MarkBlock": "What's SPECIAL!  Tell us about details you found." , //Original:Telling us some details you found."
   "message_UnitEdit_tooManySpot": "A better spot? However, having too many highlights could be overwhelmed to readers. Please delete an old one before you implement this new!", //Original:"A better spot? But too many paragraph would be a burdon to readers. Please delete an old one before you implement this new!"
   "message_UnitEdit_ruleAssignedNodes": ["Select only one corner from where you stay, and one from your homeland."],
+  "subTitle_Unit_AuthorStatics": ["inspired", "read"],
   "tagTitle_Unit_Inspired": "inspired by this article",
 
   "title_shareUpload_typewriter": ['S','u','b','m','i', 't'],

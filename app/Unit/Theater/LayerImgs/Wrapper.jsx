@@ -8,6 +8,7 @@ import classnames from 'classnames';
 import styles from './styles.module.css';
 import ImgsFrame from './ImgsFrame.jsx';
 import SidePanel from './SidePanel.jsx';
+import AuthorStatics from './Author/AuthorStatics.jsx';
 import Inspired from '../components/Inspired/Inspired.jsx';
 import Primer from '../components/Primer.jsx';
 import {NodesExtensible} from '../../NodesDisplay/NodesExtensible.jsx';
@@ -76,7 +77,7 @@ class Wrapper extends React.Component {
             (this.props.unitCurrent.identity == "author") &&
             <div
               className={classnames(styles.boxAuthorStatics)}>
-
+                <AuthorStatics/>
             </div>
           }
         </div>

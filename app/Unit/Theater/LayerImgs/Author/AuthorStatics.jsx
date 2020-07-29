@@ -5,92 +5,56 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
+import styles from "./stylesStatics.module.css";
+import { SvgBulbInspired } from '../../../../Components/Svg/SvgBulb.jsx';
 import {
   cancelErr,
   uncertainErr
-} from "../../../utils/errHandlers.js";
+} from "../../../../utils/errHandlers.js";
 
-const styleMiddle = {
-  spanSubtitle: {
-    display: 'block',
-    boxSizing: 'border-box',
-    margin: '0 0 0.54rem',
-    textAlign: 'right',
-    cursor: 'default'
-  },
-  spanNumDis: {
-    display: 'block',
-    boxSizing: 'border-box',
-    marginLeft: '1rem',
-    textAlign: 'right',
-    cursor: 'default'
-  },
-  fontSubtitle: {
-    fontSize: '1.54rem',
-    letterSpacing: '0.12rem',
-    fontWeight: '400',
-
-  },
-  fontNumDis: {
-    fontSize: '3.2rem',
-    letterSpacing: '0.12rem',
-    fontWeight: '400',
-    color: '#FAFAFA',
-  }
+const _axios_get_AuthorStatics = (cancelToken, unitId, target) => {
+  return axios.get('/router/share/' + unitId + "/statics/sum", {
+    headers: {
+      'charset': 'utf-8',
+      'token': window.localStorage['token']
+    },
+    params: {target: target},
+    cancelToken: cancelToken
+  }).then(function (res) {
+    let resObj = JSON.parse(res.data); //still parse the res data prepared to be used below
+    return resObj;
+  }).catch(function (thrown) {
+    throw thrown;
+  });
 }
+
 
 class AuthorStatics extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      axios: false,
-      countReach: null,
-      countBroad: null
+      axiosInspired: false,
+      axiosRead: false,
+      countIsnpired: null,
+      countRead: null
     };
     this.axiosSource = axios.CancelToken.source();
-    this._axios_get_AuthorStatics = this._axios_get_AuthorStatics.bind(this);
-    this.style={
-
-    };
+    this._set_staticRead = this._set_staticRead.bind(this);
+    this._set_staticInspired = this._set_staticInspired.bind(this);
   }
 
-  _axios_get_AuthorStatics(){
-    /*
-    previously this was called from Summary,
-    but both author/viewer Summary are temporary blocked,
-    so we block this api either.
-    
-    const self = this;
-    this.setState({axios: true});
-
-    axios.get('/router/share/'+this.props.unitCurrent.unitId+"/statics?sr=summary", {
-      headers: {
-        'charset': 'utf-8',
-        'token': window.localStorage['token']
-      },
-      cancelToken: self.axiosSource.token
-    }).then((res)=>{
-      self.setState({axios: false});
-      let resObj = JSON.parse(res.data);
-
-      self.setState({
-        countReach: resObj.main.countReach,
-        countBroad: resObj.main.countBroad
-      })
-    }).catch(function (thrown) {
-      self.setState({axios: false});
-      if (axios.isCancel(thrown)) {
-        cancelErr(thrown);
-      } else {
-        let message = uncertainErr(thrown);
-        if(message) alert(message);
-      }
-    });
-    */
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    //becuase there is chance we jump to another Unit from Primer
+    //so we check if the unit has changed by props.unitCurrent, diff and not null
+    if (this.props.unitCurrent.unitId !== prevProps.unitCurrent.unitId && this.props.unitCurrent.unitId.length > 0) {
+      this._set_staticInspired();
+      this._set_staticRead();
+    }
   }
 
   componentDidMount(){
-    this._axios_get_AuthorStatics();
+    this._set_staticInspired();
+    this._set_staticRead();
   }
 
   componentWillUnmount(){
@@ -101,34 +65,97 @@ class AuthorStatics extends React.Component {
 
   render(){
     return(
-      <div
-        style={{minHeight: '44vh'}}>
+      <div>
         <div
-          className={classnames('boxSumStatic')}>
-          <span
-            className={classnames('fontSumOpt')}
-            style={Object.assign({}, styleMiddle.spanSubtitle, {color: '#FAFAFA'})}>
-            {this.props.i18nUIString.catalog["descript_Unit_Author_read"][0]}</span>
-          <span
-            style={Object.assign({}, styleMiddle.spanNumDis,styleMiddle.fontNumDis)}>{this.state.countReach}</span>
+          className={classnames(styles.boxSet)}>
+          <div>
+            <span
+              className={classnames("fontTitle", "colorEditBlack", "weightBold")}>
+              {this.state.countRead}
+            </span>
+          </div>
+          <div>
+            <span className={classnames('fontContentPlain', 'colorEditLightBlack')}>
+              {this.props.i18nUIString.catalog["text_users"]}
+            </span><br/>
+            <span className={classnames('fontContentPlain', 'colorEditLightBlack')}>
+              {this.props.i18nUIString.catalog["subTitle_Unit_AuthorStatics"][1]}
+            </span>
+          </div>
         </div>
         <div
-          className={classnames('boxSumStatic')}>
-          <span
-            className={classnames('fontSumOpt')}
-            style={Object.assign({}, styleMiddle.spanSubtitle, {color: '#FAFAFA'})}>
-            {this.props.i18nUIString.catalog["descript_Unit_Author_broad"][0]}</span>
-          <span
-            style={Object.assign({}, styleMiddle.spanNumDis,styleMiddle.fontNumDis)}>{this.state.countBroad}</span>
+          className={classnames(styles.boxSet)}>
+          <div
+            className={classnames(styles.boxInspiredBulb)}>
+            <SvgBulbInspired
+              bulbPattern={'dark'}
+              mouseReact={false} />
+          </div>
+          <div
+            style={{paddingLeft: '24px'}}>
+            <span
+              className={classnames("fontTitle", "colorEditBlack", "weightBold")}>
+              {this.state.countIsnpired}
+            </span>
+          </div>
+          <div>
+            <span className={classnames('fontContentPlain', 'colorEditLightBlack')}>
+              {this.props.i18nUIString.catalog["text_users"]}
+            </span><br />
+            <span className={classnames('fontContentPlain', 'colorEditLightBlack')}>
+              {this.props.i18nUIString.catalog["subTitle_Unit_AuthorStatics"][0]}
+            </span>
+          </div>
         </div>
       </div>
     )
+  }
+
+  _set_staticInspired() {
+    const self = this;
+    this.setState({ axiosInspired: true });
+
+    _axios_get_AuthorStatics(this.axiosSource.token, this.props.unitCurrent.unitId, 'inspired')
+      .then((resObj) => {
+        self.setState({
+          axiosInspired: false,
+          countIsnpired: resObj.main.sum
+        });
+      }).catch(function (thrown) {
+        self.setState({ axios: false });
+        if (axios.isCancel(thrown)) {
+          cancelErr(thrown);
+        } else {
+          let message = uncertainErr(thrown);
+          if (message) alert(message);
+        }
+      });
+  }
+
+  _set_staticRead() {
+    const self = this;
+    this.setState({ axiosRead: true });
+
+    _axios_get_AuthorStatics(this.axiosSource.token, this.props.unitCurrent.unitId, 'read')
+      .then((resObj) => {
+        self.setState({
+          axiosRead: false,
+          countRead: resObj.main.sum
+        });
+      }).catch(function (thrown) {
+        self.setState({ axios: false });
+        if (axios.isCancel(thrown)) {
+          cancelErr(thrown);
+        } else {
+          let message = uncertainErr(thrown);
+          if (message) alert(message);
+        }
+      });
   }
 }
 
 const mapStateToProps = (state)=>{
   return {
-    userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
     unitCurrent: state.unitCurrent
   }
