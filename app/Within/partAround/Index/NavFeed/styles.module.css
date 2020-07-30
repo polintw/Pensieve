@@ -2,6 +2,11 @@
   margin: 8px 0;
 }
 
+.comNavFeed {
+  display: flex;
+  align-items: baseline;
+}
+
 .boxLinkLeft {
   padding-right: 1rem;
 }
@@ -10,7 +15,35 @@
   padding-left: 5px;
 }
 
+.boxGatheringBase {
+  margin: 0 0 0 15px;
+  padding: 0 5px;
+  border-left: solid 0.75px #d8d8d8;
+}
+
+.boxBasedNodes {
+  display: inline-block;
+}
+
+.linkEditBelong {
+  display: inline-block;
+  border-bottom: solid 0.75px transparent;
+}
+
+.linkEditBelongOnMouse {
+  border-bottom: solid 0.75px #757575;
+}
+
 .spanLinkMouse {
   border-bottom: solid 0.75px #b8b8b8;
   cursor: pointer;
+}
+
+.spanBaseNode {
+  display: inline-block;
+  border-bottom: solid 0.75px transparent;
+}
+
+.spanBaseNodeMouse {
+  border-bottom: solid 0.75px #545454;
 }

@@ -52,14 +52,16 @@ class Nav extends React.Component {
   }
 
   _render_NavBelongSeries(){
-    let navDOM = this.state.nodesSeriesList.map((nodeId, index)=>{
-      return (
+    let navDOM = [];
+    this.state.nodesSeriesList.forEach((nodeId, index)=>{
+      if(this.props.currentNode== nodeId ) return ; // skip currentNode
+      navDOM.push(
         <div
           key={'key_NavBelongSeries_' + nodeId}
           nodeid={nodeId}
           className={classnames(
             styles.boxNavLinkSeries,
-            {[styles.boxNavLinkSeriesMouse]: (this.state.onLinkSeries == nodeId && this.props.currentNode != nodeId)}
+            {[styles.boxNavLinkSeriesMouse]: (this.state.onLinkSeries == nodeId)}
           )}
           onClick={this._handleClick_navBelongSeries}
           onMouseEnter={this._handleEnter_navLinkSeries}
@@ -70,13 +72,13 @@ class Nav extends React.Component {
                 className={classnames(
                   styles.spanNavLinkSeries,
                   "fontSubtitle", "weightBold", "colorLightGrey",
-                  {["colorEditBlack"]: (this.props.currentNode== nodeId || this.state.onLinkSeries == nodeId)}
+                  {["colorEditBlack"]: ( this.state.onLinkSeries == nodeId)}
                 )}>
                 {this.props.nounsBasic[nodeId].name}</span>
             </div>
           }
         </div>
-      )
+      );
     });
     return navDOM;
   }
@@ -114,6 +116,47 @@ class Nav extends React.Component {
     return(
       <div
         className={classnames(styles.comNavBelongsMap)}>
+        <div
+          className={classnames(styles.boxNavCurrentTitle)}>
+          {(this.props.currentNode in this.props.nounsBasic) &&
+            <div>
+              <span
+                className={classnames(
+                  styles.spanNavLinkSeries,
+                  "fontTitle", "colorEditBlack",
+                )}>
+                {this.props.nounsBasic[this.props.currentNode].name}</span>
+            </div>
+          }
+          <div
+            className={classnames(styles.boxNavTitle)}>
+            <div
+              className={classnames(styles.boxNavTitleType)}>
+              <div>
+                <span
+                  className={classnames('colorEditLightBlack', 'fontContent')}>
+                  { this.props.i18nUIString.catalog["link_BelongsMap_Nav"][0] }
+                </span>
+              </div>
+            </div>
+            {this._render_MapNav()}
+          </div>
+        </div>
+
+        <div
+          className={classnames(styles.boxNavColumn)}>
+          <div>
+            <div
+              className={classnames(styles.boxNavTitleLower)}>
+              {this._render_NavBelongSeries()}
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+    /*return(
+      <div
+        className={classnames(styles.comNavBelongsMap)}>
         <span
           className={classnames('colorEditLightBlack', 'fontContent')}
           style={{padding: '0 2rem 1rem'}}>
@@ -143,7 +186,7 @@ class Nav extends React.Component {
           </div>
         </div>
       </div>
-    )
+    )*/
   }
 
   _handleClick_navBelongSeries(event){

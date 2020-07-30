@@ -7,7 +7,6 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesNail from "../../../stylesNail.module.css";
 import stylesFont from '../../stylesFont.module.css';
-import GatheringBase from './GatheringBase.jsx';
 import NailFeed from '../../../../Components/Nails/NailFeed/NailFeed.jsx';
 import NailFeedWide from '../../../../Components/Nails/NailFeedWide/NailFeedWide.jsx';
 import NailFeedMobile from '../../../../Components/Nails/NailFeedMobile/NailFeedMobile.jsx';
@@ -207,10 +206,6 @@ class FeedAssigned extends React.Component {
 
     return (
       <div>
-        <div
-          className={classnames(styles.boxTitle, styles.boxGatheringBase)}>
-          <GatheringBase/>
-        </div>
 
         {
           // notice, a condition if the user didn't set any belong, not going to render at all
