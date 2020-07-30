@@ -142,7 +142,6 @@ class Nav extends React.Component {
             {this._render_MapNav()}
           </div>
         </div>
-
         <div
           className={classnames(styles.boxNavColumn)}>
           <div>
@@ -154,39 +153,6 @@ class Nav extends React.Component {
         </div>
       </div>
     )
-    /*return(
-      <div
-        className={classnames(styles.comNavBelongsMap)}>
-        <span
-          className={classnames('colorEditLightBlack', 'fontContent')}
-          style={{padding: '0 2rem 1rem'}}>
-          {this.props.i18nUIString.catalog["hint_BelongsMap_Nav"]}
-        </span>
-        <div
-          className={classnames(styles.boxNavColumn)}>
-          <div
-            className={classnames(styles.boxNavSeries)}>
-            <div
-              className={classnames(styles.boxNavTitleLower)}>
-              {this._render_NavBelongSeries()}
-            </div>
-          </div>
-          <div
-            className={classnames(styles.boxNavTitle)}>
-            <div
-              className={classnames(styles.boxNavTitleType)}>
-              <div>
-                <span
-                  className={classnames('colorEditLightBlack', 'fontContent')}>
-                  { this.props.i18nUIString.catalog["link_BelongsMap_Nav"][0] }
-                </span>
-              </div>
-            </div>
-            {this._render_MapNav()}
-          </div>
-        </div>
-      </div>
-    )*/
   }
 
   _handleClick_navBelongSeries(event){
