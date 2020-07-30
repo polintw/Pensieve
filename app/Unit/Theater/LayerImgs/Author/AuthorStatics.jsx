@@ -74,7 +74,8 @@ class AuthorStatics extends React.Component {
               {this.state.countRead}
             </span>
           </div>
-          <div>
+          <div
+            style={{marginTop: '5px'}}>
             <span className={classnames('fontContentPlain', 'colorEditLightBlack')}>
               {this.props.i18nUIString.catalog["text_users"]}
             </span><br/>
@@ -98,12 +99,13 @@ class AuthorStatics extends React.Component {
               {this.state.countIsnpired}
             </span>
           </div>
-          <div>
-            <span className={classnames('fontContentPlain', 'colorEditLightBlack')}>
-              {this.props.i18nUIString.catalog["text_users"]}
-            </span><br />
+          <div
+            style={{marginTop: '5px'}}>
             <span className={classnames('fontContentPlain', 'colorEditLightBlack')}>
               {this.props.i18nUIString.catalog["subTitle_Unit_AuthorStatics"][0]}
+            </span><br />
+            <span className={classnames('fontContentPlain', 'colorEditLightBlack')}>
+              {this.props.i18nUIString.catalog["text_users"]}
             </span>
           </div>
         </div>

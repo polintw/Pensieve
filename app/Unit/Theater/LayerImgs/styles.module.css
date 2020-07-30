@@ -36,7 +36,7 @@
 .boxAuthorStatics {
   display: flex;
   align-items: flex-end;
-  padding-left: 30px;
+  padding-left: 35px;
 }
 
 .boxBottom {
@@ -80,10 +80,9 @@
 }
 
 .btnBottomIcon {
-  width: 4.8rem;
-  height: 3.6rem;
+  width: 3.2rem;
+  height: 3.2rem;
   position: relative;
-  margin-right: 2rem;
   border-radius: 4px;
 }
 

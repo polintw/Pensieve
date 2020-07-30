@@ -66,7 +66,7 @@ class Wrapper extends React.Component {
           className={classnames(
             styles.boxContentWidth, styles.boxFrame,
             {[styles.boxFrameAuthor]: (this.props.unitCurrent.identity == "author")}
-            )}>            
+            )}>
           <ImgsFrame
             moveCount={this.props.moveCount}
             lockify={this.props.lockify}
@@ -93,6 +93,7 @@ class Wrapper extends React.Component {
               </div>
             }
 
+            <div style={{borderRight: 'solid 0.75px #a3a3a3', margin: '0 1.5rem', height: '3.6rem'}}/>
             <div>
               {
                 (this.props.guidingNailsId.indexOf(this.props.unitCurrent.unitId) < 0) && // guidingNails do not show the Respond & view responds
