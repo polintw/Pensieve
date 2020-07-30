@@ -157,7 +157,7 @@ const i18nUIString_EN = {
   "guidingBelongs_EmptyMap_noSet": ["Set your", ", and take a look for the distribution of your fellows."], //Changed "taking" to "take"
   "guidingBelongs_EmptyMap_": "You were the first user among this corner!",
   "descript_BelongTypeInteract": ["going to renew your ", " ?"],
-  "category__Belong_usersCount": ["now living at", "came from"],
+  "category__Belong_usersCount": ["currently stay at", "from homeland"],
   "hint_BelongsMap_Nav": "fellows by ",
   "link_BelongsMap_Nav": ["as ", "Homeland", "Current Stay"],
   "messageBelongChoiceinBool": ["site ", "  as your  ", "  place?"],

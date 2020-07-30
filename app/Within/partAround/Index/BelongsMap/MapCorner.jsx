@@ -131,15 +131,6 @@ class MapCorner extends React.Component {
                 this.props.i18nUIString.catalog["category__Belong_usersCount"][1]
               }
             </span>
-            <div
-              className={classnames(styles.boxPinLocat)}>
-              <div
-                style={{width: "10px", height: "15px"}}>
-                <SvgPin
-                  mouseOn={this.state.onNodeLink}
-                  customStyles={{fillColor: 'rgba(255, 144, 108, 0.6)'}}/>
-              </div>
-            </div>
           </div>
           {this._render_nodeLink()}
         </div>

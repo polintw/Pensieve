@@ -7,6 +7,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import SvgPin from '../../../../Components/Svg/SvgPin.jsx';
 
 class Nav extends React.Component {
   constructor(props){
@@ -71,7 +72,7 @@ class Nav extends React.Component {
               <span
                 className={classnames(
                   styles.spanNavLinkSeries,
-                  "fontSubtitle", "weightBold", "colorLightGrey",
+                  "fontContentPlain", "weightBold", "colorLightGrey",
                   {["colorEditBlack"]: ( this.state.onLinkSeries == nodeId)}
                 )}>
                 {this.props.nounsBasic[nodeId].name}</span>
@@ -97,9 +98,10 @@ class Nav extends React.Component {
           onMouseLeave={this._handleLeave_MapNav}>
           <span
             className={classnames(
-              styles.spanNav, 'fontContent',
+              styles.spanNav, 'fontContentPlain',
               {
                 ["colorWhiteGrey"]: (this.state.onMapNav != type && this.props.currentTab != type),
+                ["weightBold"]: (this.props.currentTab != type),
                 ["colorEditLightBlack"]: (this.state.onMapNav == type && this.props.currentTab != type),
                 [styles.spanNavMouse]: (this.state.onMapNav == type && this.props.currentTab != type),
                 ["colorStandard"]: this.props.currentTab == type
@@ -117,13 +119,20 @@ class Nav extends React.Component {
       <div
         className={classnames(styles.comNavBelongsMap)}>
         <div
-          className={classnames(styles.boxNavCurrentTitle)}>
+          className={classnames(styles.boxNavTitleSet)}>
           {(this.props.currentNode in this.props.nounsBasic) &&
-            <div>
+            <div
+              className={classnames(styles.boxNavCurrentTitle)}>
+              <div
+                className={classnames(styles.boxNavCurrentTitlePin)}>
+                <SvgPin
+                  mouseOn={true}
+                  customStyles={{fillColor: 'rgba(84, 84, 84, 0.45)'}}/>
+              </div>
               <span
                 className={classnames(
                   styles.spanNavLinkSeries,
-                  "fontTitle", "colorEditBlack",
+                  "fontTitle", 'lineHeight15', "colorEditBlack",
                 )}>
                 {this.props.nounsBasic[this.props.currentNode].name}</span>
             </div>
@@ -134,7 +143,7 @@ class Nav extends React.Component {
               className={classnames(styles.boxNavTitleType)}>
               <div>
                 <span
-                  className={classnames('colorEditLightBlack', 'fontContent')}>
+                  className={classnames('colorEditLightBlack', 'fontContentPlain')}>
                   { this.props.i18nUIString.catalog["link_BelongsMap_Nav"][0] }
                 </span>
               </div>

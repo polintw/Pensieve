@@ -102,6 +102,10 @@
   font-weight: bold;
 }
 
+.lineHeight15 {
+  line-height: 1.5;
+}
+
 .fontStyleItalic {
   font-style: italic;
 }
