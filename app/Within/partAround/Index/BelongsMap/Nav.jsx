@@ -7,6 +7,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import SvgPin from '../../../../Components/Svg/SvgPin.jsx';
 
 class Nav extends React.Component {
   constructor(props){
@@ -52,14 +53,16 @@ class Nav extends React.Component {
   }
 
   _render_NavBelongSeries(){
-    let navDOM = this.state.nodesSeriesList.map((nodeId, index)=>{
-      return (
+    let navDOM = [];
+    this.state.nodesSeriesList.forEach((nodeId, index)=>{
+      if(this.props.currentNode== nodeId ) return ; // skip currentNode
+      navDOM.push(
         <div
           key={'key_NavBelongSeries_' + nodeId}
           nodeid={nodeId}
           className={classnames(
             styles.boxNavLinkSeries,
-            {[styles.boxNavLinkSeriesMouse]: (this.state.onLinkSeries == nodeId && this.props.currentNode != nodeId)}
+            {[styles.boxNavLinkSeriesMouse]: (this.state.onLinkSeries == nodeId)}
           )}
           onClick={this._handleClick_navBelongSeries}
           onMouseEnter={this._handleEnter_navLinkSeries}
@@ -69,14 +72,14 @@ class Nav extends React.Component {
               <span
                 className={classnames(
                   styles.spanNavLinkSeries,
-                  "fontSubtitle", "weightBold", "colorLightGrey",
-                  {["colorEditBlack"]: (this.props.currentNode== nodeId || this.state.onLinkSeries == nodeId)}
+                  "fontContentPlain", "weightBold", "colorLightGrey",
+                  {["colorEditBlack"]: ( this.state.onLinkSeries == nodeId)}
                 )}>
                 {this.props.nounsBasic[nodeId].name}</span>
             </div>
           }
         </div>
-      )
+      );
     });
     return navDOM;
   }
@@ -95,9 +98,10 @@ class Nav extends React.Component {
           onMouseLeave={this._handleLeave_MapNav}>
           <span
             className={classnames(
-              styles.spanNav, 'fontContent',
+              styles.spanNav, 'fontContentPlain',
               {
                 ["colorWhiteGrey"]: (this.state.onMapNav != type && this.props.currentTab != type),
+                ["weightBold"]: (this.props.currentTab != type),
                 ["colorEditLightBlack"]: (this.state.onMapNav == type && this.props.currentTab != type),
                 [styles.spanNavMouse]: (this.state.onMapNav == type && this.props.currentTab != type),
                 ["colorStandard"]: this.props.currentTab == type
@@ -114,32 +118,46 @@ class Nav extends React.Component {
     return(
       <div
         className={classnames(styles.comNavBelongsMap)}>
-        <span
-          className={classnames('colorEditLightBlack', 'fontContent')}
-          style={{padding: '0 2rem 1rem'}}>
-          {this.props.i18nUIString.catalog["hint_BelongsMap_Nav"]}
-        </span>
         <div
-          className={classnames(styles.boxNavColumn)}>
-          <div
-            className={classnames(styles.boxNavSeries)}>
+          className={classnames(styles.boxNavTitleSet)}>
+          {(this.props.currentNode in this.props.nounsBasic) &&
             <div
-              className={classnames(styles.boxNavTitleLower)}>
-              {this._render_NavBelongSeries()}
+              className={classnames(styles.boxNavCurrentTitle)}>
+              <div
+                className={classnames(styles.boxNavCurrentTitlePin)}>
+                <SvgPin
+                  mouseOn={true}
+                  customStyles={{fillColor: 'rgba(84, 84, 84, 0.45)'}}/>
+              </div>
+              <span
+                className={classnames(
+                  styles.spanNavLinkSeries,
+                  "fontTitle", 'lineHeight15', "colorEditBlack",
+                )}>
+                {this.props.nounsBasic[this.props.currentNode].name}</span>
             </div>
-          </div>
+          }
           <div
             className={classnames(styles.boxNavTitle)}>
             <div
               className={classnames(styles.boxNavTitleType)}>
               <div>
                 <span
-                  className={classnames('colorEditLightBlack', 'fontContent')}>
+                  className={classnames('colorEditLightBlack', 'fontContentPlain')}>
                   { this.props.i18nUIString.catalog["link_BelongsMap_Nav"][0] }
                 </span>
               </div>
             </div>
             {this._render_MapNav()}
+          </div>
+        </div>
+        <div
+          className={classnames(styles.boxNavColumn)}>
+          <div>
+            <div
+              className={classnames(styles.boxNavTitleLower)}>
+              {this._render_NavBelongSeries()}
+            </div>
           </div>
         </div>
       </div>
