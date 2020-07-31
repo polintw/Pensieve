@@ -154,7 +154,10 @@ const i18nUIString_EN = {
     "Responded to it ",
     "Submit ",
     "Respond to Yours ",
-    "succesfully "],
+    "succesfully ",
+    "You inspired ",
+    "new user"
+  ],
   "message_Chain_toNodes": ["to ", " and several"],
   "hint_Chain_waitForRespond": ["Your contribution would be delivered to your fellows.", "And any new respond to your contribution would be emphasized here."],
   "guidingBelongs_EmptyMap_noSet": ["Set your", ", and take a look for the distribution of your fellows."], //Changed "taking" to "take"

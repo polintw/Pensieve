@@ -63,20 +63,35 @@ class Chain extends React.Component {
       displayOrder.push(resObj.main['sharedPrimer'], resObj.main['userShared'], resObj.main['resToShared'],resObj.main['resToRespond'],resObj.main['latestShared']);
       displayOrder = displayOrder.filter((item, index)=> {return item}); //use the property the item would be 'false' if none
       Object.keys(resObj.main).forEach((key, index) => {
+        if( !resObj.main[key]) return; // 'false', go next
         displayInfo[resObj.main[key]] = key;
       });
-
-      self.props._submit_list_Chain({
+      // add another possibility not result of 'respond': inspired
+      if(displayOrder.length == 0){ // no respond, not a new Shared, we call the api to ask new 'inspired'
+        return this._axios_get_chainlist([{key: 'inspired',value:true}])
+        .then((resInsObj)=>{
+          displayOrder = resInsObj.main.newInspiredList; // must be an array, no matter empty or not
+          resInsObj.main.newInspiredList.forEach((unitId, index)=>{
+            displayInfo[unitId] = 'newInspired';
+          });
+          return {
+            listOrderedChain: displayOrder,
+            listInfo: displayInfo};
+        });
+      }
+      else return {
         listOrderedChain: displayOrder,
-        listInfo: displayInfo
-      });
+        listInfo: displayInfo}; // end of 'if()'
+    })
+    .then((chainObj)=>{
+      self.props._submit_list_Chain(chainObj);
       self.setState({
         fetched: true,
       });
       self.props._set_mountToDo('chainlist'); // and, after we get the list back, inform the parent we are done with the lastVisit time
       //and use the list to get the data of each unit
       // no need to 'return' here, let the f() deal with the error itself
-      self._set_unitBasic(displayOrder);
+      self._set_unitBasic(chainObj.listOrderedChain);
     })
     .catch(function (thrown) {
       self.setState({axios: false});
