@@ -11,6 +11,7 @@ import styles from "./styles.module.css";
 import stylesNail from "../../../stylesNail.module.css";
 import ChainShared from './ChainShared.jsx';
 import ChainMessage from './ChainMessage.jsx';
+import {_comp_EmptyBox} from './ChainAdditionBox.jsx';
 import IndexShare from '../IndexShare/IndexShare.jsx';
 import NailFeed from '../../../../Components/Nails/NailFeed/NailFeed.jsx';
 import {axios_get_UnitsBasic} from '../../../../utils/fetchHandlers.js';
@@ -45,27 +46,42 @@ class Chain extends React.Component {
   }
 
   _get_inspiredList(){
+    const self = this;
+
     return this._axios_GET_andParams('/router/feed/chainlist', [{ key: 'inspired', value: true }])
+    /*
+    resObj.main {
+      newInspiredList: [],
+    }
+    */
       .then((resInsObj) => {
         let displayOrder = resInsObj.main.newInspiredList; // must be an array, no matter empty or not
-        if( displayOrder.length == 2 ) return displayOrder
-        else if (displayOrder.length == 1){
-          return this._axios_GET_andParams('/router/share/' + displayOrder[0] + '/statics/sum', [{ key: 'target', value: 'inspired' }, {key: 'lastUser', value: true}])
-          .then((resLastUserObj)=>{
-            resLastUserObj.main.
+        let newInspiredObj = {displayOrder: displayOrder, displayInfo: {}};
+        if (displayOrder.length == 1){ // only 1 new inspired, we going to add detailed info
+          let targetUnit = displayOrder[0];
+          return this._axios_GET_andParams('/router/share/' + targetUnit + '/statics/inspired', [
+            { key: 'lastUser', value: true }, {key: 'newUsersSum', value: true}
+          ])
+          .then((resInsDetailObj)=>{
+            newInspiredObj.displayInfo["inspiredDetail"] ={
+              lastUser: resInsDetailObj.main.lastUser,
+              sumNew: resInsDetailObj.main.sumNew
+            };
 
+            self.props._submit_UsersList_new([resInsDetailObj.main.lastUser]); // pass the userId to redux.action
 
-            
+            return newInspiredObj;
           })
-        }
+        }; // end of 'if()'
+        // any else
+        return newInspiredObj;
       })
-      .then((displayOrder)=>{
-        let displayInfo = {};
-        displayOrder.forEach((unitId, index) => {
-          displayInfo[unitId] = 'newInspired';
+      .then((newInspiredObj)=>{
+        newInspiredObj.displayOrder.forEach((unitId, index) => {
+          newInspiredObj.displayInfo[unitId] = 'newInspired';
         });
 
-        return [displayOrder, displayInfo];
+        return [newInspiredObj.displayOrder, newInspiredObj.displayInfo];
       })
   }
 
@@ -92,25 +108,29 @@ class Chain extends React.Component {
         if( !resObj.main[key]) return; // 'false', go next
         displayInfo[resObj.main[key]] = key;
       });
+      return {
+        listOrderedChain: displayOrder,
+        listInfo: displayInfo
+      };
+    })
+    .then((chainObj)=>{
       // add another possibility not result of 'respond': inspired
-      if(displayOrder.length == 0){ // no respond, not a new Shared, we call the api to ask new 'inspired'
+      if(chainObj.displayOrder.length == 0){ // no respond, not a new Shared, we call the api to ask new 'inspired'
         return this._get_inspiredList()
         .then(([inspiredOrderedList, inspiredListInfo])=>{
-          displayOrder = inspiredOrderedList;
-          displayInfo = inspiredListInfo;
-          return {
-                listOrderedChain: displayOrder,
-                listInfo: displayInfo};
+          chainObj.displayOrder = inspiredOrderedList;
+          chainObj.displayInfo = inspiredListInfo;
+
+          return chainObj
         })
       }
-      else return {
-        listOrderedChain: displayOrder,
-        listInfo: displayInfo}; // end of 'if()'
+      else return chainObj; // end of 'if()'
     })
     .then((chainObj)=>{
       self.props._submit_list_Chain(chainObj);
       self.setState({
         fetched: true,
+        axios: false
       });
       self.props._set_mountToDo('chainlist'); // and, after we get the list back, inform the parent we are done with the lastVisit time
       //and use the list to get the data of each unit
@@ -218,23 +238,9 @@ class Chain extends React.Component {
 
     });
     if(this.props.chainList.listInfo[this.props.chainList.listOrderedChain[0]] == "latestShared" && nailsDOM.length < 2){ // just submit new one
-      nailsDOM.push(
-        <div
-          key={"key_ChainUnits_forLatestSahre"}
-          className={classnames(styles.boxEmptyNailFeed)}>
-          <div>
-            <span
-              className={classnames("fontTitleSmall", "colorGrey")}>
-              {this.props.i18nUIString.catalog["hint_Chain_waitForRespond"][0]}
-            </span>
-            <span
-              className={classnames("fontTitleSmall", "colorGrey")}>
-              {this.props.i18nUIString.catalog["hint_Chain_waitForRespond"][1]}
-            </span>
-          </div>
-        </div>
-      );
-    }
+      let DOMEmptyBox = _comp_EmptyBox(this.props, this.state);
+      nailsDOM.push(DOMEmptyBox);
+    };
 
     return nailsDOM;
   }

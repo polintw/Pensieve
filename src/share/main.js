@@ -27,7 +27,7 @@ main.param("id", (req, res, next, id)=>{
 })
 
 // only author could edit/erase/get his own shared, examine here for all secondary api
-main.use('/', function(req, res, next){
+main.use('/:id', function(req, res, next){
   const userId = req.extra.tokenUserId;
   const exposedId = req.reqUnitId;
 

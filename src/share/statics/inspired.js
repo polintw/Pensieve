@@ -75,7 +75,7 @@ async function _switch_inspiredStaticsQuery(unitId, userId, queryKey, queryValue
   }
 }
 
-async function _handle_GET_share_staticsIsnpired(req, res){
+async function _handle_GET_share_staticsInspired(req, res){
   const userId = req.extra.tokenUserId;
   const exposedId = req.reqUnitId;
 
@@ -104,4 +104,4 @@ async function _handle_GET_share_staticsIsnpired(req, res){
   }
 }
 
-module.exports = _handle_GET_share_staticsIsnpired;
+module.exports = _handle_GET_share_staticsInspired;

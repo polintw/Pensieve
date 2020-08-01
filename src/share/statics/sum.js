@@ -1,17 +1,17 @@
 const express = require('express');
 const execute = express.Router();
-const winston = require('../../config/winston.js');
+const winston = require('../../../config/winston.js');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
-const _DB_units = require('../../db/models/index').units;
-const _DB_usersUnits = require('../../db/models/index').users_units;
-const {_res_success} = require('../utils/resHandler.js');
+const _DB_units = require('../../../db/models/index').units;
+const _DB_usersUnits = require('../../../db/models/index').users_units;
+const {_res_success} = require('../../utils/resHandler.js');
 const {
   _handle_ErrCatched,
   forbbidenError,
   internalError,
   validationError
-} = require('../utils/reserrHandler.js');
+} = require('../../utils/reserrHandler.js');
 
 async function _sum_Read(unitId, lastUser = false){
   const unitReadersRow = await _DB_usersUnits.findAll({

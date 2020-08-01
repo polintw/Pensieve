@@ -12,13 +12,18 @@ import {
   uncertainErr
 } from "../../../../utils/errHandlers.js";
 
-const _axios_get_AuthorStatics = (cancelToken, unitId, target) => {
-  return axios.get('/router/share/' + unitId + "/statics/sum", {
+const _axios_get_AuthorStatics = (cancelToken, unitId, pathObj) => {
+  let staticsPath = (pathObj.path == 'inspired') ? 'inspired' : 'sum';
+  let params = {};
+  if(!!pathObj.params) pathObj.params.forEach((param, index) => {
+    params[param.key] = param.value;
+  });
+  return axios.get('/router/share/' + unitId + "/statics/" + staticsPath, {
     headers: {
       'charset': 'utf-8',
       'token': window.localStorage['token']
     },
-    params: {target: target},
+    params: params,
     cancelToken: cancelToken
   }).then(function (res) {
     let resObj = JSON.parse(res.data); //still parse the res data prepared to be used below
@@ -117,7 +122,9 @@ class AuthorStatics extends React.Component {
     const self = this;
     this.setState({ axiosInspired: true });
 
-    _axios_get_AuthorStatics(this.axiosSource.token, this.props.unitCurrent.unitId, 'inspired')
+    _axios_get_AuthorStatics(this.axiosSource.token, this.props.unitCurrent.unitId, {
+      path: 'inspired', params: [{key: 'sum', value: true}]
+    })
       .then((resObj) => {
         self.setState({
           axiosInspired: false,
@@ -138,7 +145,9 @@ class AuthorStatics extends React.Component {
     const self = this;
     this.setState({ axiosRead: true });
 
-    _axios_get_AuthorStatics(this.axiosSource.token, this.props.unitCurrent.unitId, 'read')
+    _axios_get_AuthorStatics(this.axiosSource.token, this.props.unitCurrent.unitId, {
+      path: 'sum', params: [{key: 'target', value: "read"}]
+    })
       .then((resObj) => {
         self.setState({
           axiosRead: false,
