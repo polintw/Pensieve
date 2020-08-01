@@ -39,15 +39,41 @@ class Chain extends React.Component {
     this.axiosSource = axios.CancelToken.source();
     this._set_ChainUnits = this._set_ChainUnits.bind(this);
     this._set_unitBasic = this._set_unitBasic.bind(this);
+    this._get_inspiredList = this._get_inspiredList.bind(this);
     this._render_ChainUnits = this._render_ChainUnits.bind(this);
-    this._axios_get_chainlist = this._axios_get_chainlist.bind(this);
+    this._axios_GET_andParams = this._axios_GET_andParams.bind(this);
+  }
+
+  _get_inspiredList(){
+    return this._axios_GET_andParams('/router/feed/chainlist', [{ key: 'inspired', value: true }])
+      .then((resInsObj) => {
+        let displayOrder = resInsObj.main.newInspiredList; // must be an array, no matter empty or not
+        if( displayOrder.length == 2 ) return displayOrder
+        else if (displayOrder.length == 1){
+          return this._axios_GET_andParams('/router/share/' + displayOrder[0] + '/statics/sum', [{ key: 'target', value: 'inspired' }, {key: 'lastUser', value: true}])
+          .then((resLastUserObj)=>{
+            resLastUserObj.main.
+
+
+            
+          })
+        }
+      })
+      .then((displayOrder)=>{
+        let displayInfo = {};
+        displayOrder.forEach((unitId, index) => {
+          displayInfo[unitId] = 'newInspired';
+        });
+
+        return [displayOrder, displayInfo];
+      })
   }
 
   _set_ChainUnits(params){
     const self = this;
     this.setState({axios: true});
 
-    this._axios_get_chainlist(params)
+    this._axios_GET_andParams('/router/feed/chainlist', params)
     .then((resObj)=>{
       //(we don't update the 'axios' state, because there is another axios here, for units, right after the res)
       /*
@@ -68,16 +94,14 @@ class Chain extends React.Component {
       });
       // add another possibility not result of 'respond': inspired
       if(displayOrder.length == 0){ // no respond, not a new Shared, we call the api to ask new 'inspired'
-        return this._axios_get_chainlist([{key: 'inspired',value:true}])
-        .then((resInsObj)=>{
-          displayOrder = resInsObj.main.newInspiredList; // must be an array, no matter empty or not
-          resInsObj.main.newInspiredList.forEach((unitId, index)=>{
-            displayInfo[unitId] = 'newInspired';
-          });
+        return this._get_inspiredList()
+        .then(([inspiredOrderedList, inspiredListInfo])=>{
+          displayOrder = inspiredOrderedList;
+          displayInfo = inspiredListInfo;
           return {
-            listOrderedChain: displayOrder,
-            listInfo: displayInfo};
-        });
+                listOrderedChain: displayOrder,
+                listInfo: displayInfo};
+        })
       }
       else return {
         listOrderedChain: displayOrder,
@@ -133,7 +157,7 @@ class Chain extends React.Component {
     });
   }
 
-  _axios_get_chainlist(params){
+  _axios_GET_andParams(path, params){
     let paramObj = {};
     if(!!params) params.forEach((param, index) => {
       paramObj[param.key] = param.value;
@@ -141,7 +165,7 @@ class Chain extends React.Component {
 
     return axios({
       method: 'get',
-      url: '/router/feed/chainlist',
+      url: path,
       params: paramObj,
       headers: {
         'Content-Type': 'application/json',
