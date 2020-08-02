@@ -18,3 +18,27 @@ export function axios_get_UnitsBasic(cancelToken, reqList) {
         throw thrown;
     });
 }
+
+export function _axios_GET_andParams(axiosCancelToken, path, params) {
+    let paramObj = {};
+    if (!!params) params.forEach((param, index) => {
+        paramObj[param.key] = param.value;
+    });
+
+    return axios({
+        method: 'get',
+        url: path,
+        params: paramObj,
+        headers: {
+            'Content-Type': 'application/json',
+            'charset': 'utf-8',
+            'token': window.localStorage['token']
+        },
+        cancelToken: axiosCancelToken
+    }).then(function (res) {
+        let resObj = JSON.parse(res.data); //still parse the res data prepared to be used below
+        return resObj;
+    }).catch(function (thrown) {
+        throw thrown;
+    });
+}

@@ -44,10 +44,8 @@ async function _lastUser_Inspired(unitId){
       id_unit: unitId
     },
     limit: 1, // only select the latest one
-    attributes: [
-      // we ask only the 'max' one by this method
-      [Sequelize.fn('max', Sequelize.col('createdAt')), 'createdAt'], //fn(function, col, alias)
-      'id_unit', 'id_user' //set attributes, so we also need to call every col we need
+    order: [ //make sure the order of arr are from latest
+      Sequelize.literal('`createdAt` DESC') //and here, using 'literal' is due to some wierd behavior of sequelize
     ],
   });
   let lastInspiredUser = null;

@@ -1,12 +1,15 @@
+import React from 'react';
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import AccountPalette from '../../../../Components/AccountPalette.jsx';
 
 export function _comp_EmptyBox(props, state){
   let DOMContent = null;
   switch (props.chainList.listInfo[props.chainList.listOrderedChain[0]]) {
     case "latestShared":
       DOMContent = (
-        <div>
+        <div
+          className={classnames(styles.boxEmptyNailFeedInner)}>
           <span
             className={classnames("fontTitleSmall", "colorGrey")}>
             {props.i18nUIString.catalog["hint_Chain_waitForRespond"][0]}
@@ -20,33 +23,61 @@ export function _comp_EmptyBox(props, state){
       break;
     case "newInspired":
       DOMContent = (
-        <div>
-          <span
-            className={classnames("fontTitleSmall", "colorEditLightBlack")}>
-            {props.i18nUIString.catalog["hint_Chain_waitForRespond"][0]}
-          </span>
-          <div>
-            <div
-              className={classnames("fontTitleSmall", "colorStandard")}>
-              <AccountPalette
-                size={"regularBold"}
-                userId={props.chainList.listInfo["inspiredDetail"].lastUser}/>
+        <div
+          className={classnames(styles.boxEmptyNailFeedInner)}
+          style={{justifyContent: 'flex-start', alignItems: 'flex-start'}}>
+            <div>
+            <div>
+              <span
+                className={classnames("fontContent", "colorEditLightBlack")}>
+                {props.i18nUIString.catalog["hint_Chain_InspiredDetail"][5]}
+              </span>
             </div>
-            <span
-              className={classnames("fontTitleSmall", "colorEditLightBlack")}>
-              {props.i18nUIString.catalog["hint_Chain_waitForRespond"][1]}
-            </span>
-          </div>
-          <div>
-            <span
-              className={classnames("fontTitleSmall", "colorStandard")}>
-              {props.chainList.listInfo["inspiredDetail"].sumNew}
-            </span>
-            <span
-              className={classnames("fontTitleSmall", "colorEditLightBlack")}>
-              {props.i18nUIString.catalog["hint_Chain_waitForRespond"][1]}
-            </span>
-          </div>
+            <div>
+              <div
+                className={classnames("colorStandard")}>
+                <AccountPalette
+                  size={"content"}
+                  styleFirst={{fontWeight: '400'}}
+                  userId={props.chainList.listInfo["inspiredDetail"].lastUser} />
+              </div>
+              {
+                (props.chainList.listInfo["inspiredDetail"].sumNew > 1) &&
+                <span
+                  className={classnames("fontContent", "colorEditLightBlack")}>
+                  {props.i18nUIString.catalog["hint_Chain_InspiredDetail"][0]}
+                </span>
+              }
+            </div>
+            {
+              (props.chainList.listInfo["inspiredDetail"].sumNew > 1) &&
+              <div>
+                <span
+                  className={classnames("fontContent", "colorStandard")}>
+                  {props.chainList.listInfo["inspiredDetail"].sumNew}
+                </span>
+                <span
+                  className={classnames("fontContent", "colorEditLightBlack")}>
+                  {props.i18nUIString.catalog["hint_Chain_InspiredDetail"][1]}
+                </span>
+              </div>
+
+            }
+            <div>
+                <span
+                  className={classnames("fontContent", "colorEditLightBlack")}>
+                {
+                  (props.chainList.listInfo["inspiredDetail"].sumNew > 1) ?
+                  props.i18nUIString.catalog["hint_Chain_InspiredDetail"][3] :
+                  props.i18nUIString.catalog["hint_Chain_InspiredDetail"][4]
+                }
+                </span>
+              <span
+                className={classnames("fontContent", "colorEditLightBlack")}>
+                {props.i18nUIString.catalog["hint_Chain_InspiredDetail"][2]}
+              </span>
+            </div>
+            </div>
         </div>
       );
       break;

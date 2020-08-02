@@ -1,8 +1,5 @@
 import React from 'react';
 import {
-  Link,
-  Redirect,
-  Route,
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
@@ -14,7 +11,10 @@ import ChainMessage from './ChainMessage.jsx';
 import {_comp_EmptyBox} from './ChainAdditionBox.jsx';
 import IndexShare from '../IndexShare/IndexShare.jsx';
 import NailFeed from '../../../../Components/Nails/NailFeed/NailFeed.jsx';
-import {axios_get_UnitsBasic} from '../../../../utils/fetchHandlers.js';
+import {
+  axios_get_UnitsBasic,
+  _axios_GET_andParams
+} from '../../../../utils/fetchHandlers.js';
 import {
   handleNounsList,
   handleUsersList,
@@ -42,13 +42,12 @@ class Chain extends React.Component {
     this._set_unitBasic = this._set_unitBasic.bind(this);
     this._get_inspiredList = this._get_inspiredList.bind(this);
     this._render_ChainUnits = this._render_ChainUnits.bind(this);
-    this._axios_GET_andParams = this._axios_GET_andParams.bind(this);
   }
 
   _get_inspiredList(){
     const self = this;
 
-    return this._axios_GET_andParams('/router/feed/chainlist', [{ key: 'inspired', value: true }])
+    return _axios_GET_andParams(this.axiosSource.token, '/router/feed/chainlist', [{ key: 'inspired', value: true }])
     /*
     resObj.main {
       newInspiredList: [],
@@ -59,7 +58,7 @@ class Chain extends React.Component {
         let newInspiredObj = {displayOrder: displayOrder, displayInfo: {}};
         if (displayOrder.length == 1){ // only 1 new inspired, we going to add detailed info
           let targetUnit = displayOrder[0];
-          return this._axios_GET_andParams('/router/share/' + targetUnit + '/statics/inspired', [
+          return _axios_GET_andParams(self.axiosSource.token, '/router/share/' + targetUnit + '/statics/inspired', [
             { key: 'lastUser', value: true }, {key: 'newUsersSum', value: true}
           ])
           .then((resInsDetailObj)=>{
@@ -72,9 +71,9 @@ class Chain extends React.Component {
 
             return newInspiredObj;
           })
-        }; // end of 'if()'
-        // any else
-        return newInspiredObj;
+        }
+        else // any else
+        return newInspiredObj; // end of 'if()'
       })
       .then((newInspiredObj)=>{
         newInspiredObj.displayOrder.forEach((unitId, index) => {
@@ -89,7 +88,7 @@ class Chain extends React.Component {
     const self = this;
     this.setState({axios: true});
 
-    this._axios_GET_andParams('/router/feed/chainlist', params)
+    _axios_GET_andParams(this.axiosSource.token, '/router/feed/chainlist', params)
     .then((resObj)=>{
       //(we don't update the 'axios' state, because there is another axios here, for units, right after the res)
       /*
@@ -115,11 +114,11 @@ class Chain extends React.Component {
     })
     .then((chainObj)=>{
       // add another possibility not result of 'respond': inspired
-      if(chainObj.displayOrder.length == 0){ // no respond, not a new Shared, we call the api to ask new 'inspired'
-        return this._get_inspiredList()
+      if (chainObj.listOrderedChain.length == 0){ // no respond, not a new Shared, we call the api to ask new 'inspired'
+        return self._get_inspiredList()
         .then(([inspiredOrderedList, inspiredListInfo])=>{
-          chainObj.displayOrder = inspiredOrderedList;
-          chainObj.displayInfo = inspiredListInfo;
+          chainObj.listOrderedChain = inspiredOrderedList;
+          chainObj.listInfo = inspiredListInfo;
 
           return chainObj
         })
@@ -177,30 +176,6 @@ class Chain extends React.Component {
     });
   }
 
-  _axios_GET_andParams(path, params){
-    let paramObj = {};
-    if(!!params) params.forEach((param, index) => {
-      paramObj[param.key] = param.value;
-    });
-
-    return axios({
-      method: 'get',
-      url: path,
-      params: paramObj,
-      headers: {
-        'Content-Type': 'application/json',
-        'charset': 'utf-8',
-        'token': window.localStorage['token']
-      },
-      cancelToken: this.axiosSource.token
-    }).then(function (res) {
-      let resObj = JSON.parse(res.data); //still parse the res data prepared to be used below
-      return resObj;
-    }).catch(function (thrown) {
-      throw thrown;
-    });
-  }
-
   componentDidUpdate(prevProps, prevState, snapshot){
     //monitor flag for this comp: 1) new shared by user.
     if(this.props.flagChainFetRespond && this.props.flagChainFetRespond != prevProps.flagChainFetRespond) this._set_ChainUnits([{key: 'respond',value:true}]);
@@ -237,7 +212,7 @@ class Chain extends React.Component {
       );
 
     });
-    if(this.props.chainList.listInfo[this.props.chainList.listOrderedChain[0]] == "latestShared" && nailsDOM.length < 2){ // just submit new one
+    if(nailsDOM.length ==1 ){ // any one nail condition should has a 'EmptyBox' to keep in pair
       let DOMEmptyBox = _comp_EmptyBox(this.props, this.state);
       nailsDOM.push(DOMEmptyBox);
     };

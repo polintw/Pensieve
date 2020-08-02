@@ -38,8 +38,8 @@ class GatheringBase extends React.Component {
       let nodeId = this.props.belongsByType[type];
       return (
         <Link
-          key={'key_NavBelongSeries_' + nodeId}
-          nodeid={nodeId}
+          key={'key_NavBelongSeries_' + type +"_"+ nodeId}
+          belongtype={type}
           to={"/cosmic/explore/node?nodeid="+nodeId}
           className={classnames( 'plainLinkButton')}
           style={{display: 'inline-block', padding: '0 5px'}}
@@ -50,7 +50,7 @@ class GatheringBase extends React.Component {
               className={classnames(
                 "fontContentPlain", "weightBold", "colorEditBlack",
                 styles.spanBaseNode,
-                {[styles.spanBaseNodeMouse]: this.state.onNodeLink == nodeId}
+                {[styles.spanBaseNodeMouse]: this.state.onNodeLink == type}
               )}>
               {this.props.nounsBasic[nodeId].name}</span>
           }
@@ -96,7 +96,7 @@ class GatheringBase extends React.Component {
   }
 
   _handleEnter_NodeLink(e){
-    let targetNode= e.currentTarget.getAttribute('nodeid');
+    let targetNode= e.currentTarget.getAttribute('belongtype');
     this.setState({onNodeLink: targetNode})
   }
 
