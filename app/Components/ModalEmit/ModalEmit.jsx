@@ -29,7 +29,7 @@ class ModalEmit extends React.Component {
   render(){
     return(
       <div
-        className={classnames(styles.comp)}>
+        className={classnames(styles.comp, styles.animiFadeOut)}>
             <span
                 className={classnames("fontTitleSmall", "colorWhite", styles.spanText)}>
                     {this.props.text}

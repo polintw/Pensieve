@@ -92,6 +92,7 @@ const i18nUIString_EN = {
   "submit_complete": "Complete", //Original: "complete"
   "submit_close": "Close", //Original: "close"
   "submit_cancel": "Cancel", //Original: "cancel"
+  "submit_removed": "Removed",
   "submit_change": "Change", //Original: "change"
   "submit_copy": "Copy",
   "submit_edit": "Edit",
@@ -123,7 +124,7 @@ const i18nUIString_EN = {
   "message_UnitEdit_ruleAssignedNodes": ["Select only one corner from where you stay, and one from your homeland."],
   "subTitle_Unit_AuthorStatics": ["inspired", "read"],
   "tagTitle_Unit_Inspired": "Inspired by this article",
-  "message_Unit_InspiredModal": "Thanks from author",
+  "message_Unit_InspiredModal": "Sent to author",
 
   "title_shareUpload_typewriter": ['S','u','b','m','i', 't'],
   "guidingCreateShare_AssignGroup": "Corners or fellows you could contribute to",//Changed "corner(s)" to "Corner(s)"

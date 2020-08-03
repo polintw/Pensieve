@@ -62,14 +62,17 @@ class Inspired extends React.Component {
   render(){
     return(
       <div
-        title={this.props.i18nUIString.catalog["tagTitle_Unit_Inspired"]}
-        className={classnames(styles.comInspired)}
-        onMouseEnter={this._handleEnter_Btn}
-        onMouseLeave={this._handleLeave_Btn}
-        onClick={this._handleClick_Inspired}>
-        <SvgBulbInspired
-          bulbPattern={this.state.inspired ? 'delight': 'dark'}
-          mouseReact={this.state.mouseOn}/>
+        className={classnames(styles.comInspired)}>
+          <div
+            title={this.props.i18nUIString.catalog["tagTitle_Unit_Inspired"]}
+            className={classnames(styles.boxSvgIcon)}
+            onMouseEnter={this._handleEnter_Btn}
+            onMouseLeave={this._handleLeave_Btn}
+            onClick={this._handleClick_Inspired}>
+            <SvgBulbInspired
+              bulbPattern={this.state.inspired ? 'delight': 'dark'}
+              mouseReact={this.state.mouseOn}/>        
+          </div>
         {
           this.state.emit &&
           <div
@@ -78,26 +81,32 @@ class Inspired extends React.Component {
               text={this.state.emit.text} />
           </div>
         }
+
       </div>
     )
   }
 
   _set_emitModal(){
     this.setState({
-      emit: { text: this.state.inspired ? this.props.i18nUIString.catalog["message_Unit_InspiredModal"] : this.props.i18nUIString.catalog["submit_cancel"]}
+      emit: { text: this.state.inspired ? this.props.i18nUIString.catalog["message_Unit_InspiredModal"] : this.props.i18nUIString.catalog["submit_removed"]}
     });
     setTimeout(()=>{
-      this.setState({
-        emit:false
+      this.setState((prevState, props)=>{
+        return {
+          emit:false
+        }
       })
-    }, 3000)
+    }, 2200)
   }
 
   _handleClick_Inspired(event){
     event.preventDefault();
     event.stopPropagation();
     const self = this;
-    this.setState({axios: true});
+    this.setState({
+      axios: true,
+      emit: false // additional param special for this comp, to force close ModalEmit if not yet.
+    });
 
     _axios_POST_Isnpired(this.axiosSource.token,  this.props.unitCurrent.unitId)
     .then((resObj)=>{
