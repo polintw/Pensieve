@@ -1,0 +1,15 @@
+.comp {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 4px 12px;
+    border-radius: 18.5px;
+    background-color: rgba(0,0,0,0.85);
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+.spanText {
+    white-space: nowrap;
+}

@@ -122,7 +122,8 @@ const i18nUIString_EN = {
   "message_UnitEdit_tooManySpot": "A better spot? However, having too many highlights could be overwhelmed to readers. Please delete an old one before you implement this new!", //Original:"A better spot? But too many paragraph would be a burdon to readers. Please delete an old one before you implement this new!"
   "message_UnitEdit_ruleAssignedNodes": ["Select only one corner from where you stay, and one from your homeland."],
   "subTitle_Unit_AuthorStatics": ["inspired", "read"],
-  "tagTitle_Unit_Inspired": "inspired by this article",
+  "tagTitle_Unit_Inspired": "Inspired by this article",
+  "message_Unit_InspiredModal": "Thanks from author",
 
   "title_shareUpload_typewriter": ['S','u','b','m','i', 't'],
   "guidingCreateShare_AssignGroup": "Corners or fellows you could contribute to",//Changed "corner(s)" to "Corner(s)"

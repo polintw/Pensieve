@@ -6,6 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
+import ModalEmit from '../../../../Components/ModalEmit/ModalEmit.jsx';
 import {SvgBulbInspired} from '../../../../Components/Svg/SvgBulb.jsx';
 
 class Inspired extends React.Component {
@@ -17,6 +18,7 @@ class Inspired extends React.Component {
       mouseOn: false
     };
     this.axiosSource = axios.CancelToken.source();
+    this._set_emitModal = this._set_emitModal.bind(this);
     this._handleEnter_Btn = this._handleEnter_Btn.bind(this);
     this._handleLeave_Btn = this._handleLeave_Btn.bind(this);
     this._handleClick_Inspired = this._handleClick_Inspired.bind(this);
@@ -68,8 +70,27 @@ class Inspired extends React.Component {
         <SvgBulbInspired
           bulbPattern={this.state.inspired ? 'delight': 'dark'}
           mouseReact={this.state.mouseOn}/>
+        {
+          this.state.emit &&
+          <div
+            className={classnames(styles.boxModalEmit)}>
+            <ModalEmit
+              text={this.state.emit.text} />
+          </div>
+        }
       </div>
     )
+  }
+
+  _set_emitModal(){
+    this.setState({
+      emit: { text: this.state.inspired ? this.props.i18nUIString.catalog["message_Unit_InspiredModal"] : this.props.i18nUIString.catalog["submit_cancel"]}
+    });
+    setTimeout(()=>{
+      this.setState({
+        emit:false
+      })
+    }, 3000)
   }
 
   _handleClick_Inspired(event){
@@ -86,9 +107,13 @@ class Inspired extends React.Component {
     })
     .then((resObj)=>{
       // res incl. inspiredify, set state by it directly
-      self.setState({
-        axios: false,
-        inspired: resObj.main.inspiredify
+      self.setState((state, props)=>{
+        return {
+          axios: false,
+          inspired: resObj.main.inspiredify
+        };
+      }, ()=>{
+        self._set_emitModal();
       });
     })
     .catch(function (thrown) {
