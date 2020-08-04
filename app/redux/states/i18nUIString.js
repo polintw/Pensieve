@@ -85,12 +85,14 @@ const i18nUIString_EN = {
 
   "button_complete": "Complete",
 
+  "text_users": "users",
   "message_hello": "Hi, ",
   "submit_": "Submit",
   "submit_back": "Back", //Original:"back"
   "submit_complete": "Complete", //Original: "complete"
   "submit_close": "Close", //Original: "close"
   "submit_cancel": "Cancel", //Original: "cancel"
+  "submit_removed": "Removed",
   "submit_change": "Change", //Original: "change"
   "submit_copy": "Copy",
   "submit_edit": "Edit",
@@ -120,6 +122,11 @@ const i18nUIString_EN = {
   "guiding_placeholder_UnitEdit_MarkBlock": "What's SPECIAL!  Tell us about details you found." , //Original:Telling us some details you found."
   "message_UnitEdit_tooManySpot": "A better spot? However, having too many highlights could be overwhelmed to readers. Please delete an old one before you implement this new!", //Original:"A better spot? But too many paragraph would be a burdon to readers. Please delete an old one before you implement this new!"
   "message_UnitEdit_ruleAssignedNodes": ["Select only one corner from where you stay, and one from your homeland."],
+  "subTitle_Unit_AuthorStatics": ["inspired", "read"],
+  "tagTitle_Unit_Inspired": "Inspired by this article",
+  "message_Unit_InspiredModal": "Sent to author",
+  "tagTitle_Unit_LinkCopy": "Copy share link",
+  "message_Unit_LinkCopy": "Copied to clipboard",
 
   "title_shareUpload_typewriter": ['S','u','b','m','i', 't'],
   "guidingCreateShare_AssignGroup": "Corners or fellows you could contribute to",//Changed "corner(s)" to "Corner(s)"
@@ -151,9 +158,13 @@ const i18nUIString_EN = {
     "Responded to it ",
     "Submit ",
     "Respond to Yours ",
-    "succesfully "],
+    "succesfully ",
+    "You inspired ",
+    "new user by this contribution"
+  ],
   "message_Chain_toNodes": ["to ", " and several"],
   "hint_Chain_waitForRespond": ["Your contribution would be delivered to your fellows.", "And any new respond to your contribution would be emphasized here."],
+  "hint_Chain_InspiredDetail": [", and", " more users", " inspired.", " were", " was", "That's"],
   "guidingBelongs_EmptyMap_noSet": ["Set your", ", and take a look for the distribution of your fellows."], //Changed "taking" to "take"
   "guidingBelongs_EmptyMap_": "You were the first user among this corner!",
   "descript_BelongTypeInteract": ["going to renew your ", " ?"],

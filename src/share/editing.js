@@ -1,7 +1,7 @@
 const express = require('express');
 const execute = express.Router();
 const path = require("path");
-const {validateSharedEdit} = require('./plain/validation.js');
+const {validateSharedEdit} = require('./create/validation.js');
 const projectRootPath = require("../../projectRootPath");
 const winston = require('../../config/winston.js');
 const {

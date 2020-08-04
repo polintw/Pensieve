@@ -8,9 +8,12 @@ import classnames from 'classnames';
 import styles from './styles.module.css';
 import ImgsFrame from './ImgsFrame.jsx';
 import SidePanel from './SidePanel.jsx';
+import AuthorStatics from './Author/AuthorStatics.jsx';
+import Inspired from '../components/Inspired/Inspired.jsx';
 import Primer from '../components/Primer.jsx';
 import {NodesExtensible} from '../../NodesDisplay/NodesExtensible.jsx';
 import ImgPreview from '../../../Components/ImgPreview.jsx';
+import LinkCopy from '../../../Components/LinkCopy/LinkCopy.jsx';
 import AccountPalette from '../../../Components/AccountPalette.jsx';
 import DateConverter from '../../../Components/DateConverter.jsx';
 
@@ -61,32 +64,58 @@ class Wrapper extends React.Component {
             {...this.props}/>
         </div>
         <div
-          className={classnames(styles.boxContentWidth, styles.boxFrame)}>
+          className={classnames(
+            styles.boxContentWidth, styles.boxFrame,
+            {[styles.boxFrameAuthor]: (this.props.unitCurrent.identity == "author")}
+            )}>
           <ImgsFrame
             moveCount={this.props.moveCount}
             lockify={this.props.lockify}
             marksStatus={this.props.marksStatus}
             _set_markOpened={this.props._set_markOpened}
             _set_layerstatus={this.props._set_layerstatus}/>
+          {
+            (this.props.unitCurrent.identity == "author") &&
+            <div
+              className={classnames(styles.boxAuthorStatics)}>
+                <AuthorStatics/>
+            </div>
+          }
         </div>
         <div
           className={classnames(styles.boxContentWidth, styles.boxBottom)}>
-          <div>
+          <div
+            className={classnames(styles.boxBottomRight)}>
+            <div
+              className={classnames(styles.btnBottomIcon)}
+              style={{marginTop: '2px'}}>
+              <LinkCopy {...this.props}/>
+            </div>
             {
-              (this.props.guidingNailsId.indexOf(this.props.unitCurrent.unitId) < 0) && // guidingNails do not show the Respond & view responds
-              <span
-                className={classnames(
-                  'colorEditBlack',
-                  'fontContentPlain',
-                  styles.spanResponds,
-                  {[styles.spanRespondsActiv]: this.state.onSpanResponds}
-                )}
-                onClick={this._handleClick_LinkListResponds}
-                onMouseEnter={this._handleEnter_spanResponds}
-                onMouseLeave={this._handleLeave_spanResponds}>
-                {this.props.i18nUIString.catalog['link_UnitListResponds']}
-              </span>
+              (this.props.unitCurrent.identity != "author") &&
+              <div
+                className={classnames(styles.btnBottomIcon)}>
+                <Inspired/>
+              </div>
             }
+            <div style={{borderRight: 'solid 0.75px #a3a3a3', margin: '0 1.5rem', height: '3.6rem'}}/>
+            <div>
+              {
+                (this.props.guidingNailsId.indexOf(this.props.unitCurrent.unitId) < 0) && // guidingNails do not show the Respond & view responds
+                <span
+                  className={classnames(
+                    'colorEditBlack',
+                    'fontContentPlain',
+                    styles.spanResponds,
+                    {[styles.spanRespondsActiv]: this.state.onSpanResponds}
+                  )}
+                  onClick={this._handleClick_LinkListResponds}
+                  onMouseEnter={this._handleEnter_spanResponds}
+                  onMouseLeave={this._handleLeave_spanResponds}>
+                  {this.props.i18nUIString.catalog['link_UnitListResponds']}
+                </span>
+              }
+            </div>
           </div>
           <div
             className={classnames(styles.boxBottomLeft)}>
@@ -102,18 +131,18 @@ class Wrapper extends React.Component {
               </div>
               <div
                 className={classnames(styles.boxBottomLower)}>
-                <div style={{marginRight: '5rem'}}>
+                <div>
                   <DateConverter
                     styles={{color: '#a3a3a3'}}
                     datetime={this.props.unitCurrent.createdAt}/>
                 </div>
-                <div>
-                  {
-                    this.props.unitCurrent.primerify &&
+                {
+                  this.props.unitCurrent.primerify &&
+                  <div style={{marginLeft: '5rem'}}>
                     <Primer
                       {...this.props}/>
-                  }
-                </div>
+                  </div>
+                }
               </div>
             </div>
             {

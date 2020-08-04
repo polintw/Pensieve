@@ -1,0 +1,67 @@
+.comp {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 18.5px;
+    background-color: rgba(0,0,0,0.85);
+    box-shadow: 0 0 8px 0 #c0d3f0;
+    text-align: center;
+}
+
+.spanText {
+    white-space: nowrap;
+}
+
+.animiFadeOut {
+  animation: fadeOut ease 1.2s 1.2s forwards;
+  -webkit-animation: fadeOut ease 1.2s 1.2s forwards;
+  -moz-animation: fadeOut ease 1.2s 1.2s forwards;
+  -o-animation: fadeOut ease 1.2s 1.2s forwards;
+  -ms-animation: fadeOut ease 1.2s 1.2s forwards;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity:1;
+  }
+  100% {
+    opacity:0;
+  }
+}
+
+@-moz-keyframes fadeOut {
+  0% {
+    opacity:1;
+  }
+  100% {
+    opacity:0;
+  }
+}
+
+@-webkit-keyframes fadeOut {
+  0% {
+    opacity:1;
+  }
+  100% {
+    opacity:0;
+  }
+}
+
+@-o-keyframes fadeOut {
+  0% {
+    opacity:1;
+  }
+  100% {
+    opacity:0;
+  }
+}
+
+@-ms-keyframes fadeOut {
+  0% {
+    opacity:1;
+  }
+  100% {
+    opacity:0;
+  }
+}

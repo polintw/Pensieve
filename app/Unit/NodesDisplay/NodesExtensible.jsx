@@ -35,7 +35,7 @@ export class NodesExtensible extends React.Component {
       if(i != 0) nounsArr.push(
         <span
           className={classnames("colorEditBlack", "fontTitle")}
-          style={{display: 'flex',alignItems:'center',marginRight: '1rem'}}>{"|"}</span>
+          style={{display: 'flex',alignItems:'center',marginRight: '1rem'}}>{","}</span>
       ); //end of "if"
       let nodeId = self.props.nouns.list[i];
       let iNoun = self.props.nouns.basic[nodeId];

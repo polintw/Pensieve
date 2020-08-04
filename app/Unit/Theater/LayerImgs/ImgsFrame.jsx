@@ -16,11 +16,12 @@ class ImgsFrame extends React.Component {
     this._set_spotsVisible = ()=>{this.setState((prevState, props)=>{return {spotsVisible: prevState.spotsVisible? false : true};})};
     this.style={
       Com_ImgsFrame: {
-        width: '100%',
+        flex: '1',
         height: '100%',
         position: 'relative',
         boxSizing: 'border-box',
-        borderRadius: '4px'
+        borderRadius: '4px',
+        backgroundColor: 'rgba(217, 232, 255, 0.15)'
       },
     };
   }
