@@ -87,8 +87,9 @@ class Wrapper extends React.Component {
           <div
             className={classnames(styles.boxBottomRight)}>
             <div
-              className={classnames(styles.btnBottomIcon)}>
-              <LinkCopy/>
+              className={classnames(styles.btnBottomIcon)}
+              style={{marginTop: '2px'}}>
+              <LinkCopy {...this.props}/>
             </div>
             {
               (this.props.unitCurrent.identity != "author") &&
@@ -97,7 +98,6 @@ class Wrapper extends React.Component {
                 <Inspired/>
               </div>
             }
-
             <div style={{borderRight: 'solid 0.75px #a3a3a3', margin: '0 1.5rem', height: '3.6rem'}}/>
             <div>
               {
@@ -131,18 +131,18 @@ class Wrapper extends React.Component {
               </div>
               <div
                 className={classnames(styles.boxBottomLower)}>
-                <div style={{marginRight: '5rem'}}>
+                <div>
                   <DateConverter
                     styles={{color: '#a3a3a3'}}
                     datetime={this.props.unitCurrent.createdAt}/>
                 </div>
-                <div>
-                  {
-                    this.props.unitCurrent.primerify &&
+                {
+                  this.props.unitCurrent.primerify &&
+                  <div style={{marginLeft: '5rem'}}>
                     <Primer
                       {...this.props}/>
-                  }
-                </div>
+                  </div>
+                }
               </div>
             </div>
             {

@@ -9,7 +9,7 @@ export default class SvgCopyLink extends React.Component {
   }
 
   render(){
-    let fillColor = "#a3a3a3"
+    let fillColor = this.props.mouseReact ? "#545454": "#a3a3a3";
     return (
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.85 172.73"
         style={Object.assign({}, {

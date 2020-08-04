@@ -13,20 +13,29 @@ class LinkCopy extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      inspired: false,
-      mouseOn: false
+      emit: false,
+      mouseOn: false,
+      hiddenUrl: ''
     };
+    this.refHiddenText = React.createRef();
     this._set_emitModal = this._set_emitModal.bind(this);
     this._handleEnter_Btn = this._handleEnter_Btn.bind(this);
     this._handleLeave_Btn = this._handleLeave_Btn.bind(this);
+    this._handleClick_CopyLink = this._handleClick_CopyLink.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-
+    let href = window.location.href;
+    if( href != prevState.hiddenUrl){
+      let href = window.location.href;
+      this.setState({hiddenUrl: href});
+    };
   }
 
   componentDidMount() {
-
+    // the most important function of this comp. is to 'copy' the current url
+    let href = window.location.href;
+    this.setState({hiddenUrl: href});
   }
 
   componentWillUnmount() {
@@ -36,16 +45,22 @@ class LinkCopy extends React.Component {
   render(){
     return(
       <div
-        className={classnames(styles.comInspired)}>
-          <div
-            title={this.props.i18nUIString.catalog["tagTitle_Unit_Inspired"]}
-            className={classnames(styles.boxSvgIcon)}
-            onMouseEnter={this._handleEnter_Btn}
-            onMouseLeave={this._handleLeave_Btn}
-            onClick={this._handleClick_Inspired}>
-            <SvgCopyLink
-              mouseReact={this.state.mouseOn}/>
-          </div>
+        className={classnames(styles.comLinkCopy)}>
+        <div style={{width:"100%",position: 'absolute', overflow:'hidden'}}>
+          <input
+            ref={this.refHiddenText}
+            className={classnames(styles.boxHiddenText)}
+            value={this.state.hiddenUrl}/>
+        </div>
+        <div
+          title={this.props.i18nUIString.catalog["tagTitle_Unit_LinkCopy"]}
+          className={classnames(styles.boxSvgIcon)}
+          onMouseEnter={this._handleEnter_Btn}
+          onMouseLeave={this._handleLeave_Btn}
+          onClick={this._handleClick_CopyLink}>
+          <SvgCopyLink
+            mouseReact={this.state.mouseOn}/>
+        </div>
         {
           this.state.emit &&
           <div
@@ -54,14 +69,13 @@ class LinkCopy extends React.Component {
               text={this.state.emit.text} />
           </div>
         }
-
       </div>
     )
   }
 
   _set_emitModal(){
     this.setState({
-      emit: { text: this.state.inspired ? this.props.i18nUIString.catalog["message_Unit_InspiredModal"] : this.props.i18nUIString.catalog["submit_removed"]}
+      emit: { text: this.props.i18nUIString.catalog["message_Unit_LinkCopy"]}
     });
     setTimeout(()=>{
       this.setState((prevState, props)=>{
@@ -72,6 +86,14 @@ class LinkCopy extends React.Component {
     }, 2200)
   }
 
+  _handleClick_CopyLink(e){
+    e.stopPropagation();
+    e.preventDefault();
+
+    this.refHiddenText.current.select();
+    document.execCommand('copy'); // had completed copy to clipboard
+    this._set_emitModal(); // than inform the user by emitModal
+  }
 
   _handleEnter_Btn(e){
     this.setState({

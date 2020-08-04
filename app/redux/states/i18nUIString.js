@@ -125,6 +125,8 @@ const i18nUIString_EN = {
   "subTitle_Unit_AuthorStatics": ["inspired", "read"],
   "tagTitle_Unit_Inspired": "Inspired by this article",
   "message_Unit_InspiredModal": "Sent to author",
+  "tagTitle_Unit_LinkCopy": "Copy share link",
+  "message_Unit_LinkCopy": "Copied to clipboard",
 
   "title_shareUpload_typewriter": ['S','u','b','m','i', 't'],
   "guidingCreateShare_AssignGroup": "Corners or fellows you could contribute to",//Changed "corner(s)" to "Corner(s)"

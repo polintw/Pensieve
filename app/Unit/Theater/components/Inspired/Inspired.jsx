@@ -14,6 +14,7 @@ class Inspired extends React.Component {
     super(props);
     this.state = {
       axios: false,
+      emit: false,
       inspired: false,
       mouseOn: false
     };
@@ -71,7 +72,7 @@ class Inspired extends React.Component {
             onClick={this._handleClick_Inspired}>
             <SvgBulbInspired
               bulbPattern={this.state.inspired ? 'delight': 'dark'}
-              mouseReact={this.state.mouseOn}/>        
+              mouseReact={this.state.mouseOn}/>
           </div>
         {
           this.state.emit &&
