@@ -61,8 +61,7 @@ class Nav extends React.Component {
           key={'key_NavBelongSeries_' + nodeId}
           nodeid={nodeId}
           className={classnames(
-            styles.boxNavLinkSeries,
-            {[styles.boxNavLinkSeriesMouse]: (this.state.onLinkSeries == nodeId)}
+            styles.boxNavLinkSeries
           )}
           onClick={this._handleClick_navBelongSeries}
           onMouseEnter={this._handleEnter_navLinkSeries}
@@ -73,7 +72,7 @@ class Nav extends React.Component {
                 className={classnames(
                   styles.spanNavLinkSeries,
                   "fontContentPlain", "weightBold", "colorLightGrey",
-                  {["colorEditBlack"]: ( this.state.onLinkSeries == nodeId)}
+                  {[styles.spanNavLinkSeriesMouse]: ( this.state.onLinkSeries == nodeId)}
                 )}>
                 {this.props.nounsBasic[nodeId].name}</span>
             </div>
@@ -92,22 +91,24 @@ class Nav extends React.Component {
         <div
           key={"key_BelongsMapNav_typeMap_"+index}
           valuetab={type}
-          className={classnames(styles.boxMapNavLink)}
+          className={classnames(
+            styles.boxMapNavLink,
+            {[styles.boxNavLinkMouse]: (this.state.onMapNav == type && this.props.currentTab != type)}
+          )}
           onClick={this._handleClick_navBelongsMap}
           onMouseEnter={this._handleEnter_MapNav}
           onMouseLeave={this._handleLeave_MapNav}>
           <span
             className={classnames(
-              styles.spanNav, 'fontContentPlain',
+              'fontContentPlain',
               {
                 ["colorWhiteGrey"]: (this.state.onMapNav != type && this.props.currentTab != type),
                 ["weightBold"]: (this.props.currentTab != type),
-                ["colorEditLightBlack"]: (this.state.onMapNav == type && this.props.currentTab != type),
-                [styles.spanNavMouse]: (this.state.onMapNav == type && this.props.currentTab != type),
+                ["colorEditBlack"]: (this.state.onMapNav == type && this.props.currentTab != type),
                 ["colorStandard"]: this.props.currentTab == type
               }
             )}>
-            {this.props.i18nUIString.catalog['link_BelongsMap_Nav'][(type == "homeland") ? 1 : 2 ]}</span>
+            {this.props.i18nUIString.catalog['link_BelongsMap_Nav'][(type == "homeland") ? 0 : 1 ]}</span>
         </div>
       )
     });
@@ -139,15 +140,6 @@ class Nav extends React.Component {
           }
           <div
             className={classnames(styles.boxNavTitle)}>
-            <div
-              className={classnames(styles.boxNavTitleType)}>
-              <div>
-                <span
-                  className={classnames('colorEditLightBlack', 'fontContentPlain')}>
-                  { this.props.i18nUIString.catalog["link_BelongsMap_Nav"][0] }
-                </span>
-              </div>
-            </div>
             {this._render_MapNav()}
           </div>
         </div>

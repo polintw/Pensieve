@@ -170,7 +170,7 @@ const i18nUIString_EN = {
   "descript_BelongTypeInteract": ["going to renew your ", " ?"],
   "category__Belong_usersCount": ["currently stay at", "from homeland"],
   "hint_BelongsMap_Nav": "fellows by ",
-  "link_BelongsMap_Nav": ["as ", "Homeland", "Current Stay"],
+  "link_BelongsMap_Nav": [ "As homeland", "Stay here"],
   "messageBelongChoiceinBool": ["site ", "  as your  ", "  place?"],
   "title_BelongSet_": "Your Corners",
   "descript_BelongSet_SearchBytType": ["Search one fit your "],

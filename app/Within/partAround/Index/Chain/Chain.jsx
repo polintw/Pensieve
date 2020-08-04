@@ -221,6 +221,9 @@ class Chain extends React.Component {
   }
 
   render(){
+    let currentPath = this.props.location.pathname;
+    let fellowsify = currentPath.includes('/fellows');
+
     return (
       <div
         className={classnames(styles.comChain)}>
@@ -229,11 +232,14 @@ class Chain extends React.Component {
           style={{margin: '4px 0'}}>
           <ChainShared/>
         </div>
-        <div
-          className={classnames(styles.boxIndexShare)}>
-          <IndexShare
-            {...this.props}/>
-        </div>
+        {
+          !fellowsify && // not display in path '/fellows'
+          <div
+            className={classnames(styles.boxIndexShare)}>
+            <IndexShare
+              {...this.props}/>
+          </div>
+        }
         {
           (this.props.chainList.listOrderedChain.length > 0 && this.props.chainList.listOrderedChain[0] in this.state.unitsBasic) &&
           <div
