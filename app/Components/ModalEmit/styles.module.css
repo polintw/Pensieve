@@ -14,11 +14,11 @@
 }
 
 .animiFadeOut {
-  animation: fadeOut ease 1.2s 1s forwards;
-  -webkit-animation: fadeOut ease 1.2s 1s forwards;
-  -moz-animation: fadeOut ease 1.2s 1s forwards;
-  -o-animation: fadeOut ease 1.2s 1s forwards;
-  -ms-animation: fadeOut ease 1.2s 1s forwards;
+  animation: fadeOut ease 1.2s 1.2s forwards;
+  -webkit-animation: fadeOut ease 1.2s 1.2s forwards;
+  -moz-animation: fadeOut ease 1.2s 1.2s forwards;
+  -o-animation: fadeOut ease 1.2s 1.2s forwards;
+  -ms-animation: fadeOut ease 1.2s 1.2s forwards;
 }
 
 @keyframes fadeOut {

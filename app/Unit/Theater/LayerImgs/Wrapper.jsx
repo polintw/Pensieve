@@ -13,6 +13,7 @@ import Inspired from '../components/Inspired/Inspired.jsx';
 import Primer from '../components/Primer.jsx';
 import {NodesExtensible} from '../../NodesDisplay/NodesExtensible.jsx';
 import ImgPreview from '../../../Components/ImgPreview.jsx';
+import LinkCopy from '../../../Components/LinkCopy/LinkCopy.jsx';
 import AccountPalette from '../../../Components/AccountPalette.jsx';
 import DateConverter from '../../../Components/DateConverter.jsx';
 
@@ -85,6 +86,10 @@ class Wrapper extends React.Component {
           className={classnames(styles.boxContentWidth, styles.boxBottom)}>
           <div
             className={classnames(styles.boxBottomRight)}>
+            <div
+              className={classnames(styles.btnBottomIcon)}>
+              <LinkCopy/>
+            </div>
             {
               (this.props.unitCurrent.identity != "author") &&
               <div
