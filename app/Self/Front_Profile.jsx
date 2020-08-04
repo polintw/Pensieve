@@ -80,7 +80,7 @@ class FrontProfile extends React.Component {
           className={classnames(styles.boxProfile)}>
           <div
             className={classnames(styles.boxNavOptions)}>
-            <NavOptions {...this.props}/>
+            <NavOptions {...this.props} _refer_to={this._refer_leaveSelf}/>
           </div>
           <div
             className={classnames(styles.boxContent)}>
