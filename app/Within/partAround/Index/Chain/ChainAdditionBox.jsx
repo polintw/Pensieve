@@ -47,31 +47,34 @@ export function _comp_EmptyBox(props, state){
                 </span>
               }
             </div>
-            {
-              (props.chainList.listInfo["inspiredDetail"].sumNew > 1) &&
-              <div>
-                <span
-                  className={classnames("fontContent", "colorStandard")}>
-                  {props.chainList.listInfo["inspiredDetail"].sumNew-1}
-                </span>
-                <span
-                  className={classnames("fontContent", "colorEditLightBlack")}>
-                  {props.i18nUIString.catalog["hint_Chain_InspiredDetail"][1]}
-                </span>
-                <span
-                  className={classnames("fontContent", "colorEditLightBlack")}>
-                  {
-                    (props.chainList.listInfo["inspiredDetail"].sumNew > 1) ?
-                    props.i18nUIString.catalog["hint_Chain_InspiredDetail"][3] :
-                    props.i18nUIString.catalog["hint_Chain_InspiredDetail"][4]
-                  }
-                </span>
-                <span
-                  className={classnames("fontContent", "colorEditLightBlack")}>
-                  {props.i18nUIString.catalog["hint_Chain_InspiredDetail"][2]}
-                </span>
-              </div>
-            }
+            <div>
+              <span
+                className={classnames("fontContent", "colorStandard")}>
+                {
+                  (props.chainList.listInfo["inspiredDetail"].sumNew > 1) &&
+                  (props.chainList.listInfo["inspiredDetail"].sumNew-1)
+                }
+              </span>
+              <span
+                className={classnames("fontContent", "colorEditLightBlack")}>
+                {
+                  (props.chainList.listInfo["inspiredDetail"].sumNew > 1) &&
+                  props.i18nUIString.catalog["hint_Chain_InspiredDetail"][1]
+                }
+              </span>
+              <span
+                className={classnames("fontContent", "colorEditLightBlack")}>
+                {
+                  (props.chainList.listInfo["inspiredDetail"].sumNew > 1) ?
+                  props.i18nUIString.catalog["hint_Chain_InspiredDetail"][3] :
+                  props.i18nUIString.catalog["hint_Chain_InspiredDetail"][4]
+                }
+              </span>
+              <span
+                className={classnames("fontContent", "colorEditLightBlack")}>
+                {props.i18nUIString.catalog["hint_Chain_InspiredDetail"][2]}
+              </span>
+            </div>
           </div>
         </div>
       );

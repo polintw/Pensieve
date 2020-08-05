@@ -42,7 +42,7 @@ export class NodesExtensible extends React.Component {
       nounsArr.push(
         <li
           key={"key_unitModal_Nouns_"+i}
-          nodeId={nodeId}
+          nodeid={nodeId}
           className={classnames(styles.boxListItem)}
           onClick={this._handleClick_Node}
           onMouseEnter={this._handleEnter_node}
