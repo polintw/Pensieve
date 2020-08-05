@@ -248,10 +248,13 @@ async function _handle_GET_chainlistInspired(req, res){
         id_unit: contributionsList,
         createdAt: {[Op.gt]: userLastVisit.updatedAt}
       },
-      order: [ //make sure the order of arr are from 'earlist'
-        Sequelize.literal('`createdAt` ASC') //and here, using 'literal' is due to some wierd behavior of sequelize,
-        //it would make an Error if we provide col name by 'arr'
-      ]
+      // but, we just need to know "which" one has new inspired, no matter how 'many', so select only the max one represent
+      attributes: [
+        //'max' here combined with 'group' prop beneath,
+        [Sequelize.fn('max', Sequelize.col('createdAt')), 'createdAt'], //fn(function, col, alias)
+        'id_unit', //set attributes, so we also need to call every col we need
+      ],
+      group: 'id_unit' //Important. means we combined the rows by id_unit, each id_unit would only has one row
     });
 
     let inspiredUnitList = [];

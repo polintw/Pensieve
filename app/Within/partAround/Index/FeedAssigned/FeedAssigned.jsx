@@ -69,7 +69,7 @@ class FeedAssigned extends React.Component {
 
   componentDidUpdate(prevProps, prevState, snapshot){
     /*
-    there are 3 situations we have to fetch list again
+    2 situations we have to fetch list again
     */
     //1st one, props.lastVisit updated
     //it's very slow to compare 2 obj directly, so just compare by key pair we already set up
@@ -84,16 +84,6 @@ class FeedAssigned extends React.Component {
       this.props._submit_list_FeedAssigned(initAround.indexLists, true); //reset to initial state before fetch
       let nowDate = new Date();
       this._set_feedUnits(this.props.lastVisit, nowDate);
-    };
-    //another situation need to update was, when the Chain was updated, we have to rm repeated if there was any
-    if( //it's 'array' we have to compare to, but actually, we only care the very beginning, the 'first fetch' after mount
-      prevProps.chainList.listOrderedChain.length != this.props.chainList.listOrderedChain.length ){
-        let checkedBrowsed = this._filter_repeatedChin(this.props.indexLists.listBrowsed);
-        let checkedUnread = this._filter_repeatedChin(this.props.indexLists.listUnread);
-        this.props._submit_list_FeedAssigned({
-            listBrowsed: checkedBrowsed,
-            listUnread: checkedUnread,
-        });
     };
   }
 
