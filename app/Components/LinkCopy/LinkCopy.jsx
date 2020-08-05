@@ -50,7 +50,8 @@ class LinkCopy extends React.Component {
           <input
             ref={this.refHiddenText}
             className={classnames(styles.boxHiddenText)}
-            value={this.state.hiddenUrl}/>
+            value={this.state.hiddenUrl}
+            readOnly/>
         </div>
         <div
           title={this.props.i18nUIString.catalog["tagTitle_Unit_LinkCopy"]}
