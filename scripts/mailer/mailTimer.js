@@ -21,7 +21,7 @@ async function mailListGenerator(){
   const d = new Date();
   const now = d.getTime(); // milisecond
   const respondPoint = now-interval; // past 24hr
-  const lastMailPoint = now-(interval* 5)-7200000; // 5 days & 2 hr, combine to interval in server.js
+  const lastMailPoint = now-(interval* 7)-7200000; // 7 days & 2 hr, combine to interval in server.js
 
   try{
     //start from checking latest responds
@@ -29,7 +29,7 @@ async function mailListGenerator(){
       where: {createdAt: {[Op.gt]: respondPoint} }
     });
     let respondsAuthorsUnsure = latestResponds.map((row, index) => { return row.primer_author; }); // it's possible same author have several responds
-    respondsAuthors = respondsAuthorsUnsure.filter((authorId, index)=>{ return index == respondsAuthorsUnsure.indexOf(authorId)});
+    let respondsAuthors = respondsAuthorsUnsure.filter((authorId, index)=>{ return index == respondsAuthorsUnsure.indexOf(authorId)});
     const respondsAuthorVisit = await _DB_lastVisitIndex.findAll({
       where: {id_user: respondsAuthors}
     });
@@ -54,7 +54,7 @@ async function mailListGenerator(){
     let respondsUnitsList = []; // used to save the units due to responds going to mail to author
     latestResponds.forEach((row, index) => { //check each responds and it's author, any necessary need to mail--- if no visit after the responds
       if( row.createdAt> authorsLastVisit[row.primer_author] &&
-        row.createdAt> authorsLastMail[row.primer_author].last_deliver &&
+        row.createdAt> authorsLastMail[row.primer_author] &&
         !(row.primer_author in respondsNotify) // first one of an author encounter by loop
       ){
         respondsNotify[row.primer_author] = row.id_unit;

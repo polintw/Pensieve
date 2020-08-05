@@ -14,7 +14,6 @@
 
 .boxTitle {
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   position: relative;
@@ -27,15 +26,24 @@
   box-sizing: border-box;
   margin-bottom: 2.54vh;
   border-radius: 4px;
-  background-color: rgba(217, 232, 255, 0.15);
   overflow: hidden;
+}
+
+.boxFrameAuthor {
+  display: flex;
+}
+
+.boxAuthorStatics {
+  display: flex;
+  align-items: flex-end;
+  padding-left: 35px;
 }
 
 .boxBottom {
   display: flex;
   flex-direction: row-reverse;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
   flex-wrap: wrap;
   margin-bottom: 5vh;
 }
@@ -44,6 +52,12 @@
   display: flex;
   justify-content: flex-start;
   align-items: flex-end;
+  max-width: 440px;
+}
+
+.boxBottomRight {
+  display: flex;
+  align-items: center;
 }
 
 .boxBottomUpper {
@@ -63,6 +77,14 @@
   position: relative;
   margin-left: 1rem;
   border-radius: 4px;
+}
+
+.btnBottomIcon {
+  width: 3rem;
+  height: 3rem;
+  position: relative;
+  border-radius: 4px;
+  margin-left: 1.5rem;
 }
 
 .btnSubmit {
@@ -91,4 +113,18 @@
   position: relative;
   box-sizing: border-box;
   border-radius: 4px;
+}
+
+@media screen and (max-width:860px) {
+  .boxFrameAuthor {
+    flex-direction: column-reverse;
+  }
+
+  .boxAuthorStatics {
+    align-self: flex-end;
+  }
+
+  .boxBottomLeft {
+    margin-top: 8px;
+  }
 }

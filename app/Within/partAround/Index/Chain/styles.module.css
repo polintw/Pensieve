@@ -77,7 +77,7 @@
   overflow: hidden;
 }
 
-.boxEmptyNailFeed div {
+.boxEmptyNailFeedInner {
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -5,7 +5,9 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const _DB_units = require('../../../db/models/index').units;
 const _DB_responds = require('../../../db/models/index').responds;
+const _DB_inspireds = require('../../../db/models/index').inspireds;
 const _DB_usersUnits = require('../../../db/models/index').users_units;
+const _DB_lastVisitIndex = require('../../../db/models/index').lastvisit_index;
 
 const {_res_success} = require('../../utils/resHandler.js');
 const {
@@ -221,9 +223,67 @@ function _handle_GET_feedChainlist(req, res){
   });
 }
 
+async function _handle_GET_chainlistInspired(req, res){
+  const userId = req.extra.tokenUserId;
+
+  try{
+    /*
+    this function is going to select the 'new' inspired to user's contribution
+    'new' means later than last visit.
+    any other situation should be handle during the POST process + new table structure, or new table
+    */
+    let userContributions = await _DB_units.findAll({
+      where: {id_author: userId}
+    });
+    let contributionsList = userContributions.map((row, index)=>{
+      return row.id
+    });
+    // select lastVisit index
+    let userLastVisit = await _DB_lastVisitIndex.findOne({
+      where: {id_user: userId}
+    });
+    // now select inspired record 'new' to user
+    let newInspired = await _DB_inspireds.findAll({
+      where: { // any new inspired to contributions earlier than lastVisit, or createdAt <
+        id_unit: contributionsList,
+        createdAt: {[Op.gt]: userLastVisit.updatedAt}
+      },
+      // but, we just need to know "which" one has new inspired, no matter how 'many', so select only the max one represent
+      attributes: [
+        //'max' here combined with 'group' prop beneath,
+        [Sequelize.fn('max', Sequelize.col('createdAt')), 'createdAt'], //fn(function, col, alias)
+        'id_unit', //set attributes, so we also need to call every col we need
+      ],
+      group: 'id_unit' //Important. means we combined the rows by id_unit, each id_unit would only has one row
+    });
+
+    let inspiredUnitList = [];
+    for( let i=0 ; i<2 && i< newInspired.length ; i++){
+      //but now, the inspiredUnitList was composed by 'id', and we need 'exposedId'
+      let targetUnit = newInspired[i].id_unit;
+      let listIndex = contributionsList.indexOf(targetUnit);
+      let targetExposedId = userContributions[listIndex].exposedId;
+      inspiredUnitList.push(targetExposedId);
+    };
+
+    let sendingData={
+      newInspiredList: inspiredUnitList,
+      temp: {}
+    };
+
+    _res_success(res, sendingData, "GET: user feed/chainlist, inspired, complete.");
+  }
+  catch(error){
+    _handle_ErrCatched(error, req, res);
+    return;
+  }
+}
+
 execute.get('/', function(req, res){
   if(process.env.NODE_ENV == 'development') winston.verbose('GET: user feed/chainlist.');
-  _handle_GET_feedChainlist(req, res);
+  // there is one exclusive condition, 'inspired' in query
+  if("inspired" in req.query) _handle_GET_chainlistInspired(req, res)
+  else _handle_GET_feedChainlist(req, res);
 })
 
 module.exports = execute;

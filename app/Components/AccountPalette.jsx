@@ -16,20 +16,14 @@ class Palette extends React.Component {
 
   _set_classByProps(){
     switch (this.props.size) {
-      case 'regular':
-        return 'spanNameRegular'
-        break;
-      case 'medium':
-        return 'spanNameMedium'
-        break;
-      case 'title':
-        return 'spanNameTitle'
-        break;
-      case 'large':
-        return 'spanNameLarge'
-        break;
       case 'layer':
         return 'spanNameLayer'
+        break;
+      case 'content':
+        return 'spanNameContent'
+        break;
+      case 'regular':
+        return 'spanNameRegular'
         break;
       case 'regularBold':
         return 'spanNameRegularBold'

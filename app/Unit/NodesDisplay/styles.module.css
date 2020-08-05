@@ -11,7 +11,13 @@
 }
 
 .spanNodeItem {
+  display: inline-block;
+  border-bottom: solid 0.75px transparent;
+}
 
+.spanNodeItemMouse {
+  border-bottom: solid 0.75px #757575;
+  cursor: pointer; /* there is some condition do not neew pointer, so set in this special class*/
 }
 
 @media screen and (max-width:860px) {

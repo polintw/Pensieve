@@ -1,0 +1,21 @@
+.comInspired {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.boxSvgIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.boxModalEmit {
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  transform: translate(-50%, 0);
+}

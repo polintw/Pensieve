@@ -1,8 +1,5 @@
 import React from 'react';
 import {
-  Link,
-  Redirect,
-  Route,
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
@@ -11,9 +8,13 @@ import styles from "./styles.module.css";
 import stylesNail from "../../../stylesNail.module.css";
 import ChainShared from './ChainShared.jsx';
 import ChainMessage from './ChainMessage.jsx';
+import {_comp_EmptyBox} from './ChainAdditionBox.jsx';
 import IndexShare from '../IndexShare/IndexShare.jsx';
 import NailFeed from '../../../../Components/Nails/NailFeed/NailFeed.jsx';
-import {axios_get_UnitsBasic} from '../../../../utils/fetchHandlers.js';
+import {
+  axios_get_UnitsBasic,
+  _axios_GET_andParams
+} from '../../../../utils/fetchHandlers.js';
 import {
   handleNounsList,
   handleUsersList,
@@ -39,15 +40,55 @@ class Chain extends React.Component {
     this.axiosSource = axios.CancelToken.source();
     this._set_ChainUnits = this._set_ChainUnits.bind(this);
     this._set_unitBasic = this._set_unitBasic.bind(this);
+    this._get_inspiredList = this._get_inspiredList.bind(this);
     this._render_ChainUnits = this._render_ChainUnits.bind(this);
-    this._axios_get_chainlist = this._axios_get_chainlist.bind(this);
+  }
+
+  _get_inspiredList(){
+    const self = this;
+
+    return _axios_GET_andParams(this.axiosSource.token, '/router/feed/chainlist', [{ key: 'inspired', value: true }])
+    /*
+    resObj.main {
+      newInspiredList: [],
+    }
+    */
+      .then((resInsObj) => {
+        let displayOrder = resInsObj.main.newInspiredList; // must be an array, no matter empty or not
+        let newInspiredObj = {displayOrder: displayOrder, displayInfo: {}};
+        if (displayOrder.length == 1){ // only 1 new inspired, we going to add detailed info
+          let targetUnit = displayOrder[0];
+          return _axios_GET_andParams(self.axiosSource.token, '/router/share/' + targetUnit + '/statics/inspired', [
+            { key: 'lastUser', value: true }, {key: 'newUsersSum', value: true}
+          ])
+          .then((resInsDetailObj)=>{
+            newInspiredObj.displayInfo["inspiredDetail"] ={
+              lastUser: resInsDetailObj.main.lastUser,
+              sumNew: resInsDetailObj.main.sumNew
+            };
+
+            self.props._submit_UsersList_new([resInsDetailObj.main.lastUser]); // pass the userId to redux.action
+
+            return newInspiredObj;
+          })
+        }
+        else // any else
+        return newInspiredObj; // end of 'if()'
+      })
+      .then((newInspiredObj)=>{
+        newInspiredObj.displayOrder.forEach((unitId, index) => {
+          newInspiredObj.displayInfo[unitId] = 'newInspired';
+        });
+
+        return [newInspiredObj.displayOrder, newInspiredObj.displayInfo];
+      })
   }
 
   _set_ChainUnits(params){
     const self = this;
     this.setState({axios: true});
 
-    this._axios_get_chainlist(params)
+    _axios_GET_andParams(this.axiosSource.token, '/router/feed/chainlist', params)
     .then((resObj)=>{
       //(we don't update the 'axios' state, because there is another axios here, for units, right after the res)
       /*
@@ -63,20 +104,37 @@ class Chain extends React.Component {
       displayOrder.push(resObj.main['sharedPrimer'], resObj.main['userShared'], resObj.main['resToShared'],resObj.main['resToRespond'],resObj.main['latestShared']);
       displayOrder = displayOrder.filter((item, index)=> {return item}); //use the property the item would be 'false' if none
       Object.keys(resObj.main).forEach((key, index) => {
+        if( !resObj.main[key]) return; // 'false', go next
         displayInfo[resObj.main[key]] = key;
       });
-
-      self.props._submit_list_Chain({
+      return {
         listOrderedChain: displayOrder,
         listInfo: displayInfo
-      });
+      };
+    })
+    .then((chainObj)=>{
+      // add another possibility not result of 'respond': inspired
+      if (chainObj.listOrderedChain.length == 0){ // no respond, not a new Shared, we call the api to ask new 'inspired'
+        return self._get_inspiredList()
+        .then(([inspiredOrderedList, inspiredListInfo])=>{
+          chainObj.listOrderedChain = inspiredOrderedList;
+          chainObj.listInfo = inspiredListInfo;
+
+          return chainObj
+        })
+      }
+      else return chainObj; // end of 'if()'
+    })
+    .then((chainObj)=>{
+      self.props._submit_list_Chain(chainObj);
       self.setState({
         fetched: true,
+        axios: false
       });
       self.props._set_mountToDo('chainlist'); // and, after we get the list back, inform the parent we are done with the lastVisit time
       //and use the list to get the data of each unit
       // no need to 'return' here, let the f() deal with the error itself
-      self._set_unitBasic(displayOrder);
+      self._set_unitBasic(chainObj.listOrderedChain);
     })
     .catch(function (thrown) {
       self.setState({axios: false});
@@ -118,30 +176,6 @@ class Chain extends React.Component {
     });
   }
 
-  _axios_get_chainlist(params){
-    let paramObj = {};
-    if(!!params) params.forEach((param, index) => {
-      paramObj[param.key] = param.value;
-    });
-
-    return axios({
-      method: 'get',
-      url: '/router/feed/chainlist',
-      params: paramObj,
-      headers: {
-        'Content-Type': 'application/json',
-        'charset': 'utf-8',
-        'token': window.localStorage['token']
-      },
-      cancelToken: this.axiosSource.token
-    }).then(function (res) {
-      let resObj = JSON.parse(res.data); //still parse the res data prepared to be used below
-      return resObj;
-    }).catch(function (thrown) {
-      throw thrown;
-    });
-  }
-
   componentDidUpdate(prevProps, prevState, snapshot){
     //monitor flag for this comp: 1) new shared by user.
     if(this.props.flagChainFetRespond && this.props.flagChainFetRespond != prevProps.flagChainFetRespond) this._set_ChainUnits([{key: 'respond',value:true}]);
@@ -178,29 +212,18 @@ class Chain extends React.Component {
       );
 
     });
-    if(this.props.chainList.listInfo[this.props.chainList.listOrderedChain[0]] == "latestShared" && nailsDOM.length < 2){ // just submit new one
-      nailsDOM.push(
-        <div
-          key={"key_ChainUnits_forLatestSahre"}
-          className={classnames(styles.boxEmptyNailFeed)}>
-          <div>
-            <span
-              className={classnames("fontTitleSmall", "colorGrey")}>
-              {this.props.i18nUIString.catalog["hint_Chain_waitForRespond"][0]}
-            </span>
-            <span
-              className={classnames("fontTitleSmall", "colorGrey")}>
-              {this.props.i18nUIString.catalog["hint_Chain_waitForRespond"][1]}
-            </span>
-          </div>
-        </div>
-      );
-    }
+    if(nailsDOM.length ==1 ){ // any one nail condition should has a 'EmptyBox' to keep in pair
+      let DOMEmptyBox = _comp_EmptyBox(this.props, this.state);
+      nailsDOM.push(DOMEmptyBox);
+    };
 
     return nailsDOM;
   }
 
   render(){
+    let currentPath = this.props.location.pathname;
+    let fellowsify = currentPath.includes('/fellows');
+
     return (
       <div
         className={classnames(styles.comChain)}>
@@ -209,11 +232,14 @@ class Chain extends React.Component {
           style={{margin: '4px 0'}}>
           <ChainShared/>
         </div>
-        <div
-          className={classnames(styles.boxIndexShare)}>
-          <IndexShare
-            {...this.props}/>
-        </div>
+        {
+          !fellowsify && // not display in path '/fellows'
+          <div
+            className={classnames(styles.boxIndexShare)}>
+            <IndexShare
+              {...this.props}/>
+          </div>
+        }
         {
           (this.props.chainList.listOrderedChain.length > 0 && this.props.chainList.listOrderedChain[0] in this.state.unitsBasic) &&
           <div

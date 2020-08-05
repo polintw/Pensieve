@@ -40,7 +40,7 @@ class NavWihtinCosmic extends React.Component {
             <div
                 className={classnames(styles.comNavWithinCosmic)}>
                 <Link
-                    to={"/fellows"}
+                    to={"/"}
                     className={classnames(
                         'plainLinkButton',
                         styles.boxNavLink
@@ -67,7 +67,7 @@ class NavWihtinCosmic extends React.Component {
                                 [styles.spanNavLinkMouse]: this.state.onInActive
                             }
                         )}>
-                        {this.props.i18nUIString.catalog["submit_back"]}
+                        {this.props.i18nUIString.catalog["title_home"]}
                     </span>
                 </Link>
 

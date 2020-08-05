@@ -197,6 +197,42 @@ class ChainMessage extends React.Component {
           )
         )
         break;
+      case "newInspired":
+        titleDOM.push(
+          (
+            <div
+              key={"key_ChainNailTitle_0"}
+              className={classnames(styles.boxNailTitle)}>
+              <span
+                className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
+                {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][8]}
+              </span>
+              <span
+                className={classnames(stylesFont.fontHint, stylesFont.colorEditLightBlack)}>
+                {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][9]}
+              </span>
+            </div>
+          )
+        );
+        if(this.props.chainList.listOrderedChain.length > 1){
+          titleDOM.push(
+            (
+              <div
+                key={"key_ChainNailTitle_1"}
+                className={classnames(styles.boxNailTitle)}>
+                <span
+                  className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
+                  {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][8]}
+                </span>
+                <span
+                  className={classnames(stylesFont.fontHint, stylesFont.colorEditLightBlack)}>
+                  {this.props.i18nUIString.catalog["message_Chain_byChainInfo"][9]}
+                </span>
+              </div>
+            )
+          )
+        };
+        break;
       default:
 
     }

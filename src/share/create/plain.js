@@ -374,7 +374,7 @@ async function shareHandler_POST(req, res){
 }
 
 execute.post('/', function(req, res){
-  if(process.env.NODE_ENV == 'development') winston.verbose('POST: /share');
+  if(process.env.NODE_ENV == 'development') winston.verbose('POST: /share/create');
   shareHandler_POST(req, res);
 })
 

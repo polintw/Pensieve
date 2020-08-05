@@ -5,7 +5,6 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import ModalBox from '../ModalBox.jsx';
 import AccountPalette from '../AccountPalette.jsx';
 import SvgLogo from '../Svg/SvgLogo.jsx';
 
@@ -92,59 +91,55 @@ class NavOptions extends React.Component {
   }
 
   _render_NavToolBox(){
-    if(this.state.toolBoxify){
-      return (
-        <ModalBox containerId={this.state.toolBoxify}>
-          <div
-            className={classnames(
-              styles.selfCom_NavOptions_ToolBox_,
-              styles.fontContent,
-              'colorOptionsBlack'
-            )}>
-            <div style={{marginBottom: '2rem'}}>
-              <span style={{fontSize: '1.6rem'}}>
-                {this.props.i18nUIString.catalog["message_hello"]}
-              </span>
-              <AccountPalette
-                size={'regular'}
-                accountFirstName={this.props.userInfo.firstName}
-                accountLastName={this.props.userInfo.lastName}
-                styleFirst={{ color: '#f3b55a'}} />
-            </div>
-
-            <ol
-              className={styles.boxOlist}>
-              <li
-                method="account"
-                className={classnames(styles.boxLiItem)}
-                onClick={(e) => { e.preventDefault(); e.stopPropagation(); this.props._refer_to('', '/self/profile/sheet') }}
-                onMouseEnter={this._handleEnter_CornerOpt}
-                onMouseLeave={this._handleLeave_CornerOpt}>
-                <span
-                  style={(this.state.mouseOn == 'account') ? {borderBottom: "solid 1px #333333"}:{}}>
-                  {this.props.i18nUIString.catalog["submit_Options_profile"]}
-                </span>
-              </li>
-            </ol>
-
-            <div
-              className={styles.boxLogout}>
-              <span
-                method="logout"
-                style={{cursor: 'pointer', borderBottom: (this.state.mouseOn == 'logout') ? "solid 1px #333333": ""}}
-                onClick={this._handleClick_ToolBox_logout}
-                onMouseEnter={this._handleEnter_CornerOpt}
-                onMouseLeave={this._handleLeave_CornerOpt}>
-                {this.props.i18nUIString.catalog["submit_logout"]}
-              </span>
-            </div>
+    return (
+      <div>
+        <div
+          className={classnames(
+            styles.selfCom_NavOptions_ToolBox_,
+            styles.fontContent,
+            'colorOptionsBlack'
+          )}
+          onClick={(e)=>{ e.stopPropagation(); /* Important! Stop proppagation to wrapper, which would change state*/}}>
+          <div style={{marginBottom: '2rem'}}>
+            <span style={{fontSize: '1.6rem'}}>
+              {this.props.i18nUIString.catalog["message_hello"]}
+            </span>
+            <AccountPalette
+              size={'regular'}
+              accountFirstName={this.props.userInfo.firstName}
+              accountLastName={this.props.userInfo.lastName}
+              styleFirst={{ color: '#f3b55a'}} />
           </div>
-        </ModalBox>
-      )
-    }
-    else {
-      return null;
-    }
+
+          <ol
+            className={styles.boxOlist}>
+            <li
+              method="account"
+              className={classnames(styles.boxLiItem)}
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); this.props._refer_to('', '/self/profile/sheet') }}
+              onMouseEnter={this._handleEnter_CornerOpt}
+              onMouseLeave={this._handleLeave_CornerOpt}>
+              <span
+                style={(this.state.mouseOn == 'account') ? {borderBottom: "solid 1px #333333"}:{}}>
+                {this.props.i18nUIString.catalog["submit_Options_profile"]}
+              </span>
+            </li>
+          </ol>
+
+          <div
+            className={styles.boxLogout}>
+            <span
+              method="logout"
+              style={{cursor: 'pointer', borderBottom: (this.state.mouseOn == 'logout') ? "solid 1px #333333": ""}}
+              onClick={this._handleClick_ToolBox_logout}
+              onMouseEnter={this._handleEnter_CornerOpt}
+              onMouseLeave={this._handleLeave_CornerOpt}>
+              {this.props.i18nUIString.catalog["submit_logout"]}
+            </span>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   render(){
@@ -174,9 +169,12 @@ class NavOptions extends React.Component {
               accountLastName={this.props.userInfo.lastName}
               styleFirst={{ display: 'block', fontWeight: '600' }}
               styleLast={{ display: 'block'}} />
+            {
+              this.state.toolBoxify &&
+              this._render_NavToolBox()
+            }
           </div>
         }
-        {this._render_NavToolBox()}
       </div>
     )
   }

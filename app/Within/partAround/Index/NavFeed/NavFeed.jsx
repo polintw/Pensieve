@@ -7,6 +7,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesFont from "../../stylesFont.module.css";
+import GatheringBase from './GatheringBase.jsx';
 
 class NavFeed extends React.Component {
   constructor(props){
@@ -35,48 +36,54 @@ class NavFeed extends React.Component {
 
     return(
       <div
-        className={classnames(styles.boxTitle)}
-        style={{display:'flex'}}>
-        <Link
-          to={ "/" }
-          topath={"gathering"}
-          className={classnames('plainLinkButton', styles.boxLinkLeft)}
-          style={{cursor: 'default'}}
-          onClick={(e)=>{ if( gatheringify ) e.preventDefault(); }}
-          onMouseEnter={this._handleEnter_link}
-          onMouseLeave={this._handleLeave_link}>
-          <span
-            className={classnames(
-              stylesFont.fontHint, stylesFont.weightBold,
-              {
-                [styles.spanLinkMouse]: (this.state.onNavLink == 'gathering' && !gatheringify),
-                ["colorLightGrey"]: !gatheringify,
-                ["colorAssistGold"]: gatheringify
-              }
-            )}>
+        className={classnames(styles.comNavFeed, styles.boxTitle)}>
+        <div
+          style={{display:'flex'}}>
+          <Link
+            to={ "/" }
+            topath={"gathering"}
+            className={classnames('plainLinkButton', styles.boxLinkLeft)}
+            style={{cursor: 'default'}}
+            onClick={(e)=>{ if( gatheringify ) e.preventDefault(); }}
+            onMouseEnter={this._handleEnter_link}
+            onMouseLeave={this._handleLeave_link}>
+            <span
+              className={classnames(
+                stylesFont.fontHint, stylesFont.weightBold,
+                {
+                  [styles.spanLinkMouse]: (this.state.onNavLink == 'gathering' && !gatheringify),
+                  ["colorLightGrey"]: !gatheringify,
+                  ["colorAssistGold"]: gatheringify
+                }
+              )}>
               {this.props.i18nUIString.catalog["title_FeedAssigned_"] }
-          </span>
-        </Link>
-        <Link
-          to={ "/fellows" }
-          topath={"fellows"}
-          className={classnames('plainLinkButton', styles.boxLinkRight)}
-          style={{cursor: 'default'}}
-          onClick={(e)=>{ if( !gatheringify ) e.preventDefault(); }}
-          onMouseEnter={this._handleEnter_link}
-          onMouseLeave={this._handleLeave_link}>
-          <span
-            className={classnames(
-              stylesFont.fontHint, stylesFont.weightBold,
-              {
-                [styles.spanLinkMouse]: (this.state.onNavLink == 'fellows' && gatheringify),
-                ["colorLightGrey"]: gatheringify,
-                ["colorAssistGold"]: !gatheringify
-              }
-            )}>
-            {this.props.i18nUIString.catalog["link_Fellows"] }
-          </span>
-        </Link>
+            </span>
+          </Link>
+          <Link
+            to={ "/fellows" }
+            topath={"fellows"}
+            className={classnames('plainLinkButton', styles.boxLinkRight)}
+            style={{cursor: 'default'}}
+            onClick={(e)=>{ if( !gatheringify ) e.preventDefault(); }}
+            onMouseEnter={this._handleEnter_link}
+            onMouseLeave={this._handleLeave_link}>
+            <span
+              className={classnames(
+                stylesFont.fontHint, stylesFont.weightBold,
+                {
+                  [styles.spanLinkMouse]: (this.state.onNavLink == 'fellows' && gatheringify),
+                  ["colorLightGrey"]: gatheringify,
+                  ["colorAssistGold"]: !gatheringify
+                }
+              )}>
+              {this.props.i18nUIString.catalog["link_Fellows"] }
+            </span>
+          </Link>
+        </div>
+        <div
+          className={classnames(styles.boxGatheringBase)}>
+          <GatheringBase/>
+        </div>
       </div>
     )
   }

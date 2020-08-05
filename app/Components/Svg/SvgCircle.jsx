@@ -46,7 +46,7 @@ class CircleSerial extends React.Component {
           <g id="圖層_3" data-name="圖層 3">
             <circle
               className="cls-5-CircleSerial"
-              style={{ fill: this.props.current? "rgba(240, 151, 22, 0.45)" : (this.state.onEnterCircle ? "rgba(255, 129, 104, 0.45)": " rgba(84, 84, 84, 0.45)") }}
+              style={{ fill: this.props.current? (!!this.props.serial ? "rgba(240, 151, 22, 0.45)" : "transparent") : (this.state.onEnterCircle ? "rgba(255, 129, 104, 0.45)": " rgba(84, 84, 84, 0.45)") }}
               cx="61" cy="61" r="61" />
             <path className="cls-1-CircleSerial" d="M61,0a61,61,0,1,0,61,61A61,61,0,0,0,61,0Zm0,115.5A54.5,54.5,0,1,1,115.5,61,54.5,54.5,0,0,1,61,115.5Z"/>
             <text className="cls-4-CircleSerial" transform="translate(53 73)">

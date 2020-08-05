@@ -70,10 +70,6 @@
   color: #979797;
 }
 
-.colorSignBlack {
-  color: #3c4144;
-}
-
 .colorEditBlack {
   color: #545454;
 }
@@ -102,6 +98,10 @@
   font-weight: bold;
 }
 
+.lineHeight15 {
+  line-height: 1.5;
+}
+
 .fontStyleItalic {
   font-style: italic;
 }
@@ -125,14 +125,16 @@
   font-weight: bold;
 }
 
-.spanNameItalic {
-  font-style: italic;
-}
-
 .spanNameLayer {
   white-space: nowrap;
   font-size: 1.4rem;
   line-height: 1.71;
+}
+
+.spanNameContent {
+  white-space: nowrap;
+  font-size: 1.4rem;
+  line-height: 1.5;
 }
 
 .spanNameRegularBold {
@@ -145,24 +147,6 @@
 .spanNameRegular {
   white-space: nowrap;
   font-size: 1.6rem;
-}
-
-.spanNameMedium {
-  white-space: nowrap;
-  font-size: 2.1rem;
-  letter-spacing: 0.2rem;
-}
-
-.spanNameTitle {
-  white-space: nowrap;
-  font-size: 3.2rem;
-  letter-spacing: 0.12rem;
-}
-
-.spanNameLarge {
-  white-space: nowrap;
-  font-size: 3.6rem;
-  letter-spacing: 0.21rem;
 }
 
 .spanNameFirstName {

@@ -104,6 +104,20 @@ class MapCorner extends React.Component {
           {[styles.comMapCornerNodeMouse]: this.state.onNodeLink}
         )}>
         <div
+          className={classnames(styles.boxStatics)}>
+          <div
+            className={classnames(styles.boxNodeSub)}>
+            <span className={classnames(styles.spanMapNodeSub, 'fontContent', 'colorStandard')}>
+              {
+                (this.props.currentType =="homeland") ?
+                this.props.i18nUIString.catalog["category__Belong_usersCount"][0] :
+                this.props.i18nUIString.catalog["category__Belong_usersCount"][1]
+              }
+            </span>
+          </div>
+          {this._render_nodeLink()}
+        </div>
+        <div
           className={classnames(styles.boxMapCount)}>
           <div
             className={classnames(styles.boxNodePin)}>
@@ -119,29 +133,6 @@ class MapCorner extends React.Component {
               {this.state.usersCount}
             </span>
           </div>
-        </div>
-        <div
-          className={classnames(styles.boxStatics)}>
-          <div
-            className={classnames(styles.boxNodeSub)}>
-            <span className={classnames(styles.spanMapNodeSub, 'fontContent', 'colorStandard')}>
-              {
-                (this.props.currentType =="homeland") ?
-                this.props.i18nUIString.catalog["category__Belong_usersCount"][0] :
-                this.props.i18nUIString.catalog["category__Belong_usersCount"][1]
-              }
-            </span>
-            <div
-              className={classnames(styles.boxPinLocat)}>
-              <div
-                style={{width: "10px", height: "15px"}}>
-                <SvgPin
-                  mouseOn={this.state.onNodeLink}
-                  customStyles={{fillColor: 'rgba(255, 144, 108, 0.6)'}}/>
-              </div>
-            </div>
-          </div>
-          {this._render_nodeLink()}
         </div>
       </div>
     )
