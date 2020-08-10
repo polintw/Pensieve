@@ -30,20 +30,7 @@ class NavOptions extends React.Component {
     */
     let currentPath = this.props.location.pathname;
 
-    if(this.props.tokenStatus != 'verified' &&  currentPath.includes('explore/unit')){
-      return(
-        <div
-          id={"NavOptions_Self_small"}
-          className={classnames(
-            styles.selfCom_NavOptions_svg_, 'colorWhite', 'fontSubtitle',
-            styles.smallDisplayBox
-          )}
-          onClick={(e)=>{e.preventDefault(); e.stopPropagation(); window.location.assign('/');}}>
-          {this.props.i18nUIString.catalog['submit_nav_Signin']}
-        </div>
-      );
-    }
-    else if( currentPath.includes('profile')){ //special one for path 'self/profile'
+    if( currentPath.includes('profile')){ //special one for path 'self/profile'
       return(
         <div
           id={"NavOptions_Self_small"}
@@ -157,7 +144,7 @@ class NavOptions extends React.Component {
           /*Notice, this render method actually deal with only situation the screen width < 860px
           and the rest (>860px) would rely on the next DOM beneath*/
         }
-        {
+        { // if under a valid token
           (this.props.tokenStatus == 'verified') &&
           <div
             id={"NavOptions_Self_"}
