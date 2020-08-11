@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 import { connect } from "react-redux";
 import WrapperImg from './LayerImgs/Wrapper.jsx';
+import WrapperUnsign from './LayerImgs/WrapperUnsign.jsx';
 
 import LayerScroll from './components/LayerScroll.jsx';
 
@@ -60,6 +61,18 @@ class Layers extends React.Component {
   }
 
   _render_ScrollLayers(){
+    if(this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack'){
+      return (
+        <WrapperUnsign
+          {...this.props}
+          lockify={this.state.lockify}
+          moveCount={this.state.moveCount}
+          marksStatus={this.state.marksStatus}
+          _set_markOpened={this._set_markOpened}
+          _set_layerstatus={this._set_layerstatus}
+          _refer_toandclose={this._refer_toandclose}/>
+      )
+    }else
     return (
       <WrapperImg
         {...this.props}
@@ -69,7 +82,7 @@ class Layers extends React.Component {
         _set_markOpened={this._set_markOpened}
         _set_layerstatus={this._set_layerstatus}
         _refer_toandclose={this._refer_toandclose}/>
-    )
+    ); // end of 'if()'
     /*
 
     Beneath, are the remain of the complete version,
@@ -148,6 +161,7 @@ class Layers extends React.Component {
 
 const mapStateToProps = (state)=>{
   return {
+    tokenStatus: state.token,
     userInfo: state.userInfo,
     unitCurrent: state.unitCurrent,
     unitSubmitting: state.unitSubmitting

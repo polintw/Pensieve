@@ -1,9 +1,15 @@
 export function _axios_getUnitData(cancelToken, unitId){
+  let header = {
+        'charset': 'utf-8'
+      };
+  // we set token to header if "there is a token",
+  // because the boolean value always turn to string in http header, useless
+  if(!!window.localStorage['token']){ // has token
+    header['token'] = window.localStorage['token'];
+  };
+
   return axios.get('/router/units/'+unitId, {
-    headers: {
-      'charset': 'utf-8',
-      'token': !!window.localStorage['token'] ? window.localStorage['token'] : false
-    },
+    headers: header,
     cancelToken: cancelToken
   }).catch(function (thrown) {
     throw thrown;
@@ -12,10 +18,13 @@ export function _axios_getUnitData(cancelToken, unitId){
 
 
 export function _axios_getUnitImg_base64(cancelToken, src){
+  let header = {};
+  if(!!window.localStorage['token']){ // has token
+    header['token'] = window.localStorage['token'];
+  };
+
   return axios.get('/router/img/'+src+'?type=unitSingle', {
-    headers: {
-      'token': !!window.localStorage['token'] ? window.localStorage['token'] : false
-    },
+    headers: header,
     cancelToken: cancelToken
   }).catch(function (thrown) {
     throw thrown;

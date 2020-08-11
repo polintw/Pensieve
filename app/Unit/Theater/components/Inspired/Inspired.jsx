@@ -30,7 +30,10 @@ class Inspired extends React.Component {
   }
 
   componentDidMount() {
-    if(this.props.unitCurrent.unitId.length > 0){ // basically, should always 'true', because we render this component 'after' the unitCurrent was set
+    if(
+      this.props.unitCurrent.unitId.length > 0 && // basically, should always 'true', because we render this component 'after' the unitCurrent was set
+      this.props.tokenStatus // not going to fetch if false
+    ){
       const self = this;
       this.setState({axios: true});
 
@@ -103,6 +106,11 @@ class Inspired extends React.Component {
   _handleClick_Inspired(event){
     event.preventDefault();
     event.stopPropagation();
+    if(this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack'){
+      this.props._set_inviteDialog("inspired");
+      return; // stop here
+    };
+
     const self = this;
     this.setState({
       axios: true,
@@ -196,6 +204,7 @@ const _axios_POST_Isnpired = (cancelToken, unitId)=>{
 
 const mapStateToProps = (state)=>{
   return {
+    tokenStatus: state.token,
     userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
     unitCurrent: state.unitCurrent,

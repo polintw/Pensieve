@@ -59,6 +59,7 @@ main.use('/responds', respondsExecutive)
 // path do not need a token
 // remember put the pathe with ':id' after the others.
 main.param("exposedId", (req, res, next, exposedId)=>{
+console.log(">>> good to /units/, mark exposedId.")  
   req.reqExposedId = exposedId;
   next();
 })
