@@ -46,7 +46,6 @@ class Layers extends React.Component {
   }
 
   _refer_toandclose(source, identity){
-    this.props._close_theater();
     this.props._refer_von_unit(identity, source);
   }
 

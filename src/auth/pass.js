@@ -18,9 +18,7 @@ pass.use(function(req, res, next) {
   let token = req.body.token || req.headers['token'] || req.query.token;
   // Notice ! value in headers would be always set to type 'string',
 
-console.log(">>> inside /pass, token type: ", typeof token)
   if (!!token) {
-console.log(">>> inside /pass, has token: ", token)
     /*There is a special api: /account/password?forget */
     let keyUsed = !!req.query.forget ? verify_forget : verify_key ;
 
@@ -45,7 +43,6 @@ console.log(">>> inside /pass, has token: ", token)
       }
     });
   } else {
-console.log(">>> inside /pass, token false. ")
     // we set 'tokenify' as a mark after the permission check
     if(!!req['extra']){
       req['extra']['tokenify']= false;

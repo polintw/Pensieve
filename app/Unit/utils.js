@@ -3,7 +3,7 @@ export function _axios_getUnitData(cancelToken, unitId){
         'charset': 'utf-8'
       };
   // we set token to header if "there is a token",
-  // because the boolean value always turn to string in http header, useless
+  // because the boolean value always turn to string in http header, 'false' would be hard to use
   if(!!window.localStorage['token']){ // has token
     header['token'] = window.localStorage['token'];
   };
@@ -31,11 +31,14 @@ export function _axios_getUnitImg_base64(cancelToken, src){
   });
 };
 
-export function _axios_getUnitImgs(cancelToken, unitId){
+export function _axios_getUnitImgs(cancelToken, unitId){ // currently used in any Unit...
+  let header = {};
+  if(!!window.localStorage['token']){ // has token
+    header['token'] = window.localStorage['token'];
+  };
+
   return axios.get('/router/units/'+unitId+'/src', {
-    headers: {
-      'token': !!window.localStorage['token'] ? window.localStorage['token'] : false
-    },
+    headers: header,
     cancelToken: cancelToken
   }).then((res)=>{
     let resObj = JSON.parse(res.data);
@@ -59,7 +62,7 @@ export function _axios_getUnitImgs(cancelToken, unitId){
   });
 };
 
-export function _axios_getUnitSrc(cancelToken, unitId){
+export function _axios_getUnitSrc(cancelToken, unitId){ // currently used in Primer
   return axios.get('/router/units/'+unitId+'/src', {
     headers: {
       'token': !!window.localStorage['token'] ? window.localStorage['token'] : false

@@ -16,6 +16,7 @@ import DateConverter from '../../../Components/DateConverter.jsx';
 import {
   setMessageBoolean,
 } from "../../../redux/actions/general.js";
+import {messageDialogInit} from "../../../redux/states/constants.js";
 
 class Wrapper extends React.Component {
   constructor(props){
@@ -59,7 +60,7 @@ class Wrapper extends React.Component {
             _referNode={this.props._refer_toandclose}/>
           <SidePanel
             {...this.props}
-            _set_inviteDialog={this._set_inviteDialog}/>
+            _set_noTokenDialog={this._set_inviteDialog}/>
         </div>
         <div
           className={classnames(styles.boxContentWidth, styles.boxFrame)}>
@@ -84,7 +85,7 @@ class Wrapper extends React.Component {
               <div
                 className={classnames(styles.btnBottomIcon)}>
                 <Inspired
-                  _set_inviteDialog={this._set_inviteDialog}/>
+                  _set_noTokenDialog={this._set_inviteDialog}/>
               </div>
             }
             <div style={{borderRight: 'solid 0.75px #a3a3a3', margin: '0 1.5rem', height: '3.6rem'}}/>
@@ -135,28 +136,28 @@ class Wrapper extends React.Component {
   }
 
   _set_inviteDialog(source){
-    let message = this.props.i18nUIString.catalog['message_UnitUnsign_SigninRemind'], messsageTail;
+    let message, messsageTail = this.props.i18nUIString.catalog['message_UnitUnsign_SigninRemind'];
     switch (source) {
       case "respond":
-        messsageTail = this.props.i18nUIString.catalog['message_UnitUnsign_SigninRemind_respond'];
+        message = this.props.i18nUIString.catalog['message_UnitUnsign_SigninRemind_respond'];
         break;
       case "inspired":
-        messsageTail = this.props.i18nUIString.catalog['message_UnitUnsign_SigninRemind_inspired'];
+        message = this.props.i18nUIString.catalog['message_UnitUnsign_SigninRemind_inspired'];
         break;
       default:
-        messsageTail=""
+        message=""
     }
     message = message + messsageTail;
 
     this.props._submit_BooleanDialog({
       render: true,
-      customButton: null,
+      customButton: "sign",
       message: [{
         text: message,
         style:{}}], //Original:'current input would not be saved after leaving, are you sure going to leave?'
       handlerPositive: ()=>{
         this.props._submit_BooleanDialog(messageDialogInit.boolean);
-        this.props._refer_toandclose(); // basically all the condition are the same result
+        this.props._refer_toandclose("/"); // basically all the condition are the same result
       },
       handlerNegative: ()=>{this.props._submit_BooleanDialog(messageDialogInit.boolean);return;}
     });
@@ -165,7 +166,7 @@ class Wrapper extends React.Component {
   _handleClick_LinkSign(event) {
     event.preventDefault();
     event.stopPropagation();
-    this.props._refer_toandclose();
+    this.props._refer_toandclose("/");
   }
 
   _handleEnter_spanSign(e){

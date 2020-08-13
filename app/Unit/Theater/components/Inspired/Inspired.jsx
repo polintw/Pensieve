@@ -8,6 +8,10 @@ import classnames from 'classnames';
 import styles from './styles.module.css';
 import ModalEmit from '../../../../Components/ModalEmit/ModalEmit.jsx';
 import {SvgBulbInspired} from '../../../../Components/Svg/SvgBulb.jsx';
+import {
+  cancelErr,
+  uncertainErr
+} from '../../../../utils/errHandlers.js';
 
 class Inspired extends React.Component {
   constructor(props){
@@ -32,7 +36,7 @@ class Inspired extends React.Component {
   componentDidMount() {
     if(
       this.props.unitCurrent.unitId.length > 0 && // basically, should always 'true', because we render this component 'after' the unitCurrent was set
-      this.props.tokenStatus // not going to fetch if false
+      (this.props.tokenStatus!= 'invalid' && this.props.tokenStatus != 'lack') // not going to fetch if false
     ){
       const self = this;
       this.setState({axios: true});
@@ -107,7 +111,7 @@ class Inspired extends React.Component {
     event.preventDefault();
     event.stopPropagation();
     if(this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack'){
-      this.props._set_inviteDialog("inspired");
+      this.props._set_noTokenDialog("inspired");
       return; // stop here
     };
 

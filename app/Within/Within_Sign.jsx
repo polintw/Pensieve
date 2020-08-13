@@ -3,6 +3,7 @@ import {
   Route,
   Switch,
   withRouter,
+  Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
@@ -19,7 +20,7 @@ class Within_Sign extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      switchTo: null
     };
     this._refer_von_Sign = this._refer_von_Sign.bind(this);
     this.style={
@@ -70,6 +71,8 @@ class Within_Sign extends React.Component {
   }
 
   render(){
+    if(this.state.switchTo){return <Redirect to={this.state.switchTo.params+this.state.switchTo.query}/>}
+
     return(
       <div>
         <div style={this.style.Within_Around_backplane}></div>

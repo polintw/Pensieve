@@ -36,7 +36,6 @@ class UnitUnsign extends React.Component {
     super(props);
     this.state = {
       axios: false,
-      close: false,
     };
     this.axiosSource = axios.CancelToken.source();
     this._close_theater = this._close_theater.bind(this);
@@ -57,11 +56,8 @@ class UnitUnsign extends React.Component {
   }
 
   _close_theater(){
-    this.setState((prevState, props)=>{
-      return {
-        close: true
-      }
-    })
+    // here is, under unsign situation, we all redirect to Sign up when 'closing' the theater
+    window.location.assign("/");
   }
 
   _set_UnitCurrent(){
@@ -168,12 +164,6 @@ class UnitUnsign extends React.Component {
     this.unitId = this.urlParams.get('unitId');
     let paramUnitView = this.urlParams.get('unitView');
     let cssVW = window.innerWidth; // for RWD
-
-    if(this.state.close){return <Redirect to={{
-        pathname: '/',
-        search: '',
-        state: this.props.location.state //keep the state as props, perhaps need to increase 'current location' for 'back' use
-      }}/>};
 
     return(
       <ModalBox containerId="root">

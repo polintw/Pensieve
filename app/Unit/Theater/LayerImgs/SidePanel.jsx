@@ -37,7 +37,7 @@ class SidePanel extends React.Component {
     event.preventDefault();
     event.stopPropagation();
     if(this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack'){
-      this.props._set_inviteDialog("respond");
+      this.props._set_noTokenDialog("respond");
       return; // stop here
     };
 
