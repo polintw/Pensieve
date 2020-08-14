@@ -1,8 +1,6 @@
 import React from 'react';
 import {
-  Link,
   withRouter,
-  Redirect
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
@@ -12,7 +10,7 @@ import {
   _axios_getUnitData,
   _axios_getUnitImgs,
 } from '../utils.js';
-import NavOptions from '../../Components/NavOptions/NavOptions.jsx';
+import NavOptionsUnsign from '../../Components/NavOptions/NavOptionsUnsign.jsx';
 import ModalBox from '../../Components/ModalBox.jsx';
 import ModalBackground from '../../Components/ModalBackground.jsx';
 import {
@@ -21,7 +19,6 @@ import {
 } from "../../redux/actions/unit.js";
 import {
   setUnitCurrent,
-  handleUsersList,
   updateNodesBasic,
   updateUsersBasic
 } from "../../redux/actions/general.js";
