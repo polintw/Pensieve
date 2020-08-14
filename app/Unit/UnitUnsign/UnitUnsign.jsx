@@ -8,9 +8,6 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
 import Theater from '../Theater/Theater.jsx';
-import SharedEdit from '../Editing/SharedEdit.jsx';
-import CreateRespond from '../Editing/CreateRespond.jsx';
-import Related from '../Related/Related.jsx';
 import {
   _axios_getUnitData,
   _axios_getUnitImgs,
@@ -34,15 +31,13 @@ import {
   uncertainErr
 } from '../../utils/errHandlers.js';
 
-class UnitExplore extends React.Component {
+class UnitUnsign extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       axios: false,
-      close: false,
     };
     this.axiosSource = axios.CancelToken.source();
-    this._render_switch = this._render_switch.bind(this);
     this._close_modal_Unit = this._close_modal_Unit.bind(this);
     this._set_UnitCurrent = this._set_UnitCurrent.bind(this);
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
@@ -62,13 +57,12 @@ class UnitExplore extends React.Component {
 
   _close_modal_Unit(){
     //close the whole Unit Modal
+    //different from the one in Theater, which used only for closing Theater
     let unitCurrentState = Object.assign({}, unitCurrentInit);
     this.props._set_store_UnitCurrent(unitCurrentState);
-    this.setState((prevState, props)=>{
-      return {
-        close: true
-      }
-    })
+    // for unsign situation, we simply close the whole Unit & pass to parent
+    // just for convenient
+    this.props._refer_von_unit('', '/');
   }
 
   _set_UnitCurrent(){
@@ -112,8 +106,6 @@ class UnitExplore extends React.Component {
         identity: resObj.main.identity,
         authorBasic: resObj.main.authorBasic,
         coverSrc: imgsBase64.cover,
-        primerify: resObj.main.primerify,
-
         beneathSrc: imgsBase64.beneath,
         coverMarksList:coverMarks.list,
         coverMarksData:coverMarks.data,
@@ -172,63 +164,11 @@ class UnitExplore extends React.Component {
     document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:scroll;");
   }
 
-  _render_switch(paramUnitView){
-    switch (paramUnitView) {
-      case 'theater':
-        return (
-          <Theater
-            {...this.props}
-            _construct_UnitInit={this._construct_UnitInit}
-            _reset_UnitMount={this._reset_UnitMount}
-            _close_theaterHeigher={this._close_modal_Unit}/>
-        )
-        break;
-      case 'editing':
-        return (
-          <SharedEdit
-            {...this.props}
-            _reset_UnitMount={this._reset_UnitMount}/>
-        )
-        break;
-      case 'respond':
-        return (
-          <CreateRespond
-            {...this.props}
-            _reset_UnitMount={this._reset_UnitMount}
-            _close_theaterHeigher={this._close_modal_Unit}/>
-        )
-        break;
-      case 'related':
-        return (
-          <div
-            className={classnames(styles.boxRelated)}
-            onClick={(e)=> { e.stopPropagation();e.preventDefault();this._close_modal_Unit()}}>
-            <div
-              onClick={(e)=> { e.stopPropagation();e.preventDefault();}}>
-              <Related
-                {...this.props}
-                _reset_UnitMount={this._reset_UnitMount}
-                _close_theaterHeigher={this._close_modal_Unit}/>
-            </div>
-          </div>
-        )
-        break;
-      default:
-        return null
-    };
-  }
-
   render(){
     this.urlParams = new URLSearchParams(this.props.location.search);
     this.unitId = this.urlParams.get('unitId');
     let paramUnitView = this.urlParams.get('unitView');
     let cssVW = window.innerWidth; // for RWD
-
-    if(this.state.close){return <Redirect to={{
-        pathname: '/',
-        search: '',
-        state: this.props.location.state //keep the state as props, perhaps need to increase 'current location' for 'back' use
-      }}/>};
 
     return(
       <ModalBox containerId="root">
@@ -238,18 +178,22 @@ class UnitExplore extends React.Component {
           onClose={()=>{this._close_modal_Unit();}}
           style={{
             position: "fixed",
-            backgroundColor: (paramUnitView=="related" || paramUnitView=="respond") ? 'rgba(51, 51, 51, 0.85)': 'rgba(51, 51, 51, 0.3)' }}>
+            backgroundColor: 'transparent'}}>
             {
               (cssVW < 860) &&
               <div
-                className={classnames(styles.boxNavOptions)}>
-                <NavOptions {...this.props} _refer_to={this._close_modal_Unit}/>
+                className={classnames(styles.boxNavOptionsCosmic)}>
+                <NavOptionsUnsign {...this.props} _refer_to={this._close_modal_Unit}/>
               </div>
             }
             <div
               className={classnames(styles.boxUnitContent)}
               onClick={this._close_modal_Unit}>
-              {this._render_switch(paramUnitView)}
+              <Theater
+                {...this.props}
+                _construct_UnitInit={this._construct_UnitInit}
+                _reset_UnitMount={this._reset_UnitMount}
+                _close_theaterHeigher={this._close_modal_Unit}/>
             </div>
         </ModalBackground>
       </ModalBox>
@@ -279,4 +223,4 @@ const mapDispatchToProps = (dispatch)=>{
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(UnitExplore));
+)(UnitUnsign));

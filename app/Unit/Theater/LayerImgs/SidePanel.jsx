@@ -36,6 +36,11 @@ class SidePanel extends React.Component {
   _handleClick_UnitRespond(event) {
     event.preventDefault();
     event.stopPropagation();
+    if(this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack'){
+      this.props._set_noTokenDialog("respond");
+      return; // stop here
+    };
+
     this.props._set_state_UnitView("respond");
     // now the unitView was switch by the param in URL
     if(!this.props.location.pathname.includes('explore/unit')){
@@ -63,7 +68,7 @@ class SidePanel extends React.Component {
         }
         {
           (
-            this.props.unitCurrent.identity=="viewer" &&
+            this.props.unitCurrent.identity!="author" &&
             (this.props.guidingNailsId.indexOf(this.props.unitCurrent.unitId) < 0) // guidingNails do not show the Respond & view responds
           ) &&
           <div
@@ -93,6 +98,7 @@ class SidePanel extends React.Component {
 
 const mapStateToProps = (state)=>{
   return {
+    tokenStatus: state.token,
     userInfo: state.userInfo,
     guidingNailsId: state.guidingNailsId,
     unitCurrent: state.unitCurrent,
@@ -102,7 +108,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch)=>{
   return {
-    _set_state_UnitView: (expression)=>{dispatch(setUnitView(expression));}
+    _set_state_UnitView: (expression)=>{dispatch(setUnitView(expression));},
   }
 }
 

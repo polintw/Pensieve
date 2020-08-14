@@ -71,7 +71,7 @@ class NavSign extends React.Component {
         </Link>
       );
     }
-    else if(this.props.location.pathname.includes('/fail')){ // '/confirm/fail'
+    else if(this.props.location.pathname.includes('confirm/fail')){ // '/confirm/fail'
       navDOM.push(linkSignin(this, false));
       //and for this case, we add LinkMailResend additionally
       navDOM.unshift(

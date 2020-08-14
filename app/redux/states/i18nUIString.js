@@ -38,6 +38,7 @@ const i18nUIString_EN = {
     "By clicking “Register”, you agree our", " Terms of Services", " and ", "Privacy Policy", "."],
   "submit_nav_Signin": "Sign in",
   "submit_nav_Signup": "Sign up",
+  "submit_Signinup": "Sign in | up",
 
 
   "title_onBoard_Welcome": "Welcome, ",
@@ -122,6 +123,9 @@ const i18nUIString_EN = {
   "guiding_placeholder_UnitEdit_MarkBlock": "What's SPECIAL!  Tell us about details you found." , //Original:Telling us some details you found."
   "message_UnitEdit_tooManySpot": "A better spot? However, having too many highlights could be overwhelmed to readers. Please delete an old one before you implement this new!", //Original:"A better spot? But too many paragraph would be a burdon to readers. Please delete an old one before you implement this new!"
   "message_UnitEdit_ruleAssignedNodes": ["Select only one corner from where you stay, and one from your homeland."],
+  "message_UnitUnsign_SigninRemind": "Sign up to Cornerth!",
+  "message_UnitUnsign_SigninRemind_respond": "Want to respond to author? ",
+  "message_UnitUnsign_SigninRemind_inspired": "Want to send your feeling to author? ",
   "subTitle_Unit_AuthorStatics": ["inspired", "read"],
   "tagTitle_Unit_Inspired": "Inspired by this article",
   "message_Unit_InspiredModal": "Sent to author",

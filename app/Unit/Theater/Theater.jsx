@@ -17,30 +17,6 @@ class Theater extends React.Component {
 
     };
     this.unitInit = this.props._construct_UnitInit(this.props.match, this.props.location);
-    this._close_theater = this._close_theater.bind(this);
-    this._handleClick_heigherBack = this._handleClick_heigherBack.bind(this);
-
-    this.style={
-
-    };
-  }
-
-  _handleClick_heigherBack(){
-    event.preventDefault();
-    event.stopPropagation();
-
-
-    //only close if passed all above
-    this.props._close_theaterHeigher();
-  }
-
-  _close_theater(){
-    /*
-      This f() was originally dealing the close only the 'theater',
-      but for simplified ver., without Related in /Unit,
-      we don't really need this f(), so just make it have same ability as _handleClick_heigherBack
-    */
-    this.props._close_theaterHeigher();
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -75,9 +51,7 @@ class Theater extends React.Component {
         className={classnames(styles.comTheater)}>
         <Layers
           {...this.props}
-          initStatus={this.unitInit}
-          _close_theater={this._close_theater}
-          _refer_von_unit={this.props._refer_von_unit}/>
+          initStatus={this.unitInit}/>
       </div>
     )
   }

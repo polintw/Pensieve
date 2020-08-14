@@ -22,6 +22,7 @@ main.use(function(req, res, next) {
   //deal the situation if the token did not pass the check in last step
   if(!tokenify){
     let pathSplice = req.path.match(/\/(.*?)\//); //would always return the '1st' of '/.../', and now the .path() would be path 'after' /units/
+    let secondPath = !!pathSplice ? pathSplice[1] : 'single' ; // the path ending with ':exposedId' would get a null in pathSplice
     /*
     ref:
     stackoverflow: https://stackoverflow.com/questions/5642315/regular-expression-to-get-a-string-between-two-strings-in-javascript/40782646
@@ -31,15 +32,15 @@ main.use(function(req, res, next) {
       let message = `res code 401: missing token if you want to req this resource, to route "${req.originalUrl}".`;
       _handle_ErrCatched(new authorizedError(message, 89), req, res);
     }
-    switch (pathSplice[1]) { //pathSplice should be e.g "[/numerous/,numerous, ...]"
+    switch (secondPath) { //pathSplice should be e.g "[/numerous/,numerous, ...]"
       case 'numerous':
-      tokenify ? next() : noTokenHandler();
+        noTokenHandler();
         break;
       case 'primer':
-      tokenify ? next() : noTokenHandler();
+        noTokenHandler();
         break;
       case 'responds':
-      tokenify ? next() : noTokenHandler();
+        noTokenHandler();
         break;
       default:
         next()
