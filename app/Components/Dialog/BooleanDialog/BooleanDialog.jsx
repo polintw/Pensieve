@@ -85,6 +85,10 @@ class BooleanDialog extends React.Component {
   _render_button_byType(){
     let [optionPositive, optionNegative]=[false,false];
     switch (this.props.customButton) {
+      case 'sign':
+        optionPositive = "Sign up!"
+        optionNegative= "return";
+        break;
       case 'submitting':
         optionPositive = "yes";
         optionNegative = "cancel";
@@ -136,7 +140,8 @@ class BooleanDialog extends React.Component {
               'centerAlignChild',
               'fontSubtitle_h5',
               'colorWhite'
-            )}>
+            )}
+            style={{whiteSpace: 'nowrap'}}>
             {optionPositive}
           </span>
         </div>

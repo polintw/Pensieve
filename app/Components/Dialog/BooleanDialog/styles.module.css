@@ -1,8 +1,7 @@
 .comBooleanDialog {
   display: flex;
-  justify-content: center;
-  align-content: space-between;
-  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-around;
   width: 100%;
   min-height: 24rem;
   box-sizing: border-box;
@@ -10,7 +9,7 @@
 }
 
 .boxMessage {
-
+  overflow: auto;
 }
 
 .boxfoot {

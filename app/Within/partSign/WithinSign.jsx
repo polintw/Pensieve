@@ -47,8 +47,16 @@ class WithinSign extends React.Component {
         className={styles.comWithinSign}>
         <div
           className={classnames(styles.boxForm)}
-          style={ ((this.props.location.pathname =="/" && this.props.location.search.length==0) || this.props.location.pathname=="/signup") ? // only Sign in /up was at the top
-            {flexDirection: 'column'}:{}}>
+          style={ (
+            //(this.props.location.pathname =="/" && this.props.location.search.length==0) ||
+            //this.props.location.pathname=="/signup" ) ? // only Sign in /up was at the top
+            this.props.location.pathname.includes('/resend') ||
+            this.props.location.pathname.includes('/confirm') ||
+            this.props.location.pathname.includes('/signup/success') ||
+            this.props.location.search.includes('invitation')
+            ) ?
+            {flexDirection: 'column-reverse'}:
+            {}}>
           <div
             className={classnames(styles.boxNav)}>
             <NavSign

@@ -16,8 +16,9 @@ pass.use(function(req, res, next) {
   if(process.env.NODE_ENV == 'development') winston.verbose('GET: auth/pass check ');
 
   let token = req.body.token || req.headers['token'] || req.query.token;
+  // Notice ! value in headers would be always set to type 'string',
 
-  if (token) {
+  if (!!token) {
     /*There is a special api: /account/password?forget */
     let keyUsed = !!req.query.forget ? verify_forget : verify_key ;
 
