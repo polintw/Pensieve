@@ -59,7 +59,13 @@ class Within_Sign extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-
+    //set the state back to default if the update came from Redirect
+    //preventing Redirect again which would cause error
+    if(this.state.switchTo){
+      this.setState({
+        switchTo: null
+      });
+    }
   }
 
   componentDidMount() {

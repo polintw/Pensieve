@@ -43,7 +43,7 @@ class UnitExplore extends React.Component {
     };
     this.axiosSource = axios.CancelToken.source();
     this._render_switch = this._render_switch.bind(this);
-    this._close_theater = this._close_theater.bind(this);
+    this._close_modal_Unit = this._close_modal_Unit.bind(this);
     this._set_UnitCurrent = this._set_UnitCurrent.bind(this);
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._reset_UnitMount = ()=>{this._set_UnitCurrent();};
@@ -60,7 +60,10 @@ class UnitExplore extends React.Component {
     return unitInit;
   }
 
-  _close_theater(){
+  _close_modal_Unit(){
+    //close the whole Unit Modal
+    let unitCurrentState = Object.assign({}, unitCurrentInit);
+    this.props._set_store_UnitCurrent(unitCurrentState);
     this.setState((prevState, props)=>{
       return {
         close: true
@@ -177,7 +180,7 @@ class UnitExplore extends React.Component {
             {...this.props}
             _construct_UnitInit={this._construct_UnitInit}
             _reset_UnitMount={this._reset_UnitMount}
-            _close_theaterHeigher={this._close_theater}/>
+            _close_theaterHeigher={this._close_modal_Unit}/>
         )
         break;
       case 'editing':
@@ -192,20 +195,20 @@ class UnitExplore extends React.Component {
           <CreateRespond
             {...this.props}
             _reset_UnitMount={this._reset_UnitMount}
-            _close_theaterHeigher={this._close_theater}/>
+            _close_theaterHeigher={this._close_modal_Unit}/>
         )
         break;
       case 'related':
         return (
           <div
             className={classnames(styles.boxRelated)}
-            onClick={(e)=> { e.stopPropagation();e.preventDefault();this._close_theater()}}>
+            onClick={(e)=> { e.stopPropagation();e.preventDefault();this._close_modal_Unit()}}>
             <div
               onClick={(e)=> { e.stopPropagation();e.preventDefault();}}>
               <Related
                 {...this.props}
                 _reset_UnitMount={this._reset_UnitMount}
-                _close_theaterHeigher={this._close_theater}/>
+                _close_theaterHeigher={this._close_modal_Unit}/>
             </div>
           </div>
         )
@@ -232,7 +235,7 @@ class UnitExplore extends React.Component {
         <ModalBackground
           _didMountSeries={()=>{window.addEventListener('touchmove', (e)=>{e.stopPropagation();});}}
           _willUnmountSeries={()=>{window.removeEventListener('touchmove', (e)=>{e.stopPropagation();});}}
-          onClose={()=>{this._close_theater();}}
+          onClose={()=>{this._close_modal_Unit();}}
           style={{
             position: "fixed",
             backgroundColor: (paramUnitView=="related" || paramUnitView=="respond") ? 'rgba(51, 51, 51, 0.85)': 'rgba(51, 51, 51, 0.3)' }}>
@@ -240,12 +243,12 @@ class UnitExplore extends React.Component {
               (cssVW < 860) &&
               <div
                 className={classnames(styles.boxNavOptions)}>
-                <NavOptions {...this.props} _refer_to={this._close_theater}/>
+                <NavOptions {...this.props} _refer_to={this._close_modal_Unit}/>
               </div>
             }
             <div
               className={classnames(styles.boxUnitContent)}
-              onClick={this._close_theater}>
+              onClick={this._close_modal_Unit}>
               {this._render_switch(paramUnitView)}
             </div>
         </ModalBackground>

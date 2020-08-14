@@ -30,22 +30,11 @@ class Layers extends React.Component {
         left: '0%',
         boxSizing: 'border-box',
       },
-      /*
-      Com_Layers_blocks_SumLayer_ : {
-        width: '79%',
-        minWidth: '840px',
-        height: '95%',
-        minHeight: '300px',
-        position: 'absolute',
-        top: '1%',
-        left: '50%',
-        transform: 'translate(-48%, 0)',
-        boxSizing: 'border-box'
-      },*/
     }
   }
 
   _refer_toandclose(source, identity){
+    // this f() is redundent, only for switch the position of params
     this.props._refer_von_unit(identity, source);
   }
 
@@ -92,8 +81,7 @@ class Layers extends React.Component {
 
     }else{
       return (
-        <div
-          style={this.style.Com_Layers_blocks_SumLayer_}>
+        <div>
           {
             this.props.unitCurrent.identity=="author" ? (
                //temp method, before a true AuthorSummary was created
@@ -117,13 +105,26 @@ class Layers extends React.Component {
 
   componentDidUpdate(prevProps, prevState, snapshot){
     //check if the Modal should be cloed by Count
-    if(this.state.moveCount> 201) this.props._close_theater();
+    if(this.state.moveCount> 201){
+      if(!this.props.location.pathname.includes('explore/unit')){
+        // the browser, which do not know the origin it has been modified, need to be modified again to have the pratical history,
+        // which is the 'real' location before replacement during mount
+        window.history.replaceState(this.props.location.state, '', this.props.location.pathname+this.props.location.search);
+      };
+      let nextSearch = this.props.location.search.replace("unitView=theater","unitView=related");
+      this.props.history.push({
+        pathname: this.props.match.path,
+        search: nextSearch,
+        state: {from: this.props.location}
+      });
+    };
     /*
     Beneath, are the remain of the complete version,
     which has Summary layer.
-    We have to close the theater earlier due to the lack of Summary layer.
 
     if(this.state.moveCount> 250) this.props._close_theater();
+
+    _close_theater() has been depacrated
     */
   }
 

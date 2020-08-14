@@ -38,7 +38,7 @@ class UnitUnsign extends React.Component {
       axios: false,
     };
     this.axiosSource = axios.CancelToken.source();
-    this._close_theater = this._close_theater.bind(this);
+    this._close_modal_Unit = this._close_modal_Unit.bind(this);
     this._set_UnitCurrent = this._set_UnitCurrent.bind(this);
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._reset_UnitMount = ()=>{this._set_UnitCurrent();};
@@ -55,9 +55,14 @@ class UnitUnsign extends React.Component {
     return unitInit;
   }
 
-  _close_theater(){
-    // here is, under unsign situation, we all redirect to Sign up when 'closing' the theater
-    window.location.assign("/");
+  _close_modal_Unit(){
+    //close the whole Unit Modal
+    //different from the one in Theater, which used only for closing Theater
+    let unitCurrentState = Object.assign({}, unitCurrentInit);
+    this.props._set_store_UnitCurrent(unitCurrentState);
+    // for unsign situation, we simply close the whole Unit & pass to parent
+    // just for convenient
+    this.props._refer_von_unit('', '/');
   }
 
   _set_UnitCurrent(){
@@ -170,7 +175,7 @@ class UnitUnsign extends React.Component {
         <ModalBackground
           _didMountSeries={()=>{window.addEventListener('touchmove', (e)=>{e.stopPropagation();});}}
           _willUnmountSeries={()=>{window.removeEventListener('touchmove', (e)=>{e.stopPropagation();});}}
-          onClose={()=>{this._close_theater();}}
+          onClose={()=>{this._close_modal_Unit();}}
           style={{
             position: "fixed",
             backgroundColor: 'transparent'}}>
@@ -178,17 +183,17 @@ class UnitUnsign extends React.Component {
               (cssVW < 860) &&
               <div
                 className={classnames(styles.boxNavOptionsCosmic)}>
-                <NavOptionsUnsign {...this.props} _refer_to={this._close_theater}/>
+                <NavOptionsUnsign {...this.props} _refer_to={this._close_modal_Unit}/>
               </div>
             }
             <div
               className={classnames(styles.boxUnitContent)}
-              onClick={this._close_theater}>
+              onClick={this._close_modal_Unit}>
               <Theater
                 {...this.props}
                 _construct_UnitInit={this._construct_UnitInit}
                 _reset_UnitMount={this._reset_UnitMount}
-                _close_theaterHeigher={this._close_theater}/>
+                _close_theaterHeigher={this._close_modal_Unit}/>
             </div>
         </ModalBackground>
       </ModalBox>
