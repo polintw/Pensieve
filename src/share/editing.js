@@ -13,6 +13,7 @@ const _DB_nouns = require('../../db/models/index').nouns;
 const _DB_marksContent = require('../../db/models/index').marks_content;
 const _DB_attribution = require('../../db/models/index').attribution;
 const _DB_nodes_activity = require('../../db/models/index').nodes_activity;
+const _DB_units_nodesAssign = require('../../db/models/index').units_nodes_assign;
 
 const {
   _handle_ErrCatched,
@@ -54,7 +55,7 @@ async function _handle_unit_AuthorEditing(req, res){
       so we jumo the pic process.
       and obviously, we pass the new insertion to units.
     */
-    //this block, write into the table: marks(and get id_mark back), attribution.
+    //this block, write into the table: marks(and get id_mark back), attribution, and units_nodes_assign.
     //And Notice! we need id_mark for marks_content, so update to it happened in next step.
     let marksArr = modifiedBody.joinedMarksList.map((markKey, index)=>{
       let markObj = modifiedBody.joinedMarks[markKey];
