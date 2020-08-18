@@ -21,8 +21,6 @@ const {
 } = require('../../utils/reserrHandler.js');
 const projectRootPath = require("../../../projectRootPath");
 const _DB_sheets = require('../../../db/models/index').sheets;
-const _DB_lastvisitShared = require('../../../db/models/index').lastvisit_shared;
-const _DB_lastvisitNotify = require('../../../db/models/index').lastvisit_notify;
 const _DB_lastvisitIndex = require('../../../db/models/index').lastvisit_index;
 const _DB_listMails = require('../../../db/models/index').list_mails;
 
