@@ -6,6 +6,7 @@ const {convertToRaw, convertFromRaw} = require ('draft-js');
 
 const {envServiceGeneral} = require('../config/.env.json');
 const winston = require('../config/winston.js');
+/*
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const _DB_units = require('../db/models/index').units;
@@ -13,6 +14,7 @@ const _DB_nouns = require('../db/models/index').nouns;
 const _DB_marks = require('../db/models/index').marks;
 const _DB_marksContent = require('../db/models/index').marks_content;
 const _DB_attribution = require('../db/models/index').attribution;
+*/
 const projectRootPath = require('../projectRootPath');
 const {_res_success} = require('./utils/resHandler.js');
 const {
@@ -20,7 +22,7 @@ const {
   internalError,
   forbbidenError
 } = require('./utils/reserrHandler.js');
-
+/*
 async function _handle_crawler_GET_Unit(req, res){
   //select Unit by id in query
   //already validate before pass to this handler
@@ -96,9 +98,7 @@ async function _handle_crawler_GET_Unit(req, res){
           blocks: [],
           entityMap: JSON.parse(row.contentEntityMap)
         };
-        /*
-        and Notive, every col here still remain in 'string', so parse them.
-        */
+        //and Notive, every col here still remain in 'string', so parse them.
         let blockLigntening=JSON.parse(row.contentBlocks_Light),
             textByBlocks=JSON.parse(row.text_byBlocks),
             inlineStyleRangesByBlocks=JSON.parse(row.inlineStyleRanges_byBlocks),
@@ -137,11 +137,12 @@ async function _handle_crawler_GET_Unit(req, res){
     _handle_ErrCatched(error, req, res);
   });
 }
-
+*/
 
 //route pass from parent start from here
 
 //res specific Unit info to crawler
+/*
 router.use('/cosmic/explore/unit', function(req, res, next){
   if(process.env.NODE_ENV == 'development') winston.verbose(`${'from crawler, GET: '} ${req.originalUrl}`);
   //to res dynamic html to crawler, we need to select Unit basic info from DB
@@ -150,7 +151,7 @@ router.use('/cosmic/explore/unit', function(req, res, next){
   if(!Boolean(req.query.unitId.toString()) ) { next();}
   //if safe, then we select the requested Unit & res html with Unit info
   else _handle_crawler_GET_Unit(req, res);
-})
+})*/
 
 //res common data to crawler if no specific destination,
 //must at the last to assure filtering by any specific path above

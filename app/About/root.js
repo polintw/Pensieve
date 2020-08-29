@@ -21,7 +21,7 @@ const loggedin = !!window.localStorage['token'];
 //this page would render no matter the token status,
 //so the store was 100% needed.
 const store = createStore(storeAbout, applyMiddleware(thunk));
-
+/*
 if(loggedin){
   const statusVerified = ()=>{ //could be a independent utils like the /refreshToken
     axios.get('/router/status', {
@@ -37,7 +37,7 @@ if(loggedin){
       if not, just render the plain page for guset.
       But for token state, record the difference by res.status
       */
-
+/*
       let verifiedErrify = statusVerifiedErr(err, store); //set token status to Redux by f() import from errHandlers
       //Render the dom no matter the result of the errHandlers
       //and let the DOM itself check the status
@@ -75,3 +75,5 @@ if(loggedin){
   //Render the dom, let the DOM itself check the status
   ReactDOM.hydrate(<Provider store={store}><About/></Provider>, document.getElementById("root"));
 }
+*/
+ReactDOM.hydrate(<Provider store={store}><About/></Provider>, document.getElementById("root"));

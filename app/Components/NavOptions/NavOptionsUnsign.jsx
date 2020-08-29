@@ -50,11 +50,12 @@ class NavOptionsUnsign extends React.Component {
             reverseColor={true}/>
         </div>
 
-        { this._render_NavSmallScreen()
+        { //this._render_NavSmallScreen()
           /*Notice, this render method actually deal with only situation the screen width < 860px
           and the rest (>860px) would rely on the next DOM beneath*/
         }
         { // only show up on /unit view
+          /*
           (this.props.location.pathname.includes('explore/unit')) &&
           <div
             id={"NavOptions_Self_"}
@@ -64,6 +65,7 @@ class NavOptionsUnsign extends React.Component {
             onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_to('', '/')}}>
             {this.props.i18nUIString.catalog['submit_nav_Signin']}
           </div>
+          */
         }
       </div>
     )

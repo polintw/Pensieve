@@ -8,12 +8,13 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
-import InvitationFellow from './InvitationFellow.jsx';
-import SigninForm from '../../Sign/components/SigninForm/SigninForm.jsx';
-import SignupForm from '../../Sign/components/SignupCom/SignupForm.jsx';
-import SignupSuccess from '../../Sign/components/SignupCom/SignupSuccess.jsx';
-import Confirmation from '../../Sign/components/Confirmation/Confirmation.jsx';
-import NavSign from '../../Sign/components/NavSign/NavSign.jsx';
+//import InvitationFellow from './InvitationFellow.jsx';
+//import SigninForm from '../../Sign/components/SigninForm/SigninForm.jsx';
+//import SignupForm from '../../Sign/components/SignupCom/SignupForm.jsx';
+//import SignupSuccess from '../../Sign/components/SignupCom/SignupSuccess.jsx';
+//import Confirmation from '../../Sign/components/Confirmation/Confirmation.jsx';
+//import NavSign from '../../Sign/components/NavSign/NavSign.jsx';
+import Announcement from './Announcement.jsx';
 
 
 class WithinSign extends React.Component {
@@ -42,6 +43,7 @@ class WithinSign extends React.Component {
   }
 
   render(){
+/*
     return(
       <div
         className={styles.comWithinSign}>
@@ -68,6 +70,19 @@ class WithinSign extends React.Component {
             <Route path={ "/signup/success"} render={(props) => <SignupSuccess {...props} />} />
             <Route path={"/signup"} render={(props) => <SignupForm {...props} _signup_success={this._signup_success} />}/>
             <Route path={this.props.match.path} component={this._compPathPlain}/>
+          </Switch>
+        </div>
+
+      </div>
+    )
+*/
+    return(
+      <div
+        className={styles.comWithinSign}>
+        <div
+          className={classnames(styles.boxAnnoucement)}>
+          <Switch>
+            <Route path={this.props.match.path} render={(props) => <Announcement {...this.props} {...props} />} />
           </Switch>
         </div>
 

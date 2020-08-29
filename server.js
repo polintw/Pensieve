@@ -4,7 +4,7 @@ const path = require("path");
 const bodyParser = require('body-parser');
 const crawlers = require('crawler-user-agents');
 
-const router = require('./src/router.js');
+//const router = require('./src/router.js');
 const routerPathWithin = require('./src/routerPathWithin.js');
 const winston = require('./config/winston.js');
 const {envBasic} = require('./config/.env.json');
@@ -18,7 +18,7 @@ const {
   nodesSearchLimiter,
   belongsPatchLimiter
 } = require('./src/rateLimiter.js');
-const mailTimer = require("./scripts/mailer/mailTimer.js");
+//const mailTimer = require("./scripts/mailer/mailTimer.js");
 
 
 //babel-polyfill is here for the whole code after it!
@@ -54,8 +54,8 @@ app.use(express.static(path.join(__dirname+'/public/ico'))); // for /favicon.ico
 
 
 //api
-app.use('/router', router)
-
+//app.use('/router', router)
+/*
 app.use('/self', function(req, res){
   winston.info(`${"page: requesting for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);
 
@@ -64,7 +64,7 @@ app.use('/self', function(req, res){
       throw err
     }
   });
-})
+})*/
 
 app.use('/a', function(req, res){
   winston.info(`${"page: requesting for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);
@@ -75,7 +75,7 @@ app.use('/a', function(req, res){
     }
   });
 })
-
+/*
 app.use('/s', function(req, res){
   winston.info(`${"page: requesting for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);
 
@@ -84,7 +84,7 @@ app.use('/s', function(req, res){
       throw err
     }
   });
-})
+})*/
 
 //then for the rest of path, including plain '/', we need to identify source and purpose
 app.use('/', function(req, res, next){
@@ -130,7 +130,7 @@ const crawlersIdentify = (userAgent) => { //using userAgents list to identifing 
 app.listen(process.env.port || envBasic.port);
 winston.warn("server initiating, running at Port "+envBasic.port);
 
-// initiate mail timer
+/*// initiate mail timer
 function intervalMarketMail(){
   winston.warn("mail timer initiating, setInterval to: 12 hours.");
   mailTimer(); // first time at init
@@ -140,4 +140,4 @@ function intervalMarketMail(){
     mailTimer();
   }, 43200000) // every 12 hours. Nodejs could accept only integer < 2147483647 miliseconds
 };
-intervalMarketMail();
+intervalMarketMail();*/

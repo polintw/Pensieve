@@ -13,6 +13,14 @@
   max-width: 98vw;
 }
 
+.boxAnnoucement {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  max-width: 98vw;
+  padding-top: 30px;
+}
+
 .boxNav {
   width: 100%;
   margin-bottom: 30px;
@@ -43,5 +51,20 @@
 }
 
 .comInvitation p {
+  margin: 8px 0;
+}
+
+.comAnnouncement {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  width: 450px;
+  max-width: 98vw;
+  padding-top: 4vh;
+  margin-bottom: 26vh;
+}
+
+.comAnnouncement p {
   margin: 8px 0;
 }

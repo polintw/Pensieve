@@ -5,8 +5,8 @@ import {
   Route,
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import WithinAround from './Within_Around.jsx';
-import WithinCosmic from './Within_Cosmic.jsx';
+//import WithinAround from './Within_Around.jsx';
+//import WithinCosmic from './Within_Cosmic.jsx';
 import WithinSign from './Within_Sign.jsx';
 
 class Within extends React.Component {
@@ -26,7 +26,7 @@ class Within extends React.Component {
   }
 
   render(){
-    if(this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack'){
+    /*if(this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack'){
       return (
         <Router>
             <Route path="/" render={(props) => <WithinSign {...props} />} />
@@ -42,6 +42,12 @@ class Within extends React.Component {
         </Router>
       )
     };
+    */
+    return (
+      <Router>
+          <Route path="/" render={(props) => <WithinSign {...props} />} />
+      </Router>
+    )
   }
 }
 

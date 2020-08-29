@@ -9,12 +9,12 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import WithinSign from './partSign/WithinSign.jsx';
-import UnitUnsign from '../Unit/UnitUnsign/UnitUnsign.jsx';
+//import UnitUnsign from '../Unit/UnitUnsign/UnitUnsign.jsx';
 import NavWithin from '../Components/NavWithin/NavWithin.jsx';
 import NavOptionsUnsign from '../Components/NavOptions/NavOptionsUnsign.jsx';
-import ModalBox from '../Components/ModalBox.jsx';
-import ModalBackground from '../Components/ModalBackground.jsx';
-import BooleanDialog from '../Components/Dialog/BooleanDialog/BooleanDialog.jsx';
+//import ModalBox from '../Components/ModalBox.jsx';
+//import ModalBackground from '../Components/ModalBackground.jsx';
+//import BooleanDialog from '../Components/Dialog/BooleanDialog/BooleanDialog.jsx';
 
 class Within_Sign extends React.Component {
   constructor(props){
@@ -78,7 +78,7 @@ class Within_Sign extends React.Component {
 
   render(){
     if(this.state.switchTo){return <Redirect to={this.state.switchTo.params+this.state.switchTo.query}/>}
-
+      /*
     return(
       <div>
         <div style={this.style.Within_Around_backplane}></div>
@@ -107,11 +107,25 @@ class Within_Sign extends React.Component {
 
       </div>
     )
+    */
+
+    return(
+      <div>
+        <div style={this.style.Within_Around_backplane}></div>
+        <div
+          className={classnames(styles.comWithinSign)}>
+          <Switch>
+
+            <Route path="/" render={(props)=> UnsignWithin(props, this) }/>
+          </Switch>
+        </div>
+      </div>
+    )
   }
 
 }
 
-const UnsignWithinCosmic = ( routeProps, parent) => {
+/*const UnsignWithinCosmic = ( routeProps, parent) => {
   // this component need to follow the style of Within_Cosmic,
   // but the 'main controller' was different
   return (
@@ -142,6 +156,7 @@ const UnsignWithinCosmic = ( routeProps, parent) => {
     </div>
   )
 }
+*/
 
 const UnsignWithin = ( routeProps, parent) => {
   return (

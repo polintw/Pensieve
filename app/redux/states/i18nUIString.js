@@ -114,6 +114,7 @@ const i18nUIString_EN = {
   "link_Fellows": 'Fellows',
   "Cornerth_inc": "Cornerth., Inc. ",
   "AllRights": "All Rights Reserved.",
+  "title_Announcement": "Announcement",
 
   "submit_Options_profile": "My profile",
   "submit_Unit_upload": ["Add image", "Processing..."],

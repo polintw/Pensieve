@@ -14,7 +14,7 @@ import {
   statusVerifiedErr
 } from "../utils/errHandlers.js";
 
-
+/*
 let loggedin = !!window.localStorage['token'];
 if(loggedin){
   const statusVerified = ()=>{ //could be a independent utils like the /refreshToken
@@ -28,10 +28,9 @@ if(loggedin){
       store.dispatch(setTokenStatus({token: 'verified'})); //also set token verified result to middleware.
       ReactDOM.hydrate(<Provider store={store}><Within/></Provider>, document.getElementById("root"));
     }).catch((err)=>{
-      /*
-      one possiblity is the token was invalid,
-      then we still going to render after we mark the result in Redux.
-      */
+      //one possiblity is the token was invalid,
+      //then we still going to render after we mark the result in Redux.
+
       statusVerifiedErr(err, store); //set token status to Redux by f() import from errHandlers
       //Render the dom no matter the result of the errHandlers,
       //and let the DOM itself check the status
@@ -70,3 +69,6 @@ if(loggedin){
   //Render the dom, let the index be previewed, sign in/up in a modal
   ReactDOM.hydrate(<Provider store={store}><Within/></Provider>, document.getElementById("root"));
 }
+*/
+
+ReactDOM.hydrate(<Provider store={store}><Within/></Provider>, document.getElementById("root"));

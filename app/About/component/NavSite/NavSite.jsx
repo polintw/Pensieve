@@ -69,7 +69,7 @@ class NavSite extends React.Component {
   }
 
   render(){
-    return this.props.token=="verified" ? (
+    return (
       <div
         className={classnames(styles.comNavSite)}>
         <a
@@ -80,21 +80,7 @@ class NavSite extends React.Component {
           onMouseLeave={this._handleLeave_CornerOpt}>
           <span
             className={classnames(styles.spanLink, styles.fontLink)}
-            style={{borderBottom: (this.state.mouseOn=='back')? '1px solid #ff7a5f': '1px solid #ababab'}}>{"back"}</span>
-        </a>
-      </div>
-    ): (
-      <div
-        className={classnames(styles.comNavSite)}>
-        <a
-          href={"/"}
-          method="sign"
-          className={classnames('plainLinkButton')}
-          onMouseEnter={this._handleEnter_CornerOpt}
-          onMouseLeave={this._handleLeave_CornerOpt}>
-          <span
-            className={classnames(styles.spanLink, styles.fontLink)}
-            style={{borderBottom: (this.state.mouseOn=='sign')? '1px solid #ff7a5f': '1px solid #ababab'}}>{'Sign in'}</span>
+            style={{borderBottom: (this.state.mouseOn=='back')? '1px solid #ff7a5f': '1px solid #ababab'}}>{"Home"}</span>
         </a>
       </div>
     )
