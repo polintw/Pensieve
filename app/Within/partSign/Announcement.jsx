@@ -14,6 +14,8 @@ class Announcement extends React.Component {
 
     };
     this._render_Announcement = this._render_Announcement.bind(this);
+    this._render_ContentArr = this._render_ContentArr.bind(this);
+    this._render_Sign = this._render_Sign.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -41,6 +43,26 @@ class Announcement extends React.Component {
     return content;
   }
 
+  _render_Sign(signObj){
+    return (
+      <div
+        key ={"key_announcement_sign"}
+        className={classnames("fontSubtitle_h5", "colorSignBlack")}>
+        <br/>
+        <p>
+          {signObj.greet}
+        </p>
+        <span>
+          {signObj.sign}
+        </span>
+        <br/>
+        <span>
+          {signObj.date}
+        </span>
+      </div>
+    )
+  }
+
   _render_Announcement(){
     return (
       <div
@@ -58,6 +80,7 @@ class Announcement extends React.Component {
           </span>
         </div>
         {this._render_ContentArr(toNewsCCServer_content)}
+        {this._render_Sign(toNewsCCServer_Sign)}
       </div>
     )
   }
@@ -76,14 +99,18 @@ class Announcement extends React.Component {
 const toNewsCCServer_title = "| To News as Malicious Domain"
 const toNewsCCServer_content = [
   "Thank you for visiting our platform. I am the main developer and administrator of this site, cornerth.com.",
-  "This announcment is because, as you may heard, our domain was rencently reported unsafe by Ministry of Justice Investigation Bureau, Taiwan, as the server our domain on was used as a C&C(control & command server) by hacking groups in a series of cyber attack. As soon as we became aware of this situation, we took immediate actions to manage and respond to the issue, holding our service and investigating any unauthorized access or process. We nofitified and now cooperated with the related authority to help them clarifying the related cyber attack and the way our server was used by the hacking groups. As the main developer, I personally also engaged several expert for advice from cyber security, fixing any possible weak point among our service.",
-  "As our current investigation, there is no evidence that personal information of any nature has been accessed or misused. But we decided to suspend the platform for a week before further steps about security were well established.",
+  "This announcment is because, as you may heard, our domain was rencently reported unsafe by Ministry of Justice Investigation Bureau, Taiwan, as our domain was used in a series of cyber attack by 2 hacking groups as a C&C server. As soon as we became aware of this situation, we took immediate actions to manage and respond to the issue, including but not limit to suspend our service and investigate any unauthorized access or process across all of our device.",
+  "We nofitified and now cooperated with the related authority to help them clarifying the related cyber campaigns and the way our domain was used by the hacking groups. As the main developer, I personally also engaged several expert for advice from cyber security, fixing any possible weak point among our service.",
+  "As our current investigation, there is no evidence that personal information of any nature has been accessed or misused. But we decided to suspend the service for a week before further steps about security were well established.",
   "We are really sorry for what has happened.",
-  "We are a small team working on this project since last year. As a start-up project, Cornerth. is a platform aim to give people an easy way to",
-  "we tried to build our own server on a home network based machine.",
-  "25 Aug. 2020",
-  "Cornerth. team"
+  "We are a small team base in Taiwan, working on this project since last year. As a start-up project, Cornerth is a platform aim to give people an easy way to share their observation about their homatown or current residence, giving people insight from their aspect. We work on it in believe that the people could learn more even just from their closet environment.",
+  "Once again, we sincerely apologise for this oversight. We do take the safety and security of any user very seriously and will continue to take every action to protect it against any future attacks.",
 ];
+const toNewsCCServer_Sign = {
+  greet:　"Yours sincerely,",
+  date: "25 Aug. 2020",
+  sign:　"Cornerth. team"
+};
 
 
 const mapStateToProps = (state)=>{

@@ -16,8 +16,6 @@
 .boxAnnoucement {
   display: flex;
   flex-direction: column;
-  width: 400px;
-  max-width: 98vw;
   padding-top: 30px;
 }
 
@@ -59,7 +57,7 @@
   flex-direction: column;
   justify-content: flex-end;
   align-items: flex-start;
-  width: 450px;
+  width: 500px;
   max-width: 98vw;
   padding-top: 4vh;
   margin-bottom: 26vh;
