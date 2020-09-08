@@ -36,7 +36,7 @@ let rootAbout = browserify({
   ]
 })).transform('uglifyify', {
   global: true
-}).require("./app/About/root.js", {
+}).require("./app/Service/root.js", {
   entry: true
 }).plugin(require('css-modulesify'), {
     rootDir: __dirname

@@ -5,8 +5,8 @@ import thunk from 'redux-thunk';
 import {Provider} from "react-redux";
 import jwtDecode from 'jwt-decode';
 import moment from 'moment';
-import About from './About/About.jsx';
-import storeAbout from "../redux/reducers/about.js";
+import Service from './Service.jsx';
+import storeService from "../redux/reducers/service.js";
 import {
   mountUserInfo,
   setTokenStatus
@@ -20,7 +20,7 @@ import {
 const loggedin = !!window.localStorage['token'];
 //this page would render no matter the token status,
 //so the store was 100% needed.
-const store = createStore(storeAbout, applyMiddleware(thunk));
+const store = createStore(storeService, applyMiddleware(thunk));
 
 if(loggedin){
   const statusVerified = ()=>{ //could be a independent utils like the /refreshToken
@@ -31,7 +31,7 @@ if(loggedin){
     }).then(function(res){
       store.dispatch(mountUserInfo(res.data.main.userInfo));
       store.dispatch(setTokenStatus({token: 'verified'}));
-      ReactDOM.hydrate(<Provider store={store}><About/></Provider>, document.getElementById("root"));
+      ReactDOM.hydrate(<Provider store={store}><Service/></Provider>, document.getElementById("root"));
     }).catch((err)=>{
       /* This component has 2 status: log in, or not
       if not, just render the plain page for guset.
@@ -41,7 +41,7 @@ if(loggedin){
       let verifiedErrify = statusVerifiedErr(err, store); //set token status to Redux by f() import from errHandlers
       //Render the dom no matter the result of the errHandlers
       //and let the DOM itself check the status
-      ReactDOM.hydrate(<Provider store={store}><About/></Provider>, document.getElementById("root"));
+      ReactDOM.hydrate(<Provider store={store}><Service/></Provider>, document.getElementById("root"));
     })
   };
 
@@ -59,7 +59,7 @@ if(loggedin){
       store.dispatch(setTokenStatus({token: 'invalid'}));
 
       //and Render the dom, let the DOM itself check the status
-      ReactDOM.hydrate(<Provider store={store}><About/></Provider>, document.getElementById("root"));
+      ReactDOM.hydrate(<Provider store={store}><Service/></Provider>, document.getElementById("root"));
     })
 
    }
@@ -73,5 +73,5 @@ if(loggedin){
   store.dispatch(setTokenStatus({token: 'lack'}));
 
   //Render the dom, let the DOM itself check the status
-  ReactDOM.hydrate(<Provider store={store}><About/></Provider>, document.getElementById("root"));
+  ReactDOM.hydrate(<Provider store={store}><Service/></Provider>, document.getElementById("root"));
 }
