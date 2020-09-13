@@ -9,6 +9,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import ContentEditor from './ContentEditor/ContentEditor.jsx';
 import NodesEditor from './NodesEditor/NodesEditor.jsx';
+import AssignNodes from './NodesEditor/AssignNodes.jsx';
 import Submit from './components/Submit/Submit.jsx';
 import ImgImport from './components/ImgImport.jsx';
 
@@ -17,6 +18,7 @@ class EditingPanel extends React.Component {
     super(props);
     this.state = {
       contentEditing: false,
+      nodesShift: false,
       coverSrc: !!this.props.unitSet?this.props.unitSet.coverSrc:null,
       coverMarks: !!this.props.unitSet?this.props.unitSet.coverMarks:{list:[], data:{}},
       nodesSet: !!this.props.unitSet?this.props.unitSet.nodesSet:{assign:[], tags:[]},
@@ -177,27 +179,42 @@ class EditingPanel extends React.Component {
       <div
         className={classnames(styles.comEditingPanel)}
         onClick={(e)=>{e.preventDefault();e.stopPropagation();/*prevent bubbling to bg of wherever it was called*/}}>
-        <div
-          className={classnames(styles.boxContentWidth, styles.boxSubmit)}>
-          <Submit
-            editing={this.state.contentEditing}
-            contentPermit = {(!this.state["coverSrc"] || this.state['nodesSet'].assign.length < 1) ? false: true}
-            confirmDialog={!!this.props.confirmDialog? this.props.confirmDialog: false}
-            warningDialog={!!this.props.warningDialog? this.props.warningDialog: false}
-            _set_Clear={this.props._set_Clear}
-            _submit_newShare={this._submit_newShare}/>
-        </div>
-        <div
-          className={classnames(styles.boxContentWidth, styles.boxFrame)}>
-          {this._render_importOrCover()}
-        </div>
-        <div
-          className={classnames(styles.boxContentWidth, styles.boxNodesEditor)}>
-          <NodesEditor
-            nodesSet={this.state.nodesSet}
-            _submit_new_node={this._submit_new_node}
-            _submit_deleteNodes={this._submit_deleteNodes}/>
-        </div>
+          {
+            this.state.nodesShift ? (
+            <div
+              className={classnames(styles.boxContentWidth, styles.boxPanelHeight, styles.boxNodesEditor)}>
+              <NodesEditor
+                nodesSet={this.state.nodesSet}
+                _submit_new_node={this._submit_new_node}
+                _submit_deleteNodes={this._submit_deleteNodes} />
+            </div>
+            ) :(
+            <div
+              className={classnames(styles.boxContentWidth, styles.boxPanelHeight)}>
+              <div
+                className={classnames(styles.boxSubmit)}>
+                <Submit
+                  editing={this.state.contentEditing}
+                  contentPermit={(!this.state["coverSrc"] || this.state['nodesSet'].assign.length < 1) ? false : true}
+                  confirmDialog={!!this.props.confirmDialog ? this.props.confirmDialog : false}
+                  warningDialog={!!this.props.warningDialog ? this.props.warningDialog : false}
+                  _set_Clear={this.props._set_Clear}
+                  _submit_newShare={this._submit_newShare} />
+              </div>
+              <div
+                className={classnames(styles.boxFrame)}>
+                {this._render_importOrCover()}
+              </div>
+              <div
+                className={classnames(styles.boxNodesList)}>
+                  <AssignNodes
+                    assigned={this.state.nodesSet['assign']}
+                    _submit_deleteNodes={this._submit_deleteNodes} />
+              </div>
+            </div>        
+            )
+          }
+
         {
           this.props.unitSubmitting &&
           <div

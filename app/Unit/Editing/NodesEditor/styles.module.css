@@ -1,9 +1,6 @@
 .comNodesEditor{
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
   width: 100%;
-  position: relative;
 }
 
 .boxSubtitle {
@@ -15,13 +12,12 @@
   position: relative;
 }
 
-.boxAssignNodes {
-
-}
-
 .comAssignNodes {
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   width: 100%;
+  position: relative;
 }
 
 .boxListItem {

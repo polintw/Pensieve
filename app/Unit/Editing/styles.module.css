@@ -47,6 +47,10 @@
   width: 86.48%;
 }
 
+.boxPanelHeight {
+  height: 100%;
+}
+
 .boxFrame {
   height: 64.28%;
   box-sizing: border-box;
@@ -69,8 +73,12 @@
   box-sizing: border-box;
 }
 
-.boxNodesEditor {
+.boxNodesList {
   margin-bottom: 4.44vh;
+}
+
+.boxNodesEditor {
+
 }
 
 @media screen and (max-width:860px) {
