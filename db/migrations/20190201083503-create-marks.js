@@ -13,7 +13,7 @@ module.exports = {
         allowNull: false
       },
       id_unit: {
-        type: Sequelize.INTEGER(10).UNSIGNED,
+        type: Sequelize.UUID,
         allowNull: false
       },
       layer: {

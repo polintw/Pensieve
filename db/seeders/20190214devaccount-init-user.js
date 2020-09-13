@@ -36,11 +36,6 @@ module.exports = {
       return queryInterface.bulkInsert('lastvisit_index', [
         {id_user: '1'}
       ], {})
-    })
-    .then(()=>{
-      return queryInterface.bulkInsert('users_prefer_nodes', [
-        {id_user: '1'}
-      ], {})
     });
   },
 
