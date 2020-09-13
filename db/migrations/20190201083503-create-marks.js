@@ -29,7 +29,8 @@ module.exports = {
         allowNull: false
       },
       editor_content: {
-        type: Sequelize.STRING(2047)
+        type: Sequelize.STRING(2047),
+        charset: 'utf8mb4'
       },
       serial: {
         type: Sequelize.INTEGER(3).UNSIGNED,
@@ -50,8 +51,6 @@ module.exports = {
       updatedAt: {
         type: Sequelize.DATE
       }
-    },{
-      charset: 'utf8mb4', //for Mandarin, or emoji if you don't speak in mandarin
     }).then(()=>{
       return queryInterface.addConstraint('marks', ['id_author'], {
         type: 'foreign key',
