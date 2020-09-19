@@ -21,7 +21,7 @@ class EditingPanel extends React.Component {
       nodesShift: false,
       coverSrc: !!this.props.unitSet?this.props.unitSet.coverSrc:null,
       coverMarks: !!this.props.unitSet?this.props.unitSet.coverMarks:{list:[], data:{}},
-      nodesSet: !!this.props.unitSet?this.props.unitSet.nodesSet:{assign:[], tags:[]},
+      nodesSet: !!this.props.unitSet?this.props.unitSet.nodesSet:[],
       //beneath, is remaining for future use, and kept the parent comp to process submitting
       beneathSrc: null,
       beneathMarks: {list:[],data:{}},
@@ -30,13 +30,14 @@ class EditingPanel extends React.Component {
     this._set_newImgSrc = this._set_newImgSrc.bind(this);
     this._set_Mark_Complete = this._set_Mark_Complete.bind(this);
     this._set_statusEditing = this._set_statusEditing.bind(this);
+    this._set_nodesEditView = this._set_nodesEditView.bind(this);
     this._submit_new_node = this._submit_new_node.bind(this);
     this._submit_newShare = this._submit_newShare.bind(this);
     this._submit_deleteNodes= this._submit_deleteNodes.bind(this);
     this._render_importOrCover = this._render_importOrCover.bind(this);
   }
 
-  _submit_new_node(node, type){ //param 'node' could be 'obj' || 'array', up to the type they passed for
+  _submit_new_node(node){ //param 'node' could be 'obj' || 'array', up to the type they passed for
     this.setState((prevState, props)=>{
       /*
       we are going to change the data 'inside' a prevState value,
@@ -45,35 +46,24 @@ class EditingPanel extends React.Component {
       (same as _submit_deleteNodes)
       */
       let newNodeArr = [node];
-      let updateArr = prevState.nodesSet[(type=="assign")? 'assign': 'tags'].concat(newNodeArr);
-      let updateObj = {};
-      updateObj[(type=="assign")? 'assign': 'tags'] = updateArr;
+      let updateArr = prevState.nodesSet.concat(newNodeArr);
 
       return {
-        nodesSet: Object.assign({}, prevState.nodesSet, updateObj)
+        nodesSet: updateArr
       }
     })
   }
 
-  _submit_deleteNodes(target, type){
+  _submit_deleteNodes(target){
     this.setState((prevState, props)=>{
-      let targetArr = prevState.nodesSet[(type=="assign")? 'assign': 'tags'];
+      let targetArr = prevState.nodesSet;
       let updateArr = [];
-      if(type=="assign"){
-        //'target' is an index mark the unwanted node
-        updateArr = targetArr.slice();
-        updateArr.splice(target, 1);
-      }else{
-        //'target' would be a nodeId
-        updateArr = targetArr.filter((value, index)=>{ // use filter remove id from the list and replace it by new list
-          return value != nodeId; //not equal value, but allow different "type" (the nodeId was string saved in the DOM attribute)
-        });
-      }
-      let updateObj = {};
-      updateObj[(type=="assign")? 'assign': 'tags'] = updateArr;
+      //'target' is an index mark the unwanted node
+      updateArr = targetArr.slice(); // copy to prevent modified state
+      updateArr.splice(target, 1);
 
       return {
-        nodesSet: Object.assign({}, prevState.nodesSet, updateObj)
+        nodesSet: updateArr
       }
     })
   }
@@ -107,7 +97,7 @@ class EditingPanel extends React.Component {
       - no Unit was submitting: give warn
       - not editing: give warn
     */
-    if(!newObj["coverSrc"] || newObj['nodesSet'].assign.length < 1) { // the 'img' & 'node assigned to' are required
+    if(!newObj["coverSrc"] || newObj['nodesSet'].length < 1) { // the 'img' & 'node assigned to' are required
       this.props._set_warningDialog([{text: this.props.i18nUIString.catalog['message_CreateShare_basicRequireWarn'],style:{}}], 'warning');
       return;
     }else if(this.props.unitSubmitting){
@@ -122,10 +112,14 @@ class EditingPanel extends React.Component {
     newObj.coverMarks.list.forEach((markKey, index)=>{
       newObj.coverMarks.data[markKey].layer = 0;
     });
+
+/* apprently, we won't use 'both' for the assign type,
+mdified this part.
+*/
     // check if any node type was 'both'
     let originalTypeList = [], // 2 array, beacuase we have to rm the processed one but keep knowing the index in original newObj
         originalNodeIndex = [];
-    newObj.nodesSet.assign.forEach((nodeObj, index) => {
+    newObj.nodesSet.forEach((nodeObj, index) => {
       originalTypeList.push(nodeObj.type); // list by type
       originalNodeIndex.push(index); // index match the assign.list in newObj
     });
@@ -133,7 +127,7 @@ class EditingPanel extends React.Component {
       if(originalTypeList.indexOf(type) < 0){ // this type of node do not be set specifiaclly, or used by 'both'
         let indexBoth = originalTypeList.indexOf('both');
         if(indexBoth >= 0){ // there is a 'both' type in originalTypeList
-          newObj.nodesSet.assign[originalNodeIndex[indexBoth]].type = type; // replace the type in newObj by the index saved in originalNodeIndex
+          newObj.nodesSet[originalNodeIndex[indexBoth]].type = type; // replace the type in newObj by the index saved in originalNodeIndex
           originalTypeList.splice(indexBoth, 1);
           originalNodeIndex.splice(indexBoth, 1);
         }
@@ -195,7 +189,7 @@ class EditingPanel extends React.Component {
                 className={classnames(styles.boxSubmit)}>
                 <Submit
                   editing={this.state.contentEditing}
-                  contentPermit={(!this.state["coverSrc"] || this.state['nodesSet'].assign.length < 1) ? false : true}
+                  contentPermit={(!this.state["coverSrc"] || this.state['nodesSet'].length < 1) ? false : true}
                   confirmDialog={!!this.props.confirmDialog ? this.props.confirmDialog : false}
                   warningDialog={!!this.props.warningDialog ? this.props.warningDialog : false}
                   _set_Clear={this.props._set_Clear}
@@ -208,10 +202,11 @@ class EditingPanel extends React.Component {
               <div
                 className={classnames(styles.boxNodesList)}>
                   <AssignNodes
-                    assigned={this.state.nodesSet['assign']}
+                    nodesSet={this.state.nodesSet}
+                    _set_nodesEditView={this._set_nodesEditView}
                     _submit_deleteNodes={this._submit_deleteNodes} />
               </div>
-            </div>        
+            </div>
             )
           }
 
@@ -230,6 +225,14 @@ class EditingPanel extends React.Component {
         }
       </div>
     )
+  }
+
+  _set_nodesEditView(){
+    this.setState((prevState, props)=>{
+      return {
+        nodesShift: prevState.nodesShift? false : true
+      };
+    })
   }
 }
 
