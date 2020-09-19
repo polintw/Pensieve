@@ -59,3 +59,13 @@
 .mouseSpanItem {
   color: #FFFFFF;
 }
+
+.spanAddButton {
+  display: inline-block;
+  border-bottom: solid 0.75px transparent;
+  cursor: pointer;
+}
+
+.spanAddButtonMouse {
+  border-bottom: solid 0.75px #a3a3a3;
+}
