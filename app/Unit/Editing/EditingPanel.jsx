@@ -176,11 +176,10 @@ mdified this part.
           {
             this.state.nodesShift ? (
             <div
-              className={classnames(styles.boxContentWidth, styles.boxPanelHeight, styles.boxNodesEditor)}>
+              className={classnames(styles.boxContentWidth, styles.boxPanelHeight)}>
               <NodesEditor
                 nodesSet={this.state.nodesSet}
-                _submit_new_node={this._submit_new_node}
-                _submit_deleteNodes={this._submit_deleteNodes} />
+                _submit_new_node={this._submit_new_node} />
             </div>
             ) :(
             <div

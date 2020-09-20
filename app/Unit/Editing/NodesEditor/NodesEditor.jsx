@@ -16,12 +16,22 @@ class NodesEditor extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      nodesSet: this.props.nodesSet, // start from nodesSet passed from props
+      selectedList: [],
+      onNodeDelete: false,
+      /*
+      should have states mark the selection of each type,
+      also used as 'one allowed' limit
+      */
+
       onNode: '',
       restTypes: ["homeland", "residence"] //depend on type users can assign
     };
-    this._render_assignedNodes = this._render_assignedNodes.bind(this);
+    this._render_assignNodes = this._render_assignNodes.bind(this);
+    this._render_nodesOptions = this._render_nodesOptions.bind(this);
     this._handleEnter_liItem = this._handleEnter_liItem.bind(this);
     this._handleLeave_liItem = this._handleLeave_liItem.bind(this);
+    this._handleClick_deleteNode = this._handleClick_deleteNode.bind(this);
     this._handleClick_NodeAssigned = this._handleClick_NodeAssigned.bind(this);
     this.nodesTypes = {}; //it's a general var used across f()
   }
@@ -31,24 +41,142 @@ class NodesEditor extends React.Component {
   }
 
   componentDidMount() {
+    this.setState((prevState, props)=>{ // distribute the nodes passed from props to selected tags & diff tags if any
+      let assignedNodes = prevState.nodesSet.map((assignedObj, index) => { return assignedObj.nodeId; });
+      
+      // disstribute to diff tags if any
 
+      return {
+        selectedList: assignedNodes
+      };
+    });
   }
 
   componentWillUnmount() {
 
   }
 
+  _render_assignNodes() {
+    const assignedNodes = this.state.nodesSet.map((assignedObj, index) => { return assignedObj.nodeId; });
+
+    let nodesDOM = assignedNodes.map((nodeId, index) => { // would be '[]' if the props.nodesSet is empty
+      return (
+        <li
+          key={'_key_assignNode_readonly_' + index}
+          nodeid={nodeId}
+          className={classnames(
+            styles.boxListItem,
+            styles.chosenListItem
+          )}>
+          {(nodeId in this.props.nounsBasic) &&
+            <div>
+              <span
+                className={classnames(
+                  styles.spanListItem, "fontContent", "colorWhite",
+                )}>
+                {this.props.nounsBasic[nodeId].name}</span>
+              {
+                !!this.props.nounsBasic[nodeId].prefix &&
+                <span
+                  className={classnames(
+                    styles.spanListItem, 'fontContent', "colorWhite",
+                  )}
+                  style={{ alignSelf: 'right', fontSize: '1.2rem' }}>
+                  {", " + this.props.nounsBasic[nodeId].prefix}</span>
+              }
+            </div>
+          }
+          <div
+            nodeid={nodeId}
+            className={classnames(
+              styles.boxListDelete,
+              { [styles.mouseListDelete]: (this.state.onNodeDelete == nodeId) }
+            )}
+            onClick={this._handleClick_deleteNode}
+            onMouseEnter={this._handleEnter_liItem}
+            onMouseLeave={this._handleLeave_liItem}>
+            <span
+              className={classnames(
+                styles.spanListItem, "fontContent",
+                {
+                  ["colorWhite"]: this.state.onNodeDelete != nodeId,
+                  ["colorGrey"]: this.state.onNodeDelete == nodeId,
+                }
+              )}>
+              {" ╳ "}
+            </span>
+          </div>
+        </li>
+      )
+    })
+
+    return nodesDOM;
+
+  }
 
   render(){
     return(
       <div
         className={classnames(styles.comNodesEditor)}>
+        <div
+          className={classnames(styles.boxNodesEditTitle, styles.seperationBottom, styles.seperationTopEdge, "fontSubtitle", "colorEditLightBlack")}>
+          {this.props.i18nUIString.catalog["guidingCreateShare_AssignGroup"]}
+        </div>
+        <div
+          className={classnames(styles.boxNodesEditTags, styles.seperationBottom)}>
+          {}
+        </div>
+        <div
+          className={classnames(styles.editorRow, styles.seperationBottom)}>
+          {this._render_assignNodes()}
+        </div>
+        <div>
+
+        </div>
 
       </div>
     )
   }
 
-  _render_assignedNodes() {
+  _handleClick_deleteNode(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    let targetId = event.currentTarget.getAttribute('nodeid'); //type of attribute always be a 'string'
+    // we'd better turn it into 'int', the type the DB saved, so did the tpye the props.belongTypes saved
+    targetId = parseInt(targetId); //now the type of targetId is 'int'
+    // and the type of nodeId saved in assigned from  props were int, too
+    let assignedList = this.state.nodesSet.map((assignedObj, index) => { return assignedObj.nodeId; });
+    let indexInList = assignedList.indexOf(targetId);
+
+    //delete the targetNode from nodesSet
+    this.setState((prevState, props) => {
+      let targetArr = prevState.nodesSet;
+      let updateArr = [];
+      //'target' is an index mark the unwanted node
+      updateArr = targetArr.slice(); // copy to prevent modified state
+      updateArr.splice(indexInList, 1);
+
+      return {
+        nodesSet: updateArr
+      }
+    })
+  }
+
+  _handleEnter_liItem(e) {
+    this.setState({
+      onNodeDelete: e.currentTarget.getAttribute('nodeid')
+    })
+  }
+
+  _handleLeave_liItem(e) {
+    this.setState({
+      onNodeDelete: ''
+    })
+  }
+
+
+  _render_nodesOptions() {
     const assignedNodes = this.props.assigned.map((assignedObj, index) => { return assignedObj.nodeId; });
     /* there is a period the typeKeys would be 'empty' at all: belongsByType not yet res.
     or ther parent list haven't res yet, also empty render */
@@ -147,18 +275,6 @@ class NodesEditor extends React.Component {
     this.nodesTypes = nodesToType;
 
     return nodesDOM;
-  }
-
-  _handleEnter_liItem(e) {
-    this.setState({
-      onNode: e.currentTarget.getAttribute('nodeid')
-    })
-  }
-
-  _handleLeave_liItem(e) {
-    this.setState({
-      onNode: ''
-    })
   }
 
   _handleClick_NodeAssigned(event) {

@@ -101,48 +101,46 @@ class AssignNodes extends React.Component {
     // only add when 'creating'
     if(this.props.unitView != "editing"){
       nodesDOM.push(
-        {
-          (nodesDOM.length < 3) ? (
-            <div
-              key={'_key_assignNode_readonly_add' }
+        (nodesDOM.length < 3) ? (
+          <div
+            key={'_key_assignNode_readonly_add' }
+            className={classnames(
+              styles.boxListItem,
+              {
+                ['colorEditBlack']: this.state.onAdd,
+                ['colorGrey']: !this.state.onAdd
+              }
+            )}
+            style={{
+              border: this.state.onAdd ? "solid 1.2px #545454" : 'solid 1.2px #a3a3a3',
+              cursor: 'pointer'
+            } /* overwrite the cursor setting in boxListItem */}
+            onClick={this._handleClick_editNode}
+            onMouseEnter={this._handleEnter_buttonAdd}
+            onMouseLeave={this._handleLeave_buttonAdd}>
+            "add"
+          </div>
+        ) : (
+          <div
+            key={'_key_assignNode_readonly_add' }
+            className={classnames(
+              styles.boxListItem,
+            )}
+            style={{
+              border: "solid 1.2px transparent",
+            } /* overwrite the cursor setting in boxListItem */}
+            onClick={this._handleClick_editNode}
+            onMouseEnter={this._handleEnter_buttonAdd}
+            onMouseLeave={this._handleLeave_buttonAdd}>
+            <span
               className={classnames(
-                styles.boxListItem,
-                {
-                  ['colorEditBlack']: this.state.onAdd,
-                  ['colorGrey']: !this.state.onAdd
-                }
-              )}
-              style={{
-                border: this.state.onAdd ? "solid 1.2px #545454" : 'solid 1.2px #a3a3a3',
-                cursor: 'pointer'
-              } /* overwrite the cursor setting in boxListItem */}
-              onClick={this._handleClick_editNode}
-              onMouseEnter={this._handleEnter_buttonAdd}
-              onMouseLeave={this._handleLeave_buttonAdd}>
-              "add"
-            </div>
-          ) : (
-            <div
-              key={'_key_assignNode_readonly_add' }
-              className={classnames(
-                styles.boxListItem,
-              )}
-              style={{
-                border: "solid 1.2px transparent",
-              } /* overwrite the cursor setting in boxListItem */}
-              onClick={this._handleClick_editNode}
-              onMouseEnter={this._handleEnter_buttonAdd}
-              onMouseLeave={this._handleLeave_buttonAdd}>
-              <span
-                className={classnames(
-                  'fontContent', 'colorGrey', styles.spanAddButton,
-                  {[styles.spanAddButtonMouse]: this.state.onAdd}
-                )}>
-                {this.props.i18nUIString.catalog['submit_edit']}
-              </span>
-            </div>
-          )
-        }
+                'fontContent', 'colorGrey', styles.spanAddButton,
+                {[styles.spanAddButtonMouse]: this.state.onAdd}
+              )}>
+              {this.props.i18nUIString.catalog['submit_edit']}
+            </span>
+          </div>
+        )
       )
     }
 
