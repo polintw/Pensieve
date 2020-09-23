@@ -3,7 +3,7 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.addColumn('nodes_activity', 'id_firstUnit', {
-      type: Sequelize.INTEGER(10).UNSIGNED,
+      type: Sequelize.UUID,
       allowNull: false //beacuse at the moment the record was created, there must be a Unit used it
     }).then(()=>{
       return queryInterface.addConstraint('nodes_activity', ['id_firstUnit'], {

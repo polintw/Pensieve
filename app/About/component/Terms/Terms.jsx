@@ -8,6 +8,9 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+const {
+  domain
+} = require('../../../../config/services.js');
 
 class Terms extends React.Component {
   constructor(props){
@@ -50,10 +53,10 @@ class Terms extends React.Component {
             <p>{"Hi, welcome to Cornerth. !"}</p>
           </section>
           <section>
-            <p>{"Cornerth.com enable you to post articles with graphic items on this weblog to share something interesting related to the corner you concern about, and we would love for you to use it. Cornerth.com’s basic service is free, and are provided by Cornerth., Inc."}</p>
+            <p>{ domain.name +" enable you to post articles with graphic items on this weblog to share something interesting related to the corner you concern about, and we would love for you to use it. "+ domain.name + "’s basic service is free, and are provided by Cornerth., Inc."}</p>
           </section>
           <section>
-            <p>{"These Terms govern your access to and use of Cornerth.com. These Terms also govern visitors’ access to and use of Cornerth.com."}</p>
+            <p>{"These Terms govern your access to and use of " + domain.name+ ". These Terms also govern visitors’ access to and use of " + domain.name+ "."}</p>
           </section>
           <section>
             <p>{"Please read the Agreement carefully before accessing or using our Services. By accessing or using any part of our Services, you agree to become bound by the Agreement. If you do not agree to all the terms of the Agreement, you may not access or use our Services."}</p>
@@ -71,12 +74,12 @@ class Terms extends React.Component {
               </li>
               <li>
                 <h4>{"Responsibility of  Users and Visitors"}</h4>
-                <p>{"We have not reviewed, and cannot review all of the content (such as, but not limited to, text, graphic items , or other materials) posted to Cornerth.com by users or anyone else.  And we are not responsible for any use or effects of such content."}</p>
+                <p>{"We have not reviewed, and cannot review all of the content (such as, but not limited to, text, graphic items , or other materials) posted to "+ domain.name +" by users or anyone else.  And we are not responsible for any use or effects of such content."}</p>
                 <p>{"Which means (For example):"}</p>
                 <ul>
                   <li>{"We do not endorse or represent that any content is accurate, useful, or non-harmful. The content could be offensive, indecent, or objectionable."}</li>
                   <li>{"The content may violate or infringe the privacy, publicity rights, intellectual property rights, or other proprietary rights of third parties. (In such case, please submit copyright complaints to us.)"}</li>
-                  <li>{"You are entirely responsible for the content you post on Cornerth.com and any harm resulting from."}</li>
+                  <li>{"You are entirely responsible for the content you post on " + domain.name+ " and any harm resulting from."}</li>
                   <li>{"We disclaim any responsibility for any harm resulting from anyone’s use, or downloading of the content on our services."}</li>
                   <li>{"We are not a party to any communications, interactions, or disputes between you and the other provider of any content. We will have no responsibility or liability for that, also."}</li>
                 </ul>
@@ -99,11 +102,11 @@ class Terms extends React.Component {
               <li>
                 <h4>{"Intellectual Property"}</h4>
                 <p>{"The content  you post, including the text and graphic items, may be protected by intellectual property laws. We guarantee you own the fully intellectual property rights according to the related law. But we need your authorization to use this content legally for providing and improving our services. "}</p>
-                <p>{"Specifically, once you post an article on Cornerth.com, we grant the permission to store, copy, and share the content through Hyperlink with others. This permission will terminate if you delete such content."}</p>
+                <p>{"Specifically, once you post an article on "+ domain.name+ ", we grant the permission to store, copy, and share the content through Hyperlink with others. This permission will terminate if you delete such content."}</p>
               </li>
               <li>
                 <h4>{"Copyright Infringement"}</h4>
-                <p>{"If you believe that material located on Cornerth.com violates your copyright, please notify us. We will respond to all such notices, including as required or appropriate by removing the infringing material or disabling all links to the infringing material according to Digital Millennium Copyright Act (“DMCA”) ."}</p>
+                <p>{"If you believe that material located on " + domain.name+ " violates your copyright, please notify us. We will respond to all such notices, including as required or appropriate by removing the infringing material or disabling all links to the infringing material according to Digital Millennium Copyright Act (“DMCA”) ."}</p>
               </li>
               <li>
                 <h4>{"Amendment"}</h4>

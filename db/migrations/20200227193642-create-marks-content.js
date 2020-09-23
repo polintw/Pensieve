@@ -17,7 +17,8 @@ module.exports = {
         type: Sequelize.STRING(1023)
       },
       text_byBlocks: {
-        type: Sequelize.STRING(4095)
+        type: Sequelize.STRING(4095),
+        charset: 'utf8mb4', //for Mandarin, or emoji if you don't speak in mandarin
       },
       inlineStyleRanges_byBlocks: {
         type: Sequelize.STRING(1023)
@@ -26,7 +27,8 @@ module.exports = {
         type: Sequelize.STRING(1023)
       },
       data_byBlocks: {
-        type: Sequelize.STRING(1023)
+        type: Sequelize.STRING(1023),
+        charset: 'utf8mb4', //for Mandarin, or emoji if you don't speak in mandarin
       },
       createdAt: {
         type: Sequelize.DATE,
@@ -39,8 +41,6 @@ module.exports = {
       updatedAt: {
         type: Sequelize.DATE
       }
-    },{
-      charset: 'utf8mb4', //for Mandarin, or emoji if you don't speak in mandarin
     }).then(()=>{
       return queryInterface.addConstraint('marks_content', ['id_mark'], {
         type: 'foreign key',

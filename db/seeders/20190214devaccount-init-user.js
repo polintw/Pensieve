@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt');
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('users', [
-      {first_name: 'user', last_name: 'test', account: 'user test', status: 'active', email: 'usertest@mail.com'}
+      {first_name: 'user', last_name: 'test', account: 'user test', status: 'newly', email: 'usertest@mail.com'}
     ], {})
     .then(()=>{
       return new Promise((resolve, reject)=>{
@@ -24,7 +24,7 @@ module.exports = {
     })
     .then(()=>{
       return queryInterface.bulkInsert('users_apply', [
-        {id_user: '1', token_email: 'actuallythisisnotavalidtoken', status: 'unverified'}
+        {id_user: '1', token_email: 'actuallythisisnotavalidtoken', status: 'newly'}
       ], {})
     })
     .then(()=>{
@@ -33,22 +33,12 @@ module.exports = {
       ], {})
     })
     .then(()=>{
-      return queryInterface.bulkInsert('lastvisit_shared', [
-        {id_user: '1'}
-      ], {})
-    })
-    .then(()=>{
-      return queryInterface.bulkInsert('lastvisit_notify', [
-        {id_user: '1'}
-      ], {})
-    })
-    .then(()=>{
       return queryInterface.bulkInsert('lastvisit_index', [
         {id_user: '1'}
       ], {})
     })
     .then(()=>{
-      return queryInterface.bulkInsert('users_prefer_nodes', [
+      return queryInterface.bulkInsert('list_mails', [
         {id_user: '1'}
       ], {})
     });

@@ -34,8 +34,6 @@ module.exports.setUp = ()=>{
     'mkdir -p ./faked/pics/1',
     'mkdir -p ./faked/logs',
     'mkdir -p ./faked/dbSeeds',
-    'mkdir -p ./faked/dbJSON',
-    'cp ./init/units_reach.example.json ./faked/dbJSON/units_reach.json',
     'cp ./config/.env.example.json ./config/.env.json', //need to watch the difference between the setUpWin below
   ]
   runCommands(commands, function(err, results) {
@@ -51,8 +49,6 @@ module.exports.setUpWin = ()=>{
     "mkdir .\\faked\\dbSeeds",
     "mkdir .\\faked\\logs",
     "mkdir .\\faked\\pics\\1",
-    'mkdir .\\faked\\dbJSON',
-    "echo \{}\ > .\\faked\\dbJSON\\units_reach.json"
   ]
 
   runCommands(commands, function(err, results) {

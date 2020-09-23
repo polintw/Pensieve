@@ -3,9 +3,9 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('units', {
       id: {
-        type: Sequelize.INTEGER(10).UNSIGNED,
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true
       },
       id_author: {
@@ -21,6 +21,12 @@ module.exports = {
       },
       id_primer: {
         type: Sequelize.INTEGER(10).UNSIGNED
+      },
+      exposedId: {
+        type: Sequelize.UUID,
+        //new col, no need to set defaultValue(set in working model)
+        //Not to forbidden default Null at this moment.
+        unique: true
       },
       established: {
         type: Sequelize.DATE,

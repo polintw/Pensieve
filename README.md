@@ -34,9 +34,9 @@ Doc of [React for production](https://reactjs.org/docs/optimizing-performance.ht
 #### Env
 >please place it at a folder you have auth to write and edit
 
-- node 10.15.1
+- node 12.x.x
 - npm  6.4.1
-- MySQL 14.14 Distrib 5.7.25
+- MySQL 14.14 Distrib 5.7.31
 
 
 #### Install
@@ -53,6 +53,7 @@ Rename-Item -Path .\\config\\.env.example.json -NewName .env.json
 
 ```bash
 npm install
+npm install --dev
 ```
 
 > /bcrypt: check [doc](https://www.npmjs.com/package/bcrypt) if face error come from this module, uninstall and install again if needed
@@ -102,14 +103,14 @@ NODE_ENV="development" npm run start
 ```
 
 
-please, only using account below:
+there ia a default account as below:
 ```
 usertest@mail.com
 helloworld
 ```
 otherwise, you have to add account to database manually.
 
-Have a nice trip.
+Welcome to the project. Give any feedback in community.
 
 ## Developing
 
