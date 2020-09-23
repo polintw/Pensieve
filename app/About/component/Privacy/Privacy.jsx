@@ -89,7 +89,7 @@ class Privacy extends React.Component {
               </li>
               <li>
                 <h4>{"Legal Bases for Collecting and Using Information"}</h4>
-                <p>{"A note here for those in the European Union. Cornerth.com complied to General Data Protection Regulation (“GDPR”) in information collection and using."}</p>
+                <p>{"A note here for those in the European Union. " + domain.name+ " complied to General Data Protection Regulation (“GDPR”) in information collection and using."}</p>
               </li>
               <li>
                 <h4>{"Security"}</h4>

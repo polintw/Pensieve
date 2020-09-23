@@ -3,6 +3,7 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const winston = require('../../config/winston.js');
 const {
+  domain,
   smtpAccount,
 } = require('../../config/services.js');
 const {_render_HtmlBody} = require('./MktEmail.js');
@@ -262,7 +263,7 @@ async function mailTimer(){
     let sentMails = mailsData.mailList.map((userId, index)=>{
       let mailUnitArr = mailsData.mailInfo[userId];
       return {
-        from: '"Cornerth." <noreply.marketing@cornerth.com>', // sender address
+        from: '"Cornerth." <noreply.marketing@' +domain.name + '>', // sender address
         to: mailsData["address"][userId], // list of receivers
         subject: (mailUnitArr[0].type == "responds" ) ? "New Responds to Your Contributions" : "Update to you", // Subject line
         html: _render_HtmlBody(mailUnitArr)
