@@ -1,0 +1,156 @@
+._C_C_app_Service_styles_module__comService{
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  z-index: 3; /* set as a 'base': on the contrast to the 'Modal'*/    
+}
+
+._C_C_app_Service_styles_module__boxContent {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+._C_C_app_Service_styles_module__boxFooter {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  align-content: space-between;
+  width: 100%;
+  position: sticky;
+  bottom: 0;
+  box-sizing: border-box;
+  padding: 3.8vh 0.5vw 0;
+  background-color: #fff8f7;
+}
+
+._C_C_app_Service_styles_module__boxServiceLink {
+  position: relative;
+  margin-bottom: 2.66vh;
+}
+
+._C_C_app_Service_styles_module__boxLogo {
+  width: 17%;
+  max-width: 27vw;
+  min-width: 9vw;
+  box-sizing: border-box;
+  margin-bottom: 2.66vh;
+  mix-blend-mode: darken;
+  text-align: center;
+  cursor: pointer;
+}
+
+._C_C_app_Service_styles_module__boxRightsClaim {
+  margin-top: 3rem;
+  text-align: right;
+}
+
+._C_C_app_Service_styles_module__boxAroundContentCenter {
+  min-width: 67vw;
+}
+
+._C_C_app_Service_styles_module__boxContentFilledLeft {
+  min-width: 10vw;
+}
+
+._C_C_app_Service_styles_module__boxContentFilledRight {
+  min-width: 21.64vw;
+}
+
+@media screen and (max-width:1110px) and (min-width: 860px) {
+  ._C_C_app_Service_styles_module__boxAroundContentCenter {
+    width: calc(342px * 2 + 1.38vw * 4 + 1.38vw);
+    min-width: 69.7vw; /*calc(32vw + 30.8vw + 1.38vw * 4 + 1.38vw)*/
+  }
+
+  ._C_C_app_Service_styles_module__boxContentFilledLeft {
+    min-width: 2.7vw;
+  }
+
+  ._C_C_app_Service_styles_module__boxContentFilledRight {
+    min-width: 11.5vw;
+  }
+}
+
+@media screen and (max-width:860px) {
+  ._C_C_app_Service_styles_module__boxAroundContentCenter {
+    min-width: unset;
+    width: calc(342px + 1.38vw * 2);
+    max-width: 99vw;
+  }
+
+  ._C_C_app_Service_styles_module__boxContentFilledLeft {
+    width: 0;
+    min-width: 0; /* overlap basic setting, the 'width' is not enough for the min-width---which has higher priority*/
+  }
+
+  ._C_C_app_Service_styles_module__boxContentFilledRight {
+    width: 0;
+    min-width: 0; /* overlap basic setting, the 'width' is not enough for the min-width---which has higher priority*/
+  }
+
+}
+._C_C_app_Service_component_Terms_styles_module__comTerms {
+  width: 100%;
+  overflow-y: auto;
+}
+
+._C_C_app_Service_component_Terms_styles_module__boxScroll {
+  width: 60vw;
+  position: absolute;
+  left: 20vw;
+  top: 7.2rem;
+}
+
+._C_C_app_Service_component_Terms_styles_module__boxFooter {
+  height: 30vh;
+}
+
+._C_C_app_Service_component_Terms_styles_module__fontScroll { /*set as local root for the <tag/> inside*/
+  font-size: 17px;
+  line-height: 25px;
+}
+._C_C_app_Service_component_Nav_styles_module__comAboutNav {
+  display: inline-flex;
+  justify-content: space-between;
+  width: 10vw;
+  position: absolute;
+  bottom: 37%;
+  right: 15%;
+  box-sizing: border-box;
+  white-space: nowrap;
+
+}
+
+._C_C_app_Service_component_Nav_styles_module__boxLink {
+  position: relative;
+}
+
+._C_C_app_Service_component_Nav_styles_module__fontNav {
+  font-size: 1.37rem;
+  letter-spacing: 0.05rem;
+  color: #6e6e6e;
+}
+._C_C_app_Service_component_Privacy_styles_module__comPrivacy {
+  width: 100%;
+  overflow-y: auto;
+}
+
+._C_C_app_Service_component_Privacy_styles_module__boxScroll {
+  width: 60vw;
+  position: absolute;
+  left: 20vw;
+  top: 7.2rem;
+}
+
+._C_C_app_Service_component_Privacy_styles_module__boxFooter {
+  height: 30vh;
+}
+
+._C_C_app_Service_component_Privacy_styles_module__fontScroll { /*set as local root for the <tag/> inside*/
+  font-size: 17px;
+  line-height: 25px;
+}

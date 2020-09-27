@@ -1,17 +1,14 @@
 .comPrivacy {
   width: 100%;
-  overflow-y: auto;
+  padding-top: 3.6rem;
 }
 
 .boxScroll {
-  width: 60vw;
-  position: absolute;
-  left: 20vw;
-  top: 7.2rem;
+
 }
 
 .boxFooter {
-  height: 30vh;
+  height: 20vh;
 }
 
 .fontScroll { /*set as local root for the <tag/> inside*/

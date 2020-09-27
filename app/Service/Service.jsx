@@ -65,11 +65,20 @@ class Service extends React.Component {
             </div>
             <div
               className={classnames(styles.boxContent)}>
-              <Switch>
-                <Route path={"/terms"} render={(props) => <Terms {...props} />} />
-                <Route path={"/privacy"} render={(props) => <Privacy {...props} />} />
+              <div
+                className={classnames(
+                  styles.boxContentFilledLeft)} />
+              <div
+                className={classnames(styles.boxContentCenter)}>
+                <Switch>
+                  <Route path={"/terms"} render={(props) => <Terms {...props} />} />
+                  <Route path={"/privacy"} render={(props) => <Privacy {...props} />} />
+                </Switch>
 
-              </Switch>
+              </div>
+              <div
+                className={classnames(
+                  styles.boxContentFilledRight)} />
             </div>
             <div
               className={classnames(styles.boxFooter)}>
