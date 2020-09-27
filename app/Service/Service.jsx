@@ -54,11 +54,6 @@ class Service extends React.Component {
           <div
             className={classnames(styles.comService)}>
             <div style={{ width: '100%', height: '5.4rem', position: 'fixed', top: '0', backgroundColor: '#FCFCFC', boxShadow: '0 0px 4px -2px' }}>
-              <div
-                style={Object.assign({}, this.style.boxTopLogo)}
-                onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.location.assign('/') }}>
-                <SvgLogo />
-              </div>
               <div style={{ display: 'inline-block' }}>
                 <Nav {...this.props} />
               </div>
@@ -73,20 +68,32 @@ class Service extends React.Component {
                 <Switch>
                   <Route path={"/terms"} render={(props) => <Terms {...props} />} />
                   <Route path={"/privacy"} render={(props) => <Privacy {...props} />} />
-                </Switch>
 
+                </Switch>
               </div>
               <div
                 className={classnames(
-                  styles.boxContentFilledRight)} />
+                  styles.boxContentFilledRight)}>
+                <div
+                  className={classnames(styles.boxRight)}>
+                  <div
+                    className={classnames(styles.boxRightLogo)}
+                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.location.assign('/') }}>
+                    <SvgLogo />
+                  </div>
+                  <div
+                    className={classnames(styles.boxRightFooter)}>
+
+                  </div>
+
+                </div>
+              </div>
             </div>
             <div
               className={classnames(styles.boxFooter)}>
               <div
-                className={classnames(styles.boxLogo)}
-                onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.location.assign('/'); }}>
-                <SvgLogo />
-              </div>
+                className={classnames(
+                  styles.boxContentFilledLeft)} />
               <div
                 className={classnames(styles.boxServiceLink)}>
                 <div

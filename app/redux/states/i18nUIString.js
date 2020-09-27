@@ -112,7 +112,7 @@ const i18nUIString_EN = {
   "subtitle_Password": "Password",
   "link_UnitListResponds": 'View Responds',//Original:'responds'
   "link_Fellows": 'Fellows',
-  "Cornerth_inc": "Cornerth., Inc. ",
+  "Cornerth_inc": "Cornerth. ",
   "AllRights": "All Rights Reserved.",
 
   "submit_Options_profile": "My profile",
