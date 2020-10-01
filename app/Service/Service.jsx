@@ -53,16 +53,21 @@ class Service extends React.Component {
           <div style={this.style.Sign_backplane}></div>
           <div
             className={classnames(styles.comService)}>
-            <div style={{ width: '100%', height: '5.4rem', position: 'fixed', top: '0', backgroundColor: '#FCFCFC', boxShadow: '0 0px 4px -2px' }}>
-              <div style={{ display: 'inline-block' }}>
+            <div
+              className={classnames(styles.boxTopBar)}>
+              <div
+                className={classnames(styles.boxContentFilledLeft)} />
+              <div
+                className={classnames(styles.boxNav, styles.smallBoxPadding)}>
                 <Nav {...this.props} />
               </div>
+              <div
+                className={classnames(styles.boxContentFilledRight)}/>
             </div>
             <div
               className={classnames(styles.boxContent)}>
               <div
-                className={classnames(
-                  styles.boxContentFilledLeft)} />
+                className={classnames(styles.boxContentFilledLeft)} />
               <div
                 className={classnames(styles.boxContentCenter)}>
                 <Switch>
@@ -72,20 +77,15 @@ class Service extends React.Component {
                 </Switch>
               </div>
               <div
-                className={classnames(
-                  styles.boxContentFilledRight)}>
+                className={classnames(styles.boxContentFilledRight)}>
                 <div
-                  className={classnames(styles.boxRight)}>
+                  className={classnames(styles.boxRight, styles.smallDisplayNone)}>
                   <div
                     className={classnames(styles.boxRightLogo)}
                     onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.location.assign('/') }}>
                     <SvgLogo />
                   </div>
-                  <div
-                    className={classnames(styles.boxRightFooter)}>
-
-                  </div>
-
+                  <div className={classnames(styles.boxRightFooter)}/>
                 </div>
               </div>
             </div>
@@ -95,7 +95,7 @@ class Service extends React.Component {
                 className={classnames(
                   styles.boxContentFilledLeft)} />
               <div
-                className={classnames(styles.boxServiceLink)}>
+                className={classnames(styles.boxServiceLink, styles.smallBoxPadding)}>
                 <div
                   className={classnames(
                     styles.boxRightsClaim,

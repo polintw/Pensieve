@@ -2,7 +2,7 @@
   width: 100%;
   min-height: 100vh;
   position: relative;
-  z-index: 3; /* set as a 'base': on the contrast to the 'Modal'*/    
+  z-index: 3; /* set as a 'base': on the contrast to the 'Modal'*/
 }
 
 .boxContent {
@@ -26,6 +26,21 @@
 .boxServiceLink {
   position: relative;
   margin-bottom: 2.66vh;
+}
+
+.boxTopBar {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 5.4rem;
+  position: fixed;
+  top: 0;
+  background-color: #FCFCFC;
+  box-shadow: 0 0px 4px -2px;
+}
+
+.boxNav {
+  flex: 1;
 }
 
 .boxLogo {
@@ -121,4 +136,11 @@
     margin-left: 0;
   }
 
+  .smallBoxPadding  {
+    padding: 0 2vw;
+  }
+
+  .smallDisplayNone {
+    display: none;
+  }
 }

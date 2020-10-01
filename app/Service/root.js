@@ -29,7 +29,8 @@ if(loggedin){
           'token': window.localStorage['token']
       }
     }).then(function(res){
-      store.dispatch(mountUserInfo(res.data.main.userInfo));
+      const resObj = JSON.parse(res.data);
+      store.dispatch(mountUserInfo(resObj.main.userInfo));
       store.dispatch(setTokenStatus({token: 'verified'}));
       ReactDOM.hydrate(<Provider store={store}><Service/></Provider>, document.getElementById("root"));
     }).catch((err)=>{
@@ -38,7 +39,7 @@ if(loggedin){
       But for token state, record the difference by res.status
       */
 
-      let verifiedErrify = statusVerifiedErr(err, store); //set token status to Redux by f() import from errHandlers
+      statusVerifiedErr(err, store); //set token status to Redux by f() import from errHandlers
       //Render the dom no matter the result of the errHandlers
       //and let the DOM itself check the status
       ReactDOM.hydrate(<Provider store={store}><Service/></Provider>, document.getElementById("root"));
@@ -56,8 +57,7 @@ if(loggedin){
     tokenRefreshed().then(()=>{
       statusVerified();
     }).catch((error)=>{
-      store.dispatch(setTokenStatus({token: 'invalid'}));
-
+      statusVerifiedErr(error, store);
       //and Render the dom, let the DOM itself check the status
       ReactDOM.hydrate(<Provider store={store}><Service/></Provider>, document.getElementById("root"));
     })

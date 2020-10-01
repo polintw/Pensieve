@@ -2,7 +2,7 @@
   width: 100%;
   min-height: 100vh;
   position: relative;
-  z-index: 3; /* set as a 'base': on the contrast to the 'Modal'*/    
+  z-index: 3; /* set as a 'base': on the contrast to the 'Modal'*/
 }
 
 ._C_C_app_Service_styles_module__boxContent {
@@ -26,6 +26,21 @@
 ._C_C_app_Service_styles_module__boxServiceLink {
   position: relative;
   margin-bottom: 2.66vh;
+}
+
+._C_C_app_Service_styles_module__boxTopBar {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 5.4rem;
+  position: fixed;
+  top: 0;
+  background-color: #FCFCFC;
+  box-shadow: 0 0px 4px -2px;
+}
+
+._C_C_app_Service_styles_module__boxNav {
+  flex: 1;
 }
 
 ._C_C_app_Service_styles_module__boxLogo {
@@ -121,14 +136,20 @@
     margin-left: 0;
   }
 
+  ._C_C_app_Service_styles_module__smallBoxPadding  {
+    padding: 0 2vw;
+  }
+
+  ._C_C_app_Service_styles_module__smallDisplayNone {
+    display: none;
+  }
 }
 ._C_C_app_Service_component_Nav_styles_module__comAboutNav {
-  display: inline-flex;
+  display: flex;
   justify-content: space-between;
-  width: 10vw;
-  position: absolute;
-  bottom: 37%;
-  right: 15%;
+  align-items: center;
+  width: 100%;
+  height: 100%;
   box-sizing: border-box;
   white-space: nowrap;
 
@@ -142,6 +163,21 @@
   font-size: 1.37rem;
   letter-spacing: 0.05rem;
   color: #6e6e6e;
+}
+
+._C_C_app_Service_component_Nav_styles_module__smallDisplayBox {
+  display: none;
+}
+
+
+@media screen and (max-width:860px) {
+  ._C_C_app_Service_component_Nav_styles_module__smallDisplayBox {
+    display: block;
+  }
+
+  ._C_C_app_Service_component_Nav_styles_module__smallDisplayNone {
+    display: none;
+  }
 }
 ._C_C_app_Service_component_Terms_styles_module__comTerms {
   width: 100%;
