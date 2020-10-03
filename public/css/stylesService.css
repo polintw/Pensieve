@@ -99,6 +99,9 @@
 ._C_C_app_Service_styles_module__boxRightFooter {
   width: 100%;
   position: relative;
+  /* below follow the styles in Within_Cosmic, except the link text*/
+  padding-top: 3rem;
+  margin-top: 2rem;
   margin-bottom: 2.66vh;
 }
 
@@ -156,8 +159,29 @@
 }
 
 ._C_C_app_Service_component_Nav_styles_module__boxLink {
-  position: relative;
+  display: inline-block;  
 }
+
+._C_C_app_Service_component_Nav_styles_module__boxNavLink {
+  padding: 5px 10px;
+  margin: 0 5px;
+   cursor: default; 
+}
+
+._C_C_app_Service_component_Nav_styles_module__boxNavLinkMouse {
+  background-color: rgb(216,216,216,0.15);
+  cursor: pointer;
+}
+
+._C_C_app_Service_component_Nav_styles_module__linkNoMouse {
+  border-bottom: solid 0.75px transparent;
+}
+
+._C_C_app_Service_component_Nav_styles_module__linkMouse {
+  border-bottom: solid 0.75px #b8b8b8;
+  cursor: pointer;
+}
+
 
 ._C_C_app_Service_component_Nav_styles_module__fontNav {
   font-size: 1.37rem;

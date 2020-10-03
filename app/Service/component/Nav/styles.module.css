@@ -10,8 +10,29 @@
 }
 
 .boxLink {
-  position: relative;
+  display: inline-block;  
 }
+
+.boxNavLink {
+  padding: 5px 10px;
+  margin: 0 5px;
+   cursor: default; 
+}
+
+.boxNavLinkMouse {
+  background-color: rgb(216,216,216,0.15);
+  cursor: pointer;
+}
+
+.linkNoMouse {
+  border-bottom: solid 0.75px transparent;
+}
+
+.linkMouse {
+  border-bottom: solid 0.75px #b8b8b8;
+  cursor: pointer;
+}
+
 
 .fontNav {
   font-size: 1.37rem;

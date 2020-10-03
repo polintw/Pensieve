@@ -99,6 +99,9 @@
 .boxRightFooter {
   width: 100%;
   position: relative;
+  /* below follow the styles in Within_Cosmic, except the link text*/
+  padding-top: 3rem;
+  margin-top: 2rem;
   margin-bottom: 2.66vh;
 }
 
