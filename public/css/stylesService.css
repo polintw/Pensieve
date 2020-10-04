@@ -9,7 +9,7 @@
   display: flex;
   justify-content: space-around;
   width: 100%;
-  min-height: 100%;
+  min-height: 100vh;
   box-sizing: border-box;
   padding-top: 5.5rem;
 }
@@ -25,7 +25,7 @@
 
 ._C_C_app_Service_styles_module__boxServiceLink {
   position: relative;
-  margin-bottom: 2.66vh;
+  margin: 2.66vh 0;
 }
 
 ._C_C_app_Service_styles_module__boxTopBar {
@@ -203,23 +203,6 @@
     display: none;
   }
 }
-._C_C_app_Service_component_Terms_styles_module__comTerms {
-  width: 100%;
-  padding-top: 3.6rem;
-}
-
-._C_C_app_Service_component_Terms_styles_module__boxScroll {
-
-}
-
-._C_C_app_Service_component_Terms_styles_module__boxFooter {
-  height: 20vh;
-}
-
-._C_C_app_Service_component_Terms_styles_module__fontScroll { /*set as local root for the <tag/> inside*/
-  font-size: 17px;
-  line-height: 25px;
-}
 ._C_C_app_Service_component_Privacy_styles_module__comPrivacy {
   width: 100%;
   padding-top: 3.6rem;
@@ -234,6 +217,53 @@
 }
 
 ._C_C_app_Service_component_Privacy_styles_module__fontScroll { /*set as local root for the <tag/> inside*/
+  font-size: 17px;
+  line-height: 25px;
+}
+._C_C_app_Service_component_About_styles_module__comAbout {
+  width: 100%;
+  padding-top: 3.6rem;
+}
+
+._C_C_app_Service_component_About_styles_module__boxScroll {
+
+}
+
+._C_C_app_Service_component_About_styles_module__fontScroll { /*set as local root for the <tag/> inside*/
+  font-size: 17px;
+  line-height: 25px;
+}
+._C_C_app_Service_component_Contact_styles_module__comContact {
+  width: 100%;
+  padding-top: 3.6rem;
+}
+
+._C_C_app_Service_component_Contact_styles_module__boxScroll {
+
+}
+
+._C_C_app_Service_component_Contact_styles_module__boxFooter {
+  height: 20vh;
+}
+
+._C_C_app_Service_component_Contact_styles_module__fontScroll { /*set as local root for the <tag/> inside*/
+  font-size: 17px;
+  line-height: 25px;
+}
+._C_C_app_Service_component_Terms_styles_module__comTerms {
+  width: 100%;
+  padding-top: 3.6rem;
+}
+
+._C_C_app_Service_component_Terms_styles_module__boxScroll {
+
+}
+
+._C_C_app_Service_component_Terms_styles_module__boxFooter {
+  height: 20vh;
+}
+
+._C_C_app_Service_component_Terms_styles_module__fontScroll { /*set as local root for the <tag/> inside*/
   font-size: 17px;
   line-height: 25px;
 }

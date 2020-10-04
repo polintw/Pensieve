@@ -11,3 +11,7 @@ exports.smtpAccount = {
   user: envServiceSmtp.user,
   password: envServiceSmtp.password
 };
+
+exports.email = {
+  userContact: envServiceGeneral.emailUserContact
+}

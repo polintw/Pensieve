@@ -49,8 +49,7 @@ class ServiceLinks extends React.Component {
         className={classnames('boxServiceLink')}>
         <div className={classnames('tagServiceLink')}>
             <a
-              href="https://www.facebook.com/pg/cornerth.center/about/"
-              target="_blank"
+              href="/a/about"
               method="about"
               className={classnames(
                 'plainLinkButton',
@@ -92,8 +91,7 @@ class ServiceLinks extends React.Component {
         </div>
         <div className={classnames('tagServiceLink')}>
           <a
-            href="https://www.facebook.com/cornerth.center/"
-            target="_blank"
+            href="/a/contact"
             method="contact"
             className={classnames(
               'plainLinkButton',

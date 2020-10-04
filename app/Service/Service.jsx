@@ -10,6 +10,8 @@ import styles from "./styles.module.css";
 import Nav from './component/Nav/Nav.jsx';
 import Terms from './component/Terms/Terms.jsx';
 import Privacy from './component/Privacy/Privacy.jsx';
+import About from './component/About/About.jsx';
+import Contact from './component/Contact/Contact.jsx';
 import SvgLogo from '../Components/Svg/SvgLogo.jsx';
 
 class Service extends React.Component {
@@ -73,7 +75,8 @@ class Service extends React.Component {
                 <Switch>
                   <Route path={"/terms"} render={(props) => <Terms {...props} />} />
                   <Route path={"/privacy"} render={(props) => <Privacy {...props} />} />
-
+                  <Route path={"/about"} render={(props) => <About {...props} />} />
+                  <Route path={"/contact"} render={(props) => <Contact {...props} />} />
                 </Switch>
               </div>
               <div

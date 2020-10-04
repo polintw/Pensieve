@@ -1,0 +1,13 @@
+.comAbout {
+  width: 100%;
+  padding-top: 3.6rem;
+}
+
+.boxScroll {
+
+}
+
+.fontScroll { /*set as local root for the <tag/> inside*/
+  font-size: 17px;
+  line-height: 25px;
+}
