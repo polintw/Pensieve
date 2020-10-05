@@ -48,11 +48,15 @@ const _render_HtmlBody = (token, userInfo)=>{
     domain.name+
     '/" target="_blank" class="boxLogoReverse plainLinkButton" style="margin-top: 20px; text-align: center;"> <!-- <SvgLogo/> --> <img src="http://'+
     domain.name+
-    '/png/Logo_reverse.png" style= "height:auto; width: 100%; position:relative; box-sizing: border-box; "> </a> <div class="boxFooter"> <!--class="boxServiceLink"--> <!-- <ServiceLinks/> --> <div class="boxServiceLink"> <a href="https://www.facebook.com/pg/cornerth.center/about/" target="_blank" method="about" style="color:white" class="plainLinkButton tagServiceLink fontServiceLink colorLightStandard"> About</a> <span class="tagServiceLink fontServiceLink colorGrey">．</span> <a href="https://' +
+    '/png/Logo_reverse.png" style= "height:auto; width: 100%; position:relative; box-sizing: border-box; "> </a> <div class="boxFooter"> <!--class="boxServiceLink"--> <!-- <ServiceLinks/> --> <div class="boxServiceLink"> <a href="https://' +
+    domain.name +
+    '/a/about" method="about" style="color:white" class="plainLinkButton tagServiceLink fontServiceLink colorLightStandard"> About</a> <span class="tagServiceLink fontServiceLink colorGrey">．</span> <a href="https://' +
     domain.name+
     '/a/privacy" method="privacy" style="color:white" class="plainLinkButton tagServiceLink fontServiceLink colorLightStandard"> Privacy</a> <span class="tagServiceLink fontServiceLink colorGrey">．</span> <a href="https://' +
     domain.name+
-    '/a/terms" method="terms" style="color:white" class="plainLinkButton tagServiceLink fontServiceLink colorLightStandard"> Terms</a> <span class="tagServiceLink fontServiceLink colorGrey">．</span> <a href="https://www.facebook.com/cornerth.center/" target="_blank" method="contact" style="color:white" class="plainLinkButton tagServiceLink fontServiceLink colorLightStandard"> Contact</a> </div> <div class="boxServiceLink fontTitleSmall colorGrey"> <span>Cornerth., Inc.</span> <span>All Rights Reserved.</span> </div> </div> </div> </div></body></html>'
+    '/a/terms" method="terms" style="color:white" class="plainLinkButton tagServiceLink fontServiceLink colorLightStandard"> Terms</a> <span class="tagServiceLink fontServiceLink colorGrey">．</span> <a href="https://' +
+    domain.name +
+    '/a/contact" method="contact" style="color:white" class="plainLinkButton tagServiceLink fontServiceLink colorLightStandard"> Contact</a> </div> <div class="boxServiceLink fontTitleSmall colorGrey"> <span>Cornerth., Inc.</span> <span>All Rights Reserved.</span> </div> </div> </div> </div></body></html>'
   );
 };
 
