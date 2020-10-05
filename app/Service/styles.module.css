@@ -1,0 +1,149 @@
+.comService{
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  z-index: 3; /* set as a 'base': on the contrast to the 'Modal'*/
+}
+
+.boxContent {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding-top: 5.5rem;
+}
+
+.boxFooter {
+  display: flex;
+  align-items: flex-end;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 4.8vh 0 1.8vh;
+  background-color: #fff8f7;
+}
+
+.boxServiceLink {
+  position: relative;
+  margin: 2.66vh 0;
+}
+
+.boxTopBar {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 5.4rem;
+  position: fixed;
+  top: 0;
+  background-color: #FCFCFC;
+  box-shadow: 0 0px 4px -2px;
+}
+
+.boxNav {
+  flex: 1;
+}
+
+.boxLogo {
+  width: 17%;
+  max-width: 27vw;
+  min-width: 9vw;
+  box-sizing: border-box;
+  margin-bottom: 2.66vh;
+  mix-blend-mode: darken;
+  text-align: center;
+  cursor: pointer;
+}
+
+.boxRightsClaim {
+  margin-top: 3rem;
+  text-align: right;
+}
+
+.boxContentCenter {
+  min-width: 62vw;
+  box-sizing: border-box;
+}
+
+.boxContentFilledLeft {
+  min-width: 15vw;
+}
+
+.boxContentFilledRight {
+  min-width: 20vw;
+  margin-left: 1.64vw;
+}
+
+.boxRight {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  width: 100%;
+  position: sticky;
+  top: 72vh;
+  box-sizing: border-box;
+  padding: 3.8vh 0.5vw 0;
+}
+
+.boxRightLogo {
+  width: 73%;
+  max-width: 27vw;
+  min-width: 9vw;
+  box-sizing: border-box;
+  margin-bottom: 2.66vh;
+  mix-blend-mode: darken;
+  text-align: center;
+  cursor: pointer;
+}
+
+.boxRightFooter {
+  width: 100%;
+  position: relative;
+  /* below follow the styles in Within_Cosmic, except the link text*/
+  padding-top: 3rem;
+  margin-top: 2rem;
+  margin-bottom: 2.66vh;
+}
+
+@media screen and (max-width:1110px) and (min-width: 860px) {
+  .boxContentCenter {
+    width: calc(342px * 2 + 1.38vw * 4 + 1.38vw);
+    min-width: 69.7vw; /*calc(32vw + 30.8vw + 1.38vw * 4 + 1.38vw)*/
+  }
+
+  .boxContentFilledLeft {
+    min-width: 2.7vw;
+  }
+
+  .boxContentFilledRight {
+    min-width: 11.5vw;
+    margin-left: 0;
+  }
+}
+
+@media screen and (max-width:860px) {
+  .boxContentCenter {
+    min-width: unset;
+    width: calc(342px + 1.38vw * 2);
+    max-width: 99vw;
+  }
+
+  .boxContentFilledLeft {
+    width: 0;
+    min-width: 0; /* overlap basic setting, the 'width' is not enough for the min-width---which has higher priority*/
+  }
+
+  .boxContentFilledRight {
+    width: 0;
+    min-width: 0; /* overlap basic setting, the 'width' is not enough for the min-width---which has higher priority*/
+    margin-left: 0;
+  }
+
+  .smallBoxPadding  {
+    padding: 0 2vw;
+  }
+
+  .smallDisplayNone {
+    display: none;
+  }
+}

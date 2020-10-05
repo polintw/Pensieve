@@ -112,7 +112,7 @@ const i18nUIString_EN = {
   "subtitle_Password": "Password",
   "link_UnitListResponds": 'View Responds',//Original:'responds'
   "link_Fellows": 'Fellows',
-  "Cornerth_inc": "Cornerth., Inc. ",
+  "Cornerth_inc": "Cornerth. ",
   "AllRights": "All Rights Reserved.",
 
   "submit_Options_profile": "My profile",
@@ -186,7 +186,20 @@ const i18nUIString_EN = {
 
   "title_NavAtNode_": "Accumulated",
   "subtitle_NavAtNode_Num": ['stay', "from"],
-  "guiding_AtNode_noAccumulated": "Waiting for the first contribution!"
+  "guiding_AtNode_noAccumulated": "Waiting for the first contribution!",
+
+  "text_about": [[
+    "We are Cornerth, a start-up team base on Taiwan, establishing this web app on the thought providing people an easier way to notice and learn from their living environment.",
+    "Cornerth.tw enable you sharing contents with pictures, text, and graphic items on it for things you're interested to, or related to the corner you concern about.",
+    "It's our pleasure to see you using it."
+  ]],
+  "text_Contact": [
+    [
+      "We’re always here with you and trying to improve the website.",
+      "If you’ve ever faced any difficulties, or are curious about the things we're working on, please don’t hesitate to contact us by email below:"],
+    [
+      "we would reply you as soon as possible."]
+  ]
 };
 
 module.exports = i18nUIString_EN;
