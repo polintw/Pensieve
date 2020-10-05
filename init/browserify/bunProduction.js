@@ -23,7 +23,7 @@ let rootSign = browserify({
 }).plugin(require('css-modulesify'), {
     rootDir: __dirname
   });
-let rootAbout = browserify({
+let rootService = browserify({
   debug: false
 }).transform(envify({
   NODE_ENV: 'production'
@@ -36,7 +36,7 @@ let rootAbout = browserify({
   ]
 })).transform('uglifyify', {
   global: true
-}).require("./app/About/root.js", {
+}).require("./app/Service/root.js", {
   entry: true
 }).plugin(require('css-modulesify'), {
     rootDir: __dirname
@@ -80,15 +80,15 @@ let rootSelfFront = browserify({
 
 
 let appSign = rootSign.bundle().on("error", function (err) { console.log("Error: " + err.message); });
-let appAbout = rootAbout.bundle().on("error", function (err) { console.log("Error: " + err.message); });
+let appService = rootService.bundle().on("error", function (err) { console.log("Error: " + err.message); });
 let appWithin = rootWithin.bundle().on("error", function (err) { console.log("Error: " + err.message); });
 let appSelfFront = rootSelfFront.bundle().on("error", function (err) { console.log("Error: " + err.message); });
 
 rootSign.on('css stream', function (css) {
     css.pipe(fs.createWriteStream('./public/css/stylesSign.css')); //rewrite the file with the new "abstract name"
 });
-rootAbout.on('css stream', function (css) {
-    css.pipe(fs.createWriteStream('./public/css/stylesAbout.css')); //rewrite the file with the new "abstract name"
+rootService.on('css stream', function (css) {
+    css.pipe(fs.createWriteStream('./public/css/stylesService.css')); //rewrite the file with the new "abstract name"
 });
 rootWithin.on('css stream', function (css) {
     css.pipe(fs.createWriteStream('./public/css/stylesWithin.css')); //rewrite the file with the new "abstract name"
@@ -100,7 +100,7 @@ rootSelfFront.on('css stream', function (css) {
 exports.bundler = ()=>{
   if (!fs.existsSync(dir)) fs.mkdirSync(dir);
   appSign.pipe(fs.createWriteStream('./public/react/appSign.js'));
-  appAbout.pipe(fs.createWriteStream('./public/react/appAbout.js'));
+  appService.pipe(fs.createWriteStream('./public/react/appService.js'));
   appWithin.pipe(fs.createWriteStream('./public/react/appWithin.js'));
   appSelfFront.pipe(fs.createWriteStream('./public/react/appSelfFront.js'));
 }

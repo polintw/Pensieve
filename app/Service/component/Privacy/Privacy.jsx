@@ -8,6 +8,9 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+const {
+  domain
+} = require('../../../../config/services.js');
 
 class Privacy extends React.Component {
   constructor(props){

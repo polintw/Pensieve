@@ -1,0 +1,17 @@
+.comPrivacy {
+  width: 100%;
+  padding-top: 3.6rem;
+}
+
+.boxScroll {
+
+}
+
+.boxFooter {
+  height: 20vh;
+}
+
+.fontScroll { /*set as local root for the <tag/> inside*/
+  font-size: 17px;
+  line-height: 25px;
+}
