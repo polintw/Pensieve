@@ -23,7 +23,7 @@
     "express": "^4.17.1",
     "express-rate-limit": "^3.5.3",
     "express-react-views": "^0.10.5",
-    "jimp": "^0.10.3",
+    "jimp": ">=0.16.0",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^2.2.0",
     "moment": "^2.27.0",
