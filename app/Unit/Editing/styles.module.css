@@ -43,6 +43,13 @@
   position: relative;
 }
 
+.boxContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .boxContentWidth {
   width: 86.48%;
 }
@@ -51,8 +58,14 @@
   height: 100%;
 }
 
+.boxPanelPadding {
+  padding-top: 4.44vh;
+  padding-bottom: 4.44vh;
+}
+
 .boxFrame {
-  height: 64.28%;
+  width: 100%;
+  height: 71.36%;
   box-sizing: border-box;
   margin-bottom: 2.54vh;
   border-radius: 4px;
@@ -60,7 +73,7 @@
 }
 
 .boxSubmit {
-  margin-top: 4.44vh;
+  width: 100%;
   margin-bottom: 2.54vh;
 }
 
@@ -74,7 +87,7 @@
 }
 
 .boxNodesList {
-  margin-bottom: 4.44vh;
+  width: 100%;
 }
 
 

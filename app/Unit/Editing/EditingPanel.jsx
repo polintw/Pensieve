@@ -37,19 +37,14 @@ class EditingPanel extends React.Component {
     this._render_importOrCover = this._render_importOrCover.bind(this);
   }
 
-  _submit_new_node(node){ //param 'node' could be 'obj' || 'array', up to the type they passed for
+  _submit_new_node(nodesArr){
+    /*
+    'nodesArr' was an arr composed of a chain of 'node' objs,
+    and could replace the prevState directly
+    */
     this.setState((prevState, props)=>{
-      /*
-      we are going to change the data 'inside' a prevState value,
-      so we have to avoid modified the base data during the process,
-      i.e we need to copy to assure the prevState data would not be modified before retrun.
-      (same as _submit_deleteNodes)
-      */
-      let newNodeArr = [node];
-      let updateArr = prevState.nodesSet.concat(newNodeArr);
-
       return {
-        nodesSet: updateArr
+        nodesSet: nodesArr
       }
     })
   }
@@ -112,27 +107,9 @@ class EditingPanel extends React.Component {
     newObj.coverMarks.list.forEach((markKey, index)=>{
       newObj.coverMarks.data[markKey].layer = 0;
     });
-
-/* apprently, we won't use 'both' for the assign type,
-mdified this part.
-*/
-    // check if any node type was 'both'
-    let originalTypeList = [], // 2 array, beacuase we have to rm the processed one but keep knowing the index in original newObj
-        originalNodeIndex = [];
-    newObj.nodesSet.forEach((nodeObj, index) => {
-      originalTypeList.push(nodeObj.type); // list by type
-      originalNodeIndex.push(index); // index match the assign.list in newObj
-    });
-    this.props.belongsByType.setTypesList.forEach((type, i) => {
-      if(originalTypeList.indexOf(type) < 0){ // this type of node do not be set specifiaclly, or used by 'both'
-        let indexBoth = originalTypeList.indexOf('both');
-        if(indexBoth >= 0){ // there is a 'both' type in originalTypeList
-          newObj.nodesSet[originalNodeIndex[indexBoth]].type = type; // replace the type in newObj by the index saved in originalNodeIndex
-          originalTypeList.splice(indexBoth, 1);
-          originalNodeIndex.splice(indexBoth, 1);
-        }
-      };
-    });
+    /*
+    a part dealing with a depracated belong type, 'both', was removed from this section
+    */
 
     this.props._set_Submit(newObj);
   }
@@ -176,14 +153,18 @@ mdified this part.
           {
             this.state.nodesShift ? (
             <div
-              className={classnames(styles.boxContentWidth, styles.boxPanelHeight)}>
+              className={classnames(
+                styles.boxContent,
+                styles.boxContentWidth, styles.boxPanelHeight, styles.boxPanelPadding)}>
               <NodesEditor
                 nodesSet={this.state.nodesSet}
                 _submit_new_node={this._submit_new_node} />
             </div>
             ) :(
             <div
-              className={classnames(styles.boxContentWidth, styles.boxPanelHeight)}>
+              className={classnames(
+                styles.boxContent,
+                styles.boxContentWidth, styles.boxPanelHeight, styles.boxPanelPadding)}>
               <div
                 className={classnames(styles.boxSubmit)}>
                 <Submit
