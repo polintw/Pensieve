@@ -10,6 +10,7 @@ import styles from "./styles.module.css";
 import ContentEditor from './ContentEditor/ContentEditor.jsx';
 import NodesEditor from './NodesEditor/NodesEditor.jsx';
 import AssignNodes from './NodesEditor/AssignNodes.jsx';
+import AssignSwitch from './NodesEditor/AssignSwitch.jsx';
 import Submit from './components/Submit/Submit.jsx';
 import ImgImport from './components/ImgImport.jsx';
 
@@ -183,8 +184,10 @@ class EditingPanel extends React.Component {
                 className={classnames(styles.boxNodesList)}>
                   <AssignNodes
                     nodesSet={this.state.nodesSet}
-                    _set_nodesEditView={this._set_nodesEditView}
                     _submit_deleteNodes={this._submit_deleteNodes} />
+                  <AssignSwitch
+                    nodesSet={this.state.nodesSet}
+                    _set_nodesEditView={this._set_nodesEditView}/>
               </div>
             </div>
             )

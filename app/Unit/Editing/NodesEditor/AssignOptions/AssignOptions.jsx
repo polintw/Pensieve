@@ -5,6 +5,10 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import {
+  setMessageSingle,
+} from "../../../../redux/actions/general.js";
+import { messageDialogInit } from "../../../../redux/states/constants.js";
 
 class AssignOptions extends React.Component {
   constructor(props){
@@ -15,6 +19,36 @@ class AssignOptions extends React.Component {
     this._render_nodesOptions = this._render_nodesOptions.bind(this);
     this._handleEnter_liItem = this._handleEnter_liItem.bind(this);
     this._handleLeave_liItem = this._handleLeave_liItem.bind(this);
+    this._handleClick_option = this._handleClick_option.bind(this);
+  }
+
+  _handleClick_option(event){
+    event.preventDefault();
+    event.stopPropagation();
+    if(this.props.unitView=="editing") {
+      // AssignNodes was not allowed change after first release to public
+      this.props._submit_SingleDialog({
+        render: true,
+        message: [{text: this.props.i18nUIString.catalog['message_Unit_Editing_AssignNotAllowed'],style:{}}], //format follow Boolean, as [{text: '', style:{}}]
+        handlerPositive: ()=>{this.props._submit_SingleDialog(messageDialogInit.single)},
+        buttonValue: this.props.i18nUIString.catalog['submit_understand']
+      });
+      return;
+    };
+
+    let targetId = event.currentTarget.getAttribute('nodeid'); //type of attribute always be a 'string'
+    // we'd better turn it into 'int', the type the DB saved, so did the tpye the props.belongTypes saved
+    targetId = parseInt(targetId); //now the type of targetId is 'int'
+    // and the type of nodeId saved in assigned from  props were int, too
+    /*
+    then the point is, we won't update anything if:
+    - click the same one as begining
+    - click the one used in another type
+    both mean we have to check if the current e.nodeId was in props.allSelection
+    */
+    if(this.props.allSelection.indexOf(targetId) > (-1)) return;
+    // then we were free to pass the e.nodeId to parent
+    this.props._submit_new_node({ nodeId: targetId, type: this.props.assignType });
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -59,7 +93,7 @@ class AssignOptions extends React.Component {
               [styles.mouseListItem]: (this.state.onNode == nodeId && !assigning)
             }
           )}
-          onClick={this.}
+          onClick={this._handleClick_option}
           onMouseEnter={this._handleEnter_liItem}
           onMouseLeave={this._handleLeave_liItem}>
           {(nodeId in this.props.nounsBasic) &&
@@ -95,6 +129,20 @@ class AssignOptions extends React.Component {
         </li>
       );
     });
+    if(nodesDOM.length == 0){ // nodesList was empty, means the user hasn't register belong of this type
+      nodesDOM.push(
+        <div>
+          <span
+            className={classnames(
+              styles.spanListItem, "fontContent", "colorGrey")}>
+            {
+              this.props.i18nUIString.catalog['guidingCreateShare_AssignNull'] +
+              this.props.i18nUIString.catalog[(this.props.assignType=='homeland') ? "text_home":"text_resid"]
+            }
+          </span>
+        </div>
+      )
+    }
 
     return nodesDOM;
   }
@@ -132,7 +180,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    _submit_SingleDialog: (obj) => { dispatch(setMessageSingle(obj)); },
   }
 }
 

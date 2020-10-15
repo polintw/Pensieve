@@ -87,6 +87,8 @@ const i18nUIString_EN = {
   "button_complete": "Complete",
 
   "text_users": "users",
+  "text_home": 'Homeland',
+  "text_resid": "Residence",
   "message_hello": "Hi, ",
   "submit_": "Submit",
   "submit_back": "Back", //Original:"back"
@@ -134,7 +136,7 @@ const i18nUIString_EN = {
 
   "title_shareUpload_typewriter": ['S','u','b','m','i', 't'],
   "guidingCreateShare_AssignGroup": "Corners or fellows you could contribute to",//Changed "corner(s)" to "Corner(s)"
-  "guidingCreateShare_AssignNull": "Please set corners you belong first.",//Changed "please" to "Please"
+  "guidingCreateShare_AssignNull": "Haven't register any ",//Changed "please" to "Please"
   "guidingCreateShare_NodesEditor": "Add Corners by one or several of below:",
   "subTitle_CreateShare_AssignTypes": ["Your Homeland", "Your Residence", "or, search one"],
   "message_CreateShare_basicRequireWarn": "Make sure you've already upload 1 image and pick at least 1 corner to which you want to contribute.",
