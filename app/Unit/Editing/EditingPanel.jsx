@@ -159,7 +159,8 @@ class EditingPanel extends React.Component {
                 styles.boxContentWidth, styles.boxPanelHeight, styles.boxPanelPadding)}>
               <NodesEditor
                 nodesSet={this.state.nodesSet}
-                _submit_new_node={this._submit_new_node} />
+                _submit_new_node={this._submit_new_node}
+                _set_nodesEditView={this._set_nodesEditView}/>
             </div>
             ) :(
             <div

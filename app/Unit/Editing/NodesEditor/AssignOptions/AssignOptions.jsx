@@ -42,13 +42,16 @@ class AssignOptions extends React.Component {
     // and the type of nodeId saved in assigned from  props were int, too
     /*
     then the point is, we won't update anything if:
-    - click the same one as begining
-    - click the one used in another type
-    both mean we have to check if the current e.nodeId was in props.allSelection
+    - click the one used in another type, not for this type
     */
-    if(this.props.allSelection.indexOf(targetId) > (-1)) return;
+    if(this.props.allSelection.indexOf(targetId) > (-1) && targetId != this.props.selected) return;
     // then we were free to pass the e.nodeId to parent
-    this.props._submit_new_node({ nodeId: targetId, type: this.props.assignType });
+    if(targetId != this.props.selected){ // going to replace current one or total new one
+      this.props._submit_new_node({ nodeId: targetId, type: this.props.assignType });
+    }
+    else if(targetId == this.props.selected){ // click on the one currently selected
+      this.props._submit_deleteNodes( targetId, this.props.assignType);
+    }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -79,8 +82,8 @@ class AssignOptions extends React.Component {
     // then simply loop the nodesList to render
     let nodesDOM =[];
     nodesList.forEach((nodeId, index)=>{
-      let assigning = (this.props.allSelection.indexOf(nodeId) < 0) ? false : true;
-      let selected = (nodeId == this.props.selected) ? false : true;
+      let selected = (nodeId == this.props.selected) ? true: false; // if this node was the one chosen
+      let assigning = (this.props.allSelection.indexOf(nodeId) > (-1) && !selected) ? true : false; // if this node used in other type
 
       nodesDOM.push(
         <li
@@ -89,8 +92,8 @@ class AssignOptions extends React.Component {
           className={classnames(
             styles.boxListItem,
             {
-              [styles.chosenListItem]: assigning,
-              [styles.mouseListItem]: (this.state.onNode == nodeId && !assigning)
+              [styles.chosenListItem]: selected,
+              [styles.mouseListItem]: (this.state.onNode == nodeId && !selected && !assigning)
             }
           )}
           onClick={this._handleClick_option}
@@ -102,9 +105,9 @@ class AssignOptions extends React.Component {
                 className={classnames(
                   styles.spanListItem, "fontContent",
                   {
-                    ["colorGrey"]: !assigning && this.state.onNode != nodeId,
-                    ["colorWhite"]: assigning || this.state.onNode == nodeId,
-                    [styles.chosenSpanItem]: assigning,
+                    ["colorGrey"]: !selected && this.state.onNode != nodeId && !assigning,
+                    ["colorWhite"]: selected || this.state.onNode == nodeId,
+                    [styles.chosenSpanItem]: selected,
                     [styles.mouseSpanItem]: (this.state.onNode== nodeId)
                   }
                 )}>
@@ -115,9 +118,9 @@ class AssignOptions extends React.Component {
                   className={classnames(
                     styles.spanListItem, "fontContent",
                     {
-                      ["colorGrey"]: !assigning && this.state.onNode != nodeId,
-                      ["colorWhite"]: assigning || this.state.onNode == nodeId,
-                      [styles.chosenSpanItem]: assigning,
+                      ["colorGrey"]: !selected && this.state.onNode != nodeId && !assigning,
+                      ["colorWhite"]: selected || this.state.onNode == nodeId,
+                      [styles.chosenSpanItem]: selected,
                       [styles.mouseSpanItem]: (this.state.onNode== nodeId)
                     }
                   )}

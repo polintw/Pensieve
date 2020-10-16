@@ -14,6 +14,8 @@ const typesState = {
   residence: 'residSelection',
   freeOne: 'freeSelection'
 };
+const checkList = ['homeSelection', 'residSelection', 'freeSelection'] // follow typesState
+
 const stateTypes = {
   homeSelection:'homeland',
   residSelection: 'residence',
@@ -38,6 +40,7 @@ class NodesEditor extends React.Component {
     this.state = propsState;
     this._set_newNode = this._set_newNode.bind(this);
     this._set_deleteNodes = this._set_deleteNodes.bind(this);
+    this._handleClick_done = this._handleClick_done.bind(this);
     this._render_assignedNodes = this._render_assignedNodes.bind(this);
   }
 
@@ -62,10 +65,9 @@ class NodesEditor extends React.Component {
         nodesSet={nodesSet}
         _submit_deleteNodes={(indexInList)=>{ // _submit_deleteNodes only return the index in selectedList
           let targetNode = this.state.selectedList[indexInList], targetType = '';
-          let checkList = ['homeSelection', 'residSelection', 'freeSelection'] // follow typesState
           for(let i=0; i < checkList.length; i++) {
             if(this.state[checkList[i]] == targetNode){
-              targetType == stateTypes[checkList[i]]; // use item( name in 'state') to type
+              targetType = stateTypes[checkList[i]]; // use item( name in 'state') to type
               break;
             }
           };
@@ -93,7 +95,8 @@ class NodesEditor extends React.Component {
                 assignType={'homeland'}
                 selected={this.state.homeSelection}
                 allSelection={this.state.selectedList}
-                _submit_new_node={this._set_newNode}/>
+                _submit_new_node={this._set_newNode}
+                _submit_deleteNodes={this._set_deleteNodes}/>
             </div>
           </div>
           <div>
@@ -105,7 +108,8 @@ class NodesEditor extends React.Component {
                 assignType={'residence'}
                 selected={this.state.residSelection}
                 allSelection={this.state.selectedList}
-                _submit_new_node={this._set_newNode}/>
+                _submit_new_node={this._set_newNode}
+                _submit_deleteNodes={this._set_deleteNodes}/>
             </div>
           </div>
           <div>
@@ -125,7 +129,8 @@ class NodesEditor extends React.Component {
         <div>
           {this._render_assignedNodes()}
         </div>
-        <div>
+        <div
+          onClick={this._handleClick_done}>
           {"Done"}
         </div>
       </div>
@@ -169,6 +174,22 @@ class NodesEditor extends React.Component {
 
       return updatedObj;
     })
+  }
+
+  _handleClick_done(event){
+    event.stopPropagation();
+    event.preventDefault();
+    let orderedList = this.state.selectedList.slice();
+    checkList.forEach((key, index) => {
+      if(this.state[key] != null){
+        // to order as the user 'think', follow the order in state.selectedList
+        let indexInList = this.state.selectedList.indexOf(this.state[key]);
+        orderedList.splice(indexInList, 1, {type: stateTypes[key], nodeId: this.state[key]});
+      };
+    });
+
+    this.props._submit_new_node(orderedList);
+    this.props._set_nodesEditView();
   }
 }
 
