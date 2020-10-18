@@ -19,7 +19,7 @@ function deliverVerifiedMail(userInfo, token){
     let mailOptions = {
       from: '"Cornerth." <noreply@'+ domain.name +'>', // sender address
       to: userInfo.email, // list of receivers
-      subject: "Please confirm your email address", // Subject line
+      subject: "Email verification", // Subject line, notice! for unknown reason, subject "Please confirm your email address" would be blocked by mailjet so abandon
       html: _render_HtmlBody(token, userInfo)
     };
 
