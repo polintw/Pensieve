@@ -69,7 +69,7 @@ class AssignNodes extends React.Component {
             </div>
           }
           {
-            (this.props.unitView != "editing") &&
+            (this.props.nodeDelete) &&
             <div
               nodeid={nodeId}
               className={classnames(
@@ -81,12 +81,13 @@ class AssignNodes extends React.Component {
               onMouseLeave={this._handleLeave_liItem}>
               <span
                 className={classnames(
-                  styles.spanListItem, "fontContent",
+                  styles.spanListItem,
                   {
-                    ["colorWhite"]: this.state.onNodeDelete != nodeId,
-                    ["colorGrey"]: this.state.onNodeDelete == nodeId,
+                    ["colorWhite"]: this.state.onNodeDelete == nodeId,
+                    ["colorGrey"]: this.state.onNodeDelete != nodeId,
                   }
-                )}>
+                )}
+                style={{fontSize: '1rem'}}>
                 {" ╳ "}
               </span>
             </div>
@@ -103,14 +104,7 @@ class AssignNodes extends React.Component {
     return(
       <div
         className={classnames(styles.comAssignNodes)}>
-        <div
-          className={classnames(styles.boxSubtitle, "fontSubtitle", "colorEditLightBlack")}>
-          {this.props.i18nUIString.catalog["guidingCreateShare_AssignGroup"]}
-        </div>
-        <div
-          className={classnames(styles.editorRow)}>
-            {this._render_assignNodes()}
-        </div>
+        {this._render_assignNodes()}
       </div>
     )
   }

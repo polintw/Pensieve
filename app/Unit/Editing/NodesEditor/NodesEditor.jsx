@@ -63,6 +63,7 @@ class NodesEditor extends React.Component {
     return (
       <AssignNodes
         nodesSet={nodesSet}
+        nodeDelete={true}
         _submit_deleteNodes={(indexInList)=>{ // _submit_deleteNodes only return the index in selectedList
           let targetNode = this.state.selectedList[indexInList], targetType = '';
           for(let i=0; i < checkList.length; i++) {

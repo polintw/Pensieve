@@ -90,6 +90,15 @@
   width: 100%;
 }
 
+.boxSubtitle {
+  margin-bottom: 1rem;
+}
+
+.boxAssignedNodes {
+  display: flex;
+  width: 100%;
+}
+
 
 @media screen and (max-width:860px) {
   .comEditingPanel {

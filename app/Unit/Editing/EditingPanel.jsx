@@ -183,12 +183,20 @@ class EditingPanel extends React.Component {
               </div>
               <div
                 className={classnames(styles.boxNodesList)}>
+                <div
+                  className={classnames(styles.boxSubtitle, "fontSubtitle", "colorEditLightBlack")}>
+                  {this.props.i18nUIString.catalog["guidingCreateShare_AssignGroup"]}
+                </div>
+                <div
+                  className={classnames(styles.boxAssignedNodes)}>
                   <AssignNodes
                     nodesSet={this.state.nodesSet}
+                    nodeDelete={false}
                     _submit_deleteNodes={this._submit_deleteNodes} />
                   <AssignSwitch
                     nodesSet={this.state.nodesSet}
                     _set_nodesEditView={this._set_nodesEditView}/>
+                </div>
               </div>
             </div>
             )

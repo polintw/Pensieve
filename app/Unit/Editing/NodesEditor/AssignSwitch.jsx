@@ -6,6 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import SvgCrossStroke from '../../../Components/Svg/SvgCross_Stroke.jsx';
 
 class AssignSwitch extends React.Component {
   constructor(props){
@@ -47,13 +48,17 @@ class AssignSwitch extends React.Component {
               }
             )}
             style={{
-              border: this.state.onAdd ? "solid 1.2px #545454" : 'solid 1.2px #a3a3a3',
+              padding: '8px 14px',
+              border: this.state.onAdd ? "solid 1.2px #545454" : 'dashed 2px #a3a3a3',
               cursor: 'pointer'
             } /* overwrite the cursor setting in boxListItem */}
             onClick={this._handleClick_editNode}
             onMouseEnter={this._handleEnter_buttonAdd}
             onMouseLeave={this._handleLeave_buttonAdd}>
-            "add"
+            <SvgCrossStroke
+              crossStyle={{
+                strokeWidth:'26px',
+                stroke: this.state.onAdd? '#545454': 'a3a3a3'}}/>
           </div>
         ) : (
           <div
@@ -82,8 +87,7 @@ class AssignSwitch extends React.Component {
 
   render(){
     return(
-      <div
-        className={classnames(styles.comAssignNodes)}>
+      <div>
         {this._render_assignNodes()}
       </div>
     )
