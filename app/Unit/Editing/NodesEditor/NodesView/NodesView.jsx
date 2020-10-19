@@ -5,9 +5,9 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import AssignNodes from './AssignNodes.jsx';
-import AssignOptions from './AssignOptions/AssignOptions.jsx';
-import NodesSearch from './NodesSearch/NodesSearch.jsx';
+import AssignNodes from '../AssignNodes.jsx';
+import AssignOptions from '../AssignOptions/AssignOptions.jsx';
+import NodesSearch from '../NodesSearch/NodesSearch.jsx';
 
 const typesState = {
   homeland: 'homeSelection',
@@ -22,7 +22,7 @@ const stateTypes = {
   freeSelection: 'freeOne'
 };
 
-class NodesEditor extends React.Component {
+class NodesView extends React.Component {
   constructor(props){
     super(props);
     // by props.nodesSet, est. state
@@ -37,11 +37,15 @@ class NodesEditor extends React.Component {
       propsState.selectedList.push(obj.nodeId);
     });
 
-    this.state = propsState;
+    this.state = Object.assign({}, propsState, {
+      onBtnDone: false
+    });
     this._set_newNode = this._set_newNode.bind(this);
     this._set_deleteNodes = this._set_deleteNodes.bind(this);
     this._handleClick_done = this._handleClick_done.bind(this);
     this._render_assignedNodes = this._render_assignedNodes.bind(this);
+    this._handleEnter_spanDone = this._handleEnter_spanDone.bind(this);
+    this._handleLeave_spanDone = this._handleLeave_spanDone.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -57,6 +61,12 @@ class NodesEditor extends React.Component {
   }
 
   _render_assignedNodes(){
+    if(this.state.selectedList.length == 0){ // condition the list was empty, render a hint
+      return (
+        <li className={classnames(styles.boxHintItem)}/>
+      )
+    };
+
     let nodesSet = this.state.selectedList.map((nodeId, index)=>{
       return {nodeId: nodeId}; // basically, AssignNodes only need the nodeId in nodesSet
     });
@@ -80,17 +90,20 @@ class NodesEditor extends React.Component {
   render(){
     return(
       <div
-        className={classnames(styles.comNodesEditor)}>
+        className={classnames(styles.comNodesView)}>
         <div
-          className={classnames(styles.boxNodesEditTitle, styles.seperationBottom, styles.seperationTopEdge, "fontSubtitle", "colorEditLightBlack")}>
-          {this.props.i18nUIString.catalog["guidingCreateShare_NodesEditor"]}
+          className={classnames(styles.boxNodesEditTitle, "fontSubtitle", "colorEditLightBlack")}>
+          {this.props.i18nUIString.catalog["guidingCreateShare_NodesView"]}
         </div>
         <div
-          className={classnames(styles.seperationBottom)}>
-          <div>
-            <div>
-              {this.props.i18nUIString.catalog["subTitle_CreateShare_AssignTypes"][0]}
+          className={classnames(styles.seperationBottom, styles.boxForm)}>
+          <div className={classnames(styles.boxRow)}>
+            <div className={classnames(styles.boxRowTitle)}>
+              <span className={classnames('fontSubtitle_h5', 'colorEditBlack')}>
+                {this.props.i18nUIString.catalog["subTitle_CreateShare_AssignTypes"][0]}
+              </span>
             </div>
+            <div className={classnames(styles.seperationRowVertiLine)}/>
             <div>
               <AssignOptions
                 assignType={'homeland'}
@@ -100,10 +113,13 @@ class NodesEditor extends React.Component {
                 _submit_deleteNodes={this._set_deleteNodes}/>
             </div>
           </div>
-          <div>
-            <div>
-              {this.props.i18nUIString.catalog["subTitle_CreateShare_AssignTypes"][1]}
+          <div className={classnames(styles.boxRow)}>
+            <div className={classnames(styles.boxRowTitle)}>
+              <span className={classnames('fontSubtitle_h5', 'colorEditBlack')}>
+                {this.props.i18nUIString.catalog["subTitle_CreateShare_AssignTypes"][1]}
+              </span>
             </div>
+            <div className={classnames(styles.seperationRowVertiLine)}/>
             <div>
               <AssignOptions
                 assignType={'residence'}
@@ -113,11 +129,15 @@ class NodesEditor extends React.Component {
                 _submit_deleteNodes={this._set_deleteNodes}/>
             </div>
           </div>
-          <div>
-            <div>
-              {this.props.i18nUIString.catalog["subTitle_CreateShare_AssignTypes"][2]}
+          <div className={classnames(styles.boxRow)}>
+            <div className={classnames(styles.boxRowTitle)}>
+              <span className={classnames('fontSubtitle_h5', 'colorEditBlack')}>
+                {this.props.i18nUIString.catalog["subTitle_CreateShare_AssignTypes"][2]}
+              </span>
             </div>
-            <div>
+            <div className={classnames(styles.seperationRowVertiLine)}/>
+            <div
+              className={classnames(styles.boxNodeSearch)}>
               <NodesSearch
                 currentSet={this.state.freeSelection}
                 _set_nodeByNodeBasic={(nodeBasic)=>{
@@ -127,15 +147,43 @@ class NodesEditor extends React.Component {
             </div>
           </div>
         </div>
-        <div>
+        <div className={classnames(styles.seperationBottom, styles.boxAssignedNodes)}>
           {this._render_assignedNodes()}
         </div>
         <div
-          onClick={this._handleClick_done}>
-          {"Done"}
+          className={classnames(
+            styles.seperationBottom, styles.boxBtnDone,
+            {
+              [styles.mouseonBtnDone]: this.state.onBtnDone
+            }
+          )}
+          onClick={this._handleClick_done}
+          onMouseEnter={this._handleEnter_spanDone}
+          onMouseLeave={this._handleLeave_spanDone}>
+          <span className={classnames(
+              'fontSubtitle_h5',
+              {
+                ['colorStandard']: !this.state.onBtnDone,
+                ['colorEditBlack']: this.state.onBtnDone
+              }
+            )}>
+            {this.props.i18nUIString.catalog['btn_Done']}
+          </span>
         </div>
       </div>
     )
+  }
+
+  _handleEnter_spanDone(e) {
+    this.setState({
+      onBtnDone: true
+    })
+  }
+
+  _handleLeave_spanDone(e) {
+    this.setState({
+      onBtnDone: false
+    })
   }
 
   _set_newNode(nodeObj){
@@ -213,4 +261,4 @@ const mapDispatchToProps = (dispatch) => {
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(NodesEditor));
+)(NodesView));

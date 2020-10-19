@@ -1,32 +1,3 @@
-.comNodesEditor{
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  width: 100%;
-  position: relative;
-}
-
-.boxNodesEditTitle {
-
-}
-
-.boxNodesEditList {
-
-}
-
-.seperationTopEdge {
-  margin-top: 4.44vh;
-}
-
-.seperationBottomEdge {
-  margin-top: 4.44vh;
-}
-
-.seperationBottom {
-  margin-bottom: 2.54vh;
-}
-
 .comAssignNodes {
   position: relative;
 }

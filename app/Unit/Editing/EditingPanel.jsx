@@ -8,7 +8,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import ContentEditor from './ContentEditor/ContentEditor.jsx';
-import NodesEditor from './NodesEditor/NodesEditor.jsx';
+import NodesView from './NodesEditor/NodesView/NodesView.jsx';
 import AssignNodes from './NodesEditor/AssignNodes.jsx';
 import AssignSwitch from './NodesEditor/AssignSwitch.jsx';
 import Submit from './components/Submit/Submit.jsx';
@@ -157,7 +157,7 @@ class EditingPanel extends React.Component {
               className={classnames(
                 styles.boxContent,
                 styles.boxContentWidth, styles.boxPanelHeight, styles.boxPanelPadding)}>
-              <NodesEditor
+              <NodesView
                 nodesSet={this.state.nodesSet}
                 _submit_new_node={this._submit_new_node}
                 _set_nodesEditView={this._set_nodesEditView}/>
