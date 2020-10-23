@@ -184,7 +184,7 @@ class EditingPanel extends React.Component {
               <div
                 className={classnames(styles.boxNodesList)}>
                 <div
-                  className={classnames(styles.boxSubtitle, "fontSubtitle", "colorEditLightBlack")}>
+                  className={classnames(styles.boxSubtitle, "fontContent", "colorEditLightBlack")}>
                   {this.props.i18nUIString.catalog["guidingCreateShare_AssignGroup"]}
                 </div>
                 <div

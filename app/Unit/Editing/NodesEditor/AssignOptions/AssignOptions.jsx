@@ -76,8 +76,6 @@ class AssignOptions extends React.Component {
     nodesList = this.props.belongsByType[series].listToTop.slice(); //shallow copy
     // then unshift the belong itself(which was not in the 'listToTop')
     nodesList.unshift(this.props.belongsByType[series].nodeId);
-    // reverse the typeList, the 'largest' administration would be the first, align to the last after render
-    nodesList.reverse();
 
     // then simply loop the nodesList to render
     let nodesDOM =[];
@@ -92,8 +90,9 @@ class AssignOptions extends React.Component {
           className={classnames(
             styles.boxListItem,
             {
-              [styles.chosenListItem]: selected,
-              [styles.mouseListItem]: (this.state.onNode == nodeId && !selected && !assigning)
+              [styles.chosenListItem]: selected, // the first, chosen one of this type
+              [styles.assignedListItem]: (!selected && assigning), // no chosen, but assign in other type
+              [styles.mouseListItem]: (this.state.onNode == nodeId && !selected && !assigning) //no chosen, no assigned in any type
             }
           )}
           onClick={this._handleClick_option}
@@ -105,10 +104,10 @@ class AssignOptions extends React.Component {
                 className={classnames(
                   styles.spanListItem, "fontContent",
                   {
-                    ["colorGrey"]: !selected && this.state.onNode != nodeId && !assigning,
-                    ["colorWhite"]: selected || this.state.onNode == nodeId,
-                    [styles.chosenSpanItem]: selected,
-                    [styles.mouseSpanItem]: (this.state.onNode== nodeId)
+                    ['colorEditBlack']: selected,
+                    ['colorWhite']: (this.state.onNode == nodeId && !assigning), //mouse on but not assigned in other type
+                    ['colorWhiteGrey']: !selected && assigning, // not the chosen one but assigned in other type
+                    ["colorGrey"]: !selected && this.state.onNode != nodeId && !assigning, // the rest condition
                   }
                 )}>
                 {this.props.nounsBasic[nodeId].name}</span>
@@ -118,10 +117,10 @@ class AssignOptions extends React.Component {
                   className={classnames(
                     styles.spanListItem, "fontContent",
                     {
-                      ["colorGrey"]: !selected && this.state.onNode != nodeId && !assigning,
-                      ["colorWhite"]: selected || this.state.onNode == nodeId,
-                      [styles.chosenSpanItem]: selected,
-                      [styles.mouseSpanItem]: (this.state.onNode== nodeId)
+                      ['colorEditBlack']: selected,
+                      ['colorWhite']: (this.state.onNode == nodeId && !assigning), //mouse on but not assigned in other type
+                      ['colorWhiteGrey']: !selected && assigning, // not the chosen one but assigned in other type
+                      ["colorGrey"]: !selected && this.state.onNode != nodeId && !assigning, // the rest condition
                     }
                   )}
                   style={{ alignSelf:'right', fontSize: '1.2rem'}}>

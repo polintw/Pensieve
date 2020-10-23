@@ -18,31 +18,13 @@ class NodesSearch extends React.Component {
     };
     this._render_node = this._render_node.bind(this);
     this._set_choiceFromSearch = this._set_choiceFromSearch.bind(this);
-    this._handleEnter_spanDelete = this._handleEnter_spanDelete.bind(this);
-    this._handleLeave_spanDelete = this._handleLeave_spanDelete.bind(this);
     this._handleClick_belongsDelete = this._handleClick_belongsDelete.bind(this);
-
-  }
-
-  _handleEnter_spanDelete(e) {
-
-  }
-
-  _handleLeave_spanDelete(e) {
-
   }
 
   _set_choiceFromSearch(nodeBasic){
     this.props._submit_NounsList_new([nodeBasic.id]);
     //pass the choice to parent's state
     this.props._set_nodeByNodeBasic(nodeBasic);
-  }
-
-  _handleClick_belongsDelete(event){
-    event.preventDefault();
-    event.stopPropagation();
-
-    this.props._reset_searchSelection(this.props.currentSet); //nodtice, 'currentSet' is integer
   }
 
   componentDidMount() {
@@ -58,13 +40,28 @@ class NodesSearch extends React.Component {
     const nodeId = this.props.currentSet;
 
     return (
-        <div
-          className={classnames("fontDescrip" ,"colorDescripBlack")}>
-          {nodeId in this.props.nounsBasic ? (
-            this.props.nounsBasic[nodeId].name) : (
-              null
-            )}
-        </div>
+      <li
+        key={'_key_assignNode_vonSearch' }
+        nodeid={nodeId}
+        className={classnames(
+          styles.chosenListItem,
+        )}
+        onClick={this._handleClick_belongsDelete}>
+        {(nodeId in this.props.nounsBasic) &&
+          <div>
+            <span
+              className={classnames("fontContent", 'colorEditBlack')}>
+              {this.props.nounsBasic[nodeId].name}</span>
+            {
+              !!this.props.nounsBasic[nodeId].prefix &&
+              <span
+                className={classnames("fontContent", 'colorEditBlack')}
+                style={{ alignSelf:'right', fontSize: '1.2rem'}}>
+                {", "+this.props.nounsBasic[nodeId].prefix}</span>
+            }
+          </div>
+        }
+      </li>
     )
   }
 
@@ -74,19 +71,8 @@ class NodesSearch extends React.Component {
         className={styles.comNodesSearch}>
         {
           !!this.props.currentSet ? (
-            <div
-              className={classnames(styles.belongSetBoxNode)}>
+            <div>
               {this._render_node()}
-              <div
-                className={classnames()}
-                onMouseEnter={this._handleEnter_spanDelete}
-                onMouseLeave={this._handleLeave_spanDelete}>
-                <span
-                  style={{fontSize: '1.2rem', cursor: 'pointer', color: '#b8b8b8'}}
-                  onClick={this._handleClick_belongsDelete}>
-                  {" ╳ "}
-                </span>
-              </div>
             </div>
           ):(
             <NodeSearchModule
@@ -102,6 +88,14 @@ class NodesSearch extends React.Component {
       </div>
     )
   }
+
+  _handleClick_belongsDelete(event){
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.props._reset_searchSelection(this.props.currentSet); //nodtice, 'currentSet' is integer
+  }
+
 }
 
 const mapStateToProps = (state)=>{

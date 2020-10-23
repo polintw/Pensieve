@@ -32,7 +32,7 @@
 }
 
 .boxNodeSearch {
-  min-width: 240px;
+  min-width: 260px;
 }
 
 .boxBtnDone {
@@ -43,21 +43,20 @@
   height: 32px;
   border-radius: 4px;
   padding: 2px 18px;
-  border: solid 1.2px transparent;
+  border: solid 1.2px #ff8168;
   cursor: pointer;
 }
 
 .mouseonBtnDone {
-  border: solid 1.2px #545454
+  background-color: #ff8168;
+  border: solid 1.2px transparent;
 }
 
 .boxHintItem {
   display: inline-flex;
   list-style: none;
-  width: 80px;
   height: 39px;
   box-sizing: border-box;
-  border-bottom: dashed 2px #a3a3a3;
   cursor: default;
 }
 

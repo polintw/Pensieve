@@ -63,7 +63,12 @@ class NodesView extends React.Component {
   _render_assignedNodes(){
     if(this.state.selectedList.length == 0){ // condition the list was empty, render a hint
       return (
-        <li className={classnames(styles.boxHintItem)}/>
+        <li className={classnames(styles.boxHintItem)}>
+          <span
+            className={classnames('colorGrey', 'fontContent')}>
+            {this.props.i18nUIString.catalog['guidingCreateShare_NodesView_selectHint']}
+          </span>
+        </li>
       )
     };
 
@@ -92,11 +97,11 @@ class NodesView extends React.Component {
       <div
         className={classnames(styles.comNodesView)}>
         <div
-          className={classnames(styles.boxNodesEditTitle, "fontSubtitle", "colorEditLightBlack")}>
+          className={classnames(styles.boxNodesEditTitle, "fontSubtitle", "colorEditBlack")}>
           {this.props.i18nUIString.catalog["guidingCreateShare_NodesView"]}
         </div>
         <div
-          className={classnames(styles.seperationBottom, styles.boxForm)}>
+          className={classnames(styles.boxForm)}>
           <div className={classnames(styles.boxRow)}>
             <div className={classnames(styles.boxRowTitle)}>
               <span className={classnames('fontSubtitle_h5', 'colorEditBlack')}>
@@ -137,7 +142,8 @@ class NodesView extends React.Component {
             </div>
             <div className={classnames(styles.seperationRowVertiLine)}/>
             <div
-              className={classnames(styles.boxNodeSearch)}>
+              className={classnames(
+                {[styles.boxNodeSearch]: !this.state.freeSelection})}>
               <NodesSearch
                 currentSet={this.state.freeSelection}
                 _set_nodeByNodeBasic={(nodeBasic)=>{
@@ -164,7 +170,7 @@ class NodesView extends React.Component {
               'fontSubtitle_h5',
               {
                 ['colorStandard']: !this.state.onBtnDone,
-                ['colorEditBlack']: this.state.onBtnDone
+                ['colorWhite']: this.state.onBtnDone
               }
             )}>
             {this.props.i18nUIString.catalog['btn_Done']}

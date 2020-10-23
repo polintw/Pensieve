@@ -136,9 +136,10 @@ const i18nUIString_EN = {
   "message_Unit_LinkCopy": "Copied to clipboard",
 
   "title_shareUpload_typewriter": ['S','u','b','m','i', 't'],
-  "guidingCreateShare_AssignGroup": "Corners or fellows you could contribute to",//Changed "corner(s)" to "Corner(s)"
+  "guidingCreateShare_AssignGroup": "Assign to",//Changed "corner(s)" to "Corner(s)"
   "guidingCreateShare_AssignNull": "Haven't register any ",//Changed "please" to "Please"
-  "guidingCreateShare_NodesView": "Add Corners by one or several of below:",
+  "guidingCreateShare_NodesView": "Assign to Corners by one or several methods of below:",
+  "guidingCreateShare_NodesView_selectHint": "No selection yet.",
   "subTitle_CreateShare_AssignTypes": ["Your Homeland", "Your Residence", "or, search one"],
   "message_CreateShare_basicRequireWarn": "Make sure you've already upload 1 image and pick at least 1 corner to which you want to contribute.",
   "message_Unit_Editing_AssignNotAllowed": "We're sorry. Your contribution Can't be changed once released since it's linked either to the markup or location.", //Original:"the corner linked to could Not be changed after first release."

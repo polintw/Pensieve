@@ -54,14 +54,14 @@ class AssignNodes extends React.Component {
             <div>
               <span
                 className={classnames(
-                  styles.spanListItem, "fontContent", "colorWhite",
+                  styles.spanListItem, "fontSubtitle_h5", "colorWhite",
                 )}>
                 {this.props.nounsBasic[nodeId].name}</span>
               {
                 !!this.props.nounsBasic[nodeId].prefix &&
                 <span
                   className={classnames(
-                    styles.spanListItem, 'fontContent', "colorWhite",
+                    styles.spanListItem, 'lineHeight15', "colorWhite",
                   )}
                   style={{ alignSelf: 'right', fontSize: '1.2rem' }}>
                   {", " + this.props.nounsBasic[nodeId].prefix}</span>
@@ -83,7 +83,7 @@ class AssignNodes extends React.Component {
                 className={classnames(
                   styles.spanListItem,
                   {
-                    ["colorWhite"]: this.state.onNodeDelete == nodeId,
+                    ["colorAssistOcean"]: this.state.onNodeDelete == nodeId,
                     ["colorGrey"]: this.state.onNodeDelete != nodeId,
                   }
                 )}
