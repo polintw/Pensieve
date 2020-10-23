@@ -1,0 +1,71 @@
+.comNodesView{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-around;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.boxForm {
+  width: 100%;
+}
+
+.boxRow {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.boxRowTitle {
+  width: 130px;
+}
+
+.boxNodesEditTitle {
+
+}
+
+.boxAssignedNodes {
+  min-height: 39px;
+}
+
+.boxNodeSearch {
+  min-width: 260px;
+}
+
+.boxBtnDone {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  height: 32px;
+  border-radius: 4px;
+  padding: 2px 18px;
+  border: solid 1.2px #ff8168;
+  cursor: pointer;
+}
+
+.mouseonBtnDone {
+  background-color: #ff8168;
+  border: solid 1.2px transparent;
+}
+
+.boxHintItem {
+  display: inline-flex;
+  list-style: none;
+  height: 39px;
+  box-sizing: border-box;
+  cursor: default;
+}
+
+.seperationRowVertiLine {
+  height: 39px;
+  border-left: solid 1.2px #757575;
+  margin-right: 2rem;
+}
+
+.seperationBottom {
+  margin-bottom: 2.54vh;
+}

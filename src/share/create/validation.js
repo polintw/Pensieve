@@ -178,16 +178,12 @@ async function validateShared(modifiedBody, userId) {
     return ; //close the process
   }
 
-  let allowedTypes = ['homeland','residence'], assignedNodes=[];
-  const assignSetConfirm = modifiedBody.nodesSet.assign.every((assignedObj, index) => { //arr.every could be break
+  let allowedTypes = ['homeland','residence', 'freeOne'], assignedNodes=[];
+  const assignSetConfirm = modifiedBody.nodesSet.every((assignedObj, index) => { //arr.every could be break
     if(allowedTypes.indexOf(assignedObj.type)< 0 || allowedTypes.length <1) { //means the assigned was 'reapeated', which are not allowed under any circumstance
       return false ;
     };
 
-    let series = (assignedObj.type in ancestorsByType) ?ancestorsByType[assignedObj.type]: []; //theoratically ancestorsByType shole have included all types, just in case
-    if(series.indexOf(assignedObj.nodeId) < 0) {  //reject to client if he want to assigned a node not belong to his registered
-      return false;
-    };
     let indexInAllowed = allowedTypes.indexOf(assignedObj.type);
     allowedTypes.splice(indexInAllowed, 1); //rm type checked in this round
     assignedNodes.push(assignedObj.nodeId);
@@ -198,12 +194,10 @@ async function validateShared(modifiedBody, userId) {
     return;
   };
   // checking if all the nodes exist.
-  let concatNodesList = assignedNodes.concat(modifiedBody.nodesSet.tags); //combined list pass from req
-
   const allNodesConfirm = await _DB_nouns.findAll({
-    where: {id: concatNodesList}
+    where: {id: assignedNodes}
   })
-  if(allNodesConfirm.length != concatNodesList.length){
+  if(allNodesConfirm.length != assignedNodes.length){
     throw new forbbidenError(" some of assignedNodes did not exist.", 120);
     return;
   };
@@ -312,15 +306,14 @@ async function validateSharedEdit(modifiedBody, userId, exposedId) {
 
 
   // checking if all the nodes exist.
-  let assignedNodes= modifiedBody.nodesSet.assign.map((assignedObj, index)=>{
+  let assignedNodes= modifiedBody.nodesSet.map((assignedObj, index)=>{
     return assignedObj.nodeId
   });
-  let concatNodesList = assignedNodes.concat(modifiedBody.nodesSet.tags); //combined list pass from req
 
   const allNodesConfirm = await _DB_nouns.findAll({
-    where: {id: concatNodesList}
+    where: {id: assignedNodes}
   })
-  if(allNodesConfirm.length != concatNodesList.length){
+  if(allNodesConfirm.length != assignedNodes.length){
     throw new forbbidenError("You didn't submit with an allowed nodes.", 120);
     return;
   };

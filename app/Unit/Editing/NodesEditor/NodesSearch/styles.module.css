@@ -1,0 +1,15 @@
+
+.chosenListItem {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+  height: 39px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  background-color: #d1d1d1;
+  border: solid 1.2px transparent;
+  padding: 2px 10px;
+  margin-right: 1rem;
+  cursor: default;
+}

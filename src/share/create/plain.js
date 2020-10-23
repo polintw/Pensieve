@@ -200,20 +200,18 @@ async function shareHandler_POST(req, res){
       /*
       the nodes passed to here were already validated, could used directly
       */
-      //no need to edit the nodesSet.tags, but concat to assignedNodes list
-      let assignedNodes= modifiedBody.nodesSet.assign.map((assignedObj, index)=>{
+      let assignedNodes= modifiedBody.nodesSet.map((assignedObj, index)=>{
         return assignedObj.nodeId;
       });
-      let concatList = assignedNodes.concat(modifiedBody.nodesSet.tags); //combined list pass from req
       //prepared to insert into attribution
       return _DB_nouns.findAll({
-        where: {id: concatList}
+        where: {id: assignedNodes}
       })
       .then(resultNodes => {
         /*till this moment the check for assigned, attributed nodes have completed.
         for assigned, we assumed the list here can be trusted undoubt.
         */
-        let assignedNodesArr = modifiedBody.nodesSet.assign.map((assignedObj, index)=>{
+        let assignedNodesArr = modifiedBody.nodesSet.map((assignedObj, index)=>{
           return ({
             id_unit: modifiedBody.id_unit,
             id_author: userId,
@@ -328,19 +326,18 @@ async function shareHandler_POST(req, res){
   .then(()=>{
     //backend process
     //no connection should be used during this process
-    let assignedNodes = modifiedBody.nodesSet.assign.map((assignedObj,index)=>{
+    let assignedNodes = modifiedBody.nodesSet.map((assignedObj,index)=>{
       return assignedObj.nodeId;
     });
-    let concatList = assignedNodes.concat(modifiedBody.nodesSet.tags); //combined list pass from req
 
     return _DB_nodes_activity.findAll({
-      where: {id_node: concatList}
+      where: {id_node: assignedNodes}
     })
     .then((nodesActivity)=>{
       //if the node was new used, it won't has record from nodesActivity
       //so let's compare the selection and the list in modifiedBody
       //first, copy a new array, prevent modification to modifiedBody
-      let nodesList = concatList.slice();
+      let nodesList = assignedNodes.slice();
       //second, make a list reveal record in nodesActivity
       let activityList = nodesActivity.map((row,index)=>{ return row.id_node;});
       let newList = [];

@@ -8,7 +8,9 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import ContentEditor from './ContentEditor/ContentEditor.jsx';
-import NodesEditor from './NodesEditor/NodesEditor.jsx';
+import NodesView from './NodesEditor/NodesView/NodesView.jsx';
+import AssignNodes from './NodesEditor/AssignNodes.jsx';
+import AssignSwitch from './NodesEditor/AssignSwitch.jsx';
 import Submit from './components/Submit/Submit.jsx';
 import ImgImport from './components/ImgImport.jsx';
 
@@ -17,9 +19,10 @@ class EditingPanel extends React.Component {
     super(props);
     this.state = {
       contentEditing: false,
+      nodesShift: false,
       coverSrc: !!this.props.unitSet?this.props.unitSet.coverSrc:null,
       coverMarks: !!this.props.unitSet?this.props.unitSet.coverMarks:{list:[], data:{}},
-      nodesSet: !!this.props.unitSet?this.props.unitSet.nodesSet:{assign:[], tags:[]},
+      nodesSet: !!this.props.unitSet?this.props.unitSet.nodesSet:[],
       //beneath, is remaining for future use, and kept the parent comp to process submitting
       beneathSrc: null,
       beneathMarks: {list:[],data:{}},
@@ -28,50 +31,35 @@ class EditingPanel extends React.Component {
     this._set_newImgSrc = this._set_newImgSrc.bind(this);
     this._set_Mark_Complete = this._set_Mark_Complete.bind(this);
     this._set_statusEditing = this._set_statusEditing.bind(this);
+    this._set_nodesEditView = this._set_nodesEditView.bind(this);
     this._submit_new_node = this._submit_new_node.bind(this);
     this._submit_newShare = this._submit_newShare.bind(this);
     this._submit_deleteNodes= this._submit_deleteNodes.bind(this);
     this._render_importOrCover = this._render_importOrCover.bind(this);
   }
 
-  _submit_new_node(node, type){ //param 'node' could be 'obj' || 'array', up to the type they passed for
+  _submit_new_node(nodesArr){
+    /*
+    'nodesArr' was an arr composed of a chain of 'node' objs,
+    and could replace the prevState directly
+    */
     this.setState((prevState, props)=>{
-      /*
-      we are going to change the data 'inside' a prevState value,
-      so we have to avoid modified the base data during the process,
-      i.e we need to copy to assure the prevState data would not be modified before retrun.
-      (same as _submit_deleteNodes)
-      */
-      let newNodeArr = [node];
-      let updateArr = prevState.nodesSet[(type=="assign")? 'assign': 'tags'].concat(newNodeArr);
-      let updateObj = {};
-      updateObj[(type=="assign")? 'assign': 'tags'] = updateArr;
-
       return {
-        nodesSet: Object.assign({}, prevState.nodesSet, updateObj)
+        nodesSet: nodesArr
       }
     })
   }
 
-  _submit_deleteNodes(target, type){
+  _submit_deleteNodes(target){
     this.setState((prevState, props)=>{
-      let targetArr = prevState.nodesSet[(type=="assign")? 'assign': 'tags'];
+      let targetArr = prevState.nodesSet;
       let updateArr = [];
-      if(type=="assign"){
-        //'target' is an index mark the unwanted node
-        updateArr = targetArr.slice();
-        updateArr.splice(target, 1);
-      }else{
-        //'target' would be a nodeId
-        updateArr = targetArr.filter((value, index)=>{ // use filter remove id from the list and replace it by new list
-          return value != nodeId; //not equal value, but allow different "type" (the nodeId was string saved in the DOM attribute)
-        });
-      }
-      let updateObj = {};
-      updateObj[(type=="assign")? 'assign': 'tags'] = updateArr;
+      //'target' is an index mark the unwanted node
+      updateArr = targetArr.slice(); // copy to prevent modified state
+      updateArr.splice(target, 1);
 
       return {
-        nodesSet: Object.assign({}, prevState.nodesSet, updateObj)
+        nodesSet: updateArr
       }
     })
   }
@@ -105,7 +93,7 @@ class EditingPanel extends React.Component {
       - no Unit was submitting: give warn
       - not editing: give warn
     */
-    if(!newObj["coverSrc"] || newObj['nodesSet'].assign.length < 1) { // the 'img' & 'node assigned to' are required
+    if(!newObj["coverSrc"] || newObj['nodesSet'].length < 1) { // the 'img' & 'node assigned to' are required
       this.props._set_warningDialog([{text: this.props.i18nUIString.catalog['message_CreateShare_basicRequireWarn'],style:{}}], 'warning');
       return;
     }else if(this.props.unitSubmitting){
@@ -120,23 +108,9 @@ class EditingPanel extends React.Component {
     newObj.coverMarks.list.forEach((markKey, index)=>{
       newObj.coverMarks.data[markKey].layer = 0;
     });
-    // check if any node type was 'both'
-    let originalTypeList = [], // 2 array, beacuase we have to rm the processed one but keep knowing the index in original newObj
-        originalNodeIndex = [];
-    newObj.nodesSet.assign.forEach((nodeObj, index) => {
-      originalTypeList.push(nodeObj.type); // list by type
-      originalNodeIndex.push(index); // index match the assign.list in newObj
-    });
-    this.props.belongsByType.setTypesList.forEach((type, i) => {
-      if(originalTypeList.indexOf(type) < 0){ // this type of node do not be set specifiaclly, or used by 'both'
-        let indexBoth = originalTypeList.indexOf('both');
-        if(indexBoth >= 0){ // there is a 'both' type in originalTypeList
-          newObj.nodesSet.assign[originalNodeIndex[indexBoth]].type = type; // replace the type in newObj by the index saved in originalNodeIndex
-          originalTypeList.splice(indexBoth, 1);
-          originalNodeIndex.splice(indexBoth, 1);
-        }
-      };
-    });
+    /*
+    a part dealing with a depracated belong type, 'both', was removed from this section
+    */
 
     this.props._set_Submit(newObj);
   }
@@ -177,27 +151,57 @@ class EditingPanel extends React.Component {
       <div
         className={classnames(styles.comEditingPanel)}
         onClick={(e)=>{e.preventDefault();e.stopPropagation();/*prevent bubbling to bg of wherever it was called*/}}>
-        <div
-          className={classnames(styles.boxContentWidth, styles.boxSubmit)}>
-          <Submit
-            editing={this.state.contentEditing}
-            contentPermit = {(!this.state["coverSrc"] || this.state['nodesSet'].assign.length < 1) ? false: true}
-            confirmDialog={!!this.props.confirmDialog? this.props.confirmDialog: false}
-            warningDialog={!!this.props.warningDialog? this.props.warningDialog: false}
-            _set_Clear={this.props._set_Clear}
-            _submit_newShare={this._submit_newShare}/>
-        </div>
-        <div
-          className={classnames(styles.boxContentWidth, styles.boxFrame)}>
-          {this._render_importOrCover()}
-        </div>
-        <div
-          className={classnames(styles.boxContentWidth, styles.boxNodesEditor)}>
-          <NodesEditor
-            nodesSet={this.state.nodesSet}
-            _submit_new_node={this._submit_new_node}
-            _submit_deleteNodes={this._submit_deleteNodes}/>
-        </div>
+          {
+            this.state.nodesShift ? (
+            <div
+              className={classnames(
+                styles.boxContent,
+                styles.boxContentWidth, styles.boxPanelHeight, styles.boxPanelPadding)}>
+              <NodesView
+                nodesSet={this.state.nodesSet}
+                _submit_new_node={this._submit_new_node}
+                _set_nodesEditView={this._set_nodesEditView}/>
+            </div>
+            ) :(
+            <div
+              className={classnames(
+                styles.boxContent,
+                styles.boxContentWidth, styles.boxPanelHeight, styles.boxPanelPadding)}>
+              <div
+                className={classnames(styles.boxSubmit)}>
+                <Submit
+                  editing={this.state.contentEditing}
+                  contentPermit={(!this.state["coverSrc"] || this.state['nodesSet'].length < 1) ? false : true}
+                  confirmDialog={!!this.props.confirmDialog ? this.props.confirmDialog : false}
+                  warningDialog={!!this.props.warningDialog ? this.props.warningDialog : false}
+                  _set_Clear={this.props._set_Clear}
+                  _submit_newShare={this._submit_newShare} />
+              </div>
+              <div
+                className={classnames(styles.boxFrame)}>
+                {this._render_importOrCover()}
+              </div>
+              <div
+                className={classnames(styles.boxNodesList)}>
+                <div
+                  className={classnames(styles.boxSubtitle, "fontContent", "colorEditLightBlack")}>
+                  {this.props.i18nUIString.catalog["guidingCreateShare_AssignGroup"]}
+                </div>
+                <div
+                  className={classnames(styles.boxAssignedNodes)}>
+                  <AssignNodes
+                    nodesSet={this.state.nodesSet}
+                    nodeDelete={false}
+                    _submit_deleteNodes={this._submit_deleteNodes} />
+                  <AssignSwitch
+                    nodesSet={this.state.nodesSet}
+                    _set_nodesEditView={this._set_nodesEditView}/>
+                </div>
+              </div>
+            </div>
+            )
+          }
+
         {
           this.props.unitSubmitting &&
           <div
@@ -213,6 +217,14 @@ class EditingPanel extends React.Component {
         }
       </div>
     )
+  }
+
+  _set_nodesEditView(){
+    this.setState((prevState, props)=>{
+      return {
+        nodesShift: prevState.nodesShift? false : true
+      };
+    })
   }
 }
 

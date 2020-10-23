@@ -33,7 +33,7 @@ class SharedEdit extends React.Component {
       authorBasic: this.props.unitCurrent.authorBasic,
       coverSrc: this.props.unitCurrent.coverSrc,
       coverMarks: {list: this.props.unitCurrent.coverMarksList.slice(), data: Object.assign({},this.props.unitCurrent.coverMarksData)},
-      nodesSet: {assign:assignedList , tags:[]},
+      nodesSet: assignedList,
       createdAt: this.props.unitCurrent.createdAt,
       //beneath, is remaining for future use, and kept the parent comp to process submitting
       beneathSrc: null,
