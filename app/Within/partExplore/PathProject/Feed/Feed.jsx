@@ -10,7 +10,7 @@ import FeedEmpty from './FeedEmpty.jsx';
 import NailFeed from '../../../../Components/Nails/NailFeed/NailFeed.jsx';
 import NailFeedWide from '../../../../Components/Nails/NailFeedWide/NailFeedWide.jsx';
 import NailFeedMobile from '../../../../Components/Nails/NailFeedMobile/NailFeedMobile.jsx';
-import {_axios_get_accumulatedList} from './axios.js';
+import {_axios_get_accumulatedList} from '../axios.js';
 import {axios_get_UnitsBasic} from '../../../../utils/fetchHandlers.js';
 import {
   handleNounsList,

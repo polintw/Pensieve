@@ -10,6 +10,8 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import Feed from './Feed/Feed.jsx';
 import NavFeed from './NavFeed/NavFeed.jsx';
+import TitlePath from './TitlePath/TitlePath.jsx';
+import {_axios_get_projectBasic} from './axios.js';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
 import NavWihtinCosmic from '../../../Components/NavWithin/NavWihtinCosmic.jsx';
 import {
@@ -22,19 +24,24 @@ class Wrapper extends React.Component {
     super(props);
     this.state = {
       axios: false,
-
+      pathName: false,
+      projectName: '',
+      filterStart: null,
+      projectInfo: {}
     };
     this.axiosSource = axios.CancelToken.source();
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
-
+    this._set_projectBasic = this._set_projectBasic.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-
+    if(this.props.match.params['pathName'] != prevProps.match.params['pathName']){
+      this._set_projectBasic();
+    }
   }
 
   componentDidMount(){
-
+    this._set_projectBasic();
   }
 
   componentWillUnmount(){
@@ -60,10 +67,8 @@ class Wrapper extends React.Component {
           <div
             className={classnames(styles.boxRow, styles.boxTitle)}
             style={{paddingBottom: '14px'}}>
-            <span
-              className={classnames("fontTitle", "colorEditBlack", "weightBold")}>
-
-            </span>
+            <TitlePath
+              title={this.state.projectName}/>
           </div>
           <div
             className={classnames(styles.boxRow)}>
@@ -97,6 +102,34 @@ class Wrapper extends React.Component {
     let unitInit= {marksify: false, initMark: "all", layer: 0};
     return unitInit;
   }
+
+  _set_projectBasic(){
+    const self = this;
+    this.setState({axios: true});
+
+    _axios_get_projectBasic(this.axiosSource.token, this.props.match.params['pathName'])
+    .then((resObj)=>{
+      self.setState((prevState, props)=>{
+        return ({
+          axios: false,
+          pathName: resObj.main.pathName,
+          projectName: resObj.main.name,
+          filterStart: resObj.main.nodeStart,
+          projectInfo: resObj.main.otherInfo
+        });
+      });
+    })
+    .catch(function (thrown) {
+      self.setState({axios: false});
+      if (axios.isCancel(thrown)) {
+        cancelErr(thrown);
+      } else {
+        let message = uncertainErr(thrown);
+        if(message) alert(message);
+      }
+    });
+  }
+
 }
 
 

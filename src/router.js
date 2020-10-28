@@ -5,6 +5,7 @@ const auth = require('./auth/main.js');
 const accountRouter = require('./account/main.js');
 const imgRouter = require('./img/main.js');
 const unitsRouter = require('./units/main.js');
+const pathsRouter = require('./paths/main.js');
 
 const generalRouter = require('./general/main.js');
 const nounsRouter = require('./nouns/main.js');
@@ -21,6 +22,7 @@ const uProfileRouter = require('./user/profile/main.js');
 router.use('/', auth)
 
 router.use('/units', unitsRouter)
+router.use('/paths', pathsRouter)
 
 //approach only after verified
 
