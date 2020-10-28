@@ -193,6 +193,13 @@ function _handle_ErrCatched(e, req, res){
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;
+    case 52: //404, PathProject was not found
+      winston.warn(`${"error status: "+ e.status} - ${" ,code 52, req a Path probably with an invalid pathName, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+      clientSet['code'] = 52;
+      clientSet['message'] = e.message;
+      clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
     case 71:
       //403,
       // currently used in patch /nodesBelong, change belongs too often
