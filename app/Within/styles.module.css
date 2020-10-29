@@ -24,6 +24,10 @@
   background-color: #fff8f7;
 }
 
+.boxNavWithinSelf { /* must 'after' the boxNavAround */
+  background-color: transparent;
+}
+
 .boxNavWithinCosmic {
   width: 20vw;
   position: fixed;
@@ -41,6 +45,13 @@
   left: 2.7vw;
   box-sizing: border-box;
   z-index: 1;
+}
+
+.boxNavOptionsSelf {
+  min-width: 10vw; /* follow boxContentFilledLeft*/
+  height: 100%;
+  position: fixed;
+  background-color: #fff8f7;
 }
 
 .boxNavOptionsCosmic {
@@ -126,6 +137,10 @@
     top: unset;
   }
 
+  .boxNavWithinSelf { /* must 'after' the boxNavAround */
+    background-color: #fff8f7;
+  }
+
   .boxNavWithinCosmic {
     width: 100%;
     position: sticky;
@@ -141,6 +156,13 @@
     left: 0;
     background-color: rgb(117,117,117);
     box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
+  }
+
+  .boxNavOptionsSelf {
+    min-width: unset; /* back to default */
+    height: unset; /* back to default */
+    position: static; /* back to default */
+    background-color: unset; /* back to default */
   }
 
   .boxNavOptionsCosmic {

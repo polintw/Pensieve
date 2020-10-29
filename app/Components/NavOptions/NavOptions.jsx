@@ -70,6 +70,10 @@ class NavOptions extends React.Component {
             accountFirstName={this.props.userInfo.firstName}
             accountLastName={this.props.userInfo.lastName}
             styleFirst={{ fontWeight: '600' }}/>
+          {
+            this.state.toolBoxify &&
+            this._render_NavToolBox()
+          }
         </div>
 
       )
@@ -156,11 +160,11 @@ class NavOptions extends React.Component {
               accountLastName={this.props.userInfo.lastName}
               styleFirst={{ display: 'block', fontWeight: '600' }}
               styleLast={{ display: 'block'}} />
+            {
+              this.state.toolBoxify &&
+              this._render_NavToolBox()
+            }
           </div>
-        }
-        {
-          this.state.toolBoxify &&
-          this._render_NavToolBox()
         }
       </div>
     )

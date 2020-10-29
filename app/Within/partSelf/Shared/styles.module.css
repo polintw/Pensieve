@@ -1,0 +1,26 @@
+.comSelfWrapper {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.boxRow {
+  position: relative;
+  margin: 12px 0;
+}
+
+.boxRowTop { /* should after .boxRow */
+  padding-top: 4px;
+}
+
+.boxFooter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 2rem;
+  margin-bottom: 36vh;
+}
+
+.spanFooterHint {
+  margin: 8px 0;
+}
