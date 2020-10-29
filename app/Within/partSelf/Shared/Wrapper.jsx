@@ -8,6 +8,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import Feed from './Feed/Feed.jsx';
 import {
   axios_visit_GET_last,
   axios_visit_Index
@@ -92,6 +93,10 @@ class Wrapper extends React.Component {
 
           </div>
           <div
+            className={classnames(styles.boxRow)}>
+            <Feed/>
+          </div>
+          <div
             className={classnames(styles.boxRow, styles.boxFooter)}>
             {
               this._render_FooterHint()
@@ -130,7 +135,6 @@ const mapStateToProps = (state)=>{
     userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
     belongsByType: state.belongsByType,
-    sharedsList: state.sharedsList
   }
 }
 
