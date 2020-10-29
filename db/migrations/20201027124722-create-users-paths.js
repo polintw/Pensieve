@@ -44,7 +44,7 @@ module.exports = {
         type: 'foreign key',
         name: 'constraint_fkey_userspaths_idpath',
         references: { //Required field
-          table: 'users',
+          table: 'paths',
           field: 'id'
         },
         onDelete: 'cascade',

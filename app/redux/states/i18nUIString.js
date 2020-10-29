@@ -112,12 +112,16 @@ const i18nUIString_EN = {
   "title_profile": "Profile",
   "title_home": "Home",
   "title_Publications": "Publications",
+  "title_Chain_Shareds_": "Publications",
+  "title_shared": "Shareds",
   "subtitle_email": "Email",
   "subtitle_Password": "Password",
   "link_UnitListResponds": 'View Responds',//Original:'responds'
   "link_Fellows": 'Fellows',
   "Cornerth_inc": "Cornerth. ",
   "AllRights": "All Rights Reserved.",
+
+  "link_Nav_Shareds_": ["as ", "You"],
 
   "submit_Options_profile": "My profile",
   "submit_Unit_upload": ["Add image", "Processing..."],
@@ -158,7 +162,6 @@ const i18nUIString_EN = {
   "guiding_FeedAssigned_noneAssigned_justSubmit": "Good to have your contrubution.",
   "guiding_FeedAssigned_noneAssigned_norContri": "It could be you contributing somthing to your corners!", //Original:"It could be you contributing somthing for your corners!"
 
-  "title_Chain_Shareds_": "Contributions",
   "message_Chain_noShareds": "You'll see the list of your contributions here.",
   "message_Chain_noSharedsCourage": "Submit your first one!",//Original:"Trying submitting an observation about your corners."
   "message_Chain_byChainInfo": [

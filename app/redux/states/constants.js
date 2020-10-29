@@ -6,6 +6,8 @@ export const accountInfoInit = {
   firstName: '',
   lastName: '',
   id: null,
+  pathProject: null, // 'name' of the project
+  pathName: null // be 'null' to make a bool check
 }
 
 export const unitCurrentInit = {

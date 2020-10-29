@@ -9,6 +9,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import Feed from './Feed/Feed.jsx';
+import TitleShareds from './TitleShareds/TitleShareds.jsx';
 import {
   axios_visit_GET_last,
   axios_visit_Index
@@ -86,7 +87,7 @@ class Wrapper extends React.Component {
           className={classnames(styles.comSelfWrapper)}>
           <div
             className={classnames(styles.boxRow, styles.boxRowTop)}>
-
+            <TitleShareds/>
           </div>
           <div
             className={classnames(styles.boxRow)}>
