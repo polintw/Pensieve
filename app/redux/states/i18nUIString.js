@@ -122,6 +122,7 @@ const i18nUIString_EN = {
   "AllRights": "All Rights Reserved.",
 
   "link_Nav_Shareds_": ["as ", "You"],
+  "descript_Shareds_pathLink": "under ",
 
   "submit_Options_profile": "My profile",
   "submit_Unit_upload": ["Add image", "Processing..."],

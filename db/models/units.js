@@ -34,12 +34,6 @@ module.exports = (sequelize, DataTypes) => {
     paranoid: true
   });
   units.associate = function(models) {
-    units.belongsTo(models.users, {
-      foreignKey:"id_author",
-      targetKey: "id",
-      onDelete: 'cascade',
-      onUpdate: 'cascade'
-    });
     units.hasMany(models.users_units, {
       foreignKey:"id_unit",
       sourceKey: "id",

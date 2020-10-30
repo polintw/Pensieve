@@ -12,7 +12,7 @@ import AccountPalette from '../../AccountPalette.jsx';
 import DisplayMarkPreview from '../../Draft/DisplayMarkPreview.jsx';
 import {
   renderNodesRows
-} from '../../Node/generators.js';
+} from '../../NodesSearch/generators.js';
 
 class NailShared extends React.Component {
   constructor(props){

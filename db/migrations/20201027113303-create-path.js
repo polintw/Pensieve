@@ -21,6 +21,9 @@ module.exports = {
         allowNull: false,
         unique: true // not allow duplicate
       },
+      description: {
+        type: Sequelize.STRING(255)
+      },
       set_webLink: {
         type: Sequelize.STRING(511),
       },

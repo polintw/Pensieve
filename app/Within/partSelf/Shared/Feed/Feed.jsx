@@ -137,6 +137,7 @@ class Feed extends React.Component {
 
   render(){
     let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
+    this.pathProjectify = urlParams.has('pathProject');
     if(urlParams.has('filterNode')){
       this.filterNode = urlParams.get('filterNode');
     } else this.filterNode = false;
@@ -205,9 +206,10 @@ class Feed extends React.Component {
       this.axiosSource.token,
       this.filterNode? true : false, // api for filter or not
       {
-        filterNode: this.filterNode,
-        listUnitBase: lastUnitTime}
-      )
+        filterNode: [this.filterNode], // array with node from filter
+        listUnitBase: lastUnitTime, // time of last Nail
+        pathProject: this.pathProjectify // bool, true if exist in query
+    })
     .then((resObj)=>{
       if(resObj.main.unitsList.length > 0){
         self.setState((prevState, props)=>{

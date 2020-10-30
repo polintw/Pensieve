@@ -10,9 +10,11 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import Feed from './Feed/Feed.jsx';
 import NavFeed from './NavFeed/NavFeed.jsx';
+import NavFilter from './NavFilter/NavFilter.jsx';
 import TitlePath from './TitlePath/TitlePath.jsx';
 import {_axios_get_projectBasic} from './axios.js';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
+import NodesFilter from '../../../Components/NodesFilter/NodesFilter.jsx';
 import NavWihtinCosmic from '../../../Components/NavWithin/NavWihtinCosmic.jsx';
 import {
   cancelErr,
@@ -24,12 +26,14 @@ class Wrapper extends React.Component {
     super(props);
     this.state = {
       axios: false,
+      viewFilter: false,
       pathName: false,
       projectName: '',
       filterStart: null,
       projectInfo: {}
     };
     this.axiosSource = axios.CancelToken.source();
+    this._set_viewFilter = this._set_viewFilter.bind(this);
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._set_projectBasic = this._set_projectBasic.bind(this);
   }
@@ -70,13 +74,26 @@ class Wrapper extends React.Component {
             <TitlePath
               title={this.state.projectName}/>
           </div>
-          <div
-            className={classnames(styles.boxRow)}>
-            <NavFeed {...this.props}/>
+          <div>
+            <NavFilter
+              {...this.props}
+              viewFilter={this.state.viewFilter}
+              projectInfo={this.state.projectInfo}
+              _set_viewFilter={this._set_viewFilter}/>
           </div>
           <div
             className={classnames(styles.boxRow)}>
-            <Feed {...this.props}/>
+            {
+              this.state.viewFilter ? (
+                <NodesFilter
+                  startNode={this.state.filterStart}/>
+              ):(
+                <div>
+                  <NavFeed {...this.props}/>
+                  <Feed {...this.props}/>
+                </div>
+              )
+            }
           </div>
 
           <div className={classnames(styles.boxDecoBottom, styles.smallDisplayNone)}></div>
@@ -96,6 +113,12 @@ class Wrapper extends React.Component {
         }/>
       </div>
     )
+  }
+
+  _set_viewFilter(view){
+    this.setState({
+      viewFilter: !!view ? view : false
+    })
   }
 
   _construct_UnitInit(match, location){

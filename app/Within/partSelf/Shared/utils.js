@@ -37,9 +37,11 @@ export function axios_visit_GET_last(cancelToken){
 }
 
 export function _axios_get_accumulatedList(cancelToken, nodefilterify, obj){
+  let urlByNodeFilter = '/router/share' + (nodefilterify ?  '/accumulated/filter': '/accumulated')
+
   return axios({
     method: 'get',
-    url: '/router/share/accumulated' + (nodefilterify? '/filter' : ''),
+    url: urlByNodeFilter,
     params: obj,
     headers: {
       'Content-Type': 'application/json',

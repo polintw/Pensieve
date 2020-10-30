@@ -38,7 +38,8 @@ class TitleShareds extends React.Component {
 
     return (
       <div className={styles.comTitleShareds}>
-        <div>
+        <div
+          className={classnames(styles.boxUpperRow)}>
           <span
             className={classnames("fontTitle", "colorEditBlack", "weightBold")}>
             {this.props.i18nUIString.catalog['title_shared']}
@@ -50,10 +51,10 @@ class TitleShareds extends React.Component {
         </div>
         <div>
           {
-            !!this.props.userInfo.pathName &&
+            (!!this.props.userInfo.pathName && pathProjectify) &&
             <div
               className={classnames("fontContentPlain", "colorGrey")}>
-              <span style={{cursor: 'default'}}>{this.props.i18nUIString.catalog["descript_Unit_Primer"][0]}</span>
+              <span style={{cursor: 'default'}}>{this.props.i18nUIString.catalog["descript_Shareds_pathLink"]}</span>
               <a
                 href={'/cosmic/explore/path/'+ this.props.userInfo.pathName}
                 className={classnames('plainLinkButton', "colorAssistOcean")}

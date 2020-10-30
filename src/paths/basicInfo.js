@@ -28,7 +28,8 @@ async function _handle_GET_paths_basic(req, res){
       name: targetProject.name,
       nodeStart: targetProject.set_nodeStart,
       otherInfo: {
-        webLink: targetProject.set_webLink
+        webLink: targetProject.set_webLink,
+        description: targetProject.description
       },
       temp: {}
     };

@@ -16,6 +16,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       unique: true
     },
+    description:{
+      type: DataTypes.STRING,
+      charset: 'utf8mb4' //for Mandarin, or emoji if you don't speak in mandarin
+    },
     set_webLink: {
       type: DataTypes.STRING,
       charset: 'utf8mb4' //for Mandarin, or emoji if you don't speak in mandarin
