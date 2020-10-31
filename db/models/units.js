@@ -29,6 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     url_pic_layer0: DataTypes.STRING,
     url_pic_layer1: DataTypes.STRING,
     id_primer: DataTypes.INTEGER,
+    author_identity: DataTypes.STRING,
     createdAt: DataTypes.DATE //notice! this line is neccessary cuase we would select it as a params
   }, {
     paranoid: true

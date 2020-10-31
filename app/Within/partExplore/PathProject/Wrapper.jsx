@@ -12,7 +12,10 @@ import Feed from './Feed/Feed.jsx';
 import NavFeed from './NavFeed/NavFeed.jsx';
 import NavFilter from './NavFilter/NavFilter.jsx';
 import TitlePath from './TitlePath/TitlePath.jsx';
-import {_axios_get_projectBasic} from './axios.js';
+import {
+  _axios_get_projectBasic,
+  _axios_get_projectNodes
+} from './axios.js';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
 import NodesFilter from '../../../Components/NodesFilter/NodesFilter.jsx';
 import NavWihtinCosmic from '../../../Components/NavWithin/NavWihtinCosmic.jsx';
@@ -30,7 +33,8 @@ class Wrapper extends React.Component {
       pathName: false,
       projectName: '',
       filterStart: null,
-      projectInfo: {}
+      projectInfo: {},
+      usedNodes: []
     };
     this.axiosSource = axios.CancelToken.source();
     this._set_viewFilter = this._set_viewFilter.bind(this);
@@ -86,6 +90,8 @@ class Wrapper extends React.Component {
             {
               this.state.viewFilter ? (
                 <NodesFilter
+                  startListify={true}
+                  startList={this.state.usedNodes}
                   startNode={this.state.filterStart}/>
               ):(
                 <div>
@@ -133,12 +139,21 @@ class Wrapper extends React.Component {
     _axios_get_projectBasic(this.axiosSource.token, this.props.match.params['pathName'])
     .then((resObj)=>{
       self.setState((prevState, props)=>{
-        return ({
-          axios: false,
+        return {
           pathName: resObj.main.pathName,
           projectName: resObj.main.name,
           filterStart: resObj.main.nodeStart,
           projectInfo: resObj.main.otherInfo
+        };
+      });
+
+      return _axios_get_projectNodes(this.axiosSource.token, this.props.match.params['pathName']);
+    })
+    .then((resObj)=>{
+      self.setState((prevState, props)=>{
+        return ({
+          axios: false,
+          usedNodes: resObj.main.nodesList
         });
       });
     })

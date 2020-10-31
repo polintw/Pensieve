@@ -7,6 +7,7 @@ const {
 } = require('../utils/reserrHandler.js');
 
 const accumulatedExecutive = require('./accumulated.js');
+const nodesExecutive = require('./nodes.js');
 const basicInfoExecutive = require('./basicInfo.js');
 
 /*
@@ -50,6 +51,7 @@ main.use(function(req, res, next) {
 
 // path do not need a token
 main.use('/accumulated', accumulatedExecutive)
+main.use('/nodes', nodesExecutive)
 main.use('/basic', basicInfoExecutive)
 
 module.exports = main;

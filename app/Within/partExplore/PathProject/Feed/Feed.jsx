@@ -40,7 +40,12 @@ class Feed extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-
+    // if change the node by modifying the nodeid in search, the page would only update
+    let lastUrlParams = new URLSearchParams(prevProps.location.search); //we need value in URL query
+    let lastNodeAtId = lastUrlParams.has('filterNode') ? lastUrlParams.get('filterNode'): null;
+    if(this.filterNode != lastNodeAtId){
+      this._set_feedUnits();
+    }
   }
 
   componentDidMount(){
@@ -150,6 +155,11 @@ class Feed extends React.Component {
   }
 
   render(){
+    let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
+    if(urlParams.has('filterNode')){
+      this.filterNode = urlParams.get('filterNode');
+    } else this.filterNode = null;
+
     return (
       <div className={styles.comPathProjectFeed}>
         <div>

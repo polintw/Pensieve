@@ -41,8 +41,8 @@ class Feed extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot){
     // if change the node bymodifying the nodeid in search, the page would only update
     let lastUrlParams = new URLSearchParams(prevProps.location.search); //we need value in URL query
-    let lastNodeAtId = lastUrlParams.has('filterNode') ? lastUrlParams.get('filterNode'): false;
-    if(lastNodeAtId && this.filterNode != lastNodeAtId){
+    let lastNodeAtId = lastUrlParams.has('filterNode') ? lastUrlParams.get('filterNode'): null;
+    if(this.filterNode != lastNodeAtId){
       this._set_feedUnits();
     }
   }
@@ -140,7 +140,7 @@ class Feed extends React.Component {
     this.pathProjectify = urlParams.has('pathProject');
     if(urlParams.has('filterNode')){
       this.filterNode = urlParams.get('filterNode');
-    } else this.filterNode = false;
+    } else this.filterNode = null;
 
     return (
       <div className={styles.comSharedsFeed}>
