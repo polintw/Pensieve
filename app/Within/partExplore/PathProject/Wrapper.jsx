@@ -20,6 +20,9 @@ import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
 import NodesFilter from '../../../Components/NodesFilter/NodesFilter.jsx';
 import NavWihtinCosmic from '../../../Components/NavWithin/NavWihtinCosmic.jsx';
 import {
+  handleNounsList,
+} from "../../../redux/actions/general.js";
+import {
   cancelErr,
   uncertainErr
 } from '../../../utils/errHandlers.js';
@@ -87,8 +90,8 @@ class Wrapper extends React.Component {
           </div>
           <div
             className={classnames(styles.boxRow)}>
-            {
-              this.state.viewFilter ? (
+            { // render NodesFilter only after the filterStart was fetched
+              (this.state.viewFilter && !!this.state.filterStart) ? (
                 <NodesFilter
                   startListify={true}
                   startList={this.state.usedNodes}
@@ -150,6 +153,8 @@ class Wrapper extends React.Component {
       return _axios_get_projectNodes(this.axiosSource.token, this.props.match.params['pathName']);
     })
     .then((resObj)=>{
+      //after res of axios_Units: call get nouns & users
+      self.props._submit_NounsList_new(resObj.main.nodesList);
       self.setState((prevState, props)=>{
         return ({
           axios: false,
@@ -183,7 +188,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
   }
 }
 

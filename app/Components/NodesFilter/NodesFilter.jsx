@@ -5,41 +5,46 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import {
+  _axios_get_NodesLayer
+} from './axios.js';
+import {
+  handleNounsList,
+} from "../../redux/actions/general.js";
+import {
+  cancelErr,
+  uncertainErr
+} from "../../utils/errHandlers.js";
 
 class NodesFilter extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      axios: false,
       nodesList: [],
       baseNode: null,
-      fetchify: false,
+      baseParent: null,
+      atStartListify: true
     };
+    this.axiosSource = axios.CancelToken.source();
     this._render_Nodes = this._render_Nodes.bind(this);
     this._set_nodesList = this._set_nodesList.bind(this);
+    this._handleClick_switchStartList = this._handleClick_switchStartList.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-    if ((this.props.startList != prevProps.startList) || (this.props.startNode != prevProps.startNode)) {
-      /*
-      it's, the situation the whole page was redirect,
-      or the data finally fetched from server.
-      */
-      return {
-        nodesList: this.props.startList,
-        baseNode: this.props.startNode,
-        fetchify: !this.props.startListify
-      };
-    };
-    if(this.state.fetchify){ // going to fetch the new list by baseNode
-      this.setState({
-        fetchify: false
-      });
+    if(this.state.baseNode != prevState.baseNode){
       this._set_nodesList(this.state.baseNode);
     };
   }
 
   componentDidMount(){
-
+    if(!this.props.startListify && this.state.atStartListify){ // at start list but without a nodesList passed from props
+      this.setState({
+        baseNode: this.props.startNode,
+        atStartListify: false
+      });
+    }
   }
 
   componentWillUnmount(){
@@ -47,7 +52,8 @@ class NodesFilter extends React.Component {
   }
 
   _render_Nodes(){
-    let nodesListDOM = this.nodesList.map((nodeId, index)=>{
+    let list = (this.props.startListify && this.state.atStartListify) ? this.props.startList : this.state.nodesList;
+    let nodesListDOM = list.map((nodeId, index)=>{
       return (
         <div>
           <span
@@ -71,7 +77,20 @@ class NodesFilter extends React.Component {
   render(){
     return (
       <div className={styles.comNodesFilter}>
-        {this._render_Nodes()}
+        <div>
+          {
+            this.props.startListify &&
+            <div
+              onClick={this._handleClick_switchStartList}>
+              <span>
+                {this.state.atStartListify ? "In All" : "Only Used"}
+              </span>
+            </div>
+          }
+        </div>
+        <div>
+          {this._render_Nodes()}
+        </div>
       </div>
     )
   }
@@ -80,42 +99,16 @@ class NodesFilter extends React.Component {
     const self = this;
     this.setState({axios: true});
 
-    _axios_get_NodesLayer(this.axiosSource.token, {
-      baseNode: baseNode
-    })
-    .then((resObj)=>{
-      if(resObj.main.unitsList.length > 0){
-        self.setState((prevState, props)=>{
-          let copyList = prevState.feedList.slice();
-          copyList.push(resObj.main.unitsList);
-          return {
-            feedList: copyList,
-            scrolled: resObj.main.scrolled
-          }
-        });
-
-        return axios_get_UnitsBasic(self.axiosSource.token, resObj.main.unitsList);
-      }
-      else{
-        self.setState({scrolled: resObj.main.scrolled}) // don't forget set scrolled to false to indicate the list was end
-        return { //just a way to deal with the next step, stop further request
-          main: {
-            nounsListMix: [],
-            usersList: [],
-            unitsBasic: {},
-            marksBasic: {}
-          }}};
-    })
+    _axios_get_NodesLayer(this.axiosSource.token, baseNode)
     .then((resObj)=>{
       //after res of axios_Units: call get nouns & users
-      self.props._submit_NounsList_new(resObj.main.nounsListMix);
-      self.props._submit_UsersList_new(resObj.main.usersList);
+      self.props._submit_NounsList_new(resObj.main.nodesList);
       //and final, update the data of units to state
       self.setState((prevState, props)=>{
         return ({
           axios: false,
-          unitsBasic: {...prevState.unitsBasic, ...resObj.main.unitsBasic},
-          marksBasic: {...prevState.marksBasic, ...resObj.main.marksBasic}
+          nodesList: resObj.main.nodesList,
+          baseParent: resObj.main.nodeParent
         });
       });
     })
@@ -130,6 +123,16 @@ class NodesFilter extends React.Component {
     });
   }
 
+  _handleClick_switchStartList(event){
+    event.stopPropagation();
+    event.preventDefault();
+    this.setState((prevState, props)=>{
+      return {
+        atStartListify: prevState.atStartListify ? false : true,
+        baseNode: prevState.atStartListify ? this.props.startNode: null
+      };
+    });
+  }
 }
 
 
@@ -143,7 +146,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
   }
 }
 
