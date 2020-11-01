@@ -10,20 +10,36 @@ class NodesFilter extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      baseNode: this.props.startNode // startNode only used at 'start'
+      nodesList: [],
+      baseNode: null,
+      fetchify: false,
     };
     this._render_Nodes = this._render_Nodes.bind(this);
     this._set_nodesList = this._set_nodesList.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-    if(prevState.baseNode != this.state.baseNode){
+    if ((this.props.startList != prevProps.startList) || (this.props.startNode != prevProps.startNode)) {
+      /*
+      it's, the situation the whole page was redirect,
+      or the data finally fetched from server.
+      */
+      return {
+        nodesList: this.props.startList,
+        baseNode: this.props.startNode,
+        fetchify: !this.props.startListify
+      };
+    };
+    if(this.state.fetchify){ // going to fetch the new list by baseNode
+      this.setState({
+        fetchify: false
+      });
       this._set_nodesList(this.state.baseNode);
-    }
+    };
   }
 
   componentDidMount(){
-    this._set_nodesList(this.state.baseNode);
+
   }
 
   componentWillUnmount(){
@@ -31,11 +47,25 @@ class NodesFilter extends React.Component {
   }
 
   _render_Nodes(){
-    return(
-      <div>
+    let nodesListDOM = this.nodesList.map((nodeId, index)=>{
+      return (
+        <div>
+          <span
+            className={classnames("fontContentPlain", "weightBold", "colorEditBlack")}>
+            {nodeId in this.props.nounsBasic ? (this.props.nounsBasic[nodeId].name) : null}
+          </span>
+          <span
+            className={classnames("fontContentPlain", "weightBold", "colorEditBlack")}>
+            {nodeId in this.props.nounsBasic ? (
+              (this.props.nounsBasic[nodeId].prefix.length > 0) &&
+              (", " + this.props.nounsBasic[nodeId].prefix)) : (null)
+            }
+          </span>
+        </div>
+      );
+    })
 
-      </div>
-    )
+    return nodesListDOM;
   }
 
   render(){
