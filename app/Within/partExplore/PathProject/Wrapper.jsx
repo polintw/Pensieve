@@ -14,7 +14,8 @@ import NavFilter from './NavFilter/NavFilter.jsx';
 import TitlePath from './TitlePath/TitlePath.jsx';
 import {
   _axios_get_projectBasic,
-  _axios_get_projectNodes
+  _axios_get_projectNodes,
+  _axios_get_projectLayerFirstUnits
 } from './axios.js';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
 import NodesFilter from '../../../Components/NodesFilter/NodesFilter.jsx';
@@ -93,9 +94,17 @@ class Wrapper extends React.Component {
             { // render NodesFilter only after the filterStart was fetched
               (this.state.viewFilter && !!this.state.filterStart) ? (
                 <NodesFilter
+                  nodePageify={true}
                   startListify={true}
                   startList={this.state.usedNodes}
-                  startNode={this.state.filterStart}/>
+                  startNode={this.state.filterStart}
+                  _handle_nodeClick={this._set_viewFilter}
+                  _get_firstUnitsList={(nodesList)=>{
+                    // return a promise() to NodesFilter
+                    return _axios_get_projectLayerFirstUnits(this.axiosSource.token, {
+                      nodesList: nodesList, pathName: this.props.match.params['pathName']
+                    })
+                  }}/>
               ):(
                 <div>
                   <NavFeed {...this.props}/>
