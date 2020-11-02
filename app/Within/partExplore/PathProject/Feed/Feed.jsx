@@ -227,7 +227,7 @@ class Feed extends React.Component {
     _axios_get_accumulatedList(this.axiosSource.token, {
       pathProject: this.props.match.params['pathName'],
       listUnitBase: lastUnitTime,
-      filterNodes: []
+      filterNodes: [this.filterNode]
     })
     .then((resObj)=>{
       if(resObj.main.unitsList.length > 0){

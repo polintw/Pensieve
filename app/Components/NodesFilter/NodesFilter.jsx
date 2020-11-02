@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Link,
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
@@ -29,6 +30,7 @@ class NodesFilter extends React.Component {
     this.axiosSource = axios.CancelToken.source();
     this._render_Nodes = this._render_Nodes.bind(this);
     this._set_nodesList = this._set_nodesList.bind(this);
+    this._handleClick_switchUppeLayer = this._handleClick_switchUppeLayer.bind(this);
     this._handleClick_switchStartList = this._handleClick_switchStartList.bind(this);
   }
 
@@ -54,8 +56,17 @@ class NodesFilter extends React.Component {
   _render_Nodes(){
     let list = (this.props.startListify && this.state.atStartListify) ? this.props.startList : this.state.nodesList;
     let nodesListDOM = list.map((nodeId, index)=>{
+      let linkSearch = ((this.props.location.search.length > 0) ? this.props.location.search+'&' : '?') +'filterNode='+nodeId;
       return (
-        <div>
+        <Link
+          key={"key_nodesFilter_"+index}
+          to={{
+            pathname: this.props.match.url ,
+            search: linkSearch,
+            state: {from: this.props.location}
+          }}
+          className={classnames(
+            'plainLinkButton')}>
           <span
             className={classnames("fontContentPlain", "weightBold", "colorEditBlack")}>
             {nodeId in this.props.nounsBasic ? (this.props.nounsBasic[nodeId].name) : null}
@@ -67,7 +78,7 @@ class NodesFilter extends React.Component {
               (", " + this.props.nounsBasic[nodeId].prefix)) : (null)
             }
           </span>
-        </div>
+        </Link>
       );
     })
 
@@ -84,6 +95,15 @@ class NodesFilter extends React.Component {
               onClick={this._handleClick_switchStartList}>
               <span>
                 {this.state.atStartListify ? "In All" : "Only Used"}
+              </span>
+            </div>
+          }
+          {
+            !this.state.atStartListify &&
+            <div
+              onClick={this._handleClick_switchUppeLayer}>
+              <span>
+                {"Upper"}
               </span>
             </div>
           }
@@ -129,10 +149,23 @@ class NodesFilter extends React.Component {
     this.setState((prevState, props)=>{
       return {
         atStartListify: prevState.atStartListify ? false : true,
-        baseNode: prevState.atStartListify ? this.props.startNode: null
+        baseNode: prevState.atStartListify ? this.props.startNode: null,
+        baseParent: null
       };
     });
   }
+
+  _handleClick_switchUppeLayer(event){
+    event.preventDefault();
+    event.stopPropagation();
+    if(!this.state.baseParent) return; // 'null', when no parent fr baseNode
+
+    this.setState({
+      baseNode: this.state.baseParent,
+      baseParent: null
+    });
+  }
+
 }
 
 

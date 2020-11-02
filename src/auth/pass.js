@@ -68,6 +68,10 @@ pass.use(function(req, res, next) {
         // let /units/ pass, check the 'tokenify' itself.
         next()
         break;
+      case 'nouns':
+        // let /nouns/ pass, check the 'tokenify' itself.
+        next()
+        break;
       case 'paths':
         // let /paths/ pass, check the 'tokenify' itself.
         next()
