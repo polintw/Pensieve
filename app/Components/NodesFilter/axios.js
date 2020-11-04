@@ -1,8 +1,8 @@
-export function _axios_get_NodesLayer(cancelToken, baseNode){
+export function _axios_get_NodesLayer(cancelToken, paramsObj){
   return axios({
     method: 'get',
     url: '/router/nouns/layer',
-    params: {baseNode: baseNode, parent: true},
+    params: paramsObj,
     headers: {
       'Content-Type': 'application/json',
       'charset': 'utf-8',

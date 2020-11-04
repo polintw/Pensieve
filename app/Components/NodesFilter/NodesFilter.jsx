@@ -6,6 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import ImgPreview from '../ImgPreview.jsx';
 import {
   _axios_get_NodesLayer
 } from './axios.js';
@@ -17,6 +18,9 @@ import {
   cancelErr,
   uncertainErr
 } from "../../utils/errHandlers.js";
+import {
+  domain
+} from '../../../config/services.js';
 
 class NodesFilter extends React.Component {
   constructor(props){
@@ -26,6 +30,7 @@ class NodesFilter extends React.Component {
       nodesList: [],
       baseNode: null,
       baseParent: null,
+      fetchBaseAsParent: false, // a token was used to know if the fetch should use as a parent
       atStartListify: true,
       nodesUnits: {},
       unitsBasic: {}
@@ -36,17 +41,29 @@ class NodesFilter extends React.Component {
     this._set_firstUnitBasic = this._set_firstUnitBasic.bind(this);
     this._handleClick_filterNode = this._handleClick_filterNode.bind(this);
     this._handleClick_switchUppeLayer = this._handleClick_switchUppeLayer.bind(this);
+    this._handleClick_switcNextLayer = this._handleClick_switcNextLayer.bind(this);
     this._handleClick_switchStartList = this._handleClick_switchStartList.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-    if(this.state.baseNode != prevState.baseNode){
-      this._set_nodesList(this.state.baseNode);
+    // check first a special situation the component back to start list and using a list passed from props,
+    // get the first units list for it
+    if((this.state.baseNode != prevState.baseNode) && this.props.startListify && this.state.atStartListify){
+      this._set_firstUnitBasic(this.props.startList);
+    }
+    // then handle the rest change second
+    else if(this.state.baseNode != prevState.baseNode){
+      this._set_nodesList(this.state.baseNode, this.state.fetchBaseAsParent ? true : false );
     };
   }
 
   componentDidMount(){
-    if(!this.props.startListify && this.state.atStartListify){ // at start list but without a nodesList passed from props
+    // a special situation the component should start from a list passed from props,
+    // get the first units list for it
+    if(this.props.startListify && this.state.atStartListify){
+      this._set_firstUnitBasic(this.props.startList);
+    };
+    if(!this.props.startListify && this.state.atStartListify){ // at start list and no list would passed from props
       this.setState({
         baseNode: this.props.startNode,
         atStartListify: false
@@ -69,30 +86,72 @@ class NodesFilter extends React.Component {
     });
     // then going to render by params string & nodesList
     let nodesListDOM = list.map((nodeId, index)=>{
-      let searchWithFilterNode = searchStr + '&filterNode=' + nodeId;
-      return (
-        <Link
-          key={"key_nodesFilter_"+index}
-          to={{
-            pathname: this.props.match.url ,
-            search: searchWithFilterNode,
+      // know first if this node has used.
+      let firstUnitify = (nodeId in this.state.nodesUnits) ? true : false;
+      let imgSrcCover = '',
+          linkObj = {
+            pathname: '/cosmic/explore/node' ,
+            search: '?nodeid='+ nodeId,
             state: {from: this.props.location}
-          }}
-          className={classnames(
-            'plainLinkButton')}
-          onClick={this._handleClick_filterNode}>
-          <span
-            className={classnames("fontContentPlain", "weightBold", "colorEditBlack")}>
-            {nodeId in this.props.nounsBasic ? (this.props.nounsBasic[nodeId].name) : null}
-          </span>
-          <span
-            className={classnames("fontContentPlain", "weightBold", "colorEditBlack")}>
-            {nodeId in this.props.nounsBasic ? (
-              (this.props.nounsBasic[nodeId].prefix.length > 0) &&
-              (", " + this.props.nounsBasic[nodeId].prefix)) : (null)
+          };
+      // but if the node has used, or if we are commant to
+      if(firstUnitify || !this.props.nodePageify){
+        linkObj = {
+          pathname: this.props.match.url ,
+          search: searchStr + '&filterNode=' + nodeId,
+          state: {from: this.props.location}
+        };
+        let firstUnitId = this.state.nodesUnits[nodeId];
+        imgSrcCover = 'https://'+domain.name+'/router/img/'
+          + ((firstUnitId in this.state.unitsBasic) ? this.state.unitsBasic[firstUnitId].pic_layer0: 'notyetprepared_inNodesFilter')
+          +'?type=thumb';
+      };
+      this['filterNode'+ index] = React.createRef(); // make a ref for only this component
+
+      return (
+        <div>
+          <Link
+            key={"key_nodesFilter_"+index}
+            to={linkObj}
+            ref={this["filterNode"+ index]}
+            className={classnames(
+              'plainLinkButton')}
+            onClick={this._handleClick_filterNode}>
+            { // preview only appear if the node was used
+              firstUnitify &&
+              <div
+                className={styles.boxImg}>
+                <ImgPreview
+                  blockName={''}
+                  previewSrc={ imgSrcCover }
+                  _handleClick_ImgPreview_preview={()=>{this["filterNode"+index].current.click()}}/>
+              </div>
             }
-          </span>
-        </Link>
+            <div>
+              <span
+                className={classnames("fontContentPlain", "weightBold", "colorEditBlack")}>
+                {nodeId in this.props.nounsBasic ? (this.props.nounsBasic[nodeId].name) : null}
+              </span>
+              <span
+                className={classnames("fontContentPlain", "weightBold", "colorEditBlack")}>
+                {nodeId in this.props.nounsBasic ? (
+                  (this.props.nounsBasic[nodeId].prefix.length > 0) &&
+                  (", " + this.props.nounsBasic[nodeId].prefix)) : (null)
+                }
+              </span>
+            </div>
+          </Link>
+          {
+            !(this.props.startListify && this.state.atStartListify) &&
+            <div
+              nodeid={nodeId}
+              onClick={this._handleClick_switcNextLayer}>
+              <span>
+                {"children"}
+              </span>
+            </div>
+          }
+        </div>
       );
     })
 
@@ -133,7 +192,7 @@ class NodesFilter extends React.Component {
     const self = this;
     this.setState({axios: true});
 
-    return this.props._get_firstUnitsList(nodesList)
+    this.props._get_firstUnitsList(nodesList)
     .then((resObj)=>{
       self.setState((prevState, props)=>{
         return {
@@ -142,7 +201,7 @@ class NodesFilter extends React.Component {
       });
       let nodesKey = Object.keys(resObj.main.nodesUnits);
       let unitsList = nodesKey.map((key, index)=>{
-        return nodesUnits[key];
+        return resObj.main.nodesUnits[key];
       });
 
       return axios_get_UnitsBasic(self.axiosSource.token, unitsList);
@@ -169,11 +228,16 @@ class NodesFilter extends React.Component {
     });
   }
 
-  _set_nodesList(baseNode){
+  _set_nodesList(baseNode, asParentNode){
     const self = this;
     this.setState({axios: true});
+    let paramsObj = {
+      baseNode: baseNode,
+      asParent: !!asParentNode ? true : false, // ask as parent, could be 'undefined'
+      parent: true // return parent of list
+    }
 
-    _axios_get_NodesLayer(this.axiosSource.token, baseNode)
+    _axios_get_NodesLayer(this.axiosSource.token, paramsObj)
     .then((resObj)=>{
       //after res of axios_Units: call get nouns & users
       self.props._submit_NounsList_new(resObj.main.nodesList);
@@ -185,7 +249,7 @@ class NodesFilter extends React.Component {
           baseParent: resObj.main.nodeParent
         });
       });
-      return self._set_firstUnitBasic(resObj.main.nodesList);
+      self._set_firstUnitBasic(resObj.main.nodesList);
     })
     .catch(function (thrown) {
       self.setState({axios: false});
@@ -204,8 +268,11 @@ class NodesFilter extends React.Component {
     this.setState((prevState, props)=>{
       return {
         atStartListify: prevState.atStartListify ? false : true,
-        baseNode: prevState.atStartListify ? this.props.startNode: null,
-        baseParent: null
+        baseNode: prevState.atStartListify ? props.startNode: null,
+        baseParent: null,
+        nodesList: [],
+        nodesUnits: {},
+        unitsBasic: {}
       };
     });
   }
@@ -217,7 +284,27 @@ class NodesFilter extends React.Component {
 
     this.setState({
       baseNode: this.state.baseParent,
-      baseParent: null
+      baseParent: null,
+      fetchBaseAsParent: false,
+      nodesList: [],
+      nodesUnits: {},
+      unitsBasic: {}
+    });
+  }
+
+  _handleClick_switcNextLayer(event){
+    event.preventDefault();
+    event.stopPropagation();
+    let targetNode = event.currentTarget.getAttribute('nodeid');
+    if(!this.props.nounsBasic[targetNode].parentify) return; // do not have child node
+
+    this.setState({
+      baseNode: null,
+      baseParent: targetNode, // this is a special setting compare to _switchUppeLayer, due to the targetNode work as a parent
+      fetchBaseAsParent: true,
+      nodesList: [],
+      nodesUnits: {},
+      unitsBasic: {}
     });
   }
 

@@ -16,7 +16,7 @@ const {
 async function _handle_GET_paths_nodesAccumulated(req, res){
   const reqPathProject = req.query.pathName;
   const reqDepth = req.query.depth;
-  const reqNodes = req.query.nodesList;
+  const reqNodes = !!req.query.nodesList ? req.query.nodesList : []; // in case the list in params was empty or not exist
 
   try{
     let pathInfo = await _DB_paths.findOne({
@@ -41,7 +41,7 @@ async function _handle_GET_paths_nodesAccumulated(req, res){
         [Sequelize.fn('max', Sequelize.col('createdAt')), 'createdAt'], //fn(function, col, alias)
         //set attributes, so we also need to call every col we need
         'id_noun',
-        'id_unit'
+        'id_unit',
       ],
       group: 'id_noun' //Important. means we combined the rows by node, each id_noun would only has one row
     });
@@ -65,7 +65,7 @@ async function _handle_GET_paths_nodesAccumulated(req, res){
     };
     // make the list by exposedId from unitsInfo
     unitsByAttri.forEach((row, index) => {
-      sendingData.nodesUnits[row.id_noun] = unitsExposedIdKey[row.id];
+      sendingData.nodesUnits[row.id_noun] = unitsExposedIdKey[row.id_unit];
     });
 
 

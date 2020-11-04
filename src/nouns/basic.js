@@ -15,7 +15,6 @@ function _handle_nouns_basic_GET(req, res){
 
     _DB_nouns.findAll({
       where: {id: fetchList},
-      attributes: ["id", "name", "prefix"]
     })
     .then((results)=>{
       let sendingData={
@@ -27,7 +26,9 @@ function _handle_nouns_basic_GET(req, res){
         sendingData.nounsBasic[row.id] = {
           id: row.id,
           name: row.name,
-          prefix: row.prefix
+          prefix: row.prefix,
+          parentify: (row.parent ? true : false),
+          childify: (row.child ? true : false)
         };
       })
 

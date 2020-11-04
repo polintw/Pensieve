@@ -10,6 +10,52 @@ const {
   notFoundError
 } = require('../utils/reserrHandler.js');
 
+async function _handle_GET_nouns_layerChildren(req, res){
+  const reqBaseNode = req.query.baseNode;
+
+  try{
+    const infoBaseNode = await _DB_nouns.findOne({
+      where: {id: reqBaseNode}
+    });
+    // if 'null' result -> not a valid pathName
+    if(!infoBaseNode || !infoBaseNode.parent){ //'null' or no children, not an error, res an empty list
+      let sendingData={
+        nodesList: [],
+        nodeParent: null,
+        temp: {}
+      };
+      _res_success(res, sendingData, "GET: /nouns/layer, complete.");
+      return; //stop and end the handler.
+    };
+
+    let childrenLayerSelection = await _DB_nouns.findAll({
+      where: {
+        category: infoBaseNode.category,
+        language: infoBaseNode.language,
+        parent_id: reqBaseNode
+      }
+    });
+
+    let sendingData={
+      nodesList: [],
+      nodeParent: reqBaseNode,
+      temp: {}
+    };
+
+    let listNodes = childrenLayerSelection.map((row, index)=>{
+      return row.id
+    });
+    sendingData.nodesList = listNodes;
+
+    _res_success(res, sendingData, "GET: /nouns/layer, complete.");
+  }
+  catch(error){
+    _handle_ErrCatched(error, req, res);
+    return;
+  }
+
+}
+
 async function _handle_GET_nouns_layer(req, res){
   const reqBaseNode = req.query.baseNode;
 
@@ -18,8 +64,13 @@ async function _handle_GET_nouns_layer(req, res){
       where: {id: reqBaseNode}
     });
     // if 'null' result -> not a valid pathName
-    if(!infoBaseNode){ //'null'
-      throw new notFoundError("Node you request was not found. Only a valid node was allowed.", 53);
+    if(!infoBaseNode){ //'null', not an error, res an empty list
+      let sendingData={
+        nodesList: [],
+        nodeParent: null,
+        temp: {}
+      };
+      _res_success(res, sendingData, "GET: /nouns/layer, complete.");
       return; //stop and end the handler.
     };
 
@@ -68,7 +119,13 @@ async function _handle_GET_nouns_layer(req, res){
 
 execute.get('/', function(req, res){
   if(process.env.NODE_ENV == 'development') winston.verbose('GET: /nouns/layer ');
-  _handle_GET_nouns_layer(req, res);
+  const reqAsParent = (req.query.asParent=="true") ? true : false; // req.query.asParent was a string when passed to server
+  if(reqAsParent){
+    _handle_GET_nouns_layerChildren(req, res);
+  }
+  else{
+    _handle_GET_nouns_layer(req, res);
+  }
 })
 
 module.exports = execute;
