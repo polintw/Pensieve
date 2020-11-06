@@ -82,11 +82,6 @@ async function _handle_GET_paths_accumulated(req, res){
   const reqPathProject = req.query.pathProject;
 
   try{
-    //now, we to prepared created time of last Unit res to client in last req.
-    //but it is possible, the 'date' in query are not a 'date', and param from query could only be parse as 'string', we need to turn it into time
-    let unitBase = new Date(req.query.listUnitBase);
-    const lastUnitTime = !isNaN(unitBase) ? unitBase : new Date(); // basically, undefined listUnitBase means first landing to the page
-
     let pathInfo = await _DB_paths.findOne({
       where: {pathName: reqPathProject}
     });
@@ -95,8 +90,58 @@ async function _handle_GET_paths_accumulated(req, res){
       throw new notFoundError("Project you request was not found. Only a valid path name was allowed.", 52);
       return; //stop and end the handler.
     };
+    //now, we to prepared created time of last Unit res to client in last req.
+    //but it is possible, the 'date' in query are not a 'date', and param from query could only be parse as 'string', we need to turn it into time
+    let unitBase = new Date(req.query.listUnitBase);
+    const lastUnitTime = !isNaN(unitBase) ? unitBase : new Date(); // basically, undefined listUnitBase means first landing to the page
+    // by query, see if we got a filter node
+    const reqFilterNodes = req.query.filterNodes; // is an array contain one to several nodes id
+    // units id list res to client at final
+    let unitsExposedList = [];
 
-    let unitsExposedList = await _DB_units.findAll({
+    if(!!reqFilterNodes){
+      let unitsByAttri = await _DB_attri.findAll({
+        where: {
+          id_noun: reqFilterNodes,
+          id_author: pathInfo.id,
+          author_identity: "pathProject"
+        },
+        attributes: [
+          //'max' here combined with 'group' prop beneath,
+          //because the GROUP by would fail when the 'createdAt' is different between each row,
+          //so we ask only the 'max' one by this method
+          [Sequelize.fn('max', Sequelize.col('createdAt')), 'createdAt'], //fn(function, col, alias)
+          //set attributes, so we also need to call every col we need
+          'id_unit',
+        ],
+        group: 'id_unit', //Important. means we combined the rows by unit
+        order: [ //make sure the order of arr are from latest
+          Sequelize.literal('`createdAt` DESC') //and here, using 'literal' is due to some wierd behavior of sequelize,
+        ],
+        limit: 12,
+      })
+      .catch((err)=>{ throw new internalError(err ,131); });
+
+      let unitsId = unitsByAttri.map((row, index)=>{
+        return row.id_unit;
+      });
+
+      unitsExposedList = await _DB_units.findAll({
+        where: {
+          id_author: pathInfo.id,
+          author_identity: 'pathProject',
+          id: unitsId
+        }
+      })
+      .then((results)=>{
+        let exposedIdlist = results.map((row, index)=>{ return row.exposedId;});
+
+        return exposedIdlist;
+      })
+      .catch((err)=>{ throw new internalError(err ,131); });
+    }
+    else{
+      unitsExposedList = await _DB_units.findAll({
         where: {
           id_author: pathInfo.id,
           author_identity: 'pathProject',
@@ -109,9 +154,12 @@ async function _handle_GET_paths_accumulated(req, res){
       })
       .then((results)=>{
         let exposedIdlist = results.map((row, index)=>{ return row.exposedId;});
+
         return exposedIdlist;
       })
       .catch((err)=>{ throw new internalError(err ,131); });
+    };
+
 
     let sendingData={
       unitsList: [],
