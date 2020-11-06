@@ -81,7 +81,6 @@ async function _handle_GET_nouns_layer(req, res){
         where: {
           category: infoBaseNode.category,
           language: infoBaseNode.language,
-          parent: 1,
           child: 0,
         }
       });

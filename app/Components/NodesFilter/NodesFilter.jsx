@@ -29,8 +29,8 @@ class NodesFilter extends React.Component {
       axios: false,
       nodesList: [],
       baseNode: null,
-      baseParent: null,
-      fetchBaseAsParent: false, // a token was used to know if the fetch should use as a parent
+      baseRole: '', // a token was used to tell the relation between baseNode & layer
+      baseParent: null, // parent node of baseNode(null if not)
       atStartListify: true,
       nodesUnits: {},
       unitsBasic: {}
@@ -46,14 +46,17 @@ class NodesFilter extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-    // check first a special situation the component back to start list and using a list passed from props,
-    // get the first units list for it
-    if((this.state.baseNode != prevState.baseNode) && this.props.startListify && this.state.atStartListify){
+    // mainly, distinguish if we had a start list, and at start list
+    if(this.props.startListify && this.state.atStartListify && (this.state.atStartListify != prevState.atStartListify)){
       this._set_firstUnitBasic(this.props.startList);
     }
-    // then handle the rest change second
-    else if(this.state.baseNode != prevState.baseNode){
-      this._set_nodesList(this.state.baseNode, this.state.fetchBaseAsParent ? true : false );
+    // not at start list, detect if
+    else if(
+      (this.state.baseNode != prevState.baseNode) || // baseNode change
+      (this.state.baseRole != prevState.baseRole) || // baseRole change
+      (!this.state.atStartListify && (this.state.atStartListify != prevState.atStartListify) // left start list
+    )){
+      this._set_nodesList(this.state.baseNode,  this.state.baseRole);
     };
   }
 
@@ -142,7 +145,9 @@ class NodesFilter extends React.Component {
             </div>
           </Link>
           {
+            ((nodeId in this.props.nounsBasic) &&
             !(this.props.startListify && this.state.atStartListify) &&
+            this.props.nounsBasic[nodeId].parentify) &&
             <div
               nodeid={nodeId}
               onClick={this._handleClick_switcNextLayer}>
@@ -228,12 +233,12 @@ class NodesFilter extends React.Component {
     });
   }
 
-  _set_nodesList(baseNode, asParentNode){
+  _set_nodesList(baseNode, baseRole){
     const self = this;
     this.setState({axios: true});
     let paramsObj = {
       baseNode: baseNode,
-      asParent: !!asParentNode ? true : false, // ask as parent, could be 'undefined'
+      asParent: baseRole=="parent" ? true : false, // ask as parent, could be 'undefined'
       parent: true // return parent of list
     }
 
@@ -267,10 +272,10 @@ class NodesFilter extends React.Component {
     event.preventDefault();
     this.setState((prevState, props)=>{
       return {
-        atStartListify: prevState.atStartListify ? false : true,
-        baseNode: prevState.atStartListify ? props.startNode: null,
-        baseParent: null,
         nodesList: [],
+        baseNode: prevState.atStartListify ? this.props.startNode: prevState.baseNode, // no change if back to startList
+        baseParent: null,
+        atStartListify: prevState.atStartListify ? false : true,
         nodesUnits: {},
         unitsBasic: {}
       };
@@ -280,15 +285,19 @@ class NodesFilter extends React.Component {
   _handleClick_switchUppeLayer(event){
     event.preventDefault();
     event.stopPropagation();
-    if(!this.state.baseParent) return; // 'null', when no parent fr baseNode
+    // check first if there was a parent
+    if(!this.state.baseParent) return;
 
-    this.setState({
-      baseNode: this.state.baseParent,
-      baseParent: null,
-      fetchBaseAsParent: false,
-      nodesList: [],
-      nodesUnits: {},
-      unitsBasic: {}
+    this.setState((prevState, props)=>{
+      return {
+        nodesList: [],
+        baseNode: prevState.baseParent,
+        baseRole: 'same',
+        baseParent: null,
+        atStartListify: false,
+        nodesUnits: {},
+        unitsBasic: {}
+      };
     });
   }
 
@@ -296,13 +305,15 @@ class NodesFilter extends React.Component {
     event.preventDefault();
     event.stopPropagation();
     let targetNode = event.currentTarget.getAttribute('nodeid');
-    if(!this.props.nounsBasic[targetNode].parentify) return; // do not have child node
+    // check if any child by nounsBasic
+    if(!this.props.nounsBasic[targetNode].parentify) return;
 
     this.setState({
-      baseNode: null,
-      baseParent: targetNode, // this is a special setting compare to _switchUppeLayer, due to the targetNode work as a parent
-      fetchBaseAsParent: true,
       nodesList: [],
+      baseNode: targetNode,
+      baseRole: 'parent',
+      baseParent: null,
+      atStartListify: false,
       nodesUnits: {},
       unitsBasic: {}
     });
