@@ -1,0 +1,10 @@
+.comNavFilter {}
+
+.boxProjectInfo {
+  display: inline-block;
+}
+
+.boxFilter {
+  display: inline-block;
+  float: right;
+}

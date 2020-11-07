@@ -30,9 +30,8 @@ class NavShareds extends React.Component {
   }
 
   render(){
-    let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
-    let pathProjectify = urlParams.has('pathProject');
-    let query = pathProjectify ? '': '?pathProject';
+    let pathProjectify = this.props.location.pathname.includes('/pathProject');
+    let linkPath = "/self/shareds" + (pathProjectify ? "/pathProject" : "") ;
 
     return(
       <div
@@ -40,7 +39,7 @@ class NavShareds extends React.Component {
         <div
           style={{display:'flex'}}>
           <Link
-            to={ "/self/shareds"+  query}
+            to={ linkPath }
             className={classnames('plainLinkButton')}
             style={{cursor: 'default'}}
             onMouseEnter={this._handleEnter_link}

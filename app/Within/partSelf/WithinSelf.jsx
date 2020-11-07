@@ -43,7 +43,12 @@ class Self extends React.Component {
             style={{marginBottom: '12px', width: '100%', display: 'block'}}>
             {this.props.i18nUIString.catalog["title_Publications"]}</span>
         </div>
-        <Route path={this.props.match.path+'/shareds'} render={(props)=> <SharedWrapper {...props} {...this.props}/>}/>
+        <Switch>
+          <Route
+            path={this.props.match.path+'/shareds/pathProject'}
+            render={(props)=> <SharedWrapper {...props} {...this.props} lastParam={"pathProject"} />}/>
+          <Route path={this.props.match.path+'/shareds'} render={(props)=> <SharedWrapper {...props} {...this.props} lastParam={"shareds"} />}/>
+        </Switch>
       </div>
     )
   }
