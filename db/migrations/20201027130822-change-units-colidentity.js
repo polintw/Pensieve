@@ -6,10 +6,20 @@ module.exports = {
       type: Sequelize.STRING(31),
       defaultValue: 'user'
     })
+    .then(() => {
+      return queryInterface.addColumn('units', 'used_authorId', {
+        type: Sequelize.INTEGER(10).UNSIGNED,
+      });
+    })
     .then(()=>{
       return queryInterface.addColumn('attribution', 'author_identity', {
         type: Sequelize.STRING(31),
         defaultValue: 'user'
+      });
+    })
+    .then(() => {
+      return queryInterface.addColumn('attribution', 'used_authorId', {
+        type: Sequelize.INTEGER(10).UNSIGNED,
       });
     })
     .then(()=>{
@@ -19,8 +29,14 @@ module.exports = {
 
   down: (queryInterface, Sequelize) => {
     return queryInterface.removeColumn('units', 'author_identity', {})
+    .then(() => {
+      return queryInterface.removeColumn('units', 'used_authorId', {})
+      })
+    .then(() => {
+        return queryInterface.removeColumn('attribution', 'author_identity', {})
+      })
     .then(()=>{
-      return queryInterface.removeColumn('attribution', 'author_identity', {})
+      return queryInterface.removeColumn('attribution', 'used_authorId', {})
     })
     .then(()=>{
       return queryInterface.addConstraint('units', ['id_author'], {

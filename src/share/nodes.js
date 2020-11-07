@@ -14,28 +14,33 @@ const {
 
 async function _handle_GET_shareds_NodesAssigned(req, res){
   const userId = req.extra.tokenUserId; //use userId passed from pass.js
+  const reqPathProject = !!req.query.pathProject ? req.query.pathProject : false; // id of pathProject or 'undefined'
 
   try{
-    // now, there is an issue that the identity of the id_author in units_nodes_assign can't be identified
-    // we could only start from units to identfy the author identity
-    const usersUnits = await _DB_units.findAll({
-      where: {
+    // select latest unit to each node from table nouns
+    let whereAttributes = reqPathProject ? ({
+      id_author: userId,
+      used_authorId: reqPathProject,
+      author_identity: "pathProject"
+    }) : ({
         id_author: userId,
-        author_identity: 'user'
-      }
+        used_authorId: null,
+        author_identity: "user"
     });
-    let unitsList = usersUnits.map((item, index)=>{
-      return item.id;
+    let nodesByAttri = await _DB_attri.findAll({
+      where: whereAttributes,
+      attributes: [
+        //'max' here combined with 'group' prop beneath,
+        //because the GROUP by would fail when the 'createdAt' is different between each row,
+        //so we ask only the 'max' one by this method
+        [Sequelize.fn('max', Sequelize.col('createdAt')), 'createdAt'], //fn(function, col, alias)
+        //set attributes, so we also need to call every col we need
+        'id_noun',
+      ],
+      group: 'id_noun' //Important. means we combined the rows by node, each id_noun would only has one row
     });
-    const assignedNodes = await _DB_unitsNodesAssign.findAll({
-      where: {
-        id_unit: unitsList,
-      },
-      attributes: ["nodeAssigned"],
-      group: 'nodeAssigned' // means we combined the rows by nodeAssigned
-    });
-    let nodesList = assignedNodes.map((nodeRow, index)=>{
-      return nodeRow.nodeAssigned;
+    let nodesList = nodesByAttri.map((row, index)=>{
+      return row.id_noun;
     })
 
     let sendingData={

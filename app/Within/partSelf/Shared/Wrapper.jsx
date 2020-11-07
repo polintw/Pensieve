@@ -123,9 +123,9 @@ class Wrapper extends React.Component {
                     // return a promise() to NodesFilter
                     let paramsObj = (this.props.lastParam == "pathProject") ? ({
                       depth: 'first', nodesList: nodesList, pathName: this.props.match.params['pathName']
-                    }): ({depth: 'first', nodesList: nodesList})
+                    }): ({depth: 'first', nodesList: nodesList});
                     return _axios_get_Basic(this.axiosSource.token, {
-                      url: (this.props.lastParam == "pathProject") ? '/router/paths/accumulated/nodes': '/router/shareds/accumulated/nodes',
+                      url: '/router/shareds/accumulated/depth',
                       params: paramsObj
                     })
                   }}/>
@@ -189,10 +189,10 @@ class Wrapper extends React.Component {
     promiseFirst()
     .then(()=>{
       let usedNodesObj = {
-        url: (this.props.lastParam == "pathProject" ? '/router/paths/nodes/assigned': '/router/shareds/nodes/assigned'),
+        url: '/router/shareds/nodes/assigned',
         params: (this.props.lastParam == "pathProject" ? {pathProject: this.props.userInfo.pathName} : {})
       };
-      return _axios_get_Basic(this.axiosSource.token, getObj);
+      return _axios_get_Basic(this.axiosSource.token, usedNodesObj);
     })
     .then((resObj)=>{
       //after res of axios_Units: call get nouns & users

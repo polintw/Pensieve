@@ -28,7 +28,7 @@ async function _handle_GET_paths_NodesAssigned(req, res){
     // we could only start from units to identfy the author identity
     const projectUnits = await _DB_units.findAll({
       where: {
-        id_author: targetProject.id,
+        used_authorId: targetProject.id,
         author_identity: 'pathProject'
       }
     });

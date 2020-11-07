@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     id_unit: DataTypes.UUID,
     id_author: DataTypes.INTEGER,
     author_identity: DataTypes.STRING,
+    used_authorId: DataTypes.INTEGER,
   }, {
     paranoid: true //set it to 'true' could let the Sequelize know locaaly,
     //it should ignore any column which is not 'null' in 'deletedAt' (so called 'soft delete')

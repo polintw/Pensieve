@@ -17,7 +17,7 @@ return Promise.resolve({main:null});
 
 export function axios_visit_GET_last(cancelToken){
   let url = '/router/visit/index';
-  return Promise.resolve({main:null});
+  return Promise.resolve({ main: { lastTime: false}});
 
 /*  return axios({ //use confic directly to assure the patch was not influenced by empty .body obj
     url:url,
@@ -55,13 +55,13 @@ export function _axios_get_Basic(cancelToken, pageObj){
   });
 }
 
-export function _axios_get_accumulatedList(cancelToken, nodefilterify, obj){
-  let urlByNodeFilter = '/router/share' + (nodefilterify ?  '/accumulated/filter': '/accumulated')
+export function _axios_get_accumulatedList(cancelToken, paramsObj){
+  let urlByNodeFilter = '/router/share/accumulated';
 
   return axios({
     method: 'get',
     url: urlByNodeFilter,
-    params: obj,
+    params: paramsObj,
     headers: {
       'Content-Type': 'application/json',
       'charset': 'utf-8',

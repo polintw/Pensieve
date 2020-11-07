@@ -20,6 +20,7 @@ import {
   cancelErr,
   uncertainErr
 } from "../../../../utils/errHandlers.js";
+import { param } from '../../../../../src/share/nodes';
 
 class Feed extends React.Component {
   constructor(props){
@@ -42,7 +43,12 @@ class Feed extends React.Component {
     // if change the node bymodifying the nodeid in search, the page would only update
     let lastUrlParams = new URLSearchParams(prevProps.location.search); //we need value in URL query
     let lastNodeAtId = lastUrlParams.has('filterNode') ? lastUrlParams.get('filterNode'): null;
-    if(this.filterNode != lastNodeAtId){
+    let currentPathProjectify = this.props.location.pathname.includes('/pathProject');
+    let lastPathProjectify = prevProps.location.pathname.includes('/pathProject');
+    if(
+      (this.filterNode != lastNodeAtId) ||
+      (currentPathProjectify != lastPathProjectify)
+    ){
       this._set_feedUnits();
     }
   }
@@ -199,17 +205,19 @@ class Feed extends React.Component {
       groupLength = group.length;
       lastUnitTime = this.state.unitsBasic[group[groupLength-1]].createdAt;
     };
+    // in ths /self, always need to know if we are under different identity
+    let pathProjectify = this.props.location.pathname.includes('/pathProject');
     const self = this;
     this.setState({axios: true});
+    let paramsObj = {
+      listUnitBase: lastUnitTime,
+      filterNodes: !!this.filterNode ? [this.filterNode] : []
+    };
+    if(pathProjectify){
+      Object.assign(paramsObj, { pathProject: this.props.userInfo.pathName});
+    };
 
-    _axios_get_accumulatedList(
-      this.axiosSource.token,
-      this.filterNode? true : false, // api for filter or not
-      {
-        filterNode: [this.filterNode], // array with node from filter
-        listUnitBase: lastUnitTime, // time of last Nail
-        pathProject: this.pathProjectify // bool, true if exist in query
-    })
+    _axios_get_accumulatedList(this.axiosSource.token, paramsObj)
     .then((resObj)=>{
       if(resObj.main.unitsList.length > 0){
         self.setState((prevState, props)=>{
@@ -260,6 +268,7 @@ class Feed extends React.Component {
 
 const mapStateToProps = (state)=>{
   return {
+    userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
   }
 }

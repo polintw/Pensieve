@@ -31,7 +31,7 @@ async function _handle_GET_paths_nodesAccumulated(req, res){
     let unitsByAttri = await _DB_attri.findAll({
       where: {
         id_noun: reqNodes,
-        id_author: pathInfo.id,
+        used_authorId: pathInfo.id,
         author_identity: "pathProject"
       },
       attributes: [
@@ -103,8 +103,9 @@ async function _handle_GET_paths_accumulated(req, res){
       let unitsByAttri = await _DB_attri.findAll({
         where: {
           id_noun: reqFilterNodes,
-          id_author: pathInfo.id,
-          author_identity: "pathProject"
+          used_authorId: pathInfo.id,
+          author_identity: "pathProject",
+          createdAt: { [Op.lt]: lastUnitTime }
         },
         attributes: [
           //'max' here combined with 'group' prop beneath,
@@ -127,11 +128,7 @@ async function _handle_GET_paths_accumulated(req, res){
       });
 
       unitsExposedList = await _DB_units.findAll({
-        where: {
-          id_author: pathInfo.id,
-          author_identity: 'pathProject',
-          id: unitsId
-        }
+        where: { id: unitsId }
       })
       .then((results)=>{
         let exposedIdlist = results.map((row, index)=>{ return row.exposedId;});
@@ -143,7 +140,7 @@ async function _handle_GET_paths_accumulated(req, res){
     else{
       unitsExposedList = await _DB_units.findAll({
         where: {
-          id_author: pathInfo.id,
+          used_authorId: pathInfo.id,
           author_identity: 'pathProject',
           createdAt: {[Op.lt]: lastUnitTime},
         },
