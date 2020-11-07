@@ -57,7 +57,7 @@ class NailFeed extends React.Component {
   }
 
   render(){
-    let imgSrcCover = 'https://'+domain.name+'/router/img/'+this.props.unitBasic.pic_layer0+'?type=thumb';
+    let imgSrcCover = domain.protocol+ '://'+domain.name+'/router/img/'+this.props.unitBasic.pic_layer0+'?type=thumb';
     let linkSearch = ((this.props.location.search.length > 0) ? this.props.location.search+'&' : '?') +'unitId='+this.props.unitId+'&unitView=theater';
 
     return(

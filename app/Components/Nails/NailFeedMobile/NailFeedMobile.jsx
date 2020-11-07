@@ -96,7 +96,7 @@ class NailFeedMobile extends React.Component {
 }
 
 const contentBoxImg = (self)=>{
-  let imgSrcCover = 'https://'+domain.name+'/router/img/'+self.props.unitBasic.pic_layer0+'?type=thumb';
+  let imgSrcCover = domain.protocol+ '://'+domain.name+'/router/img/'+self.props.unitBasic.pic_layer0+'?type=thumb';
 
   return (
     <div

@@ -4,7 +4,8 @@ const {
 } = require('./.env.json');
 
 exports.domain = {
-  name: envServiceGeneral.appDomain
+  name: envServiceGeneral.appDomain,
+  protocol: envServiceGeneral.appProtocol
 }
 
 exports.smtpAccount = {

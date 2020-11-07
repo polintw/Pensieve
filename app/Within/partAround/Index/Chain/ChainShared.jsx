@@ -84,7 +84,7 @@ class ChainShared extends React.Component {
     let listDOM = this.props.sharedsList.list.map((unitId, index)=>{
       if( !(unitId in self.state.unitsBasic)) return null; //check if unitsBasic was prepared.
 
-      let imgSrcCover = 'https://' + domain.name +'/router/img/'+self.state.unitsBasic[unitId].pic_layer0+'?type=thumb';
+      let imgSrcCover = domain.protocol+ '://'+domain.name +'/router/img/'+self.state.unitsBasic[unitId].pic_layer0+'?type=thumb';
       let linkSearch = ((self.props.location.search.length > 0) ? self.props.location.search+'&' : '?') +'unitId='+unitId+'&unitView=theater';
       return (
         <Link

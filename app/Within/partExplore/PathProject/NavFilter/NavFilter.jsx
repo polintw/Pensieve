@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Link,
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
@@ -28,29 +29,76 @@ class NavFilter extends React.Component {
 
   }
 
+  _render_resetLink(){
+    let linkObj = {
+      pathname: this.props.location.pathname,
+      search: '',
+      state: {from: this.props.location}
+    };
+
+    return (
+      <Link
+        to={linkObj}
+        className={classnames(
+          'plainLinkButton')}>
+        {"Main"}
+      </Link>
+    );
+  }
+
   render(){
+    let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
+    if(urlParams.has('filterNode')){
+      this.filterNode = urlParams.get('filterNode');
+    } else this.filterNode = null;
+
     return (
       <div className={styles.comNavFilter}>
         <div
           className={classnames(styles.boxProjectInfo)}>
           {
-            (!this.props.viewFilter && ("description" in this.props.projectInfo)) &&
-            this.props.projectInfo.description
+            !this.props.viewFilter &&
+            (
+              !!this.filterNode ? (
+                <div>
+                  <span
+                    className={classnames("fontContentPlain", "weightBold", "colorEditBlack")}>
+                    {"X "}
+                  </span>
+                  <span
+                    className={classnames("fontContentPlain", "weightBold", "colorEditBlack")}>
+                    {this.filterNode in this.props.nounsBasic ? (this.props.nounsBasic[this.filterNode].name) : null}
+                  </span>
+                </div>
+              ):(
+                ("description" in this.props.projectInfo) &&
+                this.props.projectInfo.description
+              )
+            )
           }
         </div>
         <div
           className={classnames(styles.boxFilter)}>
-          <div
-            onClick={this._handleClick_filterClose}>
-            {
-              this.props.viewFilter &&
-              " ╳ "
-            }
-          </div>
-          <div
-            onClick={this._handleClick_filter}>
-            {"Filter"}
-          </div>
+          {
+            this.props.viewFilter &&
+            <div
+              onClick={this._handleClick_filterClose}>
+              {" ╳ "}
+            </div>
+          }
+          {
+            !this.props.viewFilter &&
+            <div>
+              {
+                !!this.filterNode &&
+                this._render_resetLink()
+              }
+              <div
+                onClick={this._handleClick_filter}>
+                {"Filter"}
+              </div>
+            </div>
+          }
         </div>
       </div>
     )
