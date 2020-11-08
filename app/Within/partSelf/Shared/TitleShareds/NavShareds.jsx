@@ -31,7 +31,7 @@ class NavShareds extends React.Component {
 
   render(){
     let pathProjectify = this.props.location.pathname.includes('/pathProject');
-    let linkPath = "/self/shareds" + (pathProjectify ? "/pathProject" : "") ;
+    let linkPath = "/self/shareds" + (pathProjectify ? "" : "/pathProject") ;
 
     return(
       <div

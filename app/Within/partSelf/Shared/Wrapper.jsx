@@ -49,9 +49,15 @@ class Wrapper extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
+    // a special condition at the begining: if the belongsByType finally fetched,
+    // catched again if at all shareds
+    if(this.props.belongsByType.fetched && this.props.belongsByType.fetched != prevProps.belongsByType.fetched){
+      this._set_filterBasic();
+    };
+    // common situation: change between route
     if(this.props.lastParam != prevProps.lastParam){
       this._set_filterBasic();
-    }
+    };
   }
 
   componentDidMount(){
@@ -66,7 +72,7 @@ class Wrapper extends React.Component {
         axios: false,
         lastVisit: lastVisitRes.main.lastTime
       });
-      axios_visit_Index(this.axiosSource.token);
+      axios_visit_Index(self.axiosSource.token);
     })
     .catch(function (thrown) {
       self.setState({axios: false});
@@ -125,7 +131,7 @@ class Wrapper extends React.Component {
                       depth: 'first', nodesList: nodesList, pathName: this.props.match.params['pathName']
                     }): ({depth: 'first', nodesList: nodesList});
                     return _axios_get_Basic(this.axiosSource.token, {
-                      url: '/router/shareds/accumulated/depth',
+                      url: '/router/share/accumulated/depth',
                       params: paramsObj
                     })
                   }}/>
@@ -165,7 +171,7 @@ class Wrapper extends React.Component {
     let promiseFirst = ()=>{
       if(this.props.lastParam=="pathProject"){
         return _axios_get_Basic(this.axiosSource.token, {
-          params: {pathName: this.props.userInfo.pathName}, url: '/router/paths/basic'
+          params: {pathProject: this.props.userInfo.pathName}, url: '/router/paths/basic'
         })
         .then((resObj)=>{
           this.setState((prevState, props)=>{
@@ -189,7 +195,7 @@ class Wrapper extends React.Component {
     promiseFirst()
     .then(()=>{
       let usedNodesObj = {
-        url: '/router/shareds/nodes/assigned',
+        url: '/router/share/nodes/assigned',
         params: (this.props.lastParam == "pathProject" ? {pathProject: this.props.userInfo.pathName} : {})
       };
       return _axios_get_Basic(this.axiosSource.token, usedNodesObj);

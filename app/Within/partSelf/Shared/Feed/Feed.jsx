@@ -20,7 +20,6 @@ import {
   cancelErr,
   uncertainErr
 } from "../../../../utils/errHandlers.js";
-import { param } from '../../../../../src/share/nodes';
 
 class Feed extends React.Component {
   constructor(props){
@@ -46,10 +45,19 @@ class Feed extends React.Component {
     let currentPathProjectify = this.props.location.pathname.includes('/pathProject');
     let lastPathProjectify = prevProps.location.pathname.includes('/pathProject');
     if(
-      (this.filterNode != lastNodeAtId) ||
-      (currentPathProjectify != lastPathProjectify)
+      (this.filterNode != lastNodeAtId) || // filter node change
+      (currentPathProjectify != lastPathProjectify) // or left pathProject
     ){
-      this._set_feedUnits();
+      this.setState((prevState, props)=>{
+        return {
+          feedList: [],
+          unitsBasic: {},
+          marksBasic: {},
+          scrolled: true
+        };
+      }, ()=>{
+        this._set_feedUnits();
+      });
     }
   }
 

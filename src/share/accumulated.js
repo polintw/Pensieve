@@ -4,6 +4,8 @@ const winston = require('../../config/winston.js');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const _DB_units = require('../../db/models/index').units;
+const _DB_paths = require('../../db/models/index').paths;
+const _DB_attri = require('../../db/models/index').attribution;
 const {_res_success} = require('../utils/resHandler.js');
 const {
   _handle_ErrCatched,
@@ -17,12 +19,24 @@ async function _handle_GET_shareds_nodesAccumulated(req, res){
   const reqNodes = !!req.query.nodesList ? req.query.nodesList : []; // in case the list in params was empty or not exist
 
   try{
+    // first, pick path info if request for path project
+    let pathInfo = '';
+    if(reqPathProject){
+      pathInfo = await _DB_paths.findOne({
+        where: {pathName: reqPathProject}
+      });
+      // if 'null' result -> not a valid pathName
+      if(!pathInfo){ //'null'
+        throw new notFoundError("Project you request was not found. Only a valid path name was allowed.", 52);
+        return; //stop and end the handler.
+      };
+    };
     // select latest unit to each node from table nouns
     let whereAttributes = reqPathProject ? ({
       id_noun: reqNodes,
       id_author: userId,
       author_identity: "pathProject",
-      used_authorId: reqPathProject
+      used_authorId: pathInfo.id
     }) : ({
         id_noun: reqNodes,
         id_author: userId,
@@ -76,9 +90,9 @@ async function _handle_GET_shareds_nodesAccumulated(req, res){
   }
 }
 
-function _handle_GET_accumulated_Share(req, res){
+async function _handle_GET_accumulated_Share(req, res){
   const userId = req.extra.tokenUserId; //use userId passed from pass.js
-  
+
   try {
     //now, we to prepared created time of last Unit res to client in last req.
     //but it is possible, the 'date' in query are not a 'date', and param from query could only be parse as 'string', we need to turn it into time
@@ -87,15 +101,28 @@ function _handle_GET_accumulated_Share(req, res){
     // by query, see if we got a filter node
     const reqFilterNodes = req.query.filterNodes; // is an array contain one to several nodes id
     const reqPathProject = !!req.query.pathProject ? req.query.pathProject : false; // id of pathProject or 'undefined'
+    const reqListLimit = !!req.query.limit ? req.query.limit : 12; // list length limit or 'undefined'
     // units id list res to client at final
     let unitsExposedList = [];
 
-    if (!!reqFilterNodes) { // 'undefined' or empty
+    // first, pick path info if request for path project
+    let pathInfo = '';
+    if(reqPathProject){
+      pathInfo = await _DB_paths.findOne({
+        where: {pathName: reqPathProject}
+      });
+      // if 'null' result -> not a valid pathName
+      if(!pathInfo){ //'null'
+        throw new notFoundError("Project you request was not found. Only a valid path name was allowed.", 52);
+        return; //stop and end the handler.
+      };
+    };
+    if (!!reqFilterNodes) {
       let whereAttributes = reqPathProject ? ({
         id_noun: reqFilterNodes,
         id_author: userId,
         author_identity: "pathProject",
-        used_authorId: reqPathProject,
+        used_authorId: pathInfo.id,
         createdAt: { [Op.lt]: lastUnitTime },
       }) : ({
         id_noun: reqFilterNodes,
@@ -118,7 +145,7 @@ function _handle_GET_accumulated_Share(req, res){
         order: [ //make sure the order of arr are from latest
           Sequelize.literal('`createdAt` DESC') //and here, using 'literal' is due to some wierd behavior of sequelize,
         ],
-        limit: 12,
+        limit: reqListLimit,
       })
         .catch((err) => { throw new internalError(err, 131); });
 
@@ -136,7 +163,7 @@ function _handle_GET_accumulated_Share(req, res){
         })
         .catch((err) => { throw new internalError(err, 131); });
     }
-    else {
+    else { // filterNode 'undefined' or empty
       let whereAttributes = reqPathProject ? ({
         id_author: userId,
         author_identity: "pathProject",
@@ -153,7 +180,7 @@ function _handle_GET_accumulated_Share(req, res){
         order: [ //make sure the order of arr are from latest
           Sequelize.literal('`createdAt` DESC') //and here, using 'literal' is due to some wierd behavior of sequelize,
         ],
-        limit: 12
+        limit: reqListLimit
       })
         .then((results) => {
           let exposedIdlist = results.map((row, index) => { return row.exposedId; });
@@ -170,7 +197,7 @@ function _handle_GET_accumulated_Share(req, res){
       temp: {}
     };
 
-    if (unitsExposedList.length < 12) sendingData.scrolled = false;
+    if (unitsExposedList.length < reqListLimit) sendingData.scrolled = false;
     sendingData.unitsList = unitsExposedList;
 
     _res_success(res, sendingData, "GET: /paths/accumulated, complete.");

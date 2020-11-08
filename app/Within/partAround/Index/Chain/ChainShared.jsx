@@ -71,9 +71,23 @@ class ChainShared extends React.Component {
           style={{marginBottom: '12px', width: '100%', display: 'block'}}>
           {this.props.i18nUIString.catalog["title_Chain_Shareds_"]}</span>
         <div
-          className={classnames(styles.boxModuleShareds)}>
-          {this._render_sharenails()}
-
+          className={classnames(styles.boxSharedsDisplay)}>
+          <div
+            className={classnames(styles.boxModuleShareds)}>
+            {this._render_sharenails()}
+          </div>
+          <div
+            className={classnames(styles.boxDisplayPanel)}>
+            <div className={styles.boxPanelGradient}></div>
+            <div
+              className={classnames(styles.boxImgSizeBtn, styles.boxExpand)}>
+              <Link
+                to={"/self/shareds"}
+                className={classnames('plainLinkButton')}>
+                {"Expand"}
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     )
@@ -181,8 +195,14 @@ class ChainShared extends React.Component {
   }
 
   _axios_get_shareds(){
-    return axios.get('/router/share/accumulated', {
+    return axios({
+      method: 'get',
+      url: '/router/share/accumulated',
+      params: {
+        limit: 15
+      },
       headers: {
+        'Content-Type': 'application/json',
         'charset': 'utf-8',
         'token': window.localStorage['token']
       },

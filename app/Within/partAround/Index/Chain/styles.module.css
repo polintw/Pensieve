@@ -15,8 +15,8 @@
 
 .boxModuleShareds {
   display: flex;
-  flex-wrap: wrap;
   justify-content: flex-start;
+  overflow: hidden;
 }
 
 .boxSeperate {
@@ -57,6 +57,13 @@
   transform: translate(-50%, -50%);
   box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
   opacity: 1;
+}
+
+.boxImgSizeBtn {
+  width: 81px;
+  height: 51px;
+  min-width: 6.5vw;
+  min-height: 4.1vw;
 }
 
 .boxEmptyShared {
@@ -103,6 +110,30 @@
   min-width: 30.16vw;
   max-width: 96.24vw;
   padding-right: 2.76vw;
+}
+
+.boxSharedsDisplay {
+  width: 100%;
+  position: relative;
+}
+
+.boxDisplayPanel {
+  display: flex;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0 10px 0 0px;
+}
+
+.boxExpand {
+  background-color: #FCFCFC;
+  cursor: pointer;
+}
+
+.boxPanelGradient {
+  width: 30px;
+  height: '100%';
+  background-image: linear-gradient(90deg, rgba(252,252,252, 1), rgba(252,252,252, 0.9), rgba(252,252,252, 0.8), rgba(252,252,252, 0.6), rgba(252,252,252, 0.4), rgba(252,252,252, 0.2), transparent);
 }
 
 @media screen and (max-width:860px) {

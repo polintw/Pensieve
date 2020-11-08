@@ -3,9 +3,8 @@ const execute = express.Router();
 const winston = require('../../config/winston.js');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+const _DB_attri = require('../../db/models/index').attribution;
 const _DB_paths = require('../../db/models/index').paths;
-const _DB_units = require('../../db/models/index').units;
-const _DB_unitsNodesAssign = require('../../db/models/index').units_nodes_assign;
 const {_res_success} = require('../utils/resHandler.js');
 const {
   _handle_ErrCatched,
@@ -17,10 +16,21 @@ async function _handle_GET_shareds_NodesAssigned(req, res){
   const reqPathProject = !!req.query.pathProject ? req.query.pathProject : false; // id of pathProject or 'undefined'
 
   try{
+    let pathInfo = '';
+    if(reqPathProject){
+      pathInfo = await _DB_paths.findOne({
+        where: {pathName: reqPathProject}
+      });
+      // if 'null' result -> not a valid pathName
+      if(!pathInfo){ //'null'
+        throw new notFoundError("Project you request was not found. Only a valid path name was allowed.", 52);
+        return; //stop and end the handler.
+      };
+    };
     // select latest unit to each node from table nouns
     let whereAttributes = reqPathProject ? ({
       id_author: userId,
-      used_authorId: reqPathProject,
+      used_authorId: pathInfo.id,
       author_identity: "pathProject"
     }) : ({
         id_author: userId,
