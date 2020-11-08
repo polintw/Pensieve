@@ -15,7 +15,7 @@ const {
 async function _handle_GET_shareds_nodesAccumulated(req, res){
   const userId = req.extra.tokenUserId; //use userId passed from pass.js
   const reqDepth = req.query.depth;
-  const reqPathProject = !!req.query.pathProject ? req.query.pathProject : false; // id of pathProject or 'undefined'
+  const reqPathProject = !!req.query.pathName ? req.query.pathName : false; // id of pathProject or 'undefined'
   const reqNodes = !!req.query.nodesList ? req.query.nodesList : []; // in case the list in params was empty or not exist
 
   try{
@@ -100,8 +100,8 @@ async function _handle_GET_accumulated_Share(req, res){
     const lastUnitTime = !isNaN(unitBase) ? unitBase : new Date(); // basically, undefined listUnitBase means first landing to the page
     // by query, see if we got a filter node
     const reqFilterNodes = req.query.filterNodes; // is an array contain one to several nodes id
-    const reqPathProject = !!req.query.pathProject ? req.query.pathProject : false; // id of pathProject or 'undefined'
-    const reqListLimit = !!req.query.limit ? req.query.limit : 12; // list length limit or 'undefined'
+    const reqPathProject = !!req.query.pathName ? req.query.pathName : false; // id of pathProject or 'undefined'
+    const reqListLimit = !isNaN(parseInt(req.query.limit)) ? parseInt(req.query.limit) : 12; // list length limit or 'undefined'
     // units id list res to client at final
     let unitsExposedList = [];
 
@@ -167,7 +167,7 @@ async function _handle_GET_accumulated_Share(req, res){
       let whereAttributes = reqPathProject ? ({
         id_author: userId,
         author_identity: "pathProject",
-        used_authorId: reqPathProject,
+        used_authorId: pathInfo.id,
         createdAt: { [Op.lt]: lastUnitTime },
       }) : ({
         id_author: userId,

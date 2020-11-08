@@ -128,7 +128,7 @@ class Wrapper extends React.Component {
                   _get_firstUnitsList={(nodesList)=>{
                     // return a promise() to NodesFilter
                     let paramsObj = (this.props.lastParam == "pathProject") ? ({
-                      depth: 'first', nodesList: nodesList, pathName: this.props.match.params['pathName']
+                      depth: 'first', nodesList: nodesList, pathName: this.props.userInfo.pathName
                     }): ({depth: 'first', nodesList: nodesList});
                     return _axios_get_Basic(this.axiosSource.token, {
                       url: '/router/share/accumulated/depth',

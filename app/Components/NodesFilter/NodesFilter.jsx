@@ -47,7 +47,14 @@ class NodesFilter extends React.Component {
 
   componentDidUpdate(prevProps, prevState, snapshot){
     // mainly, distinguish if we had a start list, and at start list
-    if(this.props.startListify && this.state.atStartListify && (this.state.atStartListify != prevState.atStartListify)){
+    if(
+      this.props.startListify &&
+      this.state.atStartListify &&
+      (
+        (this.state.atStartListify != prevState.atStartListify) || // combined with above condition, back to start list
+        this.props.startList.length != prevProps.startList.length // or, startList changed(usually fetched at begining)
+      )
+    ){
       this._set_firstUnitBasic(this.props.startList);
     }
     // not at start list, detect if
