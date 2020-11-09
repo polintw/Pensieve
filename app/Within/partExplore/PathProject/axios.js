@@ -62,7 +62,7 @@ export function _axios_get_projectLayerFirstUnits(cancelToken, paramObj){
     params: {
       depth: "first",
       nodesList: paramObj.nodesList,
-      pathName: paramObj.pathName
+      pathProject: paramObj.pathName
     },
     headers: {
       'Content-Type': 'application/json',

@@ -13,6 +13,10 @@
   padding-top: 4px;
 }
 
+.boxRow40Top {
+  margin-top: 28px; /* couple with boxRow, which has 12px margin combine for 40px */
+}
+
 .boxFooter {
   display: flex;
   flex-direction: column;

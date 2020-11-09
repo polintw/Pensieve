@@ -121,8 +121,8 @@ const i18nUIString_EN = {
   "Cornerth_inc": "Cornerth. ",
   "AllRights": "All Rights Reserved.",
 
-  "link_Nav_Shareds_": ["as ", "You"],
-  "descript_Shareds_pathLink": "under ",
+  "link_Nav_Shareds_": ["<> ", "Personal"],
+  "descript_Shareds_pathLink": " as ",
 
   "submit_Options_profile": "My profile",
   "submit_Unit_upload": ["Add image", "Processing..."],
@@ -159,7 +159,7 @@ const i18nUIString_EN = {
   "title_FeedAssigned_AllRead": "You're up-to-date.",//Original:"you've all browsed."
   "title_FeedAssigned_": "Gathering",
   "hint_FeedAssigned_belongedBase": "by your corners ",
-  "guiding_FeedAssigned_noneAssigned": ["You're pretty current!","New contributions around your corners would be show up here."],//Original:"Not yet any new unit had been contributed to your corners."
+  "guiding_FeedAssigned_noneAssigned": ["You're pretty current!","New publications around your corners would be show up here."],//Original:"Not yet any new unit had been contributed to your corners."
   "guiding_FeedAssigned_noneAssigned_justSubmit": "Good to have your contrubution.",
   "guiding_FeedAssigned_noneAssigned_norContri": "It could be you contributing somthing to your corners!", //Original:"It could be you contributing somthing for your corners!"
 

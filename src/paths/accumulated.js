@@ -14,7 +14,7 @@ const {
 } = require('../utils/reserrHandler.js');
 
 async function _handle_GET_paths_nodesAccumulated(req, res){
-  const reqPathProject = req.query.pathName;
+  const reqPathProject = req.query.pathProject;
   const reqDepth = req.query.depth;
   const reqNodes = !!req.query.nodesList ? req.query.nodesList : []; // in case the list in params was empty or not exist
 

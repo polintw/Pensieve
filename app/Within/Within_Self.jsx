@@ -14,6 +14,7 @@ import {
   fetchBelongRecords
 } from '../redux/actions/general.js'
 import NavWithin from '../Components/NavWithin/NavWithin.jsx';
+import NavWihtinSelf from '../Components/NavWithin/NavWihtinSelf.jsx';
 import NavOptions from '../Components/NavOptions/NavOptions.jsx';
 import ModalBox from '../Components/ModalBox.jsx';
 import ModalBackground from '../Components/ModalBackground.jsx';
@@ -96,21 +97,30 @@ class WithinSelf extends React.Component {
             className={classnames(styles.boxAroundContent)}>
             <div
               className={classnames(
-                styles.boxContentFilledLeft)}/>
+                styles.boxContentFilledLeft,
+                styles.boxContentFilledLeftSelf)}/>
             <div
-              className={classnames(styles.boxAroundContentCenter)}>
+              className={classnames(
+                styles.boxAroundContentCenter, styles.boxSelfContent)}>
               <Switch>
                 <Route path={this.props.match.path} render={(props)=> <Self {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
               </Switch>
             </div>
             <div
               className={classnames(
-                styles.boxContentFilledRight)}/>
+                styles.boxContentFilledRight,
+                styles.boxContentFilledRightSelf)}/>
           </div>
           <div
             className={classnames(
               styles.boxNavAround, styles.boxNavWithinSelf)}>
             <NavWithin {...this.props} _refer_to={this._refer_von_cosmic}/>
+            <div
+              className={classnames(
+                styles.boxNavCosmic,
+                styles.smallDisplayNone)}>
+              <NavWihtinSelf/>
+            </div>
           </div>
         </div>
 

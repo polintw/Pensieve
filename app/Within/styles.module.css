@@ -78,14 +78,33 @@
   min-width: 10vw;
 }
 
+.boxContentFilledLeftSelf {
+  min-width: 10.64vw;
+}
+
 .boxContentFilledRight {
   min-width: 21.64vw;
+}
+
+.boxContentFilledRightSelf {
+  min-width: 21vw;
+}
+
+.boxSelfContent {
+  padding: 0 1.38vw;
+  box-sizing: border-box;
 }
 
 .boxWithinSign {
   width: 70vw;
   margin-left: 10vw;
   margin-right: 20vw;
+}
+
+.boxNavCosmic {
+  position: absolute;
+  bottom: calc(2.66vh + 120px);
+  z-index: 3;
 }
 
 
@@ -114,6 +133,14 @@
 }
 
 @media screen and (max-width:860px) {
+  .smallDisplayBox {
+    display: block;
+  }
+
+  .smallDisplayNone {
+    display: none;
+  }
+
   .boxAroundContentCenter {
     min-width: unset;
     width: calc(342px + 1.38vw * 2);

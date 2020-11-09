@@ -34,28 +34,35 @@ class NavShareds extends React.Component {
     let linkPath = "/self/shareds" + (pathProjectify ? "" : "/pathProject") ;
 
     return(
-      <div
-        className={classnames(styles.comNavShareds, styles.boxTitle)}>
-        <div
-          style={{display:'flex'}}>
-          <Link
-            to={ linkPath }
-            className={classnames('plainLinkButton')}
-            style={{cursor: 'default'}}
-            onMouseEnter={this._handleEnter_link}
-            onMouseLeave={this._handleLeave_link}>
-            <span
-              className={classnames(
-                "fontContentPlain", "weightBold", "colorLightGrey",
-                {[styles.spanLinkMouse]: (this.state.onNavLink)}
-              )}>
+      <div>
+        <Link
+          to={ linkPath }
+          className={classnames(
+            'plainLinkButton', styles.boxNavLink,
+            {[styles.boxNavLinkMouse]: (this.state.onNavLink)}
+          )}
+          onMouseEnter={this._handleEnter_link}
+          onMouseLeave={this._handleLeave_link}>
+          <span
+            className={classnames(
+              "fontContentPlain", "weightBold",
               {
-                pathProjectify ? this.props.i18nUIString.catalog['link_Nav_Shareds_'][0] + this.props.i18nUIString.catalog['link_Nav_Shareds_'][1] :
-                (this.props.i18nUIString.catalog["link_Nav_Shareds_"][0] +this.props.userInfo.pathProject)
+                ["colorWhiteGrey"]: (!this.state.onNavLink),
+                ["colorEditBlack"]: (this.state.onNavLink),
               }
-            </span>
-          </Link>
-        </div>
+            )}>
+            {this.props.i18nUIString.catalog['link_Nav_Shareds_'][0]}
+          </span>
+          <span
+            className={classnames(
+              "fontContentPlain", "weightBold",
+              {
+                ["colorWhiteGrey"]: (!this.state.onNavLink),
+                ["colorEditBlack"]: (this.state.onNavLink),
+              })}>
+            { pathProjectify ? this.props.i18nUIString.catalog['link_Nav_Shareds_'][1] : this.props.userInfo.pathProject }
+          </span>
+        </Link>
       </div>
     )
   }

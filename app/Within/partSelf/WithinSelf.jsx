@@ -37,7 +37,7 @@ class Self extends React.Component {
         style={this.style.withinCom_Around_}>
         <div
           className={classnames(styles.boxRow, styles.boxRowTop)}
-          style={{margin: '4px 0'}}>
+          style={{paddingTop: '8px'}}>
           <span
             className={classnames("fontContentPlain", "weightBold", "colorAssistGold")}
             style={{marginBottom: '12px', width: '100%', display: 'block'}}>

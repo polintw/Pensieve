@@ -158,31 +158,28 @@ class Feed extends React.Component {
 
     return (
       <div className={styles.comSharedsFeed}>
-        <div>
-          {
-            (this.state.feedList.length > 0) &&
-            <div>
-              {this._render_FeedNails()}
-            </div>
-          }
-          {
-            ((this.state.feedList.length == 0) &&
-              !this.state.scrolled &&
-              !this.state.axios
-            ) &&
-            <div
-              className={classnames(
-                styles.boxModule,
-                styles.boxModuleSmall,
-              )}>
-              <FeedEmpty
-                {...this.props}/>
-            </div>
-          }
+        {
+          (this.state.feedList.length > 0) &&
+          <div>
+            {this._render_FeedNails()}
+          </div>
+        }
+        {
+          ((this.state.feedList.length == 0) &&
+            !this.state.scrolled &&
+            !this.state.axios
+          ) &&
+          <div
+            className={classnames(
+              styles.boxModule,
+              styles.boxModuleSmall,
+            )}>
+            <FeedEmpty
+              {...this.props}/>
+          </div>
+        }
 
-          <div ref={this.refScroll}/>
-          <div className={classnames(styles.boxFooter)}></div>
-        </div>
+        <div ref={this.refScroll}/>
       </div>
     )
   }

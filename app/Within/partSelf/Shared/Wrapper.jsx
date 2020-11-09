@@ -105,11 +105,12 @@ class Wrapper extends React.Component {
         <div
           className={classnames(styles.comSelfWrapper)}>
           <div
-            className={classnames(styles.boxRow, styles.boxRowTop)}>
+            className={classnames(styles.boxRow, styles.boxRow40Top)}>
             <TitleShareds/>
           </div>
           <div
-            className={classnames(styles.boxRow)}>
+            className={classnames(styles.boxRow)}
+            style={{margin: '4px 0 10px'}}>
             <NavFilter
               {...this.props}
               viewFilter={this.state.viewFilter}
@@ -128,7 +129,7 @@ class Wrapper extends React.Component {
                   _get_firstUnitsList={(nodesList)=>{
                     // return a promise() to NodesFilter
                     let paramsObj = (this.props.lastParam == "pathProject") ? ({
-                      depth: 'first', nodesList: nodesList, pathName: this.props.userInfo.pathName
+                      depth: 'first', nodesList: nodesList, pathProject: this.props.userInfo.pathName
                     }): ({depth: 'first', nodesList: nodesList});
                     return _axios_get_Basic(this.axiosSource.token, {
                       url: '/router/share/accumulated/depth',

@@ -44,12 +44,12 @@ class TitleShareds extends React.Component {
             className={classnames("fontTitle", "colorEditBlack", "weightBold")}>
             {this.props.i18nUIString.catalog['title_shared']}
           </span>
-          <div>
+          <div style={{marginLeft: '3px'}}>
             {
               (!!this.props.userInfo.pathName && pathProjectify) &&
               <div
                 className={classnames("fontContentPlain", "colorGrey")}>
-                <span style={{cursor: 'default'}}>{this.props.i18nUIString.catalog["descript_Shareds_pathLink"]}</span>
+                <span style={{cursor: 'default'}}>{"/ "}</span>
                 <a
                   href={'/cosmic/explore/path/'+ this.props.userInfo.pathName}
                   className={classnames('plainLinkButton', "colorAssistOcean")}
