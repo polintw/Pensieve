@@ -30,7 +30,8 @@ class NavFeed extends React.Component {
   render(){
     return(
       <div
-        className={classnames(styles.boxTitle)}>
+        className={classnames(styles.boxTitle)}
+        style={{textAlign: 'right'}}>
         <div>
           <span
             className={classnames(

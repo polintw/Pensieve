@@ -108,6 +108,11 @@
   z-index: 3;
 }
 
+.boxNavCosmicJust {
+  width: 157.656px; /* this, is the width of the bottome sentence: 'Cornerth. All Rights Reserved.' */
+  margin-bottom: 7.6vh;
+}
+
 
 @media screen and (max-width:1110px) and (min-width: 860px) {
   .boxAroundContentCenter {

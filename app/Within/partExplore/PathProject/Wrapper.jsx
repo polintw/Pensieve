@@ -19,7 +19,6 @@ import {
 } from './axios.js';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
 import NodesFilter from '../../../Components/NodesFilter/NodesFilter.jsx';
-import NavWihtinCosmic from '../../../Components/NavWithin/NavWihtinCosmic.jsx';
 import {
   handleNounsList,
 } from "../../../redux/actions/general.js";
@@ -66,23 +65,18 @@ class Wrapper extends React.Component {
     return(
       <div>
         <div
-          className={classnames(styles.comAtNode)}>
-          { // this button & nav bar only appear if user signed in
-            (this.props.tokenStatus== 'verified') &&
-            <div
-              className={classnames(
-                styles.boxNavCosmic,
-                styles.smallDisplayNone)}>
-                <NavWihtinCosmic/>
-            </div>
-          }
+          className={classnames(styles.comPathProject)}>
           <div
-            className={classnames(styles.boxRow, styles.boxTitle)}
-            style={{paddingBottom: '14px'}}>
-            <TitlePath
-              title={this.state.projectName}/>
+            className={classnames(styles.boxRow)}>
+            <div
+              className={classnames(styles.boxTitle)}>
+              <TitlePath
+                title={this.state.projectName}/>
+            </div>
           </div>
-          <div>
+          <div
+            className={classnames(styles.boxTitle)}
+            style={{marginTop: '20px'}}>
             <NavFilter
               {...this.props}
               viewFilter={this.state.viewFilter}
@@ -93,20 +87,23 @@ class Wrapper extends React.Component {
             className={classnames(styles.boxRow)}>
             { // render NodesFilter only after the filterStart was fetched
               (this.state.viewFilter && !!this.state.filterStart) ? (
-                <NodesFilter
-                  nodePageify={true}
-                  startListify={true}
-                  startList={this.state.usedNodes}
-                  startNode={this.state.filterStart}
-                  _handle_nodeClick={this._set_viewFilter}
-                  _get_firstUnitsList={(nodesList)=>{
-                    // return a promise() to NodesFilter
-                    return _axios_get_projectLayerFirstUnits(this.axiosSource.token, {
-                      nodesList: nodesList, pathName: this.props.match.params['pathName']
-                    })
-                  }}/>
-              ):(
                 <div>
+                  <NodesFilter
+                    nodePageify={true}
+                    startListify={true}
+                    startList={this.state.usedNodes}
+                    startNode={this.state.filterStart}
+                    _handle_nodeClick={this._set_viewFilter}
+                    _get_firstUnitsList={(nodesList)=>{
+                      // return a promise() to NodesFilter
+                      return _axios_get_projectLayerFirstUnits(this.axiosSource.token, {
+                        nodesList: nodesList, pathName: this.props.match.params['pathName']
+                      })
+                    }}/>
+                </div>
+              ):(
+                <div
+                  className={classnames(styles.boxFeed)}>
                   <NavFeed {...this.props}/>
                   <Feed {...this.props}/>
                 </div>

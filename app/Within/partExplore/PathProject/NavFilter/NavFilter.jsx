@@ -72,7 +72,10 @@ class NavFilter extends React.Component {
                 </div>
               ):(
                 ("description" in this.props.projectInfo) &&
-                this.props.projectInfo.description
+                <span
+                  className={classnames("fontContentPlain", "colorEditLightBlack")}>
+                  {this.props.projectInfo.description}
+                </span>
               )
             )
           }

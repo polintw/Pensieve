@@ -1,13 +1,19 @@
-.comAtNode {
+.comPathProject {
   display: flex;
   flex-direction: column;
   position: relative;
   box-sizing: border-box;
-  padding-top: 2.8vh;
+  padding-top: 4.09vh;
 }
 
 .boxRow {
   position: relative;
+  margin: 12px 0;
+}
+
+.boxFeed {
+  border-top: 1px solid #d8d8d8;
+  padding-top: 22px;
 }
 
 .boxTitle {
@@ -21,13 +27,6 @@
   bottom: 0;
   left: 0;
   background-color: #FCFCFC;
-}
-
-.boxNavCosmic {
-  position: absolute;
-  right: 0;
-  margin: 8px 0;
-  z-index: 3;
 }
 
 @media screen and (max-width:860px) {

@@ -1,7 +1,10 @@
-.comNavFilter {}
+.comNavFilter {
+
+}
 
 .boxProjectInfo {
   display: inline-block;
+  max-width: 68%;
 }
 
 .boxFilter {

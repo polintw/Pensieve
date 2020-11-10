@@ -30,7 +30,7 @@ class TitlePath extends React.Component {
     return (
       <div className={styles.comTitlePath}>
         <span
-          className={classnames("fontTitle", "colorEditBlack", "weightBold")}>
+          className={classnames("fontTitle", "lineHeight15", "colorEditBlack", "weightBold")}>
           {this.props.title}
         </span>
       </div>
