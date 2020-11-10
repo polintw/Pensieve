@@ -11,13 +11,18 @@
   margin: 12px 0;
 }
 
-.boxFeed {
-  border-top: 1px solid #d8d8d8;
-  padding-top: 22px;
-}
-
 .boxTitle {
   margin: 8px 0;
+}
+
+.boxFeed {
+
+}
+
+.boxRowNav {
+  margin: 20px 0 10px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #d8d8d8;
 }
 
 .boxDecoBottom {

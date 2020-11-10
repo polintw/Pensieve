@@ -2,6 +2,12 @@
 
 }
 
+.boxLowerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
 .boxProjectInfo {
   display: inline-block;
   max-width: 68%;
@@ -9,5 +15,21 @@
 
 .boxFilter {
   display: inline-block;
-  float: right;
+}
+
+.boxSvgArrow {
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+
+.boxInputLine {
+  display: inline-block;
+  width: 144px;
+  border-bottom: 1px solid #979797;
+  margin-left: 15px;
+}
+
+.spanFilterCross {
+  display: inline-block;
 }

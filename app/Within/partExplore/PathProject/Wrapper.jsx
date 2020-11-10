@@ -75,8 +75,7 @@ class Wrapper extends React.Component {
             </div>
           </div>
           <div
-            className={classnames(styles.boxTitle)}
-            style={{marginTop: '20px'}}>
+            className={classnames(styles.boxRowNav)}>
             <NavFilter
               {...this.props}
               viewFilter={this.state.viewFilter}
