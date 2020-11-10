@@ -35,9 +35,9 @@ class NavWithin extends React.Component {
           onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_to('', '/')}}>
           <SvgLogo/>
         </div>
-
         <div
           className={classnames(styles.boxFooter)}>
+          {this.props.children}
           <ServiceLinks />
           <div
             className={classnames(

@@ -11,6 +11,7 @@ import styles from "./styles.module.css";
 import Feed from './Feed/Feed.jsx';
 import NavFilter from './NavFilter/NavFilter.jsx';
 import TitleShareds from './TitleShareds/TitleShareds.jsx';
+import SelfShare from './SelfShare/SelfShare.jsx';
 import NodesFilter from '../../../Components/NodesFilter/NodesFilter.jsx';
 import {
   axios_visit_GET_last,
@@ -118,6 +119,11 @@ class Wrapper extends React.Component {
           </div>
           <div
             className={classnames(styles.boxRow)}>
+            <div
+              className={classnames(styles.boxSelfShare)}>
+              <SelfShare
+                {...this.props}/>
+            </div>
             { // render NodesFilter only after the filterStart was fetched
               (this.state.viewFilter && !!this.state.filterStart) ? (
                 <NodesFilter

@@ -48,7 +48,7 @@ class NavShareds extends React.Component {
               "fontContentPlain", "weightBold",
               {
                 ["colorWhiteGrey"]: (!this.state.onNavLink),
-                ["colorEditBlack"]: (this.state.onNavLink),
+                ["colorAssistOcean"]: (this.state.onNavLink),
               }
             )}>
             {this.props.i18nUIString.catalog['link_Nav_Shareds_'][0]}

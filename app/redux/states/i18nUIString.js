@@ -112,6 +112,7 @@ const i18nUIString_EN = {
   "title_profile": "Profile",
   "title_home": "Home",
   "title_Publications": "Publications",
+  "title_Published": "Published",
   "title_Chain_Shareds_": "Publications",
   "title_shared": "Shareds",
   "subtitle_email": "Email",

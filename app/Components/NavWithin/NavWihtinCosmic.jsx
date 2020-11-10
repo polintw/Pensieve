@@ -50,7 +50,7 @@ class NavWihtinCosmic extends React.Component {
                     <div
                       className={classnames(styles.boxSvgArrow)}>
                       <div
-                        style={{width: "10px", height: "15px"}}>
+                        style={{width: "10px", height: "12px"}}>
                         <SvgArrowToRight
                           mouseOn={this.state.onInActive}
                           customStyles={{fillColorMouseOn: '#333333', fillColor: '#d8d8d8'}}/>

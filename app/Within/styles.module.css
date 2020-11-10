@@ -52,6 +52,7 @@
   height: 100%;
   position: fixed;
   background-color: #fff8f7;
+  z-index: 1; /* set here no matter the children set or not(like boxNavOptions) */
 }
 
 .boxNavOptionsCosmic {
@@ -102,8 +103,8 @@
 }
 
 .boxNavCosmic {
-  position: absolute;
-  bottom: calc(2.66vh + 120px);
+  width: 100%;
+  margin-bottom: 6.3vh;
   z-index: 3;
 }
 

@@ -25,6 +25,25 @@
   margin-bottom: 36vh;
 }
 
+.boxSelfShare { /* follow IndexShare */
+  width: 22.83vh;
+  min-width: 90px;
+  position: fixed;
+  top: 64.3vh;
+  left: 2.7vw;
+  z-index: 1;
+}
+
 .spanFooterHint {
   margin: 8px 0;
+}
+
+@media screen and (max-width:860px) {
+  .boxSelfShare {
+    width: 100%;
+    position: static;
+    z-index: unset;
+    overflow: hidden;
+  }
+
 }
