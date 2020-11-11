@@ -19,6 +19,7 @@
 
 .boxFilter {
   display: inline-block;
+  box-sizing: border-box;
 }
 
 .boxSvgArrow {
@@ -28,11 +29,24 @@
   cursor: pointer;
 }
 
+.boxIconsFilter {
+  height: 20px;
+}
+
+.boxIconFilterNode {
+  display: inline-block;
+  width: 28px;
+  height: 20px;
+  box-sizing: border-box;
+  text-align: right;
+  cursor: pointer;
+}
+
 .boxInputLine {
   display: inline-block;
-  margin-left: 15px;
 }
 
 .spanFilterCross {
   display: inline-block;
+  margin-right: 15px;
 }

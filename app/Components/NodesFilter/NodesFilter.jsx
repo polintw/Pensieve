@@ -95,7 +95,8 @@ class NodesFilter extends React.Component {
       searchStr+= (key + '=' + value);
     });
     // then going to render by params string & nodesList
-    let nodesListDOM = list.map((nodeId, index)=>{
+    let nodesListDOM = [];
+    list.forEach((nodeId, index)=>{
       // know first if this node has used.
       let firstUnitify = (nodeId in this.state.nodesUnits) ? true : false;
       let imgSrcCover = '',
@@ -112,13 +113,13 @@ class NodesFilter extends React.Component {
           state: {from: this.props.location}
         };
         let firstUnitId = this.state.nodesUnits[nodeId];
-        imgSrcCover = 'https://'+domain.name+'/router/img/'
+        imgSrcCover = domain.protocol+ '://'+domain.name+'/router/img/'
           + ((firstUnitId in this.state.unitsBasic) ? this.state.unitsBasic[firstUnitId].pic_layer0: 'notyetprepared_inNodesFilter')
           +'?type=thumb';
       };
       this['filterNode'+ index] = React.createRef(); // make a ref for only this component
 
-      return (
+      nodesListDOM.push(
         <div
           className={classnames(styles.boxNodeItem)}>
           <Link
@@ -138,18 +139,33 @@ class NodesFilter extends React.Component {
                   _handleClick_ImgPreview_preview={()=>{this["filterNode"+index].current.click()}}/>
               </div>
             }
-            <div>
-              <span
-                className={classnames("fontSubtitle_h5", "weightBold", "colorEditBlack")}>
-                {nodeId in this.props.nounsBasic ? (this.props.nounsBasic[nodeId].name) : null}
-              </span>
-              <span
-                className={classnames("fontSubtitle_h5", "weightBold", "colorEditBlack")}>
-                {nodeId in this.props.nounsBasic ? (
-                  (this.props.nounsBasic[nodeId].prefix.length > 0) &&
-                  (", " + this.props.nounsBasic[nodeId].prefix)) : (null)
-                }
-              </span>
+            <div
+              className={classnames( styles.boxItemTitle)}>
+              {
+                (nodeId in this.props.nounsBasic) &&
+                <div>
+                  <span
+                    className={classnames("fontSubtitle_h5", "weightBold", "colorEditBlack")}>
+                    {this.props.nounsBasic[nodeId].name}
+                  </span>
+                  {
+                    (this.props.nounsBasic[nodeId].prefix.length > 0) &&
+                    <span
+                      className={classnames("fontSubtitle_h5", "weightBold", "colorEditBlack")}>
+                      {", "}
+                    </span>
+                  }
+                  {
+                    (this.props.nounsBasic[nodeId].prefix.length > 0) &&
+                    <div>
+                      <span
+                        className={classnames("fontSubtitle_h5", "weightBold", "colorEditBlack")}>
+                        {this.props.nounsBasic[nodeId].prefix}
+                      </span>
+                    </div>
+                  }
+                </div>
+              }
             </div>
           </Link>
           {
@@ -166,6 +182,21 @@ class NodesFilter extends React.Component {
           }
         </div>
       );
+      // and last, if this is the last round,
+      // check the rest number to render a better look
+      if( (index+1) == list.length ){
+        let restNum = list.length % 4;
+        if(restNum != 0){ // 1, 2 or 3
+          for(let i=3; i>= restNum ;i--){
+            nodesListDOM.push(
+              <div
+                className={classnames(styles.boxNodeItem)}
+                style={{boxShadow: 'unset'}}>
+              </div>
+            );
+          };
+        };
+      };
     })
 
     return nodesListDOM;

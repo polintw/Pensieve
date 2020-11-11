@@ -34,6 +34,12 @@
   background-color: #FCFCFC;
 }
 
+.boxFooter {
+  position: relative;
+  padding-top: 2rem;
+  margin-bottom: 42vh;
+}
+
 @media screen and (max-width:860px) {
   .smallDisplayBox {
     display: block;

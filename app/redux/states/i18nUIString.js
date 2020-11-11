@@ -201,6 +201,9 @@ const i18nUIString_EN = {
   "guiding_AtNode_noAccumulated": "Waiting for the first contribution!",
 
   "hint_PathProject_FilterNode": "Filter accumulations by nodes beneath",
+  "message_PathProject_ShareLink": "Copied to clipboard",
+  "btn_PathProject_ShareLink": "to Share",
+  "tagTitle_PathProject_ShareLink": "Copy to share your Corner",
 
   "text_about": [[
     "We are Cornerth, a start-up team base on Taiwan, establishing this web app on the thought providing people an easier way to notice and learn from their living environment.",

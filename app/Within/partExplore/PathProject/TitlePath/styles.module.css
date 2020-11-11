@@ -1,6 +1,6 @@
 .comTitlePath {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
 }
 
 .boxTitleText {
@@ -9,9 +9,25 @@
 }
 
 .boxBtnShare {
-  width: 10%;
-  height: 3rem;
+  display: flex;
+  align-items: center;
   position: relative;
-  border: 0.75px solid #979797;
-  border-radius: 4px;
+  cursor: pointer;
+}
+
+.boxIconCopy {
+  width: 30px;
+  height: 20px;
+}
+
+.boxModalEmit {
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.boxHiddenText {
+  position: absolute;
+  left: 200%;
 }

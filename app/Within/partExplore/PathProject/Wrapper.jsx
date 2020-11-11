@@ -71,6 +71,7 @@ class Wrapper extends React.Component {
             <div
               className={classnames(styles.boxTitle)}>
               <TitlePath
+                projectPath = {this.state.pathName}
                 title={this.state.projectName}/>
             </div>
           </div>
@@ -100,6 +101,7 @@ class Wrapper extends React.Component {
                         nodesList: nodesList, pathName: this.props.match.params['pathName']
                       })
                     }}/>
+                  <div className={classnames(styles.boxFooter)}/>
                 </div>
               ):(
                 <div
