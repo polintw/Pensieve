@@ -58,44 +58,16 @@ class NavFilter extends React.Component {
     return (
       <div className={styles.comNavFilter}>
         <div
-          className={classnames(styles.boxLowerRow)}>
+          className={classnames(styles.boxRowInfo)}>
           <div
             className={classnames(styles.boxProjectInfo)}>
             {
-              !this.props.viewFilter ?
-              (
-                !!this.filterNode ? (
-                  <div>
-                    <span
-                      className={classnames("fontSubtitle", "weightBold", "lineHeight15", "colorEditBlack")}>
-                      {"X "}
-                    </span>
-                    <span
-                      className={classnames("fontSubtitle", "weightBold", "colorEditBlack")}>
-                      {this.filterNode in this.props.nounsBasic ? (this.props.nounsBasic[this.filterNode].name) : null}
-                    </span>
-                  </div>
-                ):(
-                  ("description" in this.props.projectInfo) &&
-                  <span
-                    className={classnames("fontContentPlain", "colorEditLightBlack")}>
-                    {this.props.projectInfo.description}
-                  </span>
-                )
-              ): (
-                <div>
-                  <span
-                    className={classnames(
-                      styles.spanFilterCross,
-                      "fontSubtitle", "weightBold", "lineHeight15", "colorEditBlack")}>
-                    {"X "}
-                  </span>
-                  <div
-                    className={classnames(
-                      styles.boxInputLine,
-                      "fontSubtitle", "colorEditBlack")}/>
-                </div>
-              )
+              ("description" in this.props.projectInfo) &&
+              <span
+                className={classnames("fontContentPlain", "colorEditLightBlack")}>
+                {this.props.projectInfo.description}
+              </span>
+
             }
           </div>
           <div
@@ -111,7 +83,7 @@ class NavFilter extends React.Component {
                     onMouseLeave={this._handleLeave_CloseArrow}>
                     <SvgArrowToTop
                       mouseOn={this.state.onArrow}
-                      customStyles={{fillColorMouseOn: '#545454', fillColor: 'rgb(69, 135, 160)'}}/>
+                      customStyles={{fillColorMouseOn: '#ff8168', fillColor: 'rgb(69, 135, 160)'}}/>
                   </div>
                 }
               </div>
@@ -130,6 +102,39 @@ class NavFilter extends React.Component {
               </div>
             }
           </div>
+        </div>
+        <div
+          className={classnames(styles.boxRowFilterNode)}>
+          {
+            !!this.filterNode ? (
+              <div>
+                <span
+                  className={classnames("fontContent", "weightBold", "lineHeight15", "colorEditBlack")}>
+                  {"X "}
+                </span>
+                <span
+                  className={classnames("fontNodesEqual", "weightBold", "lineHeight15", "colorEditBlack")}>
+                  {this.filterNode in this.props.nounsBasic ? (this.props.nounsBasic[this.filterNode].name) : null}
+                </span>
+              </div>
+            ) : (
+              this.props.viewFilter &&
+                <div>
+                  <span
+                    className={classnames(
+                      styles.spanFilterCross,
+                      "fontContent", "weightBold", "lineHeight15", "colorEditBlack")}>
+                    {"X "}
+                  </span>
+                  <div
+                    className={classnames(
+                      styles.boxInputLine,
+                      "fontContent", "lineHeight15", "colorWhiteGrey")}>
+                    <span>{this.props.i18nUIString.catalog['hint_PathProject_FilterNode']}</span>
+                  </div>
+                </div>
+            )
+          }
         </div>
       </div>
     )

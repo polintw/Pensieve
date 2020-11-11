@@ -1,5 +1,6 @@
 .comNodesFilter {
-
+  display: flex;
+  flex-direction: column;
 }
 
 .boxImg {
@@ -9,4 +10,26 @@
   border-radius: 4px;
   background-color: rgba(217, 232, 255, 0.15);
   overflow: hidden;
+}
+
+.boxOptions {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.boxNodesList {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.boxNodeItem {
+  width: 21%;
+  min-width: 210px;
+  position: relative;
+}
+
+.boxNodeItemLink {
+  display: block;
 }

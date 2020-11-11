@@ -200,6 +200,8 @@ const i18nUIString_EN = {
   "subtitle_NavAtNode_Num": ['stay', "from"],
   "guiding_AtNode_noAccumulated": "Waiting for the first contribution!",
 
+  "hint_PathProject_FilterNode": "Filter accumulations by nodes beneath",
+
   "text_about": [[
     "We are Cornerth, a start-up team base on Taiwan, establishing this web app on the thought providing people an easier way to notice and learn from their living environment.",
     "Cornerth.tw enable you sharing contents with pictures, text, and graphic items on it for things you're interested to, or related to the corner you concern about.",

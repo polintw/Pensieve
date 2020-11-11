@@ -2,10 +2,14 @@
 
 }
 
-.boxLowerRow {
+.boxRowInfo {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+}
+
+.boxRowFilterNode {
+  margin: 16px 0 0;
 }
 
 .boxProjectInfo {
@@ -20,13 +24,12 @@
 .boxSvgArrow {
   width: 15px;
   height: 15px;
+  padding: 5px 0 0 5px;
   cursor: pointer;
 }
 
 .boxInputLine {
   display: inline-block;
-  width: 144px;
-  border-bottom: 1px solid #979797;
   margin-left: 15px;
 }
 

@@ -1,1 +1,17 @@
-.comTitlePath {}
+.comTitlePath {
+    display: flex;
+    align-items: center;
+}
+
+.boxTitleText {
+    width: 68%;
+    margin-right: 20px;
+}
+
+.boxBtnShare {
+  width: 10%;
+  height: 3rem;
+  position: relative;
+  border: 0.75px solid #979797;
+  border-radius: 4px;
+}

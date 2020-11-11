@@ -119,13 +119,14 @@ class NodesFilter extends React.Component {
       this['filterNode'+ index] = React.createRef(); // make a ref for only this component
 
       return (
-        <div>
+        <div
+          className={classnames(styles.boxNodeItem)}>
           <Link
             key={"key_nodesFilter_"+index}
             to={linkObj}
             ref={this["filterNode"+ index]}
             className={classnames(
-              'plainLinkButton')}
+              'plainLinkButton', styles.boxNodeItemLink)}
             onClick={this._handleClick_filterNode}>
             { // preview only appear if the node was used
               firstUnitify &&
@@ -139,11 +140,11 @@ class NodesFilter extends React.Component {
             }
             <div>
               <span
-                className={classnames("fontContentPlain", "weightBold", "colorEditBlack")}>
+                className={classnames("fontSubtitle_h5", "weightBold", "colorEditBlack")}>
                 {nodeId in this.props.nounsBasic ? (this.props.nounsBasic[nodeId].name) : null}
               </span>
               <span
-                className={classnames("fontContentPlain", "weightBold", "colorEditBlack")}>
+                className={classnames("fontSubtitle_h5", "weightBold", "colorEditBlack")}>
                 {nodeId in this.props.nounsBasic ? (
                   (this.props.nounsBasic[nodeId].prefix.length > 0) &&
                   (", " + this.props.nounsBasic[nodeId].prefix)) : (null)
@@ -173,7 +174,7 @@ class NodesFilter extends React.Component {
   render(){
     return (
       <div className={styles.comNodesFilter}>
-        <div>
+        <div className={styles.boxOptions}>
           {
             this.props.startListify &&
             <div
@@ -193,7 +194,7 @@ class NodesFilter extends React.Component {
             </div>
           }
         </div>
-        <div>
+        <div className={styles.boxNodesList}>
           {this._render_Nodes()}
         </div>
       </div>

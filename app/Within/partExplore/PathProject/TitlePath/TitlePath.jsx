@@ -5,6 +5,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import LinkCopy from '../../../../Components/LinkCopy/LinkCopy.jsx';
 
 class TitlePath extends React.Component {
   constructor(props){
@@ -29,10 +30,16 @@ class TitlePath extends React.Component {
   render(){
     return (
       <div className={styles.comTitlePath}>
-        <span
-          className={classnames("fontTitle", "lineHeight15", "colorEditBlack", "weightBold")}>
-          {this.props.title}
-        </span>
+        <div className={classnames(styles.boxTitleText)}>
+          <span
+            className={classnames( "fontTitle", "lineHeight15", "colorEditBlack", "weightBold")}>
+            {this.props.title}
+          </span>
+        </div>
+        <div
+          className={classnames(styles.boxBtnShare)}>
+
+        </div>
       </div>
     )
   }

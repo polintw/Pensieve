@@ -3,7 +3,7 @@
   flex-direction: column;
   position: relative;
   box-sizing: border-box;
-  padding-top: 4.09vh;
+  padding-top: 5.07vh;
 }
 
 .boxRow {
@@ -20,8 +20,8 @@
 }
 
 .boxRowNav {
-  margin: 20px 0 10px;
-  padding-bottom: 20px;
+  margin: 5.07vh 0 10px;
+  padding-bottom: 2.538vh;
   border-bottom: 1px solid #d8d8d8;
 }
 
