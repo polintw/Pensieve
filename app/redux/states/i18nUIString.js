@@ -90,6 +90,7 @@ const i18nUIString_EN = {
   "text_users": "users",
   "text_home": 'Homeland',
   "text_resid": "Residence",
+  "test_or_minor": "or",
   "message_hello": "Hi, ",
   "submit_": "Submit",
   "submit_back": "Back", //Original:"back"
@@ -201,9 +202,11 @@ const i18nUIString_EN = {
   "guiding_AtNode_noAccumulated": "Waiting for the first contribution!",
 
   "hint_PathProject_FilterNode": "Filter accumulations by nodes beneath",
-  "message_PathProject_ShareLink": "Copied to clipboard",
+  "message_PathProject_ShareLink": "Link has copied",
   "btn_PathProject_ShareLink": "to Share",
   "tagTitle_PathProject_ShareLink": "Copy to share your Corner",
+
+  "btn_nodesFilter_layerOptions": ['Among All', 'Used', 'Upper'],
 
   "text_about": [[
     "We are Cornerth, a start-up team base on Taiwan, establishing this web app on the thought providing people an easier way to notice and learn from their living environment.",

@@ -20,24 +20,20 @@
 }
 
 .boxRowNav {
-  margin: 5.07vh 0 20px;
+  margin: 7.614vh 0 20px;
   padding-bottom: 2.538vh;
   border-bottom: 1px solid #d8d8d8;
-}
-
-.boxDecoBottom {
-  height: 2.66vh;
-  width: 80%;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  background-color: #FCFCFC;
 }
 
 .boxFooter {
   position: relative;
   padding-top: 2rem;
-  margin-bottom: 42vh;
+  margin-bottom: 36vh;
+}
+
+.boxNodesFilter {
+  box-shadow: -5px 0 4px -5px rgba(0, 0, 0, 0.3);
+  margin: 0;
 }
 
 @media screen and (max-width:860px) {

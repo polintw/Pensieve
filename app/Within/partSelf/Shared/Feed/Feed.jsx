@@ -109,7 +109,7 @@ class Feed extends React.Component {
             <NailFeed
               {...this.props}
               unitId={unitId}
-              narrowWidth={true}
+              narrowWidth={false}
               linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
               unitBasic={this.state.unitsBasic[unitId]}
               marksBasic={this.state.marksBasic}/>
@@ -122,7 +122,7 @@ class Feed extends React.Component {
               {...this.props}
               leftimg={ remainder2 ? true : false}
               unitId={unitId}
-              narrowWidth={true}
+              narrowWidth={false}
               linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
               unitBasic={this.state.unitsBasic[unitId]}
               marksBasic={this.state.marksBasic}/>

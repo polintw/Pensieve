@@ -82,13 +82,15 @@ class NavOptions extends React.Component {
   }
 
   _render_NavToolBox(){
+    let currentPath = this.props.location.pathname;
+
     return (
       <div>
         <div
           className={classnames(
+            'colorOptionsBlack', 'fontContent',
             styles.selfCom_NavOptions_ToolBox_,
-            styles.fontContent,
-            'colorOptionsBlack'
+            {[styles.boxToolBoxExplore]: currentPath.includes('/cosmic/explore')}
           )}
           onClick={(e)=>{ e.stopPropagation(); /* Important! Stop proppagation to wrapper, which would change state*/}}>
           <div style={{marginBottom: '2rem'}}>

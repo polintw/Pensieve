@@ -44,7 +44,16 @@ class Feed extends React.Component {
     let lastUrlParams = new URLSearchParams(prevProps.location.search); //we need value in URL query
     let lastNodeAtId = lastUrlParams.has('filterNode') ? lastUrlParams.get('filterNode'): null;
     if(this.filterNode != lastNodeAtId){
-      this._set_feedUnits();
+      this.setState((prevState, props)=>{
+        return {
+          feedList: [],
+          unitsBasic: {},
+          marksBasic: {},
+          scrolled: true
+        }
+      }, ()=>{
+        this._set_feedUnits();
+      });
     }
   }
 
@@ -104,7 +113,7 @@ class Feed extends React.Component {
           return;
         };
         // for laptop / desktop, change nail by cycles
-        let remainder3 = index % 3,
+        let remainder3 = (index+1) % 3, // make the '0' appear first st 3rd nail
         remainder2 = index % 2; // cycle, but every 3 units has a wide, left, right in turn.
 
         nailsDOM.push (remainder3 ? ( // 0 would be false, which means index % 3 =0
@@ -114,7 +123,7 @@ class Feed extends React.Component {
             <NailFeed
               {...this.props}
               unitId={unitId}
-              narrowWidth={true}
+              narrowWidth={false}
               linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
               unitBasic={this.state.unitsBasic[unitId]}
               marksBasic={this.state.marksBasic}/>
@@ -127,7 +136,7 @@ class Feed extends React.Component {
               {...this.props}
               leftimg={ remainder2 ? true : false}
               unitId={unitId}
-              narrowWidth={true}
+              narrowWidth={false}
               linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
               unitBasic={this.state.unitsBasic[unitId]}
               marksBasic={this.state.marksBasic}/>

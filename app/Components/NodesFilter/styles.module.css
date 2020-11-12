@@ -18,20 +18,24 @@
 .boxOptions {
   display: flex;
   justify-content: center;
-  margin-bottom: 8px;
+  margin-bottom: 22px;
+}
+
+.boxBtnOption {
+  cursor: pointer;
 }
 
 .boxNodesList {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   flex-wrap: wrap;
 }
 
 .boxNodeItem {
-  width: 22%;
+  width: 23%;
   min-width: 178px;
   position: relative;
-  margin: 8px 0;
+  margin: 8px 0 32px;
   box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
   border-radius: 8px;
   overflow: hidden;
@@ -46,6 +50,10 @@
 .boxItemTitle {
   flex: 1;
   width: 100%;
-  padding: 5% 0 4.2% 4.2%;
+  padding: 5% 4.42% 6.329% 4.2%;
   box-sizing: border-box;
+}
+
+.boxTitleText {
+  text-align: right;
 }

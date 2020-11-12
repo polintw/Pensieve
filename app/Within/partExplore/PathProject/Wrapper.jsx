@@ -94,7 +94,7 @@ class Wrapper extends React.Component {
             { // render NodesFilter only after the filterStart was fetched
               (this.state.viewFilter && !!this.state.filterStart) ? (
                 <div
-                  className={classnames(styles.boxTitle)}>
+                  className={classnames(styles.boxNodesFilter)}>
                   <NodesFilter
                     nodePageify={true}
                     startListify={true}
@@ -121,8 +121,6 @@ class Wrapper extends React.Component {
               )
             }
           </div>
-
-          <div className={classnames(styles.boxDecoBottom, styles.smallDisplayNone)}></div>
         </div>
 
         <Route

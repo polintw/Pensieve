@@ -43,6 +43,70 @@ class NodesFilter extends React.Component {
     this._handleClick_switchUppeLayer = this._handleClick_switchUppeLayer.bind(this);
     this._handleClick_switcNextLayer = this._handleClick_switcNextLayer.bind(this);
     this._handleClick_switchStartList = this._handleClick_switchStartList.bind(this);
+
+    this.nodeUsedLink = (linkObj, imgSrcCover, nodeId)=>{
+      return (
+        <div
+          key={"key_nodesFilter_"+nodeId}
+          className={classnames(styles.boxNodeItem)}>
+          <Link
+            to={linkObj}
+            ref={this["filterNode"+ nodeId]}
+            className={classnames(
+              'plainLinkButton', styles.boxNodeItemLink)}
+            onClick={this._handleClick_filterNode}>
+            <div
+              className={styles.boxImg}>
+              <ImgPreview
+                blockName={''}
+                previewSrc={ imgSrcCover }
+                _handleClick_ImgPreview_preview={()=>{this["filterNode"+nodeId].current.click()}}/>
+            </div>
+            <div
+              className={classnames( styles.boxItemTitle)}>
+              {
+                (nodeId in this.props.nounsBasic) &&
+                <div
+                  className={classnames( styles.boxTitleText)}>
+                  <span
+                    className={classnames("fontSubtitle_h5", "weightBold", "colorEditBlack")}>
+                    {this.props.nounsBasic[nodeId].name}
+                  </span>
+                  {
+                    (this.props.nounsBasic[nodeId].prefix.length > 0) &&
+                    <span
+                      className={classnames("fontSubtitle_h5", "weightBold", "colorEditBlack")}>
+                      {", "}
+                    </span>
+                  }
+                  {
+                    (this.props.nounsBasic[nodeId].prefix.length > 0) &&
+                    <div>
+                      <span
+                        className={classnames("fontSubtitle_h5", "weightBold", "colorEditBlack")}>
+                        {this.props.nounsBasic[nodeId].prefix}
+                      </span>
+                    </div>
+                  }
+                </div>
+              }
+            </div>
+          </Link>
+          {
+            ((nodeId in this.props.nounsBasic) &&
+            !(this.props.startListify && this.state.atStartListify) &&
+            this.props.nounsBasic[nodeId].parentify) &&
+            <div
+              nodeid={nodeId}
+              onClick={this._handleClick_switcNextLayer}>
+              <span>
+                {"children"}
+              </span>
+            </div>
+          }
+        </div>
+      )
+    }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -117,70 +181,11 @@ class NodesFilter extends React.Component {
           + ((firstUnitId in this.state.unitsBasic) ? this.state.unitsBasic[firstUnitId].pic_layer0: 'notyetprepared_inNodesFilter')
           +'?type=thumb';
       };
-      this['filterNode'+ index] = React.createRef(); // make a ref for only this component
+      this['filterNode'+ nodeId] = React.createRef(); // make a ref for only this component
 
-      nodesListDOM.push(
-        <div
-          className={classnames(styles.boxNodeItem)}>
-          <Link
-            key={"key_nodesFilter_"+index}
-            to={linkObj}
-            ref={this["filterNode"+ index]}
-            className={classnames(
-              'plainLinkButton', styles.boxNodeItemLink)}
-            onClick={this._handleClick_filterNode}>
-            { // preview only appear if the node was used
-              firstUnitify &&
-              <div
-                className={styles.boxImg}>
-                <ImgPreview
-                  blockName={''}
-                  previewSrc={ imgSrcCover }
-                  _handleClick_ImgPreview_preview={()=>{this["filterNode"+index].current.click()}}/>
-              </div>
-            }
-            <div
-              className={classnames( styles.boxItemTitle)}>
-              {
-                (nodeId in this.props.nounsBasic) &&
-                <div>
-                  <span
-                    className={classnames("fontSubtitle_h5", "weightBold", "colorEditBlack")}>
-                    {this.props.nounsBasic[nodeId].name}
-                  </span>
-                  {
-                    (this.props.nounsBasic[nodeId].prefix.length > 0) &&
-                    <span
-                      className={classnames("fontSubtitle_h5", "weightBold", "colorEditBlack")}>
-                      {", "}
-                    </span>
-                  }
-                  {
-                    (this.props.nounsBasic[nodeId].prefix.length > 0) &&
-                    <div>
-                      <span
-                        className={classnames("fontSubtitle_h5", "weightBold", "colorEditBlack")}>
-                        {this.props.nounsBasic[nodeId].prefix}
-                      </span>
-                    </div>
-                  }
-                </div>
-              }
-            </div>
-          </Link>
-          {
-            ((nodeId in this.props.nounsBasic) &&
-            !(this.props.startListify && this.state.atStartListify) &&
-            this.props.nounsBasic[nodeId].parentify) &&
-            <div
-              nodeid={nodeId}
-              onClick={this._handleClick_switcNextLayer}>
-              <span>
-                {"children"}
-              </span>
-            </div>
-          }
-        </div>
+      nodesListDOM.push( // preview only appear if the node was used
+        // firstUnitify ? nodeUsedLink(linkObj, imgSrcCover, nodeId) :
+        this.nodeUsedLink(linkObj, imgSrcCover, nodeId)
       );
       // and last, if this is the last round,
       // check the rest number to render a better look
@@ -209,18 +214,45 @@ class NodesFilter extends React.Component {
           {
             this.props.startListify &&
             <div
+              className={classnames(styles.boxBtnOption)}
               onClick={this._handleClick_switchStartList}>
-              <span>
-                {this.state.atStartListify ? "In All" : "Only Used"}
-              </span>
+              {
+                this.state.atStartListify ? (
+                  <div>
+                    <span
+                      className={classnames(
+                        "fontContent", "colorEditBlack")}
+                      style={{marginRight: '4px'}}>
+                      {this.props.i18nUIString.catalog['test_or_minor']}
+                    </span>
+                    <span
+                      className={classnames(
+                        "fontContent", "colorAssistOcean")}>
+                      {this.props.i18nUIString.catalog['btn_nodesFilter_layerOptions'][0]}
+                    </span>
+                  </div>
+                ) : (
+                  <div>
+                      <span
+                        className={classnames(
+                          "fontContent", "colorAssistOcean")}>
+                        {this.props.i18nUIString.catalog['btn_nodesFilter_layerOptions'][1]}
+                      </span>
+                  </div>
+                )
+              }
             </div>
           }
           {
             !this.state.atStartListify &&
             <div
+              className={classnames(styles.boxBtnOption)}
               onClick={this._handleClick_switchUppeLayer}>
-              <span>
-                {"Upper"}
+              <span
+                className={classnames(
+                  "fontContent", "colorAssistOcean")}>
+                {"．"}
+                {this.props.i18nUIString.catalog['btn_nodesFilter_layerOptions'][2]}
               </span>
             </div>
           }

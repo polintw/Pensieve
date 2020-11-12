@@ -59,7 +59,7 @@ class TitlePath extends React.Component {
           </div>
           <div
             className={classnames(
-              "fontSubtitle_h5",
+              "fontContent",
               {["colorEditBlack"]: this.state.onShareLink},
               {["colorGrey"]: !this.state.onShareLink},
             )}>

@@ -1,11 +1,11 @@
 .comTitlePath {
     display: flex;
-    align-items: flex-end;
+    align-items: baseline;
 }
 
 .boxTitleText {
-    width: 68%;
-    margin-right: 20px;
+    max-width: 68%;
+    margin-right: 30px;
 }
 
 .boxBtnShare {
@@ -16,8 +16,8 @@
 }
 
 .boxIconCopy {
-  width: 30px;
-  height: 20px;
+  width: 22px;
+  height: 18px;
 }
 
 .boxModalEmit {
