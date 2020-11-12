@@ -62,6 +62,11 @@ class Wrapper extends React.Component {
   }
 
   render(){
+    let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
+    if(urlParams.has('filterNode')){
+      this.filterNode = urlParams.get('filterNode');
+    } else this.filterNode = null;
+
     return(
       <div>
         <div
@@ -80,6 +85,7 @@ class Wrapper extends React.Component {
             <NavFilter
               {...this.props}
               viewFilter={this.state.viewFilter}
+              projectPath = {this.state.pathName}
               projectInfo={this.state.projectInfo}
               _set_viewFilter={this._set_viewFilter}/>
           </div>
@@ -106,7 +112,10 @@ class Wrapper extends React.Component {
               ):(
                 <div
                   className={classnames(styles.boxFeed)}>
-                  <NavFeed {...this.props}/>
+                  {
+                    !this.filterNode && // render only when no filterNode
+                    <NavFeed {...this.props}/>
+                  }
                   <Feed {...this.props}/>
                 </div>
               )

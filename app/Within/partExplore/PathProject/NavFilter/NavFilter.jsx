@@ -8,6 +8,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import {SvgArrowToTop} from '../../../../Components/Svg/SvgArrow.jsx';
 import SvgFilterNode from '../../../../Components/Svg/SvgFilter_Node.jsx';
+import SvgArrowStick from '../../../../Components/Svg/SvgArrowStick.jsx';
 
 class NavFilter extends React.Component {
   constructor(props){
@@ -47,8 +48,13 @@ class NavFilter extends React.Component {
       <Link
         to={linkObj}
         className={classnames(
-          'plainLinkButton')}>
-        {"Main"}
+          'plainLinkButton', styles.linkBlock,
+           styles.boxSvgArrow)}
+        onMouseEnter={this._handleEnter_CloseArrow}
+        onMouseLeave={this._handleLeave_CloseArrow}>
+        <SvgArrowToTop
+          mouseOn={this.state.onArrow}
+          customStyles={{fillColorMouseOn: '#ff8168', fillColor: '#a3a3a3'}}/>
       </Link>
     );
   }
@@ -82,12 +88,21 @@ class NavFilter extends React.Component {
                 onClick={this._handleClick_filterClose}>
                 {
                   <div
-                    className={classnames(styles.boxSvgArrow)}
-                    onMouseEnter={this._handleEnter_CloseArrow}
-                    onMouseLeave={this._handleLeave_CloseArrow}>
-                    <SvgArrowToTop
-                      mouseOn={this.state.onArrow}
-                      customStyles={{fillColorMouseOn: '#ff8168', fillColor: 'rgb(69, 135, 160)'}}/>
+                    className={classnames(styles.boxSvgArrowStick)}
+                    onMouseEnter={this._handleEnter_FilterNode}
+                    onMouseLeave={this._handleLeave_FilterNode}>
+                    <SvgArrowStick
+                      customstyle={this.state.onFilterNode ? (
+                        {
+                          cls1: "{fill:none;stroke:#ff8168;stroke-linecap:round;stroke-linejoin:round;stroke-width:18px;}",
+                          cls2: "{fill:#ff8168}"
+                        }
+                      ): (
+                        {
+                          cls1: "{fill:none;stroke:rgb(69, 135, 160);stroke-linecap:round;stroke-linejoin:round;stroke-width:18px;}",
+                          cls2: "{fill:rgb(69, 135, 160)}"
+                        }
+                      )}/>
                   </div>
                 }
               </div>
@@ -96,18 +111,15 @@ class NavFilter extends React.Component {
               !this.props.viewFilter &&
               <div
                 className={classnames(styles.boxIconsFilter)}>
-                {
-                  !!this.filterNode &&
-                  this._render_resetLink()
-                }
-                <div
-                  className={classnames(styles.boxIconFilterNode)}
+                <Link
+                  to={"/cosmic/explore/path/" + this.props.projectPath}
+                  className={classnames('plainLinkButton', styles.boxIconFilterNode)}
                   onClick={this._handleClick_filter}
                   onMouseEnter={this._handleEnter_FilterNode}
                   onMouseLeave={this._handleLeave_FilterNode}>
                   <SvgFilterNode
                     customstyle={this.state.onFilterNode ? "{fill: rgb(69, 135, 160);}" : "{fill: #757575;}"}/>
-                </div>
+                </Link>
               </div>
             }
           </div>
@@ -115,17 +127,21 @@ class NavFilter extends React.Component {
         {
           !!this.filterNode ? (
             <div
-              className={classnames(styles.boxRowFilterNode)}>
-              <span
-                className={classnames(
-                  styles.spanFilterCross,
-                  "fontContent", "weightBold", "lineHeight15", "colorEditBlack")}>
-                {"X "}
-              </span>
-              <span
-                className={classnames("fontNodesEqual", "weightBold", "lineHeight15", "colorEditBlack")}>
-                {this.filterNode in this.props.nounsBasic ? (this.props.nounsBasic[this.filterNode].name) : null}
-              </span>
+              className={classnames(
+                styles.boxRowFilterNode, styles.boxRowFilterNodeFlex)}>
+              <div>
+                <span
+                  className={classnames(
+                    styles.spanFilterCross,
+                    "fontContent", "weightBold", "lineHeight15", "colorAssistGold")}>
+                    {"X "}
+                  </span>
+                  <span
+                    className={classnames("fontNodesEqual", "weightBold", "lineHeight15", "colorEditBlack")}>
+                    {(this.filterNode in this.props.nounsBasic) ? (this.props.nounsBasic[this.filterNode].name) : null}
+                  </span>
+              </div>
+              {this._render_resetLink()}
             </div>
           ) : (
             this.props.viewFilter &&
@@ -151,8 +167,11 @@ class NavFilter extends React.Component {
   }
 
   _handleClick_filter(event){
-    event.preventDefault();
-    event.stopPropagation();
+    if(!this.filterNode){ // currently 'null', no param 'filterNode'
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
     this.props._set_viewFilter('filter')
   }
 
