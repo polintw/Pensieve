@@ -15,9 +15,12 @@ class NavFilter extends React.Component {
     super(props);
     this.state = {
       onArrow: false,
-      onFilterNode: false
+      onFilterNode: false,
+      onNodeLink: false
     };
     this._handleClick_filter = this._handleClick_filter.bind(this);
+    this._handleEnter_NodeLink = this._handleEnter_NodeLink.bind(this);
+    this._handleLeave_NodeLink = this._handleLeave_NodeLink.bind(this);
     this._handleLeave_FilterNode = this._handleLeave_FilterNode.bind(this);
     this._handleEnter_FilterNode = this._handleEnter_FilterNode.bind(this);
     this._handleLeave_CloseArrow = this._handleLeave_CloseArrow.bind(this);
@@ -136,10 +139,23 @@ class NavFilter extends React.Component {
                     "fontContent", "weightBold", "lineHeight15", "colorAssistGold")}>
                     {"X "}
                   </span>
-                  <span
-                    className={classnames("fontNodesEqual", "weightBold", "lineHeight15", "colorEditBlack")}>
-                    {(this.filterNode in this.props.nounsBasic) ? (this.props.nounsBasic[this.filterNode].name) : null}
-                  </span>
+                <Link
+                  nodeid={this.filterNode}
+                  to={"/cosmic/explore/node?nodeid=" + this.filterNode}
+                  className={classnames('plainLinkButton')}
+                  style={{ display: 'inline-block' }}
+                  onMouseEnter={this._handleEnter_NodeLink}
+                  onMouseLeave={this._handleLeave_NodeLink}>
+                  {(this.filterNode in this.props.nounsBasic) &&
+                    <span
+                      className={classnames(
+                        "fontNodesEqual", "weightBold", "colorEditBlack",
+                        styles.spanLinkNode,
+                        { [styles.spanLinkNodeMouse]: this.state.onNodeLink == this.filterNode }
+                      )}>
+                    {this.props.nounsBasic[this.filterNode].name}</span>
+                  }
+                </Link>
               </div>
               {this._render_resetLink()}
             </div>
@@ -211,6 +227,15 @@ class NavFilter extends React.Component {
         onFilterNode: false
       }
     })
+  }
+
+  _handleEnter_NodeLink(e) {
+    let targetNode = e.currentTarget.getAttribute('nodeid');
+    this.setState({ onNodeLink: targetNode })
+  }
+
+  _handleLeave_NodeLink(e) {
+    this.setState({ onNodeLink: false })
   }
 }
 

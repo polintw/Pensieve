@@ -37,6 +37,13 @@
 .boxNavLink {
   display: inline-block;
   box-sizing: border-box;
+  border: solid 1px transparent;
+  border-radius: 8px;
+  padding: 4px 15px 6px;
+}
+
+.boxNavLinkMouseon {
+  border: solid 1px #a3a3a3;
 }
 
 .boxSvgArrow {
@@ -48,14 +55,8 @@
 
 .spanNavLink {
   display: inline-block;
-  border-bottom: 1px solid transparent;
   cursor: pointer;
 }
-
-.spanNavLinkMouse {
-  border-bottom: 1px solid #333333;
-}
-
 
 @media screen and (max-width:1110px) {
   .boxRightsClaim {

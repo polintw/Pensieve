@@ -12,18 +12,18 @@ class NavWihtinCosmic extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            onInActive: false
+            onbtn: false
         };
         this._handleEnter_Link = this._handleEnter_Link.bind(this);
         this._handleLeave_Link = this._handleLeave_Link.bind(this);
     }
 
     _handleEnter_Link(e) {
-        this.setState({ onInActive: true })
+        this.setState({ onbtn: true })
     }
 
     _handleLeave_Link(e) {
-        this.setState({ onInActive: false })
+        this.setState({ onbtn: false })
     }
 
     componentDidMount() {
@@ -43,7 +43,8 @@ class NavWihtinCosmic extends React.Component {
                     to={"/"}
                     className={classnames(
                         'plainLinkButton',
-                        styles.boxNavLink
+                        styles.boxNavLink,
+                        {[styles.boxNavLinkMouseon]: this.state.onbtn}
                     )}
                     onMouseEnter={this._handleEnter_Link}
                     onMouseLeave={this._handleLeave_Link}>
@@ -52,21 +53,14 @@ class NavWihtinCosmic extends React.Component {
                       <div
                         style={{width: "10px", height: "12px"}}>
                         <SvgArrowToRight
-                          mouseOn={this.state.onInActive}
-                          customStyles={{fillColorMouseOn: '#333333', fillColor: '#d8d8d8'}}/>
+                          mouseOn={this.state.onbtn}
+                          customStyles={{fillColorMouseOn: '#a3a3a3', fillColor: '#a3a3a3'}}/>
                       </div>
                     </div>
-
                     <span
                         className={classnames(
                             styles.spanNavLink,
-                            "fontNodesEqual",
-                            "colorWhiteGrey",
-                            {
-                                ['colorOptionsBlack']: this.state.onInActive,
-                                [styles.spanNavLinkMouse]: this.state.onInActive
-                            }
-                        )}>
+                            "fontNodesEqual", "colorGrey")}>
                         {this.props.i18nUIString.catalog["title_home"]}
                     </span>
                 </Link>

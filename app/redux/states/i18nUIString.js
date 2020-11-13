@@ -204,7 +204,7 @@ const i18nUIString_EN = {
   "hint_PathProject_FilterNode": "Filter accumulations by nodes beneath",
   "message_PathProject_ShareLink": "Link has copied",
   "btn_PathProject_ShareLink": "to Share",
-  "tagTitle_PathProject_ShareLink": "Copy to share your Corner",
+  "tagTitle_PathProject_ShareLink": "Copy to share your Brand",
 
   "btn_nodesFilter_layerOptions": ['Among All', 'Used', 'Upper'],
 

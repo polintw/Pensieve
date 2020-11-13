@@ -67,3 +67,12 @@
   display: inline-block;
   margin-right: 15px;
 }
+
+.spanLinkNode {
+  display: inline-block;
+  border-bottom: solid 1px transparent;
+}
+
+.spanLinkNodeMouse {
+  border-bottom: solid 1px #545454;
+}
