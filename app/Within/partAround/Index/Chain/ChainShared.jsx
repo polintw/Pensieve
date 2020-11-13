@@ -8,6 +8,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesFont from '../../stylesFont.module.css';
 import ImgPreview from '../../../../Components/ImgPreview.jsx';
+import {SvgArrowToRight} from '../../../../Components/Svg/SvgArrow.jsx';
 import {
   submitSharedsList
 } from "../../../../redux/actions/within.js";
@@ -30,6 +31,7 @@ class ChainShared extends React.Component {
     this.state = {
       axios: false,
       onNail: false,
+      onbtnLink: false,
       unitsBasic: {}
     };
     this.axiosSource = axios.CancelToken.source();
@@ -38,7 +40,9 @@ class ChainShared extends React.Component {
     this._render_sharenails = this._render_sharenails.bind(this);
     this._handleEnter_sharedNail = this._handleEnter_sharedNail.bind(this);
     this._handleLeave_sharedNail = this._handleLeave_sharedNail.bind(this);
-  }
+    this._handleEnter_Expand = this._handleEnter_Expand.bind(this);
+    this._handleLeave_Expand = this._handleLeave_Expand.bind(this);
+}
 
   _handleEnter_sharedNail(e){
     this.setState({onNail: e.currentTarget.getAttribute('unitid')})
@@ -75,18 +79,38 @@ class ChainShared extends React.Component {
           <div
             className={classnames(styles.boxModuleShareds)}>
             {this._render_sharenails()}
+            <div className={styles.boxPanelGradient}></div>
           </div>
           <div
-            className={classnames(styles.boxDisplayPanel)}>
-            <div className={styles.boxPanelGradient}></div>
-            <div
-              className={classnames(styles.boxImgSizeBtn, styles.boxExpand)}>
-              <Link
-                to={"/self/shareds"}
-                className={classnames('plainLinkButton')}>
-                {"Expand"}
-              </Link>
-            </div>
+            className={classnames(styles.boxExpand)}>
+            <Link
+              to={"/self/shareds"}
+              className={classnames(
+                'plainLinkButton',
+                styles.boxExpandLink,
+                {[styles.boxExpandLinkMouseon]: this.state.onbtnLink}
+              )}
+              onMouseEnter={this._handleEnter_Expand}
+              onMouseLeave={this._handleLeave_Expand}>
+              <span
+                className={classnames(
+                  styles.spanExpandLink,
+                  "fontContentPlain",
+                  {["colorWhiteGrey"]: !this.state.onbtnLink},
+                  {["colorAssistOcean"]: this.state.onbtnLink}
+                )}>
+                {this.props.i18nUIString.catalog["title_Expand"]}
+              </span>
+              <div
+                className={classnames(styles.boxSvgArrow)}>
+                <div
+                  style={{width: "10px", height: "12px"}}>
+                  <SvgArrowToRight
+                    mouseOn={this.state.onbtnLink}
+                    customStyles={{fillColorMouseOn: 'rgb(69, 135, 160)', fillColor: '#d8d8d8'}}/>
+                </div>
+              </div>
+            </Link>
           </div>
         </div>
       </div>
@@ -213,6 +237,14 @@ class ChainShared extends React.Component {
     }).catch(function (thrown) {
       throw thrown;
     });
+  }
+
+  _handleEnter_Expand(e) {
+      this.setState({ onbtnLink: true })
+  }
+
+  _handleLeave_Expand(e) {
+      this.setState({ onbtnLink: false })
   }
 
 }

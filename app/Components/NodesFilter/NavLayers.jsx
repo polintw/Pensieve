@@ -30,55 +30,60 @@ class NavLayers extends React.Component {
   }
 
   render(){
-      return (
-        <div>
-              {
-                  this.props.startListify &&
-                  <div
-                      className={classnames(styles.boxBtnOption)}
-                      onClick={this._handleClick_switchStartList}>
-                      {
-                          this.props.atStartListify ? (
-                              <div>
-                                  <span
-                                      className={classnames(
-                                          "fontContent", "colorEditBlack")}
-                                      style={{ marginRight: '4px' }}>
-                                      {this.props.i18nUIString.catalog['test_or_minor']}
-                                  </span>
-                                  <span
-                                      className={classnames(
-                                          "fontContent", "colorAssistOcean")}>
-                                      {this.props.i18nUIString.catalog['btn_nodesFilter_layerOptions'][0]}
-                                  </span>
-                              </div>
-                          ) : (
-                                  <div>
-                                      <span
-                                          className={classnames(
-                                              "fontContent", "colorAssistOcean")}>
-                                          {this.props.i18nUIString.catalog['btn_nodesFilter_layerOptions'][1]}
-                                      </span>
-                                  </div>
-                              )
-                      }
-                  </div>
-              }
-              {
-                  !this.props.atStartListify &&
-                  <div
-                      className={classnames(styles.boxBtnOption)}
-                      onClick={this._handleClick_switchUppeLayer}>
-                      <span
-                          className={classnames(
-                              "fontContent", "colorAssistOcean")}>
-                          {"．"}
-                          {this.props.i18nUIString.catalog['btn_nodesFilter_layerOptions'][2]}
-                      </span>
-                  </div>
-              }
+    return (
+      <div
+        className={classnames(styles.comNavLayer)}>
+        {
+          this.props.startListify &&
+          <div
+            className={classnames(styles.boxBtnOption)}
+            onClick={this._handleClick_switchStartList}>
+            {
+              this.props.atStartListify ? (
+                <div>
+                  <span
+                    className={classnames(
+                      "fontContent", "colorEditBlack")}
+                      style={{ marginRight: '4px' }}>
+                    {this.props.i18nUIString.catalog['test_or_minor']}
+                  </span>
+                  <span
+                    className={classnames(
+                      "fontContent", "colorAssistOcean")}>
+                    {this.props.i18nUIString.catalog['btn_nodesFilter_layerOptions'][0]}
+                  </span>
+                </div>
+              ) : (
+                <div>
+                  <span
+                    className={classnames(
+                      "fontContent", "colorAssistOcean")}>
+                    {this.props.i18nUIString.catalog['btn_nodesFilter_layerOptions'][1]}
+                  </span>
+                </div>
+              )
+            }
+          </div>
+        }
+        {
+          !this.props.atStartListify &&
+          <div
+            className={classnames(styles.boxBtnOption)}
+            onClick={this._handleClick_switchUppeLayer}>
+            <span
+              className={classnames(
+                "fontContent", "colorAssistOcean")}>
+                {"．"}
+            </span>
+            <span
+              className={classnames(
+                "fontContent", "colorAssistOcean")}>
+                {this.props.i18nUIString.catalog['btn_nodesFilter_layerOptions'][2]}
+              </span>
+            </div>
+          }
         </div>
-        )
+      )
     }
 
 

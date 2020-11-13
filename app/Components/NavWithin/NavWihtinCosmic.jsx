@@ -40,31 +40,33 @@ class NavWihtinCosmic extends React.Component {
             <div
                 className={classnames(styles.comNavWithinCosmic)}>
                 <Link
-                    to={"/"}
-                    className={classnames(
-                        'plainLinkButton',
-                        styles.boxNavLink,
-                        {[styles.boxNavLinkMouseon]: this.state.onbtn}
-                    )}
-                    onMouseEnter={this._handleEnter_Link}
-                    onMouseLeave={this._handleLeave_Link}>
+                  to={"/"}
+                  className={classnames(
+                    'plainLinkButton',
+                    styles.boxNavLink,
+                    {[styles.boxNavLinkMouseon]: this.state.onbtn}
+                  )}
+                  onMouseEnter={this._handleEnter_Link}
+                  onMouseLeave={this._handleLeave_Link}>
+                  <div
+                    className={classnames(styles.boxSvgArrow)}>
                     <div
-                      className={classnames(styles.boxSvgArrow)}>
-                      <div
-                        style={{width: "10px", height: "12px"}}>
-                        <SvgArrowToRight
-                          mouseOn={this.state.onbtn}
-                          customStyles={{fillColorMouseOn: '#a3a3a3', fillColor: '#a3a3a3'}}/>
-                      </div>
+                      style={{width: "10px", height: "12px"}}>
+                      <SvgArrowToRight
+                        mouseOn={this.state.onbtn}
+                        customStyles={{fillColorMouseOn: '#444444', fillColor: '#a3a3a3'}}/>
                     </div>
-                    <span
-                        className={classnames(
-                            styles.spanNavLink,
-                            "fontNodesEqual", "colorGrey")}>
-                        {this.props.i18nUIString.catalog["title_home"]}
+                  </div>
+                  <span
+                    className={classnames(
+                      styles.spanNavLink,
+                      "fontNodesEqual",
+                      {["colorGrey"]: !this.state.onbtn},
+                      {["colorDescripBlack"]: this.state.onbtn}
+                    )}>
+                      {this.props.i18nUIString.catalog["title_home"]}
                     </span>
-                </Link>
-
+                  </Link>
             </div>
         )
     }

@@ -14,13 +14,12 @@ import {
   domain
 } from '../../../config/services.js';
 
-class ItemImgBox extends React.Component {
+class ItemNodeLink extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       onbtnLink: false
     };
-    this['filterNode' + this.props.nodeId] = React.createRef(); // make a ref for only this component
     this._handleClick_filterNode = this._handleClick_filterNode.bind(this);
     this._handleClick_switcNextLayer = this._handleClick_switcNextLayer.bind(this);
     this._handleEnter_Link = this._handleEnter_Link.bind(this);
@@ -44,27 +43,17 @@ class ItemImgBox extends React.Component {
 
     return (
       <div
-        className={classnames(styles.boxNodeItem)}>
+        className={classnames(styles.boxNodeItem)}
+        style={{alignSelf: "flex-start"}}>
         <Link
           to={this.props.linkObj}
-          ref={this["filterNode" + nodeId]}
           className={classnames(
             'plainLinkButton', styles.boxNodeItemLink)}
             onClick={this._handleClick_filterNode}
             onMouseEnter={this._handleEnter_Link}
             onMouseLeave={this._handleLeave_Link}>
             <div
-              className={classnames(
-                styles.boxItemImg,
-                {[styles.boxItemImgMouseon]: this.state.onbtnLink}
-              )}>
-              <ImgPreview
-                blockName={''}
-                previewSrc={this.props.imgSrcCover}
-                _handleClick_ImgPreview_preview={() => { this["filterNode" + nodeId].current.click() }} />
-            </div>
-            <div
-              className={classnames(styles.boxItemTitle)}>
+              className={classnames(styles.boxItemNoImgTitle)}>
               {
                 (nodeId in this.props.nounsBasic) &&
                 <div
@@ -74,13 +63,13 @@ class ItemImgBox extends React.Component {
                     {[styles.boxTitleTextNoChild]: ((this.props.startListify && this.props.atStartListify) || !this.props.nounsBasic[nodeId].parentify)}
                   )}>
                   <span
-                    className={classnames("fontNodesEqual", "lineHeight15", "colorEditBlack")}>
+                    className={classnames("fontSubtitle_h5", "colorDarkGrey")}>
                     {this.props.nounsBasic[nodeId].name}
                   </span>
                   {
                     (this.props.nounsBasic[nodeId].prefix.length > 0) &&
                     <span
-                      className={classnames("fontNodesEqual", "lineHeight15", "colorEditBlack")}>
+                      className={classnames("fontSubtitle_h5", "colorDarkGrey")}>
                       {", "}
                     </span>
                   }
@@ -88,28 +77,28 @@ class ItemImgBox extends React.Component {
                     (this.props.nounsBasic[nodeId].prefix.length > 0) &&
                     <div>
                       <span
-                        className={classnames("fontSubtitle", "lineHeight15", "colorEditBlack")}>
+                        className={classnames("fontContent", "colorDarkGrey")}>
                         {this.props.nounsBasic[nodeId].prefix}
                       </span>
                     </div>
                   }
                 </div>
               }
+              {
+                ((nodeId in this.props.nounsBasic) &&
+                !(this.props.startListify && this.props.atStartListify) &&
+                this.props.nounsBasic[nodeId].parentify) &&
+                <div
+                  className={classnames(styles.boxBtnNextLayer)}
+                  nodeid={nodeId}
+                  onClick={this._handleClick_switcNextLayer}>
+                  <span>
+                    {"children"}
+                  </span>
+                </div>
+              }
             </div>
           </Link>
-          {
-            ((nodeId in this.props.nounsBasic) &&
-            !(this.props.startListify && this.props.atStartListify) &&
-            this.props.nounsBasic[nodeId].parentify) &&
-            <div
-              className={classnames(styles.boxBtnNextLayer)}
-              nodeid={nodeId}
-              onClick={this._handleClick_switcNextLayer}>
-              <span>
-                {"children"}
-              </span>
-            </div>
-          }
         </div>
       )
     }
@@ -157,4 +146,4 @@ const mapDispatchToProps = (dispatch) => {
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(ItemImgBox));
+)(ItemNodeLink));

@@ -7,6 +7,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import ItemImgBox from './ItemImgBox.jsx';
+import ItemNodeLink from './ItemNodeLink.jsx';
 import NavLayers from './NavLayers.jsx';
 import {
   _axios_get_NodesLayer
@@ -119,25 +120,24 @@ class NodesFilter extends React.Component {
       };
 
       nodesListDOM.push( // preview only appear if the node was used
-/*        firstUnitify ? (
-        <ItemImgBox
-          nodeId={nodeId}
-          imgSrcCover={imgSrcCover}
-          linkObj={linkObj}
-          atStartListify={this.state.atStartListify}
-          startListify={this.props.startListify}
-          _set_SwitchNextLayer={this._set_SwitchNextLayer}
-          _handleClick_filterNode={this.props._handle_nodeClick}/>
-        ) :()
-        */
-        <ItemImgBox
-          nodeId={nodeId}
-          imgSrcCover={imgSrcCover}
-          linkObj={linkObj}
-          atStartListify={this.state.atStartListify}
-          startListify={this.props.startListify}
-          _set_SwitchNextLayer={this._set_SwitchNextLayer}
-          _handleClick_filterNode={this.props._handle_nodeClick} />
+        firstUnitify ? (
+          <ItemImgBox
+            nodeId={nodeId}
+            imgSrcCover={imgSrcCover}
+            linkObj={linkObj}
+            atStartListify={this.state.atStartListify}
+            startListify={this.props.startListify}
+            _set_SwitchNextLayer={this._set_SwitchNextLayer}
+            _handleClick_filterNode={this.props._handle_nodeClick}/>
+        ) :(
+          <ItemNodeLink
+            nodeId={nodeId}
+            linkObj={linkObj}
+            atStartListify={this.state.atStartListify}
+            startListify={this.props.startListify}
+            _set_SwitchNextLayer={this._set_SwitchNextLayer}
+            _handleClick_filterNode={this.props._handle_nodeClick}/>
+        )
       );
 
       // and last, if this is the last round,

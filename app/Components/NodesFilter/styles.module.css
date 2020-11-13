@@ -3,6 +3,10 @@
   flex-direction: column;
 }
 
+.comNavLayer {
+  display: flex;
+}
+
 .boxOptions {
   display: flex;
   justify-content: center;
@@ -38,7 +42,15 @@
 .boxItemTitle {
   flex: 1;
   width: 100%;
-  padding: 3.37% 4.42% 8.43% 4.2%;
+  position: relative;
+  padding: 4.2% 4.42% 8.43% 4.2%;
+  box-sizing: border-box;
+}
+
+.boxItemNoImgTitle {
+  width: 100%;
+  position: relative;
+  padding: 4.2% 4.42% 8.43% 4.2%;
   box-sizing: border-box;
 }
 
@@ -54,9 +66,22 @@
   overflow: hidden;
 }
 
+.boxItemImgMouseon {
+  box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
+}
+
 .boxTitleText {
   max-width: 68%;
   float: right;
+  padding: 5px 10px;
+}
+
+.boxTitleTextMouseon {
+  background-color: rgb(216,216,216,0.15);
+}
+
+.boxTitleTextNoChild {
+  max-width: 100%;
 }
 
 .boxBtnNextLayer {

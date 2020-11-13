@@ -54,13 +54,16 @@ class NavWihtinSelf extends React.Component {
                         style={{width: "10px", height: "12px"}}>
                         <SvgArrowToLeft
                           mouseOn={this.state.onInActive}
-                          customStyles={{fillColorMouseOn: '#a3a3a3', fillColor: '#a3a3a3'}}/>
+                          customStyles={{fillColorMouseOn: '#444444', fillColor: '#a3a3a3'}}/>
                       </div>
                     </div>
                     <span
                         className={classnames(
                             styles.spanNavLink,
-                            "fontNodesEqual", "colorGrey")}>
+                            "fontNodesEqual",
+                            {["colorGrey"]: !this.state.onbtn},
+                            {["colorDescripBlack"]: this.state.onbtn}
+                          )}>
                         {this.props.i18nUIString.catalog["title_home"]}
                     </span>
                 </Link>
