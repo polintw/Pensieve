@@ -17,6 +17,10 @@
   cursor: pointer;
 }
 
+.boxBtnOptionMouseon {
+  cursor: default;
+}
+
 .boxNodesList {
   display: flex;
   justify-content: space-around;
@@ -31,6 +35,12 @@
   box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
   border-radius: 8px;
   overflow: hidden;
+}
+
+.boxNodeItemNoImg { /* after .boxNodeItem */
+  align-self: flex-start;
+  box-shadow: unset;
+  border: solid 1.5px #979797;
 }
 
 .boxNodeItemLink {
@@ -50,7 +60,7 @@
 .boxItemNoImgTitle {
   width: 100%;
   position: relative;
-  padding: 4.2% 4.42% 8.43% 4.2%;
+  padding: 4.2%;
   box-sizing: border-box;
 }
 
@@ -86,9 +96,19 @@
 
 .boxBtnNextLayer {
   width: 30%;
-  height: 35%;
+  height: 100%;
   position: absolute;
   bottom: 0;
   left: 0;
   padding: 0 0 0% 4.2%; /* follow padding of boxItemTitle*/
+}
+
+.svgBtnNextLayer {
+  width: 39px;
+  height: 39px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
 }

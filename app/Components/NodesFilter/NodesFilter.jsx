@@ -149,7 +149,7 @@ class NodesFilter extends React.Component {
             nodesListDOM.push(
               <div
                 className={classnames(styles.boxNodeItem)}
-                style={{boxShadow: 'unset'}}>
+                style={{boxShadow: 'unset', border: 'unset'}}>
               </div>
             );
           };

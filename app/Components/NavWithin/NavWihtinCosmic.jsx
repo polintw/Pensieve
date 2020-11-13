@@ -60,7 +60,7 @@ class NavWihtinCosmic extends React.Component {
                   <span
                     className={classnames(
                       styles.spanNavLink,
-                      "fontNodesEqual",
+                      "fontSubtitle_h5",
                       {["colorGrey"]: !this.state.onbtn},
                       {["colorDescripBlack"]: this.state.onbtn}
                     )}>

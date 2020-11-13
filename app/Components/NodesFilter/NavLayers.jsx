@@ -68,16 +68,23 @@ class NavLayers extends React.Component {
         {
           !this.props.atStartListify &&
           <div
-            className={classnames(styles.boxBtnOption)}
+            className={classnames(
+              styles.boxBtnOption,
+              {[styles.boxBtnOptionMouseon]: !this.props.baseParent}
+            )}
             onClick={this._handleClick_switchUppeLayer}>
             <span
               className={classnames(
-                "fontContent", "colorAssistOcean")}>
+                "fontContent", "colorAssistOcean",
+                { ['colorWhiteGrey']: !this.props.baseParent } // if no parent
+              )}>
                 {"．"}
             </span>
             <span
               className={classnames(
-                "fontContent", "colorAssistOcean")}>
+                "fontContent", "colorAssistOcean",
+                { ['colorWhiteGrey']: !this.props.baseParent} // if no parent
+                )}>
                 {this.props.i18nUIString.catalog['btn_nodesFilter_layerOptions'][2]}
               </span>
             </div>

@@ -7,6 +7,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import ImgPreview from '../ImgPreview.jsx';
+import SvgIconNextLayer from '../Svg/SvgIcon_NextLayer.jsx';
 import {
   _axios_get_NodesLayer
 } from './axios.js';
@@ -95,21 +96,23 @@ class ItemImgBox extends React.Component {
                   }
                 </div>
               }
+            {
+              ((nodeId in this.props.nounsBasic) &&
+                !(this.props.startListify && this.props.atStartListify) &&
+                this.props.nounsBasic[nodeId].parentify) &&
+              <div
+                className={classnames(styles.boxBtnNextLayer)}>
+                  <div
+                    className={classnames(styles.svgBtnNextLayer)}
+                    nodeid={nodeId}
+                    onClick={this._handleClick_switcNextLayer}>
+                    <SvgIconNextLayer/>
+                  </div>
+              </div>
+            }
+
             </div>
           </Link>
-          {
-            ((nodeId in this.props.nounsBasic) &&
-            !(this.props.startListify && this.props.atStartListify) &&
-            this.props.nounsBasic[nodeId].parentify) &&
-            <div
-              className={classnames(styles.boxBtnNextLayer)}
-              nodeid={nodeId}
-              onClick={this._handleClick_switcNextLayer}>
-              <span>
-                {"children"}
-              </span>
-            </div>
-          }
         </div>
       )
     }

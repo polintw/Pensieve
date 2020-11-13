@@ -6,7 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import ImgPreview from '../ImgPreview.jsx';
+import SvgIconNextLayer from '../Svg/SvgIcon_NextLayer.jsx';
 import {
   _axios_get_NodesLayer
 } from './axios.js';
@@ -43,8 +43,10 @@ class ItemNodeLink extends React.Component {
 
     return (
       <div
-        className={classnames(styles.boxNodeItem)}
-        style={{alignSelf: "flex-start"}}>
+        className={classnames(
+          styles.boxNodeItem,
+          styles.boxNodeItemNoImg
+        )}>
         <Link
           to={this.props.linkObj}
           className={classnames(
@@ -88,14 +90,15 @@ class ItemNodeLink extends React.Component {
                 ((nodeId in this.props.nounsBasic) &&
                 !(this.props.startListify && this.props.atStartListify) &&
                 this.props.nounsBasic[nodeId].parentify) &&
+              <div
+                className={classnames(styles.boxBtnNextLayer)}>
                 <div
-                  className={classnames(styles.boxBtnNextLayer)}
+                  className={classnames(styles.svgBtnNextLayer)}
                   nodeid={nodeId}
                   onClick={this._handleClick_switcNextLayer}>
-                  <span>
-                    {"children"}
-                  </span>
+                  <SvgIconNextLayer />
                 </div>
+              </div>
               }
             </div>
           </Link>
