@@ -53,7 +53,7 @@ class NavWihtinSelf extends React.Component {
                       <div
                         style={{width: "10px", height: "12px"}}>
                         <SvgArrowToLeft
-                          mouseOn={this.state.onInActive}
+                          mouseOn={this.state.onbtn}
                           customStyles={{fillColorMouseOn: '#444444', fillColor: '#a3a3a3'}}/>
                       </div>
                     </div>

@@ -42,7 +42,7 @@ class TitleShareds extends React.Component {
           className={classnames(styles.boxUpperRow)}>
           <span
             className={classnames("fontTitle", "colorEditBlack", "weightBold")}>
-            {this.props.i18nUIString.catalog['title_Published']}
+            {this.props.i18nUIString.catalog['title_shared']}
           </span>
           <div style={{marginLeft: '3px'}}>
             {

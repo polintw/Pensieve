@@ -18,12 +18,15 @@ class ItemNodeLink extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      onbtnLink: false
+      overbtnLink: false,
+      overbtnNextLayer: false
     };
     this._handleClick_filterNode = this._handleClick_filterNode.bind(this);
     this._handleClick_switcNextLayer = this._handleClick_switcNextLayer.bind(this);
-    this._handleEnter_Link = this._handleEnter_Link.bind(this);
-    this._handleLeave_Link = this._handleLeave_Link.bind(this);
+    this._handleOver_Link = this._handleOver_Link.bind(this);
+    this._handleOut_Link = this._handleOut_Link.bind(this);
+    this._handleOver_NextLayer = this._handleOver_NextLayer.bind(this);
+    this._handleOut_NextLayer = this._handleOut_NextLayer.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -47,31 +50,45 @@ class ItemNodeLink extends React.Component {
           styles.boxNodeItem,
           styles.boxNodeItemNoImg
         )}>
-        <Link
-          to={this.props.linkObj}
-          className={classnames(
-            'plainLinkButton', styles.boxNodeItemLink)}
-            onClick={this._handleClick_filterNode}
-            onMouseEnter={this._handleEnter_Link}
-            onMouseLeave={this._handleLeave_Link}>
+        <div
+          className={classnames(styles.boxNodeItemLink)}>
             <div
               className={classnames(styles.boxItemNoImgTitle)}>
               {
                 (nodeId in this.props.nounsBasic) &&
-                <div
+                <Link
+                  to={this.props.linkObj}
                   className={classnames(
-                    styles.boxTitleText,
-                    {[styles.boxTitleTextMouseon]: this.state.onbtnLink},
+                    'plainLinkButton', styles.boxTitleText,
                     {[styles.boxTitleTextNoChild]: ((this.props.startListify && this.props.atStartListify) || !this.props.nounsBasic[nodeId].parentify)}
-                  )}>
+                  )}
+                  onClick={this._handleClick_filterNode}
+                  onMouseOver={this._handleOver_Link}
+                  onMouseOut={this._handleOut_Link}>
                   <span
-                    className={classnames("fontSubtitle_h5", "colorDarkGrey")}>
+                    className={classnames(
+                      "fontSubtitle_h5",
+                      styles.spanLinkNode,
+                      {
+                        [styles.spanLinkNodeMouse]: this.state.overbtnLink,
+                        ["colorDarkGrey"]: !this.state.overbtnLink,
+                        ["colorEditBlack"]: this.state.overbtnLink
+                      }
+                    )}>
                     {this.props.nounsBasic[nodeId].name}
                   </span>
                   {
                     (this.props.nounsBasic[nodeId].prefix.length > 0) &&
                     <span
-                      className={classnames("fontSubtitle_h5", "colorDarkGrey")}>
+                      className={classnames(
+                        "fontSubtitle_h5", "colorDarkGrey",
+                        styles.spanLinkNode,
+                        {
+                          [styles.spanLinkNodeMouse]: this.state.overbtnLink,
+                          ["colorDarkGrey"]: !this.state.overbtnLink,
+                          ["colorEditBlack"]: this.state.overbtnLink
+                        }
+                      )}>
                       {", "}
                     </span>
                   }
@@ -79,39 +96,63 @@ class ItemNodeLink extends React.Component {
                     (this.props.nounsBasic[nodeId].prefix.length > 0) &&
                     <div>
                       <span
-                        className={classnames("fontContent", "colorDarkGrey")}>
+                        className={classnames(
+                          "fontSubtitle_h5", "colorDarkGrey",
+                          styles.spanLinkNode,
+                          {
+                            [styles.spanLinkNodeMouse]: this.state.overbtnLink,
+                            ["colorDarkGrey"]: !this.state.overbtnLink,
+                            ["colorEditBlack"]: this.state.overbtnLink
+                          }
+                        )}>
                         {this.props.nounsBasic[nodeId].prefix}
                       </span>
                     </div>
                   }
-                </div>
+                </Link>
               }
               {
                 ((nodeId in this.props.nounsBasic) &&
                 !(this.props.startListify && this.props.atStartListify) &&
                 this.props.nounsBasic[nodeId].parentify) &&
-              <div
-                className={classnames(styles.boxBtnNextLayer)}>
                 <div
-                  className={classnames(styles.svgBtnNextLayer)}
-                  nodeid={nodeId}
-                  onClick={this._handleClick_switcNextLayer}>
-                  <SvgIconNextLayer />
+                  className={classnames(styles.boxBtnNextLayer)}>
+                  <div
+                    className={classnames(styles.svgBtnNextLayer)}
+                    nodeid={nodeId}
+                    onClick={this._handleClick_switcNextLayer}
+                    onMouseOver={this._handleOver_NextLayer}
+                    onMouseOut={this._handleOut_NextLayer}>
+                    <SvgIconNextLayer
+                      customstyle={this.state.overbtnNextLayer ? {
+                        cls1: {},
+                        cls2: {fill: "rgb(69, 135, 160)"}
+                      }: null}/>
+                  </div>
                 </div>
-              </div>
               }
             </div>
-          </Link>
+          </div>
         </div>
       )
     }
 
-    _handleEnter_Link(e) {
-      this.setState({ onbtnLink: true })
+    _handleOver_Link(e) {
+      this.setState({ overbtnLink: true })
     }
 
-    _handleLeave_Link(e) {
-      this.setState({ onbtnLink: false })
+    _handleOut_Link(e) {
+      this.setState({ overbtnLink: false })
+    }
+
+    _handleOver_NextLayer(e) {
+      e.stopPropagation(); // nextLayer is a comp 'inside' a NodeLink, need stopPropagation to keep effect only here
+      this.setState({ overbtnNextLayer: true })
+    }
+
+    _handleOut_NextLayer(e) {
+      e.stopPropagation(); // nextLayer is a comp 'inside' a NodeLink, need stopPropagation to keep effect only here
+      this.setState({ overbtnNextLayer: false })
     }
 
   _handleClick_switcNextLayer(event){

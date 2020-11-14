@@ -19,13 +19,16 @@ class ItemImgBox extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      onbtnLink: false
+      overbtnLink: false,
+      overbtnNextLayer: false
     };
     this['filterNode' + this.props.nodeId] = React.createRef(); // make a ref for only this component
     this._handleClick_filterNode = this._handleClick_filterNode.bind(this);
     this._handleClick_switcNextLayer = this._handleClick_switcNextLayer.bind(this);
-    this._handleEnter_Link = this._handleEnter_Link.bind(this);
-    this._handleLeave_Link = this._handleLeave_Link.bind(this);
+    this._handleOver_Link = this._handleOver_Link.bind(this);
+    this._handleOut_Link = this._handleOut_Link.bind(this);
+    this._handleOver_NextLayer = this._handleOver_NextLayer.bind(this);
+    this._handleOut_NextLayer = this._handleOut_NextLayer.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -52,12 +55,12 @@ class ItemImgBox extends React.Component {
           className={classnames(
             'plainLinkButton', styles.boxNodeItemLink)}
             onClick={this._handleClick_filterNode}
-            onMouseEnter={this._handleEnter_Link}
-            onMouseLeave={this._handleLeave_Link}>
+            onMouseOver={this._handleOver_Link}
+            onMouseOut={this._handleOut_Link}>
             <div
               className={classnames(
                 styles.boxItemImg,
-                {[styles.boxItemImgMouseon]: this.state.onbtnLink}
+                {[styles.boxItemImgMouseon]: this.state.overbtnLink}
               )}>
               <ImgPreview
                 blockName={''}
@@ -71,7 +74,7 @@ class ItemImgBox extends React.Component {
                 <div
                   className={classnames(
                     styles.boxTitleText,
-                    {[styles.boxTitleTextMouseon]: this.state.onbtnLink},
+                    {[styles.boxTitleTextMouseon]: this.state.overbtnLink},
                     {[styles.boxTitleTextNoChild]: ((this.props.startListify && this.props.atStartListify) || !this.props.nounsBasic[nodeId].parentify)}
                   )}>
                   <span
@@ -100,15 +103,21 @@ class ItemImgBox extends React.Component {
               ((nodeId in this.props.nounsBasic) &&
                 !(this.props.startListify && this.props.atStartListify) &&
                 this.props.nounsBasic[nodeId].parentify) &&
-              <div
-                className={classnames(styles.boxBtnNextLayer)}>
+                <div
+                  className={classnames(styles.boxBtnNextLayer)}>
                   <div
                     className={classnames(styles.svgBtnNextLayer)}
                     nodeid={nodeId}
-                    onClick={this._handleClick_switcNextLayer}>
-                    <SvgIconNextLayer/>
+                    onClick={this._handleClick_switcNextLayer}
+                    onMouseOver={this._handleOver_NextLayer}
+                    onMouseOut={this._handleOut_NextLayer}>
+                    <SvgIconNextLayer
+                      customstyle={this.state.overbtnNextLayer ? {
+                        cls1: {},
+                        cls2: {fill: "rgb(69, 135, 160)"}
+                      }: null}/>
                   </div>
-              </div>
+                </div>
             }
 
             </div>
@@ -117,12 +126,22 @@ class ItemImgBox extends React.Component {
       )
     }
 
-    _handleEnter_Link(e) {
-      this.setState({ onbtnLink: true })
+    _handleOver_Link(e) {
+      this.setState({ overbtnLink: true })
     }
 
-    _handleLeave_Link(e) {
-      this.setState({ onbtnLink: false })
+    _handleOut_Link(e) {
+      this.setState({ overbtnLink: false })
+    }
+
+    _handleOver_NextLayer(e) {
+      e.stopPropagation(); // nextLayer is a comp 'inside' a NodeLink, need stopPropagation to keep effect only here
+      this.setState({ overbtnNextLayer: true })
+    }
+
+    _handleOut_NextLayer(e) {
+      e.stopPropagation(); // nextLayer is a comp 'inside' a NodeLink, need stopPropagation to keep effect only here
+      this.setState({ overbtnNextLayer: false })
     }
 
   _handleClick_switcNextLayer(event){

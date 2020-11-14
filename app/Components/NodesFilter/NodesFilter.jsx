@@ -122,6 +122,7 @@ class NodesFilter extends React.Component {
       nodesListDOM.push( // preview only appear if the node was used
         firstUnitify ? (
           <ItemImgBox
+            key={"key_NodesFilter_ImgBox_"+ index}
             nodeId={nodeId}
             imgSrcCover={imgSrcCover}
             linkObj={linkObj}
@@ -131,6 +132,7 @@ class NodesFilter extends React.Component {
             _handleClick_filterNode={this.props._handle_nodeClick}/>
         ) :(
           <ItemNodeLink
+            key={"key_NodesFilter_NodeLink"+ index}
             nodeId={nodeId}
             linkObj={linkObj}
             atStartListify={this.state.atStartListify}
