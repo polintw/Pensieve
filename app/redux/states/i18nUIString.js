@@ -207,7 +207,9 @@ const i18nUIString_EN = {
   "btn_PathProject_ShareLink": "to Share",
   "tagTitle_PathProject_ShareLink": "Copy to share your Brand",
 
-  "hint_nodesFilter_nodeVisit": "Visit this node",
+  "hint_nodesFilter_nodeExplore": "Explore to node",
+  "hint_nodesFilter_nodeNotYet": "Not yet visit!",
+  "title_nodesFilter_LayerBase": "From base",
   "btn_nodesFilter_layerOptions": ['Among All', 'Used', 'Upper'],
 
   "text_about": [[

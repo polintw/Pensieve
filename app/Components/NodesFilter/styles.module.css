@@ -1,3 +1,7 @@
+.rowEight {
+  margin: 8px 0;
+}
+
 .comNodesFilter {
   display: flex;
   flex-direction: column;
@@ -11,6 +15,12 @@
   display: flex;
   justify-content: center;
   margin-bottom: 22px;
+}
+
+.boxLayerBase {
+  display: flex;
+  flex-direction: column;
+  margin: -10px 0 2px;
 }
 
 .boxBtnOption {
@@ -45,6 +55,13 @@
   background-color: unset;
 }
 
+.boxNodeItemLayerBase { /* after .boxNodeItem */
+  display: flex;
+  width: 37%;
+  min-width: 310px;
+  margin: unset;
+}
+
 .boxNodeItemLink {
   display: flex;
   flex-direction: column;
@@ -64,6 +81,12 @@
 
 .boxItemNoImgTitle { /* after boxImgTitle*/
   padding: 4.2%;
+}
+
+.boxItemTitleLayerBase {
+  flex: unset;
+  padding: 0 0 0 4.2%;
+  margin-bottom: 4.2%;
 }
 
 .boxItemImg {
@@ -91,7 +114,6 @@
 
 .linkImgNodeText {
   display: inline-block;
-  margin-bottom: 5px;
 }
 
 .boxTitleText {

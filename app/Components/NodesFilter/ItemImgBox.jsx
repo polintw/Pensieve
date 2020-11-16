@@ -64,7 +64,7 @@ class ItemImgBox extends React.Component {
                   <ImgPreview
                     blockName={''}
                     previewSrc={this.props.imgSrcCover}
-                    _handleClick_ImgPreview_preview={() => { this["filterNode" + nodeId].current.click() }} />        
+                    _handleClick_ImgPreview_preview={() => { this["filterNode" + nodeId].current.click() }} />
             </div>
             <div
               className={classnames(styles.boxItemTitle)}>
@@ -82,7 +82,7 @@ class ItemImgBox extends React.Component {
                   onMouseOut={this._handleOut_NextLayer}>
                   <SvgIconNextLayer
                     customstyle={this.state.overbtnNextLayer ? {
-                      cls1: { stroke: '#545454' },
+                      cls1: { stroke: '#444444' },
                       cls2: { fill: "rgb(69, 135, 160)" }
                     } : {
                         cls1: {},
@@ -101,13 +101,25 @@ class ItemImgBox extends React.Component {
                     {[styles.boxTitleTextNoChild]: ((this.props.startListify && this.props.atStartListify) || !this.props.nounsBasic[nodeId].parentify)}
                   )}>
                   <span
-                    className={classnames("fontNodesEqual", "lineHeight15", "colorEditBlack")}>
+                    className={classnames(
+                      "fontNodesEqual", "lineHeight15",
+                      {
+                        ["colorEditBlack"]: !this.state.overbtnLink,
+                        ["colorDescripBlack"]: this.state.overbtnLink
+                      }
+                    )}>
                     {this.props.nounsBasic[nodeId].name}
                   </span>
                   {
                     (this.props.nounsBasic[nodeId].prefix.length > 0) &&
                     <span
-                      className={classnames("fontNodesEqual", "lineHeight15", "colorEditBlack")}>
+                      className={classnames(
+                        "fontNodesEqual", "lineHeight15",
+                        {
+                          ["colorEditBlack"]: !this.state.overbtnLink,
+                          ["colorDescripBlack"]: this.state.overbtnLink
+                        }
+                      )}>
                       {", "}
                     </span>
                   }
@@ -115,7 +127,13 @@ class ItemImgBox extends React.Component {
                     (this.props.nounsBasic[nodeId].prefix.length > 0) &&
                     <div>
                       <span
-                        className={classnames("fontSubtitle", "lineHeight15", "colorEditBlack")}>
+                        className={classnames(
+                          "fontNodesEqual", "lineHeight15",
+                          {
+                            ["colorEditBlack"]: !this.state.overbtnLink,
+                            ["colorDescripBlack"]: this.state.overbtnLink
+                          }
+                        )}>
                         {this.props.nounsBasic[nodeId].prefix}
                       </span>
                     </div>

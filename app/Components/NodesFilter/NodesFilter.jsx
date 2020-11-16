@@ -8,6 +8,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import ItemImgBox from './ItemImgBox.jsx';
 import ItemNodeLink from './ItemNodeLink.jsx';
+import ItemLayerBase from './ItemLayerBase.jsx';
 import NavLayers from './NavLayers.jsx';
 import {
   _axios_get_NodesLayer
@@ -168,6 +169,45 @@ class NodesFilter extends React.Component {
             _set_switchStartList={this._set_switchStartList}
             _set_switchUpperLayer={this._set_switchUpperLayer}/>
         </div>
+        {
+          (!!this.state.baseParent && !(this.props.startListify && this.state.atStartListify)) &&
+          <div className={styles.boxLayerBase}>
+            <div
+              className={classnames(styles.rowEight)}
+              style={{marginLeft: '1.2%'}}>
+              <span
+                className={classnames(
+                  "fontSubtitle_h5", 'colorStandard'
+                )}>
+                {this.props.i18nUIString.catalog['title_nodesFilter_LayerBase']}
+              </span>
+            </div>
+            <div
+              className={classnames(styles.rowEight)}
+              style={{marginLeft: '1%'}}>
+              <ItemLayerBase
+                nodeId={this.state.baseParent}
+                atStartListify={this.state.atStartListify}
+                startListify={this.props.startListify}
+                firstUnit={(this.state.baseParent in this.state.nodesUnits) ? true : false}
+                firstUnitSrc={
+                  (this.state.baseParent in this.state.nodesUnits) ? (this.state.nodesUnits[this.state.baseParent] in this.state.unitsBasic) ?
+                   this.state.unitsBasic[this.state.nodesUnits[this.state.baseParent]].pic_layer0: false : false}
+                _set_SwitchNextLayer={this._set_SwitchNextLayer}
+                _handleClick_filterNode={this.props._handle_nodeClick}/>
+            </div>
+            <div
+              className={classnames(styles.rowEight)}
+              style={{textAlign: 'center'}}>
+              <span
+                className={classnames(
+                  "fontSubtitle_h5", 'colorEditBlack'
+                )}>
+                {"．．．"}
+              </span>
+            </div>
+          </div>
+        }
         <div className={styles.boxNodesList}>
           {this._render_Nodes()}
         </div>
@@ -236,7 +276,9 @@ class NodesFilter extends React.Component {
           baseParent: resObj.main.nodeParent
         });
       });
-      self._set_firstUnitBasic(resObj.main.nodesList);
+      let reqFirstUnitList = resObj.main.nodesList.slice();
+      if(!!resObj.main.nodeParent){reqFirstUnitList.push(resObj.main.nodeParent);};
+      self._set_firstUnitBasic(reqFirstUnitList);
     })
     .catch(function (thrown) {
       self.setState({axios: false});

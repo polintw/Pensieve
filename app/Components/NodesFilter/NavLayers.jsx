@@ -11,10 +11,15 @@ class NavLayers extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      onLayerSwitch: false,
+      onStartSwitch: false
     };
-      this._handleClick_switchStartList = this._handleClick_switchStartList.bind(this);
-      this._handleClick_switchUppeLayer = this._handleClick_switchUppeLayer.bind(this);
+    this._handleEnter_switchStart = this._handleEnter_switchStart.bind(this);
+    this._handleLeave_switchStart = this._handleLeave_switchStart.bind(this);
+    this._handleEnter_switchLayer = this._handleEnter_switchLayer.bind(this);
+    this._handleLeave_switchLayer = this._handleLeave_switchLayer.bind(this);
+    this._handleClick_switchStartList = this._handleClick_switchStartList.bind(this);
+    this._handleClick_switchUppeLayer = this._handleClick_switchUppeLayer.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -37,7 +42,9 @@ class NavLayers extends React.Component {
           this.props.startListify &&
           <div
             className={classnames(styles.boxBtnOption)}
-            onClick={this._handleClick_switchStartList}>
+            onClick={this._handleClick_switchStartList}
+            onMouseEnter={this._handleEnter_switchStart}
+            onMouseLeave={this._handleLeave_switchStart}>
             {
               this.props.atStartListify ? (
                 <div>
@@ -49,7 +56,10 @@ class NavLayers extends React.Component {
                   </span>
                   <span
                     className={classnames(
-                      "fontContent", "colorAssistOcean")}>
+                      "fontContent",
+                      {["colorAssistOcean"]: !this.state.onStartSwitch},
+                      {["colorStandard"]: this.state.onStartSwitch}
+                    )}>
                     {this.props.i18nUIString.catalog['btn_nodesFilter_layerOptions'][0]}
                   </span>
                 </div>
@@ -57,7 +67,10 @@ class NavLayers extends React.Component {
                 <div>
                   <span
                     className={classnames(
-                      "fontContent", "colorAssistOcean")}>
+                      "fontContent",
+                      {["colorAssistOcean"]: !this.state.onStartSwitch},
+                      {["colorStandard"]: this.state.onStartSwitch}
+                    )}>
                     {this.props.i18nUIString.catalog['btn_nodesFilter_layerOptions'][1]}
                   </span>
                 </div>
@@ -75,16 +88,21 @@ class NavLayers extends React.Component {
             onClick={this._handleClick_switchUppeLayer}>
             <span
               className={classnames(
-                "fontContent", "colorAssistOcean",
+                "fontContent", "colorEditBlack",
                 { ['colorWhiteGrey']: !this.props.baseParent } // if no parent
-              )}>
+              )}
+              style={{cursor: 'pointer'}}>
                 {"．"}
             </span>
             <span
               className={classnames(
-                "fontContent", "colorAssistOcean",
-                { ['colorWhiteGrey']: !this.props.baseParent} // if no parent
-                )}>
+                "fontContent",
+                { ['colorWhiteGrey']: (!this.props.baseParent)}, // if no parent
+                {["colorStandard"]: (this.state.onLayerSwitch && this.props.baseParent)},
+                {["colorAssistOcean"]: (!this.state.onLayerSwitch && this.props.baseParent)}
+                )}
+                onMouseEnter={this._handleEnter_switchLayer}
+                onMouseLeave={this._handleLeave_switchLayer}>
                 {this.props.i18nUIString.catalog['btn_nodesFilter_layerOptions'][2]}
               </span>
             </div>
@@ -93,10 +111,44 @@ class NavLayers extends React.Component {
       )
     }
 
+    _handleEnter_switchLayer(e){
+      this.setState((prevState, props)=>{
+        return {
+          onLayerSwitch: true
+        }
+      })
+    }
+
+    _handleLeave_switchLayer(e){
+      this.setState((prevState, props)=>{
+        return {
+          onLayerSwitch: false
+        }
+      })
+    }
+
+    _handleEnter_switchStart(e){
+      this.setState((prevState, props)=>{
+        return {
+          onStartSwitch: true
+        }
+      })
+    }
+
+    _handleLeave_switchStart(e){
+      this.setState((prevState, props)=>{
+        return {
+          onStartSwitch: false
+        }
+      })
+    }
 
     _handleClick_switchStartList(event) {
         event.stopPropagation();
         event.preventDefault();
+        this.setState({ // reset mouse event
+          onStartSwitch: false
+        });
         this.props._set_switchStartList();
     }
 
@@ -106,6 +158,9 @@ class NavLayers extends React.Component {
         // check first if there was a parent
         if (!this.props.baseParent) return;
 
+        this.setState({ // reset mouse event
+          onLayerSwitch: false
+        });
         this.props._set_switchUpperLayer();
     }
 }
