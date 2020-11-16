@@ -27,7 +27,38 @@ async function _handle_GET_paths_nodesAccumulated(req, res){
       throw new notFoundError("Project you request was not found. Only a valid path name was allowed.", 52);
       return; //stop and end the handler.
     };
-    // select latest unit to each node from table nouns
+    // first select all used nodes by the project
+/*    let nodesByAttri = await _DB_attri.findAll({
+      where: {
+        used_authorId: pathInfo.id,
+        author_identity: "pathProject"
+      },
+      attributes: [
+        //'max' here combined with 'group' prop beneath,
+        //because the GROUP by would fail when the 'createdAt' is different between each row,
+        //so we ask only the 'max' one by this method
+        [Sequelize.fn('max', Sequelize.col('createdAt')), 'createdAt'], //fn(function, col, alias)
+        //set attributes, so we also need to call every col we need
+        'id_noun',
+      ],
+      group: 'id_noun', //Important. means we combined the rows by node, each id_noun would only has one row
+      include: { // inner join 'nouns' to get the basic info about the node
+        model: _DB_nouns, 
+        as: 'nouns', // default alias for this table was 'noun'
+        where: {
+          id: Sequelize.col("attribution.id_noun")
+        },
+        attributes: ['id', 'name', 'parent', 'child', 'parent_id'],
+        required: true // to let it become a inner JOIN
+      }
+    });
+    let usedNodesList = nodesByAttri.map((row, index)=>{
+      return row.id_noun;
+    });
+*/
+
+
+
     let unitsByAttri = await _DB_attri.findAll({
       where: {
         id_noun: reqNodes,

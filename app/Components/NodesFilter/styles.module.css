@@ -41,7 +41,7 @@
 .boxNodeItemNoImg { /* after .boxNodeItem */
   align-self: flex-start;
   box-shadow: unset;
-  border: solid 1.5px #979797;
+  border: solid 1.5px #a3a3a3;
   background-color: unset;
 }
 
@@ -52,6 +52,9 @@
 }
 
 .boxItemTitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   flex: 1;
   width: 100%;
   position: relative;
@@ -59,11 +62,8 @@
   box-sizing: border-box;
 }
 
-.boxItemNoImgTitle {
-  width: 100%;
-  position: relative;
+.boxItemNoImgTitle { /* after boxImgTitle*/
   padding: 4.2%;
-  box-sizing: border-box;
 }
 
 .boxItemImg {
@@ -74,7 +74,7 @@
   margin: 0 4.2%;
   box-sizing: border-box;
   border-radius: 4px;
-  background-color: rgba(217, 232, 255, 0.15);
+  background-color: rgb(191 203 223 / 0.15);
   overflow: hidden;
 }
 
@@ -82,9 +82,19 @@
   box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
 }
 
+.boxItemImgMouseonNoCover {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: default;
+}
+
+.linkImgNodeText {
+  display: inline-block;
+  margin-bottom: 5px;
+}
+
 .boxTitleText {
-  max-width: 68%;
-  float: right;
   padding: 5px 10px;
 }
 
@@ -97,12 +107,10 @@
 }
 
 .boxBtnNextLayer {
-  width: 30%;
+  display: inline-block;
+  position: relative;
   height: 100%;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  padding: 0 0 0% 4.2%; /* follow padding of boxItemTitle*/
+  margin: 0 0 0% 6.32%;
 }
 
 .spanLinkNode {
@@ -111,15 +119,11 @@
 }
 
 .spanLinkNodeMouse {
-  border-bottom: solid 0.75px #545454;
+  border-bottom: solid 0.75px #979797;
 }
 
 .svgBtnNextLayer {
   width: 39px;
   height: 39px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   cursor: pointer;
 }

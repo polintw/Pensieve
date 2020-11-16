@@ -16,6 +16,7 @@ export default class SvgIconNextLayer extends React.Component {
           maxWidth: '100%',
           position: 'relative',
           boxSizing: 'border-box',
+          overflow: 'visible'
         })}>
         <defs>
 

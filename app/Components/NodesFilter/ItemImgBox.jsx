@@ -60,15 +60,38 @@ class ItemImgBox extends React.Component {
             <div
               className={classnames(
                 styles.boxItemImg,
-                {[styles.boxItemImgMouseon]: this.state.overbtnLink}
-              )}>
-              <ImgPreview
-                blockName={''}
-                previewSrc={this.props.imgSrcCover}
-                _handleClick_ImgPreview_preview={() => { this["filterNode" + nodeId].current.click() }} />
+                {[styles.boxItemImgMouseon]: this.state.overbtnLink})}>
+                  <ImgPreview
+                    blockName={''}
+                    previewSrc={this.props.imgSrcCover}
+                    _handleClick_ImgPreview_preview={() => { this["filterNode" + nodeId].current.click() }} />        
             </div>
             <div
               className={classnames(styles.boxItemTitle)}>
+            {
+              ((nodeId in this.props.nounsBasic) &&
+                !(this.props.startListify && this.props.atStartListify) &&
+                this.props.nounsBasic[nodeId].parentify) &&
+              <div
+                className={classnames(styles.boxBtnNextLayer)}>
+                <div
+                  className={classnames(styles.svgBtnNextLayer)}
+                  nodeid={nodeId}
+                  onClick={this._handleClick_switcNextLayer}
+                  onMouseOver={this._handleOver_NextLayer}
+                  onMouseOut={this._handleOut_NextLayer}>
+                  <SvgIconNextLayer
+                    customstyle={this.state.overbtnNextLayer ? {
+                      cls1: { stroke: '#545454' },
+                      cls2: { fill: "rgb(69, 135, 160)" }
+                    } : {
+                        cls1: {},
+                        cls2: { fill: "#545454" }
+                    }} />
+                </div>
+              </div>
+            }
+
               {
                 (nodeId in this.props.nounsBasic) &&
                 <div
@@ -99,27 +122,6 @@ class ItemImgBox extends React.Component {
                   }
                 </div>
               }
-            {
-              ((nodeId in this.props.nounsBasic) &&
-                !(this.props.startListify && this.props.atStartListify) &&
-                this.props.nounsBasic[nodeId].parentify) &&
-                <div
-                  className={classnames(styles.boxBtnNextLayer)}>
-                  <div
-                    className={classnames(styles.svgBtnNextLayer)}
-                    nodeid={nodeId}
-                    onClick={this._handleClick_switcNextLayer}
-                    onMouseOver={this._handleOver_NextLayer}
-                    onMouseOut={this._handleOut_NextLayer}>
-                    <SvgIconNextLayer
-                      customstyle={this.state.overbtnNextLayer ? {
-                        cls1: {},
-                        cls2: {fill: "rgb(69, 135, 160)"}
-                      }: null}/>
-                  </div>
-                </div>
-            }
-
             </div>
           </Link>
         </div>

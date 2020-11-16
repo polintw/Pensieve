@@ -101,18 +101,13 @@ class NodesFilter extends React.Component {
       // know first if this node has used.
       let firstUnitify = (nodeId in this.state.nodesUnits) ? true : false;
       let imgSrcCover = '',
-          linkObj = {
-            pathname: '/cosmic/explore/node' ,
-            search: '?nodeid='+ nodeId,
-            state: {from: this.props.location}
-          };
+        linkObj = {
+          pathname: this.props.match.url,
+          search: searchStr + '&filterNode=' + nodeId,
+          state: { from: this.props.location }
+        };
       // but if the node has used, or if we are commant to
       if(firstUnitify || !this.props.nodePageify){
-        linkObj = {
-          pathname: this.props.match.url ,
-          search: searchStr + '&filterNode=' + nodeId,
-          state: {from: this.props.location}
-        };
         let firstUnitId = this.state.nodesUnits[nodeId];
         imgSrcCover = domain.protocol+ '://'+domain.name+'/router/img/'
           + ((firstUnitId in this.state.unitsBasic) ? this.state.unitsBasic[firstUnitId].pic_layer0: 'notyetprepared_inNodesFilter')

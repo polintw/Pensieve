@@ -19,12 +19,15 @@ class ItemNodeLink extends React.Component {
     super(props);
     this.state = {
       overbtnLink: false,
+      overNodeLink: false,
       overbtnNextLayer: false
     };
     this._handleClick_filterNode = this._handleClick_filterNode.bind(this);
     this._handleClick_switcNextLayer = this._handleClick_switcNextLayer.bind(this);
     this._handleOver_Link = this._handleOver_Link.bind(this);
     this._handleOut_Link = this._handleOut_Link.bind(this);
+    this._handleOver_NodeLink = this._handleOver_NodeLink.bind(this);
+    this._handleOut_NodeLink = this._handleOut_NodeLink.bind(this);
     this._handleOver_NextLayer = this._handleOver_NextLayer.bind(this);
     this._handleOut_NextLayer = this._handleOut_NextLayer.bind(this);
   }
@@ -52,15 +55,60 @@ class ItemNodeLink extends React.Component {
         )}>
         <div
           className={classnames(styles.boxNodeItemLink)}>
+          <div
+            className={classnames(
+              styles.boxItemImg,
+              {
+                [styles.boxItemImgMouseonNoCover]: !this.props.imgSrcCover
+              })}>
+            <Link
+              to={{
+                pathname: '/cosmic/explore/node' ,
+                search: '?nodeid='+ nodeId,
+                state: {from: this.props.location}
+              }}
+              className={classnames(
+                'plainLinkButton', styles.linkImgNodeText)}
+              onClick={this._handleClick_filterNode}
+              onMouseOver={this._handleOver_NodeLink}
+              onMouseOut={this._handleOut_NodeLink}>
+              <span
+                className={classnames(
+                  "fontContent", "colorDarkGrey",
+                  styles.spanLinkNode,
+                )}>
+                  {"( "}
+                </span>
+              <span
+                className={classnames(
+                  "fontContentPlain", "colorDarkGrey",
+                  styles.spanLinkNode,
+                  {
+                    [styles.spanLinkNodeMouse]: this.state.overNodeLink,
+                  }
+                )}>
+                {this.props.i18nUIString.catalog['hint_nodesFilter_nodeVisit']}
+              </span>
+              <span
+                className={classnames(
+                  "fontContent", "colorDarkGrey",
+                  styles.spanLinkNode,
+                )}>
+                {" )"}
+              </span>
+            </Link>
+          </div>
             <div
-              className={classnames(styles.boxItemNoImgTitle)}>
+              className={classnames(
+                styles.boxItemNoImgTitle, styles.boxItemTitle)}>
               {
                 (nodeId in this.props.nounsBasic) &&
-                <Link
-                  to={this.props.linkObj}
+              <Link
+                to={this.props.linkObj}
                   className={classnames(
                     'plainLinkButton', styles.boxTitleText,
-                    {[styles.boxTitleTextNoChild]: ((this.props.startListify && this.props.atStartListify) || !this.props.nounsBasic[nodeId].parentify)}
+                    { [styles.boxTitleTextMouseon]: this.state.overbtnLink },
+                    { [styles.boxTitleTextNoChild]: ((this.props.startListify && this.props.atStartListify) || !this.props.nounsBasic[nodeId].parentify) }
                   )}
                   onClick={this._handleClick_filterNode}
                   onMouseOver={this._handleOver_Link}
@@ -68,9 +116,7 @@ class ItemNodeLink extends React.Component {
                   <span
                     className={classnames(
                       "fontSubtitle_h5",
-                      styles.spanLinkNode,
                       {
-                        [styles.spanLinkNodeMouse]: this.state.overbtnLink,
                         ["colorDarkGrey"]: !this.state.overbtnLink,
                         ["colorEditBlack"]: this.state.overbtnLink
                       }
@@ -82,9 +128,7 @@ class ItemNodeLink extends React.Component {
                     <span
                       className={classnames(
                         "fontSubtitle_h5", "colorDarkGrey",
-                        styles.spanLinkNode,
                         {
-                          [styles.spanLinkNodeMouse]: this.state.overbtnLink,
                           ["colorDarkGrey"]: !this.state.overbtnLink,
                           ["colorEditBlack"]: this.state.overbtnLink
                         }
@@ -98,9 +142,7 @@ class ItemNodeLink extends React.Component {
                       <span
                         className={classnames(
                           "fontSubtitle_h5", "colorDarkGrey",
-                          styles.spanLinkNode,
                           {
-                            [styles.spanLinkNodeMouse]: this.state.overbtnLink,
                             ["colorDarkGrey"]: !this.state.overbtnLink,
                             ["colorEditBlack"]: this.state.overbtnLink
                           }
@@ -109,14 +151,15 @@ class ItemNodeLink extends React.Component {
                       </span>
                     </div>
                   }
-                </Link>
+              </Link>
               }
               {
                 ((nodeId in this.props.nounsBasic) &&
                 !(this.props.startListify && this.props.atStartListify) &&
                 this.props.nounsBasic[nodeId].parentify) &&
                 <div
-                  className={classnames(styles.boxBtnNextLayer)}>
+                  className={classnames(styles.boxBtnNextLayer)}
+                  style={{ margin: '0 4.2% 0 6.32%'}}>
                   <div
                     className={classnames(styles.svgBtnNextLayer)}
                     nodeid={nodeId}
@@ -125,7 +168,7 @@ class ItemNodeLink extends React.Component {
                     onMouseOut={this._handleOut_NextLayer}>
                     <SvgIconNextLayer
                       customstyle={this.state.overbtnNextLayer ? {
-                        cls1: {},
+                        cls1: {stroke: "#545454"},
                         cls2: {fill: "rgb(69, 135, 160)"}
                       }: null}/>
                   </div>
@@ -137,7 +180,17 @@ class ItemNodeLink extends React.Component {
       )
     }
 
-    _handleOver_Link(e) {
+  _handleOver_NodeLink(e) {
+    e.stopPropagation(); 
+    this.setState({ overNodeLink: true })
+  }
+
+  _handleOut_NodeLink(e) {
+    e.stopPropagation();
+    this.setState({ overNodeLink: false })
+  }
+
+  _handleOver_Link(e) {
       this.setState({ overbtnLink: true })
     }
 
