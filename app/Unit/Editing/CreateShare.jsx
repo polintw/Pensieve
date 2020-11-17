@@ -125,7 +125,8 @@ class CreateShare extends React.Component {
       joinedMarksList: stateObj.coverMarks.list.concat(stateObj.beneathMarks.list),
       refsArr: stateObj.refsArr,
       nodesSet: stateObj.nodesSet,
-      submitTime: submitTime
+      submitTime: submitTime,
+      authorIdentity: stateObj.authorIdentity
     };
     //all pure JS object or structure,
     //we don't need to do any JSON.stringify() here, because the axios would serve automatical transformation

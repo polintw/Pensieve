@@ -43,7 +43,7 @@ async function _handle_GET_paths_nodesAccumulated(req, res){
       ],
       group: 'id_noun', //Important. means we combined the rows by node, each id_noun would only has one row
       include: { // inner join 'nouns' to get the basic info about the node
-        model: _DB_nouns, 
+        model: _DB_nouns,
         as: 'nouns', // default alias for this table was 'noun'
         where: {
           id: Sequelize.col("attribution.id_noun")
@@ -65,7 +65,7 @@ async function _handle_GET_paths_nodesAccumulated(req, res){
         used_authorId: pathInfo.id,
         author_identity: "pathProject"
       },
-      attributes: [
+/*      attributes: [
         //'max' here combined with 'group' prop beneath,
         //because the GROUP by would fail when the 'createdAt' is different between each row,
         //so we ask only the 'max' one by this method
@@ -75,6 +75,10 @@ async function _handle_GET_paths_nodesAccumulated(req, res){
         'id_unit',
       ],
       group: 'id_noun' //Important. means we combined the rows by node, each id_noun would only has one row
+*/
+      order: [
+        Sequelize.literal('`createdAt` ASC')
+      ]
     });
     let unitsId = unitsByAttri.map((row, index)=>{
       return row.id_unit;

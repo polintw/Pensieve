@@ -45,7 +45,7 @@ async function _handle_GET_shareds_nodesAccumulated(req, res){
     });
     let unitsByAttri = await _DB_attri.findAll({
       where: whereAttributes,
-      // for now, depth would only be '1', so make it 'max'
+/*      // for now, depth would only be '1', so make it 'max'
       attributes: [
         //'max' here combined with 'group' prop beneath,
         //because the GROUP by would fail when the 'createdAt' is different between each row,
@@ -56,6 +56,10 @@ async function _handle_GET_shareds_nodesAccumulated(req, res){
         'id_unit',
       ],
       group: 'id_noun' //Important. means we combined the rows by node, each id_noun would only has one row
+*/
+      order: [ //make sure the order of arr are from latest
+        Sequelize.literal('`createdAt` ASC')
+      ]
     });
     let unitsId = unitsByAttri.map((row, index)=>{
       return row.id_unit;

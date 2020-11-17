@@ -16,6 +16,7 @@ const _DB_responds = require('../../../db/models/index').responds;
 const _DB_marksContent = require('../../../db/models/index').marks_content;
 const _DB_attribution = require('../../../db/models/index').attribution;
 const _DB_nodes_activity = require('../../../db/models/index').nodes_activity;
+const _DB_usersPaths = require('../../../db/models/index').users_paths;
 const _DB_units_nodesAssign = require('../../../db/models/index').units_nodes_assign;
 const {
   _handle_ErrCatched,
@@ -50,6 +51,31 @@ async function shareHandler_POST(req, res){
   //First of all, validating the data passed
   try{
     await validateShared(modifiedBody, userId)
+  }
+  catch(error){
+    _handle_ErrCatched(error, req, res);
+    return ; //close the process
+  }
+  // before a proemise, we detect the identity author used by a async f()
+  let authorIdentity = modifiedBody.authorIdentity,
+      authorIdentityObj = {};
+  try{
+    if(authorIdentity != 'userAccount'){ // now should be the 'pathName' of pathProject
+      let usersPath = await _DB_usersPaths.findOne({
+        where: {
+          id_user: userId,
+          pathName: authorIdentity
+        }
+      });
+      if(!usersPath){ // 'null', then change identity to user self from now on
+        authorIdentity == 'userAccount';
+        authorIdentityObj['identity'] = 'user';
+      }
+      else{
+        authorIdentityObj['identity'] = 'pathProject';
+        authorIdentityObj['usedId'] = usersPath.id_path;
+      };
+    }
   }
   catch(error){
     _handle_ErrCatched(error, req, res);
@@ -119,7 +145,9 @@ async function shareHandler_POST(req, res){
       'id_author': userId,
       'url_pic_layer0': modifiedBody.url_pic_layer0,
       'url_pic_layer1': modifiedBody.url_pic_layer1,
-      'id_primer': null
+      'id_primer': null,
+      'author_identity': authorIdentityObj.identity,
+      'used_authorId': ("usedId" in authorIdentityObj) ? authorIdentityObj.usedId : null
     };
     return new Promise ((resolveLoc, rejectLoc)=>{
       if(!!modifiedBody.primer){
@@ -224,11 +252,13 @@ async function shareHandler_POST(req, res){
               return ({
                 id_noun: row.id,
                 id_unit: modifiedBody.id_unit,
-                id_author: userId
+                id_author: userId,
+                author_identity: authorIdentityObj.identity,
+                used_authorId: ("usedId" in authorIdentityObj) ? authorIdentityObj.usedId : null
               })
             });
         //then create into table attribution
-        let creationAttri =()=>{return _DB_attribution.bulkCreate(nodesArr, {fields: ['id_unit', 'id_author', 'id_noun']}).catch((err)=> {throw err})};
+        let creationAttri =()=>{return _DB_attribution.bulkCreate(nodesArr).catch((err)=> {throw err})};
         let creationNodesAssign = ()=>{return _DB_units_nodesAssign.bulkCreate(assignedNodesArr).catch((err)=>{throw err});};
 
         return Promise.all([

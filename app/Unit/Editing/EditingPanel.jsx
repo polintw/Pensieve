@@ -26,7 +26,8 @@ class EditingPanel extends React.Component {
       //beneath, is remaining for future use, and kept the parent comp to process submitting
       beneathSrc: null,
       beneathMarks: {list:[],data:{}},
-      refsArr: []
+      refsArr: [],
+      authorIdentity: 'userAccount'
     };
     this._set_newImgSrc = this._set_newImgSrc.bind(this);
     this._set_Mark_Complete = this._set_Mark_Complete.bind(this);
@@ -36,6 +37,7 @@ class EditingPanel extends React.Component {
     this._submit_newShare = this._submit_newShare.bind(this);
     this._submit_deleteNodes= this._submit_deleteNodes.bind(this);
     this._render_importOrCover = this._render_importOrCover.bind(this);
+    this._set_authorIdentity = (chosenIdentity)=>{ this.setState({ authorIdentity: chosenIdentity}); };
   }
 
   _submit_new_node(nodesArr){
@@ -171,10 +173,12 @@ class EditingPanel extends React.Component {
                 className={classnames(styles.boxSubmit)}>
                 <Submit
                   editing={this.state.contentEditing}
+                  authorIdentity={this.state.authorIdentity}
                   contentPermit={(!this.state["coverSrc"] || this.state['nodesSet'].length < 1) ? false : true}
                   confirmDialog={!!this.props.confirmDialog ? this.props.confirmDialog : false}
                   warningDialog={!!this.props.warningDialog ? this.props.warningDialog : false}
                   _set_Clear={this.props._set_Clear}
+                  _set_authorIdentity = {this._set_authorIdentity}
                   _submit_newShare={this._submit_newShare} />
               </div>
               <div
