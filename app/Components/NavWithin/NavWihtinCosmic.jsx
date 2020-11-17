@@ -46,6 +46,7 @@ class NavWihtinCosmic extends React.Component {
                     styles.boxNavLink,
                     {[styles.boxNavLinkMouseon]: this.state.onbtn}
                   )}
+                  style={{float: 'right'}}
                   onMouseEnter={this._handleEnter_Link}
                   onMouseLeave={this._handleLeave_Link}>
                   <div

@@ -102,8 +102,8 @@
   width: 22.83vh;
   min-width: 90px;
   position: fixed;
-  top: 64.3vh;
   left: 2.7vw;
+  bottom: 13.83vh;
   z-index: 1;
 }
 

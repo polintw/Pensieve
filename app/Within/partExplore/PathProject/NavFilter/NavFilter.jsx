@@ -9,6 +9,10 @@ import styles from "./styles.module.css";
 import {SvgArrowToTop} from '../../../../Components/Svg/SvgArrow.jsx';
 import SvgFilterNode from '../../../../Components/Svg/SvgFilter_Node.jsx';
 import SvgArrowStick from '../../../../Components/Svg/SvgArrowStick.jsx';
+import SvgNetGlobe from '../../../../Components/Svg/SvgIcon_NetGlobe.jsx';
+import {
+  domain
+} from '../../../../../config/services.js';
 
 class NavFilter extends React.Component {
   constructor(props){
@@ -16,11 +20,14 @@ class NavFilter extends React.Component {
     this.state = {
       onArrow: false,
       onFilterNode: false,
-      onNodeLink: false
+      onNodeLink: false,
+      onSetlink: false
     };
     this._handleClick_filter = this._handleClick_filter.bind(this);
     this._handleEnter_NodeLink = this._handleEnter_NodeLink.bind(this);
     this._handleLeave_NodeLink = this._handleLeave_NodeLink.bind(this);
+    this._handleEnter_Setlink = this._handleEnter_Setlink.bind(this);
+    this._handleLeave_Setlink = this._handleLeave_Setlink.bind(this);
     this._handleLeave_FilterNode = this._handleLeave_FilterNode.bind(this);
     this._handleEnter_FilterNode = this._handleEnter_FilterNode.bind(this);
     this._handleLeave_CloseArrow = this._handleLeave_CloseArrow.bind(this);
@@ -71,16 +78,42 @@ class NavFilter extends React.Component {
     return (
       <div className={styles.comNavFilter}>
         <div
-          className={classnames(styles.boxRowInfo)}>
+          className={classnames(
+            styles.boxRowInfo)}>
           <div
             className={classnames(styles.boxProjectInfo)}>
             {
               ("description" in this.props.projectInfo) &&
               <span
-                className={classnames("fontContentPlain", "colorEditLightBlack")}>
+                className={classnames("fontContent", "colorEditLightBlack")}>
                 {this.props.projectInfo.description}
               </span>
-
+            }
+            {
+              ("webLink" in this.props.projectInfo && !!this.props.projectInfo.webLink) &&
+              <div
+                className={classnames(styles.boxProjectInfoAlias)}>
+                <a
+                  href={domain.protocol + "://" + this.props.projectInfo.webLink}
+                  target={"_blank"}
+                  className={classnames(
+                    "plainLinkButton", styles.linkSetlink)}
+                  onMouseEnter={this._handleEnter_Setlink}
+                  onMouseLeave={this._handleLeave_Setlink}>
+                  <div
+                    className={classnames(styles.boxSvgNetGlobe)}>
+                    <SvgNetGlobe/>
+                  </div>
+                  <span
+                    className={classnames(
+                      "fontContentPlain", "weightBold", "colorDescripBlack",
+                      styles.spanLinkSetlink,
+                      { [styles.spanLinkSetlinkMouse]: this.state.onSetlink }
+                    )}>
+                    {this.props.projectInfo.webLink}
+                  </span>
+                </a>
+              </div>
             }
           </div>
           <div
@@ -121,7 +154,7 @@ class NavFilter extends React.Component {
                   onMouseEnter={this._handleEnter_FilterNode}
                   onMouseLeave={this._handleLeave_FilterNode}>
                   <SvgFilterNode
-                    customstyle={this.state.onFilterNode ? "{fill: rgb(69, 135, 160);}" : "{fill: #757575;}"}/>
+                    customstyle={this.state.onFilterNode ? "{fill: #ff8168;}" : "{fill: rgb(69, 135, 160);}"}/>
                 </Link>
               </div>
             }
@@ -131,7 +164,7 @@ class NavFilter extends React.Component {
           !!this.filterNode ? (
             <div
               className={classnames(
-                styles.boxRowFilterNode, styles.boxRowFilterNodeFlex)}>
+                styles.boxRowFilterMargin, styles.boxRowFilterNodeFlex)}>
               <div>
                 <span
                   className={classnames(
@@ -162,7 +195,7 @@ class NavFilter extends React.Component {
           ) : (
             this.props.viewFilter &&
             <div
-              className={classnames(styles.boxRowFilterNode)}>
+              className={classnames(styles.boxRowFilterMargin)}>
               <span
                 className={classnames(
                   styles.spanFilterCross,
@@ -209,6 +242,22 @@ class NavFilter extends React.Component {
     this.setState((prevState, props)=>{
       return {
         onArrow: false
+      }
+    })
+  }
+
+  _handleEnter_Setlink(e){
+    this.setState((prevState, props)=>{
+      return {
+        onSetlink: true
+      }
+    })
+  }
+
+  _handleLeave_Setlink(e){
+    this.setState((prevState, props)=>{
+      return {
+        onSetlink: false
       }
     })
   }

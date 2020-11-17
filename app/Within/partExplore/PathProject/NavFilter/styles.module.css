@@ -6,14 +6,19 @@
   display: block;
 }
 
+.linkSetlink {
+  display: inline-flex;
+  align-items: center;
+}
+
 .boxRowInfo {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
 }
 
-.boxRowFilterNode {
-  margin: 16px 0 0;
+.boxRowFilterMargin {
+  margin: 20px 0 0;
 }
 
 .boxRowFilterNodeFlex {
@@ -46,6 +51,13 @@
   cursor: pointer;
 }
 
+.boxSvgNetGlobe {
+  display: inline-block;
+  width: 1.2rem;
+  height: 1.2rem;
+  margin: 0 5px;
+}
+
 .boxIconsFilter {
   height: 20px;
 }
@@ -75,4 +87,17 @@
 
 .spanLinkNodeMouse {
   border-bottom: solid 1px #545454;
+}
+
+.spanLinkSetlink {
+  display: inline-block;
+  width: 172px;
+  border-bottom: solid 1px transparent;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.spanLinkSetlinkMouse {
+  border-bottom: solid 1px #444444;
 }
