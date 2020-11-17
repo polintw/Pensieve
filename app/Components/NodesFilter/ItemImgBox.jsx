@@ -67,30 +67,34 @@ class ItemImgBox extends React.Component {
                     _handleClick_ImgPreview_preview={() => { this["filterNode" + nodeId].current.click() }} />
             </div>
             <div
-              className={classnames(styles.boxItemTitle)}>
-            {
-              ((nodeId in this.props.nounsBasic) &&
+              className={classnames(styles.boxItemTitle)}
+              style={
+                (this.props.startListify && this.props.atStartListify) ?
+                {justifyContent: "flex-end"}: {}
+              }>
+              {
+                ((nodeId in this.props.nounsBasic) &&
                 !(this.props.startListify && this.props.atStartListify) &&
                 this.props.nounsBasic[nodeId].parentify) &&
-              <div
-                className={classnames(styles.boxBtnNextLayer)}>
                 <div
-                  className={classnames(styles.svgBtnNextLayer)}
-                  nodeid={nodeId}
-                  onClick={this._handleClick_switcNextLayer}
-                  onMouseOver={this._handleOver_NextLayer}
-                  onMouseOut={this._handleOut_NextLayer}>
-                  <SvgIconNextLayer
-                    customstyle={this.state.overbtnNextLayer ? {
-                      cls1: { stroke: '#444444' },
-                      cls2: { fill: "rgb(69, 135, 160)" }
-                    } : {
+                  className={classnames(styles.boxBtnNextLayer)}>
+                  <div
+                    className={classnames(styles.svgBtnNextLayer)}
+                    nodeid={nodeId}
+                    onClick={this._handleClick_switcNextLayer}
+                    onMouseOver={this._handleOver_NextLayer}
+                    onMouseOut={this._handleOut_NextLayer}>
+                    <SvgIconNextLayer
+                      customstyle={this.state.overbtnNextLayer ? {
+                        cls1: { stroke: '#444444' },
+                        cls2: { fill: "rgb(69, 135, 160)" }
+                      } : {
                         cls1: {},
                         cls2: { fill: "#545454" }
-                    }} />
+                      }} />
+                  </div>
                 </div>
-              </div>
-            }
+              }
 
               {
                 (nodeId in this.props.nounsBasic) &&
@@ -128,7 +132,7 @@ class ItemImgBox extends React.Component {
                     <div>
                       <span
                         className={classnames(
-                          "fontNodesEqual", "lineHeight15",
+                          "fontSubtitle_h5",
                           {
                             ["colorEditBlack"]: !this.state.overbtnLink,
                             ["colorDescripBlack"]: this.state.overbtnLink

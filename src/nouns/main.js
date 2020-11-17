@@ -31,9 +31,6 @@ main.use(function(req, res, next) {
       _handle_ErrCatched(new authorizedError(message, 89), req, res);
     }
     switch (secondPath) { //pathSplice should be e.g "[/numerous/,numerous, ...]"
-      case 'basic':
-        noTokenHandler();
-        break;
       case 'search':
         noTokenHandler();
         break;
@@ -43,7 +40,7 @@ main.use(function(req, res, next) {
       case 'accumulated':
         noTokenHandler();
         break;
-      case 'specific':
+      case 'specific': // any other path, mainly :id in path's param
         noTokenHandler();
         break;
       default:
@@ -58,9 +55,9 @@ main.use(function(req, res, next) {
 // path do not need a token
 main.use('/layer', layerExcutive)
 
-// path need a token
 main.use('/basic', basicExcutive)
 
+// path need a token
 main.use('/search', searchExecutive)
 
 main.use('/direct', directExecutive)

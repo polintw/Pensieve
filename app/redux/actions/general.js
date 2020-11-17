@@ -100,9 +100,28 @@ export function handleNounsList(nounsArr) {
       }
     }).then((res)=>{
       let resObj = JSON.parse(res.data);
-      dispatch({type: UPDATE_NOUNSBASIC, newFetch: resObj.main.nounsBasic})
+      // and then, a new process, fetch the basic info about the accumulations for these nodes
+      return axios.get('/router/nouns/basic/accumulations', {
+        headers: {
+          'charset': 'utf-8',
+          'token': window.localStorage['token']
+        },
+        params: {
+          fetchList: fetchList
+        }
+      }).then((resAccu)=>{
+        let resAccuObj = JSON.parse(resAccu.data);
+        // now make the obj base on both request
+        let updateBasicObj = {};
+        fetchList.forEach((nodeId, index) => {
+          if( !(nodeId in resObj.main.nounsBasic) ) return; // no data in DB, go next
+          updateBasicObj[nodeId] = Object.assign({}, resObj.main.nounsBasic[nodeId], resAccuObj.main.nounsBasicAccu[nodeId]);
+        });
 
-      return Promise.resolve(); //this, is for those have callback() behind
+        dispatch({type: UPDATE_NOUNSBASIC, newFetch: updateBasicObj});
+
+        return Promise.resolve(); //this, is for those have callback() behind
+      });
 
     /*}).catch(function (thrown) {
       let customSwitch = (status)=>{

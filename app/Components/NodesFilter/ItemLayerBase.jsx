@@ -75,18 +75,7 @@ class ItemLayerBase extends React.Component {
               onClick={this._handleClick_filterNode}
               onMouseOver={this._handleOver_Link}
               onMouseOut={this._handleOut_Link}>
-              <span
-                className={classnames(
-                  "fontNodesEqual", "lineHeight15",
-                  {
-                    ["colorEditBlack"]: !this.state.overbtnLink,
-                    ["colorDescripBlack"]: this.state.overbtnLink
-                  }
-                )}>
-                {this.props.nounsBasic[nodeId].name}
-              </span>
-              {
-                (this.props.nounsBasic[nodeId].prefix.length > 0) &&
+              <div>
                 <span
                   className={classnames(
                     "fontNodesEqual", "lineHeight15",
@@ -95,9 +84,22 @@ class ItemLayerBase extends React.Component {
                       ["colorDescripBlack"]: this.state.overbtnLink
                     }
                   )}>
-                  {", "}
+                  {this.props.nounsBasic[nodeId].name}
                 </span>
-              }
+                {
+                  (this.props.nounsBasic[nodeId].prefix.length > 0) &&
+                  <span
+                    className={classnames(
+                      "fontNodesEqual", "lineHeight15",
+                      {
+                        ["colorEditBlack"]: !this.state.overbtnLink,
+                        ["colorDescripBlack"]: this.state.overbtnLink
+                      }
+                    )}>
+                    {", "}
+                  </span>
+                }
+              </div>
               {
                 (this.props.nounsBasic[nodeId].prefix.length > 0) &&
                 <div>
@@ -120,10 +122,10 @@ class ItemLayerBase extends React.Component {
           className={classnames(
             styles.boxItemImg,
             {
-              [styles.boxItemImgMouseonNoCover]: !this.props.firstUnit,
+              [styles.boxItemImgNoCover]: !this.props.firstUnit,
               [styles.boxItemImgMouseon]: (this.state.overbtnLink && this.props.firstUnit)}
             )}
-            style={{marginBottom: '4.2%'}}>
+            style={{marginBottom: 'unset'}}>
           {
             this.props.firstUnit ? (
               <ImgPreview
@@ -139,42 +141,46 @@ class ItemLayerBase extends React.Component {
                     style={{display: 'block'}}>
                   {this.props.i18nUIString.catalog['hint_nodesFilter_nodeNotYet']}
                 </span>
-                <Link
-                  to={{
-                    pathname: '/cosmic/explore/node' ,
-                    search: '?nodeid='+ nodeId,
-                    state: {from: this.props.location}
-                  }}
-                  className={classnames(
-                    'plainLinkButton', styles.linkImgNodeText)}
-                    onClick={this._handleClick_filterNode}
-                    onMouseOver={this._handleOver_NodeLink}
-                    onMouseOut={this._handleOut_NodeLink}>
-                    <span
-                      className={classnames(
-                        "fontContent", "colorDarkGrey",
-                        styles.spanLinkNode,
-                      )}>
-                      {"( "}
-                    </span>
-                    <span
-                      className={classnames(
-                        "fontContentPlain", "colorDarkGrey",
-                        styles.spanLinkNode,
-                        {
-                          [styles.spanLinkNodeMouse]: this.state.overNodeLink,
-                        }
-                      )}>
-                      {this.props.i18nUIString.catalog['hint_nodesFilter_nodeExplore']}
-                    </span>
-                    <span
-                      className={classnames(
-                        "fontContent", "colorDarkGrey",
-                        styles.spanLinkNode,
-                      )}>
-                      {" )"}
-                    </span>
-                  </Link>
+                {
+                  (nodeId in this.props.nounsBasic) &&
+                  !!this.props.nounsBasic[nodeId].accumulationsify && // probably false or 'undefined'
+                  <Link
+                    to={{
+                      pathname: '/cosmic/explore/node' ,
+                      search: '?nodeid='+ nodeId,
+                      state: {from: this.props.location}
+                    }}
+                    className={classnames(
+                      'plainLinkButton', styles.linkImgNodeText)}
+                      onClick={this._handleClick_filterNode}
+                      onMouseOver={this._handleOver_NodeLink}
+                      onMouseOut={this._handleOut_NodeLink}>
+                      <span
+                        className={classnames(
+                          "fontContent", "colorDarkGrey",
+                          styles.spanLinkNode,
+                        )}>
+                        {"( "}
+                      </span>
+                      <span
+                        className={classnames(
+                          "fontContentPlain", "colorDarkGrey",
+                          styles.spanLinkNode,
+                          {
+                            [styles.spanLinkNodeMouse]: this.state.overNodeLink,
+                          }
+                        )}>
+                        {this.props.i18nUIString.catalog['hint_nodesFilter_nodeExplore']}
+                      </span>
+                      <span
+                        className={classnames(
+                          "fontContent", "colorDarkGrey",
+                          styles.spanLinkNode,
+                        )}>
+                        {" )"}
+                      </span>
+                    </Link>
+                }
               </div>
             )
           }

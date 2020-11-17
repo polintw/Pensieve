@@ -57,10 +57,7 @@ class ItemNodeLink extends React.Component {
           className={classnames(styles.boxNodeItemLink)}>
           <div
             className={classnames(
-              styles.boxItemImg,
-              {
-                [styles.boxItemImgMouseonNoCover]: !this.props.imgSrcCover
-              })}>
+              styles.boxItemImg, styles.boxItemImgNoCover)}>
             <div
               style={{marginBottom: '5px', textAlign: 'center'}}>
               <span
@@ -69,51 +66,55 @@ class ItemNodeLink extends React.Component {
                   style={{display: 'block'}}>
                 {this.props.i18nUIString.catalog['hint_nodesFilter_nodeNotYet']}
               </span>
-              <Link
-                to={{
-                  pathname: '/cosmic/explore/node' ,
-                  search: '?nodeid='+ nodeId,
-                  state: {from: this.props.location}
-                }}
-                className={classnames(
-                  'plainLinkButton', styles.linkImgNodeText)}
-                  onClick={this._handleClick_filterNode}
-                  onMouseOver={this._handleOver_NodeLink}
-                  onMouseOut={this._handleOut_NodeLink}>
-                  <span
-                    className={classnames(
-                      "fontContent", "colorDarkGrey",
-                      styles.spanLinkNode,
-                    )}>
-                    {"( "}
-                  </span>
-                  <span
-                    className={classnames(
-                      "fontContentPlain", "colorDarkGrey",
-                      styles.spanLinkNode,
-                      {
-                        [styles.spanLinkNodeMouse]: this.state.overNodeLink,
-                      }
-                    )}>
-                    {this.props.i18nUIString.catalog['hint_nodesFilter_nodeExplore']}
-                  </span>
-                  <span
-                    className={classnames(
-                      "fontContent", "colorDarkGrey",
-                      styles.spanLinkNode,
-                    )}>
-                    {" )"}
-                  </span>
-                </Link>
-            </div>
-          </div>
-            <div
-              className={classnames(
-                styles.boxItemNoImgTitle, styles.boxItemTitle)}>
               {
                 (nodeId in this.props.nounsBasic) &&
-              <Link
-                to={this.props.linkObj}
+                !!this.props.nounsBasic[nodeId].accumulationsify && // probably false or 'undefined'
+                <Link
+                  to={{
+                    pathname: '/cosmic/explore/node' ,
+                    search: '?nodeid='+ nodeId,
+                    state: {from: this.props.location}
+                  }}
+                  className={classnames(
+                    'plainLinkButton', styles.linkImgNodeText)}
+                    onClick={this._handleClick_filterNode}
+                    onMouseOver={this._handleOver_NodeLink}
+                    onMouseOut={this._handleOut_NodeLink}>
+                    <span
+                      className={classnames(
+                        "fontContent", "colorDarkGrey",
+                        styles.spanLinkNode,
+                      )}>
+                      {"( "}
+                    </span>
+                    <span
+                      className={classnames(
+                        "fontContentPlain", "colorDarkGrey",
+                        styles.spanLinkNode,
+                        {
+                          [styles.spanLinkNodeMouse]: this.state.overNodeLink,
+                        }
+                      )}>
+                      {this.props.i18nUIString.catalog['hint_nodesFilter_nodeExplore']}
+                    </span>
+                    <span
+                      className={classnames(
+                        "fontContent", "colorDarkGrey",
+                        styles.spanLinkNode,
+                      )}>
+                      {" )"}
+                    </span>
+                  </Link>
+              }
+            </div>
+          </div>
+          <div
+            className={classnames(
+              styles.boxItemNoImgTitle, styles.boxItemTitle)}>
+              {
+                (nodeId in this.props.nounsBasic) &&
+                <Link
+                  to={this.props.linkObj}
                   className={classnames(
                     'plainLinkButton', styles.boxTitleText,
                     { [styles.boxTitleTextMouseon]: this.state.overbtnLink },
@@ -126,7 +127,7 @@ class ItemNodeLink extends React.Component {
                     className={classnames(
                       "fontSubtitle_h5",
                       {
-                        ["colorDarkGrey"]: !this.state.overbtnLink,
+                        ["colorEditBlack"]: !this.state.overbtnLink,
                         ["colorDescripBlack"]: this.state.overbtnLink
                       }
                     )}>
@@ -138,7 +139,7 @@ class ItemNodeLink extends React.Component {
                       className={classnames(
                         "fontSubtitle_h5",
                         {
-                          ["colorDarkGrey"]: !this.state.overbtnLink,
+                          ["colorEditBlack"]: !this.state.overbtnLink,
                           ["colorDescripBlack"]: this.state.overbtnLink
                         }
                       )}>
@@ -152,7 +153,7 @@ class ItemNodeLink extends React.Component {
                         className={classnames(
                           "fontSubtitle_h5",
                           {
-                            ["colorDarkGrey"]: !this.state.overbtnLink,
+                            ["colorEditBlack"]: !this.state.overbtnLink,
                             ["colorDescripBlack"]: this.state.overbtnLink
                           }
                         )}>
@@ -160,7 +161,7 @@ class ItemNodeLink extends React.Component {
                       </span>
                     </div>
                   }
-              </Link>
+                </Link>
               }
               {
                 ((nodeId in this.props.nounsBasic) &&
@@ -180,10 +181,10 @@ class ItemNodeLink extends React.Component {
                         cls1: {stroke: "#444444"},
                         cls2: {fill: "rgb(69, 135, 160)"}
                       }: null}/>
+                    </div>
                   </div>
-                </div>
-              }
-            </div>
+                }
+              </div>
           </div>
         </div>
       )

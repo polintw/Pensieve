@@ -57,8 +57,9 @@
 
 .boxNodeItemLayerBase { /* after .boxNodeItem */
   display: flex;
-  width: 37%;
+  width: unset;
   min-width: 310px;
+  max-width: 40%;
   margin: unset;
 }
 
@@ -85,8 +86,7 @@
 
 .boxItemTitleLayerBase {
   flex: unset;
-  padding: 0 0 0 4.2%;
-  margin-bottom: 4.2%;
+  padding: 2.6% 0 2.6% 4.2%;
 }
 
 .boxItemImg {
@@ -105,10 +105,12 @@
   box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
 }
 
-.boxItemImgMouseonNoCover {
+.boxItemImgNoCover { /* after boxItemImg */
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 6vw;
+  min-height: 81px;
   cursor: default;
 }
 

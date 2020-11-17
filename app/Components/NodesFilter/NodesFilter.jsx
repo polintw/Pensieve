@@ -115,8 +115,10 @@ class NodesFilter extends React.Component {
           +'?type=thumb';
       };
 
-      nodesListDOM.push( // preview only appear if the node was used
-        firstUnitify ? (
+      // and then put DOM into list
+      // put the one has firstUnit at the beginning
+      if(firstUnitify){
+        nodesListDOM.unshift( // preview only appear if the node was used
           <ItemImgBox
             key={"key_NodesFilter_ImgBox_"+ index}
             nodeId={nodeId}
@@ -126,7 +128,10 @@ class NodesFilter extends React.Component {
             startListify={this.props.startListify}
             _set_SwitchNextLayer={this._set_SwitchNextLayer}
             _handleClick_filterNode={this.props._handle_nodeClick}/>
-        ) :(
+        );
+      }
+      else{
+        nodesListDOM.push(
           <ItemNodeLink
             key={"key_NodesFilter_NodeLink"+ index}
             nodeId={nodeId}
@@ -136,7 +141,7 @@ class NodesFilter extends React.Component {
             _set_SwitchNextLayer={this._set_SwitchNextLayer}
             _handleClick_filterNode={this.props._handle_nodeClick}/>
         )
-      );
+      };
 
       // and last, if this is the last round,
       // check the rest number to render a better look
@@ -277,6 +282,7 @@ class NodesFilter extends React.Component {
         });
       });
       let reqFirstUnitList = resObj.main.nodesList.slice();
+      // we add parent node into list to also fetch first unit for parent node
       if(!!resObj.main.nodeParent){reqFirstUnitList.push(resObj.main.nodeParent);};
       self._set_firstUnitBasic(reqFirstUnitList);
     })
