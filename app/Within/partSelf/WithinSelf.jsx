@@ -41,7 +41,7 @@ class Self extends React.Component {
           <span
             className={classnames("fontContentPlain", "weightBold", "colorAssistGold")}
             style={{marginBottom: '12px', width: '100%', display: 'block'}}>
-            {this.props.i18nUIString.catalog["title_Publications"]}</span>
+            {this.props.i18nUIString.catalog["title_selfPublications"]}</span>
         </div>
         <Switch>
           <Route

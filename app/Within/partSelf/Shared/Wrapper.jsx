@@ -101,6 +101,11 @@ class Wrapper extends React.Component {
   }
 
   render(){
+    let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
+    if (urlParams.has('filterNode')) {
+      this.filterNode = urlParams.get('filterNode');
+    } else this.filterNode = false;
+
     return(
       <div>
         <div
@@ -110,8 +115,10 @@ class Wrapper extends React.Component {
             <TitleShareds/>
           </div>
           <div
-            className={classnames(styles.boxRow, styles.rowFilterPadding)}
-            style={{margin: '4px 0 10px'}}>
+            className={classnames(
+              styles.rowNavFilter,
+              {[styles.rowFilterPadding]: (!!this.filterNode || this.state.viewFilter)}
+              )}>
             <NavFilter
               {...this.props}
               viewFilter={this.state.viewFilter}

@@ -11,11 +11,16 @@
 
 .boxRowTop { /* should after .boxRow */
   padding-top: 4px;
-}
+}  
 
 .boxRow40Top {
   margin-top: 28px; /* couple with boxRow, which has 12px margin combine for 40px */
-}
+}  
+
+.rowNavFilter {
+  position: relative;
+  margin: 18px 0 10px;
+}  
 
 .rowFilterPadding {
   padding-bottom: 2.538vh;

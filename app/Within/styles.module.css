@@ -79,16 +79,16 @@
   min-width: 10vw;
 }
 
-.boxContentFilledLeftSelf {
-  min-width: 10.64vw;
+.boxContentFilledLeftSelf { /* after boxContentFilledLeft */
+  min-width: 11.38vw;
 }
 
 .boxContentFilledRight {
   min-width: 21.64vw;
 }
 
-.boxContentFilledRightSelf {
-  min-width: 21vw;
+.boxContentFilledRightSelf { /* after boxContentFilledRight */
+  min-width: 20.5vw;
 }
 
 .boxSelfContent {

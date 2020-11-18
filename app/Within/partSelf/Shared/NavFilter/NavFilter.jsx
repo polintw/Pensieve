@@ -6,7 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import { SvgArrowToLeft } from '../../../../Components/Svg/SvgArrow.jsx';
+import { SvgArrowToRight } from '../../../../Components/Svg/SvgArrow.jsx';
 import SvgFilterNode from '../../../../Components/Svg/SvgFilter_Node.jsx';
 import SvgArrowStick from '../../../../Components/Svg/SvgArrowStick.jsx';
 
@@ -55,7 +55,7 @@ class NavFilter extends React.Component {
           styles.boxSvgArrow)}
         onMouseEnter={this._handleEnter_CloseArrow}
         onMouseLeave={this._handleLeave_CloseArrow}>
-        <SvgArrowToLeft
+        <SvgArrowToRight
           mouseOn={this.state.onArrow}
           customStyles={{ fillColorMouseOn: '#ff8168', fillColor: '#a3a3a3' }} />
       </Link>
@@ -85,7 +85,7 @@ class NavFilter extends React.Component {
                   </span>
                   <Link
                     nodeid={this.filterNode}
-                    to={this.props.match.path + "?nodeid=" + this.filterNode}
+                    to={"/cosmic/explore/node?nodeid=" + this.filterNode}
                     className={classnames('plainLinkButton')}
                     style={{ display: 'inline-block' }}
                     onMouseEnter={this._handleEnter_NodeLink}
@@ -156,7 +156,7 @@ class NavFilter extends React.Component {
             <div
               className={classnames(styles.boxIconsFilter)}>
               <Link
-                to={this.props.match.path}
+                to={this.props.location.pathname}
                 className={classnames('plainLinkButton', styles.boxIconFilterNode)}
                 onClick={this._handleClick_filter}
                 onMouseEnter={this._handleEnter_FilterNode}
@@ -171,9 +171,12 @@ class NavFilter extends React.Component {
     )
   }
 
-  _handleClick_filter(event){
-    event.preventDefault();
-    event.stopPropagation();
+  _handleClick_filter(event) {
+    if (!this.filterNode) { // currently 'null', no param 'filterNode'
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
     this.props._set_viewFilter('filter')
   }
 

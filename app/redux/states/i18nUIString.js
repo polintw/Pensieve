@@ -107,15 +107,16 @@ const i18nUIString_EN = {
   "submit_respond": "Respond",
   "submit_yes": "Yes",
   "submit_logout": "Log out",
+  "submit_unitPublish": "Publish",
   "title_welcome": 'OnBoard',
   "title_instruction": "Instruction",
   "title_share": "Share",
   "title_profile": "Profile",
   "title_home": "Home",
   "title_Expand": "Expand",
-  "title_Publications": "Publications",
-  "title_Published": "Published",
-  "title_Chain_Shareds_": "Publications",
+  "title_Chain_Shareds_": "Your Publications",
+  "title_selfPublications": "Your Publications",
+  "title_yourShareds": 'Shareds',
   "title_shared": "Shareds",
   "subtitle_email": "Email",
   "subtitle_Password": "Password",
@@ -144,7 +145,7 @@ const i18nUIString_EN = {
   "tagTitle_Unit_LinkCopy": "Copy share link",
   "message_Unit_LinkCopy": "Copied to clipboard",
 
-  "title_shareUpload_typewriter": ['S','u','b','m','i', 't'],
+  "title_shareUpload_typewriter": ['S','h','a','r','e', '!'],
   "guidingCreateShare_AssignGroup": "Assign to",//Changed "corner(s)" to "Corner(s)"
   "guidingCreateShare_AssignNull": "Haven't register any ",//Changed "please" to "Please"
   "guidingCreateShare_NodesView": "Assign to Corners by one or several methods of below:",
@@ -193,7 +194,7 @@ const i18nUIString_EN = {
   "title_BelongSet_": "Your Corners",
   "descript_BelongSet_SearchBytType": ["Search one fit your "],
   "descript_AroundIndex_footer": "You've reached the edge of Cornerth.!",
-  "guiding_AroundIndex_Share": "How's today?", //Original:"how's your corners"
+  "guiding_AroundIndex_Share": "New findings around you?", //Original:"how's your corners"
   'descript_AroundIndex_footer_BelongHint': "Start browsing by setting your current stay or homeland!",
 
   "descript_Nail_noMark": "(expand image...)",

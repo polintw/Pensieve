@@ -216,7 +216,7 @@ class Submit extends React.Component {
                 {[stylesFont.colorStandard]: (!this.state.onEnterSubmit || !submitPermit)},
                 {[stylesFont.colorWhite]: (this.state.onEnterSubmit && submitPermit)}
               )}>
-              {this.props.i18nUIString.catalog["submit_complete"]}
+              {this.props.i18nUIString.catalog["submit_unitPublish"]}
             </span>
           </div>
 
