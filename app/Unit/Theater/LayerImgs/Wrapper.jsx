@@ -16,6 +16,9 @@ import ImgPreview from '../../../Components/ImgPreview.jsx';
 import LinkCopy from '../../../Components/LinkCopy/LinkCopy.jsx';
 import AccountPalette from '../../../Components/AccountPalette.jsx';
 import DateConverter from '../../../Components/DateConverter.jsx';
+import {
+  domain
+} from '../../../../config/services.js';
 
 class Wrapper extends React.Component {
   constructor(props){
@@ -126,8 +129,16 @@ class Wrapper extends React.Component {
                 onClick={this._handleClick_Account}>
                 <AccountPalette
                   size={'layer'}
-                  accountFirstName={this.props.unitCurrent.authorBasic.firstName}
-                  accountLastName={this.props.unitCurrent.authorBasic.lastName}/>
+                  referLink={
+                    (this.props.unitCurrent.authorBasic['authorIdentity'] == 'user') ?
+                      false : (domain.protocol + "://" + domain.name+ '/cosmic/explore/path/' + this.props.unitCurrent.authorBasic['pageLink'])
+                  }
+                  accountFirstName={
+                    (this.props.unitCurrent.authorBasic['authorIdentity'] == 'user') ?
+                    this.props.unitCurrent.authorBasic.firstName: null}
+                  accountLastName={
+                    (this.props.unitCurrent.authorBasic['authorIdentity'] == 'user') ?
+                      this.props.unitCurrent.authorBasic.lastName : this.props.unitCurrent.authorBasic.account}/>
               </div>
               <div
                 className={classnames(styles.boxBottomLower)}>

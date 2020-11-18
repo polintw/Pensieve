@@ -7,6 +7,7 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const _DB_users = require('../../../db/models/index').users;
 const _DB_units = require('../../../db/models/index').units;
+const _DB_paths = require('../../../db/models/index').paths;
 const _DB_nouns = require('../../../db/models/index').nouns;
 const _DB_marks = require('../../../db/models/index').marks;
 const _DB_marksContent = require('../../../db/models/index').marks_content;
@@ -24,6 +25,22 @@ const {
 } = require('../../utils/reserrHandler.js');
 
 const _submitUsersUnits = require('./updateUsersUnits.js');
+
+async function _select_pathAuthor(sendingData){
+  return await _DB_paths.findOne({
+    where: { id: sendingData['authorBasic']['authorId'] }
+  }).then((result) => {
+    if (result) {
+      sendingData['authorBasic']['account'] = result.name;
+      sendingData['authorBasic']['pageLink'] = result.pathName;
+      return (sendingData);
+    } else {
+      return (sendingData);
+    }
+  }).catch((error) => {
+    throw new internalError("throw by /units/plain/_unit_mount, " + error, 131);//'throw' at this level, stop the process
+  })
+}
 
 function _handle_unit_Mount(req, res){
   //This api allow empty token,
@@ -153,7 +170,8 @@ function _handle_unit_Mount(req, res){
         primerify: false
       }
       if (!!result) { //make sure there is a unit with the id (would be 'null' if not exist)
-        sendingData['authorBasic']['authorId'] = result.id_author;
+        sendingData['authorBasic']['authorId'] = (result.author_identity== 'user') ?  result.id_author: result.used_authorId;
+        sendingData['authorBasic']['authorIdentity'] = result.author_identity; // 'user' or 'pathProject'
         sendingData['createdAt'] = result.createdAt;
         sendingData['temp']['internalId'] = result.id; //the id used as 'id_unit' among database.
         if(userId == result.id_author){
@@ -170,6 +188,8 @@ function _handle_unit_Mount(req, res){
         reject(new notFoundError("this unit does not exist. please use a valid link.", 34));
       }
     }).then((sendingData)=>{
+      if (sendingData['authorBasic']['authorIdentity'] == 'pathProject'){ return _select_pathAuthor(sendingData)};
+      // condition else
       return _DB_users.findOne({
         where: {id: sendingData['authorBasic']['authorId']},
         attributes: ['account','first_name','last_name']

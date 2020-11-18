@@ -32,6 +32,9 @@ main.use(function (req, res, next) {
         case 'invitation':
           next();
           break;
+        case 'basic':
+          next();
+          break;
         default:
           noTokenHandler()
       };
@@ -43,8 +46,9 @@ main.use(function (req, res, next) {
 //middleware not need token
 main.use('/invitation', invitationExcutive)
 
+main.use('/basic', basicExcutive)
+
 //then other middleware after the permission check
 
-  main.use('/basic', basicExcutive)
 
 module.exports = main;
