@@ -17,6 +17,11 @@
   margin-top: 28px; /* couple with boxRow, which has 12px margin combine for 40px */
 }
 
+.rowFilterPadding {
+  padding-bottom: 2.538vh;
+  border-bottom: 1px solid #d8d8d8;
+}
+
 .boxFooter {
   display: flex;
   flex-direction: column;

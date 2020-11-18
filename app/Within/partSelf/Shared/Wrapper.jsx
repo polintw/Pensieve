@@ -110,7 +110,7 @@ class Wrapper extends React.Component {
             <TitleShareds/>
           </div>
           <div
-            className={classnames(styles.boxRow)}
+            className={classnames(styles.boxRow, styles.rowFilterPadding)}
             style={{margin: '4px 0 10px'}}>
             <NavFilter
               {...this.props}
