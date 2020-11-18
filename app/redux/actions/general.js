@@ -9,6 +9,7 @@ import {
   MOUNT_USERINFO,
   UPDATE_NOUNSBASIC,
   UPDATE_USERSBASIC,
+  UPDATE_PATHSBASIC,
   AXIOS_SWITCH,
 } from '../types/typesGeneral.js';
 import {
@@ -145,13 +146,13 @@ export function handleUsersList(usersArr) {
     const currList =  getState().usersBasic;
     let fetchList = [];
     usersArr.forEach((id, index)=>{
-      if(!(id in currList)){
+      if(!(id in currList) && (fetchList.indexOf(id) < 0)){
         fetchList.push(id)
       }
     });
     if(fetchList.length<1){dispatch({type: null}); return;};
     //corresponding to the local state 'axios', we should also insert 'isFetching' state in reducer
-    axios.get('/router/general/users/basic', {
+    axios.get('/router/general/basic/users', {
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']
@@ -162,6 +163,38 @@ export function handleUsersList(usersArr) {
     }).then((res)=>{
       let resObj = JSON.parse(res.data);
       dispatch({type: UPDATE_USERSBASIC, newFetch: resObj.main.usersBasic})
+    })
+    .catch(function (thrown) {
+      let message = uncertainErr(thrown);
+      if(message) alert(message);
+    });
+  }
+}
+
+export function handlePathProjectsList(pathsArr) {
+  //this actoin creator, could do function return is because we use 'thunk' middleware when create store
+  return (dispatch, getState) => {
+    //by this method we could use 'getState' & 'dispatch' in action creator
+    const currList =  getState().pathsBasic;
+    let fetchList = [];
+    pathsArr.forEach((id, index)=>{
+      if(!(id in currList) && (fetchList.indexOf(id) < 0)){
+        fetchList.push(id)
+      }
+    });
+    if(fetchList.length<1){dispatch({type: null}); return;};
+    //corresponding to the local state 'axios', we should also insert 'isFetching' state in reducer
+    axios.get('/router/general/basic/paths', {
+      headers: {
+        'charset': 'utf-8',
+        'token': window.localStorage['token']
+      },
+      params: {
+        fetchList: fetchList
+      }
+    }).then((res)=>{
+      let resObj = JSON.parse(res.data);
+      dispatch({type: UPDATE_PATHSBASIC, newFetch: resObj.main.pathsBasic})
     })
     .catch(function (thrown) {
       let message = uncertainErr(thrown);

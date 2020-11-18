@@ -7,7 +7,7 @@ const {
 } = require('../utils/reserrHandler.js');
 
 const invitationExcutive = require('./invitation.js');
-const usersExcutive = require('./users.js');
+const basicExcutive = require('./basic.js');
 
 /*
   Notice! Check First!
@@ -45,6 +45,6 @@ main.use('/invitation', invitationExcutive)
 
 //then other middleware after the permission check
 
-main.use('/users', usersExcutive)
+  main.use('/basic', basicExcutive)
 
 module.exports = main;

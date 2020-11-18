@@ -33,9 +33,6 @@ main.use(function(req, res, next) {
       _handle_ErrCatched(new authorizedError(message, 89), req, res);
     }
     switch (secondPath) { //pathSplice should be e.g "[/numerous/,numerous, ...]"
-      case 'numerous':
-        noTokenHandler();
-        break;
       case 'primer':
         noTokenHandler();
         break;
@@ -53,11 +50,13 @@ main.use(function(req, res, next) {
 //then other middleware after the permission check
 
 // path has token
-main.use('/numerous', numerousExecutive)
 main.use('/primer', primerExecutive)
 main.use('/responds', respondsExecutive)
 
+
 // path do not need a token
+
+main.use('/numerous', numerousExecutive)
 // remember put the pathe with ':id' after the others.
 main.param("exposedId", (req, res, next, exposedId)=>{
   req.reqExposedId = exposedId;

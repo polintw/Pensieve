@@ -9,7 +9,8 @@ import {
   SET_TOKENSTATUS,
   SET_BELONGSBYTYPE,
   UPDATE_NOUNSBASIC,
-  UPDATE_USERSBASIC
+  UPDATE_USERSBASIC,
+  UPDATE_PATHSBASIC
 } from '../types/typesGeneral.js';
 import {
   SET_INDEXLISTS,
@@ -121,6 +122,11 @@ function pageWithin(state = initialGeneral, action){
     case UPDATE_USERSBASIC:
       return Object.assign({}, state, {
         usersBasic: {...state.usersBasic, ...action.newFetch}
+      })
+      break;
+    case UPDATE_PATHSBASIC:
+      return Object.assign({}, state, {
+        pathsBasic: {...state.pathsBasic, ...action.newFetch}
       })
       break;
     case UNIT_SUBMITTING_SWITCH:

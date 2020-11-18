@@ -144,7 +144,8 @@ const contentBoxMarks = (self)=>{
         <div className={classnames(styles.boxAuthor, stylesFont.colorStandard)}>
           <AccountPalette
             size={"regularBold"}
-            userId={self.props.unitBasic.authorId}/>
+            userId={self.props.unitBasic.authorId}
+            authorIdentity={self.props.unitBasic.authorIdentity}/>
         </div>
       </div>
 

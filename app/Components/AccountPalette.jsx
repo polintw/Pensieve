@@ -41,8 +41,17 @@ class Palette extends React.Component {
         ],
         firstName = !!this.props.accountFirstName? (this.props.accountFirstName+" ") : null,
         lastName = !!this.props.accountLastName? this.props.accountLastName : null;
-    if(!firstName) firstName = !!this.props.userId ? (this.props.userId in this.props.usersBasic) ? (this.props.usersBasic[this.props.userId].firstName+" ") :　null : null;
-    if(!lastName) lastName = !!this.props.userId ? (this.props.userId in this.props.usersBasic) ? this.props.usersBasic[this.props.userId].lastName :　null : null;
+    // now, there is a chance we are render a name of 'pathProject',
+    // pathProject would only use firstName, no lastName
+    let basicObjChoice = (this.props.authorIdentity == 'pathProject') ? 'pathsBasic' : 'usersBasic';
+    if(!firstName && !!this.props.userId){
+      if(this.props.userId in this.props[basicObjChoice]){
+        firstName = (basicObjChoice == 'usersBasic') ? (this.props[basicObjChoice][this.props.userId].firstName+" ") : (this.props[basicObjChoice][this.props.userId].pathProject+" ") ;
+      }
+    };
+    if(!lastName && !!this.props.userId){
+      if(basicObjChoice == 'usersBasic') lastName = (this.props.userId in this.props.usersBasic) ? this.props.usersBasic[this.props.userId].lastName :　null;
+    };
 
     return(
       <div
@@ -65,7 +74,8 @@ class Palette extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
-    usersBasic: state.usersBasic
+    usersBasic: state.usersBasic,
+    pathsBasic: state.pathsBasic
   }
 }
 

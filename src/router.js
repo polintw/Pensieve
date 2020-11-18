@@ -21,11 +21,14 @@ const uProfileRouter = require('./user/profile/main.js');
 //veirfy user status
 router.use('/', auth)
 
+router.use('/img', imgRouter)
+router.use('/general', generalRouter)
 router.use('/units', unitsRouter)
 router.use('/paths', pathsRouter)
+router.use('/nouns', nounsRouter)
+
 
 //approach only after verified
-
 router.use('/account', accountRouter)
 router.use('/profile', uProfileRouter)
 
@@ -34,10 +37,6 @@ router.use('/invite', uInvitRouter)
 router.use('/visit', visitRouter)
 router.use('/share', shareRouter)
 router.use('/inspired', inspireRouter)
-
-router.use('/img', imgRouter)
-router.use('/general', generalRouter)
-router.use('/nouns', nounsRouter)
 
 
 

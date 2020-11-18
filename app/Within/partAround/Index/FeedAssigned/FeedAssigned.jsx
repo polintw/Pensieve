@@ -14,6 +14,7 @@ import {axios_get_UnitsBasic} from '../../../../utils/fetchHandlers.js';
 import {
   handleNounsList,
   handleUsersList,
+  handlePathProjectsList
 } from "../../../../redux/actions/general.js";
 import {
   submitFeedAssigned
@@ -315,6 +316,7 @@ class FeedAssigned extends React.Component {
       ): ({ main: {
         nounsListMix: [],
         usersList: [],
+        pathsList: [],
         unitsBasic: {},
         marksBasic: {}
       }});
@@ -323,6 +325,7 @@ class FeedAssigned extends React.Component {
       //after res of axios_Units: call get nouns & users
       self.props._submit_NounsList_new(resObj.main.nounsListMix);
       self.props._submit_UsersList_new(resObj.main.usersList);
+      self.props._submit_PathsList_new(resObj.main.pathsList);
       //and final, update the data of units to state
       self.setState((prevState, props)=>{
         return ({
@@ -378,6 +381,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
     _submit_UsersList_new: (arr) => { dispatch(handleUsersList(arr)); },
+    _submit_PathsList_new: (arr) => { dispatch(handlePathProjectsList(arr)); },
     _submit_list_FeedAssigned: (obj, reset) => { dispatch(submitFeedAssigned(obj, reset)); }
   }
 }

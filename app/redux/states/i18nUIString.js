@@ -194,7 +194,7 @@ const i18nUIString_EN = {
   "title_BelongSet_": "Your Corners",
   "descript_BelongSet_SearchBytType": ["Search one fit your "],
   "descript_AroundIndex_footer": "You've reached the edge of Cornerth.!",
-  "guiding_AroundIndex_Share": "New findings around you?", //Original:"how's your corners"
+  "guiding_AroundIndex_Share": "A new finding?", //Original:"how's your corners"
   'descript_AroundIndex_footer_BelongHint': "Start browsing by setting your current stay or homeland!",
 
   "descript_Nail_noMark": "(expand image...)",

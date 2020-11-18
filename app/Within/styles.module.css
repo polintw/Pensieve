@@ -136,6 +136,11 @@
   .boxNavWithinCosmic {
     width: 11vw;
   }
+
+  .boxNavOptionsSelf {
+    min-width: unset;
+    background-color: unset;
+  }
 }
 
 @media screen and (max-width:860px) {
@@ -191,11 +196,11 @@
     box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
   }
 
-  .boxNavOptionsSelf {
-    min-width: unset; /* back to default */
-    height: unset; /* back to default */
-    position: static; /* back to default */
-    background-color: unset; /* back to default */
+  .boxNavOptionsSelf { /* back to a plain <div> */
+    min-width: unset; /* back to NavOptions */
+    height: unset; /* back to NavOptions */
+    position: static; /* back to NavOptions */
+    background-color: unset; /* back to NavOptions */
   }
 
   .boxNavOptionsCosmic {

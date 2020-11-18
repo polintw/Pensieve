@@ -120,7 +120,8 @@ class NailFeed extends React.Component {
                 <div className={classnames(styles.boxAuthor, stylesFont.colorStandard)}>
                   <AccountPalette
                     size={"regularBold"}
-                    userId={this.props.unitBasic.authorId}/>
+                    userId={this.props.unitBasic.authorId}
+                    authorIdentity={this.props.unitBasic.authorIdentity}/>
                 </div>
               </div>
             ): (
