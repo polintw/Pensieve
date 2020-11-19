@@ -25,15 +25,14 @@ class Wrapper extends React.Component {
     super(props);
     this.state = {
       onPrimerImg: false,
-      onSpanResponds: false
+      onSpanOutbound: false
     };
     this._handleClick_Account = this._handleClick_Account.bind(this);
     this._handleEnter_primerImg = this._handleEnter_primerImg.bind(this);
     this._handleLeave_primerImg = this._handleLeave_primerImg.bind(this);
-    this._handleEnter_spanResponds = this._handleEnter_spanResponds.bind(this);
-    this._handleLeave_spanResponds = this._handleLeave_spanResponds.bind(this);
+    this._handleEnter_spanOutbound = this._handleEnter_spanOutbound.bind(this);
+    this._handleLeave_spanOutbound = this._handleLeave_spanOutbound.bind(this);
     this._handleClick_Primerhref = this._handleClick_Primerhref.bind(this);
-    this._handleClick_LinkListResponds = this._handleClick_LinkListResponds.bind(this);
   }
 
   _handleClick_Account(event){
@@ -101,24 +100,30 @@ class Wrapper extends React.Component {
                 <Inspired/>
               </div>
             }
-            <div style={{borderRight: 'solid 0.75px #a3a3a3', margin: '0 1.5rem', height: '3.6rem'}}/>
-            <div>
-              {
-                (this.props.guidingNailsId.indexOf(this.props.unitCurrent.unitId) < 0) && // guidingNails do not show the Respond & view responds
-                <span
-                  className={classnames(
-                    'colorEditBlack',
-                    'fontContentPlain',
-                    styles.spanResponds,
-                    {[styles.spanRespondsActiv]: this.state.onSpanResponds}
-                  )}
-                  onClick={this._handleClick_LinkListResponds}
-                  onMouseEnter={this._handleEnter_spanResponds}
-                  onMouseLeave={this._handleLeave_spanResponds}>
-                  {this.props.i18nUIString.catalog['link_UnitListResponds']}
-                </span>
-              }
-            </div>
+            {
+              (("main" in this.props.unitCurrent.outBoundLink)  &&
+              !!this.props.unitCurrent.outBoundLink.main) &&
+              <div
+                style={{display: 'flex', alignItems: 'center'}}>
+                <div style={{borderRight: 'solid 0.75px #a3a3a3', margin: '0 1.5rem', height: '3.6rem'}}/>
+                <a
+                  href={"https://"+ this.props.unitCurrent.outBoundLink.main}
+                  target={"_blank"}
+                  className={classnames('plainLinkButton', styles.linkOutbound)}>
+                  <span
+                    className={classnames(
+                      'fontContentPlain', "colorEditBlack", styles.spanOutbound,
+                      {
+                        [styles.spanOutboundActiv]: this.state.onSpanOutbound,
+                      }
+                    )}
+                    onMouseEnter={this._handleEnter_spanOutbound}
+                    onMouseLeave={this._handleLeave_spanOutbound}>
+                    {this.props.unitCurrent.outBoundLink.main}
+                  </span>
+                </a>
+              </div>
+            }
           </div>
           <div
             className={classnames(styles.boxBottomLeft)}>
@@ -196,23 +201,6 @@ class Wrapper extends React.Component {
     });
   }
 
-  _handleClick_LinkListResponds(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    this.props._set_state_UnitView("related");
-    // now the unitView was switch by the param in URL
-    if(!this.props.location.pathname.includes('explore/unit')){
-      // the browser, which do not know the origin it has was modified, need to be modified again to have the pratical history
-      window.history.replaceState(this.props.location.state, '', this.props.location.pathname+this.props.location.search);
-    };
-    let nextSearch = this.props.location.search.replace("unitView=theater","unitView=related");
-    this.props.history.push({
-      pathname: this.props.match.path,
-      search: nextSearch,
-      state: {from: this.props.location}
-    });
-  }
-
   _handleEnter_primerImg(e){
     this.setState({onPrimerImg: true})
   }
@@ -221,13 +209,13 @@ class Wrapper extends React.Component {
     this.setState({onPrimerImg: false})
   }
 
-  _handleEnter_spanResponds(e){
-    this.setState({onSpanResponds: true})
-  }
+    _handleEnter_spanOutbound(e){
+      this.setState({onSpanOutbound: true})
+    }
 
-  _handleLeave_spanResponds(e){
-    this.setState({onSpanResponds: false})
-  }
+    _handleLeave_spanOutbound(e){
+      this.setState({onSpanOutbound: false})
+    }
 
 }
 

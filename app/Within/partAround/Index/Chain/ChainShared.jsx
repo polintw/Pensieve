@@ -223,6 +223,8 @@ class ChainShared extends React.Component {
       method: 'get',
       url: '/router/share/accumulated',
       params: {
+        mixIdentity: "all",
+        pathProject: !!this.props.userInfo.pathName ? this.props.userInfo.pathName : false,
         limit: 15
       },
       headers: {

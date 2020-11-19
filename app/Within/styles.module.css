@@ -59,7 +59,7 @@
   min-width: 4.2vw;
   min-height: 7.6vh;
   position: fixed;
-  top: 64.3vh;
+  bottom: 31.59vh; /* base on position of IndexShare at Index */
   left: 2.7vw;
   box-sizing: border-box;
   z-index: 1;
@@ -209,6 +209,7 @@
     width: 100%;
     position: sticky;
     top: 0;
+    bottom: unset;
     left: 0;
     background-color: rgb(117,117,117);
     box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);

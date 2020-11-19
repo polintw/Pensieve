@@ -11,6 +11,11 @@ module.exports = {
         type: Sequelize.INTEGER(10).UNSIGNED,
       });
     })
+    .then(() => {
+      return queryInterface.addColumn('units', 'outboundLink_main', {
+        type: Sequelize.STRING(4095),
+      });
+    })
     .then(()=>{
       return queryInterface.addColumn('attribution', 'author_identity', {
         type: Sequelize.STRING(31),
@@ -32,6 +37,9 @@ module.exports = {
     .then(() => {
       return queryInterface.removeColumn('units', 'used_authorId', {})
       })
+    .then(() => {
+      return queryInterface.removeColumn('units', 'outboundLink_main', {})
+    })
     .then(() => {
         return queryInterface.removeColumn('attribution', 'author_identity', {})
       })

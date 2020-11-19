@@ -104,37 +104,51 @@ async function _handle_GET_accumulated_Share(req, res){
     const lastUnitTime = !isNaN(unitBase) ? unitBase : new Date(); // basically, undefined listUnitBase means first landing to the page
     // by query, see if we got a filter node
     const reqFilterNodes = req.query.filterNodes; // is an array contain one to several nodes id
-    const reqPathProject = !!req.query.pathProject ? req.query.pathProject : false; // id of pathProject or 'undefined'
     const reqListLimit = !isNaN(parseInt(req.query.limit)) ? parseInt(req.query.limit) : 12; // list length limit or 'undefined'
+    const reqPathProject = !!req.query.pathProject ? req.query.pathProject : false; // id of pathProject or 'undefined'
+    const reqMixIdentity = !!req.query.mixIdentity ? req.query.mixIdentity : false; // currently 'all' or undefined
+    // judge the 'range' we are going to pick, uf pathProject or if mixIdentity
+    let whereRange = 'personalOnly';
+    if(reqPathProject) whereRange = 'pathProjectOnly';
+    if(reqMixIdentity) whereRange = 'mixAll';
     // units id list res to client at final
     let unitsExposedList = [];
 
     // first, pick path info if request for path project
     let pathInfo = '';
-    if(reqPathProject){
+    if(reqPathProject || reqMixIdentity){
       pathInfo = await _DB_paths.findOne({
         where: {pathName: reqPathProject}
       });
-      // if 'null' result -> not a valid pathName
-      if(!pathInfo){ //'null'
-        throw new notFoundError("Project you request was not found. Only a valid path name was allowed.", 52);
-        return; //stop and end the handler.
-      };
+      // and allow 'null', would just select nothing
+    };
+    let whereAttributes = {};
+    switch (whereRange) {
+      case 'pathProjectOnly':
+        whereAttributes = {
+          id_author: userId,
+          author_identity: "pathProject",
+          used_authorId: pathInfo.id,
+          createdAt: { [Op.lt]: lastUnitTime },
+        };
+        break;
+      case 'mixAll':
+        whereAttributes = {
+          id_author: userId,
+          createdAt: { [Op.lt]: lastUnitTime },
+        };
+        break;
+      default: // 'personalOnly'
+        whereAttributes = {
+          id_author: userId,
+          author_identity: "user",
+          used_authorId: null,
+          createdAt: { [Op.lt]: lastUnitTime },
+        };
     };
     if (!!reqFilterNodes) {
-      let whereAttributes = reqPathProject ? ({
-        id_noun: reqFilterNodes,
-        id_author: userId,
-        author_identity: "pathProject",
-        used_authorId: pathInfo.id,
-        createdAt: { [Op.lt]: lastUnitTime },
-      }) : ({
-        id_noun: reqFilterNodes,
-        id_author: userId,
-        author_identity: "user",
-        used_authorId: null,
-        createdAt: { [Op.lt]: lastUnitTime },
-      });
+      whereAttributes = Object.assign(whereAttributes, {id_noun: reqFilterNodes});
+
       let unitsByAttri = await _DB_attri.findAll({
         where: whereAttributes,
         attributes: [
@@ -168,17 +182,6 @@ async function _handle_GET_accumulated_Share(req, res){
         .catch((err) => { throw new internalError(err, 131); });
     }
     else { // filterNode 'undefined' or empty
-      let whereAttributes = reqPathProject ? ({
-        id_author: userId,
-        author_identity: "pathProject",
-        used_authorId: pathInfo.id,
-        createdAt: { [Op.lt]: lastUnitTime },
-      }) : ({
-        id_author: userId,
-        author_identity: "user",
-        used_authorId: null,
-        createdAt: { [Op.lt]: lastUnitTime },
-      });
       unitsExposedList = await _DB_units.findAll({
         where: whereAttributes,
         order: [ //make sure the order of arr are from latest

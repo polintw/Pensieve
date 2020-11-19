@@ -110,6 +110,7 @@ class UnitUnsign extends React.Component {
         beneathMarksData:beneathMarks.data,
         nouns: resObj.main.nouns,
         refsArr: resObj.main.refsArr,
+        outBoundLink: resObj.main.outBoundLink,
         createdAt: resObj.main.createdAt
       });
 

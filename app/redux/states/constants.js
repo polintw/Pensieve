@@ -13,7 +13,10 @@ export const accountInfoInit = {
 export const unitCurrentInit = {
   unitId:"",
   identity: "",
-  authorBasic: {authorId: "", account: '', firstName: '', lastName: ''},
+  authorBasic: {
+    authorId: "", account: '', authorIdentity: '',
+    firstName: '', lastName: '' // no this row if authorIdentity is not 'user'
+  },
   coverSrc: null,
   beneathSrc: null,
   coverMarksList:[],
@@ -22,6 +25,7 @@ export const unitCurrentInit = {
   beneathMarksData:{},
   nouns: {list:[]},
   refsArr: null,
+  outBoundLink: {main: null},
   createdAt: null,
   primerify: false,
   primer: {primerId: '', authorPrimer: ''},

@@ -31,6 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     id_primer: DataTypes.INTEGER,
     author_identity: DataTypes.STRING,
     used_authorId: DataTypes.INTEGER,
+    outboundLink_main: DataTypes.STRING,
     createdAt: DataTypes.DATE //notice! this line is neccessary cuase we would select it as a params
   }, {
     paranoid: true
