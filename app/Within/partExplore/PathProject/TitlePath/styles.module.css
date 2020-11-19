@@ -3,9 +3,10 @@
     align-items: baseline;
 }
 
-.boxTitleText {
-    max-width: 68%;
-    margin-right: 30px;
+.linkTitleText {
+  display: inline-block;
+  max-width: 68%;
+  margin-right: 30px;
 }
 
 .boxBtnShare {

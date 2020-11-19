@@ -58,8 +58,12 @@ class Theater extends React.Component {
         </div>
         <div
           className={classnames(styles.boxLayerSwitch)}>
-          <LayerSwitch
-            {...this.props}/>
+          {
+            // if the 'user' are guest, not signed in yet
+            (this.props.tokenStatus== 'verified') &&
+            <LayerSwitch
+              {...this.props}/>
+          }
         </div>
       </div>
     )
@@ -69,6 +73,7 @@ class Theater extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
+    tokenStatus: state.token,
     unitSubmitting: state.unitSubmitting
   }
 }

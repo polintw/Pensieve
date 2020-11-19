@@ -19,9 +19,9 @@ main.use(function(req, res, next) {
   let tokenify = req.extra.tokenify;
   //deal the situation if the token did not pass the check in last step
   if(!tokenify){
-    let pathSplice = req.path.match(/\/(.*?)\//);
-    //would always return the '1st' of '/.../', and now the .path() would be path 'after' /paths/
-    let secondPath = pathSplice[1] ; // pathSplice should be e.g "[/numerous/,numerous, ...]"
+    let pathString = req.path + '/'; // to make a string match the beneath rex
+    let pathSplice = pathString.match(/\/(.*?)\//); //would always return the '1st' of '/.../', and now the .path() would be path 'after' /units/
+    let secondPath = !!pathSplice ? pathSplice[1] : 'noParamAfter' ; // the path do not has any param after /units would get a null in pathSplice
     /*
     ref:
     stackoverflow: https://stackoverflow.com/questions/5642315/regular-expression-to-get-a-string-between-two-strings-in-javascript/40782646
@@ -34,11 +34,14 @@ main.use(function(req, res, next) {
       _handle_ErrCatched(new authorizedError(message, 89), req, res);
     }
     switch (secondPath) {
-      case 'numerous':
-        noTokenHandler();
-        break;
-      default:
-        next()
+    case 'invitation':
+      next();
+      break;
+    case 'basic':
+      next();
+      break;
+    default:
+      noTokenHandler()
     }
     */
     next() // temp method, before any api needed a token

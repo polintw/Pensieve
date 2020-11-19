@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Link,
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
@@ -40,12 +41,14 @@ class TitlePath extends React.Component {
   render(){
     return (
       <div className={styles.comTitlePath}>
-        <div className={classnames(styles.boxTitleText)}>
+        <Link
+          to={'/cosmic/explore/path/'+ this.props.projectPath}
+          className={classnames('plainLinkButton', styles.linkTitleText)}>
           <span
             className={classnames( "fontTitle", "lineHeight15", "colorEditBlack", "weightBold")}>
             {this.props.title}
           </span>
-        </div>
+        </Link>
         <div
           title={this.props.i18nUIString.catalog["tagTitle_PathProject_ShareLink"]}
           className={classnames(styles.boxBtnShare)}

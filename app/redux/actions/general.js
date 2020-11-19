@@ -89,13 +89,17 @@ export function handleNounsList(nounsArr) {
 
     //corresponding to the local state 'axios', we should also insert 'isFetching' state in reducer
 
+    let header = {
+      'Content-Type': 'application/json',
+      'charset': 'utf-8'
+    };
+    if(!!window.localStorage['token']){ // has token
+      header['token'] = window.localStorage['token'];
+    };
     //for callback calling in component
     //https://redux.js.org/advanced/async-actions#async-action-creators
     return axios.get('/router/nouns/basic', {
-      headers: {
-        'charset': 'utf-8',
-        'token': window.localStorage['token']
-      },
+      headers: header,
       params: {
         fetchList: fetchList
       }
@@ -152,11 +156,15 @@ export function handleUsersList(usersArr) {
     });
     if(fetchList.length<1){dispatch({type: null}); return;};
     //corresponding to the local state 'axios', we should also insert 'isFetching' state in reducer
-    axios.get('/router/general/basic/users', {
-      headers: {
-        'charset': 'utf-8',
-        'token': window.localStorage['token']
-      },
+    let header = {
+      'Content-Type': 'application/json',
+      'charset': 'utf-8'
+    };
+    if(!!window.localStorage['token']){ // has token
+      header['token'] = window.localStorage['token'];
+    };
+  axios.get('/router/general/basic/users', {
+      headers: header,
       params: {
         fetchList: fetchList
       }

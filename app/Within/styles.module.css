@@ -80,7 +80,7 @@
 }
 
 .boxContentFilledLeftSelf { /* after boxContentFilledLeft */
-  min-width: 11.38vw;
+  min-width: 11.38%;
 }
 
 .boxContentFilledRight {
@@ -88,7 +88,7 @@
 }
 
 .boxContentFilledRightSelf { /* after boxContentFilledRight */
-  min-width: 20.5vw;
+  min-width: 20.5%;
 }
 
 .boxSelfContent {
