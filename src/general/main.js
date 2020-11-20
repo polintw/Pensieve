@@ -8,6 +8,7 @@ const {
 
 const invitationExcutive = require('./invitation.js');
 const basicExcutive = require('./basic.js');
+const parseExcutive = require('./parser.js');
 
 /*
   Notice! Check First!
@@ -31,6 +32,9 @@ main.use(function (req, res, next) {
         _handle_ErrCatched(new authorizedError(message, 89), req, res);
       };
       switch (pathSplice[1]) { //pathSplice should be e.g "[/invitation/,invitation, ...]"
+        case 'parser':
+          next();
+          break;
         case 'invitation':
           next();
           break;
@@ -49,6 +53,8 @@ main.use(function (req, res, next) {
 main.use('/invitation', invitationExcutive)
 
 main.use('/basic', basicExcutive)
+
+main.use('/parser', parseExcutive)
 
 //then other middleware after the permission check
 

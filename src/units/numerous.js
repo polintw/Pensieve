@@ -55,6 +55,7 @@ function _handle_GET_unitsByList(req, res){
           pic_layer0: row.url_pic_layer0,
           pic_layer1: row.url_pic_layer1,
           createdAt: row.createdAt,
+          outboundLink: (!!row.outboundLink_main && (row.outboundLink_main.length > 0)) ? row.outboundLink_main : null,
           marksList: [],
           nounsList: []
         };

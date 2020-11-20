@@ -1,0 +1,18 @@
+.linkOutbound {
+  display: inline-block;
+}
+
+.spanOutbound {
+  display: inline-block;
+  max-width: 120px;
+  box-sizing: border-box;
+  border-bottom: solid 0.75px transparent;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.spanOutboundActiv {
+  border-bottom: solid 0.75px #545454;
+}
+

@@ -104,24 +104,6 @@
   border-radius: 4px;
 }
 
-.linkOutbound {
-  display: inline-block;
-  max-width: 110px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.spanOutbound {
-  display: inline-block;
-  box-sizing: border-box;
-  border-bottom: solid 0.75px transparent;
-}
-
-.spanOutboundActiv {
-  border-bottom: solid 0.75px #545454;
-}
-
 
 @media screen and (max-width:860px) {
   .boxFrameAuthor {

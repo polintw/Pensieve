@@ -10,6 +10,7 @@ import stylesFont from '../stylesFont.module.css';
 import NailMarksPreview from '../components/NailMarksPreview.jsx';
 import ImgPreview from '../../ImgPreview.jsx';
 import AccountPalette from '../../AccountPalette.jsx';
+import LinkFetch from '../../LinkFetch/LinkFetch.jsx';
 import SvgPin from '../../Svg/SvgPin.jsx';
 import {
   renderNodesRows,
@@ -122,6 +123,13 @@ class NailFeed extends React.Component {
                     size={"regularBold"}
                     userId={this.props.unitBasic.authorId}
                     authorIdentity={this.props.unitBasic.authorIdentity}/>
+                  <div>
+                    {
+                      !!this.props.unitBasic.outboundLink &&
+                      <LinkFetch
+                        outboundLink={this.props.unitBasic.outboundLink}/>
+                    }
+                  </div>
                 </div>
               </div>
             ): (

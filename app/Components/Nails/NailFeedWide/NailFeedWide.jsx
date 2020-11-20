@@ -10,6 +10,7 @@ import stylesFont from '../stylesFont.module.css';
 import NailMarksPreview from '../components/NailMarksPreview.jsx';
 import ImgPreview from '../../ImgPreview.jsx';
 import AccountPalette from '../../AccountPalette.jsx';
+import LinkFetch from '../../LinkFetch/LinkFetch.jsx';
 import SvgPin from '../../Svg/SvgPin.jsx';
 import {
   renderNodesRows,
@@ -152,6 +153,13 @@ const contentBoxMarks = (self)=>{
             size={"regularBold"}
             userId={self.props.unitBasic.authorId}
             authorIdentity={self.props.unitBasic.authorIdentity}/>
+          <div>
+            {
+              !!self.props.unitBasic.outboundLink &&
+              <LinkFetch
+                outboundLink={self.props.unitBasic.outboundLink} />
+            }
+          </div>
         </div>
       </div>
 

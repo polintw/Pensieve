@@ -12,6 +12,7 @@ import AuthorStatics from './Author/AuthorStatics.jsx';
 import Inspired from '../components/Inspired/Inspired.jsx';
 import Primer from '../components/Primer.jsx';
 import {NodesExtensible} from '../../NodesDisplay/NodesExtensible.jsx';
+import LinkFetch from '../../../Components/LinkFetch/LinkFetch.jsx';
 import ImgPreview from '../../../Components/ImgPreview.jsx';
 import LinkCopy from '../../../Components/LinkCopy/LinkCopy.jsx';
 import AccountPalette from '../../../Components/AccountPalette.jsx';
@@ -25,13 +26,10 @@ class Wrapper extends React.Component {
     super(props);
     this.state = {
       onPrimerImg: false,
-      onSpanOutbound: false
     };
     this._handleClick_Account = this._handleClick_Account.bind(this);
     this._handleEnter_primerImg = this._handleEnter_primerImg.bind(this);
     this._handleLeave_primerImg = this._handleLeave_primerImg.bind(this);
-    this._handleEnter_spanOutbound = this._handleEnter_spanOutbound.bind(this);
-    this._handleLeave_spanOutbound = this._handleLeave_spanOutbound.bind(this);
     this._handleClick_Primerhref = this._handleClick_Primerhref.bind(this);
   }
 
@@ -106,22 +104,8 @@ class Wrapper extends React.Component {
               <div
                 style={{display: 'flex', alignItems: 'center'}}>
                 <div style={{borderRight: 'solid 0.75px #a3a3a3', margin: '0 1.5rem', height: '3.6rem'}}/>
-                <a
-                  href={"https://"+ this.props.unitCurrent.outBoundLink.main}
-                  target={"_blank"}
-                  className={classnames('plainLinkButton', styles.linkOutbound)}>
-                  <span
-                    className={classnames(
-                      'fontContentPlain', "colorEditBlack", styles.spanOutbound,
-                      {
-                        [styles.spanOutboundActiv]: this.state.onSpanOutbound,
-                      }
-                    )}
-                    onMouseEnter={this._handleEnter_spanOutbound}
-                    onMouseLeave={this._handleLeave_spanOutbound}>
-                    {this.props.unitCurrent.outBoundLink.main}
-                  </span>
-                </a>
+                <LinkFetch
+                  outboundLink={this.props.unitCurrent.outBoundLink.main}/>
               </div>
             }
           </div>
@@ -208,14 +192,6 @@ class Wrapper extends React.Component {
   _handleLeave_primerImg(e){
     this.setState({onPrimerImg: false})
   }
-
-    _handleEnter_spanOutbound(e){
-      this.setState({onSpanOutbound: true})
-    }
-
-    _handleLeave_spanOutbound(e){
-      this.setState({onSpanOutbound: false})
-    }
 
 }
 
