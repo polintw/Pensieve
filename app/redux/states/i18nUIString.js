@@ -150,6 +150,7 @@ const i18nUIString_EN = {
   "guidingCreateShare_AssignNull": "Haven't register any ",//Changed "please" to "Please"
   "guidingCreateShare_NodesView": "Assign to Corners by one or several methods of below:",
   "guidingCreateShare_NodesView_selectHint": "No selection yet.",
+  "guidingCreateShare_outboundLinkView": "Input a url address if you want to show a link!",
   "subTitle_CreateShare_AssignTypes": ["Your Homeland", "Your Residence", "or, search one"],
   "message_CreateShare_basicRequireWarn": "Make sure you've already upload 1 image and pick at least 1 corner to which you want to contribute.",
   "message_Unit_Editing_AssignNotAllowed": "We're sorry. Your contribution Can't be changed once released since it's linked either to the markup or location.", //Original:"the corner linked to could Not be changed after first release."

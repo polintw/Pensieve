@@ -118,7 +118,7 @@ class NailFeed extends React.Component {
                   unitBasic={this.props.unitBasic}
                   marksBasic={this.props.marksBasic}/>
 
-                <div className={classnames(styles.boxAuthor, stylesFont.colorStandard)}>
+                <div className={classnames(styles.boxAuthor, "colorStandard")}>
                   <AccountPalette
                     size={"regularBold"}
                     userId={this.props.unitBasic.authorId}
@@ -127,7 +127,11 @@ class NailFeed extends React.Component {
                     {
                       !!this.props.unitBasic.outboundLink &&
                       <LinkFetch
-                        outboundLink={this.props.unitBasic.outboundLink}/>
+                        tagA={false}
+                        dashify={true}
+                        quotationify={true}
+                        outboundLink={this.props.unitBasic.outboundLink}
+                        customStyle={{common: {fontStyle: 'italic'}}}/>
                     }
                   </div>
                 </div>

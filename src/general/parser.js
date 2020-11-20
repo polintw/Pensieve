@@ -11,24 +11,30 @@ const {
 } = require('../utils/reserrHandler.js');
 
 async function _handle_parser_urlmeta_GET(req, res){
-    const reqClientUrl = typeof (req.body.clientUrl) == "string" ? req.body.clientUrl : '';
-
     try{
-        const response = await fetch(reqClientUrl);
-        const html = await response.text();
-        const doc = domino.createWindow(html).document;
-        const metadata = getMetadata(doc, reqClientUrl);
-        let sendingData={  
-            metadata:{},
-            temp: {}
-          };
-        
-        if(metadata) sendingData.metadata['metaTitle'] = metadata.title;
-          
-        _res_success(res, sendingData, "GET: parser: /urlmeta, complete.");
+      let sendingData={
+        metadata:{},
+        temp: {}
+      };
+
+      const reqClientUrl = typeof (req.body.clientUrl) == "string" ? req.body.clientUrl : '';
+
+      const response = await fetch(reqClientUrl).catch((err)=>{
+        // temp method to catch any error if the url do not return any good thing
+        return false;
+      });
+      if(!response) return _res_success(res, sendingData, "GET: parser: /urlmeta, complete."); // stop if error
+      
+      const html = await response.text();
+      const doc = domino.createWindow(html).document;
+      const metadata = getMetadata(doc, reqClientUrl);
+
+      if(metadata) sendingData.metadata['metaTitle'] = metadata.title;
+
+      _res_success(res, sendingData, "GET: parser: /urlmeta, complete.");
     }
     catch(error){
-        _handle_ErrCatched(error, req, res);
+      _handle_ErrCatched(error, req, res);
     }
 }
 

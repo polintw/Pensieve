@@ -27,7 +27,9 @@ class LinkFetch extends React.Component {
 }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-
+    if(prevProps.outboundLink != this.props.outboundLink){
+      this._set_clientUrlMetaData();
+    }
   }
 
   componentDidMount(){
@@ -41,11 +43,21 @@ class LinkFetch extends React.Component {
   }
 
   render(){
-    return(
+    return this.props.tagA ? (
         <a
             href={this.props.outboundLink}
             target={"_blank"}
             className={classnames('plainLinkButton', styles.linkOutbound)}>
+            {
+              this.props.quotationify &&
+              <span
+                className={classnames(
+                  'fontContentPlain', "colorEditBlack", styles.spanOutbound)}
+                  style={
+                    !!this.props.customStyle ? this.props.customStyle["common"] :{}}>
+                    {!!this.props.dashify ? " －《"　: "《"}
+                  </span>
+            }
             <span
                 className={classnames(
                     'fontContentPlain', "colorEditBlack", styles.spanOutbound,
@@ -56,11 +68,54 @@ class LinkFetch extends React.Component {
                 onMouseEnter={this._handleEnter_spanOutbound}
                 onMouseLeave={this._handleLeave_spanOutbound}
                 style={
-                  !!this.props.customStyle ? 
-                  this.state.onSpanOutbound ? this.props.customStyle["mouseOn"] : this.props.customStyle["regular"] :{}}>
+                  !!this.props.customStyle ?
+                  (this.state.onSpanOutbound ? this.props.customStyle["mouseOn"] : this.props.customStyle["common"] ):{}}>
                 {this.state.metaTitle}
             </span>
+            {
+              this.props.quotationify &&
+              <span
+                className={classnames(
+                  'fontContentPlain', "colorEditBlack", styles.spanOutbound)}
+                  style={
+                    !!this.props.customStyle ? this.props.customStyle["common"] :{}}>
+                    {"》"}
+                  </span>
+            }
         </a>
+    ): (
+      <div
+        className={classnames(styles.linkOutbound)}>
+        {
+          this.props.quotationify &&
+          <span
+            className={classnames(
+              'fontContentPlain', "colorEditBlack", styles.spanOutbound)}
+              style={
+                Object.assign({paddingRight: "3px"}, !!this.props.customStyle ? this.props.customStyle["common"] :{})}>
+                {!!this.props.dashify ? " －《"　: "《"}
+              </span>
+        }
+        <span
+          className={classnames(
+            'fontContentPlain', "colorEditBlack", styles.spanOutbound
+          )}
+          style={
+            !!this.props.customStyle ?
+            this.state.onSpanOutbound ? this.props.customStyle["mouseOn"] : this.props.customStyle["common"] :{}}>
+            {this.state.metaTitle}
+          </span>
+          {
+            this.props.quotationify &&
+            <span
+              className={classnames(
+                'fontContentPlain', "colorEditBlack", styles.spanOutbound)}
+                style={
+                  !!this.props.customStyle ? this.props.customStyle["common"] :{}}>
+                  {"》"}
+                </span>
+          }
+      </div>
     )
   }
 
@@ -73,10 +128,13 @@ class LinkFetch extends React.Component {
       this.setState((prevState, props)=>{
         let metaTitle = '';
         if ("metaTitle" in resObj.main.metadata){
-          metaTitle = "《" + resObj.main.metadata.metaTitle + "》"
+          metaTitle = resObj.main.metadata.metaTitle;
         } else { metaTitle = self.props.outboundLink};
         return {metaTitle: metaTitle};
       });
+      if ( ("metaTitle" in resObj.main.metadata) && ("_set_metaData" in self.props)){
+        self.props._set_metaData({metaTitle: resObj.main.metadata.metaTitle});
+      };
     })
     .catch(function (thrown) {
       self.setState({ axios: false });

@@ -10,6 +10,7 @@ import ImgsFrame from './ImgsFrame.jsx';
 import SidePanel from './SidePanel.jsx';
 import Inspired from '../components/Inspired/Inspired.jsx';
 import {NodesExtensible} from '../../NodesDisplay/NodesExtensible.jsx';
+import LinkFetch from '../../../Components/LinkFetch/LinkFetch.jsx';
 import LinkCopy from '../../../Components/LinkCopy/LinkCopy.jsx';
 import AccountPalette from '../../../Components/AccountPalette.jsx';
 import DateConverter from '../../../Components/DateConverter.jsx';
@@ -97,22 +98,10 @@ class Wrapper extends React.Component {
               <div
                 style={{display: 'flex', alignItems: 'center'}}>
                 <div style={{borderRight: 'solid 0.75px #a3a3a3', margin: '0 1.5rem', height: '3.6rem'}}/>
-                <a
-                  href={"https://"+ this.props.unitCurrent.outBoundLink.main}
-                  target={"_blank"}
-                  className={classnames('plainLinkButton', styles.linkOutbound)}>
-                  <span
-                    className={classnames(
-                      'fontContentPlain', "colorEditBlack", styles.spanOutbound,
-                      {
-                        [styles.spanOutboundActiv]: this.state.onSpanOutbound,
-                      }
-                    )}
-                    onMouseEnter={this._handleEnter_spanOutbound}
-                    onMouseLeave={this._handleLeave_spanOutbound}>
-                    {this.props.unitCurrent.outBoundLink.main}
-                  </span>
-                </a>
+                <LinkFetch
+                  tagA={true}
+                  quotationify={false}
+                  outboundLink={this.props.unitCurrent.outBoundLink.main}/>
               </div>
             }
           </div>

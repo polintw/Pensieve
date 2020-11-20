@@ -126,6 +126,7 @@ class CreateShare extends React.Component {
       refsArr: stateObj.refsArr,
       nodesSet: stateObj.nodesSet,
       submitTime: submitTime,
+      outboundLinkMain: stateObj.outboundLinkMain,
       authorIdentity: stateObj.authorIdentity
     };
     //all pure JS object or structure,

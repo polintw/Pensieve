@@ -105,6 +105,8 @@ class Wrapper extends React.Component {
                 style={{display: 'flex', alignItems: 'center'}}>
                 <div style={{borderRight: 'solid 0.75px #a3a3a3', margin: '0 1.5rem', height: '3.6rem'}}/>
                 <LinkFetch
+                  tagA={true}
+                  quotationify={false}
                   outboundLink={this.props.unitCurrent.outBoundLink.main}/>
               </div>
             }

@@ -1,10 +1,11 @@
 .linkOutbound {
   display: inline-block;
+  max-width: 100%;
 }
 
 .spanOutbound {
   display: inline-block;
-  max-width: 120px;
+  max-width: 132px;
   box-sizing: border-box;
   border-bottom: solid 0.75px transparent;
   overflow: hidden;
@@ -15,4 +16,3 @@
 .spanOutboundActiv {
   border-bottom: solid 0.75px #545454;
 }
-

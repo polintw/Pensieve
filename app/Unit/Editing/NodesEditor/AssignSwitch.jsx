@@ -97,7 +97,7 @@ class AssignSwitch extends React.Component {
     event.preventDefault();
     event.stopPropagation();
 
-    this.props._set_nodesEditView();
+    this.props._set_nodesEditView('nodeEditor');
   }
 
 

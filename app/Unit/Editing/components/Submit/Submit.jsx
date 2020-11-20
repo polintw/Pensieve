@@ -97,7 +97,7 @@ class Submit extends React.Component {
   }
 
   _render_AuthorMenu(){
-    return !!this.props.userInfo.pathName ? (
+    return (!!this.props.userInfo.pathName && this.props.unitView != "editing") ? (
       <div>
         <Button aria-controls="simple-menu" aria-haspopup="true" onClick={this._handleClick_btnMaterialMenu}>
           {this._render_IdentityBtn()}

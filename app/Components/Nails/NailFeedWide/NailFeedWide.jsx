@@ -157,7 +157,11 @@ const contentBoxMarks = (self)=>{
             {
               !!self.props.unitBasic.outboundLink &&
               <LinkFetch
-                outboundLink={self.props.unitBasic.outboundLink} />
+                tagA={false}
+                dashify={true}
+                quotationify={true}
+                outboundLink={self.props.unitBasic.outboundLink}
+                customStyle={{common: {fontStyle: 'italic'}}}/>
             }
           </div>
         </div>

@@ -7,6 +7,8 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import OutboundLinkView from './OutboundLink/OutboundLinkView.jsx';
+import BtnLinkEdit from './OutboundLink/BtnLinkEdit.jsx';
 import ContentEditor from './ContentEditor/ContentEditor.jsx';
 import NodesView from './NodesEditor/NodesView/NodesView.jsx';
 import AssignNodes from './NodesEditor/AssignNodes.jsx';
@@ -27,6 +29,7 @@ class EditingPanel extends React.Component {
       beneathSrc: null,
       beneathMarks: {list:[],data:{}},
       refsArr: [],
+      outboundLinkObj: {},
       authorIdentity: 'userAccount'
     };
     this._set_newImgSrc = this._set_newImgSrc.bind(this);
@@ -35,9 +38,19 @@ class EditingPanel extends React.Component {
     this._set_nodesEditView = this._set_nodesEditView.bind(this);
     this._submit_new_node = this._submit_new_node.bind(this);
     this._submit_newShare = this._submit_newShare.bind(this);
+    this._submit_new_mainLink = this._submit_new_mainLink.bind(this);
     this._submit_deleteNodes= this._submit_deleteNodes.bind(this);
     this._render_importOrCover = this._render_importOrCover.bind(this);
+    this._render_PanelView = this._render_PanelView.bind(this);
     this._set_authorIdentity = (chosenIdentity)=>{ this.setState({ authorIdentity: chosenIdentity}); };
+  }
+
+  _submit_new_mainLink(linkObj){
+    this.setState((prevState, props)=>{
+      return {
+        outboundLinkObj: linkObj
+      };
+    })
   }
 
   _submit_new_node(nodesArr){
@@ -110,6 +123,8 @@ class EditingPanel extends React.Component {
     newObj.coverMarks.list.forEach((markKey, index)=>{
       newObj.coverMarks.data[markKey].layer = 0;
     });
+    // clean the outboundLinkObj to submit
+    newObj["outboundLinkMain"] = ("urlString" in newObj.outboundLinkObj) ? newObj.outboundLinkObj['urlString'] : null;
     /*
     a part dealing with a depracated belong type, 'both', was removed from this section
     */
@@ -148,51 +163,64 @@ class EditingPanel extends React.Component {
     }
   }
 
-  render(){
-    return(
-      <div
-        className={classnames(styles.comEditingPanel)}
-        onClick={(e)=>{e.preventDefault();e.stopPropagation();/*prevent bubbling to bg of wherever it was called*/}}>
-          {
-            this.state.nodesShift ? (
-            <div
-              className={classnames(
-                styles.boxContent,
-                styles.boxContentWidth, styles.boxPanelHeight, styles.boxPanelPadding)}>
-              <NodesView
-                nodesSet={this.state.nodesSet}
-                _submit_new_node={this._submit_new_node}
+  _render_PanelView(){
+    switch (this.state.nodesShift) {
+      case 'nodeEditor':
+        return (
+          <div
+            className={classnames(
+              styles.boxContent,
+              styles.boxContentWidth, styles.boxPanelHeight, styles.boxPanelPadding)}>
+            <NodesView
+              nodesSet={this.state.nodesSet}
+              _submit_new_node={this._submit_new_node}
+              _set_nodesEditView={this._set_nodesEditView}/>
+          </div>
+        )
+        break;
+      case 'outboundLink':
+        return (
+          <div
+            className={classnames(
+              styles.boxContent,
+              styles.boxContentWidth, styles.boxPanelHeight, styles.boxPanelPadding)}>
+              <OutboundLinkView
+                _submit_new_mainLink={this._submit_new_mainLink}
                 _set_nodesEditView={this._set_nodesEditView}/>
-            </div>
-            ) :(
+          </div>
+        )
+        break;
+      default:
+        return (
+          <div
+            className={classnames(
+              styles.boxContent,
+              styles.boxContentWidth, styles.boxPanelHeight, styles.boxPanelPadding)}>
             <div
-              className={classnames(
-                styles.boxContent,
-                styles.boxContentWidth, styles.boxPanelHeight, styles.boxPanelPadding)}>
+              className={classnames(styles.boxSubmit)}>
+              <Submit
+                editing={this.state.contentEditing}
+                authorIdentity={this.state.authorIdentity}
+                contentPermit={(!this.state["coverSrc"] || this.state['nodesSet'].length < 1) ? false : true}
+                confirmDialog={!!this.props.confirmDialog ? this.props.confirmDialog : false}
+                warningDialog={!!this.props.warningDialog ? this.props.warningDialog : false}
+                _set_Clear={this.props._set_Clear}
+                _set_authorIdentity = {this._set_authorIdentity}
+                _submit_newShare={this._submit_newShare} />
+            </div>
+            <div
+              className={classnames(styles.boxFrame)}>
+              {this._render_importOrCover()}
+            </div>
+            <div
+              className={classnames(styles.boxNodesList)}>
               <div
-                className={classnames(styles.boxSubmit)}>
-                <Submit
-                  editing={this.state.contentEditing}
-                  authorIdentity={this.state.authorIdentity}
-                  contentPermit={(!this.state["coverSrc"] || this.state['nodesSet'].length < 1) ? false : true}
-                  confirmDialog={!!this.props.confirmDialog ? this.props.confirmDialog : false}
-                  warningDialog={!!this.props.warningDialog ? this.props.warningDialog : false}
-                  _set_Clear={this.props._set_Clear}
-                  _set_authorIdentity = {this._set_authorIdentity}
-                  _submit_newShare={this._submit_newShare} />
+                className={classnames(styles.boxSubtitle, "fontContent", "colorEditLightBlack")}>
+                {this.props.i18nUIString.catalog["guidingCreateShare_AssignGroup"]}
               </div>
               <div
-                className={classnames(styles.boxFrame)}>
-                {this._render_importOrCover()}
-              </div>
-              <div
-                className={classnames(styles.boxNodesList)}>
-                <div
-                  className={classnames(styles.boxSubtitle, "fontContent", "colorEditLightBlack")}>
-                  {this.props.i18nUIString.catalog["guidingCreateShare_AssignGroup"]}
-                </div>
-                <div
-                  className={classnames(styles.boxAssignedNodes)}>
+                className={classnames(styles.boxAssignedNodes)}>
+                <div style={{flex: '1'}}>
                   <AssignNodes
                     nodesSet={this.state.nodesSet}
                     nodeDelete={false}
@@ -201,10 +229,27 @@ class EditingPanel extends React.Component {
                     nodesSet={this.state.nodesSet}
                     _set_nodesEditView={this._set_nodesEditView}/>
                 </div>
+                <div
+                  className={classnames(styles.boxNodesRowBtnLink)}>
+                  <BtnLinkEdit
+                    outboundLinkObj={this.state.outboundLinkObj}
+                    _set_nodesEditView={this._set_nodesEditView}/>
+                </div>
               </div>
             </div>
-            )
-          }
+          </div>
+        )
+    }
+  }
+
+  render(){
+    return(
+      <div
+        className={classnames(styles.comEditingPanel)}
+        onClick={(e)=>{e.preventDefault();e.stopPropagation();/*prevent bubbling to bg of wherever it was called*/}}>
+        {
+          this._render_PanelView()
+        }
 
         {
           this.props.unitSubmitting &&
@@ -223,10 +268,10 @@ class EditingPanel extends React.Component {
     )
   }
 
-  _set_nodesEditView(){
+  _set_nodesEditView(viewStr){
     this.setState((prevState, props)=>{
       return {
-        nodesShift: prevState.nodesShift? false : true
+        nodesShift: viewStr
       };
     })
   }

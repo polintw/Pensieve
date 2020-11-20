@@ -147,7 +147,8 @@ async function shareHandler_POST(req, res){
       'url_pic_layer1': modifiedBody.url_pic_layer1,
       'id_primer': null,
       'author_identity': authorIdentityObj.identity,
-      'used_authorId': ("usedId" in authorIdentityObj) ? authorIdentityObj.usedId : null
+      'used_authorId': ("usedId" in authorIdentityObj) ? authorIdentityObj.usedId : null,
+      'outboundLink_main': (!!modifiedBody.outboundLinkMain && typeof(modifiedBody.outboundLinkMain)=="string" ) ? modifiedBody.outboundLinkMain : null
     };
     return new Promise ((resolveLoc, rejectLoc)=>{
       if(!!modifiedBody.primer){
