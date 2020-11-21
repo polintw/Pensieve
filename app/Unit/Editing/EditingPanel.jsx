@@ -29,8 +29,9 @@ class EditingPanel extends React.Component {
       beneathSrc: null,
       beneathMarks: {list:[],data:{}},
       refsArr: [],
-      outboundLinkObj: !!this.props.unitSet ? this.props.unitCurrent.outBoundLink : {},
-      authorIdentity: !!this.props.unitSet ? this.props.unitSet.authorBasic.authorIdentity : 'userAccount'
+      outboundLinkObj: !!this.props.unitSet ? this.props.unitSet.outboundLinkObj : {},
+      authorIdentity: !!this.props.unitSet ?
+      ((this.props.unitSet.authorBasic['authorIdentity'] == 'user') ? 'userAccount': this.props.userInfo.pathName) : 'userAccount'
     };
     this._set_newImgSrc = this._set_newImgSrc.bind(this);
     this._set_Mark_Complete = this._set_Mark_Complete.bind(this);

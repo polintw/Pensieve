@@ -131,8 +131,8 @@ class Submit extends React.Component {
           styleLast={{
             fontSize: '1.4rem',
           }}
-          accountFirstName={this.props.userInfo.firstName}
-          accountLastName={this.props.userInfo.lastName}/>
+          accountFirstName={ (this.props.authorIdentity=="userAccount") ? this.props.userInfo.firstName : null}
+          accountLastName={ (this.props.authorIdentity=="userAccount") ? this.props.userInfo.lastName : this.props.userInfo.pathProject}/>
       </div>
     )
   }
