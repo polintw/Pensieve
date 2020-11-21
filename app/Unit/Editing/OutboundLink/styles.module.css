@@ -69,6 +69,7 @@
 }
 
 .boxInput {
+  width: 64%;
   border-bottom: 1px solid #d8d8d8;
   padding: 0 1.4rem 0.4rem;
 }
@@ -100,4 +101,8 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.comBtnLinkEdit {
+  display: flex;
 }

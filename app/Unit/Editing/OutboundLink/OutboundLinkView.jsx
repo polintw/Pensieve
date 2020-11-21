@@ -74,7 +74,7 @@ class OutboundLinkView extends React.Component {
         </div>
         <div
           className={classnames(styles.seperationBottom, styles.boxAssignedNodes)}
-          style={{maxWidth: '100%'}}>
+          style={{maxWidth: '80%', padding: '0 1.4rem 0.4rem'}}>
           {
             this.state.urlFetching.length > 0 &&
             <LinkFetch
@@ -82,7 +82,7 @@ class OutboundLinkView extends React.Component {
               dashify={false}
               quotationify={false}
               outboundLink={this.state.urlFetching}
-              customStyle={{common: {maxWidth: '100%', fontWeight: 'bold', }}}
+              customStyle={{common: {maxWidth: '100%', fontWeight: 'bold', fontSize: '1.6rem'}}}
               _set_metaData={this._set_metaData}/>
           }
         </div>

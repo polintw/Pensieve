@@ -29,8 +29,8 @@ class EditingPanel extends React.Component {
       beneathSrc: null,
       beneathMarks: {list:[],data:{}},
       refsArr: [],
-      outboundLinkObj: {},
-      authorIdentity: 'userAccount'
+      outboundLinkObj: !!this.props.unitSet ? this.props.unitCurrent.outBoundLink : {},
+      authorIdentity: !!this.props.unitSet ? this.props.unitSet.authorBasic.authorIdentity : 'userAccount'
     };
     this._set_newImgSrc = this._set_newImgSrc.bind(this);
     this._set_Mark_Complete = this._set_Mark_Complete.bind(this);
@@ -220,7 +220,7 @@ class EditingPanel extends React.Component {
               </div>
               <div
                 className={classnames(styles.boxAssignedNodes)}>
-                <div style={{flex: '1'}}>
+                <div style={{display: 'flex', flex: '1'}}>
                   <AssignNodes
                     nodesSet={this.state.nodesSet}
                     nodeDelete={false}

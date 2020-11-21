@@ -31,7 +31,8 @@ class BtnLinkEdit extends React.Component {
 
   render(){
     return (
-      <div>
+      <div
+        className={classnames(styles.comBtnLinkEdit)}>
         <div
           className={classnames(styles.boxSvgEditLink)}
           onMouseEnter={this._handleEnter_svgBtn}
@@ -48,7 +49,7 @@ class BtnLinkEdit extends React.Component {
         {
           ("urlString" in this.props.outboundLinkObj &&
           this.props.outboundLinkObj["urlString"].length > 0 ) &&
-            <div>
+            <div style={{margin: '0 0 0 6px'}}>
               <span
                 className={classnames(
                   'fontContentPlain', "colorEditBlack", styles.spanOutbound

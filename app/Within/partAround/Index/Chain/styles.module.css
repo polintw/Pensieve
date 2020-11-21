@@ -178,4 +178,7 @@
     overflow: hidden;
   }
 
+  .boxImg {
+    min-width: 81px;
+  }
 }
