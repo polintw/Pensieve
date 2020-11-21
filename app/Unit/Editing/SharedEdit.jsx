@@ -114,6 +114,7 @@ class SharedEdit extends React.Component {
       joinedMarksList: stateObj.coverMarks.list.concat(stateObj.beneathMarks.list),
       refsArr: stateObj.refsArr,
       nodesSet: stateObj.nodesSet,
+      outboundLinkMain: stateObj.outboundLinkMain,
       submitTime: submitTime
     };
     //all pure JS object or structure,

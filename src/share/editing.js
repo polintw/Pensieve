@@ -84,46 +84,9 @@ async function _handle_unit_AuthorEditing(req, res){
         throw err
       });
     };
-    const handlerNodesSet = ()=>{
-      // prepared to insert into attribution
-      let assignedNodes= modifiedBody.nodesSet.map((assignedObj, index)=>{
-        return assignedObj.nodeId;
-      });
-      return _DB_nouns.findAll({
-        where: {id: assignedNodes}
-      })
-      .then(results => {
-        //make nodes array by rows
-        let nodesArr = results.map((row, index)=>{
-              return ({
-                id_noun: row.id,
-                id_unit: unitId,
-                id_author: userId
-              })
-            });
-        //then create into table attribution
-        return _DB_attribution.destroy({where: {id_unit: unitId}})
-        .then(()=>{
-          return _DB_attribution.bulkCreate(nodesArr, {
-            fields: ['id_unit', 'id_author', 'id_noun']
-          })
-          .then(()=>{
-            return;
-          })
-          .catch((err)=> {throw err});
-        })
-        .catch((err)=>{
-          throw err
-        });
-      })
-      .catch((err)=>{
-        throw err
-      });
-    }
 
     Promise.all([
       new Promise((resolve, reject)=>{creationMarks().then((marksIdList)=>{resolve(marksIdList);});}),
-      new Promise((resolve, reject)=>{handlerNodesSet().then(()=>{resolve();});})
     ])
     .then((results)=>{
       let marksIdList = results[0];
