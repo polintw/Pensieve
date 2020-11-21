@@ -21,8 +21,9 @@ main.use(function(req, res, next) {
   let tokenify = req.extra.tokenify;
   //deal the situation if the token did not pass the check in last step
   if(!tokenify){
-    let pathSplice = req.path.match(/\/(.*?)\//); //would always return the '1st' of '/.../', and now the .path() would be path 'after' /units/
-    let secondPath = !!pathSplice ? pathSplice[1] : 'single' ; // the path ending with ':exposedId' would get a null in pathSplice
+    let pathString = req.path + '/'; // to make a string match the beneath rex
+    let pathSplice = pathString.match(/\/(.*?)\//); //would always return the '1st' of '/.../', and now the .path() would be path 'after' /units/
+    let secondPath = !!pathSplice ? pathSplice[1] : 'noParamAfter' ; // the path do not has any param after /units would get a null in pathSplice
     /*
     ref:
     stackoverflow: https://stackoverflow.com/questions/5642315/regular-expression-to-get-a-string-between-two-strings-in-javascript/40782646
@@ -33,9 +34,6 @@ main.use(function(req, res, next) {
       _handle_ErrCatched(new authorizedError(message, 89), req, res);
     }
     switch (secondPath) { //pathSplice should be e.g "[/numerous/,numerous, ...]"
-      case 'numerous':
-        noTokenHandler();
-        break;
       case 'primer':
         noTokenHandler();
         break;
@@ -53,11 +51,13 @@ main.use(function(req, res, next) {
 //then other middleware after the permission check
 
 // path has token
-main.use('/numerous', numerousExecutive)
 main.use('/primer', primerExecutive)
 main.use('/responds', respondsExecutive)
 
+
 // path do not need a token
+
+main.use('/numerous', numerousExecutive)
 // remember put the pathe with ':id' after the others.
 main.param("exposedId", (req, res, next, exposedId)=>{
   req.reqExposedId = exposedId;

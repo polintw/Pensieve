@@ -5,7 +5,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
-import {NodeSearchModule} from '../../../../Components/Node/NodeSearchModule.jsx';
+import {NodeSearchModule} from '../../../../Components/NodesSearch/NodeSearchModule.jsx';
 import {
   handleNounsList,
 } from "../../../../redux/actions/general.js";

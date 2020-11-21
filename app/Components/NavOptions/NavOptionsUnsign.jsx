@@ -23,7 +23,7 @@ class NavOptionsUnsign extends React.Component {
     */
     let currentPath = this.props.location.pathname;
 
-    if(this.props.location.pathname.includes('explore/unit')){
+    if(this.props.location.pathname.includes('cosmic/explore/')){
       return(
         <div
           id={"NavOptions_Self_small"}
@@ -55,7 +55,7 @@ class NavOptionsUnsign extends React.Component {
           and the rest (>860px) would rely on the next DOM beneath*/
         }
         { // only show up on /unit view
-          (this.props.location.pathname.includes('explore/unit')) &&
+          (this.props.location.pathname.includes('cosmic/explore/')) &&
           <div
             id={"NavOptions_Self_"}
             className={classnames(

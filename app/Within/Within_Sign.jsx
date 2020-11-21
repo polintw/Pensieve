@@ -9,6 +9,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import WithinSign from './partSign/WithinSign.jsx';
+import PathProject from './partExplore/PathProject/Wrapper.jsx';
 import UnitUnsign from '../Unit/UnitUnsign/UnitUnsign.jsx';
 import NavWithin from '../Components/NavWithin/NavWithin.jsx';
 import NavOptionsUnsign from '../Components/NavOptions/NavOptionsUnsign.jsx';
@@ -85,7 +86,7 @@ class Within_Sign extends React.Component {
         <div
           className={classnames(styles.comWithinSign)}>
           <Switch>
-            <Route path="/cosmic/explore/unit" render={(props)=> UnsignWithinCosmic(props, this) }/>
+            <Route path="/cosmic/explore" render={(props)=> UnsignWithinCosmic(props, this) }/>
             <Route path="/" render={(props)=> UnsignWithin(props, this) }/>
           </Switch>
         </div>
@@ -128,7 +129,9 @@ const UnsignWithinCosmic = ( routeProps, parent) => {
         <div
           className={classnames(styles.boxAroundContentCenter)}>
           <Switch>
-            <Route render={(routeProps)=> <UnitUnsign {...routeProps} _refer_von_unit={parent._refer_von_Sign}/>}/>
+            <Route path={routeProps.match.path + "/unit"} render={(innerRouteProps)=> <UnitUnsign {...innerRouteProps} _refer_von_unit={parent._refer_von_Sign}/>}/>
+            <Route path={routeProps.match.path + "/path/:pathName"} render={(innerRouteProps)=> <PathProject {...innerRouteProps} _refer_to={parent._refer_von_Sign}/>}/>
+            <Route path={routeProps.match.path + "/"} render={(routeProps)=> <Redirect to={'/'}/>}/>
           </Switch>
         </div>
         <div

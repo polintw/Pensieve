@@ -1,0 +1,108 @@
+.comNodesView{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-around;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.boxForm {
+  width: 100%;
+}
+
+.boxNodesEditTitle {
+
+}
+
+.boxAssignedNodes {
+  min-height: 39px;
+}
+
+.rowBtn {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+}
+
+.boxBtnDone {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  height: 32px;
+  border-radius: 4px;
+  padding: 2px 18px;
+  border: solid 1.2px #ff8168;
+  cursor: pointer;
+}
+
+.boxBtnCancel { /* actually follow the .boxBtnDone*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  height: 32px;
+  border-radius: 4px;
+  padding: 2px 18px;
+  border: solid 1.2px transparent;
+  cursor: pointer;
+}
+
+.mouseonBtnDone {
+  background-color: #ff8168;
+  border: solid 1.2px transparent;
+}
+
+.mouseonBtnCancel {
+  background-color: #757575;
+}
+
+.seperationBottom {
+  margin-bottom: 2.54vh;
+}
+
+.btnSideSeparation {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.boxInput {
+  width: 64%;
+  border-bottom: 1px solid #d8d8d8;
+  padding: 0 1.4rem 0.4rem;
+}
+
+.boxInput input {
+  display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font: inherit;
+}
+
+.boxInputFocus {
+  border-bottom: 1px solid #444444;
+}
+
+.boxSvgEditLink {
+  height: 18px;
+  margin: 2px 4px 0 0;
+  cursor: pointer;
+}
+
+.spanOutbound {
+  display: inline-block;
+  max-width: 132px;
+  box-sizing: border-box;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.comBtnLinkEdit {
+  display: flex;
+}

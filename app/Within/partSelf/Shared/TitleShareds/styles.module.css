@@ -1,0 +1,23 @@
+.comTitleShareds {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.boxUpperRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.boxNavLink {
+  padding: 5px 0 0 1rem;
+  border-radius: 4px;
+  cursor: default;
+}
+
+.boxNavLinkMouse {
+  padding: 5px 1rem;
+  background-color: rgb(216,216,216,0.15);
+  cursor: pointer;
+}

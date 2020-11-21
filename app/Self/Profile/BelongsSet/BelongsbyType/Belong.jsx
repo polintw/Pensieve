@@ -6,7 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import SearchModal from '../../../../Components/Node/SearchModal/SearchModal.jsx';
+import SearchModal from '../../../../Components/NodesSearch/SearchModal/SearchModal.jsx';
 
 
 class Belong extends React.Component {

@@ -24,6 +24,12 @@
   cursor: default; /* block the 'pointer' setting inherit from parent*/
 }
 
+.boxToolBoxExplore {
+  top: unset;
+  bottom: 126%;
+  left: -9%;
+}
+
 .boxOlist {
   padding: 0 0 0.5rem 1rem;
   margin: 0 0 2rem;

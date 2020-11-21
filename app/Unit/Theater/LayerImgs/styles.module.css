@@ -96,17 +96,6 @@
   cursor: default;
 }
 
-.spanResponds {
-  display: inline-block;
-  box-sizing: border-box;
-  border-bottom: solid 0.75px transparent;
-  cursor: pointer;
-}
-
-.spanRespondsActiv {
-  border-bottom: solid 0.75px #545454;
-}
-
 .comImgLayer {
   width: 100%;
   height: 100%;
@@ -114,6 +103,7 @@
   box-sizing: border-box;
   border-radius: 4px;
 }
+
 
 @media screen and (max-width:860px) {
   .boxFrameAuthor {

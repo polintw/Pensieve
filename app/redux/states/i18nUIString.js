@@ -90,6 +90,7 @@ const i18nUIString_EN = {
   "text_users": "users",
   "text_home": 'Homeland',
   "text_resid": "Residence",
+  "test_or_minor": "or",
   "message_hello": "Hi, ",
   "submit_": "Submit",
   "submit_back": "Back", //Original:"back"
@@ -106,17 +107,26 @@ const i18nUIString_EN = {
   "submit_respond": "Respond",
   "submit_yes": "Yes",
   "submit_logout": "Log out",
+  "submit_unitPublish": "Publish",
   "title_welcome": 'OnBoard',
   "title_instruction": "Instruction",
   "title_share": "Share",
   "title_profile": "Profile",
   "title_home": "Home",
+  "title_Expand": "Expand",
+  "title_Chain_Shareds_": "Your Publications",
+  "title_selfPublications": "Your Publications",
+  "title_yourShareds": 'Shareds',
+  "title_shared": "Shareds",
   "subtitle_email": "Email",
   "subtitle_Password": "Password",
   "link_UnitListResponds": 'View Responds',//Original:'responds'
   "link_Fellows": 'Fellows',
   "Cornerth_inc": "Cornerth. ",
   "AllRights": "All Rights Reserved.",
+
+  "link_Nav_Shareds_": ["<> ", "Personal"],
+  "descript_Shareds_pathLink": " as ",
 
   "submit_Options_profile": "My profile",
   "submit_Unit_upload": ["Add image", "Processing..."],
@@ -135,11 +145,12 @@ const i18nUIString_EN = {
   "tagTitle_Unit_LinkCopy": "Copy share link",
   "message_Unit_LinkCopy": "Copied to clipboard",
 
-  "title_shareUpload_typewriter": ['S','u','b','m','i', 't'],
+  "title_shareUpload_typewriter": ['S','h','a','r','e', '!'],
   "guidingCreateShare_AssignGroup": "Assign to",//Changed "corner(s)" to "Corner(s)"
   "guidingCreateShare_AssignNull": "Haven't register any ",//Changed "please" to "Please"
   "guidingCreateShare_NodesView": "Assign to Corners by one or several methods of below:",
   "guidingCreateShare_NodesView_selectHint": "No selection yet.",
+  "guidingCreateShare_outboundLinkView": "Input a url address if you want to show a link!",
   "subTitle_CreateShare_AssignTypes": ["Your Homeland", "Your Residence", "or, search one"],
   "message_CreateShare_basicRequireWarn": "Make sure you've already upload 1 image and pick at least 1 corner to which you want to contribute.",
   "message_Unit_Editing_AssignNotAllowed": "We're sorry. Your contribution Can't be changed once released since it's linked either to the markup or location.", //Original:"the corner linked to could Not be changed after first release."
@@ -153,11 +164,10 @@ const i18nUIString_EN = {
   "title_FeedAssigned_AllRead": "You're up-to-date.",//Original:"you've all browsed."
   "title_FeedAssigned_": "Gathering",
   "hint_FeedAssigned_belongedBase": "by your corners ",
-  "guiding_FeedAssigned_noneAssigned": ["You're pretty current!","New contributions around your corners would be show up here."],//Original:"Not yet any new unit had been contributed to your corners."
+  "guiding_FeedAssigned_noneAssigned": ["You're pretty current!","New publications around your corners would be show up here."],//Original:"Not yet any new unit had been contributed to your corners."
   "guiding_FeedAssigned_noneAssigned_justSubmit": "Good to have your contrubution.",
   "guiding_FeedAssigned_noneAssigned_norContri": "It could be you contributing somthing to your corners!", //Original:"It could be you contributing somthing for your corners!"
 
-  "title_Chain_Shareds_": "Contributions",
   "message_Chain_noShareds": "You'll see the list of your contributions here.",
   "message_Chain_noSharedsCourage": "Submit your first one!",//Original:"Trying submitting an observation about your corners."
   "message_Chain_byChainInfo": [
@@ -185,14 +195,24 @@ const i18nUIString_EN = {
   "title_BelongSet_": "Your Corners",
   "descript_BelongSet_SearchBytType": ["Search one fit your "],
   "descript_AroundIndex_footer": "You've reached the edge of Cornerth.!",
-  "guiding_AroundIndex_Share": "What’s around your corner?", //Original:"how's your corners"
+  "guiding_AroundIndex_Share": "A new finding?", //Original:"how's your corners"
   'descript_AroundIndex_footer_BelongHint': "Start browsing by setting your current stay or homeland!",
 
   "descript_Nail_noMark": "(expand image...)",
 
-  "title_NavAtNode_": "Accumulated",
+  "title_NavAtNode_": "Accumulation",
   "subtitle_NavAtNode_Num": ['stay', "from"],
   "guiding_AtNode_noAccumulated": "Waiting for the first contribution!",
+
+  "hint_PathProject_FilterNode": "Filter accumulations by nodes beneath",
+  "message_PathProject_ShareLink": "Link has copied",
+  "btn_PathProject_ShareLink": "to Share",
+  "tagTitle_PathProject_ShareLink": "Copy to share your Brand",
+
+  "hint_nodesFilter_nodeExplore": "Explore to node",
+  "hint_nodesFilter_nodeNotYet": "Not yet visit!",
+  "title_nodesFilter_LayerBase": "From base",
+  "btn_nodesFilter_layerOptions": ['Among All', 'Used', 'Upper'],
 
   "text_about": [[
     "We are Cornerth, a start-up team base on Taiwan, establishing this web app on the thought providing people an easier way to notice and learn from their living environment.",

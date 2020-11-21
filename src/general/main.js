@@ -7,7 +7,8 @@ const {
 } = require('../utils/reserrHandler.js');
 
 const invitationExcutive = require('./invitation.js');
-const usersExcutive = require('./users.js');
+const basicExcutive = require('./basic.js');
+const parseExcutive = require('./parser.js');
 
 /*
   Notice! Check First!
@@ -18,7 +19,9 @@ main.use(function (req, res, next) {
     let tokenify = req.extra.tokenify;
     //deal the situation if the token did not pass the check in last step
     if(!tokenify){
-      let pathSplice = req.path.match(/\/(.*?)\//); //would always return the '1st' of '/.../', and now the .path() would be path 'after' /general/
+      let pathString = req.path + '/'; // to make a string match the beneath rex
+      let pathSplice = pathString.match(/\/(.*?)\//); //would always return the '1st' of '/.../', and now the .path() would be path 'after' /units/
+      let secondPath = !!pathSplice ? pathSplice[1] : 'noParamAfter' ; // the path do not has any param after /units would get a null in pathSplice
       /*
       ref:
       stackoverflow: https://stackoverflow.com/questions/5642315/regular-expression-to-get-a-string-between-two-strings-in-javascript/40782646
@@ -29,7 +32,13 @@ main.use(function (req, res, next) {
         _handle_ErrCatched(new authorizedError(message, 89), req, res);
       };
       switch (pathSplice[1]) { //pathSplice should be e.g "[/invitation/,invitation, ...]"
+        case 'parser':
+          next();
+          break;
         case 'invitation':
+          next();
+          break;
+        case 'basic':
           next();
           break;
         default:
@@ -43,8 +52,11 @@ main.use(function (req, res, next) {
 //middleware not need token
 main.use('/invitation', invitationExcutive)
 
+main.use('/basic', basicExcutive)
+
+main.use('/parser', parseExcutive)
+
 //then other middleware after the permission check
 
-main.use('/users', usersExcutive)
 
 module.exports = main;

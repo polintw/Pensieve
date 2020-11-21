@@ -12,25 +12,25 @@ import AuthorStatics from './Author/AuthorStatics.jsx';
 import Inspired from '../components/Inspired/Inspired.jsx';
 import Primer from '../components/Primer.jsx';
 import {NodesExtensible} from '../../NodesDisplay/NodesExtensible.jsx';
+import LinkFetch from '../../../Components/LinkFetch/LinkFetch.jsx';
 import ImgPreview from '../../../Components/ImgPreview.jsx';
 import LinkCopy from '../../../Components/LinkCopy/LinkCopy.jsx';
 import AccountPalette from '../../../Components/AccountPalette.jsx';
 import DateConverter from '../../../Components/DateConverter.jsx';
+import {
+  domain
+} from '../../../../config/services.js';
 
 class Wrapper extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       onPrimerImg: false,
-      onSpanResponds: false
     };
     this._handleClick_Account = this._handleClick_Account.bind(this);
     this._handleEnter_primerImg = this._handleEnter_primerImg.bind(this);
     this._handleLeave_primerImg = this._handleLeave_primerImg.bind(this);
-    this._handleEnter_spanResponds = this._handleEnter_spanResponds.bind(this);
-    this._handleLeave_spanResponds = this._handleLeave_spanResponds.bind(this);
     this._handleClick_Primerhref = this._handleClick_Primerhref.bind(this);
-    this._handleClick_LinkListResponds = this._handleClick_LinkListResponds.bind(this);
   }
 
   _handleClick_Account(event){
@@ -98,24 +98,18 @@ class Wrapper extends React.Component {
                 <Inspired/>
               </div>
             }
-            <div style={{borderRight: 'solid 0.75px #a3a3a3', margin: '0 1.5rem', height: '3.6rem'}}/>
-            <div>
-              {
-                (this.props.guidingNailsId.indexOf(this.props.unitCurrent.unitId) < 0) && // guidingNails do not show the Respond & view responds
-                <span
-                  className={classnames(
-                    'colorEditBlack',
-                    'fontContentPlain',
-                    styles.spanResponds,
-                    {[styles.spanRespondsActiv]: this.state.onSpanResponds}
-                  )}
-                  onClick={this._handleClick_LinkListResponds}
-                  onMouseEnter={this._handleEnter_spanResponds}
-                  onMouseLeave={this._handleLeave_spanResponds}>
-                  {this.props.i18nUIString.catalog['link_UnitListResponds']}
-                </span>
-              }
-            </div>
+            {
+              (("main" in this.props.unitCurrent.outBoundLink)  &&
+              !!this.props.unitCurrent.outBoundLink.main) &&
+              <div
+                style={{display: 'flex', alignItems: 'center'}}>
+                <div style={{borderRight: 'solid 0.75px #a3a3a3', margin: '0 1.5rem', height: '3.6rem'}}/>
+                <LinkFetch
+                  tagA={true}
+                  quotationify={false}
+                  outboundLink={this.props.unitCurrent.outBoundLink.main}/>
+              </div>
+            }
           </div>
           <div
             className={classnames(styles.boxBottomLeft)}>
@@ -126,8 +120,16 @@ class Wrapper extends React.Component {
                 onClick={this._handleClick_Account}>
                 <AccountPalette
                   size={'layer'}
-                  accountFirstName={this.props.unitCurrent.authorBasic.firstName}
-                  accountLastName={this.props.unitCurrent.authorBasic.lastName}/>
+                  referLink={
+                    (this.props.unitCurrent.authorBasic['authorIdentity'] == 'user') ?
+                      false : (domain.protocol + "://" + domain.name+ '/cosmic/explore/path/' + this.props.unitCurrent.authorBasic['pageLink'])
+                  }
+                  accountFirstName={
+                    (this.props.unitCurrent.authorBasic['authorIdentity'] == 'user') ?
+                    this.props.unitCurrent.authorBasic.firstName: null}
+                  accountLastName={
+                    (this.props.unitCurrent.authorBasic['authorIdentity'] == 'user') ?
+                      this.props.unitCurrent.authorBasic.lastName : this.props.unitCurrent.authorBasic.account}/>
               </div>
               <div
                 className={classnames(styles.boxBottomLower)}>
@@ -185,37 +187,12 @@ class Wrapper extends React.Component {
     });
   }
 
-  _handleClick_LinkListResponds(event) {
-    event.preventDefault();
-    event.stopPropagation();
-    this.props._set_state_UnitView("related");
-    // now the unitView was switch by the param in URL
-    if(!this.props.location.pathname.includes('explore/unit')){
-      // the browser, which do not know the origin it has was modified, need to be modified again to have the pratical history
-      window.history.replaceState(this.props.location.state, '', this.props.location.pathname+this.props.location.search);
-    };
-    let nextSearch = this.props.location.search.replace("unitView=theater","unitView=related");
-    this.props.history.push({
-      pathname: this.props.match.path,
-      search: nextSearch,
-      state: {from: this.props.location}
-    });
-  }
-
   _handleEnter_primerImg(e){
     this.setState({onPrimerImg: true})
   }
 
   _handleLeave_primerImg(e){
     this.setState({onPrimerImg: false})
-  }
-
-  _handleEnter_spanResponds(e){
-    this.setState({onSpanResponds: true})
-  }
-
-  _handleLeave_spanResponds(e){
-    this.setState({onSpanResponds: false})
   }
 
 }

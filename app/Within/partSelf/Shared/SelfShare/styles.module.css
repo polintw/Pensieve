@@ -1,0 +1,15 @@
+.boxGuiding {
+  height: 21px; /* height of 14px text  */
+  margin-bottom: 1rem;
+}
+
+.boxShareUpload {
+  width: 100%;
+  height: 17.76vh;
+}
+
+@media screen and (max-width:860px) {
+  .boxGuiding {
+    display: none;
+  }
+}
