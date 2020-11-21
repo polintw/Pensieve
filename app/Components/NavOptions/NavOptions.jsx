@@ -70,6 +70,10 @@ class NavOptions extends React.Component {
             accountFirstName={this.props.userInfo.firstName}
             accountLastName={this.props.userInfo.lastName}
             styleFirst={{ fontWeight: '600' }}/>
+          {
+            this.state.toolBoxify &&
+            this._render_NavToolBox()
+          }
         </div>
 
       )
@@ -78,13 +82,15 @@ class NavOptions extends React.Component {
   }
 
   _render_NavToolBox(){
+    let currentPath = this.props.location.pathname;
+
     return (
       <div>
         <div
           className={classnames(
+            'colorOptionsBlack', 'fontContent',
             styles.selfCom_NavOptions_ToolBox_,
-            styles.fontContent,
-            'colorOptionsBlack'
+            {[styles.boxToolBoxExplore]: currentPath.includes('/cosmic/explore')}
           )}
           onClick={(e)=>{ e.stopPropagation(); /* Important! Stop proppagation to wrapper, which would change state*/}}>
           <div style={{marginBottom: '2rem'}}>
@@ -156,11 +162,11 @@ class NavOptions extends React.Component {
               accountLastName={this.props.userInfo.lastName}
               styleFirst={{ display: 'block', fontWeight: '600' }}
               styleLast={{ display: 'block'}} />
+            {
+              this.state.toolBoxify &&
+              this._render_NavToolBox()
+            }
           </div>
-        }
-        {
-          this.state.toolBoxify &&
-          this._render_NavToolBox()
         }
       </div>
     )

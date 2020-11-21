@@ -10,6 +10,7 @@ import ImgsFrame from './ImgsFrame.jsx';
 import SidePanel from './SidePanel.jsx';
 import Inspired from '../components/Inspired/Inspired.jsx';
 import {NodesExtensible} from '../../NodesDisplay/NodesExtensible.jsx';
+import LinkFetch from '../../../Components/LinkFetch/LinkFetch.jsx';
 import LinkCopy from '../../../Components/LinkCopy/LinkCopy.jsx';
 import AccountPalette from '../../../Components/AccountPalette.jsx';
 import DateConverter from '../../../Components/DateConverter.jsx';
@@ -17,17 +18,20 @@ import {
   setMessageBoolean,
 } from "../../../redux/actions/general.js";
 import {messageDialogInit} from "../../../redux/states/constants.js";
+import {
+  domain
+} from '../../../../config/services.js';
 
 class Wrapper extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      onSpanResponds: false
+      onSpanOutbound: false
     };
     this._set_inviteDialog = this._set_inviteDialog.bind(this);
     this._handleClick_Account = this._handleClick_Account.bind(this);
-    this._handleEnter_spanSign = this._handleEnter_spanSign.bind(this);
-    this._handleLeave_spanSign = this._handleLeave_spanSign.bind(this);
+    this._handleEnter_spanOutbound = this._handleEnter_spanOutbound.bind(this);
+    this._handleLeave_spanOutbound = this._handleLeave_spanOutbound.bind(this);
     this._handleClick_LinkSign = this._handleClick_LinkSign.bind(this);
   }
 
@@ -88,24 +92,18 @@ class Wrapper extends React.Component {
                   _set_noTokenDialog={this._set_inviteDialog}/>
               </div>
             }
-            <div style={{borderRight: 'solid 0.75px #a3a3a3', margin: '0 1.5rem', height: '3.6rem'}}/>
-            <div>
-              {
-                (this.props.guidingNailsId.indexOf(this.props.unitCurrent.unitId) < 0) && // guidingNails do not show the Respond & view responds
-                <span
-                  className={classnames(
-                    'colorEditBlack',
-                    'fontContentPlain',
-                    styles.spanResponds,
-                    {[styles.spanRespondsActiv]: this.state.onSpanResponds}
-                  )}
-                  onClick={this._handleClick_LinkSign}
-                  onMouseEnter={this._handleEnter_spanSign}
-                  onMouseLeave={this._handleLeave_spanSign}>
-                  {this.props.i18nUIString.catalog['submit_Signinup']}
-                </span>
-              }
-            </div>
+            {
+              (("main" in this.props.unitCurrent.outBoundLink)  &&
+              !!this.props.unitCurrent.outBoundLink.main) &&
+              <div
+                style={{display: 'flex', alignItems: 'center'}}>
+                <div style={{borderRight: 'solid 0.75px #a3a3a3', margin: '0 1.5rem', height: '3.6rem'}}/>
+                <LinkFetch
+                  tagA={true}
+                  quotationify={false}
+                  outboundLink={this.props.unitCurrent.outBoundLink.main}/>
+              </div>
+            }
           </div>
           <div
             className={classnames(styles.boxBottomLeft)}>
@@ -116,8 +114,16 @@ class Wrapper extends React.Component {
                 onClick={this._handleClick_Account}>
                 <AccountPalette
                   size={'layer'}
-                  accountFirstName={this.props.unitCurrent.authorBasic.firstName}
-                  accountLastName={this.props.unitCurrent.authorBasic.lastName}/>
+                  referLink={
+                    (this.props.unitCurrent.authorBasic['authorIdentity'] == 'user') ?
+                      false : (domain.protocol + "://" + domain.name+ '/cosmic/explore/path/' + this.props.unitCurrent.authorBasic['pageLink'])
+                  }
+                  accountFirstName={
+                    (this.props.unitCurrent.authorBasic['authorIdentity'] == 'user') ?
+                    this.props.unitCurrent.authorBasic.firstName: null}
+                  accountLastName={
+                    (this.props.unitCurrent.authorBasic['authorIdentity'] == 'user') ?
+                      this.props.unitCurrent.authorBasic.lastName : this.props.unitCurrent.authorBasic.account}/>
               </div>
               <div
                 className={classnames(styles.boxBottomLower)}>
@@ -169,12 +175,12 @@ class Wrapper extends React.Component {
     this.props._refer_toandclose("/");
   }
 
-  _handleEnter_spanSign(e){
-    this.setState({onSpanResponds: true})
+  _handleEnter_spanOutbound(e){
+    this.setState({onSpanOutbound: true})
   }
 
-  _handleLeave_spanSign(e){
-    this.setState({onSpanResponds: false})
+  _handleLeave_spanOutbound(e){
+    this.setState({onSpanOutbound: false})
   }
 
 }

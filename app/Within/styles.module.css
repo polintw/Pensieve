@@ -24,6 +24,10 @@
   background-color: #fff8f7;
 }
 
+.boxNavWithinSelf { /* must 'after' the boxNavAround */
+  background-color: transparent;
+}
+
 .boxNavWithinCosmic {
   width: 20vw;
   position: fixed;
@@ -43,11 +47,19 @@
   z-index: 1;
 }
 
+.boxNavOptionsSelf {
+  min-width: 10vw; /* follow boxContentFilledLeft*/
+  height: 100%;
+  position: fixed;
+  background-color: #fff8f7;
+  z-index: 1; /* set here no matter the children set or not(like boxNavOptions) */
+}
+
 .boxNavOptionsCosmic {
   min-width: 4.2vw;
   min-height: 7.6vh;
   position: fixed;
-  top: 64.3vh;
+  bottom: 31.59vh; /* base on position of IndexShare at Index */
   left: 2.7vw;
   box-sizing: border-box;
   z-index: 1;
@@ -67,14 +79,38 @@
   min-width: 10vw;
 }
 
+.boxContentFilledLeftSelf { /* after boxContentFilledLeft */
+  min-width: 11.38%;
+}
+
 .boxContentFilledRight {
   min-width: 21.64vw;
+}
+
+.boxContentFilledRightSelf { /* after boxContentFilledRight */
+  min-width: 20.5%;
+}
+
+.boxSelfContent {
+  /*padding: 0 0 0 1.38vw;*/
+  box-sizing: border-box;
 }
 
 .boxWithinSign {
   width: 70vw;
   margin-left: 10vw;
   margin-right: 20vw;
+}
+
+.boxNavCosmic {
+  width: 100%;
+  margin-bottom: 6.3vh;
+  z-index: 3;
+}
+
+.boxNavCosmicJust {
+  width: 157.656px; /* this, is the width of the bottome sentence: 'Cornerth. All Rights Reserved.' */
+  margin-bottom: 7.6vh;
 }
 
 
@@ -100,9 +136,22 @@
   .boxNavWithinCosmic {
     width: 11vw;
   }
+
+  .boxNavOptionsSelf {
+    min-width: unset;
+    background-color: unset;
+  }
 }
 
 @media screen and (max-width:860px) {
+  .smallDisplayBox {
+    display: block;
+  }
+
+  .smallDisplayNone {
+    display: none;
+  }
+
   .boxAroundContentCenter {
     min-width: unset;
     width: calc(342px + 1.38vw * 2);
@@ -126,6 +175,10 @@
     top: unset;
   }
 
+  .boxNavWithinSelf { /* must 'after' the boxNavAround */
+    background-color: #fff8f7;
+  }
+
   .boxNavWithinCosmic {
     width: 100%;
     position: sticky;
@@ -143,12 +196,20 @@
     box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
   }
 
+  .boxNavOptionsSelf { /* back to a plain <div> */
+    min-width: unset; /* back to NavOptions */
+    height: unset; /* back to NavOptions */
+    position: static; /* back to NavOptions */
+    background-color: unset; /* back to NavOptions */
+  }
+
   .boxNavOptionsCosmic {
     display: flex;
     align-items: center;
     width: 100%;
     position: sticky;
     top: 0;
+    bottom: unset;
     left: 0;
     background-color: rgb(117,117,117);
     box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);

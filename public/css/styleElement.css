@@ -15,6 +15,10 @@
   line-height: 1.5;
 }
 
+.fontTitleSmallPlain {
+  font-size: 1.2rem;
+}
+
 .fontSubtitle {
   font-size: 1.6rem;
 }

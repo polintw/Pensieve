@@ -1,0 +1,11 @@
+.spanResponds {
+  display: inline-block;
+  width: 68px;
+  box-sizing: border-box;
+  border-bottom: solid 0.75px transparent;
+  cursor: pointer;
+}
+
+.spanRespondsActiv {
+  border-bottom: solid 0.75px #FFFFFF;
+}

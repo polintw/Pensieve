@@ -16,8 +16,11 @@ const eraseExecutive = require('./erase.js');
 const staticsExecutive = require('./statics/execute.js');
 const createExecutive = require('./create/plain.js');
 const accumulatedExecutive = require('./accumulated.js');
+const nodesExecutive = require('./nodes.js');
 
 main.use('/accumulated', accumulatedExecutive)
+
+main.use('/nodes', nodesExecutive)
 
 main.use('/create', createExecutive)
 

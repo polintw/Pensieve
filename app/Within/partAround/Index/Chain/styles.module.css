@@ -15,8 +15,10 @@
 
 .boxModuleShareds {
   display: flex;
-  flex-wrap: wrap;
   justify-content: flex-start;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
 }
 
 .boxSeperate {
@@ -59,6 +61,13 @@
   opacity: 1;
 }
 
+.boxImgSizeBtn {
+  width: 81px;
+  height: 51px;
+  min-width: 6.5vw;
+  min-height: 4.1vw;
+}
+
 .boxEmptyShared {
   display: flex;
   flex-direction: column;
@@ -93,8 +102,8 @@
   width: 22.83vh;
   min-width: 90px;
   position: fixed;
-  top: 64.3vh;
   left: 2.7vw;
+  bottom: 13.83vh;
   z-index: 1;
 }
 
@@ -104,6 +113,54 @@
   max-width: 96.24vw;
   padding-right: 2.76vw;
 }
+
+.boxSharedsDisplay {
+  display: flex;
+  align-items: flex-end;
+  width: 100%;
+  position: relative;
+}
+
+.boxExpand {
+  height: 100%;
+  padding: 0 10px;
+  cursor: pointer;
+}
+
+.boxPanelGradient {
+  width: 40px;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  background-image: linear-gradient(270deg, rgba(252,252,252, 1), rgba(252,252,252, 0.9), rgba(252,252,252, 0.85), rgba(252,252,252, 0.8), rgba(252,252,252, 0.75), rgba(252,252,252, 0.7), rgba(252,252,252, 0.65), rgba(252,252,252, 0.6), rgba(252,252,252, 0.5), rgba(252,252,252, 0.4), rgba(252,252,252, 0.3), rgba(252,252,252, 0.2), rgba(252,252,252, 0.1), transparent);
+}
+
+
+.boxExpandLink {
+  display: flex;
+  box-sizing: border-box;
+  border: solid 0.75px #d8d8d8;
+  border-radius: 8px;
+  padding: 2px 10px 3px;
+}
+
+.boxExpandLinkMouseon {
+  border: solid 0.75px rgb(69, 135, 160);
+}
+
+.boxSvgArrow {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 0.6rem;
+}
+
+.spanExpandLink {
+  display: inline-block;
+  cursor: pointer;
+}
+
 
 @media screen and (max-width:860px) {
   .boxModuleSmall {
@@ -121,4 +178,7 @@
     overflow: hidden;
   }
 
+  .boxImg {
+    min-width: 81px;
+  }
 }

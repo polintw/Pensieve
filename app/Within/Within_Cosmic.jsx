@@ -12,6 +12,7 @@ import styles from "./styles.module.css";
 import Explore from './partExplore/Explore.jsx';
 import NavOptions from '../Components/NavOptions/NavOptions.jsx';
 import NavWithin from '../Components/NavWithin/NavWithin.jsx';
+import NavWihtinCosmic from '../Components/NavWithin/NavWihtinCosmic.jsx';
 import ModalBox from '../Components/ModalBox.jsx';
 import ModalBackground from '../Components/ModalBackground.jsx';
 import SingleDialog from '../Components/Dialog/SingleDialog/SingleDialog.jsx';
@@ -125,7 +126,18 @@ class WithinCosmic extends React.Component {
           </div>
           <div
             className={classnames(styles.boxNavWithinCosmic)}>
-            <NavWithin {...this.props} _refer_to={this._refer_von_cosmic} />
+            <NavWithin
+              {...this.props} _refer_to={this._refer_von_cosmic}
+              logotop={
+                (this.props.tokenStatus== 'verified') &&
+                <div
+                  className={classnames(
+                    styles.boxNavCosmic,
+                    styles.boxNavCosmicJust,
+                    styles.smallDisplayNone)}>
+                    <NavWihtinCosmic/>
+                </div>
+              }/>
           </div>
         </div>
 
@@ -183,6 +195,7 @@ class WithinCosmic extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
+    tokenStatus: state.token,
     unitCurrent: state.unitCurrent,
     messageSingle: state.messageSingle,
     messageSingleClose: state.messageSingleClose,

@@ -9,6 +9,7 @@ import {
   MOUNT_USERINFO,
   UPDATE_NOUNSBASIC,
   UPDATE_USERSBASIC,
+  UPDATE_PATHSBASIC,
   AXIOS_SWITCH,
 } from '../types/typesGeneral.js';
 import {
@@ -88,21 +89,44 @@ export function handleNounsList(nounsArr) {
 
     //corresponding to the local state 'axios', we should also insert 'isFetching' state in reducer
 
+    let header = {
+      'Content-Type': 'application/json',
+      'charset': 'utf-8'
+    };
+    if(!!window.localStorage['token']){ // has token
+      header['token'] = window.localStorage['token'];
+    };
     //for callback calling in component
     //https://redux.js.org/advanced/async-actions#async-action-creators
     return axios.get('/router/nouns/basic', {
-      headers: {
-        'charset': 'utf-8',
-        'token': window.localStorage['token']
-      },
+      headers: header,
       params: {
         fetchList: fetchList
       }
     }).then((res)=>{
       let resObj = JSON.parse(res.data);
-      dispatch({type: UPDATE_NOUNSBASIC, newFetch: resObj.main.nounsBasic})
+      // and then, a new process, fetch the basic info about the accumulations for these nodes
+      return axios.get('/router/nouns/basic/accumulations', {
+        headers: {
+          'charset': 'utf-8',
+          'token': window.localStorage['token']
+        },
+        params: {
+          fetchList: fetchList
+        }
+      }).then((resAccu)=>{
+        let resAccuObj = JSON.parse(resAccu.data);
+        // now make the obj base on both request
+        let updateBasicObj = {};
+        fetchList.forEach((nodeId, index) => {
+          if( !(nodeId in resObj.main.nounsBasic) ) return; // no data in DB, go next
+          updateBasicObj[nodeId] = Object.assign({}, resObj.main.nounsBasic[nodeId], resAccuObj.main.nounsBasicAccu[nodeId]);
+        });
 
-      return Promise.resolve(); //this, is for those have callback() behind
+        dispatch({type: UPDATE_NOUNSBASIC, newFetch: updateBasicObj});
+
+        return Promise.resolve(); //this, is for those have callback() behind
+      });
 
     /*}).catch(function (thrown) {
       let customSwitch = (status)=>{
@@ -126,13 +150,49 @@ export function handleUsersList(usersArr) {
     const currList =  getState().usersBasic;
     let fetchList = [];
     usersArr.forEach((id, index)=>{
-      if(!(id in currList)){
+      if(!(id in currList) && (fetchList.indexOf(id) < 0)){
         fetchList.push(id)
       }
     });
     if(fetchList.length<1){dispatch({type: null}); return;};
     //corresponding to the local state 'axios', we should also insert 'isFetching' state in reducer
-    axios.get('/router/general/users/basic', {
+    let header = {
+      'Content-Type': 'application/json',
+      'charset': 'utf-8'
+    };
+    if(!!window.localStorage['token']){ // has token
+      header['token'] = window.localStorage['token'];
+    };
+  axios.get('/router/general/basic/users', {
+      headers: header,
+      params: {
+        fetchList: fetchList
+      }
+    }).then((res)=>{
+      let resObj = JSON.parse(res.data);
+      dispatch({type: UPDATE_USERSBASIC, newFetch: resObj.main.usersBasic})
+    })
+    .catch(function (thrown) {
+      let message = uncertainErr(thrown);
+      if(message) alert(message);
+    });
+  }
+}
+
+export function handlePathProjectsList(pathsArr) {
+  //this actoin creator, could do function return is because we use 'thunk' middleware when create store
+  return (dispatch, getState) => {
+    //by this method we could use 'getState' & 'dispatch' in action creator
+    const currList =  getState().pathsBasic;
+    let fetchList = [];
+    pathsArr.forEach((id, index)=>{
+      if(!(id in currList) && (fetchList.indexOf(id) < 0)){
+        fetchList.push(id)
+      }
+    });
+    if(fetchList.length<1){dispatch({type: null}); return;};
+    //corresponding to the local state 'axios', we should also insert 'isFetching' state in reducer
+    axios.get('/router/general/basic/paths', {
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']
@@ -142,7 +202,7 @@ export function handleUsersList(usersArr) {
       }
     }).then((res)=>{
       let resObj = JSON.parse(res.data);
-      dispatch({type: UPDATE_USERSBASIC, newFetch: resObj.main.usersBasic})
+      dispatch({type: UPDATE_PATHSBASIC, newFetch: resObj.main.pathsBasic})
     })
     .catch(function (thrown) {
       let message = uncertainErr(thrown);

@@ -27,5 +27,8 @@ export const initNouns = {
 export const initUsers = {
   usersBasic: {
 
+  },
+  pathsBasic: {
+
   }
 }

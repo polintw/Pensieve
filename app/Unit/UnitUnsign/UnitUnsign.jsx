@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Redirect,
   withRouter,
 } from 'react-router-dom';
 import {connect} from "react-redux";
@@ -33,6 +34,7 @@ class UnitUnsign extends React.Component {
     super(props);
     this.state = {
       axios: false,
+      close: false,
     };
     this.axiosSource = axios.CancelToken.source();
     this._close_modal_Unit = this._close_modal_Unit.bind(this);
@@ -57,9 +59,11 @@ class UnitUnsign extends React.Component {
     //different from the one in Theater, which used only for closing Theater
     let unitCurrentState = Object.assign({}, unitCurrentInit);
     this.props._set_store_UnitCurrent(unitCurrentState);
-    // for unsign situation, we simply close the whole Unit & pass to parent
-    // just for convenient
-    this.props._refer_von_unit('', '/');
+    this.setState((prevState, props)=>{
+      return {
+        close: true
+      }
+    })
   }
 
   _set_UnitCurrent(){
@@ -110,6 +114,7 @@ class UnitUnsign extends React.Component {
         beneathMarksData:beneathMarks.data,
         nouns: resObj.main.nouns,
         refsArr: resObj.main.refsArr,
+        outBoundLink: resObj.main.outBoundLink,
         createdAt: resObj.main.createdAt
       });
 
@@ -162,6 +167,21 @@ class UnitUnsign extends React.Component {
   }
 
   render(){
+    if(this.state.close){
+      // under unsigned, we back to sign in page if this is a purw Unit view
+      if(this.props.location.pathname.includes('explore/unit/')){this.props._refer_von_unit('', '/'); return;};
+      // or close the Unit modal if we are at other place
+      let toPath=this.props.location.pathname.replace("/unit", "");
+      let toSearch = new URLSearchParams(this.props.location.search);
+      toSearch.delete('unitId');
+      toSearch.delete('unitView');
+      return <Redirect to={{
+        pathname: (toPath.length > 0) ? toPath: '/', // totally empty would cause error,
+        search: toSearch.toString(),
+        state: {from: this.props.location}
+        }}/>
+    }
+
     this.urlParams = new URLSearchParams(this.props.location.search);
     this.unitId = this.urlParams.get('unitId');
     let paramUnitView = this.urlParams.get('unitView');
@@ -175,7 +195,7 @@ class UnitUnsign extends React.Component {
           onClose={()=>{this._close_modal_Unit();}}
           style={{
             position: "fixed",
-            backgroundColor: 'transparent'}}>
+            backgroundColor: 'rgba(51, 51, 51, 0.3)' }}>
             {
               (cssVW < 860) &&
               <div

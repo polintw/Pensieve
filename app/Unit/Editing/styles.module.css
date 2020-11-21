@@ -96,9 +96,16 @@
 
 .boxAssignedNodes {
   display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
   width: 100%;
 }
 
+.boxNodesRowBtnLink {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
 
 @media screen and (max-width:860px) {
   .comEditingPanel {

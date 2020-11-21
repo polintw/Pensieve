@@ -9,7 +9,8 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 const {
   domain,
-  email
+  email,
+  outside
 } = require('../../../../config/services.js');
 
 class Contact extends React.Component {
@@ -64,7 +65,21 @@ class Contact extends React.Component {
         </ul>
       </section>
     )
+    let pinterestDOM = (
+      <section
+        key={"key_textSection_pinterest"}>
+        <ul style={{listStyle: 'none'}}>
+          <a
+            href={outside.pinterest}
+            target={"_blank"}
+            style={{color: 'rgb(69, 135, 160)'}}>
+            {"Cornerth on Pinterest"}
+          </a>
+        </ul>
+      </section>
+    )
     textDOM.splice(1, 0, emailDOM);
+    textDOM.splice(4, 0, pinterestDOM);
 
     return textDOM;
   }

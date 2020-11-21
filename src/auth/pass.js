@@ -18,7 +18,10 @@ pass.use(function(req, res, next) {
   let token = req.body.token || req.headers['token'] || req.query.token;
   // Notice ! value in headers would be always set to type 'string',
 
-  if (!!token) {
+  if (
+    !!token &&
+    token != 'undefined' // in case the app do pass a token prop but only a 'undefined'
+  ) {
     /*There is a special api: /account/password?forget */
     let keyUsed = !!req.query.forget ? verify_forget : verify_key ;
 
@@ -66,6 +69,14 @@ pass.use(function(req, res, next) {
         break;
       case 'units':
         // let /units/ pass, check the 'tokenify' itself.
+        next()
+        break;
+      case 'nouns':
+        // let /nouns/ pass, check the 'tokenify' itself.
+        next()
+        break;
+      case 'paths':
+        // let /paths/ pass, check the 'tokenify' itself.
         next()
         break;
       case 'general':

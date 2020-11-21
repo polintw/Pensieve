@@ -30,14 +30,15 @@ class NavWithin extends React.Component {
     return(
       <div
         className={classnames(styles.comNavWithin)}>
+        {this.props.logotop}
         <div
           className={classnames(styles.boxLogo)}
           onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_to('', '/')}}>
           <SvgLogo/>
         </div>
-
         <div
           className={classnames(styles.boxFooter)}>
+          {this.props.children}
           <ServiceLinks />
           <div
             className={classnames(

@@ -12,18 +12,18 @@ class NavWihtinCosmic extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            onInActive: false
+            onbtn: false
         };
         this._handleEnter_Link = this._handleEnter_Link.bind(this);
         this._handleLeave_Link = this._handleLeave_Link.bind(this);
     }
 
     _handleEnter_Link(e) {
-        this.setState({ onInActive: true })
+        this.setState({ onbtn: true })
     }
 
     _handleLeave_Link(e) {
-        this.setState({ onInActive: false })
+        this.setState({ onbtn: false })
     }
 
     componentDidMount() {
@@ -40,37 +40,34 @@ class NavWihtinCosmic extends React.Component {
             <div
                 className={classnames(styles.comNavWithinCosmic)}>
                 <Link
-                    to={"/"}
-                    className={classnames(
-                        'plainLinkButton',
-                        styles.boxNavLink
-                    )}
-                    onMouseEnter={this._handleEnter_Link}
-                    onMouseLeave={this._handleLeave_Link}>
+                  to={"/"}
+                  className={classnames(
+                    'plainLinkButton',
+                    styles.boxNavLink,
+                    {[styles.boxNavLinkMouseon]: this.state.onbtn}
+                  )}
+                  style={{float: 'right'}}
+                  onMouseEnter={this._handleEnter_Link}
+                  onMouseLeave={this._handleLeave_Link}>
+                  <div
+                    className={classnames(styles.boxSvgArrow)}>
                     <div
-                      className={classnames(styles.boxSvgArrow)}>
-                      <div
-                        style={{width: "10px", height: "15px"}}>
-                        <SvgArrowToRight
-                          mouseOn={this.state.onInActive}
-                          customStyles={{fillColorMouseOn: '#333333', fillColor: '#d8d8d8'}}/>
-                      </div>
+                      style={{width: "10px", height: "12px"}}>
+                      <SvgArrowToRight
+                        mouseOn={this.state.onbtn}
+                        customStyles={{fillColorMouseOn: '#444444', fillColor: '#a3a3a3'}}/>
                     </div>
-
-                    <span
-                        className={classnames(
-                            styles.spanNavLink,
-                            "fontNodesEqual",
-                            "colorWhiteGrey",
-                            {
-                                ['colorOptionsBlack']: this.state.onInActive,
-                                [styles.spanNavLinkMouse]: this.state.onInActive
-                            }
-                        )}>
-                        {this.props.i18nUIString.catalog["title_home"]}
+                  </div>
+                  <span
+                    className={classnames(
+                      styles.spanNavLink,
+                      "fontSubtitle_h5",
+                      {["colorGrey"]: !this.state.onbtn},
+                      {["colorDescripBlack"]: this.state.onbtn}
+                    )}>
+                      {this.props.i18nUIString.catalog["title_home"]}
                     </span>
-                </Link>
-
+                  </Link>
             </div>
         )
     }

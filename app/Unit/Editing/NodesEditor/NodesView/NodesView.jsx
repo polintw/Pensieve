@@ -244,7 +244,7 @@ class NodesView extends React.Component {
     });
 
     this.props._submit_new_node(orderedList);
-    this.props._set_nodesEditView();
+    this.props._set_nodesEditView('');
   }
 }
 

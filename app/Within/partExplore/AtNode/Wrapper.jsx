@@ -11,7 +11,6 @@ import styles from "./styles.module.css";
 import Feed from './Feed/Feed.jsx';
 import NavFeed from './NavFeed/NavFeed.jsx';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
-import NavWihtinCosmic from '../../../Components/NavWithin/NavWihtinCosmic.jsx';
 import {
   handleNounsList,
 } from "../../../redux/actions/general.js";
@@ -60,12 +59,6 @@ class Wrapper extends React.Component {
       <div>
         <div
           className={classnames(styles.comAtNode)}>
-          <div
-            className={classnames(
-              styles.boxNavCosmic,
-              styles.smallDisplayNone)}>
-            <NavWihtinCosmic/>
-          </div>
           <div
             className={classnames(styles.boxRow, styles.boxTitle)}
             style={{paddingBottom: '14px'}}>

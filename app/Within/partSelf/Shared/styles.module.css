@@ -1,0 +1,59 @@
+.comSelfWrapper {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.boxRow {
+  position: relative;
+  margin: 12px 0;
+}
+
+.boxRowTop { /* should after .boxRow */
+  padding-top: 4px;
+}
+
+.boxRow40Top {
+  margin-top: 28px; /* couple with boxRow, which has 12px margin combine for 40px */
+}
+
+.rowNavFilter {
+  position: relative;
+  margin: 18px 0 10px;
+}
+
+.rowFilterPadding {
+  padding-bottom: 2.538vh;
+  border-bottom: 1px solid #d8d8d8;
+}
+
+.boxFooter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 2rem;
+  margin-bottom: 36vh;
+}
+
+.boxSelfShare { /* follow IndexShare */
+  width: 22.83vh;
+  min-width: 90px;
+  position: fixed;
+  bottom: 13.83vh;
+  left: 2.7vw;
+  z-index: 1;
+}
+
+.spanFooterHint {
+  margin: 8px 0;
+}
+
+@media screen and (max-width:860px) {
+  .boxSelfShare {
+    width: 100%;
+    position: static;
+    z-index: unset;
+    overflow: hidden;
+  }
+
+}

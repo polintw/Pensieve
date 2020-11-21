@@ -10,6 +10,7 @@ import stylesFont from '../stylesFont.module.css';
 import NailMarksPreview from '../components/NailMarksPreview.jsx';
 import ImgPreview from '../../ImgPreview.jsx';
 import AccountPalette from '../../AccountPalette.jsx';
+import LinkFetch from '../../LinkFetch/LinkFetch.jsx';
 import SvgPin from '../../Svg/SvgPin.jsx';
 import {
   renderNodesRows,
@@ -96,7 +97,7 @@ class NailFeedWide extends React.Component {
 }
 
 const contentBoxImg = (self)=>{
-  let imgSrcCover = 'https://'+domain.name+'/router/img/'+self.props.unitBasic.pic_layer0+'?type=thumb';
+  let imgSrcCover = domain.protocol+ '://'+domain.name+'/router/img/'+self.props.unitBasic.pic_layer0+'?type=thumb';
 
   return (
     <div
@@ -150,7 +151,19 @@ const contentBoxMarks = (self)=>{
         <div className={classnames(styles.boxAuthor, stylesFont.colorStandard)}>
           <AccountPalette
             size={"regularBold"}
-            userId={self.props.unitBasic.authorId}/>
+            userId={self.props.unitBasic.authorId}
+            authorIdentity={self.props.unitBasic.authorIdentity}/>
+          <div>
+            {
+              !!self.props.unitBasic.outboundLink &&
+              <LinkFetch
+                tagA={false}
+                dashify={true}
+                quotationify={true}
+                outboundLink={self.props.unitBasic.outboundLink}
+                customStyle={{common: {fontStyle: 'italic'}}}/>
+            }
+          </div>
         </div>
       </div>
 

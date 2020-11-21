@@ -32,12 +32,6 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
-    users.hasMany(models.units, {
-      foreignKey:"id_author",
-      sourceKey: "id",
-      onDelete: 'cascade',
-      onUpdate: 'cascade'
-    });
     users.hasMany(models.users_units, {
       foreignKey:"id_user",
       sourceKey: "id",
@@ -93,6 +87,18 @@ module.exports = (sequelize, DataTypes) => {
       onUpdate: 'cascade'
     });
     users.hasMany(models.inspireds, {
+      foreignKey:"id_user",
+      sourceKey: "id",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
+    users.hasMany(models.paths, {
+      foreignKey:"id_creator",
+      sourceKey: "id",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
+    users.hasMany(models.users_paths, {
       foreignKey:"id_user",
       sourceKey: "id",
       onDelete: 'cascade',

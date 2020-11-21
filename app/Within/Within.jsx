@@ -8,6 +8,7 @@ import {connect} from "react-redux";
 import WithinAround from './Within_Around.jsx';
 import WithinCosmic from './Within_Cosmic.jsx';
 import WithinSign from './Within_Sign.jsx';
+import WithinSelf from './Within_Self.jsx';
 
 class Within extends React.Component {
   constructor(props){
@@ -37,6 +38,7 @@ class Within extends React.Component {
         <Router>
           <Switch>
             <Route path="/cosmic" render={(props)=> <WithinCosmic {...props}/>}/>
+            <Route path="/self" render={(props)=> <WithinSelf {...props}/>}/>
             <Route path="/" render={(props)=> <WithinAround {...props}/>}/>
           </Switch>
         </Router>

@@ -10,6 +10,7 @@ import stylesFont from '../stylesFont.module.css';
 import NailMarksPreview from '../components/NailMarksPreview.jsx';
 import ImgPreview from '../../ImgPreview.jsx';
 import AccountPalette from '../../AccountPalette.jsx';
+import LinkFetch from '../../LinkFetch/LinkFetch.jsx';
 import SvgPin from '../../Svg/SvgPin.jsx';
 import {
   renderNodesRows,
@@ -57,7 +58,7 @@ class NailFeed extends React.Component {
   }
 
   render(){
-    let imgSrcCover = 'https://'+domain.name+'/router/img/'+this.props.unitBasic.pic_layer0+'?type=thumb';
+    let imgSrcCover = domain.protocol+ '://'+domain.name+'/router/img/'+this.props.unitBasic.pic_layer0+'?type=thumb';
     let linkSearch = ((this.props.location.search.length > 0) ? this.props.location.search+'&' : '?') +'unitId='+this.props.unitId+'&unitView=theater';
 
     return(
@@ -117,10 +118,22 @@ class NailFeed extends React.Component {
                   unitBasic={this.props.unitBasic}
                   marksBasic={this.props.marksBasic}/>
 
-                <div className={classnames(styles.boxAuthor, stylesFont.colorStandard)}>
+                <div className={classnames(styles.boxAuthor, "colorStandard")}>
                   <AccountPalette
                     size={"regularBold"}
-                    userId={this.props.unitBasic.authorId}/>
+                    userId={this.props.unitBasic.authorId}
+                    authorIdentity={this.props.unitBasic.authorIdentity}/>
+                  <div>
+                    {
+                      !!this.props.unitBasic.outboundLink &&
+                      <LinkFetch
+                        tagA={false}
+                        dashify={true}
+                        quotationify={true}
+                        outboundLink={this.props.unitBasic.outboundLink}
+                        customStyle={{common: {fontStyle: 'italic'}}}/>
+                    }
+                  </div>
                 </div>
               </div>
             ): (

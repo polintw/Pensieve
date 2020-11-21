@@ -9,6 +9,7 @@ import classnames from 'classnames';
 import styles from './styles.module.css';
 import stylesFont from '../stylesFont.module.css';
 import Layers from './Layers.jsx';
+import LayerSwitch from './components/LayerSwitch/LayerSwitch.jsx';
 
 class Theater extends React.Component {
   constructor(props){
@@ -49,9 +50,21 @@ class Theater extends React.Component {
     return(
       <div
         className={classnames(styles.comTheater)}>
-        <Layers
-          {...this.props}
-          initStatus={this.unitInit}/>
+        <div
+          className={classnames(styles.boxTheaterLayers)}>
+          <Layers
+            {...this.props}
+            initStatus={this.unitInit}/>
+        </div>
+        <div
+          className={classnames(styles.boxLayerSwitch)}>
+          {
+            // if the 'user' are guest, not signed in yet
+            (this.props.tokenStatus== 'verified') &&
+            <LayerSwitch
+              {...this.props}/>
+          }
+        </div>
       </div>
     )
   }
@@ -60,6 +73,7 @@ class Theater extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
+    tokenStatus: state.token,
     unitSubmitting: state.unitSubmitting
   }
 }

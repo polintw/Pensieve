@@ -18,9 +18,9 @@ const _DB_attribution = require('../../db/models/index').attribution;
 const _DB_marksContent = require('../../db/models/index').marks_content;
 
 function _handle_GET_unitsByList(req, res){
-  new Promise((resolve, reject)=>{
-    let userId = req.extra.tokenUserId;
+  const userId = req.extra.tokenUserId;
 
+  new Promise((resolve, reject)=>{
     //in this api, units list was passed from client,
     //we choose directly by that list, but Remember! limit the amount
     let unitsList = req.query.unitsList; //list was composed of 'exposedId'
@@ -29,12 +29,13 @@ function _handle_GET_unitsByList(req, res){
       where: {
         exposedId: unitsList
       },
-      limit: 20 //set limit to prevent api abuse
+      limit: 64 //set limit to prevent api abuse, currently the longer list would be passed from NodesFilter, 64 is actually not enough
     }).then((result)=>{
       let sendingData={
         unitsBasic: {},
         marksBasic: {},
         usersList: [],
+        pathsList: [],
         nounsListMix: [],
         temp: {
           chart: {},
@@ -43,13 +44,18 @@ function _handle_GET_unitsByList(req, res){
       }
 
       result.forEach((row, index)=>{
-        sendingData.usersList.push(row.id_author);
+        if(row.author_identity == "user") sendingData.usersList.push(row.id_author)
+        else if(row.author_identity == "pathProject"){
+          sendingData.pathsList.push(row.used_authorId);
+        };
         sendingData.unitsBasic[row.exposedId] = {
           unitsId: row.exposedId,
-          authorId: row.id_author,
+          authorId: (row.author_identity == 'user') ? row.id_author: row.used_authorId,
+          authorIdentity: row.author_identity,
           pic_layer0: row.url_pic_layer0,
           pic_layer1: row.url_pic_layer1,
           createdAt: row.createdAt,
+          outboundLink: (!!row.outboundLink_main && (row.outboundLink_main.length > 0)) ? row.outboundLink_main : null,
           marksList: [],
           nounsList: []
         };

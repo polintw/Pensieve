@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Link,
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
@@ -41,10 +42,37 @@ class Palette extends React.Component {
         ],
         firstName = !!this.props.accountFirstName? (this.props.accountFirstName+" ") : null,
         lastName = !!this.props.accountLastName? this.props.accountLastName : null;
-    if(!firstName) firstName = !!this.props.userId ? (this.props.userId in this.props.usersBasic) ? (this.props.usersBasic[this.props.userId].firstName+" ") :　null : null;
-    if(!lastName) lastName = !!this.props.userId ? (this.props.userId in this.props.usersBasic) ? this.props.usersBasic[this.props.userId].lastName :　null : null;
+    // now, there is a chance we are render a name of 'pathProject',
+    // pathProject would only use lastnamee, no lastName
+    let basicObjChoice = (this.props.authorIdentity == 'pathProject') ? 'pathsBasic' : 'usersBasic';
+    if(!firstName && !!this.props.userId){
+      if(basicObjChoice == 'usersBasic') firstName = (this.props.userId in this.props.usersBasic) ? this.props.usersBasic[this.props.userId].firstName+ " " :　null;
+    };
+    if(!lastName && !!this.props.userId){
+      if(this.props.userId in this.props[basicObjChoice]){
+        lastName = (basicObjChoice == 'usersBasic') ? (this.props[basicObjChoice][this.props.userId].lastName+" ") : (this.props[basicObjChoice][this.props.userId].pathProject+" ") ;
+      }
+    };
 
-    return(
+    return this.props.referLink ? (
+      <a
+        href={this.props.referLink}
+        target={"_self"}
+        className={classnames('plainLinkButton')}
+        style={{display: 'inline-block'}}
+        onClick={(e)=>{ e.stopPropagation() /* important! stop propagation to make default action happen! */ }}>
+        <span
+          className={classnames(classSpan, 'spanNameFirstName')}
+          style={propsStyle[0]}>
+          {firstName}
+        </span>
+        <span
+          className={classSpan}
+          style={propsStyle[1]}>
+          {lastName}
+        </span>
+      </a>
+    ): (
       <div
         style={{display: 'inline-block'}}>
         <span
@@ -65,7 +93,8 @@ class Palette extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
-    usersBasic: state.usersBasic
+    usersBasic: state.usersBasic,
+    pathsBasic: state.pathsBasic
   }
 }
 
