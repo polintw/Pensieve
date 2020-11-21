@@ -224,7 +224,13 @@ const i18nUIString_EN = {
       "We’re always here with you and trying to improve the website.",
       "If you’ve ever faced any difficulties, or are curious about the things we're working on, please don’t hesitate to contact us by email below:"],
     [
-      "we would reply you as soon as possible."]
+      "we would reply you as soon as possible."],
+    [
+      "Or, come to follow our official Pinterest account!"
+    ],
+    [
+      "we would put our selection from Cornerth into Pinterest from time to time."
+    ]
   ]
 };
 

@@ -16,3 +16,7 @@ exports.smtpAccount = {
 exports.email = {
   userContact: envServiceGeneral.emailUserContact
 }
+
+exports.outside = {
+  pinterest: envServiceGeneral.pinterestAccountLink
+}
