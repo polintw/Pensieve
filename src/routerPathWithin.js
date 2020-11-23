@@ -9,6 +9,7 @@ const winston = require('../config/winston.js');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const _DB_units = require('../db/models/index').units;
+const _DB_paths = require('../db/models/index').paths;
 const _DB_nouns = require('../db/models/index').nouns;
 const _DB_marks = require('../db/models/index').marks;
 const _DB_marksContent = require('../db/models/index').marks_content;
@@ -180,6 +181,7 @@ async function _handle_crawler_GET_PathProject(req, res){
     res.render(path.join(projectRootPath, '/public/html/ren_crawler.pug'), variables);
   }
   catch(error){
+    winston.error(`${'from crawler, GET: '} ${req.originalUrl} error: catch `, error);
     let variables= { //create local variables as value used in template
       title: [], //set array fisrt, will be mdified to string later before res
       descrip: "",
