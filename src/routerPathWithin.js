@@ -138,6 +138,58 @@ async function _handle_crawler_GET_Unit(req, res){
   });
 }
 
+async function _handle_crawler_GET_PathProject(req, res){
+  try{
+    const reqPathProject = req.params.pathProject;
+    const targetProject = await _DB_paths.findOne({
+      where: {pathName: reqPathProject} // Notice! Prevent attack from hacker here, by string or other way to destroy DB
+    });
+    // first, if 'null' result -> not a valid pathName
+    if(!targetProject){ //'null'
+      winston.error(`${'from crawler, GET: '} ${req.originalUrl} error: targetProject not found in DB.`);
+      throw "PathProject Not Found.";
+      return; //stop and end the handler.
+    };
+    //res html directly from templte modified by variables
+    let variables= { //create local variables as value used in template
+      title: [], //set array fisrt, will be mdified to string later before res
+      descrip: "",
+      ogurl: "",
+      ogimg: '' //don't forget using absolute path for dear crawler
+    };
+
+    let projectLatestUnit = await _DB_units.findOne({
+      where: {
+        used_authorId: targetProject.id,
+        author_identity: "pathProject"
+      },
+      order: [
+        Sequelize.literal('`createdAt` DESC')
+      ],
+      limit: 1
+    });
+    let imgUrl = '';
+    if(!!projectLatestUnit){
+      imgUrl =  "https://" +envServiceGeneral.appDomain +'/router/img/' + projectLatestUnit.url_pic_layer0 +'?type=thumb';
+    };
+
+    variables['title'] = targetProject.name;
+    variables['ogurl'] = req.originalUrl;
+    variables['ogimg'] = imgUrl;
+
+    res.render(path.join(projectRootPath, '/public/html/ren_crawler.pug'), variables);
+  }
+  catch(error){
+    let variables= { //create local variables as value used in template
+      title: [], //set array fisrt, will be mdified to string later before res
+      descrip: "",
+      ogurl: "",
+      ogimg: '' //don't forget using absolute path for dear crawler
+    };
+    res.render(path.join(projectRootPath, '/public/html/ren_crawler.pug'), variables);
+    return;
+  }
+}
 
 //route pass from parent start from here
 
@@ -150,6 +202,19 @@ router.use('/cosmic/explore/unit', function(req, res, next){
   if(!Boolean(req.query.unitId.toString()) ) { next();}
   //if safe, then we select the requested Unit & res html with Unit info
   else _handle_crawler_GET_Unit(req, res);
+})
+
+//res specific Unit info to crawler
+router.use('/cosmic/explore/path/:pathProject', function(req, res, next){
+  if(process.env.NODE_ENV == 'development') winston.verbose(`${'from crawler, GET: '} ${req.originalUrl}`);
+  //to res dynamic html to crawler, we need to select basic info from DB
+  //validate the query value trusted or not
+  //pass to general middleware if the id was unclear
+  // if(!Boolean(req.params.pathProject.toString()) ) { next();} ; wait for better validation
+
+  // if safe, then we select the requested path & res html with path info
+  // else
+  _handle_crawler_GET_PathProject(req, res);
 })
 
 //res common data to crawler if no specific destination,
