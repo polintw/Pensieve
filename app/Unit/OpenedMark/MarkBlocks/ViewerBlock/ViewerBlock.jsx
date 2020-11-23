@@ -5,12 +5,18 @@ import styles from "./styles.module.css";
 import stylesFont from '../../../stylesFont.module.css';
 import stylesOpenedMark from "../../styles.module.css";
 import DraftDisplay from '../../../../Components/Draft/DraftDisplay.jsx';
+import {
+  SvgArrowToLeft,
+  SvgArrowToRight
+} from '../../../../Components/Svg/SvgArrow.jsx';
 
 class ViewerBlock extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      message: false
+      message: false,
+      onArrowRight: false,
+      onArrowLeft: false
     };
     this.boxContent = React.createRef();
     this.comViewerBlock = React.createRef();
@@ -18,6 +24,10 @@ class ViewerBlock extends React.Component {
     this._set_BlockMessage = this._set_BlockMessage.bind(this);
     this._handleWheel_boxContent = (event)=>{event.stopPropagation();};
     this._handleClick_blockPanel_cancel = this._handleClick_blockPanel_cancel.bind(this);
+    this._handleOver_ArrowRight = this._handleOver_ArrowRight.bind(this);
+    this._handleOut_ArrowRight = this._handleOut_ArrowRight.bind(this);
+    this._handleOver_ArrowLeft = this._handleOver_ArrowLeft.bind(this);
+    this._handleOut_ArrowLeft = this._handleOut_ArrowLeft.bind(this);
     this.style = {
       Com_ViewerBlock_: {
         display: 'flex',
@@ -69,7 +79,7 @@ class ViewerBlock extends React.Component {
           ref={this.boxContent}
           className={classnames(styles.boxBlockDraft)}>
           <div
-            className={classnames(styles.boxDraftDisplay, stylesFont.colorEditBlack)}
+            className={classnames(styles.boxDraftDisplay, 'lineHeight15', stylesFont.colorEditBlack)}
             style={{fontSize: '1.5rem'}}>
             <DraftDisplay
               editorState={this.props.markData.editorContent}/>
@@ -84,6 +94,41 @@ class ViewerBlock extends React.Component {
               {this.state.message}
             </span>
           }
+          <div>
+            {
+              (this.props.currentSerial > 0) && 
+              <div
+                className={classnames(
+                  styles.boxSvgArrow,
+                  {[styles.boxSvgArrowMouseover]: this.state.onArrowLeft}
+                )}
+                onMouseOver={this._handleOver_ArrowLeft}
+                onMouseOut={this._handleOut_ArrowLeft}
+                onClick={(e)=> {e.stopPropagation(); e.preventDefault(); this.props._set_markJump('previous', this.props.currentSerial)}}>
+                <div
+                  style={{width: "12px", height: "12px"}}>
+                  <SvgArrowToLeft
+                    mouseOn={this.state.onArrowLeft}
+                    customStyles={{fillColorMouseOn: '#444444', fillColor: '#a3a3a3'}}/>
+                </div>
+              </div>
+            }
+            <div
+              className={classnames(
+                styles.boxSvgArrow,
+                {[styles.boxSvgArrowMouseover]: this.state.onArrowRight}
+              )}
+              onMouseOver={this._handleOver_ArrowRight}
+              onMouseOut={this._handleOut_ArrowRight}
+              onClick={(e)=> {e.stopPropagation(); e.preventDefault(); this.props._set_markJump('next', this.props.currentSerial)}}>
+              <div
+                style={{width: "12px", height: "12px"}}>
+                <SvgArrowToRight
+                  mouseOn={this.state.onArrowRight}
+                  customStyles={{fillColorMouseOn: '#444444', fillColor: '#a3a3a3'}}/>
+              </div>
+            </div>
+          </div>
         </div>
         {
           !(this.props.boxWidth > 420) && //a way to detect small screen, like cell phone
@@ -100,6 +145,47 @@ class ViewerBlock extends React.Component {
       </div>
     )
   }
+
+  _handleOver_ArrowLeft(e) {
+    e.stopPropagation(); e.preventDefault();
+    if (this.props.currentSerial == 0) return; // no effect at the first Mark
+
+    this.setState((prevState, index)=>{
+      return {
+        onArrowLeft: true
+      }
+    })
+  }
+
+  _handleOut_ArrowLeft(e) {
+    e.stopPropagation(); e.preventDefault();
+    if (this.props.currentSerial == 0) return; // no effect at the first Mark
+
+    this.setState((prevState, index)=>{
+      return {
+        onArrowLeft: false
+      }
+    })
+  }
+
+  _handleOver_ArrowRight(e) {
+    e.stopPropagation(); e.preventDefault();
+    this.setState((prevState, index)=>{
+      return {
+        onArrowRight: true
+      }
+    })
+  }
+
+  _handleOut_ArrowRight(e) {
+    e.stopPropagation(); e.preventDefault();
+    this.setState((prevState, index)=>{
+      return {
+        onArrowRight: false
+      }
+    })
+  }
+
 }
 
 const mapStateToProps = (state)=>{

@@ -2,18 +2,19 @@
   width: 100%;
   position: relative;
   box-sizing: border-box;
-  padding: 0 5% 5% 8%;
+  padding: 0 5% 0 8%;
   margin-top: 10%;
+  margin-bottom: 5%;
   overflow-y: auto;
 }
 
 .boxInteraction {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   width: 100%;
   position: relative;
   box-sizing: border-box;
-  padding: 5%;
+  padding: 0 5% 4%;
 }
 
 .boxDraftDisplay {
@@ -21,4 +22,24 @@
   min-height: 130px;
   position: relative;
   cursor: text;
+}
+
+.boxSvgArrow {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 10px 32px;
+  border-radius: 4px;
+}
+
+.boxSvgArrowMouseover {
+  box-shadow: 0 0 5px 0 #c0d3f0 inset;
+  cursor: pointer;
+}
+
+@media screen and (max-width:860px) {
+  .boxBlockDraft {
+    margin-top: 13%;
+  }
 }

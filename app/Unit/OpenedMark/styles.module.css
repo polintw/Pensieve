@@ -27,13 +27,6 @@
   padding: 3% 5% 5%;
 }
 
-.boxBlockBack {
-  position: absolute;
-  top: 5%;
-  right: 5%;
-  cursor: pointer;
-}
-
 .boxDraftEditor {
   display: flex;
   flex-direction: column;
@@ -61,4 +54,12 @@
   .boxBlockInteract {
     padding-top: 1rem;
   }
+
+  .boxBlockBack {
+    position: absolute;
+    top: 3.2%;
+    right: 7%;
+    cursor: pointer;
+  }
+
 }
