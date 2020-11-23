@@ -69,7 +69,8 @@ class ViewerBlock extends React.Component {
           ref={this.boxContent}
           className={classnames(styles.boxBlockDraft)}>
           <div
-            className={classnames(styles.boxDraftDisplay, stylesFont.fontContent, stylesFont.colorEditBlack)}>
+            className={classnames(styles.boxDraftDisplay, stylesFont.colorEditBlack)}
+            style={{fontSize: '1.5rem'}}>
             <DraftDisplay
               editorState={this.props.markData.editorContent}/>
           </div>
