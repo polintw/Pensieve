@@ -85,7 +85,7 @@ class NailFeed extends React.Component {
               backgroundSize: 'cover',
               backgroundPosition: '50% 50%',
               backgroundRepeat: 'no-repeat',
-              opacity: '0.3'
+              opacity: '0.18'
           }}/>
         }
         <div

@@ -86,6 +86,18 @@ class Wrapper extends React.Component {
           className={classnames(styles.boxContentWidth, styles.boxBottom)}>
           <div
             className={classnames(styles.boxBottomRight)}>
+            {
+              (("main" in this.props.unitCurrent.outBoundLink)  &&
+              !!this.props.unitCurrent.outBoundLink.main) &&
+              <div
+                style={{display: 'flex', alignItems: 'center'}}>
+                <LinkFetch
+                  tagA={true}
+                  quotationify={false}
+                  outboundLink={this.props.unitCurrent.outBoundLink.main}/>
+                <div style={{borderRight: 'solid 0.75px #a3a3a3', margin: '0 0 0 1.5rem', height: '3.6rem'}}/>
+              </div>
+            }
             <div
               className={classnames(styles.btnBottomIcon)}
               style={{marginTop: '2px'}}>
@@ -96,18 +108,6 @@ class Wrapper extends React.Component {
               <div
                 className={classnames(styles.btnBottomIcon)}>
                 <Inspired/>
-              </div>
-            }
-            {
-              (("main" in this.props.unitCurrent.outBoundLink)  &&
-              !!this.props.unitCurrent.outBoundLink.main) &&
-              <div
-                style={{display: 'flex', alignItems: 'center'}}>
-                <div style={{borderRight: 'solid 0.75px #a3a3a3', margin: '0 1.5rem', height: '3.6rem'}}/>
-                <LinkFetch
-                  tagA={true}
-                  quotationify={false}
-                  outboundLink={this.props.unitCurrent.outBoundLink.main}/>
               </div>
             }
           </div>

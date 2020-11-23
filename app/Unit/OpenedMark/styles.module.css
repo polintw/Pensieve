@@ -1,12 +1,12 @@
 .boxMarkBlock {
-  width: 46.87%;
-  height: 83.33%;
+  width: 45%;
+  height: 88.88%;
   min-width: 300px;
   position: absolute;
-  top: 8.33%;
+  top: 5.55%;
   box-sizing: border-box;
   box-shadow: 0 0 5px 0 #c0d3f0;
-  background-color: rgba(255, 255, 255, 0.93);
+  background-color: rgba(255, 255, 255, 0.96);
 }
 
 .boxBlockDraft {
@@ -25,13 +25,6 @@
   position: relative;
   box-sizing: border-box;
   padding: 3% 5% 5%;
-}
-
-.boxBlockBack {
-  position: absolute;
-  top: 5%;
-  right: 5%;
-  cursor: pointer;
 }
 
 .boxDraftEditor {
@@ -61,4 +54,12 @@
   .boxBlockInteract {
     padding-top: 1rem;
   }
+
+  .boxBlockBack {
+    position: absolute;
+    top: 3.2%;
+    right: 7%;
+    cursor: pointer;
+  }
+
 }

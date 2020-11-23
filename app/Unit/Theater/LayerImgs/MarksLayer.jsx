@@ -65,6 +65,11 @@ class MarksLayer extends React.Component {
       let markKey = this.props.currentMark;
       return (
         <OpenedMark
+          key={
+            /*Important!! This key, was the 'key' point to 'refresh the ViewerBlock to the bottom', the way to update DraftDisplay,
+            especially during the 'jump'.
+            */
+            "key_OpenedMark_" + markKey}
           {...this.props}
           serial={currentSerial+1}
           currentSerial={currentSerial}
@@ -76,7 +81,8 @@ class MarksLayer extends React.Component {
             currentSerial={currentSerial}
             markKey={markKey}
             marksLength={this.props.marksData.list.length}
-            markData={this.props.marksData.data[markKey]}/>
+            markData={this.props.marksData.data[markKey]}
+            _set_markJump={this._set_markJump}/>
         </OpenedMark>
       );
     }
