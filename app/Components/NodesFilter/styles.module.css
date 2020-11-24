@@ -39,7 +39,7 @@
 
 .boxNodeItem {
   width: 23%;
-  min-width: 178px;
+  min-width: 170px;
   position: relative;
   margin: 8px 0 32px;
   box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
@@ -92,7 +92,7 @@
 .boxItemImg {
   width: 91.6%;
   height: 9vw; /* 64% to box height */
-  min-height: 114px;
+  min-height: 121px;
   position: relative;
   margin: 0 4.2%;
   box-sizing: border-box;

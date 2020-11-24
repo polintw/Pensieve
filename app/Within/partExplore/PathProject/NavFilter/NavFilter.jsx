@@ -147,15 +147,14 @@ class NavFilter extends React.Component {
               !this.props.viewFilter &&
               <div
                 className={classnames(styles.boxIconsFilter)}>
-                <Link
-                  to={"/cosmic/explore/path/" + this.props.projectPath}
-                  className={classnames('plainLinkButton', styles.boxIconFilterNode)}
+                <div
+                  className={classnames(styles.boxIconFilterNode)}
                   onClick={this._handleClick_filter}
                   onMouseEnter={this._handleEnter_FilterNode}
                   onMouseLeave={this._handleLeave_FilterNode}>
                   <SvgFilterNode
                     customstyle={this.state.onFilterNode ? "{fill: #ff8168;}" : "{fill: rgb(69, 135, 160);}"}/>
-                </Link>
+                </div>
               </div>
             }
           </div>
@@ -216,10 +215,8 @@ class NavFilter extends React.Component {
   }
 
   _handleClick_filter(event){
-    if(!this.filterNode){ // currently 'null', no param 'filterNode'
       event.preventDefault();
       event.stopPropagation();
-    }
 
     this.props._set_viewFilter('filter')
   }
