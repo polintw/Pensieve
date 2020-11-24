@@ -174,7 +174,7 @@ async function _handle_crawler_GET_PathProject(req, res){
       imgUrl =  "https://" +envServiceGeneral.appDomain +'/router/img/' + projectLatestUnit.url_pic_layer0 +'?type=thumb';
     };
 
-    variables['title'] = targetProject.name;
+    variables['title'] = targetProject.name + " | Cornerth.";
     variables['ogurl'] = req.originalUrl;
     variables['ogimg'] = imgUrl;
 

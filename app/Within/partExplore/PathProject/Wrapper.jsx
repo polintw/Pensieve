@@ -3,6 +3,7 @@ import {
   Link,
   Switch,
   Route,
+  Redirect,
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
@@ -33,12 +34,12 @@ class Wrapper extends React.Component {
     super(props);
     this.state = {
       axios: false,
-      viewFilter: false,
       pathName: false,
       projectName: '',
       filterStart: null,
       projectInfo: {},
-      usedNodes: []
+      usedNodes: [],
+      redirectFilter: false
     };
     this.axiosSource = axios.CancelToken.source();
     this._set_viewFilter = this._set_viewFilter.bind(this);
@@ -47,9 +48,14 @@ class Wrapper extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
+    if( (this.state.redirectFilter == prevState.redirectFilter)	&& this.state.redirectFilter){ // if just redirect to or from Filter
+      this.setState({
+	      redirectFilter: false
+      });
+    };
     if(this.props.match.params['pathName'] != prevProps.match.params['pathName']){
       this._set_projectBasic();
-    }
+    };
   }
 
   componentDidMount(){
@@ -63,10 +69,30 @@ class Wrapper extends React.Component {
   }
 
   render(){
+    if(this.state.redirectFilter){
+	    /*
+	      Notice!, this is not a good method.
+	      we should redirect only when close from from NodesFilter, a general component.
+	      any other path, passed from Nav, should be dealted with insde the Nav.
+		    *///
+	  let toSearch = new URLSearchParams(this.props.location.search);
+	  if(this.state.redirectFilter == "filter"){
+		  toSearch.append("_filter_nodes", true);
+	  } else toSearch.delete("_filter_nodes");
+	  return <Redirect
+		    to={{
+			pathname: this.props.location.pathname,
+			search: toSearch.toString(),
+			state: {from: this.props.location}
+		    }}/>;
+    };
     let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
     if(urlParams.has('filterNode')){
       this.filterNode = urlParams.get('filterNode');
     } else this.filterNode = null;
+    if(urlParams.has('_filter_nodes')){
+      this.viewFilter = true;
+    } else this.viewFilter = false;
 
     return(
       <div>
@@ -85,7 +111,7 @@ class Wrapper extends React.Component {
             className={classnames(styles.boxRowNav)}>
             <NavFilter
               {...this.props}
-              viewFilter={this.state.viewFilter}
+              viewFilter={this.viewFilter}
               projectPath = {this.state.pathName}
               projectInfo={this.state.projectInfo}
               _set_viewFilter={this._set_viewFilter}/>
@@ -93,7 +119,7 @@ class Wrapper extends React.Component {
           <div
             className={classnames(styles.boxRow)}>
             { // render NodesFilter only after the filterStart was fetched
-              (this.state.viewFilter && !!this.state.filterStart) ? (
+              (this.viewFilter && !!this.state.filterStart) ? (
                 <div
                   className={classnames(styles.boxNodesFilter)}>
                   <NodesFilter
@@ -147,7 +173,7 @@ class Wrapper extends React.Component {
 
   _set_viewFilter(view){
     this.setState({
-      viewFilter: !!view ? view : false
+	    redirectFilter: !!view ? view : true // currently, always redirect it triggered
     })
   }
 
