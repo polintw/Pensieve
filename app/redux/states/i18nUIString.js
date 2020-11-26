@@ -200,6 +200,8 @@ const i18nUIString_EN = {
 
   "descript_Nail_noMark": "(expand image...)",
 
+  "title_focusBoard": "Focus Board",
+
   "title_NavAtNode_": "Accumulation",
   "subtitle_NavAtNode_Num": ['stay', "from"],
   "guiding_AtNode_noAccumulated": "Waiting for the first contribution!",

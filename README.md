@@ -48,7 +48,6 @@ Doc of [React for production](https://reactjs.org/docs/optimizing-performance.ht
 npm run setup
 #or if on Windows:
 npm run setupWin
-Rename-Item -Path .\\config\\.env.example.json -NewName .env.json
 ```
 
 ```bash

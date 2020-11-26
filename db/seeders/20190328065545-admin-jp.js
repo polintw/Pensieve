@@ -2,15 +2,11 @@
 const path = require('path');
 const seedPath = require(__dirname + '/../../config/path.js')['dbSeed'];
 
-const adminJpTw = require(seedPath+'nouns_jp_TW.json');
 const adminJpEN = require(seedPath+'nouns_jp_EN.json');
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('nouns', adminJpTw, {})
-      .then(()=>{
-        return queryInterface.bulkInsert('nouns', adminJpEN, {})
-      });
+    return queryInterface.bulkInsert('nouns', adminJpEN, {})
   },
 
   down: (queryInterface, Sequelize) => {

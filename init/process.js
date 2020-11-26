@@ -49,6 +49,7 @@ module.exports.setUpWin = ()=>{
     "mkdir .\\faked\\dbSeeds",
     "mkdir .\\faked\\logs",
     "mkdir .\\faked\\pics\\1",
+    'cp .\\config\\.env.example.json .\\config\\.env.json',
   ]
 
   runCommands(commands, function(err, results) {

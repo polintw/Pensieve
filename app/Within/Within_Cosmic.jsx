@@ -10,6 +10,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import Explore from './partExplore/Explore.jsx';
+import Focus from './partCosmic/Focus/Wrapper.jsx';
 import NavOptions from '../Components/NavOptions/NavOptions.jsx';
 import NavWithin from '../Components/NavWithin/NavWithin.jsx';
 import NavWihtinCosmic from '../Components/NavWithin/NavWihtinCosmic.jsx';
@@ -116,8 +117,8 @@ class WithinCosmic extends React.Component {
             <div
               className={classnames(styles.boxAroundContentCenter)}>
               <Switch>
-
                 <Route path={this.props.match.path + "/explore"} render={(props) => <Explore {...props} _refer_von_cosmic={this._refer_von_cosmic} />} />
+                <Route path={this.props.match.path + "/focus"} render={(props) => <Focus {...props} _refer_von_cosmic={this._refer_von_cosmic} />} />
               </Switch>
             </div>
             <div
