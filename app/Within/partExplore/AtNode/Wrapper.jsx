@@ -1,7 +1,5 @@
 import React from 'react';
 import {
-  Link,
-  Switch,
   Route,
   withRouter
 } from 'react-router-dom';
@@ -14,10 +12,6 @@ import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
 import {
   handleNounsList,
 } from "../../../redux/actions/general.js";
-import {
-  cancelErr,
-  uncertainErr
-} from '../../../utils/errHandlers.js';
 
 class Wrapper extends React.Component {
   constructor(props){

@@ -7,8 +7,9 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesNail from "../../../stylesNail.module.css";
 import FeedEmpty from './FeedEmpty.jsx';
-import NailFeedWide from '../../../../Components/Nails/NailFeedWide/NailFeedWide.jsx';
+import NailFeedFocus from '../../../../Components/Nails/NailFeedFocus/NailFeedFocus.jsx';
 import NailFeedMobile from '../../../../Components/Nails/NailFeedMobile/NailFeedMobile.jsx';
+import AccountPalette from '../../../../Components/AccountPalette.jsx';
 import {_axios_get_accumulatedList} from '../axios.js';
 import {axios_get_UnitsBasic} from '../../../../utils/fetchHandlers.js';
 import {
@@ -102,15 +103,57 @@ class Feed extends React.Component {
         nailsDOM.push (
           <div
             key={"key_NodeFeed_new_"+index}
-            className={classnames(stylesNail.boxNail, stylesNail.custNailWide)}>
-            <NailFeedWide
-              {...this.props}
-              leftimg={ remainder2 ? true : false}
-              unitId={unitId}
-              narrowWidth={false}
-              linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
-              unitBasic={this.state.unitsBasic[unitId]}
-              marksBasic={this.state.marksBasic}/>
+            className={classnames(styles.boxModuleItem)}>
+              <div
+                className={classnames(styles.boxFocusNailSubtitle)}>
+                <div
+                  className={classnames(styles.boxFocusNailSubtitleUp, 'colorEditLightBlack')}>
+                  <AccountPalette
+                    size={"regularBold"}
+                    userId={this.state.unitsBasic[unitId].authorId}
+                    authorIdentity={this.state.unitsBasic[unitId].authorIdentity} />
+                  <span
+                    className={classnames(styles.spanFocusSubtitleConnect, 'colorEditBlack', 'fontSubtitle_h5')}>
+                    {this.props.i18nUIString.catalog['connection_focus_userNode']}
+                  </span>
+                </div>
+                <div>
+                  <span
+                    className={classnames("fontTitle", "colorEditBlack", "weightBold")}>
+                    {
+                      this.state.unitsBasic[unitId].nounsList[0] in this.props.nounsBasic ? (
+                        this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].name) : null
+                    }
+                  </span>
+                  <span
+                    className={classnames("fontTitle", "colorEditBlack", "weightBold")}>
+                    {this.state.unitsBasic[unitId].nounsList[0] in this.props.nounsBasic ? (
+                      (this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].prefix.length > 0) &&
+                      (", ")) : (null)
+                    }
+                  </span>
+                  <br/>
+                  <span
+                    className={classnames("fontNodesEqual", "colorEditBlack", "weightBold")}>
+                    {this.state.unitsBasic[unitId].nounsList[0] in this.props.nounsBasic ? (
+                      (this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].prefix.length > 0) &&
+                      (this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].prefix)) : (null)
+                    }
+                  </span>
+                </div>
+              </div>
+              <div
+                className={classnames(stylesNail.boxNail)}
+                style={{width: '70%'}}>
+                  <NailFeedFocus
+                    {...this.props}
+                    leftimg={ true }
+                    unitId={unitId}
+                    narrowWidth={false}
+                    linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
+                    unitBasic={this.state.unitsBasic[unitId]}
+                    marksBasic={this.state.marksBasic} />
+                </div>
           </div>
         );
       });
@@ -256,6 +299,7 @@ class Feed extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     i18nUIString: state.i18nUIString,
+    nounsBasic: state.nounsBasic,
   }
 }
 

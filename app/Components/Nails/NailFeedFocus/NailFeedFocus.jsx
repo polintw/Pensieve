@@ -6,11 +6,8 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import stylesFont from '../stylesFont.module.css';
 import NailMarksPreview from '../components/NailMarksPreview.jsx';
 import ImgPreview from '../../ImgPreview.jsx';
-import AccountPalette from '../../AccountPalette.jsx';
-import LinkFetch from '../../LinkFetch/LinkFetch.jsx';
 import SvgPin from '../../Svg/SvgPin.jsx';
 import {
   renderNodesRows,
@@ -105,8 +102,7 @@ const contentBoxImg = (self)=>{
       className={classnames(
         styles.boxContent,
         {[styles.boxContentNarrow]: self.props.narrowWidth}
-      )}
-      style={{minWidth: self.props.narrowWidth ? "27.6vw": "30.8vw"}}>
+      )}>
       <div
         ref={self.nailImgBox}
         className={styles.boxImg}>
@@ -146,17 +142,10 @@ const contentBoxMarks = (self)=>{
         <NailMarksPreview
           unitId={self.props.unitId}
           unitBasic={self.props.unitBasic}
-          marksBasic={self.props.marksBasic}/>
-
-        <div className={classnames(styles.boxAuthor, stylesFont.colorStandard)}>
-          <AccountPalette
-            size={"regularBold"}
-            userId={self.props.unitBasic.authorId}
-            authorIdentity={self.props.unitBasic.authorIdentity}/>
-
-        </div>
+          marksBasic={self.props.marksBasic}
+          spotCount={false}
+          smallCircle={true}/>
       </div>
-
     </div>
   )
 };
@@ -165,7 +154,6 @@ const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
     unitCurrent: state.unitCurrent,
-    nounsBasic: state.nounsBasic,
     usersBasic: state.usersBasic
   }
 }

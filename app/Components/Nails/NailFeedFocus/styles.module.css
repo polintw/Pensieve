@@ -4,7 +4,7 @@
   justify-content: space-between;
   position: relative;
   box-sizing: border-box;
-  padding: 0.69vw;
+  padding: 1.03%;
 }
 
 .frameOnMouse {
@@ -15,13 +15,12 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 342px;
-  min-width: 32vw;
+  width: 46.83%;
   max-width: 96.24vw;
-  height: 249px;
-  min-height: 31.6vh;
+  height: 24vh;
+  min-height: 154px;
   position: relative;
-  margin: 0.69vw;
+  margin: 1.03%;
 }
 
 .boxContentNarrow {
@@ -44,7 +43,7 @@
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  height: 70.68%;
+  height: 68.67%;
 }
 
 .boxTitle {

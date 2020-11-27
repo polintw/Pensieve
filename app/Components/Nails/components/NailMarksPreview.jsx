@@ -41,7 +41,8 @@ class NailMarksPreview extends React.Component {
       <div
         className={classnames(styles.boxMarkPreview)}>
         <div
-          className={styles.boxMarkPreviewCounts}>
+          className={styles.boxMarkPreviewCounts}
+          style={!!this.props.smallCircle ? {marginBottom: '2rem'} : {}}>
           {this._render_MarkCounts()}
         </div>
         {this._render_nails_Marks()}
@@ -64,17 +65,21 @@ class NailMarksPreview extends React.Component {
           markkey={key}
           className={classnames(styles.boxOvalCount)}
           style={{
-            backgroundColor: (self.state.onCount == key && cssVW >= 860) ? "rgba(240, 151, 22, 0.45)": "rgba(84, 84, 84, 0.45)"
+            backgroundColor: (self.state.onCount == key && cssVW >= 860) ? "rgba(240, 151, 22, 0.45)": "rgba(84, 84, 84, 0.45)",
+            width: self.props.smallCircle ? '27px' : '32px',
+            height: self.props.smallCircle ? '27px' : '32px',
           }}
           onMouseEnter={self._handleEnter_MarkCount}
           onMouseLeave={self._handleLeave_MarkCount}>
           {
-            (i == 0) &&
-            <span className={classnames(stylesFont.fontBold, stylesFont.colorWhite)}>{i+1}</span>
-          }
-          {
-            (cssVW >= 860 && i> 0) &&
-            <span className={classnames(stylesFont.fontBold, stylesFont.colorWhite)}>{i+1}</span>
+            (
+              this.props.spotCount &&
+              ( i== 0 || (cssVW >= 860 && i> 0) ) ? (
+                <span className={classnames(stylesFont.fontBold, stylesFont.colorWhite)}>{i + 1}</span>
+              ): (
+                null
+              )
+            )
           }
         </div>
       )

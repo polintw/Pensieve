@@ -17,6 +17,27 @@
   justify-content: space-between;
 }
 
+.boxModuleItem {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.boxFocusNailSubtitle {
+  display: flex;
+  flex: 1;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%; 
+  max-width: 30%;
+  padding-right: 2.76vw;
+}
+
+.boxFocusNailSubtitleUp {
+  margin-bottom: 1rem;
+}
+
 .boxDescript {
   width: 100%;
   text-align: center;
@@ -34,6 +55,11 @@
   position: relative;
   padding-top: 4.4rem;
   margin-bottom: 35.6vh;
+}
+
+.spanFocusSubtitleConnect {
+  display: inline-block;
+  margin-left: 1rem;
 }
 
 @media screen and (max-width:860px) {

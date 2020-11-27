@@ -113,11 +113,14 @@ class NailFeed extends React.Component {
             this.state.onFrame ? (
               <div
                 className={classnames(styles.boxPreview)}>
-                <NailMarksPreview
-                  unitId={this.props.unitId}
-                  unitBasic={this.props.unitBasic}
-                  marksBasic={this.props.marksBasic}/>
-
+                <div
+                  style={{ height: '77.27%', width: '100%' }}>
+                  <NailMarksPreview
+                    unitId={this.props.unitId}
+                    unitBasic={this.props.unitBasic}
+                    marksBasic={this.props.marksBasic}
+                    spotCount={true} />
+                </div>
                 <div className={classnames(styles.boxAuthor, "colorStandard")}>
                   <AccountPalette
                     size={"regularBold"}

@@ -201,6 +201,7 @@ const i18nUIString_EN = {
   "descript_Nail_noMark": "(expand image...)",
 
   "title_focusBoard": "Focus Board",
+  "connection_focus_userNode": 'in',
 
   "title_NavAtNode_": "Accumulation",
   "subtitle_NavAtNode_Num": ['stay', "from"],
