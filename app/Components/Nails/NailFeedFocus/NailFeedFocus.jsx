@@ -6,10 +6,8 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import stylesFont from '../stylesFont.module.css';
 import NailMarksPreview from '../components/NailMarksPreview.jsx';
 import ImgPreview from '../../ImgPreview.jsx';
-import AccountPalette from '../../AccountPalette.jsx';
 import SvgPin from '../../Svg/SvgPin.jsx';
 import {
   renderNodesRows,
@@ -19,7 +17,7 @@ import {
   domain
 } from '../../../../config/services.js';
 
-class NailFeedMobile extends React.Component {
+class NailFeedFocus extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -101,8 +99,11 @@ const contentBoxImg = (self)=>{
   return (
     <div
       key={"key_NailBoxImg_"+self.props.unitId}
-      className={classnames(styles.boxContent)}
-      style={{minWidth: "30.8vw"}}>
+      className={classnames(
+        styles.boxContent,
+        {[styles.boxContentNarrow]: self.props.narrowWidth}
+      )}
+      style={{width: '46.76%'} /* partio from BoxMark, which is 50% */ }>
       <div
         ref={self.nailImgBox}
         className={styles.boxImg}>
@@ -118,7 +119,10 @@ const contentBoxMarks = (self)=>{
   return (
     <div
       key={"key_NailBoxMarks_"+self.props.unitId}
-      className={classnames(styles.boxContentMobile)}>
+      className={classnames(
+        styles.boxContent,
+        {[styles.boxContentNarrow]: self.props.narrowWidth}
+      )}>
       <div
         className={classnames(styles.boxTitle)}>
         <div
@@ -136,22 +140,13 @@ const contentBoxMarks = (self)=>{
       </div>
       <div
         className={classnames(styles.boxPreview)}>
-        <div
-          style={{ height: '77.27%', width: '100%' }}>
-          <NailMarksPreview
-            unitId={self.props.unitId}
-            unitBasic={self.props.unitBasic}
-            marksBasic={self.props.marksBasic}
-            spotCount={true} />
-        </div>
-        <div className={classnames(styles.boxAuthor, stylesFont.colorStandard)}>
-          <AccountPalette
-            size={"regularBold"}
-            userId={self.props.unitBasic.authorId}
-            authorIdentity={self.props.unitBasic.authorIdentity}/>
-        </div>
+        <NailMarksPreview
+          unitId={self.props.unitId}
+          unitBasic={self.props.unitBasic}
+          marksBasic={self.props.marksBasic}
+          spotCount={false}
+          smallCircle={true}/>
       </div>
-
     </div>
   )
 };
@@ -160,7 +155,6 @@ const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
     unitCurrent: state.unitCurrent,
-    nounsBasic: state.nounsBasic,
     usersBasic: state.usersBasic
   }
 }
@@ -168,4 +162,4 @@ const mapStateToProps = (state)=>{
 export default withRouter(connect(
   mapStateToProps,
   null
-)(NailFeedMobile));
+)(NailFeedFocus));

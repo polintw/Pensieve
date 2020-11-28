@@ -56,11 +56,8 @@ class Belong extends React.Component {
 
     return (
       <div className={classnames(styles.boxNode)}>
-        <Link
-          to={"/cosmic/explore/node?nodeid="+nodeId}
-          className={classnames( 'plainLinkButton')}
-          onMouseEnter={this._handleEnter_NodeLink}
-          onMouseLeave={this._handleLeave_NodeLink}>
+        <div
+          className={classnames( 'plainLinkButton')}>
           <span
             className={classnames(
               styles.spanNode,
@@ -73,7 +70,7 @@ class Belong extends React.Component {
                 null
               )}
             </span>
-        </Link>
+        </div>
           <span
             className={classnames(styles.spanType, stylesFont.colorEditBlack, stylesFont.fontContent)}
             style={{opacity: !!(firstParentId in this.props.nounsBasic)? 1 : 0}}>
