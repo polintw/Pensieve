@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Link,
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
@@ -21,6 +22,9 @@ import {
   cancelErr,
   uncertainErr
 } from "../../../../utils/errHandlers.js";
+import {
+  domain
+} from '../../../../../config/services.js';
 
 class Feed extends React.Component {
   constructor(props){
@@ -30,7 +34,8 @@ class Feed extends React.Component {
       feedList: [],
       unitsBasic: {},
       marksBasic: {},
-      scrolled: true
+      scrolled: true,
+      onNodeLink: false
     };
     this.refScroll = React.createRef();
     this.axiosSource = axios.CancelToken.source();
@@ -38,6 +43,8 @@ class Feed extends React.Component {
     this._check_Position = this._check_Position.bind(this);
     this._render_FeedNails = this._render_FeedNails.bind(this);
     this._render_FooterHint = this._render_FooterHint.bind(this);
+    this._handleEnter_NodeLink = this._handleEnter_NodeLink.bind(this);
+    this._handleLeave_NodeLink = this._handleLeave_NodeLink.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -107,43 +114,80 @@ class Feed extends React.Component {
               <div
                 className={classnames(styles.boxFocusNailSubtitle)}>
                 <div
-                  className={classnames(styles.boxFocusNailSubtitleUp, 'colorEditLightBlack')}>
+                  className={classnames(styles.boxSubtitleFlex)}>
+                <div
+                  className={classnames(styles.boxFocusNailSubtitleUp, 'colorStandard')}>
                   <AccountPalette
                     size={"regularBold"}
+                    referLink={
+                      (this.state.unitsBasic[unitId].authorIdentity == 'pathProject') ?
+                        (
+                          domain.protocol + 
+                          "://" + 
+                          domain.name + 
+                          '/cosmic/explore/path/' + 
+                          (
+                            this.state.unitsBasic[unitId].authorId in this.props.pathsBasic &&
+                            this.props.pathsBasic[this.state.unitsBasic[unitId].authorId].pathName)
+                        ) : false
+                    }
                     userId={this.state.unitsBasic[unitId].authorId}
-                    authorIdentity={this.state.unitsBasic[unitId].authorIdentity} />
+                    authorIdentity={this.state.unitsBasic[unitId].authorIdentity} 
+                    styleLast={(this.state.unitsBasic[unitId].authorIdentity == 'pathProject') ? { color: 'rgb(69, 135, 160)'} : {}}/>
                   <span
-                    className={classnames(styles.spanFocusSubtitleConnect, 'colorEditBlack', 'fontSubtitle_h5')}>
+                    className={classnames(styles.spanFocusSubtitleConnect, 'colorEditLightBlack', 'fontSubtitle_h5')}>
                     {this.props.i18nUIString.catalog['connection_focus_userNode']}
                   </span>
                 </div>
-                <div>
-                  <span
-                    className={classnames("fontTitle", "colorEditBlack", "weightBold")}>
-                    {
-                      this.state.unitsBasic[unitId].nounsList[0] in this.props.nounsBasic ? (
-                        this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].name) : null
+                <div
+                  className={classnames(styles.boxFocusNailSubtitleLow)}>
+                  <Link
+                    to={"/cosmic/explore/node?nodeid=" + this.state.unitsBasic[unitId].nounsList[0]}
+                    className={classnames('plainLinkButton')}
+                    eventkey={"mouseEvKey_node_" + unitId + "_" + this.state.unitsBasic[unitId].nounsList[0]}
+                    onMouseEnter={this._handleEnter_NodeLink}
+                    onMouseLeave={this._handleLeave_NodeLink}>
+                    {(this.state.unitsBasic[unitId].nounsList[0] in this.props.nounsBasic) &&
+                      <span
+                        className={classnames(
+                          "fontNodesEqual", "weightBold", "colorEditBlack",
+                          styles.spanBaseNode,
+                          { [styles.spanBaseNodeMouse]: this.state.onNodeLink == ("mouseEvKey_node_" + unitId + "_" + this.state.unitsBasic[unitId].nounsList[0]) }
+                        )}>
+                        {this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].name}</span>
                     }
-                  </span>
+                  </Link>
                   <span
-                    className={classnames("fontTitle", "colorEditBlack", "weightBold")}>
+                    className={classnames("fontNodesEqual", "colorEditBlack", "weightBold")}>
                     {this.state.unitsBasic[unitId].nounsList[0] in this.props.nounsBasic ? (
                       (this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].prefix.length > 0) &&
                       (", ")) : (null)
                     }
                   </span>
-                  <br/>
-                  <span
-                    className={classnames("fontNodesEqual", "colorEditBlack", "weightBold")}>
-                    {this.state.unitsBasic[unitId].nounsList[0] in this.props.nounsBasic ? (
-                      (this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].prefix.length > 0) &&
-                      (this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].prefix)) : (null)
-                    }
-                  </span>
+                  <br />
+                  {
+                    (this.state.unitsBasic[unitId].nounsList[0] in this.props.nounsBasic && 
+                      this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].prefix.length > 0) &&
+                    <Link
+                      to={"/cosmic/explore/node?nodeid=" + this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].parentId}
+                      className={classnames('plainLinkButton')}
+                      eventkey={"mouseEvKey_node_" + unitId + "_prefix_" + this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].parentId}
+                      onMouseEnter={this._handleEnter_NodeLink}
+                      onMouseLeave={this._handleLeave_NodeLink}>
+                        <span
+                          className={classnames(
+                            "fontSubtitle", "weightBold", "colorEditBlack",
+                            styles.spanBaseNode,
+                            { [styles.spanBaseNodeMouse]: this.state.onNodeLink == ("mouseEvKey_node_" + unitId + "_prefix_" + this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].parentId) })}>
+                          {this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].prefix}</span>
+                    </Link>
+                  }
+                </div>                  
                 </div>
               </div>
               <div
-                className={classnames(stylesNail.boxNail)}>
+                className={classnames(stylesNail.boxNail)}
+                style={{ width: '72%' }}>
                   <NailFeedFocus
                     {...this.props}
                     leftimg={ true }
@@ -293,12 +337,21 @@ class Feed extends React.Component {
     });
   }
 
+  _handleEnter_NodeLink(e) {
+    let target = e.currentTarget.getAttribute('eventkey');
+    this.setState({ onNodeLink: target })
+  }
+
+  _handleLeave_NodeLink(e) {
+    this.setState({ onNodeLink: false })
+  }
 }
 
 const mapStateToProps = (state)=>{
   return {
     i18nUIString: state.i18nUIString,
     nounsBasic: state.nounsBasic,
+    pathsBasic: state.pathsBasic
   }
 }
 

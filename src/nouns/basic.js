@@ -68,6 +68,7 @@ function _handle_nouns_basic_GET(req, res){
           id: row.id,
           name: row.name,
           prefix: row.prefix,
+          parentId: !!row.parent_id ? row.parent_id : null,
           parentify: (row.parent ? true : false),
           childify: (row.child ? true : false)
         };

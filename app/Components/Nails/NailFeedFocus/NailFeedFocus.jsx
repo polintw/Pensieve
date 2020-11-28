@@ -103,7 +103,7 @@ const contentBoxImg = (self)=>{
         styles.boxContent,
         {[styles.boxContentNarrow]: self.props.narrowWidth}
       )}
-      style={{width: '249px', minWidth: '23.06vw'} /* reverse to BoxMark, base on 75% of NailFeed*/ }>
+      style={{width: '46.76%'} /* partio from BoxMark, which is 50% */ }>
       <div
         ref={self.nailImgBox}
         className={styles.boxImg}>

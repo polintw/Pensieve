@@ -66,8 +66,8 @@ class NailMarksPreview extends React.Component {
           className={classnames(styles.boxOvalCount)}
           style={{
             backgroundColor: (self.state.onCount == key && cssVW >= 860) ? "rgba(240, 151, 22, 0.45)": "rgba(84, 84, 84, 0.45)",
-            width: self.props.smallCircle ? '27px' : '32px',
-            height: self.props.smallCircle ? '27px' : '32px',
+            width: self.props.smallCircle ? '24px' : '32px',
+            height: self.props.smallCircle ? '24px' : '32px',
           }}
           onMouseEnter={self._handleEnter_MarkCount}
           onMouseLeave={self._handleLeave_MarkCount}>
