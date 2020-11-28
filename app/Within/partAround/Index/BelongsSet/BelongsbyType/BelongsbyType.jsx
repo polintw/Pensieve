@@ -6,7 +6,6 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import stylesFont from "../../../stylesFont.module.css";
 import Belong from './Belong.jsx';
 
 class BelongsbyType extends React.Component {

@@ -91,6 +91,28 @@ class NavFeed extends React.Component {
         <div
           className={classnames(styles.boxGatheringBase)}>
           <GatheringBase/>
+        <div>
+          <span
+            className={classnames('colorEditLightBlack', 'fontContent')}
+            style={{ padding: '0 5px' }}>
+            {"．"}
+          </span>
+          <Link
+            to={"/cosmic/focus"}
+            topath={"focus"}
+            className={classnames('plainLinkButton')}
+            onMouseEnter={this._handleEnter_link}
+            onMouseLeave={this._handleLeave_link}
+            style={{ padding: '0 5px' }}>
+              <span
+                className={classnames(
+                  "fontContentPlain", "weightBold", "colorEditBlack",
+                  styles.spanBaseNode,
+                  { [styles.spanBaseNodeMouse]: this.state.onNavLink == 'focus' }
+                )}>
+                {"Focus Board"}</span>
+          </Link>
+        </div>
         </div>
       </div>
     )

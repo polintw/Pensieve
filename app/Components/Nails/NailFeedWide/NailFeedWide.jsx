@@ -143,11 +143,14 @@ const contentBoxMarks = (self)=>{
       </div>
       <div
         className={classnames(styles.boxPreview)}>
-        <NailMarksPreview
-          unitId={self.props.unitId}
-          unitBasic={self.props.unitBasic}
-          marksBasic={self.props.marksBasic}/>
-
+          <div
+            style={{ height: '77.27%', width: '100%'}}>
+            <NailMarksPreview
+              unitId={self.props.unitId}
+              unitBasic={self.props.unitBasic}
+              marksBasic={self.props.marksBasic}
+              spotCount={true}/>
+          </div>
         <div className={classnames(styles.boxAuthor, stylesFont.colorStandard)}>
           <AccountPalette
             size={"regularBold"}

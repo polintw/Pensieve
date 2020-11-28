@@ -1,0 +1,77 @@
+.frame {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  position: relative;
+  box-sizing: border-box;
+  padding: 2.06%;
+}
+
+.frameOnMouse {
+
+}
+
+.boxContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 50%;
+  max-width: 96.24vw;
+  height: 26vh;
+  min-height: 154px;
+  position: relative;
+}
+
+.boxContentNarrow {
+  width: 307px;
+  min-width: 28vw;
+  max-width: 96.24vw;
+}
+
+.boxImg {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 4px;
+  background-color: rgba(217, 232, 255, 0.15);
+  overflow: hidden;
+}
+
+.boxPreview {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 68.67%;
+}
+
+.boxTitle {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.boxNodes {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.boxAuthor {
+  display: flex;
+  width: 100%;
+}
+
+.boxTitlePin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 3rem;
+  height: 3rem;
+}
+
+@media screen and (max-width:860px) {
+  .frmaeSmall {
+    display: inline-block;
+  }
+}
