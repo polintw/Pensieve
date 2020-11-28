@@ -143,8 +143,7 @@ class Feed extends React.Component {
                 </div>
               </div>
               <div
-                className={classnames(stylesNail.boxNail)}
-                style={{width: '70%'}}>
+                className={classnames(stylesNail.boxNail)}>
                   <NailFeedFocus
                     {...this.props}
                     leftimg={ true }

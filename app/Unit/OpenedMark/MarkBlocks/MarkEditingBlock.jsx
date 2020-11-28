@@ -172,7 +172,8 @@ class MarkEditingBlock extends React.Component {
             </div>
           </div>
         </div>
-        <div className={styles.boxBlockBack}>
+        <div
+          style={{position: "absolute", top: "3.2%", right: '5%', cursor: "pointer"}}>
           <span
             className={classnames(stylesFont.colorDarkGrey)}
             style={{fontSize: '0.8rem'}}

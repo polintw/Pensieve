@@ -102,7 +102,8 @@ const contentBoxImg = (self)=>{
       className={classnames(
         styles.boxContent,
         {[styles.boxContentNarrow]: self.props.narrowWidth}
-      )}>
+      )}
+      style={{width: '249px', minWidth: '23.06vw'} /* reverse to BoxMark, base on 75% of NailFeed*/ }>
       <div
         ref={self.nailImgBox}
         className={styles.boxImg}>

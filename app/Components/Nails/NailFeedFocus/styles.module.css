@@ -4,7 +4,7 @@
   justify-content: space-between;
   position: relative;
   box-sizing: border-box;
-  padding: 1.03%;
+  padding: 0.517vw; /* 75% of .frame in NailFeed */
 }
 
 .frameOnMouse {
@@ -15,12 +15,13 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 46.83%;
-  max-width: 96.24vw;
+  width: 264px; /* 256.5px + 7.5px was middle line of the Nail, 75% from NailFeed  */
+  min-width: 24.517vw; /* 24vw + 0.517vw was the middle line of the Nail*/
+  max-width: 97.93vw;
   height: 24vh;
   min-height: 154px;
   position: relative;
-  margin: 1.03%;
+  margin: 0.517vw; /* 75% of .frame in NailFeed */
 }
 
 .boxContentNarrow {
