@@ -88,4 +88,30 @@
   .boxModuleSmall {
     justify-content: center;
   }
+
+  .boxModuleItem {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .boxFocusNailSubtitle {
+    justify-content: flex-start;
+    height: unset;
+    margin: 8px 0;
+    padding-left: 1.38vw;
+  }
+
+  .boxSmallNoFlex {
+    display: unset;
+    align-items: unset;
+  }
+
+  .boxFocusNailSubtitleUp {
+    margin-bottom: unset;
+    text-align: unset;
+  }
+
+  .boxFocusNailSubtitleLow {
+    text-align: unset;
+  }
 }

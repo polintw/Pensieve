@@ -90,22 +90,6 @@ class Feed extends React.Component {
         if( !(unitId in this.state.unitsBasic)) return; //skip if the info of the unit not yet fetch
         // for mobile device, use one special Nail
         let cssVW = window.innerWidth;
-        if(cssVW < 860) {
-          nailsDOM.push(
-            <div
-              key={"key_NodeFeed_new_" + index}
-              className={classnames(stylesNail.boxNail, stylesNail.custNailWide)}>
-              <NailFeedMobile
-                {...this.props}
-                leftimg={false}
-                unitId={unitId}
-                linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
-                unitBasic={this.state.unitsBasic[unitId]}
-                marksBasic={this.state.marksBasic} />
-            </div>
-          );
-          return;
-        };
 
         nailsDOM.push (
           <div
@@ -114,11 +98,11 @@ class Feed extends React.Component {
               <div
                 className={classnames(styles.boxFocusNailSubtitle)}>
                 <div
-                  className={classnames(styles.boxSubtitleFlex)}>
-                <div
-                  className={classnames(styles.boxFocusNailSubtitleUp, 'colorStandard')}>
-                  <AccountPalette
-                    size={"regularBold"}
+                  className={classnames(styles.boxSubtitleFlex, styles.boxSmallNoFlex)}>
+                  <div
+                     className={classnames(styles.boxFocusNailSubtitleUp, 'colorStandard')}>
+                    <AccountPalette
+                      size={"regularBold"}
                     referLink={
                       (this.state.unitsBasic[unitId].authorIdentity == 'pathProject') ?
                         (
@@ -133,12 +117,12 @@ class Feed extends React.Component {
                     }
                     userId={this.state.unitsBasic[unitId].authorId}
                     authorIdentity={this.state.unitsBasic[unitId].authorIdentity} 
-                    styleLast={(this.state.unitsBasic[unitId].authorIdentity == 'pathProject') ? { color: 'rgb(69, 135, 160)'} : {}}/>
-                  <span
-                    className={classnames(styles.spanFocusSubtitleConnect, 'colorEditLightBlack', 'fontSubtitle_h5')}>
-                    {this.props.i18nUIString.catalog['connection_focus_userNode']}
-                  </span>
-                </div>
+                      styleLast={(this.state.unitsBasic[unitId].authorIdentity == 'pathProject') ? { color: 'rgb(69, 135, 160)'} : {}}/>
+                    <span
+                      className={classnames(styles.spanFocusSubtitleConnect, 'colorEditLightBlack', 'fontSubtitle_h5')}>
+                      {this.props.i18nUIString.catalog['connection_focus_userNode']}
+                    </span>
+                  </div>
                 <div
                   className={classnames(styles.boxFocusNailSubtitleLow)}>
                   <Link
@@ -164,39 +148,46 @@ class Feed extends React.Component {
                       (", ")) : (null)
                     }
                   </span>
-                  <br />
+                  <br/>
                   {
                     (this.state.unitsBasic[unitId].nounsList[0] in this.props.nounsBasic && 
                       this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].prefix.length > 0) &&
-                    <Link
-                      to={"/cosmic/explore/node?nodeid=" + this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].parentId}
+                    <div
                       className={classnames('plainLinkButton')}
-                      eventkey={"mouseEvKey_node_" + unitId + "_prefix_" + this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].parentId}
-                      onMouseEnter={this._handleEnter_NodeLink}
-                      onMouseLeave={this._handleLeave_NodeLink}>
+                      style={{display: 'inline-block'}}
+                      eventkey={"mouseEvKey_node_" + unitId + "_prefix_" + this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].parentId}>
                         <span
-                          className={classnames(
-                            "fontSubtitle", "weightBold", "colorEditBlack",
-                            styles.spanBaseNode,
-                            { [styles.spanBaseNodeMouse]: this.state.onNodeLink == ("mouseEvKey_node_" + unitId + "_prefix_" + this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].parentId) })}>
+                          className={classnames("fontSubtitle", "weightBold", "colorEditBlack")}>
                           {this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].prefix}</span>
-                    </Link>
+                    </div>
                   }
                 </div>                  
                 </div>
               </div>
               <div
-                className={classnames(stylesNail.boxNail)}
-                style={{ width: '72%' }}>
-                  <NailFeedFocus
-                    {...this.props}
-                    leftimg={ true }
-                    unitId={unitId}
-                    narrowWidth={false}
-                    linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
-                    unitBasic={this.state.unitsBasic[unitId]}
-                    marksBasic={this.state.marksBasic} />
-                </div>
+                className={classnames(stylesNail.boxNail, stylesNail.custFocusNailWide)}>
+                {
+                  (cssVW < 860) ? (
+                    <NailFeedMobile
+                      {...this.props}
+                      leftimg={false}
+                      unitId={unitId}
+                      nodisplay={['author']}
+                      linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
+                      unitBasic={this.state.unitsBasic[unitId]}
+                      marksBasic={this.state.marksBasic} />
+                  ): (
+                    <NailFeedFocus
+                      {...this.props}
+                      leftimg={true}
+                      unitId={unitId}
+                      narrowWidth={false}
+                      linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
+                      unitBasic={this.state.unitsBasic[unitId]}
+                      marksBasic={this.state.marksBasic} />
+                  )
+                }
+              </div>
           </div>
         );
       });
