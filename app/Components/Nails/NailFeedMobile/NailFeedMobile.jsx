@@ -137,7 +137,7 @@ const contentBoxMarks = (self)=>{
       <div
         className={classnames(styles.boxPreview)}>
         <div
-          style={{ height: '77.27%', width: '100%', marginBottom: '16px' }}>
+          style={{ width: '100%', maxHeight: "179px", marginBottom: '16px', overflow: 'hidden' }}>
           <NailMarksPreview
             unitId={self.props.unitId}
             unitBasic={self.props.unitBasic}
