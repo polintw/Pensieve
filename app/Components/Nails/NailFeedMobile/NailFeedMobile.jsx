@@ -137,19 +137,23 @@ const contentBoxMarks = (self)=>{
       <div
         className={classnames(styles.boxPreview)}>
         <div
-          style={{ height: '77.27%', width: '100%' }}>
+          style={{ height: '77.27%', width: '100%', marginBottom: '16px' }}>
           <NailMarksPreview
             unitId={self.props.unitId}
             unitBasic={self.props.unitBasic}
             marksBasic={self.props.marksBasic}
             spotCount={true} />
         </div>
+        {
+          (!!self.props.nodisplay && 
+          (self.props.nodisplay.indexOf('author') != (-1))) ? null :
         <div className={classnames(styles.boxAuthor, stylesFont.colorStandard)}>
           <AccountPalette
             size={"regularBold"}
             userId={self.props.unitBasic.authorId}
             authorIdentity={self.props.unitBasic.authorIdentity}/>
         </div>
+        }
       </div>
 
     </div>

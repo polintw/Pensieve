@@ -11,6 +11,10 @@
   width: 100%;
 }
 
+.custFocusNailWide {
+  width: 72%;
+}
+
 /* keep after the boxNail*/
 .custNailWideEmpty {
   width: 100%;
@@ -23,5 +27,9 @@
 @media screen and (max-width:860px) {
   .custNailWide {
     width: unset;
+  }
+
+  .custFocusNailWide {
+    width: 100%;
   }
 }
