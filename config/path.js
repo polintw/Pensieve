@@ -3,6 +3,7 @@ const {
   envImgPath
 } = require('./.env.json');
 
-exports.userImg = envImgPath;
+exports.userImg = envImgPath.users;
+exports.marketingImgs = envImgPath.marketing;
 
 exports.dbSeed = envSeedPath;
