@@ -140,4 +140,4 @@ function intervalMarketMail(){
     mailTimer();
   }, 43200000) // every 12 hours. Nodejs could accept only integer < 2147483647 miliseconds
 };
-//intervalMarketMail();
+intervalMarketMail();

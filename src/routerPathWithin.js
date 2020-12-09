@@ -171,13 +171,13 @@ async function _handle_crawler_GET_PathProject(req, res){
     });
     let imgUrl = '';
     if(!!projectLatestUnit){
-      imgUrl =  "https://" +envServiceGeneral.appDomain +'/router/img/' + projectLatestUnit.url_pic_layer0 +'?type=thumb';
+      imgUrl =  "https://" +envServiceGeneral.appDomain +'/router/img/' + projectLatestUnit.url_pic_layer0 ;
     };
 
     variables['title'] = targetProject.name + " | Cornerth.";
     variables['ogurl'] = req.originalUrl;
     variables['ogimg'] = imgUrl;
-
+     
     res.render(path.join(projectRootPath, '/public/html/ren_crawler.pug'), variables);
   }
   catch(error){

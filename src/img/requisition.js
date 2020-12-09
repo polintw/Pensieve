@@ -21,7 +21,7 @@ function _handle_img_requisition(req, res){
       else {
         thumbImgPath = path.join(projectRootPath, userImg+folder+'/'+ file);
       };
-      res.sendFile(thumbImgPath, {headers: {'Content-Type': 'image'}}, function (err) {
+      res.sendFile(thumbImgPath, { headers: { 'Content-Type': 'image/jpeg'}}, function (err) {
         if (err) {
           console.log('error occured: img sending fail:'+err);
           res.status(404).end();
@@ -37,9 +37,10 @@ function _handle_img_requisition(req, res){
       });
       break;
     default:
-      res.sendFile(path.join(__dirname, '/../..', '/faked_Pics/'+folder+'/'+file), {headers: {'Content-Type': 'image'}}, function (err) {
+      let imgPath = path.join(projectRootPath, userImg + folder + '/' + file);
+      res.sendFile(imgPath, { headers: { 'Content-Type': 'image/jpeg' } }, function (err) {
         if (err) {
-          console.log('error occured: img sending fail:'+err);
+          console.log('error occured: img sending fail:' + err);
           res.status(404).end();
         }
       });
