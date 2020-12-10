@@ -115,6 +115,7 @@ class UnitUnsign extends React.Component {
         nouns: resObj.main.nouns,
         refsArr: resObj.main.refsArr,
         outBoundLink: resObj.main.outBoundLink,
+        imgLocation: resObj.main.imgLocation,
         createdAt: resObj.main.createdAt
       });
 

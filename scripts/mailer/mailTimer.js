@@ -22,7 +22,7 @@ async function mailListGenerator(){
   const d = new Date();
   const now = d.getTime(); // milisecond
   const respondPoint = now-interval; // past 24hr
-  const lastMailPoint = now-(interval* 7)-7200000; // 7 days & 2 hr, combine to interval in server.js
+  const lastMailPoint = now-(interval* 9)-7200000; // 9 days & 2 hr, combine to interval in server.js
 
   try{
     //start from checking latest responds
@@ -67,7 +67,7 @@ async function mailListGenerator(){
     const longPeriodUsers = await _DB_listMails.findAll({
       where: {
         [Op.or]: [
-          {last_deliver: {[Op.lt]: lastMailPoint}}, // more than 5 days not recieving mail
+          { last_deliver: { [Op.lt]: lastMailPoint } }, // more than 9 days & 2 hr(9.5 days in result) not recieving mail
           {id_user: {[Op.in]: candidateList}} // 'include' those users already on the list due to author to responds
         ],
         setting: 'full' // to accelerate the process, we exclude ant users unsubscribed, but to exclude those from responds, we would still do this again later

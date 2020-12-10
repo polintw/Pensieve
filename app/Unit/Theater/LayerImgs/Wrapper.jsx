@@ -15,6 +15,7 @@ import {NodesExtensible} from '../../NodesDisplay/NodesExtensible.jsx';
 import LinkFetch from '../../../Components/LinkFetch/LinkFetch.jsx';
 import ImgPreview from '../../../Components/ImgPreview.jsx';
 import LinkCopy from '../../../Components/LinkCopy/LinkCopy.jsx';
+import BtnOpenMap from '../../../Components/BtnOpenMap/BtnOpenMap.jsx';
 import AccountPalette from '../../../Components/AccountPalette.jsx';
 import DateConverter from '../../../Components/DateConverter.jsx';
 import {
@@ -87,15 +88,13 @@ class Wrapper extends React.Component {
           <div
             className={classnames(styles.boxBottomRight)}>
             {
-              (("main" in this.props.unitCurrent.outBoundLink)  &&
-              !!this.props.unitCurrent.outBoundLink.main) &&
+              !!this.props.unitCurrent.imgLocation.longitude &&
               <div
-                style={{display: 'flex', alignItems: 'center'}}>
-                <LinkFetch
-                  tagA={true}
-                  quotationify={false}
-                  outboundLink={this.props.unitCurrent.outBoundLink.main}/>
-                <div style={{borderRight: 'solid 0.75px #a3a3a3', margin: '0 0 0 1.5rem', height: '3.6rem'}}/>
+                className={classnames(styles.btnBottomIcon)}
+                style={{ marginTop: '2px' }}>
+                <BtnOpenMap
+                  longitude={this.props.unitCurrent.imgLocation.longitude}
+                  latitude={this.props.unitCurrent.imgLocation.latitude}/>
               </div>
             }
             <div
@@ -106,7 +105,8 @@ class Wrapper extends React.Component {
             {
               (this.props.unitCurrent.identity != "author") &&
               <div
-                className={classnames(styles.btnBottomIcon)}>
+                className={classnames(styles.btnBottomIcon)}
+                style={{ marginTop: '2px' }}>
                 <Inspired/>
               </div>
             }
@@ -161,6 +161,18 @@ class Wrapper extends React.Component {
                   previewSrc={'/router/img/'+this.props.unitCurrent.primerSrc+'?type=thumb'}
                   _handleClick_ImgPreview_preview={()=>{/*nothing need to happen*/}}/>
               </Link>
+            }
+            {
+              (("main" in this.props.unitCurrent.outBoundLink) &&
+                !!this.props.unitCurrent.outBoundLink.main) &&
+              <div
+                style={{ display: 'flex', alignItems: 'center' }}>
+                <div style={{ borderRight: 'solid 0.75px #a3a3a3', margin: '0 1.5rem', height: '3.6rem' }} />
+                <LinkFetch
+                  tagA={true}
+                  quotationify={true}
+                  outboundLink={this.props.unitCurrent.outBoundLink.main} />
+              </div>
             }
           </div>
         </div>

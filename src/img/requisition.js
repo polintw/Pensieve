@@ -31,7 +31,7 @@ function _handle_img_requisition(req, res){
     case  'unitSingle':
       fs.readFile(path.join(projectRootPath, userImg+folder+'/'+file), function(err, imgBuffer){
         if(err) {console.log('err in Read_imgFile:'+err);res.status(500);return;};
-        let imgBase64 = new Buffer(imgBuffer, 'binary').toString('base64');
+        let imgBase64 = new Buffer.from(imgBuffer, 'binary').toString('base64');
         imgBase64 = 'data:image/jpeg;base64,' + imgBase64;
         res.status(200).send(imgBase64);
       });
