@@ -12,6 +12,7 @@ import Inspired from '../components/Inspired/Inspired.jsx';
 import {NodesExtensible} from '../../NodesDisplay/NodesExtensible.jsx';
 import LinkFetch from '../../../Components/LinkFetch/LinkFetch.jsx';
 import LinkCopy from '../../../Components/LinkCopy/LinkCopy.jsx';
+import BtnOpenMap from '../../../Components/BtnOpenMap/BtnOpenMap.jsx';
 import AccountPalette from '../../../Components/AccountPalette.jsx';
 import DateConverter from '../../../Components/DateConverter.jsx';
 import {
@@ -79,6 +80,16 @@ class Wrapper extends React.Component {
           className={classnames(styles.boxContentWidth, styles.boxBottom)}>
           <div
             className={classnames(styles.boxBottomRight)}>
+            {
+              !!this.props.unitCurrent.imgLocation.longitude &&
+              <div
+                className={classnames(styles.btnBottomIcon)}
+                style={{ marginTop: '2px' }}>
+                <BtnOpenMap
+                  longitude={this.props.unitCurrent.imgLocation.longitude}
+                  latitude={this.props.unitCurrent.imgLocation.latitude} />
+              </div>
+            }
             <div
               className={classnames(styles.btnBottomIcon)}
               style={{marginTop: '2px'}}>
@@ -87,21 +98,10 @@ class Wrapper extends React.Component {
             {
               (this.props.unitCurrent.identity != "author") &&
               <div
-                className={classnames(styles.btnBottomIcon)}>
+                className={classnames(styles.btnBottomIcon)}
+                style={{ marginTop: '2px' }}>
                 <Inspired
                   _set_noTokenDialog={this._set_inviteDialog}/>
-              </div>
-            }
-            {
-              (("main" in this.props.unitCurrent.outBoundLink)  &&
-              !!this.props.unitCurrent.outBoundLink.main) &&
-              <div
-                style={{display: 'flex', alignItems: 'center'}}>
-                <div style={{borderRight: 'solid 0.75px #a3a3a3', margin: '0 1.5rem', height: '3.6rem'}}/>
-                <LinkFetch
-                  tagA={true}
-                  quotationify={false}
-                  outboundLink={this.props.unitCurrent.outBoundLink.main}/>
               </div>
             }
           </div>
@@ -134,6 +134,18 @@ class Wrapper extends React.Component {
                 </div>
               </div>
             </div>
+            {
+              (("main" in this.props.unitCurrent.outBoundLink) &&
+                !!this.props.unitCurrent.outBoundLink.main) &&
+              <div
+                style={{ display: 'flex', alignItems: 'center' }}>
+                <div style={{ borderRight: 'solid 0.75px #a3a3a3', margin: '0 1.5rem', height: '3.6rem' }} />
+                <LinkFetch
+                  tagA={true}
+                  quotationify={true}
+                  outboundLink={this.props.unitCurrent.outBoundLink.main} />
+              </div>
+            }
           </div>
         </div>
 

@@ -26,6 +26,7 @@ export const unitCurrentInit = {
   nouns: {list:[]},
   refsArr: null,
   outBoundLink: {main: null},
+  imgLocation: { longitude: null, latitude: null },
   createdAt: null,
   primerify: false,
   primer: {primerId: '', authorPrimer: ''},

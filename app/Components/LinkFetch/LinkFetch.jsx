@@ -55,7 +55,7 @@ class LinkFetch extends React.Component {
                   'fontContentPlain', "colorEditBlack", styles.spanOutbound)}
                   style={
                     !!this.props.customStyle ? this.props.customStyle["common"] :{}}>
-                    {!!this.props.dashify ? " －《"　: "《"}
+                    {!!this.props.dashify ? "- «" : "«"}
                   </span>
             }
             <span
@@ -79,7 +79,7 @@ class LinkFetch extends React.Component {
                   'fontContentPlain', "colorEditBlack", styles.spanOutbound)}
                   style={
                     !!this.props.customStyle ? this.props.customStyle["common"] :{}}>
-                    {"》"}
+                  {"»"}
                   </span>
             }
         </a>

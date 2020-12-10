@@ -4,7 +4,7 @@ const router = express.Router();
 const path = require("path");
 const {convertToRaw, convertFromRaw} = require ('draft-js');
 
-const {envServiceGeneral} = require('../config/.env.json');
+const { envServiceGeneral, envImgPath} = require('../config/.env.json');
 const winston = require('../config/winston.js');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
@@ -57,7 +57,7 @@ async function _handle_crawler_GET_Unit(req, res){
         title: [], //set array fisrt, will be mdified to string later before res
         descrip: "",
         ogurl: req.originalUrl,
-        ogimg: 'https://'+envServiceGeneral.appDomain+'/router/img/'+url_pic_layer0+'?type=thumb' //don't forget using absolute path for dear crawler
+        ogimg: 'https://'+envServiceGeneral.appDomain+'/router/img/'+url_pic_layer0 //don't forget using absolute path for dear crawler
       };
       //put the nodes used list into title
       variables.title = resultsAttri.map((row, index)=>{
@@ -171,13 +171,14 @@ async function _handle_crawler_GET_PathProject(req, res){
     });
     let imgUrl = '';
     if(!!projectLatestUnit){
-      imgUrl =  "https://" +envServiceGeneral.appDomain +'/router/img/' + projectLatestUnit.url_pic_layer0 +'?type=thumb';
+      imgUrl =  "https://" +envServiceGeneral.appDomain +'/router/img/' + projectLatestUnit.url_pic_layer0 ;
     };
 
     variables['title'] = targetProject.name + " | Cornerth.";
+    variables['descrip'] = targetProject.description ;
     variables['ogurl'] = req.originalUrl;
     variables['ogimg'] = imgUrl;
-
+     
     res.render(path.join(projectRootPath, '/public/html/ren_crawler.pug'), variables);
   }
   catch(error){
@@ -197,7 +198,7 @@ async function _handle_crawler_GET_PathProject(req, res){
 
 //res specific Unit info to crawler
 router.use('/cosmic/explore/unit', function(req, res, next){
-  if(process.env.NODE_ENV == 'development') winston.verbose(`${'from crawler, GET: '} ${req.originalUrl}`);
+  winston.verbose(`${'router, req from crawler getting /unit, GET: '} ${req.originalUrl}, ${"from ip "}, ${req.ip}.`);
   //to res dynamic html to crawler, we need to select Unit basic info from DB
   //validate the query value trusted or not
   //pass to general middleware if the id was unclear
@@ -208,7 +209,7 @@ router.use('/cosmic/explore/unit', function(req, res, next){
 
 //res specific Unit info to crawler
 router.use('/cosmic/explore/path/:pathProject', function(req, res, next){
-  if(process.env.NODE_ENV == 'development') winston.verbose(`${'from crawler, GET: '} ${req.originalUrl}`);
+  winston.verbose(`${'router, req from crawler getting /path/pathProject, GET: '} ${req.originalUrl}, ${"from ip "}, ${req.ip}.`);
   //to res dynamic html to crawler, we need to select basic info from DB
   //validate the query value trusted or not
   //pass to general middleware if the id was unclear
@@ -227,8 +228,8 @@ router.use('/', function(req, res){
     title: "Cornerth.",
     descrip: "Uncover what behind.",
     ogurl: req.originalUrl,
-    ogimg: "" //replace to page icon in the future
-  }
+    ogimg: "https://" + envServiceGeneral.appDomain + '/router/img/' + envImgPath.file_previewApp  //replace to page icon in the future
+  };
 
   res.render(path.join(projectRootPath, '/public/html/ren_crawler.pug'), variables);
 })

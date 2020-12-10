@@ -168,12 +168,17 @@ function _handle_unit_Mount(req, res){
         createdAt: "",
         identity: "visitor", // default as a 'no token' visitor
         primerify: false,
-        outBoundLink: {main:''}
+        outBoundLink: {main:''},
+        imgLocation: {longitude: null, latitude: null}
       }
       if (!!result) { //make sure there is a unit with the id (would be 'null' if not exist)
         sendingData['authorBasic']['authorId'] = (result.author_identity== 'user') ?  result.id_author: result.used_authorId;
         sendingData['authorBasic']['authorIdentity'] = result.author_identity; // 'user' or 'pathProject'
-        sendingData['outBoundLink'] = {main: result.outboundLink_main};
+        sendingData['outBoundLink'] = { main: result.outboundLink_main };
+        sendingData['imgLocation'] = {
+          longitude: result.longitude_img,
+          latitude: result.latitude_img
+        };
         sendingData['createdAt'] = result.createdAt;
         sendingData['temp']['internalId'] = result.id; //the id used as 'id_unit' among database.
         if(userId == result.id_author){

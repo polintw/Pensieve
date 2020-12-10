@@ -132,7 +132,7 @@ winston.warn("server initiating, running at Port "+envBasic.port);
 
 // initiate mail timer
 function intervalMarketMail(){
-  winston.warn("mail timer initiating, setInterval to: 12 hours.");
+  winston.warn("mail timer initiating under production mode, setInterval to: 12 hours.");
   mailTimer(); // first time at init
 
   setInterval(()=>{
@@ -140,4 +140,4 @@ function intervalMarketMail(){
     mailTimer();
   }, 43200000) // every 12 hours. Nodejs could accept only integer < 2147483647 miliseconds
 };
-//intervalMarketMail();
+if (process.env.NODE_ENV != 'development') intervalMarketMail();
