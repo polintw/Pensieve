@@ -9,6 +9,7 @@ const {_res_success} = require('../utils/resHandler.js');
 const {
   _handle_ErrCatched,
   internalError,
+  notFoundError
 } = require('../utils/reserrHandler.js');
 
 async function _handle_GET_units_Responds(req, res){
@@ -18,6 +19,7 @@ async function _handle_GET_units_Responds(req, res){
     _handle_ErrCatched(new authorizedError(message, 89), req, res);
   };
   const reqExposedId = req.query.exposedId;
+  const reqLimit = Number(req.query.limit); // query in req is always a string, turn it into a number
   const unitBase = new Date(req.query.listUnitBase);
   const lastUnitTime = !isNaN(unitBase) ? unitBase : new Date(); // basically, undefined listUnitBase means first landing to the page
 
@@ -37,7 +39,7 @@ async function _handle_GET_units_Responds(req, res){
         id_primer: targetUnitId,
         createdAt: {[Op.lt]: lastUnitTime},
       },
-      limit: 8
+      limit: !!reqLimit ? reqLimit : 8
     });
     const respondsUnits = respondsSelection.map((row, index)=>{ return row.id_unit;});
     const unitsRows = await _DB_units.findAll({
