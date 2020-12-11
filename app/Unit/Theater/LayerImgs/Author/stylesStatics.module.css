@@ -4,6 +4,10 @@
   text-align: right;
 }
 
+.boxSetSubtitle {
+  margin: 5px 0 0 0;
+}
+
 .boxInspiredBulb {
     display: inline-block;
     width: auto;
@@ -15,7 +19,11 @@
 
 @media screen and (max-width:860px) {
   .boxSet{
-    display: inline-block;
+    display: inline-flex;
     margin: 1.6rem 0 0 40px; /* overlap margin-top set in normal size*/
+  }
+
+  .boxSetSubtitle {
+    margin: 0 0 0 5px;
   }
 }

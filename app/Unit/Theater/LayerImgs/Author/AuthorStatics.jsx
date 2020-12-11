@@ -80,7 +80,7 @@ class AuthorStatics extends React.Component {
             </span>
           </div>
           <div
-            style={{marginTop: '5px'}}>
+            className={classnames(styles.boxSetSubtitle)}>
             <span className={classnames('fontContentPlain', 'colorEditLightBlack')}>
               {this.props.i18nUIString.catalog["text_users"]}
             </span><br/>
@@ -105,7 +105,7 @@ class AuthorStatics extends React.Component {
             </span>
           </div>
           <div
-            style={{marginTop: '5px'}}>
+            className={classnames(styles.boxSetSubtitle)}>
             <span className={classnames('fontContentPlain', 'colorEditLightBlack')}>
               {this.props.i18nUIString.catalog["subTitle_Unit_AuthorStatics"][0]}
             </span><br />

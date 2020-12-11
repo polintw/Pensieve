@@ -140,7 +140,7 @@ class Wrapper extends React.Component {
                 </div>
                 {
                   this.props.unitCurrent.primerify &&
-                  <div style={{marginLeft: '5rem'}}>
+                  <div style={{marginLeft: '1.5rem'}}>
                     <Primer
                       {...this.props}/>
                   </div>
@@ -166,8 +166,10 @@ class Wrapper extends React.Component {
               (("main" in this.props.unitCurrent.outBoundLink) &&
                 !!this.props.unitCurrent.outBoundLink.main) &&
               <div
-                style={{ display: 'flex', alignItems: 'center' }}>
-                <div style={{ borderRight: 'solid 0.75px #a3a3a3', margin: '0 1.5rem', height: '3.6rem' }} />
+                className={classnames(styles.boxBottomLeftFetch)}>
+                <div
+                  className={classnames(styles.smallDisplayNone)}
+                  style={{ borderRight: 'solid 0.75px #a3a3a3', margin: '0 1.5rem', height: '3.6rem' }} />
                 <LinkFetch
                   tagA={true}
                   quotationify={true}
