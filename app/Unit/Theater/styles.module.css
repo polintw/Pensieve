@@ -3,8 +3,8 @@
   align-items: flex-start;
   position: absolute;
   top: 50%;
-  left: 53%;
-  transform: translate(-50%, -50%);
+  left: 50%;
+  transform: translate(-46.5%, -50%);
   box-sizing: border-box;
 }
 
@@ -23,7 +23,17 @@
 }
 
 .boxLayerSwitch {
-  padding: 4.44vh 0 5vh 2rem; /* follow margin of .boxTitle & .boxBottom in LayerImgs */
+  width: 112px;
+  max-width: 10vw;
+  height: 710px; /* height and max/min beneath refer to boxTheaterLayers */ 
+  min-height: 90vh;
+  max-height: 95vh;
+  box-sizing: border-box;
+  padding: 4.44vh 1rem 5vh; /* follow margin of .boxTitle & .boxBottom in LayerImgs */
+  background-color: rgba(84,84,84,0.8);
+  border-bottom-right-radius: 4px;
+  border-top-right-radius: 4px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
 }
 
 @media screen and (max-width:860px) {
@@ -42,6 +52,10 @@
   }
 
   .boxLayerSwitch {
-    padding: 5vh 5%;
+    width: 100%;
+    max-width: unset;
+    height: unset;
+    min-height: unset;
+    padding: 5vh 5% 7vh;
   }
 }

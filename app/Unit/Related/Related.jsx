@@ -71,7 +71,7 @@ class Related extends React.Component {
     if(this.state.axios){
       this.axiosSource.cancel("component will unmount.")
     }
-    this.props._submit_list_UnitResponds({list:'',scrolled:''}, true); // reset the responds state to initial
+    this.props._submit_list_UnitResponds({ list: [], scrolled: true }, true); // reset the responds state to initial
     window.removeEventListener("scroll", this._check_Position);
   }
 
@@ -281,7 +281,11 @@ class Related extends React.Component {
       let group, groupLength;
       group = list[list.length-1];
       groupLength = list[list.length-1].length;
-      listUnitBase = this.state.unitsBasic[group[groupLength-1]].createdAt;
+      // but, it may happened the unit in list was not ready in local state
+      // like the unitCurrentResponds.list was fetched by 'previous' comp
+      if (group[groupLength - 1] in this.state.unitsBasic){
+        listUnitBase = this.state.unitsBasic[group[groupLength-1]].createdAt;
+      }
     };
     const self = this;
     this.setState({axios: true});

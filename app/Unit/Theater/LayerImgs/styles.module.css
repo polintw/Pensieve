@@ -52,7 +52,6 @@
   display: flex;
   justify-content: flex-start;
   align-items: flex-end;
-  max-width: 440px;
 }
 
 .boxBottomRight {
@@ -115,6 +114,8 @@
   }
 
   .boxBottomLeft {
+    justify-content: space-between;
+    width: 100%;
     margin-top: 8px;
   }
 }

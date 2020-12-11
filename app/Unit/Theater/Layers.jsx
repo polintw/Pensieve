@@ -133,8 +133,7 @@ class Layers extends React.Component {
     //Notice! it's important to let the WrapperImg unmount if >200, due to we need the re-render, not just css change
     return(
       <div
-        className={'boxAbsoluteFull'}
-        onClick={(event)=>{event.stopPropagation();}}>
+        className={'boxAbsoluteFull'}>
         {
           (this.props.unitCurrent.coverSrc) ? /*(
             only one layer now, even without Summary, so took away scroll effect first

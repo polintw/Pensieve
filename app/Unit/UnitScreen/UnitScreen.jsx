@@ -157,7 +157,7 @@ class UnitScreen extends React.Component {
     if(this.unitId !== prevParams.get('unitId')){
       //reset UnitCurrent to clear the view
       this._reset_UnitMount();
-      this.props._submit_list_UnitResponds({list:'', scrolled:''}, true); // reset the responds state to initial
+      this.props._submit_list_UnitResponds({ list: [], scrolled: true }, true); // reset the responds state to initial
     };
   }
 
@@ -176,7 +176,7 @@ class UnitScreen extends React.Component {
     let unitCurrentState = Object.assign({}, unitCurrentInit);
     this.props._set_store_UnitCurrent(unitCurrentState);
     this.props._set_state_UnitView('theater'); // it's default for next view
-    this.props._submit_list_UnitResponds({list:'',scrolled:''}, true); // reset the responds state to initial
+    this.props._submit_list_UnitResponds({ list: [], scrolled: true }, true); // reset the responds state to initial
     //last, recruit the scroll ability back to <body>
     document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:scroll;");
   }

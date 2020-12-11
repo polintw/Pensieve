@@ -49,7 +49,8 @@ class Theater extends React.Component {
 
     return(
       <div
-        className={classnames(styles.comTheater)}>
+        className={classnames(styles.comTheater)}
+        onClick={(event) => { event.stopPropagation(); }}>
         <div
           className={classnames(styles.boxTheaterLayers)}>
           <Layers

@@ -6,6 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
+import SwitchResponds from './SwitchResponds.jsx';
 
 class LayerSwitch extends React.Component {
   constructor(props){
@@ -38,20 +39,24 @@ class LayerSwitch extends React.Component {
 
     return (this.props.guidingNailsId.indexOf(this.props.unitCurrent.unitId) < 0) ? // guidingNails do not show the Respond & view responds
       (
-        <span
-          className={classnames(
-            'fontContentPlain', styles.spanResponds,
-            {
-              [styles.spanRespondsActiv]: this.state.onSpanResponds,
-              ['colorWhite']: this.state.onSpanResponds,
-              ['colorEditBlack']: !this.state.onSpanResponds
-            }
-          )}
-          onClick={this._handleClick_LinkListResponds}
-          onMouseEnter={this._handleEnter_spanResponds}
-          onMouseLeave={this._handleLeave_spanResponds}>
-          {this.props.i18nUIString.catalog['link_UnitListResponds']}
-        </span>
+        <div
+          className={classnames(styles.comLayerSwitch)}>
+          <SwitchResponds {...this.props}/>
+          <span
+            className={classnames(
+              'fontContentPlain', styles.spanResponds,
+                {
+                  [styles.spanRespondsActiv]: this.state.onSpanResponds,
+                  ['colorWhite']: this.state.onSpanResponds,
+                  ['colorDarkGrey']: !this.state.onSpanResponds
+                }
+              )}
+              onClick={this._handleClick_LinkListResponds}
+              onMouseEnter={this._handleEnter_spanResponds}
+              onMouseLeave={this._handleLeave_spanResponds}>
+            {this.props.i18nUIString.catalog['link_UnitListResponds']}
+          </span>
+        </div>
       ): null;
   }
 
