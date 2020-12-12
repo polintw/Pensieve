@@ -7,8 +7,8 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import Contents from './Contents/Contents.jsx';
 import Nav from './Nav/Nav.jsx';
+import Feed from './Feed/Feed.jsx';
 import TitleUser from './TitleUser/TitleUser.jsx';
 import {
   _axios_get_projectBasic,
@@ -27,15 +27,13 @@ class Wrapper extends React.Component {
     super(props);
     this.state = {
       axios: false,
-      pathName: false,
-      projectName: '',
       filterStart: null,
-      projectInfo: {},
       usedNodes: [],
       redirectFilter: false
     };
     this.axiosSource = axios.CancelToken.source();
     this._set_viewFilter = this._set_viewFilter.bind(this);
+    this._render_Content = this._render_Content.bind(this);
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._set_projectBasic = this._set_projectBasic.bind(this);
   }
@@ -46,13 +44,14 @@ class Wrapper extends React.Component {
 	      redirectFilter: false
       });
     };
-    if(this.props.match.params['pathName'] != prevProps.match.params['pathName']){
-      this._set_projectBasic();
+    let preUrlParams = new URLSearchParams(prevProps.location.search); //we need value in URL query
+    if(this.userId != preUrlParams.get('userId') ){
+
     };
   }
 
   componentDidMount(){
-    this._set_projectBasic();
+
   }
 
   componentWillUnmount(){
@@ -81,6 +80,8 @@ class Wrapper extends React.Component {
                 <NodesFilter
                   nodePageify={true}
                   startListify={true}
+
+
                   startList={this.state.usedNodes}
                   startNode={this.state.filterStart}
                   _handle_nodeClick={this._set_viewFilter}
@@ -177,44 +178,6 @@ class Wrapper extends React.Component {
   _construct_UnitInit(match, location){
     let unitInit= {marksify: false, initMark: "all", layer: 0};
     return unitInit;
-  }
-
-  _set_projectBasic(){
-    const self = this;
-    this.setState({axios: true});
-
-    _axios_get_projectBasic(this.axiosSource.token, this.props.match.params['pathName'])
-    .then((resObj)=>{
-      self.setState((prevState, props)=>{
-        return {
-          pathName: resObj.main.pathName,
-          projectName: resObj.main.name,
-          filterStart: resObj.main.nodeStart,
-          projectInfo: resObj.main.otherInfo
-        };
-      });
-
-      return _axios_get_projectNodes(this.axiosSource.token, this.props.match.params['pathName']);
-    })
-    .then((resObj)=>{
-      //after res of axios_Units: call get nouns & users
-      self.props._submit_NounsList_new(resObj.main.nodesList);
-      self.setState((prevState, props)=>{
-        return ({
-          axios: false,
-          usedNodes: resObj.main.nodesList
-        });
-      });
-    })
-    .catch(function (thrown) {
-      self.setState({axios: false});
-      if (axios.isCancel(thrown)) {
-        cancelErr(thrown);
-      } else {
-        let message = uncertainErr(thrown);
-        if(message) alert(message);
-      }
-    });
   }
 
 }

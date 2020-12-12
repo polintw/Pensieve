@@ -15,7 +15,6 @@ import {axios_get_UnitsBasic} from '../../../../utils/fetchHandlers.js';
 import {
   handleNounsList,
   handleUsersList,
-  handlePathProjectsList
 } from "../../../../redux/actions/general.js";
 import {
   cancelErr,
@@ -43,8 +42,9 @@ class Feed extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot){
     // if change the node by modifying the nodeid in search, the page would only update
     let lastUrlParams = new URLSearchParams(prevProps.location.search); //we need value in URL query
+    let lastUserId = lastUrlParams.get('userId');
     let lastNodeAtId = lastUrlParams.has('filterNode') ? lastUrlParams.get('filterNode'): null;
-    if(this.filterNode != lastNodeAtId){
+    if( (this.filterNode != lastNodeAtId) || (this.userId != lastUserId) ){
       this.setState((prevState, props)=>{
         return {
           feedList: [],
@@ -166,12 +166,14 @@ class Feed extends React.Component {
 
   render(){
     let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
+    this.userId = this.urlParams.get('userId');
+
     if(urlParams.has('filterNode')){
       this.filterNode = urlParams.get('filterNode');
     } else this.filterNode = null;
 
     return (
-      <div className={styles.comPathProjectFeed}>
+      <div className={styles.comUserFeed}>
         <div>
           {
             (this.state.feedList.length > 0) &&
@@ -235,7 +237,6 @@ class Feed extends React.Component {
     this.setState({axios: true});
 
     _axios_get_accumulatedList(this.axiosSource.token, {
-      pathProject: this.props.match.params['pathName'],
       listUnitBase: lastUnitTime,
       filterNodes: !!this.filterNode ? [this.filterNode] : []
     })
@@ -267,7 +268,6 @@ class Feed extends React.Component {
       //after res of axios_Units: call get nouns & users
       self.props._submit_NounsList_new(resObj.main.nounsListMix);
       self.props._submit_UsersList_new(resObj.main.usersList);
-      self.props._submit_PathsList_new(resObj.main.pathsList);
       //and final, update the data of units to state
       self.setState((prevState, props)=>{
         return ({
@@ -300,7 +300,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
     _submit_UsersList_new: (arr) => { dispatch(handleUsersList(arr)); },
-    _submit_PathsList_new: (arr) => { dispatch(handlePathProjectsList(arr)); },
   }
 }
 
