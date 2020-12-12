@@ -47,12 +47,15 @@
   z-index: 1;
 }
 
-.boxNavOptionsSelf {
+.boxNavOptionsFrame {
   min-width: 10vw; /* follow boxContentFilledLeft*/
   height: 100%;
   position: fixed;
-  background-color: #fff8f7;
   z-index: 1; /* set here no matter the children set or not(like boxNavOptions) */
+}
+
+.boxNavOptionsSelf {
+  background-color: #fff8f7;
 }
 
 .boxNavOptionsCosmic {
@@ -137,8 +140,11 @@
     width: 11vw;
   }
 
-  .boxNavOptionsSelf {
+  .boxNavOptionsFrame {
     min-width: unset;
+  }
+
+  .boxNavOptionsSelf {
     background-color: unset;
   }
 }
@@ -196,10 +202,13 @@
     box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
   }
 
-  .boxNavOptionsSelf { /* back to a plain <div> */
+  .boxNavOptionsFrame {    /* back to a plain <div> */
     min-width: unset; /* back to NavOptions */
     height: unset; /* back to NavOptions */
     position: static; /* back to NavOptions */
+  }
+  
+  .boxNavOptionsSelf {
     background-color: unset; /* back to NavOptions */
   }
 

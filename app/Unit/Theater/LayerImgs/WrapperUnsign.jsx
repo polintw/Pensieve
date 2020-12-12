@@ -9,7 +9,7 @@ import styles from './styles.module.css';
 import ImgsFrame from './ImgsFrame.jsx';
 import SidePanel from './SidePanel.jsx';
 import Inspired from '../components/Inspired/Inspired.jsx';
-import {NodesExtensible} from '../../NodesDisplay/NodesExtensible.jsx';
+import NodesExtensible from '../../NodesDisplay/NodesExtensible.jsx';
 import LinkFetch from '../../../Components/LinkFetch/LinkFetch.jsx';
 import LinkCopy from '../../../Components/LinkCopy/LinkCopy.jsx';
 import BtnOpenMap from '../../../Components/BtnOpenMap/BtnOpenMap.jsx';
@@ -62,7 +62,8 @@ class Wrapper extends React.Component {
           className={classnames(styles.boxContentWidth, styles.boxTitle)}>
           <NodesExtensible
             nouns={nodesTitleObj}
-            _referNode={this.props._refer_toandclose}/>
+            _referNode={this.props._refer_toandclose}
+            _set_noTokenDialog={this._set_inviteDialog}/>
           <SidePanel
             {...this.props}
             _set_noTokenDialog={this._set_inviteDialog}/>
@@ -159,13 +160,16 @@ class Wrapper extends React.Component {
       case "respond":
         message = this.props.i18nUIString.catalog['message_UnitUnsign_SigninRemind_respond'];
         break;
+      case "node":
+        message = this.props.i18nUIString.catalog['message_UnitUnsign_SigninRemind_node'];
+        break;
       case "inspired":
         message = this.props.i18nUIString.catalog['message_UnitUnsign_SigninRemind_inspired'];
         break;
       default:
         message=""
     }
-    message = message + messsageTail;
+    message = message + "\xa0" + messsageTail;
 
     this.props._submit_BooleanDialog({
       render: true,

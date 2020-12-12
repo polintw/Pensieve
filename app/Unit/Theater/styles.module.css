@@ -4,7 +4,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-46.5%, -50%);
+  transform: translate(-47.5%, -50%);
   box-sizing: border-box;
 }
 
@@ -25,7 +25,7 @@
 .boxLayerSwitch {
   width: 112px;
   max-width: 10vw;
-  height: 710px; /* height and max/min beneath refer to boxTheaterLayers */ 
+  height: 710px; /* height and max/min beneath refer to boxTheaterLayers */
   min-height: 90vh;
   max-height: 95vh;
   box-sizing: border-box;

@@ -77,4 +77,10 @@
     left: unset;
     right: 0;
   }
+
+  .boxToolBoxExplore { /* back to selfCom_NavOptions_ToolBox_ */
+    top: 120%;
+    bottom: unset;
+    left: unset;
+  }
 }

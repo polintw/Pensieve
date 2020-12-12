@@ -11,7 +11,7 @@ import SidePanel from './SidePanel.jsx';
 import AuthorStatics from './Author/AuthorStatics.jsx';
 import Inspired from '../components/Inspired/Inspired.jsx';
 import Primer from '../components/Primer.jsx';
-import {NodesExtensible} from '../../NodesDisplay/NodesExtensible.jsx';
+import NodesExtensible from '../../NodesDisplay/NodesExtensible.jsx';
 import LinkFetch from '../../../Components/LinkFetch/LinkFetch.jsx';
 import ImgPreview from '../../../Components/ImgPreview.jsx';
 import LinkCopy from '../../../Components/LinkCopy/LinkCopy.jsx';

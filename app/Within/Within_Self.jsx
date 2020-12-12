@@ -87,7 +87,7 @@ class WithinSelf extends React.Component {
         <div
           className={classnames(styles.boxAround)}>
           <div
-            className={classnames(styles.boxNavOptionsSelf)}>
+            className={classnames(styles.boxNavOptionsFrame, styles.boxNavOptionsSelf)}>
             <div
               className={classnames(styles.boxNavOptions)}>
                 <NavOptions {...this.props} _refer_to={this._refer_von_cosmic}/>

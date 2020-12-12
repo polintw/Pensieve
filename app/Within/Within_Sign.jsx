@@ -118,8 +118,11 @@ const UnsignWithinCosmic = ( routeProps, parent) => {
   return (
     <div>
       <div
-        className={classnames(styles.boxNavOptionsCosmic)}>
-        <NavOptionsUnsign {...routeProps} _refer_to={parent._refer_von_Sign}/>
+        className={classnames(styles.boxNavOptionsFrame)}>
+        <div
+          className={classnames(styles.boxNavOptionsCosmic)}>
+          <NavOptionsUnsign {...routeProps} _refer_to={parent._refer_von_Sign}/>
+        </div>
       </div>
       <div
         className={classnames(styles.boxAroundContent)}>
