@@ -59,10 +59,6 @@ class Wrapper extends React.Component {
   _render_Content(){
     let contentView = this.urlParams.has("content") ? this.urlParams.get('content') : '';
 
-    if(this.urlParams.has('_filter_nodes') && (contentView.length == 0) /* like contentView above */){
-      this.viewFilter = true;
-    } else this.viewFilter = false;
-
     switch (contentView) {
       case "achieve":
         return null // temp
@@ -101,6 +97,10 @@ class Wrapper extends React.Component {
   render(){
     this.urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
     this.userId = this.urlParams.get('userId');
+    let contentView = this.urlParams.has("content") ? this.urlParams.get('content') : '';
+    if(this.urlParams.has('_filter_nodes') && (contentView.length == 0) /* like contentView above */){
+      this.viewFilter = true;
+    } else this.viewFilter = false;
 
     return(
       <div>
@@ -115,7 +115,8 @@ class Wrapper extends React.Component {
             </div>
           </div>
           <div
-            className={classnames(styles.boxRowNav)}>
+            className={classnames(
+              styles.boxRowNav)}>
             <Nav
               {...this.props}
               userId = {this.userId}/>

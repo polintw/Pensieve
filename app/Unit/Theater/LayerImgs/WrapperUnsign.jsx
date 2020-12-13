@@ -39,8 +39,9 @@ class Wrapper extends React.Component {
   _handleClick_Account(event){
     event.preventDefault();
     event.stopPropagation();
-    // rm this action temporary
-    //this.props._refer_toandclose('user', this.props.unitCurrent.authorBasic.authorId);
+    if(this.props.unitCurrent.authorBasic['authorIdentity'] == 'user') {
+      this._set_inviteDialog("author");
+    };
   }
 
 
@@ -160,8 +161,11 @@ class Wrapper extends React.Component {
       case "respond":
         message = this.props.i18nUIString.catalog['message_UnitUnsign_SigninRemind_respond'];
         break;
-      case "node":
-        message = this.props.i18nUIString.catalog['message_UnitUnsign_SigninRemind_node'];
+      case "author":
+        message = this.props.i18nUIString.catalog['message_UnitUnsign_SigninRemind_author'];
+        break;
+      case "more":
+        message = this.props.i18nUIString.catalog['message_UnitUnsign_SigninRemind_more'];
         break;
       case "inspired":
         message = this.props.i18nUIString.catalog['message_UnitUnsign_SigninRemind_inspired'];

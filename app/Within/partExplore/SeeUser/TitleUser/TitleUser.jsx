@@ -33,13 +33,15 @@ class TitleUser extends React.Component {
 
   render(){
     return (
-      <div className={styles.comTitlePath}>
+      <div className={styles.comTitleUser}>
         <Link
           to={'/cosmic/explore/user?userId=' + this.props.userId }
           className={classnames('plainLinkButton', styles.linkTitleText)}>
           <AccountPalette
             size={"regularBold"}
             referLink={ false }
+            styleFirst={{fontSize: '2.4rem'}}
+            styleLast={{fontSize: '2.4rem'}}
             userId={this.props.userId}
             authorIdentity={"user"} />
         </Link>

@@ -1,12 +1,11 @@
-.comTitlePath {
+.comTitleUser {
     display: flex;
     align-items: baseline;
+    justify-content: center;
 }
 
 .linkTitleText {
   display: inline-block;
-  max-width: 68%;
-  margin-right: 30px;
 }
 
 .boxBtnShare {

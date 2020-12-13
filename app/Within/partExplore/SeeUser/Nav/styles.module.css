@@ -13,8 +13,7 @@
 
 .boxRowInfo {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
+  flex-direction: column;
 }
 
 .boxRowFilterMargin {
@@ -28,12 +27,15 @@
 }
 
 .boxProjectInfo {
-  display: inline-block;
-  max-width: 68%;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 16px;
 }
 
 .boxFilter {
-  display: inline-block;
+  display: flex;
+  justify-content: flex-end;
   box-sizing: border-box;
 }
 
