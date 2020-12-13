@@ -10,13 +10,16 @@ import styles from "./styles.module.css";
 import Nav from './Nav/Nav.jsx';
 import Feed from './Feed/Feed.jsx';
 import TitleUser from './TitleUser/TitleUser.jsx';
+import NodesFilter from '../../../Components/NodesFilter/NodesFilter.jsx';
 import {
-  _axios_get_projectBasic,
-  _axios_get_projectNodes,
-  _axios_get_projectLayerFirstUnits
+  _axios_get_Basic
 } from './axios.js';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
 import UnitUnsign from '../../../Unit/UnitUnsign/UnitUnsign.jsx';
+import {
+  handleNounsList,
+  handleUsersList,
+} from "../../../redux/actions/general.js";
 import {
   cancelErr,
   uncertainErr
@@ -33,9 +36,9 @@ class Wrapper extends React.Component {
     };
     this.axiosSource = axios.CancelToken.source();
     this._set_viewFilter = this._set_viewFilter.bind(this);
+    this._set_filterBasic = this._set_filterBasic.bind(this);
     this._render_Content = this._render_Content.bind(this);
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
-    this._set_projectBasic = this._set_projectBasic.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -45,13 +48,13 @@ class Wrapper extends React.Component {
       });
     };
     let preUrlParams = new URLSearchParams(prevProps.location.search); //we need value in URL query
-    if(this.userId != preUrlParams.get('userId') ){
-
+    if(this.userId != preUrlParams.get('userId') ){ // that's, if the page was jump to next user
+      this._set_filterBasic();
     };
   }
 
   componentDidMount(){
-
+    this._set_filterBasic();
   }
 
   componentWillUnmount(){
@@ -80,15 +83,14 @@ class Wrapper extends React.Component {
                 <NodesFilter
                   nodePageify={true}
                   startListify={true}
-
-
                   startList={this.state.usedNodes}
                   startNode={this.state.filterStart}
                   _handle_nodeClick={this._set_viewFilter}
                   _get_firstUnitsList={(nodesList)=>{
                     // return a promise() to NodesFilter
-                    return _axios_get_projectLayerFirstUnits(this.axiosSource.token, {
-                      nodesList: nodesList, pathName: this.props.match.params['pathName']
+                    return _axios_get_Basic(this.axiosSource.token, {
+                      url: '/router/people/accumulated/nodes',
+                      params: {nodesList: nodesList, userId: this.userId, depth: "first"}
                     })
                   }}/>
                 <div className={classnames(styles.boxFooter)}/>
@@ -128,7 +130,7 @@ class Wrapper extends React.Component {
     return(
       <div>
         <div
-          className={classnames(styles.comPathProject)}>
+          className={classnames(styles.comSeeUser)}>
           <div
             className={classnames(styles.boxRow)}>
             <div
@@ -180,6 +182,49 @@ class Wrapper extends React.Component {
     return unitInit;
   }
 
+  _set_filterBasic(){
+    const self = this;
+    this.setState({axios: true});
+
+    let basicReqObj = { // for now, GET filterStart
+      url: '/router/people/basic',
+      params: {userId: this.userId}
+    };
+    let usedNodesReqObj = {
+      url: '/router/people/nodes/assigned',
+      params: {userId: this.userId}
+    };
+    // start, first make sure the userrrr basic was on the list
+    this.props._submit_UsersList_new([this.userId]);
+    // then req basic(filterStart)
+    _axios_get_Basic(this.axiosSource.token, basicReqObj)
+    .then((resObj)=> {
+      self.setState({
+        filterStart: resObj.main.nodeStart
+      });
+      return _axios_get_Basic(this.axiosSource.token, usedNodesReqObj);
+    })
+    .then((resObj)=>{
+      //after res of axios_Units: call get nouns & users
+      self.props._submit_NounsList_new(resObj.main.nodesList);
+      self.setState((prevState, props)=>{
+        return ({
+          axios: false,
+          usedNodes: resObj.main.nodesList
+        });
+      });
+    })
+    .catch(function (thrown) {
+      self.setState({axios: false});
+      if (axios.isCancel(thrown)) {
+        cancelErr(thrown);
+      } else {
+        let message = uncertainErr(thrown);
+        if(message) alert(message);
+      }
+    });
+  }
+
 }
 
 
@@ -192,7 +237,8 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
+    _submit_UsersList_new: (arr) => { dispatch(handleUsersList(arr)); },
   }
 }
 

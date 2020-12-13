@@ -88,13 +88,6 @@ class Nav extends React.Component {
                   { this.props.i18nUIString.catalog["title_NavAtNode_"] }
                 </span>
               </div>
-              <div>
-                <span
-                  className={classnames(
-                    "fontContentPlain", "weightBold", "colorAssistGold")}>
-                  { this.props.i18nUIString.catalog["title_NavAtNode_"] }
-                </span>
-              </div>
             </div>
           </div>
           <div

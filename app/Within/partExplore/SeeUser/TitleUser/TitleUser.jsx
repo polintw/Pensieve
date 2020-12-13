@@ -6,6 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import AccountPalette from '../../../../Components/AccountPalette.jsx';
 import {
   domain
 } from '../../../../../config/services.js';

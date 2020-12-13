@@ -9,9 +9,7 @@ export function _axios_get_accumulatedList(cancelToken, obj){
 
   return axios({
     method: 'get',
-
-    
-    url: '/router/paths/accumulated',
+    url: '/router/people/accumulated',
     params: obj,
     headers: header,
     cancelToken: cancelToken
@@ -23,7 +21,7 @@ export function _axios_get_accumulatedList(cancelToken, obj){
   });
 }
 
-export function _axios_get_projectBasic(cancelToken, pathName){
+export function _axios_get_Basic(cancelToken, pageObj){
   let header = {
     'Content-Type': 'application/json',
     'charset': 'utf-8'
@@ -34,54 +32,8 @@ export function _axios_get_projectBasic(cancelToken, pathName){
 
   return axios({
     method: 'get',
-    url: '/router/paths/basic',
-    params: {pathProject: pathName},
-    headers: header,
-    cancelToken: cancelToken
-  }).then(function (res) {
-    let resObj = JSON.parse(res.data); //still parse the res data prepared to be used below
-    return resObj;
-  }).catch(function (thrown) {
-    throw thrown;
-  });
-}
-
-export function _axios_get_projectNodes(cancelToken, pathName){
-  return axios({
-    method: 'get',
-    url: '/router/paths/nodes/assigned',
-    params: {pathProject: pathName},
-    headers: {
-      'Content-Type': 'application/json',
-      'charset': 'utf-8',
-      'token': window.localStorage['token']
-    },
-    cancelToken: cancelToken
-  }).then(function (res) {
-    let resObj = JSON.parse(res.data); //still parse the res data prepared to be used below
-    return resObj;
-  }).catch(function (thrown) {
-    throw thrown;
-  });
-}
-
-export function _axios_get_projectLayerFirstUnits(cancelToken, paramObj){
-  let header = {
-    'Content-Type': 'application/json',
-    'charset': 'utf-8'
-  };
-  if(!!window.localStorage['token']){ // has token
-    header['token'] = window.localStorage['token'];
-  };
-
-  return axios({
-    method: 'get',
-    url: '/router/paths/accumulated/nodes',
-    params: {
-      depth: "first",
-      nodesList: paramObj.nodesList,
-      pathProject: paramObj.pathName
-    },
+    url: pageObj.url,
+    params: pageObj.params,
     headers: header,
     cancelToken: cancelToken
   }).then(function (res) {

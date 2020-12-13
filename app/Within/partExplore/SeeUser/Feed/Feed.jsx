@@ -166,7 +166,7 @@ class Feed extends React.Component {
 
   render(){
     let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
-    this.userId = this.urlParams.get('userId');
+    this.userId = urlParams.get('userId');
 
     if(urlParams.has('filterNode')){
       this.filterNode = urlParams.get('filterNode');
@@ -237,6 +237,7 @@ class Feed extends React.Component {
     this.setState({axios: true});
 
     _axios_get_accumulatedList(this.axiosSource.token, {
+      userId: this.userId,
       listUnitBase: lastUnitTime,
       filterNodes: !!this.filterNode ? [this.filterNode] : []
     })
