@@ -7,6 +7,10 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
 import SwitchResponds from './SwitchResponds.jsx';
+import {
+  setMessageBoolean,
+} from "../../../../redux/actions/general.js";
+import {messageDialogInit} from "../../../../redux/states/constants.js";
 
 class LayerSwitch extends React.Component {
   constructor(props){
@@ -14,6 +18,7 @@ class LayerSwitch extends React.Component {
     this.state = {
       onSpanResponds: false
     };
+    this._set_Dialog = this._set_Dialog.bind(this);
     this._handleClick_LinkListResponds = this._handleClick_LinkListResponds.bind(this);
     this._handleEnter_spanResponds = this._handleEnter_spanResponds.bind(this);
     this._handleLeave_spanResponds = this._handleLeave_spanResponds.bind(this);
@@ -41,17 +46,23 @@ class LayerSwitch extends React.Component {
       (
         <div
           className={classnames(styles.comLayerSwitch)}>
-          <SwitchResponds {...this.props}/>
+          {
+            !(this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') && // if the 'user' are guest, not signed in yet
+            <SwitchResponds {...this.props}/>
+          }
           <span
             className={classnames(
               'fontContentPlain', styles.spanResponds,
                 {
                   [styles.spanRespondsActiv]: this.state.onSpanResponds,
                   ['colorWhite']: this.state.onSpanResponds,
-                  ['colorDarkGrey']: !this.state.onSpanResponds
+                  ['colorDarkGrey']: (!this.state.onSpanResponds && cssVW > 860),
+                  ['colorWhiteGrey']: (!this.state.onSpanResponds && cssVW <= 860),
                 }
               )}
               onClick={this._handleClick_LinkListResponds}
+              onTouchStart={this._handleEnter_spanResponds}
+              onTouchEnd={this._handleLeave_spanResponds}
               onMouseEnter={this._handleEnter_spanResponds}
               onMouseLeave={this._handleLeave_spanResponds}>
             {this.props.i18nUIString.catalog['link_UnitListResponds']}
@@ -63,6 +74,9 @@ class LayerSwitch extends React.Component {
   _handleClick_LinkListResponds(event) {
     event.preventDefault();
     event.stopPropagation();
+    if(this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack'){ // if the 'user' are guest, not signed in yet
+      this._set_Dialog();
+    };
     this.props._set_state_UnitView("related");
     // now the unitView was switch by the param in URL
     if(!this.props.location.pathname.includes('explore/unit')){
@@ -74,6 +88,23 @@ class LayerSwitch extends React.Component {
       pathname: this.props.match.path,
       search: nextSearch,
       state: {from: this.props.location}
+    });
+  }
+
+  _set_Dialog(source){
+    let message = this.props.i18nUIString.catalog['message_UnitUnsign_SigninRemind_LayerSwitch'];
+    message = message;
+
+    this.props._submit_BooleanDialog({
+      render: true,
+      customButton: "sign",
+      message: [{
+        text: message,
+        style:{}}], //Original:'current input would not be saved after leaving, are you sure going to leave?'
+      handlerPositive: ()=>{ // basically all the condition are the same result
+        window.location.assign('/');
+      },
+      handlerNegative: ()=>{this.props._submit_BooleanDialog(messageDialogInit.boolean);return;}
     });
   }
 
@@ -90,6 +121,7 @@ class LayerSwitch extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
+    tokenStatus: state.token,
     unitSubmitting: state.unitSubmitting,
     guidingNailsId: state.guidingNailsId,
     unitCurrent: state.unitCurrent,
@@ -99,7 +131,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch)=>{
   return {
-
+    _submit_BooleanDialog: (obj)=>{dispatch(setMessageBoolean(obj));},
   }
 }
 

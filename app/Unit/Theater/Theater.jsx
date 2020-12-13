@@ -49,22 +49,19 @@ class Theater extends React.Component {
 
     return(
       <div
-        className={classnames(styles.comTheater)}
-        onClick={(event) => { event.stopPropagation(); }}>
+        className={classnames(styles.comTheater)}>
         <div
-          className={classnames(styles.boxTheaterLayers)}>
+          className={classnames(styles.boxTheaterLayers)}
+          onClick={(event) => { event.stopPropagation(); }}>
           <Layers
             {...this.props}
             initStatus={this.unitInit}/>
         </div>
         <div
-          className={classnames(styles.boxLayerSwitch)}>
-          {
-            // if the 'user' are guest, not signed in yet
-            (this.props.tokenStatus== 'verified') &&
-            <LayerSwitch
-              {...this.props}/>
-          }
+          className={classnames(styles.boxLayerSwitch)}
+          onClick={(event) => { if(cssVW > 860 ) event.stopPropagation(); }}>
+          <LayerSwitch
+            {...this.props}/>
         </div>
       </div>
     )
@@ -74,7 +71,6 @@ class Theater extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
-    tokenStatus: state.token,
     unitSubmitting: state.unitSubmitting
   }
 }

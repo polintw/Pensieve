@@ -93,8 +93,12 @@ class NodesFilter extends React.Component {
     // we need value in URL query
     let urlParams = new URLSearchParams(this.props.location.search), searchStr='?';
     urlParams.delete("filterNode"); // remove any filterNode inherit from props to be used in each node
+    if(urlParams.has('_filter_nodes')) urlParams.delete("_filter_nodes"); // remove "_filter_nodes" because we would only go to 'close' the filter
+    let paramsIndex = 0; // urlParams.forEach is an object instance, do not know the the index, so manually update
     urlParams.forEach((value, key) => {
-      searchStr+= (key + '=' + value);
+      if(paramsIndex > 0) searchStr += "&";
+      searchStr += (key + '=' + value);
+      paramsIndex += 1;
     });
     // then going to render by params string & nodesList
     let nodesListDOM = [];

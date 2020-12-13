@@ -1,8 +1,12 @@
 import React from 'react';
+import {
+  withRouter,
+} from 'react-router-dom';
+import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 
-export class NodesExtensible extends React.Component {
+class NodesExtensible extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -78,8 +82,29 @@ export class NodesExtensible extends React.Component {
   _handleClick_Node(event){
     event.preventDefault();
     event.stopPropagation();
+    if(this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack'){
+      this.props._set_noTokenDialog("more");
+      return; // stop here
+    };
     let currentNode = event.currentTarget.attributes.nodeId.value;
     if(currentNode == "4692") return ; // 4692 is an safe id in DB nouns table that do not represent anything, used to set for none node text, like 'Welcome ...'
     this.props._referNode("noun", currentNode);
   }
 }
+
+const mapStateToProps = (state)=>{
+  return {
+    tokenStatus: state.token,
+  }
+}
+
+const mapDispatchToProps = (dispatch)=>{
+  return {
+
+  }
+}
+
+export default withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(NodesExtensible));

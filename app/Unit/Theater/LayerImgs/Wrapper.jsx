@@ -11,7 +11,7 @@ import SidePanel from './SidePanel.jsx';
 import AuthorStatics from './Author/AuthorStatics.jsx';
 import Inspired from '../components/Inspired/Inspired.jsx';
 import Primer from '../components/Primer.jsx';
-import {NodesExtensible} from '../../NodesDisplay/NodesExtensible.jsx';
+import NodesExtensible from '../../NodesDisplay/NodesExtensible.jsx';
 import LinkFetch from '../../../Components/LinkFetch/LinkFetch.jsx';
 import ImgPreview from '../../../Components/ImgPreview.jsx';
 import LinkCopy from '../../../Components/LinkCopy/LinkCopy.jsx';
@@ -122,7 +122,8 @@ class Wrapper extends React.Component {
                   size={'layer'}
                   referLink={
                     (this.props.unitCurrent.authorBasic['authorIdentity'] == 'user') ?
-                      false : (domain.protocol + "://" + domain.name+ '/cosmic/explore/path/' + this.props.unitCurrent.authorBasic['pageLink'])
+                       (domain.protocol + "://" + domain.name+ '/cosmic/explore/user?userId=' + this.props.unitCurrent.authorBasic['authorId'])
+                      : (domain.protocol + "://" + domain.name+ '/cosmic/explore/path/' + this.props.unitCurrent.authorBasic['pageLink'])
                   }
                   accountFirstName={
                     (this.props.unitCurrent.authorBasic['authorIdentity'] == 'user') ?

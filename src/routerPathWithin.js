@@ -122,9 +122,9 @@ async function _handle_crawler_GET_Unit(req, res){
       //compose title from Nodes used
       resultsNodes.forEach((row, index)=>{
         if(index< 1){ titleStr += (row.name); return } //avoid "·" at the begining
-        titleStr += ("· "+row.name);
+        titleStr += ("\xa0" + "· "+row.name);
       });
-      variables.title = titleStr;
+      variables.title = "Cornerth. |" + "\xa0" + titleStr;
 
 
       return variables;
@@ -178,7 +178,7 @@ async function _handle_crawler_GET_PathProject(req, res){
     variables['descrip'] = targetProject.description ;
     variables['ogurl'] = req.originalUrl;
     variables['ogimg'] = imgUrl;
-     
+
     res.render(path.join(projectRootPath, '/public/html/ren_crawler.pug'), variables);
   }
   catch(error){

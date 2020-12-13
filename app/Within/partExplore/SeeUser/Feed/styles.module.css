@@ -1,0 +1,47 @@
+.comUserFeed {
+
+}
+
+.comFeedEmpty {
+  width: 100%;
+  padding-top: 6rem;
+}
+
+.boxTitle {
+  margin: 8px 0;
+}
+
+.boxModule{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.boxDescript {
+  width: 100%;
+  text-align: center;
+}
+
+.boxEmptyDescript {
+  width: 100%;
+  text-align: center;
+}
+
+.boxFooter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding-top: 4.4rem;
+  margin-bottom: 35.6vh;
+}
+
+@media screen and (max-width:860px) {
+  .comPathProjectFeed {
+    flex-direction: column;
+  }
+
+  .boxModuleSmall {
+    justify-content: center;
+  }
+}

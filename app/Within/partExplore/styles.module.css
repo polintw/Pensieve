@@ -1,4 +1,15 @@
+.smallDisplayBox {
+  display: none;
+}
+
 .comExplore {
   max-width: 99vw;
   box-sizing: border-box;
+}
+
+@media screen and (max-width:860px) {
+  .smallDisplayBox {
+    display: block;
+  }
+
 }

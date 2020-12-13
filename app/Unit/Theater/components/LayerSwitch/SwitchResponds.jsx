@@ -78,20 +78,26 @@ class SwitchResponds extends React.Component {
                     key={"key_SwitchResponds_group_" + groupIndex + "_items" + index}
                     unitid={unitId}
                     className={classnames(
-                        styles.boxImg,
-                        { [styles.boxImgMouseOn]: (this.state.onNail == unitId) }
+                        styles.boxImgBg,
+                        { [styles.boxImgBgMouseOn]: (this.state.onNail == unitId) }
                     )}
                     onClick={this._handleClick_RespondThumb}
                     onMouseEnter={this._handleEnter_sharedNail}
                     onMouseLeave={this._handleLeave_sharedNail}>
-                    <ImgPreview
+                    <div
+                      className={classnames(
+                        styles.boxImg,
+                        {[styles.boxImgMouseOn]: (this.state.onNail == unitId) }
+                      )}>
+                      <ImgPreview
                         blockName={''}
                         previewSrc={imgSrcCover}
                         _handleClick_ImgPreview_preview={() => { }} />
+                    </div>
                 </div>
             )
         });
-        
+
         return nailsDOM;
       };
 
@@ -122,7 +128,7 @@ class SwitchResponds extends React.Component {
         </div>
       ) : null
   }
-  
+
   _handleClick_RespondThumb(event) {
     event.preventDefault();
     event.stopPropagation();
@@ -141,7 +147,7 @@ class SwitchResponds extends React.Component {
     });
   }
 
-  
+
   _set_respoondsUnits() {
     /* this section was transplant from Related, but the first part was rm because we would only fetch once in this comp */
     const self = this;
@@ -158,7 +164,7 @@ class SwitchResponds extends React.Component {
             list: resObj.main.unitsList,
             scrolled: resObj.main.scrolled
         });
-    
+
         return axios_get_UnitsBasic(self.axiosSource.token, resObj.main.unitsList) //and use the list to get the data of eahc unit
     })
     .then((resObj) => {
@@ -173,7 +179,7 @@ class SwitchResponds extends React.Component {
                 // no need, marksBasic: { ...prevState.marksBasic, ...resObj.main.marksBasic }
             });
         });
-    
+
     }).catch(function (thrown) {
         if (axios.isCancel(thrown)) {
             cancelErr(thrown);

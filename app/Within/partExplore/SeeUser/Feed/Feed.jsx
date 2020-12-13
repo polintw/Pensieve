@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Link,
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
@@ -8,23 +7,19 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesNail from "../../../stylesNail.module.css";
 import FeedEmpty from './FeedEmpty.jsx';
-import NailFeedFocus from '../../../../Components/Nails/NailFeedFocus/NailFeedFocus.jsx';
+import NailFeed from '../../../../Components/Nails/NailFeed/NailFeed.jsx';
+import NailFeedWide from '../../../../Components/Nails/NailFeedWide/NailFeedWide.jsx';
 import NailFeedMobile from '../../../../Components/Nails/NailFeedMobile/NailFeedMobile.jsx';
-import AccountPalette from '../../../../Components/AccountPalette.jsx';
 import {_axios_get_accumulatedList} from '../axios.js';
 import {axios_get_UnitsBasic} from '../../../../utils/fetchHandlers.js';
 import {
   handleNounsList,
   handleUsersList,
-  handlePathProjectsList
 } from "../../../../redux/actions/general.js";
 import {
   cancelErr,
   uncertainErr
 } from "../../../../utils/errHandlers.js";
-import {
-  domain
-} from '../../../../../config/services.js';
 
 class Feed extends React.Component {
   constructor(props){
@@ -34,8 +29,7 @@ class Feed extends React.Component {
       feedList: [],
       unitsBasic: {},
       marksBasic: {},
-      scrolled: true,
-      onNodeLink: false
+      scrolled: true
     };
     this.refScroll = React.createRef();
     this.axiosSource = axios.CancelToken.source();
@@ -43,12 +37,25 @@ class Feed extends React.Component {
     this._check_Position = this._check_Position.bind(this);
     this._render_FeedNails = this._render_FeedNails.bind(this);
     this._render_FooterHint = this._render_FooterHint.bind(this);
-    this._handleEnter_NodeLink = this._handleEnter_NodeLink.bind(this);
-    this._handleLeave_NodeLink = this._handleLeave_NodeLink.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-
+    // if change the node by modifying the nodeid in search, the page would only update
+    let lastUrlParams = new URLSearchParams(prevProps.location.search); //we need value in URL query
+    let lastUserId = lastUrlParams.get('userId');
+    let lastNodeAtId = lastUrlParams.has('filterNode') ? lastUrlParams.get('filterNode'): null;
+    if( (this.filterNode != lastNodeAtId) || (this.userId != lastUserId) ){
+      this.setState((prevState, props)=>{
+        return {
+          feedList: [],
+          unitsBasic: {},
+          marksBasic: {},
+          scrolled: true
+        }
+      }, ()=>{
+        this._set_feedUnits();
+      });
+    }
   }
 
   componentDidMount(){
@@ -90,108 +97,52 @@ class Feed extends React.Component {
         if( !(unitId in this.state.unitsBasic)) return; //skip if the info of the unit not yet fetch
         // for mobile device, use one special Nail
         let cssVW = window.innerWidth;
+        if(cssVW < 860) {
+          nailsDOM.push(
+            <div
+              key={"key_NodeFeed_new_" + index}
+              className={classnames(stylesNail.boxNail, stylesNail.custNailWide)}>
+              <NailFeedMobile
+                {...this.props}
+                leftimg={false}
+                unitId={unitId}
+                linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
+                unitBasic={this.state.unitsBasic[unitId]}
+                marksBasic={this.state.marksBasic} />
+            </div>
+          );
+          return;
+        };
+        // for laptop / desktop, change nail by cycles
+        let remainder3 = (index+1) % 3, // make the '0' appear first st 3rd nail
+        remainder2 = index % 2; // cycle, but every 3 units has a wide, left, right in turn.
 
-        nailsDOM.push (
+        nailsDOM.push (remainder3 ? ( // 0 would be false, which means index % 3 =0
           <div
             key={"key_NodeFeed_new_"+index}
-            className={classnames(styles.boxModuleItem)}>
-              <div
-                className={classnames(styles.boxFocusNailSubtitle)}>
-                <div
-                  className={classnames(styles.boxSubtitleFlex, styles.boxSmallNoFlex)}>
-                  <div
-                     className={classnames(styles.boxFocusNailSubtitleUp, 'colorStandard')}>
-                    <AccountPalette
-                      size={"regularBold"}
-                    referLink={
-                      (this.state.unitsBasic[unitId].authorIdentity == 'pathProject') ?
-                        (
-                          domain.protocol + "://" +
-                          domain.name + '/cosmic/explore/path/' +
-                          (
-                            this.state.unitsBasic[unitId].authorId in this.props.pathsBasic &&
-                            this.props.pathsBasic[this.state.unitsBasic[unitId].authorId].pathName)
-                        ) : (
-                          domain.protocol + "://" +
-                          domain.name + '/cosmic/explore/user?userId=' +
-                          this.state.unitsBasic[unitId].authorId
-                        )
-                    }
-                    userId={this.state.unitsBasic[unitId].authorId}
-                    authorIdentity={this.state.unitsBasic[unitId].authorIdentity}
-                      styleLast={(this.state.unitsBasic[unitId].authorIdentity == 'pathProject') ? { color: 'rgb(69, 135, 160)'} : {}}/>
-                    <span
-                      className={classnames(styles.spanFocusSubtitleConnect, 'colorEditLightBlack', 'fontSubtitle_h5')}>
-                      {this.props.i18nUIString.catalog['connection_focus_userNode']}
-                    </span>
-                  </div>
-                <div
-                  className={classnames(styles.boxFocusNailSubtitleLow)}>
-                  <Link
-                    to={"/cosmic/explore/node?nodeid=" + this.state.unitsBasic[unitId].nounsList[0]}
-                    className={classnames('plainLinkButton')}
-                    eventkey={"mouseEvKey_node_" + unitId + "_" + this.state.unitsBasic[unitId].nounsList[0]}
-                    onMouseEnter={this._handleEnter_NodeLink}
-                    onMouseLeave={this._handleLeave_NodeLink}>
-                    {(this.state.unitsBasic[unitId].nounsList[0] in this.props.nounsBasic) &&
-                      <span
-                        className={classnames(
-                          "fontNodesEqual", "weightBold", "colorEditBlack",
-                          styles.spanBaseNode,
-                          { [styles.spanBaseNodeMouse]: this.state.onNodeLink == ("mouseEvKey_node_" + unitId + "_" + this.state.unitsBasic[unitId].nounsList[0]) }
-                        )}>
-                        {this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].name}</span>
-                    }
-                  </Link>
-                  <span
-                    className={classnames("fontNodesEqual", "colorEditBlack", "weightBold")}>
-                    {this.state.unitsBasic[unitId].nounsList[0] in this.props.nounsBasic ? (
-                      (this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].prefix.length > 0) &&
-                      (", ")) : (null)
-                    }
-                  </span>
-                  <br/>
-                  {
-                    (this.state.unitsBasic[unitId].nounsList[0] in this.props.nounsBasic &&
-                      this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].prefix.length > 0) &&
-                    <div
-                      className={classnames('plainLinkButton')}
-                      style={{display: 'inline-block'}}
-                      eventkey={"mouseEvKey_node_" + unitId + "_prefix_" + this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].parentId}>
-                        <span
-                          className={classnames("fontSubtitle", "weightBold", "colorEditBlack")}>
-                          {this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].prefix}</span>
-                    </div>
-                  }
-                </div>
-                </div>
-              </div>
-              <div
-                className={classnames(stylesNail.boxNail, stylesNail.custFocusNailWide)}>
-                {
-                  (cssVW < 860) ? (
-                    <NailFeedMobile
-                      {...this.props}
-                      leftimg={false}
-                      unitId={unitId}
-                      nodisplay={['author']}
-                      linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
-                      unitBasic={this.state.unitsBasic[unitId]}
-                      marksBasic={this.state.marksBasic} />
-                  ): (
-                    <NailFeedFocus
-                      {...this.props}
-                      leftimg={true}
-                      unitId={unitId}
-                      narrowWidth={false}
-                      linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
-                      unitBasic={this.state.unitsBasic[unitId]}
-                      marksBasic={this.state.marksBasic} />
-                  )
-                }
-              </div>
+            className={classnames(stylesNail.boxNail)}>
+            <NailFeed
+              {...this.props}
+              unitId={unitId}
+              narrowWidth={false}
+              linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
+              unitBasic={this.state.unitsBasic[unitId]}
+              marksBasic={this.state.marksBasic}/>
           </div>
-        );
+        ): (
+          <div
+            key={"key_NodeFeed_new_"+index}
+            className={classnames(stylesNail.boxNail, stylesNail.custNailWide)}>
+            <NailFeedWide
+              {...this.props}
+              leftimg={ remainder2 ? true : false}
+              unitId={unitId}
+              narrowWidth={false}
+              linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
+              unitBasic={this.state.unitsBasic[unitId]}
+              marksBasic={this.state.marksBasic}/>
+          </div>
+        ));
       });
 
       return nailsDOM;
@@ -214,8 +165,15 @@ class Feed extends React.Component {
   }
 
   render(){
+    let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
+    this.userId = urlParams.get('userId');
+
+    if(urlParams.has('filterNode')){
+      this.filterNode = urlParams.get('filterNode');
+    } else this.filterNode = null;
+
     return (
-      <div className={styles.comFocusBoardFeed}>
+      <div className={styles.comUserFeed}>
         <div>
           {
             (this.state.feedList.length > 0) &&
@@ -279,7 +237,9 @@ class Feed extends React.Component {
     this.setState({axios: true});
 
     _axios_get_accumulatedList(this.axiosSource.token, {
+      userId: this.userId,
       listUnitBase: lastUnitTime,
+      filterNodes: !!this.filterNode ? [this.filterNode] : []
     })
     .then((resObj)=>{
       if(resObj.main.unitsList.length > 0){
@@ -309,7 +269,6 @@ class Feed extends React.Component {
       //after res of axios_Units: call get nouns & users
       self.props._submit_NounsList_new(resObj.main.nounsListMix);
       self.props._submit_UsersList_new(resObj.main.usersList);
-      self.props._submit_PathsList_new(resObj.main.pathsList);
       //and final, update the data of units to state
       self.setState((prevState, props)=>{
         return ({
@@ -330,21 +289,11 @@ class Feed extends React.Component {
     });
   }
 
-  _handleEnter_NodeLink(e) {
-    let target = e.currentTarget.getAttribute('eventkey');
-    this.setState({ onNodeLink: target })
-  }
-
-  _handleLeave_NodeLink(e) {
-    this.setState({ onNodeLink: false })
-  }
 }
 
 const mapStateToProps = (state)=>{
   return {
     i18nUIString: state.i18nUIString,
-    nounsBasic: state.nounsBasic,
-    pathsBasic: state.pathsBasic
   }
 }
 
@@ -352,7 +301,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
     _submit_UsersList_new: (arr) => { dispatch(handleUsersList(arr)); },
-    _submit_PathsList_new: (arr) => { dispatch(handlePathProjectsList(arr)); },
   }
 }
 

@@ -1,0 +1,33 @@
+.comTitleUser {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+}
+
+.linkTitleText {
+  display: inline-block;
+}
+
+.boxBtnShare {
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.boxIconCopy {
+  width: 22px;
+  height: 18px;
+}
+
+.boxModalEmit {
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.boxHiddenText {
+  position: absolute;
+  left: 200%;
+}
