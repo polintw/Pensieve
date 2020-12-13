@@ -19,6 +19,7 @@ class About extends React.Component {
     };
     this.refCom = React.createRef();
     this._render_text = this._render_text.bind(this);
+    this._render_contibutors = this._render_contibutors.bind(this);
   }
 
 
@@ -34,6 +35,28 @@ class About extends React.Component {
 
   componentWillUnmount(){
 
+  }
+
+  _render_contibutors(){
+    let textDOM = this.props.i18nUIString.catalog["text_contributors"].map((section, index)=>{
+      let paragraphDOM = section.map((text, indexSec)=>{
+        return (
+          <div
+            key={"key_text_section_contributors_"+ index+ "_paragraph_"+indexSec}>
+            {text}</div>
+        )
+      });
+
+      return (
+        <section
+          key={"key_textSection_contributiors_"+ index}
+          style={{fontSize: '1.6rem', padding: '5% 0'}}>
+          {paragraphDOM}
+        </section>
+      )
+    });
+
+    return textDOM;
   }
 
   _render_text(){
@@ -71,6 +94,7 @@ class About extends React.Component {
               src={'http://' +domain.name + '/png/illu_About_Map.png'}
               style={{height:"auto", width:" 100%", boxSizing: "border-box", padding: "5%"}}/>
           </section>
+          {this._render_contibutors()}
         </div>
       </div>
     )
