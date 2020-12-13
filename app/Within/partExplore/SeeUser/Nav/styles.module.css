@@ -59,6 +59,7 @@
 }
 
 .boxIconsFilter {
+  display: block; /* mimic a <div> */
   height: 20px;
 }
 

@@ -32,21 +32,14 @@ class Wrapper extends React.Component {
       axios: false,
       filterStart: null,
       usedNodes: [],
-      redirectFilter: false
     };
     this.axiosSource = axios.CancelToken.source();
-    this._set_viewFilter = this._set_viewFilter.bind(this);
     this._set_filterBasic = this._set_filterBasic.bind(this);
     this._render_Content = this._render_Content.bind(this);
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-    if( (this.state.redirectFilter == prevState.redirectFilter)	&& this.state.redirectFilter){ // if just redirect to or from Filter
-      this.setState({
-	      redirectFilter: false
-      });
-    };
     let preUrlParams = new URLSearchParams(prevProps.location.search); //we need value in URL query
     if(this.userId != preUrlParams.get('userId') ){ // that's, if the page was jump to next user
       this._set_filterBasic();
@@ -85,7 +78,7 @@ class Wrapper extends React.Component {
                   startListify={true}
                   startList={this.state.usedNodes}
                   startNode={this.state.filterStart}
-                  _handle_nodeClick={this._set_viewFilter}
+                  _handle_nodeClick={() => { /* do nothing in this comp */}}
                   _get_firstUnitsList={(nodesList)=>{
                     // return a promise() to NodesFilter
                     return _axios_get_Basic(this.axiosSource.token, {
@@ -106,24 +99,6 @@ class Wrapper extends React.Component {
   }
 
   render(){
-    if(this.state.redirectFilter){
-	    /*
-	      Notice!, this is not a good method.
-	      we should redirect only when close from NodesFilter, a general component.
-	      any other path, passed from Nav, should be dealted with insde the Nav.
-		    */
-        let toSearch = new URLSearchParams(this.props.location.search);
-        if(this.state.redirectFilter == "filter" && !this.urlParams.has("content")){ // to filter & at Accumulations
-          toSearch.append("_filter_nodes", true);
-        } else toSearch.delete("_filter_nodes");
-
-        return <Redirect
-          to={{
-            pathname: this.props.location.pathname,
-            search: toSearch.toString(),
-            state: {from: this.props.location}
-          }}/>;
-    };
     this.urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
     this.userId = this.urlParams.get('userId');
 
@@ -143,7 +118,7 @@ class Wrapper extends React.Component {
             className={classnames(styles.boxRowNav)}>
             <Nav
               {...this.props}
-              _set_viewFilter={this._set_viewFilter}/>
+              userId = {this.userId}/>
           </div>
           <div
             className={classnames(styles.boxRow)}>
@@ -169,12 +144,6 @@ class Wrapper extends React.Component {
         }/>
       </div>
     )
-  }
-
-  _set_viewFilter(view){
-    this.setState({
-	    redirectFilter: !!view ? view : true // currently, always redirect it triggered
-    })
   }
 
   _construct_UnitInit(match, location){

@@ -18,14 +18,14 @@ class Nav extends React.Component {
       onFilterNode: false,
       onNodeLink: false,
     };
-    this._handleClick_filter = this._handleClick_filter.bind(this);
+    this._edit_linkFilterOpen = this._edit_linkFilterOpen.bind(this);
+    this._edit_linkFilterClose = this._edit_linkFilterClose.bind(this);
     this._handleEnter_NodeLink = this._handleEnter_NodeLink.bind(this);
     this._handleLeave_NodeLink = this._handleLeave_NodeLink.bind(this);
     this._handleLeave_FilterNode = this._handleLeave_FilterNode.bind(this);
     this._handleEnter_FilterNode = this._handleEnter_FilterNode.bind(this);
     this._handleLeave_CloseArrow = this._handleLeave_CloseArrow.bind(this);
     this._handleEnter_CloseArrow = this._handleEnter_CloseArrow.bind(this);
-    this._handleClick_filterClose = this._handleClick_filterClose.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -43,7 +43,7 @@ class Nav extends React.Component {
   _render_resetLink(){
     let linkObj = {
       pathname: this.props.location.pathname,
-      search: '',
+      search: '?userId=' + this.props.userId,
       state: {from: this.props.location}
     };
 
@@ -94,8 +94,10 @@ class Nav extends React.Component {
             className={classnames(styles.boxFilter)}>
             {
               this.viewFilter &&
-              <div
-                onClick={this._handleClick_filterClose}>
+              <Link
+                to={ this._edit_linkFilterClose()}
+                className={classnames('plainLinkButton')}
+                style={{display: 'block'}}>
                 {
                   <div
                     className={classnames(styles.boxSvgArrowStick)}
@@ -115,21 +117,22 @@ class Nav extends React.Component {
                       )}/>
                   </div>
                 }
-              </div>
+              </Link>
             }
             {
-              !this.props.viewFilter &&
-              <div
-                className={classnames(styles.boxIconsFilter)}>
+              !this.viewFilter &&
+              <Link
+                to={ this._edit_linkFilterOpen()}
+                className={classnames(
+                  'plainLinkButton', styles.boxIconsFilter)}>
                 <div
                   className={classnames(styles.boxIconFilterNode)}
-                  onClick={this._handleClick_filter}
                   onMouseEnter={this._handleEnter_FilterNode}
                   onMouseLeave={this._handleLeave_FilterNode}>
                   <SvgFilterNode
                     customstyle={this.state.onFilterNode ? "{fill: #ff8168;}" : "{fill: rgb(69, 135, 160);}"}/>
                 </div>
-              </div>
+              </Link>
             }
           </div>
         </div>
@@ -166,7 +169,7 @@ class Nav extends React.Component {
               {this._render_resetLink()}
             </div>
           ) : (
-            this.props.viewFilter &&
+            this.viewFilter &&
             <div
               className={classnames(styles.boxRowFilterMargin)}>
               <span
@@ -188,17 +191,28 @@ class Nav extends React.Component {
     )
   }
 
-  _handleClick_filter(event){
-      event.preventDefault();
-      event.stopPropagation();
-
-    this.props._set_viewFilter('filter')
+  _edit_linkFilterClose(){
+    let nextSearch = new URLSearchParams(this.props.location.search);
+    nextSearch.delete("_filter_nodes");
+    return (
+      {
+        pathname: this.props.match.url ,
+        search: nextSearch.toString(),
+        state: {from: this.props.location}
+      }
+    );
   }
 
-  _handleClick_filterClose(event){
-    event.preventDefault();
-    event.stopPropagation();
-    this.props._set_viewFilter(null)
+  _edit_linkFilterOpen(){
+    let nextSearch = new URLSearchParams(this.props.location.search);
+    nextSearch.append("_filter_nodes", true);
+    return (
+      {
+        pathname: this.props.match.url ,
+        search: nextSearch.toString(),
+        state: {from: this.props.location}
+      }
+    );
   }
 
   _handleEnter_CloseArrow(e){

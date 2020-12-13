@@ -106,17 +106,19 @@ class Feed extends React.Component {
                     referLink={
                       (this.state.unitsBasic[unitId].authorIdentity == 'pathProject') ?
                         (
-                          domain.protocol + 
-                          "://" + 
-                          domain.name + 
-                          '/cosmic/explore/path/' + 
+                          domain.protocol + "://" +
+                          domain.name + '/cosmic/explore/path/' +
                           (
                             this.state.unitsBasic[unitId].authorId in this.props.pathsBasic &&
                             this.props.pathsBasic[this.state.unitsBasic[unitId].authorId].pathName)
-                        ) : false
+                        ) : (
+                          domain.protocol + "://" +
+                          domain.name + '/cosmic/explore/user?userId=' +
+                          this.state.unitsBasic[unitId].authorId
+                        )
                     }
                     userId={this.state.unitsBasic[unitId].authorId}
-                    authorIdentity={this.state.unitsBasic[unitId].authorIdentity} 
+                    authorIdentity={this.state.unitsBasic[unitId].authorIdentity}
                       styleLast={(this.state.unitsBasic[unitId].authorIdentity == 'pathProject') ? { color: 'rgb(69, 135, 160)'} : {}}/>
                     <span
                       className={classnames(styles.spanFocusSubtitleConnect, 'colorEditLightBlack', 'fontSubtitle_h5')}>
@@ -150,7 +152,7 @@ class Feed extends React.Component {
                   </span>
                   <br/>
                   {
-                    (this.state.unitsBasic[unitId].nounsList[0] in this.props.nounsBasic && 
+                    (this.state.unitsBasic[unitId].nounsList[0] in this.props.nounsBasic &&
                       this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].prefix.length > 0) &&
                     <div
                       className={classnames('plainLinkButton')}
@@ -161,7 +163,7 @@ class Feed extends React.Component {
                           {this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].prefix}</span>
                     </div>
                   }
-                </div>                  
+                </div>
                 </div>
               </div>
               <div

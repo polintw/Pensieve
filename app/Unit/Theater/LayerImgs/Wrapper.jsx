@@ -122,7 +122,8 @@ class Wrapper extends React.Component {
                   size={'layer'}
                   referLink={
                     (this.props.unitCurrent.authorBasic['authorIdentity'] == 'user') ?
-                      false : (domain.protocol + "://" + domain.name+ '/cosmic/explore/path/' + this.props.unitCurrent.authorBasic['pageLink'])
+                       (domain.protocol + "://" + domain.name+ '/cosmic/explore/user?userId=' + this.props.unitCurrent.authorBasic['authorId'])
+                      : (domain.protocol + "://" + domain.name+ '/cosmic/explore/path/' + this.props.unitCurrent.authorBasic['pageLink'])
                   }
                   accountFirstName={
                     (this.props.unitCurrent.authorBasic['authorIdentity'] == 'user') ?
