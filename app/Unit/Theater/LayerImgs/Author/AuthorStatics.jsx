@@ -82,10 +82,11 @@ class AuthorStatics extends React.Component {
           <div
             className={classnames(styles.boxSetSubtitle)}>
             <span className={classnames('fontContentPlain', 'colorEditLightBlack')}>
-              {this.props.i18nUIString.catalog["text_users"]}
-            </span><br/>
-            <span className={classnames('fontContentPlain', 'colorEditLightBlack')}>
               {this.props.i18nUIString.catalog["subTitle_Unit_AuthorStatics"][1]}
+            </span>
+            <br/>
+            <span className={classnames('fontContentPlain', 'colorEditLightBlack')}>
+              {this.props.i18nUIString.catalog["text_users"]}
             </span>
           </div>
         </div>

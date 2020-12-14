@@ -1,7 +1,29 @@
+.boxTitle {
+  margin: 8px 0;
+}
+
 .comTitleUser {
     display: flex;
-    align-items: baseline;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.boxSubtitle {
+  display: flex;
+}
+
+.boxSubtitleLeft {
+  margin-right: 4px;
+}
+
+.boxSubtitleRight {
+  margin-left: 4px;
+}
+
+.boxSubtitleCenter {
+  display: flex;
+  align-items: center;
+  margin: 0 2px;
 }
 
 .linkTitleText {
@@ -30,4 +52,8 @@
 .boxHiddenText {
   position: absolute;
   left: 200%;
+}
+
+.spanKey {
+  margin-right: 4px;
 }

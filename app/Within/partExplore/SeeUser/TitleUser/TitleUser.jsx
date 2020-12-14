@@ -34,21 +34,58 @@ class TitleUser extends React.Component {
   render(){
     return (
       <div className={styles.comTitleUser}>
-        <Link
-          to={'/cosmic/explore/user?userId=' + this.props.userId }
-          className={classnames('plainLinkButton', styles.linkTitleText)}>
-          <AccountPalette
-            size={"regularBold"}
-            referLink={ false }
-            styleFirst={{fontSize: '2.4rem'}}
-            styleLast={{fontSize: '2.4rem'}}
-            userId={this.props.userId}
-            authorIdentity={"user"} />
-        </Link>
+        <div
+          className={classnames(styles.boxTitle)}>
+          <Link
+            to={'/cosmic/explore/user?userId=' + this.props.userId }
+            className={classnames('plainLinkButton', styles.linkTitleText)}>
+            <AccountPalette
+              size={"regularBold"}
+              referLink={ false }
+              styleFirst={{fontSize: '2.4rem'}}
+              styleLast={{fontSize: '2.4rem'}}
+              userId={this.props.userId}
+              authorIdentity={"user"} />
+          </Link>
+        </div>
+        <div
+          className={classnames(styles.boxTitle, styles.boxSubtitle)}>
+          <div
+            className={classnames(styles.boxSubtitleLeft)}>
+            <span
+              className={classnames(
+                'fontContent', 'colorGrey',
+                styles.spanKey
+              )}>
+              {this.props.i18nUIString.catalog["title_shared"]}
+            </span>
+            <span
+              className={classnames("fontContent", "colorGrey")}>
+              {this.props.userBasicInfo.countShareds}
+            </span>
+          </div>
+          <div
+            className={classnames(styles.boxSubtitleCenter)}>
+            {"·"}
+          </div>
+          <div
+            className={classnames(styles.boxSubtitleRight)}>
+            <span
+              className={classnames(
+                'fontContent', 'colorGrey',
+                styles.spanKey
+              )}>
+              {this.props.i18nUIString.catalog["text_since"]}
+            </span>
+            <span
+              className={classnames("fontContent", "colorGrey")}>
+              {this.props.userBasicInfo.timeCreate}
+            </span>
+          </div>
+        </div>
       </div>
     )
   }
-
 }
 
 
