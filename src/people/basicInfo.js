@@ -4,6 +4,7 @@ const winston = require('../../config/winston.js');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const _DB_users = require('../../db/models/index').users;
+const _DB_units = require('../../db/models/index').units;
 const _DB_usersNodesHomeland = require('../../db/models/index').users_nodes_homeland;
 const _DB_usersNodesResidence = require('../../db/models/index').users_nodes_residence;
 const {_res_success} = require('../utils/resHandler.js');
@@ -40,9 +41,22 @@ async function _handle_GET_people_basic(req, res){
         }
       });
     };
+    let unitsShareds = await _DB_units.findAll({
+      where: {
+        id_author: targetUser.id,
+        author_identity: 'user'
+      }
+    });
+    let userYear, userMonth;
+    let d = new Date(targetUser.createdAt);
+    userYear = d.getFullYear();
 
     let sendingData={
       nodeStart: usersStartNode.id_node,
+      userBasicInfo: {
+        timeCreate: userYear,
+        countShareds: !!unitsShareds ? unitsShareds.length : 0
+      },
       temp: {}
     };
 

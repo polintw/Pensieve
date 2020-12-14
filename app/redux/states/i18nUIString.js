@@ -91,6 +91,7 @@ const i18nUIString_EN = {
   "text_home": 'Homeland',
   "text_resid": "Residence",
   "test_or_minor": "or",
+  "text_since": "since",
   "message_hello": "Hi, ",
   "submit_": "Submit",
   "submit_back": "Back", //Original:"back"
@@ -142,7 +143,7 @@ const i18nUIString_EN = {
   "message_UnitUnsign_SigninRemind_author": "More from this author? ",
   "message_UnitUnsign_SigninRemind_more": "Want to visit more? ",
   "message_UnitUnsign_SigninRemind_inspired": "Want to send your feeling to author? ",
-  "subTitle_Unit_AuthorStatics": ["inspired", "read"],
+  "subTitle_Unit_AuthorStatics": ["inspired", "engaged"],
   "tagTitle_Unit_Inspired": "Inspired by this article",
   "message_Unit_InspiredModal": "Sent to author",
   "tagTitle_Unit_LinkCopy": "Copy share link",

@@ -31,6 +31,10 @@ class Wrapper extends React.Component {
     this.state = {
       axios: false,
       filterStart: null,
+      userBasicInfo: {
+        timeCreate: null,
+        countShareds: 0
+      },
       usedNodes: [],
     };
     this.axiosSource = axios.CancelToken.source();
@@ -108,11 +112,9 @@ class Wrapper extends React.Component {
           className={classnames(styles.comSeeUser)}>
           <div
             className={classnames(styles.boxRow)}>
-            <div
-              className={classnames(styles.boxTitle)}>
-              <TitleUser
-                userId = {this.userId}/>
-            </div>
+            <TitleUser
+              userId = {this.userId}
+              userBasicInfo={this.state.userBasicInfo}/>
           </div>
           <div
             className={classnames(
@@ -170,7 +172,8 @@ class Wrapper extends React.Component {
     _axios_get_Basic(this.axiosSource.token, basicReqObj)
     .then((resObj)=> {
       self.setState({
-        filterStart: resObj.main.nodeStart
+        filterStart: resObj.main.nodeStart,
+        userBasicInfo: resObj.main.userBasicInfo
       });
       return _axios_get_Basic(this.axiosSource.token, usedNodesReqObj);
     })
