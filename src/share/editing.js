@@ -48,6 +48,17 @@ async function _handle_unit_AuthorEditing(req, res){
       }
     }); // must have a record in db, already passed the validation
 
+  // update related ti units: update outBoundLink
+  if(!!modifiedBody.outboundLinkMain && typeof(modifiedBody.outboundLinkMain)=="string" ){
+    await _DB_units.update({
+      'outboundLink_main': modifiedBody.outboundLinkMain
+    }, {
+      where: {
+        id: unitId
+      }
+    });
+  };
+
   new Promise((resolve, reject)=>{
     /*
       different from Create, not allow replacing the pic,
