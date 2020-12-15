@@ -176,7 +176,6 @@ class Submit extends React.Component {
                 <span>{this.props.i18nUIString.catalog["descript_Unit_Primer"][1]}</span>
               </div>
             </div>
-
           }
         </div>
         <div
@@ -265,7 +264,13 @@ const mapStateToProps = (state)=>{
   }
 }
 
+const mapDispatchToProps = (dispatch)=>{
+  return {
+
+  }
+}
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(Submit);

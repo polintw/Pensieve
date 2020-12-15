@@ -15,6 +15,10 @@ import AssignNodes from './NodesEditor/AssignNodes.jsx';
 import AssignSwitch from './NodesEditor/AssignSwitch.jsx';
 import Submit from './components/Submit/Submit.jsx';
 import ImgImport from './components/ImgImport.jsx';
+import {
+  setMessageBoolean,
+} from "../../redux/actions/general.js";
+import {messageDialogInit} from "../../redux/states/constants.js";
 
 class EditingPanel extends React.Component {
   constructor(props){
@@ -37,6 +41,7 @@ class EditingPanel extends React.Component {
     this._set_Mark_Complete = this._set_Mark_Complete.bind(this);
     this._set_statusEditing = this._set_statusEditing.bind(this);
     this._set_nodesEditView = this._set_nodesEditView.bind(this);
+    this._set_new_warningDialog = this._set_new_warningDialog.bind(this);
     this._submit_new_node = this._submit_new_node.bind(this);
     this._submit_newShare = this._submit_newShare.bind(this);
     this._submit_new_mainLink = this._submit_new_mainLink.bind(this);
@@ -109,6 +114,7 @@ class EditingPanel extends React.Component {
       - no Unit was submitting: give warn
       - not editing: give warn
     */
+    // beneath was an old 'wraning dialog' version
     if(!newObj["coverSrc"] || newObj['nodesSet'].length < 1) { // the 'img' & 'node assigned to' are required
       this.props._set_warningDialog([{text: this.props.i18nUIString.catalog['message_CreateShare_basicRequireWarn'],style:{}}], 'warning');
       return;
@@ -127,10 +133,25 @@ class EditingPanel extends React.Component {
     // clean the outboundLinkObj to submit
     newObj["outboundLinkMain"] = ("urlString" in newObj.outboundLinkObj) ? newObj.outboundLinkObj['urlString'] : null;
     /*
-    a part dealing with a depracated belong type, 'both', was removed from this section
-    */
-
-    this.props._set_Submit(newObj);
+    and, in order to use a new dialog system,
+    we now create a new Promise to handle a synchronize reaction
+        */
+    new Promise((resolve, reject)=>{
+      // beneath was a newer dialog system, depend on dialog comp up to page level
+      if(!!this.props.userInfo.pathName && this.props.unitView != "editing"){
+        this._set_new_warningDialog('identity', ()=>{
+          resolve();
+        }, ()=>{ reject(); });
+      }
+      else resolve();
+    })
+    .then(()=>{
+      this.props._set_Submit(newObj);
+    })
+    .catch((error)=>{
+      // only return
+      return;
+    });
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -276,11 +297,46 @@ class EditingPanel extends React.Component {
       };
     })
   }
+
+  _set_new_warningDialog(source, positiveCB, negativeCB){
+    let messageArr;
+    switch (source) {
+      case "identity":
+        messageArr= [{
+          text:  this.props.i18nUIString.catalog['message_UnitEdit_Submit_identityWarn'],
+          style:{display: 'block' }
+        }, {
+          text: this.state.authorIdentity=="userAccount" ? this.props.userInfo.account: this.props.userInfo.pathProject,
+          style:{color: '#ff8168', fontWeight: 'bold'}
+        }, {
+          text: "?",
+          style:{}
+        }];
+        break;
+      default:
+        messageArr=[{text: '', style: {}}];
+    };
+
+    this.props._submit_BooleanDialog({
+      render: true,
+      customButton: null,
+      message: messageArr,
+      handlerPositive: ()=>{
+        this.props._submit_BooleanDialog(messageDialogInit.boolean);
+        positiveCB();
+      },
+      handlerNegative: ()=>{
+        this.props._submit_BooleanDialog(messageDialogInit.boolean);
+        negativeCB();
+      }
+    });
+  }
 }
 
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
+    unitView: state.unitView,
     i18nUIString: state.i18nUIString,
     unitSubmitting: state.unitSubmitting,
     belongsByType: state.belongsByType
@@ -289,7 +345,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    _submit_BooleanDialog: (obj)=>{dispatch(setMessageBoolean(obj));},
   }
 }
 

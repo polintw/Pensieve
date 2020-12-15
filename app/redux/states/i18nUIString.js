@@ -135,6 +135,7 @@ const i18nUIString_EN = {
   "guiding_UnitEdit_upload": "Get started by uploading an image!", //Original:"Get started by uploading image about your topic!"
   "guiding_UnitEdit_imgNoMark": "keep the photo clean or by Clicking on the picture to markup your thought without hesitation!", //Original:"keep it clean or by Clicking make some Post-it without hesitate!"
   "guiding_placeholder_UnitEdit_MarkBlock": "What's SPECIAL!  Tell us about details you found." , //Original:Telling us some details you found."
+  "message_UnitEdit_Submit_identityWarn": "Publishing this creation by identity as: ",
   "message_UnitEdit_tooManySpot": "A better spot? However, having too many highlights could be overwhelmed to readers. Please delete an old one before you implement this new!", //Original:"A better spot? But too many paragraph would be a burdon to readers. Please delete an old one before you implement this new!"
   "message_UnitEdit_ruleAssignedNodes": ["Select only one corner from where you stay, and one from your homeland."],
   "message_UnitUnsign_SigninRemind": "Sign up to Cornerth!",
