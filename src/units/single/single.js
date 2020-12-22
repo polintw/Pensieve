@@ -11,6 +11,7 @@ const _DB_paths = require('../../../db/models/index').paths;
 const _DB_nouns = require('../../../db/models/index').nouns;
 const _DB_marks = require('../../../db/models/index').marks;
 const _DB_marksContent = require('../../../db/models/index').marks_content;
+const _DB_unitsStatInteract = require('../../../db/models/index').units_stat_interact;
 const _DB_attribution =  require('../../../db/models/index').attribution;
 
 const {
@@ -252,7 +253,28 @@ function _handle_unit_Mount(req, res){
       if(req.extra.tokenify){
         return _submitUsersUnits(data.unitId, data.userId) //records relation between users units
       }
-      else return Promise.resolve();
+      else{
+        return new Promise((resolve, reject)=>{
+          _DB_unitsStatInteract.findOne({
+            where: {
+              id_unit: data.unitId
+            }
+          })
+          .then(result =>{
+            const currentLoadCount = result.times_unsignedLoad;
+            return _DB_unitsStatInteract.update(
+              {times_unsignedLoad: currentLoadCount+1},
+              {where: {id_unit: data.unitId}}
+            )
+          })
+          .then(result => {
+            resolve();
+          })
+          .catch((err)=>{
+            reject("throw by Promise in processByTokenify() in units/single.js, "+err);
+          });
+        })
+      };
     };
 
     return processByTokenify()
