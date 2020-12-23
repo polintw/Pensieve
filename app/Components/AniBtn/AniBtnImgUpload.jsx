@@ -75,6 +75,9 @@ class AniBtnImgUpload extends React.Component {
         'charset': 'utf-8',
         'token': window.localStorage['token']
       },
+      params: {
+        exif: true
+      },
       cancelToken: self.axiosSource.token
     }).then((res)=>{
       let resObj = JSON.parse(res.data);

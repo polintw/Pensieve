@@ -40,11 +40,14 @@ class AuthorStatics extends React.Component {
     this.state = {
       axiosInspired: false,
       axiosRead: false,
+      axiosLoad: false,
       countIsnpired: null,
-      countRead: null
+      countRead: null,
+      countLoad: null
     };
     this.axiosSource = axios.CancelToken.source();
     this._set_staticRead = this._set_staticRead.bind(this);
+    this._set_staticLoad = this._set_staticLoad.bind(this);
     this._set_staticInspired = this._set_staticInspired.bind(this);
   }
 
@@ -54,12 +57,14 @@ class AuthorStatics extends React.Component {
     if (this.props.unitCurrent.unitId !== prevProps.unitCurrent.unitId && this.props.unitCurrent.unitId.length > 0) {
       this._set_staticInspired();
       this._set_staticRead();
+      this._set_staticLoad();
     }
   }
 
   componentDidMount(){
     this._set_staticInspired();
     this._set_staticRead();
+    this._set_staticLoad();
   }
 
   componentWillUnmount(){
@@ -70,7 +75,27 @@ class AuthorStatics extends React.Component {
 
   render(){
     return(
-      <div>
+      <div
+        className={classnames(styles.comStaticsSmall)}>
+        <div
+          className={classnames(styles.boxSet)}>
+          <div>
+            <span
+              className={classnames("fontTitle", "colorEditBlack", "weightBold")}>
+              {this.state.countLoad}
+            </span>
+          </div>
+          <div
+            className={classnames(styles.boxSetSubtitle)}>
+            <span className={classnames('fontContentPlain', 'colorEditLightBlack')}>
+              {this.props.i18nUIString.catalog["subTitle_Unit_AuthorStatics"][2]}
+            </span>
+            <br />
+            <span className={classnames('fontContentPlain', 'colorEditLightBlack')}>
+              {this.props.i18nUIString.catalog["text_read"]}
+            </span>
+          </div>
+        </div>
         <div
           className={classnames(styles.boxSet)}>
           <div>
@@ -147,12 +172,35 @@ class AuthorStatics extends React.Component {
     this.setState({ axiosRead: true });
 
     _axios_get_AuthorStatics(this.axiosSource.token, this.props.unitCurrent.unitId, {
-      path: 'sum', params: [{key: 'target', value: "read"}]
+      path: 'sum', params: [{ key: 'target', value: "engaged" }]
     })
       .then((resObj) => {
         self.setState({
           axiosRead: false,
           countRead: resObj.main.sum
+        });
+      }).catch(function (thrown) {
+        self.setState({ axios: false });
+        if (axios.isCancel(thrown)) {
+          cancelErr(thrown);
+        } else {
+          let message = uncertainErr(thrown);
+          if (message) alert(message);
+        }
+      });
+  }
+
+  _set_staticLoad() {
+    const self = this;
+    this.setState({ axiosLoad: true });
+
+    _axios_get_AuthorStatics(this.axiosSource.token, this.props.unitCurrent.unitId, {
+      path: 'sum', params: [{ key: 'target', value: "loaded"}]
+    })
+      .then((resObj) => {
+        self.setState({
+          axiosLoad: false,
+          countLoad: resObj.main.sum
         });
       }).catch(function (thrown) {
         self.setState({ axios: false });

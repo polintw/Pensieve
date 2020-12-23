@@ -1,6 +1,7 @@
 const express = require('express');
 const execute = express.Router();
 const sharp = require('sharp');
+const exifr = require('exifr');
 const winston = require('../../config/winston.js');
 const {_res_success} = require('../utils/resHandler.js');
 const {
@@ -8,7 +9,7 @@ const {
   internalError,
 } = require('../utils/reserrHandler.js');
 
-function _handle_img_resize_POST(req, res){
+async function _handle_img_resize_POST(req, res){
   //this is an api only for image resizing.
   //Notice!! this api do not receive any identity check at any point.
 
@@ -18,6 +19,29 @@ function _handle_img_resize_POST(req, res){
   };
   let base64Splice = req.body.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
   let base64Buffer = new Buffer.from(base64Splice[2], 'base64');
+  // check query, process .exif
+  if(!!req.query.exif){
+    if (process.env.NODE_ENV == 'development') winston.verbose('POST: /img/resize, has "exif" in query. ');
+    try{
+      let gps = await exifr.gps(base64Buffer);
+      if(!!gps){ // no 'gps' data or not a .jpg file would get 'undefined' return
+        sendingData['exif'] = {
+          gps: { 
+            latitude: gps.latitude,
+            longitude: gps.longitude 
+          }
+        };
+      }
+      else {
+        sendingData['exif'] = {
+          gps: false
+        };
+      };
+    }
+    catch (error) {
+      winston.error('POST: /img/resize, has "exif" in query, error catched: ', error);
+    }
+  }
 
   sharp(base64Buffer)
       .rotate()

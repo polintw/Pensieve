@@ -18,6 +18,7 @@ const _DB_attribution = require('../../../db/models/index').attribution;
 const _DB_nodes_activity = require('../../../db/models/index').nodes_activity;
 const _DB_usersPaths = require('../../../db/models/index').users_paths;
 const _DB_units_nodesAssign = require('../../../db/models/index').units_nodes_assign;
+const _DB_unitsStatInteract = require('../../../db/models/index').units_stat_interact;
 const {
   _handle_ErrCatched,
   internalError
@@ -150,6 +151,12 @@ async function shareHandler_POST(req, res){
       'used_authorId': ("usedId" in authorIdentityObj) ? authorIdentityObj.usedId : null,
       'outboundLink_main': (!!modifiedBody.outboundLinkMain && typeof(modifiedBody.outboundLinkMain)=="string" ) ? modifiedBody.outboundLinkMain : null
     };
+    /*
+    three things related to new unit id, but not too complicated completed in this block
+    1. create new record & get unit id
+    2. create responds if any primer
+    3. create stat_interact by new id
+    */
     return new Promise ((resolveLoc, rejectLoc)=>{
       if(!!modifiedBody.primer){
         return _DB_units.findOne({
@@ -183,13 +190,24 @@ async function shareHandler_POST(req, res){
             primer_createdAt: primer.createdAt,
           })
           .then((createdRespond)=>{
-            return;
+            return createdUnit;
           })
           .catch((err)=>{
             throw err
           });
         }
-        else return;
+        else return createdUnit;
+      })
+      .then((createdUnit)=> {
+        return _DB_unitsStatInteract.create({
+          id_unit: createdUnit.id
+        })
+        .then((createdStatInteract)=>{
+          return;
+        })
+        .catch((err)=>{
+          throw err
+        });
       });
     })
     .catch((err)=>{
