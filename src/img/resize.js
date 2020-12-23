@@ -1,7 +1,6 @@
 const express = require('express');
 const execute = express.Router();
 const sharp = require('sharp');
-//const ExifImage = require('exif').ExifImage;
 const exifr = require('exifr');
 const winston = require('../../config/winston.js');
 const {_res_success} = require('../utils/resHandler.js');
@@ -20,27 +19,23 @@ async function _handle_img_resize_POST(req, res){
   };
   let base64Splice = req.body.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
   let base64Buffer = new Buffer.from(base64Splice[2], 'base64');
+  // check query, process .exif
   if(!!req.query.exif){
     if (process.env.NODE_ENV == 'development') winston.verbose('POST: /img/resize, has "exif" in query. ');
     try{
-      /*
-      new ExifImage({ image: base64Buffer }, function (error, exifData) {
-        if (error){
-          winston.error('POST: /img/resize, has "exif" in query, has error: ', error);
-          sendingData['exif'] = {};
-        }
-        else
-          if (process.env.NODE_ENV == 'development') winston.verbose('POST: /img/resize, has "exif" in query, successfully processed. ');
-          sendingData['exif'] = {
-            gps: exifData.gps
-          };
-      });*/
-      let { latitude, longitude } = await exifr.gps(base64Buffer);
-      sendingData['exif'] = {
-        gps: { 
-          latitude: latitude,
-          longitude: longitude 
-        }
+      let gps = await exifr.gps(base64Buffer);
+      if(!!gps){ // no 'gps' data or not a .jpg file would get 'undefined' return
+        sendingData['exif'] = {
+          gps: { 
+            latitude: gps.latitude,
+            longitude: gps.longitude 
+          }
+        };
+      }
+      else {
+        sendingData['exif'] = {
+          gps: false
+        };
       };
     }
     catch (error) {

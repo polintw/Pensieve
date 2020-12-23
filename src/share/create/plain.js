@@ -151,6 +151,12 @@ async function shareHandler_POST(req, res){
       'used_authorId': ("usedId" in authorIdentityObj) ? authorIdentityObj.usedId : null,
       'outboundLink_main': (!!modifiedBody.outboundLinkMain && typeof(modifiedBody.outboundLinkMain)=="string" ) ? modifiedBody.outboundLinkMain : null
     };
+    /*
+    three things related to new unit id, but not too complicated completed in this block
+    1. create new record & get unit id
+    2. create responds if any primer
+    3. create stat_interact by new id
+    */
     return new Promise ((resolveLoc, rejectLoc)=>{
       if(!!modifiedBody.primer){
         return _DB_units.findOne({

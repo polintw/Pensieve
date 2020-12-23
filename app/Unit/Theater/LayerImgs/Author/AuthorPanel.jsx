@@ -5,7 +5,8 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
-import styles from '../styles.module.css';
+import styles from './stylesStatics.module.css';
+import stylesWrapper from '../styles.module.css';
 import stylesFont from '../../../stylesFont.module.css';
 import {
   _axios_patch_ShareErase} from '../../../utils.js';
@@ -101,13 +102,14 @@ class AuthorPanel extends React.Component {
 
   render(){
     return(
-      <div style={{display:'flex'}}>
+      <div
+        className={classnames(styles.comAuthorPanel)}>
         <div
-          className={classnames(styles.btnSubmit)}
-          style={Object.assign({},
-            {marginRight: '10px'},
-            (this.state.onEnterDelete )? {backgroundColor: "#757575", cursor: 'pointer'}:{}
-          )}
+          className={classnames(
+            stylesWrapper.btnSubmit,
+            styles.btnAuthorErase
+            )}
+          style={(this.state.onEnterDelete )? {backgroundColor: "#757575", cursor: 'pointer'}:{}}
           onClick={this._handleClick_UnitAction_erase}
           onMouseEnter={this._handleEnter_Delete}
           onMouseLeave={this._handleLeave_Delete}>
@@ -122,7 +124,7 @@ class AuthorPanel extends React.Component {
           </span>
         </div>
         <div
-          className={classnames(styles.btnSubmit)}
+          className={classnames(stylesWrapper.btnSubmit)}
           style={Object.assign({},
             (this.state.onEnterSubmit)? {backgroundColor: "#ff8168", cursor: 'pointer'}:
             {backgroundColor: 'rgba(255, 129, 104, 0.1)'}

@@ -253,7 +253,7 @@ function _handle_unit_Mount(req, res){
       if(req.extra.tokenify){
         return _submitUsersUnits(data.unitId, data.userId) //records relation between users units
       }
-      else{
+      else{ // if no token, save the data to unsignedLoad in units_stat_interact
         return new Promise((resolve, reject)=>{
           _DB_unitsStatInteract.findOne({
             where: {
