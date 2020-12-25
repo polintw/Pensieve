@@ -91,6 +91,7 @@ const i18nUIString_EN = {
   "text_home": 'Homeland',
   "text_resid": "Residence",
   "test_or_minor": "or",
+  "text_your_cap": "Your",
   "text_read": "read",
   "text_since": "since",
   "text_times": "times",
@@ -117,7 +118,8 @@ const i18nUIString_EN = {
   "title_profile": "Profile",
   "title_home": "Home",
   "title_Expand": "Expand",
-  "title_Chain_Shareds_": "Your Publications",
+  "title_Chain_Shareds_": "Publications",
+  "title_Chain_Shareds_publicFile": "Public File",
   "title_selfPublications": "Your Publications",
   "title_yourShareds": 'Shareds',
   "title_shared": "Shareds",
@@ -132,7 +134,7 @@ const i18nUIString_EN = {
   "descript_Shareds_pathLink": " as ",
 
   "submit_Options_profile": "My profile",
-  "submit_Unit_upload": ["Add image", "Processing..."],
+  "submit_Unit_upload": ["Upload image", "Processing..."],
   "descript_Unit_Primer": ["Based on ", "'s Unit", "Based on a published Unit"],
   "guiding_UnitEdit_upload": "Get started by uploading an image!", //Original:"Get started by uploading image about your topic!"
   "guiding_UnitEdit_imgNoMark": "keep the photo clean or by Clicking on the picture to markup your thought without hesitation!", //Original:"keep it clean or by Clicking make some Post-it without hesitate!"
@@ -153,9 +155,9 @@ const i18nUIString_EN = {
   "message_Unit_LinkCopy": "Copied to clipboard",
 
   "title_shareUpload_typewriter": ['S','h','a','r','e', '!'],
-  "guidingCreateShare_AssignGroup": "Assign to",//Changed "corner(s)" to "Corner(s)"
+  "guidingCreateShare_AssignGroup": "Assigned corners",
   "guidingCreateShare_AssignNull": "Haven't register any ",//Changed "please" to "Please"
-  "guidingCreateShare_NodesView": "Assign to Corners by one or several methods of below:",
+  "guidingCreateShare_NodesView": "Choose at least one corner you'd like to link to by:",
   "guidingCreateShare_NodesView_selectHint": "No selection yet.",
   "guidingCreateShare_outboundLinkView": "Input a url address if you want to show a link!",
   "subTitle_CreateShare_AssignTypes": ["Your Homeland", "Your Residence", "or, search one"],
