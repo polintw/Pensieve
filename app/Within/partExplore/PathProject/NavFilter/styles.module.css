@@ -1,40 +1,11 @@
 .comNavFilter {
-
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
 }
 
 .linkBlock {
   display: block;
-}
-
-.linkSetlink {
-  display: inline-flex;
-  align-items: center;
-}
-
-.boxRowInfo {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-}
-
-.boxRowFilterMargin {
-  margin: 20px 0 0;
-}
-
-.boxRowFilterNodeFlex {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-}
-
-.boxProjectInfo {
-  display: inline-block;
-  max-width: 68%;
-}
-
-.boxFilter {
-  display: inline-block;
-  box-sizing: border-box;
 }
 
 .boxSvgArrow {
@@ -44,18 +15,27 @@
   cursor: pointer;
 }
 
-.boxSvgArrowStick {
-  width: 15px;
-  height: 15px;
-  padding: 5px 0 0 5px;
-  cursor: pointer;
+.boxFilter {
+  display: inline-block;
+  box-sizing: border-box;
 }
 
-.boxSvgNetGlobe {
-  display: inline-block;
-  width: 1.2rem;
-  height: 1.2rem;
-  margin: 0 5px;
+.boxFilterNode {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-right: 1.5rem;
+}
+
+.boxFilterSelection{
+  padding: 0 15px 0 0;
+}
+
+.boxFilterSuggest {
+  display: flex;
+  flex-wrap: wrap;
+  overflow: hidden;
 }
 
 .boxIconsFilter {
@@ -75,6 +55,20 @@
   display: inline-block;
 }
 
+.boxSvgArrow {
+  width: 15px;
+  height: 15px;
+  padding: 2.5px 0;
+  cursor: pointer;
+}
+
+.boxSvgArrowStick {
+  width: 15px;
+  height: 15px;
+  padding: 5px 0 0 5px;
+  cursor: pointer;
+}
+
 .spanFilterCross {
   display: inline-block;
   margin-right: 15px;
@@ -89,15 +83,15 @@
   border-bottom: solid 1px #545454;
 }
 
-.spanLinkSetlink {
-  display: inline-block;
-  width: 196px;
-  border-bottom: solid 1px transparent;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
+.linkBlock {
+  display: block;
 }
 
-.spanLinkSetlinkMouse {
-  border-bottom: solid 1px #444444;
+.linkSetlink {
+  display: inline-flex;
+  align-items: center;
+}
+
+.linkNodeSuggest {
+  display: flex;
 }

@@ -104,17 +104,26 @@ class Wrapper extends React.Component {
               className={classnames(styles.boxTitle)}>
               <TitlePath
                 projectPath = {this.state.pathName}
+                projectInfo={this.state.projectInfo}
+                projectPath = {this.state.pathName}
                 title={this.state.projectName}/>
             </div>
           </div>
           <div
             className={classnames(styles.boxRowNav)}>
-            <NavFilter
-              {...this.props}
-              viewFilter={this.viewFilter}
-              projectPath = {this.state.pathName}
-              projectInfo={this.state.projectInfo}
-              _set_viewFilter={this._set_viewFilter}/>
+            <div>
+              <NavFeed {...this.props}/>
+            </div>
+            <div
+              className={classnames(
+                {[styles.rowFilterPadding]: (!!this.filterNode || this.viewFilter)})}>
+              <NavFilter
+                {...this.props}
+                listLocation={"pathProject"}
+                listIdentity={this.props.match.params['pathName']}
+                viewFilter={this.viewFilter}
+                _set_viewFilter={this._set_viewFilter}/>
+            </div>
           </div>
           <div
             className={classnames(styles.boxRow)}>
@@ -139,10 +148,6 @@ class Wrapper extends React.Component {
               ):(
                 <div
                   className={classnames(styles.boxFeed)}>
-                  {
-                    !this.filterNode && // render only when no filterNode
-                    <NavFeed {...this.props}/>
-                  }
                   <Feed {...this.props}/>
                 </div>
               )

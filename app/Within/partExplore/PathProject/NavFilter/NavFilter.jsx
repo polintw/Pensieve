@@ -6,28 +6,36 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import {SvgArrowToTop} from '../../../../Components/Svg/SvgArrow.jsx';
+import {
+  _axios_get_Suggestions
+} from './axios.js';
+import {
+  handleNounsList,
+} from "../../../../redux/actions/general.js";
+import {
+  cancelErr,
+  uncertainErr
+} from '../../../../utils/errHandlers.js';
+import {SvgArrowToRight} from '../../../../Components/Svg/SvgArrow.jsx';
 import SvgFilterNode from '../../../../Components/Svg/SvgFilter_Node.jsx';
 import SvgArrowStick from '../../../../Components/Svg/SvgArrowStick.jsx';
-import SvgNetGlobe from '../../../../Components/Svg/SvgIcon_NetGlobe.jsx';
-import {
-  domain
-} from '../../../../../config/services.js';
 
 class NavFilter extends React.Component {
+
   constructor(props){
     super(props);
     this.state = {
+      suggestions: [],
+      axios: false,
       onArrow: false,
       onFilterNode: false,
       onNodeLink: false,
-      onSetlink: false
     };
+    this.axiosSource = axios.CancelToken.source();
+    this._render_suggestNodes = this._render_suggestNodes.bind(this);
     this._handleClick_filter = this._handleClick_filter.bind(this);
     this._handleEnter_NodeLink = this._handleEnter_NodeLink.bind(this);
     this._handleLeave_NodeLink = this._handleLeave_NodeLink.bind(this);
-    this._handleEnter_Setlink = this._handleEnter_Setlink.bind(this);
-    this._handleLeave_Setlink = this._handleLeave_Setlink.bind(this);
     this._handleLeave_FilterNode = this._handleLeave_FilterNode.bind(this);
     this._handleEnter_FilterNode = this._handleEnter_FilterNode.bind(this);
     this._handleLeave_CloseArrow = this._handleLeave_CloseArrow.bind(this);
@@ -40,11 +48,63 @@ class NavFilter extends React.Component {
   }
 
   componentDidMount(){
-
+    this._set_suggestionsList();
   }
 
   componentWillUnmount(){
 
+  }
+
+  _render_suggestNodes(){
+    let nodesDOM = this.state.suggestions.map((nodeId, index)=>{
+      return (
+        <div
+          key={"key_NavFilter_sugeestionsNodes_"+index}>
+          {
+            (nodeId in this.props.nounsBasic) &&
+            <Link
+              to={{
+                pathname: this.props.match.url,
+                search: '?filterNode=' + nodeId,
+                state: { from: this.props.location }
+              }}
+              className={classnames(
+                'plainLinkButton', styles.linkNodeSuggest)}>
+              <div>
+                <span
+                  className={classnames(
+                    "fontContent", "weightBold",
+                  )}>
+                  {this.props.nounsBasic[nodeId].name}
+                </span>
+                {
+                  (this.props.nounsBasic[nodeId].prefix.length > 0) &&
+                  <span
+                    className={classnames(
+                      "fontContent", "weightBold",
+                    )}>
+                    {", "}
+                  </span>
+                }
+              </div>
+              {
+                (this.props.nounsBasic[nodeId].prefix.length > 0) &&
+                <div>
+                  <span
+                    className={classnames(
+                      "fontContent", "weightBold",
+                    )}>
+                    {this.props.nounsBasic[nodeId].prefix}
+                  </span>
+                </div>
+              }
+            </Link>
+          }
+        </div>
+      )
+    });
+
+    return nodesDOM;
   }
 
   _render_resetLink(){
@@ -62,7 +122,7 @@ class NavFilter extends React.Component {
            styles.boxSvgArrow)}
         onMouseEnter={this._handleEnter_CloseArrow}
         onMouseLeave={this._handleLeave_CloseArrow}>
-        <SvgArrowToTop
+        <SvgArrowToRight
           mouseOn={this.state.onArrow}
           customStyles={{fillColorMouseOn: '#ff8168', fillColor: '#a3a3a3'}}/>
       </Link>
@@ -77,100 +137,17 @@ class NavFilter extends React.Component {
 
     return (
       <div className={styles.comNavFilter}>
-        <div
-          className={classnames(
-            styles.boxRowInfo)}>
-          <div
-            className={classnames(styles.boxProjectInfo)}>
-            {
-              ("description" in this.props.projectInfo) &&
-              <span
-                className={classnames("fontContent", "colorEditLightBlack")}>
-                {this.props.projectInfo.description}
-              </span>
-            }
-            {
-              ("webLink" in this.props.projectInfo && !!this.props.projectInfo.webLink) &&
-              <div
-                className={classnames(styles.boxProjectInfoAlias)}>
-                <a
-                  href={domain.protocol + "://" + this.props.projectInfo.webLink}
-                  target={"_blank"}
-                  className={classnames(
-                    "plainLinkButton", styles.linkSetlink)}
-                  onMouseEnter={this._handleEnter_Setlink}
-                  onMouseLeave={this._handleLeave_Setlink}>
-                  <div
-                    className={classnames(styles.boxSvgNetGlobe)}>
-                    <SvgNetGlobe/>
-                  </div>
-                  <span
-                    className={classnames(
-                      "fontContentPlain", "weightBold", "colorDescripBlack",
-                      styles.spanLinkSetlink,
-                      { [styles.spanLinkSetlinkMouse]: this.state.onSetlink }
-                    )}>
-                    {this.props.projectInfo.webLink}
-                  </span>
-                </a>
-              </div>
-            }
-          </div>
-          <div
-            className={classnames(styles.boxFilter)}>
-            {
-              this.props.viewFilter &&
-              <div
-                onClick={this._handleClick_filterClose}>
-                {
-                  <div
-                    className={classnames(styles.boxSvgArrowStick)}
-                    onMouseEnter={this._handleEnter_FilterNode}
-                    onMouseLeave={this._handleLeave_FilterNode}>
-                    <SvgArrowStick
-                      customstyle={this.state.onFilterNode ? (
-                        {
-                          cls1: "{fill:none;stroke:#ff8168;stroke-linecap:round;stroke-linejoin:round;stroke-width:18px;}",
-                          cls2: "{fill:#ff8168}"
-                        }
-                      ): (
-                        {
-                          cls1: "{fill:none;stroke:rgb(69, 135, 160);stroke-linecap:round;stroke-linejoin:round;stroke-width:18px;}",
-                          cls2: "{fill:rgb(69, 135, 160)}"
-                        }
-                      )}/>
-                  </div>
-                }
-              </div>
-            }
-            {
-              !this.props.viewFilter &&
-              <div
-                className={classnames(styles.boxIconsFilter)}>
-                <div
-                  className={classnames(styles.boxIconFilterNode)}
-                  onClick={this._handleClick_filter}
-                  onMouseEnter={this._handleEnter_FilterNode}
-                  onMouseLeave={this._handleLeave_FilterNode}>
-                  <SvgFilterNode
-                    customstyle={this.state.onFilterNode ? "{fill: #ff8168;}" : "{fill: rgb(69, 135, 160);}"}/>
-                </div>
-              </div>
-            }
-          </div>
-        </div>
         {
           !!this.filterNode ? (
             <div
-              className={classnames(
-                styles.boxRowFilterMargin, styles.boxRowFilterNodeFlex)}>
+              className={classnames(styles.boxFilterNode)}>
               <div>
                 <span
                   className={classnames(
                     styles.spanFilterCross,
                     "fontContent", "weightBold", "lineHeight15", "colorAssistGold")}>
-                    {"X "}
-                  </span>
+                  {"X "}
+                </span>
                 <Link
                   nodeid={this.filterNode}
                   to={"/cosmic/explore/node?nodeid=" + this.filterNode}
@@ -185,33 +162,117 @@ class NavFilter extends React.Component {
                         styles.spanLinkNode,
                         { [styles.spanLinkNodeMouse]: this.state.onNodeLink == this.filterNode }
                       )}>
-                    {this.props.nounsBasic[this.filterNode].name}</span>
+                      {this.props.nounsBasic[this.filterNode].name}</span>
                   }
                 </Link>
               </div>
               {this._render_resetLink()}
             </div>
-          ) : (
+          ):(
+            <div
+              className={classnames(styles.boxFilterSelection)}>
+              {
+                this.props.viewFilter &&
+                <div>
+                  <span
+                    className={classnames(
+                      styles.spanFilterCross,
+                      "fontContent", "weightBold", "lineHeight15", "colorEditBlack")}>
+                      {"X "}
+                    </span>
+                    <div
+                      className={classnames(
+                        styles.boxInputLine,
+                        "fontContent", "lineHeight15", "colorWhiteGrey")}>
+                      <span>{this.props.i18nUIString.catalog['hint_PathProject_FilterNode']}</span>
+                    </div>
+                </div>
+              }
+              {
+                !this.props.viewFilter &&
+                <div
+                  className={classnames(styles.boxFilterSuggest)}>
+                  {this._render_suggestNodes()}
+                </div>
+              }
+            </div>
+        )}
+        <div
+          className={classnames(styles.boxFilter)}>
+          {
             this.props.viewFilter &&
             <div
-              className={classnames(styles.boxRowFilterMargin)}>
-              <span
-                className={classnames(
-                  styles.spanFilterCross,
-                  "fontContent", "weightBold", "lineHeight15", "colorEditBlack")}>
-                  {"X "}
-              </span>
-              <div
-                className={classnames(
-                  styles.boxInputLine,
-                  "fontContent", "lineHeight15", "colorWhiteGrey")}>
-                <span>{this.props.i18nUIString.catalog['hint_PathProject_FilterNode']}</span>
+              onClick={this._handleClick_filterClose}>
+              {
+                <div
+                  className={classnames(styles.boxSvgArrowStick)}
+                  onMouseEnter={this._handleEnter_FilterNode}
+                  onMouseLeave={this._handleLeave_FilterNode}>
+                  <SvgArrowStick
+                    customstyle={this.state.onFilterNode ? (
+                      {
+                        cls1: "{fill:none;stroke:#ff8168;stroke-linecap:round;stroke-linejoin:round;stroke-width:18px;}",
+                        cls2: "{fill:#ff8168}"
+                      }
+                    ) : (
+                      {
+                        cls1: "{fill:none;stroke:rgb(69, 135, 160);stroke-linecap:round;stroke-linejoin:round;stroke-width:18px;}",
+                        cls2: "{fill:rgb(69, 135, 160)}"
+                      }
+                    )} />
+                  </div>
+                }
               </div>
-            </div>
-          )
-        }
+            }
+          {
+            !this.props.viewFilter &&
+              <div
+                className={classnames(styles.boxIconsFilter)}>
+                <Link
+                  to={this.props.location.pathname}
+                  className={classnames('plainLinkButton', styles.boxIconFilterNode)}
+                  onClick={this._handleClick_filter}
+                  onMouseEnter={this._handleEnter_FilterNode}
+                  onMouseLeave={this._handleLeave_FilterNode}>
+                  <SvgFilterNode
+                    customstyle={this.state.onFilterNode ? "{fill: #ff8168;}" : "{fill: rgb(69, 135, 160);}"} />
+                </Link>
+              </div>
+            }
+        </div>
       </div>
     )
+  }
+
+  _set_suggestionsList(){
+    const self = this;
+    this.setState({axios: true});
+    let paramsObj = {
+      originList: this.props.listLocation,
+      listIdentity: this.props.listIdentity // pathName, or userId
+    };
+
+    _axios_get_Suggestions(this.axiosSource.token, paramsObj)
+    .then((resObj)=>{
+      //after res of axios_Units: call get nouns & users
+      self.props._submit_NounsList_new(resObj.main.nodesList);
+      //and final, update the data of units to state
+      self.setState((prevState, props)=>{
+        return ({
+          axios: false,
+          suggestions: resObj.main.nodesList,
+        });
+      });
+    })
+    .catch(function (thrown) {
+      self.setState({axios: false});
+      if (axios.isCancel(thrown)) {
+        cancelErr(thrown);
+      } else {
+        let message = uncertainErr(thrown);
+        if(message) alert(message);
+      }
+    });
   }
 
   _handleClick_filter(event){
@@ -239,22 +300,6 @@ class NavFilter extends React.Component {
     this.setState((prevState, props)=>{
       return {
         onArrow: false
-      }
-    })
-  }
-
-  _handleEnter_Setlink(e){
-    this.setState((prevState, props)=>{
-      return {
-        onSetlink: true
-      }
-    })
-  }
-
-  _handleLeave_Setlink(e){
-    this.setState((prevState, props)=>{
-      return {
-        onSetlink: false
       }
     })
   }
@@ -297,7 +342,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
   }
 }
 
