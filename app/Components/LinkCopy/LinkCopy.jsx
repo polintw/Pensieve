@@ -54,7 +54,6 @@ class LinkCopy extends React.Component {
             readOnly/>
         </div>
         <div
-          title={this.props.i18nUIString.catalog["tagTitle_Unit_LinkCopy"]}
           className={classnames(styles.boxSvgIcon)}
           onMouseEnter={this._handleEnter_Btn}
           onMouseLeave={this._handleLeave_Btn}
@@ -93,13 +92,25 @@ class LinkCopy extends React.Component {
 
     this.refHiddenText.current.select();
     document.execCommand('copy'); // had completed copy to clipboard
-    this._set_emitModal(); // than inform the user by emitModal
+    // than inform the user by emitModal
+    // and to ensure the 'emitModal' mount again, reset state before set emit text
+    this.setState((prevState, props)=>{
+      return {emit: false}
+    }, ()=>{ this._set_emitModal(); })
   }
 
   _handleEnter_Btn(e){
     this.setState({
+      emit: { text: this.props.i18nUIString.catalog["tagTitle_Unit_LinkCopy"] },
       mouseOn: true
-    })
+    });
+    setTimeout(()=>{
+      this.setState((prevState, props)=>{
+        return {
+          emit:false
+        }
+      })
+    }, 2200)
   }
 
   _handleLeave_Btn(e){
