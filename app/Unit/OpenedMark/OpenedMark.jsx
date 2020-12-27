@@ -12,10 +12,11 @@ class OpenedMark extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      onImgBlock: false
     };
     this._render_CircleGroup = this._render_CircleGroup.bind(this);
-
+    this._handleEnter_ImgBlock = this._handleEnter_ImgBlock.bind(this);
+    this._handleLeave_ImgBlock = this._handleLeave_ImgBlock.bind(this);
   }
 
   _render_CircleGroup (coordinateCurrent){
@@ -120,16 +121,29 @@ class OpenedMark extends React.Component {
           {this._render_CircleGroup(coordinate)}
         </div>
         <div
-          className={classnames(styles.boxMarkBlock)}
+          className={classnames(
+            styles.boxMarkBlock,
+            {[styles.boxMarkBlockOffFocus]: this.state.onImgBlock}
+          )}
           style={Object.assign({},{
             left: blockLeft,
             right: blockRight
           })}
-          onClick={(e)=>{e.stopPropagation();}}>
+          onClick={(e)=>{e.stopPropagation();}}
+          onMouseEnter={this._handleLeave_ImgBlock}
+          onMouseLeave={this._handleEnter_ImgBlock}>
           {childrenWithProps}
         </div>
       </div>
     )
+  }
+
+  _handleEnter_ImgBlock(e) {
+    this.setState({ onImgBlock: true })
+  }
+
+  _handleLeave_ImgBlock(e) {
+    this.setState({ onImgBlock: false })
   }
 }
 
