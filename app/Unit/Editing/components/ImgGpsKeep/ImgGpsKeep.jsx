@@ -11,6 +11,8 @@ class ImgGpsKeep extends React.Component {
     this.state = {
 
     };
+    this._handleClick_Remove = this._handleClick_Remove.bind(this);
+    this._handleClick_Add = this._handleClick_Add.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -26,6 +28,14 @@ class ImgGpsKeep extends React.Component {
   }
 
   render(){
+    let longitude = "-:--", latitude = "-:--";
+    if(!!this.props.imgGps){
+      let numLatitude = parseFloat(this.props.imgGps.latitude);
+      let numLongitude = parseFloat(this.props.imgGps.longitude);
+      // to make sure the data was not null value even props.imgGps was valid
+      latitude = !!this.props.imgGps.latitude ? numLatitude.toFixed(5) : "-:--";
+      longitude = !!this.props.imgGps.longitude ? numLongitude.toFixed(5) : "-:--";
+    };
     return(
       <div
         className={styles.comImgGpsKeep}>
@@ -35,7 +45,8 @@ class ImgGpsKeep extends React.Component {
             this.props.keepify ? ( // good to keep it
               <div
                 className={classnames(
-                  styles.boxIconKeepify)}>
+                  styles.boxIconKeepify)}
+                onClick={this._handleClick_Remove}>
                   <span
                     style={{fontSize: '1rem'}}>
                     {" ╳ "}
@@ -44,7 +55,8 @@ class ImgGpsKeep extends React.Component {
               ) : (
                 <div
                   className={classnames(
-                    styles.boxIconKeepify)}>
+                    styles.boxIconKeepify)}
+                  onClick={this._handleClick_Add}>
                     <SvgCrossStroke
                       crossStyle={{
                         strokeWidth:'26px',
@@ -59,7 +71,7 @@ class ImgGpsKeep extends React.Component {
           <SvgPin
             assignStyles={{
               fill: "transparent",
-              stroke: '#a3a3a3',
+              stroke: this.props.keepify ? '#545454' : "#b8b8b8",
               strokeWidth: "0.87px"
               }}/>
         </div>
@@ -67,29 +79,51 @@ class ImgGpsKeep extends React.Component {
           className={classnames(
             styles.boxGps)}>
           <div>
-            <span>
-              {
-                !!this.props.imgGps ?
-                this.props.imgGps.latitude :
-                "-:--"
-              }
+            <span
+              className={classnames(
+                {
+                  ["colorLightGrey"]: !this.props.keepify,
+                  ["colorEditBlack"]: this.props.keepify,
+                }
+              )}>
+              {latitude}
             </span>
           </div>
-          <span>
+          <span
+            className={classnames(
+              {
+                ["colorLightGrey"]: !this.props.keepify,
+                ["colorEditBlack"]: this.props.keepify,
+              }
+            )}>
             {"\xa0" + "/" + "\xa0"}
           </span>
           <div>
-            <span>
-              {
-                !!this.props.imgGps ?
-                this.props.imgGps.longitude :
-                "-:--"
-              }
+            <span
+              className={classnames(
+                {
+                  ["colorLightGrey"]: !this.props.keepify,
+                  ["colorEditBlack"]: this.props.keepify,
+                }
+              )}>
+              {longitude}
             </span>
           </div>
         </div>
       </div>
     )
+  }
+
+  _handleClick_Remove(event){
+    event.preventDefault();
+    event.stopPropagation();
+    this.props._set_exifGpsKeep(false);
+  }
+
+  _handleClick_Add(event){
+    event.preventDefault();
+    event.stopPropagation();
+    this.props._set_exifGpsKeep(true);
   }
 
 }

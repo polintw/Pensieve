@@ -38,8 +38,9 @@ class EditingPanel extends React.Component {
       outboundLinkObj: !!this.props.unitSet ? this.props.unitSet.outboundLinkObj : {},
       authorIdentity: !!this.props.unitSet ?
       ((this.props.unitSet.authorBasic['authorIdentity'] == 'user') ? 'userAccount': this.props.userInfo.pathName) : 'userAccount',
-      exifKeepify_Gps: !!this.props.unitSet? !!this.props.unitSet.imgLocation ? true : false :false
+      exifKeepify_Gps: !!this.props.unitSet? !!this.props.unitSet.imgLocation['longitude'] ? true : false :false
     };
+    this._set_exifGpsKeep = this._set_exifGpsKeep.bind(this);
     this._set_newImgSrc = this._set_newImgSrc.bind(this);
     this._set_Mark_Complete = this._set_Mark_Complete.bind(this);
     this._set_statusEditing = this._set_statusEditing.bind(this);
@@ -92,7 +93,7 @@ class EditingPanel extends React.Component {
     this.setState({
       coverSrc: newImgObj.resizedURL,
       exifGps: newImgObj.imageExif.gps,
-      exifKeepify_Gps: !!newImgObj.imageExif ? newImgObj.imageExif : false
+      exifKeepify_Gps: !!newImgObj.imageExif.gps ? true : false
     });
   }
 
@@ -268,7 +269,8 @@ class EditingPanel extends React.Component {
                   </span>
                   <ImgGpsKeep
                     keepify = {this.state.exifKeepify_Gps}
-                    imgGps = {this.state.exifGps}/>
+                    imgGps = {this.state.exifGps}
+                    _set_exifGpsKeep={this._set_exifGpsKeep}/>
                 </div>
               </div>
               <div
@@ -327,6 +329,12 @@ class EditingPanel extends React.Component {
         nodesShift: viewStr
       };
     })
+  }
+
+  _set_exifGpsKeep(newState){
+    this.setState({
+      exifKeepify_Gps: newState
+    });
   }
 
   _set_new_warningDialog(source, positiveCB, negativeCB){
