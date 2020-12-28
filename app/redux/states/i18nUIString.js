@@ -153,6 +153,7 @@ const i18nUIString_EN = {
   "message_Unit_LinkCopy": "Copied to clipboard",
 
   "title_shareUpload_typewriter": ['S','h','a','r','e', '!'],
+  "guidingCreateShare_ImgGps": "GPS",
   "guidingCreateShare_AssignGroup": "Assign to",//Changed "corner(s)" to "Corner(s)"
   "guidingCreateShare_AssignNull": "Haven't register any ",//Changed "please" to "Please"
   "guidingCreateShare_NodesView": "Assign to Corners by one or several methods of below:",

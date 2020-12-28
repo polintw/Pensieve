@@ -14,6 +14,7 @@ import NodesView from './NodesEditor/NodesView/NodesView.jsx';
 import AssignNodes from './NodesEditor/AssignNodes.jsx';
 import AssignSwitch from './NodesEditor/AssignSwitch.jsx';
 import Submit from './components/Submit/Submit.jsx';
+import ImgGpsKeep from './components/ImgGpsKeep/ImgGpsKeep.jsx';
 import ImgImport from './components/ImgImport.jsx';
 import {
   setMessageBoolean,
@@ -33,10 +34,13 @@ class EditingPanel extends React.Component {
       beneathSrc: null,
       beneathMarks: {list:[],data:{}},
       refsArr: [],
+      exifGps: !!this.props.unitSet?this.props.unitSet.imgLocation : null, // an obj: {latitude, longitude} or 'null'
       outboundLinkObj: !!this.props.unitSet ? this.props.unitSet.outboundLinkObj : {},
       authorIdentity: !!this.props.unitSet ?
-      ((this.props.unitSet.authorBasic['authorIdentity'] == 'user') ? 'userAccount': this.props.userInfo.pathName) : 'userAccount'
+      ((this.props.unitSet.authorBasic['authorIdentity'] == 'user') ? 'userAccount': this.props.userInfo.pathName) : 'userAccount',
+      exifKeepify_Gps: !!this.props.unitSet? !!this.props.unitSet.imgLocation['longitude'] ? true : false :false
     };
+    this._set_exifGpsKeep = this._set_exifGpsKeep.bind(this);
     this._set_newImgSrc = this._set_newImgSrc.bind(this);
     this._set_Mark_Complete = this._set_Mark_Complete.bind(this);
     this._set_statusEditing = this._set_statusEditing.bind(this);
@@ -85,10 +89,12 @@ class EditingPanel extends React.Component {
     })
   }
 
-  _set_newImgSrc(dataURL){
+  _set_newImgSrc(newImgObj){
     this.setState({
-      coverSrc: dataURL,
-    })
+      coverSrc: newImgObj.resizedURL,
+      exifGps: newImgObj.imageExif.gps,
+      exifKeepify_Gps: !!newImgObj.imageExif.gps ? true : false
+    });
   }
 
   _set_Mark_Complete(markData, layer){
@@ -132,6 +138,19 @@ class EditingPanel extends React.Component {
     });
     // clean the outboundLinkObj to submit
     newObj["outboundLinkMain"] = ("urlString" in newObj.outboundLinkObj) ? newObj.outboundLinkObj['urlString'] : null;
+    //check ths GPS intense
+    delete newObj['exifKeepify_Gps']; // move the unwanted state from copied obj first
+    if( !this.state.exifKeepify_Gps ){
+      newObj['exifGps'] = { // keep it as an obj for the back end
+        latitude_img: null,
+        longitude_img: null
+      };
+    }else {
+      newObj['exifGps'] = { // keep it as an obj for the back end
+        latitude_img: this.state.exifGps.latitude,
+        longitude_img: this.state.exifGps.longitude
+      };
+    };
     /*
     and, in order to use a new dialog system,
     we now create a new Promise to handle a synchronize reaction
@@ -237,8 +256,22 @@ class EditingPanel extends React.Component {
             <div
               className={classnames(styles.boxNodesList)}>
               <div
-                className={classnames(styles.boxSubtitle, "fontContent", "colorEditLightBlack")}>
-                {this.props.i18nUIString.catalog["guidingCreateShare_AssignGroup"]}
+                className={classnames(styles.boxSubtitle)}>
+                <span
+                  className={classnames("fontContent", "colorEditLightBlack")}>
+                  {this.props.i18nUIString.catalog["guidingCreateShare_AssignGroup"]}
+                </span>
+                <div
+                  className={classnames(styles.boxSubtitleGPS)}>
+                  <span
+                    className={classnames("fontContent", "colorEditLightBlack")}>
+                    {this.props.i18nUIString.catalog["guidingCreateShare_ImgGps"]}
+                  </span>
+                  <ImgGpsKeep
+                    keepify = {this.state.exifKeepify_Gps}
+                    imgGps = {this.state.exifGps}
+                    _set_exifGpsKeep={this._set_exifGpsKeep}/>
+                </div>
               </div>
               <div
                 className={classnames(styles.boxAssignedNodes)}>
@@ -296,6 +329,12 @@ class EditingPanel extends React.Component {
         nodesShift: viewStr
       };
     })
+  }
+
+  _set_exifGpsKeep(newState){
+    this.setState({
+      exifKeepify_Gps: newState
+    });
   }
 
   _set_new_warningDialog(source, positiveCB, negativeCB){

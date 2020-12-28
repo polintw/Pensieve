@@ -58,7 +58,7 @@ class AssignSwitch extends React.Component {
             <SvgCrossStroke
               crossStyle={{
                 strokeWidth:'26px',
-                stroke: this.state.onAdd? '#545454': 'a3a3a3'}}/>
+                stroke: this.state.onAdd? '#545454': '#a3a3a3'}}/>
           </div>
         ) : (
           <div

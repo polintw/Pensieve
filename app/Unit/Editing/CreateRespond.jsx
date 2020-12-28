@@ -94,7 +94,8 @@ class CreateRespond extends React.Component {
       primer: this.props.unitCurrent.unitId,
       submitTime: submitTime,
       outboundLinkMain: stateObj.outboundLinkMain,
-      authorIdentity: stateObj.authorIdentity
+      authorIdentity: stateObj.authorIdentity,
+      exifGps: stateObj.exifGps
     };
     //all pure JS object or structure,
     //we don't need to do any JSON.stringify() here, because the axios would serve automatical transformation

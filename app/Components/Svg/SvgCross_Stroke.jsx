@@ -26,12 +26,10 @@ export default class SvgCrossStroke extends React.Component {
               className="cls-1"
               style={this.props.crossStyle}
               x1="7" y1="169.25" x2="319.64" y2="169.25"/>
-            <line x1="7" y1="169.25" x2="319.64" y2="169.25"/>
             <line
               className="cls-1"
               style={this.props.crossStyle}
               x1="163.32" y1="331.5" x2="163.32" y2="7"/>
-            <line x1="163.32" y1="331.5" x2="163.32" y2="7"/>
           </g>
         </g>
       </svg>

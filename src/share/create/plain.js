@@ -149,8 +149,10 @@ async function shareHandler_POST(req, res){
       'id_primer': null,
       'author_identity': authorIdentityObj.identity,
       'used_authorId': ("usedId" in authorIdentityObj) ? authorIdentityObj.usedId : null,
-      'outboundLink_main': (!!modifiedBody.outboundLinkMain && typeof(modifiedBody.outboundLinkMain)=="string" ) ? modifiedBody.outboundLinkMain : null
+      'outboundLink_main': (!!modifiedBody.outboundLinkMain && typeof(modifiedBody.outboundLinkMain)=="string" ) ? modifiedBody.outboundLinkMain : null,
     };
+    if(!!modifiedBody.exifGps.latitude_img) unitProfile['latitude_img'] = parseFloat(modifiedBody.exifGps.latitude_img); // to keep it untouched if latitude there was not latitude data
+    if(!!modifiedBody.exifGps.longitude_img) unitProfile['longitude_img'] = parseFloat(modifiedBody.exifGps.longitude_img);
     /*
     three things related to new unit id, but not too complicated completed in this block
     1. create new record & get unit id
