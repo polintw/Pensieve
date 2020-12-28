@@ -36,6 +36,7 @@ class SharedEdit extends React.Component {
       nodesSet: assignedList,
       createdAt: this.props.unitCurrent.createdAt,
       outboundLinkObj: !!this.props.unitCurrent.outBoundLink['main'] ? {urlString: this.props.unitCurrent.outBoundLink['main']}: {},
+      imgLocation: this.props.unitCurrent.imgLocation,
       //beneath, is remaining for future use, and kept the parent comp to process submitting
       beneathSrc: null,
       beneathMarks: {list:[],data:{}},

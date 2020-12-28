@@ -82,13 +82,17 @@ class AniBtnImgUpload extends React.Component {
     }).then((res)=>{
       let resObj = JSON.parse(res.data);
       let resizedURL = resObj.main.resizedURL;
+      let imageExif = resObj.main.exif; // an obj
 
       self.setState({
         axios: false,
         processing: false
       });
       // pass the res img to parent
-      self.props._set_newImgSrc(resizedURL);
+      self.props._set_newImgSrc({
+        resizedURL: resizedURL,
+        imageExif: imageExif
+      });
       self.props._set_Submitting(false);
     }).catch(function (thrown) {
       self.setState({axios: false});

@@ -25,16 +25,21 @@ async function _handle_img_resize_POST(req, res){
     try{
       let gps = await exifr.gps(base64Buffer);
       if(!!gps){ // no 'gps' data or not a .jpg file would get 'undefined' return
+        // turn the 'string' result back to number with decimal, and keep only first 5 digit after decimal
+        let numGps = {
+          latitude: parseFloat(gps.latitude),
+          longitude: parseFloat(gps.longitude)
+        };
         sendingData['exif'] = {
-          gps: { 
-            latitude: gps.latitude,
-            longitude: gps.longitude 
+          gps: {
+            latitude: numGps.latitude.toFixed(5),
+            longitude: numGps.longitude.toFixed(5),
           }
         };
       }
       else {
         sendingData['exif'] = {
-          gps: false
+          gps: null
         };
       };
     }
