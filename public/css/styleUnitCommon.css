@@ -21,3 +21,8 @@
   transform: translate(0, -50%);
   cursor: pointer;
 }
+
+/* for framework React Leaflet */
+.leaflet-container {
+  height: 100%;
+}

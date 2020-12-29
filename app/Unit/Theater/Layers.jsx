@@ -150,7 +150,7 @@ class Layers extends React.Component {
             this._render_ScrollLayers()
           ): (
             <div
-              style={{backgroundColor:'rgba(0, 0, 0, 0.3)',width: '20%', height: '20%', position: 'absolute', top: '40%', left: '40%'}}/>
+              style={{ backgroundColor:'rgba(217, 232, 255, 0.15)',width: '20%', height: '20%', position: 'absolute', top: '40%', left: '40%'}}/>
           )
         }
       </div>
