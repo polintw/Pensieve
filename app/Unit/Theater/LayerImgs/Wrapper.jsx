@@ -11,11 +11,12 @@ import SidePanel from './SidePanel.jsx';
 import AuthorStatics from './Author/AuthorStatics.jsx';
 import Inspired from '../components/Inspired/Inspired.jsx';
 import Primer from '../components/Primer.jsx';
+import BtnOpenMap from '../components/BtnOpenMap/BtnOpenMap.jsx';
 import NodesExtensible from '../../NodesDisplay/NodesExtensible.jsx';
 import LinkFetch from '../../../Components/LinkFetch/LinkFetch.jsx';
 import ImgPreview from '../../../Components/ImgPreview.jsx';
 import LinkCopy from '../../../Components/LinkCopy/LinkCopy.jsx';
-import BtnOpenMap from '../../../Components/BtnOpenMap/BtnOpenMap.jsx';
+import Map from '../../../Components/Map/Map.jsx';
 import AccountPalette from '../../../Components/AccountPalette.jsx';
 import DateConverter from '../../../Components/DateConverter.jsx';
 import {
@@ -26,8 +27,10 @@ class Wrapper extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      frameView: 'img',
       onPrimerImg: false,
     };
+    this._set_frameView = this._set_frameView.bind(this);
     this._handleClick_Account = this._handleClick_Account.bind(this);
     this._handleEnter_primerImg = this._handleEnter_primerImg.bind(this);
     this._handleLeave_primerImg = this._handleLeave_primerImg.bind(this);
@@ -69,12 +72,22 @@ class Wrapper extends React.Component {
             styles.boxContentWidth, styles.boxFrame,
             {[styles.boxFrameAuthor]: (this.props.unitCurrent.identity == "author")}
             )}>
-          <ImgsFrame
-            moveCount={this.props.moveCount}
-            lockify={this.props.lockify}
-            marksStatus={this.props.marksStatus}
-            _set_markOpened={this.props._set_markOpened}
-            _set_layerstatus={this.props._set_layerstatus}/>
+          {
+            (this.state.frameView == "map") ? (
+              !!this.props.unitCurrent.imgLocation.longitude &&
+              <Map
+                popupImgSrc={this.props.unitCurrent.coverSrc}
+                coordinates={this.props.unitCurrent.imgLocation}
+                _handleClick_popupMainImg={()=>{this._set_frameView('img')}}/>
+            ): (
+              <ImgsFrame
+                moveCount={this.props.moveCount}
+                lockify={this.props.lockify}
+                marksStatus={this.props.marksStatus}
+                _set_markOpened={this.props._set_markOpened}
+                _set_layerstatus={this.props._set_layerstatus}/>
+            )
+          }
           {
             (this.props.unitCurrent.identity == "author") &&
             <div
@@ -94,7 +107,9 @@ class Wrapper extends React.Component {
                 style={{ marginTop: '2px' }}>
                 <BtnOpenMap
                   longitude={this.props.unitCurrent.imgLocation.longitude}
-                  latitude={this.props.unitCurrent.imgLocation.latitude}/>
+                  latitude={this.props.unitCurrent.imgLocation.latitude}
+                  frameView={this.state.frameView}
+                  _set_frameView={this._set_frameView}/>
               </div>
             }
             <div
@@ -199,6 +214,12 @@ class Wrapper extends React.Component {
       pathname: this.props.match.path, //should always be ".../unit" because primer only used in a Unit
       search: urlParams.toString(),
       state: {from: this.props.location}
+    });
+  }
+
+  _set_frameView(targetView){
+    this.setState({
+      frameView: targetView
     });
   }
 
