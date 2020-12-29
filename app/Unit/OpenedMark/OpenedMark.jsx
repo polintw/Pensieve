@@ -123,7 +123,7 @@ class OpenedMark extends React.Component {
         <div
           className={classnames(
             styles.boxMarkBlock,
-            {[styles.boxMarkBlockOffFocus]: this.state.onImgBlock}
+            {[styles.boxMarkBlockOffFocus]: this.state.onImgBlock && !this.props.editingModal}
           )}
           style={Object.assign({},{
             left: blockLeft,
