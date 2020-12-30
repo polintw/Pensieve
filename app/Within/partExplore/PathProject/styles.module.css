@@ -20,7 +20,16 @@
 }
 
 .boxRowNav {
-  margin: 7.614vh 0 20px;
+  display: flex;
+  flex-direction: column;
+  margin: 12px 0 0;
+}
+
+.rowFilterMargin {
+  margin: 8px 0 0;
+}
+
+.rowFilterPadding {
   padding-bottom: 2.538vh;
   border-bottom: 1px solid #d8d8d8;
 }

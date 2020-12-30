@@ -36,16 +36,37 @@ async function _handle_GET_people_NodesAssigned(req, res){
     let unitsList = usersUnits.map((item, index)=>{
       return item.id;
     });
-    const assignedNodes = await _DB_unitsNodesAssign.findAll({
-      where: {
-        id_unit: unitsList,
-      },
-      attributes: ["nodeAssigned"],
-      group: 'nodeAssigned' // means we combined the rows by nodeAssigned
-    });
-    let nodesList = assignedNodes.map((nodeRow, index)=>{
-      return nodeRow.nodeAssigned;
-    })
+    let nodesList = [];
+    if(!!req.query.suggestion){ // if we are return list for suggestions used in NavFIlter, only return
+      let assignedNodes = await _DB_unitsNodesAssign.findAll({
+        where: {
+          id_unit: unitsList,
+        },
+        attributes: ["nodeAssigned", "createdAt"],
+        order: [ //make sure the order of arr are from latest
+          Sequelize.literal('`createdAt` DESC') //and here, using 'literal' is due to some wierd behavior of sequelize,
+          //it would make an Error if we provide col name by 'arr'
+        ]
+      });
+      for(let i=0 ; i< assignedNodes.length ; i++){
+        if(nodesList.length > 7) break;
+        if(nodesList.indexOf(assignedNodes[i].nodeAssigned) < 0){
+          nodesList.push(assignedNodes[i].nodeAssigned);
+        };
+      };
+    }
+    else{
+      let assignedNodes = await _DB_unitsNodesAssign.findAll({
+        where: {
+          id_unit: unitsList,
+        },
+        attributes: ["nodeAssigned"],
+        group: 'nodeAssigned' // means we combined the rows by nodeAssigned
+      });
+      nodesList = assignedNodes.map((nodeRow, index)=>{
+        return nodeRow.nodeAssigned;
+      });
+    };
 
     let sendingData={
       nodesList: nodesList,

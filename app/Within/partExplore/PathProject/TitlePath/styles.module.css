@@ -1,6 +1,15 @@
 .comTitlePath {
     display: flex;
-    align-items: baseline;
+    flex-direction: column;
+}
+
+.boxUpper {
+  display: flex;
+  align-items: baseline;
+}
+
+.boxDescription {
+  margin: 6rem 0 0;
 }
 
 .linkTitleText {
@@ -31,4 +40,34 @@
 .boxHiddenText {
   position: absolute;
   left: 200%;
+}
+
+.boxProjectInfo {
+  display: inline-block;
+  max-width: 80%;
+}
+
+.boxSvgNetGlobe {
+  display: inline-block;
+  width: 1.2rem;
+  height: 1.2rem;
+  margin: 0 5px;
+}
+
+.linkSetlink {
+  display: inline-flex;
+  align-items: center;
+}
+
+.spanLinkSetlink {
+  display: inline-block;
+  width: 196px;
+  border-bottom: solid 1px transparent;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.spanLinkSetlinkMouse {
+  border-bottom: solid 1px #444444;
 }
