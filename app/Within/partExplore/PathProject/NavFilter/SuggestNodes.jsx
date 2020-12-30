@@ -23,8 +23,11 @@ class SuggestNodes extends React.Component {
     this.state = {
       axios: false,
       suggestions: [],
+      overBtnNodes: false
     };
     this.axiosSource = axios.CancelToken.source();
+    this._handleOut_nodes = this._handleOut_nodes.bind(this);
+    this._handleOver_nodes = this._handleOver_nodes.bind(this);
     this._render_suggestNodes = this._render_suggestNodes.bind(this);
   }
 
@@ -47,7 +50,10 @@ class SuggestNodes extends React.Component {
     let nodesDOM = this.state.suggestions.map((nodeId, index)=>{
       return (
         <div
-          key={"key_NavFilter_sugeestionsNodes_"+index}>
+          key={"key_NavFilter_sugeestionsNodes_"+index}
+          nodeid={nodeId}
+          onMouseOver={this._handleOver_nodes}
+          onMouseOut={this._handleOut_nodes}>
           {
             (nodeId in this.props.nounsBasic) &&
             <Link
@@ -57,7 +63,13 @@ class SuggestNodes extends React.Component {
                 state: { from: this.props.location }
               }}
               className={classnames(
-                'plainLinkButton', styles.linkNodeSuggest, "colorWhite")}>
+                'plainLinkButton', styles.linkNodeSuggest,
+                {
+                  ["colorGrey"]: (this.state.overBtnNodes != nodeId),
+                  ["colorWhite"]: (this.state.overBtnNodes == nodeId),
+                  [styles.mouseovLinkNodeSuggest]: (this.state.overBtnNodes == nodeId)
+                }
+              )}>
               <div>
                 <span
                   className={classnames(
@@ -134,6 +146,14 @@ class SuggestNodes extends React.Component {
     });
   }
 
+  _handleOver_nodes(event) {
+    let nodeId = event.currentTarget.getAttribute('nodeid');
+    this.setState({ overBtnNodes: nodeId })
+  }
+
+  _handleOut_nodes(event) {
+    this.setState({ overBtnNodes: false })
+  }
 }
 
 

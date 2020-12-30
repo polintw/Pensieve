@@ -35,6 +35,7 @@
 .boxFilterSuggest {
   display: flex;
   flex-wrap: wrap;
+  height: 39px;
   overflow: hidden;
 }
 
@@ -96,6 +97,11 @@
   display: flex;
   margin: 0 5px 0 0;
   padding: 8px 1.2rem;
+  border: solid 1px #a3a3a3;
   border-radius: 2rem;
-  background-color: #545454;
+}
+
+.mouseovLinkNodeSuggest {
+  border: solid 1px transparent;
+  background-color: #757575;
 }

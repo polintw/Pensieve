@@ -21,6 +21,7 @@ class NavFilter extends React.Component {
       onNodeLink: false,
     };
     this._handleClick_filter = this._handleClick_filter.bind(this);
+    this._handleClick_resetLink= this._handleClick_resetLink.bind(this);
     this._handleEnter_NodeLink = this._handleEnter_NodeLink.bind(this);
     this._handleLeave_NodeLink = this._handleLeave_NodeLink.bind(this);
     this._handleLeave_FilterNode = this._handleLeave_FilterNode.bind(this);
@@ -55,6 +56,7 @@ class NavFilter extends React.Component {
         className={classnames(
           'plainLinkButton', styles.linkBlock,
            styles.boxSvgArrow)}
+        onClick={this._handleClick_resetLink}
         onMouseEnter={this._handleEnter_CloseArrow}
         onMouseLeave={this._handleLeave_CloseArrow}>
         <SvgArrowToRight
@@ -101,7 +103,9 @@ class NavFilter extends React.Component {
                   }
                 </Link>
               </div>
-              {this._render_resetLink()}
+              {
+                !this.props.viewFilter &&
+                this._render_resetLink()}
             </div>
           ):(
             <div
@@ -179,6 +183,15 @@ class NavFilter extends React.Component {
         </div>
       </div>
     )
+  }
+
+  _handleClick_resetLink(event){
+    // a <Link> comp, keep it act as default
+    event.stopPropagation();
+    // we are here to reset mouse state
+    this.setState({
+      onArrow: false
+    })
   }
 
   _handleClick_filter(event){
