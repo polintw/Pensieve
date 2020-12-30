@@ -70,20 +70,10 @@ class ChainShared extends React.Component {
   render(){
     return(
       <div>
-        <div
-          style={{marginBottom: '12px', width: '100%'}}>
-          <span
-            className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}>
-            {this.props.i18nUIString.catalog["text_your_cap"] + "\xa0" + "·" + "\xa0"}</span>
-          <span
-            className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}
-            style={{marginRight: '5px'}}>
-            {this.props.i18nUIString.catalog["title_Chain_Shareds_"]}</span>
-          <span
-            className={classnames(stylesFont.fontHint, stylesFont.weightBold, "colorGrey")}
-            style={{marginRight: '5px'}}>
-            {this.props.i18nUIString.catalog["title_Chain_Shareds_publicFile"]}</span>
-        </div>
+        <span
+          className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}
+          style={{marginBottom: '12px', width: '100%', display: 'block'}}>
+          {this.props.i18nUIString.catalog["title_Chain_Shareds_"]}</span>
         <div
           className={classnames(styles.boxSharedsDisplay)}>
           <div
