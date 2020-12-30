@@ -49,7 +49,7 @@ async function _handle_GET_people_NodesAssigned(req, res){
         ]
       });
       for(let i=0 ; i< assignedNodes.length ; i++){
-        if(nodesList.length > 5) break;
+        if(nodesList.length > 7) break;
         if(nodesList.indexOf(assignedNodes[i].nodeAssigned) < 0){
           nodesList.push(assignedNodes[i].nodeAssigned);
         };

@@ -1,7 +1,7 @@
 .comNavFilter {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
 }
 
 .linkBlock {
@@ -94,4 +94,8 @@
 
 .linkNodeSuggest {
   display: flex;
+  margin: 0 5px 0 0;
+  padding: 8px 1.2rem;
+  border-radius: 2rem;
+  background-color: #545454;
 }

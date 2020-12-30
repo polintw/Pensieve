@@ -9,7 +9,7 @@
 }
 
 .boxDescription {
-  margin: 7.614vh 0 0;
+  margin: 6rem 0 0;
 }
 
 .linkTitleText {
@@ -44,7 +44,7 @@
 
 .boxProjectInfo {
   display: inline-block;
-  max-width: 68%;
+  max-width: 72%;
 }
 
 .boxSvgNetGlobe {

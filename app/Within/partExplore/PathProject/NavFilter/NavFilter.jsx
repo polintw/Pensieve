@@ -6,16 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import {
-  _axios_get_Suggestions
-} from './axios.js';
-import {
-  handleNounsList,
-} from "../../../../redux/actions/general.js";
-import {
-  cancelErr,
-  uncertainErr
-} from '../../../../utils/errHandlers.js';
+import SuggestNodes from './SuggestNodes.jsx';
 import {SvgArrowToRight} from '../../../../Components/Svg/SvgArrow.jsx';
 import SvgFilterNode from '../../../../Components/Svg/SvgFilter_Node.jsx';
 import SvgArrowStick from '../../../../Components/Svg/SvgArrowStick.jsx';
@@ -25,14 +16,10 @@ class NavFilter extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      suggestions: [],
-      axios: false,
       onArrow: false,
       onFilterNode: false,
       onNodeLink: false,
     };
-    this.axiosSource = axios.CancelToken.source();
-    this._render_suggestNodes = this._render_suggestNodes.bind(this);
     this._handleClick_filter = this._handleClick_filter.bind(this);
     this._handleEnter_NodeLink = this._handleEnter_NodeLink.bind(this);
     this._handleLeave_NodeLink = this._handleLeave_NodeLink.bind(this);
@@ -48,63 +35,11 @@ class NavFilter extends React.Component {
   }
 
   componentDidMount(){
-    this._set_suggestionsList();
+
   }
 
   componentWillUnmount(){
 
-  }
-
-  _render_suggestNodes(){
-    let nodesDOM = this.state.suggestions.map((nodeId, index)=>{
-      return (
-        <div
-          key={"key_NavFilter_sugeestionsNodes_"+index}>
-          {
-            (nodeId in this.props.nounsBasic) &&
-            <Link
-              to={{
-                pathname: this.props.match.url,
-                search: '?filterNode=' + nodeId,
-                state: { from: this.props.location }
-              }}
-              className={classnames(
-                'plainLinkButton', styles.linkNodeSuggest)}>
-              <div>
-                <span
-                  className={classnames(
-                    "fontContent", "weightBold",
-                  )}>
-                  {this.props.nounsBasic[nodeId].name}
-                </span>
-                {
-                  (this.props.nounsBasic[nodeId].prefix.length > 0) &&
-                  <span
-                    className={classnames(
-                      "fontContent", "weightBold",
-                    )}>
-                    {", "}
-                  </span>
-                }
-              </div>
-              {
-                (this.props.nounsBasic[nodeId].prefix.length > 0) &&
-                <div>
-                  <span
-                    className={classnames(
-                      "fontContent", "weightBold",
-                    )}>
-                    {this.props.nounsBasic[nodeId].prefix}
-                  </span>
-                </div>
-              }
-            </Link>
-          }
-        </div>
-      )
-    });
-
-    return nodesDOM;
   }
 
   _render_resetLink(){
@@ -190,9 +125,11 @@ class NavFilter extends React.Component {
               }
               {
                 !this.props.viewFilter &&
-                <div
-                  className={classnames(styles.boxFilterSuggest)}>
-                  {this._render_suggestNodes()}
+                <div>
+                  <SuggestNodes
+                    {...this.props}
+                    listLocation={this.props.listLocation}
+                    listIdentity={this.props.listIdentity}/>
                 </div>
               }
             </div>
@@ -224,8 +161,8 @@ class NavFilter extends React.Component {
                 }
               </div>
             }
-          {
-            !this.props.viewFilter &&
+            {
+              !this.props.viewFilter &&
               <div
                 className={classnames(styles.boxIconsFilter)}>
                 <Link
@@ -242,37 +179,6 @@ class NavFilter extends React.Component {
         </div>
       </div>
     )
-  }
-
-  _set_suggestionsList(){
-    const self = this;
-    this.setState({axios: true});
-    let paramsObj = {
-      originList: this.props.listLocation,
-      listIdentity: this.props.listIdentity // pathName, or userId
-    };
-
-    _axios_get_Suggestions(this.axiosSource.token, paramsObj)
-    .then((resObj)=>{
-      //after res of axios_Units: call get nouns & users
-      self.props._submit_NounsList_new(resObj.main.nodesList);
-      //and final, update the data of units to state
-      self.setState((prevState, props)=>{
-        return ({
-          axios: false,
-          suggestions: resObj.main.nodesList,
-        });
-      });
-    })
-    .catch(function (thrown) {
-      self.setState({axios: false});
-      if (axios.isCancel(thrown)) {
-        cancelErr(thrown);
-      } else {
-        let message = uncertainErr(thrown);
-        if(message) alert(message);
-      }
-    });
   }
 
   _handleClick_filter(event){
@@ -342,7 +248,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
+
   }
 }
 

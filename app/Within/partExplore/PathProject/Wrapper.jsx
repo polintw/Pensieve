@@ -116,6 +116,7 @@ class Wrapper extends React.Component {
             </div>
             <div
               className={classnames(
+                styles.rowFilterMargin,
                 {[styles.rowFilterPadding]: (!!this.filterNode || this.viewFilter)})}>
               <NavFilter
                 {...this.props}
