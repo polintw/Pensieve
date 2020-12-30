@@ -53,7 +53,7 @@ class FeedEmpty extends React.Component {
                   ['colorGrey']: !this.state.onInvite,
                   ['colorStandard']: this.state.onInvite,
                 }, 'fontSubtitle_h5')}>
-                {this.props.i18nUIString.catalog["submit_"] }</span>
+                {this.props.i18nUIString.catalog["title_share"] }</span>
               <CreateShare
                 {...this.props}
                 _submit_Share_New={()=>{
