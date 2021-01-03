@@ -9,6 +9,7 @@ const winston = require('../config/winston.js');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const _DB_units = require('../db/models/index').units;
+const _DB_users = require('../db/models/index').users;
 const _DB_paths = require('../db/models/index').paths;
 const _DB_nouns = require('../db/models/index').nouns;
 const _DB_marks = require('../db/models/index').marks;
@@ -81,11 +82,13 @@ async function _handle_crawler_GET_Unit(req, res){
     let nodesSelection = Promise.resolve(_DB_nouns.findAll({where: {id: variables.title}}).catch((err)=>{throw err}));
     let marksSelection = Promise.resolve(_DB_marks.findAll(conditionsMarks).catch((err)=>{throw err}));
     let marksContentSelection = Promise.resolve(_DB_marksContent.findAll(conditionsMarksContent).catch((err)=>{throw err}));
+    let authorSlection = Promise.resolve(_DB_users.findOne({where: {id: authorId}}).catch((err)=>{throw err}));
 
-    return Promise.all([nodesSelection, marksSelection, marksContentSelection]).then((resultsSelect)=>{
+    return Promise.all([nodesSelection, marksSelection, marksContentSelection, authorSlection]).then((resultsSelect)=>{
       let resultsNodes = resultsSelect[0],
       resultsMarks = resultsSelect[1],
       resultsMarksContent = resultsSelect[2],
+      resultAuthor = resultsSelect[3],
       titleStr = "",
       description= "";
 
@@ -124,7 +127,7 @@ async function _handle_crawler_GET_Unit(req, res){
         if(index< 1){ titleStr += (row.name); return } //avoid "·" at the begining
         titleStr += ("\xa0" + "· "+row.name);
       });
-      variables.title = "Cornerth. |" + "\xa0" + titleStr;
+      variables.title = "Cornerth. |" + "\xa0" + titleStr + "\xa0" + "|" + "\xa0" + "by" + "\xa0" + resultAuthor.account;
 
 
       return variables;
