@@ -125,6 +125,8 @@ const i18nUIString_EN = {
   "subtitle_email": "Email",
   "subtitle_Password": "Password",
   "link_UnitListResponds": 'View Responds',//Original:'responds'
+  "link_PublicExpand": 'in public page',
+  "link_ExpandPersonal": 'Expand Personal',
   "link_Fellows": 'Fellows',
   "Cornerth_inc": "Cornerth. ",
   "AllRights": "All Rights Reserved.",
@@ -218,7 +220,7 @@ const i18nUIString_EN = {
 
   "hint_PathProject_FilterNode": "Filter accumulations by nodes beneath",
   "message_PathProject_ShareLink": "Link has copied",
-  "btn_PathProject_ShareLink": "to Share",
+  "btn_PathProject_ShareLink": "Copy link",
   "tagTitle_PathProject_ShareLink": "Copy to share your Brand",
 
   "hint_nodesFilter_nodeExplore": "Explore to node",

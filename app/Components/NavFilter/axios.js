@@ -14,6 +14,13 @@ export function _axios_get_Suggestions(cancelToken, paramsObj){
       url = '/router/people/nodes/assigned';
       paramsObj['userId'] = paramsObj.listIdentity;
       break;
+    case 'personal':
+      url = '/router/share/nodes/assigned';
+      break;
+    case 'personal_pathProject':
+      url = '/router/share/nodes/assigned';
+      paramsObj['pathProject'] = paramsObj.listIdentity ;
+      break;
     case 'pathProject':
       url = "/router/paths/nodes/assigned"
       paramsObj['pathProject'] = paramsObj.listIdentity;

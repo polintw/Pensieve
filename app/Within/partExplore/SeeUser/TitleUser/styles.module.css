@@ -26,32 +26,23 @@
   margin: 0 2px;
 }
 
+.boxLinkExpand {
+  display: inline-block;
+  box-sizing: border-box;
+  padding-left: 5px;
+}
+
+.spanBaseNode {
+  display: inline-block;
+  border-bottom: solid 0.75px transparent;
+}
+
+.spanBaseNodeMouse {
+  border-bottom: solid 0.75px #545454;
+}
+
 .linkTitleText {
   display: inline-block;
-}
-
-.boxBtnShare {
-  display: flex;
-  align-items: center;
-  position: relative;
-  cursor: pointer;
-}
-
-.boxIconCopy {
-  width: 22px;
-  height: 18px;
-}
-
-.boxModalEmit {
-  position: absolute;
-  bottom: 110%;
-  left: 50%;
-  transform: translate(-50%, 0);
-}
-
-.boxHiddenText {
-  position: absolute;
-  left: 200%;
 }
 
 .spanKey {

@@ -32,6 +32,7 @@ class ChainShared extends React.Component {
       axios: false,
       onNail: false,
       onbtnLink: false,
+      onbtnLinkPublic: false,
       unitsBasic: {}
     };
     this.axiosSource = axios.CancelToken.source();
@@ -40,6 +41,8 @@ class ChainShared extends React.Component {
     this._render_sharenails = this._render_sharenails.bind(this);
     this._handleEnter_sharedNail = this._handleEnter_sharedNail.bind(this);
     this._handleLeave_sharedNail = this._handleLeave_sharedNail.bind(this);
+    this._handleEnter_PublicExpand = this._handleEnter_PublicExpand.bind(this);
+    this._handleLeave_PublicExpand = this._handleLeave_PublicExpand.bind(this);
     this._handleEnter_Expand = this._handleEnter_Expand.bind(this);
     this._handleLeave_Expand = this._handleLeave_Expand.bind(this);
 }
@@ -70,10 +73,33 @@ class ChainShared extends React.Component {
   render(){
     return(
       <div>
-        <span
-          className={classnames(stylesFont.fontHint, stylesFont.weightBold, stylesFont.colorAssistGold)}
-          style={{marginBottom: '12px', width: '100%', display: 'block'}}>
-          {this.props.i18nUIString.catalog["title_Chain_Shareds_"]}</span>
+        <div
+          className={classnames(styles.boxSharedTitle)}>
+          <span
+            className={classnames("fontContentPlain", "weightBold", "colorAssistGold")}>
+            {this.props.i18nUIString.catalog["title_Chain_Shareds_"]}</span>
+          <div>
+            <Link
+              to={"/cosmic/explore/user?userId=" + this.props.userInfo.id}
+              className={classnames(
+                'plainLinkButton')}
+              onTouchStart={this._handleEnter_PublicExpand}
+              onTouchEnd={this._handleLeave_PublicExpand}
+              onMouseEnter={this._handleEnter_PublicExpand}
+              onMouseLeave={this._handleLeave_PublicExpand}>
+              <span
+                className={classnames(
+                  "fontContentPlain", styles.spanBaseNode,
+                  { 
+                    [styles.spanBaseNodeMouse]: this.state.onbtnLinkPublic,
+                    ["colorWhiteGrey"]: !this.state.onbtnLinkPublic,
+                    ["colorEditBlack"]: this.state.onbtnLinkPublic
+                  }
+                )}>
+                {this.props.i18nUIString.catalog['link_PublicExpand']}</span>
+            </Link>
+          </div>
+        </div>
         <div
           className={classnames(styles.boxSharedsDisplay)}>
           <div
@@ -90,13 +116,15 @@ class ChainShared extends React.Component {
                 styles.boxExpandLink,
                 {[styles.boxExpandLinkMouseon]: this.state.onbtnLink}
               )}
+              onTouchStart={this._handleEnter_Expand}
+              onTouchEnd={this._handleLeave_Expand}
               onMouseEnter={this._handleEnter_Expand}
               onMouseLeave={this._handleLeave_Expand}>
               <span
                 className={classnames(
                   styles.spanExpandLink,
                   "fontContentPlain",
-                  {["colorWhiteGrey"]: !this.state.onbtnLink},
+                  {["colorGrey"]: !this.state.onbtnLink},
                   {["colorAssistOcean"]: this.state.onbtnLink}
                 )}>
                 {this.props.i18nUIString.catalog["title_Expand"]}
@@ -107,7 +135,7 @@ class ChainShared extends React.Component {
                   style={{width: "10px", height: "12px"}}>
                   <SvgArrowToRight
                     mouseOn={this.state.onbtnLink}
-                    customStyles={{fillColorMouseOn: 'rgb(69, 135, 160)', fillColor: '#d8d8d8'}}/>
+                    customStyles={{ fillColorMouseOn: 'rgb(69, 135, 160)', fillColor: '#a3a3a3'}}/>
                 </div>
               </div>
             </Link>
@@ -242,11 +270,19 @@ class ChainShared extends React.Component {
   }
 
   _handleEnter_Expand(e) {
-      this.setState({ onbtnLink: true })
+    this.setState({ onbtnLink: true })
   }
 
   _handleLeave_Expand(e) {
-      this.setState({ onbtnLink: false })
+    this.setState({ onbtnLink: false })
+  }
+
+  _handleEnter_PublicExpand(e) {
+    this.setState({ onbtnLinkPublic: true })
+  }
+
+  _handleLeave_PublicExpand(e) {
+      this.setState({ onbtnLinkPublic: false })
   }
 
 }

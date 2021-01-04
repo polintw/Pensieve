@@ -1,7 +1,9 @@
 import React from 'react';
 import {
-    Link,
-    withRouter
+  Route,
+  Switch,
+  Link,
+  withRouter
 } from 'react-router-dom';
 import { connect } from "react-redux";
 import classnames from 'classnames';
@@ -12,18 +14,15 @@ class NavWihtinCosmic extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            onbtn: false
+          onbtn: false,
+          onItem: false
         };
+        this._compExploreLink = this._compExploreLink.bind(this);
+        this._handleMouseUp_LinkItem = this._handleMouseUp_LinkItem.bind(this);
+        this._handleOver_LinkItem = this._handleOver_LinkItem.bind(this);
+        this._handleOut_LinkItem = this._handleOut_LinkItem.bind(this);
         this._handleEnter_Link = this._handleEnter_Link.bind(this);
         this._handleLeave_Link = this._handleLeave_Link.bind(this);
-    }
-
-    _handleEnter_Link(e) {
-        this.setState({ onbtn: true })
-    }
-
-    _handleLeave_Link(e) {
-        this.setState({ onbtn: false })
     }
 
     componentDidMount() {
@@ -34,11 +33,41 @@ class NavWihtinCosmic extends React.Component {
 
     }
 
+  _compExploreLink(){
+    return (
+      <Link
+        to={"/cosmic/focus"}
+        linkto={'focus'}
+        className={classnames(
+          'plainLinkButton')}
+        onMouseOver={this._handleOver_LinkItem}
+        onMouseOut={this._handleOut_LinkItem}
+        onMouseUp={this._handleMouseUp_LinkItem}>
+        <span
+          className={classnames(
+            "fontContent", styles.spanLinkItem,
+            {
+              [styles.spanLinkItemMouse]: this.state.onItem == 'focus',
+              ["colorGrey"]: this.state.onItem != 'focus',
+              ["colorEditBlack"]: this.state.onItem == 'focus'
+            }
+          )}>
+          {this.props.i18nUIString.catalog['title_focusBoard']}</span>
+      </Link>                    
+    )
+  }
 
     render() {
         return (
             <div
                 className={classnames(styles.comNavWithinCosmic)}>
+                <div>
+              <Switch>
+                <Route 
+                  path={this.props.match.path + "/explore"} 
+                  component = {this._compExploreLink} />
+              </Switch>
+                </div>
                 <Link
                   to={"/"}
                   className={classnames(
@@ -46,7 +75,7 @@ class NavWihtinCosmic extends React.Component {
                     styles.boxNavLink,
                     {[styles.boxNavLinkMouseon]: this.state.onbtn}
                   )}
-                  style={{float: 'right'}}
+                  style={{alignSelf: 'flex-end'}}
                   onMouseEnter={this._handleEnter_Link}
                   onMouseLeave={this._handleLeave_Link}>
                   <div
@@ -71,6 +100,29 @@ class NavWihtinCosmic extends React.Component {
             </div>
         )
     }
+
+  _handleMouseUp_LinkItem(e){
+    this.setState({ onItem: false })
+  }
+
+  _handleOver_LinkItem(e) {
+    let targetItem = e.currentTarget.getAttribute('linkto');
+    
+    this.setState({ onItem:  targetItem});
+  }
+
+  _handleOut_LinkItem(e) {
+    this.setState({ onItem: false })
+  }
+
+  _handleEnter_Link(e) {
+    this.setState({ onbtn: true })
+  }
+
+  _handleLeave_Link(e) {
+    this.setState({ onbtn: false })
+  }
+
 }
 
 

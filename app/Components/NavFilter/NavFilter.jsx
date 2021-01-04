@@ -7,9 +7,9 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import SuggestNodes from './SuggestNodes.jsx';
-import {SvgArrowToRight} from '../../../../Components/Svg/SvgArrow.jsx';
-import SvgFilterNode from '../../../../Components/Svg/SvgFilter_Node.jsx';
-import SvgArrowStick from '../../../../Components/Svg/SvgArrowStick.jsx';
+import {SvgArrowToRight} from '../Svg/SvgArrow.jsx';
+import SvgFilterNode from '../Svg/SvgFilter_Node.jsx';
+import SvgArrowStick from '../Svg/SvgArrowStick.jsx';
 
 class NavFilter extends React.Component {
 

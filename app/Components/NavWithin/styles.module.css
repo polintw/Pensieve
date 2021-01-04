@@ -1,9 +1,8 @@
 .comNavWithin {
   display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  align-content: space-between;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
   height: 100%;
   position: relative;
@@ -31,7 +30,10 @@
 }
 
 .comNavWithinCosmic {
-
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 }
 
 .boxNavLink {
@@ -56,6 +58,15 @@
 .spanNavLink {
   display: inline-block;
   cursor: pointer;
+}
+
+.spanLinkItem {
+  display: inline-block;
+  border-bottom: solid 0.75px transparent;
+}
+
+.spanLinkItemMouse {
+  border-bottom: solid 0.75px #545454;
 }
 
 @media screen and (max-width:1110px) {

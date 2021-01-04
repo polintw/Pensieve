@@ -1,7 +1,5 @@
 import React from 'react';
 import {
-  Link,
-  Switch,
   Route,
   withRouter
 } from 'react-router-dom';
@@ -9,9 +7,9 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import Feed from './Feed/Feed.jsx';
-import NavFilter from './NavFilter/NavFilter.jsx';
 import TitleShareds from './TitleShareds/TitleShareds.jsx';
 import SelfShare from './SelfShare/SelfShare.jsx';
+import NavFilter from '../../../Components/NavFilter/NavFilter.jsx';
 import NodesFilter from '../../../Components/NodesFilter/NodesFilter.jsx';
 import {
   axios_visit_GET_last,
@@ -121,6 +119,8 @@ class Wrapper extends React.Component {
               )}>
             <NavFilter
               {...this.props}
+              listLocation={(this.props.lastParam == "pathProject") ? "personal_pathProject" : "personal"}
+              listIdentity={(this.props.lastParam == "pathProject") ? this.props.userInfo.pathName: null}
               viewFilter={this.state.viewFilter}
               _set_viewFilter={this._set_viewFilter}/>
           </div>

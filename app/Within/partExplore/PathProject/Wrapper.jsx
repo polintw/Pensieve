@@ -11,7 +11,6 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import Feed from './Feed/Feed.jsx';
 import NavFeed from './NavFeed/NavFeed.jsx';
-import NavFilter from './NavFilter/NavFilter.jsx';
 import TitlePath from './TitlePath/TitlePath.jsx';
 import {
   _axios_get_projectBasic,
@@ -20,6 +19,7 @@ import {
 } from './axios.js';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
 import UnitUnsign from '../../../Unit/UnitUnsign/UnitUnsign.jsx';
+import NavFilter from '../../../Components/NavFilter/NavFilter.jsx';
 import NodesFilter from '../../../Components/NodesFilter/NodesFilter.jsx';
 import {
   handleNounsList,
