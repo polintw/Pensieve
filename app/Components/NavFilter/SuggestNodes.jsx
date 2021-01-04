@@ -11,11 +11,11 @@ import {
 } from './axios.js';
 import {
   handleNounsList,
-} from "../../../../redux/actions/general.js";
+} from "../../redux/actions/general.js";
 import {
   cancelErr,
   uncertainErr
-} from '../../../../utils/errHandlers.js';
+} from '../../utils/errHandlers.js';
 
 class SuggestNodes extends React.Component {
   constructor(props){
@@ -33,7 +33,7 @@ class SuggestNodes extends React.Component {
 
   componentDidUpdate(prevProps, prevState, snapshot){
     // reset suggestions list if the path change
-    if(this.props.match.params['pathName'] != prevProps.match.params['pathName']){
+    if ((this.props.listIdentity != prevProps.listIdentity) || (this.props.listLocation != this.props.listLocation) ){
       this._set_suggestionsList();
     };
   }

@@ -49,6 +49,29 @@ async function _handle_GET_shareds_NodesAssigned(req, res){
       ],
       group: 'id_noun' //Important. means we combined the rows by node, each id_noun would only has one row
     });
+    if (!!req.query.suggestion && nodesByAttri.length > 7) { // if we are return list for suggestions used in NavFIlter, only return
+      function FisherShuffle(array) {
+        /* from: https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array */
+        let currentIndex = array.length, temporaryValue, randomIndex;
+
+        while (0 !== currentIndex) {
+          // Pick a remaining element...
+          randomIndex = Math.floor(Math.random() * currentIndex);
+          currentIndex -= 1;
+
+          // And swap it with the current element.
+          temporaryValue = array[currentIndex];
+          array[currentIndex] = array[randomIndex];
+          array[randomIndex] = temporaryValue;
+        }
+
+        return array;
+      }
+
+      nodesByAttri = FisherShuffle(nodesByAttri);
+      nodesByAttri = nodesByAttri.slice(0, 7); // only index 0~6, total 7 elements
+    };
+
     let nodesList = nodesByAttri.map((row, index)=>{
       return row.id_noun;
     })
