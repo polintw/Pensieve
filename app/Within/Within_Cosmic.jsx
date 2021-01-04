@@ -2,7 +2,6 @@ import React from 'react';
 import {
   Route,
   Switch,
-  Link,
   withRouter,
   Redirect
 } from 'react-router-dom';
@@ -139,7 +138,8 @@ class WithinCosmic extends React.Component {
                     styles.boxNavCosmic,
                     styles.boxNavCosmicJust,
                     styles.smallDisplayNone)}>
-                    <NavWihtinCosmic/>
+                    <NavWihtinCosmic
+                      {...this.props}/>
                 </div>
               }/>
           </div>

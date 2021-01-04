@@ -15,8 +15,10 @@ class TitleUser extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      onLinkExpand: false
     };
+    this._handleEnter_LinkExpand = this._handleEnter_LinkExpand.bind(this);
+    this._handleLeave_LinkExpand = this._handleLeave_LinkExpand.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -35,7 +37,8 @@ class TitleUser extends React.Component {
     return (
       <div className={styles.comTitleUser}>
         <div
-          className={classnames(styles.boxTitle)}>
+          className={classnames(styles.boxTitle)}
+          style={{width: '100%',position: 'relative', textAlign: 'center'}}>
           <Link
             to={'/cosmic/explore/user?userId=' + this.props.userId }
             className={classnames('plainLinkButton', styles.linkTitleText)}>
@@ -82,9 +85,49 @@ class TitleUser extends React.Component {
               {this.props.userBasicInfo.timeCreate}
             </span>
           </div>
+          {
+            (this.props.userId == this.props.userInfo.id) &&
+            <div
+              style={{marginLeft: '5px'}}>
+              <span
+                className={classnames(
+                  "fontContent", 'colorEditBlack'
+                )}>
+                {"/"}
+              </span>
+              <Link
+                to={"/self/shareds"}
+                className={classnames(
+                  'plainLinkButton', styles.boxLinkExpand)}
+                onTouchStart={this._handleEnter_LinkExpand}
+                onTouchEnd={this._handleLeave_LinkExpand}
+                onMouseEnter={this._handleEnter_LinkExpand}
+                onMouseLeave={this._handleLeave_LinkExpand}>
+                <span
+                  className={classnames(
+                    "fontContent", styles.spanBaseNode,
+                    {
+                      ["colorWhiteGrey"]: !this.state.onLinkExpand,
+                      ['colorEditBlack']: this.state.onLinkExpand,
+                      [styles.spanBaseNodeMouse]: this.state.onLinkExpand
+                    }
+                  )}>
+                  {this.props.i18nUIString.catalog["link_ExpandPersonal"]}
+                </span>
+              </Link>
+            </div>
+          }
         </div>
       </div>
     )
+  }
+
+  _handleEnter_LinkExpand(event) {
+    this.setState({ onLinkExpand: true });
+  }
+
+  _handleLeave_LinkExpand(event){
+    this.setState({onLinkExpand: false});
   }
 }
 

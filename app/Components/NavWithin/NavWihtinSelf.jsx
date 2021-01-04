@@ -46,6 +46,7 @@ class NavWihtinSelf extends React.Component {
                         styles.boxNavLink,
                         {[styles.boxNavLinkMouseon]: this.state.onbtn}
                     )}
+                    style={{ alignSelf: 'flex-start' }}
                     onMouseEnter={this._handleEnter_Link}
                     onMouseLeave={this._handleLeave_Link}>
                     <div
