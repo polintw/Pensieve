@@ -1,6 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-
+  //don't define 'id', or others(ex. createdAt) would used by sequelize here
+  // would produce error
   const nouns = sequelize.define('nouns', {
     name: DataTypes.STRING,
     prefix: DataTypes.STRING,
@@ -15,6 +16,11 @@ module.exports = (sequelize, DataTypes) => {
   });
   nouns.associate = function(models) {
     nouns.hasOne(models.lastUpdate_nodeBelongs, {
+      foreignKey:"id_node",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
+    nouns.hasOne(models.nodes_additional, {
       foreignKey:"id_node",
       onDelete: 'cascade',
       onUpdate: 'cascade'
