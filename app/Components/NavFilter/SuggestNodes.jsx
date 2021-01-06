@@ -52,6 +52,7 @@ class SuggestNodes extends React.Component {
         <div
           key={"key_NavFilter_sugeestionsNodes_"+index}
           nodeid={nodeId}
+          style={{marginBottom: '1px'}}
           onMouseOver={this._handleOver_nodes}
           onMouseOut={this._handleOut_nodes}>
           {

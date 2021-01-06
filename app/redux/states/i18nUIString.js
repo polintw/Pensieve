@@ -125,8 +125,9 @@ const i18nUIString_EN = {
   "subtitle_email": "Email",
   "subtitle_Password": "Password",
   "link_UnitListResponds": 'View Responds',//Original:'responds'
-  "link_PublicExpand": 'in public page',
-  "link_ExpandPersonal": 'Expand Personal',
+  "link_PublicExpand": 'Public view',
+  "link_ExpandPersonal": 'Expand as Personal',
+  "link_Focus": 'Focus all',
   "link_Fellows": 'Fellows',
   "Cornerth_inc": "Cornerth. ",
   "AllRights": "All Rights Reserved.",
@@ -211,7 +212,7 @@ const i18nUIString_EN = {
 
   "descript_Nail_noMark": "(expand image...)",
 
-  "title_focusBoard": "Focus Board",
+  "title_focusBoard": "Focus",
   "connection_focus_userNode": 'in',
 
   "title_NavAtNode_": "Accumulation",
