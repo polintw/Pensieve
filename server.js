@@ -8,6 +8,7 @@ const router = require('./src/router.js');
 const routerPathWithin = require('./src/routerPathWithin.js');
 const winston = require('./config/winston.js');
 const {envBasic} = require('./config/.env.json');
+const {domain} = require('./config/services.js');
 const {
   limiter,
   loginLimiter,
@@ -19,6 +20,8 @@ const {
   belongsPatchLimiter
 } = require('./src/rateLimiter.js');
 const mailTimer = require("./scripts/mailer/mailTimer.js");
+const _DB_units = require('./db/models/index').units;
+const _DB_unitsReqOrigin = require('./db/models/index').units_req_origin;
 
 
 //babel-polyfill is here for the whole code after it!
@@ -104,11 +107,53 @@ app.use('/', function(req, res, next){
     //here serve the regular client html
     //the res & req cycle would complete by this way,
     //WOULD NOT call the next middleware under this path('/')
-    res.sendFile(path.join(__dirname+'/public/html/html_Within.html'), {headers: {'Content-Type': 'text/html'}}, function (err) {
+    res.sendFile(path.join(__dirname+'/public/html/html_Within.html'), {
+      headers: {
+        'Content-Type': 'text/html'
+      },
+    }, function (err) {
       if (err) {
         throw err
       }
     });
+    if((req.path == "/cosmic/explore/unit") && (req.hostname != domain.name) ){ // and one more check, record the req if it was a Unit direct req
+      let unitExposedId = req.query.unitId;
+      // no need to wait async process, let it run itself
+      _DB_units.findOne({
+        where: {exposedId: unitExposedId}
+      })
+      .then((result)=>{
+        if(!result) return; // null, no this Unit
+        return _DB_unitsReqOrigin.findOne({
+          where: {
+            id_unit: result.id,
+            prev_domain: req.hostname
+          }
+        })
+        .then((resultReqOrigin)=>{
+          if(resultReqOrigin){
+            let nextCount = resultReqOrigin.reqCount +1;
+            return _DB_unitsReqOrigin.update(
+              {reqCount: nextCount},
+              {where: {
+                id_unit: result.id,
+                prev_domain: req.hostname
+              }}
+            );
+          }
+          else {
+            return _DB_unitsReqOrigin.create({
+              id_unit: result.id,
+              exposedId: result.exposedId,
+              prev_domain: req.hostname
+            });
+          };
+        }).catch((error)=> {throw error});
+      })
+      .catch((error)=>{
+        winston.error(`${"Update statics to units_req_origin failed from url"} - ${req.originalUrl} - ${req.method} - ${req.ip} , Error: ${error}`);
+      });
+    };
   }
 });
 app.use('/', routerPathWithin);
