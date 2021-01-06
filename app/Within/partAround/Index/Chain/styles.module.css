@@ -40,7 +40,7 @@
   box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
   cursor: pointer;
   overflow: hidden;
-  opacity: 0.3;
+  opacity: 0.87;
 }
 
 .boxImgMouseOn {
@@ -116,11 +116,16 @@
 
 .boxSharedTitle {
   display: flex;
-  justify-content: space-between;
   width: 100%;
   box-sizing: border-box;
   padding-right: 1rem;
   margin-bottom: 12px;
+}
+
+.boxSharedPersonal {
+  margin-left: 1rem;
+  padding-left: 1rem;
+  border-left: solid 0.75px #d8d8d8;
 }
 
 .boxSharedsDisplay {

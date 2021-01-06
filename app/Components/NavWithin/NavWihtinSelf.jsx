@@ -38,7 +38,7 @@ class NavWihtinSelf extends React.Component {
     render() {
         return (
             <div
-                className={classnames(styles.comNavWithinCosmic)}>
+                className={classnames(styles.comNavWithinSelf)}>
                 <Link
                     to={"/"}
                     className={classnames(

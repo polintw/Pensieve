@@ -110,7 +110,7 @@ class NavFeed extends React.Component {
                   styles.spanBaseNode,
                   { [styles.spanBaseNodeMouse]: this.state.onNavLink == 'focus' }
                 )}>
-                {this.props.i18nUIString.catalog['title_focusBoard']}</span>
+                {this.props.i18nUIString.catalog['link_Focus']}</span>
           </Link>
         </div>
         </div>

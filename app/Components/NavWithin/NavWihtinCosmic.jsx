@@ -53,20 +53,21 @@ class NavWihtinCosmic extends React.Component {
             }
           )}>
           {this.props.i18nUIString.catalog['title_focusBoard']}</span>
-      </Link>                    
+      </Link>
     )
   }
 
     render() {
         return (
             <div
-                className={classnames(styles.comNavWithinCosmic)}>
-                <div>
-              <Switch>
-                <Route 
-                  path={this.props.match.path + "/explore"} 
-                  component = {this._compExploreLink} />
-              </Switch>
+              className={classnames(styles.comNavWithinCosmic)}>
+                <div
+                  className={classnames(styles.boxNavCosmic)}>
+                  <Switch>
+                    <Route
+                      path={this.props.match.path + "/explore"}
+                      component = {this._compExploreLink} />
+                  </Switch>
                 </div>
                 <Link
                   to={"/"}
@@ -75,7 +76,6 @@ class NavWihtinCosmic extends React.Component {
                     styles.boxNavLink,
                     {[styles.boxNavLinkMouseon]: this.state.onbtn}
                   )}
-                  style={{alignSelf: 'flex-end'}}
                   onMouseEnter={this._handleEnter_Link}
                   onMouseLeave={this._handleLeave_Link}>
                   <div
@@ -107,7 +107,7 @@ class NavWihtinCosmic extends React.Component {
 
   _handleOver_LinkItem(e) {
     let targetItem = e.currentTarget.getAttribute('linkto');
-    
+
     this.setState({ onItem:  targetItem});
   }
 

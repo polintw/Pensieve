@@ -29,11 +29,27 @@
   text-align: center;
 }
 
-.comNavWithinCosmic {
+.comNavWithinSelf {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
+}
+
+.comNavWithinCosmic {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 90.52px;
+  height: 100%;
+  float: right;
+}
+
+.boxNavCosmic {
+  box-sizing: border-box;
+  margin: 0 0 1.5rem;
+  padding: 0 0 1rem;
+  border-bottom: 1px solid #d8d8d8;
 }
 
 .boxNavLink {

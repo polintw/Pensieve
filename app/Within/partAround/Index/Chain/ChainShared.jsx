@@ -78,7 +78,8 @@ class ChainShared extends React.Component {
           <span
             className={classnames("fontContentPlain", "weightBold", "colorAssistGold")}>
             {this.props.i18nUIString.catalog["title_Chain_Shareds_"]}</span>
-          <div>
+          <div
+            className={classnames(styles.boxSharedPersonal)}>
             <Link
               to={"/cosmic/explore/user?userId=" + this.props.userInfo.id}
               className={classnames(
@@ -89,8 +90,8 @@ class ChainShared extends React.Component {
               onMouseLeave={this._handleLeave_PublicExpand}>
               <span
                 className={classnames(
-                  "fontContentPlain", styles.spanBaseNode,
-                  { 
+                  "fontContentPlain", "weightBold", styles.spanBaseNode,
+                  {
                     [styles.spanBaseNodeMouse]: this.state.onbtnLinkPublic,
                     ["colorWhiteGrey"]: !this.state.onbtnLinkPublic,
                     ["colorEditBlack"]: this.state.onbtnLinkPublic

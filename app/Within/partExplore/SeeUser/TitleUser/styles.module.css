@@ -43,8 +43,32 @@
 
 .linkTitleText {
   display: inline-block;
+  position: relative;
+}
+
+.boxTitlePersonal {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .spanKey {
   margin-right: 4px;
+}
+
+@media screen and (max-width:860px) {
+  .boxTitlePersonal {
+    justify-content: center;
+  }
+
+  .smallLineExpand { /* used to mimic line height as .boxLinkExpand*/
+    font-size: 1.4rem;
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
 }
