@@ -112,8 +112,8 @@ class ViewerBlock extends React.Component {
                   {[styles.boxSvgArrowMouseover]: this.state.onArrowLeft},
                   this.props.draggableCancelToken // this one, is to match the <Draggable/> comp used in OpenedMark
                 )}
-                onTouchStart={(e)=>{ e.stopPropagation(); /* this one, is to match the <Draggable/> comp used in OpenedMark */ this._handleOver_ArrowLeft();}}
-                onTouchEnd={(e)=>{ e.stopPropagation(); /* this one, is to match the <Draggable/> comp used in OpenedMark */ this._handleOut_ArrowLeft(); }}
+                onTouchStart={(e)=>{ e.stopPropagation(); /* this one, is to match the <Draggable/> comp used in OpenedMark */ this.setState({onArrowLeft: true});}}
+                onTouchEnd={(e)=>{ e.stopPropagation(); /* this one, is to match the <Draggable/> comp used in OpenedMark */ this.setState({onArrowLeft: false}); }}
                 onMouseOver={this._handleOver_ArrowLeft}
                 onMouseOut={this._handleOut_ArrowLeft}
                 onClick={(e)=> {e.stopPropagation(); e.preventDefault(); this.props._set_markJump('previous', this.props.currentSerial)}}>
@@ -131,8 +131,8 @@ class ViewerBlock extends React.Component {
                 {[styles.boxSvgArrowMouseover]: this.state.onArrowRight},
                 this.props.draggableCancelToken // this one, is to match the <Draggable/> comp used in OpenedMark
               )}
-              onTouchStart={(e)=>{ e.stopPropagation(); /* this one, is to match the <Draggable/> comp used in OpenedMark */ this._handleOver_ArrowRight();}}
-              onTouchEnd={(e)=>{ e.stopPropagation(); /* this one, is to match the <Draggable/> comp used in OpenedMark */ this._handleOut_ArrowRight(); }}
+              onTouchStart={(e)=>{ e.stopPropagation(); /* this one, is to match the <Draggable/> comp used in OpenedMark */ this.setState({onArrowRight: true});}}
+              onTouchEnd={(e)=>{ e.stopPropagation(); /* this one, is to match the <Draggable/> comp used in OpenedMark */ this.setState({onArrowRight: false}); }}
               onMouseOver={this._handleOver_ArrowRight}
               onMouseOut={this._handleOut_ArrowRight}
               onClick={(e)=> {e.stopPropagation(); e.preventDefault(); this.props._set_markJump('next', this.props.currentSerial)}}>
