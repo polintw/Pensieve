@@ -82,6 +82,8 @@ class ViewerBlock extends React.Component {
               styles.boxDraftDisplay, 'lineHeight15', "colorEditBlack",
               this.props.draggableCancelToken // this one, is to match the <Draggable/> comp used in OpenedMark
             )}
+            onTouchStart={(e)=>{ e.stopPropagation();} /* this one, is to match the <Draggable/> comp used in OpenedMark */}
+            onTouchEnd={(e)=>{ e.stopPropagation();} /* this one, is to match the <Draggable/> comp used in OpenedMark */}
             style={{fontSize: '1.5rem'}}>
             <DraftDisplay
               editorState={this.props.markData.editorContent}/>
@@ -94,7 +96,10 @@ class ViewerBlock extends React.Component {
             <span className={classnames(
                 "fontContent", "colorEditBlack",
                 this.props.draggableCancelToken // this one, is to match the <Draggable/> comp used in OpenedMark
-              )}>
+              )}
+              onTouchStart={(e)=>{ e.stopPropagation();} /* this one, is to match the <Draggable/> comp used in OpenedMark */}
+              onTouchEnd={(e)=>{ e.stopPropagation();} /* this one, is to match the <Draggable/> comp used in OpenedMark */}
+              >
               {this.state.message}
             </span>
           }
@@ -107,6 +112,8 @@ class ViewerBlock extends React.Component {
                   {[styles.boxSvgArrowMouseover]: this.state.onArrowLeft},
                   this.props.draggableCancelToken // this one, is to match the <Draggable/> comp used in OpenedMark
                 )}
+                onTouchStart={(e)=>{ e.stopPropagation(); /* this one, is to match the <Draggable/> comp used in OpenedMark */ this._handleOver_ArrowLeft();}}
+                onTouchEnd={(e)=>{ e.stopPropagation(); /* this one, is to match the <Draggable/> comp used in OpenedMark */ this._handleOut_ArrowLeft(); }}
                 onMouseOver={this._handleOver_ArrowLeft}
                 onMouseOut={this._handleOut_ArrowLeft}
                 onClick={(e)=> {e.stopPropagation(); e.preventDefault(); this.props._set_markJump('previous', this.props.currentSerial)}}>
@@ -124,6 +131,8 @@ class ViewerBlock extends React.Component {
                 {[styles.boxSvgArrowMouseover]: this.state.onArrowRight},
                 this.props.draggableCancelToken // this one, is to match the <Draggable/> comp used in OpenedMark
               )}
+              onTouchStart={(e)=>{ e.stopPropagation(); /* this one, is to match the <Draggable/> comp used in OpenedMark */ this._handleOver_ArrowRight();}}
+              onTouchEnd={(e)=>{ e.stopPropagation(); /* this one, is to match the <Draggable/> comp used in OpenedMark */ this._handleOut_ArrowRight(); }}
               onMouseOver={this._handleOver_ArrowRight}
               onMouseOut={this._handleOut_ArrowRight}
               onClick={(e)=> {e.stopPropagation(); e.preventDefault(); this.props._set_markJump('next', this.props.currentSerial)}}>
@@ -140,8 +149,13 @@ class ViewerBlock extends React.Component {
           !(this.props.boxWidth > 420) && //a way to detect small screen, like cell phone
           <div className={stylesOpenedMark.boxBlockBack}>
             <span
-              className={classnames(stylesFont.colorDarkGrey)}
+              className={classnames(
+                stylesFont.colorDarkGrey,
+                this.props.draggableCancelToken // this one, is to match the <Draggable/> comp used in OpenedMark
+              )}
               style={{fontSize: '0.8rem'}}
+              onTouchStart={(e)=>{ e.stopPropagation();} /* this one, is to match the <Draggable/> comp used in OpenedMark */}
+              onTouchEnd={(e)=>{ e.stopPropagation();} /* this one, is to match the <Draggable/> comp used in OpenedMark */}
               onClick={this._handleClick_blockPanel_cancel}>
               {" ╳ "}
             </span>

@@ -60,6 +60,10 @@
   cursor: move;
 }
 
+.draggableLight { /* after .boxMarkBlock */
+  box-shadow: 0 0 6px 0 #fff8f7;
+}
+
 @media screen and (max-width:860px) {
   .boxBlockDraft {
     margin-top: 30px;

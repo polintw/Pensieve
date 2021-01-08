@@ -12,9 +12,12 @@ class OpenedMark extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      downMarkBox: false,
       onImgBlock: false
     };
     this._render_CircleGroup = this._render_CircleGroup.bind(this);
+    this._handleDown_MarkBlock = this._handleDown_MarkBlock.bind(this);
+    this._handleUp_MarkBlock = this._handleUp_MarkBlock.bind(this);
     this._handleEnter_ImgBlock = this._handleEnter_ImgBlock.bind(this);
     this._handleLeave_ImgBlock = this._handleLeave_ImgBlock.bind(this);
   }
@@ -143,12 +146,17 @@ class OpenedMark extends React.Component {
             <div
               className={classnames(
                 styles.boxMarkBlock,
-                {[styles.draggableCursor]: !this.props.editingModal}
+                {
+                  [styles.draggableCursor]: !this.props.editingModal,
+                  [styles.draggableLight]: this.state.downMarkBox
+                }
               )}
               style={Object.assign({},{
                 transform: 'translate(0,'+ blockTopTranslate + '%)'
               })}
               onClick={(e)=>{e.stopPropagation(); /* Important!! To prevent close/open toggle by parent comp.*/}}
+              onTouchStart={this._handleDown_MarkBlock}
+              onTouchEnd={this._handleUp_MarkBlock}
               onMouseEnter={this._handleLeave_ImgBlock}
               onMouseLeave={this._handleEnter_ImgBlock}>
               {childrenWithProps}
@@ -157,6 +165,14 @@ class OpenedMark extends React.Component {
         </Draggable>
       </div>
     )
+  }
+
+  _handleDown_MarkBlock(e) {
+    this.setState({ downMarkBox: true })
+  }
+
+  _handleUp_MarkBlock(e) {
+    this.setState({ downMarkBox: false })
   }
 
   _handleEnter_ImgBlock(e) {
