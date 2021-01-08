@@ -78,28 +78,34 @@ class ViewerBlock extends React.Component {
           ref={this.boxContent}
           className={classnames(styles.boxBlockDraft)}>
           <div
-            className={classnames(styles.boxDraftDisplay, 'lineHeight15', stylesFont.colorEditBlack)}
+            className={classnames(
+              styles.boxDraftDisplay, 'lineHeight15', "colorEditBlack",
+              this.props.draggableCancelToken // this one, is to match the <Draggable/> comp used in OpenedMark
+            )}
             style={{fontSize: '1.5rem'}}>
             <DraftDisplay
               editorState={this.props.markData.editorContent}/>
           </div>
-
         </div>
         <div
           className={classnames(styles.boxInteraction)}>
           {
             this.state.message &&
-            <span className={classnames(stylesFont.fontContent, stylesFont.colorEditBlack)}>
+            <span className={classnames(
+                "fontContent", "colorEditBlack",
+                this.props.draggableCancelToken // this one, is to match the <Draggable/> comp used in OpenedMark
+              )}>
               {this.state.message}
             </span>
           }
           <div>
             {
-              (this.props.currentSerial > 0) && 
+              (this.props.currentSerial > 0) &&
               <div
                 className={classnames(
                   styles.boxSvgArrow,
-                  {[styles.boxSvgArrowMouseover]: this.state.onArrowLeft}
+                  {[styles.boxSvgArrowMouseover]: this.state.onArrowLeft},
+                  this.props.draggableCancelToken // this one, is to match the <Draggable/> comp used in OpenedMark
                 )}
                 onMouseOver={this._handleOver_ArrowLeft}
                 onMouseOut={this._handleOut_ArrowLeft}
@@ -115,7 +121,8 @@ class ViewerBlock extends React.Component {
             <div
               className={classnames(
                 styles.boxSvgArrow,
-                {[styles.boxSvgArrowMouseover]: this.state.onArrowRight}
+                {[styles.boxSvgArrowMouseover]: this.state.onArrowRight},
+                this.props.draggableCancelToken // this one, is to match the <Draggable/> comp used in OpenedMark
               )}
               onMouseOver={this._handleOver_ArrowRight}
               onMouseOut={this._handleOut_ArrowRight}

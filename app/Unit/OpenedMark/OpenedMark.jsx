@@ -6,8 +6,7 @@ import SvgCircle from '../../Components/Svg/SvgCircle.jsx';
 import {
   baseHorizonRatial,
 } from '../props.js';
-import { CognitoIdentityCredentials, Translate } from 'aws-sdk';
-
+import Draggable from 'react-draggable';
 
 class OpenedMark extends React.Component {
   constructor(props){
@@ -92,7 +91,7 @@ class OpenedMark extends React.Component {
       blockLeft = '';
       blockRight = this.props.boxWidth - spotLeftPx + 24+22;
       if((spotLeftPx - 24 -22) < 300){ blockLeft = 1; blockRight = '';}
-    }
+    };
     if(!this.props.editingModal){
       if (coordinate.top > 1 && coordinate.top < 99) blockTop = coordinate.top
       else if(coordinate.top <= 1) blockTop = 1
@@ -105,6 +104,7 @@ class OpenedMark extends React.Component {
       React.cloneElement(child, {
         // could add required props here, like an obj
         // original props downToMdidline, and toCircleLeft have been rm
+        draggableCancelToken: 'draggableCancel' // to release children from <Draggable/>
       })
     );
 
@@ -124,24 +124,37 @@ class OpenedMark extends React.Component {
           onClick={this.props._handleClick_ImgLayer_circle}>
           {this._render_CircleGroup(coordinate)}
         </div>
-        <div
-          className={classnames(
-            styles.boxMarkBlock,
-            {
-              [styles.boxMarkBlockEditing]: this.props.editingModal
-            }
-          )}
-          style={Object.assign({},{
-            left: blockLeft,
-            right: blockRight,
-            top: (blockTop + '%'),
-            transform: 'translate(0,'+ blockTopTranslate + '%)'
-          })}
-          onClick={(e)=>{e.stopPropagation();}}
-          onMouseEnter={this._handleLeave_ImgBlock}
-          onMouseLeave={this._handleEnter_ImgBlock}>
-          {childrenWithProps}
-        </div>
+        <Draggable
+          disabled={this.props.editingModal}
+          cancel={'.draggableCancel'}
+          grid={[15, 15] /* step limit every move */}>
+          <span
+            className={classnames(
+              styles.boxDraggable,
+              {
+                [styles.boxDraggableEditing]: this.props.editingModal
+              })}
+            style={Object.assign({},{
+              left: blockLeft,
+              right: blockRight,
+              top: (blockTop + '%'),
+            })}
+            onClick={this.props._handleClick_ImgLayer_circle /* <span> is actually 'outside' color bg, click should recognise as click on 'image' */}>
+            <div
+              className={classnames(
+                styles.boxMarkBlock,
+                {[styles.draggableCursor]: !this.props.editingModal}
+              )}
+              style={Object.assign({},{
+                transform: 'translate(0,'+ blockTopTranslate + '%)'
+              })}
+              onClick={(e)=>{e.stopPropagation(); /* Important!! To prevent close/open toggle by parent comp.*/}}
+              onMouseEnter={this._handleLeave_ImgBlock}
+              onMouseLeave={this._handleEnter_ImgBlock}>
+              {childrenWithProps}
+            </div>
+          </span>
+        </Draggable>
       </div>
     )
   }
