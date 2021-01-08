@@ -6,6 +6,7 @@ import SvgCircle from '../../Components/Svg/SvgCircle.jsx';
 import {
   baseHorizonRatial,
 } from '../props.js';
+import { CognitoIdentityCredentials, Translate } from 'aws-sdk';
 
 
 class OpenedMark extends React.Component {
@@ -81,19 +82,22 @@ class OpenedMark extends React.Component {
 
     //then cauculate position of opened mark here in render()
     //to make the mark would change the position when jumping between different spot
-    let [blockLeft, blockRight] = ['26.56%',''];
-    /*
-    the block would always be at the center, unless it overlap itself(spot).
-    At that situation, move the block aside the spot.
-    */
-    if(coordinate.left < 50 && (spotLeftPx+24+22) > this.props.boxWidth*0.2656){
+    let [blockLeft, blockRight, blockTop, blockTopTranslate] = ['16%','', 1, 0]; // set '16' as based position to the block
+
+    if (coordinate.left < 50 && (spotLeftPx + 24 + 22) > this.props.boxWidth * 0.16) { // '0.16' followed based blockLeft
       blockLeft = spotLeftPx + 24+22;
       if((this.props.boxWidth - spotLeftPx - 24 -22) < 300){ blockLeft = ''; blockRight = 1;}
     }
-    else if(coordinate.left > 50 && (this.props.boxWidth - spotLeftPx + 24+22) > this.props.boxWidth*0.2656){
+    else if (coordinate.left > 50 && (this.props.boxWidth - spotLeftPx + 24 + 22) > this.props.boxWidth * 0.16){
       blockLeft = '';
       blockRight = this.props.boxWidth - spotLeftPx + 24+22;
       if((spotLeftPx - 24 -22) < 300){ blockLeft = 1; blockRight = '';}
+    }
+    if(!this.props.editingModal){
+      if (coordinate.top > 1 && coordinate.top < 99) blockTop = coordinate.top
+      else if(coordinate.top <= 1) blockTop = 1
+      else if (coordinate.top >= 99) blockTop = 99;
+      blockTopTranslate = ((coordinate.top-1) / 98)* 100 * (-1); // 98 is the max-height of .boxMarkBlock, minus 1 is to adjust 1% min top, (-1) is due to 'top' prop we use
     }
 
     // because we want to pass left/right status as props to Block, we need to add from here
@@ -123,11 +127,15 @@ class OpenedMark extends React.Component {
         <div
           className={classnames(
             styles.boxMarkBlock,
-            {[styles.boxMarkBlockOffFocus]: this.state.onImgBlock && !this.props.editingModal}
+            {
+              [styles.boxMarkBlockEditing]: this.props.editingModal
+            }
           )}
           style={Object.assign({},{
             left: blockLeft,
-            right: blockRight
+            right: blockRight,
+            top: (blockTop + '%'),
+            transform: 'translate(0,'+ blockTopTranslate + '%)'
           })}
           onClick={(e)=>{e.stopPropagation();}}
           onMouseEnter={this._handleLeave_ImgBlock}
