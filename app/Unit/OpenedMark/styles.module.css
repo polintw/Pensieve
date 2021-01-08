@@ -1,16 +1,16 @@
 .boxMarkBlock {
+  display: flex;
   width: 45%;
-  height: 98%;
-  min-width: 300px;
+  min-width: 210px;
+  max-height: 98%;
   position: absolute;
-  top: 1%;
   box-sizing: border-box;
   box-shadow: 0 0 5px 0 #c0d3f0;
   background-color: rgba(255, 255, 255, 0.96);
 }
 
-.boxMarkBlockOffFocus {
-  opacity: 0.36;
+.boxMarkBlockEditing {
+  height: 98%;
 }
 
 .boxBlockDraft {
