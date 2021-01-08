@@ -1,7 +1,7 @@
 .boxDraggable {
   display: flex;
   width: 45%;
-  min-width: 210px;
+  min-width: 240px;
   max-height: 98%;
   position: absolute;
   overflow: visible;
