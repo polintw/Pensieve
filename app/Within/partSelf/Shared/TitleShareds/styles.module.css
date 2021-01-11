@@ -1,23 +1,68 @@
 .comTitleShareds {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
+  flex-direction: column;
 }
 
 .boxUpperRow {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: baseline;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.boxBottomRow {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.rowTitleText {
+  display: flex;
+  align-items: baseline; 
+}
+
+.boxLinkExpand {
+  display: inline-block;
+  box-sizing: border-box;
+  padding-left: 5px;
 }
 
 .boxNavLink {
-  padding: 5px 0 0 1rem;
   border-radius: 4px;
   cursor: default;
 }
 
 .boxNavLinkMouse {
-  padding: 5px 1rem;
+  padding: 5px 0;
   background-color: rgb(216,216,216,0.15);
   cursor: pointer;
+}
+
+.spanBaseNode {
+  display: inline-block;
+  border-bottom: solid 0.75px transparent;
+}
+
+.spanBaseNodeMouse {
+  border-bottom: solid 0.75px #545454;
+}
+
+.smallDisplayInline {
+  display: none;
+}
+
+@media screen and (max-width:860px) {
+  .smallDisplayInline {
+    display: inline-block;
+  }
+
+  .smallDisplayNone {
+    display: none;
+  }
+
+  .boxBottomRow {
+    justify-content: space-between;
+  }
 }

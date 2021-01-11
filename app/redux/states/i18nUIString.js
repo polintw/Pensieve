@@ -127,12 +127,13 @@ const i18nUIString_EN = {
   "link_UnitListResponds": 'View Responds',//Original:'responds'
   "link_PublicExpand": 'Public view',
   "link_ExpandPersonal": 'Expand as Personal',
-  "link_Focus": 'Focus all',
+  "link_Focus": 'Browse all',
   "link_Fellows": 'Fellows',
   "Cornerth_inc": "Cornerth. ",
   "AllRights": "All Rights Reserved.",
 
   "link_Nav_Shareds_": ["<> ", "Personal"],
+  "message_SelfShareds_greet": ["Good morning! New finding is on the way!", "Welcome back. How's the day going?", "Good evening. Is there anything you want to share today?", "What a long night. Come record the thing in your mind."],
   "descript_Shareds_pathLink": " as ",
 
   "submit_Options_profile": "My profile",
