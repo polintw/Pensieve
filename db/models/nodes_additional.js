@@ -5,6 +5,9 @@ module.exports = (sequelize, DataTypes) => {
     category: DataTypes.STRING,
     location_lat: DataTypes.DECIMAL(21, 16), // (precision, scale) to decimal point,
     location_lon: DataTypes.DECIMAL(21, 16), // (precision, scale) to decimal point
+    osm_id: DataTypes.INTEGER,
+    wiki_data_id: DataTypes.STRING(63),
+    wiki_pedia_name: DataTypes.STRING(255)
   }, {});
   nodes_additional.associate = function(models) {
     // associations can be defined here

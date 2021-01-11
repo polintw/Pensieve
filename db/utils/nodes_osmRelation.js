@@ -38,26 +38,64 @@ Object.keys(db).forEach(modelName => {
 async function asyncGeocodeReq(csvData){
     try {
         console.log(">>> start Geocode Req.")
-        let round = 0;
-        while(round < csvData.length ){
-            let osmAPIpath = 'https://nominatim.openstreetmap.org/lookup?osm_ids=R' + csvData[round]['@id'] + '&format=geocodejson';
-            // Change -> https://nominatim.openstreetmap.org/lookup?osm_ids=R9407&format=json&extratags=1
-            // so -> change properties beneath
+        // start from: make an obj by data.name
+        let nameObj = {};
+        csvData.forEach((obj, index) => {
+          nameObj[obj['name:en']] = Object.assign({}, obj);
+        });
+        // then: from our own database, select the nodes we want as base
+        let nodesCandiSelection = await db.nouns.findAll({
+          where: {
+            language: 'en',
+            category: 'location_admin',
+            // beneath are optional depend on aimmed group
+            prefix: '',
+            child: 0
+          }
+        });
 
-            const resOsmGeocodeJSON = await axios.get(osmAPIpath);
-            if (!('features' in resOsmGeocodeJSON.data) || resOsmGeocodeJSON.data['features'].length == 0) { console.log(csvData[round]['name:en']); continue;};
-            let latitude = resOsmGeocodeJSON.data['features'][0].geometry.coordinates[1];
-            let longitude = resOsmGeocodeJSON.data['features'][0].geometry.coordinates[0];
-            
-            console.log(">>> result, latitude: ", latitude, ", longitude: ", longitude);
-            /* then, 
-            pick from db.nouns by name
-            if name exist, save coordinates, osm_id, wiki link to db.nodes_additional
-            */
+        console.log('>>> selection result, length = ', nodesCandiSelection.length);
 
-            round ++;
-        }
+        let round = 0, insertArr = [], noMatchCount = 0;
+        while(round < nodesCandiSelection.length ){ // use 'while'(for loop) to keep 'await' availible
+          console.log(">>> inside while loop, round: ", round);
 
+          let nameKey = nodesCandiSelection[round].name;
+          if(!(nameKey in nameObj))  { noMatchCount ++ ; console.log(">>> no match, count: ", noMatchCount, ", @ name: ", nameKey); round ++; continue;};
+          // get the osm data of this nameKey
+          let osmAPIpath = 'https://nominatim.openstreetmap.org/lookup?osm_ids=R' + nameObj[nameKey]['@id'] + '&format=json&extratags=1';
+          console.log('>>> going to fetch from OSM, api path: ', osmAPIpath);
+          const resOsmGeocodeJSON = await axios.get(osmAPIpath);
+          // if the res was actually empty
+          if (resOsmGeocodeJSON.data.length == 0) { console.log(">>> osm res is empty, @ name: ", nameObj[nameKey]['name:en']); round ++; continue;};
+          // then: keep the data we want
+          let latitude = resOsmGeocodeJSON.data[0]['lat'];
+          let longitude = resOsmGeocodeJSON.data[0]['lon'];
+          let osmId = resOsmGeocodeJSON.data[0]['osm_id'];
+          let wiki_data_id = resOsmGeocodeJSON.data[0]['extratags']['wikidata'];
+          let wiki_pedia_name = resOsmGeocodeJSON.data[0]['extratags']['wikipedia'];
+
+          insertArr.push({
+            id_node: nodesCandiSelection[round].id,
+            category: nodesCandiSelection[round].category,
+            location_lat: latitude,
+            location_lon: longitude,
+            osm_id: osmId,
+            wiki_data_id: wiki_data_id,
+            wiki_pedia_name: wiki_pedia_name
+          });
+
+          round ++;
+        };
+
+        db.nodes_additional.bulkCreate(insertArr)
+        .then(()=>{
+          sequelize.close();
+          console.log(">>> insert complete. sequelize close.")
+          process.on('exit', function (code) {
+              return console.log(`About to exit with code ${code}`);
+          });
+        });
 
     } catch (error) {
         console.log(error);
@@ -81,7 +119,7 @@ async function relationidParser() {
         .on('end', function () {
             //do something with result
             console.log('>>> file read.')
-            asyncGeocodeReq(fileRecords); // call async 
+            asyncGeocodeReq(fileRecords); // call async
         });
 };
 

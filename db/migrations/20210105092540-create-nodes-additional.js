@@ -23,6 +23,8 @@ module.exports = {
       updatedAt: {
         type: Sequelize.DATE
       }
+    }, {
+      charset: 'utf8mb4' //for Mandarin, or emoji if you don't speak in mandarin
     }).then(()=>{
       return queryInterface.addConstraint('nodes_additional', ['id_node'], {
         type: 'foreign key',
