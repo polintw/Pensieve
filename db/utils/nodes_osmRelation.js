@@ -39,16 +39,31 @@ async function asyncGeocodeReq(csvData){
     try {
         console.log(">>> start Geocode Req.")
         // start from: make an obj by data.name
-        let nameObj = {};
+        let nameList = [],
+            firstLayer= {}, secondLayer = {}, thirdLayer = {};
+        let firstLayer_level = ["2"], // basically always '2', level of 'country'
+            secondLayer_level = ["4", "6"], thirdLayer_level = ["5","7","8"]; // depend on country, here is layer of 'Taiwan'
         csvData.forEach((obj, index) => {
-          nameObj[obj['name:en']] = Object.assign({}, obj);
+          if(obj['name:en'].length == 0) return; // prevent any empty('') obj
+          nameList.push(obj['name:en']);
+          if(firstLayer_level.indexOf(obj['admin_level']) > (-1)){
+            firstLayer[obj['name:en']] = Object.assign({}, obj);
+          }
+          else if(secondLayer_level.indexOf(obj['admin_level']) > (-1)){
+            let key = obj['name:en'] + obj['prefix_osmId'];
+            secondLayer[key] = Object.assign({}, obj);
+          }
+          else if(thirdLayer_level.indexOf(obj['admin_level']) > (-1)){
+            let key = obj['name:en'] + obj['prefix_osmId'];
+            thirdLayer[key] = Object.assign({}, obj);
+          };
         });
         // then: from our own database, select the nodes we want as base
         let nodesCandiSelection = await db.nouns.findAll({
           where: {
             language: 'en',
             category: 'location_admin',
-            // beneath are optional depend on aimmed group
+            // beneath are optional depend on aimmed group, this pair is for 'country' level
             prefix: '',
             child: 0
           }
@@ -57,17 +72,42 @@ async function asyncGeocodeReq(csvData){
         console.log('>>> selection result, length = ', nodesCandiSelection.length);
 
         let round = 0, insertArr = [], noMatchCount = 0;
+        // claim a f() to return absolute osmId for req
+        function osmIdConfirm(nodeName, nodePrefix){
+          console.log(">>> osmIdConfirm(). param nodeName: ", nodeName, "; param nodePrefix: ", nodePrefix, ".");
+          if(nodePrefix in firstLayer){
+            console.log(">>> osmIdConfirm, prefix in firstLayer.");
+            let key = nodeName + firstLayer[nodePrefix]['@id'];
+            let osmId = (key in secondLayer) ? secondLayer[key]['@id']: '';
+            return osmId;
+          }
+          else if(nodePrefix in secondLayer){
+            console.log(">>> osmIdConfirm, prefix in secondLayer.");
+            let key = nodeName + secondLayer[nodePrefix]['@id'];
+            let osmId = (key in thirdLayer) ? thirdLayer[key]['@id']: '';
+            return osmId;
+          }
+          else if(nodeName in firstLayer){
+            console.log(">>> osmIdConfirm, no prefix, node in firstLayer.");
+            return firstLayer[nodeName]['@id'];
+          }
+          else return '';
+        };
+
         while(round < nodesCandiSelection.length ){ // use 'while'(for loop) to keep 'await' availible
           console.log(">>> inside while loop, round: ", round);
 
+          let rowPrefix = nodesCandiSelection[round].prefix;
           let nameKey = nodesCandiSelection[round].name;
-          if(!(nameKey in nameObj))  { noMatchCount ++ ; console.log(">>> no match, count: ", noMatchCount, ", @ name: ", nameKey); round ++; continue;};
+          if(nameList.indexOf(nameKey) < 0 )  { noMatchCount ++ ; console.log(">>> no match, count: ", noMatchCount, ", @ name: ", nameKey); round ++; continue;};
+
+          let targetOsmId = osmIdConfirm(nameKey, rowPrefix);
           // get the osm data of this nameKey
-          let osmAPIpath = 'https://nominatim.openstreetmap.org/lookup?osm_ids=R' + nameObj[nameKey]['@id'] + '&format=json&extratags=1';
+          let osmAPIpath = 'https://nominatim.openstreetmap.org/lookup?osm_ids=R' + targetOsmId + '&format=json&extratags=1';
           console.log('>>> going to fetch from OSM, api path: ', osmAPIpath);
           const resOsmGeocodeJSON = await axios.get(osmAPIpath);
           // if the res was actually empty
-          if (resOsmGeocodeJSON.data.length == 0) { console.log(">>> osm res is empty, @ name: ", nameObj[nameKey]['name:en']); round ++; continue;};
+          if (resOsmGeocodeJSON.data.length == 0) { console.log(">>> osm res is empty, @ id: ", targetOsmId, '.'); round ++; continue;};
           // then: keep the data we want
           let latitude = resOsmGeocodeJSON.data[0]['lat'];
           let longitude = resOsmGeocodeJSON.data[0]['lon'];
