@@ -40,7 +40,13 @@ async function asyncGeocodeReq(csvData){
         console.log(">>> start Geocode Req.")
         // start from: make an obj by data.name
         let nameList = [],
-            firstLayer= {}, secondLayer = {}, thirdLayer = {};
+            firstLayer= {}, // firstLayer should be the highest, no prefix
+            secondLayer = {
+              secondLayerPrefixList: []
+            },
+            thirdLayer = {
+              thirdLayerPrefixList: []
+            };
         let firstLayer_level = ["2"], // basically always '2', level of 'country'
             secondLayer_level = ["4", "6"], thirdLayer_level = ["5","7","8"]; // depend on country, here is layer of 'Taiwan'
         csvData.forEach((obj, index) => {
@@ -50,12 +56,16 @@ async function asyncGeocodeReq(csvData){
             firstLayer[obj['name:en']] = Object.assign({}, obj);
           }
           else if(secondLayer_level.indexOf(obj['admin_level']) > (-1)){
-            let key = obj['name:en'] + obj['prefix_osmId'];
-            secondLayer[key] = Object.assign({}, obj);
+            let prefixId = obj['prefix_osmId'];
+            if(!(prefixId in secondLayer)) secondLayer[prefixId] = {};
+            secondLayer[prefixId][obj['name:en']] = Object.assign({}, obj);
+            if(secondLayer["secondLayerPrefixList"].indexOf(prefixId) < 0) secondLayer['secondLayerPrefixList'].push(prefixId);
           }
           else if(thirdLayer_level.indexOf(obj['admin_level']) > (-1)){
-            let key = obj['name:en'] + obj['prefix_osmId'];
-            thirdLayer[key] = Object.assign({}, obj);
+            let prefixId = obj['prefix_osmId'];
+            if(!(prefixId in thirdLayer)) thirdLayer[prefixId] = {};
+            thirdLayer[prefixId][obj['name:en']] = Object.assign({}, obj);
+            if(thirdLayer["thirdLayerPrefixList"].indexOf(prefixId) < 0) thirdLayer['thirdLayerPrefixList'].push(prefixId);
           };
         });
         // then: from our own database, select the nodes we want as base
@@ -64,33 +74,52 @@ async function asyncGeocodeReq(csvData){
             language: 'en',
             category: 'location_admin',
             // beneath are optional depend on aimmed group, this pair is for 'country' level
-            prefix: '',
-            child: 0
+            [Op.and]: {
+              [Op.or]: [
+                {parent_id: 4570},
+                {
+                  [Op.and]: {
+                    parent_id: {[Op.gt]: 758},
+                    parent_id: {[Op.lt]: 781}
+                  }
+                }
+              ]
+            }
           }
         });
 
         console.log('>>> selection result, length = ', nodesCandiSelection.length);
 
-        let round = 0, insertArr = [], noMatchCount = 0;
+        let round = 0, insertArr = [], noMatchCount = 0, noMatchList = [], noOsmRes = [];
         // claim a f() to return absolute osmId for req
         function osmIdConfirm(nodeName, nodePrefix){
           console.log(">>> osmIdConfirm(). param nodeName: ", nodeName, "; param nodePrefix: ", nodePrefix, ".");
+          // nodePrefix start from firstLayer
           if(nodePrefix in firstLayer){
             console.log(">>> osmIdConfirm, prefix in firstLayer.");
-            let key = nodeName + firstLayer[nodePrefix]['@id'];
-            let osmId = (key in secondLayer) ? secondLayer[key]['@id']: '';
+            let prefixKey = firstLayer[nodePrefix]['@id'];
+            let osmId = (nodeName in secondLayer[prefixKey]) ? secondLayer[prefixKey][nodeName]['@id']: '';
             return osmId;
+          };
+          // nodePrefix enter second layer
+          // check if the nodePrefix in each seconlayer
+          let returnId = false; // set a var to set in for() loop
+          for(let i = 0; i < secondLayer['secondLayerPrefixList'].length; i++){
+            let key = secondLayer['secondLayerPrefixList'][i];
+            if(nodePrefix in secondLayer[key]){
+              console.log(">>> osmIdConfirm, prefix in secondLayer.");
+              let prefixKey = secondLayer[key][nodePrefix]['@id'];
+              returnId = (nodeName in thirdLayer[prefixKey]) ? thirdLayer[prefixKey][nodeName]['@id']: '';
+              break;
+            };
           }
-          else if(nodePrefix in secondLayer){
-            console.log(">>> osmIdConfirm, prefix in secondLayer.");
-            let key = nodeName + secondLayer[nodePrefix]['@id'];
-            let osmId = (key in thirdLayer) ? thirdLayer[key]['@id']: '';
-            return osmId;
-          }
-          else if(nodeName in firstLayer){
+          if(returnId) return returnId;
+          // currently only 3 layers, so not in above must in firstLayer directly
+          if(nodeName in firstLayer){
             console.log(">>> osmIdConfirm, no prefix, node in firstLayer.");
             return firstLayer[nodeName]['@id'];
           }
+          // or, an outlier
           else return '';
         };
 
@@ -99,7 +128,9 @@ async function asyncGeocodeReq(csvData){
 
           let rowPrefix = nodesCandiSelection[round].prefix;
           let nameKey = nodesCandiSelection[round].name;
-          if(nameList.indexOf(nameKey) < 0 )  { noMatchCount ++ ; console.log(">>> no match, count: ", noMatchCount, ", @ name: ", nameKey); round ++; continue;};
+          if(nameList.indexOf(nameKey) < 0 )  {
+            noMatchCount ++ ; noMatchList.push(nameKey);
+            console.log(">>> no match, count: ", noMatchCount, ", @ name: ", nameKey); round ++; continue;};
 
           let targetOsmId = osmIdConfirm(nameKey, rowPrefix);
           // get the osm data of this nameKey
@@ -107,7 +138,9 @@ async function asyncGeocodeReq(csvData){
           console.log('>>> going to fetch from OSM, api path: ', osmAPIpath);
           const resOsmGeocodeJSON = await axios.get(osmAPIpath);
           // if the res was actually empty
-          if (resOsmGeocodeJSON.data.length == 0) { console.log(">>> osm res is empty, @ id: ", targetOsmId, '.'); round ++; continue;};
+          if (resOsmGeocodeJSON.data.length == 0) {
+            noOsmRes.push(targetOsmId);
+            console.log(">>> osm res is empty, @ id: ", targetOsmId, '.'); round ++; continue;};
           // then: keep the data we want
           let latitude = resOsmGeocodeJSON.data[0]['lat'];
           let longitude = resOsmGeocodeJSON.data[0]['lon'];
@@ -132,6 +165,8 @@ async function asyncGeocodeReq(csvData){
         .then(()=>{
           sequelize.close();
           console.log(">>> insert complete. sequelize close.")
+          console.log(">>> no match list: ", noMatchList);
+          console.log(">>> no res from Osm: ", noOsmRes);
           process.on('exit', function (code) {
               return console.log(`About to exit with code ${code}`);
           });
