@@ -40,7 +40,13 @@ async function asyncGeocodeReq(csvData){
         console.log(">>> start Geocode Req.")
         // start from: make an obj by data.name
         let nameList = [],
-            firstLayer= {}, secondLayer = {}, thirdLayer = {};
+            firstLayer= {}, // firstLayer should be the highest, no prefix
+            secondLayer = {
+              secondLayerPrefixList: []
+            },
+            thirdLayer = {
+              thirdLayerPrefixList: []
+            };
         let firstLayer_level = ["2"], // basically always '2', level of 'country'
             secondLayer_level = ["4", "6"], thirdLayer_level = ["5","7","8"]; // depend on country, here is layer of 'Taiwan'
         csvData.forEach((obj, index) => {
@@ -50,12 +56,12 @@ async function asyncGeocodeReq(csvData){
             firstLayer[obj['name:en']] = Object.assign({}, obj);
           }
           else if(secondLayer_level.indexOf(obj['admin_level']) > (-1)){
-            let key = obj['name:en'] + obj['prefix_osmId'];
-            secondLayer[key] = Object.assign({}, obj);
+            secondLayer[obj['prefix_osmId']['name:en']] = Object.assign({}, obj);
+            if(secondLayerPrefixList.indexOf(obj['prefix_osmId']) < 0) secondLayerPrefixList.push(obj['prefix_osmId']);
           }
           else if(thirdLayer_level.indexOf(obj['admin_level']) > (-1)){
-            let key = obj['name:en'] + obj['prefix_osmId'];
-            thirdLayer[key] = Object.assign({}, obj);
+            thirdLayer[obj['prefix_osmId']['name:en']] = Object.assign({}, obj);
+            if(thirdLayerPrefixList.indexOf(obj['prefix_osmId']) < 0) thirdLayerPrefixList.push(obj['prefix_osmId']);
           };
         });
         // then: from our own database, select the nodes we want as base
@@ -64,8 +70,17 @@ async function asyncGeocodeReq(csvData){
             language: 'en',
             category: 'location_admin',
             // beneath are optional depend on aimmed group, this pair is for 'country' level
-            prefix: '',
-            child: 0
+            [Op.and]: {
+              [Op.or]: [
+                {parent_id: 4570},
+                {
+                  [Op.and]: {
+                    parent_id: {[Op.gt]: 758},
+                    parent_id: {[Op.lt]: 781}
+                  }
+                }
+              ]
+            }
           }
         });
 
@@ -75,22 +90,32 @@ async function asyncGeocodeReq(csvData){
         // claim a f() to return absolute osmId for req
         function osmIdConfirm(nodeName, nodePrefix){
           console.log(">>> osmIdConfirm(). param nodeName: ", nodeName, "; param nodePrefix: ", nodePrefix, ".");
+          // nodePrefix start from firstLayer
           if(nodePrefix in firstLayer){
             console.log(">>> osmIdConfirm, prefix in firstLayer.");
-            let key = nodeName + firstLayer[nodePrefix]['@id'];
-            let osmId = (key in secondLayer) ? secondLayer[key]['@id']: '';
+            let prefixKey = firstLayer[nodePrefix]['@id'];
+            let osmId = (nodeName in secondLayer[prefixKey]) ? secondLayer[prefixKey][nodeName]['@id']: '';
             return osmId;
+          };
+          // nodePrefix enter second layer
+          // check if the nodePrefix in each seconlayer
+          let returnId = false; // set a var to set in for() loop
+          for(let i = 0; i < secondLayerPrefixList.length; i++){
+            let key = secondLayerPrefixList[i];
+            if(nodePrefix in secondLayer[key]){
+              console.log(">>> osmIdConfirm, prefix in secondLayer.");
+              let prefixKey = secondLayer[key][nodePrefix]['@id'];
+              let returnId = (nodeName in thirdLayer[prefixKey]) ? thirdLayer[prefixKey][nodeName]['@id']: '';
+              break;
+            };
           }
-          else if(nodePrefix in secondLayer){
-            console.log(">>> osmIdConfirm, prefix in secondLayer.");
-            let key = nodeName + secondLayer[nodePrefix]['@id'];
-            let osmId = (key in thirdLayer) ? thirdLayer[key]['@id']: '';
-            return osmId;
-          }
-          else if(nodeName in firstLayer){
+          if(returnId) return returnId;
+          // currently only 3 layers, so not in above must in firstLayer directly
+          if(nodeName in firstLayer){
             console.log(">>> osmIdConfirm, no prefix, node in firstLayer.");
             return firstLayer[nodeName]['@id'];
           }
+          // or, an outlier
           else return '';
         };
 
