@@ -128,7 +128,7 @@ async function asyncGeocodeReq(csvData){
           round ++;
         };
 
-        db.nodes_additional.bulkCreate(insertArr)
+        db.nodes_locationAdmin.bulkCreate(insertArr)
         .then(()=>{
           sequelize.close();
           console.log(">>> insert complete. sequelize close.")
