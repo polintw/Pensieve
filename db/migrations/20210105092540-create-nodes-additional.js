@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('nodes_additional', {
+    return queryInterface.createTable('nodes_locationAdmin', {
       id_node: {
         type: Sequelize.INTEGER(10).UNSIGNED,
         allowNull: false
@@ -26,7 +26,7 @@ module.exports = {
     }, {
       charset: 'utf8mb4' //for Mandarin, or emoji if you don't speak in mandarin
     }).then(()=>{
-      return queryInterface.addConstraint('nodes_additional', ['id_node'], {
+      return queryInterface.addConstraint('nodes_locationAdmin', ['id_node'], {
         type: 'foreign key',
         name: 'constraint_fkey_nodesAdditional_idNode',
         references: { //Required field
@@ -39,6 +39,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('nodes_additional');
+    return queryInterface.dropTable('nodes_locationAdmin');
   }
 };

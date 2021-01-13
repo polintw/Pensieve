@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const nodes_additional = sequelize.define('nodes_additional', {
+  const nodes_locationAdmin = sequelize.define('nodes_locationAdmin', {
     id_node: DataTypes.INTEGER(10),
     category: DataTypes.STRING,
     location_lat: DataTypes.DECIMAL(21, 16), // (precision, scale) to decimal point,
@@ -9,16 +9,16 @@ module.exports = (sequelize, DataTypes) => {
     wiki_data_id: DataTypes.STRING(63),
     wiki_pedia_name: DataTypes.STRING(255)
   }, {});
-  nodes_additional.associate = function(models) {
+  nodes_locationAdmin.associate = function(models) {
     // associations can be defined here
-    nodes_additional.belongsTo(models.nouns, {
+    nodes_locationAdmin.belongsTo(models.nouns, {
       foreignKey:"id_node",
       targetKey: "id",
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
   };
-  nodes_additional.removeAttribute('id'); //this model do not use 'id' nor any pk, so we need to tell it.
+  nodes_locationAdmin.removeAttribute('id'); //this model do not use 'id' nor any pk, so we need to tell it.
 
-  return nodes_additional;
+  return nodes_locationAdmin;
 };

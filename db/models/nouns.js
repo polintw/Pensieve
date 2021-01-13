@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
-    nouns.hasOne(models.nodes_additional, {
+    nouns.hasOne(models.nodes_locationAdmin, {
       foreignKey:"id_node",
       onDelete: 'cascade',
       onUpdate: 'cascade'
