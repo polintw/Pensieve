@@ -2,14 +2,16 @@
   margin: 8px 0;
 }
 
-.comNavExploreMobile {
+.comNavCosmicMobile {
   display: flex;
-  justify-content: flex-end;
-  position: relative;
+  align-items: center;
+}
+
+.comNavCosmicNodes {
+
 }
 
 .spanLinkMouse {
   border-bottom: solid 0.75px #b8b8b8;
   cursor: pointer;
 }
-

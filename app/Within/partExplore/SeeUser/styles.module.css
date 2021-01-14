@@ -27,6 +27,13 @@
   margin-bottom: 36vh;
 }
 
+.boxNavTop {
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+  padding: 1.4vh 0 0;
+}
+
 .boxNodesFilter {
   box-shadow: 5px 0 4px -5px rgba(0, 0, 0, 0.3), -5px 0 4px -5px rgba(0, 0, 0, 0.3);
   margin: 0;

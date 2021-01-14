@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 
-class NavExploreMobile extends React.Component {
+class NavCosmicMobile extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -32,7 +32,7 @@ class NavExploreMobile extends React.Component {
   render(){
     return(
         <div
-            className={classnames(styles.comNavExploreMobile)}>
+            className={classnames(styles.comNavCosmicMobile)}>
           <Link
               to={"/cosmic/focus"}
               topath={"focusBoard"}
@@ -99,4 +99,4 @@ const mapDispatchToProps = (dispatch) => {
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(NavExploreMobile));
+)(NavCosmicMobile));

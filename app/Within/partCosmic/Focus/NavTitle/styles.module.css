@@ -1,3 +1,9 @@
 .boxTitle {
   margin: 8px 0;
 }
+
+.comNavTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}

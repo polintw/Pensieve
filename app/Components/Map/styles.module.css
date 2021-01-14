@@ -9,3 +9,17 @@
   border-radius: 4px;
   cursor: pointer;
 }
+
+.popupNode {
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.spanpopupNode {
+  display: inline-block;
+  border-bottom: solid 0.75px transparent;
+}
+
+.spanpopupNodeMouse {
+  border-bottom: solid 0.75px #545454;
+}

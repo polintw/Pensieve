@@ -16,7 +16,7 @@ import NodesExtensible from '../../NodesDisplay/NodesExtensible.jsx';
 import LinkFetch from '../../../Components/LinkFetch/LinkFetch.jsx';
 import ImgPreview from '../../../Components/ImgPreview.jsx';
 import LinkCopy from '../../../Components/LinkCopy/LinkCopy.jsx';
-import Map from '../../../Components/Map/Map.jsx';
+import MapUnit from '../../../Components/Map/MapUnit.jsx';
 import AccountPalette from '../../../Components/AccountPalette.jsx';
 import DateConverter from '../../../Components/DateConverter.jsx';
 import {
@@ -75,7 +75,7 @@ class Wrapper extends React.Component {
           {
             (this.state.frameView == "map") ? (
               !!this.props.unitCurrent.imgLocation.longitude &&
-              <Map
+              <MapUnit
                 popupImgSrc={this.props.unitCurrent.coverSrc}
                 coordinates={this.props.unitCurrent.imgLocation}
                 _handleClick_popupMainImg={()=>{this._set_frameView('img')}}/>

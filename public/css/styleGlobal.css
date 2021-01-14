@@ -53,6 +53,10 @@
   display: none;
 }
 
+.smallDisplayBox {
+  display: none;
+}
+
 .boxDialog {
   width: 520px;
   max-width: 90vw;
@@ -65,4 +69,14 @@
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);;
   border-radius: 4px;
   background-color: white;
+}
+
+@media screen and (max-width:860px) {
+  .smallDisplayBox {
+    display: block;
+  }
+
+  .smallDisplayNone {
+    display: none;
+  }
 }

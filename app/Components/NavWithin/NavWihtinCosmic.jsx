@@ -34,27 +34,32 @@ class NavWihtinCosmic extends React.Component {
     }
 
   _compExploreLink(){
-    return (
+    let linkDOM = [];
+
+    linkDOM.push(
       <Link
+        key={"key_exploreLink"}
         to={"/cosmic/focus"}
         linkto={'focus'}
         className={classnames(
           'plainLinkButton')}
-        onMouseOver={this._handleOver_LinkItem}
-        onMouseOut={this._handleOut_LinkItem}
-        onMouseUp={this._handleMouseUp_LinkItem}>
-        <span
-          className={classnames(
-            "fontContent", styles.spanLinkItem,
-            {
-              [styles.spanLinkItemMouse]: this.state.onItem == 'focus',
-              ["colorGrey"]: this.state.onItem != 'focus',
-              ["colorEditBlack"]: this.state.onItem == 'focus'
-            }
-          )}>
-          {this.props.i18nUIString.catalog['title_focusBoard']}</span>
-      </Link>
-    )
+          onMouseOver={this._handleOver_LinkItem}
+          onMouseOut={this._handleOut_LinkItem}
+          onMouseUp={this._handleMouseUp_LinkItem}>
+          <span
+            className={classnames(
+              "fontContent", styles.spanLinkItem,
+              {
+                [styles.spanLinkItemMouse]: this.state.onItem == 'focus',
+                ["colorGrey"]: this.state.onItem != 'focus',
+                ["colorEditBlack"]: this.state.onItem == 'focus'
+              }
+            )}>
+            {this.props.i18nUIString.catalog['title_focusBoard']}</span>
+        </Link>
+    );
+
+    return linkDOM;
   }
 
     render() {
@@ -64,6 +69,9 @@ class NavWihtinCosmic extends React.Component {
                 <div
                   className={classnames(styles.boxNavCosmic)}>
                   <Switch>
+                    <Route
+                      path={this.props.match.path + "/nodes"}
+                      component = {this._compExploreLink} />
                     <Route
                       path={this.props.match.path + "/explore"}
                       component = {this._compExploreLink} />

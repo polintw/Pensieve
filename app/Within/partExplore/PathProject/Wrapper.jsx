@@ -21,6 +21,7 @@ import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
 import UnitUnsign from '../../../Unit/UnitUnsign/UnitUnsign.jsx';
 import NavFilter from '../../../Components/NavFilter/NavFilter.jsx';
 import NodesFilter from '../../../Components/NodesFilter/NodesFilter.jsx';
+import NavCosmicMobile from '../../../Components/NavWithin/NavCosmic/NavCosmicMobile.jsx';
 import {
   handleNounsList,
 } from "../../../redux/actions/general.js";
@@ -96,6 +97,13 @@ class Wrapper extends React.Component {
 
     return(
       <div>
+        <div
+          className={classnames("smallDisplayBox")}>
+          <div
+            className={classnames(styles.boxNavTop)}>
+            <NavCosmicMobile/>
+          </div>
+        </div>
         <div
           className={classnames(styles.comPathProject)}>
           <div
