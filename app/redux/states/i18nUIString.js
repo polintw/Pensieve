@@ -216,6 +216,8 @@ const i18nUIString_EN = {
   "title_focusBoard": "Focus",
   "connection_focus_userNode": 'in',
 
+  "title_Nodes": "Nodes map",
+
   "title_NavAtNode_": "Accumulation",
   "subtitle_NavAtNode_Num": ['stay', "from"],
   "guiding_AtNode_noAccumulated": "Waiting for the first contribution!",

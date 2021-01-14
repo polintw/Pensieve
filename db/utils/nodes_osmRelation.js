@@ -130,7 +130,7 @@ async function asyncGeocodeReq(csvData){
           let nameKey = nodesCandiSelection[round].name;
           if(nameList.indexOf(nameKey) < 0 )  {
             noMatchCount ++ ; noMatchList.push(nameKey);
-            console.log(">>> no match, count: ", noMatchCount, ", @ name: ", nameKey); round ++; continue;};
+            console.log(">>> no match, count: ", noMatchCount, ", @ name: ", nameKey, ", of prefix: ", rowPrefix); round ++; continue;};
 
           let targetOsmId = osmIdConfirm(nameKey, rowPrefix);
           // get the osm data of this nameKey

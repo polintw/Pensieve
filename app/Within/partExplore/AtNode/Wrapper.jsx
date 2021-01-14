@@ -9,6 +9,7 @@ import styles from "./styles.module.css";
 import Feed from './Feed/Feed.jsx';
 import NavFeed from './NavFeed/NavFeed.jsx';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
+import NavCosmicMobile from '../../../Components/NavWithin/NavCosmic/NavCosmicMobile.jsx';
 import {
   handleNounsList,
 } from "../../../redux/actions/general.js";
@@ -51,6 +52,11 @@ class Wrapper extends React.Component {
 
     return(
       <div>
+        <div
+          className={"smallDisplayBox"}
+          style={{ padding: '1.4vh 0 0'}}>
+          <NavCosmicMobile/>
+        </div>
         <div
           className={classnames(styles.comAtNode)}>
           <div

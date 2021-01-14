@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
 
-class Map extends React.Component {
+class MapUnit extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -45,14 +45,14 @@ class Map extends React.Component {
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <Marker 
+          <Marker
             ref={this.refLeafletMarker}
             position={coordinates}>
             <Popup>
               <img
                 className={classnames(styles.popupMain)}
                 src={this.props.popupImgSrc}
-                onClick={this._handleClick_popupMainImg}/> 
+                onClick={this._handleClick_popupMainImg}/>
             </Popup>
           </Marker>
         </MapContainer>
@@ -85,4 +85,4 @@ const mapDispatchToProps = (dispatch)=>{
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(Map));
+)(MapUnit));
