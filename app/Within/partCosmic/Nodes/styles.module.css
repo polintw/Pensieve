@@ -23,10 +23,19 @@
   background-color: #FCFCFC;
 }
 
+.boxNavTop {
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+  padding: 1.4vh 0 0;
+}
+
 .boxNodesMap {
   width: 100%;
-  height: 95vh;
+  height: 82vh;
+  margin: 8px 0 22vh;
   border-radius: 8px;
+  overflow: hidden;
 }
 
 @media screen and (max-width:860px) {

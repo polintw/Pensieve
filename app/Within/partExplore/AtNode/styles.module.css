@@ -23,6 +23,13 @@
   background-color: #FCFCFC;
 }
 
+.boxNavTop {
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+  padding: 1.4vh 0 0;
+}
+
 @media screen and (max-width:860px) {
   .smallDisplayBox {
     display: block;

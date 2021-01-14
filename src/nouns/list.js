@@ -15,42 +15,46 @@ async function _handle_GET_nouns_Assigned(req, res){
   try{
     const allAssignedNodes = await _DB_nodesAssigned.findAll({
       attributes: ['nodeAssigned'],
-      group: 'nodeAssigned'
+      group: 'nodeAssigned',
+      limit: 1200 // temp rule
     });
     let assignedNodesList = allAssignedNodes.map((row, index)=> {
       return row.nodeAssigned;
     });
-    let assignedNodesLocation = 
-    if(!!req.query.map){
-      assignedNodesLocation = await _DB_nodesLocation.findAll({
-        where: {
-
-        }
-      })
-    };
-
     let sendingData={
       nodesList: assignedNodesList,
       nodesDataList: [],
       temp: {}
     };
+    // res based on query
+    if(!!req.query.map){
+      let nodesDataLocation = await _DB_nodesLocation.findAll({
+        where: {
+          id_node: sendingData.nodesList,
+          category: 'location_admin'
+        }
+      });
+      sendingData.nodesDataList = nodesDataLocation.map((row, index)=>{
+        return ({
+          nodeId: row.id_node,
+          coordinates: [row.location_lat, row.location_lon],
+        })
+      });
 
-    llAssignedNodes.forEach((row, index) => {
-      sendingData.nodesList.push(row.nodeAssigned);
-
-    });
-
-    _res_success(res, sendingData, "GET: /nouns/assigned, complete.");
+      _res_success(res, sendingData, "GET: /nouns/list, /assigned, complete.");
+    }
+    else{
+      _res_success(res, sendingData, "GET: /nouns/list, /assigned, complete.");
+    };
   }
   catch(error){
     _handle_ErrCatched(error, req, res);
     return;
   }
-
 }
 
-execute.get('/', function(req, res){
-  if(process.env.NODE_ENV == 'development') winston.verbose('GET: /nouns/assigned.');
+execute.get('/assigned', function(req, res){
+  if(process.env.NODE_ENV == 'development') winston.verbose('GET: /nouns/list, /assigned.');
   _handle_GET_nouns_Assigned(req, res);
 })
 

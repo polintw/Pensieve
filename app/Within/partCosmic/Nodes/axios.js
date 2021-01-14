@@ -9,7 +9,7 @@ export function _axios_get_usedNodes(cancelToken){
 
   return axios({
     method: 'get',
-    url: '/router/nouns/assigned',
+    url: '/router/nouns/list/assigned',
     params: {
       map: true
     },

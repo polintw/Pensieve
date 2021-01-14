@@ -4,14 +4,11 @@
 
 .comNavCosmicMobile {
   display: flex;
-  justify-content: flex-end;
-  position: relative;
+  align-items: center;
 }
 
 .comNavCosmicNodes {
-  display: flex;
-  justify-content: flex-end;
-  position: relative;
+
 }
 
 .spanLinkMouse {

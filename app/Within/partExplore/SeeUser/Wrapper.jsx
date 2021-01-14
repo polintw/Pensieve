@@ -110,9 +110,11 @@ class Wrapper extends React.Component {
     return(
       <div>
         <div
-          className={"smallDisplayBox"}
-          style={{ padding: '1.4vh 0 0'}}>
-          <NavCosmicMobile/>
+          className={classnames("smallDisplayBox")}>
+          <div
+            className={classnames(styles.boxNavTop)}>
+            <NavCosmicMobile/>
+          </div>
         </div>
         <div
           className={classnames(styles.comSeeUser)}>

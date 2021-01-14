@@ -8,14 +8,14 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import {_axios_get_usedNodes} from '../axios.js';
-import MapUnit from '../../../../Components/Map/MapUnit.jsx';
+import MapNodes from '../../../../Components/Map/MapNodes.jsx';
 import {
   handleNounsList,
-} from "../../../redux/actions/general.js";
+} from "../../../../redux/actions/general.js";
 import {
   cancelErr,
   uncertainErr
-} from '../../../utils/errHandlers.js';
+} from '../../../../utils/errHandlers.js';
 
 class NodesMap extends React.Component {
   constructor(props){
@@ -25,6 +25,7 @@ class NodesMap extends React.Component {
       markersUsed: []
     };
     this.axiosSource = axios.CancelToken.source();
+    this._fetch_usedNodes = this._fetch_usedNodes.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -32,7 +33,7 @@ class NodesMap extends React.Component {
   }
 
   componentDidMount(){
-
+    this._fetch_usedNodes();
   }
 
   componentWillUnmount(){
@@ -44,20 +45,23 @@ class NodesMap extends React.Component {
       <div
         className={classnames(styles.comNodes)}>
         <MapNodes
-          coordCenter={[0, 60]}
-          markers={/*[
+          coordCenter={[20, 124]}
+          markers={
+            this.state.markersUsed
+            /*[
             {
             nodeid:,
             coordinates:,
             additional: {
+              accumulatedCount: ,
               latestUsed: time,
               firstUser: {}
             }
             }
           ]
           */}
-          zoomLevel={1}
-          _handleClick_popupMainImg={()=>{this._set_frameView('img')}}/>
+          minZoomLevel={1}
+          zoomLevel={1.5}/>
       </div>
     )
   }
@@ -74,7 +78,7 @@ class NodesMap extends React.Component {
       self.setState((prevState, props)=>{
         return ({
           axios: false,
-          markersUsed:
+          markersUsed:resObj.main.nodesDataList
         });
       });
     })

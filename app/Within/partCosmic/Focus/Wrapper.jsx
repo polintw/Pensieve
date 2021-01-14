@@ -11,7 +11,6 @@ import styles from "./styles.module.css";
 import Feed from './Feed/Feed.jsx';
 import NavTitle from './NavTitle/NavTitle.jsx';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
-import NavCosmicNodes from '../../../Components/NavWithin/NavCosmic/NavCosmicNodes.jsx';
 import {
   handleNounsList,
 } from "../../../redux/actions/general.js";
@@ -44,10 +43,6 @@ class Wrapper extends React.Component {
   render(){
     return(
       <div>
-        <div
-          style={{ padding: '1.4vh 0 0'}}>
-          <NavCosmicNodes/>
-        </div>
         <div
           className={classnames(styles.comFocus)}>
           <div

@@ -6,6 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import NavCosmicNodes from '../../../../Components/NavWithin/NavCosmic/NavCosmicNodes.jsx';
 
 class NavTitle extends React.Component {
   constructor(props){
@@ -30,13 +31,17 @@ class NavTitle extends React.Component {
   render(){
     return(
       <div
-        className={classnames(styles.boxTitle)}>
+        className={classnames(
+          styles.boxTitle, styles.comNavTitle)}>
         <div>
           <span
             className={classnames(
               "fontContentPlain", "weightBold", "colorAssistGold")}>
             { this.props.i18nUIString.catalog["title_focusBoard"] }
           </span>
+        </div>
+        <div>
+          <NavCosmicNodes/>
         </div>
       </div>
     )
