@@ -98,12 +98,13 @@ class MapNodes extends React.Component {
       <div
         className={classnames(styles.comMap)}>
         <MapContainer
-          center={this.props.coordCenter} zoom={this.props.zoomLevel} 
-          minZoom={!!this.props.minZoomLevel ? this.props.minZoomLevel : 1 }>
+          center={this.props.coordCenter} zoom={this.props.zoomLevel}
+          minZoom={!!this.props.minZoomLevel ? this.props.minZoomLevel : 1 }
+          maxBounds={[[-90, -180], [90, 180]]}>
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
+            noWrap/>
           {this._render_Markers()}
         </MapContainer>
       </div>

@@ -45,7 +45,7 @@ class NodesMap extends React.Component {
       <div
         className={classnames(styles.comNodes)}>
         <MapNodes
-          coordCenter={[20, 124]}
+          coordCenter={[20, 0]}
           markers={
             this.state.markersUsed
             /*[
