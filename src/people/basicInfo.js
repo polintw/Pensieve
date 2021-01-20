@@ -5,6 +5,7 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const _DB_users = require('../../db/models/index').users;
 const _DB_units = require('../../db/models/index').units;
+const _DB_inspireds = require('../../db/models/index').inspireds;
 const _DB_usersNodesHomeland = require('../../db/models/index').users_nodes_homeland;
 const _DB_usersNodesResidence = require('../../db/models/index').users_nodes_residence;
 const {_res_success} = require('../utils/resHandler.js');
@@ -14,7 +15,7 @@ const {
 } = require('../utils/reserrHandler.js');
 
 async function _handle_GET_people_basic(req, res){
-  const reqUserId = req.query.userId;
+  const reqUserId = !!req.query.userId ? req.query.userId : null;
 
   try{
     // validation: if the user id was valid
@@ -47,6 +48,18 @@ async function _handle_GET_people_basic(req, res){
         author_identity: 'user'
       }
     });
+    let unitsList = unitsShareds.map((row, index)=> {
+      return row.id;
+    });
+    let inspireds = await _DB_inspireds.findAll({
+      where: {id_unit: unitsList},
+      attributes: ['id_user'],
+      group: 'id_user',
+    });
+    let inspiredsPeople = inspireds.map((row,index)=>{
+      return row.id_user;
+    })
+
     let userYear, userMonth;
     let d = new Date(targetUser.createdAt);
     userYear = d.getFullYear();
@@ -55,7 +68,9 @@ async function _handle_GET_people_basic(req, res){
       nodeStart: usersStartNode.id_node,
       userBasicInfo: {
         timeCreate: userYear,
-        countShareds: !!unitsShareds ? unitsShareds.length : 0
+        countShareds: !!unitsShareds ? unitsShareds.length : 0,
+        inspiredCount: inspiredsPeople.length,
+        inspiredYou: (inspiredsPeople.indexOf(reqUserId) < 0) ? false : true
       },
       temp: {}
     };

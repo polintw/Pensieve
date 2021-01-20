@@ -94,6 +94,8 @@ const i18nUIString_EN = {
   "text_your_cap": "Your",
   "text_read": "read",
   "text_since": "since",
+  "text_peopleInspired": "People Inspired",
+  "text_youInspired": ["(including ", "You", ")"],
   "text_times": "times",
   "message_hello": "Hi, ",
   "submit_": "Submit",
