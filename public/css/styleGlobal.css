@@ -12,6 +12,10 @@
   border: unset;
 }
 
+.plainBoxDisplay {
+  display: unset;
+}
+
 .boxAbsoluteFull {
   width: 100%;
   height: 100%;

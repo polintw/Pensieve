@@ -52,6 +52,9 @@ export function uncertainErr(error){
       case 33: //special for sign in, user not verified email
         return {code33: true, message: error.response.data.message};
         break;
+      case 34: // from Unit '_set_UnitCurrent': no such Unit exist
+        return !!error.response.data.message ? error.response.data.message : 'The Unit you request do not exist.';
+        break;
       case 89: //meaning no token, redirect.
       //a missing token, no need to alert anything.
         window.location.assign('/');

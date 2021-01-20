@@ -34,7 +34,9 @@ class Wrapper extends React.Component {
       filterStart: null,
       userBasicInfo: {
         timeCreate: null,
-        countShareds: 0
+        countShareds: 0,
+        inspiredCount: 0,
+        inspiredYou: false
       },
       usedNodes: [],
     };

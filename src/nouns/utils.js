@@ -39,3 +39,33 @@ export async function selectNodesParent(initList){
 
   return (nodesInfo);
 };
+
+export async function selectNodesChildren(initList, depth){
+  let nodesInfo = {};
+  let targetList= initList.slice(); //shallow copy, prevent modifying initList
+  /*
+  The concept is, we select children one level by one,
+  then by while, we select until reach the desired level.
+  */
+  while (targetList.length > 0) {
+    // first, minus 1 from depth.
+    depth -= 1;
+    // select all first level children
+    await _DB_nouns.findAll({
+      where: {parent_id: targetList},
+    })
+    .then((results)=>{
+      targetList= []; // no matter what reaons, clean the list first to see if there are any candidate going to next round
+      results.forEach((row, index) => {
+        nodesInfo[row.id]={
+          id: row.id,
+          parent_id: row.parent_id
+        };
+      });
+      //"do we need the next round?"
+      if(depth > 0) targetList.push( row.id); //push back to list if stiil has children going to get
+    });
+  }; //end of while
+
+  return (nodesInfo);
+};
