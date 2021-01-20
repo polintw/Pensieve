@@ -115,7 +115,7 @@ class TitleUser extends React.Component {
                 {this.props.i18nUIString.catalog["title_shared"]}
               </span>
               <span
-                className={classnames("fontContent", "colorGrey")}>
+                className={classnames("fontContent", "colorEditBlack", "weightBold")}>
                 {this.props.userBasicInfo.countShareds}
               </span>
             </div>
@@ -133,7 +133,7 @@ class TitleUser extends React.Component {
                 {this.props.i18nUIString.catalog["text_since"]}
               </span>
               <span
-                className={classnames("fontContent", "colorGrey")}>
+                className={classnames("fontContent", "colorEditBlack", "weightBold")}>
                 {this.props.userBasicInfo.timeCreate}
               </span>
             </div>
@@ -150,7 +150,10 @@ class TitleUser extends React.Component {
                 {this.props.i18nUIString.catalog["text_peopleInspired"]}
               </span>
               <span
-                className={classnames("fontContent", "colorGrey")}>
+                className={classnames(
+                  'fontContent', 'colorEditBlack', "weightBold",
+                  styles.spanKey
+                )}>
                 {
                   this.props.userBasicInfo.inspiredCount == 0 ?
                   "--" :
@@ -162,25 +165,16 @@ class TitleUser extends React.Component {
                 <div
                   className="plainBoxDisplay">
                   <span
-                    className={classnames(
-                      'fontContent', 'colorGrey',
-                      styles.spanKey
-                    )}>
-                    {this.props.i18nUIString.catalog["text_youInspired"[0]]}
+                    className={classnames("fontContent", "colorGrey")}>
+                    {this.props.i18nUIString.catalog["text_youInspired"][0]}
                   </span>
                   <span
-                    className={classnames(
-                      'fontContent', 'colorAssistGold',
-                      styles.spanKey
-                    )}>
-                    {this.props.i18nUIString.catalog["text_youInspired"[1]]}
+                    className={classnames("fontContent", "colorAssistGold")}>
+                    {this.props.i18nUIString.catalog["text_youInspired"][1]}
                   </span>
                   <span
-                    className={classnames(
-                      'fontContent', 'colorGrey',
-                      styles.spanKey
-                    )}>
-                    {this.props.i18nUIString.catalog["text_youInspired"[2]]}
+                    className={classnames("fontContent", "colorGrey")}>
+                    {this.props.i18nUIString.catalog["text_youInspired"][2]}
                   </span>
                 </div>
               }

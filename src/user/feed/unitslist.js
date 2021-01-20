@@ -16,7 +16,10 @@ const {
   internalError,
   validationError
 } = require('../../utils/reserrHandler.js');
-const {selectNodesParent} = require('../../nouns/utils.js');
+const {
+  selectNodesParent,
+  selectNodesChildren
+} = require('../../nouns/utils.js');
 
 
 async function _handle_GET_feedUnitslist_assigned(req, res){
@@ -102,7 +105,6 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
     .then(([resultNodesAssign, resultRead])=>{
       // seperate rows(units) by created time
       // the way we call: 「暴力展開」
-      let notFromHome = {}; // to track any assigned unit if it was contribute by fellow from same homeland
       //seperate each assigned unit to different list by created time
       resultNodesAssign.forEach((row, index) => {
         let rowCreatedAt = row.createdAt;
@@ -125,26 +127,6 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
         else{ //means more than one assigned node to same unit, already in a list by created time
           unitsInfo[row.id_unit][row.belongTypes] = row.nodeAssigned
         };
-        /*
-        we now has a rule: Unit has set a homeland type assigned, would be only delivered to user 'belong to' that homeland,
-        */
-        // because for now type 'homeland' could be only assigned once to each Unit, wo we just record the one not allowed
-        if(row.belongTypes == "homeland"){
-          // seperate by homeland set
-          if( !userHomeland ){ // not set
-            notFromHome[row.id_unit] = {list: listName, unitId: row.id_unit};
-          }
-          else if(userHomeland.selfInclList.indexOf(unitsInfo[row.id_unit]['homeland']) < 0){ // set, and not belong to
-            notFromHome[row.id_unit] = {list: listName, unitId: row.id_unit};
-          }
-        };
-      });
-      // last step, rm those not match the 'same homeland' rule
-      let notFellowKeys = Object.keys(notFromHome);
-      notFellowKeys.forEach((unitId, index) => {
-        delete unitsInfo[unitId];
-        let indexInList = listObj[notFromHome[unitId].list].indexOf(unitId);
-        listObj[notFromHome[unitId].list].splice(indexInList, 1);
       });
 
       /*
@@ -250,7 +232,22 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
     })
     return ancestorKeys;
   });
-  belongList = belongList.concat(ancestorsList);
+  // selecting nodes under belonged nodes as 'children', and! including the same level nodes(children of 'parents')
+  let homelandParent = !!userHomeland ? userHomeland['selfInclList'].length > 1 ? [userHomeland['selfInclList'][1]] : [] : [];
+  let resiParent = !!userResidence ? userResidence['selfInclList'].length > 1 ? [userResidence['selfInclList'][1]] : [] : [];
+  let childrenSelectList = belongList.concat(homelandParent, resiParent);
+  let childrenList = await selectNodesChildren(childrenSelectList, 1)
+  .then((nodesInfo)=>{
+    //selectNodesChildren()  would return an Obj by 'nodeId' as keys, so simply spread the keys to get the nodes list
+    let childrenKeys = Object.keys(nodesInfo);
+    //Object.keys definetely return key in 'string', but id from userResidence/Homeland are 'int'
+    //so next step is just a process to unified the item 'type'
+    childrenKeys = childrenKeys.map((key,index)=>{
+      return parseInt(key)
+    });
+    return childrenKeys;
+  });
+  belongList = belongList.concat(ancestorsList, childrenList);
   // make a list without duplicate
   let filteredList = belongList.filter((nodeId, index)=>{
     return index == belongList.indexOf(nodeId)

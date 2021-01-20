@@ -16,6 +16,7 @@ const {
 
 async function _handle_GET_people_basic(req, res){
   const reqUserId = !!req.query.userId ? req.query.userId : null;
+  const tokenId = req.extra.tokenUserId; // userId passed from pass.js
 
   try{
     // validation: if the user id was valid
@@ -70,7 +71,7 @@ async function _handle_GET_people_basic(req, res){
         timeCreate: userYear,
         countShareds: !!unitsShareds ? unitsShareds.length : 0,
         inspiredCount: inspiredsPeople.length,
-        inspiredYou: (inspiredsPeople.indexOf(reqUserId) < 0) ? false : true
+        inspiredYou: (inspiredsPeople.indexOf(tokenId) < 0) ? false : true
       },
       temp: {}
     };
