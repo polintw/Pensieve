@@ -42,7 +42,6 @@ class Wrapper extends React.Component {
     this.axiosSource = axios.CancelToken.source();
     this._set_viewFilter = this._set_viewFilter.bind(this);
     this._set_filterBasic = this._set_filterBasic.bind(this);
-    this._createdRespond = this._createdRespond.bind(this);
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._render_FooterHint = this._render_FooterHint.bind(this);
   }
@@ -168,7 +167,7 @@ class Wrapper extends React.Component {
             return (
               <UnitScreen
                 {...props}
-                _createdRespond= {this._createdRespond}
+                _createdRespond= {()=>{/* no need to give any flad in /self. */ }}
                 _construct_UnitInit={this._construct_UnitInit}
                 _refer_von_unit={this.props._refer_von_cosmic}/>
             )
@@ -238,10 +237,6 @@ class Wrapper extends React.Component {
   _construct_UnitInit(match, location){
     let unitInit= {marksify: false, initMark: "all", layer: 0};
     return unitInit;
-  }
-
-  _createdRespond(){
-    this.props._set_WithinFlag(true, "chainFetRespond");
   }
 
   _set_viewFilter(view){

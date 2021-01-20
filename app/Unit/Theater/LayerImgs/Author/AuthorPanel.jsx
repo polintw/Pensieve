@@ -80,7 +80,7 @@ class AuthorPanel extends React.Component {
         message: [{text: this.props.i18nUIString.catalog['message_Unit_EraseRes'][0],style:{}}], //format follow Boolean, as [{text: '', style:{}}]
         handlerPositive: ()=>{
           this.props._submit_SingleCloseDialog(messageDialogInit.singleClose);
-          window.location.assign('/');}
+          window.location.assign('/self/shareds');}
       });
     })
     .catch(function (thrown) {

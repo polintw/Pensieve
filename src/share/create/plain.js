@@ -73,6 +73,7 @@ async function shareHandler_POST(req, res){
         authorIdentityObj['identity'] = 'user';
       }
       else{
+        // valid modifiedBody.authorIdentity, so keep 'authorIdentity' passed from client
         authorIdentityObj['identity'] = 'pathProject';
         authorIdentityObj['usedId'] = usersPath.id_path;
       };
@@ -363,7 +364,10 @@ async function shareHandler_POST(req, res){
   .then(()=>{
     //every essential step for a shared has been done
     //return success & id just created
-    _res_success_201(res, {unitId: modifiedBody.id_unit_exposed}, '');
+    _res_success_201(res, {
+      unitId: modifiedBody.id_unit_exposed,
+      authorIdentity: authorIdentity
+    }, '');
     //resolve, and return the modifiedBody for backend process
     return;
   })

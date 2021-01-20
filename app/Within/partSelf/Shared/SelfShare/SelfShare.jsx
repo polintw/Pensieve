@@ -7,9 +7,6 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import ShareUpload from '../../../../Components/ShareUpload/ShareUpload.jsx';
-import {
-  setWithinFlag
-} from "../../../../redux/actions/within.js";
 
 class SelfShare extends React.Component {
   constructor(props){
@@ -63,8 +60,7 @@ class SelfShare extends React.Component {
     this.setState({mouseEnter: false})
   }
 
-  _submit_Share_New(){
-    this.props._set_WithinFlag(true, "chainFetRespond");
+  _submit_Share_New(resNewUnit){
     // and remember the editing modal was opened by URL change
     let lastState = this.props.location.state.from ; // because we are pretty sure there is a "from" obj when opened EditingModal
     this.props.history.replace({
@@ -72,6 +68,12 @@ class SelfShare extends React.Component {
       search: lastState.search,
       state: lastState.state
     });
+    // now, reload or go to page by authorIdentity in res
+    let path = '/self/shareds' + ( resNewUnit.authorIdentity == "userAccount" ? '' : ('/' + 'pathProject') );
+    let paramComparison = (resNewUnit.authorIdentity == "userAccount") ? 'shareds' : 'pathProject';
+    // 'go to' or 'stay & reload'
+    (this.props.lastParam == paramComparison) ? window.location.reload() :
+    window.location.assign(path);
   }
 }
 
@@ -84,7 +86,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    _set_WithinFlag: (bool, flag) => {dispatch(setWithinFlag(bool, flag)); }
+
   }
 }
 
