@@ -5,6 +5,7 @@
 .comNavFeed {
   display: flex;
   align-items: baseline;
+  flex-wrap: wrap;
 }
 
 .boxLinkLeft {
@@ -18,22 +19,14 @@
 .boxGatheringBase {
   display: flex;
   align-items: flex-end;
-  margin: 0 0 0 25px;
+  flex: 1;
+  margin: 0 0 0 20px;
   padding: 0 5px;
   border-left: solid 0.75px #d8d8d8;
 }
 
 .boxBasedNodes {
   display: inline-block;
-}
-
-.linkEditBelong {
-  display: inline-block;
-  border-bottom: solid 0.75px transparent;
-}
-
-.linkEditBelongOnMouse {
-  border-bottom: solid 0.75px #757575;
 }
 
 .spanLinkMouse {
