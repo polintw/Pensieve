@@ -52,7 +52,7 @@ class NavFeed extends React.Component {
             onMouseLeave={this._handleLeave_link}>
             <span
               className={classnames(
-                stylesFont.fontHint, stylesFont.weightBold,
+                "fontContentPlain", "weightBold",
                 {
                   [styles.spanLinkMouse]: (this.state.onNavLink == 'gathering' && !gatheringify),
                   ["colorLightGrey"]: !gatheringify,
@@ -75,7 +75,7 @@ class NavFeed extends React.Component {
               onMouseLeave={this._handleLeave_link}>
               <span
                 className={classnames(
-                  stylesFont.fontHint, stylesFont.weightBold,
+                "fontContentPlain", "weightBold",
                   {
                     [styles.spanLinkMouse]: (this.state.onNavLink == 'fellows' && gatheringify),
                     ["colorLightGrey"]: gatheringify,
@@ -91,28 +91,33 @@ class NavFeed extends React.Component {
         <div
           className={classnames(styles.boxGatheringBase)}>
           <GatheringBase/>
-        <div>
-          <span
-            className={classnames('colorEditLightBlack', 'fontContent')}
-            style={{ padding: '0 5px' }}>
-            {"．"}
-          </span>
-          <Link
-            to={"/cosmic/focus"}
-            topath={"focus"}
-            className={classnames('plainLinkButton')}
-            onMouseEnter={this._handleEnter_link}
-            onMouseLeave={this._handleLeave_link}
-            style={{ padding: '0 5px' }}>
+          <div>
+            <span
+              className={classnames('colorWhiteGrey', 'fontContentPlain')}
+              style={{ padding: '0 5px' }}>
+              {"．"}
+            </span>
+            <Link
+              to={"/cosmic/focus"}
+              topath={"focus"}
+              className={classnames('plainLinkButton')}
+              onTouchStart={this._handleEnter_link}
+              onTouchEnd={this._handleLeave_link}
+              onMouseEnter={this._handleEnter_link}
+              onMouseLeave={this._handleLeave_link}
+              style={{ padding: '0 5px' }}>
               <span
                 className={classnames(
-                  "fontContentPlain", "weightBold", "colorEditBlack",
-                  styles.spanBaseNode,
-                  { [styles.spanBaseNodeMouse]: this.state.onNavLink == 'focus' }
+                  "fontContentPlain", "weightBold", styles.spanBaseNode,
+                  {
+                    [styles.spanBaseNodeMouse]: (this.state.onNavLink == 'focus'),
+                    ["colorWhiteGrey"]: (this.state.onNavLink != 'focus'),
+                    ["colorEditBlack"]: (this.state.onNavLink == 'focus')
+                  }
                 )}>
                 {this.props.i18nUIString.catalog['link_Focus']}</span>
-          </Link>
-        </div>
+            </Link>
+          </div>
         </div>
       </div>
     )

@@ -80,6 +80,11 @@ class ChainShared extends React.Component {
             {this.props.i18nUIString.catalog["title_Chain_Shareds_"]}</span>
           <div
             className={classnames(styles.boxSharedPersonal)}>
+            <span
+              className={classnames('colorWhiteGrey', 'fontContentPlain')}
+              style={{ padding: '0 5px' }}>
+              {"．"}
+            </span>
             <Link
               to={"/cosmic/explore/user?userId=" + this.props.userInfo.id}
               className={classnames(
