@@ -38,7 +38,10 @@ class Wrapper extends React.Component {
       pathName: false,
       projectName: '',
       filterStart: null,
-      projectInfo: {},
+      projectInfo: {
+        inspiredCount: 0,
+        inspiredYou: false
+      },
       usedNodes: [],
       redirectFilter: false
     };

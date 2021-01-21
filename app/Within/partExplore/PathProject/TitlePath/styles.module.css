@@ -6,6 +6,7 @@
 .boxUpper {
   display: flex;
   align-items: baseline;
+  flex-wrap: wrap;
 }
 
 .boxDescription {
@@ -16,6 +17,20 @@
   display: inline-block;
   max-width: 68%;
   margin-right: 30px;
+}
+
+.boxSubtitleLeft {
+  margin-right: 4px;
+}
+
+.boxSubtitleRight {
+  margin-left: 4px;
+}
+
+.boxSubtitleCenter {
+  display: flex;
+  align-items: center;
+  margin: 0 2px;
 }
 
 .boxBtnShare {
@@ -70,4 +85,14 @@
 
 .spanLinkSetlinkMouse {
   border-bottom: solid 1px #444444;
+}
+
+.spanKey {
+  margin-right: 4px;
+}
+
+@media screen and (max-width:860px) {
+  .boxProjectInfo {
+    max-width: 100%; /* overwritten 'max-width' in normal width */
+  }
 }
