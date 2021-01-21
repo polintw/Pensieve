@@ -4,6 +4,8 @@ const winston = require('../../config/winston.js');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const _DB_paths = require('../../db/models/index').paths;
+const _DB_units = require('../../db/models/index').units;
+const _DB_inspireds = require('../../db/models/index').inspireds;
 const {_res_success} = require('../utils/resHandler.js');
 const {
   _handle_ErrCatched,
@@ -12,6 +14,7 @@ const {
 
 async function _handle_GET_paths_basic(req, res){
   const reqPathProject = req.query.pathProject;
+  const tokenId = req.extra.tokenify ? req.extra.tokenUserId : null; // userId passed from pass.js(no token is possible)
 
   try{
     const targetProject = await _DB_paths.findOne({
@@ -22,6 +25,26 @@ async function _handle_GET_paths_basic(req, res){
       throw new notFoundError("Project you request was not found. Only a valid path name was allowed.", 52);
       return; //stop and end the handler.
     };
+    // select units, to calculate the 'inspired count'
+    let unitsAccumulation = await _DB_units.findAll({
+      where: {
+        used_authorId: targetProject.id,
+        author_identity: 'pathProject'
+      }
+    });
+    let unitsList = unitsAccumulation.map((row, index)=> {
+      return row.id;
+    });
+    // then select from inspireds. Still 'findAll' because we need the id list
+    let inspireds = await _DB_inspireds.findAll({
+      where: {id_unit: unitsList},
+      attributes: ['id_user'],
+      group: 'id_user',
+    });
+    let inspiredsPeople = inspireds.map((row,index)=>{
+      return row.id_user;
+    });
+
 
     let sendingData={
       pathName: targetProject.pathName,
@@ -29,7 +52,9 @@ async function _handle_GET_paths_basic(req, res){
       nodeStart: targetProject.set_nodeStart,
       otherInfo: {
         webLink: targetProject.set_webLink,
-        description: targetProject.description
+        description: targetProject.description,
+        inspiredCount: inspiredsPeople.length,
+        inspiredYou: (inspiredsPeople.indexOf(tokenId) < 0) ? false : true
       },
       temp: {}
     };

@@ -56,38 +56,84 @@ class TitlePath extends React.Component {
             </span>
           </Link>
           <div
-            title={this.props.i18nUIString.catalog["tagTitle_PathProject_ShareLink"]}
-            className={classnames(styles.boxBtnShare)}
-            onMouseEnter={this._handleEnter_Btn}
-            onMouseLeave={this._handleLeave_Btn}
-            onClick={this._handleClick_CopyLink}>
+            style={{display: 'flex'}}>
             <div
-              className={classnames(styles.boxIconCopy)}>
-              <SvgCopy
-                customStyles={"{fill: " + (this.state.onShareLink? "#545454" : "#a3a3a3") + "}"}/>
-            </div>
-            <div
-              className={classnames(
-                "fontContent",
-                {["colorEditBlack"]: this.state.onShareLink},
-                {["colorGrey"]: !this.state.onShareLink},
-              )}>
-              {this.props.i18nUIString.catalog['btn_PathProject_ShareLink']}
-            </div>
-            {
-              this.state.emit &&
+              title={this.props.i18nUIString.catalog["tagTitle_PathProject_ShareLink"]}
+              className={classnames(styles.boxBtnShare, styles.boxSubtitleLeft)}
+              onMouseEnter={this._handleEnter_Btn}
+              onMouseLeave={this._handleLeave_Btn}
+              onClick={this._handleClick_CopyLink}>
               <div
-                className={classnames(styles.boxModalEmit)}>
-                <ModalEmit
-                  text={this.state.emit.text} />
+                className={classnames(styles.boxIconCopy)}>
+                <SvgCopy
+                  customStyles={"{fill: " + (this.state.onShareLink? "#545454" : "#a3a3a3") + "}"}/>
               </div>
-            }
-            <div style={{width:"100%",position: 'absolute', overflow:'hidden'}}>
-              <input
-                ref={this.refHiddenText}
-                className={classnames(styles.boxHiddenText)}
-                value={ domain.protocol+ '://'+domain.name+'/cosmic/explore/path/'+ this.props.projectPath}
-                readOnly/>
+              <div
+                className={classnames(
+                  "fontContent",
+                  {["colorEditBlack"]: this.state.onShareLink},
+                  {["colorGrey"]: !this.state.onShareLink},
+                )}>
+                {this.props.i18nUIString.catalog['btn_PathProject_ShareLink']}
+              </div>
+              {
+                this.state.emit &&
+                <div
+                  className={classnames(styles.boxModalEmit)}>
+                  <ModalEmit
+                    text={this.state.emit.text} />
+                </div>
+              }
+              <div style={{width:"100%",position: 'absolute', overflow:'hidden'}}>
+                <input
+                  ref={this.refHiddenText}
+                  className={classnames(styles.boxHiddenText)}
+                  value={ domain.protocol+ '://'+domain.name+'/cosmic/explore/path/'+ this.props.projectPath}
+                  readOnly/>
+              </div>
+            </div>
+            <div
+              className={classnames(styles.boxSubtitleCenter, 'colorGrey')}>
+              {"·"}
+            </div>
+            <div
+              className={classnames(styles.boxSubtitleRight)}>
+              <span
+                className={classnames(
+                  'fontContent', 'colorGrey',
+                  styles.spanKey
+                )}>
+                {this.props.i18nUIString.catalog["text_peopleInspired"]}
+              </span>
+              <span
+                className={classnames(
+                  'fontContent', 'colorGrey', "weightBold",
+                  styles.spanKey
+                )}>
+                {
+                  this.props.projectInfo.inspiredCount == 0 ?
+                  "--" :
+                  this.props.projectInfo.inspiredCount
+                }
+              </span>
+              {
+                this.props.projectInfo.inspiredYou &&
+                <div
+                  className="plainBoxDisplay">
+                  <span
+                    className={classnames("fontContent", "colorGrey")}>
+                    {this.props.i18nUIString.catalog["text_youInspired"][0]}
+                  </span>
+                  <span
+                    className={classnames("fontContent", "colorAssistGold")}>
+                    {this.props.i18nUIString.catalog["text_youInspired"][1]}
+                  </span>
+                  <span
+                    className={classnames("fontContent", "colorGrey")}>
+                    {this.props.i18nUIString.catalog["text_youInspired"][2]}
+                  </span>
+                </div>
+              }
             </div>
           </div>
         </div>

@@ -16,7 +16,7 @@ const {
 
 async function _handle_GET_people_basic(req, res){
   const reqUserId = !!req.query.userId ? req.query.userId : null;
-  const tokenId = req.extra.tokenUserId; // userId passed from pass.js
+  const tokenId = req.extra.tokenify ? req.extra.tokenUserId : null; // userId passed from pass.js(no token is possible)
 
   try{
     // validation: if the user id was valid
