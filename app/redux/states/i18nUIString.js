@@ -114,6 +114,7 @@ const i18nUIString_EN = {
   "submit_yes": "Yes",
   "submit_logout": "Log out",
   "submit_unitPublish": "Publish",
+  "submit_Options_profile": "Profile",
   "title_welcome": 'OnBoard',
   "title_instruction": "Instruction",
   "title_share": "Share",
@@ -131,6 +132,8 @@ const i18nUIString_EN = {
   "link_ExpandPersonal": 'Expand as Personal',
   "link_Focus": 'Browse all',
   "link_Fellows": 'Fellows',
+  "link_Options_selfLink": "Personal board",
+  "link_Options_public": "Public view",
   "Cornerth_inc": "Cornerth. ",
   "AllRights": "All Rights Reserved.",
 
@@ -138,7 +141,6 @@ const i18nUIString_EN = {
   "message_SelfShareds_greet": ["Good morning! New finding is on the way!", "Welcome back. How's the day going?", "Good evening. Is there anything you want to share today?", "What a long night. Come record the thing in your mind."],
   "descript_Shareds_pathLink": " as ",
 
-  "submit_Options_profile": "My profile",
   "submit_Unit_upload": ["Upload image", "Processing..."],
   "descript_Unit_Primer": ["Based on ", "'s Unit", "Based on a published Unit"],
   "guiding_UnitEdit_upload": "Get started by uploading an image!", //Original:"Get started by uploading image about your topic!"
