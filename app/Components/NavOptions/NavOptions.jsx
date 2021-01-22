@@ -106,6 +106,36 @@ class NavOptions extends React.Component {
 
           <ol
             className={styles.boxOlist}>
+            <span style={{
+                display: 'inline-block',
+                fontSize: '1.6rem', color: '#f3b55a', marginBottom: '1rem', cursor: 'default'}}>
+              {this.props.i18nUIString.catalog["text_your_cap"]}
+            </span>
+            <li
+              method="self"
+              className={classnames(styles.boxLiItem)}
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); this.props._refer_to('', '/self/shareds') }}
+              onMouseEnter={this._handleEnter_CornerOpt}
+              onMouseLeave={this._handleLeave_CornerOpt}>
+              <span
+                style={(this.state.mouseOn == 'self') ? {borderBottom: "solid 1px #333333"}:{}}>
+                {this.props.i18nUIString.catalog["link_Options_selfLink"]}
+              </span>
+            </li>
+            <li
+              method="public"
+              className={classnames(styles.boxLiItem)}
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); this.props._refer_to('', '/cosmic/explore/user?userId='+this.props.userInfo.id) }}
+              onMouseEnter={this._handleEnter_CornerOpt}
+              onMouseLeave={this._handleLeave_CornerOpt}>
+              <span
+                style={(this.state.mouseOn == 'public') ? {borderBottom: "solid 1px #333333"}:{}}>
+                {this.props.i18nUIString.catalog["link_Options_public"]}
+              </span>
+            </li>
+          </ol>
+          <ol
+            className={styles.boxOlist}>
             <li
               method="account"
               className={classnames(styles.boxLiItem)}

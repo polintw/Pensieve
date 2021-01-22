@@ -163,7 +163,7 @@
   .boxAroundContentCenter {
     min-width: unset;
     width: calc(342px + 1.38vw * 2);
-    max-width: 99vw;
+    max-width: 97.24vw; /* 100 - (1.38*2) */
   }
 
   .boxContentFilledLeft {
@@ -210,7 +210,7 @@
     height: unset; /* back to NavOptions */
     position: static; /* back to NavOptions */
   }
-  
+
   .boxNavOptionsSelf {
     background-color: unset; /* back to NavOptions */
   }
