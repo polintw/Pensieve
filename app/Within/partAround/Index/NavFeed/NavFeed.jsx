@@ -93,7 +93,7 @@ class NavFeed extends React.Component {
           <GatheringBase/>
           <div>
             <span
-              className={classnames('colorWhiteGrey', 'fontContentPlain')}
+              className={classnames('colorWhiteGrey', 'fontContentPlain', 'smallDisplayNone')}
               style={{ padding: '0 5px' }}>
               {"．"}
             </span>

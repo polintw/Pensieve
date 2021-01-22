@@ -5,7 +5,6 @@
 .comNavFeed {
   display: flex;
   align-items: baseline;
-  flex-wrap: wrap;
 }
 
 .boxLinkLeft {
@@ -18,9 +17,9 @@
 
 .boxGatheringBase {
   display: flex;
-  align-items: flex-end;
+  align-items: baseline;
   flex: 1;
-  margin: 0 0 0 20px;
+  margin: 0 0 0 15px;
   padding: 0 5px;
   border-left: solid 0.75px #d8d8d8;
 }
@@ -41,4 +40,10 @@
 
 .spanBaseNodeMouse {
   border-bottom: solid 0.75px #545454;
+}
+
+@media screen and (max-width:860px) {
+  .boxGatheringBase  {
+    justify-content: space-between;
+  }
 }
