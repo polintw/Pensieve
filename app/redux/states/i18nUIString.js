@@ -59,7 +59,7 @@ const i18nUIString_EN = {
     "Choosing the status of the people you would like to invite"
   ],//Original:"Choosing the characteristic of people you want to invite", "You havn't set the place you belong to yet."
   "title_onBoard_GuideNailTitle": ["Welcome to Cornerth.", "What to do?"],
-  "hint_onBoard_start": "That's it. If you get ready,",
+  "hint_onBoard_start": `If you've finished the "Welcome",`,
   "submit_onBoard_next": "Next",
   "title_Invite_": "Create an Invitation!",
   "title_Invitation_": "Invitation",

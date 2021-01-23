@@ -189,4 +189,8 @@
   .boxNewly {
     align-self: center;
   }
+
+  .boxBtnStart {
+    background-color: #ff8168;
+  }
 }

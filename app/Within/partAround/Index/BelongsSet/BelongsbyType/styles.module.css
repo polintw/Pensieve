@@ -63,11 +63,6 @@
   position: relative;
   margin: 2.25px 0; /* to mimic had line-height 1.5*/
   border-bottom: solid 0.75px transparent;
-  cursor: pointer;
-}
-
-.spanNodeMouse {
-  border-bottom: solid 0.75px #545454;
 }
 
 .spanType {
