@@ -214,7 +214,7 @@ class SignupForm extends React.Component {
           <input
             type="radio"
             name="gender"
-            value= {"3"}
+            value= {"31" /* Notice! '31' is the pronoun 'He/Him', default to it when start from 'Others' */}
             checked={(this.state.gender == "3" || this.state.gender == "30" || this.state.gender == "31")}
             className={classnames(styles.inputSignGender)}
             onChange={this._handleChange_InputOtherGender}/>
@@ -534,10 +534,10 @@ class SignupForm extends React.Component {
   _handleChange_InputOtherGender(event) {
     let inputValue = event.currentTarget.value; // 'event' was a synthetic obj, react would block usage in setState(a async)
     this.setState((prevState, props)=>{
-      let lightObj={gender: (inputValue == "3")? false : true };
+      let lightObj={gender: true };
       return {
         gender: inputValue,
-        selectOtherGender: (inputValue== "3")? true: false,
+        selectOtherGender: (inputValue== "31" /* default to '31' when start from others*/ )? true: false,
         greenlight: {...prevState.greenlight, ...lightObj}
       };
     });
