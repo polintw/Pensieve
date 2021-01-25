@@ -157,6 +157,7 @@ const i18nUIString_EN = {
   "message_UnitUnsign_SigninRemind_inspired": "Want to send your feeling to author? ",
   "subTitle_Unit_AuthorStatics": ["Inspired", "Engaged", "Opened"],
   "tagTitle_Unit_Inspired": "Inspired by this article",
+  "message_Unit_Inspired": "Inspired",
   "message_Unit_InspiredModal": "Sent to author",
   "tagTitle_Unit_LinkCopy": "Copy link",
   "message_Unit_LinkCopy": "Copied to clipboard",
