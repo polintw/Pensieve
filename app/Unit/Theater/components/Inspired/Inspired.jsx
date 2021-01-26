@@ -19,6 +19,7 @@ class Inspired extends React.Component {
     this.state = {
       axios: false,
       emit: false,
+      emitTimeOut: false,
       inspired: false,
       mouseOn: false
     };
@@ -96,11 +97,13 @@ class Inspired extends React.Component {
 
   _set_emitModal(){
     this.setState({
+      emitTimeOut: true,
       emit: { text: this.state.inspired ? this.props.i18nUIString.catalog["message_Unit_InspiredModal"] : this.props.i18nUIString.catalog["submit_removed"]}
     });
-    setTimeout(()=>{
+    this.modalTimeOut = setTimeout(()=>{
       this.setState((prevState, props)=>{
         return {
+          emitTimeOut: false,
           emit:false
         }
       })
@@ -116,9 +119,12 @@ class Inspired extends React.Component {
     };
 
     const self = this;
+    // and to ensure the 'emitModal' mount again, reset state before set emit text
+    if(this.state.emitTimeOut) clearTimeout(this.modalTimeOut);
     this.setState({
       axios: true,
-      emit: false // additional param special for this comp, to force close ModalEmit if not yet.
+      emitTimeOut: false,
+      emit: false
     });
 
     _axios_POST_Isnpired(this.axiosSource.token,  this.props.unitCurrent.unitId)
@@ -150,15 +156,27 @@ class Inspired extends React.Component {
   }
 
   _handleEnter_Btn(e){
-    this.setState({
-      mouseOn: true
-    })
+    this.setState((prevState, props)=>{
+      // make sure everything was re-set
+      if(this.state.emitTimeOut) clearTimeout(this.modalTimeOut);
+      return {emit: false, emitTimeOut: false};
+    }, ()=>{
+      this.setState({
+        emit: { text: this.props.i18nUIString.catalog["message_Unit_Inspired"] },
+        mouseOn: true
+      });
+    });
   }
 
   _handleLeave_Btn(e){
-    this.setState({
-      mouseOn: false
-    })
+    this.setState((prevState, props)=>{
+      let timeOutDepend = prevState.emitTimeOut ? {} : {emit: false};
+      let nextState = Object.assign({
+        mouseOn: false
+      }, timeOutDepend);
+
+      return nextState;
+    });
   }
 
 }

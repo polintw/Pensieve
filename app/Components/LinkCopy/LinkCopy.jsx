@@ -14,6 +14,7 @@ class LinkCopy extends React.Component {
     super(props);
     this.state = {
       emit: false,
+      emitTimeOut: false,
       mouseOn: false,
       hiddenUrl: ''
     };
@@ -75,11 +76,13 @@ class LinkCopy extends React.Component {
 
   _set_emitModal(){
     this.setState({
+      emitTimeOut: true,
       emit: { text: this.props.i18nUIString.catalog["message_Unit_LinkCopy"]}
     });
-    setTimeout(()=>{
+    this.modalTimeOut = setTimeout(()=>{
       this.setState((prevState, props)=>{
         return {
+          emitTimeOut: false,
           emit:false
         }
       })
@@ -95,28 +98,33 @@ class LinkCopy extends React.Component {
     // than inform the user by emitModal
     // and to ensure the 'emitModal' mount again, reset state before set emit text
     this.setState((prevState, props)=>{
-      return {emit: false}
+      if(this.state.emitTimeOut) clearTimeout(this.modalTimeOut);
+      return {emit: false, emitTimeOut: false};
     }, ()=>{ this._set_emitModal(); })
   }
 
   _handleEnter_Btn(e){
-    this.setState({
-      emit: { text: this.props.i18nUIString.catalog["tagTitle_Unit_LinkCopy"] },
-      mouseOn: true
+    this.setState((prevState, props)=>{
+      // make sure everything was re-set
+      if(this.state.emitTimeOut) clearTimeout(this.modalTimeOut);
+      return {emit: false, emitTimeOut: false};
+    }, ()=>{
+      this.setState({
+        emit: { text: this.props.i18nUIString.catalog["tagTitle_Unit_LinkCopy"] },
+        mouseOn: true
+      });
     });
-    setTimeout(()=>{
-      this.setState((prevState, props)=>{
-        return {
-          emit:false
-        }
-      })
-    }, 2200)
   }
 
   _handleLeave_Btn(e){
-    this.setState({
-      mouseOn: false
-    })
+    this.setState((prevState, props)=>{
+      let timeOutDepend = prevState.emitTimeOut ? {} : {emit: false};
+      let nextState = Object.assign({
+        mouseOn: false
+      }, timeOutDepend);
+
+      return nextState;
+    });
   }
 
 }
