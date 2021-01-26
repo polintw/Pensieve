@@ -9,7 +9,7 @@ import styles from "./styles.module.css";
 import Feed from './Feed/Feed.jsx';
 import TitleShareds from './TitleShareds/TitleShareds.jsx';
 import SelfShare from './SelfShare/SelfShare.jsx';
-import NavFilter from '../../../Components/NavFilter/NavFilter.jsx';
+import NavTitleRow from '../../../Components/NavFilter/NavTitleRow.jsx';
 import NodesFilter from '../../../Components/NodesFilter/NodesFilter.jsx';
 import {
   axios_visit_GET_last,
@@ -109,19 +109,21 @@ class Wrapper extends React.Component {
           className={classnames(styles.comSelfWrapper)}>
           <div
             className={classnames(styles.boxRow, styles.boxRow40Top)}>
-            <TitleShareds/>
+            <TitleShareds
+              {...this.props}
+              viewFilter={this.state.viewFilter}
+              _set_viewFilter={this._set_viewFilter}/>
           </div>
           <div
             className={classnames(
               styles.rowNavFilter,
-              {[styles.rowFilterPadding]: (!!this.filterNode || this.state.viewFilter)}
+              {[styles.rowFilterPadding]: (!!this.filterNode)}
               )}>
-            <NavFilter
+            <NavTitleRow
               {...this.props}
               listLocation={(this.props.lastParam == "pathProject") ? "personal_pathProject" : "personal"}
               listIdentity={(this.props.lastParam == "pathProject") ? this.props.userInfo.pathName: null}
-              viewFilter={this.state.viewFilter}
-              _set_viewFilter={this._set_viewFilter}/>
+              viewFilter={this.state.viewFilter}/>
           </div>
           <div
             className={classnames(styles.boxRow)}>

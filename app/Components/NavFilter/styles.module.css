@@ -1,7 +1,9 @@
-.comNavFilter {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.comNavTitleRow {
+
+}
+
+.comNavBtnRow {
+
 }
 
 .linkBlock {

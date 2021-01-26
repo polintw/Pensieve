@@ -7,6 +7,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import NavShareds from './NavShareds.jsx';
+import NavBtnRow from '../../../../Components/NavFilter/NavBtnRow.jsx';
 
 class TitleShareds extends React.Component {
   constructor(props){
@@ -149,6 +150,12 @@ class TitleShareds extends React.Component {
             !!this.props.userInfo.pathName &&
             <NavShareds {...this.props}/>
           }
+          <div>
+            <NavBtnRow
+              {...this.props}
+              viewFilter={this.props.viewFilter}
+              _set_viewFilter={this.props._set_viewFilter}/>
+          </div>
         </div>
       </div>
     )

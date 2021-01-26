@@ -19,7 +19,7 @@ import {
 } from './axios.js';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
 import UnitUnsign from '../../../Unit/UnitUnsign/UnitUnsign.jsx';
-import NavFilter from '../../../Components/NavFilter/NavFilter.jsx';
+import NavTitleRow from '../../../Components/NavFilter/NavTitleRow.jsx';
 import NodesFilter from '../../../Components/NodesFilter/NodesFilter.jsx';
 import NavCosmicMobile from '../../../Components/NavWithin/NavCosmic/NavCosmicMobile.jsx';
 import {
@@ -123,18 +123,20 @@ class Wrapper extends React.Component {
           <div
             className={classnames(styles.boxRowNav)}>
             <div>
-              <NavFeed {...this.props}/>
+              <NavFeed
+                {...this.props}
+                viewFilter={this.viewFilter}
+                _set_viewFilter={this._set_viewFilter}/>
             </div>
             <div
               className={classnames(
                 styles.rowFilterMargin,
-                {[styles.rowFilterPadding]: (!!this.filterNode || this.viewFilter)})}>
-              <NavFilter
+                {[styles.rowFilterPadding]: (!!this.filterNode)})}>
+              <NavTitleRow
                 {...this.props}
                 listLocation={"pathProject"}
                 listIdentity={this.props.match.params['pathName']}
-                viewFilter={this.viewFilter}
-                _set_viewFilter={this._set_viewFilter}/>
+                viewFilter={this.viewFilter}/>
             </div>
           </div>
           <div
