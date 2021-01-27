@@ -13,14 +13,14 @@
 
 .boxBottomRow {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   width: 100%;
   margin-top: 8px;
 }
 
 .rowTitleText {
   display: flex;
-  align-items: baseline; 
+  align-items: baseline;
 }
 
 .boxLinkExpand {

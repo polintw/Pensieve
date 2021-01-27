@@ -12,8 +12,10 @@ class NavFeed extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      onSwitch: false
     };
+    this._handleEnter_switchFilter = this._handleEnter_switchFilter.bind(this);
+    this._handleLeave_switchFilter = this._handleLeave_switchFilter.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -31,7 +33,7 @@ class NavFeed extends React.Component {
   render(){
     return(
       <div
-        className={classnames(styles.boxTitle)}>
+        className={classnames(styles.comNavFeed)}>
         <div>
           <span
             className={classnames(
@@ -40,6 +42,37 @@ class NavFeed extends React.Component {
           </span>
         </div>
         <div>
+          <div>
+            <span
+              btn={"image"}
+              className={classnames(
+                "fontContent",
+                {["colorAssistOcean"]: (this.state.onSwitch != 'image')},
+                {["colorStandard"]: (this.state.onSwitch == 'image')}
+              )}
+              onMouseEnter={this._handleEnter_switchFilter}
+              onMouseLeave={this._handleLeave_switchFilter}>
+
+              {this.props.i18nUIString.catalog['btn_filteNav_Feed'][0]}
+            </span>
+            <span
+              className={classnames(
+                "fontContent", "colorEditBlack")}
+              style={{cursor: 'text'}}>
+                {"．"}
+            </span>
+            <span
+              btn={"map"}
+              className={classnames(
+                "fontContent",
+                {["colorAssistOcean"]: (this.state.onSwitch != 'map')},
+                {["colorStandard"]: (this.state.onSwitch == 'map')}
+                )}
+              onMouseEnter={this._handleEnter_switchFilter}
+              onMouseLeave={this._handleLeave_switchFilter}>
+              {this.props.i18nUIString.catalog['btn_filteNav_Feed'][1]}
+            </span>
+          </div>
           <NavBtnRow
             {...this.props}
             viewFilter={this.props.viewFilter}
@@ -47,6 +80,23 @@ class NavFeed extends React.Component {
         </div>
       </div>
     )
+  }
+
+  _handleEnter_switchFilter(e){
+    let currentBtn = event.currentTarget.getAttribute('btn');
+    this.setState((prevState, props)=>{
+      return {
+        onSwitch: currentBtn
+      }
+    })
+  }
+
+  _handleLeave_switchFilter(e){
+    this.setState((prevState, props)=>{
+      return {
+        onSwitch: false
+      }
+    })
   }
 
 }

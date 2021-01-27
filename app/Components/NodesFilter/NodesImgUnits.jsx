@@ -7,28 +7,21 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import ImgPreview from '../ImgPreview.jsx';
-import SvgIconNextLayer from '../Svg/SvgIcon_NextLayer.jsx';
-import {
-  _axios_get_NodesLayer
-} from './axios.js';
 import {
   domain
 } from '../../../config/services.js';
 
-class ItemImgBox extends React.Component {
+class NodesImgUnits extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       overbtnLink: false,
-      overbtnNextLayer: false
     };
     this['filterNode' + this.props.nodeId] = React.createRef(); // make a ref for only this component
     this._handleClick_filterNode = this._handleClick_filterNode.bind(this);
-    this._handleClick_switcNextLayer = this._handleClick_switcNextLayer.bind(this);
     this._handleOver_Link = this._handleOver_Link.bind(this);
     this._handleOut_Link = this._handleOut_Link.bind(this);
-    this._handleOver_NextLayer = this._handleOver_NextLayer.bind(this);
-    this._handleOut_NextLayer = this._handleOut_NextLayer.bind(this);
+    this._render_units = this._render_units.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -43,14 +36,41 @@ class ItemImgBox extends React.Component {
 
   }
 
+  _render_units(){
+    let unitsList = this.props.nodeUnits[this.props.nodeId];
+    let unitsDOM = unitsList.map((unitId, index)=>{
+      let imgSrcCover = domain.protocol+ '://'+domain.name+'/router/img/'
+      + ((unitId in this.props.unitsBasic) ? this.props.unitsBasic[unitId].pic_layer0: 'notyetprepared_inNodesFilter')
+      +'?type=thumb';
+
+      return (
+        <div
+          key={"key_filterImgUnits_node"+this.props.nodeId+"_"+index}>
+            <ImgPreview
+              blockName={''}
+              previewSrc={imgSrcCover}
+              _handleClick_ImgPreview_preview={() => { this["filterNode" + nodeId].current.click() }} />
+          </div>
+        )
+    });
+
+    return unitsDOM;
+  }
+
   render(){
     const nodeId = this.props.nodeId;
+    // know first if this node has used.
+    let nodeLink = {
+        pathname: this.props.match.url,
+        search: this.props.searchStr + '&filterNode=' + nodeId,
+        state: { from: this.props.location }
+      };
 
     return (
       <div
         className={classnames(styles.boxNodeItem)}>
         <Link
-          to={this.props.linkObj}
+          to={nodeLink}
           ref={this["filterNode" + nodeId]}
           className={classnames(
             'plainLinkButton', styles.boxNodeItemLink)}
@@ -58,44 +78,7 @@ class ItemImgBox extends React.Component {
             onMouseOver={this._handleOver_Link}
             onMouseOut={this._handleOut_Link}>
             <div
-              className={classnames(
-                styles.boxItemImg,
-                {[styles.boxItemImgMouseon]: this.state.overbtnLink})}>
-                  <ImgPreview
-                    blockName={''}
-                    previewSrc={this.props.imgSrcCover}
-                    _handleClick_ImgPreview_preview={() => { this["filterNode" + nodeId].current.click() }} />
-            </div>
-            <div
-              className={classnames(styles.boxItemTitle)}
-              style={
-                (this.props.startListify && this.props.atStartListify) ?
-                {justifyContent: "flex-end"}: {}
-              }>
-              {
-                ((nodeId in this.props.nounsBasic) &&
-                !(this.props.startListify && this.props.atStartListify) &&
-                this.props.nounsBasic[nodeId].parentify) &&
-                <div
-                  className={classnames(styles.boxBtnNextLayer)}>
-                  <div
-                    className={classnames(styles.svgBtnNextLayer)}
-                    nodeid={nodeId}
-                    onClick={this._handleClick_switcNextLayer}
-                    onMouseOver={this._handleOver_NextLayer}
-                    onMouseOut={this._handleOut_NextLayer}>
-                    <SvgIconNextLayer
-                      customstyle={this.state.overbtnNextLayer ? {
-                        cls1: { stroke: '#444444' },
-                        cls2: { fill: "rgb(69, 135, 160)" }
-                      } : {
-                        cls1: {},
-                        cls2: { fill: "#545454" }
-                      }} />
-                  </div>
-                </div>
-              }
-
+              className={classnames(styles.boxItemTitle)}>
               {
                 (nodeId in this.props.nounsBasic) &&
                 <div
@@ -146,6 +129,7 @@ class ItemImgBox extends React.Component {
               }
             </div>
           </Link>
+          {this._render_units()}
         </div>
       )
     }
@@ -157,26 +141,6 @@ class ItemImgBox extends React.Component {
     _handleOut_Link(e) {
       this.setState({ overbtnLink: false })
     }
-
-    _handleOver_NextLayer(e) {
-      e.stopPropagation(); // nextLayer is a comp 'inside' a NodeLink, need stopPropagation to keep effect only here
-      this.setState({ overbtnNextLayer: true })
-    }
-
-    _handleOut_NextLayer(e) {
-      e.stopPropagation(); // nextLayer is a comp 'inside' a NodeLink, need stopPropagation to keep effect only here
-      this.setState({ overbtnNextLayer: false })
-    }
-
-  _handleClick_switcNextLayer(event){
-    event.preventDefault();
-    event.stopPropagation();
-    let targetNode = event.currentTarget.getAttribute('nodeid');
-    // check if any child by nounsBasic
-    if(!this.props.nounsBasic[targetNode].parentify) return;
-
-    this.props._set_SwitchNextLayer(targetNode);
-  }
 
   _handleClick_filterNode(event){
     // nor stopPropagation neither preventDefault here
@@ -203,4 +167,4 @@ const mapDispatchToProps = (dispatch) => {
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(ItemImgBox));
+)(NodesImgUnits));

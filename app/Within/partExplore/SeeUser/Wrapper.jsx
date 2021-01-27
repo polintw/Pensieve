@@ -10,7 +10,7 @@ import styles from "./styles.module.css";
 import Nav from './Nav/Nav.jsx';
 import Feed from './Feed/Feed.jsx';
 import TitleUser from './TitleUser/TitleUser.jsx';
-import NodesFilter from '../../../Components/NodesFilter/NodesFilter.jsx';
+import NodesFilter from './NodesFilter/NodesFilter.jsx';
 import NavCosmicMobile from '../../../Components/NavWithin/NavCosmic/NavCosmicMobile.jsx';
 import {
   _axios_get_Basic

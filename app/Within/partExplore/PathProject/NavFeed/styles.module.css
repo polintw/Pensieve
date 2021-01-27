@@ -1,3 +1,4 @@
-.boxTitle {
-  margin: 8px 0;
+.comNavFeed {
+  display: flex;
+  justify-content: space-between;
 }

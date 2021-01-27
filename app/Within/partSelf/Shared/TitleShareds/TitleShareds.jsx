@@ -102,7 +102,8 @@ class TitleShareds extends React.Component {
         </div>
         <div
           className={classnames(styles.boxBottomRow)}>
-          <div>
+          <div
+            style={{display: 'flex'}}>
             {
               !pathProjectify &&
               <div>
@@ -145,11 +146,11 @@ class TitleShareds extends React.Component {
                   }
                 </div>
               }
+              {
+                !!this.props.userInfo.pathName &&
+                <NavShareds {...this.props}/>
+              }
           </div>
-          {
-            !!this.props.userInfo.pathName &&
-            <NavShareds {...this.props}/>
-          }
           <div>
             <NavBtnRow
               {...this.props}

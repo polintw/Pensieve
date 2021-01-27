@@ -63,7 +63,7 @@ export function _axios_get_projectNodes(cancelToken, pathName){
   });
 }
 
-export function _axios_get_projectLayerFirstUnits(cancelToken, paramObj){
+export function _axios_get_nodesUnits(cancelToken, paramObj){
   let header = {
     'Content-Type': 'application/json',
     'charset': 'utf-8'
