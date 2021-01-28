@@ -37,12 +37,18 @@ class NavFeed extends React.Component {
         <div>
           <span
             className={classnames(
-              "fontContentPlain", "weightBold", "colorAssistGold")}>
+              "fontContent", "weightBold", "colorAssistGold")}>
             { this.props.i18nUIString.catalog["title_NavAtNode_"] }
           </span>
         </div>
-        <div>
-          <div>
+        <NavBtnRow
+          {...this.props}
+          viewFilter={this.props.viewFilter}
+          _set_viewFilter={this.props._set_viewFilter}/>
+        {
+          this.props.viewFilter &&
+          <div
+            className={classnames(styles.boxFilterNav)}>
             <span
               btn={"image"}
               className={classnames(
@@ -50,16 +56,17 @@ class NavFeed extends React.Component {
                 {["colorAssistOcean"]: (this.state.onSwitch != 'image')},
                 {["colorStandard"]: (this.state.onSwitch == 'image')}
               )}
+              onTouchStart={this._handleEnter_switchFilter}
+              onTouchEnd={this._handleLeave_switchFilter}
               onMouseEnter={this._handleEnter_switchFilter}
               onMouseLeave={this._handleLeave_switchFilter}>
-
               {this.props.i18nUIString.catalog['btn_filteNav_Feed'][0]}
             </span>
             <span
               className={classnames(
                 "fontContent", "colorEditBlack")}
-              style={{cursor: 'text'}}>
-                {"．"}
+              style={{cursor: 'text', margin: '0 1rem'}}>
+              {"．"}
             </span>
             <span
               btn={"map"}
@@ -67,17 +74,15 @@ class NavFeed extends React.Component {
                 "fontContent",
                 {["colorAssistOcean"]: (this.state.onSwitch != 'map')},
                 {["colorStandard"]: (this.state.onSwitch == 'map')}
-                )}
+              )}
+              onTouchStart={this._handleEnter_switchFilter}
+              onTouchEnd={this._handleLeave_switchFilter}
               onMouseEnter={this._handleEnter_switchFilter}
               onMouseLeave={this._handleLeave_switchFilter}>
               {this.props.i18nUIString.catalog['btn_filteNav_Feed'][1]}
             </span>
           </div>
-          <NavBtnRow
-            {...this.props}
-            viewFilter={this.props.viewFilter}
-            _set_viewFilter={this.props._set_viewFilter}/>
-        </div>
+        }
       </div>
     )
   }

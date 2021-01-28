@@ -47,13 +47,14 @@ class NodesImgUnits extends React.Component {
 
       return (
         <div
-          key={"key_filterImgUnits_node"+this.props.nodeId+"_"+index}>
-            <ImgPreview
-              blockName={''}
-              previewSrc={imgSrcCover}
-              _handleClick_ImgPreview_preview={() => {  }} />
-          </div>
-        )
+          key={"key_filterImgUnits_node"+this.props.nodeId+"_"+index}
+          className={classnames(styles.boxUnitImg)}>
+          <ImgPreview
+            blockName={''}
+            previewSrc={imgSrcCover}
+            _handleClick_ImgPreview_preview={() => {  }} />
+        </div>
+      );
     });
 
     return unitsDOM;
@@ -70,24 +71,37 @@ class NodesImgUnits extends React.Component {
 
     return (
       <div
-        className={classnames(styles.boxNodeItem)}>
+        className={classnames(styles.comNodesImgs)}>
         <Link
           to={nodeLink}
           className={classnames(
-            'plainLinkButton', styles.boxNodeItemLink)}
-            onClick={this._handleClick_filterNode}
-            onMouseOver={this._handleOver_Link}
-            onMouseOut={this._handleOut_Link}>
-            <div
-              className={classnames(styles.boxItemTitle)}>
-              {
-                (nodeId in this.props.nounsBasic) &&
-                <div
+            'plainLinkButton', styles.boxNode,
+          )}
+          onClick={this._handleClick_filterNode}
+          onMouseOver={this._handleOver_Link}
+          onMouseOut={this._handleOut_Link}>
+          <div
+            className={classnames(styles.boxItemTitle)}>
+            {
+              (nodeId in this.props.nounsBasic) &&
+              <div
+                className={classnames(
+                  styles.boxTitleText,
+                  {[styles.boxTitleTextMouseon]: this.state.overbtnLink},
+                  {[styles.boxTitleTextNoChild]: ((this.props.startListify && this.props.atStartListify) || !this.props.nounsBasic[nodeId].parentify)}
+                )}>
+                <span
                   className={classnames(
-                    styles.boxTitleText,
-                    {[styles.boxTitleTextMouseon]: this.state.overbtnLink},
-                    {[styles.boxTitleTextNoChild]: ((this.props.startListify && this.props.atStartListify) || !this.props.nounsBasic[nodeId].parentify)}
+                    "fontNodesEqual", "lineHeight15",
+                    {
+                      ["colorEditBlack"]: !this.state.overbtnLink,
+                      ["colorDescripBlack"]: this.state.overbtnLink
+                    }
                   )}>
+                  {this.props.nounsBasic[nodeId].name}
+                </span>
+                {
+                  (this.props.nounsBasic[nodeId].prefix.length > 0) &&
                   <span
                     className={classnames(
                       "fontNodesEqual", "lineHeight15",
@@ -96,52 +110,43 @@ class NodesImgUnits extends React.Component {
                         ["colorDescripBlack"]: this.state.overbtnLink
                       }
                     )}>
-                    {this.props.nounsBasic[nodeId].name}
+                    {", "}
                   </span>
-                  {
-                    (this.props.nounsBasic[nodeId].prefix.length > 0) &&
+                }
+                {
+                  (this.props.nounsBasic[nodeId].prefix.length > 0) &&
+                  <div>
                     <span
                       className={classnames(
-                        "fontNodesEqual", "lineHeight15",
+                        "fontSubtitle_h5",
                         {
                           ["colorEditBlack"]: !this.state.overbtnLink,
                           ["colorDescripBlack"]: this.state.overbtnLink
                         }
                       )}>
-                      {", "}
+                      {this.props.nounsBasic[nodeId].prefix}
                     </span>
-                  }
-                  {
-                    (this.props.nounsBasic[nodeId].prefix.length > 0) &&
-                    <div>
-                      <span
-                        className={classnames(
-                          "fontSubtitle_h5",
-                          {
-                            ["colorEditBlack"]: !this.state.overbtnLink,
-                            ["colorDescripBlack"]: this.state.overbtnLink
-                          }
-                        )}>
-                        {this.props.nounsBasic[nodeId].prefix}
-                      </span>
-                    </div>
-                  }
-                </div>
-              }
-            </div>
-          </Link>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </Link>
+        <div
+          className={classnames(styles.boxUnits)}>
           {this._render_units()}
         </div>
-      )
-    }
+      </div>
+    )
+  }
 
-    _handleOver_Link(e) {
-      this.setState({ overbtnLink: true })
-    }
+  _handleOver_Link(e) {
+    this.setState({ overbtnLink: true })
+  }
 
-    _handleOut_Link(e) {
-      this.setState({ overbtnLink: false })
-    }
+  _handleOut_Link(e) {
+    this.setState({ overbtnLink: false })
+  }
 
   _handleClick_filterNode(event){
     // nor stopPropagation neither preventDefault here

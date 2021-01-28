@@ -1,4 +1,21 @@
 .comNavFeed {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.boxFilterNav {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+@media screen and (max-width:860px) {
+  .boxFilterNav {
+    width: 100%;
+    position: unset;
+    transform: unset;
+    left: unset;
+    text-align: center;
+  }
 }

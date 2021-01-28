@@ -3,13 +3,63 @@
   flex-direction: column;
 }
 
-.boxNodeItem {
-  width: 23%;
-  min-width: 170px;
+.comNodesImgs {
+  display: flex;
+  width: 100%;
   position: relative;
-  margin: 8px 0 32px;
+  margin: 8px 0;
+}
+
+.boxNode {
+  width: 20%;
+  padding: 1rem 2rem;
+}
+
+.boxUnits {
+  display: flex;
+  width: 80%;
+  position: relative;
+}
+
+.boxUnitImg {
+  width: 30%;
+  height: 16vw;
+  position: relative;
   box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
-  border-radius: 8px;
+  border-radius: 4px;
   overflow: hidden;
-  background-color: #FFFFFF;
+}
+
+@media screen and (max-width:1110px) and (min-width: 860px) {
+  .comNodesImgs {
+    flex-direction: column;
+  }
+
+  .boxNode {
+    width: 100%
+  }
+
+  .boxUnits {
+    width: 100%
+  }
+}
+
+@media screen and (max-width:860px) {
+  .comNodesImgs {
+    flex-direction: column;
+  }
+
+  .boxNode {
+    width: 100%;
+  }
+
+  .boxUnits {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .boxUnitImg {
+    width: 45%;
+    height: 16vw;
+  }
 }
