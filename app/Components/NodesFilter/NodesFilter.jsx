@@ -69,7 +69,7 @@ class NodesFilter extends React.Component {
           {...this.props}
           nodeId={nodeId}
           searchStr={searchStr}
-          nodeUnits={this.state.nodesUnits}
+          nodesUnits={this.state.nodesUnits}
           unitsBasic={this.state.unitsBasic}
           _handleClick_filterNode={this.props._handle_nodeClick}/>
       );
@@ -100,7 +100,7 @@ class NodesFilter extends React.Component {
       let nodesKey = Object.keys(resObj.main.nodesUnits);
       let unitsList = [];
       nodesKey.forEach((key, index) => {
-        unitsList = unitsList.concat(resObj.main.nodeUnits[key]);
+        unitsList = unitsList.concat(resObj.main.nodesUnits[key]);
       });
 
       return axios_get_UnitsBasic(self.axiosSource.token, unitsList);

@@ -83,7 +83,7 @@ class NavFeed extends React.Component {
   }
 
   _handleEnter_switchFilter(e){
-    let currentBtn = event.currentTarget.getAttribute('btn');
+    let currentBtn = e.currentTarget.getAttribute('btn');
     this.setState((prevState, props)=>{
       return {
         onSwitch: currentBtn

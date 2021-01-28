@@ -17,7 +17,6 @@ class NodesImgUnits extends React.Component {
     this.state = {
       overbtnLink: false,
     };
-    this['filterNode' + this.props.nodeId] = React.createRef(); // make a ref for only this component
     this._handleClick_filterNode = this._handleClick_filterNode.bind(this);
     this._handleOver_Link = this._handleOver_Link.bind(this);
     this._handleOut_Link = this._handleOut_Link.bind(this);
@@ -37,7 +36,10 @@ class NodesImgUnits extends React.Component {
   }
 
   _render_units(){
-    let unitsList = this.props.nodeUnits[this.props.nodeId];
+    // first, the props.nodesUnits was fetched 'after' the props.nodeId, return if not yet ready.
+    if(!(this.props.nodeId in this.props.nodesUnits)) return null;
+
+    let unitsList = this.props.nodesUnits[this.props.nodeId];
     let unitsDOM = unitsList.map((unitId, index)=>{
       let imgSrcCover = domain.protocol+ '://'+domain.name+'/router/img/'
       + ((unitId in this.props.unitsBasic) ? this.props.unitsBasic[unitId].pic_layer0: 'notyetprepared_inNodesFilter')
@@ -49,7 +51,7 @@ class NodesImgUnits extends React.Component {
             <ImgPreview
               blockName={''}
               previewSrc={imgSrcCover}
-              _handleClick_ImgPreview_preview={() => { this["filterNode" + nodeId].current.click() }} />
+              _handleClick_ImgPreview_preview={() => {  }} />
           </div>
         )
     });
@@ -71,7 +73,6 @@ class NodesImgUnits extends React.Component {
         className={classnames(styles.boxNodeItem)}>
         <Link
           to={nodeLink}
-          ref={this["filterNode" + nodeId]}
           className={classnames(
             'plainLinkButton', styles.boxNodeItemLink)}
             onClick={this._handleClick_filterNode}

@@ -58,11 +58,11 @@ async function _handle_GET_paths_nodesAccumulated(req, res){
     };
     // make the list by exposedId from unitsInfo
     unitsByAttri.forEach((row, index) => {
-      if(row.id_noun in nodesUnits){
+      if(row.id_noun in sendingData.nodesUnits){
         sendingData.nodesUnits[row.id_noun].push(unitsExposedIdKey[row.id_unit]);
       }
       else{
-        sendingData.nodeUnits[row.id_noun] = [unitsExposedIdKey[row.id_unit]];
+        sendingData.nodesUnits[row.id_noun] = [unitsExposedIdKey[row.id_unit]];
       };
     });
 
