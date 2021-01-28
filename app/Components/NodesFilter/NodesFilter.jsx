@@ -7,6 +7,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import NodesImgUnits from './NodesImgUnits.jsx';
+import MapNodesUnits from '../../Components/Map/MapNodesUnits.jsx';
 import {
   handleNounsList,
 } from "../../redux/actions/general.js";
@@ -23,6 +24,7 @@ class NodesFilter extends React.Component {
       axios: false,
       nodesList: [],
       nodesUnits: {},
+      unitsList: [],
       unitsBasic: {}
     };
     this.axiosSource = axios.CancelToken.source();
@@ -48,11 +50,38 @@ class NodesFilter extends React.Component {
 
   }
 
+  _render_unitsMap() {
+    return (
+      <div
+        className={classnames(styles.boxMap)}>
+        <MapNodesUnits
+          coordCenter={[20, 0]}
+          markers={
+            this.state.markersUsed
+            /*[
+            {
+            nodeid:,
+            coordinates:,
+            additional(?): {
+            accumulatedCount: ,
+            latestUsed: time,
+            firstUser: {}
+            }
+            }
+            ]
+            */}
+            minZoomLevel={1}
+            zoomLevel={9}/>
+      </div>
+    )
+  }
+
   _render_imagesNodes(){
     // we need value in URL query
     let urlParams = new URLSearchParams(this.props.location.search), searchStr='?';
     urlParams.delete("filterNode"); // remove any filterNode inherit from props to be used in each node
     if(urlParams.has('_filter_nodes')) urlParams.delete("_filter_nodes"); // remove "_filter_nodes" because we would only go to 'close' the filter
+    if(urlParams.has('_filter_map')) urlParams.delete("_filter_map"); // remove "_filter_nodes" because we would only go to 'close' the filter
     let paramsIndex = 0; // urlParams.forEach is an object instance, do not know the the index, so manually update
     urlParams.forEach((value, key) => {
       if(paramsIndex > 0) searchStr += "&";
@@ -79,9 +108,16 @@ class NodesFilter extends React.Component {
   }
 
   render(){
+    let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
+    this.viewFilterMap = urlParams.has('_filter_map');
+
     return (
       <div className={styles.comNodesFilter}>
-        {this._render_imagesNodes()}
+        {
+          this.viewFilterMap ?
+          this._render_unitsMap() :
+          this._render_imagesNodes()
+        }
       </div>
     )
   }
@@ -92,15 +128,16 @@ class NodesFilter extends React.Component {
 
     this.props._get_nodesUnitsList(nodesList)
     .then((resObj)=>{
-      self.setState((prevState, props)=>{
-        return {
-          nodesUnits: {...prevState.nodesUnits, ...resObj.main.nodesUnits}
-        };
-      });
       let nodesKey = Object.keys(resObj.main.nodesUnits);
       let unitsList = [];
       nodesKey.forEach((key, index) => {
         unitsList = unitsList.concat(resObj.main.nodesUnits[key]);
+      });
+      self.setState((prevState, props)=>{
+        return {
+          nodesUnits: {...prevState.nodesUnits, ...resObj.main.nodesUnits},
+          unitsList: unitsList
+        };
       });
 
       return axios_get_UnitsBasic(self.axiosSource.token, unitsList);

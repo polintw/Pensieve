@@ -3,6 +3,12 @@
   flex-direction: column;
 }
 
+.boxMap {
+  align-self: center;
+  width: 80%;
+  height: 85vh;
+}
+
 .comNodesImgs {
   display: flex;
   width: 100%;

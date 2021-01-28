@@ -9,6 +9,7 @@ const {
 } = require('../utils/reserrHandler.js');
 const _DB_nouns = require('../../db/models/index').nouns;
 const _DB_attri = require('../../db/models/index').attribution;
+const _DB_nodesLocation = require('../../db/models/index').nodes_locationAdmin;
 
 async function _handle_nouns_basicAccumulations_GET(req, res){
   const userId = req.extra.tokenUserId;
@@ -60,7 +61,9 @@ function _handle_nouns_basic_GET(req, res){
     .then((results)=>{
       let sendingData={
         nounsBasic:{},
-        temp: {}
+        temp: {
+          nodesList: []
+        }
       };
 
       results.forEach((row, index)=>{
@@ -72,9 +75,25 @@ function _handle_nouns_basic_GET(req, res){
           parentify: (row.parent ? true : false),
           childify: (row.child ? true : false)
         };
+        sendingData.temp.nodesList.push(row.id);
       })
 
-      resolve(sendingData);
+      return sendingData;
+    })
+    .then((sendingData)=>{
+      return _DB_nodesLocation.findAll({
+        where: {
+          id_node: sendingData.temp.nodesList
+        }
+      })
+      .then((results)=>{
+        results.forEach((row, index) => {
+          sendingData.nounsBasic[row.id_node]['latitude'] = results.location_lat;
+          sendingData.nounsBasic[row.id_node]['longitude'] = results.location_lon;
+        });
+        
+        resolve(sendingData);
+      });
 
     }).catch((err)=>{ //catch the error came from the whole
       reject(err);
