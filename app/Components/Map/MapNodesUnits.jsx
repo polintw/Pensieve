@@ -14,7 +14,6 @@ class MapNodesUnits extends React.Component {
     this.state = {
       onNodeLink: false
     };
-    this.refLeafletMarker = React.createRef();
     this._render_Markers = this._render_Markers.bind(this);
     this._handleEnter_NodeLink = this._handleEnter_NodeLink.bind(this);
     this._handleLeave_NodeLink = this._handleLeave_NodeLink.bind(this);
@@ -49,20 +48,25 @@ class MapNodesUnits extends React.Component {
       return true;
     };
 
-    let markersDOM = this.props.markers.map((nodeObj, index)=>{
+    let markersDOM = [];
+    this.props.nodeMarkers.forEach((nodeObj, index)=>{
       const nodeId = nodeObj.nodeId;
       const coordinatesValidation = coordvalidation(nodeObj['coordinates']);
       if(!coordinatesValidation) return; // return if it was a invalid coordinates
-      return (
+
+      markersDOM.push(
         <Marker
           key={"key_MapNodesUnits_Marker_"+ index}
-          ref={this.refLeafletMarker}
           position={nodeObj['coordinates']}>
           <Popup>
             {(nodeId in this.props.nounsBasic) &&
               <Link
                 nodeid={nodeId}
-                to={"/cosmic/explore/node?nodeid=" + nodeId}
+                to={{
+                  pathname: nodeObj.link.path,
+                  search: nodeObj.link.search,
+                  state: {from: this.props.location}
+                }}
                 className={classnames( 'plainLinkButton')}
                 onMouseEnter={this._handleEnter_NodeLink}
                 onMouseLeave={this._handleLeave_NodeLink}>
@@ -88,7 +92,34 @@ class MapNodesUnits extends React.Component {
           </Popup>
         </Marker>
       )
-    })
+    });
+    this.props.unitsMarkers.forEach((unitObj, index) => {
+      const unitId = unitObj.nodeId;
+      const coordinatesValidation = coordvalidation(unitObj['coordinates']);
+      if(!coordinatesValidation) return; // return if it was a invalid coordinates
+
+      markersDOM.push(
+        <Marker
+          key={"key_MapNodesUnits_Marker_unit_"+ index}
+          position={unitObj['coordinates']}>
+          <Popup>
+            <Link
+              to={{
+                pathname: unitObj.link.path,
+                search: unitObj.link.search,
+                state: unitObj.link.state
+              }}
+              className={classnames( 'plainLinkButton')}>
+              <img
+                className={classnames(styles.popupMain)}
+                src={unitObj.unitImgSrc}
+                onClick={(e)=>{ e.stopPropagation(); }}/>
+            </Link>
+          </Popup>
+        </Marker>
+      )
+    });
+
 
     return markersDOM;
   }
@@ -98,7 +129,8 @@ class MapNodesUnits extends React.Component {
       <div
         className={classnames(styles.comMap)}>
         <MapContainer
-          center={this.props.coordCenter} zoom={this.props.zoomLevel}
+          center={this.props.coordCenter.length > 0 ? this.props.coordCenter : [20, 0]}
+          zoom={this.props.zoomLevel}
           minZoom={!!this.props.minZoomLevel ? this.props.minZoomLevel : 1 }
           maxBounds={[[-90, -180], [90, 180]]}>
           <TileLayer

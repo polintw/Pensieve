@@ -84,7 +84,11 @@ class Wrapper extends React.Component {
         let toSearch = new URLSearchParams(this.props.location.search);
         if(this.state.redirectFilter == "filter"){
           toSearch.append("_filter_nodes", true);
-        } else toSearch.delete("_filter_nodes");
+        } else{
+          // make sure delte all attrib
+          toSearch.delete("_filter_nodes");
+          toSearch.delete("_filter_map");
+        };
         return <Redirect
           to={{
             pathname: this.props.location.pathname,
@@ -149,6 +153,8 @@ class Wrapper extends React.Component {
                 <div
                   className={classnames(styles.boxNodesFilter)}>
                   <NodesFilter
+                    {...this.props}
+                    startNode = {this.state.filterStart}
                     startList={this.state.usedNodes}
                     _handle_nodeClick={this._set_viewFilter}
                     _get_nodesUnitsList={(nodesList)=>{

@@ -16,13 +16,16 @@ import {
   cancelErr,
   uncertainErr
 } from "../../utils/errHandlers.js";
+import {
+  domain
+} from '../../../config/services.js';
+
 
 class NodesFilter extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       axios: false,
-      nodesList: [],
       nodesUnits: {},
       unitsList: [],
       unitsBasic: {}
@@ -51,27 +54,63 @@ class NodesFilter extends React.Component {
   }
 
   _render_unitsMap() {
+    let nodeMarkers = [], unitsMarkers = [],
+        centerCoor = [];
+    // coordinates of node
+    // make searchStr for the node marker
+    let urlParams = new URLSearchParams(this.props.location.search), searchStr='?';
+    urlParams.delete("filterNode"); // remove any filterNode inherit from props to be used in each node
+    if(urlParams.has('_filter_nodes')) urlParams.delete("_filter_nodes"); // remove "_filter_nodes" because we would only go to 'close' the filter
+    if(urlParams.has('_filter_map')) urlParams.delete("_filter_map"); // remove "_filter_nodes" because we would only go to 'close' the filter
+    let paramsIndex = 0; // urlParams.forEach is an object instance, do not know the the index, so manually update
+    urlParams.forEach((value, key) => {
+      if(paramsIndex > 0) searchStr += "&";
+      searchStr += (key + '=' + value);
+      paramsIndex += 1;
+    });
+    this.props.startList.forEach((nodeId, index) => {
+      if(nodeId in this.props.nounsBasic && 'latitude' in this.props.nounsBasic[nodeId]){
+        nodeMarkers.push({
+          nodeId: nodeId,
+          coordinates: [this.props.nounsBasic[nodeId]['latitude'], this.props.nounsBasic[nodeId]['longitude']],
+          link: {
+            path: this.props.match.url,
+            search: searchStr + '&filterNode=' + nodeId,
+            state: { from: this.props.location }
+          }
+        })
+      };
+    });
+    // coordinates of each unit
+    this.state.unitsList.forEach((unitId, index) => {
+      if(unitId in this.state.unitsBasic && "coordinates" in this.state.unitsBasic[unitId]){
+        unitsMarkers.push({
+          unitId: unitId,
+          coordinates: [this.state.unitsBasic[unitId]['coordinates'].latitude, this.state.unitsBasic[unitId]['coordinates'].longitude],
+          unitImgSrc: domain.protocol+ '://'+domain.name+'/router/img/'+ this.state.unitsBasic[unitId].pic_layer0+'?type=thumb',
+          link: {
+            path: this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit'),
+            search: this.props.location.search + '&' +'unitId='+ unitId + '&unitView=theater',
+            state: { from: this.props.location }
+          }
+        });
+      };
+    });
+    // set coordinates of map cneter
+    centerCoor = (nodeMarkers.length > 0) ? nodeMarkers[0]["coordinates"] : [];
+    if(this.props.startNode in this.props.nounsBasic && 'latitude' in this.props.nounsBasic[this.props.startNode]){
+      centerCoor = [this.props.nounsBasic[this.props.startNode]['latitude'], this.props.nounsBasic[this.props.startNode]['longitude']];
+    };
+
     return (
       <div
         className={classnames(styles.boxMap)}>
         <MapNodesUnits
-          coordCenter={[20, 0]}
-          markers={
-            this.state.markersUsed
-            /*[
-            {
-            nodeid:,
-            coordinates:,
-            additional(?): {
-            accumulatedCount: ,
-            latestUsed: time,
-            firstUser: {}
-            }
-            }
-            ]
-            */}
-            minZoomLevel={1}
-            zoomLevel={9}/>
+          coordCenter={centerCoor}
+          unitsMarkers={unitsMarkers}
+          nodeMarkers={nodeMarkers}
+          minZoomLevel={1}
+          zoomLevel={centerCoor.length > 0 ? 10 : 2}/>
       </div>
     )
   }
