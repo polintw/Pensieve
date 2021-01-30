@@ -109,8 +109,9 @@ class NodesFilter extends React.Component {
           coordCenter={centerCoor}
           unitsMarkers={unitsMarkers}
           nodeMarkers={nodeMarkers}
+          styleZIndex={'5'}
           minZoomLevel={1}
-          zoomLevel={centerCoor.length > 0 ? 10 : 2}/>
+          zoomLevel={centerCoor.length > 0 ? 8 : 2}/>
       </div>
     )
   }
@@ -131,7 +132,7 @@ class NodesFilter extends React.Component {
     let nodesListDOM = [];
     this.props.startList.forEach((nodeId, index)=>{
       // then put DOM into list
-      nodesListDOM.unshift( // preview only appear if the node was used
+      nodesListDOM.push( // preview only appear if the node was used
         <NodesImgUnits
           key={"key_NodesFilter_ImgBox_"+ index}
           {...this.props}
@@ -141,6 +142,11 @@ class NodesFilter extends React.Component {
           unitsBasic={this.state.unitsBasic}
           _handleClick_filterNode={this.props._handle_nodeClick}/>
       );
+      if( (index+1) != this.props.startList.length ){ // not the last in list
+        nodesListDOM.push(
+          <div style={{borderTop: 'solid 1px #d8d8d8', width: '96%', margin: '12px 0'}}></div>
+        )
+      }
     });
 
     return nodesListDOM;

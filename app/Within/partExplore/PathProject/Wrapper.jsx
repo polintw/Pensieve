@@ -84,6 +84,7 @@ class Wrapper extends React.Component {
         let toSearch = new URLSearchParams(this.props.location.search);
         if(this.state.redirectFilter == "filter"){
           toSearch.append("_filter_nodes", true);
+          toSearch.append("_filter_map", true);
         } else{
           // make sure delte all attrib
           toSearch.delete("_filter_nodes");

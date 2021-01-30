@@ -1,24 +1,34 @@
 .comNodesFilter {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .boxMap {
   align-self: center;
   width: 86%;
   height: 85vh;
+  margin-top: 8px;
 }
 
 .comNodesImgs {
   display: flex;
   width: 100%;
   position: relative;
+  box-sizing: border-box;
   margin: 8px 0;
+  padding: 0 2%;
 }
 
 .boxNode {
   width: 20%;
-  padding: 1rem 2rem;
+  padding: 5vh 5% 1rem 2.5%;
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+
+.boxNodeMouseon { /* must after boxNode */
+  box-shadow: inset 0 0 8px 0 rgba(84, 84, 84 , 45%);
 }
 
 .boxUnits {
@@ -28,44 +38,53 @@
 }
 
 .boxUnitImg {
-  width: 30%;
-  height: 16vw;
+  width: 29%;
+  height: 10vw;
   position: relative;
   box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
   border-radius: 4px;
+  margin: 0 1%;
   overflow: hidden;
 }
 
 @media screen and (max-width:1110px) and (min-width: 860px) {
   .comNodesImgs {
     flex-direction: column;
+    margin: 8px 0 0;
   }
 
   .boxNode {
-    width: 100%
+    width: 100%;
+    padding: 0 2.5% 8px;
   }
 
   .boxUnits {
-    width: 100%
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 100%;
   }
 }
 
 @media screen and (max-width:860px) {
   .comNodesImgs {
     flex-direction: column;
+    margin: 8px 0 0;
   }
 
   .boxNode {
     width: 100%;
+    padding: 0 2.5% 8px;
   }
 
   .boxUnits {
     justify-content: space-between;
+    flex-wrap: wrap;
     width: 100%;
   }
 
   .boxUnitImg {
-    width: 45%;
-    height: 16vw;
+    width: 49%;
+    height: 27vw;
+    margin: 8px 0;
   }
 }

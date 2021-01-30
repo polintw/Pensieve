@@ -31,6 +31,10 @@ class NavFeed extends React.Component {
   }
 
   render(){
+    let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
+    this.viewFilterMap = urlParams.has('_filter_map');
+    this.viewFilter = urlParams.has('_filter_nodes');
+
     return(
       <div
         className={classnames(styles.comNavFeed)}>
@@ -52,7 +56,10 @@ class NavFeed extends React.Component {
             <Link
               btn={"image"}
               to={this.props.location.pathname + '?_filter_nodes=true'}
-              className={classnames('plainLinkButton')}
+              className={classnames(
+                'plainLinkButton',
+                {[styles.linkInactive]: !this.viewFilterMap}
+              )}
               onTouchStart={this._handleEnter_switchFilter}
               onTouchEnd={this._handleLeave_switchFilter}
               onMouseEnter={this._handleEnter_switchFilter}
@@ -60,8 +67,10 @@ class NavFeed extends React.Component {
               <span
                 className={classnames(
                   "fontContent",
-                  {["colorAssistOcean"]: (this.state.onSwitch != 'image')},
-                  {["colorStandard"]: (this.state.onSwitch == 'image')}
+                  {
+                    ["colorAssistOcean"]: (this.viewFilterMap && this.state.onSwitch != 'image'),
+                    ["colorStandard"]: (!this.viewFilterMap || this.state.onSwitch == 'image'),
+                  }
                 )}>
                 {this.props.i18nUIString.catalog['btn_filteNav_Feed'][0]}
               </span>
@@ -75,7 +84,10 @@ class NavFeed extends React.Component {
             <Link
               btn={"map"}
               to={this.props.location.pathname + '?_filter_nodes=true&_filter_map=true'}
-              className={classnames('plainLinkButton')}
+              className={classnames(
+                'plainLinkButton',
+                {[styles.linkInactive]: this.viewFilterMap}
+              )}
               onTouchStart={this._handleEnter_switchFilter}
               onTouchEnd={this._handleLeave_switchFilter}
               onMouseEnter={this._handleEnter_switchFilter}
@@ -83,8 +95,10 @@ class NavFeed extends React.Component {
               <span
                 className={classnames(
                   "fontContent",
-                  {["colorAssistOcean"]: (this.state.onSwitch != 'map')},
-                  {["colorStandard"]: (this.state.onSwitch == 'map')}
+                  {
+                    ["colorAssistOcean"]: (!this.viewFilterMap && this.state.onSwitch != 'map'),
+                    ["colorStandard"]: (this.viewFilterMap || this.state.onSwitch == 'map'),
+                  }
                 )}>
                 {this.props.i18nUIString.catalog['btn_filteNav_Feed'][1]}
               </span>

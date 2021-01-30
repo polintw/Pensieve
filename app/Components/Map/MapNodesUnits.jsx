@@ -113,7 +113,7 @@ class MapNodesUnits extends React.Component {
               <img
                 className={classnames(styles.popupMain)}
                 src={unitObj.unitImgSrc}
-                onClick={(e)=>{ e.stopPropagation(); }}/>
+                onClick={(e)=>{ /* do not stopPropagation, in case the <Link> would not work as predict */ }}/>
             </Link>
           </Popup>
         </Marker>
@@ -127,7 +127,11 @@ class MapNodesUnits extends React.Component {
   render(){
     return(
       <div
-        className={classnames(styles.comMap)}>
+        className={classnames(styles.comMap)}
+        style={{
+          zIndex: this.props.styleZIndex,  /* this, is because the react-leaflet set the map at a very high z-index, need to be reset when content needed to put on it */
+          position: 'relative' /* pair with the 'zIndex'. zIndex would be useless if no set */
+        }}>
         <MapContainer
           center={this.props.coordCenter.length > 0 ? this.props.coordCenter : [20, 0]}
           zoom={this.props.zoomLevel}

@@ -76,20 +76,18 @@ class NodesImgUnits extends React.Component {
           to={nodeLink}
           className={classnames(
             'plainLinkButton', styles.boxNode,
+            {[styles.boxNodeMouseon]: this.state.overbtnLink}
           )}
           onClick={this._handleClick_filterNode}
+          onTouchStart={this._handleOver_Link}
+          onTouchEnd={this._handleOut_Link}
           onMouseOver={this._handleOver_Link}
           onMouseOut={this._handleOut_Link}>
           <div
             className={classnames(styles.boxItemTitle)}>
             {
               (nodeId in this.props.nounsBasic) &&
-              <div
-                className={classnames(
-                  styles.boxTitleText,
-                  {[styles.boxTitleTextMouseon]: this.state.overbtnLink},
-                  {[styles.boxTitleTextNoChild]: ((this.props.startListify && this.props.atStartListify) || !this.props.nounsBasic[nodeId].parentify)}
-                )}>
+              <div>
                 <span
                   className={classnames(
                     "fontNodesEqual", "lineHeight15",

@@ -61,4 +61,7 @@
     display: none;
   }
 
+  .boxFooter {
+    margin-bottom: 14vh;
+  }
 }

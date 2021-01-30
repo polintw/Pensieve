@@ -88,10 +88,10 @@ function _handle_nouns_basic_GET(req, res){
       })
       .then((results)=>{
         results.forEach((row, index) => {
-          sendingData.nounsBasic[row.id_node]['latitude'] = results.location_lat;
-          sendingData.nounsBasic[row.id_node]['longitude'] = results.location_lon;
+          sendingData.nounsBasic[row.id_node]['latitude'] = row.location_lat;
+          sendingData.nounsBasic[row.id_node]['longitude'] = row.location_lon;
         });
-        
+
         resolve(sendingData);
       });
 
