@@ -16,10 +16,13 @@ class NodesImgUnits extends React.Component {
     super(props);
     this.state = {
       overbtnLink: false,
+      onUnitImg: false
     };
     this._handleClick_filterNode = this._handleClick_filterNode.bind(this);
     this._handleOver_Link = this._handleOver_Link.bind(this);
     this._handleOut_Link = this._handleOut_Link.bind(this);
+    this._handleEnter_UnitImg = this._handleEnter_UnitImg.bind(this);
+    this._handleLeave_UnitImg = this._handleLeave_UnitImg.bind(this);
     this._render_units = this._render_units.bind(this);
   }
 
@@ -44,16 +47,39 @@ class NodesImgUnits extends React.Component {
       let imgSrcCover = domain.protocol+ '://'+domain.name+'/router/img/'
       + ((unitId in this.props.unitsBasic) ? this.props.unitsBasic[unitId].pic_layer0: 'notyetprepared_inNodesFilter')
       +'?type=thumb';
+      let linkSearch = this.props.location.search + '&' + 'unitId='+unitId+'&unitView=theater';
 
       return (
-        <div
+        <Link
           key={"key_filterImgUnits_node"+this.props.nodeId+"_"+index}
-          className={classnames(styles.boxUnitImg)}>
-          <ImgPreview
-            blockName={''}
-            previewSrc={imgSrcCover}
-            _handleClick_ImgPreview_preview={() => {  }} />
-        </div>
+          unitid={unitId}
+          to={{
+            pathname: this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit'),
+            search: linkSearch,
+            state: {from: this.props.location}
+          }}
+          className={classnames(
+            'plainLinkButton',styles.boxUnitImg)}
+          onMouseEnter={this._handleEnter_UnitImg}
+          onMouseLeave={this._handleLeave_UnitImg}>
+          <div
+            className={classnames(styles.boxUnitImgMouseOff)}>
+            <ImgPreview
+              blockName={''}
+              previewSrc={imgSrcCover}
+              _handleClick_ImgPreview_preview={() => {  }} />
+          </div>
+          {
+            (this.state.onUnitImg == unitId) &&
+            <div
+              className={classnames(styles.boxUnitImgMouseOn)}>
+              <ImgPreview
+                blockName={''}
+                previewSrc={ imgSrcCover }
+                _handleClick_ImgPreview_preview={()=>{}}/>
+            </div>
+          }
+        </Link>
       );
     });
 
@@ -144,6 +170,15 @@ class NodesImgUnits extends React.Component {
 
   _handleOut_Link(e) {
     this.setState({ overbtnLink: false })
+  }
+
+  _handleEnter_UnitImg(e) {
+    let unitId = e.currentTarget.getAttribute('unitid');
+    this.setState({ onUnitImg: unitId });
+  }
+
+  _handleLeave_UnitImg(e) {
+    this.setState({ onUnitImg: false })
   }
 
   _handleClick_filterNode(event){
