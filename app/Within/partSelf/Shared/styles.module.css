@@ -19,7 +19,7 @@
 
 .rowNavFilter {
   position: relative;
-  margin: 18px 0 10px;
+  margin: 8px 0 0px;
 }
 
 .rowFilterPadding {
@@ -44,6 +44,11 @@
   z-index: 1;
 }
 
+.boxNodesFilter {
+  box-shadow: 5px 0 4px -5px rgba(0, 0, 0, 0.3), -5px 0 4px -5px rgba(0, 0, 0, 0.3);
+  margin: 0;
+}
+
 .spanFooterHint {
   margin: 8px 0;
 }
@@ -52,6 +57,7 @@
   .boxSelfShare {
     width: 100%;
     position: static;
+    margin: 8px 0 12px;
     z-index: unset;
     overflow: hidden;
   }

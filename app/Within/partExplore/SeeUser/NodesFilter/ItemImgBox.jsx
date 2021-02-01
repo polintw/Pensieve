@@ -6,14 +6,14 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import ImgPreview from '../ImgPreview.jsx';
-import SvgIconNextLayer from '../Svg/SvgIcon_NextLayer.jsx';
+import ImgPreview from '../../../../Components/ImgPreview.jsx';
+import SvgIconNextLayer from '../../../../Components/Svg/SvgIcon_NextLayer.jsx';
 import {
   _axios_get_NodesLayer
 } from './axios.js';
 import {
   domain
-} from '../../../config/services.js';
+} from '../../../../../config/services.js';
 
 class ItemImgBox extends React.Component {
   constructor(props){

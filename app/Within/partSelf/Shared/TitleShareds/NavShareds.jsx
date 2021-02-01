@@ -47,7 +47,7 @@ class NavShareds extends React.Component {
             className={classnames(
               "fontContentPlain", "weightBold",
               {
-                ["colorGrey"]: (!this.state.onNavLink),
+                ["colorWhiteGrey"]: (!this.state.onNavLink),
                 ["colorAssistOcean"]: (this.state.onNavLink),
               }
             )}>
@@ -57,7 +57,7 @@ class NavShareds extends React.Component {
             className={classnames(
               "fontContentPlain", "weightBold",
               {
-                ["colorGrey"]: (!this.state.onNavLink),
+                ["colorWhiteGrey"]: (!this.state.onNavLink),
                 ["colorEditBlack"]: (this.state.onNavLink),
               })}>
             { pathProjectify ? this.props.i18nUIString.catalog['link_Nav_Shareds_'][1] : this.props.userInfo.pathProject }

@@ -1,153 +1,107 @@
-.rowEight {
-  margin: 8px 0;
-}
-
 .comNodesFilter {
   display: flex;
   flex-direction: column;
-}
-
-.comNavLayer {
-  display: flex;
-}
-
-.boxOptions {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 22px;
-}
-
-.boxLayerBase {
-  display: flex;
-  flex-direction: column;
-  margin: -10px 0 2px;
-}
-
-.boxBtnOption {
-  cursor: pointer;
-}
-
-.boxBtnOptionMouseon {
-  cursor: default;
-}
-
-.boxNodesList {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-}
-
-.boxNodeItem {
-  width: 23%;
-  min-width: 170px;
-  position: relative;
-  margin: 8px 0 32px;
-  box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
-  border-radius: 8px;
-  overflow: hidden;
-  background-color: #FFFFFF;
-}
-
-.boxNodeItemNoImg { /* after .boxNodeItem */
-  align-self: flex-start;
-  box-shadow: unset;
-  border: solid 1.5px #a3a3a3;
-  background-color: unset;
-}
-
-.boxNodeItemLayerBase { /* after .boxNodeItem */
-  display: flex;
-  width: unset;
-  min-width: 310px;
-  max-width: 40%;
-  margin: unset;
-}
-
-.boxNodeItemLink {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-.boxItemTitle {
-  display: flex;
   align-items: center;
-  justify-content: space-between;
-  flex: 1;
+}
+
+.boxMap {
+  align-self: center;
+  width: 86%;
+  height: 82vh;
+  margin-top: 8px;
+}
+
+.comNodesImgs {
+  display: flex;
   width: 100%;
   position: relative;
-  padding: 4.2% 4.42% 8.43% 4.2%;
   box-sizing: border-box;
+  margin: 8px 0;
+  padding: 0 2%;
 }
 
-.boxItemNoImgTitle { /* after boxImgTitle*/
-  padding: 4.2%;
-}
-
-.boxItemTitleLayerBase {
-  flex: unset;
-  padding: 2.6% 0 2.6% 4.2%;
-}
-
-.boxItemImg {
-  width: 91.6%;
-  height: 9vw; /* 64% to box height */
-  min-height: 121px;
-  position: relative;
-  margin: 0 4.2%;
+.boxNode {
+  width: 20%;
+  padding: 5vh 5% 1rem 2.5%;
   box-sizing: border-box;
   border-radius: 4px;
-  background-color: rgb(191 203 223 / 0.15);
+}
+
+.boxNodeMouseon { /* must after boxNode */
+  box-shadow: inset 0 0 8px 0 rgba(84, 84, 84 , 45%);
+}
+
+.boxUnits {
+  display: flex;
+  width: 80%;
+  position: relative;
+}
+
+.boxUnitImg {
+  width: 29%;
+  height: 10vw;
+  position: relative;
+  margin: 0 1%;
+  cursor: pointer;
+}
+
+.boxUnitImgMouseOff {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
+  border-radius: 4px;
   overflow: hidden;
 }
 
-.boxItemImgMouseon {
+.boxUnitImgMouseOn {
+  width: 110%;
+  height: 105%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
 }
 
-.boxItemImgNoCover { /* after boxItemImg */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 6vw;
-  min-height: 81px;
-  cursor: default;
+@media screen and (max-width:1110px) and (min-width: 860px) {
+  .comNodesImgs {
+    flex-direction: column;
+    margin: 8px 0 0;
+  }
+
+  .boxNode {
+    width: 100%;
+    padding: 0 2.5% 8px;
+  }
+
+  .boxUnits {
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 100%;
+  }
 }
 
-.linkImgNodeText {
-  display: inline-block;
-}
+@media screen and (max-width:860px) {
+  .comNodesImgs {
+    flex-direction: column;
+    margin: 8px 0 0;
+  }
 
-.boxTitleText {
-  padding: 5px 10px;
-}
+  .boxNode {
+    width: 100%;
+    padding: 0 2.5% 8px;
+  }
 
-.boxTitleTextMouseon {
-  background-color: rgb(216,216,216,0.15);
-}
+  .boxUnits {
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 100%;
+  }
 
-.boxTitleTextNoChild {
-  max-width: 100%;
-}
-
-.boxBtnNextLayer {
-  display: inline-block;
-  position: relative;
-  height: 100%;
-  margin: 0 0 0% 6.32%;
-}
-
-.spanLinkNode {
-  display: inline-block;
-  border-bottom: solid 0.75px transparent;
-}
-
-.spanLinkNodeMouse {
-  border-bottom: solid 0.75px #979797;
-}
-
-.svgBtnNextLayer {
-  width: 39px;
-  height: 39px;
-  cursor: pointer;
+  .boxUnitImg {
+    width: 49%;
+    height: 27vw;
+    margin: 8px 0;
+  }
 }

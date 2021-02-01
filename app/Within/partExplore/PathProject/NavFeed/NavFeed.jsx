@@ -6,6 +6,8 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import NavBtnRow from '../../../../Components/NavFilter/NavBtnRow.jsx';
+import NavFilterMode from '../../../../Components/NavFilter/NavFilterMode.jsx';
 
 class NavFeed extends React.Component {
   constructor(props){
@@ -28,16 +30,29 @@ class NavFeed extends React.Component {
   }
 
   render(){
+    let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
+    this.viewFilter = urlParams.has('_filter_nodes');
+
     return(
       <div
-        className={classnames(styles.boxTitle)}>
+        className={classnames(styles.comNavFeed)}>
         <div>
           <span
             className={classnames(
-              "fontContentPlain", "weightBold", "colorAssistGold")}>
+              "fontContent", "weightBold", "colorAssistGold")}>
             { this.props.i18nUIString.catalog["title_NavAtNode_"] }
           </span>
         </div>
+        <NavBtnRow
+          {...this.props}
+          viewFilter={this.viewFilter}/>
+        {
+          this.viewFilter &&
+          <div
+            className={classnames(styles.boxFilterNav)}>
+            <NavFilterMode/>
+          </div>
+        }
       </div>
     )
   }
