@@ -16,7 +16,6 @@
   width: 100%;
   position: relative;
   box-sizing: border-box;
-  margin: 8px 0;
   padding: 0 2%;
 }
 
@@ -35,13 +34,14 @@
   display: flex;
   width: 80%;
   position: relative;
+  flex-wrap: wrap;
 }
 
 .boxUnitImg {
   width: 29%;
   height: 10vw;
   position: relative;
-  margin: 0 1%;
+  margin: 8px 1%;
   cursor: pointer;
 }
 
@@ -77,7 +77,6 @@
 
   .boxUnits {
     justify-content: space-between;
-    flex-wrap: wrap;
     width: 100%;
   }
 }
@@ -95,7 +94,6 @@
 
   .boxUnits {
     justify-content: space-between;
-    flex-wrap: wrap;
     width: 100%;
   }
 

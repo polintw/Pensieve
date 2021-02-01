@@ -61,9 +61,6 @@ async function _handle_GET_paths_NodesAssigned(req, res){
         },
         attributes: ["nodeAssigned"],
         group: 'nodeAssigned', // means we combined the rows by nodeAssigned
-        order: [
-          Sequelize.literal('`createdAt` ASC')
-        ]
       });
       nodesList = assignedNodes.map((nodeRow, index)=>{
         return nodeRow.nodeAssigned;
