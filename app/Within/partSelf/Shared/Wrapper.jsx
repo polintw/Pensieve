@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Route,
+  Redirect,
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
@@ -9,7 +10,7 @@ import styles from "./styles.module.css";
 import Feed from './Feed/Feed.jsx';
 import TitleShareds from './TitleShareds/TitleShareds.jsx';
 import SelfShare from './SelfShare/SelfShare.jsx';
-import NavFilter from '../../../Components/NavFilter/NavFilter.jsx';
+import NavTitleRow from '../../../Components/NavFilter/NavTitleRow.jsx';
 import NodesFilter from '../../../Components/NodesFilter/NodesFilter.jsx';
 import {
   axios_visit_GET_last,
@@ -35,7 +36,8 @@ class Wrapper extends React.Component {
     this.state = {
       axios: false,
       lastVisit: false,
-      viewFilter: false,
+      redirectFilter: false,
+      redirectFilterPass: 0,
       filterStart: null,
       usedNodes: []
     };
@@ -55,6 +57,12 @@ class Wrapper extends React.Component {
     // common situation: change between route
     if(this.props.lastParam != prevProps.lastParam){
       this._set_filterBasic();
+    };
+    if(prevState.redirectFilterPass){ // if just redirect to or from Filter
+      this.setState({
+        redirectFilter: false,
+        redirectFilterPass: 0
+      });
     };
   }
 
@@ -98,10 +106,26 @@ class Wrapper extends React.Component {
   }
 
   render(){
+    if(this.state.redirectFilter && this.state.redirectFilterPass){
+      // this method now is only used when closing(redirectFilter == true). Feb 01 2021
+      let toSearch = new URLSearchParams(this.props.location.search);
+      // make sure delte all attrib
+      toSearch.delete("_filter_nodes");
+      toSearch.delete("_filter_map");
+      return <Redirect
+        to={{
+          pathname: this.props.location.pathname,
+          search: toSearch.toString(),
+          state: {from: this.props.location}
+        }}/>;
+    };
     let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
-    if (urlParams.has('filterNode')) {
+    if(urlParams.has('filterNode')){
       this.filterNode = urlParams.get('filterNode');
-    } else this.filterNode = false;
+    } else this.filterNode = null;
+    if(urlParams.has('_filter_nodes')){
+      this.viewFilter = true;
+    } else this.viewFilter = false;
 
     return(
       <div>
@@ -109,45 +133,55 @@ class Wrapper extends React.Component {
           className={classnames(styles.comSelfWrapper)}>
           <div
             className={classnames(styles.boxRow, styles.boxRow40Top)}>
-            <TitleShareds/>
+            <TitleShareds
+              {...this.props}
+              viewFilter={this.viewFilter}/>
           </div>
           <div
-            className={classnames(
-              styles.rowNavFilter,
-              {[styles.rowFilterPadding]: (!!this.filterNode || this.state.viewFilter)}
+            style={{display: 'flex', flexDirection: 'column'}}>
+            {
+              !this.viewFilter &&
+              <div
+                className={classnames(styles.boxSelfShare)}>
+                <SelfShare
+                  {...this.props}/>
+              </div>
+            }
+            <div
+              className={classnames(
+                styles.rowNavFilter,
+                {[styles.rowFilterPadding]: (!!this.filterNode)}
               )}>
-            <NavFilter
-              {...this.props}
-              listLocation={(this.props.lastParam == "pathProject") ? "personal_pathProject" : "personal"}
-              listIdentity={(this.props.lastParam == "pathProject") ? this.props.userInfo.pathName: null}
-              viewFilter={this.state.viewFilter}
-              _set_viewFilter={this._set_viewFilter}/>
+              <NavTitleRow
+                {...this.props}
+                listLocation={(this.props.lastParam == "pathProject") ? "personal_pathProject" : "personal"}
+                listIdentity={(this.props.lastParam == "pathProject") ? this.props.userInfo.pathName: null}
+                viewFilter={this.viewFilter}/>
+            </div>
           </div>
           <div
             className={classnames(styles.boxRow)}>
-            <div
-              className={classnames(styles.boxSelfShare)}>
-              <SelfShare
-                {...this.props}/>
-            </div>
             { // render NodesFilter only after the filterStart was fetched
-              (this.state.viewFilter && !!this.state.filterStart) ? (
-                <NodesFilter
-                  nodePageify={false}
-                  startListify={true}
-                  startList={this.state.usedNodes}
-                  startNode={this.state.filterStart}
-                  _handle_nodeClick={this._set_viewFilter}
-                  _get_firstUnitsList={(nodesList)=>{
-                    // return a promise() to NodesFilter
-                    let paramsObj = (this.props.lastParam == "pathProject") ? ({
-                      depth: 'first', nodesList: nodesList, pathProject: this.props.userInfo.pathName
-                    }): ({depth: 'first', nodesList: nodesList});
-                    return _axios_get_Basic(this.axiosSource.token, {
-                      url: '/router/share/accumulated/depth',
-                      params: paramsObj
-                    })
-                  }}/>
+              (this.viewFilter && !!this.state.filterStart) ? (
+                <div
+                  className={classnames(styles.boxNodesFilter)}>
+                  <NodesFilter
+                    {...this.props}
+                    startNode = {this.state.filterStart}
+                    startList={this.state.usedNodes}
+                    _handle_nodeClick={this._set_viewFilter}
+
+                    _get_nodesUnitsList={(nodesList)=>{
+                      // return a promise() to NodesFilter
+                      let paramsObj = (this.props.lastParam == "pathProject") ? ({
+                        nodesList: nodesList, pathProject: this.props.userInfo.pathName
+                      }): ({nodesList: nodesList});
+                      return _axios_get_Basic(this.axiosSource.token, {
+                        url: '/router/share/accumulated/depth',
+                        params: paramsObj
+                      })
+                    }}/>
+                </div>
               ):(
                 <Feed {...this.props}/>
               )
@@ -241,7 +275,8 @@ class Wrapper extends React.Component {
 
   _set_viewFilter(view){
     this.setState({
-      viewFilter: !!view ? view : false
+	    redirectFilter: !!view ? view : true, // currently, always redirect it triggered
+      redirectFilterPass: 1
     })
   }
 }

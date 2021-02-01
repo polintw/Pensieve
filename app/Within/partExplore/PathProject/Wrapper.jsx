@@ -15,11 +15,11 @@ import TitlePath from './TitlePath/TitlePath.jsx';
 import {
   _axios_get_projectBasic,
   _axios_get_projectNodes,
-  _axios_get_projectLayerFirstUnits
+  _axios_get_nodesUnits
 } from './axios.js';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
 import UnitUnsign from '../../../Unit/UnitUnsign/UnitUnsign.jsx';
-import NavFilter from '../../../Components/NavFilter/NavFilter.jsx';
+import NavTitleRow from '../../../Components/NavFilter/NavTitleRow.jsx';
 import NodesFilter from '../../../Components/NodesFilter/NodesFilter.jsx';
 import NavCosmicMobile from '../../../Components/NavWithin/NavCosmic/NavCosmicMobile.jsx';
 import {
@@ -43,7 +43,8 @@ class Wrapper extends React.Component {
         inspiredYou: false
       },
       usedNodes: [],
-      redirectFilter: false
+      redirectFilter: false,
+      redirectFilterPass: 0
     };
     this.axiosSource = axios.CancelToken.source();
     this._set_viewFilter = this._set_viewFilter.bind(this);
@@ -52,9 +53,10 @@ class Wrapper extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-    if( (this.state.redirectFilter == prevState.redirectFilter)	&& this.state.redirectFilter){ // if just redirect to or from Filter
+    if(prevState.redirectFilterPass){ // if just redirect to or from Filter
       this.setState({
-	      redirectFilter: false
+	      redirectFilter: false,
+        redirectFilterPass: 0
       });
     };
     if(this.props.match.params['pathName'] != prevProps.match.params['pathName']){
@@ -73,22 +75,23 @@ class Wrapper extends React.Component {
   }
 
   render(){
-    if(this.state.redirectFilter){
+    if(this.state.redirectFilter && this.state.redirectFilterPass){
 	    /*
 	      Notice!, this is not a good method.
 	      we should redirect only when close from from NodesFilter, a general component.
 	      any other path, passed from Nav, should be dealted with insde the Nav.
-		    *///
-	  let toSearch = new URLSearchParams(this.props.location.search);
-	  if(this.state.redirectFilter == "filter"){
-		  toSearch.append("_filter_nodes", true);
-	  } else toSearch.delete("_filter_nodes");
-	  return <Redirect
-		    to={{
-			pathname: this.props.location.pathname,
-			search: toSearch.toString(),
-			state: {from: this.props.location}
-		    }}/>;
+		    */
+      // this method now is only used when closing(redirectFilter == true). Feb 01 2021
+      let toSearch = new URLSearchParams(this.props.location.search);
+      // make sure delte all attrib
+      toSearch.delete("_filter_nodes");
+      toSearch.delete("_filter_map");
+      return <Redirect
+        to={{
+          pathname: this.props.location.pathname,
+          search: toSearch.toString(),
+          state: {from: this.props.location}
+        }}/>;
     };
     let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
     if(urlParams.has('filterNode')){
@@ -122,36 +125,36 @@ class Wrapper extends React.Component {
           </div>
           <div
             className={classnames(styles.boxRowNav)}>
-            <div>
-              <NavFeed {...this.props}/>
+            <div
+              className={classnames(styles.boxTitle)}>
+              <NavFeed
+                {...this.props}/>
             </div>
             <div
               className={classnames(
                 styles.rowFilterMargin,
-                {[styles.rowFilterPadding]: (!!this.filterNode || this.viewFilter)})}>
-              <NavFilter
+                {[styles.rowFilterPadding]: (!!this.filterNode)})}>
+              <NavTitleRow
                 {...this.props}
                 listLocation={"pathProject"}
                 listIdentity={this.props.match.params['pathName']}
-                viewFilter={this.viewFilter}
-                _set_viewFilter={this._set_viewFilter}/>
+                viewFilter={this.viewFilter}/>
             </div>
           </div>
           <div
             className={classnames(styles.boxRow)}>
-            { // render NodesFilter only after the filterStart was fetched
-              (this.viewFilter && !!this.state.filterStart) ? (
+            {
+              this.viewFilter ? (
                 <div
                   className={classnames(styles.boxNodesFilter)}>
                   <NodesFilter
-                    nodePageify={true}
-                    startListify={true}
+                    {...this.props}
+                    startNode = {this.state.filterStart}
                     startList={this.state.usedNodes}
-                    startNode={this.state.filterStart}
                     _handle_nodeClick={this._set_viewFilter}
-                    _get_firstUnitsList={(nodesList)=>{
+                    _get_nodesUnitsList={(nodesList)=>{
                       // return a promise() to NodesFilter
-                      return _axios_get_projectLayerFirstUnits(this.axiosSource.token, {
+                      return _axios_get_nodesUnits(this.axiosSource.token, {
                         nodesList: nodesList, pathName: this.props.match.params['pathName']
                       })
                     }}/>
@@ -190,7 +193,8 @@ class Wrapper extends React.Component {
 
   _set_viewFilter(view){
     this.setState({
-	    redirectFilter: !!view ? view : true // currently, always redirect it triggered
+	    redirectFilter: !!view ? view : true, // currently, always redirect it triggered
+      redirectFilterPass: 1
     })
   }
 

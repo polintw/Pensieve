@@ -59,6 +59,13 @@ function _handle_GET_unitsByList(req, res){
           marksList: [],
           nounsList: []
         };
+        // set coordinates(set saperately due to null in some units.)
+        if(!!row.latitude_img) {
+          sendingData.unitsBasic[row.exposedId]["coordinates"] = {
+            latitude: row.latitude_img,
+            longitude: row.longitude_img
+          };
+        };
         //Now it's Important! We have to build a 'map' between unitid & exposedId
         sendingData.temp['chart'][row.id] = row.exposedId;
         sendingData.temp.unitpm.push(row.id); //push the internal id to form a list

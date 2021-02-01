@@ -237,6 +237,8 @@ const i18nUIString_EN = {
   "title_nodesFilter_LayerBase": "From base",
   "btn_nodesFilter_layerOptions": ['Among All', 'Used', 'Upper'],
 
+  "btn_filteNav_Feed": ['Images', 'Map'],
+
   "message_btn_OpenMap": "See location",
 
   "text_contributors": [[

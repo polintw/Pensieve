@@ -6,13 +6,13 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import ImgPreview from '../ImgPreview.jsx';
+import ImgPreview from '../../../../Components/ImgPreview.jsx';
 import {
   _axios_get_NodesLayer
 } from './axios.js';
 import {
   domain
-} from '../../../config/services.js';
+} from '../../../../../config/services.js';
 
 class ItemLayerBase extends React.Component {
   constructor(props){
