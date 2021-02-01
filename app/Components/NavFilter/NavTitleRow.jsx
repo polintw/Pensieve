@@ -71,51 +71,49 @@ class NavTitleRow extends React.Component {
     return (
       <div className={styles.comNavTitleRow}>
         {
-          !!this.filterNode ? (
-            <div
-              className={classnames(styles.boxFilterNode)}>
-              <div>
-                <span
-                  className={classnames(
-                    styles.spanFilterCross,
-                    "fontContent", "weightBold", "lineHeight15", "colorAssistGold")}>
-                  {"X "}
-                </span>
-                <Link
-                  nodeid={this.filterNode}
-                  to={"/cosmic/explore/node?nodeid=" + this.filterNode}
-                  className={classnames('plainLinkButton')}
-                  style={{ display: 'inline-block' }}
-                  onMouseEnter={this._handleEnter_NodeLink}
-                  onMouseLeave={this._handleLeave_NodeLink}>
-                  {(this.filterNode in this.props.nounsBasic) &&
-                    <span
-                      className={classnames(
-                        "fontNodesEqual", "weightBold", "colorEditBlack",
-                        styles.spanLinkNode,
-                        { [styles.spanLinkNodeMouse]: this.state.onNodeLink == this.filterNode }
-                      )}>
-                      {this.props.nounsBasic[this.filterNode].name}</span>
-                  }
-                </Link>
-              </div>
-              {
-                !this.props.viewFilter &&
-                this._render_resetLink()}
-            </div>
-          ):(
-            <div
-              className={classnames(styles.boxFilterSelection)}>
-              {
-                !this.props.viewFilter &&
+          !this.props.viewFilter &&
+          (            
+            !!this.filterNode ? (
+              <div
+                className={classnames(styles.boxFilterNode)}>
                 <div>
-                  <SuggestNodes
-                    {...this.props}
-                    listLocation={this.props.listLocation}
-                    listIdentity={this.props.listIdentity}/>
+                  <span
+                    className={classnames(
+                      styles.spanFilterCross,
+                      "fontContent", "weightBold", "lineHeight15", "colorAssistGold")}>
+                      {"X "}
+                    </span>
+                    <Link
+                      nodeid={this.filterNode}
+                      to={"/cosmic/explore/node?nodeid=" + this.filterNode}
+                      className={classnames('plainLinkButton')}
+                      style={{ display: 'inline-block' }}
+                      onMouseEnter={this._handleEnter_NodeLink}
+                      onMouseLeave={this._handleLeave_NodeLink}>
+                      {(this.filterNode in this.props.nounsBasic) &&
+                        <span
+                          className={classnames(
+                            "fontNodesEqual", "weightBold", "colorEditBlack",
+                            styles.spanLinkNode,
+                            { [styles.spanLinkNodeMouse]: this.state.onNodeLink == this.filterNode }
+                          )}>
+                          {this.props.nounsBasic[this.filterNode].name}</span>
+                      }
+                    </Link>
+                  </div>
+                  {this._render_resetLink()}
                 </div>
-              }
-            </div>
+              ):(
+                <div
+                  className={classnames(styles.boxFilterSelection)}>
+                  <div>
+                    <SuggestNodes
+                      {...this.props}
+                      listLocation={this.props.listLocation}
+                      listIdentity={this.props.listIdentity}/>
+                  </div>
+                </div>
+          )
         )}
       </div>
     )

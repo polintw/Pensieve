@@ -8,14 +8,14 @@
   flex-direction: column;
   align-items: baseline;
   width: 100%;
-  margin-bottom: 8px;
+  margin-bottom: 2rem;
 }
 
 .boxBottomRow {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   width: 100%;
-  margin-top: 8px;
 }
 
 .rowTitleText {
@@ -40,6 +40,12 @@
   cursor: pointer;
 }
 
+.boxFilterNav {
+  width: 100%;
+  margin: 12px 0 0;
+  text-align: center;
+}
+
 .spanBaseNode {
   display: inline-block;
   border-bottom: solid 0.75px transparent;
@@ -60,9 +66,5 @@
 
   .smallDisplayNone {
     display: none;
-  }
-
-  .boxBottomRow {
-    justify-content: space-between;
   }
 }

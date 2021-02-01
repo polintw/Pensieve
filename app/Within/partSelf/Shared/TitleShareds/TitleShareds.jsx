@@ -8,6 +8,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import NavShareds from './NavShareds.jsx';
 import NavBtnRow from '../../../../Components/NavFilter/NavBtnRow.jsx';
+import NavFilterMode from '../../../../Components/NavFilter/NavFilterMode.jsx';
 
 class TitleShareds extends React.Component {
   constructor(props){
@@ -59,6 +60,9 @@ class TitleShareds extends React.Component {
     if(urlParams.has('filterNode')){
       this.filterNode = urlParams.get('filterNode');
     } else this.filterNode = false;
+    if(urlParams.has('_filter_nodes')){
+      this.viewFilter = true;
+    } else this.viewFilter = false;
 
     return (
       <div className={styles.comTitleShareds}>
@@ -70,28 +74,6 @@ class TitleShareds extends React.Component {
               className={classnames("fontTitle", "colorEditBlack", "weightBold")}>
               {this.props.i18nUIString.catalog['title_yourShareds']}
             </span>
-            <div style={{marginLeft: '3px'}}>
-              {
-                (!!this.props.userInfo.pathName && pathProjectify) &&
-                <div
-                  className={classnames("fontContentPlain", "colorGrey")}>
-                  <span style={{cursor: 'default'}}>{"/ "}</span>
-                  <a
-                    href={'/cosmic/explore/path/'+ this.props.userInfo.pathName}
-                    className={classnames('plainLinkButton', "colorAssistOcean")}
-                    style={{
-                      display: 'inline-block',
-                      textDecoration: this.state.onPrimerLine? "underline": "none"
-                    }}
-                    onMouseEnter={this._handleEnter_primerLine}
-                    onMouseLeave={this._handleLeave_primerLine}>
-                    <span>
-                      {this.props.userInfo.pathProject}
-                    </span>
-                  </a>
-                </div>
-              }
-            </div>
           </div>
           <span
             className={classnames("fontContent", "colorEditBlack")}>
@@ -104,59 +86,84 @@ class TitleShareds extends React.Component {
           className={classnames(styles.boxBottomRow)}>
           <div
             style={{display: 'flex'}}>
-            {
-              !pathProjectify &&
-              <div>
-                <span
-                  className={classnames(
-                    "fontContent", 'colorGrey',
-                    styles.smallDisplayInline
-                  )}>
-                  {"|"}
-                </span>
-                <Link
-                  to={"/cosmic/explore/user?userId=" + this.props.userInfo.id}
-                  className={classnames(
-                    'plainLinkButton', styles.boxLinkExpand)}
-                    onTouchStart={this._handleEnter_LinkExpand}
-                    onTouchEnd={this._handleLeave_LinkExpand}
-                    onMouseEnter={this._handleEnter_LinkExpand}
-                    onMouseLeave={this._handleLeave_LinkExpand}>
-                    <span
-                      className={classnames(
-                        "fontContent", styles.spanBaseNode,
-                        {
-                          ["colorWhiteGrey"]: !this.state.onLinkExpand,
-                          ['colorEditBlack']: this.state.onLinkExpand,
-                          [styles.spanBaseNodeMouse]: this.state.onLinkExpand
-                        }
-                      )}>
-                      {this.props.i18nUIString.catalog["link_PublicExpand"]}
-                    </span>
-                  </Link>
+            <div>
+              <span
+                className={classnames(
+                  "fontContent",
                   {
-                    !!this.props.userInfo.pathName &&
+                    ['colorWhiteGrey']: !pathProjectify,
+                    ['colorAssistOcean']: pathProjectify,
+                  }
+                )}>
+                {"|"}
+              </span>
+              {
+                pathProjectify ? (
+                  <a
+                    href={'/cosmic/explore/path/'+ this.props.userInfo.pathName}
+                    className={classnames('plainLinkButton', styles.boxLinkExpand)}
+                    onTouchStart={this._handleEnter_primerLine}
+                    onTouchEnd={this._handleLeave_primerLine}
+                    onMouseEnter={this._handleEnter_primerLine}
+                    onMouseLeave={this._handleLeave_primerLine}>
                     <span
                       className={classnames(
-                        "fontContent", 'colorGrey',
-                        styles.smallDisplayNone
+                        "fontContent", "colorAssistOcean", styles.spanBaseNode,
+                        {[styles.spanBaseNodeMouse]: this.state.onPrimerLine}
                       )}>
-                      {"\xa0" + "．" + "\xa0"}
+                      {this.props.userInfo.pathProject}
                     </span>
-                  }
-                </div>
+                  </a>
+                ):(
+                  <Link
+                    to={"/cosmic/explore/user?userId=" + this.props.userInfo.id}
+                    className={classnames(
+                      'plainLinkButton', styles.boxLinkExpand)}
+                      onTouchStart={this._handleEnter_LinkExpand}
+                      onTouchEnd={this._handleLeave_LinkExpand}
+                      onMouseEnter={this._handleEnter_LinkExpand}
+                      onMouseLeave={this._handleLeave_LinkExpand}>
+                      <span
+                        className={classnames(
+                          "fontContent", styles.spanBaseNode,
+                          {
+                            ["colorWhiteGrey"]: !this.state.onLinkExpand,
+                            ['colorEditBlack']: this.state.onLinkExpand,
+                            [styles.spanBaseNodeMouse]: this.state.onLinkExpand
+                          }
+                        )}>
+                        {this.props.i18nUIString.catalog["link_PublicExpand"]}
+                      </span>
+                    </Link>
+                )
               }
-              {
-                !!this.props.userInfo.pathName &&
-                <NavShareds {...this.props}/>
-              }
+            </div>
+            {
+              !!this.props.userInfo.pathName &&
+              <span
+                className={classnames(
+                  "fontContent", 'colorGrey'
+                )}>
+                {"\xa0" + "．" + "\xa0"}
+              </span>
+            }
+            {
+              !!this.props.userInfo.pathName &&
+              <NavShareds {...this.props}/>
+            }
           </div>
           <div>
             <NavBtnRow
               {...this.props}
-              viewFilter={this.props.viewFilter}
-              _set_viewFilter={this.props._set_viewFilter}/>
+              viewFilter={this.props.viewFilter}/>
           </div>
+          {
+            this.viewFilter &&
+            <div
+              className={classnames(styles.boxFilterNav)}>
+              <NavFilterMode/>
+            </div>
+          }
         </div>
       </div>
     )

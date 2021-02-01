@@ -14,7 +14,6 @@ const {
 
 async function _handle_GET_shareds_nodesAccumulated(req, res){
   const userId = req.extra.tokenUserId; //use userId passed from pass.js
-  const reqDepth = req.query.depth;
   const reqPathProject = !!req.query.pathProject ? req.query.pathProject : false; // id of pathProject or 'undefined'
   const reqNodes = !!req.query.nodesList ? req.query.nodesList : []; // in case the list in params was empty or not exist
 
@@ -45,18 +44,6 @@ async function _handle_GET_shareds_nodesAccumulated(req, res){
     });
     let unitsByAttri = await _DB_attri.findAll({
       where: whereAttributes,
-/*      // for now, depth would only be '1', so make it 'max'
-      attributes: [
-        //'max' here combined with 'group' prop beneath,
-        //because the GROUP by would fail when the 'createdAt' is different between each row,
-        //so we ask only the 'max' one by this method
-        [Sequelize.fn('max', Sequelize.col('createdAt')), 'createdAt'], //fn(function, col, alias)
-        //set attributes, so we also need to call every col we need
-        'id_noun',
-        'id_unit',
-      ],
-      group: 'id_noun' //Important. means we combined the rows by node, each id_noun would only has one row
-*/
       order: [ //make sure the order of arr are from latest
         Sequelize.literal('`createdAt` ASC')
       ]
@@ -81,7 +68,12 @@ async function _handle_GET_shareds_nodesAccumulated(req, res){
     };
     // make the list by exposedId from unitsInfo
     unitsByAttri.forEach((row, index) => {
-      sendingData.nodesUnits[row.id_noun] = unitsExposedIdKey[row.id_unit];
+      if(row.id_noun in sendingData.nodesUnits){
+        sendingData.nodesUnits[row.id_noun].push(unitsExposedIdKey[row.id_unit]);
+      }
+      else{
+        sendingData.nodesUnits[row.id_noun] = [unitsExposedIdKey[row.id_unit]];
+      };
     });
 
 

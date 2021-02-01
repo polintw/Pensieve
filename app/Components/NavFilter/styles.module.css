@@ -6,6 +6,10 @@
 
 }
 
+.comNavFilterMode {
+  
+}
+
 .linkBlock {
   display: block;
 }
@@ -76,6 +80,10 @@
 
 .spanLinkNodeMouse {
   border-bottom: solid 1px #545454;
+}
+
+.linkInactive {
+  cursor: text;
 }
 
 .linkBlock {

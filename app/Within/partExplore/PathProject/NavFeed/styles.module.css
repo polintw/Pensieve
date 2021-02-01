@@ -10,16 +10,13 @@
   transform: translate(-50%, 0);
 }
 
-.linkInactive {
-  cursor: text;
-}
-
 @media screen and (max-width:860px) {
   .boxFilterNav {
     width: 100%;
     position: unset;
     transform: unset;
     left: unset;
+    margin-top: 12px;
     text-align: center;
   }
 }
