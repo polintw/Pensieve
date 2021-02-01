@@ -16,10 +16,8 @@ class NavBtnRow extends React.Component {
     this.state = {
       onFilterNode: false,
     };
-    this._handleClick_filter = this._handleClick_filter.bind(this);
     this._handleLeave_FilterNode = this._handleLeave_FilterNode.bind(this);
     this._handleEnter_FilterNode = this._handleEnter_FilterNode.bind(this);
-    this._handleClick_filterClose = this._handleClick_filterClose.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -35,7 +33,20 @@ class NavBtnRow extends React.Component {
   }
 
   render(){
-    let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
+    let toSearch = new URLSearchParams(this.props.location.search); //we need value in URL query
+    if(toSearch.has('_filter_nodes')){
+      toSearch.delete("_filter_nodes");
+      toSearch.delete("_filter_map");
+    }
+    else{
+      toSearch.append("_filter_nodes", true);
+      toSearch.append("_filter_map", true);      
+    };
+    let filterLinkObj = {
+      pathname: this.props.location.pathname,
+      search: toSearch.toString(),
+      state: {from: this.props.location}
+    };
 
     return (
       <div className={styles.comNavBtnRow}>
@@ -44,10 +55,12 @@ class NavBtnRow extends React.Component {
           {
             this.props.viewFilter &&
             <div
-              onClick={this._handleClick_filterClose}>
+              className={classnames(styles.boxIconsFilter)}>
               {
-                <div
-                  className={classnames(styles.boxSvgArrowStick)}
+                <Link
+                  to={filterLinkObj}
+                  className={classnames('plainLinkButton', styles.boxIconFilterNode)}
+                  style={{width: "18px"}}
                   onMouseEnter={this._handleEnter_FilterNode}
                   onMouseLeave={this._handleLeave_FilterNode}>
                   <SvgArrowStick
@@ -62,41 +75,27 @@ class NavBtnRow extends React.Component {
                         cls2: "{fill:rgb(69, 135, 160)}"
                       }
                     )} />
-                  </div>
-                }
-              </div>
-            }
-            {
-              !this.props.viewFilter &&
-              <div
-                className={classnames(styles.boxIconsFilter)}>
-                <Link
-                  to={this.props.location.pathname}
-                  className={classnames('plainLinkButton', styles.boxIconFilterNode)}
-                  onClick={this._handleClick_filter}
-                  onMouseEnter={this._handleEnter_FilterNode}
-                  onMouseLeave={this._handleLeave_FilterNode}>
-                  <SvgFilterNode
-                    customstyle={this.state.onFilterNode ? "{fill: #ff8168;}" : "{fill: rgb(69, 135, 160);}"} />
                 </Link>
-              </div>
-            }
+              }
+            </div>
+          }
+          {
+            !this.props.viewFilter &&
+            <div
+              className={classnames(styles.boxIconsFilter)}>
+              <Link
+                to={filterLinkObj}
+                className={classnames('plainLinkButton', styles.boxIconFilterNode)}
+                onMouseEnter={this._handleEnter_FilterNode}
+                onMouseLeave={this._handleLeave_FilterNode}>
+                <SvgFilterNode
+                  customstyle={this.state.onFilterNode ? "{fill: #ff8168;}" : "{fill: rgb(69, 135, 160);}"} />
+              </Link>
+            </div>
+          }
         </div>
       </div>
     )
-  }
-
-  _handleClick_filter(event){
-      event.preventDefault();
-      event.stopPropagation();
-
-    this.props._set_viewFilter('filter')
-  }
-
-  _handleClick_filterClose(event){
-    event.preventDefault();
-    event.stopPropagation();
-    this.props._set_viewFilter(null)
   }
 
   _handleEnter_FilterNode(e){

@@ -80,22 +80,18 @@ class Wrapper extends React.Component {
 	      Notice!, this is not a good method.
 	      we should redirect only when close from from NodesFilter, a general component.
 	      any other path, passed from Nav, should be dealted with insde the Nav.
-		    *///
-        let toSearch = new URLSearchParams(this.props.location.search);
-        if(this.state.redirectFilter == "filter"){
-          toSearch.append("_filter_nodes", true);
-          toSearch.append("_filter_map", true);
-        } else{
-          // make sure delte all attrib
-          toSearch.delete("_filter_nodes");
-          toSearch.delete("_filter_map");
-        };
-        return <Redirect
-          to={{
-            pathname: this.props.location.pathname,
-            search: toSearch.toString(),
-            state: {from: this.props.location}
-          }}/>;
+		    */
+      // this method now is only used when closing(redirectFilter == true). Feb 01 2021
+      let toSearch = new URLSearchParams(this.props.location.search);
+      // make sure delte all attrib
+      toSearch.delete("_filter_nodes");
+      toSearch.delete("_filter_map");
+      return <Redirect
+        to={{
+          pathname: this.props.location.pathname,
+          search: toSearch.toString(),
+          state: {from: this.props.location}
+        }}/>;
     };
     let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
     if(urlParams.has('filterNode')){
@@ -132,9 +128,7 @@ class Wrapper extends React.Component {
             <div
               className={classnames(styles.boxTitle)}>
               <NavFeed
-                {...this.props}
-                viewFilter={this.viewFilter}
-                _set_viewFilter={this._set_viewFilter}/>
+                {...this.props}/>
             </div>
             <div
               className={classnames(

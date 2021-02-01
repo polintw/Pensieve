@@ -47,10 +47,9 @@ class NavFeed extends React.Component {
         </div>
         <NavBtnRow
           {...this.props}
-          viewFilter={this.props.viewFilter}
-          _set_viewFilter={this.props._set_viewFilter}/>
+          viewFilter={this.viewFilter}/>
         {
-          this.props.viewFilter &&
+          this.viewFilter &&
           <div
             className={classnames(styles.boxFilterNav)}>
             <Link

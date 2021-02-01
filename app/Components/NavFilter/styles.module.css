@@ -27,7 +27,6 @@
   flex: 1;
   justify-content: space-between;
   align-items: flex-end;
-  padding-right: 1.5rem;
 }
 
 .boxFilterSelection{
@@ -62,13 +61,6 @@
   width: 15px;
   height: 15px;
   padding: 2.5px 0;
-  cursor: pointer;
-}
-
-.boxSvgArrowStick {
-  width: 15px;
-  height: 15px;
-  padding: 5px 0 0 5px;
   cursor: pointer;
 }
 

@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import SuggestNodes from './SuggestNodes.jsx';
-import {SvgArrowToRight} from '../Svg/SvgArrow.jsx';
+import {SvgArrowToTop} from '../Svg/SvgArrow.jsx';
 import SvgFilterNode from '../Svg/SvgFilter_Node.jsx';
 import SvgArrowStick from '../Svg/SvgArrowStick.jsx';
 
@@ -55,7 +55,7 @@ class NavTitleRow extends React.Component {
         onClick={this._handleClick_resetLink}
         onMouseEnter={this._handleEnter_CloseArrow}
         onMouseLeave={this._handleLeave_CloseArrow}>
-        <SvgArrowToRight
+        <SvgArrowToTop
           mouseOn={this.state.onArrow}
           customStyles={{fillColorMouseOn: '#ff8168', fillColor: '#a3a3a3'}}/>
       </Link>
