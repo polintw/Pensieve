@@ -2,8 +2,11 @@
 
 }
 
-.smallDisplayBox {
-  display: none;
+.boxNavSmall {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 100%;
 }
 
 .selfCom_NavOptions_svg_ {
@@ -58,19 +61,7 @@
 
 @media screen and (max-width:860px) {
   .comNavOption {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
     width: 100%;
-    padding: 0 1.38vw;
-  }
-
-  .smallDisplayBox {
-    display: block;
-  }
-
-  .smallDisplayNone {
-    display: none;
   }
 
   .selfCom_NavOptions_ToolBox_{

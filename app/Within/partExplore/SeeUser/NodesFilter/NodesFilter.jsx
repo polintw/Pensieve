@@ -168,16 +168,20 @@ class NodesFilter extends React.Component {
   }
 
   render(){
+    /*
+    '        <div className={styles.boxOptions}>
+              <NavLayers
+                atStartListify={this.state.atStartListify}
+                startListify={this.props.startListify}
+                baseParent={this.state.baseParent}
+                _set_switchStartList={this._set_switchStartList}
+                _set_switchUpperLayer={this._set_switchUpperLayer}/>
+            </div>
+      '
+      was removed from beneath comp before further plan
+    */
     return (
       <div className={styles.comNodesFilter}>
-        <div className={styles.boxOptions}>
-          <NavLayers
-            atStartListify={this.state.atStartListify}
-            startListify={this.props.startListify}
-            baseParent={this.state.baseParent}
-            _set_switchStartList={this._set_switchStartList}
-            _set_switchUpperLayer={this._set_switchUpperLayer}/>
-        </div>
         {
           (!!this.state.baseParent && !(this.props.startListify && this.state.atStartListify)) &&
           <div className={styles.boxLayerBase}>

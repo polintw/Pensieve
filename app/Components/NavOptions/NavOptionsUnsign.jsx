@@ -26,17 +26,38 @@ class NavOptionsUnsign extends React.Component {
     if(this.props.location.pathname.includes('cosmic/explore/')){
       return(
         <div
-          id={"NavOptions_Self_small"}
-          className={classnames(
-            styles.selfCom_NavOptions_svg_, 'colorWhite', 'fontSubtitle',
-            styles.smallDisplayBox
-          )}
-          onClick={(e)=>{e.preventDefault(); e.stopPropagation(); window.location.assign('/');}}>
-          {this.props.i18nUIString.catalog['submit_nav_Signin']}
+          className={classnames(styles.boxNavSmall)}>
+          <div
+            className={classnames(styles.boxLogo)}
+            onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_to('', '/')}}>
+            <SvgLogo
+              reverseColor={true}/>
+          </div>
+          <div
+            id={"NavOptions_Self_small"}
+            className={classnames(
+              styles.selfCom_NavOptions_svg_, 'colorWhite', 'fontSubtitle',
+              "smallDisplayBox"
+            )}
+            onClick={(e)=>{e.preventDefault(); e.stopPropagation(); window.location.assign('/');}}>
+            {this.props.i18nUIString.catalog['submit_nav_Signupin']}
+          </div>
         </div>
       );
     }
-    else return null;
+    else{
+      return(
+        <div
+          className={classnames(styles.boxNavSmall)}>
+          <div
+            className={classnames(styles.boxLogo)}
+            onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_to('', '/')}}>
+            <SvgLogo
+              reverseColor={true}/>
+          </div>
+        </div>
+      );
+    };
   }
 
   render(){
@@ -44,23 +65,20 @@ class NavOptionsUnsign extends React.Component {
       <div
         className={classnames(styles.comNavOption)}>
         <div
-          className={classnames(styles.boxLogo, styles.smallDisplayBox)}
-          onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_to('', '/')}}>
-          <SvgLogo
-            reverseColor={true}/>
+          className={classnames("smallDisplayBox")}
+          style={{width: '100%', padding: "0 1.38vw", boxSizing: 'border-box'}}>
+          {
+            /*Notice, this render method actually deal with only situation the screen width < 860px
+            and the rest (>860px) would rely on the next DOM beneath*/
+            this._render_NavSmallScreen()
+          }
         </div>
-
-        { this._render_NavSmallScreen()
-          /*Notice, this render method actually deal with only situation the screen width < 860px
-          and the rest (>860px) would rely on the next DOM beneath*/
-        }
         { // only show up on /unit view
           (this.props.location.pathname.includes('cosmic/explore/')) &&
           <div
             id={"NavOptions_Self_"}
             className={classnames(
-              styles.selfCom_NavOptions_svg_, 'fontSubtitle', 'colorDescripBlack',
-              styles.smallDisplayNone)}
+              styles.selfCom_NavOptions_svg_, 'fontSubtitle', 'colorDescripBlack', "smallDisplayNone")}
             onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_to('', '/')}}>
             {this.props.i18nUIString.catalog['submit_nav_Signin']}
           </div>
