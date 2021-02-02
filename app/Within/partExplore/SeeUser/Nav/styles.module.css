@@ -1,4 +1,4 @@
-.comNavFilter {
+.comNav {
 
 }
 
@@ -72,10 +72,6 @@
   box-sizing: border-box;
   text-align: right;
   cursor: pointer;
-}
-
-.boxInputLine {
-  display: inline-block;
 }
 
 .spanFilterCross {

@@ -94,7 +94,9 @@
 
 @media screen and (max-width:860px) {
   .boxTitlePersonal {
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
   }
 
   .smallLineExpand { /* used to mimic line height as .boxLinkExpand*/

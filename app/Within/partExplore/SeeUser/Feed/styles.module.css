@@ -44,4 +44,8 @@
   .boxModuleSmall {
     justify-content: center;
   }
+
+  .boxFooter {
+    margin-bottom: 21vh;
+  }
 }

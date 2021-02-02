@@ -79,7 +79,7 @@ class ChainShared extends React.Component {
             className={classnames("fontContentPlain", "weightBold", "colorAssistGold")}>
             {this.props.i18nUIString.catalog["title_Chain_Shareds_"]}</span>
           <div
-            className={classnames(styles.boxSharedPersonal)}>
+            className={classnames('smallDisplayBox')}>
             <span
               className={classnames('colorWhiteGrey', 'fontContentPlain')}
               style={{ padding: '0 5px' }}>

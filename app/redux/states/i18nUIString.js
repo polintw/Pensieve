@@ -36,6 +36,7 @@ const i18nUIString_EN = {
   ],
   "descript_Sign_termsDeclaim": [
     "By clicking “Register”, you agree our", " Terms of Services", " and ", "Privacy Policy", "."],
+  "submit_nav_Signupin": "Sign up/in",
   "submit_nav_Signin": "Sign in",
   "submit_nav_Signup": "Sign up",
   "submit_Signinup": "Sign in | up",
@@ -132,7 +133,7 @@ const i18nUIString_EN = {
   "link_ExpandPersonal": 'Expand as Personal',
   "link_Focus": 'Browse all',
   "link_Fellows": 'Fellows',
-  "link_Options_selfLink": "Personal board",
+  "link_Options_selfLink": "Shareds",
   "link_Options_public": "Public view",
   "Cornerth_inc": "Cornerth. ",
   "AllRights": "All Rights Reserved.",

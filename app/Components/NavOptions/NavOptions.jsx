@@ -33,52 +33,68 @@ class NavOptions extends React.Component {
     if( currentPath.includes('profile')){ //special one for path 'self/profile'
       return(
         <div
-          id={"NavOptions_Self_small"}
-          className={classnames(
-            styles.selfCom_NavOptions_svg_, 'colorWhite', 'fontSubtitle',
-            styles.smallDisplayBox
-          )}
-          onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props.history.goBack()}}>
-          {this.props.i18nUIString.catalog['submit_back']}
+          className={classnames(styles.boxNavSmall)}>
+          <div
+            className={classnames(styles.boxLogo)}
+            onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_to('', '/')}}>
+            <SvgLogo
+              reverseColor={true}/>
+          </div>
+          <div
+            id={"NavOptions_Self_small"}
+            className={classnames(
+              styles.selfCom_NavOptions_svg_, 'colorWhite', 'fontSubtitle',
+            )}
+            onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props.history.goBack()}}>
+            {this.props.i18nUIString.catalog['submit_back']}
+          </div>
         </div>
       )
     }
     else if( currentPath.includes('/unit')){
       return(
         <div
-          id={"NavOptions_Self_small"}
-          className={classnames(
-            styles.selfCom_NavOptions_svg_, 'colorWhite', 'fontSubtitle',
-            styles.smallDisplayBox
-          )}
-          onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_to()}}>
-          {this.props.i18nUIString.catalog['submit_close']}
+          className={classnames(styles.boxNavSmall)}>
+          <div
+            id={"NavOptions_Self_small"}
+            className={classnames(
+              styles.selfCom_NavOptions_svg_, 'colorWhite', 'fontSubtitle',
+            )}
+            onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_to()}}>
+            {this.props.i18nUIString.catalog['submit_close']}
+          </div>
         </div>
       )
     }
     else{
       return(
         <div
-          id={"NavOptions_Self_small"}
-          className={classnames(
-            styles.selfCom_NavOptions_svg_, 'colorWhite',
-            styles.smallDisplayBox
-          )}
-          onClick={this._handleClick_navToolBox}>
-          <AccountPalette
-            size={'regular'}
-            accountFirstName={this.props.userInfo.firstName}
-            accountLastName={this.props.userInfo.lastName}
-            styleFirst={{ fontWeight: '600' }}/>
-          {
-            this.state.toolBoxify &&
-            this._render_NavToolBox()
-          }
+          className={classnames(styles.boxNavSmall)}>
+          <div
+            className={classnames(styles.boxLogo)}
+            onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_to('', '/')}}>
+            <SvgLogo
+              reverseColor={true}/>
+          </div>
+          <div
+            id={"NavOptions_Self_small"}
+            className={classnames(
+              styles.selfCom_NavOptions_svg_, 'colorWhite',
+            )}
+            onClick={this._handleClick_navToolBox}>
+            <AccountPalette
+              size={'regular'}
+              accountFirstName={this.props.userInfo.firstName}
+              accountLastName={this.props.userInfo.lastName}
+              styleFirst={{ fontWeight: '600' }}/>
+            {
+              this.state.toolBoxify &&
+              this._render_NavToolBox()
+            }
+          </div>
         </div>
-
       )
     }; // end of 'if'
-
   }
 
   _render_NavToolBox(){
@@ -170,21 +186,19 @@ class NavOptions extends React.Component {
       <div
         className={classnames(styles.comNavOption)}>
         <div
-          className={classnames(styles.boxLogo, styles.smallDisplayBox)}
-          onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_to('', '/')}}>
-          <SvgLogo
-            reverseColor={true}/>
+          className={classnames("smallDisplayBox")}
+          style={{width: '100%', padding: "0 1.38vw", boxSizing: 'border-box'}}>
+          {
+            /*Notice, this render method actually deal with only situation the screen width < 860px
+            and the rest (>860px) would rely on the next DOM beneath*/
+            this._render_NavSmallScreen()
+          }
         </div>
-
-        { this._render_NavSmallScreen()
-          /*Notice, this render method actually deal with only situation the screen width < 860px
-          and the rest (>860px) would rely on the next DOM beneath*/
-        }
         { // if under a valid token
           (this.props.tokenStatus == 'verified') &&
           <div
             id={"NavOptions_Self_"}
-            className={classnames(styles.selfCom_NavOptions_svg_, 'colorDescripBlack', styles.smallDisplayNone)}
+            className={classnames(styles.selfCom_NavOptions_svg_, 'colorDescripBlack', "smallDisplayNone")}
             onClick={this._handleClick_navToolBox}>
             <AccountPalette
               size={'regular'}

@@ -52,7 +52,7 @@ class TitleUser extends React.Component {
             (this.props.userId == this.props.userInfo.id) &&
             <div
               className={classnames(styles.boxTitlePersonal)}>
-              <div style={{fontSize: '2.4rem', lineHeight: '1.5', minWidth: '420px'}}>{"\xa0"}</div>
+              <div style={{fontSize: '2.4rem', lineHeight: '1.5'}}>{"\xa0"}</div>
               <div>
                 <span
                   className={classnames(
