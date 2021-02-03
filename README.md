@@ -4,38 +4,20 @@ __自由的思考、無限制得探索__
 
 this is a web application project initiated & own by Chou Po Lin since May. 2018, modified and rewrote from an earlier version, dev_Corner, which was also owned by the same owner since Dec. 2017.
 
-### *series: One core*
->LTS should be update in 2020/01/15, without definite version number.
-
-ver : __3.0.0__ on 06/09/2019. redesign the Unit interface & est. Relation view with independent Unit route.
-
-ver : __2.1.0__ on 07/08/2019. rearrange Explore and Unit reading experience, also begin basic customized recommand.
-
-ver : __2.0.0__ on 05/07/2019. the version focus on Nodes sys & User journey update.
-
-ver __1.3.0__ : the version mainly on Explore structure expanding and improvement.
-
-ver __1.2.0__ : the version modified mainly on Noun page and Notifications sys.
-
-ver __1.1.0__ : the version release after modifications base on fast reward from last ver.
-
-ver __"1.0"__ : the version officially opening to public usage, with only basic but complete experience.
-
-ver __"Lite 2.1"__ : the version released after backend refactor, and opening for register.
-
-ver __"Lite 2.0"__ : the version released to the public of this project.
+### series
+__LTS__ on 2021/02/02, ver __Theme__
 
 
 ## Initiation
 Only at branch other than master.
 
-Doc of [React for production](https://reactjs.org/docs/optimizing-performance.html#use-the-production-build)
+Ref doc: [React for production](https://reactjs.org/docs/optimizing-performance.html#use-the-production-build)
 
 #### Env
 >please place it at a folder you have auth to write and edit
 
 - node 12.x.x
-- npm  6.4.1
+- npm  6.14.6
 - MySQL 14.14 Distrib 5.7.31
 
 
@@ -43,8 +25,9 @@ Doc of [React for production](https://reactjs.org/docs/optimizing-performance.ht
 
 
 
+Only at the first time: establishing basic folders needed
+
 ```bash
-#only at the first time, Establishing basic folders needed:
 npm run setup
 #or if on Windows:
 npm run setupWin
@@ -58,7 +41,9 @@ npm install --dev
 > /bcrypt: check [doc](https://www.npmjs.com/package/bcrypt) if face error come from this module, uninstall and install again if needed
 
 
-`/config/.env.json` : modify necessary info now
+`/config/.env.json`
+
+modify necessary info:
   - database connection:
     *modify beneath item to fit your database*
     1. "host"<br>
@@ -66,7 +51,9 @@ npm install --dev
     3. "password"<br>
 
 
-  - jwt secret
+  - rootPath: *path to your project(absolute path was better)*
+
+  - jwt secret:
       *use default one or import yours*
 
   - others:
@@ -107,7 +94,7 @@ there ia a default account as below:
 usertest@mail.com
 helloworld
 ```
-otherwise, you have to add account to database manually.
+or add account you prefer to database manually.
 
 Welcome to the project. Give any feedback in community.
 
