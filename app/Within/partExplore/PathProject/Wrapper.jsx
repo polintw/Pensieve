@@ -12,6 +12,7 @@ import styles from "./styles.module.css";
 import Feed from './Feed/Feed.jsx';
 import NavFeed from './NavFeed/NavFeed.jsx';
 import TitlePath from './TitlePath/TitlePath.jsx';
+import SignBlock from '../../partSign/components/SignBlock/SignBlock.jsx';
 import {
   _axios_get_projectBasic,
   _axios_get_projectNodes,
@@ -141,6 +142,13 @@ class Wrapper extends React.Component {
                 viewFilter={this.viewFilter}/>
             </div>
           </div>
+          { // only show up when no token(unsigned)
+            (this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') &&
+            <div
+              className={classnames( styles.boxRow, styles.boxSignup)}>
+              <SignBlock/>
+            </div>
+          }
           <div
             className={classnames(styles.boxRow)}>
             {

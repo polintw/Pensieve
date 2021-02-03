@@ -100,7 +100,7 @@ class LayerSwitch extends React.Component {
       customButton: "sign",
       message: [{
         text: message,
-        style:{}}], //Original:'current input would not be saved after leaving, are you sure going to leave?'
+        style:{}}],
       handlerPositive: ()=>{ // basically all the condition are the same result
         window.location.assign('/');
       },

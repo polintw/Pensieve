@@ -32,6 +32,14 @@
   margin: 12px 0 0;
 }
 
+.boxSignup {
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
+  background-color: rgba(255, 129, 104, 0.1);
+}
+
 .rowFilterMargin {
   margin: 8px 0 0;
 }

@@ -73,16 +73,6 @@ class NavOptionsUnsign extends React.Component {
             this._render_NavSmallScreen()
           }
         </div>
-        { // only show up on /unit view
-          (this.props.location.pathname.includes('cosmic/explore/')) &&
-          <div
-            id={"NavOptions_Self_"}
-            className={classnames(
-              styles.selfCom_NavOptions_svg_, 'fontSubtitle', 'colorDescripBlack', "smallDisplayNone")}
-            onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_to('', '/')}}>
-            {this.props.i18nUIString.catalog['submit_nav_Signin']}
-          </div>
-        }
       </div>
     )
   }
