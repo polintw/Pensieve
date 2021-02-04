@@ -227,6 +227,9 @@ const i18nUIString_EN = {
   "title_NavAtNode_": "Accumulation",
   "subtitle_NavAtNode_Num": ['stay', "from"],
   "guiding_AtNode_noAccumulated": "Waiting for the first contribution!",
+  "guiding_noAccumulated_waitAuthor": "Waiting for the good news!",
+  "guiding_noAccumulated_shareInvitation": "Create your first Shared!",
+  "guiding_noAccumulated_pathShareInvitation": "Start your theme by create a Shared!",
 
   "hint_PathProject_FilterNode": "Filter accumulations by nodes beneath",
   "message_PathProject_ShareLink": "Link has copied",

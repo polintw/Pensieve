@@ -34,7 +34,7 @@ class FeedEmpty extends React.Component {
       <div className={styles.comFeedEmpty}>
         <div
           className={classnames(styles.boxTitle, styles.boxEmptyDescript, "fontTitleSmall", "colorLightGrey")}>
-          {this.props.i18nUIString.catalog['guiding_AtNode_noAccumulated']}
+          {this.props.i18nUIString.catalog['guiding_noAccumulated_shareInvitation']}
           <br/>
         </div>
         <div
@@ -58,8 +58,13 @@ class FeedEmpty extends React.Component {
                 {...this.props}
                 _submit_Share_New={()=>{
                   // close the Create by rm creating in url, and then refresh page
-                  let lastState = this.props.location.state.from ;
-                  window.history.replaceState(lastState);
+                  let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
+                  urlParams.delete('creating');
+                  window.history.replaceState({
+                    pathname: this.props.match.path,
+                    search: urlParams.toString(),
+                    state: {from: this.props.location}
+                  });
                   window.location.reload();}}/>
             </div>
         </div>
