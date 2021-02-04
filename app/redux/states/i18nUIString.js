@@ -36,6 +36,7 @@ const i18nUIString_EN = {
   ],
   "descript_Sign_termsDeclaim": [
     "By clicking “Register”, you agree our", " Terms of Services", " and ", "Privacy Policy", "."],
+  "guiding_Sign_signUpInvite": 'Sign in, or create an account before deeper browsing!',
   "submit_nav_Signupin": "Sign up/in",
   "submit_nav_Signin": "Sign in",
   "submit_nav_Signup": "Sign up",
@@ -252,7 +253,7 @@ const i18nUIString_EN = {
     "＊Based on Tuan Wu's interface design."
   ]],
   "text_about": [[
-    "We are Cornerth, a start-up team base on Taiwan, establishing this web app on the thought providing people an easier way to notice and learn from their living environment.",
+    "We are Cornerth, a start-up team base in Taiwan, establishing this web app on the thought providing people an easier way to notice and learn from their living environment.",
     "Cornerth.tw enable you sharing contents with pictures, text, and graphic items on it for things you're interested to, or related to the corner you concern about.",
     "It's our pleasure to see you using it."
   ]],
@@ -263,10 +264,10 @@ const i18nUIString_EN = {
     [
       "we would reply you as soon as possible."],
     [
-      "Or, come to follow our official Pinterest account!"
+      "Or if you are base in Taiwan, or understand mandarin, follow our official Facebook Page!"
     ],
     [
-      "we would put our selection from Cornerth into Pinterest from time to time."
+      "You would see weekly selections, new features, or any important announcement on it."
     ]
   ]
 };

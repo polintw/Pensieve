@@ -166,6 +166,13 @@ class Wrapper extends React.Component {
                         nodesList: nodesList, pathName: this.props.match.params['pathName']
                       })
                     }}/>
+                  { // only show up when no token(unsigned)
+                    (this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') &&
+                    <div
+                      className={classnames( styles.boxRow, styles.boxSignup)}>
+                      <SignBlock/>
+                    </div>
+                  }
                   <div className={classnames(styles.boxFooter)}/>
                 </div>
               ):(
