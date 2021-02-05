@@ -21,6 +21,55 @@
   margin-bottom: 36vh;
 }
 
+.boxTitle {
+  margin: 8px 0;
+}
+
+.comChain {
+  display: flex;
+  flex-direction: column;
+}
+
+.boxSharedTitle {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  padding-right: 1rem;
+  margin-bottom: 12px;
+}
+
+.boxSharedsDisplay {
+  display: flex;
+  align-items: flex-end;
+  width: 100%;
+  position: relative;
+}
+
+.boxModuleShareds {
+  display: flex;
+  justify-content: flex-start;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.comNavFeed {
+  display: flex;
+  align-items: baseline;
+}
+
+
+
+.boxSignup {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 51px;
+  min-height: 4.1vw;
+  box-sizing: border-box;
+  margin: 4px 8px 4px 0;
+}
+
 .spanFooterHint {
   margin: 8px 0;
 }

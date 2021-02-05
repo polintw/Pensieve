@@ -169,11 +169,19 @@ class UnitUnsign extends React.Component {
 
   render(){
     if(this.state.close){
-      // under unsigned, we back to sign in page if this is a purw Unit view
-      if(this.props.location.pathname.includes('explore/unit/')){this.props._refer_von_unit('', '/'); return;};
+      let toSearch = new URLSearchParams(this.props.location.search);
+      // under unsigned Unit view, we close the modal to path'.../unit'
+      if(this.props.location.pathname.includes('explore/unit/')){
+        toSearch.delete('unitView');
+        return <Redirect
+          to={{
+            pathname: this.props.location.pathname, // '.../unit'
+            search: toSearch.toString(),
+            state: {from: this.props.location}
+          }}/>
+      };
       // or close the Unit modal if we are at other place
       let toPath=this.props.location.pathname.replace("/unit", "");
-      let toSearch = new URLSearchParams(this.props.location.search);
       toSearch.delete('unitId');
       toSearch.delete('unitView');
       return <Redirect to={{
