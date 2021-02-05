@@ -146,7 +146,8 @@ class Wrapper extends React.Component {
             (this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') &&
             <div
               className={classnames( styles.boxRow, styles.boxSignup)}>
-              <SignBlock/>
+              <SignBlock
+                description={'regular'}/>
             </div>
           }
           <div
@@ -170,7 +171,8 @@ class Wrapper extends React.Component {
                     (this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') &&
                     <div
                       className={classnames( styles.boxRow, styles.boxSignup)}>
-                      <SignBlock/>
+                      <SignBlock
+                        description={'regular'}/>
                     </div>
                   }
                   <div className={classnames(styles.boxFooter)}/>

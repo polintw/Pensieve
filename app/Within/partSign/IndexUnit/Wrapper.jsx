@@ -9,6 +9,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import SignBlock from '../components/SignBlock/SignBlock.jsx';
+import stylesNail from "../../stylesNail.module.css";
 import NailFeedWide from '../../../Components/Nails/NailFeedWide/NailFeedWide.jsx';
 import NailFeedMobile from '../../../Components/Nails/NailFeedMobile/NailFeedMobile.jsx';
 import UnitUnsign from '../../../Unit/UnitUnsign/UnitUnsign.jsx';
@@ -46,6 +47,7 @@ class Wrapper extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot){
     let prevParams = new URLSearchParams(prevProps.location.search); //we need value in URL query
     let prevUnitId = prevParams.get('unitId');
+    // must check this.unitId: this.unitId could be 'false' and no need to update if so.
     if(this.unitId && (prevUnitId != this.unitId)) this._set_feedUnits();
   }
 
@@ -76,7 +78,7 @@ class Wrapper extends React.Component {
             {...this.props}
             leftimg={false}
             unitId={this.unitId}
-            linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
+            linkPath={this.props.location.pathname}
             unitBasic={this.state.unitsBasic[this.unitId]}
             marksBasic={this.state.marksBasic} />
         </div>
@@ -91,7 +93,7 @@ class Wrapper extends React.Component {
           {...this.props}
           leftimg={false}
           unitId={this.unitId}
-          linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
+          linkPath={this.props.location.pathname}
           unitBasic={this.state.unitsBasic[this.unitId]}
           marksBasic={this.state.marksBasic}/>
       </div>
@@ -134,7 +136,9 @@ class Wrapper extends React.Component {
                       className={classnames(styles.boxModuleShareds)}>
                       <div
                         className={classnames(styles.boxSignup)}>
-                        <SignBlock/>
+                        <SignBlock
+                          description={false}
+                          btnDepend={'indexUnit'}/>
                       </div>
                     </div>
                   </div>
@@ -158,7 +162,19 @@ class Wrapper extends React.Component {
                 </div>
               </div>
             </div>
-            {this._render_FeedNails()}
+            <div
+              className={classnames(
+                styles.boxModule,
+                styles.boxModuleSmall)}>
+              {this._render_FeedNails()}
+            </div>
+          </div>
+          <div
+            className={classnames( styles.boxRow, styles.boxSignup)}
+            style={{minHeight: '32vh'}}>
+            <SignBlock
+              description={'regular'}
+              btnDepend={'regular'}/>
           </div>
           <div
             className={classnames(styles.boxRow, styles.boxFooter)}>
@@ -168,7 +184,7 @@ class Wrapper extends React.Component {
 
         {
           (this.unitId && !!this.unitView) &&
-          <UnitUnsign {...props} _refer_von_unit={this.props._refer_to}/>
+          <UnitUnsign {...this.props} _refer_von_unit={this.props._refer_to}/>
         }
       </div>
     )

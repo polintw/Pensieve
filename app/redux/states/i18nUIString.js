@@ -36,7 +36,8 @@ const i18nUIString_EN = {
   ],
   "descript_Sign_termsDeclaim": [
     "By clicking “Register”, you agree our", " Terms of Services", " and ", "Privacy Policy", "."],
-  "guiding_Sign_signUpInvite": 'Sign in, or create an account before deeper browsing!',
+  "guiding_Sign_signUpInvite": 'Sign up/in to let the exploration begin!',
+  "submit_nav_SignupInvite": "Sign up to share yours!",
   "submit_nav_Signupin": "Sign up/in",
   "submit_nav_Signin": "Sign in",
   "submit_nav_Signup": "Sign up",
