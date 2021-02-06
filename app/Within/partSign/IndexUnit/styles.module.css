@@ -1,0 +1,92 @@
+.comAroundWrapper {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.boxRow {
+  position: relative;
+  margin: 12px 0;
+}
+
+.boxRowTop { /* should after .boxRow */
+  padding-top: 4px;
+}
+
+.boxFooter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 2rem;
+  margin-bottom: 36vh;
+}
+
+.boxTitle {
+  margin: 8px 0;
+}
+
+.boxModule{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.comChain {
+  display: flex;
+  flex-direction: column;
+}
+
+.boxSharedTitle {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  padding-right: 1rem;
+  margin-bottom: 12px;
+}
+
+.boxSharedsDisplay {
+  display: flex;
+  align-items: flex-end;
+  width: 100%;
+  position: relative;
+}
+
+.boxModuleShareds {
+  display: flex;
+  justify-content: flex-start;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.comNavFeed {
+  display: flex;
+  align-items: baseline;
+}
+
+
+.boxSignup {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 15vh;
+  box-sizing: border-box;
+  margin: 4px 0;
+  padding: 1.38vw;
+  border-radius: 4px;
+  background-color: rgba(255, 129, 104, 0.1);
+}
+
+.spanFooterHint {
+  margin: 8px 0;
+}
+
+@media screen and (max-width:860px) {
+  .boxModuleSmall {
+    justify-content: center;
+  }
+
+  .boxFooter {
+    margin-bottom: 21vh;
+  }
+}

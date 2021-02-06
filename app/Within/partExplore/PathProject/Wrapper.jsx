@@ -12,6 +12,7 @@ import styles from "./styles.module.css";
 import Feed from './Feed/Feed.jsx';
 import NavFeed from './NavFeed/NavFeed.jsx';
 import TitlePath from './TitlePath/TitlePath.jsx';
+import SignBlock from '../../partSign/components/SignBlock/SignBlock.jsx';
 import {
   _axios_get_projectBasic,
   _axios_get_projectNodes,
@@ -103,13 +104,16 @@ class Wrapper extends React.Component {
 
     return(
       <div>
-        <div
-          className={classnames("smallDisplayBox")}>
+        { // only show up when token show
+          !(this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') &&
           <div
-            className={classnames(styles.boxNavTop)}>
-            <NavCosmicMobile/>
+            className={classnames("smallDisplayBox")}>
+            <div
+              className={classnames(styles.boxNavTop)}>
+              <NavCosmicMobile/>
+            </div>
           </div>
-        </div>
+        }
         <div
           className={classnames(styles.comPathProject)}>
           <div
@@ -141,6 +145,14 @@ class Wrapper extends React.Component {
                 viewFilter={this.viewFilter}/>
             </div>
           </div>
+          { // only show up when no token(unsigned)
+            (this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') &&
+            <div
+              className={classnames( styles.boxRow, styles.boxSignup)}>
+              <SignBlock
+                description={'regular'}/>
+            </div>
+          }
           <div
             className={classnames(styles.boxRow)}>
             {
@@ -158,6 +170,14 @@ class Wrapper extends React.Component {
                         nodesList: nodesList, pathName: this.props.match.params['pathName']
                       })
                     }}/>
+                  { // only show up when no token(unsigned)
+                    (this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') &&
+                    <div
+                      className={classnames( styles.boxRow, styles.boxSignup)}>
+                      <SignBlock
+                        description={'regular'}/>
+                    </div>
+                  }
                   <div className={classnames(styles.boxFooter)}/>
                 </div>
               ):(

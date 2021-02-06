@@ -19,6 +19,7 @@ import ModalBackground from '../Components/ModalBackground.jsx';
 import SingleDialog from '../Components/Dialog/SingleDialog/SingleDialog.jsx';
 import SingleCloseDialog from '../Components/Dialog/SingleCloseDialog/SingleCloseDialog.jsx';
 import BooleanDialog from '../Components/Dialog/BooleanDialog/BooleanDialog.jsx';
+import ScrollToTop from '../Components/RouterScrollTop.jsx';
 import {
   fetchBelongRecords
 } from '../redux/actions/general.js'
@@ -119,11 +120,13 @@ class WithinCosmic extends React.Component {
                 styles.boxContentFilledLeft)} />
             <div
               className={classnames(styles.boxAroundContentCenter)}>
-              <Switch>
-                <Route path={this.props.match.path + "/explore"} render={(props) => <Explore {...props} _refer_von_cosmic={this._refer_von_cosmic} />} />
-                <Route path={this.props.match.path + "/focus"} render={(props) => <Focus {...props} _refer_von_cosmic={this._refer_von_cosmic} />} />
-                <Route path={this.props.match.path + "/nodes"} render={(props) => <Nodes {...props} _refer_von_cosmic={this._refer_von_cosmic} />} />
-              </Switch>
+              <ScrollToTop>
+                <Switch>
+                  <Route path={this.props.match.path + "/explore"} render={(props) => <Explore {...props} _refer_von_cosmic={this._refer_von_cosmic} />} />
+                  <Route path={this.props.match.path + "/focus"} render={(props) => <Focus {...props} _refer_von_cosmic={this._refer_von_cosmic} />} />
+                  <Route path={this.props.match.path + "/nodes"} render={(props) => <Nodes {...props} _refer_von_cosmic={this._refer_von_cosmic} />} />
+                </Switch>
+              </ScrollToTop>
             </div>
             <div
               className={classnames(

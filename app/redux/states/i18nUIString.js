@@ -36,6 +36,8 @@ const i18nUIString_EN = {
   ],
   "descript_Sign_termsDeclaim": [
     "By clicking “Register”, you agree our", " Terms of Services", " and ", "Privacy Policy", "."],
+  "guiding_Sign_signUpInvite": 'Sign up/in to let the exploration begin!',
+  "submit_nav_SignupInvite": "Sign up to share yours!",
   "submit_nav_Signupin": "Sign up/in",
   "submit_nav_Signin": "Sign in",
   "submit_nav_Signup": "Sign up",
@@ -60,7 +62,8 @@ const i18nUIString_EN = {
     "Choosing the status of the people you would like to invite"
   ],//Original:"Choosing the characteristic of people you want to invite", "You havn't set the place you belong to yet."
   "title_onBoard_GuideNailTitle": ["Welcome to Cornerth.", "What to do?"],
-  "hint_onBoard_start": `If you've finished the "Welcome",`,
+  "hint_onBoard_belongEdit": `Don't worry. You can edit "Your corners" in the Setting any time in the future.`,
+  "hint_onBoard_start": `If you've finished the introductions above,`,
   "submit_onBoard_next": "Next",
   "title_Invite_": "Create an Invitation!",
   "title_Invitation_": "Invitation",
@@ -130,7 +133,7 @@ const i18nUIString_EN = {
   "subtitle_Password": "Password",
   "link_UnitListResponds": 'View Responds',//Original:'responds'
   "link_PublicExpand": 'Public view',
-  "link_ExpandPersonal": 'Expand as Personal',
+  "link_ExpandPersonal": 'Expand into Personal',
   "link_Focus": 'Browse all',
   "link_Fellows": 'Fellows',
   "link_Options_selfLink": "Shareds",
@@ -187,8 +190,8 @@ const i18nUIString_EN = {
   "guiding_FeedAssigned_noneAssigned_justSubmit": "Good to have your contrubution.",
   "guiding_FeedAssigned_noneAssigned_norContri": "It could be you contributing somthing to your corners!", //Original:"It could be you contributing somthing for your corners!"
 
-  "message_Chain_noShareds": "You'll see the list of your contributions here.",
-  "message_Chain_noSharedsCourage": "Submit your first one!",//Original:"Trying submitting an observation about your corners."
+  "message_Chain_noShareds": "You'll see the list of your publications here.",
+  "message_Chain_noSharedsCourage": "Wait for your first Shared!",//Original:"Trying submitting an observation about your corners."
   "message_Chain_byChainInfo": [
     "Contribution ",
     "Responded by ",
@@ -227,6 +230,11 @@ const i18nUIString_EN = {
   "title_NavAtNode_": "Accumulation",
   "subtitle_NavAtNode_Num": ['stay', "from"],
   "guiding_AtNode_noAccumulated": "Waiting for the first contribution!",
+  "guiding_noAccumulated_waitAuthor": "Good content is always worth waiting!",
+  "guiding_noAccumulated_shareInvitation": "Create your first Shared!",
+  "guiding_noAccumulated_pathShareInvitation": "Start your theme by create a Shared!",
+  "guiding_noAccumulated_selfPageExplain": ["Here you're seeing the public page displaying your publications.", "Here is your personal page with full control!" ],
+  "guiding_noAccumulated_nodeFilter": "Corners used would show up here after first Shared!",
 
   "hint_PathProject_FilterNode": "Filter accumulations by nodes beneath",
   "message_PathProject_ShareLink": "Link has copied",
@@ -249,7 +257,7 @@ const i18nUIString_EN = {
     "＊Based on Tuan Wu's interface design."
   ]],
   "text_about": [[
-    "We are Cornerth, a start-up team base on Taiwan, establishing this web app on the thought providing people an easier way to notice and learn from their living environment.",
+    "We are Cornerth, a start-up team base in Taiwan, establishing this web app on the thought providing people an easier way to notice and learn from their living environment.",
     "Cornerth.tw enable you sharing contents with pictures, text, and graphic items on it for things you're interested to, or related to the corner you concern about.",
     "It's our pleasure to see you using it."
   ]],
@@ -260,10 +268,10 @@ const i18nUIString_EN = {
     [
       "we would reply you as soon as possible."],
     [
-      "Or, come to follow our official Pinterest account!"
+      "Or if you are base in Taiwan, or understand mandarin, follow our official Facebook Page!"
     ],
     [
-      "we would put our selection from Cornerth into Pinterest from time to time."
+      "You would see weekly selections, new features, or any important announcement on it."
     ]
   ]
 };

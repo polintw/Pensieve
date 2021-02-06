@@ -56,6 +56,15 @@ class BelongsbyType extends React.Component {
     return(
       <div
         className={classnames(styles.comBelongsbyType)}>
+        {
+          (this.props.userInfo.accountStatus == "newly") &&
+          <span
+            className={classnames(
+              styles.spanNewly,
+              "colorEditLightBlack", "fontContent")}>
+              {this.props.i18nUIString.catalog['hint_onBoard_belongEdit']}
+          </span>
+        }
         {this._render_BelongList()}
       </div>
     )

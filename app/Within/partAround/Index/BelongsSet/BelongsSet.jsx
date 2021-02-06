@@ -118,6 +118,10 @@ class BelongsSet extends React.Component {
   }
 
   render(){
+    /*
+    In fact, the BelongsSet under /Around was only used in 'onBoard' process,
+    always under tokenstatus 'newly' 
+    */
     return(
       <div
         className={classnames(styles.boxNewlySet)}>

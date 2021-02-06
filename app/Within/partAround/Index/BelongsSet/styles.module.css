@@ -3,14 +3,14 @@
   flex-direction: column;
 }
 
+.boxTitle {
+  margin: 8px 0;
+}
+
 .boxNewlySet {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-}
-
-.boxTitle {
-  margin: 8px 0;
 }
 
 @media screen and (max-width:860px) {

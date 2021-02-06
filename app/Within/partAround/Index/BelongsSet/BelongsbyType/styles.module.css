@@ -73,6 +73,11 @@
   cursor: pointer;
 }
 
+.spanNewly {
+  display: inline-block;
+  margin: 8px 0;
+}
+
 @media screen and (max-width:860px) {
   .comBelongsbyType{
     flex-direction: row;

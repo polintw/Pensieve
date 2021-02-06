@@ -8,9 +8,9 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import IndexUnit from './partSign/IndexUnit/Wrapper.jsx';
 import WithinSign from './partSign/WithinSign.jsx';
 import PathProject from './partExplore/PathProject/Wrapper.jsx';
-import UnitUnsign from '../Unit/UnitUnsign/UnitUnsign.jsx';
 import NavWithin from '../Components/NavWithin/NavWithin.jsx';
 import NavOptionsUnsign from '../Components/NavOptions/NavOptionsUnsign.jsx';
 import ModalBox from '../Components/ModalBox.jsx';
@@ -86,6 +86,7 @@ class Within_Sign extends React.Component {
         <div
           className={classnames(styles.comWithinSign)}>
           <Switch>
+            <Route path="/cosmic/explore/unit" render={(props)=> UnsignWithinUnit(props, this) }/>
             <Route path="/cosmic/explore" render={(props)=> UnsignWithinCosmic(props, this) }/>
             <Route path="/" render={(props)=> UnsignWithin(props, this) }/>
           </Switch>
@@ -132,7 +133,6 @@ const UnsignWithinCosmic = ( routeProps, parent) => {
         <div
           className={classnames(styles.boxAroundContentCenter)}>
           <Switch>
-            <Route path={routeProps.match.path + "/unit"} render={(innerRouteProps)=> <UnitUnsign {...innerRouteProps} _refer_von_unit={parent._refer_von_Sign}/>}/>
             <Route path={routeProps.match.path + "/path/:pathName"} render={(innerRouteProps)=> <PathProject {...innerRouteProps} _refer_to={parent._refer_von_Sign}/>}/>
             <Route path={routeProps.match.path + "/"} render={(routeProps)=> <Redirect to={'/'}/>}/>
           </Switch>
@@ -167,6 +167,41 @@ const UnsignWithin = ( routeProps, parent) => {
     </div>
   )
 }
+
+const UnsignWithinUnit = ( routeProps, parent) => {
+  return (
+    <div>
+      <div
+        className={classnames(styles.boxNavOptionsFrame)}>
+        <div
+          className={classnames(styles.boxNavOptions)}>
+          <NavOptionsUnsign {...routeProps} _refer_to={parent._refer_von_Sign}/>
+        </div>
+      </div>
+      <div
+        className={classnames(styles.boxAroundContent)}>
+        <div
+          className={classnames(
+            styles.boxContentFilledLeft)}/>
+        <div
+          className={classnames(styles.boxAroundContentCenter)}>
+          <div
+            style={{maxWidth: '99vw', boxSizing: 'border-box'}}>
+            <IndexUnit {...routeProps} _refer_to={parent._refer_von_Sign}/>
+          </div>
+        </div>
+        <div
+          className={classnames(
+            styles.boxContentFilledRight)}/>
+        </div>
+        <div
+            className={classnames(styles.boxNavAround)}>
+          <NavWithin {...routeProps} _refer_to={parent._refer_von_Sign}/>
+        </div>
+    </div>
+  )
+}
+
 
 const mapStateToProps = (state)=>{
   return {

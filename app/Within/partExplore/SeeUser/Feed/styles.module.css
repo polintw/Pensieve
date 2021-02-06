@@ -27,6 +27,25 @@
   text-align: center;
 }
 
+.boxInvite {
+  padding: 22px 0 20px;
+  text-align: center;
+}
+
+.boxBtnInvite {
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  padding: 6px 1.2rem 7px;
+  border-radius: 4px;
+  border: solid 1px #a3a3a3;
+  cursor: pointer;
+}
+
+.boxBtnInviteActiv {
+  border: dashed 2px #ababab;
+}
+
 .boxFooter {
   display: flex;
   flex-direction: column;
@@ -34,6 +53,10 @@
   position: relative;
   padding-top: 4.4rem;
   margin-bottom: 35.6vh;
+}
+
+.spanBtnInvite {
+  white-space: nowrap;
 }
 
 @media screen and (max-width:860px) {

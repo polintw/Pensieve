@@ -65,21 +65,21 @@ class Contact extends React.Component {
         </ul>
       </section>
     )
-    let pinterestDOM = (
+    let facebookDOM = (
       <section
         key={"key_textSection_pinterest"}>
         <ul style={{listStyle: 'none'}}>
           <a
-            href={outside.pinterest}
+            href={outside.facebookTW}
             target={"_blank"}
             style={{color: 'rgb(69, 135, 160)'}}>
-            {"Cornerth on Pinterest"}
+            {"Cornerth.TW on Facebook"}
           </a>
         </ul>
       </section>
     )
     textDOM.splice(1, 0, emailDOM);
-    textDOM.splice(4, 0, pinterestDOM);
+    textDOM.splice(4, 0, facebookDOM);
 
     return textDOM;
   }
