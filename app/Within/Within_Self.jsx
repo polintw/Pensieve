@@ -21,6 +21,7 @@ import ModalBackground from '../Components/ModalBackground.jsx';
 import SingleDialog from '../Components/Dialog/SingleDialog/SingleDialog.jsx';
 import SingleCloseDialog from '../Components/Dialog/SingleCloseDialog/SingleCloseDialog.jsx';
 import BooleanDialog from '../Components/Dialog/BooleanDialog/BooleanDialog.jsx';
+import ScrollToTop from '../Components/RouterScrollTop.jsx';
 
 class WithinSelf extends React.Component {
   constructor(props){
@@ -102,9 +103,11 @@ class WithinSelf extends React.Component {
             <div
               className={classnames(
                 styles.boxAroundContentCenter, styles.boxSelfContent)}>
-              <Switch>
-                <Route path={this.props.match.path} render={(props)=> <Self {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
-              </Switch>
+              <ScrollToTop>
+                <Switch>
+                  <Route path={this.props.match.path} render={(props)=> <Self {...props} _refer_von_cosmic={this._refer_von_cosmic}/>}/>
+                </Switch>
+              </ScrollToTop>
             </div>
             <div
               className={classnames(

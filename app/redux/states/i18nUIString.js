@@ -133,7 +133,7 @@ const i18nUIString_EN = {
   "subtitle_Password": "Password",
   "link_UnitListResponds": 'View Responds',//Original:'responds'
   "link_PublicExpand": 'Public view',
-  "link_ExpandPersonal": 'Expand as Personal',
+  "link_ExpandPersonal": 'Expand into Personal',
   "link_Focus": 'Browse all',
   "link_Fellows": 'Fellows',
   "link_Options_selfLink": "Shareds",
@@ -190,8 +190,8 @@ const i18nUIString_EN = {
   "guiding_FeedAssigned_noneAssigned_justSubmit": "Good to have your contrubution.",
   "guiding_FeedAssigned_noneAssigned_norContri": "It could be you contributing somthing to your corners!", //Original:"It could be you contributing somthing for your corners!"
 
-  "message_Chain_noShareds": "You'll see the list of your contributions here.",
-  "message_Chain_noSharedsCourage": "Submit your first one!",//Original:"Trying submitting an observation about your corners."
+  "message_Chain_noShareds": "You'll see the list of your publications here.",
+  "message_Chain_noSharedsCourage": "Wait for your first Shared!",//Original:"Trying submitting an observation about your corners."
   "message_Chain_byChainInfo": [
     "Contribution ",
     "Responded by ",
