@@ -74,6 +74,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
+  box-sizing: border-box;
   margin: 8px 0;
   padding: 0 2rem;
 }
@@ -165,6 +166,30 @@
   padding-left: 0.6rem;
 }
 
+.boxSharedBtnFrame {
+  margin: 0 15px 0 0;
+}
+.boxSharedBtnFrameTranspa {
+  border: solid 2px transparent;
+}
+.boxSharedBtnFrameDashed {
+  border: dashed 2px #ababab;
+}
+
+.boxSharedEmptyBtn {
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  padding: 6px 1.2rem 7px;
+  border-radius: 4px;
+  border: solid 1px #a3a3a3;
+  cursor: pointer;
+}
+
+.boxSharedEmptyBtnActiv {
+  border: solid 1px transparent;
+}
+
 .spanExpandLink {
   display: inline-block;
   cursor: pointer;
@@ -177,6 +202,10 @@
 
 .spanBaseNodeMouse {
   border-bottom: solid 0.75px #545454;
+}
+
+.spanSharedEmptyBtn {
+
 }
 
 @media screen and (max-width:860px) {

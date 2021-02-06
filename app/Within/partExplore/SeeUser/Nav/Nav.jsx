@@ -53,6 +53,8 @@ class Nav extends React.Component {
         className={classnames(
           'plainLinkButton', styles.linkBlock,
            styles.boxSvgArrow)}
+        onTouchStart={this._handleEnter_CloseArrow}
+        onTouchEnd={this._handleLeave_CloseArrow}
         onMouseEnter={this._handleEnter_CloseArrow}
         onMouseLeave={this._handleLeave_CloseArrow}>
         <SvgArrowToTop
@@ -101,6 +103,8 @@ class Nav extends React.Component {
                   {
                     <div
                       className={classnames(styles.boxSvgArrowStick)}
+                      onTouchStart={this._handleEnter_FilterNode}
+                      onTouchEnd={this._handleLeave_FilterNode}
                       onMouseEnter={this._handleEnter_FilterNode}
                       onMouseLeave={this._handleLeave_FilterNode}>
                       <SvgArrowStick
@@ -125,6 +129,8 @@ class Nav extends React.Component {
                     'plainLinkButton', styles.boxIconsFilter)}>
                     <div
                       className={classnames(styles.boxIconFilterNode)}
+                      onTouchStart={this._handleEnter_FilterNode}
+                      onTouchEnd={this._handleLeave_FilterNode}
                       onMouseEnter={this._handleEnter_FilterNode}
                       onMouseLeave={this._handleLeave_FilterNode}>
                       <SvgFilterNode
@@ -152,6 +158,8 @@ class Nav extends React.Component {
                   to={"/cosmic/explore/node?nodeid=" + this.filterNode}
                   className={classnames('plainLinkButton')}
                   style={{ display: 'inline-block' }}
+                  onTouchStart={this._handleEnter_NodeLink}
+                  onTouchEnd={this._handleLeave_NodeLink}
                   onMouseEnter={this._handleEnter_NodeLink}
                   onMouseLeave={this._handleLeave_NodeLink}>
                   {(this.filterNode in this.props.nounsBasic) &&

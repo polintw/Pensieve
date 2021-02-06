@@ -39,15 +39,15 @@ class Nav extends React.Component {
   _render_serviceNav(){
     const navItems = ["about", 'terms', "privacy", "contact"];
     const currentPath = window.location.pathname;
-    
+
     let navDOM = navItems.map((text, index)=> {
       // make the 1st char in text to cap
       let upperChar = text.charAt(0).toUpperCase();
       let restChar = text.slice(1);
       let displayText = upperChar + restChar;
-      // check if on path 
+      // check if on path
       let pathify = currentPath.includes(text);
-      
+
       return (
         <Link
           key={"key_serviceNav_"+index}
@@ -68,11 +68,11 @@ class Nav extends React.Component {
               }
             )}>
             {displayText}
-          </span>        
+          </span>
         </Link>
       )
     })
-    
+
     return navDOM;
   }
 
@@ -88,7 +88,7 @@ class Nav extends React.Component {
                 topath={"index"}
                 className={classnames(
                   'plainLinkButton', 'colorDescripBlack', styles.boxLink,
-                  { 
+                  {
                     [styles.linkMouse]: (this.state.mouseOn == 'index'),
                     [styles.linkNoMouse]: (this.state.mouseOn != 'index')
                   }
@@ -116,14 +116,14 @@ class Nav extends React.Component {
                 topath={"index"}
                 className={classnames(
                   'plainLinkButton', 'colorDescripBlack', 'fontSubtitle', styles.boxLink,
-                  { 
+                  {
                     [styles.linkMouse]: (this.state.mouseOn == 'index'),
                     [styles.linkNoMouse]: (this.state.mouseOn != 'index')
                   }
                 )}
                 onMouseEnter={this._handleEnter_Link}
                 onMouseLeave={this._handleLeave_Link}>
-                {this.props.i18nUIString.catalog['submit_nav_Signin']}
+                {this.props.i18nUIString.catalog['submit_nav_Signupin']}
               </a>
             )
           }

@@ -148,6 +148,19 @@ class NodesFilter extends React.Component {
         )
       }
     });
+    if(nodesListDOM.length == 0){ // means no Shared at all, remind share
+      nodesListDOM.push(
+        <div
+          className={classnames(styles.boxEmptyDescript)}>
+          <span
+            className={classnames("fontTitleSmall", "colorLightGrey")}
+            style={{display: 'inline-block', width: '200px'}}>
+            {this.props.i18nUIString.catalog['guiding_noAccumulated_nodeFilter']}
+          </span>
+          <br/>
+        </div>
+      )
+    }
 
     return nodesListDOM;
   }

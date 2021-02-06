@@ -64,6 +64,12 @@
   box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
 }
 
+.boxEmptyDescript {
+  width: 100%;
+  padding: 6rem 0;
+  text-align: center;
+}
+
 @media screen and (max-width:1110px) and (min-width: 860px) {
   .comNodesImgs {
     flex-direction: column;

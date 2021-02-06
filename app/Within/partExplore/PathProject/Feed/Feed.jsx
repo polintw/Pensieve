@@ -10,6 +10,7 @@ import FeedEmpty from './FeedEmpty.jsx';
 import NailFeed from '../../../../Components/Nails/NailFeed/NailFeed.jsx';
 import NailFeedWide from '../../../../Components/Nails/NailFeedWide/NailFeedWide.jsx';
 import NailFeedMobile from '../../../../Components/Nails/NailFeedMobile/NailFeedMobile.jsx';
+import SignBlock from '../../../partSign/components/SignBlock/SignBlock.jsx';
 import {_axios_get_accumulatedList} from '../axios.js';
 import {axios_get_UnitsBasic} from '../../../../utils/fetchHandlers.js';
 import {
@@ -114,10 +115,10 @@ class Feed extends React.Component {
           return;
         };
         // for laptop / desktop, change nail by cycles
-        let remainder3 = (index+1) % 3, // make the '0' appear first st 3rd nail
+        let remainder5 = (index+1) % 5, // make the '0' appear first st 5th nail
         remainder2 = index % 2; // cycle, but every 3 units has a wide, left, right in turn.
 
-        nailsDOM.push (remainder3 ? ( // 0 would be false, which means index % 3 =0
+        nailsDOM.push (remainder5 ? ( // 0 would be false, which means index % 5 =0
           <div
             key={"key_NodeFeed_new_"+index}
             className={classnames(stylesNail.boxNail)}>
@@ -195,6 +196,14 @@ class Feed extends React.Component {
           }
 
           <div ref={this.refScroll}/>
+          { // only show up when no token(unsigned)
+            (this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') &&
+            <div
+              className={classnames( styles.boxRow, styles.boxSignup)}>
+              <SignBlock
+                description={'regular'}/>
+            </div>
+          }
           <div
             className={classnames(styles.boxFooter)}>
             {this._render_FooterHint()}
@@ -292,6 +301,7 @@ class Feed extends React.Component {
 
 const mapStateToProps = (state)=>{
   return {
+    tokenStatus: state.token,
     i18nUIString: state.i18nUIString,
   }
 }

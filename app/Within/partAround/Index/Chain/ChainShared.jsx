@@ -9,8 +9,10 @@ import styles from "./styles.module.css";
 import stylesFont from '../../stylesFont.module.css';
 import ImgPreview from '../../../../Components/ImgPreview.jsx';
 import {SvgArrowToRight} from '../../../../Components/Svg/SvgArrow.jsx';
+import CreateShare from '../../../../Unit/Editing/CreateShare.jsx';
 import {
-  submitSharedsList
+  submitSharedsList,
+  setWithinFlag
 } from "../../../../redux/actions/within.js";
 import {
   handleNounsList,
@@ -193,20 +195,81 @@ class ChainShared extends React.Component {
     });
 
     if(this.props.sharedsList.list.length == 0){
-      listDOM.push(
+      listDOM.push( // one display only when small screen
+        <div
+          key={"key_SharedNails_emptyHint_mobile"}
+          className={classnames("smallDisplayBox")}
+          style={{width: "100%"}}>
+          <div
+            className={classnames(styles.boxEmptyShared)}>
+            <div>
+              <span
+                className={classnames(stylesFont.fontTitleSmall, stylesFont.colorGrey)}>
+                {this.props.i18nUIString.catalog["message_Chain_noSharedsCourage"]}
+              </span>
+            </div>
+          </div>
+        </div>
+      );
+      listDOM.push( // one display in PC
         <div
           key={"key_SharedNails_emptyHint"}
-          className={classnames(styles.boxEmptyShared)}>
-          <span
-            className={classnames(stylesFont.fontTitleSmall, stylesFont.colorGrey)}>
-            {this.props.i18nUIString.catalog["message_Chain_noShareds"]}
-          </span>
-          <span
-            className={classnames(stylesFont.fontTitleSmall, stylesFont.colorGrey)}>
-            {this.props.i18nUIString.catalog["message_Chain_noSharedsCourage"]}
-          </span>
+          className={classnames("smallDisplayNone")}
+          style={{width: "100%"}}>
+          <div
+            className={classnames(styles.boxEmptyShared)}
+            style={{justifyContent: 'flex-start', flexDirection: 'row'}}>
+            <div
+              className={classnames(
+                styles.boxSharedBtnFrame,
+                {
+                  [styles.boxSharedBtnFrameTranspa]: this.state.onNail != 'emptyHint',
+                  [styles.boxSharedBtnFrameDashed]: this.state.onNail == 'emptyHint',
+                })}>
+              <div
+                unitid={'emptyHint' /* to match the required condition in above */ }
+                className={classnames(
+                  styles.boxSharedEmptyBtn,
+                  {[styles.boxSharedEmptyBtnActiv]: this.state.onNail == 'emptyHint'}
+                )}
+                onMouseEnter={this._handleEnter_sharedNail}
+                onMouseLeave={this._handleLeave_sharedNail}>
+                <span
+                  className={classnames(
+                    styles.spanSharedEmptyBtn,
+                    {
+                      ['colorGrey']: this.state.onNail != 'emptyHint',
+                      ['colorStandard']: this.state.onNail == 'emptyHint',
+                    }, 'fontSubtitle_h5')}>
+                    {this.props.i18nUIString.catalog["title_share"]}</span>
+                  <span
+                    className={classnames(
+                      styles.spanSharedEmptyBtn, "colorStandard", 'fontSubtitle_h5')}>
+                      { "\xa0 |" }</span>
+                    <CreateShare
+                      {...this.props}
+                      _submit_Share_New={()=>{
+                        this.props._set_WithinFlag(true, "chainFetRespond");
+                        // and remember the editing modal was opened by URL change
+                        let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
+                        urlParams.delete('creating');
+                        this.props.history.replace({
+                          pathname: this.props.match.path,
+                          search: urlParams.toString(),
+                          state: {from: this.props.location}
+                        });
+                      }}/>
+                    </div>
+            </div>
+            <div>
+              <span
+                className={classnames(stylesFont.fontTitleSmall, stylesFont.colorGrey)}>
+                {this.props.i18nUIString.catalog["message_Chain_noShareds"]}
+              </span>
+            </div>
+          </div>
         </div>
-      )
+      );
     }
 
     return listDOM;
@@ -306,7 +369,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
     _submit_UsersList_new: (arr) => { dispatch(handleUsersList(arr)); },
-    _submit_list_Shareds: (obj) => { dispatch(submitSharedsList(obj)); }
+    _submit_list_Shareds: (obj) => { dispatch(submitSharedsList(obj)); },
+    _set_WithinFlag: (bool, flag) => {dispatch(setWithinFlag(bool, flag)); }
   }
 }
 

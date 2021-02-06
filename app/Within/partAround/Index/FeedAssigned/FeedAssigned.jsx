@@ -211,8 +211,7 @@ class FeedAssigned extends React.Component {
           ((concatList.length == 0) &&
             !this.props.indexLists.scrolled &&
             !this.state.axios &&
-            this.recKeys.length != 0 &&
-            this.props.sharedsList.list.length > 0
+            this.recKeys.length != 0
           ) &&
           <div
             className={classnames(
@@ -246,30 +245,6 @@ class FeedAssigned extends React.Component {
             }
           </div>
         }
-        { // this should be a temp method, to encourage user upload their first unit
-          ((concatList.length == 0) &&
-            !this.props.indexLists.scrolled &&
-            !this.state.axios &&
-            this.recKeys.length != 0 &&
-            this.props.sharedsList.list.length == 0
-          ) &&
-          <div
-            className={classnames(
-              styles.boxModule,
-              styles.boxModuleSmall)}>
-            <div
-              className={classnames(
-                styles.boxEmptyDescript, stylesNail.boxNail, stylesNail.custNailWideEmpty,
-                "fontDescrip", "colorEditLightBlack")}>
-              <div
-                className={styles.boxEmptyColumn}>
-                <span>
-                  {this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned_norContri']}</span>
-              </div>
-            </div>
-          </div>
-        }
-
         <div ref={this.refScroll}/>
       </div>
     )

@@ -40,7 +40,7 @@ class NavBtnRow extends React.Component {
     }
     else{
       toSearch.append("_filter_nodes", true);
-      toSearch.append("_filter_map", true);      
+      toSearch.append("_filter_map", true);
     };
     let filterLinkObj = {
       pathname: this.props.location.pathname,
@@ -61,6 +61,8 @@ class NavBtnRow extends React.Component {
                   to={filterLinkObj}
                   className={classnames('plainLinkButton', styles.boxIconFilterNode)}
                   style={{width: "18px"}}
+                  onTouchStart={this._handleEnter_FilterNode}
+                  onTouchEnd={this._handleLeave_FilterNode}
                   onMouseEnter={this._handleEnter_FilterNode}
                   onMouseLeave={this._handleLeave_FilterNode}>
                   <SvgArrowStick
@@ -86,6 +88,8 @@ class NavBtnRow extends React.Component {
               <Link
                 to={filterLinkObj}
                 className={classnames('plainLinkButton', styles.boxIconFilterNode)}
+                onTouchStart={this._handleEnter_FilterNode}
+                onTouchEnd={this._handleLeave_FilterNode}
                 onMouseEnter={this._handleEnter_FilterNode}
                 onMouseLeave={this._handleLeave_FilterNode}>
                 <SvgFilterNode

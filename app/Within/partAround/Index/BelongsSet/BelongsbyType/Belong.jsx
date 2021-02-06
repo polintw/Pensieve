@@ -65,15 +65,13 @@ class Belong extends React.Component {
               )}
             </span>
         </div>
+        {
+          !!(firstParentId in this.props.nounsBasic) &&
           <span
-            className={classnames(styles.spanType, "colorEditBlack", "fontContent")}
-            style={{opacity: !!(firstParentId in this.props.nounsBasic)? 1 : 0}}>
-            {"/ "}
-            {
-              !!(firstParentId in this.props.nounsBasic) &&
-              this.props.nounsBasic[firstParentId].name
-            }
+            className={classnames(styles.spanType, "colorEditBlack", "fontContent")}>
+            { "/ " + this.props.nounsBasic[firstParentId].name }
           </span>
+        }
         </div>
     )
   }
@@ -99,20 +97,23 @@ class Belong extends React.Component {
         <div
           className={classnames(styles.boxCategory)}>
           {this._render_type()}
-          <div
-            onMouseEnter={this._handleMouseOn_Edit}
-            onMouseLeave={this._handleMouseOn_Edit}
-            onClick={this._handleClick_belongEdit}>
-            <span
-              className={classnames(
-                styles.spanEdit,
-                stylesFont.fontContent,
-                stylesFont.colorWhiteGrey
-              )}
-              style={ this.state.onEdit ? {color: "#757575"}:{} }>
-              {this.props.i18nUIString.catalog["submit_edit"]}
-            </span>
-          </div>
+          {
+            (this.props.userInfo.accountStatus != "newly") &&
+            <div
+              onMouseEnter={this._handleMouseOn_Edit}
+              onMouseLeave={this._handleMouseOn_Edit}
+              onClick={this._handleClick_belongEdit}>
+              <span
+                className={classnames(
+                  styles.spanEdit,
+                  stylesFont.fontContent,
+                  stylesFont.colorWhiteGrey
+                )}
+                style={ this.state.onEdit ? {color: "#757575"}:{} }>
+                {this.props.i18nUIString.catalog["submit_edit"]}
+              </span>
+            </div>
+          }
         </div>
         <div
           className={classnames(styles.boxCornerTitle)}>
