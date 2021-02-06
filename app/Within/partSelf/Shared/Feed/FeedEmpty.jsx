@@ -53,8 +53,8 @@ class FeedEmpty extends React.Component {
                   ['colorGrey']: !this.state.onInvite,
                   ['colorStandard']: this.state.onInvite,
                 }, 'fontSubtitle_h5')}>
-                {this.props.i18nUIString.catalog["title_share"] }</span>
-              <CreateShare
+              {this.props.i18nUIString.catalog["title_share"] }</span>
+            <CreateShare
                 {...this.props}
                 _submit_Share_New={()=>{
                   // close the Create by rm creating in url, and then refresh page
@@ -66,7 +66,14 @@ class FeedEmpty extends React.Component {
                     state: {from: this.props.location}
                   });
                   window.location.reload();}}/>
-            </div>
+          </div>
+        </div>
+        <div
+          className={classnames(styles.boxTitle, styles.boxEmptyDescript, "fontTitleSmall", "colorLightGrey")}>
+          <span style={{display: 'inline-block', width: '170px'}}>
+            {this.props.i18nUIString.catalog['guiding_noAccumulated_selfPageExplain'][1]}
+          </span>
+          <br/>
         </div>
       </div>
     )

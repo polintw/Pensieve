@@ -62,7 +62,8 @@ const i18nUIString_EN = {
     "Choosing the status of the people you would like to invite"
   ],//Original:"Choosing the characteristic of people you want to invite", "You havn't set the place you belong to yet."
   "title_onBoard_GuideNailTitle": ["Welcome to Cornerth.", "What to do?"],
-  "hint_onBoard_start": `If you've finished the "Welcome",`,
+  "hint_onBoard_belongEdit": `Don't worry. You can edit "Your corners" in the Setting any time in the future.`,
+  "hint_onBoard_start": `If you've finished the introductions above,`,
   "submit_onBoard_next": "Next",
   "title_Invite_": "Create an Invitation!",
   "title_Invitation_": "Invitation",
@@ -229,9 +230,11 @@ const i18nUIString_EN = {
   "title_NavAtNode_": "Accumulation",
   "subtitle_NavAtNode_Num": ['stay', "from"],
   "guiding_AtNode_noAccumulated": "Waiting for the first contribution!",
-  "guiding_noAccumulated_waitAuthor": "Waiting for the good news!",
+  "guiding_noAccumulated_waitAuthor": "Good content is always worth waiting!",
   "guiding_noAccumulated_shareInvitation": "Create your first Shared!",
   "guiding_noAccumulated_pathShareInvitation": "Start your theme by create a Shared!",
+  "guiding_noAccumulated_selfPageExplain": ["Here you're seeing the public page displaying your publications.", "Here is your personal page with full control!" ],
+  "guiding_noAccumulated_nodeFilter": "Corners used would show up here after first Shared!",
 
   "hint_PathProject_FilterNode": "Filter accumulations by nodes beneath",
   "message_PathProject_ShareLink": "Link has copied",

@@ -104,13 +104,16 @@ class Wrapper extends React.Component {
 
     return(
       <div>
-        <div
-          className={classnames("smallDisplayBox")}>
+        { // only show up when token show
+          !(this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') &&
           <div
-            className={classnames(styles.boxNavTop)}>
-            <NavCosmicMobile/>
+            className={classnames("smallDisplayBox")}>
+            <div
+              className={classnames(styles.boxNavTop)}>
+              <NavCosmicMobile/>
+            </div>
           </div>
-        </div>
+        }
         <div
           className={classnames(styles.comPathProject)}>
           <div
