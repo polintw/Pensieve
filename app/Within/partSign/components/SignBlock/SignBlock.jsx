@@ -107,7 +107,11 @@ class SignBlock extends React.Component {
           <div style={{textAlign: 'center', marginBottom: '1.6rem'}}>
             <span
               className={classnames( 'fontSubtitle', 'colorDescripBlack')}>
-              {this.props.i18nUIString.catalog['guiding_Sign_signUpInvite']}
+              {
+                (this.props.description == 'seemore') ?
+                this.props.i18nUIString.catalog['guiding_Sign_signUpMore'] : 
+                this.props.i18nUIString.catalog['guiding_Sign_signUpInvite']
+              }
             </span>
           </div>
         }

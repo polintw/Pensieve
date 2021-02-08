@@ -164,7 +164,10 @@ async function _handle_GET_accumulated_Share(req, res){
       });
 
       unitsExposedList = await _DB_units.findAll({
-        where: {id: unitsId}
+        where: {id: unitsId},
+        order: [ //make sure the order of arr are from latest
+          Sequelize.literal('`createdAt` DESC')
+        ]
       })
         .then((results) => {
           let exposedIdlist = results.map((row, index) => { return row.exposedId; });

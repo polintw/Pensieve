@@ -10,6 +10,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import SignBlock from '../components/SignBlock/SignBlock.jsx';
 import stylesNail from "../../stylesNail.module.css";
+import NailFeed from '../../../Components/Nails/NailFeed/NailFeed.jsx';
 import NailFeedWide from '../../../Components/Nails/NailFeedWide/NailFeedWide.jsx';
 import NailFeedMobile from '../../../Components/Nails/NailFeedMobile/NailFeedMobile.jsx';
 import UnitUnsign from '../../../Unit/UnitUnsign/UnitUnsign.jsx';
@@ -35,6 +36,7 @@ class Wrapper extends React.Component {
     super(props);
     this.state = {
       axios: false,
+      unitsList: [],
       unitsBasic: {},
       marksBasic: {}
     };
@@ -45,10 +47,7 @@ class Wrapper extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-    let prevParams = new URLSearchParams(prevProps.location.search); //we need value in URL query
-    let prevUnitId = prevParams.get('unitId');
-    // must check this.unitId: this.unitId could be 'false' and no need to update if so.
-    if(this.unitId && (prevUnitId != this.unitId)) this._set_feedUnits();
+
   }
 
   componentDidMount(){
@@ -67,37 +66,58 @@ class Wrapper extends React.Component {
     if( !this.unitId) return; // no render if no unitId
     //render if there are something in the data
     if( !(this.unitId in this.state.unitsBasic)) return; //skip if the info of the unit not yet fetch
-    // for mobile device, use one special Nail
-    let cssVW = window.innerWidth;
-    if(cssVW < 860) {
-      return (
-        <div
-          key={"key_FeedAssigned_new_"}
-          className={classnames(stylesNail.boxNail, stylesNail.custNailWide)}>
-          <NailFeedMobile
-            {...this.props}
-            leftimg={false}
-            unitId={this.unitId}
-            linkPath={this.props.location.pathname}
-            unitBasic={this.state.unitsBasic[this.unitId]}
-            marksBasic={this.state.marksBasic} />
-        </div>
-      );
-    };
+    let nailsDOM = this.state.unitsList.map((unitId, index)=>{
+      // for mobile device, use one special Nail
+      let cssVW = window.innerWidth;
+      if(cssVW < 860) {
+        return (
+          <div
+            key={"key_FeedAssigned_new_"+index}
+            className={classnames(stylesNail.boxNail, stylesNail.custNailWide)}>
+            <NailFeedMobile
+              {...this.props}
+              leftimg={false}
+              unitId={unitId}
+              linkPath={this.props.location.pathname}
+              unitBasic={this.state.unitsBasic[unitId]}
+              marksBasic={this.state.marksBasic} />
+          </div>
+        );
+      };
 
-    return (
-      <div
-        key={"key_FeedAssigned_new_"}
-        className={classnames(stylesNail.boxNail, stylesNail.custNailWide)}>
-        <NailFeedWide
-          {...this.props}
-          leftimg={false}
-          unitId={this.unitId}
-          linkPath={this.props.location.pathname}
-          unitBasic={this.state.unitsBasic[this.unitId]}
-          marksBasic={this.state.marksBasic}/>
-      </div>
-    );
+      if(index == 0){
+        return (
+          <div
+            key={"key_FeedAssigned_new_"+index}
+            className={classnames(stylesNail.boxNail, stylesNail.custNailWide)}>
+            <NailFeedWide
+              {...this.props}
+              leftimg={false}
+              unitId={unitId}
+              linkPath={this.props.location.pathname}
+              unitBasic={this.state.unitsBasic[unitId]}
+              marksBasic={this.state.marksBasic}/>
+          </div>
+        );
+      }
+      else {
+        return (
+          <div
+            key={"key_FeedAssigned_new_"+index}
+            className={classnames(stylesNail.boxNail)}>
+            <NailFeed
+              {...this.props}
+              unitId={unitId}
+              narrowWidth={false}
+              linkPath={this.props.location.pathname}
+              unitBasic={this.state.unitsBasic[unitId]}
+              marksBasic={this.state.marksBasic}/>
+          </div>
+        )
+      };
+    });
+
+    return nailsDOM;
   }
 
   render(){
@@ -173,7 +193,7 @@ class Wrapper extends React.Component {
             className={classnames( styles.boxRow, styles.boxSignup)}
             style={{minHeight: '32vh'}}>
             <SignBlock
-              description={'regular'}
+              description={'seemore'}
               btnDepend={'regular'}/>
           </div>
           <div
@@ -184,7 +204,10 @@ class Wrapper extends React.Component {
 
         {
           (this.unitId && !!this.unitView) &&
-          <UnitUnsign {...this.props} _refer_von_unit={this.props._refer_to}/>
+          <UnitUnsign
+            {...this.props}
+            anchorUnit = {this.unitId}
+            _refer_von_unit={this.props._refer_to}/>
         }
       </div>
     )
@@ -195,7 +218,23 @@ class Wrapper extends React.Component {
     this.setState({axios: true});
     let unitsList = this.unitId ? [this.unitId] : [];
 
-    axios_get_UnitsBasic(self.axiosSource.token, unitsList) //and use the list to get the data of eahc unit
+    axios({
+      method: 'get',
+      url: '/router/units/'+ this.unitId+ '/related',
+      headers: {
+        'Content-Type': 'application/json',
+        'charset': 'utf-8',
+        'token': window.localStorage['token']
+      },
+      cancelToken: this.axiosSource.token
+    }).then(function (res) {
+      let resObj = JSON.parse(res.data); //still parse the res data prepared to be used below
+      unitsList = unitsList.concat(resObj.main.unitsList);
+      self.setState({
+        unitsList: unitsList
+      });
+      return axios_get_UnitsBasic(self.axiosSource.token, unitsList) //and use the list to get the data of eahc unit
+    })
     .then((resObj)=>{
       //after res of axios_Units: call get nouns & users
       self.props._submit_NounsList_new(resObj.main.nounsListMix);
