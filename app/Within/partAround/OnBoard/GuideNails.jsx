@@ -40,7 +40,7 @@ class GuideNails extends React.Component {
     axios_get_UnitsBasic(this.axiosSource.token, unitsList)
     .then((resObj)=>{
       //after res of axios_Units: call get nouns & users
-      self.props._submit_UsersList_new([1]);
+      self.props._submit_UsersList_new(resObj.main.usersList);
       //and final, update the data of units to state
       self.setState((prevState, props)=>{
         return ({
