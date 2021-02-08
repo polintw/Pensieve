@@ -61,7 +61,7 @@ const i18nUIString_EN = {
     "You havn't set the place where you belong to.",
     "Choosing the status of the people you would like to invite"
   ],//Original:"Choosing the characteristic of people you want to invite", "You havn't set the place you belong to yet."
-  "title_onBoard_GuideNailTitle": ["Welcome to Cornerth.", "What to do?"],
+  "title_onBoard_GuideNailTitle": ["Welcome to Cornerth.", "How to share?"],
   "hint_onBoard_belongEdit": `Don't worry. You can edit "Your corners" in the Setting any time in the future.`,
   "hint_onBoard_start": `If you've finished the introductions above,`,
   "submit_onBoard_next": "Next",

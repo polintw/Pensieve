@@ -200,6 +200,11 @@ class Wrapper extends React.Component {
               guideChoice={'welcome'}/>
           </div>
           <div
+            className={classnames(styles.boxRow)}>
+            <GuideNails
+              guideChoice={'howShare'}/>
+          </div>
+          <div
             className={classnames(styles.boxRow)}
             style={{margin: '4px 0 0'}}>
             <BelongsSet/>
