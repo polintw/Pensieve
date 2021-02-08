@@ -1,8 +1,5 @@
 .comBelongsbyType{
   display: flex;
-  flex-direction: row-reverse;
-  justify-content: flex-end;
-  align-items: flex-end;
   flex-wrap: wrap;
   margin: 0 0 8px;
 }
@@ -75,6 +72,7 @@
 
 .spanNewly {
   display: inline-block;
+  width: 100%;
   margin: 8px 0;
 }
 
