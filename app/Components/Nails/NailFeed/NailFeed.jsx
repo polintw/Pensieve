@@ -59,14 +59,17 @@ class NailFeed extends React.Component {
 
   render(){
     let imgSrcCover = domain.protocol+ '://'+domain.name+'/router/img/'+this.props.unitBasic.pic_layer0+'?type=thumb';
-    let linkSearch = ((this.props.location.search.length > 0) ? this.props.location.search+'&' : '?') +'unitId='+this.props.unitId+'&unitView=theater';
+    let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
+    urlParams.delete('unitId'); // make sure only 1 unitId remain
+    urlParams.append('unitId', this.props.unitId);
+    urlParams.append('unitView', "theater");
 
     return(
       <Link
         ref={this.nailUnitLink}
         to={{
           pathname: this.props.linkPath,
-          search: linkSearch,
+          search: urlParams.toString(),
           state: {from: this.props.location}
         }}
         className={classnames(

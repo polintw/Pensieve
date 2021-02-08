@@ -172,10 +172,9 @@ class UnitUnsign extends React.Component {
       let toSearch = new URLSearchParams(this.props.location.search);
       // under unsigned Unit view, we close the modal to path'.../unit'
       if(this.props.location.pathname.includes('explore/unit')){
-        let keepUnit = toSearch.get('unitId');
         toSearch.delete('unitId');
         toSearch.delete('unitView');
-        toSearch.append('unitId', keepUnit);
+        toSearch.append('unitId', this.props.anchorUnit);
         return <Redirect
           to={{
             pathname: this.props.location.pathname, // '.../unit'

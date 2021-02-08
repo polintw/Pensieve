@@ -8,6 +8,7 @@ const {
 
 const srcExecutive = require('./single/src.js');
 const singleExecutive = require('./single/single.js');
+const relatedExecutive = require('./single/related.js')
 const numerousExecutive = require('./numerous.js')
 const primerExecutive = require('./primer.js')
 const respondsExecutive = require('./responds.js')
@@ -63,6 +64,7 @@ main.param("exposedId", (req, res, next, exposedId)=>{
   req.reqExposedId = exposedId;
   next();
 })
+main.use('/:exposedId/related', relatedExecutive)
 main.use('/:exposedId/src', srcExecutive)
 main.use('/:exposedId', singleExecutive)
 
