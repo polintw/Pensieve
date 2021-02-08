@@ -56,6 +56,7 @@ class BelongsbyType extends React.Component {
     return(
       <div
         className={classnames(styles.comBelongsbyType)}>
+        {this._render_BelongList()}
         {
           (this.props.userInfo.accountStatus == "newly") &&
           <span
@@ -65,7 +66,6 @@ class BelongsbyType extends React.Component {
               {this.props.i18nUIString.catalog['hint_onBoard_belongEdit']}
           </span>
         }
-        {this._render_BelongList()}
       </div>
     )
   }
