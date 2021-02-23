@@ -126,7 +126,6 @@ class ContentEditor extends React.Component {
     return(
       <div
         className={classnames(styles.comContentEditor)}>
-
         <ImgLayerEditing
           imgSrc={this.props.imgSrc}
           currentMark={this.state.markExpand}
@@ -139,7 +138,6 @@ class ContentEditor extends React.Component {
           _set_markUpdate_editor={this._set_markUpdate_editor}
           _set_markDelete={this._set_markDelete}
           _set_warningDialog={this.props._set_warningDialog}/>
-
       </div>
 
     )

@@ -22,15 +22,7 @@ class ImgLayerEditing extends React.Component {
     this._render_MarksLayer = this._render_MarksLayer.bind(this);
     this._handleClick_SpotsLayer = this._handleClick_SpotsLayer.bind(this);
     this._handleClick_ImgLayer_circle = this._handleClick_ImgLayer_circle.bind(this);
-    this._set_imgSize = ()=>{this.setState({imgWidthHeight:true})};
-    this.style = {
-      Com_ImgLayer_img: {
-        maxWidth: '100%',
-        maxHeight: '100%',
-        right: baseHorizonRatial+'%',
-        transform: 'translate('+baseHorizonRatial+'%,-50%)'
-      }
-    };
+    this._set_imgSize = this._set_imgSize.bind(this);
   }
 
   _handleClick_SpotsLayer(event){
@@ -142,6 +134,7 @@ class ImgLayerEditing extends React.Component {
         });
         return (
           <div
+            key={"key_MarkLayers_"}
             ref={this.Com_MarksSpotLayer_div}
             className={'boxImgPosition'}
             style={{
@@ -164,7 +157,12 @@ class ImgLayerEditing extends React.Component {
         className={'boxAbsoluteFull'}>
         <img
           className={'boxImgPosition'}
-          style={this.style.Com_ImgLayer_img}
+          style={{
+              maxWidth: '100%',
+              maxHeight: '100%',
+              right: baseHorizonRatial+'%',
+              transform: 'translate('+baseHorizonRatial+'%,-50%)'
+            }}
           ref={this.Com_ImgLayer_img}
           src={this.props.imgSrc}
           onLoad={this._set_imgSize}/>
@@ -189,6 +187,10 @@ class ImgLayerEditing extends React.Component {
         }
       </div>
     )
+  }
+
+  _set_imgSize(){
+    this.setState({imgWidthHeight:true});
   }
 }
 

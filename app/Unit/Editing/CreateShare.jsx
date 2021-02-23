@@ -28,6 +28,7 @@ class CreateShare extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      localClickCheck: false,
       warningDialog: false,
       confirmDialog: false,
       dialogMessage: null,
@@ -172,7 +173,15 @@ class CreateShare extends React.Component {
     if(!!this.props.forceCreate && prevProps.forceCreate != this.props.forceCreate){
       // 'forceCreate': a method parent comp used to force the CreateShare open EditingPanel
       this._open_editingModal();
-    }
+    };
+    // and echo to the design in _open_editingModal(), reset state 'localClickCheck'
+    let params = new URLSearchParams(this.props.location.search); //we need value in URL query
+    let paramsCreating = params.has('creating'); //bool, true if there is 'creating'
+    if( !paramsCreating && this.state.localClickCheck ){
+      this.setState({
+        localClickCheck: false
+      });
+    };
   }
 
   componentDidMount(){
@@ -194,7 +203,7 @@ class CreateShare extends React.Component {
         className={classnames(styles.comCreateShare)}
         onClick={this._handleClick_CreateShare_init}>
         {
-          paramsCreating &&
+          (paramsCreating && this.state.localClickCheck) &&
           <ModalBox containerId="root">
             <ModalBackground
               onClose={this._set_EditingClose_clear}
@@ -248,6 +257,16 @@ class CreateShare extends React.Component {
   }
 
   _open_editingModal(){
+    /*
+      Important!! We open EditingModal by the path, but there are conditions would have more 1 CreateShare on the page,
+      like the user do not have any Shareds at the very beginning. So, we set a "checkpoint" here,
+      by a additional local state.
+      And! we would reset it immediately after the param "creating" rm from the props.path
+    */
+    this.setState({
+      localClickCheck: true
+    });
+
     // we modify the url to allow user using 'previous page' for going back
     this.props.history.push({
       pathname: this.props.location.pathname,
