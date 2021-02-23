@@ -191,9 +191,11 @@ class EditingPanel extends React.Component {
         <ImgImport
           _set_newImgSrc={this._set_newImgSrc}/>
       )
-    }else{
+    }
+    else if(!!this.state.coverSrc ){
       return(
         <ContentEditor
+          key={"key_EditingPanel_ContentEditor_"}
           editing={this.state.contentEditing}
           imgSrc={this.state.coverSrc}
           marks={this.state.coverMarks}
@@ -234,6 +236,7 @@ class EditingPanel extends React.Component {
       default:
         return (
           <div
+            key={"key_EditingPanel_default_"}
             className={classnames(
               styles.boxContent,
               styles.boxContentWidth, styles.boxPanelHeight, styles.boxPanelPadding)}>
