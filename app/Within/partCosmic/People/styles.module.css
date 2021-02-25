@@ -1,0 +1,43 @@
+.comNodes {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-sizing: border-box;
+  padding-top: 2.8vh;
+}
+
+.boxRow {
+  position: relative;
+}
+
+.boxTitle {
+  margin: 8px 0;
+}
+
+.boxDecoBottom {
+  height: 2.66vh;
+  width: 80%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background-color: #FCFCFC;
+}
+
+.boxNavTop {
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+  padding: 1.4vh 0 0;
+}
+
+.boxNodesMap {
+  width: 100%;
+  height: 82vh;
+  margin: 8px 0 22vh;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+@media screen and (max-width:860px) {
+
+}
