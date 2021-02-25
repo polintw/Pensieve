@@ -9,8 +9,11 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import NavTitle from './NavTitle/NavTitle.jsx';
-import NodesMap from './NodesMap/NodesMap.jsx';
 import NavCosmicMobile from '../../../Components/NavWithin/NavCosmic/NavCosmicMobile.jsx';
+/*
+import any components you used
+*/
+
 import {
   handleNounsList,
 } from "../../../redux/actions/general.js";
@@ -58,11 +61,11 @@ class Wrapper extends React.Component {
           <div
             className={classnames(
               styles.boxRow)}>
-              <div
-                className={classnames(
-                  styles.boxNodesMap)}>
-                  <NodesMap/>
-              </div>
+
+              /*
+              plaese put new components displaying list of "pathProject" here
+              */
+
           </div>
           <div className={classnames(styles.boxDecoBottom, "smallDisplayNone")}></div>
         </div>

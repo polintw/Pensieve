@@ -8,6 +8,7 @@ const {
 
 const accumulatedExecutive = require('./accumulated.js');
 const nodesExecutive = require('./nodes.js');
+const listExecutive = require('./list.js');
 const basicInfoExecutive = require('./basicInfo.js');
 
 /*
@@ -56,5 +57,6 @@ main.use(function(req, res, next) {
 main.use('/accumulated', accumulatedExecutive)
 main.use('/nodes', nodesExecutive)
 main.use('/basic', basicInfoExecutive)
+main.use('/list', listExecutive)
 
 module.exports = main;
