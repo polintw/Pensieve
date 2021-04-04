@@ -237,7 +237,8 @@ async function validateSharedEdit(modifiedBody, userId, exposedId) {
   //this one is important! because we have to trust the list in the steps afterward
   const marksObjConfirm = typeStaticJoinedMarksList.every((markKey, index) => { return markKey in modifiedBody.joinedMarks});
   //checking if all the previous marks still exist (do not allow 'delete' from edit after first published)
-  const prevMarks = await _DB_marks.findAll({where: {id_unit: unitId}});
+  // temp! select marks only at cover layer, leave the beneath layer free
+  const prevMarks = await _DB_marks.findAll({where: {id_unit: unitId, layer: 0}});
   const noDeleteConfirm = prevMarks.every((row, index)=>{ return typeStaticJoinedMarksList.indexOf(row.id) > -1 });
   // deeper to data format
   const marksDataConfirm = typeStaticJoinedMarksList.every((key, index)=>{
