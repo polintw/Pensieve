@@ -12,7 +12,6 @@ import styles from "./styles.module.css";
 import Feed from './Feed/Feed.jsx';
 import NavFeed from './NavFeed/NavFeed.jsx';
 import TitlePath from './TitlePath/TitlePath.jsx';
-import SignBlock from '../../partSign/components/SignBlock/SignBlock.jsx';
 import {
   _axios_get_projectBasic,
   _axios_get_projectNodes,
@@ -23,6 +22,7 @@ import UnitUnsign from '../../../Unit/UnitUnsign/UnitUnsign.jsx';
 import NavTitleRow from '../../../Components/NavFilter/NavTitleRow.jsx';
 import NodesFilter from '../../../Components/NodesFilter/NodesFilter.jsx';
 import NavCosmicMobile from '../../../Components/NavWithin/NavCosmic/NavCosmicMobile.jsx';
+import NavCosmicMobileUnsign from '../../../Components/NavWithin/NavCosmic/NavCosmicMobileUnsign.jsx';
 import {
   handleNounsList,
 } from "../../../redux/actions/general.js";
@@ -105,14 +105,23 @@ class Wrapper extends React.Component {
     return(
       <div>
         { // only show up when token show
-          !(this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') &&
-          <div
-            className={classnames("smallDisplayBox")}>
+          (this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') ? (
             <div
-              className={classnames(styles.boxNavTop)}>
-              <NavCosmicMobile/>
+              className={classnames("smallDisplayBox")}>
+              <div
+                className={classnames(styles.boxNavTop)}>
+                <NavCosmicMobileUnsign/>
+              </div>
             </div>
-          </div>
+          ): (
+            <div
+              className={classnames("smallDisplayBox")}>
+              <div
+                className={classnames(styles.boxNavTop)}>
+                <NavCosmicMobile/>
+              </div>
+            </div>
+          )
         }
         <div
           className={classnames(styles.comPathProject)}>
@@ -145,14 +154,6 @@ class Wrapper extends React.Component {
                 viewFilter={this.viewFilter}/>
             </div>
           </div>
-          { // only show up when no token(unsigned)
-            (this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') &&
-            <div
-              className={classnames( styles.boxRow, styles.boxSignup)}>
-              <SignBlock
-                description={'regular'}/>
-            </div>
-          }
           <div
             className={classnames(styles.boxRow)}>
             {
@@ -170,14 +171,6 @@ class Wrapper extends React.Component {
                         nodesList: nodesList, pathName: this.props.match.params['pathName']
                       })
                     }}/>
-                  { // only show up when no token(unsigned)
-                    (this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') &&
-                    <div
-                      className={classnames( styles.boxRow, styles.boxSignup)}>
-                      <SignBlock
-                        description={'regular'}/>
-                    </div>
-                  }
                   <div className={classnames(styles.boxFooter)}/>
                 </div>
               ):(

@@ -197,12 +197,14 @@ class Feed extends React.Component {
 
           <div ref={this.refScroll}/>
           { // only show up when no token(unsigned)
+            /*
+            Now make comments due to change ti Sign up/in policu for new comer
             (this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') &&
             <div
               className={classnames( styles.boxRow, styles.boxSignup)}>
               <SignBlock
                 description={'regular'}/>
-            </div>
+            </div>*/
           }
           <div
             className={classnames(styles.boxFooter)}>
