@@ -200,6 +200,13 @@ function _handle_ErrCatched(e, req, res){
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;
+    case 53: //404, SubCate under PathProject was not found
+      winston.warn(`${"error status: "+ e.status} - ${" ,code 53, req an invalid sub-category under PathProject, "+e.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+      clientSet['code'] = 53;
+      clientSet['message'] = e.message;
+      clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
     case 71:
       //403,
       // currently used in patch /nodesBelong, change belongs too often

@@ -43,6 +43,10 @@ class Wrapper extends React.Component {
         inspiredCount: 0,
         inspiredYou: false
       },
+      subCatesInfo: {
+        subCatesList: [],
+        subCatesObj: {}
+      },
       usedNodes: [],
       redirectFilter: false,
       redirectFilterPass: 0
@@ -101,6 +105,16 @@ class Wrapper extends React.Component {
     if(urlParams.has('_filter_nodes')){
       this.viewFilter = true;
     } else this.viewFilter = false;
+    if(urlParams.has('subCate')){
+      this.currentSubCate = urlParams.get('subCate');
+    } else this.currentSubCate = false;
+    let unitEntity = {
+      pathSubCate: (this.currentSubCate && (this.currentSubCate in this.state.subCatesInfo.subCatesObj)) ? {
+        subCateify: true,
+        currentSubCateId: this.currentSubCate,
+        currentSubcateObj: this.state.subCatesInfo.subCatesObj[this.currentSubCate]
+      }: false
+    };
 
     return(
       <div>
@@ -190,10 +204,12 @@ class Wrapper extends React.Component {
             return (this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') ? (
               <UnitUnsign
                 {...props}
+                unitEntity= {unitEntity}
                 _refer_von_unit={this.props._refer_to}/>
             ):(
               <UnitScreen
                 {...props}
+                unitEntity= {unitEntity}
                 _createdRespond= {()=>{/* no need to give any flad in AtNode*/ }}
                 _construct_UnitInit={this._construct_UnitInit}
                 _refer_von_unit={this.props._refer_to}/>
@@ -227,7 +243,8 @@ class Wrapper extends React.Component {
           pathName: resObj.main.pathName,
           projectName: resObj.main.name,
           filterStart: resObj.main.nodeStart,
-          projectInfo: resObj.main.otherInfo
+          projectInfo: resObj.main.otherInfo,
+          subCatesInfo: resObj.main.subCatesInfo
         };
       });
 

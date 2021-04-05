@@ -10,6 +10,7 @@ import styles from './styles.module.css';
 import stylesFont from '../stylesFont.module.css';
 import Layers from './Layers.jsx';
 import LayerSwitch from './components/LayerSwitch/LayerSwitch.jsx';
+import EntityOnSubcate from './components/Entity/EntityOnSubcate.jsx';
 
 class Theater extends React.Component {
   constructor(props){
@@ -60,6 +61,11 @@ class Theater extends React.Component {
         <div
           className={classnames(styles.boxLayerSwitch)}
           onClick={(event) => { if(cssVW > 860 ) event.stopPropagation(); }}>
+          {
+            (!!this.props.unitEntity && "pathSubCate" in this.props.unitEntity) &&
+            <EntityOnSubcate
+              unitEntity= {this.props.unitEntity}/>
+          }
           <LayerSwitch
             {...this.props}/>
         </div>
