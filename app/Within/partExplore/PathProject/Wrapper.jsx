@@ -192,7 +192,8 @@ class Wrapper extends React.Component {
               ):(
                 <div
                   className={classnames(styles.boxFeed)}>
-                  <Feed {...this.props}/>
+                  <Feed
+                    {...this.props}/>
                 </div>
               )
             }

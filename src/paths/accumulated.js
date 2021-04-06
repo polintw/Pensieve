@@ -6,6 +6,8 @@ const Op = Sequelize.Op;
 const _DB_paths = require('../../db/models/index').paths;
 const _DB_units = require('../../db/models/index').units;
 const _DB_attri = require('../../db/models/index').attribution;
+const _DB_pathsSubcate = require('../../db/models/index').paths_subcate;
+const _DB_unitsPathsSubdis = require('../../db/models/index').units_paths_subdistribute;
 const {_res_success} = require('../utils/resHandler.js');
 const {
   _handle_ErrCatched,
@@ -92,12 +94,76 @@ async function _handle_GET_paths_accumulated(req, res){
     //but it is possible, the 'date' in query are not a 'date', and param from query could only be parse as 'string', we need to turn it into time
     let unitBase = new Date(req.query.listUnitBase);
     const lastUnitTime = !isNaN(unitBase) ? unitBase : new Date(); // basically, undefined listUnitBase means first landing to the page
-    // by query, see if we got a filter node
-    const reqFilterNodes = req.query.filterNodes; // is an array contain one to several nodes id
+    // by query,
+    const reqFilterNodes = req.query.filterNodes; // any filter node, is an array contain one to several nodes id
+    const reqFilterSubcate = req.query.subCate; // under any subcate, could be exposedId of category or 'null'
     // units id list res to client at final
     let unitsExposedList = [];
 
-    if(!!reqFilterNodes){
+    if(!!reqFilterSubcate){
+      const subCatesInfo = await _DB_pathsSubcate.findOne({
+        where: {
+          id_path: pathInfo.id,
+          exposedId: reqFilterSubcate
+        }
+      });
+      if(!subCatesInfo){ //'null'
+        throw new notFoundError("Category you request was not found. Please use a valid one.", 53);
+        return; //stop and end the handler.
+      };
+      const unitsByPathSubcate = await _DB_unitsPathsSubdis.findAll({
+        where: {
+          id_path: pathInfo.id,
+          id_subPath: subCatesInfo.id,
+          createdAt: {[Op.lt]: lastUnitTime},
+        }
+      });
+      let unitsId = unitsByPathSubcate.map((row, index)=>{
+        return row.id_unit;
+      });
+      if(!!reqFilterNodes){
+        unitsId = await _DB_attri.findAll({
+          where: {
+            id_unit: unitsId,
+            id_noun: reqFilterNodes,
+            used_authorId: pathInfo.id,
+            author_identity: "pathProject",
+          },
+          attributes: [
+            //'max' here combined with 'group' prop beneath,
+            //because the GROUP by would fail when the 'createdAt' is different between each row,
+            //so we ask only the 'max' one by this method
+            [Sequelize.fn('max', Sequelize.col('createdAt')), 'createdAt'], //fn(function, col, alias)
+            //set attributes, so we also need to call every col we need
+            'id_unit',
+          ],
+          group: 'id_unit', //Important. means we combined the rows by unit
+        })
+        .then((results)=>{
+          let unitsByAttri = results.map((row, index)=>{ return row.id_unit;});
+          return unitsByAttri;
+        })
+        .catch((err)=>{ throw new internalError(err ,131); });
+      }
+
+      // keep units list limit to 12 here, outside the above selection
+      if(unitsId.length > 12) unitsId.splice(12); // rm all items after 12nd
+
+      unitsExposedList = await _DB_units.findAll({
+        where: {id: unitsId},
+        order: [ //make sure the order of arr are from latest
+          Sequelize.literal('`createdAt` DESC')
+        ]
+      })
+      .then((results)=>{
+        let exposedIdlist = results.map((row, index)=>{ return row.exposedId;});
+
+        return exposedIdlist;
+      })
+      .catch((err)=>{ throw new internalError(err ,131); });
+
+    }
+    else if(!!reqFilterNodes){
       let unitsByAttri = await _DB_attri.findAll({
         where: {
           id_noun: reqFilterNodes,

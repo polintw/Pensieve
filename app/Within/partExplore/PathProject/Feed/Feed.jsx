@@ -45,7 +45,8 @@ class Feed extends React.Component {
     // if change the node by modifying the nodeid in search, the page would only update
     let lastUrlParams = new URLSearchParams(prevProps.location.search); //we need value in URL query
     let lastNodeAtId = lastUrlParams.has('filterNode') ? lastUrlParams.get('filterNode'): null;
-    if(this.filterNode != lastNodeAtId){
+    let lastSubcate = lastUrlParams.has('subCate') ? lastUrlParams.get('subCate'): null;
+    if((this.filterNode != lastNodeAtId) || (this.currentSubCate != lastSubcate)){
       this.setState((prevState, props)=>{
         return {
           feedList: [],
@@ -170,6 +171,9 @@ class Feed extends React.Component {
     if(urlParams.has('filterNode')){
       this.filterNode = urlParams.get('filterNode');
     } else this.filterNode = null;
+    if(urlParams.has('subCate')){
+      this.currentSubCate = urlParams.get('subCate');
+    } else this.currentSubCate = null;
 
     return (
       <div className={styles.comPathProjectFeed}>
@@ -248,7 +252,8 @@ class Feed extends React.Component {
     _axios_get_accumulatedList(this.axiosSource.token, {
       pathProject: this.props.match.params['pathName'],
       listUnitBase: lastUnitTime,
-      filterNodes: !!this.filterNode ? [this.filterNode] : []
+      filterNodes: !!this.filterNode ? [this.filterNode] : [],
+      subCate: this.currentSubCate ? this.currentSubCate : null
     })
     .then((resObj)=>{
       if(resObj.main.unitsList.length > 0){
