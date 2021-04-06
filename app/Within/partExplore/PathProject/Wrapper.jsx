@@ -113,7 +113,8 @@ class Wrapper extends React.Component {
       pathSubCate: (this.currentSubCate && (this.currentSubCate in this.state.subCatesInfo.subCatesObj)) ? {
         subCateify: true,
         currentSubCateId: this.currentSubCate,
-        currentSubcateObj: this.state.subCatesInfo.subCatesObj[this.currentSubCate]
+        currentSubcateObj: this.state.subCatesInfo.subCatesObj[this.currentSubCate],
+        currentPathProject: this.state.pathName
       }: {}
     };
 

@@ -42,6 +42,7 @@ class UnitExplore extends React.Component {
       close: false,
     };
     this.axiosSource = axios.CancelToken.source();
+    this.boxUnitContent = React.createRef();
     this._render_switch = this._render_switch.bind(this);
     this._close_modal_Unit = this._close_modal_Unit.bind(this);
     this._set_UnitCurrent = this._set_UnitCurrent.bind(this);
@@ -151,6 +152,7 @@ class UnitExplore extends React.Component {
       this.props._set_store_UnitCurrent(unitCurrentState);
       this.props._submit_list_UnitResponds({ list: [], scrolled: true }, true); // reset the responds state to initial
       this._set_UnitCurrent();
+      this.boxUnitContent.current.scrollTop = 0; // make the Unit view area back to top
     };
   }
 
@@ -249,6 +251,7 @@ class UnitExplore extends React.Component {
               </div>
             }
             <div
+              ref={this.boxUnitContent}
               className={classnames(styles.boxUnitContent)}
               onClick={this._close_modal_Unit}>
               {this._render_switch(paramUnitView)}

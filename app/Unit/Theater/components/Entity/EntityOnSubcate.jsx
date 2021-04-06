@@ -84,7 +84,7 @@ class EntityOnSubcate extends React.Component {
         return {
           axios: false,
           next_confirm: resObj.main.confirm,
-          next_unit: resObj.main.serial_unit.nextUnitId
+          next_unit: resObj.main.serial_unit.nextUnit
         };
       });
     })
