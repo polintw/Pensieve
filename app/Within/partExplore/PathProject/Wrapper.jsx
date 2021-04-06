@@ -109,11 +109,12 @@ class Wrapper extends React.Component {
       this.currentSubCate = urlParams.get('subCate');
     } else this.currentSubCate = false;
     let unitEntity = {
+      subCate: this.currentSubCate ? 'pathProject' : false,
       pathSubCate: (this.currentSubCate && (this.currentSubCate in this.state.subCatesInfo.subCatesObj)) ? {
         subCateify: true,
         currentSubCateId: this.currentSubCate,
         currentSubcateObj: this.state.subCatesInfo.subCatesObj[this.currentSubCate]
-      }: false
+      }: {}
     };
 
     return(

@@ -9,7 +9,7 @@ const {
 const srcExecutive = require('./single/src.js');
 const singleExecutive = require('./single/single.js');
 const relatedExecutive = require('./single/related.js')
-const entitiesExecutive = require('./execute.js')
+const entitiesExecutive = require('./entities/execute.js')
 const numerousExecutive = require('./numerous.js')
 const primerExecutive = require('./primer.js')
 const respondsExecutive = require('./responds.js')

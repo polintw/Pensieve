@@ -62,9 +62,12 @@ class Theater extends React.Component {
           className={classnames(styles.boxLayerSwitch)}
           onClick={(event) => { if(cssVW > 860 ) event.stopPropagation(); }}>
           {
-            (!!this.props.unitEntity && "pathSubCate" in this.props.unitEntity) &&
-            <EntityOnSubcate
-              unitEntity= {this.props.unitEntity}/>
+            (!!this.props.unitEntity && this.props.unitEntity.subCate) &&
+            <div>
+              <EntityOnSubcate
+                {...this.props}
+                unitEntity= {this.props.unitEntity}/>
+            </div>
           }
           <LayerSwitch
             {...this.props}/>

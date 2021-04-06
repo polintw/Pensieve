@@ -1,16 +1,16 @@
 const express = require('express');
 const execute = express.Router();
-const winston = require('../../config/winston.js');
+const winston = require('../../../config/winston.js');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
-const _DB_units = require('../../db/models/index').units;
-const _DB_pathsSubcate = require('../../db/models/index').paths_subcate;
-const _DB_unitsPathsSubdis = require('../../db/models/index').units_paths_subdistribute;
-const {_res_success} = require('../utils/resHandler.js');
+const _DB_units = require('../../../db/models/index').units;
+const _DB_pathsSubcate = require('../../../db/models/index').paths_subcate;
+const _DB_unitsPathsSubdis = require('../../../db/models/index').units_paths_subdistribute;
+const {_res_success} = require('../../utils/resHandler.js');
 const {
   _handle_ErrCatched,
   notFoundError
-} = require('../utils/reserrHandler.js');
+} = require('../../utils/reserrHandler.js');
 
 async function _handle_GET_units_entitySubCates(req, res){
   const tokenId = req.extra.tokenify ? req.extra.tokenUserId : null; // userId passed from pass.js(no token is possible)
@@ -48,11 +48,12 @@ async function _handle_GET_units_entitySubCates(req, res){
     });
     let baseSerial = false, nextUnitId = null, previousUnitId = null;
     let count = 0;
-    while (!baseSerial && (count < unitPathSubDis.length)) {
+    while (count < unitPathSubDis.length) {
       if(unitPathSubDis[count].id_unit == targetUnit.id){
         baseSerial = unitPathSubDis[count].serial_subPath;
         nextUnitId = ((count+1) < unitPathSubDis.length) ? unitPathSubDis[count+1].id_unit : unitPathSubDis[0].id_unit;
         previousUnitId = ((count-1) < 0 ) ? unitPathSubDis[0].id_unit : unitPathSubDis[count-1].id_unit;
+        break;
       };
       count += 1;
     };
@@ -69,7 +70,7 @@ async function _handle_GET_units_entitySubCates(req, res){
     });
 
     let sendingData={
-      confirm: baseSerial ? true : false,
+      confirm: ((baseSerial == 0) || baseSerial) ? true : false,
       serial_unit: {
         nextUnit: nextExposedId,
         prevUnit: prevExposedId
