@@ -1,0 +1,56 @@
+.comSubcatesList {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.linkSubcate {
+  display: flex;
+  margin: 0 5px 0 0;
+  padding: 8px 1.2rem;
+  border: solid 1px #a3a3a3;
+  border-radius: 2rem;
+}
+
+.mouseovlinkSubcate {
+  border: solid 1px transparent;
+  background-color: #757575;
+}
+
+.comTitleSubcate {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.boxSubcateClose {
+  width: 15px;
+  height: 15px;
+  padding: 2.5px 0;
+  cursor: pointer;
+}
+
+.spanLinkNode {
+  display: inline-block;
+  border-bottom: solid 1px transparent;
+}
+
+.spanLinkNodeMouse {
+  border-bottom: solid 1px #545454;
+}
+
+.linkBlock {
+  display: block;
+}
+
+@media screen and (max-width:860px) {
+  .comSubcatesList {
+    width: 100%;
+    position: unset;
+    transform: unset;
+    left: unset;
+    margin-top: 12px;
+    text-align: center;
+  }
+}

@@ -12,6 +12,7 @@ import styles from "./styles.module.css";
 import Feed from './Feed/Feed.jsx';
 import NavFeed from './NavFeed/NavFeed.jsx';
 import TitlePath from './TitlePath/TitlePath.jsx';
+import NavTitleRow from './NavFilter/NavTitleRow.jsx';
 import {
   _axios_get_projectBasic,
   _axios_get_projectNodes,
@@ -19,7 +20,6 @@ import {
 } from './axios.js';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
 import UnitUnsign from '../../../Unit/UnitUnsign/UnitUnsign.jsx';
-import NavTitleRow from '../../../Components/NavFilter/NavTitleRow.jsx';
 import NodesFilter from '../../../Components/NodesFilter/NodesFilter.jsx';
 import NavCosmicMobile from '../../../Components/NavWithin/NavCosmic/NavCosmicMobile.jsx';
 import NavCosmicMobileUnsign from '../../../Components/NavWithin/NavCosmic/NavCosmicMobileUnsign.jsx';
@@ -157,7 +157,8 @@ class Wrapper extends React.Component {
             <div
               className={classnames(styles.boxTitle)}>
               <NavFeed
-                {...this.props}/>
+                {...this.props}
+                subCatesInfo={this.state.subCatesInfo}/>
             </div>
             <div
               className={classnames(

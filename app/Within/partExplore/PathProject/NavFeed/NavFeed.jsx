@@ -6,8 +6,8 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import NavBtnRow from '../../../../Components/NavFilter/NavBtnRow.jsx';
-import NavFilterMode from '../../../../Components/NavFilter/NavFilterMode.jsx';
+import SubcatesList from '../Subcate/SubcatesList.jsx';
+import TitleSubcate from '../Subcate/TitleSubcate.jsx';
 
 class NavFeed extends React.Component {
   constructor(props){
@@ -32,6 +32,10 @@ class NavFeed extends React.Component {
   render(){
     let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
     this.viewFilter = urlParams.has('_filter_nodes');
+    this.filterNode = urlParams.has('filterNode');
+    if(urlParams.has('subCate')){
+      this.currentSubCate = urlParams.get('subCate');
+    } else this.currentSubCate = false;
 
     return(
       <div
@@ -43,15 +47,15 @@ class NavFeed extends React.Component {
             { this.props.i18nUIString.catalog["title_NavAtNode_"] }
           </span>
         </div>
-        <NavBtnRow
-          {...this.props}
-          viewFilter={this.viewFilter}/>
         {
-          this.viewFilter &&
-          <div
-            className={classnames(styles.boxFilterNav)}>
-            <NavFilterMode/>
-          </div>
+          (!this.viewFilter && !this.filterNode && !this.currentSubCate) &&
+          <SubcatesList
+            {...this.props}/>
+        }
+        {
+          this.currentSubCate &&
+          <TitleSubcate
+            {...this.props}/>
         }
       </div>
     )
