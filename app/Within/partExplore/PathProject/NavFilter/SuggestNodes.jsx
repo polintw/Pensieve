@@ -48,6 +48,8 @@ class SuggestNodes extends React.Component {
 
   _render_suggestNodes(){
     let nodesDOM = this.state.suggestions.map((nodeId, index)=>{
+      let toSearch = new URLSearchParams(this.props.location.search); //we need value in URL query
+      toSearch.append("filterNode", nodeId);
       return (
         <div
           key={"key_NavFilter_sugeestionsNodes_"+index}
@@ -59,8 +61,8 @@ class SuggestNodes extends React.Component {
             (nodeId in this.props.nounsBasic) &&
             <Link
               to={{
-                pathname: this.props.match.url,
-                search: '?filterNode=' + nodeId,
+                pathname: this.props.location.pathname,
+                search: toSearch.toString(),
                 state: { from: this.props.location }
               }}
               className={classnames(

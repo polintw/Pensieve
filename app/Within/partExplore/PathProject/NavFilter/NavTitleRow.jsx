@@ -42,9 +42,11 @@ class NavTitleRow extends React.Component {
   }
 
   _render_resetLink(){
+    let toSearch = new URLSearchParams(this.props.location.search); //we need value in URL query
+    toSearch.delete("filterNode");
     let linkObj = {
       pathname: this.props.location.pathname,
-      search: '',
+      search: toSearch.toString(),
       state: {from: this.props.location}
     };
 
@@ -69,6 +71,9 @@ class NavTitleRow extends React.Component {
     if(urlParams.has('filterNode')){
       this.filterNode = urlParams.get('filterNode');
     } else this.filterNode = null;
+    if(urlParams.has('subCate')){
+      this.currentSubCate = urlParams.get('subCate');
+    } else this.currentSubCate = false;
 
     return (
       <div className={styles.comNavTitleRow}>
@@ -111,10 +116,13 @@ class NavTitleRow extends React.Component {
                 <NavBtnRow
                   {...this.props}/>
                 <div>
-                  <SuggestNodes
-                    {...this.props}
-                    listLocation={this.props.listLocation}
-                    listIdentity={this.props.listIdentity}/>
+                  {
+                    !this.currentSubCate &&
+                    <SuggestNodes
+                      {...this.props}
+                      listLocation={this.props.listLocation}
+                      listIdentity={this.props.listIdentity}/>
+                  }
                 </div>
               </div>
             )

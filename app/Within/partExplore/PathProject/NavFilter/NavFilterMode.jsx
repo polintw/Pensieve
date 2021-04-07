@@ -36,12 +36,31 @@ class NavFilterMode extends React.Component {
   render(){
     let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
     this.viewFilterMap = urlParams.has('_filter_map');
-    let toSearch = new URLSearchParams(this.props.location.search); //we need value in URL query
-    toSearch.delete("_filter_nodes");
-    toSearch.delete("_filter_map");
-    let filterLinkObj = {
+    let toClose = new URLSearchParams(this.props.location.search); //we need value in URL query
+    toClose.delete("_filter_nodes");
+    toClose.delete("_filter_map");
+    let filterCloseObj = {
       pathname: this.props.location.pathname,
-      search: toSearch.toString(),
+      search: toClose.toString(),
+      state: {from: this.props.location}
+    };
+    let toTabImg = new URLSearchParams(this.props.location.search); //we need value in URL query
+    toTabImg.delete("_filter_nodes");
+    toTabImg.delete("_filter_map");
+    toTabImg.append("_filter_nodes", true);
+    let filterImgObj = {
+      pathname: this.props.location.pathname,
+      search: toTabImg.toString(),
+      state: {from: this.props.location}
+    };
+    let toTabMap = new URLSearchParams(this.props.location.search); //we need value in URL query
+    toTabMap.delete("_filter_nodes");
+    toTabMap.delete("_filter_map");
+    toTabMap.append("_filter_nodes", true);
+    toTabMap.append("_filter_map", true);
+    let filterMapObj = {
+      pathname: this.props.location.pathname,
+      search: toTabMap.toString(),
       state: {from: this.props.location}
     };
 
@@ -50,7 +69,7 @@ class NavFilterMode extends React.Component {
         className={classnames(styles.comNavFilterMode)}>
         <Link
           btn={"image"}
-          to={this.props.location.pathname + '?_filter_nodes=true'}
+          to={filterImgObj}
           className={classnames(
             'plainLinkButton',
             {[styles.linkInactive]: !this.viewFilterMap}
@@ -78,7 +97,7 @@ class NavFilterMode extends React.Component {
         </span>
         <Link
           btn={"map"}
-          to={this.props.location.pathname + '?_filter_nodes=true&_filter_map=true'}
+          to={filterMapObj}
           className={classnames(
             'plainLinkButton',
             {[styles.linkInactive]: this.viewFilterMap}
@@ -101,7 +120,7 @@ class NavFilterMode extends React.Component {
         <div
           className={classnames(styles.boxIconsFilter)}>
           <Link
-            to={filterLinkObj}
+            to={filterCloseObj}
             className={classnames('plainLinkButton', styles.boxIconFilterNode)}
             style={{width: "18px"}}
             onTouchStart={this._handleEnter_FilterNode}
