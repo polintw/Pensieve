@@ -6,6 +6,8 @@ const Op = Sequelize.Op;
 const _DB_paths = require('../../db/models/index').paths;
 const _DB_units = require('../../db/models/index').units;
 const _DB_unitsNodesAssign = require('../../db/models/index').units_nodes_assign;
+const _DB_pathsSubcate = require('../../db/models/index').paths_subcate;
+const _DB_unitsPathsSubdis = require('../../db/models/index').units_paths_subdistribute;
 const {_res_success} = require('../utils/resHandler.js');
 const {
   _handle_ErrCatched,
@@ -35,6 +37,24 @@ async function _handle_GET_paths_NodesAssigned(req, res){
     let unitsList = projectUnits.map((item, index)=>{
       return item.id;
     });
+
+    if(!!req.query.filterSubCate){ // if we are limit by sub category
+      const subCatesInfo = await _DB_pathsSubcate.findOne({
+        where: {
+          id_path: targetProject.id,
+          exposedId: req.query.filterSubCate
+        }
+      });
+      const subCateUnits = await _DB_unitsPathsSubdis.findAll({
+        where: {
+          id_unit: unitsList,
+          id_path: targetProject.id,
+          id_subPath: subCatesInfo.id,
+        }
+      });
+      unitsList = subCateUnits.map((row, index)=>{ return row.id_unit;});
+    };
+
     let nodesList = [];
     if(!!req.query.suggestion){ // if we are return list for suggestions used in NavFIlter, only return
       let assignedNodes = await _DB_unitsNodesAssign.findAll({

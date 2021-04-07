@@ -30,17 +30,37 @@ async function _handle_GET_paths_nodesAccumulated(req, res){
       return; //stop and end the handler.
     };
 
+    let unitsId = [];
+    let byAttriConditions = {
+      id_noun: reqNodes,
+      used_authorId: pathInfo.id,
+      author_identity: "pathProject"
+    };
+
+    if(!!req.query.filterSubCate){ // if we are limit by sub category, select units first
+      const subCatesInfo = await _DB_pathsSubcate.findOne({
+        where: {
+          id_path: pathInfo.id,
+          exposedId: req.query.filterSubCate
+        }
+      });
+      const subCateUnits = await _DB_unitsPathsSubdis.findAll({
+        where: {
+          id_path: pathInfo.id,
+          id_subPath: subCatesInfo.id,
+        }
+      });
+      unitsId = subCateUnits.map((row, index)=>{ return row.id_unit;});
+      byAttriConditions['id_unit'] = unitsId;
+    };
+
     let unitsByAttri = await _DB_attri.findAll({
-      where: {
-        id_noun: reqNodes,
-        used_authorId: pathInfo.id,
-        author_identity: "pathProject"
-      },
+      where: byAttriConditions,
       order: [
         Sequelize.literal('`createdAt` ASC')
       ]
     });
-    let unitsId = unitsByAttri.map((row, index)=>{
+    unitsId = unitsByAttri.map((row, index)=>{
       return row.id_unit;
     });
 
