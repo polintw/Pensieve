@@ -12,6 +12,12 @@ import SvgNetGlobe from '../../../../Components/Svg/SvgIcon_NetGlobe.jsx';
 import {
   domain
 } from '../../../../../config/services.js';
+import {
+  FacebookShareButton,
+  FacebookIcon,
+  LineShareButton,
+  LineIcon
+} from "react-share";
 
 class TitlePath extends React.Component {
   constructor(props){
@@ -57,6 +63,28 @@ class TitlePath extends React.Component {
           </Link>
           <div
             style={{display: 'flex'}}>
+            <div
+              className={classnames(styles.boxSubtitleLeft)}>
+              <FacebookShareButton
+                url={domain.protocol+ '://'+domain.name + this.props.location.pathname}
+                className="Demo__some-network__share-button">
+                <FacebookIcon
+                  size={32} round
+                  bgStyle={{fill: "transparent"}}
+                  iconFillColor={"#a3a3a3"}/>
+              </FacebookShareButton>
+            </div>
+            <div
+              className={classnames(styles.boxSubtitleLeft)}>
+              <LineShareButton
+                url={domain.protocol+ '://'+domain.name + this.props.location.pathname}
+                className="Demo__some-network__share-button">
+                <LineIcon
+                  size={32} round
+                  bgStyle={{fill: "transparent"}}
+                  iconFillColor={"#a3a3a3"}/>
+              </LineShareButton>
+            </div>
             <div
               title={this.props.i18nUIString.catalog["tagTitle_PathProject_ShareLink"]}
               className={classnames(styles.boxBtnShare, styles.boxSubtitleLeft)}
