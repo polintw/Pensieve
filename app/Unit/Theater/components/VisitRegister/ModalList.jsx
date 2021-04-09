@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Link,
-  Switch,
   Route,
   withRouter
 } from 'react-router-dom';
@@ -9,8 +8,11 @@ import {connect} from "react-redux";
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import ModalBox from '../../../../Components/ModalBox.jsx';
+import ModalBackground from '../../../../Components/ModalBackground.jsx';
 import {
-
+  _axios_get_signedList,
+  _axios_get_userUnitSign
 } from './axios.js';
 import {
   cancelErr,
@@ -20,17 +22,18 @@ import {
   outside
 } from '../../../../../config/services.js'
 
-class VisitRegister extends React.Component {
+class ModalList extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       axios: false,
-
+      signed: false,
+      signedBtnMessage: null,
+      signedUsers: []
     };
     this.axiosSource = axios.CancelToken.source();
-
-    this._handleEnter_btnNext = this._handleEnter_btnNext.bind(this);
-    this._handleLeave_btnNext = this._handleLeave_btnNext.bind(this);
+    this._set_signedList = this._set_signedList.bind(this);
+    this._handleRes_fbLoginRes = this._handleRes_fbLoginRes.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -38,7 +41,7 @@ class VisitRegister extends React.Component {
   }
 
   componentDidMount(){
-
+    this._set_signedList();
   }
 
   componentWillUnmount(){
@@ -49,28 +52,126 @@ class VisitRegister extends React.Component {
 
   render(){
     return(
-      <div>
-        {
-          this.state.modalListify ? (
-
-          ): (
+      <ModalBox containerId="unitFrame">
+        <ModalBackground
+          onClose={()=>{this.props._set_modalListSwitch(false);}}
+          style={{
+            position: "fixed",
+            backgroundColor: 'rgba(51, 51, 51, 0.85)' }}>
+          <div>
             <div>
+              <div>
+                {"Mark your name if you've visited the scene!"}
+              </div>
+              <div>
+                <div>
+                  <span>
+                    {"Mark your name on "}
+                  </span>
+                  <FacebookLogin
+                    appId={outside.facebookAppId}
+                    autoLoad={false}
+                    fields="name,email,picture"
+                    callback={this._handleRes_fbLoginRes} />
+                </div>
+              </div>
+              <div>
 
+              </div>
             </div>
-          )
-        }
-      </div>
+          </div>
+        </ModalBackground>
+      </ModalBox>
     )
   }
 
+  _handleRes_fbLoginRes(response){
+    const fbResponse = {
+      fbId: ,
+      fbName: ,
+      fbEmail: ,
+      fbProfilePicUrl: ,
+    }
+    const self = this;
+    this.setState({axios: true});
 
-
-  _handleEnter_btnNext(e){
-    this.setState({onbtnNext: true})
+    _axios_get_userUnitSign(this.axiosSource.token, {
+      fbId: response.userId,
+      userIdIdentity: "facebook",
+      unitId: this.props.unitCurrent.unitId,
+      pathId: this.props.unitEntity.pathSubCate.currentPathProject,
+      subCateId: this.props.unitEntity.pathSubCate.currentSubCateId
+    })
+    .then((resObj)=>{
+      if(resObj.main.signed){
+        self.setState((prevState, props)=>{
+          return {
+            axios: false,
+            signed: true,
+            signedBtnMessage: "You've already signed."
+          };
+        });
+      }
+      else return _axios_post_userUnitSign(this.axiosSource.token, {
+        fbId: response.userId,
+        fbName: response.name,
+        fbEmail: response.email,
+        fbProfilePicUrl: response.picture.data.url,
+        userIdIdentity: "facebook",
+        unitId: this.props.unitCurrent.unitId,
+        pathId: this.props.unitEntity.pathSubCate.currentPathProject,
+        subCateId: this.props.unitEntity.pathSubCate.currentSubCateId
+      })
+      .then((resObj)=>{
+        self.setState((prevState, props)=>{
+          return {
+            axios: false,
+            signed: true,
+            signedBtnMessage: "You are on the list"
+          };
+        });
+        this._set_signedList();
+      });
+    })
+    .catch(function (thrown) {
+      self.setState({axios: false});
+      if (axios.isCancel(thrown)) {
+        cancelErr(thrown);
+      } else {
+        let message = uncertainErr(thrown);
+        if(message) alert(message);
+      }
+    });
   }
 
-  _handleLeave_btnNext(e){
-    this.setState({onbtnNext: false})
+  _set_signedList(){
+    const self = this;
+    this.setState({axios: true});
+
+    _axios_get_signedList(this.axiosSource.token, {
+      unitId: this.props.unitCurrent.unitId,
+      // only PathProject has subCate now, so keep these params simple, but ready for future scale
+      subCateId: this.props.unitEntity.pathSubCate.currentSubCateId,
+      subCateParent: 'pathProject',
+      pathId: this.props.unitEntity.pathSubCate.currentPathProject,
+    })
+    .then((resObj)=>{
+      self.setState((prevState, props)=>{
+        return {
+          axios: false,
+          signedUsers: resObj.main.signUsersArr
+        };
+      });
+    })
+    .catch(function (thrown) {
+      self.setState({axios: false});
+      if (axios.isCancel(thrown)) {
+        cancelErr(thrown);
+      } else {
+        let message = uncertainErr(thrown);
+        if(message) alert(message);
+      }
+    });
   }
 
 }

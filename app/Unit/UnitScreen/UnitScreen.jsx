@@ -269,6 +269,7 @@ class UnitScreen extends React.Component {
               </div>
             }
             <div
+              id={"unitFrame"}
               ref={this.boxUnitContent}
               className={classnames(styles.boxUnitContent)}
               onClick={this._close_modal_Unit}>

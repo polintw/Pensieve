@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Link,
-  Switch,
   Route,
   withRouter
 } from 'react-router-dom';
@@ -9,22 +8,14 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import ModalList from './ModalList.jsx';
-import {
-
-} from './axios.js';
-import {
-  cancelErr,
-  uncertainErr
-} from '../../../../utils/errHandlers.js';
 
 class VisitRegister extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      axios: false,
       modalListify: false
     };
-    this.axiosSource = axios.CancelToken.source();
+    this._set_modalListSwitch = this._set_modalListSwitch.bind(this);
     this._handleClick_Register = this._handleClick_Register.bind(this);
     this._handleEnter_btnNext = this._handleEnter_btnNext.bind(this);
     this._handleLeave_btnNext = this._handleLeave_btnNext.bind(this);
@@ -39,9 +30,7 @@ class VisitRegister extends React.Component {
   }
 
   componentWillUnmount(){
-    if(this.state.axios){
-      this.axiosSource.cancel("component will unmount.")
-    }
+
   }
 
   render(){
@@ -49,22 +38,28 @@ class VisitRegister extends React.Component {
       <div>
         <div
           onClick={this._handleClick_Register}>
-          {"Name on the wall"}
+          {"Know the scene?"}
         </div>
         {
           this.state.modalListify &&
-          <ModalList/>
+          <ModalList
+            {...this.props}
+            _set_modalListSwitch={this._set_modalListSwitch}/>
         }
       </div>
     )
   }
 
+  _set_modalListSwitch(bool){
+    this.setState({
+      modalListify: bool
+    });
+  }
+
   _handleClick_Register(event){
     event.preventDefault();
     event.stopPropagation();
-    this.setState({
-      modalListify: true
-    });
+    this._set_modalListSwitch(true);
   }
 
   _handleEnter_btnNext(e){

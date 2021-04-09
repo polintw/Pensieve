@@ -53,7 +53,8 @@ class EntityOnSubcate extends React.Component {
     return(
       <div>
         <div>
-          <VisitRegister/>
+          <VisitRegister
+            {...this.props}/>
         </div>
         {
           this.state.next_confirm &&
