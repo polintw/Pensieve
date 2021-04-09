@@ -10,6 +10,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import ModalBox from '../../../../Components/ModalBox.jsx';
 import ModalBackground from '../../../../Components/ModalBackground.jsx';
+import SvgArrowStick from '../../../../Components/Svg/SvgArrowStick.jsx';
 import {
   _axios_get_signedList,
   _axios_get_userUnitSign
@@ -32,8 +33,10 @@ class ModalList extends React.Component {
       signedUsers: []
     };
     this.axiosSource = axios.CancelToken.source();
+    this._render_signedUsers = this._render_signedUsers.bind(this);
     this._set_signedList = this._set_signedList.bind(this);
     this._handleRes_fbLoginRes = this._handleRes_fbLoginRes.bind(this);
+    this._handleClick_modalClose = this._handleClick_modalClose.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -50,6 +53,25 @@ class ModalList extends React.Component {
     }
   }
 
+  _render_signedUsers(){
+    let usersDOM = this.state.signedUsers.map((userObj, index)=>{
+      return (
+        <div>
+          <div>
+            <img src={userObj.profilePicUrl}/>
+          </div>
+          <div>
+            <span>
+              {userObj.name}
+            </span>
+          </div>
+        </div>
+      )
+    });
+
+    return usersDOM;
+  }
+
   render(){
     return(
       <ModalBox containerId="unitFrame">
@@ -60,23 +82,29 @@ class ModalList extends React.Component {
             backgroundColor: 'rgba(51, 51, 51, 0.85)' }}>
           <div>
             <div>
+              <div
+                onClick={(e)=>{e.stopPropagation();e.preventDefault();this.props._set_modalListSwitch(false);}}>
+                <SvgArrowStick />
+              </div>
               <div>
                 {"Mark your name if you've visited the scene!"}
               </div>
               <div>
+                <span>
+                  {"Mark your name by "}
+                </span>
                 <div>
-                  <span>
-                    {"Mark your name on "}
-                  </span>
-                  <FacebookLogin
-                    appId={outside.facebookAppId}
-                    autoLoad={false}
-                    fields="name,email,picture"
-                    callback={this._handleRes_fbLoginRes} />
+                  <div>
+                    <FacebookLogin
+                      appId={outside.facebookAppId}
+                      autoLoad={false}
+                      fields="name,email,picture"
+                      callback={this._handleRes_fbLoginRes} />
+                  </div>
                 </div>
               </div>
               <div>
-
+                {this._render_signedUsers()}
               </div>
             </div>
           </div>
@@ -86,12 +114,6 @@ class ModalList extends React.Component {
   }
 
   _handleRes_fbLoginRes(response){
-    const fbResponse = {
-      fbId: ,
-      fbName: ,
-      fbEmail: ,
-      fbProfilePicUrl: ,
-    }
     const self = this;
     this.setState({axios: true});
 
@@ -99,7 +121,7 @@ class ModalList extends React.Component {
       fbId: response.userId,
       userIdIdentity: "facebook",
       unitId: this.props.unitCurrent.unitId,
-      pathId: this.props.unitEntity.pathSubCate.currentPathProject,
+      pathProjectName: this.props.unitEntity.pathSubCate.currentPathProject,
       subCateId: this.props.unitEntity.pathSubCate.currentSubCateId
     })
     .then((resObj)=>{
@@ -119,7 +141,7 @@ class ModalList extends React.Component {
         fbProfilePicUrl: response.picture.data.url,
         userIdIdentity: "facebook",
         unitId: this.props.unitCurrent.unitId,
-        pathId: this.props.unitEntity.pathSubCate.currentPathProject,
+        pathProjectName: this.props.unitEntity.pathSubCate.currentPathProject,
         subCateId: this.props.unitEntity.pathSubCate.currentSubCateId
       })
       .then((resObj)=>{
@@ -153,7 +175,7 @@ class ModalList extends React.Component {
       // only PathProject has subCate now, so keep these params simple, but ready for future scale
       subCateId: this.props.unitEntity.pathSubCate.currentSubCateId,
       subCateParent: 'pathProject',
-      pathId: this.props.unitEntity.pathSubCate.currentPathProject,
+      pathProjectName: this.props.unitEntity.pathSubCate.currentPathProject,
     })
     .then((resObj)=>{
       self.setState((prevState, props)=>{
