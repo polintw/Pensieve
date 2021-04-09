@@ -8,10 +8,10 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import VisitRegister from './VisitRegister/VisitRegister.jsx';
 import {
   _axios_get_unitSubCate
 } from './axios.js';
+import VisitRegister from '../VisitRegister/VisitRegister.jsx';
 import {
   cancelErr,
   uncertainErr

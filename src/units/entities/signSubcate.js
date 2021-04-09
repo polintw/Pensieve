@@ -53,7 +53,7 @@ async function _handle_GET_units_entitySign_list(req, res){
     const signedUsersList = signedUnitsUsersData.map((row, index)=>{
       return row.used_userId;
     });
-    const signedUsersFbInfo = _DB_usersByFacebook.findAll({
+    const signedUsersFbInfo = await _DB_usersByFacebook.findAll({
       where: {
         id_byFb: signedUsersList
       }
@@ -66,7 +66,7 @@ async function _handle_GET_units_entitySign_list(req, res){
     });
 
     let sendingData={
-      signedUsers: resUsersFbInfo,
+      signUsersArr: resUsersFbInfo,
       temp: {}
     };
 

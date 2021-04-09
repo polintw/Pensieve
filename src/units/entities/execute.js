@@ -2,9 +2,11 @@ const express = require('express');
 const execute = express.Router();
 const winston = require('../../../config/winston.js');
 const _handle_GET_units_entitySubCates = require('./subcates.js');
-const _handle_GET_units_entitySign_list = require('./signSubcate..js');
-const _handle_GET_units_entitySign_userSign = require('./signSubcate..js');
-const _handle_POST_units_entitySign_userSign = require('./signSubcate..js');
+const {
+  _handle_GET_units_entitySign_list,
+  _handle_GET_units_entitySign_userSign,
+  _handle_POST_units_entitySign_userSign  
+} = require('./signSubcate.js');
 
 execute.get('/subcates', function(req, res){
   if(process.env.NODE_ENV == 'development') winston.verbose('GET: /units/entity, subCates.');

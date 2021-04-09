@@ -5,7 +5,7 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+import FacebookLogin from 'react-facebook-login';
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import ModalBox from '../../../../Components/ModalBox.jsx';
@@ -36,7 +36,6 @@ class ModalList extends React.Component {
     this._render_signedUsers = this._render_signedUsers.bind(this);
     this._set_signedList = this._set_signedList.bind(this);
     this._handleRes_fbLoginRes = this._handleRes_fbLoginRes.bind(this);
-    this._handleClick_modalClose = this._handleClick_modalClose.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -80,8 +79,10 @@ class ModalList extends React.Component {
           style={{
             position: "fixed",
             backgroundColor: 'rgba(51, 51, 51, 0.85)' }}>
-          <div>
-            <div>
+          <div
+            onClick={(event)=>{this.props._set_modalListSwitch(false);}}>
+            <div
+              onClick={(event) => { event.stopPropagation(); }}>
               <div
                 onClick={(e)=>{e.stopPropagation();e.preventDefault();this.props._set_modalListSwitch(false);}}>
                 <SvgArrowStick />
@@ -114,11 +115,22 @@ class ModalList extends React.Component {
   }
 
   _handleRes_fbLoginRes(response){
+    /*
+    There three type of response.status according to Facebook:
+    - connected
+    - not_authorized
+    - unknown
+    only "connected" has the right response we need.
+    ref: https://developers.facebook.com/docs/facebook-login/web#re-asking-declined-permissions
+    */
+    if(response.status != 'connected'){ return; };
+    if(!!response.userID){ return; }; // basically, should not happend
+
     const self = this;
     this.setState({axios: true});
 
     _axios_get_userUnitSign(this.axiosSource.token, {
-      fbId: response.userId,
+      fbId: response.userID,
       userIdIdentity: "facebook",
       unitId: this.props.unitCurrent.unitId,
       pathProjectName: this.props.unitEntity.pathSubCate.currentPathProject,
@@ -135,7 +147,7 @@ class ModalList extends React.Component {
         });
       }
       else return _axios_post_userUnitSign(this.axiosSource.token, {
-        fbId: response.userId,
+        fbId: response.userID,
         fbName: response.name,
         fbEmail: response.email,
         fbProfilePicUrl: response.picture.data.url,
