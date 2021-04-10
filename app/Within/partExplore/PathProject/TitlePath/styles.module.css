@@ -5,12 +5,12 @@
 
 .boxUpper {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   flex-wrap: wrap;
 }
 
 .boxDescription {
-  margin: 6rem 0 0;
+  margin: 4rem 0 0;
 }
 
 .linkTitleText {
@@ -19,18 +19,24 @@
   margin-right: 30px;
 }
 
-.boxSubtitleLeft {
-  margin-right: 4px;
+.boxSubtitle {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
-.boxSubtitleRight {
-  margin-left: 4px;
+.boxSubtitleLeft {
+  margin-right: 4px;
 }
 
 .boxSubtitleCenter {
   display: flex;
   align-items: center;
   margin: 0 2px;
+}
+
+.boxInspiredCount {
+  margin-left: 4px;
 }
 
 .boxBtnShare {
@@ -43,6 +49,7 @@
 .boxIconCopy {
   width: 22px;
   height: 18px;
+  text-align: center;
 }
 
 .boxModalEmit {
@@ -94,5 +101,17 @@
 @media screen and (max-width:860px) {
   .boxProjectInfo {
     max-width: 100%; /* overwritten 'max-width' in normal width */
+  }
+
+  .boxInspiredCount {
+    margin-left: 0;
+  }
+
+  .boxSubtitle {
+    margin-top: 16px;
+  }
+
+  .boxSubtitleCenter {
+    margin: 0 4px 0 2px;
   }
 }

@@ -240,7 +240,7 @@ const i18nUIString_EN = {
   "hint_PathProject_FilterNode": "Filter accumulations by nodes beneath",
   "message_PathProject_ShareLink": "Link has copied",
   "btn_PathProject_ShareLink": "Page link",
-  "tagTitle_PathProject_ShareLink": "Copy to share your Brand",
+  "tagTitle_PathProject_ShareLink": "Copy page link.",
 
   "hint_nodesFilter_nodeExplore": "Explore to node",
   "hint_nodesFilter_nodeNotYet": "Not yet visit!",

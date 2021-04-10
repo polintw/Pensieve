@@ -1,8 +1,13 @@
-.boxUnitContent {
+.boxUnitFrame {
   width: 100%;
   height: 100vh;
   position: relative;
   overflow-y: scroll;
+}
+
+.boxUnitContent {
+  width: 100%;
+  height: 100%;
 }
 
 .boxRelated {
@@ -15,9 +20,13 @@
 }
 
 @media screen and (max-width:860px) {
-  .boxUnitContent {
+  .boxUnitFrame {
     height: 92vh;
     padding-top: 0.4vh;
+  }
+
+  .boxUnitContent {
+    height: unset;
   }
 
   .boxRelated {
