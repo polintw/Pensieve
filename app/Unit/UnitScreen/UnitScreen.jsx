@@ -45,7 +45,7 @@ class UnitScreen extends React.Component {
       close: false,
     };
     this.axiosSource = axios.CancelToken.source();
-    this.boxUnitContent = React.createRef();
+    this.boxUnitFrame = React.createRef();
     this._render_switch = this._render_switch.bind(this);
     this._close_modal_Unit = this._close_modal_Unit.bind(this);
     this._set_UnitCurrent = this._set_UnitCurrent.bind(this);
@@ -75,7 +75,7 @@ class UnitScreen extends React.Component {
     let unitCurrentState = Object.assign({}, unitCurrentInit);
     this.props._set_store_UnitCurrent(unitCurrentState);
     this._set_UnitCurrent();
-    this.boxUnitContent.current.scrollTop = 0; // make the Unit view area back to top
+    this.boxUnitFrame.current.scrollTop = 0; // make the Unit view area back to top
   }
 
   _set_UnitCurrent(){
@@ -270,10 +270,13 @@ class UnitScreen extends React.Component {
             }
             <div
               id={"unitFrame"}
-              ref={this.boxUnitContent}
-              className={classnames(styles.boxUnitContent)}
-              onClick={this._close_modal_Unit}>
-              {this._render_switch(paramUnitView)}
+              ref={this.boxUnitFrame}
+              className={classnames(styles.boxUnitFrame)}>
+              <div
+                className={classnames(styles.boxUnitContent)}
+                onClick={this._close_modal_Unit}>
+                {this._render_switch(paramUnitView)}
+              </div>
             </div>
         </ModalBackground>
       </ModalBox>

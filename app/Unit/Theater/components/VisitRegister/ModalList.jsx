@@ -80,7 +80,9 @@ class ModalList extends React.Component {
             position: "fixed",
             backgroundColor: 'rgba(51, 51, 51, 0.85)' }}>
           <div
-            onClick={(event)=>{this.props._set_modalListSwitch(false);}}>
+            onClick={(event)=>{
+              event.stopPropagation();
+              this.props._set_modalListSwitch(false);}}>
             <div
               onClick={(event) => { event.stopPropagation(); }}>
               <div
