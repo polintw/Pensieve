@@ -48,12 +48,18 @@ class TitleSubcate extends React.Component {
           'plainLinkButton', styles.linkBlock,
            styles.boxSubcateClose)}
         onClick={this._handleClick_resetLink}
+        onTouchStart={this._handleEnter_CloseArrow}
+        onTouchEnd={this._handleLeave_CloseArrow}
         onMouseEnter={this._handleEnter_CloseArrow}
         onMouseLeave={this._handleLeave_CloseArrow}>
         <span
           className={classnames(
-            "fontContent", "weightBold", "lineHeight15", "colorAssistGold")}>
-            {"X "}
+            "fontContent", "weightBold", "lineHeight15",
+            {
+              ["colorStandard"]: this.state.onClose,
+              ["colorGrey"]: !this.state.onClose
+            })}>
+            {"X"}
         </span>
       </Link>
     );

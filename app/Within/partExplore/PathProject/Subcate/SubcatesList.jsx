@@ -36,7 +36,8 @@ class SubcatesList extends React.Component {
         <div
           key={"key_Nav_Subcates_"+index}
           subcateid={subCateId}
-          style={{marginBottom: '1px'}}
+          onTouchStart={this._handleOver_btn}
+          onTouchEnd={this._handleOut_btn}
           onMouseOver={this._handleOver_btn}
           onMouseOut={this._handleOut_btn}>
           <Link
@@ -48,14 +49,14 @@ class SubcatesList extends React.Component {
             className={classnames(
               'plainLinkButton', styles.linkSubcate,
               {
-                ["colorGrey"]: (this.state.overBtnSubcate != subCateId),
-                ["colorWhite"]: (this.state.overBtnSubcate == subCateId),
+                ["colorWhiteGrey"]: (this.state.overBtnSubcate != subCateId),
+                ["colorEditBlack"]: (this.state.overBtnSubcate == subCateId),
                 [styles.mouseovlinkSubcate]: (this.state.overBtnSubcate == subCateId)
               }
             )}>
             <span
               className={classnames(
-                "fontContent", "weightBold",
+                "fontContentPlain", "weightBold",
               )}>
               {this.props.subCatesInfo.subCatesObj[subCateId].name}
             </span>

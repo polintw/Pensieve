@@ -10,7 +10,7 @@
 }
 
 .boxDescription {
-  margin: 4rem 0 0;
+  margin: 6rem 0 0;
 }
 
 .linkTitleText {
@@ -101,6 +101,10 @@
 @media screen and (max-width:860px) {
   .boxProjectInfo {
     max-width: 100%; /* overwritten 'max-width' in normal width */
+  }
+
+  .boxDescription {
+    margin: 4rem 0 0;
   }
 
   .boxInspiredCount {

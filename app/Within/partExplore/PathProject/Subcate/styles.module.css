@@ -1,33 +1,32 @@
 .comSubcatesList {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 0);
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
 }
 
 .linkSubcate {
   display: flex;
   margin: 0 5px 0 0;
-  padding: 8px 1.2rem;
-  border: solid 1px #a3a3a3;
-  border-radius: 2rem;
+  padding: 4px 8px;
+  border-radius: 8px;
 }
 
 .mouseovlinkSubcate {
-  border: solid 1px transparent;
-  background-color: #757575;
+  background-color: rgb(216,216,216,0.15);
+  cursor: pointer;
 }
 
 .comTitleSubcate {
   display: flex;
   flex: 1;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
 }
 
 .boxSubcateClose {
   width: 15px;
-  height: 15px;
   padding: 2.5px 0;
+  text-align: center;
   cursor: pointer;
 }
 
@@ -45,12 +44,5 @@
 }
 
 @media screen and (max-width:860px) {
-  .comSubcatesList {
-    width: 100%;
-    position: unset;
-    transform: unset;
-    left: unset;
-    margin-top: 12px;
-    text-align: center;
-  }
+
 }

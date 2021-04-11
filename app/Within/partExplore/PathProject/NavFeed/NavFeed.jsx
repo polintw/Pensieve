@@ -40,10 +40,10 @@ class NavFeed extends React.Component {
     return(
       <div
         className={classnames(styles.comNavFeed)}>
-        <div>
+        <div style={{paddingTop: "4px"}}>
           <span
             className={classnames(
-              "fontContent", "weightBold", "colorAssistGold")}>
+              "fontContentPlain", "weightBold", "colorAssistGold")}>
             { this.props.i18nUIString.catalog["title_NavAtNode_"] }
           </span>
         </div>
@@ -54,8 +54,11 @@ class NavFeed extends React.Component {
         }
         {
           this.currentSubCate &&
-          <TitleSubcate
-            {...this.props}/>
+          <div
+            className={classnames(styles.boxTitleSubcate)}>
+            <TitleSubcate
+              {...this.props}/>
+          </div>
         }
       </div>
     )
