@@ -58,7 +58,7 @@ class SubcatesList extends React.Component {
               className={classnames(
                 "fontContentPlain", "weightBold",
               )}>
-              {this.props.subCatesInfo.subCatesObj[subCateId].name}
+              {"@" + this.props.subCatesInfo.subCatesObj[subCateId].name}
             </span>
           </Link>
         </div>

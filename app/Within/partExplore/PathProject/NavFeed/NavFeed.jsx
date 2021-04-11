@@ -48,7 +48,7 @@ class NavFeed extends React.Component {
           </span>
         </div>
         {
-          (!this.viewFilter && !this.filterNode && !this.currentSubCate) &&
+          (!this.currentSubCate) &&
           <SubcatesList
             {...this.props}/>
         }

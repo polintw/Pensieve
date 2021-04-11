@@ -164,7 +164,8 @@ class Wrapper extends React.Component {
           <div
             className={classnames(styles.boxRowNav)}>
             <div
-              className={classnames(styles.boxTitle)}>
+              className={classnames(styles.boxTitle)}
+              style={{marginTop: '4px'}}>
               <NavFeed
                 {...this.props}
                 subCatesInfo={this.state.subCatesInfo}/>

@@ -89,7 +89,7 @@ class TitleSubcate extends React.Component {
                 styles.spanLinkNode,
                 { [styles.spanLinkNodeMouse]: this.state.onBtnSubcate == this.currentSubCate }
               )}>
-              {this.props.subCatesInfo.subCatesObj[this.currentSubCate].name}
+              {"@" + this.props.subCatesInfo.subCatesObj[this.currentSubCate].name}
             </span>
           }
         </Link>

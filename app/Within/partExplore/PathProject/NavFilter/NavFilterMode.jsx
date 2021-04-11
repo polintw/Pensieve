@@ -118,7 +118,7 @@ class NavFilterMode extends React.Component {
           </span>
         </Link>
         <div
-          className={classnames(styles.boxIconsFilter)}>
+          className={classnames(styles.boxIconsBack)}>
           <Link
             to={filterCloseObj}
             className={classnames('plainLinkButton', styles.boxIconFilterNode)}

@@ -113,8 +113,6 @@ class NavTitleRow extends React.Component {
             ):(
               <div
                 className={classnames(styles.boxFilterSelection)}>
-                <NavBtnRow
-                  {...this.props}/>
                 <div>
                   {
                     !this.currentSubCate &&
@@ -124,6 +122,8 @@ class NavTitleRow extends React.Component {
                       listIdentity={this.props.listIdentity}/>
                   }
                 </div>
+                <NavBtnRow
+                  {...this.props}/>
               </div>
             )
           ) : (

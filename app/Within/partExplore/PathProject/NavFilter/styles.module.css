@@ -7,7 +7,9 @@
 }
 
 .comNavFilterMode {
-
+  display: flex;
+  justify-content: center;
+  position: relative;
 }
 
 .boxFilter {
@@ -23,7 +25,9 @@
 }
 
 .boxFilterSelection{
-
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .boxFilterSuggest {
@@ -35,6 +39,11 @@
 
 .boxIconsFilter {
   height: 20px;
+}
+
+.boxIconsBack {
+  position: absolute;
+  right: 0;
 }
 
 .boxIconFilterNode {
@@ -98,18 +107,16 @@
 }
 
 .boxFilterNav {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 0);
+  margin: -8px 0 8px;
 }
 
 @media screen and (max-width:860px) {
   .boxFilterNav {
     width: 100%;
-    position: unset;
-    transform: unset;
-    left: unset;
     margin-top: 12px;
-    text-align: center;
+  }
+
+  .boxFilterSelection {
+    margin-top: 4px;
   }
 }
