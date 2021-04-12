@@ -30,12 +30,15 @@ class ModalList extends React.Component {
       axios: false,
       signed: false,
       signedBtnMessage: null,
-      signedUsers: []
+      signedUsers: [],
+      onBackArrow: false
     };
     this.axiosSource = axios.CancelToken.source();
     this._render_signedUsers = this._render_signedUsers.bind(this);
     this._set_signedList = this._set_signedList.bind(this);
     this._handleRes_fbLoginRes = this._handleRes_fbLoginRes.bind(this);
+    this._handleEnter_backArrow = this._handleEnter_backArrow.bind(this);
+    this._handleLeave_backArrow = this._handleLeave_backArrow.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -93,30 +96,58 @@ class ModalList extends React.Component {
               event.stopPropagation();
               this.props._set_modalListSwitch(false);}}>
             <div
+              className={classnames(styles.boxRowListBack)}>
+              <div
+                className={classnames(styles.boxListBack)}
+                onTouchStart={this._handleEnter_backArrow}
+                onTouchEnd={this._handleLeave_backArrow}
+                onMouseEnter={this._handleEnter_backArrow}
+                onMouseLeave={this._handleLeave_backArrow}
+                onClick={(e)=>{e.stopPropagation();e.preventDefault();this.props._set_modalListSwitch(false);}}>
+                <SvgArrowStick
+                  customstyle={this.state.onBackArrow ? (
+                    {
+                      cls1: "{fill:none;stroke:#FFFFFF;stroke-linecap:round;stroke-linejoin:round;stroke-width:18px;}",
+                      cls2: "{fill:#FFFFFF}"
+                    }
+                  ) : (
+                    {
+                      cls1: "{fill:none;stroke:#d8d8d8;stroke-linecap:round;stroke-linejoin:round;stroke-width:18px;}",
+                      cls2: "{fill:#d8d8d8}"
+                    }
+                  )} />
+              </div>
+            </div>
+            <div
               className={classnames(styles.boxSignedList)}
               onClick={(event) => { event.stopPropagation(); }}>
               <div
-                onClick={(e)=>{e.stopPropagation();e.preventDefault();this.props._set_modalListSwitch(false);}}>
-                <SvgArrowStick />
+                className={classnames(styles.widthList, styles.rowListTitle)}>
+                <span
+                  className={classnames("fontSubtitle_h5", "colorEditBlack")}>
+                  {"Mark your name if you've visited the scene!"}
+                </span>
               </div>
-              <div>
-                {"Mark your name if you've visited the scene!"}
-              </div>
-              <div>
+              <div
+                className={classnames(styles.widthList)}>
                 <span>
                   {"Mark your name by "}
                 </span>
                 <div>
-                  <div>
-                    <FacebookLogin
-                      appId={outside.facebookAppId}
-                      autoLoad={false}
-                      fields="name,email,picture"
-                      callback={this._handleRes_fbLoginRes} />
-                  </div>
+                  <FacebookLogin
+                    appId={outside.facebookAppId}
+                    autoLoad={false}
+                    fields="name,email,picture"
+                    callback={this._handleRes_fbLoginRes}
+                    textButton={"Continue with Facebook"}
+                    size={"medium"}
+                    version={"10.0"}
+                    cssClass={classnames(styles.btnFacebookLogin)}
+                    disableMobileRedirect={true}/>
                 </div>
               </div>
-              <div>
+              <div
+                className={classnames(styles.widthList)}>
                 {this._render_signedUsers()}
               </div>
             </div>
@@ -218,6 +249,22 @@ class ModalList extends React.Component {
         if(message) alert(message);
       }
     });
+  }
+
+  _handleEnter_backArrow(e){
+    this.setState((prevState, props)=>{
+      return {
+        onBackArrow: true
+      }
+    })
+  }
+
+  _handleLeave_backArrow(e){
+    this.setState((prevState, props)=>{
+      return {
+        onBackArrow: false
+      }
+    })
   }
 
 }
