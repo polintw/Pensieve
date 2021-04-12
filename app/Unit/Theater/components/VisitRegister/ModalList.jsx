@@ -72,18 +72,28 @@ class ModalList extends React.Component {
   }
 
   render(){
+    let cssVW = window.innerWidth; // for RWD
+
     return(
-      <ModalBox containerId="unitFrame">
+      <ModalBox containerId="unitSignFrame">
         <ModalBackground
           onClose={()=>{this.props._set_modalListSwitch(false);}}
           style={{
-            position: "fixed",
-            backgroundColor: 'rgba(51, 51, 51, 0.85)' }}>
+            width: "100%",
+            height: (cssVW < 860) ? "92.4vh" : "100vh",
+            position: "absolute",
+            top: "0",
+            left: "0",
+            zIndex: '7',
+            backgroundColor: 'rgba(51, 51, 51, 0.85)',
+            overflowY: 'scroll' }}>
           <div
+            className={classnames(styles.frameModalList)}
             onClick={(event)=>{
               event.stopPropagation();
               this.props._set_modalListSwitch(false);}}>
             <div
+              className={classnames(styles.boxSignedList)}
               onClick={(event) => { event.stopPropagation(); }}>
               <div
                 onClick={(e)=>{e.stopPropagation();e.preventDefault();this.props._set_modalListSwitch(false);}}>

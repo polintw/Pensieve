@@ -47,7 +47,7 @@ class EntitySubcateTitle extends React.Component {
           onMouseLeave={this._handleLeave_linkSubcate}>
           <span
             className={classnames(
-              "fontNodesEqual", "colorWhite",
+              "fontNodesEqual",
               styles.spanLinkSubcate,
               { [styles.spanLinkSubcateMouse]: this.state.onLinkSubcate }
             )}>

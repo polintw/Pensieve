@@ -255,6 +255,9 @@ class UnitExplore extends React.Component {
               ref={this.boxUnitFrame}
               className={classnames(styles.boxUnitFrame)}>
               <div
+                id={"unitSignFrame"}
+                className={classnames(styles.boxUnitSignFrame)}/>
+              <div
                 className={classnames(styles.boxUnitContent)}
                 onClick={this._close_modal_Unit}>
                 {this._render_switch(paramUnitView)}

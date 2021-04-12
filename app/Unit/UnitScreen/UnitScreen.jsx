@@ -269,6 +269,9 @@ class UnitScreen extends React.Component {
               </div>
             }
             <div
+              id={"unitSignFrame"}
+              className={classnames(styles.boxUnitSignFrame)}/>
+            <div
               id={"unitFrame"}
               ref={this.boxUnitFrame}
               className={classnames(styles.boxUnitFrame)}>

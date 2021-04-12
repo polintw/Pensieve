@@ -38,10 +38,11 @@
     text-orientation: sideways;
     transform: rotate(180deg);
     border-left: solid 1px transparent;
+    color: #545454; /* the text color change as screen width change*/
   }
 
   .spanLinkSubcateMouse {
-    border-left: solid 1px #FFFFFF;
+    border-left: solid 1px #545454;
   }
 }
 
@@ -65,6 +66,7 @@
 
   .spanLinkSubcate {
     border-bottom: solid 1px transparent;
+    color: #FFFFFF; /* the text color change as screen width change*/
   }
 
   .spanLinkSubcateMouse {
