@@ -36,6 +36,32 @@
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
 }
 
+.boxEntitySubcateTitle {
+  position: relative;
+}
+
+.boxTheaterSubcate {
+
+}
+
+
+@media screen and (min-width:860px) {
+  .boxLayerSwitch {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .boxTheaterSubcate {
+    max-height: 50%;
+  }
+
+  .boxEntitySubcateTitle {
+    padding: 4.44vh 1rem 5vh 0;
+  }
+}
+
 @media screen and (max-width:860px) {
   .comTheater{
     display: block;
@@ -57,6 +83,12 @@
     height: unset;
     min-height: unset;
     padding: 5vh 5% 7vh;
+  }
+
+  .boxTheaterSubcate {
+    margin: 0 0 16px;
+    padding: 0 0 16px;
+    box-shadow: 0 4px 4px -4px #d8d8d8;
   }
 
   .boxEntitySubcateTitle {

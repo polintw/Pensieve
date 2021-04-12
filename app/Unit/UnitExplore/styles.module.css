@@ -21,8 +21,7 @@
 
 @media screen and (max-width:860px) {
   .boxUnitFrame {
-    height: 92vh;
-    padding-top: 0.4vh;
+    height: 92.4vh;
   }
 
   .boxUnitContent {

@@ -34,16 +34,25 @@ class EntitySubcateTitle extends React.Component {
 
   render(){
     return(
-      <div>
+      <div
+        className={classnames(styles.comEntitySubcateTitle)}>
         <Link
           to={''}
           onClick={this._handleClick_linkSubcate}
           className={classnames('plainLinkButton')}
+          style={{ display: 'inline-block' }}
           onTouchStart={this._handleEnter_linkSubcate}
           onTouchEnd={this._handleLeave_linkSubcate}
           onMouseEnter={this._handleEnter_linkSubcate}
           onMouseLeave={this._handleLeave_linkSubcate}>
-          {this.props.unitEntity.pathSubCate.currentSubcateObj["name"]}
+          <span
+            className={classnames(
+              "fontNodesEqual", "colorWhite",
+              styles.spanLinkSubcate,
+              { [styles.spanLinkSubcateMouse]: this.state.onLinkSubcate }
+            )}>
+            {this.props.unitEntity.pathSubCate.currentSubcateObj["name"]}
+          </span>
         </Link>
       </div>
     )

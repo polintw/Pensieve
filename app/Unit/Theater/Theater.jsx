@@ -73,7 +73,8 @@ class Theater extends React.Component {
           onClick={(event) => { if(cssVW > 860 ) event.stopPropagation(); }}>
           {
             (!!this.props.unitEntity && this.props.unitEntity.subCate) &&
-            <div>
+            <div
+              className={classnames(styles.boxTheaterSubcate)}>
               <EntityOnSubcate
                 {...this.props}
                 unitEntity= {this.props.unitEntity}/>

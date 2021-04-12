@@ -11,7 +11,6 @@ import NavBtnRow from './NavBtnRow.jsx';
 import NavFilterMode from './NavFilterMode.jsx';
 import {SvgArrowToTop} from '../../../../Components/Svg/SvgArrow.jsx';
 import SvgFilterNode from '../../../../Components/Svg/SvgFilter_Node.jsx';
-import SvgArrowStick from '../../../../Components/Svg/SvgArrowStick.jsx';
 
 class NavTitleRow extends React.Component {
 

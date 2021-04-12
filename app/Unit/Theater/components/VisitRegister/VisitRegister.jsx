@@ -13,7 +13,8 @@ class VisitRegister extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      modalListify: false
+      modalListify: false,
+      onbtnNext: false
     };
     this._set_modalListSwitch = this._set_modalListSwitch.bind(this);
     this._handleClick_Register = this._handleClick_Register.bind(this);
@@ -35,10 +36,27 @@ class VisitRegister extends React.Component {
 
   render(){
     return(
-      <div>
+      <div
+        className={classnames(styles.comVisitRegister)}>
         <div
-          onClick={this._handleClick_Register}>
-          {"Know the scene?"}
+          className={classnames(styles.boxGuidingText)}
+          onClick={this._handleClick_Register}
+          onTouchStart={this._handleEnter_btnNext}
+          onTouchEnd={this._handleLeave_btnNext}
+          onMouseEnter={this._handleEnter_btnNext}
+          onMouseLeave={this._handleLeave_btnNext}
+          style={this.state.onbtnNext ? {boxShadow: "0 0 5px -1px inset #fff8f7"} : {}}>
+          <span
+            className={classnames(
+              "fontContent", styles.spanGuidingText,
+              {
+                [styles.spanGuidingTextActiv]: this.state.onbtnNext,
+                ['colorWhite']: this.state.onbtnNext,
+                ['colorWhiteGrey']: (!this.state.onbtnNext),
+              }
+            )}>
+            {"Know the scene?"}
+          </span>
         </div>
         {
           this.state.modalListify &&

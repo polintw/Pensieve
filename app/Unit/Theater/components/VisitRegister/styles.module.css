@@ -1,0 +1,30 @@
+.comVisitRegister {
+
+}
+
+.boxGuidingText {
+  text-align: center;
+}
+
+.spanGuidingText {
+  border-bottom: solid 0.75px transparent;
+  cursor: pointer;
+}
+
+.spanGuidingTextActiv {
+  border-bottom: solid 0.75px #FFFFFF;
+}
+
+@media screen and (min-width:860px) {
+  .boxGuidingText {
+    box-shadow: 0px -4px 4px -4px #d8d8d8;
+    padding-top: 8px;
+  }
+}
+
+@media screen and (max-width:860px) {
+  .boxGuidingText {
+    box-shadow: 4px 0 4px -4px #d8d8d8;
+  }
+
+}

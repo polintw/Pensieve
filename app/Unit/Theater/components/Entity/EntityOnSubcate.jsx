@@ -16,6 +16,9 @@ import {
   cancelErr,
   uncertainErr
 } from '../../../../utils/errHandlers.js';
+import {
+  SvgArrowToRight
+} from '../../../../Components/Svg/SvgArrow.jsx';
 
 class EntityOnSubcate extends React.Component {
   constructor(props){
@@ -51,8 +54,10 @@ class EntityOnSubcate extends React.Component {
 
   render(){
     return(
-      <div>
-        <div>
+      <div
+        className={classnames(styles.comEntitySubcate)}>
+        <div
+          className={classnames(styles.boxVisitRegister)}>
           <VisitRegister
             {...this.props}/>
         </div>
@@ -61,13 +66,17 @@ class EntityOnSubcate extends React.Component {
           <Link
             to={''}
             onClick={this._handleClick_SubcateNext}
-            className={classnames('plainLinkButton')}
-            style={{opacity: this.state.onbtnNext? '1' : "0.3"}}
+            className={classnames('plainLinkButton', styles.linkBtnNext)}
             onTouchStart={this._handleEnter_btnNext}
             onTouchEnd={this._handleLeave_btnNext}
             onMouseEnter={this._handleEnter_btnNext}
             onMouseLeave={this._handleLeave_btnNext}>
-            {"next"}
+            <div
+              style={{width: "30px", height: "16px", textAlign: 'center'}}>
+              <SvgArrowToRight
+                mouseOn={this.state.onbtnNext}
+                customStyles={{fillColorMouseOn: '#FFFFFF', fillColor: '#d8d8d8'}}/>
+            </div>
           </Link>
         }
       </div>
