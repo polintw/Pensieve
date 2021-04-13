@@ -44,11 +44,11 @@ export function _axios_get_projectBasic(cancelToken, pathName){
   });
 }
 
-export function _axios_get_projectNodes(cancelToken, pathName){
+export function _axios_get_projectNodes(cancelToken, params){
   return axios({
     method: 'get',
     url: '/router/paths/nodes/assigned',
-    params: {pathProject: pathName},
+    params: params,
     headers: {
       'Content-Type': 'application/json',
       'charset': 'utf-8',
@@ -78,7 +78,8 @@ export function _axios_get_nodesUnits(cancelToken, paramObj){
     params: {
       depth: "first",
       nodesList: paramObj.nodesList,
-      pathProject: paramObj.pathName
+      pathProject: paramObj.pathName,
+      filterSubCate: paramObj.filterSubCate
     },
     headers: header,
     cancelToken: cancelToken

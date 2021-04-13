@@ -46,7 +46,7 @@ class NodesFilter extends React.Component {
 
   componentDidMount(){
     // get the first units list for it
-    this._set_nodesUnitsBasic(this.props.startList);
+    if(this.props.startList.length > 0) this._set_nodesUnitsBasic(this.props.startList);
   }
 
   componentWillUnmount(){
@@ -61,8 +61,8 @@ class NodesFilter extends React.Component {
     let urlParams = new URLSearchParams(this.props.location.search), searchStr='?';
     urlParams.delete("filterNode"); // remove any filterNode inherit from props to be used in each node
     if(urlParams.has('_filter_nodes')) urlParams.delete("_filter_nodes"); // remove "_filter_nodes" because we would only go to 'close' the filter
-    if(urlParams.has('_filter_map')) urlParams.delete("_filter_map"); // remove "_filter_nodes" because we would only go to 'close' the filter
-    let paramsIndex = 0; // urlParams.forEach is an object instance, do not know the the index, so manually update
+    if(urlParams.has('_filter_map')) urlParams.delete("_filter_map");
+    let paramsIndex = 0; // urlParams.forEach is an object instance, do not know the index, so manually update
     urlParams.forEach((value, key) => {
       if(paramsIndex > 0) searchStr += "&";
       searchStr += (key + '=' + value);

@@ -10,6 +10,8 @@ import styles from './styles.module.css';
 import stylesFont from '../stylesFont.module.css';
 import Layers from './Layers.jsx';
 import LayerSwitch from './components/LayerSwitch/LayerSwitch.jsx';
+import EntityOnSubcate from './components/Entity/EntityOnSubcate.jsx';
+import EntitySubcateTitle from './components/Entity/EntitySubcateTitle.jsx';
 
 class Theater extends React.Component {
   constructor(props){
@@ -50,6 +52,15 @@ class Theater extends React.Component {
     return(
       <div
         className={classnames(styles.comTheater)}>
+        {
+          (!!this.props.unitEntity && this.props.unitEntity.subCate) &&
+          <div
+            className={classnames(styles.boxEntitySubcateTitle)}>
+            <EntitySubcateTitle
+              {...this.props}
+              unitEntity= {this.props.unitEntity}/>
+          </div>
+        }
         <div
           className={classnames(styles.boxTheaterLayers)}
           onClick={(event) => { event.stopPropagation(); }}>
@@ -60,6 +71,15 @@ class Theater extends React.Component {
         <div
           className={classnames(styles.boxLayerSwitch)}
           onClick={(event) => { if(cssVW > 860 ) event.stopPropagation(); }}>
+          {
+            (!!this.props.unitEntity && this.props.unitEntity.subCate) &&
+            <div
+              className={classnames(styles.boxTheaterSubcate)}>
+              <EntityOnSubcate
+                {...this.props}
+                unitEntity= {this.props.unitEntity}/>
+            </div>
+          }
           <LayerSwitch
             {...this.props}/>
         </div>

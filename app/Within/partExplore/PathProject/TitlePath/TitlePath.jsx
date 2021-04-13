@@ -12,6 +12,12 @@ import SvgNetGlobe from '../../../../Components/Svg/SvgIcon_NetGlobe.jsx';
 import {
   domain
 } from '../../../../../config/services.js';
+import {
+  FacebookShareButton,
+  FacebookIcon,
+  LineShareButton,
+  LineIcon
+} from "react-share";
 
 class TitlePath extends React.Component {
   constructor(props){
@@ -56,48 +62,65 @@ class TitlePath extends React.Component {
             </span>
           </Link>
           <div
-            style={{display: 'flex'}}>
+            className={classnames(styles.boxSubtitle)}>
             <div
-              title={this.props.i18nUIString.catalog["tagTitle_PathProject_ShareLink"]}
-              className={classnames(styles.boxBtnShare, styles.boxSubtitleLeft)}
-              onMouseEnter={this._handleEnter_Btn}
-              onMouseLeave={this._handleLeave_Btn}
-              onClick={this._handleClick_CopyLink}>
+              style={{display: "flex"}}>
               <div
-                className={classnames(styles.boxIconCopy)}>
-                <SvgCopy
-                  customStyles={"{fill: " + (this.state.onShareLink? "#545454" : "#a3a3a3") + "}"}/>
+                className={classnames(styles.boxSubtitleLeft)}>
+                <LineShareButton
+                  url={domain.protocol+ '://'+domain.name + this.props.location.pathname}
+                  className="Demo__some-network__share-button">
+                  <LineIcon
+                    size={32} round
+                    bgStyle={{fill: "transparent"}}
+                    iconFillColor={"#a3a3a3"}/>
+                </LineShareButton>
               </div>
               <div
-                className={classnames(
-                  "fontContent",
-                  {["colorEditBlack"]: this.state.onShareLink},
-                  {["colorGrey"]: !this.state.onShareLink},
-                )}>
-                {this.props.i18nUIString.catalog['btn_PathProject_ShareLink']}
+                className={classnames(styles.boxSubtitleLeft)}>
+                <FacebookShareButton
+                  url={domain.protocol+ '://'+domain.name + this.props.location.pathname}
+                  className="Demo__some-network__share-button">
+                  <FacebookIcon
+                    size={32} round
+                    bgStyle={{fill: "transparent"}}
+                    iconFillColor={"#a3a3a3"}/>
+                </FacebookShareButton>
               </div>
-              {
-                this.state.emit &&
+              <div
+                title={this.props.i18nUIString.catalog["tagTitle_PathProject_ShareLink"]}
+                className={classnames(styles.boxBtnShare, styles.boxSubtitleLeft)}
+                onMouseEnter={this._handleEnter_Btn}
+                onMouseLeave={this._handleLeave_Btn}
+                onClick={this._handleClick_CopyLink}>
                 <div
-                  className={classnames(styles.boxModalEmit)}>
-                  <ModalEmit
-                    text={this.state.emit.text} />
+                  className={classnames(styles.boxIconCopy)}>
+                  <SvgCopy
+                    customStyles={"{fill: " + (this.state.onShareLink? "#545454" : "#a3a3a3") + "}"}/>
                 </div>
-              }
-              <div style={{width:"100%",position: 'absolute', overflow:'hidden'}}>
-                <input
-                  ref={this.refHiddenText}
-                  className={classnames(styles.boxHiddenText)}
-                  value={ domain.protocol+ '://'+domain.name+'/cosmic/explore/path/'+ this.props.projectPath}
-                  readOnly/>
+                {
+                  this.state.emit &&
+                  <div
+                    className={classnames(styles.boxModalEmit)}>
+                    <ModalEmit
+                      text={this.state.emit.text} />
+                  </div>
+                }
+                <div style={{width:"100%",position: 'absolute', overflow:'hidden'}}>
+                  <input
+                    ref={this.refHiddenText}
+                    className={classnames(styles.boxHiddenText)}
+                    value={ domain.protocol+ '://'+domain.name+'/cosmic/explore/path/'+ this.props.projectPath}
+                    readOnly/>
+                </div>
+              </div>
+              <div
+                className={classnames(styles.boxSubtitleCenter, 'colorGrey')}>
+                {"·"}
               </div>
             </div>
             <div
-              className={classnames(styles.boxSubtitleCenter, 'colorGrey')}>
-              {"·"}
-            </div>
-            <div
-              className={classnames(styles.boxSubtitleRight)}>
+              className={classnames(styles.boxInspiredCount)}>
               <span
                 className={classnames(
                   'fontContent', 'colorGrey',

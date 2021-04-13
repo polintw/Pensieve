@@ -12,7 +12,7 @@ import styles from "./styles.module.css";
 import Feed from './Feed/Feed.jsx';
 import NavFeed from './NavFeed/NavFeed.jsx';
 import TitlePath from './TitlePath/TitlePath.jsx';
-import SignBlock from '../../partSign/components/SignBlock/SignBlock.jsx';
+import NavTitleRow from './NavFilter/NavTitleRow.jsx';
 import {
   _axios_get_projectBasic,
   _axios_get_projectNodes,
@@ -20,9 +20,9 @@ import {
 } from './axios.js';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
 import UnitUnsign from '../../../Unit/UnitUnsign/UnitUnsign.jsx';
-import NavTitleRow from '../../../Components/NavFilter/NavTitleRow.jsx';
 import NodesFilter from '../../../Components/NodesFilter/NodesFilter.jsx';
 import NavCosmicMobile from '../../../Components/NavWithin/NavCosmic/NavCosmicMobile.jsx';
+import NavCosmicMobileUnsign from '../../../Components/NavWithin/NavCosmic/NavCosmicMobileUnsign.jsx';
 import {
   handleNounsList,
 } from "../../../redux/actions/general.js";
@@ -43,7 +43,12 @@ class Wrapper extends React.Component {
         inspiredCount: 0,
         inspiredYou: false
       },
+      subCatesInfo: {
+        subCatesList: [],
+        subCatesObj: {}
+      },
       usedNodes: [],
+      fetchedUsedNodes: false,
       redirectFilter: false,
       redirectFilterPass: 0
     };
@@ -51,6 +56,7 @@ class Wrapper extends React.Component {
     this._set_viewFilter = this._set_viewFilter.bind(this);
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._set_projectBasic = this._set_projectBasic.bind(this);
+    this._set_usedNodes = this._set_usedNodes.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -60,8 +66,15 @@ class Wrapper extends React.Component {
         redirectFilterPass: 0
       });
     };
-    if(this.props.match.params['pathName'] != prevProps.match.params['pathName']){
+    if(this.props.match.params['pathName'] != prevProps.match.params['pathName']){ // jump to diff. pathProject
       this._set_projectBasic();
+    };
+    let urlParams = new URLSearchParams(prevProps.location.search); //we need value in URL query
+    if(this.viewFilter != urlParams.has('_filter_nodes')){
+      if(!this.viewFilter) this.setState({usedNodes: [], fetchedUsedNodes: false})
+      else{
+        this._set_usedNodes();
+      };
     };
   }
 
@@ -101,18 +114,39 @@ class Wrapper extends React.Component {
     if(urlParams.has('_filter_nodes')){
       this.viewFilter = true;
     } else this.viewFilter = false;
+    if(urlParams.has('subCate')){
+      this.currentSubCate = urlParams.get('subCate');
+    } else this.currentSubCate = false;
+    let unitEntity = {
+      subCate: this.currentSubCate ? 'pathProject' : false,
+      pathSubCate: (this.currentSubCate && (this.currentSubCate in this.state.subCatesInfo.subCatesObj)) ? {
+        subCateify: true,
+        currentSubCateId: this.currentSubCate,
+        currentSubcateObj: this.state.subCatesInfo.subCatesObj[this.currentSubCate],
+        currentPathProject: this.state.pathName
+      }: {}
+    };
 
     return(
       <div>
         { // only show up when token show
-          !(this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') &&
-          <div
-            className={classnames("smallDisplayBox")}>
+          (this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') ? (
             <div
-              className={classnames(styles.boxNavTop)}>
-              <NavCosmicMobile/>
+              className={classnames("smallDisplayBox")}>
+              <div
+                className={classnames(styles.boxNavTop)}>
+                <NavCosmicMobileUnsign/>
+              </div>
             </div>
-          </div>
+          ): (
+            <div
+              className={classnames("smallDisplayBox")}>
+              <div
+                className={classnames(styles.boxNavTop)}>
+                <NavCosmicMobile/>
+              </div>
+            </div>
+          )
         }
         <div
           className={classnames(styles.comPathProject)}>
@@ -130,9 +164,11 @@ class Wrapper extends React.Component {
           <div
             className={classnames(styles.boxRowNav)}>
             <div
-              className={classnames(styles.boxTitle)}>
+              className={classnames(styles.boxTitle)}
+              style={{marginTop: '4px'}}>
               <NavFeed
-                {...this.props}/>
+                {...this.props}
+                subCatesInfo={this.state.subCatesInfo}/>
             </div>
             <div
               className={classnames(
@@ -145,45 +181,37 @@ class Wrapper extends React.Component {
                 viewFilter={this.viewFilter}/>
             </div>
           </div>
-          { // only show up when no token(unsigned)
-            (this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') &&
-            <div
-              className={classnames( styles.boxRow, styles.boxSignup)}>
-              <SignBlock
-                description={'regular'}/>
-            </div>
-          }
           <div
             className={classnames(styles.boxRow)}>
             {
               this.viewFilter ? (
                 <div
                   className={classnames(styles.boxNodesFilter)}>
-                  <NodesFilter
-                    {...this.props}
-                    startNode = {this.state.filterStart}
-                    startList={this.state.usedNodes}
-                    _handle_nodeClick={this._set_viewFilter}
-                    _get_nodesUnitsList={(nodesList)=>{
-                      // return a promise() to NodesFilter
-                      return _axios_get_nodesUnits(this.axiosSource.token, {
-                        nodesList: nodesList, pathName: this.props.match.params['pathName']
-                      })
-                    }}/>
-                  { // only show up when no token(unsigned)
-                    (this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') &&
-                    <div
-                      className={classnames( styles.boxRow, styles.boxSignup)}>
-                      <SignBlock
-                        description={'regular'}/>
+                  {
+                    this.state.fetchedUsedNodes &&
+                    <div>
+                      <NodesFilter
+                        {...this.props}
+                        startNode = {this.state.filterStart}
+                        startList={this.state.usedNodes}
+                        _handle_nodeClick={this._set_viewFilter}
+                        _get_nodesUnitsList={(nodesList)=>{
+                          // return a promise() to NodesFilter
+                          return _axios_get_nodesUnits(this.axiosSource.token, {
+                            nodesList: nodesList,
+                            pathName: this.props.match.params['pathName'],
+                            filterSubCate: this.currentSubCate ? this.currentSubCate : null
+                          })
+                        }}/>
+                        <div className={classnames(styles.boxFooter)}/>
                     </div>
                   }
-                  <div className={classnames(styles.boxFooter)}/>
                 </div>
               ):(
                 <div
                   className={classnames(styles.boxFeed)}>
-                  <Feed {...this.props}/>
+                  <Feed
+                    {...this.props}/>
                 </div>
               )
             }
@@ -197,10 +225,12 @@ class Wrapper extends React.Component {
             return (this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') ? (
               <UnitUnsign
                 {...props}
+                unitEntity= {unitEntity}
                 _refer_von_unit={this.props._refer_to}/>
             ):(
               <UnitScreen
                 {...props}
+                unitEntity= {unitEntity}
                 _createdRespond= {()=>{/* no need to give any flad in AtNode*/ }}
                 _construct_UnitInit={this._construct_UnitInit}
                 _refer_von_unit={this.props._refer_to}/>
@@ -231,14 +261,34 @@ class Wrapper extends React.Component {
     .then((resObj)=>{
       self.setState((prevState, props)=>{
         return {
+          axios: false,
           pathName: resObj.main.pathName,
           projectName: resObj.main.name,
           filterStart: resObj.main.nodeStart,
-          projectInfo: resObj.main.otherInfo
+          projectInfo: resObj.main.otherInfo,
+          subCatesInfo: resObj.main.subCatesInfo
         };
       });
 
-      return _axios_get_projectNodes(this.axiosSource.token, this.props.match.params['pathName']);
+    })
+    .catch(function (thrown) {
+      self.setState({axios: false});
+      if (axios.isCancel(thrown)) {
+        cancelErr(thrown);
+      } else {
+        let message = uncertainErr(thrown);
+        if(message) alert(message);
+      }
+    });
+  }
+
+  _set_usedNodes(){
+    const self = this;
+    this.setState({axios: true});
+
+    _axios_get_projectNodes(this.axiosSource.token, {
+      pathProject: this.props.match.params['pathName'],
+      filterSubCate: this.currentSubCate ? this.currentSubCate : null
     })
     .then((resObj)=>{
       //after res of axios_Units: call get nouns & users
@@ -246,7 +296,8 @@ class Wrapper extends React.Component {
       self.setState((prevState, props)=>{
         return ({
           axios: false,
-          usedNodes: resObj.main.nodesList
+          usedNodes: resObj.main.nodesList,
+          fetchedUsedNodes: true
         });
       });
     })

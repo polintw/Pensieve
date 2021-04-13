@@ -1,22 +1,11 @@
 .comNavFeed {
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
 }
 
-.boxFilterNav {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 0);
-}
-
-@media screen and (max-width:860px) {
-  .boxFilterNav {
-    width: 100%;
-    position: unset;
-    transform: unset;
-    left: unset;
-    margin-top: 12px;
-    text-align: center;
-  }
+.boxTitleSubcate {
+  width: 100%;
+  margin: 1rem 0 4px;
+  padding-bottom: 4px;
+  box-shadow: 0px 4px 4px -4px rgb(84 84 84 / 45%);
 }
