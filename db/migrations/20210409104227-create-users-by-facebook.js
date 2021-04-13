@@ -9,7 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       fb_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING(31),
         allowNull: false,
       },
       fb_account: {

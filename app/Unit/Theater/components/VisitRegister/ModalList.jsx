@@ -12,6 +12,7 @@ import ModalBox from '../../../../Components/ModalBox.jsx';
 import ModalBackground from '../../../../Components/ModalBackground.jsx';
 import SvgArrowStick from '../../../../Components/Svg/SvgArrowStick.jsx';
 import {
+  _axios_post_userUnitSign,
   _axios_get_signedList,
   _axios_get_userUnitSign
 } from './axios.js';
@@ -206,8 +207,7 @@ class ModalList extends React.Component {
     // first, stop the process if we are already on the way.
     if(this.state.axiosFbRes) return;
     // then stop or pass depend on facebook.response
-    if(response.status != 'connected'){ return; };
-    if(!!response.userID){ return; }; // basically, should not happend
+    if(!response.userID){ return; }; // userID should be there if the status was 'connected'
 
     const self = this;
     this.setState({
@@ -286,7 +286,10 @@ class ModalList extends React.Component {
       });
     })
     .catch(function (thrown) {
-      self.setState({axios: false});
+      self.setState({
+        axios: false,
+        axiosFbRes: false
+      });
       if (axios.isCancel(thrown)) {
         cancelErr(thrown);
       } else {

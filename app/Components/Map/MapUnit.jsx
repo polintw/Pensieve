@@ -40,7 +40,7 @@ class MapUnit extends React.Component {
     return(
       <div
         className={classnames(styles.comMap)}>
-        <MapContainer center={coordinates} zoom={13}>
+        <MapContainer center={coordinates} zoom={15}>
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
