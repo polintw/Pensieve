@@ -12,6 +12,7 @@ import ModalBox from '../../../../Components/ModalBox.jsx';
 import ModalBackground from '../../../../Components/ModalBackground.jsx';
 import SvgArrowStick from '../../../../Components/Svg/SvgArrowStick.jsx';
 import {
+  _axios_post_userUnitSign,
   _axios_get_signedList,
   _axios_get_userUnitSign
 } from './axios.js';
@@ -57,36 +58,52 @@ class ModalList extends React.Component {
   }
 
   _render_signedUsers(){
-    let usersDOM = this.state.signedUsers.map((userObj, index)=>{
-      return (
-        <div
-          key={"key_unitSubcate_SignedUser_"+ index}>
-          <div>
-            <img src={userObj.profilePicUrl}/>
-          </div>
-          <div>
-            <span>
-              {userObj.name}
-            </span>
-          </div>
-        </div>
-      )
-    });
-    if(usersDOM.length == 0){
+    let usersDOM = [];
+    if(this.state.signedUsers.length == 0){
       usersDOM.push(
         <div
-          key={"key_unitSubcate_SignedUser_empty"}
-          className={classnames(styles.boxSignedUsersEmpty)}>
+          key={"key_unitSubcate_SignedUser_empty"}>
           <span
             className={classnames("fontTitleSmall", "colorLightGrey")}
             style={{margin: "8px 0", display: 'inline-block' }}>
             {this.props.i18nUIString.catalog['descript_UnitEntity_Subcate_listEmpty']}
           </span>
         </div>
-      )
+      );
+      return usersDOM;
+    }
+    else {
+      usersDOM = this.state.signedUsers.map((userObj, index)=>{
+        return (
+          <div
+            key={"key_unitSubcate_SignedUser_"+ index}
+            className={classnames(styles.boxItemSignedUser)}>
+            <div
+              className={classnames(styles.boxItemUserImg)}>
+              <img
+                src={userObj.profilePicUrl}
+                style={{width: '100%', height: 'auto'}}/>
+            </div>
+            <div>
+              <span
+                className={classnames("fontSubtitle_h5", "colorDescripBlack")}>
+                {userObj.name}
+              </span>
+            </div>
+          </div>
+        )
+      });
+      if(usersDOM.length < 4){ // at least '4' block
+        for(let i = 0; i < 3; i++){
+          usersDOM.push(
+            <div
+              key={"key_unitSubcate_SignedUser_filling_"+ i}
+              className={classnames(styles.boxItemSignedUser)}></div>
+          )
+        };
+      };
+      return usersDOM;
     };
-
-    return usersDOM;
   }
 
   render(){
@@ -185,7 +202,15 @@ class ModalList extends React.Component {
                 className={classnames(styles.widthList, styles.boxDecoBorder)}/>
               <div
                 className={classnames(styles.widthList, styles.boxSignedUsers)}>
-                {this._render_signedUsers()}
+                <div
+                  className={classnames(
+                    {
+                      [styles.boxSignedUsersEmpty]: (this.state.signedUsers.length == 0),
+                      [styles.boxSignedUsersNail]: (this.state.signedUsers.length > 0)
+                    }
+                  )}>
+                  {this._render_signedUsers()}
+                </div>
               </div>
             </div>
           </div>
@@ -206,8 +231,7 @@ class ModalList extends React.Component {
     // first, stop the process if we are already on the way.
     if(this.state.axiosFbRes) return;
     // then stop or pass depend on facebook.response
-    if(response.status != 'connected'){ return; };
-    if(!!response.userID){ return; }; // basically, should not happend
+    if(!response.userID){ return; }; // userID should be there if the status was 'connected'
 
     const self = this;
     this.setState({
@@ -286,7 +310,10 @@ class ModalList extends React.Component {
       });
     })
     .catch(function (thrown) {
-      self.setState({axios: false});
+      self.setState({
+        axios: false,
+        axiosFbRes: false
+      });
       if (axios.isCancel(thrown)) {
         cancelErr(thrown);
       } else {

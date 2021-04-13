@@ -31,6 +31,7 @@ class NodesFilter extends React.Component {
       unitsBasic: {}
     };
     this.axiosSource = axios.CancelToken.source();
+    this._render_unitsMap = this._render_unitsMap.bind(this);
     this._render_imagesNodes = this._render_imagesNodes.bind(this);
     this._set_nodesUnitsBasic = this._set_nodesUnitsBasic.bind(this);
   }
@@ -94,12 +95,16 @@ class NodesFilter extends React.Component {
             state: { from: this.props.location }
           }
         });
+        // and the centerCoor was set to the last unit has coordinates
+        centerCoor = [this.state.unitsBasic[unitId]['coordinates'].latitude, this.state.unitsBasic[unitId]['coordinates'].longitude];
       };
     });
-    // set coordinates of map cneter
-    centerCoor = (nodeMarkers.length > 0) ? nodeMarkers[0]["coordinates"] : [];
-    if(this.props.startNode in this.props.nounsBasic && 'latitude' in this.props.nounsBasic[this.props.startNode]){
-      centerCoor = [this.props.nounsBasic[this.props.startNode]['latitude'], this.props.nounsBasic[this.props.startNode]['longitude']];
+    // set map center to a node if no Unit coordinates was used
+    if(centerCoor.length == 0){
+      centerCoor = (nodeMarkers.length > 0) ? nodeMarkers[0]["coordinates"] : [];
+      if(this.props.startNode in this.props.nounsBasic && 'latitude' in this.props.nounsBasic[this.props.startNode]){
+        centerCoor = [this.props.nounsBasic[this.props.startNode]['latitude'], this.props.nounsBasic[this.props.startNode]['longitude']];
+      };
     };
 
     return (
@@ -111,7 +116,7 @@ class NodesFilter extends React.Component {
           nodeMarkers={nodeMarkers}
           styleZIndex={'5'}
           minZoomLevel={1}
-          zoomLevel={centerCoor.length > 0 ? 8 : 2}/>
+          zoomLevel={centerCoor.length > 0 ? 15 : 2}/>
       </div>
     )
   }

@@ -182,7 +182,10 @@ async function _handle_POST_units_entitySign_userSign(req, res){
         fb_account: req.body.fbName,
         fb_email: req.body.fbEmail,
         fb_profilePic: req.body.fbProfilePicUrl
-      }) // .create() would return the newly create record
+      })
+      .then((createdUser)=>{ // .create() would return the newly create record
+        return createdUser;
+      });
     };
     // here, still select once to check if the users has already signed
     const signedUnitsUsersData = await _DB_unitsPathsSubdisSign.findOne({
@@ -211,7 +214,7 @@ async function _handle_POST_units_entitySign_userSign(req, res){
     await _DB_unitsPathsSubdisSign.create({
       id_unit: targetUnit.id,
       id_path: desiredPath.id,
-      id_subPath: subCatesInfo.id,
+      id_subPath: subcateInfo.id,
       used_userId: userFbInfo.id_byFb,
       userId_Identity: "facebook"
     });

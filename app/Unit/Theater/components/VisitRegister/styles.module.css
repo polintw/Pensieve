@@ -85,6 +85,7 @@
 
 .boxFacebookBtnOverlay {
   background-color: rgba(230,230,230,0.5);
+  cursor: default;
 }
 
 .btnFacebookLogin {
@@ -110,6 +111,30 @@
 .boxSignedUsers {
   margin: 8px 0;
   overflow-y: auto;
+}
+
+.boxSignedUsersNail {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.boxItemSignedUser {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 23%;
+  min-width: 118px;
+  margin: 0 0 20px;
+}
+
+.boxItemUserImg {
+  width: 64px;
+  height: 64px;
+  margin: 0 0 10px;
+  border-radius: 50%;
+  box-shadow: 0 0 4px 0 rgb(0 0 0 / 30%);
+  overflow: hidden;
 }
 
 .boxSignedUsersEmpty {
