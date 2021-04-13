@@ -2,7 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
   const users_by_facebook = sequelize.define('users_by_facebook', {
     id_byFb: DataTypes.INTEGER,
-    fb_id: DataTypes.INTEGER,
+    fb_id: DataTypes.STRING,
     fb_account: DataTypes.STRING,
     fb_email: DataTypes.STRING,
     fb_profilePic: DataTypes.STRING,
