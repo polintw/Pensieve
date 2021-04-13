@@ -58,36 +58,52 @@ class ModalList extends React.Component {
   }
 
   _render_signedUsers(){
-    let usersDOM = this.state.signedUsers.map((userObj, index)=>{
-      return (
-        <div
-          key={"key_unitSubcate_SignedUser_"+ index}>
-          <div>
-            <img src={userObj.profilePicUrl}/>
-          </div>
-          <div>
-            <span>
-              {userObj.name}
-            </span>
-          </div>
-        </div>
-      )
-    });
-    if(usersDOM.length == 0){
+    let usersDOM = [];
+    if(this.state.signedUsers.length == 0){
       usersDOM.push(
         <div
-          key={"key_unitSubcate_SignedUser_empty"}
-          className={classnames(styles.boxSignedUsersEmpty)}>
+          key={"key_unitSubcate_SignedUser_empty"}>
           <span
             className={classnames("fontTitleSmall", "colorLightGrey")}
             style={{margin: "8px 0", display: 'inline-block' }}>
             {this.props.i18nUIString.catalog['descript_UnitEntity_Subcate_listEmpty']}
           </span>
         </div>
-      )
+      );
+      return usersDOM;
+    }
+    else {
+      usersDOM = this.state.signedUsers.map((userObj, index)=>{
+        return (
+          <div
+            key={"key_unitSubcate_SignedUser_"+ index}
+            className={classnames(styles.boxItemSignedUser)}>
+            <div
+              className={classnames(styles.boxItemUserImg)}>
+              <img
+                src={userObj.profilePicUrl}
+                style={{width: '100%', height: 'auto'}}/>
+            </div>
+            <div>
+              <span
+                className={classnames("fontSubtitle_h5", "colorDescripBlack")}>
+                {userObj.name}
+              </span>
+            </div>
+          </div>
+        )
+      });
+      if(usersDOM.length < 4){ // at least '4' block
+        for(let i = 0; i < 3; i++){
+          usersDOM.push(
+            <div
+              key={"key_unitSubcate_SignedUser_filling_"+ i}
+              className={classnames(styles.boxItemSignedUser)}></div>
+          )
+        };
+      };
+      return usersDOM;
     };
-
-    return usersDOM;
   }
 
   render(){
@@ -186,7 +202,15 @@ class ModalList extends React.Component {
                 className={classnames(styles.widthList, styles.boxDecoBorder)}/>
               <div
                 className={classnames(styles.widthList, styles.boxSignedUsers)}>
-                {this._render_signedUsers()}
+                <div
+                  className={classnames(
+                    {
+                      [styles.boxSignedUsersEmpty]: (this.state.signedUsers.length == 0),
+                      [styles.boxSignedUsersNail]: (this.state.signedUsers.length > 0)
+                    }
+                  )}>
+                  {this._render_signedUsers()}
+                </div>
               </div>
             </div>
           </div>
