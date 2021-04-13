@@ -23,6 +23,7 @@ class NavOptionsUnsign extends React.Component {
     */
     let currentPath = this.props.location.pathname;
 
+    /* Ok, we are now didn't want the "Sign up/in" show on the topbar-but keep them here in case our mind changed
     if(this.props.location.pathname.includes('cosmic/explore/')){
       return(
         <div
@@ -45,7 +46,7 @@ class NavOptionsUnsign extends React.Component {
         </div>
       );
     }
-    else{
+    else{*/
       return(
         <div
           className={classnames(styles.boxNavSmall)}>
@@ -57,7 +58,7 @@ class NavOptionsUnsign extends React.Component {
           </div>
         </div>
       );
-    };
+    // };
   }
 
   render(){

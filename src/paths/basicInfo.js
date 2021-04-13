@@ -6,6 +6,7 @@ const Op = Sequelize.Op;
 const _DB_paths = require('../../db/models/index').paths;
 const _DB_units = require('../../db/models/index').units;
 const _DB_inspireds = require('../../db/models/index').inspireds;
+const _DB_pathsSubcate = require('../../db/models/index').paths_subcate;
 const {_res_success} = require('../utils/resHandler.js');
 const {
   _handle_ErrCatched,
@@ -44,12 +45,30 @@ async function _handle_GET_paths_basic(req, res){
     let inspiredsPeople = inspireds.map((row,index)=>{
       return row.id_user;
     });
+    // select any sub category under the pathProject
+    let subCates = await _DB_pathsSubcate.findAll({
+      where: {
+        id_path: targetProject.id
+      }
+    });
+    let subCatesList = [], subCatesObj = {};
+    subCates.forEach((row, index) => {
+      subCatesList.push(row.exposedId);
+      subCatesObj[row.exposedId] = {
+        exposedId: row.exposedId,
+        name: row.name
+      };
+    });
 
 
     let sendingData={
       pathName: targetProject.pathName,
       name: targetProject.name,
       nodeStart: targetProject.set_nodeStart,
+      subCatesInfo: {
+        subCatesList: subCatesList,
+        subCatesObj: subCatesObj
+      },
       otherInfo: {
         webLink: targetProject.set_webLink,
         description: targetProject.description,

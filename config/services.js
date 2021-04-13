@@ -19,5 +19,6 @@ exports.email = {
 
 exports.outside = {
   pinterest: envServiceGeneral.pinterestAccountLink,
-  facebookTW: envServiceGeneral.fbTWPageLink
+  facebookTW: envServiceGeneral.fbTWPageLink,
+  facebookAppId: envServiceGeneral.fbCornerthId
 }

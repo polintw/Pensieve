@@ -41,6 +41,18 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
+    paths.hasMany(models.paths_subcate, {
+      foreignKey:"id_path",
+      sourceKey: "id",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
+    paths.hasMany(models.units_paths_subdistribute, {
+      foreignKey:"id_path",
+      sourceKey: "id",
+      onDelete: 'cascade',
+      onUpdate: 'cascade'
+    });
   };
   return paths;
 };

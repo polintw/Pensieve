@@ -113,6 +113,8 @@ class Wrapper extends React.Component {
               <LinkCopy {...this.props}/>
             </div>
             {
+              /*
+              Hide this part under the new design. Apr. 2021
               (this.props.unitCurrent.identity != "author") &&
               <div
                 className={classnames(styles.btnBottomIcon)}
@@ -120,6 +122,7 @@ class Wrapper extends React.Component {
                 <Inspired
                   _set_noTokenDialog={this._set_inviteDialog}/>
               </div>
+              */
             }
           </div>
           <div
