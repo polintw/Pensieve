@@ -28,6 +28,7 @@ class ModalList extends React.Component {
     super(props);
     this.state = {
       axios: false,
+      axiosFbRes: false,
       signed: false,
       signedBtnMessage: null,
       signedUsers: [],
@@ -58,7 +59,8 @@ class ModalList extends React.Component {
   _render_signedUsers(){
     let usersDOM = this.state.signedUsers.map((userObj, index)=>{
       return (
-        <div>
+        <div
+          key={"key_unitSubcate_SignedUser_"+ index}>
           <div>
             <img src={userObj.profilePicUrl}/>
           </div>
@@ -70,6 +72,19 @@ class ModalList extends React.Component {
         </div>
       )
     });
+    if(usersDOM.length == 0){
+      usersDOM.push(
+        <div
+          key={"key_unitSubcate_SignedUser_empty"}
+          className={classnames(styles.boxSignedUsersEmpty)}>
+          <span
+            className={classnames("fontTitleSmall", "colorLightGrey")}
+            style={{margin: "8px 0", display: 'inline-block' }}>
+            {this.props.i18nUIString.catalog['descript_UnitEntity_Subcate_listEmpty']}
+          </span>
+        </div>
+      )
+    };
 
     return usersDOM;
   }
@@ -96,58 +111,80 @@ class ModalList extends React.Component {
               event.stopPropagation();
               this.props._set_modalListSwitch(false);}}>
             <div
-              className={classnames(styles.boxRowListBack)}>
-              <div
-                className={classnames(styles.boxListBack)}
-                onTouchStart={this._handleEnter_backArrow}
-                onTouchEnd={this._handleLeave_backArrow}
-                onMouseEnter={this._handleEnter_backArrow}
-                onMouseLeave={this._handleLeave_backArrow}
-                onClick={(e)=>{e.stopPropagation();e.preventDefault();this.props._set_modalListSwitch(false);}}>
-                <SvgArrowStick
-                  customstyle={this.state.onBackArrow ? (
-                    {
-                      cls1: "{fill:none;stroke:#FFFFFF;stroke-linecap:round;stroke-linejoin:round;stroke-width:18px;}",
-                      cls2: "{fill:#FFFFFF}"
-                    }
-                  ) : (
-                    {
-                      cls1: "{fill:none;stroke:#d8d8d8;stroke-linecap:round;stroke-linejoin:round;stroke-width:18px;}",
-                      cls2: "{fill:#d8d8d8}"
-                    }
-                  )} />
-              </div>
-            </div>
-            <div
               className={classnames(styles.boxSignedList)}
               onClick={(event) => { event.stopPropagation(); }}>
               <div
-                className={classnames(styles.widthList, styles.rowListTitle)}>
-                <span
-                  className={classnames("fontSubtitle_h5", "colorEditBlack")}>
-                  {"Mark your name if you've visited the scene!"}
-                </span>
-              </div>
-              <div
-                className={classnames(styles.widthList)}>
-                <span>
-                  {"Mark your name by "}
-                </span>
-                <div>
-                  <FacebookLogin
-                    appId={outside.facebookAppId}
-                    autoLoad={false}
-                    fields="name,email,picture"
-                    callback={this._handleRes_fbLoginRes}
-                    textButton={"Continue with Facebook"}
-                    size={"medium"}
-                    version={"10.0"}
-                    cssClass={classnames(styles.btnFacebookLogin)}
-                    disableMobileRedirect={true}/>
+                className={classnames(styles.boxRowListBack)}>
+                <div
+                  className={classnames(styles.boxListBack)}
+                  onTouchStart={this._handleEnter_backArrow}
+                  onTouchEnd={this._handleLeave_backArrow}
+                  onMouseEnter={this._handleEnter_backArrow}
+                  onMouseLeave={this._handleLeave_backArrow}
+                  onClick={(e)=>{e.stopPropagation();e.preventDefault();this.props._set_modalListSwitch(false);}}>
+                  <SvgArrowStick
+                    customstyle={this.state.onBackArrow ? (
+                      {
+                        cls1: "{fill:none;stroke:#FFFFFF;stroke-linecap:round;stroke-linejoin:round;stroke-width:18px;}",
+                        cls2: "{fill:#FFFFFF}"
+                      }
+                    ) : (
+                      {
+                        cls1: "{fill:none;stroke:#d8d8d8;stroke-linecap:round;stroke-linejoin:round;stroke-width:18px;}",
+                        cls2: "{fill:#d8d8d8}"
+                      }
+                    )} />
                 </div>
               </div>
               <div
-                className={classnames(styles.widthList)}>
+                className={classnames(styles.widthList, styles.rowListTitle)}>
+                <span
+                  className={classnames("fontNodesEqual", "lineHeight15", "colorEditBlack")}>
+                  {this.props.i18nUIString.catalog['title_UnitEntity_Subcate_list']}
+                </span>
+              </div>
+              <div
+                className={classnames(styles.widthList, styles.boxSignBtn)}>
+                <div
+                  className={classnames(styles.boxSignDescript)}>
+                  {
+                    (this.state.signed && !!this.state.signedBtnMessage) ? (
+                      <span
+                        className={classnames("fontContentPlain", "colorEditBlack")}>
+                        {this.state.signedBtnMessage}
+                      </span>
+                    ): (
+                      <span
+                        className={classnames("fontContentPlain", "colorEditBlack")}>
+                        {this.props.i18nUIString.catalog['descript_UnitEntity_Subcate_list']}
+                      </span>
+                    )
+                  }
+                </div>
+                {
+                  !this.state.signed &&
+                  <div
+                    className={classnames(
+                      styles.boxFacebookBtn,
+                      {[styles.boxFacebookBtnOverlay]: this.state.axiosFbRes}
+                    )}>
+                    <FacebookLogin
+                      appId={outside.facebookAppId}
+                      autoLoad={false}
+                      fields="name,email,picture"
+                      callback={this._handleRes_fbLoginRes}
+                      textButton={"Continue with Facebook"}
+                      size={"medium"}
+                      version={"10.0"}
+                      cssClass={classnames(styles.btnFacebookLogin)}
+                      disableMobileRedirect={true}/>
+                  </div>
+                }
+              </div>
+              <div
+                className={classnames(styles.widthList, styles.boxDecoBorder)}/>
+              <div
+                className={classnames(styles.widthList, styles.boxSignedUsers)}>
                 {this._render_signedUsers()}
               </div>
             </div>
@@ -166,11 +203,17 @@ class ModalList extends React.Component {
     only "connected" has the right response we need.
     ref: https://developers.facebook.com/docs/facebook-login/web#re-asking-declined-permissions
     */
+    // first, stop the process if we are already on the way.
+    if(this.state.axiosFbRes) return;
+    // then stop or pass depend on facebook.response
     if(response.status != 'connected'){ return; };
     if(!!response.userID){ return; }; // basically, should not happend
 
     const self = this;
-    this.setState({axios: true});
+    this.setState({
+      axios: true,
+      axiosFbRes: true
+    });
 
     _axios_get_userUnitSign(this.axiosSource.token, {
       fbId: response.userID,
@@ -184,8 +227,9 @@ class ModalList extends React.Component {
         self.setState((prevState, props)=>{
           return {
             axios: false,
+            axiosFbRes: false,
             signed: true,
-            signedBtnMessage: "You've already signed."
+            signedBtnMessage: this.props.i18nUIString.catalog['message_UnitEntity_Subcate_signedNotify']
           };
         });
       }
@@ -203,8 +247,9 @@ class ModalList extends React.Component {
         self.setState((prevState, props)=>{
           return {
             axios: false,
+            axiosFbRes: false,
             signed: true,
-            signedBtnMessage: "You are on the list"
+            signedBtnMessage: this.props.i18nUIString.catalog['message_UnitEntity_Subcate_signedNotify']
           };
         });
         this._set_signedList();

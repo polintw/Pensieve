@@ -166,6 +166,11 @@ const i18nUIString_EN = {
   "message_Unit_InspiredModal": "Sent to author",
   "tagTitle_Unit_LinkCopy": "Copy link",
   "message_Unit_LinkCopy": "Copied to clipboard",
+  "title_UnitEntity_Subcate_list": "Mark your name if you've visited the scene!",
+  "descript_UnitEntity_Subcate_list": "We use and only use name and profile pic of your Facebook account to mark you down on this achieved list!",
+  "descript_UnitEntity_Subcate_listEmpty": "No one has reached this scene yet!",
+  "message_UnitEntity_Subcate_signedNotify": "You are already on the list.",
+  "btn_UnitEntity_Subcate_ModalBtn": "Know this scene?",
 
   "title_shareUpload_typewriter": ['S','h','a','r','e', '!'],
   "guidingCreateShare_ImgGps": "GPS",

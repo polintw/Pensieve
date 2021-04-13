@@ -55,7 +55,7 @@ class VisitRegister extends React.Component {
                 ['colorWhiteGrey']: (!this.state.onbtnNext),
               }
             )}>
-            {"Know the scene?"}
+            {this.props.i18nUIString.catalog['btn_UnitEntity_Subcate_ModalBtn']}
           </span>
         </div>
         {
