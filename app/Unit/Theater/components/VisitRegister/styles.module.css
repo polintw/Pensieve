@@ -3,16 +3,21 @@
 }
 
 .boxGuidingText {
+  display: inline-flex;
+  box-sizing: border-box;
+  padding: 8px 10% 9px;
+  border-radius: 4px;
+  background-color: rgb(69, 135, 160);
   text-align: center;
 }
 
-.spanGuidingText {
-  border-bottom: solid 0.75px transparent;
+.boxGuidingTextActiv {
+  background-color: #ff8168;
   cursor: pointer;
 }
 
-.spanGuidingTextActiv {
-  border-bottom: solid 0.75px #FFFFFF;
+.spanGuidingText {
+
 }
 
 .frameModalList {
@@ -153,15 +158,22 @@
 }
 
 @media screen and (min-width:860px) {
+  .comVisitRegister {
+
+  }
+
   .boxGuidingText {
-    box-shadow: 0px -4px 4px -4px #d8d8d8;
     padding-top: 8px;
   }
 }
 
 @media screen and (max-width:860px) {
-  .boxGuidingText {
+  .comVisitRegister {
     box-shadow: 4px 0 4px -4px #d8d8d8;
+  }
+
+  .boxGuidingText {
+
   }
 
 }

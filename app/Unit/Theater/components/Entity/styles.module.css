@@ -3,7 +3,7 @@
 }
 
 .boxVisitRegister {
-
+  text-align: center;
 }
 
 .comEntitySubcateTitle {
@@ -11,7 +11,9 @@
 }
 
 .linkBtnNext {
-
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
 }
 
 .spanLinkSubcate {
@@ -61,7 +63,9 @@
   }
 
   .linkBtnNext {
+    height: 36px;
     margin-left: 16px;
+    padding: 5px 2px 5px 6px;
   }
 
   .spanLinkSubcate {
