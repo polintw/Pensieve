@@ -39,21 +39,18 @@ class VisitRegister extends React.Component {
       <div
         className={classnames(styles.comVisitRegister)}>
         <div
-          className={classnames(styles.boxGuidingText)}
+          className={classnames(
+            styles.boxGuidingText,
+            {[styles.boxGuidingTextActiv]: this.state.onbtnNext}
+          )}
           onClick={this._handleClick_Register}
           onTouchStart={this._handleEnter_btnNext}
           onTouchEnd={this._handleLeave_btnNext}
           onMouseEnter={this._handleEnter_btnNext}
-          onMouseLeave={this._handleLeave_btnNext}
-          style={this.state.onbtnNext ? {boxShadow: "0 0 5px -1px inset #fff8f7"} : {}}>
+          onMouseLeave={this._handleLeave_btnNext}>
           <span
             className={classnames(
-              "fontContent", styles.spanGuidingText,
-              {
-                [styles.spanGuidingTextActiv]: this.state.onbtnNext,
-                ['colorWhite']: this.state.onbtnNext,
-                ['colorWhiteGrey']: (!this.state.onbtnNext),
-              }
+              "fontSubtitle_h5", "colorWhite", styles.spanGuidingText,
             )}>
             {this.props.i18nUIString.catalog['btn_UnitEntity_Subcate_ModalBtn']}
           </span>

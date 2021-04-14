@@ -26,7 +26,8 @@ class EntityOnSubcate extends React.Component {
     this.state = {
       axios: false,
       next_confirm: false,
-      next_unit: null
+      next_unit: null,
+      onbtnNext: false
     };
     this.axiosSource = axios.CancelToken.source();
     this._set_unitSubCate = this._set_unitSubCate.bind(this);
@@ -39,7 +40,16 @@ class EntityOnSubcate extends React.Component {
     if(
       (this.props.unitCurrent.unitId != prevProps.unitCurrent.unitId) &&
       !!this.props.unitCurrent.unitId
-    ) this._set_unitSubCate();
+    ) {
+      // reset state
+      this.setState({
+        axios: false,
+        next_confirm: false,
+        next_unit: null,
+        onbtnNext: false
+      });
+      this._set_unitSubCate();
+    };
   }
 
   componentDidMount(){
@@ -70,9 +80,10 @@ class EntityOnSubcate extends React.Component {
             onTouchStart={this._handleEnter_btnNext}
             onTouchEnd={this._handleLeave_btnNext}
             onMouseEnter={this._handleEnter_btnNext}
-            onMouseLeave={this._handleLeave_btnNext}>
+            onMouseLeave={this._handleLeave_btnNext}
+            style={this.state.onbtnNext ? {boxShadow: "0 0 5px -1px inset #fff8f7"} : {}}>
             <div
-              style={{width: "30px", height: "16px", textAlign: 'center'}}>
+              style={{width: "30px", height: "18px", textAlign: 'center'}}>
               <SvgArrowToRight
                 mouseOn={this.state.onbtnNext}
                 customStyles={{fillColorMouseOn: '#FFFFFF', fillColor: '#d8d8d8'}}/>
