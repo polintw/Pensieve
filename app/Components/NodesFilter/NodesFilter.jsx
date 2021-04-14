@@ -26,6 +26,7 @@ class NodesFilter extends React.Component {
     super(props);
     this.state = {
       axios: false,
+      fetchedUnitsList: false,
       nodesUnits: {},
       unitsList: [],
       unitsBasic: {}
@@ -41,6 +42,7 @@ class NodesFilter extends React.Component {
     if(
       this.props.startList.length != prevProps.startList.length // or, startList changed(usually fetched at begining)
     ){
+      this.setState({fetchedUnitsList: false}); // back to the init status
       this._set_nodesUnitsBasic(this.props.startList);
     }
   }
@@ -110,13 +112,28 @@ class NodesFilter extends React.Component {
     return (
       <div
         className={classnames(styles.boxMap)}>
-        <MapNodesUnits
-          coordCenter={centerCoor}
-          unitsMarkers={unitsMarkers}
-          nodeMarkers={nodeMarkers}
-          styleZIndex={'5'}
-          minZoomLevel={1}
-          zoomLevel={centerCoor.length > 0 ? 15 : 2}/>
+        {
+          /*
+          the situation is, we have to render the Map after everything was fetched and confirmed.
+          Because, the module <MapContainer> we use was 'immutable', by the rule the author set.
+          The 'props.startList' has prepared before the component mount, no need to check;
+          mainly focus on 'state.unitsList' & 'centerCoor'.
+          */
+          (
+            this.state.fetchedUnitsList &&
+            ( // if everything was fetched, permission if we haver a center or 'not any' unit
+              (centerCoor.length > 0) ||
+              ((nodeMarkers.length == 0) && (unitsMarkers.length == 0))
+            )
+          ) &&
+          <MapNodesUnits
+            coordCenter={centerCoor}
+            unitsMarkers={unitsMarkers}
+            nodeMarkers={nodeMarkers}
+            styleZIndex={'5'}
+            minZoomLevel={1}
+            zoomLevel={centerCoor.length > 0 ? 15 : 2}/>
+        }
       </div>
     )
   }
@@ -213,6 +230,7 @@ class NodesFilter extends React.Component {
         return ({
           axios: false,
           unitsBasic: {...prevState.unitsBasic, ...resObj.main.unitsBasic},
+          fetchedUnitsList: true
         });
       });
     })

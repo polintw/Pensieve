@@ -51,7 +51,7 @@ class EntitySubcateTitle extends React.Component {
               styles.spanLinkSubcate,
               { [styles.spanLinkSubcateMouse]: this.state.onLinkSubcate }
             )}>
-            {this.props.unitEntity.pathSubCate.currentSubcateObj["name"]}
+            {"@" + this.props.unitEntity.pathSubCate.currentSubcateObj["name"]}
           </span>
         </Link>
       </div>

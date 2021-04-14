@@ -21,6 +21,7 @@ class NavTitleRow extends React.Component {
       onNodeLink: false,
     };
     this._render_resetLink = this._render_resetLink.bind(this);
+    this._render_filterNode = this._render_filterNode.bind(this);
     this._handleClick_resetLink= this._handleClick_resetLink.bind(this);
     this._handleEnter_NodeLink = this._handleEnter_NodeLink.bind(this);
     this._handleLeave_NodeLink = this._handleLeave_NodeLink.bind(this);
@@ -38,6 +39,33 @@ class NavTitleRow extends React.Component {
 
   componentWillUnmount(){
 
+  }
+
+  _render_filterNode(){
+    let userLogin = (this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') ? false : true;
+    return (
+      <Link
+        nodeid={this.filterNode}
+        to={userLogin ? ("/cosmic/explore/node?nodeid=" + this.filterNode) : ''}
+        className={classnames('plainLinkButton')}
+        style={{
+          display: 'inline-block',
+          cursor: userLogin ? "pointer" : "text"
+        }}
+        onClick={(e)=>{ if(!userLogin){e.preventDefault();}; }}
+        onMouseEnter={this._handleEnter_NodeLink}
+        onMouseLeave={this._handleLeave_NodeLink}>
+        {(this.filterNode in this.props.nounsBasic) &&
+          <span
+            className={classnames(
+              "fontNodesEqual", "weightBold", "colorEditBlack",
+              styles.spanLinkNode,
+              { [styles.spanLinkNodeMouse]: (this.state.onNodeLink == this.filterNode) && userLogin }
+            )}>
+            {this.props.nounsBasic[this.filterNode].name}</span>
+        }
+      </Link>
+    )
   }
 
   _render_resetLink(){
@@ -89,23 +117,7 @@ class NavTitleRow extends React.Component {
                       "fontContent", "weightBold", "lineHeight15", "colorAssistGold")}>
                       {"X "}
                   </span>
-                  <Link
-                    nodeid={this.filterNode}
-                    to={"/cosmic/explore/node?nodeid=" + this.filterNode}
-                    className={classnames('plainLinkButton')}
-                    style={{ display: 'inline-block' }}
-                    onMouseEnter={this._handleEnter_NodeLink}
-                    onMouseLeave={this._handleLeave_NodeLink}>
-                    {(this.filterNode in this.props.nounsBasic) &&
-                      <span
-                        className={classnames(
-                          "fontNodesEqual", "weightBold", "colorEditBlack",
-                          styles.spanLinkNode,
-                          { [styles.spanLinkNodeMouse]: this.state.onNodeLink == this.filterNode }
-                        )}>
-                        {this.props.nounsBasic[this.filterNode].name}</span>
-                    }
-                  </Link>
+                  {this._render_filterNode()}
                 </div>
                 {this._render_resetLink()}
               </div>

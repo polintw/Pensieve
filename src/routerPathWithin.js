@@ -210,17 +210,24 @@ router.use('/cosmic/explore/unit', function(req, res, next){
   else _handle_crawler_GET_Unit(req, res);
 })
 
+
 //res specific Unit info to crawler
 router.use('/cosmic/explore/path/:pathProject', function(req, res, next){
   winston.verbose(`${'router, req from crawler getting /path/pathProject, GET: '} ${req.originalUrl}, ${"from ip "}, ${req.ip}.`);
-  //to res dynamic html to crawler, we need to select basic info from DB
-  //validate the query value trusted or not
-  //pass to general middleware if the id was unclear
-  // if(!Boolean(req.params.pathProject.toString()) ) { next();} ; wait for better validation
-
-  // if safe, then we select the requested path & res html with path info
-  // else
-  _handle_crawler_GET_PathProject(req, res);
+  // And for cosmic/explore/path, a special one first: the Unit under a path/subcate
+  if(
+    ('subCate' in req.query) &&
+    ('unitId' in req.query) &&
+    ('/unit' in req.path)
+  ){ // process as to '/cosmic/explore/unit'
+    //to res dynamic html to crawler, we need to select Unit basic info from DB
+    //validate the query value trusted or not
+    //pass to general middleware if the id was unclear
+    if(!Boolean(req.query.unitId.toString()) ) { next();}
+    //if safe, then we select the requested Unit & res html with Unit info
+    else _handle_crawler_GET_Unit(req, res);
+  }
+  else _handle_crawler_GET_PathProject(req, res);
 })
 
 //res common data to crawler if no specific destination,
