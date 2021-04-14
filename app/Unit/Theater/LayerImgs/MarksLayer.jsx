@@ -56,7 +56,10 @@ class MarksLayer extends React.Component {
 
   _render_SpotsorMark(){
     //already order the list by serial records when mount at Unit
+    // 'currentMark' would be: #id of a mark/ 'all'/ 'first'
+    // only #id would be incl. in 'props.marksData.list'
     let currentSerial = this.props.marksData.list.indexOf(this.props.currentMark);
+    if(this.props.currentMark == 'first') currentSerial = 0;
 
     //there are two possibility for currentSerial='-1': 'all' or not in this 'layer'
     //So it's important to check currentSerial when markOpened,
