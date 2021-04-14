@@ -138,7 +138,10 @@ async function _handle_GET_paths_accumulated(req, res){
           createdAt: {[Op.lt]: lastUnitTime},
         }
       });
+      let unitsPathSubcateObj = {};
       let unitsId = unitsByPathSubcate.map((row, index)=>{
+        // also deal with the unitsPathSubcateObj
+        unitsPathSubcateObj[row.id_unit] = row;
         return row.id_unit;
       });
       if(!!reqFilterNodes){
@@ -170,13 +173,24 @@ async function _handle_GET_paths_accumulated(req, res){
       if(unitsId.length > 12) unitsId.splice(12); // rm all items after 12nd
 
       unitsExposedList = await _DB_units.findAll({
-        where: {id: unitsId},
-        order: [ //make sure the order of arr are from latest
-          Sequelize.literal('`createdAt` DESC')
-        ]
+        where: {id: unitsId}
       })
       .then((results)=>{
-        let exposedIdlist = results.map((row, index)=>{ return row.exposedId;});
+        // and we 'order' the unitsList by 'subcate serial'
+        let exposedIdlist = [];
+        let unitsArrBySubcateSerial = [];
+        results.forEach((row, index)=>{
+          unitsArrBySubcateSerial.push({
+            exposedId: row.exposedId,
+            serial: unitsPathSubcateObj[row.id].serial_subPath
+          });
+        });
+        unitsArrBySubcateSerial.sort((a, b)=>{
+          return a.serial - b.serial;
+        });
+        unitsArrBySubcateSerial.forEach((obj, index)=>{
+          exposedIdlist.push(obj.exposedId);
+        });
 
         return exposedIdlist;
       })

@@ -32,6 +32,8 @@ class NodesExtensible extends React.Component {
     let nounsArr = [];
     let expandLeng = 3;
     let cssVW = window.innerWidth; // for RWD
+    let userLogin = (this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') ? false : true;
+
     for(let i = 0; i < expandLeng ; i++){
       // display only the nodes under limit
       if(i >= this.props.nouns.list.length) break;
@@ -57,7 +59,7 @@ class NodesExtensible extends React.Component {
               {
                 ["fontTitle"]: (cssVW > 860),
                 ["fontNodesEqual"]: (cssVW <=860),
-                [styles.spanNodeItemMouse]: (this.state.onLiItem == nodeId && nodeId != 4692) // 4692 is an safe id in DB nouns table that do not represent anything, used to set for none node text, like 'Welcome ...'
+                [styles.spanNodeItemMouse]: (this.state.onLiItem == nodeId && userLogin && nodeId != 4692) // 4692 is an safe id in DB nouns table that do not represent anything, used to set for none node text, like 'Welcome ...'
               }
              )}
             title={iNoun.name+ (iNoun.prefix ? ", "+iNoun.prefix:"")}>
@@ -83,7 +85,6 @@ class NodesExtensible extends React.Component {
     event.preventDefault();
     event.stopPropagation();
     if(this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack'){
-      this.props._set_noTokenDialog("more");
       return; // stop here
     };
     let currentNode = event.currentTarget.attributes.nodeId.value;
