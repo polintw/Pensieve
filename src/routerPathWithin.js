@@ -218,7 +218,7 @@ router.use('/cosmic/explore/path/:pathProject', function(req, res, next){
   if(
     ('subCate' in req.query) &&
     ('unitId' in req.query) &&
-    ('/unit' in req.path)
+    (req.path.includes('/unit'))
   ){ // process as to '/cosmic/explore/unit'
     //to res dynamic html to crawler, we need to select Unit basic info from DB
     //validate the query value trusted or not

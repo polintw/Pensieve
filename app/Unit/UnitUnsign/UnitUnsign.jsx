@@ -51,7 +51,7 @@ class UnitUnsign extends React.Component {
   }
 
   _construct_UnitInit(match, location){
-    let unitInit= {marksify: false, initMark: "all", layer: 0};
+    let unitInit= {marksify: false, initMark: "first", layer: 0};
     return unitInit;
   }
 
