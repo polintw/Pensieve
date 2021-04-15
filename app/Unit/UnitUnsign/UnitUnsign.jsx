@@ -5,6 +5,9 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
+import {
+  disableBodyScroll,
+  clearAllBodyScrollLocks } from 'body-scroll-lock';
 import styles from './styles.module.css';
 import Theater from '../Theater/Theater.jsx';
 import {
@@ -38,6 +41,7 @@ class UnitUnsign extends React.Component {
     };
     this.axiosSource = axios.CancelToken.source();
     this.boxUnitFrame = React.createRef();
+    this.boxScrollFrame = React.createRef();
     this._close_modal_Unit = this._close_modal_Unit.bind(this);
     this._set_UnitCurrent = this._set_UnitCurrent.bind(this);
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
@@ -153,6 +157,9 @@ class UnitUnsign extends React.Component {
     //because we fetch the data of Unit only from this file,
     //now we need to check if it was necessary to fetch or not in case the props.unitCurrent has already saved the right data we want
     this._set_UnitCurrent();
+    // Important! As designed, the modulw 'body-scroll-lock' would stop scroll to body, and allow scroll in the element we hook
+    // so we hook the element here 'after' the element mount
+    disableBodyScroll(this.boxScrollFrame);
   }
 
   componentWillUnmount(){
@@ -167,6 +174,8 @@ class UnitUnsign extends React.Component {
     this.props._submit_list_UnitResponds({ list: [], scrolled: true }, true); // reset the responds state to initial
     //last, make sure the scroll ability back to <body>
     document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:scroll;");
+    // don't forget the library used to stop scroll
+    clearAllBodyScrollLocks();
   }
 
   render(){
@@ -209,28 +218,31 @@ class UnitUnsign extends React.Component {
           style={{
             position: "fixed",
             backgroundColor: 'rgba(51, 51, 51, 0.3)' }}>
-            {
-              (cssVW < 860) &&
-              <div
-                className={classnames(styles.boxNavOptionsCosmic)}>
-                <NavOptionsUnsign {...this.props} _refer_to={this._close_modal_Unit}/>
-              </div>
-            }
             <div
-              id={"unitSignFrame"}
-              className={classnames(styles.boxUnitSignFrame)}/>
-            <div
-              id={"unitFrame"}
-              ref={this.boxUnitFrame}
-              className={classnames(styles.boxUnitFrame)}>
+              ref={this.boxScrollFrame}>
+              {
+                (cssVW < 860) &&
+                <div
+                  className={classnames(styles.boxNavOptionsCosmic)}>
+                  <NavOptionsUnsign {...this.props} _refer_to={this._close_modal_Unit}/>
+                </div>
+              }
               <div
-                className={classnames(styles.boxUnitContent)}
-                onClick={this._close_modal_Unit}>
-                <Theater
-                  {...this.props}
-                  _construct_UnitInit={this._construct_UnitInit}
-                  _reset_UnitMount={this._reset_UnitMount}
-                  _close_theaterHeigher={this._close_modal_Unit}/>
+                id={"unitSignFrame"}
+                className={classnames(styles.boxUnitSignFrame)}/>
+              <div
+                id={"unitFrame"}
+                ref={this.boxUnitFrame}
+                className={classnames(styles.boxUnitFrame)}>
+                <div
+                  className={classnames(styles.boxUnitContent)}
+                  onClick={this._close_modal_Unit}>
+                  <Theater
+                    {...this.props}
+                    _construct_UnitInit={this._construct_UnitInit}
+                    _reset_UnitMount={this._reset_UnitMount}
+                    _close_theaterHeigher={this._close_modal_Unit}/>
+                </div>
               </div>
             </div>
         </ModalBackground>

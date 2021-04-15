@@ -25,7 +25,8 @@ class TitlePath extends React.Component {
     this.state = {
       emit: false,
       onShareLink: false,
-      onSetlink: false
+      onSetlink: false,
+      hiddenUrl: ''
     };
     this.refHiddenText = React.createRef();
     this._set_emitModal = this._set_emitModal.bind(this);
@@ -37,11 +38,16 @@ class TitlePath extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-
+    let href = window.location.href;
+    if( href != prevState.hiddenUrl){
+      let href = window.location.href;
+      this.setState({hiddenUrl: href});
+    };
   }
 
   componentDidMount(){
-
+    let href = window.location.href;
+    this.setState({hiddenUrl: href});
   }
 
   componentWillUnmount(){
@@ -110,7 +116,7 @@ class TitlePath extends React.Component {
                   <input
                     ref={this.refHiddenText}
                     className={classnames(styles.boxHiddenText)}
-                    value={ domain.protocol+ '://'+domain.name+'/cosmic/explore/path/'+ this.props.projectPath}
+                    value={this.state.hiddenUrl}
                     readOnly/>
                 </div>
               </div>

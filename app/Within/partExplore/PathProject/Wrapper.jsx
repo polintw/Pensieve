@@ -149,15 +149,7 @@ class Wrapper extends React.Component {
           )
         }
         <div
-          className={classnames(styles.comPathProject)}
-          onTouchEnd={(event)=>{
-            if(
-              // this way, stop every touch event to the comp. at Unit opened, including 'scroll'-the main target.
-              // It's for ios system which not react to '.body overflow: hidden'
-              this.props.location.pathname.includes('/unit') &&
-              this.props.location.search.includes('unitId')
-            ) event.preventDefault();
-          }}>
+          className={classnames(styles.comPathProject)}>
           <div
             className={classnames(styles.boxRow)}>
             <div
