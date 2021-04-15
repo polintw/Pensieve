@@ -46,6 +46,7 @@ class UnitScreen extends React.Component {
     this.state = {
       axios: false,
       close: false,
+      bodyScrollDisabled: false
     };
     this.axiosSource = axios.CancelToken.source();
     this.boxUnitFrame = React.createRef();
@@ -164,15 +165,18 @@ class UnitScreen extends React.Component {
       this._reset_UnitMount(); //reset UnitCurrent to clear the view
       this.props._submit_list_UnitResponds({ list: [], scrolled: true }, true); // reset the responds state to initial
     };
+    // Important! As designed, the modulw 'body-scroll-lock' would stop scroll to body, and allow scroll in the element we hook
+    // so we hook the element here 'after' the element mount
+    if(!!this.boxScrollFrame.current && !this.state.bodyScrollDisabled){ // but, we have to 'wait' the boxScrollFrame mount
+      disableBodyScroll(this.boxScrollFrame.current);
+      this.setState({bodyScrollDisabled: true})
+    };
   }
 
   componentDidMount(){
     //because we fetch the data of Unit only from this file,
     //now we need to check if it was necessary to fetch or not in case the props.unitCurrent has already saved the right data we want
     this._set_UnitCurrent();
-    // Important! As designed, the modulw 'body-scroll-lock' would stop scroll to body, and allow scroll in the element we hook
-    // so we hook the element here 'after' the element mount
-    disableBodyScroll(this.boxScrollFrame);
   }
 
   componentWillUnmount(){
