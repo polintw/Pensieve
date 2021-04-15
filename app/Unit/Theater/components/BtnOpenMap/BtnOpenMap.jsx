@@ -7,7 +7,7 @@ import classnames from 'classnames';
 import styles from './styles.module.css';
 import ModalEmit from '../../../../Components/ModalEmit/ModalEmit.jsx';
 import SvgPin from '../../../../Components/Svg/SvgPin.jsx';
-import SvgArrowStick from '../../../../Components/Svg/SvgArrowStick.jsx';
+import SvgImgLayer from '../../../../Components/Svg/SvgIcon_imgLayer.jsx';
 
 class BtnOpenMap extends React.Component {
   constructor(props){
@@ -43,25 +43,21 @@ class BtnOpenMap extends React.Component {
             <div
               className={classnames(styles.boxSvgIcon)}
               onClick={this._handleClick_Arrow}
+              onTouchStart={this._handleEnter_Btn}
+              onTouchEnd={this._handleLeave_Btn}
               onMouseEnter={this._handleEnter_Btn}
               onMouseLeave={this._handleLeave_Btn}>
-              <SvgArrowStick
-                customstyle={this.state.mouseOn ? (
-                  {
-                    cls1: "{fill:none;stroke:#ff8168;stroke-linecap:round;stroke-linejoin:round;stroke-width:18px;}",
-                    cls2: "{fill:#ff8168}"
-                  }
-                ) : (
-                    {
-                      cls1: "{fill:none;stroke:rgb(69, 135, 160);stroke-linecap:round;stroke-linejoin:round;stroke-width:18px;}",
-                      cls2: "{fill:rgb(69, 135, 160)}"
-                    }
-                  )} />
+              <SvgImgLayer
+                customStyles={
+                  this.state.mouseOn ? {fillColor: "#ff8168"} : {fillColor: "#a3a3a3"}
+                } />
             </div>
           ) : (
               <div
                 className={classnames(styles.boxSvgIcon)}
                 onClick={this._handleClick_Pin}
+                onTouchStart={this._handleEnter_Btn}
+                onTouchEnd={this._handleLeave_Btn}
                 onMouseEnter={this._handleEnter_Btn}
                 onMouseLeave={this._handleLeave_Btn}>
                 <SvgPin

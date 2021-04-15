@@ -49,7 +49,8 @@ class NavOptionsUnsign extends React.Component {
     else{*/
       return(
         <div
-          className={classnames(styles.boxNavSmall)}>
+          className={classnames(styles.boxNavSmall)}
+          style={{justifyContent: 'flex-end'}}>
           <div
             className={classnames(styles.boxLogo)}
             onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_to('', '/')}}>

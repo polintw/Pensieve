@@ -68,9 +68,14 @@ class Wrapper extends React.Component {
             nouns={nodesTitleObj}
             _referNode={this.props._refer_toandclose}
             _set_noTokenDialog={this._set_inviteDialog}/>
-          <SidePanel
+          {
+            /*
+            Hide this part under the new design. Apr. 2021
+            <SidePanel
             {...this.props}
             _set_noTokenDialog={this._set_inviteDialog}/>
+            */
+          }
         </div>
         <div
           className={classnames(styles.boxContentWidth, styles.boxFrame)}>
@@ -107,21 +112,23 @@ class Wrapper extends React.Component {
                   _set_frameView={this._set_frameView} />
               </div>
             }
-            <div
-              className={classnames(styles.btnBottomIcon)}
-              style={{marginTop: '2px'}}>
-              <LinkCopy {...this.props}/>
-            </div>
             {
               /*
               Hide this part under the new design. Apr. 2021
+              <div
+              className={classnames(styles.btnBottomIcon)}
+              style={{marginTop: '2px'}}>
+              <LinkCopy {...this.props}/>
+              </div>
+              {
               (this.props.unitCurrent.identity != "author") &&
               <div
-                className={classnames(styles.btnBottomIcon)}
-                style={{ marginTop: '2px' }}>
-                <Inspired
-                  _set_noTokenDialog={this._set_inviteDialog}/>
+              className={classnames(styles.btnBottomIcon)}
+              style={{ marginTop: '2px' }}>
+              <Inspired
+              _set_noTokenDialog={this._set_inviteDialog}/>
               </div>
+              }
               */
             }
           </div>

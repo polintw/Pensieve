@@ -97,7 +97,8 @@ class Within_Sign extends React.Component {
             return (
               <div
                 className={classnames("smallDisplayBox")}
-                style={Object.assign({}, this.style.Within_Around_backplane, {top: '0'})}></div>
+                style={Object.assign({}, this.style.Within_Around_backplane, {
+                  top: '0', zIndex: '4' /* to 'above' the comWithinSign which has 'position:relative' */})}></div>
             )
           }}/>
 
