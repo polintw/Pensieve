@@ -91,6 +91,16 @@ class Within_Sign extends React.Component {
             <Route path="/" render={(props)=> UnsignWithin(props, this) }/>
           </Switch>
         </div>
+        <Route
+          path={((this.props.location.pathname =="/") ? '' : this.props.location.pathname.slice(0, -5))+ '/unit' }
+          render={(props)=> {
+            return (
+              <div
+                className={classnames("smallDisplayBox")}
+                style={Object.assign({}, this.style.Within_Around_backplane, {top: '0'})}></div>
+            )
+          }}/>
+
         {
           this.props.messageBoolean['render'] &&
           <ModalBox containerId="root">

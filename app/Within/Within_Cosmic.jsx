@@ -149,7 +149,15 @@ class WithinCosmic extends React.Component {
               }/>
           </div>
         </div>
-
+        <Route
+          path={((this.props.location.pathname =="/") ? '' : this.props.location.pathname.slice(0, -5))+ '/unit' }
+          render={(props)=> {
+            return (
+              <div
+                className={classnames("smallDisplayBox")}
+                style={Object.assign({}, this.style.Within_Cosmic_backplane, {top: '0'})}></div>
+            )
+          }}/>
 
         {
           //here and beneath, are dialog system for global used,

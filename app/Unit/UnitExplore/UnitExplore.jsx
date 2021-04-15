@@ -6,9 +6,6 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
-import {
-  disableBodyScroll,
-  clearAllBodyScrollLocks } from 'body-scroll-lock';
 import styles from './styles.module.css';
 import Theater from '../Theater/Theater.jsx';
 import SharedEdit from '../Editing/SharedEdit.jsx';
@@ -43,11 +40,9 @@ class UnitExplore extends React.Component {
     this.state = {
       axios: false,
       close: false,
-      bodyScrollDisabled: false
     };
     this.axiosSource = axios.CancelToken.source();
     this.boxUnitFrame = React.createRef();
-    this.boxScrollFrame = React.createRef();
     this._render_switch = this._render_switch.bind(this);
     this._close_modal_Unit = this._close_modal_Unit.bind(this);
     this._set_UnitCurrent = this._set_UnitCurrent.bind(this);
@@ -159,12 +154,6 @@ class UnitExplore extends React.Component {
       this._set_UnitCurrent();
       this.boxUnitFrame.current.scrollTop = 0; // make the Unit view area back to top
     };
-    // Important! As designed, the modulw 'body-scroll-lock' would stop scroll to body, and allow scroll in the element we hook
-    // so we hook the element here 'after' the element mount
-    if(!!this.boxScrollFrame.current && !this.state.bodyScrollDisabled){ // but, we have to 'wait' the boxScrollFrame mount
-      disableBodyScroll(this.boxScrollFrame.current);
-      this.setState({bodyScrollDisabled: true})
-    };
   }
 
   componentDidMount(){
@@ -185,8 +174,6 @@ class UnitExplore extends React.Component {
     this.props._submit_list_UnitResponds({ list: [], scrolled: true }, true); // reset the responds state to initial
     //last, make sure the scroll ability back to <body>
     document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:scroll;");
-    // don't forget the library used to stop scroll
-    clearAllBodyScrollLocks();
   }
 
   _render_switch(paramUnitView){
@@ -256,27 +243,24 @@ class UnitExplore extends React.Component {
           style={{
             position: "fixed",
             backgroundColor: (paramUnitView=="related" || paramUnitView=="respond") ? 'rgba(51, 51, 51, 0.85)': 'rgba(51, 51, 51, 0.3)' }}>
-            <div
-              ref={this.boxScrollFrame}>
-              {
-                (cssVW < 860) &&
-                <div
-                  className={classnames(styles.boxNavOptions)}>
-                  <NavOptions {...this.props} _refer_to={this._close_modal_Unit}/>
-                </div>
-              }
+            {
+              (cssVW < 860) &&
               <div
-                id={"unitFrame"}
-                ref={this.boxUnitFrame}
-                className={classnames(styles.boxUnitFrame)}>
-                <div
-                  id={"unitSignFrame"}
-                  className={classnames(styles.boxUnitSignFrame)}/>
-                <div
-                  className={classnames(styles.boxUnitContent)}
-                  onClick={this._close_modal_Unit}>
-                  {this._render_switch(paramUnitView)}
-                </div>
+                className={classnames(styles.boxNavOptions)}>
+                <NavOptions {...this.props} _refer_to={this._close_modal_Unit}/>
+              </div>
+            }
+            <div
+              id={"unitFrame"}
+              ref={this.boxUnitFrame}
+              className={classnames(styles.boxUnitFrame)}>
+              <div
+                id={"unitSignFrame"}
+                className={classnames(styles.boxUnitSignFrame)}/>
+              <div
+                className={classnames(styles.boxUnitContent)}
+                onClick={this._close_modal_Unit}>
+                {this._render_switch(paramUnitView)}
               </div>
             </div>
         </ModalBackground>
