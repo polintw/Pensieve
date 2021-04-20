@@ -108,12 +108,20 @@
   border-radius: 4px;
 }
 
+.comImgsFrame {
+  flex: 1;
+  height: 100%;
+  position: relative;
+  box-sizing: border-box;
+  border-radius: 4px;
+  background-color: rgba(217, 232, 255, 0.15);
+}
 
 @media screen and (max-width:860px) {
   .smallDisplayNone {
     display: none;
   }
-  
+
   .boxFrameAuthor {
     flex-direction: column;
   }

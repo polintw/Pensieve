@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from "react-redux";
+import classnames from 'classnames';
+import styles from './styles.module.css';
 import ImgLayer from './ImgLayer.jsx';
 
 class ImgsFrame extends React.Component {
@@ -7,23 +9,13 @@ class ImgsFrame extends React.Component {
     super(props);
     this.state = {
       spotsVisible: true,
-      currentMark: this.props.marksStatus.initMark
+      currentMark: this.props.marksStatus.initMark,
       //watch out! props marksStatus would update follow the marksvisible,
       //so, careful if need to change state by 'props'!
     };
     this._set_Markvisible = this._set_Markvisible.bind(this);
     this._set_layerstatus = this._set_layerstatus.bind(this);
     this._set_spotsVisible = ()=>{this.setState((prevState, props)=>{return {spotsVisible: prevState.spotsVisible? false : true};})};
-    this.style={
-      Com_ImgsFrame: {
-        flex: '1',
-        height: '100%',
-        position: 'relative',
-        boxSizing: 'border-box',
-        borderRadius: '4px',
-        backgroundColor: 'rgba(217, 232, 255, 0.15)'
-      },
-    };
   }
 
   _set_Markvisible(markKey){
@@ -50,6 +42,14 @@ class ImgsFrame extends React.Component {
     this.props._set_layerstatus(true, nextCount, {marksify: false, initMark: "all"});
   }
 
+  componentDidMount(){
+
+  }
+
+  componentWillUnmount(){
+
+  }
+
   render(){
     let portion = Math.abs((this.props.moveCount-100)/100); //we use '100' due to the system was base on the 0, 100, 200 range
     let controledCSS = {
@@ -72,7 +72,7 @@ class ImgsFrame extends React.Component {
 
     return(
       <div
-        style={this.style.Com_ImgsFrame}>
+        className={classnames(styles.comImgsFrame)}>
         <div
           className={'boxAbsoluteFull'}
           style={Com_ImgsFrame_div_beneath}>
