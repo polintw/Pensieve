@@ -16,9 +16,6 @@ class MarksLayer extends React.Component {
     this._render_SpotsorMark = this._render_SpotsorMark.bind(this);
     this._handleClick_ImgLayer_circle = this._handleClick_ImgLayer_circle.bind(this);
     this._handleClick_SpotsLayer = this._handleClick_SpotsLayer.bind(this);
-    this.style = {
-
-    };
   }
 
   _handleClick_ImgLayer_circle(event){
@@ -113,13 +110,11 @@ class MarksLayer extends React.Component {
       });
       return (
         <div
-          className={classnames('boxImgPosition')}
+          className={classnames('boxImgPosition', styles.boxSpotsLayer)}
           onClick={this._handleClick_SpotsLayer}
           style={{
             width: imgWidth,
-            height: imgHeight,
-            right: this.props.baseHorizonRatial+'%',
-            transform: 'translate('+this.props.baseHorizonRatial+'%,-50%)'}}>
+            height: imgHeight}}>
             {
               this.props.spotsVisible && //this is the way we 'switch' spotsLayer
               circlesArr

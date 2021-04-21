@@ -81,6 +81,7 @@ class OpenedMark extends React.Component {
     const spotLeftPx = coordinate.left/100*imgWidth+imgLeft+imgWidth*(baseHorizonRatial/100);
       //the position of circle relative to img, position img original at in the frame, and transform/translate we set
       //--- due to offsetLeft wouldn't take the transform property
+    let cssVW = window.innerWidth; // px of vw in pure integer
 
     //then cauculate position of opened mark here in render()
     //to make the mark would change the position when jumping between different spot
@@ -100,6 +101,9 @@ class OpenedMark extends React.Component {
       else if(coordinate.top <= 1) blockTop = 1
       else if (coordinate.top >= 99) blockTop = 99;
       blockTopTranslate = ((coordinate.top-1) / 98)* 100 * (-1); // 98 is the max-height of .boxMarkBlock, minus 1 is to adjust 1% min top, (-1) is due to 'top' prop we use
+      if( cssVW < 860 ){ // on small screen, no position assign
+        [blockLeft, blockRight, blockTop, blockTopTranslate] = ['','', 0, 0];
+      }
     }
 
     // because we want to pass left/right status as props to Block, we need to add from here
@@ -117,12 +121,10 @@ class OpenedMark extends React.Component {
           className={'boxAbsoluteFull'}
           onClick={this.props._handleClick_ImgLayer_circle}/>
         <div
-          className={'boxImgPosition'}
+          className={classnames('boxImgPosition', styles.boxSpotsLayer)}
           style={{
             width: imgWidth,
-            height: imgHeight,
-            right: baseHorizonRatial+'%',
-            transform: 'translate('+baseHorizonRatial+'%, -50%)'
+            height: imgHeight
           }}
           onClick={this.props._handleClick_ImgLayer_circle}>
           {this._render_CircleGroup(coordinate)}

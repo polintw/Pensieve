@@ -1,6 +1,8 @@
 .boxImgPosition { /*used in OpenedMark, MarksLayer, and ImgLayer.*/
   position: absolute;
   top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
   border-radius: 4px;
 }
 
@@ -25,4 +27,12 @@
 /* for framework React Leaflet */
 .leaflet-container {
   height: 100%;
+}
+
+@media screen and (max-width:860px) {
+  .boxImgPosition { /*used in OpenedMark, MarksLayer, and ImgLayer.*/
+    top: unset;
+    transform: translate(50%, 0%);
+  }
+
 }

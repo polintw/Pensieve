@@ -23,3 +23,9 @@
 .spanpopupNodeMouse {
   border-bottom: solid 0.75px #545454;
 }
+
+@media screen and (max-width:860px) {
+  .comMap {
+    height: 69vh;
+  }
+}

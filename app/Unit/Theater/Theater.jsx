@@ -9,6 +9,7 @@ import classnames from 'classnames';
 import styles from './styles.module.css';
 import stylesFont from '../stylesFont.module.css';
 import Layers from './Layers.jsx';
+import LayersSmall from './LayersSmall.jsx';
 import LayerSwitch from './components/LayerSwitch/LayerSwitch.jsx';
 import EntityOnSubcate from './components/Entity/EntityOnSubcate.jsx';
 import EntitySubcateTitle from './components/Entity/EntitySubcateTitle.jsx';
@@ -68,7 +69,14 @@ class Theater extends React.Component {
           </div>
         }
         <div
-          className={classnames(styles.boxTheaterLayers)}
+          className={classnames(styles.boxTheaterLayers, styles.boxTheaterLayersSmall)}
+          onClick={(event) => { event.stopPropagation(); }}>
+          <LayersSmall
+            {...this.props}
+            initStatus={this.unitInit}/>
+        </div>
+        <div
+          className={classnames(styles.boxTheaterLayers, styles.boxTheaterLayersRegular)}
           onClick={(event) => { event.stopPropagation(); }}>
           <Layers
             {...this.props}

@@ -3,9 +3,6 @@ import { connect } from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
 import MarksLayer from './MarksLayer.jsx';
-import {
-  baseHorizonRatial,
-} from '../../props.js';
 
 class ImgLayer extends React.Component {
   constructor(props){
@@ -17,15 +14,6 @@ class ImgLayer extends React.Component {
     this.Com_ImgLayer_img = React.createRef();
     this._set_imgSize = ()=>{this.setState({imgWidthHeight:true})};
     this._render_MarksLayer = this._render_MarksLayer.bind(this);
-    this.style = {
-      Com_ImgLayer_img: {
-        maxWidth: '100%',
-        maxHeight: '100%',
-        right: baseHorizonRatial+'%',
-        transform: 'translate('+baseHorizonRatial+'%, -50%)'
-        //we use the params managed in a single file to assure the position always consistent across component
-      }
-  };
   }
 
   _render_MarksLayer(){
@@ -46,8 +34,7 @@ class ImgLayer extends React.Component {
         {...this.props}
         boxWidth={boxWidth}
         imgPosition={imgPosition}
-        imgWidthHeight={imgWidthHeight}
-        baseHorizonRatial={baseHorizonRatial}/>
+        imgWidthHeight={imgWidthHeight}/>
     )
 
   }
@@ -59,8 +46,9 @@ class ImgLayer extends React.Component {
         className={classnames(styles.comImgLayer)}>
 
         <img
-          className={classnames('boxImgPosition')}
-          style={this.style.Com_ImgLayer_img}
+          className={classnames(
+            'boxImgPosition', styles.boxImg)}
+          style={{position: 'relative'}}
           ref={this.Com_ImgLayer_img}
           src={this.props.imgSrc}
           onLoad={this._set_imgSize}/>
