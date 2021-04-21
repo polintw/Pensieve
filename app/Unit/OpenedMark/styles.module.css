@@ -80,10 +80,6 @@
     cursor: pointer;
   }
 
-  .boxSpotsLayer {
-    top: 2.54vh;
-  }
-
   .boxDraggable {
     width: 100%;
     max-height: 48vh;

@@ -131,9 +131,17 @@
   max-height: 100%;
 }
 
+.boxSmallRelative{
+  display: none;
+}
+
 @media screen and (max-width:860px) {
   .smallDisplayNone {
     display: none;
+  }
+
+  .boxFrame {
+    overflow: visible;
   }
 
   .boxFrameAuthor {
@@ -156,12 +164,18 @@
     margin-top: 16px;
   }
 
+  .boxSmallRelative{
+    display: block;
+    width: 100%;
+    position: relative;
+  }
+
   .boxImgLayer {
     display: flex;
     align-items: center;
     width: 100%;
     height: unset;
-    min-height: 50vh;
+    min-height: 60vh;
     position: relative;
     top: unset;
     left: unset;
@@ -169,10 +183,5 @@
 
   .boxImg {
     max-height: 48vh;
-    margin: 2.54vh 0 0;
-  }
-
-  .boxSpotsLayer {
-    top: 2.54vh;
   }
 }

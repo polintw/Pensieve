@@ -110,7 +110,7 @@ class MarksLayer extends React.Component {
       });
       return (
         <div
-          className={classnames('boxImgPosition', styles.boxSpotsLayer)}
+          className={classnames('boxImgPosition')}
           onClick={this._handleClick_SpotsLayer}
           style={{
             width: imgWidth,

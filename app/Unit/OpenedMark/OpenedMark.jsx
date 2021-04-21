@@ -121,7 +121,7 @@ class OpenedMark extends React.Component {
           className={'boxAbsoluteFull'}
           onClick={this.props._handleClick_ImgLayer_circle}/>
         <div
-          className={classnames('boxImgPosition', styles.boxSpotsLayer)}
+          className={classnames('boxImgPosition')}
           style={{
             width: imgWidth,
             height: imgHeight
@@ -130,7 +130,7 @@ class OpenedMark extends React.Component {
           {this._render_CircleGroup(coordinate)}
         </div>
         <Draggable
-          disabled={this.props.editingModal}
+          disabled={this.props.editingModal || (cssVW < 860) }
           cancel={'.draggableCancel'}
           grid={[15, 15] /* step limit every move */}>
           <span
