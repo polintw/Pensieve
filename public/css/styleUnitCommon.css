@@ -31,7 +31,7 @@
 
 @media screen and (max-width:860px) {
   .boxImgPosition { /*used in OpenedMark, MarksLayer, and ImgLayer.*/
-    top: unset;
+    top: 0;
     transform: translate(50%, 0%);
   }
 

@@ -44,11 +44,15 @@ class ImgLayer extends React.Component {
       <div
         ref={this.Com_ImgLayer_box}
         className={classnames(styles.comImgLayer)}>
-
+        {
+          this.state.imgWidthHeight &&
+          <div
+            className={classnames(styles.boxSmallRelative)}
+            style={{height: this.Com_ImgLayer_img.current.clientHeight}}/>
+        }
         <img
           className={classnames(
             'boxImgPosition', styles.boxImg)}
-          style={{position: 'relative'}}
           ref={this.Com_ImgLayer_img}
           src={this.props.imgSrc}
           onLoad={this._set_imgSize}/>
