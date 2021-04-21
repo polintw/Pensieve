@@ -91,7 +91,7 @@ class ImgsFrame extends React.Component {
           }
         </div>
         <div
-          className={'boxAbsoluteFull'}
+          className={classnames(styles.boxImgLayer)}
           style={Com_ImgsFrame_div_cover}>
           {
             this.props.unitCurrent.coverSrc &&
