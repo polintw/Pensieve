@@ -11,22 +11,22 @@ import styles from "./styles.module.css";
 import {
   _axios_get_unitSubCate
 } from './axios.js';
-import VisitRegister from '../VisitRegister/VisitRegister.jsx';
 import {
   cancelErr,
   uncertainErr
-} from '../../../../utils/errHandlers.js';
+} from '../../utils/errHandlers.js';
 import {
   SvgArrowToRight
-} from '../../../../Components/Svg/SvgArrow.jsx';
+} from '../../Components/Svg/SvgArrow.jsx';
 
-class EntityOnSubcate extends React.Component {
+class SubcateBtnNext extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       axios: false,
       next_confirm: false,
       next_unit: null,
+      first_unit: null,
       onbtnNext: false
     };
     this.axiosSource = axios.CancelToken.source();
@@ -64,13 +64,7 @@ class EntityOnSubcate extends React.Component {
 
   render(){
     return(
-      <div
-        className={classnames(styles.comEntitySubcate)}>
-        <div
-          className={classnames(styles.boxVisitRegister)}>
-          <VisitRegister
-            {...this.props}/>
-        </div>
+      <div>
         {
           this.state.next_confirm &&
           <Link
@@ -109,7 +103,8 @@ class EntityOnSubcate extends React.Component {
         return {
           axios: false,
           next_confirm: resObj.main.confirm,
-          next_unit: resObj.main.serial_unit.nextUnit
+          next_unit: resObj.main.serial_unit.nextUnit,
+          first_unit: resObj.main.serial_unit.firstUnit
         };
       });
     })
@@ -134,7 +129,7 @@ class EntityOnSubcate extends React.Component {
     //and Notice! history should be pushed after the replaceState has been done
     let urlParams = new URLSearchParams(this.props.location.search);
     urlParams.set('unitId', this.state.next_unit);
-    urlParams.set('unitView', "theater");
+    urlParams.set('unitView', (this.state.first_unit == this.state.next_unit) ? "pathSubCateEnd" : "theater");
     this.props.history.push({
       pathname: this.props.match.path, //should always be ".../unit" because we are always in a Unit here
       search: urlParams.toString(),
@@ -170,4 +165,4 @@ const mapDispatchToProps = (dispatch) => {
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(EntityOnSubcate));
+)(SubcateBtnNext));

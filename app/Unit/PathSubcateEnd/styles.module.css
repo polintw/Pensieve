@@ -1,0 +1,30 @@
+.comPathSubcateEnd {
+  display: flex;
+  align-items: flex-start;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-47.5%, -50%);
+  box-sizing: border-box;
+}
+
+.boxEnd {
+  width: 1008px;
+  min-width: 70vw;
+  max-width: 90vw;
+  height: 710px;
+  min-height: 90vh;
+  max-height: 95vh;
+  position: relative;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width:860px) {
+  .comPathSubcateEnd{
+    display: block;
+    position: relative;
+    top: unset;
+    left: unset;
+    transform: unset;
+  }
+}

@@ -46,9 +46,10 @@ async function _handle_GET_units_entitySubCates(req, res){
         id_subPath: desiredSubCate.id // req.query.subCateId is the 'exposedId', not the used one here
       }
     });
-    let baseSerial = false, nextUnitId = null, previousUnitId = null;
+    let baseSerial = false, nextUnitId = null, previousUnitId = null, firstUnitId = null;
     let count = 0;
     while (count < unitPathSubDis.length) {
+      if(count == 0) firstUnitId = unitPathSubDis[0].id_unit; // set the first one to a var
       if(unitPathSubDis[count].id_unit == targetUnit.id){
         baseSerial = unitPathSubDis[count].serial_subPath;
         nextUnitId = ((count+1) < unitPathSubDis.length) ? unitPathSubDis[count+1].id_unit : unitPathSubDis[0].id_unit;
@@ -60,20 +61,22 @@ async function _handle_GET_units_entitySubCates(req, res){
     // select exposedId
     const unitSelection = await _DB_units.findAll({
       where: {
-        id: [nextUnitId, previousUnitId]
+        id: [nextUnitId, previousUnitId, firstUnitId]
       }
     });
-    let nextExposedId = false, prevExposedId = false;
+    let nextExposedId = false, prevExposedId = false, firstExposedId = false;
     unitSelection.forEach((row, index) => {
       if(row.id == nextUnitId) nextExposedId = row.exposedId;
       if(row.id == previousUnitId) prevExposedId = row.exposedId;
+      if(row.id == firstUnitId) firstExposedId = row.exposedId;
     });
 
     let sendingData={
       confirm: ((baseSerial == 0) || baseSerial) ? true : false,
       serial_unit: {
         nextUnit: nextExposedId,
-        prevUnit: prevExposedId
+        prevUnit: prevExposedId,
+        firstUnit: firstExposedId
       },
       temp: {}
     };
