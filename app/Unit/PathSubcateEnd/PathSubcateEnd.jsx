@@ -26,11 +26,15 @@ class PathSubcateEnd extends React.Component {
     this.state = {
       emit: false,
       hiddenUrl: '',
-      onbtnCopy: false
+      onbtnCopy: false,
+      onLinkSubcate: false
     };
     this.refHiddenText = React.createRef();
     this._set_emitModal = this._set_emitModal.bind(this);
+    this._handleClick_linkSubcate = this._handleClick_linkSubcate.bind(this);
     this._handleClick_pathCopy = this._handleClick_pathCopy.bind(this);
+    this._handleEnter_linkSubcate = this._handleEnter_linkSubcate.bind(this);
+    this._handleLeave_linkSubcate = this._handleLeave_linkSubcate.bind(this);
     this._handleEnter_btnCopy = this._handleEnter_btnCopy.bind(this);
     this._handleLeave_btnCopy = this._handleLeave_btnCopy.bind(this);
   }
@@ -62,18 +66,40 @@ class PathSubcateEnd extends React.Component {
         <div
           className={classnames(styles.boxEnd)}
           onClick={(event) => { event.stopPropagation(); }}>
-          <div>
-            <span>
-              {"title"}
+          <div
+            className={classnames(styles.boxEndTtitle)}>
+            <span
+              className={classnames("fontNodesEqual", "lineHeight15", "colorWhite")}>
+              {this.props.i18nUIString.catalog['title_UnitSubcate_End_']}
             </span>
+            <Link
+              to={''}
+              onClick={this._handleClick_linkSubcate}
+              className={classnames('plainLinkButton')}
+              style={{ display: 'inline-block' }}
+              onTouchStart={this._handleEnter_linkSubcate}
+              onTouchEnd={this._handleLeave_linkSubcate}
+              onMouseEnter={this._handleEnter_linkSubcate}
+              onMouseLeave={this._handleLeave_linkSubcate}>
+              <span
+                className={classnames(
+                  "fontNodesEqual",
+                  styles.spanLinkSubcate,
+                  { [styles.spanLinkSubcateMouse]: this.state.onLinkSubcate }
+                )}>
+                {"@" + this.props.unitEntity.pathSubCate.currentSubcateObj["name"] + "!"}
+              </span>
+            </Link>
           </div>
-          <div>
-            <span>
-              {"Share if you think the author did a good job!"}
+          <div
+            className={classnames(styles.boxEndGuiding)}>
+            <span
+              className={classnames("fontContentPlain", "colorWhite")}>
+              {this.props.i18nUIString.catalog['guiding_UnitSubcate_End_']}
             </span>
           </div>
           <div
-            style={{display: "flex"}}>
+            className={classnames(styles.rowSocialIcons)}>
             <div
               className={classnames(styles.boxIconLeft)}>
               <LineShareButton
@@ -85,8 +111,7 @@ class PathSubcateEnd extends React.Component {
                   iconFillColor={"#a3a3a3"}/>
               </LineShareButton>
             </div>
-            <div
-              className={classnames(styles.boxIconLeft)}>
+            <div>
               <FacebookShareButton
                 url={sharedLink}
                 className="Demo__some-network__share-button">
@@ -98,14 +123,21 @@ class PathSubcateEnd extends React.Component {
             </div>
           </div>
           <div
-            className={classnames(styles.comEntitySubcate)}>
+            className={classnames(styles.rowShareNext)}>
             <div
-              className={classnames(styles.boxVisitRegister)}>
+              className={classnames(styles.frameCopyBtn)}>
+              <div style={{width: '100%', position: 'absolute',overflow:'hidden'}}>
+                <input
+                  ref={this.refHiddenText}
+                  className={classnames(styles.boxHiddenText)}
+                  value={sharedLink}
+                  readOnly/>
+              </div>
               <div
-                title={this.props.i18nUIString.catalog["tagTitle_PathProject_ShareLink"]}
+                title={this.props.i18nUIString.catalog["tagTitle_UnitSubcate_End_CopyBtn"]}
                 className={classnames(
-                  styles.boxGuidingText,
-                  {[styles.boxGuidingTextActiv]: this.state.onbtnCopy}
+                  styles.boxCopyBtn,
+                  {[styles.boxCopyBtnActiv]: this.state.onbtnCopy}
                 )}
                 onClick={this._handleClick_pathCopy}
                 onTouchStart={this._handleEnter_btnCopy}
@@ -115,13 +147,13 @@ class PathSubcateEnd extends React.Component {
                 <div
                   className={classnames(styles.boxIconCopy)}>
                   <SvgCopy
-                    customStyles={"{fill: " + (this.state.onbtnCopy? "#545454" : "#a3a3a3") + "}"}/>
+                    customStyles={"{fill: #FFFFFF}"}/>
                 </div>
                 <span
                   className={classnames(
-                    "fontSubtitle_h5", "colorWhite", styles.spanGuidingText,
+                    "fontSubtitle_h5", "colorWhite",
                   )}>
-                  {this.props.i18nUIString.catalog['btn_UnitEntity_Subcate_ModalBtn']}
+                  {this.props.i18nUIString.catalog['btn_UnitSubcate_End_CopyBtn']}
                 </span>
                 {
                   this.state.emit &&
@@ -131,16 +163,10 @@ class PathSubcateEnd extends React.Component {
                       text={this.state.emit.text} />
                   </div>
                 }
-                <div style={{width:"100%",position: 'absolute', overflow:'hidden'}}>
-                  <input
-                    ref={this.refHiddenText}
-                    className={classnames(styles.boxHiddenText)}
-                    value={sharedLink}
-                    readOnly/>
-                </div>
               </div>
             </div>
-            <div>
+            <div
+              className={classnames(styles.frameNextBtn)}>
               <SubcateBtnNext
                 {...this.props}/>
             </div>
@@ -163,6 +189,18 @@ class PathSubcateEnd extends React.Component {
     }, 2200)
   }
 
+  _handleClick_linkSubcate(event){
+    event.preventDefault();
+    event.stopPropagation();
+    if(!this.props.location.pathname.includes('explore/unit')){
+      // the browser, which do not know the origin it has was modified, need to be modified again to have the pratical history
+      window.history.replaceState(this.props.location.state, '', this.props.location.pathname+this.props.location.search);
+    };
+    // and Notice! after the replaceState has been done
+    // we re-assign to make sure to scroll, the unit would all reset
+    window.location.assign("/cosmic/explore/path/" + this.props.unitEntity.pathSubCate.currentPathProject + "?subCate=" + this.props.unitEntity.pathSubCate.currentSubCateId)
+  }
+
   _handleClick_pathCopy(event){
     event.preventDefault();
     event.stopPropagation();
@@ -170,6 +208,14 @@ class PathSubcateEnd extends React.Component {
     this.refHiddenText.current.select();
     document.execCommand('copy'); // had completed copy to clipboard
     this._set_emitModal(); // than inform the user by emitModal
+  }
+
+  _handleEnter_linkSubcate(e){
+    this.setState({onLinkSubcate: true})
+  }
+
+  _handleLeave_linkSubcate(e){
+    this.setState({onLinkSubcate: false})
   }
 
   _handleEnter_btnCopy(e){
