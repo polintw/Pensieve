@@ -21,6 +21,7 @@ import {
 } from '../types/typesWithin.js';
 import {
   SET_UNITVIEW,
+  SET_UNITSUBCATE,
   SUBMIT_UNITRESPONDSLIST,
   UNIT_SUBMITTING_SWITCH
 } from '../types/typesUnit.js';
@@ -72,6 +73,11 @@ function pageWithin(state = initialGeneral, action){
     case SET_UNITVIEW:
       return Object.assign({}, state, {
         unitView: action.unitView
+      })
+      break;
+    case SET_UNITSUBCATE:
+      return Object.assign({}, state, {
+        unitSubCate: {...state.unitSubCate, ...action.unitSubCate}
       })
       break;
     case SET_UNITCURRENT:

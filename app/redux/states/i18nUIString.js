@@ -172,6 +172,11 @@ const i18nUIString_EN = {
   "message_UnitEntity_Subcate_signedNotify": "You are on the list!",
   "btn_UnitEntity_Subcate_ModalBtn": "Know this scene?",
 
+  "btn_UnitSubcate_End_CopyBtn": "Copy the link",
+  "tagTitle_UnitSubcate_End_CopyBtn": "Copy the link of this route.",
+  "title_UnitSubcate_End_": "You've finished the ",
+  "guiding_UnitSubcate_End_": "Share to more people if you think the author did a good job!",
+
   "title_shareUpload_typewriter": ['S','h','a','r','e', '!'],
   "guidingCreateShare_ImgGps": "GPS",
   "guidingCreateShare_AssignGroup": "Assigned corners",

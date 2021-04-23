@@ -1,0 +1,125 @@
+.comPathSubcateEnd {
+  display: flex;
+  align-items: flex-start;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-47.5%, -50%);
+  box-sizing: border-box;
+}
+
+.boxEnd {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 360px;
+  position: relative;
+  box-sizing: border-box;
+  padding: 0 0 10vh;
+}
+
+.boxEndTtitle {
+  padding: 0 0 5px;
+  margin: 0 0 2rem;
+  border-bottom: solid 1.5px #f3b55a;
+}
+
+.boxEndGuiding {
+  margin: 0 0 2.4rem;
+  text-align: center;
+}
+
+.rowSocialIcons {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 16px;
+}
+
+.rowShareNext {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 28%;
+  max-width: 400px;
+  min-width: 270px;
+}
+
+.frameCopyBtn {
+  flex: 1;
+  box-sizing: border-box;
+  box-shadow: 4px 0 4px -4px #d8d8d8;
+  text-align: center;
+}
+
+.boxHiddenText {
+  position: absolute;
+  left: 200%;
+}
+
+.boxCopyBtn {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  box-sizing: border-box;
+  padding: 8px 25px 10px;
+  border-radius: 4px;
+  background-color: rgb(69, 135, 160);
+}
+
+.boxCopyBtnActiv {
+  background-color: #ff8168;
+  cursor: pointer;
+}
+
+.boxIconLeft {
+  margin-right: 8px;
+}
+
+.boxIconCopy {
+  width: 22px;
+  height: 18px;
+  margin-right: 1rem;
+  text-align: center;
+}
+
+.boxModalEmit {
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.frameNextBtn {
+  padding: 0 0 0 1.5rem;
+}
+
+.spanLinkSubcate {
+  display: inline-block;
+  border-bottom: solid 1px transparent;
+  color: #FFFFFF; /* the text color change as screen width change*/
+}
+
+.spanLinkSubcateMouse {
+  border-bottom: solid 1px #FFFFFF;
+}
+
+@media screen and (max-width:860px) {
+  .comPathSubcateEnd{
+    justify-content: center;
+    min-height: 92vh;
+    position: relative;
+    top: unset;
+    left: unset;
+    transform: unset;
+  }
+
+  .boxEnd{
+    min-height: 72vh;
+    max-height: unset;
+    max-width: 87vw;
+    border-radius: unset;
+    padding: 0vh 0 0;
+    margin: 10vh 0 0;
+  }
+}
