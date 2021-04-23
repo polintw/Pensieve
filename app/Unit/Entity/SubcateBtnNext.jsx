@@ -12,6 +12,9 @@ import {
   _axios_get_unitSubCate
 } from './axios.js';
 import {
+  setUnitSubcate
+} from '../../redux/actions/unit.js';
+import {
   cancelErr,
   uncertainErr
 } from '../../utils/errHandlers.js';
@@ -24,9 +27,6 @@ class SubcateBtnNext extends React.Component {
     super(props);
     this.state = {
       axios: false,
-      next_confirm: false,
-      next_unit: null,
-      first_unit: null,
       onbtnNext: false
     };
     this.axiosSource = axios.CancelToken.source();
@@ -42,10 +42,12 @@ class SubcateBtnNext extends React.Component {
       !!this.props.unitCurrent.unitId
     ) {
       // reset state
-      this.setState({
-        axios: false,
+      this.props._set_state_UnitSubcate({
         next_confirm: false,
         next_unit: null,
+      });
+      this.setState({
+        axios: false,
         onbtnNext: false
       });
       this._set_unitSubCate();
@@ -66,7 +68,7 @@ class SubcateBtnNext extends React.Component {
     return(
       <div>
         {
-          this.state.next_confirm &&
+          this.props.unitSubCate.next_confirm &&
           <Link
             to={''}
             onClick={this._handleClick_SubcateNext}
@@ -99,12 +101,14 @@ class SubcateBtnNext extends React.Component {
       subCateParent: 'pathProject'
     })
     .then((resObj)=>{
+      self.props._set_state_UnitSubcate({
+        next_confirm: resObj.main.confirm,
+        next_unit: resObj.main.serial_unit.nextUnit,
+        first_unit: resObj.main.serial_unit.firstUnit
+      });
       self.setState((prevState, props)=>{
         return {
-          axios: false,
-          next_confirm: resObj.main.confirm,
-          next_unit: resObj.main.serial_unit.nextUnit,
-          first_unit: resObj.main.serial_unit.firstUnit
+          axios: false
         };
       });
     })
@@ -128,8 +132,17 @@ class SubcateBtnNext extends React.Component {
     };
     //and Notice! history should be pushed after the replaceState has been done
     let urlParams = new URLSearchParams(this.props.location.search);
-    urlParams.set('unitId', this.state.next_unit);
-    urlParams.set('unitView', (this.state.first_unit == this.state.next_unit) ? "pathSubCateEnd" : "theater");
+    const currentView = urlParams.get("unitView"); // use 'const' to prevent change at followed step
+    if( // only set to 'pathSubCateEnd' at final & 'theater'
+      (this.props.unitSubCate.first_unit == this.props.unitSubCate.next_unit) &&
+      (currentView != "pathSubCateEnd")
+    ) {
+      urlParams.set('unitView', "pathSubCateEnd");
+    }
+    else {
+      urlParams.set('unitId', this.props.unitSubCate.next_unit);
+      urlParams.set('unitView', "theater");
+    };
     this.props.history.push({
       pathname: this.props.match.path, //should always be ".../unit" because we are always in a Unit here
       search: urlParams.toString(),
@@ -153,12 +166,13 @@ const mapStateToProps = (state)=>{
     tokenStatus: state.token,
     i18nUIString: state.i18nUIString,
     unitCurrent: state.unitCurrent,
+    unitSubCate: state.unitSubCate
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    _set_state_UnitSubcate: (expression)=>{dispatch(setUnitSubcate(expression));},
   }
 }
 

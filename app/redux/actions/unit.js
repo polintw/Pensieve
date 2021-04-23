@@ -1,5 +1,6 @@
 import {
   SET_UNITVIEW,
+  SET_UNITSUBCATE,
   SUBMIT_UNITRESPONDSLIST,
   UNIT_SUBMITTING_SWITCH
 } from '../types/typesUnit.js';
@@ -9,6 +10,10 @@ import {
 
 export function setUnitView(expression) {
   return { type: SET_UNITVIEW, unitView: expression}
+};
+
+export function setUnitSubcate(expression) {
+  return { type: SET_UNITSUBCATE, unitSubCate: expression}
 };
 
 export function switchUnitSubmitting(bool) {

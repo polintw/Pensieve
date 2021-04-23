@@ -21,6 +21,7 @@ import ModalBox from '../../Components/ModalBox.jsx';
 import ModalBackground from '../../Components/ModalBackground.jsx';
 import {
   setUnitView,
+  setUnitSubcate,
   submitUnitRespondsList
 } from "../../redux/actions/unit.js";
 import {
@@ -160,6 +161,9 @@ class UnitScreen extends React.Component {
     if(this.unitId !== prevParams.get('unitId')){
       this._reset_UnitMount(); //reset UnitCurrent to clear the view
       this.props._submit_list_UnitResponds({ list: [], scrolled: true }, true); // reset the responds state to initial
+    }
+    else if(this.urlParams.get('unitView') !== prevParams.get('unitView')){
+      this.boxUnitFrame.current.scrollTop = 0; // make the Unit view area back to top
     };
   }
 
@@ -179,6 +183,7 @@ class UnitScreen extends React.Component {
     this.props._set_store_UnitCurrent(unitCurrentState);
     this.props._set_state_UnitView('theater'); // it's default for next view
     this.props._submit_list_UnitResponds({ list: [], scrolled: true }, true); // reset the responds state to initial
+    this.props._set_state_UnitSubcate({ next_confirm: false, next_unit: null, first_unit: null}); // reset the subcate state to initial
     //last, recruit the scroll ability back to <body>
     document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:scroll;");
   }
@@ -196,6 +201,7 @@ class UnitScreen extends React.Component {
       case 'pathSubCateEnd':
         return (
           <PathSubcateEnd
+            {...this.props}
             _reset_UnitMount={this._reset_UnitMount}
             _close_theaterHeigher={this._close_modal_Unit}/>
         )
@@ -310,6 +316,7 @@ const mapDispatchToProps = (dispatch)=>{
     _submit_Users_insert: (obj) => { dispatch(updateUsersBasic(obj)); },
     _set_state_UnitView: (expression)=>{dispatch(setUnitView(expression));},
     _set_store_UnitCurrent: (obj)=>{dispatch(setUnitCurrent(obj));},
+    _set_state_UnitSubcate: (expression)=>{dispatch(setUnitSubcate(expression));},
     _submit_list_UnitResponds: (obj, reset) => { dispatch(submitUnitRespondsList(obj, reset)); }
   }
 }
