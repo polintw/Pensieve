@@ -233,7 +233,8 @@ class ModalList extends React.Component {
       render: true,
       message: [
         {text: this.props.i18nUIString.catalog['message_UnitEntity_Subcate_itemClick'][0],style:{display: "block"}},
-        {text: this.props.i18nUIString.catalog['message_UnitEntity_Subcate_itemClick'][1],style:{}}
+        {text: this.props.i18nUIString.catalog['message_UnitEntity_Subcate_itemClick'][1],style:{display: "block"}},
+        {text: this.props.i18nUIString.catalog['message_UnitEntity_Subcate_itemClick'][2],style:{}}
       ],
       handlerPositive: ()=>{this.props._submit_SingleDialog(messageDialogInit.single)},
       buttonValue: this.props.i18nUIString.catalog['submit_Okay']
