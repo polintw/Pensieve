@@ -19,7 +19,7 @@ import {
 } from './axios.js';
 import {
   setMessageBoolean,
-  setMessageSingleClose
+  setMessageSingle
 } from "../../../../redux/actions/general.js";
 import {messageDialogInit} from "../../../../redux/states/constants.js";
 import {
@@ -187,25 +187,22 @@ class ModalList extends React.Component {
                     )
                   }
                 </div>
-                {
-                  !this.state.signed &&
-                  <div
-                    className={classnames(
-                      styles.boxFacebookBtn,
-                      {[styles.boxFacebookBtnOverlay]: this.state.axiosFbRes}
-                    )}>
-                    <FacebookLogin
-                      appId={outside.facebookAppId}
-                      autoLoad={false}
-                      fields="name,email,picture"
-                      callback={this._handleRes_fbLoginRes}
-                      textButton={"Continue with Facebook"}
-                      size={"medium"}
-                      version={"10.0"}
-                      cssClass={classnames(styles.btnFacebookLogin)}
-                      disableMobileRedirect={true}/>
-                  </div>
-                }
+                <div
+                  className={classnames(
+                    styles.boxFacebookBtn,
+                    {[styles.boxFacebookBtnOverlay]: this.state.axiosFbRes}
+                  )}>
+                  <FacebookLogin
+                    appId={outside.facebookAppId}
+                    autoLoad={false}
+                    fields="name,email,picture"
+                    callback={this._handleRes_fbLoginRes}
+                    textButton={"Continue with Facebook"}
+                    size={"medium"}
+                    version={"10.0"}
+                    cssClass={classnames(styles.btnFacebookLogin)}
+                    disableMobileRedirect={true}/>
+                </div>
               </div>
               <div
                 className={classnames(styles.widthList, styles.boxDecoBorder)}/>
@@ -235,7 +232,9 @@ class ModalList extends React.Component {
     this.props._submit_SingleDialog({
       render: true,
       message: [
-        {text: this.props.i18nUIString.catalog['message_UnitEntity_Subcate_itemClick'],style:{}}],
+        {text: this.props.i18nUIString.catalog['message_UnitEntity_Subcate_itemClick'][0],style:{display: "block"}},
+        {text: this.props.i18nUIString.catalog['message_UnitEntity_Subcate_itemClick'][1],style:{}}
+      ],
       handlerPositive: ()=>{this.props._submit_SingleDialog(messageDialogInit.single)},
       buttonValue: this.props.i18nUIString.catalog['submit_Okay']
     });
@@ -275,8 +274,8 @@ class ModalList extends React.Component {
           render: true,
           customButton: null,
           message: [
-            {text:'You were already on the list.',style:{}},
-            {text:'Do you wish to remove your name from the list?',style:{}}
+            {text:this.props.i18nUIString.catalog['message_UnitEntity_Subcate_removeCheck'][0],style:{display: 'block'}},
+            {text:this.props.i18nUIString.catalog['message_UnitEntity_Subcate_removeCheck'][1],style:{}}
           ],
           handlerPositive: ()=>{
             self._remove_account({fbId: response.userID});
