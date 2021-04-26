@@ -131,6 +131,7 @@
   width: 23%;
   min-width: 118px;
   margin: 0 0 20px;
+  overflow: hidden;
 }
 
 .boxItemUserImg {
@@ -140,6 +141,11 @@
   border-radius: 50%;
   box-shadow: 0 0 4px 0 rgb(0 0 0 / 30%);
   overflow: hidden;
+}
+
+.boxItemSignedHidden {
+  position: absolute;
+  left: 500%;
 }
 
 .boxSignedUsersEmpty {

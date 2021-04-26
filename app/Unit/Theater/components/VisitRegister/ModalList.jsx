@@ -13,9 +13,15 @@ import ModalBackground from '../../../../Components/ModalBackground.jsx';
 import SvgArrowStick from '../../../../Components/Svg/SvgArrowStick.jsx';
 import {
   _axios_post_userUnitSign,
+  _axios_delete_userUnitSign,
   _axios_get_signedList,
   _axios_get_userUnitSign
 } from './axios.js';
+import {
+  setMessageBoolean,
+  setMessageSingle
+} from "../../../../redux/actions/general.js";
+import {messageDialogInit} from "../../../../redux/states/constants.js";
 import {
   cancelErr,
   uncertainErr
@@ -38,9 +44,11 @@ class ModalList extends React.Component {
     this.axiosSource = axios.CancelToken.source();
     this._render_signedUsers = this._render_signedUsers.bind(this);
     this._set_signedList = this._set_signedList.bind(this);
+    this._remove_account = this._remove_account.bind(this);
     this._handleRes_fbLoginRes = this._handleRes_fbLoginRes.bind(this);
     this._handleEnter_backArrow = this._handleEnter_backArrow.bind(this);
     this._handleLeave_backArrow = this._handleLeave_backArrow.bind(this);
+    this._handleClick_itemSignedUser = this._handleClick_itemSignedUser.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -77,7 +85,8 @@ class ModalList extends React.Component {
         return (
           <div
             key={"key_unitSubcate_SignedUser_"+ index}
-            className={classnames(styles.boxItemSignedUser)}>
+            className={classnames(styles.boxItemSignedUser)}
+            onClick={this._handleClick_itemSignedUser}>
             <div
               className={classnames(styles.boxItemUserImg)}>
               <img
@@ -178,25 +187,22 @@ class ModalList extends React.Component {
                     )
                   }
                 </div>
-                {
-                  !this.state.signed &&
-                  <div
-                    className={classnames(
-                      styles.boxFacebookBtn,
-                      {[styles.boxFacebookBtnOverlay]: this.state.axiosFbRes}
-                    )}>
-                    <FacebookLogin
-                      appId={outside.facebookAppId}
-                      autoLoad={false}
-                      fields="name,email,picture"
-                      callback={this._handleRes_fbLoginRes}
-                      textButton={"Continue with Facebook"}
-                      size={"medium"}
-                      version={"10.0"}
-                      cssClass={classnames(styles.btnFacebookLogin)}
-                      disableMobileRedirect={true}/>
-                  </div>
-                }
+                <div
+                  className={classnames(
+                    styles.boxFacebookBtn,
+                    {[styles.boxFacebookBtnOverlay]: this.state.axiosFbRes}
+                  )}>
+                  <FacebookLogin
+                    appId={outside.facebookAppId}
+                    autoLoad={false}
+                    fields="name,email,picture"
+                    callback={this._handleRes_fbLoginRes}
+                    textButton={"Continue with Facebook"}
+                    size={"medium"}
+                    version={"10.0"}
+                    cssClass={classnames(styles.btnFacebookLogin)}
+                    disableMobileRedirect={true}/>
+                </div>
               </div>
               <div
                 className={classnames(styles.widthList, styles.boxDecoBorder)}/>
@@ -217,6 +223,22 @@ class ModalList extends React.Component {
         </ModalBackground>
       </ModalBox>
     )
+  }
+
+  _handleClick_itemSignedUser(e){
+    e.preventDefault();
+    e.stopPropagation();
+    // always, show the message "By clicking button Continue with Facebook to markyour name here or remove it."
+    this.props._submit_SingleDialog({
+      render: true,
+      message: [
+        {text: this.props.i18nUIString.catalog['message_UnitEntity_Subcate_itemClick'][0],style:{display: "block"}},
+        {text: this.props.i18nUIString.catalog['message_UnitEntity_Subcate_itemClick'][1],style:{display: "block"}},
+        {text: this.props.i18nUIString.catalog['message_UnitEntity_Subcate_itemClick'][2],style:{}}
+      ],
+      handlerPositive: ()=>{this.props._submit_SingleDialog(messageDialogInit.single)},
+      buttonValue: this.props.i18nUIString.catalog['submit_Okay']
+    });
   }
 
   _handleRes_fbLoginRes(response){
@@ -248,13 +270,27 @@ class ModalList extends React.Component {
     })
     .then((resObj)=>{
       if(resObj.main.signed){
-        self.setState((prevState, props)=>{
-          return {
-            axios: false,
-            axiosFbRes: false,
-            signed: true,
-            signedBtnMessage: this.props.i18nUIString.catalog['message_UnitEntity_Subcate_signedNotify']
-          };
+        // You were already on the list. Do you wish to remove your name from the list?
+        this.props._submit_BooleanDialog({
+          render: true,
+          customButton: null,
+          message: [
+            {text:this.props.i18nUIString.catalog['message_UnitEntity_Subcate_removeCheck'][0],style:{display: 'block'}},
+            {text:this.props.i18nUIString.catalog['message_UnitEntity_Subcate_removeCheck'][1],style:{}}
+          ],
+          handlerPositive: ()=>{
+            self._remove_account({fbId: response.userID});
+            self.props._submit_BooleanDialog(messageDialogInit.boolean)},
+          handlerNegative: ()=>{
+            self.setState((prevState, props)=>{
+              return {
+                axios: false,
+                axiosFbRes: false,
+                signed: true,
+                signedBtnMessage: self.props.i18nUIString.catalog['message_UnitEntity_Subcate_signedNotify']
+              };
+            });
+            self.props._submit_BooleanDialog(messageDialogInit.boolean);}
         });
       }
       else return _axios_post_userUnitSign(this.axiosSource.token, {
@@ -276,11 +312,16 @@ class ModalList extends React.Component {
             signedBtnMessage: this.props.i18nUIString.catalog['message_UnitEntity_Subcate_signedNotify']
           };
         });
-        this._set_signedList();
+        self._set_signedList();
       });
     })
     .catch(function (thrown) {
-      self.setState({axios: false});
+      self.setState({
+        axios: false,
+        axiosFbRes: false,
+        signed: false,
+        signedBtnMessage: null,
+      });
       if (axios.isCancel(thrown)) {
         cancelErr(thrown);
       } else {
@@ -288,6 +329,46 @@ class ModalList extends React.Component {
         if(message) alert(message);
       }
     });
+  }
+
+  _remove_account(dataObj){
+    const self = this;
+    this.setState({
+      axios: true,
+      axiosFbRes: true
+    });
+
+    _axios_delete_userUnitSign(this.axiosSource.token, {
+     fbId: dataObj.fbId,
+     unitId: this.props.unitCurrent.unitId,
+     pathProjectName: this.props.unitEntity.pathSubCate.currentPathProject,
+     subCateId: this.props.unitEntity.pathSubCate.currentSubCateId
+   })
+   .then((resObj)=>{
+     self.setState((prevState, props)=>{
+       return {
+         axios: false,
+         axiosFbRes: false,
+         signed: false,
+         signedBtnMessage: null,
+       };
+     });
+     self._set_signedList();
+   })
+   .catch(function (thrown) {
+     self.setState({
+       axios: false,
+       axiosFbRes: false,
+       signed: false,
+       signedBtnMessage: null,
+     });
+     if (axios.isCancel(thrown)) {
+       cancelErr(thrown);
+     } else {
+       let message = uncertainErr(thrown);
+       if(message) alert(message);
+     }
+   });
   }
 
   _set_signedList(){
@@ -352,7 +433,8 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    _submit_SingleDialog: (obj) => { dispatch(setMessageSingle(obj)); },
+    _submit_BooleanDialog: (obj)=>{dispatch(setMessageBoolean(obj));},
   }
 }
 

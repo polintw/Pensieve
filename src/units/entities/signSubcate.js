@@ -227,8 +227,78 @@ async function _handle_POST_units_entitySign_userSign(req, res){
   }
 }
 
+async function _handle_DELETE_units_entitySign_userSign(req, res){
+  const tokenId = req.extra.tokenify ? req.extra.tokenUserId : null; // userId passed from pass.js(no token is possible)
+  const reqUnitExposed = req.body.unitId;
+
+  try{
+    // validation: if the unitId valid
+    const targetUnit = await _DB_units.findOne({
+      where: {
+        exposedId: reqUnitExposed
+      }
+    });
+    // if 'null' result -> not a valid pathName
+    if(!targetUnit){ //'null'
+      throw new notFoundError("Unit you request was not found. Please use a valid unit id.", 51);
+      return; //stop and end the handler.
+    };
+    // validation: if the subCateId valid
+    // (directly table <paths_subcate> because no other subCates yet)
+    const desiredPath = await _DB_paths.findOne({
+      where: {
+        pathName: req.body.pathProjectName
+      }
+    });
+    if(!desiredPath){ //'null'
+      throw new notFoundError("Theme page you request was not found. Please use a valid one.", 52);
+      return; //stop and end the handler.
+    };
+    // check if the users has built a record
+    let userFbInfo = await _DB_usersByFacebook.findOne({
+      where: {
+        fb_id: req.body.fbId
+      }
+    });
+    if(!userFbInfo){ // no record of this account before
+      throw new notFoundError("User by this Facebook ID was not found. Please use a valid one.", 50);
+      return; //stop and end the handler.
+    };
+    // here, still select once to check if the users has already signed
+    const signedUnitsUsersData = await _DB_unitsPathsSubdisSign.findOne({
+      where: {
+        id_path: desiredPath.id,
+        // id_subPath: desiredSubCate.id // we didn't currently match id_subPath for simple structure
+        id_unit: targetUnit.id,
+        used_userId: userFbInfo.id_byFb
+      }
+    });
+    if(!!signedUnitsUsersData){ // not "null"
+      await _DB_unitsPathsSubdisSign.destroy({
+        where: {
+          id_path: desiredPath.id,
+          // id_subPath: desiredSubCate.id // we didn't currently match id_subPath for simple structure
+          id_unit: targetUnit.id,
+          used_userId: userFbInfo.id_byFb
+        }
+      });
+    };
+
+    let sendingData={
+      temp: {}
+    };
+
+    _res_success(res, sendingData, "DELETE: /units/entity, sign_subcate/usersign, complete.");
+  }
+  catch(error){
+    _handle_ErrCatched(error, req, res);
+    return;
+  }
+}
+
 module.exports = {
   _handle_GET_units_entitySign_list,
   _handle_GET_units_entitySign_userSign,
-  _handle_POST_units_entitySign_userSign
+  _handle_POST_units_entitySign_userSign,
+  _handle_DELETE_units_entitySign_userSign,
 };

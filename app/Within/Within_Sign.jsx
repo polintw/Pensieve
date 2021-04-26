@@ -15,6 +15,7 @@ import NavWithin from '../Components/NavWithin/NavWithin.jsx';
 import NavOptionsUnsign from '../Components/NavOptions/NavOptionsUnsign.jsx';
 import ModalBox from '../Components/ModalBox.jsx';
 import ModalBackground from '../Components/ModalBackground.jsx';
+import SingleDialog from '../Components/Dialog/SingleDialog/SingleDialog.jsx';
 import BooleanDialog from '../Components/Dialog/BooleanDialog/BooleanDialog.jsx';
 
 class Within_Sign extends React.Component {
@@ -102,6 +103,20 @@ class Within_Sign extends React.Component {
             )
           }}/>
 
+        {
+          this.props.messageSingle['render'] &&
+          <ModalBox containerId="root">
+            <ModalBackground onClose={()=>{}} style={{position: "fixed", backgroundColor: 'rgba(51, 51, 51, 0.3)'}}>
+              <div
+                className={"boxDialog"}>
+                <SingleDialog
+                  message={this.props.messageSingle['message']}
+                  buttonValue={this.props.messageSingle['buttonValue']}
+                  _positiveHandler={this.props.messageSingle['handlerPositive']}/>
+              </div>
+            </ModalBackground>
+          </ModalBox>
+        }
         {
           this.props.messageBoolean['render'] &&
           <ModalBox containerId="root">
@@ -216,6 +231,7 @@ const UnsignWithinUnit = ( routeProps, parent) => {
 
 const mapStateToProps = (state)=>{
   return {
+    messageSingle: state.messageSingle,
     messageBoolean: state.messageBoolean
   }
 }
