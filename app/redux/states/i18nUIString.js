@@ -117,6 +117,7 @@ const i18nUIString_EN = {
   "submit_understand": "Understand",//感覺用Close比較好
   "submit_respond": "Respond",
   "submit_yes": "Yes",
+  "submit_Okay": "Okay",
   "submit_logout": "Log out",
   "submit_unitPublish": "Publish",
   "submit_Options_profile": "Profile",
@@ -170,6 +171,7 @@ const i18nUIString_EN = {
   "descript_UnitEntity_Subcate_list": "We use and only use name and profile pic of your Facebook account to mark you down on this achieved list!",
   "descript_UnitEntity_Subcate_listEmpty": "No one has reached this scene yet!",
   "message_UnitEntity_Subcate_signedNotify": "You are on the list!",
+  "message_UnitEntity_Subcate_itemClick": "By clicking button Continue with Facebook to mark your name here or remove it.",
   "btn_UnitEntity_Subcate_ModalBtn": "Know this scene?",
 
   "btn_UnitSubcate_End_CopyBtn": "Copy the link",
