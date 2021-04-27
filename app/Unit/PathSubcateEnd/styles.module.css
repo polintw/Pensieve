@@ -20,14 +20,16 @@
 }
 
 .boxEndTtitle {
+  display: flex;
+  flex-direction: column;
   padding: 0 0 5px;
-  margin: 0 0 2rem;
-  border-bottom: solid 1.5px #f3b55a;
 }
 
 .boxEndGuiding {
-  margin: 0 0 2.4rem;
+  padding: 2rem 0 0;
+  margin: 0 0 2.8vh;
   text-align: center;
+  border-bottom: solid 1.5px #f3b55a;
 }
 
 .rowSocialIcons {

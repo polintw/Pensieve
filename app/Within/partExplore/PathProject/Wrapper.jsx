@@ -12,15 +12,14 @@ import styles from "./styles.module.css";
 import Feed from './Feed/Feed.jsx';
 import NavFeed from './NavFeed/NavFeed.jsx';
 import TitlePath from './TitlePath/TitlePath.jsx';
-import NavTitleRow from './NavFilter/NavTitleRow.jsx';
+import Steps from './Steps/Steps.jsx';
+import SubcatesList from './Subcate/SubcatesList.jsx';
 import {
   _axios_get_projectBasic,
   _axios_get_projectNodes,
-  _axios_get_nodesUnits
 } from './axios.js';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
 import UnitUnsign from '../../../Unit/UnitUnsign/UnitUnsign.jsx';
-import NodesFilter from '../../../Components/NodesFilter/NodesFilter.jsx';
 import NavCosmicMobile from '../../../Components/NavWithin/NavCosmic/NavCosmicMobile.jsx';
 import NavCosmicMobileUnsign from '../../../Components/NavWithin/NavCosmic/NavCosmicMobileUnsign.jsx';
 import {
@@ -38,7 +37,6 @@ class Wrapper extends React.Component {
       axios: false,
       pathName: false,
       projectName: '',
-      filterStart: null,
       projectInfo: {
         inspiredCount: 0,
         inspiredYou: false
@@ -49,23 +47,15 @@ class Wrapper extends React.Component {
       },
       usedNodes: [],
       fetchedUsedNodes: false,
-      redirectFilter: false,
-      redirectFilterPass: 0
     };
     this.axiosSource = axios.CancelToken.source();
-    this._set_viewFilter = this._set_viewFilter.bind(this);
+    this._render_tab = this._render_tab.bind(this);
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._set_projectBasic = this._set_projectBasic.bind(this);
     this._set_usedNodes = this._set_usedNodes.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-    if(prevState.redirectFilterPass){ // if just redirect to or from Filter
-      this.setState({
-	      redirectFilter: false,
-        redirectFilterPass: 0
-      });
-    };
     if(this.props.match.params['pathName'] != prevProps.match.params['pathName']){ // jump to diff. pathProject
       this._set_projectBasic();
     };
@@ -88,29 +78,41 @@ class Wrapper extends React.Component {
     }
   }
 
+  _render_tab(){
+    switch (this.currentTab) {
+      case "routes":
+        return (
+          <div
+            className={classnames(styles.boxTab)}>
+            <SubcatesList
+              {...this.props}
+              subCatesInfo={this.state.subCatesInfo}/>
+          </div>
+        )
+        break;
+      case "steps":
+        return (
+          <div
+            className={classnames(styles.boxTab)}>
+            <Steps
+              {...this.props}/>
+          </div>
+        )
+        break;
+      default: // 'undefined' currentTab
+        return (
+          <div
+            className={classnames(styles.boxTab)}>
+            <Feed
+              {...this.props}/>
+          </div>
+        )
+    }
+  }
+
   render(){
-    if(this.state.redirectFilter && this.state.redirectFilterPass){
-	    /*
-	      Notice!, this is not a good method.
-	      we should redirect only when close from from NodesFilter, a general component.
-	      any other path, passed from Nav, should be dealted with insde the Nav.
-		    */
-      // this method now is only used when closing(redirectFilter == true). Feb 01 2021
-      let toSearch = new URLSearchParams(this.props.location.search);
-      // make sure delte all attrib
-      toSearch.delete("_filter_nodes");
-      toSearch.delete("_filter_map");
-      return <Redirect
-        to={{
-          pathname: this.props.location.pathname,
-          search: toSearch.toString(),
-          state: {from: this.props.location}
-        }}/>;
-    };
     let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
-    if(urlParams.has('filterNode')){
-      this.filterNode = urlParams.get('filterNode');
-    } else this.filterNode = null;
+    this.currentTab = urlParams.get('tab'); // could be 'undefined'
     if(urlParams.has('_filter_nodes')){
       this.viewFilter = true;
     } else this.viewFilter = false;
@@ -167,53 +169,16 @@ class Wrapper extends React.Component {
               className={classnames(styles.boxTitle)}
               style={{marginTop: '4px'}}>
               <NavFeed
-                {...this.props}
-                subCatesInfo={this.state.subCatesInfo}/>
-            </div>
-            <div
-              className={classnames(
-                styles.rowFilterMargin,
-                {[styles.rowFilterPadding]: (!!this.filterNode)})}>
-              <NavTitleRow
-                {...this.props}
-                listLocation={"pathProject"}
-                listIdentity={this.props.match.params['pathName']}
-                viewFilter={this.viewFilter}/>
+                {...this.props}/>
             </div>
           </div>
           <div
             className={classnames(styles.boxRow)}>
             {
-              this.viewFilter ? (
-                <div
-                  className={classnames(styles.boxNodesFilter)}>
-                  {
-                    this.state.fetchedUsedNodes &&
-                    <div>
-                      <NodesFilter
-                        {...this.props}
-                        startNode = {this.state.filterStart}
-                        startList={this.state.usedNodes}
-                        _handle_nodeClick={this._set_viewFilter}
-                        _get_nodesUnitsList={(nodesList)=>{
-                          // return a promise() to NodesFilter
-                          return _axios_get_nodesUnits(this.axiosSource.token, {
-                            nodesList: nodesList,
-                            pathName: this.props.match.params['pathName'],
-                            filterSubCate: this.currentSubCate ? this.currentSubCate : null
-                          })
-                        }}/>
-                        <div className={classnames(styles.boxFooter)}/>
-                    </div>
-                  }
-                </div>
-              ):(
-                <div
-                  className={classnames(styles.boxFeed)}>
-                  <Feed
-                    {...this.props}/>
-                </div>
-              )
+              /*
+              render the view by search.tab
+              */
+              this._render_tab()
             }
           </div>
         </div>
@@ -239,13 +204,6 @@ class Wrapper extends React.Component {
         }/>
       </div>
     )
-  }
-
-  _set_viewFilter(view){
-    this.setState({
-	    redirectFilter: !!view ? view : true, // currently, always redirect it triggered
-      redirectFilterPass: 1
-    })
   }
 
   _construct_UnitInit(match, location){

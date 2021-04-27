@@ -1,0 +1,17 @@
+.comSteps {
+
+}
+
+.boxNodesFilter {
+  box-shadow: 5px 0 4px -5px rgba(0, 0, 0, 0.3), -5px 0 4px -5px rgba(0, 0, 0, 0.3);
+  margin: 0;
+}
+
+.rowFilterMargin {
+  margin: 8px 0 0;
+}
+
+.rowFilterPadding {
+  padding-bottom: 2.538vh;
+  border-bottom: 1px solid #d8d8d8;
+}

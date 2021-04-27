@@ -142,6 +142,8 @@ const i18nUIString_EN = {
   "link_Options_public": "Public view",
   "Cornerth_inc": "Cornerth. ",
   "AllRights": "All Rights Reserved.",
+  "tab_Steps": 'Steps',
+  "tab_Routes": 'routes',
 
   "link_Nav_Shareds_": ["<> ", "Personal"],
   "message_SelfShareds_greet": ["Good morning! New finding is on the way!", "Welcome back. How's the day going?", "Good evening. Is there anything you want to share today?", "What a long night. Come record the thing in your mind."],

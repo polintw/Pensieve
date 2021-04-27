@@ -6,8 +6,6 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import SubcatesList from '../Subcate/SubcatesList.jsx';
-import TitleSubcate from '../Subcate/TitleSubcate.jsx';
 
 class NavFeed extends React.Component {
   constructor(props){
@@ -15,6 +13,7 @@ class NavFeed extends React.Component {
     this.state = {
 
     };
+    this._render_navTab = this._render_navTab.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -29,36 +28,72 @@ class NavFeed extends React.Component {
 
   }
 
+  _render_navTab(){
+    let tabsi18nName = ["title_NavAtNode_", "tab_Steps", "tab_Routes"];
+    let goldColorTab = '';
+    // which tab we are now on
+    switch (this.currentTab) { // refer to tabsi18nName
+      case "routes":
+        goldColorTab = 'tab_Routes';
+        break;
+      case "steps":
+        goldColorTab = 'tab_Steps';
+        break;
+      default: // usually 'undefined'
+        goldColorTab = 'title_NavAtNode_';
+    };
+
+    let tabDOM = tabsi18nName.map((i18nKey, index)=>{
+      let currentOn = (i18nKey == goldColorTab) ? true : false;
+      // edit the link each tab going to have
+      let linkSearch = '';
+      switch (i18nKey) {
+        case 'routes':
+          linkSearch = '?tab=routes';
+          break;
+        case 'steps':
+          linkSearch = '?tab=steps&_filter_map=true';
+          break;
+        default:
+          // do nothing, keep linkSearch as origin
+      };
+      let linkObj = {
+        pathname: this.props.location.pathname,
+        search: linkSearch,
+        state: {from: this.props.location}
+      };
+      return (
+        <Link
+          key={"key_pathNavFeed_tab_"+i18nKey}
+          to={linkObj}
+          className={classnames('plainLinkButton')}
+          style={{paddingTop: "4px"}}>
+          <span
+            className={classnames(
+              "fontContentPlain", "weightBold",
+              {
+                ["colorAssistGold"]: currentOn,
+                ["colorWhiteGrey"]: !currentOn
+              }
+            )}>
+            { this.props.i18nUIString.catalog[i18nKey] }
+          </span>
+        </Link>
+      )
+    })
+
+    return tabDOM;
+  }
+
   render(){
     let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
-    this.viewFilter = urlParams.has('_filter_nodes');
-    this.filterNode = urlParams.has('filterNode');
-    if(urlParams.has('subCate')){
-      this.currentSubCate = urlParams.get('subCate');
-    } else this.currentSubCate = false;
+    this.currentTab = urlParams.get('tab'); // could be "undefined"
 
     return(
       <div
         className={classnames(styles.comNavFeed)}>
-        <div style={{paddingTop: "4px"}}>
-          <span
-            className={classnames(
-              "fontContentPlain", "weightBold", "colorAssistGold")}>
-            { this.props.i18nUIString.catalog["title_NavAtNode_"] }
-          </span>
-        </div>
         {
-          (!this.currentSubCate) &&
-          <SubcatesList
-            {...this.props}/>
-        }
-        {
-          this.currentSubCate &&
-          <div
-            className={classnames(styles.boxTitleSubcate)}>
-            <TitleSubcate
-              {...this.props}/>
-          </div>
+          this._render_navTab()
         }
       </div>
     )

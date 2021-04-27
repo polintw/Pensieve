@@ -22,7 +22,7 @@
   padding: 1.4vh 0 0;
 }
 
-.boxFeed {
+.boxTab {
 
 }
 
@@ -32,24 +32,10 @@
   margin: 12px 0 0;
 }
 
-.rowFilterMargin {
-  margin: 8px 0 0;
-}
-
-.rowFilterPadding {
-  padding-bottom: 2.538vh;
-  border-bottom: 1px solid #d8d8d8;
-}
-
 .boxFooter {
   position: relative;
   padding-top: 2rem;
   margin-bottom: 36vh;
-}
-
-.boxNodesFilter {
-  box-shadow: 5px 0 4px -5px rgba(0, 0, 0, 0.3), -5px 0 4px -5px rgba(0, 0, 0, 0.3);
-  margin: 0;
 }
 
 @media screen and (max-width:860px) {
