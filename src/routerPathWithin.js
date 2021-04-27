@@ -15,6 +15,8 @@ const _DB_nouns = require('../db/models/index').nouns;
 const _DB_marks = require('../db/models/index').marks;
 const _DB_marksContent = require('../db/models/index').marks_content;
 const _DB_attribution = require('../db/models/index').attribution;
+const _DB_pathsSubcate = require('../db/models/index').paths_subcate;
+const _DB_unitsPathsSubdis = require('../db/models/index').units_paths_subdistribute;
 const projectRootPath = require('../projectRootPath');
 const {_res_success} = require('./utils/resHandler.js');
 const {
@@ -197,6 +199,75 @@ async function _handle_crawler_GET_PathProject(req, res){
   }
 }
 
+async function _handle_crawler_GET_PathProject_Subcate(req, res){
+  try{
+    const reqPathProject = req.params.pathProject;
+    const reqPathSubcate = req.query.subCateId;
+    const targetProject = await _DB_paths.findOne({
+      where: {pathName: reqPathProject} // Notice! Prevent attack from hacker here, by string or other way to destroy DB
+    });
+    // first, if 'null' result -> not a valid pathName
+    if(!targetProject){ //'null'
+      winston.error(`${'from crawler, GET: '} ${req.originalUrl} error: targetProject not found in DB.`);
+      throw "Theme page you request was not found. Please use a valid one.";
+      return; //stop and end the handler.
+    };
+    const targetSubcate = await _DB_pathsSubcate.findOne({
+      where: {
+        id_path: targetProject.id,
+        exposedId: reqPathSubcate
+      }
+    });
+    if(!targetSubcate){ //'null'
+      winston.error(`${'from crawler, GET: '} ${req.originalUrl} error: targetSubcate not found in DB.`);
+      throw "Category under theme page you request was not found. Please use a valid one.";
+      return; //stop and end the handler.
+    };
+    //res html directly from templte modified by variables
+    let variables= { //create local variables as value used in template
+      title: [], //set array fisrt, will be mdified to string later before res
+      descrip: "",
+      ogurl: "",
+      ogimg: '' //don't forget using absolute path for dear crawler
+    };
+
+    let subcateUnits = await _DB_unitsPathsSubdis.findAll({
+      where: {
+        id_path: targetProject.id,
+        id_subPath: targetSubcate.id
+      }
+    });
+    let firstSubcateUnit = await _DB_units.findOne({
+      where: {
+        id: !!subcateUnits[0] ? subcateUnits[0].id : null
+      }
+    });
+
+    let imgUrl = '';
+    if(!!firstSubcateUnit){
+      imgUrl =  "https://" +envServiceGeneral.appDomain +'/router/img/' + firstSubcateUnit.url_pic_layer0 ;
+    };
+
+    variables['title'] = targetProject.name + "| @" + targetSubcate.name;
+    variables['descrip'] = targetProject.description ;
+    variables['ogurl'] = req.originalUrl;
+    variables['ogimg'] = imgUrl;
+
+    res.render(path.join(projectRootPath, '/public/html/ren_crawler.pug'), variables);
+  }
+  catch(error){
+    winston.error(`${'from crawler, GET: '} ${req.originalUrl} error: catch `, error);
+    let variables= { //create local variables as value used in template
+      title: [], //set array fisrt, will be mdified to string later before res
+      descrip: "",
+      ogurl: "",
+      ogimg: '' //don't forget using absolute path for dear crawler
+    };
+    res.render(path.join(projectRootPath, '/public/html/ren_crawler.pug'), variables);
+    return;
+  }
+}
+
 //route pass from parent start from here
 
 //res specific Unit info to crawler
@@ -226,6 +297,13 @@ router.use('/cosmic/explore/path/:pathProject', function(req, res, next){
     if(!Boolean(req.query.unitId.toString()) ) { next();}
     //if safe, then we select the requested Unit & res html with Unit info
     else _handle_crawler_GET_Unit(req, res);
+  }
+  else if(
+    ('subCate' in req.query) &&
+    (!req.query.unitId)
+  ){
+    // res name, first unit (description in future) of the Subcate
+    _handle_crawler_GET_PathProject_Subcate(req, res);
   }
   else _handle_crawler_GET_PathProject(req, res);
 })
