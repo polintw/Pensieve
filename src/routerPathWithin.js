@@ -202,7 +202,7 @@ async function _handle_crawler_GET_PathProject(req, res){
 async function _handle_crawler_GET_PathProject_Subcate(req, res){
   try{
     const reqPathProject = req.params.pathProject;
-    const reqPathSubcate = req.query.subCateId;
+    const reqPathSubcate = req.query.subCate;
     const targetProject = await _DB_paths.findOne({
       where: {pathName: reqPathProject} // Notice! Prevent attack from hacker here, by string or other way to destroy DB
     });
@@ -239,7 +239,7 @@ async function _handle_crawler_GET_PathProject_Subcate(req, res){
     });
     let firstSubcateUnit = await _DB_units.findOne({
       where: {
-        id: !!subcateUnits[0] ? subcateUnits[0].id : null
+        id: !!subcateUnits[0] ? subcateUnits[0].id_unit : null
       }
     });
 
@@ -248,7 +248,7 @@ async function _handle_crawler_GET_PathProject_Subcate(req, res){
       imgUrl =  "https://" +envServiceGeneral.appDomain +'/router/img/' + firstSubcateUnit.url_pic_layer0 ;
     };
 
-    variables['title'] = targetProject.name + "| @" + targetSubcate.name;
+    variables['title'] = targetProject.name + "|@" + targetSubcate.name;
     variables['descrip'] = targetProject.description ;
     variables['ogurl'] = req.originalUrl;
     variables['ogimg'] = imgUrl;
