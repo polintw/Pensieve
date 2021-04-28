@@ -23,9 +23,6 @@ import UnitUnsign from '../../../Unit/UnitUnsign/UnitUnsign.jsx';
 import NavCosmicMobile from '../../../Components/NavWithin/NavCosmic/NavCosmicMobile.jsx';
 import NavCosmicMobileUnsign from '../../../Components/NavWithin/NavCosmic/NavCosmicMobileUnsign.jsx';
 import {
-  handleNounsList,
-} from "../../../redux/actions/general.js";
-import {
   cancelErr,
   uncertainErr
 } from '../../../utils/errHandlers.js';

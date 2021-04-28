@@ -6,7 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import SubcateIntro from './SubcateIntro.jsx';
+import SubcateIntro from './SubcateIntro/SubcateIntro.jsx';
 
 class SubcatesList extends React.Component {
   constructor(props){
@@ -87,13 +87,12 @@ class SubcatesList extends React.Component {
     return (
       <div
         className={classnames(styles.comSubcatesList)}>
-
         {
           this.currentSubCate ? (
             this._render_subcate()
-          ): {
+          ): (
             this._render_list()
-          }
+          )
         }
       </div>
     )

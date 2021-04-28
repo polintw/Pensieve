@@ -48,10 +48,13 @@ class NavFeed extends React.Component {
       // edit the link each tab going to have
       let linkSearch = '';
       switch (i18nKey) {
-        case 'routes':
+        case 'title_NavAtNode_':
+          linkSearch = '';
+          break;
+        case 'tab_Routes':
           linkSearch = '?tab=routes';
           break;
-        case 'steps':
+        case 'tab_Steps':
           linkSearch = '?tab=steps&_filter_map=true';
           break;
         default:
