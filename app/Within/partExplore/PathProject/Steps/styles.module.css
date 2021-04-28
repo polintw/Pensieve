@@ -7,11 +7,23 @@
   margin: 0;
 }
 
-.rowFilterMargin {
+.rowTitleMargin {
   margin: 8px 0 0;
 }
 
-.rowFilterPadding {
+.rowTitlePadding {
   padding-bottom: 2.538vh;
   border-bottom: 1px solid #d8d8d8;
+}
+
+.boxFooter {
+  position: relative;
+  padding-top: 2rem;
+  margin-bottom: 36vh;
+}
+
+@media screen and (max-width:860px) {
+  .boxFooter {
+    margin-bottom: 14vh;
+  }
 }

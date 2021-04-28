@@ -43,6 +43,15 @@
   display: block;
 }
 
+.rowTitleMargin {
+  margin: 8px 0 0;
+}
+
+.rowTitlePadding {
+  padding-bottom: 2.538vh;
+  border-bottom: 1px solid #d8d8d8;
+}
+
 @media screen and (max-width:860px) {
 
 }

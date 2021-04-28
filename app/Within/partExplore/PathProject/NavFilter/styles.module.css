@@ -6,7 +6,7 @@
 
 }
 
-.comNavFilterMode {
+.comNavNodesFilter {
   display: flex;
   justify-content: center;
   position: relative;
@@ -22,12 +22,6 @@
   flex: 1;
   justify-content: space-between;
   align-items: flex-end;
-}
-
-.boxFilterSelection{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
 .boxFilterSuggest {
@@ -116,7 +110,4 @@
     margin-top: 12px;
   }
 
-  .boxFilterSelection {
-    margin-top: 4px;
-  }
 }

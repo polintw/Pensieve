@@ -6,11 +6,8 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import SuggestNodes from './SuggestNodes.jsx';
-import NavBtnRow from './NavBtnRow.jsx';
-import NavFilterMode from './NavFilterMode.jsx';
-import {SvgArrowToTop} from '../../../../Components/Svg/SvgArrow.jsx';
-import SvgFilterNode from '../../../../Components/Svg/SvgFilter_Node.jsx';
+import NavNodesFilter from './NavNodesFilter.jsx';
+import {SvgArrowToRight} from '../../../../Components/Svg/SvgArrow.jsx';
 
 class NavTitleRow extends React.Component {
 
@@ -69,8 +66,10 @@ class NavTitleRow extends React.Component {
   }
 
   _render_resetLink(){
+    // we are now under /path/?tab=steps, reset to _filter_nodes
     let toSearch = new URLSearchParams(this.props.location.search); //we need value in URL query
     toSearch.delete("filterNode");
+    toSearch.set('_filter_nodes', true);
     let linkObj = {
       pathname: this.props.location.pathname,
       search: toSearch.toString(),
@@ -86,7 +85,7 @@ class NavTitleRow extends React.Component {
         onClick={this._handleClick_resetLink}
         onMouseEnter={this._handleEnter_CloseArrow}
         onMouseLeave={this._handleLeave_CloseArrow}>
-        <SvgArrowToTop
+        <SvgArrowToRight
           mouseOn={this.state.onArrow}
           customStyles={{fillColorMouseOn: '#ff8168', fillColor: '#a3a3a3'}}/>
       </Link>
@@ -98,16 +97,21 @@ class NavTitleRow extends React.Component {
     if(urlParams.has('filterNode')){
       this.filterNode = urlParams.get('filterNode');
     } else this.filterNode = null;
-    if(urlParams.has('subCate')){
-      this.currentSubCate = urlParams.get('subCate');
-    } else this.currentSubCate = false;
+    if(urlParams.has('_filter_nodes') || urlParams.has('_filter_map')){
+      this.viewFilter = true;
+    } else this.viewFilter = false;
 
     return (
       <div className={styles.comNavTitleRow}>
         {
-          !this.props.viewFilter ?
+          (this.viewFilter) ?
           (
-            !!this.filterNode ? (
+            <div
+              className={classnames(styles.boxFilterNav)}>
+              <NavNodesFilter/>
+            </div>
+          ) : (
+            this.filterNode ? (
               <div
                 className={classnames(styles.boxFilterNode)}>
                 <div>
@@ -116,32 +120,14 @@ class NavTitleRow extends React.Component {
                       styles.spanFilterCross,
                       "fontContent", "weightBold", "lineHeight15", "colorAssistGold")}>
                       {"X "}
-                  </span>
-                  {this._render_filterNode()}
+                    </span>
+                    {this._render_filterNode()}
+                  </div>
+                  {this._render_resetLink()}
                 </div>
-                {this._render_resetLink()}
-              </div>
-            ):(
-              <div
-                className={classnames(styles.boxFilterSelection)}>
-                <div>
-                  {
-                    !this.currentSubCate &&
-                    <SuggestNodes
-                      {...this.props}
-                      listLocation={this.props.listLocation}
-                      listIdentity={this.props.listIdentity}/>
-                  }
-                </div>
-                <NavBtnRow
-                  {...this.props}/>
-              </div>
+            ) : (
+              null
             )
-          ) : (
-            <div
-              className={classnames(styles.boxFilterNav)}>
-              <NavFilterMode/>
-            </div>
           )
         }
       </div>

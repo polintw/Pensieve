@@ -8,7 +8,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import SvgArrowStick from '../../../../Components/Svg/SvgArrowStick.jsx';
 
-class NavFilterMode extends React.Component {
+class NavNodesFilter extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -39,6 +39,8 @@ class NavFilterMode extends React.Component {
     let toClose = new URLSearchParams(this.props.location.search); //we need value in URL query
     toClose.delete("_filter_nodes");
     toClose.delete("_filter_map");
+    toClose.delete("filterNode");
+    toClose.delete("tab");
     let filterCloseObj = {
       pathname: this.props.location.pathname,
       search: toClose.toString(),
@@ -56,7 +58,6 @@ class NavFilterMode extends React.Component {
     let toTabMap = new URLSearchParams(this.props.location.search); //we need value in URL query
     toTabMap.delete("_filter_nodes");
     toTabMap.delete("_filter_map");
-    toTabMap.append("_filter_nodes", true);
     toTabMap.append("_filter_map", true);
     let filterMapObj = {
       pathname: this.props.location.pathname,
@@ -66,7 +67,7 @@ class NavFilterMode extends React.Component {
 
     return(
       <div
-        className={classnames(styles.comNavFilterMode)}>
+        className={classnames(styles.comNavNodesFilter)}>
         <Link
           btn={"image"}
           to={filterImgObj}
@@ -195,4 +196,4 @@ const mapDispatchToProps = (dispatch) => {
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(NavFilterMode));
+)(NavNodesFilter));

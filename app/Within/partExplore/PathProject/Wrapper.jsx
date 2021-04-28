@@ -14,9 +14,9 @@ import NavFeed from './NavFeed/NavFeed.jsx';
 import TitlePath from './TitlePath/TitlePath.jsx';
 import Steps from './Steps/Steps.jsx';
 import SubcatesList from './Subcate/SubcatesList.jsx';
+import SuggestNodes from './NavFilter/SuggestNodes.jsx';
 import {
   _axios_get_projectBasic,
-  _axios_get_projectNodes,
 } from './axios.js';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
 import UnitUnsign from '../../../Unit/UnitUnsign/UnitUnsign.jsx';
@@ -45,26 +45,16 @@ class Wrapper extends React.Component {
         subCatesList: [],
         subCatesObj: {}
       },
-      usedNodes: [],
-      fetchedUsedNodes: false,
     };
     this.axiosSource = axios.CancelToken.source();
     this._render_tab = this._render_tab.bind(this);
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._set_projectBasic = this._set_projectBasic.bind(this);
-    this._set_usedNodes = this._set_usedNodes.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
     if(this.props.match.params['pathName'] != prevProps.match.params['pathName']){ // jump to diff. pathProject
       this._set_projectBasic();
-    };
-    let urlParams = new URLSearchParams(prevProps.location.search); //we need value in URL query
-    if(this.viewFilter != urlParams.has('_filter_nodes')){
-      if(!this.viewFilter) this.setState({usedNodes: [], fetchedUsedNodes: false})
-      else{
-        this._set_usedNodes();
-      };
     };
   }
 
@@ -103,6 +93,12 @@ class Wrapper extends React.Component {
         return (
           <div
             className={classnames(styles.boxTab)}>
+            <div>
+              <SuggestNodes
+                {...this.props}
+                listLocation={"pathProject"}
+                listIdentity={this.props.match.params['pathName']}/>
+            </div>
             <Feed
               {...this.props}/>
           </div>
@@ -113,9 +109,6 @@ class Wrapper extends React.Component {
   render(){
     let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
     this.currentTab = urlParams.get('tab'); // could be 'undefined'
-    if(urlParams.has('_filter_nodes')){
-      this.viewFilter = true;
-    } else this.viewFilter = false;
     if(urlParams.has('subCate')){
       this.currentSubCate = urlParams.get('subCate');
     } else this.currentSubCate = false;
@@ -240,36 +233,6 @@ class Wrapper extends React.Component {
     });
   }
 
-  _set_usedNodes(){
-    const self = this;
-    this.setState({axios: true});
-
-    _axios_get_projectNodes(this.axiosSource.token, {
-      pathProject: this.props.match.params['pathName'],
-      filterSubCate: this.currentSubCate ? this.currentSubCate : null
-    })
-    .then((resObj)=>{
-      //after res of axios_Units: call get nouns & users
-      self.props._submit_NounsList_new(resObj.main.nodesList);
-      self.setState((prevState, props)=>{
-        return ({
-          axios: false,
-          usedNodes: resObj.main.nodesList,
-          fetchedUsedNodes: true
-        });
-      });
-    })
-    .catch(function (thrown) {
-      self.setState({axios: false});
-      if (axios.isCancel(thrown)) {
-        cancelErr(thrown);
-      } else {
-        let message = uncertainErr(thrown);
-        if(message) alert(message);
-      }
-    });
-  }
-
 }
 
 
@@ -285,7 +248,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
+
   }
 }
 

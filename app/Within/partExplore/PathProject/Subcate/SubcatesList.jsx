@@ -6,6 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import SubcateIntro from './SubcateIntro.jsx';
 
 class SubcatesList extends React.Component {
   constructor(props){
@@ -15,7 +16,8 @@ class SubcatesList extends React.Component {
     };
     this._handleOut_btn = this._handleOut_btn.bind(this);
     this._handleOver_btn = this._handleOver_btn.bind(this);
-    this._render_subcates = this._render_subcates.bind(this);
+    this._render_subcate = this._render_subcate.bind(this);
+    this._render_list = this._render_list.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -30,7 +32,15 @@ class SubcatesList extends React.Component {
 
   }
 
-  _render_subcates(){
+  _render_subcate(){
+
+    return (
+      <SubcateIntro
+        {...this.props}/>
+    );
+  }
+
+  _render_list(){
     let subCatesDOM = this.props.subCatesInfo.subCatesList.map((subCateId, index)=>{
       return (
         <div
@@ -70,10 +80,21 @@ class SubcatesList extends React.Component {
 
 
   render(){
+    let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
+    if(urlParams.has('subCate')){
+      this.currentSubCate = urlParams.get('subCate');
+    } else this.currentSubCate = false;
     return (
       <div
         className={classnames(styles.comSubcatesList)}>
-        {this._render_subcates()}
+
+        {
+          this.currentSubCate ? (
+            this._render_subcate()
+          ): {
+            this._render_list()
+          }
+        }
       </div>
     )
   }
