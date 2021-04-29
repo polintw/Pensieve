@@ -118,6 +118,7 @@ const i18nUIString_EN = {
   "submit_respond": "Respond",
   "submit_yes": "Yes",
   "submit_Okay": "Okay",
+  "submit_Open": "Open",
   "submit_logout": "Log out",
   "submit_unitPublish": "Publish",
   "submit_Options_profile": "Profile",

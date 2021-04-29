@@ -6,7 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import TitleSubcate from '../TitleSubcate.jsx';
+import TitleSubcate from '../TitleSubcate/TitleSubcate.jsx';
 import NavBtnRow from '../../NavFilter/NavBtnRow.jsx';
 import SvgCopy from '../../../../../Components/Svg/SvgIcon_Copy.jsx';
 import ModalEmit from '../../../../../Components/ModalEmit/ModalEmit.jsx';
@@ -42,21 +42,24 @@ class SubcateIntro extends React.Component {
       usedNodes: [],
       fetchedUsedNodes: false,
       onBtnSubcate: false,
-      onShareLink: false,
-      onUnitImg: false
+      onLinkCopy: false,
+      onUnitImg: false,
+      onBtnOpen: false
     };
     this.refHiddenText = React.createRef();
     this.axiosSource = axios.CancelToken.source();
     this._set_emitModal = this._set_emitModal.bind(this);
     this._set_usedNodes = this._set_usedNodes.bind(this);
     this._render_imgUnits = this._render_imgUnits.bind(this);
-    this._handleEnter_Btn = this._handleEnter_Btn.bind(this);
-    this._handleLeave_Btn = this._handleLeave_Btn.bind(this);
-    this._handleLeave_link = this._handleLeave_link.bind(this);
+    this._handleClick_pathCopy = this._handleClick_pathCopy.bind(this);
+    this._handleEnter_CopyBtn = this._handleEnter_CopyBtn.bind(this);
+    this._handleLeave_CopyBtn = this._handleLeave_CopyBtn.bind(this);
     this._handleEnter_link = this._handleEnter_link.bind(this);
+    this._handleLeave_link = this._handleLeave_link.bind(this);
     this._handleEnter_UnitImg = this._handleEnter_UnitImg.bind(this);
     this._handleLeave_UnitImg = this._handleLeave_UnitImg.bind(this);
-    this._handleClick_pathCopy = this._handleClick_pathCopy.bind(this);
+    this._handleLeave_btnOpen = this._handleLeave_btnOpen.bind(this);
+    this._handleLeave_btnOpen = this._handleLeave_btnOpen.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -209,11 +212,26 @@ class SubcateIntro extends React.Component {
                 </div>
                 <div
                   className={classnames(styles.rowOpen)}>
-                  <div>
-                    <span>
-                      {"Open"}
+                  <Link
+                    to={{
+                      pathname: this.props.location.pathname + '/unit',
+                      search: searchString,
+                      state: {from: this.props.location}
+                    }}
+                    className={classnames(
+                      'plainLinkButton',
+                    )}
+                    onTouchStart={this._handleEnter_btnOpen}
+                    onTouchEnd={this._handleLeave_btnOpen}
+                    onMouseOver={this._handleEnter_btnOpen}
+                    onMouseOut={this._handleLeave_btnOpen}>
+                    <span
+                      className={classnames(
+                        "fontSubtitle_h5", "colorWhite",
+                      )}>
+                      {this.props.i18nUIString.catalog['submit_Open']}
                     </span>
-                  </div>
+                  </Link>
                 </div>
                 <div
                   className={classnames(styles.rowSocialIcons)}>
@@ -242,13 +260,13 @@ class SubcateIntro extends React.Component {
                   <div
                     title={this.props.i18nUIString.catalog["tagTitle_PathProject_ShareLink"]}
                     className={classnames()}
-                    onMouseEnter={this._handleEnter_Btn}
-                    onMouseLeave={this._handleLeave_Btn}
+                    onMouseEnter={this._handleEnter_CopyBtn}
+                    onMouseLeave={this._handleLeave_CopyBtn}
                     onClick={this._handleClick_pathCopy}>
                     <div
                       className={classnames(styles.boxIconCopy)}>
                       <SvgCopy
-                        customStyles={"{fill: " + (this.state.onShareLink? "#545454" : "#a3a3a3") + "}"}/>
+                        customStyles={"{fill: " + (this.state.onLinkCopy? "#545454" : "#a3a3a3") + "}"}/>
                     </div>
                     {
                       this.state.emit &&
@@ -348,18 +366,34 @@ class SubcateIntro extends React.Component {
     this.setState({ onUnitImg: false })
   }
 
-  _handleEnter_Btn(e){
+  _handleEnter_btnOpen(e){
     this.setState((prevState, props)=>{
       return {
-        onShareLink: true
+        onBtnOpen: true
       }
     })
   }
 
-  _handleLeave_Btn(e){
+  _handleLeave_btnOpen(e){
     this.setState((prevState, props)=>{
       return {
-        onShareLink: false
+        onBtnOpen: false
+      }
+    })
+  }
+
+  _handleEnter_CopyBtn(e){
+    this.setState((prevState, props)=>{
+      return {
+        onLinkCopy: true
+      }
+    })
+  }
+
+  _handleLeave_CopyBtn(e){
+    this.setState((prevState, props)=>{
+      return {
+        onLinkCopy: false
       }
     })
   }

@@ -16,31 +16,11 @@
   cursor: pointer;
 }
 
-.comTitleSubcate {
-  display: flex;
-  flex: 1;
-  justify-content: space-between;
-  align-items: center;
-}
-
 .boxSubcateClose {
   width: 15px;
   padding: 2.5px 0;
   text-align: center;
   cursor: pointer;
-}
-
-.spanLinkNode {
-  display: inline-block;
-  border-bottom: solid 1px transparent;
-}
-
-.spanLinkNodeMouse {
-  border-bottom: solid 1px #545454;
-}
-
-.linkBlock {
-  display: block;
 }
 
 .rowTitleMargin {

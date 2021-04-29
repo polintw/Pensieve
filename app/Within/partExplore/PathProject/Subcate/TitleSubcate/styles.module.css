@@ -1,0 +1,39 @@
+.comTitleSubcate {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.linkBlock {
+  display: block;
+}
+
+.boxSvgArrow {
+  width: 15px;
+  height: 15px;
+  padding: 2.5px 0;
+  cursor: pointer;
+}
+
+.boxIconFilterNode {
+  display: inline-block;
+  width: 28px;
+  height: 20px;
+  box-sizing: border-box;
+  text-align: right;
+  cursor: pointer;
+}
+
+.spanLinkNode {
+  display: inline-block;
+  border-bottom: solid 1px transparent;
+}
+
+.spanLinkNodeMouse {
+  border-bottom: solid 1px #545454;
+}
+
+@media screen and (max-width:860px) {
+
+}
