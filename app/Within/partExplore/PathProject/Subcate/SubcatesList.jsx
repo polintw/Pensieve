@@ -7,25 +7,38 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import SubcateIntro from './SubcateIntro/SubcateIntro.jsx';
+import SubcateNail from './SubcateNail/SubcateNail.jsx';
+import {
+  _axios_get_projectSubcateBasic
+} from './axios.js';
+import {
+  cancelErr,
+  uncertainErr
+} from '../../../../utils/errHandlers.js';
 
 class SubcatesList extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      overBtnSubcate: false
+      axios: false,
+      subCatesList: [],
+      subCatesObj: {}, // obj by key: subcate.exposedId
+      unitsSubcateBasic: {}
     };
-    this._handleOut_btn = this._handleOut_btn.bind(this);
-    this._handleOver_btn = this._handleOver_btn.bind(this);
+    this.axiosSource = axios.CancelToken.source();
+    this._set_subcatesBasic = this._set_subcatesBasic.bind(this);
     this._render_subcate = this._render_subcate.bind(this);
     this._render_list = this._render_list.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-
+    if(this.props.match.params['pathName'] != prevProps.match.params['pathName']){ // jump to diff. pathProject
+      this._set_subcatesBasic();
+    };
   }
 
   componentDidMount(){
-
+    this._set_subcatesBasic();
   }
 
   componentWillUnmount(){
@@ -41,36 +54,14 @@ class SubcatesList extends React.Component {
   }
 
   _render_list(){
-    let subCatesDOM = this.props.subCatesInfo.subCatesList.map((subCateId, index)=>{
+    let subCatesDOM = this.state.subCatesList.map((subCateId, index)=>{
       return (
-        <div
-          key={"key_Nav_Subcates_"+index}
-          subcateid={subCateId}
-          onTouchStart={this._handleOver_btn}
-          onTouchEnd={this._handleOut_btn}
-          onMouseOver={this._handleOver_btn}
-          onMouseOut={this._handleOut_btn}>
-          <Link
-            to={{
-              pathname: this.props.match.url,
-              search: '?subCate=' + subCateId,
-              state: { from: this.props.location }
-            }}
-            className={classnames(
-              'plainLinkButton', styles.linkSubcate,
-              {
-                ["colorWhiteGrey"]: (this.state.overBtnSubcate != subCateId),
-                ["colorEditBlack"]: (this.state.overBtnSubcate == subCateId),
-                [styles.mouseovlinkSubcate]: (this.state.overBtnSubcate == subCateId)
-              }
-            )}>
-            <span
-              className={classnames(
-                "fontContentPlain", "weightBold",
-              )}>
-              {"@" + this.props.subCatesInfo.subCatesObj[subCateId].name}
-            </span>
-          </Link>
+        <div>
+          <SubcateNail
+            {...this.props}
+            subCateId={subCateId}
+            subCateInfo={this.state.subCatesObj[subCateId]}
+            unitsBasic={this.state.unitsSubcateBasic}/>
         </div>
       )
     });
@@ -98,14 +89,32 @@ class SubcatesList extends React.Component {
     )
   }
 
-  _handleOver_btn(event) {
-    let subCateId = event.currentTarget.getAttribute('subcateid');
-    this.setState({ overBtnSubcate: subCateId })
+  _set_subcatesBasic(){
+    const self = this;
+    this.setState({axios: true});
+
+    _axios_get_projectSubcateBasic(this.axiosSource.token, this.props.match.params['pathName'])
+    .then((resObj)=>{
+      self.setState((prevState, props)=>{
+        return {
+          axios: false,
+          subCatesList: resObj.main.subCatesList,
+          subCatesObj: resObj.main.subCatesObj,
+          unitsSubcateBasic: {...prevState.unitsSubcateBasic, ...resObj.main.unitsSubcateBasic},
+        };
+      });
+    })
+    .catch(function (thrown) {
+      self.setState({axios: false});
+      if (axios.isCancel(thrown)) {
+        cancelErr(thrown);
+      } else {
+        let message = uncertainErr(thrown);
+        if(message) alert(message);
+      }
+    });
   }
 
-  _handleOut_btn(event) {
-    this.setState({ overBtnSubcate: false })
-  }
 }
 
 
