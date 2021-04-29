@@ -10,6 +10,8 @@ import TitleSubcate from '../TitleSubcate.jsx';
 import NavBtnRow from '../../NavFilter/NavBtnRow.jsx';
 import SvgCopy from '../../../../../Components/Svg/SvgIcon_Copy.jsx';
 import ModalEmit from '../../../../../Components/ModalEmit/ModalEmit.jsx';
+import ImgPreview from '../../../../../Components/ImgPreview.jsx';
+import NodesFilter from '../../../../../Components/NodesFilter/NodesFilter.jsx';
 import {
   FacebookShareButton,
   FacebookIcon,
@@ -39,15 +41,22 @@ class SubcateIntro extends React.Component {
       emit: false,
       usedNodes: [],
       fetchedUsedNodes: false,
-      onBtnSubcate: false
+      onBtnSubcate: false,
+      onShareLink: false,
+      onUnitImg: false
     };
     this.refHiddenText = React.createRef();
+    this.axiosSource = axios.CancelToken.source();
     this._set_emitModal = this._set_emitModal.bind(this);
+    this._set_usedNodes = this._set_usedNodes.bind(this);
+    this._render_imgUnits = this._render_imgUnits.bind(this);
+    this._handleEnter_Btn = this._handleEnter_Btn.bind(this);
+    this._handleLeave_Btn = this._handleLeave_Btn.bind(this);
     this._handleLeave_link = this._handleLeave_link.bind(this);
     this._handleEnter_link = this._handleEnter_link.bind(this);
+    this._handleEnter_UnitImg = this._handleEnter_UnitImg.bind(this);
+    this._handleLeave_UnitImg = this._handleLeave_UnitImg.bind(this);
     this._handleClick_pathCopy = this._handleClick_pathCopy.bind(this);
-    this._render_subcates = this._render_subcates.bind(this);
-    this._set_usedNodes = this._set_usedNodes.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -62,6 +71,47 @@ class SubcateIntro extends React.Component {
 
   }
 
+  _render_imgUnits(){
+    let toSearch = new URLSearchParams(this.props.location.search);
+    toSearch.set('unitView', "theater");
+    let imgUnitsDOM = this.props.subCatesObj[this.currentSubCate].unitsListBySerial.map((unitId, index)=>{
+      toSearch.set('unitId', unitId);
+      let imgSrcCover = domain.protocol+ '://'+domain.name+'/router/img/'+this.props.unitsBasic[unitId].pic_layer0+'?type=thumb';
+      return (
+        <Link
+          key={"key_subcate_imgUnits_" + index}
+          unitid={unitId}
+          to={{
+            pathname: this.props.location.pathname + '/unit',
+            search: toSearch.toString(),
+            state: {from: this.props.location}
+          }}
+          className={classnames(
+            'plainLinkButton',styles.boxUnitImg)}
+          onMouseEnter={this._handleEnter_UnitImg}
+          onMouseLeave={this._handleLeave_UnitImg}>
+          <div
+            className={classnames(styles.boxUnitImgMouseOff)}>
+            <ImgPreview
+              blockName={''}
+              previewSrc={imgSrcCover}
+              _handleClick_ImgPreview_preview={() => {  }} />
+          </div>
+          {
+            (this.state.onUnitImg == unitId) &&
+            <div
+              className={classnames(styles.boxUnitImgMouseOn)}>
+              <ImgPreview
+                blockName={''}
+                previewSrc={ imgSrcCover }
+                _handleClick_ImgPreview_preview={()=>{}}/>
+            </div>
+          }
+        </Link>
+      )
+    });
+    return imgUnitsDOM;
+  }
 
   render(){
     let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
@@ -71,11 +121,12 @@ class SubcateIntro extends React.Component {
     if(urlParams.has('subCate')){
       this.currentSubCate = urlParams.get('subCate');
     } else this.currentSubCate = false;
-    let sharedLink = domain.protocol+ '://'+domain.name + this.props.location.pathname
-    if(!!this.props.unitSubCate.first_unit) urlParams.set('unitId', this.props.unitSubCate.first_unit); // no unitSubCate.first_unit is possible
-    urlParams.set('unitView', "theater");
-    let searchString = urlParams.toString();
-    sharedLink = sharedLink + "?" + searchString;
+    let sharedPath = domain.protocol+ '://'+domain.name + this.props.location.pathname + '/unit';
+    let sharedSearch = new URLSearchParams(this.props.location.search); //we need value in URL query
+    sharedSearch.set('unitId', this.props.subCatesObj[this.currentSubCate].unitsListBySerial[0]);
+    sharedSearch.set('unitView', "theater");
+    let searchString = sharedSearch.toString();
+    let sharedLink = sharedPath + "?" + searchString;
 
     return (
       <div
@@ -101,7 +152,7 @@ class SubcateIntro extends React.Component {
                     return _axios_get_nodesUnits(this.axiosSource.token, {
                       nodesList: nodesList,
                       pathName: this.props.match.params['pathName'],
-                      filterSubCate: this.currentSubCate ? this.currentSubCate : null
+                      filterSubCate: this.currentSubCate
                     })
                   }}/>
               }
@@ -115,41 +166,37 @@ class SubcateIntro extends React.Component {
                   {...this.props}/>
               </div>
               <div
-                className={classnames(styles.boxEnd)}>
+                className={classnames(styles.boxOverview)}>
                 <div
-                  className={classnames(styles.boxEndTtitle)}>
-                  <span
-                    className={classnames("fontNodesEqual", "lineHeight15", "colorWhite")}>
-                    {this.props.i18nUIString.catalog['title_UnitSubcate_End_']}
-                  </span>
-                  <Link
-                    subcateid={this.currentSubCate}
-                    to={this.props.location}
-                    className={classnames('plainLinkButton')}
-                    style={{ display: 'inline-block' }}
-                    onMouseEnter={this._handleEnter_link}
-                    onMouseLeave={this._handleLeave_link}>
-                    {
-                      (this.currentSubCate in this.props.subCatesInfo.subCatesObj) &&
+                  className={classnames(styles.rowTitle)}>
+                  <div>
+                    <Link
+                      subcateid={this.currentSubCate}
+                      to={this.props.location}
+                      className={classnames('plainLinkButton')}
+                      style={{ display: 'inline-block' }}
+                      onMouseEnter={this._handleEnter_link}
+                      onMouseLeave={this._handleLeave_link}>
                       <span
                         className={classnames(
                           "fontNodesEqual", "weightBold", "colorEditBlack",
                           styles.spanLinkNode,
                           { [styles.spanLinkNodeMouse]: this.state.onBtnSubcate == this.currentSubCate }
                         )}>
-                        {"@" + this.props.subCatesInfo.subCatesObj[this.currentSubCate].name}
+                        {"@" + this.props.subCatesObj[this.currentSubCate].name}
                       </span>
-                    }
-                  </Link>
+                    </Link>
+                  </div>
+                  <div
+                    className={classnames(styles.boxEndGuiding)}>
+                    <span
+                      className={classnames("fontContentPlain", "colorWhite")}>
+                      {this.props.subCatesObj[this.currentSubCate].description}
+                    </span>
+                  </div>
                 </div>
                 <div
-                  className={classnames(styles.boxEndGuiding)}>
-                  <span
-                    className={classnames("fontContentPlain", "colorWhite")}>
-                    {"description about the subcate"}
-                  </span>
-                </div>
-                <div>
+                  className={classnames(styles.rowBtnMap)}>
                   <div>
                     <span>
                       {"route on map. "}
@@ -161,7 +208,7 @@ class SubcateIntro extends React.Component {
                   </div>
                 </div>
                 <div
-                  className={classnames(styles.rowShareNext)}>
+                  className={classnames(styles.rowOpen)}>
                   <div>
                     <span>
                       {"Open"}
@@ -181,7 +228,8 @@ class SubcateIntro extends React.Component {
                         iconFillColor={"#a3a3a3"}/>
                     </LineShareButton>
                   </div>
-                  <div>
+                  <div
+                    className={classnames(styles.boxIconLeft)}>
                     <FacebookShareButton
                       url={sharedLink}
                       className="Demo__some-network__share-button">
@@ -192,42 +240,36 @@ class SubcateIntro extends React.Component {
                     </FacebookShareButton>
                   </div>
                   <div
-                    className={classnames(styles.frameCopyBtn)}>
-                    <div style={{width: '100%', position: 'absolute',overflow:'hidden'}}>
+                    title={this.props.i18nUIString.catalog["tagTitle_PathProject_ShareLink"]}
+                    className={classnames()}
+                    onMouseEnter={this._handleEnter_Btn}
+                    onMouseLeave={this._handleLeave_Btn}
+                    onClick={this._handleClick_pathCopy}>
+                    <div
+                      className={classnames(styles.boxIconCopy)}>
+                      <SvgCopy
+                        customStyles={"{fill: " + (this.state.onShareLink? "#545454" : "#a3a3a3") + "}"}/>
+                    </div>
+                    {
+                      this.state.emit &&
+                      <div
+                        className={classnames(styles.boxModalEmit)}>
+                        <ModalEmit
+                          text={this.state.emit.text} />
+                      </div>
+                    }
+                    <div style={{width:"100%",position: 'absolute', overflow:'hidden'}}>
                       <input
                         ref={this.refHiddenText}
                         className={classnames(styles.boxHiddenText)}
                         value={sharedLink}
                         readOnly/>
                     </div>
-                    <div
-                      title={this.props.i18nUIString.catalog["tagTitle_UnitSubcate_End_CopyBtn"]}
-                      className={classnames(
-                        styles.boxCopyBtn
-                      )}
-                      onClick={this._handleClick_pathCopy}>
-                      <div
-                        className={classnames(styles.boxIconCopy)}>
-                        <SvgCopy
-                          customStyles={"{fill: #FFFFFF}"}/>
-                      </div>
-                      <span
-                        className={classnames(
-                          "fontSubtitle_h5", "colorWhite",
-                        )}>
-                        {this.props.i18nUIString.catalog['btn_UnitSubcate_End_CopyBtn']}
-                      </span>
-                      {
-                        this.state.emit &&
-                        <div
-                          className={classnames(styles.boxModalEmit)}>
-                          <ModalEmit
-                            text={this.state.emit.text} />
-                        </div>
-                      }
-                    </div>
                   </div>
                 </div>
+              </div>
+              <div>
+                {this._render_imgUnits()}
               </div>
             </div>
           )
@@ -297,6 +339,30 @@ class SubcateIntro extends React.Component {
     this.setState({ onBtnSubcate: false })
   }
 
+  _handleEnter_UnitImg(e) {
+    let unitId = e.currentTarget.getAttribute('unitid');
+    this.setState({ onUnitImg: unitId });
+  }
+
+  _handleLeave_UnitImg(e) {
+    this.setState({ onUnitImg: false })
+  }
+
+  _handleEnter_Btn(e){
+    this.setState((prevState, props)=>{
+      return {
+        onShareLink: true
+      }
+    })
+  }
+
+  _handleLeave_Btn(e){
+    this.setState((prevState, props)=>{
+      return {
+        onShareLink: false
+      }
+    })
+  }
 }
 
 

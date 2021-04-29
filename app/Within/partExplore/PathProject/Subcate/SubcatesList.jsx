@@ -27,7 +27,6 @@ class SubcatesList extends React.Component {
     };
     this.axiosSource = axios.CancelToken.source();
     this._set_subcatesBasic = this._set_subcatesBasic.bind(this);
-    this._render_subcate = this._render_subcate.bind(this);
     this._render_list = this._render_list.bind(this);
   }
 
@@ -45,18 +44,11 @@ class SubcatesList extends React.Component {
 
   }
 
-  _render_subcate(){
-
-    return (
-      <SubcateIntro
-        {...this.props}/>
-    );
-  }
-
   _render_list(){
     let subCatesDOM = this.state.subCatesList.map((subCateId, index)=>{
       return (
-        <div>
+        <div
+          key={"key_subcate_Nail_"+index}>
           <SubcateNail
             {...this.props}
             subCateId={subCateId}
@@ -80,9 +72,19 @@ class SubcatesList extends React.Component {
         className={classnames(styles.comSubcatesList)}>
         {
           this.currentSubCate ? (
-            this._render_subcate()
+            <div>
+              {
+                (this.currentSubCate in this.state.subCatesObj) &&
+                <SubcateIntro
+                  {...this.props}
+                  subCatesObj={this.state.subCatesObj}
+                  unitsBasic={this.state.unitsSubcateBasic}/>
+              }
+            </div>
           ): (
-            this._render_list()
+            <div>
+              {this._render_list()}
+            </div>
           )
         }
       </div>

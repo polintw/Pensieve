@@ -39,6 +39,7 @@ async function _handle_GET_paths_subcateBasic(req, res){
         subCateId: row.exposedId,
         name: row.name,
         unitsListBySerial: [],
+        description: row.description
       };
       subCatesIdList.push(row.id);
       subCatesIdRefer[row.id] = row.exposedId;
@@ -83,7 +84,7 @@ async function _handle_GET_paths_subcateBasic(req, res){
         let keys = Object.keys(subcatesUnits[subCateId]["serialRefer"]);
         let unitsExposedIdList = []; // list keep the desired ordered exposedId list
         for(let i =0; i < keys.length; i++){
-          let cycleUnitId = subcatesUnits[subCateId][i];
+          let cycleUnitId = subcatesUnits[subCateId]['serialRefer'][i];
           unitsExposedIdList.push(unitsIdRefer[cycleUnitId]);
         };
         subCatesObj[subCatesIdRefer[subCateId]].unitsListBySerial = unitsExposedIdList;

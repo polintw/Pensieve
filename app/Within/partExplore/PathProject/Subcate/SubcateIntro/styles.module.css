@@ -20,6 +20,71 @@
   box-shadow: 0px 4px 4px -4px rgb(84 84 84 / 45%);
 }
 
+.boxOverview {
+
+}
+
+.rowOpen {
+
+}
+
+.rowSocialIcons {
+
+}
+
+.rowBtnMap {
+
+}
+
+.rowTitle {
+
+}
+
+.boxIconCopy {
+  width: 22px;
+  height: 18px;
+  text-align: center;
+}
+
+.boxModalEmit {
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.boxHiddenText {
+  position: absolute;
+  left: 200%;
+}
+
+.boxUnitImg {
+  width: 29%;
+  height: 10vw;
+  position: relative;
+  margin: 8px 1%;
+  cursor: pointer;
+}
+
+.boxUnitImgMouseOff {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.boxUnitImgMouseOn {
+  width: 110%;
+  height: 105%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
+}
+
 @media screen and (max-width:860px) {
   .boxFooter {
     margin-bottom: 14vh;

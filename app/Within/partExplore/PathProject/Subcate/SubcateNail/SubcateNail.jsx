@@ -35,7 +35,9 @@ class SubcateNail extends React.Component {
     let imagesDOM = this.props.subCateInfo.unitsListBySerial.map((unitId, index)=>{
       let imgSrcCover = domain.protocol+ '://'+domain.name+'/router/img/'+this.props.unitsBasic[unitId].pic_layer0+'?type=thumb';
       return (
-        <div style={{
+        <div
+          key={"key_subcateNail_unitsImage_"+index}
+          style={{
             position: 'absolute', width:'100%', height: '100%', top: '0', left: '0',
             backgroundColor:'rgba(217, 232, 255, 0.15)',
             backgroundImage: 'url('+ imgSrcCover +')',
