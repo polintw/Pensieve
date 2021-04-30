@@ -127,7 +127,7 @@ class SubcateIntro extends React.Component {
     let sharedPath = domain.protocol+ '://'+domain.name + this.props.location.pathname + '/unit';
     let sharedSearch = new URLSearchParams(this.props.location.search); //we need value in URL query
     sharedSearch.set('unitId', this.props.subCatesObj[this.currentSubCate].unitsListBySerial[0]);
-    sharedSearch.set('unitView', "theater");
+    sharedSearch.set('unitView', "pathsubcate");
     let searchString = sharedSearch.toString();
     let sharedLink = sharedPath + "?" + searchString;
 

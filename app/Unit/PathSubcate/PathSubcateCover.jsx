@@ -20,23 +20,27 @@ import {
   domain
 } from '../../../config/services.js';
 
-class PathSubcateEnd extends React.Component {
+class PathSubcateCover extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       emit: false,
       hiddenUrl: '',
       onbtnCopy: false,
+      onbtnStart: false,
       onLinkSubcate: false
     };
     this.refHiddenText = React.createRef();
     this._set_emitModal = this._set_emitModal.bind(this);
     this._handleClick_linkSubcate = this._handleClick_linkSubcate.bind(this);
+    this._handleClick_linkStart = this._handleClick_linkStart.bind(this);
     this._handleClick_pathCopy = this._handleClick_pathCopy.bind(this);
     this._handleEnter_linkSubcate = this._handleEnter_linkSubcate.bind(this);
     this._handleLeave_linkSubcate = this._handleLeave_linkSubcate.bind(this);
     this._handleEnter_btnCopy = this._handleEnter_btnCopy.bind(this);
     this._handleLeave_btnCopy = this._handleLeave_btnCopy.bind(this);
+    this._handleEnter_btnStart = this._handleEnter_btnStart.bind(this);
+    this._handleLeave_btnStart = this._handleLeave_btnStart.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -54,10 +58,8 @@ class PathSubcateEnd extends React.Component {
 
   render(){
     let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
-    let sharedLink = domain.protocol+ '://'+domain.name + this.props.location.pathname
-    if(!!this.props.unitSubCate.first_unit) urlParams.set('unitId', this.props.unitSubCate.first_unit); // no unitSubCate.first_unit is possible
-    urlParams.set('unitView', "theater");
     let searchString = urlParams.toString();
+    let sharedLink = domain.protocol+ '://'+domain.name + this.props.location.pathname;
     sharedLink = sharedLink + "?" + searchString;
 
     return(
@@ -68,10 +70,6 @@ class PathSubcateEnd extends React.Component {
           onClick={(event) => { event.stopPropagation(); }}>
           <div
             className={classnames(styles.boxEndTtitle)}>
-            <span
-              className={classnames("fontNodesEqual", "lineHeight15", "colorWhite")}>
-              {this.props.i18nUIString.catalog['title_UnitSubcate_End_']}
-            </span>
             <Link
               to={''}
               onClick={this._handleClick_linkSubcate}
@@ -99,6 +97,34 @@ class PathSubcateEnd extends React.Component {
             </span>
           </div>
           <div
+            className={classnames(styles.rowShareNext)}>
+            <div
+              className={classnames(styles.frameNextBtn)}>
+              <div
+                title={this.props.i18nUIString.catalog["tagTitle_UnitSubcate_End_CopyBtn"]}
+                className={classnames(
+                  styles.boxCopyBtn,
+                  {[styles.boxCopyBtnActiv]: this.state.onbtnStart}
+                )}
+                onClick={this._handleClick_linkStart}
+                onTouchStart={this._handleEnter_btnStart}
+                onTouchEnd={this._handleLeave_btnStart}
+                onMouseEnter={this._handleEnter_btnStart}
+                onMouseLeave={this._handleLeave_btnStart}>
+                <span
+                  className={classnames(
+                    "fontSubtitle_h5", "colorWhite",
+                  )}>
+                  {this.props.i18nUIString.catalog['submit_Start']}
+                </span>
+                <div>
+                  <SubcateBtnNext
+                    {...this.props}/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
             className={classnames(styles.rowSocialIcons)}>
             <div
               className={classnames(styles.boxIconLeft)}>
@@ -121,9 +147,6 @@ class PathSubcateEnd extends React.Component {
                   iconFillColor={"#a3a3a3"}/>
               </FacebookShareButton>
             </div>
-          </div>
-          <div
-            className={classnames(styles.rowShareNext)}>
             <div
               className={classnames(styles.frameCopyBtn)}>
               <div style={{width: '100%', position: 'absolute',overflow:'hidden'}}>
@@ -149,12 +172,6 @@ class PathSubcateEnd extends React.Component {
                   <SvgCopy
                     customStyles={"{fill: #FFFFFF}"}/>
                 </div>
-                <span
-                  className={classnames(
-                    "fontSubtitle_h5", "colorWhite",
-                  )}>
-                  {this.props.i18nUIString.catalog['btn_UnitSubcate_End_CopyBtn']}
-                </span>
                 {
                   this.state.emit &&
                   <div
@@ -164,11 +181,6 @@ class PathSubcateEnd extends React.Component {
                   </div>
                 }
               </div>
-            </div>
-            <div
-              className={classnames(styles.frameNextBtn)}>
-              <SubcateBtnNext
-                {...this.props}/>
             </div>
           </div>
         </div>
@@ -192,13 +204,22 @@ class PathSubcateEnd extends React.Component {
   _handleClick_linkSubcate(event){
     event.preventDefault();
     event.stopPropagation();
-    if(!this.props.location.pathname.includes('explore/unit')){
-      // the browser, which do not know the origin it has was modified, need to be modified again to have the pratical history
-      window.history.replaceState(this.props.location.state, '', this.props.location.pathname+this.props.location.search);
-    };
     // and Notice! after the replaceState has been done
     // we re-assign to make sure to scroll, the unit would all reset
-    window.location.assign("/cosmic/explore/path/" + this.props.unitEntity.pathSubCate.currentPathProject + "?subCate=" + this.props.unitEntity.pathSubCate.currentSubCateId)
+    window.location.assign("/cosmic/explore/path/" + this.props.unitEntity.pathSubCate.currentPathProject + "?tab=pathsubcate&subCate=" + this.props.unitEntity.pathSubCate.currentSubCateId)
+  }
+
+  _handleClick_linkStart(event){
+    event.preventDefault();
+    event.stopPropagation();
+    //and Notice! history should be pushed after the replaceState has been done
+    let urlParams = new URLSearchParams(this.props.location.search);
+    urlParams.set('unitView', "theater");
+    this.props.history.push({
+      pathname: this.props.match.path, //should always be ".../unit" because we are always in a Unit here
+      search: urlParams.toString(),
+      state: {from: this.props.location}
+    });
   }
 
   _handleClick_pathCopy(event){
@@ -226,6 +247,14 @@ class PathSubcateEnd extends React.Component {
     this.setState({onbtnCopy: false})
   }
 
+  _handleEnter_btnStart(e){
+    this.setState({onbtnStart: true})
+  }
+
+  _handleLeave_btnStart(e){
+    this.setState({onbtnStart: false})
+  }
+
 }
 
 const mapStateToProps = (state)=>{
@@ -245,4 +274,4 @@ const mapDispatchToProps = (dispatch)=>{
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(PathSubcateEnd));
+)(PathSubcateCover));

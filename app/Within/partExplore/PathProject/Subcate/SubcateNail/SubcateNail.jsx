@@ -47,7 +47,7 @@ class SubcateNail extends React.Component {
   render(){
     let toSearch = new URLSearchParams(this.props.location.search); //we need value in URL query
     toSearch.set("subCate", this.props.subCateId);
-    toSearch.set('unitView', "theater");
+    toSearch.set('unitView', "pathsubcate");
     toSearch.set('unitId', this.props.subCateInfo.unitsListBySerial[0]);
     let linkPath = this.props.location.pathname +  '/unit';
 

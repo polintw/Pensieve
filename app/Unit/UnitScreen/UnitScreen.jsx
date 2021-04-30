@@ -9,7 +9,7 @@ import classnames from 'classnames';
 import styles from './styles.module.css';
 import Theater from '../Theater/Theater.jsx';
 import Related from '../Related/Related.jsx';
-import PathSubcateEnd from '../PathSubcateEnd/PathSubcateEnd.jsx'
+import PathSubcate from '../PathSubcate/PathSubcate.jsx'
 import SharedEdit from '../Editing/SharedEdit.jsx';
 import CreateRespond from '../Editing/CreateRespond.jsx';
 import {
@@ -198,9 +198,9 @@ class UnitScreen extends React.Component {
             _close_theaterHeigher={this._close_modal_Unit}/>
         )
         break;
-      case 'pathSubCateEnd':
+      case 'pathsubcate':
         return (
-          <PathSubcateEnd
+          <PathSubcate
             {...this.props}
             _reset_UnitMount={this._reset_UnitMount}
             _close_theaterHeigher={this._close_modal_Unit}/>
@@ -274,7 +274,7 @@ class UnitScreen extends React.Component {
           onClose={()=>{this._close_modal_Unit();}}
           style={{
             position: "fixed",
-            backgroundColor: (paramUnitView=="related" || paramUnitView=="respond" || paramUnitView=="pathSubCateEnd") ? 'rgba(51, 51, 51, 0.85)': 'rgba(51, 51, 51, 0.3)' }}>
+            backgroundColor: (paramUnitView=="related" || paramUnitView=="respond" || paramUnitView=="pathsubcate") ? 'rgba(51, 51, 51, 0.85)': 'rgba(51, 51, 51, 0.3)' }}>
             {
               (cssVW < 860) &&
               <div
