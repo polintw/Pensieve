@@ -48,7 +48,8 @@ class SubcatesList extends React.Component {
     let subCatesDOM = this.state.subCatesList.map((subCateId, index)=>{
       return (
         <div
-          key={"key_subcate_Nail_"+index}>
+          key={"key_subcate_Nail_"+index}
+          className={classnames(styles.boxListItem)}>
           <SubcateNail
             {...this.props}
             subCateId={subCateId}
@@ -67,12 +68,22 @@ class SubcatesList extends React.Component {
     if(urlParams.has('subCate')){
       this.currentSubCate = urlParams.get('subCate');
     } else this.currentSubCate = false;
+    if(urlParams.has('_filter_map')){
+      this.viewFilter = true;
+    } else this.viewFilter = false;
     return (
       <div
         className={classnames(styles.comSubcatesList)}>
         {
           this.currentSubCate ? (
-            <div>
+            <div
+              className={classnames(
+                styles.boxSubcateIntro,
+                {
+                  [styles.widthSubcateIntroWide]: this.viewFilter,
+                  [styles.widthSubcateIntro]: !this.viewFilter,
+                }
+              )}>
               {
                 (this.currentSubCate in this.state.subCatesObj) &&
                 <SubcateIntro
@@ -82,11 +93,13 @@ class SubcatesList extends React.Component {
               }
             </div>
           ): (
-            <div>
+            <div
+              className={classnames(styles.boxSubcatesList)}>
               {this._render_list()}
             </div>
           )
         }
+        <div className={classnames(styles.boxFooter)}/>
       </div>
     )
   }

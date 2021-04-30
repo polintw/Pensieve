@@ -1,37 +1,59 @@
 .comSubcatesList {
   display: flex;
-  flex: 1;
-  justify-content: flex-end;
+  flex-direction: column;
+  width: 100%;
 }
 
-.linkSubcate {
+.boxSubcatesList {
   display: flex;
-  margin: 0 5px 0 0;
-  padding: 4px 8px;
-  border-radius: 8px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  position: relative;
 }
 
-.mouseovlinkSubcate {
-  background-color: rgb(216,216,216,0.15);
-  cursor: pointer;
+.boxListItem {
+  width: 48%;
+  min-width: 32.92vw; /* refer to NailFeed, 30.16 + 1.38*2; max-width the same */
+  max-width: 99vw;
+  height: 329px; /* refer to NailFeed, 289px + 20px*2 */
+  min-height: 36.675vh;
+  position: relative;
+  box-sizing: border-box;
+  margin: 8px 0;
 }
 
-.boxSubcateClose {
-  width: 15px;
-  padding: 2.5px 0;
-  text-align: center;
-  cursor: pointer;
+.boxSubcateIntro {
+  align-self: center;
+  min-height: 70vh;
 }
 
-.rowTitleMargin {
-  margin: 8px 0 0;
+.widthSubcateIntro {
+  width: 81%;
 }
 
-.rowTitlePadding {
-  padding-bottom: 2.538vh;
-  border-bottom: 1px solid #d8d8d8;
+.widthSubcateIntroWide {
+  width: 100%;
 }
+
+.boxFooter {
+  width: 100%;
+  position: relative;
+  padding-top: 2rem;
+  margin-bottom: 36vh;
+}
+
 
 @media screen and (max-width:860px) {
+  .boxListItem {
+    width: 100%;
+  }
 
+  .boxSubcateIntro {
+    width: 100%;
+  }
+
+  .boxFooter {
+    margin-bottom: 14vh;
+  }
 }

@@ -90,11 +90,11 @@ class SubcateIntro extends React.Component {
             state: {from: this.props.location}
           }}
           className={classnames(
-            'plainLinkButton',styles.boxUnitImg)}
+            'plainLinkButton',styles.boxImg)}
           onMouseEnter={this._handleEnter_UnitImg}
           onMouseLeave={this._handleLeave_UnitImg}>
           <div
-            className={classnames(styles.boxUnitImgMouseOff)}>
+            className={classnames(styles.boxImgMouseOff)}>
             <ImgPreview
               blockName={''}
               previewSrc={imgSrcCover}
@@ -103,7 +103,7 @@ class SubcateIntro extends React.Component {
           {
             (this.state.onUnitImg == unitId) &&
             <div
-              className={classnames(styles.boxUnitImgMouseOn)}>
+              className={classnames(styles.boxImgMouseOn)}>
               <ImgPreview
                 blockName={''}
                 previewSrc={ imgSrcCover }
@@ -139,7 +139,8 @@ class SubcateIntro extends React.Component {
             <div
               className={classnames(styles.boxNodesFilter)}>
               <div
-                className={classnames(styles.boxTitleSubcate)}>
+                className={classnames(styles.boxTitleSubcate)}
+                style={{boxShadow: "0px 4px 4px -4px rgb(84 84 84 / 45%)"}}>
                 <TitleSubcate
                   {...this.props}/>
               </div>
@@ -159,20 +160,22 @@ class SubcateIntro extends React.Component {
                     })
                   }}/>
               }
-              <div className={classnames(styles.boxFooter)}/>
             </div>
           ):(
-            <div>
+            <div
+              className={classnames(styles.boxIntro)}>
               <div
-                className={classnames(styles.boxTitleSubcate)}>
+                className={classnames(styles.boxTitleSubcate)}
+                style={{paddingBottom: '4px'}}>
                 <TitleSubcate
                   {...this.props}/>
               </div>
               <div
                 className={classnames(styles.boxOverview)}>
                 <div
-                  className={classnames(styles.rowTitle)}>
-                  <div>
+                  className={classnames(styles.boxIntroText)}>
+                  <div
+                    className={classnames(styles.boxSubcateTitle)}>
                     <Link
                       subcateid={this.currentSubCate}
                       to={this.props.location}
@@ -182,111 +185,123 @@ class SubcateIntro extends React.Component {
                       onMouseLeave={this._handleLeave_link}>
                       <span
                         className={classnames(
-                          "fontNodesEqual", "weightBold", "colorEditBlack",
-                          styles.spanLinkNode,
-                          { [styles.spanLinkNodeMouse]: this.state.onBtnSubcate == this.currentSubCate }
-                        )}>
-                        {"@" + this.props.subCatesObj[this.currentSubCate].name}
+                          "fontNodesEqual", "weightBold", "colorEditBlack")}>
+                        {"@"}
+                      </span>
+                      <span
+                        className={classnames(
+                          "fontNodesEqual", "weightBold", "colorEditBlack")}>
+                        {this.props.subCatesObj[this.currentSubCate].name}
                       </span>
                     </Link>
                   </div>
                   <div
                     className={classnames(styles.boxEndGuiding)}>
                     <span
-                      className={classnames("fontContentPlain", "colorWhite")}>
+                      className={classnames("fontContentPlain", "colorEditBlack")}>
                       {this.props.subCatesObj[this.currentSubCate].description}
                     </span>
                   </div>
                 </div>
                 <div
-                  className={classnames(styles.rowBtnMap)}>
-                  <div>
-                    <span>
-                      {"route on map. "}
-                    </span>
-                  </div>
-                  <div>
-                    <NavBtnRow
-                      {...this.props}/>
-                  </div>
-                </div>
-                <div
-                  className={classnames(styles.rowOpen)}>
-                  <Link
-                    to={{
-                      pathname: this.props.location.pathname + '/unit',
-                      search: searchString,
-                      state: {from: this.props.location}
-                    }}
-                    className={classnames(
-                      'plainLinkButton',
-                    )}
-                    onTouchStart={this._handleEnter_btnOpen}
-                    onTouchEnd={this._handleLeave_btnOpen}
-                    onMouseOver={this._handleEnter_btnOpen}
-                    onMouseOut={this._handleLeave_btnOpen}>
-                    <span
-                      className={classnames(
-                        "fontSubtitle_h5", "colorWhite",
-                      )}>
-                      {this.props.i18nUIString.catalog['submit_Open']}
-                    </span>
-                  </Link>
-                </div>
-                <div
-                  className={classnames(styles.rowSocialIcons)}>
+                  className={classnames(styles.boxIntroAction)}>
                   <div
-                    className={classnames(styles.boxIconLeft)}>
-                    <LineShareButton
-                      url={sharedLink}
-                      className="Demo__some-network__share-button">
-                      <LineIcon
-                        size={32} round
-                        bgStyle={{fill: "transparent"}}
-                        iconFillColor={"#a3a3a3"}/>
-                    </LineShareButton>
-                  </div>
-                  <div
-                    className={classnames(styles.boxIconLeft)}>
-                    <FacebookShareButton
-                      url={sharedLink}
-                      className="Demo__some-network__share-button">
-                      <FacebookIcon
-                        size={32} round
-                        bgStyle={{fill: "transparent"}}
-                        iconFillColor={"#a3a3a3"}/>
-                    </FacebookShareButton>
-                  </div>
-                  <div
-                    title={this.props.i18nUIString.catalog["tagTitle_PathProject_ShareLink"]}
-                    className={classnames()}
-                    onMouseEnter={this._handleEnter_CopyBtn}
-                    onMouseLeave={this._handleLeave_CopyBtn}
-                    onClick={this._handleClick_pathCopy}>
-                    <div
-                      className={classnames(styles.boxIconCopy)}>
-                      <SvgCopy
-                        customStyles={"{fill: " + (this.state.onLinkCopy? "#545454" : "#a3a3a3") + "}"}/>
+                    className={classnames(styles.rowBtnMap)}>
+                    <div>
+                      <span>
+                        {"route on map. "}
+                      </span>
                     </div>
-                    {
-                      this.state.emit &&
+                    <div>
+                      <NavBtnRow
+                        {...this.props}/>
+                    </div>
+                  </div>
+                  <div
+                    className={classnames(styles.rowOpen)}>
+                    <Link
+                      to={{
+                        pathname: this.props.location.pathname + '/unit',
+                        search: searchString,
+                        state: {from: this.props.location}
+                      }}
+                      className={classnames(
+                        'plainLinkButton',
+                      )}
+                      onTouchStart={this._handleEnter_btnOpen}
+                      onTouchEnd={this._handleLeave_btnOpen}
+                      onMouseOver={this._handleEnter_btnOpen}
+                      onMouseOut={this._handleLeave_btnOpen}>
+                      <span
+                        className={classnames(
+                          "fontSubtitle_h5", "colorWhite",
+                        )}>
+                        {this.props.i18nUIString.catalog['submit_Open']}
+                      </span>
+                    </Link>
+                  </div>
+                  <div
+                    className={classnames(styles.rowSocialIcons)}>
+                    <div
+                      className={classnames(styles.boxIconLeft)}>
+                      <LineShareButton
+                        url={sharedLink}
+                        className="Demo__some-network__share-button">
+                        <LineIcon
+                          size={32} round
+                          bgStyle={{fill: "transparent"}}
+                          iconFillColor={"#a3a3a3"}/>
+                      </LineShareButton>
+                    </div>
+                    <div
+                      className={classnames(styles.boxIconLeft)}>
+                      <FacebookShareButton
+                        url={sharedLink}
+                        className="Demo__some-network__share-button">
+                        <FacebookIcon
+                          size={32} round
+                          bgStyle={{fill: "transparent"}}
+                          iconFillColor={"#a3a3a3"}/>
+                      </FacebookShareButton>
+                    </div>
+                    <div
+                      title={this.props.i18nUIString.catalog["tagTitle_PathProject_ShareLink"]}
+                      className={classnames()}
+                      onMouseEnter={this._handleEnter_CopyBtn}
+                      onMouseLeave={this._handleLeave_CopyBtn}
+                      onClick={this._handleClick_pathCopy}>
                       <div
-                        className={classnames(styles.boxModalEmit)}>
-                        <ModalEmit
-                          text={this.state.emit.text} />
+                        className={classnames(styles.boxIconCopy)}>
+                        <SvgCopy
+                          customStyles={"{fill: " + (this.state.onLinkCopy? "#545454" : "#a3a3a3") + "}"}/>
                       </div>
-                    }
-                    <div style={{width:"100%",position: 'absolute', overflow:'hidden'}}>
-                      <input
-                        ref={this.refHiddenText}
-                        className={classnames(styles.boxHiddenText)}
-                        value={sharedLink}
-                        readOnly/>
+                      <span
+                        className={classnames(
+                          "fontSubtitle_h5", "colorWhite",
+                        )}>
+                        {this.props.i18nUIString.catalog['btn_UnitSubcate_End_CopyBtn']}
+                      </span>
+                      {
+                        this.state.emit &&
+                        <div
+                          className={classnames(styles.boxModalEmit)}>
+                          <ModalEmit
+                            text={this.state.emit.text} />
+                        </div>
+                      }
+                      <div style={{width:"100%",position: 'absolute', overflow:'hidden'}}>
+                        <input
+                          ref={this.refHiddenText}
+                          className={classnames(styles.boxHiddenText)}
+                          value={sharedLink}
+                          readOnly/>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div>
+              <div
+                className={classnames(styles.boxImgUnits)}>
                 {this._render_imgUnits()}
               </div>
             </div>

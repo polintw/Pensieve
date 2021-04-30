@@ -37,15 +37,8 @@ class SubcateNail extends React.Component {
       return (
         <div
           key={"key_subcateNail_unitsImage_"+index}
-          style={{
-            position: 'absolute', width:'100%', height: '100%', top: '0', left: '0',
-            backgroundColor:'rgba(217, 232, 255, 0.15)',
-            backgroundImage: 'url('+ imgSrcCover +')',
-            backgroundSize: 'cover',
-            backgroundPosition: '50% 50%',
-            backgroundRepeat: 'no-repeat',
-            opacity: '0.18'
-          }}/>
+          className={classnames(styles.boxImgContainer)}
+          style={{backgroundImage: 'url('+ imgSrcCover +')'}}/>
       );
     });
     return imagesDOM;
@@ -75,18 +68,25 @@ class SubcateNail extends React.Component {
           onTouchEnd={this._handleOut_btn}
           onMouseOver={this._handleOver_btn}
           onMouseOut={this._handleOut_btn}>
-          <div>
+          <div
+            className={classnames(styles.boxSubcateTitle)}>
             <span
               className={classnames(
-                "fontContentPlain", "weightBold",
+                "fontNodesEqual", "weightBold",
               )}>
-              {"@" + this.props.subCateInfo.name}
+              {"@"}
+            </span>
+            <span
+              className={classnames(
+                "fontNodesEqual", "weightBold",
+              )}>
+              { this.props.subCateInfo.name }
             </span>
           </div>
           <div
-            className={classnames(styles.boxNail)}>
+            className={classnames(styles.boxImgsNail)}>
             <div
-              className={styles.boxImg}>
+              className={styles.boxImgsFrame}>
               {this._render_nailImages()}
             </div>
           </div>

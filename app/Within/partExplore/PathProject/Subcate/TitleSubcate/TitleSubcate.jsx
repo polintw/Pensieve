@@ -135,7 +135,8 @@ class TitleSubcate extends React.Component {
               {this._render_resetWithTitle()}
             </div>
           ): (
-            <div>
+            <div
+              className={classnames(styles.boxResetLink)}>
               {this._render_resetLink()}
             </div>
           )
