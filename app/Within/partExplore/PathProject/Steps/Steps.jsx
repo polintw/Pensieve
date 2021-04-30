@@ -52,24 +52,26 @@ class Steps extends React.Component {
       <Feed
         {...this.props}/>
     ) : (
-      <div
-        className={classnames(styles.boxNodesFilter)}>
-        {
-          this.state.fetchedUsedNodes &&
-          <NodesFilter
-            {...this.props}
-            startNode = {this.state.filterStart}
-            startList={this.state.usedNodes}
-            _handle_nodeClick={()=>{ /* Do nothing. */ }}
-            _get_nodesUnitsList={(nodesList)=>{
-              // return a promise() to NodesFilter
-              return _axios_get_nodesUnits(this.axiosSource.token, {
-                nodesList: nodesList,
-                pathName: this.props.match.params['pathName'],
-                filterSubCate: null
-              })
-            }}/>
-        }
+      <div>
+        <div
+          className={classnames(styles.boxNodesFilter)}>
+          {
+            this.state.fetchedUsedNodes &&
+            <NodesFilter
+              {...this.props}
+              startNode = {this.state.filterStart}
+              startList={this.state.usedNodes}
+              _handle_nodeClick={()=>{ /* Do nothing. */ }}
+              _get_nodesUnitsList={(nodesList)=>{
+                // return a promise() to NodesFilter
+                return _axios_get_nodesUnits(this.axiosSource.token, {
+                  nodesList: nodesList,
+                  pathName: this.props.match.params['pathName'],
+                  filterSubCate: null
+                })
+              }}/>
+            }
+        </div>
         <div className={classnames(styles.boxFooter)}/>
       </div>
     );
@@ -89,8 +91,11 @@ class Steps extends React.Component {
         className={classnames(styles.comSteps)}>
         <div
           className={classnames(
-            styles.rowTitleMargin,
-            {[styles.rowTitlePadding]: (!!this.filterNode)})}>
+            {
+              [styles.boxTitleFilter]: !this.filterNode,
+              [styles.boxTitleNode]: !!this.filterNode,
+              [styles.rowTitlePadding]: (!!this.filterNode),
+            })}>
           <NavTitleRow
             {...this.props}/>
         </div>

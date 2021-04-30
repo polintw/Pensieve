@@ -90,12 +90,6 @@ class Wrapper extends React.Component {
         return (
           <div
             className={classnames(styles.boxTab)}>
-            <div>
-              <SuggestNodes
-                {...this.props}
-                listLocation={"pathProject"}
-                listIdentity={this.props.match.params['pathName']}/>
-            </div>
             <Feed
               {...this.props}/>
           </div>
@@ -156,8 +150,7 @@ class Wrapper extends React.Component {
           <div
             className={classnames(styles.boxRowNav)}>
             <div
-              className={classnames(styles.boxTitle)}
-              style={{marginTop: '4px'}}>
+              className={classnames(styles.boxTitle)}>
               <NavFeed
                 {...this.props}/>
             </div>

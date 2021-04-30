@@ -69,19 +69,26 @@ class SubcateNail extends React.Component {
           onMouseOver={this._handleOver_btn}
           onMouseOut={this._handleOut_btn}>
           <div
-            className={classnames(styles.boxSubcateTitle)}>
-            <span
-              className={classnames(
-                "fontNodesEqual", "weightBold",
-              )}>
-              {"@"}
-            </span>
-            <span
-              className={classnames(
-                "fontNodesEqual", "weightBold",
-              )}>
-              { this.props.subCateInfo.name }
-            </span>
+            className={classnames(styles.boxSubcateText)}>
+            <div
+              className={classnames(styles.boxSubcateTitle)}>
+              <span
+                className={classnames(
+                  "fontNodesEqual", "weightBold",
+                )}>
+                {"@"}
+              </span>
+              <span
+                className={classnames(
+                  "fontNodesEqual", "weightBold",
+                )}>
+                { this.props.subCateInfo.name }
+              </span>
+            </div>
+            <div
+              className={classnames(styles.boxSubcateDescript)}>
+              {this.props.subCateInfo.description}
+            </div>
           </div>
           <div
             className={classnames(styles.boxImgsNail)}>

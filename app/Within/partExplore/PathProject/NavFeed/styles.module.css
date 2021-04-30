@@ -1,4 +1,26 @@
 .comNavFeed {
   display: flex;
-  flex-wrap: wrap;
+}
+
+.linkNavFeed {
+  margin-right: 15px;
+  padding-right: 15px;
+}
+/* after linkNavFeed */
+.linkNavFeedSide {
+  border-right: 1px solid #b8b8b8;
+}
+
+.linkNavFeedTabOn {
+  cursor: text;
+}
+
+.spanLink {
+  display: inline-block;
+  border-bottom: 0.75px solid transparent;
+}
+
+.spanLinkMouseOn {
+  display: inline-block;
+  border-bottom: 0.75px solid #545454;
 }

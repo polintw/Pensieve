@@ -11,9 +11,11 @@ class NavFeed extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      onLink: false
     };
     this._render_navTab = this._render_navTab.bind(this);
+    this._handleEnter_linkNavFeed = this._handleEnter_linkNavFeed.bind(this);
+    this._handleLeave_linkNavFeed = this._handleLeave_linkNavFeed.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -69,16 +71,29 @@ class NavFeed extends React.Component {
         <Link
           key={"key_pathNavFeed_tab_"+i18nKey}
           to={linkObj}
-          className={classnames('plainLinkButton')}
-          style={{paddingTop: "4px"}}>
+          className={classnames(
+            'plainLinkButton', styles.linkNavFeed,
+            {
+              [styles.linkNavFeedSide]: (i18nKey == 'tab_Steps'),
+              [styles.linkNavFeedTabOn]: currentOn
+            }
+          )}>
           <span
+            link={i18nKey}
             className={classnames(
               "fontContentPlain", "weightBold",
               {
                 ["colorAssistGold"]: currentOn,
-                ["colorWhiteGrey"]: !currentOn
+                ["colorWhiteGrey"]: (!currentOn && (this.state.onLink !=  i18nKey)),
+                ["colorEditBlack"]: (!currentOn && (this.state.onLink ==  i18nKey)),
+                [styles.spanLink]: this.state.onLink !=  i18nKey,
+                [styles.spanLinkMouseOn]: (!currentOn && (this.state.onLink ==  i18nKey)),
               }
-            )}>
+            )}
+            onTouchStart={this._handleEnter_linkNavFeed}
+            onTouchEnd={this._handleLeave_linkNavFeed}
+            onMouseEnter={this._handleEnter_linkNavFeed}
+            onMouseLeave={this._handleLeave_linkNavFeed}>
             { this.props.i18nUIString.catalog[i18nKey] }
           </span>
         </Link>
@@ -102,6 +117,22 @@ class NavFeed extends React.Component {
     )
   }
 
+  _handleEnter_linkNavFeed(e){
+    let currentLink = e.currentTarget.getAttribute('link');
+    this.setState((prevState, props)=>{
+      return {
+        onLink: currentLink
+      }
+    })
+  }
+
+  _handleLeave_linkNavFeed(e){
+    this.setState((prevState, props)=>{
+      return {
+        onLink: false
+      }
+    })
+  }
 }
 
 const mapStateToProps = (state)=>{
