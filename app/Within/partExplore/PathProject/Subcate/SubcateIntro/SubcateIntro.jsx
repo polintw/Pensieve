@@ -58,7 +58,7 @@ class SubcateIntro extends React.Component {
     this._handleLeave_link = this._handleLeave_link.bind(this);
     this._handleEnter_UnitImg = this._handleEnter_UnitImg.bind(this);
     this._handleLeave_UnitImg = this._handleLeave_UnitImg.bind(this);
-    this._handleLeave_btnOpen = this._handleLeave_btnOpen.bind(this);
+    this._handleEnter_btnOpen = this._handleEnter_btnOpen.bind(this);
     this._handleLeave_btnOpen = this._handleLeave_btnOpen.bind(this);
   }
 

@@ -7,8 +7,9 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
-import PathSubcateCover from '../PathSubcate/PathSubcateCover.jsx'
-import PathSubcateEnd from '../PathSubcate/PathSubcateEnd.jsx'
+import PathSubcateCover from './PathSubcateCover.jsx'
+import PathSubcateEnd from './PathSubcateEnd.jsx'
+import SubcateBtnNext from '../Entity/SubcateBtnNext.jsx';
 
 class PathSubcate extends React.Component {
   constructor(props){
@@ -36,7 +37,23 @@ class PathSubcate extends React.Component {
     let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
     const currentUnit = urlParams.get("unitId"); // use 'const' to prevent change at followed step
 
-    if(currentUnit == this.props.unitSubCate.first_unit){
+    if(!this.props.unitSubCate.next_confirm){
+      return (
+        <div
+          className={classnames(styles.boxPathSubcateCenter)}>
+          <div
+            className={classnames(styles.boxPathSubcateBackBoard)}
+            style={{width: '50vw', height: '30vh'}}>
+          </div>
+          <div
+            className={classnames(styles.boxHiddenBtnNext)}>
+            <SubcateBtnNext
+              {...this.props}/>
+          </div>
+        </div>
+      )
+    }
+    else if(currentUnit == this.props.unitSubCate.first_unit){
       return(
         <div
           className={classnames(styles.comPathSubcate)}>

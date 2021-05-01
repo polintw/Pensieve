@@ -27,7 +27,7 @@ class PathSubcateCover extends React.Component {
       emit: false,
       hiddenUrl: '',
       onbtnCopy: false,
-      onbtnStart: false,
+      onbtnContinue: false,
     };
     this.refHiddenText = React.createRef();
     this._set_emitModal = this._set_emitModal.bind(this);
@@ -67,14 +67,14 @@ class PathSubcateCover extends React.Component {
             styles.boxPathSubcateBackBoard, styles.boxCover)}
           onClick={(event) => { event.stopPropagation(); }}>
           <div
-            className={classnames(styles.boxEndTtitle)}>
+            className={classnames(styles.boxCoverTtitle)}>
             <Link
               to={this.props.location}
               className={classnames('plainLinkButton')}
               style={{ display: 'inline-block', cursor: "text" }}>
               <span
                 className={classnames(
-                  "fontNodesEqual",
+                  "fontTitleBig",
                   styles.spanLinkSubcate,
                 )}>
                 {"@" + this.props.unitEntity.pathSubCate.currentSubcateObj["name"] + "!"}
@@ -82,21 +82,20 @@ class PathSubcateCover extends React.Component {
             </Link>
           </div>
           <div
-            className={classnames(styles.boxEndGuiding)}>
+            className={classnames(styles.boxCoverSubtitle)}>
             <span
               className={classnames("fontContentPlain", "colorWhite")}>
               {this.props.unitEntity.pathSubCate.currentSubcateObj['description']}
             </span>
           </div>
           <div
-            className={classnames(styles.rowShareNext)}>
-            <div
-              className={classnames(styles.frameNextBtn)}>
+            className={classnames(styles.rowContinue)}>
+            <div>
               <div
                 title={this.props.i18nUIString.catalog["tagTitle_UnitSubcate_End_CopyBtn"]}
                 className={classnames(
-                  styles.boxCopyBtn,
-                  {[styles.boxCopyBtnActiv]: this.state.onbtnStart}
+                  styles.boxNextBtn,
+                  {[styles.boxNextBtnActiv]: this.state.onbtnContinue}
                 )}
                 onClick={this._handleClick_linkStart}
                 onTouchStart={this._handleEnter_btnStart}
@@ -107,9 +106,10 @@ class PathSubcateCover extends React.Component {
                   className={classnames(
                     "fontSubtitle_h5", "colorWhite",
                   )}>
-                  {this.props.i18nUIString.catalog['submit_Start']}
+                  {this.props.i18nUIString.catalog['submit_Continue']}
                 </span>
-                <div>
+                <div
+                  className={classnames(styles.boxHiddenBtnNext)}>
                   <SubcateBtnNext
                     {...this.props}/>
                 </div>
@@ -117,7 +117,7 @@ class PathSubcateCover extends React.Component {
             </div>
           </div>
           <div
-            className={classnames(styles.rowSocialIcons)}>
+            className={classnames(styles.rowActionIcons)}>
             <div
               className={classnames(styles.boxIconLeft)}>
               <LineShareButton
@@ -129,7 +129,8 @@ class PathSubcateCover extends React.Component {
                   iconFillColor={"#a3a3a3"}/>
               </LineShareButton>
             </div>
-            <div>
+            <div
+              className={classnames(styles.boxIconLeft)}>
               <FacebookShareButton
                 url={sharedLink}
                 className="Demo__some-network__share-button">
@@ -140,7 +141,7 @@ class PathSubcateCover extends React.Component {
               </FacebookShareButton>
             </div>
             <div
-              className={classnames(styles.frameCopyBtn)}>
+              className={classnames(styles.frameCoverCopyBtn)}>
               <div style={{width: '100%', position: 'absolute',overflow:'hidden'}}>
                 <input
                   ref={this.refHiddenText}
@@ -150,19 +151,16 @@ class PathSubcateCover extends React.Component {
               </div>
               <div
                 title={this.props.i18nUIString.catalog["tagTitle_UnitSubcate_End_CopyBtn"]}
-                className={classnames(
-                  styles.boxCopyBtn,
-                  {[styles.boxCopyBtnActiv]: this.state.onbtnCopy}
-                )}
+                className={classnames(styles.boxCoverCopyBtn)}
                 onClick={this._handleClick_pathCopy}
                 onTouchStart={this._handleEnter_btnCopy}
                 onTouchEnd={this._handleLeave_btnCopy}
                 onMouseEnter={this._handleEnter_btnCopy}
                 onMouseLeave={this._handleLeave_btnCopy}>
                 <div
-                  className={classnames(styles.boxIconCopy)}>
+                  className={classnames(styles.boxSvgCoverCopy)}>
                   <SvgCopy
-                    customStyles={"{fill: #FFFFFF}"}/>
+                    customStyles={this.state.onbtnCopy ? "{fill: #FFFFFF}": "{fill: #a3a3a3}"}/>
                 </div>
                 {
                   this.state.emit &&
@@ -224,11 +222,11 @@ class PathSubcateCover extends React.Component {
   }
 
   _handleEnter_btnStart(e){
-    this.setState({onbtnStart: true})
+    this.setState({onbtnContinue: true})
   }
 
   _handleLeave_btnStart(e){
-    this.setState({onbtnStart: false})
+    this.setState({onbtnContinue: false})
   }
 
 }

@@ -123,6 +123,7 @@ const i18nUIString_EN = {
   "submit_logout": "Log out",
   "submit_unitPublish": "Publish",
   "submit_Options_profile": "Profile",
+  "submit_Continue": "Continue",
   "title_welcome": 'OnBoard',
   "title_instruction": "Instruction",
   "title_share": "Share",
