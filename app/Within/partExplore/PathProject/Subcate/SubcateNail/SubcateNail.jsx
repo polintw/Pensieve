@@ -14,8 +14,10 @@ class SubcateNail extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      overBtnSubcate: false
+      overNail: false
     };
+    this._handleOut_btn = this._handleOut_btn.bind(this);
+    this._handleOver_btn = this._handleOver_btn.bind(this);
     this._render_nailImages = this._render_nailImages.bind(this);
   }
 
@@ -62,8 +64,8 @@ class SubcateNail extends React.Component {
           }}
           className={classnames(
             'plainLinkButton', styles.linkSubcate,
+            {[styles.linkSubcateMouseOver]: this.state.overNail}
           )}
-          subcateid={this.props.subCateId}
           onTouchStart={this._handleOver_btn}
           onTouchEnd={this._handleOut_btn}
           onMouseOver={this._handleOver_btn}
@@ -74,24 +76,36 @@ class SubcateNail extends React.Component {
               className={classnames(styles.boxSubcateTitle)}>
               <span
                 className={classnames(
-                  "fontNodesEqual", "weightBold",
+                  "fontNodesEqual", "weightBold", 'lineHeight15',
+                  {
+                    ['colorGrey']: !this.state.overNail,
+                    ['colorEditBlack']: this.state.overNail,
+                  }
                 )}>
                 {"@"}
               </span>
               <span
                 className={classnames(
-                  "fontNodesEqual", "weightBold",
+                  "fontNodesEqual", "weightBold", 'lineHeight15', 'colorEditBlack'
                 )}>
                 { this.props.subCateInfo.name }
               </span>
             </div>
             <div
               className={classnames(styles.boxSubcateDescript)}>
-              {this.props.subCateInfo.description}
+              <span
+                className={classnames(
+                  "fontContentPlain", 'colorEditBlack'
+                )}>
+                {this.props.subCateInfo.description}
+              </span>
             </div>
           </div>
           <div
-            className={classnames(styles.boxImgsNail)}>
+            className={classnames(
+              styles.boxImgsNail,
+              {[styles.boxImgsNailMouseOver]: this.state.overNail}
+            )}>
             <div
               className={styles.boxImgsFrame}>
               {this._render_nailImages()}
@@ -100,6 +114,16 @@ class SubcateNail extends React.Component {
         </Link>
       </div>
     )
+  }
+
+  _handleOver_btn(e) {
+    e.stopPropagation();
+    this.setState({ overNail: true })
+  }
+
+  _handleOut_btn(e) {
+    e.stopPropagation();
+    this.setState({ overNail: false })
   }
 
 }

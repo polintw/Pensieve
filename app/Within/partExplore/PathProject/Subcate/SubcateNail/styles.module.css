@@ -11,6 +11,12 @@
   height: 100%;
 }
 
+.linkSubcateMouseOver {
+  border-radius: 8px;
+  box-shadow: 0 0 8px 0 rgb(84 84 84 / 45%);
+  background-color: #FFFFFF;
+}
+
 .boxSubcateText {
   display: flex;
   width: 100%;
@@ -21,13 +27,14 @@
 }
 
 .boxSubcateTitle {
-  width: 64%;
+  max-width: 72%;
+  margin-right: 30px;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
 .boxSubcateDescript {
-  
+  height: 42px;
 }
 
 .boxImgsNail {
@@ -42,14 +49,18 @@
   overflow: hidden;
 }
 
+.boxImgsNailMouseOver {
+  box-shadow: unset;
+}
+
 .boxImgsFrame {
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
-  height: 100%;
+  width: 102%;
+  height: 102%;
   position: relative;
+  margin: 0 -1%;
   border-radius: 4px;
-  background-color: rgba(217, 232, 255, 0.15);
   overflow: hidden;
 }
 
@@ -57,6 +68,7 @@
   flex: 1;
   min-width: 32%;
   min-height: 48%;
+  margin: 1%;
   background-color: rgba(217, 232, 255, 0.15);
   background-size: cover;
   background-position: 50% 50%;

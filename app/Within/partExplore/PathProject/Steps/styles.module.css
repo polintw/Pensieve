@@ -8,11 +8,11 @@
 }
 
 .boxTitleFilter {
-  margin: 0 0 12px;
+  margin: 4px 0 12px;
 }
 
 .boxTitleNode {
-  margin: 0 0 8px;
+  margin: 8px 0;
 }
 
 .rowTitlePadding {
@@ -27,6 +27,10 @@
 }
 
 @media screen and (max-width:860px) {
+  .boxTitleFilter {
+    margin: 12px 0;
+  }
+
   .boxFooter {
     margin-bottom: 14vh;
   }

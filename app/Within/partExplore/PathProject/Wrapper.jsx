@@ -150,7 +150,7 @@ class Wrapper extends React.Component {
           <div
             className={classnames(styles.boxRowNav)}>
             <div
-              className={classnames(styles.boxTitle)}>
+              className={classnames(styles.boxNavFeed)}>
               <NavFeed
                 {...this.props}/>
             </div>

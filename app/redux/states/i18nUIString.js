@@ -145,7 +145,7 @@ const i18nUIString_EN = {
   "Cornerth_inc": "Cornerth. ",
   "AllRights": "All Rights Reserved.",
   "tab_Steps": 'Steps',
-  "tab_Routes": 'routes',
+  "tab_Routes": 'Routes',
 
   "link_Nav_Shareds_": ["<> ", "Personal"],
   "message_SelfShareds_greet": ["Good morning! New finding is on the way!", "Welcome back. How's the day going?", "Good evening. Is there anything you want to share today?", "What a long night. Come record the thing in your mind."],
@@ -264,7 +264,7 @@ const i18nUIString_EN = {
   "title_nodesFilter_LayerBase": "From base",
   "btn_nodesFilter_layerOptions": ['Among All', 'Used', 'Upper'],
 
-  "btn_filteNav_Feed": ['Images', 'Map'],
+  "btn_filteNav_Feed": ['Nodes', 'Map'],
 
   "message_btn_OpenMap": "See location",
 
