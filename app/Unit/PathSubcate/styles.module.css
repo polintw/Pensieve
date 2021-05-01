@@ -5,6 +5,14 @@
 .comPathSubcateEnd {
   display: flex;
   align-items: flex-start;
+}
+
+.comPathSubcateCover {
+  display: flex;
+  align-items: flex-start;
+}
+
+.boxPathSubcateCenter {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -12,15 +20,16 @@
   box-sizing: border-box;
 }
 
-.boxEnd {
+.boxPathSubcateBackBoard {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 360px;
   position: relative;
   box-sizing: border-box;
-  padding: 0 0 10vh;
+  border-radius: 4px;
+  background-color: rgba(51, 51, 51, 0.97);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
 }
 
 .boxEndTtitle {
@@ -110,7 +119,33 @@
   border-bottom: solid 1px #FFFFFF;
 }
 
+@media screen and (min-width:860px) {
+  .boxCover {
+    width: 956px;
+    max-width: 90vw;
+    min-width: 70vw;
+    height: 540px;
+    max-height: 81vh;
+  }
+
+  .boxEnd {
+    width: 1008px;
+    min-width: 70vw;
+    max-width: 90vw;
+    height: 710px;
+    min-height: 90vh;
+    max-height: 95vh;
+  }
+}
+
 @media screen and (max-width:860px) {
+  .boxPathSubcateCenter {
+    position: relative;
+    top: unset;
+    left: unset;
+    transform: unset;
+  }
+
   .comPathSubcateEnd{
     justify-content: center;
     min-height: 92vh;
@@ -121,11 +156,13 @@
   }
 
   .boxEnd{
-    min-height: 72vh;
-    max-height: unset;
-    max-width: 87vw;
-    border-radius: unset;
-    padding: 0vh 0 0;
+    width: 100vw;
+    min-height: 74vh; /* 84vh-10vh */
     margin: 10vh 0 0;
+  }
+
+  .boxCover {
+    width: 100vw;
+    min-height: 84vh;
   }
 }

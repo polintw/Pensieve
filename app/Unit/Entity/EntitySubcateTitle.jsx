@@ -63,7 +63,7 @@ class EntitySubcateTitle extends React.Component {
     event.stopPropagation();
     // and Notice! after the replaceState has been done
     // we re-assign to make sure to scroll, the unit would all reset
-    window.location.assign("/cosmic/explore/path/" + this.props.unitEntity.pathSubCate.currentPathProject + "?tab=pathsubcate&subCate=" + this.props.unitEntity.pathSubCate.currentSubCateId)
+    window.location.assign("/cosmic/explore/path/" + this.props.unitEntity.pathSubCate.currentPathProject + "?tab=routes&subCate=" + this.props.unitEntity.pathSubCate.currentSubCateId)
   }
 
   _handleEnter_linkSubcate(e){

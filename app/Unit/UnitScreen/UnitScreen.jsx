@@ -274,7 +274,7 @@ class UnitScreen extends React.Component {
           onClose={()=>{this._close_modal_Unit();}}
           style={{
             position: "fixed",
-            backgroundColor: (paramUnitView=="related" || paramUnitView=="respond" || paramUnitView=="pathsubcate") ? 'rgba(51, 51, 51, 0.85)': 'rgba(51, 51, 51, 0.3)' }}>
+            backgroundColor: (paramUnitView=="related" || paramUnitView=="respond") ? 'rgba(51, 51, 51, 0.85)': 'rgba(51, 51, 51, 0.3)' }}>
             {
               (cssVW < 860) &&
               <div

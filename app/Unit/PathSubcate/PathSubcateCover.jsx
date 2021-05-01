@@ -28,15 +28,11 @@ class PathSubcateCover extends React.Component {
       hiddenUrl: '',
       onbtnCopy: false,
       onbtnStart: false,
-      onLinkSubcate: false
     };
     this.refHiddenText = React.createRef();
     this._set_emitModal = this._set_emitModal.bind(this);
-    this._handleClick_linkSubcate = this._handleClick_linkSubcate.bind(this);
     this._handleClick_linkStart = this._handleClick_linkStart.bind(this);
     this._handleClick_pathCopy = this._handleClick_pathCopy.bind(this);
-    this._handleEnter_linkSubcate = this._handleEnter_linkSubcate.bind(this);
-    this._handleLeave_linkSubcate = this._handleLeave_linkSubcate.bind(this);
     this._handleEnter_btnCopy = this._handleEnter_btnCopy.bind(this);
     this._handleLeave_btnCopy = this._handleLeave_btnCopy.bind(this);
     this._handleEnter_btnStart = this._handleEnter_btnStart.bind(this);
@@ -64,26 +60,22 @@ class PathSubcateCover extends React.Component {
 
     return(
       <div
-        className={classnames(styles.comPathSubcateEnd)}>
+        className={classnames(
+          styles.comPathSubcateCover, styles.boxPathSubcateCenter)}>
         <div
-          className={classnames(styles.boxEnd)}
+          className={classnames(
+            styles.boxPathSubcateBackBoard, styles.boxCover)}
           onClick={(event) => { event.stopPropagation(); }}>
           <div
             className={classnames(styles.boxEndTtitle)}>
             <Link
-              to={''}
-              onClick={this._handleClick_linkSubcate}
+              to={this.props.location}
               className={classnames('plainLinkButton')}
-              style={{ display: 'inline-block' }}
-              onTouchStart={this._handleEnter_linkSubcate}
-              onTouchEnd={this._handleLeave_linkSubcate}
-              onMouseEnter={this._handleEnter_linkSubcate}
-              onMouseLeave={this._handleLeave_linkSubcate}>
+              style={{ display: 'inline-block', cursor: "text" }}>
               <span
                 className={classnames(
                   "fontNodesEqual",
                   styles.spanLinkSubcate,
-                  { [styles.spanLinkSubcateMouse]: this.state.onLinkSubcate }
                 )}>
                 {"@" + this.props.unitEntity.pathSubCate.currentSubcateObj["name"] + "!"}
               </span>
@@ -93,7 +85,7 @@ class PathSubcateCover extends React.Component {
             className={classnames(styles.boxEndGuiding)}>
             <span
               className={classnames("fontContentPlain", "colorWhite")}>
-              {this.props.i18nUIString.catalog['guiding_UnitSubcate_End_']}
+              {this.props.unitEntity.pathSubCate.currentSubcateObj['description']}
             </span>
           </div>
           <div
@@ -201,14 +193,6 @@ class PathSubcateCover extends React.Component {
     }, 2200)
   }
 
-  _handleClick_linkSubcate(event){
-    event.preventDefault();
-    event.stopPropagation();
-    // and Notice! after the replaceState has been done
-    // we re-assign to make sure to scroll, the unit would all reset
-    window.location.assign("/cosmic/explore/path/" + this.props.unitEntity.pathSubCate.currentPathProject + "?tab=pathsubcate&subCate=" + this.props.unitEntity.pathSubCate.currentSubCateId)
-  }
-
   _handleClick_linkStart(event){
     event.preventDefault();
     event.stopPropagation();
@@ -229,14 +213,6 @@ class PathSubcateCover extends React.Component {
     this.refHiddenText.current.select();
     document.execCommand('copy'); // had completed copy to clipboard
     this._set_emitModal(); // than inform the user by emitModal
-  }
-
-  _handleEnter_linkSubcate(e){
-    this.setState({onLinkSubcate: true})
-  }
-
-  _handleLeave_linkSubcate(e){
-    this.setState({onLinkSubcate: false})
   }
 
   _handleEnter_btnCopy(e){

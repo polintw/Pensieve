@@ -62,9 +62,11 @@ class PathSubcateEnd extends React.Component {
 
     return(
       <div
-        className={classnames(styles.comPathSubcateEnd)}>
+        className={classnames(
+          styles.comPathSubcateEnd, styles.boxPathSubcateCenter)}>
         <div
-          className={classnames(styles.boxEnd)}
+          className={classnames(
+            styles.boxPathSubcateBackBoard, styles.boxEnd)}
           onClick={(event) => { event.stopPropagation(); }}>
           <div
             className={classnames(styles.boxEndTtitle)}>
@@ -194,7 +196,7 @@ class PathSubcateEnd extends React.Component {
     event.stopPropagation();
     // and Notice! after the replaceState has been done
     // we re-assign to make sure to scroll, the unit would all reset
-    window.location.assign("/cosmic/explore/path/" + this.props.unitEntity.pathSubCate.currentPathProject + "?tab=pathsubcate&subCate=" + this.props.unitEntity.pathSubCate.currentSubCateId)
+    window.location.assign("/cosmic/explore/path/" + this.props.unitEntity.pathSubCate.currentPathProject + "?tab=routes&subCate=" + this.props.unitEntity.pathSubCate.currentSubCateId)
   }
 
   _handleClick_pathCopy(event){

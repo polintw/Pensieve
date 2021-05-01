@@ -237,7 +237,7 @@ class UnitUnsign extends React.Component {
           onClose={()=>{this._close_modal_Unit();}}
           style={{
             position: "fixed",
-            backgroundColor: (paramUnitView=="pathsubcate") ? 'rgba(51, 51, 51, 0.85)': 'rgba(51, 51, 51, 0.3)' }}>
+            backgroundColor: 'rgba(51, 51, 51, 0.3)' }}>
             {
               (cssVW < 860) &&
               <div
