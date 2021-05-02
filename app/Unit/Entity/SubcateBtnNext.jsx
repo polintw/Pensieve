@@ -134,19 +134,26 @@ class SubcateBtnNext extends React.Component {
     let urlParams = new URLSearchParams(this.props.location.search);
     const currentView = urlParams.get("unitView"); // use 'const' to prevent change at followed step
     const currentUnit = urlParams.get("unitId"); // use 'const' to prevent change at followed step
-    if( // only set to 'pathSubCate' at final & 'theater'
+    if( // at the Cover, go to the first Unit
       (this.props.unitSubCate.first_unit == currentUnit) &&
       (currentView == "pathsubcate")
     ) {
       urlParams.set('unitView', "theater");
     }
-    else if( // only set to 'pathSubCate' at final & 'theater'
+    else if( // at the End, go to the Cover
+      (this.props.unitSubCate.first_unit == this.props.unitSubCate.next_unit) &&
+      (currentView == "pathsubcate")
+    ) {
+      urlParams.set('unitId', this.props.unitSubCate.next_unit);
+      urlParams.set('unitView', "pathsubcate");
+    }
+    else if( // at the last Unit, go to the End.
       (this.props.unitSubCate.first_unit == this.props.unitSubCate.next_unit) &&
       (currentView != "pathsubcate")
     ) {
       urlParams.set('unitView', "pathsubcate");
     }
-    else {
+    else { // inside the Unit gallery
       urlParams.set('unitId', this.props.unitSubCate.next_unit);
       urlParams.set('unitView', "theater");
     };

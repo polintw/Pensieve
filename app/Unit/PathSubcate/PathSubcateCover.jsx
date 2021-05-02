@@ -106,7 +106,7 @@ class PathSubcateCover extends React.Component {
                   className={classnames(
                     "fontSubtitle_h5", "colorWhite",
                   )}>
-                  {this.props.i18nUIString.catalog['submit_Continue']}
+                  {this.props.i18nUIString.catalog['submit_Start']}
                 </span>
                 <div
                   className={classnames(styles.boxHiddenBtnNext)}>

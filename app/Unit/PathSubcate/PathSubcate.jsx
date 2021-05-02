@@ -42,8 +42,8 @@ class PathSubcate extends React.Component {
         <div
           className={classnames(styles.boxPathSubcateCenter)}>
           <div
-            className={classnames(styles.boxPathSubcateBackBoard)}
-            style={{width: '50vw', height: '30vh'}}>
+            className={classnames(
+              styles.boxPathSubcateBackBoard, styles.boxPathSubcatePlainBoard)}>
           </div>
           <div
             className={classnames(styles.boxHiddenBtnNext)}>

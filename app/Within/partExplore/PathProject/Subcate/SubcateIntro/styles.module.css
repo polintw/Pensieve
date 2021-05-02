@@ -8,7 +8,8 @@
 }
 
 .boxIntro {
-
+  display: flex;
+  flex-direction: column;
 }
 
 .boxTitleSubcate {
@@ -18,36 +19,84 @@
 
 .boxOverview {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  margin: 12px 0 0;
 }
 
-.boxIntroText {
-  width: 63%;
+.boxOverviewTop {
+  display: flex;
+  align-items: center;
+  margin-bottom: 3rem;
 }
 
-.boxIntroAction {
-  width: 32%;
+.boxOverviewSecond {
+  display: flex;
+  padding: 0 0 7.6vh;
+  border-bottom: solid 1.5px #ff8168;
+}
+
+.boxOverviewLeft {
+  width: 56%;
+}
+
+.boxOverviewRight {
+
 }
 
 .boxSubcateTitle {
-  border-bottom: solid 1.5px #f3b55a;
+
 }
 
 .rowOpen {
-
+  margin: 0 0 20px;
 }
 
 .rowSocialIcons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
 }
 
 .rowBtnMap {
+  display: flex;
+  justify-content: center;
 
+}
+
+.boxSocialIconMargin {
+  margin-right: 8px;
+}
+
+.boxOpenBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  padding: 8px 34px;
+  border-radius: 4px;
+  background-color: rgb(69, 135, 160);
+  overflow: hidden;
+}
+
+.boxOpenBtnActiv {
+  background-color: #ff8168;
+  cursor: pointer;
+}
+
+.boxBtnCopy {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  text-align: center;
 }
 
 .boxIconCopy {
   width: 22px;
-  height: 18px;
+  height: 20px;
+  margin-right: 6px;
   text-align: center;
 }
 
@@ -66,10 +115,11 @@
 .boxImgUnits {
   display: flex;
   flex-wrap: wrap;
+  margin: 8px 0 0;
 }
 
 .boxImg {
-  width: 30%;
+  width: 30.6%;
   height: 10vw;
   position: relative;
   margin: 8px 1%;
@@ -93,6 +143,16 @@
   left: 50%;
   transform: translate(-50%, -50%);
   box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
+}
+
+@media screen and (min-width:860px) {
+  .boxOverviewTop {
+    justify-content: space-between;
+  }
+
+  .boxOverviewSecond {
+    justify-content: space-between;
+  }
 }
 
 @media screen and (max-width:860px) {

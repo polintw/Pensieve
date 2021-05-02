@@ -182,7 +182,7 @@ const i18nUIString_EN = {
 
   "btn_UnitSubcate_End_CopyBtn": "Copy the link",
   "tagTitle_UnitSubcate_End_CopyBtn": "Copy the link of this route.",
-  "title_UnitSubcate_End_": "You've finished the ",
+  "title_UnitSubcate_End_": "You've read all of ",
   "guiding_UnitSubcate_End_": "Share to more people if you think the author did a good job!",
 
   "title_shareUpload_typewriter": ['S','h','a','r','e', '!'],
@@ -259,6 +259,8 @@ const i18nUIString_EN = {
   "message_PathProject_ShareLink": "Link has copied",
   "btn_PathProject_ShareLink": "Page link",
   "tagTitle_PathProject_ShareLink": "Copy page link.",
+
+  "guiding_PathProject_SubcateMap": "See route on map",
 
   "hint_nodesFilter_nodeExplore": "Explore to node",
   "hint_nodesFilter_nodeNotYet": "Not yet visit!",

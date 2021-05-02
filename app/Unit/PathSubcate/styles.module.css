@@ -2,6 +2,14 @@
 
 }
 
+.boxPathSubcateCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-47.5%, -50%);
+  box-sizing: border-box;
+}
+
 .comPathSubcateEnd {
   display: flex;
   align-items: flex-start;
@@ -10,14 +18,6 @@
 .comPathSubcateCover {
   display: flex;
   align-items: flex-start;
-}
-
-.boxPathSubcateCenter {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-47.5%, -50%);
-  box-sizing: border-box;
 }
 
 .boxPathSubcateBackBoard {
@@ -32,17 +32,25 @@
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
 }
 
-.boxEndTtitle {
+.boxPathSubcatePlainBoard {
+  width: 50vw;
+  height: 30vh;
+}
+
+.boxEndTitle {
   display: flex;
   flex-direction: column;
-  padding: 0 0 5px;
+  max-width: 70%;
+  padding: 0 0 8px;
+  text-align: center;
 }
 
 .boxEndGuiding {
+  max-width: 70%;
   padding: 2rem 0 0;
   margin: 0 0 2.8vh;
   text-align: center;
-  border-bottom: solid 1.5px #f3b55a;
+  border-top: solid 1.5px #f3b55a;
 }
 
 .rowSocialIcons {
@@ -166,8 +174,7 @@
 .rowActionIcons {
   display: flex;
   justify-content: center;
-  align-items:
-
+  align-items: center;
 }
 
 .frameCoverCopyBtn {
@@ -182,9 +189,9 @@
 .boxCoverCopyBtn {
   display: inline-flex;
   align-items: center;
+  height: 100%;
   position: relative;
   box-sizing: border-box;
-  overflow: hidden;
   cursor: pointer;
 }
 
@@ -221,22 +228,28 @@
     transform: unset;
   }
 
-  .comPathSubcateEnd{
-    justify-content: center;
-    min-height: 92vh;
-    position: relative;
-    top: unset;
-    left: unset;
-    transform: unset;
+  .boxPathSubcatePlainBoard {
+    width: 100vw;
+    margin: 20vh 0;
   }
 
-  .boxEnd{
-    width: 100vw;
-    min-height: 74vh; /* 84vh-10vh */
-    margin: 10vh 0 0;
+  .comPathSubcateEnd {
+    justify-content: center;
+    min-height: 92vh;
+  }
+
+  .comPathSubcateCover {
+    justify-content: center;
+    min-height: 92vh;
   }
 
   .boxCover {
+    width: 100vw;
+    min-height: 77vh;
+    margin: 7vh 0 0;
+  }
+
+  .boxEnd{
     width: 100vw;
     min-height: 84vh;
   }

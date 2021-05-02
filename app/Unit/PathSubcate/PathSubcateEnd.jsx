@@ -11,6 +11,9 @@ import SubcateBtnNext from '../Entity/SubcateBtnNext.jsx';
 import ModalEmit from '../../Components/ModalEmit/ModalEmit.jsx';
 import SvgCopy from '../../Components/Svg/SvgIcon_Copy.jsx';
 import {
+  setUnitSubcate
+} from '../../redux/actions/unit.js';
+import {
   FacebookShareButton,
   FacebookIcon,
   LineShareButton,
@@ -50,6 +53,9 @@ class PathSubcateEnd extends React.Component {
     if(this.state.axios){
       this.axiosSource.cancel("component will unmount.")
     };
+    this.props._set_state_UnitSubcate({ // at the End of th Subcate, reset the next_confirm in case we cycle back to the Cover-which need a re-fetch
+      next_confirm: false,
+    });
   }
 
   render(){
@@ -69,7 +75,7 @@ class PathSubcateEnd extends React.Component {
             styles.boxPathSubcateBackBoard, styles.boxEnd)}
           onClick={(event) => { event.stopPropagation(); }}>
           <div
-            className={classnames(styles.boxEndTtitle)}>
+            className={classnames(styles.boxEndTitle)}>
             <span
               className={classnames("fontNodesEqual", "lineHeight15", "colorWhite")}>
               {this.props.i18nUIString.catalog['title_UnitSubcate_End_']}
@@ -236,7 +242,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch)=>{
   return {
-
+    _set_state_UnitSubcate: (expression)=>{dispatch(setUnitSubcate(expression));},
   }
 }
 
