@@ -6,7 +6,6 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import TitleSubcate from '../TitleSubcate/TitleSubcate.jsx';
 import NavBtnRow from '../../NavFilter/NavBtnRow.jsx';
 import SvgCopy from '../../../../../Components/Svg/SvgIcon_Copy.jsx';
 import ModalEmit from '../../../../../Components/ModalEmit/ModalEmit.jsx';
@@ -50,6 +49,7 @@ class SubcateIntro extends React.Component {
     this.axiosSource = axios.CancelToken.source();
     this._set_emitModal = this._set_emitModal.bind(this);
     this._set_usedNodes = this._set_usedNodes.bind(this);
+    this._render_rowSNS = this._render_rowSNS.bind(this);
     this._render_imgUnits = this._render_imgUnits.bind(this);
     this._handleClick_pathCopy = this._handleClick_pathCopy.bind(this);
     this._handleEnter_CopyBtn = this._handleEnter_CopyBtn.bind(this);
@@ -116,6 +116,64 @@ class SubcateIntro extends React.Component {
     return imgUnitsDOM;
   }
 
+  _render_rowSNS(){
+    return (
+      <div
+        key={"key_SubcateIntro_rowSNS"}
+        className={classnames(styles.rowSocialIcons)}>
+        <div
+          className={classnames(styles.boxSocialIconMargin)}>
+          <LineShareButton
+            url={this.sharedLink}
+            className="Demo__some-network__share-button">
+            <LineIcon
+              size={32} round
+              bgStyle={{fill: "transparent"}}
+              iconFillColor={"#a3a3a3"}/>
+          </LineShareButton>
+        </div>
+        <div
+          className={classnames(styles.boxSocialIconMargin)}>
+          <FacebookShareButton
+            url={this.sharedLink}
+            className="Demo__some-network__share-button">
+            <FacebookIcon
+              size={32} round
+              bgStyle={{fill: "transparent"}}
+              iconFillColor={"#a3a3a3"}/>
+          </FacebookShareButton>
+        </div>
+        <div
+          title={this.props.i18nUIString.catalog["tagTitle_PathProject_ShareLink"]}
+          className={classnames(styles.boxBtnCopy)}
+          onMouseEnter={this._handleEnter_CopyBtn}
+          onMouseLeave={this._handleLeave_CopyBtn}
+          onClick={this._handleClick_pathCopy}>
+          <div
+            className={classnames(styles.boxIconCopy)}>
+            <SvgCopy
+              customStyles={"{fill: " + (this.state.onLinkCopy? "#545454" : "#a3a3a3") + "}"}/>
+          </div>
+          {
+            this.state.emit &&
+            <div
+              className={classnames(styles.boxModalEmit)}>
+              <ModalEmit
+                text={this.state.emit.text} />
+            </div>
+          }
+          <div style={{width:"100%",position: 'absolute', overflow:'hidden'}}>
+            <input
+              ref={this.refHiddenText}
+              className={classnames(styles.boxHiddenText)}
+              value={this.sharedLink}
+              readOnly/>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   render(){
     let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
     if(urlParams.has('_filter_map')){
@@ -129,7 +187,7 @@ class SubcateIntro extends React.Component {
     sharedSearch.set('unitId', this.props.subCatesObj[this.currentSubCate].unitsListBySerial[0]);
     sharedSearch.set('unitView', "pathsubcate");
     let searchString = sharedSearch.toString();
-    let sharedLink = sharedPath + "?" + searchString;
+    this.sharedLink = sharedPath + "?" + searchString;
 
     return (
       <div
@@ -138,12 +196,6 @@ class SubcateIntro extends React.Component {
           this.viewFilter ? (
             <div
               className={classnames(styles.boxNodesFilter)}>
-              <div
-                className={classnames(styles.boxTitleSubcate)}
-                style={{boxShadow: "0px 4px 4px -4px rgb(84 84 84 / 45%)"}}>
-                <TitleSubcate
-                  {...this.props}/>
-              </div>
               {
                 this.state.fetchedUsedNodes &&
                 <NodesFilter
@@ -163,13 +215,12 @@ class SubcateIntro extends React.Component {
             </div>
           ):(
             <div
-              className={classnames(styles.boxIntro)}>
-              <div
-                className={classnames(styles.boxTitleSubcate)}
-                style={{paddingBottom: '4px'}}>
-                <TitleSubcate
-                  {...this.props}/>
-              </div>
+              className={classnames(
+                styles.boxIntro,
+                {
+                  [styles.widthSubcateIntroWide]: this.viewFilter,
+                  [styles.widthSubcateIntro]: !this.viewFilter,
+                })}>
               <div
                 className={classnames(styles.boxOverview)}>
                 <div
@@ -201,66 +252,8 @@ class SubcateIntro extends React.Component {
                   <div
                     className={classnames(styles.boxOverviewRight)}>
                     <div
-                      className={classnames(styles.rowSocialIcons)}>
-                      <div
-                        className={classnames(styles.boxSocialIconMargin)}>
-                        <LineShareButton
-                          url={sharedLink}
-                          className="Demo__some-network__share-button">
-                          <LineIcon
-                            size={32} round
-                            bgStyle={{fill: "transparent"}}
-                            iconFillColor={"#a3a3a3"}/>
-                        </LineShareButton>
-                      </div>
-                      <div
-                        className={classnames(styles.boxSocialIconMargin)}>
-                        <FacebookShareButton
-                          url={sharedLink}
-                          className="Demo__some-network__share-button">
-                          <FacebookIcon
-                            size={32} round
-                            bgStyle={{fill: "transparent"}}
-                            iconFillColor={"#a3a3a3"}/>
-                        </FacebookShareButton>
-                      </div>
-                      <div
-                        title={this.props.i18nUIString.catalog["tagTitle_PathProject_ShareLink"]}
-                        className={classnames(styles.boxBtnCopy)}
-                        onMouseEnter={this._handleEnter_CopyBtn}
-                        onMouseLeave={this._handleLeave_CopyBtn}
-                        onClick={this._handleClick_pathCopy}>
-                        <div
-                          className={classnames(styles.boxIconCopy)}>
-                          <SvgCopy
-                            customStyles={"{fill: " + (this.state.onLinkCopy? "#545454" : "#a3a3a3") + "}"}/>
-                        </div>
-                        <span
-                          className={classnames(
-                            "fontSubtitle_h5",
-                            {
-                              ["colorGrey"]: !this.state.onLinkCopy,
-                              ["colorEditBlack"]: this.state.onLinkCopy,
-                            },
-                          )}>
-                          {this.props.i18nUIString.catalog['btn_UnitSubcate_End_CopyBtn']}
-                        </span>
-                        {
-                          this.state.emit &&
-                          <div
-                            className={classnames(styles.boxModalEmit)}>
-                            <ModalEmit
-                              text={this.state.emit.text} />
-                          </div>
-                        }
-                        <div style={{width:"100%",position: 'absolute', overflow:'hidden'}}>
-                          <input
-                            ref={this.refHiddenText}
-                            className={classnames(styles.boxHiddenText)}
-                            value={sharedLink}
-                            readOnly/>
-                        </div>
-                      </div>
+                      className={classnames("smallDisplayNone")}>
+                      {this._render_rowSNS()}
                     </div>
                   </div>
                 </div>
@@ -268,10 +261,13 @@ class SubcateIntro extends React.Component {
                   className={classnames(styles.boxOverviewSecond)}>
                   <div
                     className={classnames(styles.boxOverviewLeft)}>
-                    <span
-                      className={classnames("fontContentPlain", "colorEditBlack")}>
-                      {this.props.subCatesObj[this.currentSubCate].description}
-                    </span>
+                    <div
+                      className={classnames(styles.boxDescription)}>
+                      <span
+                        className={classnames("fontContentPlain", "colorEditBlack")}>
+                        {this.props.subCatesObj[this.currentSubCate].description}
+                      </span>
+                    </div>
                   </div>
                   <div
                     className={classnames(styles.boxOverviewRight)}>
@@ -312,6 +308,11 @@ class SubcateIntro extends React.Component {
                           {...this.props}/>
                       </div>
                     </div>
+                  </div>
+                  <div
+                    className={classnames("smallDisplayBox")}
+                    style={{marginTop: '16px'}}>
+                    {this._render_rowSNS()}
                   </div>
                 </div>
               </div>

@@ -2,6 +2,12 @@
   width: 100%;
 }
 
+.rowWithTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
 .boxResetLink {
   display: flex;
   align-items: center;

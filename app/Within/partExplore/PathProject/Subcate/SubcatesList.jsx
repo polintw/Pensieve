@@ -8,6 +8,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import SubcateIntro from './SubcateIntro/SubcateIntro.jsx';
 import SubcateNail from './SubcateNail/SubcateNail.jsx';
+import TitleSubcate from './TitleSubcate/TitleSubcate.jsx';
 import {
   _axios_get_projectSubcateBasic
 } from './axios.js';
@@ -77,19 +78,31 @@ class SubcatesList extends React.Component {
         {
           this.currentSubCate ? (
             <div
-              className={classnames(
-                styles.boxSubcateIntro,
+              className={classnames(styles.boxSubcateIntro)}>
+              <div
+                className={classnames(styles.boxTitleSubcate)}
+                style={
+                  this.viewFilter ? {
+                    boxShadow: "0px 4px 4px -4px rgb(84 84 84 / 45%)",
+                    margin: "0 0 12px",
+                    paddingBottom: "8px"
+                  } : {paddingBottom: '4px'}}>
                 {
-                  [styles.widthSubcateIntroWide]: this.viewFilter,
-                  [styles.widthSubcateIntro]: !this.viewFilter,
+                  (this.currentSubCate in this.state.subCatesObj) &&
+                  <TitleSubcate
+                    {...this.props}
+                    subCatesObj={this.state.subCatesObj}/>
                 }
-              )}>
+              </div>
               {
                 (this.currentSubCate in this.state.subCatesObj) &&
-                <SubcateIntro
-                  {...this.props}
-                  subCatesObj={this.state.subCatesObj}
-                  unitsBasic={this.state.unitsSubcateBasic}/>
+                <div
+                  style={{width: '100%'}}>
+                  <SubcateIntro
+                    {...this.props}
+                    subCatesObj={this.state.subCatesObj}
+                    unitsBasic={this.state.unitsSubcateBasic}/>
+                </div>
               }
             </div>
           ): (

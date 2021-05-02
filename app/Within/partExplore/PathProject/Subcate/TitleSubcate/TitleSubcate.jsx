@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import SvgArrowStick from '../../../../../Components/Svg/SvgArrowStick.jsx';
-import {SvgArrowToTop} from '../../../../../Components/Svg/SvgArrow.jsx';
+import {SvgArrowToLeft} from '../../../../../Components/Svg/SvgArrow.jsx';
 
 class TitleSubcate extends React.Component {
   constructor(props){
@@ -47,7 +47,8 @@ class TitleSubcate extends React.Component {
     };
 
     return (
-      <div>
+      <div
+        className={classnames(styles.rowWithTitle)}>
         <Link
           to={linkObj}
           className={classnames('plainLinkButton')}
@@ -72,7 +73,7 @@ class TitleSubcate extends React.Component {
           onTouchEnd={this._handleLeave_CloseArrow}
           onMouseEnter={this._handleEnter_CloseArrow}
           onMouseLeave={this._handleLeave_CloseArrow}>
-          <SvgArrowToTop
+          <SvgArrowToLeft
             mouseOn={this.state.onClose}
             customStyles={{fillColorMouseOn: '#ff8168', fillColor: '#a3a3a3'}}/>
         </Link>

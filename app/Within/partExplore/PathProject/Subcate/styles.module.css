@@ -25,17 +25,16 @@
 
 .boxSubcateIntro {
   align-self: center;
+  width: 100%;
   min-height: 70vh;
   margin: 4px 0;
 }
 
-.widthSubcateIntro {
-  width: 81%;
+.boxTitleSubcate {
+  width: 100%;
+  margin: 0 0 4px;
 }
 
-.widthSubcateIntroWide {
-  width: 100%;
-}
 
 .boxFooter {
   width: 100%;

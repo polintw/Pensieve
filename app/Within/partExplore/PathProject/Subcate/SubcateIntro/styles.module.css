@@ -1,8 +1,20 @@
 .comSubcateIntro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
 
+.widthSubcateIntro {
+  width: 81%;
+}
+
+.widthSubcateIntroWide {
+  width: 100%;
 }
 
 .boxNodesFilter {
+  width: 100%;
   box-shadow: 5px 0 4px -5px rgba(0, 0, 0, 0.3), -5px 0 4px -5px rgba(0, 0, 0, 0.3);
   margin: 0;
 }
@@ -10,11 +22,6 @@
 .boxIntro {
   display: flex;
   flex-direction: column;
-}
-
-.boxTitleSubcate {
-  width: 100%;
-  margin: 0 0 4px;
 }
 
 .boxOverview {
@@ -25,7 +32,6 @@
 
 .boxOverviewTop {
   display: flex;
-  align-items: center;
   margin-bottom: 3rem;
 }
 
@@ -44,6 +50,10 @@
 }
 
 .boxSubcateTitle {
+
+}
+
+.boxDescription {
 
 }
 
@@ -89,14 +99,17 @@
 .boxBtnCopy {
   display: flex;
   align-items: center;
+  width: 100%;
+  position: relative;
   box-sizing: border-box;
   text-align: center;
+  cursor: pointer;
 }
 
 .boxIconCopy {
   width: 22px;
   height: 20px;
-  margin-right: 6px;
+  margin-right: 3px;
   text-align: center;
 }
 
@@ -147,14 +160,61 @@
 
 @media screen and (min-width:860px) {
   .boxOverviewTop {
+    align-items: flex-start;
     justify-content: space-between;
   }
 
   .boxOverviewSecond {
     justify-content: space-between;
   }
+
+  .rowSocialIcons {
+    padding: 0 0 8px;
+    border-bottom: 1.5px solid #d8d8d8
+  }
 }
 
 @media screen and (max-width:860px) {
+  .widthSubcateIntro {
+    width: 100%;
+  }
 
+  .widthSubcateIntroWide {
+    width: 100%;
+  }
+
+  .boxOverviewTop {
+    flex-direction: column;
+    align-items: flex-end;
+    margin-bottom: 20px;
+  }
+
+  .boxOverviewSecond {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .boxOverviewLeft {
+    width: 100%;
+  }
+
+  .rowOpen {
+    margin: 0 0 30px;
+  }
+
+  .boxDescription {
+    margin-bottom: 7.6vh; /* as .boxOverviewSecond */ 
+  }
+
+  .boxImgUnits {
+    justify-content: space-between;
+    width: 100%;
+    margin: 12px 0 0;
+  }
+
+  .boxImg {
+    width: 49%;
+    height: 27vw;
+    margin: 8px 0;
+  }
 }
