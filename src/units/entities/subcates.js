@@ -44,7 +44,8 @@ async function _handle_GET_units_entitySubCates(req, res){
     const unitPathSubDis = await _DB_unitsPathsSubdis.findAll({
       where: {
         id_subPath: desiredSubCate.id // req.query.subCateId is the 'exposedId', not the used one here
-      }
+      },
+      order:['serial_subPath'] // make sure the units ordered by serial_subPath
     });
     let baseSerial = false, nextUnitId = null, previousUnitId = null, firstUnitId = null;
     let count = 0;
