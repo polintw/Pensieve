@@ -36,11 +36,12 @@ class NavTitle extends React.Component {
         <div>
           <span
             className={classnames(
-              "fontContentPlain", "weightBold", "colorAssistGold")}>
+              "fontContent", "weightBold", "colorAssistGold")}>
             { this.props.i18nUIString.catalog["title_focusBoard"] }
           </span>
         </div>
-        <div>
+        <div
+          style={ {display: 'none'} /* temp, rm this link in nav.*/ }>
           <NavCosmicNodes/>
         </div>
       </div>
