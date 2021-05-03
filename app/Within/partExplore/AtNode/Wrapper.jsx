@@ -55,7 +55,10 @@ class Wrapper extends React.Component {
       <div>
         <div
           className={classnames(styles.boxNavTop)}>
-          <NavCosmicNodes/>
+          <div
+            style={ {display: 'none'} /* temp, rm this link in nav.*/ }>
+            <NavCosmicNodes/>
+          </div>
           <div
             className={classnames("smallDisplayBox")}>
             <div

@@ -1,0 +1,255 @@
+.comPathSubcate {
+
+}
+
+.boxPathSubcateCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-47.5%, -50%);
+  box-sizing: border-box;
+}
+
+.comPathSubcateEnd {
+  display: flex;
+  align-items: flex-start;
+}
+
+.comPathSubcateCover {
+  display: flex;
+  align-items: flex-start;
+}
+
+.boxPathSubcateBackBoard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  box-sizing: border-box;
+  border-radius: 4px;
+  background-color: rgba(51, 51, 51, 0.97);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+}
+
+.boxPathSubcatePlainBoard {
+  width: 50vw;
+  height: 30vh;
+}
+
+.boxEndTitle {
+  display: flex;
+  flex-direction: column;
+  max-width: 70%;
+  padding: 0 0 8px;
+  text-align: center;
+}
+
+.boxEndGuiding {
+  max-width: 70%;
+  padding: 2rem 0 0;
+  margin: 0 0 2.8vh;
+  text-align: center;
+  border-top: solid 1.5px #f3b55a;
+}
+
+.rowSocialIcons {
+  display: flex;
+  justify-content: center;
+  margin: 0 0 16px;
+}
+
+.rowShareNext {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 28%;
+  max-width: 400px;
+  min-width: 270px;
+}
+
+.frameCopyBtn {
+  flex: 1;
+  box-sizing: border-box;
+  box-shadow: 4px 0 4px -4px #d8d8d8;
+  text-align: center;
+}
+
+.boxHiddenText {
+  position: absolute;
+  left: 200%;
+}
+
+.boxCopyBtn {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  box-sizing: border-box;
+  padding: 8px 25px 10px;
+  border-radius: 4px;
+  background-color: rgb(69, 135, 160);
+}
+
+.boxCopyBtnActiv {
+  background-color: #ff8168;
+  cursor: pointer;
+}
+
+.boxIconLeft {
+  margin-right: 8px;
+}
+
+.boxIconCopy {
+  width: 22px;
+  height: 18px;
+  margin-right: 1rem;
+  text-align: center;
+}
+
+.boxModalEmit {
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.frameNextBtn {
+  padding: 0 0 0 1.5rem;
+}
+
+.spanLinkSubcate {
+  display: inline-block;
+  border-bottom: solid 1px transparent;
+  color: #FFFFFF; /* the text color change as screen width change*/
+}
+
+.spanLinkSubcateMouse {
+  border-bottom: solid 1px #FFFFFF;
+}
+
+.boxCoverTtitle {
+  display: flex;
+  flex-direction: column;
+  max-width: 64%;
+  padding: 0 0 8px;
+  margin: 2vh 0 4rem;
+  border-bottom: 1.5px solid #ff8168;
+}
+
+.boxCoverSubtitle {
+  max-width: 56%;
+  max-height: 66px;
+  text-align: center;
+}
+
+.rowContinue {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 4rem 0 5rem;
+}
+
+.boxNextBtn {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  box-sizing: border-box;
+  padding: 8px 34px;
+  border-radius: 4px;
+  background-color: rgb(69, 135, 160);
+  overflow: hidden;
+}
+
+.boxNextBtnActiv {
+  background-color: #ff8168;
+  cursor: pointer;
+}
+
+.boxHiddenBtnNext {
+  position: absolute;
+  left: 110%;
+  top: 110%;
+}
+
+.rowActionIcons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.frameCoverCopyBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.boxCoverCopyBtn {
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
+  position: relative;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.boxSvgCoverCopy {
+  width: 24px;
+  height: 20px;
+  text-align: center;
+}
+
+@media screen and (min-width:860px) {
+  .boxCover {
+    width: 956px;
+    max-width: 90vw;
+    min-width: 70vw;
+    height: 540px;
+    max-height: 81vh;
+  }
+
+  .boxEnd {
+    width: 1008px;
+    min-width: 70vw;
+    max-width: 90vw;
+    height: 710px;
+    min-height: 90vh;
+    max-height: 95vh;
+  }
+}
+
+@media screen and (max-width:860px) {
+  .boxPathSubcateCenter {
+    position: relative;
+    top: unset;
+    left: unset;
+    transform: unset;
+  }
+
+  .boxPathSubcatePlainBoard {
+    width: 100vw;
+    margin: 20vh 0;
+  }
+
+  .comPathSubcateEnd {
+    justify-content: center;
+    min-height: 92vh;
+  }
+
+  .comPathSubcateCover {
+    min-height: 110vh;
+  }
+
+  .boxCover {
+    width: 100vw;
+    min-height: 77vh;
+    margin: 7vh 0 0;
+  }
+
+  .boxEnd{
+    width: 100vw;
+    min-height: 84vh;
+  }
+}

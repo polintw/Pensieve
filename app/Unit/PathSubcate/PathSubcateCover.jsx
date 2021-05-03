@@ -20,23 +20,23 @@ import {
   domain
 } from '../../../config/services.js';
 
-class PathSubcateEnd extends React.Component {
+class PathSubcateCover extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       emit: false,
       hiddenUrl: '',
       onbtnCopy: false,
-      onLinkSubcate: false
+      onbtnContinue: false,
     };
     this.refHiddenText = React.createRef();
     this._set_emitModal = this._set_emitModal.bind(this);
-    this._handleClick_linkSubcate = this._handleClick_linkSubcate.bind(this);
+    this._handleClick_linkStart = this._handleClick_linkStart.bind(this);
     this._handleClick_pathCopy = this._handleClick_pathCopy.bind(this);
-    this._handleEnter_linkSubcate = this._handleEnter_linkSubcate.bind(this);
-    this._handleLeave_linkSubcate = this._handleLeave_linkSubcate.bind(this);
     this._handleEnter_btnCopy = this._handleEnter_btnCopy.bind(this);
     this._handleLeave_btnCopy = this._handleLeave_btnCopy.bind(this);
+    this._handleEnter_btnStart = this._handleEnter_btnStart.bind(this);
+    this._handleLeave_btnStart = this._handleLeave_btnStart.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -54,52 +54,70 @@ class PathSubcateEnd extends React.Component {
 
   render(){
     let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
-    let sharedLink = domain.protocol+ '://'+domain.name + this.props.location.pathname
-    if(!!this.props.unitSubCate.first_unit) urlParams.set('unitId', this.props.unitSubCate.first_unit); // no unitSubCate.first_unit is possible
-    urlParams.set('unitView', "theater");
     let searchString = urlParams.toString();
+    let sharedLink = domain.protocol+ '://'+domain.name + this.props.location.pathname;
     sharedLink = sharedLink + "?" + searchString;
 
     return(
       <div
-        className={classnames(styles.comPathSubcateEnd)}>
+        className={classnames(
+          styles.comPathSubcateCover, styles.boxPathSubcateCenter)}>
         <div
-          className={classnames(styles.boxEnd)}
+          className={classnames(
+            styles.boxPathSubcateBackBoard, styles.boxCover)}
           onClick={(event) => { event.stopPropagation(); }}>
           <div
-            className={classnames(styles.boxEndTtitle)}>
-            <span
-              className={classnames("fontNodesEqual", "lineHeight15", "colorWhite")}>
-              {this.props.i18nUIString.catalog['title_UnitSubcate_End_']}
-            </span>
+            className={classnames(styles.boxCoverTtitle)}>
             <Link
-              to={''}
-              onClick={this._handleClick_linkSubcate}
+              to={this.props.location}
               className={classnames('plainLinkButton')}
-              style={{ display: 'inline-block' }}
-              onTouchStart={this._handleEnter_linkSubcate}
-              onTouchEnd={this._handleLeave_linkSubcate}
-              onMouseEnter={this._handleEnter_linkSubcate}
-              onMouseLeave={this._handleLeave_linkSubcate}>
+              style={{ display: 'inline-block', cursor: "text" }}>
               <span
                 className={classnames(
-                  "fontNodesEqual",
+                  "fontTitleBig",
                   styles.spanLinkSubcate,
-                  { [styles.spanLinkSubcateMouse]: this.state.onLinkSubcate }
                 )}>
                 {"@" + this.props.unitEntity.pathSubCate.currentSubcateObj["name"] + "!"}
               </span>
             </Link>
           </div>
           <div
-            className={classnames(styles.boxEndGuiding)}>
+            className={classnames(styles.boxCoverSubtitle)}>
             <span
               className={classnames("fontContentPlain", "colorWhite")}>
-              {this.props.i18nUIString.catalog['guiding_UnitSubcate_End_']}
+              {this.props.unitEntity.pathSubCate.currentSubcateObj['description']}
             </span>
           </div>
           <div
-            className={classnames(styles.rowSocialIcons)}>
+            className={classnames(styles.rowContinue)}>
+            <div>
+              <div
+                title={this.props.i18nUIString.catalog["tagTitle_UnitSubcate_End_CopyBtn"]}
+                className={classnames(
+                  styles.boxNextBtn,
+                  {[styles.boxNextBtnActiv]: this.state.onbtnContinue}
+                )}
+                onClick={this._handleClick_linkStart}
+                onTouchStart={this._handleEnter_btnStart}
+                onTouchEnd={this._handleLeave_btnStart}
+                onMouseEnter={this._handleEnter_btnStart}
+                onMouseLeave={this._handleLeave_btnStart}>
+                <span
+                  className={classnames(
+                    "fontSubtitle_h5", "colorWhite",
+                  )}>
+                  {this.props.i18nUIString.catalog['submit_Start']}
+                </span>
+                <div
+                  className={classnames(styles.boxHiddenBtnNext)}>
+                  <SubcateBtnNext
+                    {...this.props}/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className={classnames(styles.rowActionIcons)}>
             <div
               className={classnames(styles.boxIconLeft)}>
               <LineShareButton
@@ -111,7 +129,8 @@ class PathSubcateEnd extends React.Component {
                   iconFillColor={"#a3a3a3"}/>
               </LineShareButton>
             </div>
-            <div>
+            <div
+              className={classnames(styles.boxIconLeft)}>
               <FacebookShareButton
                 url={sharedLink}
                 className="Demo__some-network__share-button">
@@ -121,11 +140,8 @@ class PathSubcateEnd extends React.Component {
                   iconFillColor={"#a3a3a3"}/>
               </FacebookShareButton>
             </div>
-          </div>
-          <div
-            className={classnames(styles.rowShareNext)}>
             <div
-              className={classnames(styles.frameCopyBtn)}>
+              className={classnames(styles.frameCoverCopyBtn)}>
               <div style={{width: '100%', position: 'absolute',overflow:'hidden'}}>
                 <input
                   ref={this.refHiddenText}
@@ -135,26 +151,17 @@ class PathSubcateEnd extends React.Component {
               </div>
               <div
                 title={this.props.i18nUIString.catalog["tagTitle_UnitSubcate_End_CopyBtn"]}
-                className={classnames(
-                  styles.boxCopyBtn,
-                  {[styles.boxCopyBtnActiv]: this.state.onbtnCopy}
-                )}
+                className={classnames(styles.boxCoverCopyBtn)}
                 onClick={this._handleClick_pathCopy}
                 onTouchStart={this._handleEnter_btnCopy}
                 onTouchEnd={this._handleLeave_btnCopy}
                 onMouseEnter={this._handleEnter_btnCopy}
                 onMouseLeave={this._handleLeave_btnCopy}>
                 <div
-                  className={classnames(styles.boxIconCopy)}>
+                  className={classnames(styles.boxSvgCoverCopy)}>
                   <SvgCopy
-                    customStyles={"{fill: #FFFFFF}"}/>
+                    customStyles={this.state.onbtnCopy ? "{fill: #FFFFFF}": "{fill: #a3a3a3}"}/>
                 </div>
-                <span
-                  className={classnames(
-                    "fontSubtitle_h5", "colorWhite",
-                  )}>
-                  {this.props.i18nUIString.catalog['btn_UnitSubcate_End_CopyBtn']}
-                </span>
                 {
                   this.state.emit &&
                   <div
@@ -164,11 +171,6 @@ class PathSubcateEnd extends React.Component {
                   </div>
                 }
               </div>
-            </div>
-            <div
-              className={classnames(styles.frameNextBtn)}>
-              <SubcateBtnNext
-                {...this.props}/>
             </div>
           </div>
         </div>
@@ -189,16 +191,17 @@ class PathSubcateEnd extends React.Component {
     }, 2200)
   }
 
-  _handleClick_linkSubcate(event){
+  _handleClick_linkStart(event){
     event.preventDefault();
     event.stopPropagation();
-    if(!this.props.location.pathname.includes('explore/unit')){
-      // the browser, which do not know the origin it has was modified, need to be modified again to have the pratical history
-      window.history.replaceState(this.props.location.state, '', this.props.location.pathname+this.props.location.search);
-    };
-    // and Notice! after the replaceState has been done
-    // we re-assign to make sure to scroll, the unit would all reset
-    window.location.assign("/cosmic/explore/path/" + this.props.unitEntity.pathSubCate.currentPathProject + "?subCate=" + this.props.unitEntity.pathSubCate.currentSubCateId)
+    //and Notice! history should be pushed after the replaceState has been done
+    let urlParams = new URLSearchParams(this.props.location.search);
+    urlParams.set('unitView', "theater");
+    this.props.history.push({
+      pathname: this.props.match.path, //should always be ".../unit" because we are always in a Unit here
+      search: urlParams.toString(),
+      state: {from: this.props.location}
+    });
   }
 
   _handleClick_pathCopy(event){
@@ -210,20 +213,20 @@ class PathSubcateEnd extends React.Component {
     this._set_emitModal(); // than inform the user by emitModal
   }
 
-  _handleEnter_linkSubcate(e){
-    this.setState({onLinkSubcate: true})
-  }
-
-  _handleLeave_linkSubcate(e){
-    this.setState({onLinkSubcate: false})
-  }
-
   _handleEnter_btnCopy(e){
     this.setState({onbtnCopy: true})
   }
 
   _handleLeave_btnCopy(e){
     this.setState({onbtnCopy: false})
+  }
+
+  _handleEnter_btnStart(e){
+    this.setState({onbtnContinue: true})
+  }
+
+  _handleLeave_btnStart(e){
+    this.setState({onbtnContinue: false})
   }
 
 }
@@ -245,4 +248,4 @@ const mapDispatchToProps = (dispatch)=>{
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(PathSubcateEnd));
+)(PathSubcateCover));

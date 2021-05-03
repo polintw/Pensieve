@@ -1,11 +1,26 @@
 .comNavFeed {
   display: flex;
-  flex-wrap: wrap;
 }
 
-.boxTitleSubcate {
-  width: 100%;
-  margin: 1rem 0 4px;
-  padding-bottom: 4px;
-  box-shadow: 0px 4px 4px -4px rgb(84 84 84 / 45%);
+.linkNavFeed {
+  margin-right: 15px;
+  padding-right: 15px;
+}
+/* after linkNavFeed */
+.linkNavFeedSide {
+  border-right: 1px solid #b8b8b8;
+}
+
+.linkNavFeedTabOn {
+  cursor: text;
+}
+
+.spanLink {
+  display: inline-block;
+  border-bottom: 0.75px solid transparent;
+}
+
+.spanLinkMouseOn {
+  display: inline-block;
+  border-bottom: 0.75px solid #545454;
 }

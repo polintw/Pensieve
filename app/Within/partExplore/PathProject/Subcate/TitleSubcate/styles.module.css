@@ -1,0 +1,48 @@
+.comTitleSubcate {
+  width: 100%;
+}
+
+.rowWithTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.boxResetLink {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.linkBlock {
+  display: block;
+}
+
+.boxSvgArrow {
+  width: 15px;
+  height: 15px;
+  padding: 2.5px 0;
+  cursor: pointer;
+}
+
+.boxIconFilterNode {
+  display: inline-block;
+  width: 28px;
+  height: 20px;
+  box-sizing: border-box;
+  text-align: right;
+  cursor: pointer;
+}
+
+.spanLinkNode {
+  display: inline-block;
+  border-bottom: solid 1px transparent;
+}
+
+.spanLinkNodeMouse {
+  border-bottom: solid 1px #545454;
+}
+
+@media screen and (max-width:860px) {
+
+}

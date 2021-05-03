@@ -1,0 +1,37 @@
+.comSteps {
+  display: flex;
+  flex-direction: column;
+}
+
+.boxNodesFilter {
+  margin: 0;
+}
+
+.boxTitleFilter {
+  margin: 4px 0 12px;
+}
+
+.boxTitleNode {
+  margin: 8px 0;
+}
+
+.rowTitlePadding {
+  padding-bottom: 2.538vh;
+  border-bottom: 1px solid #d8d8d8;
+}
+
+.boxFooter {
+  position: relative;
+  padding-top: 2rem;
+  margin-bottom: 36vh;
+}
+
+@media screen and (max-width:860px) {
+  .boxTitleFilter {
+    margin: 12px 0;
+  }
+
+  .boxFooter {
+    margin-bottom: 14vh;
+  }
+}

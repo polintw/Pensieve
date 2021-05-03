@@ -50,6 +50,7 @@ class SuggestNodes extends React.Component {
     let nodesDOM = this.state.suggestions.map((nodeId, index)=>{
       let toSearch = new URLSearchParams(this.props.location.search); //we need value in URL query
       toSearch.append("filterNode", nodeId);
+      toSearch.set("tab", "steps");
       return (
         <div
           key={"key_NavFilter_sugeestionsNodes_"+index}

@@ -61,13 +61,9 @@ class EntitySubcateTitle extends React.Component {
   _handleClick_linkSubcate(event){
     event.preventDefault();
     event.stopPropagation();
-    if(!this.props.location.pathname.includes('explore/unit')){
-      // the browser, which do not know the origin it has was modified, need to be modified again to have the pratical history
-      window.history.replaceState(this.props.location.state, '', this.props.location.pathname+this.props.location.search);
-    };
     // and Notice! after the replaceState has been done
     // we re-assign to make sure to scroll, the unit would all reset
-    window.location.assign("/cosmic/explore/path/" + this.props.unitEntity.pathSubCate.currentPathProject + "?subCate=" + this.props.unitEntity.pathSubCate.currentSubCateId)
+    window.location.assign("/cosmic/explore/path/" + this.props.unitEntity.pathSubCate.currentPathProject + "?tab=routes&subCate=" + this.props.unitEntity.pathSubCate.currentSubCateId)
   }
 
   _handleEnter_linkSubcate(e){
