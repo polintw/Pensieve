@@ -56,7 +56,8 @@ async function _handle_GET_paths_basic(req, res){
       subCatesList.push(row.exposedId);
       subCatesObj[row.exposedId] = {
         exposedId: row.exposedId,
-        name: row.name
+        name: row.name,
+        description: row.description
       };
     });
 

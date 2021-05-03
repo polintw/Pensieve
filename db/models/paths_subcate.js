@@ -28,6 +28,10 @@ module.exports = (sequelize, DataTypes) => {
     name: {
       type: DataTypes.STRING,
       charset: 'utf8mb4' //for Mandarin, or emoji if you don't speak in mandarin
+    },
+    description:{
+      type: DataTypes.STRING,
+      charset: 'utf8mb4' //for Mandarin, or emoji if you don't speak in mandarin
     }
   }, {});
   paths_subcate.associate = function(models) {

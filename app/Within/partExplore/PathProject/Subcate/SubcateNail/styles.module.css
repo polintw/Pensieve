@@ -1,0 +1,88 @@
+.comSubcatesNail {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.linkSubcate {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.linkSubcateMouseOver {
+  border-radius: 8px;
+  box-shadow: 0 0 8px 0 rgb(84 84 84 / 45%);
+  background-color: #FFFFFF;
+}
+
+.boxSubcateText {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 1.38vw 1.38vw 0;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.boxSubcateTitle {
+  max-width: 72%;
+  margin-right: 30px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.boxSubcateDescript {
+  height: 42px;
+}
+
+.boxImgsNail {
+  flex: 1;
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  padding: 1.38vw;
+  border-radius: 8px;
+  box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
+  background-color: #FFFFFF;
+  overflow: hidden;
+}
+
+.boxImgsNailMouseOver {
+  box-shadow: unset;
+}
+
+.boxImgsFrame {
+  display: flex;
+  flex-wrap: wrap;
+  width: 102%;
+  height: 102%;
+  position: relative;
+  margin: 0 -1%;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.boxImgContainer {
+  flex: 1;
+  min-width: 32%;
+  min-height: 48%;
+  margin: 1%;
+  background-color: rgba(217, 232, 255, 0.15);
+  background-size: cover;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+
+@media screen and (max-width:860px) {
+  .boxSubcateTitle {
+    padding: 1.38vh 1.38vh 0;
+  }
+
+  .boxImgsNail {
+    padding: 1.38vh;
+  }
+}

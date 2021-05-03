@@ -118,9 +118,12 @@ const i18nUIString_EN = {
   "submit_respond": "Respond",
   "submit_yes": "Yes",
   "submit_Okay": "Okay",
+  "submit_Open": "Open",
+  "submit_Start": "Start",
   "submit_logout": "Log out",
   "submit_unitPublish": "Publish",
   "submit_Options_profile": "Profile",
+  "submit_Continue": "Continue",
   "title_welcome": 'OnBoard',
   "title_instruction": "Instruction",
   "title_share": "Share",
@@ -142,6 +145,8 @@ const i18nUIString_EN = {
   "link_Options_public": "Public view",
   "Cornerth_inc": "Cornerth. ",
   "AllRights": "All Rights Reserved.",
+  "tab_Steps": 'Steps',
+  "tab_Routes": 'Routes',
 
   "link_Nav_Shareds_": ["<> ", "Personal"],
   "message_SelfShareds_greet": ["Good morning! New finding is on the way!", "Welcome back. How's the day going?", "Good evening. Is there anything you want to share today?", "What a long night. Come record the thing in your mind."],
@@ -177,7 +182,7 @@ const i18nUIString_EN = {
 
   "btn_UnitSubcate_End_CopyBtn": "Copy the link",
   "tagTitle_UnitSubcate_End_CopyBtn": "Copy the link of this route.",
-  "title_UnitSubcate_End_": "You've finished the ",
+  "title_UnitSubcate_End_": "You've read all of ",
   "guiding_UnitSubcate_End_": "Share to more people if you think the author did a good job!",
 
   "title_shareUpload_typewriter": ['S','h','a','r','e', '!'],
@@ -241,7 +246,7 @@ const i18nUIString_EN = {
 
   "title_Nodes": "Nodes map",
 
-  "title_NavAtNode_": "Accumulation",
+  "title_NavAtNode_": "Accumulations",
   "subtitle_NavAtNode_Num": ['stay', "from"],
   "guiding_AtNode_noAccumulated": "Waiting for the first contribution!",
   "guiding_noAccumulated_waitAuthor": "Good content is always worth waiting!",
@@ -255,12 +260,14 @@ const i18nUIString_EN = {
   "btn_PathProject_ShareLink": "Page link",
   "tagTitle_PathProject_ShareLink": "Copy page link.",
 
+  "guiding_PathProject_SubcateMap": "See route on map",
+
   "hint_nodesFilter_nodeExplore": "Explore to node",
   "hint_nodesFilter_nodeNotYet": "Not yet visit!",
   "title_nodesFilter_LayerBase": "From base",
   "btn_nodesFilter_layerOptions": ['Among All', 'Used', 'Upper'],
 
-  "btn_filteNav_Feed": ['Images', 'Map'],
+  "btn_filteNav_Feed": ['Nodes', 'Map'],
 
   "message_btn_OpenMap": "See location",
 

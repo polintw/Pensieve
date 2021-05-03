@@ -8,6 +8,7 @@ const {
 
 const accumulatedExecutive = require('./accumulated.js');
 const nodesExecutive = require('./nodes.js');
+const subcateExecutive = require('./subcate.js');
 const basicInfoExecutive = require('./basicInfo.js');
 
 /*
@@ -55,6 +56,7 @@ main.use(function(req, res, next) {
 // path do not need a token
 main.use('/accumulated', accumulatedExecutive)
 main.use('/nodes', nodesExecutive)
+main.use('/subcate', subcateExecutive)
 main.use('/basic', basicInfoExecutive)
 
 module.exports = main;

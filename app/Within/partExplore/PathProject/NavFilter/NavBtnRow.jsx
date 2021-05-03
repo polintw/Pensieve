@@ -33,7 +33,7 @@ class NavBtnRow extends React.Component {
 
   render(){
     let toSearch = new URLSearchParams(this.props.location.search); //we need value in URL query
-    toSearch.append("_filter_nodes", true);
+    // Notice! Currently this component was special and only for Subcate/SubcateIntro
     toSearch.append("_filter_map", true);
     let filterLinkObj = {
       pathname: this.props.location.pathname,

@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
 import Theater from '../Theater/Theater.jsx';
-import PathSubcateEnd from '../PathSubcateEnd/PathSubcateEnd.jsx'
+import PathSubcate from '../PathSubcate/PathSubcate.jsx'
 import {
   _axios_getUnitData,
   _axios_getUnitImgs,
@@ -178,9 +178,9 @@ class UnitUnsign extends React.Component {
 
   _render_switch(paramUnitView){
     switch (paramUnitView) {
-      case 'pathSubCateEnd':
+      case 'pathsubcate':
         return (
-          <PathSubcateEnd
+          <PathSubcate
             {...this.props}
             _reset_UnitMount={this._reset_UnitMount}
             _close_theaterHeigher={this._close_modal_Unit}/>
@@ -237,7 +237,7 @@ class UnitUnsign extends React.Component {
           onClose={()=>{this._close_modal_Unit();}}
           style={{
             position: "fixed",
-            backgroundColor: (paramUnitView=="pathSubCateEnd") ? 'rgba(51, 51, 51, 0.85)': 'rgba(51, 51, 51, 0.3)' }}>
+            backgroundColor: 'rgba(51, 51, 51, 0.3)' }}>
             {
               (cssVW < 860) &&
               <div

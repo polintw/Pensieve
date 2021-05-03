@@ -2,11 +2,7 @@
 
 }
 
-.comNavBtnRow {
-
-}
-
-.comNavFilterMode {
+.comNavNodesFilter {
   display: flex;
   justify-content: center;
   position: relative;
@@ -24,12 +20,6 @@
   align-items: flex-end;
 }
 
-.boxFilterSelection{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
 .boxFilterSuggest {
   display: flex;
   flex-wrap: wrap;
@@ -39,11 +29,6 @@
 
 .boxIconsFilter {
   height: 20px;
-}
-
-.boxIconsBack {
-  position: absolute;
-  right: 0;
 }
 
 .boxIconFilterNode {
@@ -107,16 +92,12 @@
 }
 
 .boxFilterNav {
-  margin: -8px 0 8px;
+
 }
 
 @media screen and (max-width:860px) {
   .boxFilterNav {
     width: 100%;
-    margin-top: 12px;
   }
 
-  .boxFilterSelection {
-    margin-top: 4px;
-  }
 }
