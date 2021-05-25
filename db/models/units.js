@@ -34,6 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     outboundLink_main: DataTypes.STRING,
     latitude_img: DataTypes.DECIMAL(21, 16), // (precision, scale) to decimal point
     longitude_img: DataTypes.DECIMAL(21, 16), // (precision, scale) to decimal point
+    source: DataTypes.STRING,
     createdAt: DataTypes.DATE //notice! this line is neccessary cuase we would select it as a params
   }, {
     paranoid: true
