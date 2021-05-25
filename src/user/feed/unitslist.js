@@ -163,8 +163,7 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
 
       return _DB_units.findAll({
         where: {
-          id: selectResultList,
-          source: { [Op.ne]: "daily_pikonly" }
+          id: selectResultList
         }
       })
       .then((resultUnit)=>{ // resultUnit should less than 12 (or 24)

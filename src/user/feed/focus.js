@@ -26,8 +26,7 @@ async function _handle_GET_feed_focus(req, res){
 
     unitsExposedList = await _DB_units.findAll({
       where: {
-        createdAt: {[Op.lt]: lastUnitTime},
-        source: { [Op.ne]: "daily_pikonly"}
+        createdAt: {[Op.lt]: lastUnitTime}
       },
       order: [ //make sure the order of arr are from latest
         Sequelize.literal('`createdAt` DESC') //and here, using 'literal' is due to some wierd behavior of sequelize,
