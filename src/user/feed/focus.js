@@ -26,6 +26,7 @@ async function _handle_GET_feed_focus(req, res){
 
     unitsExposedList = await _DB_units.findAll({
       where: {
+        source: null,
         createdAt: {[Op.lt]: lastUnitTime}
       },
       order: [ //make sure the order of arr are from latest

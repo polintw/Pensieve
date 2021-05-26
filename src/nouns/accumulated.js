@@ -41,7 +41,8 @@ async function _handle_GET_node_FeedList(req, res){
     //and we have to select from units for getting exposedId
     let unitsExposedList = await _DB_units.findAll({
         where: {
-          id: unitsIdList
+          id: unitsIdList,
+          source: null,
         },
         attributes: ['exposedId'],
         order: [ //make sure the order of arr are from latest
