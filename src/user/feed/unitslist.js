@@ -179,9 +179,11 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
           };
         });
         selectResultObj.listUnread.forEach((unitKey, i) => {
+          if( !(unitKey in resultUnitObj) ) return;
           assignedUnits.listUnread.push(resultUnitObj[unitKey]);
         });
         selectResultObj.listBrowsed.forEach((unitKey, i) => {
+          if( !(unitKey in resultUnitObj) ) return;
           assignedUnits.listBrowsed.push(resultUnitObj[unitKey]);
         });
 
