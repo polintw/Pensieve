@@ -45,7 +45,8 @@ async function _handle_GET_people_nodesAccumulated(req, res){
 
     let unitsInfo = await _DB_units.findAll({
         where: {
-          id: unitsId
+          id: unitsId,
+          source: null,
         }
       });
     let unitsExposedIdKey = {};
@@ -122,7 +123,10 @@ async function _handle_GET_people_accumulated(req, res){
       });
 
       unitsExposedList = await _DB_units.findAll({
-        where: {id: unitsId},
+        where: {
+          id: unitsId,
+          source: null,
+        },
         order: [ //make sure the order of arr are from latest
           Sequelize.literal('`createdAt` DESC')
         ]
@@ -140,6 +144,7 @@ async function _handle_GET_people_accumulated(req, res){
           id_author: targetUser.id,
           author_identity: 'user',
           createdAt: {[Op.lt]: lastUnitTime},
+          source: null,
         },
         order: [ //make sure the order of arr are from latest
           Sequelize.literal('`createdAt` DESC') //and here, using 'literal' is due to some wierd behavior of sequelize,

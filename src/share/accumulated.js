@@ -54,7 +54,8 @@ async function _handle_GET_shareds_nodesAccumulated(req, res){
 
     let unitsInfo = await _DB_units.findAll({
         where: {
-          id: unitsId
+          id: unitsId,
+          source: null,
         }
       });
     let unitsExposedIdKey = {};
@@ -122,12 +123,14 @@ async function _handle_GET_accumulated_Share(req, res){
           author_identity: "pathProject",
           used_authorId: pathInfo.id,
           createdAt: { [Op.lt]: lastUnitTime },
+          source: null,
         };
         break;
       case 'mixAll':
         whereAttributes = {
           id_author: userId,
           createdAt: { [Op.lt]: lastUnitTime },
+          source: null,
         };
         break;
       default: // 'personalOnly'
@@ -136,6 +139,7 @@ async function _handle_GET_accumulated_Share(req, res){
           author_identity: "user",
           used_authorId: null,
           createdAt: { [Op.lt]: lastUnitTime },
+          source: null,
         };
     };
     if (!!reqFilterNodes) {
@@ -164,7 +168,10 @@ async function _handle_GET_accumulated_Share(req, res){
       });
 
       unitsExposedList = await _DB_units.findAll({
-        where: {id: unitsId},
+        where: {
+          id: unitsId,
+          source: null,
+        },
         order: [ //make sure the order of arr are from latest
           Sequelize.literal('`createdAt` DESC')
         ]

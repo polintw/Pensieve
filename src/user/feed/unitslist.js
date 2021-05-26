@@ -163,7 +163,8 @@ async function _handle_GET_feedUnitslist_assigned(req, res){
 
       return _DB_units.findAll({
         where: {
-          id: selectResultList
+          id: selectResultList,
+          source: null,
         }
       })
       .then((resultUnit)=>{ // resultUnit should less than 12 (or 24)

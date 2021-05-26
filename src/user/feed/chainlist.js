@@ -57,6 +57,7 @@ function _handle_GET_feedChainlist(req, res){
   const _find_Shared_last = ()=>{
     return _DB_units.findOne({
       where: {
+        source: null,
         id_author: userId,
       },
       order: [ //make sure the order of arr are from latest
@@ -200,7 +201,10 @@ function _handle_GET_feedChainlist(req, res){
     let unitsIdList = Object.keys(sendingData.temp.temp_unitIdKeyObj);
     if(unitsIdList.length > 0 ){ //any unit was set
       return _DB_units.findAll({
-        where: {id: unitsIdList}
+        where: {
+          id: unitsIdList,
+          source: null,
+        }
       })
       .then((resultUnits)=>{
         resultUnits.forEach((row, index) => {
