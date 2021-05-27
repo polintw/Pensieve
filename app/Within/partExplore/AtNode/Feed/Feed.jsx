@@ -7,7 +7,6 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesNail from "../../../stylesNail.module.css";
 import FeedEmpty from './FeedEmpty.jsx';
-import NodeUsers from '../NodeUsers/NodeUsers.jsx';
 import Invite from '../../../partAround/Index/Invite/Invite.jsx';
 import NailFeed from '../../../../Components/Nails/NailFeed/NailFeed.jsx';
 import NailFeedWide from '../../../../Components/Nails/NailFeedWide/NailFeedWide.jsx';
@@ -170,11 +169,6 @@ class Feed extends React.Component {
 
     return (
       <div className={styles.comAtNodeFeed}>
-        <div
-          className={classnames(styles.boxNodeUsers)}>
-          <NodeUsers
-            nodeId={this.nodeAtId}/>
-        </div>
         <div
           style={{flex: "1"}}>
           {

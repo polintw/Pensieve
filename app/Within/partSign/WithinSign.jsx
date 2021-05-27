@@ -8,7 +8,6 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
-import InvitationFellow from './InvitationFellow.jsx';
 import SigninForm from '../../Sign/components/SigninForm/SigninForm.jsx';
 import SignupForm from '../../Sign/components/SignupCom/SignupForm.jsx';
 import SignupSuccess from '../../Sign/components/SignupCom/SignupSuccess.jsx';
@@ -77,10 +76,7 @@ class WithinSign extends React.Component {
 
   _compPathPlain ( props ){
     let params = new URLSearchParams( props.location.search); //we need value in URL query
-    let invitationify = !!params.get('invitation') ? params.get('invitation') : false;
-
-    if(invitationify) return <InvitationFellow {...this.props}/>
-    else return SigninWrapper( props, this);
+    return SigninWrapper( props, this);
   }
 }
 

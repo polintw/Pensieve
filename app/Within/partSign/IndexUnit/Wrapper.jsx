@@ -22,9 +22,6 @@ import {
 import {
   initAround
 } from '../../../redux/states/statesWithin.js';
-import {
-  setIndexList,
-} from "../../../redux/actions/within.js";
 import {axios_get_UnitsBasic} from '../../../utils/fetchHandlers.js';
 import {
   cancelErr,
@@ -58,8 +55,6 @@ class Wrapper extends React.Component {
     if(this.state.axios){
       this.axiosSource.cancel("component will unmount.")
     }
-    //clear & reset to init when Unmount, make sure the list would not render anything when retrun to index
-    this.props._set_IndexLists(initAround.indexLists);
   }
 
   _render_FeedNails(){
@@ -274,13 +269,11 @@ const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
-    indexLists: state.indexLists,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    _set_IndexLists: (obj) => { dispatch(setIndexList(obj)); },
     _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
     _submit_UsersList_new: (arr) => { dispatch(handleUsersList(arr)); },
     _submit_PathsList_new: (arr) => { dispatch(handlePathProjectsList(arr)); },

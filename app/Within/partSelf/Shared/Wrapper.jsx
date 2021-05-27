@@ -23,9 +23,6 @@ import {
   handleNounsList,
 } from "../../../redux/actions/general.js";
 import {
-  setWithinFlag
-} from "../../../redux/actions/within.js";
-import {
   cancelErr,
   uncertainErr
 } from '../../../utils/errHandlers.js';
@@ -293,7 +290,6 @@ const mapStateToProps = (state)=>{
 const mapDispatchToProps = (dispatch) => {
   return {
     _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
-    _set_WithinFlag: (bool, flag) => {dispatch(setWithinFlag(bool, flag)); }
   }
 }
 

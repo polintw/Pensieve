@@ -14,7 +14,6 @@ const visitRouter = require('./visit/main.js');
 const shareRouter = require('./share/main.js');
 const inspireRouter = require('./inspired/main.js');
 const uFeedRouter = require('./user/feed/main.js');
-const uInvitRouter = require('./user/invite/main.js');
 const uProfileRouter = require('./user/profile/main.js');
 
 //routes do not protect by token
@@ -35,7 +34,6 @@ router.use('/profile', uProfileRouter)
 router.use('/people', peopleRouter)
 
 router.use('/feed', uFeedRouter)
-router.use('/invite', uInvitRouter)
 router.use('/visit', visitRouter)
 router.use('/share', shareRouter)
 router.use('/inspired', inspireRouter)

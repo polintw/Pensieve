@@ -1,15 +1,17 @@
 import React from 'react';
 import {
+  Link,
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesNail from "../../../stylesNail.module.css";
-import stylesFont from '../../stylesFont.module.css';
-import NailFeed from '../../../../Components/Nails/NailFeed/NailFeed.jsx';
-import NailFeedWide from '../../../../Components/Nails/NailFeedWide/NailFeedWide.jsx';
+import FeedEmpty from './FeedEmpty.jsx';
+import NailFeedFocus from '../../../../Components/Nails/NailFeedFocus/NailFeedFocus.jsx';
 import NailFeedMobile from '../../../../Components/Nails/NailFeedMobile/NailFeedMobile.jsx';
+import AccountPalette from '../../../../Components/AccountPalette.jsx';
+import {_axios_get_accumulatedList} from '../axios.js';
 import {axios_get_UnitsBasic} from '../../../../utils/fetchHandlers.js';
 import {
   handleNounsList,
@@ -17,79 +19,40 @@ import {
   handlePathProjectsList
 } from "../../../../redux/actions/general.js";
 import {
-  submitFeedAssigned
-} from "../../../../redux/actions/within.js";
-import {
-  initAround
-} from "../../../../redux/states/statesWithin.js";
-import {
   cancelErr,
   uncertainErr
 } from "../../../../utils/errHandlers.js";
+import {
+  domain
+} from '../../../../../config/services.js';
 
-class FeedAssigned extends React.Component {
+class Feed extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       axios: false,
+      feedList: [],
       unitsBasic: {},
-      marksBasic: {}
+      marksBasic: {},
+      scrolled: true,
+      onNodeLink: false
     };
     this.refScroll = React.createRef();
     this.axiosSource = axios.CancelToken.source();
     this._set_feedUnits = this._set_feedUnits.bind(this);
     this._check_Position = this._check_Position.bind(this);
     this._render_FeedNails = this._render_FeedNails.bind(this);
-    this._filter_repeatedChin = this._filter_repeatedChin.bind(this);
-    this._axios_get_assignedList = this._axios_get_assignedList.bind(this);
-  }
-
-  _filter_repeatedChin(unitslist){
-    unitslist = unitslist.filter((unitId, index)=>{
-      return this.props.chainList.listOrderedChain.indexOf(unitId) < 0
-    })
-    return unitslist;
-  }
-
-  _check_Position(){
-    let boxScrollBottom = this.refScroll.current.getBoundingClientRect().bottom, //bottom related top of viewport of box Scroll
-        windowHeightInner = window.innerHeight; //height of viewport
-    //now, the bottom would change base on scroll, and calculate from the top of viewport
-    //we set the threshould of fetch to the 2.5 times of height of viewport.
-    //But! we only fetch if we are 'not' fetching--- check the axios status.
-    if(!this.state.axios &&
-      boxScrollBottom < (2.5*windowHeightInner) &&
-      boxScrollBottom > windowHeightInner && // safety check, especially for the very beginning, or nothing in the list
-      this.props.indexLists.scrolled // checkpoint from the backend, no items could be res if !scrolled
-    ){
-      //base on the concept that bottom of boxScroll should always lower than top of viewport,
-      //and do not need to fetch if you have see the 'real' bottom.
-      this._set_feedUnits();
-    }
+    this._render_FooterHint = this._render_FooterHint.bind(this);
+    this._handleEnter_NodeLink = this._handleEnter_NodeLink.bind(this);
+    this._handleLeave_NodeLink = this._handleLeave_NodeLink.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-    /*
-    2 situations we have to fetch list again
-    */
-    //1st one, props.lastVisit updated
-    //it's very slow to compare 2 obj directly, so just compare by key pair we already set up
-    let lastvisitchangeify = (this.props.lastVisit != prevProps.lastVisit) ? true : false;
-    if(this.recKeys.length > 0 && lastvisitchangeify){ // usually at the landing render cycle, not yet fetched and finally got the lastVisit data
-      this._set_feedUnits(this.props.lastVisit);
-    };
-    //2nd, the belongsByType had been changed
-    let residenceify = (this.props.belongsByType['residence'] == prevProps.belongsByType['residence']) ? true:false;
-    let homelandify = (this.props.belongsByType['homeland'] == prevProps.belongsByType['homeland']) ? true:false;
-    if(this.recKeys.length > 0 && this.props.lastVisit&& (!residenceify || !homelandify)){ //this one is for situation setting new belong
-      this.props._submit_list_FeedAssigned(initAround.indexLists, true); //reset to initial state before fetch
-      let nowDate = new Date();
-      this._set_feedUnits(this.props.lastVisit, nowDate);
-    };
+
   }
 
   componentDidMount(){
-    if(this.props.lastVisit) this._set_feedUnits(this.props.lastVisit);
+    this._set_feedUnits();
     window.addEventListener("scroll", this._check_Position);
   }
 
@@ -97,11 +60,28 @@ class FeedAssigned extends React.Component {
     if(this.state.axios){
       this.axiosSource.cancel("component will unmount.")
     }
-    this.props._submit_list_FeedAssigned(initAround.indexLists, true); //reset to initial state before fetch
     window.removeEventListener("scroll", this._check_Position);
   }
 
-  _render_FeedNails(listChoice){
+  _render_FooterHint(){
+    // by feed length, we gave users some message about the thing they could do
+    if (this.state.feedList.length> 0){
+      return (
+        <div>
+          <span
+            className={classnames("fontTitleSmall", "colorLightGrey")}
+            style={{margin: "8px 0", display: 'inline-block' }}>
+            {this.props.i18nUIString.catalog['descript_AroundIndex_footer']}
+          </span>
+        </div>
+      );
+    }
+    else{ // most reason to:no feed at all
+      return null;
+    }
+  }
+
+  _render_FeedNails(){
     let groupsDOM = [];
     const _nailsGroup = (unitGroup, groupIndex)=>{
       let nailsDOM = [];
@@ -110,75 +90,117 @@ class FeedAssigned extends React.Component {
         if( !(unitId in this.state.unitsBasic)) return; //skip if the info of the unit not yet fetch
         // for mobile device, use one special Nail
         let cssVW = window.innerWidth;
-        if(cssVW < 860) {
-          nailsDOM.push(
-            <div
-              key={"key_FeedAssigned_new_" + index}
-              className={classnames(stylesNail.boxNail, stylesNail.custNailWide)}>
-              <NailFeedMobile
-                {...this.props}
-                leftimg={false}
-                unitId={unitId}
-                linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
-                unitBasic={this.state.unitsBasic[unitId]}
-                marksBasic={this.state.marksBasic} />
-            </div>
-          );
-          return;
-        };
-        // for laptop / desktop, change nail by cycles
-        let remainder3 = index % 3,
-        remainder2 = index % 2; // cycle, but every 3 units has a wide, left, right in turn.
 
-        nailsDOM.push (remainder3 ? ( // 0 would be false, which means index % 3 =0
+        nailsDOM.push (
           <div
-            key={"key_FeedAssigned_new_"+index}
-            className={classnames(stylesNail.boxNail)}>
-            <NailFeed
-              {...this.props}
-              unitId={unitId}
-              linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
-              unitBasic={this.state.unitsBasic[unitId]}
-              marksBasic={this.state.marksBasic}/>
+            key={"key_NodeFeed_new_"+index}
+            className={classnames(styles.boxModuleItem)}>
+              <div
+                className={classnames(styles.boxFocusNailSubtitle)}>
+                <div
+                  className={classnames(styles.boxSubtitleFlex, styles.boxSmallNoFlex)}>
+                  <div
+                     className={classnames(styles.boxFocusNailSubtitleUp, 'colorStandard')}>
+                    <AccountPalette
+                      size={"regularBold"}
+                    referLink={
+                      (this.state.unitsBasic[unitId].authorIdentity == 'pathProject') ?
+                        (
+                          domain.protocol + "://" +
+                          domain.name + '/cosmic/explore/path/' +
+                          (
+                            this.state.unitsBasic[unitId].authorId in this.props.pathsBasic &&
+                            this.props.pathsBasic[this.state.unitsBasic[unitId].authorId].pathName)
+                        ) : (
+                          domain.protocol + "://" +
+                          domain.name + '/cosmic/explore/user?userId=' +
+                          this.state.unitsBasic[unitId].authorId
+                        )
+                    }
+                    userId={this.state.unitsBasic[unitId].authorId}
+                    authorIdentity={this.state.unitsBasic[unitId].authorIdentity}
+                      styleLast={(this.state.unitsBasic[unitId].authorIdentity == 'pathProject') ? { color: 'rgb(69, 135, 160)'} : {}}/>
+                    <span
+                      className={classnames(styles.spanFocusSubtitleConnect, 'colorEditLightBlack', 'fontSubtitle_h5')}>
+                      {this.props.i18nUIString.catalog['connection_focus_userNode']}
+                    </span>
+                  </div>
+                <div
+                  className={classnames(styles.boxFocusNailSubtitleLow)}>
+                  <Link
+                    to={"/cosmic/explore/node?nodeid=" + this.state.unitsBasic[unitId].nounsList[0]}
+                    className={classnames('plainLinkButton')}
+                    eventkey={"mouseEvKey_node_" + unitId + "_" + this.state.unitsBasic[unitId].nounsList[0]}
+                    onMouseEnter={this._handleEnter_NodeLink}
+                    onMouseLeave={this._handleLeave_NodeLink}>
+                    {(this.state.unitsBasic[unitId].nounsList[0] in this.props.nounsBasic) &&
+                      <span
+                        className={classnames(
+                          "fontNodesEqual", "weightBold", "colorEditBlack",
+                          styles.spanBaseNode,
+                          { [styles.spanBaseNodeMouse]: this.state.onNodeLink == ("mouseEvKey_node_" + unitId + "_" + this.state.unitsBasic[unitId].nounsList[0]) }
+                        )}>
+                        {this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].name}</span>
+                    }
+                  </Link>
+                  <span
+                    className={classnames("fontNodesEqual", "colorEditBlack", "weightBold")}>
+                    {this.state.unitsBasic[unitId].nounsList[0] in this.props.nounsBasic ? (
+                      (this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].prefix.length > 0) &&
+                      (", ")) : (null)
+                    }
+                  </span>
+                  <br/>
+                  {
+                    (this.state.unitsBasic[unitId].nounsList[0] in this.props.nounsBasic &&
+                      this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].prefix.length > 0) &&
+                    <div
+                      className={classnames('plainLinkButton')}
+                      style={{display: 'inline-block'}}
+                      eventkey={"mouseEvKey_node_" + unitId + "_prefix_" + this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].parentId}>
+                        <span
+                          className={classnames("fontSubtitle", "weightBold", "colorEditBlack")}>
+                          {this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].prefix}</span>
+                    </div>
+                  }
+                </div>
+                </div>
+              </div>
+              <div
+                className={classnames(stylesNail.boxNail, stylesNail.custFocusNailWide)}>
+                {
+                  (cssVW < 860) ? (
+                    <NailFeedMobile
+                      {...this.props}
+                      leftimg={false}
+                      unitId={unitId}
+                      nodisplay={['author']}
+                      linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
+                      unitBasic={this.state.unitsBasic[unitId]}
+                      marksBasic={this.state.marksBasic} />
+                  ): (
+                    <NailFeedFocus
+                      {...this.props}
+                      leftimg={true}
+                      unitId={unitId}
+                      narrowWidth={false}
+                      linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
+                      unitBasic={this.state.unitsBasic[unitId]}
+                      marksBasic={this.state.marksBasic} />
+                  )
+                }
+              </div>
           </div>
-        ): (
-          <div
-            key={"key_FeedAssigned_new_"+index}
-            className={classnames(stylesNail.boxNail, stylesNail.custNailWide)}>
-            <NailFeedWide
-              {...this.props}
-              leftimg={ remainder2 ? true : false}
-              unitId={unitId}
-              linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
-              unitBasic={this.state.unitsBasic[unitId]}
-              marksBasic={this.state.marksBasic}/>
-          </div>
-        ));
+        );
       });
-      if(listChoice=="unread" && (groupIndex+1)==this.props.indexLists.listUnread.length){ //sepcial handler for last round of listUnread
-        if(this.props.indexLists.listBrowsed.length ==0){ // should add hint at a special condition: no browsed item, means no followed units after the last round
-          nailsDOM.push(
-            <div
-              className={classnames(styles.boxDescript, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
-              {this.props.i18nUIString.catalog['title_FeedAssigned_AllRead']}</div>
-          );
-        }
-        else if( ((nailsDOM.length % 3) == 2) && this.props.indexLists.listBrowsed.length !=0){ // only happend if the last one was a 'lonely' one, not good looking
-          nailsDOM.splice(-1, 1);
-        };
-      };
-      if(listChoice=="browsed" && groupIndex==0 && nailsDOM.length > 0) nailsDOM.splice(1, 0, ( // 'You've all browsed' at the second place of listbrowsed
-        <div
-          className={classnames(styles.boxDescript, stylesFont.fontTitleSmall, stylesFont.colorLightGrey)}>
-          {this.props.i18nUIString.catalog['title_FeedAssigned_AllRead']}</div>
-      ));
 
       return nailsDOM;
     };
-    let renderList = (listChoice=="unread") ? this.props.indexLists.listUnread : this.props.indexLists.listBrowsed;
-    renderList.forEach((unitGroup, index)=>{
+
+    this.state.feedList.forEach((unitGroup, index)=>{
       groupsDOM.push(
         <div
+          key={"key_PathProject_FeedGroup"+index}
           className={classnames(
             styles.boxModule,
             styles.boxModuleSmall,
@@ -192,109 +214,96 @@ class FeedAssigned extends React.Component {
   }
 
   render(){
-    this.recKeys = !!this.props.belongsByType.setTypesList? this.props.belongsByType.setTypesList: []; //because there are more than one process need to use this var, but this var would change bu props., we claim it to this.
-    let concatList = this.props.indexLists.listUnread.concat(this.props.indexLists.listBrowsed);
-
     return (
-      <div>
+      <div className={styles.comFocusBoardFeed}>
+        <div>
+          {
+            (this.state.feedList.length > 0) &&
+            <div>
+              {this._render_FeedNails()}
+            </div>
+          }
+          {
+            ((this.state.feedList.length == 0) &&
+              !this.state.scrolled &&
+              !this.state.axios
+            ) &&
+            <div
+              className={classnames(
+                styles.boxModule,
+                styles.boxModuleSmall,
+              )}>
+              <FeedEmpty
+                {...this.props}/>
+            </div>
+          }
 
-        {
-          // notice, a condition if the user didn't set any belong, not going to render at all
-          ((concatList.length > 0) &&
-          (this.recKeys.length != 0) ) &&
-          <div>
-            {this._render_FeedNails('unread')}
-            {this._render_FeedNails('browsed')}
-          </div>
-        }
-        {
-          ((concatList.length == 0) &&
-            !this.props.indexLists.scrolled &&
-            !this.state.axios &&
-            this.recKeys.length != 0
-          ) &&
+          <div ref={this.refScroll}/>
           <div
-            className={classnames(
-              styles.boxModule,
-              styles.boxModuleSmall,
-            )}>
-            {
-              (!!this.props.chainList.listInfo[this.props.chainList.listOrderedChain[0]] && this.props.chainList.listInfo[this.props.chainList.listOrderedChain[0]] == "latestShared") ?(
-                <div
-                  className={classnames(
-                    styles.boxEmptyDescript,
-                    "fontTitleSmall", "colorGrey")}
-                    style={{marginTop: '22px'}}>
-                    {this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned_justSubmit'] /*which means, the user just share something*/}
-                </div>
-              ):(
-                <div
-                  className={classnames(
-                    styles.boxEmptyDescript, stylesNail.boxNail, stylesNail.custNailWideEmpty,
-                    "fontTitleSmall", "colorGrey")}>
-                  <div
-                    className={styles.boxEmptyColumn}>
-                    <span className={classnames("fontSubtitle")}>
-                      {this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned'][0]}
-                    </span>
-                    <br/>
-                    {this.props.i18nUIString.catalog['guiding_FeedAssigned_noneAssigned'][1]}
-                  </div>
-                </div>
-              )
-            }
+            className={classnames(styles.boxFooter)}>
+            {this._render_FooterHint()}
           </div>
-        }
-        <div ref={this.refScroll}/>
+        </div>
       </div>
     )
   }
 
-  _set_feedUnits(lastVisit, lastUnitTime){
+  _check_Position(){
+    let boxScrollBottom = this.refScroll.current.getBoundingClientRect().bottom, //bottom related top of viewport of box Scroll
+        windowHeightInner = window.innerHeight; //height of viewport
+    //now, the bottom would change base on scroll, and calculate from the top of viewport
+    //we set the threshould of fetch to the 2.5 times of height of viewport.
+    //But! we only fetch if we are 'not' fetching--- check the axios status.
+    if(!this.state.axios &&
+      boxScrollBottom < (2.5*windowHeightInner) &&
+      boxScrollBottom > windowHeightInner && // safety check, especially for the very beginning, or nothing in the list
+      this.state.scrolled // checkpoint from the backend, no items could be res if !scrolled
+    ){
+      //base on the concept that bottom of boxScroll should always lower than top of viewport,
+      //and do not need to fetch if you have see the 'real' bottom.
+      this._set_feedUnits();
+    }
+  }
+
+  _set_feedUnits(lastUnitTime){
     // feeds was selected by the last unit get last round
-    let listUnitBase = !!lastUnitTime? lastUnitTime: false, list = false;
-    if(this.props.indexLists.listBrowsed.length > 0){
-      list = this.props.indexLists.listBrowsed;
-    }else if(this.props.indexLists.listUnread.length > 0){
-      list = this.props.indexLists.listUnread;
-    };
-    if(list && !lastUnitTime){ // 'list' would be 'false' if both listBrowsed & listUnread was empty
+    if(!lastUnitTime && this.state.feedList.length > 0){
+      //set the lastUnitTime if no assigned, after the list had already had something
       let group, groupLength;
+      let list = this.state.feedList;
       group = list[list.length-1];
-      groupLength = list[list.length-1].length;
-      listUnitBase = this.state.unitsBasic[group[groupLength-1]].createdAt;
+      groupLength = group.length;
+      lastUnitTime = this.state.unitsBasic[group[groupLength-1]].createdAt;
     };
     const self = this;
     this.setState({axios: true});
 
-    this._axios_get_assignedList({
-      visitBase: lastVisit,
-      listUnitBase: listUnitBase
+    _axios_get_accumulatedList(this.axiosSource.token, {
+      listUnitBase: lastUnitTime,
     })
     .then((resObj)=>{
-      //(we don't update the 'axios' state, because there is another axios here, for units, right after the res)
-      let idlistUnread = resObj.main.listUnread.map((unitsObj, index)=>{ return unitsObj.unitId;});
-      let idlistBrowsed = resObj.main.listBrowsed.map((unitsObj, index)=>{ return unitsObj.unitId;});
-      //it is possible the Unread list conatin unit respond to user Shared, we have to rm them
-      idlistBrowsed = this._filter_repeatedChin(idlistBrowsed);
-      idlistUnread = this._filter_repeatedChin(idlistUnread);
+      if(resObj.main.unitsList.length > 0){
+        self.setState((prevState, props)=>{
+          let copyList = prevState.feedList.slice();
+          copyList.push(resObj.main.unitsList);
+          return {
+            feedList: copyList,
+            scrolled: resObj.main.scrolled
+          }
+        });
 
-      this.props._submit_list_FeedAssigned({
-          listBrowsed: idlistBrowsed,
-          listUnread: idlistUnread,
-          scrolled: resObj.main.scrolled // basically would be 'true' in most of time
-      });
-
-      let unitslist = idlistUnread.concat(idlistBrowsed);
-      return unitslist.length > 0 ?(
-        axios_get_UnitsBasic(self.axiosSource.token, unitslist) //and use the list to get the data of eahc unit
-      ): ({ main: {
-        nounsListMix: [],
-        usersList: [],
-        pathsList: [],
-        unitsBasic: {},
-        marksBasic: {}
-      }});
+        return axios_get_UnitsBasic(self.axiosSource.token, resObj.main.unitsList);
+      }
+      else{
+        self.setState({scrolled: resObj.main.scrolled}) // don't forget set scrolled to false to indicate the list was end
+        return { //just a way to deal with the next step, stop further request
+          main: {
+            nounsListMix: [],
+            usersList: [],
+            pathsList: [],
+            unitsBasic: {},
+            marksBasic: {}
+          }}};
     })
     .then((resObj)=>{
       //after res of axios_Units: call get nouns & users
@@ -321,34 +330,21 @@ class FeedAssigned extends React.Component {
     });
   }
 
-  _axios_get_assignedList(obj){
-    return axios({
-      method: 'get',
-      url: '/router/feed/unitslist/assigned',
-      params: obj,
-      headers: {
-        'Content-Type': 'application/json',
-        'charset': 'utf-8',
-        'token': window.localStorage['token']
-      },
-      cancelToken: this.axiosSource.token
-    }).then(function (res) {
-      let resObj = JSON.parse(res.data); //still parse the res data prepared to be used below
-      return resObj;
-    }).catch(function (thrown) {
-      throw thrown;
-    });
+  _handleEnter_NodeLink(e) {
+    let target = e.currentTarget.getAttribute('eventkey');
+    this.setState({ onNodeLink: target })
+  }
+
+  _handleLeave_NodeLink(e) {
+    this.setState({ onNodeLink: false })
   }
 }
 
 const mapStateToProps = (state)=>{
   return {
-    userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
-    belongsByType: state.belongsByType,
-    indexLists: state.indexLists,
-    sharedsList: state.sharedsList,
-    chainList: state.chainList,
+    nounsBasic: state.nounsBasic,
+    pathsBasic: state.pathsBasic
   }
 }
 
@@ -357,7 +353,6 @@ const mapDispatchToProps = (dispatch) => {
     _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
     _submit_UsersList_new: (arr) => { dispatch(handleUsersList(arr)); },
     _submit_PathsList_new: (arr) => { dispatch(handlePathProjectsList(arr)); },
-    _submit_list_FeedAssigned: (obj, reset) => { dispatch(submitFeedAssigned(obj, reset)); }
   }
 }
 

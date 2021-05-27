@@ -13,11 +13,7 @@ import {
   UPDATE_PATHSBASIC
 } from '../types/typesGeneral.js';
 import {
-  SET_INDEXLISTS,
-  SUBMIT_FEEDASSIGN,
-  SUBMIT_CHAINLIST,
   SUBMIT_SHAREDSLIST,
-  SET_FLAG_CHAINRESPOND
 } from '../types/typesWithin.js';
 import {
   SET_UNITVIEW,
@@ -90,21 +86,6 @@ function pageWithin(state = initialGeneral, action){
         belongsByType: {...state.belongsByType, ...action.typeObj}
       })
       break;
-    case SET_INDEXLISTS:
-      return Object.assign({}, state, {
-        indexLists: {...state.indexLists, ...action.lists}
-      })
-      break;
-    case SUBMIT_FEEDASSIGN:
-      return Object.assign({}, state, {
-        indexLists: { ...state.indexLists, ...action.listsObj }
-      })
-      break;
-    case SUBMIT_CHAINLIST:
-      return Object.assign({}, state, {
-        chainList: { ...state.chainList, ...action.listsObj}
-      })
-      break;
     case SUBMIT_SHAREDSLIST:
       return Object.assign({}, state, {
         sharedsList: { ...state.sharedsList, ...action.listsObj}
@@ -113,11 +94,6 @@ function pageWithin(state = initialGeneral, action){
     case SUBMIT_UNITRESPONDSLIST:
       return Object.assign({}, state, {
         unitCurrentResponds: {...state.unitCurrentResponds, ...action.listsObj}
-      })
-      break;
-    case SET_FLAG_CHAINRESPOND:
-      return Object.assign({}, state, {
-        flagChainFetRespond: action.bool
       })
       break;
     case UPDATE_NOUNSBASIC:

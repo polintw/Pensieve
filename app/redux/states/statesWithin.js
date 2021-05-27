@@ -20,16 +20,6 @@ export const initCosmic = {
 }
 
 export const initAround = {
-  flagChainFetRespond: false,
-  chainList: {
-    listOrderedChain: [],
-    listInfo: {}
-  },
-  indexLists: {
-    listUnread: [],
-    listBrowsed: [],
-    scrolled: true
-  },
   sharedsList: {
     list: []
   }

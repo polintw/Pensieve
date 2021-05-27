@@ -1,22 +1,7 @@
-.boxGuiding {
-  margin-bottom: 1rem;
-}
-
-.boxGuidingMouseOn {
-  padding-top: 21px;
-}
-
-.boxShareUpload {
+.comShareUpload {
   width: 100%;
-  height: 17.76vh;
-}
-
-.spanShareGuiding {
-  display: block;
 }
 
 @media screen and (max-width:860px) {
-  .boxGuiding {
-    display: none;
-  }
+
 }
