@@ -7,7 +7,6 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesNail from "../../../stylesNail.module.css";
 import FeedEmpty from './FeedEmpty.jsx';
-import Invite from '../../../partAround/Index/Invite/Invite.jsx';
 import NailFeed from '../../../../Components/Nails/NailFeed/NailFeed.jsx';
 import NailFeedWide from '../../../../Components/Nails/NailFeedWide/NailFeedWide.jsx';
 import NailFeedMobile from '../../../../Components/Nails/NailFeedMobile/NailFeedMobile.jsx';
@@ -69,16 +68,9 @@ class Feed extends React.Component {
       return (
         <div>
           <span
-            className={classnames("fontTitleSmall", "colorLightGrey")}
-            style={{margin: "8px 0", display: 'inline-block' }}>
+            className={classnames(styles.spanFooterHint, "fontTitleSmall", "colorLightGrey")}>
             {this.props.i18nUIString.catalog['descript_AroundIndex_footer']}
           </span>
-          <div
-            className={classnames(styles.boxInvite)}>
-            <Invite
-              belongOnly={false}
-              reqNode={this.nodeAtId}/>
-          </div>
         </div>
       );
     }

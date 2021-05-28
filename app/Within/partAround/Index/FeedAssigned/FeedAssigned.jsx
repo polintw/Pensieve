@@ -11,7 +11,7 @@ import FeedEmpty from './FeedEmpty.jsx';
 import NailFeedFocus from '../../../../Components/Nails/NailFeedFocus/NailFeedFocus.jsx';
 import NailFeedMobile from '../../../../Components/Nails/NailFeedMobile/NailFeedMobile.jsx';
 import AccountPalette from '../../../../Components/AccountPalette.jsx';
-import {_axios_get_accumulatedList} from '../axios.js';
+import {_axios_get_accumulatedList} from '../utils.js';
 import {axios_get_UnitsBasic} from '../../../../utils/fetchHandlers.js';
 import {
   handleNounsList,
@@ -26,7 +26,7 @@ import {
   domain
 } from '../../../../../config/services.js';
 
-class Feed extends React.Component {
+class FeedAssigned extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -219,7 +219,8 @@ class Feed extends React.Component {
         <div>
           {
             (this.state.feedList.length > 0) &&
-            <div>
+            <div
+              className={classnames(styles.boxRow)}>
               {this._render_FeedNails()}
             </div>
           }
@@ -232,6 +233,7 @@ class Feed extends React.Component {
               className={classnames(
                 styles.boxModule,
                 styles.boxModuleSmall,
+                styles.boxRow
               )}>
               <FeedEmpty
                 {...this.props}/>
@@ -240,7 +242,7 @@ class Feed extends React.Component {
 
           <div ref={this.refScroll}/>
           <div
-            className={classnames(styles.boxFooter)}>
+            className={classnames(styles.boxRow, styles.boxFooter)}>
             {this._render_FooterHint()}
           </div>
         </div>

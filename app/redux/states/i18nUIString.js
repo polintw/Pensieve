@@ -186,6 +186,7 @@ const i18nUIString_EN = {
   "title_UnitSubcate_End_": "You've read all of ",
   "guiding_UnitSubcate_End_": "Share to more people if you think the author did a good job!",
 
+  "title_upload_daily": "Upload a Pik",
   "title_shareUpload_typewriter": ['S','h','a','r','e', '!'],
   "guidingCreateShare_ImgGps": "GPS",
   "guidingCreateShare_AssignGroup": "Assigned corners",
@@ -203,12 +204,15 @@ const i18nUIString_EN = {
   "guiding_Unit_Responds_author": "More responds would be listed!",
   "guiding_Unit_Responds_none": "Submit your respond to this article!",
 
+  "title_Index_NavFeed_": ["Personal", "Feed"],
   "title_FeedAssigned_AllRead": "You're up-to-date.",//Original:"you've all browsed."
   "title_FeedAssigned_": "Gathering",
   "hint_FeedAssigned_belongedBase": "by your corners ",
   "guiding_FeedAssigned_noneAssigned": ["You're pretty current!","New publications around your corners would be show up here."],//Original:"Not yet any new unit had been contributed to your corners."
   "guiding_FeedAssigned_noneAssigned_justSubmit": "Good to have your contrubution.",
   "guiding_FeedAssigned_noneAssigned_norContri": "It could be you contributing somthing to your corners!", //Original:"It could be you contributing somthing for your corners!"
+
+  "title_AroundIndex_": "Do you have some scenes want to tell?",
 
   "message_Chain_noShareds": "You'll see the list of your publications here.",
   "message_Chain_noSharedsCourage": "Wait for your first Shared!",//Original:"Trying submitting an observation about your corners."

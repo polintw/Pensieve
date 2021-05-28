@@ -41,8 +41,8 @@ class NavFeed extends React.Component {
         <div
           style={{display:'flex'}}>
           <Link
-            to={ "/self/calendar" }
-            topath={"calendar"}
+            to={ "/self/shareds" }
+            topath={"personal"}
             className={classnames('plainLinkButton')}
             onTouchStart={this._handleEnter_link}
             onTouchEnd={this._handleLeave_link}
@@ -53,18 +53,18 @@ class NavFeed extends React.Component {
               className={classnames(
                 "fontSubtitle",
                 {
-                  [styles.spanLinkMouse]: (this.state.onNavLink == 'calendar'),
-                  ["colorLightGrey"]: (this.state.onNavLink != 'calendar'),
-                  ["colorEditBlack"]: (this.state.onNavLink == 'calendar'),
-                  ["weightBold"]: (this.state.onNavLink == 'calendar')
+                  [styles.spanLinkMouse]: (this.state.onNavLink == 'personal'),
+                  ["colorLightGrey"]: (this.state.onNavLink != 'personal'),
+                  ["colorEditBlack"]: (this.state.onNavLink == 'personal'),
+                  ["weightBold"]: (this.state.onNavLink == 'personal')
                 }
               )}>
               {this.props.i18nUIString.catalog["title_Index_NavFeed_"][0] }
             </span>
           </Link>
           <Link
-            to={"/cosmic/today"}
-            topath={"today"}
+            to={"/#topFeed"}
+            topath={"int_feedAssigned"}
             className={classnames('plainLinkButton')}
             onTouchStart={this._handleEnter_link}
             onTouchEnd={this._handleLeave_link}
@@ -75,35 +75,13 @@ class NavFeed extends React.Component {
               className={classnames(
                 "fontSubtitle",
                 {
-                  [styles.spanLinkMouse]: (this.state.onNavLink == 'today'),
-                  ["colorLightGrey"]: (this.state.onNavLink != 'today'),
-                  ["colorEditBlack"]: (this.state.onNavLink == 'today'),
-                  ["weightBold"]: (this.state.onNavLink == 'today')
+                  [styles.spanLinkMouse]: (this.state.onNavLink == 'int_feedAssigned'),
+                  ["colorLightGrey"]: (this.state.onNavLink != 'int_feedAssigned'),
+                  ["colorEditBlack"]: (this.state.onNavLink == 'int_feedAssigned'),
+                  ["weightBold"]: (this.state.onNavLink == 'int_feedAssigned')
                 }
               )}>
               {this.props.i18nUIString.catalog["title_Index_NavFeed_"][1] }
-            </span>
-          </Link>
-          <Link
-            to={"/cosmic/yesterday"}
-            topath={"yesterday"}
-            className={classnames('plainLinkButton')}
-            onTouchStart={this._handleEnter_link}
-            onTouchEnd={this._handleLeave_link}
-            onMouseEnter={this._handleEnter_link}
-            onMouseLeave={this._handleLeave_link}
-            style={ Object.assign({}, { padding: '0 8px' }, sidePropsStyle)}>
-            <span
-              className={classnames(
-                "fontSubtitle",
-                {
-                  [styles.spanLinkMouse]: (this.state.onNavLink == 'yesterday'),
-                  ["colorLightGrey"]: (this.state.onNavLink != 'yesterday'),
-                  ["colorEditBlack"]: (this.state.onNavLink == 'yesterday'),
-                  ["weightBold"]: (this.state.onNavLink == 'yesterday')
-                }
-              )}>
-              {this.props.i18nUIString.catalog["title_Index_NavFeed_"][2] }
             </span>
           </Link>
         </div>

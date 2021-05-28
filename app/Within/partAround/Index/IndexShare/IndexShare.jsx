@@ -6,7 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import ShareUpload from '../../../../Components/ShareUpload/ShareUpload.jsx';
+import BtnUpload from '../../../../Unit/Editing/BtnUpload/BtnUpload.jsx';
 
 class IndexShare extends React.Component {
   constructor(props){
@@ -33,7 +33,7 @@ class IndexShare extends React.Component {
     return(
       <div
         className={classnames(styles.comShareUpload)}>
-        <ShareUpload
+        <BtnUpload
           {...this.props}
           _submit_Share_New={this._submit_Share_New}
           _refer_von_Create={this.props._refer_von_cosmic}/>
@@ -49,6 +49,7 @@ class IndexShare extends React.Component {
       search: lastState.search,
       state: lastState.state
     });
+    window.location.assign('/self/shareds')
   }
 }
 

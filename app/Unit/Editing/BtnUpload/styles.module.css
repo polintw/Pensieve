@@ -1,0 +1,55 @@
+.comBtnUpload {
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  border-radius: 8px;
+  text-align: center;
+  padding: 11px 7% 10px;
+}
+
+.btnBorderSmall {
+  border: solid 2px #b8b8b8;
+}
+
+.btnBorderWide {
+  border: solid 2px #b8b8b8;
+}
+.comMouseEnter {
+  border: solid 2px rgba(84, 84, 84, 0.45);
+  box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
+  background-color: #FFFFFF;
+}
+
+.comMouseEnterWideScreen {
+  border: solid 2px rgba(84, 84, 84, 0.45);
+  box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
+}
+
+.boxWriter {
+
+}
+
+/* ref: https://codepen.io/geoffgraham/pen/jrWwWM */
+.spanWriter {
+  display: inline-flex;
+  align-items: center;
+  height: 4rem;
+  padding-right: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.spanWriterTyping {
+  border-right: solid 3px #ff906c;
+  animation: blink-caret .7s step-end infinite;
+}
+
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: #ff906c }
+}
+
+@media screen and (max-width:860px) {
+
+}

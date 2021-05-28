@@ -31,11 +31,6 @@
   text-align: center;
 }
 
-.boxInvite {
-  padding-top: 22px;
-  text-align: center;
-}
-
 .boxBtnInvite {
   display: inline-block;
   position: relative;
@@ -59,9 +54,11 @@
   margin-bottom: 31.1vh;
 }
 
-.spanBtnInvite {
-  white-space: nowrap;
+.spanFooterHint {
+  margin: 8px 0;
 }
+
+
 
 @media screen and (max-width:860px) {
   .comAtNodeFeed {
