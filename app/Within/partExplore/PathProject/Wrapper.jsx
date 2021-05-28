@@ -20,7 +20,6 @@ import {
 } from './axios.js';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
 import UnitUnsign from '../../../Unit/UnitUnsign/UnitUnsign.jsx';
-import NavCosmicMobile from '../../../Components/NavWithin/NavCosmic/NavCosmicMobile.jsx';
 import NavCosmicMobileUnsign from '../../../Components/NavWithin/NavCosmic/NavCosmicMobileUnsign.jsx';
 import {
   cancelErr,
@@ -116,20 +115,12 @@ class Wrapper extends React.Component {
     return(
       <div>
         { // only show up when token show
-          (this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') ? (
+          (this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') && (
             <div
               className={classnames("smallDisplayBox")}>
               <div
                 className={classnames(styles.boxNavTop)}>
                 <NavCosmicMobileUnsign/>
-              </div>
-            </div>
-          ): (
-            <div
-              className={classnames("smallDisplayBox")}>
-              <div
-                className={classnames(styles.boxNavTop)}>
-                <NavCosmicMobile/>
               </div>
             </div>
           )

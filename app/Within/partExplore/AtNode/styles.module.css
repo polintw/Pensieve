@@ -1,17 +1,19 @@
 .comAtNode {
   display: flex;
   flex-direction: column;
-  position: relative;
   box-sizing: border-box;
-  padding-top: 2.8vh;
 }
 
-.boxRow {
+.boxTopTitle {
   position: relative;
+  margin: 6.3vh 0 2.5vh;
 }
 
-.boxTitle {
-  margin: 8px 0;
+.boxNodeTitle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  width: 100%;
 }
 
 .boxDecoBottom {
@@ -23,20 +25,6 @@
   background-color: #FCFCFC;
 }
 
-.boxNavTop {
-  display: flex;
-  justify-content: flex-end;
-  position: relative;
-  padding: 1.4vh 0 0;
-}
-
 @media screen and (max-width:860px) {
-  .smallDisplayBox {
-    display: block;
-  }
-
-  .smallDisplayNone {
-    display: none;
-  }
 
 }

@@ -10,9 +10,6 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import Self from './partSelf/WithinSelf.jsx';
-import {
-  fetchBelongRecords
-} from '../redux/actions/general.js'
 import NavWithin from '../Components/NavWithin/NavWithin.jsx';
 import NavWihtinSelf from '../Components/NavWithin/NavWihtinSelf.jsx';
 import NavOptions from '../Components/NavOptions/NavOptions.jsx';
@@ -71,8 +68,6 @@ class WithinSelf extends React.Component {
     Here is the highest level next only to status() in root, fetching data or any info needed
     */
     if( !window.localStorage['token'] ) return;
-    //beneath are the process difinately need a token
-    this.props._fetch_belongRecords();
   }
 
   componentWillUnmount() {
@@ -189,7 +184,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    _fetch_belongRecords: () => {dispatch(fetchBelongRecords())},
+
   }
 }
 

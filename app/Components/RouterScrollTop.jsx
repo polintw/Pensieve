@@ -12,8 +12,17 @@ class ScrollToTop extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot){
     if (
       (this.props.location.pathname !== prevProps.location.pathname) &&
-      // and not move under any path change related to '/unit' 
+      // and not move under any path change related to '/unit'
       !prevProps.location.pathname.includes('/unit') &&
+      !this.props.location.pathname.includes('/unit')
+    ) {
+      window.scrollTo(0, 0);
+    }
+  }
+
+  componentDidMount(){
+    if (
+      // and not move under any path change related to '/unit'
       !this.props.location.pathname.includes('/unit')
     ) {
       window.scrollTo(0, 0);

@@ -11,7 +11,6 @@ import Nav from './Nav/Nav.jsx';
 import Feed from './Feed/Feed.jsx';
 import TitleUser from './TitleUser/TitleUser.jsx';
 import NodesFilter from './NodesFilter/NodesFilter.jsx';
-import NavCosmicMobile from '../../../Components/NavWithin/NavCosmic/NavCosmicMobile.jsx';
 import {
   _axios_get_Basic
 } from './axios.js';
@@ -113,13 +112,6 @@ class Wrapper extends React.Component {
 
     return(
       <div>
-        <div
-          className={classnames("smallDisplayBox")}>
-          <div
-            className={classnames(styles.boxNavTop)}>
-            <NavCosmicMobile/>
-          </div>
-        </div>
         <div
           className={classnames(styles.comSeeUser)}>
           <div

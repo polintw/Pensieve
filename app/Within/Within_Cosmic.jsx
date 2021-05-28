@@ -9,8 +9,6 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import Explore from './partExplore/Explore.jsx';
-import Focus from './partCosmic/Focus/Wrapper.jsx';
-import Nodes from './partCosmic/Nodes/Wrapper.jsx';
 import NavOptions from '../Components/NavOptions/NavOptions.jsx';
 import NavWithin from '../Components/NavWithin/NavWithin.jsx';
 import NavWihtinCosmic from '../Components/NavWithin/NavWihtinCosmic.jsx';
@@ -20,15 +18,13 @@ import SingleDialog from '../Components/Dialog/SingleDialog/SingleDialog.jsx';
 import SingleCloseDialog from '../Components/Dialog/SingleCloseDialog/SingleCloseDialog.jsx';
 import BooleanDialog from '../Components/Dialog/BooleanDialog/BooleanDialog.jsx';
 import ScrollToTop from '../Components/RouterScrollTop.jsx';
-import {
-  fetchBelongRecords
-} from '../redux/actions/general.js'
 
 class WithinCosmic extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      switchTo: null
+      switchTo: null,
+      navWithinNotDisSmall: false
     };
     this._refer_von_cosmic = this._refer_von_cosmic.bind(this);
     this.style={
@@ -70,11 +66,6 @@ class WithinCosmic extends React.Component {
     }
   }
 
-  static getDerivedStateFromProps(props, state){
-    //It should return an object to update the state, or 'null' to update nothing.
-    return null;
-  }
-
   componentDidUpdate(prevProps, prevState, snapshot){
     //set the state back to default if the update came from Redirect
     //preventing Redirect again which would cause error
@@ -83,6 +74,19 @@ class WithinCosmic extends React.Component {
         switchTo: null
       });
     }
+    if(
+      this.props.location.pathname != prevProps.location.pathname &&
+      this.props.location.pathname.includes('/unit')
+    ){
+      this.setState({ navWithinNotDisSmall: true });
+    }
+    else if(
+      this.props.location.pathname != prevProps.location.pathname &&
+      prevProps.location.pathname.includes('/unit') &&
+      !this.props.location.pathname.includes('/unit')
+    ){
+      this.setState({ navWithinNotDisSmall: false });
+    };
   }
 
   componentDidMount() {
@@ -90,8 +94,6 @@ class WithinCosmic extends React.Component {
     Here is the highest level next only to status() in root, fetching data or any info needed
     */
     if( !window.localStorage['token'] ) return;
-    //beneath are the process difinately need a token
-    this.props._fetch_belongRecords();
   }
 
   componentWillUnmount() {
@@ -123,8 +125,6 @@ class WithinCosmic extends React.Component {
               <ScrollToTop>
                 <Switch>
                   <Route path={this.props.match.path + "/explore"} render={(props) => <Explore {...props} _refer_von_cosmic={this._refer_von_cosmic} />} />
-                  <Route path={this.props.match.path + "/focus"} render={(props) => <Focus {...props} _refer_von_cosmic={this._refer_von_cosmic} />} />
-                  <Route path={this.props.match.path + "/nodes"} render={(props) => <Nodes {...props} _refer_von_cosmic={this._refer_von_cosmic} />} />
                 </Switch>
               </ScrollToTop>
             </div>
@@ -133,7 +133,8 @@ class WithinCosmic extends React.Component {
                 styles.boxContentFilledRight)} />
           </div>
           <div
-            className={classnames(styles.boxNavWithinCosmic)}>
+            className={this.state.navWithinNotDisSmall ? classnames(styles.boxNavAround, styles.boxNavWithinCosmic, 'smallDisplayNone') :
+              classnames(styles.boxNavAround, styles.boxNavWithinCosmic) }>
             <NavWithin
               {...this.props} _refer_to={this._refer_von_cosmic}
               logotop={
@@ -142,7 +143,7 @@ class WithinCosmic extends React.Component {
                   className={classnames(
                     styles.boxNavCosmic,
                     styles.boxNavCosmicJust,
-                    styles.smallDisplayNone)}>
+                    "smallDisplayNone")}>
                     <NavWihtinCosmic
                       {...this.props}/>
                 </div>
@@ -222,7 +223,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    _fetch_belongRecords: () => {dispatch(fetchBelongRecords())},
+
   }
 }
 
