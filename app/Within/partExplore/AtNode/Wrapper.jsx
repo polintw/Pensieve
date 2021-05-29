@@ -72,6 +72,7 @@ class Wrapper extends React.Component {
     return(
       <div>
         <div
+          ref={this.wrapperWithinNode}
           className={classnames(styles.comAtNode)}>
           <div
             className={classnames(styles.boxTopTitle)}>

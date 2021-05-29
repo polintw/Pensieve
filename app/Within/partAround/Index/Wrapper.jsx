@@ -33,7 +33,8 @@ class Wrapper extends React.Component {
       mainContentFixedTop: null,
       viewportHeight: window.innerHeight, // init static
       viewportWidth: window.innerWidth,
-      opacityParam: 1
+      opacityParam: 1,
+      savedPosition: null
     };
     this.axiosSource = axios.CancelToken.source();
     this.refMainContent = React.createRef();
@@ -54,6 +55,8 @@ class Wrapper extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
+    // the 'top' value state was static after mount
+    // we have to modify it manually if the 'screen' size was change
     let newViewportHeight = window.innerHeight;
     let newViewportWidth = window.innerWidth;
     if(
@@ -67,9 +70,35 @@ class Wrapper extends React.Component {
         viewportWidth: newViewportWidth
       });
     };
+    // and the way to 'hide' Feed when the Unit was opened
+    if(
+      this.props.location.pathname != prevProps.location.pathname &&
+      this.props.location.pathname.includes('/unit')
+    ){
+      let savedPosition = window.scrollY;
+      this.setState((prevState, props)=>{
+        return {
+          savedPosition: savedPosition
+        };
+      }, ()=>{
+        this.wrapperAround.current.style.display='none';
+      });
+    }
+    else if(
+      this.props.location.pathname != prevProps.location.pathname &&
+      prevProps.location.pathname.includes('/unit') &&
+      !this.props.location.pathname.includes('/unit')
+    ){
+      this.wrapperAround.current.style={};
+      window.scroll(0, prevState.savedPosition);
+      this.setState({
+        savedPosition: null
+      });
+    };
   }
 
   componentDidMount(){
+    // we keep the 'top' value of the content box into state after the comps. mount
     let mainContentOffset = this.refMainContent.current.getBoundingClientRect();
     this.setState({
       mainContentFixedTop: mainContentOffset.top

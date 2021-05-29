@@ -10,14 +10,11 @@ import styles from "./styles.module.css";
 import Nav from './Nav/Nav.jsx';
 import Feed from './Feed/Feed.jsx';
 import TitleUser from './TitleUser/TitleUser.jsx';
-import NodesFilter from './NodesFilter/NodesFilter.jsx';
 import {
   _axios_get_Basic
 } from './axios.js';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
-import UnitUnsign from '../../../Unit/UnitUnsign/UnitUnsign.jsx';
 import {
-  handleNounsList,
   handleUsersList,
 } from "../../../redux/actions/general.js";
 import {
@@ -30,30 +27,53 @@ class Wrapper extends React.Component {
     super(props);
     this.state = {
       axios: false,
-      filterStart: null,
+      savedPosition: null,
       userBasicInfo: {
         timeCreate: null,
         countShareds: 0,
         inspiredCount: 0,
         inspiredYou: false
       },
-      usedNodes: [],
     };
     this.axiosSource = axios.CancelToken.source();
-    this._set_filterBasic = this._set_filterBasic.bind(this);
-    this._render_Content = this._render_Content.bind(this);
+    this.wrapperWithinUser = React.createRef();
+    this._set_userBasic = this._set_userBasic.bind(this);
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
     let preUrlParams = new URLSearchParams(prevProps.location.search); //we need value in URL query
     if(this.userId != preUrlParams.get('userId') ){ // that's, if the page was jump to next user
-      this._set_filterBasic();
+      this._set_userBasic();
+    };
+    if(
+      this.props.location.pathname != prevProps.location.pathname &&
+      this.props.location.pathname.includes('/unit')
+    ){
+      let savedPosition = window.scrollY;
+      this.setState((prevState, props)=>{
+        return {
+          savedPosition: savedPosition
+        };
+      }, ()=>{
+        this.wrapperWithinUser.current.style.display='none';
+      });
+    }
+    else if(
+      this.props.location.pathname != prevProps.location.pathname &&
+      prevProps.location.pathname.includes('/unit') &&
+      !this.props.location.pathname.includes('/unit')
+    ){
+      this.wrapperWithinUser.current.style={};
+      window.scroll(0, prevState.savedPosition);
+      this.setState({
+        savedPosition: null
+      });
     };
   }
 
   componentDidMount(){
-    this._set_filterBasic();
+    this._set_userBasic();
   }
 
   componentWillUnmount(){
@@ -62,57 +82,14 @@ class Wrapper extends React.Component {
     }
   }
 
-  _render_Content(){
-    let contentView = this.urlParams.has("content") ? this.urlParams.get('content') : '';
-
-    switch (contentView) {
-      case "achieve":
-        return null // temp
-        break;
-      default:
-        return (
-          // render NodesFilter only after the filterStart was fetched
-            (this.viewFilter && !!this.state.filterStart) ? (
-              <div
-                className={classnames(styles.boxNodesFilter)}>
-                <NodesFilter
-                  nodePageify={true}
-                  startListify={true}
-                  startList={this.state.usedNodes}
-                  startNode={this.state.filterStart}
-                  _handle_nodeClick={() => { /* do nothing in this comp */}}
-                  _get_firstUnitsList={(nodesList)=>{
-                    // return a promise() to NodesFilter
-                    return _axios_get_Basic(this.axiosSource.token, {
-                      url: '/router/people/accumulated/nodes',
-                      params: {nodesList: nodesList, userId: this.userId, depth: "first"}
-                    })
-                  }}/>
-                <div className={classnames(styles.boxFooter)}/>
-              </div>
-            ):(
-              <div
-                className={classnames(styles.boxFeed)}>
-                <Feed
-                  {...this.props}
-                  userId = {this.userId}/>
-              </div>
-            )
-        )
-    };
-  }
-
   render(){
     this.urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
     this.userId = this.urlParams.get('userId');
-    let contentView = this.urlParams.has("content") ? this.urlParams.get('content') : '';
-    if(this.urlParams.has('_filter_nodes') && (contentView.length == 0) /* like contentView above */){
-      this.viewFilter = true;
-    } else this.viewFilter = false;
 
     return(
       <div>
         <div
+          ref={this.wrapperWithinUser}
           className={classnames(styles.comSeeUser)}>
           <div
             className={classnames(styles.boxRow)}>
@@ -121,26 +98,21 @@ class Wrapper extends React.Component {
               userBasicInfo={this.state.userBasicInfo}/>
           </div>
           <div
-            className={classnames(
-              styles.boxRowNav)}>
+            className={classnames(styles.boxRow)}>
             <Nav
               {...this.props}
               userId = {this.userId}/>
           </div>
-          <div
-            className={classnames(styles.boxRow)}>
-            { this._render_Content()}
+          <div>
+            <Feed
+              {...this.props}
+              userId = {this.userId}/>
           </div>
         </div>
         <Route
           path={((this.props.location.pathname =="/") ? '' : this.props.location.pathname.slice(0, -5))+ '/unit' }
           render={(props)=> {
-            // PathProject allow no token browse, so we have to use different Unit for both condition
-            return (this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') ? (
-              <UnitUnsign
-                {...props}
-                _refer_von_unit={this.props._refer_to}/>
-            ):(
+            return (
               <UnitScreen
                 {...props}
                 _createdRespond= {()=>{/* no need to give any flad in AtNode*/ }}
@@ -158,16 +130,12 @@ class Wrapper extends React.Component {
     return unitInit;
   }
 
-  _set_filterBasic(){
+  _set_userBasic(){
     const self = this;
     this.setState({axios: true});
 
     let basicReqObj = { // for now, GET filterStart
       url: '/router/people/basic',
-      params: {userId: this.userId}
-    };
-    let usedNodesReqObj = {
-      url: '/router/people/nodes/assigned',
       params: {userId: this.userId}
     };
     // start, first make sure the userrrr basic was on the list
@@ -176,19 +144,8 @@ class Wrapper extends React.Component {
     _axios_get_Basic(this.axiosSource.token, basicReqObj)
     .then((resObj)=> {
       self.setState({
-        filterStart: resObj.main.nodeStart,
+        axios: false,
         userBasicInfo: resObj.main.userBasicInfo
-      });
-      return _axios_get_Basic(this.axiosSource.token, usedNodesReqObj);
-    })
-    .then((resObj)=>{
-      //after res of axios_Units: call get nouns & users
-      self.props._submit_NounsList_new(resObj.main.nodesList);
-      self.setState((prevState, props)=>{
-        return ({
-          axios: false,
-          usedNodes: resObj.main.nodesList
-        });
       });
     })
     .catch(function (thrown) {
@@ -214,7 +171,6 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
     _submit_UsersList_new: (arr) => { dispatch(handleUsersList(arr)); },
   }
 }

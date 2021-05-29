@@ -1,5 +1,11 @@
 .comUserFeed {
+  display: flex;
+  flex-direction: column;
+}
 
+.boxRow {
+  position: relative;
+  margin: 12px 0;
 }
 
 .comFeedEmpty {
@@ -15,6 +21,12 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+}
+
+.boxModuleItem {
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 
 .boxDescript {
@@ -51,24 +63,24 @@
   flex-direction: column;
   align-items: center;
   position: relative;
-  padding-top: 4.4rem;
-  margin-bottom: 35.6vh;
+  padding-top: 38px;
+  margin-bottom: 36vh;
 }
 
-.spanBtnInvite {
-  white-space: nowrap;
+.spanFooterHint {
+  margin: 8px 0;
 }
 
 @media screen and (max-width:860px) {
-  .comPathProjectFeed {
-    flex-direction: column;
-  }
-
   .boxModuleSmall {
     justify-content: center;
   }
 
+  .boxModuleItem {
+    width: 94.24vw;
+  }
+
   .boxFooter {
-    margin-bottom: 21vh;
+    margin-bottom: 19vh;
   }
 }
