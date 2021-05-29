@@ -172,7 +172,6 @@ class FeedAssigned extends React.Component {
                   (cssVW < 860) ? (
                     <NailFeedMobile
                       {...this.props}
-                      leftimg={false}
                       unitId={unitId}
                       nodisplay={['author']}
                       linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}

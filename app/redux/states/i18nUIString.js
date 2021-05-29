@@ -132,7 +132,7 @@ const i18nUIString_EN = {
   "title_home": "Home",
   "title_Expand": "Expand",
   "title_Chain_Shareds_": "Your Publications",
-  "title_selfPublications": "Personal Publications",
+  "title_selfPublications": "Your Publications",
   "title_yourShareds": 'Shareds',
   "title_shared": "Shareds",
   "subtitle_email": "Email",

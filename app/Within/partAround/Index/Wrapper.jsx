@@ -158,7 +158,7 @@ class Wrapper extends React.Component {
                 </div>
                 <div
                   id={"topFeed"}
-                  className={classnames(styles.boxTodayNodes)}
+                  className={classnames(styles.boxFeed)}
                   style={todayNodesStyle}>
                   <FeedAssigned
                     {...this.props}

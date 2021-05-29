@@ -1,5 +1,6 @@
 .comSharedsFeed {
-
+  display: flex;
+  flex-direction: column;
 }
 
 .comFeedEmpty {
@@ -20,6 +21,12 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+}
+
+.boxModuleItem {
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 
 .boxDescript {
@@ -69,12 +76,12 @@
 }
 
 @media screen and (max-width:860px) {
-  .comSharedsFeed {
-    flex-direction: column;
-  }
-
   .boxModuleSmall {
     justify-content: center;
+  }
+
+  .boxModuleItem {
+    width: 94.24vw;
   }
 
   .boxFooter {

@@ -43,11 +43,9 @@ class Feed extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot){
     // if change the node bymodifying the nodeid in search, the page would only update
     let lastUrlParams = new URLSearchParams(prevProps.location.search); //we need value in URL query
-    let lastNodeAtId = lastUrlParams.has('filterNode') ? lastUrlParams.get('filterNode'): null;
     let currentPathProjectify = this.props.location.pathname.includes('/pathProject');
     let lastPathProjectify = prevProps.location.pathname.includes('/pathProject');
     if(
-      (this.filterNode != lastNodeAtId) || // filter node change
       (currentPathProjectify != lastPathProjectify) // or left pathProject
     ){
       this.setState((prevState, props)=>{
@@ -105,14 +103,16 @@ class Feed extends React.Component {
           nailsDOM.push(
             <div
               key={"key_NodeFeed_new_" + index}
-              className={classnames(stylesNail.boxNail, stylesNail.custNailWide)}>
-              <NailFeedMobile
-                {...this.props}
-                leftimg={false}
-                unitId={unitId}
-                linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
-                unitBasic={this.state.unitsBasic[unitId]}
-                marksBasic={this.state.marksBasic} />
+              className={classnames(styles.boxModuleItem)}>
+              <div
+                className={classnames(stylesNail.boxNail)}>
+                <NailFeedMobile
+                  {...this.props}
+                  unitId={unitId}
+                  linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
+                  unitBasic={this.state.unitsBasic[unitId]}
+                  marksBasic={this.state.marksBasic} />
+              </div>
             </div>
           );
           return;
@@ -124,25 +124,31 @@ class Feed extends React.Component {
         nailsDOM.push (remainder3 ? ( // 0 would be false, which means index % 3 =0
           <div
             key={"key_NodeFeed_new_"+index}
-            className={classnames(stylesNail.boxNail)}>
-            <NailFeed
-              {...this.props}
-              unitId={unitId}
-              linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
-              unitBasic={this.state.unitsBasic[unitId]}
-              marksBasic={this.state.marksBasic}/>
+            className={classnames(styles.boxModuleItem)}>
+            <div
+              className={classnames(stylesNail.boxNail)}>
+              <NailFeed
+                {...this.props}
+                unitId={unitId}
+                linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
+                unitBasic={this.state.unitsBasic[unitId]}
+                marksBasic={this.state.marksBasic}/>
+            </div>
           </div>
         ): (
           <div
             key={"key_NodeFeed_new_"+index}
-            className={classnames(stylesNail.boxNail, stylesNail.custNailWide)}>
-            <NailFeedWide
-              {...this.props}
-              leftimg={ remainder2 ? true : false}
-              unitId={unitId}
-              linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
-              unitBasic={this.state.unitsBasic[unitId]}
-              marksBasic={this.state.marksBasic}/>
+            className={classnames(styles.boxModuleItem, stylesNail.custNailWide)}>
+            <div
+              className={classnames(stylesNail.boxNail)}>
+              <NailFeedWide
+                {...this.props}
+                leftimg={ remainder2 ? true : false}
+                unitId={unitId}
+                linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
+                unitBasic={this.state.unitsBasic[unitId]}
+                marksBasic={this.state.marksBasic}/>
+            </div>
           </div>
         ));
       });
@@ -175,11 +181,7 @@ class Feed extends React.Component {
         {
           (this.state.feedList.length > 0) &&
           <div
-            className={classnames(
-              styles.boxModule,
-              styles.boxModuleSmall,
-              styles.boxRow
-            )}>
+            className={classnames(styles.boxRow)}>
             {this._render_FeedNails()}
           </div>
         }
@@ -240,7 +242,7 @@ class Feed extends React.Component {
     this.setState({axios: true});
     let paramsObj = {
       listUnitBase: lastUnitTime,
-      filterNodes: !!this.filterNode ? [this.filterNode] : []
+      filterNodes: []
     };
     if(pathProjectify){
       Object.assign(paramsObj, { pathProject: this.props.userInfo.pathName});

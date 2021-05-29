@@ -53,11 +53,7 @@
   z-index: 1;
 }
 
-.boxTodayNodes {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 94%;
+.boxFeed {
   min-height: 75vh;
 }
 
