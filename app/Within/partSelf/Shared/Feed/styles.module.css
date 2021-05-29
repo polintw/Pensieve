@@ -7,6 +7,11 @@
   padding-top: 6rem;
 }
 
+.boxRow {
+  position: relative;
+  margin: 12px 0;
+}
+
 .boxTitle {
   margin: 8px 0;
 }
@@ -20,10 +25,6 @@
 .boxDescript {
   width: 100%;
   text-align: center;
-}
-
-.boxNodeUsers {
-  margin: 8px 2.76vw 0 0;
 }
 
 .boxEmptyDescript {
@@ -54,13 +55,17 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
-  padding-top: 4.4rem;
-  margin-bottom: 31.1vh;
+  padding-top: 28px;
+  margin-bottom: 36vh;
 }
+
 
 .spanBtnInvite {
   white-space: nowrap;
+}
+
+.spanFooterHint {
+  margin: 8px 0;
 }
 
 @media screen and (max-width:860px) {
@@ -70,5 +75,9 @@
 
   .boxModuleSmall {
     justify-content: center;
+  }
+
+  .boxFooter {
+    margin-bottom: 19vh;
   }
 }

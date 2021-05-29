@@ -24,7 +24,8 @@ class WithinSelf extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      switchTo: null
+      switchTo: null,
+      navWithinNotDisSmall: false
     };
     this._refer_von_cosmic = this._refer_von_cosmic.bind(this);
     this.style={
@@ -61,6 +62,19 @@ class WithinSelf extends React.Component {
         switchTo: null
       });
     }
+    if(
+      this.props.location.pathname != prevProps.location.pathname &&
+      this.props.location.pathname.includes('/unit')
+    ){
+      this.setState({ navWithinNotDisSmall: true });
+    }
+    else if(
+      this.props.location.pathname != prevProps.location.pathname &&
+      prevProps.location.pathname.includes('/unit') &&
+      !this.props.location.pathname.includes('/unit')
+    ){
+      this.setState({ navWithinNotDisSmall: false });
+    };
   }
 
   componentDidMount() {
@@ -110,14 +124,15 @@ class WithinSelf extends React.Component {
                 styles.boxContentFilledRightSelf)}/>
           </div>
           <div
-            className={classnames(
-              styles.boxNavAround, styles.boxNavWithinSelf)}>
+            className={this.state.navWithinNotDisSmall ? classnames(styles.boxNavAround, styles.boxNavWithinSelf, 'smallDisplayNone') :
+              classnames(styles.boxNavAround, styles.boxNavWithinSelf) }>
             <NavWithin {...this.props} _refer_to={this._refer_von_cosmic}>
               <div
                 className={classnames(
                   styles.boxNavCosmic,
-                  styles.smallDisplayNone)}>
-                  <NavWihtinSelf/>
+                  "smallDisplayNone")}>
+                  <NavWihtinSelf
+                    {...this.props}/>
                 </div>
             </NavWithin>
           </div>

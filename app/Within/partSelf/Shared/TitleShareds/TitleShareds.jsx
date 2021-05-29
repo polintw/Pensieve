@@ -7,8 +7,6 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import NavShareds from './NavShareds.jsx';
-import NavBtnRow from '../../../../Components/NavFilter/NavBtnRow.jsx';
-import NavFilterMode from '../../../../Components/NavFilter/NavFilterMode.jsx';
 
 class TitleShareds extends React.Component {
   constructor(props){
@@ -56,13 +54,6 @@ class TitleShareds extends React.Component {
 
   render(){
     let pathProjectify = this.props.location.pathname.includes('/pathProject');
-    let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
-    if(urlParams.has('filterNode')){
-      this.filterNode = urlParams.get('filterNode');
-    } else this.filterNode = false;
-    if(urlParams.has('_filter_nodes')){
-      this.viewFilter = true;
-    } else this.viewFilter = false;
 
     return (
       <div className={styles.comTitleShareds}>
@@ -152,18 +143,6 @@ class TitleShareds extends React.Component {
               <NavShareds {...this.props}/>
             }
           </div>
-          <div>
-            <NavBtnRow
-              {...this.props}
-              viewFilter={this.props.viewFilter}/>
-          </div>
-          {
-            this.viewFilter &&
-            <div
-              className={classnames(styles.boxFilterNav)}>
-              <NavFilterMode/>
-            </div>
-          }
         </div>
       </div>
     )

@@ -37,6 +37,7 @@ class Feed extends React.Component {
     this._set_feedUnits = this._set_feedUnits.bind(this);
     this._check_Position = this._check_Position.bind(this);
     this._render_FeedNails = this._render_FeedNails.bind(this);
+    this._render_FooterHint = this._render_FooterHint.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -72,6 +73,23 @@ class Feed extends React.Component {
       this.axiosSource.cancel("component will unmount.")
     }
     window.removeEventListener("scroll", this._check_Position);
+  }
+
+  _render_FooterHint(){
+    // by feed length, we gave users some message about the thing they could do
+    if (this.state.feedList.length> 0){
+      return (
+        <div>
+          <span
+            className={classnames(styles.spanFooterHint, "fontTitleSmall", "colorLightGrey")}>
+            {this.props.i18nUIString.catalog['descript_AroundIndex_footer']}
+          </span>
+        </div>
+      );
+    }
+    else{ // most reason to:no feed at all
+      return null;
+    }
   }
 
   _render_FeedNails(){
@@ -151,15 +169,17 @@ class Feed extends React.Component {
   render(){
     let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
     this.pathProjectify = urlParams.has('pathProject');
-    if(urlParams.has('filterNode')){
-      this.filterNode = urlParams.get('filterNode');
-    } else this.filterNode = null;
 
     return (
       <div className={styles.comSharedsFeed}>
         {
           (this.state.feedList.length > 0) &&
-          <div>
+          <div
+            className={classnames(
+              styles.boxModule,
+              styles.boxModuleSmall,
+              styles.boxRow
+            )}>
             {this._render_FeedNails()}
           </div>
         }
@@ -172,6 +192,7 @@ class Feed extends React.Component {
             className={classnames(
               styles.boxModule,
               styles.boxModuleSmall,
+              styles.boxRow
             )}>
             <FeedEmpty
               {...this.props}/>
@@ -179,6 +200,10 @@ class Feed extends React.Component {
         }
 
         <div ref={this.refScroll}/>
+        <div
+          className={classnames(styles.boxRow, styles.boxFooter)}>
+          {this._render_FooterHint()}
+        </div>
       </div>
     )
   }
