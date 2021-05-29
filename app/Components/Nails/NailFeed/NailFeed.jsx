@@ -75,8 +75,11 @@ class NailFeed extends React.Component {
         className={classnames(
           'plainLinkButton',
           styles.frame,
+          styles.frmaeSmall,
           {[styles.frameOnMouse]: this.state.onFrame}
         )}
+        onTouchStart={this._handleEnter_nailFrame}
+        onTouchEnd={this._handleLeave_nailFrame}
         onMouseEnter={this._handleEnter_nailFrame}
         onMouseLeave={this._handleLeave_nailFrame}>
         { // layer as a overlap when mouseon
@@ -93,9 +96,7 @@ class NailFeed extends React.Component {
         }
         <div
           className={classnames(
-            styles.boxContent,
-            {[styles.boxContentNarrow]: this.props.narrowWidth}
-          )}>
+            styles.boxContent)}>
           <div
             className={classnames(styles.boxTitle)}>
             <div

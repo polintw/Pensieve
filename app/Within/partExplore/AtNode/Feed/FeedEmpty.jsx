@@ -69,10 +69,7 @@ class FeedEmpty extends React.Component {
           {this.props.i18nUIString.catalog['guiding_AtNode_noAccumulated']}
           <br/>
         </div>
-        {
-          this.props.belongsByType.fetched &&
-          this._render_emptyButton()
-        }
+        {this._render_emptyButton()}
       </div>
     )
   }

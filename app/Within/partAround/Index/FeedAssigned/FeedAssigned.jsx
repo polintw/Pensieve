@@ -183,7 +183,6 @@ class FeedAssigned extends React.Component {
                       {...this.props}
                       leftimg={true}
                       unitId={unitId}
-                      narrowWidth={false}
                       linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
                       unitBasic={this.state.unitsBasic[unitId]}
                       marksBasic={this.state.marksBasic} />

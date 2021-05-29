@@ -92,14 +92,16 @@ class Feed extends React.Component {
           nailsDOM.push(
             <div
               key={"key_NodeFeed_new_" + index}
-              className={classnames(stylesNail.boxNail, stylesNail.custNailWide)}>
-              <NailFeedMobile
-                {...this.props}
-                leftimg={false}
-                unitId={unitId}
-                linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
-                unitBasic={this.state.unitsBasic[unitId]}
-                marksBasic={this.state.marksBasic} />
+              className={classnames(styles.boxModuleItem)}>
+              <div
+                className={classnames(stylesNail.boxNail)}>
+                <NailFeedMobile
+                  {...this.props}
+                  unitId={unitId}
+                  linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
+                  unitBasic={this.state.unitsBasic[unitId]}
+                  marksBasic={this.state.marksBasic} />
+              </div>
             </div>
           );
           return;
@@ -110,28 +112,32 @@ class Feed extends React.Component {
 
         nailsDOM.push (remainder3 ? ( // 0 would be false, which means index % 3 =0
           <div
-            key={"key_NodeFeed_new_"+index}
-            className={classnames(stylesNail.boxNail)}>
-            <NailFeed
-              {...this.props}
-              unitId={unitId}
-              narrowWidth={true}
-              linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
-              unitBasic={this.state.unitsBasic[unitId]}
-              marksBasic={this.state.marksBasic}/>
+            key={"key_NodeFeed_new_" + index}
+            className={classnames(styles.boxModuleItem)}>
+            <div
+              className={classnames(stylesNail.boxNail)}>
+              <NailFeed
+                {...this.props}
+                unitId={unitId}
+                linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
+                unitBasic={this.state.unitsBasic[unitId]}
+                marksBasic={this.state.marksBasic}/>
+            </div>
           </div>
         ): (
           <div
-            key={"key_NodeFeed_new_"+index}
-            className={classnames(stylesNail.boxNail, stylesNail.custNailWide)}>
-            <NailFeedWide
-              {...this.props}
-              leftimg={ remainder2 ? true : false}
-              unitId={unitId}
-              narrowWidth={true}
-              linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
-              unitBasic={this.state.unitsBasic[unitId]}
-              marksBasic={this.state.marksBasic}/>
+            key={"key_NodeFeed_new_" + index}
+            className={classnames(styles.boxModuleItem, stylesNail.custNailWide)}>
+            <div
+              className={classnames(stylesNail.boxNail)}>
+              <NailFeedWide
+                {...this.props}
+                leftimg={ remainder2 ? true : false}
+                unitId={unitId}
+                linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
+                unitBasic={this.state.unitsBasic[unitId]}
+                marksBasic={this.state.marksBasic}/>
+            </div>
           </div>
         ));
       });
@@ -161,35 +167,34 @@ class Feed extends React.Component {
 
     return (
       <div className={styles.comAtNodeFeed}>
-        <div
-          style={{flex: "1"}}>
-          {
-            (this.state.feedList.length > 0) &&
-            <div>
-              {this._render_FeedNails()}
-            </div>
-          }
-          {
-            ((this.state.feedList.length == 0) &&
-              !this.state.scrolled &&
-              !this.state.axios
-            ) &&
-            <div
-              className={classnames(
-                styles.boxModule,
-                styles.boxModuleSmall,
-              )}>
-              <FeedEmpty
-                {...this.props}
-                nodeAtId={this.nodeAtId}/>
-            </div>
-          }
-
-          <div ref={this.refScroll}/>
+        {
+          (this.state.feedList.length > 0) &&
           <div
-            className={classnames(styles.boxFooter)}>
-            {this._render_FooterHint()}
+            className={classnames(styles.boxRow)}>
+            {this._render_FeedNails()}
           </div>
+        }
+        {
+          (
+            (this.state.feedList.length == 0) &&
+            !this.state.scrolled &&
+            !this.state.axios
+          ) &&
+          <div
+            className={classnames(
+              styles.boxModule,
+              styles.boxModuleSmall,
+              styles.boxRow
+            )}>
+            <FeedEmpty
+              {...this.props}
+              nodeAtId={this.nodeAtId}/>
+          </div>
+        }
+        <div ref={this.refScroll}/>
+        <div
+          className={classnames(styles.boxRow, styles.boxFooter)}>
+          {this._render_FooterHint()}
         </div>
       </div>
     )

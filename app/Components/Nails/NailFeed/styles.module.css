@@ -15,16 +15,9 @@
   justify-content: space-between;
   width: 342px;
   min-width: 30.16vw;
-  max-width: 96.24vw;
   height: 289px;
   min-height: 36.675vh;
   position: relative;
-}
-
-.boxContentNarrow {
-  width: 309px;
-  min-width: 27.6vw;
-  max-width: 96.24vw;
 }
 
 .boxImg {
@@ -67,4 +60,15 @@
   align-items: center;
   width: 3rem;
   height: 3rem;
+}
+
+@media screen and (max-width:860px) {
+  .frmaeSmall {
+    display: inline-block;
+    width: 100%;
+  }
+
+  .boxContent {
+    width: 100%;
+  }
 }

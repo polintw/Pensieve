@@ -83,6 +83,8 @@ class NailFeedWide extends React.Component {
           {[styles.frameOnMouse]: this.state.onFrame}
         )}
         onClick={(e)=>{if( !this.props.linkPath ){e.preventDefault();};/*a optional control, mean the parent want to take the refer control*/ }}
+        onTouchStart={this._handleEnter_nailFrame}
+        onTouchEnd={this._handleLeave_nailFrame}
         onMouseEnter={this._handleEnter_nailFrame}
         onMouseLeave={this._handleLeave_nailFrame}>
         {this._render_ContentBox()}
@@ -106,10 +108,8 @@ const contentBoxImg = (self)=>{
     <div
       key={"key_NailBoxImg_"+self.props.unitId}
       className={classnames(
-        styles.boxContent,
-        {[styles.boxContentNarrow]: self.props.narrowWidth}
-      )}
-      style={{minWidth: self.props.narrowWidth ? "27.6vw": "30.8vw"}}>
+        styles.boxContent)}
+      style={{minWidth: "30.8vw"}}>
       <div
         ref={self.nailImgBox}
         className={styles.boxImg}>
@@ -126,9 +126,7 @@ const contentBoxMarks = (self)=>{
     <div
       key={"key_NailBoxMarks_"+self.props.unitId}
       className={classnames(
-        styles.boxContent,
-        {[styles.boxContentNarrow]: self.props.narrowWidth}
-      )}>
+        styles.boxContent)}>
       <div
         className={classnames(styles.boxTitle)}>
         <div

@@ -78,10 +78,11 @@ class NailFeedMobile extends React.Component {
         className={classnames(
           'plainLinkButton',
           styles.frame,
-          styles.frmaeSmall,
           {[styles.frameOnMouse]: this.state.onFrame}
         )}
         onClick={(e)=>{if( !this.props.linkPath ){e.preventDefault();};/*a optional control, mean the parent want to take the refer control*/ }}
+        onTouchStart={this._handleEnter_nailFrame}
+        onTouchEnd={this._handleLeave_nailFrame}
         onMouseEnter={this._handleEnter_nailFrame}
         onMouseLeave={this._handleLeave_nailFrame}>
         {this._render_ContentBox()}
@@ -92,7 +93,7 @@ class NailFeedMobile extends React.Component {
   _render_ContentBox(){
     let contentBoxDOM = [];
     contentBoxDOM.push(contentBoxImg(this));
-    this.props.leftimg ? contentBoxDOM.push(contentBoxMarks(this)) : contentBoxDOM.unshift(contentBoxMarks(this));
+    contentBoxDOM.unshift(contentBoxMarks(this));
     return contentBoxDOM;
   }
 
@@ -104,8 +105,7 @@ const contentBoxImg = (self)=>{
   return (
     <div
       key={"key_NailBoxImg_"+self.props.unitId}
-      className={classnames(styles.boxContent)}
-      style={{minWidth: "30.8vw"}}>
+      className={classnames(styles.boxContent)}>
       <div
         ref={self.nailImgBox}
         className={styles.boxImg}>

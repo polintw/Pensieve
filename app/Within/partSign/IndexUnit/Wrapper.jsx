@@ -103,7 +103,6 @@ class Wrapper extends React.Component {
             <NailFeed
               {...this.props}
               unitId={unitId}
-              narrowWidth={false}
               linkPath={this.props.location.pathname}
               unitBasic={this.state.unitsBasic[unitId]}
               marksBasic={this.state.marksBasic}/>

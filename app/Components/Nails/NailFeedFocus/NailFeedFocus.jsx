@@ -100,9 +100,7 @@ const contentBoxImg = (self)=>{
     <div
       key={"key_NailBoxImg_"+self.props.unitId}
       className={classnames(
-        styles.boxContent,
-        {[styles.boxContentNarrow]: self.props.narrowWidth}
-      )}
+        styles.boxContent)}
       style={{width: '46.76%'} /* partio from BoxMark, which is 50% */ }>
       <div
         ref={self.nailImgBox}
@@ -120,9 +118,7 @@ const contentBoxMarks = (self)=>{
     <div
       key={"key_NailBoxMarks_"+self.props.unitId}
       className={classnames(
-        styles.boxContent,
-        {[styles.boxContentNarrow]: self.props.narrowWidth}
-      )}>
+        styles.boxContent)}>
       <div
         className={classnames(styles.boxTitle)}>
         <div
