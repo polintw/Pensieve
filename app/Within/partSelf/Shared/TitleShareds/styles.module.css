@@ -5,10 +5,9 @@
 
 .boxUpperRow {
   display: flex;
-  flex-direction: column;
-  align-items: baseline;
+  align-items: flex-end;
+  justify-content: space-between;
   width: 100%;
-  margin-bottom: 2rem;
 }
 
 .boxBottomRow {
@@ -40,23 +39,9 @@
   cursor: pointer;
 }
 
-.boxFilterNav {
-  width: 100%;
-  margin: 12px 0 0;
-  text-align: center;
-}
-
-.spanBaseNode {
-  display: inline-block;
-  border-bottom: solid 0.75px transparent;
-}
-
-.spanBaseNodeMouse {
-  border-bottom: solid 0.75px #545454;
-}
-
-.smallDisplayInline {
-  display: none;
+.linkNavFeed {
+  margin-right: 15px;
+  padding-right: 15px;
 }
 
 @media screen and (max-width:860px) {

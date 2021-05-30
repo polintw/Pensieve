@@ -19,6 +19,7 @@ class Wrapper extends React.Component {
     };
     this.wrapperSelfShared = React.createRef();
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
+    this._render_tab = this._render_tab.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -57,7 +58,42 @@ class Wrapper extends React.Component {
 
   }
 
+  _render_tab(){
+    switch (this.currentTab) {
+      case "inspired":
+        return (
+          <div>
+
+          </div>
+        )
+        break;
+      case "map":
+        return (
+          <div>
+
+          </div>
+        )
+        break;
+      case "nodes":
+        return (
+          <div>
+
+          </div>
+        )
+        break;
+      default: // 'undefined' currentTab
+        return (
+          <div>
+            <Feed {...this.props}/>
+          </div>
+        )
+    }
+  }
+
   render(){
+    let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
+    this.currentTab = urlParams.get('tab'); // could be 'undefined'
+
     return(
       <div>
         <div
@@ -65,11 +101,10 @@ class Wrapper extends React.Component {
           <div
             className={classnames(styles.boxTopTitle)}>
             <TitleShareds
-              {...this.props}
-              viewFilter={this.viewFilter}/>
+              {...this.props}/>
           </div>
           <div>
-            <Feed {...this.props}/>
+            {this._render_tab()}
           </div>
         </div>
 

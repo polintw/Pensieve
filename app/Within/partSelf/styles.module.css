@@ -3,6 +3,6 @@
   margin: 12px 0;
 }
 
-.boxRowTop { /* should after .boxRow */
-  padding-top: 4px;
+.boxTitle {
+  margin: 8px 0;
 }

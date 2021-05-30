@@ -132,9 +132,11 @@ const i18nUIString_EN = {
   "title_home": "Home",
   "title_Expand": "Expand",
   "title_Chain_Shareds_": "Your Publications",
-  "title_selfPublications": "Your Publications",
+  "title_selfPublications": "Your Accumulations",
   "title_yourShareds": 'Shareds',
   "title_shared": "Shareds",
+  "title_Publications": "Publications",
+  "title_Inspired": "Inspired",
   "subtitle_email": "Email",
   "subtitle_Password": "Password",
   "link_UnitListResponds": 'View Responds',//Original:'responds'
@@ -146,8 +148,10 @@ const i18nUIString_EN = {
   "link_Options_public": "Public view",
   "Cornerth_inc": "Cornerth. ",
   "AllRights": "All Rights Reserved.",
+  "tab_Map": "Map",
   "tab_Steps": 'Map',
   "tab_Routes": 'Routes',
+  "tab_Nodes": "Nodes",
 
   "link_Nav_Shareds_": ["<> ", "Personal"],
   "message_SelfShareds_greet": ["Good morning!", "Welcome back.", "Good evening.", "What a long night."],

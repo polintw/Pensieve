@@ -36,12 +36,15 @@ class Self extends React.Component {
       <div
         style={this.style.withinCom_Around_}>
         <div
-          className={classnames(styles.boxRow, styles.boxRowTop)}
-          style={{paddingTop: '8px'}}>
-          <span
-            className={classnames("fontContentPlain", "weightBold", "colorAssistGold")}
-            style={{marginBottom: '12px', width: '100%', display: 'block'}}>
-            {this.props.i18nUIString.catalog["title_selfPublications"]}</span>
+          className={classnames(styles.boxRow)}
+          style={{display: 'flex'}}>
+          <div
+            className={classnames(styles.boxTitle)}
+            style={{width: '100%', textAlign: 'right'}}>
+            <span
+              className={classnames("fontContentPlain", "weightBold", "colorAssistGold")}>
+              {this.props.i18nUIString.catalog["title_selfPublications"]}</span>
+          </div>
         </div>
         <Switch>
           <Route
