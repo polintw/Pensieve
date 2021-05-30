@@ -57,7 +57,7 @@ class NavFeed extends React.Component {
           linkSearch = '?tab=routes';
           break;
         case 'tab_Steps':
-          linkSearch = '?tab=steps&_filter_nodes=true';
+          linkSearch = '?tab=steps&_filter_map=true';
           break;
         default:
           // do nothing, keep linkSearch as origin

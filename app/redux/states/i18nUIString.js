@@ -146,7 +146,7 @@ const i18nUIString_EN = {
   "link_Options_public": "Public view",
   "Cornerth_inc": "Cornerth. ",
   "AllRights": "All Rights Reserved.",
-  "tab_Steps": 'Steps',
+  "tab_Steps": 'Map',
   "tab_Routes": 'Routes',
 
   "link_Nav_Shareds_": ["<> ", "Personal"],
