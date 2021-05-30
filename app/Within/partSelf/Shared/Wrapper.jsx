@@ -8,6 +8,8 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import Feed from './Feed/Feed.jsx';
+import FeedInspired from './FeedInspired/FeedInspired.jsx'
+import TabMap from './TabMap/TabMap.jsx';
 import TitleShareds from './TitleShareds/TitleShareds.jsx';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
 
@@ -33,7 +35,7 @@ class Wrapper extends React.Component {
           savedPosition: savedPosition
         };
       }, ()=>{
-        this.wrapperWithinNode.current.style.display='none';
+        this.wrapperSelfShared.current.style.display='none';
       });
     }
     else if(
@@ -41,7 +43,7 @@ class Wrapper extends React.Component {
       prevProps.location.pathname.includes('/unit') &&
       !this.props.location.pathname.includes('/unit')
     ){
-      this.wrapperWithinNode.current.style={};
+      this.wrapperSelfShared.current.style={};
       window.scroll(0, prevState.savedPosition);
       this.setState({
         savedPosition: null
@@ -63,14 +65,14 @@ class Wrapper extends React.Component {
       case "inspired":
         return (
           <div>
-
+            <FeedInspired {...this.props}/>
           </div>
         )
         break;
       case "map":
         return (
           <div>
-
+            <TabMap {...this.props}/>
           </div>
         )
         break;
@@ -97,6 +99,7 @@ class Wrapper extends React.Component {
     return(
       <div>
         <div
+          ref={this.wrapperSelfShared}
           className={classnames(styles.comSelfWrapper)}>
           <div
             className={classnames(styles.boxTopTitle)}>

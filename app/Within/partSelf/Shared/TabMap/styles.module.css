@@ -1,0 +1,28 @@
+.comTabMap {
+  display: flex;
+  flex-direction: column;
+}
+
+.boxRow {
+  position: relative;
+  margin: 12px 0;
+}
+
+.boxFooter {
+  position: relative;
+  padding-top: 4.4rem;
+  margin-bottom: 35.6vh;
+}
+
+.boxMap {
+  align-self: center;
+  width: 100%;
+  margin-top: 8px;
+}
+
+
+@media screen and (max-width:860px) {
+  .boxFooter {
+    margin-bottom: 14vh;
+  }
+}

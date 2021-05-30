@@ -8,8 +8,8 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import MapNodesUnits from '../../../../Components/Map/MapNodesUnits.jsx';
 import {
-  _axios_get_nodesUnits
-} from '../axios.js';
+  _axios_get_Basic
+} from '../utils.js';
 import {
   handleNounsList,
 } from "../../../../redux/actions/general.js";
@@ -22,7 +22,7 @@ import {
   domain
 } from '../../../../../config/services.js';
 
-class Steps extends React.Component {
+class TabMap extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -33,17 +33,15 @@ class Steps extends React.Component {
     };
     this.axiosSource = axios.CancelToken.source();
     this._render_unitsMap = this._render_unitsMap.bind(this);
-    this._set_nodesUnitsBasic = this._set_nodesUnitsBasic.bind(this);
+    this._set_mapUnits = this._set_mapUnits.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-    if(this.props.match.params['pathName'] != prevProps.match.params['pathName']){
-      this._set_nodesUnitsBasic()
-    }
+
   }
 
   componentDidMount(){
-    this._set_nodesUnitsBasic()
+    this._set_mapUnits()
   }
 
   componentWillUnmount(){
@@ -104,11 +102,9 @@ class Steps extends React.Component {
   }
 
   render(){
-    let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
-
     return (
       <div
-        className={classnames(styles.comSteps)}>
+        className={classnames(styles.comTabMap)}>
         <div
           className={classnames(styles.boxRow)}>
           {this._render_unitsMap()}
@@ -118,21 +114,34 @@ class Steps extends React.Component {
     )
   }
 
-  _set_nodesUnitsBasic(){
+  _set_mapUnits(){
     const self = this;
     this.setState({axios: true});
+    let paramsObjPublications = {
+      filterNodes: [],
+      limit: 120,
+      pathProject: (this.props.lastParam == "pathProject") ? this.props.userInfo.pathName : null,
+    };
+    let paramsObjInspired = {
+      filterNodes: [],
+      limit: 120,
+    };
+    let fetchPublicationsList = new Promise((resolve, reject)=>{
+      _axios_get_Basic(this.axiosSource.token, {
+        url: "/router/inspired/accumulated",
+        params: paramsObjInspired
+      }).then((resObj)=>{ resolve(resObj) });
+    }).catch((error)=>{ throw error; });
+    let fetchInspiredsList = new Promise((resolve, reject)=>{
+      _axios_get_Basic(this.axiosSource.token, {
+        url: "/router/share/accumulated",
+        params: paramsObjPublications
+      }).then((resObj)=>{ resolve(resObj) });
+    }).catch((error)=>{ throw error; });
 
-    _axios_get_nodesUnits(this.axiosSource.token, {
-      nodesList: [],
-      pathName: this.props.match.params['pathName'],
-      filterSubCate: null
-    })
-    .then((resObj)=>{
-      let nodesKey = Object.keys(resObj.main.nodesUnits);
-      let unitsList = [];
-      nodesKey.forEach((key, index) => {
-        unitsList = unitsList.concat(resObj.main.nodesUnits[key]);
-      });
+    Promise.all([fetchPublicationsList, fetchInspiredsList])
+    .then(([resPublications, resInspired])=>{
+      let unitsList = resPublications.main.unitsList.concat(resInspired.main.unitsList);
       self.setState((prevState, props)=>{
         return {
           mapUnitsList: unitsList
@@ -183,4 +192,4 @@ const mapDispatchToProps = (dispatch) => {
 export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(Steps));
+)(TabMap));

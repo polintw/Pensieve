@@ -1,0 +1,90 @@
+.comFeedInspired {
+  display: flex;
+  flex-direction: column;
+}
+
+.comFeedEmpty {
+  width: 100%;
+  padding-top: 6rem;
+}
+
+.boxRow {
+  position: relative;
+  margin: 12px 0;
+}
+
+.boxTitle {
+  margin: 8px 0;
+}
+
+.boxModule{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.boxModuleItem {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.boxDescript {
+  width: 100%;
+  text-align: center;
+}
+
+.boxEmptyDescript {
+  width: 100%;
+  text-align: center;
+}
+
+.boxInvite {
+  padding: 22px 0 20px;
+  text-align: center;
+}
+
+.boxBtnInvite {
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  padding: 6px 1.2rem 7px;
+  border-radius: 4px;
+  border: solid 1px #a3a3a3;
+  cursor: pointer;
+}
+
+.boxBtnInviteActiv {
+  border: dashed 2px #ababab;
+}
+
+.boxFooter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 28px;
+  margin-bottom: 36vh;
+}
+
+
+.spanBtnInvite {
+  white-space: nowrap;
+}
+
+.spanFooterHint {
+  margin: 8px 0;
+}
+
+@media screen and (max-width:860px) {
+  .boxModuleSmall {
+    justify-content: center;
+  }
+
+  .boxModuleItem {
+    width: 94.24vw;
+  }
+
+  .boxFooter {
+    margin-bottom: 19vh;
+  }
+}

@@ -133,7 +133,6 @@ const i18nUIString_EN = {
   "title_Expand": "Expand",
   "title_Chain_Shareds_": "Your Publications",
   "title_selfPublications": "Your Accumulations",
-  "title_yourShareds": 'Shareds',
   "title_shared": "Shareds",
   "title_Publications": "Publications",
   "title_Inspired": "Inspired",
@@ -261,7 +260,11 @@ const i18nUIString_EN = {
   "guiding_noAccumulated_waitAuthor": "Good content is always worth waiting!",
   "guiding_noAccumulated_shareInvitation": "Create your first Shared!",
   "guiding_noAccumulated_pathShareInvitation": "Start your theme by create a Shared!",
-  "guiding_noAccumulated_selfPageExplain": ["Here you're seeing the public page displaying your publications.", "Here is your personal page with full control!" ],
+  "guiding_noAccumulated_selfPageExplain": [
+    "Here you're seeing the public page displaying your publications.",
+    "Here is your personal page with full control!",
+    "Here will display publications which inspired you!"
+  ],
   "guiding_noAccumulated_nodeFilter": "Corners used would show up here after first Shared!",
 
   "hint_PathProject_FilterNode": "Filter accumulations by nodes beneath",
