@@ -25,6 +25,7 @@ async function _handle_GET_accumulations_mixfeed(req, res){
     const reqFilterNodes = req.query.filterNodes; // is an array contain one to several nodes id
     const reqListLimit = !isNaN(parseInt(req.query.limit)) ? parseInt(req.query.limit) : 8; // list length limit or 'undefined'
     const reqPathProject = !!req.query.pathProject ? req.query.pathProject : false; // id of pathProject or 'undefined'
+    const reqCategories =  !!req.query.mixCategory ? req.query.mixCategory : []; // categories client req
     // judge the 'range' we are going to pick, uf pathProject or if mixIdentity
     let whereRange = 'personalOnly';
     if(reqPathProject) whereRange = 'pathProjectOnly';
@@ -87,7 +88,12 @@ async function _handle_GET_accumulations_mixfeed(req, res){
     let unitsId = unitsByAttri.map((row, index) => {
       return row.id_unit;
     });
-    let unitsMixList = unitsId.concat(inspiredUnits);
+    // mix the 2 selected results above by the categories client req
+    let unitsMixList = [];
+    for(let i =0; (i< 2 && i< reqCategories.length); i++ ){
+      let targetResult = (reqCategories[i]=="inspired") ? inspiredUnits : unitsId;
+      unitsMixList = unitsMixList.concat(targetResult);
+    };
 
     unitsExposedList = await _DB_units.findAll({
       where: {

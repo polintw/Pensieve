@@ -60,6 +60,10 @@
   align-items: flex-end;
 }
 
+.boxFilterSwitches {
+  position: relative;
+}
+
 .linkBlock {
   display: block;
 }

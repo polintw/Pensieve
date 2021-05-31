@@ -8,6 +8,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import FeedNodes from './FeedNodes.jsx';
 import FeedMix from '../Feed/FeedMix.jsx';
+import FilterSwitch from '../components/FilterSwitch/FilterSwitch.jsx';
 import {SvgArrowToLeft} from '../../../../Components/Svg/SvgArrow.jsx';
 
 class TabNodes extends React.Component {
@@ -15,10 +16,12 @@ class TabNodes extends React.Component {
     super(props);
     this.state = {
       onNodeLink: false,
-      onArrow: false
+      onArrow: false,
+      filterCategory: ["notes", "inspired"]
     };
     this._render_resetLink = this._render_resetLink.bind(this);
     this._render_filterTitle = this._render_filterTitle.bind(this);
+    this._set_filterCategory = this._set_filterCategory.bind(this);
     this._handleClick_resetLink = this._handleClick_resetLink.bind(this);
     this._handleEnter_CloseArrow = this._handleEnter_CloseArrow.bind(this);
     this._handleLeave_CloseArrow = this._handleLeave_CloseArrow.bind(this);
@@ -27,7 +30,13 @@ class TabNodes extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-
+    let prevUrlParams = new URLSearchParams(prevProps.location.search);
+    let prevFilterNodeify = prevUrlParams.has('filterNode');
+    if(!this.filterNode && prevFilterNodeify){
+      this.setState({ // reset to init
+        filterCategory: ["notes", "inspired"]
+      })
+    };
   }
 
   componentDidMount(){
@@ -112,11 +121,27 @@ class TabNodes extends React.Component {
 
     return (
       <div className={styles.comFocusBoardFeed}>
+        <div
+          className={classnames(styles.boxFilterSwitches)}>
+          <div>
+            <FilterSwitch
+              {...this.props}
+              switchCate={"inspired"}
+              _set_filterCategory={this._set_filterCategory}/>
+          </div>
+          <div>
+            <FilterSwitch
+              {...this.props}
+              switchCate={"notes"}
+              _set_filterCategory={this._set_filterCategory}/>
+          </div>
+        </div>
         {
           !this.filterNode ? (
             <div>
               <FeedNodes
-                {...this.props}/>
+                {...this.props}
+                filterCategory={this.state.filterCategory}/>
             </div>
           ) : (
             <div>
@@ -126,12 +151,24 @@ class TabNodes extends React.Component {
                 {this._render_filterTitle()}
               </div>
               <FeedMix
-                {...this.props}/>
+                {...this.props}
+                filterCategory={this.state.filterCategory}/>
             </div>
           )
         }
       </div>
     )
+  }
+
+  _set_filterCategory(category){
+    this.setState((prevState, props)=>{
+      let copiedState = prevState.filterCategory.slice();
+      let targetIndex = prevState.filterCategory.indexOf(category);
+      ( targetIndex < 0) ? copiedState.push(category) : copiedState.splice(targetIndex, 1);
+      return {
+        filterCategory: copiedState
+      };
+    })
   }
 
   _handleClick_resetLink(event){

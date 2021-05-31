@@ -26,9 +26,11 @@ class Wrapper extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
+    let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
+    let prevUrlParmas = new URLSearchParams(prevProps.location.search);
     if(
-      this.props.location.pathname != prevProps.location.pathname &&
-      this.props.location.pathname.includes('/unit')
+      (this.props.location.pathname != prevProps.location.pathname && this.props.location.pathname.includes('/unit')) ||
+      (urlParams.has('creating') && !prevUrlParmas.has("creating"))
     ){
       let savedPosition = window.scrollY;
       this.setState((prevState, props)=>{
@@ -40,9 +42,10 @@ class Wrapper extends React.Component {
       });
     }
     else if(
-      this.props.location.pathname != prevProps.location.pathname &&
+      (this.props.location.pathname != prevProps.location.pathname &&
       prevProps.location.pathname.includes('/unit') &&
-      !this.props.location.pathname.includes('/unit')
+      !this.props.location.pathname.includes('/unit') )||
+      (!urlParams.has('creating') && prevUrlParmas.has("creating"))
     ){
       this.wrapperSelfShared.current.style={};
       window.scroll(0, prevState.savedPosition);

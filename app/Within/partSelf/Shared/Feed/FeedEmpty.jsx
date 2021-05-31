@@ -30,7 +30,19 @@ class FeedEmpty extends React.Component {
   }
 
   render(){
-    return (
+    return !!this.props.customFilterCate ? (
+      <div className={styles.comFeedEmpty}>
+        <div
+          className={classnames(styles.boxTitle, styles.boxEmptyDescript, "fontTitleSmall", "colorLightGrey")}>
+          <span style={{display: 'inline-block', width: '170px'}}>
+            {
+              this.props.customFilterCate.length > 0 ?  this.props.i18nUIString.catalog['guiding_noAccumulated_selfAccumulationsNodes'][0] :
+              this.props.i18nUIString.catalog['guiding_noAccumulated_selfAccumulationsNodes'][1] 
+            }
+          </span>
+        </div>
+      </div>
+    ) : (
       <div className={styles.comFeedEmpty}>
         <div
           className={classnames(styles.boxTitle, styles.boxEmptyDescript, "fontTitleSmall", "colorLightGrey")}>

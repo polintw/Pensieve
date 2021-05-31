@@ -7,6 +7,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesNail from "../../../stylesNail.module.css";
 import FeedEmpty from './FeedEmpty.jsx';
+import BtnUpload from '../../../../Unit/Editing/BtnUpload/BtnUpload.jsx';
 import NailFeed from '../../../../Components/Nails/NailFeed/NailFeed.jsx';
 import NailFeedWide from '../../../../Components/Nails/NailFeedWide/NailFeedWide.jsx';
 import NailFeedMobile from '../../../../Components/Nails/NailFeedMobile/NailFeedMobile.jsx';
@@ -38,6 +39,7 @@ class Feed extends React.Component {
     this._check_Position = this._check_Position.bind(this);
     this._render_FeedNails = this._render_FeedNails.bind(this);
     this._render_FooterHint = this._render_FooterHint.bind(this);
+    this._submit_Share_New = this._submit_Share_New.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -96,6 +98,14 @@ class Feed extends React.Component {
     let groupsDOM = [];
     const _nailsGroup = (unitGroup, groupIndex)=>{
       let nailsDOM = [];
+      if(groupIndex == 0 && unitGroup.length > 0){
+        nailsDOM.push(
+          <BtnUpload
+            {...this.props}
+            _submit_Share_New={this._submit_Share_New}
+            _refer_von_Create={this.props._refer_von_cosmic}/>
+        )
+      }
       unitGroup.forEach((unitId, index) => {
         //render if there are something in the data
         if( !(unitId in this.state.unitsBasic)) return; //skip if the info of the unit not yet fetch
@@ -301,6 +311,17 @@ class Feed extends React.Component {
         if(message) alert(message);
       }
     });
+  }
+
+  _submit_Share_New(){
+    // and remember the editing modal was opened by URL change
+    let lastState = this.props.location.state.from ; // because we are pretty sure there is a "from" obj when opened EditingModal
+    this.props.history.replace({
+      pathname: lastState.pathname,
+      search: lastState.search,
+      state: lastState.state
+    });
+    window.location.reload();
   }
 }
 

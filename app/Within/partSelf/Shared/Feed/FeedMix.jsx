@@ -49,7 +49,8 @@ class FeedMix extends React.Component {
     let lastPathProjectify = prevProps.location.pathname.includes('/pathProject');
     if(
       (this.filterNode != lastNodeAtId) ||
-      (currentPathProjectify != lastPathProjectify) // or left pathProject
+      (currentPathProjectify != lastPathProjectify) || // or left pathProject
+      this.props.filterCategory.length != prevProps.filterCategory.length // category was add or delete
     ){
       this.setState((prevState, props)=>{
         return {
@@ -61,7 +62,7 @@ class FeedMix extends React.Component {
       }, ()=>{
         this._set_feedUnits();
       });
-    }
+    };
   }
 
   componentDidMount(){
@@ -202,8 +203,9 @@ class FeedMix extends React.Component {
               styles.boxModuleSmall,
               styles.boxRow
             )}>
-            <FeedNodesEmpty
-              {...this.props}/>
+            <FeedEmpty
+              {...this.props}
+              customFilterCate={this.props.filterCategory}/>
           </div>
         }
 
@@ -249,6 +251,7 @@ class FeedMix extends React.Component {
     let paramsObj = {
       listUnitBase: lastUnitTime,
       filterNodes: !!this.filterNode ? [this.filterNode] : [],
+      mixCategory: this.props.filterCategory
     };
     if(pathProjectify){
       Object.assign(paramsObj, { pathProject: this.props.userInfo.pathName});

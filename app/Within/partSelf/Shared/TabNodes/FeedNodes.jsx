@@ -39,7 +39,17 @@ class FeedNodes extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-
+    if(this.props.filterCategory.length != prevProps.filterCategory.length){ // category was add or delete
+      // reset all the list
+      this.setState({
+        nodesList: [],
+        notesNodes: [],
+        inspiredNodes: [],
+        nextFetchBasedTime: null,
+        scrolled: true,
+      });
+      this._set_nodesFeed();
+    }
   }
 
   componentDidMount(){
@@ -228,9 +238,20 @@ class FeedNodes extends React.Component {
         params: paramsObjInspired
       }).then((resObj)=>{ resolve(resObj) });
     }).catch((error)=>{ throw error; });
+    // .props would indicate how many 'category' should be fetched('notes', 'inspired')
+    let promiseList = this.props.filterCategory.map((item, index)=>{
+      // currently only 2 possibility, so we do this in one operator
+      return item == "notes" ? fetchNotesNodes : fetchInspiredsNodes;
+    });
 
-    Promise.all([fetchNotesNodes, fetchInspiredsNodes])
-    .then(([resNotes, resInspired])=>{
+    Promise.all(promiseList)
+    .then((resArr)=>{
+      let resNotes = {main: {nodesList: []}},
+          resInspired = {main: {nodesList: []}};
+      self.props.filterCategory.forEach((item, index)=>{
+        if(item == 'notes') resNotes = resArr[index]
+        else resInspired = resArr[index];
+      });
       let mixedNodesList = resNotes.main.nodesList.slice();
       resInspired.main.nodesList.forEach((node, index) => {
         if(resNotes.main.nodesList.indexOf(node) < 0) mixedNodesList.push(node);

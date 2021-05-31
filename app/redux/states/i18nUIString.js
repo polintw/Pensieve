@@ -125,6 +125,8 @@ const i18nUIString_EN = {
   "submit_unitPublish": "Publish",
   "submit_Options_profile": "Profile",
   "submit_Continue": "Continue",
+  "submit_filterSwitch_Notes": "Notes incl.",
+  "submit_filterSwitch_Inspired": "Inspired incl.",
   "title_welcome": 'OnBoard',
   "title_instruction": "Instruction",
   "title_share": "Share",
@@ -261,6 +263,10 @@ const i18nUIString_EN = {
   "guiding_noAccumulated_waitAuthor": "Good content is always worth waiting!",
   "guiding_noAccumulated_shareInvitation": "Create your first Shared!",
   "guiding_noAccumulated_pathShareInvitation": "Start your theme by create a Shared!",
+  "guiding_noAccumulated_selfAccumulationsNodes": [
+    "No accumulations at this nodes.",
+    "Pick a category to filter your accumulations."
+  ],
   "guiding_noAccumulated_selfPageExplain": [
     "Here you're seeing the public page displaying your publications.",
     "Here is your personal page with full control!",

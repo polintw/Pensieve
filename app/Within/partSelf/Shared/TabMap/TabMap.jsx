@@ -6,6 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
+import FilterSwitch from '../components/FilterSwitch/FilterSwitch.jsx';
 import MapNodesUnits from '../../../../Components/Map/MapNodesUnits.jsx';
 import {
   _axios_get_Basic
@@ -29,15 +30,24 @@ class TabMap extends React.Component {
       axios: false,
       fetchedUnitsList: false,
       mapUnitsList: [],
-      unitsBasic: {}
+      unitsBasic: {},
+      filterCategory: ["notes", "inspired"]
     };
     this.axiosSource = axios.CancelToken.source();
     this._render_unitsMap = this._render_unitsMap.bind(this);
     this._set_mapUnits = this._set_mapUnits.bind(this);
+    this._set_filterCategory = this._set_filterCategory.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-
+    if(this.state.filterCategory.length != prevState.filterCategory.length){ // category was add or delete
+      // reset all the list
+      this.setState({
+        fetchedUnitsList: false,
+        mapUnitsList: [],
+      });
+      this._set_mapUnits();
+    }
   }
 
   componentDidMount(){
@@ -107,11 +117,37 @@ class TabMap extends React.Component {
         className={classnames(styles.comTabMap)}>
         <div
           className={classnames(styles.boxRow)}>
+          <div
+            className={classnames(styles.boxFilterSwitches)}>
+            <div>
+              <FilterSwitch
+                {...this.props}
+                switchCate={"inspired"}
+                _set_filterCategory={this._set_filterCategory}/>
+            </div>
+            <div>
+              <FilterSwitch
+                {...this.props}
+                switchCate={"notes"}
+                _set_filterCategory={this._set_filterCategory}/>
+            </div>
+          </div>
           {this._render_unitsMap()}
         </div>
         <div className={classnames(styles.boxRow, styles.boxFooter)}/>
       </div>
     )
+  }
+
+  _set_filterCategory(category){
+    this.setState((prevState, props)=>{
+      let copiedState = prevState.filterCategory.slice();
+      let targetIndex = prevState.filterCategory.indexOf(category);
+      ( targetIndex < 0) ? copiedState.push(category) : copiedState.splice(targetIndex, 1);
+      return {
+        filterCategory: copiedState
+      };
+    })
   }
 
   _set_mapUnits(){
@@ -138,9 +174,20 @@ class TabMap extends React.Component {
         params: paramsObjInspired
       }).then((resObj)=>{ resolve(resObj) });
     }).catch((error)=>{ throw error; });
+    // .state would indicate how many 'category' should be fetched('notes', 'inspired')
+    let promiseList = this.state.filterCategory.map((item, index)=>{
+      // currently only 2 possibility, so we do this in one operator
+      return item == "notes" ? fetchPublicationsList : fetchInspiredsList;
+    });
 
-    Promise.all([fetchPublicationsList, fetchInspiredsList])
-    .then(([resPublications, resInspired])=>{
+    Promise.all(promiseList)
+    .then((resArr)=>{
+      let resPublications = {main: {unitsList: []}},
+          resInspired = {main: {unitsList: []}};
+      self.state.filterCategory.forEach((item, index)=>{
+        if(item == 'notes') resPublications = resArr[index]
+        else resInspired = resArr[index];
+      });
       let unitsList = resPublications.main.unitsList.concat(resInspired.main.unitsList);
       self.setState((prevState, props)=>{
         return {
