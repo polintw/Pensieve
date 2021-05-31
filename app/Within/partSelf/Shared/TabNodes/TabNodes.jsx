@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import FeedNodes from './FeedNodes.jsx';
-import Feed from '../Feed/Feed.jsx';
+import FeedMix from '../Feed/FeedMix.jsx';
 import {SvgArrowToLeft} from '../../../../Components/Svg/SvgArrow.jsx';
 
 class TabNodes extends React.Component {
@@ -125,7 +125,7 @@ class TabNodes extends React.Component {
                   styles.boxTitle, styles.rowFilterTitle)}>
                 {this._render_filterTitle()}
               </div>
-              <Feed
+              <FeedMix
                 {...this.props}/>
             </div>
           )
