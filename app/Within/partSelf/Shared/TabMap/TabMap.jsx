@@ -128,14 +128,14 @@ class TabMap extends React.Component {
     };
     let fetchPublicationsList = new Promise((resolve, reject)=>{
       _axios_get_Basic(this.axiosSource.token, {
-        url: "/router/inspired/accumulated",
-        params: paramsObjInspired
+        url: "/router/share/accumulated",
+        params: paramsObjPublications
       }).then((resObj)=>{ resolve(resObj) });
     }).catch((error)=>{ throw error; });
     let fetchInspiredsList = new Promise((resolve, reject)=>{
       _axios_get_Basic(this.axiosSource.token, {
-        url: "/router/share/accumulated",
-        params: paramsObjPublications
+        url: "/router/inspired/accumulated",
+        params: paramsObjInspired
       }).then((resObj)=>{ resolve(resObj) });
     }).catch((error)=>{ throw error; });
 

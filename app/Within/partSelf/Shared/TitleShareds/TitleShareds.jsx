@@ -33,8 +33,8 @@ class TitleShareds extends React.Component {
   }
 
   _render_nav(){
-    let tabs = ["publications", "inspired", "map", "nodes"]
-    let tabsi18nName = ["title_Publications", "title_Inspired", "tab_Map", "tab_Nodes"];
+    let tabs = ["notes", "inspired", "map", "nodes"]
+    let tabsi18nName = ["title_Notes", "title_Inspired", "tab_Map", "tab_Nodes"];
 
     let navDOM = tabs.map((tab, index)=>{
       if( tab == 'inspired' && this.props.lastParam == 'pathProject') return null; // not rendering 'inspired' link under /pathProject
@@ -70,7 +70,7 @@ class TitleShareds extends React.Component {
         </Link>
       )
     });
-    if( !this.currentTab || this.currentTab == 'publications'){
+    if( !this.currentTab || this.currentTab == 'notes'){
       navDOM[0] = (
         <span
           key={"key_pathNavFeed_tab_greet"}
@@ -113,7 +113,7 @@ class TitleShareds extends React.Component {
         return (this.props.i18nUIString.catalog['tab_Nodes'])
         break;
       default: // 'undefined' currentTab
-        return (this.props.i18nUIString.catalog['title_Publications'])
+        return (this.props.i18nUIString.catalog['title_Notes'])
     }
   }
 

@@ -10,6 +10,7 @@ import styles from "./styles.module.css";
 import Feed from './Feed/Feed.jsx';
 import FeedInspired from './FeedInspired/FeedInspired.jsx'
 import TabMap from './TabMap/TabMap.jsx';
+import TabNodes from './TabNodes/TabNodes.jsx';
 import TitleShareds from './TitleShareds/TitleShareds.jsx';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
 
@@ -79,7 +80,7 @@ class Wrapper extends React.Component {
       case "nodes":
         return (
           <div>
-
+            <TabNodes {...this.props}/>
           </div>
         )
         break;
