@@ -68,14 +68,6 @@ class Wrapper extends React.Component {
             nouns={nodesTitleObj}
             _referNode={this.props._refer_toandclose}
             _set_noTokenDialog={this._set_inviteDialog}/>
-          {
-            /*
-            Hide this part under the new design. Apr. 2021
-            <SidePanel
-            {...this.props}
-            _set_noTokenDialog={this._set_inviteDialog}/>
-            */
-          }
         </div>
         <div
           className={classnames(styles.boxContentWidth, styles.boxFrame)}>

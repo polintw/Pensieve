@@ -10,7 +10,6 @@ import styles from './styles.module.css';
 import stylesFont from '../stylesFont.module.css';
 import Layers from './Layers.jsx';
 import LayersSmall from './LayersSmall.jsx';
-import LayerSwitch from './components/LayerSwitch/LayerSwitch.jsx';
 import EntityOnSubcate from '../Entity/EntityOnSubcate.jsx';
 import EntitySubcateTitle from '../Entity/EntitySubcateTitle.jsx';
 
@@ -95,8 +94,6 @@ class Theater extends React.Component {
                 unitEntity= {this.props.unitEntity}/>
             </div>
           }
-          <LayerSwitch
-            {...this.props}/>
         </div>
       </div>
     )

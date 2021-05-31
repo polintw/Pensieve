@@ -8,21 +8,17 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
 import Theater from '../Theater/Theater.jsx';
-import Related from '../Related/Related.jsx';
 import PathSubcate from '../PathSubcate/PathSubcate.jsx'
 import SharedEdit from '../Editing/SharedEdit.jsx';
-import CreateRespond from '../Editing/CreateRespond.jsx';
 import {
   _axios_getUnitData,
   _axios_getUnitImgs,
 } from '../utils.js';
-import NavOptions from '../../Components/NavOptions/NavOptions.jsx';
 import ModalBox from '../../Components/ModalBox.jsx';
 import ModalBackground from '../../Components/ModalBackground.jsx';
 import {
   setUnitView,
   setUnitSubcate,
-  submitUnitRespondsList
 } from "../../redux/actions/unit.js";
 import {
   setUnitCurrent,
@@ -52,9 +48,6 @@ class UnitScreen extends React.Component {
     this._close_modal_Unit = this._close_modal_Unit.bind(this);
     this._set_UnitCurrent = this._set_UnitCurrent.bind(this);
     this._reset_UnitMount = this._reset_UnitMount.bind(this);
-    this.style={
-
-    };
     //And! we have to 'hide' the scroll bar and preventing the scroll behavior to the page one for all
     //so dismiss the scroll ability for <body> here
     document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:hidden;");
@@ -139,7 +132,6 @@ class UnitScreen extends React.Component {
         imgLocation: resObj.main.imgLocation,
         createdAt: resObj.main.createdAt
       });
-
     })
     .catch(function (thrown) {
       self.setState({axios: false});
@@ -160,7 +152,6 @@ class UnitScreen extends React.Component {
     let prevParams = new URLSearchParams(prevProps.location.search); //we need value in URL query
     if(this.unitId !== prevParams.get('unitId')){
       this._reset_UnitMount(); //reset UnitCurrent to clear the view
-      this.props._submit_list_UnitResponds({ list: [], scrolled: true }, true); // reset the responds state to initial
     }
     else if(this.urlParams.get('unitView') !== prevParams.get('unitView')){
       this.boxUnitFrame.current.scrollTop = 0; // make the Unit view area back to top
@@ -182,7 +173,6 @@ class UnitScreen extends React.Component {
     let unitCurrentState = Object.assign({}, unitCurrentInit);
     this.props._set_store_UnitCurrent(unitCurrentState);
     this.props._set_state_UnitView('theater'); // it's default for next view
-    this.props._submit_list_UnitResponds({ list: [], scrolled: true }, true); // reset the responds state to initial
     this.props._set_state_UnitSubcate({ next_confirm: false, next_unit: null, first_unit: null}); // reset the subcate state to initial
     //last, recruit the scroll ability back to <body>
     document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:scroll;");
@@ -213,29 +203,6 @@ class UnitScreen extends React.Component {
             _reset_UnitMount={this._reset_UnitMount}/>
         )
         break;
-      case 'respond':
-        return (
-          <CreateRespond
-            {...this.props}
-            _reset_UnitMount={this._reset_UnitMount}
-            _close_theaterHeigher={this._close_modal_Unit}/>
-        )
-        break;
-      case 'related':
-        return (
-          <div
-            className={classnames(styles.boxRelated)}
-            onClick={(e)=> { e.stopPropagation();e.preventDefault();this._close_modal_Unit()}}>
-            <div
-              onClick={(e)=> { e.stopPropagation();e.preventDefault();}}>
-              <Related
-                {...this.props}
-                _reset_UnitMount={this._reset_UnitMount}
-                _close_theaterHeigher={this._close_modal_Unit}/>
-            </div>
-          </div>
-        )
-        break;
       default:
         return (
           <Theater
@@ -264,7 +231,6 @@ class UnitScreen extends React.Component {
     this.urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
     this.unitId = this.urlParams.get('unitId');
     let paramUnitView = this.urlParams.get('unitView');
-    let cssVW = window.innerWidth; // for RWD
 
     return(
       <ModalBox containerId="root">
@@ -274,14 +240,7 @@ class UnitScreen extends React.Component {
           onClose={()=>{this._close_modal_Unit();}}
           style={{
             position: "fixed",
-            backgroundColor: (paramUnitView=="related" || paramUnitView=="respond") ? 'rgba(51, 51, 51, 0.85)': 'rgba(51, 51, 51, 0.3)' }}>
-            {
-              (cssVW < 860) &&
-              <div
-                className={classnames(styles.boxNavOptions)}>
-                <NavOptions {...this.props} _refer_to={this._close_modal_Unit}/>
-              </div>
-            }
+            backgroundColor: 'rgba(51, 51, 51, 0.85)' }}>
             <div
               id={"unitSignFrame"}
               className={classnames(styles.boxUnitSignFrame)}/>
@@ -317,7 +276,6 @@ const mapDispatchToProps = (dispatch)=>{
     _set_state_UnitView: (expression)=>{dispatch(setUnitView(expression));},
     _set_store_UnitCurrent: (obj)=>{dispatch(setUnitCurrent(obj));},
     _set_state_UnitSubcate: (expression)=>{dispatch(setUnitSubcate(expression));},
-    _submit_list_UnitResponds: (obj, reset) => { dispatch(submitUnitRespondsList(obj, reset)); }
   }
 }
 
