@@ -57,7 +57,15 @@
   display: none;
 }
 
+.wideDisplayFlex {
+  display: flex;
+}
+
 .smallDisplayBox {
+  display: none;
+}
+
+.smallDisplayFlex {
   display: none;
 }
 
@@ -80,7 +88,15 @@
     display: block;
   }
 
+  .smallDisplayFlex {
+    display: flex;
+  }
+
   .smallDisplayNone {
+    display: none;
+  }
+
+  .wideDisplayFlex {
     display: none;
   }
 }

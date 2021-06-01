@@ -24,6 +24,7 @@ class Inspired extends React.Component {
       mouseOn: false
     };
     this.axiosSource = axios.CancelToken.source();
+    this._set_bulbPattern = this._set_bulbPattern.bind(this);
     this._set_emitModal = this._set_emitModal.bind(this);
     this._handleEnter_Btn = this._handleEnter_Btn.bind(this);
     this._handleLeave_Btn = this._handleLeave_Btn.bind(this);
@@ -75,11 +76,13 @@ class Inspired extends React.Component {
           <div
             title={this.props.i18nUIString.catalog["tagTitle_Unit_Inspired"]}
             className={classnames(styles.boxSvgIcon)}
+            onTouchStart={this._handleEnter_Btn}
+            onTouchEnd={this._handleLeave_Btn}
             onMouseEnter={this._handleEnter_Btn}
             onMouseLeave={this._handleLeave_Btn}
             onClick={this._handleClick_Inspired}>
             <SvgBulbInspired
-              bulbPattern={this.state.inspired ? 'delight': 'dark'}
+              colorClass={this._set_bulbPattern()}
               mouseReact={this.state.mouseOn}/>
           </div>
         {
@@ -93,6 +96,12 @@ class Inspired extends React.Component {
 
       </div>
     )
+  }
+
+  _set_bulbPattern(){
+    if(
+      !!this.props.screenSize && this.props.screenSize == 'small') return this.state.inspired ? 'smallLight': 'smallDark' ;
+    return this.state.inspired ? 'delight': 'dark' ;
   }
 
   _set_emitModal(){
@@ -124,7 +133,8 @@ class Inspired extends React.Component {
     this.setState({
       axios: true,
       emitTimeOut: false,
-      emit: false
+      emit: false,
+      mouseOn: false
     });
 
     _axios_POST_Isnpired(this.axiosSource.token,  this.props.unitCurrent.unitId)

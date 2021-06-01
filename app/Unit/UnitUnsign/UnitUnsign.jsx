@@ -220,6 +220,7 @@ class UnitUnsign extends React.Component {
     this.urlParams = new URLSearchParams(this.props.location.search);
     this.unitId = this.urlParams.get('unitId');
     let paramUnitView = this.urlParams.get('unitView');
+    let cssVW = window.innerWidth;
 
     return(
       <ModalBox containerId="root">
@@ -229,7 +230,7 @@ class UnitUnsign extends React.Component {
           onClose={()=>{this._close_modal_Unit();}}
           style={{
             position: "fixed",
-            backgroundColor: 'rgba(51, 51, 51, 0.85)' }}>
+            backgroundColor: cssVW > 860 ? 'rgba(51, 51, 51, 0.3)' : 'rgba(51, 51, 51, 0.85)' }}>
             <div
               id={"unitSignFrame"}
               className={classnames(styles.boxUnitSignFrame)}/>

@@ -25,8 +25,6 @@
   height: 72%;
   box-sizing: border-box;
   margin-bottom: 2.54vh;
-  border-radius: 4px;
-  overflow: hidden;
 }
 
 .boxFrameAuthor {
@@ -41,10 +39,6 @@
 
 .boxBottom {
   display: flex;
-  flex-direction: row-reverse;
-  justify-content: space-between;
-  align-items: flex-end;
-  flex-wrap: wrap;
   margin-bottom: 5vh;
 }
 
@@ -113,8 +107,8 @@
   height: 100%;
   position: relative;
   box-sizing: border-box;
-  border-radius: 4px;
   background-color: rgba(217, 232, 255, 0.15);
+  border-radius: 4px;
 }
 
 .boxImgLayer {
@@ -135,12 +129,32 @@
   display: none;
 }
 
+@media screen and (min-width:860px) {
+  .boxFrame {
+    width: 90%;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .comBottomPanel {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+  }
+
+  .comImgsFrame {
+    border-radius: 4px;
+  }
+}
+
 @media screen and (max-width:860px) {
   .smallDisplayNone {
     display: none;
   }
 
   .boxFrame {
+    width: 100%;
     overflow: visible;
   }
 
@@ -153,15 +167,54 @@
     padding: unset;
   }
 
-  .boxBottomLeft {
-    justify-content: space-between;
-    flex-wrap: wrap;
+  .comBottomPanel {
+    flex-direction: column;
     width: 100%;
+  }
+
+  .boxBottomRowLinks {
+    width: 100vw;
+    box-sizing: border-box;
+    margin: -1.44vh 0 2.54vh;
+    padding: 10px 5%;
+    background-color: rgba(217, 232, 255, 0.15);
+  }
+
+  .boxBottomRowPanel {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 2.54vh;
+  }
+
+  .boxBottomRowAction {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
     margin-top: 2.54vh;
   }
 
-  .boxBottomLeftFetch {
-    margin-top: 16px;
+  .boxBottomLeft {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .btnBottomIcon {
+    width: unset;
+    height: 2.4rem;
+    position: relative;
+    border-radius: 4px;
+    margin-left: 1.5rem;
+    padding-left: 5px;
+  }
+
+  .btnIconInspired {
+    height: 38px;
+    position: relative;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding-left: 1rem;
   }
 
   .boxSmallRelative{
@@ -182,6 +235,6 @@
   }
 
   .boxImg {
-    max-height: 48vh;
+    max-height: 54vh;
   }
 }

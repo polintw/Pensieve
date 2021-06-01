@@ -160,6 +160,7 @@ const i18nUIString_EN = {
   "descript_Shareds_pathLink": " as ",
 
   "submit_Unit_upload": ["Upload image", "Processing..."],
+  "submit_Unit_PanelIcon": ["On map", "Copy link"],
   "descript_Unit_Primer": ["Based on ", "'s Unit", "Based on a published Unit"],
   "guiding_UnitEdit_upload": "Get started by uploading an image!", //Original:"Get started by uploading image about your topic!"
   "guiding_UnitEdit_imgNoMark": "keep the photo clean or by Clicking on the picture to markup your thought without hesitation!", //Original:"keep it clean or by Clicking make some Post-it without hesitate!"

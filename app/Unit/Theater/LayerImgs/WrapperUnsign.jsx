@@ -8,21 +8,16 @@ import classnames from 'classnames';
 import styles from './styles.module.css';
 import ImgsFrame from './ImgsFrame.jsx';
 import SidePanel from './SidePanel.jsx';
-import Inspired from '../components/Inspired/Inspired.jsx';
-import BtnOpenMap from '../components/BtnOpenMap/BtnOpenMap.jsx';
+import BottomPanel from './BottomPanel.jsx';
+import AuthorStatics from './Author/AuthorStatics.jsx';
 import NodesExtensible from '../../NodesDisplay/NodesExtensible.jsx';
-import LinkFetch from '../../../Components/LinkFetch/LinkFetch.jsx';
-import LinkCopy from '../../../Components/LinkCopy/LinkCopy.jsx';
+import ImgPreview from '../../../Components/ImgPreview.jsx';
 import MapUnit from '../../../Components/Map/MapUnit.jsx';
-import AccountPalette from '../../../Components/AccountPalette.jsx';
-import DateConverter from '../../../Components/DateConverter.jsx';
+import LinkFetch from '../../../Components/LinkFetch/LinkFetch.jsx';
 import {
   setMessageBoolean,
 } from "../../../redux/actions/general.js";
 import {messageDialogInit} from "../../../redux/states/constants.js";
-import {
-  domain
-} from '../../../../config/services.js';
 
 class Wrapper extends React.Component {
   constructor(props){
@@ -70,7 +65,7 @@ class Wrapper extends React.Component {
             _set_noTokenDialog={this._set_inviteDialog}/>
         </div>
         <div
-          className={classnames(styles.boxContentWidth, styles.boxFrame)}>
+          className={classnames(styles.boxFrame)}>
           {
             (this.state.frameView == "map") ? (
               !!this.props.unitCurrent.imgLocation.longitude &&
@@ -88,84 +83,29 @@ class Wrapper extends React.Component {
             )
           }
         </div>
+        {
+          (("main" in this.props.unitCurrent.outBoundLink) &&
+          !!this.props.unitCurrent.outBoundLink.main) &&
+          <div
+            className={classnames("smallDisplayFlex", styles.boxBottomRowLinks)}>
+            <div
+              className={classnames(styles.boxBottomLeftFetch)}>
+              <div
+                className={classnames(styles.smallDisplayNone)}
+                style={{ borderRight: 'solid 0.75px #a3a3a3', margin: '0 1.5rem', height: '3.6rem' }} />
+              <LinkFetch
+                tagA={true}
+                svgClass={["cls-1-netGlobeBright", "cls-2-netGlobeBright"]}
+                outboundLink={this.props.unitCurrent.outBoundLink.main} />
+            </div>
+          </div>
+        }
         <div
           className={classnames(styles.boxContentWidth, styles.boxBottom)}>
-          <div
-            className={classnames(styles.boxBottomRight)}>
-            {
-              !!this.props.unitCurrent.imgLocation.longitude &&
-              <div
-                className={classnames(styles.btnBottomIcon)}
-                style={{ marginTop: '2px' }}>
-                <BtnOpenMap
-                  longitude={this.props.unitCurrent.imgLocation.longitude}
-                  latitude={this.props.unitCurrent.imgLocation.latitude}
-                  frameView={this.state.frameView}
-                  _set_frameView={this._set_frameView} />
-              </div>
-            }
-            {
-              /*
-              Hide this part under the new design. Apr. 2021
-              <div
-              className={classnames(styles.btnBottomIcon)}
-              style={{marginTop: '2px'}}>
-              <LinkCopy {...this.props}/>
-              </div>
-              {
-              (this.props.unitCurrent.identity != "author") &&
-              <div
-              className={classnames(styles.btnBottomIcon)}
-              style={{ marginTop: '2px' }}>
-              <Inspired
-              _set_noTokenDialog={this._set_inviteDialog}/>
-              </div>
-              }
-              */
-            }
-          </div>
-          <div
-            className={classnames(styles.boxBottomLeft)}>
-            <div>
-              <div
-                className={classnames(styles.boxBottomUpper)}
-                style={{color: '#757575'}}
-                onClick={this._handleClick_Account}>
-                <AccountPalette
-                  size={'layer'}
-                  referLink={
-                    (this.props.unitCurrent.authorBasic['authorIdentity'] == 'user') ?
-                      false : (domain.protocol + "://" + domain.name+ '/cosmic/explore/path/' + this.props.unitCurrent.authorBasic['pageLink'])
-                  }
-                  accountFirstName={
-                    (this.props.unitCurrent.authorBasic['authorIdentity'] == 'user') ?
-                    this.props.unitCurrent.authorBasic.firstName: null}
-                  accountLastName={
-                    (this.props.unitCurrent.authorBasic['authorIdentity'] == 'user') ?
-                      this.props.unitCurrent.authorBasic.lastName : this.props.unitCurrent.authorBasic.account}/>
-              </div>
-              <div
-                className={classnames(styles.boxBottomLower)}>
-                <div>
-                  <DateConverter
-                    styles={{color: '#a3a3a3'}}
-                    datetime={this.props.unitCurrent.createdAt}/>
-                </div>
-              </div>
-            </div>
-            {
-              (("main" in this.props.unitCurrent.outBoundLink) &&
-                !!this.props.unitCurrent.outBoundLink.main) &&
-              <div
-                style={{ display: 'flex', alignItems: 'center' }}>
-                <div style={{ borderRight: 'solid 0.75px #a3a3a3', margin: '0 1.5rem', height: '3.6rem' }} />
-                <LinkFetch
-                  tagA={true}
-                  quotationify={true}
-                  outboundLink={this.props.unitCurrent.outBoundLink.main} />
-              </div>
-            }
-          </div>
+          <BottomPanel
+            {...this.props}
+            frameView={this.state.frameView}
+            _set_frameView={this._set_frameView}/>
         </div>
 
       </div>

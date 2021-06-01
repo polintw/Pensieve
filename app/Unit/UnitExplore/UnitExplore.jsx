@@ -199,6 +199,7 @@ class UnitExplore extends React.Component {
         search: '',
         state: this.props.location.state //keep the state as props, perhaps need to increase 'current location' for 'back' use
       }}/>};
+    let cssVW = window.innerWidth;
 
     return(
       <ModalBox containerId="root">
@@ -208,7 +209,7 @@ class UnitExplore extends React.Component {
           onClose={()=>{this._close_modal_Unit();}}
           style={{
             position: "fixed",
-            backgroundColor: 'rgba(51, 51, 51, 0.85)' }}>
+            backgroundColor: cssVW > 860 ? 'rgba(51, 51, 51, 0.3)' : 'rgba(51, 51, 51, 0.85)' }}>
             <div
               id={"unitSignFrame"}
               className={classnames(styles.boxUnitSignFrame)}/>

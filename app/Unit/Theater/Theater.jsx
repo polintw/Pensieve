@@ -17,9 +17,11 @@ class Theater extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      onIconClose: false
     };
     this.unitInit = this.props._construct_UnitInit(this.props.match, this.props.location);
+    this._handleEnter_Icon = this._handleEnter_Icon.bind(this);
+    this._handleLeave_Icon = this._handleLeave_Icon.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -52,12 +54,28 @@ class Theater extends React.Component {
   render(){
     let params = new URLSearchParams(this.props.location.search); //we need value in URL query
     this.unitId = params.get('unitId');
-    // modification for small screen
-    let cssVW = window.innerWidth; // px of vw in pure integer
 
     return(
       <div
         className={classnames(styles.comTheater)}>
+        <div
+          className={classnames("smallDisplayBox")}
+          style={{padding: '0 5%', textAlign: 'right'}}>
+          <span
+            className={classnames(
+              "fontContent",
+              {
+                ["colorLightGrey"]: !this.state.onIconClose,
+                ["colorWhite"]: this.state.onIconClose,
+              })}
+            style={{display: 'inline-block', padding: '0 0 8px'}}
+            onTouchStart={this._handleEnter_Icon}
+            onTouchEnd={this._handleLeave_Icon}
+            onMouseEnter={this._handleEnter_Icon}
+            onMouseLeave={this._handleLeave_Icon}>
+            {this.props.i18nUIString.catalog['submit_close']}
+          </span>
+        </div>
         {
           (!!this.props.unitEntity && this.props.unitEntity.subCate) &&
           <div
@@ -81,11 +99,10 @@ class Theater extends React.Component {
             {...this.props}
             initStatus={this.unitInit}/>
         </div>
-        <div
-          className={classnames(styles.boxLayerSwitch)}
-          onClick={(event) => { if(cssVW > 860 ) event.stopPropagation(); }}>
-          {
-            (!!this.props.unitEntity && this.props.unitEntity.subCate) &&
+        {
+          (!!this.props.unitEntity && this.props.unitEntity.subCate) &&
+          <div
+            className={classnames(styles.boxLayerSwitch, "wideDisplayFlex")}>
             <div
               className={classnames(styles.boxTheaterSubcate)}
               onClick={(event) => { event.stopPropagation(); }}>
@@ -93,17 +110,44 @@ class Theater extends React.Component {
                 {...this.props}
                 unitEntity= {this.props.unitEntity}/>
             </div>
-          }
+          </div>
+        }
+        <div
+          className={classnames(
+            styles.boxLayerSwitch, "smallDisplayBox")}>
+            {
+              (!!this.props.unitEntity && this.props.unitEntity.subCate) &&
+              <div
+                className={classnames(styles.boxTheaterSubcate)}
+                onClick={(event) => { event.stopPropagation(); }}>
+                <EntityOnSubcate
+                  {...this.props}
+                  unitEntity= {this.props.unitEntity}/>
+              </div>
+            }
         </div>
       </div>
     )
+  }
+
+  _handleEnter_Icon(event){
+    this.setState({
+      onIconClose: true
+    })
+  }
+
+  _handleLeave_Icon(event){
+    this.setState({
+      onIconClose: false
+    })
   }
 }
 
 const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
-    unitSubmitting: state.unitSubmitting
+    unitSubmitting: state.unitSubmitting,
+    i18nUIString: state.i18nUIString
   }
 }
 

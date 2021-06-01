@@ -4,7 +4,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-47.5%, -50%);
+  transform: translate(-49.5%, -50%);
   box-sizing: border-box;
 }
 
@@ -17,13 +17,13 @@
   max-height: 95vh;
   position: relative;
   box-sizing: border-box;
-  border-radius: 4px;
-  background-color: #FFFFFF;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
 }
 
 .boxTheaterLayersRegular {
   display: block;
+  border-radius: 4px;
+  background-color: #FFFFFF;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
 }
 
 .boxTheaterLayersSmall {
@@ -57,7 +57,6 @@
 
 @media screen and (min-width:860px) {
   .boxLayerSwitch {
-    display: flex;
     flex-direction: column-reverse;
     align-items: center;
     justify-content: space-between;

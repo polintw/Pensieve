@@ -20,8 +20,21 @@
   cursor: pointer; /* there is some condition do not neew pointer, so set in this special class*/
 }
 
+@media screen and (min-width:860px) {
+  .spanNodeFont {
+    font-size: 2.4rem;
+    color: #545454;
+  }
+}
+
 @media screen and (max-width:860px) {
   .comNodesExtensible {
     flex-wrap: wrap;
   }
+
+  .spanNodeFont {
+    font-size: 2rem;
+    color: #FFFFFF;
+  }
+
 }
