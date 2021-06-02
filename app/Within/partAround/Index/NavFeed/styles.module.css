@@ -16,8 +16,9 @@
 }
 
 .boxDecoLine {
+  display: flex;
   box-sizing: border-box;
-  height: 10px;
+  height: 8px;
   position: relative;
   margin: 16px;
 }

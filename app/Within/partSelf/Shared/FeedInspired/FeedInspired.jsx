@@ -161,7 +161,10 @@ class FeedInspired extends React.Component {
         {
           (this.state.feedList.length > 0) &&
           <div
-            className={classnames(styles.boxRow)}>
+            className={classnames(
+              styles.boxRow,
+              styles.boxRowModules
+            )}>
             {this._render_FeedNails()}
           </div>
         }

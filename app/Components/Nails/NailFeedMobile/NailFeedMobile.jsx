@@ -6,7 +6,6 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import stylesFont from '../stylesFont.module.css';
 import NailMarksPreview from '../components/NailMarksPreview.jsx';
 import ImgPreview from '../../ImgPreview.jsx';
 import AccountPalette from '../../AccountPalette.jsx';
@@ -150,7 +149,7 @@ const contentBoxMarks = (self)=>{
         {
           (!!self.props.nodisplay &&
           (self.props.nodisplay.indexOf('author') != (-1))) ? null :
-        <div className={classnames(styles.boxAuthor, stylesFont.colorStandard)}>
+        <div className={classnames(styles.boxAuthor, "colorStandard")}>
           <AccountPalette
             size={"regularBold"}
             userId={self.props.unitBasic.authorId}
