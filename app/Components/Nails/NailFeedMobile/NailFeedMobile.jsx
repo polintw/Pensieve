@@ -145,7 +145,7 @@ const contentBoxMarks = (self)=>{
             unitId={self.props.unitId}
             unitBasic={self.props.unitBasic}
             marksBasic={self.props.marksBasic}
-            spotCount={true} />
+            spotCount={false} />
         </div>
         {
           (!!self.props.nodisplay &&

@@ -251,7 +251,7 @@ const i18nUIString_EN = {
   "guiding_AroundIndex_Share": "A new finding?", //Original:"how's your corners"
   'descript_AroundIndex_footer_BelongHint': "Start browsing by setting your current stay or homeland!",
 
-  "descript_Nail_noMark": "(expand image...)",
+  "descript_Nail_noMark": "view the pic.",
 
   "title_focusBoard": "Focus",
   "connection_focus_userNode": 'in',

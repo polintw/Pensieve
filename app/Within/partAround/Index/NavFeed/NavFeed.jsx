@@ -31,21 +31,21 @@ class NavFeed extends React.Component {
 
   render(){
     let sidePropsStyle = {
-      opacity: this.props.sideOpacityParam,
-      display: this.props.sideOpacityParam ? "unset" : "none"} // not display if '0'
-    let centerPropsStyle = (this.props.sideOpacityParam < 1) ? {fontWeight: 'bold'} : {};
+      opacity: this.props.sideOpacityParam}
+    let centerPropsStyle = (this.props.sideOpacityParam < 0.5) ? {fontWeight: 'bold', color: '#f3b55a'} : {};
 
     return(
       <div
         className={classnames(styles.comNavFeed, styles.boxTitle)}>
         <div
-          style={{display:'flex'}}>
+          className={classnames(styles.boxLinks)}>
           <Link
             to={ "/self/shareds" }
             topath={"personal"}
             className={classnames('plainLinkButton')}
             onTouchStart={this._handleEnter_link}
             onTouchEnd={this._handleLeave_link}
+            onMouseUp={this._handleLeave_link}
             onMouseEnter={this._handleEnter_link}
             onMouseLeave={this._handleLeave_link}
             style={ Object.assign({}, { padding: '0 8px' }, sidePropsStyle)}>
@@ -62,28 +62,45 @@ class NavFeed extends React.Component {
               {this.props.i18nUIString.catalog["title_Index_NavFeed_"][0] }
             </span>
           </Link>
-          <Link
-            to={"/#topFeed"}
+          <div
+            className={classnames(styles.boxDecoLine)}
+            style={ Object.assign({}, sidePropsStyle)}>
+            <svg viewBox="0 0 20 20"
+              style={Object.assign({}, {
+                height: '100%',
+                maxWidth: '100%',
+                position: 'relative',
+                boxSizing: 'border-box'
+              })}>
+              <circle fill="#b8b8b8" cx="10" cy="10" r="5"></circle>
+            </svg>
+            <a id={"topFeed"} style={{opacity: '0'}}/>
+          </div>
+          <a
+            href={"#topFeed"}
             topath={"int_feedAssigned"}
-            className={classnames('plainLinkButton')}
+            className={classnames(
+              'plainLinkButton',
+              { // to control together by style
+                ["colorLightGrey"]: (this.state.onNavLink != 'int_feedAssigned'),
+                ["colorEditBlack"]: (this.state.onNavLink == 'int_feedAssigned'),
+                ["weightBold"]: (this.state.onNavLink == 'int_feedAssigned')
+              }
+            )}
             onTouchStart={this._handleEnter_link}
             onTouchEnd={this._handleLeave_link}
+            onMouseUp={this._handleLeave_link}
             onMouseEnter={this._handleEnter_link}
             onMouseLeave={this._handleLeave_link}
             style={ Object.assign({}, { padding: '0 8px' }, centerPropsStyle)}>
             <span
               className={classnames(
                 "fontSubtitle",
-                {
-                  [styles.spanLinkMouse]: (this.state.onNavLink == 'int_feedAssigned'),
-                  ["colorLightGrey"]: (this.state.onNavLink != 'int_feedAssigned'),
-                  ["colorEditBlack"]: (this.state.onNavLink == 'int_feedAssigned'),
-                  ["weightBold"]: (this.state.onNavLink == 'int_feedAssigned')
-                }
+                {[styles.spanLinkMouse]: (this.state.onNavLink == 'int_feedAssigned')}
               )}>
               {this.props.i18nUIString.catalog["title_Index_NavFeed_"][1] }
             </span>
-          </Link>
+          </a>
         </div>
       </div>
     )

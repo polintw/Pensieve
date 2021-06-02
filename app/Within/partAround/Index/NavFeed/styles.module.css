@@ -9,6 +9,19 @@
   position: relative;
 }
 
+.boxLinks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.boxDecoLine {
+  box-sizing: border-box;
+  height: 10px;
+  position: relative;
+  margin: 16px;
+}
+
 .spanLinkMouse {
   border-bottom: solid 0.75px #545454;
   cursor: pointer;

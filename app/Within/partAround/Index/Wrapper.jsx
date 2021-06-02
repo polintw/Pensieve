@@ -186,7 +186,6 @@ class Wrapper extends React.Component {
                     sideOpacityParam={this.state.opacityParam}/>
                 </div>
                 <div
-                  id={"topFeed"}
                   className={classnames(styles.boxFeed)}
                   style={todayNodesStyle}>
                   <FeedAssigned

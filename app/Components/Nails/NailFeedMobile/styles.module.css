@@ -4,7 +4,7 @@
   width: 100%;
   position: relative;
   box-sizing: border-box;
-  padding: 0.69vw 1.38vw;
+  padding: 16px 5.26vw;
 }
 
 .frameOnMouse {
@@ -19,7 +19,6 @@
   height: 249px;
   min-height: 31.6vh;
   position: relative;
-  margin: 0.69vw 0;
 }
 
 .boxContentMobile {
@@ -28,7 +27,6 @@
   width: 100%;
   max-height: 289px;
   position: relative;
-  margin: 0.69vw 0;
 }
 
 .boxImg {
@@ -51,7 +49,7 @@
   display: flex;
   width: 100%;
   box-sizing: border-box;
-  margin-bottom: 16.25px;
+  margin-bottom: 30px;
 }
 
 .boxNodes {
