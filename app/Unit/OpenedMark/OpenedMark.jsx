@@ -96,15 +96,15 @@ class OpenedMark extends React.Component {
       blockRight = this.props.boxWidth - spotLeftPx + 24+22;
       if((spotLeftPx - 24 -22) < 300){ blockLeft = 1; blockRight = '';}
     };
-    if(!this.props.editingModal){
+    if(!this.props.editingModal){ // read mode
       if (coordinate.top > 1 && coordinate.top < 99) blockTop = coordinate.top
       else if(coordinate.top <= 1) blockTop = 1
       else if (coordinate.top >= 99) blockTop = 99;
       blockTopTranslate = ((coordinate.top-1) / 98)* 100 * (-1); // 98 is the max-height of .boxMarkBlock, minus 1 is to adjust 1% min top, (-1) is due to 'top' prop we use
-      if( cssVW < 860 ){ // on small screen, no position assign
-        [blockLeft, blockRight, blockTop, blockTopTranslate] = ['','', 0, 0];
-      }
-    }
+    };
+    if( cssVW < 860 ){ // on small screen, no position assign
+      [blockLeft, blockRight, blockTop, blockTopTranslate] = ['','', 0, 0];
+    };
 
     // because we want to pass left/right status as props to Block, we need to add from here
     const childrenWithProps = React.Children.map(this.props.children, (child) =>
@@ -121,7 +121,11 @@ class OpenedMark extends React.Component {
           className={'boxAbsoluteFull'}
           onClick={this.props._handleClick_ImgLayer_circle}/>
         <div
-          className={classnames('boxImgPosition')}
+          className={classnames(
+            {
+              ['boxImgPosition']: !this.props.editingModal,
+              [styles.boxCircleGroup]: !!this.props.editingModal
+            })}
           style={{
             width: imgWidth,
             height: imgHeight

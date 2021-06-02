@@ -261,9 +261,33 @@ class EditingPanel extends React.Component {
               <div
                 className={classnames(styles.boxSubtitle)}>
                 <span
-                  className={classnames("fontContent", "colorEditLightBlack")}>
+                  className={classnames("fontContent", "colorEditLightBlack")}
+                  style={{display: 'inline-block', marginBottom: '1rem'}}>
                   {this.props.i18nUIString.catalog["guidingCreateShare_AssignGroup"]}
                 </span>
+                <div style={{display: 'flex', flex: '1'}}>
+                  <AssignNodes
+                    nodesSet={this.state.nodesSet}
+                    nodeDelete={false}
+                    _submit_deleteNodes={this._submit_deleteNodes} />
+                  <AssignSwitch
+                    nodesSet={this.state.nodesSet}
+                    _set_nodesEditView={this._set_nodesEditView}/>
+                </div>
+              </div>
+              <div
+                className={classnames(styles.boxAssignedNodes)}>
+                <div
+                  className={classnames(styles.boxNodesRowBtnLink)}>
+                  <span
+                    className={classnames("fontContent", "colorEditLightBlack")}
+                    style={{display: 'inline-block', marginRight: '1rem'}}>
+                    {this.props.i18nUIString.catalog["guidingCreateShare_outboundLinkBtn"]}
+                  </span>
+                  <BtnLinkEdit
+                    outboundLinkObj={this.state.outboundLinkObj}
+                    _set_nodesEditView={this._set_nodesEditView}/>
+                </div>
                 <div
                   className={classnames(styles.boxSubtitleGPS)}>
                   <span
@@ -274,24 +298,6 @@ class EditingPanel extends React.Component {
                     keepify = {this.state.exifKeepify_Gps}
                     imgGps = {this.state.exifGps}
                     _set_exifGpsKeep={this._set_exifGpsKeep}/>
-                </div>
-              </div>
-              <div
-                className={classnames(styles.boxAssignedNodes)}>
-                <div style={{display: 'flex', flex: '1'}}>
-                  <AssignNodes
-                    nodesSet={this.state.nodesSet}
-                    nodeDelete={false}
-                    _submit_deleteNodes={this._submit_deleteNodes} />
-                  <AssignSwitch
-                    nodesSet={this.state.nodesSet}
-                    _set_nodesEditView={this._set_nodesEditView}/>
-                </div>
-                <div
-                  className={classnames(styles.boxNodesRowBtnLink)}>
-                  <BtnLinkEdit
-                    outboundLinkObj={this.state.outboundLinkObj}
-                    _set_nodesEditView={this._set_nodesEditView}/>
                 </div>
               </div>
             </div>

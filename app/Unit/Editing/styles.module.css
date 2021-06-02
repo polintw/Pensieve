@@ -87,30 +87,35 @@
 }
 
 .boxNodesList {
+  display: flex;
+  justify-content: space-between;
   width: 100%;
 }
 
 .boxSubtitle {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  min-width: 200px;
 }
 
 .boxSubtitleGPS {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .boxAssignedNodes {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   flex-wrap: wrap;
-  width: 100%;
 }
 
 .boxNodesRowBtnLink {
   display: inline-flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  margin-bottom: 1rem;
 }
 
 @media screen and (max-width:860px) {

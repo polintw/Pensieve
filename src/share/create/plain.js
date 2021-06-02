@@ -175,15 +175,20 @@ async function shareHandler_POST(req, res){
       else resolveLoc(false);
     })
     .then((primer)=>{
+      /*
+      'Respond' was rm temporarily, any 'primer' related was blocked
       if(!!primer){
         unitProfile['id_primer'] = primer.id;
       }
+      */
 
       return _DB_units.create(unitProfile)
       .then((createdUnit)=>{
         modifiedBody['id_unit'] = createdUnit.id;
         modifiedBody['id_unit_exposed'] = createdUnit.exposedId;
 
+        /*
+        'Respond' was rm temporarily, any 'primer' related was blocked
         if(!!primer){
           return _DB_responds.create({
             id_unit: createdUnit.id,
@@ -199,7 +204,7 @@ async function shareHandler_POST(req, res){
             throw err
           });
         }
-        else return createdUnit;
+        else */ return createdUnit;
       })
       .then((createdUnit)=> {
         return _DB_unitsStatInteract.create({

@@ -2,7 +2,6 @@ import React from 'react';
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
-import SvgPin from '../../../../Components/Svg/SvgPin.jsx';
 import SvgCrossStroke from '../../../../Components/Svg/SvgCross_Stroke.jsx';
 
 class ImgGpsKeep extends React.Component {
@@ -65,16 +64,6 @@ class ImgGpsKeep extends React.Component {
                   )
           )
         }
-        <div
-          className={classnames(
-            styles.boxIconPin)}>
-          <SvgPin
-            assignStyles={{
-              fill: "transparent",
-              stroke: this.props.keepify ? '#545454' : "#b8b8b8",
-              strokeWidth: "0.87px"
-              }}/>
-        </div>
         <div
           className={classnames(
             styles.boxGps)}>

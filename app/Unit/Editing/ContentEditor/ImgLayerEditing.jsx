@@ -136,12 +136,14 @@ class ImgLayerEditing extends React.Component {
           <div
             key={"key_MarkLayers_"}
             ref={this.Com_MarksSpotLayer_div}
-            className={'boxImgPosition'}
             style={{
               width: imgWidthHeight.width,
               height: imgWidthHeight.height,
+              position: 'absolute',
+              top: '50%',
               right: baseHorizonRatial+'%',  //it's wierd, because this is a remain from previous ver., which need to set the value not the center
               transform: 'translate('+baseHorizonRatial+'%,-50%)',
+              borderRadius: '4px',
               cursor: 'crosshair'}}
               onClick={this._handleClick_SpotsLayer}>
               {circlesArr}
@@ -156,12 +158,14 @@ class ImgLayerEditing extends React.Component {
         ref={this.Com_ImgLayer_box}
         className={'boxAbsoluteFull'}>
         <img
-          className={'boxImgPosition'}
           style={{
               maxWidth: '100%',
               maxHeight: '100%',
+              position: 'absolute',
+              top: '50%',
               right: baseHorizonRatial+'%',
-              transform: 'translate('+baseHorizonRatial+'%,-50%)'
+              transform: 'translate('+baseHorizonRatial+'%,-50%)',
+              borderRadius: '4px'
             }}
           ref={this.Com_ImgLayer_img}
           src={this.props.imgSrc}

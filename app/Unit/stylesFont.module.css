@@ -23,6 +23,7 @@
   font-weight: 300;
   line-height: 1.71;
   text-align: center;
+  display: inline-block;
 }
 
 .colorWhite {

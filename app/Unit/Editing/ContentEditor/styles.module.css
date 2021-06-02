@@ -4,4 +4,5 @@
   position: relative;
   box-sizing: border-box;
   border-radius: 4px;
+  background-image: linear-gradient(rgb(255, 253, 250), rgb(255, 249, 242));
 }
