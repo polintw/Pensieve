@@ -27,7 +27,7 @@ class ImgGpsKeep extends React.Component {
   }
 
   render(){
-    let longitude = "-:--", latitude = "-:--";
+    let longitude = false, latitude = false;
     if(!!this.props.imgGps){
       let numLatitude = parseFloat(this.props.imgGps.latitude);
       let numLongitude = parseFloat(this.props.imgGps.longitude);
@@ -64,41 +64,55 @@ class ImgGpsKeep extends React.Component {
                   )
           )
         }
-        <div
-          className={classnames(
-            styles.boxGps)}>
-          <div>
-            <span
+        {
+          !!this.props.imgGps ?
+          (
+            <div
               className={classnames(
-                {
-                  ["colorLightGrey"]: !this.props.keepify,
-                  ["colorEditBlack"]: this.props.keepify,
-                }
-              )}>
-              {latitude}
-            </span>
-          </div>
-          <span
-            className={classnames(
-              {
-                ["colorLightGrey"]: !this.props.keepify,
-                ["colorEditBlack"]: this.props.keepify,
-              }
-            )}>
-            {"\xa0" + "/" + "\xa0"}
-          </span>
-          <div>
-            <span
+                styles.boxGps)}>
+                <div>
+                  <span
+                    className={classnames(
+                      {
+                        ["colorLightGrey"]: !this.props.keepify,
+                        ["colorEditBlack"]: this.props.keepify,
+                      }
+                    )}>
+                    {latitude}
+                  </span>
+                </div>
+                <span
+                  className={classnames(
+                    {
+                      ["colorLightGrey"]: !this.props.keepify,
+                      ["colorEditBlack"]: this.props.keepify,
+                    }
+                  )}>
+                  {"\xa0" + "/" + "\xa0"}
+                </span>
+                <div>
+                  <span
+                    className={classnames(
+                      {
+                        ["colorLightGrey"]: !this.props.keepify,
+                        ["colorEditBlack"]: this.props.keepify,
+                      }
+                    )}>
+                    {longitude}
+                  </span>
+                </div>
+              </div>
+          ) : (
+            <div
               className={classnames(
-                {
-                  ["colorLightGrey"]: !this.props.keepify,
-                  ["colorEditBlack"]: this.props.keepify,
-                }
-              )}>
-              {longitude}
-            </span>
-          </div>
-        </div>
+                styles.boxGps)}>
+                <span
+                  className={classnames("colorLightGrey")}>
+                  {this.props.i18nUIString.catalog['message_CreateShare_ImgGps_empty']}
+                </span>
+            </div>
+          )
+        }
       </div>
     )
   }
