@@ -6,20 +6,15 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import AssignNodes from '../AssignNodes.jsx';
-import AssignOptions from '../AssignOptions/AssignOptions.jsx';
 import NodesSearch from '../NodesSearch/NodesSearch.jsx';
+import {
+  setMessageSingleClose
+} from "../../../../redux/actions/general.js";
+import {messageDialogInit} from "../../../../redux/states/constants.js";
 
 const typesState = {
-  homeland: 'homeSelection',
-  residence: 'residSelection',
-  freeOne: 'freeSelection'
-};
-const checkList = ['homeSelection', 'residSelection', 'freeSelection'] // follow typesState
-
-const stateTypes = {
-  homeSelection:'homeland',
-  residSelection: 'residence',
-  freeSelection: 'freeOne'
+  freeOne: 'locationsList',
+  deweyOne: 'topicList'
 };
 
 class NodesView extends React.Component {
@@ -28,12 +23,15 @@ class NodesView extends React.Component {
     // by props.nodesSet, est. state
     let propsState = {
       selectedList: [], // all id of selectd nodes
-      homeSelection: null, //node id as selection of homeland
-      residSelection: null, //node id as selection of residence
-      freeSelection: null //node id as selection of free search
+      locationsList: [],
+      topicList: [],
+      locationSearchify: true,
+      topicSearchify: true,
     };
     this.props.nodesSet.forEach((obj, index) => {
-      propsState[typesState[obj['type']]] = obj.nodeId;
+      let objType = obj['type'];
+      if(!(objType in typesState)) objType = 'freeOne'; // to rm previous type 'homeland' or 'residence'
+      propsState[typesState[objType]].push(obj.nodeId);
       propsState.selectedList.push(obj.nodeId);
     });
 
@@ -53,43 +51,37 @@ class NodesView extends React.Component {
   }
 
   componentDidMount() {
-
   }
+
 
   componentWillUnmount() {
 
   }
 
   _render_assignedNodes(){
-    if(this.state.selectedList.length == 0){ // condition the list was empty, render a hint
-      return (
-        <li className={classnames(styles.boxHintItem)}>
-          <span
-            className={classnames('colorGrey', 'fontContent')}>
-            {this.props.i18nUIString.catalog['guidingCreateShare_NodesView_selectHint']}
-          </span>
-        </li>
-      )
-    };
-
+    let nodesDOM = [];
     let nodesSet = this.state.selectedList.map((nodeId, index)=>{
       return {nodeId: nodeId}; // basically, AssignNodes only need the nodeId in nodesSet
     });
-    return (
+    nodesDOM.push(
       <AssignNodes
+        key={"key_NodesView_assignedNodes_"}
         nodesSet={nodesSet}
         nodeDelete={true}
         _submit_deleteNodes={(indexInList)=>{ // _submit_deleteNodes only return the index in selectedList
-          let targetNode = this.state.selectedList[indexInList], targetType = '';
-          for(let i=0; i < checkList.length; i++) {
-            if(this.state[checkList[i]] == targetNode){
-              targetType = stateTypes[checkList[i]]; // use item( name in 'state') to type
-              break;
-            }
-          };
-          this._set_deleteNodes(targetNode, targetType);
+          let targetNode = this.state.selectedList[indexInList];
+          this._set_deleteNodes(targetNode);
         }}/>
-    )
+    );
+    for(let i =0; i < 3 && i < (3-nodesSet.length) ; i++){
+      nodesDOM.push(
+        <li
+          key={"key_NodesView_assignedNodes_" + i}
+          className={classnames(styles.boxHintItem)}>
+        </li>
+      )
+    }
+    return nodesDOM;
   }
 
   render(){
@@ -97,60 +89,78 @@ class NodesView extends React.Component {
       <div
         className={classnames(styles.comNodesView)}>
         <div
-          className={classnames(styles.boxNodesEditTitle, "fontSubtitle", "colorEditBlack")}>
-          {this.props.i18nUIString.catalog["guidingCreateShare_NodesView"]}
-        </div>
-        <div
-          className={classnames(styles.boxForm)}>
-          <div className={classnames(styles.boxRow)}>
-            <div className={classnames(styles.boxRowTitle)}>
-              <span className={classnames('fontSubtitle_h5', 'colorEditBlack')}>
-                {this.props.i18nUIString.catalog["subTitle_CreateShare_AssignTypes"][0]}
-              </span>
-            </div>
-            <div className={classnames(styles.seperationRowVertiLine)}/>
-            <div>
-              <AssignOptions
-                assignType={'homeland'}
-                selected={this.state.homeSelection}
-                allSelection={this.state.selectedList}
-                _submit_new_node={this._set_newNode}
-                _submit_deleteNodes={this._set_deleteNodes}/>
-            </div>
-          </div>
-          <div className={classnames(styles.boxRow)}>
-            <div className={classnames(styles.boxRowTitle)}>
-              <span className={classnames('fontSubtitle_h5', 'colorEditBlack')}>
-                {this.props.i18nUIString.catalog["subTitle_CreateShare_AssignTypes"][1]}
-              </span>
-            </div>
-            <div className={classnames(styles.seperationRowVertiLine)}/>
-            <div>
-              <AssignOptions
-                assignType={'residence'}
-                selected={this.state.residSelection}
-                allSelection={this.state.selectedList}
-                _submit_new_node={this._set_newNode}
-                _submit_deleteNodes={this._set_deleteNodes}/>
-            </div>
-          </div>
-          <div className={classnames(styles.boxRow)}>
-            <div className={classnames(styles.boxRowTitle)}>
-              <span className={classnames('fontSubtitle_h5', 'colorEditBlack')}>
-                {this.props.i18nUIString.catalog["subTitle_CreateShare_AssignTypes"][2]}
-              </span>
-            </div>
-            <div className={classnames(styles.seperationRowVertiLine)}/>
+          className={classnames(styles.boxSearch)}>
+          <div
+            className={classnames(styles.boxSearchSet)}>
             <div
-              className={classnames(
-                {[styles.boxNodeSearch]: !this.state.freeSelection})}>
-              <NodesSearch
-                currentSet={this.state.freeSelection}
-                _set_nodeByNodeBasic={(nodeBasic)=>{
-                  if(this.state.selectedList.indexOf(nodeBasic.id) > (-1)){return;} // block adding if used by other types
-                  this._set_newNode({nodeId: nodeBasic.id, type: 'freeOne'});}}
-                _reset_searchSelection={(deletedNode)=>{this._set_deleteNodes(deletedNode, 'freeOne')}}/>
+              className={classnames(styles.boxNodesEditTitle, "fontSubtitle", "colorEditBlack")}>
+              {this.props.i18nUIString.catalog["guidingCreateShare_NodesView"][0]}
+              <span
+                className={classnames("weightBold")}>
+                {"("}
+              </span>
+              <span
+                className={classnames("weightBold", "colorWarnRed")}>
+                {this.props.i18nUIString.catalog['message_CreateShare_NodesView_required'][0]}
+              </span>
+              <span
+                className={classnames("weightBold")}>
+                {this.props.i18nUIString.catalog['message_CreateShare_NodesView_required'][1]}
+              </span>
             </div>
+            <div
+              className={classnames(styles.boxForm)}>
+              <div className={classnames(styles.boxSearchRow)}>
+                <div
+                  className={classnames(
+                    {[styles.boxNodeSearch]: this.state.locationSearchify})}>
+                    {
+                      this.state.locationSearchify ? (
+                        <NodesSearch
+                          _set_nodeByNodeBasic={(nodeBasic)=>{
+                            if(this.state.selectedList.indexOf(nodeBasic.id) > (-1)){return;} // block adding if used by other types
+                            this._set_newNode({nodeId: nodeBasic.id, list: 'locationsList'});}}
+                            _reset_searchSelection={(deletedNode)=>{this._set_deleteNodes(deletedNode)}}/>
+                      ): (
+                        <div
+                          className={classnames("fontContent", "colorGrey")}>
+                          {this.props.i18nUIString.catalog["message_CreateShare_NodesView_noSearch"]}
+                        </div>
+                      )
+                    }
+                  </div>
+                </div>
+              </div>
+          </div>
+          <div
+            className={classnames(styles.boxSearchSet)}>
+            <div
+              className={classnames(styles.boxNodesEditTitle, "fontSubtitle", "colorEditBlack")}>
+              {this.props.i18nUIString.catalog["guidingCreateShare_NodesView"][1]}
+            </div>
+            <div
+              className={classnames(styles.boxForm)}>
+              <div className={classnames(styles.boxSearchRow)}>
+                <div
+                  className={classnames(
+                    {[styles.boxNodeSearch]: this.state.topicSearchify})}>
+                    {
+                      this.state.topicSearchify ? (
+                        <NodesSearch
+                          _set_nodeByNodeBasic={(nodeBasic)=>{
+                            if(this.state.selectedList.indexOf(nodeBasic.id) > (-1)){return;} // block adding if used by other types
+                            this._set_newNode({nodeId: nodeBasic.id, list: 'topicList'});}}
+                            _reset_searchSelection={(deletedNode)=>{this._set_deleteNodes(deletedNode)}}/>
+                        ) : (
+                          <div
+                            className={classnames("fontContent", "colorGrey")}>
+                            {this.props.i18nUIString.catalog["message_CreateShare_NodesView_noSearch"]}
+                          </div>
+                        )
+                    }
+                    </div>
+                  </div>
+                </div>
           </div>
         </div>
         <div className={classnames(styles.seperationBottom, styles.boxAssignedNodes)}>
@@ -193,58 +203,84 @@ class NodesView extends React.Component {
   }
 
   _set_newNode(nodeObj){
-    let nodeId = nodeObj.nodeId, assignType= nodeObj.type;
-    // 'replace' in selectedList & nodesSet
+    let nodeId = nodeObj.nodeId, assignList= nodeObj.list;
+    if( // alidation
+      this.state.selectedList.indexOf(nodeId) >= 0 || // has set, not going to add again
+      this.state.selectedList.length == 3 ||
+      (this.state.selectedList.length == 2 && this.state.locationsList.length == 0 && assignList != locationsList)
+    ) return;
+
     this.setState((prevState, props)=>{
-      let replacedState = {};
-      replacedState[typesState[assignType]] = nodeId;
-      let copiedSelectedList = prevState.selectedList.slice(); // shallow copy
-      // then check if this type had beed occupied
-      if(!(this.state[typesState[assignType]])){ // null at this moment
-        // then only push into selectedList
-        copiedSelectedList.push(nodeId);
+      let copiedSelectedList = prevState.selectedList.slice();
+      copiedSelectedList.push(nodeId);
+
+      let copiedTypeList = prevState[assignList].slice();
+      copiedTypeList.push(nodeId);
+
+      let updateState = Object.assign({}, prevState);
+      updateState["selectedList"] = copiedSelectedList;
+      updateState[assignList] = copiedTypeList;
+      // and check if the search could go on
+      if(updateState.selectedList.length > 1 && updateState.locationsList.length == 0){
+        updateState['topicSearchify'] = false;
       }
-      else{
-        // replace the one in copied state
-        let indexInSelected = prevState.selectedList.indexOf(prevState[typesState[assignType]]);
-        copiedSelectedList.splice(indexInSelected, 1, nodeId);
-      }
-      replacedState["selectedList"] = copiedSelectedList;
-      // return the final obj
-      return replacedState;
+      else if(updateState.selectedList.length == 3){
+        updateState['topicSearchify'] = false;
+        updateState['locationSearchify'] = false;
+      };
+      return updateState;
     });
   }
 
-  _set_deleteNodes(targetNode, targetType){
+  _set_deleteNodes(targetNode){
     let indexInSelected = this.state.selectedList.indexOf(targetNode);
 
     this.setState((prevState, props)=>{
       //'target' is an index mark the unwanted node
       let copiedList = prevState.selectedList.slice(); // copy to prevent modified state
+      let copiedLocationsList = prevState.locationsList.slice();
+      let copiedTopicList = prevState.topicList.slice();
       copiedList.splice(indexInSelected, 1);
+      if(copiedLocationsList.indexOf(targetNode) >= 0){
+        let index = copiedLocationsList.indexOf(targetNode);
+        copiedLocationsList.splice(index, 1);
+      }
+      else if(copiedTopicList.indexOf(targetNode) >= 0){
+        let index = copiedTopicList.indexOf(targetNode);
+        copiedTopicList.splice(index, 1);
+      };
       let updatedObj = {
         selectedList: copiedList,
+        locationsList: copiedLocationsList,
+        topicList: copiedTopicList
       };
-      updatedObj[typesState[targetType]] = null;
-
       return updatedObj;
-    })
+    });
   }
 
   _handleClick_done(event){
     event.stopPropagation();
     event.preventDefault();
-    let orderedList = this.state.selectedList.slice();
-    checkList.forEach((key, index) => {
-      if(this.state[key] != null){
-        // to order as the user 'think', follow the order in state.selectedList
-        let indexInList = this.state.selectedList.indexOf(this.state[key]);
-        orderedList.splice(indexInList, 1, {type: stateTypes[key], nodeId: this.state[key]});
+     // validate 'type: freeOne(location)' first
+    if(this.state.selectedList.length != 0 && this.state.locationsList.length == 0){
+      this.props._submit_SingleCloseDialog({
+        render: true,
+        message: [{text: this.props.i18nUIString.catalog['message_CreateShare_NodesView_DialogLocationAtleast'],style:{}}], //format follow Boolean, as [{text: '', style:{}}]
+        handlerPositive: ()=>{this.props._submit_SingleCloseDialog(messageDialogInit.singleClose); return;}
+      });
+    }
+    else{
+      let orderedList = [];
+      for(let i =0; i < 3 && i < this.state.selectedList.length ; i++){
+        let nodeId = this.state.selectedList[i];
+        let nodeSet = {nodeId: nodeId, type:''};
+        nodeSet["type"] = this.state.locationsList.indexOf(nodeId) < 0 ? 'deweyOne' : 'freeOne'
+        orderedList.push(nodeSet);
       };
-    });
 
-    this.props._submit_new_node(orderedList);
-    this.props._set_nodesEditView('');
+      this.props._submit_new_node(orderedList);
+      this.props._set_nodesEditView('');
+    };
   }
 }
 
@@ -260,7 +296,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    _submit_SingleCloseDialog: (arr)=>{dispatch(setMessageSingleClose(arr));},
   }
 }
 

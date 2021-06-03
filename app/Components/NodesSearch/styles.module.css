@@ -30,15 +30,16 @@
   box-sizing: border-box;
   padding: 0.4rem 1.7rem;
   background-color: #FFFFFF;
+  box-shadow: -1px -2px 3px 1px #d8d8d8;
+  border-radius: 0.42rem 0.42rem 0 0;
   list-style: none;
+  z-index: 1;
   overflow: auto;
 }
 
 .boxListReversed {
   bottom: 105%;
   left: -2%;
-  box-shadow: -1px -2px 3px 1px #d8d8d8;
-  border-radius: 0.42rem 0.42rem 0 0;
 }
 
 .boxListRelative {

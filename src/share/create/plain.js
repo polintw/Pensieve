@@ -266,8 +266,10 @@ async function shareHandler_POST(req, res){
         /*till this moment the check for assigned, attributed nodes have completed.
         for assigned, we assumed the list here can be trusted undoubt.
         */
-        let assignedNodesArr = modifiedBody.nodesSet.map((assignedObj, index)=>{
-          return ({
+        let assignedNodesArr = [];
+        modifiedBody.nodesSet.forEach((assignedObj, index)=>{
+          if(assignedObj.type == "deweyOne") return ;
+          assignedNodesArr.push({
             id_unit: modifiedBody.id_unit,
             id_author: userId,
             nodeAssigned: assignedObj.nodeId,

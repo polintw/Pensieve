@@ -163,7 +163,7 @@ const i18nUIString_EN = {
   "submit_Unit_PanelIcon": ["On map", "Copy link"],
   "descript_Unit_Primer": ["Based on ", "'s Unit", "Based on a published Unit"],
   "guiding_UnitEdit_upload": "Get started by uploading an image!", //Original:"Get started by uploading image about your topic!"
-  "guiding_UnitEdit_imgNoMark": "keep the photo clean or by Clicking on the picture to markup your thought without hesitation!", //Original:"keep it clean or by Clicking make some Post-it without hesitate!"
+  "guiding_UnitEdit_imgNoMark": "Markup your thought by Clicking on the picture!", //Original:"keep it clean or by Clicking make some Post-it without hesitate!"
   "guiding_placeholder_UnitEdit_MarkBlock": "What's SPECIAL!  Tell us about details you found." , //Original:Telling us some details you found."
   "message_UnitEdit_Submit_identityWarn": "Publishing this creation by identity as: ",
   "message_UnitEdit_tooManySpot": "A better spot? However, having too many highlights could be overwhelmed to readers. Please delete an old one before you implement this new!", //Original:"A better spot? But too many paragraph would be a burdon to readers. Please delete an old one before you implement this new!"
@@ -199,15 +199,19 @@ const i18nUIString_EN = {
   "guidingCreateShare_outboundLinkBtn": "Referred URL",
   "guidingCreateShare_AssignGroup": "Assigned nodes",
   "guidingCreateShare_AssignNull": "Haven't register any ",//Changed "please" to "Please"
-  "guidingCreateShare_NodesView": "Choose at least one corner you'd like to link to by:",
+  "guidingCreateShare_NodesView": ["Search a location by an area, a city, or a country refer to your content ", "Perhaps a related topic from our database:"],
   "guidingCreateShare_NodesView_selectHint": "No selection yet.",
   "guidingCreateShare_outboundLinkView": "Input a url address if you want to show a link!",
   "subTitle_CreateShare_AssignTypes": ["Your Homeland", "Your Residence", "or, search one"],
+  "message_CreateShare_NodesView_required": ["*", "required)"],
+  "message_CreateShare_NodesView_noSearch": "Most 3 nodes and at least 1 by location.",
+  "message_CreateShare_NodesView_DialogLocationAtleast": "Remember setting at least 1 node by location except topic nodes.",
   "message_CreateShare_ImgGps_empty": "(no location data)",
-  "message_CreateShare_basicRequireWarn": "Make sure you've already upload 1 image and pick at least 1 corner to which you want to contribute.",
+  "message_CreateShare_basicRequireWarn": "Make sure you've already uploaded One image and picked at least One node you want to refer to.",
   "message_Unit_Editing_AssignNotAllowed": "We're sorry. Your contribution Can't be changed once released since it's linked either to the markup or location.", //Original:"the corner linked to could Not be changed after first release."
   "message_Unit_EraseConfirm": ["No one can see this Share after erase, including you. ", "Are you sure you want to erase this Share?"], //Original:"No one would see this Shared after erase, including you. ", "Are you sure your going to erase this Shared?"
   "message_Unit_EraseRes": ["This Share has beed erased successfully."],//Changed "Shared" to "Share"
+  "title_CreateShar_NodesView": "Nodes assigning",
   "title_Unit_ListResponds": "Responds",
   "guiding_Unit_Responds_authorEmpty": "Respond to your contribution will show up here!",//Changed "would" to "will"
   "guiding_Unit_Responds_author": "More responds would be listed!",

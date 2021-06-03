@@ -213,7 +213,7 @@ class EditingPanel extends React.Component {
           <div
             className={classnames(
               styles.boxContent,
-              styles.boxContentWidth, styles.boxPanelHeight, styles.boxPanelPadding)}>
+              styles.boxNodesViewWidth, styles.boxParaViewHeight, styles.boxPanelPadding)}>
             <NodesView
               nodesSet={this.state.nodesSet}
               _submit_new_node={this._submit_new_node}
@@ -226,7 +226,7 @@ class EditingPanel extends React.Component {
           <div
             className={classnames(
               styles.boxContent,
-              styles.boxContentWidth, styles.boxPanelHeight, styles.boxPanelPadding)}>
+              styles.boxContentWidth, styles.boxParaViewHeight, styles.boxPanelPadding)}>
               <OutboundLinkView
                 _submit_new_mainLink={this._submit_new_mainLink}
                 _set_nodesEditView={this._set_nodesEditView}/>
@@ -265,7 +265,7 @@ class EditingPanel extends React.Component {
                   style={{display: 'inline-block', marginBottom: '1rem'}}>
                   {this.props.i18nUIString.catalog["guidingCreateShare_AssignGroup"]}
                 </span>
-                <div style={{display: 'flex', flex: '1'}}>
+                <div style={{display: 'flex', flex: '1', flexWrap: 'wrap'}}>
                   <AssignNodes
                     nodesSet={this.state.nodesSet}
                     nodeDelete={false}
