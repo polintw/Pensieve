@@ -100,6 +100,7 @@ class Wrapper extends React.Component {
                 style={{ borderRight: 'solid 0.75px #a3a3a3', margin: '0 1.5rem', height: '3.6rem' }} />
               <LinkFetch
                 tagA={true}
+                reverseColor={true}
                 svgClass={["cls-1-netGlobeBright", "cls-2-netGlobeBright"]}
                 outboundLink={this.props.unitCurrent.outBoundLink.main} />
             </div>

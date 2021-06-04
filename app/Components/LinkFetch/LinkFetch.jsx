@@ -52,13 +52,14 @@ class LinkFetch extends React.Component {
             <div
               className={classnames(styles.boxSvgNetGlobe)}>
               <SvgNetGlobe
-                svgClass={this.props.svgClass ? this.props.svgClass : ['cls-1-netGlobe', 'cls-2-netGlobe']}/>
+                svgClass={!!this.props.svgClass ? this.props.svgClass : ['cls-1-netGlobe', 'cls-2-netGlobe']}/>
             </div>
             <span
                 className={classnames(
                     'fontContent', styles.spanOutbound, styles.spanOutboundFont,
                     {
-                        [styles.spanOutboundActiv]: this.state.onSpanOutbound,
+                      [styles.spanOutboundActiv]: this.state.onSpanOutbound,
+                      [styles.spanOutboundColorReverse]: !!this.props.reverseColor
                     }
                 )}
                 onMouseEnter={this._handleEnter_spanOutbound}
@@ -74,11 +75,15 @@ class LinkFetch extends React.Component {
         className={classnames(styles.linkOutbound)}>
         <div
           className={classnames(styles.boxSvgNetGlobe)}>
-          <SvgNetGlobe/>
+          <SvgNetGlobe
+            svgClass={!!this.props.svgClass ? this.props.svgClass : ['cls-1-netGlobe', 'cls-2-netGlobe']}/>
         </div>
         <span
           className={classnames(
             'fontContent', styles.spanOutbound, styles.spanOutboundFont,
+            {
+              [styles.spanOutboundColorReverse]: !!this.props.reverseColor
+            }
           )}
           style={
             !!this.props.customStyle ?

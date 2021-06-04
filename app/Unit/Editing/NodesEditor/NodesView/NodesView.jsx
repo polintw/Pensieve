@@ -117,6 +117,7 @@ class NodesView extends React.Component {
                     {
                       this.state.locationSearchify ? (
                         <NodesSearch
+                          category={'location_admin'}
                           _set_nodeByNodeBasic={(nodeBasic)=>{
                             if(this.state.selectedList.indexOf(nodeBasic.id) > (-1)){return;} // block adding if used by other types
                             this._set_newNode({nodeId: nodeBasic.id, list: 'locationsList'});}}
@@ -147,6 +148,7 @@ class NodesView extends React.Component {
                     {
                       this.state.topicSearchify ? (
                         <NodesSearch
+                          category={'topic_dewey'}
                           _set_nodeByNodeBasic={(nodeBasic)=>{
                             if(this.state.selectedList.indexOf(nodeBasic.id) > (-1)){return;} // block adding if used by other types
                             this._set_newNode({nodeId: nodeBasic.id, list: 'topicList'});}}

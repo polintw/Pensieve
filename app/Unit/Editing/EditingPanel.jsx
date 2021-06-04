@@ -14,6 +14,7 @@ import NodesView from './NodesEditor/NodesView/NodesView.jsx';
 import AssignNodes from './NodesEditor/AssignNodes.jsx';
 import AssignSwitch from './NodesEditor/AssignSwitch.jsx';
 import Submit from './components/Submit/Submit.jsx';
+import AuthorOptions from './components/AuthorOptions/AuthorOptions.jsx';
 import ImgGpsKeep from './components/ImgGpsKeep/ImgGpsKeep.jsx';
 import ImgImport from './components/ImgImport.jsx';
 import {
@@ -226,7 +227,7 @@ class EditingPanel extends React.Component {
           <div
             className={classnames(
               styles.boxContent,
-              styles.boxContentWidth, styles.boxParaViewHeight, styles.boxPanelPadding)}>
+              styles.boxNodesViewWidth, styles.boxParaViewHeight, styles.boxPanelPadding)}>
               <OutboundLinkView
                 _submit_new_mainLink={this._submit_new_mainLink}
                 _set_nodesEditView={this._set_nodesEditView}/>
@@ -242,14 +243,33 @@ class EditingPanel extends React.Component {
               styles.boxContentWidth, styles.boxPanelHeight, styles.boxPanelPadding)}>
             <div
               className={classnames(styles.boxSubmit)}>
+              <div
+                className={classnames(styles.boxSubtitle)}>
+                {
+                  !(this.state.nodesSet.length > 0 ) &&
+                  <span
+                    className={classnames("fontContent", "colorEditLightBlack")}
+                    style={{display: 'inline-block', marginBottom: '1rem'}}>
+                    {this.props.i18nUIString.catalog["guidingCreateShare_AssignGroup"]}
+                  </span>
+                }
+                <div
+                  className={classnames(styles.boxAssiningNodes)}>
+                  <AssignSwitch
+                    nodesSet={this.state.nodesSet}
+                    _set_nodesEditView={this._set_nodesEditView}/>
+                  <AssignNodes
+                    nodesSet={this.state.nodesSet}
+                    nodeDelete={false}
+                    _submit_deleteNodes={this._submit_deleteNodes} />
+                </div>
+              </div>
               <Submit
                 editing={this.state.contentEditing}
-                authorIdentity={this.state.authorIdentity}
                 contentPermit={(!this.state["coverSrc"] || this.state['nodesSet'].length < 1) ? false : true}
                 confirmDialog={!!this.props.confirmDialog ? this.props.confirmDialog : false}
                 warningDialog={!!this.props.warningDialog ? this.props.warningDialog : false}
                 _set_Clear={this.props._set_Clear}
-                _set_authorIdentity = {this._set_authorIdentity}
                 _submit_newShare={this._submit_newShare} />
             </div>
             <div
@@ -258,23 +278,10 @@ class EditingPanel extends React.Component {
             </div>
             <div
               className={classnames(styles.boxNodesList)}>
-              <div
-                className={classnames(styles.boxSubtitle)}>
-                <span
-                  className={classnames("fontContent", "colorEditLightBlack")}
-                  style={{display: 'inline-block', marginBottom: '1rem'}}>
-                  {this.props.i18nUIString.catalog["guidingCreateShare_AssignGroup"]}
-                </span>
-                <div style={{display: 'flex', flex: '1', flexWrap: 'wrap'}}>
-                  <AssignNodes
-                    nodesSet={this.state.nodesSet}
-                    nodeDelete={false}
-                    _submit_deleteNodes={this._submit_deleteNodes} />
-                  <AssignSwitch
-                    nodesSet={this.state.nodesSet}
-                    _set_nodesEditView={this._set_nodesEditView}/>
-                </div>
-              </div>
+              <AuthorOptions
+                {...this.props}
+                authorIdentity={this.state.authorIdentity}
+                _set_authorIdentity = {this._set_authorIdentity}/>
               <div
                 className={classnames(styles.boxAssignedNodes)}>
                 <div

@@ -28,8 +28,11 @@
   color: #545454;
 }
 
+.spanOutboundColorReverse {
+  color: #FDFDFC;
+}
+
+
 @media screen and (max-width:860px) {
-  .spanOutboundFont {
-    color: #FDFDFC;
-  }
+
 }

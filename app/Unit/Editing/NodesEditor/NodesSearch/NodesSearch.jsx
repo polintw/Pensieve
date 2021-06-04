@@ -39,6 +39,7 @@ class NodesSearch extends React.Component {
         className={styles.comNodesSearch}>
         <NodeSearchModule
           type={"inputDirect"}
+          category={this.props.category}
           mountFocus={false}
           reversed = {false}
           _set_nodeChoice={this._set_choiceFromSearch}

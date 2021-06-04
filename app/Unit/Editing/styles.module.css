@@ -83,8 +83,18 @@
 }
 
 .boxSubmit {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
   margin-bottom: 2.54vh;
+}
+
+.boxAssiningNodes {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  align-items: flex-start;
 }
 
 .boxImgImport {
@@ -104,9 +114,7 @@
 
 .boxSubtitle {
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
-  min-width: 200px;
 }
 
 .boxSubtitleGPS {
@@ -130,6 +138,21 @@
   margin-bottom: 1rem;
 }
 
+@media screen and (min-width:860px) {
+  .boxSubmit {
+    align-items: center;
+  }
+
+  .boxSubtitle {
+    flex-direction: row-reverse;
+    align-items: flex-start;
+  }
+
+  .boxAssiningNodes {
+    flex-direction: row-reverse;
+  }
+}
+
 @media screen and (max-width:860px) {
   .comEditingPanel {
     justify-content: space-around;
@@ -141,8 +164,16 @@
 
   .boxEditinginCreate {
     height: unset;
-    max-height: 100vh;
+    max-height: 98vh;
     overflow-y: scroll;
+  }
+
+  .boxSubmit {
+    align-items: flex-start;
+  }
+
+  .boxSubtitle {
+    flex-direction: column;
   }
 
   .boxParaViewHeight {

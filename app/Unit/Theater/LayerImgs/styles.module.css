@@ -175,7 +175,7 @@
   .boxBottomRowLinks {
     width: 100vw;
     box-sizing: border-box;
-    margin: -1.44vh 0 2.54vh;
+    margin: -1.27vh 0 2.54vh;
     padding: 10px 5%;
     background-color: rgba(217, 232, 255, 0.15);
   }
@@ -235,6 +235,6 @@
   }
 
   .boxImg {
-    max-height: 54vh;
+    max-height: 60vh;
   }
 }

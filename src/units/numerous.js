@@ -14,6 +14,7 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const _DB_units = require('../../db/models/index').units;
 const _DB_marks = require('../../db/models/index').marks;
+const _DB_nouns = require('../../db/models/index').nouns;
 const _DB_attribution = require('../../db/models/index').attribution;
 const _DB_marksContent = require('../../db/models/index').marks_content;
 
@@ -80,6 +81,10 @@ function _handle_GET_unitsByList(req, res){
       conditionAttri = {
         where: {id_unit: sendingData.temp.unitpm},
         attributes: ['id_unit', 'id_noun'],
+        include: { //this is worked by comprehensive setting for 'association' --- foreign key between 2 including table(even a foreign key to self )
+          model: _DB_nouns,
+          // INNER JOIN, no 'required' set
+        },
       };
       let marksSelection = Promise.resolve(_DB_marks.findAll(conditionsMarks).catch((err)=>{throw err}));
       let attriSelection = Promise.resolve(_DB_attribution.findAll(conditionAttri).catch((err)=>{throw err}));
@@ -89,9 +94,14 @@ function _handle_GET_unitsByList(req, res){
         /*
         Remember composed all unitsBasic related data by exposedId
         */
+        let locationAttriToken = true; // to make sure the first one in nounsList was a category 'location_admin'
         resultsAttri.forEach((row, index)=> {
           let currentExposedId = sendingData.temp['chart'][row.id_unit];
-          sendingData.unitsBasic[currentExposedId]["nounsList"].push(row.id_noun);
+          if(row.noun.category == "location_admin" && locationAttriToken){
+            sendingData.unitsBasic[currentExposedId]["nounsList"].unshift(row.id_noun);
+            locationAttriToken = false;
+          }
+          else sendingData.unitsBasic[currentExposedId]["nounsList"].push(row.id_noun);
           //and push it into nounsListMix, but remember to avoid duplicate
           if(sendingData.nounsListMix.indexOf(row.id_noun)< 0) sendingData.nounsListMix.push(row.id_noun);
         });

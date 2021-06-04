@@ -197,11 +197,11 @@ const i18nUIString_EN = {
   "title_shareUpload_typewriter": ['S','h','a','r','e', '!'],
   "guidingCreateShare_ImgGps": "GPS",
   "guidingCreateShare_outboundLinkBtn": "Referred URL",
-  "guidingCreateShare_AssignGroup": "Assigned nodes",
+  "guidingCreateShare_AssignGroup": "Assigning nodes",
   "guidingCreateShare_AssignNull": "Haven't register any ",//Changed "please" to "Please"
   "guidingCreateShare_NodesView": ["Search a location by an area, a city, or a country refer to your content ", "Perhaps a related topic from our database:"],
   "guidingCreateShare_NodesView_selectHint": "No selection yet.",
-  "guidingCreateShare_outboundLinkView": "Input a url address if you want to show a link!",
+  "guidingCreateShare_outboundLinkView": "Paste an URL here to show a link on your note.",
   "subTitle_CreateShare_AssignTypes": ["Your Homeland", "Your Residence", "or, search one"],
   "message_CreateShare_NodesView_required": ["*", "required)"],
   "message_CreateShare_NodesView_noSearch": "Most 3 nodes and at least 1 by location.",
