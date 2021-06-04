@@ -30,9 +30,14 @@
 }
 
 .boxUpload {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: 78%;
+  height: 249px;
   min-width: 274px;
-  margin: 32px 0 52px;
+  min-height: 31.6vh;
+  padding: 0 0 32px;
 }
 
 .boxDescript {

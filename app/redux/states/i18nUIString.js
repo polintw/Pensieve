@@ -157,7 +157,7 @@ const i18nUIString_EN = {
 
   "link_Nav_Shareds_": ["<> ", "Personal"],
   "message_SelfShareds_greet": ["Good morning!", "Welcome back.", "Good evening.", "What a long night."],
-  "message_SelfShareds_uploadBtn": "What's the finding today?",
+  "message_SelfShareds_uploadBtn": "What did you find today?",
   "descript_Shareds_pathLink": " as ",
 
   "submit_Unit_upload": ["Upload image", "Processing..."],
@@ -194,7 +194,7 @@ const i18nUIString_EN = {
   "title_UnitSubcate_End_": "You've read all of ",
   "guiding_UnitSubcate_End_": "Share to more people if you think the author did a good job!",
 
-  "title_upload_daily": "Upload a Pik",
+  "title_upload_daily": "Upload a pik",
   "title_shareUpload_typewriter": ['S','h','a','r','e', '!'],
   "guidingCreateShare_ImgGps": "GPS",
   "guidingCreateShare_outboundLinkBtn": "Referred URL",
@@ -218,7 +218,7 @@ const i18nUIString_EN = {
   "guiding_Unit_Responds_author": "More responds would be listed!",
   "guiding_Unit_Responds_none": "Submit your respond to this article!",
 
-  "title_Index_NavFeed_": ["Personal", "Feed"],
+  "title_Index_NavFeed_": ["Your Accumulations", "Feed"],
   "title_FeedAssigned_AllRead": "You're up-to-date.",//Original:"you've all browsed."
   "title_FeedAssigned_": "Gathering",
   "hint_FeedAssigned_belongedBase": "by your corners ",
@@ -226,7 +226,7 @@ const i18nUIString_EN = {
   "guiding_FeedAssigned_noneAssigned_justSubmit": "Good to have your contrubution.",
   "guiding_FeedAssigned_noneAssigned_norContri": "It could be you contributing somthing to your corners!", //Original:"It could be you contributing somthing for your corners!"
 
-  "title_AroundIndex_": "Do you have some scenes want to tell?",
+  "title_AroundIndex_": "What's the scene you want to tell today?",
 
   "message_Chain_noShareds": "You'll see the list of your publications here.",
   "message_Chain_noSharedsCourage": "Wait for your first Shared!",//Original:"Trying submitting an observation about your corners."

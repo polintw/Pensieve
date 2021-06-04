@@ -50,7 +50,9 @@ class TitleShareds extends React.Component {
           link={tab}
           className={classnames(
             'plainLinkButton', styles.linkNavFeed,
+            {[styles.linkNavFeedCrrentTab]: (this.currentTab == tab)}
           )}
+          onClick={(e)=>{ this.setState({onLink: false}); }}
           onTouchStart={this._handleEnter_linkNavFeed}
           onTouchEnd={this._handleLeave_linkNavFeed}
           onMouseEnter={this._handleEnter_linkNavFeed}

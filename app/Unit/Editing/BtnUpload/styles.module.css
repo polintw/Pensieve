@@ -8,11 +8,11 @@
 }
 
 .btnBorderSmall {
-  border: solid 2px #b8b8b8;
+  border: solid 2px #a3a3a3;
 }
 
 .btnBorderWide {
-  border: solid 2px #b8b8b8;
+  border: solid 2px #a3a3a3;
 }
 .comMouseEnter {
   border: solid 2px rgba(84, 84, 84, 0.45);

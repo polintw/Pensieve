@@ -38,9 +38,12 @@
 
 .linkNavFeed {
   flex: 1;
-  padding: 8px 0;
-  border-radius: 4px;
+  padding: 16px 0;
   text-align: center;
+}
+
+.linkNavFeedCrrentTab {
+  border-bottom: 2px solid #ff8168
 }
 
 @media screen and (max-width:860px) {
