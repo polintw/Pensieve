@@ -136,8 +136,8 @@ class WithinAround extends React.Component {
                 styles.boxContentFilledRight)}/>
           </div>
           <div
-            className={this.state.navWithinNotDisSmall ? classnames(styles.boxNavAround, 'smallDisplayNone') :
-              classnames(styles.boxNavAround) }>
+            className={this.state.navWithinNotDisSmall ? classnames(styles.boxNavAround, styles.boxNavAroundBgColor, 'smallDisplayNone') :
+              classnames(styles.boxNavAround, styles.boxNavAroundBgColor) }>
             <NavWithin {...this.props} _refer_to={this._refer_von_cosmic}/>
           </div>
         </div>

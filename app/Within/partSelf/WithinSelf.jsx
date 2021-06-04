@@ -36,8 +36,7 @@ class Self extends React.Component {
       <div
         style={this.style.withinCom_Around_}>
         <div
-          className={classnames(styles.boxRow)}
-          style={{display: 'flex'}}>
+          className={classnames(styles.boxSelfTitle)}>
           <div
             className={classnames(styles.boxTitle)}
             style={{width: '100%', textAlign: 'right'}}>

@@ -98,6 +98,7 @@ class Feed extends React.Component {
                 <NailFeedMobile
                   {...this.props}
                   unitId={unitId}
+                  frameType={'wide'}
                   linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
                   unitBasic={this.state.unitsBasic[unitId]}
                   marksBasic={this.state.marksBasic} />

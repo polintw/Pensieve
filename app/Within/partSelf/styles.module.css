@@ -6,3 +6,9 @@
 .boxTitle {
   margin: 8px 0;
 }
+
+.boxSelfTitle {
+  display: flex;
+  position: relative;
+  margin: 2.79vh 0 0;
+}

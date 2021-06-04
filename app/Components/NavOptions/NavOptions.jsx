@@ -50,6 +50,7 @@ class NavOptions extends React.Component {
       );
     }
     else{
+      let inSelfify = this.props.location.pathname.includes("/self/shareds");
       return (
         <Link
           to={"/" }
@@ -64,7 +65,7 @@ class NavOptions extends React.Component {
               className={classnames(styles.boxLinkSwitchMouseOn)}/>
           }
           {
-            !this.props.location.pathname.includes("/self/shareds") &&
+            inSelfify &&
             <div
               className={classnames(styles.boxSvgArrow)}
               style={{paddingRight: "8px"}}>
@@ -72,7 +73,7 @@ class NavOptions extends React.Component {
                 style={{width: "10px"}}>
                 <SvgArrowToRight
                   mouseOn={this.state.onBackBtn}
-                  customStyles={{fillColorMouseOn: '#444444', fillColor: '#d8d8d8'}}/>
+                  customStyles={{fillColorMouseOn: '#FFFFFF', fillColor: '#d8d8d8'}}/>
               </div>
             </div>
           }
@@ -80,15 +81,15 @@ class NavOptions extends React.Component {
             className={classnames(
               "fontSubtitle", styles.spanBtnText,
               {
-                ["colorLightGrey"]: !this.state.onBackBtn,
-                ["colorDescripBlack"]: this.state.onBackBtn,
+                ["colorLightGrey"]: (!this.state.onBackBtn),
+                ["colorDescripBlack"]: (this.state.onBackBtn),
                 ['weightBold']: this.state.onBackBtn
               }
             )}>
             {this.props.i18nUIString.catalog["title_home"]}
           </span>
           {
-            this.props.location.pathname.includes("/self/shareds") &&
+            !inSelfify &&
             <div
               className={classnames(styles.boxSvgArrow)}
               style={{paddingLeft: "8px"}}>
@@ -124,7 +125,7 @@ class NavOptions extends React.Component {
         <div
           id={"NavOptions_Self_small"}
           className={classnames(
-            styles.selfCom_NavOptions_svg_, 'colorDescripBlack',
+            styles.selfCom_NavOptions_svg_, "colorDescripBlack"
           )}
           onClick={this._handleClick_navToolBox}>
           <AccountPalette

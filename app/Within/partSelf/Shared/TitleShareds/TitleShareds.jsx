@@ -74,7 +74,8 @@ class TitleShareds extends React.Component {
       navDOM[0] = (
         <span
           key={"key_pathNavFeed_tab_greet"}
-          className={classnames("fontContentPlain", "colorEditBlack")}>
+          className={classnames("fontContentPlain", "colorEditBlack")}
+          style={{margin: '0 16px 0 0'}}>
           {this._render_Greet()}
         </span>
       )

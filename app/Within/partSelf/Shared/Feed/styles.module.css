@@ -29,6 +29,12 @@
   position: relative;
 }
 
+.boxUpload {
+  width: 78%;
+  min-width: 274px;
+  margin: 32px 0 52px;
+}
+
 .boxDescript {
   width: 100%;
   text-align: center;
@@ -75,6 +81,12 @@
   margin: 8px 0;
 }
 
+.spanMessageUpload {
+  display: block;
+  margin: 0 0 16px;
+  text-align: center;
+}
+
 @media screen and (max-width:860px) {
   .boxRowModules {
     display: flex;
@@ -84,7 +96,7 @@
 
   .boxModuleSmall {
     justify-content: center;
-    width: 100vw;
+    width: 100%;
   }
 
   .boxModuleItem {

@@ -8,6 +8,7 @@
   align-items: flex-end;
   justify-content: space-between;
   width: 100%;
+  margin: 0 0 8px;
 }
 
 .boxBottomRow {
@@ -15,6 +16,8 @@
   justify-content: space-between;
   flex-wrap: wrap;
   width: 100%;
+  box-sizing: border-box;
+  align-items: baseline;
 }
 
 .rowTitleText {
@@ -34,16 +37,12 @@
 }
 
 .linkNavFeed {
-  margin-right: 15px;
-  padding-right: 15px;
+  flex: 1;
+  padding: 8px 0;
+  border-radius: 4px;
+  text-align: center;
 }
 
 @media screen and (max-width:860px) {
-  .smallDisplayInline {
-    display: inline-block;
-  }
 
-  .smallDisplayNone {
-    display: none;
-  }
 }

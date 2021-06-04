@@ -98,14 +98,6 @@ class Feed extends React.Component {
     let groupsDOM = [];
     const _nailsGroup = (unitGroup, groupIndex)=>{
       let nailsDOM = [];
-      if(groupIndex == 0 && unitGroup.length > 0){
-        nailsDOM.push(
-          <BtnUpload
-            {...this.props}
-            _submit_Share_New={this._submit_Share_New}
-            _refer_von_Create={this.props._refer_von_cosmic}/>
-        )
-      }
       unitGroup.forEach((unitId, index) => {
         //render if there are something in the data
         if( !(unitId in this.state.unitsBasic)) return; //skip if the info of the unit not yet fetch
@@ -122,12 +114,30 @@ class Feed extends React.Component {
                   {...this.props}
                   unitId={unitId}
                   nodisplay={['author']}
+                  frameType={'narrow'}
                   linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
                   unitBasic={this.state.unitsBasic[unitId]}
                   marksBasic={this.state.marksBasic} />
               </div>
             </div>
           );
+          // and insert a upload btn if now after the first one rendered
+          if((groupIndex == 0) && (index == 0)){
+            nailsDOM.push(
+              <div
+                key={"key_NodeFeed_new_BtnUpload"}
+                className={classnames(styles.boxUpload)}>
+                <span
+                  className={classnames(styles.spanMessageUpload, "fontTitleSmall", "colorLightGrey")}>
+                  {this.props.i18nUIString.catalog['message_SelfShareds_uploadBtn']}
+                </span>
+                <BtnUpload
+                  {...this.props}
+                  _submit_Share_New={this._submit_Share_New}
+                  _refer_von_Create={this.props._refer_von_cosmic}/>
+              </div>
+            )
+          };
           return;
         };
         // for laptop / desktop, change nail by cycles
@@ -164,6 +174,24 @@ class Feed extends React.Component {
             </div>
           </div>
         ));
+        // and insert a upload btn if now after the first one rendered
+        if((groupIndex == 0) && (index == 0)){
+          nailsDOM.push(
+            <div
+              key={"key_NodeFeed_new_BtnUpload"}
+              className={classnames(styles.boxModuleItem)}
+              style={{justifyContent: "center", width: '48%', height: '289px', minHeight: '36.675vh'}}>
+              <span
+                className={classnames(styles.spanMessageUpload, "fontTitleSmall", "colorLightGrey")}>
+                {this.props.i18nUIString.catalog['message_SelfShareds_uploadBtn']}
+              </span>
+              <BtnUpload
+                {...this.props}
+                _submit_Share_New={this._submit_Share_New}
+                _refer_von_Create={this.props._refer_von_cosmic}/>
+            </div>
+          )
+        };
       });
 
       return nailsDOM;

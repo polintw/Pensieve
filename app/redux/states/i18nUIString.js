@@ -134,7 +134,7 @@ const i18nUIString_EN = {
   "title_home": "Home",
   "title_Expand": "Expand",
   "title_Chain_Shareds_": "Your Publications",
-  "title_selfPublications": "Yours",
+  "title_selfPublications": "Your accumulations",
   "title_shared": "Shareds",
   "title_Publications": "Publications",
   "title_Notes": "Notes",
@@ -157,6 +157,7 @@ const i18nUIString_EN = {
 
   "link_Nav_Shareds_": ["<> ", "Personal"],
   "message_SelfShareds_greet": ["Good morning!", "Welcome back.", "Good evening.", "What a long night."],
+  "message_SelfShareds_uploadBtn": "What's the finding today?",
   "descript_Shareds_pathLink": " as ",
 
   "submit_Unit_upload": ["Upload image", "Processing..."],

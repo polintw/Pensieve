@@ -73,6 +73,7 @@ class Wrapper extends React.Component {
               {...this.props}
               leftimg={false}
               unitId={unitId}
+              frameType={'wide'}
               linkPath={this.props.location.pathname}
               unitBasic={this.state.unitsBasic[unitId]}
               marksBasic={this.state.marksBasic} />

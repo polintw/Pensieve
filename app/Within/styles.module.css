@@ -212,17 +212,17 @@
     position: sticky;
     top: 0;
     left: 0;
-    padding-top: 2.53vh;
+    padding: 2.53vh 0 0;
   }
 
-  .boxNavOptionsFrame {    /* back to a plain <div> */
+  .boxNavOptionsFrame {
     min-width: unset; /* back to NavOptions */
     height: unset; /* back to NavOptions */
-    position: static; /* back to NavOptions */
+    position: relative;
   }
 
   .boxNavOptionsSelf {
-    background-color: unset; /* back to NavOptions */
+    background-color: unset;
   }
 
   .boxNavOptionsCosmic {

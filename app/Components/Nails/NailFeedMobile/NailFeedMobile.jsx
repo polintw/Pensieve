@@ -77,7 +77,10 @@ class NailFeedMobile extends React.Component {
         className={classnames(
           'plainLinkButton',
           styles.frame,
-          {[styles.frameOnMouse]: this.state.onFrame}
+          {
+            [styles.frameNarrow]: (this.props.frameType == 'narrow'),
+            [styles.frameWide]: (this.props.frameType == 'wide'),
+            [styles.frameOnMouse]: this.state.onFrame}
         )}
         onClick={(e)=>{if( !this.props.linkPath ){e.preventDefault();};/*a optional control, mean the parent want to take the refer control*/ }}
         onTouchStart={this._handleEnter_nailFrame}

@@ -174,6 +174,7 @@ class FeedAssigned extends React.Component {
                       {...this.props}
                       unitId={unitId}
                       nodisplay={['author']}
+                      frameType={'wide'}
                       linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
                       unitBasic={this.state.unitsBasic[unitId]}
                       marksBasic={this.state.marksBasic} />

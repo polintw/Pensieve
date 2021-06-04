@@ -10,7 +10,6 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import IndexUnit from './partSign/IndexUnit/Wrapper.jsx';
 import WithinSign from './partSign/WithinSign.jsx';
-import PathProject from './partExplore/PathProject/Wrapper.jsx';
 import NavWithin from '../Components/NavWithin/NavWithin.jsx';
 import NavOptionsUnsign from '../Components/NavOptions/NavOptionsUnsign.jsx';
 import ModalBox from '../Components/ModalBox.jsx';
@@ -22,7 +21,8 @@ class Within_Sign extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      switchTo: null
+      switchTo: null,
+      navWithinNotDisSmall: false
     };
     this._refer_von_Sign = this._refer_von_Sign.bind(this);
     this.style={
@@ -67,7 +67,20 @@ class Within_Sign extends React.Component {
       this.setState({
         switchTo: null
       });
+    };
+    if(
+      this.props.location.pathname != prevProps.location.pathname &&
+      this.props.location.pathname.includes('/unit')
+    ){
+      this.setState({ navWithinNotDisSmall: true });
     }
+    else if(
+      this.props.location.pathname != prevProps.location.pathname &&
+      prevProps.location.pathname.includes('/unit') &&
+      !this.props.location.pathname.includes('/unit')
+    ){
+      this.setState({ navWithinNotDisSmall: false });
+    };
   }
 
   componentDidMount() {
@@ -159,7 +172,6 @@ const UnsignWithinCosmic = ( routeProps, parent) => {
         <div
           className={classnames(styles.boxAroundContentCenter)}>
           <Switch>
-            <Route path={routeProps.match.path + "/path/:pathName"} render={(innerRouteProps)=> <PathProject {...innerRouteProps} _refer_to={parent._refer_von_Sign}/>}/>
             <Route path={routeProps.match.path + "/"} render={(routeProps)=> <Redirect to={'/'}/>}/>
           </Switch>
         </div>
@@ -168,7 +180,7 @@ const UnsignWithinCosmic = ( routeProps, parent) => {
             styles.boxContentFilledRight)} />
       </div>
       <div
-        className={classnames(styles.boxNavWithinCosmic)}>
+        className={classnames(styles.boxNavAround, styles.boxNavWithinCosmic)}>
         <NavWithin {...routeProps} _refer_to={()=>{window.location.assign('/')}}/>
       </div>
     </div>
@@ -187,7 +199,7 @@ const UnsignWithin = ( routeProps, parent) => {
         <WithinSign {...routeProps}/>
       </div>
       <div
-        className={classnames(styles.boxNavAround)}>
+        className={classnames(styles.boxNavAround, styles.boxNavAroundBgColor)}>
         <NavWithin {...routeProps} _refer_to={()=>{window.location.assign('/')}}/>
       </div>
     </div>
@@ -200,7 +212,7 @@ const UnsignWithinUnit = ( routeProps, parent) => {
       <div
         className={classnames(styles.boxNavOptionsFrame)}>
         <div
-          className={classnames(styles.boxNavOptions)}>
+          className={classnames(styles.boxNavOptionsCosmic)}>
           <NavOptionsUnsign {...routeProps} _refer_to={parent._refer_von_Sign}/>
         </div>
       </div>
@@ -221,7 +233,8 @@ const UnsignWithinUnit = ( routeProps, parent) => {
             styles.boxContentFilledRight)}/>
         </div>
         <div
-            className={classnames(styles.boxNavAround)}>
+          className={parent.state.navWithinNotDisSmall ? classnames(styles.boxNavAround, styles.boxNavWithinCosmic, 'smallDisplayNone') :
+            classnames(styles.boxNavAround, styles.boxNavWithinCosmic) }>
           <NavWithin {...routeProps} _refer_to={parent._refer_von_Sign}/>
         </div>
     </div>
