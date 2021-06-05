@@ -63,8 +63,6 @@ class TitleShareds extends React.Component {
               {
                 ["colorWhiteGrey"]: (this.state.onLink !=  tab),
                 ["colorEditBlack"]: (this.state.onLink ==  tab),
-                [styles.spanLink]: this.state.onLink !=  tab,
-                [styles.spanLinkMouseOn]: (this.state.onLink ==  tab),
               }
             )}>
             { this.props.i18nUIString.catalog[tabsi18nName[index]] }

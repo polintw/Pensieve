@@ -141,8 +141,8 @@ class Feed extends React.Component {
           return;
         };
         // for laptop / desktop, change nail by cycles
-        let remainder3 = index % 3,
-        remainder2 = index % 2; // cycle, but every 3 units has a wide, left, right in turn.
+        let remainder3 = (nailsDOM.length+1) % 3,
+        remainder2 = (nailsDOM.length+1) % 2; // cycle, but every 3 units has a wide, left, right in turn.
 
         nailsDOM.push (remainder3 ? ( // 0 would be false, which means index % 3 =0
           <div

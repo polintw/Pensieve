@@ -137,8 +137,7 @@ class NailFeed extends React.Component {
                         tagA={false}
                         dashify={true}
                         quotationify={true}
-                        outboundLink={this.props.unitBasic.outboundLink}
-                        customStyle={{common: {fontStyle: 'italic'}}}/>
+                        outboundLink={this.props.unitBasic.outboundLink}/>
                     }
                   </div>
                 </div>

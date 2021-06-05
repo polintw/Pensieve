@@ -164,8 +164,7 @@ const contentBoxMarks = (self)=>{
                 tagA={false}
                 dashify={true}
                 quotationify={true}
-                outboundLink={self.props.unitBasic.outboundLink}
-                customStyle={{common: {fontStyle: 'italic'}}}/>
+                outboundLink={self.props.unitBasic.outboundLink}/>
             }
           </div>
         </div>
