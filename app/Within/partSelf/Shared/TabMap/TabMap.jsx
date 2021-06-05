@@ -105,7 +105,7 @@ class TabMap extends React.Component {
             nodeMarkers={[]}
             styleZIndex={'5'}
             minZoomLevel={1}
-            zoomLevel={centerCoor.length > 0 ? 15 : 2}/>
+            zoomLevel={centerCoor.length > 0 ? 13 : 2}/>
         }
       </div>
     )

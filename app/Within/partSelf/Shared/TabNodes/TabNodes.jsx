@@ -30,13 +30,7 @@ class TabNodes extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-    let prevUrlParams = new URLSearchParams(prevProps.location.search);
-    let prevFilterNodeify = prevUrlParams.has('filterNode');
-    if(!this.filterNode && prevFilterNodeify){
-      this.setState({ // reset to init
-        filterCategory: ["notes", "inspired"]
-      })
-    };
+
   }
 
   componentDidMount(){
@@ -148,7 +142,8 @@ class TabNodes extends React.Component {
                 filterCategory={this.state.filterCategory}/>
             </div>
           ) : (
-            <div>
+            <div
+              style={{width: '100%'}}>
               <div
                 className={classnames(
                   styles.boxTitle, styles.rowFilterTitle)}>

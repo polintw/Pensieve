@@ -104,8 +104,16 @@
     width: 100%;
   }
 
+  .boxModuleSmallPik {
+    width: 100%;
+  }
+
   .boxModuleItem {
     width: 100%;
+  }
+
+  .boxModuleItemPik {
+    width: 49%;
   }
 
   .boxFooter {

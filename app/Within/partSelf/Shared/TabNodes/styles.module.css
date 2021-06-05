@@ -101,8 +101,9 @@
 
 .boxDecoLine {
   display: flex;
+  justify-content: center;
   box-sizing: border-box;
-  height: 8px;
+  height: 10px;
   position: relative;
   margin: 16px;
 }

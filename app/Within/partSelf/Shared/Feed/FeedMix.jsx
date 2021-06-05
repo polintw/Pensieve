@@ -9,7 +9,7 @@ import stylesNail from "../../../stylesNail.module.css";
 import FeedEmpty from './FeedEmpty.jsx';
 import NailFeed from '../../../../Components/Nails/NailFeed/NailFeed.jsx';
 import NailFeedWide from '../../../../Components/Nails/NailFeedWide/NailFeedWide.jsx';
-import NailFeedMobile from '../../../../Components/Nails/NailFeedMobile/NailFeedMobile.jsx';
+import NailPikMobile from '../../../../Components/Nails/NailPikMobile/NailPikMobile.jsx';
 import {_axios_get_Basic} from '../utils.js';
 import {axios_get_UnitsBasic} from '../../../../utils/fetchHandlers.js';
 import {
@@ -107,16 +107,14 @@ class FeedMix extends React.Component {
           nailsDOM.push(
             <div
               key={"key_NodeFeed_new_" + index}
-              className={classnames(styles.boxModuleItem)}>
+              className={classnames(styles.boxModuleItemPik)}>
               <div
                 className={classnames(stylesNail.boxNail)}>
-                <NailFeedMobile
+                <NailPikMobile
                   {...this.props}
                   unitId={unitId}
-                  frameType={'narrow'}
                   linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
-                  unitBasic={this.state.unitsBasic[unitId]}
-                  marksBasic={this.state.marksBasic} />
+                  unitBasic={this.state.unitsBasic[unitId]} />
               </div>
             </div>
           );
@@ -167,7 +165,7 @@ class FeedMix extends React.Component {
           key={"key_Shareds_FeedGroup"+index}
           className={classnames(
             styles.boxModule,
-            styles.boxModuleSmall,
+            styles.boxModuleSmallPik,
           )}>
           {_nailsGroup(unitGroup, index)}
         </div>
@@ -204,7 +202,7 @@ class FeedMix extends React.Component {
           <div
             className={classnames(
               styles.boxModule,
-              styles.boxModuleSmall,
+              styles.boxModuleSmallPik,
               styles.boxRow
             )}>
             <FeedEmpty
