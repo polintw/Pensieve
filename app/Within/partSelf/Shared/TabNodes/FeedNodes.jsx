@@ -24,6 +24,8 @@ class FeedNodes extends React.Component {
       nodesList: [],
       notesNodes: [],
       inspiredNodes: [],
+      cateLocationsNodes: [],
+      cateTopicsNodes: [],
       nextFetchBasedTime: null,
       scrolled: true,
       onBtn: null
@@ -45,6 +47,8 @@ class FeedNodes extends React.Component {
         nodesList: [],
         notesNodes: [],
         inspiredNodes: [],
+        cateLocationsNodes: [],
+        cateTopicsNodes: [],
         nextFetchBasedTime: null,
         scrolled: true,
       });
@@ -81,7 +85,7 @@ class FeedNodes extends React.Component {
     }
   }
 
-  _render_FeedNodes(){
+  _render_FeedNodes(nodesCategory){
     let groupsDOM = [];
     const _nodesByGroup = (nodesGroup, groupIndex)=>{
       let nodesDOM = [];
@@ -111,31 +115,27 @@ class FeedNodes extends React.Component {
             onMouseLeave={this._handleLeave_Btn}>
             <span
               className={classnames(
-                "fontSubtitle_h5", "weightBold", styles.spanModuleItem,
+                "fontSubtitle_h5", "colorEditBlack", styles.spanModuleItem,
                 {
                   [styles.spanModuleItemMouseOn]: this.state.onBtn == nodeId,
-                  ["colorGrey"]: this.state.onBtn != nodeId,
-                  ["colorEditBlack"]: this.state.onBtn == nodeId,
-                  ["weightBold"]: this.state.onBtn == nodeId
                 }
               )}>
               {this.props.nounsBasic[nodeId].name}
             </span>
-            <span
-              className={classnames(
-                "fontSubtitle_h5", "weightBold", styles.spanModuleItem,
-                {
-                  [styles.spanModuleItemMouseOn]: this.state.onBtn == nodeId,
-                  ["colorGrey"]: this.state.onBtn != nodeId,
-                  ["colorEditBlack"]: this.state.onBtn == nodeId,
-                  ["weightBold"]: this.state.onBtn == nodeId
-                }
-              )}>
-              {
-                (this.props.nounsBasic[nodeId].prefix.length > 0) &&
-                (", " + this.props.nounsBasic[nodeId].prefix)
-              }
-            </span>
+            {
+              (this.props.nounsBasic[nodeId].prefix.length > 0) &&
+              <span
+                className={classnames(
+                  "fontContentPlain", styles.spanModuleItem,
+                  {
+                    [styles.spanModuleItemMouseOn]: this.state.onBtn == nodeId,
+                    ["colorGrey"]: this.state.onBtn != nodeId,
+                    ["colorEditBlack"]: this.state.onBtn == nodeId,
+                  }
+                )}>
+                { this.props.nounsBasic[nodeId].prefix }
+              </span>
+            }
           </Link>
         );
       });
@@ -143,7 +143,7 @@ class FeedNodes extends React.Component {
       return nodesDOM;
     };
 
-    this.state.nodesList.forEach((nodesGroup, index)=>{
+    this.state[nodesCategory].forEach((nodesGroup, index)=>{
       groupsDOM.push(
         <div
           key={"key_PathProject_nodesGroup"+index}
@@ -170,7 +170,27 @@ class FeedNodes extends React.Component {
             className={classnames(
               styles.boxRow
             )}>
-            {this._render_FeedNodes()}
+            <div>
+              {this._render_FeedNodes(['cateTopicsNodes'])}
+            </div>
+            {
+              (this.state.cateTopicsNodes.length > 0 && this.state.cateLocationsNodes.length > 0) &&
+              <div
+                className={classnames(styles.boxDecoLine)}>
+                <svg viewBox="0 0 20 20"
+                  style={Object.assign({}, {
+                    height: '100%',
+                    maxWidth: '100%',
+                    position: 'relative',
+                    boxSizing: 'border-box'
+                  })}>
+                  <circle fill="#a3a3a3" cx="10" cy="10" r="5"></circle>
+                </svg>
+              </div>
+            }
+            <div>
+              {this._render_FeedNodes(['cateLocationsNodes'])}
+            </div>
           </div>
         }
         {
@@ -223,9 +243,12 @@ class FeedNodes extends React.Component {
     // prepare request for both 'notes' & 'inspired' nodes
     let paramsObjNotes = {
       basedTime: nextFetchBasedTime,
-      pathProject: this.pathProjectify ? this.props.userInfo.pathName: null
+      pathProject: this.pathProjectify ? this.props.userInfo.pathName: null,
+      seperate: true
     };
-    let paramsObjInspired = {};
+    let paramsObjInspired = {
+      seperate: true
+    };
     let fetchNotesNodes = new Promise((resolve, reject)=>{
       _axios_get_Basic(this.axiosSource.token, {
         url: "/router/share/nodes/assigned",
@@ -246,27 +269,37 @@ class FeedNodes extends React.Component {
 
     Promise.all(promiseList)
     .then((resArr)=>{
-      let resNotes = {main: {nodesList: []}},
-          resInspired = {main: {nodesList: []}};
+      let resNotes = {main: {locationsList: [], topicsList: []}},
+          resInspired = {main: {locationsList: [], topicsList: []}};
       self.props.filterCategory.forEach((item, index)=>{
         if(item == 'notes') resNotes = resArr[index]
         else resInspired = resArr[index];
       });
-      let mixedNodesList = resNotes.main.nodesList.slice();
-      resInspired.main.nodesList.forEach((node, index) => {
-        if(resNotes.main.nodesList.indexOf(node) < 0) mixedNodesList.push(node);
+      let mixedLocationsNodes = resNotes.main.locationsList.slice();
+      let mixedTopicsNodes = resNotes.main.topicsList.slice();
+      resInspired.main.locationsList.forEach((node, index) => {
+        if(mixedLocationsNodes.indexOf(node) < 0) mixedLocationsNodes.push(node);
       });
+      resInspired.main.topicsList.forEach((node, index) => {
+        if(mixedTopicsNodes.indexOf(node) < 0) mixedTopicsNodes.push(node);
+      });
+      let mixedNodesList = mixedLocationsNodes.concat(mixedTopicsNodes);
       //after res: call get nouns
       self.props._submit_NounsList_new(mixedNodesList);
 
       self.setState((prevState, props)=>{
-        let copyList = prevState.nodesList.slice();
-        if(mixedNodesList.length > 0) copyList.push(mixedNodesList);
+        let copiedLocationsNodes = prevState.cateLocationsNodes.slice();
+        let copiedTopicsNodes = prevState.cateTopicsNodes.slice();
+        if(mixedLocationsNodes.length > 0) copiedLocationsNodes.push(mixedLocationsNodes);
+        if(mixedTopicsNodes.length > 0) copiedTopicsNodes.push(mixedTopicsNodes);
         return {
           axios: false,
-          nodesList: copyList,
-          notesNodes: resNotes.main.nodesList,
-          inspiredNodes: resInspired.main.nodesList,
+          cateLocationsNodes: copiedLocationsNodes,
+          cateTopicsNodes: copiedTopicsNodes,
+          // now we fetch the list all at once, no further fetch, so just simply replace the list for beneath 2 keys
+          nodesList: mixedNodesList,
+          notesNodes: resNotes.main.locationsList.concat(resNotes.main.topicsList),
+          inspiredNodes: resInspired.main.locationsList.concat(resInspired.main.topicsList),
           nextFetchBasedTime: null,
           scrolled: false
         }

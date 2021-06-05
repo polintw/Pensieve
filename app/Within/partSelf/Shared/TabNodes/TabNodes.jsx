@@ -120,25 +120,29 @@ class TabNodes extends React.Component {
     } else this.filterNode = null;
 
     return (
-      <div className={styles.comFocusBoardFeed}>
+      <div className={styles.comTabNodes}>
         <div
           className={classnames(styles.boxFilterSwitches)}>
           <div>
             <FilterSwitch
               {...this.props}
-              switchCate={"inspired"}
+              switchCate={"notes"}
+              switchOn={this.state.filterCategory.indexOf('notes') < 0 ? false : true }
               _set_filterCategory={this._set_filterCategory}/>
           </div>
-          <div>
+          <div
+            style={{marginLeft: '8px'}}>
             <FilterSwitch
               {...this.props}
-              switchCate={"notes"}
+              switchCate={"inspired"}
+              switchOn={this.state.filterCategory.indexOf('inspired') < 0 ? false : true }
               _set_filterCategory={this._set_filterCategory}/>
           </div>
         </div>
         {
           !this.filterNode ? (
-            <div>
+            <div
+              className={classnames(styles.boxFeedNodes)}>
               <FeedNodes
                 {...this.props}
                 filterCategory={this.state.filterCategory}/>

@@ -21,7 +21,11 @@
 }
 
 .boxFilterSwitches {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
   position: relative;
+  margin: 8px 0 5.07vh;
 }
 
 @media screen and (min-width:860px) {

@@ -116,22 +116,25 @@ class TabMap extends React.Component {
       <div
         className={classnames(styles.comTabMap)}>
         <div
-          className={classnames(styles.boxRow)}>
-          <div
-            className={classnames(styles.boxFilterSwitches)}>
-            <div>
-              <FilterSwitch
-                {...this.props}
-                switchCate={"inspired"}
-                _set_filterCategory={this._set_filterCategory}/>
-            </div>
-            <div>
-              <FilterSwitch
-                {...this.props}
-                switchCate={"notes"}
-                _set_filterCategory={this._set_filterCategory}/>
-            </div>
+          className={classnames(styles.boxFilterSwitches)}>
+          <div>
+            <FilterSwitch
+              {...this.props}
+              switchCate={"notes"}
+              switchOn={this.state.filterCategory.indexOf('notes') < 0 ? false : true }
+              _set_filterCategory={this._set_filterCategory}/>
           </div>
+          <div
+            style={{marginLeft: '8px'}}>
+            <FilterSwitch
+              {...this.props}
+              switchCate={"inspired"}
+              switchOn={this.state.filterCategory.indexOf('inspired') < 0 ? false : true }
+              _set_filterCategory={this._set_filterCategory}/>
+          </div>
+        </div>
+        <div
+          className={classnames(styles.boxRow)}>
           {this._render_unitsMap()}
         </div>
         <div className={classnames(styles.boxRow, styles.boxFooter)}/>

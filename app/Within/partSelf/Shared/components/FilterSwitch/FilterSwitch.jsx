@@ -32,10 +32,14 @@ class FilterSwitch extends React.Component {
   render(){
     return(
       <div
-        className={classnames(styles.comFilterSwitch, styles.boxTitle)}>
+        className={classnames(styles.comFilterSwitch)}>
         <div
+          className={classnames(
+            {
+              [styles.boxBtnOn]: this.props.switchOn,
+              [styles.boxbtnOff]: !this.props.switchOn,
+            })}
           category={this.props.switchCate}
-          className={classnames()}
           onClick={this._handleClick_filterSwitch}
           onTouchStart={this._handleEnter_link}
           onTouchEnd={this._handleLeave_link}
@@ -45,10 +49,8 @@ class FilterSwitch extends React.Component {
             className={classnames(
               "fontContent",
               {
-                [styles.spanLinkMouse]: (this.state.onNavLink == this.props.switchCate),
-                ["colorLightGrey"]: (this.state.onNavLink != this.props.switchCate),
-                ["colorEditBlack"]: (this.state.onNavLink == this.props.switchCate),
-                ["weightBold"]: (this.state.onNavLink == this.props.switchCate)
+                ["colorWhite"]: this.props.switchOn,
+                ["colorLightGrey"]: !this.props.switchOn,
               }
             )}>
             {this.props.i18nUIString.catalog[

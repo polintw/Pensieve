@@ -10,5 +10,16 @@
 .boxSelfTitle {
   display: flex;
   position: relative;
-  margin: 4.06vh 0 0;
+}
+
+@media screen and (min-width:860px) {
+  .boxSelfTitle {
+    margin: 4.06vh 0 0;
+  }
+}
+
+@media screen and (max-width:860px) {
+  .boxSelfTitle {
+    margin: 2.79vh 0 0;
+  }
 }

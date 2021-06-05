@@ -68,7 +68,8 @@ class Wrapper extends React.Component {
     switch (this.currentTab) {
       case "inspired":
         return (
-          <div>
+          <div
+            style={{marginTop: '2.53vh'}}>
             <FeedInspired {...this.props}/>
           </div>
         )
@@ -89,7 +90,8 @@ class Wrapper extends React.Component {
         break;
       default: // 'undefined' currentTab
         return (
-          <div>
+          <div
+            style={{marginTop: '2.53vh'}}>
             <Feed {...this.props}/>
           </div>
         )
