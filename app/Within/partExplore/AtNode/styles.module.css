@@ -4,9 +4,24 @@
   box-sizing: border-box;
 }
 
+.boxRow {
+  position: relative;
+  margin: 12px 0;
+}
+
+.boxTitle {
+  margin: 8px 0;
+}
+
 .boxTopTitle {
   position: relative;
-  margin: 6.3vh 0 2.5vh;
+  margin: 7.61vh 0 5.07vh;
+}
+
+.boxFeedNav {
+  width: 100%;
+  margin: 20px 0 -4px;
+  position: relative;
 }
 
 .boxNodeTitle {

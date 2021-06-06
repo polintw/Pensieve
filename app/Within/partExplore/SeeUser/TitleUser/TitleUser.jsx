@@ -7,27 +7,15 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import AccountPalette from '../../../../Components/AccountPalette.jsx';
-import ModalEmit from '../../../../Components/ModalEmit/ModalEmit.jsx';
-import SvgCopy from '../../../../Components/Svg/SvgIcon_Copy.jsx';
-import {
-  domain
-} from '../../../../../config/services.js';
 
 class TitleUser extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      emit: false,
-      onShareLink: false,
       onLinkExpand: false
     };
-    this.refHiddenText = React.createRef();
-    this._set_emitModal = this._set_emitModal.bind(this);
-    this._handleEnter_Btn = this._handleEnter_Btn.bind(this);
-    this._handleLeave_Btn = this._handleLeave_Btn.bind(this);
     this._handleEnter_LinkExpand = this._handleEnter_LinkExpand.bind(this);
     this._handleLeave_LinkExpand = this._handleLeave_LinkExpand.bind(this);
-    this._handleClick_CopyLink = this._handleClick_CopyLink.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -112,7 +100,7 @@ class TitleUser extends React.Component {
                   'fontContent', 'colorGrey',
                   styles.spanKey
                 )}>
-                {this.props.i18nUIString.catalog["title_shared"]}
+                {this.props.i18nUIString.catalog["title_Notes"]}
               </span>
               <span
                 className={classnames("fontContent", "colorEditBlack", "weightBold")}>
@@ -179,88 +167,12 @@ class TitleUser extends React.Component {
                 </div>
               }
             </div>
-            <div
-              className={classnames(styles.boxSubtitleCenter)}>
-              {"·"}
-            </div>
-            <div
-              title={this.props.i18nUIString.catalog["tagTitle_PathProject_ShareLink"]}
-              className={classnames(
-                styles.boxBtnShare, styles.boxSubtitleRight)}
-                onMouseEnter={this._handleEnter_Btn}
-                onMouseLeave={this._handleLeave_Btn}
-                onClick={this._handleClick_CopyLink}>
-                <div
-                  className={classnames(styles.boxIconCopy)}>
-                  <SvgCopy
-                    customStyles={"{fill: " + (this.state.onShareLink? "#545454" : "#a3a3a3") + "}"}/>
-                </div>
-                <div
-                  className={classnames(
-                    "fontContent",
-                    {["colorEditBlack"]: this.state.onShareLink},
-                    {["colorGrey"]: !this.state.onShareLink},
-                  )}>
-                  {this.props.i18nUIString.catalog['btn_PathProject_ShareLink']}
-                </div>
-                {
-                  this.state.emit &&
-                  <div
-                    className={classnames(styles.boxModalEmit)}>
-                    <ModalEmit
-                      text={this.state.emit.text} />
-                  </div>
-                }
-                <div style={{width:"100%",position: 'absolute', overflow:'hidden'}}>
-                  <input
-                    ref={this.refHiddenText}
-                    className={classnames(styles.boxHiddenText)}
-                    value={ domain.protocol+ '://'+domain.name+'/cosmic/explore/user?userId='+ this.props.userId}
-                    readOnly/>
-                </div>
-              </div>
           </div>
+          <div
+            className={classnames(styles.boxDecoLine)}/>
         </div>
       </div>
     )
-  }
-
-  _handleClick_CopyLink(e){
-    e.stopPropagation();
-    e.preventDefault();
-
-    this.refHiddenText.current.select();
-    document.execCommand('copy'); // had completed copy to clipboard
-    this._set_emitModal(); // than inform the user by emitModal
-  }
-
-  _set_emitModal(){
-    this.setState({
-      emit: { text: this.props.i18nUIString.catalog["message_PathProject_ShareLink"]}
-    });
-    setTimeout(()=>{
-      this.setState((prevState, props)=>{
-        return {
-          emit:false
-        }
-      })
-    }, 2200)
-  }
-
-  _handleEnter_Btn(e){
-    this.setState((prevState, props)=>{
-      return {
-        onShareLink: true
-      }
-    })
-  }
-
-  _handleLeave_Btn(e){
-    this.setState((prevState, props)=>{
-      return {
-        onShareLink: false
-      }
-    })
   }
 
   _handleEnter_LinkExpand(event) {

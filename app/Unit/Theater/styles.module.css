@@ -102,9 +102,8 @@
   }
 
   .boxTheaterSubcate {
-    margin: 0 0 16px;
-    padding: 0 0 16px;
-    box-shadow: 0 4px 4px -4px #d8d8d8;
+    padding: 16px 0 0 ;
+    box-shadow: 0 -4px 4px -4px #d8d8d8;
   }
 
   .boxEntitySubcateTitle {

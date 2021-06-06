@@ -77,19 +77,41 @@ class Wrapper extends React.Component {
           <div
             className={classnames(styles.boxTopTitle)}>
             <div
+              style={{marginBottom: '16px'}}>
+              <span
+                className={classnames("fontContentPlain", "colorEditBlack")}>
+                {this.props.i18nUIString.catalog['subTitle_NavAtNode_']}
+              </span>
+            </div>
+            <div
               className={classnames(styles.boxNodeTitle)}>
               <span
                 className={classnames("fontTitle", "colorEditBlack", "weightBold")}>
-                { this.nodeAtId in this.props.nounsBasic ? (this.props.nounsBasic[this.nodeAtId].name) : null }
+                { this.nodeAtId in this.props.nounsBasic ?
+                  (this.props.nounsBasic[this.nodeAtId].name) : null
+                }
               </span>
               <span
                 className={classnames("fontTitle", "colorEditBlack", "weightBold")}>
+                {
+                  (this.nodeAtId in this.props.nounsBasic) && (this.props.nounsBasic[this.nodeAtId].prefix.length > 0) &&
+                  ", "
+                }
+              </span>
+              <span
+                className={classnames("fontSubtitle", "colorEditBlack")}>
                 { this.nodeAtId in this.props.nounsBasic ? (
                   (this.props.nounsBasic[this.nodeAtId].prefix.length > 0) &&
-                  (", " + this.props.nounsBasic[this.nodeAtId].prefix)) : (null)
+                  ("\xa0" + this.props.nounsBasic[this.nodeAtId].prefix)) : (null)
                 }
               </span>
             </div>
+          </div>
+          <div
+            className={classnames(styles.boxTitle, styles.boxFeedNav)}>
+            <span
+              className={classnames("fontContentPlain", "weightBold", "colorAssistGold")}>
+              {this.props.i18nUIString.catalog["title_NavAtNode_"]}</span>
           </div>
           <div>
             <Feed/>

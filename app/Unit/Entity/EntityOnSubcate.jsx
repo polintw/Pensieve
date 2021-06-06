@@ -9,7 +9,6 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import SubcateBtnNext from './SubcateBtnNext.jsx';
-import VisitRegister from '../Theater/components/VisitRegister/VisitRegister.jsx';
 
 class EntityOnSubcate extends React.Component {
   constructor(props){
@@ -37,8 +36,7 @@ class EntityOnSubcate extends React.Component {
         className={classnames(styles.comEntitySubcate)}>
         <div
           className={classnames(styles.boxVisitRegister)}>
-          <VisitRegister
-            {...this.props}/>
+
         </div>
         <div>
           <SubcateBtnNext

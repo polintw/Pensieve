@@ -96,7 +96,7 @@ class TabNodes extends React.Component {
                   className={classnames(
                     "fontNodesEqual", "weightBold", "colorEditBlack",
                     styles.spanLinkNode,
-                    { [styles.spanLinkNodeMouse]: (this.state.onNodeLink == this.filterNode) && userLogin }
+                    { [styles.spanLinkNodeMouse]: (this.state.onNodeLink == this.filterNode)}
                   )}>
                   {this.props.nounsBasic[this.filterNode].name}</span>
               }

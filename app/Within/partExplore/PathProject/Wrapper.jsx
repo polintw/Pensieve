@@ -92,7 +92,8 @@ class Wrapper extends React.Component {
     switch (this.currentTab) {
       case "routes":
         return (
-          <div>
+          <div
+            style={{marginTop: '8px'}}>
             <SubcatesList
               {...this.props}
               subCatesInfo={this.state.subCatesInfo}/>
@@ -154,7 +155,8 @@ class Wrapper extends React.Component {
             <div
               className={classnames(styles.boxNavFeed)}>
               <NavFeed
-                {...this.props}/>
+                {...this.props}
+                subCatesify={ (this.state.subCatesInfo.subCatesList.length < 0) ? false : true }/>
             </div>
           </div>
           <div>

@@ -45,13 +45,6 @@
   float: right;
 }
 
-.boxNavCosmic {
-  box-sizing: border-box;
-  margin: 0 0 1.5rem;
-  padding: 0 0 1rem;
-  border-bottom: 1px solid #d8d8d8;
-}
-
 .boxNavLink {
   display: inline-block;
   box-sizing: border-box;
@@ -74,15 +67,6 @@
 .spanNavLink {
   display: inline-block;
   cursor: pointer;
-}
-
-.spanLinkItem {
-  display: inline-block;
-  border-bottom: solid 0.75px transparent;
-}
-
-.spanLinkItemMouse {
-  border-bottom: solid 0.75px #545454;
 }
 
 @media screen and (max-width:1110px) {

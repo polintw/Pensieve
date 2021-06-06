@@ -21,6 +21,12 @@
 }
 
 
+@media screen and (min-width:860px) {
+  .boxMap {
+    height: 82vh;
+  }
+}
+
 @media screen and (max-width:860px) {
   .boxFooter {
     margin-bottom: 14vh;

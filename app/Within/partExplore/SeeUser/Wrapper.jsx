@@ -7,7 +7,6 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import Nav from './Nav/Nav.jsx';
 import Feed from './Feed/Feed.jsx';
 import TitleUser from './TitleUser/TitleUser.jsx';
 import {
@@ -96,12 +95,6 @@ class Wrapper extends React.Component {
             <TitleUser
               userId = {this.userId}
               userBasicInfo={this.state.userBasicInfo}/>
-          </div>
-          <div
-            className={classnames(styles.boxRow)}>
-            <Nav
-              {...this.props}
-              userId = {this.userId}/>
           </div>
           <div>
             <Feed
