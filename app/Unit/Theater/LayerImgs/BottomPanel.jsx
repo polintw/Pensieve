@@ -7,6 +7,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
+import AuthorStatics from './Author/AuthorStatics.jsx';
 import Primer from '../components/Primer.jsx';
 import Inspired from '../components/Inspired/Inspired.jsx';
 import BtnOpenMap from '../components/BtnOpenMap/BtnOpenMap.jsx';
@@ -44,7 +45,7 @@ class BottomPanel extends React.Component {
               <div
                 className={classnames(styles.btnBottomIcon)}>
                 <BtnOpenMap
-                  screenSize={'small'}
+                  screenSize={false}
                   longitude={this.props.unitCurrent.imgLocation.longitude}
                   latitude={this.props.unitCurrent.imgLocation.latitude}
                   frameView={this.props.frameView}
@@ -61,7 +62,7 @@ class BottomPanel extends React.Component {
             <div
               className={classnames(styles.boxBottomLeft)}>
               <div
-                style={{color: '#FDFDFC'}}
+                style={{color: '#757575'}}
                 onClick={this._handleClick_Account}>
                 <AccountPalette
                   size={'layer'}
@@ -80,17 +81,23 @@ class BottomPanel extends React.Component {
               <div
                 className={classnames(styles.boxBottomLower)}>
                 <DateConverter
-                  styles={{color: '#b8b8b8'}}
+                  styles={{color: '#a3a3a3'}}
                   datetime={this.props.unitCurrent.createdAt}/>
               </div>
             </div>
             {
-              (this.props.unitCurrent.identity != "author") &&
-              <div
-                className={classnames(styles.btnIconInspired)}>
-                <Inspired
-                  screenSize={'small'}/>
-              </div>
+              (this.props.unitCurrent.identity != "author") ?(
+                <div
+                  className={classnames(styles.btnIconInspired)}>
+                  <Inspired/>
+                </div>
+              ): (
+                <div
+                  className={classnames(styles.btnIconInspired)}>
+                  <AuthorStatics
+                    itemInspiredNotext={true}/>
+                </div>
+              )
             }
           </div>
         </div>

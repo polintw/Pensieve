@@ -47,7 +47,7 @@ class FilterSwitch extends React.Component {
           onMouseLeave={this._handleLeave_link}>
           <span
             className={classnames(
-              "fontContent",
+              "fontTitleSmall",
               {
                 ["colorWhite"]: this.props.switchOn,
                 ["colorLightGrey"]: !this.props.switchOn,

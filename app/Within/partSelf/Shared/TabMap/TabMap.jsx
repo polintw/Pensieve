@@ -31,7 +31,7 @@ class TabMap extends React.Component {
       fetchedUnitsList: false,
       mapUnitsList: [],
       unitsBasic: {},
-      filterCategory: ["notes", "inspired"]
+      filterCategory: ["notes"]
     };
     this.axiosSource = axios.CancelToken.source();
     this._render_unitsMap = this._render_unitsMap.bind(this);

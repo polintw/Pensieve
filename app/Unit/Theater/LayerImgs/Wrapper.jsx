@@ -53,6 +53,9 @@ class Wrapper extends React.Component {
         className={classnames( styles.comWrapper)}>
         <div
           className={classnames(styles.boxContentWidth, styles.boxTitle)}>
+          <div
+            className={classnames(styles.boxWhiteBack, "smallDisplayBox")}>
+          </div>
           <NodesExtensible
             nouns={nodesTitleObj}
             _referNode={this.props._refer_toandclose}/>
@@ -83,7 +86,7 @@ class Wrapper extends React.Component {
           {
             (this.props.unitCurrent.identity == "author") &&
             <div
-              className={classnames(styles.boxAuthorStatics)}>
+              className={classnames("wideDisplayFlex", styles.boxAuthorStatics)}>
                 <AuthorStatics/>
             </div>
           }
@@ -108,6 +111,10 @@ class Wrapper extends React.Component {
         }
         <div
           className={classnames(styles.boxContentWidth, styles.boxBottom)}>
+          <div
+            className={classnames(styles.boxWhiteBack, "smallDisplayBox")}
+            style={{boxShadow: 'box-shadow: 0 5px 10px -5px rgb(0 0 0 / 30%)'}}>
+          </div>
           <BottomPanel
             {...this.props}
             frameView={this.state.frameView}

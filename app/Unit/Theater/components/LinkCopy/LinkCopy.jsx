@@ -67,7 +67,7 @@ class LinkCopy extends React.Component {
             className={classnames("smallDisplayBox", styles.boxSmallDescrip)}>
             <span
               className={classnames("fontContentPlain", "lineHeight171")}
-              style={ this.state.mouseOn ? {color: '#FFFFFF'} : {color: '#FDFDFC'} }>
+              style={ this.state.mouseOn ? {color: '#545454'} : {color: '#a3a3a3'} }>
               {this.props.i18nUIString.catalog['submit_Unit_PanelIcon'][1]}
             </span>
           </div>

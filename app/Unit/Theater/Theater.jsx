@@ -68,7 +68,7 @@ class Theater extends React.Component {
                 ["colorLightGrey"]: !this.state.onIconClose,
                 ["colorWhite"]: this.state.onIconClose,
               })}
-            style={{display: 'inline-block', padding: '0 0 8px'}}
+            style={{display: 'inline-block', padding: '0 0 16px'}}
             onTouchStart={this._handleEnter_Icon}
             onTouchEnd={this._handleLeave_Icon}
             onMouseEnter={this._handleEnter_Icon}

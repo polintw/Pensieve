@@ -33,8 +33,8 @@ class TitleShareds extends React.Component {
   }
 
   _render_nav(){
-    let tabs = ["notes", "inspired", "map", "nodes"]
-    let tabsi18nName = ["title_Notes", "title_Inspired", "tab_Map", "tab_Nodes"];
+    let tabs = ["notes", "nodes", "map", "inspired"]
+    let tabsi18nName = ["title_Notes", "tab_Nodes", "tab_Map", "title_Inspired"];
 
     let navDOM = tabs.map((tab, index)=>{
       if( tab == 'inspired' && this.props.lastParam == 'pathProject') return null; // not rendering 'inspired' link under /pathProject

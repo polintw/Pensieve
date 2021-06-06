@@ -126,11 +126,9 @@ class FeedNodes extends React.Component {
               (this.props.nounsBasic[nodeId].prefix.length > 0) &&
               <span
                 className={classnames(
-                  "fontContentPlain", styles.spanModuleItem,
+                  "fontContentPlain", "colorGrey", styles.spanModuleItem,
                   {
                     [styles.spanModuleItemMouseOn]: this.state.onBtn == nodeId,
-                    ["colorGrey"]: this.state.onBtn != nodeId,
-                    ["colorEditBlack"]: this.state.onBtn == nodeId,
                   }
                 )}>
                 { this.props.nounsBasic[nodeId].prefix }

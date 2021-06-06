@@ -113,7 +113,7 @@ const i18nUIString_EN = {
   "submit_copy": "Copy",
   "submit_edit": "Edit",
   "submit_save": "Save",
-  "submit_erase": "Erase", //感覺用Delete比較好
+  "submit_erase": "Delete",
   "submit_understand": "Understand",//感覺用Close比較好
   "submit_respond": "Respond",
   "submit_yes": "Yes",
@@ -178,7 +178,7 @@ const i18nUIString_EN = {
   "subTitle_Unit_AuthorStatics": ["Inspired", "Engaged", "Opened"],
   "tagTitle_Unit_Inspired": "Inspired by this article",
   "message_Unit_Inspired": "Inspired",
-  "message_Unit_InspiredModal": "Sent to author",
+  "message_Unit_InspiredModal": "Inspired!",
   "tagTitle_Unit_LinkCopy": "Copy link",
   "message_Unit_LinkCopy": "Copied to clipboard",
   "title_UnitEntity_Subcate_list": "Mark your name if you've visited the scene!",
@@ -210,8 +210,8 @@ const i18nUIString_EN = {
   "message_CreateShare_ImgGps_empty": "(no location data)",
   "message_CreateShare_basicRequireWarn": "Make sure you've already uploaded One image and picked at least One node you want to refer to.",
   "message_Unit_Editing_AssignNotAllowed": "We're sorry. Your contribution Can't be changed once released since it's linked either to the markup or location.", //Original:"the corner linked to could Not be changed after first release."
-  "message_Unit_EraseConfirm": ["No one can see this Share after erase, including you. ", "Are you sure you want to erase this Share?"], //Original:"No one would see this Shared after erase, including you. ", "Are you sure your going to erase this Shared?"
-  "message_Unit_EraseRes": ["This Share has beed erased successfully."],//Changed "Shared" to "Share"
+  "message_Unit_EraseConfirm": ["No one can see this Note after delete, including you. ", "Are you sure you want to delete this Note?"], //Original:"No one would see this Shared after erase, including you. ", "Are you sure your going to erase this Shared?"
+  "message_Unit_EraseRes": ["This Note has been deleted successfully."],//Changed "Shared" to "Share"
   "title_CreateShar_NodesView": "Nodes assigning",
   "title_Unit_ListResponds": "Responds",
   "guiding_Unit_Responds_authorEmpty": "Respond to your contribution will show up here!",//Changed "would" to "will"

@@ -1,5 +1,6 @@
 .comNodesExtensible {
   display: flex;
+  position: relative;
 }
 
 .boxListItem {
@@ -23,7 +24,7 @@
 @media screen and (min-width:860px) {
   .spanNodeFont {
     font-size: 2.4rem;
-    color: #545454;
+    color: #757575;
   }
 }
 
@@ -34,7 +35,7 @@
 
   .spanNodeFont {
     font-size: 2rem;
-    color: #FFFFFF;
+    color: #757575;
   }
 
 }

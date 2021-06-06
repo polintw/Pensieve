@@ -17,7 +17,7 @@ class TabNodes extends React.Component {
     this.state = {
       onNodeLink: false,
       onArrow: false,
-      filterCategory: ["notes", "inspired"]
+      filterCategory: ["notes"]
     };
     this._render_resetLink = this._render_resetLink.bind(this);
     this._render_filterTitle = this._render_filterTitle.bind(this);
