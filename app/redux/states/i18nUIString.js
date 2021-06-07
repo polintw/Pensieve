@@ -276,7 +276,7 @@ const i18nUIString_EN = {
   ],
   "guiding_noAccumulated_selfPageExplain": [
     "Here you're seeing the public page displaying your publications.",
-    "Your first and all the notes you published would show up here!",
+    "Your first and all the notes you published would be show up here!",
     "Notes inspired you would be all displayed here!",
     "Nodes you got from your notes or inspired one would show up here work as a filter.",
     "The Map would display the location for those notes have their GPS data."

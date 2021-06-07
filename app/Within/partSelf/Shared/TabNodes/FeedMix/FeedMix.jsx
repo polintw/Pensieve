@@ -27,8 +27,8 @@ class FeedMix extends React.Component {
     super(props);
     this.state = {
       axios: false,
-      notesList: [],
-      feedList: [],
+      notesList: [], // [ unitId, unitId, ...]
+      feedList: [], // [ [unitId, unitId, ...], [unitId, unitId, ...], ...]
       unitsBasic: {},
       marksBasic: {},
       scrolled: true
@@ -113,6 +113,7 @@ class FeedMix extends React.Component {
                 <NailPikMobile
                   {...this.props}
                   unitId={unitId}
+                  inspiredBulb={ (this.state.notesList.indexOf(unitId) < 0) ? true : false}
                   linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
                   unitBasic={this.state.unitsBasic[unitId]} />
               </div>
@@ -269,7 +270,7 @@ class FeedMix extends React.Component {
           let copyList = prevState.feedList.slice();
           let copiedNotesList = prevState.notesList.slice();
           copyList.push(resObj.main.unitsList);
-          copiedNotesList.push(resObj.main.notesList);
+          copiedNotesList = copiedNotesList.concat(resObj.main.notesList);
           return {
             notesList: copiedNotesList,
             feedList: copyList,

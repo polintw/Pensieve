@@ -39,7 +39,7 @@ async function _handle_GET_accumulations_mixfeed(req, res){
     };
 
     // units id list res to client at final
-    let unitsExposedList = [];
+    let unitsExposedList = [], notesOnlyExposedList= [];
     // select the 'inspired' units if not req for pathProject
     let inspiredUnits = [];
     if(!reqPathProject){
@@ -107,8 +107,9 @@ async function _handle_GET_accumulations_mixfeed(req, res){
     .then((results) => {
       // now, we only took the first '8' or reqListLimit
       let exposedIdlist = [];
-      for(let i=0; (i < results.length && i < 8) ; i++){
+      for(let i=0; (i < results.length && i < reqListLimit) ; i++){
         exposedIdlist.push(results[i].exposedId);
+        if( unitsId.indexOf(results[i].id) >= 0 ) notesOnlyExposedList.push(results[i].exposedId);
       };
       return exposedIdlist;
     })
@@ -116,13 +117,14 @@ async function _handle_GET_accumulations_mixfeed(req, res){
 
     let sendingData = {
       unitsList: [],
-      notesList: unitsId, // user's own notes
+      notesList: [], // user's own notes
       scrolled: true, // true if theere is any qualified Unit not yet res
       temp: {}
     };
 
     if (unitsExposedList.length < reqListLimit) sendingData.scrolled = false;
     sendingData.unitsList = unitsExposedList;
+    sendingData.notesList = notesOnlyExposedList;
 
     _res_success(res, sendingData, "GET: /nodefilter/accumulations, mixfeed, complete.");
 

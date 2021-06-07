@@ -93,6 +93,7 @@ class FeedInspired extends React.Component {
                   {...this.props}
                   unitId={unitId}
                   frameType={'narrow'}
+                  inspiredBulb={true}
                   linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
                   unitBasic={this.state.unitsBasic[unitId]}
                   marksBasic={this.state.marksBasic} />
