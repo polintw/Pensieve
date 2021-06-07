@@ -5,7 +5,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import BtnUpload from '../../../../Unit/Editing/BtnUpload/BtnUpload.jsx';
+import CreateShare from '../../../../../Unit/Editing/CreateShare.jsx';
 
 class FeedEmpty extends React.Component {
   constructor(props){
@@ -33,19 +33,14 @@ class FeedEmpty extends React.Component {
     return (
       <div className={styles.comFeedEmpty}>
         <div
-          className={classnames(styles.boxTitle, styles.boxEmptyDescript, "fontContent", "colorLightGrey")}>
-          <span style={{display: 'inline-block', width: '221px'}}>
-            {this.props.i18nUIString.catalog['guiding_noAccumulated_selfPageExplain'][1]}
+          className={classnames(styles.boxTitle, styles.boxEmptyDescript)}>
+          <span
+            className={classnames("fontTitleSmall", "colorLightGrey")}>
+            {
+              this.props.customFilterCate.length > 0 ?  this.props.i18nUIString.catalog['guiding_noAccumulated_selfAccumulationsNodes'][0] :
+              this.props.i18nUIString.catalog['guiding_noAccumulated_selfAccumulationsNodes'][1]
+            }
           </span>
-          <br/>
-        </div>
-        <div
-          className={classnames(styles.boxEmptyUpload)}>
-          <BtnUpload
-            {...this.props}
-            styleTextBright={true}
-            _submit_Share_New={this.props._submit_Share_New}
-            _refer_von_Create={this.props._refer_von_cosmic}/>
         </div>
       </div>
     )

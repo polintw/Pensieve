@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import FeedNodes from './FeedNodes.jsx';
-import FeedMix from '../Feed/FeedMix.jsx';
+import FeedMix from './FeedMix/FeedMix.jsx';
 import FilterSwitch from '../components/FilterSwitch/FilterSwitch.jsx';
 import {SvgArrowToLeft} from '../../../../Components/Svg/SvgArrow.jsx';
 

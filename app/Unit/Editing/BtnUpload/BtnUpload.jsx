@@ -62,8 +62,8 @@ class BtnUpload extends React.Component {
                   styles.spanWriter, 'fontNodesEqual', 'lineHeight15',
                   {
                     [styles.spanWriterTyping]: (this.state.onCreateWideScreen),
-                    ['colorStandard']: (this.state.onCreateWideScreen),
-                    ['colorGrey']: (!this.state.onCreateWideScreen),
+                    ['colorStandard']: (this.state.onCreateWideScreen || this.props.styleTextBright),
+                    ['colorGrey']: (!this.state.onCreateWideScreen && !this.props.styleTextBright),
                   }
                 )}>
                 {
@@ -95,8 +95,8 @@ class BtnUpload extends React.Component {
                 className={classnames(
                   styles.spanWriter, 'lineHeight15', "fontNodesEqual", "weightBold",
                   {
-                    ['colorStandard']: (this.state.onCreate),
-                    ['colorGrey']: (!this.state.onCreate),
+                    ['colorStandard']: (this.state.onCreate || this.props.styleTextBright),
+                    ['colorGrey']: (!this.state.onCreate && !this.props.styleTextBright),
                   }
                 )}>
                 {this.props.i18nUIString.catalog['title_upload_daily'] }

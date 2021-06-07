@@ -5,22 +5,22 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import stylesNail from "../../../stylesNail.module.css";
+import stylesNail from "../../../../stylesNail.module.css";
 import FeedEmpty from './FeedEmpty.jsx';
-import NailFeed from '../../../../Components/Nails/NailFeed/NailFeed.jsx';
-import NailFeedWide from '../../../../Components/Nails/NailFeedWide/NailFeedWide.jsx';
-import NailPikMobile from '../../../../Components/Nails/NailPikMobile/NailPikMobile.jsx';
-import {_axios_get_Basic} from '../utils.js';
-import {axios_get_UnitsBasic} from '../../../../utils/fetchHandlers.js';
+import NailFeed from '../../../../../Components/Nails/NailFeed/NailFeed.jsx';
+import NailFeedWide from '../../../../../Components/Nails/NailFeedWide/NailFeedWide.jsx';
+import NailPikMobile from '../../../../../Components/Nails/NailPikMobile/NailPikMobile.jsx';
+import {_axios_get_Basic} from '../../utils.js';
+import {axios_get_UnitsBasic} from '../../../../../utils/fetchHandlers.js';
 import {
   handleNounsList,
   handleUsersList,
   handlePathProjectsList
-} from "../../../../redux/actions/general.js";
+} from "../../../../../redux/actions/general.js";
 import {
   cancelErr,
   uncertainErr
-} from "../../../../utils/errHandlers.js";
+} from "../../../../../utils/errHandlers.js";
 
 class FeedMix extends React.Component {
   constructor(props){

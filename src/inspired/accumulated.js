@@ -43,7 +43,6 @@ async function _handle_GET_accumulated_Inspired(req, res){
         author_identity: "user",
         used_authorId: null,
         createdAt: { [Op.lt]: lastUnitTime },
-        source: null,
       };
 
       let unitsByAttri = await _DB_attri.findAll({

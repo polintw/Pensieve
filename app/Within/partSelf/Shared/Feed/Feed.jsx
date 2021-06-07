@@ -244,7 +244,9 @@ class Feed extends React.Component {
               styles.boxRow
             )}>
             <FeedEmpty
-              {...this.props}/>
+              {...this.props}
+              _submit_Share_New={this._submit_Share_New}
+              _refer_von_Create={this.props._refer_von_cosmic}/>
           </div>
         }
 

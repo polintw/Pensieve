@@ -271,13 +271,14 @@ const i18nUIString_EN = {
   "guiding_noAccumulated_shareInvitation": "Create your first Shared!",
   "guiding_noAccumulated_pathShareInvitation": "Start your theme by create a Shared!",
   "guiding_noAccumulated_selfAccumulationsNodes": [
-    "No accumulations at this nodes.",
+    "No accumulations at this nodes of selected category.",
     "Pick a category to filter your accumulations."
   ],
   "guiding_noAccumulated_selfPageExplain": [
     "Here you're seeing the public page displaying your publications.",
-    "Here is your personal page with full control!",
-    "Here will display publications which inspired you!"
+    "Your first and all the notes you published would be showed up here!",
+    "Here will display publications which inspired you!",
+    "Nodes from your notes or inspired one would be displayed here. Using them as a notes selector."
   ],
   "guiding_noAccumulated_nodeFilter": "Corners used would show up here after first Shared!",
 
