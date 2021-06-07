@@ -65,7 +65,8 @@ class BtnUpload extends React.Component {
                     ['colorStandard']: (this.state.onCreateWideScreen || this.props.styleTextBright),
                     ['colorGrey']: (!this.state.onCreateWideScreen && !this.props.styleTextBright),
                   }
-                )}>
+                )}
+                style={Object.assign({}, this.props.customTextStyle ? this.props.customTextStyle : {})}>
                 {
                    this.state.onCreateWideScreen ? this.state.typeWriterText :
                     this.props.i18nUIString.catalog['title_upload_daily']
@@ -98,7 +99,8 @@ class BtnUpload extends React.Component {
                     ['colorStandard']: (this.state.onCreate || this.props.styleTextBright),
                     ['colorGrey']: (!this.state.onCreate && !this.props.styleTextBright),
                   }
-                )}>
+                )}
+                style={Object.assign({}, this.props.customTextStyle ? this.props.customTextStyle : {})}>
                 {this.props.i18nUIString.catalog['title_upload_daily'] }
               </span>
             </div>

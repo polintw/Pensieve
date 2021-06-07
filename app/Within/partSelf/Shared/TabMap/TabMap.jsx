@@ -103,9 +103,32 @@ class TabMap extends React.Component {
             coordCenter={centerCoor}
             unitsMarkers={unitsMarkers}
             nodeMarkers={[]}
-            styleZIndex={'5'}
+            styleZIndex={'3'}
             minZoomLevel={1}
             zoomLevel={centerCoor.length > 0 ? 13 : 2}/>
+        }
+        {
+          unitsMarkers.length == 0 &&
+          <div
+            style={{
+              width: '100%',
+              height: '100%',
+              position: 'absolute',
+              top: '0',
+              left:'0',
+              boxSizing: 'border-box',
+              paddingTop: '28.4vh',
+              backgroundColor: 'rgba(230,230,230,0.65)',
+              zIndex: "3"
+            }}
+            onClick={(e)=>{e.preventDefault(); e.stopPropagation();}}>
+            <div
+              className={classnames(styles.boxTitle, styles.boxEmptyDescript, "fontContent", "colorGrey")}>
+              <span style={{display: 'inline-block', width: '269px'}}>
+                {this.props.i18nUIString.catalog['guiding_noAccumulated_selfPageExplain'][4]}
+              </span>
+            </div>
+          </div>
         }
       </div>
     )

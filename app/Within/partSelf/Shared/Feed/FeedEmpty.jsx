@@ -43,7 +43,8 @@ class FeedEmpty extends React.Component {
           className={classnames(styles.boxEmptyUpload)}>
           <BtnUpload
             {...this.props}
-            styleTextBright={true}
+            styleTextBright={false}
+            customTextStyle={{color: '#757575'}}
             _submit_Share_New={this.props._submit_Share_New}
             _refer_von_Create={this.props._refer_von_cosmic}/>
         </div>

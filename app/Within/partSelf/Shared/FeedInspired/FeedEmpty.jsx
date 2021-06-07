@@ -5,7 +5,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import CreateShare from '../../../../Unit/Editing/CreateShare.jsx';
+import {SvgBulbInspired} from '../../../../Components/Svg/SvgBulb.jsx';
 
 class FeedEmpty extends React.Component {
   constructor(props){
@@ -33,11 +33,16 @@ class FeedEmpty extends React.Component {
     return (
       <div className={styles.comFeedEmpty}>
         <div
-          className={classnames(styles.boxTitle, styles.boxEmptyDescript, "fontTitleSmall", "colorLightGrey")}>
-          <span style={{display: 'inline-block', width: '170px'}}>
+          className={classnames(styles.boxTitle, styles.boxEmptyIconInspired)}>
+          <SvgBulbInspired
+            colorClass={'darkWhite'}
+            mouseReact={false}/>
+        </div>
+        <div
+          className={classnames(styles.boxTitle, styles.boxEmptyDescript, "fontContent", "colorLightGrey")}>
+          <span style={{display: 'inline-block'}}>
             {this.props.i18nUIString.catalog['guiding_noAccumulated_selfPageExplain'][2]}
           </span>
-          <br/>
         </div>
       </div>
     )

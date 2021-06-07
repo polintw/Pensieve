@@ -3,6 +3,7 @@ import React from 'react';
 const bulbDark = (propsColorClass)=>{
   let fillColorClassMap = {
     dark: "dark{fill: #a3a3a3;}",
+    darkWhite: "darkWhite{fill: #d8d8d8;}",
     smallDark: "smallDark{fill: #FFFFFF;}",
     smallMouse: "smallMouse{fill: #FF8168;}",
     smallLight: "smallLight{fill: #f3b55a;}",
@@ -84,8 +85,9 @@ export class SvgBulbInspired extends React.Component {
       case 'delight':
         return bulbDelight();
         break;
-      case 'mouseOn':
-        return
+      case 'darkWhite':
+        colorClass = "darkWhite";
+        return bulbDark(colorClass);
         break;
       default:
         colorClass = this.props.mouseReact ? "darkMouse" : "dark";

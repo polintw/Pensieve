@@ -8,6 +8,10 @@
   margin: 12px 0;
 }
 
+.boxTitle {
+  margin: 8px 0;
+}
+
 .boxFooter {
   position: relative;
   padding-top: 4.4rem;
@@ -17,6 +21,7 @@
 .boxMap {
   align-self: center;
   width: 100%;
+  position: relative;
   margin-top: 8px;
 }
 
@@ -26,6 +31,11 @@
   width: 100%;
   position: relative;
   margin: 8px 0 5.07vh;
+}
+
+.boxEmptyDescript {
+  width: 100%;
+  text-align: center;
 }
 
 @media screen and (min-width:860px) {

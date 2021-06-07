@@ -62,8 +62,10 @@
 }
 
 .boxEmptyNodesFeedIcon {
-  width: 30vw;
-  height: 14vh;
+  width: 27vw;
+  height: 12vh;
+  max-width: 127px;
+  max-height: 86px;
   box-sizing: border-box;
   border: 3.2px solid #d8d8d8;
   border-radius: 16px;

@@ -46,6 +46,7 @@
 .boxEmptyUpload {
   width: 78%;
   min-width: 274px;
+  max-width: 330px;
   padding: 8px 0 32px;
 }
 

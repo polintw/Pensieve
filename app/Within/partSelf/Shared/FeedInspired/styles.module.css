@@ -4,8 +4,9 @@
 }
 
 .comFeedEmpty {
-  width: 100%;
-  padding-top: 6rem;
+  display: flex;
+  align-items: center;
+  padding-top: 3.8vh;
 }
 
 .boxRow {
@@ -35,27 +36,9 @@
 }
 
 .boxEmptyDescript {
-  width: 100%;
+  width: 72%;
+  max-width: 200px;
   text-align: center;
-}
-
-.boxInvite {
-  padding: 22px 0 20px;
-  text-align: center;
-}
-
-.boxBtnInvite {
-  display: inline-block;
-  position: relative;
-  box-sizing: border-box;
-  padding: 6px 1.2rem 7px;
-  border-radius: 4px;
-  border: solid 1px #a3a3a3;
-  cursor: pointer;
-}
-
-.boxBtnInviteActiv {
-  border: dashed 2px #ababab;
 }
 
 .boxFooter {
@@ -66,13 +49,23 @@
   margin-bottom: 36vh;
 }
 
-
-.spanBtnInvite {
-  white-space: nowrap;
+.boxEmptyIconInspired {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 56px;
+  margin-right: 15px;
 }
 
 .spanFooterHint {
   margin: 8px 0;
+}
+
+@media screen and (min-width:860px) {
+  .comFeedEmpty {
+    justify-content: center;
+    width: 100%;
+  }
 }
 
 @media screen and (max-width:860px) {
@@ -93,5 +86,10 @@
 
   .boxFooter {
     margin-bottom: 19vh;
+  }
+
+  .comFeedEmpty {
+    width: 72%;
+    justify-content: space-between;
   }
 }
