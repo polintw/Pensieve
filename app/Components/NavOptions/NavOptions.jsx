@@ -38,7 +38,7 @@ class NavOptions extends React.Component {
     */
     if(
       this.props.location.pathname.includes("/s/") ||
-      this.props.location.pathname.includes("self/profile") ||
+      this.props.location.pathname.includes("/profile") ||
       this.props.location.pathname == "/"
     ){
       return (
@@ -148,6 +148,9 @@ class NavOptions extends React.Component {
     return (
       <div>
         <div
+          className={classnames(styles.boxHiddenLayer)}
+          onClick={()=>{ /* Do nothing. Propagation to parent. */ }}></div>
+        <div
           className={classnames(
             'colorOptionsBlack', 'fontContent',
             styles.selfCom_NavOptions_ToolBox_,
@@ -175,18 +178,22 @@ class NavOptions extends React.Component {
             <li
               method="self"
               className={classnames(styles.boxLiItem)}
-              onClick={(e) => { e.preventDefault(); e.stopPropagation(); this.props._refer_to('', '/self/shareds') }}
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); this.props._refer_to('', '/self/shareds?tab=notes') }}
+              onTouchStart={this._handleEnter_CornerOpt}
+              onTouchEnd={this._handleLeave_CornerOpt}
               onMouseEnter={this._handleEnter_CornerOpt}
               onMouseLeave={this._handleLeave_CornerOpt}>
               <span
                 style={(this.state.mouseOn == 'self') ? {borderBottom: "solid 1px #333333"}:{}}>
-                {this.props.i18nUIString.catalog["link_Options_selfLink"]}
+                {this.props.i18nUIString.catalog["title_NavAtNode_"]}
               </span>
             </li>
             <li
               method="public"
               className={classnames(styles.boxLiItem)}
               onClick={(e) => { e.preventDefault(); e.stopPropagation(); this.props._refer_to('', '/cosmic/explore/user?userId='+this.props.userInfo.id) }}
+              onTouchStart={this._handleEnter_CornerOpt}
+              onTouchEnd={this._handleLeave_CornerOpt}
               onMouseEnter={this._handleEnter_CornerOpt}
               onMouseLeave={this._handleLeave_CornerOpt}>
               <span
@@ -198,9 +205,27 @@ class NavOptions extends React.Component {
           <ol
             className={styles.boxOlist}>
             <li
+              method="home"
+              className={classnames(styles.boxLiItem)}
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); this.props._refer_to('', '/') }}
+              onTouchStart={this._handleEnter_CornerOpt}
+              onTouchEnd={this._handleLeave_CornerOpt}
+              onMouseEnter={this._handleEnter_CornerOpt}
+              onMouseLeave={this._handleLeave_CornerOpt}>
+              <span
+                style={(this.state.mouseOn == 'home') ? {borderBottom: "solid 1px #333333"}:{}}>
+                {this.props.i18nUIString.catalog["title_home"]}
+              </span>
+            </li>
+          </ol>
+          <ol
+            className={styles.boxOlist}>
+            <li
               method="account"
               className={classnames(styles.boxLiItem)}
               onClick={(e) => { e.preventDefault(); e.stopPropagation(); this.props._refer_to('', '/self/profile/sheet') }}
+              onTouchStart={this._handleEnter_CornerOpt}
+              onTouchEnd={this._handleLeave_CornerOpt}
               onMouseEnter={this._handleEnter_CornerOpt}
               onMouseLeave={this._handleLeave_CornerOpt}>
               <span
@@ -216,6 +241,8 @@ class NavOptions extends React.Component {
               method="logout"
               style={{cursor: 'pointer', borderBottom: (this.state.mouseOn == 'logout') ? "solid 1px #333333": ""}}
               onClick={this._handleClick_ToolBox_logout}
+              onTouchStart={this._handleEnter_CornerOpt}
+              onTouchEnd={this._handleLeave_CornerOpt}
               onMouseEnter={this._handleEnter_CornerOpt}
               onMouseLeave={this._handleLeave_CornerOpt}>
               {this.props.i18nUIString.catalog["submit_logout"]}

@@ -12,12 +12,12 @@ import {
   axios_visit_GET_last,
   axios_visit_Index
 } from './utils.js';
-import BelongsSet from './BelongsSet/BelongsSet.jsx';
+// import BelongsSet from './BelongsSet/BelongsSet.jsx';
 import FeedAssigned from './FeedAssigned/FeedAssigned.jsx';
 import IndexShare from './IndexShare/IndexShare.jsx';
 import NavFeed from "./NavFeed/NavFeed.jsx";
-import OnBoard from '../OnBoard/Wrapper.jsx';
-import GuideNails from '../OnBoard/GuideNails.jsx';
+// import OnBoard from '../OnBoard/Wrapper.jsx';
+// import GuideNails from '../OnBoard/GuideNails.jsx';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
 import {
   cancelErr,
@@ -253,32 +253,12 @@ class Wrapper extends React.Component {
       ) ? (
         <div
           className={classnames(styles.comAroundWrapper)}>
-          <OnBoard/>
-          <div
-            className={classnames(styles.boxFooter)}
-            style={{marginBottom: '6vh'}}></div>
+          /* OnBoard */
         </div>
       ) : (
         <div
           className={classnames(styles.comAroundWrapper)}>
-          <div
-            className={classnames(styles.boxRow, styles.boxRowTop)}>
-            <GuideNails
-              guideChoice={'welcome'}/>
-          </div>
-          <div
-            className={classnames(styles.boxRow)}>
-            <GuideNails
-              guideChoice={'howShare'}/>
-          </div>
-          <div
-            className={classnames(styles.boxRow)}
-            style={{margin: '4px 0 0'}}>
-            <BelongsSet/>
-          </div>
-          <div
-            className={classnames(styles.boxFooter)}
-            style={{marginBottom: '6vh'}}></div>
+          /* GuideNails & BelongsSet */
         </div>
       )
     ) :

@@ -32,7 +32,7 @@
   min-width: 10vw; /* follow boxContentFilledLeft*/
   height: 100%;
   position: fixed;
-  z-index: 1; /* set here no matter the children set or not(like boxNavOptions) */
+  z-index: 2; /* set here no matter the children set or not(like boxNavOptions) */
 }
 
 .boxNavOptionsSelf {
