@@ -39,7 +39,6 @@ class NavFeed extends React.Component {
         className={classnames(styles.comNavFeed, styles.boxTitle)}>
         <div
           className={classnames(styles.boxLinks)}>
-
           <div
             className={classnames(styles.boxDecoLine)}
             style={ Object.assign({}, sidePropsStyle)}>
@@ -52,7 +51,6 @@ class NavFeed extends React.Component {
               })}>
               <circle fill="#b8b8b8" cx="10" cy="10" r="5"></circle>
             </svg>
-            <a id={"topFeed"} style={{opacity: '0'}}/>
           </div>
           <a
             href={"#topFeed"}

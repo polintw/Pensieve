@@ -17,6 +17,10 @@
   padding-top: 4px;
 }
 
+.boxTitle {
+  margin: 8px 0;
+}
+
 .boxFooter {
   display: flex;
   flex-direction: column;
@@ -61,36 +65,23 @@
   text-align: center;
 }
 
-.boxIndexShare {
+.boxSetBtnSign {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  max-width: 335px;
 }
 
-.comBtnUpload {
-  width: 100%;
-  position: relative;
-  box-sizing: border-box;
-  border-radius: 8px;
+.boxIntro {
+  margin: 3.29vh 0;
   text-align: center;
-  padding: 11px 7% 10px;
 }
 
-.btnBorder {
-  border: solid 2px #a3a3a3;
-}
-
-.comMouseEnter {
-  border: solid 2px rgba(84, 84, 84, 0.45);
-  background-color: #FFFFFF;
-}
-
-.spanWriter {
-  display: inline-flex;
-  align-items: center;
-  height: 4rem;
-  padding-right: 2px;
-  white-space: nowrap;
-  overflow: hidden;
+.boxDecoLine {
+  display: flex;
+  box-sizing: border-box;
+  height: 8px;
+  position: relative;
+  margin: 16px;
 }
 
 @media screen and (min-width: 860px) {

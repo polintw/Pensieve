@@ -1,6 +1,7 @@
 import React from 'react';
 import {
-  withRouter
+  withRouter,
+  Link
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
@@ -11,9 +12,23 @@ class NavOptionsUnsign extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      onBtn: false
     };
     this._render_NavSmallScreen = this._render_NavSmallScreen.bind(this);
+    this._handleEnter_Btn= this._handleEnter_Btn.bind(this);
+    this._handleLeave_Btn = this._handleLeave_Btn.bind(this);
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot){
+
+  }
+
+  componentDidMount(){
+
+  }
+
+  componentWillUnmount(){
+
   }
 
   _render_NavSmallScreen(){
@@ -22,6 +37,13 @@ class NavOptionsUnsign extends React.Component {
     depend on css class '.smallDisplayBox'
     */
     let currentPath = this.props.location.pathname;
+    let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
+    let signupinify = true;
+    if(
+      urlParams.has('process') ||
+      currentPath.includes('/confirm') ||
+      currentPath.includes('/signup')
+    ) signupinify = false;
 
     return(
       <div
@@ -35,7 +57,41 @@ class NavOptionsUnsign extends React.Component {
               reverseColor={false}/>
           </div>
         </div>
-        <div style={{width: '1px', height: '19.333px'}}>{ /* a 'filling' box to make 'height' */ }</div>
+        <div
+          className={classnames(
+            styles.selfCom_NavOptions_svg_)}>
+            {
+              signupinify ? (
+                <Link
+                  to={'?process=signin'}
+                  className={classnames(
+                    'plainLinkButton', styles.boxSignupin,
+                    {[styles.boxSignupinMouseon]: this.state.onBtn}
+                  )}
+                  onClick={()=>{ this._handleLeave_Btn(); }}
+                  onTouchStart={this._handleEnter_Btn}
+                  onTouchEnd={this._handleLeave_Btn}
+                  onMouseEnter={this._handleEnter_Btn}
+                  onMouseLeave={this._handleLeave_Btn}>
+                  <span
+                    className={classnames(
+                      "fontSubtitle",
+                      {
+                        ["colorDescripBlack"]: this.state.onBtn,
+                        ["colorEditLightBlack"]: !this.state.onBtn,
+                      }
+                    )}>
+                    {this.props.i18nUIString.catalog['submit_nav_Signupin']}
+                  </span>
+                </Link>
+              ) : (
+                <span
+                  className={classnames("fontSubtitle")}>
+                  {'\xa0'}
+                </span>
+              )
+            }
+        </div>
       </div>
     );
   }
@@ -53,6 +109,14 @@ class NavOptionsUnsign extends React.Component {
     )
   }
 
+  _handleEnter_Btn(e){
+    this.setState({onBtn: true})
+  }
+
+  _handleLeave_Btn(e){
+    this.setState({
+      onBtn: false})
+  }
 }
 
 const mapStateToProps = (state)=>{

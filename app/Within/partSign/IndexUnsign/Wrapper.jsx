@@ -10,6 +10,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import FeedUnsign from './FeedUnsign/FeedUnsign.jsx';
 import NavFeed from "./NavFeed/NavFeed.jsx";
+import SetBtnSign from './SetBtnSign/SetBtnSign.jsx';
 import UnitUnsign from '../../../Unit/UnitUnsign/UnitUnsign.jsx';
 
 class Wrapper extends React.Component {
@@ -21,13 +22,10 @@ class Wrapper extends React.Component {
       viewportWidth: window.innerWidth,
       opacityParam: 1,
       savedPosition: null,
-      onCreate: false
     };
     this.refMainContent = React.createRef();
     this.wrapperAround = React.createRef();
     this._handleScroll_MainContent = this._handleScroll_MainContent.bind(this);
-    this._handleEnter_Upload = this._handleEnter_Upload.bind(this);
-    this._handleLeave_Upload = this._handleLeave_Upload.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -110,57 +108,51 @@ class Wrapper extends React.Component {
             ref={this.refMainContent}
             className={classnames(
               styles.boxRow, styles.boxMainContent)}
-              style={mainBoxStyle}>
+            style={mainBoxStyle}>
+            <div
+              className={classnames(styles.boxIndexTitle)}>
+              <span
+                className={classnames(
+                  "fontTitleBig", "colorSignBlack", "weightBold")}>
+                {this.props.i18nUIString.catalog['title_AroundIndex_']}
+              </span>
+            </div>
+            <div
+              className={classnames(styles.boxSetBtnSign)}>
+              <SetBtnSign
+                {...this.props}/>
+            </div>
+          </div>
+          <div
+            className={classnames(styles.boxRow, styles.boxNavContent)}>
+            <a id={"topFeed"} style={{opacity: '0'}}/>
+            <div
+              className={classnames(styles.boxNavFeed)}>
+              <NavFeed
+                {...this.props}
+                sideOpacityParam={this.state.opacityParam}/>
+            </div>
+            <div
+              className={classnames(styles.boxIntro)}
+              style={todayNodesStyle}>
+              <span
+                className={classnames(styles.boxTitle, "colorSignBlack", "fontNodesEqual")}
+                style={{display: 'inline-block', maxWidth: '324px'}}>
+                {this.props.i18nUIString.catalog["guiding_IndexUnsign_FeedBrowse"]}
+              </span>
               <div
-                className={classnames(styles.boxIndexTitle)}>
-                <span
-                  className={classnames(
-                    "fontTitleBig", "colorSignBlack", "weightBold")}>
-                    {this.props.i18nUIString.catalog['title_AroundIndex_']}
-                  </span>
-                </div>
-                <div
-                  className={classnames(styles.boxIndexShare)}>
-                  <div
-                    className={classnames(
-                      styles.comBtnUpload,styles.btnBorder,
-                      {[styles.comMouseEnter]: (this.state.onCreate) }
-                    )}
-                    onTouchStart={this._handleEnter_Upload}
-                    onTouchEnd={this._handleLeave_Upload}
-                    onMouseEnter={this._handleEnter_Upload}
-                    onMouseLeave={this._handleLeave_Upload}>
-                    <span
-                      className={classnames(
-                        styles.spanWriter, 'lineHeight15', "fontNodesEqual", "weightBold",
-                        {
-                          ['colorStandard']: (this.state.onCreate),
-                          ['colorGrey']: (!this.state.onCreate),
-                        }
-                      )}>
-                      {this.props.i18nUIString.catalog['submit_nav_Signup'] }
-                    </span>
-                  </div>
-                </div>
-              </div>
-              <div
-                className={classnames(styles.boxRow, styles.boxNavContent)}>
-                <div
-                  className={classnames(styles.boxNavFeed)}>
-                  <NavFeed
-                    {...this.props}
-                    sideOpacityParam={this.state.opacityParam}/>
-                </div>
-                <div
-                  className={classnames(styles.boxFeed)}
-                  style={todayNodesStyle}>
-                  <FeedUnsign
-                    {...this.props}
-                    _refer_von_cosmic={this.props._refer_von_cosmic} />
-                </div>
+                className={classnames(styles.boxDecoLine)}>
               </div>
             </div>
-
+            <div
+              className={classnames(styles.boxFeed)}
+              style={todayNodesStyle}>
+              <FeedUnsign
+                {...this.props}
+                _refer_von_cosmic={this.props._refer_von_cosmic} />
+            </div>
+          </div>
+        </div>
         <Route
           path={((this.props.location.pathname =="/") ? '' : this.props.location.pathname.slice(0, -5))+ '/unit' }
           render={(props)=> {
@@ -203,14 +195,6 @@ class Wrapper extends React.Component {
     else return ;
   }
 
-  _handleEnter_Upload(e){
-    this.setState({onCreate: true})
-  }
-
-  _handleLeave_Upload(e){
-    this.setState({
-      onCreate: false})
-  }
 }
 
 

@@ -8,6 +8,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesNail from "../../../stylesNail.module.css";
 import FeedEmpty from './FeedEmpty.jsx';
+import SetBtnSign from '../SetBtnSign/SetBtnSign.jsx';
 import NailFeedFocus from '../../../../Components/Nails/NailFeedFocus/NailFeedFocus.jsx';
 import NailFeedMobile from '../../../../Components/Nails/NailFeedMobile/NailFeedMobile.jsx';
 import AccountPalette from '../../../../Components/AccountPalette.jsx';
@@ -228,10 +229,14 @@ class FeedUnsign extends React.Component {
             <div
               className={classnames(styles.boxFooterBtn)}>
               <span
-                className={classnames(styles.spanMessageFooterBtn, "fontTitleSmall", "colorLightGrey")}>
-                {this.props.i18nUIString.catalog['message_SelfShareds_uploadBtn']}
+                className={classnames(styles.boxTitle, "colorSignBlack", "fontNodesEqual")}>
+                {this.props.i18nUIString.catalog["guiding_IndexUnsign_FooterInvite"]}
               </span>
-
+              <div
+                className={classnames(styles.boxSetBtnSign)}>
+                <SetBtnSign
+                  {...this.props}/>
+              </div>
             </div>
           </div>
         </div>

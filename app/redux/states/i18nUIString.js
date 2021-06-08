@@ -43,6 +43,9 @@ const i18nUIString_EN = {
   "submit_nav_Signin": "Sign in",
   "submit_nav_Signup": "Sign up",
   "submit_Signinup": "Sign in | up",
+  "guiding_IndexUnsign_SigninDescript": ["Have an account? ", "here."],
+  "guiding_IndexUnsign_FeedBrowse": "In Cornerth. you shelf your findings, your observations, or even your mood with trackable-nodes!",
+  "guiding_IndexUnsign_FooterInvite": "Why not try yourself?",
 
 
   "title_onBoard_Welcome": "Welcome, ",

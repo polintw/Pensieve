@@ -95,6 +95,18 @@
   background-color: #d8d8d8;
 }
 
+.boxSignupin {
+  display: block;
+  box-sizing: border-box;
+  padding: 5px 10px;
+  border: 1.5px solid #a3a3a3;
+  border-radius: 4px;
+}
+
+.boxSignupinMouseon {
+  border: 1.5px solid #444444;
+}
+
 .spanBtnText {
   display: inline-block;
   position: relative;

@@ -68,19 +68,26 @@
   flex-direction: column;
   align-items: center;
   position: relative;
-  padding-top: 4.4rem;
-  margin-bottom: 35.6vh;
+  padding-top: 28px;
+  margin-bottom: 36vh;
 }
 
 .boxFooterBtn {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
+  align-items: center;
   width: 78%;
   height: 249px;
   min-width: 274px;
   min-height: 31.6vh;
-  padding: 0 0 32px;
+  padding: 32px 0 0;
+}
+
+.boxSetBtnSign {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .spanMessageFooterBtn {
@@ -148,5 +155,9 @@
 
   .spanFocusSubtitleConnect {
     display: none;
+  }
+
+  .boxFooter {
+    margin-bottom: 19vh;
   }
 }

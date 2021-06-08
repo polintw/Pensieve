@@ -23,6 +23,10 @@
   margin: 16px;
 }
 
+.boxIntro {
+  text-align: center;
+}
+
 .spanLinkMouse {
   border-bottom: solid 0.75px #545454;
   cursor: pointer;
