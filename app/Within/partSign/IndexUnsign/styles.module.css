@@ -1,0 +1,124 @@
+.comAroundWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 92vh; /* from height of NavOptions on small screen */
+  position: relative;
+  box-sizing: border-box;
+}
+
+.boxRow {
+  position: relative;
+  margin: 12px 0;
+}
+
+.boxRowTop { /* should after .boxRow */
+  padding-top: 4px;
+}
+
+.boxFooter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 2rem;
+}
+
+.spanFooterHint {
+  margin: 8px 0;
+}
+
+.boxNavFeed {
+  width: 100%;
+  top: 0;
+  background-color: #FDFDFC;
+}
+
+.boxMainContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 82%;
+  position: sticky;
+  z-index: 0;
+}
+
+.boxNavContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  background-color: #FDFDFC;
+  z-index: 1;
+}
+
+.boxFeed {
+  min-height: 75vh;
+}
+
+.boxIndexTitle {
+  margin-bottom: 5rem;
+  text-align: center;
+}
+
+.boxIndexShare {
+  width: 100%;
+  max-width: 335px;
+}
+
+.comBtnUpload {
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  border-radius: 8px;
+  text-align: center;
+  padding: 11px 7% 10px;
+}
+
+.btnBorder {
+  border: solid 2px #a3a3a3;
+}
+
+.comMouseEnter {
+  border: solid 2px rgba(84, 84, 84, 0.45);
+  background-color: #FFFFFF;
+}
+
+.spanWriter {
+  display: inline-flex;
+  align-items: center;
+  height: 4rem;
+  padding-right: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+@media screen and (min-width: 860px) {
+  .comAroundWrapper {
+    padding: 24vh 0 0;
+  }
+
+  .boxNavFeed {
+    padding: 8vh 0 16px;
+  }
+
+  .boxFooter {
+    margin-bottom: 18vh;
+  }
+}
+
+@media screen and (max-width:860px) {
+  .comAroundWrapper {
+    padding: 18vh 0 0;
+  }
+
+  .boxFooter {
+    width: 100%;
+    margin-bottom: 24vh;
+  }
+
+  .boxNavFeed {
+    padding: 5.32vh 0 16px;
+  }
+
+}

@@ -194,7 +194,7 @@ const i18nUIString_EN = {
   "guiding_UnitSubcate_End_": "Share to more people if you think the author did a good job!",
 
   "title_upload_daily": "Upload a pik",
-  "title_shareUpload_typewriter": ['S','h','a','r','e', '!'],
+  "title_shareUpload_typewriter": ['U','p','l','o','a', 'd', '!'],
   "guidingCreateShare_ImgGps": "GPS",
   "guidingCreateShare_outboundLinkBtn": "Referred URL",
   "guidingCreateShare_AssignGroup": "Assigning nodes",

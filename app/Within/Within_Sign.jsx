@@ -16,6 +16,7 @@ import ModalBox from '../Components/ModalBox.jsx';
 import ModalBackground from '../Components/ModalBackground.jsx';
 import SingleDialog from '../Components/Dialog/SingleDialog/SingleDialog.jsx';
 import BooleanDialog from '../Components/Dialog/BooleanDialog/BooleanDialog.jsx';
+import ScrollToTop from '../Components/RouterScrollTop.jsx';
 
 class Within_Sign extends React.Component {
   constructor(props){
@@ -40,8 +41,8 @@ class Within_Sign extends React.Component {
     case 'user':
       this.setState((prevState, props)=>{
         let switchTo = {
-          params: '/cosmic/users/'+identifier+'/accumulated',
-          query: ''
+          params: '/cosmic/explore/user',
+          query: 'userId=' + identifier
         };
         return {switchTo: switchTo}
       });
@@ -101,21 +102,9 @@ class Within_Sign extends React.Component {
           className={classnames(styles.comWithinSign)}>
           <Switch>
             <Route path="/cosmic/explore/unit" render={(props)=> UnsignWithinUnit(props, this) }/>
-            <Route path="/cosmic/explore" render={(props)=> UnsignWithinCosmic(props, this) }/>
             <Route path="/" render={(props)=> UnsignWithin(props, this) }/>
           </Switch>
         </div>
-        <Route
-          path={((this.props.location.pathname =="/") ? '' : this.props.location.pathname.slice(0, -5))+ '/unit' }
-          render={(props)=> {
-            return (
-              <div
-                className={classnames("smallDisplayBox")}
-                style={Object.assign({}, this.style.Within_Around_backplane, {
-                  top: '0', zIndex: '4' /* to 'above' the comWithinSign which has 'position:relative' */})}></div>
-            )
-          }}/>
-
         {
           this.props.messageSingle['render'] &&
           <ModalBox containerId="root">
@@ -152,15 +141,13 @@ class Within_Sign extends React.Component {
 
 }
 
-const UnsignWithinCosmic = ( routeProps, parent) => {
-  // this component need to follow the style of Within_Cosmic,
-  // but the 'main controller' was different
+const UnsignWithin = ( routeProps, parent) => {
   return (
     <div>
       <div
         className={classnames(styles.boxNavOptionsFrame)}>
         <div
-          className={classnames(styles.boxNavOptionsCosmic)}>
+          className={classnames(styles.boxNavOptions)}>
           <NavOptionsUnsign {...routeProps} _refer_to={parent._refer_von_Sign}/>
         </div>
       </div>
@@ -168,38 +155,20 @@ const UnsignWithinCosmic = ( routeProps, parent) => {
         className={classnames(styles.boxAroundContent)}>
         <div
           className={classnames(
-            styles.boxContentFilledLeft)} />
+            styles.boxContentFilledLeft)}/>
         <div
           className={classnames(styles.boxAroundContentCenter)}>
-          <Switch>
-            <Route path={routeProps.match.path + "/"} render={(routeProps)=> <Redirect to={'/'}/>}/>
-          </Switch>
+          <ScrollToTop>
+            <WithinSign {...routeProps}/>
+          </ScrollToTop>
         </div>
         <div
           className={classnames(
-            styles.boxContentFilledRight)} />
+            styles.boxContentFilledRight)}/>
       </div>
       <div
-        className={classnames(styles.boxNavAround, styles.boxNavWithinCosmic)}>
-        <NavWithin {...routeProps} _refer_to={()=>{window.location.assign('/')}}/>
-      </div>
-    </div>
-  )
-}
-
-const UnsignWithin = ( routeProps, parent) => {
-  return (
-    <div>
-      <div
-        className={classnames(styles.boxNavOptions)}>
-        <NavOptionsUnsign {...routeProps} _refer_to={parent._refer_von_Sign}/>
-      </div>
-      <div
-        className={styles.boxWithinSign}>
-        <WithinSign {...routeProps}/>
-      </div>
-      <div
-        className={classnames(styles.boxNavAround, styles.boxNavAroundBgColor)}>
+        className={parent.state.navWithinNotDisSmall ? classnames(styles.boxNavAround, styles.boxNavAroundBgColor, 'smallDisplayNone') :
+          classnames(styles.boxNavAround, styles.boxNavAroundBgColor) }>
         <NavWithin {...routeProps} _refer_to={()=>{window.location.assign('/')}}/>
       </div>
     </div>

@@ -1,9 +1,3 @@
-.comWithinSign{
-  width: 100%;
-  min-height: 100vh;
-  position: relative;
-  z-index: 3; /* set as a 'base': on the contrast to the 'Modal'*/
-}
 .boxCosmic {
   width: 100%;
   z-index: 3; /* set as a 'base': on the contrast to the 'Modal'*/
@@ -11,6 +5,12 @@
 .boxAround {
   width: 100%;
   z-index: 3; /* set as a 'base': on the contrast to the 'Modal'*/
+}
+
+.comWithinSign{
+  width: 100%;
+  z-index: 3; /* set as a 'base': on the contrast to the 'Modal'*/
+  min-height: 100vh;
 }
 
 .boxNavAround {

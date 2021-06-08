@@ -12,6 +12,7 @@ import ImgPreview from '../../ImgPreview.jsx';
 import AccountPalette from '../../AccountPalette.jsx';
 import LinkFetch from '../../LinkFetch/LinkFetch.jsx';
 import SvgPin from '../../Svg/SvgPin.jsx';
+import {SvgBulbInspired} from '../../Svg/SvgBulb.jsx';
 import {
   renderNodesRows,
   renderNodesRowsCustom
@@ -117,6 +118,18 @@ const contentBoxImg = (self)=>{
           blockName={''}
           previewSrc={ imgSrcCover }
           _handleClick_ImgPreview_preview={()=>{self.nailImgBox.current.click()}}/>
+          {
+            self.props.inspiredBulb &&
+            <div
+              className={classnames(styles.boxImgIconandBack)}>
+              <div
+                className={classnames(styles.boxImgIcon)}>
+                <SvgBulbInspired
+                  colorClass={"smallLight"}
+                  mouseReact={false}/>
+              </div>
+            </div>
+          }
       </div>
     </div>
   )

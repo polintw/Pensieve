@@ -8,6 +8,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
+import IndexUnsignWrapper from './IndexUnsign/Wrapper.jsx';
 import SigninForm from '../../Sign/components/SigninForm/SigninForm.jsx';
 import SignupForm from '../../Sign/components/SignupCom/SignupForm.jsx';
 import SignupSuccess from '../../Sign/components/SignupCom/SignupSuccess.jsx';
@@ -21,8 +22,8 @@ class WithinSign extends React.Component {
     this.state = {
 
     };
-    this._compPathPlain = this._compPathPlain.bind(this);
     this._signup_success = this._signup_success.bind(this);
+    this._render_SignandIndex = this._render_SignandIndex.bind(this);
   }
 
   _signup_success(){
@@ -40,54 +41,66 @@ class WithinSign extends React.Component {
 
   }
 
+  _render_SignandIndex(){
+    if(this.props.location.pathname.includes('/confirm') ||
+    this.props.location.pathname.includes('/signup')){
+      return (
+        <div
+          className={classnames(styles.boxSignProcess)}>
+          <div
+            className={classnames(styles.boxForm)}
+            style={ (
+              this.props.location.pathname.includes('/confirm') ||
+              this.props.location.pathname.includes('/signup/success')
+            ) ?
+            {flexDirection: 'column-reverse'}:
+            {}}>
+            <div
+              className={classnames(styles.boxNav)}>
+              <NavSign
+                {...this.props}/>
+            </div>
+            <Switch>
+              <Route path={ "/confirm"} render={(props) => <Confirmation {...props} />} />
+              <Route path={ "/signup/success"} render={(props) => <SignupSuccess {...props} />} />
+              <Route path={"/signup"} render={(props) => <SignupForm {...props} _signup_success={this._signup_success} />}/>
+            </Switch>
+          </div>
+        </div>
+      )
+    }
+    else {
+      return SigninWrapper(this.props, this)
+    }
+  }
+
   render(){
     return(
       <div
         className={styles.comWithinSign}>
-        <div
-          className={classnames(styles.boxForm)}
-          style={ (
-            //(this.props.location.pathname =="/" && this.props.location.search.length==0) ||
-            //this.props.location.pathname=="/signup" ) ? // only Sign in /up was at the top
-            this.props.location.pathname.includes('/resend') ||
-            this.props.location.pathname.includes('/confirm') ||
-            this.props.location.pathname.includes('/signup/success') ||
-            this.props.location.search.includes('invitation')
-            ) ?
-            {flexDirection: 'column-reverse'}:
-            {}}>
-          <div
-            className={classnames(styles.boxNav)}>
-            <NavSign
-              {...this.props}/>
-          </div>
-
-          <Switch>
-            <Route path={ "/confirm"} render={(props) => <Confirmation {...props} />} />
-            <Route path={ "/signup/success"} render={(props) => <SignupSuccess {...props} />} />
-            <Route path={"/signup"} render={(props) => <SignupForm {...props} _signup_success={this._signup_success} />}/>
-            <Route path={this.props.match.path} component={this._compPathPlain}/>
-          </Switch>
-        </div>
-
+        {this._render_SignandIndex()}
       </div>
     )
   }
 
-  _compPathPlain ( props ){
-    let params = new URLSearchParams( props.location.search); //we need value in URL query
-    return SigninWrapper( props, this);
-  }
 }
 
 const SigninWrapper = ( props, parent) => {
   const _signin_success = ()=>{
-    let url = props.location.pathname+ props.location.search;
+    let urlParamsSuccess = new URLSearchParams(props.location.search); //we need value in URL query
+    if(urlParamsSuccess.has('process')) urlParamsSuccess.delete("process");
+    let url = props.location.pathname+ urlParamsSuccess;
     window.location.reload(url);
-  }
+  };
+  let urlParams = new URLSearchParams(props.location.search); //we need value in URL query
+  let processTab = '';
+  if(urlParams.has('process')){
+    processTab = urlParams.get('process');
+  } else processTab = null;
 
-  return (
-    <div>
+  return processTab == 'signin' ? (
+    <div
+      className={classnames(styles.boxSignProcess)}>
       <SigninForm {...props} _signin_success={_signin_success} />
       <div
         className={classnames(styles.boxIntro)}>
@@ -103,8 +116,11 @@ const SigninWrapper = ( props, parent) => {
         </span>
       </div>
     </div>
+  ) : (
+    <IndexUnsignWrapper
+      {...props}/>
   )
-}
+};
 
 
 const mapStateToProps = (state)=>{

@@ -32,6 +32,26 @@
   overflow: hidden;
 }
 
+.boxImgIconandBack {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  background-image: linear-gradient(to right, transparent 74%, rgba(68,68,68, 0.95));
+}
+
+.boxImgIcon {
+  height: 16%;
+  position: relative;
+  box-sizing: border-box;
+  margin:  6% 5% 0 0;
+}
+
 .boxPreview {
   display: flex;
   flex-direction: column;
