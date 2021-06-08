@@ -2,6 +2,7 @@
   width: 100%;
   height: 100vh;
   position: relative;
+  box-sizing: border-box;
   overflow-y: scroll;
 }
 
@@ -17,7 +18,7 @@
 
 @media screen and (max-width:860px) {
   .boxUnitFrame {
-    height: 92.4vh;
+    padding: 6.4vh 0 0; /* top from NavOptions in small screen */
   }
 
   .boxUnitContent {

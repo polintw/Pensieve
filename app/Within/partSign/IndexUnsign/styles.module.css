@@ -61,7 +61,6 @@
 }
 
 .boxIndexTitle {
-  margin-bottom: 5rem;
   text-align: center;
 }
 
@@ -72,21 +71,20 @@
 }
 
 .boxIntro {
-  margin: 3.29vh 0;
-  text-align: center;
-}
-
-.boxDecoLine {
+  align-self: flex-start;
   display: flex;
-  box-sizing: border-box;
-  height: 8px;
-  position: relative;
-  margin: 16px;
+  align-items: center;
+  width: 74%;
+  height: 26vh;
+  min-width: 324px;
+  max-width: 640px;
+  margin: 16px 0 28px;
+  text-align: left;
 }
 
 @media screen and (min-width: 860px) {
   .comAroundWrapper {
-    padding: 24vh 0 0;
+    padding: 24.54vh 0 0;
   }
 
   .boxNavFeed {
@@ -95,6 +93,10 @@
 
   .boxFooter {
     margin-bottom: 18vh;
+  }
+
+  .boxIndexTitle {
+    margin-bottom: 6rem;
   }
 }
 
@@ -112,4 +114,11 @@
     padding: 5.32vh 0 16px;
   }
 
+  .boxIndexTitle {
+    margin-bottom: 5rem;
+  }
+
+  .boxIntro {
+    padding-left: 2.38vw;
+  }
 }

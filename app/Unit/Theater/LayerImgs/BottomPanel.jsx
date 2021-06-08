@@ -63,13 +63,15 @@ class BottomPanel extends React.Component {
               className={classnames(styles.boxBottomLeft)}>
               <div
                 style={{color: '#757575'}}
-                onClick={this._handleClick_Account}>
+                onClick={this.props._handleClick_Account}>
                 <AccountPalette
                   size={'layer'}
                   referLink={
-                    (this.props.unitCurrent.authorBasic['authorIdentity'] == 'user') ?
-                    (domain.protocol + "://" + domain.name+ '/cosmic/explore/user?userId=' + this.props.unitCurrent.authorBasic['authorId'])
-                    : (domain.protocol + "://" + domain.name+ '/cosmic/explore/path/' + this.props.unitCurrent.authorBasic['pageLink'])
+                    !(this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') ? (
+                      (this.props.unitCurrent.authorBasic['authorIdentity'] == 'user') ?
+                      (domain.protocol + "://" + domain.name+ '/cosmic/explore/user?userId=' + this.props.unitCurrent.authorBasic['authorId'])
+                      : (domain.protocol + "://" + domain.name+ '/cosmic/explore/path/' + this.props.unitCurrent.authorBasic['pageLink'])
+                    ) : false
                   }
                   accountFirstName={
                     (this.props.unitCurrent.authorBasic['authorIdentity'] == 'user') ?
@@ -89,7 +91,8 @@ class BottomPanel extends React.Component {
               (this.props.unitCurrent.identity != "author") ?(
                 <div
                   className={classnames(styles.btnIconInspired)}>
-                  <Inspired/>
+                  <Inspired
+                    _set_noTokenDialog={this.props._set_noTokenDialog}/>
                 </div>
               ): (
                 <div
@@ -128,7 +131,8 @@ class BottomPanel extends React.Component {
               <div
                 className={classnames(styles.btnBottomIcon)}
                 style={{ marginTop: '2px' }}>
-                <Inspired/>
+                <Inspired
+                  _set_noTokenDialog={this.props._set_noTokenDialog}/>
               </div>
             }
           </div>
@@ -138,20 +142,22 @@ class BottomPanel extends React.Component {
               <div
                 className={classnames(styles.boxBottomUpper)}
                 style={{color: '#757575'}}
-                onClick={this._handleClick_Account}>
+                onClick={this.props._handleClick_Account}>
                 <AccountPalette
                   size={'layer'}
                   referLink={
-                    (this.props.unitCurrent.authorBasic['authorIdentity'] == 'user') ?
-                    (domain.protocol + "://" + domain.name+ '/cosmic/explore/user?userId=' + this.props.unitCurrent.authorBasic['authorId'])
-                    : (domain.protocol + "://" + domain.name+ '/cosmic/explore/path/' + this.props.unitCurrent.authorBasic['pageLink'])
+                    !(this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') ? (
+                      (this.props.unitCurrent.authorBasic['authorIdentity'] == 'user') ?
+                      (domain.protocol + "://" + domain.name+ '/cosmic/explore/user?userId=' + this.props.unitCurrent.authorBasic['authorId'])
+                      : (domain.protocol + "://" + domain.name+ '/cosmic/explore/path/' + this.props.unitCurrent.authorBasic['pageLink'])
+                    ) : false
                   }
                   accountFirstName={
                     (this.props.unitCurrent.authorBasic['authorIdentity'] == 'user') ?
                     this.props.unitCurrent.authorBasic.firstName: null}
-                    accountLastName={
-                      (this.props.unitCurrent.authorBasic['authorIdentity'] == 'user') ?
-                      this.props.unitCurrent.authorBasic.lastName : this.props.unitCurrent.authorBasic.account}/>
+                  accountLastName={
+                    (this.props.unitCurrent.authorBasic['authorIdentity'] == 'user') ?
+                    this.props.unitCurrent.authorBasic.lastName : this.props.unitCurrent.authorBasic.account}/>
                 </div>
                 <div
                   className={classnames(styles.boxBottomLower)}>

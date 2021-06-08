@@ -37,9 +37,7 @@ class Wrapper extends React.Component {
   _handleClick_Account(event){
     event.preventDefault();
     event.stopPropagation();
-    if(this.props.unitCurrent.authorBasic['authorIdentity'] == 'user') {
-      this._set_inviteDialog("author");
-    };
+    // basically do nothing; the link in AccountPalette also been rm
   }
 
 
@@ -59,6 +57,9 @@ class Wrapper extends React.Component {
         className={classnames( styles.comWrapper)}>
         <div
           className={classnames(styles.boxContentWidth, styles.boxTitle)}>
+          <div
+            className={classnames(styles.boxWhiteBack, "smallDisplayBox")}>
+          </div>
           <NodesExtensible
             nouns={nodesTitleObj}
             _referNode={this.props._refer_toandclose}
@@ -103,9 +104,15 @@ class Wrapper extends React.Component {
         }
         <div
           className={classnames(styles.boxContentWidth, styles.boxBottom)}>
+          <div
+            className={classnames(styles.boxWhiteBack, "smallDisplayBox")}
+            style={{boxShadow: 'box-shadow: 0 5px 10px -5px rgb(0 0 0 / 30%)'}}>
+          </div>
           <BottomPanel
             {...this.props}
             frameView={this.state.frameView}
+            _handleClick_Account={this._handleClick_Account}
+            _set_noTokenDialog={this._set_inviteDialog}
             _set_frameView={this._set_frameView}/>
         </div>
 
@@ -141,7 +148,7 @@ class Wrapper extends React.Component {
         style:{}}], //Original:'current input would not be saved after leaving, are you sure going to leave?'
       handlerPositive: ()=>{
         this.props._submit_BooleanDialog(messageDialogInit.boolean);
-        this.props._refer_toandclose("/"); // basically all the condition are the same result
+        this.props._refer_toandclose("/signup"); // basically all the condition are the same result
       },
       handlerNegative: ()=>{this.props._submit_BooleanDialog(messageDialogInit.boolean);return;}
     });

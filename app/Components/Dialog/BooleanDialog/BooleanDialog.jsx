@@ -86,7 +86,7 @@ class BooleanDialog extends React.Component {
     let [optionPositive, optionNegative]=[false,false];
     switch (this.props.customButton) {
       case 'sign':
-        optionPositive = "Sign up!"
+        optionPositive = "Sign up"
         optionNegative= "return";
         break;
       case 'submitting':

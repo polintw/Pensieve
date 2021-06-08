@@ -82,6 +82,7 @@ class NodesExtensible extends React.Component {
     event.preventDefault();
     event.stopPropagation();
     if(this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack'){
+      this.props._set_noTokenDialog("more");
       return; // stop here
     };
     let currentNode = event.currentTarget.attributes.nodeId.value;

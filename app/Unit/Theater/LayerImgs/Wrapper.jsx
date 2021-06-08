@@ -30,10 +30,7 @@ class Wrapper extends React.Component {
   }
 
   _handleClick_Account(event){
-    event.preventDefault();
-    event.stopPropagation();
-    // rm this action temporary
-    //this.props._refer_toandclose('user', this.props.unitCurrent.authorBasic.authorId);
+    // basically do nothing
   }
 
 
@@ -118,6 +115,7 @@ class Wrapper extends React.Component {
           <BottomPanel
             {...this.props}
             frameView={this.state.frameView}
+            _handleClick_Account={this._handleClick_Account}
             _set_frameView={this._set_frameView}/>
         </div>
       </div>

@@ -17,8 +17,10 @@ import {axios_get_UnitsBasic} from '../../../../utils/fetchHandlers.js';
 import {
   handleNounsList,
   handleUsersList,
-  handlePathProjectsList
+  handlePathProjectsList,
+  setMessageBoolean,
 } from "../../../../redux/actions/general.js";
+import {messageDialogInit} from "../../../../redux/states/constants.js";
 import {
   cancelErr,
   uncertainErr
@@ -36,15 +38,13 @@ class FeedUnsign extends React.Component {
       unitsBasic: {},
       marksBasic: {},
       scrolled: true,
-      onNodeLink: false
     };
     this.refScroll = React.createRef();
     this.axiosSource = axios.CancelToken.source();
     this._set_feedUnits = this._set_feedUnits.bind(this);
     this._check_Position = this._check_Position.bind(this);
     this._render_FeedNails = this._render_FeedNails.bind(this);
-    this._handleEnter_NodeLink = this._handleEnter_NodeLink.bind(this);
-    this._handleLeave_NodeLink = this._handleLeave_NodeLink.bind(this);
+    this._handleClick_UnsignedNode = this._handleClick_UnsignedNode.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -85,22 +85,9 @@ class FeedUnsign extends React.Component {
                      className={classnames(styles.boxFocusNailSubtitleUp, 'colorStandard')}>
                     <AccountPalette
                       size={"regularBold"}
-                      referLink={
-                        (this.state.unitsBasic[unitId].authorIdentity == 'pathProject') ?
-                        (
-                          domain.protocol + "://" +
-                          domain.name + '/cosmic/explore/path/' +
-                          (
-                            this.state.unitsBasic[unitId].authorId in this.props.pathsBasic &&
-                            this.props.pathsBasic[this.state.unitsBasic[unitId].authorId].pathName)
-                          ) : (
-                            domain.protocol + "://" +
-                            domain.name + '/cosmic/explore/user?userId=' +
-                            this.state.unitsBasic[unitId].authorId
-                          )
-                        }
-                        userId={this.state.unitsBasic[unitId].authorId}
-                        authorIdentity={this.state.unitsBasic[unitId].authorIdentity}
+                      referLink={false}
+                      userId={this.state.unitsBasic[unitId].authorId}
+                      authorIdentity={this.state.unitsBasic[unitId].authorIdentity}
                       styleLast={(this.state.unitsBasic[unitId].authorIdentity == 'pathProject') ? { color: 'rgb(69, 135, 160)'} : {}}/>
                     <span
                       className={classnames(styles.spanFocusSubtitleConnect, 'colorEditLightBlack', 'fontSubtitle_h5')}>
@@ -109,22 +96,18 @@ class FeedUnsign extends React.Component {
                   </div>
                 <div
                   className={classnames(styles.boxFocusNailSubtitleLow)}>
-                  <Link
-                    to={"/cosmic/explore/node?nodeid=" + this.state.unitsBasic[unitId].nounsList[0]}
-                    className={classnames('plainLinkButton')}
+                  <div
                     eventkey={"mouseEvKey_node_" + unitId + "_" + this.state.unitsBasic[unitId].nounsList[0]}
-                    onMouseEnter={this._handleEnter_NodeLink}
-                    onMouseLeave={this._handleLeave_NodeLink}>
+                    style={{display:'inline-block', cursor: 'pointer'}}
+                    onClick={this._handleClick_UnsignedNode}>
                     {(this.state.unitsBasic[unitId].nounsList[0] in this.props.nounsBasic) &&
                       <span
                         className={classnames(
                           "fontNodesEqual", "weightBold", "colorEditBlack",
-                          styles.spanBaseNode,
-                          { [styles.spanBaseNodeMouse]: this.state.onNodeLink == ("mouseEvKey_node_" + unitId + "_" + this.state.unitsBasic[unitId].nounsList[0]) }
-                        )}>
+                          styles.spanBaseNode)}>
                         {this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].name}</span>
                     }
-                  </Link>
+                  </div>
                   <span
                     className={classnames("fontNodesEqual", "colorEditBlack", "weightBold")}>
                     {this.state.unitsBasic[unitId].nounsList[0] in this.props.nounsBasic ? (
@@ -229,7 +212,7 @@ class FeedUnsign extends React.Component {
             <div
               className={classnames(styles.boxFooterBtn)}>
               <span
-                className={classnames(styles.boxTitle, "colorSignBlack", "fontNodesEqual")}>
+                className={classnames(styles.boxTitle, "colorSignBlack", "fontTitle")}>
                 {this.props.i18nUIString.catalog["guiding_IndexUnsign_FooterInvite"]}
               </span>
               <div
@@ -315,14 +298,26 @@ class FeedUnsign extends React.Component {
     });
   }
 
-  _handleEnter_NodeLink(e) {
-    let target = e.currentTarget.getAttribute('eventkey');
-    this.setState({ onNodeLink: target })
+  _handleClick_UnsignedNode(event){
+    event.stopPropagation();
+    event.preventDefault();
+    let message, messsageTail = this.props.i18nUIString.catalog['message_UnitUnsign_SigninRemind'];
+    message = this.props.i18nUIString.catalog['message_UnitUnsign_SigninRemind_more'] + "\xa0" + messsageTail;
+
+    this.props._submit_BooleanDialog({
+      render: true,
+      customButton: "sign",
+      message: [{
+        text: message,
+        style:{}}], //Original:'current input would not be saved after leaving, are you sure going to leave?'
+      handlerPositive: ()=>{
+        this.props._submit_BooleanDialog(messageDialogInit.boolean);
+        window.location.assign("/signup"); // basically all the condition are the same result
+      },
+      handlerNegative: ()=>{this.props._submit_BooleanDialog(messageDialogInit.boolean);return;}
+    });
   }
 
-  _handleLeave_NodeLink(e) {
-    this.setState({ onNodeLink: false })
-  }
 }
 
 const mapStateToProps = (state)=>{
@@ -338,6 +333,7 @@ const mapDispatchToProps = (dispatch) => {
     _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
     _submit_UsersList_new: (arr) => { dispatch(handleUsersList(arr)); },
     _submit_PathsList_new: (arr) => { dispatch(handlePathProjectsList(arr)); },
+    _submit_BooleanDialog: (obj)=>{dispatch(setMessageBoolean(obj));},
   }
 }
 

@@ -123,6 +123,7 @@ class Inspired extends React.Component {
     event.preventDefault();
     event.stopPropagation();
     if(this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack'){
+      this.setState({mouseOn: false}); // rm mouseEnter event
       this.props._set_noTokenDialog("inspired");
       return; // stop here
     };

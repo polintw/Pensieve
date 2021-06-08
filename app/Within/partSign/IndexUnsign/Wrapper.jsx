@@ -136,20 +136,17 @@ class Wrapper extends React.Component {
               className={classnames(styles.boxIntro)}
               style={todayNodesStyle}>
               <span
-                className={classnames(styles.boxTitle, "colorSignBlack", "fontNodesEqual")}
-                style={{display: 'inline-block', maxWidth: '324px'}}>
+                className={classnames("colorSignBlack", "fontTitle")}
+                style={{display: 'inline-block'}}>
                 {this.props.i18nUIString.catalog["guiding_IndexUnsign_FeedBrowse"]}
               </span>
-              <div
-                className={classnames(styles.boxDecoLine)}>
-              </div>
             </div>
             <div
               className={classnames(styles.boxFeed)}
               style={todayNodesStyle}>
               <FeedUnsign
                 {...this.props}
-                _refer_von_cosmic={this.props._refer_von_cosmic} />
+                _refer_von_cosmic={this.props._refer_von_Sign} />
             </div>
           </div>
         </div>
@@ -159,7 +156,7 @@ class Wrapper extends React.Component {
             return (
               <UnitUnsign
                 {...props}
-                _refer_von_unit={this.props._refer_von_cosmic}/>
+                _refer_von_unit={this.props._refer_von_Sign}/>
             )
           }
         }/>
