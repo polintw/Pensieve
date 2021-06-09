@@ -53,39 +53,10 @@ const i18nUIString_EN = {
   "descript_onBoard_BelongsHint": ["Before you start …", "Tell us, where are you from?"], //Original: "Before you start …", "Tell us where are you from?"
   "guideing_onBoard_BelongsHint": ["I'm from", "Living in"], //Original:"Now based at"
   "submit_onBoard_start": "Get Started", //Original:"Let's Start"
-  "submit_Invite_": "Invite Fellows!", //Original:"Fellow Inviting!"
-  "submit_Invite_people": "Invite People!", //Original:"Fellow Inviting!"
-  "descript_Invite_": [
-    "Any one you know stay or was born in the same corner as you? ",
-    "Invite these fellows to join us!",
-    "Any one you know stay or related to this corner? "
-  ], //Original:"Any people you knew born or lived around you? ", "Inviting these fellows to join you!"
-  "guiding_Invite_": [
-    "Choosing the surrounding people you would like to invite",
-    "You havn't set the place where you belong to.",
-    "Choosing the status of the people you would like to invite"
-  ],//Original:"Choosing the characteristic of people you want to invite", "You havn't set the place you belong to yet."
   "title_onBoard_GuideNailTitle": ["Welcome to Cornerth.", "How to share?"],
   "hint_onBoard_belongEdit": `Don't worry. You can edit "Your corners" in the Setting any time in the future.`,
   "hint_onBoard_start": `If you've finished the introductions above,`,
   "submit_onBoard_next": "Next",
-  "title_Invite_": "Create an Invitation!",
-  "title_Invitation_": "Invitation",
-  "descript_Invite_optType": [", as Homeland.", ", as Current Stay."],
-  "message_Invite_fellows": [
-    "Hi, there. This is ", //Original: "Here is"
-    "I'm pleased to invite you to experience Cornerth. with me as you're ", //Original:". And I would like to invite you to experience the Cornerth. with me as you're "
-    "from ", "staying at ", //Original: "coming from"
-    "Joining me by Signing up today on Cornerth. ", //Original:"as well! Joining me by Signing up and see you in there!"
-    ".",
-    " as well!",
-    "See you there!",
-    "an invitation from ",
-    "related to ",
-  ],
-  "message_Invite_General": "Welcome to Cornerth.! It's our pleasure to invite you exploring a different world with our fellows. This is a place for you to get more connection to the environment at where you are. Signing up now and join your fellows in this confused world!",
-  "message_Invite_validToken": ["invited you to join Cornerth at ", ". Since you're already a member of Cornerth., you can view or respond to your friends by changing Your Corners."],
-  //Original:"It's a place for you connecting the environment you are. Signing up and join your fellows in this confused world!"
 
   "message_oneLineCopy_success": "Link has copied to your clipboard.",
   "message_oneLineCopy_empty": "No text could be copied.",
@@ -225,35 +196,8 @@ const i18nUIString_EN = {
 
   "title_AroundIndex_": "What's the scene you want to tell today?",
 
-  "message_Chain_noShareds": "You'll see the list of your publications here.",
-  "message_Chain_noSharedsCourage": "Wait for your first Shared!",//Original:"Trying submitting an observation about your corners."
-  "message_Chain_byChainInfo": [
-    "Contribution ",
-    "Responded by ",
-    "Responded to ",
-    "Your Last Read ",
-    "Responded to it ",
-    "Submit ",
-    "Respond to Yours ",
-    "succesfully ",
-    "You inspired ",
-    "new user by this contribution"
-  ],
-  "message_Chain_toNodes": ["to ", " and several"],
-  "hint_Chain_waitForRespond": ["Your contribution would be delivered to your fellows.", "And any new respond to your contribution would be emphasized here."],
-  "hint_Chain_InspiredDetail": [", and", " more users", " inspired.", " were", " was", "That's"],
-  "guidingBelongs_EmptyMap_noSet": ["Set your", ", and take a look for the distribution of your fellows."], //Changed "taking" to "take"
-  "guidingBelongs_EmptyMap_": "You were the first user among this corner!",
-  "descript_BelongTypeInteract": ["going to renew your ", " ?"],
-  "category__Belong_usersCount": ["Fellows stay at", "Fellows from"],
-  "hint_BelongsMap_Nav": "fellows by ",
-  "link_BelongsMap_Nav": [ "As homeland", "Stay here"],
-  "messageBelongChoiceinBool": ["site ", "  as your  ", "  place?"],
-  "title_BelongSet_": "Your Corners",
   "descript_BelongSet_SearchBytType": ["Search one fit your "],
   "descript_AroundIndex_footer": "You've reached the edge of Cornerth.!",
-  "guiding_AroundIndex_Share": "A new finding?", //Original:"how's your corners"
-  'descript_AroundIndex_footer_BelongHint': "Start browsing by setting your current stay or homeland!",
 
   "descript_Nail_noMark": "view the pic.",
 
@@ -261,6 +205,8 @@ const i18nUIString_EN = {
   "connection_focus_userNode": 'in',
 
   "title_Nodes": "Nodes map",
+
+  "subTitle_ComiscNodes_": "all topics and place used",
 
   "title_NavAtNode_": "Accumulations",
   "subTitle_NavAtNode_": "You are in",

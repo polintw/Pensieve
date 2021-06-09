@@ -7,6 +7,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import Feed from './Feed/Feed.jsx';
+import NavNodes from './NavNodes/NavNodes.jsx';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
 import {
   handleNounsList,
@@ -74,6 +75,13 @@ class Wrapper extends React.Component {
         <div
           ref={this.wrapperWithinNode}
           className={classnames(styles.comAtNode)}>
+          <div
+            className={classnames(styles.boxNavTop)}>
+            <div
+              style={{display: 'flex', alignItems: 'center'}}>
+              <NavNodes/>
+            </div>
+          </div>
           <div
             className={classnames(styles.boxTopTitle)}>
             <div
