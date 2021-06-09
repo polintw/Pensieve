@@ -33,6 +33,16 @@ class WithinSign extends React.Component {
     });
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot){
+    let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
+    let prevUrlParams = new URLSearchParams(prevProps.location.search); //we need value in URL query
+    let processSigninify = urlParams.has('process'); // currently only tab 'signin'
+    let processPrevSigninify = prevUrlParams.has('process'); // currently only tab 'signin'
+    if (processSigninify && !processPrevSigninify) {
+      window.scrollTo(0, 0);
+    };
+  }
+
   componentDidMount() {
 
   }
@@ -42,8 +52,22 @@ class WithinSign extends React.Component {
   }
 
   _render_SignandIndex(){
-    if(this.props.location.pathname.includes('/confirm') ||
-    this.props.location.pathname.includes('/signup')){
+    const _signin_success = ()=>{
+      let urlParamsSuccess = new URLSearchParams(this.props.location.search); //we need value in URL query
+      if(urlParamsSuccess.has('process')) urlParamsSuccess.delete("process");
+      let url = this.props.location.pathname+ urlParamsSuccess;
+      window.location.reload(url);
+    };
+    let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
+    let processTab = '';
+    if(urlParams.has('process')){
+      processTab = urlParams.get('process');
+    } else processTab = null;
+
+    if(
+      processTab == "signin" ||
+      this.props.location.pathname.includes('/confirm') ||
+      this.props.location.pathname.includes('/signup')){
       return (
         <div
           className={classnames(styles.boxSignProcess)}>
@@ -64,14 +88,34 @@ class WithinSign extends React.Component {
               <Route path={ "/confirm"} render={(props) => <Confirmation {...props} />} />
               <Route path={ "/signup/success"} render={(props) => <SignupSuccess {...props} />} />
               <Route path={"/signup"} render={(props) => <SignupForm {...props} _signup_success={this._signup_success} />}/>
+              <Route path={"/"} render={(props) =>{
+                  return (
+                    <div>
+                      <SigninForm {...props} _signin_success={_signin_success} />
+                      <div
+                        className={classnames(styles.boxIntro)}>
+                        <span
+                          className={classnames("colorSignBlack", "fontTitle")}
+                          style={{display: 'inline-block'}}>
+                          {this.props.i18nUIString.catalog["message_Signin_intro"][0]}
+                        </span>
+                        <span
+                          className={classnames("colorSignBlack", "fontSubtitle")}
+                          style={{display: 'inline-block', maxWidth: '200px'}}>
+                          {this.props.i18nUIString.catalog["message_Signin_intro"][1]}
+                        </span>
+                      </div>
+                    </div>
+                  )
+                }}/>
             </Switch>
           </div>
         </div>
       )
     }
     else {
-      return SigninWrapper(this.props, this)
-    }
+      return <IndexUnsignWrapper {...this.props}/>
+    };
   }
 
   render(){
@@ -84,43 +128,6 @@ class WithinSign extends React.Component {
   }
 
 }
-
-const SigninWrapper = ( props, parent) => {
-  const _signin_success = ()=>{
-    let urlParamsSuccess = new URLSearchParams(props.location.search); //we need value in URL query
-    if(urlParamsSuccess.has('process')) urlParamsSuccess.delete("process");
-    let url = props.location.pathname+ urlParamsSuccess;
-    window.location.reload(url);
-  };
-  let urlParams = new URLSearchParams(props.location.search); //we need value in URL query
-  let processTab = '';
-  if(urlParams.has('process')){
-    processTab = urlParams.get('process');
-  } else processTab = null;
-
-  return processTab == 'signin' ? (
-    <div
-      className={classnames(styles.boxSignProcess)}>
-      <SigninForm {...props} _signin_success={_signin_success} />
-      <div
-        className={classnames(styles.boxIntro)}>
-        <span
-          className={classnames("colorSignBlack", "fontTitle")}
-          style={{display: 'inline-block'}}>
-          {parent.props.i18nUIString.catalog["message_Signin_intro"][0]}
-        </span>
-        <span
-          className={classnames("colorSignBlack", "fontSubtitle")}
-          style={{display: 'inline-block', maxWidth: '200px'}}>
-          {parent.props.i18nUIString.catalog["message_Signin_intro"][1]}
-        </span>
-      </div>
-    </div>
-  ) : (
-    <IndexUnsignWrapper
-      {...props}/>
-  )
-};
 
 
 const mapStateToProps = (state)=>{

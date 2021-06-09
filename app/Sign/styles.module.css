@@ -5,13 +5,34 @@
   z-index: 3; /* set as a 'base': on the contrast to the 'Modal'*/
 }
 
-.boxContent {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  min-height: calc(93.54vh - 67px);
+.boxNavOptions {
+  min-width: 4.2vw;
+  min-height: 7.6vh;
+  position: fixed;
+  top: 2vh;
+  left: 2.7vw;
   box-sizing: border-box;
+  z-index: 1;
 }
+
+.boxAroundContent {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.boxAroundContentCenter {
+  min-width: 67vw;
+}
+
+.boxContentFilledLeft {
+  min-width: 10vw;
+}
+
+.boxContentFilledRight {
+  min-width: 21.64vw;
+}
+
 
 .boxFooter {
   display: flex;
@@ -46,4 +67,57 @@
 .boxRightsClaim {
   margin-top: 3rem;
   text-align: right;
+}
+
+.boxNavAround {
+  box-sizing: border-box;
+  padding: 3.8vh 0.5vw 0;
+  background-color: #fff8f7;
+}
+
+@media screen and (min-width:860px) {
+  .boxNavAround {
+    width: 20vw;
+    height: 100%;
+    position: fixed;
+    right: 0;
+    top: 0;
+  }
+}
+
+@media screen and (max-width:860px) {
+  .boxNavOptions {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: unset;
+    position: sticky;
+    top: 0;
+    left: 0;
+    padding-top: 2.53vh;
+  }
+
+  .boxAroundContentCenter {
+    width: 94.24vw;
+    max-width: 790px;
+    min-width: unset;
+    min-height: 87vh;
+  }
+
+  .boxContentFilledLeft {
+    width: 0;
+    min-width: 0; /* overlap basic setting, the 'width' is not enough for the min-width---which has higher priority*/
+  }
+
+  .boxContentFilledRight {
+    width: 0;
+    min-width: 0; /* overlap basic setting, the 'width' is not enough for the min-width---which has higher priority*/
+  }
+
+  .boxNavAround {
+    width: 100%;
+    position: sticky;
+    padding: 6.46vh 0.5vw 2.66vh;
+  }
+
 }

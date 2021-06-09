@@ -36,7 +36,7 @@ class NavOptionsUnsign extends React.Component {
     basically charge for screen width < 860
     depend on css class '.smallDisplayBox'
     */
-    let currentPath = this.props.location.pathname;
+    let currentPath = window.location.pathname; // notice. We use 'window.location' instead of 'props.location' to get the 'whole path' in case the pathname has been modified by Router(by 'basename' prop in <Router>)
     let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
     let signupinify = true;
     if(
@@ -62,28 +62,53 @@ class NavOptionsUnsign extends React.Component {
             styles.selfCom_NavOptions_svg_)}>
             {
               signupinify ? (
-                <Link
-                  to={'?process=signin'}
-                  className={classnames(
-                    'plainLinkButton', styles.boxSignupin,
-                    {[styles.boxSignupinMouseon]: this.state.onBtn}
-                  )}
-                  onClick={()=>{ this._handleLeave_Btn(); }}
-                  onTouchStart={this._handleEnter_Btn}
-                  onTouchEnd={this._handleLeave_Btn}
-                  onMouseEnter={this._handleEnter_Btn}
-                  onMouseLeave={this._handleLeave_Btn}>
-                  <span
+                currentPath.includes('/s/') ? (
+                  <a
+                    href={'/?process=signin'}
                     className={classnames(
-                      "fontSubtitle",
-                      {
-                        ["colorDescripBlack"]: this.state.onBtn,
-                        ["colorEditLightBlack"]: !this.state.onBtn,
-                      }
-                    )}>
-                    {this.props.i18nUIString.catalog['submit_nav_Signupin']}
-                  </span>
-                </Link>
+                      'plainLinkButton', styles.boxSignupin,
+                      {[styles.boxSignupinMouseon]: this.state.onBtn}
+                    )}
+                    onClick={()=>{ this._handleLeave_Btn(); }}
+                    onTouchStart={this._handleEnter_Btn}
+                    onTouchEnd={this._handleLeave_Btn}
+                    onMouseEnter={this._handleEnter_Btn}
+                    onMouseLeave={this._handleLeave_Btn}>
+                    <span
+                      className={classnames(
+                        "fontSubtitle",
+                        {
+                          ["colorDescripBlack"]: this.state.onBtn,
+                          ["colorEditLightBlack"]: !this.state.onBtn,
+                        }
+                      )}>
+                      {this.props.i18nUIString.catalog['submit_nav_Signupin']}
+                    </span>
+                  </a>
+                ) : (
+                  <Link
+                    to={'/?process=signin'}
+                    className={classnames(
+                      'plainLinkButton', styles.boxSignupin,
+                      {[styles.boxSignupinMouseon]: this.state.onBtn}
+                    )}
+                    onClick={()=>{ this._handleLeave_Btn(); }}
+                    onTouchStart={this._handleEnter_Btn}
+                    onTouchEnd={this._handleLeave_Btn}
+                    onMouseEnter={this._handleEnter_Btn}
+                    onMouseLeave={this._handleLeave_Btn}>
+                    <span
+                      className={classnames(
+                        "fontSubtitle",
+                        {
+                          ["colorDescripBlack"]: this.state.onBtn,
+                          ["colorEditLightBlack"]: !this.state.onBtn,
+                        }
+                      )}>
+                      {this.props.i18nUIString.catalog['submit_nav_Signupin']}
+                    </span>
+                  </Link>
+                )
               ) : (
                 <span
                   className={classnames("fontSubtitle")}>
