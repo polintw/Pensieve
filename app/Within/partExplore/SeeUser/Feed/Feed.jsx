@@ -245,7 +245,6 @@ class Feed extends React.Component {
     _axios_get_accumulatedList(this.axiosSource.token, {
       userId: this.userId,
       listUnitBase: lastUnitTime,
-      filterNodes:  []
     })
     .then((resObj)=>{
       if(resObj.main.unitsList.length > 0){

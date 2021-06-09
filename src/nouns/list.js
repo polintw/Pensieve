@@ -22,9 +22,10 @@ async function _handle_GET_nouns_Assigned(req, res){
       where: {
         createdAt: {
           [Op.and]:[
-            {[Op.lt]: lastUnitTime }, {[Op.gt]: "2021-01-01" }
+            {[Op.lt]: lastUnitTime }, {[Op.gt]: "2021-03-27" }
           ]
         },
+        used_authorId: { [Op.notIn]: [15, 4] }
       },
       attributes: [
         //'max' here combined with 'group' prop beneath,
