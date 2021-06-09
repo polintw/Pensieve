@@ -298,15 +298,15 @@ const i18nUIString_EN = {
   "message_btn_OpenMap": "See location",
 
   "text_contributors": [[
-    "＊Developed and maintained by Polin Chou.",
-    "＊Operation assisted by TW H.",
-    "＊Contributed by Lisa Chang, chih hung chen, chang-wei huang, Frank Wang and Ssu.T Yang.",
+    "＊Developed and produced by Polin Chou.",
+    "＊Data assisted by TW H.",
+    "＊Contributed by Lisa Chang, Nancy Chen and Ssu.T Yang.",
     "＊Based on Tuan Wu's interface design."
   ]],
   "text_about": [[
-    "We are Cornerth, a start-up team base in Taiwan, establishing this web app on the thought providing people an easier way to notice and learn from their living environment.",
+    "We are Cornerth! A start-up team base in Taiwan, establishing this web app on the thought providing people an easier way to notice and record their daily life about their living environment.",
     "Cornerth.tw enable you sharing contents with pictures, text, and graphic items on it for things you're interested to, or related to the corner you concern about.",
-    "It's our pleasure to see you using it."
+    "It's our pleasure to see you join us."
   ]],
   "text_Contact": [
     [
@@ -315,7 +315,7 @@ const i18nUIString_EN = {
     [
       "we would reply you as soon as possible."],
     [
-      "Or if you are base in Taiwan, or understand mandarin, follow our official Facebook Page!"
+      "Or if you understood mandarin, follow us on our official Facebook Page!"
     ],
     [
       "You would see weekly selections, new features, or any important announcement on it."
