@@ -8,7 +8,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesNail from "../../../stylesNail.module.css";
 import FeedEmpty from './FeedEmpty.jsx';
-import SetBtnSign from '../SetBtnSign/SetBtnSign.jsx';
+import SetBtnSign from '../../components/SetBtnSign/SetBtnSign.jsx';
 import NailFeedFocus from '../../../../Components/Nails/NailFeedFocus/NailFeedFocus.jsx';
 import NailFeedMobile from '../../../../Components/Nails/NailFeedMobile/NailFeedMobile.jsx';
 import AccountPalette from '../../../../Components/AccountPalette.jsx';

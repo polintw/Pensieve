@@ -8,9 +8,8 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import SignBlock from '../components/SignBlock/SignBlock.jsx';
+import SetBtnSign from '../components/SetBtnSign/SetBtnSign.jsx';
 import stylesNail from "../../stylesNail.module.css";
-import NailFeed from '../../../Components/Nails/NailFeed/NailFeed.jsx';
 import NailFeedWide from '../../../Components/Nails/NailFeedWide/NailFeedWide.jsx';
 import NailFeedMobile from '../../../Components/Nails/NailFeedMobile/NailFeedMobile.jsx';
 import UnitUnsign from '../../../Unit/UnitUnsign/UnitUnsign.jsx';
@@ -19,9 +18,6 @@ import {
   handleUsersList,
   handlePathProjectsList
 } from "../../../redux/actions/general.js";
-import {
-  initAround
-} from '../../../redux/states/statesWithin.js';
 import {axios_get_UnitsBasic} from '../../../utils/fetchHandlers.js';
 import {
   cancelErr,
@@ -38,13 +34,37 @@ class Wrapper extends React.Component {
       marksBasic: {}
     };
     this.axiosSource = axios.CancelToken.source();
+    this.wrapperAround = React.createRef();
     this._set_feedUnits = this._set_feedUnits.bind(this);
     this._render_FeedNails = this._render_FeedNails.bind(this);
     this._render_FooterHint = this._render_FooterHint.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-
+    // and the way to 'hide' Feed when the Unit was opened
+    let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
+    let prevUrlParmas = new URLSearchParams(prevProps.location.search);
+    let prevUnitView = null;
+    if(prevUrlParmas.has('unitView')){
+      prevUnitView = prevUrlParmas.get('unitView');
+    };
+    if( !!this.unitView && !prevUnitView){
+      let savedPosition = window.scrollY;
+      this.setState((prevState, props)=>{
+        return {
+          savedPosition: savedPosition
+        };
+      }, ()=>{
+        this.wrapperAround.current.style.display='none';
+      });
+    }
+    else if( !this.unitView && prevUnitView){
+      this.wrapperAround.current.style={};
+      window.scroll(0, prevState.savedPosition);
+      this.setState({
+        savedPosition: null
+      });
+    };
   }
 
   componentDidMount(){
@@ -68,24 +88,28 @@ class Wrapper extends React.Component {
         return (
           <div
             key={"key_FeedAssigned_new_"+index}
-            className={classnames(stylesNail.boxNail, stylesNail.custNailWide)}>
-            <NailFeedMobile
-              {...this.props}
-              leftimg={false}
-              unitId={unitId}
-              frameType={'wide'}
-              linkPath={this.props.location.pathname}
-              unitBasic={this.state.unitsBasic[unitId]}
-              marksBasic={this.state.marksBasic} />
+            className={classnames(styles.boxModuleItem)}>
+            <div
+              className={classnames(stylesNail.boxNail)}>
+              <NailFeedMobile
+                {...this.props}
+                leftimg={false}
+                unitId={unitId}
+                frameType={'wide'}
+                linkPath={this.props.location.pathname}
+                unitBasic={this.state.unitsBasic[unitId]}
+                marksBasic={this.state.marksBasic} />
+            </div>
           </div>
         );
       };
-
-      if(index == 0){
-        return (
+      // or cssVW > 860
+      return (
+        <div
+          key={"key_FeedAssigned_new_"+index}
+          className={classnames(styles.boxModuleItem, stylesNail.custNailWide)}>
           <div
-            key={"key_FeedAssigned_new_"+index}
-            className={classnames(stylesNail.boxNail, stylesNail.custNailWide)}>
+            className={classnames(stylesNail.boxNail)}>
             <NailFeedWide
               {...this.props}
               leftimg={false}
@@ -94,22 +118,8 @@ class Wrapper extends React.Component {
               unitBasic={this.state.unitsBasic[unitId]}
               marksBasic={this.state.marksBasic}/>
           </div>
-        );
-      }
-      else {
-        return (
-          <div
-            key={"key_FeedAssigned_new_"+index}
-            className={classnames(stylesNail.boxNail)}>
-            <NailFeed
-              {...this.props}
-              unitId={unitId}
-              linkPath={this.props.location.pathname}
-              unitBasic={this.state.unitsBasic[unitId]}
-              marksBasic={this.state.marksBasic}/>
-          </div>
-        )
-      };
+        </div>
+      );
     });
 
     return nailsDOM;
@@ -131,72 +141,42 @@ class Wrapper extends React.Component {
     return(
       <div>
         <div
+          ref={this.wrapperAround}
           className={classnames(styles.comAroundWrapper)}>
           <div
-            className={classnames(styles.boxRow, styles.boxRowTop)}>
+            className={classnames(styles.boxRow, styles.boxUnit)}>
             <div
-              className={classnames(styles.comChain)}>
+              className={classnames(styles.boxTitle)}
+              style={{width: '100%', textAlign: 'right', padding: '5.07vh 0 0'}}>
+              <span
+                className={classnames("fontContentPlain", "weightBold", "colorAssistGold")}>
+                {this.props.i18nUIString.catalog["title_Notes"]}</span>
+            </div>
+            <div>
               <div
-                style={{width: '100%', margin: '4px 0'}}>
-                <div>
-                  <div
-                    className={classnames(styles.boxSharedTitle)}>
-                    <span
-                      className={classnames("fontContentPlain", "weightBold", "colorAssistGold")}>
-                      {this.props.i18nUIString.catalog["title_Chain_Shareds_"]}</span>
-                  </div>
-                  <div
-                    className={classnames(styles.boxSharedsDisplay)}>
-                    <div
-                      className={classnames(styles.boxModuleShareds)}>
-                      <div
-                        className={classnames(styles.boxSignup)}>
-                        <SignBlock
-                          description={false}
-                          btnDepend={'indexUnit'}/>
-                      </div>
-                    </div>
-                  </div>
+                className={classnames(
+                  styles.boxModule,
+                  styles.boxModuleSmall)}>
+                  {this._render_FeedNails()}
                 </div>
-              </div>
             </div>
-          </div>
-          <div
-            className={classnames(styles.boxRow)}>
-            <div
-              className={classnames(styles.comNavFeed, styles.boxTitle)}>
-              <div
-                style={{display:'flex'}}>
-                <div
-                  topath={"gathering"}>
-                  <span
-                    className={classnames(
-                      "fontContentPlain", "weightBold", "colorAssistGold")}>
-                    {this.props.i18nUIString.catalog["title_FeedAssigned_"] }
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div
-              className={classnames(
-                styles.boxModule,
-                styles.boxModuleSmall)}>
-              {this._render_FeedNails()}
-            </div>
-          </div>
-          <div
-            className={classnames( styles.boxRow, styles.boxSignup)}
-            style={{minHeight: '32vh'}}>
-            <SignBlock
-              description={'seemore'}
-              btnDepend={'regular'}/>
           </div>
           <div
             className={classnames(styles.boxRow, styles.boxFooter)}>
-            {this._render_FooterHint()}
+            <div
+              className={classnames(styles.boxFooterBtn)}>
+              <span
+                className={classnames(styles.boxTitle, "colorSignBlack", "fontTitle")}>
+                {this.props.i18nUIString.catalog["guiding_IndexUnsign_FooterInvite"]}
+              </span>
+              <div
+                className={classnames(styles.boxSetBtnSign)}>
+                <SetBtnSign
+                  {...this.props}/>
+              </div>
+            </div>
           </div>
         </div>
-
         {
           (this.unitId && !!this.unitView) &&
           <UnitUnsign
@@ -213,23 +193,7 @@ class Wrapper extends React.Component {
     this.setState({axios: true});
     let unitsList = this.unitId ? [this.unitId] : [];
 
-    axios({
-      method: 'get',
-      url: '/router/units/'+ this.unitId+ '/related',
-      headers: {
-        'Content-Type': 'application/json',
-        'charset': 'utf-8',
-        'token': window.localStorage['token']
-      },
-      cancelToken: this.axiosSource.token
-    }).then(function (res) {
-      let resObj = JSON.parse(res.data); //still parse the res data prepared to be used below
-      unitsList = unitsList.concat(resObj.main.unitsList);
-      self.setState({
-        unitsList: unitsList
-      });
-      return axios_get_UnitsBasic(self.axiosSource.token, unitsList) //and use the list to get the data of eahc unit
-    })
+    axios_get_UnitsBasic(this.axiosSource.token, unitsList) //and use the list to get the data of eahc unit
     .then((resObj)=>{
       //after res of axios_Units: call get nouns & users
       self.props._submit_NounsList_new(resObj.main.nounsListMix);
@@ -239,6 +203,7 @@ class Wrapper extends React.Component {
       self.setState((prevState, props)=>{
         return ({
           axios: false,
+          unitsList: unitsList,
           unitsBasic: {...prevState.unitsBasic, ...resObj.main.unitsBasic},
           marksBasic: {...prevState.marksBasic, ...resObj.main.marksBasic}
         });

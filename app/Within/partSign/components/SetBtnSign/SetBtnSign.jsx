@@ -70,7 +70,7 @@ class SetBtnSign extends React.Component {
             {this.props.i18nUIString.catalog['guiding_IndexUnsign_SigninDescript'][0]}
           </span>
           <Link
-            to={'?process=signin'}
+            to={'/?process=signin'}
             className={classnames(
               'plainLinkButton')}
             onTouchStart={this._handleEnter_onLink}

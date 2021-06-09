@@ -10,7 +10,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import FeedUnsign from './FeedUnsign/FeedUnsign.jsx';
 import NavFeed from "./NavFeed/NavFeed.jsx";
-import SetBtnSign from './SetBtnSign/SetBtnSign.jsx';
+import SetBtnSign from '../components/SetBtnSign/SetBtnSign.jsx';
 import UnitUnsign from '../../../Unit/UnitUnsign/UnitUnsign.jsx';
 
 class Wrapper extends React.Component {

@@ -204,8 +204,8 @@ const UnsignWithinUnit = ( routeProps, parent) => {
             styles.boxContentFilledRight)}/>
         </div>
         <div
-          className={parent.state.navWithinNotDisSmall ? classnames(styles.boxNavAround, styles.boxNavWithinCosmic, 'smallDisplayNone') :
-            classnames(styles.boxNavAround, styles.boxNavWithinCosmic) }>
+          className={parent.state.navWithinNotDisSmall ? classnames(styles.boxNavAround, styles.boxNavAroundBgColor, 'smallDisplayNone') :
+            classnames(styles.boxNavAround, styles.boxNavAroundBgColor) }>
           <NavWithin {...routeProps} _refer_to={parent._refer_von_Sign}/>
         </div>
     </div>
