@@ -39,9 +39,7 @@ async function _handle_GET_nouns_Assigned(req, res){
         'createdAt'
       ],
       group: 'id_noun', //Important. means we combined the rows by node, each id_noun would only has one row
-      order: [ //make sure the order of arr are from latest
-        Sequelize.literal('`attribution.createdAt` DESC')
-      ],
+      order: ['id_noun'],
       include: {
         model: _DB_nouns,
         // INNER JOIN, no 'required' set

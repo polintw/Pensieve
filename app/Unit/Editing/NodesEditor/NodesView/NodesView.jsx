@@ -205,23 +205,23 @@ class NodesView extends React.Component {
   }
 
   _set_newNode(nodeObj){
-    let nodeId = nodeObj.nodeId, assignList= nodeObj.list;
-    if( // alidation
+    let nodeId = nodeObj.nodeId, assignedCategory= nodeObj.list;
+    if( // validation
       this.state.selectedList.indexOf(nodeId) >= 0 || // has set, not going to add again
       this.state.selectedList.length == 3 ||
-      (this.state.selectedList.length == 2 && this.state.locationsList.length == 0 && assignList != locationsList)
+      (this.state.selectedList.length == 2 && this.state.locationsList.length == 0 && assignedCategory != "locationsList")
     ) return;
 
     this.setState((prevState, props)=>{
       let copiedSelectedList = prevState.selectedList.slice();
       copiedSelectedList.push(nodeId);
 
-      let copiedTypeList = prevState[assignList].slice();
+      let copiedTypeList = prevState[assignedCategory].slice();
       copiedTypeList.push(nodeId);
 
       let updateState = Object.assign({}, prevState);
       updateState["selectedList"] = copiedSelectedList;
-      updateState[assignList] = copiedTypeList;
+      updateState[assignedCategory] = copiedTypeList;
       // and check if the search could go on
       if(updateState.selectedList.length > 1 && updateState.locationsList.length == 0){
         updateState['topicSearchify'] = false;

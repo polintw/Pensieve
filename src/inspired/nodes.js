@@ -43,6 +43,7 @@ async function _handle_GET_inspired_NodesAssigned(req, res){
         'id_noun',
       ],
       group: 'id_noun', //Important. means we combined the rows by node, each id_noun would only has one row
+      order: ['id_noun'],
       include: {
         model: _DB_nouns,
         // INNER JOIN, no 'required' set
