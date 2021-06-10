@@ -25,7 +25,9 @@ async function _handle_GET_nouns_Assigned(req, res){
             {[Op.lt]: lastUnitTime }, {[Op.gt]: "2021-03-27" }
           ]
         },
-        used_authorId: { [Op.notIn]: [15, 4] }
+        used_authorId: {
+          [Op.or]: [{[Op.notIn]: [15, 4]}, null]
+        }
       },
       attributes: [
         //'max' here combined with 'group' prop beneath,

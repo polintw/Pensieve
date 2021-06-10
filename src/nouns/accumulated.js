@@ -33,7 +33,9 @@ async function _handle_GET_node_FeedList(req, res){
             { [Op.lt]: lastUnitTime }, { [Op.gt]: "2021-03-27" }
           ]
         },
-        used_authorId: { [Op.notIn]: [15, 4] }
+        used_authorId: {
+          [Op.or]: [{[Op.notIn]: [15, 4]}, null]
+        }
       },
       order: [ //make sure the order of arr are from latest
         Sequelize.literal('`createdAt` DESC') //and here, using 'literal' is due to some wierd behavior of sequelize
