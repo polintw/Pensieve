@@ -3,14 +3,37 @@
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
   position: relative;
 }
 
 .boxButtons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
 
+.boxNavButtons {
+  display: inline-block;
+  width: 96px;
+  height: 32px;
+  position: relative;
+  box-sizing: border-box;
+  border-radius: 4px;
+  cursor: default;
 }
 
 .boxDate {
 
+}
+
+@media screen and (min-width:860px) {
+  .boxNavButtonsCancel {
+    margin-bottom: 11px;
+  }
+}
+
+@media screen and (max-width:860px) {
+  .boxNavButtonsCancel {
+    margin-bottom: 1rem;
+  }
 }

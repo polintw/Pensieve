@@ -7,6 +7,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesNail from "../../../stylesNail.module.css";
 import FeedEmpty from './FeedEmpty.jsx';
+import BtnUpload from '../../../../Unit/Editing/BtnUpload/BtnUpload.jsx';
 import NailFeed from '../../../../Components/Nails/NailFeed/NailFeed.jsx';
 import NailFeedWide from '../../../../Components/Nails/NailFeedWide/NailFeedWide.jsx';
 import NailFeedMobile from '../../../../Components/Nails/NailFeedMobile/NailFeedMobile.jsx';
@@ -37,16 +38,18 @@ class Feed extends React.Component {
     this._set_feedUnits = this._set_feedUnits.bind(this);
     this._check_Position = this._check_Position.bind(this);
     this._render_FeedNails = this._render_FeedNails.bind(this);
+    this._render_FooterHint = this._render_FooterHint.bind(this);
+    this._submit_Share_New = this._submit_Share_New.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
     // if change the node bymodifying the nodeid in search, the page would only update
     let lastUrlParams = new URLSearchParams(prevProps.location.search); //we need value in URL query
-    let lastNodeAtId = lastUrlParams.has('filterNode') ? lastUrlParams.get('filterNode'): null;
+    let lastNodeAtId = lastUrlParams.has('filterNode') ? lastUrlParams.get('filterNode'): null; // used in 'TabNodes'
     let currentPathProjectify = this.props.location.pathname.includes('/pathProject');
     let lastPathProjectify = prevProps.location.pathname.includes('/pathProject');
     if(
-      (this.filterNode != lastNodeAtId) || // filter node change
+      (this.filterNode != lastNodeAtId) ||
       (currentPathProjectify != lastPathProjectify) // or left pathProject
     ){
       this.setState((prevState, props)=>{
@@ -74,6 +77,23 @@ class Feed extends React.Component {
     window.removeEventListener("scroll", this._check_Position);
   }
 
+  _render_FooterHint(){
+    // by feed length, we gave users some message about the thing they could do
+    if (this.state.feedList.length> 0){
+      return (
+        <div>
+          <span
+            className={classnames(styles.spanFooterHint, "fontTitleSmall", "colorLightGrey")}>
+            {this.props.i18nUIString.catalog['descript_AroundIndex_footer']}
+          </span>
+        </div>
+      );
+    }
+    else{ // most reason to:no feed at all
+      return null;
+    }
+  }
+
   _render_FeedNails(){
     let groupsDOM = [];
     const _nailsGroup = (unitGroup, groupIndex)=>{
@@ -87,48 +107,91 @@ class Feed extends React.Component {
           nailsDOM.push(
             <div
               key={"key_NodeFeed_new_" + index}
-              className={classnames(stylesNail.boxNail, stylesNail.custNailWide)}>
-              <NailFeedMobile
-                {...this.props}
-                leftimg={false}
-                unitId={unitId}
-                linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
-                unitBasic={this.state.unitsBasic[unitId]}
-                marksBasic={this.state.marksBasic} />
+              className={classnames(styles.boxModuleItem)}>
+              <div
+                className={classnames(stylesNail.boxNail)}>
+                <NailFeedMobile
+                  {...this.props}
+                  unitId={unitId}
+                  nodisplay={['author']}
+                  frameType={'narrow'}
+                  linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
+                  unitBasic={this.state.unitsBasic[unitId]}
+                  marksBasic={this.state.marksBasic} />
+              </div>
             </div>
           );
+          // and insert a upload btn if now after the first one rendered
+          if((groupIndex == 0) && (index == 0)){
+            nailsDOM.push(
+              <div
+                key={"key_NodeFeed_new_BtnUpload"}
+                className={classnames(styles.boxUpload)}>
+                <span
+                  className={classnames(styles.spanMessageUpload, "fontTitleSmall", "colorLightGrey")}>
+                  {this.props.i18nUIString.catalog['message_SelfShareds_uploadBtn']}
+                </span>
+                <BtnUpload
+                  {...this.props}
+                  _submit_Share_New={this._submit_Share_New}
+                  _refer_von_Create={this.props._refer_von_cosmic}/>
+              </div>
+            )
+          };
           return;
         };
         // for laptop / desktop, change nail by cycles
-        let remainder3 = index % 3,
-        remainder2 = index % 2; // cycle, but every 3 units has a wide, left, right in turn.
+        let remainder3 = (nailsDOM.length+1) % 3,
+        remainder2 = (nailsDOM.length+1) % 2; // cycle, but every 3 units has a wide, left, right in turn.
 
         nailsDOM.push (remainder3 ? ( // 0 would be false, which means index % 3 =0
           <div
             key={"key_NodeFeed_new_"+index}
-            className={classnames(stylesNail.boxNail)}>
-            <NailFeed
-              {...this.props}
-              unitId={unitId}
-              narrowWidth={false}
-              linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
-              unitBasic={this.state.unitsBasic[unitId]}
-              marksBasic={this.state.marksBasic}/>
+            className={classnames(styles.boxModuleItem)}>
+            <div
+              className={classnames(stylesNail.boxNail)}>
+              <NailFeed
+                {...this.props}
+                unitId={unitId}
+                linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
+                unitBasic={this.state.unitsBasic[unitId]}
+                marksBasic={this.state.marksBasic}/>
+            </div>
           </div>
         ): (
           <div
             key={"key_NodeFeed_new_"+index}
-            className={classnames(stylesNail.boxNail, stylesNail.custNailWide)}>
-            <NailFeedWide
-              {...this.props}
-              leftimg={ remainder2 ? true : false}
-              unitId={unitId}
-              narrowWidth={false}
-              linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
-              unitBasic={this.state.unitsBasic[unitId]}
-              marksBasic={this.state.marksBasic}/>
+            className={classnames(styles.boxModuleItem, stylesNail.custNailWide)}>
+            <div
+              className={classnames(stylesNail.boxNail)}>
+              <NailFeedWide
+                {...this.props}
+                leftimg={ remainder2 ? true : false}
+                unitId={unitId}
+                linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
+                unitBasic={this.state.unitsBasic[unitId]}
+                marksBasic={this.state.marksBasic}/>
+            </div>
           </div>
         ));
+        // and insert a upload btn if now after the first one rendered
+        if((groupIndex == 0) && (index == 0)){
+          nailsDOM.push(
+            <div
+              key={"key_NodeFeed_new_BtnUpload"}
+              className={classnames(styles.boxModuleItem)}
+              style={{justifyContent: "center", width: '48%', height: '289px', minHeight: '36.675vh'}}>
+              <span
+                className={classnames(styles.spanMessageUpload, "fontTitleSmall", "colorLightGrey")}>
+                {this.props.i18nUIString.catalog['message_SelfShareds_uploadBtn']}
+              </span>
+              <BtnUpload
+                {...this.props}
+                _submit_Share_New={this._submit_Share_New}
+                _refer_von_Create={this.props._refer_von_cosmic}/>
+            </div>
+          )
+        };
       });
 
       return nailsDOM;
@@ -161,7 +224,11 @@ class Feed extends React.Component {
       <div className={styles.comSharedsFeed}>
         {
           (this.state.feedList.length > 0) &&
-          <div>
+          <div
+            className={classnames(
+              styles.boxRow,
+              styles.boxRowModules
+            )}>
             {this._render_FeedNails()}
           </div>
         }
@@ -174,13 +241,20 @@ class Feed extends React.Component {
             className={classnames(
               styles.boxModule,
               styles.boxModuleSmall,
+              styles.boxRow
             )}>
             <FeedEmpty
-              {...this.props}/>
+              {...this.props}
+              _submit_Share_New={this._submit_Share_New}
+              _refer_von_Create={this.props._refer_von_cosmic}/>
           </div>
         }
 
         <div ref={this.refScroll}/>
+        <div
+          className={classnames(styles.boxRow, styles.boxFooter)}>
+          {this._render_FooterHint()}
+        </div>
       </div>
     )
   }
@@ -217,7 +291,7 @@ class Feed extends React.Component {
     this.setState({axios: true});
     let paramsObj = {
       listUnitBase: lastUnitTime,
-      filterNodes: !!this.filterNode ? [this.filterNode] : []
+      filterNodes: !!this.filterNode ? [this.filterNode] : [],
     };
     if(pathProjectify){
       Object.assign(paramsObj, { pathProject: this.props.userInfo.pathName});
@@ -271,6 +345,17 @@ class Feed extends React.Component {
         if(message) alert(message);
       }
     });
+  }
+
+  _submit_Share_New(){
+    // and remember the editing modal was opened by URL change
+    let lastState = this.props.location.state.from ; // because we are pretty sure there is a "from" obj when opened EditingModal
+    this.props.history.replace({
+      pathname: lastState.pathname,
+      search: lastState.search,
+      state: lastState.state
+    });
+    window.location.reload();
   }
 }
 

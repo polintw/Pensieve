@@ -6,8 +6,8 @@ const {
   authorizedError,
 } = require('../utils/reserrHandler.js');
 
-const invitationExcutive = require('./invitation.js');
 const basicExcutive = require('./basic.js');
+const feedExecutive = require('./unsignedfeed.js');
 const parseExcutive = require('./parser.js');
 
 /*
@@ -32,10 +32,10 @@ main.use(function (req, res, next) {
         _handle_ErrCatched(new authorizedError(message, 89), req, res);
       };
       switch (pathSplice[1]) { //pathSplice should be e.g "[/invitation/,invitation, ...]"
-        case 'parser':
+        case 'unsignedfeed':
           next();
           break;
-        case 'invitation':
+        case 'parser':
           next();
           break;
         case 'basic':
@@ -50,9 +50,9 @@ main.use(function (req, res, next) {
 })
 
 //middleware not need token
-main.use('/invitation', invitationExcutive)
-
 main.use('/basic', basicExcutive)
+
+main.use('/unsignedfeed', feedExecutive)
 
 main.use('/parser', parseExcutive)
 

@@ -178,14 +178,11 @@ async function validateShared(modifiedBody, userId) {
     return ; //close the process
   }
 
-  let allowedTypes = ['homeland','residence', 'freeOne'], assignedNodes=[];
+  let allowedTypes = ['homeland','residence', 'freeOne', 'deweyOne'], assignedNodes=[];
   const assignSetConfirm = modifiedBody.nodesSet.every((assignedObj, index) => { //arr.every could be break
     if(allowedTypes.indexOf(assignedObj.type)< 0 || allowedTypes.length <1) { //means the assigned was 'reapeated', which are not allowed under any circumstance
       return false ;
     };
-
-    let indexInAllowed = allowedTypes.indexOf(assignedObj.type);
-    allowedTypes.splice(indexInAllowed, 1); //rm type checked in this round
     assignedNodes.push(assignedObj.nodeId);
     return true; //we are using .every(), must return true to go to next round
   });
@@ -201,7 +198,14 @@ async function validateShared(modifiedBody, userId) {
     throw new forbbidenError(" some of assignedNodes did not exist.", 120);
     return;
   };
-
+  // check if there is a 'location' node
+  const locationNodeify = allNodesConfirm.some((nounsRow, index)=>{
+    return nounsRow.category == "location_admin";
+  });
+  if(!locationNodeify){
+    throw new forbbidenError(" none of the assignedNodes was type location_admin.", 120);
+    return;
+  }
 }
 
 async function validateSharedEdit(modifiedBody, userId, exposedId) {

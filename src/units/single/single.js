@@ -61,7 +61,6 @@ function _handle_unit_Mount(req, res){
         }).then((results)=>{
           if (results.length > 0) {
             results.forEach(function(result, index){
-              tempData['nouns'].list.push(result.id_noun);
               tempData['temp'].nounsKey.push([result.id_noun]);
             })
             resolveSub(tempData)
@@ -75,9 +74,14 @@ function _handle_unit_Mount(req, res){
         return new Promise((resolveSub, rejectSub)=>{
           _DB_nouns.findAll({
             where: {id: tempData['temp'].nounsKey},
-            attributes: ['id', 'name', 'prefix']
           }).then((results)=>{
+            let locationAttriToken = true; // to make sure the first one in nounsList was a category 'location_admin'
             results.forEach(function(result, index){
+              if(result.category == "location_admin" && locationAttriToken){
+                tempData['nouns'].list.unshift(result.id);
+                locationAttriToken = false;
+              }
+              else tempData['nouns'].list.push(result.id);
               tempData['nouns']['basic'][result.id] = {id:result.id, name: result.name, prefix: result.prefix};
             })
             //this part is a temp method before a whole update of this file.

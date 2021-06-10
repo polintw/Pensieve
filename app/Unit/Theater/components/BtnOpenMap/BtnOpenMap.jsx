@@ -5,7 +5,6 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
-import ModalEmit from '../../../../Components/ModalEmit/ModalEmit.jsx';
 import SvgPin from '../../../../Components/Svg/SvgPin.jsx';
 import SvgImgLayer from '../../../../Components/Svg/SvgIcon_imgLayer.jsx';
 
@@ -13,7 +12,6 @@ class BtnOpenMap extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      emit: false,
       mouseOn: false,
     };
     this._handleClick_Arrow = this._handleClick_Arrow.bind(this);
@@ -49,7 +47,7 @@ class BtnOpenMap extends React.Component {
               onMouseLeave={this._handleLeave_Btn}>
               <SvgImgLayer
                 customStyles={
-                  this.state.mouseOn ? {fillColor: "#ff8168"} : {fillColor: "#a3a3a3"}
+                  !!this.props.screenSize ? (!this.state.mouseOn ? {fillColor: "#b8b8b8"} : {fillColor: "#FFFFFF"}) : (!this.state.mouseOn ? {fillColor: "#a3a3a3"} : {fillColor: "#545454"})
                 } />
             </div>
           ) : (
@@ -63,19 +61,19 @@ class BtnOpenMap extends React.Component {
                 <SvgPin
                   assignStyles={{
                     fill: "transparent",
-                    stroke: this.state.mouseOn ? '#ff8168' : '#a3a3a3',
+                    stroke: !!this.props.screenSize ? (!this.state.mouseOn ? "#b8b8b8" : "#FFFFFF") : (!this.state.mouseOn ? "#a3a3a3" : "#545454"),
                     strokeWidth: "0.87px"
                   }} />
+                <div
+                  className={classnames("smallDisplayBox", styles.boxSmallDescrip)}>
+                  <span
+                    className={classnames("fontContentPlain", "lineHeight171")}
+                    style={ this.state.mouseOn ? {color: '#545454'} : {color: '#a3a3a3'} }>
+                    {this.props.i18nUIString.catalog['submit_Unit_PanelIcon'][0]}
+                  </span>
+                </div>
               </div>
           )
-        }
-        {
-          this.state.emit &&
-          <div
-            className={classnames(styles.boxModalEmit)}>
-            <ModalEmit
-              text={this.state.emit.text} />
-          </div>
         }
       </div>
     )
@@ -84,25 +82,29 @@ class BtnOpenMap extends React.Component {
   _handleClick_Pin(event) {
     event.preventDefault();
     event.stopPropagation();
+    this.setState({
+      mouseOn: false
+    });
     this.props._set_frameView('map');
   }
 
   _handleClick_Arrow(event) {
     event.preventDefault();
     event.stopPropagation();
+    this.setState({
+      mouseOn: false
+    });
     this.props._set_frameView('img');
   }
 
   _handleEnter_Btn(e){
     this.setState({
-      emit: { text: this.props.i18nUIString.catalog["message_btn_OpenMap"] },
       mouseOn: true
     })
   }
 
   _handleLeave_Btn(e){
     this.setState({
-      emit: false,
       mouseOn: false
     })
   }

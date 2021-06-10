@@ -96,7 +96,7 @@ class Terms extends React.Component {
                   <li>{"Will comply with all applicable laws and regulations (including, without limitation, all applicable laws regarding online conduct and acceptable content, privacy, data protection, and the transmission of technical data exported from the United States or the country in which you reside);"}</li>
                   <li>{"Will not use the Services for any unlawful purposes, to publish illegal content, or in furtherance of illegal activities;"}</li>
                   <li>{"Will not infringe or misappropriate the intellectual property rights of any third party;"}</li>
-                  <li>{"Will not post any content inappropriate (Once you post some kind of this content, we have to right to remove it without advance notify. )."}</li>
+                  <li>{"Will not post any content inappropriate (Once you post some kind of this content, we have right to remove it without advance notify. )."}</li>
                 </ul>
               </li>
               <li>

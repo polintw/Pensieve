@@ -19,6 +19,10 @@ module.exports = (sequelize, DataTypes) => {
       onDelete: 'cascade',
       onUpdate: 'cascade'
     });
+    inspireds.hasMany(models.attribution, { // this is not a 'key pair', just tell th Sequelize to 'associate' 2 tbs
+      foreignKey:"id_unit",
+      sourceKey: "id_unit",
+    });
   };
   inspireds.removeAttribute('id'); //this model do not use 'id' nor any pk, so we need to tell it.
 

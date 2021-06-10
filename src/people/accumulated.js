@@ -13,65 +13,6 @@ const {
   internalError
 } = require('../utils/reserrHandler.js');
 
-async function _handle_GET_people_nodesAccumulated(req, res){
-  const reqUserId = req.query.userId;
-  const reqDepth = req.query.depth;
-  const reqNodes = !!req.query.nodesList ? req.query.nodesList : []; // in case the list in params was empty or not exist
-
-  try{
-    // validation: if the user id was valid
-    const targetUser = await _DB_users.findOne({
-      where: {id: reqUserId}
-    });
-    // if 'null' result -> not a valid pathName
-    if(!targetUser){ //'null'
-      throw new notFoundError("User you request was not found. Please use a valid user id.", 50);
-      return; //stop and end the handler.
-    };
-
-    let unitsByAttri = await _DB_attri.findAll({
-      where: {
-        id_noun: reqNodes,
-        id_author: targetUser.id,
-        author_identity: "user"
-      },
-      order: [
-        Sequelize.literal('`createdAt` ASC')
-      ]
-    });
-    let unitsId = unitsByAttri.map((row, index)=>{
-      return row.id_unit;
-    });
-
-    let unitsInfo = await _DB_units.findAll({
-        where: {
-          id: unitsId,
-          source: null,
-        }
-      });
-    let unitsExposedIdKey = {};
-    unitsInfo.forEach((row, index) => {
-      unitsExposedIdKey[row.id] = row.exposedId
-    });
-
-    let sendingData={
-      nodesUnits: {},
-      temp: {}
-    };
-    // make the list by exposedId from unitsInfo
-    unitsByAttri.forEach((row, index) => {
-      sendingData.nodesUnits[row.id_noun] = unitsExposedIdKey[row.id_unit];
-    });
-
-    _res_success(res, sendingData, "GET: /people/accumulated, /nodes, complete.");
-
-  }
-  catch(error){
-    _handle_ErrCatched(error, req, res);
-    return;
-  }
-}
-
 async function _handle_GET_people_accumulated(req, res){
   const reqUserId = req.query.userId;
 
@@ -89,75 +30,31 @@ async function _handle_GET_people_accumulated(req, res){
     //but it is possible, the 'date' in query are not a 'date', and param from query could only be parse as 'string', we need to turn it into time
     let unitBase = new Date(req.query.listUnitBase);
     const lastUnitTime = !isNaN(unitBase) ? unitBase : new Date(); // basically, undefined listUnitBase means first landing to the page
-    // by query, see if we got a filter node
-    const reqFilterNodes = req.query.filterNodes; // is an array contain one to several nodes id
     // units id list res to client at final
     let unitsExposedList = [];
 
-    if(!!reqFilterNodes){ // filter nodes limit
-      let unitsByAttri = await _DB_attri.findAll({
-        where: {
-          id_noun: reqFilterNodes,
-          id_author: targetUser.id,
-          author_identity: "user",
-          createdAt: { [Op.lt]: lastUnitTime }
+    unitsExposedList = await _DB_units.findAll({
+      where: {
+        id_author: targetUser.id,
+        author_identity: 'user',
+        createdAt: {
+          [Op.and]: [
+            { [Op.lt]: lastUnitTime }, { [Op.gt]: "2021-03-27" }
+          ]
         },
-        attributes: [
-          //'max' here combined with 'group' prop beneath,
-          //because the GROUP by would fail when the 'createdAt' is different between each row,
-          //so we ask only the 'max' one by this method
-          [Sequelize.fn('max', Sequelize.col('createdAt')), 'createdAt'], //fn(function, col, alias)
-          //set attributes, so we also need to call every col we need
-          'id_unit',
-        ],
-        group: 'id_unit', //Important. means we combined the rows by unit
-        order: [ //make sure the order of arr are from latest
-          Sequelize.literal('`createdAt` DESC') //and here, using 'literal' is due to some wierd behavior of sequelize,
-        ],
-        limit: 12,
-      })
-      .catch((err)=>{ throw new internalError(err ,131); });
+        source: null,
+      },
+      order: [ //make sure the order of arr are from latest
+        Sequelize.literal('`createdAt` DESC') //and here, using 'literal' is due to some wierd behavior of sequelize,
+      ],
+      limit: 12
+    })
+    .then((results)=>{
+      let exposedIdlist = results.map((row, index)=>{ return row.exposedId;});
 
-      let unitsId = unitsByAttri.map((row, index)=>{
-        return row.id_unit;
-      });
-
-      unitsExposedList = await _DB_units.findAll({
-        where: {
-          id: unitsId,
-          source: null,
-        },
-        order: [ //make sure the order of arr are from latest
-          Sequelize.literal('`createdAt` DESC')
-        ]
-      })
-      .then((results)=>{
-        let exposedIdlist = results.map((row, index)=>{ return row.exposedId;});
-
-        return exposedIdlist;
-      })
-      .catch((err)=>{ throw new internalError(err ,131); });
-    }
-    else{
-      unitsExposedList = await _DB_units.findAll({
-        where: {
-          id_author: targetUser.id,
-          author_identity: 'user',
-          createdAt: {[Op.lt]: lastUnitTime},
-          source: null,
-        },
-        order: [ //make sure the order of arr are from latest
-          Sequelize.literal('`createdAt` DESC') //and here, using 'literal' is due to some wierd behavior of sequelize,
-        ],
-        limit: 12
-      })
-      .then((results)=>{
-        let exposedIdlist = results.map((row, index)=>{ return row.exposedId;});
-
-        return exposedIdlist;
-      })
-      .catch((err)=>{ throw new internalError(err ,131); });
-    };
+      return exposedIdlist;
+    })
+    .catch((err)=>{ throw new internalError(err ,131); });
 
 
     let sendingData={
@@ -177,11 +74,6 @@ async function _handle_GET_people_accumulated(req, res){
     return;
   }
 }
-
-execute.get('/nodes', function(req, res){
-  if(process.env.NODE_ENV == 'development') winston.verbose('GET: /people/accumulated, /nodes.');
-  _handle_GET_people_nodesAccumulated(req, res);
-})
 
 execute.get('/', function(req, res){
   if(process.env.NODE_ENV == 'development') winston.verbose('GET: /people/accumulated.');

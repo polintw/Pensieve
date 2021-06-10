@@ -15,7 +15,6 @@
 
 .boxModalEmit {
   position: absolute;
-  bottom: 110%;
-  left: 50%;
-  transform: translate(-50%, 0);
+  bottom: 120%;
+  right: 0%;
 }

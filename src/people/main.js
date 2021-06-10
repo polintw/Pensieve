@@ -7,7 +7,6 @@ const {
 } = require('../utils/reserrHandler.js');
 
 const accumulatedExecutive = require('./accumulated.js');
-const nodesExecutive = require('./nodes.js');
 const basicInfoExecutive = require('./basicInfo.js');
 
 /*
@@ -32,19 +31,13 @@ main.use(function(req, res, next) {
       let message = `res code 401: missing token if you want to req this resource, to route "${req.originalUrl}".`;
       _handle_ErrCatched(new authorizedError(message, 89), req, res);
     }
-    next() // temp method, before any api needed a token
-    /*
     switch (secondPath) {
-    case 'invitation':
-      next();
-      break;
     case 'basic':
       next();
       break;
     default:
       noTokenHandler()
     }
-    */
   }
   //or if there is token, we just go next
   else next();
@@ -54,7 +47,6 @@ main.use(function(req, res, next) {
 
 // path do not need a token
 main.use('/accumulated', accumulatedExecutive)
-main.use('/nodes', nodesExecutive)
 main.use('/basic', basicInfoExecutive)
 
 module.exports = main;

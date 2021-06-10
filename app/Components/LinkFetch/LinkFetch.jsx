@@ -6,6 +6,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from './styles.module.css';
+import SvgNetGlobe from '../Svg/SvgIcon_NetGlobe.jsx';
 import { _axios_postLinkMeta} from './utils.js';
 import {
   cancelErr,
@@ -48,21 +49,17 @@ class LinkFetch extends React.Component {
             href={this.props.outboundLink}
             target={"_blank"}
             className={classnames('plainLinkButton', styles.linkOutbound)}>
-            {
-              this.props.quotationify &&
-              <span
-                className={classnames(
-                  'fontContentPlain', "colorEditBlack", styles.spanOutbound)}
-                  style={
-                    !!this.props.customStyle ? this.props.customStyle["common"] :{}}>
-                    {!!this.props.dashify ? "- «" : "«"}
-                  </span>
-            }
+            <div
+              className={classnames(styles.boxSvgNetGlobe)}>
+              <SvgNetGlobe
+                svgClass={!!this.props.svgClass ? this.props.svgClass : ['cls-1-netGlobe', 'cls-2-netGlobe']}/>
+            </div>
             <span
                 className={classnames(
-                    'fontContentPlain', "colorEditBlack", styles.spanOutbound,
+                    'fontContent', styles.spanOutbound, styles.spanOutboundFont,
                     {
-                        [styles.spanOutboundActiv]: this.state.onSpanOutbound,
+                      [styles.spanOutboundActiv]: this.state.onSpanOutbound,
+                      [styles.spanOutboundColorReverse]: !!this.props.reverseColor
                     }
                 )}
                 onMouseEnter={this._handleEnter_spanOutbound}
@@ -72,49 +69,27 @@ class LinkFetch extends React.Component {
                   (this.state.onSpanOutbound ? this.props.customStyle["mouseOn"] : this.props.customStyle["common"] ):{}}>
                 {this.state.metaTitle}
             </span>
-            {
-              this.props.quotationify &&
-              <span
-                className={classnames(
-                  'fontContentPlain', "colorEditBlack", styles.spanOutbound)}
-                  style={
-                    !!this.props.customStyle ? this.props.customStyle["common"] :{}}>
-                  {"»"}
-                  </span>
-            }
         </a>
     ): (
       <div
         className={classnames(styles.linkOutbound)}>
-        {
-          this.props.quotationify &&
-          <span
-            className={classnames(
-              'fontContentPlain', "colorEditBlack", styles.spanOutbound)}
-              style={
-                Object.assign({paddingRight: "3px"}, !!this.props.customStyle ? this.props.customStyle["common"] :{})}>
-                {!!this.props.dashify ? " －《"　: "《"}
-              </span>
-        }
+        <div
+          className={classnames(styles.boxSvgNetGlobe)}>
+          <SvgNetGlobe
+            svgClass={!!this.props.svgClass ? this.props.svgClass : ['cls-1-netGlobe', 'cls-2-netGlobe']}/>
+        </div>
         <span
           className={classnames(
-            'fontContentPlain', "colorEditBlack", styles.spanOutbound
+            'fontContent', styles.spanOutbound, styles.spanOutboundFont,
+            {
+              [styles.spanOutboundColorReverse]: !!this.props.reverseColor
+            }
           )}
           style={
             !!this.props.customStyle ?
             this.state.onSpanOutbound ? this.props.customStyle["mouseOn"] : this.props.customStyle["common"] :{}}>
             {this.state.metaTitle}
           </span>
-          {
-            this.props.quotationify &&
-            <span
-              className={classnames(
-                'fontContentPlain', "colorEditBlack", styles.spanOutbound)}
-                style={
-                  !!this.props.customStyle ? this.props.customStyle["common"] :{}}>
-                  {"》"}
-                </span>
-          }
       </div>
     )
   }

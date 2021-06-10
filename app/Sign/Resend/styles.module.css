@@ -1,5 +1,5 @@
 .comSignResend{
-
+  width: 100%;
 }
 
 .comResendMail {
@@ -8,7 +8,7 @@
   justify-content: flex-end;
   align-items: center;
   width: 385px;
-  max-width: 98vw;
+  max-width: 100%;
   padding-top: 12vh;
   margin-bottom: 7.6vh;
 }

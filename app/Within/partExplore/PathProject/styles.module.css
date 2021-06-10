@@ -22,10 +22,6 @@
   padding: 1.4vh 0 0;
 }
 
-.boxTab {
-
-}
-
 .boxRowNav {
   display: flex;
   flex-direction: column;
@@ -36,22 +32,6 @@
   margin: -2px 0 0;
 }
 
-.boxFooter {
-  position: relative;
-  padding-top: 2rem;
-  margin-bottom: 36vh;
-}
-
 @media screen and (max-width:860px) {
-  .smallDisplayBox {
-    display: block;
-  }
 
-  .smallDisplayNone {
-    display: none;
-  }
-
-  .boxFooter {
-    margin-bottom: 14vh;
-  }
 }

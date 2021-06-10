@@ -44,9 +44,8 @@ class Feed extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot){
     // if change the node by modifying the nodeid in search, the page would only update
     let lastUrlParams = new URLSearchParams(prevProps.location.search); //we need value in URL query
-    let lastNodeAtId = lastUrlParams.has('filterNode') ? lastUrlParams.get('filterNode'): null;
     let lastSubcate = lastUrlParams.has('subCate') ? lastUrlParams.get('subCate'): null;
-    if((this.filterNode != lastNodeAtId) || (this.currentSubCate != lastSubcate)){
+    if( this.currentSubCate != lastSubcate ){
       this.setState((prevState, props)=>{
         return {
           feedList: [],
@@ -103,14 +102,17 @@ class Feed extends React.Component {
           nailsDOM.push(
             <div
               key={"key_NodeFeed_new_" + index}
-              className={classnames(stylesNail.boxNail, stylesNail.custNailWide)}>
-              <NailFeedMobile
-                {...this.props}
-                leftimg={false}
-                unitId={unitId}
-                linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
-                unitBasic={this.state.unitsBasic[unitId]}
-                marksBasic={this.state.marksBasic} />
+              className={classnames(styles.boxModuleItem)}>
+              <div
+                className={classnames(stylesNail.boxNail)}>
+                <NailFeedMobile
+                  {...this.props}
+                  unitId={unitId}
+                  frameType={'wide'}
+                  linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
+                  unitBasic={this.state.unitsBasic[unitId]}
+                  marksBasic={this.state.marksBasic} />
+              </div>
             </div>
           );
           return;
@@ -121,28 +123,32 @@ class Feed extends React.Component {
 
         nailsDOM.push (remainder5 ? ( // 0 would be false, which means index % 5 =0
           <div
-            key={"key_NodeFeed_new_"+index}
-            className={classnames(stylesNail.boxNail)}>
-            <NailFeed
-              {...this.props}
-              unitId={unitId}
-              narrowWidth={false}
-              linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
-              unitBasic={this.state.unitsBasic[unitId]}
-              marksBasic={this.state.marksBasic}/>
+            key={"key_NodeFeed_new_" + index}
+            className={classnames(styles.boxModuleItem)}>
+            <div
+              className={classnames(stylesNail.boxNail)}>
+              <NailFeed
+                {...this.props}
+                unitId={unitId}
+                linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
+                unitBasic={this.state.unitsBasic[unitId]}
+                marksBasic={this.state.marksBasic}/>
+            </div>
           </div>
         ): (
           <div
-            key={"key_NodeFeed_new_"+index}
-            className={classnames(stylesNail.boxNail, stylesNail.custNailWide)}>
-            <NailFeedWide
-              {...this.props}
-              leftimg={ remainder2 ? true : false}
-              unitId={unitId}
-              narrowWidth={false}
-              linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
-              unitBasic={this.state.unitsBasic[unitId]}
-              marksBasic={this.state.marksBasic}/>
+            key={"key_NodeFeed_new_" + index}
+            className={classnames(styles.boxModuleItem, stylesNail.custNailWide)}>
+            <div
+              className={classnames(stylesNail.boxNail)}>
+              <NailFeedWide
+                {...this.props}
+                leftimg={ remainder2 ? true : false}
+                unitId={unitId}
+                linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
+                unitBasic={this.state.unitsBasic[unitId]}
+                marksBasic={this.state.marksBasic}/>
+            </div>
           </div>
         ));
       });
@@ -168,9 +174,6 @@ class Feed extends React.Component {
 
   render(){
     let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
-    if(urlParams.has('filterNode')){
-      this.filterNode = urlParams.get('filterNode');
-    } else this.filterNode = null;
     if(urlParams.has('subCate')){
       this.currentSubCate = urlParams.get('subCate');
     } else this.currentSubCate = null;
@@ -180,7 +183,11 @@ class Feed extends React.Component {
         <div>
           {
             (this.state.feedList.length > 0) &&
-            <div>
+            <div
+              className={classnames(
+                styles.boxRow,
+                styles.boxRowModules
+              )}>
               {this._render_FeedNails()}
             </div>
           }
@@ -193,6 +200,7 @@ class Feed extends React.Component {
               className={classnames(
                 styles.boxModule,
                 styles.boxModuleSmall,
+                styles.boxRow
               )}>
               <FeedEmpty
                 {...this.props}/>
@@ -200,18 +208,8 @@ class Feed extends React.Component {
           }
 
           <div ref={this.refScroll}/>
-          { // only show up when no token(unsigned)
-            /*
-            Now make comments due to change ti Sign up/in policu for new comer
-            (this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') &&
-            <div
-              className={classnames( styles.boxRow, styles.boxSignup)}>
-              <SignBlock
-                description={'regular'}/>
-            </div>*/
-          }
           <div
-            className={classnames(styles.boxFooter)}>
+            className={classnames(styles.boxRow, styles.boxFooter)}>
             {this._render_FooterHint()}
           </div>
         </div>
@@ -252,7 +250,7 @@ class Feed extends React.Component {
     _axios_get_accumulatedList(this.axiosSource.token, {
       pathProject: this.props.match.params['pathName'],
       listUnitBase: lastUnitTime,
-      filterNodes: !!this.filterNode ? [this.filterNode] : [],
+      filterNodes: [],
       subCate: this.currentSubCate ? this.currentSubCate : null
     })
     .then((resObj)=>{

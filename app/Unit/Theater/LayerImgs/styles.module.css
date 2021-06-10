@@ -17,16 +17,12 @@
   justify-content: space-between;
   align-items: center;
   position: relative;
-  margin-top: 4.44vh;
-  margin-bottom: 2.54vh;
+  padding: 4.44vh 0 2.54vh;
 }
 
 .boxFrame {
   height: 72%;
   box-sizing: border-box;
-  margin-bottom: 2.54vh;
-  border-radius: 4px;
-  overflow: hidden;
 }
 
 .boxFrameAuthor {
@@ -34,24 +30,21 @@
 }
 
 .boxAuthorStatics {
-  display: flex;
   align-items: flex-end;
   padding-left: 35px;
 }
 
 .boxBottom {
   display: flex;
-  flex-direction: row-reverse;
-  justify-content: space-between;
-  align-items: flex-end;
-  flex-wrap: wrap;
-  margin-bottom: 5vh;
+  position: relative;
+  padding: 2.54vh 0 5vh;
 }
 
 .boxBottomLeft{
   display: flex;
   justify-content: flex-start;
   align-items: flex-end;
+  position: relative;
 }
 
 .boxBottomRight {
@@ -113,8 +106,8 @@
   height: 100%;
   position: relative;
   box-sizing: border-box;
-  border-radius: 4px;
   background-color: rgba(217, 232, 255, 0.15);
+  border-radius: 4px;
 }
 
 .boxImgLayer {
@@ -135,12 +128,32 @@
   display: none;
 }
 
+@media screen and (min-width:860px) {
+  .boxFrame {
+    width: 90%;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .comBottomPanel {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+  }
+
+  .comImgsFrame {
+    border-radius: 4px;
+  }
+}
+
 @media screen and (max-width:860px) {
   .smallDisplayNone {
     display: none;
   }
 
   .boxFrame {
+    width: 100%;
     overflow: visible;
   }
 
@@ -148,20 +161,54 @@
     flex-direction: column;
   }
 
-  .boxAuthorStatics {
+  .comBottomPanel {
+    flex-direction: column;
     width: 100%;
-    padding: unset;
   }
 
-  .boxBottomLeft {
+  .boxBottomRowLinks {
+    width: 100vw;
+    box-sizing: border-box;
+    margin: 1.27vh 0 0;
+    padding: 10px 5%;
+    background-color: rgba(217, 232, 255, 0.15);
+  }
+
+  .boxBottomRowPanel {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 2.54vh;
+  }
+
+  .boxBottomRowAction {
+    display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
+    align-items: center;
     width: 100%;
+    box-sizing: border-box;
     margin-top: 2.54vh;
   }
 
-  .boxBottomLeftFetch {
-    margin-top: 16px;
+  .boxBottomLeft {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .btnBottomIcon {
+    width: unset;
+    height: 2.4rem;
+    position: relative;
+    border-radius: 4px;
+    margin-left: 1.5rem;
+    padding-left: 5px;
+  }
+
+  .btnIconInspired {
+    height: 38px;
+    position: relative;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding-left: 1rem;
   }
 
   .boxSmallRelative{
@@ -182,6 +229,17 @@
   }
 
   .boxImg {
-    max-height: 48vh;
+    max-height: 60vh;
+  }
+
+  .boxWhiteBack {
+    width: 100vw;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    background-color: #FFFFFF;
+    box-shadow: 0 -5px 10px -5px rgb(0 0 0 / 30%);
   }
 }

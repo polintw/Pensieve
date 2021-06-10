@@ -6,28 +6,37 @@
   width: 100%;
   height: 100%;
   position: relative;
+  padding-top: 10%;
 }
 
 .boxForm {
   width: 100%;
 }
 
-.boxRow {
+.boxSearch {
+  display: flex;
+}
+
+.boxSearchSet {
+  margin-bottom: 40px;
+}
+
+.boxSearchRow {
   display: flex;
   align-items: center;
   width: 100%;
-  margin-bottom: 15px;
 }
 
-.boxRowTitle {
-  width: 130px;
-}
 
 .boxNodesEditTitle {
-
+  text-align: left;
 }
 
 .boxAssignedNodes {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
   min-height: 39px;
 }
 
@@ -55,17 +64,35 @@
 .boxHintItem {
   display: inline-flex;
   list-style: none;
-  height: 39px;
+  width: 64px;
+  height: 40px;
   box-sizing: border-box;
+  margin:  0 10px 0 0;
+  border: dashed 2px #d8d8d8;
+  border-radius: 4px;
   cursor: default;
-}
-
-.seperationRowVertiLine {
-  height: 39px;
-  border-left: solid 1.2px #757575;
-  margin-right: 2rem;
 }
 
 .seperationBottom {
   margin-bottom: 2.54vh;
+}
+
+@media screen and (min-width:860px) {
+  .boxSearch {
+    justify-content: space-between;
+    align-items: stretch;
+  }
+
+  .boxSearchSet {
+    width: 48%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+}
+
+@media screen and (max-width:860px) {
+  .boxSearch {
+    flex-direction: column;
+  }
 }

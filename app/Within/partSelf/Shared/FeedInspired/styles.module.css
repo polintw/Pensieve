@@ -1,0 +1,95 @@
+.comFeedInspired {
+  display: flex;
+  flex-direction: column;
+}
+
+.comFeedEmpty {
+  display: flex;
+  align-items: center;
+  padding-top: 3.8vh;
+}
+
+.boxRow {
+  position: relative;
+  margin: 12px 0;
+}
+
+.boxTitle {
+  margin: 8px 0;
+}
+
+.boxModule{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.boxModuleItem {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.boxDescript {
+  width: 100%;
+  text-align: center;
+}
+
+.boxEmptyDescript {
+  width: 72%;
+  max-width: 200px;
+  text-align: center;
+}
+
+.boxFooter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 28px;
+  margin-bottom: 36vh;
+}
+
+.boxEmptyIconInspired {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 56px;
+  margin-right: 15px;
+}
+
+.spanFooterHint {
+  margin: 8px 0;
+}
+
+@media screen and (min-width:860px) {
+  .comFeedEmpty {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+@media screen and (max-width:860px) {
+  .boxRowModules {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .boxModuleSmall {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .boxModuleItem {
+    width: 100%;
+  }
+
+  .boxFooter {
+    margin-bottom: 19vh;
+  }
+
+  .comFeedEmpty {
+    width: 72%;
+    justify-content: space-between;
+  }
+}

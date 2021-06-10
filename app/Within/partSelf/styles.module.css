@@ -3,6 +3,23 @@
   margin: 12px 0;
 }
 
-.boxRowTop { /* should after .boxRow */
-  padding-top: 4px;
+.boxTitle {
+  margin: 8px 0;
+}
+
+.boxSelfTitle {
+  display: flex;
+  position: relative;
+}
+
+@media screen and (min-width:860px) {
+  .boxSelfTitle {
+    margin: 4.06vh 0 0;
+  }
+}
+
+@media screen and (max-width:860px) {
+  .boxSelfTitle {
+    margin: 2.79vh 0 0;
+  }
 }

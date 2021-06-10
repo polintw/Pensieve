@@ -13,19 +13,21 @@ const {
 
 function _handle_nouns_search(req, res){
   new Promise((resolve, reject)=>{
-    const reqToken = req.body.token || req.headers['token'] || req.query.token;
-    const jwtVerified = jwt.verify(reqToken, verify_key);
-    if (!jwtVerified) throw new internalError(jwtVerified, 32);
-
-    let userId = jwtVerified.user_Id;
-    let aquired = req.query.aquired;
+    const userId = req.extra.tokenUserId;
+    const aquired = req.query.aquired;
+    const category = !!req.query.category ? req.query.category : 'location_admin'
     if(!aquired){throw new validationError('please input a valid string.',3)}//prevent the server crushing due to invalid query .
 
     return _DB_nouns.findAll({
       where: {
-        name: {[Op.like]: aquired+'%'},
-        language: 'en',
-        category: 'location_admin'
+        name: {
+          [Op.or]: [
+            {[Op.like]: aquired+'%'},
+            {[Op.like]: '%' + aquired}
+          ]
+        },
+        language: ['en', 'tw'],
+        category: category
       },
       attributes: ['id', 'name', 'prefix']
     }).then(function(rows){

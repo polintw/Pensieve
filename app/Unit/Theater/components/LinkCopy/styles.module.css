@@ -1,0 +1,30 @@
+.comLinkCopy {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.boxSvgIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.boxSmallDescrip {
+  margin-left: 6px;
+}
+
+.boxModalEmit {
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.boxHiddenText {
+  position: absolute;
+  left: 200%;
+}

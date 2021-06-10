@@ -25,6 +25,10 @@
 }
 
 @media screen and (max-width:860px) {
+  .boxNail {
+    width: 100%;
+  }
+
   .custNailWide {
     width: unset;
   }

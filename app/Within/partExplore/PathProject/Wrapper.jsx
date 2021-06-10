@@ -14,14 +14,11 @@ import NavFeed from './NavFeed/NavFeed.jsx';
 import TitlePath from './TitlePath/TitlePath.jsx';
 import Steps from './Steps/Steps.jsx';
 import SubcatesList from './Subcate/SubcatesList.jsx';
-import SuggestNodes from './NavFilter/SuggestNodes.jsx';
 import {
   _axios_get_projectBasic,
 } from './axios.js';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
 import UnitUnsign from '../../../Unit/UnitUnsign/UnitUnsign.jsx';
-import NavCosmicMobile from '../../../Components/NavWithin/NavCosmic/NavCosmicMobile.jsx';
-import NavCosmicMobileUnsign from '../../../Components/NavWithin/NavCosmic/NavCosmicMobileUnsign.jsx';
 import {
   cancelErr,
   uncertainErr
@@ -32,6 +29,7 @@ class Wrapper extends React.Component {
     super(props);
     this.state = {
       axios: false,
+      savedPosition: null,
       pathName: false,
       projectName: '',
       projectInfo: {
@@ -44,6 +42,7 @@ class Wrapper extends React.Component {
       },
     };
     this.axiosSource = axios.CancelToken.source();
+    this.wrapperPathProject = React.createRef();
     this._render_tab = this._render_tab.bind(this);
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._set_projectBasic = this._set_projectBasic.bind(this);
@@ -52,6 +51,30 @@ class Wrapper extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot){
     if(this.props.match.params['pathName'] != prevProps.match.params['pathName']){ // jump to diff. pathProject
       this._set_projectBasic();
+    };
+    if(
+      this.props.location.pathname != prevProps.location.pathname &&
+      this.props.location.pathname.includes('/unit')
+    ){
+      let savedPosition = window.scrollY;
+      this.setState((prevState, props)=>{
+        return {
+          savedPosition: savedPosition
+        };
+      }, ()=>{
+        this.wrapperPathProject.current.style.display='none';
+      });
+    }
+    else if(
+      this.props.location.pathname != prevProps.location.pathname &&
+      prevProps.location.pathname.includes('/unit') &&
+      !this.props.location.pathname.includes('/unit')
+    ){
+      this.wrapperPathProject.current.style={};
+      window.scroll(0, prevState.savedPosition);
+      this.setState({
+        savedPosition: null
+      });
     };
   }
 
@@ -70,7 +93,7 @@ class Wrapper extends React.Component {
       case "routes":
         return (
           <div
-            className={classnames(styles.boxTab)}>
+            style={{marginTop: '8px'}}>
             <SubcatesList
               {...this.props}
               subCatesInfo={this.state.subCatesInfo}/>
@@ -79,8 +102,7 @@ class Wrapper extends React.Component {
         break;
       case "steps":
         return (
-          <div
-            className={classnames(styles.boxTab)}>
+          <div>
             <Steps
               {...this.props}/>
           </div>
@@ -88,8 +110,7 @@ class Wrapper extends React.Component {
         break;
       default: // 'undefined' currentTab
         return (
-          <div
-            className={classnames(styles.boxTab)}>
+          <div>
             <Feed
               {...this.props}/>
           </div>
@@ -115,26 +136,8 @@ class Wrapper extends React.Component {
 
     return(
       <div>
-        { // only show up when token show
-          (this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') ? (
-            <div
-              className={classnames("smallDisplayBox")}>
-              <div
-                className={classnames(styles.boxNavTop)}>
-                <NavCosmicMobileUnsign/>
-              </div>
-            </div>
-          ): (
-            <div
-              className={classnames("smallDisplayBox")}>
-              <div
-                className={classnames(styles.boxNavTop)}>
-                <NavCosmicMobile/>
-              </div>
-            </div>
-          )
-        }
         <div
+          ref={this.wrapperPathProject}
           className={classnames(styles.comPathProject)}>
           <div
             className={classnames(styles.boxRow)}>
@@ -152,11 +155,11 @@ class Wrapper extends React.Component {
             <div
               className={classnames(styles.boxNavFeed)}>
               <NavFeed
-                {...this.props}/>
+                {...this.props}
+                subCatesify={ (this.state.subCatesInfo.subCatesList.length < 0) ? false : true }/>
             </div>
           </div>
-          <div
-            className={classnames(styles.boxRow)}>
+          <div>
             {
               /*
               render the view by search.tab
@@ -205,7 +208,6 @@ class Wrapper extends React.Component {
           axios: false,
           pathName: resObj.main.pathName,
           projectName: resObj.main.name,
-          filterStart: resObj.main.nodeStart,
           projectInfo: resObj.main.otherInfo,
           subCatesInfo: resObj.main.subCatesInfo
         };
@@ -231,7 +233,6 @@ const mapStateToProps = (state)=>{
     tokenStatus: state.token,
     userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
-    belongsByType: state.belongsByType,
     nounsBasic: state.nounsBasic
   }
 }

@@ -1,0 +1,75 @@
+.frame {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  padding: 16px 0;
+}
+
+.frameOnMouse {
+
+}
+
+.boxContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: 28vh;
+  position: relative;
+}
+
+.boxContentMobile {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+  padding: 0 1.38vw;
+}
+
+.boxImg {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background-color: rgba(217, 232, 255, 0.15);
+  overflow: hidden;
+}
+
+.boxImgIconandBack {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  background-image: linear-gradient(to right, transparent 74%, rgba(68,68,68, 0.95));
+}
+
+.boxImgIcon {
+  height: 16%;
+  position: relative;
+  box-sizing: border-box;
+  margin:  6% 5% 0 0;
+}
+
+.boxMarkPreviewCounts {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
+.boxOvalCount {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  border: solid 3px #ffffff;
+  border-radius: 50%;
+  margin-left: 1.25vw;
+  cursor: default;
+}

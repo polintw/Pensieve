@@ -1,0 +1,51 @@
+.comTabMap {
+  display: flex;
+  flex-direction: column;
+}
+
+.boxRow {
+  position: relative;
+  margin: 12px 0;
+}
+
+.boxTitle {
+  margin: 8px 0;
+}
+
+.boxFooter {
+  position: relative;
+  padding-top: 4.4rem;
+  margin-bottom: 35.6vh;
+}
+
+.boxMap {
+  align-self: center;
+  width: 100%;
+  position: relative;
+  margin-top: 8px;
+}
+
+.boxFilterSwitches {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  position: relative;
+  margin: 8px 0 5.07vh;
+}
+
+.boxEmptyDescript {
+  width: 100%;
+  text-align: center;
+}
+
+@media screen and (min-width:860px) {
+  .boxMap {
+    height: 82vh;
+  }
+}
+
+@media screen and (max-width:860px) {
+  .boxFooter {
+    margin-bottom: 14vh;
+  }
+}

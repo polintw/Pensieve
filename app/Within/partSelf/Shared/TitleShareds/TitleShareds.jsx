@@ -7,21 +7,17 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import NavShareds from './NavShareds.jsx';
-import NavBtnRow from '../../../../Components/NavFilter/NavBtnRow.jsx';
-import NavFilterMode from '../../../../Components/NavFilter/NavFilterMode.jsx';
 
 class TitleShareds extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      onLinkExpand: false,
-      onPrimerLine: false
+      onLink: false,
     };
     this._render_Greet = this._render_Greet.bind(this);
-    this._handleEnter_LinkExpand = this._handleEnter_LinkExpand.bind(this);
-    this._handleLeave_LinkExpand = this._handleLeave_LinkExpand.bind(this);
-    this._handleEnter_primerLine = this._handleEnter_primerLine.bind(this);
-    this._handleLeave_primerLine = this._handleLeave_primerLine.bind(this);
+    this._render_Title = this._render_Title.bind(this);
+    this._handleEnter_linkNavFeed = this._handleEnter_linkNavFeed.bind(this);
+    this._handleLeave_linkNavFeed = this._handleLeave_linkNavFeed.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -34,6 +30,58 @@ class TitleShareds extends React.Component {
 
   componentWillUnmount(){
 
+  }
+
+  _render_nav(){
+    let tabs = ["notes", "nodes", "map", "inspired"]
+    let tabsi18nName = ["title_Notes", "tab_Nodes", "tab_Map", "title_Inspired"];
+
+    let navDOM = tabs.map((tab, index)=>{
+      if( tab == 'inspired' && this.props.lastParam == 'pathProject') return null; // not rendering 'inspired' link under /pathProject
+      let linkObj = {
+        pathname: this.props.location.pathname,
+        search: '?tab='+ tab,
+        state: {from: this.props.location}
+      };
+      return (
+        <Link
+          key={"key_pathNavFeed_tab_"+tab}
+          to={linkObj}
+          link={tab}
+          className={classnames(
+            'plainLinkButton', styles.linkNavFeed,
+            {[styles.linkNavFeedCrrentTab]: (this.currentTab == tab)}
+          )}
+          onClick={(e)=>{ this.setState({onLink: false}); }}
+          onTouchStart={this._handleEnter_linkNavFeed}
+          onTouchEnd={this._handleLeave_linkNavFeed}
+          onMouseEnter={this._handleEnter_linkNavFeed}
+          onMouseLeave={this._handleLeave_linkNavFeed}>
+          <span
+            className={classnames(
+              "fontContentPlain", "weightBold",
+              {
+                ["colorWhiteGrey"]: (this.state.onLink !=  tab),
+                ["colorEditBlack"]: (this.state.onLink ==  tab),
+              }
+            )}>
+            { this.props.i18nUIString.catalog[tabsi18nName[index]] }
+          </span>
+        </Link>
+      )
+    });
+    if( !this.currentTab || this.currentTab == 'notes'){
+      navDOM[0] = (
+        <span
+          key={"key_pathNavFeed_tab_greet"}
+          className={classnames("fontContentPlain", "colorEditBlack")}
+          style={{margin: '0 16px 0 0'}}>
+          {this._render_Greet()}
+        </span>
+      )
+    }
+
+    return navDOM;
   }
 
   _render_Greet(){
@@ -54,15 +102,25 @@ class TitleShareds extends React.Component {
     };
   }
 
+  _render_Title(){
+    switch (this.currentTab) {
+      case "inspired":
+        return (this.props.i18nUIString.catalog['title_Inspired'])
+        break;
+      case "map":
+        return (this.props.i18nUIString.catalog['tab_Map'])
+        break;
+      case "nodes":
+        return (this.props.i18nUIString.catalog['tab_Nodes'])
+        break;
+      default: // 'undefined' currentTab
+        return (this.props.i18nUIString.catalog['title_Notes'])
+    }
+  }
+
   render(){
-    let pathProjectify = this.props.location.pathname.includes('/pathProject');
     let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
-    if(urlParams.has('filterNode')){
-      this.filterNode = urlParams.get('filterNode');
-    } else this.filterNode = false;
-    if(urlParams.has('_filter_nodes')){
-      this.viewFilter = true;
-    } else this.viewFilter = false;
+    this.currentTab = urlParams.get('tab'); // could be 'undefined'
 
     return (
       <div className={styles.comTitleShareds}>
@@ -72,118 +130,41 @@ class TitleShareds extends React.Component {
             className={classnames(styles.rowTitleText)}>
             <span
               className={classnames("fontTitle", "colorEditBlack", "weightBold")}>
-              {this.props.i18nUIString.catalog['title_yourShareds']}
+              {this._render_Title()}
             </span>
           </div>
-          <span
-            className={classnames("fontContent", "colorEditBlack")}>
-            {
-              !pathProjectify &&
-              this._render_Greet()}
-          </span>
-        </div>
-        <div
-          className={classnames(styles.boxBottomRow)}>
-          <div
-            style={{display: 'flex'}}>
-            <div>
-              <span
-                className={classnames(
-                  "fontContent",
-                  {
-                    ['colorWhiteGrey']: !pathProjectify,
-                    ['colorAssistOcean']: pathProjectify,
-                  }
-                )}>
-                {"|"}
-              </span>
-              {
-                pathProjectify ? (
-                  <a
-                    href={'/cosmic/explore/path/'+ this.props.userInfo.pathName}
-                    className={classnames('plainLinkButton', styles.boxLinkExpand)}
-                    onTouchStart={this._handleEnter_primerLine}
-                    onTouchEnd={this._handleLeave_primerLine}
-                    onMouseEnter={this._handleEnter_primerLine}
-                    onMouseLeave={this._handleLeave_primerLine}>
-                    <span
-                      className={classnames(
-                        "fontContent", "colorAssistOcean", styles.spanBaseNode,
-                        {[styles.spanBaseNodeMouse]: this.state.onPrimerLine}
-                      )}>
-                      {this.props.userInfo.pathProject}
-                    </span>
-                  </a>
-                ):(
-                  <Link
-                    to={"/cosmic/explore/user?userId=" + this.props.userInfo.id}
-                    className={classnames(
-                      'plainLinkButton', styles.boxLinkExpand)}
-                      onTouchStart={this._handleEnter_LinkExpand}
-                      onTouchEnd={this._handleLeave_LinkExpand}
-                      onMouseEnter={this._handleEnter_LinkExpand}
-                      onMouseLeave={this._handleLeave_LinkExpand}>
-                      <span
-                        className={classnames(
-                          "fontContent", styles.spanBaseNode,
-                          {
-                            ["colorWhiteGrey"]: !this.state.onLinkExpand,
-                            ['colorEditBlack']: this.state.onLinkExpand,
-                            [styles.spanBaseNodeMouse]: this.state.onLinkExpand
-                          }
-                        )}>
-                        {this.props.i18nUIString.catalog["link_PublicExpand"]}
-                      </span>
-                    </Link>
-                )
-              }
-            </div>
-            {
-              !!this.props.userInfo.pathName &&
-              <span
-                className={classnames(
-                  "fontContent", 'colorGrey'
-                )}>
-                {"\xa0" + "．" + "\xa0"}
-              </span>
-            }
+          <div>
             {
               !!this.props.userInfo.pathName &&
               <NavShareds {...this.props}/>
             }
           </div>
-          <div>
-            <NavBtnRow
-              {...this.props}
-              viewFilter={this.props.viewFilter}/>
-          </div>
-          {
-            this.viewFilter &&
-            <div
-              className={classnames(styles.boxFilterNav)}>
-              <NavFilterMode/>
-            </div>
-          }
+        </div>
+        <div
+          className={classnames(styles.boxBottomRow)}>
+          { this._render_nav()}
         </div>
       </div>
     )
   }
 
-  _handleEnter_LinkExpand(event) {
-    this.setState({ onLinkExpand: true });
+  _handleEnter_linkNavFeed(e){
+    let currentLink = e.currentTarget.getAttribute('link');
+    this.setState((prevState, props)=>{
+      return {
+        onLink: currentLink
+      }
+    })
   }
 
-  _handleLeave_LinkExpand(event){
-    this.setState({onLinkExpand: false});
+  _handleLeave_linkNavFeed(e){
+    this.setState((prevState, props)=>{
+      return {
+        onLink: false
+      }
+    })
   }
 
-  _handleEnter_primerLine(e){
-    this.setState({onPrimerLine: true})
-  }
-
-  _handleLeave_primerLine(e){
-    this.setState({onPrimerLine: false})
-  }
 }
 
 

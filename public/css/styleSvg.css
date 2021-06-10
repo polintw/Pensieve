@@ -13,5 +13,13 @@
 }
 
 .cls-2-netGlobe {
-  stroke: #444444;
+  fill: #444444;
+}
+
+.cls-1-netGlobeBright {
+  fill: #FDFDFC;
+}
+
+.cls-2-netGlobeBright {
+  fill: #FDFDFC;
 }

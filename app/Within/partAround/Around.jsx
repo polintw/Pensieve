@@ -4,7 +4,6 @@ import {
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import IndexWrapper from './Index/Wrapper.jsx';
-import InvitationFellow from '../partSign/InvitationFellow.jsx';
 
 class Around extends React.Component {
   constructor(props){
@@ -29,25 +28,12 @@ class Around extends React.Component {
   }
 
   render(){
-    if (this.props.tokenStatus == 'invalid' || this.props.tokenStatus == 'lack') {
-      return (
-        <div
-          style={this.style.withinCom_Around_}>
-
-        </div>
-      )
-    } else {
-      return(
-        <div
-          style={this.style.withinCom_Around_}>
-          <IndexWrapper {...this.props}/>
-          {
-            this.props.location.search.includes('invitation') &&
-            <InvitationFellow {...this.props}/>
-          }
-        </div>
-      )
-    };
+    return(
+      <div
+        style={this.style.withinCom_Around_}>
+        <IndexWrapper {...this.props}/>
+      </div>
+    )
   }
 }
 

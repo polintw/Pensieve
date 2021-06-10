@@ -1,17 +1,41 @@
 .comAtNode {
   display: flex;
   flex-direction: column;
-  position: relative;
   box-sizing: border-box;
-  padding-top: 2.8vh;
 }
 
 .boxRow {
   position: relative;
+  margin: 12px 0;
 }
 
 .boxTitle {
   margin: 8px 0;
+}
+
+.boxTopTitle {
+  position: relative;
+  margin: 7.61vh 0 5.07vh;
+}
+
+.boxFeedNav {
+  width: 100%;
+  margin: 20px 0 -4px;
+  position: relative;
+}
+
+.boxNodeTitle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  width: 100%;
+}
+
+.boxNavTop {
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+  padding: 1.4vh 0 0;
 }
 
 .boxDecoBottom {
@@ -23,20 +47,6 @@
   background-color: #FCFCFC;
 }
 
-.boxNavTop {
-  display: flex;
-  justify-content: flex-end;
-  position: relative;
-  padding: 1.4vh 0 0;
-}
-
 @media screen and (max-width:860px) {
-  .smallDisplayBox {
-    display: block;
-  }
-
-  .smallDisplayNone {
-    display: none;
-  }
 
 }

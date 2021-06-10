@@ -31,7 +31,8 @@ class NavFeed extends React.Component {
   }
 
   _render_navTab(){
-    let tabsi18nName = ["title_NavAtNode_", "tab_Steps", "tab_Routes"];
+    let tabsi18nName = ["title_NavAtNode_", "tab_Steps"];
+    if(this.props.subCatesify) tabsi18nName.push("tab_Routes");
     let goldColorTab = '';
     // which tab we are now on
     switch (this.currentTab) { // refer to tabsi18nName
@@ -57,7 +58,7 @@ class NavFeed extends React.Component {
           linkSearch = '?tab=routes';
           break;
         case 'tab_Steps':
-          linkSearch = '?tab=steps&_filter_nodes=true';
+          linkSearch = '?tab=steps&_filter_map=true';
           break;
         default:
           // do nothing, keep linkSearch as origin

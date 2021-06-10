@@ -1,6 +1,7 @@
 import React from 'react';
 import {
-  withRouter
+  withRouter,
+  Link
 } from 'react-router-dom';
 import {connect} from "react-redux";
 import classnames from 'classnames';
@@ -11,9 +12,23 @@ class NavOptionsUnsign extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-
+      onBtn: false
     };
     this._render_NavSmallScreen = this._render_NavSmallScreen.bind(this);
+    this._handleEnter_Btn= this._handleEnter_Btn.bind(this);
+    this._handleLeave_Btn = this._handleLeave_Btn.bind(this);
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot){
+
+  }
+
+  componentDidMount(){
+
+  }
+
+  componentWillUnmount(){
+
   }
 
   _render_NavSmallScreen(){
@@ -21,45 +36,89 @@ class NavOptionsUnsign extends React.Component {
     basically charge for screen width < 860
     depend on css class '.smallDisplayBox'
     */
-    let currentPath = this.props.location.pathname;
+    let currentPath = window.location.pathname; // notice. We use 'window.location' instead of 'props.location' to get the 'whole path' in case the pathname has been modified by Router(by 'basename' prop in <Router>)
+    let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
+    let signupinify = true;
+    if(
+      urlParams.has('process') ||
+      currentPath.includes('/confirm') ||
+      currentPath.includes('/signup')
+    ) signupinify = false;
 
-    /* Ok, we are now didn't want the "Sign up/in" show on the topbar-but keep them here in case our mind changed
-    if(this.props.location.pathname.includes('cosmic/explore/')){
-      return(
+    return(
+      <div
+        className={classnames(styles.boxNavSmall)}>
         <div
-          className={classnames(styles.boxNavSmall)}>
+          className={classnames(styles.selfCom_NavOptions_svg_)}>
           <div
             className={classnames(styles.boxLogo)}
-            onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_to('', '/')}}>
+            onClick={(e)=>{e.preventDefault(); e.stopPropagation(); window.location.assign('/')}}>
             <SvgLogo
-              reverseColor={true}/>
-          </div>
-          <div
-            id={"NavOptions_Self_small"}
-            className={classnames(
-              styles.selfCom_NavOptions_svg_, 'colorWhite', 'fontSubtitle',
-              "smallDisplayBox"
-            )}
-            onClick={(e)=>{e.preventDefault(); e.stopPropagation(); window.location.assign('/');}}>
-            {this.props.i18nUIString.catalog['submit_nav_Signupin']}
+              reverseColor={false}/>
           </div>
         </div>
-      );
-    }
-    else{*/
-      return(
         <div
-          className={classnames(styles.boxNavSmall)}
-          style={{justifyContent: 'flex-end'}}>
-          <div
-            className={classnames(styles.boxLogo)}
-            onClick={(e)=>{e.preventDefault(); e.stopPropagation(); this.props._refer_to('', '/')}}>
-            <SvgLogo
-              reverseColor={true}/>
-          </div>
+          className={classnames(
+            styles.selfCom_NavOptions_svg_)}>
+            {
+              signupinify ? (
+                currentPath.includes('/s/') ? (
+                  <a
+                    href={'/?process=signin'}
+                    className={classnames(
+                      'plainLinkButton', styles.boxSignupin,
+                      {[styles.boxSignupinMouseon]: this.state.onBtn}
+                    )}
+                    onClick={()=>{ this._handleLeave_Btn(); }}
+                    onTouchStart={this._handleEnter_Btn}
+                    onTouchEnd={this._handleLeave_Btn}
+                    onMouseEnter={this._handleEnter_Btn}
+                    onMouseLeave={this._handleLeave_Btn}>
+                    <span
+                      className={classnames(
+                        "fontSubtitle",
+                        {
+                          ["colorDescripBlack"]: this.state.onBtn,
+                          ["colorEditLightBlack"]: !this.state.onBtn,
+                        }
+                      )}>
+                      {this.props.i18nUIString.catalog['submit_nav_Signupin']}
+                    </span>
+                  </a>
+                ) : (
+                  <Link
+                    to={'/?process=signin'}
+                    className={classnames(
+                      'plainLinkButton', styles.boxSignupin,
+                      {[styles.boxSignupinMouseon]: this.state.onBtn}
+                    )}
+                    onClick={()=>{ this._handleLeave_Btn(); }}
+                    onTouchStart={this._handleEnter_Btn}
+                    onTouchEnd={this._handleLeave_Btn}
+                    onMouseEnter={this._handleEnter_Btn}
+                    onMouseLeave={this._handleLeave_Btn}>
+                    <span
+                      className={classnames(
+                        "fontSubtitle",
+                        {
+                          ["colorDescripBlack"]: this.state.onBtn,
+                          ["colorEditLightBlack"]: !this.state.onBtn,
+                        }
+                      )}>
+                      {this.props.i18nUIString.catalog['submit_nav_Signupin']}
+                    </span>
+                  </Link>
+                )
+              ) : (
+                <span
+                  className={classnames("fontSubtitle")}>
+                  {'\xa0'}
+                </span>
+              )
+            }
         </div>
-      );
-    // };
+      </div>
+    );
   }
 
   render(){
@@ -67,18 +126,22 @@ class NavOptionsUnsign extends React.Component {
       <div
         className={classnames(styles.comNavOption)}>
         <div
-          className={classnames("smallDisplayBox")}
-          style={{width: '100%', padding: "0 1.38vw", boxSizing: 'border-box'}}>
-          {
-            /*Notice, this render method actually deal with only situation the screen width < 860px
-            and the rest (>860px) would rely on the next DOM beneath*/
-            this._render_NavSmallScreen()
-          }
+          className={classnames(
+            "smallDisplayBox", styles.boxNavOptionsSmall)}>
+          {this._render_NavSmallScreen()}
         </div>
       </div>
     )
   }
 
+  _handleEnter_Btn(e){
+    this.setState({onBtn: true})
+  }
+
+  _handleLeave_Btn(e){
+    this.setState({
+      onBtn: false})
+  }
 }
 
 const mapStateToProps = (state)=>{

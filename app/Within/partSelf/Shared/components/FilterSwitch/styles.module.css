@@ -1,0 +1,22 @@
+.comFilterSwitch {
+  cursor: pointer;
+}
+
+.boxTitle {
+  margin: 8px 0;
+}
+
+.boxBtnOn {
+  background-color: #757575;
+  padding: 6px 12px;
+  border-radius: 16px;
+}
+
+.boxbtnOff{
+  padding: 6px 12px;
+  border-radius: 16px;
+}
+
+@media screen and (max-width:860px) {
+
+}

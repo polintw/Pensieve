@@ -142,7 +142,7 @@ class ConnectMail extends React.Component {
         flexDirection: 'column',
         justifyContent: "flex-end",
         width: "385px",
-        maxWidth: "98vw",
+        maxWidth: "100%",
         paddingTop: "12vh",
       },
       ConfirmSuccess_: {

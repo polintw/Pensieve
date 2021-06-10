@@ -5,7 +5,6 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import Invite from '../../../partAround/Index/Invite/Invite.jsx';
 import CreateShare from '../../../../Unit/Editing/CreateShare.jsx';
 
 class FeedEmpty extends React.Component {
@@ -32,48 +31,34 @@ class FeedEmpty extends React.Component {
   }
 
   _render_emptyButton(){
-    const belongNodes = [this.props.belongsByType.homeland, this.props.belongsByType.residence];
-    const nodeBelongify = belongNodes.indexOf(parseInt(this.props.nodeAtId)) < 0 ? false : true ;
-    if(nodeBelongify){
-      return (
+    return (
+      <div
+        className={classnames(styles.boxInvite)}>
         <div
-          className={classnames(styles.boxInvite)}>
-          <div
+          className={classnames(
+            styles.boxBtnInvite,
+            {[styles.boxBtnInviteActiv]: this.state.onInvite}
+          )}
+          onMouseEnter={this._handleEnter_Invite}
+          onMouseLeave={this._handleLeave_Invite}>
+          <span
             className={classnames(
-              styles.boxBtnInvite,
-              {[styles.boxBtnInviteActiv]: this.state.onInvite}
-            )}
-            onMouseEnter={this._handleEnter_Invite}
-            onMouseLeave={this._handleLeave_Invite}>
-            <span
-              className={classnames(
-                styles.spanBtnInvite,
-                {
-                  ['colorGrey']: !this.state.onInvite,
-                  ['colorStandard']: this.state.onInvite,
-                }, 'fontSubtitle_h5')}>
-                {this.props.i18nUIString.catalog["submit_"] }</span>
-              <CreateShare
-                {...this.props}
-                _submit_Share_New={()=>{
-                  // close the Create by rm creating in url, and then refresh page
-                  let lastState = this.props.location.state.from ;
-                  window.history.replaceState(lastState);
-                  window.location.reload();}}/>
-            </div>
+              styles.spanBtnInvite,
+              {
+                ['colorGrey']: !this.state.onInvite,
+                ['colorStandard']: this.state.onInvite,
+              }, 'fontSubtitle_h5')}>
+            {this.props.i18nUIString.catalog["submit_"] }</span>
+          <CreateShare
+            {...this.props}
+            _submit_Share_New={()=>{
+              // close the Create by rm creating in url, and then refresh page
+              let lastState = this.props.location.state.from ;
+              window.history.replaceState(lastState);
+              window.location.reload();}}/>
+          </div>
         </div>
       );
-    }
-    else{
-      return (
-        <div
-          className={classnames(styles.boxInvite)}>
-          <Invite
-            belongOnly={false}
-            reqNode={this.props.nodeAtId}/>
-        </div>
-      )
-    };
   }
 
   render(){
@@ -84,10 +69,7 @@ class FeedEmpty extends React.Component {
           {this.props.i18nUIString.catalog['guiding_AtNode_noAccumulated']}
           <br/>
         </div>
-        {
-          this.props.belongsByType.fetched &&
-          this._render_emptyButton()
-        }
+        {this._render_emptyButton()}
       </div>
     )
   }
@@ -106,7 +88,6 @@ class FeedEmpty extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     i18nUIString: state.i18nUIString,
-    belongsByType: state.belongsByType
   }
 }
 

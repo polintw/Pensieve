@@ -190,7 +190,8 @@ class TitlePath extends React.Component {
                   onMouseLeave={this._handleLeave_Setlink}>
                   <div
                     className={classnames(styles.boxSvgNetGlobe)}>
-                    <SvgNetGlobe/>
+                    <SvgNetGlobe
+                      svgClass={['cls-1-netGlobe', 'cls-2-netGlobe']}/>
                   </div>
                   <span
                     className={classnames(

@@ -13,9 +13,6 @@
   cursor: pointer;
 }
 
-.boxModalEmit {
-  position: absolute;
-  bottom: 115%;
-  left: 50%;
-  transform: translate(-50%, 0);
+.boxSmallDescrip {
+  margin-left: 6px;
 }
