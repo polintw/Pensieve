@@ -206,7 +206,7 @@ const i18nUIString_EN = {
 
   "title_Nodes": "Nodes map",
 
-  "subTitle_ComiscNodes_": "all topics and place used",
+  "subTitle_ComiscNodes_": "all topics and places used",
 
   "title_NavAtNode_": "Accumulations",
   "subTitle_NavAtNode_": "You are in",

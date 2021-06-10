@@ -119,7 +119,7 @@ class Wrapper extends React.Component {
             className={classnames(styles.boxTitle, styles.boxFeedNav)}>
             <span
               className={classnames("fontContentPlain", "weightBold", "colorAssistGold")}>
-              {this.props.i18nUIString.catalog["title_NavAtNode_"]}</span>
+              {this.props.i18nUIString.catalog["title_Notes"]}</span>
           </div>
           <div>
             <Feed/>
