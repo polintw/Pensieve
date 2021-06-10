@@ -33,10 +33,9 @@ async function _handle_GET_nouns_Assigned(req, res){
         //'max' here combined with 'group' prop beneath,
         //because the GROUP by would fail when the 'createdAt' is different between each row,
         //so we ask only the 'max' one by this method
-        [Sequelize.fn('max', Sequelize.col('attribution.createdAt')), 'attribution.createdAt'], //fn(function, col, alias)
+        [Sequelize.fn('max', Sequelize.col('attribution.createdAt')), 'createdAt'], //fn(function, col, alias)
         //set attributes, so we also need to call every col we need
-        'id_noun',
-        'createdAt'
+        'id_noun'
       ],
       group: 'id_noun', //Important. means we combined the rows by node, each id_noun would only has one row
       order: ['id_noun'],
