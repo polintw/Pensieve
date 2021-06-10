@@ -5,7 +5,7 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import CreateShare from '../../../../Unit/Editing/CreateShare.jsx';
+import BtnUpload from '../../../../Unit/Editing/BtnUpload/BtnUpload.jsx';
 
 class FeedEmpty extends React.Component {
   constructor(props){
@@ -33,47 +33,20 @@ class FeedEmpty extends React.Component {
     return (
       <div className={styles.comFeedEmpty}>
         <div
-          className={classnames(styles.boxTitle, styles.boxEmptyDescript, "fontTitleSmall", "colorLightGrey")}>
-          {this.props.i18nUIString.catalog['guiding_noAccumulated_shareInvitation']}
-          <br/>
-        </div>
-        <div
-          className={classnames(styles.boxInvite)}>
-          <div
-            className={classnames(
-              styles.boxBtnInvite,
-              {[styles.boxBtnInviteActiv]: this.state.onInvite}
-            )}
-            onMouseEnter={this._handleEnter_Invite}
-            onMouseLeave={this._handleLeave_Invite}>
-            <span
-              className={classnames(
-                styles.spanBtnInvite,
-                {
-                  ['colorGrey']: !this.state.onInvite,
-                  ['colorStandard']: this.state.onInvite,
-                }, 'fontSubtitle_h5')}>
-              {this.props.i18nUIString.catalog["title_share"] }</span>
-            <CreateShare
-                {...this.props}
-                _submit_Share_New={()=>{
-                  // close the Create by rm creating in url, and then refresh page
-                  let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
-                  urlParams.delete('creating');
-                  window.history.replaceState({
-                    pathname: this.props.match.path,
-                    search: urlParams.toString(),
-                    state: {from: this.props.location}
-                  });
-                  window.location.reload();}}/>
-          </div>
-        </div>
-        <div
-          className={classnames(styles.boxTitle, styles.boxEmptyDescript, "fontTitleSmall", "colorLightGrey")}>
-          <span style={{display: 'inline-block', width: '170px'}}>
+          className={classnames(styles.boxTitle, styles.boxEmptyDescript, "fontContent", "colorLightGrey")}>
+          <span style={{display: 'inline-block', width: '221px'}}>
             {this.props.i18nUIString.catalog['guiding_noAccumulated_selfPageExplain'][1]}
           </span>
           <br/>
+        </div>
+        <div
+          className={classnames(styles.boxEmptyUpload)}>
+          <BtnUpload
+            {...this.props}
+            styleTextBright={false}
+            customTextStyle={{color: '#757575'}}
+            _submit_Share_New={this.props._submit_Share_New}
+            _refer_von_Create={this.props._refer_von_cosmic}/>
         </div>
       </div>
     )

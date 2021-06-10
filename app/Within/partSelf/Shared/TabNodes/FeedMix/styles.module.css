@@ -1,0 +1,122 @@
+.comSharedsFeed {
+  display: flex;
+  flex-direction: column;
+}
+
+.comFeedEmpty {
+  width: 100%;
+  padding-top: 6rem;
+}
+
+.boxRow {
+  position: relative;
+  margin: 12px 0;
+}
+
+.boxTitle {
+  margin: 8px 0;
+}
+
+.boxModule{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.boxModuleItem {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.boxUpload {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 78%;
+  height: 249px;
+  min-width: 274px;
+  min-height: 31.6vh;
+  padding: 0 0 32px;
+}
+
+.boxDescript {
+  width: 100%;
+  text-align: center;
+}
+
+.boxEmptyDescript {
+  width: 100%;
+  text-align: center;
+}
+
+.boxInvite {
+  padding: 22px 0 20px;
+  text-align: center;
+}
+
+.boxBtnInvite {
+  display: inline-block;
+  position: relative;
+  box-sizing: border-box;
+  padding: 6px 1.2rem 7px;
+  border-radius: 4px;
+  border: solid 1px #a3a3a3;
+  cursor: pointer;
+}
+
+.boxBtnInviteActiv {
+  border: dashed 2px #ababab;
+}
+
+.boxFooter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 28px;
+  margin-bottom: 36vh;
+}
+
+
+.spanBtnInvite {
+  white-space: nowrap;
+}
+
+.spanFooterHint {
+  margin: 8px 0;
+}
+
+.spanMessageUpload {
+  display: block;
+  margin: 0 0 16px;
+  text-align: center;
+}
+
+@media screen and (max-width:860px) {
+  .boxRowModules {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .boxModuleSmall {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .boxModuleSmallPik {
+    width: 100%;
+  }
+
+  .boxModuleItem {
+    width: 100%;
+  }
+
+  .boxModuleItemPik {
+    width: 49%;
+  }
+
+  .boxFooter {
+    margin-bottom: 19vh;
+  }
+}

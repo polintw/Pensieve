@@ -5,6 +5,7 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const _DB_attri = require('../../db/models/index').attribution;
 const _DB_paths = require('../../db/models/index').paths;
+const _DB_nouns = require('../../db/models/index').nouns;
 const {_res_success} = require('../utils/resHandler.js');
 const {
   _handle_ErrCatched,
@@ -43,11 +44,16 @@ async function _handle_GET_shareds_NodesAssigned(req, res){
         //'max' here combined with 'group' prop beneath,
         //because the GROUP by would fail when the 'createdAt' is different between each row,
         //so we ask only the 'max' one by this method
-        [Sequelize.fn('max', Sequelize.col('createdAt')), 'createdAt'], //fn(function, col, alias)
+        [Sequelize.fn('max', Sequelize.col('attribution.createdAt')), 'attribution.createdAt'], //fn(function, col, alias)
         //set attributes, so we also need to call every col we need
         'id_noun',
       ],
-      group: 'id_noun' //Important. means we combined the rows by node, each id_noun would only has one row
+      group: 'id_noun', //Important. means we combined the rows by node, each id_noun would only has one row
+      order: ['id_noun'],
+      include: {
+        model: _DB_nouns,
+        // INNER JOIN, no 'required' set
+      }
     });
     if (!!req.query.suggestion && nodesByAttri.length > 7) { // if we are return list for suggestions used in NavFIlter, only return
       function FisherShuffle(array) {
@@ -71,15 +77,26 @@ async function _handle_GET_shareds_NodesAssigned(req, res){
       nodesByAttri = FisherShuffle(nodesByAttri);
       nodesByAttri = nodesByAttri.slice(0, 7); // only index 0~6, total 7 elements
     };
-
-    let nodesList = nodesByAttri.map((row, index)=>{
-      return row.id_noun;
-    })
-
     let sendingData={
-      nodesList: nodesList,
       temp: {}
     };
+
+    if(!!req.query.seperate){
+      let listType = ["locationsList", "topicsList"];
+      sendingData[listType[0]] = [];
+      sendingData[listType[1]] = [];
+      nodesByAttri.forEach((row, index) => {
+        let listKey = (row.noun.category == "location_admin") ? listType[0] : listType[1];
+        sendingData[listKey].push(row.id_noun);
+      });
+    }
+    else {
+      let nodesList = nodesByAttri.map((row, index)=>{
+        return row.id_noun;
+      })
+      sendingData['nodesList'] = nodesList;
+    };
+
 
     _res_success(res, sendingData, "GET: /shareds/nodes, /assigned , complete.");
   }

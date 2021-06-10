@@ -6,8 +6,6 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import stylesFont from "../../stylesFont.module.css";
-import GatheringBase from './GatheringBase.jsx';
 
 class NavFeed extends React.Component {
   constructor(props){
@@ -32,92 +30,77 @@ class NavFeed extends React.Component {
   }
 
   render(){
-    let gatheringify = this.props.location.pathname.includes('fellows') ? false : true;
+    let sidePropsStyle = {
+      opacity: this.props.sideOpacityParam}
+    let centerPropsStyle = (this.props.sideOpacityParam < 0.5) ? {fontWeight: 'bold', color: '#f3b55a'} : {};
 
     return(
       <div
         className={classnames(styles.comNavFeed, styles.boxTitle)}>
         <div
-          style={{display:'flex'}}>
+          className={classnames(styles.boxLinks)}>
           <Link
-            to={ "/" }
-            topath={"gathering"}
-            className={
-              // classnames('plainLinkButton', styles.boxLinkLeft)
-              classnames('plainLinkButton')
-            }
-            style={{cursor: 'default'}}
-            onClick={(e)=>{ if( gatheringify ) e.preventDefault(); }}
+            to={ "/self/shareds" }
+            topath={"personal"}
+            className={classnames('plainLinkButton')}
+            onTouchStart={this._handleEnter_link}
+            onTouchEnd={this._handleLeave_link}
+            onMouseUp={this._handleLeave_link}
             onMouseEnter={this._handleEnter_link}
-            onMouseLeave={this._handleLeave_link}>
+            onMouseLeave={this._handleLeave_link}
+            style={ Object.assign({}, { padding: '0 8px' }, sidePropsStyle)}>
             <span
               className={classnames(
-                "fontContentPlain", "weightBold",
+                "fontSubtitle",
                 {
-                  [styles.spanLinkMouse]: (this.state.onNavLink == 'gathering' && !gatheringify),
-                  ["colorLightGrey"]: !gatheringify,
-                  ["colorAssistGold"]: gatheringify
+                  [styles.spanLinkMouse]: (this.state.onNavLink == 'personal'),
+                  ["colorLightGrey"]: (this.state.onNavLink != 'personal'),
+                  ["colorEditBlack"]: (this.state.onNavLink == 'personal'),
+                  ["weightBold"]: (this.state.onNavLink == 'personal')
                 }
               )}>
-              {this.props.i18nUIString.catalog["title_FeedAssigned_"] }
+              {this.props.i18nUIString.catalog["title_Index_NavFeed_"][0] }
             </span>
           </Link>
-          {
-            /*
-            to hide the link from client, we comment out this paragraph
-            <Link
-              to={ "/fellows" }
-              topath={"fellows"}
-              className={classnames('plainLinkButton', styles.boxLinkRight)}
-              style={{cursor: 'default'}}
-              onClick={(e)=>{ if( !gatheringify ) e.preventDefault(); }}
-              onMouseEnter={this._handleEnter_link}
-              onMouseLeave={this._handleLeave_link}>
-              <span
-                className={classnames(
-                "fontContentPlain", "weightBold",
-                  {
-                    [styles.spanLinkMouse]: (this.state.onNavLink == 'fellows' && gatheringify),
-                    ["colorLightGrey"]: gatheringify,
-                    ["colorAssistGold"]: !gatheringify
-                  }
-                )}>
-                {this.props.i18nUIString.catalog["link_Fellows"] }
-              </span>
-            </Link>
-            */
-          }
-        </div>
-        <div
-          className={classnames(styles.boxGatheringBase)}>
-          <GatheringBase/>
-          <div>
-            <span
-              className={classnames('colorWhiteGrey', 'fontContentPlain', 'smallDisplayNone')}
-              style={{ padding: '0 5px' }}>
-              {"．"}
-            </span>
-            <Link
-              to={"/cosmic/focus"}
-              topath={"focus"}
-              className={classnames('plainLinkButton')}
-              onTouchStart={this._handleEnter_link}
-              onTouchEnd={this._handleLeave_link}
-              onMouseEnter={this._handleEnter_link}
-              onMouseLeave={this._handleLeave_link}
-              style={{ padding: '0 5px' }}>
-              <span
-                className={classnames(
-                  "fontContentPlain", "weightBold", styles.spanBaseNode,
-                  {
-                    [styles.spanBaseNodeMouse]: (this.state.onNavLink == 'focus'),
-                    ["colorWhiteGrey"]: (this.state.onNavLink != 'focus'),
-                    ["colorEditBlack"]: (this.state.onNavLink == 'focus')
-                  }
-                )}>
-                {this.props.i18nUIString.catalog['link_Focus']}</span>
-            </Link>
+          <div
+            className={classnames(styles.boxDecoLine)}
+            style={ Object.assign({}, sidePropsStyle)}>
+            <svg viewBox="0 0 20 20"
+              style={Object.assign({}, {
+                height: '100%',
+                maxWidth: '100%',
+                position: 'relative',
+                boxSizing: 'border-box'
+              })}>
+              <circle fill="#b8b8b8" cx="10" cy="10" r="5"></circle>
+            </svg>
+            <a id={"topFeed"} style={{opacity: '0'}}/>
           </div>
+          <a
+            href={"#topFeed"}
+            topath={"int_feedAssigned"}
+            className={classnames(
+              'plainLinkButton',
+              { // to control together by style
+                ["colorLightGrey"]: (this.state.onNavLink != 'int_feedAssigned'),
+                ["colorEditBlack"]: (this.state.onNavLink == 'int_feedAssigned'),
+                ["weightBold"]: (this.state.onNavLink == 'int_feedAssigned')
+              }
+            )}
+            onTouchStart={this._handleEnter_link}
+            onTouchEnd={this._handleLeave_link}
+            onMouseUp={this._handleLeave_link}
+            onMouseEnter={this._handleEnter_link}
+            onMouseLeave={this._handleLeave_link}
+            style={ Object.assign({}, { padding: '0 8px' }, centerPropsStyle)}>
+            <span
+              className={classnames(
+                "fontSubtitle",
+                {[styles.spanLinkMouse]: (this.state.onNavLink == 'int_feedAssigned')}
+              )}>
+              {this.props.i18nUIString.catalog["title_Index_NavFeed_"][1] }
+            </span>
+          </a>
         </div>
       </div>
     )

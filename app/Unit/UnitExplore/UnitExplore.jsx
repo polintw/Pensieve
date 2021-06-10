@@ -9,18 +9,14 @@ import classnames from 'classnames';
 import styles from './styles.module.css';
 import Theater from '../Theater/Theater.jsx';
 import SharedEdit from '../Editing/SharedEdit.jsx';
-import CreateRespond from '../Editing/CreateRespond.jsx';
-import Related from '../Related/Related.jsx';
 import {
   _axios_getUnitData,
   _axios_getUnitImgs,
 } from '../utils.js';
-import NavOptions from '../../Components/NavOptions/NavOptions.jsx';
 import ModalBox from '../../Components/ModalBox.jsx';
 import ModalBackground from '../../Components/ModalBackground.jsx';
 import {
   setUnitView,
-  submitUnitRespondsList
 } from "../../redux/actions/unit.js";
 import {
   setUnitCurrent,
@@ -48,16 +44,13 @@ class UnitExplore extends React.Component {
     this._set_UnitCurrent = this._set_UnitCurrent.bind(this);
     this._construct_UnitInit = this._construct_UnitInit.bind(this);
     this._reset_UnitMount = ()=>{this._set_UnitCurrent();};
-    this.style={
-
-    };
     //And! we have to 'hide' the scroll bar and preventing the scroll behavior to the page one for all
     //so dismiss the scroll ability for <body> here
     document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:hidden;");
   }
 
   _construct_UnitInit(match, location){
-    let unitInit= {marksify: false, initMark: "all", layer: 0};
+    let unitInit = { marksify: false, initMark: "first", layer: 0 };
     return unitInit;
   }
 
@@ -126,7 +119,6 @@ class UnitExplore extends React.Component {
         imgLocation: resObj.main.imgLocation,
         createdAt: resObj.main.createdAt
       });
-
     })
     .catch(function (thrown) {
       self.setState({axios: false});
@@ -150,7 +142,6 @@ class UnitExplore extends React.Component {
       //and Don't worry about the order between state reset, due to the Redux would keep always synchronized
       let unitCurrentState = Object.assign({}, unitCurrentInit);
       this.props._set_store_UnitCurrent(unitCurrentState);
-      this.props._submit_list_UnitResponds({ list: [], scrolled: true }, true); // reset the responds state to initial
       this._set_UnitCurrent();
       this.boxUnitFrame.current.scrollTop = 0; // make the Unit view area back to top
     };
@@ -171,7 +162,6 @@ class UnitExplore extends React.Component {
     let unitCurrentState = Object.assign({}, unitCurrentInit);
     this.props._set_store_UnitCurrent(unitCurrentState);
     this.props._set_state_UnitView('theater'); // it's default for next view
-    this.props._submit_list_UnitResponds({ list: [], scrolled: true }, true); // reset the responds state to initial
     //last, make sure the scroll ability back to <body>
     document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:scroll;");
   }
@@ -194,29 +184,6 @@ class UnitExplore extends React.Component {
             _reset_UnitMount={this._reset_UnitMount}/>
         )
         break;
-      case 'respond':
-        return (
-          <CreateRespond
-            {...this.props}
-            _reset_UnitMount={this._reset_UnitMount}
-            _close_theaterHeigher={this._close_modal_Unit}/>
-        )
-        break;
-      case 'related':
-        return (
-          <div
-            className={classnames(styles.boxRelated)}
-            onClick={(e)=> { e.stopPropagation();e.preventDefault();this._close_modal_Unit()}}>
-            <div
-              onClick={(e)=> { e.stopPropagation();e.preventDefault();}}>
-              <Related
-                {...this.props}
-                _reset_UnitMount={this._reset_UnitMount}
-                _close_theaterHeigher={this._close_modal_Unit}/>
-            </div>
-          </div>
-        )
-        break;
       default:
         return null
     };
@@ -226,13 +193,13 @@ class UnitExplore extends React.Component {
     this.urlParams = new URLSearchParams(this.props.location.search);
     this.unitId = this.urlParams.get('unitId');
     let paramUnitView = this.urlParams.get('unitView');
-    let cssVW = window.innerWidth; // for RWD
 
     if(this.state.close){return <Redirect to={{
         pathname: '/',
         search: '',
         state: this.props.location.state //keep the state as props, perhaps need to increase 'current location' for 'back' use
       }}/>};
+    let cssVW = window.innerWidth;
 
     return(
       <ModalBox containerId="root">
@@ -242,21 +209,14 @@ class UnitExplore extends React.Component {
           onClose={()=>{this._close_modal_Unit();}}
           style={{
             position: "fixed",
-            backgroundColor: (paramUnitView=="related" || paramUnitView=="respond") ? 'rgba(51, 51, 51, 0.85)': 'rgba(51, 51, 51, 0.3)' }}>
-            {
-              (cssVW < 860) &&
-              <div
-                className={classnames(styles.boxNavOptions)}>
-                <NavOptions {...this.props} _refer_to={this._close_modal_Unit}/>
-              </div>
-            }
+            backgroundColor: cssVW > 860 ? 'rgba(51, 51, 51, 0.3)' : 'rgba(51, 51, 51, 0.85)' }}>
+            <div
+              id={"unitSignFrame"}
+              className={classnames(styles.boxUnitSignFrame)}/>
             <div
               id={"unitFrame"}
               ref={this.boxUnitFrame}
               className={classnames(styles.boxUnitFrame)}>
-              <div
-                id={"unitSignFrame"}
-                className={classnames(styles.boxUnitSignFrame)}/>
               <div
                 className={classnames(styles.boxUnitContent)}
                 onClick={this._close_modal_Unit}>
@@ -284,7 +244,6 @@ const mapDispatchToProps = (dispatch)=>{
     _submit_Users_insert: (obj) => { dispatch(updateUsersBasic(obj)); },
     _set_state_UnitView: (expression)=>{dispatch(setUnitView(expression));},
     _set_store_UnitCurrent: (obj)=>{dispatch(setUnitCurrent(obj));},
-    _submit_list_UnitResponds: (obj, reset) => { dispatch(submitUnitRespondsList(obj, reset)); }
   }
 }
 

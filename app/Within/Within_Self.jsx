@@ -10,9 +10,6 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import Self from './partSelf/WithinSelf.jsx';
-import {
-  fetchBelongRecords
-} from '../redux/actions/general.js'
 import NavWithin from '../Components/NavWithin/NavWithin.jsx';
 import NavWihtinSelf from '../Components/NavWithin/NavWihtinSelf.jsx';
 import NavOptions from '../Components/NavOptions/NavOptions.jsx';
@@ -27,7 +24,8 @@ class WithinSelf extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      switchTo: null
+      switchTo: null,
+      navWithinNotDisSmall: false
     };
     this._refer_von_cosmic = this._refer_von_cosmic.bind(this);
     this.style={
@@ -64,6 +62,22 @@ class WithinSelf extends React.Component {
         switchTo: null
       });
     }
+    let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
+    let prevUrlParmas = new URLSearchParams(prevProps.location.search);
+    if(
+      (this.props.location.pathname != prevProps.location.pathname && this.props.location.pathname.includes('/unit')) ||
+      (urlParams.has('creating') && !prevUrlParmas.has("creating"))
+    ){
+      this.setState({ navWithinNotDisSmall: true });
+    }
+    else if(
+      (this.props.location.pathname != prevProps.location.pathname &&
+      prevProps.location.pathname.includes('/unit') &&
+      !this.props.location.pathname.includes('/unit') )||
+      (!urlParams.has('creating') && prevUrlParmas.has("creating"))
+    ){
+      this.setState({ navWithinNotDisSmall: false });
+    };
   }
 
   componentDidMount() {
@@ -71,8 +85,6 @@ class WithinSelf extends React.Component {
     Here is the highest level next only to status() in root, fetching data or any info needed
     */
     if( !window.localStorage['token'] ) return;
-    //beneath are the process difinately need a token
-    this.props._fetch_belongRecords();
   }
 
   componentWillUnmount() {
@@ -115,14 +127,15 @@ class WithinSelf extends React.Component {
                 styles.boxContentFilledRightSelf)}/>
           </div>
           <div
-            className={classnames(
-              styles.boxNavAround, styles.boxNavWithinSelf)}>
+            className={this.state.navWithinNotDisSmall ? classnames(styles.boxNavAround, styles.boxNavWithinSelf, 'smallDisplayNone') :
+              classnames(styles.boxNavAround, styles.boxNavWithinSelf) }>
             <NavWithin {...this.props} _refer_to={this._refer_von_cosmic}>
               <div
                 className={classnames(
                   styles.boxNavCosmic,
-                  styles.smallDisplayNone)}>
-                  <NavWihtinSelf/>
+                  "smallDisplayNone")}>
+                  <NavWihtinSelf
+                    {...this.props}/>
                 </div>
             </NavWithin>
           </div>
@@ -189,7 +202,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    _fetch_belongRecords: () => {dispatch(fetchBelongRecords())},
+
   }
 }
 

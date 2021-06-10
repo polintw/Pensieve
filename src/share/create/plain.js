@@ -30,9 +30,9 @@ const {
 const resizeThumb = (base64Buffer)=>{
   return sharp(base64Buffer)
       .rotate()
-      .resize({width: 640, height: 640, fit: 'inside'})  // px, define it to nHD 640 x 360
+      .resize({width: 480, height: 480, fit: 'inside'})  // px, define it to 480 x 272 under 16:9 aspect ratio
       .jpeg({
-          quality: 64
+          quality: 72
         })
       .toBuffer({ resolveWithObject: true })
       .then(({data, info})=>{
@@ -175,15 +175,20 @@ async function shareHandler_POST(req, res){
       else resolveLoc(false);
     })
     .then((primer)=>{
+      /*
+      'Respond' was rm temporarily, any 'primer' related was blocked
       if(!!primer){
         unitProfile['id_primer'] = primer.id;
       }
+      */
 
       return _DB_units.create(unitProfile)
       .then((createdUnit)=>{
         modifiedBody['id_unit'] = createdUnit.id;
         modifiedBody['id_unit_exposed'] = createdUnit.exposedId;
 
+        /*
+        'Respond' was rm temporarily, any 'primer' related was blocked
         if(!!primer){
           return _DB_responds.create({
             id_unit: createdUnit.id,
@@ -199,7 +204,7 @@ async function shareHandler_POST(req, res){
             throw err
           });
         }
-        else return createdUnit;
+        else */ return createdUnit;
       })
       .then((createdUnit)=> {
         return _DB_unitsStatInteract.create({
@@ -261,8 +266,10 @@ async function shareHandler_POST(req, res){
         /*till this moment the check for assigned, attributed nodes have completed.
         for assigned, we assumed the list here can be trusted undoubt.
         */
-        let assignedNodesArr = modifiedBody.nodesSet.map((assignedObj, index)=>{
-          return ({
+        let assignedNodesArr = [];
+        modifiedBody.nodesSet.forEach((assignedObj, index)=>{
+          if(assignedObj.type == "deweyOne") return ;
+          assignedNodesArr.push({
             id_unit: modifiedBody.id_unit,
             id_author: userId,
             nodeAssigned: assignedObj.nodeId,

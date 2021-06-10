@@ -16,9 +16,7 @@ class NodesSearch extends React.Component {
     this.state = {
 
     };
-    this._render_node = this._render_node.bind(this);
     this._set_choiceFromSearch = this._set_choiceFromSearch.bind(this);
-    this._handleClick_belongsDelete = this._handleClick_belongsDelete.bind(this);
   }
 
   _set_choiceFromSearch(nodeBasic){
@@ -35,65 +33,20 @@ class NodesSearch extends React.Component {
 
   }
 
-  _render_node() {
-    //determine the id of current node
-    const nodeId = this.props.currentSet;
-
-    return (
-      <li
-        key={'_key_assignNode_vonSearch' }
-        nodeid={nodeId}
-        className={classnames(
-          styles.chosenListItem,
-        )}
-        onClick={this._handleClick_belongsDelete}>
-        {(nodeId in this.props.nounsBasic) &&
-          <div>
-            <span
-              className={classnames("fontContent", 'colorEditBlack')}>
-              {this.props.nounsBasic[nodeId].name}</span>
-            {
-              !!this.props.nounsBasic[nodeId].prefix &&
-              <span
-                className={classnames("fontContent", 'colorEditBlack')}
-                style={{ alignSelf:'right', fontSize: '1.2rem'}}>
-                {", "+this.props.nounsBasic[nodeId].prefix}</span>
-            }
-          </div>
-        }
-      </li>
-    )
-  }
-
   render(){
     return(
       <div
         className={styles.comNodesSearch}>
-        {
-          !!this.props.currentSet ? (
-            <div>
-              {this._render_node()}
-            </div>
-          ):(
-            <NodeSearchModule
-              type={"inputDirect"}
-              mountFocus={false}
-              reversed = {true}
-              _set_nodeChoice={this._set_choiceFromSearch}
-              _set_SearchModal_switch={()=>{}}
-              _handleClick_SearchModal_switch={(e)=>{e.preventDefault();e.stopPropagation();}}/>
-          )
-        }
-
+        <NodeSearchModule
+          type={"inputDirect"}
+          category={this.props.category}
+          mountFocus={false}
+          reversed = {false}
+          _set_nodeChoice={this._set_choiceFromSearch}
+          _set_SearchModal_switch={()=>{}}
+          _handleClick_SearchModal_switch={(e)=>{e.preventDefault();e.stopPropagation();}}/>
       </div>
     )
-  }
-
-  _handleClick_belongsDelete(event){
-    event.preventDefault();
-    event.stopPropagation();
-
-    this.props._reset_searchSelection(this.props.currentSet); //nodtice, 'currentSet' is integer
   }
 
 }

@@ -41,16 +41,13 @@ class NavSign extends React.Component {
   _render_linkCenter(){
     let navDOM = [];
     if(this.props.location.pathname.includes('/resend')){ // only under /s/, and "/s/" was set as 'base', not present in location.pathname
-      navDOM.push(hrefSign(this, false, true, "/"));
+      navDOM.push(hrefSign(this, false, true, "/?process=signin"));
     }
     else if(this.props.location.pathname.includes('/success')){
       navDOM.push(
         <Link
           key={"key_NavSign_toSignin"}
-          to={{
-            pathname: "/",
-            state: {from: this.props.location}
-          }}
+          to={'/?process=signin'}
           className={classnames(
             'plainLinkButton',
             styles.boxLinkSelfAlign
@@ -87,10 +84,7 @@ class NavSign extends React.Component {
       navDOM.unshift( // base on linkSignin, modified style
         <Link
           key={"key_NavSign_toSignin"}
-          to={{
-            pathname: "/",
-            state: {from: this.props.location}
-          }}
+          to={'/?process=signin'}
           className={classnames(
             'plainLinkButton'
           )}>
@@ -162,10 +156,7 @@ const linkSignin = (self, iscenter) => {
   return (
     <Link
       key={"key_NavSign_toSignin"}
-      to={{
-        pathname: "/",
-        state: {from: self.props.location}
-      }}
+      to={"/?process=signin"}
       className={classnames(
         'plainLinkButton',
         {[styles.boxLinkSelfAlign]: !iscenter}

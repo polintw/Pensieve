@@ -123,14 +123,12 @@ async function _handle_GET_accumulated_Share(req, res){
           author_identity: "pathProject",
           used_authorId: pathInfo.id,
           createdAt: { [Op.lt]: lastUnitTime },
-          source: null,
         };
         break;
       case 'mixAll':
         whereAttributes = {
           id_author: userId,
           createdAt: { [Op.lt]: lastUnitTime },
-          source: null,
         };
         break;
       default: // 'personalOnly'
@@ -139,7 +137,6 @@ async function _handle_GET_accumulated_Share(req, res){
           author_identity: "user",
           used_authorId: null,
           createdAt: { [Op.lt]: lastUnitTime },
-          source: null,
         };
     };
     if (!!reqFilterNodes) {
@@ -184,6 +181,8 @@ async function _handle_GET_accumulated_Share(req, res){
         .catch((err) => { throw new internalError(err, 131); });
     }
     else { // filterNode 'undefined' or empty
+      whereAttributes = Object.assign(whereAttributes, {source: null}); // rm influence from Piksight
+
       unitsExposedList = await _DB_units.findAll({
         where: whereAttributes,
         order: [ //make sure the order of arr are from latest

@@ -1,0 +1,166 @@
+.comTabNodes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.comFocusBoardFeed {
+  display: flex;
+  flex-direction: column;
+}
+
+.comFeedEmpty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding-top: 3.8vh;
+}
+
+.boxRow {
+  position: relative;
+  margin: 12px 0;
+}
+
+.boxTitle {
+  margin: 8px 0;
+}
+
+.boxModule{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.boxModuleCenter{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.boxModuleItem {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 10px 20px 9px;
+  margin: 8px 6px;
+  border: 2px solid #a3a3a3;
+  border-radius: 16px;
+  cursor: pointer;
+}
+
+.boxModuleItemMouseOn {
+  border: 2px solid #4587A0;
+}
+
+.boxEmptyDescript {
+  width: 100%;
+  text-align: center;
+}
+
+.boxEmptyNodesFeedIcon {
+  width: 27vw;
+  height: 12vh;
+  max-width: 127px;
+  max-height: 86px;
+  box-sizing: border-box;
+  border: 3.2px solid #d8d8d8;
+  border-radius: 16px;
+}
+
+.rowFilterTitle {
+  position: relative;
+  padding-bottom: 2.538vh;
+  border-bottom: 1px solid #d8d8d8;
+}
+
+.boxFilterNode {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.boxFilterSwitches {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  position: relative;
+  margin: 8px 0 5.07vh;
+}
+
+.linkBlock {
+  display: block;
+}
+
+.boxFooter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding-top: 28px;
+  margin-bottom: 36vh;
+}
+
+.boxSvgArrow {
+  width: 15px;
+  height: 15px;
+  padding: 2.5px 0;
+  cursor: pointer;
+}
+
+.boxDecoLine {
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+  height: 10px;
+  position: relative;
+  margin: 16px;
+}
+
+.spanModuleItem {
+  display: inline-block;
+  border-bottom: solid 0.75px transparent;
+  text-align: center;
+}
+
+.spanModuleItemMouseOn {
+  border-bottom: solid 0.75px #545454;
+}
+
+.spanFooterHint {
+  margin: 8px 0;
+}
+
+.spanFilterCross {
+  display: inline-block;
+  margin-right: 15px;
+}
+
+.spanLinkNode {
+  display: inline-block;
+  border-bottom: solid 1px transparent;
+}
+
+.spanLinkNodeMouse {
+  border-bottom: solid 1px #545454;
+}
+
+@media screen and (min-width:860px) {
+  .boxFeedNodes {
+    width: 85%
+  }
+}
+
+@media screen and (max-width:860px) {
+  .boxModuleSmall {
+    justify-content: center;
+  }
+
+  .boxFooter {
+    margin-bottom: 19vh;
+  }
+}

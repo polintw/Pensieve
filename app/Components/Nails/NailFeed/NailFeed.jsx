@@ -12,6 +12,7 @@ import ImgPreview from '../../ImgPreview.jsx';
 import AccountPalette from '../../AccountPalette.jsx';
 import LinkFetch from '../../LinkFetch/LinkFetch.jsx';
 import SvgPin from '../../Svg/SvgPin.jsx';
+import {SvgBulbInspired} from '../../Svg/SvgBulb.jsx';
 import {
   renderNodesRows,
 } from '../generators.js';
@@ -75,8 +76,11 @@ class NailFeed extends React.Component {
         className={classnames(
           'plainLinkButton',
           styles.frame,
+          styles.frmaeSmall,
           {[styles.frameOnMouse]: this.state.onFrame}
         )}
+        onTouchStart={this._handleEnter_nailFrame}
+        onTouchEnd={this._handleLeave_nailFrame}
         onMouseEnter={this._handleEnter_nailFrame}
         onMouseLeave={this._handleLeave_nailFrame}>
         { // layer as a overlap when mouseon
@@ -93,9 +97,7 @@ class NailFeed extends React.Component {
         }
         <div
           className={classnames(
-            styles.boxContent,
-            {[styles.boxContentNarrow]: this.props.narrowWidth}
-          )}>
+            styles.boxContent)}>
           <div
             className={classnames(styles.boxTitle)}>
             <div
@@ -136,8 +138,7 @@ class NailFeed extends React.Component {
                         tagA={false}
                         dashify={true}
                         quotationify={true}
-                        outboundLink={this.props.unitBasic.outboundLink}
-                        customStyle={{common: {fontStyle: 'italic'}}}/>
+                        outboundLink={this.props.unitBasic.outboundLink}/>
                     }
                   </div>
                 </div>
@@ -150,6 +151,18 @@ class NailFeed extends React.Component {
                   blockName={''}
                   previewSrc={ imgSrcCover }
                   _handleClick_ImgPreview_preview={()=>{this.nailImgBox.current.click()}}/>
+                  {
+                    this.props.inspiredBulb &&
+                    <div
+                      className={classnames(styles.boxImgIconandBack)}>
+                      <div
+                        className={classnames(styles.boxImgIcon)}>
+                        <SvgBulbInspired
+                          colorClass={"smallLight"}
+                          mouseReact={false}/>
+                      </div>
+                    </div>
+                  }
               </div>
             )
           }

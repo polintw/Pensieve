@@ -2,7 +2,6 @@ import React from 'react';
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import stylesFont from '../stylesFont.module.css';
 import DisplayMarkPreview from '../../Draft/DisplayMarkPreview.jsx';
 
 class NailMarksPreview extends React.Component {
@@ -65,7 +64,7 @@ class NailMarksPreview extends React.Component {
           markkey={key}
           className={classnames(styles.boxOvalCount)}
           style={{
-            backgroundColor: (self.state.onCount == key && cssVW >= 860) ? "rgba(240, 151, 22, 0.45)": "rgba(84, 84, 84, 0.45)",
+            backgroundColor: (self.state.onCount == key) ? "rgba(240, 151, 22, 0.45)": "rgba(84, 84, 84, 0.45)",
             width: self.props.smallCircle ? '24px' : '32px',
             height: self.props.smallCircle ? '24px' : '32px',
           }}
@@ -75,7 +74,7 @@ class NailMarksPreview extends React.Component {
             (
               this.props.spotCount &&
               ( i== 0 || (cssVW >= 860 && i> 0) ) ? (
-                <span className={classnames(stylesFont.fontBold, stylesFont.colorWhite)}>{i + 1}</span>
+                <span className={classnames("fontContentPlain", "weightBold", "colorWhite")}>{i + 1}</span>
               ): (
                 null
               )
@@ -93,7 +92,8 @@ class NailMarksPreview extends React.Component {
       return(
         <div
           key={"key_nail_" + this.props.unitId + "_mark"}
-          className={classnames(stylesFont.fontContent, stylesFont.colorGrey)}>
+          className={classnames("fontContent", "colorGrey", "fontStyleItalic")}
+          style={{textAlign: 'right'}}>
           {this.props.i18nUIString.catalog['descript_Nail_noMark']}
         </div>
       )
@@ -104,7 +104,7 @@ class NailMarksPreview extends React.Component {
     return (
       <div
         key={"key_nail_"+this.props.unitId+"_mark"}
-        className={classnames(stylesFont.fontContent, stylesFont.colorEditBlack)}>
+        className={classnames("fontContent", "colorEditBlack")}>
         <DisplayMarkPreview
           markId={key}
           multipleMark={this.props.unitBasic.marksList.length > 1 ? true : false}

@@ -1,6 +1,10 @@
 .comAroundWrapper {
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  min-height: 92vh; /* from height of NavOptions on small screen */
+  position: relative;
   box-sizing: border-box;
 }
 
@@ -9,20 +13,24 @@
   margin: 12px 0;
 }
 
-.boxRowTop { /* should after .boxRow */
-  padding-top: 4px;
-}
-
 .boxFooter {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 2rem;
+  position: relative;
+  padding-top: 28px;
   margin-bottom: 36vh;
 }
 
 .boxTitle {
   margin: 8px 0;
+}
+
+.boxUnit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 .boxModule{
@@ -31,50 +39,28 @@
   justify-content: space-between;
 }
 
-.comChain {
+.boxModuleItem {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  position: relative;
+}
+
+.boxFooterBtn {
   display: flex;
   flex-direction: column;
-}
-
-.boxSharedTitle {
-  display: flex;
-  width: 100%;
-  box-sizing: border-box;
-  padding-right: 1rem;
-  margin-bottom: 12px;
-}
-
-.boxSharedsDisplay {
-  display: flex;
-  align-items: flex-end;
-  width: 100%;
-  position: relative;
-}
-
-.boxModuleShareds {
-  display: flex;
-  justify-content: flex-start;
-  flex: 1;
-  position: relative;
-  overflow: hidden;
-}
-
-.comNavFeed {
-  display: flex;
-  align-items: baseline;
-}
-
-
-.boxSignup {
-  display: flex;
+  justify-content: space-around;
   align-items: center;
+  width: 78%;
+  min-width: 274px;
+  min-height: 31.6vh;
+  padding: 32px 0 0;
+}
+
+.boxSetBtnSign {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  min-height: 15vh;
-  box-sizing: border-box;
-  margin: 4px 0;
-  padding: 1.38vw;
-  border-radius: 4px;
-  background-color: rgba(255, 129, 104, 0.1);
 }
 
 .spanFooterHint {
@@ -84,9 +70,16 @@
 @media screen and (max-width:860px) {
   .boxModuleSmall {
     justify-content: center;
+    width: 100vw;
+    max-width: 556px;
+  }
+
+  .boxModuleItem {
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .boxFooter {
-    margin-bottom: 21vh;
+    margin-bottom: 19vh;
   }
 }

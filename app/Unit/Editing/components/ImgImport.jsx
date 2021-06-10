@@ -74,7 +74,7 @@ class ImgImport extends React.Component {
         <div
           style={this.style.Com_div_ImgImport_ImgEmpty_Guiding}>
           <span
-            className={classnames(stylesFont.colorEditLightBlack, stylesFont.fontDescript)}>
+            className={classnames("colorEditLightBlack", stylesFont.fontDescript)}>
             {this.props.i18nUIString.catalog['guiding_UnitEdit_upload']}
           </span>
         </div>

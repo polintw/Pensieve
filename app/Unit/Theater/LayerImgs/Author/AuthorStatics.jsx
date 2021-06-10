@@ -77,68 +77,87 @@ class AuthorStatics extends React.Component {
     return(
       <div
         className={classnames(styles.comStaticsSmall)}>
-        <div
-          className={classnames(styles.boxSet)}>
+        {
+          !this.props.itemInspiredNotext &&
           <div>
-            <span
-              className={classnames("fontTitle", "colorEditBlack", "weightBold")}>
-              {this.state.countLoad}
-            </span>
+            <div
+              className={classnames(styles.boxSet)}>
+              <div>
+                <span
+                  className={classnames("fontTitle", "colorEditBlack", "weightBold")}>
+                  {this.state.countLoad}
+                </span>
+              </div>
+              <div
+                className={classnames(styles.boxSetSubtitle)}>
+                <span className={classnames('fontContentPlain', 'colorEditLightBlack')}>
+                  {this.props.i18nUIString.catalog["subTitle_Unit_AuthorStatics"][2]}
+                </span>
+                <br />
+                <span className={classnames('fontContentPlain', 'colorEditLightBlack')}>
+                  {this.props.i18nUIString.catalog["text_read"]}
+                </span>
+              </div>
+            </div>
+            <div
+              className={classnames(styles.boxSet)}>
+              <div>
+                <span
+                  className={classnames("fontTitle", "colorEditBlack", "weightBold")}>
+                  {this.state.countRead}
+                </span>
+              </div>
+              <div
+                className={classnames(styles.boxSetSubtitle)}>
+                <span className={classnames('fontContentPlain', 'colorEditLightBlack')}>
+                  {this.props.i18nUIString.catalog["subTitle_Unit_AuthorStatics"][1]}
+                </span>
+                <br/>
+                <span className={classnames('fontContentPlain', 'colorEditLightBlack')}>
+                  {this.props.i18nUIString.catalog["text_users"]}
+                </span>
+              </div>
+            </div>
           </div>
-          <div
-            className={classnames(styles.boxSetSubtitle)}>
-            <span className={classnames('fontContentPlain', 'colorEditLightBlack')}>
-              {this.props.i18nUIString.catalog["subTitle_Unit_AuthorStatics"][2]}
-            </span>
-            <br />
-            <span className={classnames('fontContentPlain', 'colorEditLightBlack')}>
-              {this.props.i18nUIString.catalog["text_read"]}
-            </span>
-          </div>
-        </div>
+        }
         <div
-          className={classnames(styles.boxSet)}>
-          <div>
-            <span
-              className={classnames("fontTitle", "colorEditBlack", "weightBold")}>
-              {this.state.countRead}
-            </span>
-          </div>
+          className={classnames(styles.boxSet)}
+          style={ this.props.itemInspiredNotext ? {margin: 'unset'} : {}}>
           <div
-            className={classnames(styles.boxSetSubtitle)}>
-            <span className={classnames('fontContentPlain', 'colorEditLightBlack')}>
-              {this.props.i18nUIString.catalog["subTitle_Unit_AuthorStatics"][1]}
-            </span>
-            <br/>
-            <span className={classnames('fontContentPlain', 'colorEditLightBlack')}>
-              {this.props.i18nUIString.catalog["text_users"]}
-            </span>
-          </div>
-        </div>
-        <div
-          className={classnames(styles.boxSet)}>
-          <div
-            className={classnames(styles.boxInspiredBulb)}>
+            className={classnames(
+              styles.boxInspiredBulb,
+              {[styles.boxInspiredAuthorBulb]: this.props.itemInspiredNotext}
+            )}>
             <SvgBulbInspired
-              bulbPattern={'dark'}
+              colorClass={this.props.itemInspiredNotext ? 'smallLight' : 'dark'}
               mouseReact={false} />
           </div>
           <div
-            style={{paddingLeft: '24px'}}>
+            style={ this.props.itemInspiredNotext ? {paddingLeft: '36px'} : {paddingLeft: '24px'}}>
             <span
-              className={classnames("fontTitle", "colorEditBlack", "weightBold")}>
+              className={classnames(
+                "weightBold",
+                {
+                  ["fontTitle"]: !this.props.itemInspiredNotext,
+                  ["fontNodesEqual"]: this.props.itemInspiredNotext,
+                  ["colorEditBlack"]: !this.props.itemInspiredNotext,
+                  ['colorEditLightBlack']: this.props.itemInspiredNotext
+                })}>
               {this.state.countIsnpired}
             </span>
           </div>
-          <div
-            className={classnames(styles.boxSetSubtitle)}>
-            <span className={classnames('fontContentPlain', 'colorEditLightBlack')}>
-              {this.props.i18nUIString.catalog["subTitle_Unit_AuthorStatics"][0]}
-            </span><br />
-            <span className={classnames('fontContentPlain', 'colorEditLightBlack')}>
-              {this.props.i18nUIString.catalog["text_users"]}
-            </span>
-          </div>
+          {
+            !this.props.itemInspiredNotext &&
+            <div
+              className={classnames(styles.boxSetSubtitle)}>
+              <span className={classnames('fontContentPlain', 'colorEditLightBlack')}>
+                {this.props.i18nUIString.catalog["subTitle_Unit_AuthorStatics"][0]}
+              </span><br />
+              <span className={classnames('fontContentPlain', 'colorEditLightBlack')}>
+                {this.props.i18nUIString.catalog["text_users"]}
+              </span>
+            </div>
+          }
         </div>
       </div>
     )

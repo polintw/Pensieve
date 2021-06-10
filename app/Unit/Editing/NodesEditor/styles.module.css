@@ -16,7 +16,6 @@
   border-radius: 4px;
   border: solid 1.2px #a3a3a3;
   padding: 2px 10px;
-  margin-right: 1rem;
   cursor: default;
 }
 
@@ -59,4 +58,16 @@
 
 .spanAddButtonMouse {
   border-bottom: solid 0.75px #a3a3a3;
+}
+
+@media screen and (min-width:860px) {
+  .boxListItem {
+    margin: 0 1rem 0 0;
+  }
+}
+
+@media screen and (max-width:860px) {
+  .boxListItem {
+    margin: 0 1rem 1rem 0;
+  }
 }

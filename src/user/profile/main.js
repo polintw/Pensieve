@@ -6,6 +6,6 @@ const ndBelongExec = require('./nodesBelong.js');
 
 main.use('/sheet', sheetExecutive)
 
-main.use('/nodesBelong', ndBelongExec)
+// main.use('/nodesBelong', ndBelongExec)
 
 module.exports = main;

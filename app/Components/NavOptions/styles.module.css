@@ -2,6 +2,12 @@
 
 }
 
+.boxNavOptionsSmall {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 2.88vw;
+}
+
 .boxNavSmall {
   display: flex;
   justify-content: space-between;
@@ -27,6 +33,14 @@
   cursor: default; /* block the 'pointer' setting inherit from parent*/
 }
 
+.boxHiddenLayer {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
 .boxToolBoxExplore {
   top: unset;
   bottom: 126%;
@@ -50,13 +64,52 @@
 }
 
 .boxLogo {
-  height: 20px;
+  width: 82px;
+  position: absolute;
+  transform: translate(0, -14px);
   box-sizing: border-box;
   cursor: pointer;
 }
 
-.fontContent {
-  font-size: 1.4rem;
+.boxBackBtn {
+  display: flex;
+  align-items: baseline;
+  position: relative;
+  padding: 0 8px 0 0;
+}
+
+.boxSvgArrow {
+  display: inline-flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.boxLinkSwitchMouseOn {
+  width: 100%;
+  height: 28px;
+  position: absolute;
+  top: 47%;
+  transform: translate(0, -50%);
+  box-sizing: border-box;
+  border-radius: 8px;
+  background-color: #d8d8d8;
+}
+
+.boxSignupin {
+  display: block;
+  box-sizing: border-box;
+  padding: 5px 10px;
+  border: 1.5px solid #a3a3a3;
+  border-radius: 4px;
+}
+
+.boxSignupinMouseon {
+  border: 1.5px solid #444444;
+}
+
+.spanBtnText {
+  display: inline-block;
+  position: relative;
 }
 
 @media screen and (max-width:860px) {
@@ -65,12 +118,13 @@
   }
 
   .selfCom_NavOptions_ToolBox_{
+    top: 136%;
     left: unset;
     right: 0;
   }
 
   .boxToolBoxExplore { /* back to selfCom_NavOptions_ToolBox_ */
-    top: 120%;
+    top: 136%;
     bottom: unset;
     left: unset;
   }

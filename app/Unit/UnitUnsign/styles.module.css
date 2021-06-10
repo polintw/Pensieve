@@ -2,6 +2,7 @@
   width: 100%;
   height: 100vh;
   position: relative;
+  box-sizing: border-box;
   overflow-y: scroll;
 }
 
@@ -17,24 +18,11 @@
 
 @media screen and (max-width:860px) {
   .boxUnitFrame {
-    height: 92.4vh;
+    padding: 6.4vh 0 0; /* top from NavOptions in small screen */
   }
 
   .boxUnitContent {
     height: unset;
   }
 
-  .boxNavOptionsCosmic {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    height: 7.6vh;
-    position: relative;
-    top: 0;
-    left: 0;
-    box-sizing: border-box;
-    background-color: rgb(117,117,117);
-    box-shadow: 0 0 4px 0 rgba(84, 84, 84, 0.45);
-    z-index: 1;
-  }
 }

@@ -46,7 +46,8 @@ async function _handle_GET_people_basic(req, res){
     let unitsShareds = await _DB_units.findAll({
       where: {
         id_author: targetUser.id,
-        author_identity: 'user'
+        author_identity: 'user',
+        createdAt: { [Op.gt]: "2021-03-27" }
       }
     });
     let unitsList = unitsShareds.map((row, index)=> {

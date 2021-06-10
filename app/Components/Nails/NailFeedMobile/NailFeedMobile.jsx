@@ -6,11 +6,11 @@ import {
 import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
-import stylesFont from '../stylesFont.module.css';
 import NailMarksPreview from '../components/NailMarksPreview.jsx';
 import ImgPreview from '../../ImgPreview.jsx';
 import AccountPalette from '../../AccountPalette.jsx';
 import SvgPin from '../../Svg/SvgPin.jsx';
+import {SvgBulbInspired} from '../../Svg/SvgBulb.jsx';
 import {
   renderNodesRows,
   renderNodesRowsCustom
@@ -78,10 +78,14 @@ class NailFeedMobile extends React.Component {
         className={classnames(
           'plainLinkButton',
           styles.frame,
-          styles.frmaeSmall,
-          {[styles.frameOnMouse]: this.state.onFrame}
+          {
+            [styles.frameNarrow]: (this.props.frameType == 'narrow'),
+            [styles.frameWide]: (this.props.frameType == 'wide'),
+            [styles.frameOnMouse]: this.state.onFrame}
         )}
         onClick={(e)=>{if( !this.props.linkPath ){e.preventDefault();};/*a optional control, mean the parent want to take the refer control*/ }}
+        onTouchStart={this._handleEnter_nailFrame}
+        onTouchEnd={this._handleLeave_nailFrame}
         onMouseEnter={this._handleEnter_nailFrame}
         onMouseLeave={this._handleLeave_nailFrame}>
         {this._render_ContentBox()}
@@ -92,7 +96,7 @@ class NailFeedMobile extends React.Component {
   _render_ContentBox(){
     let contentBoxDOM = [];
     contentBoxDOM.push(contentBoxImg(this));
-    this.props.leftimg ? contentBoxDOM.push(contentBoxMarks(this)) : contentBoxDOM.unshift(contentBoxMarks(this));
+    contentBoxDOM.unshift(contentBoxMarks(this));
     return contentBoxDOM;
   }
 
@@ -104,8 +108,7 @@ const contentBoxImg = (self)=>{
   return (
     <div
       key={"key_NailBoxImg_"+self.props.unitId}
-      className={classnames(styles.boxContent)}
-      style={{minWidth: "30.8vw"}}>
+      className={classnames(styles.boxContent)}>
       <div
         ref={self.nailImgBox}
         className={styles.boxImg}>
@@ -113,6 +116,18 @@ const contentBoxImg = (self)=>{
           blockName={''}
           previewSrc={ imgSrcCover }
           _handleClick_ImgPreview_preview={()=>{self.nailImgBox.current.click()}}/>
+        {
+          self.props.inspiredBulb &&
+          <div
+            className={classnames(styles.boxImgIconandBack)}>
+            <div
+              className={classnames(styles.boxImgIcon)}>
+              <SvgBulbInspired
+                colorClass={"smallLight"}
+                mouseReact={false}/>
+            </div>
+          </div>
+        }
       </div>
     </div>
   )
@@ -145,12 +160,12 @@ const contentBoxMarks = (self)=>{
             unitId={self.props.unitId}
             unitBasic={self.props.unitBasic}
             marksBasic={self.props.marksBasic}
-            spotCount={true} />
+            spotCount={false} />
         </div>
         {
           (!!self.props.nodisplay &&
           (self.props.nodisplay.indexOf('author') != (-1))) ? null :
-        <div className={classnames(styles.boxAuthor, stylesFont.colorStandard)}>
+        <div className={classnames(styles.boxAuthor, "colorStandard")}>
           <AccountPalette
             size={"regularBold"}
             userId={self.props.unitBasic.authorId}

@@ -175,7 +175,8 @@ export class NodeSearchModule extends React.Component {
       query: this.search.current.value
     }, () => {
       if (this.state.query && this.state.query.length > 0) {
-        this._axios_get_NounSet()
+        let targetCategory = !!this.props.category ? this.props.category : 'location_admin';
+        this._axios_get_NounSet(targetCategory)
       }
     })
   }
@@ -195,10 +196,11 @@ export class NodeSearchModule extends React.Component {
     })
   }
 
-  _axios_get_NounSet(){
+  _axios_get_NounSet(category){
     const self = this;
     this.setState({axios: true});
-    axios.get(`/router/nouns/search/simple?aquired=${this.state.query}&limit=5`, {
+
+    axios.get(`/router/nouns/search/simple?aquired=${this.state.query}&limit=5&category=${category}`, {
       headers: {
         'charset': 'utf-8',
         'token': window.localStorage['token']

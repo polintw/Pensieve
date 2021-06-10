@@ -31,7 +31,6 @@ class NodesExtensible extends React.Component {
     const self = this;
     let nounsArr = [];
     let expandLeng = 3;
-    let cssVW = window.innerWidth; // for RWD
     let userLogin = (this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') ? false : true;
 
     for(let i = 0; i < expandLeng ; i++){
@@ -40,7 +39,7 @@ class NodesExtensible extends React.Component {
       // insert "|" between
       if(i != 0) nounsArr.push(
         <span
-          className={classnames("colorEditBlack", "fontTitle")}
+          className={classnames(styles.spanNodeFont)}
           style={{display: 'flex',alignItems:'center',marginRight: '1rem', cursor: 'default'}}>{","}</span>
       ); //end of "if"
       let nodeId = self.props.nouns.list[i];
@@ -55,10 +54,8 @@ class NodesExtensible extends React.Component {
           onMouseLeave={this._handleLeave_node}>
           <span
             className={classnames(
-              styles.spanNodeItem, "colorEditLightBlack",
+              styles.spanNodeItem, styles.spanNodeFont,
               {
-                ["fontTitle"]: (cssVW > 860),
-                ["fontNodesEqual"]: (cssVW <=860),
                 [styles.spanNodeItemMouse]: (this.state.onLiItem == nodeId && userLogin && nodeId != 4692) // 4692 is an safe id in DB nouns table that do not represent anything, used to set for none node text, like 'Welcome ...'
               }
              )}
@@ -85,6 +82,7 @@ class NodesExtensible extends React.Component {
     event.preventDefault();
     event.stopPropagation();
     if(this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack'){
+      this.props._set_noTokenDialog("more");
       return; // stop here
     };
     let currentNode = event.currentTarget.attributes.nodeId.value;
