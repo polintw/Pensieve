@@ -17,6 +17,8 @@ class NailMarksPreview extends React.Component {
   }
 
   _handleEnter_MarkCount(e){
+    e.stopPropagation();
+    e.preventDefault(); // stop stopPropagation at this comp. could prevent the click e propagate to parent, and stop the 'open' of Unit
     this.setState({
       onCount: e.currentTarget.attributes.markkey.value
     });
@@ -68,6 +70,9 @@ class NailMarksPreview extends React.Component {
             width: self.props.smallCircle ? '24px' : '32px',
             height: self.props.smallCircle ? '24px' : '32px',
           }}
+          onClick={(event)=>{ event.stopPropagation();event.preventDefault(); }}
+          onTouchStart={self._handleEnter_MarkCount}
+          onTouchEnd={self._handleLeave_MarkCount}
           onMouseEnter={self._handleEnter_MarkCount}
           onMouseLeave={self._handleLeave_MarkCount}>
           {
