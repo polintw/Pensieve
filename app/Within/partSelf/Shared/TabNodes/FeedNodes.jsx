@@ -7,7 +7,6 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import FeedNodesEmpty from './FeedNodesEmpty.jsx';
-import {_locationsNodes_mapHandler} from './utils.js';
 import {_axios_get_Basic} from '../utils.js';
 import {
   handleNounsList,
@@ -25,8 +24,7 @@ class FeedNodes extends React.Component {
       nodesList: [],
       notesNodes: [],
       inspiredNodes: [],
-      batchLocationsNodes: [],
-      cateLocationsNodes: {},
+      cateLocationsNodes: [],
       cateTopicsNodes: [],
       nextFetchBasedTime: null,
       scrolled: true,
@@ -49,8 +47,7 @@ class FeedNodes extends React.Component {
         nodesList: [],
         notesNodes: [],
         inspiredNodes: [],
-        batchLocationsNodes: [],
-        cateLocationsNodes: {},
+        cateLocationsNodes: [],
         cateTopicsNodes: [],
         nextFetchBasedTime: null,
         scrolled: true,
@@ -90,148 +87,71 @@ class FeedNodes extends React.Component {
 
   _render_FeedNodes(nodesCategory){
     let groupsDOM = [];
-    const _nodeDOM = (nodeId, index)=>{
-      //render if there are something in the data
-      if( !(nodeId in this.props.nounsBasic)) return; //skip if the info of the unit not yet fetch
-      let toSearch = new URLSearchParams(this.props.location.search); //we need value in URL query
-      toSearch.set("filterNode", nodeId);
-      let linkObj = {
-        pathname: this.props.location.pathname,
-        search: toSearch.toString(),
-        state: {from: this.props.location}
-      };
+    const _nodesByGroup = (nodesGroup, groupIndex)=>{
+      let nodesDOM = [];
+      nodesGroup.forEach((nodeId, index) => {
+        //render if there are something in the data
+        if( !(nodeId in this.props.nounsBasic)) return; //skip if the info of the unit not yet fetch
+        let toSearch = new URLSearchParams(this.props.location.search); //we need value in URL query
+        toSearch.set("filterNode", nodeId);
+        let linkObj = {
+          pathname: this.props.location.pathname,
+          search: toSearch.toString(),
+          state: {from: this.props.location}
+        };
 
-      return (
-        <Link
-          key={"key_NodeFeed_new_"+ nodeId +"_"+ index}
-          to={linkObj}
-          nodeid={nodeId}
-          className={classnames(
-            "plainLinkButton", styles.boxModuleItem,
-            {[styles.boxModuleItemMouseOn]: this.state.onBtn == nodeId}
-          )}
-          onTouchStart={this._handleEnter_Btn}
-          onTouchEnd={this._handleLeave_Btn}
-          onMouseEnter={this._handleEnter_Btn}
-          onMouseLeave={this._handleLeave_Btn}>
-          <span
+        nodesDOM.push (
+          <Link
+            key={"key_NodeFeed_new_"+index}
+            to={linkObj}
+            nodeid={nodeId}
             className={classnames(
-              "fontSubtitle_h5", "colorEditBlack", styles.spanModuleItem,
-              {
-                [styles.spanModuleItemMouseOn]: this.state.onBtn == nodeId,
-              }
-            )}>
-            {this.props.nounsBasic[nodeId].name}
-          </span>
-          {
-            (this.props.nounsBasic[nodeId].prefix.length > 0) &&
+              "plainLinkButton", styles.boxModuleItem,
+              {[styles.boxModuleItemMouseOn]: this.state.onBtn == nodeId}
+            )}
+            onTouchStart={this._handleEnter_Btn}
+            onTouchEnd={this._handleLeave_Btn}
+            onMouseEnter={this._handleEnter_Btn}
+            onMouseLeave={this._handleLeave_Btn}>
             <span
               className={classnames(
-                "fontContentPlain", "colorGrey", styles.spanModuleItem,
+                "fontSubtitle_h5", "colorEditBlack", styles.spanModuleItem,
                 {
                   [styles.spanModuleItemMouseOn]: this.state.onBtn == nodeId,
                 }
               )}>
-              { this.props.nounsBasic[nodeId].prefix }
+              {this.props.nounsBasic[nodeId].name}
             </span>
-          }
-        </Link>
-      );
-    };
-    const _nodes_ByGroup = (nodesGroup, groupIndex)=>{
-      let nodesDOM = [];
-      nodesGroup.forEach((nodeId, index) => {
-        nodesDOM.push(_nodeDOM(nodeId, index));
-      });
-      return nodesDOM;
-    };
-    const _nodes_ByLocationLevel = ()=>{
-      const nodesListMap = this.state[nodesCategory];
-      let list = []; // make a list have items ordered by nodes map
-      // to avoid mutate the this.state, we have to make an additional set contain the 'deleted' item for later process
-      let pairUsed_length1 = [];
-      let pairUsed_length2 = [];
-
-      let keys = ['length_0', 'length_1', 'length_2'];
-      keys.forEach((key, indexStateList) => {
-        switch (key) {
-          case "length_0":
-            nodesListMap[key].forEach((nodeId, indexNode) => {
-              list.push(nodeId);
-              if(nodeId in nodesListMap['length_1']){
-                nodesListMap['length_1'][nodeId].forEach((nodeId_1, indexLength1) => {
-                  list.push(nodeId_1);
-                  if(nodeId_1 in nodesListMap['length_2']){
-                    list = list.concat(nodesListMap['length_2'][nodeId_1]);
-                    pairUsed_length2.push(nodeId_1.toString());
-                  };
-                });
-                pairUsed_length1.push(nodeId.toString());
-              };
-              if(nodeId in nodesListMap['length_2']){
-                list = list.concat(nodesListMap['length_2'][nodeId]);
-                pairUsed_length2.push(nodeId.toString());
-              };
-            });
-            break;
-          case "length_1":
-            let length_1_keysRemained = Object.keys(nodesListMap[key]);
-            length_1_keysRemained.forEach((keyRemained, indexKey) => {
-              // check if the key should be removed due to a used parent
-              if(pairUsed_length1.indexOf(keyRemained) >= 0) return;
-              nodesListMap[key][keyRemained].forEach((nodeId, indexNode) => {
-                list.push(nodeId);
-                if(nodeId in nodesListMap['length_2']){
-                  list = list.concat(nodesListMap['length_2'][nodeId]);
-                  pairUsed_length2.push(nodeId.toString());
-                };
-              });
-            });
-            break;
-          case "length_2":
-            let length_2_keysRemained = Object.keys(nodesListMap[key]);
-            length_2_keysRemained.forEach((keyRemained, indexKey) => {
-              // check if the key should be removed due to a used parent
-              if(pairUsed_length2.indexOf(keyRemained) >= 0) return;
-              nodesListMap[key][keyRemained].forEach((nodeId, indexNode) => {
-                list.push(nodeId);
-              });
-            });
-            break;
-          default:
-            null
-        };
-      });
-      let nodesDOM = list.map((nodeId, index)=>{
-        return _nodeDOM(nodeId, index);
-      });
-      return nodesDOM;
-    };
-
-    if(nodesCategory == 'cateTopicsNodes'){
-      this.state[nodesCategory].forEach((nodesGroup, index)=>{
-        groupsDOM.push(
-          <div
-            key={"key_PathProject_nodesGroup"+index}
-            className={classnames(
-              styles.boxModuleCenter,
-            )}>
-            {_nodes_ByGroup(nodesGroup, index)}
-          </div>
+            {
+              (this.props.nounsBasic[nodeId].prefix.length > 0) &&
+              <span
+                className={classnames(
+                  "fontContentPlain", "colorGrey", styles.spanModuleItem,
+                  {
+                    [styles.spanModuleItemMouseOn]: this.state.onBtn == nodeId,
+                  }
+                )}>
+                { this.props.nounsBasic[nodeId].prefix }
+              </span>
+            }
+          </Link>
         );
       });
-    }
-    else if(nodesCategory == 'cateLocationsNodes'){
+
+      return nodesDOM;
+    };
+
+    this.state[nodesCategory].forEach((nodesGroup, index)=>{
       groupsDOM.push(
         <div
-          key={"key_PathProject_nodesGroup_locatioinsLevel"}
+          key={"key_PathProject_nodesGroup"+index}
           className={classnames(
             styles.boxModuleCenter,
           )}>
-          {_nodes_ByLocationLevel()}
+          {_nodesByGroup(nodesGroup, index)}
         </div>
       );
-    };
+    });
 
     return groupsDOM;
   }
@@ -252,7 +172,7 @@ class FeedNodes extends React.Component {
               {this._render_FeedNodes(['cateTopicsNodes'])}
             </div>
             {
-              (this.state.cateTopicsNodes.length > 0 && this.state.batchLocationsNodes.length > 0) &&
+              (this.state.cateTopicsNodes.length > 0 && this.state.cateLocationsNodes.length > 0) &&
               <div
                 className={classnames(styles.boxDecoLine)}>
                 <svg viewBox="0 0 20 20"
@@ -363,28 +283,24 @@ class FeedNodes extends React.Component {
       });
       let mixedNodesList = mixedLocationsNodes.concat(mixedTopicsNodes);
       //after res: call get nouns
-      self.props._submit_NounsList_new(mixedNodesList) // the redux action handler would return a promise.resolve() back
-      .then(()=>{
-        self.setState((prevState, props)=>{
-          let copiedLocationsNodes = prevState.batchLocationsNodes.slice();
-          let copiedTopicsNodes = prevState.cateTopicsNodes.slice();
-          if(mixedLocationsNodes.length > 0) copiedLocationsNodes.push(mixedLocationsNodes);
-          if(mixedTopicsNodes.length > 0) copiedTopicsNodes.push(mixedTopicsNodes);
-          let locationsNodesMapState = _locationsNodes_mapHandler(copiedLocationsNodes, this.props.nounsBasic);
+      self.props._submit_NounsList_new(mixedNodesList);
 
-          return {
-            axios: false,
-            cateLocationsNodes: locationsNodesMapState, // nodes lists in length map
-            cateTopicsNodes: copiedTopicsNodes,
-            batchLocationsNodes: copiedLocationsNodes, // nodes lists by req order
-            // now we fetch the list all at once, no further fetch, so just simply replace the list for beneath 2 keys
-            nodesList: mixedNodesList,
-            notesNodes: resNotes.main.locationsList.concat(resNotes.main.topicsList),
-            inspiredNodes: resInspired.main.locationsList.concat(resInspired.main.topicsList),
-            nextFetchBasedTime: null,
-            scrolled: false
-          }
-        });
+      self.setState((prevState, props)=>{
+        let copiedLocationsNodes = prevState.cateLocationsNodes.slice();
+        let copiedTopicsNodes = prevState.cateTopicsNodes.slice();
+        if(mixedLocationsNodes.length > 0) copiedLocationsNodes.push(mixedLocationsNodes);
+        if(mixedTopicsNodes.length > 0) copiedTopicsNodes.push(mixedTopicsNodes);
+        return {
+          axios: false,
+          cateLocationsNodes: copiedLocationsNodes,
+          cateTopicsNodes: copiedTopicsNodes,
+          // now we fetch the list all at once, no further fetch, so just simply replace the list for beneath 2 keys
+          nodesList: mixedNodesList,
+          notesNodes: resNotes.main.locationsList.concat(resNotes.main.topicsList),
+          inspiredNodes: resInspired.main.locationsList.concat(resInspired.main.topicsList),
+          nextFetchBasedTime: null,
+          scrolled: false
+        }
       });
     })
     .catch(function (thrown) {
@@ -418,7 +334,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    _submit_NounsList_new: (arr) => { return dispatch(handleNounsList(arr)); },
+    _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
   }
 }
 
