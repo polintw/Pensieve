@@ -169,10 +169,7 @@ class FeedNodes extends React.Component {
                 pairUsed_length1.push(nodeId.toString());
               };
               if(nodeId in nodesListMap['length_2']){
-                nodesListMap['length_2'][nodeId].forEach((nodeId_1, indexLength2) => {
-                  if(pairUsed_length1.indexOf(nodeId_1)) return;
-                  list.push(nodeId_1);
-                });
+                list = list.concat(nodesListMap['length_2'][nodeId]);
                 pairUsed_length2.push(nodeId.toString());
               };
             });
@@ -196,17 +193,9 @@ class FeedNodes extends React.Component {
             length_2_keysRemained.forEach((keyRemained, indexKey) => {
               // check if the key should be removed due to a used parent
               if(pairUsed_length2.indexOf(keyRemained) >= 0) return;
-              if(Array.isArray(nodesListMap[key][keyRemained])){
-                nodesListMap[key][keyRemained].forEach((nodeId, indexNode) => {
-                  list.push(nodeId);
-                });
-              }
-              else { // an obj
-                let keyList = Object.keys(nodesListMap[key][keyRemained]);
-                keyList.forEach((length2Key, indexNode) => {
-                  list.concat(nodesListMap[key][keyRemained][length2Key]);
-                });
-              }
+              nodesListMap[key][keyRemained].forEach((nodeId, indexNode) => {
+                list.push(nodeId);
+              });
             });
             break;
           default:
