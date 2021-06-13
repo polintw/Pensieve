@@ -85,7 +85,7 @@ export function handleNounsList(nounsArr) {
         fetchList.push(id)
       }
     });
-    if(fetchList.length<1){dispatch({type: null}); return Promise.resolve();}; //this, is for those have callback() behind
+    if(fetchList.length<1){dispatch({type: null}); return;};
 
     //corresponding to the local state 'axios', we should also insert 'isFetching' state in reducer
 
