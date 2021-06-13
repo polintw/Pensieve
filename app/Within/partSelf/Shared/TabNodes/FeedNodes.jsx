@@ -7,6 +7,7 @@ import {connect} from "react-redux";
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import FeedNodesEmpty from './FeedNodesEmpty.jsx';
+import {_locationsNodes_levelHandler} from './utils.js';
 import {_axios_get_Basic} from '../utils.js';
 import {
   handleNounsList,
@@ -24,6 +25,7 @@ class FeedNodes extends React.Component {
       nodesList: [],
       notesNodes: [],
       inspiredNodes: [],
+      batchedLocationsNodes: [],
       cateLocationsNodes: [],
       cateTopicsNodes: [],
       nextFetchBasedTime: null,
@@ -47,6 +49,7 @@ class FeedNodes extends React.Component {
         nodesList: [],
         notesNodes: [],
         inspiredNodes: [],
+        batchedLocationsNodes: [],
         cateLocationsNodes: [],
         cateTopicsNodes: [],
         nextFetchBasedTime: null,
@@ -87,55 +90,73 @@ class FeedNodes extends React.Component {
 
   _render_FeedNodes(nodesCategory){
     let groupsDOM = [];
+    const _nodes_DOM = (nodeId)=>{
+      let toSearch = new URLSearchParams(this.props.location.search); //we need value in URL query
+      toSearch.set("filterNode", nodeId);
+      let linkObj = {
+        pathname: this.props.location.pathname,
+        search: toSearch.toString(),
+        state: {from: this.props.location}
+      };
+
+      return (
+        <Link
+          key={"key_NodeFeed_new_"+nodeId}
+          to={linkObj}
+          nodeid={nodeId}
+          className={classnames(
+            "plainLinkButton", styles.boxModuleItem,
+            {[styles.boxModuleItemMouseOn]: this.state.onBtn == nodeId}
+          )}
+          onTouchStart={this._handleEnter_Btn}
+          onTouchEnd={this._handleLeave_Btn}
+          onMouseEnter={this._handleEnter_Btn}
+          onMouseLeave={this._handleLeave_Btn}>
+          <span
+            className={classnames(
+              "fontSubtitle_h5", "colorEditBlack", styles.spanModuleItem,
+              {
+                [styles.spanModuleItemMouseOn]: this.state.onBtn == nodeId,
+              }
+            )}>
+            {this.props.nounsBasic[nodeId].name}
+          </span>
+          {
+            (this.props.nounsBasic[nodeId].prefix.length > 0) &&
+            <span
+              className={classnames(
+                "fontContentPlain", "colorGrey", styles.spanModuleItem,
+                {
+                  [styles.spanModuleItemMouseOn]: this.state.onBtn == nodeId,
+                }
+              )}>
+              { this.props.nounsBasic[nodeId].prefix }
+            </span>
+          }
+        </Link>
+      )
+    }
+    const _nodes_ByLevel = (nodesGroup, groupIndex)=>{
+      let nodesDOM = [];
+      nodesGroup.forEach((nodeSet, setIndex) => {
+        let setKeys = Object.keys(nodeSet);
+        setKeys.forEach((key, keyIndex) => {
+          nodeSet[key].forEach((nodeId, index) => {
+            //render if there are something in the data
+            if( !(nodeId in this.props.nounsBasic)) return; //skip if the info of the unit not yet fetch
+            nodesDOM.push (_nodes_DOM(nodeId));
+          });
+        });
+      });
+
+      return nodesDOM;
+    };
     const _nodesByGroup = (nodesGroup, groupIndex)=>{
       let nodesDOM = [];
       nodesGroup.forEach((nodeId, index) => {
         //render if there are something in the data
         if( !(nodeId in this.props.nounsBasic)) return; //skip if the info of the unit not yet fetch
-        let toSearch = new URLSearchParams(this.props.location.search); //we need value in URL query
-        toSearch.set("filterNode", nodeId);
-        let linkObj = {
-          pathname: this.props.location.pathname,
-          search: toSearch.toString(),
-          state: {from: this.props.location}
-        };
-
-        nodesDOM.push (
-          <Link
-            key={"key_NodeFeed_new_"+index}
-            to={linkObj}
-            nodeid={nodeId}
-            className={classnames(
-              "plainLinkButton", styles.boxModuleItem,
-              {[styles.boxModuleItemMouseOn]: this.state.onBtn == nodeId}
-            )}
-            onTouchStart={this._handleEnter_Btn}
-            onTouchEnd={this._handleLeave_Btn}
-            onMouseEnter={this._handleEnter_Btn}
-            onMouseLeave={this._handleLeave_Btn}>
-            <span
-              className={classnames(
-                "fontSubtitle_h5", "colorEditBlack", styles.spanModuleItem,
-                {
-                  [styles.spanModuleItemMouseOn]: this.state.onBtn == nodeId,
-                }
-              )}>
-              {this.props.nounsBasic[nodeId].name}
-            </span>
-            {
-              (this.props.nounsBasic[nodeId].prefix.length > 0) &&
-              <span
-                className={classnames(
-                  "fontContentPlain", "colorGrey", styles.spanModuleItem,
-                  {
-                    [styles.spanModuleItemMouseOn]: this.state.onBtn == nodeId,
-                  }
-                )}>
-                { this.props.nounsBasic[nodeId].prefix }
-              </span>
-            }
-          </Link>
-        );
+        nodesDOM.push (_nodes_DOM(nodeId));
       });
 
       return nodesDOM;
@@ -148,7 +169,11 @@ class FeedNodes extends React.Component {
           className={classnames(
             styles.boxModuleCenter,
           )}>
-          {_nodesByGroup(nodesGroup, index)}
+          {
+            nodesCategory == 'cateLocationsNodes' ?
+            _nodes_ByLevel(nodesGroup, index) :
+            _nodesByGroup(nodesGroup, index)
+          }
         </div>
       );
     });
@@ -283,25 +308,35 @@ class FeedNodes extends React.Component {
       });
       let mixedNodesList = mixedLocationsNodes.concat(mixedTopicsNodes);
       //after res: call get nouns
-      self.props._submit_NounsList_new(mixedNodesList);
+      return self.props._submit_NounsList_new(mixedNodesList)
+      .then(()=>{
+        self.setState((prevState, props)=>{
+          // to make list by batch time
+          let copiedBatchLocationsNodes = prevState.batchedLocationsNodes.slice();
+          if(mixedLocationsNodes.length > 0) copiedBatchLocationsNodes.push(mixedLocationsNodes);
+          let copiedTopicsNodes = prevState.cateTopicsNodes.slice();
+          if(mixedTopicsNodes.length > 0) copiedTopicsNodes.push(mixedTopicsNodes);
+          // to make the locationsList has level seperate
+          let allLocationsList = [];
+          copiedBatchLocationsNodes.forEach((locationsNodesGroup, indexGroup) => {
+            allLocationsList = allLocationsList.concat(locationsNodesGroup);
+          });
+          let cateLocationsNodes =  _locationsNodes_levelHandler(allLocationsList, this.props.nounsBasic);
 
-      self.setState((prevState, props)=>{
-        let copiedLocationsNodes = prevState.cateLocationsNodes.slice();
-        let copiedTopicsNodes = prevState.cateTopicsNodes.slice();
-        if(mixedLocationsNodes.length > 0) copiedLocationsNodes.push(mixedLocationsNodes);
-        if(mixedTopicsNodes.length > 0) copiedTopicsNodes.push(mixedTopicsNodes);
-        return {
-          axios: false,
-          cateLocationsNodes: copiedLocationsNodes,
-          cateTopicsNodes: copiedTopicsNodes,
-          // now we fetch the list all at once, no further fetch, so just simply replace the list for beneath 2 keys
-          nodesList: mixedNodesList,
-          notesNodes: resNotes.main.locationsList.concat(resNotes.main.topicsList),
-          inspiredNodes: resInspired.main.locationsList.concat(resInspired.main.topicsList),
-          nextFetchBasedTime: null,
-          scrolled: false
-        }
-      });
+          return {
+            axios: false,
+            cateLocationsNodes: [cateLocationsNodes], // make a 'array' just to follow the batch form usually used
+            cateTopicsNodes: copiedTopicsNodes,
+            batchedLocationsNodes: copiedBatchLocationsNodes,
+            // now we fetch the list all at once, no further fetch, so just simply replace the list for beneath 2 keys
+            nodesList: mixedNodesList,
+            notesNodes: resNotes.main.locationsList.concat(resNotes.main.topicsList),
+            inspiredNodes: resInspired.main.locationsList.concat(resInspired.main.topicsList),
+            nextFetchBasedTime: null,
+            scrolled: false
+          }
+        });
+      })
     })
     .catch(function (thrown) {
       self.setState({axios: false});
@@ -334,7 +369,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
+    _submit_NounsList_new: (arr) => { return dispatch(handleNounsList(arr)); },
   }
 }
 

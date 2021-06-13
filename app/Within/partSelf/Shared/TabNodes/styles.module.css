@@ -125,6 +125,7 @@
   display: inline-block;
   border-bottom: solid 0.75px transparent;
   text-align: center;
+  white-space: nowrap;
 }
 
 .spanModuleItemMouseOn {
