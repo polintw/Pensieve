@@ -50,57 +50,59 @@ async function _handle_nouns_basicAccumulations_GET(req, res){
 
 }
 
-async function _handle_nouns_basic_GET(req, res){
-  try{
+function _handle_nouns_basic_GET(req, res){
+  new Promise((resolve, reject)=>{
     let userId = req.extra.tokenUserId;
     let fetchList = req.query.fetchList;
 
-    let sendingData={
-      nounsBasic:{},
-      temp: {}
-    };
-    let ancestors = {};
-    let fetchedNouns = await _DB_nouns.findAll({
+    _DB_nouns.findAll({
       where: {id: fetchList},
-    });
-    fetchedNouns.forEach((row, index)=>{
-      sendingData.nounsBasic[row.id] = {
-        id: row.id,
-        name: row.name,
-        prefix: row.prefix,
-        parentId: !!row.parent_id ? row.parent_id : null,
-        parentify: (row.parent ? true : false),
-        childify: (row.child ? true : false)
+    })
+    .then((results)=>{
+      let sendingData={
+        nounsBasic:{},
+        temp: {
+          nodesList: []
+        }
       };
-      if(!!row.parent_id) ancestors[row.parent_id] = [row.parent_id]; // make a key > array pair
-    });
-    parentsKeys = Object.keys(ancestors);
-    let parents = await _DB_nouns.findAll({
-      where: {id: parentsKeys},
-    });
-    parents.forEach((row, index) => {
-      if(!!row.parent_id) ancestors[row.id].push(row.parent_id);
-    }); // That's because, we only have the most '3' level among the nodes
-    fetchedNouns.forEach((row, index) => {
-      sendingData.nounsBasic[row.id]['parentTree'] = !!row.parent_id ? ancestors[row.parent_id] : [];
-    });
 
-    let nodesCoordinates = await  _DB_nodesLocation.findAll({
-      where: {
-        id_node: fetchList
-      }
-    });
-    nodesCoordinates.forEach((row, index) => {
-      sendingData.nounsBasic[row.id_node]['latitude'] = row.location_lat;
-      sendingData.nounsBasic[row.id_node]['longitude'] = row.location_lon;
-    });
+      results.forEach((row, index)=>{
+        sendingData.nounsBasic[row.id] = {
+          id: row.id,
+          name: row.name,
+          prefix: row.prefix,
+          parentId: !!row.parent_id ? row.parent_id : null,
+          parentify: (row.parent ? true : false),
+          childify: (row.child ? true : false)
+        };
+        sendingData.temp.nodesList.push(row.id);
+      })
 
+      return sendingData;
+    })
+    .then((sendingData)=>{
+      return _DB_nodesLocation.findAll({
+        where: {
+          id_node: sendingData.temp.nodesList
+        }
+      })
+      .then((results)=>{
+        results.forEach((row, index) => {
+          sendingData.nounsBasic[row.id_node]['latitude'] = row.location_lat;
+          sendingData.nounsBasic[row.id_node]['longitude'] = row.location_lon;
+        });
+
+        resolve(sendingData);
+      });
+
+    }).catch((err)=>{ //catch the error came from the whole
+      reject(err);
+    });
+  }).then((sendingData)=>{
     _res_success(res, sendingData, "GET nouns: /basic, complete.");
-  }
-  catch(error){
+  }).catch((error)=>{
     _handle_ErrCatched(error, req, res);
-    return;
-  };
+  });
 }
 
 execute.get('/accumulations', function(req, res){
