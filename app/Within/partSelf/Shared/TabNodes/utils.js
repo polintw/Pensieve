@@ -17,9 +17,21 @@ export function _locationsNodes_mapHandler(locationsNodes, nounsBasic){
       break;
       case 2:
       for(let i=0; i < parentTree.length ; i++){ // parentTree.length must be '2'
-        if(parentTree[i] in nodesMapList["length_2"]) nodesMapList['length_2'][parentTree[i]].push(nodeEachId)
+        let currentKey = parentTree[i];
+        if(currentKey in nodesMapList["length_2"]){
+          if(i == 0) nodesMapList['length_2'][currentKey].push(nodeEachId)
+          else{
+            if(parentTree[i-1] in nodesMapList['length_2'][currentKey]){
+              nodesMapList['length_2'][currentKey][parentTree[i-1]].push(nodeEachId);
+            } else nodesMapList['length_2'][currentKey][parentTree[i-1]] = [nodeEachId];
+          };
+        }
         else{
-          nodesMapList["length_2"][parentTree[i]] = [nodeEachId];
+          if(i == 0) nodesMapList["length_2"][currentKey] = [nodeEachId]
+          else{
+            nodesMapList['length_2'][currentKey] = {};
+            nodesMapList['length_2'][currentKey][parentTree[i-1]] = [nodeEachId];
+          }
         };
       };
       break;
