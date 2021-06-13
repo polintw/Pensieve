@@ -90,7 +90,7 @@ class FeedNodes extends React.Component {
 
   _render_FeedNodes(nodesCategory){
     let groupsDOM = [];
-    const _nodes_DOM = (nodeId)=>{
+    const _nodes_DOM = (nodeId, index)=>{
       let toSearch = new URLSearchParams(this.props.location.search); //we need value in URL query
       toSearch.set("filterNode", nodeId);
       let linkObj = {
@@ -101,7 +101,7 @@ class FeedNodes extends React.Component {
 
       return (
         <Link
-          key={"key_NodeFeed_new_"+nodeId}
+          key={"key_NodeFeed_new_" + index + "_" + nodeId}
           to={linkObj}
           nodeid={nodeId}
           className={classnames(
@@ -156,7 +156,7 @@ class FeedNodes extends React.Component {
       nodesGroup.forEach((nodeId, index) => {
         //render if there are something in the data
         if( !(nodeId in this.props.nounsBasic)) return; //skip if the info of the unit not yet fetch
-        nodesDOM.push (_nodes_DOM(nodeId));
+        nodesDOM.push (_nodes_DOM(nodeId, index));
       });
 
       return nodesDOM;

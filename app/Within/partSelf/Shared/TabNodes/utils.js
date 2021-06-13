@@ -57,7 +57,7 @@ export function _locationsNodes_levelHandler(locationsNodesList, nounsBasic){
     if(nodeId in mapObjByNodeAndChildren){
       mapObjByNodeAndChildren[nodeId].forEach((nodeIdLNext, indexLNext) => {
         levelsSet[levelKeys[levelNext]].push(nodeIdLNext);
-        if(levelNext == 1) loopInMapObj(nodeIdLNext, 2);
+        if(levelNext == 1) loopInMapObj(levelsSet, nodeIdLNext, 2);
         let deletedIndex = mapListByLength[lengthKeys[levelNext]].indexOf(nodeIdLNext);
         mapListByLength[lengthKeys[levelNext]].splice(deletedIndex, 1);
       });
