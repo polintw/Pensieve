@@ -20,7 +20,7 @@ import {
 } from "../../redux/actions/unit.js";
 import {
   setUnitCurrent,
-  updateNodesBasic,
+  handleNounsList,
   updateUsersBasic
 } from "../../redux/actions/general.js";
 import {unitCurrentInit} from "../../redux/states/constants.js";
@@ -90,15 +90,11 @@ class UnitUnsign extends React.Component {
           beneathMarks.list[resObj.main.marksObj[key].serial] = key;
         }
       });
-      // api GET unit data was totally independent, even the nodesBasic & userBasic
-      //But we still update the info to redux state, for other comp. using
-      let nodesBasic = {}, userBasic = {};
-      resObj.main.nouns.list.forEach((nodeKey, index) => {
-        nodesBasic[nodeKey] = resObj.main.nouns.basic[nodeKey];
-      });
+      // update the info to redux state aquired here, for other comp. using
+      let userBasic = {};
       userBasic[resObj.main.authorBasic.id] = resObj.main.authorBasic;
-      self.props._submit_Nodes_insert(nodesBasic);
       self.props._submit_Users_insert(userBasic);
+      self.props._submit_NounsList_new(resObj.main.nouns.list);
 
       //actually, beneath part might need to be rewritten to asure the state could stay consistency
       self.props._set_store_UnitCurrent({
@@ -261,7 +257,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch)=>{
   return {
-    _submit_Nodes_insert: (obj) => { dispatch(updateNodesBasic(obj)); },
+    _submit_NounsList_new: (arr) => { dispatch(handleNounsList(arr)); },
     _submit_Users_insert: (obj) => { dispatch(updateUsersBasic(obj)); },
     _set_state_UnitView: (expression)=>{dispatch(setUnitView(expression));},
     _set_store_UnitCurrent: (obj)=>{dispatch(setUnitCurrent(obj));},

@@ -7,7 +7,7 @@ export function _locationsNodes_levelHandler(locationsNodesList, nounsBasic){
   let mapObjByNodeAndChildren = {}; // list of nodes have children
   locationsNodesList.forEach((nodeId, index) => {
     if(!(nodeId in nounsBasic)) return;
-    let parentTree = nounsBasic[nodeId].parentTree;
+    let parentTree = !!nounsBasic[nodeId].parentTree ? nounsBasic[nodeId].parentTree : []; // undefined(?)
     switch (parentTree.length) {
       case 0:
         mapListByLength["length_0"].push(nodeId)
