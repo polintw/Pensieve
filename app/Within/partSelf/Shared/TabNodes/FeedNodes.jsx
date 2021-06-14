@@ -112,6 +112,18 @@ class FeedNodes extends React.Component {
           onTouchEnd={this._handleLeave_Btn}
           onMouseEnter={this._handleEnter_Btn}
           onMouseLeave={this._handleLeave_Btn}>
+          {
+            (this.props.nounsBasic[nodeId].prefix.length > 0) &&
+            <span
+              className={classnames(
+                "fontTitleSmallPlain", "colorGrey", styles.spanModuleItem,
+                {
+                  [styles.spanModuleItemMouseOn]: this.state.onBtn == nodeId,
+                }
+              )}>
+              { this.props.nounsBasic[nodeId].prefix }
+            </span>
+          }
           <span
             className={classnames(
               "fontSubtitle_h5", "colorEditBlack", styles.spanModuleItem,
@@ -121,35 +133,33 @@ class FeedNodes extends React.Component {
             )}>
             {this.props.nounsBasic[nodeId].name}
           </span>
-          {
-            (this.props.nounsBasic[nodeId].prefix.length > 0) &&
-            <span
-              className={classnames(
-                "fontContentPlain", "colorGrey", styles.spanModuleItem,
-                {
-                  [styles.spanModuleItemMouseOn]: this.state.onBtn == nodeId,
-                }
-              )}>
-              { this.props.nounsBasic[nodeId].prefix }
-            </span>
-          }
         </Link>
       )
     }
     const _nodes_ByLevel = (nodesSet, groupIndex)=>{
       let nodesDOM = [];
-      const _loop_LevelRender = (setObj)=>{
+      const _loop_LevelRender = (setObj, cycle)=>{
         setObj['levelNow'].forEach((nodeId, index) => {
           if( !(nodeId in this.props.nounsBasic)) return; //skip if the info of the unit not yet fetch
+          if(!!cycle && cycle == 1){
+            nodesDOM.push(
+              <div
+                key={"key_nodesSet"+ groupIndex + index}
+                style={{display: 'flex', width: '100%'}}>
+                {_nodes_DOM(nodeId)}
+              </div>
+            );
+            return;
+          };
           nodesDOM.push (_nodes_DOM(nodeId));
         });
         if('levelNext' in setObj){
           setObj['levelNext'].forEach((setLNext, indexLNext) => {
-            _loop_LevelRender(setLNext)
+            _loop_LevelRender(setLNext, cycle+1)
           });
         };
       };
-      _loop_LevelRender(nodesSet);
+      _loop_LevelRender(nodesSet, 1);
       return nodesDOM;
     };
     const _nodesByGroup = (nodesGroup, groupIndex)=>{
