@@ -22,6 +22,16 @@ export function _locationsNodes_levelHandler(locationsNodesList, nounsBasic){
         null
     };
   });
+  mapListByLength["length_1"].forEach((nodeId, index) => {
+    if(!(nodeId in nounsBasic)) return;
+    let parentTree = nounsBasic[nodeId].parentTree;
+    if(mapListByLength['length_0'].indexOf(parentTree[0]) >= 0 ){
+      if(parentTree[0] in mapObjByNodeAndChildren) mapObjByNodeAndChildren[parentTree[0]].push(nodeId)
+      else{
+        mapObjByNodeAndChildren[parentTree[0]] = [nodeId];
+      };
+    };
+  });
   mapListByLength["length_2"].forEach((nodeId, index) => {
     if(!(nodeId in nounsBasic)) return;
     let parentTree = nounsBasic[nodeId].parentTree;
@@ -38,41 +48,54 @@ export function _locationsNodes_levelHandler(locationsNodesList, nounsBasic){
       };
     };
   });
-  mapListByLength["length_1"].forEach((nodeId, index) => {
-    if(!(nodeId in nounsBasic)) return;
-    let parentTree = nounsBasic[nodeId].parentTree;
-    if(mapListByLength['length_0'].indexOf(parentTree[0]) >= 0 ){
-      if(parentTree[0] in mapObjByNodeAndChildren) mapObjByNodeAndChildren[parentTree[0]].push(nodeId)
-      else{
-        mapObjByNodeAndChildren[parentTree[0]] = [nodeId];
-      };
-    };
-  });
   // start
   let nodesSetList = []; // list going to return to comp.
   let lengthKeys = ['length_0', "length_1", "length_2"];
   let levelKeys = ['level_0', "level_1", "level_2"];
-  // claim a recursive f() to handle node to mapObjByNodeAndChildren
-  const loopInMapObj = (levelsSet, nodeId, levelNext) => {
-    if(nodeId in mapObjByNodeAndChildren){
-      mapObjByNodeAndChildren[nodeId].forEach((nodeIdLNext, indexLNext) => {
-        levelsSet[levelKeys[levelNext]].push(nodeIdLNext);
-        if(levelNext == 1) loopInMapObj(levelsSet, nodeIdLNext, 2);
-        let deletedIndex = mapListByLength[lengthKeys[levelNext]].indexOf(nodeIdLNext);
-        mapListByLength[lengthKeys[levelNext]].splice(deletedIndex, 1);
-      });
+  /*
+  we are goin to make a return array in the form like this:
+  [
+    {
+      levelNow: [],  // level_0
+      levelNext: [
+        {
+          levelNow: [], // level_1
+          levelNext: [
+            {
+              levelNow: [] // level_2
+            }
+          ]
+        },
+        {}
+      ]
     }
+  ]
+  */
+  // claim a recursive f() to handle node to mapObjByNodeAndChildren
+  const loopByNodeInMap = (nodeId, level, originalLevel) => {
+    let levelsSet = {};
+    levelsSet['levelNow'] = [nodeId];
+    if(nodeId in mapObjByNodeAndChildren){
+      levelsSet['levelNext'] = [];
+      mapObjByNodeAndChildren[nodeId].forEach((nodeIdLNext, indexLNext) => {
+        levelsSet['levelNext'].push(loopByNodeInMap(nodeIdLNext, level+1)); // because we only got '3' levels, so we can set 'level' attribute simply like this
+      });
+    };
+    // going to 'delete' the used nodeId
+    if(!!originalLevel && (level+1 == originalLevel)) return levelsSet; // But! if we loop finally back to the first start, don't delete ant item to prevent 'jump' error
+    // delete self from the correspond list
+    let deletedIndex = 0;
+    deletedIndex = mapListByLength[lengthKeys[level]].indexOf(nodeId);
+    if(deletedIndex >= 0 ) mapListByLength[lengthKeys[level]].splice(deletedIndex, 1)
+    else if(deletedIndex < 0 && (level+1 < 3)){
+      deletedIndex = mapListByLength[lengthKeys[level+1]].indexOf(nodeId);
+      mapListByLength[lengthKeys[level+1]].splice(deletedIndex, 1);
+    };
+    return levelsSet;
   };
   for(let i =0; i < 3; i++){
     mapListByLength[lengthKeys[i]].forEach((nodeId, index) => {
-      let levelsSet = {
-        level_0: [],
-        level_1: [],
-        level_2: []
-      }
-      levelsSet[levelKeys[i]].push(nodeId);
-      if(i < 2){ loopInMapObj(levelsSet, nodeId, i+1); }; // no more recursive to level 2
-      nodesSetList.push(levelsSet); // push the set into list we want
+      nodesSetList.push(loopByNodeInMap(nodeId, i, i+1)); // "i+1" here just a quick method to avoid '0' causing 'false' result in operator inside the loopByNodeInMap
     });
   };
 

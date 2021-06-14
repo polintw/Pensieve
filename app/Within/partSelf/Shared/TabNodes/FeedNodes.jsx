@@ -136,19 +136,20 @@ class FeedNodes extends React.Component {
         </Link>
       )
     }
-    const _nodes_ByLevel = (nodesGroup, groupIndex)=>{
+    const _nodes_ByLevel = (nodesSet, groupIndex)=>{
       let nodesDOM = [];
-      nodesGroup.forEach((nodeSet, setIndex) => {
-        let setKeys = Object.keys(nodeSet);
-        setKeys.forEach((key, keyIndex) => {
-          nodeSet[key].forEach((nodeId, index) => {
-            //render if there are something in the data
-            if( !(nodeId in this.props.nounsBasic)) return; //skip if the info of the unit not yet fetch
-            nodesDOM.push (_nodes_DOM(nodeId));
-          });
+      const _loop_LevelRender = (setObj)=>{
+        setObj['levelNow'].forEach((nodeId, index) => {
+          if( !(nodeId in this.props.nounsBasic)) return; //skip if the info of the unit not yet fetch
+          nodesDOM.push (_nodes_DOM(nodeId));
         });
-      });
-
+        if('levelNext' in setObj){
+          setObj['levelNext'].forEach((setLNext, indexLNext) => {
+            _loop_LevelRender(setLNext)
+          });
+        };
+      };
+      _loop_LevelRender(nodesSet);
       return nodesDOM;
     };
     const _nodesByGroup = (nodesGroup, groupIndex)=>{
@@ -325,7 +326,7 @@ class FeedNodes extends React.Component {
 
           return {
             axios: false,
-            cateLocationsNodes: [cateLocationsNodes], // make a 'array' just to follow the batch form usually used
+            cateLocationsNodes: cateLocationsNodes,
             cateTopicsNodes: copiedTopicsNodes,
             batchedLocationsNodes: copiedBatchLocationsNodes,
             // now we fetch the list all at once, no further fetch, so just simply replace the list for beneath 2 keys
