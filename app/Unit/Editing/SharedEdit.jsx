@@ -160,7 +160,7 @@ class SharedEdit extends React.Component {
   render(){
     return(
       <div
-        className={classnames('boxAbsoluteFull', styles.comSharedEdit)}
+        className={classnames(styles.comSharedEdit)}
         onClick={this._handleClick_bg}>
         <div
           className={classnames(styles.boxEditinginCreate)}>

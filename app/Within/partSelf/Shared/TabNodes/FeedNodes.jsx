@@ -141,11 +141,13 @@ class FeedNodes extends React.Component {
       const _loop_LevelRender = (setObj, cycle)=>{
         setObj['levelNow'].forEach((nodeId, index) => {
           if( !(nodeId in this.props.nounsBasic)) return; //skip if the info of the unit not yet fetch
-          if(!!cycle && cycle == 1){
+          if(!!cycle &&
+            cycle == 1 || cycle == 2){
             nodesDOM.push(
               <div
-                key={"key_nodesSet"+ groupIndex + index}
-                style={{display: 'flex', width: '100%'}}>
+                key={"key_nodesSet"+ groupIndex + "_" + nodeId}
+                style={
+                  cycle == 2 ? {display: 'flex', minWidth: '50%' } : {display: 'flex', width: '100%'}}>
                 {_nodes_DOM(nodeId)}
               </div>
             );

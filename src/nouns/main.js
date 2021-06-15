@@ -13,7 +13,6 @@ const directExecutive = require('./direct.js');
 const layerExcutive = require('./layer.js');
 const listExecutive = require('./list.js');
 const accumulatedExecutive = require('./accumulated.js');
-const attributeExecutive = require('./attribution.js');
 
 /*
   Notice! Check First!
@@ -70,8 +69,6 @@ main.param("id", (req, res, next, id)=>{
   req.reqNounId = id;
   next();
 })
-
-main.use('/:id/attribution', attributeExecutive)
 
 main.use('/:id/count', countExecutive)
 

@@ -10,7 +10,6 @@
 .comWithinSign{
   width: 100%;
   z-index: 3; /* set as a 'base': on the contrast to the 'Modal'*/
-  min-height: 100vh;
 }
 
 .boxNavAround {
@@ -165,6 +164,10 @@
 }
 
 @media screen and (max-width:860px) {
+  .boxAroundUnitOpen {
+    position: absolute;
+  }
+
   .boxAroundContentCenter {
     width: 94.24vw;
     max-width: 790px;

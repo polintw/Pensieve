@@ -44,10 +44,12 @@ export function uncertainErr(error){
     //there would be error under this ld method here
     if(resConsole.length>0) console.log(error.response.data.console);
     switch (error.response.data.code) {
-      case 32: //meaning invalid authorization, need to authorize again & redirect.
+      case 32: //meaning invalid token, need to authorize again & redirect.
         alert(error.response.data.message);
-        window.location.assign('/'); //anauthorized with invalid token, reload to check the token
-        return null; //return to inform iterator, meaning no need for further handleing
+        window.localStorage.removeItem('token');
+        window.localStorage.removeItem('tokenRefresh');
+        window.location.assign('/');
+        return false; //return to inform iterator, meaning no need for further handleing
         break;
       case 33: //special for sign in, user not verified email
         return {code33: true, message: error.response.data.message};
@@ -73,4 +75,10 @@ export function uncertainErr(error){
       console.log(error);
       return null;
   }
+}
+
+export function _localVerifiedErr(error){
+  window.localStorage.removeItem('token');
+  window.localStorage.removeItem('tokenRefresh');
+  return; // back to original handler
 }

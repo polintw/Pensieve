@@ -146,7 +146,7 @@ const i18nUIString_EN = {
   "subTitle_Unit_AuthorStatics": ["Inspired", "Engaged", "Opened"],
   "tagTitle_Unit_Inspired": "Inspired by this article",
   "message_Unit_Inspired": "Inspired",
-  "message_Unit_InspiredModal": "Inspired!",
+  "message_Unit_InspiredModal": "Inspired and saved!",
   "tagTitle_Unit_LinkCopy": "Copy link",
   "message_Unit_LinkCopy": "Copied to clipboard",
   "title_UnitEntity_Subcate_list": "Mark your name if you've visited the scene!",

@@ -90,7 +90,7 @@ async function _handle_account_password_PATCH(req, res) {
                 return; //compare success, go to hash
               }
               else {
-                throw new authorizedError({ "password_old": "inputed password was wrong." }, 32)
+                throw new authorizedError({ "password_old": "inputed password was wrong." }, 30)
               }
             })
           } else {

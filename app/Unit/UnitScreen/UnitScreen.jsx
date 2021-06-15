@@ -50,7 +50,8 @@ class UnitScreen extends React.Component {
     this._reset_UnitMount = this._reset_UnitMount.bind(this);
     //And! we have to 'hide' the scroll bar and preventing the scroll behavior to the page one for all
     //so dismiss the scroll ability for <body> here
-    document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:hidden;");
+    // document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:hidden;");
+    /* No need to hidden overflowY! But considert the problem after the 'Related' return, so keep the original code.*/
   }
 
   _close_modal_Unit(){
@@ -171,7 +172,7 @@ class UnitScreen extends React.Component {
     this.props._set_state_UnitView('theater'); // it's default for next view
     this.props._set_state_UnitSubcate({ next_confirm: false, next_unit: null, first_unit: null}); // reset the subcate state to initial
     //last, recruit the scroll ability back to <body>
-    document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:scroll;");
+    // document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:scroll;");
   }
 
   _render_switch(paramUnitView){
@@ -235,9 +236,16 @@ class UnitScreen extends React.Component {
           _didMountSeries={()=>{window.addEventListener('touchmove', (e)=>{e.stopPropagation();});}}
           _willUnmountSeries={()=>{window.removeEventListener('touchmove', (e)=>{e.stopPropagation();});}}
           onClose={()=>{this._close_modal_Unit();}}
-          style={{
+          style={
+            cssVW < 860 ? {
+              height: 'unset',
+              minHeight: "100vh",
+            position: "relative",
+            backgroundColor:  'rgba(51, 51, 51, 0.85)'
+          } : {
             position: "fixed",
-            backgroundColor: cssVW > 860 ? 'rgba(51, 51, 51, 0.3)' : 'rgba(51, 51, 51, 0.85)' }}>
+            backgroundColor: 'rgba(51, 51, 51, 0.3)'
+          }}>
             <div
               id={"unitSignFrame"}
               className={classnames(styles.boxUnitSignFrame)}/>

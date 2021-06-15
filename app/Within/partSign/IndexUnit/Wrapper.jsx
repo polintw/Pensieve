@@ -31,7 +31,8 @@ class Wrapper extends React.Component {
       axios: false,
       unitsList: [],
       unitsBasic: {},
-      marksBasic: {}
+      marksBasic: {},
+      savedPosition: null
     };
     this.axiosSource = axios.CancelToken.source();
     this.wrapperAround = React.createRef();
@@ -48,7 +49,7 @@ class Wrapper extends React.Component {
     if(prevUrlParmas.has('unitView')){
       prevUnitView = prevUrlParmas.get('unitView');
     };
-    if( !!this.unitView && !prevUnitView){
+    if( !!this.unitView && (!this.state.savedPosition && this.state.savedPosition != 0)){ // when load directlly, position would be '0' which would be recognize as 'false'
       let savedPosition = window.scrollY;
       this.setState((prevState, props)=>{
         return {

@@ -13,7 +13,8 @@ import {
 } from "../redux/actions/general.js";
 import tokenRefreshed from '../utils/refreshToken.js';
 import {
-  statusVerifiedErr
+  statusVerifiedErr,
+  _localVerifiedErr
 } from "../utils/errHandlers.js";
 
 
@@ -46,9 +47,16 @@ if(loggedin){
     })
   };
 
-  let decoded = jwtDecode(window.localStorage['token']);
-  let deadline = moment.unix(decoded.exp).subtract(12, 'h');//refresh token earlier in case the user log out during the surfing
-  let expired = moment().isAfter(deadline);
+  let decoded = {}, deadline = new Date(), expired = true;
+  try {
+    decoded = jwtDecode(window.localStorage['token']);
+    deadline = moment.unix(decoded.exp).subtract(12, 'h');//refresh token earlier in case the user log out during the surfing
+    expired = moment().isAfter(deadline);
+  } catch (e) {
+    // e.g 'token' was invalid format, or any problem from the 'token' and 'decode'
+    _localVerifiedErr(e);
+    expired = true;
+  };
 
   if(expired){
      //send 'refresh' token, which get when last renew
@@ -57,6 +65,7 @@ if(loggedin){
     tokenRefreshed().then(()=>{
       statusVerified();
     }).catch((error)=>{
+      // most often case: the refreshToken was expired
       statusVerifiedErr(error, store);
       //and Render the dom, let the DOM itself check the status
       ReactDOM.hydrate(<Provider store={store}><Service/></Provider>, document.getElementById("root"));
