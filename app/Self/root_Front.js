@@ -13,7 +13,8 @@ import {
 } from "../redux/actions/general.js";
 import tokenRefreshed from '../utils/refreshToken.js';
 import {
-  uncertainErr
+  uncertainErr,
+  _localVerifiedErr
 } from "../utils/errHandlers.js";
 
 let loggedin = !!window.localStorage['token'];
@@ -39,9 +40,16 @@ if(loggedin){
       }
     })
   };
-  let decoded = jwtDecode(window.localStorage['token']);
-  let deadline = moment.unix(decoded.exp).subtract(12, 'h');//refresh token earlier in case the user log out during the surfing
-  let expired = moment().isAfter(deadline);
+  let decoded = {}, deadline = new Date(), expired = true;
+  try {
+    decoded = jwtDecode(window.localStorage['token']);
+    deadline = moment.unix(decoded.exp).subtract(12, 'h');//refresh token earlier in case the user log out during the surfing
+    expired = moment().isAfter(deadline);
+  } catch (e) {
+    // e.g 'token' was invalid format, or any problem from the 'token' and 'decode'
+    _localVerifiedErr(e);
+    expired = true;
+  };
 
   if(expired){
      //send 'refresh' token, which get when last renew
@@ -50,8 +58,13 @@ if(loggedin){
     tokenRefreshed().then(()=>{
       statusVerified();
     }).catch((error)=>{
-      alert(error.message);
-      window.location.assign('/');
+      // most often case: the refreshToken was expired
+      let message = uncertainErr(err);
+      //than alert the message res the user before sign in again
+      if(message){
+        alert(message);
+        window.location.assign('/');
+      }
     })
 
    }
@@ -60,6 +73,7 @@ if(loggedin){
     //and then render view
     statusVerified();
   }
-}else{
+}
+else{
   window.location.assign('/') //back to index, the index would decide how to dealt with a no token situation(sign in/up)
 }

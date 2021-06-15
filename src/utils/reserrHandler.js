@@ -132,14 +132,22 @@ function _handle_ErrCatched(e, req, res){
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;
+    case 30:
+      //401, wrong password passed
+      clientSet['code'] = 30;
+      clientSet['message'] = "Password input does not match the account or email.";
+      clientSet['console'] = '';
+      return res.status(e.status).json(clientSet);
+      break;
     case 32:
-      //401, token invalid, authorized failed
+      //401, token was invalid, authorized failed
       clientSet['code'] = 32;
-      clientSet['message'] = "Invalid authorization. Sign in again or sign up for more the wonderful world!";
+      clientSet['message'] = "Invalid authorization. Sign in again or sign up!";
       clientSet['console'] = '';
       return res.status(e.status).json(clientSet);
       break;
     case 33:
+      //401, unverified account
       clientSet['code'] = 33;
       clientSet['message'] = e.message;
       clientSet['console'] = '';
