@@ -14,53 +14,6 @@ const _DB_marks = require('../../../db/models/index').marks;
 const _DB_usersNodesHomeland = require('../../../db/models/index').users_nodes_homeland;
 const _DB_usersNodesResidence = require('../../../db/models/index').users_nodes_residence;
 
-async function _get_ancestors(userId){
-  const userHomeland = await _DB_usersNodesHomeland.findOne({
-    where: {
-      id_user: userId,
-      historyify: false
-    }
-  })
-  .then((result)=>{
-    return !!result ? result: false;
-  })
-  .catch((err)=>{
-    throw new internalError("from _DB_usersNodesHomeland selection shareHandler_POST, "+err, 131)});
-  const userResidence = await _DB_usersNodesResidence.findOne({
-    where: {
-      id_user: userId,
-      historyify: false
-    }
-  })
-  .then((result)=>{
-    return !!result ? result: false;
-  })
-  .catch((err)=>{
-    throw new internalError("from _DB_usersNodesResidence selection shareHandler_POST, "+err, 131);});
-
-  let ancestorsByType = {};
-  let belongList = [], setTypes = [], typeToNodes={}; //list used to select from assign, would incl. parent of belong nodes.
-  if(!!userResidence){ belongList.push(userResidence.id_node); setTypes.push("residence"); typeToNodes["residence"]= userResidence.id_node};
-  if(!!userHomeland){ belongList.push(userHomeland.id_node); setTypes.push("homeland");  typeToNodes["homeland"]= userHomeland.id_node};
-  // build a check point to block action without belong setting first .
-  if(belongList.length < 1) throw new forbbidenError("Please, submit your Shared only after set a corner you belong to.", 120);
-  const ancestorsInfo = await selectNodesParent(belongList);
-
-  setTypes.forEach((type, index)=>{ //loop by list client set
-    let nodeId = typeToNodes[type];
-    if(nodeId in ancestorsInfo){
-      let selfInclList = [], currentNode=ancestorsInfo[nodeId].id;
-      while (!!currentNode) { //jump out until the currentNode was "null" or 'undefined'
-        selfInclList.push(currentNode);
-        currentNode = ancestorsInfo[currentNode].parent_id;
-      }
-      ancestorsByType[type] = selfInclList;
-    }else ancestorsByType[type] = [nodeId];
-  });
-
-  return ancestorsByType;
-}
-
 async function validateShared(modifiedBody, userId) {
 
   // checking is the author really exist
@@ -167,6 +120,9 @@ async function validateShared(modifiedBody, userId) {
     return;
   };
 
+/*
+  Here, this part are the validation if "we limit user must be using their 'belong nodes' ".
+  But the 'belong nodes' was temporally removed, and no limit(except number) to node user can set.
 
   // checking if the assigned nodes was allowed
   let ancestorsByType;
@@ -177,17 +133,66 @@ async function validateShared(modifiedBody, userId) {
     throw error;
     return ; //close the process
   }
+  async function _get_ancestors(userId){
+    const userHomeland = await _DB_usersNodesHomeland.findOne({
+      where: {
+        id_user: userId,
+        historyify: false
+      }
+    })
+    .then((result)=>{
+      return !!result ? result: false;
+    })
+    .catch((err)=>{
+      throw new internalError("from _DB_usersNodesHomeland selection shareHandler_POST, "+err, 131)});
+    const userResidence = await _DB_usersNodesResidence.findOne({
+      where: {
+        id_user: userId,
+        historyify: false
+      }
+    })
+    .then((result)=>{
+      return !!result ? result: false;
+    })
+    .catch((err)=>{
+      throw new internalError("from _DB_usersNodesResidence selection shareHandler_POST, "+err, 131);});
+
+    let ancestorsByType = {};
+    let belongList = [], setTypes = [], typeToNodes={}; //list used to select from assign, would incl. parent of belong nodes.
+    if(!!userResidence){ belongList.push(userResidence.id_node); setTypes.push("residence"); typeToNodes["residence"]= userResidence.id_node};
+    if(!!userHomeland){ belongList.push(userHomeland.id_node); setTypes.push("homeland");  typeToNodes["homeland"]= userHomeland.id_node};
+    // build a check point to block action without belong setting first .
+    if(belongList.length < 1) throw new forbbidenError("Please, submit your Shared only after set a corner you belong to.", 120);
+    const ancestorsInfo = await selectNodesParent(belongList);
+
+    setTypes.forEach((type, index)=>{ //loop by list client set
+      let nodeId = typeToNodes[type];
+      if(nodeId in ancestorsInfo){
+        let selfInclList = [], currentNode=ancestorsInfo[nodeId].id;
+        while (!!currentNode) { //jump out until the currentNode was "null" or 'undefined'
+          selfInclList.push(currentNode);
+          currentNode = ancestorsInfo[currentNode].parent_id;
+        }
+        ancestorsByType[type] = selfInclList;
+      }else ancestorsByType[type] = [nodeId];
+    });
+
+    return ancestorsByType;
+  }
+*/
 
   let allowedTypes = ['homeland','residence', 'freeOne', 'deweyOne'], assignedNodes=[];
-  const assignSetConfirm = modifiedBody.nodesSet.every((assignedObj, index) => { //arr.every could be break
-    if(allowedTypes.indexOf(assignedObj.type)< 0 || allowedTypes.length <1) { //means the assigned was 'reapeated', which are not allowed under any circumstance
-      return false ;
+  let assignSetConfirm = true;
+  for (let i = 0; (i < 3) && (i < modifiedBody.nodesSet.length) ; i++) {
+    let assignedObj = modifiedBody.nodesSet[i];
+    if(allowedTypes.indexOf(assignedObj.type)< 0) {
+      assignSetConfirm = false ;
     };
     assignedNodes.push(assignedObj.nodeId);
-    return true; //we are using .every(), must return true to go to next round
-  });
+  };
+
   if(!assignSetConfirm) {
-    throw new forbbidenError(" assignSetConfirm was false, not allowed node type or not user's belonged node.", 120);
+    throw new forbbidenError(" assignSetConfirm was false, not allowed node type.", 120);
     return;
   };
   // checking if all the nodes exist.
@@ -314,10 +319,11 @@ async function validateSharedEdit(modifiedBody, userId, exposedId) {
   let assignedNodes= modifiedBody.nodesSet.map((assignedObj, index)=>{
     return assignedObj.nodeId
   });
-
+console.log(">>> assignedNodes", assignedNodes)
   const allNodesConfirm = await _DB_nouns.findAll({
     where: {id: assignedNodes}
   })
+console.log(">>> allNodesConfirm", allNodesConfirm)
   if(allNodesConfirm.length != assignedNodes.length){
     throw new forbbidenError("You didn't submit with an allowed nodes.", 120);
     return;
