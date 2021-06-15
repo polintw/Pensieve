@@ -18,7 +18,9 @@
 
 @media screen and (max-width:860px) {
   .boxUnitFrame {
-    padding: 6.4vh 0 0; /* top from NavOptions in small screen */
+    height: unset;
+    overflow-y: unset;
+    padding: 6.7vh 0 0; /* top from NavOptions in small screen */
   }
 
   .boxUnitContent {
