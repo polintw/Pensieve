@@ -69,23 +69,40 @@ class Within_Sign extends React.Component {
         switchTo: null
       });
     };
+    let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
+    let unitView = null;
+    if(urlParams.has('unitView')){
+      unitView = urlParams.get('unitView');
+    };
     if(
-      this.props.location.pathname != prevProps.location.pathname &&
-      this.props.location.pathname.includes('/unit')
+      (this.props.location.pathname != prevProps.location.pathname &&
+      this.props.location.pathname.includes('/unit')) || (
+        !!unitView && !this.state.navWithinNotDisSmall
+      )
     ){
       this.setState({ navWithinNotDisSmall: true });
     }
     else if(
-      this.props.location.pathname != prevProps.location.pathname &&
+      (this.props.location.pathname != prevProps.location.pathname &&
       prevProps.location.pathname.includes('/unit') &&
-      !this.props.location.pathname.includes('/unit')
+      !this.props.location.pathname.includes('/unit')) || (
+        !unitView && this.state.navWithinNotDisSmall
+      )
     ){
       this.setState({ navWithinNotDisSmall: false });
     };
   }
 
   componentDidMount() {
-
+    let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
+    let unitView = null;
+    if(urlParams.has('unitView')){
+      unitView = urlParams.get('unitView');
+    };
+    if(!!unitView)
+    {
+      this.setState({ navWithinNotDisSmall: true });
+    };
   }
 
   componentWillUnmount() {
@@ -99,7 +116,7 @@ class Within_Sign extends React.Component {
       <div>
         <div style={this.style.Within_Around_backplane}></div>
         <div
-          className={classnames(styles.comWithinSign)}>
+          className={this.state.navWithinNotDisSmall ? classnames(styles.boxAroundUnitOpen, styles.comWithinSign) : classnames(styles.comWithinSign)}>
           <Switch>
             <Route path="/cosmic/explore/unit" render={(props)=> UnsignWithinUnit(props, this) }/>
             <Route path="/" render={(props)=> UnsignWithin(props, this) }/>

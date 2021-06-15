@@ -98,7 +98,7 @@ class WithinSelf extends React.Component {
       <div>
         <div style={this.style.Within_Self_backplane}></div>
         <div
-          className={classnames(styles.boxAround)}>
+          className={this.state.navWithinNotDisSmall ? classnames(styles.boxAround, styles.boxAroundUnitOpen) : (styles.boxAround)}>
           <div
             className={classnames(styles.boxNavOptionsFrame, styles.boxNavOptionsSelf)}>
             <div

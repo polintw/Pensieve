@@ -75,16 +75,25 @@ class WithinCosmic extends React.Component {
         switchTo: null
       });
     }
+    let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
+    let unitView = null;
+    if(urlParams.has('unitView')){
+      unitView = urlParams.get('unitView');
+    };
     if(
-      this.props.location.pathname != prevProps.location.pathname &&
-      this.props.location.pathname.includes('/unit')
+      (this.props.location.pathname != prevProps.location.pathname &&
+      this.props.location.pathname.includes('/unit')) || (
+        !!unitView && !this.state.navWithinNotDisSmall // load directly by URL
+      )
     ){
       this.setState({ navWithinNotDisSmall: true });
     }
     else if(
-      this.props.location.pathname != prevProps.location.pathname &&
+      (this.props.location.pathname != prevProps.location.pathname &&
       prevProps.location.pathname.includes('/unit') &&
-      !this.props.location.pathname.includes('/unit')
+      !this.props.location.pathname.includes('/unit')) || (
+        !unitView && this.state.navWithinNotDisSmall
+      )
     ){
       this.setState({ navWithinNotDisSmall: false });
     };
@@ -95,6 +104,15 @@ class WithinCosmic extends React.Component {
     Here is the highest level next only to status() in root, fetching data or any info needed
     */
     if( !window.localStorage['token'] ) return;
+    let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
+    let unitView = null;
+    if(urlParams.has('unitView')){
+      unitView = urlParams.get('unitView');
+    };
+    if(!!unitView) // // load directly by URL
+    {
+      this.setState({ navWithinNotDisSmall: true });
+    };
   }
 
   componentWillUnmount() {
@@ -108,7 +126,7 @@ class WithinCosmic extends React.Component {
       <div>
         <div style={this.style.Within_Cosmic_backplane}></div>
         <div
-          className={classnames(styles.boxCosmic)}>
+          className={this.state.navWithinNotDisSmall ? classnames(styles.boxCosmic, styles.boxAroundUnitOpen) : (styles.boxCosmic)}>
           <div
             className={classnames(styles.boxNavOptionsFrame)}>
             <div
