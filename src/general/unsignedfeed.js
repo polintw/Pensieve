@@ -25,11 +25,11 @@ async function _handle_GET_unsignedfeed(req, res){
         source: null,
         createdAt: {
           [Op.and]: [
-            { [Op.lt]: lastUnitTime }, { [Op.gt]: "2021-03-27" }
+            { [Op.lt]: lastUnitTime }, { [Op.gt]: "2021-02-15" }
           ]
         },
         used_authorId: {
-          [Op.or]: [{[Op.notIn]: [15, 4]}, null]
+          [Op.or]: [{ [Op.notIn]: [15, 4, 16] }, null]
         }
       },
       order: [ //make sure the order of arr are from latest

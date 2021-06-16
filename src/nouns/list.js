@@ -22,11 +22,11 @@ async function _handle_GET_nouns_Assigned(req, res){
       where: {
         createdAt: {
           [Op.and]:[
-            {[Op.lt]: lastUnitTime }, {[Op.gt]: "2021-03-27" }
+            { [Op.lt]: lastUnitTime }, { [Op.gt]: "2021-02-15" }
           ]
         },
         used_authorId: {
-          [Op.or]: [{[Op.notIn]: [15, 4]}, null]
+          [Op.or]: [{ [Op.notIn]: [15, 4, 16] }, null]
         }
       },
       attributes: [
