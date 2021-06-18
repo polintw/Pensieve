@@ -156,7 +156,7 @@ class Wrapper extends React.Component {
               className={classnames(styles.boxNavFeed)}>
               <NavFeed
                 {...this.props}
-                subCatesify={ (this.state.subCatesInfo.subCatesList.length < 0) ? false : true }/>
+                subCatesify={ (this.state.subCatesInfo.subCatesList.length > 0) ? true : false }/>
             </div>
           </div>
           <div>
