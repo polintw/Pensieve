@@ -10,6 +10,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import IndexUnit from './partSign/IndexUnit/Wrapper.jsx';
 import WithinSign from './partSign/WithinSign.jsx';
+import PathProject from './partExplore/PathProject/Wrapper.jsx';
 import NavWithin from '../Components/NavWithin/NavWithin.jsx';
 import NavOptionsUnsign from '../Components/NavOptions/NavOptionsUnsign.jsx';
 import ModalBox from '../Components/ModalBox.jsx';
@@ -119,6 +120,7 @@ class Within_Sign extends React.Component {
           className={this.state.navWithinNotDisSmall ? classnames(styles.boxAroundUnitOpen, styles.comWithinSign) : classnames(styles.comWithinSign)}>
           <Switch>
             <Route path="/cosmic/explore/unit" render={(props)=> UnsignWithinUnit(props, this) }/>
+            <Route path="/cosmic/explore" render={(props) => UnsignWithinCosmic(props, this)} />
             <Route path="/" render={(props)=> UnsignWithin(props, this) }/>
           </Switch>
         </div>
@@ -156,6 +158,41 @@ class Within_Sign extends React.Component {
     )
   }
 
+}
+
+const UnsignWithinCosmic = (routeProps, parent) => {
+  return (
+    <div>
+      <div
+        className={classnames(styles.boxNavOptionsFrame)}>
+        <div
+          className={classnames(styles.boxNavOptionsCosmic)}>
+          <NavOptionsUnsign {...routeProps} _refer_to={parent._refer_von_Sign} />
+        </div>
+      </div>
+      <div
+        className={classnames(styles.boxAroundContent)}>
+        <div
+          className={classnames(
+            styles.boxContentFilledLeft)} />
+        <div
+          className={classnames(styles.boxAroundContentCenter)}>
+          <Switch>
+            <Route path={routeProps.match.path + "/path/:pathName"} render={(innerRouteProps) => <PathProject {...innerRouteProps} _refer_to={parent._refer_von_Sign} />} />
+            <Route path={routeProps.match.path + "/"} render={(routeProps) => <Redirect to={'/'} />} />
+          </Switch>
+        </div>
+        <div
+          className={classnames(
+            styles.boxContentFilledRight)} />
+      </div>
+      <div
+          className={parent.state.navWithinNotDisSmall ? classnames(styles.boxNavAround, styles.boxNavWithinCosmic, 'smallDisplayNone') :
+            classnames(styles.boxNavAround, styles.boxNavWithinCosmic)}>
+        <NavWithin {...routeProps} _refer_to={parent._refer_von_Sign} />
+      </div>
+    </div>
+  )
 }
 
 const UnsignWithin = ( routeProps, parent) => {
