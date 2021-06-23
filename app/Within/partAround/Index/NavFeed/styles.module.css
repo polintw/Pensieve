@@ -15,12 +15,25 @@
   align-items: center;
 }
 
+.boxLinksToPersonal {
+  display: flex;
+  align-items: baseline;
+}
+
+.boxDecoSpot {
+  display: flex;
+  box-sizing: border-box;
+  height: 8px;
+  position: relative;
+  margin: 0 16px;
+}
+
 .boxDecoLine {
   display: flex;
   box-sizing: border-box;
   height: 8px;
   position: relative;
-  margin: 16px;
+  margin: 10px 16px 30px;
 }
 
 .spanLinkMouse {
