@@ -32,11 +32,14 @@ class Wrapper extends React.Component {
       unitsList: [],
       unitsBasic: {},
       marksBasic: {},
-      savedPosition: null
+      savedPosition: null,
+      onLink: false
     };
     this.axiosSource = axios.CancelToken.source();
     this.wrapperAround = React.createRef();
     this._set_feedUnits = this._set_feedUnits.bind(this);
+    this._handleEnter_onLink = this._handleEnter_onLink.bind(this);
+    this._handleLeave_onLink = this._handleLeave_onLink.bind(this);
     this._render_FeedNails = this._render_FeedNails.bind(this);
     this._render_FooterHint = this._render_FooterHint.bind(this);
   }
@@ -76,6 +79,14 @@ class Wrapper extends React.Component {
     if(this.state.axios){
       this.axiosSource.cancel("component will unmount.")
     }
+  }
+
+  _render_FooterHint(){
+    return (
+      <span
+        className={classnames(styles.spanFooterHint, "fontTitleSmall", "colorLightGrey")}>
+        {this.props.i18nUIString.catalog['descript_AroundIndex_footer']}</span>
+    );
   }
 
   _render_FeedNails(){
@@ -176,6 +187,33 @@ class Wrapper extends React.Component {
                   {...this.props}/>
               </div>
             </div>
+            <div>
+              <span
+                className={classnames(
+                  "fontContentPlain", "colorEditBlack")}>
+                {this.props.i18nUIString.catalog['guiding_IndexUnit_backToHome']}
+              </span>
+              <Link
+                to={'/'}
+                className={classnames(
+                  'plainLinkButton')}
+                onTouchStart={this._handleEnter_onLink}
+                onTouchEnd={this._handleLeave_onLink}
+                onMouseEnter={this._handleEnter_onLink}
+                onMouseLeave={this._handleLeave_onLink}>
+                <span
+                  className={classnames(
+                    "fontContentPlain", styles.spanLink,
+                    {
+                      ["colorEditBlack"]: this.state.onLink,
+                      ["colorStandard"]: !this.state.onLink,
+                      [styles.spanLinkMouse]: this.state.onLink,
+                    }
+                  )}>
+                    {this.props.i18nUIString.catalog['submit_nav_backToHome']}
+                  </span>
+              </Link>
+            </div>
           </div>
         </div>
         {
@@ -221,12 +259,13 @@ class Wrapper extends React.Component {
     });
   }
 
-  _render_FooterHint(){
-    return (
-      <span
-        className={classnames(styles.spanFooterHint, "fontTitleSmall", "colorLightGrey")}>
-        {this.props.i18nUIString.catalog['descript_AroundIndex_footer']}</span>
-    );
+  _handleEnter_onLink(e){
+    this.setState({onLink: true})
+  }
+
+  _handleLeave_onLink(e){
+    this.setState({
+      onLink: false})
   }
 }
 
