@@ -188,7 +188,7 @@ const i18nUIString_EN = {
   "guiding_Unit_Responds_author": "More responds would be listed!",
   "guiding_Unit_Responds_none": "Submit your respond to this article!",
 
-  "title_Index_NavFeed_": ["Your Accumulations", "Feed"],
+  "title_Index_NavFeed_": ["Your Notes", "Your Map", "Feed"],
   "title_FeedAssigned_AllRead": "You're up-to-date.",//Original:"you've all browsed."
   "title_FeedAssigned_": "Gathering",
   "hint_FeedAssigned_belongedBase": "by your corners ",

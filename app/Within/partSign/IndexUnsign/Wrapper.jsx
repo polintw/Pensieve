@@ -29,21 +29,6 @@ class Wrapper extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
-    // the 'top' value state was static after mount
-    // we have to modify it manually if the 'screen' size was change
-    let newViewportHeight = window.innerHeight;
-    let newViewportWidth = window.innerWidth;
-    if(
-      prevState.viewportHeight != newViewportHeight &&
-      prevState.viewportWidth != newViewportWidth
-    ){
-      let mainContentOffset = this.refMainContent.current.getBoundingClientRect();
-      this.setState({
-        mainContentFixedTop: mainContentOffset.top,
-        viewportHeight: newViewportHeight,
-        viewportWidth: newViewportWidth
-      });
-    };
     // and the way to 'hide' Feed when the Unit was opened
     let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
     let prevUrlParmas = new URLSearchParams(prevProps.location.search);
@@ -167,6 +152,7 @@ class Wrapper extends React.Component {
   _handleScroll_MainContent(event){
     // keep "default"
     event.stopPropagation();
+    if(this.props.location.pathname.includes('/unit')) return; // Important! Stop updating the state if Unit was opened. it would cause CSS render problem on iPhone(infinite loop maybe)
     let viewportHeight = window.innerHeight;
     let scrollTop = window.scrollY;
     let opacityParam = 1;

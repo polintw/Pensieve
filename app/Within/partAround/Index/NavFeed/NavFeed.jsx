@@ -39,29 +39,59 @@ class NavFeed extends React.Component {
         className={classnames(styles.comNavFeed, styles.boxTitle)}>
         <div
           className={classnames(styles.boxLinks)}>
-          <Link
-            to={ "/self/shareds" }
-            topath={"personal"}
-            className={classnames('plainLinkButton')}
-            onTouchStart={this._handleEnter_link}
-            onTouchEnd={this._handleLeave_link}
-            onMouseUp={this._handleLeave_link}
-            onMouseEnter={this._handleEnter_link}
-            onMouseLeave={this._handleLeave_link}
-            style={ Object.assign({}, { padding: '0 8px' }, sidePropsStyle)}>
-            <span
-              className={classnames(
-                "fontSubtitle",
-                {
-                  [styles.spanLinkMouse]: (this.state.onNavLink == 'personal'),
-                  ["colorLightGrey"]: (this.state.onNavLink != 'personal'),
-                  ["colorEditBlack"]: (this.state.onNavLink == 'personal'),
-                  ["weightBold"]: (this.state.onNavLink == 'personal')
-                }
-              )}>
-              {this.props.i18nUIString.catalog["title_Index_NavFeed_"][0] }
-            </span>
-          </Link>
+          <div
+            className={classnames(styles.boxLinksToPersonal)}>
+            <Link
+              to={ "/self/shareds" }
+              topath={"personal"}
+              className={classnames('plainLinkButton')}
+              onTouchStart={this._handleEnter_link}
+              onTouchEnd={this._handleLeave_link}
+              onMouseUp={this._handleLeave_link}
+              onMouseEnter={this._handleEnter_link}
+              onMouseLeave={this._handleLeave_link}
+              style={ Object.assign({}, { padding: '0 8px' }, sidePropsStyle)}>
+              <span
+                className={classnames(
+                  "fontSubtitle",
+                  {
+                    [styles.spanLinkMouse]: (this.state.onNavLink == 'personal'),
+                    ["colorLightGrey"]: (this.state.onNavLink != 'personal'),
+                    ["colorEditBlack"]: (this.state.onNavLink == 'personal'),
+                    ["weightBold"]: (this.state.onNavLink == 'personal')
+                  }
+                )}>
+                {this.props.i18nUIString.catalog["title_Index_NavFeed_"][0] }
+              </span>
+            </Link>
+            <div
+              className={classnames(styles.boxDecoSpot)}
+              style={ Object.assign({}, sidePropsStyle)}>
+            </div>
+            <Link
+              to={ "/self/shareds?tab=map" }
+              topath={"selfMap"}
+              className={classnames('plainLinkButton')}
+              onTouchStart={this._handleEnter_link}
+              onTouchEnd={this._handleLeave_link}
+              onMouseUp={this._handleLeave_link}
+              onMouseEnter={this._handleEnter_link}
+              onMouseLeave={this._handleLeave_link}
+              style={ Object.assign({}, { padding: '0 8px' }, sidePropsStyle)}>
+              <span
+                className={classnames(
+                  "fontSubtitle",
+                  {
+                    [styles.spanLinkMouse]: (this.state.onNavLink == 'selfMap'),
+                    ["colorLightGrey"]: (this.state.onNavLink != 'selfMap'),
+                    ["colorEditBlack"]: (this.state.onNavLink == 'selfMap'),
+                    ["weightBold"]: (this.state.onNavLink == 'selfMap')
+                  }
+                )}>
+                {this.props.i18nUIString.catalog["title_Index_NavFeed_"][1] }
+              </span>
+            </Link>
+          </div>
           <div
             className={classnames(styles.boxDecoLine)}
             style={ Object.assign({}, sidePropsStyle)}>
@@ -98,7 +128,7 @@ class NavFeed extends React.Component {
                 "fontSubtitle",
                 {[styles.spanLinkMouse]: (this.state.onNavLink == 'int_feedAssigned')}
               )}>
-              {this.props.i18nUIString.catalog["title_Index_NavFeed_"][1] }
+              {this.props.i18nUIString.catalog["title_Index_NavFeed_"][2] }
             </span>
           </a>
         </div>
