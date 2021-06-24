@@ -64,19 +64,6 @@ class NavOptions extends React.Component {
             <div
               className={classnames(styles.boxLinkSwitchMouseOn)}/>
           }
-          {
-            inSelfify &&
-            <div
-              className={classnames(styles.boxSvgArrow)}
-              style={{paddingRight: "8px"}}>
-              <div
-                style={{width: "10px"}}>
-                <SvgArrowToRight
-                  mouseOn={this.state.onBackBtn}
-                  customStyles={{fillColorMouseOn: '#FFFFFF', fillColor: '#d8d8d8'}}/>
-              </div>
-            </div>
-          }
           <span
             className={classnames(
               "fontSubtitle", styles.spanBtnText,
@@ -88,19 +75,24 @@ class NavOptions extends React.Component {
             )}>
             {this.props.i18nUIString.catalog["title_home"]}
           </span>
-          {
-            !inSelfify &&
+          <div
+            className={classnames(styles.boxSvgArrow)}
+            style={{paddingLeft: "8px"}}>
             <div
-              className={classnames(styles.boxSvgArrow)}
-              style={{paddingLeft: "8px"}}>
-              <div
-                style={{width: "10px"}}>
-                <SvgArrowToRight
-                  mouseOn={this.state.onBackBtn}
-                  customStyles={{fillColorMouseOn: '#444444', fillColor: '#d8d8d8'}}/>
-              </div>
+              style={{width: "10px"}}>
+              {
+                inSelfify ? (
+                  <SvgArrowToLeft
+                    mouseOn={this.state.onBackBtn}
+                    customStyles={{fillColorMouseOn: '#FFFFFF', fillColor: '#d8d8d8'}}/>
+                ) : (                  
+                  <SvgArrowToRight
+                    mouseOn={this.state.onBackBtn}
+                    customStyles={{fillColorMouseOn: '#444444', fillColor: '#d8d8d8'}}/>
+                )
+              }
             </div>
-          }
+          </div>
         </Link>
       )
     };
