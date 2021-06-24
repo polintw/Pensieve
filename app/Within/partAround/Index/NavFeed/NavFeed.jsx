@@ -42,6 +42,29 @@ class NavFeed extends React.Component {
           <div
             className={classnames(styles.boxLinksToPersonal)}>
             <Link
+              to={ "/self/shareds?tab=nodes" }
+              topath={"selfNodes"}
+              className={classnames('plainLinkButton')}
+              onTouchStart={this._handleEnter_link}
+              onTouchEnd={this._handleLeave_link}
+              onMouseUp={this._handleLeave_link}
+              onMouseEnter={this._handleEnter_link}
+              onMouseLeave={this._handleLeave_link}
+              style={ sidePropsStyle }>
+              <span
+                className={classnames(
+                  "fontSubtitle",
+                  {
+                    [styles.spanLinkMouse]: (this.state.onNavLink == 'selfNodes'),
+                    ["colorLightGrey"]: (this.state.onNavLink != 'selfNodes'),
+                    ["colorEditBlack"]: (this.state.onNavLink == 'selfNodes'),
+                    ["weightBold"]: (this.state.onNavLink == 'selfNodes')
+                  }
+                )}>
+                {this.props.i18nUIString.catalog["title_Index_NavFeed_"][2] }
+              </span>
+            </Link>
+            <Link
               to={ "/self/shareds" }
               topath={"personal"}
               className={classnames('plainLinkButton')}
@@ -50,7 +73,7 @@ class NavFeed extends React.Component {
               onMouseUp={this._handleLeave_link}
               onMouseEnter={this._handleEnter_link}
               onMouseLeave={this._handleLeave_link}
-              style={ Object.assign({}, { padding: '0 8px' }, sidePropsStyle)}>
+              style={ sidePropsStyle }>
               <span
                 className={classnames(
                   "fontSubtitle",
@@ -64,10 +87,6 @@ class NavFeed extends React.Component {
                 {this.props.i18nUIString.catalog["title_Index_NavFeed_"][0] }
               </span>
             </Link>
-            <div
-              className={classnames(styles.boxDecoSpot)}
-              style={ Object.assign({}, sidePropsStyle)}>
-            </div>
             <Link
               to={ "/self/shareds?tab=map" }
               topath={"selfMap"}
@@ -77,7 +96,7 @@ class NavFeed extends React.Component {
               onMouseUp={this._handleLeave_link}
               onMouseEnter={this._handleEnter_link}
               onMouseLeave={this._handleLeave_link}
-              style={ Object.assign({}, { padding: '0 8px' }, sidePropsStyle)}>
+              style={ sidePropsStyle }>
               <span
                 className={classnames(
                   "fontSubtitle",
@@ -102,7 +121,7 @@ class NavFeed extends React.Component {
                 position: 'relative',
                 boxSizing: 'border-box'
               })}>
-              <circle fill="#b8b8b8" cx="10" cy="10" r="5"></circle>
+              <circle fill="#b8b8b8" cx="10" cy="10" r="10"></circle>
             </svg>
             <a id={"topFeed"} style={{opacity: '0'}}/>
           </div>
@@ -128,7 +147,7 @@ class NavFeed extends React.Component {
                 "fontSubtitle",
                 {[styles.spanLinkMouse]: (this.state.onNavLink == 'int_feedAssigned')}
               )}>
-              {this.props.i18nUIString.catalog["title_Index_NavFeed_"][2] }
+              {this.props.i18nUIString.catalog["title_Index_NavFeed_"][3] }
             </span>
           </a>
         </div>

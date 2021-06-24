@@ -67,7 +67,7 @@
 
 @media screen and (min-width: 860px) {
   .comAroundWrapper {
-    padding: 24.54vh 0 0;
+    padding: 22.54vh 0 0;
   }
 
   .boxNavFeed {
@@ -85,7 +85,7 @@
 
 @media screen and (max-width:860px) {
   .comAroundWrapper {
-    padding: 18vh 0 0;
+    padding: 17.6vh 0 0;
   }
 
   .boxFooter {
@@ -94,7 +94,7 @@
   }
 
   .boxNavFeed {
-    padding: 4.82vh 0 16px;
+    padding: 5.82vh 0 16px;
   }
 
   .boxIndexTitle {
