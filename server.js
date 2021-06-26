@@ -59,6 +59,16 @@ app.use(express.static(path.join(__dirname+'/public/ico'))); // for /favicon.ico
 //api
 app.use('/router', router)
 
+app.use('/action', function (req, res) {
+  winston.info(`${"page: requesting for "} '${req.originalUrl}', ${req.method}, ${"from ip "}, ${req.ip}`);
+
+  res.sendFile(path.join(__dirname + '/public/html/html_Action.html'), { headers: { 'Content-Type': 'text/html' } }, function (err) {
+    if (err) {
+      throw err
+    }
+  });
+})
+
 app.use('/a', function(req, res){
   winston.info(`${"page: requesting for "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}`);
 
