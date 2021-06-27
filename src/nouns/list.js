@@ -14,8 +14,8 @@ const {
 async function _handle_GET_nouns_Assigned(req, res){
   const userId = req.extra.tokenUserId; //use userId passed from pass.js
   try{
-    let unitBase = new Date(req.query.listUnitBase);
-    const lastUnitTime = !isNaN(unitBase) ? unitBase : new Date(); // basically, undefined listUnitBase means first landing to the page
+    let unitBase = new Date(req.query.basedTime);
+    const lastUnitTime = !isNaN(unitBase) ? unitBase : new Date(); // basically, undefined basedTime means first landing to the page
     const reqListLimit = 42;
 
     let nodesByAttri = await _DB_attri.findAll({
