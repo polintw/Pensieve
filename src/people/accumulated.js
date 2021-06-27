@@ -39,7 +39,7 @@ async function _handle_GET_people_accumulated(req, res){
         author_identity: 'user',
         createdAt: {
           [Op.and]: [
-            { [Op.lt]: lastUnitTime }, { [Op.gt]: "2021-03-27" }
+            { [Op.lt]: lastUnitTime }, { [Op.gt]: "2021-01-02" }
           ]
         },
         source: null,

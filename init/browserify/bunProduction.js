@@ -78,11 +78,31 @@ let rootSelfFront = browserify({
     rootDir: __dirname
   });
 
+let rootAction = browserify({
+  debug: false
+}).transform(envify({
+  NODE_ENV: 'production'
+})).transform(babelify.configure({
+  presets: [
+    "react",
+    "env"],
+  plugins: [
+    "transform-object-rest-spread"
+  ]
+})).transform('uglifyify', {
+  global: true
+}).require("./app/Action/root.js", {
+  entry: true
+}).plugin(require('css-modulesify'), {
+  rootDir: __dirname
+});
+
 
 let appSign = rootSign.bundle().on("error", function (err) { console.log("Error: " + err.message); });
 let appService = rootService.bundle().on("error", function (err) { console.log("Error: " + err.message); });
 let appWithin = rootWithin.bundle().on("error", function (err) { console.log("Error: " + err.message); });
 let appSelfFront = rootSelfFront.bundle().on("error", function (err) { console.log("Error: " + err.message); });
+let appAction = rootAction.bundle().on("error", function (err) { console.log("Error: " + err.message); });
 
 rootSign.on('css stream', function (css) {
     css.pipe(fs.createWriteStream('./public/css/stylesSign.css')); //rewrite the file with the new "abstract name"
@@ -94,7 +114,10 @@ rootWithin.on('css stream', function (css) {
     css.pipe(fs.createWriteStream('./public/css/stylesWithin.css')); //rewrite the file with the new "abstract name"
 });
 rootSelfFront.on('css stream', function (css) {
-    css.pipe(fs.createWriteStream('./public/css/stylesSelfFront.css')); //rewrite the file with the new "abstract name"
+  css.pipe(fs.createWriteStream('./public/css/stylesSelfFront.css')); //rewrite the file with the new "abstract name"
+});
+rootAction.on('css stream', function (css) {
+  css.pipe(fs.createWriteStream('./public/css/stylesAction.css')); //rewrite the file with the new "abstract name"
 });
 
 exports.bundler = ()=>{
@@ -103,4 +126,5 @@ exports.bundler = ()=>{
   appService.pipe(fs.createWriteStream('./public/react/appService.js'));
   appWithin.pipe(fs.createWriteStream('./public/react/appWithin.js'));
   appSelfFront.pipe(fs.createWriteStream('./public/react/appSelfFront.js'));
+  appAction.pipe(fs.createWriteStream('./public/react/appAction.js'));
 }

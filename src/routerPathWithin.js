@@ -127,9 +127,9 @@ async function _handle_crawler_GET_Unit(req, res){
       //compose title from Nodes used
       resultsNodes.forEach((row, index)=>{
         if(index< 1){ titleStr += (row.name); return } //avoid "," at the begining
-        titleStr += ( ", "+row.name);
+        titleStr += ( ". "+row.name);
       });
-      variables.title = titleStr + "\xa0" + "by" + "\xa0" + resultAuthor.account + "\xa0" + "|Cornerth." ;
+      variables.title = titleStr + ". By" + "\xa0" + resultAuthor.account + "\xa0" + "| Cornerth." ;
 
 
       return variables;

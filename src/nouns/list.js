@@ -24,6 +24,9 @@ async function _handle_GET_nouns_Assigned(req, res){
           [Op.and]:[
             { [Op.lt]: lastUnitTime }, { [Op.gt]: "2021-01-02" }
           ]
+        },
+        used_authorId: {
+          [Op.or]: [{[Op.notIn]: [15]}, null]
         }
       },
       attributes: [
@@ -49,25 +52,40 @@ async function _handle_GET_nouns_Assigned(req, res){
       temp: {}
     };
 
-    if (nodesByAttri.length < reqListLimit) sendingData.scrolled = false;
-    // slice unwanted number after scrolled checked
-    nodesByAttri.splice(reqListLimit);
     if(!!req.query.seperate){
       let listType = ["locationsList", "topicsList"];
       sendingData[listType[0]] = [];
       sendingData[listType[1]] = [];
-      nodesByAttri.forEach((row, index) => {
+      let loopLength = 0,
+          tooLongList = [],
+          timeBase = new Date();
+      while (
+        loopLength < nodesByAttri.length &&
+        (sendingData['locationsList'].length < reqListLimit || sendingData['topicsList'].length < reqListLimit)
+      ) {
+        let row = nodesByAttri[loopLength];
         let listKey = (row.noun.category == "location_admin") ? listType[0] : listType[1];
-        sendingData[listKey].push(row.id_noun);
-        if(index == (nodesByAttri.length-1) ){
-          sendingData['fetchBasedTime'] = row.createdAt;
+        if(sendingData[listKey].length >= reqListLimit){
+          tooLongList.push(row.id_noun);
+        } else{
+          sendingData[listKey].push(row.id_noun);
+          let rowDate = row.createdAt;
+          if(rowDate.getTime() < timeBase.getTime()) timeBase = row.createdAt;
         };
-      });
+        loopLength += 1;
+      };
+      // set timeBase
+      sendingData['fetchBasedTime'] = timeBase;
+      // and check if any item not used(spare for next fetch)
+      if (tooLongList.length < 1) sendingData.scrolled = false;
     }
     else {
+      if (nodesByAttri.length < reqListLimit) sendingData.scrolled = false;
+      // slice unwanted number after scrolled checked
+      nodesByAttri.splice(reqListLimit);
       let nodesList = nodesByAttri.map((row, index)=>{
         return row.id_noun;
-      })
+      });
       sendingData['nodesList'] = nodesList;
     };
 
