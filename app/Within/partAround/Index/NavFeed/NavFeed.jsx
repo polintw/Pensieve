@@ -42,29 +42,6 @@ class NavFeed extends React.Component {
           <div
             className={classnames(styles.boxLinksToPersonal)}>
             <Link
-              to={ "/self/shareds?tab=nodes" }
-              topath={"selfNodes"}
-              className={classnames('plainLinkButton')}
-              onTouchStart={this._handleEnter_link}
-              onTouchEnd={this._handleLeave_link}
-              onMouseUp={this._handleLeave_link}
-              onMouseEnter={this._handleEnter_link}
-              onMouseLeave={this._handleLeave_link}
-              style={ sidePropsStyle }>
-              <span
-                className={classnames(
-                  "fontSubtitle",
-                  {
-                    [styles.spanLinkMouse]: (this.state.onNavLink == 'selfNodes'),
-                    ["colorLightGrey"]: (this.state.onNavLink != 'selfNodes'),
-                    ["colorEditBlack"]: (this.state.onNavLink == 'selfNodes'),
-                    ["weightBold"]: (this.state.onNavLink == 'selfNodes')
-                  }
-                )}>
-                {this.props.i18nUIString.catalog["title_Index_NavFeed_"][2] }
-              </span>
-            </Link>
-            <Link
               to={ "/self/shareds" }
               topath={"personal"}
               className={classnames('plainLinkButton')}
@@ -88,6 +65,29 @@ class NavFeed extends React.Component {
               </span>
             </Link>
             <Link
+              to={ "/self/shareds?tab=nodes" }
+              topath={"selfNodes"}
+              className={classnames('plainLinkButton')}
+              onTouchStart={this._handleEnter_link}
+              onTouchEnd={this._handleLeave_link}
+              onMouseUp={this._handleLeave_link}
+              onMouseEnter={this._handleEnter_link}
+              onMouseLeave={this._handleLeave_link}
+              style={ sidePropsStyle }>
+              <span
+                className={classnames(
+                  "fontSubtitle",
+                  {
+                    [styles.spanLinkMouse]: (this.state.onNavLink == 'selfNodes'),
+                    ["colorLightGrey"]: (this.state.onNavLink != 'selfNodes'),
+                    ["colorEditBlack"]: (this.state.onNavLink == 'selfNodes'),
+                    ["weightBold"]: (this.state.onNavLink == 'selfNodes')
+                  }
+                )}>
+                {this.props.i18nUIString.catalog["title_Index_NavFeed_"][2] }
+              </span>
+            </Link>
+            <Link
               to={ "/self/shareds?tab=map" }
               topath={"selfMap"}
               className={classnames('plainLinkButton')}
@@ -107,7 +107,7 @@ class NavFeed extends React.Component {
                     ["weightBold"]: (this.state.onNavLink == 'selfMap')
                   }
                 )}>
-                {this.props.i18nUIString.catalog["title_Index_NavFeed_"][1] }
+                {"\xa0" + this.props.i18nUIString.catalog["title_Index_NavFeed_"][1] + "\xa0"}
               </span>
             </Link>
           </div>

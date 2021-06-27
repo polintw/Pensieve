@@ -32,6 +32,9 @@ async function _handle_GET_node_FeedList(req, res){
           [Op.and]: [
             { [Op.lt]: lastUnitTime }, { [Op.gt]: "2021-01-02" }
           ]
+        },
+        used_authorId: {
+          [Op.or]: [{[Op.notIn]: [15]}, null]
         }
       },
       order: [ //make sure the order of arr are from latest
