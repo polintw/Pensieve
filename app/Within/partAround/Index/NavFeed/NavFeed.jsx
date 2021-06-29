@@ -32,7 +32,7 @@ class NavFeed extends React.Component {
   render(){
     let sidePropsStyle = {
       opacity: this.props.sideOpacityParam}
-    let centerPropsStyle = (this.props.sideOpacityParam < 0.5) ? {fontWeight: 'bold', color: '#f3b55a'} : {};
+    let centerPropsStyle = { opacity: 1 - this.props.sideOpacityParam };
 
     return(
       <div
@@ -125,31 +125,54 @@ class NavFeed extends React.Component {
             </svg>
             <a id={"topFeed"} style={{opacity: '0'}}/>
           </div>
-          <a
-            href={"#topFeed"}
-            topath={"int_feedAssigned"}
-            className={classnames(
-              'plainLinkButton',
-              { // to control together by style
-                ["colorLightGrey"]: (this.state.onNavLink != 'int_feedAssigned'),
-                ["colorEditBlack"]: (this.state.onNavLink == 'int_feedAssigned'),
-                ["weightBold"]: (this.state.onNavLink == 'int_feedAssigned')
-              }
-            )}
-            onTouchStart={this._handleEnter_link}
-            onTouchEnd={this._handleLeave_link}
-            onMouseUp={this._handleLeave_link}
-            onMouseEnter={this._handleEnter_link}
-            onMouseLeave={this._handleLeave_link}
-            style={ Object.assign({}, { padding: '0 8px' }, centerPropsStyle)}>
-            <span
+          <div
+            className={classnames(styles.boxLinksExplore)}>
+            <a
+              href={"#topFeed"}
+              topath={"int_feedAssigned"}
               className={classnames(
-                "fontSubtitle",
-                {[styles.spanLinkMouse]: (this.state.onNavLink == 'int_feedAssigned')}
-              )}>
-              {this.props.i18nUIString.catalog["title_Index_NavFeed_"][3] }
-            </span>
-          </a>
+                'plainLinkButton', 
+              )}
+              onTouchStart={this._handleEnter_link}
+              onTouchEnd={this._handleLeave_link}
+              onMouseUp={this._handleLeave_link}
+              onMouseEnter={this._handleEnter_link}
+              onMouseLeave={this._handleLeave_link}
+              style={Object.assign({}, { margin: '0px 16px' }, centerPropsStyle)}>
+              <span
+                className={classnames(
+                  "fontSubtitle", "colorAssistGold", "weightBold",
+                  { [styles.spanLinkMouse]: (this.state.onNavLink == 'int_feedAssigned') }
+                )}>
+                {this.props.i18nUIString.catalog["title_Index_NavFeed_"][3]}
+              </span>
+            </a>
+            <Link
+              to={"/cosmic/nodes"}
+              topath={"cosmic_nodes"}
+              className={classnames(
+                'plainLinkButton',
+                { // to control together by style
+                  ["colorLightGrey"]: (this.state.onNavLink != 'cosmic_nodes'),
+                  ["colorEditBlack"]: (this.state.onNavLink == 'cosmic_nodes'),
+                  ["weightBold"]: (this.state.onNavLink == 'cosmic_nodes')
+                }
+              )}
+              onTouchStart={this._handleEnter_link}
+              onTouchEnd={this._handleLeave_link}
+              onMouseUp={this._handleLeave_link}
+              onMouseEnter={this._handleEnter_link}
+              onMouseLeave={this._handleLeave_link}
+              style={Object.assign({}, { margin: '0px 16px' }, centerPropsStyle)}>
+              <span
+                className={classnames(
+                  "fontSubtitle",
+                  { [styles.spanLinkMouse]: (this.state.onNavLink == 'cosmic_nodes') }
+                )}>
+                {this.props.i18nUIString.catalog["tab_Nodes"]}
+              </span>
+            </Link>
+          </div>
         </div>
       </div>
     )

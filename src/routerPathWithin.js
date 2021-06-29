@@ -28,7 +28,8 @@ const {
 async function _handle_crawler_GET_Unit(req, res){
   //select Unit by id in query
   //already validate before pass to this handler
-  const exposedId = req.query.unitId;
+  //Notice! The crawler would turn all the query into lower case, which cause error when reaf the unitId
+  const exposedId = !('unitId' in req.query) ? 'unitid' in req.query ? req.query['unitid'] : null : req.query['unitId'];
   let unitId, url_pic_layer0, url_pic_layer1, authorId;
   unitId = url_pic_layer0 = url_pic_layer1 = authorId = false; //a 'lazy assign', not official
   await _DB_units.findOne({ where: { exposedId: exposedId } })
@@ -276,7 +277,12 @@ router.use('/cosmic/explore/unit', function(req, res, next){
   //to res dynamic html to crawler, we need to select Unit basic info from DB
   //validate the query value trusted or not
   //pass to general middleware if the id was unclear
-  if(!Boolean(req.query.unitId.toString()) ) { next();}
+  //Notice! The crawler would turn all the query into lower case, which cause error when reaf the unitId
+  let unitId = !('unitId' in req.query) ? 'unitid' in req.query ? req.query['unitid'] : false : req.query['unitId'];
+  if (
+    !unitId ||
+    !Boolean(unitId.toString())
+  ) { next(); }  
   //if safe, then we select the requested Unit & res html with Unit info
   else _handle_crawler_GET_Unit(req, res);
 })
@@ -286,21 +292,22 @@ router.use('/cosmic/explore/unit', function(req, res, next){
 router.use('/cosmic/explore/path/:pathProject', function(req, res, next){
   winston.verbose(`${'router, req from crawler getting /path/pathProject, GET: '} ${req.originalUrl}, ${"from ip "}, ${req.ip}.`);
   // And for cosmic/explore/path, a special one first: the Unit under a path/subcate
-  if(
+  let unitId = !('unitId' in req.query) ? 'unitid' in req.query ? req.query['unitid'] : false : req.query['unitId'];
+  if (
+    unitid &&
     ('subCate' in req.query) &&
-    ('unitId' in req.query) &&
     (req.path.includes('/unit'))
   ){ // process as to '/cosmic/explore/unit'
     //to res dynamic html to crawler, we need to select Unit basic info from DB
     //validate the query value trusted or not
     //pass to general middleware if the id was unclear
-    if(!Boolean(req.query.unitId.toString()) ) { next();}
+    if (!Boolean(unitId.toString()) ) { next();}
     //if safe, then we select the requested Unit & res html with Unit info
     else _handle_crawler_GET_Unit(req, res);
   }
   else if(
     ('subCate' in req.query) &&
-    (!req.query.unitId)
+    (!unitId)
   ){
     // res name, first unit (description in future) of the Subcate
     _handle_crawler_GET_PathProject_Subcate(req, res);

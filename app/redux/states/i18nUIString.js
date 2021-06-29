@@ -109,9 +109,11 @@ const i18nUIString_EN = {
   "title_profile": "Account",
   "title_home": "Home",
   "title_Expand": "Expand",
-  "title_selfPublications": "Your accumulations",
+  "title_selfPublications": "Accumulations",
   "title_Notes": "Notes",
   "title_Inspired": "Inspired",
+  "title_Topics": "Topics",
+  "title_Places": "Places",
   "subtitle_email": "Email",
   "subtitle_Password": "Password",
   "link_UnitListResponds": 'View Responds',//Original:'responds'
