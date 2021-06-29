@@ -27,6 +27,13 @@
   padding: 0 65px;
 }
 
+.boxLinksExplore {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
 .boxDecoLine {
   display: flex;
   box-sizing: border-box;

@@ -245,97 +245,6 @@
     margin: 0 auto;
   }
 }
-._C_C_app_Components_NavWithin_styles_module__comNavWithin {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-
-._C_C_app_Components_NavWithin_styles_module__boxLogo {
-  width: 73%;
-  max-width: 27vw;
-  min-width: 9vw;
-  box-sizing: border-box;
-  margin-bottom: 2.66vh;
-  mix-blend-mode: darken;
-  text-align: center;
-  cursor: pointer;
-}
-
-._C_C_app_Components_NavWithin_styles_module__boxFooter {
-  position: relative;
-  margin-bottom: 2.66vh;
-}
-
-._C_C_app_Components_NavWithin_styles_module__boxRightsClaim {
-  margin-top: 3rem;
-  text-align: center;
-}
-
-._C_C_app_Components_NavWithin_styles_module__comNavWithinSelf {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-}
-
-._C_C_app_Components_NavWithin_styles_module__comNavWithinCosmic {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  width: 90.52px;
-  height: 100%;
-  float: right;
-}
-
-._C_C_app_Components_NavWithin_styles_module__boxNavLink {
-  display: inline-block;
-  box-sizing: border-box;
-  border: solid 1px #a3a3a3;
-  border-radius: 8px;
-  padding: 4px 13px 6px;
-}
-
-._C_C_app_Components_NavWithin_styles_module__boxNavLinkMouseon {
-  border: solid 1px #444444;
-}
-
-._C_C_app_Components_NavWithin_styles_module__boxSvgArrow {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  padding-right: 1rem;
-}
-
-._C_C_app_Components_NavWithin_styles_module__spanNavLink {
-  display: inline-block;
-  cursor: pointer;
-}
-
-@media screen and (max-width:1110px) {
-  ._C_C_app_Components_NavWithin_styles_module__boxRightsClaim {
-    text-align: right;
-    margin-top: 16px;
-  }
-}
-
-@media screen and (max-width:860px) {
-  ._C_C_app_Components_NavWithin_styles_module__smallDisplayBox {
-    display: block;
-  }
-
-  ._C_C_app_Components_NavWithin_styles_module__smallDisplayNone {
-    display: none;
-  }
-
-  ._C_C_app_Components_NavWithin_styles_module__boxLogo {
-    margin-bottom: 5.32vh;
-  }
-}
 ._C_C_app_Components_NavOptions_styles_module__comNavOption {
 
 }
@@ -467,6 +376,97 @@
     left: unset;
   }
 }
+._C_C_app_Components_NavWithin_styles_module__comNavWithin {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+._C_C_app_Components_NavWithin_styles_module__boxLogo {
+  width: 73%;
+  max-width: 27vw;
+  min-width: 9vw;
+  box-sizing: border-box;
+  margin-bottom: 2.66vh;
+  mix-blend-mode: darken;
+  text-align: center;
+  cursor: pointer;
+}
+
+._C_C_app_Components_NavWithin_styles_module__boxFooter {
+  position: relative;
+  margin-bottom: 2.66vh;
+}
+
+._C_C_app_Components_NavWithin_styles_module__boxRightsClaim {
+  margin-top: 3rem;
+  text-align: center;
+}
+
+._C_C_app_Components_NavWithin_styles_module__comNavWithinSelf {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+._C_C_app_Components_NavWithin_styles_module__comNavWithinCosmic {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 90.52px;
+  height: 100%;
+  float: right;
+}
+
+._C_C_app_Components_NavWithin_styles_module__boxNavLink {
+  display: inline-block;
+  box-sizing: border-box;
+  border: solid 1px #a3a3a3;
+  border-radius: 8px;
+  padding: 4px 13px 6px;
+}
+
+._C_C_app_Components_NavWithin_styles_module__boxNavLinkMouseon {
+  border: solid 1px #444444;
+}
+
+._C_C_app_Components_NavWithin_styles_module__boxSvgArrow {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding-right: 1rem;
+}
+
+._C_C_app_Components_NavWithin_styles_module__spanNavLink {
+  display: inline-block;
+  cursor: pointer;
+}
+
+@media screen and (max-width:1110px) {
+  ._C_C_app_Components_NavWithin_styles_module__boxRightsClaim {
+    text-align: right;
+    margin-top: 16px;
+  }
+}
+
+@media screen and (max-width:860px) {
+  ._C_C_app_Components_NavWithin_styles_module__smallDisplayBox {
+    display: block;
+  }
+
+  ._C_C_app_Components_NavWithin_styles_module__smallDisplayNone {
+    display: none;
+  }
+
+  ._C_C_app_Components_NavWithin_styles_module__boxLogo {
+    margin-bottom: 5.32vh;
+  }
+}
 ._C_C_app_Components_Dialog_commonStyles_module__frameFixedWidth {
   width: 520px;
   max-width: 90vw;
@@ -503,6 +503,27 @@
 ._C_C_app_Components_Dialog_commonStyles_module__spanButton {
 
 }
+._C_C_app_Components_Dialog_SingleDialog_styles_module__comSinDialog {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 100%;
+  min-height: 24rem;
+  box-sizing: border-box;
+  padding: 4rem 10% 3rem;
+}
+
+._C_C_app_Components_Dialog_SingleDialog_styles_module__boxMessage {
+  overflow: auto;
+}
+
+._C_C_app_Components_Dialog_SingleDialog_styles_module__boxfoot {
+  margin: 3rem 0 0;
+}
+
+._C_C_app_Components_Dialog_SingleDialog_styles_module__spanMessage {
+
+}
 ._C_C_app_Components_Dialog_SingleCloseDialog_styles_module__comSinCloseDialog {
   display: flex;
   justify-content: center;
@@ -529,27 +550,6 @@
 }
 
 ._C_C_app_Components_Dialog_SingleCloseDialog_styles_module__spanMessage {
-
-}
-._C_C_app_Components_Dialog_SingleDialog_styles_module__comSinDialog {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  width: 100%;
-  min-height: 24rem;
-  box-sizing: border-box;
-  padding: 4rem 10% 3rem;
-}
-
-._C_C_app_Components_Dialog_SingleDialog_styles_module__boxMessage {
-  overflow: auto;
-}
-
-._C_C_app_Components_Dialog_SingleDialog_styles_module__boxfoot {
-  margin: 3rem 0 0;
-}
-
-._C_C_app_Components_Dialog_SingleDialog_styles_module__spanMessage {
 
 }
 ._C_C_app_Components_Dialog_BooleanDialog_styles_module__comBooleanDialog {

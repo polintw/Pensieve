@@ -32,7 +32,7 @@ class NavFeed extends React.Component {
   render(){
     let sidePropsStyle = {
       opacity: this.props.sideOpacityParam}
-    let centerPropsStyle = (this.props.sideOpacityParam < 0.5) ? {fontWeight: 'bold', color: '#f3b55a'} : {};
+    let centerPropsStyle = (this.props.sideOpacityParam < 0.5) ? { fontWeight: 'bold', color: '#f3b55a', opacity: 1 - this.props.sideOpacityParam } : { opacity: 1 - this.props.sideOpacityParam};
 
     return(
       <div
@@ -74,7 +74,7 @@ class NavFeed extends React.Component {
                 "fontSubtitle",
                 {[styles.spanLinkMouse]: (this.state.onNavLink == 'int_feedAssigned')}
               )}>
-              {this.props.i18nUIString.catalog["title_Index_NavFeed_"][1] }
+              {this.props.i18nUIString.catalog["title_Index_NavFeed_"][3] }
             </span>
           </a>
         </div>
