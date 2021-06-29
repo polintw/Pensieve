@@ -90,7 +90,6 @@
   justify-content: flex-end;
   width: 100%;
   position: relative;
-  margin: 8px 0 5.07vh;
 }
 
 .linkBlock {
@@ -155,6 +154,10 @@
   .boxFeedNodes {
     width: 85%
   }
+
+  .boxFilterSwitches {
+    margin: 8px 0 5.07vh;
+  }
 }
 
 @media screen and (max-width:860px) {
@@ -164,5 +167,9 @@
 
   .boxFooter {
     margin-bottom: 19vh;
+  }
+
+  .boxFilterSwitches {
+    margin: 8px 0 2.53vh;
   }
 }

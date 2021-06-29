@@ -138,7 +138,7 @@ class NavFeed extends React.Component {
               onMouseUp={this._handleLeave_link}
               onMouseEnter={this._handleEnter_link}
               onMouseLeave={this._handleLeave_link}
-              style={Object.assign({}, { padding: '0 15px' }, centerPropsStyle)}>
+              style={Object.assign({}, { margin: '0px 16px' }, centerPropsStyle)}>
               <span
                 className={classnames(
                   "fontSubtitle", "colorAssistGold", "weightBold",
@@ -163,7 +163,7 @@ class NavFeed extends React.Component {
               onMouseUp={this._handleLeave_link}
               onMouseEnter={this._handleEnter_link}
               onMouseLeave={this._handleLeave_link}
-              style={Object.assign({}, { padding: '0 15px' }, centerPropsStyle)}>
+              style={Object.assign({}, { margin: '0px 16px' }, centerPropsStyle)}>
               <span
                 className={classnames(
                   "fontSubtitle",

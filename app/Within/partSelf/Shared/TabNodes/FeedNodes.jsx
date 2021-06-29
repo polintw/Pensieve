@@ -208,9 +208,10 @@ class FeedNodes extends React.Component {
             )}>
             <div>
               <div
-                className={classnames(styles.boxTitle)}>
+                className={classnames(styles.boxTitle)}
+                style={{ padding: '0 8px'}}>
                 <span
-                  className={classnames("fontContent", "weightBold", "colorGrey")}>
+                  className={classnames("fontContent", "weightBold", "colorEditLightBlack")}>
                   {this.props.i18nUIString.catalog["title_Topics"]}</span>
               </div>
               {this._render_FeedNodes(['cateTopicsNodes'])}
@@ -232,9 +233,10 @@ class FeedNodes extends React.Component {
             }
             <div>
               <div
-                className={classnames(styles.boxTitle)}>
+                className={classnames(styles.boxTitle)}
+                style={{ padding: '0 8px' }}>
                 <span
-                  className={classnames("fontContent", "weightBold", "colorGrey")}>
+                  className={classnames("fontContent", "weightBold", "colorEditLightBlack")}>
                   {this.props.i18nUIString.catalog["title_Places"]}</span>
               </div>
               {this._render_FeedNodes(['cateLocationsNodes'])}
