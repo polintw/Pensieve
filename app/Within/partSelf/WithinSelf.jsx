@@ -40,9 +40,6 @@ class Self extends React.Component {
           <div
             className={classnames(styles.boxTitle, styles.boxTitleText)}>
             <span
-              className={classnames("fontContentPlain", "colorEditBlack")}>
-              {this.props.i18nUIString.catalog["text_your_cap"]}</span>
-            <span
               className={classnames("fontContentPlain", "weightBold", "colorAssistGold")}>
               {this.props.i18nUIString.catalog["title_selfPublications"]}</span>
           </div>

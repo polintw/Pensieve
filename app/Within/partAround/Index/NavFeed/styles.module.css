@@ -27,6 +27,16 @@
   padding: 0 65px;
 }
 
+.boxLinksToPublic {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  width: 100%;
+  max-width: 380px;
+  box-sizing: border-box;
+  margin-top: 10.15vh;
+}
+
 .boxLinksExplore {
   display: flex;
   align-items: baseline;

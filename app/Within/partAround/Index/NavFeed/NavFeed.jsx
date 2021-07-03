@@ -112,6 +112,30 @@ class NavFeed extends React.Component {
             </Link>
           </div>
           <div
+            className={classnames(styles.boxLinksToPublic)}>
+            <Link
+              to={"/cosmic/explore/user?userId=" + this.props.userInfo.id}
+              topath={"public"}
+              className={classnames('plainLinkButton')}
+              onTouchStart={this._handleEnter_link}
+              onTouchEnd={this._handleLeave_link}
+              onMouseEnter={this._handleEnter_link}
+              onMouseLeave={this._handleLeave_link}
+              style={sidePropsStyle}>
+              <span
+                className={classnames(
+                  "fontTitleSmallPlain",
+                  {
+                    [styles.spanLinkMouse]: (this.state.onNavLink == 'public'),
+                    ["colorEditLightBlack"]: (this.state.onNavLink != 'public'),
+                    ["colorEditBlack"]: (this.state.onNavLink == 'public'),
+                  }
+                )}>
+                {this.props.i18nUIString.catalog["link_PublicExpand"]}
+              </span>
+            </Link>
+          </div>
+          <div
             className={classnames(styles.boxDecoLine)}
             style={ Object.assign({}, sidePropsStyle)}>
             <svg viewBox="0 0 20 20"
@@ -192,6 +216,7 @@ class NavFeed extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     i18nUIString: state.i18nUIString,
+    userInfo: state.userInfo,
   }
 }
 
