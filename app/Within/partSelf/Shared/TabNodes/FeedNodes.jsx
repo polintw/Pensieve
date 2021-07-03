@@ -190,6 +190,16 @@ class FeedNodes extends React.Component {
         </div>
       );
     });
+    if(groupsDOM.length == 0 ){ // no node at all
+      groupsDOM.push(
+        <div
+          key={"key_PathProject_nodesGroup_none" }
+          className={classnames(
+            styles.boxModuleCenter,
+          )}
+          style={{ padding: "20px 20px"}}>{"---"}</div>
+      );
+    }
 
     return groupsDOM;
   }
