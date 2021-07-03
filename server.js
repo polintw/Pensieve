@@ -169,15 +169,19 @@ app.use('/', function(req, res, next){
 app.use('/', routerPathWithin);
 
 const crawlersIdentify = (userAgent) => { //using userAgents list to identifing crawler
-  let result = false;
+  let tokenIdentified = false;
+  let searchEngineBot = ["Googlebot\\/"]; // in RegX.
   crawlers.forEach((obj, index)=>{
-    if (RegExp(obj.pattern).test(userAgent)) {
-      //we send the same file to all crawler/robot for now
-      //so jut return the bool
-        result = true;
-    }
+    if ( RegExp(obj.pattern).test(userAgent) ) {
+      // and check if the crawler came from search engine
+      const searchEngineify = searchEngineBot.some((str, index2nd)=> {
+        return RegExp(str).test(userAgent);
+      });
+      // we res 'preview' to crawler not from a search engine
+      if(!searchEngineify) tokenIdentified = true; 
+    };
   })
-  return result;
+  return tokenIdentified;
 }
 
 
