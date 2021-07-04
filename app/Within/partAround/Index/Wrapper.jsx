@@ -209,19 +209,21 @@ class Wrapper extends React.Component {
     let viewportHeight = window.innerHeight;
     let scrollTop = window.scrollY;
     let opacityParam = 1;
-    if(scrollTop == 0){
+    if (scrollTop < (viewportHeight *  1/5) ){
       this.setState({
         opacityParam: 1
       })
     }
-    else if(scrollTop != 0 && scrollTop < (viewportHeight*2/5) ){
-      opacityParam = (((viewportHeight*2/5) - scrollTop)/(viewportHeight*2/5)) * 0.8;
+    else if(
+      scrollTop > (viewportHeight * 1 / 5) &&
+      scrollTop < (viewportHeight * 3 / 5 ) ){
+      opacityParam = (((viewportHeight * 3 / 5) - scrollTop) / (viewportHeight * 3 / 5));
       this.setState({
         opacityParam: opacityParam
       });
     }
     else if(
-      scrollTop != 0 && scrollTop > (viewportHeight*2/5) &&
+      scrollTop > (viewportHeight * 3 / 5) &&
       this.state.opacityParam // not '0'
     ){
       this.setState({
