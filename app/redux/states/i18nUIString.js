@@ -119,7 +119,7 @@ const i18nUIString_EN = {
   "link_UnitListResponds": 'View Responds',//Original:'responds'
   "link_PublicExpand": 'In public',
   "link_ExpandPersonal": 'to private',
-  "link_Options_public": "Public page",
+  "link_Options_public": "In public",
   "Cornerth_inc": "Cornerth. ",
   "AllRights": "All Rights Reserved.",
   "tab_Map": "Map",

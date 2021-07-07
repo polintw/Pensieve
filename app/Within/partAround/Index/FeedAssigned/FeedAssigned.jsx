@@ -181,7 +181,7 @@ class FeedAssigned extends React.Component {
                   ): (
                     <NailFeedFocus
                       {...this.props}
-                      leftimg={true}
+                      leftimg={false}
                       unitId={unitId}
                       linkPath={this.props.location.pathname + ((this.props.location.pathname == '/') ? 'unit' : '/unit')}
                       unitBasic={this.state.unitsBasic[unitId]}
