@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Link,
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
@@ -31,7 +32,8 @@ class Feed extends React.Component {
       feedList: [],
       unitsBasic: {},
       marksBasic: {},
-      scrolled: true
+      scrolled: true,
+      onNavLink: false
     };
     this.refScroll = React.createRef();
     this.axiosSource = axios.CancelToken.source();
@@ -40,6 +42,8 @@ class Feed extends React.Component {
     this._render_FeedNails = this._render_FeedNails.bind(this);
     this._render_FooterHint = this._render_FooterHint.bind(this);
     this._submit_Share_New = this._submit_Share_New.bind(this);
+    this._handleEnter_link = this._handleEnter_link.bind(this);
+    this._handleLeave_link = this._handleLeave_link.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot){
@@ -135,6 +139,29 @@ class Feed extends React.Component {
                   {...this.props}
                   _submit_Share_New={this._submit_Share_New}
                   _refer_von_Create={this.props._refer_von_cosmic}/>
+                <div
+                  className={classnames(styles.boxLinksToPublic)}>
+                  <Link
+                    to={"/cosmic/explore/user?userId=" + this.props.userInfo.id}
+                    topath={"public"}
+                    className={classnames('plainLinkButton')}
+                    onTouchStart={this._handleEnter_link}
+                    onTouchEnd={this._handleLeave_link}
+                    onMouseEnter={this._handleEnter_link}
+                    onMouseLeave={this._handleLeave_link}>
+                    <span
+                      className={classnames(
+                        "fontTitleSmallPlain",
+                        {
+                          [styles.spanLinkMouse]: (this.state.onNavLink == 'public'),
+                          ["colorEditLightBlack"]: (this.state.onNavLink != 'public'),
+                          ["colorEditBlack"]: (this.state.onNavLink == 'public'),
+                        }
+                      )}>
+                      {this.props.i18nUIString.catalog["link_PublicExpand"]}
+                    </span>
+                  </Link>
+                </div>
               </div>
             )
           };
@@ -189,6 +216,30 @@ class Feed extends React.Component {
                 {...this.props}
                 _submit_Share_New={this._submit_Share_New}
                 _refer_von_Create={this.props._refer_von_cosmic}/>
+              <div
+                className={classnames(styles.boxLinksToPublic)}
+                style={{margin: '20px 0'}}>
+                <Link
+                  to={"/cosmic/explore/user?userId=" + this.props.userInfo.id}
+                  topath={"public"}
+                  className={classnames('plainLinkButton')}
+                  onTouchStart={this._handleEnter_link}
+                  onTouchEnd={this._handleLeave_link}
+                  onMouseEnter={this._handleEnter_link}
+                  onMouseLeave={this._handleLeave_link}>
+                  <span
+                    className={classnames(
+                      "fontTitleSmallPlain",
+                      {
+                        [styles.spanLinkMouse]: (this.state.onNavLink == 'public'),
+                        ["colorEditLightBlack"]: (this.state.onNavLink != 'public'),
+                        ["colorEditBlack"]: (this.state.onNavLink == 'public'),
+                      }
+                    )}>
+                    {this.props.i18nUIString.catalog["link_PublicExpand"]}
+                  </span>
+                </Link>
+              </div>
             </div>
           )
         };
@@ -356,6 +407,15 @@ class Feed extends React.Component {
       state: lastState.state
     });
     window.location.reload();
+  }
+
+  _handleEnter_link(e) {
+    let linkTo = e.currentTarget.getAttribute('topath');
+    this.setState({ onNavLink: linkTo });
+  }
+
+  _handleLeave_link(e) {
+    this.setState({ onNavLink: false })
   }
 }
 

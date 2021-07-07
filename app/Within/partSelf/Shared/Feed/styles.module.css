@@ -40,6 +40,7 @@
   height: 249px;
   min-width: 274px;
   min-height: 31.6vh;
+  position: relative;
   padding: 0 0 32px;
 }
 
@@ -77,6 +78,22 @@
   display: block;
   margin: 0 0 16px;
   text-align: center;
+}
+
+.boxLinksToPublic {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  margin: 20px 0 32px;
+  box-sizing: border-box;
+}
+
+.spanLinkMouse {
+  border-bottom: solid 0.75px #545454;
+  cursor: pointer;
 }
 
 @media screen and (max-width:860px) {
