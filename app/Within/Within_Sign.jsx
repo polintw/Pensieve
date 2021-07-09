@@ -18,13 +18,15 @@ import ModalBackground from '../Components/ModalBackground.jsx';
 import SingleDialog from '../Components/Dialog/SingleDialog/SingleDialog.jsx';
 import BooleanDialog from '../Components/Dialog/BooleanDialog/BooleanDialog.jsx';
 import ScrollToTop from '../Components/RouterScrollTop.jsx';
+import _set_HeadInfo from '../utils/_headSetting.js';
 
 class Within_Sign extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       switchTo: null,
-      navWithinNotDisSmall: false
+      navWithinNotDisSmall: false,
+      lastUrl: ''
     };
     this._refer_von_Sign = this._refer_von_Sign.bind(this);
     this.style={
@@ -92,6 +94,13 @@ class Within_Sign extends React.Component {
     ){
       this.setState({ navWithinNotDisSmall: false });
     };
+    // update head setting by URL
+    if(window.location.href !== prevState.lastUrl){
+      _set_HeadInfo(window.location.href);
+      this.setState({
+        lastUrl: window.location.href
+      });
+    };
   }
 
   componentDidMount() {
@@ -100,10 +109,14 @@ class Within_Sign extends React.Component {
     if(urlParams.has('unitView')){
       unitView = urlParams.get('unitView');
     };
-    if(!!unitView)
-    {
+    if(!!unitView){
       this.setState({ navWithinNotDisSmall: true });
     };
+    // check the first head setting by URL
+    _set_HeadInfo(window.location.href);
+    this.setState({
+      lastUrl: window.location.href
+    });
   }
 
   componentWillUnmount() {

@@ -23,6 +23,7 @@ import {
   cancelErr,
   uncertainErr
 } from "../../../utils/errHandlers.js";
+import _set_HeadInfo from '../../../utils/_headSetting.js';
 
 class Wrapper extends React.Component {
   constructor(props){
@@ -33,7 +34,8 @@ class Wrapper extends React.Component {
       unitsBasic: {},
       marksBasic: {},
       savedPosition: null,
-      onLink: false
+      onLink: false,
+      headSetify: false
     };
     this.axiosSource = axios.CancelToken.source();
     this.wrapperAround = React.createRef();
@@ -49,6 +51,7 @@ class Wrapper extends React.Component {
     let urlParams = new URLSearchParams(this.props.location.search); //we need value in URL query
     let prevUrlParmas = new URLSearchParams(prevProps.location.search);
     let prevUnitView = null;
+    let prevUnitId = prevUrlParmas.get('unitId');
     if(prevUrlParmas.has('unitView')){
       prevUnitView = prevUrlParmas.get('unitView');
     };
@@ -67,6 +70,25 @@ class Wrapper extends React.Component {
       window.scroll(0, prevState.savedPosition);
       this.setState({
         savedPosition: null
+      });
+    };
+    // update head setting by URL
+    if(
+      !this.state.headSetify ||
+      (this.unitId !== prevUnitId)
+    ){
+      if( !(this.unitId in this.state.unitsBasic) ) return;
+      let obj = {
+        title: '',
+        description: '',
+        img: ''
+      };
+      // Cornerth．Polin Chou | 臺北市/Food/Restaurant
+      // (this.state.unitBasic[this.unitId].nounsList)
+
+      _set_HeadInfo(window.location.href, obj);
+      this.setState({
+        headSetify: true
       });
     };
   }
