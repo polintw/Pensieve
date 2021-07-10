@@ -6,6 +6,7 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import {convertFromRaw} from 'draft-js';
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import SetBtnSign from '../components/SetBtnSign/SetBtnSign.jsx';
@@ -77,15 +78,34 @@ class Wrapper extends React.Component {
       !this.state.headSetify ||
       (this.unitId !== prevUnitId)
     ){
-      if( !(this.unitId in this.state.unitsBasic) ) return;
+      if( !(this.unitId in this.state.unitsBasic) ) return; // wait for the unit's data fetched
+      if( !(this.state.unitsBasic[this.unitId].authorId in this.props.usersBasic) ) return; // wait for the users' data fetched after unit's fetched
+      // and make node list meanwhile check the node's data fetched
+      let nodesString = '';
+      let nodesCompleted = true;
+      this.state.unitsBasic[this.unitId].nounsList.forEach((nodeId, index) => {
+        if( !(nodeId in this.props.nounsBasic)){
+          nodesCompleted = false; return; };
+        if( index > 0 ) nodesString += "/";
+        nodesString += this.props.nounsBasic[nodeId].name;
+      });
+      if(!nodesCompleted) return ;
       let obj = {
         title: '',
         description: '',
         img: ''
       };
-      // Cornerth．Polin Chou | 臺北市/Food/Restaurant
-      // (this.state.unitBasic[this.unitId].nounsList)
-
+      // first, make the text of description
+      let description = '', loopCount = 0;
+      while (description.length < 180 && loopCount < this.state.unitsBasic[this.unitId].marksList.length) {
+        let markId = this.state.unitsBasic[this.unitId].marksList[loopCount];
+        let markText = convertFromRaw(this.state.marksBasic[markId].editorContent).getPlainText(' ');
+        description += markText;
+        loopCount ++;
+      };
+      obj.title = "Cornerth．" + this.props.usersBasic[this.state.unitsBasic[this.unitId].authorId].account +  '\xa0' + "|" +  '\xa0' + nodesString;
+      obj.description = description;
+      obj.img = this.state.unitsBasic[this.unitId].pic_layer0+'?type=thumb';
       _set_HeadInfo(window.location.href, obj);
       this.setState({
         headSetify: true
@@ -296,6 +316,8 @@ const mapStateToProps = (state)=>{
   return {
     userInfo: state.userInfo,
     i18nUIString: state.i18nUIString,
+    nounsBasic: state.nounsBasic,
+    usersBasic: state.usersBasic
   }
 }
 

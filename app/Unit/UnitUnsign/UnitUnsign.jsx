@@ -4,6 +4,7 @@ import {
   withRouter,
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import {convertFromRaw} from 'draft-js';
 import classnames from 'classnames';
 import styles from './styles.module.css';
 import Theater from '../Theater/Theater.jsx';
@@ -28,6 +29,7 @@ import {
   cancelErr,
   uncertainErr
 } from '../../utils/errHandlers.js';
+import _set_HeadInfo from '../../utils/_headSetting.js';
 
 class UnitUnsign extends React.Component {
   constructor(props){
@@ -35,6 +37,7 @@ class UnitUnsign extends React.Component {
     this.state = {
       axios: false,
       close: false,
+      headSetify: false
     };
     this.axiosSource = axios.CancelToken.source();
     this.boxUnitFrame = React.createRef();
@@ -104,6 +107,8 @@ class UnitUnsign extends React.Component {
         authorBasic: resObj.main.authorBasic,
         coverSrc: imgsBase64.cover,
         beneathSrc: imgsBase64.beneath,
+        coverSrcURL: imgsBase64.coverSrcURL,
+        beneathSrcURL: imgsBase64.beneathSrcURL,
         coverMarksList:coverMarks.list,
         coverMarksData:coverMarks.data,
         beneathMarksList:beneathMarks.list,
@@ -144,6 +149,41 @@ class UnitUnsign extends React.Component {
     else if(this.urlParams.get('unitView') !== prevParams.get('unitView')){
       this.boxUnitFrame.current.scrollTop = 0; // make the Unit view area back to top
     };
+    // and set the info in <head>
+    let prevUnitId = prevParams.get('unitId');
+    if(
+      !this.state.headSetify ||
+      (this.unitId !== prevUnitId)
+    ){
+      if( !this.props.unitCurrent.coverSrc ) return; // means the unit's data hasn't fetched
+      // and make node list meanwhile check the node's data fetched
+      let nodesString = '';
+      this.props.unitCurrent.nouns.list.forEach((nodeId, index) => {
+        if( index > 0 ) nodesString += "/";
+        nodesString += this.props.unitCurrent.nouns.basic[nodeId].name;
+      });
+      let obj = { // claim obj passed to _set_HeadInfo()
+        title: '',
+        description: '',
+        img: ''
+      };
+      // first, make the text of description
+      let description = '', loopCount = 0;
+      while (description.length < 180 && loopCount < this.props.unitCurrent.coverMarksList.length) {
+        let markId = this.props.unitCurrent.coverMarksList[loopCount];
+        let markText = convertFromRaw(this.props.unitCurrent.coverMarksData[markId].editorContent).getPlainText(' ');
+        description += markText;
+        loopCount ++;
+      };
+      obj.title = "Cornerth．" + this.props.unitCurrent.authorBasic.account +  '\xa0' + "|" +  '\xa0' + nodesString;
+      obj.description = description;
+      obj.img = this.props.unitCurrent.coverSrcURL+'?type=thumb';
+      _set_HeadInfo(window.location.href, obj);
+      this.setState({
+        headSetify: true
+      });
+    };
+
   }
 
   componentDidMount(){
