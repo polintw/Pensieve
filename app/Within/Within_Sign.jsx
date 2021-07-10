@@ -96,9 +96,13 @@ class Within_Sign extends React.Component {
     };
     // update head setting by URL
     if(window.location.href !== prevState.lastUrl){
-      _set_HeadInfo(window.location.href);
+      let currentHref = window.location.href;
+      if(
+        !currentHref.includes('/unit?')){ // but DON'T update under some circumstance
+        _set_HeadInfo(currentHref);
+      };
       this.setState({
-        lastUrl: window.location.href
+        lastUrl: currentHref
       });
     };
   }
@@ -113,9 +117,13 @@ class Within_Sign extends React.Component {
       this.setState({ navWithinNotDisSmall: true });
     };
     // check the first head setting by URL
-    _set_HeadInfo(window.location.href);
+    let currentHref = window.location.href;
+    if(
+      !currentHref.includes('/unit?')){ // but DON'T update under some circumstance
+      _set_HeadInfo(currentHref);
+    };
     this.setState({
-      lastUrl: window.location.href
+      lastUrl: currentHref
     });
   }
 

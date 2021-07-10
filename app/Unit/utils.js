@@ -52,7 +52,9 @@ export function _axios_getUnitImgs(cancelToken, unitId){ // currently used in an
       axios.spread((resImgCover, resImgBeneath)=>{
         let imgsBase64 = {
           cover: resImgCover.data,
-          beneath: resImgBeneath.data
+          beneath: resImgBeneath.data,
+          coverSrcURL: resObj.main['pic_layer0'],
+          beneathSrcURL: resObj.main['pic_layer1'],
         }
         return imgsBase64;
       })

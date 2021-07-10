@@ -19,6 +19,8 @@ export const unitCurrentInit = {
   },
   coverSrc: null,
   beneathSrc: null,
+  coverSrcURL: null,
+  beneathSrcURL: null,
   coverMarksList:[],
   coverMarksData:{},
   beneathMarksList:[],
