@@ -4,6 +4,7 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import {convertFromRaw} from 'draft-js';
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import NailMarksPreview from '../components/NailMarksPreview.jsx';
@@ -95,6 +96,13 @@ class NailFeedFocus extends React.Component {
 
 const contentBoxImg = (self)=>{
   let imgSrcCover = domain.protocol+ '://'+domain.name+'/router/img/'+self.props.unitBasic.pic_layer0+'?type=thumb';
+  let altText = '', loopCount = 0;
+  while (altText.length < 250 && loopCount < self.props.unitBasic.marksList.length) {
+    let markId = self.props.unitBasic.marksList[loopCount];
+    let markText = convertFromRaw(self.props.marksBasic[markId].editorContent).getPlainText(' ');
+    altText += markText;
+    loopCount ++;
+  };
 
   return (
     <div
@@ -106,6 +114,7 @@ const contentBoxImg = (self)=>{
         ref={self.nailImgBox}
         className={styles.boxImg}>
         <ImgPreview
+          altText={altText}
           blockName={''}
           previewSrc={ imgSrcCover }
           _handleClick_ImgPreview_preview={()=>{self.nailImgBox.current.click()}}/>

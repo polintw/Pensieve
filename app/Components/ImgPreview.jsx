@@ -38,9 +38,10 @@ export default class ImgPreview extends React.Component {
   render(){
     return(
       <div
+        role={"img"}
+        aria-label={!!this.props.altText ? this.props.altText : ""}
         style={Object.assign({}, this.style.Com_div_ImgPreview_ImgPreview, {backgroundImage: 'url('+this.props.previewSrc+')'})}
-        onClick={this._handleClick_ImgPreview_preview}>
-      </div>
+        onClick={this._handleClick_ImgPreview_preview}/>
     )
   }
 }
