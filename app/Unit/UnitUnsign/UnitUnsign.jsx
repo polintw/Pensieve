@@ -155,33 +155,12 @@ class UnitUnsign extends React.Component {
       !this.state.headSetify ||
       (this.unitId !== prevUnitId)
     ){
-      if( !this.props.unitCurrent.coverSrc ) return; // means the unit's data hasn't fetched
-      // and make node list meanwhile check the node's data fetched
-      let nodesString = '';
-      this.props.unitCurrent.nouns.list.forEach((nodeId, index) => {
-        if( index > 0 ) nodesString += "/";
-        nodesString += this.props.unitCurrent.nouns.basic[nodeId].name;
-      });
-      let obj = { // claim obj passed to _set_HeadInfo()
-        title: '',
-        description: '',
-        img: ''
+      let infosetify = _set_contentInfo(this.props);
+      if(infosetify){
+        this.setState({
+          headSetify: true
+        });
       };
-      // first, make the text of description
-      let description = '', loopCount = 0;
-      while (description.length < 180 && loopCount < this.props.unitCurrent.coverMarksList.length) {
-        let markId = this.props.unitCurrent.coverMarksList[loopCount];
-        let markText = convertFromRaw(this.props.unitCurrent.coverMarksData[markId].editorContent).getPlainText(' ');
-        description += markText;
-        loopCount ++;
-      };
-      obj.title = "Cornerth．" + this.props.unitCurrent.authorBasic.account +  '\xa0' + "|" +  '\xa0' + nodesString;
-      obj.description = description;
-      obj.img = this.props.unitCurrent.coverSrcURL+'?type=thumb';
-      _set_HeadInfo(window.location.href, obj);
-      this.setState({
-        headSetify: true
-      });
     };
 
   }
@@ -202,8 +181,9 @@ class UnitUnsign extends React.Component {
     this.props._set_store_UnitCurrent(unitCurrentState);
     this.props._set_state_UnitView('theater'); // it's default for next view
     this.props._set_state_UnitSubcate({ next_confirm: false, next_unit: null, first_unit: null}); // reset the subcate state to initial
-    //last, make sure the scroll ability back to <body>
-    // document.getElementsByTagName("BODY")[0].setAttribute("style","overflow-y:scroll;");
+    // and reset the general vars
+    longPlainContentText = '';
+    nodesTitle = '';
   }
 
   _render_switch(paramUnitView){
@@ -282,6 +262,15 @@ class UnitUnsign extends React.Component {
               id={"unitFrame"}
               ref={this.boxUnitFrame}
               className={classnames(styles.boxUnitFrame)}>
+              <article
+                className={classnames(styles.boxHiddenContent)}>
+                <h3>
+                  {nodesTitle}
+                </h3>
+                <p>
+                  {longPlainContentText}
+                </p>
+              </article>
               <div
                 className={classnames(styles.boxUnitContent)}
                 onClick={this._close_modal_Unit}>
@@ -292,6 +281,39 @@ class UnitUnsign extends React.Component {
       </ModalBox>
     )
   }
+}
+
+// we add a section to handle the plain text content rendering for search engine crawler
+let longPlainContentText = '';
+let nodesTitle = ''; // both 'longPlainContentText' & 'nodesTitle' are for the 'boxHiddenContent'
+const _set_contentInfo = (props)=>{
+  if( !props.unitCurrent.coverSrc ) return false; // means the unit's data hasn't fetched
+  // and make node list meanwhile check the node's data fetched
+  let nodesString = '';
+  props.unitCurrent.nouns.list.forEach((nodeId, index) => {
+    if( index > 0 ) nodesString += "/";
+    nodesString += props.unitCurrent.nouns.basic[nodeId].name;
+    nodesTitle += props.unitCurrent.nouns.basic[nodeId].name + '|';
+  });
+  let obj = { // claim obj passed to _set_HeadInfo()
+    title: '',
+    description: '',
+    img: ''
+  };
+  // first, make the text of description
+  let description = '', loopCount = 0;
+  while (loopCount < props.unitCurrent.coverMarksList.length) {
+    let markId = props.unitCurrent.coverMarksList[loopCount];
+    let markText = convertFromRaw(props.unitCurrent.coverMarksData[markId].editorContent).getPlainText(' ');
+    if(description.length < 180) description += markText;
+    longPlainContentText += markText;
+    loopCount ++;
+  };
+  obj.title = "Cornerth．" + props.unitCurrent.authorBasic.account +  '\xa0' + "|" +  '\xa0' + nodesString;
+  obj.description = description;
+  obj.img = props.unitCurrent.coverSrcURL+'?type=thumb';
+  _set_HeadInfo(window.location.href, obj);
+  return true;
 }
 
 const mapStateToProps = (state)=>{

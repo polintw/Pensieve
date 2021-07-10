@@ -4,6 +4,7 @@ import {
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
+import {convertFromRaw} from 'draft-js';
 import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesFont from '../stylesFont.module.css';
@@ -64,6 +65,13 @@ class NailFeed extends React.Component {
     urlParams.delete('unitId'); // make sure only 1 unitId remain
     urlParams.append('unitId', this.props.unitId);
     urlParams.append('unitView', "theater");
+    let altText = '', loopCount = 0;
+    while (altText.length < 250 && loopCount < this.props.unitBasic.marksList.length) {
+      let markId = this.props.unitBasic.marksList[loopCount];
+      let markText = convertFromRaw(this.props.marksBasic[markId].editorContent).getPlainText(' ');
+      altText += markText;
+      loopCount ++;
+    };
 
     return(
       <Link
@@ -85,7 +93,10 @@ class NailFeed extends React.Component {
         onMouseLeave={this._handleLeave_nailFrame}>
         { // layer as a overlap when mouseon
           this.state.onFrame &&
-          <div style={{
+          <div
+            role={"img"}
+            aria-label={altText}
+            style={{
               position: 'absolute', width:'100%', height: '100%', top: '0', left: '0',
               backgroundColor:'rgba(217, 232, 255, 0.15)',
               backgroundImage: 'url('+ imgSrcCover +')',
@@ -148,6 +159,7 @@ class NailFeed extends React.Component {
                 ref={this.nailImgBox}
                 className={styles.boxImg}>
                 <ImgPreview
+                  altText={altText}
                   blockName={''}
                   previewSrc={ imgSrcCover }
                   _handleClick_ImgPreview_preview={()=>{this.nailImgBox.current.click()}}/>
