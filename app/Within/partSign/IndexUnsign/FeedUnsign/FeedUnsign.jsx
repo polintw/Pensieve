@@ -8,7 +8,6 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesNail from "../../../stylesNail.module.css";
 import FeedEmpty from './FeedEmpty.jsx';
-import SetBtnSign from '../../components/SetBtnSign/SetBtnSign.jsx';
 import NailFeedFocus from '../../../../Components/Nails/NailFeedFocus/NailFeedFocus.jsx';
 import NailFeedMobile from '../../../../Components/Nails/NailFeedMobile/NailFeedMobile.jsx';
 import AccountPalette from '../../../../Components/AccountPalette.jsx';
@@ -38,12 +37,15 @@ class FeedUnsign extends React.Component {
       unitsBasic: {},
       marksBasic: {},
       scrolled: true,
+      onNodeLink: false
     };
     this.refScroll = React.createRef();
     this.axiosSource = axios.CancelToken.source();
     this._set_feedUnits = this._set_feedUnits.bind(this);
     this._check_Position = this._check_Position.bind(this);
     this._render_FeedNails = this._render_FeedNails.bind(this);
+    this._handleEnter_NodeLink = this._handleEnter_NodeLink.bind(this);
+    this._handleLeave_NodeLink = this._handleLeave_NodeLink.bind(this);
     this._handleClick_UnsignedNode = this._handleClick_UnsignedNode.bind(this);
   }
 
@@ -83,9 +85,22 @@ class FeedUnsign extends React.Component {
                   className={classnames(styles.boxSubtitleFlex, styles.boxSmallNoFlex)}>
                   <div
                      className={classnames(styles.boxFocusNailSubtitleUp, 'colorStandard')}>
-                    <AccountPalette
-                      size={"regularBold"}
-                      referLink={false}
+                     <AccountPalette
+                       size={"regularBold"}
+                       referLink={
+                         (this.state.unitsBasic[unitId].authorIdentity == 'pathProject') ?
+                         (
+                           domain.protocol + "://" +
+                           domain.name + '/cosmic/explore/path/' +
+                           (
+                             this.state.unitsBasic[unitId].authorId in this.props.pathsBasic &&
+                             this.props.pathsBasic[this.state.unitsBasic[unitId].authorId].pathName)
+                           ) : (
+                             domain.protocol + "://" +
+                             domain.name + '/cosmic/explore/user?userId=' +
+                             this.state.unitsBasic[unitId].authorId
+                           )
+                         }
                       userId={this.state.unitsBasic[unitId].authorId}
                       authorIdentity={this.state.unitsBasic[unitId].authorIdentity}
                       styleLast={(this.state.unitsBasic[unitId].authorIdentity == 'pathProject') ? { color: 'rgb(69, 135, 160)'} : {}}/>
@@ -99,12 +114,16 @@ class FeedUnsign extends React.Component {
                   <div
                     eventkey={"mouseEvKey_node_" + unitId + "_" + this.state.unitsBasic[unitId].nounsList[0]}
                     style={{display:'inline-block', cursor: 'pointer'}}
+                    onMouseEnter={this._handleEnter_NodeLink}
+                    onMouseLeave={this._handleLeave_NodeLink}
                     onClick={this._handleClick_UnsignedNode}>
                     {(this.state.unitsBasic[unitId].nounsList[0] in this.props.nounsBasic) &&
                       <span
                         className={classnames(
                           "fontNodesEqual", "weightBold", "colorEditBlack",
-                          styles.spanBaseNode)}>
+                          styles.spanBaseNode,
+                          { [styles.spanBaseNodeMouse]: this.state.onNodeLink == ("mouseEvKey_node_" + unitId + "_" + this.state.unitsBasic[unitId].nounsList[0]) }
+                        )}>
                         {this.props.nounsBasic[this.state.unitsBasic[unitId].nounsList[0]].name}</span>
                     }
                   </div>
@@ -207,21 +226,6 @@ class FeedUnsign extends React.Component {
             </div>
           }
           <div ref={this.refScroll}/>
-          <div
-            className={classnames(styles.boxRow, styles.boxFooter)}>
-            <div
-              className={classnames(styles.boxFooterBtn)}>
-              <span
-                className={classnames(styles.boxTitle, "colorSignBlack", "fontTitle")}>
-                {this.props.i18nUIString.catalog["guiding_IndexUnsign_FooterInvite"]}
-              </span>
-              <div
-                className={classnames(styles.boxSetBtnSign)}>
-                <SetBtnSign
-                  {...this.props}/>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     )
@@ -316,6 +320,15 @@ class FeedUnsign extends React.Component {
       },
       handlerNegative: ()=>{this.props._submit_BooleanDialog(messageDialogInit.boolean);return;}
     });
+  }
+
+  _handleEnter_NodeLink(e) {
+    let target = e.currentTarget.getAttribute('eventkey');
+    this.setState({ onNodeLink: target })
+  }
+
+  _handleLeave_NodeLink(e) {
+    this.setState({ onNodeLink: false })
   }
 
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Link,
   withRouter
 } from 'react-router-dom';
 import {connect} from "react-redux";
@@ -7,6 +8,7 @@ import classnames from 'classnames';
 import styles from "./styles.module.css";
 import stylesNail from "../../../stylesNail.module.css";
 import FeedEmpty from './FeedEmpty.jsx';
+import SetBtnSign from '../../../partSign/components/SetBtnSign/SetBtnSign.jsx';
 import NailFeed from '../../../../Components/Nails/NailFeed/NailFeed.jsx';
 import NailFeedWide from '../../../../Components/Nails/NailFeedWide/NailFeedWide.jsx';
 import NailFeedMobile from '../../../../Components/Nails/NailFeedMobile/NailFeedMobile.jsx';
@@ -20,6 +22,7 @@ import {
   cancelErr,
   uncertainErr
 } from "../../../../utils/errHandlers.js";
+import _set_HeadInfo from '../../../../utils/_headSetting.js';
 
 class Feed extends React.Component {
   constructor(props){
@@ -29,7 +32,8 @@ class Feed extends React.Component {
       feedList: [],
       unitsBasic: {},
       marksBasic: {},
-      scrolled: true
+      scrolled: true,
+      headSetify: false
     };
     this.refScroll = React.createRef();
     this.axiosSource = axios.CancelToken.source();
@@ -55,6 +59,22 @@ class Feed extends React.Component {
         this._set_feedUnits();
       });
     }
+    // update head setting by URL
+    if(
+      !this.state.headSetify ||
+      (this.userId !== lastUserId)
+    ){
+      if( !(this.userId in this.props.usersBasic) ) return; // wait for the users' data fetched after unit's fetched
+      // and make node list meanwhile check the node's data fetched
+      let obj = {
+        title: '',
+      };
+      obj.title = "Cornerth. | " + this.props.usersBasic[this.userId].account ;
+      _set_HeadInfo(window.location.href, obj);
+      this.setState({
+        headSetify: true
+      });
+    };
   }
 
   componentDidMount(){
@@ -206,6 +226,41 @@ class Feed extends React.Component {
           <div
             className={classnames(styles.boxRow, styles.boxFooter)}>
             {this._render_FooterHint()}
+            {
+              (this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') &&
+              <div
+                className={classnames(styles.boxFooterUnsign)}>
+                <div
+                  className={classnames(styles.boxFooterBtn)}>
+                  <span
+                    className={classnames(styles.boxTitle, "colorSignBlack", "fontTitle")}>
+                    {this.props.i18nUIString.catalog["guiding_IndexUnsign_FooterInvite"]}
+                  </span>
+                  <div
+                    className={classnames(styles.boxSetBtnSign)}>
+                    <SetBtnSign
+                      {...this.props}/>
+                  </div>
+                </div>
+                <div>
+                  <span
+                    className={classnames(
+                      "fontContentPlain", "colorEditBlack")}>
+                      {this.props.i18nUIString.catalog['guiding_IndexUnit_backToHome']}
+                    </span>
+                    <Link
+                      to={'/'}
+                      className={classnames(
+                        'plainLinkButton')}>
+                        <span
+                          className={classnames(
+                            "fontContentPlain", styles.spanLink, "colorStandard")}>
+                          {this.props.i18nUIString.catalog['submit_nav_backToHome']}
+                        </span>
+                    </Link>
+                  </div>
+              </div>
+            }
           </div>
         </div>
       </div>
@@ -298,6 +353,8 @@ class Feed extends React.Component {
 const mapStateToProps = (state)=>{
   return {
     i18nUIString: state.i18nUIString,
+    tokenStatus: state.token,
+    usersBasic: state.usersBasic
   }
 }
 

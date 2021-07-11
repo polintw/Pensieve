@@ -67,8 +67,37 @@
   margin-bottom: 36vh;
 }
 
+.boxFooterUnsign {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 15vh; 
+}
+
+.boxFooterBtn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 78%;
+  min-width: 274px;
+  min-height: 28.6vh;
+  padding: 32px 0 0;
+}
+
+.boxSetBtnSign {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 .spanFooterHint {
   margin: 8px 0;
+}
+
+.spanLink {
+  display: inline-block;
+  border-bottom: solid 0.75px transparent;
 }
 
 @media screen and (max-width:860px) {

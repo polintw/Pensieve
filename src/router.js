@@ -27,12 +27,12 @@ router.use('/general', generalRouter)
 router.use('/units', unitsRouter)
 router.use('/paths', pathsRouter)
 router.use('/nouns', nounsRouter)
+router.use('/people', peopleRouter)
 
 
 //approach only after verified
 router.use('/account', accountRouter)
 router.use('/profile', uProfileRouter)
-router.use('/people', peopleRouter)
 
 router.use('/feed', uFeedRouter)
 router.use('/nodefilter', uNodeFilterRouter)

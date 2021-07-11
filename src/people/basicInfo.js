@@ -6,8 +6,6 @@ const Op = Sequelize.Op;
 const _DB_users = require('../../db/models/index').users;
 const _DB_units = require('../../db/models/index').units;
 const _DB_inspireds = require('../../db/models/index').inspireds;
-const _DB_usersNodesHomeland = require('../../db/models/index').users_nodes_homeland;
-const _DB_usersNodesResidence = require('../../db/models/index').users_nodes_residence;
 const {_res_success} = require('../utils/resHandler.js');
 const {
   _handle_ErrCatched,
@@ -29,20 +27,6 @@ async function _handle_GET_people_basic(req, res){
       return; //stop and end the handler.
     };
 
-    let usersStartNode = await _DB_usersNodesResidence.findOne({
-      where: {
-        id_user: targetUser.id,
-        historyify: false
-      }
-    });
-    if(!usersStartNode){ // 'null'
-      usersStartNode = await _DB_usersNodesHomeland.findOne({
-        where: {
-          id_user: targetUser.id,
-          historyify: false
-        }
-      });
-    };
     let unitsShareds = await _DB_units.findAll({
       where: {
         id_author: targetUser.id,
@@ -67,7 +51,6 @@ async function _handle_GET_people_basic(req, res){
     userYear = d.getFullYear();
 
     let sendingData={
-      nodeStart: usersStartNode.id_node,
       userBasicInfo: {
         timeCreate: userYear,
         countShareds: !!unitsShareds ? unitsShareds.length : 0,

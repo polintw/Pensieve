@@ -48,6 +48,8 @@ const i18nUIString_EN = {
   "guiding_IndexUnsign_SigninDescript": ["Have an account? ", "here."],
   "guiding_IndexUnsign_FeedBrowse": "In Cornerth. you shelf your findings, your observations, or even your mood with trackable-nodes!",
   "guiding_IndexUnsign_FooterInvite": "Why not try yourself?",
+  "guiding_IndexUnsign_introAbout": "We are a small team but believe in a new way for you to dive into the world.",
+  "title_IndexUnsign_introAbout": 'About us',
 
 
   "title_onBoard_Welcome": "Welcome, ",

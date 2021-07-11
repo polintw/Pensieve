@@ -95,6 +95,10 @@ const _check_pathAllowed = (req, res, next) => {
       // let /paths/ pass, check the 'tokenify' itself.
       next()
       break;
+    case 'people':
+      // let /people/ pass, check the 'tokenify' itself.
+      next()
+      break;
     case 'general':
       // let /general/ pass, check the 'tokenify' itself.
       next()
