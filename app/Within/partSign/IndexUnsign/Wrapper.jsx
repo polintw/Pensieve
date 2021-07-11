@@ -133,6 +133,43 @@ class Wrapper extends React.Component {
                 {...this.props}
                 _refer_von_cosmic={this.props._refer_von_Sign} />
             </div>
+            <div
+              className={classnames(styles.boxIntroSet)}
+              style={todayNodesStyle}>
+              <div
+                className={classnames(styles.boxTitle)}
+                style={{textAlign: 'center'}}>
+                <span
+                  className={classnames("fontSubtitle", "colorAssistGold", "weightBold")}>
+                  {this.props.i18nUIString.catalog["title_IndexUnsign_introAbout"] }
+                </span>
+              </div>
+              <div
+                className={classnames(styles.boxIntro)}
+                style={{alignSelf: 'flex-end', textAlign: 'right', height: 'unset', margin: '8px 0'}}>
+                <span
+                  className={classnames("colorSignBlack", "fontTitle")}
+                  style={{display: 'inline-block'}}>
+                  {this.props.i18nUIString.catalog["guiding_IndexUnsign_introAbout"]}
+                </span>
+              </div>
+            </div>
+            <div
+              className={classnames(styles.boxRow, styles.boxFooter)}
+              style={todayNodesStyle}>
+              <div
+                className={classnames(styles.boxFooterBtn)}>
+                <span
+                  className={classnames(styles.boxTitle, "colorSignBlack", "fontTitle")}>
+                  {this.props.i18nUIString.catalog["guiding_IndexUnsign_FooterInvite"]}
+                </span>
+                <div
+                  className={classnames(styles.boxSetBtnSign)}>
+                  <SetBtnSign
+                    {...this.props}/>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <Route

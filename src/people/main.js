@@ -32,12 +32,15 @@ main.use(function(req, res, next) {
       _handle_ErrCatched(new authorizedError(message, 89), req, res);
     }
     switch (secondPath) {
-    case 'basic':
-      next();
-      break;
-    default:
-      noTokenHandler()
-    }
+      case 'basic':
+        next();
+        break;
+      case 'accumulated':
+        next();
+        break;
+      default:
+        noTokenHandler()
+    };
   }
   //or if there is token, we just go next
   else next();

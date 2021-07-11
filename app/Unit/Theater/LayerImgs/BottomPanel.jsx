@@ -67,11 +67,9 @@ class BottomPanel extends React.Component {
                 <AccountPalette
                   size={'layer'}
                   referLink={
-                    !(this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') ? (
-                      (this.props.unitCurrent.authorBasic['authorIdentity'] == 'user') ?
-                      (domain.protocol + "://" + domain.name+ '/cosmic/explore/user?userId=' + this.props.unitCurrent.authorBasic['authorId'])
-                      : (domain.protocol + "://" + domain.name+ '/cosmic/explore/path/' + this.props.unitCurrent.authorBasic['pageLink'])
-                    ) : false
+                    (this.props.unitCurrent.authorBasic['authorIdentity'] == 'user') ?
+                    (domain.protocol + "://" + domain.name+ '/cosmic/explore/user?userId=' + this.props.unitCurrent.authorBasic['authorId'])
+                    : (domain.protocol + "://" + domain.name+ '/cosmic/explore/path/' + this.props.unitCurrent.authorBasic['pageLink'])
                   }
                   accountFirstName={
                     (this.props.unitCurrent.authorBasic['authorIdentity'] == 'user') ?
@@ -146,11 +144,9 @@ class BottomPanel extends React.Component {
                 <AccountPalette
                   size={'layer'}
                   referLink={
-                    !(this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') ? (
-                      (this.props.unitCurrent.authorBasic['authorIdentity'] == 'user') ?
-                      (domain.protocol + "://" + domain.name+ '/cosmic/explore/user?userId=' + this.props.unitCurrent.authorBasic['authorId'])
-                      : (domain.protocol + "://" + domain.name+ '/cosmic/explore/path/' + this.props.unitCurrent.authorBasic['pageLink'])
-                    ) : false
+                    (this.props.unitCurrent.authorBasic['authorIdentity'] == 'user') ?
+                    (domain.protocol + "://" + domain.name+ '/cosmic/explore/user?userId=' + this.props.unitCurrent.authorBasic['authorId'])
+                    : (domain.protocol + "://" + domain.name+ '/cosmic/explore/path/' + this.props.unitCurrent.authorBasic['pageLink'])
                   }
                   accountFirstName={
                     (this.props.unitCurrent.authorBasic['authorIdentity'] == 'user') ?

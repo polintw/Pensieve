@@ -13,6 +13,7 @@ import {
   _axios_get_Basic
 } from './axios.js';
 import UnitScreen from '../../../Unit/UnitScreen/UnitScreen.jsx';
+import UnitUnsign from '../../../Unit/UnitUnsign/UnitUnsign.jsx';
 import {
   handleUsersList,
 } from "../../../redux/actions/general.js";
@@ -105,7 +106,12 @@ class Wrapper extends React.Component {
         <Route
           path={((this.props.location.pathname =="/") ? '' : this.props.location.pathname.slice(0, -5))+ '/unit' }
           render={(props)=> {
-            return (
+            // PathProject allow no token browse, so we have to use different Unit for both condition
+            return (this.props.tokenStatus== 'invalid' || this.props.tokenStatus == 'lack') ? (
+              <UnitUnsign
+                {...props}
+                _refer_von_unit={this.props._refer_to}/>
+            ):(
               <UnitScreen
                 {...props}
                 _createdRespond= {()=>{/* no need to give any flad in AtNode*/ }}

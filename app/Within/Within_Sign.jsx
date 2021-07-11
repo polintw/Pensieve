@@ -11,6 +11,7 @@ import styles from "./styles.module.css";
 import IndexUnit from './partSign/IndexUnit/Wrapper.jsx';
 import WithinSign from './partSign/WithinSign.jsx';
 import PathProject from './partExplore/PathProject/Wrapper.jsx';
+import SeeUser from './partExplore/SeeUser/Wrapper.jsx';
 import NavWithin from '../Components/NavWithin/NavWithin.jsx';
 import NavOptionsUnsign from '../Components/NavOptions/NavOptionsUnsign.jsx';
 import ModalBox from '../Components/ModalBox.jsx';
@@ -200,6 +201,7 @@ const UnsignWithinCosmic = (routeProps, parent) => {
           className={classnames(styles.boxAroundContentCenter)}>
           <Switch>
             <Route path={routeProps.match.path + "/path/:pathName"} render={(innerRouteProps) => <PathProject {...innerRouteProps} _refer_to={parent._refer_von_Sign} />} />
+            <Route path={routeProps.match.path + "/user"} render={(innerRouteProps)=> <SeeUser {...innerRouteProps} _refer_to={parent._refer_von_Sign}/>}/>
             <Route path={routeProps.match.path + "/"} render={(routeProps) => <Redirect to={'/'} />} />
           </Switch>
         </div>
@@ -210,7 +212,14 @@ const UnsignWithinCosmic = (routeProps, parent) => {
       <div
           className={parent.state.navWithinNotDisSmall ? classnames(styles.boxNavAround, styles.boxNavWithinCosmic, 'smallDisplayNone') :
             classnames(styles.boxNavAround, styles.boxNavWithinCosmic)}>
-        <NavWithin {...routeProps} _refer_to={parent._refer_von_Sign} />
+        <NavWithin {...routeProps} _refer_to={parent._refer_von_Sign}
+          logotop={
+            <div
+              className={classnames(
+                styles.boxNavCosmic,
+                styles.boxNavCosmicJust,
+                "smallDisplayNone")}/>
+          }/>
       </div>
     </div>
   )

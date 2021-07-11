@@ -21,13 +21,6 @@
   margin: 8px 0;
 }
 
-.boxFooter {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 2rem;
-}
-
 .spanFooterHint {
   margin: 8px 0;
 }
@@ -79,8 +72,37 @@
   min-width: 324px;
   max-width: 640px;
   margin: 16px 0 36px;
+  padding-right: 2.38vw;
   text-align: left;
 }
+
+.boxIntroSet {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 14.2vh 0  11.67vh;
+}
+
+.boxFooter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding-top: 28px;
+  margin-bottom: 36vh;
+}
+
+.boxFooterBtn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 78%;
+  min-width: 274px;
+  min-height: 31.6vh;
+  padding: 32px 0 0;
+}
+
 
 @media screen and (min-width: 860px) {
   .comAroundWrapper {
@@ -89,10 +111,6 @@
 
   .boxNavFeed {
     padding: 8vh 0 16px;
-  }
-
-  .boxFooter {
-    margin-bottom: 18vh;
   }
 
   .boxIndexTitle {
@@ -105,11 +123,6 @@
     padding: 18vh 0 0;
   }
 
-  .boxFooter {
-    width: 100%;
-    margin-bottom: 24vh;
-  }
-
   .boxNavFeed {
     padding: 5.32vh 0 16px;
   }
@@ -119,6 +132,10 @@
   }
 
   .boxIntro {
-    padding-left: 2.38vw;
+    padding: 0 2.38vw;
+  }
+
+  .boxFooter {
+    margin-bottom: 19vh;
   }
 }
