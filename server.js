@@ -128,7 +128,7 @@ app.use('/', function(req, res, next){
           else
           headerLinkString = '<http://cornerth.tw/>; rel="canonical"';
           break;
-        case "/singup": // signup page
+        case "/signup": // signup page
           headerLinkString = '<http://cornerth.tw/signup>; rel="canonical"';
           break;
         case "/unit": // unit at index
