@@ -106,6 +106,8 @@ app.use('/', function(req, res, next){
   winston.info(`${"page: requesting for Within under / "} '${req.originalUrl }', ${req.method}, ${"from ip "}, ${req.ip}, ${" identify crawler first."}`);
 
   const userAgent = req.headers['user-agent'] || false;
+  const originalUrl = req.originalUrl; // full url incl. query after domain name
+  const originalPath = req.path; // only path after domain name
 
   if(userAgent && crawlersIdentify(userAgent)){ //is crawler, then pass the control to the next middleware
     //but NOTICE, here inside a .use() handler, different from .METHOD()
@@ -117,9 +119,40 @@ app.use('/', function(req, res, next){
     //here serve the regular client html
     //the res & req cycle would complete by this way,
     //WOULD NOT call the next middleware under this path('/')
+    let _set_canonicalLink = ()=>{ // then here is a f() set the 'standard' link res to crawler like search engine
+      // method to assign one link to duplicate content, e.g www.cornerth.tw & cornerth.tw are 2 different but same content.
+      let headerLinkString = '<http://cornerth.tw' + originalUrl + '>';
+      switch (originalPath) {
+        case "/": // landing page || sing in page
+          if ("process" in req.query) headerLinkString = '<http://cornerth.tw/?process=' + req.query.process + '>; rel="canonical"'
+          else
+          headerLinkString = '<http://cornerth.tw/>; rel="canonical"';
+          break;
+        case "/singup": // signup page
+          headerLinkString = '<http://cornerth.tw/signup>; rel="canonical"';
+          break;
+        case "/unit": // unit at index
+          if (!("unitId" in req.query)) return headerLinkString; // jump out here
+          headerLinkString = '<http://cornerth.tw/cosmic/explore/unit?unitView=theater&unitId=' + req.query.unitId + '>; rel="canonical"';
+          break;
+        case "/cosmic/explore/unit": // independent unit page
+          if (!("unitId" in req.query)) return headerLinkString; // jump out here
+          headerLinkString = '<http://cornerth.tw/cosmic/explore/unit?unitView=theater&unitId=' + req.query.unitId + '>; rel="canonical"';
+          break;
+        case "/cosmic/explore/user": // independent People page
+          if (!("userId" in req.query)) return headerLinkString; // jump out here
+          headerLinkString = '<http://cornerth.tw/cosmic/explore/user?userId=' + req.query.userId + '>; rel="canonical"';
+          break;
+        default:
+          break;
+      }
+      return headerLinkString;
+    };
+    let headerLink = _set_canonicalLink();
     res.sendFile(path.join(__dirname+'/public/html/html_Within.html'), {
       headers: {
-        'Content-Type': 'text/html'
+        'Content-Type': 'text/html',
+        'Link': headerLink
       },
     }, function (err) {
       if (err) {
