@@ -1,15 +1,10 @@
 # project Pensieve *Dev*
 __自由的思考、無限制得探索__
-> _no Limitation by Any force_
+_no Limitation by Any force_
 
 this is a web application project initiated & own by Chou Po Lin since May. 2018, modified and rewrote from an earlier version, dev_Corner, which was also owned by the same owner since Dec. 2017.
 
-### series
-__LTS__ on 2021/02/02, ver __Theme__
-
-
 ## Initiation
-Only at branch other than master.
 
 Ref doc: [React for production](https://reactjs.org/docs/optimizing-performance.html#use-the-production-build)
 
@@ -29,7 +24,7 @@ Only at the first time: establishing basic folders needed
 
 ```bash
 npm run setup
-#or if on Windows:
+#or if on Windows(test on & before Win10):
 npm run setupWin
 ```
 
@@ -101,12 +96,11 @@ Welcome to the project. Give any feedback in community.
 ## Developing
 
 #### Branches
-- master: the current Lite version(stable) running on the server
-- develop: the main trunk of the whole project(ahead to master quite long)
-- release: a 'temp' branch emerge when we need to 'cut' and 'deploy' a new version. Merge to the master in the end, not to the develope.
-- [feature]: a 'temp' branch emerge during development. Merge to the develope in the end, not to the master.
-
-
+- master: the current version(stable) running on the server
+- develop: the main trunk of the whole project(ahead to master)
+- release: a 'temp' branch emerge when we need to 'cut' and 'deploy' a new version. Merge to the master in the end, not to the develop.
+- [feature]: a 'temp' branch emerge during development. Merge to the develop in the end, not to the master.
+- [dev_pres_]: was reserved branch to preserve some achivement at a stage.
 
 
 ## Release
@@ -114,14 +108,9 @@ Welcome to the project. Give any feedback in community.
 #### Steps
 1. merge branch release to master directly.
 2. Cut and modify for conflict.
-3. Upload seeds if any:
-  - from Windows:
-
-    Set-SCPFile -ComputerName '(domainName in string)'  -Credential $ (username as declaim var) -KeyFile .ssh\id_rsa -Port (port used) -RemotePath '(path to save at remote in string)' -LocalFile '(file path at local in string)'
-
-  - db: seed
+3. Upload seeds if any
 4. set 'export NODE_ENV=production'
 5. db: migrate if needed
-6. run build.
 7. run build:server.
+6. run build.
 7. run start.
