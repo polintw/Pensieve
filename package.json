@@ -33,7 +33,7 @@
     "moment": "^2.27.0",
     "mysql": "^2.18.1",
     "mysql2": "^1.7.0",
-    "nodemailer": "^6.4.16",
+    "nodemailer": "^6.6.1",
     "page-metadata-parser": "^1.1.4",
     "path": "^0.12.7",
     "pg-hstore": "^2.3.3",
