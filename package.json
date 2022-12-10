@@ -23,7 +23,7 @@
     "draft-js-static-toolbar-plugin": "^3.0.1",
     "envify": "^4.1.0",
     "exifr": "^6.0.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-rate-limit": "^3.5.3",
     "express-react-views": "^0.10.5",
     "jimp": ">=0.16.0",
