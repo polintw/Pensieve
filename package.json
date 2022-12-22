@@ -27,7 +27,7 @@
     "express-rate-limit": "^3.5.3",
     "express-react-views": "^0.10.5",
     "jimp": ">=0.16.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "jwt-decode": "^2.2.0",
     "leaflet": "^1.7.1",
     "moment": "^2.27.0",
