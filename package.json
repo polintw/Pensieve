@@ -51,7 +51,7 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "request": "^2.88.2",
-    "sequelize": "^5.22.3",
+    "sequelize": "^6.29.0",
     "sequelize-cli": "^5.5.1",
     "sharp": "^0.23.4",
     "uglifyify": "^5.0.2",
